@@ -40,7 +40,7 @@ namespace MaaWpfGui.Views
 
             ShouldExit = shouldExit;
 
-            var isZhCn = ViewStatusStorage.Get("GUI.Localization", Localization.DefaultLanguage) == "zh-cn";
+            var isZhCn = Config.Get(Config.Localization, Localization.DefaultLanguage) == "zh-cn";
             ErrorQqGroupLink.Visibility = isZhCn ? Visibility.Visible : Visibility.Hidden;
         }
 

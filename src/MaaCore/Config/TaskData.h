@@ -144,7 +144,7 @@ namespace asst
         }
         bool explain_tasks(tasklist_t& new_tasks, const tasklist_t& raw_tasks, std::string_view name,
                            bool& task_changed, bool multi);
-        std::optional<taskptr_t> expend_task(std::string_view name, taskptr_t old_task);
+        std::optional<taskptr_t> expand_task(std::string_view name, taskptr_t old_task);
 #ifdef ASST_DEBUG
         bool syntax_check(const std::string& task_name, const json::value& task_json);
 #endif

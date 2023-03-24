@@ -108,7 +108,7 @@ namespace MaaWpfGui
             }
 
             base.OnStart();
-            ViewStatusStorage.Load();
+            Config.Load();
             Localization.Load();
         }
 
@@ -152,7 +152,7 @@ namespace MaaWpfGui
 
             // 注销任务栏图标
             _trayIconInSettingsViewModel.Close();
-            ViewStatusStorage.Release();
+            Config.Release();
         }
 
         /// <inheritdoc/>

@@ -32,7 +32,7 @@ namespace asst
                 return {};
             }
             else {
-                if (index < 0 || index >= iter->second.size()) {
+                if (index < 0 || static_cast<size_t>(index) >= iter->second.size()) {
                     return {};
                 }
                 else {

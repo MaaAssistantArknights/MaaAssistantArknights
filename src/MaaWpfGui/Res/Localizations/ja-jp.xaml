@@ -53,6 +53,7 @@
     <system:String x:Key="CustomInfrastTitle">基地構成ファイルの設定：</system:String>
     <system:String x:Key="CustomInfrastPlan">基地計画</system:String>
     <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">次の計画を自動保存</system:String>
+    <system:String x:Key="CustomizeInfrastSelectionEmpty">カスタム施設設定が空です。設定を確認するか、カスタマイズ機能をオフにしてください。</system:String>
 
     <system:String x:Key="General">一般モード</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">一般モード（ブロックされた例外出力）</system:String>
