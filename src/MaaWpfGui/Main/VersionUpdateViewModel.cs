@@ -27,6 +27,7 @@ using Markdig;
 using Neo.Markdig.Xaml;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Serilog;
 using Stylet;
 using StyletIoC;
 
@@ -660,7 +661,7 @@ namespace MaaWpfGui
             }
             catch (Exception e)
             {
-                Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
+                // Refactor pending
                 return CheckUpdateRetT.UnknownError;
             }
         }
@@ -740,7 +741,7 @@ namespace MaaWpfGui
             }
             catch (Exception e)
             {
-                Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
+                // ! REMOVE
                 returned = false;
             }
 

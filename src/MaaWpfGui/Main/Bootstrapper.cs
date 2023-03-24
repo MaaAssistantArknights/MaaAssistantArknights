@@ -21,6 +21,8 @@ using GlobalHotKey;
 using MaaWpfGui.MaaHotKeys;
 using MaaWpfGui.Views;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Serilog;
+using Serilog.Core;
 using Stylet;
 using StyletIoC;
 
@@ -31,11 +33,13 @@ namespace MaaWpfGui
     /// </summary>
     public class Bootstrapper : Bootstrapper<RootViewModel>
     {
-        private static SettingsViewModel _settingsViewModel;
-        private static TrayIcon _trayIconInSettingsViewModel;
+        private static SettingsViewModel s_settingsViewModel;
+        private static TrayIcon s_trayIconInSettingsViewModel;
 
-        private static readonly FieldInfo _settingsViewModelIContainerFiled =
+        private static readonly FieldInfo s_settingsViewModelIContainerFiled =
             typeof(SettingsViewModel).GetField("_container", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        private static ILogger s_logger = Logger.None;
 
         /// <summary>
         /// Sets tray icon in <see cref="SettingsViewModel"/>.
@@ -47,11 +51,11 @@ namespace MaaWpfGui
         /// </remarks>
         internal static void SetTrayIconInSettingsViewModel(SettingsViewModel settingsViewModel)
         {
-            _settingsViewModel = settingsViewModel;
-            var container = (IContainer)_settingsViewModelIContainerFiled.GetValue(settingsViewModel);
+            s_settingsViewModel = settingsViewModel;
+            var container = (IContainer)s_settingsViewModelIContainerFiled.GetValue(settingsViewModel);
             if (container != null)
             {
-                _trayIconInSettingsViewModel = container.Get<TrayIcon>();
+                s_trayIconInSettingsViewModel = container.Get<TrayIcon>();
             }
 
             // TODO:出现不符合要求的settingsViewModel应当Log一下，等一个有缘人
@@ -62,29 +66,31 @@ namespace MaaWpfGui
         protected override void OnStart()
         {
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
-            Directory.CreateDirectory("debug");
+            if (Directory.Exists("debug") is false)
             {
-                // FIXME: 目录迁移，过几个版本删除这段
-                File.Delete("gui.log");
-                File.Delete("gui.bak.log");
+                Directory.CreateDirectory("debug");
             }
 
-            // 清理日志文件
-            var log_path = "debug\\gui.log";
-            var backup_log_path = "debug\\gui.bak.log";
-            if (File.Exists(log_path))
-            {
-                var fileInfo = new FileInfo(log_path);
-                if (fileInfo.Length > 128 * 1024 /*128K*/)
-                {
-                    if (File.Exists(backup_log_path))
-                    {
-                        File.Delete(backup_log_path);
-                    }
+            // Bootstrap serilog
+            var loggerConfiguration = new LoggerConfiguration()
+                .WriteTo.Debug(
+                    outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
+                .WriteTo.File(
+                    "debug/gui-.log",
+                    outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}",
+                    rollingInterval: RollingInterval.Day,
+                    retainedFileCountLimit: 7)
+                .Enrich.FromLogContext()
+                .Enrich.WithThreadId()
+                .Enrich.WithThreadName();
 
-                    File.Move(log_path, backup_log_path);
-                }
-            }
+            loggerConfiguration = Environment.GetEnvironmentVariable("MAA_ENVIRONMENT") == "Debug"
+                ? loggerConfiguration.MinimumLevel.Verbose()
+                : loggerConfiguration.MinimumLevel.Information();
+
+            Log.Logger = loggerConfiguration.CreateLogger();
+            s_logger = Log.Logger.ForContext<Bootstrapper>();
+            s_logger.Information("MaaAssistantArknights GUI started");
 
             try
             {
@@ -120,13 +126,16 @@ namespace MaaWpfGui
             builder.Bind<SettingsViewModel>().ToSelf().InSingletonScope();
             builder.Bind<CopilotViewModel>().ToSelf().InSingletonScope();
             builder.Bind<DepotViewModel>().ToSelf().InSingletonScope();
+
             builder.Bind<AsstProxy>().ToSelf().InSingletonScope();
             builder.Bind<TrayIcon>().ToSelf().InSingletonScope();
+            builder.Bind<StageManager>().ToSelf();
+
             builder.Bind<HotKeyManager>().ToSelf().InSingletonScope();
             builder.Bind<IMaaHotKeyManager>().To<MaaHotKeyManager>().InSingletonScope();
             builder.Bind<IMaaHotKeyActionHandler>().To<MaaHotKeyActionHandler>().InSingletonScope();
+
             builder.Bind<IMainWindowManager>().To<MainWindowManager>().InSingletonScope();
-            builder.Bind<StageManager>().ToSelf();
         }
 
         /// <inheritdoc/>
@@ -141,7 +150,7 @@ namespace MaaWpfGui
         protected override void OnExit(ExitEventArgs e)
         {
             // MessageBox.Show("O(∩_∩)O 拜拜");
-            _settingsViewModel.Sober();
+            s_settingsViewModel.Sober();
 
             // 关闭程序时清理操作中心中的通知
             var os = RuntimeInformation.OSDescription;
@@ -151,15 +160,18 @@ namespace MaaWpfGui
             }
 
             // 注销任务栏图标
-            _trayIconInSettingsViewModel.Close();
+            s_trayIconInSettingsViewModel.Close();
             Config.Release();
         }
 
         /// <inheritdoc/>
         protected override void OnUnhandledException(DispatcherUnhandledExceptionEventArgs e)
         {
-            // 抛异常了，可以打些日志
-            Logger.Error(e.Exception.ToString(), MethodBase.GetCurrentMethod().Name);
+            if (s_logger != Logger.None)
+            {
+                s_logger.Fatal(e.Exception, "Unhandled exception");
+            }
+
             var errorView = new ErrorView(e.Exception.Message, e.Exception.StackTrace, true);
             errorView.ShowDialog();
         }

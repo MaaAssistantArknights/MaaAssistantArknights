@@ -57,7 +57,7 @@ namespace MaaWpfGui.Helper
             }
             catch (Exception e)
             {
-                Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
+                // Refactor pending
                 return null;
             }
         }
@@ -79,7 +79,7 @@ namespace MaaWpfGui.Helper
             }
             catch (Exception e)
             {
-                Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
+                // Refactor pending
                 return null;
             }
         }
@@ -113,7 +113,7 @@ namespace MaaWpfGui.Helper
             }
             catch (Exception e)
             {
-                Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
+                // Refactor pending
                 return null;
             }
         }
@@ -153,7 +153,7 @@ namespace MaaWpfGui.Helper
             }
             catch (Exception e)
             {
-                Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
+                // Refactor pending
                 return null;
             }
         }

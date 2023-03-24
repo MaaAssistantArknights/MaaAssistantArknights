@@ -31,6 +31,8 @@ using Notification.Wpf;
 using Notification.Wpf.Base;
 using Notification.Wpf.Constants;
 using Notification.Wpf.Controls;
+using Serilog;
+using Serilog.Core;
 using Stylet;
 
 namespace MaaWpfGui
@@ -50,6 +52,8 @@ namespace MaaWpfGui
 
         private static bool _systemToastChecked = false;
         private static bool _systemToastCheckInited = false;
+
+        private static readonly ILogger _logger = Log.ForContext<ToastNotification>();
 
         /// <summary>
         /// Checks toast system.
@@ -428,7 +432,7 @@ namespace MaaWpfGui
             }
             catch (Exception e)
             {
-                Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
+                _logger.Error(e, "显示通知失败");
                 _systemToastChecked = false;
             }
 
