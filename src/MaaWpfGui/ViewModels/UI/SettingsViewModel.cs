@@ -52,6 +52,7 @@ namespace MaaWpfGui.ViewModels.UI
         private TaskQueueViewModel _taskQueueViewModel;
         private AsstProxy _asstProxy;
         private VersionUpdateViewModel _versionUpdateViewModel;
+        private readonly IHttpService _httpService;
 
         [DllImport("MaaCore.dll")]
         private static extern IntPtr AsstGetVersion();
@@ -92,6 +93,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             _container = container;
             _windowManager = windowManager;
+            _httpService = container.Get<IHttpService>();
 
             DisplayName = LocalizationHelper.GetString("Settings");
             _listTitle.Add(LocalizationHelper.GetString("GameSettings"));
@@ -1705,7 +1707,6 @@ namespace MaaWpfGui.ViewModels.UI
             get => _proxy;
             set
             {
-                WebService.Proxy = value;
                 SetAndNotify(ref _proxy, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.UpdateProxy, value);
             }
@@ -2147,14 +2148,10 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (!System.IO.File.Exists(GoogleAdbFilename))
             {
-                var downloadTask = Task.Run(() =>
-                {
-                    return VersionUpdateViewModel.DownloadFile(GoogleAdbDownloadUrl, GoogleAdbFilename);
-                });
-                var downloadResult = await downloadTask;
+                var downloadResult = await _httpService.DownloadFileAsync(new Uri(GoogleAdbDownloadUrl), GoogleAdbFilename);
                 if (!downloadResult)
                 {
-                    Execute.OnUIThread(() =>
+                    await Execute.OnUIThreadAsync(() =>
                     {
                         using var toast = new ToastNotification(LocalizationHelper.GetString("AdbDownloadFailedTitle"));
                         toast.AppendContentText(LocalizationHelper.GetString("AdbDownloadFailedDesc")).Show();

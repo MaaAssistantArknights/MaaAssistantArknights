@@ -41,6 +41,7 @@ namespace MaaWpfGui.ViewModels.UI
     {
         private readonly SettingsViewModel _settingsViewModel;
         private readonly TaskQueueViewModel _taskQueueViewModel;
+        private readonly IHttpService _httpService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VersionUpdateViewModel"/> class.
@@ -50,6 +51,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             _settingsViewModel = container.Get<SettingsViewModel>();
             _taskQueueViewModel = container.Get<TaskQueueViewModel>();
+            _httpService = container.Get<IHttpService>();
         }
 
         [DllImport("MaaCore.dll")]
@@ -478,7 +480,7 @@ namespace MaaWpfGui.ViewModels.UI
                             url = url.Replace(repTuple.Item1, repTuple.Item2);
                         }
 
-                        if (DownloadGithubAssets(url, _assetsObject, Downloader.Native))
+                        if (DownloadGithubAssets(url, _assetsObject))
                         {
                             OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"));
                             downloaded = true;
@@ -675,7 +677,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 for (var i = 0; i < requestSource.Length; i++)
                 {
-                    response = WebService.RequestGet(requestSource[i] + url);
+                    response = _httpService.GetStringAsync(new Uri(requestSource[i] + url)).ConfigureAwait(false).GetAwaiter().GetResult();
                     if (!string.IsNullOrEmpty(response))
                     {
                         break;
@@ -691,182 +693,20 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         /// <param name="url">下载链接</param>
         /// <param name="assetsObject">Github Assets 对象</param>
-        /// <param name="downloader">下载方式，如为空则使用 CSharp 原生方式下载</param>
-        /// <param name="saveTo">保存至的文件夹，如为空则使用当前位置</param>
         /// <returns>操作成功返回 true，反之则返回 false</returns>
-        private bool DownloadGithubAssets(string url, JObject assetsObject,
-            Downloader downloader = Downloader.Native, string saveTo = null)
+        private bool DownloadGithubAssets(string url, JObject assetsObject)
         {
             _logItemViewModels = _taskQueueViewModel.LogItemViewModels;
-            return DownloadFile(
-                url: url,
-                fileName: assetsObject["name"].ToString(), contentType:
-                assetsObject["content_type"].ToString(),
-                downloader: downloader,
-                saveTo: saveTo,
-                proxy: _settingsViewModel.Proxy);
-        }
-
-        /// <summary>
-        /// 通过网络获取文件资源
-        /// </summary>
-        /// <param name="url">网络资源地址</param>
-        /// <param name="fileName">保存此文件使用的文件名</param>
-        /// <param name="contentType">获取对象的物联网通用类型</param>
-        /// <param name="downloader">下载方式，如为空则使用 CSharp 原生方式下载</param>
-        /// <param name="saveTo">保存至的文件夹，如为空则使用当前位置</param>
-        /// <param name="proxy">http proxy</param>
-        /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
-        public static bool DownloadFile(string url, string fileName, string contentType = null,
-            Downloader downloader = Downloader.Native, string saveTo = null, string proxy = "")
-        {
-            string fileDir = (saveTo == null) ? Directory.GetCurrentDirectory() : Path.GetFullPath(saveTo);
-            string fileNameWithTemp = fileName + ".temp";
-            string fullFilePath = Path.Combine(fileDir, fileName);
-            string fullFilePathWithTemp = Path.Combine(fileDir, fileNameWithTemp);
-            bool returned = false;
-            try
-            {
-                switch (downloader)
-                {
-                    case Downloader.Native:
-                        returned = DownloadFileForCSharpNative(url: url, filePath: fullFilePathWithTemp, contentType: contentType, proxy);
-                        break;
-                }
-
-                OutputDownloadProgress(string.Empty);
-            }
-            catch (WebException)
-            {
-                returned = false;
-            }
-            catch (Exception e)
-            {
-                // ! REMOVE
-                returned = false;
-            }
-
-            if (returned)
-            {
-                File.Copy(fullFilePathWithTemp, fullFilePath, true);
-            }
-
-            // 删除临时文件
-            if (File.Exists(fullFilePathWithTemp))
-            {
-                File.Delete(fullFilePathWithTemp);
-            }
-
-            return returned;
-        }
-
-        private static bool DownloadFileForAria2(string url, string saveTo, string fileName, string proxy = "")
-        {
-            var aria2FilePath = Path.GetFullPath(Directory.GetCurrentDirectory() + "/aria2c.exe");
-            var aria2Args = "\"" + url + "\" --continue=true --dir=\"" + saveTo + "\" --out=\"" + fileName + "\" --user-agent=\"" + WebService.RequestUserAgent + "\"";
-
-            if (proxy.Length > 0)
-            {
-                aria2Args += " --all-proxy=\"" + proxy + "\"";
-            }
-
-            var aria2Process = new Process
-            {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = aria2FilePath,
-                    Arguments = aria2Args,
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    CreateNoWindow = true,
-                },
-                EnableRaisingEvents = true,
-            };
-            aria2Process.OutputDataReceived += new DataReceivedEventHandler((sender, e) =>
-            {
-                if (e.Data != null && e.Data.StartsWith("["))
-                {
-                    OutputDownloadProgress(e.Data);
-                }
-            });
-
-            aria2Process.Start();
-            aria2Process.BeginOutputReadLine();
-            aria2Process.WaitForExit();
-            var exit_code = aria2Process.ExitCode;
-            aria2Process.Close();
-            return exit_code == 0;
-        }
-
-        /// <summary>
-        /// 使用 CSharp 原生方式下载文件
-        /// </summary>
-        /// <param name="url">下载地址</param>
-        /// <param name="filePath">文件路径</param>
-        /// <param name="contentType">HTTP ContentType</param>
-        /// <param name="proxy">http proxy</param>
-        /// <returns>是否成功</returns>
-        private static bool DownloadFileForCSharpNative(string url, string filePath, string contentType = null, string proxy = "")
-        {
-            bool downloaded = false;
-
-            // 创建 Http 请求
-            var httpWebRequest = WebRequest.Create(url) as HttpWebRequest;
-
-            // 设定相关属性
-            httpWebRequest.Method = "GET";
-            httpWebRequest.UserAgent = WebService.RequestUserAgent;
-            httpWebRequest.Accept = contentType;
-            if (!string.IsNullOrEmpty(proxy))
-            {
-                httpWebRequest.Proxy = new WebProxy(proxy);
-            }
-
-            // 获取输入输出流
-            using (var response = httpWebRequest.GetResponse())
-            {
-                using var responseStream = response.GetResponseStream();
-                using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
-
-                // 记录初始化
-                long value = 0;
-                int valueInOneSecond = 0;
-                long fileMaximum = response.ContentLength;
-                DateTime beforDT = DateTime.Now;
-                OutputDownloadProgress();
-
-                // 输入输出初始化
-                byte[] buffer = new byte[81920];
-                int byteLen = responseStream.Read(buffer, 0, buffer.Length);
-
-                while (byteLen > 0)
-                {
-                    // 记录
-                    valueInOneSecond += byteLen;
-                    double ts = DateTime.Now.Subtract(beforDT).TotalSeconds;
-                    if (ts > 1)
-                    {
-                        beforDT = DateTime.Now;
-                        value += valueInOneSecond;
-                        OutputDownloadProgress(value, fileMaximum, valueInOneSecond, ts);
-                        valueInOneSecond = 0;
-                    }
-
-                    // 输入输出
-                    fileStream.Write(buffer, 0, byteLen);
-                    byteLen = responseStream.Read(buffer, 0, buffer.Length);
-                }
-
-                downloaded = true;
-            }
-
-            return downloaded;
+            return _httpService.DownloadFileAsync(
+                new Uri(url),
+                assetsObject["name"].ToString(),
+                assetsObject["content_type"].ToString())
+                .ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         private static System.Collections.ObjectModel.ObservableCollection<LogItemViewModel> _logItemViewModels = null;
 
-        private static void OutputDownloadProgress(long value = 0, long maximum = 1, int len = 0, double ts = 1)
+        public static void OutputDownloadProgress(long value = 0, long maximum = 1, int len = 0, double ts = 1)
         {
             OutputDownloadProgress(
                 string.Format("[{0:F}MiB/{1:F}MiB({2}%) {3:F} KiB/s]",

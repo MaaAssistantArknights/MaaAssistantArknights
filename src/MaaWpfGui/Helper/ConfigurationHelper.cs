@@ -15,7 +15,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Serilog;
 
 namespace MaaWpfGui.Helper
@@ -27,6 +26,10 @@ namespace MaaWpfGui.Helper
         private static Dictionary<string, string> _kvs;
 
         private static readonly ILogger _logger = Log.ForContext<ConfigurationHelper>();
+
+        public delegate void ConfigurationUpdateEventHandler(string key, string oldValue, string newValue);
+
+        public static event ConfigurationUpdateEventHandler ConfigurationUpdateEvent;
 
         private static bool Released { get; set; }
 
@@ -55,8 +58,10 @@ namespace MaaWpfGui.Helper
         /// <returns>The return value of <see cref="Save"/></returns>
         public static bool SetValue(string key, string value)
         {
+            var old = string.Empty;
             if (_kvs.ContainsKey(key))
             {
+                old = _kvs[key];
                 _kvs[key] = value;
             }
             else
@@ -67,6 +72,7 @@ namespace MaaWpfGui.Helper
             var result = Save();
             if (result)
             {
+                ConfigurationUpdateEvent?.Invoke(key, old, value);
                 _logger.Information("Configuration {Key} has been set to {Value}", key, value);
             }
             else
@@ -84,10 +90,17 @@ namespace MaaWpfGui.Helper
         /// <returns>The return value of <see cref="Save"/>.</returns>
         public static bool DeleteValue(string key)
         {
+            var old = string.Empty;
+            if (_kvs.ContainsKey(key))
+            {
+                old = _kvs[key];
+            }
+
             _kvs.Remove(key);
             var result = Save();
             if (result)
             {
+                ConfigurationUpdateEvent?.Invoke(key, old, string.Empty);
                 _logger.Information("Configuration {Key} has been deleted", key);
             }
             else
@@ -136,8 +149,11 @@ namespace MaaWpfGui.Helper
             var parsed = ParseJsonFile(_configurationFile);
             if (parsed is null)
             {
-                File.Copy(_configurationBakFile, _configurationFile, true);
-                parsed = ParseJsonFile(_configurationFile);
+                if (File.Exists(_configurationBakFile))
+                {
+                    File.Copy(_configurationBakFile, _configurationFile, true);
+                    parsed = ParseJsonFile(_configurationFile);
+                }
             }
 
             if (parsed is null)

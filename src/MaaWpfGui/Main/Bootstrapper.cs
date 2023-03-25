@@ -143,6 +143,9 @@ namespace MaaWpfGui.Main
             builder.Bind<IMaaHotKeyActionHandler>().To<MaaHotKeyActionHandler>().InSingletonScope();
 
             builder.Bind<IMainWindowManager>().To<MainWindowManager>().InSingletonScope();
+
+            builder.Bind<IHttpService>().To<HttpService>().InSingletonScope();
+            builder.Bind<IMaaApiService>().To<MaaApiService>().InSingletonScope();
         }
 
         /// <inheritdoc/>

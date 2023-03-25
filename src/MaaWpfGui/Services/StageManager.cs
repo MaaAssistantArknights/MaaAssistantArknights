@@ -41,6 +41,7 @@ namespace MaaWpfGui.Services
 
         // model references
         private readonly TaskQueueViewModel _taskQueueViewModel;
+        private readonly IMaaApiService _maaApiService;
 
         private static readonly ILogger _logger = Log.ForContext<StageManager>();
 
@@ -54,6 +55,7 @@ namespace MaaWpfGui.Services
         public StageManager(IContainer container)
         {
             _taskQueueViewModel = container.Get<TaskQueueViewModel>();
+            _maaApiService = container.Get<IMaaApiService>();
             UpdateStage(false);
 
             Execute.OnUIThread(async () =>
@@ -77,8 +79,8 @@ namespace MaaWpfGui.Services
             {
                 // Check if we need to update from the web
                 string lastUpdateTimeFile = "lastUpdateTime.json";
-                JObject localLastUpdatedJson = WebService.LoadApiCache(lastUpdateTimeFile);
-                JObject webLastUpdatedJson = WebService.RequestMaaApiWithCache(lastUpdateTimeFile);
+                JObject localLastUpdatedJson = _maaApiService.LoadApiCache(lastUpdateTimeFile);
+                JObject webLastUpdatedJson = _maaApiService.RequestMaaApiWithCache(lastUpdateTimeFile).ConfigureAwait(false).GetAwaiter().GetResult();
                 if (localLastUpdatedJson != null && webLastUpdatedJson != null)
                 {
                     long localTimestamp = localLastUpdatedJson["timestamp"].ToObject<long>();
@@ -106,12 +108,16 @@ namespace MaaWpfGui.Services
             }
 
             // Download the activities
-            var stageApi = "gui/StageActivity.json";
-            JObject activity = fromWeb ? WebService.RequestMaaApiWithCache(stageApi) : WebService.LoadApiCache(stageApi);
+            const string StageApi = "gui/StageActivity.json";
+            JObject activity = fromWeb
+                ? _maaApiService.RequestMaaApiWithCache(StageApi).ConfigureAwait(false).GetAwaiter().GetResult()
+                : _maaApiService.LoadApiCache(StageApi);
 
             // Download the tasks resources into cache so MaaCore can load them later
             var tasksPath = "resource/tasks.json";
-            JObject tasksJson = fromWeb ? WebService.RequestMaaApiWithCache(tasksPath) : WebService.LoadApiCache(tasksPath);
+            JObject tasksJson = fromWeb
+                ? _maaApiService.RequestMaaApiWithCache(tasksPath).ConfigureAwait(false).GetAwaiter().GetResult()
+                : _maaApiService.LoadApiCache(tasksPath);
 
             if (clientType != "Official" && tasksJson != null)
             {
@@ -120,7 +126,7 @@ namespace MaaWpfGui.Services
                 // Download the client specific resources only when the Official ones are successfully downloaded so that the client specific resource version is the actual version
                 // TODO: There may be an issue when the CN resource is loaded from cache (e.g. network down) while global resource is downloaded (e.g. network up again)
                 // var tasksJsonClient = fromWeb ? WebService.RequestMaaApiWithCache(tasksPath) : WebService.RequestMaaApiWithCache(tasksPath);
-                _ = fromWeb ? WebService.RequestMaaApiWithCache(tasksPath) : WebService.RequestMaaApiWithCache(tasksPath);
+                _ = _maaApiService.RequestMaaApiWithCache(tasksPath);
             }
 
             bool isDebugVersion = Marshal.PtrToStringAnsi(AsstGetVersion()) == "DEBUG VERSION";
