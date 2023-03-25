@@ -30,8 +30,11 @@ using Notification.Wpf;
 using Notification.Wpf.Base;
 using Notification.Wpf.Constants;
 using Notification.Wpf.Controls;
+using Semver;
 using Serilog;
 using Stylet;
+using Application = System.Windows.Forms.Application;
+using FontFamily = System.Windows.Media.FontFamily;
 
 namespace MaaWpfGui.Helper
 {
@@ -74,9 +77,9 @@ namespace MaaWpfGui.Helper
                 }
 
                 var osVersion = matched.Groups[0].Value;
-                bool verParsed = Semver.SemVersion.TryParse(osVersion, Semver.SemVersionStyles.Strict, out var curVersionObj);
+                bool verParsed = SemVersion.TryParse(osVersion, SemVersionStyles.Strict, out var curVersionObj);
 
-                var minimumVersionObj = new Semver.SemVersion(10, 0, 10240);
+                var minimumVersionObj = new SemVersion(10, 0, 10240);
                 _systemToastChecked = verParsed && curVersionObj.CompareSortOrderTo(minimumVersionObj) >= 0;
             }
 
@@ -102,7 +105,7 @@ namespace MaaWpfGui.Helper
         {
             try
             {
-                var icon = Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath);
+                var icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
                 var imageSource = Imaging.CreateBitmapSourceFromHIcon(
                     icon.Handle,
                     Int32Rect.Empty,
@@ -329,7 +332,7 @@ namespace MaaWpfGui.Helper
         public TextContentSettings BaseTextSettings => new TextContentSettings()
         {
             FontStyle = FontStyles.Normal,
-            FontFamily = new System.Windows.Media.FontFamily("Microsoft Yahei"),
+            FontFamily = new FontFamily("Microsoft Yahei"),
             FontSize = 14,
             FontWeight = FontWeights.Normal,
             TextAlignment = TextAlignment.Left,
@@ -633,7 +636,7 @@ namespace MaaWpfGui.Helper
         {
             var fInfo = default(FLASHWINFO);
             fInfo.cbSize = Convert.ToUInt32(Marshal.SizeOf(fInfo));
-            fInfo.hwnd = hWnd != default ? hWnd : new WindowInteropHelper(Application.Current.MainWindow!).Handle;
+            fInfo.hwnd = hWnd != default ? hWnd : new WindowInteropHelper(System.Windows.Application.Current.MainWindow!).Handle;
             fInfo.dwFlags = (uint)type;
             fInfo.uCount = count;
             fInfo.dwTimeout = 0;

@@ -14,9 +14,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -34,9 +36,11 @@ using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Managers;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using Stylet;
-using StyletIoC;
+using IContainer = StyletIoC.IContainer;
+using Timer = System.Timers.Timer;
 
 namespace MaaWpfGui.ViewModels.UI
 {
@@ -432,7 +436,7 @@ namespace MaaWpfGui.ViewModels.UI
         public void TryToStartEmulator(bool manual = false)
         {
             if ((EmulatorPath.Length == 0
-                || !System.IO.File.Exists(EmulatorPath))
+                || !File.Exists(EmulatorPath))
                 || !(StartEmulator
                 || manual))
             {
@@ -598,7 +602,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public void SelectEmulatorExec()
         {
-            var dialog = new Microsoft.Win32.OpenFileDialog
+            var dialog = new OpenFileDialog
             {
                 Filter = LocalizationHelper.GetString("Executable") + "|*.exe;*.bat;*.lnk",
             };
@@ -929,7 +933,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public void SelectCustomInfrastFile()
         {
-            var dialog = new Microsoft.Win32.OpenFileDialog
+            var dialog = new OpenFileDialog
             {
                 Filter = LocalizationHelper.GetString("CustomInfrastFile") + "|*.json",
             };
@@ -966,7 +970,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private NotifyType _notifySource = NotifyType.None;
 
-        private System.Timers.Timer _resetNotifyTimer;
+        private Timer _resetNotifyTimer;
 
         private void ResetNotifySource()
         {
@@ -976,7 +980,7 @@ namespace MaaWpfGui.ViewModels.UI
                 _resetNotifyTimer.Close();
             }
 
-            _resetNotifyTimer = new System.Timers.Timer(20);
+            _resetNotifyTimer = new Timer(20);
             _resetNotifyTimer.Elapsed += (source, e) =>
             {
                 _notifySource = NotifyType.None;
@@ -1382,13 +1386,13 @@ namespace MaaWpfGui.ViewModels.UI
 
         public class TimerModel
         {
-            public class TimerProperties : System.ComponentModel.INotifyPropertyChanged
+            public class TimerProperties : INotifyPropertyChanged
             {
-                public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+                public event PropertyChangedEventHandler PropertyChanged;
 
                 protected void OnPropertyChanged([CallerMemberName] string name = null)
                 {
-                    PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
                 }
 
                 public int TimerId { get; set; }
@@ -1950,7 +1954,10 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private readonly Dictionary<string, List<string>> _defaultAddress = new Dictionary<string, List<string>>
+        /// <summary>
+        /// Gets the default addresses.
+        /// </summary>
+        public Dictionary<string, List<string>> DefaultAddress { get; } = new Dictionary<string, List<string>>
         {
             { "General", new List<string> { string.Empty } },
             { "BlueStacks", new List<string> { "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5565", "127.0.0.1:5575", "127.0.0.1:5585", "127.0.0.1:5595", "127.0.0.1:5554" } },
@@ -1960,11 +1967,6 @@ namespace MaaWpfGui.ViewModels.UI
             { "XYAZ", new List<string> { "127.0.0.1:21503" } },
             { "WSA", new List<string> { "127.0.0.1:58526" } },
         };
-
-        /// <summary>
-        /// Gets the default addresses.
-        /// </summary>
-        public Dictionary<string, List<string>> DefaultAddress => _defaultAddress;
 
         /// <summary>
         /// Refreshes ADB config.
@@ -2041,7 +2043,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public void SelectFile()
         {
-            var dialog = new Microsoft.Win32.OpenFileDialog
+            var dialog = new OpenFileDialog
             {
                 Filter = LocalizationHelper.GetString("ADBProgram") + "|*.exe",
             };
@@ -2089,13 +2091,13 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            if (!System.IO.File.Exists(_bluestacksConfig))
+            if (!File.Exists(_bluestacksConfig))
             {
                 ConfigurationHelper.SetValue(ConfigurationKeys.BluestacksConfigError, "File not exists");
                 return;
             }
 
-            var all_lines = System.IO.File.ReadAllLines(_bluestacksConfig);
+            var all_lines = File.ReadAllLines(_bluestacksConfig);
             foreach (var line in all_lines)
             {
                 if (line.StartsWith(_bluestacksKeyWord))
@@ -2136,7 +2138,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public async void ReplaceADB()
         {
-            if (!System.IO.File.Exists(AdbPath))
+            if (!File.Exists(AdbPath))
             {
                 Execute.OnUIThread(() =>
                 {
@@ -2146,7 +2148,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            if (!System.IO.File.Exists(GoogleAdbFilename))
+            if (!File.Exists(GoogleAdbFilename))
             {
                 var downloadResult = await _httpService.DownloadFileAsync(new Uri(GoogleAdbDownloadUrl), GoogleAdbFilename);
                 if (!downloadResult)
@@ -2168,7 +2170,7 @@ namespace MaaWpfGui.ViewModels.UI
                    process.Kill();
                }
 
-               System.IO.File.Copy(AdbPath, AdbPath + ".bak", true);
+               File.Copy(AdbPath, AdbPath + ".bak", true);
 
                const string UnzipDir = "adb_unzip";
                if (Directory.Exists(UnzipDir))
@@ -2176,8 +2178,8 @@ namespace MaaWpfGui.ViewModels.UI
                    Directory.Delete(UnzipDir, true);
                }
 
-               System.IO.Compression.ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
-               System.IO.File.Copy(UnzipDir + "/platform-tools/adb.exe", AdbPath, true);
+               ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
+               File.Copy(UnzipDir + "/platform-tools/adb.exe", AdbPath, true);
                Directory.Delete(UnzipDir, true);
            });
             await procTask;

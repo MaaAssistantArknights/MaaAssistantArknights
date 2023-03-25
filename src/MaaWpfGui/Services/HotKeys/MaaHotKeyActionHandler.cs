@@ -15,7 +15,6 @@ using System;
 using System.Windows;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Services.Managers;
-using MaaWpfGui.ViewModels;
 using MaaWpfGui.ViewModels.UI;
 using StyletIoC;
 

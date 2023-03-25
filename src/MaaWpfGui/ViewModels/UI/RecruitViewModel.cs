@@ -77,7 +77,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _recruitResult, value);
         }
 
-        private bool _chooseLevel3 = System.Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel3, bool.FalseString));
+        private bool _chooseLevel3 = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel3, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to choose level 3.
@@ -92,7 +92,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _chooseLevel4 = System.Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel4, bool.TrueString));
+        private bool _chooseLevel4 = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel4, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to choose level 4.
@@ -107,7 +107,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _chooseLevel5 = System.Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel5, bool.TrueString));
+        private bool _chooseLevel5 = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel5, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to choose level 5.
@@ -122,7 +122,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _chooseLevel6 = System.Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel6, bool.TrueString));
+        private bool _chooseLevel6 = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel6, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to choose level 6.
@@ -137,7 +137,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _autoSetTime = System.Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoSetTime, bool.TrueString));
+        private bool _autoSetTime = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoSetTime, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to set time automatically.

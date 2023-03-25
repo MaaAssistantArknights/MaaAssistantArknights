@@ -13,7 +13,6 @@
 
 using System;
 using MaaWpfGui.Constants;
-using MaaWpfGui.Helper;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels
