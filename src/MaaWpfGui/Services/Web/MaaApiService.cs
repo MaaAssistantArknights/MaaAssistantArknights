@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace MaaWpfGui.Services
+namespace MaaWpfGui.Services.Web
 {
     public class MaaApiService : IMaaApiService
     {

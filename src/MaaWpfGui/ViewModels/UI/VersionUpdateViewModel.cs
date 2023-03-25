@@ -26,6 +26,7 @@ using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Services;
+using MaaWpfGui.Services.Web;
 using Markdig;
 using Neo.Markdig.Xaml;
 using Newtonsoft.Json;

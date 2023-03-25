@@ -22,6 +22,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Managers;
+using MaaWpfGui.Services.Web;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.Views.UI;
 using Microsoft.Toolkit.Uwp.Notifications;
