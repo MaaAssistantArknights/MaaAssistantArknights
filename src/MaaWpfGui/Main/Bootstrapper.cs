@@ -90,7 +90,10 @@ namespace MaaWpfGui.Main
                 .Enrich.WithThreadId()
                 .Enrich.WithThreadName();
 
-            loggerConfiguration = Environment.GetEnvironmentVariable("MAA_ENVIRONMENT") == "Debug"
+            var maaEnv = Environment.GetEnvironmentVariable("MAA_ENVIRONMENT") == "Debug"
+                ? "Debug"
+                : "Production";
+            loggerConfiguration = maaEnv == "Debug"
                 ? loggerConfiguration.MinimumLevel.Verbose()
                 : loggerConfiguration.MinimumLevel.Information();
 
@@ -98,7 +101,7 @@ namespace MaaWpfGui.Main
             _logger = Log.Logger.ForContext<Bootstrapper>();
             _logger.Information("===================================");
             _logger.Information("MaaAssistantArknights GUI started");
-            _logger.Information("Serilog LogLevel: {LogLevel}", loggerConfiguration.MinimumLevel);
+            _logger.Information("Maa ENV: {MaaEnv}", maaEnv);
             _logger.Information("===================================");
 
             try
