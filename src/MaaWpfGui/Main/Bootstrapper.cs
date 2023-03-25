@@ -45,7 +45,7 @@ namespace MaaWpfGui.Main
         private static readonly FieldInfo _settingsViewModelIContainerFiled =
             typeof(SettingsViewModel).GetField("_container", BindingFlags.NonPublic | BindingFlags.Instance);
 
-        private static ILogger s_logger = Logger.None;
+        private static ILogger _logger = Logger.None;
 
         /// <summary>
         /// Sets tray icon in <see cref="SettingsViewModel"/>.
@@ -95,8 +95,11 @@ namespace MaaWpfGui.Main
                 : loggerConfiguration.MinimumLevel.Information();
 
             Log.Logger = loggerConfiguration.CreateLogger();
-            s_logger = Log.Logger.ForContext<Bootstrapper>();
-            s_logger.Information("MaaAssistantArknights GUI started");
+            _logger = Log.Logger.ForContext<Bootstrapper>();
+            _logger.Information("===================================");
+            _logger.Information("MaaAssistantArknights GUI started");
+            _logger.Information("Serilog LogLevel: {LogLevel}", loggerConfiguration.MinimumLevel);
+            _logger.Information("===================================");
 
             try
             {
@@ -171,14 +174,17 @@ namespace MaaWpfGui.Main
             // 注销任务栏图标
             _trayIconInSettingsViewModel.Close();
             ConfigurationHelper.Release();
+
+            _logger.Information("MaaAssistantArknights GUI exited");
+            _logger.Information(string.Empty);
         }
 
         /// <inheritdoc/>
         protected override void OnUnhandledException(DispatcherUnhandledExceptionEventArgs e)
         {
-            if (s_logger != Logger.None)
+            if (_logger != Logger.None)
             {
-                s_logger.Fatal(e.Exception, "Unhandled exception");
+                _logger.Fatal(e.Exception, "Unhandled exception");
             }
 
             var errorView = new ErrorView(e.Exception.Message, e.Exception.StackTrace, true);
