@@ -531,6 +531,9 @@
     <ClInclude Include="Task\Interface\CustomTask.h">
       <Filter>源文件\Task\Interface</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Interface\CraftTask.h">
+      <Filter>源文件\Task\Interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\AbstractImageAnalyzer.cpp">
@@ -873,6 +876,9 @@
       <Filter>源文件\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Task\Interface\CustomTask.cpp">
+      <Filter>源文件\Task\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Interface\CraftTask.cpp">
       <Filter>源文件\Task\Interface</Filter>
     </ClCompile>
   </ItemGroup>
