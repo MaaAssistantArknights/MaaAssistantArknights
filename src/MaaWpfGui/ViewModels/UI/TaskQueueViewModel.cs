@@ -374,7 +374,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private bool NeedToUpdateDatePrompt()
         {
-            var now = Utils.GetYJTimeNow();
+            var now = DateTime.UtcNow.ToYJDateTime();
             var hour = now.Hour;
             var min = now.Minute;
 
@@ -399,7 +399,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private bool NeedToCheckForUpdates()
         {
-            var now = Utils.GetYJTimeNow();
+            var now = DateTime.UtcNow.ToYJDateTime();
             var hour = now.Hour;
             var min = now.Minute;
 
@@ -2213,8 +2213,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void InitDrops()
         {
-            var reader = Utils.GetItemList();
-            foreach (var item in reader)
+            foreach (var item in ItemListHelper.ArkItems)
             {
                 var val = item.Key;
 
@@ -2224,7 +2223,7 @@ namespace MaaWpfGui.ViewModels.UI
                     continue;
                 }
 
-                var dis = item.Value["name"].ToString();
+                var dis = item.Value.Name;
 
                 if (excludedValues.Contains(val))
                 {

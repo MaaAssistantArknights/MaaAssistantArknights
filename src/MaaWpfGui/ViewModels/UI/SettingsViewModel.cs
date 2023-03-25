@@ -26,6 +26,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Services;
@@ -617,7 +618,6 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _clientType, value);
-                Utils.ClientType = value;
                 ConfigurationHelper.SetValue(ConfigurationKeys.ClientType, value);
                 UpdateWindowTitle(); /* 每次修改客户端时更新WindowTitle */
                 _taskQueueViewModel.UpdateStageList(true);
@@ -1257,7 +1257,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         /* 访问好友设置 */
-        private string _lastCreditFightTaskTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditFightTaskTime, Utils.GetYJTimeDate().AddDays(-1).ToString("yyyy/MM/dd HH:mm:ss"));
+        private string _lastCreditFightTaskTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditFightTaskTime, DateTime.UtcNow.ToYJDate().AddDays(-1).ToString("yyyy/MM/dd HH:mm:ss"));
 
         public string LastCreditFightTaskTime
         {
@@ -1280,7 +1280,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 try
                 {
-                    if (Utils.GetYJTimeDate() > DateTime.ParseExact(_lastCreditFightTaskTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
+                    if (DateTime.UtcNow.ToYJDate() > DateTime.ParseExact(_lastCreditFightTaskTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
                     {
                         return _creditFightTaskEnabled;
                     }
