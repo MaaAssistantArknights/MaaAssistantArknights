@@ -24,13 +24,12 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Services;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
 using StyletIoC;
 using DataFormats = System.Windows.Forms.DataFormats;
-using DragEventArgs = System.Windows.DragEventArgs;
-using Screen = Stylet.Screen;
 
 namespace MaaWpfGui.ViewModels.UI
 {
@@ -398,7 +397,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public void SelectFile()
         {
-            var dialog = new Microsoft.Win32.OpenFileDialog
+            var dialog = new OpenFileDialog
             {
                 Filter = "JSON|*.json",
             };

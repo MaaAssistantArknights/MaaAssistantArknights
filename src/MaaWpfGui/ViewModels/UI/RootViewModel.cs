@@ -12,6 +12,7 @@
 // </copyright>
 
 using System.Threading.Tasks;
+using System.Windows;
 using MaaWpfGui.Main;
 using Stylet;
 using StyletIoC;
@@ -122,7 +123,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <inheritdoc/>
         protected override void OnClose()
         {
-            System.Windows.Application.Current.Shutdown();
+            Application.Current.Shutdown();
         }
     }
 }

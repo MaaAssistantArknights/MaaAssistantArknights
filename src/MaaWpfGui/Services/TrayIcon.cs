@@ -12,6 +12,7 @@
 // </copyright>
 
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Services.Managers;
@@ -46,7 +47,7 @@ namespace MaaWpfGui.Services
         private void InitIcon()
         {
             this._notifyIcon.Text = "MaaAssistantArknights";
-            this._notifyIcon.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath);
+            this._notifyIcon.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             _notifyIcon.MouseClick += NotifyIcon_MouseClick;
             _notifyIcon.MouseDoubleClick += OnNotifyIconDoubleClick;
 

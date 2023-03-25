@@ -22,7 +22,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Forms;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -35,6 +35,9 @@ using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using StyletIoC;
+using Application = System.Windows.Application;
+using ComboBox = System.Windows.Controls.ComboBox;
+using Screen = Stylet.Screen;
 
 namespace MaaWpfGui.ViewModels.UI
 {
@@ -168,7 +171,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
         */
 
-        private readonly System.Windows.Forms.Timer _timer = new System.Windows.Forms.Timer();
+        private readonly Timer _timer = new Timer();
 
         private void InitTimer()
         {

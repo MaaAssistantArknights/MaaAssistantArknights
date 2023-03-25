@@ -17,6 +17,7 @@ using System.Linq;
 using System.Windows;
 using MaaWpfGui.Constants;
 using Stylet;
+using Screen = System.Windows.Forms.Screen;
 
 namespace MaaWpfGui.Helper
 {
@@ -41,7 +42,7 @@ namespace MaaWpfGui.Helper
 
         public void MoveWindowToDisplay(string displayName, Window window)
         {
-            var screen = System.Windows.Forms.Screen.AllScreens.FirstOrDefault(x => x.DeviceName == displayName);
+            var screen = Screen.AllScreens.FirstOrDefault(x => x.DeviceName == displayName);
             if (screen != null)
             {
                 var screenRect = screen.Bounds;

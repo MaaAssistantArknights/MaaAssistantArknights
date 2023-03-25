@@ -13,22 +13,24 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
-using System.Net;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Services;
-using MaaWpfGui.Utilities;
 using Markdig;
 using Neo.Markdig.Xaml;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Semver;
 using Stylet;
 using StyletIoC;
 
@@ -209,7 +211,7 @@ namespace MaaWpfGui.ViewModels.UI
                     Directory.Delete(extractDir, true);
                 }
 
-                System.IO.Compression.ZipFile.ExtractToDirectory(UpdatePackageName, extractDir);
+                ZipFile.ExtractToDirectory(UpdatePackageName, extractDir);
             }
             catch (InvalidDataException)
             {
@@ -379,7 +381,7 @@ namespace MaaWpfGui.ViewModels.UI
                         {
                             return version;
                         }
-                        else if (Semver.SemVersion.TryParse(version, Semver.SemVersionStyles.AllowLowerV, out var semVersion) &&
+                        else if (SemVersion.TryParse(version, SemVersionStyles.AllowLowerV, out var semVersion) &&
                             isNightlyVersion(semVersion))
                         {
                             // v4.6.6-1.g{Hash}
@@ -614,8 +616,8 @@ namespace MaaWpfGui.ViewModels.UI
                 }
                 else
                 {
-                    bool curParsed = Semver.SemVersion.TryParse(_curVersion, Semver.SemVersionStyles.AllowLowerV, out var curVersionObj);
-                    bool latestPared = Semver.SemVersion.TryParse(_latestVersion, Semver.SemVersionStyles.AllowLowerV, out var latestVersionObj);
+                    bool curParsed = SemVersion.TryParse(_curVersion, SemVersionStyles.AllowLowerV, out var curVersionObj);
+                    bool latestPared = SemVersion.TryParse(_latestVersion, SemVersionStyles.AllowLowerV, out var latestVersionObj);
                     if (curParsed && latestPared)
                     {
                         if (curVersionObj.CompareSortOrderTo(latestVersionObj) >= 0)
@@ -704,7 +706,7 @@ namespace MaaWpfGui.ViewModels.UI
                 .ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
-        private static System.Collections.ObjectModel.ObservableCollection<LogItemViewModel> _logItemViewModels = null;
+        private static ObservableCollection<LogItemViewModel> _logItemViewModels = null;
 
         public static void OutputDownloadProgress(long value = 0, long maximum = 1, int len = 0, double ts = 1)
         {
@@ -771,7 +773,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 return false;
             }
-            else if (!Semver.SemVersion.TryParse(version, Semver.SemVersionStyles.AllowLowerV, out var semVersion))
+            else if (!SemVersion.TryParse(version, SemVersionStyles.AllowLowerV, out var semVersion))
             {
                 return false;
             }
@@ -783,7 +785,7 @@ namespace MaaWpfGui.ViewModels.UI
             return true;
         }
 
-        private bool isNightlyVersion(Semver.SemVersion version)
+        private bool isNightlyVersion(SemVersion version)
         {
             if (!version.IsPrerelease)
             {
@@ -824,7 +826,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
-        public void OpenHyperlink(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+        public void OpenHyperlink(object sender, ExecutedRoutedEventArgs e)
         {
             Process.Start(e.Parameter.ToString());
         }

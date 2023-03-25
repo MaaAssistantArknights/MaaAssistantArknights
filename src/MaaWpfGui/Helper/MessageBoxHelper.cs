@@ -212,7 +212,7 @@ namespace MaaWpfGui.Helper
                     }
                 }
 
-                source = CreateHwndSource(System.Windows.Application.Current.MainWindow);
+                source = CreateHwndSource(Application.Current.MainWindow);
                 if (source != null)
                 {
                     CenterWindow(msg.hwnd);
