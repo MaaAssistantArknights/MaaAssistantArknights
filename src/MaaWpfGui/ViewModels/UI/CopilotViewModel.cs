@@ -153,13 +153,7 @@ namespace MaaWpfGui.ViewModels.UI
             get => _filename;
             set
             {
-                if (value == _filename)
-                {
-                    return;
-                }
-
-                _filename = value;
-                NotifyOfPropertyChange(() => Filename);
+                SetAndNotify(ref _filename, value);
                 ClearLog();
                 UpdateFilename();
             }
