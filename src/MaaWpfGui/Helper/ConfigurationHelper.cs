@@ -73,7 +73,7 @@ namespace MaaWpfGui.Helper
             if (result)
             {
                 ConfigurationUpdateEvent?.Invoke(key, old, value);
-                _logger.Information("Configuration {Key} has been set to {Value}", key, value);
+                _logger.Debug("Configuration {Key} has been set to {Value}", key, value);
             }
             else
             {
@@ -101,7 +101,7 @@ namespace MaaWpfGui.Helper
             if (result)
             {
                 ConfigurationUpdateEvent?.Invoke(key, old, string.Empty);
-                _logger.Information("Configuration {Key} has been deleted", key);
+                _logger.Debug("Configuration {Key} has been deleted", key);
             }
             else
             {
