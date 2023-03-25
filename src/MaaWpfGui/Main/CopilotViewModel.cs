@@ -148,7 +148,13 @@ namespace MaaWpfGui
             get => _filename;
             set
             {
-                SetAndNotify(ref _filename, value);
+                if (value == _filename)
+                {
+                    return;
+                }
+
+                _filename = value;
+                NotifyOfPropertyChange(() => Filename);
                 ClearLog();
                 UpdateFilename();
             }
@@ -218,6 +224,7 @@ namespace MaaWpfGui
             {
                 ParseJsonAndShowInfo(jsonStr);
             }
+
         }
 
         private async Task<string> RequestCopilotServer(int copilotID)
