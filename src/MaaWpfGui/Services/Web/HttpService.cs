@@ -20,6 +20,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.UI;
 using Serilog;
@@ -97,6 +98,7 @@ namespace MaaWpfGui.Services.Web
                 }
 
                 var response = await _client.SendAsync(request);
+                response.Log();
 
                 return response.IsSuccessStatusCode is false ? null : response;
             }
@@ -116,6 +118,7 @@ namespace MaaWpfGui.Services.Web
                 message.Headers.Accept.ParseAdd("application/json");
                 message.Content = new StringContent(body, Encoding.UTF8, "application/json");
                 var response = await _client.SendAsync(message);
+                response.Log();
                 return await response.Content.ReadAsStringAsync();
             }
             catch (Exception e)
@@ -131,11 +134,9 @@ namespace MaaWpfGui.Services.Web
             string fileNameWithTemp = fileName + ".temp";
             string fullFilePath = Path.Combine(fileDir, fileName);
             string fullFilePathWithTemp = Path.Combine(fileDir, fileNameWithTemp);
+            _logger.Information("Start to download file from {Uri} and save to {TempPath}", uri, fullFilePathWithTemp);
 
-            var response = GetAsync(uri, extraHeader: new Dictionary<string, string>
-            {
-                { "Accept", contentType },
-            }).ConfigureAwait(false).GetAwaiter().GetResult();
+            var response = await GetAsync(uri, extraHeader: new Dictionary<string, string> { { "Accept", contentType } });
 
             if (response is null)
             {
@@ -183,13 +184,14 @@ namespace MaaWpfGui.Services.Web
             }
             catch (Exception e)
             {
-                _logger.Error("Failed to download file from {Uri}", uri);
+                _logger.Error(e, "Failed to copy file stream {TempFile}", fullFilePathWithTemp);
                 success = false;
             }
             finally
             {
                 if (File.Exists(fullFilePathWithTemp))
                 {
+                    _logger.Information("Remove download temp file {TempFile}", fullFilePathWithTemp);
                     File.Delete(fullFilePathWithTemp);
                 }
             }
@@ -200,11 +202,17 @@ namespace MaaWpfGui.Services.Web
         private void BuildHttpClient()
         {
             var proxyIsUri = Uri.TryCreate(Proxy, UriKind.RelativeOrAbsolute, out var uri);
-            if (!string.IsNullOrEmpty(Proxy) && (!(_client is null)))
+            proxyIsUri = proxyIsUri && (!string.IsNullOrEmpty(Proxy));
+            if (proxyIsUri is false)
             {
-                return;
+                if (!(_client is null))
+                {
+                    _logger.Information("Proxy is not a valid URI, and HttpClient is not null, keep using the original HttpClient");
+                    return;
+                }
             }
 
+            _logger.Information("Rebuild HttpClient with proxy {Proxy}", Proxy);
             var handler = new HttpClientHandler { AllowAutoRedirect = true, };
 
             if (proxyIsUri)
