@@ -19,6 +19,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels;
 using MaaWpfGui.ViewModels.UI;
@@ -537,7 +538,7 @@ namespace MaaWpfGui.Main
                     {
                         if (_taskQueueViewModel.Stage != string.Empty && _settingsViewModel.CreditFightTaskEnabled)
                         {
-                            _settingsViewModel.LastCreditFightTaskTime = Utils.GetYJTimeDateString();
+                            _settingsViewModel.LastCreditFightTaskTime = DateTime.UtcNow.ToYJDate().ToFormattedString();
                             _taskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("CreditFight"));
                         }
                     }

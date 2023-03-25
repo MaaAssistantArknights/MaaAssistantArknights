@@ -323,7 +323,7 @@ namespace MaaWpfGui.Services
 
                     if (!string.IsNullOrEmpty(item.Value.Drop))
                     {
-                        builder.AppendLine(item.Value.Display + ": " + Utils.GetItemName(item.Value.Drop));
+                        builder.AppendLine(item.Value.Display + ": " + ItemListHelper.GetItemName(item.Value.Drop));
                     }
                 }
             }
