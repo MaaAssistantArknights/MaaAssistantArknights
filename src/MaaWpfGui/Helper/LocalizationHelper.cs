@@ -1,4 +1,4 @@
-// <copyright file="Localization.cs" company="MaaAssistantArknights">
+// <copyright file="LocalizationHelper.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -23,7 +23,7 @@ namespace MaaWpfGui.Helper
     /// <summary>
     /// The localization class.
     /// </summary>
-    public class Localization
+    public static class LocalizationHelper
     {
         /// <summary>
         /// The supported languages.

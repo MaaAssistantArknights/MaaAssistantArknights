@@ -17,7 +17,6 @@ using System.Windows;
 using System.Windows.Documents;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using Localization = MaaWpfGui.Helper.Localization;
 
 namespace MaaWpfGui.Views.UI
 {
@@ -43,7 +42,7 @@ namespace MaaWpfGui.Views.UI
 
             ShouldExit = shouldExit;
 
-            var isZhCn = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, Localization.DefaultLanguage) == "zh-cn";
+            var isZhCn = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage) == "zh-cn";
             ErrorQqGroupLink.Visibility = isZhCn ? Visibility.Visible : Visibility.Hidden;
         }
 
@@ -51,15 +50,15 @@ namespace MaaWpfGui.Views.UI
         {
             if (details.Contains("AsstGetVersion()") || details.Contains("DllNotFoundException"))
             {
-                return Localization.GetString("ErrorSolutionCrash");
+                return LocalizationHelper.GetString("ErrorSolutionCrash");
             }
 
             if (details.Contains("SettingsViewModel.<ReplaceADB>"))
             {
-                return Localization.GetString("ErrorSolutionReplaceADB");
+                return LocalizationHelper.GetString("ErrorSolutionReplaceADB");
             }
 
-            return Localization.GetString("UnknownErrorOccurs");
+            return LocalizationHelper.GetString("UnknownErrorOccurs");
         }
 
         protected override void OnClosed(EventArgs e)

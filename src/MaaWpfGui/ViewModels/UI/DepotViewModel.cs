@@ -15,11 +15,11 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using Newtonsoft.Json.Linq;
 using Stylet;
 using StyletIoC;
-using Localization = MaaWpfGui.Helper.Localization;
 
 namespace MaaWpfGui.ViewModels.UI
 {
@@ -42,7 +42,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             _container = container;
             _windowManager = windowManager;
-            DisplayName = Localization.GetString("DepotRecognition");
+            DisplayName = LocalizationHelper.GetString("DepotRecognition");
         }
 
         protected override void OnInitialActivate()
@@ -55,7 +55,7 @@ namespace MaaWpfGui.ViewModels.UI
             }));
         }
 
-        private string _depotInfo = Localization.GetString("DepotRecognitionTip");
+        private string _depotInfo = LocalizationHelper.GetString("DepotRecognitionTip");
 
         /// <summary>
         /// Gets or sets the depot info.
@@ -114,7 +114,7 @@ namespace MaaWpfGui.ViewModels.UI
             bool done = (bool)details["done"];
             if (done)
             {
-                DepotInfo = Localization.GetString("IdentificationCompleted") + "\n" + Localization.GetString("DepotRecognitionTip");
+                DepotInfo = LocalizationHelper.GetString("IdentificationCompleted") + "\n" + LocalizationHelper.GetString("DepotRecognitionTip");
                 Done = true;
             }
 
@@ -138,7 +138,7 @@ namespace MaaWpfGui.ViewModels.UI
         public void ExportToArkplanner()
         {
             Clipboard.SetDataObject(ArkPlannerResult);
-            DepotInfo = Localization.GetString("CopiedToClipboard");
+            DepotInfo = LocalizationHelper.GetString("CopiedToClipboard");
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace MaaWpfGui.ViewModels.UI
         public void ExportToLolicon()
         {
             Clipboard.SetDataObject(LoliconResult);
-            DepotInfo = Localization.GetString("CopiedToClipboard");
+            DepotInfo = LocalizationHelper.GetString("CopiedToClipboard");
         }
 
         private void Clear()
@@ -164,7 +164,7 @@ namespace MaaWpfGui.ViewModels.UI
         public async void Start()
         {
             string errMsg = string.Empty;
-            DepotInfo = Localization.GetString("ConnectingToEmulator");
+            DepotInfo = LocalizationHelper.GetString("ConnectingToEmulator");
             var task = Task.Run(() =>
             {
                 return _asstProxy.AsstConnect(ref errMsg);
@@ -176,7 +176,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            DepotInfo = Localization.GetString("Identifying");
+            DepotInfo = LocalizationHelper.GetString("Identifying");
             Clear();
 
             _asstProxy.AsstStartDepot();

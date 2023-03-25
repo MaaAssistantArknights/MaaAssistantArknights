@@ -66,13 +66,13 @@ namespace MaaWpfGui.Models
         public StageInfo(string name, string tipKey, IEnumerable<DayOfWeek> openDays, StageActivityInfo activity)
         {
             Value = name;
-            Display = Localization.GetString(name);
+            Display = LocalizationHelper.GetString(name);
             OpenDays = openDays;
             Activity = activity;
 
             if (!string.IsNullOrEmpty(tipKey))
             {
-                Tip = Localization.GetString(tipKey);
+                Tip = LocalizationHelper.GetString(tipKey);
             }
         }
 

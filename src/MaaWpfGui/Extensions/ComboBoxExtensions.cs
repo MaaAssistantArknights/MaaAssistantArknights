@@ -85,7 +85,7 @@ namespace MaaWpfGui.Extensions
                     }
 
                     // filter items
-                    if (string.IsNullOrEmpty(searchTerm) || searchTerm == Localization.GetString("NotSelected"))
+                    if (string.IsNullOrEmpty(searchTerm) || searchTerm == LocalizationHelper.GetString("NotSelected"))
                     {
                         targetComboBox.Items.Filter = item => true;
                         targetComboBox.SelectedItem = default;

@@ -36,7 +36,6 @@ using MaaWpfGui.Utilities.ValueType;
 using Newtonsoft.Json;
 using Stylet;
 using StyletIoC;
-using Localization = MaaWpfGui.Helper.Localization;
 
 namespace MaaWpfGui.ViewModels.UI
 {
@@ -71,7 +70,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public string VersionId => s_versionId;
 
-        private static readonly string s_versionInfo = Localization.GetString("Version") + ": " + s_versionId;
+        private static readonly string s_versionInfo = LocalizationHelper.GetString("Version") + ": " + s_versionId;
 
         /// <summary>
         /// Gets the version info.
@@ -93,20 +92,20 @@ namespace MaaWpfGui.ViewModels.UI
             _container = container;
             _windowManager = windowManager;
 
-            DisplayName = Localization.GetString("Settings");
-            _listTitle.Add(Localization.GetString("GameSettings"));
-            _listTitle.Add(Localization.GetString("BaseSettings"));
-            _listTitle.Add(Localization.GetString("RoguelikeSettings"));
-            _listTitle.Add(Localization.GetString("RecruitingSettings"));
-            _listTitle.Add(Localization.GetString("MallSettings"));
-            _listTitle.Add(Localization.GetString("OtherCombatSettings"));
-            _listTitle.Add(Localization.GetString("ConnectionSettings"));
-            _listTitle.Add(Localization.GetString("StartupSettings"));
-            _listTitle.Add(Localization.GetString("ScheduleSettings"));
-            _listTitle.Add(Localization.GetString("UISettings"));
-            _listTitle.Add(Localization.GetString("HotKeySettings"));
-            _listTitle.Add(Localization.GetString("UpdateSettings"));
-            _listTitle.Add(Localization.GetString("AboutUs"));
+            DisplayName = LocalizationHelper.GetString("Settings");
+            _listTitle.Add(LocalizationHelper.GetString("GameSettings"));
+            _listTitle.Add(LocalizationHelper.GetString("BaseSettings"));
+            _listTitle.Add(LocalizationHelper.GetString("RoguelikeSettings"));
+            _listTitle.Add(LocalizationHelper.GetString("RecruitingSettings"));
+            _listTitle.Add(LocalizationHelper.GetString("MallSettings"));
+            _listTitle.Add(LocalizationHelper.GetString("OtherCombatSettings"));
+            _listTitle.Add(LocalizationHelper.GetString("ConnectionSettings"));
+            _listTitle.Add(LocalizationHelper.GetString("StartupSettings"));
+            _listTitle.Add(LocalizationHelper.GetString("ScheduleSettings"));
+            _listTitle.Add(LocalizationHelper.GetString("UISettings"));
+            _listTitle.Add(LocalizationHelper.GetString("HotKeySettings"));
+            _listTitle.Add(LocalizationHelper.GetString("UpdateSettings"));
+            _listTitle.Add(LocalizationHelper.GetString("AboutUs"));
 
             InfrastInit();
 
@@ -114,8 +113,8 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 Hangover = false;
                 _windowManager.ShowMessageBox(
-                    Localization.GetString("Hangover"),
-                    Localization.GetString("Burping"),
+                    LocalizationHelper.GetString("Hangover"),
+                    LocalizationHelper.GetString("Burping"),
                     MessageBoxButton.OK, MessageBoxImage.Hand);
                 Application.Current.Shutdown();
                 System.Windows.Forms.Application.Restart();
@@ -186,11 +185,11 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (!parsed || order < 0)
                 {
-                    temp_order_list[i] = new DragItemViewModel(Localization.GetString(facility), facility, "Infrast.");
+                    temp_order_list[i] = new DragItemViewModel(LocalizationHelper.GetString(facility), facility, "Infrast.");
                 }
                 else
                 {
-                    temp_order_list[order] = new DragItemViewModel(Localization.GetString(facility), facility, "Infrast.");
+                    temp_order_list[order] = new DragItemViewModel(LocalizationHelper.GetString(facility), facility, "Infrast.");
                 }
             }
 
@@ -198,51 +197,51 @@ namespace MaaWpfGui.ViewModels.UI
 
             DefaultInfrastList = new List<CombinedData>
             {
-                new CombinedData { Display = Localization.GetString("UserDefined"), Value = _userDefined },
-                new CombinedData { Display = Localization.GetString("153_3"), Value = "153_layout_3_times_a_day.json" },
-                new CombinedData { Display = Localization.GetString("243_3"), Value = "243_layout_3_times_a_day.json" },
-                new CombinedData { Display = Localization.GetString("243_4"), Value = "243_layout_4_times_a_day.json" },
-                new CombinedData { Display = Localization.GetString("252_3"), Value = "252_layout_3_times_a_day.json" },
-                new CombinedData { Display = Localization.GetString("333_3"), Value = "333_layout_for_Orundum_3_times_a_day.json" },
+                new CombinedData { Display = LocalizationHelper.GetString("UserDefined"), Value = _userDefined },
+                new CombinedData { Display = LocalizationHelper.GetString("153_3"), Value = "153_layout_3_times_a_day.json" },
+                new CombinedData { Display = LocalizationHelper.GetString("243_3"), Value = "243_layout_3_times_a_day.json" },
+                new CombinedData { Display = LocalizationHelper.GetString("243_4"), Value = "243_layout_4_times_a_day.json" },
+                new CombinedData { Display = LocalizationHelper.GetString("252_3"), Value = "252_layout_3_times_a_day.json" },
+                new CombinedData { Display = LocalizationHelper.GetString("333_3"), Value = "333_layout_for_Orundum_3_times_a_day.json" },
             };
 
             UsesOfDronesList = new List<CombinedData>
             {
-                new CombinedData { Display = Localization.GetString("DronesNotUse"), Value = "_NotUse" },
-                new CombinedData { Display = Localization.GetString("Money"), Value = "Money" },
-                new CombinedData { Display = Localization.GetString("SyntheticJade"), Value = "SyntheticJade" },
-                new CombinedData { Display = Localization.GetString("CombatRecord"), Value = "CombatRecord" },
-                new CombinedData { Display = Localization.GetString("PureGold"), Value = "PureGold" },
-                new CombinedData { Display = Localization.GetString("OriginStone"), Value = "OriginStone" },
-                new CombinedData { Display = Localization.GetString("Chip"), Value = "Chip" },
+                new CombinedData { Display = LocalizationHelper.GetString("DronesNotUse"), Value = "_NotUse" },
+                new CombinedData { Display = LocalizationHelper.GetString("Money"), Value = "Money" },
+                new CombinedData { Display = LocalizationHelper.GetString("SyntheticJade"), Value = "SyntheticJade" },
+                new CombinedData { Display = LocalizationHelper.GetString("CombatRecord"), Value = "CombatRecord" },
+                new CombinedData { Display = LocalizationHelper.GetString("PureGold"), Value = "PureGold" },
+                new CombinedData { Display = LocalizationHelper.GetString("OriginStone"), Value = "OriginStone" },
+                new CombinedData { Display = LocalizationHelper.GetString("Chip"), Value = "Chip" },
             };
 
             ConnectConfigList = new List<CombinedData>
             {
-                new CombinedData { Display = Localization.GetString("General"), Value = "General" },
-                new CombinedData { Display = Localization.GetString("BlueStacks"), Value = "BlueStacks" },
-                new CombinedData { Display = Localization.GetString("MuMuEmulator"), Value = "MuMuEmulator" },
-                new CombinedData { Display = Localization.GetString("LDPlayer"), Value = "LDPlayer" },
-                new CombinedData { Display = Localization.GetString("Nox"), Value = "Nox" },
-                new CombinedData { Display = Localization.GetString("XYAZ"), Value = "XYAZ" },
-                new CombinedData { Display = Localization.GetString("WSA"), Value = "WSA" },
-                new CombinedData { Display = Localization.GetString("Compatible"), Value = "Compatible" },
-                new CombinedData { Display = Localization.GetString("GeneralWithoutScreencapErr"), Value = "GeneralWithoutScreencapErr" },
+                new CombinedData { Display = LocalizationHelper.GetString("General"), Value = "General" },
+                new CombinedData { Display = LocalizationHelper.GetString("BlueStacks"), Value = "BlueStacks" },
+                new CombinedData { Display = LocalizationHelper.GetString("MuMuEmulator"), Value = "MuMuEmulator" },
+                new CombinedData { Display = LocalizationHelper.GetString("LDPlayer"), Value = "LDPlayer" },
+                new CombinedData { Display = LocalizationHelper.GetString("Nox"), Value = "Nox" },
+                new CombinedData { Display = LocalizationHelper.GetString("XYAZ"), Value = "XYAZ" },
+                new CombinedData { Display = LocalizationHelper.GetString("WSA"), Value = "WSA" },
+                new CombinedData { Display = LocalizationHelper.GetString("Compatible"), Value = "Compatible" },
+                new CombinedData { Display = LocalizationHelper.GetString("GeneralWithoutScreencapErr"), Value = "GeneralWithoutScreencapErr" },
             };
 
             TouchModeList = new List<CombinedData>
             {
-                new CombinedData { Display = Localization.GetString("MiniTouchMode"), Value = "minitouch" },
-                new CombinedData { Display = Localization.GetString("MaaTouchMode"), Value = "maatouch" },
-                new CombinedData { Display = Localization.GetString("AdbTouchMode"), Value = "adb" },
+                new CombinedData { Display = LocalizationHelper.GetString("MiniTouchMode"), Value = "minitouch" },
+                new CombinedData { Display = LocalizationHelper.GetString("MaaTouchMode"), Value = "maatouch" },
+                new CombinedData { Display = LocalizationHelper.GetString("AdbTouchMode"), Value = "adb" },
             };
 
-            _dormThresholdLabel = Localization.GetString("DormThreshold") + ": " + _dormThreshold + "%";
+            _dormThresholdLabel = LocalizationHelper.GetString("DormThreshold") + ": " + _dormThreshold + "%";
 
             RoguelikeModeList = new List<CombinedData>
             {
-                new CombinedData { Display = Localization.GetString("RoguelikeStrategyExp"), Value = "0" },
-                new CombinedData { Display = Localization.GetString("RoguelikeStrategyGold"), Value = "1" },
+                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = "0" },
+                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = "1" },
 
                 // new CombData { Display = "两者兼顾，投资过后退出", Value = "2" } // 弃用
                 // new CombData { Display = Localization.GetString("3"), Value = "3" },  // 开发中
@@ -250,48 +249,48 @@ namespace MaaWpfGui.ViewModels.UI
 
             RoguelikeThemeList = new List<CombinedData>
             {
-                new CombinedData { Display = Localization.GetString("RoguelikeThemePhantom"), Value = "Phantom" },
-                new CombinedData { Display = Localization.GetString("RoguelikeThemeMizuki"), Value = "Mizuki" },
+                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeThemePhantom"), Value = "Phantom" },
+                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeThemeMizuki"), Value = "Mizuki" },
             };
 
             UpdateRoguelikeThemeList();
 
             RoguelikeRolesList = new List<CombinedData>
             {
-                new CombinedData { Display = Localization.GetString("DefaultRoles"), Value = string.Empty },
-                new CombinedData { Display = Localization.GetString("FirstMoveAdvantage"), Value = "先手必胜" },
-                new CombinedData { Display = Localization.GetString("SlowAndSteadyWinsTheRace"), Value = "稳扎稳打" },
-                new CombinedData { Display = Localization.GetString("OvercomingYourWeaknesses"), Value = "取长补短" },
-                new CombinedData { Display = Localization.GetString("AsYourHeartDesires"), Value = "随心所欲" },
+                new CombinedData { Display = LocalizationHelper.GetString("DefaultRoles"), Value = string.Empty },
+                new CombinedData { Display = LocalizationHelper.GetString("FirstMoveAdvantage"), Value = "先手必胜" },
+                new CombinedData { Display = LocalizationHelper.GetString("SlowAndSteadyWinsTheRace"), Value = "稳扎稳打" },
+                new CombinedData { Display = LocalizationHelper.GetString("OvercomingYourWeaknesses"), Value = "取长补短" },
+                new CombinedData { Display = LocalizationHelper.GetString("AsYourHeartDesires"), Value = "随心所欲" },
             };
 
             ClientTypeList = new List<CombinedData>
             {
-                new CombinedData { Display = Localization.GetString("NotSelected"), Value = string.Empty },
-                new CombinedData { Display = Localization.GetString("Official"), Value = "Official" },
-                new CombinedData { Display = Localization.GetString("Bilibili"), Value = "Bilibili" },
-                new CombinedData { Display = Localization.GetString("YoStarEN"), Value = "YoStarEN" },
-                new CombinedData { Display = Localization.GetString("YoStarJP"), Value = "YoStarJP" },
-                new CombinedData { Display = Localization.GetString("YoStarKR"), Value = "YoStarKR" },
-                new CombinedData { Display = Localization.GetString("txwy"), Value = "txwy" },
+                new CombinedData { Display = LocalizationHelper.GetString("NotSelected"), Value = string.Empty },
+                new CombinedData { Display = LocalizationHelper.GetString("Official"), Value = "Official" },
+                new CombinedData { Display = LocalizationHelper.GetString("Bilibili"), Value = "Bilibili" },
+                new CombinedData { Display = LocalizationHelper.GetString("YoStarEN"), Value = "YoStarEN" },
+                new CombinedData { Display = LocalizationHelper.GetString("YoStarJP"), Value = "YoStarJP" },
+                new CombinedData { Display = LocalizationHelper.GetString("YoStarKR"), Value = "YoStarKR" },
+                new CombinedData { Display = LocalizationHelper.GetString("txwy"), Value = "txwy" },
             };
 
             InverseClearModeList = new List<CombinedData>
             {
-                new CombinedData { Display = Localization.GetString("Clear"), Value = "Clear" },
-                new CombinedData { Display = Localization.GetString("Inverse"), Value = "Inverse" },
-                new CombinedData { Display = Localization.GetString("Switchable"), Value = "ClearInverse" },
+                new CombinedData { Display = LocalizationHelper.GetString("Clear"), Value = "Clear" },
+                new CombinedData { Display = LocalizationHelper.GetString("Inverse"), Value = "Inverse" },
+                new CombinedData { Display = LocalizationHelper.GetString("Switchable"), Value = "ClearInverse" },
             };
 
             VersionTypeList = new List<GenericCombinedData<UpdateVersionType>>
             {
-                new GenericCombinedData<UpdateVersionType> { Display = Localization.GetString("UpdateCheckNightly"), Value = UpdateVersionType.Nightly },
-                new GenericCombinedData<UpdateVersionType> { Display = Localization.GetString("UpdateCheckBeta"), Value = UpdateVersionType.Beta },
-                new GenericCombinedData<UpdateVersionType> { Display = Localization.GetString("UpdateCheckStable"), Value = UpdateVersionType.Stable },
+                new GenericCombinedData<UpdateVersionType> { Display = LocalizationHelper.GetString("UpdateCheckNightly"), Value = UpdateVersionType.Nightly },
+                new GenericCombinedData<UpdateVersionType> { Display = LocalizationHelper.GetString("UpdateCheckBeta"), Value = UpdateVersionType.Beta },
+                new GenericCombinedData<UpdateVersionType> { Display = LocalizationHelper.GetString("UpdateCheckStable"), Value = UpdateVersionType.Stable },
             };
 
             LanguageList = new List<CombinedData>();
-            foreach (var pair in Localization.SupportedLanguages)
+            foreach (var pair in LocalizationHelper.SupportedLanguages)
             {
                 if (pair.Key == PallasLangKey && !Cheers)
                 {
@@ -598,7 +597,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             var dialog = new Microsoft.Win32.OpenFileDialog
             {
-                Filter = Localization.GetString("Executable") + "|*.exe;*.bat;*.lnk",
+                Filter = LocalizationHelper.GetString("Executable") + "|*.exe;*.bat;*.lnk",
             };
 
             if (dialog.ShowDialog() == true)
@@ -759,7 +758,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _dormThreshold, value);
-                DormThresholdLabel = Localization.GetString("DormThreshold") + ": " + _dormThreshold + "%";
+                DormThresholdLabel = LocalizationHelper.GetString("DormThreshold") + ": " + _dormThreshold + "%";
                 ConfigurationHelper.SetValue(ConfigurationKeys.DormThreshold, value.ToString());
             }
         }
@@ -930,7 +929,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             var dialog = new Microsoft.Win32.OpenFileDialog
             {
-                Filter = Localization.GetString("CustomInfrastFile") + "|*.json",
+                Filter = LocalizationHelper.GetString("CustomInfrastFile") + "|*.json",
             };
 
             if (dialog.ShowDialog() == true)
@@ -1332,7 +1331,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _creditFirstList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditFirstListNew, Localization.GetString("HighPriorityDefault"));
+        private string _creditFirstList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditFirstListNew, LocalizationHelper.GetString("HighPriorityDefault"));
 
         /// <summary>
         /// Gets or sets the priority item list of credit shop.
@@ -1347,7 +1346,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _creditBlackList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditBlackListNew, Localization.GetString("BlacklistDefault"));
+        private string _creditBlackList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditBlackListNew, LocalizationHelper.GetString("BlacklistDefault"));
 
         /// <summary>
         /// Gets or sets the blacklist of credit shop.
@@ -1760,19 +1759,19 @@ namespace MaaWpfGui.ViewModels.UI
                     break;
 
                 case VersionUpdateViewModel.CheckUpdateRetT.AlreadyLatest:
-                    toastMessage = Localization.GetString("AlreadyLatest");
+                    toastMessage = LocalizationHelper.GetString("AlreadyLatest");
                     break;
 
                 case VersionUpdateViewModel.CheckUpdateRetT.UnknownError:
-                    toastMessage = Localization.GetString("NewVersionDetectFailedTitle");
+                    toastMessage = LocalizationHelper.GetString("NewVersionDetectFailedTitle");
                     break;
 
                 case VersionUpdateViewModel.CheckUpdateRetT.NetworkError:
-                    toastMessage = Localization.GetString("CheckNetworking");
+                    toastMessage = LocalizationHelper.GetString("CheckNetworking");
                     break;
 
                 case VersionUpdateViewModel.CheckUpdateRetT.FailedToGetInfo:
-                    toastMessage = Localization.GetString("GetReleaseNoteFailed");
+                    toastMessage = LocalizationHelper.GetString("GetReleaseNoteFailed");
                     break;
 
                 case VersionUpdateViewModel.CheckUpdateRetT.OK:
@@ -1780,7 +1779,7 @@ namespace MaaWpfGui.ViewModels.UI
                     break;
 
                 case VersionUpdateViewModel.CheckUpdateRetT.NewVersionIsBeingBuilt:
-                    toastMessage = Localization.GetString("NewVersionIsBeingBuilt");
+                    toastMessage = LocalizationHelper.GetString("NewVersionIsBeingBuilt");
                     break;
             }
 
@@ -1981,18 +1980,18 @@ namespace MaaWpfGui.ViewModels.UI
             }
             catch (Exception)
             {
-                error = Localization.GetString("EmulatorException");
+                error = LocalizationHelper.GetString("EmulatorException");
                 return false;
             }
 
             if (emulators.Count == 0)
             {
-                error = Localization.GetString("EmulatorNotFound");
+                error = LocalizationHelper.GetString("EmulatorNotFound");
                 return false;
             }
             else if (emulators.Count > 1)
             {
-                error = Localization.GetString("EmulatorTooMany");
+                error = LocalizationHelper.GetString("EmulatorTooMany");
                 return false;
             }
 
@@ -2000,7 +1999,7 @@ namespace MaaWpfGui.ViewModels.UI
             AdbPath = adapter.GetAdbPathByEmulatorName(ConnectConfig) ?? AdbPath;
             if (string.IsNullOrEmpty(AdbPath))
             {
-                error = Localization.GetString("AdbException");
+                error = LocalizationHelper.GetString("AdbException");
                 return false;
             }
 
@@ -2043,7 +2042,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             var dialog = new Microsoft.Win32.OpenFileDialog
             {
-                Filter = Localization.GetString("ADBProgram") + "|*.exe",
+                Filter = LocalizationHelper.GetString("ADBProgram") + "|*.exe",
             };
 
             if (dialog.ShowDialog() == true)
@@ -2140,7 +2139,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 Execute.OnUIThread(() =>
                 {
-                    using var toast = new ToastNotification(Localization.GetString("ReplaceADBNotExists"));
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("ReplaceADBNotExists"));
                     toast.Show();
                 });
                 return;
@@ -2157,8 +2156,8 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     Execute.OnUIThread(() =>
                     {
-                        using var toast = new ToastNotification(Localization.GetString("AdbDownloadFailedTitle"));
-                        toast.AppendContentText(Localization.GetString("AdbDownloadFailedDesc")).Show();
+                        using var toast = new ToastNotification(LocalizationHelper.GetString("AdbDownloadFailedTitle"));
+                        toast.AppendContentText(LocalizationHelper.GetString("AdbDownloadFailedDesc")).Show();
                     });
                     return;
                 }
@@ -2190,7 +2189,7 @@ namespace MaaWpfGui.ViewModels.UI
             ConfigurationHelper.SetValue(ConfigurationKeys.AdbReplaced, true.ToString());
             Execute.OnUIThread(() =>
             {
-                using var toast = new ToastNotification(Localization.GetString("SuccessfullyReplacedADB"));
+                using var toast = new ToastNotification(LocalizationHelper.GetString("SuccessfullyReplacedADB"));
                 toast.Show();
             });
         }
@@ -2254,16 +2253,16 @@ namespace MaaWpfGui.ViewModels.UI
                 ConfigurationHelper.SetValue(ConfigurationKeys.SetColors, value.ToString());
 
                 MessageBoxHelper.Unregister();
-                MessageBoxHelper.Yes = Localization.GetString("Ok");
-                MessageBoxHelper.No = Localization.GetString("ManualRestart");
+                MessageBoxHelper.Yes = LocalizationHelper.GetString("Ok");
+                MessageBoxHelper.No = LocalizationHelper.GetString("ManualRestart");
                 MessageBoxHelper.Register();
                 Window mainWindow = Application.Current.MainWindow;
                 mainWindow!.Show();
                 mainWindow.WindowState = mainWindow.WindowState = WindowState.Normal;
                 mainWindow.Activate();
                 var result = MessageBox.Show(
-                    Localization.GetString("DarkModeSetColorsTip"),
-                    Localization.GetString("Tip"),
+                    LocalizationHelper.GetString("DarkModeSetColorsTip"),
+                    LocalizationHelper.GetString("Tip"),
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Question);
                 MessageBoxHelper.Unregister();
@@ -2485,7 +2484,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _soberLanguage = ConfigurationHelper.GetValue("GUI.SoberLanguage", Localization.DefaultLanguage);
+        private string _soberLanguage = ConfigurationHelper.GetValue("GUI.SoberLanguage", LocalizationHelper.DefaultLanguage);
 
         public string SoberLanguage
         {
@@ -2497,7 +2496,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _language = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, Localization.DefaultLanguage);
+        private string _language = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
 
         /// <summary>
         /// Gets or sets the language.
@@ -2527,7 +2526,7 @@ namespace MaaWpfGui.ViewModels.UI
                 ConfigurationHelper.SetValue(ConfigurationKeys.Localization, value);
 
                 string FormatText(string text, string key)
-                    => string.Format(text, Localization.GetString(key, value), Localization.GetString(key, _language));
+                    => string.Format(text, LocalizationHelper.GetString(key, value), LocalizationHelper.GetString(key, _language));
                 MessageBoxHelper.Unregister();
                 MessageBoxHelper.Yes = FormatText("{0}({1})", "Ok");
                 MessageBoxHelper.No = FormatText("{0}({1})", "ManualRestart");
@@ -2594,8 +2593,8 @@ namespace MaaWpfGui.ViewModels.UI
         {
             ConfigurationHelper.SetValue(ConfigurationKeys.Localization, PallasLangKey);
             var result = _windowManager.ShowMessageBox(
-                Localization.GetString("DrunkAndStaggering"),
-                Localization.GetString("Burping"),
+                LocalizationHelper.GetString("DrunkAndStaggering"),
+                LocalizationHelper.GetString("Burping"),
                 MessageBoxButton.OK, MessageBoxImage.Asterisk);
             if (result == MessageBoxResult.OK)
             {
@@ -2658,7 +2657,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             RoguelikeSquadList = new ObservableCollection<CombinedData>
             {
-                new CombinedData { Display = Localization.GetString("DefaultSquad"), Value = string.Empty },
+                new CombinedData { Display = LocalizationHelper.GetString("DefaultSquad"), Value = string.Empty },
             };
 
             switch (RoguelikeTheme)
@@ -2670,9 +2669,9 @@ namespace MaaWpfGui.ViewModels.UI
                 case "Mizuki":
                     foreach (var item in new ObservableCollection<CombinedData>
                     {
-                        new CombinedData { Display = Localization.GetString("IS2NewSquad1"), Value = "心胜于物分队" },
-                        new CombinedData { Display = Localization.GetString("IS2NewSquad2"), Value = "物尽其用分队" },
-                        new CombinedData { Display = Localization.GetString("IS2NewSquad3"), Value = "以人为本分队" },
+                        new CombinedData { Display = LocalizationHelper.GetString("IS2NewSquad1"), Value = "心胜于物分队" },
+                        new CombinedData { Display = LocalizationHelper.GetString("IS2NewSquad2"), Value = "物尽其用分队" },
+                        new CombinedData { Display = LocalizationHelper.GetString("IS2NewSquad3"), Value = "以人为本分队" },
                     })
                     {
                         RoguelikeSquadList.Add(item);
@@ -2684,16 +2683,16 @@ namespace MaaWpfGui.ViewModels.UI
             // 通用分队
             foreach (var item in new ObservableCollection<CombinedData>
             {
-                new CombinedData { Display = Localization.GetString("LeaderSquad"), Value = "指挥分队" },
-                new CombinedData { Display = Localization.GetString("GatheringSquad"), Value = "集群分队" },
-                new CombinedData { Display = Localization.GetString("SupportSquad"), Value = "后勤分队" },
-                new CombinedData { Display = Localization.GetString("SpearheadSquad"), Value = "矛头分队" },
-                new CombinedData { Display = Localization.GetString("TacticalAssaultOperative"), Value = "突击战术分队" },
-                new CombinedData { Display = Localization.GetString("TacticalFortificationOperative"), Value = "堡垒战术分队" },
-                new CombinedData { Display = Localization.GetString("TacticalRangedOperative"), Value = "远程战术分队" },
-                new CombinedData { Display = Localization.GetString("TacticalDestructionOperative"), Value = "破坏战术分队" },
-                new CombinedData { Display = Localization.GetString("ResearchSquad"), Value = "研究分队" },
-                new CombinedData { Display = Localization.GetString("First-ClassSquad"), Value = "高规格分队" },
+                new CombinedData { Display = LocalizationHelper.GetString("LeaderSquad"), Value = "指挥分队" },
+                new CombinedData { Display = LocalizationHelper.GetString("GatheringSquad"), Value = "集群分队" },
+                new CombinedData { Display = LocalizationHelper.GetString("SupportSquad"), Value = "后勤分队" },
+                new CombinedData { Display = LocalizationHelper.GetString("SpearheadSquad"), Value = "矛头分队" },
+                new CombinedData { Display = LocalizationHelper.GetString("TacticalAssaultOperative"), Value = "突击战术分队" },
+                new CombinedData { Display = LocalizationHelper.GetString("TacticalFortificationOperative"), Value = "堡垒战术分队" },
+                new CombinedData { Display = LocalizationHelper.GetString("TacticalRangedOperative"), Value = "远程战术分队" },
+                new CombinedData { Display = LocalizationHelper.GetString("TacticalDestructionOperative"), Value = "破坏战术分队" },
+                new CombinedData { Display = LocalizationHelper.GetString("ResearchSquad"), Value = "研究分队" },
+                new CombinedData { Display = LocalizationHelper.GetString("First-ClassSquad"), Value = "高规格分队" },
             })
             {
                 RoguelikeSquadList.Add(item);

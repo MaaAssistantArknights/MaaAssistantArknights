@@ -18,7 +18,6 @@ using MaaWpfGui.Services.Managers;
 using MaaWpfGui.ViewModels;
 using MaaWpfGui.ViewModels.UI;
 using StyletIoC;
-using Localization = MaaWpfGui.Helper.Localization;
 
 namespace MaaWpfGui.Services.HotKeys
 {
@@ -72,7 +71,7 @@ namespace MaaWpfGui.Services.HotKeys
                     return;
                 }
 
-                using var toast = new ToastNotification(Localization.GetString("BackgroundLinkStarted"));
+                using var toast = new ToastNotification(LocalizationHelper.GetString("BackgroundLinkStarted"));
                 toast.Show();
             }
             else
@@ -85,7 +84,7 @@ namespace MaaWpfGui.Services.HotKeys
                     return;
                 }
 
-                using var toast = new ToastNotification(Localization.GetString("BackgroundLinkStopped"));
+                using var toast = new ToastNotification(LocalizationHelper.GetString("BackgroundLinkStopped"));
                 toast.Show();
             }
         }

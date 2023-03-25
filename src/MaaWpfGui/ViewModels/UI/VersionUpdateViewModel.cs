@@ -31,7 +31,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
 using StyletIoC;
-using Localization = MaaWpfGui.Helper.Localization;
 
 namespace MaaWpfGui.ViewModels.UI
 {
@@ -190,8 +189,8 @@ namespace MaaWpfGui.ViewModels.UI
 
             Execute.OnUIThread(() =>
             {
-                using var toast = new ToastNotification(Localization.GetString("NewVersionZipFileFoundTitle"));
-                toast.AppendContentText(Localization.GetString("NewVersionZipFileFoundDescDecompressing"))
+                using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionZipFileFoundTitle"));
+                toast.AppendContentText(LocalizationHelper.GetString("NewVersionZipFileFoundDescDecompressing"))
                      .AppendContentText(UpdateTag)
                      .ShowUpdateVersion(row: 2);
             });
@@ -215,9 +214,9 @@ namespace MaaWpfGui.ViewModels.UI
                 File.Delete(UpdatePackageName);
                 Execute.OnUIThread(() =>
                 {
-                    using var toast = new ToastNotification(Localization.GetString("NewVersionZipFileBrokenTitle"));
-                    toast.AppendContentText(Localization.GetString("NewVersionZipFileBrokenDescFilename") + UpdatePackageName)
-                         .AppendContentText(Localization.GetString("NewVersionZipFileBrokenDescDeleted"))
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionZipFileBrokenTitle"));
+                    toast.AppendContentText(LocalizationHelper.GetString("NewVersionZipFileBrokenDescFilename") + UpdatePackageName)
+                         .AppendContentText(LocalizationHelper.GetString("NewVersionZipFileBrokenDescDeleted"))
                          .ShowUpdateVersion();
                 });
                 return false;
@@ -411,7 +410,7 @@ namespace MaaWpfGui.ViewModels.UI
                 bool goDownload = otaFound && _settingsViewModel.AutoDownloadUpdatePackage;
 #pragma warning disable IDE0042
                 var openUrlToastButton = (
-                    text: Localization.GetString("NewVersionFoundButtonGoWebpage"),
+                    text: LocalizationHelper.GetString("NewVersionFoundButtonGoWebpage"),
                     action: new Action(() =>
                     {
                         if (!string.IsNullOrWhiteSpace(UpdateUrl))
@@ -423,25 +422,25 @@ namespace MaaWpfGui.ViewModels.UI
                 Execute.OnUIThread(() =>
                 {
                     using var toast = new ToastNotification(otaFound ?
-                        Localization.GetString("NewVersionFoundTitle") :
-                        Localization.GetString("NewVersionFoundButNoPackageTitle"));
+                        LocalizationHelper.GetString("NewVersionFoundTitle") :
+                        LocalizationHelper.GetString("NewVersionFoundButNoPackageTitle"));
                     if (goDownload)
                     {
-                        OutputDownloadProgress(downloading: false, output: Localization.GetString("NewVersionDownloadPreparing"));
-                        toast.AppendContentText(Localization.GetString("NewVersionFoundDescDownloading"));
+                        OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadPreparing"));
+                        toast.AppendContentText(LocalizationHelper.GetString("NewVersionFoundDescDownloading"));
                     }
 
-                    toast.AppendContentText(Localization.GetString("NewVersionFoundDescId") + UpdateTag);
+                    toast.AppendContentText(LocalizationHelper.GetString("NewVersionFoundDescId") + UpdateTag);
 
                     if (!otaFound)
                     {
-                        toast.AppendContentText(Localization.GetString("NewVersionFoundButNoPackageDesc"));
+                        toast.AppendContentText(LocalizationHelper.GetString("NewVersionFoundButNoPackageDesc"));
                     }
 
                     var toastDesc = UpdateInfo.Length > 100 ?
                         UpdateInfo.Substring(0, 100) + "..." :
                         UpdateInfo;
-                    toast.AppendContentText(Localization.GetString("NewVersionFoundDescInfo") + toastDesc);
+                    toast.AppendContentText(LocalizationHelper.GetString("NewVersionFoundDescInfo") + toastDesc);
                     toast.AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action);
                     toast.ButtonSystemUrl = UpdateUrl;
                     toast.ShowUpdateVersion();
@@ -481,7 +480,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                         if (DownloadGithubAssets(url, _assetsObject, Downloader.Native))
                         {
-                            OutputDownloadProgress(downloading: false, output: Localization.GetString("NewVersionDownloadCompletedTitle"));
+                            OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"));
                             downloaded = true;
                             break;
                         }
@@ -490,12 +489,12 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (!downloaded)
                 {
-                    OutputDownloadProgress(downloading: false, output: Localization.GetString("NewVersionDownloadFailedTitle"));
+                    OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
                     Execute.OnUIThread(() =>
                     {
-                        using var toast = new ToastNotification(Localization.GetString("NewVersionDownloadFailedTitle"));
+                        using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
                         toast.ButtonSystemUrl = UpdateUrl;
-                        toast.AppendContentText(Localization.GetString("NewVersionDownloadFailedDesc"))
+                        toast.AppendContentText(LocalizationHelper.GetString("NewVersionDownloadFailedDesc"))
                                 .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
                                 .Show();
                     });
@@ -512,12 +511,12 @@ namespace MaaWpfGui.ViewModels.UI
         public void AskToRestart()
         {
             MessageBoxHelper.Unregister();
-            MessageBoxHelper.Yes = Localization.GetString("Ok");
-            MessageBoxHelper.No = Localization.GetString("ManualRestart");
+            MessageBoxHelper.Yes = LocalizationHelper.GetString("Ok");
+            MessageBoxHelper.No = LocalizationHelper.GetString("ManualRestart");
             MessageBoxHelper.Register();
             var result = MessageBox.Show(
-                Localization.GetString("NewVersionDownloadCompletedDesc"),
-                Localization.GetString("NewVersionDownloadCompletedTitle"),
+                LocalizationHelper.GetString("NewVersionDownloadCompletedDesc"),
+                LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"),
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question);
             MessageBoxHelper.Unregister();
@@ -884,7 +883,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            var log = new LogItemViewModel(downloading ? Localization.GetString("NewVersionFoundDescDownloading") + "\n" + output : output, UiLogColor.Download);
+            var log = new LogItemViewModel(downloading ? LocalizationHelper.GetString("NewVersionFoundDescDownloading") + "\n" + output : output, UiLogColor.Download);
 
             Application.Current.Dispatcher.Invoke(() =>
             {

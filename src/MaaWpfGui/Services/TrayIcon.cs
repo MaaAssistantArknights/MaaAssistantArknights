@@ -50,14 +50,14 @@ namespace MaaWpfGui.Services
             _notifyIcon.MouseClick += NotifyIcon_MouseClick;
             _notifyIcon.MouseDoubleClick += OnNotifyIconDoubleClick;
 
-            MenuItem startMenu = new MenuItem(Localization.GetString("Farming"));
+            MenuItem startMenu = new MenuItem(LocalizationHelper.GetString("Farming"));
             startMenu.Click += StartTask;
-            MenuItem stopMenu = new MenuItem(Localization.GetString("Stop"));
+            MenuItem stopMenu = new MenuItem(LocalizationHelper.GetString("Stop"));
             stopMenu.Click += StopTask;
 
-            MenuItem switchLangMenu = new MenuItem(Localization.GetString("SwitchLanguage"));
+            MenuItem switchLangMenu = new MenuItem(LocalizationHelper.GetString("SwitchLanguage"));
 
-            foreach (var lang in Localization.SupportedLanguages)
+            foreach (var lang in LocalizationHelper.SupportedLanguages)
             {
                 if (lang.Key == SettingsViewModel.PallasLangKey)
                 {
@@ -72,7 +72,7 @@ namespace MaaWpfGui.Services
                 switchLangMenu.MenuItems.Add(langMenu);
             }
 
-            MenuItem exitMenu = new MenuItem(Localization.GetString("Exit"));
+            MenuItem exitMenu = new MenuItem(LocalizationHelper.GetString("Exit"));
             exitMenu.Click += App_exit;
             MenuItem[] menuItems = new MenuItem[] { startMenu, stopMenu, switchLangMenu, exitMenu };
             this._notifyIcon.ContextMenu = new ContextMenu(menuItems);
