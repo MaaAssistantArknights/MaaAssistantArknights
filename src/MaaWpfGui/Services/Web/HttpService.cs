@@ -29,13 +29,14 @@ namespace MaaWpfGui.Services.Web
 {
     public class HttpService : IHttpService
     {
-        public const string UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 Edg/97.0.1072.76";
+        private const string UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 Edg/97.0.1072.76";
 
         private static string Proxy => ConfigurationHelper.GetValue(ConfigurationKeys.UpdateProxy, string.Empty);
 
         private readonly ILogger _logger = Log.ForContext<HttpService>();
 
         private HttpClient _client;
+        private HttpClient _downloader;
 
         public HttpService()
         {
@@ -46,13 +47,17 @@ namespace MaaWpfGui.Services.Web
                     return;
                 }
 
-                if (old != value)
+                if (old == value)
                 {
-                    BuildHttpClient();
+                    return;
                 }
+
+                BuildDefaultHttpClient();
+                BuildDownloaderHttpClient();
             };
 
-            BuildHttpClient();
+            BuildDefaultHttpClient();
+            BuildDownloaderHttpClient();
         }
 
         public async Task<string> GetStringAsync(Uri uri, Dictionary<string, string> extraHeader = null)
@@ -199,7 +204,7 @@ namespace MaaWpfGui.Services.Web
             return success;
         }
 
-        private void BuildHttpClient()
+        private void BuildDefaultHttpClient()
         {
             var proxyIsUri = Uri.TryCreate(Proxy, UriKind.RelativeOrAbsolute, out var uri);
             proxyIsUri = proxyIsUri && (!string.IsNullOrEmpty(Proxy));
@@ -207,12 +212,12 @@ namespace MaaWpfGui.Services.Web
             {
                 if (!(_client is null))
                 {
-                    _logger.Information("Proxy is not a valid URI, and HttpClient is not null, keep using the original HttpClient");
+                    _logger.Information("Proxy is not a valid URI, and Default HttpClient is not null, keep using the original HttpClient");
                     return;
                 }
             }
 
-            _logger.Information("Rebuild HttpClient with proxy {Proxy}", Proxy);
+            _logger.Information("Rebuild Default HttpClient with proxy {Proxy}", Proxy);
             var handler = new HttpClientHandler { AllowAutoRedirect = true, };
 
             if (proxyIsUri)
@@ -224,6 +229,35 @@ namespace MaaWpfGui.Services.Web
             _client?.Dispose();
             _client = new HttpClient(handler);
             _client.DefaultRequestHeaders.Add("User-Agent", UserAgent);
+            _client.Timeout = TimeSpan.FromSeconds(15);
+        }
+
+        private void BuildDownloaderHttpClient()
+        {
+            var proxyIsUri = Uri.TryCreate(Proxy, UriKind.RelativeOrAbsolute, out var uri);
+            proxyIsUri = proxyIsUri && (!string.IsNullOrEmpty(Proxy));
+            if (proxyIsUri is false)
+            {
+                if (!(_downloader is null))
+                {
+                    _logger.Information("Proxy is not a valid URI, and Downloader HttpClient is not null, keep using the original HttpClient");
+                    return;
+                }
+            }
+
+            _logger.Information("Rebuild Downloader HttpClient with proxy {Proxy}", Proxy);
+            var handler = new HttpClientHandler { AllowAutoRedirect = true, };
+
+            if (proxyIsUri)
+            {
+                handler.Proxy = new WebProxy(uri);
+                handler.UseProxy = true;
+            }
+
+            _downloader?.Dispose();
+            _downloader = new HttpClient(handler);
+            _downloader.DefaultRequestHeaders.Add("User-Agent", UserAgent);
+            _downloader.Timeout = TimeSpan.FromMinutes(3);
         }
     }
 }
