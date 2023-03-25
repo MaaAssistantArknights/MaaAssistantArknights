@@ -35,7 +35,6 @@ using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using StyletIoC;
-using Localization = MaaWpfGui.Helper.Localization;
 
 namespace MaaWpfGui.ViewModels.UI
 {
@@ -137,7 +136,7 @@ namespace MaaWpfGui.ViewModels.UI
             _stageManager = _container.Get<StageManager>();
             _maaHotKeyManager = _container.Get<IMaaHotKeyManager>();
 
-            DisplayName = Localization.GetString("Farming");
+            DisplayName = LocalizationHelper.GetString("Farming");
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
             InitializeItems();
             InitTimer();
@@ -245,20 +244,20 @@ namespace MaaWpfGui.ViewModels.UI
             };
             ActionAfterCompletedList = new List<GenericCombinedData<ActionType>>
             {
-                new GenericCombinedData<ActionType> { Display = Localization.GetString("DoNothing"), Value = ActionType.DoNothing },
-                new GenericCombinedData<ActionType> { Display = Localization.GetString("ExitArknights"), Value = ActionType.StopGame },
-                new GenericCombinedData<ActionType> { Display = Localization.GetString("ExitEmulator"), Value = ActionType.ExitEmulator },
-                new GenericCombinedData<ActionType> { Display = Localization.GetString("ExitSelf"), Value = ActionType.ExitSelf },
-                new GenericCombinedData<ActionType> { Display = Localization.GetString("ExitEmulatorAndSelf"), Value = ActionType.ExitEmulatorAndSelf },
+                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("DoNothing"), Value = ActionType.DoNothing },
+                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitArknights"), Value = ActionType.StopGame },
+                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitEmulator"), Value = ActionType.ExitEmulator },
+                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitSelf"), Value = ActionType.ExitSelf },
+                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitEmulatorAndSelf"), Value = ActionType.ExitEmulatorAndSelf },
 
                 // new GenericCombData<ActionTypeAfterCompleted>{ Display="待机",Value=ActionTypeAfterCompleted.Suspend },
-                new GenericCombinedData<ActionType> { Display = Localization.GetString("ExitEmulatorAndSelfAndHibernate"), Value = ActionType.ExitEmulatorAndSelfAndHibernate },
-                new GenericCombinedData<ActionType> { Display = Localization.GetString("Hibernate"), Value = ActionType.Hibernate },
-                new GenericCombinedData<ActionType> { Display = Localization.GetString("Shutdown"), Value = ActionType.Shutdown },
+                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitEmulatorAndSelfAndHibernate"), Value = ActionType.ExitEmulatorAndSelfAndHibernate },
+                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("Hibernate"), Value = ActionType.Hibernate },
+                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("Shutdown"), Value = ActionType.Shutdown },
 
                 // new GenericCombData<ActionType> { Display = Localization.GetString("ExitEmulatorAndSelfAndHibernate") + "*", Value = ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist },
-                new GenericCombinedData<ActionType> { Display = Localization.GetString("Hibernate") + "*", Value = ActionType.HibernateWithoutPersist },
-                new GenericCombinedData<ActionType> { Display = Localization.GetString("Shutdown") + "*", Value = ActionType.ShutdownWithoutPersist },
+                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("Hibernate") + "*", Value = ActionType.HibernateWithoutPersist },
+                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("Shutdown") + "*", Value = ActionType.ShutdownWithoutPersist },
             };
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[task_list.Length]);
             var non_order_list = new List<DragItemViewModel>();
@@ -267,7 +266,7 @@ namespace MaaWpfGui.ViewModels.UI
                 var task = task_list[i];
                 bool parsed = int.TryParse(ConfigurationHelper.GetTaskOrder(task, "-1"), out var order);
 
-                var vm = new DragItemViewModel(Localization.GetString(task), task, "TaskQueue.");
+                var vm = new DragItemViewModel(LocalizationHelper.GetString(task), task, "TaskQueue.");
 
                 if (!parsed || order < 0 || order >= temp_order_list.Count)
                 {
@@ -295,7 +294,7 @@ namespace MaaWpfGui.ViewModels.UI
             RemainingSanityStageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList())
             {
                 // It's Cur/Last option
-                [0] = new CombinedData { Display = Localization.GetString("NoUse"), Value = string.Empty },
+                [0] = new CombinedData { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty },
             };
 
             InitDrops();
@@ -365,7 +364,7 @@ namespace MaaWpfGui.ViewModels.UI
             var rss = RemainingSanityStage ??= string.Empty;
             RemainingSanityStageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList())
             {
-                [0] = new CombinedData { Display = Localization.GetString("NoUse"), Value = string.Empty },
+                [0] = new CombinedData { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty },
             };
             if (!CustomStageCode)
             {
@@ -420,7 +419,7 @@ namespace MaaWpfGui.ViewModels.UI
         // 这个函数被列为public可见，意味着他注入对象前被调用
         public void UpdateDatePrompt()
         {
-            var builder = new StringBuilder(Localization.GetString("TodaysStageTip") + "\n");
+            var builder = new StringBuilder(LocalizationHelper.GetString("TodaysStageTip") + "\n");
 
             // Closed activity stages
             var stages = new[] { Stage1, Stage2, Stage3 };
@@ -433,7 +432,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (_stageManager.GetStageInfo(stage)?.IsActivityClosed() == true)
                 {
-                    builder.Append(stage).Append(": ").AppendLine(Localization.GetString("ClosedStage"));
+                    builder.Append(stage).Append(": ").AppendLine(LocalizationHelper.GetString("ClosedStage"));
                     break;
                 }
             }
@@ -517,8 +516,8 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _inverseMode, value);
-                InverseShowText = value ? Localization.GetString("Inverse") : Localization.GetString("Clear");
-                InverseMenuText = value ? Localization.GetString("Clear") : Localization.GetString("Inverse");
+                InverseShowText = value ? LocalizationHelper.GetString("Inverse") : LocalizationHelper.GetString("Clear");
+                InverseMenuText = value ? LocalizationHelper.GetString("Clear") : LocalizationHelper.GetString("Inverse");
                 ConfigurationHelper.SetValue(ConfigurationKeys.MainFunctionInverseMode, value.ToString());
             }
         }
@@ -562,7 +561,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _showInverse, value);
         }
 
-        private string _inverseShowText = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, bool.FalseString)) ? Localization.GetString("Inverse") : Localization.GetString("Clear");
+        private string _inverseShowText = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, bool.FalseString)) ? LocalizationHelper.GetString("Inverse") : LocalizationHelper.GetString("Clear");
 
         /// <summary>
         /// Gets or sets the text to be displayed for "Select inversely".
@@ -573,7 +572,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _inverseShowText, value);
         }
 
-        private string _inverseMenuText = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, bool.FalseString)) ? Localization.GetString("Clear") : Localization.GetString("Inverse");
+        private string _inverseMenuText = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, bool.FalseString)) ? LocalizationHelper.GetString("Clear") : LocalizationHelper.GetString("Inverse");
 
         /// <summary>
         /// Gets or sets the text of inversion menu.
@@ -702,7 +701,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (count == 0)
             {
-                AddLog(Localization.GetString("UnselectedTask"));
+                AddLog(LocalizationHelper.GetString("UnselectedTask"));
                 Idle = true;
                 SetStopped();
                 return;
@@ -715,7 +714,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            AddLog(Localization.GetString("ConnectingToEmulator"));
+            AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
 
             string errMsg = string.Empty;
             var task = Task.Run(() =>
@@ -734,7 +733,7 @@ namespace MaaWpfGui.ViewModels.UI
             if (!caught)
             {
                 AddLog(errMsg, UiLogColor.Error);
-                AddLog(Localization.GetString("ConnectFailed") + "\n" + Localization.GetString("TryToStartEmulator"));
+                AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToStartEmulator"));
                 var subtask = Task.Run(() =>
                 {
                     _settingsViewModel.TryToStartEmulator(true);
@@ -772,15 +771,15 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (ret)
             {
-                AddLog(Localization.GetString("Running"));
+                AddLog(LocalizationHelper.GetString("Running"));
                 if (!_settingsViewModel.AdbReplaced && !_settingsViewModel.IsAdbTouchMode())
                 {
-                    AddLog(Localization.GetString("AdbReplacementTips"), UiLogColor.Info);
+                    AddLog(LocalizationHelper.GetString("AdbReplacementTips"), UiLogColor.Info);
                 }
             }
             else
             {
-                AddLog(Localization.GetString("UnknownErrorOccurs"));
+                AddLog(LocalizationHelper.GetString("UnknownErrorOccurs"));
             }
         }
 
@@ -790,7 +789,7 @@ namespace MaaWpfGui.ViewModels.UI
         public async void Stop()
         {
             Stopping = true;
-            AddLog(Localization.GetString("Stopping"));
+            AddLog(LocalizationHelper.GetString("Stopping"));
             var task = Task.Run(_asstProxy.AsstStop);
             await task;
         }
@@ -799,7 +798,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             if (!Idle || Stopping)
             {
-                AddLog(Localization.GetString("Stopped"));
+                AddLog(LocalizationHelper.GetString("Stopped"));
             }
 
             Stopping = false;
@@ -937,7 +936,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             if (_settingsViewModel.CustomInfrastEnabled && !File.Exists(_settingsViewModel.CustomInfrastFile))
             {
-                AddLog(Localization.GetString("CustomizeInfrastSelectionEmpty"), UiLogColor.Error);
+                AddLog(LocalizationHelper.GetString("CustomizeInfrastSelectionEmpty"), UiLogColor.Error);
                 return false;
             }
 
@@ -1405,7 +1404,7 @@ namespace MaaWpfGui.ViewModels.UI
                 case ActionType.StopGame:
                     if (!_asstProxy.AsstStartCloseDown())
                     {
-                        AddLog(Localization.GetString("CloseArknightsFailed"), UiLogColor.Error);
+                        AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
                     }
 
                     break;
@@ -1420,7 +1419,7 @@ namespace MaaWpfGui.ViewModels.UI
                 case ActionType.ExitEmulator:
                     if (!KillEmulatorModeSwitcher())
                     {
-                        AddLog(Localization.GetString("ExitEmulatorFailed"), UiLogColor.Error);
+                        AddLog(LocalizationHelper.GetString("ExitEmulatorFailed"), UiLogColor.Error);
                     }
 
                     break;
@@ -1428,7 +1427,7 @@ namespace MaaWpfGui.ViewModels.UI
                 case ActionType.ExitEmulatorAndSelf:
                     if (!KillEmulatorModeSwitcher())
                     {
-                        AddLog(Localization.GetString("ExitEmulatorFailed"), UiLogColor.Error);
+                        AddLog(LocalizationHelper.GetString("ExitEmulatorFailed"), UiLogColor.Error);
                     }
 
                     // Shutdown 会调用 OnExit 但 Exit 不会
@@ -1442,7 +1441,7 @@ namespace MaaWpfGui.ViewModels.UI
                     Process.Start("shutdown.exe", "-s -t 60");
 
                     // 关机询问
-                    var shutdownResult = _windowManager.ShowMessageBox(Localization.GetString("AboutToShutdown"), Localization.GetString("ShutdownPrompt"), MessageBoxButton.OK, MessageBoxImage.Question);
+                    var shutdownResult = _windowManager.ShowMessageBox(LocalizationHelper.GetString("AboutToShutdown"), LocalizationHelper.GetString("ShutdownPrompt"), MessageBoxButton.OK, MessageBoxImage.Question);
                     if (shutdownResult == MessageBoxResult.OK)
                     {
                         Process.Start("shutdown.exe", "-a");
@@ -1459,7 +1458,7 @@ namespace MaaWpfGui.ViewModels.UI
                 case ActionType.Hibernate:
                 case ActionType.HibernateWithoutPersist:
                     // 休眠提示
-                    AddLog(Localization.GetString("HibernatePrompt"), UiLogColor.Error);
+                    AddLog(LocalizationHelper.GetString("HibernatePrompt"), UiLogColor.Error);
 
                     // 休眠不能加时间参数，https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/1133
                     Process.Start("shutdown.exe", "-h");
@@ -1469,11 +1468,11 @@ namespace MaaWpfGui.ViewModels.UI
                 case ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist:
                     if (!KillEmulatorModeSwitcher())
                     {
-                        AddLog(Localization.GetString("ExitEmulatorFailed"), UiLogColor.Error);
+                        AddLog(LocalizationHelper.GetString("ExitEmulatorFailed"), UiLogColor.Error);
                     }
 
                     // 休眠提示
-                    AddLog(Localization.GetString("HibernatePrompt"), UiLogColor.Error);
+                    AddLog(LocalizationHelper.GetString("HibernatePrompt"), UiLogColor.Error);
 
                     // 休眠不能加时间参数，https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/1133
                     Process.Start("shutdown.exe", "-h");
@@ -1908,7 +1907,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (_customInfrastInfoOutput && root.ContainsKey("title"))
                 {
-                    AddLog(Localization.GetString("CustomInfrastTitle"), UiLogColor.Message);
+                    AddLog(LocalizationHelper.GetString("CustomInfrastTitle"), UiLogColor.Message);
                     AddLog(root["title"].ToString(), UiLogColor.Info);
                     if (root.ContainsKey("description"))
                     {
@@ -1986,7 +1985,7 @@ namespace MaaWpfGui.ViewModels.UI
             catch (Exception)
             {
                 _customInfrastInfoOutput = true;
-                AddLog(Localization.GetString("CustomInfrastFileParseFailed"), UiLogColor.Error);
+                AddLog(LocalizationHelper.GetString("CustomInfrastFileParseFailed"), UiLogColor.Error);
                 return;
             }
 
@@ -2024,7 +2023,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            AddLog(Localization.GetString("CustomInfrastPlanIndexAutoSwitch"), UiLogColor.Message);
+            AddLog(LocalizationHelper.GetString("CustomInfrastPlanIndexAutoSwitch"), UiLogColor.Message);
             var prePlanPostDesc = CustomInfrastPlanInfoList[CustomInfrastPlanIndex].DescriptionPost;
             if (prePlanPostDesc != string.Empty)
             {
@@ -2263,7 +2262,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _dropsItemName = ConfigurationHelper.GetValue(ConfigurationKeys.DropsItemName, Localization.GetString("NotSelected"));
+        private string _dropsItemName = ConfigurationHelper.GetValue(ConfigurationKeys.DropsItemName, LocalizationHelper.GetString("NotSelected"));
 
         /// <summary>
         /// Gets or sets the item Name of drops.
@@ -2289,14 +2288,14 @@ namespace MaaWpfGui.ViewModels.UI
 
                     if (DropsItemName != item.Display || DropsItemId != item.Value)
                     {
-                        DropsItemName = Localization.GetString("NotSelected");
+                        DropsItemName = LocalizationHelper.GetString("NotSelected");
                     }
 
                     return;
                 }
             }
 
-            DropsItemName = Localization.GetString("NotSelected");
+            DropsItemName = LocalizationHelper.GetString("NotSelected");
         }
 
         private string _dropsQuantity = ConfigurationHelper.GetValue(ConfigurationKeys.DropsQuantity, "5");

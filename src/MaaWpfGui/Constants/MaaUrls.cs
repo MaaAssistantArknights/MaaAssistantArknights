@@ -40,7 +40,7 @@ namespace MaaWpfGui.Constants
         {
             get
             {
-                var language = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, Localization.DefaultLanguage);
+                var language = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
                 return $"https://maa.plus/docs/{_helpUrl[language]}";
             }
         }
@@ -49,7 +49,7 @@ namespace MaaWpfGui.Constants
         {
             get
             {
-                var language = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, Localization.DefaultLanguage);
+                var language = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
                 return $"https://maa.plus/docs/{_overseasAdaptation[language]}";
             }
         }

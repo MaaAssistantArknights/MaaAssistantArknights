@@ -25,7 +25,7 @@ namespace MaaWpfGui.Helper
     {
         static Utils()
         {
-            var language = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, Localization.DefaultLanguage);
+            var language = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
             string filename = string.Empty;
             if (language == "zh-cn")
             {

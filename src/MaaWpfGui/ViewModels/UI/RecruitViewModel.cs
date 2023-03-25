@@ -20,7 +20,6 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using Stylet;
 using StyletIoC;
-using Localization = MaaWpfGui.Helper.Localization;
 
 namespace MaaWpfGui.ViewModels.UI
 {
@@ -43,7 +42,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             _container = container;
             _windowManager = windowManager;
-            DisplayName = Localization.GetString("RecruitmentRecognition");
+            DisplayName = LocalizationHelper.GetString("RecruitmentRecognition");
         }
 
         protected override void OnInitialActivate()
@@ -56,7 +55,7 @@ namespace MaaWpfGui.ViewModels.UI
             }));
         }
 
-        private string _recruitInfo = Localization.GetString("RecruitmentRecognitionTip");
+        private string _recruitInfo = LocalizationHelper.GetString("RecruitmentRecognitionTip");
 
         /// <summary>
         /// Gets or sets the recruit info.
@@ -176,7 +175,7 @@ namespace MaaWpfGui.ViewModels.UI
         public async void StartCalc()
         {
             string errMsg = string.Empty;
-            RecruitInfo = Localization.GetString("ConnectingToEmulator");
+            RecruitInfo = LocalizationHelper.GetString("ConnectingToEmulator");
             var task = Task.Run(() =>
             {
                 return _asstProxy.AsstConnect(ref errMsg);
@@ -188,7 +187,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            RecruitInfo = Localization.GetString("Identifying");
+            RecruitInfo = LocalizationHelper.GetString("Identifying");
             RecruitResult = string.Empty;
 
             var levelList = new List<int>();

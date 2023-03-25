@@ -31,7 +31,6 @@ using Serilog;
 using Serilog.Core;
 using Stylet;
 using StyletIoC;
-using Localization = MaaWpfGui.Helper.Localization;
 using WindowManager = MaaWpfGui.Helper.WindowManager;
 
 namespace MaaWpfGui.Main
@@ -123,7 +122,7 @@ namespace MaaWpfGui.Main
 
             base.OnStart();
             ConfigurationHelper.Load();
-            Localization.Load();
+            LocalizationHelper.Load();
         }
 
         /// <inheritdoc/>

@@ -94,7 +94,7 @@ namespace MaaWpfGui.Services
             {
                 // 这里会被 “剩余理智” 复用，第一个必须是 string.Empty 的
                 // 「当前/上次」关卡导航
-                { string.Empty, new StageInfo { Display = Localization.GetString("DefaultStage"), Value = string.Empty } },
+                { string.Empty, new StageInfo { Display = LocalizationHelper.GetString("DefaultStage"), Value = string.Empty } },
             };
 
             var clientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty);
@@ -171,13 +171,13 @@ namespace MaaWpfGui.Services
                                 // &&(!minResourceRequiredParsed || curResourceVersionObj.CompareSortOrderTo(minResourceRequiredObj) < 0)
                                 if (curVersionObj.CompareSortOrderTo(minRequiredObj) < 0)
                                 {
-                                    if (!tempStage.ContainsKey(Localization.GetString("UnsupportedStages")))
+                                    if (!tempStage.ContainsKey(LocalizationHelper.GetString("UnsupportedStages")))
                                     {
                                         stageInfo = new StageInfo
                                         {
-                                            Display = Localization.GetString("UnsupportedStages"),
-                                            Value = Localization.GetString("UnsupportedStages"),
-                                            Drop = Localization.GetString("LowVersion"),
+                                            Display = LocalizationHelper.GetString("UnsupportedStages"),
+                                            Value = LocalizationHelper.GetString("UnsupportedStages"),
+                                            Drop = LocalizationHelper.GetString("LowVersion"),
                                             Activity = new StageActivityInfo()
                                             {
                                                 Tip = stageObj["Activity"]?["Tip"]?.ToString(),
@@ -242,7 +242,7 @@ namespace MaaWpfGui.Services
                 { "SK-5", new StageInfo("SK-5", "SKTip", new[] { DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Saturday }, resourceCollection) { IsHidden = true } },
 
                 // 剿灭模式
-                { "Annihilation", new StageInfo { Display = Localization.GetString("Annihilation"), Value = "Annihilation" } },
+                { "Annihilation", new StageInfo { Display = LocalizationHelper.GetString("Annihilation"), Value = "Annihilation" } },
 
                 // 芯片本
                 { "PR-A-1", new StageInfo("PR-A-1", "PR-ATip", new[] { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Sunday }, resourceCollection) },
@@ -255,8 +255,8 @@ namespace MaaWpfGui.Services
                 { "PR-D-2", new StageInfo("PR-D-2", string.Empty, new[] { DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Saturday, DayOfWeek.Sunday }, resourceCollection) },
 
                 // 周一和周日的关卡提示
-                { "Pormpt1", new StageInfo { Tip = Localization.GetString("Pormpt1"), OpenDays = new[] { DayOfWeek.Monday }, IsHidden = true } },
-                { "Pormpt2", new StageInfo { Tip = Localization.GetString("Pormpt2"), OpenDays = new[] { DayOfWeek.Sunday }, IsHidden = true } },
+                { "Pormpt1", new StageInfo { Tip = LocalizationHelper.GetString("Pormpt1"), OpenDays = new[] { DayOfWeek.Monday }, IsHidden = true } },
+                { "Pormpt2", new StageInfo { Tip = LocalizationHelper.GetString("Pormpt2"), OpenDays = new[] { DayOfWeek.Sunday }, IsHidden = true } },
             })
             {
                 tempStage.Add(kvp.Key, kvp.Value);
@@ -311,8 +311,8 @@ namespace MaaWpfGui.Services
                         var daysleftopen = (item.Value.Activity.UtcExpireTime - dateTime).Days;
                         builder.AppendLine(item.Value.Activity.StageName
                             + " "
-                            + Localization.GetString("Daysleftopen")
-                            + (daysleftopen > 0 ? daysleftopen.ToString() : Localization.GetString("LessThanOneDay")));
+                            + LocalizationHelper.GetString("Daysleftopen")
+                            + (daysleftopen > 0 ? daysleftopen.ToString() : LocalizationHelper.GetString("LessThanOneDay")));
                         sideStoryFlag = false;
                     }
 

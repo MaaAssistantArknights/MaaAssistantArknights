@@ -30,7 +30,6 @@ using Stylet;
 using StyletIoC;
 using DataFormats = System.Windows.Forms.DataFormats;
 using DragEventArgs = System.Windows.DragEventArgs;
-using Localization = MaaWpfGui.Helper.Localization;
 using Screen = Stylet.Screen;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -60,9 +59,9 @@ namespace MaaWpfGui.ViewModels.UI
         {
             _container = container;
             _windowManager = windowManager;
-            DisplayName = Localization.GetString("Copilot");
+            DisplayName = LocalizationHelper.GetString("Copilot");
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
-            AddLog(Localization.GetString("CopilotTip"), UiLogColor.Message);
+            AddLog(LocalizationHelper.GetString("CopilotTip"), UiLogColor.Message);
         }
 
         protected override void OnInitialActivate()
@@ -187,7 +186,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
                 catch (Exception)
                 {
-                    AddLog(Localization.GetString("CopilotFileReadError"), UiLogColor.Error);
+                    AddLog(LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error);
                     return;
                 }
 
@@ -242,13 +241,13 @@ namespace MaaWpfGui.ViewModels.UI
                 }
                 else
                 {
-                    AddLog(Localization.GetString("CopilotNoFound"), UiLogColor.Error);
+                    AddLog(LocalizationHelper.GetString("CopilotNoFound"), UiLogColor.Error);
                     return string.Empty;
                 }
             }
             catch (Exception)
             {
-                AddLog(Localization.GetString("NetworkServiceError"), UiLogColor.Error);
+                AddLog(LocalizationHelper.GetString("NetworkServiceError"), UiLogColor.Error);
                 return string.Empty;
             }
         }
@@ -263,7 +262,7 @@ namespace MaaWpfGui.ViewModels.UI
                 var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
                 if (json == null)
                 {
-                    AddLog(Localization.GetString("CopilotJsonError"), UiLogColor.Error);
+                    AddLog(LocalizationHelper.GetString("CopilotJsonError"), UiLogColor.Error);
                     return;
                 }
 
@@ -383,11 +382,11 @@ namespace MaaWpfGui.ViewModels.UI
                     File.WriteAllText(TempCopilotFile, json.ToString());
                 }
 
-                AddLog(Localization.GetString("CopilotTip"));
+                AddLog(LocalizationHelper.GetString("CopilotTip"));
             }
             catch (Exception)
             {
-                AddLog(Localization.GetString("CopilotJsonError"), UiLogColor.Error);
+                AddLog(LocalizationHelper.GetString("CopilotJsonError"), UiLogColor.Error);
             }
         }
 
@@ -433,7 +432,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 Filename = string.Empty;
                 ClearLog();
-                AddLog(Localization.GetString("NotCopilotJson"), UiLogColor.Error);
+                AddLog(LocalizationHelper.GetString("NotCopilotJson"), UiLogColor.Error);
             }
         }
 
@@ -476,7 +475,7 @@ namespace MaaWpfGui.ViewModels.UI
             }*/
             Idle = false;
 
-            AddLog(Localization.GetString("ConnectingToEmulator"));
+            AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
 
             string errMsg = string.Empty;
             var task = Task.Run(() =>
@@ -499,16 +498,16 @@ namespace MaaWpfGui.ViewModels.UI
                 Loop ? LoopTimes : 1);
             if (ret)
             {
-                AddLog(Localization.GetString("Running"));
+                AddLog(LocalizationHelper.GetString("Running"));
                 if (!_settingsViewModel.AdbReplaced && !_settingsViewModel.IsAdbTouchMode())
                 {
-                    AddLog(Localization.GetString("AdbReplacementTips"), UiLogColor.Info);
+                    AddLog(LocalizationHelper.GetString("AdbReplacementTips"), UiLogColor.Info);
                 }
             }
             else
             {
                 Idle = true;
-                AddLog(Localization.GetString("CopilotFileReadError"), UiLogColor.Error);
+                AddLog(LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error);
             }
         }
 
@@ -591,17 +590,17 @@ namespace MaaWpfGui.ViewModels.UI
             var response = await WebService.PostJsonAsync(_copilotRatingUrl, jsonParam);
             if (response == null)
             {
-                AddLog(Localization.GetString("FailedToLikeWebJson"), UiLogColor.Error);
+                AddLog(LocalizationHelper.GetString("FailedToLikeWebJson"), UiLogColor.Error);
                 return;
             }
 
             _recentlyRatedCopilotId.Add(CopilotId);
-            AddLog(Localization.GetString("ThanksForLikeWebJson"), UiLogColor.Info);
+            AddLog(LocalizationHelper.GetString("ThanksForLikeWebJson"), UiLogColor.Info);
         }
 
         private readonly string CopilotUiUrl = MaaUrls.PrtsPlus;
         private string _url = MaaUrls.PrtsPlus;
-        private string _urlText = Localization.GetString("PrtsPlus");
+        private string _urlText = LocalizationHelper.GetString("PrtsPlus");
 
         /// <summary>
         /// Gets or sets the UrlText.
@@ -620,7 +619,7 @@ namespace MaaWpfGui.ViewModels.UI
             get => _url;
             set
             {
-                UrlText = value == CopilotUiUrl ? Localization.GetString("PrtsPlus") : Localization.GetString("VideoLink");
+                UrlText = value == CopilotUiUrl ? LocalizationHelper.GetString("PrtsPlus") : LocalizationHelper.GetString("VideoLink");
                 SetAndNotify(ref _url, value);
             }
         }
@@ -669,7 +668,7 @@ namespace MaaWpfGui.ViewModels.UI
             switch (text)
             {
                 case "/help":
-                    AddLog(Localization.GetString("HelloWorld"), UiLogColor.Message);
+                    AddLog(LocalizationHelper.GetString("HelloWorld"), UiLogColor.Message);
                     break;
             }
         }
