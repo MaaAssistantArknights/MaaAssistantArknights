@@ -27,8 +27,6 @@ namespace MaaWpfGui.Helper
     {
         public const string RequestUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 Edg/97.0.1072.76";
 
-        private const int TimeoutMs = 3000;
-
         private static string s_proxy = Config.Get(Config.UpdateProxy, string.Empty);
 
         public static string Proxy
@@ -37,17 +35,11 @@ namespace MaaWpfGui.Helper
             {
                 s_proxy = value;
                 NormalClient = BuildNormalClient();
-                NormalClient.Timeout = TimeSpan.FromMilliseconds(TimeoutMs);
             }
         }
 
 #nullable enable
         public static HttpClient NormalClient { get; private set; } = BuildNormalClient();
-
-        static WebService()
-        {
-            NormalClient.Timeout = TimeSpan.FromMilliseconds(TimeoutMs);
-        }
 
         private static HttpClient BuildNormalClient() => new HttpClient(new HttpClientHandler()
         {
