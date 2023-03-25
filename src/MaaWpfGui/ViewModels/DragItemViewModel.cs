@@ -21,6 +21,8 @@ namespace MaaWpfGui.ViewModels
     /// </summary>
     public class DragItemViewModel : PropertyChangedBase
     {
+        private readonly string _storageKey;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DragItemViewModel"/> class.
         /// </summary>
@@ -30,33 +32,33 @@ namespace MaaWpfGui.ViewModels
         {
             Name = name;
             OriginalName = name;
-            _isCheckedStorageKey = Config.GetCheckedStorageKey(storageKey, name);
-            IsChecked = System.Convert.ToBoolean(Config.Get(_isCheckedStorageKey, bool.TrueString));
+            _storageKey = storageKey;
+            IsChecked = System.Convert.ToBoolean(ConfigurationHelper.GetCheckedStorage(storageKey, name, bool.TrueString));
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DragItemViewModel"/> class.
         /// </summary>
         /// <param name="name">The name (viewed name).</param>
-        /// <param name="original_name">The original name (may not be the same as viewed name).</param>
+        /// <param name="originalName">The original name (may not be the same as viewed name).</param>
         /// <param name="storageKey">The storage key.</param>
-        public DragItemViewModel(string name, string original_name, string storageKey)
+        public DragItemViewModel(string name, string originalName, string storageKey)
         {
             Name = name;
-            OriginalName = original_name;
-            _isCheckedStorageKey = Config.GetCheckedStorageKey(storageKey, original_name);
-            IsChecked = System.Convert.ToBoolean(Config.Get(_isCheckedStorageKey, bool.TrueString));
+            OriginalName = originalName;
+            _storageKey = storageKey;
+            IsChecked = System.Convert.ToBoolean(ConfigurationHelper.GetCheckedStorage(storageKey, name, bool.TrueString));
         }
 
-        private string _original_name;
+        private string _originalName;
 
         /// <summary>
         /// Gets or sets the original_name.
         /// </summary>
         public string OriginalName
         {
-            get => _original_name;
-            set => SetAndNotify(ref _original_name, value);
+            get => _originalName;
+            set => SetAndNotify(ref _originalName, value);
         }
 
         private string _name;
@@ -70,7 +72,6 @@ namespace MaaWpfGui.ViewModels
             set => SetAndNotify(ref _name, value);
         }
 
-        private readonly string _isCheckedStorageKey;
         private bool _isChecked;
 
         /// <summary>
@@ -82,7 +83,7 @@ namespace MaaWpfGui.ViewModels
             set
             {
                 SetAndNotify(ref _isChecked, value);
-                Config.Set(_isCheckedStorageKey, value.ToString());
+                ConfigurationHelper.SetCheckedStorage(_storageKey, Name, value.ToString());
             }
         }
 

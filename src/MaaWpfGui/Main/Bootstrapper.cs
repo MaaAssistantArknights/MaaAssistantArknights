@@ -122,7 +122,7 @@ namespace MaaWpfGui.Main
             }
 
             base.OnStart();
-            Config.Load();
+            ConfigurationHelper.Load();
             Localization.Load();
         }
 
@@ -169,7 +169,7 @@ namespace MaaWpfGui.Main
 
             // 注销任务栏图标
             _trayIconInSettingsViewModel.Close();
-            Config.Release();
+            ConfigurationHelper.Release();
         }
 
         /// <inheritdoc/>

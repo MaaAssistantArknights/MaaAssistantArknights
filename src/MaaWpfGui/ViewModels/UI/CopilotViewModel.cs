@@ -450,7 +450,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public bool Loop { get; set; } = false;
 
-        private int _loopTimes = int.Parse(Config.Get(Config.CopilotLoopTimes, "1"));
+        private int _loopTimes = int.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.CopilotLoopTimes, "1"));
 
         public int LoopTimes
         {
@@ -458,7 +458,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _loopTimes, value);
-                Config.Set(Config.CopilotLoopTimes, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.CopilotLoopTimes, value.ToString());
             }
         }
 

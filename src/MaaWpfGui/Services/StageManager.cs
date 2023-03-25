@@ -18,6 +18,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Utilities.ValueType;
@@ -96,7 +97,7 @@ namespace MaaWpfGui.Services
                 { string.Empty, new StageInfo { Display = Localization.GetString("DefaultStage"), Value = string.Empty } },
             };
 
-            var clientType = Config.Get(Config.ClientType, string.Empty);
+            var clientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty);
 
             // 官服和B服使用同样的资源
             if (clientType == "Bilibili" || clientType == string.Empty)

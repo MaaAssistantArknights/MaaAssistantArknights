@@ -15,6 +15,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
+using MaaWpfGui.Constants;
 using Stylet;
 
 namespace MaaWpfGui.Helper
@@ -26,15 +27,15 @@ namespace MaaWpfGui.Helper
         {
         }
 
-        private readonly string ScreenName = Config.Get(Config.MonitorNumber, string.Empty);
-        private readonly int ScreenWidth = int.Parse(Config.Get(Config.MonitorWidth, "-1"));
-        private readonly int ScreenHeight = int.Parse(Config.Get(Config.MonitorHeight, "-1"));
+        private readonly string ScreenName = ConfigurationHelper.GetValue(ConfigurationKeys.MonitorNumber, string.Empty);
+        private readonly int ScreenWidth = int.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.MonitorWidth, "-1"));
+        private readonly int ScreenHeight = int.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.MonitorHeight, "-1"));
 
         private static readonly double DefaultDouble = -114514;
-        private readonly double Left = double.Parse(Config.Get(Config.PositionLeft, DefaultDouble.ToString()), CultureInfo.InvariantCulture);
-        private readonly double Top = double.Parse(Config.Get(Config.PositionTop, DefaultDouble.ToString()), CultureInfo.InvariantCulture);
-        private readonly double Width = double.Parse(Config.Get(Config.WindowWidth, DefaultDouble.ToString()), CultureInfo.InvariantCulture);
-        private readonly double Height = double.Parse(Config.Get(Config.WindowHeight, DefaultDouble.ToString()), CultureInfo.InvariantCulture);
+        private readonly double Left = double.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.PositionLeft, DefaultDouble.ToString(CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);
+        private readonly double Top = double.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.PositionTop, DefaultDouble.ToString(CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);
+        private readonly double Width = double.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.WindowWidth, DefaultDouble.ToString(CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);
+        private readonly double Height = double.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.WindowHeight, DefaultDouble.ToString(CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);
 
         private readonly string RootView = "MaaWpfGui.RootView";
 
@@ -61,9 +62,9 @@ namespace MaaWpfGui.Helper
         protected override Window CreateWindow(object viewModel, bool isDialog, IViewAware ownerViewModel)
         {
             Window window = base.CreateWindow(viewModel, isDialog, ownerViewModel);
-            if (bool.Parse(Config.Get(Config.LoadPositionAndSize, bool.TrueString)))
+            if (bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.LoadPositionAndSize, bool.TrueString)))
             {
-                if (isDialog || ownerViewModel != null || Left == DefaultDouble || Top == DefaultDouble)
+                if (isDialog || ownerViewModel != null || Math.Abs(Left - DefaultDouble) < 0.01f || Math.Abs(Top - DefaultDouble) < 0.01f)
                 {
                     return window;
                 }
@@ -79,13 +80,13 @@ namespace MaaWpfGui.Helper
                 {
                     // Center other windows in MaaWpfGui.RootView
                     var mainWindow = Application.Current.MainWindow;
-                    window.Left = mainWindow.Left + ((mainWindow.Width - window.Width) / 2);
+                    window.Left = mainWindow!.Left + ((mainWindow.Width - window.Width) / 2);
                     window.Top = mainWindow.Top + ((mainWindow.Height - window.Height) / 2);
                 }
             }
 
             var app = Application.Current as App;
-            app.darkToStart();
+            app!.darkToStart();
 
             return window;
         }

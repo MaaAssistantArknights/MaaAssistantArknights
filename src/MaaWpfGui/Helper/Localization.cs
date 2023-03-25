@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows;
+using MaaWpfGui.Constants;
 
 namespace MaaWpfGui.Helper
 {
@@ -63,7 +64,7 @@ namespace MaaWpfGui.Helper
             }
         }
 
-        private static readonly string _culture = Config.Get(Config.Localization, DefaultLanguage);
+        private static readonly string _culture = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, DefaultLanguage);
 
         /// <summary>
         /// Loads localizations.
@@ -75,8 +76,8 @@ namespace MaaWpfGui.Helper
                 return;
             }
 
-            var culureList = new string[] { "zh-cn", "en-us", _culture, };
-            foreach (var cur in culureList)
+            var cultureList = new[] { "zh-cn", "en-us", _culture, };
+            foreach (var cur in cultureList)
             {
                 var dictionary = new ResourceDictionary
                 {
