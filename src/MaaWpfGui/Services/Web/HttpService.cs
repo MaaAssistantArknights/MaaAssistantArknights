@@ -24,7 +24,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.UI;
 using Serilog;
 
-namespace MaaWpfGui.Services
+namespace MaaWpfGui.Services.Web
 {
     public class HttpService : IHttpService
     {
