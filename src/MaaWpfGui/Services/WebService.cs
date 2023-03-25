@@ -17,6 +17,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -27,7 +28,7 @@ namespace MaaWpfGui.Services
     {
         public const string RequestUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 Edg/97.0.1072.76";
 
-        private static string s_proxy = Config.Get(Config.UpdateProxy, string.Empty);
+        private static string s_proxy = ConfigurationHelper.GetValue(ConfigurationKeys.UpdateProxy, string.Empty);
 
         public static string Proxy
         {

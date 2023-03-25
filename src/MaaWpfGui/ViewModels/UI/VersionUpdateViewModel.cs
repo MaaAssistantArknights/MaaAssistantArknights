@@ -70,7 +70,7 @@ namespace MaaWpfGui.ViewModels.UI
         private readonly string _curVersion = Marshal.PtrToStringAnsi(AsstGetVersion());
         private string _latestVersion;
 
-        private string _updateTag = Config.Get(Config.VersionName, string.Empty);
+        private string _updateTag = ConfigurationHelper.GetValue(ConfigurationKeys.VersionName, string.Empty);
 
         /// <summary>
         /// Gets or sets the update tag.
@@ -81,11 +81,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _updateTag, value);
-                Config.Set(Config.VersionName, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.VersionName, value);
             }
         }
 
-        private string _updateInfo = Config.Get(Config.VersionUpdateBody, string.Empty);
+        private string _updateInfo = ConfigurationHelper.GetValue(ConfigurationKeys.VersionUpdateBody, string.Empty);
 
         // private static readonly MarkdownPipeline s_markdownPipeline = new MarkdownPipelineBuilder().UseXamlSupportedExtensions().Build();
 
@@ -109,7 +109,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _updateInfo, value);
-                Config.Set(Config.VersionUpdateBody, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.VersionUpdateBody, value);
             }
         }
 
@@ -127,7 +127,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _updateUrl, value);
         }
 
-        private bool _isFirstBootAfterUpdate = Convert.ToBoolean(Config.Get(Config.VersionUpdateIsFirstBoot, bool.FalseString));
+        private bool _isFirstBootAfterUpdate = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.VersionUpdateIsFirstBoot, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether it is the first boot after updating.
@@ -138,11 +138,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _isFirstBootAfterUpdate, value);
-                Config.Set(Config.VersionUpdateIsFirstBoot, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.VersionUpdateIsFirstBoot, value.ToString());
             }
         }
 
-        private string _updatePackageName = Config.Get(Config.VersionUpdatePackage, string.Empty);
+        private string _updatePackageName = ConfigurationHelper.GetValue(ConfigurationKeys.VersionUpdatePackage, string.Empty);
 
         /// <summary>
         /// Gets or sets the name of the update package.
@@ -153,7 +153,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _updatePackageName, value);
-                Config.Set(Config.VersionUpdatePackage, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.VersionUpdatePackage, value);
             }
         }
 
@@ -290,7 +290,7 @@ namespace MaaWpfGui.ViewModels.UI
             // 保存更新信息，下次启动后会弹出已更新完成的提示
             UpdatePackageName = string.Empty;
             IsFirstBootAfterUpdate = true;
-            Config.Release();
+            ConfigurationHelper.Release();
 
             // 重启进程（启动的是更新后的程序了）
             var newProcess = new Process();

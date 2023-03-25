@@ -71,7 +71,7 @@ namespace MaaWpfGui.ViewModels.UI
             int index = 0;
             foreach (var item in TaskItemViewModels)
             {
-                Config.Set(Config.GetTaskOrderKey(item.OriginalName), index.ToString());
+                ConfigurationHelper.SetTaskOrder(item.OriginalName, index.ToString());
                 ++index;
             }
         }
@@ -81,7 +81,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public ObservableCollection<LogItemViewModel> LogItemViewModels { get; set; }
 
-        private string _actionAfterCompleted = Config.Get(Config.ActionAfterCompleted, ActionType.DoNothing.ToString());
+        private string _actionAfterCompleted = ConfigurationHelper.GetValue(ConfigurationKeys.ActionAfterCompleted, ActionType.DoNothing.ToString());
 
         /// <summary>
         /// Gets or sets the list of the actions after completion.
@@ -114,7 +114,7 @@ namespace MaaWpfGui.ViewModels.UI
                     storeValue = ActionType.DoNothing.ToString();
                 }
 
-                Config.Set(Config.ActionAfterCompleted, storeValue);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ActionAfterCompleted, storeValue);
             }
         }
 
@@ -265,7 +265,7 @@ namespace MaaWpfGui.ViewModels.UI
             for (int i = 0; i != task_list.Length; ++i)
             {
                 var task = task_list[i];
-                bool parsed = int.TryParse(Config.Get(Config.GetTaskOrderKey(task), "-1"), out var order);
+                bool parsed = int.TryParse(ConfigurationHelper.GetTaskOrder(task, "-1"), out var order);
 
                 var vm = new DragItemViewModel(Localization.GetString(task), task, "TaskQueue.");
 
@@ -506,7 +506,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _inverseMode = Convert.ToBoolean(Config.Get(Config.MainFunctionInverseMode, bool.FalseString));
+        private bool _inverseMode = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use inverse mode.
@@ -519,7 +519,7 @@ namespace MaaWpfGui.ViewModels.UI
                 SetAndNotify(ref _inverseMode, value);
                 InverseShowText = value ? Localization.GetString("Inverse") : Localization.GetString("Clear");
                 InverseMenuText = value ? Localization.GetString("Clear") : Localization.GetString("Inverse");
-                Config.Set(Config.MainFunctionInverseMode, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.MainFunctionInverseMode, value.ToString());
             }
         }
 
@@ -529,7 +529,7 @@ namespace MaaWpfGui.ViewModels.UI
         public const int SelectedAllWidthWhenBoth = 80;
 
         private int _selectedAllWidth =
-            Config.Get(Config.InverseClearMode, "Clear") == "ClearInverse" ? SelectedAllWidthWhenBoth : 85;
+            ConfigurationHelper.GetValue(ConfigurationKeys.InverseClearMode, "Clear") == "ClearInverse" ? SelectedAllWidthWhenBoth : 85;
 
         /// <summary>
         /// Gets or sets the width of "Select All".
@@ -551,7 +551,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _inverseSelectedWidth, value);
         }
 
-        private bool _showInverse = Config.Get(Config.InverseClearMode, "Clear") == "ClearInverse";
+        private bool _showInverse = ConfigurationHelper.GetValue(ConfigurationKeys.InverseClearMode, "Clear") == "ClearInverse";
 
         /// <summary>
         /// Gets or sets a value indicating whether "Select inversely" is visible.
@@ -562,7 +562,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _showInverse, value);
         }
 
-        private string _inverseShowText = Convert.ToBoolean(Config.Get(Config.MainFunctionInverseMode, bool.FalseString)) ? Localization.GetString("Inverse") : Localization.GetString("Clear");
+        private string _inverseShowText = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, bool.FalseString)) ? Localization.GetString("Inverse") : Localization.GetString("Clear");
 
         /// <summary>
         /// Gets or sets the text to be displayed for "Select inversely".
@@ -573,7 +573,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _inverseShowText, value);
         }
 
-        private string _inverseMenuText = Convert.ToBoolean(Config.Get(Config.MainFunctionInverseMode, bool.FalseString)) ? Localization.GetString("Clear") : Localization.GetString("Inverse");
+        private string _inverseMenuText = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, bool.FalseString)) ? Localization.GetString("Clear") : Localization.GetString("Inverse");
 
         /// <summary>
         /// Gets or sets the text of inversion menu.
@@ -1248,7 +1248,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             int pid = 0;
             string port;
-            string address = Config.Get(Config.ConnectAddress, string.Empty);
+            string address = ConfigurationHelper.GetValue(ConfigurationKeys.ConnectAddress, string.Empty);
             if (address.StartsWith("127"))
             {
                 port = address.Substring(10);
@@ -1675,7 +1675,7 @@ namespace MaaWpfGui.ViewModels.UI
             return value;
         }
 
-        private string _stage1 = Config.Get(Config.Stage1, string.Empty) ?? string.Empty;
+        private string _stage1 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage1, string.Empty) ?? string.Empty;
 
         /// <summary>
         /// Gets or sets the stage1.
@@ -1697,12 +1697,12 @@ namespace MaaWpfGui.ViewModels.UI
 
                 SetAndNotify(ref _stage1, value);
                 SetFightParams();
-                Config.Set(Config.Stage1, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.Stage1, value);
                 UpdateDatePrompt();
             }
         }
 
-        private string _stage2 = Config.Get(Config.Stage2, string.Empty) ?? string.Empty;
+        private string _stage2 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage2, string.Empty) ?? string.Empty;
 
         /// <summary>
         /// Gets or sets the stage2.
@@ -1724,12 +1724,12 @@ namespace MaaWpfGui.ViewModels.UI
 
                 SetAndNotify(ref _stage2, value);
                 SetFightParams();
-                Config.Set(Config.Stage2, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.Stage2, value);
                 UpdateDatePrompt();
             }
         }
 
-        private string _stage3 = Config.Get(Config.Stage3, string.Empty) ?? string.Empty;
+        private string _stage3 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage3, string.Empty) ?? string.Empty;
 
         /// <summary>
         /// Gets or sets the stage2.
@@ -1751,12 +1751,12 @@ namespace MaaWpfGui.ViewModels.UI
 
                 SetAndNotify(ref _stage3, value);
                 SetFightParams();
-                Config.Set(Config.Stage3, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.Stage3, value);
                 UpdateDatePrompt();
             }
         }
 
-        private bool _useAlternateStage = Convert.ToBoolean(Config.Get(Config.UseAlternateStage, bool.FalseString));
+        private bool _useAlternateStage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseAlternateStage, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use alternate stage.
@@ -1767,7 +1767,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _useAlternateStage, value);
         }
 
-        private bool _useRemainingSanityStage = Convert.ToBoolean(Config.Get(Config.UseRemainingSanityStage, bool.TrueString));
+        private bool _useRemainingSanityStage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, bool.TrueString));
 
         public bool UseRemainingSanityStage
         {
@@ -1775,7 +1775,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _useRemainingSanityStage, value);
         }
 
-        private bool _customStageCode = Convert.ToBoolean(Config.Get(Config.CustomStageCode, bool.FalseString));
+        private bool _customStageCode = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CustomStageCode, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use custom stage code.
@@ -1789,7 +1789,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _remainingSanityStage = Config.Get(Config.RemainingSanityStage, string.Empty) ?? string.Empty;
+        private string _remainingSanityStage = ConfigurationHelper.GetValue(ConfigurationKeys.RemainingSanityStage, string.Empty) ?? string.Empty;
 
         public string RemainingSanityStage
         {
@@ -1812,11 +1812,11 @@ namespace MaaWpfGui.ViewModels.UI
 
                 SetAndNotify(ref _remainingSanityStage, value);
                 SetFightRemainingSanityParams();
-                Config.Set(Config.RemainingSanityStage, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RemainingSanityStage, value);
             }
         }
 
-        private bool _customInfrastEnabled = Convert.ToBoolean(Config.Get(Config.CustomInfrastEnabled, bool.FalseString));
+        private bool _customInfrastEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastEnabled, bool.FalseString));
 
         public bool CustomInfrastEnabled
         {
@@ -1828,7 +1828,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private int _customInfrastPlanIndex = Convert.ToInt32(Config.Get(Config.CustomInfrastPlanIndex, "0"));
+        private int _customInfrastPlanIndex = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastPlanIndex, "0"));
 
         public int CustomInfrastPlanIndex
         {
@@ -1855,7 +1855,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 SetAndNotify(ref _customInfrastPlanIndex, value);
                 SetInfrastParams();
-                Config.Set(Config.CustomInfrastPlanIndex, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.CustomInfrastPlanIndex, value.ToString());
             }
         }
 
@@ -2041,7 +2041,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _useMedicine = Convert.ToBoolean(Config.Get(Config.UseMedicine, bool.FalseString));
+        private bool _useMedicine = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicine, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use medicine.
@@ -2058,11 +2058,11 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 SetFightParams();
-                Config.Set(Config.UseMedicine, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.UseMedicine, value.ToString());
             }
         }
 
-        private string _medicineNumber = Config.Get(Config.UseMedicineQuantity, "999");
+        private string _medicineNumber = ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicineQuantity, "999");
 
         /// <summary>
         /// Gets or sets the amount of medicine used.
@@ -2082,7 +2082,7 @@ namespace MaaWpfGui.ViewModels.UI
                 // If the amount of medicine is 0, the stone is not used.
                 UseStone = UseStone;
                 SetFightParams();
-                Config.Set(Config.UseMedicineQuantity, MedicineNumber);
+                ConfigurationHelper.SetValue(ConfigurationKeys.UseMedicineQuantity, MedicineNumber);
             }
         }
 
@@ -2112,7 +2112,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _stoneNumber = Config.Get(Config.UseStoneQuantity, "0");
+        private string _stoneNumber = ConfigurationHelper.GetValue(ConfigurationKeys.UseStoneQuantity, "0");
 
         /// <summary>
         /// Gets or sets the amount of originiums used.
@@ -2129,7 +2129,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 SetAndNotify(ref _stoneNumber, value);
                 SetFightParams();
-                Config.Set(Config.UseStoneQuantity, StoneNumber);
+                ConfigurationHelper.SetValue(ConfigurationKeys.UseStoneQuantity, StoneNumber);
             }
         }
 
@@ -2148,7 +2148,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _maxTimes = Config.Get(Config.TimesLimitedQuantity, "5");
+        private string _maxTimes = ConfigurationHelper.GetValue(ConfigurationKeys.TimesLimitedQuantity, "5");
 
         /// <summary>
         /// Gets or sets the max number of times.
@@ -2165,13 +2165,13 @@ namespace MaaWpfGui.ViewModels.UI
 
                 SetAndNotify(ref _maxTimes, value);
                 SetFightParams();
-                Config.Set(Config.TimesLimitedQuantity, MaxTimes);
+                ConfigurationHelper.SetValue(ConfigurationKeys.TimesLimitedQuantity, MaxTimes);
             }
         }
 
         #region Drops
 
-        private bool _isSpecifiedDrops = Convert.ToBoolean(Config.Get(Config.DropsEnable, bool.FalseString));
+        private bool _isSpecifiedDrops = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DropsEnable, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether the drops are specified.
@@ -2183,7 +2183,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _isSpecifiedDrops, value);
                 SetFightParams();
-                Config.Set(Config.DropsEnable, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.DropsEnable, value.ToString());
             }
         }
 
@@ -2247,7 +2247,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public ObservableCollection<CombinedData> DropsList { get; set; }
 
-        private string _dropsItemId = Config.Get(Config.DropsItemId, string.Empty);
+        private string _dropsItemId = ConfigurationHelper.GetValue(ConfigurationKeys.DropsItemId, string.Empty);
 
         /// <summary>
         /// Gets or sets the item ID of drops.
@@ -2259,11 +2259,11 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _dropsItemId, value);
                 SetFightParams();
-                Config.Set(Config.DropsItemId, DropsItemId);
+                ConfigurationHelper.SetValue(ConfigurationKeys.DropsItemId, DropsItemId);
             }
         }
 
-        private string _dropsItemName = Config.Get(Config.DropsItemName, Localization.GetString("NotSelected"));
+        private string _dropsItemName = ConfigurationHelper.GetValue(ConfigurationKeys.DropsItemName, Localization.GetString("NotSelected"));
 
         /// <summary>
         /// Gets or sets the item Name of drops.
@@ -2275,7 +2275,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _dropsItemName, value);
                 SetFightParams();
-                Config.Set(Config.DropsItemName, DropsItemName);
+                ConfigurationHelper.SetValue(ConfigurationKeys.DropsItemName, DropsItemName);
             }
         }
 
@@ -2299,7 +2299,7 @@ namespace MaaWpfGui.ViewModels.UI
             DropsItemName = Localization.GetString("NotSelected");
         }
 
-        private string _dropsQuantity = Config.Get(Config.DropsQuantity, "5");
+        private string _dropsQuantity = ConfigurationHelper.GetValue(ConfigurationKeys.DropsQuantity, "5");
 
         /// <summary>
         /// Gets or sets the quantity of drops.
@@ -2311,7 +2311,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _dropsQuantity, value);
                 SetFightParams();
-                Config.Set(Config.DropsQuantity, DropsQuantity);
+                ConfigurationHelper.SetValue(ConfigurationKeys.DropsQuantity, DropsQuantity);
             }
         }
 

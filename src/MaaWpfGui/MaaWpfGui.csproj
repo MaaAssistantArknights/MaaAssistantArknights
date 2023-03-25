@@ -28,7 +28,6 @@
   <!-- StyleCop -->
   <PropertyGroup>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageProjectUrl>https://maa.plus/</PackageProjectUrl>
     <Copyright>https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/LICENSE</Copyright>
     <Description>https://maa.plus/docs/</Description>
@@ -107,6 +106,9 @@
       <Version>1.3.6</Version>
     </PackageReference>
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
+    <PackageReference Include="System.Text.Json">
+      <Version>7.0.2</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="newlogo.ico" />

@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using Stylet;
@@ -77,7 +78,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _recruitResult, value);
         }
 
-        private bool _chooseLevel3 = System.Convert.ToBoolean(Config.Get(Config.ChooseLevel3, bool.FalseString));
+        private bool _chooseLevel3 = System.Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel3, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to choose level 3.
@@ -88,11 +89,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _chooseLevel3, value);
-                Config.Set(Config.ChooseLevel3, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.ChooseLevel3, value.ToString());
             }
         }
 
-        private bool _chooseLevel4 = System.Convert.ToBoolean(Config.Get(Config.ChooseLevel4, bool.TrueString));
+        private bool _chooseLevel4 = System.Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel4, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to choose level 4.
@@ -103,11 +104,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _chooseLevel4, value);
-                Config.Set(Config.ChooseLevel4, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.ChooseLevel4, value.ToString());
             }
         }
 
-        private bool _chooseLevel5 = System.Convert.ToBoolean(Config.Get(Config.ChooseLevel5, bool.TrueString));
+        private bool _chooseLevel5 = System.Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel5, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to choose level 5.
@@ -118,11 +119,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _chooseLevel5, value);
-                Config.Set(Config.ChooseLevel5, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.ChooseLevel5, value.ToString());
             }
         }
 
-        private bool _chooseLevel6 = System.Convert.ToBoolean(Config.Get(Config.ChooseLevel6, bool.TrueString));
+        private bool _chooseLevel6 = System.Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ChooseLevel6, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to choose level 6.
@@ -133,11 +134,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _chooseLevel6, value);
-                Config.Set(Config.ChooseLevel6, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.ChooseLevel6, value.ToString());
             }
         }
 
-        private bool _autoSetTime = System.Convert.ToBoolean(Config.Get(Config.AutoSetTime, bool.TrueString));
+        private bool _autoSetTime = System.Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoSetTime, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to set time automatically.
@@ -148,11 +149,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _autoSetTime, value);
-                Config.Set(Config.AutoSetTime, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.AutoSetTime, value.ToString());
             }
         }
 
-        private bool _isLevel3UseShortTime = Convert.ToBoolean(Config.Get(Config.Level3UseShortTime, bool.FalseString));
+        private bool _isLevel3UseShortTime = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Level3UseShortTime, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to shorten the time for level 3.
@@ -163,7 +164,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _isLevel3UseShortTime, value);
-                Config.Set(Config.Level3UseShortTime, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.Level3UseShortTime, value.ToString());
             }
         }
 

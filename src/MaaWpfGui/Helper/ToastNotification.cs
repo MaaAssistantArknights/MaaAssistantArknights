@@ -23,6 +23,7 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using MaaWpfGui.Constants;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Win32;
 using Notification.Wpf;
@@ -392,7 +393,7 @@ namespace MaaWpfGui.Helper
             NotificationSounds sound = NotificationSounds.Notification,
             NotificationContent notificationContent = null)
         {
-            if (!Convert.ToBoolean(Config.Get(Config.UseNotify, bool.TrueString)))
+            if (!Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseNotify, bool.TrueString)))
             {
                 return;
             }
@@ -632,7 +633,7 @@ namespace MaaWpfGui.Helper
         {
             var fInfo = default(FLASHWINFO);
             fInfo.cbSize = Convert.ToUInt32(Marshal.SizeOf(fInfo));
-            fInfo.hwnd = hWnd != default ? hWnd : new WindowInteropHelper(Application.Current.MainWindow).Handle;
+            fInfo.hwnd = hWnd != default ? hWnd : new WindowInteropHelper(Application.Current.MainWindow!).Handle;
             fInfo.dwFlags = (uint)type;
             fInfo.uCount = count;
             fInfo.dwTimeout = 0;
