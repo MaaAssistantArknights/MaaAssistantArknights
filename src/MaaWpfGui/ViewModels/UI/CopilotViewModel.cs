@@ -40,6 +40,7 @@ namespace MaaWpfGui.ViewModels.UI
     public class CopilotViewModel : Screen
     {
         private readonly IWindowManager _windowManager;
+        private readonly IHttpService _httpService;
         private readonly IContainer _container;
 
         private AsstProxy _asstProxy;
@@ -55,10 +56,12 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         /// <param name="container">The IoC container.</param>
         /// <param name="windowManager">The window manager.</param>
-        public CopilotViewModel(IContainer container, IWindowManager windowManager)
+        /// <param name="httpService">The http service.</param>
+        public CopilotViewModel(IContainer container, IWindowManager windowManager, IHttpService httpService)
         {
             _container = container;
             _windowManager = windowManager;
+            _httpService = httpService;
             DisplayName = LocalizationHelper.GetString("Copilot");
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
             AddLog(LocalizationHelper.GetString("CopilotTip"), UiLogColor.Message);
@@ -233,7 +236,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             try
             {
-                var jsonResponse = await WebService.GetJsonAsync($@"https://prts.maa.plus/copilot/get/{copilotID}");
+                var jsonResponse = await _httpService.GetStringAsync(new Uri($@"https://prts.maa.plus/copilot/get/{copilotID}"));
                 var json = (JObject)JsonConvert.DeserializeObject(jsonResponse);
                 if (json != null && json.ContainsKey("status_code") && json["status_code"].ToString() == "200")
                 {
@@ -587,7 +590,7 @@ namespace MaaWpfGui.ViewModels.UI
                 rating = rating,
             });
 
-            var response = await WebService.PostJsonAsync(_copilotRatingUrl, jsonParam);
+            var response = await _httpService.PostAsJsonAsync(new Uri(_copilotRatingUrl), jsonParam);
             if (response == null)
             {
                 AddLog(LocalizationHelper.GetString("FailedToLikeWebJson"), UiLogColor.Error);
