@@ -74,8 +74,9 @@ find_package(ZLIB REQUIRED)
 find_package(MaaDerpLearning REQUIRED)
 find_package(asio REQUIRED)
 find_package(ONNXRuntime)
+find_package(cpr CONFIG REQUIRED)
 
-target_link_libraries(MaaCore ${OpenCV_LIBS} MaaDerpLearning asio::asio ZLIB::ZLIB ONNXRuntime::ONNXRuntime header_only_libraries)
+target_link_libraries(MaaCore ${OpenCV_LIBS} MaaDerpLearning asio::asio ZLIB::ZLIB ONNXRuntime::ONNXRuntime cpr::cpr header_only_libraries)
 
 if(WIN32)
     target_link_libraries(MaaCore ws2_32)

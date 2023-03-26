@@ -14,6 +14,12 @@ namespace asst
     struct PenguinReportCfg // 企鹅物流数据汇报 的配置
     {
         std::string cmd_format; // 命令格式
+        struct cpr_format
+        {
+            std::string url;                                      // 上传地址
+            std::unordered_map<std::string, std::string> headers; // 请求头
+            int timeout = 0;                                      // 超时时间
+        } cpr_format;
     };
 
     struct DepotExportTemplate
@@ -24,6 +30,12 @@ namespace asst
     struct yituliuReportCfg // 一图流大数据汇报 的配置
     {
         std::string cmd_format; // 命令格式
+        struct cpr_format
+        {
+            std::string url;                                      // 上传地址
+            std::unordered_map<std::string, std::string> headers; // 请求头
+            int timeout = 0;                                      // 超时时间
+        } cpr_format;
     };
 
     struct Options
