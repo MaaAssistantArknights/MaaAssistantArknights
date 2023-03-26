@@ -25,7 +25,21 @@ bool asst::GeneralConfig::parse(const json::value& json)
             }
         }
         m_options.penguin_report.cmd_format = options_json.get("penguinReport", "cmdFormat", std::string());
+        m_options.penguin_report.cpr_format.url = options_json.get("penguinReport", "cprFormat", "url", std::string());
+        m_options.penguin_report.cpr_format.timeout = options_json.get("penguinReport", "cprFormat", "timeout", 10000);
+        if (auto headers = options_json.at("penguinReport").at("cprFormat").find<json::object>("headers")) {
+            for (const auto& [key, value] : *headers) {
+                m_options.penguin_report.cpr_format.headers.emplace(key, value.as_string());
+            }
+        }
         m_options.yituliu_report.cmd_format = options_json.get("yituliuReport", "cmdFormat", std::string());
+        m_options.yituliu_report.cpr_format.url = options_json.get("yituliuReport", "cprFormat", "url", std::string());
+        m_options.yituliu_report.cpr_format.timeout = options_json.get("yituliuReport", "cprFormat", "timeout", 5000);
+        if (auto headers = options_json.at("yituliuReport").at("cprFormat").find<json::object>("headers")) {
+            for (const auto& [key, value] : *headers) {
+                m_options.yituliu_report.cpr_format.headers.emplace(key, value.as_string());
+            }
+        }
         m_options.depot_export_template.ark_planner =
             options_json.get("depotExportTemplate", "arkPlanner", std::string());
     }
