@@ -12,13 +12,12 @@
 // </copyright>
 
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using MaaWpfGui.MaaHotKeys;
+using MaaWpfGui.Services.HotKeys;
 
-namespace MaaWpfGui
+namespace MaaWpfGui.Views.UserControl
 {
-    public partial class HotKeyEditorUserControl : UserControl
+    public partial class HotKeyEditorUserControl : System.Windows.Controls.UserControl
     {
         public static readonly DependencyProperty HotKeyProperty =
             DependencyProperty.Register(nameof(HotKey), typeof(MaaHotKey),
