@@ -1038,7 +1038,7 @@ namespace MaaWpfGui.ViewModels.UI
                 "Nox" => KillEmulatorNox(),
                 "LDPlayer" => KillEmulatorLDPlayer(),
                 "XYAZ" => KillEmulatorXYAZ(),
-                "BlueStacks" => KillEmulator(),
+                "BlueStacks" => KillEmulatorBlueStacks(),
                 _ => KillEumlatorbyWindow(),
             };
         }
@@ -1085,7 +1085,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
                 else
                 {
-                    AsstProxy.AsstLog($"Error: {consolePath} not found, try to kill eumlator by window");
+                    AsstProxy.AsstLog($"Error: `{consolePath}` not found, try to kill eumlator by window.");
                     return KillEumlatorbyWindow();
                 }
             }
@@ -1133,7 +1133,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
                 else
                 {
-                    AsstProxy.AsstLog($"Error: {consolePath} not found, try to kill eumlator by window");
+                    AsstProxy.AsstLog($"Error: `{consolePath}` not found, try to kill eumlator by window.");
                     return KillEumlatorbyWindow();
                 }
             }
@@ -1174,8 +1174,36 @@ namespace MaaWpfGui.ViewModels.UI
                 }
                 else
                 {
-                    AsstProxy.AsstLog($"Error: {consolePath} not found, try to kill eumlator by window");
+                    AsstProxy.AsstLog($"Error: `{consolePath}` not found, try to kill eumlator by window.");
                     return KillEumlatorbyWindow();
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 一个用于关闭蓝叠模拟器的方法
+        /// </summary>
+        /// <returns>是否关闭成功</returns>
+        public bool KillEmulatorBlueStacks()
+        {
+            Process[] processes = Process.GetProcessesByName("HD-Player");
+            if (processes.Length > 0)
+            {
+                string emuLocation = processes[0].MainModule.FileName;
+                emuLocation = Path.GetDirectoryName(emuLocation);
+                string consolePath = Path.Combine(emuLocation, "bsconsole.exe");
+
+                if (File.Exists(consolePath))
+                {
+                    AsstProxy.AsstLog($"Info: `{consolePath}` has been found. This may be the BlueStacks China emulator, try to kill the emulator by window.");
+                    return KillEumlatorbyWindow();
+                }
+                else
+                {
+                    AsstProxy.AsstLog($"Info: `{consolePath}` not found. This may be the BlueStacks International emulator, try to kill the emulator by the port.");
+                    return KillEmulator();
                 }
             }
 
