@@ -3,8 +3,8 @@
 #include <algorithm>
 #include <vector>
 
-#include "Controller/Controller.h"
 #include "Config/TaskData.h"
+#include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/MatchImageAnalyzer.h"

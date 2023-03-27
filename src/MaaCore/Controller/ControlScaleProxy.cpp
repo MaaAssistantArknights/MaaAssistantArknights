@@ -31,22 +31,19 @@ asst::ControlScaleProxy::ControlScaleProxy(std::shared_ptr<ControllerAPI> contro
     }
 
     /* calc ratio */
-    {
-        constexpr double DefaultRatio =
-            static_cast<double>(WindowWidthDefault) / static_cast<double>(WindowHeightDefault);
-        double cur_ratio = static_cast<double>(width) / static_cast<double>(height);
+    constexpr double DefaultRatio = static_cast<double>(WindowWidthDefault) / static_cast<double>(WindowHeightDefault);
+    double cur_ratio = static_cast<double>(width) / static_cast<double>(height);
 
-        if (cur_ratio >= DefaultRatio // 说明是宽屏或默认16:9，按照高度计算缩放
-            || std::fabs(cur_ratio - DefaultRatio) < DoubleDiff) {
-            int scale_width = static_cast<int>(cur_ratio * WindowHeightDefault);
-            m_scale_size = std::make_pair(scale_width, WindowHeightDefault);
-            m_control_scale = static_cast<double>(height) / static_cast<double>(WindowHeightDefault);
-        }
-        else { // 否则可能是偏正方形的屏幕，按宽度计算
-            int scale_height = static_cast<int>(WindowWidthDefault / cur_ratio);
-            m_scale_size = std::make_pair(WindowWidthDefault, scale_height);
-            m_control_scale = static_cast<double>(width) / static_cast<double>(WindowWidthDefault);
-        }
+    if (cur_ratio >= DefaultRatio // 说明是宽屏或默认16:9，按照高度计算缩放
+        || std::fabs(cur_ratio - DefaultRatio) < DoubleDiff) {
+        int scale_width = static_cast<int>(cur_ratio * WindowHeightDefault);
+        m_scale_size = std::make_pair(scale_width, WindowHeightDefault);
+        m_control_scale = static_cast<double>(height) / static_cast<double>(WindowHeightDefault);
+    }
+    else { // 否则可能是偏正方形的屏幕，按宽度计算
+        int scale_height = static_cast<int>(WindowWidthDefault / cur_ratio);
+        m_scale_size = std::make_pair(WindowWidthDefault, scale_height);
+        m_control_scale = static_cast<double>(width) / static_cast<double>(WindowWidthDefault);
     }
 }
 

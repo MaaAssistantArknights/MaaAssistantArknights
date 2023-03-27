@@ -75,22 +75,21 @@ namespace asst
 
         void clear_info() noexcept;
         void callback(AsstMsg msg, const json::value& details);
-
         void sync_params();
 
-        AsstCallback m_callback;
+        AsstCallback m_callback = nullptr;
 
         std::minstd_rand m_rand_engine;
 
-        asst::PlatformType m_platform_type = PlatformType::Native;
+        PlatformType m_platform_type = PlatformType::Native;
 
-        asst::ControllerType m_controller_type = ControllerType::Minitouch;
+        ControllerType m_controller_type = ControllerType::Minitouch;
 
         std::shared_ptr<ControllerAPI> m_controller = nullptr;
 
         std::unique_ptr<ControllerFactory> m_controller_factory = nullptr;
 
-        std::shared_ptr<asst::ControlScaleProxy> m_scale_proxy = nullptr;
+        std::shared_ptr<ControlScaleProxy> m_scale_proxy = nullptr;
 
         std::string m_uuid;
 
