@@ -64,6 +64,18 @@ void asst::Controller::callback(AsstMsg msg, const json::value& details)
     }
 }
 
+#define CHECK_EXIST(object, return_type)      \
+    if (!object) {                            \
+        Log.error(#object, " is not inited"); \
+        return return_type;                   \
+    }
+
+void asst::Controller::sync_params()
+{
+    CHECK_EXIST(m_controller, );
+    m_controller->set_swipe_with_pause(m_swipe_with_pause);
+}
+
 cv::Mat asst::Controller::get_resized_image_cache() const
 {
     const static cv::Size d_size(m_scale_size.first, m_scale_size.second);
@@ -80,50 +92,59 @@ cv::Mat asst::Controller::get_resized_image_cache() const
 
 bool asst::Controller::start_game(const std::string& client_type)
 {
+    CHECK_EXIST(m_controller, false);
     return m_controller->start_game(client_type);
 }
 
 bool asst::Controller::stop_game()
 {
+    CHECK_EXIST(m_controller, false);
     return m_controller->stop_game();
 }
 
 bool asst::Controller::click(const Point& p)
 {
+    CHECK_EXIST(m_controller, false);
     return m_scale_proxy->click(p);
 }
 
 bool asst::Controller::click(const Rect& rect)
 {
+    CHECK_EXIST(m_controller, false);
     return m_scale_proxy->click(rect);
 }
 
 bool asst::Controller::swipe(const Point& p1, const Point& p2, int duration, bool extra_swipe, double slope_in,
                              double slope_out, bool with_pause)
 {
+    CHECK_EXIST(m_controller, false);
     return m_scale_proxy->swipe(p1, p2, duration, extra_swipe, slope_in, slope_out, with_pause);
 }
 
 bool asst::Controller::swipe(const Rect& r1, const Rect& r2, int duration, bool extra_swipe, double slope_in,
                              double slope_out, bool with_pause)
 {
+    CHECK_EXIST(m_controller, false);
     return m_scale_proxy->swipe(r1, r2, duration, extra_swipe, slope_in, slope_out, with_pause);
 }
 
 bool asst::Controller::inject_input_event(InputEvent& event)
 {
-    return m_scale_proxy->inject_input_event(event);
+    CHECK_EXIST(m_controller, false);
+    return m_controller->inject_input_event(event);
 }
 
 bool asst::Controller::press_esc()
 {
     LogTraceFunction;
 
+    CHECK_EXIST(m_controller, false);
     return m_controller->press_esc();
 }
 
 asst::ControlFeat::Feat asst::Controller::support_features()
 {
+    CHECK_EXIST(m_controller, ControlFeat::NONE);
     return m_controller->support_features();
 }
 
@@ -140,6 +161,8 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         Log.error("connect failed");
         return false;
     }
+
+    sync_params();
 
     m_uuid = m_controller->get_uuid();
 
@@ -182,6 +205,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
 bool asst::Controller::inited() noexcept
 {
+    CHECK_EXIST(m_controller, false);
     return m_controller->inited();
 }
 
@@ -204,7 +228,8 @@ void asst::Controller::set_touch_mode(const TouchMode& mode) noexcept
 
 void asst::Controller::set_swipe_with_pause(bool enable) noexcept
 {
-    m_controller->set_swipe_with_pause(enable);
+    m_swipe_with_pause = enable;
+    sync_params();
 }
 
 void asst::Controller::set_adb_lite_enabled(bool enable) noexcept
@@ -271,6 +296,7 @@ cv::Mat asst::Controller::get_image_cache() const
 
 bool asst::Controller::screencap(bool allow_reconnect)
 {
+    CHECK_EXIST(m_controller, false);
     std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
     return m_controller->screencap(m_cache_image, allow_reconnect);
 }
