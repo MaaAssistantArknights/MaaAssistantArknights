@@ -463,12 +463,13 @@ bool asst::AdbController::screencap(const std::string& cmd, const DecodeFunc& de
     auto ret = call_command(cmd, 20000, allow_reconnect, by_socket);
 
     if (!ret || ret.value().empty()) [[unlikely]] {
-        Log.warn("data is too small!");
+        Log.warn("data is empty!");
+        return false;
     }
     auto& data = ret.value();
     if (m_screencap_data_general_size && data.size() < m_screencap_data_general_size * 0.1) {
-        Log.error("data is too small!");
-        return false;
+        Log.warn("data is too small!");
+        // return false;
     }
 
     bool tried_conversion = false;
