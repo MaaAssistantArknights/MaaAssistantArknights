@@ -665,7 +665,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 return CheckUpdateRetT.OK;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // Refactor pending
                 return CheckUpdateRetT.UnknownError;

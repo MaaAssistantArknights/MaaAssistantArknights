@@ -223,7 +223,6 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 ParseJsonAndShowInfo(jsonStr);
             }
-
         }
 
         private async Task<string> RequestCopilotServer(int copilotID)
