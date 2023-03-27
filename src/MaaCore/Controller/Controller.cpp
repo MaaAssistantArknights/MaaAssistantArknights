@@ -166,6 +166,12 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
     m_uuid = m_controller->get_uuid();
 
+#ifdef ASST_DEBUG
+    if (config == "DEBUG") {
+        return true;
+    }
+#endif
+
     // try to find the fastest way
     if (!screencap()) {
         Log.error("Cannot find a proper way to screencap!");
