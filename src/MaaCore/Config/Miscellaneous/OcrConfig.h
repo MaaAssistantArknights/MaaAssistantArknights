@@ -27,5 +27,4 @@ namespace asst
 
         std::vector<equivalence_class> m_eq_classes;
     };
-
 } // namespace asst
