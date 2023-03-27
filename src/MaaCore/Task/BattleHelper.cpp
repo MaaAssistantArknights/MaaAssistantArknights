@@ -308,7 +308,8 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
     if (int min_duration = swipe_oper_task_ptr->special_params.at(3); duration < min_duration) {
         duration = min_duration;
     }
-    bool deploy_with_pause = m_inst_helper.ctrler()->support_swipe_with_pause();
+    bool deploy_with_pause =
+        ControlFeat::support(m_inst_helper.ctrler()->support_features(), ControlFeat::SWIPE_WITH_PAUSE);
     m_inst_helper.ctrler()->swipe(oper_rect, Rect(target_point.x, target_point.y, 1, 1), duration, false,
                                   swipe_oper_task_ptr->special_params.at(1), swipe_oper_task_ptr->special_params.at(2),
                                   deploy_with_pause);
