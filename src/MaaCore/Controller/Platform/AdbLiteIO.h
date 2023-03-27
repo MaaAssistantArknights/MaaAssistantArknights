@@ -14,7 +14,6 @@
 
 namespace asst
 {
-
 #ifdef _WIN32
     using NativeIO = asst::Win32IO;
 #else

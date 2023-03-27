@@ -84,7 +84,6 @@ bool asst::TilePack::load(const std::filesystem::path& path)
     }
 
     for (const auto& entry : std::filesystem::directory_iterator(path)) {
-
         if (eoq.load()) break; // this means parsing went wrong
 
         const auto& file_path = entry.path();
