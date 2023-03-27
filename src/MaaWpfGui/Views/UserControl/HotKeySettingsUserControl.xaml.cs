@@ -11,14 +11,12 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System.Windows.Controls;
-
-namespace MaaWpfGui
+namespace MaaWpfGui.Views.UserControl
 {
     /// <summary>
     /// HotKeySettingsUserControl.xaml 的交互逻辑
     /// </summary>
-    public partial class HotKeySettingsUserControl : UserControl
+    public partial class HotKeySettingsUserControl : System.Windows.Controls.UserControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HotKeySettingsUserControl"/> class.

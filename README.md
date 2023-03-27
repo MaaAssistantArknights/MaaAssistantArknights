@@ -108,7 +108,8 @@ MAA 的意思是 MAA Assistant Arknights
 - 安卓触控事件器：[MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)
 - WPF MVVM框架：[Stylet](https://github.com/canton7/Stylet)
 - WPF控件库：[HandyControl](https://github.com/HandyOrg/HandyControl)
-- C# JSON库：[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
+- C# 日志：[Serilog](https://github.com/serilog/serilog)
+- C# JSON库：[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json) & [System.Text.Json](https://github.com/dotnet/runtime)
 - ~~下载器：[aria2](https://github.com/aria2/aria2)~~
 
 ### 数据源

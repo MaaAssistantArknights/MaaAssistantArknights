@@ -15,15 +15,16 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using MaaWpfGui.Main;
 
-namespace MaaWpfGui
+namespace MaaWpfGui.Helper
 {
     /// <summary>
     /// The emulator adapter.
     /// </summary>
     public class WinAdapter
     {
-        private static readonly Dictionary<string, string> emulatorIdDict = new Dictionary<string, string>
+        private static readonly Dictionary<string, string> _emulatorIdDict = new Dictionary<string, string>
         {
             { "HD-Player",  "BlueStacks" },
             { "dnplayer", "LDPlayer" },
@@ -32,7 +33,7 @@ namespace MaaWpfGui
             { "MEmu", "XYAZ" },
         };
 
-        private static readonly Dictionary<string, List<string>> adbRelativePathDict = new Dictionary<string, List<string>>
+        private static readonly Dictionary<string, List<string>> _adbRelativePathDict = new Dictionary<string, List<string>>
         {
             {
                 "BlueStacks", new List<string>
@@ -53,7 +54,7 @@ namespace MaaWpfGui
             { "XYAZ",  new List<string> { ".\\adb.exe" } },
         };
 
-        private readonly Dictionary<string, string> adbAbsolutePathDict = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> _adbAbsolutePathDict = new Dictionary<string, string>();
 
         /// <summary>
         /// Refreshes emulator information.
@@ -65,17 +66,17 @@ namespace MaaWpfGui
             var emulators = new List<string>();
             foreach (var process in allProcess)
             {
-                if (emulatorIdDict.Keys.Contains(process.ProcessName))
+                if (_emulatorIdDict.Keys.Contains(process.ProcessName))
                 {
-                    var emulatorId = emulatorIdDict[process.ProcessName];
+                    var emulatorId = _emulatorIdDict[process.ProcessName];
                     emulators.Add(emulatorId);
                     var processPath = process.MainModule.FileName;
-                    foreach (var path in adbRelativePathDict[emulatorId])
+                    foreach (var path in _adbRelativePathDict[emulatorId])
                     {
                         var adbPath = Path.GetDirectoryName(processPath) + "\\" + path;
                         if (File.Exists(adbPath))
                         {
-                            adbAbsolutePathDict.Add(emulatorId, adbPath);
+                            _adbAbsolutePathDict.Add(emulatorId, adbPath);
                         }
                     }
                 }
@@ -91,9 +92,9 @@ namespace MaaWpfGui
         /// <returns>The ADB path of the emulator.</returns>
         public string GetAdbPathByEmulatorName(string emulatorName)
         {
-            if (adbAbsolutePathDict.Keys.Contains(emulatorName))
+            if (_adbAbsolutePathDict.Keys.Contains(emulatorName))
             {
-                return adbAbsolutePathDict[emulatorName];
+                return _adbAbsolutePathDict[emulatorName];
             }
 
             return null;

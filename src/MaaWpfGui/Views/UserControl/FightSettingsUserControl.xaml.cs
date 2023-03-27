@@ -16,12 +16,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace MaaWpfGui
+namespace MaaWpfGui.Views.UserControl
 {
     /// <summary>
     /// ParamSettingUserControl.xaml 的交互逻辑
     /// </summary>
-    public partial class FightSettingsUserControl : UserControl
+    public partial class FightSettingsUserControl : System.Windows.Controls.UserControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FightSettingsUserControl"/> class.
