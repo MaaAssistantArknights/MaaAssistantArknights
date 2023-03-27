@@ -7,7 +7,6 @@
 
 namespace asst
 {
-
     class IOHandler;
 
     enum class PlatformType
