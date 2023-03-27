@@ -75,6 +75,7 @@ namespace asst
 
         void clear_info() noexcept;
         void callback(AsstMsg msg, const json::value& details);
+        void sync_params();
 
         AsstCallback m_callback = nullptr;
 
@@ -93,6 +94,8 @@ namespace asst
         std::string m_uuid;
 
         std::pair<int, int> m_scale_size = { WindowWidthDefault, WindowHeightDefault };
+
+        bool m_swipe_with_pause = false;
 
         mutable std::shared_mutex m_image_mutex;
         cv::Mat m_cache_image;
