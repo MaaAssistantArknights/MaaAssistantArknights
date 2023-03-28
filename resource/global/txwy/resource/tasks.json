@@ -75,6 +75,27 @@
             "ChapterSwipeToTheLeft"
         ]
     },
+    "LE-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "塵影餘音",
+            "活動",
+            "關卡已開放"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ]
+    },
+    "LEChapterToLE": {
+        "text": [
+            "夕照大廳",
+            "大廳"
+        ]
+    },
     "CharsNameOcrReplace": {
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的繁中识别任务复用",
         "ocrReplace": [
@@ -841,6 +862,18 @@
             [
                 "艾麗妮",
                 "艾丽妮"
+            ],
+            [
+                "黑鍵",
+                "黑键"
+            ],
+            [
+                "濯塵芙蓉",
+                "濯尘芙蓉"
+            ],
+            [
+                "車爾尼",
+                "车尔尼"
             ]
         ]
     },
