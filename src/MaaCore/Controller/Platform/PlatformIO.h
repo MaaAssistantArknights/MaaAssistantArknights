@@ -40,6 +40,6 @@ namespace asst
         virtual ~IOHandler() = default;
 
         virtual bool write(const std::string_view data) = 0;
-        virtual std::string read() = 0;
+        virtual std::string read(unsigned timeout_sec) = 0;
     };
 }

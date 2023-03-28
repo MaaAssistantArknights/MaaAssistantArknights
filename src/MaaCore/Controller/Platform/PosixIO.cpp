@@ -260,14 +260,25 @@ bool asst::IOHandlerPosix::write(const std::string_view data)
     return false;
 }
 
-std::string asst::IOHandlerPosix::read()
+std::string asst::IOHandlerPosix::read(unsigned timeout_sec)
 {
     if (m_process < 0 || m_read_fd < 0) return NULL;
     std::string ret_str;
     constexpr int PipeReadBuffSize = 4096ULL;
 
+    auto check_timeout = [&](const auto& start_time) -> bool {
+        using namespace std::chrono_literals;
+        return std::chrono::steady_clock::now() - start_time < timeout_sec * 1s;
+    };
+
+    auto start_time = std::chrono::steady_clock::now();
+
     while (true) {
         char buf_from_child[PipeReadBuffSize];
+
+        if (!check_timeout(start_time)) {
+            break;
+        }
 
         ssize_t ret_read = ::read(m_read_fd, buf_from_child, PipeReadBuffSize);
         if (ret_read > 0) {

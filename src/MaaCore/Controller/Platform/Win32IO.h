@@ -69,7 +69,7 @@ namespace asst
         virtual ~IOHandlerWin32();
 
         virtual bool write(const std::string_view data) override;
-        virtual std::string read() override;
+        virtual std::string read(unsigned timeout_sec) override;
 
     private:
         HANDLE m_read = INVALID_HANDLE_VALUE;
