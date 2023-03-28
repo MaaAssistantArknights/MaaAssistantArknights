@@ -478,10 +478,16 @@ void asst::Assistant::async_call(std::function<bool(void)> func, int async_call_
 
     if (!block) {
         std::unique_lock lock(m_call_pending_mutex);
-        m_call_pending.remove_if([](const std::future<void>& fut) {
-            return fut.wait_for(std::chrono::seconds::zero()) == std::future_status::ready;
+        m_call_pending.remove_if([](std::future<void>& fut) {
+            if (fut.wait_for(std::chrono::seconds::zero()) == std::future_status::ready) {
+                fut.get();
+                return true;
+            }
+            return false;
         });
         m_call_pending.emplace_back(std::move(future));
     }
-    // else 会等待 future 析构，是阻塞的
+    else {
+        future.get();
+    }
 }
