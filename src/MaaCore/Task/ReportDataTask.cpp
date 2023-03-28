@@ -100,11 +100,11 @@ void asst::ReportDataTask::report_to_penguin()
         return false;
     };
 
-    std::string url = Config.get_options().penguin_report.cpr_format.url;
-    int timeout = Config.get_options().penguin_report.cpr_format.timeout;
+    std::string url = Config.get_options().penguin_report.url;
+    int timeout = Config.get_options().penguin_report.timeout;
     cpr::Header headers {};
 
-    for (const auto& [header_key, value] : Config.get_options().penguin_report.cpr_format.headers) {
+    for (const auto& [header_key, value] : Config.get_options().penguin_report.headers) {
         headers.emplace(header_key, value);
     }
 
@@ -154,11 +154,11 @@ void asst::ReportDataTask::report_to_yituliu()
     LogTraceFunction;
 
     constexpr std::string_view YituliuSubtaskName = "ReportToYituliu";
-    const std::string& url = Config.get_options().yituliu_report.cpr_format.url;
-    int timeout = Config.get_options().yituliu_report.cpr_format.timeout;
+    const std::string& url = Config.get_options().yituliu_report.url;
+    int timeout = Config.get_options().yituliu_report.timeout;
     cpr::Header headers = {};
 
-    for (const auto& [header_key, value] : Config.get_options().yituliu_report.cpr_format.headers) {
+    for (const auto& [header_key, value] : Config.get_options().yituliu_report.headers) {
         headers.emplace(header_key, value);
     }
 

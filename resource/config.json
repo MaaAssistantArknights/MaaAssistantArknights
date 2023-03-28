@@ -27,26 +27,18 @@
         "swipeWithPauseRequiredDistance_Doc": "暂停下干员滑动多远距离后开始按暂停",
         "penguinReport": {
             "Doc": "企鹅物流汇报: https://penguin-stats.cn/",
-            "cmdFormat": "curl -H \"Content-Type: application/json\" -s -S -m 10 -i -d \"[body]\" \"https://penguin-stats.io/PenguinStats/api/v2/report\" --ssl-no-revoke --http1.1 [extra]",
-            "cmdFormat_Doc": "命令格式，想打印详细信息可以尝试添加 -v -i",
-            "cprFormat": {
-                "url": "https://penguin-stats.io/PenguinStats/api/v2/report",
-                "timeout": 10000,
-                "headers": {
-                    "Content-Type": "application/json"
-                }
+            "url": "https://penguin-stats.io/PenguinStats/api/v2/report",
+            "timeout": 10000,
+            "headers": {
+                "Content-Type": "application/json"
             }
         },
         "yituliuReport": {
             "Doc": "一图流汇报：https://yituliu.site/maarecruitdata",
-            "cmdFormat": "curl -H \"Content-Type: application/json\" -s -S -m 5 -i -d \"[body]\" \"https://houduan.yituliu.site/tool/recruitUpload\" --ssl-no-revoke --http1.1 [extra]",
-            "cmdFormat_Doc": "命令格式，想打印详细信息可以尝试添加 -v -i",
-            "cprFormat": {
-                "url": "https://houduan.yituliu.site/tool/recruitUpload",
-                "timeout": 5000,
-                "headers": {
-                    "Content-Type": "application/json"
-                }
+            "url": "https://houduan.yituliu.site/tool/recruitUpload",
+            "timeout": 5000,
+            "headers": {
+                "Content-Type": "application/json"
             }
         },
         "depotExportTemplate": {
