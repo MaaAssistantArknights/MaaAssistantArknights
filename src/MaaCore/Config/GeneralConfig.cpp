@@ -20,24 +20,30 @@ bool asst::GeneralConfig::parse(const json::value& json)
         m_options.minitouch_extra_swipe_duration = options_json.get("minitouchExtraSwipeDuration", -1);
         m_options.swipe_with_pause_required_distance = options_json.get("swipeWithPauseRequiredDistance", 50);
         if (auto order = options_json.find<json::array>("minitouchProgramsOrder")) {
+            m_options.minitouch_programs_order.clear();
             for (const auto& type : *order) {
                 m_options.minitouch_programs_order.emplace_back(type.as_string());
             }
         }
-        m_options.penguin_report.cmd_format = options_json.get("penguinReport", "cmdFormat", std::string());
-        m_options.penguin_report.cpr_format.url = options_json.get("penguinReport", "cprFormat", "url", std::string());
-        m_options.penguin_report.cpr_format.timeout = options_json.get("penguinReport", "cprFormat", "timeout", 10000);
-        if (auto headers = options_json.at("penguinReport").at("cprFormat").find<json::object>("headers")) {
-            for (const auto& [key, value] : *headers) {
-                m_options.penguin_report.cpr_format.headers.emplace(key, value.as_string());
+
+        if (auto penguin_opt = options_json.find<json::object>("penguinReport")) {
+            m_options.penguin_report.url = penguin_opt->get("url", std::string());
+            m_options.penguin_report.timeout = penguin_opt->get("timeout", 10000);
+            if (auto headers_opt = penguin_opt->find<json::object>("headers")) {
+                m_options.penguin_report.headers.clear();
+                for (const auto& [key, value] : *headers_opt) {
+                    m_options.penguin_report.headers.emplace(key, value.as_string());
+                }
             }
         }
-        m_options.yituliu_report.cmd_format = options_json.get("yituliuReport", "cmdFormat", std::string());
-        m_options.yituliu_report.cpr_format.url = options_json.get("yituliuReport", "cprFormat", "url", std::string());
-        m_options.yituliu_report.cpr_format.timeout = options_json.get("yituliuReport", "cprFormat", "timeout", 5000);
-        if (auto headers = options_json.at("yituliuReport").at("cprFormat").find<json::object>("headers")) {
-            for (const auto& [key, value] : *headers) {
-                m_options.yituliu_report.cpr_format.headers.emplace(key, value.as_string());
+        if (auto yituliu_opt = options_json.find<json::object>("yituliuReport")) {
+            m_options.yituliu_report.url = yituliu_opt->get("url", std::string());
+            m_options.yituliu_report.timeout = yituliu_opt->get("timeout", 5000);
+            if (auto headers_opt = yituliu_opt->find<json::object>("headers")) {
+                m_options.yituliu_report.headers.clear();
+                for (const auto& [key, value] : *headers_opt) {
+                    m_options.yituliu_report.headers.emplace(key, value.as_string());
+                }
             }
         }
         m_options.depot_export_template.ark_planner =
