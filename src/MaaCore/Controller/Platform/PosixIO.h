@@ -51,7 +51,7 @@ namespace asst
         virtual ~IOHandlerPosix();
 
         virtual bool write(const std::string_view data) override;
-        virtual std::string read() override;
+        virtual std::string read(unsigned timeout_sec) override;
 
     private:
         int m_read_fd = -1;

@@ -193,10 +193,10 @@ bool asst::IOHandlerAdbLite::write(const std::string_view data)
     }
 }
 
-std::string asst::IOHandlerAdbLite::read()
+std::string asst::IOHandlerAdbLite::read(unsigned timeout_sec)
 {
     try {
-        return m_handle->read();
+        return m_handle->read(timeout_sec);
     }
     catch (const std::exception& e) {
         Log.error("IOHandler read failed:", e.what());
