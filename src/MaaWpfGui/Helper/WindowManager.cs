@@ -72,7 +72,7 @@ namespace MaaWpfGui.Helper
                 // In Stylet, CreateWindow().WindowStartupLocation is CenterScreen or CenterOwner (if w.WSLoc == Manual && w.Left == NaN && w.Top == NaN && ...)
                 window.WindowStartupLocation = WindowStartupLocation.Manual;
 
-                if (window.GetType() == typeof(RootView))
+                if (window is RootView)
                 {
                     MoveWindowToDisplay(ScreenName, window);
                 }
