@@ -36,16 +36,29 @@ bool asst::MinitouchController::call_and_hup_minitouch()
         return false;
     }
 
-    if (need_exit()) {
-        release_minitouch(true);
-        return false;
-    }
+    auto check_timeout = [&](const auto& start_time) -> bool {
+        using namespace std::chrono_literals;
+        return std::chrono::steady_clock::now() - start_time < 3s;
+    };
 
-    pipe_str = m_minitouch_handler->read(3);
+    const auto start_time = std::chrono::steady_clock::now();
+    while (true) {
+        if (need_exit()) {
+            release_minitouch(true);
+            return false;
+        }
 
-    if (pipe_str.find('$') == std::string::npos) {
-        release_minitouch(true);
-        return false;
+        pipe_str += m_minitouch_handler->read(3);
+
+        if (!check_timeout(start_time)) {
+            Log.info("unable to find $ from pipe_str:", Logger::separator::newline, pipe_str);
+            release_minitouch(true);
+            return false;
+        }
+
+        if (pipe_str.find('$') != std::string::npos) {
+            break;
+        }
     }
 
     Log.info("pipe str", Logger::separator::newline, pipe_str);
