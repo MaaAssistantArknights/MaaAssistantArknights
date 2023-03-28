@@ -281,11 +281,6 @@ std::shared_ptr<asst::IOHandler> asst::Win32IO::interactive_shell(const std::str
     constexpr int PipeReadBuffSize = 4096ULL;
     constexpr int PipeWriteBuffSize = 64 * 1024ULL;
 
-    auto check_timeout = [&](const auto& start_time) -> bool {
-        using namespace std::chrono_literals;
-        return std::chrono::steady_clock::now() - start_time < 3s;
-    };
-
     SECURITY_ATTRIBUTES sa_attr_inherit {
         .nLength = sizeof(SECURITY_ATTRIBUTES),
         .lpSecurityDescriptor = nullptr,
@@ -329,27 +324,6 @@ std::shared_ptr<asst::IOHandler> asst::Win32IO::interactive_shell(const std::str
         return nullptr;
     }
 
-    auto start_time = std::chrono::steady_clock::now();
-
-    auto pipe_buffer = std::make_unique<char[]>(PipeReadBuffSize);
-    OVERLAPPED pipeov { .hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr) };
-    std::ignore = ReadFile(pipe_parent_read, pipe_buffer.get(), PipeReadBuffSize, nullptr, &pipeov);
-
-    while (true) {
-        if (!check_timeout(start_time)) {
-            Log.error("minitouch start timeout");
-            CloseHandle(m_process_info.hProcess);
-            CloseHandle(m_process_info.hThread);
-            CloseHandle(pipe_parent_read);
-            CloseHandle(pipe_parent_write);
-            return nullptr;
-        }
-        DWORD len = 0;
-        if (GetOverlappedResult(pipe_parent_read, &pipeov, &len, FALSE)) {
-            break;
-        }
-    }
-
     return std::make_shared<IOHandlerWin32>(pipe_parent_read, pipe_parent_write, m_process_info);
 }
 
@@ -382,12 +356,32 @@ asst::IOHandlerWin32::~IOHandlerWin32()
     }
 }
 
-std::string asst::IOHandlerWin32::read()
+std::string asst::IOHandlerWin32::read(unsigned timeout_sec)
 {
+    auto check_timeout = [&](const auto& start_time) -> bool {
+        using namespace std::chrono_literals;
+        return std::chrono::steady_clock::now() - start_time < timeout_sec * 1s;
+    };
+
+    auto start_time = std::chrono::steady_clock::now();
+
     auto pipe_buffer = std::make_unique<char[]>(PipeBufferSize);
     OVERLAPPED pipeov { .hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr) };
     std::ignore = ReadFile(m_read, pipe_buffer.get(), PipeBufferSize, nullptr, &pipeov);
-    return std::string(pipe_buffer.get());
+
+    while (true) {
+        if (!check_timeout(start_time)) {
+            CancelIoEx(m_read, &pipeov);
+            Log.error("read timeout");
+            break;
+        }
+        DWORD len = 0;
+        if (GetOverlappedResult(m_read, &pipeov, &len, FALSE)) {
+            break;
+        }
+    }
+
+    return pipe_buffer.get();
 }
 
 bool asst::IOHandlerWin32::write(const std::string_view data)

@@ -50,7 +50,7 @@ namespace asst
         virtual ~IOHandlerAdbLite() = default;
 
         virtual bool write(const std::string_view data) override;
-        virtual std::string read() override;
+        virtual std::string read(unsigned timeout_sec) override;
 
     private:
         std::shared_ptr<adb::io_handle> m_handle = nullptr;
