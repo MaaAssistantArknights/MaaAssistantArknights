@@ -16,6 +16,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Views.UI;
 using Stylet;
 using Screen = System.Windows.Forms.Screen;
 
@@ -37,8 +38,6 @@ namespace MaaWpfGui.Helper
         private readonly double Top = double.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.PositionTop, DefaultDouble.ToString(CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);
         private readonly double Width = double.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.WindowWidth, DefaultDouble.ToString(CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);
         private readonly double Height = double.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.WindowHeight, DefaultDouble.ToString(CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);
-
-        private readonly string RootView = "MaaWpfGui.RootView";
 
         public void MoveWindowToDisplay(string displayName, Window window)
         {
@@ -73,7 +72,7 @@ namespace MaaWpfGui.Helper
                 // In Stylet, CreateWindow().WindowStartupLocation is CenterScreen or CenterOwner (if w.WSLoc == Manual && w.Left == NaN && w.Top == NaN && ...)
                 window.WindowStartupLocation = WindowStartupLocation.Manual;
 
-                if (window.ToString() == RootView)
+                if (window is RootView)
                 {
                     MoveWindowToDisplay(ScreenName, window);
                 }
