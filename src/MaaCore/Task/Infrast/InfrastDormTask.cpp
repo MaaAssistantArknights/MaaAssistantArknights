@@ -327,6 +327,7 @@ bool asst::InfrastDormTask::swipe_and_select_custom_opers()
         pre_partial_result = partial_result;
         swipe_of_operlist();
         ++swipe_times;
+        if (swipe_times >= 10) sleep(1000); // 目前最后一页的干员必定会错选（多个回弹动画），暂时先这样修一下
     }
 
     // 使用筛选功能可以自动切换到第一页，并将已经选中的人放到最前面
