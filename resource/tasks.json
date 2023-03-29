@@ -4787,7 +4787,7 @@
             "InfrastFilterMenuNotStationedButton",
             "InfrastFilterMenuConfirmButton"
         ],
-        "postDelay": 1000
+        "postDelay": 400
     },
     "InfrastFilterMenuNotStationedButton": {
         "action": "ClickSelf",
@@ -4799,7 +4799,7 @@
             250,
             150
         ],
-        "postDelay": 1000,
+        "postDelay": 400,
         "next": [
             "InfrastFilterMenuConfirmButton"
         ]
@@ -4831,7 +4831,7 @@
             "InfrastFilterMenuCancelNotStationedButtonAlreadyClicked",
             "InfrastFilterMenuConfirmButton"
         ],
-        "postDelay": 1000
+        "postDelay": 400
     },
     "InfrastFilterMenuCancelNotStationedButton": {
         "action": "DoNothing",
@@ -4844,7 +4844,7 @@
             250,
             150
         ],
-        "postDelay": 1000,
+        "postDelay": 400,
         "next": [
             "InfrastFilterMenuConfirmButton"
         ]
@@ -4873,7 +4873,7 @@
             152,
             50
         ],
-        "postDelay": 1000
+        "postDelay": 500
     },
     "InfrastConfirmButton": {
         "algorithm": "JustReturn",
