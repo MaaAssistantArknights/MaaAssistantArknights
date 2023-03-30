@@ -521,7 +521,8 @@ void asst::RoguelikeRecruitTaskPlugin::slowly_swipe(bool to_left, int swipe_dist
 {
     std::string swipe_task_name =
         to_left ? "RoguelikeRecruitOperListSlowlySwipeToTheLeft" : "RoguelikeRecruitOperListSlowlySwipeToTheRight";
-    if (!ctrler()->support_precise_swipe()) { // 不能精准滑动时不使用 swipe_dist 参数
+    if (!ControlFeat::support(ctrler()->support_features(),
+                              ControlFeat::PRECISE_SWIPE)) { // 不能精准滑动时不使用 swipe_dist 参数
         ProcessTask(*this, { swipe_task_name }).run();
         return;
     }

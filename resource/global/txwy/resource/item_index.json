@@ -1183,6 +1183,14 @@
         "sortId": -10000,
         "usage": "已經不能再被播放的唱片。能拿來和長久生活在城市廢墟裡的人交換物資。"
     },
+    "act18side_token_pieces": {
+        "classifyType": "NONE",
+        "description": "五線譜上的手寫音符雜亂不堪，只有作者自己才能一眼發現棲身其中的靈感。",
+        "icon": "act18side_token_pieces.png",
+        "name": "樂譜草稿",
+        "sortId": -10000,
+        "usage": "處於激情中的音樂家時常忘記自己將草稿丟在何處。將草稿整理清楚交還給他，或許可以收獲一首新曲。"
+    },
     "act1lock_point_reward": {
         "classifyType": "NONE",
         "description": "通過擊破假想敵隊伍獲得的賽事積分，將以獎章形式頒發給參賽隊伍。由米諾斯工匠製作的獎牌上，刻有“英雄都是從普通人做起”的諺語。",

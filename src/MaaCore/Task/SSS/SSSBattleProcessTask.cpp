@@ -176,7 +176,7 @@ bool asst::SSSBattleProcessTask::check_if_start_over(const battle::copilot::Acti
             cur_counts[oper.role] += 1;
         }
         for (const auto& [role, number] : action.role_counts) {
-            if (cur_counts[role] < number) {
+            if (cur_counts[role] < static_cast<size_t>(number)) {
                 to_abandon = true;
                 break;
             }

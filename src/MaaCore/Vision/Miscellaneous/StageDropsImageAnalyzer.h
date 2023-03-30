@@ -28,11 +28,14 @@ namespace asst
         bool analyze_difficulty();
         bool analyze_baseline();
         bool analyze_drops();
+        // 落叶殇火 活动（异格夜刀）, act24side, 2023-03
+        bool analyze_drops_for_CF();
 
         int match_quantity(const Rect& roi, const std::string& item, bool use_word_model = false);
         std::optional<TextRect> match_quantity_string(const Rect& roi, bool use_word_model = false);
         std::optional<TextRect> match_quantity_string(const Rect& roi, const std::string& item,
                                                       bool use_word_model = false);
+        static int quantity_string_to_int(const std::string& str);
 
         StageDropType match_droptype(const Rect& roi);
         std::string match_item(const Rect& roi, StageDropType type, int index, int size);

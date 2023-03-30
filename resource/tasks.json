@@ -507,6 +507,7 @@
     "ClickedCorrectStageOrSwipe": {
         "baseTask": "StartButton1",
         "action": "DoNothing",
+        "reduceOtherTimes": [],
         "next": [
             "ClickedCorrectStage",
             "FullStageNavigation"
@@ -531,6 +532,10 @@
             [
                 "s",
                 "S"
+            ],
+            [
+                ":",
+                ""
             ]
         ],
         "roi": [
@@ -1860,11 +1865,23 @@
             "StageResource"
         ]
     },
+    "CE-5": {
+        "algorithm": "JustReturn",
+        "next": [
+            "CE-6"
+        ]
+    },
     "CE-6": {
         "baseTask": "ResourceStages",
         "next": [
             "CE6@StageCE",
             "CE-6@SwipeToTheLeft"
+        ]
+    },
+    "LS-5": {
+        "algorithm": "JustReturn",
+        "next": [
+            "LS-6"
         ]
     },
     "LS-6": {
@@ -1950,11 +1967,12 @@
     "StageResource": {
         "action": "ClickSelf",
         "Doc": "进入资源关卡",
+        "templThreshold": 0.77,
         "roi": [
-            455,
-            562,
-            544,
-            158
+            600,
+            600,
+            250,
+            110
         ]
     },
     "Stage": {
@@ -1978,10 +1996,10 @@
     },
     "UnableToAgent": {
         "roi": [
-            994,
-            535,
-            286,
-            143
+            870,
+            410,
+            246,
+            206
         ],
         "next": [
             "Stage",
@@ -2013,6 +2031,7 @@
             243,
             143
         ],
+        "postDelay": 1000,
         "next": [
             "UnableToAgent",
             "Stop"
@@ -2194,15 +2213,15 @@
                 "重岳"
             ],
             [
-                "麒麟.*夜刀",
+                ".*麟.*夜刀$",
                 "麒麟X夜刀"
             ],
             [
-                "火龙.*黑角",
+                ".*龙.*黑角$",
                 "火龙S黑角"
             ],
             [
-                ".*大陆调查团",
+                ".*大陆调查团$",
                 "泰拉大陆调查团"
             ]
         ]
@@ -6292,23 +6311,17 @@
         ],
         "postDelay": 300
     },
+    "BattleSkillReadyOnClick-SquareMap": {
+        "baseTask": "BattleSkillReadyOnClick",
+        "template": "BattleSkillReadyOnClick-SquareMap"
+    },
     "BattleSkillStopOnClick": {
-        "roi": [
-            748,
-            414,
-            210,
-            118
-        ],
-        "templThreshold": 0.7,
-        "cache": false,
-        "action": "ClickSelf",
-        "rectMove": [
-            0,
-            -110,
-            90,
-            90
-        ],
-        "postDelay": 300
+        "baseTask": "BattleSkillReadyOnClick",
+        "template": "BattleSkillStopOnClick"
+    },
+    "BattleSkillStopOnClick-SquareMap": {
+        "baseTask": "BattleSkillReadyOnClick",
+        "template": "BattleSkillStopOnClick-SquareMap"
     },
     "BattleUseOper": {
         "algorithm": "JustReturn",
@@ -6654,6 +6667,66 @@
             110,
             255
         ]
+    },
+    "StageDrops-StageCF-ItemMatch": {
+        "template": "empty.png",
+        "templThreshold": 0.6,
+        "roi": [
+            300,
+            533,
+            600,
+            87
+        ]
+    },
+    "StageDrops-StageCF-FoodBonusFlag": {
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "text": [
+            "用",
+            "餐",
+            "加",
+            "成"
+        ],
+        "roi": [
+            270,
+            615,
+            230,
+            65
+        ]
+    },
+    "StageDrops-StageCF-ItemQuantity": {
+        "baseTask": "NumberOcrReplace",
+        "text": [],
+        "roi": [
+            52,
+            52,
+            18,
+            18
+        ]
+    },
+    "act24side_melding_1": {
+        "baseTask": "StageDrops-StageCF-ItemMatch",
+        "template": "items/act24side_melding_1.png"
+    },
+    "act24side_melding_2": {
+        "baseTask": "StageDrops-StageCF-ItemMatch",
+        "template": "items/act24side_melding_2.png"
+    },
+    "act24side_melding_3": {
+        "baseTask": "StageDrops-StageCF-ItemMatch",
+        "template": "items/act24side_melding_3.png"
+    },
+    "act24side_melding_4": {
+        "baseTask": "StageDrops-StageCF-ItemMatch",
+        "template": "items/act24side_melding_4.png"
+    },
+    "act24side_melding_5": {
+        "baseTask": "StageDrops-StageCF-ItemMatch",
+        "template": "items/act24side_melding_5.png"
+    },
+    "act24side_melding_6": {
+        "baseTask": "StageDrops-StageCF-ItemMatch",
+        "template": "items/act24side_melding_6.png"
     },
     "NumberOcrReplace": {
         "algorithm": "OcrDetect",
@@ -9811,6 +9884,25 @@
     "BattleStartPreFlag": {
         "baseTask": "BattleStartPre",
         "action": "DoNothing"
+    },
+    "BattleFormationOperNames": {
+        "baseTask": "CharsNameOcrReplace",
+        "text": [],
+        "roi": [
+            86,
+            321,
+            945,
+            325
+        ]
+    },
+    "BattleFormationOperAvatarMove": {
+        "template": "empty.png",
+        "rectMove": [
+            -125,
+            -250,
+            125,
+            165
+        ]
     },
     "Reclamation@PopupConfirm": {
         "Doc": "base_task",

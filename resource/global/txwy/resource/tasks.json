@@ -75,21 +75,11 @@
             "ChapterSwipeToTheLeft"
         ]
     },
-    "BattleStartPre": {
+    
+    "LEChapterToLE": {
         "text": [
-            "開始行動",
-            "開始突襲",
-            "開始試煉"
-        ]
-    },
-    "FightMissionFailed": {
-        "text": [
-            "任務失敗"
-        ]
-    },
-    "FightMissionFailedAndStop": {
-        "text": [
-            "任務失敗"
+            "夕照大廳",
+            "大廳"
         ]
     },
     "CharsNameOcrReplace": {
@@ -224,11 +214,15 @@
                 "远山"
             ],
             [
-                "礫",
+                "^礫$",
                 "砾"
             ],
             [
-                "樂",
+                "^樂$",
+                "砾"
+            ],
+            [
+                "^礫樂$",
                 "砾"
             ],
             [
@@ -854,6 +848,18 @@
             [
                 "艾麗妮",
                 "艾丽妮"
+            ],
+            [
+                "黑鍵",
+                "黑键"
+            ],
+            [
+                "濯塵芙蓉",
+                "濯尘芙蓉"
+            ],
+            [
+                "車爾尼",
+                "车尔尼"
             ]
         ]
     },
@@ -868,11 +874,6 @@
             "反饋至神經"
         ]
     },
-    "GoLastBattle": {
-        "text": [
-            "前往上一次作戰"
-        ]
-    },
     "StartButton1": {
         "text": [
             "開始行動"
@@ -881,6 +882,26 @@
     "PRTS3": {
         "text": [
             "可放置角色"
+        ]
+    },
+    "EndOfActionAnnihilation": {
+        "text": [
+            "行動結束"
+        ]
+    },
+    "FightMissionFailed": {
+        "text": [
+            "任務失敗"
+        ]
+    },
+    "FightMissionFailedAndStop": {
+        "text": [
+            "任務失敗"
+        ]
+    },
+    "GoLastBattle": {
+        "text": [
+            "前往上一次作戰"
         ]
     },
     "StartRecruit": {
@@ -896,6 +917,23 @@
     "RecruitNow": {
         "text": [
             "立即招"
+        ]
+    },
+    "Mall": {
+        "text": [
+            "採"
+        ]
+    },
+    "VisitLimited": {
+        "text": [
+            "今日參與",
+            "已達上限"
+        ]
+    },
+    "CreditShop-NoMoney": {
+        "text": [
+            "信用不足",
+            "無法購買"
         ]
     },
     "RecruitTags": {
@@ -1044,28 +1082,6 @@
                 "支援機械",
                 "支援机械"
             ]
-        ]
-    },
-    "EndOfActionAnnihilation": {
-        "text": [
-            "行動結束"
-        ]
-    },
-    "VisitLimited": {
-        "text": [
-            "今日參與",
-            "已達上限"
-        ]
-    },
-    "Mall": {
-        "text": [
-            "採"
-        ]
-    },
-    "CreditShop-NoMoney": {
-        "text": [
-            "信用不足",
-            "無法購買"
         ]
     },
     "InfrastReward": {
@@ -1362,10 +1378,20 @@
             ]
         ]
     },
+    "BattleStartPre": {
+        "text": [
+            "開始行動",
+            "開始突襲",
+            "開始試煉"
+        ]
+    },
     "Roguelike@FromIntegratedStrategies": {
         "text": [
             "進入主題"
         ]
+    },
+    "Phantom@Roguelike@StageEncounterOptionUnknown": {
+        "templThreshold": 0.95
     },
     "RoguelikeCustom-HijackCoChar": {
         "ocrReplace": [
@@ -1470,9 +1496,6 @@
                 "高规格分队"
             ]
         ]
-    },
-    "Phantom@Roguelike@StageEncounterOptionUnknown": {
-        "templThreshold": 0.95
     },
     "RoguelikeRecruitLevel": {
         "Doc": "台服的等级字体比国服大一圈，要改roi",

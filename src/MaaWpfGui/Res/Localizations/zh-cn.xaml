@@ -53,6 +53,7 @@
     <system:String x:Key="CustomInfrastTitle">自定义基建配置：</system:String>
     <system:String x:Key="CustomInfrastPlan">基建计划</system:String>
     <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">自动保存为下个计划</system:String>
+    <system:String x:Key="CustomizeInfrastSelectionEmpty">自定义设施配置选择为空，请检查配置或关闭自定义功能。</system:String>
 
     <system:String x:Key="General">通用模式</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">通用模式（屏蔽异常输出）</system:String>
@@ -138,7 +139,8 @@
     <system:String x:Key="CheckBoxesNotSaved">该选项设置重启后不保存</system:String>
     <system:String x:Key="NoAutoNavigation">该选项不会自动导航至对应关卡</system:String>
 
-    <system:String x:Key="UpdateAutoCheck">自动检查更新</system:String>
+    <system:String x:Key="StartupUpdateCheck">自动检查更新</system:String>
+    <system:String x:Key="UpdatAutoCheck">定时检查更新</system:String>
     <system:String x:Key="UpdateAutoDownload">自动下载更新包</system:String>
     <system:String x:Key="UpdateCheckStable">稳定版</system:String>
     <system:String x:Key="UpdateCheckBeta">公测版</system:String>
@@ -222,6 +224,7 @@
 
     <system:String x:Key="MinimizeToTray">最小化时隐藏至托盘</system:String>
     <system:String x:Key="SystemNotification">重要信息弹出系统通知</system:String>
+    <system:String x:Key="DarkModeSetColorsTip">是否立刻重启应用更改</system:String>
     <system:String x:Key="UseAlternateStage">使用备选关卡</system:String>
     <system:String x:Key="UseRemainingSanityStage">使用剩余理智</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">在完成主任务后刷取指定关卡，不再自动回复理智</system:String>
@@ -373,6 +376,7 @@
     <system:String x:Key="SelectTheFile">选择作业</system:String>
     <system:String x:Key="SelectTheFileTip">作业文件可以直接用鼠标拖进来哦 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">作业怎么样？评价下吧！</system:String>
+    <system:String x:Key="FailedToLikeWebJson">出现错误，评价失败 : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">感谢评价！\n网页端即将开放评论区，敬请期待！</system:String>
     <system:String x:Key="AutoSquad">自动编队</system:String>
     <system:String x:Key="LoopTimes">循环次数</system:String>

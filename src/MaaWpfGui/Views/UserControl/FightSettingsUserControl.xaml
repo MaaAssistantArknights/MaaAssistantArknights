@@ -1,16 +1,19 @@
 ﻿<UserControl
-    x:Class="MaaWpfGui.FightSettingsUserControl"
+    x:Class="MaaWpfGui.Views.UserControl.FightSettingsUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:local="clr-namespace:MaaWpfGui"
-    xmlns:maa="clr-namespace:MaaWpfGui.Helper.CustomStyle"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MaaWpfGui"
-    d:DataContext="{d:DesignInstance {x:Type vm:TaskQueueViewModel}}"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    d:DataContext="{d:DesignInstance {x:Type ui:TaskQueueViewModel}}"
     d:DesignWidth="250"
     mc:Ignorable="d">
     <ScrollViewer>
@@ -98,7 +101,7 @@
                         IsChecked="{Binding IsSpecifiedDrops}"
                         ToolTip="{DynamicResource NoAutoNavigation}" />
                     <Grid Height="42" Visibility="{c:Binding IsSpecifiedDrops}">
-                        <maa:TextBlock
+                        <controls:TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Text="{DynamicResource Quantity}"
@@ -141,7 +144,7 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Row="2" Orientation="Vertical">
                     <Grid Height="42">
-                        <maa:TextBlock
+                        <controls:TextBlock
                             Margin="10,6"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -149,8 +152,8 @@
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
                     </Grid>
-                    <Grid Height="42" Visibility="{c:Binding AlternateStageDisplay}">
-                        <maa:TextBlock
+                    <Grid Height="42" Visibility="{c:Binding UseAlternateStage}">
+                        <controls:TextBlock
                             Margin="10,6"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -158,9 +161,9 @@
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
                     </Grid>
-                    <Grid Height="42" Visibility="{c:Binding AlternateStageDisplay}">
+                    <Grid Height="42" Visibility="{c:Binding UseAlternateStage}">
                         <!--  a placeholder  -->
-                        <maa:TextBlock
+                        <controls:TextBlock
                             Margin="10,6"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -169,7 +172,7 @@
                             TextWrapping="Wrap" />
                     </Grid>
                     <Grid Height="42" Visibility="{c:Binding UseRemainingSanityStage}">
-                        <maa:TextBlock
+                        <controls:TextBlock
                             Margin="10,6"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -193,15 +196,6 @@
                         SelectedValue="{Binding Stage1}"
                         SelectedValuePath="Value"
                         Visibility="{c:Binding !CustomStageCode}" />
-                    <TextBox
-                        Height="30"
-                        Margin="0,6"
-                        Padding="6,0,0,0"
-                        VerticalContentAlignment="Center"
-                        IsHitTestVisible="{c:Binding !FightTaskRunning}"
-                        Text="{Binding Stage1, UpdateSourceTrigger=PropertyChanged}"
-                        ToolTip="{DynamicResource CustomStageCodeTip}"
-                        Visibility="{c:Binding CustomStageCode}" />
                     <ComboBox
                         Height="30"
                         Margin="0,6"
@@ -212,7 +206,7 @@
                         ItemsSource="{Binding StageList}"
                         SelectedValue="{Binding Stage2}"
                         SelectedValuePath="Value"
-                        Visibility="{c:Binding AlternateStageDisplay}" />
+                        Visibility="{c:Binding !CustomStageCode and UseAlternateStage}" />
                     <ComboBox
                         Height="30"
                         Margin="0,6"
@@ -223,7 +217,7 @@
                         ItemsSource="{Binding StageList}"
                         SelectedValue="{Binding Stage3}"
                         SelectedValuePath="Value"
-                        Visibility="{c:Binding AlternateStageDisplay}" />
+                        Visibility="{c:Binding !CustomStageCode and UseAlternateStage}" />
                     <ComboBox
                         Height="30"
                         Margin="0,6"
@@ -235,7 +229,34 @@
                         SelectedValue="{Binding RemainingSanityStage}"
                         SelectedValuePath="Value"
                         ToolTip="{DynamicResource UseRemainingSanityStageTip}"
-                        Visibility="{c:Binding UseRemainingSanityStage and !CustomStageCode}" />
+                        Visibility="{c:Binding !CustomStageCode and UseRemainingSanityStage}" />
+                    <TextBox
+                        Height="30"
+                        Margin="0,6"
+                        Padding="6,0,0,0"
+                        VerticalContentAlignment="Center"
+                        IsHitTestVisible="{c:Binding !FightTaskRunning}"
+                        Text="{Binding Stage1, UpdateSourceTrigger=PropertyChanged}"
+                        ToolTip="{DynamicResource CustomStageCodeTip}"
+                        Visibility="{c:Binding CustomStageCode}" />
+                    <TextBox
+                        Height="30"
+                        Margin="0,6"
+                        Padding="6,0,0,0"
+                        VerticalContentAlignment="Center"
+                        IsHitTestVisible="{c:Binding !FightTaskRunning}"
+                        Text="{Binding Stage2, UpdateSourceTrigger=PropertyChanged}"
+                        ToolTip="{DynamicResource CustomStageCodeTip}"
+                        Visibility="{c:Binding CustomStageCode and UseAlternateStage}" />
+                    <TextBox
+                        Height="30"
+                        Margin="0,6"
+                        Padding="6,0,0,0"
+                        VerticalContentAlignment="Center"
+                        IsHitTestVisible="{c:Binding !FightTaskRunning}"
+                        Text="{Binding Stage3, UpdateSourceTrigger=PropertyChanged}"
+                        ToolTip="{DynamicResource CustomStageCodeTip}"
+                        Visibility="{c:Binding CustomStageCode and UseAlternateStage}" />
                     <TextBox
                         Height="30"
                         Margin="0,6"
@@ -244,7 +265,7 @@
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
                         Text="{Binding RemainingSanityStage, UpdateSourceTrigger=PropertyChanged}"
                         ToolTip="{DynamicResource UseRemainingSanityStageTip}"
-                        Visibility="{c:Binding UseRemainingSanityStage and CustomStageCode}" />
+                        Visibility="{c:Binding CustomStageCode and UseRemainingSanityStage}" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="3">
@@ -254,7 +275,7 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Row="2" Orientation="Vertical">
                     <Grid Height="42">
-                        <maa:TextBlock
+                        <controls:TextBlock
                             Margin="10,6"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"

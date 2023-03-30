@@ -1,14 +1,17 @@
 ﻿<UserControl
-    x:Class="MaaWpfGui.AutoRecruitSettingsUserControl"
+    x:Class="MaaWpfGui.Views.UserControl.AutoRecruitSettingsUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
-    xmlns:maa="clr-namespace:MaaWpfGui.Helper.CustomStyle"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MaaWpfGui"
-    d:DataContext="{d:DesignInstance {x:Type vm:SettingsViewModel}}"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
     d:DesignWidth="400"
     mc:Ignorable="d">
     <Grid>
@@ -43,7 +46,7 @@
                     HorizontalAlignment="Left"
                     IsChecked="{Binding IsLevel3UseShortTime}"
                     ToolTip="{DynamicResource Level3UseShortTimeTip}">
-                    <maa:TextBlock Text="{DynamicResource Level3UseShortTime}" TextWrapping="Wrap" />
+                    <controls:TextBlock Text="{DynamicResource Level3UseShortTime}" TextWrapping="Wrap" />
                 </CheckBox>
             </StackPanel>
             <StackPanel
@@ -51,7 +54,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Orientation="Horizontal">
-                <maa:TextBlock
+                <controls:TextBlock
                     Width="90"
                     Margin="5"
                     VerticalAlignment="Center"
@@ -61,6 +64,8 @@
                 <TextBox
                     Width="50"
                     Margin="5"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
                     InputMethod.IsInputMethodEnabled="False"
                     Text="{Binding RecruitMaxTimes}" />
             </StackPanel>

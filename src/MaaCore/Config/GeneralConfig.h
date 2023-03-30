@@ -11,19 +11,16 @@
 
 namespace asst
 {
-    struct PenguinReportCfg // 企鹅物流数据汇报 的配置
+    struct RequestInfo
     {
-        std::string cmd_format; // 命令格式
+        std::string url;                                      // 上传地址
+        std::unordered_map<std::string, std::string> headers; // 请求头
+        int timeout = 0;                                      // 超时时间
     };
 
     struct DepotExportTemplate
     {
         std::string ark_planner;
-    };
-
-    struct yituliuReportCfg // 一图流大数据汇报 的配置
-    {
-        std::string cmd_format; // 命令格式
     };
 
     struct Options
@@ -44,10 +41,10 @@ namespace asst
         int minitouch_extra_swipe_duration = -1;
         int swipe_with_pause_required_distance = 0;
         std::vector<std::string> minitouch_programs_order;
-        PenguinReportCfg penguin_report; // 企鹅物流汇报：
+        RequestInfo penguin_report; // 企鹅物流汇报：
         // 每次到结算界面，汇报掉落数据至企鹅物流 https://penguin-stats.cn/
         DepotExportTemplate depot_export_template; // 仓库识别结果导出模板
-        yituliuReportCfg yituliu_report; // 一图流大数据汇报：目前只有公招功能，https://yituliu.site/maarecruitdata
+        RequestInfo yituliu_report; // 一图流大数据汇报：目前只有公招功能，https://yituliu.site/maarecruitdata
     };
 
     struct AdbCfg

@@ -1,14 +1,17 @@
 ﻿<UserControl
-    x:Class="MaaWpfGui.MallSettingsUserControl"
+    x:Class="MaaWpfGui.Views.UserControl.MallSettingsUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
-    xmlns:maa="clr-namespace:MaaWpfGui.Helper.CustomStyle"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MaaWpfGui"
-    d:DataContext="{d:DesignInstance {x:Type vm:SettingsViewModel}}"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
     d:DesignWidth="550"
     mc:Ignorable="d">
     <Grid>
@@ -53,7 +56,7 @@
                 VerticalAlignment="Top"
                 IsEnabled="{Binding CreditShopping}"
                 Orientation="Horizontal">
-                <maa:TextBlock
+                <controls:TextBlock
                     Margin="10"
                     Block.TextAlignment="Center"
                     Text="{DynamicResource Blacklist}" />
@@ -68,7 +71,7 @@
                 VerticalAlignment="Top"
                 IsEnabled="{Binding CreditShopping}"
                 Orientation="Horizontal">
-                <maa:TextBlock
+                <controls:TextBlock
                     Margin="10"
                     Block.TextAlignment="Center"
                     Text="{DynamicResource HighPriority}" />
