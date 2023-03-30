@@ -53,6 +53,7 @@
     <system:String x:Key="CustomInfrastTitle">기반시설 구성:</system:String>
     <system:String x:Key="CustomInfrastPlan">기반시설 계획</system:String>
     <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">다음 계획용으로 자동 저장</system:String>
+    <system:String x:Key="CustomizeInfrastSelectionEmpty">커스텀 시설 설정 선택이 비어 있습니다. 구성을 확인하거나 사용자 정의 기능을 끄십시오.</system:String>
 
     <system:String x:Key="General">일반 모드</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">일반 모드 (차단됨 예외 출력)</system:String>
@@ -132,7 +133,8 @@
     <system:String x:Key="CheckBoxesNotSaved">재시작 후 변경 사항이 저장되지 않습니다</system:String>
     <system:String x:Key="NoAutoNavigation">해당 스테이지로 자동 이동하지 않습니다</system:String>
 
-    <system:String x:Key="UpdateAutoCheck">자동으로 업데이트 확인</system:String>
+    <system:String x:Key="StartupUpdateCheck">시작시 업데이트 확인</system:String>
+    <system:String x:Key="UpdatAutoCheck">일정 시간마다 업데이트 확인</system:String>
     <system:String x:Key="UpdateAutoDownload">자동으로 업데이트</system:String>
     <system:String x:Key="UpdateCheckStable">안정 버전</system:String>
     <system:String x:Key="UpdateCheckBeta">베타 버전</system:String>

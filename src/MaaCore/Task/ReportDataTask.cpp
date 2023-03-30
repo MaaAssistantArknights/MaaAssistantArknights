@@ -29,9 +29,9 @@ asst::ReportDataTask& asst::ReportDataTask::set_body(std::string body)
     return *this;
 }
 
-asst::ReportDataTask& asst::ReportDataTask::set_extra_param(std::string extra_param)
+asst::ReportDataTask& asst::ReportDataTask::set_extra_headers(std::unordered_map<std::string, std::string> headers)
 {
-    m_extra_param = std::move(extra_param);
+    m_extra_headers = std::move(headers);
     return *this;
 }
 
@@ -83,17 +83,16 @@ void asst::ReportDataTask::report_to_penguin()
     key_ss << "MAA" << std::hex << tick << rand;
     std::string key = key_ss.str();
     Log.info("X-Penguin-Idempotency-Key:", key);
-    m_extra_param += " -H \"X-Penguin-Idempotency-Key: " + std::move(key) + "\"";
 
     constexpr int DefaultBackoff = 10 * 1000; // 10s
     int backoff = DefaultBackoff;
 
-    auto penguin_success_cond = [](const http::Response& response) -> bool { return response.success(); };
-    auto penguin_retry_cond = [&](const http::Response& response) -> bool {
-        if (!response.status_code()) {
+    auto penguin_success_cond = [](const cpr::Response& response) -> bool { return response.status_code == 200; };
+    auto penguin_retry_cond = [&](const cpr::Response& response) -> bool {
+        if (!response.status_code) {
             return true;
         }
-        if (response.status_5xx()) {
+        if (response.status_code >= 500 && response.status_code < 600) {
             backoff = static_cast<int>(backoff * 1.5);
             sleep(backoff);
             return true;
@@ -101,19 +100,33 @@ void asst::ReportDataTask::report_to_penguin()
         return false;
     };
 
+    std::string url = Config.get_options().penguin_report.url;
+    int timeout = Config.get_options().penguin_report.timeout;
+    cpr::Header headers {};
+
+    for (const auto& [header_key, value] : Config.get_options().penguin_report.headers) {
+        headers.emplace(header_key, value);
+    }
+
+    for (const auto& field : m_extra_headers) {
+        headers.emplace(field);
+    }
+
+    headers.emplace("X-Penguin-Idempotency-Key", std::move(key));
+
     constexpr std::string_view PenguinSubtaskName = "ReportToPenguinStats";
-    const std::string& cmd_format = Config.get_options().penguin_report.cmd_format;
-    http::Response response = report(PenguinSubtaskName, cmd_format, penguin_success_cond, penguin_retry_cond, false);
+    cpr::Response response =
+        report(PenguinSubtaskName, url, headers, timeout, penguin_success_cond, penguin_retry_cond, false);
 
     auto proc_response_id = [&]() {
-        if (auto penguinid_opt = response.find_header("x-penguin-set-penguinid")) [[unlikely]] {
+        if (response.header.contains("x-penguin-set-penguinid")) [[unlikely]] {
             json::value id_info = basic_info_with_what("PenguinId");
-            id_info["details"]["id"] = std::string(penguinid_opt.value());
+            id_info["details"]["id"] = response.header["x-penguin-set-penguinid"];
             callback(AsstMsg::SubTaskExtraInfo, id_info);
         }
     };
 
-    if (response.success()) {
+    if (response.status_code == 200) {
         proc_response_id();
         return;
     }
@@ -121,16 +134,16 @@ void asst::ReportDataTask::report_to_penguin()
     // 重新向企鹅物流统计的 CN 域名发送数据
     constexpr std::string_view Penguin_IO = "https://penguin-stats.io";
     constexpr std::string_view Penguin_CN = "https://penguin-stats.cn";
-    if (cmd_format.find(Penguin_IO) == std::string::npos) {
+    if (url.find(Penguin_IO) == std::string::npos) {
         return;
     }
     Log.info("Re-report to penguin-stats.cn", Penguin_CN);
-    std::string new_cmd_format = utils::string_replace_all(cmd_format, Penguin_IO, Penguin_CN);
+    std::string new_url = utils::string_replace_all(url, Penguin_IO, Penguin_CN);
 
     backoff = DefaultBackoff;
-    response = report(PenguinSubtaskName, new_cmd_format, penguin_success_cond, penguin_retry_cond);
+    response = report(PenguinSubtaskName, new_url, headers, timeout, penguin_success_cond, penguin_retry_cond);
 
-    if (response.success()) {
+    if (response.status_code == 200) {
         proc_response_id();
         return;
     }
@@ -141,13 +154,24 @@ void asst::ReportDataTask::report_to_yituliu()
     LogTraceFunction;
 
     constexpr std::string_view YituliuSubtaskName = "ReportToYituliu";
-    const std::string& cmd_format = Config.get_options().yituliu_report.cmd_format;
-    report(YituliuSubtaskName, cmd_format);
+    const std::string& url = Config.get_options().yituliu_report.url;
+    int timeout = Config.get_options().yituliu_report.timeout;
+    cpr::Header headers = {};
+
+    for (const auto& [header_key, value] : Config.get_options().yituliu_report.headers) {
+        headers.emplace(header_key, value);
+    }
+
+    for (const auto& field : m_extra_headers) {
+        headers.emplace(field);
+    }
+
+    report(YituliuSubtaskName, url, headers, timeout);
 }
 
-asst::http::Response asst::ReportDataTask::report(std::string_view subtask, const std::string& format,
-                                                  HttpResponsePred success_cond, HttpResponsePred retry_cond,
-                                                  bool callback_on_failure)
+cpr::Response asst::ReportDataTask::report(std::string_view subtask, const std::string& url, const cpr::Header& headers,
+                                           const int timeout, HttpResponsePred success_cond,
+                                           HttpResponsePred retry_cond, bool callback_on_failure)
 {
     LogTraceFunction;
 
@@ -155,9 +179,20 @@ asst::http::Response asst::ReportDataTask::report(std::string_view subtask, cons
     cb_info["subtask"] = std::string(subtask);
     callback(AsstMsg::SubTaskStart, cb_info);
 
-    http::Response response;
+    Log.info("Report url: ", url);
+    for (const auto& [key, value] : headers) {
+        Log.info("Report header: ", key, ":", value);
+    }
+    Log.info("Report body: ", m_body);
+
+    cpr::Response response;
     for (int i = 0; i <= m_retry_times; ++i) {
-        response = escape_and_request(format);
+        response = cpr::Post(cpr::Url { url }, cpr::Body { m_body }, headers, cpr::Timeout { timeout });
+        Log.info("Report response status code: ", response.status_code);
+        for (const auto& [key, value] : response.header) {
+            Log.info("Report response header: ", key, ":", value);
+        }
+        Log.info("Report response: ", response.text);
         if (success_cond(response)) {
             callback(AsstMsg::SubTaskCompleted, cb_info);
             return response;
@@ -166,7 +201,7 @@ asst::http::Response asst::ReportDataTask::report(std::string_view subtask, cons
             break;
         }
         else {
-            Log.trace("retrying... | why:", response.get_last_error(), "status_code:", response.status_code());
+            Log.trace("retrying... | why:", response.error.message, "status_code:", response.status_code);
         }
         if (need_exit()) {
             break;
@@ -176,32 +211,14 @@ asst::http::Response asst::ReportDataTask::report(std::string_view subtask, cons
     if (callback_on_failure) {
         cb_info["why"] = "上报失败";
         cb_info["details"] = json::object {
-            { "error", response.get_last_error() },
-            { "status_code", response.status_code() },
-            { "status_code_info", std::string(response.status_code_info()) },
-            { "response", std::string(response.body()) },
+            { "error", response.error.message },
+            { "status_code", response.status_code },
+            { "status_code_info", response.reason },
+            { "response", response.text },
         };
 
         callback(AsstMsg::SubTaskError, cb_info);
     }
-
-    return response;
-}
-
-asst::http::Response asst::ReportDataTask::escape_and_request(const std::string& format)
-{
-    std::string body_escape = utils::string_replace_all(m_body, "\"", "\\\"");
-
-#ifdef _WIN32
-    body_escape = utils::utf8_to_unicode_escape(body_escape);
-#endif
-
-    std::string cmd_line =
-        utils::string_replace_all(format, { { "[body]", body_escape }, { "[extra]", m_extra_param } });
-
-    Log.info("request:\n" + cmd_line);
-    std::string response = utils::call_command(cmd_line);
-    Log.info("response:\n" + response);
 
     return response;
 }

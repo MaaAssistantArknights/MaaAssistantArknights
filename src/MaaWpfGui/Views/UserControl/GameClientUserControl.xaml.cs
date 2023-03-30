@@ -11,17 +11,12 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System.Diagnostics;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-
-namespace MaaWpfGui
+namespace MaaWpfGui.Views.UserControl
 {
     /// <summary>
     /// GameClientUserControl.xaml 的交互逻辑
     /// </summary>
-    public partial class GameClientUserControl : UserControl
+    public partial class GameClientUserControl : System.Windows.Controls.UserControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GameClientUserControl"/> class.

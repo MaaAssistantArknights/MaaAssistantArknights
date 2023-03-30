@@ -77,6 +77,9 @@
     <Filter Include="源文件\Controller\adb-lite">
       <UniqueIdentifier>{a61a19a3-e1ba-45f2-9264-acb4102106b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Controller\Platform">
+      <UniqueIdentifier>{7be68f84-acf3-41c4-9491-19b635a90d66}</UniqueIdentifier>
+    </Filter>
     <Filter Include="源文件\Resource">
       <UniqueIdentifier>{3b2a04b8-fb22-43c3-9444-1b455851d8e2}</UniqueIdentifier>
     </Filter>
@@ -522,11 +525,47 @@
     <ClInclude Include="Controller\adb-lite\protocol.hpp">
       <Filter>源文件\Controller\adb-lite</Filter>
     </ClInclude>
+    <ClInclude Include="Controller\ControllerAPI.h">
+      <Filter>源文件\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\ControllerFactory.h">
+      <Filter>源文件\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\ControlScaleProxy.h">
+      <Filter>源文件\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\MaatouchController.h">
+      <Filter>源文件\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\MinitouchController.h">
+      <Filter>源文件\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\AdbController.h">
+      <Filter>源文件\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\Platform\AdbLiteIO.h">
+      <Filter>源文件\Controller\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\Platform\PosixIO.h">
+      <Filter>源文件\Controller\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\Platform\Win32IO.h">
+      <Filter>源文件\Controller\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\Platform\PlatformFactory.h">
+      <Filter>源文件\Controller\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\Platform\PlatformIO.h">
+      <Filter>源文件\Controller\Platform</Filter>
+    </ClInclude>
     <ClInclude Include="Config\Miscellaneous\OcrConfig.h">
       <Filter>源文件\Resource\Miscellaneous</Filter>
     </ClInclude>
     <ClInclude Include="Config\OnnxSession.h">
       <Filter>源文件\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Interface\CustomTask.h">
+      <Filter>源文件\Task\Interface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -863,11 +902,32 @@
     <ClCompile Include="Controller\adb-lite\protocol.cpp">
       <Filter>源文件\Controller\adb-lite</Filter>
     </ClCompile>
+    <ClCompile Include="Controller\MinitouchController.cpp">
+      <Filter>源文件\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\AdbController.cpp">
+      <Filter>源文件\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\ControlScaleProxy.cpp">
+      <Filter>源文件\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\Platform\AdbLiteIO.cpp">
+      <Filter>源文件\Controller\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\Platform\PosixIO.cpp">
+      <Filter>源文件\Controller\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\Platform\Win32IO.cpp">
+      <Filter>源文件\Controller\Platform</Filter>
+    </ClCompile>
     <ClCompile Include="Config\Miscellaneous\OcrConfig.cpp">
       <Filter>源文件\Resource\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Config\OnnxSession.cpp">
       <Filter>源文件\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Interface\CustomTask.cpp">
+      <Filter>源文件\Task\Interface</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

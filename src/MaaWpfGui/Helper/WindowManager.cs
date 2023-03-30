@@ -15,9 +15,12 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
+using MaaWpfGui.Constants;
+using MaaWpfGui.Views.UI;
 using Stylet;
+using Screen = System.Windows.Forms.Screen;
 
-namespace MaaWpfGui
+namespace MaaWpfGui.Helper
 {
     public class WindowManager : Stylet.WindowManager
     {
@@ -26,21 +29,19 @@ namespace MaaWpfGui
         {
         }
 
-        private readonly string ScreenName = ViewStatusStorage.Get("GUI.Monitor.Number", string.Empty);
-        private readonly int ScreenWidth = int.Parse(ViewStatusStorage.Get("GUI.Monitor.Width", "-1"));
-        private readonly int ScreenHeight = int.Parse(ViewStatusStorage.Get("GUI.Monitor.Height", "-1"));
+        private readonly string ScreenName = ConfigurationHelper.GetValue(ConfigurationKeys.MonitorNumber, string.Empty);
+        private readonly int ScreenWidth = int.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.MonitorWidth, "-1"));
+        private readonly int ScreenHeight = int.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.MonitorHeight, "-1"));
 
         private static readonly double DefaultDouble = -114514;
-        private readonly double Left = double.Parse(ViewStatusStorage.Get("GUI.Position.Left", DefaultDouble.ToString()), CultureInfo.InvariantCulture);
-        private readonly double Top = double.Parse(ViewStatusStorage.Get("GUI.Position.Top", DefaultDouble.ToString()), CultureInfo.InvariantCulture);
-        private readonly double Width = double.Parse(ViewStatusStorage.Get("GUI.Size.Width", DefaultDouble.ToString()), CultureInfo.InvariantCulture);
-        private readonly double Height = double.Parse(ViewStatusStorage.Get("GUI.Size.Height", DefaultDouble.ToString()), CultureInfo.InvariantCulture);
-
-        private readonly string RootView = "MaaWpfGui.RootView";
+        private readonly double Left = double.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.PositionLeft, DefaultDouble.ToString(CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);
+        private readonly double Top = double.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.PositionTop, DefaultDouble.ToString(CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);
+        private readonly double Width = double.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.WindowWidth, DefaultDouble.ToString(CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);
+        private readonly double Height = double.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.WindowHeight, DefaultDouble.ToString(CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);
 
         public void MoveWindowToDisplay(string displayName, Window window)
         {
-            var screen = System.Windows.Forms.Screen.AllScreens.FirstOrDefault(x => x.DeviceName == displayName);
+            var screen = Screen.AllScreens.FirstOrDefault(x => x.DeviceName == displayName);
             if (screen != null)
             {
                 var screenRect = screen.Bounds;
@@ -61,9 +62,9 @@ namespace MaaWpfGui
         protected override Window CreateWindow(object viewModel, bool isDialog, IViewAware ownerViewModel)
         {
             Window window = base.CreateWindow(viewModel, isDialog, ownerViewModel);
-            if (bool.Parse(ViewStatusStorage.Get("GUI.PositionAndSize.Load", bool.TrueString)))
+            if (bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.LoadPositionAndSize, bool.TrueString)))
             {
-                if (isDialog || ownerViewModel != null || Left == DefaultDouble || Top == DefaultDouble)
+                if (isDialog || ownerViewModel != null || Math.Abs(Left - DefaultDouble) < 0.01f || Math.Abs(Top - DefaultDouble) < 0.01f)
                 {
                     return window;
                 }
@@ -71,7 +72,7 @@ namespace MaaWpfGui
                 // In Stylet, CreateWindow().WindowStartupLocation is CenterScreen or CenterOwner (if w.WSLoc == Manual && w.Left == NaN && w.Top == NaN && ...)
                 window.WindowStartupLocation = WindowStartupLocation.Manual;
 
-                if (window.ToString() == RootView)
+                if (window is RootView)
                 {
                     MoveWindowToDisplay(ScreenName, window);
                 }
@@ -79,10 +80,13 @@ namespace MaaWpfGui
                 {
                     // Center other windows in MaaWpfGui.RootView
                     var mainWindow = Application.Current.MainWindow;
-                    window.Left = mainWindow.Left + ((mainWindow.Width - window.Width) / 2);
+                    window.Left = mainWindow!.Left + ((mainWindow.Width - window.Width) / 2);
                     window.Top = mainWindow.Top + ((mainWindow.Height - window.Height) / 2);
                 }
             }
+
+            var app = Application.Current as App;
+            app!.darkToStart();
 
             return window;
         }

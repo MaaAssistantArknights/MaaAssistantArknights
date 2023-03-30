@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.21)
 project(MaaAssistantArknights)
 
-if (NOT DEFINED CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release)
+if (NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build." FORCE)
 endif ()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
@@ -27,9 +27,12 @@ if (MSVC)
     add_compile_options("/MP")
     add_compile_options("/W4;/WX")
     
-    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
 else ()
-    add_compile_options("-Wall;-Wextra;-Wpedantic")
+    add_compile_options("-Wall;-Werror;-Wextra;-Wpedantic;-Wno-missing-field-initializers")
+    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 13)
+        add_compile_options("-Wno-restrict")
+    endif()
 endif ()
 
 
@@ -71,8 +74,9 @@ find_package(ZLIB REQUIRED)
 find_package(MaaDerpLearning REQUIRED)
 find_package(asio REQUIRED)
 find_package(ONNXRuntime)
+find_package(cpr CONFIG REQUIRED)
 
-target_link_libraries(MaaCore ${OpenCV_LIBS} MaaDerpLearning asio::asio ZLIB::ZLIB ONNXRuntime::ONNXRuntime header_only_libraries)
+target_link_libraries(MaaCore ${OpenCV_LIBS} MaaDerpLearning asio::asio ZLIB::ZLIB ONNXRuntime::ONNXRuntime cpr::cpr header_only_libraries)
 
 if(WIN32)
     target_link_libraries(MaaCore ws2_32)

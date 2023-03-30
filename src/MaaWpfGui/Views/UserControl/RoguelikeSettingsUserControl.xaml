@@ -1,15 +1,18 @@
 ﻿<UserControl
-    x:Class="MaaWpfGui.RoguelikeSettingsUserControl"
+    x:Class="MaaWpfGui.Views.UserControl.RoguelikeSettingsUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
-    xmlns:maa="clr-namespace:MaaWpfGui.Helper.CustomStyle"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:vm="clr-namespace:MaaWpfGui"
-    d:DataContext="{d:DesignInstance {x:Type vm:SettingsViewModel}}"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
     d:DesignWidth="550"
     mc:Ignorable="d">
     <Grid>
@@ -22,7 +25,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Orientation="Horizontal">
-                <maa:TextBlock Margin="10" Text="{DynamicResource RoguelikeTheme}" />
+                <controls:TextBlock Margin="10" Text="{DynamicResource RoguelikeTheme}" />
                 <ComboBox
                     Width="110"
                     IsHitTestVisible="{Binding Idle}"
@@ -35,7 +38,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Orientation="Horizontal">
-                <maa:TextBlock
+                <controls:TextBlock
                     Margin="10"
                     VerticalAlignment="Center"
                     Text="{DynamicResource Strategy}" />
@@ -51,7 +54,7 @@
             </StackPanel>
             <StackPanel HorizontalAlignment="Center">
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                    <maa:TextBlock
+                    <controls:TextBlock
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Text="{DynamicResource StartTimesLimit}"
@@ -61,6 +64,8 @@
                         Height="30"
                         Margin="10"
                         HorizontalAlignment="Center"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
                         Text="{Binding RoguelikeStartsCount}"
                         TextType="Int"
@@ -73,7 +78,7 @@
                     Content="{DynamicResource InvestmentEnabled}"
                     IsChecked="{Binding RoguelikeInvestmentEnabled}" />
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                    <maa:TextBlock
+                    <controls:TextBlock
                         VerticalAlignment="Center"
                         Text="{DynamicResource GoldTimesLimit}"
                         TextWrapping="Wrap" />
@@ -81,6 +86,8 @@
                         Width="100"
                         Height="30"
                         Margin="10"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
                         IsEnabled="{Binding RoguelikeInvestmentEnabled}"
                         Text="{Binding RoguelikeInvestsCount}"
@@ -104,7 +111,7 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
                 Orientation="Horizontal">
-                <maa:TextBlock
+                <controls:TextBlock
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Block.TextAlignment="Right"
@@ -123,7 +130,7 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
-                <maa:TextBlock
+                <controls:TextBlock
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Block.TextAlignment="Right"
@@ -141,7 +148,7 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
-                <maa:TextBlock
+                <controls:TextBlock
                     MaxWidth="150"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"

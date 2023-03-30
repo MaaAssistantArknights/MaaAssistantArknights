@@ -1,0 +1,168 @@
+﻿<UserControl
+    x:Class="MaaWpfGui.Views.UI.CopilotView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:local="clr-namespace:MaaWpfGui"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:vm="clr-namespace:MaaWpfGui"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
+    xmlns:constants="clr-namespace:MaaWpfGui.Constants"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
+    d:DataContext="{d:DesignInstance {x:Type ui:CopilotViewModel}}"
+    d:DesignHeight="550"
+    d:DesignWidth="800"
+    AllowDrop="True"
+    Drop="{s:Action DropFile}"
+    KeyDown="{s:Action KeyDown}"
+    MouseDown="{s:Action MouseDown}"
+    mc:Ignorable="d">
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <StackPanel
+            Grid.Row="0"
+            Margin="0,30,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Orientation="Vertical">
+            <controls:TextBlock
+                Margin="10"
+                Block.TextAlignment="Center"
+                Text="{DynamicResource CopilotLocation}" />
+            <TextBox
+                Width="300"
+                Height="30"
+                Margin="10"
+                IsReadOnly="{c:Binding Path=!Idle}"
+                Text="{Binding Filename}" />
+            <Button
+                Width="120"
+                Height="50"
+                Margin="10"
+                Command="{s:Action SelectFile}"
+                Content="{DynamicResource SelectTheFile}"
+                IsEnabled="{Binding Idle}"
+                ToolTip="{DynamicResource SelectTheFileTip}" />
+            <CheckBox
+                Height="50"
+                Margin="0,0,0,30"
+                HorizontalAlignment="Center"
+                Content="{DynamicResource AutoSquad}"
+                IsChecked="{Binding Form}"
+                IsEnabled="{Binding Idle}"
+                IsHitTestVisible="{Binding Idle}"
+                ToolTip="{DynamicResource AutoSquadTip}" />
+            <StackPanel
+                Margin="10"
+                HorizontalAlignment="Center"
+                IsEnabled="{Binding Idle}"
+                Orientation="Horizontal">
+                <CheckBox
+                    Margin="10"
+                    VerticalContentAlignment="Center"
+                    Content="{DynamicResource LoopTimes}"
+                    IsChecked="{Binding Loop}" />
+                <TextBox
+                    Width="60"
+                    Height="30"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    InputMethod.IsInputMethodEnabled="False"
+                    Text="{Binding LoopTimes}" />
+            </StackPanel>
+            <Grid Margin="0,10,0,30">
+                <Button
+                    Width="120"
+                    Height="50"
+                    Command="{s:Action Start}"
+                    Content="{DynamicResource Start}"
+                    IsEnabled="{c:Binding StartEnabled}"
+                    Visibility="{c:Binding Idle}" />
+                <Button
+                    Width="120"
+                    Height="50"
+                    Command="{s:Action Stop}"
+                    Content="{DynamicResource Stop}"
+                    Visibility="{c:Binding !Idle}" />
+            </Grid>
+            <controls:TextBlock Margin="5" Block.TextAlignment="Center">
+                <Hyperlink
+                    Cursor="Hand"
+                    NavigateUri="{Binding Url}"
+                    TextDecorations="None">
+                    <TextBlock Text="{Binding UrlText}" />
+                </Hyperlink>
+            </controls:TextBlock>
+            <controls:TextBlock Margin="5" Block.TextAlignment="Center">
+                <Hyperlink
+                    Cursor="Hand"
+                    NavigateUri="{Binding Source={x:Static constants:MaaUrls.MapPrts}}"
+                    TextDecorations="None">
+                    <TextBlock Text="{DynamicResource MapPrts}" />
+                </Hyperlink>
+            </controls:TextBlock>
+        </StackPanel>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ScrollViewer
+                Width="360"
+                Margin="0,10"
+                properties:AutoScroll.AutoScroll="True"
+                HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl ItemsSource="{Binding Path=LogItemViewModels}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <controls:TextBlock
+                                    Width="350"
+                                    Margin="5"
+                                    FontWeight="{Binding Weight}"
+                                    Foreground="{Binding Color}"
+                                    Text="{Binding Content}"
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            <StackPanel
+                Grid.Row="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Orientation="Horizontal"
+                Visibility="{c:Binding CouldLikeWebJson}">
+                <controls:TextBlock
+                    Margin="10"
+                    VerticalAlignment="Center"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource DoYouLikeThisWebJson}" />
+                <Button
+                    Width="50"
+                    Height="30"
+                    Margin="10"
+                    Command="{s:Action LikeWebJson}"
+                    Content="👍" />
+                <Button
+                    Width="50"
+                    Height="30"
+                    Margin="10"
+                    Command="{s:Action DislikeWebJson}"
+                    Content="👎" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -53,6 +53,7 @@
     <system:String x:Key="CustomInfrastTitle">Base Configuration:</system:String>
     <system:String x:Key="CustomInfrastPlan">Base Plan</system:String>
     <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">Auto save for next plan</system:String>
+    <system:String x:Key="CustomizeInfrastSelectionEmpty">Customize infrastructure selection is empty. Please check your configuration or turn off the customization function.</system:String>
 
     <system:String x:Key="General">General Mode</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">General Mode (Blocked exception output)</system:String>
@@ -137,7 +138,8 @@
     <system:String x:Key="CheckBoxesNotSaved">This option is not saved after restart</system:String>
     <system:String x:Key="NoAutoNavigation">The feature does not automatically navigate to the stage</system:String>
 
-    <system:String x:Key="UpdateAutoCheck">Auto check update</system:String>
+    <system:String x:Key="StartupUpdateCheck">Startup Update Check</system:String>
+    <system:String x:Key="UpdatAutoCheck">Scheduled Update Check</system:String>
     <system:String x:Key="UpdateAutoDownload">Auto download update</system:String>
     <system:String x:Key="UpdateCheckStable">Stable release</system:String>
     <system:String x:Key="UpdateCheckBeta">Beta release</system:String>
@@ -220,6 +222,7 @@
 
     <system:String x:Key="MinimizeToTray">Hide to tray when minimized</system:String>
     <system:String x:Key="SystemNotification">System Notification</system:String>
+    <system:String x:Key="DarkModeSetColorsTip">Whether to restart immediately to apply changes</system:String>
     <system:String x:Key="UseAlternateStage">Use alternate stage</system:String>
     <system:String x:Key="UseRemainingSanityStage">Use remaining sanity stage</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">Brush the specified stage after completing the main task, no longer automatically revert to sanity</system:String>
@@ -370,7 +373,8 @@
     <system:String x:Key="SelectTheFile">Select task file</system:String>
     <system:String x:Key="SelectTheFileTip">Task files can be directly dragged in with the mouse (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">Do you like this task file?</system:String>
-    <system:String x:Key="ThanksForLikeWebJson">Thanks for the review!\nThe comment section will be opened soon on the web page, so stay tuned!</system:String>
+    <system:String x:Key="FailedToLikeWebJson">An error occurred, the like failed. : &lt;</system:String>
+    <system:String x:Key="ThanksForLikeWebJson">Thanks for the likes!\nThe comment section will be opened soon on the web page, so stay tuned!</system:String>
     <system:String x:Key="AutoSquad">Auto squad</system:String>
     <system:String x:Key="AutoSquadTip">The operator of &quot;special focus&quot; cannot be identified at this time</system:String>
     <system:String x:Key="LoopTimes">LoopTimes</system:String>

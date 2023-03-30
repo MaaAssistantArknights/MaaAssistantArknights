@@ -437,6 +437,8 @@ void asst::RoguelikeBattleTaskPlugin::postproc_of_deployment_conditions(const ba
             }
         }
         break;
+    default:
+        break;
     }
 
     if (m_force_air_defense.has_finished_deploy_air_defense && position != OperPosition::AirDefense) {
@@ -523,6 +525,8 @@ std::optional<asst::battle::DeploymentOper> asst::RoguelikeBattleTaskPlugin::cal
         case Role::Medic:
             has_medic = true;
             break;
+        default:
+            break;
         }
 
         const auto& position = get_role_position(role);
@@ -532,6 +536,8 @@ std::optional<asst::battle::DeploymentOper> asst::RoguelikeBattleTaskPlugin::cal
             break;
         case OperPosition::AirDefense:
             has_air_defense = true;
+            break;
+        default:
             break;
         }
 

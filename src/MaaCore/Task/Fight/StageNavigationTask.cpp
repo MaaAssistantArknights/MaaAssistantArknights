@@ -49,7 +49,7 @@ bool asst::StageNavigationTask::set_stage_name(const std::string& stage_name)
     if (!difficulty.empty()) {
         std::string upper_difficulty = difficulty;
         upper_difficulty[0] = static_cast<char>(::toupper(upper_difficulty[0]));
-        for (int i = 1; i < upper_difficulty.size(); ++i) {
+        for (size_t i = 1; i < upper_difficulty.size(); ++i) {
             upper_difficulty[i] = static_cast<char>(::tolower(upper_difficulty[i]));
         }
         static const std::string DifficultyTaskPrefix = "ChapterDifficulty";

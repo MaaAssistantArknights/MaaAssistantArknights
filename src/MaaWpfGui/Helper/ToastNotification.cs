@@ -15,7 +15,6 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Media;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -24,15 +23,20 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using MaaWpfGui.Constants;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Win32;
 using Notification.Wpf;
 using Notification.Wpf.Base;
 using Notification.Wpf.Constants;
 using Notification.Wpf.Controls;
+using Semver;
+using Serilog;
 using Stylet;
+using Application = System.Windows.Forms.Application;
+using FontFamily = System.Windows.Media.FontFamily;
 
-namespace MaaWpfGui
+namespace MaaWpfGui.Helper
 {
     /// <summary>
     /// The toast notification.
@@ -49,6 +53,8 @@ namespace MaaWpfGui
 
         private static bool _systemToastChecked = false;
         private static bool _systemToastCheckInited = false;
+
+        private static readonly ILogger _logger = Log.ForContext<ToastNotification>();
 
         /// <summary>
         /// Checks toast system.
@@ -71,9 +77,9 @@ namespace MaaWpfGui
                 }
 
                 var osVersion = matched.Groups[0].Value;
-                bool verParsed = Semver.SemVersion.TryParse(osVersion, Semver.SemVersionStyles.Strict, out var curVersionObj);
+                bool verParsed = SemVersion.TryParse(osVersion, SemVersionStyles.Strict, out var curVersionObj);
 
-                var minimumVersionObj = new Semver.SemVersion(10, 0, 10240);
+                var minimumVersionObj = new SemVersion(10, 0, 10240);
                 _systemToastChecked = verParsed && curVersionObj.CompareSortOrderTo(minimumVersionObj) >= 0;
             }
 
@@ -99,7 +105,7 @@ namespace MaaWpfGui
         {
             try
             {
-                var icon = Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath);
+                var icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
                 var imageSource = Imaging.CreateBitmapSourceFromHIcon(
                     icon.Handle,
                     Int32Rect.Empty,
@@ -326,7 +332,7 @@ namespace MaaWpfGui
         public TextContentSettings BaseTextSettings => new TextContentSettings()
         {
             FontStyle = FontStyles.Normal,
-            FontFamily = new System.Windows.Media.FontFamily("Microsoft Yahei"),
+            FontFamily = new FontFamily("Microsoft Yahei"),
             FontSize = 14,
             FontWeight = FontWeights.Normal,
             TextAlignment = TextAlignment.Left,
@@ -390,7 +396,7 @@ namespace MaaWpfGui
             NotificationSounds sound = NotificationSounds.Notification,
             NotificationContent notificationContent = null)
         {
-            if (!Convert.ToBoolean(ViewStatusStorage.Get("GUI.UseNotify", bool.TrueString)))
+            if (!Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseNotify, bool.TrueString)))
             {
                 return;
             }
@@ -427,7 +433,7 @@ namespace MaaWpfGui
             }
             catch (Exception e)
             {
-                Logger.Error(e.ToString(), MethodBase.GetCurrentMethod().Name);
+                _logger.Error(e, "显示通知失败");
                 _systemToastChecked = false;
             }
 
@@ -630,7 +636,7 @@ namespace MaaWpfGui
         {
             var fInfo = default(FLASHWINFO);
             fInfo.cbSize = Convert.ToUInt32(Marshal.SizeOf(fInfo));
-            fInfo.hwnd = hWnd != default ? hWnd : new WindowInteropHelper(Application.Current.MainWindow).Handle;
+            fInfo.hwnd = hWnd != default ? hWnd : new WindowInteropHelper(System.Windows.Application.Current.MainWindow!).Handle;
             fInfo.dwFlags = (uint)type;
             fInfo.uCount = count;
             fInfo.dwTimeout = 0;
