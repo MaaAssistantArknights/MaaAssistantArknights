@@ -18,6 +18,8 @@ std::optional<int> asst::AdbLiteIO::call_command(const std::string& cmd, const b
     // TODO: 实现 timeout，目前暂时忽略
     std::ignore = timeout;
     std::ignore = start_time;
+    std::smatch match;
+    std::optional<int> ret;
 
     static const std::regex devices_regex(R"(^.+ devices$)");
     static const std::regex release_regex(R"(^.+ kill-server$)");
@@ -30,11 +32,13 @@ std::optional<int> asst::AdbLiteIO::call_command(const std::string& cmd, const b
     if (std::regex_match(cmd, devices_regex)) {
         try {
             pipe_data = adb::devices();
-            return 0;
+            ret = 0;
+            goto ret_exit;
         }
         catch (const std::exception& e) {
             Log.error("adb devices failed:", e.what());
-            return std::nullopt;
+            ret = std::nullopt;
+            goto ret_exit;
         }
     }
 
@@ -42,15 +46,15 @@ std::optional<int> asst::AdbLiteIO::call_command(const std::string& cmd, const b
     if (std::regex_match(cmd, release_regex)) {
         try {
             adb::kill_server();
-            return 0;
+            ret = 0;
+            goto ret_exit;
         }
         catch (const std::exception& e) {
             Log.error("adb kill-server failed:", e.what());
-            return std::nullopt;
+            ret = std::nullopt;
+            goto ret_exit;
         }
     }
-
-    std::smatch match;
 
     // adb connect
     // TODO: adb server 尚未实现，第一次连接需要执行一次 adb.exe 启动 daemon
@@ -59,12 +63,14 @@ std::optional<int> asst::AdbLiteIO::call_command(const std::string& cmd, const b
 
         try {
             pipe_data = m_adb_client->connect();
-            return 0;
+            ret = 0;
+            goto ret_exit;
         }
         catch (const std::exception& e) {
             Log.error("adb connect failed:", e.what());
             // fallback 到 fork adb 进程的方式
-            return std::nullopt;
+            ret = std::nullopt;
+            goto ret_exit;
         }
     }
 
@@ -72,7 +78,8 @@ std::optional<int> asst::AdbLiteIO::call_command(const std::string& cmd, const b
     if (std::regex_match(cmd, match, shell_regex)) {
         if (!m_adb_client) {
             Log.error("adb client not initialized");
-            return std::nullopt;
+            ret = std::nullopt;
+            goto ret_exit;
         }
 
         std::string command = match[1].str();
@@ -80,11 +87,13 @@ std::optional<int> asst::AdbLiteIO::call_command(const std::string& cmd, const b
 
         try {
             pipe_data = m_adb_client->shell(command);
-            return 0;
+            ret = 0;
+            goto ret_exit;
         }
         catch (const std::exception& e) {
             Log.error("adb shell failed:", e.what());
-            return -1;
+            ret = -1;
+            goto ret_exit;
         }
     }
 
@@ -92,7 +101,8 @@ std::optional<int> asst::AdbLiteIO::call_command(const std::string& cmd, const b
     if (std::regex_match(cmd, match, exec_regex)) {
         if (!m_adb_client) {
             Log.error("adb client not initialized");
-            return std::nullopt;
+            ret = std::nullopt;
+            goto ret_exit;
         }
 
         std::string command = match[1].str();
@@ -100,11 +110,13 @@ std::optional<int> asst::AdbLiteIO::call_command(const std::string& cmd, const b
 
         try {
             pipe_data = m_adb_client->exec(command);
-            return 0;
+            ret = 0;
+            goto ret_exit;
         }
         catch (const std::exception& e) {
             Log.error("adb exec-out failed:", e.what());
-            return -1;
+            ret = -1;
+            goto ret_exit;
         }
     }
 
@@ -112,21 +124,32 @@ std::optional<int> asst::AdbLiteIO::call_command(const std::string& cmd, const b
     if (std::regex_match(cmd, match, push_regex)) {
         if (!m_adb_client) {
             Log.error("adb client not initialized");
-            return std::nullopt;
+            ret = std::nullopt;
+            goto ret_exit;
         }
 
         try {
             m_adb_client->push(match[1].str(), match[2].str(), 0644);
-            return 0;
+            ret = 0;
+            goto ret_exit;
         }
         catch (const std::exception& e) {
             Log.error("adb push failed:", e.what());
-            return -1;
+            ret = -1;
+            goto ret_exit;
         }
     }
 
     Log.info("adb-lite does not support command:", cmd);
-    return std::nullopt;
+    ret = std::nullopt;
+
+ret_exit:
+    if (!ret) {
+        Log.warn("adb-lite command: \"", cmd, "\"run failed");
+        Log.warn("fallback to NativeIO");
+        ret = NativeIO::call_command(cmd, recv_by_socket, pipe_data, sock_data, timeout, start_time);
+    }
+    return ret;
 }
 
 std::shared_ptr<asst::IOHandler> asst::AdbLiteIO::interactive_shell(const std::string& cmd)
