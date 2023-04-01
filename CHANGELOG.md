@@ -1,8 +1,14 @@
+## v4.13.0-beta.3
+
+### 改进
+
+- 更新游戏资源，降低尤里卡会客室优先级 @MistEO
+
+### 修复
+
+- fix error in background update check @dantmnf
+
 ## v4.13.0-beta.2
-
-**博士，听说可露希尔小姐的商店里新上架了美酒，要去来一杯吗？**  
-**Dear doctor, ever heard of the new listings of "isopropyl alcohol" in Ms. Closure's store? let's check it out?**
-
 ### 改进
 
 - 重构 Controller 架构 (#3907) @aa889788 @MistEO
