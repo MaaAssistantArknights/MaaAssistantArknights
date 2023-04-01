@@ -305,6 +305,11 @@ namespace MaaWpfGui.ViewModels.UI
             UpdateDatePrompt();
             UpdateStageList(true);
             RefreshCustonInfrastPlan();
+
+            if (SettingsViewModel.AprilFoolsDay())
+            {
+                AddLog(LocalizationHelper.GetString("BuyWineOnAprilFoolsDay"), UiLogColor.Info);
+            }
         }
 
         private DayOfWeek _curDayOfWeek;
