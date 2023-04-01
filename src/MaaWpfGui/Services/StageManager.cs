@@ -32,6 +32,7 @@ using StyletIoC;
 
 namespace MaaWpfGui.Services
 {
+
     /// <summary>
     /// Stage manager
     /// </summary>
@@ -39,6 +40,9 @@ namespace MaaWpfGui.Services
     {
         [DllImport("MaaCore.dll")]
         private static extern IntPtr AsstGetVersion();
+
+        private const string StageApi = "gui/StageActivity.json";
+        private const string TasksApi = "resource/tasks.json";
 
         // model references
         private readonly TaskQueueViewModel _taskQueueViewModel;
@@ -57,49 +61,38 @@ namespace MaaWpfGui.Services
         {
             _taskQueueViewModel = container.Get<TaskQueueViewModel>();
             _maaApiService = container.Get<IMaaApiService>();
-            UpdateStage(false);
+            UpdateStageLocal();
 
-            Execute.OnUIThread(async () =>
+            Task.Run(async () =>
             {
-                var task = Task.Run(() =>
-                {
-                    UpdateStage(true);
-                });
-                await task;
+                await UpdateStageWeb();
                 if (_taskQueueViewModel != null)
                 {
-                    _taskQueueViewModel.UpdateDatePrompt();
-                    _taskQueueViewModel.UpdateStageList(true);
+                    Execute.OnUIThread(() =>
+                    {
+                        _taskQueueViewModel.UpdateDatePrompt();
+                        _taskQueueViewModel.UpdateStageList(true);
+                    });
                 }
             });
         }
 
-        public void UpdateStage(bool fromWeb)
+        public void UpdateStageLocal()
         {
-            if (fromWeb)
+            UpdateStageInternal(LoadLocalStages());
+        }
+
+        public async Task UpdateStageWeb()
+        {
+            if (await CheckWebUpdate())
             {
-                // Check if we need to update from the web
-                string lastUpdateTimeFile = "lastUpdateTime.json";
-                JObject localLastUpdatedJson = _maaApiService.LoadApiCache(lastUpdateTimeFile);
-                JObject webLastUpdatedJson = _maaApiService.RequestMaaApiWithCache(lastUpdateTimeFile).ConfigureAwait(false).GetAwaiter().GetResult();
-                if (localLastUpdatedJson != null && webLastUpdatedJson != null)
-                {
-                    long localTimestamp = localLastUpdatedJson["timestamp"].ToObject<long>();
-                    long webTimestamp = webLastUpdatedJson["timestamp"].ToObject<long>();
-                    if (webTimestamp <= localTimestamp)
-                    {
-                        return;
-                    }
-                }
+                UpdateStageInternal(await LoadWebStages());
+                return;
             }
+        }
 
-            var tempStage = new Dictionary<string, StageInfo>
-            {
-                // 这里会被 “剩余理智” 复用，第一个必须是 string.Empty 的
-                // 「当前/上次」关卡导航
-                { string.Empty, new StageInfo { Display = LocalizationHelper.GetString("DefaultStage"), Value = string.Empty } },
-            };
-
+        private string GetClientType()
+        {
             var clientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty);
 
             // 官服和B服使用同样的资源
@@ -108,27 +101,65 @@ namespace MaaWpfGui.Services
                 clientType = "Official";
             }
 
-            // Download the activities
-            const string StageApi = "gui/StageActivity.json";
-            JObject activity = fromWeb
-                ? _maaApiService.RequestMaaApiWithCache(StageApi).ConfigureAwait(false).GetAwaiter().GetResult()
-                : _maaApiService.LoadApiCache(StageApi);
+            return clientType;
+        }
 
-            // Download the tasks resources into cache so MaaCore can load them later
-            var tasksPath = "resource/tasks.json";
-            JObject tasksJson = fromWeb
-                ? _maaApiService.RequestMaaApiWithCache(tasksPath).ConfigureAwait(false).GetAwaiter().GetResult()
-                : _maaApiService.LoadApiCache(tasksPath);
+        private JObject LoadLocalStages()
+        {
+            JObject activity = _maaApiService.LoadApiCache(StageApi);
+            JObject tasksJson = _maaApiService.LoadApiCache(TasksApi);
+            return activity;
+        }
+
+        private async Task<bool> CheckWebUpdate()
+        {
+            // Check if we need to update from the web
+            string lastUpdateTimeFile = "lastUpdateTime.json";
+            JObject localLastUpdatedJson = _maaApiService.LoadApiCache(lastUpdateTimeFile);
+            JObject webLastUpdatedJson = await _maaApiService.RequestMaaApiWithCache(lastUpdateTimeFile).ConfigureAwait(false);
+            if (localLastUpdatedJson != null && webLastUpdatedJson != null)
+            {
+                long localTimestamp = localLastUpdatedJson["timestamp"].ToObject<long>();
+                long webTimestamp = webLastUpdatedJson["timestamp"].ToObject<long>();
+                if (webTimestamp <= localTimestamp)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private async Task<JObject> LoadWebStages()
+        {
+            var clientType = GetClientType();
+
+            JObject activity = await _maaApiService.RequestMaaApiWithCache(StageApi);
+            JObject tasksJson = await _maaApiService.RequestMaaApiWithCache(TasksApi);
 
             if (clientType != "Official" && tasksJson != null)
             {
-                tasksPath = "resource/global/" + clientType + '/' + tasksPath;
+                var tasksPath = "resource/global/" + clientType + '/' + TasksApi;
 
                 // Download the client specific resources only when the Official ones are successfully downloaded so that the client specific resource version is the actual version
                 // TODO: There may be an issue when the CN resource is loaded from cache (e.g. network down) while global resource is downloaded (e.g. network up again)
                 // var tasksJsonClient = fromWeb ? WebService.RequestMaaApiWithCache(tasksPath) : WebService.RequestMaaApiWithCache(tasksPath);
-                _ = _maaApiService.RequestMaaApiWithCache(tasksPath);
+                await _maaApiService.RequestMaaApiWithCache(tasksPath);
             }
+
+            return activity;
+        }
+
+        private void UpdateStageInternal(JObject activity)
+        {
+            var tempStage = new Dictionary<string, StageInfo>
+            {
+                // 这里会被 “剩余理智” 复用，第一个必须是 string.Empty 的
+                // 「当前/上次」关卡导航
+                { string.Empty, new StageInfo { Display = LocalizationHelper.GetString("DefaultStage"), Value = string.Empty } },
+            };
+
+            var clientType = GetClientType();
 
             bool isDebugVersion = Marshal.PtrToStringAnsi(AsstGetVersion()) == "DEBUG VERSION";
             bool curVerParsed = SemVersion.TryParse(Marshal.PtrToStringAnsi(AsstGetVersion()), SemVersionStyles.AllowLowerV, out var curVersionObj);
