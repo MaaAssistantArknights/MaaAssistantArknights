@@ -1,4 +1,4 @@
-﻿// <copyright file="HttpService.cs" company="MaaAssistantArknights">
+// <copyright file="HttpService.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -163,7 +163,7 @@ namespace MaaWpfGui.Services.Web
             var success = true;
             try
             {
-                var stream = response.Content.ReadAsStreamAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+                var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
                 using var fileStream = new FileStream(fullFilePathWithTemp, FileMode.Create, FileAccess.Write);
 
                 // 记录初始化

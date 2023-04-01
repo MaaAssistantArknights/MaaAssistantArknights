@@ -1749,14 +1749,10 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Updates manually.
         /// </summary>
-        // TODO: 你确定要用 async void 不是 async Task？
-        public async void ManualUpdate()
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task ManualUpdate()
         {
-            var task = Task.Run(() =>
-            {
-                return _versionUpdateViewModel.CheckAndDownloadUpdate(true);
-            });
-            var ret = await task;
+            var ret = await _versionUpdateViewModel.CheckAndDownloadUpdate(true);
 
             string toastMessage = null;
             switch (ret)
