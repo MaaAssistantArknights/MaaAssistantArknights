@@ -1,4 +1,4 @@
-﻿<ResourceDictionary
+<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespaces:MaaWpfGui"
@@ -138,7 +138,8 @@
     <system:String x:Key="CheckBoxesNotSaved">This option is not saved after restart</system:String>
     <system:String x:Key="NoAutoNavigation">The feature does not automatically navigate to the stage</system:String>
 
-    <system:String x:Key="UpdateAutoCheck">Auto check update</system:String>
+    <system:String x:Key="StartupUpdateCheck">Startup Update Check</system:String>
+    <system:String x:Key="UpdatAutoCheck">Scheduled Update Check</system:String>
     <system:String x:Key="UpdateAutoDownload">Auto download update</system:String>
     <system:String x:Key="UpdateCheckStable">Stable release</system:String>
     <system:String x:Key="UpdateCheckBeta">Beta release</system:String>
@@ -518,6 +519,7 @@
     <!--  AutoRecruitSettings  -->
 
     <!--  EasterEggs  -->
+    <system:String x:Key="BuyWineOnAprilFoolsDay">Dear doctor, ever heard of the new listings of "isopropyl alcohol" in Ms. Closure's store? let's check it out?</system:String>
     <system:String x:Key="Burping">Ugh... Ehem</system:String>
     <system:String x:Key="DrunkAndStaggering">Ah, doctor. Why do you sway, so much in your movement today?</system:String>
     <system:String x:Key="Hangover">I must not drink, drink so much next time...</system:String>

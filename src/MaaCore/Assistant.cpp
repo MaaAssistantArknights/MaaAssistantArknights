@@ -75,15 +75,15 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
     switch (key) {
     case InstanceOptionKey::TouchMode:
         if (constexpr std::string_view Adb = "adb"; value == Adb) {
-            m_ctrler->set_minitouch_enabled(false);
+            m_ctrler->set_touch_mode(TouchMode::Adb);
             return true;
         }
         else if (constexpr std::string_view Minitouch = "minitouch"; value == Minitouch) {
-            m_ctrler->set_minitouch_enabled(true, false);
+            m_ctrler->set_touch_mode(TouchMode::Minitouch);
             return true;
         }
         else if (constexpr std::string_view MaaTouch = "maatouch"; value == MaaTouch) {
-            m_ctrler->set_minitouch_enabled(true, true);
+            m_ctrler->set_touch_mode(TouchMode::Maatouch);
             return true;
         }
         break;
@@ -478,10 +478,16 @@ void asst::Assistant::async_call(std::function<bool(void)> func, int async_call_
 
     if (!block) {
         std::unique_lock lock(m_call_pending_mutex);
-        m_call_pending.remove_if([](const std::future<void>& fut) {
-            return fut.wait_for(std::chrono::seconds::zero()) == std::future_status::ready;
+        m_call_pending.remove_if([](std::future<void>& fut) {
+            if (fut.wait_for(std::chrono::seconds::zero()) == std::future_status::ready) {
+                fut.get();
+                return true;
+            }
+            return false;
         });
         m_call_pending.emplace_back(std::move(future));
     }
-    // else 会等待 future 析构，是阻塞的
+    else {
+        future.get();
+    }
 }

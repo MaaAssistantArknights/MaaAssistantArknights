@@ -51,4 +51,4 @@ namespace asst
     {
         return imwrite(asst::utils::path(utf8_path), img, params);
     }
-}  // namespace asst
+} // namespace asst
