@@ -9,7 +9,7 @@
 
 bool asst::BestMatchImageAnalyzer::analyze()
 {
-    set_log_tracing(false);
+    MatchImageAnalyzer::set_log_tracing(false);
     set_use_cache(false);
 
     MatchRect best_matched;
@@ -32,8 +32,15 @@ bool asst::BestMatchImageAnalyzer::analyze()
         }
     }
 
-    Log.trace("The best match is", best_matched.to_string(), m_result.name);
+    if (m_best_log_tracing) {
+        Log.trace("The best match is", best_matched.to_string(), m_result.name);
+    }
     return best_matched.score > 0;
+}
+
+void asst::BestMatchImageAnalyzer::set_log_tracing(bool enable) noexcept
+{
+    m_best_log_tracing = enable;
 }
 
 void asst::BestMatchImageAnalyzer::append_templ(std::string name, const cv::Mat& templ)

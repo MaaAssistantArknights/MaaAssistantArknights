@@ -15,7 +15,9 @@ asst::MultiMatchImageAnalyzer::MultiMatchImageAnalyzer(const cv::Mat& image, std
 
 bool asst::MultiMatchImageAnalyzer::analyze()
 {
-    Log.trace("MultiMatchImageAnalyzer::analyze | ", m_templ_name);
+    if (m_log_tracing) {
+        Log.trace("MultiMatchImageAnalyzer::analyze | ", m_templ_name);
+    }
     m_result.clear();
 
     const cv::Mat templ = TemplResource::get_instance().get_templ(m_templ_name);
@@ -156,7 +158,9 @@ bool asst::MultiMatchImageAnalyzer::multi_match_templ(const cv::Mat templ)
     }
 #endif
 
-    Log.trace("multi_match_templ | ", m_templ_name, "result:", m_result, "roi:", m_roi);
+    if (m_log_tracing) {
+        Log.trace("multi_match_templ | ", m_templ_name, "result:", m_result, "roi:", m_roi);
+    }
 
     if (!m_result.empty()) {
         return true;

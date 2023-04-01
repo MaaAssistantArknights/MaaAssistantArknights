@@ -22,7 +22,6 @@ namespace asst
         void set_task_info(const std::string& task_name);
         void set_region_of_appeared(Rect region) noexcept;
         void set_mask_with_close(int with_close) noexcept;
-        void set_log_tracing(bool enable) noexcept;
 
         const MatchRect& get_result() const noexcept;
 
@@ -39,6 +38,5 @@ namespace asst
         std::pair<int, int> m_mask_range;
         bool m_mask_with_src = false;
         bool m_mask_with_close = false;
-        bool m_log_tracing = true;
     };
 }

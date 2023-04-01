@@ -35,6 +35,7 @@ namespace asst
         virtual void set_roi(const Rect& roi) noexcept;
 
         virtual bool analyze() = 0;
+        virtual void set_log_tracing(bool enable) noexcept;
 
         AbstractImageAnalyzer& operator=(const AbstractImageAnalyzer&) = delete;
         AbstractImageAnalyzer& operator=(AbstractImageAnalyzer&&) = delete;
@@ -53,6 +54,7 @@ namespace asst
 
         cv::Mat m_image;
         Rect m_roi;
+        bool m_log_tracing = true;
 
 #ifdef ASST_DEBUG
         cv::Mat m_image_draw;
