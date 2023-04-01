@@ -20,12 +20,18 @@ namespace asst
     public:
         AbstractImageAnalyzer() = default;
         AbstractImageAnalyzer(const cv::Mat& image);
+#ifdef ASST_DEBUG
+        AbstractImageAnalyzer(const cv::Mat& image, cv::Mat& draw);
+#endif
         AbstractImageAnalyzer(const cv::Mat& image, Assistant* inst);
         AbstractImageAnalyzer(const AbstractImageAnalyzer&) = delete;
         AbstractImageAnalyzer(AbstractImageAnalyzer&&) = delete;
         virtual ~AbstractImageAnalyzer() = default;
 
         virtual void set_image(const cv::Mat& image);
+#ifdef ASST_DEBUG
+        virtual void set_image(const cv::Mat& image, cv::Mat& draw);
+#endif
         virtual void set_roi(const Rect& roi) noexcept;
 
         virtual bool analyze() = 0;
@@ -34,6 +40,10 @@ namespace asst
         AbstractImageAnalyzer& operator=(AbstractImageAnalyzer&&) = delete;
 
         bool save_img(const std::filesystem::path& relative_dir = utils::path("debug"));
+
+#ifdef ASST_DEBUG
+        cv::Mat get_draw() const;
+#endif
 
     protected:
         using InstHelper::status;

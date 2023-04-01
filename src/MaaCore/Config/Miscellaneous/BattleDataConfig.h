@@ -13,6 +13,17 @@ namespace asst
     public:
         virtual ~BattleDataConfig() override = default;
 
+        static inline const std::string& EmptyId = "";
+
+        const std::string get_id(const std::string& name) const
+        {
+            auto iter = m_chars.find(name);
+            if (iter == m_chars.cend()) {
+                return EmptyId;
+            }
+            return iter->second.id;
+        }
+
         battle::Role get_role(const std::string& name) const
         {
             auto iter = m_chars.find(name);

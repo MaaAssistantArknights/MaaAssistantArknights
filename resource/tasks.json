@@ -6249,6 +6249,56 @@
             50
         ]
     },
+    "BattleAvatarDataForFormation": {
+        "template": "empty.png",
+        "templThreshold": 0.6,
+        "rectMove": [
+            15,
+            15,
+            30,
+            30
+        ]
+    },
+    "BattleOperDetailPageFlag": {
+        "template": "empty.png",
+        "roi": [
+            0,
+            322,
+            110,
+            16
+        ],
+        "specialParams": [
+            200
+        ]
+    },
+    "BattleOperDetailPageOldFlag": {
+        "baseTask": "BattleOperDetailPageFlag",
+        "template": "empty.png",
+        "roi": [
+            0,
+            385,
+            110,
+            14
+        ]
+    },
+    "BattleOperBoxRectMove": {
+        "template": "empty.png",
+        "rectMove": [
+            -10,
+            -70,
+            100,
+            100
+        ]
+    },
+    "BattleDeployDirectionRectMove": {
+        "template": "empty.png",
+        "rectMove": [
+            -48,
+            -48,
+            96,
+            96
+        ]
+    },
     "BattleKillsFlag": {
         "roi": [
             150,
@@ -9898,10 +9948,24 @@
     "BattleFormationOperAvatarMove": {
         "template": "empty.png",
         "rectMove": [
-            -125,
+            -120,
             -250,
-            125,
+            150,
             165
+        ]
+    },
+    "BattleHasStarted": {
+        "template": "empty.png",
+        "roi": [
+            1178,
+            33,
+            49,
+            39
+        ],
+        "specialParams_Doc": "亮度阈值；点的数量",
+        "specialParams": [
+            250,
+            250
         ]
     },
     "Reclamation@PopupConfirm": {

@@ -13,6 +13,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -158,6 +159,7 @@ namespace MaaWpfGui.Main
 
         // model references
         private readonly SettingsViewModel _settingsViewModel;
+
         private readonly TaskQueueViewModel _taskQueueViewModel;
         private readonly RecruitViewModel _recruitViewModel;
         private readonly CopilotViewModel _copilotViewModel;
@@ -785,6 +787,14 @@ namespace MaaWpfGui.Main
                         break;
                 }
             }
+            else if (subTask == "CombatRecordRecognitionTask")
+            {
+                string what = details["what"]?.ToString();
+                if (!string.IsNullOrEmpty(what))
+                {
+                    _copilotViewModel.AddLog(what);
+                }
+            }
         }
 
         private void ProcSubTaskCompleted(JObject details)
@@ -798,6 +808,10 @@ namespace MaaWpfGui.Main
             if (taskChain == "Recruit")
             {
                 ProcRecruitCalcMsg(details);
+            }
+            else if (taskChain == "VideoRecognition")
+            {
+                ProcVideoRecMsg(details);
             }
 
             var subTaskDetails = details["details"];
@@ -1043,9 +1057,11 @@ namespace MaaWpfGui.Main
                         LocalizationHelper.GetString("AlgorithmBadge") + ": " + $"{(int)subTaskDetails["total_badges"]}(+{(int)subTaskDetails["badges"]})" + "\n" +
                         LocalizationHelper.GetString("AlgorithmConstructionPoint") + ": " + $"{(int)subTaskDetails["total_construction_points"]}(+{(int)subTaskDetails["construction_points"]})");
                     break;
+
                 case "ReclamationProcedureStart":
                     _taskQueueViewModel.AddLog(LocalizationHelper.GetString("MissionStart") + $" {(int)subTaskDetails["times"]} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info);
                     break;
+
                 case "ReclamationSmeltGold":
                     _taskQueueViewModel.AddLog(LocalizationHelper.GetString("AlgorithmDoneSmeltGold") + $" {(int)subTaskDetails["times"]} " + LocalizationHelper.GetString("UnitTime"));
                     break;
@@ -1100,6 +1116,27 @@ namespace MaaWpfGui.Main
                         _recruitViewModel.RecruitResult = resultContent;
                     }
 
+                    break;
+            }
+        }
+
+        private void ProcVideoRecMsg(JObject details)
+        {
+            string what = details["what"].ToString();
+
+            switch (what)
+            {
+                case "Finished":
+                    var filename = details["details"]["filename"].ToString();
+                    _copilotViewModel.AddLog("Save to: " + filename, UiLogColor.Info);
+
+                    // string p = @"C:\tmp\this path contains spaces, and,commas\target.txt";
+                    string args = string.Format("/e, /select, \"{0}\"", filename);
+
+                    ProcessStartInfo info = new ProcessStartInfo();
+                    info.FileName = "explorer";
+                    info.Arguments = args;
+                    Process.Start(info);
                     break;
             }
         }
@@ -1206,6 +1243,7 @@ namespace MaaWpfGui.Main
             Roguelike,
             RecruitCalc,
             Copilot,
+            VideoRec,
             Depot,
         }
 
@@ -1621,6 +1659,17 @@ namespace MaaWpfGui.Main
                 ["loop_times"] = loop_times,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding(type, task_params);
+            _latestTaskId[TaskType.Copilot] = id;
+            return id != 0 && AsstStart();
+        }
+
+        public bool AsstStartVideoRec(string filename)
+        {
+            var task_params = new JObject
+            {
+                ["filename"] = filename,
+            };
+            AsstTaskId id = AsstAppendTaskWithEncoding("VideoRecognition", task_params);
             _latestTaskId[TaskType.Copilot] = id;
             return id != 0 && AsstStart();
         }

@@ -7,13 +7,20 @@ namespace asst
     class BestMatchImageAnalyzer : public MatchImageAnalyzer
     {
     public:
+        struct TemplInfo
+        {
+            std::string name;
+            cv::Mat templ;
+        };
+
+    public:
         using MatchImageAnalyzer::MatchImageAnalyzer;
         virtual ~BestMatchImageAnalyzer() override = default;
 
         virtual bool analyze() override;
 
         void append_templ(std::string name, const cv::Mat& templ = cv::Mat());
-        const std::string& get_result_name() const noexcept { return m_result_name; }
+        const TemplInfo& get_result() const noexcept { return m_result; }
 
     private:
         using MatchImageAnalyzer::set_region_of_appeared;
@@ -21,12 +28,7 @@ namespace asst
         using MatchImageAnalyzer::set_templ_name;
         using MatchImageAnalyzer::set_use_cache;
 
-        struct TemplInfo
-        {
-            std::string name;
-            cv::Mat templ;
-        };
         std::vector<TemplInfo> m_templs;
-        std::string m_result_name;
+        TemplInfo m_result;
     };
 }

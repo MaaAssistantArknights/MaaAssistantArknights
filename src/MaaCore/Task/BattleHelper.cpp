@@ -11,10 +11,10 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
+#include "Vision/Battle/BattleImageAnalyzer.h"
+#include "Vision/Battle/BattleSkillReadyImageAnalyzer.h"
 #include "Vision/BestMatchImageAnalyzer.h"
 #include "Vision/MatchImageAnalyzer.h"
-#include "Vision/Miscellaneous/BattleImageAnalyzer.h"
-#include "Vision/Miscellaneous/BattleSkillReadyImageAnalyzer.h"
 #include "Vision/OcrWithPreprocessImageAnalyzer.h"
 
 using namespace asst::battle;
@@ -134,6 +134,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             static const auto cooling_mask_range = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->mask_range;
             avatar_analyzer.set_threshold(cooling_threshold);
             avatar_analyzer.set_mask_range(cooling_mask_range, true);
+            avatar_analyzer.set_mask_with_close(true);
         }
         else {
             static const double threshold = Task.get<MatchTaskInfo>("BattleAvatarData")->templ_threshold;
@@ -146,7 +147,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             avatar_analyzer.append_templ(name, avatar);
         }
         if (avatar_analyzer.analyze()) {
-            set_oper_name(oper, avatar_analyzer.get_result_name());
+            set_oper_name(oper, avatar_analyzer.get_result().name);
             m_cur_deployment_opers.insert_or_assign(oper.name, oper);
             remove_cooling_from_battlefield(oper);
         }
