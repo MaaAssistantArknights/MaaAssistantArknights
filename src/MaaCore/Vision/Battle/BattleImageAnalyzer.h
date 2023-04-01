@@ -11,13 +11,14 @@ namespace asst
         enum Target // 需要识别的目标
         {
             None = 0,
-            HP = 1,         // 剩余生命值
-            Home = 2,       // 蓝色的家门
+            // HP = 1,         // 剩余生命值
+            // Home = 2,       // 蓝色的家门
             Oper = 4,       // 下方的干员信息
             DetailPage = 8, // 是否点开了详情页
             Kills = 16,     // 击杀数
             Cost = 32,      // 费用
-            Vacancies = 64, // 剩余可部署干员数
+            // Vacancies = 64, // 剩余可部署干员数
+            PauseButton = 128,
         };
 
     public:
@@ -50,11 +51,13 @@ namespace asst
 
         bool home_analyze(); // 识别蓝色的家门
         // bool skill_analyze();     // 识别技能是否可用
-        bool hp_analyze();        // 识别剩余生命值
         bool kills_analyze();     // 识别击杀数
         bool cost_analyze();      // 识别费用
         bool vacancies_analyze(); // 识别剩余可部署人数
-        bool flag_analyze();      // 识别暂停按钮
+        bool flag_analyze();
+        bool hp_flag_analyze();
+        bool kills_flag_analyze();
+        bool pause_button_analyze();
 
         int m_target = 0; // 待识别的目标
         int m_pre_total_kills = 0; // 之前的击杀总数，因为击杀数经常识别不准所以依赖外部传入作为参考

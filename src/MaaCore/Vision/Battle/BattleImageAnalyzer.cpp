@@ -31,13 +31,18 @@ bool asst::BattleImageAnalyzer::analyze()
     // HP 作为 flag，无论如何都识别。表明当前画面是在战斗场景的
     bool ret = flag_analyze();
 
-    if (m_target & Target::Home) {
-        ret |= home_analyze();
+    if (m_target & Target::PauseButton) {
+        ret &= pause_button_analyze();
     }
 
     if (!ret) {
         return false;
     }
+
+    //
+    // if (m_target & Target::Home) {
+    //    ret |= home_analyze();
+    //}
 
     // 可能没有干员（全上场了），所以干员识别结果不影响返回值
     if (m_target & Target::Oper) {
@@ -56,9 +61,9 @@ bool asst::BattleImageAnalyzer::analyze()
         ret &= cost_analyze();
     }
 
-    if (m_target & Target::Vacancies) {
-        ret &= vacancies_analyze();
-    }
+    // if (m_target & Target::Vacancies) {
+    //     ret &= vacancies_analyze();
+    // }
 
     return ret;
 }
@@ -308,7 +313,7 @@ bool asst::BattleImageAnalyzer::home_analyze()
     return true;
 }
 
-bool asst::BattleImageAnalyzer::hp_analyze()
+bool asst::BattleImageAnalyzer::hp_flag_analyze()
 {
     // 识别 HP 的那个蓝白色图标
     auto flag_task_ptr = Task.get("BattleHpFlag");
@@ -323,6 +328,13 @@ bool asst::BattleImageAnalyzer::hp_analyze()
         }
     }
     return true;
+}
+
+bool asst::BattleImageAnalyzer::kills_flag_analyze()
+{
+    MatchImageAnalyzer flag_analyzer(m_image);
+    flag_analyzer.set_task_info("BattleKillsFlag");
+    return flag_analyzer.analyze();
 }
 
 bool asst::BattleImageAnalyzer::kills_analyze()
@@ -417,6 +429,11 @@ bool asst::BattleImageAnalyzer::vacancies_analyze()
 
 bool asst::BattleImageAnalyzer::flag_analyze()
 {
+    return pause_button_analyze() || hp_flag_analyze() || kills_flag_analyze();
+}
+
+bool asst::BattleImageAnalyzer::pause_button_analyze()
+{
     auto has_started_task_ptr = Task.get("BattleHasStarted");
     cv::Mat roi = m_image(make_rect<cv::Rect>(has_started_task_ptr->roi));
     cv::Mat roi_gray;
@@ -428,17 +445,7 @@ bool asst::BattleImageAnalyzer::flag_analyze()
     Log.trace(__FUNCTION__, "count", count);
 
     const int count_threshold = has_started_task_ptr->special_params[1];
-    if (count > count_threshold) {
-        return true;
-    }
-
-    MatchImageAnalyzer flag_analyzer(m_image);
-    flag_analyzer.set_task_info("BattleKillsFlag");
-    if (flag_analyzer.analyze()) {
-        return true;
-    }
-
-    return hp_analyze();
+    return count > count_threshold;
 }
 
 bool asst::BattleImageAnalyzer::detail_page_analyze()
@@ -457,6 +464,8 @@ bool asst::BattleImageAnalyzer::detail_page_analyze()
         int count2 = cv::countNonZero(bin2);
 
         const int threshold = task_ptr->special_params[0];
+        Log.info("detail_page, count:", count1, count2, ", threshold:", threshold);
+
         return count1 > threshold || count2 > threshold;
     };
 

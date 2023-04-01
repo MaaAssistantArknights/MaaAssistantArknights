@@ -236,7 +236,7 @@ bool asst::CombatRecordRecognitionTask::analyze_deployment()
     const int skip_count = m_video_fps > m_deployment_fps ? static_cast<int>(m_video_fps / m_deployment_fps) : 1;
 
     BattleImageAnalyzer oper_analyzer;
-    oper_analyzer.set_target(BattleImageAnalyzer::Target::Oper);
+    oper_analyzer.set_target(BattleImageAnalyzer::Target::Oper | BattleImageAnalyzer::Target::PauseButton);
 
     for (size_t i = m_stage_ocr_end_frame; i < m_video_frame_count; i += skip_frames(skip_count)) {
         cv::Mat frame;
@@ -301,6 +301,11 @@ bool asst::CombatRecordRecognitionTask::slice_video()
 
     int not_in_battle_count = 0;
     bool in_segment = false;
+
+#ifdef ASST_DEBUG
+    cv::Mat pre_frame;
+#endif
+
     for (size_t i = m_battle_start_frame; i < m_video_frame_count; i += skip_frames(skip_count)) {
         cv::Mat frame;
         *m_video_ptr >> frame;
@@ -336,12 +341,19 @@ bool asst::CombatRecordRecognitionTask::slice_video()
 
         const auto& cur_opers = oper_analyzer.get_opers();
         size_t cooling = ranges::count_if(cur_opers, [](const auto& oper) { return oper.cooling; });
+
         if (oper_analyzer.get_in_detail_page()) {
             if (!in_segment || m_clips.empty()) {
+#ifdef ASST_DEBUG
+                pre_frame = frame;
+#endif
                 continue;
             }
             m_clips.back().end_frame = i - skip_count;
             in_segment = false;
+#ifdef ASST_DEBUG
+            pre_frame = frame;
+#endif
             continue;
         }
         else if (!in_segment) {
@@ -364,7 +376,11 @@ bool asst::CombatRecordRecognitionTask::slice_video()
             backs.deployment = cur_opers;
             backs.cooling = cooling;
         }
+#ifdef ASST_DEBUG
+        pre_frame = frame;
+#endif
     }
+
     callback(AsstMsg::SubTaskCompleted, basic_info_with_what("Slice"));
     return true;
 }
