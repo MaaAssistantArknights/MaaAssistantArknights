@@ -30,6 +30,19 @@ namespace asst
         virtual void clear() override;
 
         bool do_once();
+        struct DeployPlanInfo
+        {
+            std::string oper_name;
+            int oper_priority;
+            int rank;
+            Point placed;
+            battle::DeployDirection direction;
+            bool operator<(DeployPlanInfo& x)
+            {
+                return (rank < x.rank) || (rank == x.rank && oper_priority > x.oper_priority);
+            }
+        };
+        bool do_best_deploy();
         bool calc_stage_info();
 
         void all_melee_retreat();
@@ -125,5 +138,6 @@ namespace asst
             bool operator<(const DroneTile& x) const { return x.placed_time < placed_time; }
         };
         std::priority_queue<DroneTile> m_need_clear_tiles;
+        std::unordered_map<std::string, std::vector<battle::roguelike::DeployInfoWithRank>> m_deploy_plan;
     };
 } // namespace asst
