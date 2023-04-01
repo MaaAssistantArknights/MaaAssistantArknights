@@ -2633,19 +2633,13 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public static bool AprilFoolsDay()
-        {
-            var yjDate = DateTime.UtcNow.ToYJDate();
-            return yjDate.Month == 4 && yjDate.Day == 1;
-        }
-
         /// <summary>
         /// Did you buy wine?
         /// </summary>
         /// <returns>The answer.</returns>
         public bool DidYouBuyWine()
         {
-            if (AprilFoolsDay())
+            if (DateTime.UtcNow.ToYJDate().IsAprilFoolsDay())
             {
                 return true;
             }
