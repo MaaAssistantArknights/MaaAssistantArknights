@@ -18,7 +18,7 @@ namespace asst
         virtual ~BestMatchImageAnalyzer() override = default;
 
         virtual bool analyze() override;
-        virtual void set_log_tracing(bool enable) noexcept;
+        virtual void set_log_tracing(bool enable) override;
 
         void append_templ(std::string name, const cv::Mat& templ = cv::Mat());
         const TemplInfo& get_result() const noexcept { return m_result; }

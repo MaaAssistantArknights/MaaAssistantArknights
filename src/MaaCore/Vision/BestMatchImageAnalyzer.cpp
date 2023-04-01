@@ -38,7 +38,7 @@ bool asst::BestMatchImageAnalyzer::analyze()
     return best_matched.score > 0;
 }
 
-void asst::BestMatchImageAnalyzer::set_log_tracing(bool enable) noexcept
+void asst::BestMatchImageAnalyzer::set_log_tracing(bool enable)
 {
     m_best_log_tracing = enable;
 }

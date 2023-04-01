@@ -52,7 +52,7 @@ void asst::AbstractImageAnalyzer::set_roi(const Rect& roi) noexcept
     m_roi = correct_rect(roi, m_image);
 }
 
-void asst::AbstractImageAnalyzer::set_log_tracing(bool enable) noexcept
+void asst::AbstractImageAnalyzer::set_log_tracing(bool enable)
 {
     m_log_tracing = enable;
 }

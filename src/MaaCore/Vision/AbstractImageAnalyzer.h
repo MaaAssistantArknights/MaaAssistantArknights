@@ -35,7 +35,7 @@ namespace asst
         virtual void set_roi(const Rect& roi) noexcept;
 
         virtual bool analyze() = 0;
-        virtual void set_log_tracing(bool enable) noexcept;
+        virtual void set_log_tracing(bool enable);
 
         AbstractImageAnalyzer& operator=(const AbstractImageAnalyzer&) = delete;
         AbstractImageAnalyzer& operator=(AbstractImageAnalyzer&&) = delete;
