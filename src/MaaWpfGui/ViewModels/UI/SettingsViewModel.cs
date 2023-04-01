@@ -1752,7 +1752,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task ManualUpdate()
         {
-            var ret = await _versionUpdateViewModel.CheckAndDownloadUpdate(true);
+            var versionUpdateViewModel = _container.Get<VersionUpdateViewModel>();
+            var ret = await versionUpdateViewModel.CheckAndDownloadUpdate(true);
 
             string toastMessage = null;
             switch (ret)
@@ -1777,7 +1778,7 @@ namespace MaaWpfGui.ViewModels.UI
                     break;
 
                 case VersionUpdateViewModel.CheckUpdateRetT.OK:
-                    _versionUpdateViewModel.AskToRestart();
+                    versionUpdateViewModel.AskToRestart();
                     break;
 
                 case VersionUpdateViewModel.CheckUpdateRetT.NewVersionIsBeingBuilt:

@@ -1031,6 +1031,14 @@
         "sortId": -10000,
         "usage": "전분과 과당으로 만든 미노스의 전통 음식. 벌꿀 쿠키 캐슬의 보상을 획득하는 데 쓰인다."
     },
+    "act12mini_token_component": {
+        "classifyType": "NONE",
+        "description": "급속하게 녹슬어간 전쟁 야망의 잔해. 기사단에서 도태되거나 망가진 무기의 부품으로, 잘못 처리하면 오리지늄 감염의 위험이 있다. 이유는 알 수 없지만, 간혹 평범한 농가에서 발견되기도 한다.",
+        "icon": "act12mini_token_component.png",
+        "name": "제식 기계 부품",
+        "sortId": -10000,
+        "usage": "즈보넥 근처에서 비교적 흔히 보이는 망가진 기계의 부품. 카시미어의 슈퍼마켓 체인에서 회수하고 있다."
+    },
     "act12side_point_cmemomedal": {
         "classifyType": "NONE",
         "description": "모든 메달은 칸델라 시장의 의뢰와는 관계없이 첸이 직접 조사하고 해결한 사건들을 상징한다. 그녀가 도솔레스에 체류하는 동안 도시의 범죄율은 최저점을 찍었고, 현지 경찰서에 대한 경고의 의미로 메달은 경찰 총국의 정중앙에 진열되어 있다.",
@@ -1094,6 +1102,14 @@
         "name": "미에슈코 스포츠 증권",
         "sortId": -10000,
         "usage": "미에슈코 그룹에서 내놓은 상업의 새로운 형식. 카시미어의 면세기념품점에서 기념품을 사는 데 쓸 수 있다."
+    },
+    "act13mini_token_can": {
+        "classifyType": "NONE",
+        "description": "이번 주말, 용문 근위국은 유기 동물 보호 센터와 함께 입양 캠페인을 벌일 예정이며, 여건이 되는 시민들은 적극적으로 참여해 길거리를 떠도는 '아이'들에게 새로운 기회를 주시길 바랍니다.\n물론, 입양 조건이 안 되는 분들은 펫 간식을 기부해도 좋습니다. 저희가 기부자들을 위해 멋진 선물도 준비해 두었습니다.",
+        "icon": "act13mini_token_can.png",
+        "name": "펫 간식 캔",
+        "sortId": -10000,
+        "usage": "용문에서 흔하게 구할 수 있는 저렴하고 맛있는 펫 전용 간식. 캔의 고리를 튕기기만 해도 귀염둥이가 당신 곁으로 달려온다."
     },
     "act13side_prestige_armorless": {
         "classifyType": "NONE",
@@ -1422,6 +1438,38 @@
         "name": "긴급 이성 강화 회복제",
         "sortId": 30001,
         "usage": "일시적으로 이성을 회복시켜주는 대량의 응급약. 새로운 활성 성분이 추가되어 즉시 효과가 나타나며, 생체 리듬의 혼란이 올 수도 있으니 복용하기 전에 주의사항을 자세히 읽어보기 바란다."
+    },
+    "ap_supply_lt_120_2022_1": {
+        "classifyType": "CONSUME",
+        "description": "바삭한 식감의 월병. 노릇하게 구워져 어느샌가 손이 가 있다.",
+        "icon": "ap_supply_lt_120_2022_1.png",
+        "name": "만채색",
+        "sortId": 30001,
+        "usage": "다짐육을 소로 한 페이스트리 월병. 이성 회복에 사용할 수 있다."
+    },
+    "ap_supply_lt_120_2022_2": {
+        "classifyType": "CONSUME",
+        "description": "바삭한 식감의 월병. 노릇하게 구워져 어느샌가 손이 가 있다.",
+        "icon": "ap_supply_lt_120_2022_2.png",
+        "name": "보름달",
+        "sortId": 30001,
+        "usage": "절인 햄을 소로 한 페이스트리 월병. 이성 회복에 사용할 수 있다."
+    },
+    "ap_supply_lt_120_2022_3": {
+        "classifyType": "CONSUME",
+        "description": "부드러운 식감의 월병. 윤기가 흘러 보기만 해도 침이 고인다.",
+        "icon": "ap_supply_lt_120_2022_3.png",
+        "name": "웃음꽃",
+        "sortId": 30001,
+        "usage": "팥앙금을 소로 한 소프트 월병. 이성 회복에 사용할 수 있다."
+    },
+    "ap_supply_lt_120_2022_4": {
+        "classifyType": "CONSUME",
+        "description": "부드러운 식감의 월병. 윤기가 흘러 보기만 해도 침이 고인다.",
+        "icon": "ap_supply_lt_120_2022_4.png",
+        "name": "계수꽃",
+        "sortId": 30001,
+        "usage": "견과류를 소로 한 소프트 월병. 이성 회복에 사용할 수 있다."
     },
     "ap_supply_lt_60": {
         "classifyType": "CONSUME",
