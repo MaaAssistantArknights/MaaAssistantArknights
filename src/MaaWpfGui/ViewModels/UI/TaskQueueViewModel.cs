@@ -22,7 +22,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Forms;
+using System.Windows.Threading;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -171,12 +171,11 @@ namespace MaaWpfGui.ViewModels.UI
         }
         */
 
-        private readonly Timer _timer = new Timer();
+        private readonly DispatcherTimer _timer = new DispatcherTimer();
 
         private void InitTimer()
         {
-            _timer.Enabled = true;
-            _timer.Interval = 1000 * 50;
+            _timer.Interval = TimeSpan.FromSeconds(50);
             _timer.Tick += Timer1_Elapsed;
             _timer.Start();
         }
@@ -185,11 +184,14 @@ namespace MaaWpfGui.ViewModels.UI
         {
             if (NeedToUpdateDatePrompt())
             {
-                Execute.OnUIThread(() =>
+                Task.Run(async () =>
                 {
-                    _stageManager.UpdateStage(true);
-                    UpdateDatePrompt();
-                    UpdateStageList(false);
+                    await _stageManager.UpdateStageWeb();
+                    Execute.OnUIThread(() =>
+                    {
+                        UpdateDatePrompt();
+                        UpdateStageList(false);
+                    });
                 });
             }
 
@@ -204,7 +206,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (_settingsViewModel.UpdatAutoCheck)
                 {
-                    _settingsViewModel.ManualUpdate();
+                    Task.Run(_settingsViewModel.ManualUpdate);
                 }
             }
 

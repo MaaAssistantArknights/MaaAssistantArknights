@@ -20,6 +20,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -357,14 +358,13 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         /// <param name="force">是否强制检查。</param>
         /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
-        public CheckUpdateRetT CheckAndDownloadUpdate(bool force = false)
+        public async Task<CheckUpdateRetT> CheckAndDownloadUpdate(bool force = false)
         {
             _settingsViewModel.IsCheckingForUpdates = true;
 
-            var checkResult = ((Func<CheckUpdateRetT>)(() =>
-            {
+            async Task<CheckUpdateRetT> CheckUpdateInner() {
                 // 检查更新
-                var checkRet = CheckUpdate(force);
+                var checkRet = await CheckUpdate(force);
                 if (checkRet != CheckUpdateRetT.OK)
                 {
                     return checkRet;
@@ -507,7 +507,9 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 return CheckUpdateRetT.OK;
-            }))();
+            }
+
+            var checkResult = await CheckUpdateInner();
 
             _settingsViewModel.IsCheckingForUpdates = false;
             return checkResult;
@@ -537,7 +539,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         /// <param name="force">是否强制检查。</param>
         /// <returns>检查到更新返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
-        private CheckUpdateRetT CheckUpdate(bool force = false)
+        private async Task<CheckUpdateRetT> CheckUpdate(bool force = false)
         {
             // 自动更新或者手动触发
             if (!(_settingsViewModel.UpdateCheck || force))
@@ -558,7 +560,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     // 稳定版更新使用主仓库 /latest 接口
                     // 直接使用 MaaRelease 的话，30 个可能会找不到稳定版，因为有可能 Nightly 发了很多
-                    var stableResponse = RequestGithubApi(StableRequestUrl, RequestRetryMaxTimes);
+                    var stableResponse = await RequestGithubApi(StableRequestUrl, RequestRetryMaxTimes);
                     if (string.IsNullOrEmpty(stableResponse))
                     {
                         return CheckUpdateRetT.NetworkError;
@@ -566,7 +568,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                     _latestJson = JsonConvert.DeserializeObject(stableResponse) as JObject;
                     _latestVersion = _latestJson["tag_name"].ToString();
-                    stableResponse = RequestGithubApi(MaaReleaseRequestUrlByTag + _latestVersion, RequestRetryMaxTimes);
+                    stableResponse = await RequestGithubApi(MaaReleaseRequestUrlByTag + _latestVersion, RequestRetryMaxTimes);
 
                     // 主仓库能找到版，但是 MaaRelease 找不到，说明 MaaRelease 还没有同步（一般过个十分钟就同步好了）
                     if (string.IsNullOrEmpty(stableResponse))
@@ -579,7 +581,7 @@ namespace MaaWpfGui.ViewModels.UI
                 else
                 {
                     // 非稳定版更新使用 MaaRelease/releases 接口
-                    var response = RequestGithubApi(RequestUrl, RequestRetryMaxTimes);
+                    var response = await RequestGithubApi(RequestUrl, RequestRetryMaxTimes);
                     if (string.IsNullOrEmpty(response))
                     {
                         return CheckUpdateRetT.NetworkError;
@@ -636,7 +638,7 @@ namespace MaaWpfGui.ViewModels.UI
                 // 非稳定版本是 Nightly 下载的，主仓库没有它的更新信息，不必请求
                 if (isStdVersion(_latestVersion))
                 {
-                    var infoResponse = RequestGithubApi(InfoRequestUrl + _latestVersion, RequestRetryMaxTimes);
+                    var infoResponse = await RequestGithubApi(InfoRequestUrl + _latestVersion, RequestRetryMaxTimes);
                     if (string.IsNullOrEmpty(infoResponse))
                     {
                         return CheckUpdateRetT.FailedToGetInfo;
@@ -672,7 +674,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string RequestGithubApi(string url, int retryTimes)
+        private async Task<string> RequestGithubApi(string url, int retryTimes)
         {
             string response = string.Empty;
             string[] requestSource = { "https://api.github.com/", "https://api.kgithub.com/" };
@@ -680,7 +682,8 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 for (var i = 0; i < requestSource.Length; i++)
                 {
-                    response = _httpService.GetStringAsync(new Uri(requestSource[i] + url)).ConfigureAwait(false).GetAwaiter().GetResult();
+                    // prevent current thread
+                    response = await _httpService.GetStringAsync(new Uri(requestSource[i] + url)).ConfigureAwait(false);
                     if (!string.IsNullOrEmpty(response))
                     {
                         break;
