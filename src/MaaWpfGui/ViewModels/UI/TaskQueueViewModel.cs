@@ -306,7 +306,7 @@ namespace MaaWpfGui.ViewModels.UI
             UpdateStageList(true);
             RefreshCustonInfrastPlan();
 
-            if (SettingsViewModel.AprilFoolsDay())
+            if (DateTime.UtcNow.ToYJDate().IsAprilFoolsDay())
             {
                 AddLog(LocalizationHelper.GetString("BuyWineOnAprilFoolsDay"), UiLogColor.Info);
             }
