@@ -2557,6 +2557,15 @@
                 ],
                 "template": "Bskill_meet_spdNotOwned2.png"
             },
+            "bskill_meet_spdOwned1": {
+                "desc": [
+                    "进驻会客室时，更容易获得线索板上已经拥有的线索"
+                ],
+                "name": [
+                    "显眼的调查者"
+                ],
+                "template": "Bskill_meet_spdOwned1.png"
+            },
             "bskill_meet_ursus1": {
                 "desc": [
                     "进驻会客室时，更容易获得乌萨斯学生自治团线索（工作时长影响概率）"
@@ -2967,6 +2976,15 @@
                     "新城贸易"
                 ],
                 "template": "Bskill_tra_spd&meet1.png"
+            },
+            "bskill_tra_spd&wt1": {
+                "desc": [
+                    "进驻贸易站时，订单获取效率+10%，当前贸易站赤金订单的赤金交付数必定为2（不视作违约订单）"
+                ],
+                "name": [
+                    "天真的谈判者"
+                ],
+                "template": "Bskill_tra_spd&wt1.png"
             },
             "bskill_tra_spd1": {
                 "desc": [

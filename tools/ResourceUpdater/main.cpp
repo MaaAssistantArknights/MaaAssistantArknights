@@ -79,7 +79,7 @@ int main([[maybe_unused]] int argc, char** argv)
                   arkbot_res_dir.string() + "\"";
     }
     else {
-        git_cmd = "git -C \"" + arkbot_res_dir.string() + "\" pull";
+        git_cmd = "git -C \"" + arkbot_res_dir.string() + "\" pull --autostash";
     }
     int git_ret = system(git_cmd.c_str());
     if (git_ret != 0) {
@@ -144,7 +144,7 @@ int main([[maybe_unused]] int argc, char** argv)
             "git clone https://github.com/Kengxxiao/ArknightsGameData.git --depth=1 \"" + game_data_dir.string() + "\"";
     }
     else {
-        git_cmd = "git -C \"" + game_data_dir.string() + "\" pull";
+        git_cmd = "git -C \"" + game_data_dir.string() + "\" pull --autostash";
     }
     git_ret = system(git_cmd.c_str());
     if (git_ret != 0) {
@@ -777,7 +777,7 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
             }
             if (info.rarity == 1) {
                 // 2023/01/17, yj 又把支援机械加上了，我们就不额外添加了
-                //info.tags.emplace_back("支援机械");
+                // info.tags.emplace_back("支援机械");
             }
             else if (info.rarity == 5) {
                 info.tags.emplace_back("资深干员");

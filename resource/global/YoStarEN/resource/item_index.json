@@ -1031,6 +1031,14 @@
         "sortId": -10000,
         "usage": "A traditional Minosian food made from starch and fructose. Used to obtain rewards from the Honey Biscuit Castle."
     },
+    "act12mini_token_component": {
+        "classifyType": "NONE",
+        "description": "The fast rusting remains of war ambitions, Knightclub knockouts, or perhaps damaged weapon parts. Poses a risk of Originium infection if not handled properly. For some strange reason, occasionally found in common working-class households.",
+        "icon": "act12mini_token_component.png",
+        "name": "Standard-Issue Component",
+        "sortId": -10000,
+        "usage": "A type of worn-out mechanical part commonly found around Dzwonek, recyclable at city supermarkets across Kazimierz."
+    },
     "act12side_point_cmemomedal": {
         "classifyType": "NONE",
         "description": "Every medal represents Ch'en's swift mid-investigation resolution of incidents unrelated to her assignment from Ms. Candela. During the time she was retained in Dossoles, the city's crime rate reached a record low. As a warning for the local police department, these Ch'en medals have been displayed in the middle of the head office, where you can't miss them.",
@@ -1094,6 +1102,14 @@
         "name": "Mieszko Sports Securities",
         "sortId": -10000,
         "usage": "A new securitized holding launched by the Mieszko Group that allows you to buy souvenirs at a Kazimierz duty free shop."
+    },
+    "act13mini_token_can": {
+        "classifyType": "NONE",
+        "description": "This weekend, the L.G.D. is joining hands with our local stray animal shelters to hold an adoption drive. We hope all our friends in the city able to adopt will jump at the opportunity to give these homeless little ones a chance at a brand new life.\nOf course, those who aren't in a position to adopt can still contribute by offering cans of pet food, not to mention the splendid gifts awaiting anyone who donates.",
+        "icon": "act13mini_token_can.png",
+        "name": "Nutritional Pet Food Tin",
+        "sortId": -10000,
+        "usage": "A tin of pet food common to the Lungmen market, cheap and delicious. Just give the ring pull a flick, and you'll have your little dear bounding over to you."
     },
     "act13side_prestige_armorless": {
         "classifyType": "NONE",
@@ -1422,6 +1438,38 @@
         "name": "Emergency Sanity Concentrate",
         "sortId": 30001,
         "usage": "A large dose of concentrated emergency supplement used to maintain Sanity. New active ingredients, same instant results. Possible side effect: disruption of biological clock. Please read carefully before administering."
+    },
+    "ap_supply_lt_120_2022_1": {
+        "classifyType": "CONSUME",
+        "description": "A crisp, flaky mooncake in golden brown, liable to stir anyone's appetite.",
+        "icon": "ap_supply_lt_120_2022_1.png",
+        "name": "Full Color",
+        "sortId": 30001,
+        "usage": "A flaky mooncake filled with perky sweet ground meat. Can be used to restore Sanity."
+    },
+    "ap_supply_lt_120_2022_2": {
+        "classifyType": "CONSUME",
+        "description": "A crisp, flaky mooncake in golden brown, liable to stir anyone's appetite.",
+        "icon": "ap_supply_lt_120_2022_2.png",
+        "name": "Full Moon",
+        "sortId": 30001,
+        "usage": "A flaky mooncake filled with frankincense Yunnan ham. Can be used to restore Sanity."
+    },
+    "ap_supply_lt_120_2022_3": {
+        "classifyType": "CONSUME",
+        "description": "A tender, sugary mooncake with a glossy sheen, prone to making anyone drool at the mouth.",
+        "icon": "ap_supply_lt_120_2022_3.png",
+        "name": "Smiley Face",
+        "sortId": 30001,
+        "usage": "A glazed mooncake filled with rose red bean paste. Can be used to restore Sanity."
+    },
+    "ap_supply_lt_120_2022_4": {
+        "classifyType": "CONSUME",
+        "description": "A tender, sugary mooncake with a glossy sheen, prone to making anyone drool at the mouth.",
+        "icon": "ap_supply_lt_120_2022_4.png",
+        "name": "Osmanthus",
+        "sortId": 30001,
+        "usage": "A glazed mooncake filled with spicy and salty nuts. Can be used to restore Sanity."
     },
     "ap_supply_lt_60": {
         "classifyType": "CONSUME",
