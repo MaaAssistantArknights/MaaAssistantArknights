@@ -21,6 +21,7 @@
 - add timeout for IOHandler read (#4095) @aa889788
 - fix some warnings and crash @MistEO
 - improve post processing in depot item quantity match @horror-proton
+- fix deadlock in UI thread @dantmnf
 
 ### 其他
 
