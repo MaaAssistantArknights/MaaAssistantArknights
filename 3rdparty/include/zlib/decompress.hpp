@@ -5,10 +5,11 @@
 #include <stdexcept>
 #include <string>
 
+// zlib
+#include "zlib.h"
+
 namespace gzip
 {
-    // zlib
-#include "zlib.h"
 
     class Decompressor
     {

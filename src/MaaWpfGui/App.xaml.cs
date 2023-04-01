@@ -20,6 +20,8 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Media;
 using HandyControl.Tools;
+using MaaWpfGui.Constants;
+using MaaWpfGui.Helper;
 
 namespace MaaWpfGui
 {
@@ -43,7 +45,7 @@ namespace MaaWpfGui
         private readonly SolidColorBrush black = new SolidColorBrush(Color.FromRgb(49, 51, 56));
         private readonly SolidColorBrush white = new SolidColorBrush(Color.FromRgb(181, 186, 193));
 
-        public static bool SetColors => Convert.ToBoolean(Config.Get(Config.SetColors, bool.FalseString));
+        public static bool SetColors => Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.SetColors, bool.FalseString));
 
         public void darkToStart()
         {
