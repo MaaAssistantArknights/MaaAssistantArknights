@@ -519,7 +519,7 @@
     <!--  AutoRecruitSettings  -->
 
     <!--  EasterEggs  -->
-    <system:String x:Key="BuyWineOnAprilFoolsDay">Doctor, welcome to this grand celebration! I heard that there is a new wine in Ms Closure's store, want to have a drink?</system:String>
+    <system:String x:Key="BuyWineOnAprilFoolsDay">Dear doctor, ever heard of the new listings of "isopropyl alcohol" in Ms. Closure's store? let's check it out?</system:String>
     <system:String x:Key="Burping">Ugh... Ehem</system:String>
     <system:String x:Key="DrunkAndStaggering">Ah, doctor. Why do you sway, so much in your movement today?</system:String>
     <system:String x:Key="Hangover">I must not drink, drink so much next time...</system:String>
