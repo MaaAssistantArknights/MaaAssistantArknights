@@ -55,6 +55,8 @@ void asst::Controller::clear_info() noexcept
 {
     m_uuid.clear();
     m_scale_size = { WindowWidthDefault, WindowHeightDefault };
+    m_controller = nullptr;
+    m_scale_proxy = nullptr;
 }
 
 void asst::Controller::callback(AsstMsg msg, const json::value& details)
