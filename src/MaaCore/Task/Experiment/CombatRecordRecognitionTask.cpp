@@ -600,7 +600,7 @@ bool asst::CombatRecordRecognitionTask::process_changes(ClipInfo& clip, ClipInfo
             if (!oper.new_here) {
                 continue;
             }
-            std::string name = deployed_iter == deployed.end() ? "Unknown" : *(deployed_iter++);
+            std::string name = deployed_iter == deployed.end() ? "UnkownDeployed" : *(deployed_iter++);
             json::object deploy_json {
                 { "type", "Deploy" },
                 { "name", name }, // 这里正常应该只有一个人，多了就只能抽奖了（
@@ -629,9 +629,10 @@ void asst::CombatRecordRecognitionTask::ananlyze_deployment_names(ClipInfo& clip
 
         BestMatchImageAnalyzer avatar_analyzer(oper.avatar);
 
-        static const double threshold = Task.get<MatchTaskInfo>("BattleAvatarData")->templ_threshold;
-        static const double drone_threshold = Task.get<MatchTaskInfo>("BattleDroneAvatarData")->templ_threshold;
-        avatar_analyzer.set_threshold(oper.role == battle::Role::Drone ? drone_threshold : threshold);
+        static const double threshold = Task.get<MatchTaskInfo>("BattleAvatarDataForVideo")->templ_threshold;
+        avatar_analyzer.set_threshold(threshold);
+        // static const double drone_threshold = Task.get<MatchTaskInfo>("BattleDroneAvatarData")->templ_threshold;
+        // avatar_analyzer.set_threshold(oper.role == battle::Role::Drone ? drone_threshold : threshold);
 
         for (const auto& [name, avatar] : m_all_avatars) {
             avatar_analyzer.append_templ(name, avatar);
@@ -642,7 +643,7 @@ void asst::CombatRecordRecognitionTask::ananlyze_deployment_names(ClipInfo& clip
             oper.name = avatar_analyzer.get_result().name;
         }
         else {
-            oper.name = "Unknown";
+            oper.name = "UnknownDeployment";
         }
     }
 }

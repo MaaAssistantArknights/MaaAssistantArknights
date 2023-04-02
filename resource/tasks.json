@@ -6237,6 +6237,11 @@
         "template": "empty.png",
         "templThreshold": 0.8
     },
+    "BattleAvatarDataForVideo": {
+        "baseTask": "BattleAvatarData",
+        "template": "empty.png",
+        "templThreshold": 0.6
+    },
     "BattleDroneAvatarData": {
         "template": "empty.png",
         "templThreshold": 0.7
