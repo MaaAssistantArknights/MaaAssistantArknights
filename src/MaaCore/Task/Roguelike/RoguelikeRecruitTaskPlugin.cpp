@@ -118,7 +118,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         const auto& team_complete_condition = RoguelikeRecruit.get_team_complete_info(rogue_theme);
         for (const auto& condition : team_complete_condition) {
             int count = 0;
-            for (const std::string group_name : condition.groups)
+            for (const std::string& group_name : condition.groups)
                 count += group_count[group_name];
             if (count < condition.threshold) {
                 complete = false;
