@@ -1599,6 +1599,14 @@
         "sortId": -10000,
         "usage": "黑曜石节官方发售的门票，用于进入各类特殊关卡。"
     },
+    "favor_add_ulika": {
+        "classifyType": "NONE",
+        "description": "记录了直播精彩瞬间的存储装置，可以增加U-Official的信赖值。",
+        "icon": "favor_add_ulika.png",
+        "name": "主播U的直播切片",
+        "sortId": -10000,
+        "usage": "提高干员U-Official的信赖。"
+    },
     "itempack_gacha_1": {
         "classifyType": "CONSUME",
         "description": "在露华村的特色祈愿活动中取得的礼袋，寄寓着对你未来道路的美好祝愿。",

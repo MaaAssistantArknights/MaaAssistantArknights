@@ -2591,6 +2591,17 @@
             ],
             "rarity": 5
         },
+        "char_4091_ulika": {
+            "name": "U-Official",
+            "position": "RANGED",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "x-4",
+                "x-4",
+                "x-4"
+            ],
+            "rarity": 1
+        },
         "char_411_tomimi": {
             "name": "特米米",
             "position": "RANGED",
@@ -4721,6 +4732,17 @@
                 "0-1",
                 "0-1",
                 "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_116_stdurk": {
+            "name": "“过去的我”",
+            "position": "RANGED",
+            "profession": "TRAP",
+            "rangeId": [
+                "3-6",
+                "3-6",
+                "3-6"
             ],
             "rarity": 1
         },
