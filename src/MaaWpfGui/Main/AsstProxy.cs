@@ -452,7 +452,7 @@ namespace MaaWpfGui.Main
                             _taskQueueViewModel.AddLog(LocalizationHelper.GetString("TryToStartEmulator"), UiLogColor.Error);
                             _taskQueueViewModel.KillEmulator();
                             await Task.Delay(3000);
-                            _taskQueueViewModel.Stop();
+                            await _taskQueueViewModel.Stop();
                             _taskQueueViewModel.SetStopped();
                             _taskQueueViewModel.LinkStart();
                         }
@@ -771,7 +771,7 @@ namespace MaaWpfGui.Main
                             _taskQueueViewModel.AddLog(LocalizationHelper.GetString("GameDropNoRestart"), UiLogColor.Warning);
                             using var toast = new ToastNotification(LocalizationHelper.GetString("GameDropNoRestart"));
                             toast.Show();
-                            _taskQueueViewModel.Stop();
+                            _ = _taskQueueViewModel.Stop();
                         }
 
                         break;
