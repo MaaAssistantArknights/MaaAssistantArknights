@@ -42,7 +42,7 @@ const std::vector<asst::RecruitPriorityOffset> asst::RoguelikeRecruitConfig::get
     return m_team_complete_comdition.at(theme);
 }
 
-const int asst::RoguelikeRecruitConfig::get_group_id(const std::string& theme, const std::string& name) const noexcept
+int asst::RoguelikeRecruitConfig::get_group_id(const std::string& theme, const std::string& name) const noexcept
 {
     auto& opers = m_all_opers.at(theme);
     if (auto find_iter = opers.find(name); find_iter != opers.cend()) {

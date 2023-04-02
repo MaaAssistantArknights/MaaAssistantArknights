@@ -50,7 +50,7 @@ namespace asst
                                                              const battle::Role& role) const noexcept; // [deprecated]
         const std::vector<std::string> get_group_info(const std::string& theme) const noexcept;
         const std::vector<RecruitPriorityOffset> get_team_complete_info(const std::string& theme) const noexcept;
-        const int get_group_id(const std::string& theme, const std::string& name) const noexcept;
+        int get_group_id(const std::string& theme, const std::string& name) const noexcept;
 
     protected:
         virtual bool parse(const json::value& json) override;

@@ -92,6 +92,7 @@
                     "recruit_priority": 720,
                     "promote_priority": 400,
                     "is_start": true,
+                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [ "基石", "召唤", "号角", "地面C" ],
@@ -121,6 +122,7 @@
                     "recruit_priority": 670,
                     "promote_priority": 200,
                     "is_start": true,
+                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [ "基石", "召唤", "号角", "地面C", "挡人先锋" ],
@@ -221,7 +223,7 @@
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [ "基石", "召唤", "号角", "地面C" ],
+                            "groups": [ "基石", "召唤", "号角", "地面C", "玛恩纳", "挡人先锋" ],
                             "threshold": 2,
                             "offset": -600
                         }
@@ -372,6 +374,7 @@
                     "skill": 2,
                     "recruit_priority": 765,
                     "promote_priority": 901,
+                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [ "高台C", "玛恩纳", "号角" ],
@@ -386,6 +389,7 @@
                     "alternate_skill": 2,
                     "recruit_priority": 764,
                     "promote_priority": 932,
+                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [ "高台C", "玛恩纳", "号角" ],
@@ -574,8 +578,8 @@
                     "promote_priority": 0,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [ "控制", "异德" ],
-                            "threshold": 2,
+                            "groups": [ "控制" ],
+                            "threshold": 1,
                             "offset": -800
                         }
                     ]
@@ -587,8 +591,8 @@
                     "promote_priority": 470,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [ "控制", "异德" ],
-                            "threshold": 2,
+                            "groups": [ "控制" ],
+                            "threshold": 1,
                             "offset": -800
                         }
                     ]
@@ -600,11 +604,18 @@
                     "promote_priority": 0,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [ "控制", "异德" ],
-                            "threshold": 2,
+                            "groups": [ "控制" ],
+                            "threshold": 1,
                             "offset": -630
                         }
                     ]
+                },
+                {
+                    "name": "卡达",
+                    "skill": 2,
+                    "recruit_priority": 220,
+                    "promote_priority": 0,
+                    "is_key": true
                 }
             ]
         },
@@ -641,6 +652,7 @@
                     "skill": 1,
                     "recruit_priority": 743,
                     "promote_priority": 0,
+                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [ "单奶", "群奶" ],
@@ -941,6 +953,7 @@
                     "skill": 1,
                     "recruit_priority": 677,
                     "promote_priority": 356,
+                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [ "投锋", "挡人先锋" ],
@@ -1078,6 +1091,7 @@
                     "skill": 1,
                     "recruit_priority": 725,
                     "promote_priority": 480,
+                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [ "异德", "刺客" ],
@@ -1406,6 +1420,7 @@
                     "recruit_priority": 409,
                     "promote_priority": 0,
                     "is_start": true,
+                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [ "基石", "召唤", "号角", "地面C", "狙击", "高台C" ],
@@ -1463,6 +1478,7 @@
                 {
                     "name": "Stormeye",
                     "skill": 1,
+                    "is_key": true,
                     "recruit_priority": 481,
                     "promote_priority": 200
                 },
@@ -1570,6 +1586,7 @@
                 {
                     "name": "夜刀",
                     "skill": 0,
+                    "is_key": true,
                     "recruit_priority": 310,
                     "promote_priority": 0
                 },
@@ -1605,7 +1622,7 @@
                     "skill": 0,
                     "recruit_priority": 561,
                     "promote_priority": 0,
-                    "is_alternate": true,
+                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [ "重装" ],

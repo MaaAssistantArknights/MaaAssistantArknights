@@ -202,9 +202,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             if (char_opt.has_value()) {
                 // 干员已在编队中，又出现在招募列表，只有待晋升和预备干员两种情况
                 if (recruit_info.is_alternate) {
-                    // 预备干员可以重复招募
-                    priority = team_full_without_rookie ? recruit_info.recruit_priority_when_team_full
-                                                        : recruit_info.recruit_priority;
+                    // 预备干员可以重复招募，但是最好不要重复招募预备干员占用编队位置
+                    priority = recruit_info.recruit_priority_when_team_full;
                 }
                 else {
                     // 干员待晋升
