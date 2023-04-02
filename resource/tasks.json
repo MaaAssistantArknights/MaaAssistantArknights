@@ -8714,8 +8714,28 @@
         "Doc": "漂流密匣“打开”按钮",
         "next": [
             "Mizuki@Roguelike@DropsFlag",
+            "Mizuki@Roguelike@GetDropBoxOpen",
             "Mizuki@Roguelike@GetDropBoxSelect",
             "Mizuki@Roguelike@ChooseOperFlag"
+        ]
+    },
+    "Mizuki@Roguelike@GetDropBoxOpen": {
+        "Doc": "漂流密匣-打开的“选择”按钮",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            471,
+            800,
+            157
+        ],
+        "templThreshold": 0.85,
+        "postDelay": 1000,
+        "next": [
+            "Mizuki@Roguelike@DropsFlag",
+            "Mizuki@Roguelike@ChooseOperFlag",
+            "Mizuki@Roguelike@GetDropSelectReward",
+            "Mizuki@Roguelike@ClickToDrops"
         ]
     },
     "Mizuki@Roguelike@GetDropBoxSelect": {
@@ -8749,6 +8769,7 @@
             "Mizuki@Roguelike@GetDrop1",
             "Mizuki@Roguelike@GetDrop2",
             "Mizuki@Roguelike@GetDrop3",
+            "Mizuki@Roguelike@GetDropBoxOpen",
             "Mizuki@Roguelike@GetDropSelect",
             "Mizuki@Roguelike@GetDropRecruit",
             "Mizuki@Roguelike@GetDropBox"
