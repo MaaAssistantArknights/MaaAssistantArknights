@@ -1695,7 +1695,12 @@
             "Support",
             "Alternate"
         ],
-        "team_complete_condition": [],
+        "team_complete_condition": [
+            {
+                "groups": [ "Warrior" ],
+                "threshold": 1
+            }
+        ],
         "Warrior": {
             "opers": [
                 {
