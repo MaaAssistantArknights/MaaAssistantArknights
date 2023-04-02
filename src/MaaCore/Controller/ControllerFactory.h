@@ -3,6 +3,7 @@
 #include "AdbController.h"
 #include "ControllerAPI.h"
 #include "MaatouchController.h"
+#include "PlayToolsController.h"
 #include "MinitouchController.h"
 
 namespace asst
@@ -28,6 +29,9 @@ namespace asst
                     break;
                 case ControllerType::Maatouch:
                     controller = std::make_shared<MaatouchController>(m_callback, m_inst, platform_type);
+                    break;
+                case ControllerType::MacPlayTools:
+                    controller = std::make_shared<PlayToolsController>(m_callback, m_inst, platform_type);
                     break;
                 default:
                     return nullptr;

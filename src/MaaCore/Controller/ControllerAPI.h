@@ -14,6 +14,7 @@ namespace asst
         Adb,
         Minitouch,
         Maatouch,
+        MacPlayTools,
     };
 
     class ControllerAPI
