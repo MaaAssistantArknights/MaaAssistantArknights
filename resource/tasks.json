@@ -9935,14 +9935,33 @@
         "baseTask": "BattleStartPre",
         "action": "DoNothing"
     },
+    "BattleFormationOCRNameFlag": {
+        "templThreshold": 0.6,
+        "roi": [
+            88,
+            264,
+            873,
+            354
+        ]
+    },
     "BattleFormationOperNames": {
         "baseTask": "CharsNameOcrReplace",
         "text": [],
         "roi": [
-            86,
-            321,
-            945,
-            325
+            -18,
+            40,
+            122,
+            18
+        ]
+    },
+    "BattleFormationOperNamesOldVersion": {
+        "baseTask": "BattleFormationOperNames",
+        "text": [],
+        "roi": [
+            30,
+            23,
+            75,
+            15
         ]
     },
     "BattleFormationOperAvatarMove": {
