@@ -790,13 +790,16 @@ namespace MaaWpfGui.ViewModels.UI
             else
             {
                 AddLog(LocalizationHelper.GetString("UnknownErrorOccurs"));
+                await Stop();
+                SetStopped();
             }
         }
 
         /// <summary>
         /// Stops.
         /// </summary>
-        public async void Stop()
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task Stop()
         {
             Stopping = true;
             AddLog(LocalizationHelper.GetString("Stopping"));
