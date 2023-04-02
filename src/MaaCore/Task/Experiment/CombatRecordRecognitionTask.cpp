@@ -264,19 +264,31 @@ bool asst::CombatRecordRecognitionTask::analyze_deployment()
         BestMatchImageAnalyzer best_match_analyzer(formation_avatar);
         best_match_analyzer.set_task_info(avatar_task_ptr);
 
+        std::unordered_set<battle::Role> roles = { BattleData.get_role(name) };
+        if (name == "阿米娅") {
+            roles.emplace(battle::Role::Warrior);
+        }
+
         // 编队界面，有些视频会有些花里胡哨的特效遮挡啥的，所以尽量减小点模板尺寸
         auto crop_roi = make_rect<cv::Rect>(avatar_task_ptr->rect_move);
+        // 小车的缩放太离谱了
+        const size_t scale_ends = BattleData.get_rarity(name) == 1 ? 200 : 125;
+        std::unordered_map<std::string, cv::Mat> candidate;
         for (const auto& oper : deployment) {
+            if (!roles.contains(oper.role)) {
+                continue;
+            }
             cv::Mat crop_avatar = oper.avatar(crop_roi);
-
             // 从编队到待部署区，每个干员的缩放大小都不一样，暴力跑一遍
             // TODO: 不知道gamedata里有没有这个缩放数据，直接去拿
-            for (size_t i = 100; i < 125; ++i) {
+            for (size_t i = 100; i < scale_ends; ++i) {
                 double avatar_scale = i / 100.0;
                 const auto resize_method = avatar_scale < 1.0 ? cv::INTER_AREA : cv::INTER_LINEAR;
                 cv::Mat resized_avatar;
                 cv::resize(crop_avatar, resized_avatar, cv::Size(), avatar_scale, avatar_scale, resize_method);
-                best_match_analyzer.append_templ(name + "|" + std::to_string(i), resized_avatar);
+                std::string flag = name + "|" + std::to_string(oper.index) + "|" + std::to_string(i);
+                best_match_analyzer.append_templ(flag, resized_avatar);
+                candidate.emplace(flag, oper.avatar);
             }
         }
         bool analyzed = best_match_analyzer.analyze();
@@ -285,7 +297,7 @@ bool asst::CombatRecordRecognitionTask::analyze_deployment()
             Log.warn(m_battle_start_frame, "failed to match", name);
             continue;
         }
-        m_all_avatars.emplace(name, best_match_analyzer.get_result().templ);
+        m_all_avatars.emplace(name, candidate.at(best_match_analyzer.get_result().name));
     }
     callback(AsstMsg::SubTaskCompleted, basic_info_with_what("MatchDeployment"));
 
@@ -491,6 +503,16 @@ bool asst::CombatRecordRecognitionTask::detect_operators(ClipInfo& clip, [[maybe
     for (const Point& loc : oper_det_iter->first) {
         clip.battlefield.emplace(loc, BattlefiledOper {});
     }
+
+    // if (pre_clip_ptr && clip.battlefield.size() < pre_clip_ptr->battlefield.size() &&
+    //     clip.deployment.size() == pre_clip_ptr->deployment.size()) {
+    //     // 战场上人少了；但部署区人没变。多半是 det 错了
+    //     Log.warn(__FUNCTION__, "battlefield size less than pre_clip_ptr->battlefield.size()");
+    //     for (const Point& loc : pre_clip_ptr->battlefield | views::keys) {
+    //         clip.battlefield.emplace(loc, BattlefiledOper {});
+    //     }
+    // }
+
     callback(AsstMsg::SubTaskCompleted, basic_info_with_what("DetectOperators"));
     return true;
 }
@@ -577,6 +599,8 @@ bool asst::CombatRecordRecognitionTask::process_changes(ClipInfo& clip, ClipInfo
         return true;
     }
 
+    auto& actions_json = m_copilot_json["actions"].as_array();
+
     if (clip.deployment.size() == pre_clip_ptr->deployment.size()) {
         Log.warn("same deployment size", clip.deployment.size());
     }
@@ -594,8 +618,12 @@ bool asst::CombatRecordRecognitionTask::process_changes(ClipInfo& clip, ClipInfo
         }
         Log.info("deployed", deployed);
 
+        if (deployed.empty()) {
+            Log.warn("Unknown dployed");
+            return false;
+        }
+
         auto deployed_iter = deployed.begin();
-        auto& actions_json = m_copilot_json["actions"].as_array();
         for (const auto& [loc, oper] : clip.battlefield) {
             if (!oper.new_here) {
                 continue;
@@ -613,6 +641,17 @@ bool asst::CombatRecordRecognitionTask::process_changes(ClipInfo& clip, ClipInfo
     }
     else {
         // 撤退
+        for (const auto& [pre_loc, pre_oper] : pre_clip_ptr->battlefield) {
+            if (clip.battlefield.contains(pre_loc)) {
+                continue;
+            }
+            json::object retreat_json {
+                { "type", "Retreat" },
+                { "location", json::array { pre_loc.x, pre_loc.y } },
+            };
+            Log.info("retreat json", retreat_json.to_string());
+            actions_json.emplace_back(std::move(retreat_json));
+        }
     }
 
     return true;
@@ -626,16 +665,20 @@ void asst::CombatRecordRecognitionTask::ananlyze_deployment_names(ClipInfo& clip
         if (!oper.name.empty()) {
             continue;
         }
-
         BestMatchImageAnalyzer avatar_analyzer(oper.avatar);
-
         static const double threshold = Task.get<MatchTaskInfo>("BattleAvatarDataForVideo")->templ_threshold;
         avatar_analyzer.set_threshold(threshold);
         // static const double drone_threshold = Task.get<MatchTaskInfo>("BattleDroneAvatarData")->templ_threshold;
         // avatar_analyzer.set_threshold(oper.role == battle::Role::Drone ? drone_threshold : threshold);
 
         for (const auto& [name, avatar] : m_all_avatars) {
-            avatar_analyzer.append_templ(name, avatar);
+            std::unordered_set<battle::Role> roles = { BattleData.get_role(name) };
+            if (name == "阿米娅") {
+                roles.emplace(battle::Role::Warrior);
+            }
+            if (roles.contains(oper.role)) {
+                avatar_analyzer.append_templ(name, avatar);
+            }
         }
         bool analyzed = avatar_analyzer.analyze();
         // show_img(avatar_analyzer.get_draw());
