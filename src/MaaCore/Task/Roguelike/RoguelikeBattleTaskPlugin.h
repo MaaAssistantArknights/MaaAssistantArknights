@@ -37,7 +37,7 @@ namespace asst
             int rank;
             Point placed;
             battle::DeployDirection direction;
-            bool operator<(DeployPlanInfo& x)
+            bool operator<(const DeployPlanInfo& x) const
             {
                 return (rank < x.rank) || (rank == x.rank && oper_priority > x.oper_priority);
             }
