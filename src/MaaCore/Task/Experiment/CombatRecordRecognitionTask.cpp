@@ -114,11 +114,11 @@ bool asst::CombatRecordRecognitionTask::analyze_formation()
     LogTraceFunction;
     callback(AsstMsg::SubTaskStart, basic_info_with_what("OcrFormation"));
 
-    const int skip_count = m_video_fps > m_formation_fps ? static_cast<int>(m_video_fps / m_formation_fps) : 1;
+    const int skip_count = m_video_fps > m_formation_fps ? static_cast<int>(m_video_fps / m_formation_fps) - 1 : 0;
 
     BattleFormationImageAnalyzer formation_ananlyzer;
     int no_changes_count = 0;
-    for (size_t i = 0; i < m_video_frame_count; i += skip_frames(skip_count)) {
+    for (size_t i = 0; i < m_video_frame_count; i += skip_frames(skip_count) + 1) {
         cv::Mat frame;
         *m_video_ptr >> frame;
         if (frame.empty()) {
@@ -174,9 +174,9 @@ bool asst::CombatRecordRecognitionTask::analyze_stage()
         callback(AsstMsg::SubTaskStart, basic_info_with_what("OcrStage"));
 
         const auto stage_name_task_ptr = Task.get("BattleStageName");
-        const int skip_count = m_video_fps > m_stage_ocr_fps ? static_cast<int>(m_video_fps / m_stage_ocr_fps) : 1;
+        const int skip_count = m_video_fps > m_stage_ocr_fps ? static_cast<int>(m_video_fps / m_stage_ocr_fps) - 1 : 0;
 
-        for (size_t i = m_formation_end_frame; i < m_video_frame_count; i += skip_frames(skip_count)) {
+        for (size_t i = m_formation_end_frame; i < m_video_frame_count; i += skip_frames(skip_count) + 1) {
             cv::Mat frame;
             *m_video_ptr >> frame;
             if (frame.empty()) {
@@ -237,12 +237,12 @@ bool asst::CombatRecordRecognitionTask::analyze_deployment()
     LogTraceFunction;
     callback(AsstMsg::SubTaskStart, basic_info_with_what("MatchDeployment"));
 
-    const int skip_count = m_video_fps > m_deployment_fps ? static_cast<int>(m_video_fps / m_deployment_fps) : 1;
+    const int skip_count = m_video_fps > m_deployment_fps ? static_cast<int>(m_video_fps / m_deployment_fps) - 1 : 0;
 
     BattleImageAnalyzer oper_analyzer;
     oper_analyzer.set_target(BattleImageAnalyzer::Target::Oper | BattleImageAnalyzer::Target::PauseButton);
 
-    for (size_t i = m_stage_ocr_end_frame; i < m_video_frame_count; i += skip_frames(skip_count)) {
+    for (size_t i = m_stage_ocr_end_frame; i < m_video_frame_count; i += skip_frames(skip_count) + 1) {
         cv::Mat frame;
         *m_video_ptr >> frame;
         if (frame.empty()) {
@@ -276,7 +276,7 @@ bool asst::CombatRecordRecognitionTask::analyze_deployment()
         // 编队界面，有些视频会有些花里胡哨的特效遮挡啥的，所以尽量减小点模板尺寸
         auto crop_roi = make_rect<cv::Rect>(avatar_task_ptr->rect_move);
         // 小车的缩放太离谱了
-        const size_t scale_ends = BattleData.get_rarity(name) == 1 ? 200 : 125;
+        const size_t scale_ends = BattleData.get_rarity(name) == 1 ? 200 : 025;
         std::unordered_map<std::string, cv::Mat> candidate;
         for (const auto& oper : deployment) {
             if (!roles.contains(oper.role)) {
@@ -313,14 +313,14 @@ bool asst::CombatRecordRecognitionTask::slice_video()
     LogTraceFunction;
     callback(AsstMsg::SubTaskStart, basic_info_with_what("Slice"));
 
-    const int skip_count = m_video_fps > m_deployment_fps ? static_cast<int>(m_video_fps / m_deployment_fps) : 1;
-    constexpr int offset_ms = 500;
+    const int skip_count = m_video_fps > m_deployment_fps ? static_cast<int>(m_video_fps / m_deployment_fps) - 1 : 0;
+    constexpr int offset_ms = 200;
     const int offset_frame = static_cast<int>(offset_ms * m_video_fps / 1000.0);
 
     int not_in_battle_count = 0;
     bool in_segment = false;
 
-    for (size_t i = m_battle_start_frame; i < m_video_frame_count; i += skip_frames(skip_count)) {
+    for (size_t i = m_battle_start_frame; i < m_video_frame_count; i += skip_frames(skip_count) + 1) {
         cv::Mat frame;
         *m_video_ptr >> frame;
         if (frame.empty()) {
@@ -409,20 +409,19 @@ bool asst::CombatRecordRecognitionTask::slice_video()
         return false;
     }
 
-    for (auto iter = m_clips.begin() + 1; iter != m_clips.end();) {
-        if (iter == m_clips.begin()) {
-            ++iter;
-            continue;
-        }
+    for (auto iter = m_clips.begin(); iter != m_clips.end();) {
         ClipInfo& clip = *iter;
-        ClipInfo& pre_clip = *(iter - 1);
-
-        if (clip.start_frame >= clip.end_frame) {
+        if (clip.end_frame <= clip.start_frame) {
             Log.warn(__FUNCTION__, "deployment has no changes or frame error", clip.start_frame, clip.end_frame);
             iter = m_clips.erase(iter);
             continue;
         }
+        if (iter == m_clips.begin()) {
+            ++iter;
+            continue;
+        }
 
+        ClipInfo& pre_clip = *(iter - 1);
         bool deployment_changed = false;
         if (iter != m_clips.begin() && clip.deployment.size() == pre_clip.deployment.size()) {
             for (size_t i = 0; i < clip.deployment.size(); ++i) {
@@ -444,6 +443,7 @@ bool asst::CombatRecordRecognitionTask::slice_video()
             ++iter;
         }
     }
+    m_video_ptr->set(cv::CAP_PROP_POS_FRAMES, static_cast<double>(m_battle_start_frame));
 
     callback(AsstMsg::SubTaskCompleted, basic_info_with_what("Slice"));
     return true;
@@ -480,13 +480,16 @@ bool asst::CombatRecordRecognitionTask::detect_operators(ClipInfo& clip, [[maybe
     const Rect det_box_move = Task.get("BattleOperBoxRectMove")->rect_move;
 
     constexpr size_t OperDetSamplingCount = 5;
-    const size_t skip_count = frame_count > (OperDetSamplingCount + 1) ? frame_count / (OperDetSamplingCount + 1) : 1;
+    const size_t skip_count =
+        frame_count > (OperDetSamplingCount + 1) ? frame_count / (OperDetSamplingCount + 1) - 1 : 0;
 
     const size_t det_begin = clip.start_frame + skip_count;
     const size_t det_end = clip.end_frame - skip_count;
-    m_video_ptr->set(cv::CAP_PROP_POS_FRAMES, static_cast<double>(det_begin));
 
-    for (size_t i = det_begin; i < det_end; i += skip_frames(skip_count)) {
+    const size_t begin_skip = det_begin - static_cast<size_t>(m_video_ptr->get(cv::CAP_PROP_POS_FRAMES));
+    skip_frames(begin_skip);
+
+    for (size_t i = det_begin; i < det_end; i += skip_frames(skip_count) + 1) {
         cv::Mat frame;
         *m_video_ptr >> frame;
         if (frame.empty()) {
@@ -512,6 +515,8 @@ bool asst::CombatRecordRecognitionTask::detect_operators(ClipInfo& clip, [[maybe
             cur_locations.emplace((*iter).loc);
         }
         oper_det_samping[std::move(cur_locations)] += 1;
+
+        clip.key_frames.emplace_back(frame); // for classify_direction
     }
 
     /* 取众数 */
@@ -562,28 +567,10 @@ bool asst::CombatRecordRecognitionTask::classify_direction(ClipInfo& clip, ClipI
     }
     callback(AsstMsg::SubTaskStart, basic_info_with_what("ClassifyDirection"));
 
-    const size_t frame_count = clip.end_frame - clip.start_frame;
-
     /* classify direction */
-    constexpr size_t DirectionClsSamplingCount = 5;
     std::unordered_map<Point, std::unordered_map<battle::DeployDirection, size_t>> dir_cls_sampling;
-    const size_t skip_count =
-        frame_count > (DirectionClsSamplingCount + 1) ? frame_count / (DirectionClsSamplingCount + 1) : 1;
 
-    const size_t dir_begin = clip.start_frame + skip_count;
-    const size_t dir_end = clip.end_frame - skip_count;
-    m_video_ptr->set(cv::CAP_PROP_POS_FRAMES, static_cast<double>(dir_begin));
-
-    for (size_t i = dir_begin; i < dir_end; i += skip_frames(skip_count)) {
-        cv::Mat frame;
-        *m_video_ptr >> frame;
-        if (frame.empty()) {
-            Log.error(i, "frame is empty");
-            callback(AsstMsg::SubTaskError, basic_info_with_what("ClassifyDirection"));
-            return false;
-        }
-
-        cv::resize(frame, frame, cv::Size(), m_scale, m_scale, cv::INTER_AREA);
+    for (const cv::Mat& frame : clip.key_frames) {
         BattleDeployDirectionImageAnalyzer analyzer(frame);
         for (const auto& loc : newcomer) {
             analyzer.set_base_point(m_normal_tile_info.at(loc).pos);
@@ -716,7 +703,7 @@ void asst::CombatRecordRecognitionTask::ananlyze_deployment_names(ClipInfo& clip
 
 size_t asst::CombatRecordRecognitionTask::skip_frames(size_t count)
 {
-    for (size_t i = 1; i < count; ++i) {
+    for (size_t i = 0; i < count; ++i) {
         cv::Mat ignore;
         *m_video_ptr >> ignore;
     }

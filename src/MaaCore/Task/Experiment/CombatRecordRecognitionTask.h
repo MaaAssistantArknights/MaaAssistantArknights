@@ -44,6 +44,7 @@ namespace asst
             std::vector<battle::DeploymentOper> deployment;
             size_t cooling = 0;
             std::unordered_map<Point, BattlefiledOper> battlefield;
+            std::vector<cv::Mat> key_frames;
         };
 
         bool analyze_formation();
