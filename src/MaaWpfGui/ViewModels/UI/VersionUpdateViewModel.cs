@@ -483,7 +483,7 @@ namespace MaaWpfGui.ViewModels.UI
                             url = url.Replace(repTuple.Item1, repTuple.Item2);
                         }
 
-                        if (DownloadGithubAssets(url, _assetsObject))
+                        if (await DownloadGithubAssets(url, _assetsObject))
                         {
                             OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"));
                             downloaded = true;
@@ -700,14 +700,14 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="url">下载链接</param>
         /// <param name="assetsObject">Github Assets 对象</param>
         /// <returns>操作成功返回 true，反之则返回 false</returns>
-        private bool DownloadGithubAssets(string url, JObject assetsObject)
+        private async Task<bool> DownloadGithubAssets(string url, JObject assetsObject)
         {
             _logItemViewModels = _taskQueueViewModel.LogItemViewModels;
-            return _httpService.DownloadFileAsync(
+            return await _httpService.DownloadFileAsync(
                 new Uri(url),
                 assetsObject["name"].ToString(),
                 assetsObject["content_type"].ToString())
-                .ConfigureAwait(false).GetAwaiter().GetResult();
+                .ConfigureAwait(false);
         }
 
         private static ObservableCollection<LogItemViewModel> _logItemViewModels = null;
