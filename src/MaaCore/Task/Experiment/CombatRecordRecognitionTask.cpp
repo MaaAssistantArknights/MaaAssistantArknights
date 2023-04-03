@@ -376,7 +376,7 @@ bool asst::CombatRecordRecognitionTask::slice_video()
         }
         else if (!in_segment) {
             ClipInfo info;
-            size_t target_frame = i;
+            size_t target_frame = i + skip_count;
             info.start_frame = target_frame;
             info.end_frame = target_frame;
             info.deployment = cur_opers;
@@ -437,7 +437,7 @@ bool asst::CombatRecordRecognitionTask::slice_video()
             // 部署区是一样的，说明两段是一样的。
             // 可能是点开干员看了一眼然后什么事也没干，也可能是开了个技能
             // TODO: 技能识别
-            pre_clip.end_frame = clip.end_frame;
+            // pre_clip.end_frame = clip.end_frame;
             iter = m_clips.erase(iter);
         }
         else {
@@ -481,7 +481,8 @@ bool asst::CombatRecordRecognitionTask::detect_operators(ClipInfo& clip, [[maybe
     const Rect det_box_move = Task.get("BattleOperBoxRectMove")->rect_move;
 
     constexpr size_t OperDetSamplingCount = 5;
-    const size_t skip_count = frame_count > (OperDetSamplingCount + 1) ? frame_count / (OperDetSamplingCount + 1) : 0;
+    const size_t skip_count =
+        frame_count > (OperDetSamplingCount + 1) ? frame_count / (OperDetSamplingCount + 1) - 1 : 0;
 
     const size_t det_begin = clip.start_frame + skip_count;
     const size_t det_end = clip.end_frame - skip_count;
