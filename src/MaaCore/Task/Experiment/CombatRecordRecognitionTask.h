@@ -50,7 +50,6 @@ namespace asst
         bool analyze_stage();
         bool analyze_deployment();
         bool slice_video();
-        bool analyze_all_clips();
         bool analyze_clip(ClipInfo& clip, ClipInfo* pre_clip_ptr = nullptr);
         bool detect_operators(ClipInfo& clip, ClipInfo* pre_clip_ptr = nullptr);
         bool classify_direction(ClipInfo& clip, ClipInfo* pre_clip_ptr = nullptr);

@@ -79,9 +79,13 @@ bool asst::CombatRecordRecognitionTask::_run()
         return false;
     }
 
-    if (!analyze_all_clips()) {
-        Log.error(__FUNCTION__, "failed to analyze clips");
-        return false;
+    ClipInfo* pre_clip_ptr = nullptr;
+    for (auto& clip : m_clips) {
+        if (!analyze_clip(clip, pre_clip_ptr)) {
+            Log.error(__FUNCTION__, "failed to analyze clip");
+            return false;
+        }
+        pre_clip_ptr = &clip;
     }
 
     Log.info("full copilot json", m_copilot_json.to_string());
@@ -310,13 +314,11 @@ bool asst::CombatRecordRecognitionTask::slice_video()
     callback(AsstMsg::SubTaskStart, basic_info_with_what("Slice"));
 
     const int skip_count = m_video_fps > m_deployment_fps ? static_cast<int>(m_video_fps / m_deployment_fps) : 1;
+    constexpr int offset_ms = 500;
+    const int offset_frame = static_cast<int>(offset_ms * m_video_fps / 1000.0);
 
     int not_in_battle_count = 0;
     bool in_segment = false;
-
-#ifdef ASST_DEBUG
-    cv::Mat pre_frame;
-#endif
 
     for (size_t i = m_battle_start_frame; i < m_video_frame_count; i += skip_frames(skip_count)) {
         cv::Mat frame;
@@ -356,73 +358,94 @@ bool asst::CombatRecordRecognitionTask::slice_video()
 
         if (oper_analyzer.get_in_detail_page()) {
             if (!in_segment || m_clips.empty()) {
-#ifdef ASST_DEBUG
-                pre_frame = frame;
-#endif
                 continue;
             }
-            m_clips.back().end_frame = i - skip_count;
+            size_t target_frame = i - skip_count - offset_frame; // 故意往回跳几帧，提高容错
+            m_clips.back().end_frame = target_frame;
             in_segment = false;
-#ifdef ASST_DEBUG
-            pre_frame = frame;
-#endif
+
+            // #ifdef ASST_DEBUG
+            //             auto cur = m_video_ptr->get(cv::CAP_PROP_POS_FRAMES);
+            //             cv::Mat debug_frame;
+            //             m_video_ptr->set(cv::CAP_PROP_POS_FRAMES, static_cast<double>(target_frame));
+            //             *m_video_ptr >> debug_frame;
+            //             m_video_ptr->set(cv::CAP_PROP_POS_FRAMES, cur);
+            // #endif
             continue;
         }
         else if (!in_segment) {
             ClipInfo info;
-            info.start_frame = i;
-            info.end_frame = i;
+            size_t target_frame = i + offset_frame; // 故意往后跳几帧，提高容错
+            info.start_frame = target_frame;
+            info.end_frame = target_frame;
             info.deployment = cur_opers;
             info.cooling = cooling;
             m_clips.emplace_back(std::move(info));
 
             in_segment = true;
+
+            // #ifdef ASST_DEBUG
+            //             auto cur = m_video_ptr->get(cv::CAP_PROP_POS_FRAMES);
+            //             cv::Mat debug_frame;
+            //             m_video_ptr->set(cv::CAP_PROP_POS_FRAMES, static_cast<double>(target_frame));
+            //             *m_video_ptr >> debug_frame;
+            //             m_video_ptr->set(cv::CAP_PROP_POS_FRAMES, cur);
+            // #endif
         }
-        else if (m_clips.back().deployment.size() != cur_opers.size()) {
-            m_clips.back().end_frame = i;
-            in_segment = false;
-        }
+        // else if (m_clips.back().deployment.size() != cur_opers.size()) {
+        //     m_clips.back().end_frame = i;
+        //     in_segment = false;
+        // }
         else if (cooling < m_clips.back().cooling) {
             // cooling 的干员识别率不如普通的，尽量识别 cooling 少的帧
             auto& backs = m_clips.back();
             backs.deployment = cur_opers;
             backs.cooling = cooling;
         }
-#ifdef ASST_DEBUG
-        pre_frame = frame;
-#endif
     }
 
-    callback(AsstMsg::SubTaskCompleted, basic_info_with_what("Slice"));
-    return true;
-}
+    if (m_clips.empty()) {
+        callback(AsstMsg::SubTaskError, basic_info_with_what("Slice"));
+        return false;
+    }
 
-bool asst::CombatRecordRecognitionTask::analyze_all_clips()
-{
-    LogTraceFunction;
-
-    ClipInfo* pre_clip_ptr = nullptr;
-    for (auto iter = m_clips.begin(); iter != m_clips.end();) {
+    for (auto iter = m_clips.begin() + 1; iter != m_clips.end();) {
+        if (iter == m_clips.begin()) {
+            ++iter;
+            continue;
+        }
         ClipInfo& clip = *iter;
+        ClipInfo& pre_clip = *(iter - 1);
+
+        if (clip.start_frame >= clip.end_frame) {
+            Log.warn(__FUNCTION__, "deployment has no changes or frame error", clip.start_frame, clip.end_frame);
+            iter = m_clips.erase(iter);
+            continue;
+        }
+
         bool deployment_changed = false;
-        if (pre_clip_ptr && clip.deployment.size() == pre_clip_ptr->deployment.size()) {
+        if (iter != m_clips.begin() && clip.deployment.size() == pre_clip.deployment.size()) {
             for (size_t i = 0; i < clip.deployment.size(); ++i) {
-                deployment_changed |= clip.deployment[i].role != pre_clip_ptr->deployment[i].role;
+                deployment_changed |= clip.deployment[i].role != pre_clip.deployment[i].role;
             }
         }
         else {
             deployment_changed = true;
         }
 
-        if (!deployment_changed || clip.start_frame >= clip.end_frame) {
-            Log.warn(__FUNCTION__, "deployment has no changes or frame error", clip.start_frame, clip.end_frame);
+        if (!deployment_changed) {
+            // 部署区是一样的，说明两段是一样的。
+            // 可能是点开干员看了一眼然后什么事也没干，也可能是开了个技能
+            // TODO: 技能识别
+            pre_clip.end_frame = clip.end_frame;
             iter = m_clips.erase(iter);
-            continue;
         }
-        analyze_clip(clip, pre_clip_ptr);
-        pre_clip_ptr = &clip;
-        ++iter;
+        else {
+            ++iter;
+        }
     }
+
+    callback(AsstMsg::SubTaskCompleted, basic_info_with_what("Slice"));
     return true;
 }
 

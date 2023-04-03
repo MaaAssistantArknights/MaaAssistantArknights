@@ -444,9 +444,9 @@ bool asst::BattleImageAnalyzer::pause_button_analyze()
     const int value_threshold = has_started_task_ptr->special_params[0];
     cv::threshold(roi_gray, bin, value_threshold, 255, cv::THRESH_BINARY);
     int count = cv::countNonZero(bin);
-    Log.trace(__FUNCTION__, "count", count);
-
     const int count_threshold = has_started_task_ptr->special_params[1];
+    Log.trace(__FUNCTION__, "count", count, "threshold", count_threshold);
+
     return count > count_threshold;
 }
 

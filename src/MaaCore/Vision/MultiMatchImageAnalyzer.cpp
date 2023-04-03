@@ -162,9 +162,5 @@ bool asst::MultiMatchImageAnalyzer::multi_match_templ(const cv::Mat templ)
         Log.trace("multi_match_templ | ", m_templ_name, "result:", m_result, "roi:", m_roi);
     }
 
-    if (!m_result.empty()) {
-        return true;
-    }
-
-    return false;
+    return !m_result.empty();
 }

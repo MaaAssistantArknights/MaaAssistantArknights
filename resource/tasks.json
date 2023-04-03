@@ -6403,7 +6403,7 @@
         ]
     },
     "BattleOpersFlag": {
-        "templThreshold": 0.85,
+        "templThreshold": 0.8,
         "roi": [
             0,
             588,
@@ -9989,7 +9989,7 @@
         "specialParams_Doc": "亮度阈值；点的数量",
         "specialParams": [
             250,
-            250
+            200
         ]
     },
     "Reclamation@PopupConfirm": {
