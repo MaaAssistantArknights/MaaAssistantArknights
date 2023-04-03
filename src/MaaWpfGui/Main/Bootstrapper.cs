@@ -77,15 +77,25 @@ namespace MaaWpfGui.Main
                 Directory.CreateDirectory("debug");
             }
 
+            string logFilename = "debug/gui.log";
+            string logBakFilename = "debug/gui.bak.log";
+            if (File.Exists(logFilename) && new FileInfo(logFilename).Length > 4 * 1024 * 1024)
+            {
+                if (File.Exists(logBakFilename))
+                {
+                    Directory.Delete(logBakFilename);
+                }
+
+                Directory.Move(logFilename, logBakFilename);
+            }
+
             // Bootstrap serilog
             var loggerConfiguration = new LoggerConfiguration()
                 .WriteTo.Debug(
                     outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
                 .WriteTo.File(
-                    "debug/gui-.log",
-                    outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}",
-                    rollingInterval: RollingInterval.Day,
-                    retainedFileCountLimit: 7)
+                    logFilename,
+                    outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
                 .Enrich.FromLogContext()
                 .Enrich.WithThreadId()
                 .Enrich.WithThreadName();
