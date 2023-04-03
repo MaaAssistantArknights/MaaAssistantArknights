@@ -284,7 +284,7 @@ labels:
   - remove module
   - remove recruit
 
-# `module: recruit`
+# `module: GUI`
 - name: GUI
   content: "module: GUI"
   regexes:
