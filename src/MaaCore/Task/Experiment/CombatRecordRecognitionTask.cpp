@@ -276,7 +276,7 @@ bool asst::CombatRecordRecognitionTask::analyze_deployment()
         // 编队界面，有些视频会有些花里胡哨的特效遮挡啥的，所以尽量减小点模板尺寸
         auto crop_roi = make_rect<cv::Rect>(avatar_task_ptr->rect_move);
         // 小车的缩放太离谱了
-        const size_t scale_ends = BattleData.get_rarity(name) == 1 ? 200 : 025;
+        const size_t scale_ends = BattleData.get_rarity(name) == 1 ? 200 : 125;
         std::unordered_map<std::string, cv::Mat> candidate;
         for (const auto& oper : deployment) {
             if (!roles.contains(oper.role)) {
@@ -489,7 +489,7 @@ bool asst::CombatRecordRecognitionTask::detect_operators(ClipInfo& clip, [[maybe
     const size_t begin_skip = det_begin - static_cast<size_t>(m_video_ptr->get(cv::CAP_PROP_POS_FRAMES));
     skip_frames(begin_skip);
 
-    for (size_t i = det_begin; i <= det_end; i += skip_frames(skip_count - 1) + 1) {
+    for (size_t i = det_begin; i <= det_end; i += skip_frames(skip_count) + 1) {
         cv::Mat frame;
         *m_video_ptr >> frame;
         if (frame.empty()) {
