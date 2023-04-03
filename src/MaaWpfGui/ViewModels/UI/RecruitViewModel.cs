@@ -176,11 +176,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             string errMsg = string.Empty;
             RecruitInfo = LocalizationHelper.GetString("ConnectingToEmulator");
-            var task = Task.Run(() =>
-            {
-                return _asstProxy.AsstConnect(ref errMsg);
-            });
-            _caught = await task;
+            _caught = await Task.Run(() => _asstProxy.AsstConnect(ref errMsg));
             if (!_caught)
             {
                 RecruitInfo = errMsg;

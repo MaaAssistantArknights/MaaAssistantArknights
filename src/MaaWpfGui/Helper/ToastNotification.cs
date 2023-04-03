@@ -216,8 +216,7 @@ namespace MaaWpfGui.Helper
         /// 如果要播放音频文件，参考微软文档 <see cref="SoundPlayer"/> 类
         /// </summary>
         /// <param name="sounds">提示音类型</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected async Task PlayNotificationSoundAsync(NotificationSounds sounds = NotificationSounds.None)
+        protected void PlayNotificationSound(NotificationSounds sounds = NotificationSounds.None)
         {
             try
             {
@@ -245,7 +244,7 @@ namespace MaaWpfGui.Helper
                             else
                             {
                                 // 如果不支持就播放其它提示音
-                                await PlayNotificationSoundAsync(NotificationSounds.Asterisk);
+                                PlayNotificationSound(NotificationSounds.Asterisk);
                             }
                         }
 
@@ -455,7 +454,7 @@ namespace MaaWpfGui.Helper
                 ShowXbtn: false);
 
             // 播放通知提示音
-            PlayNotificationSoundAsync(sound).Wait();
+            PlayNotificationSound(sound);
 
             // 任务栏闪烁
             FlashWindowEx();

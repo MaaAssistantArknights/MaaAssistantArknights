@@ -299,11 +299,7 @@ namespace MaaWpfGui.Main
                     _taskQueueViewModel.Idle = false;
                 }
 
-                var task = Task.Run(() =>
-                {
-                    _settingsViewModel.TryToStartEmulator();
-                });
-                await task;
+                await Task.Run(() => _settingsViewModel.TryToStartEmulator());
 
                 // 一般是点了“停止”按钮了
                 if (_taskQueueViewModel.Stopping)
