@@ -180,19 +180,13 @@ namespace MaaWpfGui.ViewModels.UI
             _timer.Start();
         }
 
-        private void Timer1_Elapsed(object sender, EventArgs e)
+        private async void Timer1_Elapsed(object sender, EventArgs e)
         {
             if (NeedToUpdateDatePrompt())
             {
-                Task.Run(async () =>
-                {
                     await _stageManager.UpdateStageWeb();
-                    Execute.OnUIThread(() =>
-                    {
                         UpdateDatePrompt();
                         UpdateStageList(false);
-                    });
-                });
             }
 
             refreshCustomInfrastPlanIndexByPeriod();
@@ -206,7 +200,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (_settingsViewModel.UpdatAutoCheck)
                 {
-                    Task.Run(_settingsViewModel.ManualUpdate);
+                    await _settingsViewModel.ManualUpdate();
                 }
             }
 
