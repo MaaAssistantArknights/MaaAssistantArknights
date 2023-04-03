@@ -1213,7 +1213,23 @@ namespace MaaWpfGui.ViewModels.UI
                 else
                 {
                     AsstProxy.AsstLog($"Info: `{consolePath}` not found. This may be the BlueStacks International emulator, try to kill the emulator by the port.");
-                    return KillEmulator();
+                    if (KillEmulator())
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        try
+                        {
+                            AsstProxy.AsstLog($"Info: Failed to kill emulator by the port, try to kill emulator process with PID.");
+                            processes[0].Kill();
+                            return processes[0].WaitForExit(20000);
+                        }
+                        catch (Exception ex)
+                        {
+                            AsstProxy.AsstLog($"Error: Failed to kill emulator process with PID {processes[0].Id}. Exception: {ex.Message}");
+                        }
+                    }
                 }
             }
 
@@ -1232,6 +1248,8 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 "明日方舟",
                 "明日方舟 - MuMu模拟器",
+                "BlueStacks App Player",
+                "BlueStacks",
             };
             foreach (string i in windowname)
             {
