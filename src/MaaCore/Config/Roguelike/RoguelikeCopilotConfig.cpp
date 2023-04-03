@@ -169,7 +169,7 @@ bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
                     std::string group_name = group.as_string();
                     info.rank = rank;
                     rank++;
-                    if (auto iter = data.deploy_plan.find(group_name); iter != data.deploy_plan.end()) {
+                    if (data.deploy_plan.contains(group_name)) {
                         data.deploy_plan[group_name].emplace_back(info);
                     }
                     else {

@@ -182,6 +182,7 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
         m_force_air_defense = AirDefenseData { .stop_blocking_deploy_num = opt->stop_deploy_blocking_num,
                                                .deploy_air_defense_num = opt->force_deploy_air_defense_num,
                                                .ban_medic = opt->force_ban_medic };
+        m_deploy_plan = opt->deploy_plan;
     }
     else {
         for (const auto& [loc, side] : m_normal_tile_info) {
@@ -201,7 +202,6 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
         return false;
     }
     m_homes_status.resize(m_homes.size());
-    m_deploy_plan = opt->deploy_plan;
 
     auto cb_info = basic_info_with_what("StageInfo");
     auto& details = cb_info["details"];
