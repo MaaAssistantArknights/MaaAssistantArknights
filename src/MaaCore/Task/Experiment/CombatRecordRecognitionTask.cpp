@@ -240,7 +240,7 @@ bool asst::CombatRecordRecognitionTask::analyze_deployment()
     const int skip_count = m_video_fps > m_deployment_fps ? static_cast<int>(m_video_fps / m_deployment_fps) - 1 : 0;
 
     BattleImageAnalyzer oper_analyzer;
-    oper_analyzer.set_target(BattleImageAnalyzer::Target::Oper | BattleImageAnalyzer::Target::PauseButton);
+    oper_analyzer.set_target(BattleImageAnalyzer::Target::Oper);
 
     for (size_t i = m_stage_ocr_end_frame; i < m_video_frame_count; i += skip_frames(skip_count) + 1) {
         cv::Mat frame;
@@ -254,7 +254,7 @@ bool asst::CombatRecordRecognitionTask::analyze_deployment()
         cv::resize(frame, frame, cv::Size(), m_scale, m_scale, cv::INTER_AREA);
 
         oper_analyzer.set_image(frame);
-        bool analyzed = oper_analyzer.analyze();
+        bool analyzed = oper_analyzer.analyze() && oper_analyzer.get_pause_button();
         show_img(oper_analyzer);
         if (analyzed) {
             m_battle_start_frame = i;
@@ -314,8 +314,8 @@ bool asst::CombatRecordRecognitionTask::slice_video()
     callback(AsstMsg::SubTaskStart, basic_info_with_what("Slice"));
 
     const int skip_count = m_video_fps > m_deployment_fps ? static_cast<int>(m_video_fps / m_deployment_fps) - 1 : 0;
-    constexpr int offset_ms = 200;
-    const int offset_frame = static_cast<int>(offset_ms * m_video_fps / 1000.0);
+    // constexpr int offset_ms = 200;
+    // const int offset_frame = static_cast<int>(offset_ms * m_video_fps / 1000.0);
 
     int not_in_battle_count = 0;
     bool in_segment = false;
@@ -338,7 +338,8 @@ bool asst::CombatRecordRecognitionTask::slice_video()
 
         if (!analyzed) {
             if (in_segment && !m_clips.empty()) {
-                m_clips.back().end_frame = i;
+                size_t target_frame = i - skip_count;
+                m_clips.back().end_frame = target_frame;
             }
             in_segment = false;
 
@@ -356,11 +357,11 @@ bool asst::CombatRecordRecognitionTask::slice_video()
         const auto& cur_opers = oper_analyzer.get_opers();
         size_t cooling = ranges::count_if(cur_opers, [](const auto& oper) { return oper.cooling; });
 
-        if (oper_analyzer.get_in_detail_page()) {
+        if (oper_analyzer.get_in_detail_page() || !oper_analyzer.get_pause_button()) {
             if (!in_segment || m_clips.empty()) {
                 continue;
             }
-            size_t target_frame = i - skip_count - offset_frame; // 故意往回跳几帧，提高容错
+            size_t target_frame = i - skip_count;
             m_clips.back().end_frame = target_frame;
             in_segment = false;
 
@@ -375,7 +376,7 @@ bool asst::CombatRecordRecognitionTask::slice_video()
         }
         else if (!in_segment) {
             ClipInfo info;
-            size_t target_frame = i + offset_frame; // 故意往后跳几帧，提高容错
+            size_t target_frame = i;
             info.start_frame = target_frame;
             info.end_frame = target_frame;
             info.deployment = cur_opers;
@@ -480,8 +481,7 @@ bool asst::CombatRecordRecognitionTask::detect_operators(ClipInfo& clip, [[maybe
     const Rect det_box_move = Task.get("BattleOperBoxRectMove")->rect_move;
 
     constexpr size_t OperDetSamplingCount = 5;
-    const size_t skip_count =
-        frame_count > (OperDetSamplingCount + 1) ? frame_count / (OperDetSamplingCount + 1) - 1 : 0;
+    const size_t skip_count = frame_count > (OperDetSamplingCount + 1) ? frame_count / (OperDetSamplingCount + 1) : 0;
 
     const size_t det_begin = clip.start_frame + skip_count;
     const size_t det_end = clip.end_frame - skip_count;
@@ -489,7 +489,7 @@ bool asst::CombatRecordRecognitionTask::detect_operators(ClipInfo& clip, [[maybe
     const size_t begin_skip = det_begin - static_cast<size_t>(m_video_ptr->get(cv::CAP_PROP_POS_FRAMES));
     skip_frames(begin_skip);
 
-    for (size_t i = det_begin; i < det_end; i += skip_frames(skip_count) + 1) {
+    for (size_t i = det_begin; i <= det_end; i += skip_frames(skip_count - 1) + 1) {
         cv::Mat frame;
         *m_video_ptr >> frame;
         if (frame.empty()) {

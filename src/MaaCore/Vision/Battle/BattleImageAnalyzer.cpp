@@ -28,13 +28,8 @@ bool asst::BattleImageAnalyzer::analyze()
 {
     clear();
 
-    // HP 作为 flag，无论如何都识别。表明当前画面是在战斗场景的
+    // flag 无论如何都识别。表明当前画面是在战斗场景的
     bool ret = flag_analyze();
-
-    if (m_target & Target::PauseButton) {
-        ret &= pause_button_analyze();
-    }
-
     if (!ret) {
         return false;
     }
@@ -101,6 +96,11 @@ int asst::BattleImageAnalyzer::get_cost() const noexcept
 bool asst::BattleImageAnalyzer::get_in_detail_page() const noexcept
 {
     return m_in_detail_page;
+}
+
+bool asst::BattleImageAnalyzer::get_pause_button() const noexcept
+{
+    return m_pause_button;
 }
 
 void asst::BattleImageAnalyzer::clear() noexcept
@@ -447,7 +447,8 @@ bool asst::BattleImageAnalyzer::pause_button_analyze()
     const int count_threshold = has_started_task_ptr->special_params[1];
     Log.trace(__FUNCTION__, "count", count, "threshold", count_threshold);
 
-    return count > count_threshold;
+    m_pause_button = count > count_threshold;
+    return m_pause_button;
 }
 
 bool asst::BattleImageAnalyzer::detail_page_analyze()

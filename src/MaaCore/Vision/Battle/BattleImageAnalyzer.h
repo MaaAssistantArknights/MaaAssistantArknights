@@ -18,7 +18,7 @@ namespace asst
             Kills = 16,     // 击杀数
             Cost = 32,      // 费用
             // Vacancies = 64, // 剩余可部署干员数
-            PauseButton = 128,
+            // PauseButton = 128,
         };
 
     public:
@@ -37,6 +37,7 @@ namespace asst
         int get_total_kills() const noexcept;
         int get_cost() const noexcept;
         bool get_in_detail_page() const noexcept;
+        bool get_pause_button() const noexcept;
 
         void clear() noexcept;
         void sort_opers_by_cost(); // 高费在前，费用降序
@@ -71,5 +72,6 @@ namespace asst
         int m_total_kills = 0;                       // 击杀总数
         int m_cost = 0;                              // 部署费用
         bool m_in_detail_page = false;
+        bool m_pause_button = false;
     };
 } // namespace asst
