@@ -1,4 +1,4 @@
-﻿// <copyright file="ConfigurationKeys.cs" company="MaaAssistantArknights">
+// <copyright file="ConfigurationKeys.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -36,6 +36,7 @@ namespace MaaWpfGui.Constants
         public const string InverseClearMode = "GUI.InverseClearMode";
         public const string WindowTitlePrefix = "GUI.WindowTitlePrefix";
         public const string SetColors = "GUI.SetColors";
+        public const string AutoDarkMode = "GUI.AutoDarkMode";
 
         public const string AddressHistory = "Connect.AddressHistory";
         public const string AutoDetect = "Connect.AutoDetect";
