@@ -404,6 +404,8 @@ bool asst::BattleHelper::check_pause_button(const cv::Mat& reusable)
     MatchImageAnalyzer battle_flag_analyzer(image);
     battle_flag_analyzer.set_task_info("BattleOfficiallyBegin");
     bool ret = battle_flag_analyzer.analyze();
+    BattleImageAnalyzer battle_flag_analyzer_2(image);
+    ret &= battle_flag_analyzer_2.analyze() && battle_flag_analyzer_2.get_pause_button();
     return ret;
 }
 
