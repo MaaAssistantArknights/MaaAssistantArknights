@@ -314,8 +314,6 @@ bool asst::CombatRecordRecognitionTask::slice_video()
     callback(AsstMsg::SubTaskStart, basic_info_with_what("Slice"));
 
     const int skip_count = m_video_fps > m_deployment_fps ? static_cast<int>(m_video_fps / m_deployment_fps) - 1 : 0;
-    // constexpr int offset_ms = 200;
-    // const int offset_frame = static_cast<int>(offset_ms * m_video_fps / 1000.0);
 
     int not_in_battle_count = 0;
     bool in_segment = false;
@@ -355,7 +353,23 @@ bool asst::CombatRecordRecognitionTask::slice_video()
         not_in_battle_count = 0;
 
         const auto& cur_opers = oper_analyzer.get_opers();
-        size_t cooling = ranges::count_if(cur_opers, [](const auto& oper) { return oper.cooling; });
+        size_t cooling = 0;
+        bool continuity = true;
+        int pre_distance = 0;
+        for (auto iter = cur_opers.begin(); iter != cur_opers.end(); ++iter) {
+            if (iter->cooling) {
+                ++cooling;
+            }
+
+            if (iter == cur_opers.begin()) {
+                continue;
+            }
+            int distance = std::abs(iter->rect.x - (iter - 1)->rect.x);
+            if (pre_distance && std::abs(distance - pre_distance) > 5) {
+                continuity = false;
+            }
+            pre_distance = distance;
+        }
 
         if (oper_analyzer.get_in_detail_page() || !oper_analyzer.get_pause_button()) {
             if (!in_segment || m_clips.empty()) {
@@ -374,9 +388,13 @@ bool asst::CombatRecordRecognitionTask::slice_video()
             // #endif
             continue;
         }
+        else if (!continuity) {
+            Log.warn(i, "opers is not continuity");
+            continue;
+        }
         else if (!in_segment) {
             ClipInfo info;
-            size_t target_frame = i + skip_count;
+            size_t target_frame = i;
             info.start_frame = target_frame;
             info.end_frame = target_frame;
             info.deployment = cur_opers;
@@ -410,6 +428,10 @@ bool asst::CombatRecordRecognitionTask::slice_video()
         return false;
     }
 
+    // post process clips
+    constexpr int offset_ms = 300;
+    const int offset_frame = static_cast<int>(offset_ms * m_video_fps / 1000.0);
+
     for (auto iter = m_clips.begin(); iter != m_clips.end();) {
         ClipInfo& clip = *iter;
         if (clip.end_frame <= clip.start_frame) {
@@ -417,6 +439,12 @@ bool asst::CombatRecordRecognitionTask::slice_video()
             iter = m_clips.erase(iter);
             continue;
         }
+
+        size_t new_start = clip.start_frame + offset_frame;
+        if (new_start < clip.end_frame) {
+            clip.start_frame = new_start;
+        }
+
         if (iter == m_clips.begin()) {
             ++iter;
             continue;

@@ -11,14 +11,10 @@ namespace asst
         enum Target // 需要识别的目标
         {
             None = 0,
-            // HP = 1,         // 剩余生命值
-            // Home = 2,       // 蓝色的家门
-            Oper = 4,       // 下方的干员信息
-            DetailPage = 8, // 是否点开了详情页
-            Kills = 16,     // 击杀数
-            Cost = 32,      // 费用
-            // Vacancies = 64, // 剩余可部署干员数
-            // PauseButton = 128,
+            Oper = 1,       // 下方的干员信息
+            DetailPage = 2, // 是否点开了详情页
+            Kills = 4,      // 击杀数
+            Cost = 8,       // 费用
         };
 
     public:
