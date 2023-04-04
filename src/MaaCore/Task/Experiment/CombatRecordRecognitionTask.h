@@ -39,12 +39,15 @@ namespace asst
 
         struct ClipInfo
         {
-            size_t start_frame = 0;
-            size_t end_frame = 0;
+            size_t start_frame_index = 0;
+            size_t end_frame_index = 0;
+            cv::Mat start_frame;
+            cv::Mat end_frame;
             std::vector<battle::DeploymentOper> deployment;
-            size_t cooling = 0;
+            bool deployment_changed = true;
             std::unordered_map<Point, BattlefiledOper> battlefield;
-            std::vector<cv::Mat> key_frames;
+            std::vector<cv::Mat> random_frames;
+            std::string ends_oper_name;
         };
 
         bool analyze_formation();
@@ -52,11 +55,14 @@ namespace asst
         bool analyze_deployment();
         bool slice_video();
         bool analyze_clip(ClipInfo& clip, ClipInfo* pre_clip_ptr = nullptr);
+        bool compare_skill(ClipInfo& clip, ClipInfo* pre_clip_ptr = nullptr);
         bool detect_operators(ClipInfo& clip, ClipInfo* pre_clip_ptr = nullptr);
         bool classify_direction(ClipInfo& clip, ClipInfo* pre_clip_ptr = nullptr);
         bool process_changes(ClipInfo& clip, ClipInfo* pre_clip_ptr = nullptr);
         void ananlyze_deployment_names(ClipInfo& clip);
         size_t skip_frames(size_t count);
+
+        static std::string analyze_detail_page_oper_name(const cv::Mat& frame);
 
         std::filesystem::path m_video_path;
         std::shared_ptr<cv::VideoCapture> m_video_ptr = nullptr;
@@ -79,6 +85,9 @@ namespace asst
         std::unordered_map<Point, TilePack::TileInfo> m_normal_tile_info;
         std::unordered_map<std::string, cv::Mat> m_formation;
         std::unordered_map<std::string, cv::Mat> m_all_avatars;
+
+        std::unordered_map<std::string, Point> m_operator_locations;
+        std::unordered_map<Point, std::string> m_location_operators;
 
         json::value m_copilot_json;
 
