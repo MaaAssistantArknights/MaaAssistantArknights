@@ -22,6 +22,7 @@ using System.Windows.Media;
 using HandyControl.Tools;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.ViewModels.UI;
 using Microsoft.Win32;
 
 namespace MaaWpfGui
@@ -46,34 +47,43 @@ namespace MaaWpfGui
         private readonly SolidColorBrush black = new SolidColorBrush(Color.FromRgb(49, 51, 56));
         private readonly SolidColorBrush white = new SolidColorBrush(Color.FromRgb(181, 186, 193));
 
-        public static bool SetColors => shouldDarkMode();
+        private static bool SetColors => ShouldDarkMode();
 
-        public static bool shouldDarkMode()
+        private static bool ShouldDarkMode()
         {
-            bool userDarkMode = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.SetColors, bool.FalseString));
-            bool autoDarkMode = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoDarkMode, bool.FalseString));
-           if (!autoDarkMode)
+            SettingsViewModel.DarkModeType darkModeType =
+                Enum.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.DarkMode, SettingsViewModel.DarkModeType.Light.ToString()),
+                    out SettingsViewModel.DarkModeType temp)
+                    ? temp
+                    : SettingsViewModel.DarkModeType.Light;
+            switch (darkModeType)
             {
-                return userDarkMode;
-            }
+                case SettingsViewModel.DarkModeType.Light:
+                    return false;
+                case SettingsViewModel.DarkModeType.Dark:
+                    return true;
+                case SettingsViewModel.DarkModeType.SyncWithOS:
+                    var isLight = true;
+                    try
+                    {
+                        var registryValue =
+                            Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize",
+                                "AppsUseLightTheme", null);
+                        isLight = Convert.ToBoolean(registryValue);
+                    }
+                    catch (Exception exception)
+                    {
+                        // ignore
+                    }
 
-            var isLight = true;
-            try
-            {
-                var registryValue =
-                    Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize",
-                        "AppsUseLightTheme", null);
-                isLight = Convert.ToBoolean(registryValue);
+                    return !isLight;
+                default:
+                    // should never reach
+                    return false;
             }
-            catch (Exception exception)
-            {
-                // ignore
-            }
-
-            return !isLight;
         }
 
-        public void darkToStart()
+        public void DarkToStart()
         {
             if (!SetColors)
             {
