@@ -49,8 +49,8 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 下载地址
 
-[稳定版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)<br>
-[开发版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
+- [稳定版/公测版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
+- [内测版](https://github.com/MaaAssistantArknights/MaaRelease/releases)
 
 ## 使用说明
 
