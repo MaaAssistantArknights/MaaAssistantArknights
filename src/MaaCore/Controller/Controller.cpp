@@ -55,6 +55,8 @@ void asst::Controller::clear_info() noexcept
 {
     m_uuid.clear();
     m_scale_size = { WindowWidthDefault, WindowHeightDefault };
+    m_controller = nullptr;
+    m_scale_proxy = nullptr;
 }
 
 void asst::Controller::callback(AsstMsg msg, const json::value& details)
@@ -226,6 +228,9 @@ void asst::Controller::set_touch_mode(const TouchMode& mode) noexcept
         break;
     case TouchMode::Maatouch:
         m_controller_type = ControllerType::Maatouch;
+        break;
+    case TouchMode::MacPlayTools:
+        m_controller_type = ControllerType::MacPlayTools;
         break;
     default:
         m_controller_type = ControllerType::Minitouch;

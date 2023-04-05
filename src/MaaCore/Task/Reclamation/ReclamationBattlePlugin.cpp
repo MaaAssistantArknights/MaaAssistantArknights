@@ -9,7 +9,7 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/MatchImageAnalyzer.h"
-#include "Vision/Miscellaneous/BattleSkillReadyImageAnalyzer.h"
+#include "Vision/Battle/BattleSkillReadyImageAnalyzer.h"
 #include "Vision/OcrImageAnalyzer.h"
 
 using namespace asst;

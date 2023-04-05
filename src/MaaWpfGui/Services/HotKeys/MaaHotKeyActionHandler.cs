@@ -75,7 +75,7 @@ namespace MaaWpfGui.Services.HotKeys
             }
             else
             {
-                _taskQueueViewModel.Stop();
+                _ = _taskQueueViewModel.Stop();
 
                 if (Application.Current.MainWindow == null ||
                     Application.Current.MainWindow.WindowState != WindowState.Minimized)

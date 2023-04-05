@@ -56,6 +56,9 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 {
     LogTraceFunction;
 
+    static bool start_complete = false; // 阵容中必须有开局干员，没有前仅招募start干员或预备干员
+    static bool team_complete = false;  // 阵容完备前，仅招募key干员或预备干员
+
     // 开局干员
     bool use_support = get_status_bool(Status::RoguelikeUseSupport);
     if (use_support) {
@@ -77,12 +80,15 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     };
 
     bool team_full_without_rookie = status()->get_number(Status::RoguelikeTeamFullWithoutRookie).value_or(0);
-    Log.info("team_full_without_rookie", team_full_without_rookie);
+    // Log.info("team_full_without_rookie", team_full_without_rookie);
 
     // 编队信息 (已有角色)
+    std::string rogue_theme = status()->get_properties(Status::RoguelikeTheme).value();
     std::string str_chars_info = status()->get_str(Status::RoguelikeCharOverview).value_or(json::value().to_string());
     json::value json_chars_info = json::parse(str_chars_info).value_or(json::value());
     const auto& chars_map = json_chars_info.as_object();
+
+    // __________________will-be-removed-begin__________________
     std::unordered_map<battle::Role, int> team_roles;
     int offset_melee_num = 0;
     for (const auto& oper : chars_map) {
@@ -90,6 +96,38 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         team_roles[battle::get_role_type(oper.first)]++;
         if (is_oper_melee(oper.first)) offset_melee_num++;
     }
+    // __________________will-be-removed-end__________________
+
+    std::unordered_map<std::string, int> group_count;
+    for (const auto& oper : chars_map) {
+        int group_id = RoguelikeRecruit.get_group_id(rogue_theme, oper.first);
+        std::string group_name = RoguelikeRecruit.get_group_info(rogue_theme)[group_id];
+        group_count[group_name]++;
+    }
+
+    if (!start_complete) {
+        for (const auto& oper : chars_map) {
+            auto& recruit_info = RoguelikeRecruit.get_oper_info(rogue_theme, oper.first);
+            if (recruit_info.is_start) start_complete = true;
+            Log.info(__FUNCTION__, "| Operator", oper.first, "is_start:", recruit_info.is_start);
+        }
+    }
+
+    if (!team_complete) {
+        bool complete = true;
+        const auto& team_complete_condition = RoguelikeRecruit.get_team_complete_info(rogue_theme);
+        for (const auto& condition : team_complete_condition) {
+            int count = 0;
+            for (const std::string& group_name : condition.groups)
+                count += group_count[group_name];
+            if (count < condition.threshold) {
+                complete = false;
+                break;
+            }
+        }
+        team_complete = complete;
+    }
+
     // 候选干员
     std::vector<RoguelikeRecruitInfo> recruit_list;
 
@@ -151,8 +189,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             }
 
             // 查询招募配置
-            auto& recruit_info = RoguelikeRecruit.get_oper_info(
-                status()->get_properties(Status::RoguelikeTheme).value(), oper_info.name);
+            auto& recruit_info = RoguelikeRecruit.get_oper_info(rogue_theme, oper_info.name);
             if (recruit_info.name.empty()) {
                 continue;
             }
@@ -165,9 +202,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             if (char_opt.has_value()) {
                 // 干员已在编队中，又出现在招募列表，只有待晋升和预备干员两种情况
                 if (recruit_info.is_alternate) {
-                    // 预备干员可以重复招募
-                    priority = team_full_without_rookie ? recruit_info.recruit_priority_when_team_full
-                                                        : recruit_info.recruit_priority;
+                    // 预备干员可以重复招募，但是最好不要重复招募预备干员占用编队位置
+                    priority = recruit_info.recruit_priority_when_team_full;
                 }
                 else {
                     // 干员待晋升
@@ -179,8 +215,9 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                 // 干员待招募，检查练度
                 if (oper_info.elite == 2) {
                     // TODO: 招募时已精二 (随机提升或对应分队) => promoted_priority
-                    priority = team_full_without_rookie ? recruit_info.recruit_priority_when_team_full
-                                                        : recruit_info.recruit_priority;
+                    priority = team_full_without_rookie ? recruit_info.recruit_priority_when_team_full +
+                                                              recruit_info.promote_priority_when_team_full
+                                                        : recruit_info.recruit_priority + recruit_info.promote_priority;
                 }
                 else if (oper_info.elite == 1 && (oper_info.level >= 50 || oper_info.level == 0)) {
                     // 精一50级以上
@@ -195,6 +232,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                 }
 
                 if (!recruit_info.is_alternate) {
+                    // __________________will-be-removed-begin__________________
                     const battle::Role oper_role = get_oper_role(oper_info.name);
                     int role_num = recruit_info.offset_melee ? offset_melee_num : team_roles[oper_role];
                     for (const auto& offset_pair : ranges::reverse_view(recruit_info.recruit_priority_offset)) {
@@ -203,14 +241,32 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                             break;
                         }
                     }
-                    role_num = team_roles[oper_role];
-                    const auto role_info = RoguelikeRecruit.get_role_info(
-                        status()->get_properties(Status::RoguelikeTheme).value(), oper_role);
-                    for (const auto& offset_pair : ranges::reverse_view(role_info)) {
-                        if (role_num >= offset_pair.first) {
-                            priority += offset_pair.second;
-                            break;
+                    // role_num = team_roles[oper_role];
+                    // const auto role_info = RoguelikeRecruit.get_role_info(rogue_theme, oper_role);
+                    // for (const auto& offset_pair : ranges::reverse_view(role_info)) {
+                    //     if (role_num >= offset_pair.first) {
+                    //         priority += offset_pair.second;
+                    //         break;
+                    //     }
+                    // }
+                    //  __________________will-be-removed-end__________________
+                    for (const auto& priority_offset : recruit_info.recruit_priority_offsets) {
+                        int count = 0;
+                        for (const std::string& group_name : priority_offset.groups) {
+                            count += group_count[group_name];
                         }
+                        if (priority_offset.is_less) {
+                            if (count <= priority_offset.threshold) priority += priority_offset.offset;
+                        }
+                        else {
+                            if (count >= priority_offset.threshold) priority += priority_offset.offset;
+                        }
+                    }
+                    if (!start_complete) {
+                        if (!recruit_info.is_start) priority -= 1000;
+                    }
+                    else if (!team_complete) {
+                        if (!recruit_info.is_key) priority -= 1000;
                     }
                 }
             }
@@ -231,6 +287,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                 info.page_index = i;
                 recruit_list.emplace_back(info);
             }
+            Log.info(__FUNCTION__, "| Operator", recruit_info.name, "priority:", priority);
         }
 
         Log.info(__FUNCTION__, "| Page", i, "oper list:", oper_names);

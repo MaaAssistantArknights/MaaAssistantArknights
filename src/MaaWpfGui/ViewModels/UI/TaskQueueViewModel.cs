@@ -180,19 +180,13 @@ namespace MaaWpfGui.ViewModels.UI
             _timer.Start();
         }
 
-        private void Timer1_Elapsed(object sender, EventArgs e)
+        private async void Timer1_Elapsed(object sender, EventArgs e)
         {
             if (NeedToUpdateDatePrompt())
             {
-                Task.Run(async () =>
-                {
-                    await _stageManager.UpdateStageWeb();
-                    Execute.OnUIThread(() =>
-                    {
-                        UpdateDatePrompt();
-                        UpdateStageList(false);
-                    });
-                });
+                await _stageManager.UpdateStageWeb();
+                UpdateDatePrompt();
+                UpdateStageList(false);
             }
 
             refreshCustomInfrastPlanIndexByPeriod();
@@ -206,7 +200,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (_settingsViewModel.UpdatAutoCheck)
                 {
-                    Task.Run(_settingsViewModel.ManualUpdate);
+                    await _settingsViewModel.ManualUpdate();
                 }
             }
 
@@ -727,11 +721,7 @@ namespace MaaWpfGui.ViewModels.UI
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
 
             string errMsg = string.Empty;
-            var task = Task.Run(() =>
-            {
-                return _asstProxy.AsstConnect(ref errMsg);
-            });
-            bool caught = await task;
+            bool caught = await Task.Run(() => _asstProxy.AsstConnect(ref errMsg));
 
             // 一般是点了“停止”按钮了
             if (Stopping)
@@ -744,11 +734,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 AddLog(errMsg, UiLogColor.Error);
                 AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToStartEmulator"));
-                var subtask = Task.Run(() =>
-                {
-                    _settingsViewModel.TryToStartEmulator(true);
-                });
-                await subtask;
+                await Task.Run(() => _settingsViewModel.TryToStartEmulator(true));
 
                 if (Stopping)
                 {
@@ -756,11 +742,7 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
-                task = Task.Run(() =>
-                {
-                    return _asstProxy.AsstConnect(ref errMsg);
-                });
-                caught = await task;
+                caught = await Task.Run(() => _asstProxy.AsstConnect(ref errMsg));
                 if (!caught)
                 {
                     AddLog(errMsg, UiLogColor.Error);
@@ -790,18 +772,20 @@ namespace MaaWpfGui.ViewModels.UI
             else
             {
                 AddLog(LocalizationHelper.GetString("UnknownErrorOccurs"));
+                await Stop();
+                SetStopped();
             }
         }
 
         /// <summary>
         /// Stops.
         /// </summary>
-        public async void Stop()
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task Stop()
         {
             Stopping = true;
             AddLog(LocalizationHelper.GetString("Stopping"));
-            var task = Task.Run(_asstProxy.AsstStop);
-            await task;
+            await Task.Run(_asstProxy.AsstStop);
         }
 
         public void SetStopped()
@@ -1210,7 +1194,23 @@ namespace MaaWpfGui.ViewModels.UI
                 else
                 {
                     AsstProxy.AsstLog($"Info: `{consolePath}` not found. This may be the BlueStacks International emulator, try to kill the emulator by the port.");
-                    return KillEmulator();
+                    if (KillEmulator())
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        try
+                        {
+                            AsstProxy.AsstLog($"Info: Failed to kill emulator by the port, try to kill emulator process with PID.");
+                            processes[0].Kill();
+                            return processes[0].WaitForExit(20000);
+                        }
+                        catch (Exception ex)
+                        {
+                            AsstProxy.AsstLog($"Error: Failed to kill emulator process with PID {processes[0].Id}. Exception: {ex.Message}");
+                        }
+                    }
                 }
             }
 
@@ -1229,6 +1229,8 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 "明日方舟",
                 "明日方舟 - MuMu模拟器",
+                "BlueStacks App Player",
+                "BlueStacks",
             };
             foreach (string i in windowname)
             {

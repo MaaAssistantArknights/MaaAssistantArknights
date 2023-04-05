@@ -81,11 +81,6 @@ void asst::MatchImageAnalyzer::set_mask_with_close(int with_close) noexcept
     m_mask_with_close = with_close;
 }
 
-void asst::MatchImageAnalyzer::set_log_tracing(bool enable) noexcept
-{
-    m_log_tracing = enable;
-}
-
 const asst::MatchRect& asst::MatchImageAnalyzer::get_result() const noexcept
 {
     return m_result;
