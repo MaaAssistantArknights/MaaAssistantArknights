@@ -648,7 +648,9 @@ bool asst::CombatRecordRecognitionTask::classify_direction(ClipInfo& clip, ClipI
     callback(AsstMsg::SubTaskStart, basic_info_with_what("ClassifyDirection"));
 
     /* classify direction */
-    std::unordered_map<Point, BattleDeployDirectionImageAnalyzer::RawResults> dir_cls_sampling;
+    using Losses = BattleDeployDirectionImageAnalyzer::RawResults;
+    constexpr size_t ClsSize = BattleDeployDirectionImageAnalyzer::ClassificationSize;
+    std::unordered_map<Point, Losses> dir_cls_sampling;
 
     for (const cv::Mat& frame : clip.random_frames) {
         BattleDeployDirectionImageAnalyzer analyzer(frame);
@@ -656,7 +658,7 @@ bool asst::CombatRecordRecognitionTask::classify_direction(ClipInfo& clip, ClipI
             analyzer.set_base_point(m_normal_tile_info.at(loc).pos);
             analyzer.analyze();
             show_img(analyzer);
-            for (size_t i = 0; i < dir_cls_sampling.size(); ++i) {
+            for (size_t i = 0; i < ClsSize; ++i) {
                 dir_cls_sampling[loc][i] += analyzer.get_raw_results()[i];
             }
         }
