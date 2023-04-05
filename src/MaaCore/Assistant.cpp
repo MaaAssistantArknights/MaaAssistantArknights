@@ -22,6 +22,7 @@
 #include "Task/Interface/SSSCopilotTask.h"
 #include "Task/Interface/SingleStepTask.h"
 #include "Task/Interface/StartUpTask.h"
+#include "Task/Interface/VideoRecognitionTask.h"
 #include "Utils/Logger.hpp"
 #ifdef ASST_DEBUG
 #include "Task/Interface/DebugTask.h"
@@ -84,6 +85,10 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
         }
         else if (constexpr std::string_view MaaTouch = "maatouch"; value == MaaTouch) {
             m_ctrler->set_touch_mode(TouchMode::Maatouch);
+            return true;
+        }
+        else if (constexpr std::string_view MacPlayTools = "MacPlayTools"; value == MacPlayTools) {
+            m_ctrler->set_touch_mode(TouchMode::MacPlayTools);
             return true;
         }
         break;
@@ -165,6 +170,7 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CopilotTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(SSSCopilotTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(SingleStepTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(VideoRecognitionTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(DepotTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(ReclamationTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CustomTask)
@@ -289,7 +295,7 @@ bool asst::Assistant::start(bool block)
     LogTraceFunction;
     Log.trace("Start |", block ? "block" : "non block");
 
-    if (!m_thread_idle || !inited()) {
+    if (!m_thread_idle) {
         return false;
     }
     std::unique_lock<std::mutex> lock;

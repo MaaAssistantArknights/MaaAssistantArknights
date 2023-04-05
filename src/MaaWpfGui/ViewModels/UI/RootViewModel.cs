@@ -92,7 +92,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else
             {
-                var ret = await Task.Run(() => _versionUpdateViewModel.CheckAndDownloadUpdate());
+                var ret = await _versionUpdateViewModel.CheckAndDownloadUpdate();
 
                 if (ret == VersionUpdateViewModel.CheckUpdateRetT.OK)
                 {

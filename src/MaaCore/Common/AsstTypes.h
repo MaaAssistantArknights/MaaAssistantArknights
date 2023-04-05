@@ -48,6 +48,7 @@ namespace asst
         Adb = 0,
         Minitouch = 1,
         Maatouch = 2,
+        MacPlayTools = 3,
     };
 
     namespace ControlFeat
@@ -269,6 +270,20 @@ namespace std
 
 namespace asst
 {
+    template <typename CType>
+    struct ContainerHasher
+    {
+        std::size_t operator()(const CType& container) const
+        {
+            using value_type = typename CType::value_type;
+            std::size_t seed = container.size();
+            for (const value_type& e : container) {
+                seed ^= std::hash<value_type>()(e) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+            }
+            return seed;
+        }
+    };
+
     enum class AlgorithmType
     {
         Invalid = -1,

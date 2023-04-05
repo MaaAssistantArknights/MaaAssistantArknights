@@ -6,7 +6,7 @@
 
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "Vision/Miscellaneous/BattleSkillReadyImageAnalyzer.h"
+#include "Vision/Battle/BattleSkillReadyImageAnalyzer.h"
 #include "Vision/Miscellaneous/DepotImageAnalyzer.h"
 #include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
 

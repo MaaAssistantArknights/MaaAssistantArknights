@@ -91,7 +91,7 @@ THRM-EX|THRM-EX|THRM-EX|THRM-EX
 罗比菈塔|Roberta|ロベルタ|로베르타
 布丁|Pudding|プリン|푸딩
 褐果|Chestnut|チェストナット|체스트넛
-罗小黑|Luo Xiaohei||
+罗小黑|Luo Xiaohei|羅小黒|
 铅踝|Totter||
 石英|Quarts||
 
@@ -210,7 +210,7 @@ Stormeye|Stormeye|Stormeye|Stormeye
 车尔尼|Czerny|ツェルニー|체르니
 至简|Minimalist|ミニマリスト|
 晓歌|Cantabile|カンタービレ|
-但书|Proviso||
+但书|Proviso|プロヴァイゾ|
 海沫|Highmore||
 郁金香|Tulip||
 达格达|Dagda||
@@ -289,7 +289,7 @@ W|W|W|W
 多萝西|Dorothy|ドロシー|도로시
 鸿雪|Позёмка|パゼオンカ|
 百炼嘉维尔|Gavial the Invincible|百練ガヴィル|
-玛恩纳|Mlynar||
+玛恩纳|Mlynar|ムリナール|
 白铁|Stainless||
 伺夜|Vigil||
 斥罪|Penance||

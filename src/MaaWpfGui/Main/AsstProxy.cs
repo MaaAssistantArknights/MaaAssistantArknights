@@ -13,6 +13,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -158,6 +159,7 @@ namespace MaaWpfGui.Main
 
         // model references
         private readonly SettingsViewModel _settingsViewModel;
+
         private readonly TaskQueueViewModel _taskQueueViewModel;
         private readonly RecruitViewModel _recruitViewModel;
         private readonly CopilotViewModel _copilotViewModel;
@@ -299,11 +301,7 @@ namespace MaaWpfGui.Main
                     _taskQueueViewModel.Idle = false;
                 }
 
-                var task = Task.Run(() =>
-                {
-                    _settingsViewModel.TryToStartEmulator();
-                });
-                await task;
+                await Task.Run(() => _settingsViewModel.TryToStartEmulator());
 
                 // 一般是点了“停止”按钮了
                 if (_taskQueueViewModel.Stopping)
@@ -452,7 +450,7 @@ namespace MaaWpfGui.Main
                             _taskQueueViewModel.AddLog(LocalizationHelper.GetString("TryToStartEmulator"), UiLogColor.Error);
                             _taskQueueViewModel.KillEmulator();
                             await Task.Delay(3000);
-                            _taskQueueViewModel.Stop();
+                            await _taskQueueViewModel.Stop();
                             _taskQueueViewModel.SetStopped();
                             _taskQueueViewModel.LinkStart();
                         }
@@ -487,7 +485,7 @@ namespace MaaWpfGui.Main
                 }
             }
 
-            bool isCoplitTaskChain = taskChain == "Copilot";
+            bool isCoplitTaskChain = taskChain == "Copilot" || taskChain == "VideoRecognition";
 
             switch (msg)
             {
@@ -771,7 +769,7 @@ namespace MaaWpfGui.Main
                             _taskQueueViewModel.AddLog(LocalizationHelper.GetString("GameDropNoRestart"), UiLogColor.Warning);
                             using var toast = new ToastNotification(LocalizationHelper.GetString("GameDropNoRestart"));
                             toast.Show();
-                            _taskQueueViewModel.Stop();
+                            _ = _taskQueueViewModel.Stop();
                         }
 
                         break;
@@ -783,6 +781,14 @@ namespace MaaWpfGui.Main
                     case "BattleStartAll":
                         _copilotViewModel.AddLog(LocalizationHelper.GetString("MissionStart"), UiLogColor.Info);
                         break;
+                }
+            }
+            else if (subTask == "CombatRecordRecognitionTask")
+            {
+                string what = details["what"]?.ToString();
+                if (!string.IsNullOrEmpty(what))
+                {
+                    _copilotViewModel.AddLog(what);
                 }
             }
         }
@@ -798,6 +804,10 @@ namespace MaaWpfGui.Main
             if (taskChain == "Recruit")
             {
                 ProcRecruitCalcMsg(details);
+            }
+            else if (taskChain == "VideoRecognition")
+            {
+                ProcVideoRecMsg(details);
             }
 
             var subTaskDetails = details["details"];
@@ -1043,9 +1053,11 @@ namespace MaaWpfGui.Main
                         LocalizationHelper.GetString("AlgorithmBadge") + ": " + $"{(int)subTaskDetails["total_badges"]}(+{(int)subTaskDetails["badges"]})" + "\n" +
                         LocalizationHelper.GetString("AlgorithmConstructionPoint") + ": " + $"{(int)subTaskDetails["total_construction_points"]}(+{(int)subTaskDetails["construction_points"]})");
                     break;
+
                 case "ReclamationProcedureStart":
                     _taskQueueViewModel.AddLog(LocalizationHelper.GetString("MissionStart") + $" {(int)subTaskDetails["times"]} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info);
                     break;
+
                 case "ReclamationSmeltGold":
                     _taskQueueViewModel.AddLog(LocalizationHelper.GetString("AlgorithmDoneSmeltGold") + $" {(int)subTaskDetails["times"]} " + LocalizationHelper.GetString("UnitTime"));
                     break;
@@ -1100,6 +1112,27 @@ namespace MaaWpfGui.Main
                         _recruitViewModel.RecruitResult = resultContent;
                     }
 
+                    break;
+            }
+        }
+
+        private void ProcVideoRecMsg(JObject details)
+        {
+            string what = details["what"].ToString();
+
+            switch (what)
+            {
+                case "Finished":
+                    var filename = details["details"]["filename"].ToString();
+                    _copilotViewModel.AddLog("Save to: " + filename, UiLogColor.Info);
+
+                    // string p = @"C:\tmp\this path contains spaces, and,commas\target.txt";
+                    string args = string.Format("/e, /select, \"{0}\"", filename);
+
+                    ProcessStartInfo info = new ProcessStartInfo();
+                    info.FileName = "explorer";
+                    info.Arguments = args;
+                    Process.Start(info);
                     break;
             }
         }
@@ -1206,6 +1239,7 @@ namespace MaaWpfGui.Main
             Roguelike,
             RecruitCalc,
             Copilot,
+            VideoRec,
             Depot,
         }
 
@@ -1621,6 +1655,17 @@ namespace MaaWpfGui.Main
                 ["loop_times"] = loop_times,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding(type, task_params);
+            _latestTaskId[TaskType.Copilot] = id;
+            return id != 0 && AsstStart();
+        }
+
+        public bool AsstStartVideoRec(string filename)
+        {
+            var task_params = new JObject
+            {
+                ["filename"] = filename,
+            };
+            AsstTaskId id = AsstAppendTaskWithEncoding("VideoRecognition", task_params);
             _latestTaskId[TaskType.Copilot] = id;
             return id != 0 && AsstStart();
         }
