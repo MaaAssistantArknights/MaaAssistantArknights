@@ -79,15 +79,20 @@ bool asst::CombatRecordRecognitionTask::_run()
         return false;
     }
 
-    ClipInfo* pre_clip_ptr = nullptr;
-    for (auto& clip : m_clips) {
-        if (!analyze_clip(clip, pre_clip_ptr)) {
+    ClipInfo* pre_valid = nullptr;
+    for (auto iter = m_clips.begin(); iter != m_clips.end(); ++iter) {
+        auto& clip = *iter;
+
+        if (!clip.deployment_changed && iter != m_clips.begin()) {
+            compare_skill(clip, *(iter - 1));
+            continue;
+        }
+
+        if (!analyze_clip(clip, pre_valid)) {
             Log.error(__FUNCTION__, "failed to analyze clip");
             return false;
         }
-        if (clip.deployment_changed) {
-            pre_clip_ptr = &clip;
-        }
+        pre_valid = &clip;
     }
 
     Log.info("full copilot json", m_copilot_json.to_string());
@@ -480,10 +485,6 @@ bool asst::CombatRecordRecognitionTask::analyze_clip(ClipInfo& clip, ClipInfo* p
 {
     LogTraceFunction;
 
-    if (!clip.deployment_changed) {
-        return compare_skill(clip, pre_clip_ptr);
-    }
-
     if (!detect_operators(clip, pre_clip_ptr)) {
         return false;
     }
@@ -497,20 +498,16 @@ bool asst::CombatRecordRecognitionTask::analyze_clip(ClipInfo& clip, ClipInfo* p
     return true;
 }
 
-bool asst::CombatRecordRecognitionTask::compare_skill(ClipInfo& clip, ClipInfo* pre_clip_ptr)
+bool asst::CombatRecordRecognitionTask::compare_skill(ClipInfo& clip, ClipInfo& pre_clip)
 {
     LogTraceFunction;
 
-    if (!pre_clip_ptr) {
-        Log.error("First clip but deployment not changed");
-        return false;
-    }
     callback(AsstMsg::SubTaskStart, basic_info_with_what("CompSkill"));
 
-    const std::string oper_name = pre_clip_ptr->ends_oper_name;
+    const std::string oper_name = pre_clip.ends_oper_name;
     const Point target_location = m_operator_locations[oper_name];
     const Point target_position = m_normal_tile_info[target_location].pos;
-    BattleSkillReadyImageAnalyzer analyzer(pre_clip_ptr->end_frame);
+    BattleSkillReadyImageAnalyzer analyzer(pre_clip.end_frame);
     analyzer.set_base_point(target_position);
     bool pre_ready = analyzer.analyze();
     show_img(analyzer);
@@ -543,7 +540,7 @@ bool asst::CombatRecordRecognitionTask::compare_skill(ClipInfo& clip, ClipInfo* 
     bool cur_ready = analyzer.analyze();
 
     if (pre_ready && !cur_ready) {
-        json::object condition = analyze_action_condition(clip, pre_clip_ptr);
+        json::object condition = analyze_action_condition(clip, &pre_clip);
         json::object skill_json = condition | json::object {
             { "type", "Skill" },
             { "location", json::array { target_location.x, target_location.y } },
