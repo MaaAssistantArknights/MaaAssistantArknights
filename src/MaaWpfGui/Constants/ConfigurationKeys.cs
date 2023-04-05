@@ -35,8 +35,7 @@ namespace MaaWpfGui.Constants
         public const string CustomStageCode = "GUI.CustomStageCode";
         public const string InverseClearMode = "GUI.InverseClearMode";
         public const string WindowTitlePrefix = "GUI.WindowTitlePrefix";
-        public const string SetColors = "GUI.SetColors";
-        public const string AutoDarkMode = "GUI.AutoDarkMode";
+        public const string DarkMode = "GUI.DarkMode";
 
         public const string AddressHistory = "Connect.AddressHistory";
         public const string AutoDetect = "Connect.AutoDetect";
