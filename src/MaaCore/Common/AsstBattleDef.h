@@ -145,6 +145,7 @@ namespace asst::battle
     };
     struct OperProps
     {
+        std::string id;
         std::string name;
         Role role = Role::Unknown;
         std::array<std::string, 3> ranges;

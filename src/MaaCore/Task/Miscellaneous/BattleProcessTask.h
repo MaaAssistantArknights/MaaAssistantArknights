@@ -5,7 +5,7 @@
 #include "Common/AsstBattleDef.h"
 #include "Common/AsstTypes.h"
 #include "Config/Miscellaneous/TilePack.h"
-#include "Vision/Miscellaneous/BattleImageAnalyzer.h"
+#include "Vision/Battle/BattleImageAnalyzer.h"
 
 namespace asst
 {

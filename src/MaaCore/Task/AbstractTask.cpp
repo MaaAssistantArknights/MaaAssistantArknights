@@ -157,7 +157,7 @@ bool asst::AbstractTask::save_img(const std::filesystem::path& relative_dir)
     if (image.empty()) {
         return false;
     }
-    std::string stem = utils::get_random_filestem();
+    std::string stem = utils::get_time_filestem();
     auto relative_path = relative_dir / (stem + "_raw.png");
     Log.trace("Save image", relative_path);
     return asst::imwrite(relative_path, image);
