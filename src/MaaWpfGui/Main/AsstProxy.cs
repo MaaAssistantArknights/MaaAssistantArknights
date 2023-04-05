@@ -485,7 +485,7 @@ namespace MaaWpfGui.Main
                 }
             }
 
-            bool isCoplitTaskChain = taskChain == "Copilot";
+            bool isCoplitTaskChain = taskChain == "Copilot" || taskChain == "VideoRecognition";
 
             switch (msg)
             {
