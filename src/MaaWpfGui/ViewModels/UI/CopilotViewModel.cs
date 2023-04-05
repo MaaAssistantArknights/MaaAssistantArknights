@@ -172,10 +172,19 @@ namespace MaaWpfGui.ViewModels.UI
         {
             ClearLog();
             Url = CopilotUiUrl;
+            _isVideoTask = false;
 
             string jsonStr;
             if (File.Exists(filename))
             {
+                var fileSize = new FileInfo(filename).Length;
+                bool isJsonFile = filename.ToLower().EndsWith(".json") || fileSize < 4 * 1024 * 1024;
+                if (!isJsonFile)
+                {
+                    _isVideoTask = true;
+                    return;
+                }
+
                 try
                 {
                     using var reader = new StreamReader(File.OpenRead(filename));
@@ -393,7 +402,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             var dialog = new OpenFileDialog
             {
-                Filter = "JSON|*.json",
+                Filter = "JSON|*.json|Video|*.mp4;*.m4s;*.mkv;*.flv;*.avi",
             };
 
             if (dialog.ShowDialog() == true)
@@ -401,6 +410,8 @@ namespace MaaWpfGui.ViewModels.UI
                 Filename = dialog.FileName;
             }
         }
+
+        private static readonly string[] SupportExt = { ".json", ".mp4", ".m4s", ".mkv", ".flv", ".avi" };
 
         /// <summary>
         /// Drops file.
@@ -420,7 +431,18 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            if (filename.EndsWith(".json"))
+            var filenameLower = filename.ToLower();
+            bool support = false;
+            foreach (var ext in SupportExt)
+            {
+                if (filenameLower.EndsWith(ext))
+                {
+                    support = true;
+                    break;
+                }
+            }
+
+            if (support)
             {
                 Filename = filename;
             }
@@ -471,6 +493,12 @@ namespace MaaWpfGui.ViewModels.UI
             }*/
             Idle = false;
 
+            if (_isVideoTask)
+            {
+                StartVideoTask();
+                return;
+            }
+
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
 
             string errMsg = string.Empty;
@@ -503,6 +531,11 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        public bool StartVideoTask()
+        {
+            return _asstProxy.AsstStartVideoRec(Filename);
+        }
+
         /// <summary>
         /// Stops copilot.
         /// </summary>
@@ -511,6 +544,8 @@ namespace MaaWpfGui.ViewModels.UI
             _asstProxy.AsstStop();
             Idle = true;
         }
+
+        private bool _isVideoTask = false;
 
         private readonly string _copilotRatingUrl = "https://prts.maa.plus/copilot/rating";
         private readonly List<int> _recentlyRatedCopilotId = new List<int>(); // TODO: 可能考虑加个持久化

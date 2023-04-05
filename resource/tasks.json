@@ -6199,7 +6199,7 @@
             100,
             255
         ],
-        "templThreshold": 0.88
+        "templThreshold": 0.7
     },
     "BattleSpeedUp": {
         "algorithm": "JustReturn",
@@ -6237,6 +6237,11 @@
         "template": "empty.png",
         "templThreshold": 0.8
     },
+    "BattleAvatarDataForVideo": {
+        "baseTask": "BattleAvatarData",
+        "template": "empty.png",
+        "templThreshold": 0.6
+    },
     "BattleDroneAvatarData": {
         "template": "empty.png",
         "templThreshold": 0.7
@@ -6247,6 +6252,56 @@
         "maskRange": [
             0,
             50
+        ]
+    },
+    "BattleAvatarDataForFormation": {
+        "template": "empty.png",
+        "templThreshold": 0.6,
+        "rectMove": [
+            15,
+            15,
+            30,
+            30
+        ]
+    },
+    "BattleOperDetailPageFlag": {
+        "template": "empty.png",
+        "roi": [
+            0,
+            322,
+            110,
+            16
+        ],
+        "specialParams": [
+            100
+        ]
+    },
+    "BattleOperDetailPageOldFlag": {
+        "baseTask": "BattleOperDetailPageFlag",
+        "template": "empty.png",
+        "roi": [
+            0,
+            385,
+            110,
+            14
+        ]
+    },
+    "BattleOperBoxRectMove": {
+        "template": "empty.png",
+        "rectMove": [
+            0,
+            -50,
+            60,
+            60
+        ]
+    },
+    "BattleDeployDirectionRectMove": {
+        "template": "empty.png",
+        "rectMove": [
+            -48,
+            -48,
+            96,
+            96
         ]
     },
     "BattleKillsFlag": {
@@ -6348,7 +6403,7 @@
         ]
     },
     "BattleOpersFlag": {
-        "templThreshold": 0.85,
+        "templThreshold": 0.8,
         "roi": [
             0,
             588,
@@ -9907,23 +9962,56 @@
         "baseTask": "BattleStartPre",
         "action": "DoNothing"
     },
+    "BattleFormationOCRNameFlag": {
+        "templThreshold": 0.6,
+        "roi": [
+            88,
+            264,
+            873,
+            354
+        ]
+    },
     "BattleFormationOperNames": {
         "baseTask": "CharsNameOcrReplace",
         "text": [],
         "roi": [
-            86,
-            321,
-            945,
-            325
+            -18,
+            40,
+            122,
+            18
+        ]
+    },
+    "BattleFormationOperNamesOldVersion": {
+        "baseTask": "BattleFormationOperNames",
+        "text": [],
+        "roi": [
+            30,
+            23,
+            75,
+            15
         ]
     },
     "BattleFormationOperAvatarMove": {
         "template": "empty.png",
         "rectMove": [
-            -125,
+            -120,
             -250,
-            125,
+            150,
             165
+        ]
+    },
+    "BattleHasStarted": {
+        "template": "empty.png",
+        "roi": [
+            1178,
+            33,
+            49,
+            39
+        ],
+        "specialParams_Doc": "亮度阈值；点的数量",
+        "specialParams": [
+            245,
+            200
         ]
     },
     "Reclamation@PopupConfirm": {
