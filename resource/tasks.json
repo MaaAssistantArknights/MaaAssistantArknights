@@ -6562,14 +6562,14 @@
     },
     "BattleOperRetreatJustClick": {
         "algorithm": "JustReturn",
-        "preDelay": 200,
+        "preDelay": 300,
         "postDelay": 300,
         "action": "ClickRect",
         "specificRect": [
-            562,
-            195,
-            10,
-            36
+            572,
+            225,
+            1,
+            6
         ]
     },
     "StageDrops-StageName": {
