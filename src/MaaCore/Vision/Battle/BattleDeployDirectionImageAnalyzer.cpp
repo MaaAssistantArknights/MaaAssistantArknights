@@ -24,9 +24,8 @@ bool asst::BattleDeployDirectionImageAnalyzer::analyze()
     Ort::Value input_tensor = Ort::Value::CreateTensor<float>(memory_info, input.data(), input.size(),
                                                               input_shape.data(), input_shape.size());
 
-    constexpr size_t classification_size = 4;
-    std::array<float, classification_size> results;
-    std::array<int64_t, 2> output_shape { batch_size, classification_size };
+    RawResults results;
+    std::array<int64_t, 2> output_shape { batch_size, ClassificationSize };
     Ort::Value output_tensor = Ort::Value::CreateTensor<float>(memory_info, results.data(), results.size(),
                                                                output_shape.data(), output_shape.size());
 
@@ -37,7 +36,8 @@ bool asst::BattleDeployDirectionImageAnalyzer::analyze()
 
     Ort::RunOptions run_options;
     session.Run(run_options, input_names, &input_tensor, 1, output_names, &output_tensor, 1);
-    Log.info(__FUNCTION__, "raw result:", results);
+    m_raw_results = results;
+    Log.info(__FUNCTION__, "raw result:", m_raw_results);
 
     softmax(results);
     Log.info(__FUNCTION__, "after softmax:", results);
