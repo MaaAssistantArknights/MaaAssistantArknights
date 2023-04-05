@@ -51,15 +51,10 @@ namespace MaaWpfGui
         public static bool shouldDarkMode()
         {
             bool userDarkMode = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.SetColors, bool.FalseString));
-            if (userDarkMode)
-            {
-                return true;
-            }
-
             bool autoDarkMode = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoDarkMode, bool.FalseString));
-            if (!autoDarkMode)
+           if (!autoDarkMode)
             {
-                return false;
+                return userDarkMode;
             }
 
             var isLight = true;
