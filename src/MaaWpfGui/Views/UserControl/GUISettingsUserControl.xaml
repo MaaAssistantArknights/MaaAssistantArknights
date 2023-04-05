@@ -41,7 +41,8 @@
                 Margin="10"
                 HorizontalAlignment="Left"
                 Content="AutoDarkMode (BETA)"
-                IsChecked="{Binding AutoDarkMode}" />
+                IsChecked="{Binding AutoDarkMode}"
+                Visibility="{c:Binding SetColors}" />
         </StackPanel>
         <StackPanel
             HorizontalAlignment="Center"
