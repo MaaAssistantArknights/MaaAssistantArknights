@@ -2271,6 +2271,18 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _autoDarkMode = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoDarkMode, bool.FalseString));
+
+        public bool AutoDarkMode
+        {
+            get => _autoDarkMode;
+            set
+            {
+                SetAndNotify(ref _autoDarkMode, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.AutoDarkMode, value.ToString());
+            }
+        }
+
         private bool _loadGUIParameters = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.LoadPositionAndSize, bool.TrueString));
 
         /// <summary>
