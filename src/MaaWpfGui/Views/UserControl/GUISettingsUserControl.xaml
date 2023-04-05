@@ -32,17 +32,21 @@
                 HorizontalAlignment="Left"
                 Content="{DynamicResource SystemNotification}"
                 IsChecked="{Binding UseNotify}" />
-            <CheckBox
-                Margin="10"
-                HorizontalAlignment="Left"
-                Content="DarkMode (BETA)"
-                IsChecked="{Binding SetColors}" />
-            <CheckBox
-                Margin="10"
-                HorizontalAlignment="Left"
-                Content="AutoDarkMode (BETA)"
-                IsChecked="{Binding AutoDarkMode}"
-                Visibility="{c:Binding SetColors}" />
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <controls:TextBlock
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Text="DarkMode (BETA)" />
+                <ComboBox
+                    Margin="10"
+                    DisplayMemberPath="Display"
+                    ItemsSource="{Binding DarkModeList}"
+                    SelectedValue="{Binding DarkMode}"
+                    SelectedValuePath="Value" />
+            </StackPanel>
         </StackPanel>
         <StackPanel
             HorizontalAlignment="Center"

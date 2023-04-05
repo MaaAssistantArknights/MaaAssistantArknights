@@ -255,6 +255,10 @@
     <system:String x:Key="AutoRoguelike">Auto I.S.</system:String>
     <system:String x:Key="ReclamationAlgorithm">Reclamation Algorithm</system:String>
 
+    <system:String x:Key="Light">Light</system:String>
+    <system:String x:Key="Dark">Dark</system:String>
+    <system:String x:Key="SyncWithOS">Sync with OS</system:String>
+
     <system:String x:Key="SelectAll">Select All</system:String>
     <system:String x:Key="Inverse">Inverse</system:String>
     <system:String x:Key="Clear">Clear</system:String>

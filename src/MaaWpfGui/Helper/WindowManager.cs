@@ -86,7 +86,7 @@ namespace MaaWpfGui.Helper
             }
 
             var app = Application.Current as App;
-            app!.darkToStart();
+            app!.DarkToStart();
 
             return window;
         }

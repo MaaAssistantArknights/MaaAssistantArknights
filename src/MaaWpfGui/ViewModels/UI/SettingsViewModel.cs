@@ -283,6 +283,14 @@ namespace MaaWpfGui.ViewModels.UI
                 new CombinedData { Display = LocalizationHelper.GetString("txwy"), Value = "txwy" },
             };
 
+            DarkModeList = new List<CombinedData>
+            {
+                new CombinedData { Display = LocalizationHelper.GetString("Light"), Value = "Light" },
+                new CombinedData { Display = LocalizationHelper.GetString("Dark"), Value = "Dark" },
+                new CombinedData { Display = LocalizationHelper.GetString("SyncWithOS"), Value = "SyncWithOS" },
+            };
+
+
             InverseClearModeList = new List<CombinedData>
             {
                 new CombinedData { Display = LocalizationHelper.GetString("Clear"), Value = "Clear" },
@@ -738,6 +746,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets or sets the list of touch modes
         /// </summary>
         public List<CombinedData> TouchModeList { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of dark mode.
+        /// </summary>
+        public List<CombinedData> DarkModeList { get; set; }
 
         /// <summary>
         /// Gets or sets the list of inverse clear modes.
@@ -2239,50 +2252,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _setColors = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.SetColors, bool.FalseString));
-
-        public bool SetColors
-        {
-            get => _setColors;
-            set
-            {
-                SetAndNotify(ref _setColors, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.SetColors, value.ToString());
-
-                MessageBoxHelper.Unregister();
-                MessageBoxHelper.Yes = LocalizationHelper.GetString("Ok");
-                MessageBoxHelper.No = LocalizationHelper.GetString("ManualRestart");
-                MessageBoxHelper.Register();
-                Window mainWindow = Application.Current.MainWindow;
-                mainWindow!.Show();
-                mainWindow.WindowState = mainWindow.WindowState = WindowState.Normal;
-                mainWindow.Activate();
-                var result = MessageBox.Show(
-                    LocalizationHelper.GetString("DarkModeSetColorsTip"),
-                    LocalizationHelper.GetString("Tip"),
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Question);
-                MessageBoxHelper.Unregister();
-                if (result == MessageBoxResult.Yes)
-                {
-                    Application.Current.Shutdown();
-                    System.Windows.Forms.Application.Restart();
-                }
-            }
-        }
-
-        private bool _autoDarkMode = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoDarkMode, bool.FalseString));
-
-        public bool AutoDarkMode
-        {
-            get => _autoDarkMode;
-            set
-            {
-                SetAndNotify(ref _autoDarkMode, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AutoDarkMode, value.ToString());
-            }
-        }
-
         private bool _loadGUIParameters = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.LoadPositionAndSize, bool.TrueString));
 
         /// <summary>
@@ -2441,6 +2410,57 @@ namespace MaaWpfGui.ViewModels.UI
                 SetAndNotify(ref _customStageCode, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.CustomStageCode, value.ToString());
                 _taskQueueViewModel.CustomStageCode = value;
+            }
+        }
+
+        public enum DarkModeType
+        {
+            Light,
+            Dark,
+            SyncWithOS
+        }
+
+        private DarkModeType _darkModeType =
+            Enum.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.DarkMode, DarkModeType.Light.ToString()),
+                out DarkModeType temp)
+                ? temp
+                : DarkModeType.Light;
+
+        /// <summary>
+        /// Gets or sets the dark mode.
+        /// </summary>
+        public string DarkMode
+        {
+            get => _darkModeType.ToString();
+            set
+            {
+                if (!Enum.TryParse(value, out DarkModeType tempEnumValue))
+                {
+                    return;
+                }
+
+                SetAndNotify(ref _darkModeType, tempEnumValue);
+                ConfigurationHelper.SetValue(ConfigurationKeys.DarkMode, value);
+
+                MessageBoxHelper.Unregister();
+                MessageBoxHelper.Yes = LocalizationHelper.GetString("Ok");
+                MessageBoxHelper.No = LocalizationHelper.GetString("ManualRestart");
+                MessageBoxHelper.Register();
+                Window mainWindow = Application.Current.MainWindow;
+                mainWindow!.Show();
+                mainWindow.WindowState = mainWindow.WindowState = WindowState.Normal;
+                mainWindow.Activate();
+                var result = MessageBox.Show(
+                    LocalizationHelper.GetString("DarkModeSetColorsTip"),
+                    LocalizationHelper.GetString("Tip"),
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question);
+                MessageBoxHelper.Unregister();
+                if (result == MessageBoxResult.Yes)
+                {
+                    Application.Current.Shutdown();
+                    System.Windows.Forms.Application.Restart();
+                }
             }
         }
 
