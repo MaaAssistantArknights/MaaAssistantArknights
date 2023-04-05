@@ -229,6 +229,9 @@ void asst::Controller::set_touch_mode(const TouchMode& mode) noexcept
     case TouchMode::Maatouch:
         m_controller_type = ControllerType::Maatouch;
         break;
+    case TouchMode::MacPlayTools:
+        m_controller_type = ControllerType::MacPlayTools;
+        break;
     default:
         m_controller_type = ControllerType::Minitouch;
     }

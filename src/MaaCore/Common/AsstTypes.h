@@ -48,6 +48,7 @@ namespace asst
         Adb = 0,
         Minitouch = 1,
         Maatouch = 2,
+        MacPlayTools = 3,
     };
 
     namespace ControlFeat
