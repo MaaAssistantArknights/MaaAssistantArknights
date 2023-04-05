@@ -22,6 +22,7 @@ using System.Windows.Media;
 using HandyControl.Tools;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using Microsoft.Win32;
 
 namespace MaaWpfGui
 {
@@ -45,7 +46,32 @@ namespace MaaWpfGui
         private readonly SolidColorBrush black = new SolidColorBrush(Color.FromRgb(49, 51, 56));
         private readonly SolidColorBrush white = new SolidColorBrush(Color.FromRgb(181, 186, 193));
 
-        public static bool SetColors => Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.SetColors, bool.FalseString));
+        public static bool SetColors => shouldDarkMode();
+
+        public static bool shouldDarkMode()
+        {
+            bool userDarkMode = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.SetColors, bool.FalseString));
+            bool autoDarkMode = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoDarkMode, bool.FalseString));
+           if (!autoDarkMode)
+            {
+                return userDarkMode;
+            }
+
+            var isLight = true;
+            try
+            {
+                var registryValue =
+                    Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize",
+                        "AppsUseLightTheme", null);
+                isLight = Convert.ToBoolean(registryValue);
+            }
+            catch (Exception exception)
+            {
+                // ignore
+            }
+
+            return !isLight;
+        }
 
         public void darkToStart()
         {
