@@ -327,15 +327,19 @@ bool asst::CombatRecordRecognitionTask::slice_video()
     size_t ends = m_video_frame_count - skip_count - 10;
 
     auto battle_over = [&]() {
-        if (in_segment && !m_clips.empty()) {
-            size_t target_frame = i - skip_count;
-            m_clips.back().end_frame_index = target_frame;
+        if (m_clips.empty()) {
+            return;
         }
-        in_segment = false;
-
         if (m_battle_end_frame == 0) {
             m_battle_end_frame = i;
         }
+        if (!in_segment) {
+            return;
+        }
+        auto& pre_clip = m_clips.back();
+        pre_clip.end_frame_index = i - skip_count;
+        pre_clip.end_frame = pre_frame;
+        in_segment = false;
     };
     for (; i < ends; i += skip_frames(skip_count) + 1, pre_frame = frame) {
         *m_video_ptr >> frame;
@@ -375,7 +379,11 @@ bool asst::CombatRecordRecognitionTask::slice_video()
             pre_distance = distance;
         }
 
-        if (oper_analyzer.get_in_detail_page() || !oper_analyzer.get_pause_button()) {
+        bool in_detail_page = oper_analyzer.get_in_detail_page() || !oper_analyzer.get_pause_button();
+        bool oper_auto_retreat =
+            in_segment && continuity && !m_clips.empty() && cur_opers.size() != m_clips.back().deployment.size();
+
+        if (in_detail_page || oper_auto_retreat) {
             if (m_clips.empty()) {
                 continue;
             }
@@ -550,7 +558,7 @@ bool asst::CombatRecordRecognitionTask::detect_operators(ClipInfo& clip, [[maybe
     std::unordered_map<DetectionResult, size_t, ContainerHasher<DetectionResult>> oper_det_samping;
     const Rect det_box_move = Task.get("BattleOperBoxRectMove")->rect_move;
 
-    constexpr size_t OperDetSamplingCount = 5;
+    constexpr size_t OperDetSamplingCount = 20;
     const size_t skip_count =
         frame_count > (OperDetSamplingCount + 1) ? frame_count / (OperDetSamplingCount + 1) - 1 : 0;
 
@@ -673,10 +681,8 @@ bool asst::CombatRecordRecognitionTask::process_changes(ClipInfo& clip, ClipInfo
 
     auto& actions_json = m_copilot_json["actions"].as_array();
 
-    if (clip.deployment.size() == pre_clip_ptr->deployment.size()) {
-        Log.warn("same deployment size", clip.deployment.size());
-    }
-    else if (clip.deployment.size() < pre_clip_ptr->deployment.size()) {
+    if (pre_clip_ptr->deployment.size() > clip.deployment.size() ||
+        pre_clip_ptr->battlefield.size() < clip.battlefield.size()) {
         // 部署
         std::vector<std::string> deployed;
         ananlyze_deployment_names(clip);
@@ -714,7 +720,8 @@ bool asst::CombatRecordRecognitionTask::process_changes(ClipInfo& clip, ClipInfo
             m_location_operators.insert_or_assign(loc, name);
         }
     }
-    else {
+    else if (pre_clip_ptr->deployment.size() < clip.deployment.size() ||
+             pre_clip_ptr->battlefield.size() > clip.battlefield.size()) {
         // 撤退
         for (const auto& [pre_loc, pre_oper] : pre_clip_ptr->battlefield) {
             if (clip.battlefield.contains(pre_loc)) {
@@ -733,6 +740,10 @@ bool asst::CombatRecordRecognitionTask::process_changes(ClipInfo& clip, ClipInfo
             m_location_operators.erase(pre_loc);
             m_operator_locations.erase(name);
         }
+    }
+    else {
+        Log.warn("Unknown changes, deployment:", pre_clip_ptr->deployment.size(), clip.deployment.size(),
+                 "battlefield:", pre_clip_ptr->battlefield.size(), clip.battlefield.size());
     }
 
     return true;
