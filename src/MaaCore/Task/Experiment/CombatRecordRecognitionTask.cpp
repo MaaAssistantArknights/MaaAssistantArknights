@@ -648,7 +648,7 @@ bool asst::CombatRecordRecognitionTask::classify_direction(ClipInfo& clip, ClipI
     callback(AsstMsg::SubTaskStart, basic_info_with_what("ClassifyDirection"));
 
     /* classify direction */
-    std::unordered_map<Point, std::unordered_map<battle::DeployDirection, size_t>> dir_cls_sampling;
+    std::unordered_map<Point, BattleDeployDirectionImageAnalyzer::RawResults> dir_cls_sampling;
 
     for (const cv::Mat& frame : clip.random_frames) {
         BattleDeployDirectionImageAnalyzer analyzer(frame);
@@ -656,22 +656,16 @@ bool asst::CombatRecordRecognitionTask::classify_direction(ClipInfo& clip, ClipI
             analyzer.set_base_point(m_normal_tile_info.at(loc).pos);
             analyzer.analyze();
             show_img(analyzer);
-            auto dir = static_cast<battle::DeployDirection>(analyzer.get_class_id());
-            dir_cls_sampling[loc][dir] += 1;
+            for (size_t i = 0; i < dir_cls_sampling.size(); ++i) {
+                dir_cls_sampling[loc][i] += analyzer.get_raw_results()[i];
+            }
         }
     }
 
-    /* 取众数 */
     for (const auto& [loc, sampling] : dir_cls_sampling) {
-        auto dir_cls_iter =
-            ranges::max_element(sampling, [&](const auto& lhs, const auto& rhs) { return lhs.second < rhs.second; });
+        auto class_id = std::max_element(sampling.begin(), sampling.end()) - sampling.begin();
 
-        if (dir_cls_iter == sampling.end()) {
-            Log.error(__FUNCTION__, "dir_cls_sampling is empty");
-            callback(AsstMsg::SubTaskError, basic_info_with_what("ClassifyDirection"));
-            return false;
-        }
-        clip.battlefield[loc].direction = dir_cls_iter->first;
+        clip.battlefield[loc].direction = static_cast<battle::DeployDirection>(class_id);
         clip.battlefield[loc].new_here = true;
     }
     callback(AsstMsg::SubTaskCompleted, basic_info_with_what("ClassifyDirection"));
