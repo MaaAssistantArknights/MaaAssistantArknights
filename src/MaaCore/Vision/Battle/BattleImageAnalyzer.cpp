@@ -359,7 +359,7 @@ bool asst::BattleImageAnalyzer::kills_analyze()
         Log.warn("cannot found flag /");
         // 这种时候绝大多数是把 "0/41" 中的 '/' 识别成了别的什么东西（其中又有绝大部分情况是识别成了 '1'）
         // 所以这里依赖 m_pre_total_kills 转一下
-        if (m_pre_total_kills == 0) {
+        if (m_pre_total_kills <= 0) {
             // 第一次识别就识别错了，识别成了 "0141"
             if (kills_text.at(0) == '0') {
                 pos = 1;
