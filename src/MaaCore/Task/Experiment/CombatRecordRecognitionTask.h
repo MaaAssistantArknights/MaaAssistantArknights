@@ -54,8 +54,9 @@ namespace asst
         bool analyze_stage();
         bool analyze_deployment();
         bool slice_video();
+        bool compare_skill(ClipInfo& clip, ClipInfo& pre_clip);
+
         bool analyze_clip(ClipInfo& clip, ClipInfo* pre_clip_ptr);
-        bool compare_skill(ClipInfo& clip, ClipInfo* pre_clip_ptr);
         bool detect_operators(ClipInfo& clip, ClipInfo* pre_clip_ptr);
         bool classify_direction(ClipInfo& clip, ClipInfo* pre_clip_ptr);
         bool process_changes(ClipInfo& clip, ClipInfo* pre_clip_ptr);
