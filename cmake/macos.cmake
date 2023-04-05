@@ -7,7 +7,7 @@ if (BUILD_XCFRAMEWORK)
 
     add_custom_command(OUTPUT OpenCV.xcframework
         COMMAND rm -rf OpenCV.xcframework
-        COMMAND xcodebuild -create-xcframework -library "${PROJECT_SOURCE_DIR}/MaaDeps/runtime/${MAADEPS_TRIPLET}/libopencv_world4.406.dylib" -output OpenCV.xcframework
+        COMMAND xcodebuild -create-xcframework -library "${PROJECT_SOURCE_DIR}/MaaDeps/runtime/${MAADEPS_TRIPLET}/libopencv_world4.407.dylib" -output OpenCV.xcframework
     )
 
     add_custom_command(OUTPUT ONNXRuntime.xcframework
