@@ -54,12 +54,14 @@ namespace asst
         bool analyze_stage();
         bool analyze_deployment();
         bool slice_video();
-        bool analyze_clip(ClipInfo& clip, ClipInfo* pre_clip_ptr = nullptr);
-        bool compare_skill(ClipInfo& clip, ClipInfo* pre_clip_ptr = nullptr);
-        bool detect_operators(ClipInfo& clip, ClipInfo* pre_clip_ptr = nullptr);
-        bool classify_direction(ClipInfo& clip, ClipInfo* pre_clip_ptr = nullptr);
-        bool process_changes(ClipInfo& clip, ClipInfo* pre_clip_ptr = nullptr);
+        bool analyze_clip(ClipInfo& clip, ClipInfo* pre_clip_ptr);
+        bool compare_skill(ClipInfo& clip, ClipInfo* pre_clip_ptr);
+        bool detect_operators(ClipInfo& clip, ClipInfo* pre_clip_ptr);
+        bool classify_direction(ClipInfo& clip, ClipInfo* pre_clip_ptr);
+        bool process_changes(ClipInfo& clip, ClipInfo* pre_clip_ptr);
         void ananlyze_deployment_names(ClipInfo& clip);
+
+        json::object analyze_action_condition(ClipInfo& clip, ClipInfo* pre_clip_ptr);
         size_t skip_frames(size_t count);
 
         static std::string analyze_detail_page_oper_name(const cv::Mat& frame);
@@ -81,6 +83,7 @@ namespace asst
         size_t m_battle_end_frame = 0;
 
         std::vector<ClipInfo> m_clips;
+        std::vector<std::pair<size_t /*frame*/, int /*kills*/>> m_frame_kills;
 
         std::unordered_map<Point, TilePack::TileInfo> m_normal_tile_info;
         std::unordered_map<std::string, cv::Mat> m_formation;
@@ -90,6 +93,7 @@ namespace asst
         std::unordered_map<Point, std::string> m_location_operators;
 
         json::value m_copilot_json;
+        int m_pre_action_costs = -1;
 
         void show_img(const AbstractImageAnalyzer& analyzer);
         void show_img(const cv::Mat& img);

@@ -326,6 +326,9 @@ bool asst::CombatRecordRecognitionTask::slice_video()
     size_t i = m_battle_start_frame;
     size_t ends = m_video_frame_count - skip_count - 10;
 
+    int latest_kills = -1;
+    int total_kills = -1;
+
     auto battle_over = [&]() {
         if (m_clips.empty()) {
             return;
@@ -351,7 +354,9 @@ bool asst::CombatRecordRecognitionTask::slice_video()
         cv::resize(frame, frame, cv::Size(), m_scale, m_scale, cv::INTER_AREA);
 
         BattleImageAnalyzer oper_analyzer(frame);
-        oper_analyzer.set_target(BattleImageAnalyzer::Target::Oper | BattleImageAnalyzer::Target::DetailPage);
+        oper_analyzer.set_target(BattleImageAnalyzer::Target::Oper | BattleImageAnalyzer::Target::DetailPage |
+                                 BattleImageAnalyzer::Target::Kills);
+        oper_analyzer.set_pre_total_kills(total_kills);
         bool analyzed = oper_analyzer.analyze();
         show_img(oper_analyzer);
 
@@ -364,6 +369,13 @@ bool asst::CombatRecordRecognitionTask::slice_video()
         }
         m_battle_end_frame = 0;
         not_in_battle_count = 0;
+
+        int cur_kills = oper_analyzer.get_kills();
+        if (cur_kills != latest_kills) {
+            m_frame_kills.emplace_back(std::make_pair(i, cur_kills));
+        }
+        total_kills = oper_analyzer.get_total_kills();
+        latest_kills = oper_analyzer.get_kills();
 
         const auto& cur_opers = oper_analyzer.get_opers();
         bool continuity = true;
@@ -531,7 +543,8 @@ bool asst::CombatRecordRecognitionTask::compare_skill(ClipInfo& clip, ClipInfo* 
     bool cur_ready = analyzer.analyze();
 
     if (pre_ready && !cur_ready) {
-        json::object skill_json {
+        json::object condition = analyze_action_condition(clip, pre_clip_ptr);
+        json::object skill_json = condition | json::object {
             { "type", "Skill" },
             { "location", json::array { target_location.x, target_location.y } },
             { "name", oper_name },
@@ -679,6 +692,8 @@ bool asst::CombatRecordRecognitionTask::process_changes(ClipInfo& clip, ClipInfo
         return true;
     }
 
+    json::object condition = analyze_action_condition(clip, pre_clip_ptr);
+
     auto& actions_json = m_copilot_json["actions"].as_array();
 
     if (pre_clip_ptr->deployment.size() > clip.deployment.size() ||
@@ -707,11 +722,19 @@ bool asst::CombatRecordRecognitionTask::process_changes(ClipInfo& clip, ClipInfo
                 continue;
             }
             std::string name = deployed_iter == deployed.end() ? "UnkownDeployed" : *(deployed_iter++);
-            json::object deploy_json {
+
+            static const std::unordered_map<battle::DeployDirection, std::string> DirectionNames = {
+                { battle::DeployDirection::Right, "Right" }, { battle::DeployDirection::Down, "Down" },
+                { battle::DeployDirection::Left, "Left" },   { battle::DeployDirection::Up, "Up" },
+                { battle::DeployDirection::None, "None" },
+            };
+            const std::string& direction = DirectionNames.at(oper.direction);
+
+            json::object deploy_json = condition | json::object {
                 { "type", "Deploy" },
                 { "name", name }, // 这里正常应该只有一个人，多了就只能抽奖了（
                 { "location", json::array { loc.x, loc.y } },
-                { "direction", static_cast<int>(oper.direction) },
+                { "direction", direction },
             };
             Log.info("deploy json", deploy_json.to_string());
             actions_json.emplace_back(std::move(deploy_json));
@@ -729,7 +752,7 @@ bool asst::CombatRecordRecognitionTask::process_changes(ClipInfo& clip, ClipInfo
             }
 
             std::string name = m_location_operators[pre_loc];
-            json::object retreat_json {
+            json::object retreat_json = condition | json::object {
                 { "type", "Retreat" },
                 { "location", json::array { pre_loc.x, pre_loc.y } },
                 { "name", name },
@@ -781,6 +804,52 @@ void asst::CombatRecordRecognitionTask::ananlyze_deployment_names(ClipInfo& clip
             oper.name = "UnknownDeployment";
         }
     }
+}
+
+json::object asst::CombatRecordRecognitionTask::analyze_action_condition(ClipInfo& clip, ClipInfo* pre_clip_ptr)
+{
+    LogTraceFunction;
+
+    if (m_frame_kills.empty()) {
+        return {};
+    }
+    size_t target_frame_index = pre_clip_ptr->end_frame_index;
+    size_t kill_frame_index = 0;
+    int kills = 0;
+    for (auto iter = m_frame_kills.begin() + 1; iter != m_frame_kills.end(); ++iter) {
+        const auto& [cur_index, _] = *iter;
+        if (cur_index < target_frame_index) {
+            continue;
+        }
+        std::tie(kill_frame_index, kills) = *(iter - 1);
+        break;
+    }
+    if (!kill_frame_index) {
+        return {};
+    }
+
+    json::object condition {
+        { "kills", kills },
+    };
+
+    BattleImageAnalyzer analyzer;
+    analyzer.set_target(BattleImageAnalyzer::Target::Cost);
+
+    analyzer.set_image(pre_clip_ptr->end_frame); // 开始执行这次操作的画面
+    if (!analyzer.analyze()) {
+        m_pre_action_costs = -1;
+        return condition;
+    }
+    int start_costs = analyzer.get_cost();
+    int cost_changes = start_costs - m_pre_action_costs;
+    if (m_pre_action_costs >= 0 && cost_changes > 0) {
+        condition.emplace("cost_changes", cost_changes);
+    }
+
+    analyzer.set_image(clip.start_frame); // 这次操作执行完了的画面
+    m_pre_action_costs = analyzer.analyze() ? analyzer.get_cost() : start_costs;
+
+    return condition;
 }
 
 size_t asst::CombatRecordRecognitionTask::skip_frames(size_t count)
