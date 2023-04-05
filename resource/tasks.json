@@ -3766,6 +3766,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
+            "采购",
             "中心"
         ],
         "roi": [
