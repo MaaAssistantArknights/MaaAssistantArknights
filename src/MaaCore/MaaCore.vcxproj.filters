@@ -591,6 +591,9 @@
     <ClInclude Include="Task\Experiment\SingleStepBattleProcessTask.h">
       <Filter>源文件\Task\Experiment</Filter>
     </ClInclude>
+    <ClInclude Include="Controller\PlayToolsController.h">
+      <Filter>源文件\Controller</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\AbstractImageAnalyzer.cpp">
@@ -970,6 +973,9 @@
     </ClCompile>
     <ClCompile Include="Task\Experiment\SingleStepBattleProcessTask.cpp">
       <Filter>源文件\Task\Experiment</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\PlayToolsController.cpp">
+      <Filter>源文件\Controller</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
