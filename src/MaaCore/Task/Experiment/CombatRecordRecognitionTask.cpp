@@ -43,8 +43,8 @@ bool asst::CombatRecordRecognitionTask::_run()
             video->release();
         }
     };
-    auto u8_path = utils::path_to_utf8_string(m_video_path);
-    m_video_ptr = std::shared_ptr<cv::VideoCapture>(new cv::VideoCapture(u8_path), release_video);
+    auto crt_path = utils::path_to_crt_string(m_video_path);
+    m_video_ptr = std::shared_ptr<cv::VideoCapture>(new cv::VideoCapture(crt_path), release_video);
 
     if (!m_video_ptr->isOpened()) {
         Log.error(__FUNCTION__, "video_io open failed", m_video_path);
