@@ -1,45 +1,29 @@
-## v4.13.0-beta.3
+## v4.13.0-beta.4
+
+### 新增
+
+- 作业视频识别（初版） (#4030) @MistEO
+- 初步支持 Mac ARM 运行 IOS 明日方舟的控制 (#4161) @hguandl
 
 ### 改进
 
-- 更新游戏资源，降低尤里卡会客室优先级 @MistEO
+- 优化自动肉鸽招募与战斗逻辑框架 (#4136) @LingXii
+- 自动 Dark Mode (#4174) @Cryolitia
+- 优化干员技能识别 @MistEO
+- 回滚 C# 日志行为 @MistEO
+- 出现未知错误时停止任务 @ABA2396
 
 ### 修复
 
-- fix error in background update check @dantmnf
-
-## v4.13.0-beta.2
-### 改进
-
-- 重构 Controller 架构 (#3907) @aa889788 @MistEO
-- WPF 大重构 (#4067) @LiamSho @DavidWang19 @MistEO
-- 从 curl 迁移到 libcpr，支持 win7 等系统上传企鹅数据 (#4088) @aa889788 @MistEO
-- fallback to NativeIO when AdbLite not inited (#4109) @aa889788
-- proxy default protocol / start location (#4100) @LiamSho
-- 增加 json 请求超时限制 (#4065) @DavidWang19
-- 新增“定时检测更新”功能 @ABA2396
-
-### 修复
-
-- 关闭蓝叠中国模拟器不完全 #4079 @ABA2396
-- 修复自动战斗未加载更新后json的问题 (#4064) @DavidWang19
-- add missing item in AsstMsg @horror-proton
-- add timeout for IOHandler read (#4095) @aa889788
-- fix some warnings and crash @MistEO
-- improve post processing in depot item quantity match @horror-proton
-- fix deadlock in UI thread @dantmnf
+- 尝试修复干员撤退不掉的问题 @MistEO
+- 修复采购中心识别问题 @ABA2396
+- 修复 UI 线程死锁 (#4164) @dantmnf
+- 尝试修复蓝叠HyperV关闭不完全 @ABA2396
+- 修复连接错误和闪退 (#4151) @aa889788
 
 ### 其他
 
-- 牛牛继续喝！ @MistEO
-
-### For overseas
-
-#### YostarKR
-
-- clientKR Roguelike@Dropsflag update (#4093) @Eundong
-
-#### TXWY
-
-- 繁中服更新塵影餘音 (#4104) @vonnoq
-- 修改活動導航入口 (#4112) @vonnoq
+- 更新文档 @MistEO @Rbqwow @ABA2396
+- stop build if MaaDeps is missing (#4168) @dantmnf
+- rename cpp sample @MistEO
+- Doc : Update 夕景に影ありて + また会えたね (JP) (#4142) @wallsman
