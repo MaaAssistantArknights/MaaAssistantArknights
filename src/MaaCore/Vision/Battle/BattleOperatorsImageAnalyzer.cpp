@@ -102,7 +102,7 @@ bool asst::BattleOperatorsImageAnalyzer::analyze()
     }
 
 #ifdef ASST_DEBUG
-    int draw_offset_y = static_cast<int>(m_image.rows * -0.17);
+    int draw_offset_y = static_cast<int>(m_image.rows * -0.15);
     int draw_offset_h = static_cast<int>(m_image.rows * 0.13);
     for (const auto& box : nms_results) {
         Rect draw_rect = box.rect;
