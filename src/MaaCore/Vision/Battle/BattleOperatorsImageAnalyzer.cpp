@@ -35,13 +35,14 @@ bool asst::BattleOperatorsImageAnalyzer::analyze()
     auto& session = OnnxSessions::get_instance().get("operators_det");
 
     Ort::AllocatorWithDefaultOptions allocator;
-    std::vector<const char*> input_names;
-    std::vector<const char*> output_names;
-    input_names.emplace_back(session.GetInputName(0, allocator));
-    output_names.emplace_back(session.GetOutputName(0, allocator));
+    std::string input_name = session.GetInputNameAllocated(0, allocator).get();
+    std::string output_name = session.GetOutputNameAllocated(0, allocator).get();
+    std::vector input_names = { input_name.c_str() };
+    std::vector output_names = { output_name.c_str() };
 
     Ort::RunOptions run_options;
-    auto outout_tensors = session.Run(run_options, input_names.data(), &input_tensor, 1, output_names.data(), 1);
+    auto outout_tensors = session.Run(run_options, input_names.data(), &input_tensor, input_names.size(),
+                                      output_names.data(), output_names.size());
 
     const float* raw_output = outout_tensors[0].GetTensorData<float>();
     // output_shape is { 1, 5, 8400 }

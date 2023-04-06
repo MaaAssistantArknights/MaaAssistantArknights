@@ -782,6 +782,15 @@
                     "烤肉大师"
                 ],
                 "template": "Bskill_dorm_single_tomimi.png"
+            },
+            "bskill_dorm_toone1": {
+                "desc": [
+                    "进驻宿舍时，推进之王对该宿舍中格拉斯哥帮干员恢复效果额外+0.3"
+                ],
+                "name": [
+                    "头号陪练"
+                ],
+                "template": "Bskill_dorm_toone1.png"
             }
         }
     },
@@ -941,6 +950,15 @@
                     "探险者"
                 ],
                 "template": "Bskill_man_limit&cost3.png"
+            },
+            "bskill_man_limit&cost5": {
+                "desc": [
+                    "进驻制造站时，仓库容量上限+10，心情每小时消耗-0.25"
+                ],
+                "name": [
+                    "掘进工程"
+                ],
+                "template": "Bskill_man_limit&cost5.png"
             },
             "bskill_man_originium1": {
                 "desc": [
@@ -2072,6 +2090,15 @@
                 ],
                 "template": "Bskill_hire_spd2.png"
             },
+            "bskill_hire_spd3": {
+                "desc": [
+                    "进驻人力办公室时，人脉资源的联络速度+35%"
+                ],
+                "name": [
+                    "人事管理·β"
+                ],
+                "template": "Bskill_hire_spd3.png"
+            },
             "bskill_hire_spd4": {
                 "desc": [
                     "进驻人力办公室时，人脉资源的联络速度+40%",
@@ -2566,6 +2593,15 @@
                 ],
                 "template": "Bskill_meet_spdOwned1.png"
             },
+            "bskill_meet_spd_hast1": {
+                "desc": [
+                    "进驻会客室时，线索搜集速度提升20%，此后每小时提升2%，最终达到30%"
+                ],
+                "name": [
+                    "聚影"
+                ],
+                "template": "Bskill_meet_spd_hast1.png"
+            },
             "bskill_meet_ursus1": {
                 "desc": [
                     "进驻会客室时，更容易获得乌萨斯学生自治团线索（工作时长影响概率）"
@@ -2812,6 +2848,15 @@
                     "投资·β"
                 ],
                 "template": "Bskill_tra_long2.png"
+            },
+            "bskill_tra_par1": {
+                "desc": [
+                    "进驻贸易站时，同个贸易站中每有1名格拉斯哥帮干员，当前贸易站订单获取效率+20%；当与推进之王在同一个贸易站时，订单获取效率额外+35%"
+                ],
+                "name": [
+                    "帮派指南针"
+                ],
+                "template": "Bskill_tra_par1.png"
             },
             "bskill_tra_share1": {
                 "desc": [

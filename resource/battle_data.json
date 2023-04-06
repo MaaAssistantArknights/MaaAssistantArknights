@@ -656,6 +656,17 @@
             ],
             "rarity": 4
         },
+        "char_154_morgan": {
+            "name": "摩根",
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 5
+        },
         "char_155_tiger": {
             "name": "因陀罗",
             "position": "MELEE",
@@ -2591,6 +2602,17 @@
             ],
             "rarity": 5
         },
+        "char_4087_ines": {
+            "name": "伊内丝",
+            "position": "MELEE",
+            "profession": "PIONEER",
+            "rangeId": [
+                "2-2",
+                "2-2",
+                "2-2"
+            ],
+            "rarity": 6
+        },
         "char_4091_ulika": {
             "name": "U-Official",
             "position": "RANGED",
@@ -2870,6 +2892,17 @@
             ],
             "rarity": 5
         },
+        "char_464_cement": {
+            "name": "洋灰",
+            "position": "MELEE",
+            "profession": "TANK",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 5
+        },
         "char_466_qanik": {
             "name": "雪绒",
             "position": "RANGED",
@@ -3018,6 +3051,17 @@
                 "5-1"
             ],
             "rarity": 5
+        },
+        "char_491_humus": {
+            "name": "休谟斯",
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-3",
+                "1-3",
+                "1-3"
+            ],
+            "rarity": 4
         },
         "char_492_quercu": {
             "name": "夏栎",
@@ -4726,6 +4770,17 @@
         },
         "trap_105_mhwrct": {
             "name": "滞空牵引无人机",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_111_wdfarm": {
+            "name": "街头应急储备",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
