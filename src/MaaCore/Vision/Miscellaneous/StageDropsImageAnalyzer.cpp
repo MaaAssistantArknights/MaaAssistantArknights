@@ -116,47 +116,46 @@ bool asst::StageDropsImageAnalyzer::analyze_difficulty()
 {
     LogTraceFunction;
 
-    static const std::unordered_map<std::string, StageDifficulty> DifficultyTaskName = {
-        { "StageDrops-Difficulty-Normal", StageDifficulty::Normal },
-        { "StageDrops-Difficulty-Normal2", StageDifficulty::Normal },
-        { "StageDrops-Difficulty-Tough", StageDifficulty::Tough },
+    auto task_ptr = Task.get("StageDrops-Difficulty-Tough");
+    MatchImageAnalyzer analyzer(m_image);
+    analyzer.set_task_info(task_ptr);
+
+    auto log = [&]() {
+        if (m_difficulty == StageDifficulty::Normal) {
+            Log.info(__FUNCTION__, "StageDifficulty::Normal");
+        }
+        else {
+            Log.info(__FUNCTION__, "StageDifficulty::Tough");
+        }
+#ifdef ASST_DEBUG
+        cv::putText(m_image_draw, m_difficulty == StageDifficulty::Normal ? "Normal" : "Tough", cv::Point(75, 120),
+                    cv::FONT_HERSHEY_SIMPLEX, 1.2, cv::Scalar(0, 0, 255), 2);
+#endif
     };
 
-    MatchImageAnalyzer analyzer(m_image);
-    auto matched = StageDifficulty::Normal;
-    double max_score = 0.0;
-
-#ifdef ASST_DEBUG
-    std::string matched_name = "unknown_difficulty";
-    Rect matched_rect;
-#endif
-
-    for (const auto& [task_name, difficulty] : DifficultyTaskName) {
-        auto task_ptr = Task.get(task_name);
-        analyzer.set_task_info(task_name);
-
-        if (!analyzer.analyze()) {
-            continue;
-        }
-
-        if (auto score = analyzer.get_result().score; score > max_score) {
-            max_score = score;
-            matched = difficulty;
-#ifdef ASST_DEBUG
-            matched_name = task_name;
-            matched_rect = analyzer.get_result().rect;
-#endif
-        }
+    bool analyzed = analyzer.analyze();
+    if (!analyzed) {
+        m_difficulty = StageDifficulty::Normal;
+        log();
+        return true;
     }
-    m_difficulty = matched;
-    Log.info(__FUNCTION__, "difficulty", static_cast<int>(m_difficulty));
 
-#ifdef ASST_DEBUG
-    cv::rectangle(m_image_draw, make_rect<cv::Rect>(matched_rect), cv::Scalar(0, 0, 255), 2);
-    matched_name = matched_name.substr(matched_name.find_last_of('-') + 1, matched_name.size());
-    cv::putText(m_image_draw, matched_name, cv::Point(matched_rect.x, matched_rect.y + matched_rect.height + 20),
-                cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
-#endif
+    cv::Mat image_roi = m_image(make_rect<cv::Rect>(analyzer.get_result().rect));
+    cv::Mat hsv;
+    cv::cvtColor(image_roi, hsv, cv::COLOR_BGR2HSV);
+
+    cv::Mat bin1;
+    cv::inRange(hsv, cv::Scalar(0, 150, 0), cv::Scalar(2, 255, 255), bin1);
+    cv::Mat bin2;
+    cv::inRange(hsv, cv::Scalar(177, 150, 0), cv::Scalar(179, 255, 255), bin2);
+    cv::Mat bin = bin1 + bin2;
+    int count = cv::countNonZero(bin);
+
+    int threshold = task_ptr->special_params[0];
+    Log.info(__FUNCTION__, "count", count, "threshold", threshold);
+
+    m_difficulty = count > threshold ? StageDifficulty::Tough : StageDifficulty::Normal;
+    log();
 
     return true;
 }
