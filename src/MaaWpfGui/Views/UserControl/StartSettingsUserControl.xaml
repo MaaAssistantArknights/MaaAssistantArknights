@@ -39,15 +39,22 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Block.TextAlignment="Center"
-                Content="{DynamicResource OpenEmulatorAfterLaunch}"
-                IsChecked="{Binding StartEmulator}" />
+                Content="{DynamicResource RunTaskAfterLaunch}"
+                IsChecked="{Binding RunDirectly}" />
             <CheckBox
                 Margin="10"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Block.TextAlignment="Center"
-                Content="{DynamicResource RunTaskAfterLaunch}"
-                IsChecked="{Binding RunDirectly}" />
+                Content="{DynamicResource MinimizeAfterLaunch}"
+                IsChecked="{Binding MinimizeDirectly}" />
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Block.TextAlignment="Center"
+                Content="{DynamicResource OpenEmulatorAfterLaunch}"
+                IsChecked="{Binding StartEmulator}" />
             <CheckBox
                 Margin="10"
                 HorizontalAlignment="Left"

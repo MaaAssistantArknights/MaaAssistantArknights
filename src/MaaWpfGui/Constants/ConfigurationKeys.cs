@@ -50,6 +50,7 @@ namespace MaaWpfGui.Constants
 
         public const string ClientType = "Start.ClientType";
         public const string RunDirectly = "Start.RunDirectly";
+        public const string MinimizeDirectly = "Start.MinimizeDirectly";
         public const string StartEmulator = "Start.StartEmulator";
         public const string MinimizingStartup = "Start.MinimizingStartup";
         public const string EmulatorPath = "Start.EmulatorPath";

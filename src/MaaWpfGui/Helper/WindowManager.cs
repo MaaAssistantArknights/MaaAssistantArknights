@@ -91,6 +91,19 @@ namespace MaaWpfGui.Helper
                     MoveWindowToDisplay(ScreenName, window);
                 }
 
+                bool minimizeDirectly = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeDirectly, bool.FalseString));
+                if (minimizeDirectly)
+                {
+                    window.WindowState = WindowState.Minimized;
+                }
+
+                bool minimizeToTray = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
+                if (minimizeDirectly && minimizeToTray)
+                {
+                    window.ShowInTaskbar = false;
+                    window.Visibility = Visibility.Hidden;
+                }
+
                 var app = Application.Current as App;
                 app!.DarkToStart();
             }

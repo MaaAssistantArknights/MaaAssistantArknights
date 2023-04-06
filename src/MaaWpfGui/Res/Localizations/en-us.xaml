@@ -183,6 +183,7 @@
 
     <system:String x:Key="LaunchOnSystemStartup">Auto start with PC</system:String>
     <system:String x:Key="RunTaskAfterLaunch">Auto Run task after launched</system:String>
+    <system:String x:Key="MinimizeAfterLaunch">Auto Minimize after launched</system:String>
     <system:String x:Key="ClientType">Client Type</system:String>
     <system:String x:Key="AutoRestartOption">Restart when game disconnects</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">Startup Emulator after launched</system:String>
