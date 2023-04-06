@@ -38,10 +38,9 @@ namespace MaaWpfGui.ViewModels.UI
         /// Initializes a new instance of the <see cref="RootViewModel"/> class.
         /// </summary>
         /// <param name="container">The IoC container.</param>
-        /// <param name="windowManager">The window manager.</param>
-        public RootViewModel(IContainer container, IWindowManager windowManager)
+        public RootViewModel(IContainer container)
         {
-            _windowManager = windowManager;
+            _windowManager = container.Get<Helper.WindowManager>();
 
             _asstProxy = container.Get<AsstProxy>();
             _taskQueueViewModel = container.Get<TaskQueueViewModel>();

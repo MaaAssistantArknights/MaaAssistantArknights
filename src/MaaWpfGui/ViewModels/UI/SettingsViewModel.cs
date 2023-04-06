@@ -93,11 +93,10 @@ namespace MaaWpfGui.ViewModels.UI
         /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
         /// </summary>
         /// <param name="container">The IoC container.</param>
-        /// <param name="windowManager">The window manager.</param>
-        public SettingsViewModel(IContainer container, IWindowManager windowManager)
+        public SettingsViewModel(IContainer container)
         {
             _container = container;
-            _windowManager = windowManager;
+            _windowManager = container.Get<Helper.WindowManager>();
             _httpService = container.Get<IHttpService>();
 
             DisplayName = LocalizationHelper.GetString("Settings");
