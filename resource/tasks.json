@@ -6828,31 +6828,17 @@
         ]
     },
     "StageDrops-Difficulty-Tough": {
-        "templThreshold": 0.7,
+        "templThreshold": 0.6,
         "roi": [
             0,
             0,
             220,
             220
-        ]
-    },
-    "StageDrops-Difficulty-Normal": {
-        "templThreshold": 0.7,
-        "roi": [
-            0,
-            0,
-            220,
-            220
-        ]
-    },
-    "StageDrops-Difficulty-Normal2": {
-        "templThreshold": 0.7,
-        "roi": [
-            0,
-            0,
-            220,
-            220
-        ]
+        ],
+        "specialParams": [
+            500
+        ],
+        "specialParams_Doc": "red count threshold"
     },
     "StageDrops-Stars-3": {
         "templThreshold": 0.8,
