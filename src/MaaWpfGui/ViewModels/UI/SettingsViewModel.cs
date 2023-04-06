@@ -360,6 +360,21 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _minimizeDirectly = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeDirectly, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to minimize directly.
+        /// </summary>
+        public bool MinimizeDirectly
+        {
+            get => _minimizeDirectly;
+            set
+            {
+                SetAndNotify(ref _minimizeDirectly, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.MinimizeDirectly, value.ToString());
+            }
+        }
+
         private bool _startEmulator = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.StartEmulator, bool.FalseString));
 
         /// <summary>

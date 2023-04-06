@@ -1,4 +1,4 @@
-﻿<ResourceDictionary
+<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespaces:MaaWpfGui"
@@ -181,6 +181,7 @@
 
     <system:String x:Key="LaunchOnSystemStartup">スタートアップ</system:String>
     <system:String x:Key="RunTaskAfterLaunch">アプリの起動時に自動的に実行</system:String>
+    <system:String x:Key="MinimizeAfterLaunch">アプリの起動時に自動的に最小化</system:String>
     <system:String x:Key="ClientType">クライアントバージョン</system:String>
     <system:String x:Key="AutoRestartOption">ゲームが切断されたときに自動的に再接続する</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">起動時にエミュレータ自動起動</system:String>
