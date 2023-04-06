@@ -638,6 +638,8 @@ namespace MaaWpfGui.ViewModels.UI
 
             Idle = false;
 
+            _settingsViewModel.RunStartCommand();
+
             // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次任务及基建列表
             TaskItemSelectionChanged();
             _settingsViewModel.InfrastOrderSelectionChanged();
@@ -721,7 +723,7 @@ namespace MaaWpfGui.ViewModels.UI
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
 
             string errMsg = string.Empty;
-            bool caught = await Task.Run(() => _asstProxy.AsstConnect(ref errMsg));
+            bool connected = await Task.Run(() => _asstProxy.AsstConnect(ref errMsg));
 
             // 一般是点了“停止”按钮了
             if (Stopping)
@@ -730,7 +732,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            if (!caught)
+            if (!connected)
             {
                 AddLog(errMsg, UiLogColor.Error);
                 AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToStartEmulator"));
@@ -742,8 +744,8 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
-                caught = await Task.Run(() => _asstProxy.AsstConnect(ref errMsg));
-                if (!caught)
+                connected = await Task.Run(() => _asstProxy.AsstConnect(ref errMsg));
+                if (!connected)
                 {
                     AddLog(errMsg, UiLogColor.Error);
                     Idle = true;
@@ -1436,6 +1438,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public void CheckAfterCompleted()
         {
+            _settingsViewModel.RunEndCommand();
+
             switch (ActionAfterCompleted)
             {
                 case ActionType.DoNothing:

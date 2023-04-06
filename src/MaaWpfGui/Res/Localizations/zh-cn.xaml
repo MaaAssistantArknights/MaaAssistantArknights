@@ -198,6 +198,8 @@
     <system:String x:Key="MaaTouchMode">MaaTouch（实验功能）</system:String>
     <system:String x:Key="AdbTouchMode">Adb Input（兼容模式）</system:String>
     <system:String x:Key="AdditionCommand">附加命令</system:String>
+    <system:String x:Key="StartsWithScript">开始前脚本</system:String>
+    <system:String x:Key="EndsWithScript">结束后脚本</system:String>
 
     <system:String x:Key="RoguelikeTheme">肉鸽主题</system:String>
     <system:String x:Key="RoguelikeThemePhantom">傀影</system:String>
