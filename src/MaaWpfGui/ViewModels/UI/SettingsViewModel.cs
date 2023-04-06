@@ -234,6 +234,7 @@ namespace MaaWpfGui.ViewModels.UI
                 new CombinedData { Display = LocalizationHelper.GetString("XYAZ"), Value = "XYAZ" },
                 new CombinedData { Display = LocalizationHelper.GetString("WSA"), Value = "WSA" },
                 new CombinedData { Display = LocalizationHelper.GetString("Compatible"), Value = "Compatible" },
+                new CombinedData { Display = LocalizationHelper.GetString("SecondResolution"), Value = "SecondResolution" },
                 new CombinedData { Display = LocalizationHelper.GetString("GeneralWithoutScreencapErr"), Value = "GeneralWithoutScreencapErr" },
             };
 
@@ -289,7 +290,6 @@ namespace MaaWpfGui.ViewModels.UI
                 new CombinedData { Display = LocalizationHelper.GetString("Dark"), Value = "Dark" },
                 new CombinedData { Display = LocalizationHelper.GetString("SyncWithOS"), Value = "SyncWithOS" },
             };
-
 
             InverseClearModeList = new List<CombinedData>
             {
