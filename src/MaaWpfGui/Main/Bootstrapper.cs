@@ -135,8 +135,6 @@ namespace MaaWpfGui.Main
             }
 
             base.OnStart();
-            ConfigurationHelper.Load();
-            LocalizationHelper.Load();
         }
 
         /// <inheritdoc/>
