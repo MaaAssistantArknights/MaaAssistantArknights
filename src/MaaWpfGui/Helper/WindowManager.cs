@@ -47,15 +47,13 @@ namespace MaaWpfGui.Helper
                 var screenRect = screen.Bounds;
                 if (screenRect.Height == ScreenHeight && screenRect.Width == ScreenWidth)
                 {
+                    window.WindowStartupLocation = WindowStartupLocation.Manual;
                     window.Left = (int)(screenRect.Left + Left);
                     window.Top = (int)(screenRect.Top + Top);
                     window.Width = Width;
                     window.Height = Height;
-                    return;
                 }
             }
-
-            window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
         /// <inheritdoc/>
@@ -69,9 +67,6 @@ namespace MaaWpfGui.Helper
                     return window;
                 }
 
-                // In Stylet, CreateWindow().WindowStartupLocation is CenterScreen or CenterOwner (if w.WSLoc == Manual && w.Left == NaN && w.Top == NaN && ...)
-                window.WindowStartupLocation = WindowStartupLocation.Manual;
-
                 if (window is RootView)
                 {
                     MoveWindowToDisplay(ScreenName, window);
@@ -80,8 +75,13 @@ namespace MaaWpfGui.Helper
                 {
                     // Center other windows in MaaWpfGui.RootView
                     var mainWindow = Application.Current.MainWindow;
-                    window.Left = mainWindow!.Left + ((mainWindow.Width - window.Width) / 2);
-                    window.Top = mainWindow.Top + ((mainWindow.Height - window.Height) / 2);
+                    if (mainWindow.WindowState == WindowState.Normal)
+                    {
+                        // In Stylet, CreateWindow().WindowStartupLocation is CenterScreen or CenterOwner (if w.WSLoc == Manual && w.Left == NaN && w.Top == NaN && ...)
+                        window.WindowStartupLocation = WindowStartupLocation.Manual;
+                        window.Left = mainWindow!.Left + ((mainWindow.Width - window.Width) / 2);
+                        window.Top = mainWindow.Top + ((mainWindow.Height - window.Height) / 2);
+                    }
                 }
             }
 
