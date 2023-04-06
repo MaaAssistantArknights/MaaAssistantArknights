@@ -235,6 +235,7 @@ namespace MaaWpfGui.ViewModels.UI
                 new CombinedData { Display = LocalizationHelper.GetString("WSA"), Value = "WSA" },
                 new CombinedData { Display = LocalizationHelper.GetString("Compatible"), Value = "Compatible" },
                 new CombinedData { Display = LocalizationHelper.GetString("SecondResolution"), Value = "SecondResolution" },
+                new CombinedData { Display = LocalizationHelper.GetString("NotKillAdb"), Value = "NotKillAdb" },
                 new CombinedData { Display = LocalizationHelper.GetString("GeneralWithoutScreencapErr"), Value = "GeneralWithoutScreencapErr" },
             };
 

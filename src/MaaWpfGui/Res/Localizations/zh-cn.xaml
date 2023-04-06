@@ -56,7 +56,6 @@
     <system:String x:Key="CustomizeInfrastSelectionEmpty">自定义设施配置选择为空，请检查配置或关闭自定义功能。</system:String>
 
     <system:String x:Key="General">通用模式</system:String>
-    <system:String x:Key="GeneralWithoutScreencapErr">通用模式（屏蔽异常输出）</system:String>
     <system:String x:Key="BlueStacks">蓝叠模拟器</system:String>
     <system:String x:Key="MuMuEmulator">MuMu 模拟器</system:String>
     <system:String x:Key="LDPlayer">雷电模拟器</system:String>
@@ -66,6 +65,8 @@
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">兼容模式</system:String>
     <system:String x:Key="SecondResolution">第二分辨率</system:String>
+    <system:String x:Key="NotKillAdb">Not Kill Adb</system:String>
+    <system:String x:Key="GeneralWithoutScreencapErr">通用模式（屏蔽异常输出）</system:String>
 
     <system:String x:Key="DormThreshold">基建工作心情阈值</system:String>
     <system:String x:Key="InfrastThresholdTip">若启用自定义换班，该字段仅针对 autofill 的房间有效</system:String>
