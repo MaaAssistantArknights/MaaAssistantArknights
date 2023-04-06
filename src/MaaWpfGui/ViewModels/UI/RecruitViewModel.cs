@@ -49,10 +49,6 @@ namespace MaaWpfGui.ViewModels.UI
         {
             base.OnInitialActivate();
             _asstProxy = _container.Get<AsstProxy>();
-            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                App.SetAllControlColors(Application.Current.MainWindow);
-            }));
         }
 
         private string _recruitInfo = LocalizationHelper.GetString("RecruitmentRecognitionTip");

@@ -152,11 +152,6 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 ConnectAddressHistory = JsonConvert.DeserializeObject<ObservableCollection<string>>(addressListJson);
             }
-
-            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                App.SetAllControlColors(Application.Current.MainWindow);
-            }));
         }
 
         private List<string> _listTitle = new List<string>();
