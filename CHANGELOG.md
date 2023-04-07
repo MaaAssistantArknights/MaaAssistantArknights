@@ -5,6 +5,7 @@
 - 初步支持作业视频识别 (#4030) @MistEO
 - 初步支持控制在 Mac 上运行的 IOS 版明日方舟 (#4161) @hguandl
 - 界面夜间模式 (#4020) @ABA2396 @Cryolitia
+- 界面新增开始和结束前后的自定义命令 @MistEO
 - macOS OTA 支持 @hguandl
 
 ### 改进
@@ -23,6 +24,7 @@
 - 关闭基建宿舍复查功能 @MistEO
 - 将海蒂加入阿卡胡拉作业黑名单 (#4044) @Snow-dash
 - 出现未知错误时停止任务 @ABA2396
+- 界面新增第二分辨率、不释放 adb 连接选项 @MistEO
 
 ### 修复
 
@@ -65,6 +67,7 @@
 - stop build if MaaDeps is missing (#4168) @dantmnf
 - rename cpp sample @MistEO
 - 牛牛继续喝！ @MistEO
+- 添加 B 站官号链接 @ABA2396
 
 ### For overseas
 
