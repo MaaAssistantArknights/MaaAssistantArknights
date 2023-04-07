@@ -8,6 +8,7 @@
 #include <queue>
 #include <thread>
 
+#include "AsstCustom.h"
 #include "Common/AsstMsg.h"
 #include "Common/AsstTypes.h"
 
@@ -63,7 +64,8 @@ namespace asst
     class Assistant : public AsstExtAPI
     {
     public:
-        Assistant(ApiCallback callback = nullptr, void* callback_arg = nullptr);
+        Assistant(ApiCallback callback = nullptr, void* callback_arg = nullptr,
+                  AsstCustomController* custom_controller = nullptr);
         virtual ~Assistant() override;
 
         virtual bool set_instance_option(InstanceOptionKey key, const std::string& value) override;

@@ -33,7 +33,7 @@ namespace asst
     class Controller : private InstHelper
     {
     public:
-        Controller(const AsstCallback& callback, Assistant* inst);
+        Controller(const AsstCallback& callback, Assistant* inst, AsstCustomController* custom_controller);
         Controller(const Controller&) = delete;
         Controller(Controller&&) = delete;
         ~Controller();

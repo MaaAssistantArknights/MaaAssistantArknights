@@ -2,16 +2,19 @@
 
 #include "AdbController.h"
 #include "ControllerAPI.h"
+#include "CustomController.h"
 #include "MaatouchController.h"
-#include "PlayToolsController.h"
 #include "MinitouchController.h"
+#include "PlayToolsController.h"
 
 namespace asst
 {
     class ControllerFactory
     {
     public:
-        ControllerFactory(const AsstCallback& callback, Assistant* inst) : m_callback(callback), m_inst(inst) {}
+        ControllerFactory(const AsstCallback& callback, Assistant* inst, AsstCustomController* custom)
+            : m_callback(callback), m_inst(inst), m_custom_controller(custom)
+        {}
         ~ControllerFactory() = default;
 
         std::shared_ptr<ControllerAPI> create_controller(ControllerType type, const std::string& adb_path,
@@ -33,6 +36,9 @@ namespace asst
                 case ControllerType::MacPlayTools:
                     controller = std::make_shared<PlayToolsController>(m_callback, m_inst, platform_type);
                     break;
+                case ControllerType::Custom:
+                    controller = std::make_shared<CustomController>(m_callback, m_inst, m_custom_controller);
+                    break;
                 default:
                     return nullptr;
                 }
@@ -50,5 +56,6 @@ namespace asst
     private:
         AsstCallback m_callback;
         Assistant* m_inst;
+        std::shared_ptr<AsstCustomController> m_custom_controller;
     };
 }

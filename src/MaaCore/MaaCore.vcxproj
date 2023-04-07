@@ -28,6 +28,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\AsstCaller.h" />
+    <ClInclude Include="..\..\include\AsstCallerTypes.h" />
+    <ClInclude Include="..\..\include\AsstCustom.h" />
+    <ClInclude Include="..\..\include\AsstInterface.h" />
     <ClInclude Include="..\..\include\AsstPort.h" />
     <ClInclude Include="Assistant.h" />
     <ClInclude Include="Common\AsstBattleDef.h" />
@@ -46,6 +49,7 @@
     <ClInclude Include="Controller\ControllerAPI.h" />
     <ClInclude Include="Controller\ControllerFactory.h" />
     <ClInclude Include="Controller\ControlScaleProxy.h" />
+    <ClInclude Include="Controller\CustomController.h" />
     <ClInclude Include="Controller\MaatouchController.h" />
     <ClInclude Include="Controller\MinitouchController.h" />
     <ClInclude Include="Controller\PlayToolsController.h" />
@@ -199,6 +203,7 @@
     <ClCompile Include="Controller\adb-lite\protocol.cpp" />
     <ClCompile Include="Controller\Controller.cpp" />
     <ClCompile Include="Controller\ControlScaleProxy.cpp" />
+    <ClCompile Include="Controller\CustomController.cpp" />
     <ClCompile Include="Controller\MinitouchController.cpp" />
     <ClCompile Include="Controller\PlayToolsController.cpp" />
     <ClCompile Include="Controller\AdbController.cpp" />

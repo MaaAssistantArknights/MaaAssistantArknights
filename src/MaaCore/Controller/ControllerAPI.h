@@ -15,6 +15,7 @@ namespace asst
         Minitouch,
         Maatouch,
         MacPlayTools,
+        Custom,
     };
 
     class ControllerAPI

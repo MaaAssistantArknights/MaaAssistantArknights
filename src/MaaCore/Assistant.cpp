@@ -36,12 +36,13 @@ bool ::AsstExtAPI::set_static_option(StaticOptionKey key, const std::string& val
     return false;
 }
 
-Assistant::Assistant(ApiCallback callback, void* callback_arg) : m_callback(callback), m_callback_arg(callback_arg)
+Assistant::Assistant(ApiCallback callback, void* callback_arg, AsstCustomController* custom_controller)
+    : m_callback(callback), m_callback_arg(callback_arg)
 {
     LogTraceFunction;
 
     m_status = std::make_shared<Status>();
-    m_ctrler = std::make_shared<Controller>(async_callback, this);
+    m_ctrler = std::make_shared<Controller>(async_callback, this, custom_controller);
 
     m_working_thread = std::thread(&Assistant::working_proc, this);
     m_msg_thread = std::thread(&Assistant::msg_proc, this);

@@ -33,12 +33,12 @@
 #include "Utils/StringMisc.hpp"
 #include "Utils/WorkingDir.hpp"
 
-asst::Controller::Controller(const AsstCallback& callback, Assistant* inst)
+asst::Controller::Controller(const AsstCallback& callback, Assistant* inst, AsstCustomController* custom_controller)
     : InstHelper(inst), m_callback(callback), m_rand_engine(std::random_device {}())
 {
     LogTraceFunction;
 
-    m_controller_factory = std::make_unique<ControllerFactory>(callback, inst);
+    m_controller_factory = std::make_unique<ControllerFactory>(callback, inst, custom_controller);
 }
 
 asst::Controller::~Controller()

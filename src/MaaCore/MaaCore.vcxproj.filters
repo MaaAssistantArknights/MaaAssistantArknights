@@ -120,6 +120,15 @@
     <ClInclude Include="..\..\include\AsstPort.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\AsstCallerTypes.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\AsstCustom.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\AsstInterface.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
     <ClInclude Include="Common\AsstBattleDef.h">
       <Filter>源文件\Common</Filter>
     </ClInclude>
@@ -594,6 +603,9 @@
     <ClInclude Include="Controller\PlayToolsController.h">
       <Filter>源文件\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="Controller\CustomController.h">
+      <Filter>源文件\Controller</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\AbstractImageAnalyzer.cpp">
@@ -975,6 +987,9 @@
       <Filter>源文件\Task\Experiment</Filter>
     </ClCompile>
     <ClCompile Include="Controller\PlayToolsController.cpp">
+      <Filter>源文件\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\CustomController.cpp">
       <Filter>源文件\Controller</Filter>
     </ClCompile>
   </ItemGroup>
