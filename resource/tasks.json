@@ -363,6 +363,10 @@
             [
                 "EPIS0DE",
                 "EPISODE"
+            ],
+            [
+                "FPISODE",
+                "EPISODE"
             ]
         ],
         "roi": [
