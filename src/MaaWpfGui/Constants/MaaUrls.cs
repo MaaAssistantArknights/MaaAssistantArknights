@@ -20,6 +20,8 @@ namespace MaaWpfGui.Constants
     {
         public const string MaaPlus = "https://www.maa.plus";
 
+        public const string Bilibili = "https://space.bilibili.com/3493274731940507";
+
         public const string GitHub = "https://github.com/MaaAssistantArknights/MaaAssistantArknights";
 
         public const string GitHubIssues = "https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues";

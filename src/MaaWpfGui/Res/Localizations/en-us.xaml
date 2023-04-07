@@ -65,6 +65,8 @@
     <system:String x:Key="WSA">Old version of WSA</system:String>
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">Compatible Mode</system:String>
+    <system:String x:Key="SecondResolution">2nd Resolution</system:String>
+    <system:String x:Key="NotKillAdb">Not Kill Adb</system:String>
 
     <system:String x:Key="DormThreshold">Morale Threshold</system:String>
     <system:String x:Key="InfrastThresholdTip">If custom shift is enabled, this field is only valid for autofilled rooms</system:String>
@@ -194,6 +196,8 @@
     <system:String x:Key="MaaTouchMode">MaaTouch (Experimental)</system:String>
     <system:String x:Key="AdbTouchMode">Adb Input (Compatibility)</system:String>
     <system:String x:Key="AdditionCommand">Addiction Command arguments</system:String>
+    <system:String x:Key="StartsWithScript">Starts with Script</system:String>
+    <system:String x:Key="EndsWithScript">Ends with Script</system:String>
 
     <system:String x:Key="RoguelikeTheme">I.S. Theme</system:String>
     <system:String x:Key="RoguelikeThemePhantom">Phantom</system:String>

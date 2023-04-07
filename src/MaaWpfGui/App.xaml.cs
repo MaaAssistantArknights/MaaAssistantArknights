@@ -60,8 +60,10 @@ namespace MaaWpfGui
             {
                 case SettingsViewModel.DarkModeType.Light:
                     return false;
+
                 case SettingsViewModel.DarkModeType.Dark:
                     return true;
+
                 case SettingsViewModel.DarkModeType.SyncWithOS:
                     var isLight = true;
                     try
@@ -71,12 +73,13 @@ namespace MaaWpfGui
                                 "AppsUseLightTheme", null);
                         isLight = Convert.ToBoolean(registryValue);
                     }
-                    catch (Exception exception)
+                    catch (Exception)
                     {
                         // ignore
                     }
 
                     return !isLight;
+
                 default:
                     // should never reach
                     return false;
