@@ -6,6 +6,7 @@
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:main="clr-namespace:MaaWpfGui.Main"
     xmlns:styles="clr-namespace:MaaWpfGui.Styles"
+    xmlns:resources="clr-namespace:MaaWpfGui.Helper"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:hc="https://handyorg.github.io/handycontrol">
     <Application.Resources>
@@ -28,6 +29,7 @@
                     </s:ApplicationLoader.Bootstrapper>
                 </s:ApplicationLoader>
                 <hc:Theme Name="HandyTheme"/>
+                <resources:ThemeHelper Name="MaaTheme"/>
             </ResourceDictionary.MergedDictionaries>
             <!--  A Style that affects all TextBlocks  -->
             <Style BasedOn="{StaticResource TextBlockDefault}" TargetType="controls:TextBlock" />

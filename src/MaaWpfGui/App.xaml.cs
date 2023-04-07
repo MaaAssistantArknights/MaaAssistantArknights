@@ -42,6 +42,7 @@ namespace MaaWpfGui
         {
             SharedResourceDictionary.SharedDictionaries.Clear();
             Theme.GetTheme("HandyTheme", Resources).Skin = skin;
+            Theme.GetTheme("MaaTheme", Resources).Skin = skin;
             Current.MainWindow?.OnApplyTemplate();
         }
 
@@ -49,6 +50,7 @@ namespace MaaWpfGui
         {
             SharedResourceDictionary.SharedDictionaries.Clear();
             Theme.GetTheme("HandyTheme", Resources).SyncWithSystem = syncWithSystem;
+            Theme.GetTheme("MaaTheme", Resources).SyncWithSystem = syncWithSystem;
             Current.MainWindow?.OnApplyTemplate();
         }
 
