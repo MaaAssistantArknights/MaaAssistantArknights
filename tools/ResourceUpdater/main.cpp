@@ -225,6 +225,7 @@ bool update_items_data(const std::filesystem::path& input_dir, const std::filesy
         static const std::vector<std::string> BlackListPrefix = {
             "LIMITED_TKT_GACHA_10", // 限定十连
             "p_char_",              // 角色信物（潜能）
+            "class_p_char_",        // 角色中坚信物（潜能）
             "tier",                 // 职业潜能
             "voucher_",             // 干员晋升、皮肤自选券等
             "renamingCard",         // 改名卡
