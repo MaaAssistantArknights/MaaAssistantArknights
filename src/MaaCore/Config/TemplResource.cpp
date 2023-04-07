@@ -10,7 +10,7 @@
 
 void asst::TemplResource::set_load_required(std::unordered_set<std::string> required) noexcept
 {
-    m_templs_filename = std::move(required);
+    m_load_required = std::move(required);
 }
 
 bool asst::TemplResource::load(const std::filesystem::path& path)
@@ -21,14 +21,16 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
 #ifdef ASST_DEBUG
     bool some_file_not_exists = false;
 #endif
-    for (const std::string& filename : m_templs_filename) {
-        std::filesystem::path filepath(path / asst::utils::path(filename));
+    for (const std::string& name : m_load_required) {
+        std::filesystem::path filepath(path / asst::utils::path(name));
         if (!filepath.has_extension()) {
             filepath.replace_extension(asst::utils::path(".png"));
         }
         if (std::filesystem::exists(filepath)) {
-            cv::Mat templ = asst::imread(filepath);
-            insert_or_assign_templ(filename, std::move(templ));
+            m_templ_paths.insert_or_assign(name, filepath);
+            if (auto iter = m_templs.find(name); iter != m_templs.end()) {
+                m_templs.erase(iter);
+            }
         }
         else if (m_loaded) {
             continue;
@@ -51,22 +53,12 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
     return true;
 }
 
-bool asst::TemplResource::exist_templ(const std::string& key) const noexcept
+const cv::Mat& asst::TemplResource::get_templ(const std::string& name)
 {
-    return m_templs.contains(key);
-}
-
-const cv::Mat asst::TemplResource::get_templ(const std::string& key) const noexcept
-{
-    if (auto iter = m_templs.find(key); iter != m_templs.cend()) {
-        return iter->second;
+    if (m_templs.find(name) == m_templs.cend()) {
+        Log.info(__FUNCTION__, "lazy load", name);
+        cv::Mat templ = asst::imread(m_templ_paths.at(name));
+        m_templs.emplace(name, std::move(templ));
     }
-    else {
-        return cv::Mat();
-    }
-}
-
-void asst::TemplResource::insert_or_assign_templ(const std::string& key, cv::Mat&& templ)
-{
-    m_templs.insert_or_assign(key, std::move(templ));
+    return m_templs.at(name);
 }
