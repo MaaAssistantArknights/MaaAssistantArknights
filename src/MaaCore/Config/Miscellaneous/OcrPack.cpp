@@ -34,41 +34,50 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
 
     auto& paddle_dir = path;
 
-    fastdeploy::RuntimeOption option;
-    option.UseOrtBackend();
+    fastdeploy::RuntimeOption det_option;
+    det_option.UseOrtBackend();
+    bool build_det = false;
+
+    fastdeploy::RuntimeOption rec_option;
+    rec_option.UseOrtBackend();
+    std::string rec_label;
+    bool build_rec = false;
 
     do {
         using namespace asst::utils::path_literals;
         const auto det_dir = paddle_dir / "det"_p;
-        const auto dst_model_file = det_dir / "inference.onnx"_p;
-        // const auto dst_params_file = det_dir / "inference.pdiparams"_p;
+        const auto det_model_file = det_dir / "inference.onnx"_p;
         const auto rec_dir = paddle_dir / "rec"_p;
         const auto rec_model_file = rec_dir / "inference.onnx"_p;
-        // const auto rec_params_file = rec_dir / "inference.pdiparams"_p;
         const auto rec_label_file = rec_dir / "keys.txt"_p;
 
-        if (std::filesystem::exists(dst_model_file)) {
-            auto det_model = asst::utils::read_file<std::string>(dst_model_file);
-            option.SetModelBuffer(det_model.data(), det_model.size(), nullptr, 0, fastdeploy::ModelFormat::ONNX);
-            m_det = std::make_unique<fastdeploy::vision::ocr::DBDetector>("dummy.onnx", std::string(), option,
-                                                                          fastdeploy::ModelFormat::ONNX);
+        // fastdeploy 同时加载两个实例有可能会炸，不知道为啥，加个锁
+        static std::mutex load_mutex;
+
+        if (std::filesystem::exists(det_model_file)) {
+            auto det_model = asst::utils::read_file<std::string>(det_model_file);
+            det_option.SetModelBuffer(det_model.data(), det_model.size(), nullptr, 0, fastdeploy::ModelFormat::ONNX);
+            build_det = true;
         }
-        else if (!m_det) {
-            break;
-        }
-        // else 沿用原来的模型
 
         if (std::filesystem::exists(rec_model_file) && std::filesystem::exists(rec_label_file)) {
             auto rec_model = asst::utils::read_file<std::string>(rec_model_file);
-            auto label = asst::utils::read_file<std::string>(rec_label_file);
-            option.SetModelBuffer(rec_model.data(), rec_model.size(), nullptr, 0, fastdeploy::ModelFormat::ONNX);
-            m_rec = std::make_unique<fastdeploy::vision::ocr::Recognizer>("dummy.onnx", std::string(), label, option,
+            rec_label = asst::utils::read_file<std::string>(rec_label_file);
+            rec_option.SetModelBuffer(rec_model.data(), rec_model.size(), nullptr, 0, fastdeploy::ModelFormat::ONNX);
+            build_rec = true;
+        }
+
+        if (build_det) {
+            std::unique_lock<std::mutex> lock(load_mutex);
+            m_det = std::make_unique<fastdeploy::vision::ocr::DBDetector>("dummy.onnx", std::string(), det_option,
                                                                           fastdeploy::ModelFormat::ONNX);
         }
-        else if (!m_rec) {
-            break;
+
+        if (build_rec) {
+            std::unique_lock<std::mutex> lock(load_mutex);
+            m_rec = std::make_unique<fastdeploy::vision::ocr::Recognizer>("dummy.onnx", std::string(), rec_label,
+                                                                          rec_option, fastdeploy::ModelFormat::ONNX);
         }
-        // else 沿用原来的模型
 
         if (m_det && m_rec) {
             m_ocr = std::make_unique<fastdeploy::pipeline::PPOCRv3>(m_det.get(), m_rec.get());
