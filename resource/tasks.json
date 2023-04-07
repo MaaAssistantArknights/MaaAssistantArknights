@@ -277,6 +277,11 @@
             "EPISODE11"
         ]
     },
+    "12@EnterEpisode": {
+        "text": [
+            "EPISODE12"
+        ]
+    },
     "LevelOfDifficulty": {
         "Doc": "base_task",
         "algorithm": "OcrDetect",
@@ -390,6 +395,11 @@
             "#self"
         ],
         "postDelay": 500
+    },
+    "12@SwipeLeftToEpisode": {
+        "text": [
+            "EPISODE13"
+        ]
     },
     "11@SwipeLeftToEpisode": {
         "text": [
@@ -621,6 +631,12 @@
     },
     "Episode11": {
         "baseTask": "11@Episode",
+        "sub": [
+            "ToChapter3@StageTheme"
+        ]
+    },
+    "Episode12": {
+        "baseTask": "12@Episode",
         "sub": [
             "ToChapter3@StageTheme"
         ]
