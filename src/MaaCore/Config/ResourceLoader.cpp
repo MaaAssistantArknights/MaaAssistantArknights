@@ -57,33 +57,33 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LogTraceFunction;
     using namespace asst::utils::path_literals;
 
-    auto config_future = std::async(std::launch::async, [&]() -> bool {
-        /* load resource with json files*/
-        LoadResourceAndCheckRet(GeneralConfig, "config.json"_p);
-        LoadResourceAndCheckRet(RecruitConfig, "recruitment.json"_p);
-        LoadResourceAndCheckRet(StageDropsConfig, "stages.json"_p);
-        LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "copilot.json"_p);
-        LoadResourceAndCheckRet(RoguelikeRecruitConfig, "roguelike"_p / "recruitment.json"_p);
-        LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike"_p / "shopping.json"_p);
-        LoadResourceAndCheckRet(BattleDataConfig, "battle_data.json"_p);
-        LoadResourceAndCheckRet(OcrConfig, "ocr_config.json"_p);
-
-        /* load resource with json and template files*/
-        LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
-        LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
-        LoadResourceWithTemplAndCheckRet(ItemConfig, "item_index.json"_p, "template"_p / "items"_p);
-        /* load cache */
-        LoadCacheWithoutRet(AvatarCacheManager, "avatars"_p);
-
+    auto word_ocr_future = std::async(std::launch::async, [&]() -> bool {
+        LoadResourceAndCheckRet(WordOcr, "PaddleOCR"_p);
         return true;
     });
 
-    auto ocr_future = std::async(std::launch::async, [&]() -> bool {
-        // fastdeploy 不知道有啥问题，没法异步加载两个模型，改成同步算了
-        LoadResourceAndCheckRet(WordOcr, "PaddleOCR"_p);
+    auto char_ocr_future = std::async(std::launch::async, [&]() -> bool {
         LoadResourceAndCheckRet(CharOcr, "PaddleCharOCR"_p);
         return true;
     });
+
+    /* load resource with json files*/
+    LoadResourceAndCheckRet(GeneralConfig, "config.json"_p);
+    LoadResourceAndCheckRet(RecruitConfig, "recruitment.json"_p);
+    LoadResourceAndCheckRet(StageDropsConfig, "stages.json"_p);
+    LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "copilot.json"_p);
+    LoadResourceAndCheckRet(RoguelikeRecruitConfig, "roguelike"_p / "recruitment.json"_p);
+    LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike"_p / "shopping.json"_p);
+    LoadResourceAndCheckRet(BattleDataConfig, "battle_data.json"_p);
+    LoadResourceAndCheckRet(OcrConfig, "ocr_config.json"_p);
+
+    /* load resource with json and template files*/
+    LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
+    LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
+    LoadResourceWithTemplAndCheckRet(ItemConfig, "item_index.json"_p, "template"_p / "items"_p);
+
+    /* load cache */
+    LoadCacheWithoutRet(AvatarCacheManager, "avatars"_p);
 
     /*** lazy loading ***/
     // 战斗中技能识别，二分类模型
@@ -92,6 +92,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "deploy_direction_cls.onnx"_p);
     // 战斗中干员（血条）检测，yolov8 检测模型
     LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "operators_det.onnx"_p);
+
     /* tiles info */
     LoadResourceAndCheckRet(TilePack, "Arknights-Tile-Pos"_p);
 
@@ -100,8 +101,8 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
 #undef LoadCacheWithoutRet
 
     m_loaded = true;
-    m_loaded &= config_future.get();
-    m_loaded &= ocr_future.get();
+    m_loaded &= word_ocr_future.get();
+    m_loaded &= char_ocr_future.get();
 
     return m_loaded;
 }
