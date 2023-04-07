@@ -189,12 +189,12 @@ def main(tag_name=None, latest=None):
 
     # 输出一张好看的 git log 图到控制台
     git_pretty_command = rf'git log {latest}..HEAD --pretty=format:"%C(yellow)%d%Creset %s %C(bold blue)@%an%Creset (%Cgreen%h%Creset)" --graph'
-    os.system(git_pretty_command)
+    # os.system(git_pretty_command)
     print()
 
     # 获取详细的 git log 信息
     # git_command = rf'git log {latest}..HEAD --pretty=format:"\"%H\":{{\"hash\":\"%h\",\"author\":\"%aN\",\"committer\":\"%cN\",\"message\":\"%s\",\"parent\":\"%P\"}},"'
-    git_command = rf'git log {latest}..HEAD --pretty=format:"%H%n%aN%n%cN%n%s%n%P%n'
+    git_command = rf'git log {latest}..HEAD --pretty=format:"%H%n%aN%n%cN%n%s%n%P%n"'
 
     with os.popen(git_command) as fp: bf = fp._stream.buffer.read()
     try: raw_gitlogs = bf.decode().strip()
