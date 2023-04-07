@@ -212,7 +212,7 @@ bool asst::CombatRecordRecognitionTask::analyze_stage()
             stage_analyzer.sort_result_by_score();
             const std::string& text = stage_analyzer.get_result().front().text;
 
-            if (text.empty() || !Tile.contains(text)) {
+            if (text.empty() || !Tile.find(text)) {
                 continue;
             }
 
@@ -223,7 +223,7 @@ bool asst::CombatRecordRecognitionTask::analyze_stage()
     }
 
     Log.info("Stage", m_stage_name);
-    if (m_stage_name.empty() || !Tile.contains(m_stage_name)) {
+    if (m_stage_name.empty() || !Tile.find(m_stage_name)) {
         callback(AsstMsg::SubTaskError, basic_info_with_what("OcrStage"));
         return false;
     }

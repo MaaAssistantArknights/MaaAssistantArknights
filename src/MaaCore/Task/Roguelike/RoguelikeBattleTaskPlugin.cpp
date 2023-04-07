@@ -142,7 +142,7 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
 
         for (const std::string& code : RoguelikeStageCode) {
             stage_key.code = code;
-            if (!Tile.contains(stage_key)) {
+            if (!Tile.find(stage_key)) {
                 continue;
             }
             calced = true;
