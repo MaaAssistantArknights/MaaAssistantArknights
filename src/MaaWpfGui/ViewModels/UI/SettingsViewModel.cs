@@ -93,11 +93,10 @@ namespace MaaWpfGui.ViewModels.UI
         /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
         /// </summary>
         /// <param name="container">The IoC container.</param>
-        /// <param name="windowManager">The window manager.</param>
-        public SettingsViewModel(IContainer container, IWindowManager windowManager)
+        public SettingsViewModel(IContainer container)
         {
             _container = container;
-            _windowManager = windowManager;
+            _windowManager = container.Get<Helper.WindowManager>();
             _httpService = container.Get<IHttpService>();
 
             DisplayName = LocalizationHelper.GetString("Settings");
@@ -357,6 +356,21 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _runDirectly, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RunDirectly, value.ToString());
+            }
+        }
+
+        private bool _minimizeDirectly = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeDirectly, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to minimize directly.
+        /// </summary>
+        public bool MinimizeDirectly
+        {
+            get => _minimizeDirectly;
+            set
+            {
+                SetAndNotify(ref _minimizeDirectly, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.MinimizeDirectly, value.ToString());
             }
         }
 
