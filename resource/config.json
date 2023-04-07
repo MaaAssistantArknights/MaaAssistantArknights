@@ -123,6 +123,16 @@
             "uuid": "[Adb] -s [AdbSerial] shell echo 111111"
         },
         {
+            "configName": "SecondResolution",
+            "baseConfig": "General",
+            "display": "[Adb] -s [AdbSerial] shell dumpsys window displays | grep -o -E cur=+[^\\ ]+ | tail -n 1 | grep -o -E [0-9]+"
+        },
+        {
+            "configName": "NotKillAdb",
+            "baseConfig": "General",
+            "release": "[Adb] -s [AdbSerial] shell echo NotKillAdb"
+        },
+        {
             "configName": "CompatMac",
             "baseConfig": "Compatible",
             "ncAddress": "[Adb] -s [AdbSerial] shell \"cat /proc/net/arp | grep : | sort\"",

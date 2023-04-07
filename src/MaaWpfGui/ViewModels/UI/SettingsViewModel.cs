@@ -234,6 +234,8 @@ namespace MaaWpfGui.ViewModels.UI
                 new CombinedData { Display = LocalizationHelper.GetString("XYAZ"), Value = "XYAZ" },
                 new CombinedData { Display = LocalizationHelper.GetString("WSA"), Value = "WSA" },
                 new CombinedData { Display = LocalizationHelper.GetString("Compatible"), Value = "Compatible" },
+                new CombinedData { Display = LocalizationHelper.GetString("SecondResolution"), Value = "SecondResolution" },
+                new CombinedData { Display = LocalizationHelper.GetString("NotKillAdb"), Value = "NotKillAdb" },
                 new CombinedData { Display = LocalizationHelper.GetString("GeneralWithoutScreencapErr"), Value = "GeneralWithoutScreencapErr" },
             };
 
@@ -289,7 +291,6 @@ namespace MaaWpfGui.ViewModels.UI
                 new CombinedData { Display = LocalizationHelper.GetString("Dark"), Value = "Dark" },
                 new CombinedData { Display = LocalizationHelper.GetString("SyncWithOS"), Value = "SyncWithOS" },
             };
-
 
             InverseClearModeList = new List<CombinedData>
             {
@@ -435,6 +436,86 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _emulatorWaitSeconds, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.EmulatorWaitSeconds, value);
+            }
+        }
+
+        private string _startsWithScript = ConfigurationHelper.GetValue(ConfigurationKeys.StartsWithScript, string.Empty);
+
+        public string StartsWithScript
+        {
+            get => _startsWithScript;
+            set
+            {
+                SetAndNotify(ref _startsWithScript, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.StartsWithScript, value);
+            }
+        }
+
+        private string _endsWithScript = ConfigurationHelper.GetValue(ConfigurationKeys.EndsWithScript, string.Empty);
+
+        public string EndsWithScript
+        {
+            get => _endsWithScript;
+            set
+            {
+                SetAndNotify(ref _endsWithScript, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.EndsWithScript, value);
+            }
+        }
+
+        public bool RunStartCommand()
+        {
+            if (string.IsNullOrWhiteSpace(StartsWithScript))
+            {
+                return false;
+            }
+
+            try
+            {
+                var process = new Process
+                {
+                    StartInfo = new ProcessStartInfo
+                    {
+                        FileName = StartsWithScript,
+                        // FileName = "cmd.exe",
+                        // Arguments = $"/c {StartsWithScript}",
+                    },
+                };
+                process.Start();
+                process.WaitForExit();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool RunEndCommand()
+        {
+            if (string.IsNullOrWhiteSpace(EndsWithScript))
+            {
+                return false;
+            }
+
+            try
+            {
+                var process = new Process
+                {
+                    StartInfo = new ProcessStartInfo
+                    {
+                        FileName = EndsWithScript,
+                        // FileName = "cmd.exe",
+                        // Arguments = $"/c {EndsWithScript}",
+                    },
+                };
+                process.Start();
+                process.WaitForExit();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 

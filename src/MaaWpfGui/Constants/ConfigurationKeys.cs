@@ -56,6 +56,8 @@ namespace MaaWpfGui.Constants
         public const string EmulatorAddCommand = "Start.EmulatorAddCommand";
         public const string EmulatorWaitSeconds = "Start.EmulatorWaitSeconds";
         public const string AutoRestartOnDrop = "Start.AutoRestartOnDrop";
+        public const string StartsWithScript = "Start.StartsWithScript";
+        public const string EndsWithScript = "Start.EndsWithScript";
 
         public const string ChooseLevel3 = "Recruit.ChooseLevel3";
         public const string ChooseLevel4 = "Recruit.ChooseLevel4";
@@ -140,6 +142,7 @@ namespace MaaWpfGui.Constants
 
         // The following should not be modified manually
         public const string VersionName = "VersionUpdate.name";
+
         public const string VersionUpdateBody = "VersionUpdate.body";
         public const string VersionUpdateIsFirstBoot = "VersionUpdate.isfirstboot";
         public const string VersionUpdatePackage = "VersionUpdate.package";
