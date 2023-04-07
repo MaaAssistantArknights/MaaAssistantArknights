@@ -67,27 +67,14 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike"_p / "shopping.json"_p);
         LoadResourceAndCheckRet(BattleDataConfig, "battle_data.json"_p);
         LoadResourceAndCheckRet(OcrConfig, "ocr_config.json"_p);
-        // 战斗中技能识别，二分类模型
-        LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "skill_ready_cls.onnx"_p);
-        // 战斗中部署方向识别，四分类模型
-        LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "deploy_direction_cls.onnx"_p);
-        // 战斗中干员（血条）检测，yolov8 检测模型
-        LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "operators_det.onnx"_p);
 
         /* load resource with json and template files*/
         LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
         LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
         LoadResourceWithTemplAndCheckRet(ItemConfig, "item_index.json"_p, "template"_p / "items"_p);
-
         /* load cache */
         LoadCacheWithoutRet(AvatarCacheManager, "avatars"_p);
 
-        return true;
-    });
-
-    /* load 3rd parties resource */
-    auto tile_future = std::async(std::launch::async, [&]() -> bool {
-        LoadResourceAndCheckRet(TilePack, "Arknights-Tile-Pos"_p);
         return true;
     });
 
@@ -98,13 +85,22 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         return true;
     });
 
+    /*** lazy loading ***/
+    // 战斗中技能识别，二分类模型
+    LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "skill_ready_cls.onnx"_p);
+    // 战斗中部署方向识别，四分类模型
+    LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "deploy_direction_cls.onnx"_p);
+    // 战斗中干员（血条）检测，yolov8 检测模型
+    LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "operators_det.onnx"_p);
+    /* tiles info */
+    LoadResourceAndCheckRet(TilePack, "Arknights-Tile-Pos"_p);
+
 #undef LoadTemplByConfigAndCheckRet
 #undef LoadResourceAndCheckRet
 #undef LoadCacheWithoutRet
 
     m_loaded = true;
     m_loaded &= config_future.get();
-    m_loaded &= tile_future.get();
     m_loaded &= ocr_future.get();
 
     return m_loaded;

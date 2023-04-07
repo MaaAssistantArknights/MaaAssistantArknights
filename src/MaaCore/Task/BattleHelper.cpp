@@ -25,7 +25,7 @@ bool asst::BattleHelper::set_stage_name(const std::string& name)
 {
     LogTraceFunction;
 
-    if (!Tile.contains(name)) {
+    if (!Tile.find(name)) {
         return false;
     }
     m_stage_name = name;
@@ -53,7 +53,7 @@ bool asst::BattleHelper::calc_tiles_info(const std::string& stage_name, double s
 {
     LogTraceFunction;
 
-    if (!Tile.contains(stage_name)) {
+    if (!Tile.find(stage_name)) {
         return false;
     }
 

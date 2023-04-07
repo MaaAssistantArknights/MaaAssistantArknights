@@ -563,13 +563,29 @@ bool update_levels_json(const std::filesystem::path& input_file, const std::file
         return false;
     }
     auto& root = json_opt.value();
+
+    auto overview_path = output_dir / "overview.json";
+    json::value overview = json::open(overview_path).value_or(json::value());
+
     for (auto& stage_info : root.as_array()) {
-        std::string filename = stage_info["stageId"].as_string() + "-" + stage_info["levelId"].as_string() + ".json";
+        std::string stem = stage_info["stageId"].as_string() + "-" + stage_info["levelId"].as_string();
+        std::string filename = stem + ".json";
         asst::utils::string_replace_all_in_place(filename, "/", "-");
         std::ofstream ofs(output_dir / filename, std::ios::out);
         ofs << stage_info.format(true);
         ofs.close();
+
+        auto& stage_obj = stage_info.as_object();
+        stage_obj.erase("tiles");
+        stage_obj.erase("view");
+        stage_obj["filename"] = filename;
+        overview[std::move(stem)] = std::move(stage_obj);
     }
+
+    std::ofstream ofs(overview_path, std::ios::out);
+    ofs << overview.format(true);
+    ofs.close();
+
     return true;
 }
 
