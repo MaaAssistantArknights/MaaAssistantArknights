@@ -571,9 +571,12 @@ bool update_levels_json(const std::filesystem::path& input_file, const std::file
         std::string stem = stage_info["stageId"].as_string() + "-" + stage_info["levelId"].as_string();
         std::string filename = stem + ".json";
         asst::utils::string_replace_all_in_place(filename, "/", "-");
-        std::ofstream ofs(output_dir / filename, std::ios::out);
-        ofs << stage_info.format(true);
-        ofs.close();
+        auto filepath = output_dir / filename;
+        if (!std::filesystem::exists(filepath)) {
+            std::ofstream ofs(filepath, std::ios::out);
+            ofs << stage_info.format(true);
+            ofs.close();
+        }
 
         auto& stage_obj = stage_info.as_object();
         stage_obj.erase("tiles");
