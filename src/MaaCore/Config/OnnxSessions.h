@@ -14,7 +14,7 @@ namespace asst
         virtual ~OnnxSessions() override = default;
         virtual bool load(const std::filesystem::path& path) override;
 
-        Ort::Session& get(const std::string& key);
+        Ort::Session& get(const std::string& name);
 
     private:
         Ort::Env m_env;
