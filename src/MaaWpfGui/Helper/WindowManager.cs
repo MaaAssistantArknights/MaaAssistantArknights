@@ -39,54 +39,78 @@ namespace MaaWpfGui.Helper
         private readonly double Width = double.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.WindowWidth, DefaultDouble.ToString(CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);
         private readonly double Height = double.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.WindowHeight, DefaultDouble.ToString(CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);
 
-        public void MoveWindowToDisplay(string displayName, Window window)
+        /// <summary>
+        /// Move MaaWpfGui.RootView
+        /// </summary>
+        private void MoveWindowToDisplay(string displayName, Window window)
         {
+            if (Math.Abs(Left - DefaultDouble) < 0.01f || Math.Abs(Top - DefaultDouble) < 0.01f)
+            {
+                return;
+            }
+
             var screen = Screen.AllScreens.FirstOrDefault(x => x.DeviceName == displayName);
             if (screen != null)
             {
                 var screenRect = screen.Bounds;
                 if (screenRect.Height == ScreenHeight && screenRect.Width == ScreenWidth)
                 {
+                    window.WindowStartupLocation = WindowStartupLocation.Manual;
                     window.Left = (int)(screenRect.Left + Left);
                     window.Top = (int)(screenRect.Top + Top);
                     window.Width = Width;
                     window.Height = Height;
-                    return;
                 }
             }
+        }
 
-            window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+        /// <summary>
+        /// Center other windows in MaaWpfGui.RootView
+        /// </summary>
+        private void MoveWindowToDisplay(Window window)
+        {
+            var mainWindow = Application.Current.MainWindow;
+            if (mainWindow.WindowState == WindowState.Normal)
+            {
+                // In Stylet, CreateWindow().WindowStartupLocation is CenterScreen or CenterOwner (if w.WSLoc == Manual && w.Left == NaN && w.Top == NaN && ...)
+                window.WindowStartupLocation = WindowStartupLocation.Manual;
+                window.Left = mainWindow!.Left + ((mainWindow.Width - window.Width) / 2);
+                window.Top = mainWindow.Top + ((mainWindow.Height - window.Height) / 2);
+            }
         }
 
         /// <inheritdoc/>
         protected override Window CreateWindow(object viewModel, bool isDialog, IViewAware ownerViewModel)
         {
             Window window = base.CreateWindow(viewModel, isDialog, ownerViewModel);
-            if (bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.LoadPositionAndSize, bool.TrueString)))
+            if (window is RootView)
             {
-                if (isDialog || ownerViewModel != null || Math.Abs(Left - DefaultDouble) < 0.01f || Math.Abs(Top - DefaultDouble) < 0.01f)
-                {
-                    return window;
-                }
-
-                // In Stylet, CreateWindow().WindowStartupLocation is CenterScreen or CenterOwner (if w.WSLoc == Manual && w.Left == NaN && w.Top == NaN && ...)
-                window.WindowStartupLocation = WindowStartupLocation.Manual;
-
-                if (window is RootView)
+                bool needMoveRootView = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.LoadPositionAndSize, bool.TrueString));
+                if (needMoveRootView)
                 {
                     MoveWindowToDisplay(ScreenName, window);
                 }
-                else
-                {
-                    // Center other windows in MaaWpfGui.RootView
-                    var mainWindow = Application.Current.MainWindow;
-                    window.Left = mainWindow!.Left + ((mainWindow.Width - window.Width) / 2);
-                    window.Top = mainWindow.Top + ((mainWindow.Height - window.Height) / 2);
-                }
-            }
 
-            var app = Application.Current as App;
-            app!.DarkToStart();
+                bool minimizeDirectly = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeDirectly, bool.FalseString));
+                if (minimizeDirectly)
+                {
+                    window.WindowState = WindowState.Minimized;
+                }
+
+                bool minimizeToTray = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
+                if (minimizeDirectly && minimizeToTray)
+                {
+                    window.ShowInTaskbar = false;
+                    window.Visibility = Visibility.Hidden;
+                }
+
+                var app = Application.Current as App;
+                app!.DarkToStart();
+            }
+            else if (!isDialog && ownerViewModel == null)
+            {
+                MoveWindowToDisplay(window);
+            }
 
             return window;
         }
