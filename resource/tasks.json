@@ -181,26 +181,37 @@
             "ClickChapter3"
         ]
     },
-    "EnterEpisode": {
-        "Doc": "base_task",
+    "EpisodeOcrReplace": {
         "algorithm": "OcrDetect",
-        "action": "ClickRect",
-        "isAscii": true,
-        "text": [],
         "ocrReplace": [
             [
                 " ",
                 ""
             ],
             [
-                "F",
-                "E"
+                "[EF]PIS[O0]DE",
+                "EPISODE"
             ],
             [
-                "O",
-                "0"
+                "O(\\d\\{0,2\\})",
+                "0${1}"
+            ],
+            [
+                "(\\d\\{0,2\\})O",
+                "${1}0"
+            ],
+            [
+                "OO",
+                "00"
             ]
-        ],
+        ]
+    },
+    "EnterEpisode": {
+        "Doc": "base_task",
+        "baseTask": "EpisodeOcrReplace",
+        "action": "ClickRect",
+        "isAscii": true,
+        "text": [],
         "roi": [
             16,
             219,
@@ -220,67 +231,67 @@
     },
     "00@EnterEpisode": {
         "text": [
-            "EPIS0DE00"
+            "EPISODE00"
         ]
     },
     "01@EnterEpisode": {
         "text": [
-            "EPIS0DE01"
+            "EPISODE01"
         ]
     },
     "02@EnterEpisode": {
         "text": [
-            "EPIS0DE02"
+            "EPISODE02"
         ]
     },
     "03@EnterEpisode": {
         "text": [
-            "EPIS0DE03"
+            "EPISODE03"
         ]
     },
     "04@EnterEpisode": {
         "text": [
-            "EPIS0DE04"
+            "EPISODE04"
         ]
     },
     "05@EnterEpisode": {
         "text": [
-            "EPIS0DE05"
+            "EPISODE05"
         ]
     },
     "06@EnterEpisode": {
         "text": [
-            "EPIS0DE06"
+            "EPISODE06"
         ]
     },
     "07@EnterEpisode": {
         "text": [
-            "EPIS0DE07"
+            "EPISODE07"
         ]
     },
     "08@EnterEpisode": {
         "text": [
-            "EPIS0DE08"
+            "EPISODE08"
         ]
     },
     "09@EnterEpisode": {
         "text": [
-            "EPIS0DE09"
+            "EPISODE09"
         ]
     },
     "10@EnterEpisode": {
         "text": [
-            "EPIS0DE10"
+            "EPISODE10"
         ]
     },
     "11@EnterEpisode": {
         "text": [
-            "EPIS0DE11"
+            "EPISODE11"
         ]
     },
     "12@EnterEpisode": {
         "text": [
-            "EPIS0DE12"
+            "EPISODE12"
         ]
     },
     "LevelOfDifficulty": {
@@ -352,24 +363,10 @@
     },
     "SwipeLeftToEpisode": {
         "Doc": "base_task",
-        "algorithm": "OcrDetect",
+        "baseTask": "EpisodeOcrReplace",
         "action": "Swipe",
         "isAscii": true,
         "text": [],
-        "ocrReplace": [
-            [
-                " ",
-                ""
-            ],
-            [
-                "F",
-                "E"
-            ],
-            [
-                "O",
-                "0"
-            ]
-        ],
         "roi": [
             16,
             219,
