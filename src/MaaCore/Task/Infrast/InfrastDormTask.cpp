@@ -2,8 +2,8 @@
 
 #include <regex>
 
-#include "Config/TaskData.h"
 #include "Controller/Controller.h"
+#include "Config/TaskData.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
@@ -61,12 +61,12 @@ bool asst::InfrastDormTask::_run()
                 return false;
             }
         }
-        // else {
-        //     if (!select_opers_review(origin_room_config)) {
-        //         current_room_config() = std::move(origin_room_config);
-        //         return false;
-        //     }
-        // }
+        else {
+            if (!select_opers_review(origin_room_config)) {
+                current_room_config() = std::move(origin_room_config);
+                return false;
+            }
+        }
 
         click_confirm_button();
         click_return_button();
@@ -251,20 +251,19 @@ bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& 
     }
 
     ProcessTask(*this, { "InfrastOperListTabMoodClick", "InfrastOperListTabWorkStatusUnClicked" }).run();
-    // if (swipe_times) swipe_to_the_left_of_operlist(swipe_times + 1);
-    // swipe_times = 0;
-    // bool review = select_opers_review(origin_room_config, num_of_selected);
+    if (swipe_times) swipe_to_the_left_of_operlist(swipe_times + 1);
+    swipe_times = 0;
+    bool review = select_opers_review(origin_room_config, num_of_selected);
     if (m_next_step == NextStep::RestDone || m_next_step == NextStep::Trust) {
         click_sort_by_trust_button();
     }
     else {
         ProcessTask(*this, { "InfrastOperListTabMoodClick" }).run();
     }
-    // if (!review) {
-    //     current_room_config() = origin_room_config;
-    //     return false;
-    // }
-    std::ignore = origin_room_config;
+    if (!review) {
+        current_room_config() = origin_room_config;
+        return false;
+    }
 
     return true;
 }
