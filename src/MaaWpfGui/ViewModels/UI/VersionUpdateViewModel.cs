@@ -515,17 +515,12 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void AskToRestart()
         {
-            MessageBoxHelper.Unregister();
-            MessageBoxHelper.Yes = LocalizationHelper.GetString("Ok");
-            MessageBoxHelper.No = LocalizationHelper.GetString("ManualRestart");
-            MessageBoxHelper.Register();
-            var result = MessageBox.Show(
+            var result = MessageBoxHelper.Show(
                 LocalizationHelper.GetString("NewVersionDownloadCompletedDesc"),
                 LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"),
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
-            MessageBoxHelper.Unregister();
-            if (result == MessageBoxResult.Yes)
+                MessageBoxButton.OKCancel,
+                MessageBoxImage.Question, useNativeMethod: true);
+            if (result == MessageBoxResult.OK)
             {
                 Application.Current.Shutdown();
                 System.Windows.Forms.Application.Restart();
