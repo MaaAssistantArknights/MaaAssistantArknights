@@ -124,7 +124,9 @@ namespace MaaWpfGui.ViewModels.UI
                 MessageBoxHelper.Show(
                     LocalizationHelper.GetString("Hangover"),
                     LocalizationHelper.GetString("Burping"),
-                    MessageBoxButton.OK, MessageBoxImage.Hand);
+                    MessageBoxButton.OK,
+                    iconKey: "HangoverGeometry",
+                    iconBrushKey: "PallasBrush");
                 Application.Current.Shutdown();
                 System.Windows.Forms.Application.Restart();
             }
@@ -2733,7 +2735,9 @@ namespace MaaWpfGui.ViewModels.UI
             var result = MessageBoxHelper.Show(
                 LocalizationHelper.GetString("DrunkAndStaggering"),
                 LocalizationHelper.GetString("Burping"),
-                MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                MessageBoxButton.OK,
+                iconKey: "DrunkAndStaggeringGeometry",
+                iconBrushKey: "PallasBrush");
             if (result == MessageBoxResult.OK)
             {
                 Application.Current.Shutdown();

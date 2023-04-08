@@ -2,6 +2,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <SolidColorBrush x:Key="PallasBrush" Color="#CDD1FF" />
+
     <!-- See https://github.com/ghost1372/HandyControls/blob/v3.4.5/src/Shared/HandyControl_Shared/Themes/Basic/Colors/Dark.xaml -->
     <!-- Latest Doc https://ghost1372.github.io/handycontrol/basic_xaml/brushes/ -->
     <!-- 文字颜色 -->
