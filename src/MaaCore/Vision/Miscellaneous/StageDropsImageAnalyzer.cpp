@@ -11,6 +11,7 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/MatchImageAnalyzer.h"
+#include "Vision/OcrWithFlagTemplImageAnalyzer.h"
 #include "Vision/OcrWithPreprocessImageAnalyzer.h"
 
 #include <numbers>
@@ -22,7 +23,7 @@ bool asst::StageDropsImageAnalyzer::analyze()
     analyze_stage_code();
     analyze_difficulty();
     analyze_stars();
-    bool ret = analyze_drops();
+    bool ret = analyze_drops() && analyze_drops_for_CF();
 
 #ifndef ASST_DEBUG
     if (!ret)
@@ -115,47 +116,46 @@ bool asst::StageDropsImageAnalyzer::analyze_difficulty()
 {
     LogTraceFunction;
 
-    static const std::unordered_map<std::string, StageDifficulty> DifficultyTaskName = {
-        { "StageDrops-Difficulty-Normal", StageDifficulty::Normal },
-        { "StageDrops-Difficulty-Normal2", StageDifficulty::Normal },
-        { "StageDrops-Difficulty-Tough", StageDifficulty::Tough },
+    auto task_ptr = Task.get("StageDrops-Difficulty-Tough");
+    MatchImageAnalyzer analyzer(m_image);
+    analyzer.set_task_info(task_ptr);
+
+    auto log = [&]() {
+        if (m_difficulty == StageDifficulty::Normal) {
+            Log.info(__FUNCTION__, "StageDifficulty::Normal");
+        }
+        else {
+            Log.info(__FUNCTION__, "StageDifficulty::Tough");
+        }
+#ifdef ASST_DEBUG
+        cv::putText(m_image_draw, m_difficulty == StageDifficulty::Normal ? "Normal" : "Tough", cv::Point(75, 120),
+                    cv::FONT_HERSHEY_SIMPLEX, 1.2, cv::Scalar(0, 0, 255), 2);
+#endif
     };
 
-    MatchImageAnalyzer analyzer(m_image);
-    auto matched = StageDifficulty::Normal;
-    double max_score = 0.0;
-
-#ifdef ASST_DEBUG
-    std::string matched_name = "unknown_difficulty";
-    Rect matched_rect;
-#endif
-
-    for (const auto& [task_name, difficulty] : DifficultyTaskName) {
-        auto task_ptr = Task.get(task_name);
-        analyzer.set_task_info(task_name);
-
-        if (!analyzer.analyze()) {
-            continue;
-        }
-
-        if (auto score = analyzer.get_result().score; score > max_score) {
-            max_score = score;
-            matched = difficulty;
-#ifdef ASST_DEBUG
-            matched_name = task_name;
-            matched_rect = analyzer.get_result().rect;
-#endif
-        }
+    bool analyzed = analyzer.analyze();
+    if (!analyzed) {
+        m_difficulty = StageDifficulty::Normal;
+        log();
+        return true;
     }
-    m_difficulty = matched;
-    Log.info(__FUNCTION__, "difficulty", static_cast<int>(m_difficulty));
 
-#ifdef ASST_DEBUG
-    cv::rectangle(m_image_draw, make_rect<cv::Rect>(matched_rect), cv::Scalar(0, 0, 255), 2);
-    matched_name = matched_name.substr(matched_name.find_last_of('-') + 1, matched_name.size());
-    cv::putText(m_image_draw, matched_name, cv::Point(matched_rect.x, matched_rect.y + matched_rect.height + 20),
-                cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
-#endif
+    cv::Mat image_roi = m_image(make_rect<cv::Rect>(analyzer.get_result().rect));
+    cv::Mat hsv;
+    cv::cvtColor(image_roi, hsv, cv::COLOR_BGR2HSV);
+
+    cv::Mat bin1;
+    cv::inRange(hsv, cv::Scalar(0, 150, 0), cv::Scalar(2, 255, 255), bin1);
+    cv::Mat bin2;
+    cv::inRange(hsv, cv::Scalar(177, 150, 0), cv::Scalar(179, 255, 255), bin2);
+    cv::Mat bin = bin1 + bin2;
+    int count = cv::countNonZero(bin);
+
+    int threshold = task_ptr->special_params[0];
+    Log.info(__FUNCTION__, "count", count, "threshold", threshold);
+
+    m_difficulty = count > threshold ? StageDifficulty::Tough : StageDifficulty::Normal;
+    log();
 
     return true;
 }
@@ -228,6 +228,61 @@ bool asst::StageDropsImageAnalyzer::analyze_drops()
 
             m_drops.emplace_back(std::move(info));
         }
+    }
+    return !has_error;
+}
+
+bool asst::StageDropsImageAnalyzer::analyze_drops_for_CF()
+{
+    if (!m_stage_code.starts_with("CF-")) {
+        return true;
+    }
+    LogTraceFunction;
+
+    static const std::array<std::string, 5> CFDrops = { "act24side_melding_1", "act24side_melding_2",
+                                                        "act24side_melding_3", "act24side_melding_4",
+                                                        "act24side_melding_5" }; // "act24side_melding_6"
+
+    bool has_error = false;
+
+    OcrImageAnalyzer food_analyzer(m_image);
+    food_analyzer.set_task_info("StageDrops-StageCF-FoodBonusFlag");
+    if (food_analyzer.analyze()) {
+        // 这个企鹅物流不收，而且也不好识别，直接报错拉倒
+        Log.info(__FUNCTION__, "Food Bonus, stop to upload");
+        has_error = true;
+    }
+
+    OcrWithFlagTemplImageAnalyzer analyzer(m_image);
+    for (const auto& item_name : CFDrops) {
+        analyzer.set_task_info(item_name, "StageDrops-StageCF-ItemQuantity");
+        if (!analyzer.analyze()) {
+            continue;
+        }
+        const auto& result = analyzer.get_result().front();
+        int quantity = quantity_string_to_int(result.text);
+
+        Log.info("Item id:", item_name, ", quantity:", quantity);
+#ifdef ASST_DEBUG
+        cv::rectangle(m_image_draw, make_rect<cv::Rect>(result.rect), cv::Scalar(0, 0, 255), 2);
+        cv::putText(m_image_draw, std::string("CF: ") + item_name.back(), cv::Point(result.rect.x, result.rect.y - 10),
+                    cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
+        cv::putText(m_image_draw, std::to_string(quantity), cv::Point(result.rect.x, result.rect.y + 30),
+                    cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 255, 0), 2);
+#endif
+        if (quantity <= 0) {
+            has_error = true;
+            Log.error(__FUNCTION__, "quantity error", quantity);
+        }
+        StageDropInfo info;
+        info.drop_type = StageDropType::Normal;
+        info.drop_type_name = "NORMAL_DROP";
+        info.quantity = quantity;
+        info.item_id = item_name;
+        const std::string& name = ItemData.get_item_name(info.item_id);
+        info.item_name = name.empty() ? info.item_id : name;
+
+        m_drops.emplace_back(std::move(info));
     }
     return !has_error;
 }
@@ -417,6 +472,8 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
         return "AP_GAMEPLAY"; // 理智返还
     case StageDropType::Reward:
         return "4003"; // 合成玉
+    default:
+        break;
     }
 
     auto match_item_with_templs = [&](const std::vector<std::string>& templs_list) -> std::string {
@@ -598,6 +655,35 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     return ocr.get_result().front();
 }
 
+int asst::StageDropsImageAnalyzer::quantity_string_to_int(const std::string& str)
+{
+    std::string digit_str = str;
+    int multiple = 1;
+    if (size_t w_pos = digit_str.find("万"); w_pos != std::string::npos) {
+        multiple = 10000;
+        digit_str.erase(w_pos, digit_str.size());
+    }
+    else if (size_t k_pos = digit_str.find('k'); k_pos != std::string::npos) {
+        multiple = 1000;
+        digit_str.erase(k_pos, digit_str.size());
+    }
+
+    constexpr char Dot = '.';
+    if (digit_str.empty() ||
+        !ranges::all_of(digit_str, [](const char& c) -> bool { return std::isdigit(c) || c == Dot; })) {
+        return 0;
+    }
+    if (auto dot_pos = digit_str.find(Dot); dot_pos != std::string::npos) {
+        if (dot_pos == 0 || dot_pos == digit_str.size() - 1 || digit_str.find(Dot, dot_pos + 1) != std::string::npos) {
+            return 0;
+        }
+    }
+
+    int quantity = static_cast<int>(std::stod(digit_str) * multiple);
+    Log.info("Quantity:", quantity);
+    return quantity;
+}
+
 int asst::StageDropsImageAnalyzer::match_quantity(const asst::Rect& roi, const std::string& item, bool use_word_model)
 {
     TextRect result;
@@ -625,29 +711,5 @@ int asst::StageDropsImageAnalyzer::match_quantity(const asst::Rect& roi, const s
     }
 #endif
 
-    std::string digit_str = result.text;
-    int multiple = 1;
-    if (size_t w_pos = digit_str.find("万"); w_pos != std::string::npos) {
-        multiple = 10000;
-        digit_str.erase(w_pos, digit_str.size());
-    }
-    else if (size_t k_pos = digit_str.find('k'); k_pos != std::string::npos) {
-        multiple = 1000;
-        digit_str.erase(k_pos, digit_str.size());
-    }
-
-    constexpr char Dot = '.';
-    if (digit_str.empty() ||
-        !ranges::all_of(digit_str, [](const char& c) -> bool { return std::isdigit(c) || c == Dot; })) {
-        return 0;
-    }
-    if (auto dot_pos = digit_str.find(Dot); dot_pos != std::string::npos) {
-        if (dot_pos == 0 || dot_pos == digit_str.size() - 1 || digit_str.find(Dot, dot_pos + 1) != std::string::npos) {
-            return 0;
-        }
-    }
-
-    int quantity = static_cast<int>(std::stod(digit_str) * multiple);
-    Log.info("Quantity:", quantity);
-    return quantity;
+    return quantity_string_to_int(result.text);
 }

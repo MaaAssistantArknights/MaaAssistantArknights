@@ -17,6 +17,12 @@ asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image)
 #endif
 {}
 
+#ifdef ASST_DEBUG
+asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image, cv::Mat& draw)
+    : m_image(image), m_roi(correct_rect(Rect(), image)), m_image_draw(draw)
+{}
+#endif
+
 asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image, Assistant* inst)
     : InstHelper(inst), m_image(image), m_roi(correct_rect(Rect(), image))
 #ifdef ASST_DEBUG
@@ -33,9 +39,22 @@ void asst::AbstractImageAnalyzer::set_image(const cv::Mat& image)
 #endif
 }
 
+#ifdef ASST_DEBUG
+void asst::AbstractImageAnalyzer::set_image(const cv::Mat& image, cv::Mat& draw)
+{
+    m_image = image;
+    m_image_draw = draw;
+}
+#endif
+
 void asst::AbstractImageAnalyzer::set_roi(const Rect& roi) noexcept
 {
     m_roi = correct_rect(roi, m_image);
+}
+
+void asst::AbstractImageAnalyzer::set_log_tracing(bool enable)
+{
+    m_log_tracing = enable;
 }
 
 asst::Rect asst::AbstractImageAnalyzer::correct_rect(const Rect& rect, const cv::Mat& image) noexcept
@@ -79,7 +98,7 @@ asst::Rect asst::AbstractImageAnalyzer::correct_rect(const Rect& rect, const cv:
 
 bool asst::AbstractImageAnalyzer::save_img(const std::filesystem::path& relative_dir)
 {
-    std::string stem = utils::get_random_filestem();
+    std::string stem = utils::get_time_filestem();
     auto relative_path = relative_dir / (stem + "_raw.png");
     Log.trace("Save image", relative_path);
     bool ret = asst::imwrite(relative_path, m_image);
@@ -90,3 +109,10 @@ bool asst::AbstractImageAnalyzer::save_img(const std::filesystem::path& relative
 
     return ret;
 }
+
+#ifdef ASST_DEBUG
+cv::Mat asst::AbstractImageAnalyzer::get_draw() const
+{
+    return m_image_draw;
+}
+#endif

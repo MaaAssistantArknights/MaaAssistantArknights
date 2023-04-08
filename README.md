@@ -49,8 +49,8 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 下载地址
 
-[稳定版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)<br>
-[开发版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
+- [稳定版/公测版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
+- [内测版](https://github.com/MaaAssistantArknights/MaaRelease/releases)
 
 ## 使用说明
 
@@ -81,10 +81,13 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 主要关联项目
 
+**目前项目组非常缺前端大佬，若您有相关经验，欢迎加入我们！**
+
 - 全新 GUI：[MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) （正在开发中，欢迎加入！）
-- 后端：[MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter) （正在开发中，欢迎加入！）
-- [作业站](https://prts.plus)：[前端](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
+- [作业站](https://prts.plus) 前端：[maa-copilot-frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend) （正在开发中，欢迎加入！）
+- [作业站](https://prts.plus) 后端：[MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter)
 - [官网](https://maa.plus)：[前端](https://github.com/MaaAssistantArknights/maa-website)
+- 深度学习：[MaaAI](https://github.com/MaaAssistantArknights/MaaAI)
 
 ## 致谢
 
@@ -106,8 +109,9 @@ MAA 的意思是 MAA Assistant Arknights
 - 安卓触控事件器：[MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)
 - WPF MVVM框架：[Stylet](https://github.com/canton7/Stylet)
 - WPF控件库：[HandyControl](https://github.com/HandyOrg/HandyControl)
-- C# JSON库：[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
-- 下载器：[aria2](https://github.com/aria2/aria2)
+- C# 日志：[Serilog](https://github.com/serilog/serilog)
+- C# JSON库：[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json) & [System.Text.Json](https://github.com/dotnet/runtime)
+- ~~下载器：[aria2](https://github.com/aria2/aria2)~~
 
 ### 数据源
 
@@ -127,8 +131,16 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### Windows
 
-- 直接使用 Visual Studio 2022 打开 `MAA.sln` 即可，所有环境都是配置好的
-- 建议启用 clang-format 支持，详细内容可以参考 [在 Visual Studio 中启用 clang-format](https://maa.plus/docs/2.2-开发相关.html#在-visual-studio-中启用-clang-format)
+1. 下载预构建的第三方库
+
+    ```cmd
+    python maadeps-download.py
+    ```
+
+2. 使用 Visual Studio 2022 打开 `MAA.sln`，右键 `MaaWpfGui`，设为启动项目
+3. VS 上方配置选择 `RelWithDebInfo` `x64` （如果编译 Release 包 或 ARM 平台，请忽略这步）
+4. 右键 `MaaWpfGui` - 属性 - 调试 - 启用本地调试（这样就能把断点挂到 C++ Core 那边了）
+5. （可选）若准备提交 PR，建议启用 [clang-format 支持](https://maa.plus/docs/2.2-开发相关.html#在-visual-studio-中启用-clang-format)
 
 ### Linux | macOS
 
@@ -159,10 +171,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### Issue bot
 
-- 使用 `Add {LABEL_NAME}` 增加标签，使用 `Remove {LABEL_NAME}` 删除标签。
-- 在提交说明中用 `close #{ISSUE_NUMBER}` 或 `fix #{ISSUE_NUMBER}` 给对应议题增加 `fixed` 标签。
-
-更多说明请参考 [Issue bot 使用方法](https://maa.plus/docs/2.3-IssueBot使用方法.html)
+请参考 [Issue bot 使用方法](https://maa.plus/docs/2.3-IssueBot使用方法.html)
 
 ## 声明
 

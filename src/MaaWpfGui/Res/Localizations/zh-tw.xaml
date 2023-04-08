@@ -45,6 +45,7 @@
     <system:String x:Key="CustomInfrastTitle">自定義基建配置：</system:String>
     <system:String x:Key="CustomInfrastPlan">基建計劃</system:String>
     <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">自動保存爲下個計劃</system:String>
+    <system:String x:Key="CustomizeInfrastSelectionEmpty">自訂設施配置選擇為空，請檢查配置或關閉自訂功能。</system:String>
 
     <system:String x:Key="General">通用模式</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">通用模式（阻塞異常輸出）</system:String>
@@ -123,7 +124,8 @@
     <system:String x:Key="CheckBoxesNotSaved">該選項設定重啟後不保存</system:String>
     <system:String x:Key="NoAutoNavigation">該選項不會自動導航至對應關卡</system:String>
 
-    <system:String x:Key="UpdateAutoCheck">自動檢查更新</system:String>
+    <system:String x:Key="StartupUpdateCheck">啟動時檢查更新</system:String>
+    <system:String x:Key="UpdatAutoCheck">定時檢查更新</system:String>
     <system:String x:Key="UpdateAutoDownload">自動下載更新包</system:String>
     <system:String x:Key="UpdateCheckStable">穩定版</system:String>
     <system:String x:Key="UpdateCheckBeta">公測版</system:String>
@@ -137,6 +139,7 @@
     <system:String x:Key="LaunchOnSystemStartup">開機自動啟動</system:String>
     <system:String x:Key="RunTaskAfterLaunch">啟動後直接運行</system:String>
     <system:String x:Key="ClientType">用戶端類型</system:String>
+    <system:String x:Key="AutoRestartOption">遊戲掉線時自動重連</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">啟動後自動開啟模擬器</system:String>
     <system:String x:Key="MinimizingStartup">最小化啟動模擬器</system:String>
     <system:String x:Key="WaitForEmulator">等待模擬器啟動時間（秒）</system:String>
@@ -313,7 +316,7 @@
     <system:String x:Key="SelectTheFile">選擇作業</system:String>
     <system:String x:Key="SelectTheFileTip">作業檔可以直接用滑鼠拖進來喔 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="AutoSquad">自動編隊</system:String>
-    <system:String x:Key="LoopTimes">LoopTimes</system:String>
+    <system:String x:Key="LoopTimes">迴圈次數</system:String>
     <system:String x:Key="AutoSquadTip">自動編隊暫時無法辨識“特別關注”的幹員</system:String>
 
     <system:String x:Key="Start">開始</system:String>
@@ -386,6 +389,7 @@
     <system:String x:Key="UpperLimit">投資達到上限</system:String>
     <system:String x:Key="GameCrash">遊戲崩潰，重新啟動</system:String>
     <system:String x:Key="GameDrop">遊戲斷線，重新連接</system:String>
+    <system:String x:Key="GameDropNoRestart">遊戲掉線，不重新連接，停止任務</system:String>
     <system:String x:Key="RoguelikeGamePass">肉鴿通關啦！</system:String>
     <system:String x:Key="Trader">關卡：詭意行商</system:String>
     <system:String x:Key="SafeHouse">關卡：安全的角落</system:String>

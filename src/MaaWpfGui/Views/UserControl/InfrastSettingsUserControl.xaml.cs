@@ -11,17 +11,12 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System.Diagnostics;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-
-namespace MaaWpfGui
+namespace MaaWpfGui.Views.UserControl
 {
     /// <summary>
     /// InfrastSettingsUserContril.xaml 的交互逻辑
     /// </summary>
-    public partial class InfrastSettingsUserControl : UserControl
+    public partial class InfrastSettingsUserControl : System.Windows.Controls.UserControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="InfrastSettingsUserControl"/> class.
@@ -29,14 +24,6 @@ namespace MaaWpfGui
         public InfrastSettingsUserControl()
         {
             InitializeComponent();
-        }
-
-        private void Hyperlink_Click(object sender, RoutedEventArgs e)
-        {
-            Hyperlink link = sender as Hyperlink;
-
-            // 激活的是当前默认的浏览器
-            Process.Start(new ProcessStartInfo(link.NavigateUri.AbsoluteUri));
         }
     }
 }

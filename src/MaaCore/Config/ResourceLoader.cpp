@@ -9,11 +9,12 @@
 #include "Miscellaneous/CopilotConfig.h"
 #include "Miscellaneous/InfrastConfig.h"
 #include "Miscellaneous/ItemConfig.h"
+#include "Miscellaneous/OcrConfig.h"
 #include "Miscellaneous/OcrPack.h"
 #include "Miscellaneous/RecruitConfig.h"
 #include "Miscellaneous/StageDropsConfig.h"
 #include "Miscellaneous/TilePack.h"
-#include "Miscellaneous/OcrConfig.h"
+#include "OnnxSessions.h"
 #include "Roguelike/RoguelikeCopilotConfig.h"
 #include "Roguelike/RoguelikeRecruitConfig.h"
 #include "Roguelike/RoguelikeShoppingConfig.h"
@@ -66,6 +67,12 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike"_p / "shopping.json"_p);
         LoadResourceAndCheckRet(BattleDataConfig, "battle_data.json"_p);
         LoadResourceAndCheckRet(OcrConfig, "ocr_config.json"_p);
+        // 战斗中技能识别，二分类模型
+        LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "skill_ready_cls.onnx"_p);
+        // 战斗中部署方向识别，四分类模型
+        LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "deploy_direction_cls.onnx"_p);
+        // 战斗中干员（血条）检测，yolov8 检测模型
+        LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "operators_det.onnx"_p);
 
         /* load resource with json and template files*/
         LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);

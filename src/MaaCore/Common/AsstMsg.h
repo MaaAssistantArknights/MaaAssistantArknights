@@ -38,6 +38,7 @@ namespace asst
             { AsstMsg::InitFailed, "InitFailed" },
             { AsstMsg::ConnectionInfo, "ConnectionInfo" },
             { AsstMsg::AllTasksCompleted, "AllTasksCompleted" },
+            { AsstMsg::AsyncCallInfo, "AsyncCallInfo" },
             /* TaskChain Info */
             { AsstMsg::TaskChainError, "TaskChainError" },
             { AsstMsg::TaskChainStart, "TaskChainStart" },

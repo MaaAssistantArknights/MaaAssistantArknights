@@ -1,7 +1,7 @@
 #include "ReclamationControlTask.h"
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
-#include "Controller.h"
+#include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/OcrImageAnalyzer.h"
@@ -48,7 +48,6 @@ bool asst::ReclamationControlTask::run_giveup_upon_fight_procedure()
     RunCheckSuccess(wait_between_day);
     skip_announce_report();
     while (!need_exit() && !check_emergency()) {
-
         RunCheckSuccess(reset_scope);
         RunCheckSuccess(click_center_base);
         RunCheckSuccess(click_any_zone);
@@ -80,7 +79,6 @@ bool asst::ReclamationControlTask::run_smelt_gold_procedure()
 
     bool buy_result = false;
     while (!need_exit() && !buy_result) {
-
         RunCheckSuccess(reset_scope);
         RunCheckSuccess(click_corner_black_market);
         RunCheckSuccess(click_black_market);

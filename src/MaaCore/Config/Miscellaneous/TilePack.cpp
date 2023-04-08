@@ -30,7 +30,6 @@ bool asst::TilePack::load(const std::filesystem::path& path)
         return false;
     }
 
-    std::list<json::value> tiles_array;
     std::queue<std::pair<std::filesystem::path, std::string>> file_strings;
 
     std::atomic_bool eoq = false;
@@ -45,7 +44,7 @@ bool asst::TilePack::load(const std::filesystem::path& path)
         workers.reserve(n_workers);
         for (auto thi = 0U; thi < n_workers; ++thi) {
             workers.emplace_back(std::async(std::launch::async, [&]() -> result_type {
-                std::list<json::value> result;
+                std::list<json::value> result {};
                 while (true) {
                     std::unique_lock lk { queue_mut };
                     condvar.wait(lk, [&]() -> bool { return !file_strings.empty() || eoq.load(); });
@@ -68,7 +67,7 @@ bool asst::TilePack::load(const std::filesystem::path& path)
                     if (json.is_array()) {
                         // 兼容上游仓库的 levels.json
                         // 有些用户习惯于在游戏更新了但maa还没发版前，自己手动更新下 levels.json，可以提前用
-                        result.insert(tiles_array.end(), std::make_move_iterator(json.as_array().begin()),
+                        result.insert(result.end(), std::make_move_iterator(json.as_array().begin()),
                                       std::make_move_iterator(json.as_array().end()));
                     }
                     else if (json.is_object()) {
@@ -85,7 +84,6 @@ bool asst::TilePack::load(const std::filesystem::path& path)
     }
 
     for (const auto& entry : std::filesystem::directory_iterator(path)) {
-
         if (eoq.load()) break; // this means parsing went wrong
 
         const auto& file_path = entry.path();
@@ -105,26 +103,28 @@ bool asst::TilePack::load(const std::filesystem::path& path)
     eoq.store(true);
     condvar.notify_all();
 
-    auto result = std::transform_reduce(
-        workers.begin(), workers.end(), std::optional { std::list<json::value> {} },
-        [](result_type lhs, result_type rhs) -> result_type {
-            if (!lhs || !rhs) return std::nullopt;
-            lhs->splice(lhs->end(), std::move(rhs).value());
-            return lhs;
-        },
-        [&](std::future<result_type>& fut) -> result_type {
-            while (fut.wait_for(std::chrono::milliseconds(10)) == std::future_status::timeout)
-                condvar.notify_all(); // is this necessary?
-            return fut.get();
-        });
+    // is this necessary?
+    for (auto&& w : workers) {
+        if (w.wait_for(std::chrono::milliseconds::zero()) == std::future_status::ready) continue;
+        do
+            condvar.notify_all();
+        while (w.wait_for(std::chrono::milliseconds(10)) == std::future_status::timeout);
+    }
 
-    if (!result) return false;
-    Log.info("got", result->size(), "maps");
+    auto result = std::list<json::value> {};
+
+    for (auto&& w : workers) {
+        if (auto opt = w.get())
+            result.splice(result.end(), std::move(opt).value());
+        else
+            return false;
+    }
+
+    Log.info("got", result.size(), "maps");
 
     try {
         // TODO: this move has no effect
-        m_tile_calculator =
-            std::make_shared<Map::TileCalc>(WindowWidthDefault, WindowHeightDefault, std::move(result).value());
+        m_tile_calculator = std::make_shared<Map::TileCalc>(WindowWidthDefault, WindowHeightDefault, std::move(result));
     }
     catch (const std::exception& e) {
         Log.error("Tile create failed", e.what());

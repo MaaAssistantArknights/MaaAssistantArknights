@@ -3,7 +3,7 @@
 #include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/RecruitConfig.h"
 #include "Config/TaskData.h"
-#include "Controller.h"
+#include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Task/ReportDataTask.h"
 #include "Utils/Logger.hpp"
@@ -713,9 +713,9 @@ void asst::AutoRecruitTask::upload_to_penguin(Rng&& tags)
     body["source"] = UploadDataSource;
     body["version"] = Version;
 
-    std::string extra_param;
+    std::unordered_map<std::string, std::string> extra_headers;
     if (!m_penguin_id.empty()) {
-        extra_param = "-H \"authorization: PenguinID " + m_penguin_id + "\"";
+        extra_headers = { { "authorization", "PenguinID " + m_penguin_id } };
     }
 
     if (!m_report_penguin_task_ptr) {
@@ -724,7 +724,7 @@ void asst::AutoRecruitTask::upload_to_penguin(Rng&& tags)
 
     m_report_penguin_task_ptr->set_report_type(ReportType::PenguinStats)
         .set_body(body.to_string())
-        .set_extra_param(extra_param)
+        .set_extra_headers(extra_headers)
         .set_retry_times(5)
         .run();
 }

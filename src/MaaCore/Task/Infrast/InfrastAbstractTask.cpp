@@ -6,7 +6,7 @@
 
 #include "Common/AsstMsg.h"
 #include "Config/TaskData.h"
-#include "Controller.h"
+#include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
@@ -77,7 +77,7 @@ asst::infrast::CustomRoomConfig& asst::InfrastAbstractTask::current_room_config(
         return empty;
     }
 
-    if (m_cur_facility_index < m_custom_config.size()) {
+    if (static_cast<size_t>(m_cur_facility_index) < m_custom_config.size()) {
         return m_custom_config[m_cur_facility_index];
     }
     else {
@@ -98,7 +98,7 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
 {
     LogTraceFunction;
 
-    if (m_is_custom && index >= m_custom_config.size()) {
+    if (m_is_custom && static_cast<size_t>(m_cur_facility_index) >= m_custom_config.size()) {
         Log.warn("index is lager than config size", index, m_custom_config.size());
         return false;
     }
@@ -172,7 +172,7 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers()
         if (!select_custom_opers(partial_result)) {
             return false;
         }
-        if (room_config.selected >= max_num_of_opers() ||
+        if (static_cast<size_t>(room_config.selected) >= max_num_of_opers() ||
             (room_config.names.empty() && room_config.candidates.empty())) {
             break;
         }
@@ -258,7 +258,7 @@ bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig co
         Log.warn("select opers review fail: 选中干员数与期望不符");
         return false;
     }
-    if (facility_name() != "Dorm" && (!m_is_custom || room_config.names.empty() && room_config.candidates.empty())) {
+    if (facility_name() != "Dorm" && (!m_is_custom || (room_config.names.empty() && room_config.candidates.empty()))) {
         return true;
     }
     if (selected_count < room_config.names.size()) {
@@ -353,7 +353,7 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
         if (!oper.selected) {
             ctrler()->click(oper.rect);
         }
-        if (++room_config.selected >= max_num_of_opers()) {
+        if (static_cast<size_t>(++room_config.selected) >= max_num_of_opers()) {
             break;
         }
     }

@@ -1,3 +1,4 @@
+#pragma once
 #include <filesystem>
 #include <fstream>
 #include <string>
@@ -6,6 +7,7 @@
 #include "NoWarningCV.h"
 #include "NoWarningCVMat.h"
 
+#include "File.hpp"
 #include "Platform.hpp"
 #include "WorkingDir.hpp"
 
@@ -13,11 +15,7 @@ namespace asst
 {
     inline cv::Mat imread(const std::filesystem::path& path, int flags = cv::IMREAD_COLOR)
     {
-        std::ifstream file(path, std::ios::binary | std::ios::ate);
-        auto fileSize = file.tellg();
-        file.seekg(0, std::ios::beg);
-        std::vector<uint8_t> content(fileSize);
-        file.read((char*)content.data(), fileSize);
+        auto content = asst::utils::read_file<std::vector<uint8_t>>(path);
         return cv::imdecode(content, flags);
     }
 
@@ -41,8 +39,8 @@ namespace asst
         std::ofstream of(absolute_path, std::ios::out | std::ios::binary);
         std::vector<uint8_t> encoded;
         auto ext = asst::utils::path_to_utf8_string(absolute_path.extension());
-        if (cv::imencode(ext.c_str(), img, encoded, params)) {
-            of.write((char*)encoded.data(), encoded.size());
+        if (cv::imencode(ext, img, encoded, params)) {
+            of.write(reinterpret_cast<char*>(encoded.data()), encoded.size());
             return true;
         }
         return false;
@@ -53,4 +51,4 @@ namespace asst
     {
         return imwrite(asst::utils::path(utf8_path), img, params);
     }
-}
+} // namespace asst

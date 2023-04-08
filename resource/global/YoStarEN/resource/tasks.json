@@ -14,6 +14,28 @@
             "Shadow of A Dying Sun"
         ]
     },
+    "StageEpisodeToGT": {
+        "text": [
+            "Grani and the Knights' Treasure"
+        ]
+    },
+    "GTToGT-5": {
+        "text": [
+            "Enter",
+            "Event"
+        ]
+    },
+    "StageEpisodeToOF": {
+        "text": [
+            "Heart of Surging Flame"
+        ]
+    },
+    "OFToOF-Chapter": {
+        "text": [
+            "Enter",
+            "Event"
+        ]
+    },
     "CharsNameOcrReplace": {
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的英文识别任务复用 This task's ocrReplace is reused by all recognition tasks related to operator names",
         "ocrReplace": [
@@ -1396,6 +1418,54 @@
             [
                 "Entitative Program Controller",
                 "实体程式控制"
+            ],
+            [
+                "Reserve Operator - Defender",
+                "预备干员-重装"
+            ],
+            [
+                "R-31a Heavy Power Armor",
+                "R-31a重型动力装甲"
+            ],
+            [
+                "Astgenne",
+                "星源"
+            ],
+            [
+                "Greyy the Lightningbearer",
+                "承曦格雷伊"
+            ],
+            [
+                "Dorothy",
+                "多萝西"
+            ],
+            [
+                "Resonator",
+                "共振装置"
+            ],
+            [
+                "R-31 Heavy Power Armor",
+                "R-31重型动力装甲"
+            ],
+            [
+                "R-11 Assault Power Armor",
+                "R-11突击动力装甲"
+            ],
+            [
+                "R-11a Assault Power Armor",
+                "R-11a突击动力装甲"
+            ],
+            [
+                "Proviso",
+                "但书"
+            ],
+            [
+                "Luo Xiaohei",
+                "罗小黑"
+            ],
+            [
+                "M.*ynar",
+                "玛恩纳"
             ]
         ]
     },
@@ -2020,6 +2090,12 @@
             100
         ]
     },
+    "BattleStartPre": {
+        "text": [
+            "Start",
+            "Start Challenge"
+        ]
+    },
     "StageDrops-DropType-ExpAndLMB": {
         "templThreshold": 0.7
     },
@@ -2040,6 +2116,21 @@
     },
     "StageDrops-DropType-Reward": {
         "templThreshold": 0.7
+    },
+    "Roguelike@FromIntegratedStrategies": {
+        "text": [
+            "ENTER"
+        ]
+    },
+    "Phantom@Roguelike@SelectTheme": {
+        "text": [
+            "Phantom"
+        ]
+    },
+    "Mizuki@Roguelike@SelectTheme": {
+        "text": [
+            "Mizuki"
+        ]
     },
     "Roguelike@StageTraderInvestConfirm": {
         "templThreshold": 0.55

@@ -6,15 +6,15 @@
 #include "Config/Miscellaneous/AvatarCacheManager.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
-#include "Controller.h"
+#include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
+#include "Vision/Battle/BattleImageAnalyzer.h"
+#include "Vision/Battle/BattleSkillReadyImageAnalyzer.h"
 #include "Vision/BestMatchImageAnalyzer.h"
 #include "Vision/MatchImageAnalyzer.h"
-#include "Vision/Miscellaneous/BattleImageAnalyzer.h"
-#include "Vision/Miscellaneous/BattleSkillReadyImageAnalyzer.h"
 #include "Vision/OcrWithPreprocessImageAnalyzer.h"
 
 using namespace asst::battle;
@@ -134,6 +134,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             static const auto cooling_mask_range = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->mask_range;
             avatar_analyzer.set_threshold(cooling_threshold);
             avatar_analyzer.set_mask_range(cooling_mask_range, true);
+            avatar_analyzer.set_mask_with_close(true);
         }
         else {
             static const double threshold = Task.get<MatchTaskInfo>("BattleAvatarData")->templ_threshold;
@@ -146,7 +147,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             avatar_analyzer.append_templ(name, avatar);
         }
         if (avatar_analyzer.analyze()) {
-            set_oper_name(oper, avatar_analyzer.get_result_name());
+            set_oper_name(oper, avatar_analyzer.get_result().name);
             m_cur_deployment_opers.insert_or_assign(oper.name, oper);
             remove_cooling_from_battlefield(oper);
         }
@@ -308,7 +309,8 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
     if (int min_duration = swipe_oper_task_ptr->special_params.at(3); duration < min_duration) {
         duration = min_duration;
     }
-    bool deploy_with_pause = m_inst_helper.ctrler()->support_swipe_with_pause();
+    bool deploy_with_pause =
+        ControlFeat::support(m_inst_helper.ctrler()->support_features(), ControlFeat::SWIPE_WITH_PAUSE);
     m_inst_helper.ctrler()->swipe(oper_rect, Rect(target_point.x, target_point.y, 1, 1), duration, false,
                                   swipe_oper_task_ptr->special_params.at(1), swipe_oper_task_ptr->special_params.at(2),
                                   deploy_with_pause);
@@ -402,6 +404,8 @@ bool asst::BattleHelper::check_pause_button(const cv::Mat& reusable)
     MatchImageAnalyzer battle_flag_analyzer(image);
     battle_flag_analyzer.set_task_info("BattleOfficiallyBegin");
     bool ret = battle_flag_analyzer.analyze();
+    BattleImageAnalyzer battle_flag_analyzer_2(image);
+    ret &= battle_flag_analyzer_2.analyze() && battle_flag_analyzer_2.get_pause_button();
     return ret;
 }
 
@@ -601,7 +605,8 @@ bool asst::BattleHelper::click_skill(bool keep_waiting)
 {
     LogTraceFunction;
 
-    ProcessTask skill_task(this_task(), { "BattleSkillReadyOnClick", "BattleSkillStopOnClick" });
+    ProcessTask skill_task(this_task(), { "BattleSkillReadyOnClick", "BattleSkillReadyOnClick-SquareMap",
+                                          "BattleSkillStopOnClick", "BattleSkillStopOnClick-SquareMap" });
     skill_task.set_task_delay(0);
 
     if (keep_waiting) {

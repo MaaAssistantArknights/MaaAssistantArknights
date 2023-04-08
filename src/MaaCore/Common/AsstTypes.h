@@ -43,6 +43,27 @@ namespace asst
         AdbLiteEnabled = 4,      // 是否使用 AdbLite， "0" | "1"
     };
 
+    enum class TouchMode
+    {
+        Adb = 0,
+        Minitouch = 1,
+        Maatouch = 2,
+        MacPlayTools = 3,
+    };
+
+    namespace ControlFeat
+    {
+        using Feat = int64_t;
+        constexpr Feat NONE = 0;
+        constexpr Feat SWIPE_WITH_PAUSE = 1 << 0;
+        constexpr Feat PRECISE_SWIPE = 1 << 1;
+
+        inline bool support(Feat feat, Feat target) noexcept
+        {
+            return (feat & target) == target;
+        }
+    }
+
     struct Point
     {
         Point() = default;
@@ -249,6 +270,20 @@ namespace std
 
 namespace asst
 {
+    template <typename CType>
+    struct ContainerHasher
+    {
+        std::size_t operator()(const CType& container) const
+        {
+            using value_type = typename CType::value_type;
+            std::size_t seed = container.size();
+            for (const value_type& e : container) {
+                seed ^= std::hash<value_type>()(e) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+            }
+            return seed;
+        }
+    };
+
     enum class AlgorithmType
     {
         Invalid = -1,
@@ -379,7 +414,7 @@ namespace asst
         bool full_match = false;       // 是否需要全匹配，否则搜索到子串就算匹配上了
         bool is_ascii = false;         // 是否启用字符数字模型
         bool without_det = false;      // 是否不使用检测模型
-        bool replace_full = false;     // 匹配之后，是否将整个字符串replace（false是只替换match的部分）
+        bool replace_full = false; // 匹配之后，是否将整个字符串replace（false是只替换match的部分）
         std::unordered_map<std::string, std::string>
             replace_map; // 部分文字容易识别错，字符串强制replace之后，再进行匹配
     };

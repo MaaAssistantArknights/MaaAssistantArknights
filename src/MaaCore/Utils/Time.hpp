@@ -34,13 +34,13 @@ namespace asst::utils
         gettimeofday(&tv, nullptr);
         time_t nowtime = tv.tv_sec;
         struct tm* tm_info = localtime(&nowtime);
-        strftime(buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", tm_info);
-        sprintf(buff, "%s.%03ld", buff, static_cast<long int>(tv.tv_usec / 1000));
+        auto offset = strftime(buff, sizeof(buff), "%Y-%m-%d %H:%M:%S", tm_info);
+        sprintf(buff + offset, ".%03ld", static_cast<long int>(tv.tv_usec / 1000));
 #endif // END _WIN32
         return buff;
     }
 
-    inline std::string get_random_filestem()
+    inline std::string get_time_filestem()
     {
         std::string stem = utils::get_format_time();
         string_replace_all_in_place(stem, { { ":", "-" }, { " ", "_" }, { ".", "-" } });

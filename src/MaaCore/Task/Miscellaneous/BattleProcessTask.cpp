@@ -11,14 +11,14 @@
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/Miscellaneous/TilePack.h"
 #include "Config/TaskData.h"
-#include "Controller.h"
+#include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Algorithm.hpp"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/MatchImageAnalyzer.h"
-#include "Vision/Miscellaneous/BattleImageAnalyzer.h"
-#include "Vision/Miscellaneous/BattleSkillReadyImageAnalyzer.h"
+#include "Vision/Battle/BattleImageAnalyzer.h"
+#include "Vision/Battle/BattleSkillReadyImageAnalyzer.h"
 #include "Vision/OcrWithPreprocessImageAnalyzer.h"
 
 using namespace asst::battle;
@@ -311,7 +311,7 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             }
             size_t cooling_count = ranges::count_if(m_cur_deployment_opers | views::values,
                                                     [](const auto& oper) -> bool { return oper.cooling; });
-            if (cooling_count == action.cooling) {
+            if (cooling_count == static_cast<size_t>(action.cooling)) {
                 break;
             }
             do_strategy_and_update_image();

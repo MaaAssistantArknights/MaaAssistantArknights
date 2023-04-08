@@ -207,10 +207,32 @@
             ],
             "rarity": 6
         },
+        "char_1029_yato2": {
+            "name": "麒麟X夜刀",
+            "position": "MELEE",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 6
+        },
         "char_102_texas": {
             "name": "德克萨斯",
             "position": "MELEE",
             "profession": "PIONEER",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 5
+        },
+        "char_1030_noirc2": {
+            "name": "火龙S黑角",
+            "position": "MELEE",
+            "profession": "WARRIOR",
             "rangeId": [
                 "1-1",
                 "1-1",
@@ -633,6 +655,17 @@
                 "1-1"
             ],
             "rarity": 4
+        },
+        "char_154_morgan": {
+            "name": "摩根",
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 5
         },
         "char_155_tiger": {
             "name": "因陀罗",
@@ -2514,6 +2547,17 @@
                 "铁钳号·原型机"
             ]
         },
+        "char_4077_palico": {
+            "name": "泰拉大陆调查团",
+            "position": "RANGED",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-3",
+                "3-3",
+                "3-3"
+            ],
+            "rarity": 1
+        },
         "char_4078_bdhkgt": {
             "name": "截云",
             "position": "RANGED",
@@ -2557,6 +2601,28 @@
                 "1-1"
             ],
             "rarity": 5
+        },
+        "char_4087_ines": {
+            "name": "伊内丝",
+            "position": "MELEE",
+            "profession": "PIONEER",
+            "rangeId": [
+                "2-2",
+                "2-2",
+                "2-2"
+            ],
+            "rarity": 6
+        },
+        "char_4091_ulika": {
+            "name": "U-Official",
+            "position": "RANGED",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "x-4",
+                "x-4",
+                "x-4"
+            ],
+            "rarity": 1
         },
         "char_411_tomimi": {
             "name": "特米米",
@@ -2826,6 +2892,17 @@
             ],
             "rarity": 5
         },
+        "char_464_cement": {
+            "name": "洋灰",
+            "position": "MELEE",
+            "profession": "TANK",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 5
+        },
         "char_466_qanik": {
             "name": "雪绒",
             "position": "RANGED",
@@ -2974,6 +3051,17 @@
                 "5-1"
             ],
             "rarity": 5
+        },
+        "char_491_humus": {
+            "name": "休谟斯",
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-3",
+                "1-3",
+                "1-3"
+            ],
+            "rarity": 4
         },
         "char_492_quercu": {
             "name": "夏栎",
@@ -4614,6 +4702,50 @@
             ],
             "rarity": 1
         },
+        "trap_099_mhflsb": {
+            "name": "眩光手雷",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "2-7",
+                "2-7",
+                "2-7"
+            ],
+            "rarity": 1
+        },
+        "trap_100_mhlbmb": {
+            "name": "高能源石爆桶",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-4",
+                "x-4",
+                "x-4"
+            ],
+            "rarity": 1
+        },
+        "trap_101_mhshok": {
+            "name": "高压脉冲诡雷",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_102_mhwrbg": {
+            "name": "滞空牵引无人机",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
         "trap_103_ymdgct": {
             "name": "地形增伤控制",
             "position": "NONE",
@@ -4633,6 +4765,39 @@
                 "x-5",
                 "x-5",
                 "x-5"
+            ],
+            "rarity": 1
+        },
+        "trap_105_mhwrct": {
+            "name": "滞空牵引无人机",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_111_wdfarm": {
+            "name": "街头应急储备",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_116_stdurk": {
+            "name": "“过去的我”",
+            "position": "RANGED",
+            "profession": "TRAP",
+            "rangeId": [
+                "3-6",
+                "3-6",
+                "3-6"
             ],
             "rarity": 1
         },

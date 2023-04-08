@@ -18,13 +18,21 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Threading;
 using GlobalHotKey;
-using MaaWpfGui.MaaHotKeys;
-using MaaWpfGui.Views;
+using MaaWpfGui.Helper;
+using MaaWpfGui.Services;
+using MaaWpfGui.Services.HotKeys;
+using MaaWpfGui.Services.Managers;
+using MaaWpfGui.Services.Web;
+using MaaWpfGui.ViewModels.UI;
+using MaaWpfGui.Views.UI;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Serilog;
+using Serilog.Core;
 using Stylet;
 using StyletIoC;
+using WindowManager = MaaWpfGui.Helper.WindowManager;
 
-namespace MaaWpfGui
+namespace MaaWpfGui.Main
 {
     /// <summary>
     /// The bootstrapper.
@@ -36,6 +44,8 @@ namespace MaaWpfGui
 
         private static readonly FieldInfo _settingsViewModelIContainerFiled =
             typeof(SettingsViewModel).GetField("_container", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        private static ILogger _logger = Logger.None;
 
         /// <summary>
         /// Sets tray icon in <see cref="SettingsViewModel"/>.
@@ -62,29 +72,47 @@ namespace MaaWpfGui
         protected override void OnStart()
         {
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
-            Directory.CreateDirectory("debug");
+            if (Directory.Exists("debug") is false)
             {
-                // FIXME: 目录迁移，过几个版本删除这段
-                File.Delete("gui.log");
-                File.Delete("gui.bak.log");
+                Directory.CreateDirectory("debug");
             }
 
-            // 清理日志文件
-            var log_path = "debug\\gui.log";
-            var backup_log_path = "debug\\gui.bak.log";
-            if (File.Exists(log_path))
+            string logFilename = "debug/gui.log";
+            string logBakFilename = "debug/gui.bak.log";
+            if (File.Exists(logFilename) && new FileInfo(logFilename).Length > 4 * 1024 * 1024)
             {
-                var fileInfo = new FileInfo(log_path);
-                if (fileInfo.Length > 128 * 1024 /*128K*/)
+                if (File.Exists(logBakFilename))
                 {
-                    if (File.Exists(backup_log_path))
-                    {
-                        File.Delete(backup_log_path);
-                    }
-
-                    File.Move(log_path, backup_log_path);
+                    Directory.Delete(logBakFilename);
                 }
+
+                Directory.Move(logFilename, logBakFilename);
             }
+
+            // Bootstrap serilog
+            var loggerConfiguration = new LoggerConfiguration()
+                .WriteTo.Debug(
+                    outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
+                .WriteTo.File(
+                    logFilename,
+                    outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
+                .Enrich.FromLogContext()
+                .Enrich.WithThreadId()
+                .Enrich.WithThreadName();
+
+            var maaEnv = Environment.GetEnvironmentVariable("MAA_ENVIRONMENT") == "Debug"
+                ? "Debug"
+                : "Production";
+            loggerConfiguration = maaEnv == "Debug"
+                ? loggerConfiguration.MinimumLevel.Verbose()
+                : loggerConfiguration.MinimumLevel.Information();
+
+            Log.Logger = loggerConfiguration.CreateLogger();
+            _logger = Log.Logger.ForContext<Bootstrapper>();
+            _logger.Information("===================================");
+            _logger.Information("MaaAssistantArknights GUI started");
+            _logger.Information("Maa ENV: {MaaEnv}", maaEnv);
+            _logger.Information("===================================");
 
             try
             {
@@ -108,8 +136,8 @@ namespace MaaWpfGui
             }
 
             base.OnStart();
-            ViewStatusStorage.Load();
-            Localization.Load();
+            ConfigurationHelper.Load();
+            LocalizationHelper.Load();
         }
 
         /// <inheritdoc/>
@@ -120,13 +148,19 @@ namespace MaaWpfGui
             builder.Bind<SettingsViewModel>().ToSelf().InSingletonScope();
             builder.Bind<CopilotViewModel>().ToSelf().InSingletonScope();
             builder.Bind<DepotViewModel>().ToSelf().InSingletonScope();
+
             builder.Bind<AsstProxy>().ToSelf().InSingletonScope();
             builder.Bind<TrayIcon>().ToSelf().InSingletonScope();
+            builder.Bind<StageManager>().ToSelf();
+
             builder.Bind<HotKeyManager>().ToSelf().InSingletonScope();
             builder.Bind<IMaaHotKeyManager>().To<MaaHotKeyManager>().InSingletonScope();
             builder.Bind<IMaaHotKeyActionHandler>().To<MaaHotKeyActionHandler>().InSingletonScope();
+
             builder.Bind<IMainWindowManager>().To<MainWindowManager>().InSingletonScope();
-            builder.Bind<StageManager>().ToSelf();
+
+            builder.Bind<IHttpService>().To<HttpService>().InSingletonScope();
+            builder.Bind<IMaaApiService>().To<MaaApiService>().InSingletonScope();
         }
 
         /// <inheritdoc/>
@@ -152,14 +186,20 @@ namespace MaaWpfGui
 
             // 注销任务栏图标
             _trayIconInSettingsViewModel.Close();
-            ViewStatusStorage.Release();
+            ConfigurationHelper.Release();
+
+            _logger.Information("MaaAssistantArknights GUI exited");
+            _logger.Information(string.Empty);
         }
 
         /// <inheritdoc/>
         protected override void OnUnhandledException(DispatcherUnhandledExceptionEventArgs e)
         {
-            // 抛异常了，可以打些日志
-            Logger.Error(e.Exception.ToString(), MethodBase.GetCurrentMethod().Name);
+            if (_logger != Logger.None)
+            {
+                _logger.Fatal(e.Exception, "Unhandled exception");
+            }
+
             var errorView = new ErrorView(e.Exception.Message, e.Exception.StackTrace, true);
             errorView.ShowDialog();
         }

@@ -6,7 +6,7 @@
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/Miscellaneous/SSSCopilotConfig.h"
 #include "Config/TaskData.h"
-#include "Controller.h"
+#include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/OcrWithFlagTemplImageAnalyzer.h"
@@ -94,6 +94,8 @@ bool asst::BattleFormationTask::add_additional()
         case Filter::Trust:
             // TODO
             break;
+        default:
+            break;
         }
         if (!filter_name.empty()) {
             ProcessTask(*this, { "BattleQuickFormationFilter" }).run();
@@ -110,7 +112,7 @@ bool asst::BattleFormationTask::add_additional()
             auto opers_result = analyzer_opers();
 
             // TODO 这里要识别一下干员之前有没有被选中过
-            for (int i = 0; i < number && i < opers_result.size(); ++i) {
+            for (size_t i = 0; i < static_cast<size_t>(number) && i < opers_result.size(); ++i) {
                 const auto& oper = opers_result.at(i);
                 ctrler()->click(oper.rect);
             }

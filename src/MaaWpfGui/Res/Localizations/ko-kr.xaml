@@ -53,6 +53,7 @@
     <system:String x:Key="CustomInfrastTitle">기반시설 구성:</system:String>
     <system:String x:Key="CustomInfrastPlan">기반시설 계획</system:String>
     <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">다음 계획용으로 자동 저장</system:String>
+    <system:String x:Key="CustomizeInfrastSelectionEmpty">커스텀 시설 설정 선택이 비어 있습니다. 구성을 확인하거나 사용자 정의 기능을 끄십시오.</system:String>
 
     <system:String x:Key="General">일반 모드</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">일반 모드 (차단됨 예외 출력)</system:String>
@@ -132,7 +133,8 @@
     <system:String x:Key="CheckBoxesNotSaved">재시작 후 변경 사항이 저장되지 않습니다</system:String>
     <system:String x:Key="NoAutoNavigation">해당 스테이지로 자동 이동하지 않습니다</system:String>
 
-    <system:String x:Key="UpdateAutoCheck">자동으로 업데이트 확인</system:String>
+    <system:String x:Key="StartupUpdateCheck">시작시 업데이트 확인</system:String>
+    <system:String x:Key="UpdatAutoCheck">일정 시간마다 업데이트 확인</system:String>
     <system:String x:Key="UpdateAutoDownload">자동으로 업데이트</system:String>
     <system:String x:Key="UpdateCheckStable">안정 버전</system:String>
     <system:String x:Key="UpdateCheckBeta">베타 버전</system:String>
@@ -174,6 +176,7 @@
     <system:String x:Key="LaunchOnSystemStartup">시스템 시작 시 MAA 실행</system:String>
     <system:String x:Key="RunTaskAfterLaunch">MAA 실행 후 작업 자동 시작</system:String>
     <system:String x:Key="ClientType">클라이언트 종류</system:String>
+    <system:String x:Key="AutoRestartOption">게임 연결이 끊어지면 자동으로 다시 연결</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">MAA 실행 후 에뮬레이터를 실행</system:String>
     <system:String x:Key="MinimizingStartup">시작 시뮬레이터 최소화</system:String>
     <system:String x:Key="WaitForEmulator">에뮬레이터 실행 대기 (초)</system:String>
@@ -438,6 +441,7 @@
     <system:String x:Key="UpperLimit">투자가 한계에 도달했습니다</system:String>
     <system:String x:Key="GameCrash">게임이 강제종료되었습니다. 다시 시작해야 합니다.</system:String>
     <system:String x:Key="GameDrop">연결이 끊어졌습니다. 다시 연결 중입니다.</system:String>
+    <system:String x:Key="GameDropNoRestart">게임 중단, 다시 연결되지 않음, 퀘스트 중지</system:String>
     <system:String x:Key="RoguelikeGamePass">게임 클리어, 축하합니다!</system:String>
     <system:String x:Key="SSSGamePass">게임 클리어, 축하합니다!</system:String>
     <system:String x:Key="Trader">레벨: 교활한 상인</system:String>

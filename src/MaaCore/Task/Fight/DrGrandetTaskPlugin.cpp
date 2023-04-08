@@ -1,7 +1,7 @@
 #include "DrGrandetTaskPlugin.h"
 
 #include "Config/TaskData.h"
-#include "Controller.h"
+#include "Controller/Controller.h"
 #include "Utils/Logger.hpp"
 #include "Vision/OcrImageAnalyzer.h"
 

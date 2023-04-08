@@ -9,11 +9,12 @@
 
 bool asst::BestMatchImageAnalyzer::analyze()
 {
-    set_log_tracing(false);
+    MatchImageAnalyzer::set_log_tracing(false);
     set_use_cache(false);
 
     MatchRect best_matched;
-    for (const auto& [name, templ] : m_templs) {
+    for (const auto& templ_info : m_templs) {
+        auto&& [name, templ] = templ_info;
         if (templ.empty()) {
             set_templ_name(name);
         }
@@ -27,13 +28,19 @@ bool asst::BestMatchImageAnalyzer::analyze()
         const auto& cur_matched = MatchImageAnalyzer::get_result();
         if (best_matched.score < cur_matched.score) {
             best_matched = cur_matched;
-            m_result_name = name;
+            m_result = templ_info;
         }
     }
-    m_result = best_matched;
 
-    Log.trace("The best match is", best_matched.to_string(), m_result_name);
-    return m_result.score > 0;
+    if (m_best_log_tracing) {
+        Log.trace("The best match is", best_matched.to_string(), m_result.name);
+    }
+    return best_matched.score > 0;
+}
+
+void asst::BestMatchImageAnalyzer::set_log_tracing(bool enable)
+{
+    m_best_log_tracing = enable;
 }
 
 void asst::BestMatchImageAnalyzer::append_templ(std::string name, const cv::Mat& templ)

@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "Config/TaskData.h"
-#include "Controller.h"
+#include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/MatchImageAnalyzer.h"

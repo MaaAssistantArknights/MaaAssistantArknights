@@ -879,6 +879,22 @@
         "sortId": 40003,
         "usage": "罗德岛人事部特别批发的许可书，在特殊的时间点上招揽特殊的人才，一次可招聘十位干员。"
     },
+    "LINKAGE_TKT_GACHA_10_3601": {
+        "classifyType": "NORMAL",
+        "description": "为了确保人才扩展而应博士要求准备的应急手段，该批寻访条目具有一定的针对性与时效性，以及，小小的风险。",
+        "icon": "LINKAGE_TKT_GACHA_10_3601.png",
+        "name": "指引明路寻访凭证",
+        "sortId": 40003,
+        "usage": "罗德岛人事部特别批发的许可书，在特殊的时间点上招揽特殊的人才，一次可招聘十位干员。"
+    },
+    "LINKAGE_TKT_GACHA_10_3602": {
+        "classifyType": "NORMAL",
+        "description": "为了确保人才扩展而应博士要求准备的应急手段，该批寻访条目具有一定的针对性与时效性，以及，小小的风险。",
+        "icon": "LINKAGE_TKT_GACHA_10_3602.png",
+        "name": "合作限定十连寻访凭证",
+        "sortId": 40003,
+        "usage": "罗德岛人事部特别批发的许可书，在特殊的时间点上招揽特殊的人才，一次可招聘十位干员。"
+    },
     "LMTGS_COIN_1401": {
         "classifyType": "NORMAL",
         "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
@@ -974,6 +990,14 @@
         "name": "寻访数据契约",
         "sortId": 10010,
         "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
+    },
+    "Logistics_Special_Permit": {
+        "classifyType": "NONE",
+        "description": "随着战区活动日趋频繁，罗德岛为了全力保障紧急派遣任务的执行而颁发的后勤特别许可证，干员凭借许可证可直接通过PRTS向本舰的后勤部申请最高优先级的后勤支援保障。后勤干员会优先为申请人配送额外的支援物资，同时协助申请人就近搜索战区资源。",
+        "icon": "Logistics_Special_Permit.png",
+        "name": "后勤特别许可证",
+        "sortId": 30200,
+        "usage": "使用后勤特别许可证后的作战不消耗理智，原常规掉落的报酬数量翻倍并调整为固定掉落"
     },
     "REP_COIN": {
         "classifyType": "NORMAL",
@@ -1575,6 +1599,982 @@
         "sortId": -10000,
         "usage": "用于抽取预约奖励。"
     },
+    "class_p_char_010_chen": {
+        "classifyType": "MATERIAL",
+        "description": "在漫长时光中尘封许久的物件。她并非是将之忘记，而仅仅是不忍再次抚摸它锈蚀的棱角；兴许在某一天，它会重新焕发出过往的炽热吧。",
+        "icon": "class_p_char_010_chen.png",
+        "name": "陈的中坚信物",
+        "sortId": 1200012,
+        "usage": "用于提升陈的潜能。"
+    },
+    "class_p_char_017_huang": {
+        "classifyType": "MATERIAL",
+        "description": "一个看不清内里构造的玻璃瓶。只要摇晃两三下，瓶身就会变得温暖起来，很适合冬天抱在手里。",
+        "icon": "class_p_char_017_huang.png",
+        "name": "煌的中坚信物",
+        "sortId": 1200019,
+        "usage": "用于提升煌的潜能。"
+    },
+    "class_p_char_101_sora": {
+        "classifyType": "MATERIAL",
+        "description": "空作为偶像出道时发售的单曲CD。虽然是一首儿童向的卡通歌曲，但依然能感受到空她想要努力唱好的心境。",
+        "icon": "class_p_char_101_sora.png",
+        "name": "空的中坚信物",
+        "sortId": 1300026,
+        "usage": "用于提升空的潜能。"
+    },
+    "class_p_char_102_texas": {
+        "classifyType": "MATERIAL",
+        "description": "一枚德克萨斯家族的标牌。其上的划痕尘封了一段往事。",
+        "icon": "class_p_char_102_texas.png",
+        "name": "德克萨斯的中坚信物",
+        "sortId": 1300003,
+        "usage": "用于提升德克萨斯的潜能。"
+    },
+    "class_p_char_103_angel": {
+        "classifyType": "MATERIAL",
+        "description": "最佳老板奖章。集满五颗可以兑换一枚超强老板奖章。",
+        "icon": "class_p_char_103_angel.png",
+        "name": "能天使的中坚信物",
+        "sortId": 1200001,
+        "usage": "用于提升能天使的潜能。"
+    },
+    "class_p_char_106_franka": {
+        "classifyType": "MATERIAL",
+        "description": "一张旅行计划书。因为规划的目的地太多而导致相当难以实现。",
+        "icon": "class_p_char_106_franka.png",
+        "name": "芙兰卡的中坚信物",
+        "sortId": 1300004,
+        "usage": "用于提升芙兰卡的潜能。"
+    },
+    "class_p_char_107_liskam": {
+        "classifyType": "MATERIAL",
+        "description": "特制的防电手环。终于，安全握手。",
+        "icon": "class_p_char_107_liskam.png",
+        "name": "雷蛇的中坚信物",
+        "sortId": 1300018,
+        "usage": "用于提升雷蛇的潜能。"
+    },
+    "class_p_char_108_silent": {
+        "classifyType": "MATERIAL",
+        "description": "一枚斑纹羽毛饰品。不善言辞的黎博利科研人员通过赠送自己的羽毛来托付情感。",
+        "icon": "class_p_char_108_silent.png",
+        "name": "赫默的中坚信物",
+        "sortId": 1300014,
+        "usage": "用于提升赫默的潜能。"
+    },
+    "class_p_char_109_fmout": {
+        "classifyType": "MATERIAL",
+        "description": "占卜套组中的一张卡片。虽然被告知了其中寓意，但未来由你自己决定。",
+        "icon": "class_p_char_109_fmout.png",
+        "name": "远山的中坚信物",
+        "sortId": 1400002,
+        "usage": "用于提升远山的潜能。"
+    },
+    "class_p_char_110_deepcl": {
+        "classifyType": "MATERIAL",
+        "description": "手绘的童话故事书。在生命与死亡间跋涉的主人公，最终踏入了河流的尽头。",
+        "icon": "class_p_char_110_deepcl.png",
+        "name": "深海色的中坚信物",
+        "sortId": 1400022,
+        "usage": "用于提升深海色的潜能。"
+    },
+    "class_p_char_112_siege": {
+        "classifyType": "MATERIAL",
+        "description": "坚硬的大颗铆钉。由伦蒂尼姆的工人打造，最终也将回到它的故土。",
+        "icon": "class_p_char_112_siege.png",
+        "name": "推进之王的中坚信物",
+        "sortId": 1200002,
+        "usage": "用于提升推进之王的潜能。"
+    },
+    "class_p_char_115_headbr": {
+        "classifyType": "MATERIAL",
+        "description": "从红色的旗帜上撕下的布条。不知为何，将它系在臂膀上时，会不自主地感到悲伤。",
+        "icon": "class_p_char_115_headbr.png",
+        "name": "凛冬的中坚信物",
+        "sortId": 1300002,
+        "usage": "用于提升凛冬的潜能。"
+    },
+    "class_p_char_117_myrrh": {
+        "classifyType": "MATERIAL",
+        "description": "以多种草药混合制作的药丸。生病的时候一定能派上用场，何况每颗药丸都被细心地裹上了糖衣。",
+        "icon": "class_p_char_117_myrrh.png",
+        "name": "末药的中坚信物",
+        "sortId": 1400016,
+        "usage": "用于提升末药的潜能。"
+    },
+    "class_p_char_118_yuki": {
+        "classifyType": "MATERIAL",
+        "description": "墨迹未干的书法作品。赠予罗德岛的祝福。",
+        "icon": "class_p_char_118_yuki.png",
+        "name": "白雪的中坚信物",
+        "sortId": 1400005,
+        "usage": "用于提升白雪的潜能。"
+    },
+    "class_p_char_120_hibisc": {
+        "classifyType": "MATERIAL",
+        "description": "一张专门为你定制的健康生活日程规划表。说实话，很难拒绝。",
+        "icon": "class_p_char_120_hibisc.png",
+        "name": "芙蓉的中坚信物",
+        "sortId": 1500010,
+        "usage": "用于提升芙蓉的潜能。"
+    },
+    "class_p_char_121_lava": {
+        "classifyType": "MATERIAL",
+        "description": "特殊加工过的匕首套。外皮上布满了故作神秘的花纹。",
+        "icon": "class_p_char_121_lava.png",
+        "name": "炎熔的中坚信物",
+        "sortId": 1500009,
+        "usage": "用于提升炎熔的潜能。"
+    },
+    "class_p_char_122_beagle": {
+        "classifyType": "MATERIAL",
+        "description": "整整齐齐地放在文件夹里的绩效考核单。所有考核项目的成绩都是A等。",
+        "icon": "class_p_char_122_beagle.png",
+        "name": "米格鲁的中坚信物",
+        "sortId": 1500006,
+        "usage": "用于提升米格鲁的潜能。"
+    },
+    "class_p_char_123_fang": {
+        "classifyType": "MATERIAL",
+        "description": "一双恰好合你尺寸的跑鞋。为了邀请你晨练，赠送者一定花了不少工夫。",
+        "icon": "class_p_char_123_fang.png",
+        "name": "芬的中坚信物",
+        "sortId": 1500001,
+        "usage": "用于提升芬的潜能。"
+    },
+    "class_p_char_124_kroos": {
+        "classifyType": "MATERIAL",
+        "description": "一套儿童射击玩具。包含有一把塑料弓，数支吸盘箭，以及替代箭靶的一个苹果。",
+        "icon": "class_p_char_124_kroos.png",
+        "name": "克洛丝的中坚信物",
+        "sortId": 1500007,
+        "usage": "用于提升克洛丝的潜能。"
+    },
+    "class_p_char_126_shotst": {
+        "classifyType": "MATERIAL",
+        "description": "由仿佛不会凋零的嫩枝编成的头冠。卡西米尔的森林低声地询问，它们的守护者何日归还。",
+        "icon": "class_p_char_126_shotst.png",
+        "name": "流星的中坚信物",
+        "sortId": 1400004,
+        "usage": "用于提升流星的潜能。"
+    },
+    "class_p_char_128_plosis": {
+        "classifyType": "MATERIAL",
+        "description": "论证源石技艺如何识别与执行的工具书。大部分干员都读不懂。",
+        "icon": "class_p_char_128_plosis.png",
+        "name": "白面鸮的中坚信物",
+        "sortId": 1300001,
+        "usage": "用于提升白面鸮的潜能。"
+    },
+    "class_p_char_129_bluep": {
+        "classifyType": "MATERIAL",
+        "description": "一张高级服装店的购物卡。抛开千篇一律的制服，尽兴搭配吧。",
+        "icon": "class_p_char_129_bluep.png",
+        "name": "蓝毒的中坚信物",
+        "sortId": 1300008,
+        "usage": "用于提升蓝毒的潜能。"
+    },
+    "class_p_char_130_doberm": {
+        "classifyType": "MATERIAL",
+        "description": "红色封皮的小册子。记录了一场艰苦卓绝的战斗。",
+        "icon": "class_p_char_130_doberm.png",
+        "name": "杜宾的中坚信物",
+        "sortId": 1400009,
+        "usage": "用于提升杜宾的潜能。"
+    },
+    "class_p_char_133_mm": {
+        "classifyType": "MATERIAL",
+        "description": "一把来路不明的泰瑟枪。正好可以与梅常用的武器配成一对。",
+        "icon": "class_p_char_133_mm.png",
+        "name": "梅的中坚信物",
+        "sortId": 1400032,
+        "usage": "用于提升梅的潜能。"
+    },
+    "class_p_char_134_ifrit": {
+        "classifyType": "MATERIAL",
+        "description": "有着严重烧灼痕迹的长篇传奇故事书。勉强还可以读。",
+        "icon": "class_p_char_134_ifrit.png",
+        "name": "伊芙利特的中坚信物",
+        "sortId": 1200003,
+        "usage": "用于提升伊芙利特的潜能。"
+    },
+    "class_p_char_136_hsguma": {
+        "classifyType": "MATERIAL",
+        "description": "过时的流行漫画。讲述了名不见经传的鬼怪在各色同伴的陪伴下成长为英雄的故事。",
+        "icon": "class_p_char_136_hsguma.png",
+        "name": "星熊的中坚信物",
+        "sortId": 1200008,
+        "usage": "用于提升星熊的潜能。"
+    },
+    "class_p_char_137_brownb": {
+        "classifyType": "MATERIAL",
+        "description": "一座拳赛奖杯。底座上刻下的名字业已模糊，但杯身仿佛依然散发着自豪的光辉。",
+        "icon": "class_p_char_137_brownb.png",
+        "name": "猎蜂的中坚信物",
+        "sortId": 1400025,
+        "usage": "用于提升猎蜂的潜能。"
+    },
+    "class_p_char_140_whitew": {
+        "classifyType": "MATERIAL",
+        "description": "数个印着名字的染血标牌。来自各个帮派的家长。",
+        "icon": "class_p_char_140_whitew.png",
+        "name": "拉普兰德的中坚信物",
+        "sortId": 1300006,
+        "usage": "用于提升拉普兰德的潜能。"
+    },
+    "class_p_char_141_nights": {
+        "classifyType": "MATERIAL",
+        "description": "一根汤勺。配套的凿子藏在了一本书里。",
+        "icon": "class_p_char_141_nights.png",
+        "name": "夜烟的中坚信物",
+        "sortId": 1400001,
+        "usage": "用于提升夜烟的潜能。"
+    },
+    "class_p_char_143_ghost": {
+        "classifyType": "MATERIAL",
+        "description": "一幅难以描述的绘画。斑驳的留白令人茫然若失。",
+        "icon": "class_p_char_143_ghost.png",
+        "name": "幽灵鲨的中坚信物",
+        "sortId": 1300007,
+        "usage": "用于提升幽灵鲨的潜能。"
+    },
+    "class_p_char_144_red": {
+        "classifyType": "MATERIAL",
+        "description": "一颗尖尖的乳牙。希望你能帮她收好。",
+        "icon": "class_p_char_144_red.png",
+        "name": "红的中坚信物",
+        "sortId": 1300017,
+        "usage": "用于提升红的潜能。"
+    },
+    "class_p_char_145_prove": {
+        "classifyType": "MATERIAL",
+        "description": "一台多功能吸尘器。更多时候用于清理从干员们尾巴上掉落的毛。",
+        "icon": "class_p_char_145_prove.png",
+        "name": "普罗旺斯的中坚信物",
+        "sortId": 1300021,
+        "usage": "用于提升普罗旺斯的潜能。"
+    },
+    "class_p_char_147_shining": {
+        "classifyType": "MATERIAL",
+        "description": "一条外观普通的白色吊坠。无法被尘埃所沾染。",
+        "icon": "class_p_char_147_shining.png",
+        "name": "闪灵的中坚信物",
+        "sortId": 1200006,
+        "usage": "用于提升闪灵的潜能。"
+    },
+    "class_p_char_148_nearl": {
+        "classifyType": "MATERIAL",
+        "description": "古旧褪色的卡西米尔骑士纹章。乌银雕饰的天马振翅欲飞。",
+        "icon": "class_p_char_148_nearl.png",
+        "name": "临光的中坚信物",
+        "sortId": 1300016,
+        "usage": "用于提升临光的潜能。"
+    },
+    "class_p_char_149_scave": {
+        "classifyType": "MATERIAL",
+        "description": "一枚银币。也许能用它决定一些更重要的事。",
+        "icon": "class_p_char_149_scave.png",
+        "name": "清道夫的中坚信物",
+        "sortId": 1400007,
+        "usage": "用于提升清道夫的潜能。"
+    },
+    "class_p_char_150_snakek": {
+        "classifyType": "MATERIAL",
+        "description": "普通的棒球棍，棍身歪歪扭扭地写着数位知名球手的签名。虽然，也许，大概，即使签名是模仿的，想要分享的心情却是真实的。",
+        "icon": "class_p_char_150_snakek.png",
+        "name": "蛇屠箱的中坚信物",
+        "sortId": 1400020,
+        "usage": "用于提升蛇屠箱的潜能。"
+    },
+    "class_p_char_151_myrtle": {
+        "classifyType": "MATERIAL",
+        "description": "一根和她手中棍子别无二致的长条，是她亲自挑选的。虽然没有什么特别的用处，不过她似乎对这份礼物十分满意。",
+        "icon": "class_p_char_151_myrtle.png",
+        "name": "桃金娘的中坚信物",
+        "sortId": 1400027,
+        "usage": "用于提升桃金娘的潜能。"
+    },
+    "class_p_char_158_milu": {
+        "classifyType": "MATERIAL",
+        "description": "造型简单的口琴。悠扬乐声响起的瞬间，落叶如雨。",
+        "icon": "class_p_char_158_milu.png",
+        "name": "守林人的中坚信物",
+        "sortId": 1300022,
+        "usage": "用于提升守林人的潜能。"
+    },
+    "class_p_char_164_nightm": {
+        "classifyType": "MATERIAL",
+        "description": "商店中随处可见的可爱布偶。如果放在没有光的地方，便会显现出另外一番样貌。",
+        "icon": "class_p_char_164_nightm.png",
+        "name": "夜魔的中坚信物",
+        "sortId": 1300030,
+        "usage": "用于提升夜魔的潜能。"
+    },
+    "class_p_char_166_skfire": {
+        "classifyType": "MATERIAL",
+        "description": "一颗触感冰凉的玻璃珠，内里的颜色正在翻腾燃烧。",
+        "icon": "class_p_char_166_skfire.png",
+        "name": "天火的中坚信物",
+        "sortId": 1300012,
+        "usage": "用于提升天火的潜能。"
+    },
+    "class_p_char_171_bldsk": {
+        "classifyType": "MATERIAL",
+        "description": "被封存在透明小瓶的神秘液体。粘稠而富有光泽的红色在你的晃动之下，于瓶中缓缓地改变着形态。",
+        "icon": "class_p_char_171_bldsk.png",
+        "name": "华法琳的中坚信物",
+        "sortId": 1300015,
+        "usage": "用于提升华法琳的潜能。"
+    },
+    "class_p_char_172_svrash": {
+        "classifyType": "MATERIAL",
+        "description": "世上仅有数块，象征挚诚的源石冰晶。永远不会融化。",
+        "icon": "class_p_char_172_svrash.png",
+        "name": "银灰的中坚信物",
+        "sortId": 1200010,
+        "usage": "用于提升银灰的潜能。"
+    },
+    "class_p_char_173_slchan": {
+        "classifyType": "MATERIAL",
+        "description": "手工编织的绳环。三股长绳紧紧缠绕在一起，不分彼此。",
+        "icon": "class_p_char_173_slchan.png",
+        "name": "崖心的中坚信物",
+        "sortId": 1300023,
+        "usage": "用于提升崖心的潜能。"
+    },
+    "class_p_char_174_slbell": {
+        "classifyType": "MATERIAL",
+        "description": "小小的银色铃铛。微风吹拂之下，幽远的铃声沁人心脾。",
+        "icon": "class_p_char_174_slbell.png",
+        "name": "初雪的中坚信物",
+        "sortId": 1300024,
+        "usage": "用于提升初雪的潜能。"
+    },
+    "class_p_char_179_cgbird": {
+        "classifyType": "MATERIAL",
+        "description": "一整盒杂乱的拼图碎片。让人更头疼的地方在于，其中有不少块都是空白的。",
+        "icon": "class_p_char_179_cgbird.png",
+        "name": "夜莺的中坚信物",
+        "sortId": 1200007,
+        "usage": "用于提升夜莺的潜能。"
+    },
+    "class_p_char_180_amgoat": {
+        "classifyType": "MATERIAL",
+        "description": "小巧的理发剪。柄的位置细心地缠绕着隔热的布料。",
+        "icon": "class_p_char_180_amgoat.png",
+        "name": "艾雅法拉的中坚信物",
+        "sortId": 1200004,
+        "usage": "用于提升艾雅法拉的潜能。"
+    },
+    "class_p_char_181_flower": {
+        "classifyType": "MATERIAL",
+        "description": "富有米诺斯古典时代气息的双耳花瓶。需赠送者本人定期更换新鲜花卉。",
+        "icon": "class_p_char_181_flower.png",
+        "name": "调香师的中坚信物",
+        "sortId": 1400018,
+        "usage": "用于提升调香师的潜能。"
+    },
+    "class_p_char_183_skgoat": {
+        "classifyType": "MATERIAL",
+        "description": "形状古怪的小块矿石。放在耳边时，似乎能听见液体流动的细微声响。",
+        "icon": "class_p_char_183_skgoat.png",
+        "name": "地灵的中坚信物",
+        "sortId": 1400023,
+        "usage": "用于提升地灵的潜能。"
+    },
+    "class_p_char_185_frncat": {
+        "classifyType": "MATERIAL",
+        "description": "一本封皮装点着金丝花纹的相册。里面的照片来自各只与拍摄者亲近的猫猫。猫猫！",
+        "icon": "class_p_char_185_frncat.png",
+        "name": "慕斯的中坚信物",
+        "sortId": 1400013,
+        "usage": "用于提升慕斯的潜能。"
+    },
+    "class_p_char_188_helage": {
+        "classifyType": "MATERIAL",
+        "description": "一本绝不允许他人借阅的厚重线装书。乌萨斯数十年的战争始末跃然纸上，漫长苦难自干涸墨迹里汩汩流出。",
+        "icon": "class_p_char_188_helage.png",
+        "name": "赫拉格的中坚信物",
+        "sortId": 1200014,
+        "usage": "用于提升赫拉格的潜能。"
+    },
+    "class_p_char_190_clour": {
+        "classifyType": "MATERIAL",
+        "description": "一串洁白的兽牙雕饰，其中一枚取自夺去她左臂的那只野兽。",
+        "icon": "class_p_char_190_clour.png",
+        "name": "红云的中坚信物",
+        "sortId": 1400031,
+        "usage": "用于提升红云的潜能。"
+    },
+    "class_p_char_192_falco": {
+        "classifyType": "MATERIAL",
+        "description": "克制地装饰着少量羽毛的礼帽。适合拉特兰的各个节日。",
+        "icon": "class_p_char_192_falco.png",
+        "name": "翎羽的中坚信物",
+        "sortId": 1500003,
+        "usage": "用于提升翎羽的潜能。"
+    },
+    "class_p_char_193_frostl": {
+        "classifyType": "MATERIAL",
+        "description": "翻得破破烂烂的识字本。每页的空白处都认真地标注着许多图画般的符号。",
+        "icon": "class_p_char_193_frostl.png",
+        "name": "霜叶的中坚信物",
+        "sortId": 1400011,
+        "usage": "用于提升霜叶的潜能。"
+    },
+    "class_p_char_195_glassb": {
+        "classifyType": "MATERIAL",
+        "description": "一本讲述乌萨斯战争史的著作。据说作者现正流亡于莱塔尼亚。",
+        "icon": "class_p_char_195_glassb.png",
+        "name": "真理的中坚信物",
+        "sortId": 1300025,
+        "usage": "用于提升真理的潜能。"
+    },
+    "class_p_char_196_sunbr": {
+        "classifyType": "MATERIAL",
+        "description": "一张“古米早餐厨房”优惠卷。-100%是不是免费的意思......？",
+        "icon": "class_p_char_196_sunbr.png",
+        "name": "古米的中坚信物",
+        "sortId": 1400021,
+        "usage": "用于提升古米的潜能。"
+    },
+    "class_p_char_199_yak": {
+        "classifyType": "MATERIAL",
+        "description": "略微有些粗糙的木雕人像。垂首低眉的姿态十分安详。",
+        "icon": "class_p_char_199_yak.png",
+        "name": "角峰的中坚信物",
+        "sortId": 1400019,
+        "usage": "用于提升角峰的潜能。"
+    },
+    "class_p_char_2013_cerber": {
+        "classifyType": "MATERIAL",
+        "description": "花了好长时间才叠出来的短刀纸模。歪歪扭扭，满是折痕，不怎么精致。收到的人会喜欢吗？",
+        "icon": "class_p_char_2013_cerber.png",
+        "name": "刻俄柏的中坚信物",
+        "sortId": 1200020,
+        "usage": "用于提升刻俄柏的潜能。"
+    },
+    "class_p_char_201_moeshd": {
+        "classifyType": "MATERIAL",
+        "description": "一张设计得十分少女的名片。比起寻常名片多出了一个收款码和“请多惠顾~”的字样。",
+        "icon": "class_p_char_201_moeshd.png",
+        "name": "可颂的中坚信物",
+        "sortId": 1300019,
+        "usage": "用于提升可颂的潜能。"
+    },
+    "class_p_char_202_demkni": {
+        "classifyType": "MATERIAL",
+        "description": "数张安保协防合同。其中几份已经盖上了灰色的钙质印章。",
+        "icon": "class_p_char_202_demkni.png",
+        "name": "塞雷娅的中坚信物",
+        "sortId": 1200009,
+        "usage": "用于提升塞雷娅的潜能。"
+    },
+    "class_p_char_204_platnm": {
+        "classifyType": "MATERIAL",
+        "description": "两张游乐园的门票。这个周末一起去吧。",
+        "icon": "class_p_char_204_platnm.png",
+        "name": "白金的中坚信物",
+        "sortId": 1300009,
+        "usage": "用于提升白金的潜能。"
+    },
+    "class_p_char_208_melan": {
+        "classifyType": "MATERIAL",
+        "description": "简单包装的香烛。别致的香味让人无法忘却。",
+        "icon": "class_p_char_208_melan.png",
+        "name": "玫兰莎的中坚信物",
+        "sortId": 1500004,
+        "usage": "用于提升玫兰莎的潜能。"
+    },
+    "class_p_char_209_ardign": {
+        "classifyType": "MATERIAL",
+        "description": "用质地坚实的木材打造的雪橇。突然开始期待下雪。",
+        "icon": "class_p_char_209_ardign.png",
+        "name": "卡缇的中坚信物",
+        "sortId": 1500005,
+        "usage": "用于提升卡缇的潜能。"
+    },
+    "class_p_char_210_stward": {
+        "classifyType": "MATERIAL",
+        "description": "时兴的运动臂环。似乎是外观较为朴素的单色版。",
+        "icon": "class_p_char_210_stward.png",
+        "name": "史都华德的中坚信物",
+        "sortId": 1500012,
+        "usage": "用于提升史都华德的潜能。"
+    },
+    "class_p_char_212_ansel": {
+        "classifyType": "MATERIAL",
+        "description": "一台便于携带的气压式血压计。就算身边没有医生,也希望你能善待自己的身体。",
+        "icon": "class_p_char_212_ansel.png",
+        "name": "安赛尔的中坚信物",
+        "sortId": 1500011,
+        "usage": "用于提升安赛尔的潜能。"
+    },
+    "class_p_char_213_mostma": {
+        "classifyType": "MATERIAL",
+        "description": "她的铳。她不需要了。",
+        "icon": "class_p_char_213_mostma.png",
+        "name": "莫斯提马的中坚信物",
+        "sortId": 1200016,
+        "usage": "用于提升莫斯提马的潜能。"
+    },
+    "class_p_char_215_mantic": {
+        "classifyType": "MATERIAL",
+        "description": "用牵牛花贴纸封口的淡紫色信封。拆开信封，折叠过的信纸上清秀地写着“请和我做朋友”几个字。",
+        "icon": "class_p_char_215_mantic.png",
+        "name": "狮蝎的中坚信物",
+        "sortId": 1300027,
+        "usage": "用于提升狮蝎的潜能。"
+    },
+    "class_p_char_219_meteo": {
+        "classifyType": "MATERIAL",
+        "description": "从营救过的萨卡兹孩子那里收到的信。乱七八糟地写着对罗德岛的感谢。",
+        "icon": "class_p_char_219_meteo.png",
+        "name": "陨星的中坚信物",
+        "sortId": 1300010,
+        "usage": "用于提升陨星的潜能。"
+    },
+    "class_p_char_222_bpipe": {
+        "classifyType": "MATERIAL",
+        "description": "一把红麦。大地孕育生命，生命反哺大地。",
+        "icon": "class_p_char_222_bpipe.png",
+        "name": "风笛的中坚信物",
+        "sortId": 1200021,
+        "usage": "用于提升风笛的潜能。"
+    },
+    "class_p_char_225_haak": {
+        "classifyType": "MATERIAL",
+        "description": "一个药瓶，里面装了六颗不同颜色的药丸。但是没有给说明书。",
+        "icon": "class_p_char_225_haak.png",
+        "name": "阿的中坚信物",
+        "sortId": 1200017,
+        "usage": "用于提升阿的潜能。"
+    },
+    "class_p_char_226_hmau": {
+        "classifyType": "MATERIAL",
+        "description": "一本吽亲自整理和撰写的，各季节家常推荐食谱，上面的菜都好做又好吃。",
+        "icon": "class_p_char_226_hmau.png",
+        "name": "吽的中坚信物",
+        "sortId": 1300043,
+        "usage": "用于提升吽的潜能。"
+    },
+    "class_p_char_235_jesica": {
+        "classifyType": "MATERIAL",
+        "description": "一张黑钢入职纪念照。一段崭新人生的开始。",
+        "icon": "class_p_char_235_jesica.png",
+        "name": "杰西卡的中坚信物",
+        "sortId": 1400003,
+        "usage": "用于提升杰西卡的潜能。"
+    },
+    "class_p_char_236_rope": {
+        "classifyType": "MATERIAL",
+        "description": "一件连价格标识都没撕掉的昂贵装饰品。真的可以收下吗......",
+        "icon": "class_p_char_236_rope.png",
+        "name": "暗索的中坚信物",
+        "sortId": 1400015,
+        "usage": "用于提升暗索的潜能。"
+    },
+    "class_p_char_237_gravel": {
+        "classifyType": "MATERIAL",
+        "description": "磨损严重的卡西米尔骑士徽章。无论过往如何，掌握当下才重要。",
+        "icon": "class_p_char_237_gravel.png",
+        "name": "砾的中坚信物",
+        "sortId": 1400014,
+        "usage": "用于提升砾的潜能。"
+    },
+    "class_p_char_240_wyvern": {
+        "classifyType": "MATERIAL",
+        "description": "瓦伊凡边界草原的野生动物分布图。图上的标记在移动城市的轰鸣中渐渐消失。",
+        "icon": "class_p_char_240_wyvern.png",
+        "name": "香草的中坚信物",
+        "sortId": 1500002,
+        "usage": "用于提升香草的潜能。"
+    },
+    "class_p_char_241_panda": {
+        "classifyType": "MATERIAL",
+        "description": "一张武打电影海报。主角的长相有些面熟。",
+        "icon": "class_p_char_241_panda.png",
+        "name": "食铁兽的中坚信物",
+        "sortId": 1300028,
+        "usage": "用于提升食铁兽的潜能。"
+    },
+    "class_p_char_242_otter": {
+        "classifyType": "MATERIAL",
+        "description": "小号的咪波模型。腹部有一个红色的圆形按钮。唔......",
+        "icon": "class_p_char_242_otter.png",
+        "name": "梅尔的中坚信物",
+        "sortId": 1300013,
+        "usage": "用于提升梅尔的潜能。"
+    },
+    "class_p_char_243_waaifu": {
+        "classifyType": "MATERIAL",
+        "description": "一本以古怪字体写就的秘传拳谱。作为工具书，或许有参考的价值......吧？",
+        "icon": "class_p_char_243_waaifu.png",
+        "name": "槐琥的中坚信物",
+        "sortId": 1300040,
+        "usage": "用于提升槐琥的潜能。"
+    },
+    "class_p_char_248_mgllan": {
+        "classifyType": "MATERIAL",
+        "description": "一根冰雪覆盖的树枝化石。曾经根植于大地的苍天巨树，如今只剩下这短短一枝，细细诉说着往昔的故事。",
+        "icon": "class_p_char_248_mgllan.png",
+        "name": "麦哲伦的中坚信物",
+        "sortId": 1200015,
+        "usage": "用于提升麦哲伦的潜能。"
+    },
+    "class_p_char_250_phatom": {
+        "classifyType": "MATERIAL",
+        "description": "一张老旧的乐谱。音符与字迹都已在岁月中模糊不清。",
+        "icon": "class_p_char_250_phatom.png",
+        "name": "傀影的中坚信物",
+        "sortId": 1200022,
+        "usage": "用于提升傀影的潜能。"
+    },
+    "class_p_char_253_greyy": {
+        "classifyType": "MATERIAL",
+        "description": "一盏设计精巧的LED提灯。只要嵌入一粒源石碎片就能长明不灭，就用它驱散萦绕黑夜的不安感吧。",
+        "icon": "class_p_char_253_greyy.png",
+        "name": "格雷伊的中坚信物",
+        "sortId": 1400026,
+        "usage": "用于提升格雷伊的潜能。"
+    },
+    "class_p_char_254_vodfox": {
+        "classifyType": "MATERIAL",
+        "description": "咬过一口的苹果，小小的牙印清晰可见。",
+        "icon": "class_p_char_254_vodfox.png",
+        "name": "巫恋的中坚信物",
+        "sortId": 1300048,
+        "usage": "用于提升巫恋的潜能。"
+    },
+    "class_p_char_258_podego": {
+        "classifyType": "MATERIAL",
+        "description": "一包花种，能够让博士的办公室变为花田。只要不过敏，哪里都是庭院。",
+        "icon": "class_p_char_258_podego.png",
+        "name": "波登可的中坚信物",
+        "sortId": 1400037,
+        "usage": "用于提升波登可的潜能。"
+    },
+    "class_p_char_261_sddrag": {
+        "classifyType": "MATERIAL",
+        "description": "一首写在日记纸上的短诗。笔迹娟美细碎，用词令人疼痛难忍。",
+        "icon": "class_p_char_261_sddrag.png",
+        "name": "苇草的中坚信物",
+        "sortId": 1300038,
+        "usage": "用于提升苇草的潜能。"
+    },
+    "class_p_char_263_skadi": {
+        "classifyType": "MATERIAL",
+        "description": "用家乡语言写下的歌谱。虽然完全没法理解这种文字，但她确实是打算教你这首歌的。",
+        "icon": "class_p_char_263_skadi.png",
+        "name": "斯卡蒂的中坚信物",
+        "sortId": 1200011,
+        "usage": "用于提升斯卡蒂的潜能。"
+    },
+    "class_p_char_271_spikes": {
+        "classifyType": "MATERIAL",
+        "description": "一颗橡胶玩具子弹。萨科塔的孩子们都有自己的玩具枪，并且总用这种橡胶子弹填满所有口袋。",
+        "icon": "class_p_char_271_spikes.png",
+        "name": "芳汀的中坚信物",
+        "sortId": 1400041,
+        "usage": "用于提升芳汀的潜能。"
+    },
+    "class_p_char_272_strong": {
+        "classifyType": "MATERIAL",
+        "description": "一把菜刀。精钢打造，大概花了不少钱。",
+        "icon": "class_p_char_272_strong.png",
+        "name": "孑的中坚信物",
+        "sortId": 1400039,
+        "usage": "用于提升孑的潜能。"
+    },
+    "class_p_char_274_astesi": {
+        "classifyType": "MATERIAL",
+        "description": "一支灌注了特殊墨水的钢笔。笔尖划过纸张，银河为之闪烁。",
+        "icon": "class_p_char_274_astesi.png",
+        "name": "星极的中坚信物",
+        "sortId": 1300032,
+        "usage": "用于提升星极的潜能。"
+    },
+    "class_p_char_277_sqrrel": {
+        "classifyType": "MATERIAL",
+        "description": "一本邮票纪念册。以前，它的拥有者根本不会允许他人触碰自己宝贵的收集。",
+        "icon": "class_p_char_277_sqrrel.png",
+        "name": "阿消的中坚信物",
+        "sortId": 1400024,
+        "usage": "用于提升阿消的潜能。"
+    },
+    "class_p_char_278_orchid": {
+        "classifyType": "MATERIAL",
+        "description": "精心包装好的高级钢笔。用它批阅文件时，会产生一种身在写字楼中的感觉。",
+        "icon": "class_p_char_278_orchid.png",
+        "name": "梓兰的中坚信物",
+        "sortId": 1500013,
+        "usage": "用于提升梓兰的潜能。"
+    },
+    "class_p_char_279_excu": {
+        "classifyType": "MATERIAL",
+        "description": "一本《泰拉城邦防身手册》。事无巨细地描述了在各个知名城邦办公时需要注意的种种事项，大多与人身安全有紧密关系，且和一般人的生活基本没有关系。",
+        "icon": "class_p_char_279_excu.png",
+        "name": "送葬人的中坚信物",
+        "sortId": 1300037,
+        "usage": "用于提升送葬人的潜能。"
+    },
+    "class_p_char_281_popka": {
+        "classifyType": "MATERIAL",
+        "description": "实心金属玩具。特别重，超级难损坏。",
+        "icon": "class_p_char_281_popka.png",
+        "name": "泡普卡的中坚信物",
+        "sortId": 1500017,
+        "usage": "用于提升泡普卡的潜能。"
+    },
+    "class_p_char_282_catap": {
+        "classifyType": "MATERIAL",
+        "description": "一块只有士兵才会佩戴的铭牌。因为不再被束缚，所以将自己的荣誉交给你。",
+        "icon": "class_p_char_282_catap.png",
+        "name": "空爆的中坚信物",
+        "sortId": 1500014,
+        "usage": "用于提升空爆的潜能。"
+    },
+    "class_p_char_283_midn": {
+        "classifyType": "MATERIAL",
+        "description": "精美的高脚酒杯。昏黄的灯光下，杯身散发出令人沉醉的色彩。",
+        "icon": "class_p_char_283_midn.png",
+        "name": "月见夜的中坚信物",
+        "sortId": 1500015,
+        "usage": "用于提升月见夜的潜能。"
+    },
+    "class_p_char_284_spot": {
+        "classifyType": "MATERIAL",
+        "description": "一本俚语大全，记载了数个国家各种语言里温柔讽刺他人的句子。",
+        "icon": "class_p_char_284_spot.png",
+        "name": "斑点的中坚信物",
+        "sortId": 1500016,
+        "usage": "用于提升斑点的潜能。"
+    },
+    "class_p_char_289_gyuki": {
+        "classifyType": "MATERIAL",
+        "description": "一副柔软的眼罩。在睡觉的时候戴上也挺不错的。",
+        "icon": "class_p_char_289_gyuki.png",
+        "name": "缠丸的中坚信物",
+        "sortId": 1400010,
+        "usage": "用于提升缠丸的潜能。"
+    },
+    "class_p_char_290_vigna": {
+        "classifyType": "MATERIAL",
+        "description": "练习用电吉他。带着它前往战场的提案被否决了。",
+        "icon": "class_p_char_290_vigna.png",
+        "name": "红豆的中坚信物",
+        "sortId": 1400008,
+        "usage": "用于提升红豆的潜能。"
+    },
+    "class_p_char_291_aglina": {
+        "classifyType": "MATERIAL",
+        "description": "酸橙味的保湿唇膏。旷野中的风与夜晚的城市一样干燥。",
+        "icon": "class_p_char_291_aglina.png",
+        "name": "安洁莉娜的中坚信物",
+        "sortId": 1200005,
+        "usage": "用于提升安洁莉娜的潜能。"
+    },
+    "class_p_char_298_susuro": {
+        "classifyType": "MATERIAL",
+        "description": "一本纸质柔和的日记本。无论过去还是未来的记忆，只要得以记录，就永远不会再消失了吧？",
+        "icon": "class_p_char_298_susuro.png",
+        "name": "苏苏洛的中坚信物",
+        "sortId": 1400028,
+        "usage": "用于提升苏苏洛的潜能。"
+    },
+    "class_p_char_301_cutter": {
+        "classifyType": "MATERIAL",
+        "description": "一枚手工雕刻的护身符，因制作者在雕制时总是用力过猛而充满伤痕。",
+        "icon": "class_p_char_301_cutter.png",
+        "name": "刻刀的中坚信物",
+        "sortId": 1400036,
+        "usage": "用于提升刻刀的潜能。"
+    },
+    "class_p_char_302_glaze": {
+        "classifyType": "MATERIAL",
+        "description": "一枚做工精巧的化妆镜。携带非常方便，可以在战斗中随时检查发型是否凌乱。",
+        "icon": "class_p_char_302_glaze.png",
+        "name": "安比尔的中坚信物",
+        "sortId": 1400033,
+        "usage": "用于提升安比尔的潜能。"
+    },
+    "class_p_char_306_leizi": {
+        "classifyType": "MATERIAL",
+        "description": "一把造型老旧的橡木尺子。没有规矩，不成方圆。",
+        "icon": "class_p_char_306_leizi.png",
+        "name": "惊蛰的中坚信物",
+        "sortId": 1300045,
+        "usage": "用于提升惊蛰的潜能。"
+    },
+    "class_p_char_308_swire": {
+        "classifyType": "MATERIAL",
+        "description": "一枚伤痕累累的警徽。无名的警员在某次重大案件中失落了警徽，也没有人能够认领，只是，总得有人起身对抗罪恶。",
+        "icon": "class_p_char_308_swire.png",
+        "name": "诗怀雅的中坚信物",
+        "sortId": 1300031,
+        "usage": "用于提升诗怀雅的潜能。"
+    },
+    "class_p_char_326_glacus": {
+        "classifyType": "MATERIAL",
+        "description": "一节没电的电池，无用之物最后的用处就是收藏。",
+        "icon": "class_p_char_326_glacus.png",
+        "name": "格劳克斯的中坚信物",
+        "sortId": 1300034,
+        "usage": "用于提升格劳克斯的潜能。"
+    },
+    "class_p_char_328_cammou": {
+        "classifyType": "MATERIAL",
+        "description": "一张塞满内容的光盘，里面全是卡达近年来制作的高人气视频。包含了花絮和未删减部分，某些场景一刀未切。",
+        "icon": "class_p_char_328_cammou.png",
+        "name": "卡达的中坚信物",
+        "sortId": 1400038,
+        "usage": "用于提升卡达的潜能。"
+    },
+    "class_p_char_337_utage": {
+        "classifyType": "MATERIAL",
+        "description": "一个漆黑的盒子。里面是漆黑的盒子，漆黑的盒子，以及......美甲套装？！",
+        "icon": "class_p_char_337_utage.png",
+        "name": "宴的中坚信物",
+        "sortId": 1400035,
+        "usage": "用于提升宴的潜能。"
+    },
+    "class_p_char_340_shwaz": {
+        "classifyType": "MATERIAL",
+        "description": "一把弩。保养得很好，使用起来也十分便捷。但从上面的各种武器划痕和细小缺口中，可以窥见它曾经历过怎样的厮杀。",
+        "icon": "class_p_char_340_shwaz.png",
+        "name": "黑的中坚信物",
+        "sortId": 1200013,
+        "usage": "用于提升黑的潜能。"
+    },
+    "class_p_char_347_jaksel": {
+        "classifyType": "MATERIAL",
+        "description": "一双崭新的运动鞋。她对于和你一同锻炼身体十分期待。",
+        "icon": "class_p_char_347_jaksel.png",
+        "name": "杰克的中坚信物",
+        "sortId": 1400043,
+        "usage": "用于提升杰克的潜能。"
+    },
+    "class_p_char_356_broca": {
+        "classifyType": "MATERIAL",
+        "description": "一座精致的叙拉古某城微缩景观模型。被悄悄地放在你的办公室里，直到你第二天上班的时候才发现。",
+        "icon": "class_p_char_356_broca.png",
+        "name": "布洛卡的中坚信物",
+        "sortId": 1300039,
+        "usage": "用于提升布洛卡的潜能。"
+    },
+    "class_p_char_366_acdrop": {
+        "classifyType": "MATERIAL",
+        "description": "一块崭新的滑板，她送给你的，附赠了创口贴和消毒水。",
+        "icon": "class_p_char_366_acdrop.png",
+        "name": "酸糖的中坚信物",
+        "sortId": 1400040,
+        "usage": "用于提升酸糖的潜能。"
+    },
+    "class_p_char_367_swllow": {
+        "classifyType": "MATERIAL",
+        "description": "一节断裂的手术刀，父亲的遗物，难以想象向感染者施以援手的医生竟然会经受这样的折磨。",
+        "icon": "class_p_char_367_swllow.png",
+        "name": "灰喉的中坚信物",
+        "sortId": 1300042,
+        "usage": "用于提升灰喉的潜能。"
+    },
+    "class_p_char_379_sesa": {
+        "classifyType": "MATERIAL",
+        "description": "一个刻着符文的挂坠，浮夸的装饰下饱含对过去的执念。",
+        "icon": "class_p_char_379_sesa.png",
+        "name": "慑砂的中坚信物",
+        "sortId": 1300046,
+        "usage": "用于提升慑砂的潜能。"
+    },
+    "class_p_char_381_bubble": {
+        "classifyType": "MATERIAL",
+        "description": "一个从野外挖来的树墩。她也不知道这东西有什么用，只是觉得好玩就挖来送你了。",
+        "icon": "class_p_char_381_bubble.png",
+        "name": "泡泡的中坚信物",
+        "sortId": 1400042,
+        "usage": "用于提升泡泡的潜能。"
+    },
+    "class_p_char_4041_chnut": {
+        "classifyType": "MATERIAL",
+        "description": "由于种植不易，只是很小的一丛地底荧光蘑菇，但它代表着家乡。",
+        "icon": "class_p_char_4041_chnut.png",
+        "name": "褐果的中坚信物",
+        "sortId": 1400049,
+        "usage": "用于提升褐果的潜能。"
+    },
+    "class_p_char_4062_totter": {
+        "classifyType": "MATERIAL",
+        "description": "一段被冻得硬邦邦的木柴，被丢进炉子燃烧前还需简单烘烤以去除水分。",
+        "icon": "class_p_char_4062_totter.png",
+        "name": "铅踝的中坚信物",
+        "sortId": 1400050,
+        "usage": "用于提升铅踝的潜能。"
+    },
+    "class_p_char_440_pinecn": {
+        "classifyType": "MATERIAL",
+        "description": "一个很重的工具包，内含一把备用钉枪，很多备用零件，还有她忘在里面的小小玩偶。",
+        "icon": "class_p_char_440_pinecn.png",
+        "name": "松果的中坚信物",
+        "sortId": 1400044,
+        "usage": "用于提升松果的潜能。"
+    },
+    "class_p_char_452_bstalk": {
+        "classifyType": "MATERIAL",
+        "description": "宠物磐蟹幼崽兑换券。经饲养人承诺并盖章，凭此券可在豆苗培育公司正式创建后，兑换领养一只磐蟹宝宝。",
+        "icon": "class_p_char_452_bstalk.png",
+        "name": "豆苗的中坚信物",
+        "sortId": 1400045,
+        "usage": "用于提升豆苗的潜能。"
+    },
+    "class_p_char_469_indigo": {
+        "classifyType": "MATERIAL",
+        "description": "一只美丽的水萤虫。它微弱的光能照亮一个夜晚。到了第二天，你可以放它自由。",
+        "icon": "class_p_char_469_indigo.png",
+        "name": "深靛的中坚信物",
+        "sortId": 1400046,
+        "usage": "用于提升深靛的潜能。"
+    },
+    "class_p_char_484_robrta": {
+        "classifyType": "MATERIAL",
+        "description": "一支化妆刷，做工粗糙，看起来有些年头了，但每一根褐色刷毛都干干净净，还很柔软。",
+        "icon": "class_p_char_484_robrta.png",
+        "name": "罗比菈塔的中坚信物",
+        "sortId": 1400047,
+        "usage": "用于提升罗比菈塔的潜能。"
+    },
+    "class_p_char_491_humus": {
+        "classifyType": "MATERIAL",
+        "description": "一把污迹斑斑的自制冲击钻。可以用来打孔、拧螺丝，偶尔也不得不对着人。",
+        "icon": "class_p_char_491_humus.png",
+        "name": "休谟斯的中坚信物",
+        "sortId": 1400052,
+        "usage": "用于提升休谟斯的潜能。"
+    },
+    "classic_gacha": {
+        "classifyType": "NORMAL",
+        "description": "罗德岛的发展离不开中坚力量的辅助与支持，该寻访条目可以协助博士在一定范围内招揽特定的人才。",
+        "icon": "classic_gacha.png",
+        "name": "中坚寻访凭证",
+        "sortId": 40011,
+        "usage": "罗德岛人事部特别批发的许可书，可以招揽一位中坚人才。"
+    },
+    "classic_gacha_10": {
+        "classifyType": "NORMAL",
+        "description": "罗德岛的发展离不开中坚力量的辅助与支持，该批寻访条目可以协助博士在一定范围内招揽特定的人才。",
+        "icon": "classic_gacha_10.png",
+        "name": "十连中坚寻访凭证",
+        "sortId": 40001,
+        "usage": "罗德岛人事部特别批发的许可书，可以批量招揽中坚人才，一次可招聘十位干员。"
+    },
+    "classic_normal_ticket": {
+        "classifyType": "NORMAL",
+        "description": "时光赋予这些干员对于罗德岛事务更加深刻独到的见解，他们总会为您提供稀缺且必要的物资。",
+        "icon": "classic_normal_ticket.png",
+        "name": "通用凭证",
+        "sortId": 10006,
+        "usage": "代表干员拥有中坚能力的凭证，可用于兑换稀有物资。"
+    },
     "et_ObsidianPass": {
         "classifyType": "NONE",
         "description": "本届节日的各个会场别出心裁地使用了联票制，这意味着只有持票才能参与各种活动，请多多使用吧。",
@@ -1582,6 +2582,22 @@
         "name": "黑曜石节门票",
         "sortId": -10000,
         "usage": "黑曜石节官方发售的门票，用于进入各类特殊关卡。"
+    },
+    "favor_add_ulika": {
+        "classifyType": "NONE",
+        "description": "记录了直播精彩瞬间的存储装置，可以增加U-Official的信赖值。",
+        "icon": "favor_add_ulika.png",
+        "name": "主播U的直播切片",
+        "sortId": -10000,
+        "usage": "提高干员U-Official的信赖。"
+    },
+    "itempack_gacha_1": {
+        "classifyType": "CONSUME",
+        "description": "在露华村的特色祈愿活动中取得的礼袋，寄寓着对你未来道路的美好祝愿。",
+        "icon": "itempack_gacha_1.png",
+        "name": "福运鼓鼓礼袋",
+        "sortId": -10000,
+        "usage": "获得“合作限定十连寻访凭证”和头像“苍暮印象”。“合作限定十连寻访凭证”过期时间：2023/03/21 03:59"
     },
     "itempack_mod_10": {
         "classifyType": "CONSUME",
@@ -1692,7 +2708,7 @@
         "description": "没有人知道到底是谁掏的腰包，只有对罗德岛满怀希望的情感是真切的。",
         "icon": "randomDiamondShd_1.png",
         "name": "罗德岛迎春红包",
-        "sortId": 60108,
+        "sortId": 60109,
         "usage": "分发给罗德岛全员的红包，数额随机，饱含着对新年的祝福。"
     },
     "randomDiamondShd_2": {
@@ -1700,7 +2716,7 @@
         "description": "没有人知道到底是谁掏的腰包，只有对罗德岛满怀希望的情感是真切的。",
         "icon": "randomDiamondShd_2.png",
         "name": "庆典礼盒",
-        "sortId": 60109,
+        "sortId": 60110,
         "usage": "分发给罗德岛全员的礼盒，数额随机，饱含着庆典到来的喜悦。"
     },
     "randomMaterialRune_0": {
@@ -1733,6 +2749,14 @@
         "icon": "randomMaterialRune_11.png",
         "name": "赝波行动物资补给",
         "sortId": 60022,
+        "usage": "装有各种物资补给，包含多种随机材料。"
+    },
+    "randomMaterialRune_12": {
+        "classifyType": "CONSUME",
+        "description": "来自危机合约的材料补给箱。给予努力治疗着这片大地的人们的微小回报。----危机合约",
+        "icon": "randomMaterialRune_12.png",
+        "name": "起源行动物资补给",
+        "sortId": 60023,
         "usage": "装有各种物资补给，包含多种随机材料。"
     },
     "randomMaterialRune_2": {
@@ -1853,6 +2877,14 @@
         "icon": "randomMaterial_7.png",
         "name": "罗德岛物资补给IV",
         "sortId": 60107,
+        "usage": "装有各种物资补给，包含多种随机材料。"
+    },
+    "randomMaterial_8": {
+        "classifyType": "CONSUME",
+        "description": "罗德岛从各地采购、储备的材料补给箱。不过因为缺乏系统性的整理收纳，每一个箱子里都装着截然不同的材料。",
+        "icon": "randomMaterial_8.png",
+        "name": "罗德岛物资补给V",
+        "sortId": 60108,
         "usage": "装有各种物资补给，包含多种随机材料。"
     },
     "return_credit_token": {

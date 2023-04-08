@@ -12,8 +12,8 @@
 
 asst::ProcessTaskImageAnalyzer::ProcessTaskImageAnalyzer(const cv::Mat& image, std::vector<std::string> tasks_name,
                                                          Assistant* inst)
-    : AbstractImageAnalyzer(image, inst), m_tasks_name(std::move(tasks_name)), m_ocr_analyzer(nullptr),
-      m_ocr_with_preprocess_analyzer(nullptr), m_match_analyzer(nullptr)
+    : AbstractImageAnalyzer(image, inst), m_ocr_analyzer(nullptr), m_ocr_with_preprocess_analyzer(nullptr),
+      m_match_analyzer(nullptr), m_tasks_name(std::move(tasks_name))
 {}
 
 asst::ProcessTaskImageAnalyzer::~ProcessTaskImageAnalyzer() = default;
@@ -30,15 +30,19 @@ bool asst::ProcessTaskImageAnalyzer::match_analyze(const std::shared_ptr<TaskInf
     }
     m_match_analyzer->set_region_of_appeared(Rect());
     m_match_analyzer->set_task_info(match_task_ptr);
-    auto region_opt = status()->get_rect(match_task_ptr->name);
-    if (region_opt) {
-        m_match_analyzer->set_region_of_appeared(region_opt.value());
+    if (m_inst) {
+        auto region_opt = status()->get_rect(match_task_ptr->name);
+        if (region_opt) {
+            m_match_analyzer->set_region_of_appeared(region_opt.value());
+        }
     }
 
     if (m_match_analyzer->analyze()) {
         m_result = match_task_ptr;
         m_result_rect = m_match_analyzer->get_result().rect;
-        status()->set_rect(match_task_ptr->name, m_result_rect);
+        if (m_inst) {
+            status()->set_rect(match_task_ptr->name, m_result_rect);
+        }
         return true;
     }
     return false;
@@ -87,8 +91,9 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(const std::shared_ptr<TaskInfo>
         }
         analyzer_ptr = &m_ocr_analyzer;
     }
-
-    (*analyzer_ptr)->set_region_of_appeared(status()->get_rect(ocr_task_ptr->name).value_or(Rect()));
+    if (m_inst) {
+        (*analyzer_ptr)->set_region_of_appeared(status()->get_rect(ocr_task_ptr->name).value_or(Rect()));
+    }
     (*analyzer_ptr)->set_task_info(ocr_task_ptr);
 
     bool ret = (*analyzer_ptr)->analyze();
@@ -99,7 +104,9 @@ bool asst::ProcessTaskImageAnalyzer::ocr_analyze(const std::shared_ptr<TaskInfo>
         auto& res = ocr_result.front();
         m_result = ocr_task_ptr;
         m_result_rect = res.rect;
-        status()->set_rect(ocr_task_ptr->name, m_result_rect);
+        if (m_inst) {
+            status()->set_rect(ocr_task_ptr->name, m_result_rect);
+        }
         // m_ocr_cache.insert(m_ocr_cache.end(), ocr_result.begin(), ocr_result.end());
         Log.trace(__FUNCTION__, "| found", res);
     }

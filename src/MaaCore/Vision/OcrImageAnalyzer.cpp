@@ -3,8 +3,8 @@
 #include <regex>
 #include <unordered_map>
 
-#include "Config/Miscellaneous/OcrPack.h"
 #include "Config/Miscellaneous/OcrConfig.h"
+#include "Config/Miscellaneous/OcrPack.h"
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
 
@@ -112,11 +112,13 @@ void asst::OcrImageAnalyzer::set_use_cache(bool is_use) noexcept
 
 void asst::OcrImageAnalyzer::set_required(std::vector<std::string> required) noexcept
 {
-    ranges::for_each(required, [](std::string& str) { str = OcrConfig::get_instance().process_equivalence_class(str); });
+    ranges::for_each(required,
+                     [](std::string& str) { str = OcrConfig::get_instance().process_equivalence_class(str); });
     m_required = std::move(required);
 }
 
-void asst::OcrImageAnalyzer::set_replace(const std::unordered_map<std::string, std::string>& replace, bool replace_full) noexcept
+void asst::OcrImageAnalyzer::set_replace(const std::unordered_map<std::string, std::string>& replace,
+                                         bool replace_full) noexcept
 {
     m_replace = {};
     for (auto&& [key, val] : replace) {

@@ -2,8 +2,8 @@
 
 #include <regex>
 
+#include "Controller/Controller.h"
 #include "Config/TaskData.h"
-#include "Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
@@ -85,7 +85,7 @@ bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& 
     size_t num_of_selected = m_is_custom ? current_room_config().selected : 0;
     size_t num_of_fulltrust = 0;
     bool to_fill = false;
-    int swipe_times = 0;
+    int swipe_times [[maybe_unused]] = 0;
 
     if (m_next_step == NextStep::Trust) {
         click_sort_by_trust_button();

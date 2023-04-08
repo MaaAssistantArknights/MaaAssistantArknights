@@ -507,6 +507,7 @@
     "ClickedCorrectStageOrSwipe": {
         "baseTask": "StartButton1",
         "action": "DoNothing",
+        "reduceOtherTimes": [],
         "next": [
             "ClickedCorrectStage",
             "FullStageNavigation"
@@ -531,6 +532,10 @@
             [
                 "s",
                 "S"
+            ],
+            [
+                ":",
+                ""
             ]
         ],
         "roi": [
@@ -785,23 +790,23 @@
         "isAscii": true,
         "text": []
     },
-    "DH-9": {
+    "CF-8": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "DH-Open"
+            "CF-Open"
         ],
         "next": [
-            "DH-9@SideStoryStage",
-            "DH-9@SwipeToStage"
+            "CF-8@SideStoryStage",
+            "CF-8@SwipeToStage"
         ]
     },
-    "DH-Open": {
+    "CF-Open": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": [
-            "假日",
-            "复刻",
+            "落叶",
+            "逐火",
             "活动",
             "开放"
         ],
@@ -813,33 +818,32 @@
         ],
         "postDelay": 2000,
         "next": [
-            "DHChapterToDH"
+            "CFChapterToCF"
         ]
     },
-    "DHChapterToDH": {
+    "CFChapterToCF": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
-            "极限",
-            "铁人",
-            "大奖"
+            "苍暮",
+            "山地"
         ],
         "roi": [
-            934,
-            280,
-            234,
-            124
+            1026,
+            499,
+            218,
+            142
         ],
         "postDelay": 2000,
         "next": [
-            "DHChapterToDH",
+            "CFChapterToCF",
             "ChapterSwipeToTheRight"
         ]
     },
-    "DH-9@SideStoryStage": {
+    "CF-8@SideStoryStage": {
         "baseTask": "SideStoryStage",
         "text": [
-            "DH-9"
+            "CF-8"
         ]
     },
     "GA-6": {
@@ -1861,11 +1865,23 @@
             "StageResource"
         ]
     },
+    "CE-5": {
+        "algorithm": "JustReturn",
+        "next": [
+            "CE-6"
+        ]
+    },
     "CE-6": {
         "baseTask": "ResourceStages",
         "next": [
             "CE6@StageCE",
             "CE-6@SwipeToTheLeft"
+        ]
+    },
+    "LS-5": {
+        "algorithm": "JustReturn",
+        "next": [
+            "LS-6"
         ]
     },
     "LS-6": {
@@ -1951,11 +1967,12 @@
     "StageResource": {
         "action": "ClickSelf",
         "Doc": "进入资源关卡",
+        "templThreshold": 0.77,
         "roi": [
-            455,
-            562,
-            544,
-            158
+            600,
+            600,
+            250,
+            110
         ]
     },
     "Stage": {
@@ -1979,10 +1996,10 @@
     },
     "UnableToAgent": {
         "roi": [
-            994,
-            535,
-            286,
-            143
+            870,
+            410,
+            246,
+            206
         ],
         "next": [
             "Stage",
@@ -2014,6 +2031,7 @@
             243,
             143
         ],
+        "postDelay": 1000,
         "next": [
             "UnableToAgent",
             "Stop"
@@ -2193,6 +2211,18 @@
             [
                 "^重岳.+",
                 "重岳"
+            ],
+            [
+                ".*麟.*夜刀$",
+                "麒麟X夜刀"
+            ],
+            [
+                ".*龙.*黑角$",
+                "火龙S黑角"
+            ],
+            [
+                ".*大陆调查团$",
+                "泰拉大陆调查团"
             ]
         ]
     },
@@ -3022,7 +3052,8 @@
         "action": "DoNothing",
         "next": [
             "AbandonAction",
-            "OfflineConfirmAfterBattle"
+            "OfflineConfirmAfterBattle",
+            "WaitAfterPRTS"
         ]
     },
     "OfflineConfirmAfterBattle": {
@@ -3166,7 +3197,8 @@
             "Recruit@ReturnTo",
             "Recruit@CloseAnnos#next",
             "Recruit@FromStageSN",
-            "Recruit@TodaysSupplies"
+            "Recruit@TodaysSupplies",
+            "Recruit@OfflineConfirm"
         ]
     },
     "Recruit": {
@@ -3734,6 +3766,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
+            "采购",
             "中心"
         ],
         "roi": [
@@ -4006,6 +4039,7 @@
         "postDelay": 500,
         "next": [
             "RecruitRefreshConfirm@LoadingText",
+            "Recruit@OfflineConfirm",
             "SleepThenStop"
         ]
     },
@@ -4067,6 +4101,7 @@
         ],
         "next": [
             "RecruitConfirm@LoadingText",
+            "Recruit@OfflineConfirm",
             "RecruitFlag"
         ]
     },
@@ -6177,7 +6212,7 @@
             100,
             255
         ],
-        "templThreshold": 0.88
+        "templThreshold": 0.7
     },
     "BattleSpeedUp": {
         "algorithm": "JustReturn",
@@ -6215,6 +6250,11 @@
         "template": "empty.png",
         "templThreshold": 0.8
     },
+    "BattleAvatarDataForVideo": {
+        "baseTask": "BattleAvatarData",
+        "template": "empty.png",
+        "templThreshold": 0.6
+    },
     "BattleDroneAvatarData": {
         "template": "empty.png",
         "templThreshold": 0.7
@@ -6225,6 +6265,56 @@
         "maskRange": [
             0,
             50
+        ]
+    },
+    "BattleAvatarDataForFormation": {
+        "template": "empty.png",
+        "templThreshold": 0.6,
+        "rectMove": [
+            15,
+            15,
+            30,
+            30
+        ]
+    },
+    "BattleOperDetailPageFlag": {
+        "template": "empty.png",
+        "roi": [
+            0,
+            322,
+            110,
+            16
+        ],
+        "specialParams": [
+            100
+        ]
+    },
+    "BattleOperDetailPageOldFlag": {
+        "baseTask": "BattleOperDetailPageFlag",
+        "template": "empty.png",
+        "roi": [
+            0,
+            385,
+            110,
+            14
+        ]
+    },
+    "BattleOperBoxRectMove": {
+        "template": "empty.png",
+        "rectMove": [
+            0,
+            -50,
+            60,
+            60
+        ]
+    },
+    "BattleDeployDirectionRectMove": {
+        "template": "empty.png",
+        "rectMove": [
+            -48,
+            -48,
+            96,
+            96
         ]
     },
     "BattleKillsFlag": {
@@ -6265,10 +6355,10 @@
     "BattleSkillReady": {
         "cache": false,
         "rectMove": [
-            -20,
-            -125,
-            45,
-            50
+            -28,
+            -140,
+            64,
+            64
         ]
     },
     "BattleSkillReadyOnClick": {
@@ -6289,23 +6379,17 @@
         ],
         "postDelay": 300
     },
+    "BattleSkillReadyOnClick-SquareMap": {
+        "baseTask": "BattleSkillReadyOnClick",
+        "template": "BattleSkillReadyOnClick-SquareMap"
+    },
     "BattleSkillStopOnClick": {
-        "roi": [
-            748,
-            414,
-            210,
-            118
-        ],
-        "templThreshold": 0.7,
-        "cache": false,
-        "action": "ClickSelf",
-        "rectMove": [
-            0,
-            -110,
-            90,
-            90
-        ],
-        "postDelay": 300
+        "baseTask": "BattleSkillReadyOnClick",
+        "template": "BattleSkillStopOnClick"
+    },
+    "BattleSkillStopOnClick-SquareMap": {
+        "baseTask": "BattleSkillReadyOnClick",
+        "template": "BattleSkillStopOnClick-SquareMap"
     },
     "BattleUseOper": {
         "algorithm": "JustReturn",
@@ -6332,7 +6416,7 @@
         ]
     },
     "BattleOpersFlag": {
-        "templThreshold": 0.85,
+        "templThreshold": 0.8,
         "roi": [
             0,
             588,
@@ -6490,14 +6574,14 @@
     },
     "BattleOperRetreatJustClick": {
         "algorithm": "JustReturn",
-        "preDelay": 200,
+        "preDelay": 300,
         "postDelay": 300,
         "action": "ClickRect",
         "specificRect": [
-            562,
-            195,
-            10,
-            36
+            572,
+            225,
+            1,
+            6
         ]
     },
     "StageDrops-StageName": {
@@ -6652,6 +6736,66 @@
             255
         ]
     },
+    "StageDrops-StageCF-ItemMatch": {
+        "template": "empty.png",
+        "templThreshold": 0.6,
+        "roi": [
+            300,
+            533,
+            600,
+            87
+        ]
+    },
+    "StageDrops-StageCF-FoodBonusFlag": {
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "text": [
+            "用",
+            "餐",
+            "加",
+            "成"
+        ],
+        "roi": [
+            270,
+            615,
+            230,
+            65
+        ]
+    },
+    "StageDrops-StageCF-ItemQuantity": {
+        "baseTask": "NumberOcrReplace",
+        "text": [],
+        "roi": [
+            52,
+            52,
+            18,
+            18
+        ]
+    },
+    "act24side_melding_1": {
+        "baseTask": "StageDrops-StageCF-ItemMatch",
+        "template": "items/act24side_melding_1.png"
+    },
+    "act24side_melding_2": {
+        "baseTask": "StageDrops-StageCF-ItemMatch",
+        "template": "items/act24side_melding_2.png"
+    },
+    "act24side_melding_3": {
+        "baseTask": "StageDrops-StageCF-ItemMatch",
+        "template": "items/act24side_melding_3.png"
+    },
+    "act24side_melding_4": {
+        "baseTask": "StageDrops-StageCF-ItemMatch",
+        "template": "items/act24side_melding_4.png"
+    },
+    "act24side_melding_5": {
+        "baseTask": "StageDrops-StageCF-ItemMatch",
+        "template": "items/act24side_melding_5.png"
+    },
+    "act24side_melding_6": {
+        "baseTask": "StageDrops-StageCF-ItemMatch",
+        "template": "items/act24side_melding_6.png"
+    },
     "NumberOcrReplace": {
         "algorithm": "OcrDetect",
         "isAscii": true,
@@ -6696,31 +6840,17 @@
         ]
     },
     "StageDrops-Difficulty-Tough": {
-        "templThreshold": 0.7,
+        "templThreshold": 0.6,
         "roi": [
             0,
             0,
             220,
             220
-        ]
-    },
-    "StageDrops-Difficulty-Normal": {
-        "templThreshold": 0.7,
-        "roi": [
-            0,
-            0,
-            220,
-            220
-        ]
-    },
-    "StageDrops-Difficulty-Normal2": {
-        "templThreshold": 0.7,
-        "roi": [
-            0,
-            0,
-            220,
-            220
-        ]
+        ],
+        "specialParams": [
+            500
+        ],
+        "specialParams_Doc": "red count threshold"
     },
     "StageDrops-Stars-3": {
         "templThreshold": 0.8,
@@ -8255,6 +8385,9 @@
     "Phantom@Roguelike@Abandon": {},
     "Phantom@Roguelike@ChooseDifficulty": {},
     "Phantom@Roguelike@ChooseOper": {
+        "onErrorNext": [
+            "Phantom@Roguelike@RecruitWithoutButton"
+        ],
         "next": [
             "Phantom@Roguelike@ChooseOperConfirm",
             "Phantom@Roguelike@RecruitSkip"
@@ -8440,6 +8573,9 @@
     "Mizuki@Roguelike@Abandon": {},
     "Mizuki@Roguelike@ChooseDifficulty": {},
     "Mizuki@Roguelike@ChooseOper": {
+        "onErrorNext": [
+            "Mizuki@Roguelike@RecruitWithoutButton"
+        ],
         "next": [
             "Mizuki@Roguelike@CloseCollectionContinue",
             "Mizuki@Roguelike@CloseCollectionClose",
@@ -8632,8 +8768,28 @@
         "Doc": "漂流密匣“打开”按钮",
         "next": [
             "Mizuki@Roguelike@DropsFlag",
+            "Mizuki@Roguelike@GetDropBoxOpen",
             "Mizuki@Roguelike@GetDropBoxSelect",
             "Mizuki@Roguelike@ChooseOperFlag"
+        ]
+    },
+    "Mizuki@Roguelike@GetDropBoxOpen": {
+        "Doc": "漂流密匣-打开的“选择”按钮",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            471,
+            800,
+            157
+        ],
+        "templThreshold": 0.85,
+        "postDelay": 1000,
+        "next": [
+            "Mizuki@Roguelike@DropsFlag",
+            "Mizuki@Roguelike@ChooseOperFlag",
+            "Mizuki@Roguelike@GetDropSelectReward",
+            "Mizuki@Roguelike@ClickToDrops"
         ]
     },
     "Mizuki@Roguelike@GetDropBoxSelect": {
@@ -8667,6 +8823,8 @@
             "Mizuki@Roguelike@GetDrop1",
             "Mizuki@Roguelike@GetDrop2",
             "Mizuki@Roguelike@GetDrop3",
+            "Mizuki@Roguelike@GetDropSelectReward",
+            "Mizuki@Roguelike@GetDropBoxOpen",
             "Mizuki@Roguelike@GetDropSelect",
             "Mizuki@Roguelike@GetDropRecruit",
             "Mizuki@Roguelike@GetDropBox"
@@ -9454,14 +9612,9 @@
         "baseTask": "RoguelikeRecruitSupportElite"
     },
     "RoguelikeRecruitSupportEnterFlag": {
-        "template": "Roguelike@RefreshSupportBtn.png",
-        "action": "DoNothing",
-        "roi": [
-            1094,
-            10,
-            172,
-            47
-        ]
+        "baseTask": "RoguelikeRefreshSupportBtnOcr",
+        "postDelay": 0,
+        "action": "DoNothing"
     },
     "SSSBegin": {
         "Doc": "保全派驻",
@@ -9807,6 +9960,58 @@
     "BattleStartPreFlag": {
         "baseTask": "BattleStartPre",
         "action": "DoNothing"
+    },
+    "BattleFormationOCRNameFlag": {
+        "templThreshold": 0.6,
+        "roi": [
+            88,
+            264,
+            873,
+            354
+        ]
+    },
+    "BattleFormationOperNames": {
+        "baseTask": "CharsNameOcrReplace",
+        "text": [],
+        "roi": [
+            -18,
+            40,
+            122,
+            18
+        ]
+    },
+    "BattleFormationOperNamesOldVersion": {
+        "baseTask": "BattleFormationOperNames",
+        "text": [],
+        "roi": [
+            30,
+            23,
+            75,
+            15
+        ]
+    },
+    "BattleFormationOperAvatarMove": {
+        "template": "empty.png",
+        "rectMove": [
+            -120,
+            -250,
+            150,
+            165
+        ]
+    },
+    "BattleHasStarted": {
+        "template": "empty.png",
+        "roi": [
+            1178,
+            33,
+            49,
+            39
+        ],
+        "specialParams_Doc": "亮度阈值；点的数量",
+        "specialParams": [
+            245,
+            200
+        ]
     },
     "Reclamation@PopupConfirm": {
         "Doc": "base_task",
@@ -10794,7 +10999,6 @@
         "baseTask": "Reclamation@SkipAnnounce",
         "next": []
     },
-
     "NavigateHome@Reclamation@Begin": {
         "algorithm": "JustReturn",
         "next": [
