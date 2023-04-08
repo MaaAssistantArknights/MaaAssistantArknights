@@ -116,17 +116,25 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
     if (!team_complete) {
         bool complete = true;
+        int complete_count = 0;
+        int complete_require = 0;
         const auto& team_complete_condition = RoguelikeRecruit.get_team_complete_info(rogue_theme);
         for (const auto& condition : team_complete_condition) {
             int count = 0;
-            for (const std::string& group_name : condition.groups)
+            complete_require += condition.threshold;
+            for (const std::string& group_name : condition.groups) {
                 count += group_count[group_name];
+                complete_count += group_count[group_name];
+            }               
             if (count < condition.threshold) {
                 complete = false;
-                break;
             }
         }
         team_complete = complete;
+        if (complete_count <= complete_require / 2 && recruit_count >= 10) {
+            // 如果第10次招募还没拿到半队key干员，说明账号阵容不齐，放开招募限制，有啥用啥吧
+            team_complete = complete;
+        }
     }
 
     if (recruit_count >= 3 && !start_complete) { 
