@@ -193,8 +193,12 @@
                 ""
             ],
             [
-                "EPIS0DE",
-                "EPISODE"
+                "F",
+                "E"
+            ],
+            [
+                "O",
+                "0"
             ]
         ],
         "roi": [
@@ -216,70 +220,67 @@
     },
     "00@EnterEpisode": {
         "text": [
-            "00",
-            "OO",
-            "O0",
-            "0O"
+            "EPIS0DE00"
         ]
     },
     "01@EnterEpisode": {
         "text": [
-            "EPISODE01"
+            "EPIS0DE01"
         ]
     },
     "02@EnterEpisode": {
         "text": [
-            "EPISODE02"
+            "EPIS0DE02"
         ]
     },
     "03@EnterEpisode": {
         "text": [
-            "EPISODE03"
+            "EPIS0DE03"
         ]
     },
     "04@EnterEpisode": {
         "text": [
-            "EPISODE04"
+            "EPIS0DE04"
         ]
     },
     "05@EnterEpisode": {
         "text": [
-            "EPISODE05"
+            "EPIS0DE05"
         ]
     },
     "06@EnterEpisode": {
         "text": [
-            "EPISODE06"
+            "EPIS0DE06"
         ]
     },
     "07@EnterEpisode": {
         "text": [
-            "EPISODE07"
+            "EPIS0DE07"
         ]
     },
     "08@EnterEpisode": {
         "text": [
-            "EPISODE08"
+            "EPIS0DE08"
         ]
     },
     "09@EnterEpisode": {
         "text": [
-            "EPISODE09"
+            "EPIS0DE09"
         ]
     },
     "10@EnterEpisode": {
         "text": [
-            "EPISODE10"
+            "EPIS0DE10"
         ]
     },
     "11@EnterEpisode": {
         "text": [
-            "EPISODE11"
+            "EPIS0DE11"
         ]
     },
     "12@EnterEpisode": {
         "text": [
-            "EPISODE12"
+            "EPIS0DE12"
         ]
     },
     "LevelOfDifficulty": {
@@ -361,12 +362,12 @@
                 ""
             ],
             [
-                "EPIS0DE",
-                "EPISODE"
+                "F",
+                "E"
             ],
             [
-                "FPISODE",
-                "EPISODE"
+                "O",
+                "0"
             ]
         ],
         "roi": [
