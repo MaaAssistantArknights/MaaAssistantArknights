@@ -15,8 +15,6 @@ using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Documents;
-using System.Windows.Media;
-using HandyControl.Data;
 using HandyControl.Themes;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
@@ -38,51 +36,8 @@ namespace MaaWpfGui
             }
         }
 
-        private void UpdateTheme(SkinType skin)
-        {
-            SharedResourceDictionary.SharedDictionaries.Clear();
-            Theme.GetTheme("HandyTheme", Resources).Skin = skin;
-            Theme.GetTheme("MaaTheme", Resources).Skin = skin;
-            Current.MainWindow?.OnApplyTemplate();
-        }
-
-        private void UpdateTheme(bool syncWithSystem)
-        {
-            SharedResourceDictionary.SharedDictionaries.Clear();
-            Theme.GetTheme("HandyTheme", Resources).SyncWithSystem = syncWithSystem;
-            Theme.GetTheme("MaaTheme", Resources).SyncWithSystem = syncWithSystem;
-            Current.MainWindow?.OnApplyTemplate();
-        }
-
-        private void SwitchDarkMode()
-        {
-            SettingsViewModel.DarkModeType darkModeType =
-                Enum.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.DarkMode, SettingsViewModel.DarkModeType.Light.ToString()),
-                    out SettingsViewModel.DarkModeType temp)
-                    ? temp
-                    : SettingsViewModel.DarkModeType.Light;
-            switch (darkModeType)
-            {
-                case SettingsViewModel.DarkModeType.Light:
-                    UpdateTheme(skin: SkinType.Default);
-                    return;
-
-                case SettingsViewModel.DarkModeType.Dark:
-                    UpdateTheme(skin: SkinType.Dark);
-                    return;
-
-                case SettingsViewModel.DarkModeType.SyncWithOS:
-                    UpdateTheme(syncWithSystem: true);
-                    return;
-            }
-        }
-
         protected override void OnStartup(StartupEventArgs e)
         {
-            ConfigurationHelper.Load();
-            LocalizationHelper.Load();
-            SwitchDarkMode();
-
             base.OnStartup(e);
         }
     }
