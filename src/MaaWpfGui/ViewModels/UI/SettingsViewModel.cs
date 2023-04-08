@@ -121,7 +121,7 @@ namespace MaaWpfGui.ViewModels.UI
             if (Hangover)
             {
                 Hangover = false;
-                _windowManager.ShowMessageBox(
+                MessageBoxHelper.Show(
                     LocalizationHelper.GetString("Hangover"),
                     LocalizationHelper.GetString("Burping"),
                     MessageBoxButton.OK, MessageBoxImage.Hand);
@@ -2536,17 +2536,12 @@ namespace MaaWpfGui.ViewModels.UI
                 SwitchDarkMode();
 
                 /*
-                MessageBoxHelper.Unregister();
-                MessageBoxHelper.Yes = LocalizationHelper.GetString("Ok");
-                MessageBoxHelper.No = LocalizationHelper.GetString("ManualRestart");
-                MessageBoxHelper.Register();
-                var result = MessageBox.Show(
+                var result = MessageBoxHelper.Show(
                     LocalizationHelper.GetString("DarkModeSetColorsTip"),
                     LocalizationHelper.GetString("Tip"),
-                    MessageBoxButton.YesNo,
+                    MessageBoxButton.OKCancel,
                     MessageBoxImage.Question);
-                MessageBoxHelper.Unregister();
-                if (result == MessageBoxResult.Yes)
+                if (result == MessageBoxResult.OK)
                 {
                     Application.Current.Shutdown();
                     System.Windows.Forms.Application.Restart();
@@ -2671,26 +2666,25 @@ namespace MaaWpfGui.ViewModels.UI
 
                 string FormatText(string text, string key)
                     => string.Format(text, LocalizationHelper.GetString(key, value), LocalizationHelper.GetString(key, _language));
-                MessageBoxHelper.Unregister();
-                MessageBoxHelper.Yes = FormatText("{0}({1})", "Ok");
-                MessageBoxHelper.No = FormatText("{0}({1})", "ManualRestart");
-                MessageBoxHelper.Register();
+
                 Window mainWindow = Application.Current.MainWindow;
                 mainWindow.Show();
                 mainWindow.WindowState = mainWindow.WindowState = WindowState.Normal;
                 mainWindow.Activate();
-                var result = MessageBox.Show(
+                var result = MessageBoxHelper.Show(
                     FormatText("{0}\n{1}", "LanguageChangedTip"),
                     FormatText("{0}({1})", "Tip"),
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Question);
-                MessageBoxHelper.Unregister();
-                SetAndNotify(ref _language, value);
-                if (result == MessageBoxResult.Yes)
+                    MessageBoxButton.OKCancel,
+                    MessageBoxImage.Question,
+                    ok: FormatText("{0}({1})", "Ok"),
+                    cancel: FormatText("{0}({1})", "ManualRestart"));
+                if (result == MessageBoxResult.OK)
                 {
                     Application.Current.Shutdown();
                     System.Windows.Forms.Application.Restart();
                 }
+
+                SetAndNotify(ref _language, value);
             }
         }
 
@@ -2736,7 +2730,7 @@ namespace MaaWpfGui.ViewModels.UI
         private void SetPallasLanguage()
         {
             ConfigurationHelper.SetValue(ConfigurationKeys.Localization, PallasLangKey);
-            var result = _windowManager.ShowMessageBox(
+            var result = MessageBoxHelper.Show(
                 LocalizationHelper.GetString("DrunkAndStaggering"),
                 LocalizationHelper.GetString("Burping"),
                 MessageBoxButton.OK, MessageBoxImage.Asterisk);
