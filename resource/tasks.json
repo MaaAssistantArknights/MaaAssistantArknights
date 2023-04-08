@@ -182,6 +182,7 @@
         ]
     },
     "EpisodeOcrReplace": {
+        "Doc": "base_task",
         "algorithm": "OcrDetect",
         "ocrReplace": [
             [
