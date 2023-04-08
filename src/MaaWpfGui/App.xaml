@@ -28,8 +28,15 @@
                         <main:Bootstrapper />
                     </s:ApplicationLoader.Bootstrapper>
                 </s:ApplicationLoader>
-                <hc:Theme Name="HandyTheme"/>
-                <resources:ThemeHelper Name="MaaTheme"/>
+                
+                <hc:ThemeResources>
+                    <hc:ThemeResources.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Light" hc:ThemeDictionary.Key="Light" Source="/MAA;component/Res/Themes/Light.xaml" />
+                        <ResourceDictionary x:Key="Dark" hc:ThemeDictionary.Key="Dark" Source="/MAA;component/Res/Themes/Dark.xaml" />
+                    </hc:ThemeResources.ThemeDictionaries>
+                </hc:ThemeResources>
+                <hc:Theme/>
+                
             </ResourceDictionary.MergedDictionaries>
             <!--  A Style that affects all TextBlocks  -->
             <Style BasedOn="{StaticResource TextBlockDefault}" TargetType="controls:TextBlock" />

@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="MaaWpfGui.Views.UserControl.RoguelikeSettingsUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -67,9 +67,15 @@
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
-                        Text="{Binding RoguelikeStartsCount}"
-                        TextType="Int"
-                        TextWrapping="Wrap" />
+                        TextWrapping="Wrap">
+                        <hc:TextBox.Text>
+                            <Binding Path="RoguelikeStartsCount">
+                                <Binding.ValidationRules>
+                                    <hc:RegexRule Type="Int"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </hc:TextBox.Text>
+                    </hc:TextBox>
                 </StackPanel>
                 <CheckBox
                     Margin="10"
@@ -90,9 +96,15 @@
                         VerticalContentAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
                         IsEnabled="{Binding RoguelikeInvestmentEnabled}"
-                        Text="{Binding RoguelikeInvestsCount}"
-                        TextType="Int"
-                        TextWrapping="Wrap" />
+                        TextWrapping="Wrap">
+                        <hc:TextBox.Text>
+                            <Binding Path="RoguelikeInvestsCount">
+                                <Binding.ValidationRules>
+                                    <hc:RegexRule Type="Int"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </hc:TextBox.Text>
+                    </hc:TextBox>
                 </StackPanel>
                 <CheckBox
                     Margin="10"

@@ -27,6 +27,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
+using HandyControl.Themes;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -116,6 +117,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             InfrastInit();
 
+            SwitchDarkMode();
             if (Hangover)
             {
                 Hangover = false;
@@ -2531,15 +2533,13 @@ namespace MaaWpfGui.ViewModels.UI
 
                 SetAndNotify(ref _darkModeType, tempEnumValue);
                 ConfigurationHelper.SetValue(ConfigurationKeys.DarkMode, value);
+                SwitchDarkMode();
 
+                /*
                 MessageBoxHelper.Unregister();
                 MessageBoxHelper.Yes = LocalizationHelper.GetString("Ok");
                 MessageBoxHelper.No = LocalizationHelper.GetString("ManualRestart");
                 MessageBoxHelper.Register();
-                Window mainWindow = Application.Current.MainWindow;
-                mainWindow!.Show();
-                mainWindow.WindowState = mainWindow.WindowState = WindowState.Normal;
-                mainWindow.Activate();
                 var result = MessageBox.Show(
                     LocalizationHelper.GetString("DarkModeSetColorsTip"),
                     LocalizationHelper.GetString("Tip"),
@@ -2551,6 +2551,31 @@ namespace MaaWpfGui.ViewModels.UI
                     Application.Current.Shutdown();
                     System.Windows.Forms.Application.Restart();
                 }
+                */
+            }
+        }
+
+        public void SwitchDarkMode()
+        {
+            DarkModeType darkModeType =
+                Enum.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.DarkMode, DarkModeType.Light.ToString()),
+                    out DarkModeType temp)
+                    ? temp : DarkModeType.Light;
+            switch (darkModeType)
+            {
+                case DarkModeType.Light:
+                    ThemeManager.Current.UsingSystemTheme = false;
+                    ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light;
+                    return;
+
+                case DarkModeType.Dark:
+                    ThemeManager.Current.UsingSystemTheme = false;
+                    ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
+                    return;
+
+                case DarkModeType.SyncWithOS:
+                    ThemeManager.Current.UsingSystemTheme = true;
+                    return;
             }
         }
 
