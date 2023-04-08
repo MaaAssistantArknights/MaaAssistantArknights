@@ -58,6 +58,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
     static bool start_complete = false; // 阵容中必须有开局干员，没有前仅招募start干员或预备干员
     static bool team_complete = false;  // 阵容完备前，仅招募key干员或预备干员
+    static int recruit_count = 0; // 这是第几次招募
+    recruit_count++;
 
     // 开局干员
     bool use_support = get_status_bool(Status::RoguelikeUseSupport);
@@ -109,7 +111,6 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         for (const auto& oper : chars_map) {
             auto& recruit_info = RoguelikeRecruit.get_oper_info(rogue_theme, oper.first);
             if (recruit_info.is_start) start_complete = true;
-            Log.info(__FUNCTION__, "| Operator", oper.first, "is_start:", recruit_info.is_start);
         }
     }
 
@@ -126,6 +127,12 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             }
         }
         team_complete = complete;
+    }
+
+    if (recruit_count >= 3 && !start_complete) { 
+        // 如果第3次招募还没拿到start干员，说明账号练度低且阵容不齐，放开招募限制，有啥用啥吧
+        start_complete = true;
+        team_complete = true;
     }
 
     // 候选干员

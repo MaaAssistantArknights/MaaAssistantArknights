@@ -165,6 +165,10 @@ bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
                 if (auto iter = DeployDirectionMapping.find(direction_str); iter != DeployDirectionMapping.end()) {
                     info.direction = iter->second;
                 }
+                if (auto condition = deploy_info.find<json::array>("condition")) {
+                    info.kill_lower_bound = condition.value()[0].as_integer();
+                    info.kill_upper_bound = condition.value()[1].as_integer();
+                }
                 for (auto& group : deploy_info.at("groups").as_array()) {
                     std::string group_name = group.as_string();
                     info.rank = rank;
@@ -177,6 +181,19 @@ bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
                         data.deploy_plan[group_name].emplace_back(info);
                     }
                 }
+            }
+        }
+
+        if (auto opt = stage_info.find<json::array>("retreat_plan")) {
+            for (auto& retreat_info : opt.value()) {
+                DeployInfoWithRank info;
+                info.location =
+                    Point(retreat_info["location"][0].as_integer(), retreat_info["location"][1].as_integer());
+                if (auto condition = retreat_info.find<json::array>("condition")) {
+                    info.kill_lower_bound = condition.value()[0].as_integer();
+                    info.kill_upper_bound = condition.value()[1].as_integer();
+                }
+                data.retreat_plan.emplace_back(info);
             }
         }
 

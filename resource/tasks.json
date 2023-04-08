@@ -7868,6 +7868,129 @@
             554
         ]
     },
+    "Roguelike@StageEncounterOcr": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [],
+        "preDelay": 600,
+        "roi": [
+            108,
+            460,
+            200,
+            40
+        ]
+    },
+    "Roguelike@StageEncounterJudgeOption": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "Doc": "本任务注册了插件RoguelikeStageEncounterTaskPlugin",
+        "next": [
+            "Roguelike@StageEncounterOptions#next",
+            "Roguelike@NextLevel#next",
+            "Roguelike@StageEncounterClickToLeave"
+        ]
+    },
+    "Roguelike@OptionChoose1-1": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1175,
+            335,
+            170,
+            60
+        ]
+    },
+    "Roguelike@OptionChoose2-1": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1175,
+            255,
+            100,
+            60
+        ]
+    },
+    "Roguelike@OptionChoose2-2": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1175,
+            415,
+            100,
+            60
+        ]
+    },
+    "Roguelike@OptionChoose3-1": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1175,
+            170,
+            100,
+            60
+        ]
+    },
+    "Roguelike@OptionChoose3-2": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1175,
+            340,
+            170,
+            60
+        ]
+    },
+    "Roguelike@OptionChoose3-3": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1175,
+            500,
+            170,
+            60
+        ]
+    },
+    "Roguelike@OptionChoose4-1": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1175,
+            110,
+            170,
+            60
+        ]
+    },
+    "Roguelike@OptionChoose4-2": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1175,
+            260,
+            170,
+            60
+        ]
+    },
+    "Roguelike@OptionChoose4-3": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1175,
+            417,
+            170,
+            60
+        ]
+    },
+    "Roguelike@OptionChoose4-4": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1175,
+            560,
+            170,
+            60
+        ]
+    },
     "Roguelike@StageBoons": {
         "Doc": "base_task",
         "template": "empty.png",
@@ -7951,6 +8074,7 @@
         ],
         "next": [
             "Roguelike@StageEncounterOptions#next",
+            "Roguelike@NextLevel#next",
             "Roguelike@StageEncounterClickToLeave"
         ]
     },
@@ -7960,8 +8084,7 @@
         "baseTask": "Roguelike@StageEnter",
         "next": [
             "Roguelike@StageEncounterEnter",
-            "Roguelike@StageEncounterOptions#next",
-            "Roguelike@StageEncounterClickToLeave"
+            "Roguelike@StageEncounterJudgeOption"
         ]
     },
     "Roguelike@StageEncounterGiveUpRecruitConfirm": {
@@ -8041,7 +8164,13 @@
     "Roguelike@StageEncounterOptionUnknown": {
         "baseTask": "Roguelike@StageEncounterOption",
         "Doc": "base_task",
-        "template": "empty.png"
+        "template": "empty.png",
+        "next": [
+            "Roguelike@StageEncounterLeaveConfirm",
+            "Roguelike@StageEncounterOptionFree",
+            "Roguelike@StageEncounterOptionUnknown",
+            "Roguelike@StageEncounterOptions#next"
+        ]
     },
     "Roguelike@StageEncounterOptionWonderland": {
         "baseTask": "Roguelike@StageEncounterOption",
@@ -8546,6 +8675,17 @@
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.85
     },
+    "Phantom@Roguelike@StageEncounterJudgeOption": {},
+    "Phantom@Roguelike@OptionChoose1-1": {},
+    "Phantom@Roguelike@OptionChoose2-1": {},
+    "Phantom@Roguelike@OptionChoose2-2": {},
+    "Phantom@Roguelike@OptionChoose3-1": {},
+    "Phantom@Roguelike@OptionChoose3-2": {},
+    "Phantom@Roguelike@OptionChoose3-3": {},
+    "Phantom@Roguelike@OptionChoose4-1": {},
+    "Phantom@Roguelike@OptionChoose4-2": {},
+    "Phantom@Roguelike@OptionChoose4-3": {},
+    "Phantom@Roguelike@OptionChoose4-4": {},
     "Phantom@Roguelike@StageEncounterOptions": {
         "next": [
             "Phantom@Roguelike@StageEncounterOptionFree",
@@ -9024,6 +9164,17 @@
             "Mizuki@Roguelike@StageCambatDpsEnter"
         ]
     },
+    "Mizuki@Roguelike@StageEncounterJudgeOption": {},
+    "Mizuki@Roguelike@OptionChoose1-1": {},
+    "Mizuki@Roguelike@OptionChoose2-1": {},
+    "Mizuki@Roguelike@OptionChoose2-2": {},
+    "Mizuki@Roguelike@OptionChoose3-1": {},
+    "Mizuki@Roguelike@OptionChoose3-2": {},
+    "Mizuki@Roguelike@OptionChoose3-3": {},
+    "Mizuki@Roguelike@OptionChoose4-1": {},
+    "Mizuki@Roguelike@OptionChoose4-2": {},
+    "Mizuki@Roguelike@OptionChoose4-3": {},
+    "Mizuki@Roguelike@OptionChoose4-4": {},
     "Mizuki@Roguelike@StageEncounterSpecialClose": {},
     "Mizuki@Roguelike@StageGambling": {
         "Doc": "骰子关卡",

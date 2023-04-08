@@ -1,0 +1,370 @@
+{
+    "Mizuki": {
+        "悬高之葬": {
+            "option_num": 1,
+            "choose": 1
+        },
+        "继承": {
+            "option_num": 1,
+            "choose": 1
+        },
+        "重返家园": {
+            "option_num": 3,
+            "choose": 1
+        },
+        "引火之木": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "先遣小队": {
+            "option_num": 1,
+            "choose": 1
+        },
+        "灯塔看守人": {
+            "option_num": 1,
+            "choose": 1
+        },
+        "海嗣学者": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "海边的歌者": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "远销海外": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "传统技术": {
+            "option_num": 3,
+            "choose": 3
+        },
+        "最后的观潮者": {
+            "option_num": 3,
+            "choose": 1
+        },
+        "变卖身家": {
+            "option_num": 3,
+            "choose": 1
+        },
+        "无知是福": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "点滴星火": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "残存微光": {
+            "option_num": 3,
+            "choose": 3
+        },
+        "相逢": {
+            "option_num": 3,
+            "choose": 3
+        },
+        "扎营": {
+            "option_num": 1,
+            "choose": 1
+        },
+        "噬尘扩散": {
+            "option_num": 1,
+            "choose": 1
+        },
+        "天灾信使": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "阴云如聚": {
+            "option_num": 1,
+            "choose": 1
+        },
+        "孤行的老者": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "为了生存": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "苦路": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "设身处地": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "信念": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "是非黑白": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "大海的遗产": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "诸王不再": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "医者之志": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "愚者之心": {
+            "option_num": 1,
+            "choose": 1
+        },
+        "敬奉火焰": {
+            "option_num": 3,
+            "choose": 3
+        },
+        "藏宝港湾": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "宝箱之舞": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "狗眼婆娑": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "鸭力测试": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "打发时间": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "工作热情": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "商业帝国": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "狂徒妄念": {
+            "option_num": 3,
+            "choose": 2
+        },
+        "骑士仍在": {
+            "option_num": 3,
+            "choose": 2
+        },
+        "开端": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "深蓝之心": {
+            "option_num": 4,
+            "choose": 4
+        },
+        "赞歌": {
+            "option_num": 1,
+            "choose": 1
+        },
+        "安全屋": {
+            "option_num": 4,
+            "choose": 2
+        },
+        "现买现印": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "守望相助": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "消失的习俗": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "紧急调遣": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "瞥视": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "郁金香的委托": {
+            "option_num": 4,
+            "choose": 3
+        }
+    },
+    "Phantom": {
+        "扎营": {
+            "option_num": 1,
+            "choose": 1
+        },
+        "善良的木偶": {
+            "option_num": 1,
+            "choose": 1
+        },
+        "讲故事的人": {
+            "option_num": 1,
+            "choose": 1
+        },
+        "委托冒险者": {
+            "option_num": 3,
+            "choose": 1
+        },
+        "皇家争执": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "先遣小队": {
+            "option_num": 1,
+            "choose": 1
+        },
+        "高卢老兵": {
+            "option_num": 1,
+            "choose": 1
+        },
+        "迷幻烛火": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "哥伦比亚酒商": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "锡人": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "猩红舞会": {
+            "option_num": 4,
+            "choose": 1
+        },
+        "剧目需求": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "狂舞之人": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "音乐挑战": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "石中剑": {
+            "option_num": 3,
+            "choose": 3
+        },
+        "被困的人": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "佝偻怪客": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "沉睡石像": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "受缚之血": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "幽影狂言": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "艺术与疯狂": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "鸭爵主演": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "鸭爵的宴会": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "即兴鸭子演出": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "有关那位乌萨斯人": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "邪恶之棺": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "以血还血": {
+            "option_num": 3,
+            "choose": 3
+        },
+        "暗门": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "密室": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "废品地摊": {
+            "option_num": 3,
+            "choose": 2
+        },
+        "鉴赏家": {
+            "option_num": 4,
+            "choose": 4
+        },
+        "解脱": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "赴宴": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "别打扰他们": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "安全的角落": {
+            "option_num": 3,
+            "choose": 2
+        },
+        "微型舞台": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "珍品处理者": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "暴殄天物": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "鼠胆神偷": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "历史馈赠": {
+            "option_num": 1,
+            "choose": 1
+        },
+        "命运馈赠": {
+            "option_num": 2,
+            "choose": 1
+        }
+    }
+}

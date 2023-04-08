@@ -18,6 +18,7 @@
 #include "Roguelike/RoguelikeCopilotConfig.h"
 #include "Roguelike/RoguelikeRecruitConfig.h"
 #include "Roguelike/RoguelikeShoppingConfig.h"
+#include "Roguelike/RoguelikeStageEncounterConfig.h"
 #include "TaskData.h"
 #include "TemplResource.h"
 #include "Utils/Logger.hpp"
@@ -74,6 +75,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "copilot.json"_p);
     LoadResourceAndCheckRet(RoguelikeRecruitConfig, "roguelike"_p / "recruitment.json"_p);
     LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike"_p / "shopping.json"_p);
+    LoadResourceAndCheckRet(RoguelikeStageEncounterConfig, "roguelike"_p / "stage_encounter.json"_p);
     LoadResourceAndCheckRet(BattleDataConfig, "battle_data.json"_p);
     LoadResourceAndCheckRet(OcrConfig, "ocr_config.json"_p);
 
