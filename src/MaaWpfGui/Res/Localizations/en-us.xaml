@@ -128,9 +128,13 @@
     <system:String x:Key="SwitchLanguage">Switch Language</system:String>
     <system:String x:Key="Language">Language</system:String>
     <system:String x:Key="LanguageChangedTip">the language settings has been changed, restart the app now?</system:String>
-    <system:String x:Key="Ok">OK</system:String>
     <system:String x:Key="ManualRestart">Later</system:String>
+
     <system:String x:Key="Tip">Tip</system:String>
+    <system:String x:Key="Yes">Yes</system:String>
+    <system:String x:Key="No">No</system:String>
+    <system:String x:Key="Ok">OK</system:String>
+    <system:String x:Key="Cancel">Cancel</system:String>
 
     <system:String x:Key="HotKeyShowGui">[HotKey] Show/collapse MAA</system:String>
     <system:String x:Key="HotKeyLinkStart">[HotKey] Link start/stop</system:String>

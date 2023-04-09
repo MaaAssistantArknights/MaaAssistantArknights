@@ -1,10 +1,11 @@
-﻿<Window
+<hc:Window
     x:Class="MaaWpfGui.Views.UI.ErrorView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:MaaWpfGui"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:constants="clr-namespace:MaaWpfGui.Constants"
     xmlns:styles="clr-namespace:MaaWpfGui.Styles"
@@ -145,4 +146,4 @@
             </Hyperlink>
         </controls:TextBlock>
     </Grid>
-</Window>
+</hc:Window>

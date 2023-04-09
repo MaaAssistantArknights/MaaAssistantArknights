@@ -21,6 +21,7 @@ using System.Security.Permissions;
 using System.Text;
 using System.Windows;
 using System.Windows.Interop;
+using HandyControl.Data;
 using Point = System.Windows.Point;
 
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, UnmanagedCode = true)]
@@ -289,6 +290,87 @@ namespace MaaWpfGui.Helper
             }
 
             return true;
+        }
+
+        private static void SetImage(MessageBoxImage messageBoxImage, ref string iconKey, ref string iconBrushKey)
+        {
+            var key = string.Empty;
+            var brushKey = string.Empty;
+
+            switch (messageBoxImage)
+            {
+                case MessageBoxImage.Question:
+                    key = ResourceToken.AskGeometry;
+                    brushKey = ResourceToken.AccentBrush;
+                    break;
+                case MessageBoxImage.Error:
+                    key = ResourceToken.ErrorGeometry;
+                    brushKey = ResourceToken.DangerBrush;
+                    break;
+                case MessageBoxImage.Warning:
+                    key = ResourceToken.WarningGeometry;
+                    brushKey = ResourceToken.WarningBrush;
+                    break;
+                case MessageBoxImage.Information:
+                    key = ResourceToken.InfoGeometry;
+                    brushKey = ResourceToken.InfoBrush;
+                    break;
+            }
+
+            iconKey = string.IsNullOrEmpty(iconKey) ? key : iconKey;
+            iconBrushKey = string.IsNullOrEmpty(iconBrushKey) ? brushKey : iconBrushKey;
+        }
+
+        public static MessageBoxResult Show(MessageBoxInfo info) => HandyControl.Controls.MessageBox.Show(info);
+
+        public static MessageBoxResult Show(
+            string messageBoxText,
+            string caption = "",
+            MessageBoxButton buttons = MessageBoxButton.OK,
+            MessageBoxImage icon = MessageBoxImage.None,
+            string iconKey = "",
+            string iconBrushKey = "",
+            string ok = "",
+            string cancel = "",
+            string yes = "",
+            string no = "",
+            bool useNativeMethod = false)
+        {
+            caption = string.IsNullOrEmpty(caption) ? LocalizationHelper.GetString("Tip") : caption;
+            ok = string.IsNullOrEmpty(ok) ? LocalizationHelper.GetString("Ok") : ok;
+            cancel = string.IsNullOrEmpty(cancel) ? LocalizationHelper.GetString("ManualRestart") : cancel;
+            yes = string.IsNullOrEmpty(yes) ? LocalizationHelper.GetString("Yes") : yes;
+            no = string.IsNullOrEmpty(no) ? LocalizationHelper.GetString("No") : no;
+
+            if (useNativeMethod)
+            {
+                Unregister();
+                OK = ok;
+                Cancel = cancel;
+                Yes = yes;
+                No = no;
+                Register();
+                var result = MessageBox.Show(messageBoxText, caption, buttons, icon);
+                Unregister();
+                return result;
+            }
+            else
+            {
+                SetImage(icon, ref iconKey, ref iconBrushKey);
+                var info = new MessageBoxInfo
+                {
+                    Message = messageBoxText,
+                    Caption = caption,
+                    Button = buttons,
+                    IconKey = iconKey,
+                    IconBrushKey = iconBrushKey,
+                    ConfirmContent = ok,
+                    CancelContent = cancel,
+                    YesContent = yes,
+                    NoContent = no,
+                };
+                return HandyControl.Controls.MessageBox.Show(info);
+            }
         }
     }
 }

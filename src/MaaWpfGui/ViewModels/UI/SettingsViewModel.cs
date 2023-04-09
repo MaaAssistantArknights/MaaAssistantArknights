@@ -27,6 +27,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
+using HandyControl.Themes;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -116,13 +117,16 @@ namespace MaaWpfGui.ViewModels.UI
 
             InfrastInit();
 
+            SwitchDarkMode();
             if (Hangover)
             {
                 Hangover = false;
-                _windowManager.ShowMessageBox(
+                MessageBoxHelper.Show(
                     LocalizationHelper.GetString("Hangover"),
                     LocalizationHelper.GetString("Burping"),
-                    MessageBoxButton.OK, MessageBoxImage.Hand);
+                    MessageBoxButton.OK,
+                    iconKey: "HangoverGeometry",
+                    iconBrushKey: "PallasBrush");
                 Application.Current.Shutdown();
                 System.Windows.Forms.Application.Restart();
             }
@@ -152,11 +156,6 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 ConnectAddressHistory = JsonConvert.DeserializeObject<ObservableCollection<string>>(addressListJson);
             }
-
-            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                App.SetAllControlColors(Application.Current.MainWindow);
-            }));
         }
 
         private List<string> _listTitle = new List<string>();
@@ -2536,26 +2535,44 @@ namespace MaaWpfGui.ViewModels.UI
 
                 SetAndNotify(ref _darkModeType, tempEnumValue);
                 ConfigurationHelper.SetValue(ConfigurationKeys.DarkMode, value);
+                SwitchDarkMode();
 
-                MessageBoxHelper.Unregister();
-                MessageBoxHelper.Yes = LocalizationHelper.GetString("Ok");
-                MessageBoxHelper.No = LocalizationHelper.GetString("ManualRestart");
-                MessageBoxHelper.Register();
-                Window mainWindow = Application.Current.MainWindow;
-                mainWindow!.Show();
-                mainWindow.WindowState = mainWindow.WindowState = WindowState.Normal;
-                mainWindow.Activate();
-                var result = MessageBox.Show(
+                /*
+                var result = MessageBoxHelper.Show(
                     LocalizationHelper.GetString("DarkModeSetColorsTip"),
                     LocalizationHelper.GetString("Tip"),
-                    MessageBoxButton.YesNo,
+                    MessageBoxButton.OKCancel,
                     MessageBoxImage.Question);
-                MessageBoxHelper.Unregister();
-                if (result == MessageBoxResult.Yes)
+                if (result == MessageBoxResult.OK)
                 {
                     Application.Current.Shutdown();
                     System.Windows.Forms.Application.Restart();
                 }
+                */
+            }
+        }
+
+        public void SwitchDarkMode()
+        {
+            DarkModeType darkModeType =
+                Enum.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.DarkMode, DarkModeType.Light.ToString()),
+                    out DarkModeType temp)
+                    ? temp : DarkModeType.Light;
+            switch (darkModeType)
+            {
+                case DarkModeType.Light:
+                    ThemeManager.Current.UsingSystemTheme = false;
+                    ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light;
+                    return;
+
+                case DarkModeType.Dark:
+                    ThemeManager.Current.UsingSystemTheme = false;
+                    ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
+                    return;
+
+                case DarkModeType.SyncWithOS:
+                    ThemeManager.Current.UsingSystemTheme = true;
+                    return;
             }
         }
 
@@ -2651,26 +2668,25 @@ namespace MaaWpfGui.ViewModels.UI
 
                 string FormatText(string text, string key)
                     => string.Format(text, LocalizationHelper.GetString(key, value), LocalizationHelper.GetString(key, _language));
-                MessageBoxHelper.Unregister();
-                MessageBoxHelper.Yes = FormatText("{0}({1})", "Ok");
-                MessageBoxHelper.No = FormatText("{0}({1})", "ManualRestart");
-                MessageBoxHelper.Register();
+
                 Window mainWindow = Application.Current.MainWindow;
                 mainWindow.Show();
                 mainWindow.WindowState = mainWindow.WindowState = WindowState.Normal;
                 mainWindow.Activate();
-                var result = MessageBox.Show(
+                var result = MessageBoxHelper.Show(
                     FormatText("{0}\n{1}", "LanguageChangedTip"),
                     FormatText("{0}({1})", "Tip"),
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Question);
-                MessageBoxHelper.Unregister();
-                SetAndNotify(ref _language, value);
-                if (result == MessageBoxResult.Yes)
+                    MessageBoxButton.OKCancel,
+                    MessageBoxImage.Question,
+                    ok: FormatText("{0}({1})", "Ok"),
+                    cancel: FormatText("{0}({1})", "ManualRestart"));
+                if (result == MessageBoxResult.OK)
                 {
                     Application.Current.Shutdown();
                     System.Windows.Forms.Application.Restart();
                 }
+
+                SetAndNotify(ref _language, value);
             }
         }
 
@@ -2716,10 +2732,12 @@ namespace MaaWpfGui.ViewModels.UI
         private void SetPallasLanguage()
         {
             ConfigurationHelper.SetValue(ConfigurationKeys.Localization, PallasLangKey);
-            var result = _windowManager.ShowMessageBox(
+            var result = MessageBoxHelper.Show(
                 LocalizationHelper.GetString("DrunkAndStaggering"),
                 LocalizationHelper.GetString("Burping"),
-                MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                MessageBoxButton.OK,
+                iconKey: "DrunkAndStaggeringGeometry",
+                iconBrushKey: "PallasBrush");
             if (result == MessageBoxResult.OK)
             {
                 Application.Current.Shutdown();

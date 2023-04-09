@@ -19,6 +19,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using HandyControl.Data;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -283,7 +284,7 @@ namespace MaaWpfGui.Main
             {
                 Execute.OnUIThread(() =>
                 {
-                    _windowManager.ShowMessageBox(LocalizationHelper.GetString("ResourceBroken"), LocalizationHelper.GetString("Error"), icon: MessageBoxImage.Error);
+                    MessageBoxHelper.Show(LocalizationHelper.GetString("ResourceBroken"), LocalizationHelper.GetString("Error"), iconKey: ResourceToken.FatalGeometry, iconBrushKey: ResourceToken.DangerBrush);
                     Application.Current.Shutdown();
                 });
             }
@@ -373,7 +374,7 @@ namespace MaaWpfGui.Main
                     break;
 
                 case AsstMsg.InitFailed:
-                    _windowManager.ShowMessageBox(LocalizationHelper.GetString("InitializationError"), LocalizationHelper.GetString("Error"), icon: MessageBoxImage.Error);
+                    MessageBoxHelper.Show(LocalizationHelper.GetString("InitializationError"), LocalizationHelper.GetString("Error"), iconKey: ResourceToken.FatalGeometry, iconBrushKey: ResourceToken.DangerBrush);
                     Application.Current.Shutdown();
                     break;
 
