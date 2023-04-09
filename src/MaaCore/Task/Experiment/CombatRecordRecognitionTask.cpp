@@ -714,6 +714,9 @@ bool asst::CombatRecordRecognitionTask::process_changes(ClipInfo& clip, ClipInfo
                 continue;
             }
             std::string name = deployed_iter == deployed.end() ? pre_clip_ptr->ends_oper_name : *(deployed_iter++);
+            if (name.empty()) {
+                name = "Unknown_EndsEmpty";
+            }
 
             static const std::unordered_map<battle::DeployDirection, std::string> DirectionNames = {
                 { battle::DeployDirection::Right, "Right" }, { battle::DeployDirection::Down, "Down" },
