@@ -6419,7 +6419,7 @@
         ]
     },
     "BattleOpersFlag": {
-        "templThreshold": 0.65,
+        "templThreshold": 0.8,
         "roi": [
             0,
             588,
