@@ -6,6 +6,7 @@
 
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
+#include "Vision/Battle/BattleImageAnalyzer.h"
 #include "Vision/Battle/BattleSkillReadyImageAnalyzer.h"
 #include "Vision/Miscellaneous/DepotImageAnalyzer.h"
 #include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
@@ -14,7 +15,7 @@ asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) : Inte
 
 bool asst::DebugTask::run()
 {
-    test_drops();
+    test_battle_image();
 
     return true;
 }
@@ -58,4 +59,14 @@ void asst::DebugTask::test_skill_ready()
         }
     }
     Log.info(__FUNCTION__, correct, "/", total, ",", double(correct) / total);
+}
+
+void asst::DebugTask::test_battle_image()
+{
+    cv::Mat image = asst::imread(utils::path("1.png"));
+    cv::Mat resized;
+    cv::resize(image, resized, cv::Size(1280, 720), 0, 0, cv::INTER_AREA);
+    BattleImageAnalyzer analyzer(resized);
+    analyzer.set_target(BattleImageAnalyzer::Target::Oper);
+    analyzer.analyze();
 }

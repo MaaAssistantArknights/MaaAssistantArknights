@@ -112,9 +112,13 @@
     <system:String x:Key="SwitchLanguage">切換語言</system:String>
     <system:String x:Key="Language">語言</system:String>
     <system:String x:Key="LanguageChangedTip">語言設定已變更，是否現在重啟 MAA 以套用語言設定？</system:String>
-    <system:String x:Key="Ok">好的</system:String>
     <system:String x:Key="ManualRestart">稍後</system:String>
+
     <system:String x:Key="Tip">提示</system:String>
+    <system:String x:Key="Yes">是</system:String>
+    <system:String x:Key="No">否</system:String>
+    <system:String x:Key="Ok">好的</system:String>
+    <system:String x:Key="Cancel">取消</system:String>
 
     <system:String x:Key="HotKeyShowGui">[熱鍵] 顯示/收起 MAA</system:String>
     <system:String x:Key="HotKeyLinkStart">[熱鍵] Link start/stop</system:String>

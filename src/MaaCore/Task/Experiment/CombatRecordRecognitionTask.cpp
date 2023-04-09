@@ -705,8 +705,7 @@ bool asst::CombatRecordRecognitionTask::process_changes(ClipInfo& clip, ClipInfo
         Log.info("deployed", deployed);
 
         if (deployed.empty()) {
-            Log.warn("Unknown dployed");
-            return false;
+            Log.warn("Unknown dployed, will use pre tails_page's name", pre_clip_ptr->ends_oper_name);
         }
 
         auto deployed_iter = deployed.begin();
@@ -714,7 +713,10 @@ bool asst::CombatRecordRecognitionTask::process_changes(ClipInfo& clip, ClipInfo
             if (!oper.new_here) {
                 continue;
             }
-            std::string name = deployed_iter == deployed.end() ? "UnkownDeployed" : *(deployed_iter++);
+            std::string name = deployed_iter == deployed.end() ? pre_clip_ptr->ends_oper_name : *(deployed_iter++);
+            if (name.empty()) {
+                name = "Unknown_EndsEmpty";
+            }
 
             static const std::unordered_map<battle::DeployDirection, std::string> DirectionNames = {
                 { battle::DeployDirection::Right, "Right" }, { battle::DeployDirection::Down, "Down" },

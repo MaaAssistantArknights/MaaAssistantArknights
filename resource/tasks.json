@@ -5744,7 +5744,8 @@
         "next": [
             "InfrastClueSelfNew",
             "InfrastClueFriendNew",
-            "ReceptionFlag"
+            "ReceptionFlag",
+            "CloseSendClue"
         ]
     },
     "ClueGiveToNextPage": {
@@ -6498,7 +6499,7 @@
     },
     "BattleOperRole": {
         "template": "empty.png",
-        "templThreshold": 0.75
+        "templThreshold": 0.65
     },
     "BattleOperRoleCaster": {},
     "BattleOperRoleMedic": {},
@@ -6763,6 +6764,20 @@
             615,
             230,
             65
+        ]
+    },
+    "StageDrops-Stage12-TripleFlag": {
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "text": [
+            "后勤",
+            "急派"
+        ],
+        "roi": [
+            195,
+            586,
+            476,
+            94
         ]
     },
     "StageDrops-StageCF-ItemQuantity": {
@@ -9352,23 +9367,6 @@
             255
         ],
         "templThreshold": 0.9
-    },
-    "RoguelikeFormationOperSelected": {
-        "template": "empty.png",
-        "templThreshold": 1000,
-        "templThreshold_Doc": "这个任务中作为符合range的像素点数量阈值",
-        "maskRange_Doc": "拿来做H通道的范围",
-        "maskRange": [
-            95,
-            105
-        ],
-        "specificRect_Doc": "拿来做S、V通道的范围",
-        "specificRect": [
-            170,
-            210,
-            70,
-            140
-        ]
     },
     "RoguelikeQuickFormationClearAndReselect": {
         "action": "ClickSelf",
