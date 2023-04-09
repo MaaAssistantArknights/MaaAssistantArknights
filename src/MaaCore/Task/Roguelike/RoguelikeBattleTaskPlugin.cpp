@@ -305,6 +305,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
     LogTraceFunction;
     Log.info("m_kills", m_kills);
 
+    bool is_success = false;
     for (const auto& info : m_retreat_plan) {
         if (m_kills >= info.kill_lower_bound && m_kills <= info.kill_upper_bound) {
             if (m_used_tiles.contains(info.location)) {
@@ -314,18 +315,26 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
             }
         }
     }
+    Log.info("No operator needs to be retreated.");
 
     std::string rogue_theme = status()->get_properties(Status::RoguelikeTheme).value();
     std::vector<DeployPlanInfo> deploy_plan_list;
     const auto& groups = RoguelikeRecruit.get_group_info(rogue_theme);
     for (const auto& [name, oper] : m_cur_deployment_opers) {
-        if (oper.cooling) continue;
+        if (oper.cooling) {
+            Log.info("operator", oper.name, "is cooling now.");
+            continue;
+        }
         const auto& recruit_info = RoguelikeRecruit.get_oper_info(rogue_theme, oper.name);
         int group_id = RoguelikeRecruit.get_group_id(rogue_theme, oper.name);
         std::string group_name = groups[group_id];
         if (m_deploy_plan.contains(group_name)) {
             for (const auto& info : m_deploy_plan[group_name]) {
-                if (m_kills < info.kill_lower_bound || m_kills > info.kill_upper_bound) continue;
+                if (m_kills < info.kill_lower_bound || m_kills > info.kill_upper_bound) {
+                    Log.info("deploy info", oper.name, "in group", group_name, "is waiting.");
+                    is_success = true; // 如果发现了待命干员，此函数最终返回true
+                    continue;
+                }
                 DeployPlanInfo deploy_plan;
                 deploy_plan.oper_name = oper.name;
                 deploy_plan.oper_priority = recruit_info.recruit_priority;
@@ -335,6 +344,9 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
                 deploy_plan_list.emplace_back(deploy_plan);
                 Log.info("deploy info", deploy_plan.oper_name, "in group", group_name, "with rank", deploy_plan.rank);
             }
+        }
+        else {
+            Log.error("operator", oper.name, "is not in the deploy plan.");
         }
     }
     std::sort(deploy_plan_list.begin(), deploy_plan_list.end());
@@ -355,7 +367,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
             return true;
         }
     }
-    return false;
+    return is_success;
 }
 
 bool asst::RoguelikeBattleTaskPlugin::do_once()
@@ -377,6 +389,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
         return false;
     }
     update_cost();
+    update_kills();
 
     std::unordered_set<std::string> cur_cooling;
     size_t cur_available_count = 0;   // without drones
