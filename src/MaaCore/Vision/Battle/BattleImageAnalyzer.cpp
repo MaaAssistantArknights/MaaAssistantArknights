@@ -124,7 +124,10 @@ bool asst::BattleImageAnalyzer::opers_analyze()
     MultiMatchImageAnalyzer flags_analyzer(m_image);
     const auto& flag_task_ptr = Task.get("BattleOpersFlag");
     flags_analyzer.set_task_info(flag_task_ptr);
+
+#ifndef ASST_DEBUG
     flags_analyzer.set_log_tracing(false);
+#endif
     // if (m_target & Target::OperSeleted) {
     //     // 更大的范围，能把被点击的升起来的干员也识别出来
     //     // 但是可能造成误识别
@@ -204,7 +207,9 @@ asst::battle::Role asst::BattleImageAnalyzer::oper_role_analyze(const Rect& roi)
     static const std::string TaskName = "BattleOperRole";
     static const std::string Ext = ".png";
     BestMatchImageAnalyzer role_analyzer(m_image);
+#ifndef ASST_DEBUG
     role_analyzer.set_log_tracing(false);
+#endif // !ASST_DEBUG
     role_analyzer.set_task_info(TaskName);
     role_analyzer.set_roi(roi);
 
@@ -212,6 +217,7 @@ asst::battle::Role asst::BattleImageAnalyzer::oper_role_analyze(const Rect& roi)
         role_analyzer.append_templ(TaskName + role_name + Ext);
     }
     if (!role_analyzer.analyze()) {
+        Log.warn(__FUNCTION__, "unknown role");
         return battle::Role::Unknown;
     }
 
