@@ -47,30 +47,14 @@ const std::vector<asst::RoguelikeFormationImageAnalyzer::FormationOper>& asst::R
 bool asst::RoguelikeFormationImageAnalyzer::selected_analyze(const Rect& roi)
 {
     cv::Mat img_roi = m_image(make_rect<cv::Rect>(roi));
-    cv::Mat hsv;
-    cv::cvtColor(img_roi, hsv, cv::COLOR_BGR2HSV);
-
-    const auto selected_task_ptr = Task.get<MatchTaskInfo>("RoguelikeFormationOperSelected");
-    int h_low = selected_task_ptr->mask_range.first;
-    int h_up = selected_task_ptr->mask_range.second;
-    int s_low = selected_task_ptr->specific_rect.x;
-    int s_up = selected_task_ptr->specific_rect.y;
-    int v_low = selected_task_ptr->specific_rect.width;
-    int v_up = selected_task_ptr->specific_rect.height;
-
     cv::Mat bin;
-    cv::inRange(hsv, cv::Scalar(h_low, s_low, v_low), cv::Scalar(h_up, s_up, v_up), bin);
+    cv::inRange(img_roi, cv::Scalar::all(240), cv::Scalar::all(255), bin);
 
-    int count = 0;
-    for (int i = 0; i != bin.rows; ++i) {
-        for (int j = 0; j != bin.cols; ++j) {
-            cv::uint8_t value = bin.at<cv::uint8_t>(i, j);
-            if (value) {
-                ++count;
-            }
-        }
-    }
-    Log.trace("selected_analyze |", count);
+    // If selected, all the white pixels would be masked by blue stuff, leaving only white digits drawn on top of the
+    // mask. Thus, we count and compare white pixels in upper half (where the digits were) and lower half.
+    int upper = cv::countNonZero(bin(cv::Rect(bin.cols / 4, 0, bin.cols / 2, bin.rows / 2)));
+    int lower = cv::countNonZero(bin(cv::Rect(bin.cols / 4, bin.rows / 2, bin.cols / 2, bin.rows / 2)));
+    Log.trace("selected_analyze |", upper, ':', lower);
 
-    return count >= selected_task_ptr->templ_threshold;
+    return upper > 250 && lower < 2;
 }
