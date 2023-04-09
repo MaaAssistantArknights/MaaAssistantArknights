@@ -170,6 +170,9 @@ bool asst::BattleImageAnalyzer::opers_analyze()
         if (cooling_rect.x + cooling_rect.width >= m_image.cols) {
             cooling_rect.width = m_image.cols - cooling_rect.x;
         }
+        if (cooling_rect.y + cooling_rect.height >= m_image.rows) {
+            cooling_rect.height = m_image.rows - cooling_rect.y;
+        }
         oper.cooling = oper_cooling_analyze(cooling_rect);
         if (oper.cooling && oper.available) {
             Log.error("oper is available, but with cooling");
