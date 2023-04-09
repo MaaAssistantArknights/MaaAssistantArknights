@@ -64,7 +64,7 @@ namespace MaaWpfGui.ViewModels.UI
             _httpService = httpService;
             DisplayName = LocalizationHelper.GetString("Copilot");
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
-            AddLog(LocalizationHelper.GetString("CopilotTip"), UiLogColor.Message);
+            AddLog(LocalizationHelper.GetString("CopilotTip"));
         }
 
         protected override void OnInitialActivate()
@@ -72,10 +72,6 @@ namespace MaaWpfGui.ViewModels.UI
             base.OnInitialActivate();
             _asstProxy = _container.Get<AsstProxy>();
             _settingsViewModel = _container.Get<SettingsViewModel>();
-            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                App.SetAllControlColors(Application.Current.MainWindow);
-            }));
         }
 
         /// <summary>

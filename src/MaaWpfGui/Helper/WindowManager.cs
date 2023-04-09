@@ -103,9 +103,6 @@ namespace MaaWpfGui.Helper
                     window.ShowInTaskbar = false;
                     window.Visibility = Visibility.Hidden;
                 }
-
-                var app = Application.Current as App;
-                app!.DarkToStart();
             }
             else if (!isDialog && ownerViewModel == null)
             {

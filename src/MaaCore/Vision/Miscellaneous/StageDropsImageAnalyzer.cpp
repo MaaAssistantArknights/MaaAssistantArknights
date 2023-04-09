@@ -23,7 +23,7 @@ bool asst::StageDropsImageAnalyzer::analyze()
     analyze_stage_code();
     analyze_difficulty();
     analyze_stars();
-    bool ret = analyze_drops() && analyze_drops_for_CF();
+    bool ret = analyze_drops() && analyze_drops_for_CF() && analyze_drops_for_12();
 
 #ifndef ASST_DEBUG
     if (!ret)
@@ -285,6 +285,18 @@ bool asst::StageDropsImageAnalyzer::analyze_drops_for_CF()
         m_drops.emplace_back(std::move(info));
     }
     return !has_error;
+}
+
+bool asst::StageDropsImageAnalyzer::analyze_drops_for_12()
+{
+    if (!m_stage_code.starts_with("12-")) {
+        return true;
+    }
+    LogTraceFunction;
+
+    OcrImageAnalyzer flag_analyzer(m_image);
+    flag_analyzer.set_task_info("StageDrops-Stage12-TripleFlag");
+    return !flag_analyzer.analyze();
 }
 
 bool asst::StageDropsImageAnalyzer::analyze_baseline()

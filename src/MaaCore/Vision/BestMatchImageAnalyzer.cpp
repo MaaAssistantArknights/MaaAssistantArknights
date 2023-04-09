@@ -9,7 +9,9 @@
 
 bool asst::BestMatchImageAnalyzer::analyze()
 {
+#ifndef ASST_DEBUG
     MatchImageAnalyzer::set_log_tracing(false);
+#endif
     set_use_cache(false);
 
     MatchRect best_matched;
