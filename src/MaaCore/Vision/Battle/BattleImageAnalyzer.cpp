@@ -124,20 +124,17 @@ bool asst::BattleImageAnalyzer::opers_analyze()
     MultiMatchImageAnalyzer flags_analyzer(m_image);
     const auto& flag_task_ptr = Task.get("BattleOpersFlag");
     flags_analyzer.set_task_info(flag_task_ptr);
-
 #ifndef ASST_DEBUG
     flags_analyzer.set_log_tracing(false);
 #endif
-    // if (m_target & Target::OperSeleted) {
-    //     // 更大的范围，能把被点击的升起来的干员也识别出来
-    //     // 但是可能造成误识别
-    //     flags_analyzer.set_roi(flag_task_ptr->rect_move);
-    // }
     if (!flags_analyzer.analyze()) {
         return false;
     }
     flags_analyzer.sort_result_horizontal();
-    const auto& flags = flags_analyzer.get_result();
+    auto flags = flags_analyzer.get_result();
+    if (flags.empty()) {
+        return false;
+    }
 
     const auto click_move = Task.get("BattleOperClickRange")->rect_move;
     const auto role_move = Task.get("BattleOperRoleRange")->rect_move;
@@ -151,6 +148,14 @@ bool asst::BattleImageAnalyzer::opers_analyze()
     for (const MatchRect& flag_mrect : flags) {
         battle::DeploymentOper oper;
         oper.rect = flag_mrect.rect.move(click_move);
+
+        Rect role_rect = flag_mrect.rect.move(role_move);
+        oper.role = oper_role_analyze(role_rect);
+        if (oper.role == battle::Role::Unknown) {
+            Log.warn("Unknown role");
+            continue;
+        }
+
         if (oper.rect.x + oper.rect.width >= m_image.cols) {
             oper.rect.width = m_image.cols - oper.rect.x;
         }
@@ -180,9 +185,6 @@ bool asst::BattleImageAnalyzer::opers_analyze()
         if (oper.cooling && oper.available) {
             Log.error("oper is available, but with cooling");
         }
-
-        Rect role_rect = flag_mrect.rect.move(role_move);
-        oper.role = oper_role_analyze(role_rect);
 
         // 干员费用识别的不太准，暂时也没用上，先注释掉，TODO：优化费用识别
         // Rect cost_rect = flag_mrect.rect.move(cost_move);
