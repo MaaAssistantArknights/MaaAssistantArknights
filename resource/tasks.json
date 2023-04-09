@@ -6499,7 +6499,7 @@
     },
     "BattleOperRole": {
         "template": "empty.png",
-        "templThreshold": 0.75
+        "templThreshold": 0.6
     },
     "BattleOperRoleCaster": {},
     "BattleOperRoleMedic": {},
