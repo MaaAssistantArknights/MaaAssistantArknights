@@ -89,6 +89,11 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     std::string str_chars_info = status()->get_str(Status::RoguelikeCharOverview).value_or(json::value().to_string());
     json::value json_chars_info = json::parse(str_chars_info).value_or(json::value());
     const auto& chars_map = json_chars_info.as_object();
+    if (chars_map.empty()) { // 新的一次探索，重新初始化静态变量
+        start_complete = false;
+        team_complete = false;
+        recruit_count = 1;
+    }
 
     // __________________will-be-removed-begin__________________
     std::unordered_map<battle::Role, int> team_roles;
