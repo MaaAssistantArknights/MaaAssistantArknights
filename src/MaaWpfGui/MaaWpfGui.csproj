@@ -64,8 +64,8 @@
     <PackageReference Include="gong-wpf-dragdrop">
       <Version>3.1.1</Version>
     </PackageReference>
-    <PackageReference Include="HandyControl">
-      <Version>3.3.0</Version>
+    <PackageReference Include="HandyControls">
+      <Version>3.4.5</Version>
     </PackageReference>
     <PackageReference Include="MdXaml">
       <Version>1.15.0</Version>
