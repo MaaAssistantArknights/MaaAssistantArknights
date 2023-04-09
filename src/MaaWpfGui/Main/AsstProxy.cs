@@ -971,13 +971,8 @@ namespace MaaWpfGui.Main
 
                 case "PenguinId":
                     {
-                        if (_settingsViewModel.PenguinId == string.Empty)
-                        {
-                            string id = subTaskDetails["id"].ToString();
-                            _settingsViewModel.PenguinId = id;
-
-                            // AsstSetPenguinId(id);
-                        }
+                        string id = subTaskDetails["id"].ToString();
+                        _settingsViewModel.PenguinId = id;
                     }
 
                     break;
