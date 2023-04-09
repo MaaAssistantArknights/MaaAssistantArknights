@@ -58,6 +58,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
     static bool start_complete = false; // 阵容中必须有开局干员，没有前仅招募start干员或预备干员
     static bool team_complete = false;  // 阵容完备前，仅招募key干员或预备干员
+    static int recruit_count = 0; // 这是第几次招募
+    recruit_count++;
 
     // 开局干员
     bool use_support = get_status_bool(Status::RoguelikeUseSupport);
@@ -87,6 +89,11 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     std::string str_chars_info = status()->get_str(Status::RoguelikeCharOverview).value_or(json::value().to_string());
     json::value json_chars_info = json::parse(str_chars_info).value_or(json::value());
     const auto& chars_map = json_chars_info.as_object();
+    if (chars_map.empty()) { // 新的一次探索，重新初始化静态变量
+        start_complete = false;
+        team_complete = false;
+        recruit_count = 1;
+    }
 
     // __________________will-be-removed-begin__________________
     std::unordered_map<battle::Role, int> team_roles;
@@ -109,23 +116,36 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         for (const auto& oper : chars_map) {
             auto& recruit_info = RoguelikeRecruit.get_oper_info(rogue_theme, oper.first);
             if (recruit_info.is_start) start_complete = true;
-            Log.info(__FUNCTION__, "| Operator", oper.first, "is_start:", recruit_info.is_start);
         }
     }
 
     if (!team_complete) {
         bool complete = true;
+        int complete_count = 0;
+        int complete_require = 0;
         const auto& team_complete_condition = RoguelikeRecruit.get_team_complete_info(rogue_theme);
         for (const auto& condition : team_complete_condition) {
             int count = 0;
-            for (const std::string& group_name : condition.groups)
+            complete_require += condition.threshold;
+            for (const std::string& group_name : condition.groups) {
                 count += group_count[group_name];
+                complete_count += group_count[group_name];
+            }               
             if (count < condition.threshold) {
                 complete = false;
-                break;
             }
         }
         team_complete = complete;
+        if (complete_count <= complete_require / 2 && recruit_count >= 10) {
+            // 如果第10次招募还没拿到半队key干员，说明账号阵容不齐，放开招募限制，有啥用啥吧
+            team_complete = complete;
+        }
+    }
+
+    if (recruit_count >= 3 && !start_complete) { 
+        // 如果第3次招募还没拿到start干员，说明账号练度低且阵容不齐，放开招募限制，有啥用啥吧
+        start_complete = true;
+        team_complete = true;
     }
 
     // 候选干员
