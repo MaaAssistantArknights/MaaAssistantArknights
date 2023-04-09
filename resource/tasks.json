@@ -6765,6 +6765,20 @@
             65
         ]
     },
+    "StageDrops-Stage12-TripleFlag": {
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "text": [
+            "后勤",
+            "急派"
+        ],
+        "roi": [
+            195,
+            586,
+            476,
+            94
+        ]
+    },
     "StageDrops-StageCF-ItemQuantity": {
         "baseTask": "NumberOcrReplace",
         "text": [],

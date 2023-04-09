@@ -219,13 +219,13 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
     // Doc: https://developer.penguin-stats_vec.io/public-api/api-v2-instruction/report-api
     std::string stage_id = m_cur_info_json.get("stage", "stageId", std::string());
     if (stage_id.empty()) {
-        cb_info["why"] = "未知关卡";
+        cb_info["why"] = "UnknownStage";
         cb_info["details"] = json::object { { "stage_code", m_stage_code } };
         callback(AsstMsg::SubTaskError, cb_info);
         return;
     }
     if (m_stars != 3) {
-        cb_info["why"] = "非三星作战";
+        cb_info["why"] = "NotThreeStars";
         callback(AsstMsg::SubTaskError, cb_info);
         return;
     }
@@ -241,11 +241,16 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
             "SPECIAL_DROP",
         };
         std::string drop_type = drop.at("dropType").as_string();
+        if (drop_type == "UNKNOWN_DROP") {
+            cb_info["why"] = "UnknownDropType";
+            callback(AsstMsg::SubTaskError, cb_info);
+            return;
+        }
         if (ranges::find(filter, drop_type) == filter.cend()) {
             continue;
         }
         if (drop.at("itemId").as_string().empty()) {
-            cb_info["why"] = "存在未知掉落";
+            cb_info["why"] = "UnknownDrops";
             callback(AsstMsg::SubTaskError, cb_info);
             return;
         }
