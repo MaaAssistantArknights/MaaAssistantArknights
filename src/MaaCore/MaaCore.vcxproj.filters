@@ -225,6 +225,9 @@
     <ClInclude Include="Config\Roguelike\RoguelikeShoppingConfig.h">
       <Filter>源文件\Resource\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Config\Roguelike\RoguelikeStageEncounterConfig.h">
+      <Filter>源文件\Resource\Roguelike</Filter>
+    </ClInclude>
     <ClInclude Include="Config\Miscellaneous\BattleDataConfig.h">
       <Filter>源文件\Resource\Miscellaneous</Filter>
     </ClInclude>
@@ -459,6 +462,9 @@
     <ClInclude Include="Task\Roguelike\RoguelikeSkillSelectionTaskPlugin.h">
       <Filter>源文件\Task\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeStageEncounterTaskPlugin.h">
+      <Filter>源文件\Task\Roguelike</Filter>
+    </ClInclude>
     <ClInclude Include="InstHelper.h">
       <Filter>源文件</Filter>
     </ClInclude>
@@ -677,6 +683,9 @@
     <ClCompile Include="Config\Roguelike\RoguelikeShoppingConfig.cpp">
       <Filter>源文件\Resource\Roguelike</Filter>
     </ClCompile>
+    <ClCompile Include="Config\Roguelike\RoguelikeStageEncounterConfig.cpp">
+      <Filter>源文件\Resource\Roguelike</Filter>
+    </ClCompile>
     <ClCompile Include="Config\Miscellaneous\BattleDataConfig.cpp">
       <Filter>源文件\Resource\Miscellaneous</Filter>
     </ClCompile>
@@ -864,6 +873,9 @@
       <Filter>源文件\Task\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeSkillSelectionTaskPlugin.cpp">
+      <Filter>源文件\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeStageEncounterTaskPlugin.cpp">
       <Filter>源文件\Task\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="InstHelper.cpp">
