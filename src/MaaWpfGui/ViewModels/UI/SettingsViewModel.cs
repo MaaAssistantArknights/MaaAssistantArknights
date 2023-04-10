@@ -117,6 +117,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             InfrastInit();
 
+            SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
             SwitchDarkMode();
             if (Hangover)
             {
@@ -2574,6 +2575,11 @@ namespace MaaWpfGui.ViewModels.UI
                     ThemeManager.Current.UsingSystemTheme = true;
                     return;
             }
+        }
+
+        private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
+        {
+            Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
         }
 
         private enum InverseClearType
