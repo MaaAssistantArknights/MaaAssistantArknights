@@ -1,22 +1,26 @@
 {
     "ClickChapter1": {
         "text": [
-            "Hour of An Awakening"
+            "Hour of An Awakening",
+            "Hour of An"
         ]
     },
     "ClickChapter2": {
         "text": [
-            "Shatter of A Vision"
+            "Shatter of A Vision",
+            "Shatter of A"
         ]
     },
     "ClickChapter3": {
         "text": [
-            "Shadow of A Dying Sun"
+            "Shadow of A Dying Sun",
+            "Shadow of A"
         ]
     },
     "StageEpisodeToGT": {
         "text": [
-            "Grani and the Knights' Treasure"
+            "Grani and the Knights' Treasure",
+            "Grani and the Knights"
         ]
     },
     "GTToGT-5": {

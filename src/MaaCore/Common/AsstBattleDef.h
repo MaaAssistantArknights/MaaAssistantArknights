@@ -273,6 +273,8 @@ namespace asst::battle
             Point location;
             DeployDirection direction = DeployDirection::None;
             int rank = 0;
+            int kill_lower_bound = 0;
+            int kill_upper_bound = 9999;
         };
 
         struct ForceDeployDirection
@@ -293,6 +295,7 @@ namespace asst::battle
             int force_deploy_air_defense_num = 0;
             bool force_ban_medic = false;
             std::unordered_map<std::string, std::vector<DeployInfoWithRank>> deploy_plan;
+            std::vector<DeployInfoWithRank> retreat_plan;
         };
 
         struct Recruitment

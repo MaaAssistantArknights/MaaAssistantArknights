@@ -148,11 +148,6 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 Application.Current.MainWindow!.Closing += _settingsViewModel.SaveGUIParameters;
             }
-
-            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                App.SetAllControlColors(Application.Current.MainWindow);
-            }));
         }
 
         /*
@@ -1485,7 +1480,7 @@ namespace MaaWpfGui.ViewModels.UI
                     Process.Start("shutdown.exe", "-s -t 60");
 
                     // 关机询问
-                    var shutdownResult = _windowManager.ShowMessageBox(LocalizationHelper.GetString("AboutToShutdown"), LocalizationHelper.GetString("ShutdownPrompt"), MessageBoxButton.OK, MessageBoxImage.Question);
+                    var shutdownResult = MessageBoxHelper.Show(LocalizationHelper.GetString("AboutToShutdown"), LocalizationHelper.GetString("ShutdownPrompt"), MessageBoxButton.OK, MessageBoxImage.Question, ok: LocalizationHelper.GetString("Cancel"));
                     if (shutdownResult == MessageBoxResult.OK)
                     {
                         Process.Start("shutdown.exe", "-a");

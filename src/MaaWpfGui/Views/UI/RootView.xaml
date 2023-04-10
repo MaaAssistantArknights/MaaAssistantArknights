@@ -1,10 +1,11 @@
-﻿<Window
+<hc:Window
     x:Class="MaaWpfGui.Views.UI.RootView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:vm="clr-namespace:MaaWpfGui"
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
@@ -13,6 +14,7 @@
     Height="600"
     MinWidth="800"
     MinHeight="600"
+    Icon="../../newlogo.ico"
     d:DataContext="{d:DesignInstance {x:Type ui:RootViewModel}}"
     mc:Ignorable="d">
     <DockPanel>
@@ -32,4 +34,4 @@
             </TabControl.ContentTemplate>
         </TabControl>
     </DockPanel>
-</Window>
+</hc:Window>
