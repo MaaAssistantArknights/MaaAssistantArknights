@@ -483,6 +483,8 @@ namespace MaaWpfGui.Main
                 if (msg == AsstMsg.TaskChainError)
                 {
                     _recruitViewModel.RecruitInfo = LocalizationHelper.GetString("IdentifyTheMistakes");
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("IdentifyTheMistakes"));
+                    toast.Show();
                 }
             }
 
@@ -500,19 +502,23 @@ namespace MaaWpfGui.Main
                     break;
 
                 case AsstMsg.TaskChainError:
-                    _taskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskError") + taskChain, UiLogColor.Error);
-                    if (isCoplitTaskChain)
                     {
-                        _copilotViewModel.Idle = true;
-                        _copilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
-                    }
+                        _taskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskError") + taskChain, UiLogColor.Error);
+                        using var toast = new ToastNotification(LocalizationHelper.GetString("TaskError") + taskChain);
+                        toast.Show();
+                        if (isCoplitTaskChain)
+                        {
+                            _copilotViewModel.Idle = true;
+                            _copilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
+                        }
 
-                    if (taskChain == "Fight" && (_taskQueueViewModel.Stage == "Annihilation"))
-                    {
-                        _taskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
-                    }
+                        if (taskChain == "Fight" && (_taskQueueViewModel.Stage == "Annihilation"))
+                        {
+                            _taskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
+                        }
 
-                    break;
+                        break;
+                    }
 
                 case AsstMsg.TaskChainStart:
                     if (taskChain == "Fight")
