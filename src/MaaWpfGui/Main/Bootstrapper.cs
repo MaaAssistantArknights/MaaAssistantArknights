@@ -30,7 +30,6 @@ using Serilog;
 using Serilog.Core;
 using Stylet;
 using StyletIoC;
-using WindowManager = MaaWpfGui.Helper.WindowManager;
 
 namespace MaaWpfGui.Main
 {
@@ -166,7 +165,7 @@ namespace MaaWpfGui.Main
         /// <inheritdoc/>
         protected override void DisplayRootView(object rootViewModel)
         {
-            var windowManager = (WindowManager)GetInstance(typeof(WindowManager));
+            var windowManager = (Helper.WindowManager)GetInstance(typeof(Helper.WindowManager));
             windowManager.ShowWindow(rootViewModel);
         }
 

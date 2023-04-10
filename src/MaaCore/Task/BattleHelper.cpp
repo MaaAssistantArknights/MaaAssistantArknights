@@ -25,7 +25,7 @@ bool asst::BattleHelper::set_stage_name(const std::string& name)
 {
     LogTraceFunction;
 
-    if (!Tile.contains(name)) {
+    if (!Tile.find(name)) {
         return false;
     }
     m_stage_name = name;
@@ -53,7 +53,7 @@ bool asst::BattleHelper::calc_tiles_info(const std::string& stage_name, double s
 {
     LogTraceFunction;
 
-    if (!Tile.contains(stage_name)) {
+    if (!Tile.find(stage_name)) {
         return false;
     }
 
@@ -182,6 +182,12 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
 
         for (auto& oper : unknown_opers) {
             LogTraceScope("rec unknown oper: " + std::to_string(oper.index));
+            if (oper.cooling) {
+                Log.info("cooling oper, skip");
+                oper.name = "UnknownCooling_" + std::to_string(oper.index);
+                continue;
+            }
+
             click_oper_on_deployment(oper.rect);
 
             cv::Mat name_image = m_inst_helper.ctrler()->get_image();
@@ -224,18 +230,8 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             set_oper_name(oper, name);
             remove_cooling_from_battlefield(oper);
 
-            if (oper.cooling) {
-                // cd 中的干员如果识别错一次，这时候保存的是cd中的图像，后面就会一直错
-                // 且一般来说，cd 的干员都是一开始上过的，m_all_deployment_avatars 中应该有他的头像
-                // 而且由于 cd 干员头像阈值设置的非常低，为了防止把正确的干员覆盖掉了
-                // 所以不进行覆盖
-                m_cur_deployment_opers.try_emplace(name, oper);
-                AvatarCache.set_avatar(name, oper.role, oper.avatar, false);
-            }
-            else {
-                m_cur_deployment_opers.insert_or_assign(name, oper);
-                AvatarCache.set_avatar(name, oper.role, oper.avatar);
-            }
+            m_cur_deployment_opers.insert_or_assign(name, oper);
+            AvatarCache.set_avatar(name, oper.role, oper.avatar);
         }
         pause();
         if (!unknown_opers.empty()) {

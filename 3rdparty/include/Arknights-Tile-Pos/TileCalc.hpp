@@ -39,19 +39,12 @@ namespace Map
     class TileCalc
     {
     public:
-        TileCalc(int width, int height, const json::array& json);
+        TileCalc(int width, int height);
 
-        bool contains(const std::string& any_key);
-        bool contains(const LevelKey& key);
-
-        bool run(const std::string& any_key, bool side, std::vector<std::vector<cv::Point2d>>& out_pos,
-                 std::vector<std::vector<Tile>>& out_tiles, double shift_x = 0, double shift_y = 0) const;
-        bool run(const LevelKey& key, bool side, std::vector<std::vector<cv::Point2d>>& out_pos,
+        bool run(const Level& level, bool side, std::vector<std::vector<cv::Point2d>>& out_pos,
                  std::vector<std::vector<Tile>>& out_tiles, double shift_x = 0, double shift_y = 0) const;
 
     private:
-        bool run(const Level& level, bool side, std::vector<std::vector<cv::Point2d>>& out_pos,
-                 std::vector<std::vector<Tile>>& out_tiles, double shift_x = 0, double shift_y = 0) const;
         bool adapter(double& x, double& y) const;
 
         int width = 0;
@@ -97,7 +90,7 @@ namespace Map
         }
     }
 
-    inline TileCalc::TileCalc(int width, int height, const json::array& json)
+    inline TileCalc::TileCalc(int width, int height)
     {
         this->width = width;
         this->height = height;
@@ -117,62 +110,6 @@ namespace Map
                                { -sin(10 * degree), 0, cos(10 * degree), 0 },
                                { 0, 0, 0, 1 } };
         InitMat4x4(this->MatrixY, matrixY);
-
-        for (const json::value& item : json) {
-            this->levels.emplace_back(item);
-        }
-    }
-
-    inline bool TileCalc::adapter(double& x, double& y) const
-    {
-        const double fromRatio = 9.0 / 16;
-        const double toRatio = 3.0 / 4;
-        double ratio = static_cast<double>(height) / width;
-        if (ratio < fromRatio - 0.00001) {
-            x = 0;
-            y = 0;
-            return false;
-        }
-        double t = (ratio - fromRatio) / (toRatio - fromRatio);
-        x = -1.4 * t;
-        y = -2.8 * t;
-        return true;
-    }
-
-    inline bool TileCalc::contains(const std::string& any_key)
-    {
-        auto iter = std::find_if(levels.cbegin(), levels.cend(),
-                                 [&any_key](const Level& level) -> bool { return level.key == any_key; });
-        return iter != levels.cend();
-    }
-
-    bool TileCalc::contains(const LevelKey& key)
-    {
-        auto iter = std::find_if(levels.cbegin(), levels.cend(),
-                                 [&key](const Level& level) -> bool { return level.key == key; });
-        return iter != levels.cend();
-    }
-
-    inline bool TileCalc::run(const std::string& any_key, bool side, std::vector<std::vector<cv::Point2d>>& out_pos,
-                              std::vector<std::vector<Tile>>& out_tiles, double shift_x, double shift_y) const
-    {
-        auto iter = std::find_if(levels.cbegin(), levels.cend(),
-                                 [&any_key](const Level& level) -> bool { return level.key == any_key; });
-        if (iter == levels.cend()) {
-            return false;
-        }
-        return run(*iter, side, out_pos, out_tiles, shift_x, shift_y);
-    }
-
-    inline bool TileCalc::run(const LevelKey& key, bool side, std::vector<std::vector<cv::Point2d>>& out_pos,
-                              std::vector<std::vector<Tile>>& out_tiles, double shift_x, double shift_y) const
-    {
-        auto iter = std::find_if(levels.cbegin(), levels.cend(),
-                                 [&key](const Level& level) -> bool { return level.key == key; });
-        if (iter == levels.cend()) {
-            return false;
-        }
-        return run(*iter, side, out_pos, out_tiles, shift_x, shift_y);
     }
 
     inline bool TileCalc::run(const Level& level, bool side, std::vector<std::vector<cv::Point2d>>& out_pos,
@@ -214,6 +151,22 @@ namespace Map
             out_pos.emplace_back(tmp_pos);
             out_tiles.emplace_back(tmp_tiles);
         }
+        return true;
+    }
+
+    inline bool TileCalc::adapter(double& x, double& y) const
+    {
+        const double fromRatio = 9.0 / 16;
+        const double toRatio = 3.0 / 4;
+        double ratio = static_cast<double>(height) / width;
+        if (ratio < fromRatio - 0.00001) {
+            x = 0;
+            y = 0;
+            return false;
+        }
+        double t = (ratio - fromRatio) / (toRatio - fromRatio);
+        x = -1.4 * t;
+        y = -2.8 * t;
         return true;
     }
 } // namespace Map

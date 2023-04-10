@@ -77513,7 +77513,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 5
                 },
                 "dropType": "NORMAL_DROP",
                 "itemId": "2003"
@@ -77693,7 +77693,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 5
                 },
                 "dropType": "NORMAL_DROP",
                 "itemId": "2003"

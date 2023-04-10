@@ -362,7 +362,8 @@ namespace MaaWpfGui.ViewModels.UI
         {
             _settingsViewModel.IsCheckingForUpdates = true;
 
-            async Task<CheckUpdateRetT> CheckUpdateInner() {
+            async Task<CheckUpdateRetT> CheckUpdateInner()
+            {
                 // 检查更新
                 var checkRet = await CheckUpdate(force);
                 if (checkRet != CheckUpdateRetT.OK)
@@ -464,10 +465,7 @@ namespace MaaWpfGui.ViewModels.UI
                 var mirroredReplaceMap = new List<Tuple<string, string>>
                 {
                     new Tuple<string, string>("github.com", "agent.imgg.dev"),
-                    new Tuple<string, string>("https://", "https://git.114514.pro/https://"),
-                    new Tuple<string, string>("https://", "https://ghproxy.com/https://"),
                     new Tuple<string, string>("github.com", "ota.maa.plus"),
-                    new Tuple<string, string>("github.com", "download.fastgit.org"),
                     null,
                 };
 
@@ -475,9 +473,9 @@ namespace MaaWpfGui.ViewModels.UI
                 const int DownloadRetryMaxTimes = 1;
                 for (int i = 0; i <= DownloadRetryMaxTimes && !downloaded; i++)
                 {
-                    var url = rawUrl;
                     foreach (var repTuple in mirroredReplaceMap)
                     {
+                        var url = string.Copy(rawUrl);
                         if (repTuple != null)
                         {
                             url = url.Replace(repTuple.Item1, repTuple.Item2);
@@ -517,17 +515,12 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void AskToRestart()
         {
-            MessageBoxHelper.Unregister();
-            MessageBoxHelper.Yes = LocalizationHelper.GetString("Ok");
-            MessageBoxHelper.No = LocalizationHelper.GetString("ManualRestart");
-            MessageBoxHelper.Register();
-            var result = MessageBox.Show(
+            var result = MessageBoxHelper.Show(
                 LocalizationHelper.GetString("NewVersionDownloadCompletedDesc"),
                 LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"),
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
-            MessageBoxHelper.Unregister();
-            if (result == MessageBoxResult.Yes)
+                MessageBoxButton.OKCancel,
+                MessageBoxImage.Question, useNativeMethod: true);
+            if (result == MessageBoxResult.OK)
             {
                 Application.Current.Shutdown();
                 System.Windows.Forms.Application.Restart();
@@ -703,11 +696,18 @@ namespace MaaWpfGui.ViewModels.UI
         private async Task<bool> DownloadGithubAssets(string url, JObject assetsObject)
         {
             _logItemViewModels = _taskQueueViewModel.LogItemViewModels;
-            return await _httpService.DownloadFileAsync(
-                new Uri(url),
-                assetsObject["name"].ToString(),
-                assetsObject["content_type"].ToString())
-                .ConfigureAwait(false);
+            try
+            {
+                return await _httpService.DownloadFileAsync(
+                    new Uri(url),
+                    assetsObject["name"].ToString(),
+                    assetsObject["content_type"].ToString())
+                    .ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         private static ObservableCollection<LogItemViewModel> _logItemViewModels = null;
