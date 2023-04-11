@@ -2021,6 +2021,18 @@
             "UnableToAgent@SwipeToTheLeft"
         ]
     },
+    "UnableToAgent2": {
+        "roi": [
+            985,
+            523,
+            159,
+            165
+        ],
+        "next": [
+            "Stage",
+            "UnableToAgent2@SwipeToTheLeft"
+        ]
+    },
     "ResourceStageLevel5": {
         "Doc": "base_task",
         "algorithm": "OcrDetect",
@@ -2049,6 +2061,7 @@
         "postDelay": 1000,
         "next": [
             "UnableToAgent",
+            "UnableToAgent2",
             "Stop"
         ]
     },
