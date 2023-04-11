@@ -234,7 +234,6 @@ namespace MaaWpfGui.ViewModels.UI
                 new CombinedData { Display = LocalizationHelper.GetString("WSA"), Value = "WSA" },
                 new CombinedData { Display = LocalizationHelper.GetString("Compatible"), Value = "Compatible" },
                 new CombinedData { Display = LocalizationHelper.GetString("SecondResolution"), Value = "SecondResolution" },
-                new CombinedData { Display = LocalizationHelper.GetString("NotKillAdb"), Value = "NotKillAdb" },
                 new CombinedData { Display = LocalizationHelper.GetString("GeneralWithoutScreencapErr"), Value = "GeneralWithoutScreencapErr" },
             };
 
@@ -2060,6 +2059,19 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _killAdbOnExit = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.KillAdbOnExit, false.ToString()));
+
+        public bool KillAdbOnExit
+        {
+            get => _killAdbOnExit;
+            set
+            {
+                SetAndNotify(ref _killAdbOnExit, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.KillAdbOnExit, value.ToString());
+                UpdateInstanceSettings();
+            }
+        }
+
         /// <summary>
         /// Gets the default addresses.
         /// </summary>
@@ -2233,6 +2245,7 @@ namespace MaaWpfGui.ViewModels.UI
             _asstProxy.AsstSetInstanceOption(InstanceOptionKey.TouchMode, TouchMode);
             _asstProxy.AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, DeploymentWithPause ? "1" : "0");
             _asstProxy.AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, AdbLiteEnabled ? "1" : "0");
+            _asstProxy.AsstSetInstanceOption(InstanceOptionKey.KillAdbOnExit, KillAdbOnExit ? "1" : "0");
         }
 
         private static readonly string GoogleAdbDownloadUrl = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip";

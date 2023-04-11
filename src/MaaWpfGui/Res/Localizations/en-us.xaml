@@ -66,7 +66,6 @@
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">Compatible Mode</system:String>
     <system:String x:Key="SecondResolution">2nd Resolution</system:String>
-    <system:String x:Key="NotKillAdb">Not Kill Adb</system:String>
 
     <system:String x:Key="DormThreshold">Morale Threshold</system:String>
     <system:String x:Key="InfrastThresholdTip">If custom shift is enabled, this field is only valid for autofilled rooms</system:String>
@@ -81,6 +80,7 @@
     <system:String x:Key="RoguelikeUseNonFriendSupport">Enable nonfirend support</system:String>
     <system:String x:Key="DeploymentWithPause">Deployment with Pause, Works for IS, Copilot and SSS, Beta function, Not recommended yet</system:String>
     <system:String x:Key="AdbLiteEnabled">Use Adb Lite (Experimental)</system:String>
+    <system:String x:Key="KillAdbOnExit">Kill Adb On Exit</system:String>
 
     <system:String x:Key="DefaultSquad">Default</system:String>
     <system:String x:Key="IS2NewSquad1">Mind over matter (to be updated)</system:String>

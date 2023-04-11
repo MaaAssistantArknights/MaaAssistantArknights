@@ -314,7 +314,7 @@ bool asst::MinitouchController::connect(const std::string& adb_path, const std::
 
 #ifdef ASST_DEBUG
     if (config == "DEBUG") {
-        make_instance_inited(true);
+        m_inited = true;
         return true;
     }
 #endif

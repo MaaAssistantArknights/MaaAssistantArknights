@@ -41,8 +41,8 @@ asst::AdbController::~AdbController()
 {
     LogTraceFunction;
 
-    make_instance_inited(false);
-    kill_adb_daemon();
+    m_inited = false;
+    release();
 }
 
 std::optional<std::string> asst::AdbController::reconnect(const std::string& cmd, int64_t timeout, bool recv_by_socket)
@@ -99,7 +99,8 @@ std::optional<std::string> asst::AdbController::reconnect(const std::string& cmd
               { "cmd", m_adb.connect },
           } },
     };
-    make_instance_inited(false); // 重连失败，释放
+    m_inited = false; // 重连失败，释放
+    release();
     callback(AsstMsg::ConnectionInfo, info);
 
     return std::nullopt;
@@ -140,7 +141,7 @@ std::optional<std::string> asst::AdbController::call_command(const std::string& 
     if (recv_by_socket && !sock_data.empty() && sock_data.size() < 4096) {
         Log.trace("socket output:", Logger::separator::newline, sock_data);
     }
-    // 直接 return，避免走到下面的 else if 里的 make_instance_inited(false) 关闭 adb 连接，
+    // 直接 return，避免走到下面的 else if 里的 m_inited = false) 关闭 adb 连接，
     // 导致停止后再开始任务还需要重连一次
     if (need_exit()) {
         return std::nullopt;
@@ -176,7 +177,7 @@ std::optional<unsigned short> asst::AdbController::init_socket(const std::string
 
 void asst::AdbController::clear_info() noexcept
 {
-    make_instance_inited(false);
+    m_inited = false;
     m_adb = decltype(m_adb)();
     m_uuid.clear();
     m_width = 0;
@@ -276,38 +277,8 @@ void asst::AdbController::release()
 {
     close_socket();
 
-    if (!m_adb.release.empty()) {
-        m_adb_release.clear();
+    if (m_kill_adb_on_exit && !m_adb.release.empty()) {
         m_platform_io->release_adb(m_adb.release, 20000);
-    }
-}
-
-void asst::AdbController::kill_adb_daemon()
-{
-    if (m_instance_count) return;
-    if (!m_adb_release.empty()) {
-        m_platform_io->release_adb(m_adb_release, 20000);
-        m_adb_release.clear();
-    }
-}
-
-void asst::AdbController::make_instance_inited(bool inited)
-{
-    Log.trace(__FUNCTION__, "|", inited, ", pre m_inited =", m_inited, ", pre m_instance_count =", m_instance_count);
-
-    if (inited == m_inited) {
-        return;
-    }
-    m_inited = inited;
-
-    if (inited) {
-        ++m_instance_count;
-    }
-    else {
-        // 所有实例全部释放，执行最终的 release 函数
-        if (!--m_instance_count) {
-            release();
-        }
     }
 }
 
@@ -400,7 +371,7 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawByNc;
-                make_instance_inited(true);
+                m_inited = true;
                 min_cost = duration;
             }
             Log.info("RawByNc cost", duration.count(), "ms");
@@ -415,7 +386,7 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawWithGzip;
-                make_instance_inited(true);
+                m_inited = true;
                 min_cost = duration;
             }
             Log.info("RawWithGzip cost", duration.count(), "ms");
@@ -430,7 +401,7 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::Encode;
-                make_instance_inited(true);
+                m_inited = true;
                 min_cost = duration;
             }
             Log.info("Encode cost", duration.count(), "ms");
@@ -529,7 +500,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
 
 #ifdef ASST_DEBUG
     if (config == "DEBUG") {
-        make_instance_inited(true);
+        m_inited = true;
         return true;
     }
 #endif
@@ -579,15 +550,14 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
     /* connect */
     {
         m_adb.connect = cmd_replace(adb_cfg.connect);
+        m_adb.release = cmd_replace(adb_cfg.release);
         auto connect_ret = call_command(m_adb.connect, 60LL * 1000, false /* adb 连接时不允许重试 */);
         bool is_connect_success = false;
         if (connect_ret) {
             auto& connect_str = connect_ret.value();
             is_connect_success = connect_str.find("error") == std::string::npos;
             if (connect_str.find("daemon started successfully") != std::string::npos &&
-                connect_str.find("daemon still not running") == std::string::npos) {
-                m_adb_release = cmd_replace(adb_cfg.release);
-            }
+                connect_str.find("daemon still not running") == std::string::npos) {}
         }
         if (!is_connect_success) {
             json::value info = get_info_json() | json::object {
@@ -711,7 +681,6 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
     m_adb.press_esc = cmd_replace(adb_cfg.press_esc);
     m_adb.screencap_raw_with_gzip = cmd_replace(adb_cfg.screencap_raw_with_gzip);
     m_adb.screencap_encode = cmd_replace(adb_cfg.screencap_encode);
-    m_adb_release = m_adb.release = cmd_replace(adb_cfg.release);
     m_adb.start = cmd_replace(adb_cfg.start);
     m_adb.stop = cmd_replace(adb_cfg.stop);
 
@@ -749,6 +718,11 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
         return false;
     }
     return true;
+}
+
+void asst::AdbController::set_kill_adb_on_exit(bool enable) noexcept
+{
+    m_kill_adb_on_exit = enable;
 }
 
 void asst::AdbController::clear_lf_info()
