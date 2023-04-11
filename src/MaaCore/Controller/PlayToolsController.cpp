@@ -111,7 +111,7 @@ bool asst::PlayToolsController::screencap(cv::Mat& image_payload, bool allow_rec
         std::vector<uint8_t> buffer(image_size);
         asio::read(m_socket, asio::buffer(buffer, image_size));
         image_payload = cv::Mat(m_screen_size.second, m_screen_size.first, CV_8UC4, buffer.data());
-        cv::cvtColor(image_payload, image_payload, cv::COLOR_RGB2BGR);
+        cv::cvtColor(image_payload, image_payload, cv::COLOR_RGBA2BGR);
     }
     catch (const std::exception& e) {
         Log.error("Cannot get screencap:", e.what());
