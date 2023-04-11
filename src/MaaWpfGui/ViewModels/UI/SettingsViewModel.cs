@@ -2068,7 +2068,7 @@ namespace MaaWpfGui.ViewModels.UI
             { "General", new List<string> { string.Empty } },
             { "BlueStacks", new List<string> { "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5565", "127.0.0.1:5575", "127.0.0.1:5585", "127.0.0.1:5595", "127.0.0.1:5554" } },
             { "MuMuEmulator", new List<string> { "127.0.0.1:7555" } },
-            { "LDPlayer", new List<string> { "emulator-5554", "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5554" } },
+            { "LDPlayer", new List<string> { "emulator-5554", "emulator-5556", "emulator-5558", "emulator-5560", "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5554" } },
             { "Nox", new List<string> { "127.0.0.1:62001", "127.0.0.1:59865" } },
             { "XYAZ", new List<string> { "127.0.0.1:21503" } },
             { "WSA", new List<string> { "127.0.0.1:58526" } },
@@ -2112,33 +2112,29 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
+            var addresses = adapter.GetAdbAddresses(AdbPath);
+
+            if (addresses.Count == 1)
+            {
+                ConnectAddress = addresses.First();
+            }
+            else if (addresses.Count > 1)
+            {
+                foreach (var address in addresses)
+                {
+                    if (address == "emulator-5554")
+                    {
+                        continue;
+                    }
+
+                    ConnectAddress = address;
+                    break;
+                }
+            }
+
             if (ConnectAddress.Length == 0)
             {
-                var addresses = adapter.GetAdbAddresses(AdbPath);
-
-                // 傻逼雷电已经关掉了，用别的 adb 还能检测出来这个端口 device
-                if (addresses.Count == 1 && addresses.First() != "emulator-5554")
-                {
-                    ConnectAddress = addresses.First();
-                }
-                else if (addresses.Count > 1)
-                {
-                    foreach (var address in addresses)
-                    {
-                        if (address == "emulator-5554" && ConnectConfig != "LDPlayer")
-                        {
-                            continue;
-                        }
-
-                        ConnectAddress = address;
-                        break;
-                    }
-                }
-
-                if (ConnectAddress.Length == 0)
-                {
-                    ConnectAddress = DefaultAddress[ConnectConfig][0];
-                }
+                ConnectAddress = DefaultAddress[ConnectConfig][0];
             }
 
             return true;
