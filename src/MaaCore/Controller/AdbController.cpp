@@ -364,9 +364,8 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         if (temp.empty()) {
             return false;
         }
-        std::vector<cv::Mat> channels;
-        cv::split(temp, channels);
-        if (cv::countNonZero(channels[3] != 255) != 0) {
+        const auto& br = *(temp.end<cv::Vec4b>() - 1);
+        if (br[3] != 255) { // only check alpha
             return false;
         }
         cv::cvtColor(temp, temp, cv::COLOR_RGBA2BGR);
