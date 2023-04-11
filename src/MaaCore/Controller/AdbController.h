@@ -51,6 +51,8 @@ namespace asst
         std::optional<std::string> call_command(const std::string& cmd, int64_t timeout = 20000,
                                                 bool allow_reconnect = true, bool recv_by_socket = false);
 
+        virtual std::optional<std::string> reconnect(const std::string& cmd, int64_t timeout, bool recv_by_socket);
+
         void release();
         void kill_adb_daemon();
         void make_instance_inited(bool inited);

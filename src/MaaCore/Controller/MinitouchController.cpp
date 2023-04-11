@@ -89,7 +89,24 @@ bool asst::MinitouchController::call_and_hup_minitouch()
     m_minitouch_props.x_scaling = static_cast<double>(m_minitouch_props.max_x) / m_width;
     m_minitouch_props.y_scaling = static_cast<double>(m_minitouch_props.max_y) / m_height;
 
+    m_minitoucher = std::make_unique<Minitoucher>(
+        std::bind(&MinitouchController::input_to_minitouch, this, std::placeholders::_1), m_minitouch_props);
+
     return true;
+}
+
+std::optional<std::string> asst::MinitouchController::reconnect(const std::string& cmd, int64_t timeout,
+                                                                bool recv_by_socket)
+{
+    LogTraceFunction;
+
+    auto ret = AdbController::reconnect(cmd, timeout, recv_by_socket);
+    if (!ret) {
+        return std::nullopt;
+    }
+
+    call_and_hup_minitouch();
+    return ret;
 }
 
 bool asst::MinitouchController::input_to_minitouch(const std::string& cmd)
@@ -353,7 +370,5 @@ bool asst::MinitouchController::connect(const std::string& adb_path, const std::
         return false;
     }
 
-    m_minitoucher = std::make_unique<Minitoucher>(
-        std::bind(&MinitouchController::input_to_minitouch, this, std::placeholders::_1), m_minitouch_props);
     return true;
 }

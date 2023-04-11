@@ -36,6 +36,9 @@ namespace asst
         MinitouchController& operator=(MinitouchController&&) = delete;
 
     protected:
+        virtual std::optional<std::string> reconnect(const std::string& cmd, int64_t timeout,
+                                                     bool recv_by_socket) override;
+
         bool call_and_hup_minitouch();
 
         bool probe_minitouch(const AdbCfg& adb_cfg, std::function<std::string(const std::string&)> cmd_replace);
