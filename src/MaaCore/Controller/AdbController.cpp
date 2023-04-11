@@ -182,7 +182,6 @@ void asst::AdbController::clear_info() noexcept
     m_width = 0;
     m_height = 0;
     m_screen_size = { 0, 0 };
-    m_screencap_data_general_size = 0;
 }
 
 bool asst::AdbController::inited() const noexcept
@@ -368,7 +367,12 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         if (temp.empty()) {
             return false;
         }
-        cv::cvtColor(temp, temp, cv::COLOR_RGB2BGR);
+        std::vector<cv::Mat> channels;
+        cv::split(temp, channels);
+        if (cv::countNonZero(channels[3] != 255) != 0) {
+            return false;
+        }
+        cv::cvtColor(temp, temp, cv::COLOR_RGBA2BGR);
         image_payload = temp;
         return true;
     };
@@ -476,10 +480,6 @@ bool asst::AdbController::screencap(const std::string& cmd, const DecodeFunc& de
         return false;
     }
     auto& data = ret.value();
-    if (m_screencap_data_general_size && data.size() < m_screencap_data_general_size * 0.1) {
-        Log.warn("data is too small!");
-        // return false;
-    }
 
     bool tried_conversion = false;
     if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::CRLF) {
@@ -522,7 +522,6 @@ bool asst::AdbController::screencap(const std::string& cmd, const DecodeFunc& de
         }
         m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::CRLF;
     }
-    m_screencap_data_general_size = data.size();
     return true;
 }
 
