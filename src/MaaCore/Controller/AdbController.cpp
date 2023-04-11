@@ -45,6 +45,66 @@ asst::AdbController::~AdbController()
     kill_adb_daemon();
 }
 
+std::optional<std::string> asst::AdbController::reconnect(const std::string& cmd, int64_t timeout, bool recv_by_socket)
+{
+    LogTraceFunction;
+
+    json::value reconnect_info = json::object {
+        { "uuid", m_uuid },
+        { "what", "Reconnecting" },
+        { "why", "" },
+        { "details",
+          json::object {
+              { "reconnect", m_adb.connect },
+              { "cmd", cmd },
+          } },
+    };
+    static constexpr int ReconnectTimes = 5;
+    for (int i = 0; i < ReconnectTimes; ++i) {
+        if (need_exit()) {
+            break;
+        }
+        reconnect_info["details"]["times"] = i;
+        callback(AsstMsg::ConnectionInfo, reconnect_info);
+
+        sleep(10 * 1000);
+        if (need_exit()) {
+            break;
+        }
+        auto reconnect_ret = call_command(m_adb.connect, 60LL * 1000, false /* 禁止重连避免无限递归 */);
+        if (need_exit()) {
+            break;
+        }
+        bool is_reconnect_success = false;
+        if (reconnect_ret) {
+            auto& reconnect_str = reconnect_ret.value();
+            is_reconnect_success = reconnect_str.find("error") == std::string::npos;
+        }
+        if (is_reconnect_success) {
+            auto recall_ret = call_command(cmd, timeout, false /* 禁止重连避免无限递归 */, recv_by_socket);
+            if (recall_ret) {
+                // 重连并成功执行了
+                reconnect_info["what"] = "Reconnected";
+                callback(AsstMsg::ConnectionInfo, reconnect_info);
+                return recall_ret;
+            }
+        }
+    }
+    json::value info = json::object {
+        { "uuid", m_uuid },
+        { "what", "Disconnect" },
+        { "why", "Reconnect failed" },
+        { "details",
+          json::object {
+              { "cmd", m_adb.connect },
+          } },
+    };
+    make_instance_inited(false); // 重连失败，释放
+    callback(AsstMsg::ConnectionInfo, info);
+
+    return std::nullopt;
+}
+
 std::optional<std::string> asst::AdbController::call_command(const std::string& cmd, int64_t timeout,
                                                              bool allow_reconnect, bool recv_by_socket)
 {
@@ -91,58 +151,7 @@ std::optional<std::string> asst::AdbController::call_command(const std::string& 
     }
     else if (inited() && allow_reconnect) {
         // 之前可以运行，突然运行不了了，这种情况多半是 adb 炸了。所以重新连接一下
-        json::value reconnect_info = json::object {
-            { "uuid", m_uuid },
-            { "what", "Reconnecting" },
-            { "why", "" },
-            { "details",
-              json::object {
-                  { "reconnect", m_adb.connect },
-                  { "cmd", cmd },
-              } },
-        };
-        static constexpr int ReconnectTimes = 5;
-        for (int i = 0; i < ReconnectTimes; ++i) {
-            if (need_exit()) {
-                break;
-            }
-            reconnect_info["details"]["times"] = i;
-            callback(AsstMsg::ConnectionInfo, reconnect_info);
-
-            sleep(10 * 1000);
-            if (need_exit()) {
-                break;
-            }
-            auto reconnect_ret = call_command(m_adb.connect, 60LL * 1000, false /* 禁止重连避免无限递归 */);
-            if (need_exit()) {
-                break;
-            }
-            bool is_reconnect_success = false;
-            if (reconnect_ret) {
-                auto& reconnect_str = reconnect_ret.value();
-                is_reconnect_success = reconnect_str.find("error") == std::string::npos;
-            }
-            if (is_reconnect_success) {
-                auto recall_ret = call_command(cmd, timeout, false /* 禁止重连避免无限递归 */, recv_by_socket);
-                if (recall_ret) {
-                    // 重连并成功执行了
-                    reconnect_info["what"] = "Reconnected";
-                    callback(AsstMsg::ConnectionInfo, reconnect_info);
-                    return recall_ret;
-                }
-            }
-        }
-        json::value info = json::object {
-            { "uuid", m_uuid },
-            { "what", "Disconnect" },
-            { "why", "Reconnect failed" },
-            { "details",
-              json::object {
-                  { "cmd", m_adb.connect },
-              } },
-        };
-        make_instance_inited(false); // 重连失败，释放
-        callback(AsstMsg::ConnectionInfo, info);
+        return reconnect(cmd, timeout, recv_by_socket);
     }
 
     return std::nullopt;
