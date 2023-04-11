@@ -100,12 +100,13 @@ std::optional<std::string> asst::MinitouchController::reconnect(const std::strin
 {
     LogTraceFunction;
 
-    if (auto ret = asst::AdbController::reconnect(cmd, timeout, recv_by_socket); ret.has_value()) {
-        call_and_hup_minitouch();
-        return ret;
+    auto ret = AdbController::reconnect(cmd, timeout, recv_by_socket);
+    if (!ret) {
+        return std::nullopt;
     }
 
-    return std::nullopt;
+    call_and_hup_minitouch();
+    return ret;
 }
 
 bool asst::MinitouchController::input_to_minitouch(const std::string& cmd)
