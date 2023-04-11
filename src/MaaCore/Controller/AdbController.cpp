@@ -360,9 +360,6 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         }
         size_t header_size = data.size() - std_size;
         auto img_data_beg = data.cbegin() + header_size;
-        if (std::all_of(data.cbegin(), img_data_beg, std::logical_not<bool> {})) {
-            return false;
-        }
         cv::Mat temp(m_height, m_width, CV_8UC4, const_cast<char*>(&*img_data_beg));
         if (temp.empty()) {
             return false;
