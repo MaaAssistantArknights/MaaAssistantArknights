@@ -43,9 +43,9 @@ Assistant::Assistant(ApiCallback callback, void* callback_arg) : m_callback(call
     m_status = std::make_shared<Status>();
     m_ctrler = std::make_shared<Controller>(append_callback_for_inst, this);
 
-    m_msg_thread = std::jthread(&Assistant::msg_proc, this);
-    m_call_thread = std::jthread(&Assistant::call_proc, this);
-    m_working_thread = std::jthread(&Assistant::working_proc, this);
+    m_msg_thread = std::thread(&Assistant::msg_proc, this);
+    m_call_thread = std::thread(&Assistant::call_proc, this);
+    m_working_thread = std::thread(&Assistant::working_proc, this);
 }
 
 Assistant::~Assistant()
