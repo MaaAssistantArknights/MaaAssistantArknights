@@ -17,61 +17,18 @@ asst::PlayToolsController::PlayToolsController(const AsstCallback& callback, Ass
 
 asst::PlayToolsController::~PlayToolsController()
 {
-    std::error_code ec;
-    m_socket.shutdown(tcp::socket::shutdown_both, ec);
-    m_socket.close(ec);
+    close();
 }
 
 bool asst::PlayToolsController::connect(const std::string& adb_path [[maybe_unused]], const std::string& address,
                                         const std::string& config [[maybe_unused]])
 {
-    if (m_socket.is_open()) {
-        return true;
+    if (m_address != address) {
+        close();
+        m_address = address;
     }
 
-    std::string host, port;
-    std::stringstream ss(address);
-    std::getline(ss, host, ':');
-    std::getline(ss, port);
-
-    tcp::resolver resolver(m_context);
-
-    try {
-        std::array<uint8_t, 4> buffer;
-        constexpr char handshake[4] = { 'M', 'A', 'A', 0 };
-        constexpr char signature[4] = { 'O', 'K', 'A', 'Y' };
-        asio::connect(m_socket, resolver.resolve(host, port));
-        asio::write(m_socket, asio::buffer(handshake));
-        asio::read(m_socket, asio::buffer(buffer, 4));
-
-        if (memcmp(&buffer, signature, 4)) {
-            Log.error("Got invalid response:", buffer);
-            return false;
-        }
-    }
-    catch (const std::exception& e) {
-        Log.error("Cannot connect to", address, e.what());
-        return false;
-    }
-
-    try {
-        uint16_t width = 0, height = 0;
-        constexpr char request[6] = { 0, 4, 'S', 'I', 'Z', 'E' };
-        asio::write(m_socket, asio::buffer(request));
-        asio::read(m_socket, asio::buffer(&width, sizeof(width)));
-        asio::read(m_socket, asio::buffer(&height, sizeof(height)));
-
-        width = socket_ops::network_to_host_short(width);
-        height = socket_ops::network_to_host_short(height);
-
-        m_screen_size = { width, height };
-    }
-    catch (const std::exception& e) {
-        Log.error("Cannot get screen resolution:", e.what());
-        return false;
-    }
-
-    return true;
+    return open();
 }
 
 bool asst::PlayToolsController::inited() const noexcept
@@ -89,6 +46,7 @@ bool asst::PlayToolsController::screencap(cv::Mat& image_payload, bool allow_rec
 {
     LogTraceFunction;
 
+    open();
     uint32_t image_size = 0;
 
     try {
@@ -229,8 +187,107 @@ void asst::PlayToolsController::toucher_wait(const int delay)
     std::this_thread::sleep_for(std::chrono::milliseconds(delay));
 }
 
+void asst::PlayToolsController::close()
+{
+    std::error_code ec;
+    m_screen_size = { 0, 0 };
+
+    if (m_socket.is_open()) {
+        m_socket.shutdown(tcp::socket::shutdown_both, ec);
+        m_socket.close(ec);
+    }
+}
+
+bool asst::PlayToolsController::open()
+{
+    if (m_socket.is_open()) {
+        return true;
+    }
+
+    std::string host, port;
+    std::stringstream ss(m_address);
+    std::getline(ss, host, ':');
+    std::getline(ss, port);
+
+    tcp::resolver resolver(m_context);
+
+    std::array<uint8_t, 4> buffer;
+    constexpr char handshake[4] = { 'M', 'A', 'A', 0 };
+    constexpr char signature[4] = { 'O', 'K', 'A', 'Y' };
+
+    try {
+        asio::connect(m_socket, resolver.resolve(host, port));
+        asio::write(m_socket, asio::buffer(handshake));
+        asio::read(m_socket, asio::buffer(buffer, 4));
+    }
+    catch (const std::exception& e) {
+        Log.error("Cannot connect to", m_address, e.what());
+        return false;
+    }
+
+    if (memcmp(&buffer, signature, 4)) {
+        Log.error("Got invalid response:", buffer);
+        return false;
+    }
+
+    return check_version() && fetch_screen_res();
+}
+
+bool asst::PlayToolsController::check_version()
+{
+    uint32_t version = 0;
+    constexpr char request[6] = { 0, 4, 'V', 'E', 'R', 'N' };
+
+    try {
+        asio::write(m_socket, asio::buffer(request));
+        asio::read(m_socket, asio::buffer(&version, sizeof(version)));
+    }
+    catch (const std::exception& e) {
+        Log.error("Cannot get MaaTools version:", e.what());
+        return false;
+    }
+
+    version = socket_ops::network_to_host_long(version);
+    if (version < MinimalVersion) {
+        Log.error("Unsupported MaaTools version:", version);
+
+        json::value details;
+        details["what"] = "UnsupportedPlayTools";
+        details["why"] = "NeedUpgrade";
+        details["uuid"] = get_uuid();
+        m_callback(AsstMsg::ConnectionInfo, details, m_inst);
+
+        return false;
+    }
+
+    return true;
+}
+
+bool asst::PlayToolsController::fetch_screen_res()
+{
+    uint16_t width = 0, height = 0;
+    constexpr char request[6] = { 0, 4, 'S', 'I', 'Z', 'E' };
+
+    try {
+        asio::write(m_socket, asio::buffer(request));
+        asio::read(m_socket, asio::buffer(&width, sizeof(width)));
+        asio::read(m_socket, asio::buffer(&height, sizeof(height)));
+    }
+    catch (const std::exception& e) {
+        Log.error("Cannot get screen resolution:", e.what());
+        return false;
+    }
+
+    width = socket_ops::network_to_host_short(width);
+    height = socket_ops::network_to_host_short(height);
+
+    m_screen_size = { width, height };
+    return true;
+}
+
 bool asst::PlayToolsController::toucher_commit(const TouchPhase phase, const Point& p, const int delay)
 {
+    open();
     uint16_t x = socket_ops::host_to_network_short(static_cast<uint16_t>(p.x));
     uint16_t y = socket_ops::host_to_network_short(static_cast<uint16_t>(p.y));
     uint8_t payload[5] = { static_cast<uint8_t>(phase), 0, 0, 0, 0 };
