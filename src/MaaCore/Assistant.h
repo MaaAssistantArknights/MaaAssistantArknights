@@ -165,6 +165,7 @@ namespace asst
         std::condition_variable m_msg_condvar;
 
         inline static std::atomic<AsyncCallId> m_call_id = 0; // 进程级唯一
+        std::atomic<AsyncCallId> m_completed_call = 0; // 每个实例有自己独立的执行队列，所以不能静态
         std::queue<AsyncCallItem> m_call_queue;
         std::mutex m_call_mutex;
         std::condition_variable m_call_condvar;
