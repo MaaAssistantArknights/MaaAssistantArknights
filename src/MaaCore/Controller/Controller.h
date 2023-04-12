@@ -43,6 +43,7 @@ namespace asst
         void set_touch_mode(const TouchMode& mode) noexcept;
         void set_swipe_with_pause(bool enable) noexcept;
         void set_adb_lite_enabled(bool enable) noexcept;
+        void set_kill_adb_on_exit(bool enable) noexcept;
 
         const std::string& get_uuid() const;
         cv::Mat get_image(bool raw = false);
@@ -96,6 +97,7 @@ namespace asst
         std::pair<int, int> m_scale_size = { WindowWidthDefault, WindowHeightDefault };
 
         bool m_swipe_with_pause = false;
+        bool m_kill_adb_on_exit = false;
 
         mutable std::shared_mutex m_image_mutex;
         cv::Mat m_cache_image;
