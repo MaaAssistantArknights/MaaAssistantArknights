@@ -473,11 +473,9 @@ asst::Assistant::AsyncCallId asst::Assistant::append_async_call(AsyncCallItem::T
 bool asst::Assistant::wait_async_id(AsyncCallId id)
 {
     while (!m_thread_exit) {
-        {
-            std::unique_lock<std::mutex> lock(m_call_mutex);
-            if (m_call_queue.empty() || id < m_call_queue.front().id) {
-                return true;
-            }
+        // 需要保证队列中id一定是有序的
+        if (id <= m_completed_call) {
+            return true;
         }
 
         using namespace std::chrono_literals;
@@ -522,6 +520,7 @@ void asst::Assistant::call_proc()
                 ret = false;
                 break;
             }
+            m_completed_call = call_item.id;
 
             auto cost =
                 std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start).count();
