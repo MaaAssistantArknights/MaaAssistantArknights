@@ -269,6 +269,8 @@ namespace MaaWpfGui.Services
             {
                 // 主线关卡
                 { "1-7", new StageInfo { Display = "1-7", Value = "1-7" } },
+                { "R8-11", new StageInfo { Display = "R8-11", Value = "R8-11" } },
+                { "12-17-HARD", new StageInfo { Display = "12-17-HARD", Value = "12-17-HARD" } },
 
                 // 资源本
                 { "CE-6", new StageInfo("CE-6", "CETip", new[] { DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday }, resourceCollection) },
