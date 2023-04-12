@@ -107,7 +107,11 @@ AsstBool AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, con
 
 AsstBool AsstConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config)
 {
-    return AsstAsyncConnect(handle, adb_path, address, config, true) != 0;
+    if (!inited() || handle == nullptr) {
+        return false;
+    }
+
+    return handle->connect(adb_path, address, config ? config : std::string());
 }
 
 AsstBool AsstStart(AsstHandle handle)
@@ -135,6 +139,15 @@ AsstBool AsstRunning(AsstHandle handle)
     }
 
     return handle->running();
+}
+
+AsstBool AsstConnected(AsstHandle handle)
+{
+    if (!inited() || handle == nullptr) {
+        return false;
+    }
+
+    return handle->connected();
 }
 
 AsstAsyncCallId AsstAsyncConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config,

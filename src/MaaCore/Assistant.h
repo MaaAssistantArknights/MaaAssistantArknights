@@ -24,6 +24,9 @@ public:
     // 设置实例级参数
     virtual bool set_instance_option(asst::InstanceOptionKey key, const std::string& value) = 0;
 
+    // 同步连接，功能已完全被异步连接取代
+    // FIXME: 5.0 版本将废弃此接口
+    virtual bool connect(const std::string& adb_path, const std::string& address, const std::string& config) = 0;
     // 异步连接
     virtual AsyncCallId async_connect(const std::string& adb_path, const std::string& address,
                                       const std::string& config, bool block = false) = 0;
@@ -31,6 +34,9 @@ public:
     virtual AsyncCallId async_click(int x, int y, bool block = false) = 0;
     // 异步截图
     virtual AsyncCallId async_screencap(bool block = false) = 0;
+
+    // 是否连接成功
+    virtual bool connected() const = 0;
 
     // 添加任务
     virtual TaskId append_task(const std::string& type, const std::string& params) = 0;
@@ -66,10 +72,14 @@ namespace asst
 
         virtual bool set_instance_option(InstanceOptionKey key, const std::string& value) override;
 
+        virtual bool connect(const std::string& adb_path, const std::string& address,
+                             const std::string& config) override;
         virtual AsyncCallId async_connect(const std::string& adb_path, const std::string& address,
                                           const std::string& config, bool block = false) override;
         virtual AsyncCallId async_click(int x, int y, bool block = false) override;
         virtual AsyncCallId async_screencap(bool block = false) override;
+
+        virtual bool connected() const override;
 
         virtual TaskId append_task(const std::string& type, const std::string& params) override;
         virtual bool set_task_params(TaskId task_id, const std::string& params) override;

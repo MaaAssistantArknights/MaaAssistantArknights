@@ -259,6 +259,13 @@ std::vector<uchar> asst::Assistant::get_image() const
     return buf;
 }
 
+bool asst::Assistant::connect(const std::string& adb_path, const std::string& address, const std::string& config)
+{
+    LogTraceFunction;
+
+    return ctrl_connect(adb_path, address, config);
+}
+
 asst::Assistant::AsyncCallId asst::Assistant::async_connect(const std::string& adb_path, const std::string& address,
                                                             const std::string& config, bool block)
 {
@@ -281,6 +288,11 @@ asst::Assistant::AsyncCallId asst::Assistant::async_screencap(bool block)
     LogTraceFunction;
 
     return append_async_call(AsyncCallItem::Type::Screencap, AsyncCallItem::ScreencapParams {}, block);
+}
+
+bool asst::Assistant::connected() const
+{
+    return inited();
 }
 
 std::string asst::Assistant::get_uuid() const
