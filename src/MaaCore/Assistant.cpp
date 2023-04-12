@@ -67,6 +67,16 @@ Assistant::~Assistant()
         std::unique_lock<std::mutex> lock(m_msg_mutex);
         m_msg_condvar.notify_all();
     }
+
+    if (m_working_thread.joinable()) {
+        m_working_thread.join();
+    }
+    if (m_call_thread.joinable()) {
+        m_call_thread.join();
+    }
+    if (m_msg_thread.joinable()) {
+        m_msg_thread.join();
+    }
 }
 
 bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::string& value)
