@@ -57,7 +57,20 @@ const cv::Mat& asst::TemplResource::get_templ(const std::string& name)
 {
     if (m_templs.find(name) == m_templs.cend()) {
         Log.info(__FUNCTION__, "lazy load", name);
-        cv::Mat templ = asst::imread(m_templ_paths.at(name));
+
+        auto path_iter = m_templ_paths.find(name);
+        if (path_iter == m_templ_paths.cend()) {
+            Log.error(__FUNCTION__, "templ not found", name);
+
+#ifdef ASST_DEBUG
+            throw std::runtime_error("templ not found: " + name);
+#else
+            static cv::Mat empty;
+            return empty;
+#endif
+        }
+
+        cv::Mat templ = asst::imread(path_iter->second);
         m_templs.emplace(name, std::move(templ));
     }
     return m_templs.at(name);
