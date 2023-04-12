@@ -366,58 +366,56 @@ void Assistant::working_proc()
 
     std::vector<TaskId> finished_tasks;
     while (!m_thread_exit) {
-        // LogTraceScope("Assistant::working_proc Loop");
-
         std::unique_lock<std::mutex> lock(m_mutex);
-        if (!m_thread_idle && !m_tasks_list.empty()) {
-            const auto [id, task_ptr] = m_tasks_list.front();
-            lock.unlock();
-            // only one instance of working_proc running, unlock here to allow set_task_param to the running
-            // task
 
-            json::value callback_json = json::object {
-                { "taskchain", std::string(task_ptr->get_task_chain()) },
-                { "taskid", id },
-            };
-            append_callback(AsstMsg::TaskChainStart, callback_json);
-
-            bool ret = task_ptr->run();
-            finished_tasks.emplace_back(id);
-
-            lock.lock();
-            if (!m_tasks_list.empty()) {
-                m_tasks_list.pop_front();
-            }
-            lock.unlock();
-
-            auto msg = m_thread_idle ? AsstMsg::TaskChainStopped
-                                     : (ret ? AsstMsg::TaskChainCompleted : AsstMsg::TaskChainError);
-            append_callback(msg, callback_json);
-
-            if (m_thread_idle) {
-                finished_tasks.clear();
-                continue;
-            }
-
-            if (m_tasks_list.empty()) {
-                callback_json["finished_tasks"] = json::array(finished_tasks);
-                append_callback(AsstMsg::AllTasksCompleted, callback_json);
-                finished_tasks.clear();
-            }
-
-            const int delay = Config.get_options().task_delay;
-            lock.lock();
-            m_condvar.wait_for(lock, std::chrono::milliseconds(delay), [&]() -> bool { return m_thread_idle; });
-
-            if (m_thread_idle) {
-                append_callback(AsstMsg::TaskChainStopped, callback_json);
-            }
-        }
-        else {
+        if (m_thread_idle || m_tasks_list.empty()) {
             m_thread_idle = true;
             finished_tasks.clear();
             Log.flush();
             m_condvar.wait(lock);
+            continue;
+        }
+
+        const auto [id, task_ptr] = m_tasks_list.front();
+        lock.unlock();
+        // only one instance of working_proc running, unlock here to allow set_task_param to the running task
+
+        json::value callback_json = json::object {
+            { "taskchain", std::string(task_ptr->get_task_chain()) },
+            { "taskid", id },
+        };
+        append_callback(AsstMsg::TaskChainStart, callback_json);
+
+        bool ret = task_ptr->run();
+        finished_tasks.emplace_back(id);
+
+        lock.lock();
+        if (!m_tasks_list.empty()) {
+            m_tasks_list.pop_front();
+        }
+        lock.unlock();
+
+        auto msg =
+            m_thread_idle ? AsstMsg::TaskChainStopped : (ret ? AsstMsg::TaskChainCompleted : AsstMsg::TaskChainError);
+        append_callback(msg, callback_json);
+
+        if (m_thread_idle) {
+            finished_tasks.clear();
+            continue;
+        }
+
+        if (m_tasks_list.empty()) {
+            callback_json["finished_tasks"] = json::array(finished_tasks);
+            append_callback(AsstMsg::AllTasksCompleted, callback_json);
+            finished_tasks.clear();
+        }
+
+        const int delay = Config.get_options().task_delay;
+        lock.lock();
+        m_condvar.wait_for(lock, std::chrono::milliseconds(delay), [&]() -> bool { return m_thread_idle; });
+
+        if (m_thread_idle) {
+            append_callback(AsstMsg::TaskChainStopped, callback_json);
         }
     }
 }
@@ -427,22 +425,22 @@ void Assistant::msg_proc()
     LogTraceFunction;
 
     while (!m_thread_exit) {
-        // LogTraceScope("Assistant::msg_proc Loop");
         std::unique_lock<std::mutex> lock(m_msg_mutex);
-        if (!m_msg_queue.empty()) {
-            // 结构化绑定只能是引用，后续的pop会使引用失效，所以需要重新构造一份，这里采用了move的方式
-            auto&& [temp_msg, temp_detail] = m_msg_queue.front();
-            AsstMsg msg = temp_msg;
-            json::value detail = std::move(temp_detail);
-            m_msg_queue.pop();
-            lock.unlock();
 
-            if (m_callback) {
-                m_callback(static_cast<AsstMsgId>(msg), detail.to_string().c_str(), m_callback_arg);
-            }
-        }
-        else {
+        if (m_msg_queue.empty()) {
             m_msg_condvar.wait(lock);
+            continue;
+        }
+
+        // 结构化绑定只能是引用，后续的pop会使引用失效，所以需要重新构造一份，这里采用了move的方式
+        auto&& [temp_msg, temp_detail] = m_msg_queue.front();
+        AsstMsg msg = temp_msg;
+        json::value detail = std::move(temp_detail);
+        m_msg_queue.pop();
+        lock.unlock();
+
+        if (m_callback) {
+            m_callback(static_cast<AsstMsgId>(msg), detail.to_string().c_str(), m_callback_arg);
         }
     }
 }
@@ -490,57 +488,58 @@ void asst::Assistant::call_proc()
 
     while (!m_thread_exit) {
         std::unique_lock<std::mutex> lock(m_call_mutex);
-        if (!m_call_queue.empty()) {
-            auto call_item = std::move(m_call_queue.front());
-            m_call_queue.pop();
-            lock.unlock();
 
-            auto start = std::chrono::steady_clock::now();
-            bool ret = false;
-            std::string what;
-
-            switch (call_item.type) {
-            case AsyncCallItem::Type::Connect: {
-                what = "Connect";
-                const auto& [adb_path, address, config] = std::get<AsyncCallItem::ConnectParams>(call_item.params);
-                ret = ctrl_connect(adb_path, address, config);
-            } break;
-            case AsyncCallItem::Type::Click: {
-                what = "Click";
-                const auto& [x, y] = std::get<AsyncCallItem::ClickParams>(call_item.params);
-                ret = ctrl_click(x, y);
-            } break;
-            case AsyncCallItem::Type::Screencap: {
-                what = "Screencap";
-                std::ignore = std::get<AsyncCallItem::ScreencapParams>(call_item.params);
-                ret = ctrl_screencap();
-            } break;
-            default:
-                what = "Unknown";
-                ret = false;
-                break;
-            }
-            m_completed_call = call_item.id;
-
-            auto cost =
-                std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start).count();
-            json::value cb_info = json::object {
-                { "uuid", m_uuid },
-                { "what", what },
-                { "async_call_id", call_item.id },
-                {
-                    "details",
-                    json::object {
-                        { "ret", ret },
-                        { "cost", cost },
-                    },
-                },
-            };
-            append_callback(AsstMsg::AsyncCallInfo, cb_info);
-        }
-        else {
+        if (m_call_queue.empty()) {
             m_call_condvar.wait(lock);
+            continue;
         }
+
+        auto call_item = std::move(m_call_queue.front());
+        m_call_queue.pop();
+        lock.unlock();
+
+        auto start = std::chrono::steady_clock::now();
+        bool ret = false;
+        std::string what;
+
+        switch (call_item.type) {
+        case AsyncCallItem::Type::Connect: {
+            what = "Connect";
+            const auto& [adb_path, address, config] = std::get<AsyncCallItem::ConnectParams>(call_item.params);
+            ret = ctrl_connect(adb_path, address, config);
+        } break;
+        case AsyncCallItem::Type::Click: {
+            what = "Click";
+            const auto& [x, y] = std::get<AsyncCallItem::ClickParams>(call_item.params);
+            ret = ctrl_click(x, y);
+        } break;
+        case AsyncCallItem::Type::Screencap: {
+            what = "Screencap";
+            std::ignore = std::get<AsyncCallItem::ScreencapParams>(call_item.params);
+            ret = ctrl_screencap();
+        } break;
+        default:
+            what = "Unknown";
+            ret = false;
+            break;
+        }
+        m_completed_call = call_item.id;
+
+        auto cost =
+            std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start).count();
+        json::value cb_info = json::object {
+            { "uuid", m_uuid },
+            { "what", what },
+            { "async_call_id", call_item.id },
+            {
+                "details",
+                json::object {
+                    { "ret", ret },
+                    { "cost", cost },
+                },
+            },
+        };
+        append_callback(AsstMsg::AsyncCallInfo, cb_info);
     }
 }
 
