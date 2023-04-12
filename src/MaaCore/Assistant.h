@@ -169,8 +169,8 @@ namespace asst
         std::mutex m_call_mutex;
         std::condition_variable m_call_condvar;
 
-        std::jthread m_msg_thread;
-        std::jthread m_call_thread;
-        std::jthread m_working_thread;
+        std::thread m_msg_thread;
+        std::thread m_call_thread;
+        std::thread m_working_thread;
     };
 } // namespace asst
