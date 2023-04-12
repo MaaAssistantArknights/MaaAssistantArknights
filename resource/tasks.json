@@ -186,7 +186,7 @@
         "algorithm": "OcrDetect",
         "ocrReplace": [
             [
-                "[EF]PIS[O0]DE\\s*",
+                "[EF]PIS[O0]DE",
                 "EPISODE"
             ],
             [
@@ -200,6 +200,10 @@
             [
                 "OO",
                 "00"
+            ],
+            [
+                " ",
+                ""
             ]
         ]
     },
