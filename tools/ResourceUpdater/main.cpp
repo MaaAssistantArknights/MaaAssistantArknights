@@ -272,19 +272,23 @@ bool update_items_data(const std::filesystem::path& input_dir, const std::filesy
             continue;
         }
 
+        static const auto output_icon_path = output_dir / "template" / "items";
+        std::string output_filename = item_id + ".png";
+        if (with_imgs) {
+            cvt_single_item_template(input_icon_path, output_icon_path / output_filename);
+        }
+        else if (!std::filesystem::exists(output_icon_path / output_filename)) {
+            std::cout << output_icon_path / output_filename << " not exist" << std::endl;
+            continue;
+        }
+
         auto& output = output_json[item_id];
         output["name"] = item_info["name"];
-        std::string output_filename = item_id + ".png";
         output["icon"] = output_filename;
         output["usage"] = item_info["usage"];
         output["description"] = item_info["description"];
         output["sortId"] = item_info["sortId"];
         output["classifyType"] = item_info["classifyType"];
-
-        if (with_imgs) {
-            static const auto output_icon_path = output_dir / "template" / "items";
-            cvt_single_item_template(input_icon_path, output_icon_path / output_filename);
-        }
     }
     auto output_json_path = output_dir / "item_index.json";
     std::ofstream ofs(output_json_path, std::ios::out);
