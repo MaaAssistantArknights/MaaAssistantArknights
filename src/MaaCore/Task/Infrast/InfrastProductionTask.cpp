@@ -66,7 +66,60 @@ void asst::InfrastProductionTask::set_product(std::string product_name) noexcept
                 callback_info["details"]["product"] = m_product;
                 callback(AsstMsg::SubTaskExtraInfo, callback_info);
             }
+            m_is_ProductIncorrect = !is_same_product;
         }
+    }
+}
+
+void asst::InfrastProductionTask::ChangeProduct() noexcept
+{
+    auto customProduct = current_room_config().product;
+    switch (customProduct) {
+        /*制造站的产品类型*/
+        case infrast::CustomRoomConfig::Product::BattleRecord: {
+            ProcessTask(*this, { "ChangeProductToMiddleBattleRecord" }).run();
+            json::value callback_info = basic_info_with_what("ProductChanged");
+            callback_info["details"]["product"] = "MiddleBattleRecord";
+            callback(AsstMsg::SubTaskExtraInfo, callback_info);
+            break;
+        }
+        case infrast::CustomRoomConfig::Product::PureGold: {
+            ProcessTask(*this, { "ChangeProductToPureGold" }).run();
+            json::value callback_info = basic_info_with_what("ProductChanged");
+            callback_info["details"]["product"] = "PureGold";
+            callback(AsstMsg::SubTaskExtraInfo, callback_info);
+            break;
+        }
+        case infrast::CustomRoomConfig::Product::OriginiumShard: {
+            ProcessTask(*this, { "ChangeProductToOriginiumShard" }).run();
+            json::value callback_info = basic_info_with_what("ProductChanged");
+            callback_info["details"]["product"] = "OriginiumShard";
+            callback(AsstMsg::SubTaskExtraInfo, callback_info);
+            break;
+        }
+        case infrast::CustomRoomConfig::Product::Dualchip: {
+
+            break;
+        }
+        /*贸易站的订单类型*/
+        case infrast::CustomRoomConfig::Product::LMD: {
+            ProcessTask(*this, { "ChangeToMoneyOrder" }).run();
+            json::value callback_info = basic_info_with_what("ProductChanged");
+            callback_info["details"]["product"] = "Money";
+            callback(AsstMsg::SubTaskExtraInfo, callback_info);
+            break;
+        }
+        case infrast::CustomRoomConfig::Product::Orundum: {
+            ProcessTask(*this, { "ChangeToSyntheticJadeFlagOrder" }).run();
+            json::value callback_info = basic_info_with_what("ProductChanged");
+            callback_info["details"]["product"] = "SyntheticJade";
+            callback(AsstMsg::SubTaskExtraInfo, callback_info);
+            break;
+        }
+
+        default: {
+            break;
+        }   
     }
 }
 
@@ -198,6 +251,10 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
         click_confirm_button();
 
+        /*启用自定义基建时，如果产物不一致则直接更换产物*/
+        if (m_is_custom && m_is_ProductIncorrect) {
+            ChangeProduct();
+        }
         // 使用无人机
         if (m_is_use_custom_drones) {
             if (m_custom_drones_config.order == infrast::CustomDronesConfig::Order::Post &&
