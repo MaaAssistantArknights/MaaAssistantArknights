@@ -107,11 +107,7 @@ AsstBool AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, con
 
 AsstBool AsstConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config)
 {
-    if (!inited() || handle == nullptr) {
-        return false;
-    }
-
-    return handle->connect(adb_path, address, config ? config : std::string());
+    return AsstAsyncConnect(handle, adb_path, address, config, true) != 0;
 }
 
 AsstBool AsstStart(AsstHandle handle)
