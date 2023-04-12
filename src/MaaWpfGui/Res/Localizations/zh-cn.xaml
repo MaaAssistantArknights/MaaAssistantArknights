@@ -65,7 +65,6 @@
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">兼容模式</system:String>
     <system:String x:Key="SecondResolution">第二分辨率</system:String>
-    <system:String x:Key="NotKillAdb">Not Kill Adb</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">通用模式（屏蔽异常输出）</system:String>
 
     <system:String x:Key="DormThreshold">基建工作心情阈值</system:String>
@@ -81,6 +80,7 @@
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助战</system:String>
     <system:String x:Key="DeploymentWithPause">暂停下干员（同时影响肉鸽、自动战斗、保全）（不稳定，暂不推荐开启）</system:String>
     <system:String x:Key="AdbLiteEnabled">使用 Adb Lite（实验性功能）</system:String>
+    <system:String x:Key="KillAdbOnExit">退出时释放 Adb</system:String>
 
     <system:String x:Key="DefaultSquad">默认分队</system:String>
     <system:String x:Key="IS2NewSquad1">心胜于物分队</system:String>
@@ -130,7 +130,7 @@
     <system:String x:Key="Language">语言</system:String>
     <system:String x:Key="LanguageChangedTip">语言设置已更改，是否现在重启 MAA 以应用语言设置？</system:String>
     <system:String x:Key="ManualRestart">稍后</system:String>
-    
+
     <system:String x:Key="Tip">提示</system:String>
     <system:String x:Key="Yes">是</system:String>
     <system:String x:Key="No">否</system:String>

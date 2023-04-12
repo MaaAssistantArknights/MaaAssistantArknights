@@ -1263,38 +1263,6 @@
         "sortId": -10000,
         "usage": "Experience gained from finished trials. Upgrades trial levels."
     },
-    "act1bossrush_relic_01": {
-        "classifyType": "NONE",
-        "description": null,
-        "icon": "act1bossrush_relic_01.png",
-        "name": "Reuse Module",
-        "sortId": -10000,
-        "usage": null
-    },
-    "act1bossrush_relic_02": {
-        "classifyType": "NONE",
-        "description": null,
-        "icon": "act1bossrush_relic_02.png",
-        "name": "Fast Processing",
-        "sortId": -10000,
-        "usage": null
-    },
-    "act1bossrush_relic_03": {
-        "classifyType": "NONE",
-        "description": null,
-        "icon": "act1bossrush_relic_03.png",
-        "name": "Super Cache",
-        "sortId": -10000,
-        "usage": null
-    },
-    "act1bossrush_relic_04": {
-        "classifyType": "NONE",
-        "description": null,
-        "icon": "act1bossrush_relic_04.png",
-        "name": "Repel Control",
-        "sortId": -10000,
-        "usage": null
-    },
     "act1bossrush_token_relic": {
         "classifyType": "NONE",
         "description": "An encrypted data block. Always remember, the conversion of information often entails unavoidable wear. Make good use of your information storage devices, but do not depend on them.",

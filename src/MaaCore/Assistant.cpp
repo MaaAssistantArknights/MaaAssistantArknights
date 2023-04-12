@@ -112,6 +112,16 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
             return true;
         }
         break;
+    case InstanceOptionKey::KillAdbOnExit:
+        if (constexpr std::string_view Enable = "1"; value == Enable) {
+            m_ctrler->set_kill_adb_on_exit(true);
+            return true;
+        }
+        else if (constexpr std::string_view Disable = "0"; value == Disable) {
+            m_ctrler->set_kill_adb_on_exit(false);
+            return true;
+        }
+        break;
     default:
         break;
     }

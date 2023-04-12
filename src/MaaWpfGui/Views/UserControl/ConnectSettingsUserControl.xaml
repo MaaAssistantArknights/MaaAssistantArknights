@@ -178,9 +178,18 @@
         <CheckBox
             Grid.Row="6"
             Grid.Column="0"
-            Grid.ColumnSpan="3"
-            Margin="10"
-            HorizontalAlignment="Center"
+            Grid.ColumnSpan="2"
+            Margin="80,10,10,10"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Content="{DynamicResource KillAdbOnExit}"
+            IsChecked="{Binding KillAdbOnExit}" />
+        <CheckBox
+            Grid.Row="6"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            Margin="160,10,10,10"
+            HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Content="{DynamicResource AdbLiteEnabled}"
             IsChecked="{Binding AdbLiteEnabled}" />
