@@ -11301,5 +11301,266 @@
         "next": [
             "Stop"
         ]
+    },
+    "ChangeToMoneyOrder": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "InfrastTradeSyntheticJadeFlag.png",
+        "cache": false,
+        "roi": [
+            900,
+            500,
+            380,
+            220
+        ],
+        "postDelay": 500,
+        "sub": [ "ChooseMoneyOrder", "ChangeOrderExit" ]
+    },
+    "ChooseMoneyOrder": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "ChooseMoneyOrder.png",
+        "cache": false,
+        "roi": [
+            377,
+            136,
+            270,
+            460
+        ],
+        "postDelay": 500,
+        "next": []
+    },
+    "ChangeOrderExit": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            0,
+            0,
+            380,
+            140
+        ],
+        "postDelay": 500,
+        "next": [
+            "Stop"
+        ]
+    },
+    "ChangeToSyntheticJadeFlagOrder": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "InfrastTradeMoneyFlag.png",
+        "cache": false,
+        "roi": [
+            900,
+            500,
+            380,
+            220
+        ],
+        "postDelay": 500,
+        "sub": [ "ChooseSyntheticJadeOrder", "ChangeOrderExit" ]
+    },
+    "ChooseSyntheticJadeOrder": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "ChooseSyntheticJadeOrder.png",
+        "cache": false,
+        "roi": [
+            630,
+            136,
+            270,
+            460
+        ],
+        "postDelay": 500,
+        "next": []
+    },
+    "ChooseProductList": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickRect",
+        "template": "ChooseProductList.png",
+        "cache": false,
+        "roi": [
+            1000,
+            117,
+            115,
+            60
+        ],
+        "specificRect": [
+            1026,
+            180,
+            1219,
+            487
+        ],
+        "postDelay": 500
+    },
+    "ComfirmProductChange": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "ReplenishToMaxConfirm.png",
+        "cache": false,
+        "roi": [
+            890,
+            540,
+            120,
+            120
+        ],
+        "postDelay": 500,
+        "next": []
+    },
+    "ClickProductMax": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "ClickProductMax.png",
+        "cache": false,
+        "roi": [
+            920,
+            170,
+            85,
+            60
+        ],
+        "postDelay": 500,
+        "next": []
+    },
+    "ChooseBattleRecord": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "ChooseBattleRecord.png",
+        "cache": false,
+        "roi": [
+            240,
+            255,
+            190,
+            195
+        ],
+        "postDelay": 500,
+        "next": []
+    },
+    "FinalComfirm": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "SSSSettlementConfirm.png",
+        "cache": false,
+        "roi": [
+            790,
+            450,
+            110,
+            100
+        ],
+        "postDelay": 500,
+        "next": [ "Stop" ]
+    },
+    "ChoosePureGoldTab": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "ChoosePureGoldTab.png",
+        "cache": false,
+        "roi": [
+            10,
+            170,
+            100,
+            110
+        ],
+        "postDelay": 500,
+        "next": []
+    },
+    "ChoosePureGold": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "ChoosePureGold.png",
+        "cache": false,
+        "roi": [
+            240,
+            76,
+            190,
+            195
+        ],
+        "postDelay": 500,
+        "next": []
+    },
+    "ChooseOriginiumShardTab": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "ChooseOriginiumShardTab.png",
+        "cache": false,
+        "roi": [
+            10,
+            360,
+            100,
+            110
+        ],
+        "postDelay": 500,
+        "next": []
+    },
+    "ChooseOriginiumShard": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "ChooseOriginiumShard.png",
+        "cache": false,
+        "roi": [
+            240,
+            76,
+            190,
+            195
+        ],
+        "postDelay": 500,
+        "next": []
+    },
+    "ChangeProductToMiddleBattleRecord": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickRect",
+        "template": "ChooseProductList.png",
+        "cache": false,
+        "roi": [
+            1000,
+            117,
+            115,
+            60
+        ],
+        "specificRect": [
+            1030,
+            180,
+            80,
+            80
+        ],
+        "sub": [ "ChooseBattleRecord", "ClickProductMax", "ComfirmProductChange", "FinalComfirm" ],
+        "postDelay": 500
+    },
+    "ChangeProductToPureGold": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickRect",
+        "template": "ChooseProductList.png",
+        "cache": false,
+        "roi": [
+            1000,
+            117,
+            115,
+            60
+        ],
+        "specificRect": [
+            1030,
+            180,
+            80,
+            80
+        ],
+        "sub": [ "ChoosePureGoldTab", "ChoosePureGold", "ClickProductMax", "ComfirmProductChange", "FinalComfirm" ],
+        "postDelay": 500
+    },
+    "ChangeProductToOriginiumShard": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickRect",
+        "template": "ChooseProductList.png",
+        "cache": false,
+        "roi": [
+            1000,
+            117,
+            115,
+            60
+        ],
+        "specificRect": [
+            1030,
+            180,
+            80,
+            80
+        ],
+        "sub": [ "ChooseOriginiumShardTab", "ChooseOriginiumShard", "ClickProductMax", "ComfirmProductChange", "FinalComfirm" ],
+        "postDelay": 500
     }
 }
