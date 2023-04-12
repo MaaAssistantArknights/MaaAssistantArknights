@@ -4,8 +4,8 @@
 
 - 添加主线第十二章导航 @zzyyyl
 - 关卡列表添加 "R8-11" 与 "12-17-HARD" @ABA2396
-- 启动MAA后直接最小化选项 (#4193) @moomiji
-- 将退出时不释放adb作为独立选项，并默认关闭 @MistEO
+- 启动 MAA 后直接最小化选项 (#4193) @moomiji
+- 退出时不释放 adb 作为独立选项，并默认关闭 @MistEO
 - 任务出错时单独弹出通知提醒 fix #4274 @ABA2396
 
 ### 改进
@@ -23,7 +23,7 @@
 ### 修复
 
 - 修复傀影肉鸽招募错误 (#4241) @LingXii
-- 修复战斗中狂点cooling干员的问题 @MistEO
+- 修复战斗中狂点 cooling 干员的问题 @MistEO
 - 修复重连时 minitouch 不可用的问题 (#4280) @aa889788
 - 修复部分视频识别错误 @MistEO
 - 修复 iOS 识别不到战斗干员 @hguandl @MistEO
