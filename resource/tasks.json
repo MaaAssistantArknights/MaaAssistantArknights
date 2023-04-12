@@ -2731,6 +2731,7 @@
     },
     "StartButton2": {
         "action": "ClickSelf",
+        "preDelay": 1000,
         "postDelay": 40000,
         "roi": [
             1000,
