@@ -1191,6 +1191,14 @@
         "sortId": -10000,
         "usage": "處於激情中的音樂家時常忘記自己將草稿丟在何處。將草稿整理清楚交還給他，或許可以收獲一首新曲。"
     },
+    "act19side_token_reagents": {
+        "classifyType": "NONE",
+        "description": "對神經活動十分敏感，可替代傳統施術單元的部分功能。在萊茵生命防衛科的實驗用品管理手冊上，該試劑危險等級與保密等級均為最高。",
+        "icon": "act19side_token_reagents.png",
+        "name": "神秘試劑",
+        "sortId": -10000,
+        "usage": "萊茵生命能量科的最新研究成果。收集一定數量可以從危險物品回收處領取必要物資。"
+    },
     "act1lock_point_reward": {
         "classifyType": "NONE",
         "description": "通過擊破假想敵隊伍獲得的賽事積分，將以獎章形式頒發給參賽隊伍。由米諾斯工匠製作的獎牌上，刻有“英雄都是從普通人做起”的諺語。",
