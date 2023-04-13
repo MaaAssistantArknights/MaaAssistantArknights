@@ -29,6 +29,9 @@ extern "C"
     void ASSTAPI AsstDestroy(AsstHandle handle);
 
     AsstBool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, const char* value);
+
+    // 同步连接，功能已完全被异步连接取代
+    // FIXME: 5.0 版本将废弃此接口
     /* deprecated */ AsstBool ASSTAPI AsstConnect(AsstHandle handle, const char* adb_path, const char* address,
                                                   const char* config);
 
@@ -38,6 +41,7 @@ extern "C"
     AsstBool ASSTAPI AsstStart(AsstHandle handle);
     AsstBool ASSTAPI AsstStop(AsstHandle handle);
     AsstBool ASSTAPI AsstRunning(AsstHandle handle);
+    AsstBool ASSTAPI AsstConnected(AsstHandle handle);
 
     /* Aysnc with AsstMsg::AsyncCallInfo Callback*/
     AsstAsyncCallId ASSTAPI AsstAsyncConnect(AsstHandle handle, const char* adb_path, const char* address,

@@ -39,7 +39,7 @@
                 <controls:TextBlock
                     Margin="10"
                     Block.TextAlignment="Center"
-                    Text="DarkMode (BETA)" />
+                    Text="UI Theme" />
                 <ComboBox
                     Width="110"
                     Margin="10"

@@ -1809,5 +1809,7 @@ namespace MaaWpfGui.Main
         /// Indicates whether AdbLite is used.
         /// </summary>
         AdbLiteEnabled = 4,
+
+        KillAdbOnExit = 5,
     }
 }
