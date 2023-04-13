@@ -122,7 +122,7 @@
     <system:String x:Key="Language">언어</system:String>
     <system:String x:Key="LanguageChangedTip">언어가 변경되었습니다. 지금 MAA를 재실행하여 새 설정을 적용하시겠습니까?</system:String>
     <system:String x:Key="ManualRestart">나중에</system:String>
-    
+
     <system:String x:Key="Tip">도움말</system:String>
     <system:String x:Key="Yes">예</system:String>
     <system:String x:Key="No">아니요</system:String>
@@ -413,7 +413,7 @@
     <system:String x:Key="ReconnectSuccess">다시 연결되었습니다. 작업을 계속합니다.</system:String>
     <system:String x:Key="ReconnectFailed">다시 연결하지 못했습니다. 연결 해제되었습니다!</system:String>
     <system:String x:Key="ScreencapFailed">스크린샷 캡처에 실패했습니다. 반복적으로 발생 시 에뮬레이터를 다시 시작하거나 변경해 보세요.</system:String>
-    <system:String x:Key="TouchModeNotAvaiable">터치 수행 방식이 사용 불가능합니다. 설정 - 연결 설정에서 다른 방식으로 변경해 주세요.</system:String>
+    <system:String x:Key="TouchModeNotAvailable">터치 수행 방식이 사용 불가능합니다. 설정 - 연결 설정에서 다른 방식으로 변경해 주세요.</system:String>
     <system:String x:Key="IdentifyTheMistakes">인식 오류</system:String>
     <system:String x:Key="TaskError">작업 오류:</system:String>
     <system:String x:Key="CombatError">작전 오류</system:String>
