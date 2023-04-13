@@ -618,7 +618,7 @@ bool asst::CombatRecordRecognitionTask::detect_operators(ClipInfo& clip, [[maybe
     }
 
     for (const Point& loc : oper_det_iter->first) {
-        clip.battlefield.emplace(loc, BattlefiledOper {});
+        clip.battlefield.emplace(loc, BattlefieldOper {});
     }
 
     callback(AsstMsg::SubTaskCompleted, basic_info_with_what("DetectOperators"));
