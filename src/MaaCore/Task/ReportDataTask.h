@@ -2,18 +2,11 @@
 
 #include "AbstractTask.h"
 
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable : 4244)
-#endif
-#include <cpr/cpr.h>
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
-
 #include <cctype>
 #include <future>
 #include <unordered_set>
+
+#include "Utils/NoWarningCPR.h"
 
 namespace asst
 {
