@@ -41,12 +41,12 @@ bool asst::BattleOperatorsImageAnalyzer::analyze()
     std::vector output_names = { output_name.c_str() };
 
     Ort::RunOptions run_options;
-    auto outout_tensors = session.Run(run_options, input_names.data(), &input_tensor, input_names.size(),
+    auto output_tensors = session.Run(run_options, input_names.data(), &input_tensor, input_names.size(),
                                       output_names.data(), output_names.size());
 
-    const float* raw_output = outout_tensors[0].GetTensorData<float>();
+    const float* raw_output = output_tensors[0].GetTensorData<float>();
     // output_shape is { 1, 5, 8400 }
-    std::vector<int64_t> output_shape = outout_tensors[0].GetTensorTypeAndShapeInfo().GetShape();
+    std::vector<int64_t> output_shape = output_tensors[0].GetTensorTypeAndShapeInfo().GetShape();
 
     // yolov8 的 onnx 输出和前面的 v5, v7 等似乎不太一样，目前网上 yolov8 的 demo 较少，文档也没找到
     // 这里的输出解析是我跟着数据推测的：

@@ -8,6 +8,7 @@
     xmlns:styles="clr-namespace:MaaWpfGui.Styles"
     xmlns:resources="clr-namespace:MaaWpfGui.Helper"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:mdxaml="clr-namespace:Neo.Markdig.Xaml;assembly=Neo.Markdig.Xaml"
     xmlns:hc="https://handyorg.github.io/handycontrol">
     <Application.Resources>
         <!--<ResourceDictionary>
@@ -43,6 +44,35 @@
 
             <Style TargetType="Hyperlink">
                 <EventSetter Event="Click" Handler="Hyperlink_Click" />
+            </Style>
+
+            <!-- Neo.Markdig.Xaml -->
+            <Style TargetType="{x:Type Paragraph}" x:Key="{x:Static mdxaml:MarkdownXaml.Heading1StyleKey}">
+                <Setter Property="FontSize" Value="42" />
+                <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+                <Setter Property="FontWeight" Value="Bold" />
+            </Style>
+            <Style TargetType="{x:Type Paragraph}" x:Key="{x:Static mdxaml:MarkdownXaml.Heading2StyleKey}">
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+                <Setter Property="FontWeight" Value="Bold" />
+            </Style>
+            <Style TargetType="{x:Type Paragraph}" x:Key="{x:Static mdxaml:MarkdownXaml.Heading3StyleKey}">
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+                <Setter Property="FontWeight" Value="Bold" />
+            </Style>
+            <Style TargetType="{x:Type Paragraph}" x:Key="{x:Static mdxaml:MarkdownXaml.Heading4StyleKey}">
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+                <Setter Property="FontWeight" Value="Light" />
+                <Setter Property="TextDecorations" Value="Underline" />
+            </Style>
+            <Style TargetType="{x:Type Paragraph}" x:Key="{x:Static mdxaml:MarkdownXaml.Heading5StyleKey}">
+                <!-- no changes -->
+            </Style>
+            <Style TargetType="{x:Type Paragraph}" x:Key="{x:Static mdxaml:MarkdownXaml.Heading6StyleKey}">
+                <!-- no changes -->
             </Style>
 
             <!--  牛牛喝酒  -->

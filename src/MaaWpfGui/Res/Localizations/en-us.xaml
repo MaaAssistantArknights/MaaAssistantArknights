@@ -435,7 +435,7 @@
     <system:String x:Key="ReconnectSuccess">Reconnect succeeded. Continue the task</system:String>
     <system:String x:Key="ReconnectFailed">Reconnect failed. The connection is down!</system:String>
     <system:String x:Key="ScreencapFailed">Screencap failed. If it happens repeatedly, try restarting or changing the emulator.</system:String>
-    <system:String x:Key="TouchModeNotAvaiable">Touch mode is not available, please enter Settings - Connection Settings to change other touch modes</system:String>
+    <system:String x:Key="TouchModeNotAvailable">Touch mode is not available, please enter Settings - Connection Settings to change other touch modes</system:String>
     <system:String x:Key="IdentifyTheMistakes">Identify error</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">Task error: </system:String>
     <system:String x:Key="CombatError">Combat error</system:String>

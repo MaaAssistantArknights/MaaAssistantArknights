@@ -31,11 +31,11 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
 #ifndef ASST_DEBUG
-    bool connected = AsstConnect(ptr, "adb", "127.0.0.1:5555", nullptr);
+    AsstAsyncConnect(ptr, "adb", "127.0.0.1:5555", nullptr, true);
 #else
-    bool connected = AsstConnect(ptr, "adb", "127.0.0.1:5555", "DEBUG");
+    AsstAsyncConnect(ptr, "adb", "127.0.0.1:5555", "DEBUG", true);
 #endif
-    if (!connected) {
+    if (!AsstConnected(ptr)) {
         std::cerr << "connect failed" << std::endl;
         AsstDestroy(ptr);
         ptr = nullptr;

@@ -30,7 +30,7 @@ namespace asst
         virtual bool _run() override;
 
     private:
-        struct BattlefiledOper
+        struct BattlefieldOper
         {
             bool new_here = false;
             battle::DeployDirection direction = battle::DeployDirection::None;
@@ -45,7 +45,7 @@ namespace asst
             cv::Mat end_frame;
             std::vector<battle::DeploymentOper> deployment;
             bool deployment_changed = true;
-            std::unordered_map<Point, BattlefiledOper> battlefield;
+            std::unordered_map<Point, BattlefieldOper> battlefield;
             std::vector<cv::Mat> random_frames;
             std::string ends_oper_name;
         };
