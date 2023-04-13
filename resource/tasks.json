@@ -11306,31 +11306,29 @@
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "InfrastTradeSyntheticJadeFlag.png",
-        "cache": false,
+        "cache": true,
         "roi": [
-            900,
-            500,
-            380,
-            220
+            950,
+            585,
+            207,
+            105
         ],
-        "postDelay": 500,
-        "sub": [ "ChooseMoneyOrder", "ChangeOrderExit" ]
+        "next": [ "ChooseMoneyOrder" ]
     },
     "ChooseMoneyOrder": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "ChooseMoneyOrder.png",
-        "cache": false,
+        "cache": true,
         "roi": [
-            377,
-            136,
-            270,
-            460
+            395,
+            150,
+            248,
+            427
         ],
-        "postDelay": 500,
-        "next": []
+        "next": [ "ChangeOrderComfirm" ]
     },
-    "ChangeOrderExit": {
+    "ChangeOrderComfirm": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [
@@ -11339,44 +11337,57 @@
             380,
             140
         ],
-        "postDelay": 500,
         "next": [
-            "Stop"
+            "CheckConnect"
         ]
+    },
+    "CheckConnect": {
+        "algorithm": "MatchTemplate",
+        "action": "DoNothing",
+        "template": "CheckConnect.png",
+        "cache": true,
+        "roi": [
+            676,
+            602,
+            293,
+            118
+        ],
+        "next": [ "CheckConnect" ],
+        "maxTimes": 60,
+        "exceededNext": [ "Stop" ],
+        "onErrorNext": [ "Stop" ]
     },
     "ChangeToSyntheticJadeFlagOrder": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "InfrastTradeMoneyFlag.png",
-        "cache": false,
+        "cache": true,
         "roi": [
-            900,
-            500,
-            380,
-            220
+            950,
+            585,
+            207,
+            105
         ],
-        "postDelay": 500,
-        "sub": [ "ChooseSyntheticJadeOrder", "ChangeOrderExit" ]
+        "next": [ "ChooseSyntheticJadeOrder" ]
     },
     "ChooseSyntheticJadeOrder": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "ChooseSyntheticJadeOrder.png",
-        "cache": false,
+        "cache": true,
         "roi": [
-            630,
-            136,
-            270,
-            460
+            635,
+            150,
+            250,
+            427
         ],
-        "postDelay": 500,
-        "next": []
+        "next": [ "ChangeOrderComfirm" ]
     },
     "ChooseProductList": {
         "algorithm": "MatchTemplate",
         "action": "ClickRect",
         "template": "ChooseProductList.png",
-        "cache": false,
+        "cache": true,
         "roi": [
             1000,
             117,
@@ -11388,126 +11399,117 @@
             180,
             1219,
             487
-        ],
-        "postDelay": 500
+        ]
     },
     "ComfirmProductChange": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "ReplenishToMaxConfirm.png",
-        "cache": false,
+        "cache": true,
         "roi": [
             890,
             540,
             120,
             120
         ],
-        "postDelay": 500,
-        "next": []
+        "next": [ "ProductFinalComfirm" ]
     },
     "ClickProductMax": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "ClickProductMax.png",
-        "cache": false,
+        "cache": true,
         "roi": [
             920,
             170,
             85,
             60
         ],
-        "postDelay": 500,
-        "next": []
+        "next": [ "ComfirmProductChange" ]
     },
     "ChooseBattleRecord": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "ChooseBattleRecord.png",
-        "cache": false,
+        "cache": true,
         "roi": [
             240,
             255,
             190,
             195
         ],
-        "postDelay": 500,
-        "next": []
+        "next": [ "ClickProductMax" ]
     },
-    "FinalComfirm": {
+    "ProductFinalComfirm": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "SSSSettlementConfirm.png",
-        "cache": false,
+        "cache": true,
         "roi": [
             790,
             450,
             110,
             100
         ],
-        "postDelay": 500,
-        "next": [ "Stop" ]
+        "next": [ "CheckConnect" ]
     },
     "ChoosePureGoldTab": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "ChoosePureGoldTab.png",
-        "cache": false,
+        "cache": true,
         "roi": [
             10,
             170,
             100,
             110
         ],
-        "postDelay": 500,
-        "next": []
+        "next": [ "ChoosePureGold" ]
     },
     "ChoosePureGold": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "ChoosePureGold.png",
-        "cache": false,
+        "cache": true,
         "roi": [
             240,
             76,
             190,
             195
         ],
-        "postDelay": 500,
-        "next": []
+        "next": [ "ClickProductMax" ]
     },
     "ChooseOriginiumShardTab": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "ChooseOriginiumShardTab.png",
-        "cache": false,
+        "cache": true,
         "roi": [
             10,
             360,
             100,
             110
         ],
-        "postDelay": 500,
-        "next": []
+        "next": [ "ChooseOriginiumShard" ]
     },
     "ChooseOriginiumShard": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "ChooseOriginiumShard.png",
-        "cache": false,
+        "cache": true,
         "roi": [
             240,
             76,
             190,
             195
         ],
-        "postDelay": 500,
-        "next": []
+        "next": [ "ClickProductMax" ]
     },
     "ChangeProductToMiddleBattleRecord": {
         "algorithm": "MatchTemplate",
         "action": "ClickRect",
         "template": "ChooseProductList.png",
-        "cache": false,
+        "cache": true,
         "roi": [
             1000,
             117,
@@ -11520,14 +11522,13 @@
             80,
             80
         ],
-        "sub": [ "ChooseBattleRecord", "ClickProductMax", "ComfirmProductChange", "FinalComfirm" ],
-        "postDelay": 500
+        "next": [ "ChooseBattleRecord" ]
     },
     "ChangeProductToPureGold": {
         "algorithm": "MatchTemplate",
         "action": "ClickRect",
         "template": "ChooseProductList.png",
-        "cache": false,
+        "cache": true,
         "roi": [
             1000,
             117,
@@ -11540,14 +11541,13 @@
             80,
             80
         ],
-        "sub": [ "ChoosePureGoldTab", "ChoosePureGold", "ClickProductMax", "ComfirmProductChange", "FinalComfirm" ],
-        "postDelay": 500
+        "next": [ "ChoosePureGoldTab" ]
     },
     "ChangeProductToOriginiumShard": {
         "algorithm": "MatchTemplate",
         "action": "ClickRect",
         "template": "ChooseProductList.png",
-        "cache": false,
+        "cache": true,
         "roi": [
             1000,
             117,
@@ -11560,7 +11560,6 @@
             80,
             80
         ],
-        "sub": [ "ChooseOriginiumShardTab", "ChooseOriginiumShard", "ClickProductMax", "ComfirmProductChange", "FinalComfirm" ],
-        "postDelay": 500
+        "next": [ "ChooseOriginiumShardTab" ]
     }
 }

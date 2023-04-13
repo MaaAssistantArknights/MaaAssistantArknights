@@ -66,12 +66,12 @@ void asst::InfrastProductionTask::set_product(std::string product_name) noexcept
                 callback_info["details"]["product"] = m_product;
                 callback(AsstMsg::SubTaskExtraInfo, callback_info);
             }
-            m_is_ProductIncorrect = !is_same_product;
+            m_is_product_incorrect = !is_same_product;
         }
     }
 }
 
-void asst::InfrastProductionTask::ChangeProduct() noexcept
+void asst::InfrastProductionTask::change_product()
 {
     auto customProduct = current_room_config().product;
     switch (customProduct) {
@@ -252,8 +252,8 @@ bool asst::InfrastProductionTask::shift_facility_list()
         click_confirm_button();
 
         /*启用自定义基建时，如果产物不一致则直接更换产物*/
-        if (m_is_custom && m_is_ProductIncorrect) {
-            ChangeProduct();
+        if (m_is_custom && m_is_product_incorrect) {
+            change_product();
         }
         // 使用无人机
         if (m_is_use_custom_drones) {
