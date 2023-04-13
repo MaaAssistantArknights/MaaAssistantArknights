@@ -76,6 +76,7 @@ void asst::Controller::sync_params()
 {
     CHECK_EXIST(m_controller, );
     m_controller->set_swipe_with_pause(m_swipe_with_pause);
+    m_controller->set_kill_adb_on_exit(m_kill_adb_on_exit);
 }
 
 cv::Mat asst::Controller::get_resized_image_cache() const
@@ -246,6 +247,12 @@ void asst::Controller::set_swipe_with_pause(bool enable) noexcept
 void asst::Controller::set_adb_lite_enabled(bool enable) noexcept
 {
     m_platform_type = enable ? PlatformType::AdbLite : PlatformType::Native;
+}
+
+void asst::Controller::set_kill_adb_on_exit(bool enable) noexcept
+{
+    m_kill_adb_on_exit = enable;
+    sync_params();
 }
 
 const std::string& asst::Controller::get_uuid() const
