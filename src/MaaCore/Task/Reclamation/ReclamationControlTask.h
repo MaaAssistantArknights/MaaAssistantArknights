@@ -28,7 +28,7 @@ namespace asst
         bool skip_announce_report();           // 跳过每日公告
         bool start_action_enter();             // 区域交互确认
         bool battle_default_formation_start(); // 默认战斗编队并开始战斗
-        bool level_complete_comfirm();         // 场景退出结算，至地图界面
+        bool level_complete_confirm();         // 场景退出结算，至地图界面
         bool enter_next_day_if_useup();        // 如果决断点耗尽，进入下一天
         bool wait_between_day();               // 等待日期转换动画结束
         bool reset_scope();                    // 重置地图大小

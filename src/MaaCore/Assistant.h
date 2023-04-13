@@ -23,8 +23,20 @@ public:
     static bool set_static_option(asst::StaticOptionKey key, const std::string& value);
     // 设置实例级参数
     virtual bool set_instance_option(asst::InstanceOptionKey key, const std::string& value) = 0;
-    // 连接adb
+
+    // 同步连接，功能已完全被异步连接取代
+    // FIXME: 5.0 版本将废弃此接口
     virtual bool connect(const std::string& adb_path, const std::string& address, const std::string& config) = 0;
+    // 异步连接
+    virtual AsyncCallId async_connect(const std::string& adb_path, const std::string& address,
+                                      const std::string& config, bool block = false) = 0;
+    // 异步点击
+    virtual AsyncCallId async_click(int x, int y, bool block = false) = 0;
+    // 异步截图
+    virtual AsyncCallId async_screencap(bool block = false) = 0;
+
+    // 是否连接成功
+    virtual bool connected() const = 0;
 
     // 添加任务
     virtual TaskId append_task(const std::string& type, const std::string& params) = 0;
@@ -37,14 +49,6 @@ public:
     virtual bool stop(bool block = true) = 0;
     // 是否正在运行
     virtual bool running() const = 0;
-
-    // 异步连接
-    virtual AsyncCallId async_connect(const std::string& adb_path, const std::string& address,
-                                      const std::string& config, bool block = false) = 0;
-    // 异步点击
-    virtual AsyncCallId async_click(int x, int y, bool block = false) = 0;
-    // 异步截图
-    virtual AsyncCallId async_screencap(bool block = false) = 0;
 
     // 获取上次的截图
     virtual std::vector<unsigned char> get_image() const = 0;
@@ -67,8 +71,15 @@ namespace asst
         virtual ~Assistant() override;
 
         virtual bool set_instance_option(InstanceOptionKey key, const std::string& value) override;
+
         virtual bool connect(const std::string& adb_path, const std::string& address,
                              const std::string& config) override;
+        virtual AsyncCallId async_connect(const std::string& adb_path, const std::string& address,
+                                          const std::string& config, bool block = false) override;
+        virtual AsyncCallId async_click(int x, int y, bool block = false) override;
+        virtual AsyncCallId async_screencap(bool block = false) override;
+
+        virtual bool connected() const override;
 
         virtual TaskId append_task(const std::string& type, const std::string& params) override;
         virtual bool set_task_params(TaskId task_id, const std::string& params) override;
@@ -76,11 +87,6 @@ namespace asst
         virtual bool start(bool block = true) override;
         virtual bool stop(bool block = true) override;
         virtual bool running() const override;
-
-        virtual AsyncCallId async_connect(const std::string& adb_path, const std::string& address,
-                                          const std::string& config, bool block = false) override;
-        virtual AsyncCallId async_click(int x, int y, bool block = false) override;
-        virtual AsyncCallId async_screencap(bool block = false) override;
 
         virtual std::vector<unsigned char> get_image() const override;
         virtual std::string get_uuid() const override;
@@ -92,14 +98,52 @@ namespace asst
         bool need_exit() const { return m_thread_idle; }
 
     private:
+        void append_callback(AsstMsg msg, const json::value& detail);
+        static void append_callback_for_inst(AsstMsg msg, const json::value& detail, Assistant* inst);
+
+    private:
+        struct AsyncCallItem
+        {
+            enum class Type
+            {
+                Connect,
+                Click,
+                Screencap,
+            };
+            struct ConnectParams
+            {
+                std::string adb_path;
+                std::string address;
+                std::string config;
+            };
+            struct ClickParams
+            {
+                int x = 0;
+                int y = 0;
+            };
+            struct ScreencapParams
+            {};
+            using Parmas = std::variant<ConnectParams, ClickParams, ScreencapParams>;
+
+            AsyncCallId id;
+            Type type;
+            Parmas params;
+        };
+        AsyncCallId append_async_call(AsyncCallItem::Type type, AsyncCallItem::Parmas params, bool block = false);
+        bool wait_async_id(AsyncCallId id);
+
+    private:
+        void call_proc();
         void working_proc();
         void msg_proc();
-        static void async_callback(AsstMsg msg, const json::value& detail, Assistant* inst);
 
-        void append_callback(AsstMsg msg, json::value detail);
+    private:
         void clear_cache();
         bool inited() const noexcept;
-        void async_call(std::function<bool(void)> func, int req_id, const std::string what, bool block = false);
+
+        bool ctrl_connect(const std::string& adb_path, const std::string& address, const std::string& config);
+        bool ctrl_click(int x, int y);
+        bool ctrl_screencap();
 
         std::string m_uuid;
 
@@ -121,10 +165,16 @@ namespace asst
         std::condition_variable m_msg_condvar;
 
         inline static std::atomic<AsyncCallId> m_call_id = 0; // 进程级唯一
-        std::mutex m_call_pending_mutex;
-        std::list<std::future<void>> m_call_pending;
+        std::queue<AsyncCallItem> m_call_queue;
+        std::mutex m_call_mutex;
+        std::condition_variable m_call_condvar;
+
+        AsyncCallId m_completed_call = 0; // 每个实例有自己独立的执行队列，所以不能静态
+        std::mutex m_completed_call_mutex;
+        std::condition_variable m_completed_call_condvar;
 
         std::thread m_msg_thread;
+        std::thread m_call_thread;
         std::thread m_working_thread;
     };
 } // namespace asst

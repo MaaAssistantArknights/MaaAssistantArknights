@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <SolidColorBrush x:Key="PallasBrush" Color="#6A6AAB" />
+    <SolidColorBrush x:Key="ErrorViewBackgroundBrush" Color="#E6E6E6" />
     <SolidColorBrush x:Key="SecondaryRegionBrush" Color="#ffffff" />
     
 </ResourceDictionary>
