@@ -62798,13 +62798,19 @@
                 "openTime": 1663228800000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1681412400000,
+                "exist": true,
+                "openTime": 1680850800000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1681412400000,
+                "exist": true,
+                "openTime": 1680850800000
             },
             "US": {
-                "exist": false
+                "closeTime": 1681470000000,
+                "exist": true,
+                "openTime": 1680886800000
             }
         },
         "minClearTime": 173000,
@@ -62828,13 +62834,19 @@
                 "openTime": 1663228800000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1681412400000,
+                "exist": true,
+                "openTime": 1680850800000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1681412400000,
+                "exist": true,
+                "openTime": 1680850800000
             },
             "US": {
-                "exist": false
+                "closeTime": 1681470000000,
+                "exist": true,
+                "openTime": 1680886800000
             }
         },
         "minClearTime": 140000,
@@ -62858,13 +62870,19 @@
                 "openTime": 1663228800000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1681412400000,
+                "exist": true,
+                "openTime": 1680850800000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1681412400000,
+                "exist": true,
+                "openTime": 1680850800000
             },
             "US": {
-                "exist": false
+                "closeTime": 1681470000000,
+                "exist": true,
+                "openTime": 1680886800000
             }
         },
         "minClearTime": 173000,
@@ -62888,13 +62906,19 @@
                 "openTime": 1663228800000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1681412400000,
+                "exist": true,
+                "openTime": 1680850800000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1681412400000,
+                "exist": true,
+                "openTime": 1680850800000
             },
             "US": {
-                "exist": false
+                "closeTime": 1681470000000,
+                "exist": true,
+                "openTime": 1680886800000
             }
         },
         "minClearTime": 163000,
@@ -62918,13 +62942,19 @@
                 "openTime": 1663228800000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1681412400000,
+                "exist": true,
+                "openTime": 1680850800000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1681412400000,
+                "exist": true,
+                "openTime": 1680850800000
             },
             "US": {
-                "exist": false
+                "closeTime": 1681470000000,
+                "exist": true,
+                "openTime": 1680886800000
             }
         },
         "minClearTime": 176000,
@@ -62948,13 +62978,19 @@
                 "openTime": 1663228800000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1681412400000,
+                "exist": true,
+                "openTime": 1680850800000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1681412400000,
+                "exist": true,
+                "openTime": 1680850800000
             },
             "US": {
-                "exist": false
+                "closeTime": 1681470000000,
+                "exist": true,
+                "openTime": 1680886800000
             }
         },
         "minClearTime": 175000,
@@ -62978,13 +63014,19 @@
                 "openTime": 1663228800000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1681412400000,
+                "exist": true,
+                "openTime": 1680850800000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1681412400000,
+                "exist": true,
+                "openTime": 1680850800000
             },
             "US": {
-                "exist": false
+                "closeTime": 1681470000000,
+                "exist": true,
+                "openTime": 1680886800000
             }
         },
         "minClearTime": 214000,
@@ -63008,13 +63050,19 @@
                 "openTime": 1663228800000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1681412400000,
+                "exist": true,
+                "openTime": 1680850800000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1681412400000,
+                "exist": true,
+                "openTime": 1680850800000
             },
             "US": {
-                "exist": false
+                "closeTime": 1681470000000,
+                "exist": true,
+                "openTime": 1680886800000
             }
         },
         "minClearTime": 189000,
@@ -80987,5 +81035,242 @@
         "stageId": "main_12-18",
         "stageType": "MAIN",
         "zoneId": "main_12"
+    },
+    {
+        "apCost": 99,
+        "code": "罗德岛物资补给V",
+        "code_i18n": {
+            "en": "Rhodes Island Supplies V",
+            "ja": "補給物資・ロドスV",
+            "ko": "로도스 아일랜드 보급 물자 V",
+            "zh": "罗德岛物资补给V"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30012"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30013"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30062"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30063"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30032"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30033"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30022"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30023"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30042"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30043"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30052"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30053"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30073"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30083"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30093"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30103"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "31013"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "31023"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "31033"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "31043"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "31053"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 22
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 100
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "31063"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "exist": true,
+                "openTime": 1680768000000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "isGacha": true,
+        "minClearTime": null,
+        "stageId": "randomMaterial_8",
+        "stageType": "ACTIVITY",
+        "zoneId": "gachabox"
     }
 ]
