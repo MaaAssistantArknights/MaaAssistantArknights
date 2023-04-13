@@ -7766,6 +7766,42 @@
         "stageId": "hard_11-04",
         "width": 13
     },
+    "hard_12-01-obt/hard/level_hard_12-01": {
+        "code": "H12-1",
+        "filename": "hard_12-01-obt-hard-level_hard_12-01.json",
+        "height": 8,
+        "levelId": "obt/hard/level_hard_12-01",
+        "name": "惊霆行动-1",
+        "stageId": "hard_12-01",
+        "width": 12
+    },
+    "hard_12-02-obt/hard/level_hard_12-02": {
+        "code": "H12-2",
+        "filename": "hard_12-02-obt-hard-level_hard_12-02.json",
+        "height": 8,
+        "levelId": "obt/hard/level_hard_12-02",
+        "name": "惊霆行动-2",
+        "stageId": "hard_12-02",
+        "width": 11
+    },
+    "hard_12-03-obt/hard/level_hard_12-03": {
+        "code": "H12-3",
+        "filename": "hard_12-03-obt-hard-level_hard_12-03.json",
+        "height": 8,
+        "levelId": "obt/hard/level_hard_12-03",
+        "name": "惊霆行动-3",
+        "stageId": "hard_12-03",
+        "width": 12
+    },
+    "hard_12-04-obt/hard/level_hard_12-04": {
+        "code": "H12-4",
+        "filename": "hard_12-04-obt-hard-level_hard_12-04.json",
+        "height": 9,
+        "levelId": "obt/hard/level_hard_12-04",
+        "name": "惊霆行动-4",
+        "stageId": "hard_12-04",
+        "width": 13
+    },
     "level_rune_11-01-obt/rune/level_rune_11-01": {
         "code": "伊比利亚",
         "filename": "level_rune_11-01-obt-rune-level_rune_11-01.json",
@@ -8233,6 +8269,114 @@
         "name": "人与自然",
         "stageId": "lt_06_06",
         "width": 13
+    },
+    "lt_07_01-obt/legion/lt07/level_lt07_01": {
+        "code": "LT-1",
+        "filename": "lt_07_01-obt-legion-lt07-level_lt07_01.json",
+        "height": 7,
+        "levelId": "obt/legion/lt07/level_lt07_01",
+        "name": "知难而进",
+        "stageId": "lt_07_01",
+        "width": 9
+    },
+    "lt_07_02-obt/legion/lt07/level_lt07_02": {
+        "code": "LT-2",
+        "filename": "lt_07_02-obt-legion-lt07-level_lt07_02.json",
+        "height": 7,
+        "levelId": "obt/legion/lt07/level_lt07_02",
+        "name": "荒地的手段",
+        "stageId": "lt_07_02",
+        "width": 11
+    },
+    "lt_07_03-obt/legion/lt07/level_lt07_03": {
+        "code": "LT-3",
+        "filename": "lt_07_03-obt-legion-lt07-level_lt07_03.json",
+        "height": 8,
+        "levelId": "obt/legion/lt07/level_lt07_03",
+        "name": "麻木前行",
+        "stageId": "lt_07_03",
+        "width": 10
+    },
+    "lt_07_04-obt/legion/lt07/level_lt07_04": {
+        "code": "LT-4",
+        "filename": "lt_07_04-obt-legion-lt07-level_lt07_04.json",
+        "height": 6,
+        "levelId": "obt/legion/lt07/level_lt07_04",
+        "name": "混乱“派对”",
+        "stageId": "lt_07_04",
+        "width": 10
+    },
+    "lt_07_05-obt/legion/lt07/level_lt07_05": {
+        "code": "LT-5",
+        "filename": "lt_07_05-obt-legion-lt07-level_lt07_05.json",
+        "height": 7,
+        "levelId": "obt/legion/lt07/level_lt07_05",
+        "name": "消息传递",
+        "stageId": "lt_07_05",
+        "width": 11
+    },
+    "lt_07_06-obt/legion/lt07/level_lt07_06": {
+        "code": "LT-6",
+        "filename": "lt_07_06-obt-legion-lt07-level_lt07_06.json",
+        "height": 8,
+        "levelId": "obt/legion/lt07/level_lt07_06",
+        "name": "力量的炫耀",
+        "stageId": "lt_07_06",
+        "width": 12
+    },
+    "lt_08_01-obt/legion/lt08/level_lt08_01": {
+        "code": "LT-1",
+        "filename": "lt_08_01-obt-legion-lt08-level_lt08_01.json",
+        "height": 7,
+        "levelId": "obt/legion/lt08/level_lt08_01",
+        "name": "致命吸引",
+        "stageId": "lt_08_01",
+        "width": 9
+    },
+    "lt_08_02-obt/legion/lt08/level_lt08_02": {
+        "code": "LT-2",
+        "filename": "lt_08_02-obt-legion-lt08-level_lt08_02.json",
+        "height": 7,
+        "levelId": "obt/legion/lt08/level_lt08_02",
+        "name": "烂醉铁锤",
+        "stageId": "lt_08_02",
+        "width": 9
+    },
+    "lt_08_03-obt/legion/lt08/level_lt08_03": {
+        "code": "LT-3",
+        "filename": "lt_08_03-obt-legion-lt08-level_lt08_03.json",
+        "height": 8,
+        "levelId": "obt/legion/lt08/level_lt08_03",
+        "name": "为了生存",
+        "stageId": "lt_08_03",
+        "width": 10
+    },
+    "lt_08_04-obt/legion/lt08/level_lt08_04": {
+        "code": "LT-4",
+        "filename": "lt_08_04-obt-legion-lt08-level_lt08_04.json",
+        "height": 7,
+        "levelId": "obt/legion/lt08/level_lt08_04",
+        "name": "混合毒气",
+        "stageId": "lt_08_04",
+        "width": 10
+    },
+    "lt_08_05-obt/legion/lt08/level_lt08_05": {
+        "code": "LT-5",
+        "filename": "lt_08_05-obt-legion-lt08-level_lt08_05.json",
+        "height": 7,
+        "levelId": "obt/legion/lt08/level_lt08_05",
+        "name": "枯朽孕育",
+        "stageId": "lt_08_05",
+        "width": 10
+    },
+    "lt_08_06-obt/legion/lt08/level_lt08_06": {
+        "code": "LT-6",
+        "filename": "lt_08_06-obt-legion-lt08-level_lt08_06.json",
+        "height": 8,
+        "levelId": "obt/legion/lt08/level_lt08_06",
+        "name": "窒息",
+        "stageId": "lt_08_06",
+        "width": 11
     },
     "lt_tr_01-obt/legion/lttr/level_lt_tr01": {
         "code": "TR-1",
@@ -13247,6 +13391,15 @@
         "stageId": "ro2_b_6",
         "width": 12
     },
+    "ro2_b_7-obt/roguelike/ro2/level_rogue2_b-7": {
+        "code": "ISW-DF",
+        "filename": "ro2_b_7-obt-roguelike-ro2-level_rogue2_b-7.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro2/level_rogue2_b-7",
+        "name": "人之光辉",
+        "stageId": "ro2_b_7",
+        "width": 13
+    },
     "ro2_b_8-obt/roguelike/ro2/level_rogue2_b-8": {
         "code": "ISW-DF",
         "filename": "ro2_b_8-obt-roguelike-ro2-level_rogue2_b-8.json",
@@ -13301,6 +13454,15 @@
         "stageId": "ro2_e_1_4",
         "width": 9
     },
+    "ro2_e_1_5-obt/roguelike/ro2/level_rogue2_1-5": {
+        "code": "ISW-NO",
+        "filename": "ro2_e_1_5-obt-roguelike-ro2-level_rogue2_1-5.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro2/level_rogue2_1-5",
+        "name": "互助",
+        "stageId": "ro2_e_1_5",
+        "width": 9
+    },
     "ro2_e_2_1-obt/roguelike/ro2/level_rogue2_2-1": {
         "code": "ISW-NO",
         "filename": "ro2_e_2_1-obt-roguelike-ro2-level_rogue2_2-1.json",
@@ -13345,6 +13507,15 @@
         "name": "回溯",
         "stageId": "ro2_e_2_5",
         "width": 9
+    },
+    "ro2_e_2_6-obt/roguelike/ro2/level_rogue2_2-6": {
+        "code": "ISW-NO",
+        "filename": "ro2_e_2_6-obt-roguelike-ro2-level_rogue2_2-6.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro2/level_rogue2_2-6",
+        "name": "饥渴",
+        "stageId": "ro2_e_2_6",
+        "width": 8
     },
     "ro2_e_3_1-obt/roguelike/ro2/level_rogue2_3-1": {
         "code": "ISW-NO",
@@ -13409,6 +13580,15 @@
         "stageId": "ro2_e_3_7",
         "width": 10
     },
+    "ro2_e_3_8-obt/roguelike/ro2/level_rogue2_3-8": {
+        "code": "ISW-NO",
+        "filename": "ro2_e_3_8-obt-roguelike-ro2-level_rogue2_3-8.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro2/level_rogue2_3-8",
+        "name": "瞻前顾后",
+        "stageId": "ro2_e_3_8",
+        "width": 9
+    },
     "ro2_e_4_1-obt/roguelike/ro2/level_rogue2_4-1": {
         "code": "ISW-NO",
         "filename": "ro2_e_4_1-obt-roguelike-ro2-level_rogue2_4-1.json",
@@ -13472,6 +13652,15 @@
         "stageId": "ro2_e_4_7",
         "width": 10
     },
+    "ro2_e_4_8-obt/roguelike/ro2/level_rogue2_4-8": {
+        "code": "ISW-NO",
+        "filename": "ro2_e_4_8-obt-roguelike-ro2-level_rogue2_4-8.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro2/level_rogue2_4-8",
+        "name": "铳与秩序",
+        "stageId": "ro2_e_4_8",
+        "width": 9
+    },
     "ro2_e_5_1-obt/roguelike/ro2/level_rogue2_5-1": {
         "code": "ISW-NO",
         "filename": "ro2_e_5_1-obt-roguelike-ro2-level_rogue2_5-1.json",
@@ -13533,6 +13722,15 @@
         "levelId": "obt/roguelike/ro2/level_rogue2_5-7",
         "name": "蔓延",
         "stageId": "ro2_e_5_7",
+        "width": 11
+    },
+    "ro2_e_5_8-obt/roguelike/ro2/level_rogue2_5-8": {
+        "code": "ISW-NO",
+        "filename": "ro2_e_5_8-obt-roguelike-ro2-level_rogue2_5-8.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro2/level_rogue2_5-8",
+        "name": "余烬方阵",
+        "stageId": "ro2_e_5_8",
         "width": 11
     },
     "ro2_e_6_1-obt/roguelike/ro2/level_rogue2_6-1": {
@@ -13634,6 +13832,15 @@
         "stageId": "ro2_n_1_4",
         "width": 9
     },
+    "ro2_n_1_5-obt/roguelike/ro2/level_rogue2_1-5": {
+        "code": "ISW-NO",
+        "filename": "ro2_n_1_5-obt-roguelike-ro2-level_rogue2_1-5.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro2/level_rogue2_1-5",
+        "name": "互助",
+        "stageId": "ro2_n_1_5",
+        "width": 9
+    },
     "ro2_n_2_1-obt/roguelike/ro2/level_rogue2_2-1": {
         "code": "ISW-NO",
         "filename": "ro2_n_2_1-obt-roguelike-ro2-level_rogue2_2-1.json",
@@ -13678,6 +13885,15 @@
         "name": "回溯",
         "stageId": "ro2_n_2_5",
         "width": 9
+    },
+    "ro2_n_2_6-obt/roguelike/ro2/level_rogue2_2-6": {
+        "code": "ISW-NO",
+        "filename": "ro2_n_2_6-obt-roguelike-ro2-level_rogue2_2-6.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro2/level_rogue2_2-6",
+        "name": "饥渴",
+        "stageId": "ro2_n_2_6",
+        "width": 8
     },
     "ro2_n_3_1-obt/roguelike/ro2/level_rogue2_3-1": {
         "code": "ISW-NO",
@@ -13742,6 +13958,15 @@
         "stageId": "ro2_n_3_7",
         "width": 10
     },
+    "ro2_n_3_8-obt/roguelike/ro2/level_rogue2_3-8": {
+        "code": "ISW-NO",
+        "filename": "ro2_n_3_8-obt-roguelike-ro2-level_rogue2_3-8.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro2/level_rogue2_3-8",
+        "name": "瞻前顾后",
+        "stageId": "ro2_n_3_8",
+        "width": 9
+    },
     "ro2_n_4_1-obt/roguelike/ro2/level_rogue2_4-1": {
         "code": "ISW-NO",
         "filename": "ro2_n_4_1-obt-roguelike-ro2-level_rogue2_4-1.json",
@@ -13805,6 +14030,15 @@
         "stageId": "ro2_n_4_7",
         "width": 10
     },
+    "ro2_n_4_8-obt/roguelike/ro2/level_rogue2_4-8": {
+        "code": "ISW-NO",
+        "filename": "ro2_n_4_8-obt-roguelike-ro2-level_rogue2_4-8.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro2/level_rogue2_4-8",
+        "name": "铳与秩序",
+        "stageId": "ro2_n_4_8",
+        "width": 9
+    },
     "ro2_n_5_1-obt/roguelike/ro2/level_rogue2_5-1": {
         "code": "ISW-NO",
         "filename": "ro2_n_5_1-obt-roguelike-ro2-level_rogue2_5-1.json",
@@ -13866,6 +14100,15 @@
         "levelId": "obt/roguelike/ro2/level_rogue2_5-7",
         "name": "蔓延",
         "stageId": "ro2_n_5_7",
+        "width": 11
+    },
+    "ro2_n_5_8-obt/roguelike/ro2/level_rogue2_5-8": {
+        "code": "ISW-NO",
+        "filename": "ro2_n_5_8-obt-roguelike-ro2-level_rogue2_5-8.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro2/level_rogue2_5-8",
+        "name": "余烬方阵",
+        "stageId": "ro2_n_5_8",
         "width": 11
     },
     "ro2_n_6_1-obt/roguelike/ro2/level_rogue2_6-1": {
