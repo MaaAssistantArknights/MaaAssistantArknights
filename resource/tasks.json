@@ -2687,18 +2687,9 @@
         ]
     },
     "StartButton1TryAgain": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": [
-            "开始行动"
-        ],
-        "cache": false,
-        "roi": [
-            1000,
-            600,
-            280,
-            120
-        ],
+        "baseTask": "StartButton1",
+        "exceededNext": [],
+        "reduceOtherTimes": [],
         "next": [
             "StartButton1#next"
         ]
