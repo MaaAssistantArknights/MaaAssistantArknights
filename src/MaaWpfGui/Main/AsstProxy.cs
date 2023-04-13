@@ -463,8 +463,8 @@ namespace MaaWpfGui.Main
                     _taskQueueViewModel.AddLog(LocalizationHelper.GetString("ScreencapFailed"), UiLogColor.Error);
                     break;
 
-                case "TouchModeNotAvaiable":
-                    _taskQueueViewModel.AddLog(LocalizationHelper.GetString("TouchModeNotAvaiable"), UiLogColor.Error);
+                case "TouchModeNotAvailable":
+                    _taskQueueViewModel.AddLog(LocalizationHelper.GetString("TouchModeNotAvailable"), UiLogColor.Error);
                     break;
             }
         }
