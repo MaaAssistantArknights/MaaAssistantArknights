@@ -2677,12 +2677,30 @@
             "(ClickCornerAfterPRTS+ClickCorner)*5"
         ],
         "next": [
+            "StartButton1TryAgain",
             "StartButton2",
             "UseMedicine",
             "UseStone",
             "NoStone",
             "OfflineConfirm",
             "AnnihilationConfirm"
+        ]
+    },
+    "StartButton1TryAgain": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "开始行动"
+        ],
+        "cache": false,
+        "roi": [
+            1000,
+            600,
+            280,
+            120
+        ],
+        "next": [
+            "StartButton1#next"
         ]
     },
     "AnnihilationConfirm": {
@@ -2732,7 +2750,6 @@
     "StartButton2": {
         "action": "ClickSelf",
         "preDelay": 1000,
-        "postDelay": 40000,
         "roi": [
             1000,
             350,
@@ -2740,9 +2757,30 @@
             340
         ],
         "next": [
+            "StartButton2TryAgain",
+            "StartButton2WaitTime"
+        ]
+    },
+    "StartButton2TryAgain": {
+        "action": "ClickSelf",
+        "template": "StartButton2.png",
+        "roi": [
+            1000,
+            350,
+            220,
+            340
+        ],
+        "next": [
+            "StartButton2#next"
+        ]
+    },
+    "StartButton2WaitTime": {
+        "algorithm": "JustReturn",
+        "postDelay": 40000,
+        "next": [
             "PRTS#next",
             "EndOfAction",
-            "StartButton2",
+            "StartButton2TryAgain",
             "PrtsErrorConfirm",
             "OfflineConfirm",
             "WaitAfterPRTS"
