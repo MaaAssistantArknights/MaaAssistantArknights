@@ -11342,20 +11342,23 @@
         ]
     },
     "CheckConnect": {
-        "algorithm": "MatchTemplate",
+        "algorithm": "OcrDetect",
         "action": "DoNothing",
-        "template": "CheckConnect.png",
-        "cache": true,
+        "text": [
+            "正在提交",
+            "反馈至神经"
+        ],
         "roi": [
-            676,
-            602,
-            293,
-            118
+            700,
+            600,
+            300,
+            120
         ],
         "next": [ "CheckConnect" ],
         "maxTimes": 60,
         "exceededNext": [ "Stop" ],
         "onErrorNext": [ "Stop" ]
+
     },
     "ChangeToSyntheticJadeFlagOrder": {
         "algorithm": "MatchTemplate",
