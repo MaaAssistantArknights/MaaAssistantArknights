@@ -201,8 +201,8 @@ void asst::StageDropsTaskPlugin::set_start_button_delay()
     int64_t duration = time(nullptr) - last_start_time;
     int elapsed = Task.get("EndOfAction")->pre_delay + Task.get("PRTS")->post_delay;
     int64_t delay = duration * 1000 - elapsed;
-    Log.info(__FUNCTION__, "set StartButton2 post delay", delay);
-    m_cast_ptr->set_post_delay("StartButton2", static_cast<int>(delay));
+    Log.info(__FUNCTION__, "set StartButton2WaitTime post delay", delay);
+    m_cast_ptr->set_post_delay("StartButton2WaitTime", static_cast<int>(delay));
 }
 
 void asst::StageDropsTaskPlugin::upload_to_penguin()
