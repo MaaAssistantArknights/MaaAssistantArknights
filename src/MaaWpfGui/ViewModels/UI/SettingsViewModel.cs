@@ -2415,12 +2415,17 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public void SaveGUIParameters()
         {
+            var mainWindow = Application.Current.MainWindow;
+            if (mainWindow.WindowState != WindowState.Normal)
+            {
+                return;
+            }
+
             // 请在配置文件中修改该部分配置，暂不支持从GUI设置
             // Please modify this part of configuration in the configuration file.
             ConfigurationHelper.SetValue(ConfigurationKeys.LoadPositionAndSize, LoadGUIParameters.ToString());
             ConfigurationHelper.SetValue(ConfigurationKeys.SavePositionAndSize, SaveGUIParametersOnClosing.ToString());
 
-            var mainWindow = Application.Current.MainWindow;
             System.Windows.Forms.Screen currentScreen =
                 System.Windows.Forms.Screen.FromHandle(new WindowInteropHelper(mainWindow).Handle);
             var screenRect = currentScreen.Bounds;
@@ -2571,23 +2576,24 @@ namespace MaaWpfGui.ViewModels.UI
             switch (darkModeType)
             {
                 case DarkModeType.Light:
-                    ThemeManager.Current.UsingSystemTheme = false;
+                    ThemeManager.Current.UsingWindowsAppTheme = false;
                     ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light;
                     return;
 
                 case DarkModeType.Dark:
-                    ThemeManager.Current.UsingSystemTheme = false;
+                    ThemeManager.Current.UsingWindowsAppTheme = false;
                     ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
                     return;
 
                 case DarkModeType.SyncWithOS:
-                    ThemeManager.Current.UsingSystemTheme = true;
+                    ThemeManager.Current.UsingWindowsAppTheme = true;
                     return;
             }
         }
 
         private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
         {
+            ThemeManager.Current.ApplicationTheme = ThemeManager.GetSystemTheme(isSystemTheme: false);
             Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
         }
 

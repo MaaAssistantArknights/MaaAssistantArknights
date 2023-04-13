@@ -82,10 +82,10 @@ namespace MaaWpfGui.Main
             {
                 if (File.Exists(logBakFilename))
                 {
-                    Directory.Delete(logBakFilename);
+                    File.Delete(logBakFilename);
                 }
 
-                Directory.Move(logFilename, logBakFilename);
+                File.Move(logFilename, logBakFilename);
             }
 
             // Bootstrap serilog
