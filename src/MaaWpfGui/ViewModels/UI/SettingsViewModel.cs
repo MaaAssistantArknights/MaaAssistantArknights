@@ -2571,23 +2571,24 @@ namespace MaaWpfGui.ViewModels.UI
             switch (darkModeType)
             {
                 case DarkModeType.Light:
-                    ThemeManager.Current.UsingSystemTheme = false;
+                    ThemeManager.Current.UsingWindowsAppTheme = false;
                     ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light;
                     return;
 
                 case DarkModeType.Dark:
-                    ThemeManager.Current.UsingSystemTheme = false;
+                    ThemeManager.Current.UsingWindowsAppTheme = false;
                     ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
                     return;
 
                 case DarkModeType.SyncWithOS:
-                    ThemeManager.Current.UsingSystemTheme = true;
+                    ThemeManager.Current.UsingWindowsAppTheme = true;
                     return;
             }
         }
 
         private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
         {
+            ThemeManager.Current.ApplicationTheme = ThemeManager.GetSystemTheme(isSystemTheme: false);
             Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
         }
 
