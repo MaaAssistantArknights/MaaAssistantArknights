@@ -25,8 +25,6 @@ namespace asst
                              const std::string& config) override;
         virtual bool inited() const noexcept override;
 
-        virtual void set_swipe_with_pause([[maybe_unused]] bool enable) noexcept override {}
-
         virtual const std::string& get_uuid() const override;
 
         virtual bool screencap(cv::Mat& image_payload, bool allow_reconnect = false) override;

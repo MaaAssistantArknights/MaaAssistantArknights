@@ -24,7 +24,8 @@ namespace asst
 
         virtual bool connect(const std::string& adb_path, const std::string& address, const std::string& config) = 0;
         virtual bool inited() const noexcept = 0;
-        virtual void set_swipe_with_pause(bool enable) noexcept = 0;
+        virtual void set_swipe_with_pause([[maybe_unused]] bool enable) noexcept {}
+        virtual void set_kill_adb_on_exit([[maybe_unused]] bool enable) noexcept {}
 
         virtual const std::string& get_uuid() const = 0;
 
@@ -70,4 +71,4 @@ namespace asst
         int keycode = 0;
         long milisec = 0;
     };
-}
+} // namespace asst

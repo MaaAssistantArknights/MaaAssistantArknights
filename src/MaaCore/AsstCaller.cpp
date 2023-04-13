@@ -141,6 +141,15 @@ AsstBool AsstRunning(AsstHandle handle)
     return handle->running();
 }
 
+AsstBool AsstConnected(AsstHandle handle)
+{
+    if (!inited() || handle == nullptr) {
+        return false;
+    }
+
+    return handle->connected();
+}
+
 AsstAsyncCallId AsstAsyncConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config,
                                  AsstBool block)
 {
