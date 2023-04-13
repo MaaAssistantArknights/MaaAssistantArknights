@@ -7,6 +7,24 @@
 
 namespace asst::algorithm
 {
+    /**
+     * @brief 根据传入的分组规则及干员列表, 求解一个可行的分配方案
+     * @param group_list 分组规则, key 为组名, value 为组内干员列表, 如:\n
+     *                   {\n
+     *                   "A": {"干员1", "干员2"},\n
+     *                   "B": {"干员2", "干员3"}\n
+     *                   }
+     * @param char_set 干员列表, 如:\n
+     *                 {\n
+     *                 "干员1",\n
+     *                 "干员2"\n
+     *                 }
+     * @return 可行的分配方案, key 为组名, value 为该组分配的干员, 若无可行方案则返回 std::nullopt, 如:\n
+     *         {\n
+     *         "A": "干员1",\n
+     *         "B": "干员2"\n
+     *         }
+     */
     inline static std::optional<std::unordered_map<std::string, std::string>> get_char_allocation_for_each_group(
         const std::unordered_map<std::string, std::vector<std::string>>& group_list,
         const std::unordered_set<std::string>& char_set)
