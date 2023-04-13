@@ -117,7 +117,6 @@ namespace MaaWpfGui.ViewModels.UI
 
             InfrastInit();
 
-            SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
             SwitchDarkMode();
             if (Hangover)
             {
@@ -2576,24 +2575,30 @@ namespace MaaWpfGui.ViewModels.UI
             switch (darkModeType)
             {
                 case DarkModeType.Light:
+                    SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
                     ThemeManager.Current.UsingWindowsAppTheme = false;
                     ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light;
-                    return;
+                    break;
 
                 case DarkModeType.Dark:
+                    SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
                     ThemeManager.Current.UsingWindowsAppTheme = false;
                     ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
-                    return;
+                    break;
 
                 case DarkModeType.SyncWithOS:
                     ThemeManager.Current.UsingWindowsAppTheme = true;
-                    return;
+                    SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
+                    break;
             }
+
+            Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
         }
 
         private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
         {
             ThemeManager.Current.ApplicationTheme = ThemeManager.GetSystemTheme(isSystemTheme: false);
+            ThemeManager.Current.AccentColor = ThemeManager.Current.GetAccentColorFromSystem();
             Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
         }
 
