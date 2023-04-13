@@ -324,6 +324,9 @@
     <ClInclude Include="Utils\NoWarningCVMat.h">
       <Filter>源文件\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\NoWarningCPR.h">
+      <Filter>源文件\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="Utils\Platform.hpp">
       <Filter>源文件\Utils</Filter>
     </ClInclude>

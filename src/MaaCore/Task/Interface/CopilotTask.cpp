@@ -1,5 +1,7 @@
 #include "CopilotTask.h"
 
+#include <regex>
+
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Task/Miscellaneous/BattleFormationTask.h"
 #include "Task/Miscellaneous/BattleProcessTask.h"
@@ -42,7 +44,16 @@ bool asst::CopilotTask::set_params(const json::value& params)
         return false;
     }
 
-    if (!Copilot.load(utils::path(*filename_opt))) {
+    static const std::regex maa_regex(R"(^maa://(\d+)$)");
+    std::smatch match;
+
+    if (std::regex_match(*filename_opt, match, maa_regex)) {
+        if (!Copilot.parse_magic_code(match[1].str())) {
+            Log.error("CopilotConfig parse failed");
+            return false;
+        }
+    }
+    else if (!Copilot.load(utils::path(*filename_opt))) {
         Log.error("CopilotConfig parse failed");
         return false;
     }
