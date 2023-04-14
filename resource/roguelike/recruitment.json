@@ -1682,6 +1682,10 @@
                     "skill": 1,
                     "recruit_priority": 2,
                     "promote_priority": 0
+                },
+                {
+                    "name": "“打字机”",
+                    "skill": 0
                 }
             ]
         }
