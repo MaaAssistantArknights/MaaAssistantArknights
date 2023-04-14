@@ -8,76 +8,9 @@
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
 
-bool asst::OcrImageAnalyzer::analyze()
+const asst::OcrImageAnalyzer::ResultsVecOpt& asst::OcrImageAnalyzer::analyze()
 {
-    // LogTraceFunction;
-
-    m_ocr_result.clear();
-
-    std::vector<TextRectProc> preds_vec;
-
-    preds_vec.emplace_back([](TextRect& tr) -> bool {
-        tr.text = OcrConfig::get_instance().process_equivalence_class(tr.text);
-        return true;
-    });
-
-    if (!m_replace.empty()) {
-        if (m_replace_full) {
-            TextRectProc text_replace = [&](TextRect& tr) -> bool {
-                for (const auto& [regex, new_str] : m_replace) {
-                    if (std::regex_search(tr.text, std::regex(regex))) {
-                        tr.text = new_str;
-                    }
-                }
-                return true;
-            };
-            preds_vec.emplace_back(text_replace);
-        }
-        else {
-            TextRectProc text_replace = [&](TextRect& tr) -> bool {
-                for (const auto& [regex, new_str] : m_replace) {
-                    tr.text = std::regex_replace(tr.text, std::regex(regex), new_str);
-                }
-                return true;
-            };
-            preds_vec.emplace_back(text_replace);
-        }
-    }
-
-    if (!m_required.empty()) {
-        if (m_full_match) {
-            TextRectProc required_match = [&](TextRect& tr) -> bool {
-                return ranges::find(m_required, tr.text) != m_required.cend();
-            };
-            preds_vec.emplace_back(required_match);
-        }
-        else {
-            TextRectProc required_search = [&](TextRect& tr) -> bool {
-                auto is_sub = [&tr](const std::string& str) -> bool {
-                    if (tr.text.find(str) == std::string::npos) {
-                        return false;
-                    }
-                    tr.text = str;
-                    return true;
-                };
-                return ranges::find_if(m_required, is_sub) != m_required.cend();
-            };
-            preds_vec.emplace_back(required_search);
-        }
-    }
-
-    preds_vec.emplace_back(m_pred);
-
-    TextRectProc all_pred = [&](TextRect& tr) -> bool {
-        for (const auto& pred : preds_vec) {
-            if (pred && !pred(tr)) {
-                return false;
-            }
-        }
-        return true;
-    };
-
-    m_roi = correct_rect(m_roi, m_image);
+    m_result = std::nullopt;
 
     OcrPack* ocr_ptr = nullptr;
     if (m_use_char_model) {
@@ -86,41 +19,49 @@ bool asst::OcrImageAnalyzer::analyze()
     else {
         ocr_ptr = &WordOcr::get_instance();
     }
-    m_ocr_result = ocr_ptr->recognize(m_image, m_roi, all_pred, m_without_det);
+    ResultsVec raw_results = ocr_ptr->recognize(make_roi(m_image, m_roi), m_without_det);
     ocr_ptr = nullptr;
 
-    // log.trace("ocr result", m_ocr_result);
-    return !m_ocr_result.empty();
-}
-
-void asst::OcrImageAnalyzer::filter(const TextRectProc& filter_func)
-{
-    std::vector<TextRect> temp_result;
-
-    for (auto&& tr : get_result()) {
-        if (filter_func(tr)) {
-            temp_result.emplace_back(std::move(tr));
+    /* post process */
+    ResultsVec results_vec;
+    for (Result& res : raw_results) {
+        if (res.text.empty() || res.score > 1.0) {
+            continue;
         }
-    }
-    get_result() = std::move(temp_result);
-}
 
-void asst::OcrImageAnalyzer::set_use_cache(bool is_use) noexcept
-{
-    m_use_cache = is_use;
+        postproc_rect_(res);
+        postproc_trim_(res);
+        postproc_equivalence_(res);
+        postproc_replace_(res);
+
+        if (!filter_and_replace_by_required_(res)) {
+            continue;
+        }
+
+        results_vec.emplace_back(std::move(res));
+    }
+
+    if (results_vec.empty()) {
+        return std::nullopt;
+    }
+
+    m_result = results_vec;
+    return m_result;
 }
 
 void asst::OcrImageAnalyzer::set_required(std::vector<std::string> required) noexcept
 {
-    ranges::for_each(required,
-                     [](std::string& str) { str = OcrConfig::get_instance().process_equivalence_class(str); });
+    ranges::transform(required, required.begin(),
+                      [](const std::string& str) { return OcrConfig::get_instance().process_equivalence_class(str); });
     m_required = std::move(required);
 }
 
 void asst::OcrImageAnalyzer::set_replace(const std::unordered_map<std::string, std::string>& replace,
                                          bool replace_full) noexcept
 {
-    m_replace = {};
+    m_replace.clear();
+    m_replace.reserve(replace.size());
+
     for (auto&& [key, val] : replace) {
         auto new_key = OcrConfig::get_instance().process_equivalence_class(key);
         // do not create new_val as val is user-provided, and can avoid issues like 夕 and katakana タ
@@ -134,22 +75,70 @@ void asst::OcrImageAnalyzer::set_task_info(OcrTaskInfo task_info) noexcept
     set_required(std::move(task_info.text));
     m_full_match = task_info.full_match;
     set_replace(task_info.replace_map, task_info.replace_full);
-    m_use_cache = task_info.cache;
     m_use_char_model = task_info.is_ascii;
+    m_without_det = task_info.without_det;
+    set_roi(task_info.roi);
+}
 
-    if (m_use_cache && !m_region_of_appeared.empty()) {
-        m_roi = m_region_of_appeared;
-        m_without_det = true;
+void asst::OcrImageAnalyzer::postproc_rect_(Result& res)
+{
+    if (m_without_det) {
+        res.rect = m_roi;
     }
     else {
-        set_roi(task_info.roi);
-        m_without_det = task_info.without_det;
+        res.rect.x += m_roi.x;
+        res.rect.y += m_roi.y;
     }
 }
 
-std::vector<asst::TextRect>& asst::OcrImageAnalyzer::get_result() noexcept
+void asst::OcrImageAnalyzer::postproc_trim_(Result& res)
 {
-    return m_ocr_result;
+    utils::string_trim_(res.text);
+}
+
+void asst::OcrImageAnalyzer::postproc_equivalence_(Result& res)
+{
+    auto& ocr_config = OcrConfig::get_instance();
+    res.text = ocr_config.process_equivalence_class(res.text);
+}
+
+void asst::OcrImageAnalyzer::postproc_replace_(Result& res)
+{
+    if (m_replace.empty()) {
+        return;
+    }
+
+    for (const auto& [regex, new_str] : m_replace) {
+        if (m_replace_full) {
+            if (std::regex_search(res.text, std::regex(regex))) {
+                res.text = new_str;
+            }
+        }
+        else {
+            res.text = std::regex_replace(res.text, std::regex(regex), new_str);
+        }
+    }
+}
+
+bool asst::OcrImageAnalyzer::filter_and_replace_by_required_(Result& res)
+{
+    if (m_required.empty()) {
+        return true;
+    }
+
+    if (m_full_match) {
+        return ranges::find(m_required, res.text) != m_required.cend();
+    }
+    else {
+        auto is_sub = [&res](const std::string& str) -> bool {
+            if (res.text.find(str) == std::string::npos) {
+                return false;
+            }
+            res.text = str;
+            return true;
+        };
+        return ranges::find_if(m_required, is_sub) != m_required.cend();
+    };
 }
 
 void asst::OcrImageAnalyzer::set_task_info(std::shared_ptr<TaskInfo> task_ptr)
@@ -176,14 +165,9 @@ void asst::OcrImageAnalyzer::set_use_char_model(bool enable) noexcept
     m_use_char_model = enable;
 }
 
-void asst::OcrImageAnalyzer::set_pred(const TextRectProc& pred)
+const asst::OcrImageAnalyzer::ResultsVecOpt& asst::OcrImageAnalyzer::result() const noexcept
 {
-    m_pred = pred;
-}
-
-const std::vector<asst::TextRect>& asst::OcrImageAnalyzer::get_result() const noexcept
-{
-    return m_ocr_result;
+    return m_result;
 }
 
 void asst::OcrImageAnalyzer::sort_result_horizontal()

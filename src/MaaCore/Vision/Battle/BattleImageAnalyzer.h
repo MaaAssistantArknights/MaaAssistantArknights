@@ -23,7 +23,7 @@ namespace asst
 
         bool set_target(int target);
         void set_pre_total_kills(int pre_total_kills);
-        virtual bool analyze() override;
+        virtual bool analyze();
 
         virtual const std::vector<battle::DeploymentOper>& get_opers() const noexcept;
         virtual const std::vector<Rect>& get_homes() const noexcept;

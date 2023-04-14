@@ -574,7 +574,7 @@ bool update_levels_json(const std::filesystem::path& input_file, const std::file
     for (auto& stage_info : root.as_array()) {
         std::string stem = stage_info["stageId"].as_string() + "-" + stage_info["levelId"].as_string();
         std::string filename = stem + ".json";
-        asst::utils::string_replace_all_in_place(filename, "/", "-");
+        asst::utils::string_replace_all_(filename, "/", "-");
         auto filepath = output_dir / filename;
         if (!std::filesystem::exists(filepath)) {
             std::ofstream ofs(filepath, std::ios::out);
@@ -729,7 +729,7 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
 bool update_recruitment_data(const std::filesystem::path& input_dir, const std::filesystem::path& output, bool is_base)
 {
     using asst::ranges::find_if, asst::ranges::range;
-    using asst::utils::string_replace_all_in_place;
+    using asst::utils::string_replace_all_;
     using asst::views::filter, asst::views::split, asst::views::transform, asst::views::drop_while;
 
     auto not_empty = []<range Rng>(Rng str) -> bool { return !str.empty(); };
@@ -749,7 +749,7 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
     std::vector<std::string> chars_list;
     std::string recruitment_details = recruitment_opt->at("recruitDetail").as_string();
     remove_xml(recruitment_details);
-    string_replace_all_in_place(recruitment_details, "\\n", "");
+    string_replace_all_(recruitment_details, "\\n", "");
     constexpr std::string_view star_delim = "★";
 
     auto items =

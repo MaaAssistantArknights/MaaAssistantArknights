@@ -9,20 +9,6 @@
 #include "Utils/StringMisc.hpp"
 #include "Utils/Time.hpp"
 
-asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image)
-    : m_image(image), m_roi(correct_rect(Rect(), image))
-#ifdef ASST_DEBUG
-      ,
-      m_image_draw(image.clone())
-#endif
-{}
-
-#ifdef ASST_DEBUG
-asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image, cv::Mat& draw)
-    : m_image(image), m_roi(correct_rect(Rect(), image)), m_image_draw(draw)
-{}
-#endif
-
 asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image, Assistant* inst)
     : InstHelper(inst), m_image(image), m_roi(correct_rect(Rect(), image))
 #ifdef ASST_DEBUG
@@ -37,17 +23,11 @@ void asst::AbstractImageAnalyzer::set_image(const cv::Mat& image)
 #ifdef ASST_DEBUG
     m_image_draw = image.clone();
 #endif
+
+    set_roi(m_roi);
 }
 
-#ifdef ASST_DEBUG
-void asst::AbstractImageAnalyzer::set_image(const cv::Mat& image, cv::Mat& draw)
-{
-    m_image = image;
-    m_image_draw = draw;
-}
-#endif
-
-void asst::AbstractImageAnalyzer::set_roi(const Rect& roi) noexcept
+void asst::AbstractImageAnalyzer::set_roi(const Rect& roi)
 {
     m_roi = correct_rect(roi, m_image);
 }
@@ -57,7 +37,7 @@ void asst::AbstractImageAnalyzer::set_log_tracing(bool enable)
     m_log_tracing = enable;
 }
 
-asst::Rect asst::AbstractImageAnalyzer::correct_rect(const Rect& rect, const cv::Mat& image) noexcept
+asst::Rect asst::AbstractImageAnalyzer::correct_rect(const Rect& rect, const cv::Mat& image)
 {
     if (image.empty()) {
         Log.error(__FUNCTION__, "image is empty");
@@ -109,10 +89,3 @@ bool asst::AbstractImageAnalyzer::save_img(const std::filesystem::path& relative
 
     return ret;
 }
-
-#ifdef ASST_DEBUG
-cv::Mat asst::AbstractImageAnalyzer::get_draw() const
-{
-    return m_image_draw;
-}
-#endif

@@ -192,51 +192,10 @@ namespace asst
         return To { rect.x, rect.y, rect.width, rect.height };
     }
 
-    struct TextRect
+    inline cv::Mat make_roi(const cv::Mat& img, const Rect& roi)
     {
-        TextRect() = default;
-        ~TextRect() = default;
-        TextRect(const TextRect&) = default;
-        TextRect(TextRect&&) noexcept = default;
-        TextRect(double score, const Rect& rect, const std::string& text) : score(score), rect(rect), text(text) {}
-
-        TextRect& operator=(const TextRect&) = default;
-        TextRect& operator=(TextRect&&) noexcept = default;
-        bool operator==(const TextRect& rhs) const noexcept { return text == rhs.text && rect == rhs.rect; }
-        bool operator==(const std::string& rhs) const noexcept { return text == rhs; }
-        explicit operator Rect() const noexcept { return rect; }
-        std::string to_string() const
-        {
-            return "{ " + text + ": " + rect.to_string() + ", score: " + std::to_string(score) + " }";
-        }
-        explicit operator std::string() const { return to_string(); }
-
-        double score = 0.0;
-        Rect rect;
-        std::string text;
-    };
-    using TextRectProc = std::function<bool(TextRect&)>;
-
-    struct MatchRect
-    {
-        MatchRect() = default;
-        ~MatchRect() = default;
-        MatchRect(const MatchRect&) = default;
-        MatchRect(MatchRect&&) noexcept = default;
-        MatchRect(double score, const Rect& rect) : score(score), rect(rect) {}
-
-        explicit operator Rect() const noexcept { return rect; }
-        MatchRect& operator=(const MatchRect&) = default;
-        MatchRect& operator=(MatchRect&&) noexcept = default;
-        std::string to_string() const
-        {
-            return "{ rect: " + rect.to_string() + ", score: " + std::to_string(score) + " }";
-        }
-        explicit operator std::string() const { return to_string(); }
-
-        double score = 0.0;
-        Rect rect;
-    };
+        return img(make_rect<cv::Rect>(roi));
+    }
 } // namespace asst
 
 namespace std
@@ -296,7 +255,7 @@ namespace asst
 
     inline AlgorithmType get_algorithm_type(std::string algorithm_str)
     {
-        utils::tolowers(algorithm_str);
+        utils::tolowers_(algorithm_str);
         static const std::unordered_map<std::string_view, AlgorithmType> algorithm_map = {
             { "matchtemplate", AlgorithmType::MatchTemplate },
             { "justreturn", AlgorithmType::JustReturn },
@@ -338,7 +297,7 @@ namespace asst
 
     inline ProcessTaskAction get_action_type(std::string action_str)
     {
-        utils::tolowers(action_str);
+        utils::tolowers_(action_str);
         static const std::unordered_map<std::string, ProcessTaskAction> action_map = {
             { "clickself", ProcessTaskAction::ClickSelf }, { "clickrand", ProcessTaskAction::ClickRand },
             { "", ProcessTaskAction::DoNothing },          { "donothing", ProcessTaskAction::DoNothing },

@@ -43,7 +43,7 @@ namespace asst::utils
     inline std::string get_time_filestem()
     {
         std::string stem = utils::get_format_time();
-        string_replace_all_in_place(stem, { { ":", "-" }, { " ", "_" }, { ".", "-" } });
+        string_replace_all_(stem, { { ":", "-" }, { " ", "_" }, { ".", "-" } });
         return stem;
     }
 } // namespace asst::utils

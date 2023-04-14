@@ -10,7 +10,7 @@ namespace asst
         virtual ~InfrastFacilityImageAnalyzer() override = default;
         InfrastFacilityImageAnalyzer(const cv::Mat& image, const Rect& roi) = delete;
 
-        virtual bool analyze() override;
+        virtual bool analyze();
 
         void set_to_be_analyzed(std::vector<std::string> facilities) noexcept
         {

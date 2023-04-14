@@ -11,7 +11,7 @@ namespace asst
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         virtual ~HashImageAnalyzer() override = default;
 
-        virtual bool analyze() override;
+        virtual bool analyze();
 
         void set_mask_range(int lower, int upper) noexcept;
         void set_mask_range(std::pair<int, int> mask_range) noexcept;

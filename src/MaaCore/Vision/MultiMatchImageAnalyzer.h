@@ -10,7 +10,7 @@ namespace asst
         MultiMatchImageAnalyzer(const cv::Mat& image, std::string templ_name, double templ_thres);
         virtual ~MultiMatchImageAnalyzer() override = default;
 
-        virtual bool analyze() override;
+        virtual bool analyze();
 
         // 按位置排序
         // 1 - 2 - 3

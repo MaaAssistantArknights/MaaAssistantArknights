@@ -17,7 +17,7 @@ namespace asst
         using MatchImageAnalyzer::MatchImageAnalyzer;
         virtual ~BestMatchImageAnalyzer() override = default;
 
-        virtual bool analyze() override;
+        virtual bool analyze();
         virtual void set_log_tracing(bool enable) override;
 
         void append_templ(std::string name, const cv::Mat& templ = cv::Mat());

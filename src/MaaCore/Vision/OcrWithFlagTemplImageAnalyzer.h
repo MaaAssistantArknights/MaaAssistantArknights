@@ -14,7 +14,7 @@ namespace asst
         virtual void set_image(const cv::Mat& image) override;
         virtual void set_roi(const Rect& roi) noexcept override;
 
-        virtual bool analyze() override;
+        virtual bool analyze();
 
         virtual const std::vector<TextRect>& get_result() const noexcept override;
         virtual std::vector<TextRect>& get_result() noexcept override;

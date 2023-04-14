@@ -23,7 +23,7 @@ namespace asst
         using OnnxRuntimeImageAnalyzer::OnnxRuntimeImageAnalyzer;
         virtual ~BattleOperatorsImageAnalyzer() override = default;
 
-        virtual bool analyze() override;
+        virtual bool analyze();
 
         const std::vector<Box>& get_results() const { return m_results; }
 #ifdef ASST_DEBUG

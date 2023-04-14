@@ -12,7 +12,7 @@ namespace asst
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         virtual ~RoguelikeSkillSelectionImageAnalyzer() override = default;
 
-        virtual bool analyze() override;
+        virtual bool analyze();
 
         const auto& get_result() const noexcept { return m_result; }
         bool get_team_full() const noexcept { return m_team_full; }

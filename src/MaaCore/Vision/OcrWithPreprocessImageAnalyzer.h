@@ -9,7 +9,7 @@ namespace asst
         using OcrImageAnalyzer::OcrImageAnalyzer;
         virtual ~OcrWithPreprocessImageAnalyzer() noexcept override = default;
 
-        virtual bool analyze() override;
+        virtual bool analyze();
 
         void set_threshold(int lower, int upper = 255);
         void set_split(bool split);

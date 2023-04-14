@@ -25,7 +25,7 @@ namespace asst
         virtual ~InfrastOperImageAnalyzer() override = default;
         InfrastOperImageAnalyzer(const cv::Mat& image, const Rect& roi) = delete;
 
-        virtual bool analyze() override;
+        virtual bool analyze();
 
         void sort_by_loc();
         void sort_by_mood();
