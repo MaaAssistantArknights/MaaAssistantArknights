@@ -531,7 +531,8 @@ namespace asst
 #ifndef _MSC_VER
     inline constexpr std::string_view summarize_pretty_function(std::string_view pf) // can be consteval?
     {
-        const auto paren = pf.find_last_of('(');
+        // unable to handle something like std::function<void(void)> gen_func()
+        const auto paren = pf.find_first_of('(');
         if (paren != std::string_view::npos) pf.remove_suffix(pf.size() - paren);
         const auto space = pf.find_last_of(' ');
         if (space != std::string_view::npos) pf.remove_prefix(space + 1);
