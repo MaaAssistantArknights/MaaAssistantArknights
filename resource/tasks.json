@@ -2663,6 +2663,7 @@
         ],
         "cache": false,
         "preDelay": 500,
+        "postDelay": 1000,
         "roi": [
             1000,
             600,
@@ -2677,13 +2678,13 @@
             "(ClickCornerAfterPRTS+ClickCorner)*5"
         ],
         "next": [
-            "StartButton1TryAgain",
             "StartButton2",
             "UseMedicine",
             "UseStone",
             "NoStone",
             "OfflineConfirm",
-            "AnnihilationConfirm"
+            "AnnihilationConfirm",
+            "StartButton1TryAgain"
         ]
     },
     "StartButton1TryAgain": {
