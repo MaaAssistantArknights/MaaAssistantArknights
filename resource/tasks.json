@@ -1923,6 +1923,13 @@
             "AP-5@SwipeToTheLeft"
         ]
     },
+    "SK-5": {
+        "baseTask": "ResourceStages",
+        "next": [
+            "SK5@StageSK",
+            "SK-5@SwipeToTheLeft"
+        ]
+    },
     "PR-A-1": {
         "baseTask": "ResourceStages",
         "Doc": "医疗/重装",
@@ -2107,6 +2114,9 @@
     "StageAP": {
         "baseTask": "StageEntries"
     },
+    "StageSK": {
+        "baseTask": "StageEntries"
+    },
     "StagePR-A": {
         "baseTask": "StageEntries"
     },
@@ -2153,6 +2163,12 @@
         "baseTask": "ResourceStageLevel5",
         "text": [
             "AP-5"
+        ]
+    },
+    "SK5@Stage": {
+        "baseTask": "ResourceStageLevel5",
+        "text": [
+            "SK-5"
         ]
     },
     "PR-A-1@Stage": {
