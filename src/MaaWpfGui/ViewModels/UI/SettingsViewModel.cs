@@ -27,12 +27,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
-using HandyControl.Themes;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
-using MaaWpfGui.Services;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Managers;
 using MaaWpfGui.Services.Web;
@@ -2575,31 +2573,17 @@ namespace MaaWpfGui.ViewModels.UI
             switch (darkModeType)
             {
                 case DarkModeType.Light:
-                    SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
-                    ThemeManager.Current.UsingWindowsAppTheme = false;
-                    ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light;
+                    ThemeHelper.SwitchToLightMode();
                     break;
 
                 case DarkModeType.Dark:
-                    SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
-                    ThemeManager.Current.UsingWindowsAppTheme = false;
-                    ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
+                    ThemeHelper.SwitchToDarkMode();
                     break;
 
                 case DarkModeType.SyncWithOS:
-                    ThemeManager.Current.UsingWindowsAppTheme = true;
-                    SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
+                    ThemeHelper.SwitchToSyncWithOSMode();
                     break;
             }
-
-            Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
-        }
-
-        private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
-        {
-            ThemeManager.Current.ApplicationTheme = ThemeManager.GetSystemTheme(isSystemTheme: false);
-            ThemeManager.Current.AccentColor = ThemeManager.Current.GetAccentColorFromSystem();
-            Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
         }
 
         private enum InverseClearType
