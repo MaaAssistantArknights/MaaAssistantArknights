@@ -8,10 +8,10 @@
     <!-- See https://github.com/ghost1372/HandyControls/blob/v3.4.5/src/Shared/HandyControl_Shared/Themes/Basic/Colors/Dark.xaml -->
     <!-- Latest Doc https://ghost1372.github.io/handycontrol/basic_xaml/brushes/ -->
     <!-- 文字颜色 -->
-    <SolidColorBrush x:Key="PrimaryTextBrush" Color="White" />
+    <SolidColorBrush x:Key="PrimaryTextBrush" Color="#E6E6E6" />
     <!-- 文字颜色 -->
-    <SolidColorBrush x:Key="TextIconBrush" Color="White" />
-    
+    <SolidColorBrush x:Key="TextIconBrush" Color="#E6E6E6" />
+
     <!-- 背景颜色 -->
     <SolidColorBrush x:Key="RegionBrush" Color="#1c1c1c" />
     <!-- 背景颜色 没用到（建议和背景颜色一致）-->
@@ -25,5 +25,15 @@
     <SolidColorBrush x:Key="DarkPrimaryBrush" Color="#326cf3" />
     <!-- 标题背景     没用到（建议和主题色一致）-->
     <SolidColorBrush x:Key="TitleBrush" Color="#326cf3" />
+
+    <!-- UiLogColor -->
+    <SolidColorBrush x:Key="ErrorLogBrush" Color="#C80000" />
+    <SolidColorBrush x:Key="WarningLogBrush" Color="Goldenrod" />
+    <SolidColorBrush x:Key="InfoLogBrush" Color="#00C8C8" />
+    <SolidColorBrush x:Key="TraceLogBrush" Color="DarkGray" />
+    <SolidColorBrush x:Key="MessageLogBrush" Color="#E6E6E6" />
+    <SolidColorBrush x:Key="RareOperatorLogBrush" Color="Orange" />
+    <SolidColorBrush x:Key="RobotOperatorLogBrush" Color="Gray" />
+    <SolidColorBrush x:Key="DownloadLogBrush" Color="Violet" />
 
 </ResourceDictionary>
