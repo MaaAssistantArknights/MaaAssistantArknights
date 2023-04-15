@@ -15,13 +15,15 @@ using System.Windows;
 using System.Windows.Media;
 using HandyControl.Themes;
 using HandyControl.Tools;
+using MaaWpfGui.Constants;
 using Microsoft.Win32;
-using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui.Helper
 {
     public static class ThemeHelper
     {
+        #region Swith Theme
+
         private static void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
         {
             ThemeManager.Current.ApplicationTheme = ThemeManager.GetSystemTheme(isSystemTheme: false);
@@ -51,5 +53,95 @@ namespace MaaWpfGui.Helper
             Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
             SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
         }
+
+        #endregion
+
+        #region Check UiLogColor
+
+        // In official version, using ResourceHelper.GetSkin
+        private static readonly Color LightBackground = ((SolidColorBrush)ThemeResources.Current.GetThemeDictionary("Light")["RegionBrush"]).Color;
+
+        private static readonly Color DarkBackground = ((SolidColorBrush)ThemeResources.Current.GetThemeDictionary("Dark")["RegionBrush"]).Color;
+
+        public static bool SimilarToBackground(Color color)
+        {
+            return ColorDistance(color, LightBackground) == 0 || ColorDistance(color, DarkBackground) == 0;
+        }
+
+        /// <summary>
+        /// Gets the distance between colors c1 and c2.
+        /// </summary>
+        /// <param name="c1">The color c1.</param>
+        /// <param name="c2">The color c2.</param>
+        /// <returns>The distance from 0 to 35.</returns>
+        public static int ColorDistance(Color c1, Color c2)
+        {
+            // https://www.compuphase.com/cmetric.htm
+            long rmean = (c1.R + c2.R) / 2;
+            long r = c1.R - c2.R;
+            long g = c1.G - c2.G;
+            long b = c1.B - c2.B;
+            return (int)(((((512 + rmean) * r * r) >> 8) + (4 * g * g) + (((767 - rmean) * b * b) >> 8)) >> 14);
+        }
+
+        #endregion
+
+        #region Convert
+
+        public const string DefaultKey = UiLogColor.Message;
+
+        public static SolidColorBrush DefaultBrush => ResourceHelper.GetResource<SolidColorBrush>(DefaultKey);
+
+        public static Color DefaultColor => DefaultBrush.Color;
+
+        public static string DefaultHexString => $"#{DefaultColor.A:X2}{DefaultColor.R:X2}{DefaultColor.G:X2}{DefaultColor.B:X2}";
+
+        public static string Color2HexString(Color color, bool keepAlpha = false)
+        {
+            if (keepAlpha)
+            {
+                return $"#{color.A:X2}{color.R:X2}{color.G:X2}{color.B:X2}";
+            }
+
+            return $"#FF{color.R:X2}{color.G:X2}{color.B:X2}";
+        }
+
+        public static string Brush2HexString(SolidColorBrush brush, bool keepAlpha = false)
+        {
+            if (brush != null)
+            {
+                return Color2HexString(brush.Color, keepAlpha);
+            }
+
+            return DefaultHexString;
+        }
+
+        public static Color String2Color(string str)
+        {
+            if (!string.IsNullOrWhiteSpace(str))
+            {
+                try
+                {
+                    object obj = ColorConverter.ConvertFromString(str);
+                    if (obj is Color color)
+                    {
+                        return color;
+                    }
+                }
+                catch
+                {
+                    return DefaultColor;
+                }
+            }
+
+            return DefaultColor;
+        }
+
+        public static SolidColorBrush String2Brush(string str)
+        {
+            return new SolidColorBrush(String2Color(str));
+        }
+
+        #endregion
     }
 }
