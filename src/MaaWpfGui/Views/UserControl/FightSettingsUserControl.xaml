@@ -1,18 +1,18 @@
-﻿<UserControl
+<UserControl
     x:Class="MaaWpfGui.Views.UserControl.FightSettingsUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:local="clr-namespace:MaaWpfGui"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:vm="clr-namespace:MaaWpfGui"
-    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
-    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:styles="clr-namespace:MaaWpfGui.Styles"
-    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
+    xmlns:vm="clr-namespace:MaaWpfGui"
     d:DataContext="{d:DesignInstance {x:Type ui:TaskQueueViewModel}}"
     d:DesignWidth="250"
     mc:Ignorable="d">
@@ -188,7 +188,6 @@
                     <ComboBox
                         Height="30"
                         Margin="0,6"
-                        Padding="6,0,0,0"
                         VerticalContentAlignment="Center"
                         DisplayMemberPath="Display"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
@@ -199,7 +198,6 @@
                     <ComboBox
                         Height="30"
                         Margin="0,6"
-                        Padding="6,0,0,0"
                         VerticalContentAlignment="Center"
                         DisplayMemberPath="Display"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
@@ -210,7 +208,6 @@
                     <ComboBox
                         Height="30"
                         Margin="0,6"
-                        Padding="6,0,0,0"
                         VerticalContentAlignment="Center"
                         DisplayMemberPath="Display"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
@@ -221,7 +218,6 @@
                     <ComboBox
                         Height="30"
                         Margin="0,6"
-                        Padding="6,0,0,0"
                         VerticalContentAlignment="Center"
                         DisplayMemberPath="Display"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
@@ -233,7 +229,6 @@
                     <TextBox
                         Height="30"
                         Margin="0,6"
-                        Padding="6,0,0,0"
                         VerticalContentAlignment="Center"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
                         Text="{Binding Stage1, UpdateSourceTrigger=PropertyChanged}"
@@ -242,7 +237,6 @@
                     <TextBox
                         Height="30"
                         Margin="0,6"
-                        Padding="6,0,0,0"
                         VerticalContentAlignment="Center"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
                         Text="{Binding Stage2, UpdateSourceTrigger=PropertyChanged}"
@@ -251,7 +245,6 @@
                     <TextBox
                         Height="30"
                         Margin="0,6"
-                        Padding="6,0,0,0"
                         VerticalContentAlignment="Center"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
                         Text="{Binding Stage3, UpdateSourceTrigger=PropertyChanged}"
@@ -260,7 +253,6 @@
                     <TextBox
                         Height="30"
                         Margin="0,6"
-                        Padding="6,0,0,0"
                         VerticalContentAlignment="Center"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
                         Text="{Binding RemainingSanityStage, UpdateSourceTrigger=PropertyChanged}"
@@ -292,7 +284,6 @@
                     <ComboBox
                         Height="30"
                         Margin="0,6"
-                        Padding="6,0,0,0"
                         VerticalContentAlignment="Center"
                         DisplayMemberPath="Display"
                         IsHitTestVisible="{c:Binding !InfrastTaskRunning}"
