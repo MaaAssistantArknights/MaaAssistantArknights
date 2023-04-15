@@ -292,6 +292,7 @@
     <system:String x:Key="AP-5">AP-5 (구매증명서)</system:String>
     <system:String x:Key="CA-5">CA-5 (스킬개론)</system:String>
     <system:String x:Key="LS-6">LS-6 (작전기록)</system:String>
+    <system:String x:Key="SK-5">SK-5 (카본)</system:String>
 
     <system:String x:Key="PR-A-1">PR-A-1 (메딕/디펜더)</system:String>
     <system:String x:Key="PR-A-2">PR-A-2 (메딕/디펜더)</system:String>

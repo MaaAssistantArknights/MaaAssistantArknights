@@ -310,6 +310,8 @@
     <!--  馴染みのあるステージ名での表記  -->
     <system:String x:Key="LS-6">作戦記録-6(LS-6)</system:String>
     <!--  馴染みのあるステージ名での表記  -->
+    <system:String x:Key="SK-5">炭素材-5(SK-5)</system:String>
+    <!--  馴染みのあるステージ名での表記  -->
 
     <system:String x:Key="PR-A-1">医療/重装SoC・初</system:String>
     <system:String x:Key="PR-A-2">医療/重装SoC・中</system:String>
