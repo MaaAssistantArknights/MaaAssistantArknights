@@ -16,9 +16,9 @@
 #include "Utils/Algorithm.hpp"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "Vision/MatchImageAnalyzer.h"
 #include "Vision/Battle/BattleImageAnalyzer.h"
 #include "Vision/Battle/BattleSkillReadyImageAnalyzer.h"
+#include "Vision/MatchImageAnalyzer.h"
 #include "Vision/OcrWithPreprocessImageAnalyzer.h"
 
 using namespace asst::battle;
@@ -318,8 +318,8 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
         }
     }
 
-    // 部署干员还有额外等待费用够或 CD 转好
-    if (!m_in_bullet_time && action.type == ActionType::Deploy) {
+    // 部署干员还要额外等待费用够或 CD 转好
+    if (action.type == ActionType::Deploy) {
         const std::string& name = get_name_from_group(action.name);
         update_image_if_empty();
         while (!need_exit()) {
