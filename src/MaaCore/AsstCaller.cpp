@@ -180,7 +180,7 @@ AsstBool AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char* params)
 AsstAsyncCallId AsstAsyncClick(AsstHandle handle, int32_t x, int32_t y, AsstBool block)
 {
     if (!inited() || handle == nullptr) {
-        return false;
+        return InvalidId;
     }
     return handle->async_click(x, y, block);
 }
