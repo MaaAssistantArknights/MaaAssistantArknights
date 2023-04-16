@@ -173,7 +173,7 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
         break;
 
     case ActionType::BulletTime:
-        ret = enter_bullet_time_for_next_action(action_index + 1, location, name);
+        ret = enter_bullet_time(name, location);
         if (ret) m_in_bullet_time = true;
         break;
 
@@ -337,32 +337,14 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
     return true;
 }
 
-bool asst::BattleProcessTask::enter_bullet_time_for_next_action(size_t next_index, const Point& location,
-                                                                const std::string& name)
+bool asst::BattleProcessTask::enter_bullet_time(const std::string& name, const Point& location)
 {
     LogTraceFunction;
 
-    if (next_index > get_combat_data().actions.size()) {
-        Log.error("Bullet time does not have the next step!");
-        return false;
-    }
-    const auto& next_action = get_combat_data().actions.at(next_index);
-
-    bool ret = false;
-    switch (next_action.type) {
-    case ActionType::Deploy:
+    bool ret = location.empty() ? click_oper_on_battlefield(name) : click_oper_on_battlefield(location);
+    if (!ret) {
         ret = click_oper_on_deployment(name);
-        break;
-
-    case ActionType::UseSkill:
-    case ActionType::Retreat:
-        ret = location.empty() ? click_oper_on_battlefield(name) : click_oper_on_battlefield(location);
-        break;
-
-    default:
-        Log.error("Bullet time 's next step is not deploy, skill or retreat!");
-        return false;
-    }
+    };
 
     return ret;
 }
