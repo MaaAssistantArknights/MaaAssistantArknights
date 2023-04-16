@@ -110,8 +110,9 @@ namespace asst
         };
 
         // submit async call task to queue
-        asst::Assistant::AsyncCallId append_async_call(std::function<bool(void)> func, bool block,
-                                                       std::string what = "Unknown");
+        template <typename Func, typename... Args>
+        asst::Assistant::AsyncCallId append_async_call(bool block, std::string what,
+                                                       Func&& lambda_with_empty_capture_list, Args&&... args);
         bool wait_async_id(AsyncCallId id);
 
     private:
