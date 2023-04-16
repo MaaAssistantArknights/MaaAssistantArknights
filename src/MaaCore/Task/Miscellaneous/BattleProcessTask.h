@@ -32,7 +32,7 @@ namespace asst
         const std::string& get_name_from_group(const std::string& action_name);
         void notify_action(const battle::copilot::Action& action);
         bool wait_condition(const battle::copilot::Action& action);
-        bool enter_bullet_time_for_next_action(size_t next_index, const Point& location, const std::string& name);
+        bool enter_bullet_time(const std::string& name, const Point& location);
         void sleep_and_do_strategy(unsigned millisecond);
 
         battle::copilot::CombatData m_combat_data;
