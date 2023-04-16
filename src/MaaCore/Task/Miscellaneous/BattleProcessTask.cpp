@@ -133,7 +133,7 @@ bool asst::BattleProcessTask::to_group()
     return true;
 }
 
-bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, size_t action_index)
+bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, size_t index)
 {
     LogTraceFunction;
 
@@ -195,7 +195,7 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
         ret = wait_until_end();
         break;
     default:
-        ret = do_derived_action(action_index);
+        ret = do_derived_action(action, index);
         break;
     }
 

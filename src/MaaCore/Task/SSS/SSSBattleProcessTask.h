@@ -12,7 +12,7 @@ namespace asst
         virtual bool set_stage_name(const std::string& stage_name) override;
 
     protected:
-        virtual bool do_derived_action(size_t action_index) override;
+        virtual bool do_derived_action(const battle::copilot::Action& action, size_t index) override;
         virtual bool do_strategic_action(const cv::Mat& reusable = cv::Mat()) override;
         virtual battle::copilot::CombatData& get_combat_data() override { return m_sss_combat_data; }
         virtual const std::string oper_name_ocr_task_name() const noexcept override { return "SSSBattleOperName"; }

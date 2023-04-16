@@ -22,12 +22,16 @@ namespace asst
         virtual AbstractTask& this_task() override { return *this; }
         virtual void clear() override;
 
-        virtual bool do_derived_action([[maybe_unused]] size_t action_index) { return false; }
+        virtual bool do_derived_action([[maybe_unused]] const battle::copilot::Action& action,
+                                       [[maybe_unused]] size_t index)
+        {
+            return false;
+        }
         virtual battle::copilot::CombatData& get_combat_data() { return m_combat_data; }
         virtual bool need_to_wait_until_end() const { return false; }
 
         bool to_group();
-        bool do_action(const battle::copilot::Action& action, size_t action_index);
+        bool do_action(const battle::copilot::Action& action, size_t index);
 
         const std::string& get_name_from_group(const std::string& action_name);
         void notify_action(const battle::copilot::Action& action);
