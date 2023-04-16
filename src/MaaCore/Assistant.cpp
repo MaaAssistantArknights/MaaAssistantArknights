@@ -270,21 +270,29 @@ asst::Assistant::AsyncCallId asst::Assistant::async_connect(const std::string& a
 {
     LogTraceFunction;
 
-    return append_async_call([=, this]() { return ctrl_connect(adb_path, address, config); }, block, "Connect");
+    return append_async_call(
+        block, "Connect",
+        [](Assistant* this_a, const std::string& adb_path, const std::string& address, const std::string& config) {
+            return this_a->ctrl_connect(adb_path, address, config);
+        },
+        this, adb_path, address, config);
 }
 
 asst::Assistant::AsyncCallId asst::Assistant::async_click(int x, int y, bool block)
 {
     LogTraceFunction;
 
-    return append_async_call([=, this]() { return m_ctrler->click(Point(x, y)); }, block, "Click");
+    return append_async_call(
+        block, "Click", [](Assistant* this_a, int x, int y) { return this_a->m_ctrler->click(Point(x, y)); }, this, x,
+        y);
 }
 
 asst::Assistant::AsyncCallId asst::Assistant::async_screencap(bool block)
 {
     LogTraceFunction;
 
-    return append_async_call([this]() { return m_ctrler->screencap(); }, block, "Screencap");
+    return append_async_call(
+        block, "Screencap", [](Assistant* this_a) { return this_a->m_ctrler->screencap(); }, this);
 }
 
 bool asst::Assistant::connected() const
@@ -432,16 +440,22 @@ void Assistant::msg_proc()
     }
 }
 
-asst::Assistant::AsyncCallId asst::Assistant::append_async_call(std::function<bool(void)> func, bool block,
-                                                                std::string what)
+template <typename Func, typename... Args>
+asst::Assistant::AsyncCallId asst::Assistant::append_async_call(bool block, std::string what, Func&&, Args&&... args)
 {
     LogTraceFunction;
 
+    //    std::function<bool(void)> mf = [... args = std::forward<Args>(args)]() mutable {
+    //        return std::invoke(Func {}, std::forward<Args>(args)...);
+    //    };
+    std::function<bool(void)> mf = [args...]() mutable { // type erasure, force capture by value
+        return std::invoke(Func {}, args...);
+    };
     AsyncCallId id;
     {
         std::unique_lock<std::mutex> lock(m_call_mutex);
         id = ++m_call_id;
-        AsyncCallItem item = { id, std::move(func), std::move(what) };
+        AsyncCallItem item = { id, std::move(mf), std::move(what) };
         m_call_queue.emplace(std::move(item));
         m_call_condvar.notify_one();
     }
