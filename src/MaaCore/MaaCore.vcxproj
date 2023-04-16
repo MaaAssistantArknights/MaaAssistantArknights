@@ -179,6 +179,7 @@
     <ClInclude Include="Utils\Meta.hpp" />
     <ClInclude Include="Utils\NoWarningCV.h" />
     <ClInclude Include="Utils\NoWarningCVMat.h" />
+    <ClInclude Include="Utils\NoWarningCPR.h" />
     <ClInclude Include="Utils\Platform.hpp" />
     <ClInclude Include="Utils\Platform\Platform.h" />
     <ClInclude Include="Utils\Platform\PlatformPosix.h" />
