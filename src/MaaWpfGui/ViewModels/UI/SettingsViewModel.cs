@@ -92,15 +92,10 @@ namespace MaaWpfGui.ViewModels.UI
         {
             DisplayName = LocalizationHelper.GetString("Settings");
             _listTitle.Add(LocalizationHelper.GetString("GameSettings"));
-            _listTitle.Add(LocalizationHelper.GetString("BaseSettings"));
-            _listTitle.Add(LocalizationHelper.GetString("RoguelikeSettings"));
-            _listTitle.Add(LocalizationHelper.GetString("RecruitingSettings"));
-            _listTitle.Add(LocalizationHelper.GetString("MallSettings"));
-            _listTitle.Add(LocalizationHelper.GetString("OtherCombatSettings"));
+            _listTitle.Add(LocalizationHelper.GetString("UISettings"));
             _listTitle.Add(LocalizationHelper.GetString("ConnectionSettings"));
             _listTitle.Add(LocalizationHelper.GetString("StartupSettings"));
             _listTitle.Add(LocalizationHelper.GetString("ScheduleSettings"));
-            _listTitle.Add(LocalizationHelper.GetString("UISettings"));
             _listTitle.Add(LocalizationHelper.GetString("HotKeySettings"));
             _listTitle.Add(LocalizationHelper.GetString("UpdateSettings"));
             _listTitle.Add(LocalizationHelper.GetString("AboutUs"));
@@ -1132,9 +1127,9 @@ namespace MaaWpfGui.ViewModels.UI
         public double ScrollExtentHeight { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of rectangle vertical offset.
+        /// Gets or sets the list of divider vertical offset.
         /// </summary>
-        public List<double> RectangleVerticalOffsetList { get; set; }
+        public List<double> DividerVerticalOffsetList { get; set; }
 
         private int _selectedIndex = 0;
 
@@ -1152,13 +1147,13 @@ namespace MaaWpfGui.ViewModels.UI
                         _notifySource = NotifyType.SelectedIndex;
                         SetAndNotify(ref _selectedIndex, value);
 
-                        var isInRange = RectangleVerticalOffsetList != null
-                            && RectangleVerticalOffsetList.Count > 0
-                            && value < RectangleVerticalOffsetList.Count;
+                        var isInRange = DividerVerticalOffsetList != null
+                            && DividerVerticalOffsetList.Count > 0
+                            && value < DividerVerticalOffsetList.Count;
 
                         if (isInRange)
                         {
-                            ScrollOffset = RectangleVerticalOffsetList[value];
+                            ScrollOffset = DividerVerticalOffsetList[value];
                         }
 
                         ResetNotifySource();
@@ -1188,24 +1183,24 @@ namespace MaaWpfGui.ViewModels.UI
                         SetAndNotify(ref _scrollOffset, value);
 
                         // 设置 ListBox SelectedIndex 为当前 ScrollOffset 索引
-                        var isInRange = RectangleVerticalOffsetList != null && RectangleVerticalOffsetList.Count > 0;
+                        var isInRange = DividerVerticalOffsetList != null && DividerVerticalOffsetList.Count > 0;
 
                         if (isInRange)
                         {
-                            // 滚动条滚动到底部，返回最后一个 Rectangle 索引
+                            // 滚动条滚动到底部，返回最后一个 Divider 索引
                             if (value + ScrollViewportHeight >= ScrollExtentHeight)
                             {
-                                SelectedIndex = RectangleVerticalOffsetList.Count - 1;
+                                SelectedIndex = DividerVerticalOffsetList.Count - 1;
                                 ResetNotifySource();
                                 break;
                             }
 
-                            // 根据出当前 ScrollOffset 选出最后一个在可视范围的 Rectangle 索引
-                            var rectangleSelect = RectangleVerticalOffsetList.Select((n, i) => (
-                            rectangleAppeared: value >= n,
+                            // 根据出当前 ScrollOffset 选出最后一个在可视范围的 Divider 索引
+                            var dividerSelect = DividerVerticalOffsetList.Select((n, i) => (
+                            dividerAppeared: value >= n,
                             index: i));
 
-                            var index = rectangleSelect.LastOrDefault(n => n.rectangleAppeared).index;
+                            var index = dividerSelect.LastOrDefault(n => n.dividerAppeared).index;
                             SelectedIndex = index;
                         }
 
@@ -2758,6 +2753,18 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 SetAndNotify(ref _language, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the language info.
+        /// </summary>
+        public string LanguageInfo
+        {
+            get
+            {
+                var language = (string)Application.Current.Resources["Language"];
+                return language == "Language" ? language : language + " / Language";
             }
         }
 
