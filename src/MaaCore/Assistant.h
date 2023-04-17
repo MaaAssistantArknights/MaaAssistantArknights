@@ -104,15 +104,30 @@ namespace asst
     private:
         struct AsyncCallItem
         {
-            AsyncCallId id;
-            std::function<bool(void)> function;
-            std::string what = "Unknown";
-        };
+            struct ConnectParams
+            {
+                std::string adb_path;
+                std::string address;
+                std::string config;
+                static constexpr std::string_view what = "Connect";
+            };
+            struct ClickParams
+            {
+                int x = 0;
+                int y = 0;
+                static constexpr std::string_view what = "Click";
+            };
+            struct ScreencapParams
+            {
+                static constexpr std::string_view what = "Screencap";
+            };
+            using Params = std::variant<ConnectParams, ClickParams, ScreencapParams>;
 
+            AsyncCallId id;
+            Params params;
+        };
         // submit async call task to queue
-        template <typename Func, typename... Args>
-        asst::Assistant::AsyncCallId append_async_call(bool block, std::string what,
-                                                       Func&& lambda_with_empty_capture_list, Args&&... args);
+        AsyncCallId append_async_call(AsyncCallItem::Params params, bool block);
         bool wait_async_id(AsyncCallId id);
 
     private:
@@ -126,6 +141,8 @@ namespace asst
         bool inited() const noexcept;
 
         bool ctrl_connect(const std::string& adb_path, const std::string& address, const std::string& config);
+        bool ctrl_click(int x, int y);
+        bool ctrl_screencap();
 
         std::string m_uuid;
 

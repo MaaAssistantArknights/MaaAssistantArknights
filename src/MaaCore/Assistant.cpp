@@ -159,6 +159,16 @@ bool asst::Assistant::ctrl_connect(const std::string& adb_path, const std::strin
     return ret;
 }
 
+bool asst::Assistant::ctrl_click(int x, int y)
+{
+    return m_ctrler->click(Point(x, y));
+}
+
+bool asst::Assistant::ctrl_screencap()
+{
+    return m_ctrler->screencap();
+}
+
 asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, const std::string& params)
 {
     Log.info(__FUNCTION__, type, params);
@@ -271,28 +281,21 @@ asst::Assistant::AsyncCallId asst::Assistant::async_connect(const std::string& a
     LogTraceFunction;
 
     return append_async_call(
-        block, "Connect",
-        [](Assistant* this_a, const std::string& adb_path, const std::string& address, const std::string& config) {
-            return this_a->ctrl_connect(adb_path, address, config);
-        },
-        this, adb_path, address, config);
+        AsyncCallItem::ConnectParams { .adb_path = adb_path, .address = address, .config = config }, block);
 }
 
 asst::Assistant::AsyncCallId asst::Assistant::async_click(int x, int y, bool block)
 {
     LogTraceFunction;
 
-    return append_async_call(
-        block, "Click", [](Assistant* this_a, int x, int y) { return this_a->m_ctrler->click(Point(x, y)); }, this, x,
-        y);
+    return append_async_call(AsyncCallItem::ClickParams { .x = x, .y = y }, block);
 }
 
 asst::Assistant::AsyncCallId asst::Assistant::async_screencap(bool block)
 {
     LogTraceFunction;
 
-    return append_async_call(
-        block, "Screencap", [](Assistant* this_a) { return this_a->m_ctrler->screencap(); }, this);
+    return append_async_call(AsyncCallItem::ScreencapParams {}, block);
 }
 
 bool asst::Assistant::connected() const
@@ -440,22 +443,15 @@ void Assistant::msg_proc()
     }
 }
 
-template <typename Func, typename... Args>
-asst::Assistant::AsyncCallId asst::Assistant::append_async_call(bool block, std::string what, Func&&, Args&&... args)
+asst::Assistant::AsyncCallId asst::Assistant::append_async_call(AsyncCallItem::Params params, bool block)
 {
     LogTraceFunction;
 
-    //    std::function<bool(void)> mf = [... args = std::forward<Args>(args)]() mutable {
-    //        return std::invoke(Func {}, std::forward<Args>(args)...);
-    //    };
-    std::function<bool(void)> mf = [args...]() mutable { // type erasure, force capture by value
-        return std::invoke(Func {}, args...);
-    };
     AsyncCallId id;
     {
         std::unique_lock<std::mutex> lock(m_call_mutex);
         id = ++m_call_id;
-        AsyncCallItem item = { id, std::move(mf), std::move(what) };
+        AsyncCallItem item = { .id = id, .params = std::move(params) };
         m_call_queue.emplace(std::move(item));
         m_call_condvar.notify_one();
     }
@@ -484,7 +480,7 @@ void asst::Assistant::call_proc()
 
     while (!m_thread_exit) {
 
-        AsyncCallItem old_call_item;
+        AsyncCallItem call_item;
 
         {
             std::unique_lock<std::mutex> lock(m_call_mutex);
@@ -492,21 +488,44 @@ void asst::Assistant::call_proc()
                 m_call_condvar.wait(lock);
                 continue;
             }
-            old_call_item = std::move(m_call_queue.front());
+            call_item = std::move(m_call_queue.front());
             m_call_queue.pop();
         }
 
         auto start = std::chrono::steady_clock::now();
-        bool ret = old_call_item.function();
-        m_completed_call = old_call_item.id;
+        bool ret = false;
+        std::string what = "Unknown";
+
+        std::visit(
+            [&](auto&& args) -> void {
+                what = args.what;
+
+                using T = std::decay_t<decltype(args)>;
+                if constexpr (std::is_same_v<T, AsyncCallItem::ConnectParams>) {
+                    const auto& [adb_path, address, config] = args;
+                    ret = ctrl_connect(adb_path, address, config);
+                }
+                else if constexpr (std::is_same_v<T, AsyncCallItem::ClickParams>) {
+                    const auto& [x, y] = args;
+                    ret = ctrl_click(x, y);
+                }
+                else if constexpr (std::is_same_v<T, AsyncCallItem::ScreencapParams>) {
+                    ret = ctrl_screencap();
+                }
+                else
+                    static_assert(utils::always_false<T>, "non-exhaustive visitor!");
+            },
+            call_item.params);
+
+        m_completed_call = call_item.id;
         m_completed_call.notify_all();
 
         auto cost =
             std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start).count();
         json::value cb_info = json::object {
             { "uuid", m_uuid },
-            { "what", old_call_item.what },
-            { "async_call_id", old_call_item.id },
+            { "what", what },
+            { "async_call_id", call_item.id },
             {
                 "details",
                 json::object {
