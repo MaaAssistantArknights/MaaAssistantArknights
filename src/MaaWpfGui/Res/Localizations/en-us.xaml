@@ -376,6 +376,12 @@
     <system:String x:Key="CopiedToClipboard">Copied to clipboard</system:String>
     <!--  Depot Recognition  -->
 
+    <!-- 干员识别 -->
+    <system:String x:Key="RoleRecognition">干员识别 beta</system:String>
+    <system:String x:Key="RoleRecognitionTip">该功能尚处于测试阶段，请清空特别关注干员再使用，若统计有误，欢迎打包 asst.log 文件后向我们提交issue ~</system:String>
+    <system:String x:Key="BeganToRoleRecognition">开始识别</system:String>
+    <!-- 干员识别 -->
+    
     <!--  Logs  -->
     <system:String x:Key="Identifying">Identifying...</system:String>
     <system:String x:Key="IdentificationCompleted">Identification completed</system:String>

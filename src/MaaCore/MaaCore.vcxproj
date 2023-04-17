@@ -39,6 +39,7 @@
     <ClInclude Include="Config\Miscellaneous\AvatarCacheManager.h" />
     <ClInclude Include="Config\Miscellaneous\OcrConfig.h" />
     <ClInclude Include="Config\Miscellaneous\SSSCopilotConfig.h" />
+    <ClInclude Include="Config\Miscellaneous\RoleConfig.h" />
     <ClInclude Include="Config\OnnxSessions.h" />
     <ClInclude Include="Controller\adb-lite\client.hpp" />
     <ClInclude Include="Controller\adb-lite\protocol.hpp" />
@@ -60,6 +61,8 @@
     <ClInclude Include="Task\Experiment\SingleStepBattleProcessTask.h" />
     <ClInclude Include="Task\Interface\CustomTask.h" />
     <ClInclude Include="Task\Interface\VideoRecognitionTask.h" />
+    <ClInclude Include="Task\Interface\RoleTask.h" />
+    <ClInclude Include="Task\Miscellaneous\RoleRecognitionTask.h" />
     <ClInclude Include="Task\Reclamation\ReclamationControlTask.h" />
     <ClInclude Include="Task\Reclamation\ReclamationConclusionReportPlugin.h" />
     <ClInclude Include="Task\Reclamation\ReclamationBattlePlugin.h" />
@@ -197,6 +200,7 @@
     <ClCompile Include="Config\Miscellaneous\AvatarCacheManager.cpp" />
     <ClCompile Include="Config\Miscellaneous\OcrConfig.cpp" />
     <ClCompile Include="Config\Miscellaneous\SSSCopilotConfig.cpp" />
+    <ClCompile Include="Config\Miscellaneous\RoleConfig.cpp" />
     <ClCompile Include="Config\OnnxSessions.cpp" />
     <ClCompile Include="Controller\adb-lite\client.cpp" />
     <ClCompile Include="Controller\adb-lite\protocol.cpp" />
@@ -212,6 +216,8 @@
     <ClCompile Include="Task\Experiment\CombatRecordRecognitionTask.cpp" />
     <ClCompile Include="Task\Experiment\SingleStepBattleProcessTask.cpp" />
     <ClCompile Include="Task\Interface\VideoRecognitionTask.cpp" />
+    <ClCompile Include="Task\Interface\RoleTask.cpp" />
+    <ClCompile Include="Task\Miscellaneous\RoleRecognitionTask.cpp" />
     <ClCompile Include="Task\Reclamation\ReclamationControlTask.cpp" />
     <ClCompile Include="Task\Reclamation\ReclamationConclusionReportPlugin.cpp" />
     <ClCompile Include="Task\Reclamation\ReclamationBattlePlugin.cpp" />
