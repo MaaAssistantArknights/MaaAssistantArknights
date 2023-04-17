@@ -165,6 +165,7 @@ namespace MaaWpfGui.Main
         private readonly RecruitViewModel _recruitViewModel;
         private readonly CopilotViewModel _copilotViewModel;
         private readonly DepotViewModel _depotViewModel;
+        private readonly RoleViewModel _roleViewModel;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AsstProxy"/> class.
@@ -178,6 +179,7 @@ namespace MaaWpfGui.Main
             _recruitViewModel = container.Get<RecruitViewModel>();
             _copilotViewModel = container.Get<CopilotViewModel>();
             _depotViewModel = container.Get<DepotViewModel>();
+            _roleViewModel = container.Get<RoleViewModel>();
 
             _windowManager = windowManager;
             _callback = CallbackFunction;
@@ -568,7 +570,8 @@ namespace MaaWpfGui.Main
                         if (unique_finished_task == (_latestTaskId.TryGetValue(TaskType.Copilot, out var copilotTaskId) ? copilotTaskId : 0)
                             || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.RecruitCalc, out var recruitCalcTaskId) ? recruitCalcTaskId : 0)
                             || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0)
-                            || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.Depot, out var depotTaskId) ? depotTaskId : 0))
+                            || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.Depot, out var depotTaskId) ? depotTaskId : 0)
+                            || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.Role, out var roleTaskId) ? roleTaskId : 0))
                         {
                             isMainTaskQueueAllCompleted = false;
                         }
@@ -821,6 +824,11 @@ namespace MaaWpfGui.Main
             if (taskChain == "Depot")
             {
                 _depotViewModel.Parse((JObject)subTaskDetails);
+            }
+
+            if (taskChain == "Role")
+            {
+                _roleViewModel.Parse((JObject)subTaskDetails);
             }
 
             string what = details["what"].ToString();
@@ -1243,6 +1251,7 @@ namespace MaaWpfGui.Main
             Copilot,
             VideoRec,
             Depot,
+            Role,
         }
 
         private readonly Dictionary<TaskType, AsstTaskId> _latestTaskId = new Dictionary<TaskType, AsstTaskId>();
@@ -1637,6 +1646,18 @@ namespace MaaWpfGui.Main
             var task_params = new JObject();
             AsstTaskId id = AsstAppendTaskWithEncoding("Depot", task_params);
             _latestTaskId[TaskType.Depot] = id;
+            return id != 0 && AsstStart();
+        }
+
+        /// <summary>
+        /// 干员识别。
+        /// </summary>
+        /// <returns>是否成功。</returns>
+        public bool AsstStartRole()
+        {
+            var task_params = new JObject();
+            AsstTaskId id = AsstAppendTaskWithEncoding("Role", task_params);
+            _latestTaskId[TaskType.Role] = id;
             return id != 0 && AsstStart();
         }
 

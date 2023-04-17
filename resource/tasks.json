@@ -9592,6 +9592,108 @@
             20
         ]
     },
+    "RoleBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "RoleEnter",
+            "RoleRareTab",
+            "RoleRareTabU",
+            "RoleRareTabD",
+            "RoleEnter@ReturnTo"
+        ]
+    },
+    "RoleEnter": {
+        "action": "ClickSelf",
+        "roi": [
+            935,
+            300,
+            265,
+            110
+        ],
+        "next": [
+            "RoleRareTab"
+        ]
+    },
+    "RoleRareTab": {
+        "action": "ClickSelf",
+        "roi": [
+            922,
+            16,
+            101,
+            50
+        ],
+        "next": [
+            "RoleRareTabD"
+        ]
+    },
+    "RoleRareTabU": {
+        "action": "ClickSelf",
+        "roi": [
+            922,
+            16,
+            101,
+            50
+        ],
+        "next": [
+            "RoleRareTabD"
+        ]
+    },
+    "RoleRareTabD": {
+        "action": "DoNothing",
+        "roi": [
+            922,
+            16,
+            101,
+            50
+        ]
+    },
+    "RoleSlowlySwipeToTheRight": {
+        "doc": "6个横向干员防止识别不全990px",
+        "baseTask": "SlowlySwipeToTheRight",
+        "specificRect": [
+            1090,
+            350,
+            20,
+            20
+        ],
+        "rectMove": [
+            100,
+            350,
+            20,
+            20
+        ]
+    },
+    "RoleOperNameFlag": {
+        "templThreshold": 0.8,
+        "roi": [
+            5,
+            353,
+            1265,
+            21
+        ]
+    },
+    "RoleOperNameFlag1": {
+        "templThreshold": 0.8,
+        "roi": [
+            5,
+            672,
+            1265,
+            21
+        ]
+    },
+    "RoleOCR": {
+        "algorithm": "OcrDetect",
+        "fullMatch": true,
+        "text": [],
+        "roi": [
+            10,
+            0,
+            130,
+            20
+        ],
+        "postDelay": 100
+    },
     "RoguelikeRecruitSwipeMaxTime": {
         "algorithm": "JustReturn",
         "maxTimes_Doc": "这个参数是肉鸽招募时，向右划动的最大次数",

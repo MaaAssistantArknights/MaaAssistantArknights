@@ -32,6 +32,7 @@ namespace MaaWpfGui.ViewModels.UI
         private readonly SettingsViewModel _settingsViewModel;
         private readonly CopilotViewModel _copilotViewModel;
         private readonly DepotViewModel _depotViewModel;
+        private readonly RoleViewModel _roleViewModel;
         private readonly VersionUpdateViewModel _versionUpdateViewModel;
 
         /// <summary>
@@ -48,6 +49,7 @@ namespace MaaWpfGui.ViewModels.UI
             _settingsViewModel = container.Get<SettingsViewModel>();
             _copilotViewModel = container.Get<CopilotViewModel>();
             _depotViewModel = container.Get<DepotViewModel>();
+            _roleViewModel = container.Get<RoleViewModel>();
             _versionUpdateViewModel = container.Get<VersionUpdateViewModel>();
         }
 
@@ -71,6 +73,7 @@ namespace MaaWpfGui.ViewModels.UI
             Items.Add(_copilotViewModel);
             Items.Add(_recruitViewModel);
             Items.Add(_depotViewModel);
+            Items.Add(_roleViewModel);
             Items.Add(_settingsViewModel);
 
             _settingsViewModel.UpdateWindowTitle(); // 在标题栏上显示模拟器和IP端口 必须在 Items.Add(settings)之后执行。

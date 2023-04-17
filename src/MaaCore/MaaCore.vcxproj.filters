@@ -603,6 +603,15 @@
     <ClInclude Include="Controller\PlayToolsController.h">
       <Filter>源文件\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="Config\Miscellaneous\RoleConfig.h">
+      <Filter>源文件\Resource\Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Interface\RoleTask.h">
+      <Filter>源文件\Task\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Miscellaneous\RoleRecognitionTask.h">
+      <Filter>源文件\Task\Miscellaneous</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\AbstractImageAnalyzer.cpp">
@@ -991,6 +1000,15 @@
     </ClCompile>
     <ClCompile Include="Controller\PlayToolsController.cpp">
       <Filter>源文件\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Miscellaneous\RoleConfig.cpp">
+      <Filter>源文件\Resource\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Interface\RoleTask.cpp">
+      <Filter>源文件\Task\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Miscellaneous\RoleRecognitionTask.cpp">
+      <Filter>源文件\Task\Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
