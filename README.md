@@ -43,9 +43,8 @@ MAA 的意思是 MAA Assistant Arknights
 
 话不多说，看图！<br>
 
-![image](https://user-images.githubusercontent.com/18511905/189659056-67587818-9844-4f5a-b2f5-838a8932b387.png)
-![image](https://user-images.githubusercontent.com/99072975/181418131-f4eefa07-6623-470e-ba4a-0ad15cb8aa91.png)
-![image](https://user-images.githubusercontent.com/99072975/172045163-e9ead337-eb62-4f9f-a354-9e302f767a52.png)
+![zh1](https://user-images.githubusercontent.com/99072975/232381589-558a8213-d840-4d00-a8f6-89467e2d35c9.png)
+![zh2](https://user-images.githubusercontent.com/99072975/232381604-4066d3f5-dfee-45e5-a10f-8ca91ad4404b.png)
 
 ## 下载地址
 
