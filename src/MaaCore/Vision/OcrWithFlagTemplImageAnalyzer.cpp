@@ -18,39 +18,40 @@ void asst::OcrWithFlagTemplImageAnalyzer::set_roi(const Rect& roi) noexcept
     m_multi_match_image_analyzer.set_roi(roi);
 }
 
-bool asst::OcrWithFlagTemplImageAnalyzer::analyze()
+const asst::OcrWithFlagTemplImageAnalyzer::ResultsVecOpt& asst::OcrWithFlagTemplImageAnalyzer::analyze()
 {
-    m_all_result.clear();
-
     if (!m_multi_match_image_analyzer.analyze()) {
-        return false;
+        m_result = std::nullopt;
+        return std::nullopt;
     }
+
+    ResultsVec results;
     for (const auto& templ_res : m_multi_match_image_analyzer.get_result()) {
         Rect roi = templ_res.rect.move(m_flag_rect_move);
-        if (roi.x + roi.width >= WindowWidthDefault) {
-            continue;
-        }
         set_roi(roi);
 
-        if (OcrWithPreprocessImageAnalyzer::analyze()) {
-            m_all_result.insert(m_all_result.end(), std::make_move_iterator(m_ocr_result.begin()),
-                                std::make_move_iterator(m_ocr_result.end()));
+        auto ocr_opt = OcrWithPreprocessImageAnalyzer::analyze();
+        if (ocr_opt) {
+            results.insert(results.end(), std::make_move_iterator(ocr_opt->begin()),
+                           std::make_move_iterator(ocr_opt->end()));
         }
     }
 
-    return !m_all_result.empty();
-}
+    if (results.empty()) {
+        m_result = std::nullopt;
+    }
+    else {
+        m_result = results;
+    }
 
-const std::vector<asst::TextRect>& asst::OcrWithFlagTemplImageAnalyzer::get_result() const noexcept
-{
-    return m_all_result;
+    return m_result;
 }
 
 void asst::OcrWithFlagTemplImageAnalyzer::set_task_info(const std::string& templ_task_name,
                                                         const std::string& ocr_task_name)
 {
     auto ocr_task_ptr = Task.get<OcrTaskInfo>(ocr_task_name);
-    set_task_info(*ocr_task_ptr);
+    _set_task_info(*ocr_task_ptr);
     m_flag_rect_move = ocr_task_ptr->roi;
     m_multi_match_image_analyzer.set_task_info(templ_task_name);
 }
@@ -58,9 +59,4 @@ void asst::OcrWithFlagTemplImageAnalyzer::set_task_info(const std::string& templ
 void asst::OcrWithFlagTemplImageAnalyzer::set_flag_rect_move(Rect flag_rect_move)
 {
     m_flag_rect_move = flag_rect_move;
-}
-
-std::vector<asst::TextRect>& asst::OcrWithFlagTemplImageAnalyzer::get_result() noexcept
-{
-    return m_all_result;
 }

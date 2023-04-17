@@ -49,6 +49,37 @@ const asst::OcrImageAnalyzer::ResultsVecOpt& asst::OcrImageAnalyzer::analyze()
     return m_result;
 }
 
+void asst::OcrImageAnalyzer::sort_results_by_horizontal()
+{
+    if (!m_result) {
+        return;
+    }
+    sort_by_horizontal_(m_result.value());
+}
+
+void asst::OcrImageAnalyzer::sort_results_by_vertical()
+{
+    if (!m_result) {
+        return;
+    }
+    sort_by_vertical_(m_result.value());
+}
+
+void asst::OcrImageAnalyzer::sort_results_by_score()
+{
+    if (!m_result) {
+        return;
+    }
+    sort_by_score_(m_result.value());
+}
+
+void asst::OcrImageAnalyzer::sort_results_by_required() {
+    if (!m_result) {
+        return;
+    }
+    sort_by_required_(m_result.value(), m_required);
+}
+
 void asst::OcrImageAnalyzer::set_required(std::vector<std::string> required) noexcept
 {
     ranges::transform(required, required.begin(),
@@ -70,7 +101,7 @@ void asst::OcrImageAnalyzer::set_replace(const std::unordered_map<std::string, s
     m_replace_full = replace_full;
 }
 
-void asst::OcrImageAnalyzer::set_task_info(OcrTaskInfo task_info) noexcept
+void asst::OcrImageAnalyzer::_set_task_info(OcrTaskInfo task_info) noexcept
 {
     set_required(std::move(task_info.text));
     m_full_match = task_info.full_match;
@@ -143,21 +174,12 @@ bool asst::OcrImageAnalyzer::filter_and_replace_by_required_(Result& res)
 
 void asst::OcrImageAnalyzer::set_task_info(std::shared_ptr<TaskInfo> task_ptr)
 {
-    set_task_info(*std::dynamic_pointer_cast<OcrTaskInfo>(task_ptr));
+    _set_task_info(*std::dynamic_pointer_cast<OcrTaskInfo>(task_ptr));
 }
 
 void asst::OcrImageAnalyzer::set_task_info(const std::string& task_name)
 {
     set_task_info(Task.get(task_name));
-}
-
-void asst::OcrImageAnalyzer::set_region_of_appeared(Rect region) noexcept
-{
-    m_region_of_appeared = region;
-    if (m_use_cache && !m_region_of_appeared.empty()) {
-        m_roi = m_region_of_appeared;
-        m_without_det = true;
-    }
 }
 
 void asst::OcrImageAnalyzer::set_use_char_model(bool enable) noexcept
@@ -168,65 +190,4 @@ void asst::OcrImageAnalyzer::set_use_char_model(bool enable) noexcept
 const asst::OcrImageAnalyzer::ResultsVecOpt& asst::OcrImageAnalyzer::result() const noexcept
 {
     return m_result;
-}
-
-void asst::OcrImageAnalyzer::sort_result_horizontal()
-{
-    // 按位置排个序
-    ranges::sort(get_result(), [](const TextRect& lhs, const TextRect& rhs) -> bool {
-        if (std::abs(lhs.rect.y - rhs.rect.y) < 5) { // y差距较小则理解为是同一排的，按x排序
-            return lhs.rect.x < rhs.rect.x;
-        }
-        else {
-            return lhs.rect.y < rhs.rect.y;
-        }
-    });
-}
-
-void asst::OcrImageAnalyzer::sort_result_vertical()
-{
-    // 按位置排个序（顺序如下）
-    // +---+
-    // |1 3|
-    // |2 4|
-    // +---+
-    ranges::sort(get_result(), [](const TextRect& lhs, const TextRect& rhs) -> bool {
-        if (std::abs(lhs.rect.x - rhs.rect.x) < 5) { // x差距较小则理解为是同一排的，按y排序
-            return lhs.rect.y < rhs.rect.y;
-        }
-        else {
-            return lhs.rect.x < rhs.rect.x;
-        }
-    });
-}
-
-void asst::OcrImageAnalyzer::sort_result_by_score()
-{
-    ranges::sort(get_result(), std::greater {}, std::mem_fn(&TextRect::score));
-}
-
-void asst::OcrImageAnalyzer::sort_result_by_required()
-{
-    if (m_required.empty()) {
-        return;
-    }
-
-    std::unordered_map<std::string, size_t> req_cache;
-    for (size_t i = 0; i != m_required.size(); ++i) {
-        req_cache.emplace(m_required.at(i), i + 1);
-    }
-
-    auto& result = get_result();
-    // 不在 m_required 中的将被排在最后
-    ranges::sort(result, [&req_cache](const auto& lhs, const auto& rhs) -> bool {
-        size_t lvalue = req_cache[lhs.text];
-        size_t rvalue = req_cache[rhs.text];
-        if (lvalue == 0) {
-            return false;
-        }
-        else if (rvalue == 0) {
-            return true;
-        }
-        return lvalue < rvalue;
-    });
 }

@@ -2,7 +2,7 @@
 
 #include "Utils/NoWarningCV.h"
 
-bool asst::OcrWithPreprocessImageAnalyzer::analyze()
+const asst::OcrWithPreprocessImageAnalyzer::ResultsVecOpt& asst::OcrWithPreprocessImageAnalyzer::analyze()
 {
     m_without_det = true;
 
@@ -18,7 +18,7 @@ bool asst::OcrWithPreprocessImageAnalyzer::analyze()
     auto new_roi = make_rect<Rect>(bounding_rect);
 
     if (new_roi.empty()) {
-        return false;
+        return std::nullopt;
     }
     // todo: split
 
@@ -50,21 +50,4 @@ void asst::OcrWithPreprocessImageAnalyzer::set_split(bool split)
 void asst::OcrWithPreprocessImageAnalyzer::set_expansion(int expansion)
 {
     m_expansion = expansion;
-}
-
-void asst::OcrWithPreprocessImageAnalyzer::set_task_info(std::shared_ptr<TaskInfo> task_ptr)
-{
-    OcrImageAnalyzer::set_task_info(task_ptr);
-}
-
-void asst::OcrWithPreprocessImageAnalyzer::set_task_info(const std::string& task_name)
-{
-    OcrImageAnalyzer::set_task_info(task_name);
-}
-
-void asst::OcrWithPreprocessImageAnalyzer::set_task_info(OcrTaskInfo task_info) noexcept
-{
-    task_info.cache = false;
-    task_info.without_det = true;
-    OcrImageAnalyzer::set_task_info(std::move(task_info));
 }
