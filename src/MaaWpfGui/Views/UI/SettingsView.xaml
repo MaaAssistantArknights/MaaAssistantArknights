@@ -35,177 +35,42 @@
 
         <hc:ScrollViewer
             Grid.Column="1"
-            Margin="20,10"
+            Margin="20,0"
             HorizontalAlignment="Stretch"
+            properties:ScrollViewerBinding.DividerVerticalOffsetList="{Binding DividerVerticalOffsetList}"
             properties:ScrollViewerBinding.ExtentHeight="{Binding ScrollExtentHeight}"
-            properties:ScrollViewerBinding.RectangleVerticalOffsetList="{Binding RectangleVerticalOffsetList}"
             properties:ScrollViewerBinding.VerticalOffset="{Binding ScrollOffset}"
             properties:ScrollViewerBinding.ViewportHeight="{Binding ScrollViewportHeight}"
             IsInertiaEnabled="True">
             <StackPanel>
-                <Rectangle
-                    Height="1"
-                    HorizontalAlignment="Stretch"
-                    Fill="{DynamicResource BorderBrush}" />
-                <controls:TextBlock
-                    Margin="5"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Foreground="{DynamicResource TraceLogBrush}"
-                    Text="{Binding ListTitle[0]}" />
+                <hc:Divider Content="{Binding ListTitle[0]}" />
                 <userControl:GameClientUserControl
                     Margin="0,20"
                     HorizontalAlignment="Center"
                     IsEnabled="{Binding Idle}" />
-                <Rectangle
-                    Height="1"
-                    HorizontalAlignment="Stretch"
-                    Fill="{DynamicResource BorderBrush}" />
-                <controls:TextBlock
-                    Margin="5"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Foreground="{DynamicResource TraceLogBrush}"
-                    Text="{Binding ListTitle[1]}" />
-                <userControl:InfrastSettingsUserControl
-                    Margin="0,20"
-                    HorizontalAlignment="Center"
-                    IsEnabled="{Binding Idle}" />
-                <Rectangle
-                    Height="1"
-                    HorizontalAlignment="Stretch"
-                    Fill="{DynamicResource BorderBrush}" />
-                <controls:TextBlock
-                    Margin="5"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Foreground="{DynamicResource TraceLogBrush}"
-                    Text="{Binding ListTitle[2]}" />
-                <userControl:RoguelikeSettingsUserControl
-                    Margin="0,20"
-                    HorizontalAlignment="Center"
-                    IsEnabled="{Binding Idle}" />
-                <Rectangle
-                    Height="1"
-                    HorizontalAlignment="Stretch"
-                    Fill="{DynamicResource BorderBrush}" />
-                <controls:TextBlock
-                    Margin="5"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Foreground="{DynamicResource TraceLogBrush}"
-                    Text="{Binding ListTitle[3]}" />
-                <userControl:AutoRecruitSettingsUserControl
-                    Margin="0,20"
-                    HorizontalAlignment="Center"
-                    IsEnabled="{Binding Idle}" />
-                <Rectangle
-                    Height="1"
-                    HorizontalAlignment="Stretch"
-                    Fill="{DynamicResource BorderBrush}" />
-                <controls:TextBlock
-                    Margin="5"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Foreground="{DynamicResource TraceLogBrush}"
-                    Text="{Binding ListTitle[4]}" />
-                <userControl:MallSettingsUserControl
-                    Margin="0,20"
-                    HorizontalAlignment="Center"
-                    IsEnabled="{Binding Idle}" />
-                <Rectangle
-                    Height="1"
-                    HorizontalAlignment="Stretch"
-                    Fill="{DynamicResource BorderBrush}" />
-                <controls:TextBlock
-                    Margin="5"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Foreground="{DynamicResource TraceLogBrush}"
-                    Text="{Binding ListTitle[5]}" />
-                <userControl:OtherCombatSettingsUserControl
-                    Margin="0,20"
-                    HorizontalAlignment="Center"
-                    IsEnabled="{Binding Idle}" />
-                <Rectangle
-                    Height="1"
-                    HorizontalAlignment="Stretch"
-                    Fill="{DynamicResource BorderBrush}" />
-                <controls:TextBlock
-                    Margin="5"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Foreground="{DynamicResource TraceLogBrush}"
-                    Text="{Binding ListTitle[6]}" />
+
+                <hc:Divider Content="{Binding ListTitle[1]}" />
+                <userControl:GUISettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
+
+                <hc:Divider Content="{Binding ListTitle[2]}" />
                 <userControl:ConnectSettingsUserControl
                     Margin="0,20"
                     HorizontalAlignment="Center"
                     IsEnabled="{Binding Idle}" />
-                <Rectangle
-                    Height="1"
-                    HorizontalAlignment="Stretch"
-                    Fill="{DynamicResource BorderBrush}" />
-                <controls:TextBlock
-                    Margin="5"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Foreground="{DynamicResource TraceLogBrush}"
-                    Text="{Binding ListTitle[7]}" />
+
+                <hc:Divider Content="{Binding ListTitle[3]}" />
                 <userControl:StartSettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
-                <Rectangle
-                    Height="1"
-                    HorizontalAlignment="Stretch"
-                    Fill="{DynamicResource BorderBrush}" />
-                <controls:TextBlock
-                    Margin="5"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Foreground="{DynamicResource TraceLogBrush}"
-                    Text="{Binding ListTitle[8]}" />
+
+                <hc:Divider Content="{Binding ListTitle[4]}" />
                 <userControl:TimerSettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
-                <Rectangle
-                    Height="1"
-                    HorizontalAlignment="Stretch"
-                    Fill="{DynamicResource BorderBrush}" />
-                <controls:TextBlock
-                    Margin="5"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Foreground="{DynamicResource TraceLogBrush}"
-                    Text="{Binding ListTitle[9]}" />
-                <userControl:GUISettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
-                <Rectangle
-                    Height="1"
-                    HorizontalAlignment="Stretch"
-                    Fill="{DynamicResource BorderBrush}" />
-                <controls:TextBlock
-                    Margin="5"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Foreground="{DynamicResource TraceLogBrush}"
-                    Text="{Binding ListTitle[10]}" />
+
+                <hc:Divider Content="{Binding ListTitle[5]}" />
                 <userControl:HotKeySettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
-                <Rectangle
-                    Height="1"
-                    HorizontalAlignment="Stretch"
-                    Fill="{DynamicResource BorderBrush}" />
-                <controls:TextBlock
-                    Margin="5"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Foreground="{DynamicResource TraceLogBrush}"
-                    Text="{Binding ListTitle[11]}" />
+
+                <hc:Divider Content="{Binding ListTitle[6]}" />
                 <userControl:VersionUpdateSettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
-                <Rectangle
-                    Height="1"
-                    HorizontalAlignment="Stretch"
-                    Fill="{DynamicResource BorderBrush}" />
-                <controls:TextBlock
-                    Margin="5"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Foreground="{DynamicResource TraceLogBrush}"
-                    Text="{Binding ListTitle[12]}" />
+
+                <hc:Divider Content="{Binding ListTitle[7]}" />
                 <userControl:AboutUserControl Margin="0,20" HorizontalAlignment="Center" />
                 <!--<Rectangle HorizontalAlignment="Stretch" Fill="{DynamicResource BorderBrush}" Height="1" />-->
             </StackPanel>
