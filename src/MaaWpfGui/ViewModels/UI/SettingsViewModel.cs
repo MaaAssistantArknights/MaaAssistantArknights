@@ -2418,6 +2418,13 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
+            var mainWindowRect = new Rect(mainWindow.Left + 25, mainWindow.Top + 25, mainWindow.Width - 50, mainWindow.Height - 50);
+            var virtualScreenRect = new Rect(SystemParameters.VirtualScreenLeft, SystemParameters.VirtualScreenTop, SystemParameters.VirtualScreenWidth, SystemParameters.VirtualScreenHeight);
+            if (!virtualScreenRect.IntersectsWith(mainWindowRect))
+            {
+                return;
+            }
+
             // 请在配置文件中修改该部分配置，暂不支持从GUI设置
             // Please modify this part of configuration in the configuration file.
             ConfigurationHelper.SetValue(ConfigurationKeys.LoadPositionAndSize, LoadGUIParameters.ToString());
