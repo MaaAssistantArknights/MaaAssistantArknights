@@ -13,7 +13,7 @@
 #include "Task/Interface/CopilotTask.h"
 #include "Task/Interface/CustomTask.h"
 #include "Task/Interface/DepotTask.h"
-#include "Task/Interface/RoleTask.h"
+#include "Task/Interface/OperTask.h"
 #include "Task/Interface/FightTask.h"
 #include "Task/Interface/InfrastTask.h"
 #include "Task/Interface/MallTask.h"
@@ -202,7 +202,7 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(SingleStepTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(VideoRecognitionTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(DepotTask)
-    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(RoleTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(OperTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(ReclamationTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CustomTask)
 #ifdef ASST_DEBUG

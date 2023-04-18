@@ -9,7 +9,6 @@
 #include "Miscellaneous/CopilotConfig.h"
 #include "Miscellaneous/InfrastConfig.h"
 #include "Miscellaneous/ItemConfig.h"
-#include "Miscellaneous/RoleConfig.h"
 #include "Miscellaneous/OcrConfig.h"
 #include "Miscellaneous/OcrPack.h"
 #include "Miscellaneous/RecruitConfig.h"
@@ -84,7 +83,6 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
     LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
     LoadResourceWithTemplAndCheckRet(ItemConfig, "item_index.json"_p, "template"_p / "items"_p);
-    LoadResourceWithTemplAndCheckRet(RoleConfig, "role_index.json"_p, "template"_p);
 
     /* load cache */
     LoadCacheWithoutRet(AvatarCacheManager, "avatars"_p);

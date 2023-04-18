@@ -9592,18 +9592,18 @@
             20
         ]
     },
-    "RoleBegin": {
+    "OperatorBegin": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "RoleEnter",
-            "RoleRareTab",
-            "RoleRareTabU",
-            "RoleRareTabD",
-            "RoleEnter@ReturnTo"
+            "OperatorEnter",
+            "OperatorRarityTab",
+            "OperatorRarityTabU",
+            "OperatorRarityTabD",
+            "OperatorEnter@ReturnTo"
         ]
     },
-    "RoleEnter": {
+    "OperatorEnter": {
         "action": "ClickSelf",
         "roi": [
             935,
@@ -9612,10 +9612,10 @@
             110
         ],
         "next": [
-            "RoleRareTab"
+            "OperatorRarityTab"
         ]
     },
-    "RoleRareTab": {
+    "OperatorRarityTab": {
         "action": "ClickSelf",
         "roi": [
             922,
@@ -9624,10 +9624,10 @@
             50
         ],
         "next": [
-            "RoleRareTabD"
+            "OperatorRarityTabD"
         ]
     },
-    "RoleRareTabU": {
+    "OperatorRarityTabU": {
         "action": "ClickSelf",
         "roi": [
             922,
@@ -9636,10 +9636,10 @@
             50
         ],
         "next": [
-            "RoleRareTabD"
+            "OperatorRarityTabD"
         ]
     },
-    "RoleRareTabD": {
+    "OperatorRarityTabD": {
         "action": "DoNothing",
         "roi": [
             922,
@@ -9648,7 +9648,7 @@
             50
         ]
     },
-    "RoleSlowlySwipeToTheRight": {
+    "OperatorSlowlySwipeToTheRight": {
         "doc": "6个横向干员防止识别不全990px",
         "baseTask": "SlowlySwipeToTheRight",
         "specificRect": [
@@ -9664,7 +9664,7 @@
             20
         ]
     },
-    "RoleOperNameFlag": {
+    "OperatorNameFlag": {
         "templThreshold": 0.8,
         "roi": [
             5,
@@ -9673,7 +9673,7 @@
             21
         ]
     },
-    "RoleOperNameFlag1": {
+    "OperatorNameFlag1": {
         "templThreshold": 0.8,
         "roi": [
             5,
@@ -9682,7 +9682,16 @@
             21
         ]
     },
-    "RoleOCR": {
+    "OperatorNameFlagLV": {
+        "templThreshold": 0.7,
+        "roi": [
+            40,
+            310,
+            1128,
+            327
+        ]
+    },
+    "OperatorOCR": {
         "algorithm": "OcrDetect",
         "fullMatch": true,
         "text": [],
@@ -9690,6 +9699,18 @@
             10,
             0,
             130,
+            20
+        ],
+        "postDelay": 100
+    },
+    "OperatorOCRLV": {
+        "algorithm": "OcrDetect",
+        "fullMatch": true,
+        "text": [],
+        "roi": [
+            -10,
+            42,
+            120,
             20
         ],
         "postDelay": 100

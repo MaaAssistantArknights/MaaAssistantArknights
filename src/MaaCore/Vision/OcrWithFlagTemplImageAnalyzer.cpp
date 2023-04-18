@@ -37,7 +37,7 @@ bool asst::OcrWithFlagTemplImageAnalyzer::analyze()
                                 std::make_move_iterator(m_ocr_result.end()));
         }
     }
-
+    save_img(utils::path("debug") / utils::path("oper"));
     return !m_all_result.empty();
 }
 
