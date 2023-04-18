@@ -461,6 +461,8 @@
     <system:String x:Key="TotalDrop">드롭 통계:</system:String>
     <system:String x:Key="ThisFacility">현재 시설:</system:String>
     <system:String x:Key="ProductIncorrect">생산품이 구성과 맞지 않습니다.</system:String>
+    <system:String x:Key="ProductUnknown">식별할 수 없는 산물</system:String>
+    <system:String x:Key="ProductChanged">결과물이 변경됨</system:String>
     <system:String x:Key="RecruitingResults">공개모집 인식 결과:</system:String>
     <system:String x:Key="RecruitingTips">공개모집 팁</system:String>
     <system:String x:Key="RecruitmentOfStar">★{0} 오퍼레이터를 모집했습니다!</system:String>
