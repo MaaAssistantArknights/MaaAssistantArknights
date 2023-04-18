@@ -43,6 +43,7 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class VersionUpdateViewModel : Screen
     {
+        private readonly IWindowManager _windowManager;
         private readonly SettingsViewModel _settingsViewModel;
         private readonly TaskQueueViewModel _taskQueueViewModel;
         private readonly IHttpService _httpService;
@@ -53,6 +54,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="container">The IoC container.</param>
         public VersionUpdateViewModel(IContainer container)
         {
+            _windowManager = container.Get<Helper.WindowManager>();
             _settingsViewModel = container.Get<SettingsViewModel>();
             _taskQueueViewModel = container.Get<TaskQueueViewModel>();
             _httpService = container.Get<IHttpService>();
@@ -351,6 +353,26 @@ namespace MaaWpfGui.ViewModels.UI
             /// 原生下载器
             /// </summary>
             Native,
+        }
+
+        /// <summary>
+        /// 如果是在更新后第一次启动，显示ReleaseNote弹窗，否则检查更新并下载更新包。
+        /// </summary>
+        public async void ShowUpdateOrDownload()
+        {
+            if (IsFirstBootAfterUpdate)
+            {
+                IsFirstBootAfterUpdate = false;
+                _windowManager.ShowWindow(this);
+            }
+            else
+            {
+                var ret = await CheckAndDownloadUpdate();
+                if (ret == CheckUpdateRetT.OK)
+                {
+                    AskToRestart();
+                }
+            }
         }
 
         /// <summary>

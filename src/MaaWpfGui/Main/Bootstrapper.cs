@@ -39,32 +39,8 @@ namespace MaaWpfGui.Main
     public class Bootstrapper : Bootstrapper<RootViewModel>
     {
         private static SettingsViewModel _settingsViewModel;
-        private static TrayIcon _trayIconInSettingsViewModel;
-
-        private static readonly FieldInfo _settingsViewModelIContainerFiled =
-            typeof(SettingsViewModel).GetField("_container", BindingFlags.NonPublic | BindingFlags.Instance);
-
+        private static TrayIcon _trayIcon;
         private static ILogger _logger = Logger.None;
-
-        /// <summary>
-        /// Sets tray icon in <see cref="SettingsViewModel"/>.
-        /// </summary>
-        /// <param name="settingsViewModel">The <see cref="SettingsViewModel"/> instance.</param>
-        /// <remarks>
-        /// 应当只能是 <see cref="SettingsViewModel"/> 在构造时调用这个函数。用反射拿 <see cref="SettingsViewModel._container"/> 只是为了不额外修改 <see cref="SettingsViewModel"/> 的定义，
-        /// 并顺便检查传入的 <see cref="SettingsViewModel._container"/> 不为空（即不是随便 <see langword="new"/> 出来的一个 <see cref="SettingsViewModel"/>）。
-        /// </remarks>
-        internal static void SetTrayIconInSettingsViewModel(SettingsViewModel settingsViewModel)
-        {
-            _settingsViewModel = settingsViewModel;
-            var container = (IContainer)_settingsViewModelIContainerFiled.GetValue(settingsViewModel);
-            if (container != null)
-            {
-                _trayIconInSettingsViewModel = container.Get<TrayIcon>();
-            }
-
-            // TODO:出现不符合要求的settingsViewModel应当Log一下，等一个有缘人
-        }
 
         /// <inheritdoc/>
         /// <remarks>初始化些啥自己加。</remarks>
@@ -164,8 +140,19 @@ namespace MaaWpfGui.Main
         /// <inheritdoc/>
         protected override void DisplayRootView(object rootViewModel)
         {
-            var windowManager = (Helper.WindowManager)GetInstance(typeof(Helper.WindowManager));
+            var windowManager = (IWindowManager)GetInstance(typeof(Helper.WindowManager));
             windowManager.ShowWindow(rootViewModel);
+        }
+
+        /// <inheritdoc/>
+        protected override void OnLaunch()
+        {
+            var versionUpdateViewModel = (VersionUpdateViewModel)GetInstance(typeof(VersionUpdateViewModel));
+            versionUpdateViewModel.ShowUpdateOrDownload();
+
+            // TrayIcon应该在显示rootViewModel之后再加载
+            _trayIcon = (TrayIcon)GetInstance(typeof(TrayIcon));
+            _settingsViewModel = (SettingsViewModel)GetInstance(typeof(SettingsViewModel));
         }
 
         /// <inheritdoc/>
@@ -183,7 +170,7 @@ namespace MaaWpfGui.Main
             }
 
             // 注销任务栏图标
-            _trayIconInSettingsViewModel.Close();
+            _trayIcon.Close();
             ConfigurationHelper.Release();
 
             _logger.Information("MaaAssistantArknights GUI exited");
