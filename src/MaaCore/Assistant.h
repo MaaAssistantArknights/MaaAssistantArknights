@@ -104,35 +104,34 @@ namespace asst
     private:
         struct AsyncCallItem
         {
-            enum class Type
-            {
-                Connect,
-                Click,
-                Screencap,
-            };
             struct ConnectParams
             {
                 std::string adb_path;
                 std::string address;
                 std::string config;
+                static constexpr std::string_view what = "Connect";
             };
             struct ClickParams
             {
                 int x = 0;
                 int y = 0;
+                static constexpr std::string_view what = "Click";
             };
             struct ScreencapParams
-            {};
-            using Parmas = std::variant<ConnectParams, ClickParams, ScreencapParams>;
+            {
+                static constexpr std::string_view what = "Screencap";
+            };
+            using Params = std::variant<ConnectParams, ClickParams, ScreencapParams>;
 
             AsyncCallId id;
-            Type type;
-            Parmas params;
+            Params params;
         };
-        AsyncCallId append_async_call(AsyncCallItem::Type type, AsyncCallItem::Parmas params, bool block = false);
+        // submit async call task to queue
+        AsyncCallId append_async_call(AsyncCallItem::Params params, bool block);
         bool wait_async_id(AsyncCallId id);
 
     private:
+        // thread executing async call tasks one by one from queue
         void call_proc();
         void working_proc();
         void msg_proc();
@@ -169,9 +168,7 @@ namespace asst
         std::mutex m_call_mutex;
         std::condition_variable m_call_condvar;
 
-        AsyncCallId m_completed_call = 0; // 每个实例有自己独立的执行队列，所以不能静态
-        std::mutex m_completed_call_mutex;
-        std::condition_variable m_completed_call_condvar;
+        std::atomic<AsyncCallId> m_completed_call = 0; // 每个实例有自己独立的执行队列，所以不能静态
 
         std::thread m_msg_thread;
         std::thread m_call_thread;

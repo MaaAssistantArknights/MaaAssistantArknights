@@ -5908,7 +5908,12 @@
             800,
             100
         ],
-        "ocrReplace": []
+        "ocrReplace": [
+            [
+                ".*前顾后",
+                "瞻前顾后"
+            ]
+        ]
     },
     "BattleSupportUnitFormation": {
         "action": "ClickSelf",
