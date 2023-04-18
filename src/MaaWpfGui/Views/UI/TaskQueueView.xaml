@@ -187,9 +187,10 @@
 
         <!--<GridSplitter Grid.Column="2" Width="5" HorizontalAlignment="Stretch" />-->
         <!--<Rectangle Grid.Column="2" VerticalAlignment="Stretch" Fill="{DynamicResource BorderBrush}" Width="4" />-->
-        <ScrollViewer
+        <hc:ScrollViewer
             Grid.Column="2"
             Margin="10"
+            IsInertiaEnabled="True"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Top"
             properties:AutoScroll.AutoScroll="True"
@@ -220,6 +221,6 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-        </ScrollViewer>
+        </hc:ScrollViewer>
     </Grid>
 </UserControl>

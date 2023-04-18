@@ -16,7 +16,8 @@
     d:DataContext="{d:DesignInstance {x:Type ui:TaskQueueViewModel}}"
     d:DesignWidth="250"
     mc:Ignorable="d">
-    <ScrollViewer>
+    <hc:ScrollViewer
+        IsInertiaEnabled="True">
         <Grid Width="220" Margin="0,0,5,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -294,5 +295,5 @@
                 </StackPanel>
             </Grid>
         </Grid>
-    </ScrollViewer>
+    </hc:ScrollViewer>
 </UserControl>
