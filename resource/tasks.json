@@ -6714,7 +6714,7 @@
         ],
         "specialParams_Doc": "基线长度阈值（不小于100）",
         "maskRange": [
-            70,
+            45,
             255
         ],
         "rectMove": [
