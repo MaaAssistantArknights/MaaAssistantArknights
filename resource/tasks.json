@@ -11356,27 +11356,9 @@
             140
         ],
         "next": [
-            "CheckConnect"
+            "ChangeOrderComfirm@LoadingText",
+            "Stop"
         ]
-    },
-    "CheckConnect": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "text": [
-            "正在提交",
-            "反馈至神经"
-        ],
-        "roi": [
-            700,
-            600,
-            300,
-            120
-        ],
-        "next": [ "CheckConnect" ],
-        "maxTimes": 60,
-        "exceededNext": [ "Stop" ],
-        "onErrorNext": [ "Stop" ]
-
     },
     "ChangeToSyntheticJadeFlagOrder": {
         "algorithm": "MatchTemplate",
@@ -11472,7 +11454,10 @@
             110,
             100
         ],
-        "next": [ "CheckConnect" ]
+        "next": [
+            "ProductFinalComfirm@LoadingText",
+            "Stop"
+        ]
     },
     "ChoosePureGoldTab": {
         "algorithm": "MatchTemplate",
