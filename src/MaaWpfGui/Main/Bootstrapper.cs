@@ -143,10 +143,9 @@ namespace MaaWpfGui.Main
         protected override void ConfigureIoC(IStyletIoCBuilder builder)
         {
             builder.Bind<TaskQueueViewModel>().ToSelf().InSingletonScope();
-            builder.Bind<RecruitViewModel>().ToSelf().InSingletonScope();
+            builder.Bind<RecognizerViewModel>().ToSelf().InSingletonScope();
             builder.Bind<SettingsViewModel>().ToSelf().InSingletonScope();
             builder.Bind<CopilotViewModel>().ToSelf().InSingletonScope();
-            builder.Bind<DepotViewModel>().ToSelf().InSingletonScope();
 
             builder.Bind<AsstProxy>().ToSelf().InSingletonScope();
             builder.Bind<TrayIcon>().ToSelf().InSingletonScope();

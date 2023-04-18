@@ -359,6 +359,8 @@
     <!--  日志  -->
     <!--  一键长草  -->
 
+    <system:String x:Key="IdentificationTool">识别工具</system:String>
+
     <!--  公招识别  -->
     <system:String x:Key="RecruitmentRecognition">公招识别</system:String>
     <system:String x:Key="RecruitmentRecognitionTip">小提示：和主界面的自动公招是两个独立的功能，请手动打开游戏公招 Tags 界面后使用~</system:String>

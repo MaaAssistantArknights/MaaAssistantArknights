@@ -357,6 +357,8 @@
     <!--  ログ  -->
     <!--  スタート  -->
 
+    <system:String x:Key="IdentificationTool">認識ツール</system:String>
+
     <!--  公開求人認識  -->
     <system:String x:Key="RecruitmentRecognition">公開求人認識</system:String>
     <system:String x:Key="RecruitmentRecognitionTip">ヒント：スタート画面の公開求人とは、別々の機能になっています。使用する前にゲームの公開求人を手動で開いてください</system:String>

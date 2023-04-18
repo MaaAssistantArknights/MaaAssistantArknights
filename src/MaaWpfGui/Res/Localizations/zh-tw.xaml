@@ -291,6 +291,8 @@
     <!--  日誌  -->
     <!--  一鍵長草  -->
 
+    <system:String x:Key="IdentificationTool">識別工具</system:String>
+
     <!--  公招辨識  -->
     <system:String x:Key="RecruitmentRecognition">公招辨識</system:String>
     <system:String x:Key="RecruitmentRecognitionTip">小提示：和主介面的自動公招是兩個獨立的功能，請手動打開遊戲公招 Tags 介面後使用~</system:String>

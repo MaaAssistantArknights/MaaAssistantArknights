@@ -356,6 +356,8 @@
     <!--  Logs  -->
     <!--  Farming  -->
 
+    <system:String x:Key="IdentificationTool">Identification tool</system:String>
+
     <!--  Recruitment Recognition  -->
     <system:String x:Key="RecruitmentRecognition">Recruit tool</system:String>
     <system:String x:Key="RecruitmentRecognitionTip">Tip: This recognition is independent from main tab (Farming); need open up in game recruit tag selection screen then begin ~</system:String>
