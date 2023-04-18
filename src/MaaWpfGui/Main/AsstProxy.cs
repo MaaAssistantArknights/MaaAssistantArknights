@@ -859,6 +859,14 @@ namespace MaaWpfGui.Main
                     _taskQueueViewModel.AddLog(LocalizationHelper.GetString("ProductIncorrect"), UiLogColor.Error);
                     break;
 
+                case "ProductUnknown":
+                    _taskQueueViewModel.AddLog(LocalizationHelper.GetString("ProductUnknown"), UiLogColor.Error);
+                    break;
+
+                case "ProductChanged":
+                    _taskQueueViewModel.AddLog(LocalizationHelper.GetString("ProductChanged"), UiLogColor.Info);
+                    break;
+
                 case "RecruitTagsDetected":
                     {
                         JArray tags = (JArray)subTaskDetails["tags"];
