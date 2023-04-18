@@ -57,7 +57,10 @@
                         BorderThickness="{TemplateBinding BorderThickness}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         Focusable="False">
-                        <ScrollViewer x:Name="PART_ContentHost" />
+                        
+                        <hc:ScrollViewer
+                            x:Name="PART_ContentHost"
+                            IsInertiaEnabled="True"/>
                     </Border>
                 </ControlTemplate>
             </FlowDocumentScrollViewer.Template>
