@@ -603,13 +603,10 @@
     <ClInclude Include="Controller\PlayToolsController.h">
       <Filter>源文件\Controller</Filter>
     </ClInclude>
-    <ClInclude Include="Config\Miscellaneous\RoleConfig.h">
-      <Filter>源文件\Resource\Miscellaneous</Filter>
-    </ClInclude>
-    <ClInclude Include="Task\Interface\RoleTask.h">
+    <ClInclude Include="Task\Interface\OperTask.h">
       <Filter>源文件\Task\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Miscellaneous\RoleRecognitionTask.h">
+    <ClInclude Include="Task\Miscellaneous\OperRecognitionTask.h">
       <Filter>源文件\Task\Miscellaneous</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1001,13 +998,10 @@
     <ClCompile Include="Controller\PlayToolsController.cpp">
       <Filter>源文件\Controller</Filter>
     </ClCompile>
-    <ClCompile Include="Config\Miscellaneous\RoleConfig.cpp">
-      <Filter>源文件\Resource\Miscellaneous</Filter>
-    </ClCompile>
-    <ClCompile Include="Task\Interface\RoleTask.cpp">
+    <ClCompile Include="Task\Interface\OperTask.cpp">
       <Filter>源文件\Task\Interface</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Miscellaneous\RoleRecognitionTask.cpp">
+    <ClCompile Include="Task\Miscellaneous\OperRecognitionTask.cpp">
       <Filter>源文件\Task\Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>

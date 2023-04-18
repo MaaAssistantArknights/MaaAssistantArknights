@@ -165,7 +165,7 @@ namespace MaaWpfGui.Main
         private readonly RecruitViewModel _recruitViewModel;
         private readonly CopilotViewModel _copilotViewModel;
         private readonly DepotViewModel _depotViewModel;
-        private readonly RoleViewModel _roleViewModel;
+        private readonly OperViewModel _operViewModel;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AsstProxy"/> class.
@@ -179,7 +179,7 @@ namespace MaaWpfGui.Main
             _recruitViewModel = container.Get<RecruitViewModel>();
             _copilotViewModel = container.Get<CopilotViewModel>();
             _depotViewModel = container.Get<DepotViewModel>();
-            _roleViewModel = container.Get<RoleViewModel>();
+            _operViewModel = container.Get<OperViewModel>();
 
             _windowManager = windowManager;
             _callback = CallbackFunction;
@@ -571,7 +571,7 @@ namespace MaaWpfGui.Main
                             || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.RecruitCalc, out var recruitCalcTaskId) ? recruitCalcTaskId : 0)
                             || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0)
                             || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.Depot, out var depotTaskId) ? depotTaskId : 0)
-                            || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.Role, out var roleTaskId) ? roleTaskId : 0))
+                            || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.Oper, out var operTaskId) ? operTaskId : 0))
                         {
                             isMainTaskQueueAllCompleted = false;
                         }
@@ -826,9 +826,9 @@ namespace MaaWpfGui.Main
                 _depotViewModel.Parse((JObject)subTaskDetails);
             }
 
-            if (taskChain == "Role")
+            if (taskChain == "Oper")
             {
-                _roleViewModel.Parse((JObject)subTaskDetails);
+                _operViewModel.Parse((JObject)subTaskDetails);
             }
 
             string what = details["what"].ToString();
@@ -1251,7 +1251,7 @@ namespace MaaWpfGui.Main
             Copilot,
             VideoRec,
             Depot,
-            Role,
+            Oper,
         }
 
         private readonly Dictionary<TaskType, AsstTaskId> _latestTaskId = new Dictionary<TaskType, AsstTaskId>();
@@ -1653,11 +1653,11 @@ namespace MaaWpfGui.Main
         /// 干员识别。
         /// </summary>
         /// <returns>是否成功。</returns>
-        public bool AsstStartRole()
+        public bool AsstStartOper()
         {
             var task_params = new JObject();
-            AsstTaskId id = AsstAppendTaskWithEncoding("Role", task_params);
-            _latestTaskId[TaskType.Role] = id;
+            AsstTaskId id = AsstAppendTaskWithEncoding("Oper", task_params);
+            _latestTaskId[TaskType.Oper] = id;
             return id != 0 && AsstStart();
         }
 
