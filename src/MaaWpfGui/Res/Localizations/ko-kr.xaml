@@ -337,6 +337,8 @@
     <!--  로그  -->
     <!--  메인 화면  -->
 
+    <system:String x:Key="IdentificationTool">인식 도구</system:String>
+
     <!--  공개모집 인식  -->
     <system:String x:Key="RecruitmentRecognition">공개모집 인식</system:String>
     <system:String x:Key="RecruitmentRecognitionTip">팁: 메인 화면의 자동 모집과는 별도로 독립된 기능입니다. 게임 내 공개모집 태그 화면에서 사용하세요~</system:String>
