@@ -165,7 +165,6 @@ namespace MaaWpfGui.Main
         private readonly RecognizerViewModel _recognizerViewModel;
         private readonly CopilotViewModel _copilotViewModel;
 
-        private readonly DepotViewModel _depotViewModel;
         private readonly OperViewModel _operViewModel;
 
 
@@ -181,7 +180,6 @@ namespace MaaWpfGui.Main
             _recognizerViewModel = container.Get<RecognizerViewModel>();
             _copilotViewModel = container.Get<CopilotViewModel>();
 
-            _depotViewModel = container.Get<DepotViewModel>();
             _operViewModel = container.Get<OperViewModel>();
 
 
