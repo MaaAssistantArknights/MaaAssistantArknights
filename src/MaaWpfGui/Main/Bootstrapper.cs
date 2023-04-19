@@ -146,7 +146,6 @@ namespace MaaWpfGui.Main
             builder.Bind<RecognizerViewModel>().ToSelf().InSingletonScope();
             builder.Bind<SettingsViewModel>().ToSelf().InSingletonScope();
             builder.Bind<CopilotViewModel>().ToSelf().InSingletonScope();
-            builder.Bind<DepotViewModel>().ToSelf().InSingletonScope();
             builder.Bind<OperViewModel>().ToSelf().InSingletonScope();
 
 
