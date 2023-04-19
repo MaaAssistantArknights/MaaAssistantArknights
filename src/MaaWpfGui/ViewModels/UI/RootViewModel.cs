@@ -29,7 +29,6 @@ namespace MaaWpfGui.ViewModels.UI
         private readonly RecognizerViewModel _recognizerViewModel;
         private readonly SettingsViewModel _settingsViewModel;
         private readonly CopilotViewModel _copilotViewModel;
-        private readonly OperViewModel _operViewModel;
         private readonly VersionUpdateViewModel _versionUpdateViewModel;
 
         /// <summary>
@@ -43,7 +42,6 @@ namespace MaaWpfGui.ViewModels.UI
             _recognizerViewModel = container.Get<RecognizerViewModel>();
             _settingsViewModel = container.Get<SettingsViewModel>();
             _copilotViewModel = container.Get<CopilotViewModel>();
-            _operViewModel = container.Get<OperViewModel>();
             _versionUpdateViewModel = container.Get<VersionUpdateViewModel>();
         }
 
@@ -64,7 +62,6 @@ namespace MaaWpfGui.ViewModels.UI
         {
             Items.Add(_taskQueueViewModel);
             Items.Add(_copilotViewModel);
-            Items.Add(_operViewModel);
             Items.Add(_recognizerViewModel);
             Items.Add(_settingsViewModel);
 

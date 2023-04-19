@@ -165,9 +165,6 @@ namespace MaaWpfGui.Main
         private readonly RecognizerViewModel _recognizerViewModel;
         private readonly CopilotViewModel _copilotViewModel;
 
-        private readonly OperViewModel _operViewModel;
-
-
         /// <summary>
         /// Initializes a new instance of the <see cref="AsstProxy"/> class.
         /// </summary>
@@ -179,9 +176,6 @@ namespace MaaWpfGui.Main
             _taskQueueViewModel = container.Get<TaskQueueViewModel>();
             _recognizerViewModel = container.Get<RecognizerViewModel>();
             _copilotViewModel = container.Get<CopilotViewModel>();
-
-            _operViewModel = container.Get<OperViewModel>();
-
 
             _windowManager = windowManager;
             _callback = CallbackFunction;
@@ -830,7 +824,7 @@ namespace MaaWpfGui.Main
 
             if (taskChain == "Oper")
             {
-                _operViewModel.Parse((JObject)subTaskDetails);
+                _recognizerViewModel.OperParse((JObject)subTaskDetails);
             }
 
             string what = details["what"].ToString();
