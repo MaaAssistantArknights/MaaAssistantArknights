@@ -4,10 +4,9 @@
 
 const asst::OcrWithPreprocessImageAnalyzer::ResultsVecOpt& asst::OcrWithPreprocessImageAnalyzer::analyze()
 {
-    m_without_det = true;
+    m_result = std::nullopt;
 
-    m_roi = correct_rect(m_roi, m_image);
-    cv::Mat img_roi = m_image(make_rect<cv::Rect>(m_roi));
+    cv::Mat img_roi = make_roi(m_image, m_roi);
     cv::Mat img_roi_gray;
     cv::cvtColor(img_roi, img_roi_gray, cv::COLOR_BGR2GRAY);
     cv::Mat bin;
@@ -29,6 +28,7 @@ const asst::OcrWithPreprocessImageAnalyzer::ResultsVecOpt& asst::OcrWithPreproce
         new_roi.height += 2 * m_expansion;
     }
     OcrImageAnalyzer::set_roi(new_roi);
+
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw, make_rect<cv::Rect>(new_roi), cv::Scalar(0, 0, 255), 1);
 #endif // ASST_DEBUG
@@ -42,12 +42,12 @@ void asst::OcrWithPreprocessImageAnalyzer::set_threshold(int lower, int upper)
     m_threshold_upper = upper;
 }
 
-void asst::OcrWithPreprocessImageAnalyzer::set_split(bool split)
-{
-    m_split = split;
-}
-
 void asst::OcrWithPreprocessImageAnalyzer::set_expansion(int expansion)
 {
     m_expansion = expansion;
 }
+
+// void asst::OcrWithPreprocessImageAnalyzer::set_split(bool split)
+//{
+//     m_split = split;
+// }

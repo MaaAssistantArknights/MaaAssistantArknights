@@ -13,7 +13,7 @@ namespace asst
 
     public:
         OcrWithFlagTemplImageAnalyzer() = default;
-        OcrWithFlagTemplImageAnalyzer(const cv::Mat& image);
+        OcrWithFlagTemplImageAnalyzer(const cv::Mat& image, const Rect& roi = Rect());
         virtual ~OcrWithFlagTemplImageAnalyzer() override = default;
 
         virtual void set_image(const cv::Mat& image) override;
@@ -27,6 +27,7 @@ namespace asst
     protected:
         using OcrWithPreprocessImageAnalyzer::set_task_info;
 
+    private:
         MultiMatchImageAnalyzer m_multi_match_image_analyzer;
         Rect m_flag_rect_move;
     };

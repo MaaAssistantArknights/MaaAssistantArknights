@@ -1,9 +1,10 @@
 #pragma once
 #include "MatchImageAnalyzer.h"
+#include "Vision/Config/MatchImageAnalyzerConfig.h"
 
 namespace asst
 {
-    class MultiMatchImageAnalyzer : public MatchImageAnalyzer
+    class MultiMatchImageAnalyzer : public AbstractImageAnalyzer, public MatchImageAnalyzerConfig
     {
     public:
         using Result = MatchImageAnalyzer::Result;
@@ -11,7 +12,7 @@ namespace asst
         using ResultsVecOpt = std::optional<ResultsVec>;
 
     public:
-        using MatchImageAnalyzer::MatchImageAnalyzer;
+        using AbstractImageAnalyzer::AbstractImageAnalyzer;
         virtual ~MultiMatchImageAnalyzer() override = default;
 
         const ResultsVecOpt& analyze();
@@ -21,8 +22,9 @@ namespace asst
         void sort_results_by_score();      // 按分数排序，得分最高的在前面
 
     protected:
-        virtual bool multi_match_templ(const cv::Mat templ);
+        virtual void _set_roi(const Rect& roi) override;
 
-        ResultsVecOpt m_multi_result;
+    private:
+        ResultsVecOpt m_result;
     };
 }

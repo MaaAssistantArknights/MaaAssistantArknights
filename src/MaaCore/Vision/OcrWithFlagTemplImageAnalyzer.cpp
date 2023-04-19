@@ -2,8 +2,8 @@
 
 #include "Config/TaskData.h"
 
-asst::OcrWithFlagTemplImageAnalyzer::OcrWithFlagTemplImageAnalyzer(const cv::Mat& image)
-    : OcrWithPreprocessImageAnalyzer(image), m_multi_match_image_analyzer(image)
+asst::OcrWithFlagTemplImageAnalyzer::OcrWithFlagTemplImageAnalyzer(const cv::Mat& image, const Rect& roi)
+    : OcrWithPreprocessImageAnalyzer(image, roi), m_multi_match_image_analyzer(image)
 {}
 
 void asst::OcrWithFlagTemplImageAnalyzer::set_image(const cv::Mat& image)
@@ -20,29 +20,31 @@ void asst::OcrWithFlagTemplImageAnalyzer::set_roi(const Rect& roi) noexcept
 
 const asst::OcrWithFlagTemplImageAnalyzer::ResultsVecOpt& asst::OcrWithFlagTemplImageAnalyzer::analyze()
 {
-    if (!m_multi_match_image_analyzer.analyze()) {
-        m_result = std::nullopt;
+    m_result = std::nullopt;
+
+    auto matched_vec_opt = m_multi_match_image_analyzer.analyze();
+    if (!matched_vec_opt) {
         return std::nullopt;
     }
+    auto& matched_vec = *matched_vec_opt;
 
     ResultsVec results;
-    for (const auto& templ_res : m_multi_match_image_analyzer.get_result()) {
-        Rect roi = templ_res.rect.move(m_flag_rect_move);
+    for (const auto& matched : matched_vec) {
+        Rect roi = matched.rect.move(m_flag_rect_move);
         set_roi(roi);
 
         auto ocr_opt = OcrWithPreprocessImageAnalyzer::analyze();
-        if (ocr_opt) {
-            results.insert(results.end(), std::make_move_iterator(ocr_opt->begin()),
-                           std::make_move_iterator(ocr_opt->end()));
+        if (!ocr_opt) {
+            continue;
         }
+        auto& ocr_res = *ocr_opt;
+        results.insert(results.end(), std::make_move_iterator(ocr_res.begin()), std::make_move_iterator(ocr_res.end()));
     }
 
     if (results.empty()) {
-        m_result = std::nullopt;
+        return std::nullopt;
     }
-    else {
-        m_result = results;
-    }
+    m_result = results;
 
     return m_result;
 }

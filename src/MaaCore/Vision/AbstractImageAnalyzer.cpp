@@ -9,8 +9,8 @@
 #include "Utils/StringMisc.hpp"
 #include "Utils/Time.hpp"
 
-asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image, Assistant* inst)
-    : InstHelper(inst), m_image(image), m_roi(correct_rect(Rect(), image))
+asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image, const Rect& roi, Assistant* inst)
+    : InstHelper(inst), m_image(image), m_roi(correct_rect(roi, image))
 #ifdef ASST_DEBUG
       ,
       m_image_draw(image.clone())

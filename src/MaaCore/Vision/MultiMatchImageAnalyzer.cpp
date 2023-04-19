@@ -11,9 +11,10 @@
 
 const asst::MultiMatchImageAnalyzer::ResultsVecOpt& asst::MultiMatchImageAnalyzer::analyze()
 {
-    m_multi_result = std::nullopt;
+    m_result = std::nullopt;
 
-    const auto& [matched, templ, templ_name] = preproc_and_match();
+    const auto& [matched, templ, templ_name] =
+        MatchImageAnalyzer::preproc_and_match(make_roi(m_image, m_roi), m_params);
 
     if (matched.empty()) {
         return std::nullopt;
@@ -25,25 +26,27 @@ const asst::MultiMatchImageAnalyzer::ResultsVecOpt& asst::MultiMatchImageAnalyze
     for (int i = 0; i != matched.rows; ++i) {
         for (int j = 0; j != matched.cols; ++j) {
             auto value = matched.at<float>(i, j);
-            if (m_templ_thres <= value && value < 2.0) {
-                Rect rect(j + m_roi.x, i + m_roi.y, templ.cols, templ.rows);
-                bool need_push = true;
-                // 如果有两个点离得太近，只取里面得分高的那个
-                // 一般相邻的都是刚刚push进去的，这里倒序快一点
-                for (auto& iter : ranges::reverse_view(results)) {
-                    if (std::abs(j + m_roi.x - iter.rect.x) < mini_distance &&
-                        std::abs(i + m_roi.y - iter.rect.y) < mini_distance) {
-                        if (iter.score < value) {
-                            iter.rect = rect;
-                            iter.score = value;
-                        } // else 这个点就放弃了
-                        need_push = false;
-                        break;
-                    }
+            if (m_params.templ_thres > value || value > 2.0) {
+                continue;
+            }
+
+            Rect rect(j + m_roi.x, i + m_roi.y, templ.cols, templ.rows);
+            bool need_push = true;
+            // 如果有两个点离得太近，只取里面得分高的那个
+            // 一般相邻的都是刚刚push进去的，这里倒序快一点
+            for (auto& iter : ranges::reverse_view(results)) {
+                if (std::abs(j + m_roi.x - iter.rect.x) < mini_distance &&
+                    std::abs(i + m_roi.y - iter.rect.y) < mini_distance) {
+                    if (iter.score < value) {
+                        iter.rect = rect;
+                        iter.score = value;
+                    } // else 这个点就放弃了
+                    need_push = false;
+                    break;
                 }
-                if (need_push) {
-                    results.emplace_back(value, rect);
-                }
+            }
+            if (need_push) {
+                results.emplace_back(value, rect);
             }
         }
     }
@@ -52,7 +55,7 @@ const asst::MultiMatchImageAnalyzer::ResultsVecOpt& asst::MultiMatchImageAnalyze
         return std::nullopt;
     }
 
-    m_multi_result = results;
+    m_result = results;
 
 #ifdef ASST_DEBUG
     for (const auto& rect : results) {
@@ -63,32 +66,37 @@ const asst::MultiMatchImageAnalyzer::ResultsVecOpt& asst::MultiMatchImageAnalyze
 #endif
 
     if (m_log_tracing) {
-        Log.trace("multi_match_templ | ", templ_name, "result:", m_multi_result.value_or(ResultsVec()), "roi:", m_roi);
+        Log.trace("multi_match_templ | ", templ_name, "result:", *m_result, "roi:", m_roi);
     }
 
-    return m_multi_result;
+    return m_result;
 }
 
 void asst::MultiMatchImageAnalyzer::sort_results_by_horizontal()
 {
-    if (!m_multi_result) {
+    if (!m_result) {
         return;
     }
-    sort_by_horizontal_(m_multi_result.value());
+    sort_by_horizontal_(m_result.value());
 }
 
 void asst::MultiMatchImageAnalyzer::sort_results_by_vertical()
 {
-    if (!m_multi_result) {
+    if (!m_result) {
         return;
     }
-    sort_by_vertical_(m_multi_result.value());
+    sort_by_vertical_(m_result.value());
 }
 
 void asst::MultiMatchImageAnalyzer::sort_results_by_score()
 {
-    if (!m_multi_result) {
+    if (!m_result) {
         return;
     }
-    sort_by_score_(m_multi_result.value());
+    sort_by_score_(m_result.value());
+}
+
+void asst::MultiMatchImageAnalyzer::_set_roi(const Rect& roi)
+{
+    AbstractImageAnalyzer::set_roi(roi);
 }

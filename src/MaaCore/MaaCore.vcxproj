@@ -79,6 +79,9 @@
     <ClInclude Include="Vision\Battle\BattleOperatorsImageAnalyzer.h" />
     <ClInclude Include="Vision\Battle\BattleSkillReadyImageAnalyzer.h" />
     <ClInclude Include="Vision\BestMatchImageAnalyzer.h" />
+    <ClInclude Include="Vision\Config\MatchImageAnalyzerConfig.h" />
+    <ClInclude Include="Vision\Config\OcrImageAnalyzerConfig.h" />
+    <ClInclude Include="Vision\Config\OnnxImageAnalyzerConfig.h" />
     <ClInclude Include="Vision\HashImageAnalyzer.h" />
     <ClInclude Include="Vision\Infrast\InfrastClueImageAnalyzer.h" />
     <ClInclude Include="Vision\Infrast\InfrastClueVacancyImageAnalyzer.h" />
@@ -229,6 +232,8 @@
     <ClCompile Include="Vision\Battle\BattleOperatorsImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Battle\BattleSkillReadyImageAnalyzer.cpp" />
     <ClCompile Include="Vision\BestMatchImageAnalyzer.cpp" />
+    <ClCompile Include="Vision\Config\MatchImageAnalyzerConfig.cpp" />
+    <ClCompile Include="Vision\Config\OcrImageAnalyzerConfig.cpp" />
     <ClCompile Include="Vision\HashImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Infrast\InfrastClueImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Infrast\InfrastClueVacancyImageAnalyzer.cpp" />

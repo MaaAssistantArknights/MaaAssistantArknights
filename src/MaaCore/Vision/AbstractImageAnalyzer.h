@@ -20,7 +20,7 @@ namespace asst
     {
     public:
         AbstractImageAnalyzer() = default;
-        AbstractImageAnalyzer(const cv::Mat& image, Assistant* inst = nullptr);
+        AbstractImageAnalyzer(const cv::Mat& image, const Rect& roi = Rect(), Assistant* inst = nullptr);
         virtual ~AbstractImageAnalyzer() = default;
 
         virtual void set_image(const cv::Mat& image);
@@ -58,6 +58,28 @@ namespace asst
         inline static void sort_by_score_(ResultsVec& results)
         {
             ranges::sort(results, std::greater {}, std::mem_fn(&ResultsVec::value_type::score));
+        }
+
+        template <typename ResultsVec>
+        inline static void sort_by_required_(ResultsVec& results, const std::vector<std::string>& required)
+        {
+            std::unordered_map<std::string, size_t> req_cache;
+            for (size_t i = 0; i != required.size(); ++i) {
+                req_cache.emplace(required.at(i), i + 1);
+            }
+
+            // 不在 required 中的将被排在最后
+            ranges::sort(results, [&req_cache](const auto& lhs, const auto& rhs) -> bool {
+                size_t lvalue = req_cache[lhs.text];
+                size_t rvalue = req_cache[rhs.text];
+                if (lvalue == 0) {
+                    return false;
+                }
+                else if (rvalue == 0) {
+                    return true;
+                }
+                return lvalue < rvalue;
+            });
         }
 
     protected:

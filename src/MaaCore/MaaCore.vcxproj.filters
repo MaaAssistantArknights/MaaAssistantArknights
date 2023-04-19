@@ -92,6 +92,9 @@
     <Filter Include="源文件\Task\Experiment">
       <UniqueIdentifier>{987541fc-58f0-40eb-8b93-c0cb38881d92}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Vision\Config">
+      <UniqueIdentifier>{e34dc4b0-64a7-460d-9443-3901d9f70456}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json">
@@ -603,6 +606,15 @@
     <ClInclude Include="Controller\PlayToolsController.h">
       <Filter>源文件\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="Vision\Config\MatchImageAnalyzerConfig.h">
+      <Filter>源文件\Vision\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Vision\Config\OcrImageAnalyzerConfig.h">
+      <Filter>源文件\Vision\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Vision\Config\OnnxImageAnalyzerConfig.h">
+      <Filter>源文件\Vision\Config</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\AbstractImageAnalyzer.cpp">
@@ -991,6 +1003,12 @@
     </ClCompile>
     <ClCompile Include="Controller\PlayToolsController.cpp">
       <Filter>源文件\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Vision\Config\MatchImageAnalyzerConfig.cpp">
+      <Filter>源文件\Vision\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="Vision\Config\OcrImageAnalyzerConfig.cpp">
+      <Filter>源文件\Vision\Config</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,11 +1,11 @@
 #pragma once
 #include "AbstractImageAnalyzer.h"
 
-#include <variant>
+#include "Vision/Config/MatchImageAnalyzerConfig.h"
 
 namespace asst
 {
-    class MatchImageAnalyzer : public AbstractImageAnalyzer
+    class MatchImageAnalyzer : public AbstractImageAnalyzer, public MatchImageAnalyzerConfig
     {
     public:
         struct Result
@@ -26,34 +26,19 @@ namespace asst
         virtual ~MatchImageAnalyzer() override = default;
 
         const ResultOpt& analyze();
+        const ResultOpt& result() const noexcept;
 
-        void set_task_info(const std::shared_ptr<TaskInfo>& task_ptr);
-        void set_task_info(const std::string& task_name);
-
-        void set_templ(std::variant<std::string, cv::Mat> templ);
-        void set_threshold(double templ_thres) noexcept;
-        void set_mask_range(int lower, int upper, bool mask_with_src = false) noexcept;
-        void set_mask_with_close(int with_close) noexcept;
-
-        const std::optional<Result>& result() const noexcept;
-
-    protected:
-        void set_task_info(MatchTaskInfo task_info) noexcept;
-
+    public:
         struct RawResult
         {
             cv::Mat matched;
             cv::Mat templ;
             std::string templ_name;
         };
+        static RawResult preproc_and_match(const cv::Mat& image, const MatchImageAnalyzerConfig::Params& params);
 
-        RawResult preproc_and_match();
-
-        std::variant<std::string, cv::Mat> m_templ;
-        double m_templ_thres = 0.0;
-        std::pair<int, int> m_mask_range;
-        bool m_mask_with_src = false;
-        bool m_mask_with_close = false;
+    protected:
+        virtual void _set_roi(const Rect& roi) override;
 
     private:
         ResultOpt m_result;

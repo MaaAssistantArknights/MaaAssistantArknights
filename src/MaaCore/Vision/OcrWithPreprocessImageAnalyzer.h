@@ -17,13 +17,13 @@ namespace asst
         virtual const ResultsVecOpt& analyze() override;
 
         void set_threshold(int lower, int upper = 255);
-        void set_split(bool split);
         void set_expansion(int expansion);
+        // void set_split(bool split);
 
     protected:
         int m_threshold_lower = 140;
         int m_threshold_upper = 255;
-        bool m_split = false;
+        // bool m_split = false;
         int m_expansion = 2;
     };
 }
