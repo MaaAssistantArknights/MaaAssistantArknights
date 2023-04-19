@@ -5,5 +5,15 @@
     <SolidColorBrush x:Key="PallasBrush" Color="#6A6AAB" />
     <SolidColorBrush x:Key="ErrorViewBackgroundBrush" Color="#E6E6E6" />
     <SolidColorBrush x:Key="SecondaryRegionBrush" Color="#ffffff" />
-    
+
+    <!-- UiLogColor -->
+    <SolidColorBrush x:Key="ErrorLogBrush" Color="DarkRed" />
+    <SolidColorBrush x:Key="WarningLogBrush" Color="DarkGoldenrod" />
+    <SolidColorBrush x:Key="InfoLogBrush" Color="DarkCyan" />
+    <SolidColorBrush x:Key="TraceLogBrush" Color="Gray" />
+    <SolidColorBrush x:Key="MessageLogBrush" Color="Black" />
+    <SolidColorBrush x:Key="RareOperatorLogBrush" Color="DarkOrange" />
+    <SolidColorBrush x:Key="RobotOperatorLogBrush" Color="DarkGray" />
+    <SolidColorBrush x:Key="DownloadLogBrush" Color="BlueViolet" />
+
 </ResourceDictionary>
