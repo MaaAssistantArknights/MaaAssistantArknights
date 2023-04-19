@@ -84,6 +84,7 @@
         "斯卡蒂",
         "赫拉格",
         "宴",
+        "羽毛笔",
         "重岳",
         "莫斯提马",
         "远山",
@@ -151,6 +152,33 @@
             "actions": [
                 {
                     "type": "二倍速"
+                },
+                {
+                    "type": "部署",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        1,
+                        2
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "type": "部署",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        1,
+                        3
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "type": "部署",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        1,
+                        5
+                    ],
+                    "direction": "Down"
                 }
             ],
             "retry_times": 5
@@ -163,10 +191,10 @@
                         "先锋": 100
                     },
                     "location": [
-                        2,
-                        1
+                        8,
+                        2
                     ],
-                    "direction": "Right"
+                    "direction": "Left"
                 },
                 {
                     "core": "棘刺",
@@ -214,6 +242,33 @@
                         1
                     ],
                     "direction": "Right"
+                },
+                {
+                    "type": "部署",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        8,
+                        1
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "type": "部署",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        8,
+                        2
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "type": "部署",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        8,
+                        2
+                    ],
+                    "direction": "Down"
                 }
             ],
             "retry_times": 5
@@ -300,6 +355,33 @@
                         3
                     ],
                     "direction": "Up"
+                },
+                {
+                    "type": "部署",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        3,
+                        6
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "type": "部署",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        4,
+                        6
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "type": "部署",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        5,
+                        6
+                    ],
+                    "direction": "Down"
                 }
             ],
             "retry_times": 5
@@ -375,6 +457,33 @@
                         3
                     ],
                     "direction": "Up"
+                },
+                {
+                    "type": "部署",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        7,
+                        1
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "type": "部署",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        6,
+                        1
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "type": "部署",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        5,
+                        1
+                    ],
+                    "direction": "Down"
                 }
             ],
             "retry_times": 5
@@ -462,6 +571,33 @@
                         4
                     ],
                     "direction": "Up"
+                },
+                {
+                    "type": "部署",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        2,
+                        3
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "type": "部署",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        3,
+                        3
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "type": "部署",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        4,
+                        3
+                    ],
+                    "direction": "Down"
                 }
             ],
             "retry_times": 5

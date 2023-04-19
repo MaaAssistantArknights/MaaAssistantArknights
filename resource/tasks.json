@@ -11466,5 +11466,253 @@
         "next": [
             "Stop"
         ]
+    },
+    "ChangeToMoneyOrder": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "InfrastTradeSyntheticJadeFlag.png",
+        "cache": true,
+        "roi": [
+            950,
+            585,
+            207,
+            105
+        ],
+        "next": [ "ChooseMoneyOrder" ]
+    },
+    "ChooseMoneyOrder": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "ChooseMoneyOrder.png",
+        "cache": true,
+        "roi": [
+            395,
+            150,
+            248,
+            427
+        ],
+        "next": [ "ChangeOrderComfirm" ]
+    },
+    "ChangeOrderComfirm": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            0,
+            0,
+            380,
+            140
+        ],
+        "next": [
+            "ChangeOrderComfirm@LoadingText",
+            "Stop"
+        ]
+    },
+    "ChangeToSyntheticJadeFlagOrder": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "InfrastTradeMoneyFlag.png",
+        "cache": true,
+        "roi": [
+            950,
+            585,
+            207,
+            105
+        ],
+        "next": [ "ChooseSyntheticJadeOrder" ]
+    },
+    "ChooseSyntheticJadeOrder": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "ChooseSyntheticJadeOrder.png",
+        "cache": true,
+        "roi": [
+            635,
+            150,
+            250,
+            427
+        ],
+        "next": [ "ChangeOrderComfirm" ]
+    },
+    "ChooseProductList": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickRect",
+        "template": "ChooseProductList.png",
+        "cache": true,
+        "roi": [
+            1000,
+            117,
+            115,
+            60
+        ],
+        "specificRect": [
+            1026,
+            180,
+            1219,
+            487
+        ]
+    },
+    "ComfirmProductChange": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "ReplenishToMaxConfirm.png",
+        "cache": true,
+        "roi": [
+            890,
+            540,
+            120,
+            120
+        ],
+        "next": [ "ProductFinalComfirm" ]
+    },
+    "ClickProductMax": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "ClickProductMax.png",
+        "cache": true,
+        "roi": [
+            920,
+            170,
+            85,
+            60
+        ],
+        "next": [ "ComfirmProductChange" ]
+    },
+    "ChooseBattleRecord": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "ChooseBattleRecord.png",
+        "cache": true,
+        "roi": [
+            240,
+            255,
+            190,
+            195
+        ],
+        "next": [ "ClickProductMax" ]
+    },
+    "ProductFinalComfirm": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "SSSSettlementConfirm.png",
+        "cache": true,
+        "roi": [
+            790,
+            450,
+            110,
+            100
+        ],
+        "next": [
+            "ProductFinalComfirm@LoadingText",
+            "Stop"
+        ]
+    },
+    "ChoosePureGoldTab": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "ChoosePureGoldTab.png",
+        "cache": true,
+        "roi": [
+            10,
+            170,
+            100,
+            110
+        ],
+        "next": [ "ChoosePureGold" ]
+    },
+    "ChoosePureGold": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "ChoosePureGold.png",
+        "cache": true,
+        "roi": [
+            240,
+            76,
+            190,
+            195
+        ],
+        "next": [ "ClickProductMax" ]
+    },
+    "ChooseOriginiumShardTab": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "ChooseOriginiumShardTab.png",
+        "cache": true,
+        "roi": [
+            10,
+            360,
+            100,
+            110
+        ],
+        "next": [ "ChooseOriginiumShard" ]
+    },
+    "ChooseOriginiumShard": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "ChooseOriginiumShard.png",
+        "cache": true,
+        "roi": [
+            240,
+            76,
+            190,
+            195
+        ],
+        "next": [ "ClickProductMax" ]
+    },
+    "ChangeProductToMiddleBattleRecord": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickRect",
+        "template": "ChooseProductList.png",
+        "cache": true,
+        "roi": [
+            1000,
+            117,
+            115,
+            60
+        ],
+        "specificRect": [
+            1030,
+            180,
+            80,
+            80
+        ],
+        "next": [ "ChooseBattleRecord" ]
+    },
+    "ChangeProductToPureGold": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickRect",
+        "template": "ChooseProductList.png",
+        "cache": true,
+        "roi": [
+            1000,
+            117,
+            115,
+            60
+        ],
+        "specificRect": [
+            1030,
+            180,
+            80,
+            80
+        ],
+        "next": [ "ChoosePureGoldTab" ]
+    },
+    "ChangeProductToOriginiumShard": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickRect",
+        "template": "ChooseProductList.png",
+        "cache": true,
+        "roi": [
+            1000,
+            117,
+            115,
+            60
+        ],
+        "specificRect": [
+            1030,
+            180,
+            80,
+            80
+        ],
+        "next": [ "ChooseOriginiumShardTab" ]
     }
 }
