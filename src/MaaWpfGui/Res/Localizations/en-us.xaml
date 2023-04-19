@@ -310,6 +310,7 @@
     <system:String x:Key="AP-5">AP-5</system:String>
     <system:String x:Key="CA-5">CA-5</system:String>
     <system:String x:Key="LS-6">LS-6</system:String>
+    <system:String x:Key="SK-5">SK-5</system:String>
 
     <system:String x:Key="PR-A-1">Med/Def Ⅰ</system:String>
     <system:String x:Key="PR-A-2">Med/Def Ⅱ</system:String>
@@ -354,6 +355,8 @@
     <system:String x:Key="AnnihilationTaskFailed">Annihilation task failed, will try to use alternate stage, some combat settings will not be effective</system:String>
     <!--  Logs  -->
     <!--  Farming  -->
+
+    <system:String x:Key="IdentificationTool">Identification tool</system:String>
 
     <!--  Recruitment Recognition  -->
     <system:String x:Key="RecruitmentRecognition">Recruit tool</system:String>
@@ -482,6 +485,8 @@
     <system:String x:Key="TotalDrop">Total Drops:</system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">Current Facility: </system:String>
     <system:String x:Key="ProductIncorrect">Product does NOT match the configuration.</system:String>
+    <system:String x:Key="ProductUnknown">Unknown Product</system:String>
+    <system:String x:Key="ProductChanged">Product has changed</system:String>
     <system:String x:Key="RecruitingResults" xml:space="preserve">Recruitment Results: </system:String>
     <system:String x:Key="RecruitingTips">Recruiting Tips</system:String>
     <system:String x:Key="RecruitmentOfStar">{0} star has been recruited</system:String>
@@ -532,7 +537,7 @@
     <!--  AutoRecruitSettings  -->
 
     <!--  EasterEggs  -->
-    <system:String x:Key="BuyWineOnAprilFoolsDay">Dear doctor, ever heard of the new listings of "isopropyl alcohol" in Ms. Closure's store? let's check it out?</system:String>
+    <system:String x:Key="BuyWineOnAprilFoolsDay">Dear doctor, ever heard of the new listings of &quot;isopropyl alcohol&quot; in Ms. Closure's store? let's check it out?</system:String>
     <system:String x:Key="Burping">Ugh... Ehem</system:String>
     <system:String x:Key="DrunkAndStaggering">Ah, doctor. Why do you sway, so much in your movement today?</system:String>
     <system:String x:Key="Hangover">I must not drink, drink so much next time...</system:String>

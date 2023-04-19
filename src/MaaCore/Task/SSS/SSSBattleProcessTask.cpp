@@ -37,11 +37,11 @@ bool asst::SSSBattleProcessTask::set_stage_name(const std::string& stage_name)
     return true;
 }
 
-bool asst::SSSBattleProcessTask::do_derived_action(size_t action_index)
+bool asst::SSSBattleProcessTask::do_derived_action(const battle::copilot::Action& action, size_t index)
 {
     LogTraceFunction;
 
-    const auto& action = get_combat_data().actions.at(action_index);
+    std::ignore = index;
 
     switch (action.type) {
     case battle::copilot::ActionType::DrawCard:

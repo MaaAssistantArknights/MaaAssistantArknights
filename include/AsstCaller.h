@@ -8,11 +8,15 @@ typedef struct AsstExtAPI* AsstHandle;
 
 typedef uint8_t AsstBool;
 typedef uint64_t AsstSize;
-typedef int32_t AsstMsgId;
-typedef int32_t AsstTaskId;
-typedef int32_t AsstAsyncCallId;
-typedef int32_t AsstStaticOptionKey;
-typedef int32_t AsstInstanceOptionKey;
+
+typedef int32_t AsstId;
+typedef AsstId AsstMsgId;
+typedef AsstId AsstTaskId;
+typedef AsstId AsstAsyncCallId;
+
+typedef int32_t AsstOptionKey;
+typedef AsstOptionKey AsstStaticOptionKey;
+typedef AsstOptionKey AsstInstanceOptionKey;
 
 typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json, void* custom_arg);
 

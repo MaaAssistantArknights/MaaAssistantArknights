@@ -247,6 +247,7 @@
     <system:String x:Key="AP-5">紅票-5</system:String>
     <system:String x:Key="CA-5">技能-5</system:String>
     <system:String x:Key="LS-6">經驗-6/5</system:String>
+    <system:String x:Key="SK-5">碳-5</system:String>
 
     <system:String x:Key="PR-A-1">奶/盾晶片</system:String>
     <system:String x:Key="PR-A-2">奶/盾晶片組</system:String>
@@ -289,6 +290,8 @@
     <system:String x:Key="HibernatePrompt">已刷完，即將休眠</system:String>
     <!--  日誌  -->
     <!--  一鍵長草  -->
+
+    <system:String x:Key="IdentificationTool">識別工具</system:String>
 
     <!--  公招辨識  -->
     <system:String x:Key="RecruitmentRecognition">公招辨識</system:String>
@@ -407,6 +410,8 @@
     <system:String x:Key="TotalDrop">掉落統計：</system:String>
     <system:String x:Key="ThisFacility">當前設施：</system:String>
     <system:String x:Key="ProductIncorrect">產物與配置不相符</system:String>
+    <system:String x:Key="ProductUnknown">無法識別的產物</system:String>
+    <system:String x:Key="ProductChanged">產物已切換</system:String>
     <system:String x:Key="RecruitingResults">公招辨識結果：</system:String>
     <system:String x:Key="RecruitingTips">公招提示</system:String>
     <system:String x:Key="RecruitmentOfStar">公招出 {0} 星了喔！</system:String>
