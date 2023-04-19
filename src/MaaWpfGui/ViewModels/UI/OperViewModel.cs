@@ -71,14 +71,12 @@ namespace MaaWpfGui.ViewModels.UI
             JArray operOwn = (JArray)details["have"];
             /*未拥有干员,包含预备干员等*/
             JArray operNotOwn = (JArray)details["nhave"];
-            /*JArray operAll = (JArray)details["all"];*/
-            /*groups.Where(i => i.Type == JTokenType.String && (string)i == groupName).ToList().ForEach(i => i.Remove());*/
             /*移除未实装干员*/
             foreach (var name in VirtuallyOpers)
             {
                 operNotOwn.Where(i => i.Type == JTokenType.String && (string)i == name).ToList().ForEach(i => i.Remove());
             }
-            
+
             result = "已拥有：" + operOwn.Count.ToString() + "名，未拥有：" + operNotOwn.Count.ToString() + "名；" + "\n\n";
             result += "以下干员未拥有：\n\t";
             int count = 0;

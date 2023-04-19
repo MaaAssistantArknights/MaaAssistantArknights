@@ -2,19 +2,19 @@
 
 #include "Utils/Ranges.hpp"
 
-#include <future>
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/OcrWithFlagTemplImageAnalyzer.h"
 #include "Vision/Miscellaneous/OperImageAnalyzer.h"
+#include "Vision/OcrWithFlagTemplImageAnalyzer.h"
+#include <future>
 
 bool asst::OperRecognitionTask::_run()
 {
     LogTraceFunction;
-    
+
     bool oper = swipe_and_analyze();
     callback_analyze_result(true);
     return oper;
