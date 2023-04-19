@@ -3,7 +3,6 @@
 #include "Utils/Logger.hpp"
 #include "Utils/Ranges.hpp"
 #include <meojson/json.hpp>
-#include <regex>
 
 bool asst::BattleDataConfig::parse(const json::value& json)
 {

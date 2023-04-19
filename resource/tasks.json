@@ -9616,16 +9616,16 @@
             110
         ],
         "next": [
-            "OperatorRarityTab"
+            "OperatorRoleTabSelect"
         ]
     },
     "OperatorRoleTabSelect": {
         "action": "ClickSelf",
         "roi": [
-            1210,
-            30,
-            68,
-            23
+            1200,
+            20,
+            80,
+            50
         ],
         "next": [
             "OperatorRoleTab"
@@ -9634,9 +9634,9 @@
     "OperatorRoleTab": {
         "action": "DoNothing",
         "roi": [
-            1197,
-            14,
-            82,
+            1195,
+            15,
+            80,
             50
         ]
     },
