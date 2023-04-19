@@ -305,7 +305,7 @@
     <!--  公招辨識  -->
 
     <!--  倉庫識別  -->
-    <system:String x:Key="DepotRecognition">倉庫識別 beta</system:String>
+    <system:String x:Key="DepotRecognition">倉庫識別</system:String>
     <system:String x:Key="DepotRecognitionTip">該功能尚處於測試階段，請檢查結果是否準確再行使用。若有誤，歡迎打包 debug/depot 文件夾後向我們提交 issue ~</system:String>
     <system:String x:Key="BeganToDepotRecognition">開始識別</system:String>
     <system:String x:Key="ExportToArkplanner">導出至企鵝物流刷圖規劃</system:String>
