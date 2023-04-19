@@ -17,9 +17,9 @@
 #include "Task/ProcessTask.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "Vision/MatchImageAnalyzer.h"
 #include "Vision/Battle/BattleImageAnalyzer.h"
 #include "Vision/Battle/BattleSkillReadyImageAnalyzer.h"
+#include "Vision/MatchImageAnalyzer.h"
 #include "Vision/OcrWithPreprocessImageAnalyzer.h"
 
 using namespace asst::battle;

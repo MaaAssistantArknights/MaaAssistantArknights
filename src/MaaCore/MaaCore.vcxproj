@@ -93,6 +93,7 @@
     <ClInclude Include="Vision\Miscellaneous\ProcessTaskImageAnalyzer.h" />
     <ClInclude Include="Vision\Miscellaneous\RecruitImageAnalyzer.h" />
     <ClInclude Include="Vision\Miscellaneous\StageDropsImageAnalyzer.h" />
+    <ClInclude Include="Vision\Miscellaneous\OperImageAnalyzer.h" />
     <ClInclude Include="Vision\MultiMatchImageAnalyzer.h" />
     <ClInclude Include="Vision\OcrImageAnalyzer.h" />
     <ClInclude Include="Vision\OcrWithFlagTemplImageAnalyzer.h" />
@@ -245,6 +246,7 @@
     <ClCompile Include="Vision\Miscellaneous\ProcessTaskImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Miscellaneous\RecruitImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Miscellaneous\StageDropsImageAnalyzer.cpp" />
+    <ClCompile Include="Vision\Miscellaneous\OperImageAnalyzer.cpp" />
     <ClCompile Include="Vision\MultiMatchImageAnalyzer.cpp" />
     <ClCompile Include="Vision\OcrImageAnalyzer.cpp" />
     <ClCompile Include="Vision\OcrWithFlagTemplImageAnalyzer.cpp" />
