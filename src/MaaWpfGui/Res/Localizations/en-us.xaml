@@ -356,10 +356,10 @@
     <!--  Logs  -->
     <!--  Farming  -->
 
-    <system:String x:Key="IdentificationTool">Identification tool</system:String>
+    <system:String x:Key="IdentificationTool">Identification Tool</system:String>
 
     <!--  Recruitment Recognition  -->
-    <system:String x:Key="RecruitmentRecognition">Recruit tool</system:String>
+    <system:String x:Key="RecruitmentRecognition">Recruit Tool</system:String>
     <system:String x:Key="RecruitmentRecognitionTip">Tip: This recognition is independent from main tab (Farming); need open up in game recruit tag selection screen then begin ~</system:String>
     <system:String x:Key="AutoSettingTime">Auto setting time</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">Auto select 3 ★ Tags</system:String>
@@ -370,7 +370,7 @@
     <!--  Recruitment Recognition  -->
 
     <!--  Depot Recognition  -->
-    <system:String x:Key="DepotRecognition">Depot tool beta</system:String>
+    <system:String x:Key="DepotRecognition">Depot Tool</system:String>
     <system:String x:Key="DepotRecognitionTip">This function is still a test version, please check if the recognition result is correct before using it. If there is an error, please submit the issue by compressing the debug/depot folder in the working path.</system:String>
     <system:String x:Key="BeganToDepotRecognition">Start to identify</system:String>
     <system:String x:Key="ExportToArkplanner">Export to Arkplanner</system:String>
