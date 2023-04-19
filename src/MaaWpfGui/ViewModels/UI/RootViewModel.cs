@@ -24,8 +24,6 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class RootViewModel : Conductor<Screen>.Collection.OneActive
     {
-        private readonly IWindowManager _windowManager;
-
         private readonly AsstProxy _asstProxy;
         private readonly TaskQueueViewModel _taskQueueViewModel;
         private readonly RecognizerViewModel _recognizerViewModel;
@@ -39,8 +37,6 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="container">The IoC container.</param>
         public RootViewModel(IContainer container)
         {
-            _windowManager = container.Get<Helper.WindowManager>();
-
             _asstProxy = container.Get<AsstProxy>();
             _taskQueueViewModel = container.Get<TaskQueueViewModel>();
             _recognizerViewModel = container.Get<RecognizerViewModel>();
@@ -55,7 +51,6 @@ namespace MaaWpfGui.ViewModels.UI
             CheckAndUpdateNow();
             InitViewModels();
             InitProxy();
-            ShowUpdateOrDownload();
         }
 
         private async void InitProxy()
@@ -79,24 +74,6 @@ namespace MaaWpfGui.ViewModels.UI
             return _versionUpdateViewModel.CheckAndUpdateNow();
         }
 
-        private async void ShowUpdateOrDownload()
-        {
-            if (_versionUpdateViewModel.IsFirstBootAfterUpdate)
-            {
-                _versionUpdateViewModel.IsFirstBootAfterUpdate = false;
-                _windowManager.ShowWindow(_versionUpdateViewModel);
-            }
-            else
-            {
-                var ret = await _versionUpdateViewModel.CheckAndDownloadUpdate();
-
-                if (ret == VersionUpdateViewModel.CheckUpdateRetT.OK)
-                {
-                    _versionUpdateViewModel.AskToRestart();
-                }
-            }
-        }
-
         private string _windowTitle = "MAA";
 
         /// <summary>
@@ -111,9 +88,6 @@ namespace MaaWpfGui.ViewModels.UI
         protected override void OnInitialActivate()
         {
             base.OnInitialActivate();
-
-            // TrayIcon应该在显示rootViewModel之后再加载
-            Bootstrapper.SetTrayIconInSettingsViewModel(_settingsViewModel);
         }
 
         /// <inheritdoc/>

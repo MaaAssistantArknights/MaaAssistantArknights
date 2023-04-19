@@ -351,7 +351,7 @@
     <!--  공개모집 인식  -->
 
     <!--  창고 정리  -->
-    <system:String x:Key="DepotRecognition">창고 정리 beta</system:String>
+    <system:String x:Key="DepotRecognition">창고 정리</system:String>
     <system:String x:Key="DepotRecognitionTip">이 기능은 현재 테스트 중입니다. 인식 결과가 맞는지 확인 후에 사용해 주세요. 만약 오류가 있다면 debug/depot 폴더를 압축해서 이슈로 보내 주세요.</system:String>
     <system:String x:Key="BeganToDepotRecognition">식별 시작</system:String>
     <system:String x:Key="ExportToArkplanner">Arkplanner로 내보내기</system:String>
