@@ -53,24 +53,6 @@ namespace MaaWpfGui.ViewModels.UI
             _asstProxy = _container.Get<AsstProxy>();
         }
 
-        private int _displayId = 0;
-
-        public int DisplayId
-        {
-            get => _displayId;
-            set => SetAndNotify(ref _displayId, value);
-        }
-
-        public void ChangeButtenRecruit()
-        {
-            DisplayId = 0;
-        }
-
-        public void ChangeButtenDepot()
-        {
-            DisplayId = 1;
-        }
-
         #region Recruit
         private string _recruitInfo = LocalizationHelper.GetString("RecruitmentRecognitionTip");
 

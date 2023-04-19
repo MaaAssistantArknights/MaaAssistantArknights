@@ -17,7 +17,7 @@
     Height="500"
     d:DataContext="{d:DesignInstance {x:Type ui:VersionUpdateViewModel}}"
     mc:Ignorable="d">
-    <Grid>
+    <Grid Background="{DynamicResource VersionUpdateViewBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition Height="*" />

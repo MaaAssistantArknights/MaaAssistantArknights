@@ -4,7 +4,7 @@
 
     <SolidColorBrush x:Key="PallasBrush" Color="#6A6AAB" />
     <SolidColorBrush x:Key="ErrorViewBackgroundBrush" Color="#E6E6E6" />
-    <SolidColorBrush x:Key="SecondaryRegionBrush" Color="#ffffff" />
+    <SolidColorBrush x:Key="VersionUpdateViewBackgroundBrush" Color="#ffffff" />
 
     <!-- UiLogColor -->
     <SolidColorBrush x:Key="ErrorLogBrush" Color="DarkRed" />
