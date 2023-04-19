@@ -609,6 +609,9 @@
     <ClInclude Include="Task\Miscellaneous\OperRecognitionTask.h">
       <Filter>源文件\Task\Miscellaneous</Filter>
     </ClInclude>
+    <ClInclude Include="Vision\Miscellaneous\OperImageAnalyzer.h">
+      <Filter>源文件\Vision\Miscellaneous</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\AbstractImageAnalyzer.cpp">
@@ -1003,6 +1006,9 @@
     </ClCompile>
     <ClCompile Include="Task\Miscellaneous\OperRecognitionTask.cpp">
       <Filter>源文件\Task\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Vision\Miscellaneous\OperImageAnalyzer.cpp">
+      <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
