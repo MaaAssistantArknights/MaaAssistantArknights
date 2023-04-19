@@ -13,10 +13,9 @@
 #include "Vision/MultiMatchImageAnalyzer.h"
 #include "Vision/OcrWithFlagTemplImageAnalyzer.h"
 
-bool asst::BattleImageAnalyzer::set_target(int target)
+void asst::BattleImageAnalyzer::set_target(Target target)
 {
     m_target = target;
-    return true;
 }
 
 void asst::BattleImageAnalyzer::set_pre_total_kills(int pre_total_kills)
@@ -24,9 +23,9 @@ void asst::BattleImageAnalyzer::set_pre_total_kills(int pre_total_kills)
     m_pre_total_kills = pre_total_kills;
 }
 
-bool asst::BattleImageAnalyzer::analyze()
+const asst::BattleImageAnalyzer::ResultOpt& asst::BattleImageAnalyzer::analyze()
 {
-    clear();
+    m_result = std::nullopt;
 
     // flag 无论如何都识别。表明当前画面是在战斗场景的
     bool ret = flag_analyze();
@@ -41,7 +40,7 @@ bool asst::BattleImageAnalyzer::analyze()
 
     // 可能没有干员（全上场了），所以干员识别结果不影响返回值
     if (m_target & Target::Oper) {
-        opers_analyze();
+        deployment_analyze();
     }
 
     if (m_target & Target::DetailPage) {
@@ -61,6 +60,11 @@ bool asst::BattleImageAnalyzer::analyze()
     // }
 
     return ret;
+}
+
+const asst::BattleImageAnalyzer::ResultOpt& asst::BattleImageAnalyzer::result() const noexcept
+{
+    return m_result;
 }
 
 const std::vector<asst::battle::DeploymentOper>& asst::BattleImageAnalyzer::get_opers() const noexcept
@@ -119,7 +123,7 @@ void asst::BattleImageAnalyzer::sort_opers_by_cost()
     ranges::reverse(m_opers);
 }
 
-bool asst::BattleImageAnalyzer::opers_analyze()
+bool asst::BattleImageAnalyzer::deployment_analyze()
 {
     MultiMatchImageAnalyzer flags_analyzer(m_image);
     const auto& flag_task_ptr = Task.get("BattleOpersFlag");
