@@ -2,63 +2,47 @@
 
 #include "Utils/Ranges.hpp"
 
+#include <future>
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/OcrWithFlagTemplImageAnalyzer.h"
+#include "Vision/Miscellaneous/OperImageAnalyzer.h"
 
 bool asst::OperRecognitionTask::_run()
 {
     LogTraceFunction;
+    
+    bool oper = swipe_and_analyze();
+    callback_analyze_result(true);
+    return oper;
+}
+bool asst::OperRecognitionTask::swipe_and_analyze()
+{
+    LogTraceFunction;
     std::string current_page_last_oper_name = "";
     own_opers.clear();
-    
-    while (!need_exit()) {
-        auto resOpers = analyzer_opers();
-        if (resOpers.back().name == current_page_last_oper_name) {
+    while (true) {
+        OperImageAnalyzer analyzer(ctrler()->get_image());
+
+        auto future = std::async(std::launch::async, [&]() { swipe_page(); });
+
+        if (!analyzer.analyze()) {
+            break;
+        }
+        auto opers_result = analyzer.get_result();
+        if (opers_result.back().name == current_page_last_oper_name) {
             break;
         }
         else {
-            current_page_last_oper_name = resOpers.back().name;
-            own_opers.insert(own_opers.end(),resOpers.begin(),resOpers.end());
+            current_page_last_oper_name = opers_result.back().name;
+            own_opers.insert(own_opers.end(), opers_result.begin(), opers_result.end());
         }
-        swipe_page();
-        // callback_analyze_result(true);
+        future.wait();
     }
-    callback_analyze_result(true);
-    return true;
-}
-
-std::vector<asst::OperRecognitionTask::OperBoxInfo> asst::OperRecognitionTask::analyzer_opers()
-{
-    std::vector<OperBoxInfo> current_page_opers;
-    current_page_opers.clear();
-    auto image = ctrler()->get_image();
-    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
-
-    OcrWithFlagTemplImageAnalyzer oper_name_analyzer(image);
-    // 识别第一行
-    //name_analyzer.set_task_info("OperatorNameFlag", "OperatorOCR");
-    oper_name_analyzer.set_task_info("OperatorNameFlagLV", "OperatorOCRLV");
-    oper_name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
-    oper_name_analyzer.analyze();
-
-    auto oper_names_result = oper_name_analyzer.get_result();
-    
-    //if (opers_result.empty() || opers_res.empty()) {
-    if (oper_names_result.empty()) {
-        return {};
-    }
-    
-    for (auto& opername : oper_names_result) {
-        OperBoxInfo oper_info;
-        oper_info.name = std::move(opername.text);
-        current_page_opers.push_back(oper_info);
-    }
-    
-    return current_page_opers;
+    return !own_opers.empty();
 }
 
 void asst::OperRecognitionTask::swipe_page()
@@ -71,12 +55,10 @@ void asst::OperRecognitionTask::callback_analyze_result(bool done)
     LogTraceFunction;
     // 获取所有干员名
     const auto& all_oper_names = BattleData.get_all_oper_names();
-    //size_t total = all_oper_names.size();
-    
+
     // 获取识别干员名
     const auto own_oper_names = get_own_oper_names();
-    // 识别干员个数
-    //size_t own_count = own_oper_names.size();
+
     // 未拥有干员名
     std::unordered_set<std::string> n_own_oper_names;
     n_own_oper_names.clear();
@@ -87,12 +69,9 @@ void asst::OperRecognitionTask::callback_analyze_result(bool done)
     json::value info = basic_info_with_what("OperInfo");
     auto& details = info["details"];
     details["done"] = done;
-    //details["total"] = total;
-    //details["owncount"] = own_count;
     details["have"] = json::array(own_oper_names);
     details["nhave"] = json::array(n_own_oper_names);
     details["all"] = json::array(all_oper_names);
-    // details["hroles"] = json::array(roles);
 
     callback(AsstMsg::SubTaskExtraInfo, info);
 }
@@ -101,7 +80,7 @@ std::unordered_set<std::string> asst::OperRecognitionTask::get_own_oper_names()
 {
     LogTraceFunction;
     std::unordered_set<std::string> own_oper_names;
-    
+
     for (auto& oper_info : own_opers) {
         own_oper_names.insert(std::move(oper_info.name));
     }

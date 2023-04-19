@@ -1,16 +1,13 @@
 #include "BattleDataConfig.h"
 
+#include "Utils/Logger.hpp"
 #include "Utils/Ranges.hpp"
 #include <meojson/json.hpp>
 #include <regex>
-#include "Utils/Logger.hpp"
 
 bool asst::BattleDataConfig::parse(const json::value& json)
 {
     m_opers.clear();
-    //使用正则筛选干员
-    std::regex regexStr("^char.*");
-    std::smatch match;
     for (const auto& [id, char_data_json] : json.at("chars").as_object()) {
         battle::OperProps data;
         data.id = id;
@@ -23,13 +20,12 @@ bool asst::BattleDataConfig::parse(const json::value& json)
             { "TANK", battle::Role::Tank },       { "WARRIOR", battle::Role::Warrior },
         };
 
-        if (std::regex_match(id, match, regexStr)) m_opers.insert(name);
-
         if (auto iter = RoleMap.find(char_data_json.at("profession").as_string()); iter == RoleMap.cend()) {
             data.role = battle::Role::Drone;
         }
         else {
             data.role = iter->second;
+            m_opers.insert(name); // 所有干员名
         }
 
         const auto& ranges_json = char_data_json.at("rangeId").as_array();
