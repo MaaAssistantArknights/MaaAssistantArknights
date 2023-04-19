@@ -7,37 +7,44 @@
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 
-bool asst::BestMatchImageAnalyzer::analyze()
+const asst::BestMatchImageAnalyzer::ResultOpt& asst::BestMatchImageAnalyzer::analyze()
 {
 #ifndef ASST_DEBUG
     MatchImageAnalyzer::set_log_tracing(false);
 #endif
-    set_use_cache(false);
 
-    MatchRect best_matched;
+    m_best_result = std::nullopt;
+
+    MatchImageAnalyzer::Result best_matched;
     for (const auto& templ_info : m_templs) {
         auto&& [name, templ] = templ_info;
+
         if (templ.empty()) {
-            set_templ_name(name);
+            set_templ(name);
         }
         else {
             set_templ(templ);
         }
 
-        if (!MatchImageAnalyzer::analyze()) {
+        const auto& cur_opt = MatchImageAnalyzer::analyze();
+        if (!cur_opt) {
             continue;
         }
-        const auto& cur_matched = MatchImageAnalyzer::get_result();
+        const auto& cur_matched = cur_opt.value();
         if (best_matched.score < cur_matched.score) {
             best_matched = cur_matched;
-            m_result = templ_info;
+            m_best_result = templ_info;
         }
     }
 
-    if (m_best_log_tracing) {
-        Log.trace("The best match is", best_matched.to_string(), m_result.name);
+    if (!m_best_result) {
+        return std::nullopt;
     }
-    return best_matched.score > 0;
+
+    if (m_best_log_tracing) {
+        Log.trace("The best match is", best_matched.to_string(), m_best_result.value().name);
+    }
+    return m_best_result;
 }
 
 void asst::BestMatchImageAnalyzer::set_log_tracing(bool enable)
@@ -48,4 +55,9 @@ void asst::BestMatchImageAnalyzer::set_log_tracing(bool enable)
 void asst::BestMatchImageAnalyzer::append_templ(std::string name, const cv::Mat& templ)
 {
     m_templs.emplace_back(TemplInfo { std::move(name), templ });
+}
+
+const asst::BestMatchImageAnalyzer::ResultOpt& asst::BestMatchImageAnalyzer::result() const noexcept
+{
+    return m_best_result;
 }

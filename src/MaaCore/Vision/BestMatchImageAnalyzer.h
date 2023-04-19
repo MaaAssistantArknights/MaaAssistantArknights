@@ -13,24 +13,25 @@ namespace asst
             cv::Mat templ;
         };
 
+        using Result = TemplInfo;
+        using ResultOpt = std::optional<Result>;
+
     public:
         using MatchImageAnalyzer::MatchImageAnalyzer;
         virtual ~BestMatchImageAnalyzer() override = default;
 
-        virtual bool analyze();
-        virtual void set_log_tracing(bool enable) override;
+        const ResultOpt& analyze();
 
         void append_templ(std::string name, const cv::Mat& templ = cv::Mat());
-        const TemplInfo& get_result() const noexcept { return m_result; }
+        const std::optional<Result>& result() const noexcept;
+
+        virtual void set_log_tracing(bool enable) override;
 
     private:
-        using MatchImageAnalyzer::set_region_of_appeared;
         using MatchImageAnalyzer::set_templ;
-        using MatchImageAnalyzer::set_templ_name;
-        using MatchImageAnalyzer::set_use_cache;
 
         std::vector<TemplInfo> m_templs;
-        TemplInfo m_result;
+        ResultOpt m_best_result;
         bool m_best_log_tracing = true;
     };
 }

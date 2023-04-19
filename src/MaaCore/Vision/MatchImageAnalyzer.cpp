@@ -11,48 +11,10 @@ const asst::MatchImageAnalyzer::ResultOpt& asst::MatchImageAnalyzer::analyze()
 {
     m_result = std::nullopt;
 
-    cv::Mat templ;
-    std::string templ_name;
+    const auto& [matched, templ, templ_name] = preproc_and_match();
 
-    if (std::holds_alternative<std::string>(m_templ)) {
-        templ_name = std::get<std::string>(m_templ);
-        templ = TemplResource::get_instance().get_templ(templ_name);
-    }
-    else if (std::holds_alternative<cv::Mat>(m_templ)) {
-        templ = std::get<cv::Mat>(m_templ);
-    }
-    else {
-        Log.error("templ is none");
-    }
-
-    if (templ.empty()) {
-        Log.error("templ is empty!", templ_name);
-#ifdef ASST_DEBUG
-        throw std::runtime_error("templ is empty: " + templ_name);
-#endif
+    if (matched.empty()) {
         return std::nullopt;
-    }
-
-    cv::Mat image_roi = make_roi(m_image, m_roi);
-    if (templ.cols > image_roi.cols || templ.rows > image_roi.rows) {
-        Log.error("templ size is too large", templ_name, "image_roi size:", image_roi.cols, image_roi.rows,
-                  "templ size:", templ.cols, templ.rows);
-        return std::nullopt;
-    }
-
-    cv::Mat matched;
-    if (m_mask_range.first == 0 && m_mask_range.second == 0) {
-        cv::matchTemplate(image_roi, templ, matched, cv::TM_CCOEFF_NORMED);
-    }
-    else {
-        cv::Mat mask;
-        cv::cvtColor(m_mask_with_src ? image_roi : templ, mask, cv::COLOR_BGR2GRAY);
-        cv::inRange(mask, m_mask_range.first, m_mask_range.second, mask);
-        if (m_mask_with_close) {
-            cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
-            cv::morphologyEx(mask, mask, cv::MORPH_CLOSE, kernel);
-        }
-        cv::matchTemplate(image_roi, templ, matched, cv::TM_CCOEFF_NORMED, mask);
     }
 
     double min_val = 0.0, max_val = 0.0;
@@ -111,6 +73,55 @@ void asst::MatchImageAnalyzer::set_task_info(MatchTaskInfo task_info) noexcept
     m_mask_range = std::move(task_info.mask_range);
 
     set_roi(task_info.roi);
+}
+
+asst::MatchImageAnalyzer::RawResult asst::MatchImageAnalyzer::preproc_and_match()
+{
+    cv::Mat templ;
+    std::string templ_name;
+
+    if (std::holds_alternative<std::string>(m_templ)) {
+        templ_name = std::get<std::string>(m_templ);
+        templ = TemplResource::get_instance().get_templ(templ_name);
+    }
+    else if (std::holds_alternative<cv::Mat>(m_templ)) {
+        templ = std::get<cv::Mat>(m_templ);
+    }
+    else {
+        Log.error("templ is none");
+    }
+
+    if (templ.empty()) {
+        Log.error("templ is empty!", templ_name);
+#ifdef ASST_DEBUG
+        throw std::runtime_error("templ is empty: " + templ_name);
+#endif
+        return {};
+    }
+
+    cv::Mat image_roi = make_roi(m_image, m_roi);
+    if (templ.cols > image_roi.cols || templ.rows > image_roi.rows) {
+        Log.error("templ size is too large", templ_name, "image_roi size:", image_roi.cols, image_roi.rows,
+                  "templ size:", templ.cols, templ.rows);
+        return {};
+    }
+
+    cv::Mat matched;
+    if (m_mask_range.first == 0 && m_mask_range.second == 0) {
+        cv::matchTemplate(image_roi, templ, matched, cv::TM_CCOEFF_NORMED);
+    }
+    else {
+        cv::Mat mask;
+        cv::cvtColor(m_mask_with_src ? image_roi : templ, mask, cv::COLOR_BGR2GRAY);
+        cv::inRange(mask, m_mask_range.first, m_mask_range.second, mask);
+        if (m_mask_with_close) {
+            cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
+            cv::morphologyEx(mask, mask, cv::MORPH_CLOSE, kernel);
+        }
+        cv::matchTemplate(image_roi, templ, matched, cv::TM_CCOEFF_NORMED, mask);
+    }
+
+    return RawResult { .matched = matched, .templ = templ, .templ_name = templ_name };
 }
 
 const asst::MatchImageAnalyzer::ResultOpt& asst::MatchImageAnalyzer::result() const noexcept

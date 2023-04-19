@@ -40,12 +40,22 @@ namespace asst
     protected:
         void set_task_info(MatchTaskInfo task_info) noexcept;
 
+        struct RawResult
+        {
+            cv::Mat matched;
+            cv::Mat templ;
+            std::string templ_name;
+        };
+
+        RawResult preproc_and_match();
+
         std::variant<std::string, cv::Mat> m_templ;
         double m_templ_thres = 0.0;
         std::pair<int, int> m_mask_range;
         bool m_mask_with_src = false;
         bool m_mask_with_close = false;
 
+    private:
         ResultOpt m_result;
     };
 } // namespace asst
