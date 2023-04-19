@@ -9,8 +9,8 @@
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/OcrWithPreprocessImageAnalyzer.h"
 
-#include <numbers>
 #include <Vision/OcrWithFlagTemplImageAnalyzer.h>
+#include <numbers>
 
 bool asst::OperImageAnalyzer::analyze()
 {
@@ -50,13 +50,6 @@ bool asst::OperImageAnalyzer::analyzer_opers()
         cv::putText(m_image_draw_oper, opername.text, cv::Point(opername.rect.x, opername.rect.y - 10),
                     cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
 #endif
-        /*cv::rectangle(m_oper_image, make_rect<cv::Rect>(opername.rect), cv::Scalar(0, 255, 0), 2);
-        cv::putText(m_oper_image, opername.text, cv::Point(opername.rect.x, opername.rect.y - 10),
-                    cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);*/
     }
-    // asst::imwrite(oper_img_path, m_oper_image);
-    
-    // save_img(utils::path("debug") / utils::path("oper"));
-
     return true;
 }
