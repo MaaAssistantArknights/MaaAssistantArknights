@@ -9602,9 +9602,8 @@
         "action": "DoNothing",
         "next": [
             "OperatorEnter",
-            "OperatorRarityTab",
-            "OperatorRarityTabU",
-            "OperatorRarityTabD",
+            "OperatorRoleTabSelect",
+            "OperatorRoleTab",
             "OperatorEnter@ReturnTo"
         ]
     },
@@ -9620,36 +9619,24 @@
             "OperatorRarityTab"
         ]
     },
-    "OperatorRarityTab": {
+    "OperatorRoleTabSelect": {
         "action": "ClickSelf",
         "roi": [
-            922,
-            16,
-            101,
-            50
+            1210,
+            30,
+            68,
+            23
         ],
         "next": [
-            "OperatorRarityTabD"
+            "OperatorRoleTab"
         ]
     },
-    "OperatorRarityTabU": {
-        "action": "ClickSelf",
-        "roi": [
-            922,
-            16,
-            101,
-            50
-        ],
-        "next": [
-            "OperatorRarityTabD"
-        ]
-    },
-    "OperatorRarityTabD": {
+    "OperatorRoleTab": {
         "action": "DoNothing",
         "roi": [
-            922,
-            16,
-            101,
+            1197,
+            14,
+            82,
             50
         ]
     },
@@ -9667,24 +9654,6 @@
             350,
             20,
             20
-        ]
-    },
-    "OperatorNameFlag": {
-        "templThreshold": 0.8,
-        "roi": [
-            5,
-            353,
-            1265,
-            21
-        ]
-    },
-    "OperatorNameFlag1": {
-        "templThreshold": 0.8,
-        "roi": [
-            5,
-            672,
-            1265,
-            21
         ]
     },
     "OperatorNameFlagLV": {
