@@ -176,7 +176,7 @@
                 </StackPanel>
             </Grid>
         </TabItem>
-        <TabItem Header="{DynamicResource OperRecognition}">
+        <TabItem Header="{DynamicResource OperBoxRecognition}">
             <Grid
                 Margin="20,0,20,20">
                 <Grid.RowDefinitions>
@@ -196,13 +196,13 @@
                             VerticalAlignment="Top"
                             FontSize="14"
                             Style="{StaticResource TextBlockDefaultBold}"
-                            Text="{Binding OperInfo}"
+                            Text="{Binding OperBoxInfo}"
                             TextWrapping="Wrap"/>
                         <controls:TextBlock
                             Margin="10"
                             HorizontalAlignment="Left"
                             FontSize="14"
-                            Text="{Binding OperResult}"
+                            Text="{Binding OperBoxResult}"
                             TextWrapping="Wrap"/>
                     </StackPanel>
 
@@ -219,8 +219,8 @@
                         Margin="482,0,0,0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Command="{s:Action StartOper}"
-                        Content="{DynamicResource BeganToOperRecognition}"
+                        Command="{s:Action StartOperBox}"
+                        Content="{DynamicResource BeganToOperBoxRecognition}"
                         />
                 </StackPanel>
             </Grid>

@@ -7,15 +7,18 @@ namespace asst
     struct OperBoxInfo
     {
         std::string name;
+        std::string id;
+        int level = 0; //等级
+        int elite = 0; //精英度
     };
-    class OperImageAnalyzer final : public AbstractImageAnalyzer
+    class OperBoxImageAnalyzer final : public AbstractImageAnalyzer
     {
     public:
         static constexpr size_t NPos = ~0ULL;
 
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~OperImageAnalyzer() override = default;
+        virtual ~OperBoxImageAnalyzer() override = default;
 
         virtual bool analyze() override;
 

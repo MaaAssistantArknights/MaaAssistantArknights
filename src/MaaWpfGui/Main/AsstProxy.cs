@@ -567,7 +567,7 @@ namespace MaaWpfGui.Main
                             || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.RecruitCalc, out var recruitCalcTaskId) ? recruitCalcTaskId : 0)
                             || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0)
                             || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.Depot, out var depotTaskId) ? depotTaskId : 0)
-                            || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.Oper, out var operTaskId) ? operTaskId : 0))
+                            || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.OperBox, out var operBoxTaskId) ? operBoxTaskId : 0))
                         {
                             isMainTaskQueueAllCompleted = false;
                         }
@@ -822,9 +822,9 @@ namespace MaaWpfGui.Main
                 _recognizerViewModel.DepotParse((JObject)subTaskDetails);
             }
 
-            if (taskChain == "Oper")
+            if (taskChain == "OperBox")
             {
-                _recognizerViewModel.OperParse((JObject)subTaskDetails);
+                _recognizerViewModel.OperBoxParse((JObject)subTaskDetails);
             }
 
             string what = details["what"].ToString();
@@ -1255,7 +1255,7 @@ namespace MaaWpfGui.Main
             Copilot,
             VideoRec,
             Depot,
-            Oper,
+            OperBox,
         }
 
         private readonly Dictionary<TaskType, AsstTaskId> _latestTaskId = new Dictionary<TaskType, AsstTaskId>();
@@ -1657,11 +1657,11 @@ namespace MaaWpfGui.Main
         /// 干员识别。
         /// </summary>
         /// <returns>是否成功。</returns>
-        public bool AsstStartOper()
+        public bool AsstStartOperBox()
         {
             var task_params = new JObject();
-            AsstTaskId id = AsstAppendTaskWithEncoding("Oper", task_params);
-            _latestTaskId[TaskType.Oper] = id;
+            AsstTaskId id = AsstAppendTaskWithEncoding("OperBox", task_params);
+            _latestTaskId[TaskType.OperBox] = id;
             return id != 0 && AsstStart();
         }
 
