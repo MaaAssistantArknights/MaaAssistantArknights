@@ -1,26 +1,47 @@
-## v4.14.1
+## v4.15.0-beta.1
+
+### 新增
+
+- 新增 保全派驻 `约翰老妈新建地块`、`雷神工业测试平台` 内置作业 @HMZyueshen @AnnoyingFlowers
+- 自定义基建根据配置自动修改订单/产物种类 (#4293) @Roland125
+- 新增 ~~房贷还款~~ 碳本导航 @ABA2396
 
 ### 改进
 
-- 更新游戏数据 2023/4/13 @MistEO
-- 更新内置 153 基建 @ABA2396
+- Mac Gui 全新设计 支持任务链、回调日志、自定义基建、公招仓库识别等功能 @hguandl
+- Win WPF UI 优化，界面布局调整等 (#4352) @moomiji @ABA2396
+- 优化抄作业子弹时间的逻辑 @MistEO
+- 自动基建 伊内斯效率更新（按8小时计算） (#4351) @HeroTch
+- 肉鸽骑士结局无法自动作战（Issue #4320），更新了新地图 (#4329) @LingXii
+- 调整基建默认选项，`未进驻` 默认开、`蹭信赖` 默认关 @MistEO
 
 ### 修复
 
-- 修复最小化后界面错误 (#4309) @moomiji
-- 修复 DarkMode 跟随系统颜色 (#4309) @moomiji
-- UI 日志过大时崩溃问题 (#4309) @moomiji
-- 修复 12 章活动期间需要确认两次 (#4307) @ABA2396
-- 修复橙色开始按钮偶尔点不上的问题 (#4307) @ABA2396
-- 触控模式不可用时的界面报错 @MistEO
+- 修复 mac 平台掉落识别错误 @horror-proton
+- 为 Config 文件写入添加锁，尝试解决配置丢失问题 (#4373) @LiamSho
+- 修复 cache 文件读取路径错误 @ABA2396
+- 修复约翰老妈保全关卡 `混乱“派对”` 的识别错误 (#4401) @cenfusheng
+- 修复肉鸽新关卡 `瞻前顾后` 识别错误 @MistEO
+- 修复抄作业水陈关不掉技能的问题 @MistEO
+- 修复 `U-Official` 识别错误 @ABA2396
+- 点两次开始行动导致取消吃理智药 fix #4326 @ABA2396
+- 修复 UI Theme 跟随应用模式后的非预期同步 (#4316) @moomiji
 
 ### 其他
 
-- 重构工作线程部分调用堆栈 @MistEO
-- doc. 添加了函数的注释 @lhhxxxxx
-- fix typos @horror-proton
+- Add retry and version check for PlayTools @hguandl
+- 代码优化调整等 @horror-proton @MistEO @ABA2396
 
-### For Develops
+### For develops
 
-- 修复 AsstAsync 系列接口不可用的问题 @MistEO
-- 更新官网中英开发文档 @MistEO
+- 为 MaaCore 添加抄作业神秘代码支持 (#4305) @aa889788
+
+### For overseas
+
+#### TXWY
+
+- 繁中服 綠野幻夢活動 (#4317) @vonnoq
+
+#### YostarKR
+
+- Operator add for KR (#4384) @zewoosJ @MistEO
