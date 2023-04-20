@@ -3,9 +3,9 @@
     "stage_name": "雷神工业测试平台",
     "minimum_required": "v4.9.0",
     "doc": {
-        "title": "保全雷神工业测试平台-澄闪铃兰塞雷娅夜莺白面鸮（应急未测试）",
+        "title": "保全雷神工业测试平台-澄闪铃兰塞雷娅夜莺白面鸮（兼容应急）",
         "title_color": "dark",
-        "details": "目前只能手动编队，请尽量选择练度高费用低的干员，先锋不要带投锋\n\n推荐在您确认了导能原件选择了第三个、战术装备全选A、手动编队并阵容确认后，再开始MAA\n\n作业修改自萧然q BV1Sm4y117e3\n\n搬运自：作业搬运工\n有问题群里找管理作业搬运工/摸你一下/碳烤沙虫腿",
+        "details": "目前只能手动编队，请尽量选择练度高费用低的干员，先锋不要带投锋，医疗干员带群奶\n\n推荐在您确认了导能原件选择了第三个、战术装备全选A、手动编队并阵容确认后，再开始MAA\n\n作业修改自萧然q BV1Sm4y117e3\n\n搬运自：作业搬运工\n有问题群里找管理作业搬运工/摸你一下/碳烤沙虫腿",
         "details_color": "dark"
     },
     "buff": "便携式医疗设备",
@@ -50,7 +50,8 @@
     "tool_men": {
         "先锋": 3,
         "重装": 2,
-        "狙击": 7,
+        "狙击": 6,
+        "医疗": 1,
         "辅助": 3
     },
     "drops": [
@@ -93,15 +94,26 @@
                         "先锋": 1
                     },
                     "location": [
-                        3,
+                        4,
                         2
                     ],
                     "direction": "Right"
                 },
                 {
+                    "core": "白面鸮",
+                    "tool_men": {
+                        "医疗": 1
+                    },
+                    "location": [
+                        3,
+                        1
+                    ],
+                    "direction": "Down"
+                },
+                {
                     "core": "夜莺",
                     "tool_men": {
-                        "狙击": 1
+                        "医疗": 0
                     },
                     "location": [
                         3,
@@ -112,7 +124,7 @@
                 {
                     "core": "塞雷娅",
                     "tool_men": {
-                        "重装": 1
+                        "重装": 0
                     },
                     "location": [
                         4,
@@ -148,21 +160,14 @@
                     "type": "二倍速"
                 },
                 {
-                    "type": "Retreat",
-                    "location": [
-                        3,
-                        2
-                    ], 
-                    "costs": 20
-                },
-                {
                     "type": "Deploy",
                     "name": "便携式医疗设备",
                     "location": [
                         3,
                         5
                     ],
-                    "direction": "None"
+                    "direction": "None",
+                    "kills": 10
                 }
             ],
             "retry_times": 3
@@ -192,9 +197,20 @@
                     "direction": "Left"
                 },
                 {
+                    "core": "白面鸮",
+                    "tool_men": {
+                        "狙击": 0
+                    },
+                    "location": [
+                        3,
+                        3
+                    ],
+                    "direction": "Up"
+                },
+                {
                     "core": "夜莺",
                     "tool_men": {
-                        "狙击": 1
+                        "狙击": 0
                     },
                     "location": [
                         3,
@@ -236,7 +252,8 @@
                         5,
                         5
                     ],
-                    "direction": "None"
+                    "direction": "None",
+                    "kills": 15
                 }
             ],
             "retry_times": 3
@@ -251,6 +268,27 @@
                     "location": [
                         4,
                         3
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "医疗": 1
+                    },
+                    "location": [
+                        4,
+                        2
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "core": "白面鸮",
+                    "tool_men": {
+                        "狙击": 0
+                    },
+                    "location": [
+                        4,
+                        2
                     ],
                     "direction": "Right"
                 },
@@ -300,10 +338,9 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "白面鸮",
                     "tool_men": {
-                        "辅助": 10,
-                        "狙击": 2
+                        "辅助": 100,
+                        "狙击": 100
                     },
                     "location": [
                         3,
@@ -316,6 +353,16 @@
             "actions": [
                 {
                     "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "战备激活阀",
+                    "kills": 20,
+                    "location": [
+                        5,
+                        1
+                    ],
+                    "direction": "Down"
                 },
                 {
                     "type": "Deploy",
@@ -363,9 +410,30 @@
                     "direction": "Down"
                 },
                 {
+                    "tool_men": {
+                        "医疗": 1
+                    },
+                    "location": [
+                        6,
+                        2
+                    ],
+                    "direction": "Left"
+                },
+                {
                     "core": "夜莺",
                     "tool_men": {
-                        "狙击": 1
+                        "医疗": 0
+                    },
+                    "location": [
+                        6,
+                        2
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "core": "白面鸮",
+                    "tool_men": {
+                        "狙击": 0
                     },
                     "location": [
                         6,
@@ -397,7 +465,8 @@
                 {
                     "core": "塞雷娅",
                     "tool_men": {
-                        "重装": 1
+                        "重装": 1,
+                        "先锋": 1
                     },
                     "location": [
                         5,
@@ -407,7 +476,7 @@
                 },
                 {
                     "tool_men": {
-                        "重装": 1
+                        "重装": 100
                     },
                     "location": [
                         4,
@@ -416,9 +485,8 @@
                     "direction": "Down"
                 },
                 {
-                    "core": "白面鸮",
                     "tool_men": {
-                        "辅助": 10
+                        "辅助": 100
                     },
                     "location": [
                         6,
@@ -435,7 +503,7 @@
                 {
                     "type": "Deploy",
                     "name": "战备激活阀",
-                    "kills": 4,
+                    "kills": 12,
                     "location": [
                         5,
                         3
@@ -445,6 +513,7 @@
                 {
                     "type": "Deploy",
                     "name": "便携式医疗设备",
+                    "kills": 15,
                     "location": [
                         2,
                         3
@@ -488,6 +557,16 @@
                     "direction": "Right"
                 },
                 {
+                    "tool_men": {
+                        "医疗": 1
+                    },
+                    "location": [
+                        1,
+                        4
+                    ],
+                    "direction": "Up"
+                },
+                {
                     "core": "塞雷娅",
                     "tool_men": {
                         "重装": 0
@@ -501,7 +580,8 @@
                 {
                     "core": "夜莺",
                     "tool_men": {
-                        "狙击": 1
+                        "狙击": 1,
+                        "医疗": 1
                     },
                     "location": [
                         1,
@@ -547,8 +627,8 @@
                         "辅助": 100
                     },
                     "location": [
-                        3,
-                        2
+                        6,
+                        4
                     ],
                     "direction": "Right"
                 },
@@ -572,7 +652,7 @@
                 {
                     "type": "Deploy",
                     "name": "战备激活阀",
-                    "kills": 4,
+                    "kills": 10,
                     "location": [
                         2,
                         1
@@ -582,6 +662,7 @@
                 {
                     "type": "Deploy",
                     "name": "便携式医疗设备",
+                    "kills": 15,
                     "location": [
                         4,
                         5
@@ -620,14 +701,25 @@
                     },
                     "location": [
                         3,
-                        4
+                        5
                     ],
                     "direction": "Up"
                 },
                 {
+                    "tool_men": {
+                        "医疗": 1
+                    },
+                    "location": [
+                        5,
+                        5
+                    ],
+                    "direction": "Left"
+                },
+                {
                     "core": "夜莺",
                     "tool_men": {
-                        "狙击": 1
+                        "狙击": 1,
+                        "医疗": 1
                     },
                     "location": [
                         4,
@@ -658,17 +750,6 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "白面鸮",
-                    "tool_men": {
-                        "狙击": 3
-                    },
-                    "location": [
-                        5,
-                        5
-                    ],
-                    "direction": "Left"
-                },
-                {
                     "core": "铃兰",
                     "tool_men": {
                         "狙击": 3
@@ -680,14 +761,15 @@
                     "direction": "Right"
                 },
                 {
+                    "core": "白面鸮",
                     "tool_men": {
-                        "重装": 100
+                        "狙击": 3
                     },
                     "location": [
-                        7,
-                        6
+                        5,
+                        5
                     ],
-                    "direction": "Right"
+                    "direction": "Left"
                 },
                 {
                     "tool_men": {
@@ -698,6 +780,16 @@
                         3
                     ],
                     "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "重装": 100
+                    },
+                    "location": [
+                        7,
+                        6
+                    ],
+                    "direction": "Right"
                 }
             ],
             "draw_as_possible": true,
@@ -706,22 +798,22 @@
                     "type": "二倍速"
                 },
                 {
-                    "type": "Deploy",
-                    "name": "战备激活阀",
-                    "kills": 5,
-                    "location": [
-                        6,
-                        4
-                    ],
-                    "direction": "Left"
-                },
-                {
                     "type": "Retreat",
                     "kills": 8,
                     "location": [
                         3,
                         5
                     ]
+                },
+                {
+                    "type": "Deploy",
+                    "name": "战备激活阀",
+                    "kills": 10,
+                    "location": [
+                        6,
+                        4
+                    ],
+                    "direction": "Left"
                 },
                 {
                     "type": "Deploy",
