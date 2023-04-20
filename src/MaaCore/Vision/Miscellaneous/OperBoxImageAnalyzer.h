@@ -10,6 +10,7 @@ namespace asst
         std::string id;
         int level = 0; //等级
         int elite = 0; //精英度
+        bool own = false;
     };
     class OperBoxImageAnalyzer final : public AbstractImageAnalyzer
     {

@@ -375,37 +375,48 @@ namespace MaaWpfGui.ViewModels.UI
         public bool OperBoxParse(JObject details)
         {
             string result = string.Empty;
-            /*已拥有干员*/
-            JArray operOwn = (JArray)details["have"];
-            /*未拥有干员,包含预备干员等*/
-            JArray operNotOwn = (JArray)details["nhave"];
-            /*移除未实装干员*/
-            foreach (var name in VirtuallyOpers)
+            JArray operBoxs = (JArray)details["operbox"];
+            List<string> operHave = new List<string>();
+            List<string> operNotHave = new List<string>();
+
+            foreach (JObject operBox in operBoxs.Cast<JObject>())
             {
-                operNotOwn.Where(i => i.Type == JTokenType.String && (string)i == name).ToList().ForEach(i => i.Remove());
+                if ((bool)operBox["own"])
+                {
+                    /*已拥有干员*/
+                    operHave.Add((string)operBox["name"]);
+                }
+                else
+                {
+                    /*未拥有干员,包含预备干员等*/
+                    operNotHave.Add((string)operBox["name"]);
+                }
             }
 
-            result = "已拥有：" + operOwn.Count.ToString() + "名，未拥有：" + operNotOwn.Count.ToString() + "名；" + "\n\n";
+            /*移除未实装干员*/
+            operNotHave = operNotHave.Except(second: VirtuallyOpers).ToList();
+
+            result = "已拥有：" + operHave.Count.ToString() + "名，未拥有：" + operNotHave.Count.ToString() + "名；" + "\n\n";
             result += "以下干员未拥有：\n\t";
             int count = 0;
-            foreach (var name in operNotOwn)
+            foreach (var name in operNotHave)
             {
                 result += name + "\t";
                 if (count++ == 3)
                 {
-                    result += "\n";
-                    count= 0;
+                    result += "\n\t";
+                    count = 0;
                 }
             }
 
             result += "\n\n以下干员已拥有：\n\n\t";
             count = 0;
-            foreach (var name in operOwn)
+            foreach (var name in operHave)
             {
                 result += name + "\t";
                 if (count++ == 3)
                 {
-                    result += "\n";
+                    result += "\n\t";
                     count = 0;
                 }
             }
