@@ -14,12 +14,14 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.Utilities.ValueType;
@@ -46,6 +48,7 @@ namespace MaaWpfGui.Services
 
         // model references
         private readonly TaskQueueViewModel _taskQueueViewModel;
+        private readonly SettingsViewModel _settingsViewModel;
         private readonly IMaaApiService _maaApiService;
 
         private static readonly ILogger _logger = Log.ForContext<StageManager>();
@@ -107,7 +110,6 @@ namespace MaaWpfGui.Services
         private JObject LoadLocalStages()
         {
             JObject activity = _maaApiService.LoadApiCache(StageApi);
-            JObject tasksJson = _maaApiService.LoadApiCache(TasksApi);
             return activity;
         }
 
@@ -136,6 +138,7 @@ namespace MaaWpfGui.Services
 
             JObject activity = await _maaApiService.RequestMaaApiWithCache(StageApi);
             JObject tasksJson = await _maaApiService.RequestMaaApiWithCache(TasksApi);
+            AsstProxy.AsstLoadResource(Directory.GetCurrentDirectory() + "\\cache");
 
             if (clientType != "Official" && tasksJson != null)
             {
@@ -145,6 +148,7 @@ namespace MaaWpfGui.Services
                 // TODO: There may be an issue when the CN resource is loaded from cache (e.g. network down) while global resource is downloaded (e.g. network up again)
                 // var tasksJsonClient = fromWeb ? WebService.RequestMaaApiWithCache(tasksPath) : WebService.RequestMaaApiWithCache(tasksPath);
                 await _maaApiService.RequestMaaApiWithCache(tasksPath);
+                AsstProxy.AsstLoadResource(Directory.GetCurrentDirectory() + "\\cache\\resource\\global\\" + _settingsViewModel.ClientType);
             }
 
             return activity;

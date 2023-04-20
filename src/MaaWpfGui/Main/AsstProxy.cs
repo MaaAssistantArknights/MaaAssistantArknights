@@ -70,7 +70,7 @@ namespace MaaWpfGui.Main
         [DllImport("MaaCore.dll")]
         private static extern unsafe bool AsstLoadResource(byte* dirname);
 
-        private static unsafe bool AsstLoadResource(string dirname)
+        public static unsafe bool AsstLoadResource(string dirname)
         {
             fixed (byte* ptr = EncodeNullTerminatedUTF8(dirname))
             {
