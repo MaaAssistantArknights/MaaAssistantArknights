@@ -97,7 +97,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
     }
 
     BattleImageAnalyzer oper_analyzer(image);
-    oper_analyzer.set_target(BattleImageAnalyzer::Target::Oper);
+    oper_analyzer.set_object_to_analyze(BattleImageAnalyzer::ObjectOfInterest::Oper);
     if (!oper_analyzer.analyze()) {
         check_in_battle(image);
         return false;
@@ -253,9 +253,9 @@ bool asst::BattleHelper::update_kills(const cv::Mat& reusable)
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     BattleImageAnalyzer analyzer(image);
     if (m_total_kills) {
-        analyzer.set_pre_total_kills(m_total_kills);
+        analyzer.set_total_kills_prompt(m_total_kills);
     }
-    analyzer.set_target(BattleImageAnalyzer::Target::Kills);
+    analyzer.set_object_to_analyze(BattleImageAnalyzer::ObjectOfInterest::Kills);
     if (!analyzer.analyze()) {
         return false;
     }
@@ -268,7 +268,7 @@ bool asst::BattleHelper::update_cost(const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     BattleImageAnalyzer analyzer(image);
-    analyzer.set_target(BattleImageAnalyzer::Target::Cost);
+    analyzer.set_object_to_analyze(BattleImageAnalyzer::ObjectOfInterest::Cost);
     if (!analyzer.analyze()) {
         return false;
     }

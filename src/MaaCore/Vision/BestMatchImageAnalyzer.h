@@ -16,6 +16,12 @@ namespace asst
 
         struct Result
         {
+            std::string to_string() const
+            {
+                return "{ name: " + templ_info.name + ", matched: " + matched.to_string() + " }";
+            }
+            explicit operator std::string() const { return to_string(); }
+
             MatchImageAnalyzer::Result matched;
             TemplInfo templ_info;
         };

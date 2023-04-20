@@ -35,6 +35,7 @@ namespace asst
             {
                 return "{ " + text + ": " + rect.to_string() + ", score: " + std::to_string(score) + " }";
             }
+            explicit operator std::string() const { return to_string(); }
 
             std::string text;
             Rect rect;

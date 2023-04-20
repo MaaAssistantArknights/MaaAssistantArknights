@@ -16,6 +16,7 @@ namespace asst
         virtual ~MultiMatchImageAnalyzer() override = default;
 
         const ResultsVecOpt& analyze();
+        const ResultsVecOpt& result() const noexcept { return m_result; }
 
         void sort_results_by_horizontal(); // 按位置排序，左上角的排在前面，右上角在左下角前面
         void sort_results_by_vertical();   // 按位置排序，左上角的排在前面，左下角在右上角前面

@@ -67,6 +67,6 @@ void asst::DebugTask::test_battle_image()
     cv::Mat resized;
     cv::resize(image, resized, cv::Size(1280, 720), 0, 0, cv::INTER_AREA);
     BattleImageAnalyzer analyzer(resized);
-    analyzer.set_target(BattleImageAnalyzer::Target::Oper);
+    analyzer.set_object_to_analyze(BattleImageAnalyzer::ObjectOfInterest::Oper);
     analyzer.analyze();
 }

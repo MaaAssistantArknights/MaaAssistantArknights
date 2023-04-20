@@ -247,7 +247,7 @@ bool asst::CombatRecordRecognitionTask::analyze_deployment()
     const int skip_count = m_video_fps > m_deployment_fps ? static_cast<int>(m_video_fps / m_deployment_fps) - 1 : 0;
 
     BattleImageAnalyzer oper_analyzer;
-    oper_analyzer.set_target(BattleImageAnalyzer::Target::Oper);
+    oper_analyzer.set_object_to_analyze(BattleImageAnalyzer::ObjectOfInterest::Oper);
 
     for (size_t i = m_stage_ocr_end_frame; i < m_video_frame_count; i += skip_frames(skip_count) + 1) {
         cv::Mat frame;
@@ -359,9 +359,9 @@ bool asst::CombatRecordRecognitionTask::slice_video()
         cv::resize(frame, frame, cv::Size(), m_scale, m_scale, cv::INTER_AREA);
 
         BattleImageAnalyzer oper_analyzer(frame);
-        oper_analyzer.set_target(BattleImageAnalyzer::Target::Oper | BattleImageAnalyzer::Target::DetailPage |
-                                 BattleImageAnalyzer::Target::Kills);
-        oper_analyzer.set_pre_total_kills(total_kills);
+        oper_analyzer.set_object_to_analyze(BattleImageAnalyzer::ObjectOfInterest::Oper | BattleImageAnalyzer::ObjectOfInterest::DetailPage |
+                                 BattleImageAnalyzer::ObjectOfInterest::Kills);
+        oper_analyzer.set_total_kills_prompt(total_kills);
         bool analyzed = oper_analyzer.analyze();
         show_img(oper_analyzer);
 
@@ -828,7 +828,7 @@ json::object asst::CombatRecordRecognitionTask::analyze_action_condition(ClipInf
     };
 
     BattleImageAnalyzer analyzer;
-    analyzer.set_target(BattleImageAnalyzer::Target::Cost);
+    analyzer.set_object_to_analyze(BattleImageAnalyzer::ObjectOfInterest::Cost);
 
     analyzer.set_image(pre_clip_ptr->end_frame); // 开始执行这次操作的画面
     if (!analyzer.analyze()) {

@@ -14,6 +14,7 @@ namespace asst
             {
                 return "{ rect: " + rect.to_string() + ", score: " + std::to_string(score) + " }";
             }
+            explicit operator std::string() const { return to_string(); }
 
             Rect rect;
             double score = 0.0;
