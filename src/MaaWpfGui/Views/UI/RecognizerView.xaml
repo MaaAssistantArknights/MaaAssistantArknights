@@ -61,7 +61,7 @@
                         <CheckBox
                             Margin="5"
                             Content="{DynamicResource AutoSettingTime}"
-                            IsChecked="{Binding AutoSetTime}" />
+                            IsChecked="{Binding RecruitAutoSetTime}" />
                         <CheckBox
                             MaxWidth="170"
                             Margin="5"
