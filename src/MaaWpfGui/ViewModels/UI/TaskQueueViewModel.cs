@@ -650,13 +650,13 @@ namespace MaaWpfGui.ViewModels.UI
 
             Idle = false;
 
-            _settingsViewModel.RunStartCommand();
-
             // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次任务及基建列表
             TaskItemSelectionChanged();
             _settingsViewModel.InfrastOrderSelectionChanged();
 
             ClearLog();
+
+            await Task.Run(() => _settingsViewModel.RunScript("StartsWithScript"));
 
             bool ret = true;
 
@@ -1450,7 +1450,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public void CheckAfterCompleted()
         {
-            _settingsViewModel.RunEndCommand();
+            Task.Run(() => _settingsViewModel.RunScript("EndsWithScript"));
 
             switch (ActionAfterCompleted)
             {
