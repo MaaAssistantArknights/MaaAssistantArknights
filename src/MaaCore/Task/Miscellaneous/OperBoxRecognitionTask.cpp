@@ -1,4 +1,4 @@
-#include "OperRecognitionTask.h"
+#include "OperBoxRecognitionTask.h"
 
 #include "Utils/Ranges.hpp"
 
@@ -7,11 +7,11 @@
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/Miscellaneous/OperImageAnalyzer.h"
+#include "Vision/Miscellaneous/OperBoxImageAnalyzer.h"
 #include "Vision/OcrWithFlagTemplImageAnalyzer.h"
 #include <future>
 
-bool asst::OperRecognitionTask::_run()
+bool asst::OperBoxRecognitionTask::_run()
 {
     LogTraceFunction;
 
@@ -19,13 +19,13 @@ bool asst::OperRecognitionTask::_run()
     callback_analyze_result(true);
     return oper;
 }
-bool asst::OperRecognitionTask::swipe_and_analyze()
+bool asst::OperBoxRecognitionTask::swipe_and_analyze()
 {
     LogTraceFunction;
     std::string current_page_last_oper_name = "";
     own_opers.clear();
     while (true) {
-        OperImageAnalyzer analyzer(ctrler()->get_image());
+        OperBoxImageAnalyzer analyzer(ctrler()->get_image());
 
         auto future = std::async(std::launch::async, [&]() { swipe_page(); });
 
@@ -45,12 +45,12 @@ bool asst::OperRecognitionTask::swipe_and_analyze()
     return !own_opers.empty();
 }
 
-void asst::OperRecognitionTask::swipe_page()
+void asst::OperBoxRecognitionTask::swipe_page()
 {
-    ProcessTask(*this, { "OperatorSlowlySwipeToTheRight" }).run();
+    ProcessTask(*this, { "OperBoxSlowlySwipeToTheRight" }).run();
 }
 
-void asst::OperRecognitionTask::callback_analyze_result(bool done)
+void asst::OperBoxRecognitionTask::callback_analyze_result(bool done)
 {
     LogTraceFunction;
     // 获取所有干员名
@@ -76,7 +76,7 @@ void asst::OperRecognitionTask::callback_analyze_result(bool done)
     callback(AsstMsg::SubTaskExtraInfo, info);
 }
 
-std::unordered_set<std::string> asst::OperRecognitionTask::get_own_oper_names()
+std::unordered_set<std::string> asst::OperBoxRecognitionTask::get_own_oper_names()
 {
     LogTraceFunction;
     std::unordered_set<std::string> own_oper_names;

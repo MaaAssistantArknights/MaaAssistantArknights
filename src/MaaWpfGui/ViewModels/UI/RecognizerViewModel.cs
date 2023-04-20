@@ -336,7 +336,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
         #endregion
 
-        #region  Oper
+        #region  OperBox
 
         /// <summary>
         /// 未实装干员，但在battle_data中，
@@ -356,23 +356,23 @@ namespace MaaWpfGui.ViewModels.UI
             "阿米娅-WARRIOR",
         };
 
-        private string _operInfo = LocalizationHelper.GetString("OperRecognitionTip");
+        private string _operBoxInfo = LocalizationHelper.GetString("OperBoxRecognitionTip");
 
-        public string OperInfo
+        public string OperBoxInfo
         {
-            get => _operInfo;
-            set => SetAndNotify(ref _operInfo, value);
+            get => _operBoxInfo;
+            set => SetAndNotify(ref _operBoxInfo, value);
         }
 
-        private string _operResult;
+        private string _operBoxResult;
 
-        public string OperResult
+        public string OperBoxResult
         {
-            get => _operResult;
-            set => SetAndNotify(ref _operResult, value);
+            get => _operBoxResult;
+            set => SetAndNotify(ref _operBoxResult, value);
         }
 
-        public bool OperParse(JObject details)
+        public bool OperBoxParse(JObject details)
         {
             string result = string.Empty;
             /*已拥有干员*/
@@ -390,14 +390,11 @@ namespace MaaWpfGui.ViewModels.UI
             int count = 0;
             foreach (var name in operNotOwn)
             {
-                if (count++ < 3)
+                result += name + "\t";
+                if (count++ == 3)
                 {
-                    result += name + ",  ";
-                }
-                else
-                {
-                    result += name + "\n\t";
-                    count = 0;
+                    result += "\n";
+                    count= 0;
                 }
             }
 
@@ -405,60 +402,57 @@ namespace MaaWpfGui.ViewModels.UI
             count = 0;
             foreach (var name in operOwn)
             {
-                if (count++ < 3)
+                result += name + "\t";
+                if (count++ == 3)
                 {
-                    result += name + ",  ";
-                }
-                else
-                {
-                    result += name + "\n\t";
+                    result += "\n";
                     count = 0;
                 }
             }
 
-            OperResult = result;
+            OperBoxResult = result;
             bool done = (bool)details["done"];
             if (done)
             {
-                OperInfo = LocalizationHelper.GetString("IdentificationCompleted") + "\n" + LocalizationHelper.GetString("OperRecognitionTip");
-                OperDone = true;
+                OperBoxInfo = LocalizationHelper.GetString("IdentificationCompleted") + "\n" + LocalizationHelper.GetString("OperBoxRecognitionTip");
+                OperBoxDone = true;
             }
 
             return true;
         }
 
-        private bool _operdone = false;
+        private bool _operBoxDone = false;
 
         /// <summary>
         /// Gets or sets a value indicating whether depot info is parsed.
         /// </summary>
-        public bool OperDone
+        public bool OperBoxDone
         {
-            get => _operdone;
-            set => SetAndNotify(ref _operdone, value);
+            get => _operBoxDone;
+            set => SetAndNotify(ref _operBoxDone, value);
         }
 
         private void ClearResult()
         {
-            OperResult = string.Empty;
-            OperDone = false;
+            OperBoxResult = string.Empty;
+            OperBoxDone = false;
         }
 
-        public async void StartOper()
+        public async void StartOperBox()
         {
             string errMsg = string.Empty;
-            OperInfo = LocalizationHelper.GetString("ConnectingToEmulator");
+            OperBoxInfo = LocalizationHelper.GetString("ConnectingToEmulator");
             bool caught = await Task.Run(() => _asstProxy.AsstConnect(ref errMsg));
             if (!caught)
             {
-                OperInfo = errMsg;
+                OperBoxInfo = errMsg;
                 return;
             }
 
-            OperInfo = LocalizationHelper.GetString("Identifying");
+            OperBoxInfo = LocalizationHelper.GetString("Identifying");
             ClearResult();
 
-            _asstProxy.AsstStartOper();
+            _asstProxy.AsstStartOperBox();
         }
         #endregion
     }

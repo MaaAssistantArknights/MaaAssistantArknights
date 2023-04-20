@@ -603,13 +603,13 @@
     <ClInclude Include="Controller\PlayToolsController.h">
       <Filter>源文件\Controller</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Interface\OperTask.h">
+    <ClInclude Include="Task\Interface\OperBoxTask.h">
       <Filter>源文件\Task\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Miscellaneous\OperRecognitionTask.h">
+    <ClInclude Include="Task\Miscellaneous\OperBoxRecognitionTask.h">
       <Filter>源文件\Task\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\Miscellaneous\OperImageAnalyzer.h">
+    <ClInclude Include="Vision\Miscellaneous\OperBoxImageAnalyzer.h">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1001,13 +1001,13 @@
     <ClCompile Include="Controller\PlayToolsController.cpp">
       <Filter>源文件\Controller</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Interface\OperTask.cpp">
+    <ClCompile Include="Task\Interface\OperBoxTask.cpp">
       <Filter>源文件\Task\Interface</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Miscellaneous\OperRecognitionTask.cpp">
+    <ClCompile Include="Task\Miscellaneous\OperBoxRecognitionTask.cpp">
       <Filter>源文件\Task\Miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\Miscellaneous\OperImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Miscellaneous\OperBoxImageAnalyzer.cpp">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>

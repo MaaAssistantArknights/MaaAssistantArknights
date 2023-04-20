@@ -1,16 +1,16 @@
 #pragma once
 #include "Common/AsstBattleDef.h"
 #include "Task/AbstractTask.h"
-#include "Vision/Miscellaneous/OperImageAnalyzer.h"
+#include "Vision/Miscellaneous/OperBoxImageAnalyzer.h"
 #include <unordered_set>
 
 namespace asst
 {
-    class OperRecognitionTask : public AbstractTask
+    class OperBoxRecognitionTask : public AbstractTask
     {
     public:
         using AbstractTask::AbstractTask;
-        virtual ~OperRecognitionTask() override = default;
+        virtual ~OperBoxRecognitionTask() override = default;
 
     protected:
         virtual bool _run() override;
