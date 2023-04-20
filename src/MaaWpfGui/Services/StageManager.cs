@@ -204,10 +204,10 @@ namespace MaaWpfGui.Services
                         if (isDebugVersion || (curVerParsed && minRequiredParsed))
                         {
                             // Debug Version will be considered satisfying min version requirement, but the resource version needs a comparison
-                            if (!isDebugVersion)
+                            if (isDebugVersion)
                             {
                                 // &&(!minResourceRequiredParsed || curResourceVersionObj.CompareSortOrderTo(minResourceRequiredObj) < 0)
-                                if (curVersionObj.CompareSortOrderTo(minRequiredObj) < 0)
+                                if (isDebugVersion || curVersionObj.CompareSortOrderTo(minRequiredObj) < 0)
                                 {
                                     if (!tempStage.ContainsKey(LocalizationHelper.GetString("UnsupportedStages")))
                                     {
@@ -215,7 +215,8 @@ namespace MaaWpfGui.Services
                                         {
                                             Display = LocalizationHelper.GetString("UnsupportedStages"),
                                             Value = LocalizationHelper.GetString("UnsupportedStages"),
-                                            Drop = LocalizationHelper.GetString("LowVersion"),
+                                            Drop = LocalizationHelper.GetString("LowVersion") + '\n' +
+                                                   LocalizationHelper.GetString("MinimumRequirements") + minRequiredObj.ToString(),
                                             Activity = new StageActivityInfo()
                                             {
                                                 Tip = stageObj["Activity"]?["Tip"]?.ToString(),
