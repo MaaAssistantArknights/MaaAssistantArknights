@@ -111,10 +111,15 @@ bool asst::TaskData::parse(const json::value& json)
                     if (auto opt = task_json.find<std::string>("baseTask")) {
                         // BaseTask
                         std::string base = opt.value();
-                        if (!base.empty()) {
+                        if (base == "#none") {
+                            // `"baseTask": "#none"` 表示不使用已生成的同名任务
+                        }
+                        else if (base.empty()) {
+                            Log.warn("Use `\"baseTask\": \"#none\"` instead of `\"baseTask\": \"\"` in Task", name);
+                        }
+                        else {
                             return generate_fun(base, must_true) && generate_task(name, "", get_raw(base), task_json);
                         }
-                        // `"baseTask": ""` 表示不使用已生成的同名任务
                     }
                     else if (m_raw_all_tasks_info.contains(name)) {
                         // 已生成（外服覆写国服资源）
@@ -144,9 +149,10 @@ bool asst::TaskData::parse(const json::value& json)
             generate_task_and_its_base(name);
         }
 
-        // 延迟生成，等到一个任务被第一次 get 的时候才生成
+        // 延迟展开，等到一个任务被第一次 get 的时候才展开
+        // debug 时为了做语法检查，会 *提前* 展开
         /*
-        // 生成 # 型任务
+        // 展开 # 型任务
         for (const auto& [name, old_task] : m_raw_all_tasks_info) {
             expand_task(name, old_task);
         }
@@ -155,9 +161,6 @@ bool asst::TaskData::parse(const json::value& json)
 
 #ifdef ASST_DEBUG
     {
-        // 非 debug 的情况等到一个任务被第一次 get 的时候才展开。
-        // debug 时为了做语法检查，会提前展开。
-
         bool validity = true;
 
         std::queue<std::string_view> task_queue;
