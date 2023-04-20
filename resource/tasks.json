@@ -1824,6 +1824,7 @@
             197,
             125
         ],
+        "postDelay": 2000,
         "next": [
             "SN-Chapter2",
             "ChapterSwipeToTheRight"
@@ -1837,9 +1838,10 @@
             254,
             165
         ],
+        "postDelay": 2000,
         "next": [
             "SN-Chapter3",
-            "SwipeToTheLeft"
+            "ChapterSwipeToTheLeft"
         ]
     },
     "SN-8@SideStoryStage": {

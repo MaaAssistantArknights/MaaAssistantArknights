@@ -204,7 +204,7 @@ namespace MaaWpfGui.Services
                         if (isDebugVersion || (curVerParsed && minRequiredParsed))
                         {
                             // Debug Version will be considered satisfying min version requirement, but the resource version needs a comparison
-                            if (isDebugVersion)
+                            if (!isDebugVersion)
                             {
                                 // &&(!minResourceRequiredParsed || curResourceVersionObj.CompareSortOrderTo(minResourceRequiredObj) < 0)
                                 if (isDebugVersion || curVersionObj.CompareSortOrderTo(minRequiredObj) < 0)
