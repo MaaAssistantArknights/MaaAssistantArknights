@@ -10,6 +10,8 @@ namespace asst
         {
             Rect rect;
             bool selected = false;
+            std::string name;
+            int page;
             // TODO
         };
 
