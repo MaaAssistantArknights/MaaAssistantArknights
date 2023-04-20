@@ -14,7 +14,7 @@
 #include "Utils/WorkingDir.hpp"
 
 static constexpr AsstSize NullSize = static_cast<AsstSize>(-1);
-
+static constexpr AsstId InvalidId = 0;
 #if 0
 #if _MSC_VER
 // Win32平台下Dll的入口
@@ -154,7 +154,7 @@ AsstAsyncCallId AsstAsyncConnect(AsstHandle handle, const char* adb_path, const 
                                  AsstBool block)
 {
     if (!inited() || handle == nullptr) {
-        return false;
+        return InvalidId;
     }
     return handle->async_connect(adb_path, address, config ? config : std::string(), block);
 }
@@ -162,7 +162,7 @@ AsstAsyncCallId AsstAsyncConnect(AsstHandle handle, const char* adb_path, const 
 AsstTaskId AsstAppendTask(AsstHandle handle, const char* type, const char* params)
 {
     if (!inited() || handle == nullptr) {
-        return 0;
+        return InvalidId;
     }
 
     return handle->append_task(type, params ? params : "");
@@ -180,7 +180,7 @@ AsstBool AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char* params)
 AsstAsyncCallId AsstAsyncClick(AsstHandle handle, int32_t x, int32_t y, AsstBool block)
 {
     if (!inited() || handle == nullptr) {
-        return false;
+        return InvalidId;
     }
     return handle->async_click(x, y, block);
 }
@@ -188,7 +188,7 @@ AsstAsyncCallId AsstAsyncClick(AsstHandle handle, int32_t x, int32_t y, AsstBool
 AsstAsyncCallId AsstAsyncScreencap(AsstHandle handle, AsstBool block)
 {
     if (!inited() || handle == nullptr) {
-        return false;
+        return InvalidId;
     }
     return handle->async_screencap(block);
 }

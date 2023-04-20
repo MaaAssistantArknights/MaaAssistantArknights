@@ -162,9 +162,8 @@ namespace MaaWpfGui.Main
         private readonly SettingsViewModel _settingsViewModel;
 
         private readonly TaskQueueViewModel _taskQueueViewModel;
-        private readonly RecruitViewModel _recruitViewModel;
+        private readonly RecognizerViewModel _recognizerViewModel;
         private readonly CopilotViewModel _copilotViewModel;
-        private readonly DepotViewModel _depotViewModel;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AsstProxy"/> class.
@@ -175,9 +174,8 @@ namespace MaaWpfGui.Main
         {
             _settingsViewModel = container.Get<SettingsViewModel>();
             _taskQueueViewModel = container.Get<TaskQueueViewModel>();
-            _recruitViewModel = container.Get<RecruitViewModel>();
+            _recognizerViewModel = container.Get<RecognizerViewModel>();
             _copilotViewModel = container.Get<CopilotViewModel>();
-            _depotViewModel = container.Get<DepotViewModel>();
 
             _windowManager = windowManager;
             _callback = CallbackFunction;
@@ -482,7 +480,7 @@ namespace MaaWpfGui.Main
             {
                 if (msg == AsstMsg.TaskChainError)
                 {
-                    _recruitViewModel.RecruitInfo = LocalizationHelper.GetString("IdentifyTheMistakes");
+                    _recognizerViewModel.RecruitInfo = LocalizationHelper.GetString("IdentifyTheMistakes");
                     using var toast = new ToastNotification(LocalizationHelper.GetString("IdentifyTheMistakes"));
                     toast.Show();
                 }
@@ -820,7 +818,7 @@ namespace MaaWpfGui.Main
             var subTaskDetails = details["details"];
             if (taskChain == "Depot")
             {
-                _depotViewModel.Parse((JObject)subTaskDetails);
+                _recognizerViewModel.DepotParse((JObject)subTaskDetails);
             }
 
             string what = details["what"].ToString();
@@ -857,6 +855,14 @@ namespace MaaWpfGui.Main
 
                 case "ProductIncorrect":
                     _taskQueueViewModel.AddLog(LocalizationHelper.GetString("ProductIncorrect"), UiLogColor.Error);
+                    break;
+
+                case "ProductUnknown":
+                    _taskQueueViewModel.AddLog(LocalizationHelper.GetString("ProductUnknown"), UiLogColor.Error);
+                    break;
+
+                case "ProductChanged":
+                    _taskQueueViewModel.AddLog(LocalizationHelper.GetString("ProductChanged"), UiLogColor.Info);
                     break;
 
                 case "RecruitTagsDetected":
@@ -1083,7 +1089,7 @@ namespace MaaWpfGui.Main
                             info_content += tag_str + "    ";
                         }
 
-                        _recruitViewModel.RecruitInfo = info_content;
+                        _recognizerViewModel.RecruitInfo = info_content;
                     }
 
                     break;
@@ -1111,7 +1117,7 @@ namespace MaaWpfGui.Main
                             resultContent += "\n\n";
                         }
 
-                        _recruitViewModel.RecruitResult = resultContent;
+                        _recognizerViewModel.RecruitResult = resultContent;
                     }
 
                     break;
@@ -1475,9 +1481,9 @@ namespace MaaWpfGui.Main
         /// <param name="dorm_filter_not_stationed_enabled">宿舍是否使用未进驻筛选标签</param>
         /// <param name="dorm_dorm_trust_enabled">宿舍是否使用蹭信赖功能</param>
         /// <param name="originium_shard_auto_replenishment">制造站搓玉是否补货</param>
-        /// <param name="is_custom"></param>
-        /// <param name="filename"></param>
-        /// <param name="plan_index"></param>
+        /// <param name="is_custom">是否开启自定义配置</param>
+        /// <param name="filename">自定义配置文件路径</param>
+        /// <param name="plan_index">自定义配置计划编号</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendInfrast(string[] order, string uses_of_drones, double dorm_threshold,
             bool dorm_filter_not_stationed_enabled, bool dorm_dorm_trust_enabled, bool originium_shard_auto_replenishment,
@@ -1616,7 +1622,7 @@ namespace MaaWpfGui.Main
                 ["report_to_penguin"] = true,
                 ["report_to_yituliu"] = true,
             };
-            task_params["recruitment_time"] = _recruitViewModel.IsLevel3UseShortTime ?
+            task_params["recruitment_time"] = _recognizerViewModel.IsLevel3UseShortTime ?
                 new JObject { { "3", 460 } } :
                 new JObject { { "3", 540 } };
             task_params["penguin_id"] = _settingsViewModel.PenguinId;

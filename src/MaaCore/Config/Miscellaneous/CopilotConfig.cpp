@@ -4,9 +4,41 @@
 
 #include "TilePack.h"
 #include "Utils/Logger.hpp"
+#include "Utils/NoWarningCPR.h"
 
 using namespace asst::battle;
 using namespace asst::battle::copilot;
+
+bool asst::CopilotConfig::parse_magic_code(const std::string& copilot_magic_code)
+{
+    if (copilot_magic_code.empty()) {
+        Log.error("copilot_magic_code is empty");
+        return false;
+    }
+
+    cpr::Response response =
+        cpr::Get(cpr::Url("https://prts.maa.plus/copilot/get/" + copilot_magic_code), cpr::Timeout { 10000 });
+
+    if (response.status_code != 200) {
+        Log.error("copilot_magic_code request failed");
+        return false;
+    }
+
+    auto json = json::parse(response.text);
+
+    if (json && json->contains("status_code") && json->at("status_code").as_integer() == 200) {
+        if (json->contains("data") && json->at("data").contains("content")) {
+            auto content_str = json->at("data").at("content").as_string();
+            auto content = json::parse(content_str);
+            if (content) {
+                return parse(*content);
+            }
+        }
+    }
+
+    Log.error("using copilot_code failed, response:", response.text);
+    return false;
+}
 
 void asst::CopilotConfig::clear()
 {

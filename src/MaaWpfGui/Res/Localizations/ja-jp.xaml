@@ -310,6 +310,8 @@
     <!--  馴染みのあるステージ名での表記  -->
     <system:String x:Key="LS-6">作戦記録-6(LS-6)</system:String>
     <!--  馴染みのあるステージ名での表記  -->
+    <system:String x:Key="SK-5">炭素材-5(SK-5)</system:String>
+    <!--  馴染みのあるステージ名での表記  -->
 
     <system:String x:Key="PR-A-1">医療/重装SoC・初</system:String>
     <system:String x:Key="PR-A-2">医療/重装SoC・中</system:String>
@@ -355,6 +357,8 @@
     <!--  ログ  -->
     <!--  スタート  -->
 
+    <system:String x:Key="IdentificationTool">認識ツール</system:String>
+
     <!--  公開求人認識  -->
     <system:String x:Key="RecruitmentRecognition">公開求人認識</system:String>
     <system:String x:Key="RecruitmentRecognitionTip">ヒント：スタート画面の公開求人とは、別々の機能になっています。使用する前にゲームの公開求人を手動で開いてください</system:String>
@@ -367,7 +371,7 @@
     <!--  公開求人認識  -->
 
     <!--  倉庫アイテム認識  -->
-    <system:String x:Key="DepotRecognition">倉庫アイテム認識 beta</system:String>
+    <system:String x:Key="DepotRecognition">倉庫アイテム認識</system:String>
     <system:String x:Key="DepotRecognitionTip">この機能はまだテスト版です。倉庫を開いた後、素材のタブを選択してから認識を行い、結果が正しいかどうか確認してください。エラーが発生した場合は、debug/depotフォルダを作業パスに圧縮して、issueを提出してください。</system:String>
     <system:String x:Key="BeganToDepotRecognition">認識開始</system:String>
     <system:String x:Key="ExportToArkplanner">Arkplannerへ出力</system:String>
@@ -473,6 +477,8 @@
     <system:String x:Key="TotalDrop">ドロップ統計：</system:String>
     <system:String x:Key="ThisFacility">現在の施設：</system:String>
     <system:String x:Key="ProductIncorrect">Product does NOT match the configuration.</system:String>
+    <system:String x:Key="ProductUnknown">Unknown Product</system:String>
+    <system:String x:Key="ProductChanged">Product has changed</system:String>
     <system:String x:Key="RecruitingResults">公開求人の認識結果：</system:String>
     <system:String x:Key="RecruitingTips">公開求人ヒント</system:String>
     <system:String x:Key="RecruitmentOfStar">公開求人で星{0}が出ました！</system:String>

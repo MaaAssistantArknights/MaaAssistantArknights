@@ -13,6 +13,7 @@
 
 using System.Windows;
 using System.Windows.Media;
+using MaaWpfGui.Helper;
 
 namespace MaaWpfGui.Styles.Controls
 {
@@ -23,12 +24,50 @@ namespace MaaWpfGui.Styles.Controls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(TextBlock), new FrameworkPropertyMetadata(typeof(TextBlock)));
         }
 
-        public static readonly DependencyProperty CustomForegroundProperty = DependencyProperty.Register("CustomForeground", typeof(Brush), typeof(TextBlock), new PropertyMetadata(Brushes.Black));
+        public static readonly DependencyProperty CustomForegroundProperty = DependencyProperty.Register("CustomForeground", typeof(Brush), typeof(TextBlock), new PropertyMetadata(ThemeHelper.DefaultBrush));
 
         public Brush CustomForeground
         {
             get { return (Brush)GetValue(CustomForegroundProperty); }
             set { SetValue(CustomForegroundProperty, value); }
+        }
+
+        public static readonly DependencyProperty ForegroundKeyProperty = DependencyProperty.Register("ForegroundKey", typeof(string), typeof(TextBlock), new PropertyMetadata(ThemeHelper.DefaultKey, OnForegroundKeyChanged));
+
+        private static void OnForegroundKeyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var element = (TextBlock)d;
+            if (e.NewValue != null)
+            {
+                element.ForegroundKey = (string)e.NewValue;
+            }
+        }
+
+        public string ForegroundKey
+        {
+            get
+            {
+                return (string)GetValue(ForegroundKeyProperty);
+            }
+
+            set
+            {
+                SetValue(ForegroundKeyProperty, value);
+                if (Application.Current.Resources.Contains(value))
+                {
+                    SetResourceReference(ForegroundProperty, value);
+                    return;
+                }
+
+                var brush = ThemeHelper.String2Brush(value);
+                if (ThemeHelper.SimilarToBackground(brush.Color))
+                {
+                    SetResourceReference(ForegroundProperty, ThemeHelper.DefaultKey);
+                    return;
+                }
+
+                SetValue(ForegroundProperty, brush);
+            }
         }
     }
 }

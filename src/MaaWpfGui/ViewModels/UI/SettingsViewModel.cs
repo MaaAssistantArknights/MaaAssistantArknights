@@ -27,12 +27,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
-using HandyControl.Themes;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
-using MaaWpfGui.Services;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Managers;
 using MaaWpfGui.Services.Web;
@@ -117,7 +115,6 @@ namespace MaaWpfGui.ViewModels.UI
 
             InfrastInit();
 
-            SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
             SwitchDarkMode();
             if (Hangover)
             {
@@ -978,7 +975,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _dormFilterNotStationedEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.DormFilterNotStationedEnabled, false.ToString());
+        private string _dormFilterNotStationedEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.DormFilterNotStationedEnabled, true.ToString());
 
         /// <summary>
         /// Gets or sets a value indicating whether the not stationed filter in dorm is enabled.
@@ -993,7 +990,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _dormTrustEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.DormTrustEnabled, true.ToString());
+        private string _dormTrustEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.DormTrustEnabled, false.ToString());
 
         /// <summary>
         /// Gets or sets a value indicating whether get trust in dorm is enabled.
@@ -2421,6 +2418,13 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
+            var mainWindowRect = new Rect(mainWindow.Left + 25, mainWindow.Top + 25, mainWindow.Width - 50, mainWindow.Height - 50);
+            var virtualScreenRect = new Rect(SystemParameters.VirtualScreenLeft, SystemParameters.VirtualScreenTop, SystemParameters.VirtualScreenWidth, SystemParameters.VirtualScreenHeight);
+            if (!virtualScreenRect.IntersectsWith(mainWindowRect))
+            {
+                return;
+            }
+
             // 请在配置文件中修改该部分配置，暂不支持从GUI设置
             // Please modify this part of configuration in the configuration file.
             ConfigurationHelper.SetValue(ConfigurationKeys.LoadPositionAndSize, LoadGUIParameters.ToString());
@@ -2576,25 +2580,17 @@ namespace MaaWpfGui.ViewModels.UI
             switch (darkModeType)
             {
                 case DarkModeType.Light:
-                    ThemeManager.Current.UsingWindowsAppTheme = false;
-                    ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light;
-                    return;
+                    ThemeHelper.SwitchToLightMode();
+                    break;
 
                 case DarkModeType.Dark:
-                    ThemeManager.Current.UsingWindowsAppTheme = false;
-                    ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
-                    return;
+                    ThemeHelper.SwitchToDarkMode();
+                    break;
 
                 case DarkModeType.SyncWithOS:
-                    ThemeManager.Current.UsingWindowsAppTheme = true;
-                    return;
+                    ThemeHelper.SwitchToSyncWithOSMode();
+                    break;
             }
-        }
-
-        private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
-        {
-            ThemeManager.Current.ApplicationTheme = ThemeManager.GetSystemTheme(isSystemTheme: false);
-            Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
         }
 
         private enum InverseClearType

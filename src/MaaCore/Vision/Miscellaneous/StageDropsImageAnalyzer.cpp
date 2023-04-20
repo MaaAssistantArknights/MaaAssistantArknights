@@ -308,22 +308,20 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
     cv::Mat preprocessed_roi;
 
     {
-        double angle = 60. / 180. * std::numbers::pi;
         cv::Mat temp; // convert to float point for convenience
         m_image.convertTo(temp, CV_32F, 1. / 255);
-        cv::Mat pdy;
-        cv::Mat pdx;
-        cv::Sobel(temp, pdy, CV_32F, 0, 1);
-        cv::Sobel(temp, pdx, CV_32F, 1, 0);
-        // prefer gradient in vertical direction, make value of those pixels positive
-        cv::sqrt(pdy.mul(pdy) - std::pow(std::tan(angle), 2.) * pdx.mul(pdx), temp);
+
+        // convolution kernel: [[-1], [1], [1], [-1]]
+        cv::Mat kernel = cv::Mat(4, 1, CV_32F, -1.);
+        kernel(cv::Rect { 0, 1, 1, 2 }) = cv::Scalar { 1. };
+
+        cv::filter2D(temp, temp, CV_32F, kernel, { -1, -1 }, 0, cv::BORDER_REPLICATE);
 
         temp.convertTo(preprocessed_roi, CV_8U, 255);
 
         // filling small gaps
-        cv::dilate(preprocessed_roi, preprocessed_roi, cv::getStructuringElement(cv::MORPH_RECT, { 3, 1 }));
-        // line must be thick enough
-        cv::erode(preprocessed_roi, preprocessed_roi, cv::getStructuringElement(cv::MORPH_RECT, { 3, 2 }));
+        cv::morphologyEx(preprocessed_roi, preprocessed_roi, cv::MORPH_CLOSE,
+                         cv::getStructuringElement(cv::MORPH_RECT, { 3, 1 }));
 
         // cropping after derivatives, dilation, and erosion
         cv::cvtColor(preprocessed_roi(make_rect<cv::Rect>(task_ptr->roi)), preprocessed_roi, cv::COLOR_BGR2GRAY);
