@@ -8296,6 +8296,7 @@
             "Roguelike@StageEncounterLeaveConfirm",
             "Roguelike@StageEncounterOptionLeave",
             "Roguelike@StageEncounterOptionUnknown",
+            "Roguelike@NextLevel#next",
             "Roguelike@StageEncounterOptions#next"
         ]
     },
@@ -8307,6 +8308,7 @@
             "Roguelike@StageEncounterLeaveConfirm",
             "Roguelike@StageEncounterOptionFree",
             "Roguelike@StageEncounterOptionUnknown",
+            "Roguelike@NextLevel#next",
             "Roguelike@StageEncounterOptions#next"
         ]
     },
@@ -8318,6 +8320,7 @@
             "Roguelike@StageEncounterLeaveConfirm",
             "Roguelike@StageEncounterOptionFree",
             "Roguelike@StageEncounterOptionUnknown",
+            "Roguelike@NextLevel#next",
             "Roguelike@StageEncounterOptions#next"
         ]
     },
@@ -9501,6 +9504,23 @@
             255
         ],
         "templThreshold": 0.9
+    },
+    "RoguelikeFormationOcr": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "fullMatch": true,
+        "roi": [
+            205,
+            83,
+            100,
+            23
+        ],
+        "specificRect": [
+            100,
+            0,
+            0,
+            0
+        ]
     },
     "RoguelikeQuickFormationClearAndReselect": {
         "action": "ClickSelf",

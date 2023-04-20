@@ -5,23 +5,40 @@
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
 #include "Vision/MultiMatchImageAnalyzer.h"
+#include "Vision/OcrWithFlagTemplImageAnalyzer.h"
 
 bool asst::RoguelikeFormationImageAnalyzer::analyze()
 {
     m_result.clear();
 
-    MultiMatchImageAnalyzer opers_analyzer(m_image);
-    opers_analyzer.set_task_info("RoguelikeFormationOper");
+    OcrWithFlagTemplImageAnalyzer analyzer(m_image);
+    analyzer.set_task_info("RoguelikeFormationOper", "RoguelikeFormationOcr");
+    analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
+                         Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
+    analyzer.set_threshold(Task.get("RoguelikeFormationOcr")->specific_rect.x);
 
-    if (!opers_analyzer.analyze()) {
+    if (!analyzer.analyze()) {
         return false;
     }
-    opers_analyzer.sort_result_vertical();
-    const auto& all_opers = opers_analyzer.get_result();
-    for (const MatchRect& oper_mr : all_opers) {
+
+    analyzer.sort_result_vertical();
+    auto& rect_list = analyzer.get_flag_result();
+    ranges::sort(rect_list, [](const Rect& lhs, const Rect& rhs) -> bool {
+        if (std::abs(lhs.x - rhs.x) < 5) {
+            return lhs.y < rhs.y;
+        }
+        else {
+            return lhs.x < rhs.x;
+        }
+    });
+    int pos = 0;
+    for (const auto& [_, text_rect, name] : analyzer.get_result()) {
+        Rect rect = rect_list[pos];
         FormationOper oper;
-        oper.rect = oper_mr.rect;
-        oper.selected = selected_analyze(oper_mr.rect);
+        oper.rect = rect;
+        oper.selected = selected_analyze(rect);
+        oper.name = name;
+        pos++;
 
 #ifdef ASST_DEBUG
         if (oper.selected) {
