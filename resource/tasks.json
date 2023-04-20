@@ -9629,7 +9629,8 @@
         ],
         "next": [
             "OperBoxRoleTab"
-        ]
+        ],
+        "maxTimes": 3
     },
     "OperBoxRoleTab": {
         "action": "DoNothing",
