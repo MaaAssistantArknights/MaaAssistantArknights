@@ -202,7 +202,7 @@
                         "近卫": 2
                     },
                     "location": [
-                        2,
+                        3,
                         2
                     ],
                     "direction": "Down"
@@ -220,7 +220,8 @@
                 },
                 {
                     "tool_men": {
-                        "辅助": 100
+                        "辅助": 100,
+                        "术士": 100
                     },
                     "location": [
                         5,
@@ -336,7 +337,7 @@
                         "辅助": 100
                     },
                     "location": [
-                        6,
+                        5,
                         3
                     ],
                     "direction": "Left"
@@ -351,7 +352,7 @@
                     "type": "部署",
                     "name": "战备激活阀",
                     "location": [
-                        5,
+                        6,
                         3
                     ],
                     "direction": "Up"
@@ -456,7 +457,7 @@
                         3,
                         3
                     ],
-                    "direction": "Up"
+                    "direction": "Right"
                 },
                 {
                     "type": "部署",
