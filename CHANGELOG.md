@@ -1,5 +1,8 @@
 ## v4.15.0-beta.1
 
+我们的全新界面 [MaaElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/releases/latest) 在历经长达两年半的 ~~咕咕~~ 开发后，终于公测啦 ✿✿ヽ(°▽°)ノ✿ 欢迎大家尝鲜体验！  
+After a long period of development, our new GUI is finally in public beta. Welcome to experience it!  ✿✿ヽ(°▽°)ノ✿ 
+
 ### 新增
 
 - 新增 保全派驻 `约翰老妈新建地块`、`雷神工业测试平台` 内置作业 @HMZyueshen @AnnoyingFlowers
@@ -9,7 +12,7 @@
 ### 改进
 
 - Mac Gui 全新设计 支持任务链、回调日志、自定义基建、公招仓库识别等功能 @hguandl
-- Win WPF UI 优化，界面布局调整等 (#4352) @moomiji @ABA2396
+- Win UI 代码结构优化、性能优化、识别工具界面布局调整、部分 bug 修复等 (#4352) @moomiji @ABA2396
 - 优化抄作业子弹时间的逻辑 @MistEO
 - 自动基建 伊内斯效率更新（按8小时计算） (#4351) @HeroTch
 - 肉鸽骑士结局无法自动作战（Issue #4320），更新了新地图 (#4329) @LingXii
