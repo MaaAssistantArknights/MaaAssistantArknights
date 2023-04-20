@@ -6,13 +6,14 @@ namespace asst
 {
     struct OperBoxInfo
     {
+        std::string id;
         std::string name;
+        int level = 0;
+        bool own = false;
     };
     class OperImageAnalyzer final : public AbstractImageAnalyzer
     {
-    public:
-        static constexpr size_t NPos = ~0ULL;
-
+    
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         virtual ~OperImageAnalyzer() override = default;

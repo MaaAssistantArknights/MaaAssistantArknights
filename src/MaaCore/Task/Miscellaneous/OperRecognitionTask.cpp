@@ -59,19 +59,29 @@ void asst::OperRecognitionTask::callback_analyze_result(bool done)
     // 获取识别干员名
     const auto own_oper_names = get_own_oper_names();
 
+    std::unordered_set<asst::OperBoxInfo> oper_box_all;
     // 未拥有干员名
-    std::unordered_set<std::string> n_own_oper_names;
-    n_own_oper_names.clear();
-    for (const auto& oper : all_oper_names) {
-        if (own_oper_names.find(oper) == own_oper_names.end()) n_own_oper_names.insert(oper);
+    //std::unordered_set<std::string> n_own_oper_names;
+    //n_own_oper_names.clear();
+    for (const auto& oper_name : all_oper_names) {
+        asst::OperBoxInfo oper_box;
+        oper_box.name = oper_name;
+        oper_box.id = BattleData.get_id(oper_name);
+        if (own_oper_names.find(oper_name) != own_oper_names.end()) {
+            //n_own_oper_names.insert(oper_name);
+            oper_box.own = true;
+        }
+        oper_box_all.insert(oper_box);
     }
 
-    json::value info = basic_info_with_what("OperInfo");
+    json::value info = basic_info_with_what("OperBoxInfo");
     auto& details = info["details"];
     details["done"] = done;
-    details["have"] = json::array(own_oper_names);
-    details["nhave"] = json::array(n_own_oper_names);
-    details["all"] = json::array(all_oper_names);
+    auto&oper_box_array=details["operbox"];
+    for (const auto& oper_box : oper_box_all) {
+        oper_box_array.array_emplace(
+            json::object { { "id", oper_box.id }, { "name", oper_box.name }, { "level", oper_box.level }, { "own",oper_box.own } });
+    }
 
     callback(AsstMsg::SubTaskExtraInfo, info);
 }
