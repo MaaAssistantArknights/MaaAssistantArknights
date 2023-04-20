@@ -72,7 +72,6 @@ bool asst::RoguelikeFormationImageAnalyzer::selected_analyze(const Rect& roi)
     int upper = cv::countNonZero(bin(cv::Rect(bin.cols / 4, 0, bin.cols / 2, bin.rows / 2)));
     int lower = cv::countNonZero(bin(cv::Rect(bin.cols / 4, bin.rows / 2, bin.cols / 2, bin.rows / 2)));
     Log.trace("selected_analyze |", upper, ':', lower);
-    cv::imwrite("C:/code/MaaAssistantArknights/x64/Release/debug/roguelike/test_b.png", bin);
 
     return upper > 250 && lower < 2;
 }
