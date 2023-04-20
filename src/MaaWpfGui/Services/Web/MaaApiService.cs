@@ -1,4 +1,4 @@
-﻿// <copyright file="MaaApiService.cs" company="MaaAssistantArknights">
+// <copyright file="MaaApiService.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -23,7 +23,7 @@ namespace MaaWpfGui.Services.Web
     {
         private readonly IHttpService _httpService;
 
-        private const string CacheDir = "cache/gui/";
+        private const string CacheDir = "cache/";
         private const string MaaApi = "https://ota.maa.plus/MaaAssistantArknights/api/";
 
         public MaaApiService(IHttpService httpService)
@@ -33,11 +33,6 @@ namespace MaaWpfGui.Services.Web
 
         public async Task<JObject> RequestMaaApiWithCache(string api)
         {
-            if (!Directory.Exists(CacheDir))
-            {
-                Directory.CreateDirectory(CacheDir);
-            }
-
             var url = MaaApi + api;
 
             var response = await _httpService.GetStringAsync(new Uri(url));
@@ -49,7 +44,13 @@ namespace MaaWpfGui.Services.Web
             try
             {
                 var json = (JObject)JsonConvert.DeserializeObject(response);
-                var cache = CacheDir + api.Replace('/', '_');
+                var cache = CacheDir + api;
+                string directoryPath = Path.GetDirectoryName(cache);
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+
                 File.WriteAllText(cache, response);
 
                 return json;
@@ -62,7 +63,7 @@ namespace MaaWpfGui.Services.Web
 
         public JObject LoadApiCache(string api)
         {
-            var cache = CacheDir + api.Replace('/', '_');
+            var cache = CacheDir + api;
             if (!File.Exists(cache))
             {
                 return null;

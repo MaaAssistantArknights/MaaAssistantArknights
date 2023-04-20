@@ -27,6 +27,8 @@ namespace MaaWpfGui.Helper
 
         private static readonly ILogger _logger = Log.ForContext<ConfigurationHelper>();
 
+        private static readonly object _lock = new object();
+
         public delegate void ConfigurationUpdateEventHandler(string key, string oldValue, string newValue);
 
         public static event ConfigurationUpdateEventHandler ConfigurationUpdateEvent;
@@ -91,9 +93,9 @@ namespace MaaWpfGui.Helper
         public static bool DeleteValue(string key)
         {
             var old = string.Empty;
-            if (_kvs.ContainsKey(key))
+            if (_kvs.TryGetValue(key, out var kv))
             {
-                old = _kvs[key];
+                old = kv;
             }
 
             _kvs.Remove(key);
@@ -174,7 +176,7 @@ namespace MaaWpfGui.Helper
         /// Save configuration file
         /// </summary>
         /// <returns>The result of saving process</returns>
-        public static bool Save()
+        private static bool Save()
         {
             if (Released)
             {
@@ -189,7 +191,10 @@ namespace MaaWpfGui.Helper
 
             try
             {
-                File.WriteAllText(_configurationFile, jsonStr);
+                lock (_lock)
+                {
+                    File.WriteAllText(_configurationFile, jsonStr);
+                }
             }
             catch (Exception e)
             {

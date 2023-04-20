@@ -24,14 +24,11 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class RootViewModel : Conductor<Screen>.Collection.OneActive
     {
-        private readonly IWindowManager _windowManager;
-
         private readonly AsstProxy _asstProxy;
         private readonly TaskQueueViewModel _taskQueueViewModel;
-        private readonly RecruitViewModel _recruitViewModel;
+        private readonly RecognizerViewModel _recognizerViewModel;
         private readonly SettingsViewModel _settingsViewModel;
         private readonly CopilotViewModel _copilotViewModel;
-        private readonly DepotViewModel _depotViewModel;
         private readonly VersionUpdateViewModel _versionUpdateViewModel;
 
         /// <summary>
@@ -40,14 +37,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="container">The IoC container.</param>
         public RootViewModel(IContainer container)
         {
-            _windowManager = container.Get<Helper.WindowManager>();
-
             _asstProxy = container.Get<AsstProxy>();
             _taskQueueViewModel = container.Get<TaskQueueViewModel>();
-            _recruitViewModel = container.Get<RecruitViewModel>();
+            _recognizerViewModel = container.Get<RecognizerViewModel>();
             _settingsViewModel = container.Get<SettingsViewModel>();
             _copilotViewModel = container.Get<CopilotViewModel>();
-            _depotViewModel = container.Get<DepotViewModel>();
             _versionUpdateViewModel = container.Get<VersionUpdateViewModel>();
         }
 
@@ -57,7 +51,6 @@ namespace MaaWpfGui.ViewModels.UI
             CheckAndUpdateNow();
             InitViewModels();
             InitProxy();
-            ShowUpdateOrDownload();
         }
 
         private async void InitProxy()
@@ -69,8 +62,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             Items.Add(_taskQueueViewModel);
             Items.Add(_copilotViewModel);
-            Items.Add(_recruitViewModel);
-            Items.Add(_depotViewModel);
+            Items.Add(_recognizerViewModel);
             Items.Add(_settingsViewModel);
 
             _settingsViewModel.UpdateWindowTitle(); // 在标题栏上显示模拟器和IP端口 必须在 Items.Add(settings)之后执行。
@@ -80,24 +72,6 @@ namespace MaaWpfGui.ViewModels.UI
         private bool CheckAndUpdateNow()
         {
             return _versionUpdateViewModel.CheckAndUpdateNow();
-        }
-
-        private async void ShowUpdateOrDownload()
-        {
-            if (_versionUpdateViewModel.IsFirstBootAfterUpdate)
-            {
-                _versionUpdateViewModel.IsFirstBootAfterUpdate = false;
-                _windowManager.ShowWindow(_versionUpdateViewModel);
-            }
-            else
-            {
-                var ret = await _versionUpdateViewModel.CheckAndDownloadUpdate();
-
-                if (ret == VersionUpdateViewModel.CheckUpdateRetT.OK)
-                {
-                    _versionUpdateViewModel.AskToRestart();
-                }
-            }
         }
 
         private string _windowTitle = "MAA";
@@ -114,9 +88,6 @@ namespace MaaWpfGui.ViewModels.UI
         protected override void OnInitialActivate()
         {
             base.OnInitialActivate();
-
-            // TrayIcon应该在显示rootViewModel之后再加载
-            Bootstrapper.SetTrayIconInSettingsViewModel(_settingsViewModel);
         }
 
         /// <inheritdoc/>

@@ -292,6 +292,7 @@
     <system:String x:Key="AP-5">AP-5 (구매증명서)</system:String>
     <system:String x:Key="CA-5">CA-5 (스킬개론)</system:String>
     <system:String x:Key="LS-6">LS-6 (작전기록)</system:String>
+    <system:String x:Key="SK-5">SK-5 (카본)</system:String>
 
     <system:String x:Key="PR-A-1">PR-A-1 (메딕/디펜더)</system:String>
     <system:String x:Key="PR-A-2">PR-A-2 (메딕/디펜더)</system:String>
@@ -336,6 +337,8 @@
     <!--  로그  -->
     <!--  메인 화면  -->
 
+    <system:String x:Key="IdentificationTool">인식 도구</system:String>
+
     <!--  공개모집 인식  -->
     <system:String x:Key="RecruitmentRecognition">공개모집 인식</system:String>
     <system:String x:Key="RecruitmentRecognitionTip">팁: 메인 화면의 자동 모집과는 별도로 독립된 기능입니다. 게임 내 공개모집 태그 화면에서 사용하세요~</system:String>
@@ -348,7 +351,7 @@
     <!--  공개모집 인식  -->
 
     <!--  창고 정리  -->
-    <system:String x:Key="DepotRecognition">창고 정리 beta</system:String>
+    <system:String x:Key="DepotRecognition">창고 정리</system:String>
     <system:String x:Key="DepotRecognitionTip">이 기능은 현재 테스트 중입니다. 인식 결과가 맞는지 확인 후에 사용해 주세요. 만약 오류가 있다면 debug/depot 폴더를 압축해서 이슈로 보내 주세요.</system:String>
     <system:String x:Key="BeganToDepotRecognition">식별 시작</system:String>
     <system:String x:Key="ExportToArkplanner">Arkplanner로 내보내기</system:String>
@@ -460,6 +463,8 @@
     <system:String x:Key="TotalDrop">드롭 통계:</system:String>
     <system:String x:Key="ThisFacility">현재 시설:</system:String>
     <system:String x:Key="ProductIncorrect">생산품이 구성과 맞지 않습니다.</system:String>
+    <system:String x:Key="ProductUnknown">식별할 수 없는 산물</system:String>
+    <system:String x:Key="ProductChanged">결과물이 변경됨</system:String>
     <system:String x:Key="RecruitingResults">공개모집 인식 결과:</system:String>
     <system:String x:Key="RecruitingTips">공개모집 팁</system:String>
     <system:String x:Key="RecruitmentOfStar">★{0} 오퍼레이터를 모집했습니다!</system:String>

@@ -310,6 +310,7 @@
     <system:String x:Key="AP-5">AP-5</system:String>
     <system:String x:Key="CA-5">CA-5</system:String>
     <system:String x:Key="LS-6">LS-6</system:String>
+    <system:String x:Key="SK-5">SK-5</system:String>
 
     <system:String x:Key="PR-A-1">Med/Def Ⅰ</system:String>
     <system:String x:Key="PR-A-2">Med/Def Ⅱ</system:String>
@@ -355,8 +356,10 @@
     <!--  Logs  -->
     <!--  Farming  -->
 
+    <system:String x:Key="IdentificationTool">Identification Tool</system:String>
+
     <!--  Recruitment Recognition  -->
-    <system:String x:Key="RecruitmentRecognition">Recruit tool</system:String>
+    <system:String x:Key="RecruitmentRecognition">Recruit Tool</system:String>
     <system:String x:Key="RecruitmentRecognitionTip">Tip: This recognition is independent from main tab (Farming); need open up in game recruit tag selection screen then begin ~</system:String>
     <system:String x:Key="AutoSettingTime">Auto setting time</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">Auto select 3 ★ Tags</system:String>
@@ -367,7 +370,7 @@
     <!--  Recruitment Recognition  -->
 
     <!--  Depot Recognition  -->
-    <system:String x:Key="DepotRecognition">Depot tool beta</system:String>
+    <system:String x:Key="DepotRecognition">Depot Tool</system:String>
     <system:String x:Key="DepotRecognitionTip">This function is still a test version, please check if the recognition result is correct before using it. If there is an error, please submit the issue by compressing the debug/depot folder in the working path.</system:String>
     <system:String x:Key="BeganToDepotRecognition">Start to identify</system:String>
     <system:String x:Key="ExportToArkplanner">Export to Arkplanner</system:String>
@@ -482,6 +485,8 @@
     <system:String x:Key="TotalDrop">Total Drops:</system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">Current Facility: </system:String>
     <system:String x:Key="ProductIncorrect">Product does NOT match the configuration.</system:String>
+    <system:String x:Key="ProductUnknown">Unknown Product</system:String>
+    <system:String x:Key="ProductChanged">Product has changed</system:String>
     <system:String x:Key="RecruitingResults" xml:space="preserve">Recruitment Results: </system:String>
     <system:String x:Key="RecruitingTips">Recruiting Tips</system:String>
     <system:String x:Key="RecruitmentOfStar">{0} star has been recruited</system:String>
@@ -532,7 +537,7 @@
     <!--  AutoRecruitSettings  -->
 
     <!--  EasterEggs  -->
-    <system:String x:Key="BuyWineOnAprilFoolsDay">Dear doctor, ever heard of the new listings of "isopropyl alcohol" in Ms. Closure's store? let's check it out?</system:String>
+    <system:String x:Key="BuyWineOnAprilFoolsDay">Dear doctor, ever heard of the new listings of &quot;isopropyl alcohol&quot; in Ms. Closure's store? let's check it out?</system:String>
     <system:String x:Key="Burping">Ugh... Ehem</system:String>
     <system:String x:Key="DrunkAndStaggering">Ah, doctor. Why do you sway, so much in your movement today?</system:String>
     <system:String x:Key="Hangover">I must not drink, drink so much next time...</system:String>
