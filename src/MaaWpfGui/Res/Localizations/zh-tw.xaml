@@ -291,6 +291,8 @@
     <!--  日誌  -->
     <!--  一鍵長草  -->
 
+    <system:String x:Key="IdentificationTool">識別工具</system:String>
+
     <!--  公招辨識  -->
     <system:String x:Key="RecruitmentRecognition">公招辨識</system:String>
     <system:String x:Key="RecruitmentRecognitionTip">小提示：和主介面的自動公招是兩個獨立的功能，請手動打開遊戲公招 Tags 介面後使用~</system:String>
@@ -303,7 +305,7 @@
     <!--  公招辨識  -->
 
     <!--  倉庫識別  -->
-    <system:String x:Key="DepotRecognition">倉庫識別 beta</system:String>
+    <system:String x:Key="DepotRecognition">倉庫識別</system:String>
     <system:String x:Key="DepotRecognitionTip">該功能尚處於測試階段，請檢查結果是否準確再行使用。若有誤，歡迎打包 debug/depot 文件夾後向我們提交 issue ~</system:String>
     <system:String x:Key="BeganToDepotRecognition">開始識別</system:String>
     <system:String x:Key="ExportToArkplanner">導出至企鵝物流刷圖規劃</system:String>
@@ -312,9 +314,9 @@
     <!--  倉庫識別  -->
 
     <!-- 干员识别 -->
-    <system:String x:Key="OperRecognition">干员识别 beta</system:String>
-    <system:String x:Key="OperRecognitionTip">该功能尚处于测试阶段，干员列表请用稀有度和等级排序，若统计有误，欢迎打包 debug/oper 文件后向我们提交issue ~</system:String>
-    <system:String x:Key="BeganToOperRecognition">开始识别</system:String>
+    <system:String x:Key="OperBoxRecognition">干员识别 beta</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">该功能尚处于测试阶段，干员列表请用稀有度和等级排序，若统计有误，欢迎打包 debug/oper 文件后向我们提交issue ~</system:String>
+    <system:String x:Key="BeganToOperBoxRecognition">开始识别</system:String>
     <!-- 干员识别 -->
     
     <!--  日誌  -->
@@ -414,6 +416,8 @@
     <system:String x:Key="TotalDrop">掉落統計：</system:String>
     <system:String x:Key="ThisFacility">當前設施：</system:String>
     <system:String x:Key="ProductIncorrect">產物與配置不相符</system:String>
+    <system:String x:Key="ProductUnknown">無法識別的產物</system:String>
+    <system:String x:Key="ProductChanged">產物已切換</system:String>
     <system:String x:Key="RecruitingResults">公招辨識結果：</system:String>
     <system:String x:Key="RecruitingTips">公招提示</system:String>
     <system:String x:Key="RecruitmentOfStar">公招出 {0} 星了喔！</system:String>

@@ -21,41 +21,44 @@ namespace MaaWpfGui.Constants
         /// <summary>
         /// The recommended color for error logs.
         /// </summary>
-        public const string Error = "DarkRed";
+        public const string Error = "ErrorLogBrush";
 
         /// <summary>
         /// The recommended color for warning logs.
         /// </summary>
-        public const string Warning = "DarkGoldenrod";
+        public const string Warning = "WarningLogBrush";
 
         /// <summary>
         /// The recommended color for info logs.
         /// </summary>
-        public const string Info = "DarkCyan";
+        public const string Info = "InfoLogBrush";
 
         /// <summary>
         /// The recommended color for trace logs.
         /// </summary>
-        public const string Trace = "Gray";
+        public const string Trace = "TraceLogBrush";
 
         /// <summary>
         /// The recommended color for message logs.
         /// </summary>
-        public const string Message = "Black";
+        public const string Message = "MessageLogBrush";
 
         /// <summary>
         /// The recommended color for rare operator logs.
         /// </summary>
-        public const string RareOperator = "DarkOrange";
+        public const string RareOperator = "RareOperatorLogBrush";
 
         /// <summary>
         /// The recommended color for robot operator logs.
         /// </summary>
-        public const string RobotOperator = "DarkGray";
+        public const string RobotOperator = "RobotOperatorLogBrush";
 
         /// <summary>
         /// The recommended color for file downloading or downloaded or download failed.
         /// </summary>
-        public const string Download = "BlueViolet";
+        public const string Download = "DownloadLogBrush";
+
+        // 颜色在MaaWpfGui\Res\Themes中定义
+        // Brushs are defined in MaaWpfGui\Res\Themes
     }
 }

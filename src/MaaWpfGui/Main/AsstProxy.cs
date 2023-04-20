@@ -162,10 +162,8 @@ namespace MaaWpfGui.Main
         private readonly SettingsViewModel _settingsViewModel;
 
         private readonly TaskQueueViewModel _taskQueueViewModel;
-        private readonly RecruitViewModel _recruitViewModel;
+        private readonly RecognizerViewModel _recognizerViewModel;
         private readonly CopilotViewModel _copilotViewModel;
-        private readonly DepotViewModel _depotViewModel;
-        private readonly OperViewModel _operViewModel;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AsstProxy"/> class.
@@ -176,10 +174,8 @@ namespace MaaWpfGui.Main
         {
             _settingsViewModel = container.Get<SettingsViewModel>();
             _taskQueueViewModel = container.Get<TaskQueueViewModel>();
-            _recruitViewModel = container.Get<RecruitViewModel>();
+            _recognizerViewModel = container.Get<RecognizerViewModel>();
             _copilotViewModel = container.Get<CopilotViewModel>();
-            _depotViewModel = container.Get<DepotViewModel>();
-            _operViewModel = container.Get<OperViewModel>();
 
             _windowManager = windowManager;
             _callback = CallbackFunction;
@@ -484,7 +480,7 @@ namespace MaaWpfGui.Main
             {
                 if (msg == AsstMsg.TaskChainError)
                 {
-                    _recruitViewModel.RecruitInfo = LocalizationHelper.GetString("IdentifyTheMistakes");
+                    _recognizerViewModel.RecruitInfo = LocalizationHelper.GetString("IdentifyTheMistakes");
                     using var toast = new ToastNotification(LocalizationHelper.GetString("IdentifyTheMistakes"));
                     toast.Show();
                 }
@@ -571,7 +567,7 @@ namespace MaaWpfGui.Main
                             || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.RecruitCalc, out var recruitCalcTaskId) ? recruitCalcTaskId : 0)
                             || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0)
                             || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.Depot, out var depotTaskId) ? depotTaskId : 0)
-                            || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.Oper, out var operTaskId) ? operTaskId : 0))
+                            || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.OperBox, out var operBoxTaskId) ? operBoxTaskId : 0))
                         {
                             isMainTaskQueueAllCompleted = false;
                         }
@@ -823,12 +819,12 @@ namespace MaaWpfGui.Main
             var subTaskDetails = details["details"];
             if (taskChain == "Depot")
             {
-                _depotViewModel.Parse((JObject)subTaskDetails);
+                _recognizerViewModel.DepotParse((JObject)subTaskDetails);
             }
 
-            if (taskChain == "Oper")
+            if (taskChain == "OperBox")
             {
-                _operViewModel.Parse((JObject)subTaskDetails);
+                _recognizerViewModel.OperBoxParse((JObject)subTaskDetails);
             }
 
             string what = details["what"].ToString();
@@ -865,6 +861,14 @@ namespace MaaWpfGui.Main
 
                 case "ProductIncorrect":
                     _taskQueueViewModel.AddLog(LocalizationHelper.GetString("ProductIncorrect"), UiLogColor.Error);
+                    break;
+
+                case "ProductUnknown":
+                    _taskQueueViewModel.AddLog(LocalizationHelper.GetString("ProductUnknown"), UiLogColor.Error);
+                    break;
+
+                case "ProductChanged":
+                    _taskQueueViewModel.AddLog(LocalizationHelper.GetString("ProductChanged"), UiLogColor.Info);
                     break;
 
                 case "RecruitTagsDetected":
@@ -1091,7 +1095,7 @@ namespace MaaWpfGui.Main
                             info_content += tag_str + "    ";
                         }
 
-                        _recruitViewModel.RecruitInfo = info_content;
+                        _recognizerViewModel.RecruitInfo = info_content;
                     }
 
                     break;
@@ -1119,7 +1123,7 @@ namespace MaaWpfGui.Main
                             resultContent += "\n\n";
                         }
 
-                        _recruitViewModel.RecruitResult = resultContent;
+                        _recognizerViewModel.RecruitResult = resultContent;
                     }
 
                     break;
@@ -1251,7 +1255,7 @@ namespace MaaWpfGui.Main
             Copilot,
             VideoRec,
             Depot,
-            Oper,
+            OperBox,
         }
 
         private readonly Dictionary<TaskType, AsstTaskId> _latestTaskId = new Dictionary<TaskType, AsstTaskId>();
@@ -1625,7 +1629,7 @@ namespace MaaWpfGui.Main
                 ["report_to_penguin"] = true,
                 ["report_to_yituliu"] = true,
             };
-            task_params["recruitment_time"] = _recruitViewModel.IsLevel3UseShortTime ?
+            task_params["recruitment_time"] = _recognizerViewModel.IsLevel3UseShortTime ?
                 new JObject { { "3", 460 } } :
                 new JObject { { "3", 540 } };
             task_params["penguin_id"] = _settingsViewModel.PenguinId;
@@ -1653,11 +1657,11 @@ namespace MaaWpfGui.Main
         /// 干员识别。
         /// </summary>
         /// <returns>是否成功。</returns>
-        public bool AsstStartOper()
+        public bool AsstStartOperBox()
         {
             var task_params = new JObject();
-            AsstTaskId id = AsstAppendTaskWithEncoding("Oper", task_params);
-            _latestTaskId[TaskType.Oper] = id;
+            AsstTaskId id = AsstAppendTaskWithEncoding("OperBox", task_params);
+            _latestTaskId[TaskType.OperBox] = id;
             return id != 0 && AsstStart();
         }
 

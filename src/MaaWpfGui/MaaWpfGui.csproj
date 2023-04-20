@@ -48,7 +48,6 @@
       <PackagePath>\</PackagePath>
     </None>
     <None Include=".editorconfig" />
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CalcBinding">

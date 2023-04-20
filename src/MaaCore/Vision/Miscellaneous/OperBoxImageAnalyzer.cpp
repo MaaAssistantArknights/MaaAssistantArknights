@@ -1,4 +1,4 @@
-#include "OperImageAnalyzer.h"
+#include "OperBoxImageAnalyzer.h"
 
 #include "Utils/NoWarningCV.h"
 
@@ -12,19 +12,19 @@
 #include <Vision/OcrWithFlagTemplImageAnalyzer.h>
 #include <numbers>
 
-bool asst::OperImageAnalyzer::analyze()
+bool asst::OperBoxImageAnalyzer::analyze()
 {
     LogTraceFunction;
     current_page_opers.clear();
-    bool oper = analyzer_opers();
+    bool oper_box = analyzer_opers();
 #ifdef ASST_DEBUG
     m_image_draw = m_image_draw_oper;
 #endif
     save_img(utils::path("debug") / utils::path("oper"));
-    return oper;
+    return oper_box;
 }
 
-bool asst::OperImageAnalyzer::analyzer_opers()
+bool asst::OperBoxImageAnalyzer::analyzer_opers()
 {
     std::vector<asst::TextRect> oper_names_result;
     oper_names_result.clear();
@@ -32,7 +32,7 @@ bool asst::OperImageAnalyzer::analyzer_opers()
 
     OcrWithFlagTemplImageAnalyzer oper_name_analyzer(m_image);
 
-    oper_name_analyzer.set_task_info("OperatorNameFlagLV", "OperatorOCRLV");
+    oper_name_analyzer.set_task_info("OperBoxFlagLV", "OperBoxNameOCR");
     oper_name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
     oper_name_analyzer.analyze();
 
