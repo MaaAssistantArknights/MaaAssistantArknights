@@ -297,7 +297,8 @@
     <system:String x:Key="LastBattle">前回ステージ</system:String>-->
     <system:String x:Key="ClosedStage">イベントは未公開か既に終了</system:String>
     <system:String x:Key="UnsupportedStages">未サポートステージ</system:String>
-    <system:String x:Key="LowVersion">バージョンを上げてください</system:String>
+    <system:String x:Key="LowVersion">更新必要</system:String>
+    <system:String x:Key="MinimumRequirements">最低バージョン要件：</system:String>
     <system:String x:Key="Daysleftopen" xml:space="preserve">公開日まで: </system:String>
     <system:String x:Key="LessThanOneDay">1日以内</system:String>
     <!--  動作不明  -->

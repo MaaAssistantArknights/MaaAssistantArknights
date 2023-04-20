@@ -303,6 +303,7 @@
     <system:String x:Key="ClosedStage">The event not open</system:String>
     <system:String x:Key="UnsupportedStages">Unsupported stages</system:String>
     <system:String x:Key="LowVersion">Low version</system:String>
+    <system:String x:Key="MinimumRequirements" xml:space="preserve">Minimum Requirements: </system:String>
     <system:String x:Key="Daysleftopen" xml:space="preserve">Days left open: </system:String>
     <system:String x:Key="LessThanOneDay">Less than 1 day</system:String>
     <system:String x:Key="1-7">1-7</system:String>
