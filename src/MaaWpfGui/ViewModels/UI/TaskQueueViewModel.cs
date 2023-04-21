@@ -175,13 +175,22 @@ namespace MaaWpfGui.ViewModels.UI
             _timer.Start();
         }
 
-        private async void Timer1_Elapsed(object sender, EventArgs e)
+        private void Timer1_Elapsed(object sender, EventArgs e)
         {
             if (NeedToUpdateDatePrompt())
             {
-                await _stageManager.UpdateStageWeb();
                 UpdateDatePrompt();
                 UpdateStageList(false);
+
+                // 随机延迟，防止同时更新
+                var delayTime = new Random().Next(0, 10 * 60 * 1000);
+                _ = Task.Run(async () =>
+                {
+                    await Task.Delay(delayTime);
+                    await _stageManager.UpdateStageWeb();
+                    UpdateDatePrompt();
+                    UpdateStageList(false);
+                });
             }
 
             refreshCustomInfrastPlanIndexByPeriod();
@@ -195,7 +204,13 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (_settingsViewModel.UpdatAutoCheck)
                 {
-                    await _settingsViewModel.ManualUpdate();
+                    // 随机延迟，防止同时更新
+                    var delayTime = new Random().Next(0, 10 * 60 * 1000);
+                    _ = Task.Run(async () =>
+                    {
+                        await Task.Delay(delayTime);
+                        await _settingsViewModel.ManualUpdate();
+                    });
                 }
             }
 
