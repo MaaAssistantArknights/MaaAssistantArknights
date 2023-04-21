@@ -8,13 +8,8 @@ namespace asst
     {
         std::string id;
         std::string name;
-<<<<<<< HEAD:src/MaaCore/Vision/Miscellaneous/OperImageAnalyzer.h
-        int level = 0;
-=======
-        std::string id;
         int level = 0; //等级
         int elite = 0; //精英度
->>>>>>> dev:src/MaaCore/Vision/Miscellaneous/OperBoxImageAnalyzer.h
         bool own = false;
     };
     class OperBoxImageAnalyzer final : public AbstractImageAnalyzer
