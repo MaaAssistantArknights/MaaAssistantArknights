@@ -361,7 +361,7 @@
     <system:String x:Key="IdentificationTool">Identification Tool</system:String>
 
     <!--  Recruitment Recognition  -->
-    <system:String x:Key="RecruitmentRecognition">Recruit Tool</system:String>
+    <system:String x:Key="RecruitmentRecognition">Recruitment</system:String>
     <system:String x:Key="RecruitmentRecognitionTip">Tip: This recognition is independent from main tab (Farming); need open up in game recruit tag selection screen then begin ~</system:String>
     <system:String x:Key="AutoSettingTime">Auto setting time</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">Auto select 3 ★ Tags</system:String>
@@ -372,7 +372,7 @@
     <!--  Recruitment Recognition  -->
 
     <!--  Depot Recognition  -->
-    <system:String x:Key="DepotRecognition">Depot Tool</system:String>
+    <system:String x:Key="DepotRecognition">Depot</system:String>
     <system:String x:Key="DepotRecognitionTip">This function is still a test version, please check if the recognition result is correct before using it. If there is an error, please submit the issue by compressing the debug/depot folder in the working path.</system:String>
     <system:String x:Key="BeganToDepotRecognition">Start to identify</system:String>
     <system:String x:Key="ExportToArkplanner">Export to Arkplanner</system:String>
@@ -380,12 +380,11 @@
     <system:String x:Key="CopiedToClipboard">Copied to clipboard</system:String>
     <!--  Depot Recognition  -->
 
-    <!-- 干员识别 -->
-    <system:String x:Key="OperBoxRecognition">干员识别 beta</system:String>
-    <system:String x:Key="OperBoxRecognitionTip">该功能尚处于测试阶段，干员列表请用稀有度和等级排序，若统计有误，欢迎打包 debug/oper 文件后向我们提交issue ~</system:String>
-    <system:String x:Key="BeganToOperBoxRecognition">开始识别</system:String>
-    <!-- 干员识别 -->
-    
+    <!--  Operator Recognition  -->
+    <system:String x:Key="OperBoxRecognition">Operator</system:String>
+    <system:String x:Key="BeganToOperBoxRecognition">Start to identify</system:String>
+    <!--  Operator Recognition  -->
+
     <!--  Logs  -->
     <system:String x:Key="Identifying">Identifying...</system:String>
     <system:String x:Key="IdentificationCompleted">Identification completed</system:String>
