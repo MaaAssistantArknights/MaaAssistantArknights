@@ -1814,7 +1814,17 @@
         ]
     },
     "SN-Open": {
-        "action": "ClickSelf"
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "已开放"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ]
     },
     "SN-Chapter2": {
         "action": "ClickSelf",
