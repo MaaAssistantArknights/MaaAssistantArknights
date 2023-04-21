@@ -9616,7 +9616,8 @@
             110
         ],
         "next": [
-            "OperBoxRoleTabSelect"
+            "OperBoxRoleTabSelect",
+            "Stop"
         ]
     },
     "OperBoxRoleTabSelect": {
