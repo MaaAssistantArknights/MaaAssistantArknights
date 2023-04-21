@@ -60,6 +60,8 @@
     <ClInclude Include="Task\Experiment\SingleStepBattleProcessTask.h" />
     <ClInclude Include="Task\Interface\CustomTask.h" />
     <ClInclude Include="Task\Interface\VideoRecognitionTask.h" />
+    <ClInclude Include="Task\Interface\OperBoxTask.h" />
+    <ClInclude Include="Task\Miscellaneous\OperBoxRecognitionTask.h" />
     <ClInclude Include="Task\Reclamation\ReclamationControlTask.h" />
     <ClInclude Include="Task\Reclamation\ReclamationConclusionReportPlugin.h" />
     <ClInclude Include="Task\Reclamation\ReclamationBattlePlugin.h" />
@@ -91,6 +93,7 @@
     <ClInclude Include="Vision\Miscellaneous\ProcessTaskImageAnalyzer.h" />
     <ClInclude Include="Vision\Miscellaneous\RecruitImageAnalyzer.h" />
     <ClInclude Include="Vision\Miscellaneous\StageDropsImageAnalyzer.h" />
+    <ClInclude Include="Vision\Miscellaneous\OperBoxImageAnalyzer.h" />
     <ClInclude Include="Vision\MultiMatchImageAnalyzer.h" />
     <ClInclude Include="Vision\OcrImageAnalyzer.h" />
     <ClInclude Include="Vision\OcrWithFlagTemplImageAnalyzer.h" />
@@ -212,6 +215,8 @@
     <ClCompile Include="Task\Experiment\CombatRecordRecognitionTask.cpp" />
     <ClCompile Include="Task\Experiment\SingleStepBattleProcessTask.cpp" />
     <ClCompile Include="Task\Interface\VideoRecognitionTask.cpp" />
+    <ClCompile Include="Task\Interface\OperBoxTask.cpp" />
+    <ClCompile Include="Task\Miscellaneous\OperBoxRecognitionTask.cpp" />
     <ClCompile Include="Task\Reclamation\ReclamationControlTask.cpp" />
     <ClCompile Include="Task\Reclamation\ReclamationConclusionReportPlugin.cpp" />
     <ClCompile Include="Task\Reclamation\ReclamationBattlePlugin.cpp" />
@@ -241,6 +246,7 @@
     <ClCompile Include="Vision\Miscellaneous\ProcessTaskImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Miscellaneous\RecruitImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Miscellaneous\StageDropsImageAnalyzer.cpp" />
+    <ClCompile Include="Vision\Miscellaneous\OperBoxImageAnalyzer.cpp" />
     <ClCompile Include="Vision\MultiMatchImageAnalyzer.cpp" />
     <ClCompile Include="Vision\OcrImageAnalyzer.cpp" />
     <ClCompile Include="Vision\OcrWithFlagTemplImageAnalyzer.cpp" />

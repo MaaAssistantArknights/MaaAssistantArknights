@@ -318,7 +318,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Starts depot recognition.
         /// </summary>
-        public async void Start()
+        public async void StartDepot()
         {
             string errMsg = string.Empty;
             DepotInfo = LocalizationHelper.GetString("ConnectingToEmulator");
@@ -333,6 +333,137 @@ namespace MaaWpfGui.ViewModels.UI
             DepotClear();
 
             _asstProxy.AsstStartDepot();
+        }
+        #endregion
+
+        #region  OperBox
+
+        /// <summary>
+        /// 未实装干员，但在battle_data中，
+        /// </summary>
+        private static readonly string[] VirtuallyOpers =
+        {
+            "预备干员-近战",
+            "预备干员-术师",
+            "预备干员-后勤",
+            "预备干员-狙击",
+            "预备干员-重装",
+            "郁金香",
+            "Stormeye",
+            "Touch",
+            "Pith",
+            "Sharp",
+            "阿米娅-WARRIOR",
+        };
+
+        private string _operBoxInfo = LocalizationHelper.GetString("OperBoxRecognitionTip");
+
+        public string OperBoxInfo
+        {
+            get => _operBoxInfo;
+            set => SetAndNotify(ref _operBoxInfo, value);
+        }
+
+        private string _operBoxResult;
+
+        public string OperBoxResult
+        {
+            get => _operBoxResult;
+            set => SetAndNotify(ref _operBoxResult, value);
+        }
+
+        public bool OperBoxParse(JObject details)
+        {
+            string result = string.Empty;
+            JArray operBoxs = (JArray)details["operbox"];
+            List<string> operHave = new List<string>();
+            List<string> operNotHave = new List<string>();
+
+            foreach (JObject operBox in operBoxs.Cast<JObject>())
+            {
+                if ((bool)operBox["own"])
+                {
+                    /*已拥有干员*/
+                    operHave.Add((string)operBox["name"]);
+                }
+                else
+                {
+                    /*未拥有干员,包含预备干员等*/
+                    operNotHave.Add((string)operBox["name"]);
+                }
+            }
+
+            /*移除未实装干员*/
+            operNotHave = operNotHave.Except(second: VirtuallyOpers).ToList();
+
+            result = "已拥有：" + operHave.Count.ToString() + "名，未拥有：" + operNotHave.Count.ToString() + "名；" + "\n\n";
+            result += "以下干员未拥有：\n\t";
+            int count = 0;
+            foreach (var name in operNotHave)
+            {
+                result += name + "\t";
+                if (count++ == 3)
+                {
+                    result += "\n\t";
+                    count = 0;
+                }
+            }
+
+            result += "\n\n以下干员已拥有：\n\n\t";
+            count = 0;
+            foreach (var name in operHave)
+            {
+                result += name + "\t";
+                if (count++ == 3)
+                {
+                    result += "\n\t";
+                    count = 0;
+                }
+            }
+
+            OperBoxResult = result;
+            bool done = (bool)details["done"];
+            if (done)
+            {
+                OperBoxInfo = LocalizationHelper.GetString("IdentificationCompleted") + "\n" + LocalizationHelper.GetString("OperBoxRecognitionTip");
+                OperBoxDone = true;
+            }
+
+            return true;
+        }
+
+        private bool _operBoxDone = false;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether depot info is parsed.
+        /// </summary>
+        public bool OperBoxDone
+        {
+            get => _operBoxDone;
+            set => SetAndNotify(ref _operBoxDone, value);
+        }
+
+        private void ClearResult()
+        {
+            OperBoxResult = string.Empty;
+            OperBoxDone = false;
+        }
+
+        public async void StartOperBox()
+        {
+            string errMsg = string.Empty;
+            OperBoxInfo = LocalizationHelper.GetString("ConnectingToEmulator");
+            bool caught = await Task.Run(() => _asstProxy.AsstConnect(ref errMsg));
+            if (!caught)
+            {
+                OperBoxInfo = errMsg;
+                return;
+            }
+
+            OperBoxInfo = LocalizationHelper.GetString("Identifying");
+            ClearResult();
+
+            _asstProxy.AsstStartOperBox();
         }
         #endregion
     }

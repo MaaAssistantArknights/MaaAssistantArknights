@@ -1,12 +1,12 @@
 #include "BattleDataConfig.h"
 
+#include "Utils/Logger.hpp"
 #include "Utils/Ranges.hpp"
 #include <meojson/json.hpp>
 
-#include "Utils/Logger.hpp"
-
 bool asst::BattleDataConfig::parse(const json::value& json)
 {
+    m_opers.clear();
     for (const auto& [id, char_data_json] : json.at("chars").as_object()) {
         battle::OperProps data;
         data.id = id;
@@ -24,6 +24,7 @@ bool asst::BattleDataConfig::parse(const json::value& json)
         }
         else {
             data.role = iter->second;
+            m_opers.insert(name); // 所有干员名
         }
 
         const auto& ranges_json = char_data_json.at("rangeId").as_array();

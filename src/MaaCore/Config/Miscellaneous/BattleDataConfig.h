@@ -1,10 +1,10 @@
 #pragma once
 #include "Config/AbstractConfig.h"
 
-#include <unordered_map>
-
 #include "Common/AsstBattleDef.h"
 #include "Common/AsstTypes.h"
+#include <unordered_map>
+#include <unordered_set>
 
 namespace asst
 {
@@ -90,12 +90,15 @@ namespace asst
             return name.empty() || m_chars.find(name) == m_chars.cend();
         }
 
+        const std::unordered_set<std::string>& get_all_oper_names() const noexcept { return m_opers; }
+
     protected:
         virtual bool parse(const json::value& json) override;
 
     private:
         std::unordered_map<std::string, battle::OperProps> m_chars;
         std::unordered_map<std::string, battle::AttackRange> m_ranges;
+        std::unordered_set<std::string> m_opers;
     };
     inline static auto& BattleData = BattleDataConfig::get_instance();
 } // namespace asst

@@ -539,7 +539,11 @@ namespace asst
         return pf;
     }
     // TODO: use std::source_location
-#define LogTraceFunction LogTraceScope{::asst::summarize_pretty_function(__PRETTY_FUNCTION__)}
+#define LogTraceFunction                                       \
+    LogTraceScope                                              \
+    {                                                          \
+        ::asst::summarize_pretty_function(__PRETTY_FUNCTION__) \
+    }
 #else
 #define LogTraceFunction LogTraceScope(__FUNCTION__)
 #endif

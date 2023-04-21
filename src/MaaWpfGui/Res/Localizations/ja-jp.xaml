@@ -380,6 +380,12 @@
     <system:String x:Key="CopiedToClipboard">クリップボードへコピー</system:String>
     <!--  倉庫アイテム認識  -->
 
+    <!-- 干员识别 -->
+    <system:String x:Key="OperBoxRecognition">干员识别 beta</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">该功能尚处于测试阶段，干员列表请用稀有度和等级排序，若统计有误，欢迎打包 debug/oper 文件后向我们提交issue ~</system:String>
+    <system:String x:Key="BeganToOperBoxRecognition">开始识别</system:String>
+    <!-- 干员识别 -->
+    
     <!--  ログ  -->
     <system:String x:Key="Identifying">認識中……</system:String>
     <system:String x:Key="IdentificationCompleted">認識完了</system:String>
