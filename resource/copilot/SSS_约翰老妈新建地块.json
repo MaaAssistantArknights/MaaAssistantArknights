@@ -227,7 +227,7 @@
                         5,
                         3
                     ],
-                    "direction": "Left"
+                    "direction": "Up"
                 }
             ],
             "draw_as_possible": true,
@@ -239,8 +239,8 @@
                     "type": "部署",
                     "name": "塞雷娅",
                     "location": [
-                        3,
-                        1
+                        2,
+                        2
                     ],
                     "direction": "Right"
                 },
