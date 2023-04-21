@@ -2934,8 +2934,8 @@
         "next": [
             "PRTS#next",
             "EndOfAction",
-            "#self@LoadingText",
-            "#self@LoadingIcon",
+            "WaitAfterPRTS@LoadingText",
+            "WaitAfterPRTS@LoadingIcon",
             "ClickCornerAfterPRTS"
         ]
     },
@@ -2954,7 +2954,7 @@
         "postDelay": 3000,
         "next": [
             "EndOfAction",
-            "((ClickCorner + WaitAfterPRTS + StartUpThemes)#next ^ ClickCornerAfterPRTS)",
+            "(ClickCorner + WaitAfterPRTS + StartUpThemes)#next ^ #self",
             "#self"
         ],
         "exceededNext": [
@@ -3030,7 +3030,7 @@
             "UseMedicine",
             "UseStone",
             "NoStone",
-            "#self@LoadingIcon",
+            "ClickCorner@LoadingIcon",
             "#self"
         ],
         "exceededNext": [
@@ -11360,7 +11360,9 @@
         ]
     },
     "StartWithDefaultFormation@Reclamation@ConfirmStart": {
-        "next": [
+        "next": [],
+        "next_Old_Doc": "这里原先有个stop，但是会导致StartWithDefaultFormation@Reclamation@Begin中间多出一个Stop，姑且当成是不小心加的删了。",
+        "next_Old": [
             "Stop"
         ]
     },
