@@ -1,12 +1,12 @@
 #include "RoguelikeStageEncounterTaskPlugin.h"
 
+#include "Config/Roguelike/RoguelikeStageEncounterConfig.h"
+#include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Status.h"
-#include "Utils/Logger.hpp"
-#include "Utils/ImageIo.hpp"
-#include "Config/TaskData.h"
-#include "Config/Roguelike/RoguelikeStageEncounterConfig.h"
 #include "Task/ProcessTask.h"
+#include "Utils/ImageIo.hpp"
+#include "Utils/Logger.hpp"
 #include "Vision/OcrWithPreprocessImageAnalyzer.h"
 
 bool asst::RoguelikeStageEncounterTaskPlugin::verify(AsstMsg msg, const json::value& details) const
@@ -41,7 +41,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     for (int j = 0; j < 2; ++j) {
         sleep(150);
         ctrler()->click(Point(500, 500)); // 先点一下让文字到左边
-    }       
+    }
     std::string rogue_theme = status()->get_properties(Status::RoguelikeTheme).value();
     std::vector<RoguelikeEvent> events = RoguelikeStageEncounter.get_events(rogue_theme);
     const auto event_name_task_ptr = Task.get("Roguelike@StageEncounterOcr");
@@ -75,9 +75,9 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
             if (text.find(event.name) != std::string::npos) {
                 Log.info("Event:", event.name, "choose option", event.default_choose);
                 for (int j = 0; j < 2; ++j) {
-                    ProcessTask(*this, { rogue_theme + "@Roguelike@OptionChoose" + 
-                        std::to_string(event.option_num) + "-" +
-                        std::to_string(event.default_choose) }).run();
+                    ProcessTask(*this, { rogue_theme + "@Roguelike@OptionChoose" + std::to_string(event.option_num) +
+                                         "-" + std::to_string(event.default_choose) })
+                        .run();
                     sleep(300);
                 }
                 return true;

@@ -103,7 +103,7 @@
                     <Button
                         Width="180"
                         Height="70"
-                        Margin="30"
+                        Margin="38,0,0,0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Command="{s:Action RecruitStartCalc}"
@@ -171,8 +171,57 @@
                         Margin="30"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Command="{s:Action Start}"
+                        Command="{s:Action StartDepot}"
                         Content="{DynamicResource BeganToDepotRecognition}" />
+                </StackPanel>
+            </Grid>
+        </TabItem>
+        <TabItem Header="{DynamicResource OperBoxRecognition}">
+            <Grid
+                Margin="20,0,20,20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="150"/>
+                </Grid.RowDefinitions>
+                <hc:ScrollViewer
+                    Grid.Row="0"
+                    Margin="10,0"
+                    IsInertiaEnabled="True"
+                    VerticalAlignment="Top">
+                    <StackPanel>
+                        <controls:TextBlock
+                            Height="36"
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            FontSize="14"
+                            Style="{StaticResource TextBlockDefaultBold}"
+                            Text="{Binding OperBoxInfo}"
+                            TextWrapping="Wrap"/>
+                        <controls:TextBlock
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            FontSize="14"
+                            Text="{Binding OperBoxResult}"
+                            TextWrapping="Wrap"/>
+                    </StackPanel>
+
+                </hc:ScrollViewer>
+                <StackPanel
+                    Grid.Row="1"
+                    Margin="27,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        Width="180"
+                        Height="70"
+                        Margin="482,0,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Command="{s:Action StartOperBox}"
+                        Content="{DynamicResource BeganToOperBoxRecognition}"
+                        />
                 </StackPanel>
             </Grid>
         </TabItem>

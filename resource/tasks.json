@@ -9687,6 +9687,88 @@
             20
         ]
     },
+    "OperBoxBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "OperBoxEnter",
+            "OperBoxRoleTabSelect",
+            "OperBoxRoleTab",
+            "OperBoxEnter@ReturnTo"
+        ]
+    },
+    "OperBoxEnter": {
+        "action": "ClickSelf",
+        "roi": [
+            935,
+            300,
+            265,
+            110
+        ],
+        "next": [
+            "OperBoxRoleTabSelect",
+            "Stop"
+        ]
+    },
+    "OperBoxRoleTabSelect": {
+        "action": "ClickSelf",
+        "roi": [
+            1200,
+            20,
+            80,
+            50
+        ],
+        "next": [
+            "OperBoxRoleTab"
+        ],
+        "maxTimes": 3
+    },
+    "OperBoxRoleTab": {
+        "action": "DoNothing",
+        "roi": [
+            1195,
+            15,
+            80,
+            50
+        ]
+    },
+    "OperBoxSlowlySwipeToTheRight": {
+        "doc": "6个横向干员防止识别不全990px",
+        "baseTask": "SlowlySwipeToTheRight",
+        "specificRect": [
+            1090,
+            350,
+            20,
+            20
+        ],
+        "rectMove": [
+            100,
+            350,
+            20,
+            20
+        ]
+    },
+    "OperBoxFlagLV": {
+        "templThreshold": 0.7,
+        "roi": [
+            40,
+            310,
+            1128,
+            327
+        ]
+    },
+    "OperBoxNameOCR": {
+        "algorithm": "OcrDetect",
+        "fullMatch": true,
+        "text": [],
+        "roi": [
+            -10,
+            42,
+            120,
+            20
+        ],
+        "postDelay": 100
+    },
     "RoguelikeRecruitSwipeMaxTime": {
         "algorithm": "JustReturn",
         "maxTimes_Doc": "这个参数是肉鸽招募时，向右划动的最大次数",
