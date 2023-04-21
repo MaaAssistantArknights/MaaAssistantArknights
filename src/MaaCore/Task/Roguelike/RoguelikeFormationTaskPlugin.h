@@ -24,8 +24,8 @@ namespace asst
         bool select(asst::RoguelikeFormationImageAnalyzer::FormationOper oper);
 
     private:
-        int cur_page;
-        bool first_page_full;
+        int cur_page = 0;
+        bool first_page_full = false;
         std::vector<asst::RoguelikeFormationImageAnalyzer::FormationOper> oper_list;
     };
 }
