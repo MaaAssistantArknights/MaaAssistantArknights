@@ -242,6 +242,11 @@
     <system:String x:Key="LastBattle">上次作戰</system:String>-->
     <system:String x:Key="DefaultStage">當前/上次</system:String>
     <system:String x:Key="ClosedStage">活動未開放</system:String>
+    <system:String x:Key="UnsupportedStages">不支援的關卡</system:String>
+    <system:String x:Key="LowVersion">版本過低</system:String>
+    <system:String x:Key="MinimumRequirements">最低需求：</system:String>
+    <system:String x:Key="Daysleftopen">剩餘開放天數：</system:String>
+    <system:String x:Key="LessThanOneDay">不到 1 天</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龍門幣-6/5</system:String>
     <system:String x:Key="AP-5">紅票-5</system:String>
@@ -305,7 +310,7 @@
     <!--  公招辨識  -->
 
     <!--  倉庫識別  -->
-    <system:String x:Key="DepotRecognition">倉庫識別 beta</system:String>
+    <system:String x:Key="DepotRecognition">倉庫識別</system:String>
     <system:String x:Key="DepotRecognitionTip">該功能尚處於測試階段，請檢查結果是否準確再行使用。若有誤，歡迎打包 debug/depot 文件夾後向我們提交 issue ~</system:String>
     <system:String x:Key="BeganToDepotRecognition">開始識別</system:String>
     <system:String x:Key="ExportToArkplanner">導出至企鵝物流刷圖規劃</system:String>

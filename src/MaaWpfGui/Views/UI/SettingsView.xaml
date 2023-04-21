@@ -15,6 +15,7 @@
     xmlns:styles="clr-namespace:MaaWpfGui.Styles"
     xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
     d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
     d:DesignHeight="3000"
     d:DesignWidth="800"
@@ -32,9 +33,10 @@
             ItemsSource="{Binding ListTitle}"
             SelectedIndex="{Binding SelectedIndex}" />
 
-        <ScrollViewer
+        <hc:ScrollViewer
             Grid.Column="1"
             Margin="20,10"
+            IsInertiaEnabled="True"
             HorizontalAlignment="Stretch"
             properties:ScrollViewerBinding.ExtentHeight="{Binding ScrollExtentHeight}"
             properties:ScrollViewerBinding.RectangleVerticalOffsetList="{Binding RectangleVerticalOffsetList}"
@@ -207,6 +209,6 @@
                 <userControl:AboutUserControl Margin="20" HorizontalAlignment="Center" />
                 <!--<Rectangle HorizontalAlignment="Stretch" Fill="{DynamicResource BorderBrush}" Height="1" />-->
             </StackPanel>
-        </ScrollViewer>
+        </hc:ScrollViewer>
     </Grid>
 </UserControl>

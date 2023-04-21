@@ -53,6 +53,7 @@ namespace asst
         asio::io_context m_context;
         asio::ip::tcp::socket m_socket;
 
+        std::string m_address;
         std::pair<int, int> m_screen_size = { 0, 0 };
 
         enum class TouchPhase
@@ -72,6 +73,11 @@ namespace asst
         void toucher_wait(const int delay);
 
     private:
+        static constexpr int MinimalVersion = 2;
+        void close();
+        bool open();
+        bool check_version();
+        bool fetch_screen_res();
         bool toucher_commit(const TouchPhase phase, const Point& p, const int delay);
     };
 } // namespace asst

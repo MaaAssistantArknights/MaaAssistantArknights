@@ -1814,7 +1814,17 @@
         ]
     },
     "SN-Open": {
-        "action": "ClickSelf"
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "已开放"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ]
     },
     "SN-Chapter2": {
         "action": "ClickSelf",
@@ -1824,6 +1834,7 @@
             197,
             125
         ],
+        "postDelay": 2000,
         "next": [
             "SN-Chapter2",
             "ChapterSwipeToTheRight"
@@ -1837,9 +1848,10 @@
             254,
             165
         ],
+        "postDelay": 2000,
         "next": [
             "SN-Chapter3",
-            "SwipeToTheLeft"
+            "ChapterSwipeToTheLeft"
         ]
     },
     "SN-8@SideStoryStage": {
@@ -1876,6 +1888,63 @@
             220,
             173,
             200
+        ]
+    },
+    "DH-9": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "DH-Open"
+        ],
+        "next": [
+            "DH-9@SideStoryStage",
+            "DH-9@SwipeToStage"
+        ]
+    },
+    "DH-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "假日",
+            "复刻",
+            "活动",
+            "开放"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "postDelay": 2000,
+        "next": [
+            "DHChapterToDH"
+        ]
+    },
+    "DHChapterToDH": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "极限",
+            "铁人",
+            "大奖"
+        ],
+        "roi": [
+            934,
+            280,
+            234,
+            124
+        ],
+        "postDelay": 2000,
+        "next": [
+            "DHChapterToDH",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "DH-9@SideStoryStage": {
+        "baseTask": "SideStoryStage",
+        "text": [
+            "DH-9"
         ]
     },
     "ResourceStages": {
@@ -2275,6 +2344,10 @@
             [
                 "[Uu]-[O0o]f{1,2}icial",
                 "U-Official"
+            ],
+            [
+                "^混乱.*派对.*",
+                "混乱“派对”"
             ]
         ]
     },
@@ -2861,8 +2934,8 @@
         "next": [
             "PRTS#next",
             "EndOfAction",
-            "#self@LoadingText",
-            "#self@LoadingIcon",
+            "WaitAfterPRTS@LoadingText",
+            "WaitAfterPRTS@LoadingIcon",
             "ClickCornerAfterPRTS"
         ]
     },
@@ -2881,7 +2954,7 @@
         "postDelay": 3000,
         "next": [
             "EndOfAction",
-            "((ClickCorner + WaitAfterPRTS + StartUpThemes)#next ^ ClickCornerAfterPRTS)",
+            "(ClickCorner + WaitAfterPRTS + StartUpThemes)#next ^ #self",
             "#self"
         ],
         "exceededNext": [
@@ -2957,7 +3030,7 @@
             "UseMedicine",
             "UseStone",
             "NoStone",
-            "#self@LoadingIcon",
+            "ClickCorner@LoadingIcon",
             "#self"
         ],
         "exceededNext": [
@@ -3403,6 +3476,7 @@
             640,
             150
         ],
+        "postDelay": 1000,
         "next": [
             "RecruitFlag",
             "RecruitNowConfirm"
@@ -5909,10 +5983,6 @@
             100
         ],
         "ocrReplace": [
-            [
-                ".*前顾后",
-                "瞻前顾后"
-            ]
         ]
     },
     "BattleSupportUnitFormation": {
@@ -6710,7 +6780,7 @@
         ],
         "specialParams_Doc": "基线长度阈值（不小于100）",
         "maskRange": [
-            70,
+            45,
             255
         ],
         "rectMove": [
@@ -9941,6 +10011,16 @@
             263,
             188,
             50
+        ],
+        "ocrReplace": [
+            [
+                ".*前顾后",
+                "瞻前顾后"
+            ],
+            [
+                "枯朽.*育",
+                "枯朽孕育"
+            ]
         ]
     },
     "SSSCloseTip": {
@@ -11281,7 +11361,9 @@
         ]
     },
     "StartWithDefaultFormation@Reclamation@ConfirmStart": {
-        "next": [
+        "next": [],
+        "next_Old_Doc": "这里原先有个stop，但是会导致StartWithDefaultFormation@Reclamation@Begin中间多出一个Stop，姑且当成是不小心加的删了。",
+        "next_Old": [
             "Stop"
         ]
     },

@@ -306,6 +306,7 @@
     <system:String x:Key="ClosedStage">活动未开放</system:String>
     <system:String x:Key="UnsupportedStages">不支持的关卡</system:String>
     <system:String x:Key="LowVersion">版本过低</system:String>
+    <system:String x:Key="MinimumRequirements">最低需求：</system:String>
     <system:String x:Key="Daysleftopen">剩余开放天数：</system:String>
     <system:String x:Key="LessThanOneDay">不到 1 天</system:String>
     <system:String x:Key="1-7">1-7</system:String>
@@ -373,7 +374,7 @@
     <!--  公招识别  -->
 
     <!--  仓库识别  -->
-    <system:String x:Key="DepotRecognition">仓库识别 beta</system:String>
+    <system:String x:Key="DepotRecognition">仓库识别</system:String>
     <system:String x:Key="DepotRecognitionTip">该功能尚处于测试阶段，请检查结果是否准确再行使用。若有误，欢迎打包 debug/depot 文件夹后向我们提交 issue ~</system:String>
     <system:String x:Key="BeganToDepotRecognition">开始识别</system:String>
     <system:String x:Key="ExportToArkplanner">导出至企鹅物流刷图规划</system:String>
