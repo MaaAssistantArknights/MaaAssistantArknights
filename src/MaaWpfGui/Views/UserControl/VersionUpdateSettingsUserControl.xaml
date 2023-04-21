@@ -94,6 +94,7 @@
                     Margin="10"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
+                    PreviewMouseDown="EasterEggs"
                     Subject="{DynamicResource Version}"
                     Status="{Binding VersionId, Mode=OneWay}"
                     Color="#6969AA"/>
