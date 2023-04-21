@@ -73,11 +73,10 @@
     <ClInclude Include="Utils\Algorithm.hpp" />
     <ClInclude Include="Utils\File.hpp" />
     <ClInclude Include="Vision\AbstractImageAnalyzer.h" />
-    <ClInclude Include="Vision\Battle\BattleDeployDirectionImageAnalyzer.h" />
     <ClInclude Include="Vision\Battle\BattleFormationImageAnalyzer.h" />
     <ClInclude Include="Vision\Battle\BattleImageAnalyzer.h" />
-    <ClInclude Include="Vision\Battle\BattleOperatorsImageAnalyzer.h" />
-    <ClInclude Include="Vision\Battle\BattleSkillReadyImageAnalyzer.h" />
+    <ClInclude Include="Vision\Battle\BattlefieldImageDetector.h" />
+    <ClInclude Include="Vision\Battle\BattlefieldImageClassifier.h" />
     <ClInclude Include="Vision\BestMatchImageAnalyzer.h" />
     <ClInclude Include="Vision\Config\MatchImageAnalyzerConfig.h" />
     <ClInclude Include="Vision\Config\OcrImageAnalyzerConfig.h" />
@@ -226,11 +225,10 @@
     <ClCompile Include="Task\SSS\SSSDropRewardsTaskPlugin.cpp" />
     <ClCompile Include="Task\SSS\SSSStageManagerTask.cpp" />
     <ClCompile Include="Vision\AbstractImageAnalyzer.cpp" />
-    <ClCompile Include="Vision\Battle\BattleDeployDirectionImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Battle\BattleFormationImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Battle\BattleImageAnalyzer.cpp" />
-    <ClCompile Include="Vision\Battle\BattleOperatorsImageAnalyzer.cpp" />
-    <ClCompile Include="Vision\Battle\BattleSkillReadyImageAnalyzer.cpp" />
+    <ClCompile Include="Vision\Battle\BattlefieldImageDetector.cpp" />
+    <ClCompile Include="Vision\Battle\BattlefieldImageClassifier.cpp" />
     <ClCompile Include="Vision\BestMatchImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Config\MatchImageAnalyzerConfig.cpp" />
     <ClCompile Include="Vision\Config\OcrImageAnalyzerConfig.cpp" />

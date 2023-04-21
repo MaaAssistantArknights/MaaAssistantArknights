@@ -22,7 +22,8 @@ namespace asst
             ObjectOfInterest object_of_interest;
 
             std::vector<battle::DeploymentOper> deployment;
-            std::optional<std::pair<int, int>> kills; // kills / total_kills
+            // kills / total_kills
+            std::optional<std::pair<int, int>> kills;
             std::optional<int> costs;
 
             bool in_detail = false;

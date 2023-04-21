@@ -1,4 +1,4 @@
-#include "BattleOperatorsImageAnalyzer.h"
+#include "BattlefieldImageDetector.h"
 
 #include <algorithm>
 #include <array>
@@ -12,14 +12,23 @@
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
 
-bool asst::BattleOperatorsImageAnalyzer::analyze()
+const asst::BattlefieldImageDetector::ResultOpt& asst::BattlefieldImageDetector::analyze()
 {
     LogTraceFunction;
 
-    m_results.clear();
+    m_result = Result { .object_of_interest = m_object_of_interest };
 
-    double x_scale = 640.0 / m_image.cols;
-    double y_scale = 640.0 / m_image.rows;
+    if (m_object_of_interest.operators) {
+        m_result->operators = operator_analyze();
+    }
+
+    return m_result;
+}
+
+std::vector<asst::BattlefieldImageDetector::OperatorResult> asst::BattlefieldImageDetector::operator_analyze()
+{
+    const double x_scale = 640.0 / m_image.cols;
+    const double y_scale = 640.0 / m_image.rows;
 
     cv::Mat image;
     cv::resize(m_image, image, cv::Size(), x_scale, y_scale, cv::INTER_AREA);
@@ -35,10 +44,8 @@ bool asst::BattleOperatorsImageAnalyzer::analyze()
     auto& session = OnnxSessions::get_instance().get("operators_det");
 
     Ort::AllocatorWithDefaultOptions allocator;
-    std::string input_name = session.GetInputNameAllocated(0, allocator).get();
-    std::string output_name = session.GetOutputNameAllocated(0, allocator).get();
-    std::vector input_names = { input_name.c_str() };
-    std::vector output_names = { output_name.c_str() };
+    std::vector input_names = { session.GetInputNameAllocated(0, allocator).get() };
+    std::vector output_names = { session.GetOutputNameAllocated(0, allocator).get() };
 
     Ort::RunOptions run_options;
     auto output_tensors = session.Run(run_options, input_names.data(), &input_tensor, input_names.size(),
@@ -61,7 +68,14 @@ bool asst::BattleOperatorsImageAnalyzer::analyze()
         output[i] = std::vector<float>(raw_output + i * output_shape[2], raw_output + (i + 1) * output_shape[2]);
     }
 
-    std::vector<Box> all_results;
+#ifdef ASST_DEBUG
+
+    const int draw_offset_y = static_cast<int>(m_image.rows * -0.15);
+    const int draw_offset_h = static_cast<int>(m_image.rows * 0.13);
+
+#endif
+
+    std::vector<OperatorResult> all_results;
     const auto& conf_vec = output.back();
     for (size_t i = 0; i < conf_vec.size(); ++i) {
         float score = conf_vec[i];
@@ -69,6 +83,7 @@ bool asst::BattleOperatorsImageAnalyzer::analyze()
         if (score < Threshold) {
             continue;
         }
+
         int center_x = static_cast<int>(output[0][i] / x_scale);
         int center_y = static_cast<int>(output[1][i] / y_scale);
         int w = static_cast<int>(output[2][i] / x_scale);
@@ -77,13 +92,28 @@ bool asst::BattleOperatorsImageAnalyzer::analyze()
         int x = center_x - w / 2;
         int y = center_y - h / 2;
         Rect rect { x, y, w, h };
-        all_results.emplace_back(Box { Cls::Operator, rect, score });
+
+        OperatorResult box { OperatorResult::Cls::Operator, rect, score };
+
+#ifdef ASST_DEBUG
+
+        Rect& draw_rect = box.draw_rect;
+        draw_rect.y += draw_offset_y;
+        draw_rect.height += draw_offset_h;
+        cv::rectangle(m_image_draw, make_rect<cv::Rect>(draw_rect), cv::Scalar(0, 0, 255), 5);
+        cv::putText(m_image_draw, std::to_string(box.score), cv::Point(draw_rect.x, draw_rect.y - 10),
+                    cv::FONT_HERSHEY_PLAIN, 1.2, cv::Scalar(0, 0, 255), 2);
+#endif
+
+        all_results.emplace_back(std::move(box));
     }
 
     // NMS
     constexpr double NmsThreshold = 0.7f;
-    std::sort(all_results.begin(), all_results.end(), [](const Box& a, const Box& b) { return a.score > b.score; });
-    std::vector<Box> nms_results;
+    std::sort(all_results.begin(), all_results.end(),
+              [](const OperatorResult& a, const OperatorResult& b) { return a.score > b.score; });
+
+    std::vector<OperatorResult> nms_results;
     for (size_t i = 0; i < all_results.size(); ++i) {
         const auto& box = all_results[i];
         if (box.score < 0.1f) {
@@ -102,21 +132,5 @@ bool asst::BattleOperatorsImageAnalyzer::analyze()
         }
     }
 
-#ifdef ASST_DEBUG
-    int draw_offset_y = static_cast<int>(m_image.rows * -0.15);
-    int draw_offset_h = static_cast<int>(m_image.rows * 0.13);
-    for (const auto& box : nms_results) {
-        Rect draw_rect = box.rect;
-        draw_rect.y += draw_offset_y;
-        draw_rect.height += draw_offset_h;
-        cv::rectangle(m_image_draw, make_rect<cv::Rect>(draw_rect), cv::Scalar(0, 0, 255), 5);
-        cv::putText(m_image_draw, std::to_string(box.score), cv::Point(draw_rect.x, draw_rect.y - 10),
-                    cv::FONT_HERSHEY_PLAIN, 1.2, cv::Scalar(0, 0, 255), 2);
-        m_draw_rect.emplace_back(draw_rect);
-    }
-#endif
-
-    m_results = std::move(nms_results);
-
-    return true;
+    return nms_results;
 }

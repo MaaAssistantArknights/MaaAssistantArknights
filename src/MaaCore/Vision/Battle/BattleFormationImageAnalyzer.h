@@ -7,14 +7,22 @@ namespace asst
     class BattleFormationImageAnalyzer : public AbstractImageAnalyzer
     {
     public:
+        struct Result
+        {
+            std::string name;
+            cv::Mat avatar;
+        };
+        using ResultsVec = std::vector<Result>;
+        using ResultsVecOpt = std::optional<ResultsVec>;
+
+    public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         virtual ~BattleFormationImageAnalyzer() override = default;
 
-        virtual bool analyze();
-
-        const auto& get_result() const { return m_result; }
+        const ResultsVecOpt& analyze();
+        const ResultsVecOpt& result() const noexcept { return m_result; }
 
     private:
-        std::unordered_map<std::string, cv::Mat> m_result;
+        ResultsVecOpt m_result;
     };
 }

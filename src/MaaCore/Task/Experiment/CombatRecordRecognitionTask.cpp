@@ -359,8 +359,9 @@ bool asst::CombatRecordRecognitionTask::slice_video()
         cv::resize(frame, frame, cv::Size(), m_scale, m_scale, cv::INTER_AREA);
 
         BattleImageAnalyzer oper_analyzer(frame);
-        oper_analyzer.set_object_to_analyze(BattleImageAnalyzer::ObjectOfInterest::Oper | BattleImageAnalyzer::ObjectOfInterest::DetailPage |
-                                 BattleImageAnalyzer::ObjectOfInterest::Kills);
+        oper_analyzer.set_object_to_analyze(BattleImageAnalyzer::ObjectOfInterest::Oper |
+                                            BattleImageAnalyzer::ObjectOfInterest::DetailPage |
+                                            BattleImageAnalyzer::ObjectOfInterest::Kills);
         oper_analyzer.set_total_kills_prompt(total_kills);
         bool analyzed = oper_analyzer.analyze();
         show_img(oper_analyzer);
@@ -588,7 +589,7 @@ bool asst::CombatRecordRecognitionTask::detect_operators(ClipInfo& clip, [[maybe
         }
 
         cv::resize(frame, frame, cv::Size(), m_scale, m_scale, cv::INTER_AREA);
-        BattleOperatorsImageAnalyzer analyzer(frame);
+        BattlefieldImageDetector analyzer(frame);
         analyzer.analyze();
         show_img(analyzer);
 
@@ -648,8 +649,8 @@ bool asst::CombatRecordRecognitionTask::classify_direction(ClipInfo& clip, ClipI
     callback(AsstMsg::SubTaskStart, basic_info_with_what("ClassifyDirection"));
 
     /* classify direction */
-    using Losses = BattleDeployDirectionImageAnalyzer::RawResults;
-    constexpr size_t ClsSize = BattleDeployDirectionImageAnalyzer::ClassificationSize;
+    using Losses = BattleDeployDirectionImageAnalyzer::Raw;
+    constexpr size_t ClsSize = BattleDeployDirectionImageAnalyzer::ClsSize;
     std::unordered_map<Point, Losses> dir_cls_sampling;
 
     for (const cv::Mat& frame : clip.random_frames) {

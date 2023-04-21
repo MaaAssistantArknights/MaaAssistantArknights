@@ -579,13 +579,10 @@
     <ClInclude Include="Vision\Battle\BattleImageAnalyzer.h">
       <Filter>源文件\Vision\Battle</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\Battle\BattleSkillReadyImageAnalyzer.h">
+    <ClInclude Include="Vision\Battle\BattlefieldImageClassifier.h">
       <Filter>源文件\Vision\Battle</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\Battle\BattleDeployDirectionImageAnalyzer.h">
-      <Filter>源文件\Vision\Battle</Filter>
-    </ClInclude>
-    <ClInclude Include="Vision\Battle\BattleOperatorsImageAnalyzer.h">
+    <ClInclude Include="Vision\Battle\BattlefieldImageDetector.h">
       <Filter>源文件\Vision\Battle</Filter>
     </ClInclude>
     <ClInclude Include="Config\OnnxSessions.h">
@@ -980,13 +977,10 @@
     <ClCompile Include="Vision\Battle\BattleImageAnalyzer.cpp">
       <Filter>源文件\Vision\Battle</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\Battle\BattleSkillReadyImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Battle\BattlefieldImageClassifier.cpp">
       <Filter>源文件\Vision\Battle</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\Battle\BattleDeployDirectionImageAnalyzer.cpp">
-      <Filter>源文件\Vision\Battle</Filter>
-    </ClCompile>
-    <ClCompile Include="Vision\Battle\BattleOperatorsImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Battle\BattlefieldImageDetector.cpp">
       <Filter>源文件\Vision\Battle</Filter>
     </ClCompile>
     <ClCompile Include="Config\OnnxSessions.cpp">

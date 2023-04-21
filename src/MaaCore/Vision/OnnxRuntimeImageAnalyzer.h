@@ -12,17 +12,19 @@ namespace asst
 
     protected:
         template <typename T>
-        inline static void softmax(T& input)
+        inline static T softmax(const T& input)
         {
-            float rowmax = *std::max_element(input.begin(), input.end());
-            std::vector<float> y(input.size());
+            T output = input;
+            float rowmax = *std::max_element(output.begin(), output.end());
+            std::vector<float> y(output.size());
             float sum = 0.0f;
-            for (size_t i = 0; i != input.size(); ++i) {
-                sum += y[i] = std::exp(input[i] - rowmax);
+            for (size_t i = 0; i != output.size(); ++i) {
+                sum += y[i] = std::exp(output[i] - rowmax);
             }
-            for (size_t i = 0; i != input.size(); ++i) {
-                input[i] = y[i] / sum;
+            for (size_t i = 0; i != output.size(); ++i) {
+                output[i] = y[i] / sum;
             }
+            return output;
         }
 
         static std::vector<float> image_to_tensor(const cv::Mat& image);
