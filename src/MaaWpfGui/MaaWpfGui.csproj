@@ -72,8 +72,8 @@
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
       <Version>7.1.2</Version>
     </PackageReference>
-    <PackageReference Include="Neo.Markdig.Xaml">
-      <Version>1.0.10</Version>
+    <PackageReference Include="Markdig.Wpf">
+      <Version>0.5.0.1</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>

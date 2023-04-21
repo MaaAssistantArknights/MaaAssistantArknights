@@ -29,7 +29,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.Web;
 using Markdig;
-using Neo.Markdig.Xaml;
+using Markdig.Wpf;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Semver;
@@ -120,8 +120,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public FlowDocument UpdateInfoDoc => MarkdownXaml.ToFlowDocument(UpdateInfo,
-                new MarkdownPipelineBuilder().UseXamlSupportedExtensions().Build());
+        public FlowDocument UpdateInfoDoc => Markdig.Wpf.Markdown.ToFlowDocument(UpdateInfo,
+                new MarkdownPipelineBuilder().UseSupportedExtensions().Build());
 
         private string _updateUrl;
 
