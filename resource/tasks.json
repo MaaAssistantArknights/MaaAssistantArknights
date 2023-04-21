@@ -3476,6 +3476,7 @@
             640,
             150
         ],
+        "postDelay": 1000,
         "next": [
             "RecruitFlag",
             "RecruitNowConfirm"
