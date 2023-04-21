@@ -799,7 +799,9 @@ namespace MaaWpfGui.Main
             }
         }
 
+#pragma warning disable IDE0060 // 删除未使用的参数
         private void ProcSubTaskCompleted(JObject details)
+#pragma warning restore IDE0060 // 删除未使用的参数
         {
         }
 
@@ -1143,9 +1145,11 @@ namespace MaaWpfGui.Main
                     // string p = @"C:\tmp\this path contains spaces, and,commas\target.txt";
                     string args = string.Format("/e, /select, \"{0}\"", filename);
 
-                    ProcessStartInfo info = new ProcessStartInfo();
-                    info.FileName = "explorer";
-                    info.Arguments = args;
+                    ProcessStartInfo info = new ProcessStartInfo
+                    {
+                        FileName = "explorer",
+                        Arguments = args,
+                    };
                     Process.Start(info);
                     break;
             }
@@ -1827,6 +1831,9 @@ namespace MaaWpfGui.Main
         /// </summary>
         AdbLiteEnabled = 4,
 
+        /// <summary>
+        /// Indicates whether the ADB server process should be killed when the instance is exited.
+        /// </summary>
         KillAdbOnExit = 5,
     }
 }
