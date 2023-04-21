@@ -5,6 +5,7 @@
     <SolidColorBrush x:Key="PallasBrush" Color="#6A6AAB" />
     <SolidColorBrush x:Key="ErrorViewBackgroundBrush" Color="#E6E6E6" />
     <SolidColorBrush x:Key="VersionUpdateViewBackgroundBrush" Color="#ffffff" />
+    <SolidColorBrush x:Key="MarkdigCodeBrush" Color="LightGray" />
 
     <!-- UiLogColor -->
     <SolidColorBrush x:Key="ErrorLogBrush" Color="DarkRed" />
