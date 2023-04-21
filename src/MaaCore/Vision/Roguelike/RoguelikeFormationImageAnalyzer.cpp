@@ -13,9 +13,9 @@ bool asst::RoguelikeFormationImageAnalyzer::analyze()
 
     OcrWithFlagTemplImageAnalyzer analyzer(m_image);
     analyzer.set_task_info("RoguelikeFormationOper", "RoguelikeFormationOcr");
-    analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
-                         Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
-    analyzer.set_threshold(Task.get("RoguelikeFormationOcr")->specific_rect.x);
+    auto replace_task = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
+    analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
+    analyzer.set_threshold(Task.get("RoguelikeFormationOcr")->special_params[0]);
 
     if (!analyzer.analyze()) {
         return false;

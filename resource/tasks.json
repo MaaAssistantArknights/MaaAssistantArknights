@@ -184,6 +184,7 @@
     "EpisodeOcrReplace": {
         "Doc": "base_task",
         "algorithm": "OcrDetect",
+        "text": [],
         "ocrReplace": [
             [
                 "[EF]PIS[O0]DE",
@@ -9524,11 +9525,8 @@
             100,
             23
         ],
-        "specificRect": [
-            100,
-            0,
-            0,
-            0
+        "specialParams": [
+            100
         ]
     },
     "RoguelikeQuickFormationClearAndReselect": {
