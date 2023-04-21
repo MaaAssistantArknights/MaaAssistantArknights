@@ -95,7 +95,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     const auto& group_list = RoguelikeRecruit.get_group_info(rogue_theme);
     for (const auto& oper : chars_map) {
         int group_id = RoguelikeRecruit.get_group_id(rogue_theme, oper.first);
-        std::string group_name = group_list[group_id];
+        const std::string& group_name = group_list[group_id];
         group_count[group_name]++;
     }
 
