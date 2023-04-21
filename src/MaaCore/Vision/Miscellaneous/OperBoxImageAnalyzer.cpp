@@ -2,9 +2,7 @@
 
 #include "Utils/NoWarningCV.h"
 
-#include "Config/Miscellaneous/ItemConfig.h"
 #include "Config/TaskData.h"
-#include "Config/TemplResource.h"
 #include "Utils/Logger.hpp"
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/OcrWithPreprocessImageAnalyzer.h"
@@ -15,7 +13,7 @@
 bool asst::OperBoxImageAnalyzer::analyze()
 {
     LogTraceFunction;
-    current_page_opers.clear();
+    m_current_page_opers.clear();
     bool oper_box = analyzer_opers();
 #ifdef ASST_DEBUG
     m_image_draw = m_image_draw_oper;
@@ -58,7 +56,7 @@ bool asst::OperBoxImageAnalyzer::analyzer_opers()
     for (auto& opername : oper_names_result) {
         OperBoxInfo oper_info;
         oper_info.name = std::move(opername.text);
-        current_page_opers.emplace_back(oper_info);
+        m_current_page_opers.emplace_back(oper_info);
 #ifdef ASST_DEBUG
         m_image_draw_oper = m_image;
         cv::rectangle(m_image_draw_oper, make_rect<cv::Rect>(opername.rect), cv::Scalar(0, 255, 0), 2);

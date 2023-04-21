@@ -23,7 +23,7 @@ bool asst::OperBoxRecognitionTask::swipe_and_analyze()
 {
     LogTraceFunction;
     std::string current_page_last_oper_name = "";
-    own_opers.clear();
+    m_own_opers.clear();
     while (true) {
         OperBoxImageAnalyzer analyzer(ctrler()->get_image());
 
@@ -38,11 +38,11 @@ bool asst::OperBoxRecognitionTask::swipe_and_analyze()
         }
         else {
             current_page_last_oper_name = opers_result.back().name;
-            own_opers.insert(own_opers.end(), opers_result.begin(), opers_result.end());
+            m_own_opers.insert(m_own_opers.end(), opers_result.begin(), opers_result.end());
         }
         future.wait();
     }
-    return !own_opers.empty();
+    return !m_own_opers.empty();
 }
 
 void asst::OperBoxRecognitionTask::swipe_page()
@@ -80,7 +80,7 @@ std::unordered_set<std::string> asst::OperBoxRecognitionTask::get_own_oper_names
     LogTraceFunction;
     std::unordered_set<std::string> own_oper_names;
 
-    for (auto& oper_info : own_opers) {
+    for (auto& oper_info : m_own_opers) {
         own_oper_names.insert(std::move(oper_info.name));
     }
     return own_oper_names;
