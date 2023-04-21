@@ -43,10 +43,16 @@ const asst::BattleImageAnalyzer::ResultOpt& asst::BattleImageAnalyzer::analyze()
 
     if (m_object_of_interest.kills) {
         result.kills = kills_analyze();
+        if (!result.kills) {
+            return std::nullopt;
+        }
     }
 
     if (m_object_of_interest.costs) {
         result.costs = costs_analyze();
+        if (!result.costs) {
+            return std::nullopt;
+        }
     }
 
     if (m_object_of_interest.in_detail) {

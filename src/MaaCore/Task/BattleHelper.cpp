@@ -12,7 +12,7 @@
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
 #include "Vision/Battle/BattleImageAnalyzer.h"
-#include "Vision/Battle/BattleSkillReadyImageAnalyzer.h"
+#include "Vision/Battle/BattlefieldImageClassifier.h"
 #include "Vision/BestMatchImageAnalyzer.h"
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/OcrWithPreprocessImageAnalyzer.h"
@@ -97,7 +97,9 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
     }
 
     BattleImageAnalyzer oper_analyzer(image);
-    oper_analyzer.set_object_to_analyze(BattleImageAnalyzer::ObjectOfInterest::Oper);
+    oper_analyzer.set_object_to_analyze(BattleImageAnalyzer::ObjectOfInterest {
+        .deployment = true,
+    });
     if (!oper_analyzer.analyze()) {
         check_in_battle(image);
         return false;
@@ -123,7 +125,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         oper.is_unusual_location = battle::get_role_usual_location(oper.role) == oper.location_type;
     };
 
-    auto cur_opers = oper_analyzer.get_opers();
+    auto cur_opers = oper_analyzer.result()->deployment;
     std::vector<DeploymentOper> unknown_opers;
 
     for (auto& oper : cur_opers) {
@@ -133,8 +135,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             static const double cooling_threshold = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_threshold;
             static const auto cooling_mask_range = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->mask_range;
             avatar_analyzer.set_threshold(cooling_threshold);
-            avatar_analyzer.set_mask_range(cooling_mask_range, true);
-            avatar_analyzer.set_mask_with_close(true);
+            avatar_analyzer.set_mask_range(cooling_mask_range.first, cooling_mask_range.second, true, true);
         }
         else {
             static const double threshold = Task.get<MatchTaskInfo>("BattleAvatarData")->templ_threshold;
@@ -147,7 +148,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             avatar_analyzer.append_templ(name, avatar);
         }
         if (avatar_analyzer.analyze()) {
-            set_oper_name(oper, avatar_analyzer.get_result().name);
+            set_oper_name(oper, avatar_analyzer.result()->templ_info.name);
             m_cur_deployment_opers.insert_or_assign(oper.name, oper);
             remove_cooling_from_battlefield(oper);
         }
@@ -203,8 +204,8 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
                 if (!name_analyzer.analyze()) {
                     return std::string();
                 }
-                name_analyzer.sort_result_by_score();
-                return name_analyzer.get_result().front().text;
+                name_analyzer.sort_results_by_score();
+                return name_analyzer.result()->front().text;
             };
 
             OcrWithPreprocessImageAnalyzer preproc_analyzer;
@@ -255,12 +256,11 @@ bool asst::BattleHelper::update_kills(const cv::Mat& reusable)
     if (m_total_kills) {
         analyzer.set_total_kills_prompt(m_total_kills);
     }
-    analyzer.set_object_to_analyze(BattleImageAnalyzer::ObjectOfInterest::Kills);
+    analyzer.set_object_to_analyze(BattleImageAnalyzer::ObjectOfInterest { .kills = true });
     if (!analyzer.analyze()) {
         return false;
     }
-    m_kills = analyzer.get_kills();
-    m_total_kills = analyzer.get_total_kills();
+    std::tie(m_kills, m_total_kills) = analyzer.result()->kills.value();
     return true;
 }
 
@@ -268,11 +268,11 @@ bool asst::BattleHelper::update_cost(const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     BattleImageAnalyzer analyzer(image);
-    analyzer.set_object_to_analyze(BattleImageAnalyzer::ObjectOfInterest::Cost);
+    analyzer.set_object_to_analyze(BattleImageAnalyzer::ObjectOfInterest { .costs = true });
     if (!analyzer.analyze()) {
         return false;
     }
-    m_cost = analyzer.get_cost();
+    m_cost = analyzer.result()->costs.value();
     return true;
 }
 
@@ -397,11 +397,14 @@ bool asst::BattleHelper::use_skill(const Point& loc, bool keep_waiting)
 bool asst::BattleHelper::check_pause_button(const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+
     MatchImageAnalyzer battle_flag_analyzer(image);
     battle_flag_analyzer.set_task_info("BattleOfficiallyBegin");
-    bool ret = battle_flag_analyzer.analyze();
+    bool ret = battle_flag_analyzer.analyze().has_value();
+
     BattleImageAnalyzer battle_flag_analyzer_2(image);
-    ret &= battle_flag_analyzer_2.analyze() && battle_flag_analyzer_2.get_pause_button();
+    ret &= battle_flag_analyzer_2.analyze().value_or(BattleImageAnalyzer::Result {}).pause_button;
+
     return ret;
 }
 
@@ -410,7 +413,7 @@ bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     if (weak) {
         BattleImageAnalyzer analyzer(image);
-        m_in_battle = analyzer.analyze();
+        m_in_battle = analyzer.analyze().has_value();
     }
     else {
         m_in_battle = check_pause_button(image);
@@ -499,7 +502,7 @@ bool asst::BattleHelper::check_and_use_skill(const std::string& name, bool& has_
 bool asst::BattleHelper::check_and_use_skill(const Point& loc, bool& has_error, const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
-    BattleSkillReadyImageAnalyzer skill_analyzer(image);
+    BattlefieldImageClassifier skill_analyzer(image);
 
     auto target_iter = m_normal_tile_info.find(loc);
     if (target_iter == m_normal_tile_info.end()) {

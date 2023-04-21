@@ -10,7 +10,7 @@ namespace asst
     public:
         struct ObjectOfInterest
         {
-            bool skill_ready = false;
+            bool skill_ready = true;
             bool deploy_direction = false;
         };
 
