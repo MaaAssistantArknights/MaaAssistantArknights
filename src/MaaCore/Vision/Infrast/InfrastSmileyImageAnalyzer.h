@@ -11,7 +11,7 @@ namespace asst
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         virtual ~InfrastSmileyImageAnalyzer() override = default;
 
-        virtual bool analyze();
+        bool analyze();
 
         auto get_result() const noexcept -> const std::vector<infrast::Smiley>& { return m_result; }
 

@@ -19,7 +19,7 @@ namespace asst
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         virtual ~DepotImageAnalyzer() override = default;
 
-        virtual bool analyze();
+        bool analyze();
 
         void set_match_begin_pos(size_t pos) noexcept;
         size_t get_match_begin_pos() const noexcept;

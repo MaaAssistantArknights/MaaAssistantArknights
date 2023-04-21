@@ -12,7 +12,7 @@ namespace asst
         RecruitImageAnalyzer(const cv::Mat& image, const Rect& roi) = delete;
         virtual ~RecruitImageAnalyzer() override = default;
 
-        virtual bool analyze();
+        bool analyze();
 
         const std::vector<TextRect>& get_tags_result() const noexcept { return m_tags_result; }
         Rect get_hour_decrement_rect() const noexcept { return m_hour_decrement; }
