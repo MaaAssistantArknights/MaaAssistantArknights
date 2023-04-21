@@ -12,6 +12,7 @@
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:styles="clr-namespace:MaaWpfGui.Styles"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
     d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
     d:DesignHeight="300"
     d:DesignWidth="550"
@@ -88,12 +89,14 @@
                     VerticalAlignment="Center"
                     InputMethod.IsInputMethodEnabled="False"
                     Text="{Binding Proxy}" />
-                <controls:TextBlock
+                <hc:Shield
                     Grid.Row="2"
                     Margin="10"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Text="{Binding VersionInfo, Mode=OneWay}" />
+                    Subject="{DynamicResource Version}"
+                    Status="{Binding VersionId, Mode=OneWay}"
+                    Color="#6969AA"/>
                 <StackPanel
                     Grid.Row="3"
                     Margin="5"
