@@ -46,7 +46,9 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class TaskQueueViewModel : Screen
     {
+#pragma warning disable IDE0052
         private readonly IWindowManager _windowManager;
+#pragma warning restore IDE0052
         private readonly IContainer _container;
 
         private static readonly ILogger _logger = Log.ForContext<TaskQueueViewModel>();
