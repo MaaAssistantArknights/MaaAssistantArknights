@@ -59,16 +59,16 @@ void asst::OperBoxRecognitionTask::callback_analyze_result(bool done)
     // 获取识别干员名
     const auto own_oper_names = get_own_oper_names();
 
-    json::value info = basic_info_with_what("OperInfo");
+    json::value info = basic_info_with_what("OperBoxInfo");
     auto& details = info["details"];
     details["done"] = done;
-    auto& box_oper = details["operbox"];
+    auto& box_oper = details["operbox"].as_array();
 
     for (const auto& name : all_oper_names) {
-        box_oper.array_emplace(json::object { 
+        box_oper.emplace_back(json::object { 
             { "id", BattleData.get_id(name) }, 
             { "name", name }, 
-            { "own", (own_oper_names.find(name) != own_oper_names.end()) }
+            { "own", (own_oper_names.find(name) != own_oper_names.end()) },
         }); 
     }
 
