@@ -27,7 +27,7 @@
         ],
         "team_complete_condition": [
             {
-                "groups": [ "百嘉", "玛恩纳", "号角", "地面C" ],
+                "groups": [ "百嘉", "号角", "玛恩纳", "地面C" ],
                 "threshold": 2
             },
             {
@@ -43,11 +43,11 @@
                 "threshold": 1
             },
             {
-                "groups": [ "重装" ],
+                "groups": [ "重装", "刺客" ],
                 "threshold": 1
             },
             {
-                "groups": [ "投锋", "挡人先锋" ],
+                "groups": [ "挡人先锋", "投锋" ],
                 "threshold": 1
             }
         ],
@@ -1190,11 +1190,6 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [ "重装" ],
-                            "threshold": 1,
-                            "offset": -150
-                        },
-                        {
                             "groups": [ "单奶", "群奶" ],
                             "threshold": 0,
                             "is_less": true,
@@ -1207,14 +1202,7 @@
                     "skill": 1,
                     "recruit_priority": 624,
                     "promote_priority": 0,
-                    "is_key": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [ "重装" ],
-                            "threshold": 1,
-                            "offset": -200
-                        }
-                    ]
+                    "is_key": true
                 },
                 {
                     "name": "米格鲁",
