@@ -235,7 +235,8 @@
     <system:String x:Key="UseAlternateStage">Use alternate stage</system:String>
     <system:String x:Key="UseRemainingSanityStage">Use remaining sanity stage</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">Brush the specified stage after completing the main task, no longer automatically revert to sanity</system:String>
-    <system:String x:Key="HideUnavailableStage">Hide today not open level</system:String>
+    <system:String x:Key="UseExpiringMedicine">Unlimited use of expiring sanity potion</system:String>
+    <system:String x:Key="HideUnavailableStage">Hide today not open stage</system:String>
     <system:String x:Key="MainViewButtonFeature">Variable function button</system:String>
     <system:String x:Key="CustomStageCode">Manual entry of level names</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">Support most main stage names + stage names from the original list (e.g. 4-10, AP-5, H10-1-Hard, etc.)&#x0a;At the end of the level, enter &quot;Normal/Hard&quot; to switch between Normal and Tough difficulty</system:String>
@@ -303,6 +304,7 @@
     <system:String x:Key="ClosedStage">The event not open</system:String>
     <system:String x:Key="UnsupportedStages">Unsupported stages</system:String>
     <system:String x:Key="LowVersion">Low version</system:String>
+    <system:String x:Key="MinimumRequirements" xml:space="preserve">Minimum Requirements: </system:String>
     <system:String x:Key="Daysleftopen" xml:space="preserve">Days left open: </system:String>
     <system:String x:Key="LessThanOneDay">Less than 1 day</system:String>
     <system:String x:Key="1-7">1-7</system:String>
@@ -359,24 +361,41 @@
     <system:String x:Key="IdentificationTool">Identification Tool</system:String>
 
     <!--  Recruitment Recognition  -->
-    <system:String x:Key="RecruitmentRecognition">Recruit Tool</system:String>
+    <system:String x:Key="RecruitmentRecognition">Recruitment</system:String>
     <system:String x:Key="RecruitmentRecognitionTip">Tip: This recognition is independent from main tab (Farming); need open up in game recruit tag selection screen then begin ~</system:String>
     <system:String x:Key="AutoSettingTime">Auto setting time</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">Auto select 3 ★ Tags</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">Auto select 4 ★ Tags</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">Auto select 5 ★ Tags</system:String>
     <system:String x:Key="AutoSelectLevel6Tags">Auto select 6 ★ Tags</system:String>
-    <system:String x:Key="BeganToRecruit">Begin To Recruit</system:String>
+    <system:String x:Key="StartToRecruit">Begin To Recruit</system:String>
     <!--  Recruitment Recognition  -->
 
     <!--  Depot Recognition  -->
-    <system:String x:Key="DepotRecognition">Depot Tool</system:String>
+    <system:String x:Key="DepotRecognition">Depot</system:String>
     <system:String x:Key="DepotRecognitionTip">This function is still a test version, please check if the recognition result is correct before using it. If there is an error, please submit the issue by compressing the debug/depot folder in the working path.</system:String>
-    <system:String x:Key="BeganToDepotRecognition">Start to identify</system:String>
+    <system:String x:Key="StartToDepotRecognition">Start to identify</system:String>
     <system:String x:Key="ExportToArkplanner">Export to Arkplanner</system:String>
     <system:String x:Key="ExportToLolicon">Export to Lolicon</system:String>
     <system:String x:Key="CopiedToClipboard">Copied to clipboard</system:String>
     <!--  Depot Recognition  -->
+
+    <!--  Operator Recognition  -->
+    <system:String x:Key="OperBoxRecognition">Operator</system:String>
+    <system:String x:Key="StartToOperBoxRecognition">Start to identify</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">This function is still in testing, if the statistics are wrong, please pack the debug/oper file and submit an issue to us~</system:String>
+    <system:String x:Key="OperBoxRecognitionResult">Not owned: {0} : \n\n{1}\n\nOwned: {2} : \n\n{3}</system:String>
+    <system:String x:Key="OperBoxCopyToClipboard">Copy to clipboard</system:String>
+    <!--  Operator Recognition  -->
+
+    <!--  Video Recognition  -->
+    <system:String x:Key="VideoRecognition">Video Recognition</system:String>
+    <system:String x:Key="StartToVideoRecognition">Start to identify</system:String>
+    <system:String x:Key="OpenVideoRecognitionResult">Open Directory</system:String>
+    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">>For video recognition, please open the "Copilot" page and drag the strategy video into it.
+
+The video resolution is required to be 16:9, and there are no interference factors such as black borders, emulator borders, and special-shaped screen corrections.</system:String>
+    <!--  Video Recognition  -->
 
     <!--  Logs  -->
     <system:String x:Key="Identifying">Identifying...</system:String>
@@ -406,7 +425,9 @@
         2. You need turn off the &quot;Auto squad&quot; if using friend support unit, then start with your support unit selected.\n\n
         3. For Paradox Simulation, you need to turn off &quot;Auto squad&quot; and select the skill before, then start in game &quot;start&quot; screen.\n\n
         4. For SSS, There are two built-in files under the resource/copilot folder.\n
-        Please start on the &quot;Start Deployment&quot; screen after manual formation (can be used with &quot;Loop times&quot;)
+        Please start on the &quot;Start Deployment&quot; screen after manual formation (can be used with &quot;Loop times&quot;)\n\n
+        5. Video recognition is now supported, please drag the guide video to use. \n
+        The video resolution is required to be 16:9, and there are no distracting elements such as black borders, emulator borders, and special-shaped screen corrections.\n\n
     </system:String>
 
     <system:String x:Key="CopilotFileReadError">Failed to read file!</system:String>

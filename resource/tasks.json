@@ -184,6 +184,7 @@
     "EpisodeOcrReplace": {
         "Doc": "base_task",
         "algorithm": "OcrDetect",
+        "text": [],
         "ocrReplace": [
             [
                 "[EF]PIS[O0]DE",
@@ -1814,7 +1815,17 @@
         ]
     },
     "SN-Open": {
-        "action": "ClickSelf"
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "已开放"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ]
     },
     "SN-Chapter2": {
         "action": "ClickSelf",
@@ -1824,6 +1835,7 @@
             197,
             125
         ],
+        "postDelay": 2000,
         "next": [
             "SN-Chapter2",
             "ChapterSwipeToTheRight"
@@ -1837,9 +1849,10 @@
             254,
             165
         ],
+        "postDelay": 2000,
         "next": [
             "SN-Chapter3",
-            "SwipeToTheLeft"
+            "ChapterSwipeToTheLeft"
         ]
     },
     "SN-8@SideStoryStage": {
@@ -2922,8 +2935,8 @@
         "next": [
             "PRTS#next",
             "EndOfAction",
-            "#self@LoadingText",
-            "#self@LoadingIcon",
+            "WaitAfterPRTS@LoadingText",
+            "WaitAfterPRTS@LoadingIcon",
             "ClickCornerAfterPRTS"
         ]
     },
@@ -2942,7 +2955,7 @@
         "postDelay": 3000,
         "next": [
             "EndOfAction",
-            "((ClickCorner + WaitAfterPRTS + StartUpThemes)#next ^ ClickCornerAfterPRTS)",
+            "(ClickCorner + WaitAfterPRTS + StartUpThemes)#next ^ #self",
             "#self"
         ],
         "exceededNext": [
@@ -3007,9 +3020,9 @@
         "action": "ClickRect",
         "specificRect": [
             1000,
-            120,
+            20,
             270,
-            10
+            50
         ],
         "maxTimes": 5,
         "next": [
@@ -3018,7 +3031,7 @@
             "UseMedicine",
             "UseStone",
             "NoStone",
-            "#self@LoadingIcon",
+            "ClickCorner@LoadingIcon",
             "#self"
         ],
         "exceededNext": [
@@ -3464,6 +3477,7 @@
             640,
             150
         ],
+        "postDelay": 1000,
         "next": [
             "RecruitFlag",
             "RecruitNowConfirm"
@@ -5970,10 +5984,6 @@
             100
         ],
         "ocrReplace": [
-            [
-                ".*前顾后",
-                "瞻前顾后"
-            ]
         ]
     },
     "BattleSupportUnitFormation": {
@@ -7238,6 +7248,16 @@
             "Roguelike@ChooseOper"
         ]
     },
+    "Roguelike@TempRecruitFlag": {
+        "action": "DoNothing",
+        "roi": [
+            587,
+            76,
+            100,
+            20
+        ],
+        "templThreshold": 0.5
+    },
     "Roguelike@ClickToDrops": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
@@ -8296,6 +8316,7 @@
             "Roguelike@StageEncounterLeaveConfirm",
             "Roguelike@StageEncounterOptionLeave",
             "Roguelike@StageEncounterOptionUnknown",
+            "Roguelike@NextLevel#next",
             "Roguelike@StageEncounterOptions#next"
         ]
     },
@@ -8307,6 +8328,7 @@
             "Roguelike@StageEncounterLeaveConfirm",
             "Roguelike@StageEncounterOptionFree",
             "Roguelike@StageEncounterOptionUnknown",
+            "Roguelike@NextLevel#next",
             "Roguelike@StageEncounterOptions#next"
         ]
     },
@@ -8318,6 +8340,7 @@
             "Roguelike@StageEncounterLeaveConfirm",
             "Roguelike@StageEncounterOptionFree",
             "Roguelike@StageEncounterOptionUnknown",
+            "Roguelike@NextLevel#next",
             "Roguelike@StageEncounterOptions#next"
         ]
     },
@@ -9502,6 +9525,20 @@
         ],
         "templThreshold": 0.9
     },
+    "RoguelikeFormationOcr": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "fullMatch": true,
+        "roi": [
+            205,
+            83,
+            100,
+            23
+        ],
+        "specialParams": [
+            100
+        ]
+    },
     "RoguelikeQuickFormationClearAndReselect": {
         "action": "ClickSelf",
         "roi": [
@@ -9657,6 +9694,88 @@
             20,
             20
         ]
+    },
+    "OperBoxBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "OperBoxEnter",
+            "OperBoxRoleTabSelect",
+            "OperBoxRoleTab",
+            "OperBoxEnter@ReturnTo"
+        ]
+    },
+    "OperBoxEnter": {
+        "action": "ClickSelf",
+        "roi": [
+            935,
+            300,
+            265,
+            110
+        ],
+        "next": [
+            "OperBoxRoleTabSelect",
+            "Stop"
+        ]
+    },
+    "OperBoxRoleTabSelect": {
+        "action": "ClickSelf",
+        "roi": [
+            1200,
+            20,
+            80,
+            50
+        ],
+        "next": [
+            "OperBoxRoleTab"
+        ],
+        "maxTimes": 3
+    },
+    "OperBoxRoleTab": {
+        "action": "DoNothing",
+        "roi": [
+            1195,
+            15,
+            80,
+            50
+        ]
+    },
+    "OperBoxSlowlySwipeToTheRight": {
+        "doc": "6个横向干员防止识别不全990px",
+        "baseTask": "SlowlySwipeToTheRight",
+        "specificRect": [
+            1090,
+            350,
+            20,
+            20
+        ],
+        "rectMove": [
+            100,
+            350,
+            20,
+            20
+        ]
+    },
+    "OperBoxFlagLV": {
+        "templThreshold": 0.6,
+        "roi": [
+            40,
+            310,
+            1128,
+            327
+        ]
+    },
+    "OperBoxNameOCR": {
+        "algorithm": "OcrDetect",
+        "fullMatch": true,
+        "text": [],
+        "roi": [
+            -10,
+            42,
+            120,
+            20
+        ],
+        "postDelay": 100
     },
     "RoguelikeRecruitSwipeMaxTime": {
         "algorithm": "JustReturn",
@@ -10002,6 +10121,16 @@
             263,
             188,
             50
+        ],
+        "ocrReplace": [
+            [
+                ".*前顾后",
+                "瞻前顾后"
+            ],
+            [
+                "枯朽.*育",
+                "枯朽孕育"
+            ]
         ]
     },
     "SSSCloseTip": {
@@ -11342,7 +11471,9 @@
         ]
     },
     "StartWithDefaultFormation@Reclamation@ConfirmStart": {
-        "next": [
+        "next": [],
+        "next_Old_Doc": "这里原先有个stop，但是会导致StartWithDefaultFormation@Reclamation@Begin中间多出一个Stop，姑且当成是不小心加的删了。",
+        "next_Old": [
             "Stop"
         ]
     },

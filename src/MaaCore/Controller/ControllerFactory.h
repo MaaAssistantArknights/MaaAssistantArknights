@@ -3,8 +3,8 @@
 #include "AdbController.h"
 #include "ControllerAPI.h"
 #include "MaatouchController.h"
-#include "PlayToolsController.h"
 #include "MinitouchController.h"
+#include "PlayToolsController.h"
 
 namespace asst
 {

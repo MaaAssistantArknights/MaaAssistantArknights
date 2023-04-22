@@ -347,13 +347,13 @@
     <system:String x:Key="AutoSelectLevel4Tags">★4 태그를 자동 선택</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">★5 태그를 자동 선택</system:String>
     <system:String x:Key="AutoSelectLevel6Tags">★6 태그를 자동 선택</system:String>
-    <system:String x:Key="BeganToRecruit">인식 시작</system:String>
+    <system:String x:Key="StartToRecruit">인식 시작</system:String>
     <!--  공개모집 인식  -->
 
     <!--  창고 정리  -->
     <system:String x:Key="DepotRecognition">창고 정리</system:String>
     <system:String x:Key="DepotRecognitionTip">이 기능은 현재 테스트 중입니다. 인식 결과가 맞는지 확인 후에 사용해 주세요. 만약 오류가 있다면 debug/depot 폴더를 압축해서 이슈로 보내 주세요.</system:String>
-    <system:String x:Key="BeganToDepotRecognition">식별 시작</system:String>
+    <system:String x:Key="StartToDepotRecognition">식별 시작</system:String>
     <system:String x:Key="ExportToArkplanner">Arkplanner로 내보내기</system:String>
     <system:String x:Key="ExportToLolicon">Lolicon으로 내보내기</system:String>
     <system:String x:Key="CopiedToClipboard">클립보드에 복사됨</system:String>

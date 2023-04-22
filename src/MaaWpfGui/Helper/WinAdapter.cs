@@ -30,6 +30,7 @@ namespace MaaWpfGui.Helper
             { "dnplayer", "LDPlayer" },
             { "Nox", "Nox" },
             { "NemuPlayer", "MuMuEmulator" },
+            { "MuMuPlayer", "MuMuEmulator" }, // MuMu 12
             { "MEmu", "XYAZ" },
         };
 
@@ -49,6 +50,7 @@ namespace MaaWpfGui.Helper
                 {
                     "..\\vmonitor\\bin\\adb_server.exe",
                     "..\\..\\MuMu\\emulator\\nemu\\vmonitor\\bin\\adb_server.exe",
+                    ".\\adb.exe",
                 }
             },
             { "XYAZ",  new List<string> { ".\\adb.exe" } },

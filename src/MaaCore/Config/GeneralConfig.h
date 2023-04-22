@@ -39,6 +39,8 @@ namespace asst
         double adb_swipe_duration_multiplier = 0; // adb 滑动持续时间倍数
         int minitouch_extra_swipe_dist = 0;
         int minitouch_extra_swipe_duration = -1;
+        int minitouch_swipe_default_duration = 0;
+        int minitouch_swipe_extra_end_delay = 0;
         int swipe_with_pause_required_distance = 0;
         std::vector<std::string> minitouch_programs_order;
         RequestInfo penguin_report; // 企鹅物流汇报：

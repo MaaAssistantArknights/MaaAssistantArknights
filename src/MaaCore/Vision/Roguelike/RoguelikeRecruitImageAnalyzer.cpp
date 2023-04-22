@@ -28,6 +28,7 @@ bool asst::RoguelikeRecruitImageAnalyzer::analyze()
         cv::merge(std::array { blue, blue, blue }, bbb_image);
     }
 
+    analyzer.sort_result_vertical();
     for (const auto& [_, rect, name] : analyzer.get_result()) {
         int elite = match_elite(rect);
         int level = match_level(bbb_image, rect);
