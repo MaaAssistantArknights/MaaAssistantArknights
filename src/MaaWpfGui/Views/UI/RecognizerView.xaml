@@ -134,6 +134,7 @@
                         <controls:TextBlock
                             Margin="10"
                             HorizontalAlignment="Left"
+                            FontFamily="Consolas"
                             FontSize="14"
                             Text="{Binding DepotResult}"
                             TextWrapping="Wrap" />
@@ -198,6 +199,7 @@
                         <controls:TextBlock
                             Margin="10"
                             HorizontalAlignment="Left"
+                            FontFamily="Consolas"
                             FontSize="14"
                             Text="{Binding OperBoxResult}"
                             TextWrapping="Wrap" />
