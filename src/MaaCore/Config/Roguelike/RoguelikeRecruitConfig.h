@@ -23,7 +23,7 @@ namespace asst
     struct RoguelikeOperInfo
     {
         std::string name;
-        int group_id;                                             // 干员组id
+        int group_id = 0;                                         // 干员组id
         int recruit_priority = 0;                                 // 招募优先级 (0-1000)
         int promote_priority = 0;                                 // 晋升优先级 (0-1000)
         int recruit_priority_when_team_full = 0;                  // 队伍满时的招募优先级 (0-1000)
@@ -34,7 +34,7 @@ namespace asst
         bool is_start = false;                                    // 是否为开局干员
         std::vector<RecruitPriorityOffset> recruit_priority_offsets;
         bool is_alternate = false; // 是否后备干员 (允许重复招募、划到后备干员时不再往右划动)
-        int skill = 0;
+        int skill = 1;
         int alternate_skill = 0;
         battle::SkillUsage skill_usage = battle::SkillUsage::Possibly;
         battle::SkillUsage alternate_skill_usage = battle::SkillUsage::Possibly;
@@ -45,7 +45,7 @@ namespace asst
     public:
         virtual ~RoguelikeRecruitConfig() override = default;
 
-        const RoguelikeOperInfo& get_oper_info(const std::string& theme, const std::string& name) const noexcept;
+        const RoguelikeOperInfo& get_oper_info(const std::string& theme, const std::string& name) noexcept;
         const std::vector<std::pair<int, int>> get_role_info(const std::string& theme,
                                                              const battle::Role& role) const noexcept; // [deprecated]
         const std::vector<std::string> get_group_info(const std::string& theme) const noexcept;
