@@ -394,7 +394,7 @@
     <system:String x:Key="VideoRecognition">视频识别</system:String>
     <system:String x:Key="StartToVideoRecognition">开始识别</system:String>
     <system:String x:Key="OpenVideoRecognitionResult">打开文件夹</system:String>
-    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">请打开“自动战斗”页，将攻略视频文件拖入即可。
+    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">请打开“自动战斗”页，将攻略视频文件拖入后开始即可。
 
 需要视频分辨率为 16:9，且无黑边、模拟器边框、异形屏矫正等干扰因素。</system:String>
     <!--  视频识别  -->
@@ -428,7 +428,7 @@
         3. 模拟悖论需要关闭“自动编队”，并选好技能后处于“开始模拟”按钮的界面再开始；\n\n
         4. 保全派驻 在 resource/copilot 文件夹下内置了4份作业。\n
         请手动编队后在“开始部署”界面开始（可配合“循环次数”使用）\n\n
-        5. 现已支持视频识别，请将攻略视频文件拖入使用。\n
+        5. 现已支持视频识别，请将攻略视频文件拖入后开始。\n
         需要视频分辨率为 16:9，无黑边、模拟器边框、异形屏矫正等干扰元素\n\n
     </system:String>
 
