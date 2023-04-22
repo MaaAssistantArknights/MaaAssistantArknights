@@ -70,7 +70,7 @@ namespace MaaWpfGui.Main
         [DllImport("MaaCore.dll")]
         private static extern unsafe bool AsstLoadResource(byte* dirname);
 
-        private static unsafe bool AsstLoadResource(string dirname)
+        public static unsafe bool AsstLoadResource(string dirname)
         {
             fixed (byte* ptr = EncodeNullTerminatedUTF8(dirname))
             {
@@ -566,7 +566,8 @@ namespace MaaWpfGui.Main
                         if (unique_finished_task == (_latestTaskId.TryGetValue(TaskType.Copilot, out var copilotTaskId) ? copilotTaskId : 0)
                             || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.RecruitCalc, out var recruitCalcTaskId) ? recruitCalcTaskId : 0)
                             || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0)
-                            || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.Depot, out var depotTaskId) ? depotTaskId : 0))
+                            || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.Depot, out var depotTaskId) ? depotTaskId : 0)
+                            || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.OperBox, out var operBoxTaskId) ? operBoxTaskId : 0))
                         {
                             isMainTaskQueueAllCompleted = false;
                         }
@@ -760,10 +761,6 @@ namespace MaaWpfGui.Main
                         _taskQueueViewModel.AddLog(LocalizationHelper.GetString("UpperLimit"), UiLogColor.Info);
                         break;
 
-                    case "RestartGameAndContinue":
-                        _taskQueueViewModel.AddLog(LocalizationHelper.GetString("GameCrash"), UiLogColor.Warning);
-                        break;
-
                     case "OfflineConfirm":
                         if (_settingsViewModel.AutoRestartOnDrop)
                         {
@@ -798,7 +795,10 @@ namespace MaaWpfGui.Main
             }
         }
 
+#pragma warning disable IDE0060 // 删除未使用的参数
+
         private void ProcSubTaskCompleted(JObject details)
+#pragma warning restore IDE0060 // 删除未使用的参数
         {
         }
 
@@ -819,6 +819,11 @@ namespace MaaWpfGui.Main
             if (taskChain == "Depot")
             {
                 _recognizerViewModel.DepotParse((JObject)subTaskDetails);
+            }
+
+            if (taskChain == "OperBox")
+            {
+                _recognizerViewModel.OperBoxParse((JObject)subTaskDetails);
             }
 
             string what = details["what"].ToString();
@@ -1137,9 +1142,11 @@ namespace MaaWpfGui.Main
                     // string p = @"C:\tmp\this path contains spaces, and,commas\target.txt";
                     string args = string.Format("/e, /select, \"{0}\"", filename);
 
-                    ProcessStartInfo info = new ProcessStartInfo();
-                    info.FileName = "explorer";
-                    info.Arguments = args;
+                    ProcessStartInfo info = new ProcessStartInfo
+                    {
+                        FileName = "explorer",
+                        Arguments = args,
+                    };
                     Process.Start(info);
                     break;
             }
@@ -1249,6 +1256,7 @@ namespace MaaWpfGui.Main
             Copilot,
             VideoRec,
             Depot,
+            OperBox,
         }
 
         private readonly Dictionary<TaskType, AsstTaskId> _latestTaskId = new Dictionary<TaskType, AsstTaskId>();
@@ -1647,6 +1655,18 @@ namespace MaaWpfGui.Main
         }
 
         /// <summary>
+        /// 干员识别。
+        /// </summary>
+        /// <returns>是否成功。</returns>
+        public bool AsstStartOperBox()
+        {
+            var task_params = new JObject();
+            AsstTaskId id = AsstAppendTaskWithEncoding("OperBox", task_params);
+            _latestTaskId[TaskType.OperBox] = id;
+            return id != 0 && AsstStart();
+        }
+
+        /// <summary>
         /// 自动抄作业。
         /// </summary>
         /// <param name="filename">作业 JSON 的文件路径，绝对、相对路径均可。</param>
@@ -1808,6 +1828,9 @@ namespace MaaWpfGui.Main
         /// </summary>
         AdbLiteEnabled = 4,
 
+        /// <summary>
+        /// Indicates whether the ADB server process should be killed when the instance is exited.
+        /// </summary>
         KillAdbOnExit = 5,
     }
 }

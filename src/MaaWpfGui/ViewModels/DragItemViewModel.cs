@@ -48,7 +48,7 @@ namespace MaaWpfGui.ViewModels
             Name = name;
             OriginalName = originalName;
             _storageKey = storageKey;
-            IsChecked = Convert.ToBoolean(ConfigurationHelper.GetCheckedStorage(storageKey, name, bool.TrueString));
+            IsChecked = Convert.ToBoolean(ConfigurationHelper.GetCheckedStorage(storageKey, originalName, bool.TrueString));
         }
 
         private string _originalName;
@@ -84,7 +84,7 @@ namespace MaaWpfGui.ViewModels
             set
             {
                 SetAndNotify(ref _isChecked, value);
-                ConfigurationHelper.SetCheckedStorage(_storageKey, Name, value.ToString());
+                ConfigurationHelper.SetCheckedStorage(_storageKey, OriginalName, value.ToString());
             }
         }
 

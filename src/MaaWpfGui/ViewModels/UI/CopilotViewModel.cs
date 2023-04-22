@@ -39,7 +39,9 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class CopilotViewModel : Screen
     {
+#pragma warning disable IDE0052 // 删除未读的私有成员
         private readonly IWindowManager _windowManager;
+#pragma warning restore IDE0052 // 删除未读的私有成员
         private readonly IHttpService _httpService;
         private readonly IContainer _container;
 
@@ -81,20 +83,6 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="color">The font color.</param>
         /// <param name="weight">The font weight.</param>
         public void AddLog(string content, string color = UiLogColor.Trace, string weight = "Regular")
-        {
-            LogItemViewModels.Add(new LogItemViewModel(content, color, weight));
-
-            // LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
-        }
-
-        /// <summary>
-        /// Adds log with URL.
-        /// </summary>
-        /// <param name="content">The content.</param>
-        /// <param name="url">The URL.</param>
-        /// <param name="color">The font color.</param>
-        /// <param name="weight">The font weight.</param>
-        public void AddLogWithUrl(string content, string url, string color = UiLogColor.Trace, string weight = "Regular")
         {
             LogItemViewModels.Add(new LogItemViewModel(content, color, weight));
 
@@ -607,7 +595,7 @@ namespace MaaWpfGui.ViewModels.UI
             string jsonParam = JsonConvert.SerializeObject(new
             {
                 id = CopilotId,
-                rating = rating,
+                rating,
             });
 
             var response = await _httpService.PostAsJsonAsync(new Uri(_copilotRatingUrl), jsonParam);

@@ -487,6 +487,7 @@ namespace MaaWpfGui.ViewModels.UI
                     StartInfo = new ProcessStartInfo
                     {
                         FileName = StartsWithScript,
+
                         // FileName = "cmd.exe",
                         // Arguments = $"/c {StartsWithScript}",
                     },
@@ -515,6 +516,7 @@ namespace MaaWpfGui.ViewModels.UI
                     StartInfo = new ProcessStartInfo
                     {
                         FileName = EndsWithScript,
+
                         // FileName = "cmd.exe",
                         // Arguments = $"/c {EndsWithScript}",
                     },
@@ -2526,11 +2528,25 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        /// <summary>
+        /// 表示深色模式的类型。
+        /// </summary>
         public enum DarkModeType
         {
+            /// <summary>
+            /// 明亮的主题。
+            /// </summary>
             Light,
+
+            /// <summary>
+            /// 暗黑的主题。
+            /// </summary>
             Dark,
-            SyncWithOS
+
+            /// <summary>
+            /// 与操作系统的深色模式同步。
+            /// </summary>
+            SyncWithOS,
         }
 
         private DarkModeType _darkModeType =

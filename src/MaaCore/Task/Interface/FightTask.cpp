@@ -7,7 +7,6 @@
 #include "Task/Fight/DrGrandetTaskPlugin.h"
 #include "Task/Fight/StageDropsTaskPlugin.h"
 #include "Task/Fight/StageNavigationTask.h"
-#include "Task/Miscellaneous/GameCrashRestartTaskPlugin.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/Ranges.hpp"
@@ -43,8 +42,6 @@ asst::FightTask::FightTask(const AsstCallback& callback, Assistant* inst)
 
     m_stage_drops_plugin_ptr = m_fight_task_ptr->register_plugin<StageDropsTaskPlugin>();
     m_stage_drops_plugin_ptr->set_retry_times(0);
-    m_game_restart_plugin_ptr = m_fight_task_ptr->register_plugin<GameCrashRestartTaskPlugin>();
-    m_game_restart_plugin_ptr->set_retry_times(0);
     m_dr_grandet_task_plugin_ptr = m_fight_task_ptr->register_plugin<DrGrandetTaskPlugin>();
     m_dr_grandet_task_plugin_ptr->set_enable(false);
 
@@ -98,9 +95,6 @@ bool asst::FightTask::set_params(const json::value& params)
     m_dr_grandet_task_plugin_ptr->set_enable(is_dr_grandet);
     m_stage_drops_plugin_ptr->set_enable_penguid(enable_penguid);
     m_stage_drops_plugin_ptr->set_penguin_id(std::move(penguin_id));
-    if (!client_type.empty()) {
-        m_game_restart_plugin_ptr->set_client_type(client_type);
-    }
 
     return true;
 }

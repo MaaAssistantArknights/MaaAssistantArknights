@@ -21,11 +21,13 @@ void asst::OcrWithFlagTemplImageAnalyzer::set_roi(const Rect& roi) noexcept
 bool asst::OcrWithFlagTemplImageAnalyzer::analyze()
 {
     m_all_result.clear();
+    m_flag_result.clear();
 
     if (!m_multi_match_image_analyzer.analyze()) {
         return false;
     }
     for (const auto& templ_res : m_multi_match_image_analyzer.get_result()) {
+        m_flag_result.emplace_back(templ_res);
         Rect roi = templ_res.rect.move(m_flag_rect_move);
         if (roi.x + roi.width >= WindowWidthDefault) {
             continue;
@@ -63,4 +65,9 @@ void asst::OcrWithFlagTemplImageAnalyzer::set_flag_rect_move(Rect flag_rect_move
 std::vector<asst::TextRect>& asst::OcrWithFlagTemplImageAnalyzer::get_result() noexcept
 {
     return m_all_result;
+}
+
+std::vector<asst::Rect>& asst::OcrWithFlagTemplImageAnalyzer::get_flag_result() noexcept
+{
+    return m_flag_result;
 }

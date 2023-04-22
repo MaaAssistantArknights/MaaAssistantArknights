@@ -23,7 +23,7 @@ namespace asst
     struct RoguelikeOperInfo
     {
         std::string name;
-        int group_id;                                             // 干员组id
+        int group_id = 0;                                         // 干员组id
         int recruit_priority = 0;                                 // 招募优先级 (0-1000)
         int promote_priority = 0;                                 // 晋升优先级 (0-1000)
         int recruit_priority_when_team_full = 0;                  // 队伍满时的招募优先级 (0-1000)
@@ -45,7 +45,7 @@ namespace asst
     public:
         virtual ~RoguelikeRecruitConfig() override = default;
 
-        const RoguelikeOperInfo& get_oper_info(const std::string& theme, const std::string& name) const noexcept;
+        const RoguelikeOperInfo& get_oper_info(const std::string& theme, const std::string& name) noexcept;
         const std::vector<std::pair<int, int>> get_role_info(const std::string& theme,
                                                              const battle::Role& role) const noexcept; // [deprecated]
         const std::vector<std::string> get_group_info(const std::string& theme) const noexcept;
