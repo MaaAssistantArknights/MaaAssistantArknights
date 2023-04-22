@@ -520,7 +520,7 @@
                 },
                 {
                     "name": "刻刀",
-                    "skill": 2,
+                    "skill": 1,
                     "recruit_priority": 405
                 },
                 {
@@ -545,13 +545,13 @@
                 },
                 {
                     "name": "泡普卡",
-                    "skill": 2,
+                    "skill": 1,
                     "recruit_priority": 460,
                     "is_key": true
                 },
                 {
                     "name": "月见夜",
-                    "skill": 2,
+                    "skill": 1,
                     "recruit_priority": 466,
                     "is_key": true
                 },
@@ -562,12 +562,12 @@
                 },
                 {
                     "name": "艾斯黛尔",
-                    "skill": 2,
+                    "skill": 1,
                     "recruit_priority": 320
                 },
                 {
                     "name": "霜叶",
-                    "skill": 2,
+                    "skill": 1,
                     "recruit_priority": 318
                 },
                 {
@@ -1860,7 +1860,6 @@
                 {
                     "name": "豆苗",
                     "skill": 1,
-                    "is_start": true,
                     "recruit_priority": 255,
                     "promote_priority": 0
                 },
