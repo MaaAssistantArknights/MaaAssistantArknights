@@ -417,7 +417,9 @@
         2. You need turn off the &quot;Auto squad&quot; if using friend support unit, then start with your support unit selected.\n\n
         3. For Paradox Simulation, you need to turn off &quot;Auto squad&quot; and select the skill before, then start in game &quot;start&quot; screen.\n\n
         4. For SSS, There are two built-in files under the resource/copilot folder.\n
-        Please start on the &quot;Start Deployment&quot; screen after manual formation (can be used with &quot;Loop times&quot;)
+        Please start on the &quot;Start Deployment&quot; screen after manual formation (can be used with &quot;Loop times&quot;)\n\n
+        5. Video recognition is now supported, please drag the guide video to use. \n
+        The video resolution is required to be 16:9, and there are no distracting elements such as black borders, emulator borders, and special-shaped screen corrections.\n\n
     </system:String>
 
     <system:String x:Key="CopilotFileReadError">Failed to read file!</system:String>
