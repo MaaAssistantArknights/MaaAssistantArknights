@@ -6,15 +6,18 @@
 #include <meojson/json.hpp>
 
 const asst::RoguelikeOperInfo& asst::RoguelikeRecruitConfig::get_oper_info(const std::string& theme,
-                                                                           const std::string& name) const noexcept
+                                                                           const std::string& name) noexcept
 {
     auto& opers = m_all_opers.at(theme);
-    if (auto find_iter = opers.find(name); find_iter != opers.cend()) {
-        return find_iter->second;
+    if (opers.contains(name)) {
+        return opers.at(name);
     }
     else {
-        static RoguelikeOperInfo empty;
-        return empty;
+        RoguelikeOperInfo info;
+        info.name = name;
+        info.group_id = get_group_id(theme, name);
+        opers.emplace(name, std::move(info));
+        return opers.at(name);
     }
 }
 
@@ -85,8 +88,8 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
                 info.recruit_priority = oper_info.get("recruit_priority", 0);
                 info.promote_priority = oper_info.get("promote_priority", 0);
                 info.is_alternate = oper_info.get("is_alternate", false);
-                info.skill = oper_info.at("skill").as_integer();
-                info.alternate_skill = oper_info.get("alternate_skill", 0);
+                info.skill = oper_info.get("skill", 1);
+                info.alternate_skill = oper_info.get("alternate_skill", 1);
                 info.skill_usage = static_cast<battle::SkillUsage>(oper_info.get("skill_usage", 1));
                 info.alternate_skill_usage = static_cast<battle::SkillUsage>(oper_info.get("alternate_skill_usage", 1));
 
