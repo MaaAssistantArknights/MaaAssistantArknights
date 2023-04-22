@@ -24,7 +24,7 @@ namespace asst
 
         virtual bool analyze() override;
 
-        const auto& get_result_box() const noexcept { return current_page_opers; }
+        const auto& get_result_box() const noexcept { return m_current_page_opers; }
 
     protected:
         using OcrWithPreprocessImageAnalyzer::set_task_info;
@@ -32,6 +32,7 @@ namespace asst
     private:
         bool analyzer_opers();
         bool analyzer_opers_box();
+        bool analyzer_box();
         // 按位置排序
         // 1 - 2 - 3
         // 4 - 5 - 6
@@ -41,8 +42,27 @@ namespace asst
 #ifdef ASST_DEBUG
         cv::Mat m_image_draw_oper;
 #endif
-
-        std::vector<asst::OperBoxInfo> current_page_opers;
+        void oper_box_clear();
+        void sort_all();
+        std::vector<asst::OperBoxInfo> m_current_page_opers;
         std::unordered_map<std::string, asst::OperBoxInfo> m_result;
+
+        bool get_all_info();
+        //精英度与lv_flag是否相邻
+        bool is_near(asst::Rect rect1, asst::Rect rect2);
+        //void 
+        void draft_img();
+
+        //干员名
+        std::vector<asst::TextRect> m_oper_names;
+        //等级数
+        std::vector<asst::TextRect> m_oper_levels;
+        //lv_flag
+        std::vector<asst::MatchRect> m_lv_flags;
+        //精英一位置
+        std::vector<asst::MatchRect> m_elite_ones;
+
+        // 精英二位置
+        std::vector<asst::MatchRect> m_elite_twos;
     };
 }

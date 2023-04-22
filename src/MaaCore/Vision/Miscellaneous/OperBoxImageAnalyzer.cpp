@@ -19,10 +19,12 @@ asst::OperBoxImageAnalyzer::OperBoxImageAnalyzer(const cv::Mat& image)
 bool asst::OperBoxImageAnalyzer::analyze()
 {
     LogTraceFunction;
-    current_page_opers.clear();
+    oper_box_clear();
     //bool oper_box = analyzer_opers();
-    bool oper_box = analyzer_opers_box();
+    //bool oper_box = analyzer_opers_box();
+    bool oper_box = analyzer_box();
 #ifdef ASST_DEBUG
+    draft_img();
     m_image_draw = m_image_draw_oper;
 #endif
     save_img(utils::path("debug") / utils::path("oper"));
@@ -63,7 +65,7 @@ bool asst::OperBoxImageAnalyzer::analyzer_opers()
     for (auto& opername : oper_names_result) {
         OperBoxInfo oper_info;
         oper_info.name = std::move(opername.text);
-        current_page_opers.emplace_back(oper_info);
+        m_current_page_opers.emplace_back(oper_info);
 #ifdef ASST_DEBUG
         m_image_draw_oper = m_image;
         cv::rectangle(m_image_draw_oper, make_rect<cv::Rect>(opername.rect), cv::Scalar(0, 255, 0), 2);
@@ -122,7 +124,7 @@ bool asst::OperBoxImageAnalyzer::analyzer_opers_box()
         std::string id = BattleData.get_id(name);
         oper_info.name = std::move(name);
         oper_info.id = id;
-        current_page_opers.emplace_back(oper_info);*/
+        m_current_page_opers.emplace_back(oper_info);*/
         //m_result.emplace(std::move(id), std::move(oper_info));
 #ifdef ASST_DEBUG
         m_image_draw_oper = m_image;
@@ -140,8 +142,8 @@ bool asst::OperBoxImageAnalyzer::analyzer_opers_box()
     set_task_info(*ocr_task_ptr_level);
     Rect level_roi = ocr_task_ptr_level->roi;
 
-    /*const auto& ocr_replace_num = Task.get<OcrTaskInfo>("NumberOcrReplace");
-    OcrWithPreprocessImageAnalyzer::set_replace(ocr_replace_num->replace_map, ocr_replace_num->replace_full);*/
+    const auto& ocr_replace_num = Task.get<OcrTaskInfo>("NumberOcrReplace");
+    OcrWithPreprocessImageAnalyzer::set_replace(ocr_replace_num->replace_map, ocr_replace_num->replace_full);
 
 
     for (const auto& box : oper_box_flag_lvs) {
@@ -158,7 +160,7 @@ bool asst::OperBoxImageAnalyzer::analyzer_opers_box()
     for (auto& operlevel : oper_levels_result) {
         /*OperBoxInfo oper_info;
         oper_info.name = std::move(operlevel.text);
-        current_page_opers.emplace_back(oper_info);*/
+        m_current_page_opers.emplace_back(oper_info);*/
 #ifdef ASST_DEBUG
         //m_image_draw_oper = m_image;
         cv::rectangle(m_image_draw_oper, make_rect<cv::Rect>(operlevel.rect), cv::Scalar(0, 255, 0), 2);
@@ -188,7 +190,7 @@ bool asst::OperBoxImageAnalyzer::analyzer_opers_box()
         oper_info.own = true;
         oper_info.level = level_num(oper_levels_result[i].text);
 
-        current_page_opers.emplace_back(oper_info);
+        m_current_page_opers.emplace_back(oper_info);
         //先不在这里插入，无序不好处理
         /*m_result.emplace(std::move(id), std::move(oper_info));*/
 
@@ -223,7 +225,7 @@ bool asst::OperBoxImageAnalyzer::analyzer_opers_box()
     }
     
     //循环将精英度加入box
-    for (auto&  box_info : current_page_opers) {
+    for (auto&  box_info : m_current_page_opers) {
         //判断是否有值
         Rect lv_rect = box_info.rect;
         if (elite_one_count < elite_one_result.size()) {
@@ -248,9 +250,76 @@ bool asst::OperBoxImageAnalyzer::analyzer_opers_box()
         Log.info("operBox: name:", box_info.name, ", elite: ", box_info.elite, ", level: ", box_info.level,
                  ",id: ", box_info.id);
         m_result.emplace(box_info.id, std::move(box_info));
+
     }
 
     return true;
+}
+
+bool asst::OperBoxImageAnalyzer::analyzer_box()
+{
+    //获取所有rect
+    if (!get_all_info()) {
+        return false;
+    }
+    //排序
+    sort_all();
+    //组装干员box
+    size_t count = m_lv_flags.size();
+    //数量不匹配退出
+    if (count != m_oper_levels.size() || count !=m_oper_names.size()) {
+        return false;
+    }
+
+    //精一，精二,循环计数
+    //int elite_one_flag = 0, elite_two_flag = 0;
+    int k=0;
+
+    while (k < count) {
+        OperBoxInfo oper_info;
+        std::string name = m_oper_names[k].text;
+        std::string id = BattleData.get_id(name);
+        Rect lv_rect = m_lv_flags[k].rect;
+        oper_info.name = std::move(name);
+        oper_info.id = id;
+        oper_info.rect = lv_rect;
+        oper_info.own = true;
+        oper_info.level = level_num(m_oper_levels[k].text);
+
+        //插入精英度1
+        /*if (elite_one_flag < m_elite_ones.size()) {
+            if (is_near(lv_rect, m_elite_ones[elite_one_flag].rect)) {
+                elite_one_flag++;
+                oper_info.elite = 1;
+            }
+        }
+        if (elite_two_flag < m_elite_twos.size()) {
+            if (is_near(lv_rect, m_elite_twos[elite_two_flag].rect)) {
+                elite_two_flag++;
+                oper_info.elite = 2;
+            }
+        }*/
+        if (!m_elite_ones.empty()) {
+            for (const auto& elite_one : m_elite_ones) {
+                if (is_near(elite_one.rect,lv_rect)) {
+                    oper_info.elite = 1;
+                }
+            }
+        }
+        if (!m_elite_twos.empty()) {
+            for (const auto& elite_two : m_elite_twos) {
+                if (is_near(elite_two.rect, lv_rect)) {
+                    oper_info.elite = 2;
+                }
+            }
+        }
+        Log.info("operBox: name:", oper_info.name, ", elite: ", oper_info.elite, ", level: ", oper_info.level,
+                 ",id: ", oper_info.id);
+        m_current_page_opers.emplace_back(oper_info);
+        k++;
+    }
+    
+    return !m_current_page_opers.empty();
 }
 
 void asst::OperBoxImageAnalyzer::sort_result_horizontal_m(std::vector<asst::MatchRect> m_rect_box)
@@ -282,21 +351,126 @@ void asst::OperBoxImageAnalyzer::sort_result_horizontal_t(std::vector<asst::Text
 //转换为整数。
 int asst::OperBoxImageAnalyzer::level_num(std::string level)
 {
-    //Use std::stoi() to convert string to integer
-    //字符串替换：
-    for (int i = 0; i < 2; i++){
-        level.replace(level.find("亻"), 0, "1");
-        level.replace(level.find("o"), 0, "0");
-        level.replace(level.find("O"), 0, "0");
-        level.replace(level.find("{"), 0, "1");
-        level.replace(level.find("/"), 0, "1");
-        level.replace(level.find("\\"), 0, "1");
-    }
     try {
         return std::stoi(level);
     }
     catch(std::invalid_argument e) {
         //解析不出来，则默认为1
         return 1;
+    }
+}
+void asst::OperBoxImageAnalyzer::oper_box_clear() {
+    m_oper_names.clear();
+    m_oper_levels.clear();
+    m_lv_flags.clear();
+    m_elite_ones.clear();
+    m_elite_twos.clear();
+}
+
+void asst::OperBoxImageAnalyzer::sort_all() {
+    sort_result_horizontal_m(m_lv_flags);
+    sort_result_horizontal_t(m_oper_names);
+    sort_result_horizontal_t(m_oper_levels);
+    if (!m_elite_ones.empty()) {
+        sort_result_horizontal_m(m_elite_ones);
+    }
+    if (!m_elite_twos.empty()) {
+        sort_result_horizontal_m(m_elite_twos);
+    }
+}
+
+bool asst::OperBoxImageAnalyzer::get_all_info()
+{
+    // lv_flag
+    m_multi_match_image_analyzer.set_task_info("OperBoxFlagLV");
+    m_multi_match_image_analyzer.analyze();
+    m_lv_flags = m_multi_match_image_analyzer.get_result();
+
+    if (m_lv_flags.empty()) {
+        return false;
+    }
+
+    // 识别名字
+    auto ocr_task_ptr_name = Task.get<OcrTaskInfo>("OperBoxNameOCR");
+    set_task_info(*ocr_task_ptr_name);
+    Rect name_roi = ocr_task_ptr_name->roi;
+
+    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
+    OcrWithPreprocessImageAnalyzer::set_image(m_image);
+    OcrWithPreprocessImageAnalyzer::set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
+
+    for (const auto& box : m_lv_flags) {
+        Rect roi = box.rect.move(name_roi);
+        if (roi.x + roi.width >= WindowWidthDefault) {
+            continue;
+        }
+        OcrWithPreprocessImageAnalyzer::set_roi(roi);
+        if (OcrWithPreprocessImageAnalyzer::analyze()) {
+            m_oper_names.insert(m_oper_names.end(), std::make_move_iterator(m_ocr_result.begin()),
+                                std::make_move_iterator(m_ocr_result.end()));
+        }
+    }
+    if (m_oper_names.empty()) {
+        return false;
+    }
+
+    // 识别等级
+    auto ocr_task_ptr_level = Task.get<OcrTaskInfo>("OperBoxLevelOCR");
+    set_task_info(*ocr_task_ptr_level);
+    Rect level_roi = ocr_task_ptr_level->roi;
+
+    const auto& ocr_replace_num = Task.get<OcrTaskInfo>("NumberOcrReplace");
+    OcrWithPreprocessImageAnalyzer::set_use_char_model(true);
+    OcrWithPreprocessImageAnalyzer::set_replace(ocr_replace_num->replace_map, ocr_replace_num->replace_full);
+
+    for (const auto& box : m_lv_flags) {
+        Rect roi = box.rect.move(level_roi);
+        if (roi.x + roi.width >= WindowWidthDefault) {
+            continue;
+        }
+        OcrWithPreprocessImageAnalyzer::set_roi(roi);
+        if (OcrWithPreprocessImageAnalyzer::analyze()) {
+            m_oper_levels.insert(m_oper_levels.end(), std::make_move_iterator(m_ocr_result.begin()),
+                                 std::make_move_iterator(m_ocr_result.end()));
+        }
+    }
+    if (m_oper_levels.empty()) {
+        return false;
+    }
+
+    //精英一位置：能为空
+    m_multi_match_image_analyzer.set_task_info("OperBoxFlagElitismOne");
+    m_multi_match_image_analyzer.analyze();
+    m_elite_ones = m_multi_match_image_analyzer.get_result();
+
+    //精英二位置：能为空
+    m_multi_match_image_analyzer.set_task_info("OperBoxFlagElitismTwo");
+    m_multi_match_image_analyzer.analyze();
+    m_elite_twos = m_multi_match_image_analyzer.get_result();
+
+    return true;
+}
+
+bool asst::OperBoxImageAnalyzer::is_near(asst::Rect rect1, asst::Rect rect2)
+{
+    return (std::abs(rect1.x - rect2.x) < 10 && std::abs(rect1.y - rect2.y) < 55);
+}
+
+void asst::OperBoxImageAnalyzer::draft_img()
+{
+    m_image_draw_oper = m_image;
+
+    // name
+    for (auto& name : m_oper_names) {
+        cv::rectangle(m_image_draw_oper, make_rect<cv::Rect>(name.rect), cv::Scalar(0, 255, 0), 2);
+        cv::putText(m_image_draw_oper, name.text, cv::Point(name.rect.x, name.rect.y - 10), cv::FONT_HERSHEY_SIMPLEX,
+                    0.5, cv::Scalar(0, 0, 255), 2);
+    }
+
+    // level
+    for (auto& level : m_oper_levels) {
+        cv::rectangle(m_image_draw_oper, make_rect<cv::Rect>(level.rect), cv::Scalar(0, 255, 0), 2);
+        cv::putText(m_image_draw_oper, level.text, cv::Point(level.rect.x, level.rect.y - 10), cv::FONT_HERSHEY_SIMPLEX,
+                    0.5, cv::Scalar(0, 0, 255), 2);
     }
 }
