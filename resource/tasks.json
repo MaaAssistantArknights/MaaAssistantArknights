@@ -7248,6 +7248,16 @@
             "Roguelike@ChooseOper"
         ]
     },
+    "Roguelike@TempRecruitFlag": {
+        "action": "DoNothing",
+        "roi": [
+            587,
+            76,
+            100,
+            20
+        ],
+        "templThreshold": 0.5
+    },
     "Roguelike@ClickToDrops": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
