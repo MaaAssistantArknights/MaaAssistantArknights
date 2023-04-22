@@ -2,7 +2,6 @@
 #include "Common/AsstBattleDef.h"
 #include "Task/AbstractTask.h"
 #include "Vision/Miscellaneous/OperBoxImageAnalyzer.h"
-#include <unordered_set>
 
 namespace asst
 {
@@ -17,8 +16,7 @@ namespace asst
         void swipe_page();
         void callback_analyze_result(bool done);
         bool swipe_and_analyze();
-        std::unordered_set<std::string> get_own_oper_names();
-        
-        std::vector<OperBoxInfo> m_own_opers;
+
+        std::unordered_map<std::string, OperBoxInfo> m_own_opers;
     };
 }

@@ -399,56 +399,43 @@ namespace MaaWpfGui.ViewModels.UI
             /*移除未实装干员*/
             operNotHave = operNotHave.Except(second: VirtuallyOpers).ToList();
 
-            string operHaveNames = "\t";
+            int newline_flag = 0;
             string operNotHaveNames = "\t";
-            int count = 0;
+
             foreach (var name in operNotHave)
             {
-                operHaveNames += name + "\t";
-                if (count++ == 3)
-                {
-                    operHaveNames += "\n\t";
-                    count = 0;
-                }
-            }
-
-            count = 0;
-            foreach (var name in operHave)
-            {
                 operNotHaveNames += name + "\t";
-                if (count++ == 3)
+                if (newline_flag++ == 3)
                 {
                     operNotHaveNames += "\n\t";
-                    count = 0;
+                    newline_flag = 0;
                 }
             }
 
-            OperBoxResult = string.Format(LocalizationHelper.GetString("OperBoxRecognitionResult"), operHave.Count, operNotHave.Count, operHaveNames, operNotHaveNames); ;
+            newline_flag = 0;
+            string operHaveNames = "\t";
+            foreach (var name in operHave)
+            {
+                operHaveNames += name + "\t";
+                if (newline_flag++ == 3)
+                {
+                    operHaveNames += "\n\t";
+                    newline_flag = 0;
+                }
+            }
+
             bool done = (bool)details["done"];
             if (done)
             {
                 OperBoxInfo = LocalizationHelper.GetString("IdentificationCompleted") + "\n" + LocalizationHelper.GetString("OperBoxRecognitionTip");
-                OperBoxDone = true;
+                OperBoxResult = string.Format(LocalizationHelper.GetString("OperBoxRecognitionResult"), operNotHave.Count, operNotHaveNames, operHave.Count, operHaveNames);
+            }
+            else
+            {
+                OperBoxResult = operHaveNames;
             }
 
             return true;
-        }
-
-        private bool _operBoxDone = false;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether depot info is parsed.
-        /// </summary>
-        public bool OperBoxDone
-        {
-            get => _operBoxDone;
-            set => SetAndNotify(ref _operBoxDone, value);
-        }
-
-        private void ClearResult()
-        {
-            OperBoxResult = string.Empty;
-            OperBoxDone = false;
         }
 
         public async void StartOperBox()
@@ -462,10 +449,10 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            OperBoxInfo = LocalizationHelper.GetString("Identifying");
-            ClearResult();
-
-            _asstProxy.AsstStartOperBox();
+            if (_asstProxy.AsstStartOperBox())
+            {
+                OperBoxInfo = LocalizationHelper.GetString("Identifying");
+            }
         }
 
         #endregion OperBox
