@@ -88,8 +88,8 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
                 info.recruit_priority = oper_info.get("recruit_priority", 0);
                 info.promote_priority = oper_info.get("promote_priority", 0);
                 info.is_alternate = oper_info.get("is_alternate", false);
-                info.skill = oper_info.get("skill", 1);
-                info.alternate_skill = oper_info.get("alternate_skill", 1);
+                info.skill = oper_info.get("skill", 0);
+                info.alternate_skill = oper_info.get("alternate_skill", 0);
                 info.skill_usage = static_cast<battle::SkillUsage>(oper_info.get("skill_usage", 1));
                 info.alternate_skill_usage = static_cast<battle::SkillUsage>(oper_info.get("alternate_skill_usage", 1));
 

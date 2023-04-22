@@ -34,7 +34,7 @@ namespace asst
         bool is_start = false;                                    // 是否为开局干员
         std::vector<RecruitPriorityOffset> recruit_priority_offsets;
         bool is_alternate = false; // 是否后备干员 (允许重复招募、划到后备干员时不再往右划动)
-        int skill = 1;
+        int skill = 0;
         int alternate_skill = 0;
         battle::SkillUsage skill_usage = battle::SkillUsage::Possibly;
         battle::SkillUsage alternate_skill_usage = battle::SkillUsage::Possibly;
