@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using MaaWpfGui.Constants;
@@ -51,6 +52,22 @@ namespace MaaWpfGui.ViewModels.UI
         {
             base.OnInitialActivate();
             _asstProxy = _container.Get<AsstProxy>();
+        }
+
+        private static string PadRightEx(string str, int totalByteCount)
+        {
+            Encoding coding = Encoding.GetEncoding("gb2312");
+            int dcount = 0;
+            foreach (char ch in str.ToCharArray())
+            {
+                if (coding.GetByteCount(ch.ToString()) == 2)
+                {
+                    dcount++;
+                }
+            }
+
+            string w = str.PadRight(totalByteCount - dcount);
+            return w;
         }
 
         #region Recruit
@@ -258,7 +275,7 @@ namespace MaaWpfGui.ViewModels.UI
             int count = 0;
             foreach (var item in details["arkplanner"]["object"]["items"].Cast<JObject>())
             {
-                result += (string)item["name"] + " : " + (int)item["have"] + "\t";
+                result += PadRightEx((string)item["name"], 12) + " : " + ((string)item["have"]).PadRight(5) + "\t";
                 if (++count == 3)
                 {
                     result += "\n";
@@ -407,7 +424,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             foreach (var name in operNotHave)
             {
-                operNotHaveNames += name + "\t";
+                operNotHaveNames += PadRightEx(name, 12) + "\t";
                 if (newline_flag++ == 3)
                 {
                     operNotHaveNames += "\n\t";
@@ -419,7 +436,7 @@ namespace MaaWpfGui.ViewModels.UI
             string operHaveNames = "\t";
             foreach (var name in operHave)
             {
-                operHaveNames += name + "\t";
+                operHaveNames += PadRightEx(name, 12) + "\t";
                 if (newline_flag++ == 3)
                 {
                     operHaveNames += "\n\t";
