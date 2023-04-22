@@ -24,6 +24,20 @@ bool asst::OperBoxRecognitionTask::swipe_and_analyze()
     LogTraceFunction;
     std::string current_page_last_oper_name = "";
     own_opers.clear();
+
+    //测试
+    bool test = true;
+    if (test) {
+        OperBoxImageAnalyzer analyzer(ctrler()->get_image());
+        if (!analyzer.analyze()) {
+            return false;
+        }
+        auto opers_result = analyzer.get_result_box();
+        own_opers.insert(own_opers.end(), opers_result.begin(), opers_result.end());
+        return true;
+    }
+
+
     while (true) {
         OperBoxImageAnalyzer analyzer(ctrler()->get_image());
 
@@ -32,7 +46,7 @@ bool asst::OperBoxRecognitionTask::swipe_and_analyze()
         if (!analyzer.analyze()) {
             break;
         }
-        auto opers_result = analyzer.get_result();
+        auto opers_result = analyzer.get_result_box();
         if (opers_result.back().name == current_page_last_oper_name) {
             break;
         }

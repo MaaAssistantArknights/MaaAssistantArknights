@@ -6909,6 +6909,14 @@
                 "1"
             ],
             [
+                "亻",
+                "1"
+            ],
+            [
+                "{",
+                "1"
+            ],
+            [
                 "十",
                 "+"
             ],
@@ -9667,6 +9675,26 @@
             327
         ]
     },
+    "OperBoxFlagElitismOne": {
+        "doc": "精英一 模板",
+        "templThreshold": 0.9,
+        "roi": [
+            37,
+            258,
+            1126,
+            360
+        ]
+    },
+    "OperBoxFlagElitismTwo": {
+        "doc": "精英二 模板",
+        "templThreshold": 0.9,
+        "roi": [
+            37,
+            258,
+            1126,
+            360
+        ]
+    },
     "OperBoxNameOCR": {
         "algorithm": "OcrDetect",
         "fullMatch": true,
@@ -9676,6 +9704,18 @@
             42,
             120,
             20
+        ],
+        "postDelay": 100
+    },
+    "OperBoxLevelOCR": {
+        "algorithm": "OcrDetect",
+        "fullMatch": true,
+        "text": [],
+        "roi": [
+            -13,
+            7,
+            37,
+            23
         ],
         "postDelay": 100
     },
