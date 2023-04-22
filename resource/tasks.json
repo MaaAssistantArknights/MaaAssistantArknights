@@ -9747,7 +9747,7 @@
         ]
     },
     "OperBoxFlagLV": {
-        "templThreshold": 0.7,
+        "templThreshold": 0.6,
         "roi": [
             40,
             310,
