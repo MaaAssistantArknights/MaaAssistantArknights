@@ -26,7 +26,9 @@ if (MSVC)
     add_compile_options("/utf-8")
     add_compile_options("/MP")
     add_compile_options("/W4;/WX")
-    
+    add_compile_options("/wd4127")  # conditional expression is constant
+    add_compile_options("/Wv:19.35.32217")  # disable warning introduced after this version 
+
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
 else ()
     add_compile_options("-Wall;-Werror;-Wextra;-Wpedantic;-Wno-missing-field-initializers")
