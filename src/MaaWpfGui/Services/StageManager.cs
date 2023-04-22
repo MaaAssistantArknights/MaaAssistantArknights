@@ -26,6 +26,7 @@ using MaaWpfGui.Models;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Semver;
 using Serilog;
@@ -86,11 +87,24 @@ namespace MaaWpfGui.Services
 
         public async Task UpdateStageWeb()
         {
-            if (await CheckWebUpdate())
+            if (!await CheckWebUpdate())
             {
-                UpdateStageInternal(await LoadWebStages());
                 return;
             }
+
+            static string generateJsonString(bool allFileDownloadComplete)
+            {
+                JObject json = new JObject
+                {
+                    ["allFileDownloadComplete"] = allFileDownloadComplete,
+                };
+                return JsonConvert.SerializeObject(json);
+            }
+
+            var filePath = "cache/allFileDownloadComplete.json";
+            File.WriteAllText(filePath, generateJsonString(false));
+            UpdateStageInternal(await LoadWebStages());
+            File.WriteAllText(filePath, generateJsonString(true));
         }
 
         private string GetClientType()
@@ -116,13 +130,16 @@ namespace MaaWpfGui.Services
         {
             // Check if we need to update from the web
             string lastUpdateTimeFile = "lastUpdateTime.json";
+            string allFileDownloadCompleteFile = "allFileDownloadComplete.json";
             JObject localLastUpdatedJson = _maaApiService.LoadApiCache(lastUpdateTimeFile);
+            JObject allFileDownloadCompleteJson = _maaApiService.LoadApiCache(allFileDownloadCompleteFile);
             JObject webLastUpdatedJson = await _maaApiService.RequestMaaApiWithCache(lastUpdateTimeFile).ConfigureAwait(false);
             if (localLastUpdatedJson != null && webLastUpdatedJson != null)
             {
                 long localTimestamp = localLastUpdatedJson["timestamp"].ToObject<long>();
                 long webTimestamp = webLastUpdatedJson["timestamp"].ToObject<long>();
-                if (webTimestamp <= localTimestamp)
+                bool allFileDownloadComplete = allFileDownloadCompleteJson?["allFileDownloadComplete"]?.ToObject<bool>() ?? false;
+                if (webTimestamp <= localTimestamp && allFileDownloadComplete)
                 {
                     return false;
                 }
@@ -265,7 +282,7 @@ namespace MaaWpfGui.Services
                 }
                 catch (Exception e)
                 {
-                    _logger.Error(e, "解析 Stage 资源失败");
+                    _logger.Error(e, "Failed to parse Cache Stage resources");
                 }
             }
 
