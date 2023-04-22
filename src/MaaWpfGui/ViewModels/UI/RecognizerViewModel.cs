@@ -54,6 +54,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         #region Recruit
+
         private string _recruitInfo = LocalizationHelper.GetString("RecruitmentRecognitionTip");
 
         /// <summary>
@@ -209,9 +210,11 @@ namespace MaaWpfGui.ViewModels.UI
 
             _asstProxy.AsstStartRecruitCalc(levelList.ToArray(), RecruitAutoSetTime);
         }
-        #endregion
 
-        #region  Depot
+        #endregion Recruit
+
+        #region Depot
+
         private string _depotInfo = LocalizationHelper.GetString("DepotRecognitionTip");
 
         /// <summary>
@@ -334,9 +337,10 @@ namespace MaaWpfGui.ViewModels.UI
 
             _asstProxy.AsstStartDepot();
         }
-        #endregion
 
-        #region  OperBox
+        #endregion Depot
+
+        #region OperBox
 
         /// <summary>
         /// 未实装干员，但在battle_data中，
@@ -374,7 +378,6 @@ namespace MaaWpfGui.ViewModels.UI
 
         public bool OperBoxParse(JObject details)
         {
-            string result = string.Empty;
             JArray operBoxs = (JArray)details["operbox"];
             List<string> operHave = new List<string>();
             List<string> operNotHave = new List<string>();
@@ -396,32 +399,31 @@ namespace MaaWpfGui.ViewModels.UI
             /*移除未实装干员*/
             operNotHave = operNotHave.Except(second: VirtuallyOpers).ToList();
 
-            result = "已拥有：" + operHave.Count.ToString() + "名，未拥有：" + operNotHave.Count.ToString() + "名；" + "\n\n";
-            result += "以下干员未拥有：\n\t";
+            string operHaveNames = "\t";
+            string operNotHaveNames = "\t";
             int count = 0;
             foreach (var name in operNotHave)
             {
-                result += name + "\t";
+                operHaveNames += name + "\t";
                 if (count++ == 3)
                 {
-                    result += "\n\t";
+                    operHaveNames += "\n\t";
                     count = 0;
                 }
             }
 
-            result += "\n\n以下干员已拥有：\n\n\t";
             count = 0;
             foreach (var name in operHave)
             {
-                result += name + "\t";
+                operNotHaveNames += name + "\t";
                 if (count++ == 3)
                 {
-                    result += "\n\t";
+                    operNotHaveNames += "\n\t";
                     count = 0;
                 }
             }
 
-            OperBoxResult = result;
+            OperBoxResult = string.Format(LocalizationHelper.GetString("OperBoxRecognitionResult"), operHave.Count, operNotHave.Count, operHaveNames, operNotHaveNames); ;
             bool done = (bool)details["done"];
             if (done)
             {
@@ -465,6 +467,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             _asstProxy.AsstStartOperBox();
         }
-        #endregion
+
+        #endregion OperBox
     }
 }
