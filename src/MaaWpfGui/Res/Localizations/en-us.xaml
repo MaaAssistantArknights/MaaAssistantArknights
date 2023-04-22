@@ -384,7 +384,7 @@
     <system:String x:Key="OperBoxRecognition">Operator</system:String>
     <system:String x:Key="BeganToOperBoxRecognition">Start to identify</system:String>
     <system:String x:Key="OperBoxRecognitionTip">This function is still in testing, please sort the operator list by rarity or level. If the statistics are wrong, please pack the debug/oper file and submit an issue to us~</system:String>
-    <system:String x:Key="OperBoxRecognitionResult">Owned: {0}, Not owned: {1};\n\nNot owned by:\n\n{2}\n\nOwned by: {3}\n\n</system:String>
+    <system:String x:Key="OperBoxRecognitionResult">Not owned: {0} : \n\n{1}\n\nOwned: {2} : \n\n{3}</system:String>
 
     <!--  Operator Recognition  -->
 
