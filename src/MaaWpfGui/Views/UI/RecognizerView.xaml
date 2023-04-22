@@ -19,7 +19,7 @@
     <TabControl
         Margin="0,10"
         BorderThickness="0"
-        SelectedIndex="3"
+        SelectedIndex="4"
         Style="{StaticResource TabControlSliding}">
         <TabItem Header="{DynamicResource RecruitmentRecognition}">
             <Grid Margin="20,0,20,20">
@@ -106,7 +106,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Command="{s:Action RecruitStartCalc}"
-                        Content="{DynamicResource BeganToRecruit}" />
+                        Content="{DynamicResource StartToRecruit}" />
                 </StackPanel>
             </Grid>
         </TabItem>
@@ -170,7 +170,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Command="{s:Action StartDepot}"
-                        Content="{DynamicResource BeganToDepotRecognition}" />
+                        Content="{DynamicResource StartToDepotRecognition}" />
                 </StackPanel>
             </Grid>
         </TabItem>
@@ -220,9 +220,20 @@
                         Height="70"
                         Margin="30"
                         Command="{s:Action StartOperBox}"
-                        Content="{DynamicResource BeganToOperBoxRecognition}" />
+                        Content="{DynamicResource StartToOperBoxRecognition}" />
                 </StackPanel>
             </Grid>
+        </TabItem>
+        <TabItem Header="{DynamicResource VideoRecognition}">
+            <controls:TextBlock
+                Height="80"
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="14"
+                Style="{StaticResource TextBlockDefaultBold}"
+                Text="{DynamicResource VideoRecognitionTips}"
+                TextWrapping="Wrap" />
         </TabItem>
     </TabControl>
 </UserControl>
