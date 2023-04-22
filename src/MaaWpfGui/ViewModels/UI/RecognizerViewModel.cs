@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using MaaWpfGui.Constants;
@@ -53,7 +54,24 @@ namespace MaaWpfGui.ViewModels.UI
             _asstProxy = _container.Get<AsstProxy>();
         }
 
+        private static string PadRightEx(string str, int totalByteCount)
+        {
+            Encoding coding = Encoding.GetEncoding("gb2312");
+            int dcount = 0;
+            foreach (char ch in str.ToCharArray())
+            {
+                if (coding.GetByteCount(ch.ToString()) == 2)
+                {
+                    dcount++;
+                }
+            }
+
+            string w = str.PadRight(totalByteCount - dcount);
+            return w;
+        }
+
         #region Recruit
+
         private string _recruitInfo = LocalizationHelper.GetString("RecruitmentRecognitionTip");
 
         /// <summary>
@@ -209,9 +227,11 @@ namespace MaaWpfGui.ViewModels.UI
 
             _asstProxy.AsstStartRecruitCalc(levelList.ToArray(), RecruitAutoSetTime);
         }
-        #endregion
 
-        #region  Depot
+        #endregion Recruit
+
+        #region Depot
+
         private string _depotInfo = LocalizationHelper.GetString("DepotRecognitionTip");
 
         /// <summary>
@@ -255,7 +275,7 @@ namespace MaaWpfGui.ViewModels.UI
             int count = 0;
             foreach (var item in details["arkplanner"]["object"]["items"].Cast<JObject>())
             {
-                result += (string)item["name"] + " : " + (int)item["have"] + "\t";
+                result += PadRightEx((string)item["name"], 12) + " : " + ((string)item["have"]).PadRight(5) + "\t";
                 if (++count == 3)
                 {
                     result += "\n";
@@ -334,9 +354,10 @@ namespace MaaWpfGui.ViewModels.UI
 
             _asstProxy.AsstStartDepot();
         }
-        #endregion
 
-        #region  OperBox
+        #endregion Depot
+
+        #region OperBox
 
         /// <summary>
         /// 未实装干员，但在battle_data中，
@@ -372,10 +393,12 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _operBoxResult, value);
         }
 
+        private string _operBoxExportData = string.Empty;
+
         public bool OperBoxParse(JObject details)
         {
-            string result = string.Empty;
-            JArray operBoxs = (JArray)details["operbox"];
+            JArray operBoxs = (JArray)details["all_opers"];
+
             List<string> operHave = new List<string>();
             List<string> operNotHave = new List<string>();
 
@@ -396,61 +419,50 @@ namespace MaaWpfGui.ViewModels.UI
             /*移除未实装干员*/
             operNotHave = operNotHave.Except(second: VirtuallyOpers).ToList();
 
-            result = "已拥有：" + operHave.Count.ToString() + "名，未拥有：" + operNotHave.Count.ToString() + "名；" + "\n\n";
-            result += "以下干员未拥有：\n\t";
-            int count = 0;
+            int newline_flag = 0;
+            string operNotHaveNames = "\t";
+
             foreach (var name in operNotHave)
             {
-                result += name + "\t";
-                if (count++ == 3)
+                operNotHaveNames += PadRightEx(name, 12) + "\t";
+                if (newline_flag++ == 3)
                 {
-                    result += "\n\t";
-                    count = 0;
+                    operNotHaveNames += "\n\t";
+                    newline_flag = 0;
                 }
             }
 
-            result += "\n\n以下干员已拥有：\n\n\t";
-            count = 0;
+            newline_flag = 0;
+            string operHaveNames = "\t";
             foreach (var name in operHave)
             {
-                result += name + "\t";
-                if (count++ == 3)
+                operHaveNames += PadRightEx(name, 12) + "\t";
+                if (newline_flag++ == 3)
                 {
-                    result += "\n\t";
-                    count = 0;
+                    operHaveNames += "\n\t";
+                    newline_flag = 0;
                 }
             }
 
-            OperBoxResult = result;
             bool done = (bool)details["done"];
             if (done)
             {
                 OperBoxInfo = LocalizationHelper.GetString("IdentificationCompleted") + "\n" + LocalizationHelper.GetString("OperBoxRecognitionTip");
-                OperBoxDone = true;
+                OperBoxResult = string.Format(LocalizationHelper.GetString("OperBoxRecognitionResult"), operNotHave.Count, operNotHaveNames, operHave.Count, operHaveNames);
+                _operBoxExportData = details["own_opers"].ToString();
+            }
+            else
+            {
+                OperBoxResult = operHaveNames;
             }
 
             return true;
         }
 
-        private bool _operBoxDone = false;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether depot info is parsed.
-        /// </summary>
-        public bool OperBoxDone
-        {
-            get => _operBoxDone;
-            set => SetAndNotify(ref _operBoxDone, value);
-        }
-
-        private void ClearResult()
-        {
-            OperBoxResult = string.Empty;
-            OperBoxDone = false;
-        }
-
         public async void StartOperBox()
         {
+            _operBoxExportData = string.Empty;
+
             string errMsg = string.Empty;
             OperBoxInfo = LocalizationHelper.GetString("ConnectingToEmulator");
             bool caught = await Task.Run(() => _asstProxy.AsstConnect(ref errMsg));
@@ -460,11 +472,23 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            OperBoxInfo = LocalizationHelper.GetString("Identifying");
-            ClearResult();
-
-            _asstProxy.AsstStartOperBox();
+            if (_asstProxy.AsstStartOperBox())
+            {
+                OperBoxInfo = LocalizationHelper.GetString("Identifying");
+            }
         }
-        #endregion
+
+        public void ExportOperBox()
+        {
+            if (string.IsNullOrEmpty(_operBoxExportData))
+            {
+                return;
+            }
+
+            Clipboard.SetDataObject(_operBoxExportData);
+            OperBoxInfo = LocalizationHelper.GetString("CopiedToClipboard");
+        }
+
+        #endregion OperBox
     }
 }

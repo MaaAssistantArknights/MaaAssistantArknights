@@ -3,10 +3,11 @@
 #include "Utils/NoWarningCV.h"
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
+#include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
-#include "Config/TemplResource.h"
 #include "Utils/Logger.hpp"
 #include "Vision/MatchImageAnalyzer.h"
+#include "Vision/OcrWithFlagTemplImageAnalyzer.h"
 #include "Vision/OcrWithPreprocessImageAnalyzer.h"
 
 #include <Vision/OcrWithFlagTemplImageAnalyzer.h>
@@ -19,7 +20,7 @@ asst::OperBoxImageAnalyzer::OperBoxImageAnalyzer(const cv::Mat& image)
 bool asst::OperBoxImageAnalyzer::analyze()
 {
     LogTraceFunction;
-    oper_box_clear();
+    m_oper_box_clear();
     //bool oper_box = analyzer_opers();
     //bool oper_box = analyzer_opers_box();
     bool oper_box = analyzer_box();
@@ -34,35 +35,19 @@ bool asst::OperBoxImageAnalyzer::analyze()
 bool asst::OperBoxImageAnalyzer::analyzer_opers()
 {
     std::vector<asst::TextRect> oper_names_result;
-    oper_names_result.clear();
     const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
 
     OcrWithFlagTemplImageAnalyzer oper_name_analyzer(m_image);
 
     oper_name_analyzer.set_task_info("OperBoxFlagLV", "OperBoxNameOCR");
     oper_name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
-    oper_name_analyzer.analyze();
-
-    oper_names_result = oper_name_analyzer.get_result();
-    // 按位置排个序-先直接copy代码过来，后面可能重构 （
-    // +---+
-    // |1 3|
-    // |2 4|
-    // +---+
-    ranges::sort(oper_names_result, [](const TextRect& lhs, const TextRect& rhs) -> bool {
-        if (std::abs(lhs.rect.x - rhs.rect.x) < 5) { // x差距较小则理解为是同一排的，按y排序
-            return lhs.rect.y < rhs.rect.y;
-        }
-        else {
-            return lhs.rect.x < rhs.rect.x;
-        }
-    });
-
-    if (oper_names_result.empty()) {
+    const auto& all_opers = BattleData.get_all_oper_names();
+    oper_name_analyzer.set_required(std::vector(all_opers.begin(), all_opers.end()));
+    if (!oper_name_analyzer.analyze()) {
         return false;
     }
 
-    for (auto& opername : oper_names_result) {
+    for (auto& opername : oper_name_analyzer.get_result()) {
         OperBoxInfo oper_info;
         oper_info.name = std::move(opername.text);
         m_current_page_opers.emplace_back(oper_info);

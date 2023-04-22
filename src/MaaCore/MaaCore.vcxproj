@@ -158,7 +158,6 @@
     <ClInclude Include="Task\Miscellaneous\CreditFightTask.h" />
     <ClInclude Include="Task\Miscellaneous\CreditShoppingTask.h" />
     <ClInclude Include="Task\Miscellaneous\DepotRecognitionTask.h" />
-    <ClInclude Include="Task\Miscellaneous\GameCrashRestartTaskPlugin.h" />
     <ClInclude Include="Task\Miscellaneous\StartGameTaskPlugin.h" />
     <ClInclude Include="Task\Miscellaneous\StopGameTaskPlugin.h" />
     <ClInclude Include="Task\PackageTask.h" />
@@ -308,7 +307,6 @@
     <ClCompile Include="Task\Miscellaneous\CreditFightTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\CreditShoppingTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\DepotRecognitionTask.cpp" />
-    <ClCompile Include="Task\Miscellaneous\GameCrashRestartTaskPlugin.cpp" />
     <ClCompile Include="Task\Miscellaneous\StartGameTaskPlugin.cpp" />
     <ClCompile Include="Task\Miscellaneous\StopGameTaskPlugin.cpp" />
     <ClCompile Include="Task\PackageTask.cpp" />

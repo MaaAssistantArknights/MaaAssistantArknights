@@ -487,6 +487,7 @@ namespace MaaWpfGui.ViewModels.UI
                     StartInfo = new ProcessStartInfo
                     {
                         FileName = StartsWithScript,
+
                         // FileName = "cmd.exe",
                         // Arguments = $"/c {StartsWithScript}",
                     },
@@ -515,6 +516,7 @@ namespace MaaWpfGui.ViewModels.UI
                     StartInfo = new ProcessStartInfo
                     {
                         FileName = EndsWithScript,
+
                         // FileName = "cmd.exe",
                         // Arguments = $"/c {EndsWithScript}",
                     },
@@ -975,7 +977,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _dormFilterNotStationedEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.DormFilterNotStationedEnabled, false.ToString());
+        private string _dormFilterNotStationedEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.DormFilterNotStationedEnabled, true.ToString());
 
         /// <summary>
         /// Gets or sets a value indicating whether the not stationed filter in dorm is enabled.
@@ -990,7 +992,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _dormTrustEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.DormTrustEnabled, true.ToString());
+        private string _dormTrustEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.DormTrustEnabled, false.ToString());
 
         /// <summary>
         /// Gets or sets a value indicating whether get trust in dorm is enabled.
@@ -2526,11 +2528,25 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        /// <summary>
+        /// 表示深色模式的类型。
+        /// </summary>
         public enum DarkModeType
         {
+            /// <summary>
+            /// 明亮的主题。
+            /// </summary>
             Light,
+
+            /// <summary>
+            /// 暗黑的主题。
+            /// </summary>
             Dark,
-            SyncWithOS
+
+            /// <summary>
+            /// 与操作系统的深色模式同步。
+            /// </summary>
+            SyncWithOS,
         }
 
         private DarkModeType _darkModeType =

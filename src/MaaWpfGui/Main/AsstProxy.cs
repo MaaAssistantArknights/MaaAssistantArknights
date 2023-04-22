@@ -70,7 +70,7 @@ namespace MaaWpfGui.Main
         [DllImport("MaaCore.dll")]
         private static extern unsafe bool AsstLoadResource(byte* dirname);
 
-        private static unsafe bool AsstLoadResource(string dirname)
+        public static unsafe bool AsstLoadResource(string dirname)
         {
             fixed (byte* ptr = EncodeNullTerminatedUTF8(dirname))
             {
@@ -761,10 +761,6 @@ namespace MaaWpfGui.Main
                         _taskQueueViewModel.AddLog(LocalizationHelper.GetString("UpperLimit"), UiLogColor.Info);
                         break;
 
-                    case "RestartGameAndContinue":
-                        _taskQueueViewModel.AddLog(LocalizationHelper.GetString("GameCrash"), UiLogColor.Warning);
-                        break;
-
                     case "OfflineConfirm":
                         if (_settingsViewModel.AutoRestartOnDrop)
                         {
@@ -799,7 +795,10 @@ namespace MaaWpfGui.Main
             }
         }
 
+#pragma warning disable IDE0060 // 删除未使用的参数
+
         private void ProcSubTaskCompleted(JObject details)
+#pragma warning restore IDE0060 // 删除未使用的参数
         {
         }
 
@@ -1143,9 +1142,11 @@ namespace MaaWpfGui.Main
                     // string p = @"C:\tmp\this path contains spaces, and,commas\target.txt";
                     string args = string.Format("/e, /select, \"{0}\"", filename);
 
-                    ProcessStartInfo info = new ProcessStartInfo();
-                    info.FileName = "explorer";
-                    info.Arguments = args;
+                    ProcessStartInfo info = new ProcessStartInfo
+                    {
+                        FileName = "explorer",
+                        Arguments = args,
+                    };
                     Process.Start(info);
                     break;
             }
@@ -1488,9 +1489,9 @@ namespace MaaWpfGui.Main
         /// <param name="dorm_filter_not_stationed_enabled">宿舍是否使用未进驻筛选标签</param>
         /// <param name="dorm_dorm_trust_enabled">宿舍是否使用蹭信赖功能</param>
         /// <param name="originium_shard_auto_replenishment">制造站搓玉是否补货</param>
-        /// <param name="is_custom"></param>
-        /// <param name="filename"></param>
-        /// <param name="plan_index"></param>
+        /// <param name="is_custom">是否开启自定义配置</param>
+        /// <param name="filename">自定义配置文件路径</param>
+        /// <param name="plan_index">自定义配置计划编号</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendInfrast(string[] order, string uses_of_drones, double dorm_threshold,
             bool dorm_filter_not_stationed_enabled, bool dorm_dorm_trust_enabled, bool originium_shard_auto_replenishment,
@@ -1827,6 +1828,9 @@ namespace MaaWpfGui.Main
         /// </summary>
         AdbLiteEnabled = 4,
 
+        /// <summary>
+        /// Indicates whether the ADB server process should be killed when the instance is exited.
+        /// </summary>
         KillAdbOnExit = 5,
     }
 }

@@ -15,15 +15,15 @@ bool asst::OperBoxRecognitionTask::_run()
 {
     LogTraceFunction;
 
-    bool oper = swipe_and_analyze();
+    bool ret = swipe_and_analyze();
     callback_analyze_result(true);
-    return oper;
+    return ret;
 }
 bool asst::OperBoxRecognitionTask::swipe_and_analyze()
 {
     LogTraceFunction;
     std::string current_page_last_oper_name = "";
-    own_opers.clear();
+    m_own_opers.clear();
 
     //测试
     bool test = true;
@@ -38,7 +38,7 @@ bool asst::OperBoxRecognitionTask::swipe_and_analyze()
     }
 
 
-    while (true) {
+    while (!need_exit()) {
         OperBoxImageAnalyzer analyzer(ctrler()->get_image());
 
         auto future = std::async(std::launch::async, [&]() { swipe_page(); });
@@ -46,17 +46,20 @@ bool asst::OperBoxRecognitionTask::swipe_and_analyze()
         if (!analyzer.analyze()) {
             break;
         }
-        auto opers_result = analyzer.get_result_box();
+        const auto& opers_result = analyzer.get_result_box();
         if (opers_result.back().name == current_page_last_oper_name) {
             break;
         }
         else {
             current_page_last_oper_name = opers_result.back().name;
-            own_opers.insert(own_opers.end(), opers_result.begin(), opers_result.end());
+            for (const auto& box_info : opers_result) {
+                m_own_opers.emplace(box_info.name, box_info);
+            }
+            callback_analyze_result(false);
         }
         future.wait();
     }
-    return !own_opers.empty();
+    return !m_own_opers.empty();
 }
 
 void asst::OperBoxRecognitionTask::swipe_page()
@@ -70,32 +73,27 @@ void asst::OperBoxRecognitionTask::callback_analyze_result(bool done)
     // 获取所有干员名
     const auto& all_oper_names = BattleData.get_all_oper_names();
 
-    // 获取识别干员名
-    const auto own_oper_names = get_own_oper_names();
-
-    json::value info = basic_info_with_what("OperInfo");
+    json::value info = basic_info_with_what("OperBoxInfo");
     auto& details = info["details"];
     details["done"] = done;
-    auto& box_oper = details["operbox"];
+    auto& all_opers = details["all_opers"].as_array();
+    auto& own_opers = details["own_opers"].as_array();
 
     for (const auto& name : all_oper_names) {
-        box_oper.array_emplace(json::object { 
-            { "id", BattleData.get_id(name) }, 
-            { "name", name }, 
-            { "own", (own_oper_names.find(name) != own_oper_names.end()) }
-        }); 
+        bool own = m_own_opers.contains(name);
+        all_opers.emplace_back(json::object {
+            { "id", BattleData.get_id(name) },
+            { "name", name },
+            { "own", own },
+        });
+        if (own) {
+            own_opers.emplace_back(json::object {
+                { "id", BattleData.get_id(name) }, { "name", name }, { "own", own },
+                // TODO
+                // { "elite", 0 }, { "level", 0 },
+            });
+        }
     }
 
     callback(AsstMsg::SubTaskExtraInfo, info);
-}
-
-std::unordered_set<std::string> asst::OperBoxRecognitionTask::get_own_oper_names()
-{
-    LogTraceFunction;
-    std::unordered_set<std::string> own_oper_names;
-
-    for (auto& oper_info : own_opers) {
-        own_oper_names.insert(std::move(oper_info.name));
-    }
-    return own_oper_names;
 }

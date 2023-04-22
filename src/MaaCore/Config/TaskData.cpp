@@ -3,6 +3,10 @@
 #include <algorithm>
 #include <meojson/json.hpp>
 
+#ifdef ASST_DEBUG
+#include <queue>
+#endif
+
 #include "Common/AsstTypes.h"
 #include "GeneralConfig.h"
 #include "TemplResource.h"
@@ -107,10 +111,15 @@ bool asst::TaskData::parse(const json::value& json)
                     if (auto opt = task_json.find<std::string>("baseTask")) {
                         // BaseTask
                         std::string base = opt.value();
-                        if (!base.empty()) {
+                        if (base == "#none") {
+                            // `"baseTask": "#none"` 表示不使用已生成的同名任务
+                        }
+                        else if (base.empty()) {
+                            Log.warn("Use `\"baseTask\": \"#none\"` instead of `\"baseTask\": \"\"` in Task", name);
+                        }
+                        else {
                             return generate_fun(base, must_true) && generate_task(name, "", get_raw(base), task_json);
                         }
-                        // `"baseTask": ""` 表示不使用已生成的同名任务
                     }
                     else if (m_raw_all_tasks_info.contains(name)) {
                         // 已生成（外服覆写国服资源）
@@ -140,9 +149,10 @@ bool asst::TaskData::parse(const json::value& json)
             generate_task_and_its_base(name);
         }
 
-        // 延迟生成，等到一个任务被第一次 get 的时候才生成
+        // 延迟展开，等到一个任务被第一次 get 的时候才展开
+        // debug 时为了做语法检查，会 *提前* 展开
         /*
-        // 生成 # 型任务
+        // 展开 # 型任务
         for (const auto& [name, old_task] : m_raw_all_tasks_info) {
             expand_task(name, old_task);
         }
@@ -153,12 +163,20 @@ bool asst::TaskData::parse(const json::value& json)
     {
         bool validity = true;
 
-        // 语法检查
+        std::queue<std::string_view> task_queue;
+        std::unordered_set<std::string_view> checking_task_set;
         for (const auto& [name, task_json] : json_obj) [[likely]] {
+            // 语法检查
             validity &= syntax_check(name, task_json);
+            task_queue.push(name);
+            checking_task_set.insert(name);
         }
 
-        for (const auto& [name, task] : m_all_tasks_info) {
+        const size_t MAX_CHECKING_SIZE = 3000;
+        while (!task_queue.empty() || checking_task_set.size() > MAX_CHECKING_SIZE) {
+            std::string_view name = task_queue.front();
+            task_queue.pop();
+            auto task = get(name); // 这里会提前展开任务
             auto check_tasklist = [&](const tasklist_t& task_list, std::string_view list_type,
                                       bool enable_justreturn_check = false) {
                 std::unordered_set<std::string_view> tasks_set {};
@@ -167,10 +185,15 @@ bool asst::TaskData::parse(const json::value& json)
                     if (tasks_set.contains(task_name)) [[unlikely]] {
                         continue;
                     }
+                    if (!checking_task_set.contains(task_name)) {
+                        task_queue.emplace(task_name_view(task_name));
+                        checking_task_set.emplace(task_name_view(task_name));
+                    }
                     // 检查是否有 JustReturn 任务不是最后一个任务
                     if (enable_justreturn_check && !justreturn_task_name.empty()) [[unlikely]] {
                         Log.error((std::string(name) += "->") += list_type,
                                   "has a not-final JustReturn task:", justreturn_task_name);
+                        justreturn_task_name = "";
                         validity = false;
                     }
 
@@ -187,13 +210,24 @@ bool asst::TaskData::parse(const json::value& json)
 
                 return true;
             };
-            check_tasklist(task->next, "next", true);
+            bool enable_justreturn_check = true;
+            if (name.ends_with("LoadingText") || name.ends_with("LoadingIcon")) {
+                // 放宽对 Loading 类任务的限制，不然 JustReturn 的任务如果本身有 JR 的 next，就不能 @Loading 了
+                enable_justreturn_check = false;
+            }
+            check_tasklist(task->next, "next", enable_justreturn_check);
             check_tasklist(task->sub, "sub");
-            check_tasklist(task->exceeded_next, "exceeded_next", true);
-            check_tasklist(task->on_error_next, "on_error_next", true);
+            check_tasklist(task->exceeded_next, "exceeded_next", enable_justreturn_check);
+            check_tasklist(task->on_error_next, "on_error_next", enable_justreturn_check);
             check_tasklist(task->reduce_other_times, "reduce_other_times");
         }
-
+        if (checking_task_set.size() > MAX_CHECKING_SIZE) {
+            // 生成超出上限一般是出现了会导致无限隐式生成的任务。比如 "#self@LoadingText". 这里给个警告.
+            Log.warn("Generating exceeded limit when syntax_check.");
+        }
+        else {
+            Log.trace(checking_task_set.size(), "tasks checked.");
+        }
         if (!validity) return false;
     }
 #endif

@@ -21,7 +21,6 @@ namespace asst
         OperBoxImageAnalyzer() = default;
         OperBoxImageAnalyzer(const cv::Mat& image);
         virtual ~OperBoxImageAnalyzer() override = default;
-
         virtual bool analyze() override;
 
         const auto& get_result_box() const noexcept { return m_current_page_opers; }

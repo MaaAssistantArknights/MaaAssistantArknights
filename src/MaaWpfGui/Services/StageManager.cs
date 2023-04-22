@@ -14,16 +14,19 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Semver;
 using Serilog;
@@ -84,11 +87,24 @@ namespace MaaWpfGui.Services
 
         public async Task UpdateStageWeb()
         {
-            if (await CheckWebUpdate())
+            if (!await CheckWebUpdate())
             {
-                UpdateStageInternal(await LoadWebStages());
                 return;
             }
+
+            static string generateJsonString(bool allFileDownloadComplete)
+            {
+                JObject json = new JObject
+                {
+                    ["allFileDownloadComplete"] = allFileDownloadComplete,
+                };
+                return JsonConvert.SerializeObject(json);
+            }
+
+            var filePath = "cache/allFileDownloadComplete.json";
+            File.WriteAllText(filePath, generateJsonString(false));
+            UpdateStageInternal(await LoadWebStages());
+            File.WriteAllText(filePath, generateJsonString(true));
         }
 
         private string GetClientType()
@@ -107,7 +123,6 @@ namespace MaaWpfGui.Services
         private JObject LoadLocalStages()
         {
             JObject activity = _maaApiService.LoadApiCache(StageApi);
-            JObject tasksJson = _maaApiService.LoadApiCache(TasksApi);
             return activity;
         }
 
@@ -115,13 +130,16 @@ namespace MaaWpfGui.Services
         {
             // Check if we need to update from the web
             string lastUpdateTimeFile = "lastUpdateTime.json";
+            string allFileDownloadCompleteFile = "allFileDownloadComplete.json";
             JObject localLastUpdatedJson = _maaApiService.LoadApiCache(lastUpdateTimeFile);
+            JObject allFileDownloadCompleteJson = _maaApiService.LoadApiCache(allFileDownloadCompleteFile);
             JObject webLastUpdatedJson = await _maaApiService.RequestMaaApiWithCache(lastUpdateTimeFile).ConfigureAwait(false);
             if (localLastUpdatedJson != null && webLastUpdatedJson != null)
             {
                 long localTimestamp = localLastUpdatedJson["timestamp"].ToObject<long>();
                 long webTimestamp = webLastUpdatedJson["timestamp"].ToObject<long>();
-                if (webTimestamp <= localTimestamp)
+                bool allFileDownloadComplete = allFileDownloadCompleteJson?["allFileDownloadComplete"]?.ToObject<bool>() ?? false;
+                if (webTimestamp <= localTimestamp && allFileDownloadComplete)
                 {
                     return false;
                 }
@@ -136,6 +154,7 @@ namespace MaaWpfGui.Services
 
             JObject activity = await _maaApiService.RequestMaaApiWithCache(StageApi);
             JObject tasksJson = await _maaApiService.RequestMaaApiWithCache(TasksApi);
+            AsstProxy.AsstLoadResource(Directory.GetCurrentDirectory() + "\\cache");
 
             if (clientType != "Official" && tasksJson != null)
             {
@@ -145,6 +164,7 @@ namespace MaaWpfGui.Services
                 // TODO: There may be an issue when the CN resource is loaded from cache (e.g. network down) while global resource is downloaded (e.g. network up again)
                 // var tasksJsonClient = fromWeb ? WebService.RequestMaaApiWithCache(tasksPath) : WebService.RequestMaaApiWithCache(tasksPath);
                 await _maaApiService.RequestMaaApiWithCache(tasksPath);
+                AsstProxy.AsstLoadResource(Directory.GetCurrentDirectory() + "\\cache\\resource\\global\\" + clientType);
             }
 
             return activity;
@@ -207,7 +227,7 @@ namespace MaaWpfGui.Services
                             if (!isDebugVersion)
                             {
                                 // &&(!minResourceRequiredParsed || curResourceVersionObj.CompareSortOrderTo(minResourceRequiredObj) < 0)
-                                if (curVersionObj.CompareSortOrderTo(minRequiredObj) < 0)
+                                if (isDebugVersion || curVersionObj.CompareSortOrderTo(minRequiredObj) < 0)
                                 {
                                     if (!tempStage.ContainsKey(LocalizationHelper.GetString("UnsupportedStages")))
                                     {
@@ -215,7 +235,8 @@ namespace MaaWpfGui.Services
                                         {
                                             Display = LocalizationHelper.GetString("UnsupportedStages"),
                                             Value = LocalizationHelper.GetString("UnsupportedStages"),
-                                            Drop = LocalizationHelper.GetString("LowVersion"),
+                                            Drop = LocalizationHelper.GetString("LowVersion") + '\n' +
+                                                   LocalizationHelper.GetString("MinimumRequirements") + minRequiredObj.ToString(),
                                             Activity = new StageActivityInfo()
                                             {
                                                 Tip = stageObj["Activity"]?["Tip"]?.ToString(),
@@ -261,7 +282,7 @@ namespace MaaWpfGui.Services
                 }
                 catch (Exception e)
                 {
-                    _logger.Error(e, "解析 Stage 资源失败");
+                    _logger.Error(e, "Failed to parse Cache Stage resources");
                 }
             }
 

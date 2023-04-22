@@ -25,6 +25,11 @@
 
 bool asst::ResourceLoader::load(const std::filesystem::path& path)
 {
+    if (!std::filesystem::exists(path)) {
+        Log.error("Resource path not exists, path:", path);
+        return false;
+    }
+
 #define LoadResourceAndCheckRet(Config, Filename)                         \
     {                                                                     \
         LogTraceScope(std::string("LoadResourceAndCheckRet ") + #Config); \
