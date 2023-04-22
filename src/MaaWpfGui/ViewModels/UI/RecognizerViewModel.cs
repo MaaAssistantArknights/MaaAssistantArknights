@@ -376,9 +376,12 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _operBoxResult, value);
         }
 
+        private string _operBoxExportData = string.Empty;
+
         public bool OperBoxParse(JObject details)
         {
-            JArray operBoxs = (JArray)details["operbox"];
+            JArray operBoxs = (JArray)details["all_opers"];
+
             List<string> operHave = new List<string>();
             List<string> operNotHave = new List<string>();
 
@@ -429,6 +432,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 OperBoxInfo = LocalizationHelper.GetString("IdentificationCompleted") + "\n" + LocalizationHelper.GetString("OperBoxRecognitionTip");
                 OperBoxResult = string.Format(LocalizationHelper.GetString("OperBoxRecognitionResult"), operNotHave.Count, operNotHaveNames, operHave.Count, operHaveNames);
+                _operBoxExportData = details["own_opers"].ToString();
             }
             else
             {
@@ -440,6 +444,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         public async void StartOperBox()
         {
+            _operBoxExportData = string.Empty;
+
             string errMsg = string.Empty;
             OperBoxInfo = LocalizationHelper.GetString("ConnectingToEmulator");
             bool caught = await Task.Run(() => _asstProxy.AsstConnect(ref errMsg));
@@ -453,6 +459,17 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 OperBoxInfo = LocalizationHelper.GetString("Identifying");
             }
+        }
+
+        public void ExportOperBox()
+        {
+            if (string.IsNullOrEmpty(_operBoxExportData))
+            {
+                return;
+            }
+
+            Clipboard.SetDataObject(_operBoxExportData);
+            OperBoxInfo = LocalizationHelper.GetString("CopiedToClipboard");
         }
 
         #endregion OperBox

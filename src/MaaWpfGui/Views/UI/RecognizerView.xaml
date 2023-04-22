@@ -5,25 +5,24 @@
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:styles="clr-namespace:MaaWpfGui.Styles"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
     xmlns:vm="clr-namespace:MaaWpfGui"
-    xmlns:hc="https://handyorg.github.io/handycontrol"
     d:DataContext="{d:DesignInstance {x:Type ui:RecognizerViewModel}}"
     d:DesignHeight="1200"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <TabControl
-        SelectedIndex="3"
         Margin="0,10"
         BorderThickness="0"
+        SelectedIndex="3"
         Style="{StaticResource TabControlSliding}">
         <TabItem Header="{DynamicResource RecruitmentRecognition}">
-            <Grid
-                Margin="20,0,20,20">
+            <Grid Margin="20,0,20,20">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="150" />
@@ -31,8 +30,8 @@
                 <hc:ScrollViewer
                     Grid.Row="0"
                     Margin="10,0"
-                    IsInertiaEnabled="True"
-                    VerticalAlignment="Top">
+                    VerticalAlignment="Top"
+                    IsInertiaEnabled="True">
                     <StackPanel>
                         <controls:TextBlock
                             Height="36"
@@ -112,8 +111,7 @@
             </Grid>
         </TabItem>
         <TabItem Header="{DynamicResource DepotRecognition}">
-            <Grid
-                Margin="20,0,20,20">
+            <Grid Margin="20,0,20,20">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="150" />
@@ -121,8 +119,8 @@
                 <hc:ScrollViewer
                     Grid.Row="0"
                     Margin="10,0"
-                    IsInertiaEnabled="True"
-                    VerticalAlignment="Top">
+                    VerticalAlignment="Top"
+                    IsInertiaEnabled="True">
                     <StackPanel>
                         <controls:TextBlock
                             Height="36"
@@ -177,17 +175,16 @@
             </Grid>
         </TabItem>
         <TabItem Header="{DynamicResource OperBoxRecognition}">
-            <Grid
-                Margin="20,0,20,20">
+            <Grid Margin="20,0,20,20">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="150"/>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="150" />
                 </Grid.RowDefinitions>
                 <hc:ScrollViewer
                     Grid.Row="0"
                     Margin="10,0"
-                    IsInertiaEnabled="True"
-                    VerticalAlignment="Top">
+                    VerticalAlignment="Top"
+                    IsInertiaEnabled="True">
                     <StackPanel>
                         <controls:TextBlock
                             Height="36"
@@ -197,15 +194,14 @@
                             FontSize="14"
                             Style="{StaticResource TextBlockDefaultBold}"
                             Text="{Binding OperBoxInfo}"
-                            TextWrapping="Wrap"/>
+                            TextWrapping="Wrap" />
                         <controls:TextBlock
                             Margin="10"
                             HorizontalAlignment="Left"
                             FontSize="14"
                             Text="{Binding OperBoxResult}"
-                            TextWrapping="Wrap"/>
+                            TextWrapping="Wrap" />
                     </StackPanel>
-
                 </hc:ScrollViewer>
                 <StackPanel
                     Grid.Row="1"
@@ -216,12 +212,15 @@
                     <Button
                         Width="180"
                         Height="70"
-                        Margin="482,0,0,0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
+                        Margin="30"
+                        Command="{s:Action ExportOperBox}"
+                        Content="{DynamicResource OperBoxCopyToClipboard}" />
+                    <Button
+                        Width="180"
+                        Height="70"
+                        Margin="30"
                         Command="{s:Action StartOperBox}"
-                        Content="{DynamicResource BeganToOperBoxRecognition}"
-                        />
+                        Content="{DynamicResource BeganToOperBoxRecognition}" />
                 </StackPanel>
             </Grid>
         </TabItem>

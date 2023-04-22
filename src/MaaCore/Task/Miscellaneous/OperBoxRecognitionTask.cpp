@@ -62,14 +62,23 @@ void asst::OperBoxRecognitionTask::callback_analyze_result(bool done)
     json::value info = basic_info_with_what("OperBoxInfo");
     auto& details = info["details"];
     details["done"] = done;
-    auto& box_oper = details["operbox"].as_array();
+    auto& all_opers = details["all_opers"].as_array();
+    auto& own_opers = details["own_opers"].as_array();
 
     for (const auto& name : all_oper_names) {
-        box_oper.emplace_back(json::object {
+        bool own = m_own_opers.contains(name);
+        all_opers.emplace_back(json::object {
             { "id", BattleData.get_id(name) },
             { "name", name },
-            { "own", m_own_opers.contains(name) },
+            { "own", own },
         });
+        if (own) {
+            own_opers.emplace_back(json::object {
+                { "id", BattleData.get_id(name) }, { "name", name }, { "own", own },
+                // TODO
+                // { "elite", 0 }, { "level", 0 },
+            });
+        }
     }
 
     callback(AsstMsg::SubTaskExtraInfo, info);
