@@ -13,7 +13,7 @@
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
     xmlns:vm="clr-namespace:MaaWpfGui"
     d:DataContext="{d:DesignInstance {x:Type ui:RecognizerViewModel}}"
-    d:DesignHeight="1200"
+    d:DesignHeight="600"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <TabControl
