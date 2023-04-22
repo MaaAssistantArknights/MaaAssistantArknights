@@ -9,6 +9,7 @@
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
 #include "Vision/OcrImageAnalyzer.h"
+#include "Vision/MatchImageAnalyzer.h"
 #include "Vision/Roguelike/RoguelikeRecruitImageAnalyzer.h"
 #include "Vision/Roguelike/RoguelikeRecruitSupportAnalyzer.h"
 
@@ -160,12 +161,19 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     // 开始识别前先往前翻两页，是方舟的bug，有可能进招募界面时不是从最左边开始
     swipe_to_the_left_of_operlist();
 
+    bool temp_recruit_exist = false; // 检测是否存在临时招募
+    auto image = ctrler()->get_image();
+    MatchImageAnalyzer temp_recruit_analyzer(image);
+    temp_recruit_analyzer.set_task_info("Roguelike@TempRecruitFlag");
+    temp_recruit_exist = temp_recruit_analyzer.analyze();
+    Log.trace(__FUNCTION__, "temp_recruit_exist", temp_recruit_exist);
+
     // 翻页找出所有候选干员
     for (; i != SwipeTimes; ++i) {
         if (need_exit()) {
             return false;
         }
-        auto image = ctrler()->get_image();
+        image = ctrler()->get_image();
         RoguelikeRecruitImageAnalyzer analyzer(image);
         if (!analyzer.analyze()) {
             Log.trace(__FUNCTION__, "| Page", i, "recruit list analyse failed");
@@ -209,10 +217,6 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
             // 查询招募配置
             auto& recruit_info = RoguelikeRecruit.get_oper_info(rogue_theme, oper_info.name);
-            if (recruit_info.name.empty()) {
-                continue;
-            }
-
             int priority = 0;
 
             // 查询编队是否已持有该干员
@@ -228,6 +232,10 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                     // 干员待晋升
                     priority = team_full_without_rookie ? recruit_info.promote_priority_when_team_full
                                                         : recruit_info.promote_priority;
+                    if (temp_recruit_exist) { // 临时招募干员的进阶优先级略微提高
+                        priority += 150;
+                        temp_recruit_exist = false;
+                    }
                 }
             }
             else {
@@ -248,6 +256,11 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                     // 精一50级以下，默认不招募
                     Log.trace(__FUNCTION__, "| Ignored low level oper:", oper_info.name, oper_info.elite,
                               oper_info.level);
+                }
+
+                if (temp_recruit_exist) { // 临时招募干员具有极高抓取优先级
+                    priority += 1800;
+                    temp_recruit_exist = false;
                 }
 
                 if (!recruit_info.is_alternate) {
@@ -348,7 +361,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             swipe_to_the_left_of_operlist(i + 1);
         }
 
-        auto image = ctrler()->get_image();
+        image = ctrler()->get_image();
         RoguelikeRecruitImageAnalyzer analyzer(image);
         if (!analyzer.analyze()) {
             Log.error(__FUNCTION__, "| Random recruitment analyse failed");
