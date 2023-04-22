@@ -70,7 +70,7 @@ namespace MaaWpfGui.Main
         [DllImport("MaaCore.dll")]
         private static extern unsafe bool AsstLoadResource(byte* dirname);
 
-        public static unsafe bool AsstLoadResource(string dirname)
+        private static unsafe bool AsstLoadResource(string dirname)
         {
             fixed (byte* ptr = EncodeNullTerminatedUTF8(dirname))
             {
@@ -199,10 +199,11 @@ namespace MaaWpfGui.Main
         /// <summary>
         /// 加载全局资源。
         /// </summary>
+        /// <param name="onlyReloadOTA">是否强制加载ota资源。</param>
         /// <returns>是否成功。</returns>
-        public bool LoadResource()
+        public bool LoadResource(bool onlyReloadOTA = false)
         {
-            if (!ForcedReloadResource && _settingsViewModel.ClientType == _curResource)
+            if (!ForcedReloadResource && !onlyReloadOTA && _settingsViewModel.ClientType == _curResource)
             {
                 return true;
             }
@@ -212,12 +213,15 @@ namespace MaaWpfGui.Main
                 || _settingsViewModel.ClientType == "Official" || _settingsViewModel.ClientType == "Bilibili")
             {
                 // The resources of Official and Bilibili are the same
-                if (!ForcedReloadResource && (_curResource == "Official" || _curResource == "Bilibili"))
+                if (!ForcedReloadResource && !onlyReloadOTA && (_curResource == "Official" || _curResource == "Bilibili"))
                 {
                     return true;
                 }
 
-                loaded = AsstLoadResource(Directory.GetCurrentDirectory());
+                if (!onlyReloadOTA)
+                {
+                    loaded = AsstLoadResource(Directory.GetCurrentDirectory());
+                }
 
                 // Load the cached incremental resources
                 loaded = loaded && AsstLoadResource(Directory.GetCurrentDirectory() + "\\cache");
@@ -226,17 +230,24 @@ namespace MaaWpfGui.Main
             {
                 // Load basic resources for CN client first
                 // Then load global incremental resources
-                loaded = AsstLoadResource(Directory.GetCurrentDirectory() + "\\resource\\global\\" + _settingsViewModel.ClientType);
+                if (!onlyReloadOTA)
+                {
+                    loaded = AsstLoadResource(Directory.GetCurrentDirectory() + "\\resource\\global\\" + _settingsViewModel.ClientType);
+                }
 
                 // Load the cached incremental resources
-                loaded = loaded && AsstLoadResource(Directory.GetCurrentDirectory() + "\\cache\\resource\\global\\" + _settingsViewModel.ClientType);
+                loaded = loaded && AsstLoadResource(Directory.GetCurrentDirectory() + "\\cache")
+                    && AsstLoadResource(Directory.GetCurrentDirectory() + "\\cache\\resource\\global\\" + _settingsViewModel.ClientType);
             }
             else
             {
                 // Load basic resources for CN client first
                 // Then load global incremental resources
-                loaded = AsstLoadResource(Directory.GetCurrentDirectory())
+                if (!onlyReloadOTA)
+                {
+                    loaded = AsstLoadResource(Directory.GetCurrentDirectory())
                     && AsstLoadResource(Directory.GetCurrentDirectory() + "\\resource\\global\\" + _settingsViewModel.ClientType);
+                }
 
                 // Load the cached incremental resources
                 loaded = loaded && AsstLoadResource(Directory.GetCurrentDirectory() + "\\cache")
