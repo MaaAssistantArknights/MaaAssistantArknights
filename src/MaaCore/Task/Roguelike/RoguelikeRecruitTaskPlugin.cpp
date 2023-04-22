@@ -191,7 +191,6 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
         int max_oper_x = 0;
         for (const auto& oper_info : oper_list) {
-            Log.info(__FUNCTION__, "| Operator", oper_info.name);
             oper_names.emplace(oper_info.name);
 
             max_oper_x = std::max(max_oper_x, oper_info.rect.x);
