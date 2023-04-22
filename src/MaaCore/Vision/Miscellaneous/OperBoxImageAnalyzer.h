@@ -29,9 +29,7 @@ namespace asst
         using OcrWithPreprocessImageAnalyzer::set_task_info;
         MultiMatchImageAnalyzer m_multi_match_image_analyzer;
     private:
-        bool analyzer_opers();
-        bool analyzer_opers_box();
-        bool analyzer_box();
+        bool analyzer_oper_box();
         // 按位置排序
         // 1 - 2 - 3
         // 4 - 5 - 6
@@ -40,18 +38,13 @@ namespace asst
         int level_num(std::string level);
 #ifdef ASST_DEBUG
         cv::Mat m_image_draw_oper;
+        void draft_img();
 #endif
         void oper_box_clear();
         void sort_all();
-        std::vector<asst::OperBoxInfo> m_current_page_opers;
-        std::unordered_map<std::string, asst::OperBoxInfo> m_result;
-
         bool get_all_info();
         //精英度与lv_flag是否相邻
         bool is_near(asst::Rect rect1, asst::Rect rect2);
-        //void 
-        void draft_img();
-
         //干员名
         std::vector<asst::TextRect> m_oper_names;
         //等级数
@@ -60,8 +53,10 @@ namespace asst
         std::vector<asst::MatchRect> m_lv_flags;
         //精英一位置
         std::vector<asst::MatchRect> m_elite_ones;
-
         // 精英二位置
         std::vector<asst::MatchRect> m_elite_twos;
+
+        std::vector<asst::OperBoxInfo> m_current_page_opers;
+        std::unordered_map<std::string, asst::OperBoxInfo> m_result;
     };
 }

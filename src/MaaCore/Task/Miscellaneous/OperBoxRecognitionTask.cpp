@@ -25,19 +25,6 @@ bool asst::OperBoxRecognitionTask::swipe_and_analyze()
     std::string current_page_last_oper_name = "";
     m_own_opers.clear();
 
-    //测试
-    bool test = true;
-    if (test) {
-        OperBoxImageAnalyzer analyzer(ctrler()->get_image());
-        if (!analyzer.analyze()) {
-            return false;
-        }
-        auto opers_result = analyzer.get_result_box();
-        own_opers.insert(own_opers.end(), opers_result.begin(), opers_result.end());
-        return true;
-    }
-
-
     while (!need_exit()) {
         OperBoxImageAnalyzer analyzer(ctrler()->get_image());
 
@@ -87,10 +74,10 @@ void asst::OperBoxRecognitionTask::callback_analyze_result(bool done)
             { "own", own },
         });
         if (own) {
+            const auto& box_info = m_own_opers[name];
             own_opers.emplace_back(json::object {
-                { "id", BattleData.get_id(name) }, { "name", name }, { "own", own },
+                { "id", BattleData.get_id(name) }, { "name", name }, { "own", own }, { "elite", box_info.elite }, { "level", box_info.level },
                 // TODO
-                // { "elite", 0 }, { "level", 0 },
             });
         }
     }
