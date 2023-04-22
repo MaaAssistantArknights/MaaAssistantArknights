@@ -432,9 +432,6 @@
     <ClInclude Include="Task\Miscellaneous\DepotRecognitionTask.h">
       <Filter>源文件\Task\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Miscellaneous\GameCrashRestartTaskPlugin.h">
-      <Filter>源文件\Task\Miscellaneous</Filter>
-    </ClInclude>
     <ClInclude Include="Task\Miscellaneous\StartGameTaskPlugin.h">
       <Filter>源文件\Task\Miscellaneous</Filter>
     </ClInclude>
@@ -849,9 +846,6 @@
       <Filter>源文件\Task\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Task\Miscellaneous\DepotRecognitionTask.cpp">
-      <Filter>源文件\Task\Miscellaneous</Filter>
-    </ClCompile>
-    <ClCompile Include="Task\Miscellaneous\GameCrashRestartTaskPlugin.cpp">
       <Filter>源文件\Task\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Task\Miscellaneous\StartGameTaskPlugin.cpp">

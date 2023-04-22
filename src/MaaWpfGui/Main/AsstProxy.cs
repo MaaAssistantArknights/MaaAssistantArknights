@@ -761,10 +761,6 @@ namespace MaaWpfGui.Main
                         _taskQueueViewModel.AddLog(LocalizationHelper.GetString("UpperLimit"), UiLogColor.Info);
                         break;
 
-                    case "RestartGameAndContinue":
-                        _taskQueueViewModel.AddLog(LocalizationHelper.GetString("GameCrash"), UiLogColor.Warning);
-                        break;
-
                     case "OfflineConfirm":
                         if (_settingsViewModel.AutoRestartOnDrop)
                         {
@@ -800,6 +796,7 @@ namespace MaaWpfGui.Main
         }
 
 #pragma warning disable IDE0060 // 删除未使用的参数
+
         private void ProcSubTaskCompleted(JObject details)
 #pragma warning restore IDE0060 // 删除未使用的参数
         {
