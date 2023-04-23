@@ -5,10 +5,9 @@
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
+#include "Vision/BestMatchImageAnalyzer.h"
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/OcrWithPreprocessImageAnalyzer.h"
-#include "Vision/BestMatchImageAnalyzer.h"
-
 
 asst::OperBoxImageAnalyzer::OperBoxImageAnalyzer(const cv::Mat& image)
     : OcrWithPreprocessImageAnalyzer(image), m_multi_match_image_analyzer(image)
@@ -18,9 +17,9 @@ bool asst::OperBoxImageAnalyzer::analyze()
     LogTraceFunction;
     m_current_page_opers.clear();
     m_lv_flags.clear();
-    
+
     bool oper_box = analyzer_oper_box();
-    
+
 #ifdef ASST_DEBUG
     m_image_draw = m_image_draw_oper;
 #endif
@@ -147,7 +146,7 @@ bool asst::OperBoxImageAnalyzer::analyzer_oper_box()
         Rect roi = box.rect.move(potential_roi);
         potential_analyzer.set_roi(roi);
         if (!potential_analyzer.analyze()) {
-            box.potential= 0;
+            box.potential = 0;
         }
         else {
             const auto& templ_name = potential_analyzer.get_result().name;
@@ -161,11 +160,10 @@ bool asst::OperBoxImageAnalyzer::analyzer_oper_box()
 #endif // ASST_DEBUG
     }
 
-
     sort_oper_horizontal(m_current_page_opers);
     for (const auto& box : m_current_page_opers) {
-        Log.trace("operBox{", "\"rect_lv\":[",box.rect.x,box.rect.y,box.rect.width,box.rect.height,
-            "], \"id\": ", box.id, ", \"name\": ", box.name, ", \"elite\": ", box.elite,
+        Log.trace("operBox{", "\"rect_lv\":[", box.rect.x, box.rect.y, box.rect.width, box.rect.height,
+                  "], \"id\": ", box.id, ", \"name\": ", box.name, ", \"elite\": ", box.elite,
                   ", \"level\": ", box.level, ", \"potential\": ", box.potential, "}");
     }
     return !m_current_page_opers.empty();
@@ -184,17 +182,17 @@ void asst::OperBoxImageAnalyzer::sort_oper_horizontal(std::vector<asst::OperBoxI
     });
 }
 
-//转换为整数。
+// 转换为整数。
 int asst::OperBoxImageAnalyzer::level_num(std::string level)
 {
     LogTraceFunction;
-    int num=0;
+    int num = 0;
     try {
         num = std::stoi(level);
     }
-    catch(std::invalid_argument e) {
-        //解析不出来，则默认为1
-        Log.trace(level," is not a num string: error info: ",e.what());
+    catch (std::invalid_argument e) {
+        // 解析不出来，则默认为1
+        Log.trace(level, " is not a num string: error info: ", e.what());
         num = 1;
     }
     return num;

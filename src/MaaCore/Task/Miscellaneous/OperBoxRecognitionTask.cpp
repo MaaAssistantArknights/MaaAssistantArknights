@@ -76,7 +76,12 @@ void asst::OperBoxRecognitionTask::callback_analyze_result(bool done)
         if (own) {
             const auto& box_info = m_own_opers[name];
             own_opers.emplace_back(json::object {
-                { "id", BattleData.get_id(name) }, { "name", name }, { "own", own }, { "elite", box_info.elite }, { "level", box_info.level },
+                { "id", BattleData.get_id(name) },
+                { "name", name },
+                { "own", own },
+                { "elite", box_info.elite },
+                { "level", box_info.level },
+                { "penpotential", box_info.potential },
                 // TODO
             });
         }
