@@ -29,15 +29,10 @@ bool asst::OperBoxImageAnalyzer::analyze()
 
 int asst::OperBoxImageAnalyzer::level_num(std::string level)
 {
-    int num = 0;
-    try {
-        num = std::stoi(level);
+    if (level.empty() || !ranges::all_of(level, [](const char& c) -> bool { return std::isdigit(c) })) {
+        return 1;
     }
-    catch (const std::invalid_argument& e) {
-        Log.error("Convert level to int err", e.what());
-        num = 1;
-    }
-    return num;
+    return std::stoi(level);
 }
 
 bool asst::OperBoxImageAnalyzer::analyzer_oper_box()
