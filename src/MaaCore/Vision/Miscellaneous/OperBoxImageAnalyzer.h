@@ -13,6 +13,7 @@ namespace asst
         int level = 0; //等级
         int elite = 0; //精英度
         bool own = false;
+        int potential = 0; //潜能
         Rect rect;
     };
     class OperBoxImageAnalyzer : public OcrWithPreprocessImageAnalyzer

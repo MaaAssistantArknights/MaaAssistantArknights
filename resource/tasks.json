@@ -9786,17 +9786,22 @@
             35
         ]
     },
-    "OperBoxFlagPotential": {
+    "OperBoxPotential": {
         "doc": "偏移，识别潜能，扩大两个像素点",
         "template": "empty.png",
-        "templThreshold": 0.9,
+        "templThreshold": 0.7,
         "roi": [
-            -7,
-            -52,
+            81,
+            -29,
             24,
-            35
+            24
         ]
     },
+    "OperBoxPotential1": {},
+    "OperBoxPotential2": {},
+    "OperBoxPotential3": {},
+    "OperBoxPotential4": {},
+    "OperBoxPotential5": {},
     "OperBoxNameOCR": {
         "algorithm": "OcrDetect",
         "fullMatch": true,

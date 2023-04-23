@@ -159,12 +159,13 @@ void asst::OperBoxImageAnalyzer::sort_oper_horizontal(std::vector<asst::OperBoxI
 int asst::OperBoxImageAnalyzer::level_num(std::string level)
 {
     LogTraceFunction;
+    int num=0;
     try {
-        return std::stoi(level);
+        num = std::stoi(level);
     }
     catch(std::invalid_argument e) {
         //解析不出来，则默认为1
-        Log.debug("level: ",level,";string->int err: ",e);
-        return 1;
+        num = 1;
     }
+    return num;
 }
