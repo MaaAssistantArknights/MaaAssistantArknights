@@ -32,7 +32,7 @@ namespace asst
         // 按位置排序
         // 1 - 2 - 3
         // 4 - 5 - 6
-        void sort_result_horizontal(std::vector<asst::OperBoxInfo> m_oper_boxs);
+        void sort_oper_horizontal(std::vector<asst::OperBoxInfo> m_oper_boxs);
         int level_num(std::string level);
         //lv_flag
         std::vector<asst::MatchRect> m_lv_flags;

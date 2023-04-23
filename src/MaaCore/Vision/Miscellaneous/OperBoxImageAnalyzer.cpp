@@ -30,7 +30,7 @@ bool asst::OperBoxImageAnalyzer::analyze()
 
 bool asst::OperBoxImageAnalyzer::analyzer_oper_box()
 {
-
+    LogTraceFunction;
 #ifdef ASST_DEBUG
     m_image_draw_oper = m_image_draw;
 #endif // ASST_DEBUG
@@ -134,7 +134,7 @@ bool asst::OperBoxImageAnalyzer::analyzer_oper_box()
 #endif // ASST_DEBUG
     }
 
-    sort_result_horizontal(m_current_page_opers);
+    sort_oper_horizontal(m_current_page_opers);
     for (const auto& box : m_current_page_opers) {
         Log.trace("operBox{\"id\": ", box.id, ", \"name\": ", box.name, ", \"elite\": ", box.elite,
                   ", \"level\": ", box.level, "}");
@@ -142,7 +142,8 @@ bool asst::OperBoxImageAnalyzer::analyzer_oper_box()
     return !m_current_page_opers.empty();
 }
 
-void asst::OperBoxImageAnalyzer::sort_result_horizontal(std::vector<asst::OperBoxInfo> m_oper_boxs) {
+void asst::OperBoxImageAnalyzer::sort_oper_horizontal(std::vector<asst::OperBoxInfo> m_oper_boxs)
+{
     // 按位置排个序
     ranges::sort(m_oper_boxs, [](const OperBoxInfo& lhs, const OperBoxInfo& rhs) -> bool {
         if (std::abs(lhs.rect.y - rhs.rect.y) < 5) { // y差距较小则理解为是同一排的，按x排序
@@ -157,11 +158,13 @@ void asst::OperBoxImageAnalyzer::sort_result_horizontal(std::vector<asst::OperBo
 //转换为整数。
 int asst::OperBoxImageAnalyzer::level_num(std::string level)
 {
+    LogTraceFunction;
     try {
         return std::stoi(level);
     }
     catch(std::invalid_argument e) {
         //解析不出来，则默认为1
+        Log.debug("level: ",level,";string->int err: ",e);
         return 1;
     }
 }
