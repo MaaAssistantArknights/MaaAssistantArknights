@@ -164,40 +164,40 @@ namespace MaaWpfGui.Services.Web
             try
             {
                 var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                using var fileStream = new FileStream(fullFilePathWithTemp, FileMode.Create, FileAccess.Write);
-
-                // 记录初始化
-                long value = 0;
-                int valueInOneSecond = 0;
-                long fileMaximum = response.Content.Headers.ContentLength ?? 1;
-                DateTime beforeDt = DateTime.Now;
-
-                // Dangerous action
-                VersionUpdateViewModel.OutputDownloadProgress();
-
-                byte[] buffer = new byte[81920];
-                int byteLen = await stream.ReadAsync(buffer, 0, buffer.Length);
-
-                while (byteLen > 0)
+                using (var tempFileStream = new FileStream(fullFilePathWithTemp, FileMode.Create, FileAccess.Write))
                 {
-                    valueInOneSecond += byteLen;
-                    double ts = DateTime.Now.Subtract(beforeDt).TotalSeconds;
-                    if (ts > 1)
+                    // 记录初始化
+                    long value = 0;
+                    int valueInOneSecond = 0;
+                    long fileMaximum = response.Content.Headers.ContentLength ?? 1;
+                    DateTime beforeDt = DateTime.Now;
+
+                    // Dangerous action
+                    VersionUpdateViewModel.OutputDownloadProgress();
+
+                    byte[] buffer = new byte[81920];
+                    int byteLen = await stream.ReadAsync(buffer, 0, buffer.Length);
+
+                    while (byteLen > 0)
                     {
-                        beforeDt = DateTime.Now;
-                        value += valueInOneSecond;
+                        valueInOneSecond += byteLen;
+                        double ts = DateTime.Now.Subtract(beforeDt).TotalSeconds;
+                        if (ts > 1)
+                        {
+                            beforeDt = DateTime.Now;
+                            value += valueInOneSecond;
 
-                        // Dangerous action
-                        VersionUpdateViewModel.OutputDownloadProgress(value, fileMaximum, valueInOneSecond, ts);
-                        valueInOneSecond = 0;
+                            // Dangerous action
+                            VersionUpdateViewModel.OutputDownloadProgress(value, fileMaximum, valueInOneSecond, ts);
+                            valueInOneSecond = 0;
+                        }
+
+                        // 输入输出
+                        tempFileStream.Write(buffer, 0, byteLen);
+                        byteLen = await stream.ReadAsync(buffer, 0, buffer.Length);
                     }
-
-                    // 输入输出
-                    fileStream.Write(buffer, 0, byteLen);
-                    byteLen = await stream.ReadAsync(buffer, 0, buffer.Length);
                 }
 
-                fileStream.Close();
                 File.Copy(fullFilePathWithTemp, fullFilePath, true);
             }
             catch (Exception e)
