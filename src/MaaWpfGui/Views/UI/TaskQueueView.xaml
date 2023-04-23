@@ -59,6 +59,7 @@
                         dd:DragDrop.IsDragSource="{Binding Idle}"
                         dd:DragDrop.IsDropTarget="{Binding Idle}"
                         BorderThickness="0"
+                        ItemContainerStyle="{StaticResource CustomListBoxItemStyle}"
                         ItemsSource="{Binding Path=TaskItemViewModels}"
                         SelectionChanged="{s:Action TaskItemSelectionChanged}"
                         ToolTip="{DynamicResource LabelSequenceTip}">
@@ -68,9 +69,21 @@
                                     <!--<maa:TextBlock  Text="{Binding ID}" />
                             <maa:TextBlock  Text=". " />-->
                                     <CheckBox
+                                        Width="155"
                                         Content="{Binding Name}"
                                         IsChecked="{Binding IsChecked}"
                                         IsHitTestVisible="{Binding ElementName=TaskList, Path=DataContext.Idle}" />
+                                    <RadioButton
+                                        Margin="0"
+                                        Padding="0"
+                                        hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
+                                        hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Foreground="{DynamicResource SecondaryTextBrush}"
+                                        GroupName="TaskSetting"
+                                        IsChecked="{Binding EnableSetting}"
+                                        Style="{DynamicResource RadioGroupItemSingle}" />
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -176,17 +189,31 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <userControl:FightSettingsUserControl
+            <hc:ScrollViewer
                 Grid.Row="0"
                 Margin="10"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Top" />
+                VerticalAlignment="Top"
+                HorizontalScrollBarVisibility="Auto"
+                IsInertiaEnabled="True"
+                VerticalScrollBarVisibility="Auto">
+                <hc:SimpleStackPanel>
+                    <userControl:ConnectSettingsUserControl IsEnabled="{Binding Idle}" Visibility="{c:Binding TaskSettingVisibilities.WakeUp}" />
+                    <userControl:AutoRecruitSettingsUserControl IsEnabled="{Binding Idle}" Visibility="{c:Binding TaskSettingVisibilities.Recruiting}" />
+                    <userControl:InfrastSettingsUserControl IsEnabled="{Binding Idle}" Visibility="{c:Binding TaskSettingVisibilities.Base}" />
+                    <userControl:MallSettingsUserControl IsEnabled="{Binding Idle}" Visibility="{c:Binding TaskSettingVisibilities.Mall}" />
+                    <userControl:FightSettingsUserControl Visibility="{c:Binding TaskSettingVisibilities.Combat}" />
+                    <userControl:RoguelikeSettingsUserControl IsEnabled="{Binding Idle}" Visibility="{c:Binding TaskSettingVisibilities.Mission}" />
+                    <userControl:RoguelikeSettingsUserControl IsEnabled="{Binding Idle}" Visibility="{c:Binding TaskSettingVisibilities.AutoRoguelike}" />
+                </hc:SimpleStackPanel>
+            </hc:ScrollViewer>
             <hc:ScrollViewer
                 Grid.Row="1"
                 Width="200"
                 Margin="10"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Bottom">
+                VerticalAlignment="Bottom"
+                IsInertiaEnabled="True">
                 <controls:TextBlock Text="{Binding StagesOfToday}" />
             </hc:ScrollViewer>
         </Grid>
