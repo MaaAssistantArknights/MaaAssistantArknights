@@ -4,9 +4,9 @@
 
 #include "Utils/Logger.hpp"
 
-std::optional<int> asst::AdbLiteIO::call_command(const std::string& cmd, const bool recv_by_socket,
-                                                 std::string& pipe_data, std::string& sock_data, const int64_t timeout,
-                                                 const std::chrono::steady_clock::time_point start_time)
+std::optional<int> asst::AdbLiteIO::call_command(const std::string& cmd, bool recv_by_socket, std::string& pipe_data,
+                                                 std::string& sock_data, int64_t timeout,
+                                                 std::chrono::steady_clock::time_point start_time)
 {
     // TODO: 从上面的 call_command_win32/posix 里抽取出 socket 接收的部分
     if (recv_by_socket) {
@@ -204,7 +204,7 @@ bool asst::AdbLiteIO::remove_quotes(std::string& data)
     return false;
 }
 
-bool asst::IOHandlerAdbLite::write(const std::string_view data)
+bool asst::IOHandlerAdbLite::write(std::string_view data)
 {
     try {
         m_handle->write(data);
@@ -223,6 +223,6 @@ std::string asst::IOHandlerAdbLite::read(unsigned timeout_sec)
     }
     catch (const std::exception& e) {
         Log.error("IOHandler read failed:", e.what());
-        return NULL;
+        return {};
     }
 }

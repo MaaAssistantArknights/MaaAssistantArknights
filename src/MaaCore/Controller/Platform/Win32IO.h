@@ -20,9 +20,9 @@ namespace asst
         Win32IO(Win32IO&&) = delete;
         virtual ~Win32IO();
 
-        virtual std::optional<int> call_command(const std::string& cmd, const bool recv_by_socket,
-                                                std::string& pipe_data, std::string& sock_data, const int64_t timeout,
-                                                const std::chrono::steady_clock::time_point start_time) override;
+        virtual std::optional<int> call_command(const std::string& cmd, bool recv_by_socket, std::string& pipe_data,
+                                                std::string& sock_data, int64_t timeout,
+                                                std::chrono::steady_clock::time_point start_time) override;
 
         virtual std::optional<unsigned short> init_socket(const std::string& local_address) override;
         virtual void close_socket() noexcept override;
@@ -68,7 +68,7 @@ namespace asst
         IOHandlerWin32(IOHandlerWin32&&) = delete;
         virtual ~IOHandlerWin32();
 
-        virtual bool write(const std::string_view data) override;
+        virtual bool write(std::string_view data) override;
         virtual std::string read(unsigned timeout_sec) override;
 
     private:

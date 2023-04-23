@@ -20,9 +20,9 @@ namespace asst
     public:
         virtual ~PlatformIO() = default;
 
-        virtual std::optional<int> call_command(const std::string& cmd, const bool recv_by_socket,
-                                                std::string& pipe_data, std::string& sock_data, const int64_t timeout,
-                                                const std::chrono::steady_clock::time_point start_time) = 0;
+        virtual std::optional<int> call_command(const std::string& cmd, bool recv_by_socket, std::string& pipe_data,
+                                                std::string& sock_data, int64_t timeout,
+                                                std::chrono::steady_clock::time_point start_time) = 0;
 
         virtual std::optional<unsigned short> init_socket(const std::string& local_address) = 0;
         virtual void close_socket() noexcept = 0;
@@ -39,7 +39,7 @@ namespace asst
     public:
         virtual ~IOHandler() = default;
 
-        virtual bool write(const std::string_view data) = 0;
+        virtual bool write(std::string_view data) = 0;
         virtual std::string read(unsigned timeout_sec) = 0;
     };
 }
