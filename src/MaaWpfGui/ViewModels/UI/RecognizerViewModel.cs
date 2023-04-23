@@ -298,7 +298,7 @@ namespace MaaWpfGui.ViewModels.UI
             return true;
         }
 
-        private bool _depotDone = false;
+        private bool _depotDone = true;
 
         /// <summary>
         /// Gets or sets a value indicating whether depot info is parsed.
@@ -393,6 +393,17 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _operBoxResult, value);
         }
 
+        private bool _operBoxDone = true;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether operBox info is parsed.
+        /// </summary>
+        public bool OperBoxDone
+        {
+            get => _operBoxDone;
+            set => SetAndNotify(ref _operBoxDone, value);
+        }
+
         private string _operBoxExportData = string.Empty;
 
         public bool OperBoxParse(JObject details)
@@ -450,6 +461,7 @@ namespace MaaWpfGui.ViewModels.UI
                 OperBoxInfo = LocalizationHelper.GetString("IdentificationCompleted") + "\n" + LocalizationHelper.GetString("OperBoxRecognitionTip");
                 OperBoxResult = string.Format(LocalizationHelper.GetString("OperBoxRecognitionResult"), operNotHave.Count, operNotHaveNames, operHave.Count, operHaveNames);
                 _operBoxExportData = details["own_opers"].ToString();
+                OperBoxDone = true;
             }
             else
             {
@@ -462,6 +474,7 @@ namespace MaaWpfGui.ViewModels.UI
         public async void StartOperBox()
         {
             _operBoxExportData = string.Empty;
+            OperBoxDone = false;
 
             string errMsg = string.Empty;
             OperBoxInfo = LocalizationHelper.GetString("ConnectingToEmulator");
