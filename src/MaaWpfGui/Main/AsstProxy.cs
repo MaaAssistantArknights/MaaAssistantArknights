@@ -208,6 +208,21 @@ namespace MaaWpfGui.Main
                 return true;
             }
 
+            string mainRes = Directory.GetCurrentDirectory();
+            string mainCache = Directory.GetCurrentDirectory() + "\\cache";
+            string globalResource = mainRes + "\\resource\\global\\" + _settingsViewModel.ClientType;
+            string globalCache = mainCache + "\\resource\\global\\" + _settingsViewModel.ClientType;
+
+            bool LoadResIfExists(string path)
+            {
+                if (Directory.Exists(path))
+                {
+                    return AsstLoadResource(path);
+                }
+
+                return true;
+            }
+
             bool loaded = false;
             if (_settingsViewModel.ClientType == string.Empty
                 || _settingsViewModel.ClientType == "Official" || _settingsViewModel.ClientType == "Bilibili")
@@ -220,11 +235,11 @@ namespace MaaWpfGui.Main
 
                 if (!onlyReloadOTA)
                 {
-                    loaded = AsstLoadResource(Directory.GetCurrentDirectory());
+                    loaded = LoadResIfExists(mainRes);
                 }
 
                 // Load the cached incremental resources
-                loaded = loaded && AsstLoadResource(Directory.GetCurrentDirectory() + "\\cache");
+                loaded = loaded && LoadResIfExists(mainCache);
             }
             else if (_curResource == "Official" || _curResource == "Bilibili")
             {
@@ -232,12 +247,12 @@ namespace MaaWpfGui.Main
                 // Then load global incremental resources
                 if (!onlyReloadOTA)
                 {
-                    loaded = AsstLoadResource(Directory.GetCurrentDirectory() + "\\resource\\global\\" + _settingsViewModel.ClientType);
+                    loaded = LoadResIfExists(globalResource);
                 }
 
                 // Load the cached incremental resources
-                loaded = loaded && AsstLoadResource(Directory.GetCurrentDirectory() + "\\cache")
-                    && AsstLoadResource(Directory.GetCurrentDirectory() + "\\cache\\resource\\global\\" + _settingsViewModel.ClientType);
+                loaded = loaded && LoadResIfExists(mainCache)
+                    && LoadResIfExists(globalCache);
             }
             else
             {
@@ -245,13 +260,13 @@ namespace MaaWpfGui.Main
                 // Then load global incremental resources
                 if (!onlyReloadOTA)
                 {
-                    loaded = AsstLoadResource(Directory.GetCurrentDirectory())
-                    && AsstLoadResource(Directory.GetCurrentDirectory() + "\\resource\\global\\" + _settingsViewModel.ClientType);
+                    loaded = LoadResIfExists(mainRes)
+                    && LoadResIfExists(globalResource);
                 }
 
                 // Load the cached incremental resources
-                loaded = loaded && AsstLoadResource(Directory.GetCurrentDirectory() + "\\cache")
-                    && AsstLoadResource(Directory.GetCurrentDirectory() + "\\cache\\resource\\global\\" + _settingsViewModel.ClientType);
+                loaded = loaded && LoadResIfExists(mainCache)
+                    && LoadResIfExists(globalCache);
             }
 
             if (!loaded)
