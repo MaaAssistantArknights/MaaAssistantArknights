@@ -9789,7 +9789,7 @@
     "OperBoxPotential": {
         "doc": "偏移，识别潜能，扩大两个像素点",
         "template": "empty.png",
-        "templThreshold": 0.7,
+        "templThreshold": 0.85,
         "roi": [
             81,
             -29,

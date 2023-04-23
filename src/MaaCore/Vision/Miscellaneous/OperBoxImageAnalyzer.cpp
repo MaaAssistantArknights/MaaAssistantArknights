@@ -134,10 +134,39 @@ bool asst::OperBoxImageAnalyzer::analyzer_oper_box()
 #endif // ASST_DEBUG
     }
 
+    // 识别潜能
+    const std::string task_name_p = "OperBoxPotential";
+    Rect potential_roi = Task.get(task_name_p)->roi;
+    BestMatchImageAnalyzer potential_analyzer(m_image);
+    potential_analyzer.set_task_info(task_name_p);
+    for (int i = 1; i < 6; i++) {
+        std::string potential_temp_name = task_name_p + std::to_string(i) + ".png";
+        potential_analyzer.append_templ(potential_temp_name);
+    }
+    for (auto& box : m_current_page_opers) {
+        Rect roi = box.rect.move(potential_roi);
+        potential_analyzer.set_roi(roi);
+        if (!potential_analyzer.analyze()) {
+            box.potential= 0;
+        }
+        else {
+            const auto& templ_name = potential_analyzer.get_result().name;
+            std::string potential = templ_name.substr(task_name_p.size(), 1);
+            box.potential = level_num(potential);
+        }
+#ifdef ASST_DEBUG
+        cv::rectangle(m_image_draw_oper, make_rect<cv::Rect>(roi), cv::Scalar(0, 255, 0), 2);
+        cv::putText(m_image_draw_oper, std::to_string(box.potential), cv::Point(roi.x, roi.y - 10),
+                    cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
+#endif // ASST_DEBUG
+    }
+
+
     sort_oper_horizontal(m_current_page_opers);
     for (const auto& box : m_current_page_opers) {
-        Log.trace("operBox{\"id\": ", box.id, ", \"name\": ", box.name, ", \"elite\": ", box.elite,
-                  ", \"level\": ", box.level, "}");
+        Log.trace("operBox{", "\"rect_lv\":[",box.rect.x,box.rect.y,box.rect.width,box.rect.height,
+            "], \"id\": ", box.id, ", \"name\": ", box.name, ", \"elite\": ", box.elite,
+                  ", \"level\": ", box.level, ", \"potential\": ", box.potential, "}");
     }
     return !m_current_page_opers.empty();
 }
@@ -165,6 +194,7 @@ int asst::OperBoxImageAnalyzer::level_num(std::string level)
     }
     catch(std::invalid_argument e) {
         //解析不出来，则默认为1
+        Log.trace(level," is not a num string: error info: ",e.what());
         num = 1;
     }
     return num;
