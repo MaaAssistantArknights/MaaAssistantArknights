@@ -49,6 +49,7 @@ namespace MaaWpfGui.Services
 
         // model references
         private readonly TaskQueueViewModel _taskQueueViewModel;
+        private readonly AsstProxy _asstProxy;
         private readonly IMaaApiService _maaApiService;
 
         private static readonly ILogger _logger = Log.ForContext<StageManager>();
@@ -63,6 +64,7 @@ namespace MaaWpfGui.Services
         public StageManager(IContainer container)
         {
             _taskQueueViewModel = container.Get<TaskQueueViewModel>();
+            _asstProxy = container.Get<AsstProxy>();
             _maaApiService = container.Get<IMaaApiService>();
             UpdateStageLocal();
 
@@ -154,8 +156,6 @@ namespace MaaWpfGui.Services
 
             JObject activity = await _maaApiService.RequestMaaApiWithCache(StageApi);
             JObject tasksJson = await _maaApiService.RequestMaaApiWithCache(TasksApi);
-            AsstProxy.AsstLoadResource(Directory.GetCurrentDirectory() + "\\cache");
-
             if (clientType != "Official" && tasksJson != null)
             {
                 var tasksPath = "resource/global/" + clientType + '/' + TasksApi;
@@ -164,8 +164,9 @@ namespace MaaWpfGui.Services
                 // TODO: There may be an issue when the CN resource is loaded from cache (e.g. network down) while global resource is downloaded (e.g. network up again)
                 // var tasksJsonClient = fromWeb ? WebService.RequestMaaApiWithCache(tasksPath) : WebService.RequestMaaApiWithCache(tasksPath);
                 await _maaApiService.RequestMaaApiWithCache(tasksPath);
-                AsstProxy.AsstLoadResource(Directory.GetCurrentDirectory() + "\\cache\\resource\\global\\" + clientType);
             }
+
+            _asstProxy.LoadResource(true);
 
             return activity;
         }
