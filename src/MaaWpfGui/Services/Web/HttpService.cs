@@ -197,6 +197,7 @@ namespace MaaWpfGui.Services.Web
                     byteLen = await stream.ReadAsync(buffer, 0, buffer.Length);
                 }
 
+                fileStream.Close();
                 File.Copy(fullFilePathWithTemp, fullFilePath, true);
             }
             catch (Exception e)
