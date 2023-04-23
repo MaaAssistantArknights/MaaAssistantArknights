@@ -13,13 +13,12 @@
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
     xmlns:vm="clr-namespace:MaaWpfGui"
     d:DataContext="{d:DesignInstance {x:Type ui:RecognizerViewModel}}"
-    d:DesignHeight="1200"
+    d:DesignHeight="600"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <TabControl
         Margin="0,10"
         BorderThickness="0"
-        SelectedIndex="4"
         Style="{StaticResource TabControlSliding}">
         <TabItem Header="{DynamicResource RecruitmentRecognition}">
             <Grid Margin="20,0,20,20">
@@ -171,7 +170,8 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Command="{s:Action StartDepot}"
-                        Content="{DynamicResource StartToDepotRecognition}" />
+                        Content="{DynamicResource StartToDepotRecognition}"
+                        IsEnabled="{Binding DepotDone}" />
                 </StackPanel>
             </Grid>
         </TabItem>
@@ -216,13 +216,15 @@
                         Height="70"
                         Margin="30"
                         Command="{s:Action ExportOperBox}"
-                        Content="{DynamicResource OperBoxCopyToClipboard}" />
+                        Content="{DynamicResource OperBoxCopyToClipboard}"
+                        IsEnabled="{Binding OperBoxDone}" />
                     <Button
                         Width="180"
                         Height="70"
                         Margin="30"
                         Command="{s:Action StartOperBox}"
-                        Content="{DynamicResource StartToOperBoxRecognition}" />
+                        Content="{DynamicResource StartToOperBoxRecognition}"
+                        IsEnabled="{Binding OperBoxDone}" />
                 </StackPanel>
             </Grid>
         </TabItem>
@@ -232,6 +234,7 @@
                 Margin="10"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
+                Focusable="True"
                 FontSize="14"
                 Style="{StaticResource TextBlockDefaultBold}"
                 Text="{DynamicResource VideoRecognitionTips}"
