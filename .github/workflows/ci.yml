@@ -189,8 +189,7 @@ jobs:
           python3 maadeps-download.py ${triplet}
       - name: Configure MaaCore
         run: |
-          ${{ startsWith(github.ref, 'refs/tags/v') }} && CONF=Release || CONF=Debug
-          cmake -B build -GNinja -DCMAKE_BUILD_TYPE=$CONF -DCMAKE_OSX_ARCHITECTURES='${{ matrix.arch }}' -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
+          cmake -B build -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES='${{ matrix.arch }}' -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
       - name: Build MaaCore
         run: |
           cmake --build build
