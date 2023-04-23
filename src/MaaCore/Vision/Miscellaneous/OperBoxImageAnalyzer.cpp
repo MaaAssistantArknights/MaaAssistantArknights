@@ -29,7 +29,7 @@ bool asst::OperBoxImageAnalyzer::analyze()
 
 int asst::OperBoxImageAnalyzer::level_num(std::string level)
 {
-    if (level.empty() || !ranges::all_of(level, [](const char& c) -> bool { return std::isdigit(c) })) {
+    if (level.empty() || !ranges::all_of(level, [](const char& c) -> bool { return std::isdigit(c); })) {
         return 1;
     }
     return std::stoi(level);
@@ -136,7 +136,7 @@ bool asst::OperBoxImageAnalyzer::analyzer_oper_box()
             std::string elite = elite_templ.name.substr(task_name.size(), 1);
             box.elite = std::stoi(elite);
 #ifdef ASST_DEBUG
-            cv::rectangle(m_image_draw_oper, make_rect<cv::Rect>(elite_templ.templ), cv::Scalar(0, 255, 0), 1);
+            cv::rectangle(m_image_draw_oper, make_rect<cv::Rect>(roi), cv::Scalar(0, 255, 0), 1);
 #endif // ASST_DEBUG  
         }
 #ifdef ASST_DEBUG
@@ -165,7 +165,7 @@ bool asst::OperBoxImageAnalyzer::analyzer_oper_box()
             std::string potential = poten_templ.name.substr(task_name_p.size(), 1);
             box.potential = std::stoi(potential);
 #ifdef ASST_DEBUG
-            cv::rectangle(m_image_draw_oper, make_rect<cv::Rect>(poten_templ.templ), cv::Scalar(0, 255, 0), 1);
+            cv::rectangle(m_image_draw_oper, make_rect<cv::Rect>(roi), cv::Scalar(0, 255, 0), 1);
 #endif // ASST_DEBUG
         }
 #ifdef ASST_DEBUG
