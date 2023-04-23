@@ -27,6 +27,19 @@ bool asst::OperBoxImageAnalyzer::analyze()
     return oper_box;
 }
 
+int asst::OperBoxImageAnalyzer::level_num(std::string level)
+{
+    int num = 0;
+    try {
+        num = std::stoi(level);
+    }
+    catch (const std::invalid_argument& e) {
+        Log.error("Convert level to int err", e.what());
+        num = 1;
+    }
+    return num;
+}
+
 bool asst::OperBoxImageAnalyzer::analyzer_oper_box()
 {
     LogTraceFunction;
@@ -71,11 +84,12 @@ bool asst::OperBoxImageAnalyzer::analyzer_oper_box()
         }
         OcrWithPreprocessImageAnalyzer::set_roi(roi);
         if (OcrWithPreprocessImageAnalyzer::analyze()) {
-            std::string name = m_ocr_result.begin()->text;
+            const auto& ocr_result = m_ocr_result.begin();
+            std::string name = ocr_result->text;
             box.id = BattleData.get_id(name);
             box.name = std::move(name);
 #ifdef ASST_DEBUG
-            cv::rectangle(m_image_draw_oper, make_rect<cv::Rect>(roi), cv::Scalar(0, 255, 0), 2);
+            cv::rectangle(m_image_draw_oper, make_rect<cv::Rect>(ocr_result->rect), cv::Scalar(0, 255, 0), 2);
             cv::putText(m_image_draw_oper, box.id, cv::Point(roi.x, roi.y + 35), cv::FONT_HERSHEY_SIMPLEX, 0.5,
                         cv::Scalar(0, 0, 255), 2);
 #endif // ASST_DEBUG
@@ -98,10 +112,11 @@ bool asst::OperBoxImageAnalyzer::analyzer_oper_box()
         }
         OcrWithPreprocessImageAnalyzer::set_roi(roi);
         if (OcrWithPreprocessImageAnalyzer::analyze()) {
-            std::string level = m_ocr_result.begin()->text;
-            box.level = std::move(std::stoi(level));
+            const auto& ocr_result = m_ocr_result.begin();
+            std::string level = ocr_result->text;
+            box.level = std::move(level_num(level));
 #ifdef ASST_DEBUG
-            cv::rectangle(m_image_draw_oper, make_rect<cv::Rect>(roi), cv::Scalar(0, 255, 0), 2);
+            cv::rectangle(m_image_draw_oper, make_rect<cv::Rect>(ocr_result->rect), cv::Scalar(0, 255, 0), 1);
             cv::putText(m_image_draw_oper, level, cv::Point(roi.x, roi.y - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5,
                         cv::Scalar(0, 0, 255), 2);
 #endif // ASST_DEBUG
@@ -122,12 +137,14 @@ bool asst::OperBoxImageAnalyzer::analyzer_oper_box()
             box.elite = 0;
         }
         else {
-            const auto& templ_name = elite_analyzer.get_result().name;
-            std::string elite = templ_name.substr(task_name.size(), 1);
+            const auto& elite_templ = elite_analyzer.get_result();
+            std::string elite = elite_templ.name.substr(task_name.size(), 1);
             box.elite = std::stoi(elite);
+#ifdef ASST_DEBUG
+            cv::rectangle(m_image_draw_oper, make_rect<cv::Rect>(elite_templ.templ), cv::Scalar(0, 255, 0), 1);
+#endif // ASST_DEBUG  
         }
 #ifdef ASST_DEBUG
-        cv::rectangle(m_image_draw_oper, make_rect<cv::Rect>(roi), cv::Scalar(0, 255, 0), 2);
         cv::putText(m_image_draw_oper, std::to_string(box.elite), cv::Point(roi.x, roi.y - 10),
                     cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
 #endif // ASST_DEBUG
@@ -149,12 +166,14 @@ bool asst::OperBoxImageAnalyzer::analyzer_oper_box()
             box.potential = 0;
         }
         else {
-            const auto& templ_name = potential_analyzer.get_result().name;
-            std::string potential = templ_name.substr(task_name_p.size(), 1);
+            const auto& poten_templ = potential_analyzer.get_result();
+            std::string potential = poten_templ.name.substr(task_name_p.size(), 1);
             box.potential = std::stoi(potential);
+#ifdef ASST_DEBUG
+            cv::rectangle(m_image_draw_oper, make_rect<cv::Rect>(poten_templ.templ), cv::Scalar(0, 255, 0), 1);
+#endif // ASST_DEBUG
         }
 #ifdef ASST_DEBUG
-        cv::rectangle(m_image_draw_oper, make_rect<cv::Rect>(roi), cv::Scalar(0, 255, 0), 2);
         cv::putText(m_image_draw_oper, std::to_string(box.potential), cv::Point(roi.x, roi.y - 10),
                     cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
 #endif // ASST_DEBUG

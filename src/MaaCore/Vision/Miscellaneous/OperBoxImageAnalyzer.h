@@ -31,6 +31,7 @@ namespace asst
         MultiMatchImageAnalyzer m_multi_match_image_analyzer;
 
     private:
+        int level_num(std::string level);
         bool analyzer_oper_box();
         // 按位置排序
         // 1 - 2 - 3

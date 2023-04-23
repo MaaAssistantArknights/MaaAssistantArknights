@@ -23,6 +23,7 @@ bool asst::OperBoxRecognitionTask::swipe_and_analyze()
 {
     LogTraceFunction;
     std::string current_page_last_oper_name = "";
+    std::string current_page_first_oper_name = "";
     m_own_opers.clear();
 
     while (!need_exit()) {
@@ -34,10 +35,11 @@ bool asst::OperBoxRecognitionTask::swipe_and_analyze()
             break;
         }
         const auto& opers_result = analyzer.get_result_box();
-        if (opers_result.back().name == current_page_last_oper_name) {
+        if (opers_result.back().name == current_page_last_oper_name && opers_result.front().name == current_page_first_oper_name) {
             break;
         }
         else {
+            current_page_first_oper_name = opers_result.front().name;
             current_page_last_oper_name = opers_result.back().name;
             for (const auto& box_info : opers_result) {
                 m_own_opers.emplace(box_info.name, box_info);
