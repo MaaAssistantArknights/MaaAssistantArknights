@@ -209,9 +209,12 @@ namespace MaaWpfGui.Main
             }
 
             string mainRes = Directory.GetCurrentDirectory();
-            string mainCache = Directory.GetCurrentDirectory() + "\\cache";
             string globalResource = mainRes + "\\resource\\global\\" + _settingsViewModel.ClientType;
+            string mainCache = Directory.GetCurrentDirectory() + "\\cache";
             string globalCache = mainCache + "\\resource\\global\\" + _settingsViewModel.ClientType;
+
+            string officialClientType = "Official";
+            string bilibiliClientType = "Bilibili";
 
             bool LoadResIfExists(string path)
             {
@@ -225,10 +228,10 @@ namespace MaaWpfGui.Main
 
             bool loaded = false;
             if (_settingsViewModel.ClientType == string.Empty
-                || _settingsViewModel.ClientType == "Official" || _settingsViewModel.ClientType == "Bilibili")
+                || _settingsViewModel.ClientType == officialClientType || _settingsViewModel.ClientType == bilibiliClientType)
             {
                 // The resources of Official and Bilibili are the same
-                if (!ForcedReloadResource && !onlyReloadOTA && (_curResource == "Official" || _curResource == "Bilibili"))
+                if (!ForcedReloadResource && !onlyReloadOTA && (_curResource == officialClientType || _curResource == bilibiliClientType))
                 {
                     return true;
                 }
@@ -241,7 +244,7 @@ namespace MaaWpfGui.Main
                 // Load the cached incremental resources
                 loaded = loaded && LoadResIfExists(mainCache);
             }
-            else if (_curResource == "Official" || _curResource == "Bilibili")
+            else if (_curResource == officialClientType || _curResource == bilibiliClientType)
             {
                 // Load basic resources for CN client first
                 // Then load global incremental resources
@@ -285,7 +288,7 @@ namespace MaaWpfGui.Main
 
             if (_settingsViewModel.ClientType == string.Empty)
             {
-                _curResource = "Official";
+                _curResource = officialClientType;
             }
             else
             {
