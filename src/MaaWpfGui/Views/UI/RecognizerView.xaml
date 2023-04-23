@@ -170,7 +170,8 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Command="{s:Action StartDepot}"
-                        Content="{DynamicResource StartToDepotRecognition}" />
+                        Content="{DynamicResource StartToDepotRecognition}"
+                        IsEnabled="{Binding DepotDone}" />
                 </StackPanel>
             </Grid>
         </TabItem>
@@ -215,13 +216,15 @@
                         Height="70"
                         Margin="30"
                         Command="{s:Action ExportOperBox}"
-                        Content="{DynamicResource OperBoxCopyToClipboard}" />
+                        Content="{DynamicResource OperBoxCopyToClipboard}"
+                        IsEnabled="{Binding OperBoxDone}" />
                     <Button
                         Width="180"
                         Height="70"
                         Margin="30"
                         Command="{s:Action StartOperBox}"
-                        Content="{DynamicResource StartToOperBoxRecognition}" />
+                        Content="{DynamicResource StartToOperBoxRecognition}"
+                        IsEnabled="{Binding OperBoxDone}" />
                 </StackPanel>
             </Grid>
         </TabItem>
