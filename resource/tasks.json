@@ -861,7 +861,6 @@
         ]
     },
     "CF-8@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "CF-8"
         ]
@@ -936,19 +935,16 @@
         ]
     },
     "GA-6@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "GA-6"
         ]
     },
     "GA-7@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "GA-7"
         ]
     },
     "GA-8@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "GA-8"
         ]
@@ -1019,19 +1015,16 @@
         ]
     },
     "WB-7@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "WB-7"
         ]
     },
     "WB-8@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "WB-8"
         ]
     },
     "WB-9@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "WB-9"
         ]
@@ -1105,19 +1098,16 @@
         ]
     },
     "IW-6@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "IW-6"
         ]
     },
     "IW-7@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "IW-7"
         ]
     },
     "IW-8@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "IW-8"
         ]
@@ -1191,19 +1181,16 @@
         ]
     },
     "FC-5@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "FC-5"
         ]
     },
     "FC-6@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "FC-6"
         ]
     },
     "FC-7@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "FC-7"
         ]
@@ -1316,19 +1303,16 @@
         ]
     },
     "IS-10@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "IS-10"
         ]
     },
     "IS-9@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "IS-9"
         ]
     },
     "IS-8@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "IS-8"
         ]
@@ -1398,19 +1382,16 @@
         ]
     },
     "NL-10@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "NL-10"
         ]
     },
     "NL-9@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "NL-9"
         ]
     },
     "NL-8@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "NL-8"
         ]
@@ -1455,7 +1436,6 @@
         ]
     },
     "GT-5@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "GT-5"
         ]
@@ -1532,7 +1512,6 @@
         ]
     },
     "OF-1@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "OF-1",
             "0F-1"
@@ -1599,21 +1578,18 @@
         ]
     },
     "IC-9@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "IC-9",
             "1C-9"
         ]
     },
     "IC-8@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "IC-8",
             "1C-8"
         ]
     },
     "IC-7@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "IC-7",
             "1C-7"
@@ -1690,19 +1666,16 @@
         ]
     },
     "DV-8@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "DV-8"
         ]
     },
     "DV-7@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "DV-7"
         ]
     },
     "DV-6@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "DV-6"
         ]
@@ -1770,19 +1743,16 @@
         ]
     },
     "LE-5@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "LE-5"
         ]
     },
     "LE-6@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "LE-6"
         ]
     },
     "LE-7@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "LE-7"
         ]
@@ -1955,7 +1925,6 @@
         ]
     },
     "DH-9@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "DH-9"
         ]
