@@ -9769,24 +9769,21 @@
             327
         ]
     },
-    "OperBoxFlagElitismOne": {
-        "doc": "精英一 模板",
-        "templThreshold": 0.9,
-        "roi": [
-            30,
-            258,
-            1126,
-            360
-        ]
+    "OperBoxFlagElite1": {
+        "doc": "精英一 模板"
     },
-    "OperBoxFlagElitismTwo": {
-        "doc": "精英二 模板",
+    "OperBoxFlagElite2": {
+        "doc": "精英二 模板"
+    },
+    "OperBoxFlagElite": {
+        "doc": "偏移，识别精英度，扩大两个像素点",
+        "template": "empty.png",
         "templThreshold": 0.9,
         "roi": [
-            30,
-            258,
-            1126,
-            360
+            -7,
+            -52,
+            24,
+            35
         ]
     },
     "OperBoxNameOCR": {
