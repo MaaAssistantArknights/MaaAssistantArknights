@@ -1829,13 +1829,19 @@
     },
     "SN-Chapter2": {
         "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "失落旗舰",
+            "失落",
+            "旗舰"
+        ],
         "roi": [
             163,
-            418,
-            197,
+            417,
+            195,
             125
         ],
-        "postDelay": 2000,
+        "preDelay": 2000,
         "next": [
             "SN-Chapter2",
             "ChapterSwipeToTheRight"
@@ -1843,13 +1849,19 @@
     },
     "SN-Chapter3": {
         "action": "ClickSelf",
-        "roi": [
-            205,
-            487,
-            254,
-            165
+        "algorithm": "OcrDetect",
+        "text": [
+            "无名之海",
+            "无名",
+            "之海"
         ],
-        "postDelay": 2000,
+        "roi": [
+            258,
+            503,
+            194,
+            123
+        ],
+        "preDelay": 2000,
         "next": [
             "SN-Chapter3",
             "ChapterSwipeToTheLeft"
