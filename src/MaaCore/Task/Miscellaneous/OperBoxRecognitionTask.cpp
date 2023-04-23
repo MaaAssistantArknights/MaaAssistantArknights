@@ -81,7 +81,7 @@ void asst::OperBoxRecognitionTask::callback_analyze_result(bool done)
                 { "own", own },
                 { "elite", box_info.elite },
                 { "level", box_info.level },
-                { "penpotential", box_info.potential },
+                { "potential", box_info.potential },
                 // TODO
             });
         }

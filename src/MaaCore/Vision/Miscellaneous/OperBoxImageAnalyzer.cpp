@@ -99,7 +99,7 @@ bool asst::OperBoxImageAnalyzer::analyzer_oper_box()
         OcrWithPreprocessImageAnalyzer::set_roi(roi);
         if (OcrWithPreprocessImageAnalyzer::analyze()) {
             std::string level = m_ocr_result.begin()->text;
-            box.level = std::move(level_num(level));
+            box.level = std::move(std::stoi(level));
 #ifdef ASST_DEBUG
             cv::rectangle(m_image_draw_oper, make_rect<cv::Rect>(roi), cv::Scalar(0, 255, 0), 2);
             cv::putText(m_image_draw_oper, level, cv::Point(roi.x, roi.y - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5,
@@ -124,7 +124,7 @@ bool asst::OperBoxImageAnalyzer::analyzer_oper_box()
         else {
             const auto& templ_name = elite_analyzer.get_result().name;
             std::string elite = templ_name.substr(task_name.size(), 1);
-            box.elite = level_num(elite);
+            box.elite = std::stoi(elite);
         }
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw_oper, make_rect<cv::Rect>(roi), cv::Scalar(0, 255, 0), 2);
@@ -151,7 +151,7 @@ bool asst::OperBoxImageAnalyzer::analyzer_oper_box()
         else {
             const auto& templ_name = potential_analyzer.get_result().name;
             std::string potential = templ_name.substr(task_name_p.size(), 1);
-            box.potential = level_num(potential);
+            box.potential = std::stoi(potential);
         }
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw_oper, make_rect<cv::Rect>(roi), cv::Scalar(0, 255, 0), 2);
@@ -180,20 +180,4 @@ void asst::OperBoxImageAnalyzer::sort_oper_horizontal(std::vector<asst::OperBoxI
             return lhs.rect.y < rhs.rect.y;
         }
     });
-}
-
-// 转换为整数。
-int asst::OperBoxImageAnalyzer::level_num(std::string level)
-{
-    LogTraceFunction;
-    int num = 0;
-    try {
-        num = std::stoi(level);
-    }
-    catch (std::invalid_argument e) {
-        // 解析不出来，则默认为1
-        Log.trace(level, " is not a num string: error info: ", e.what());
-        num = 1;
-    }
-    return num;
 }

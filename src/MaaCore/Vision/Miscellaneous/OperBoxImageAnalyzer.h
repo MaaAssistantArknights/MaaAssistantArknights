@@ -36,7 +36,6 @@ namespace asst
         // 1 - 2 - 3
         // 4 - 5 - 6
         void sort_oper_horizontal(std::vector<asst::OperBoxInfo> m_oper_boxs);
-        int level_num(std::string level);
         // lv_flag
         std::vector<asst::MatchRect> m_lv_flags;
         std::vector<asst::OperBoxInfo> m_current_page_opers;
