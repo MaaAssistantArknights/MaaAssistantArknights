@@ -215,12 +215,12 @@ namespace MaaWpfGui.Main
 
             bool LoadResIfExists(string path)
             {
-                if (Directory.Exists(path))
+                if (!Directory.Exists(path))
                 {
-                    return AsstLoadResource(path);
+                    return true;
                 }
 
-                return true;
+                return AsstLoadResource(path);
             }
 
             bool loaded = false;
