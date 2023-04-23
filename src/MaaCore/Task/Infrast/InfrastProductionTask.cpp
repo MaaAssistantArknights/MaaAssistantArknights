@@ -75,51 +75,51 @@ void asst::InfrastProductionTask::change_product()
 {
     auto customProduct = current_room_config().product;
     switch (customProduct) {
-        /*制造站的产品类型*/
-        case infrast::CustomRoomConfig::Product::BattleRecord: {
-            ProcessTask(*this, { "ChangeProductToMiddleBattleRecord" }).run();
-            json::value callback_info = basic_info_with_what("ProductChanged");
-            callback_info["details"]["product"] = "MiddleBattleRecord";
-            callback(AsstMsg::SubTaskExtraInfo, callback_info);
-            break;
-        }
-        case infrast::CustomRoomConfig::Product::PureGold: {
-            ProcessTask(*this, { "ChangeProductToPureGold" }).run();
-            json::value callback_info = basic_info_with_what("ProductChanged");
-            callback_info["details"]["product"] = "PureGold";
-            callback(AsstMsg::SubTaskExtraInfo, callback_info);
-            break;
-        }
-        case infrast::CustomRoomConfig::Product::OriginiumShard: {
-            ProcessTask(*this, { "ChangeProductToOriginiumShard" }).run();
-            json::value callback_info = basic_info_with_what("ProductChanged");
-            callback_info["details"]["product"] = "OriginiumShard";
-            callback(AsstMsg::SubTaskExtraInfo, callback_info);
-            break;
-        }
-        case infrast::CustomRoomConfig::Product::Dualchip: {
+    /*制造站的产品类型*/
+    case infrast::CustomRoomConfig::Product::BattleRecord: {
+        ProcessTask(*this, { "ChangeProductToMiddleBattleRecord" }).run();
+        json::value callback_info = basic_info_with_what("ProductChanged");
+        callback_info["details"]["product"] = "MiddleBattleRecord";
+        callback(AsstMsg::SubTaskExtraInfo, callback_info);
+        break;
+    }
+    case infrast::CustomRoomConfig::Product::PureGold: {
+        ProcessTask(*this, { "ChangeProductToPureGold" }).run();
+        json::value callback_info = basic_info_with_what("ProductChanged");
+        callback_info["details"]["product"] = "PureGold";
+        callback(AsstMsg::SubTaskExtraInfo, callback_info);
+        break;
+    }
+    case infrast::CustomRoomConfig::Product::OriginiumShard: {
+        ProcessTask(*this, { "ChangeProductToOriginiumShard" }).run();
+        json::value callback_info = basic_info_with_what("ProductChanged");
+        callback_info["details"]["product"] = "OriginiumShard";
+        callback(AsstMsg::SubTaskExtraInfo, callback_info);
+        break;
+    }
+    case infrast::CustomRoomConfig::Product::Dualchip: {
 
-            break;
-        }
-        /*贸易站的订单类型*/
-        case infrast::CustomRoomConfig::Product::LMD: {
-            ProcessTask(*this, { "ChangeToMoneyOrder" }).run();
-            json::value callback_info = basic_info_with_what("ProductChanged");
-            callback_info["details"]["product"] = "Money";
-            callback(AsstMsg::SubTaskExtraInfo, callback_info);
-            break;
-        }
-        case infrast::CustomRoomConfig::Product::Orundum: {
-            ProcessTask(*this, { "ChangeToSyntheticJadeFlagOrder" }).run();
-            json::value callback_info = basic_info_with_what("ProductChanged");
-            callback_info["details"]["product"] = "SyntheticJade";
-            callback(AsstMsg::SubTaskExtraInfo, callback_info);
-            break;
-        }
+        break;
+    }
+    /*贸易站的订单类型*/
+    case infrast::CustomRoomConfig::Product::LMD: {
+        ProcessTask(*this, { "ChangeToMoneyOrder" }).run();
+        json::value callback_info = basic_info_with_what("ProductChanged");
+        callback_info["details"]["product"] = "Money";
+        callback(AsstMsg::SubTaskExtraInfo, callback_info);
+        break;
+    }
+    case infrast::CustomRoomConfig::Product::Orundum: {
+        ProcessTask(*this, { "ChangeToSyntheticJadeFlagOrder" }).run();
+        json::value callback_info = basic_info_with_what("ProductChanged");
+        callback_info["details"]["product"] = "SyntheticJade";
+        callback(AsstMsg::SubTaskExtraInfo, callback_info);
+        break;
+    }
 
-        default: {
-            break;
-        }   
+    default: {
+        break;
+    }
     }
 }
 
