@@ -473,13 +473,42 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public bool RunStartCommand()
+        public void RunScript(string str)
         {
-            if (string.IsNullOrWhiteSpace(StartsWithScript))
+            bool enable = str switch
             {
-                return false;
-            }
+                "StartsWithScript" => !string.IsNullOrWhiteSpace(StartsWithScript),
+                "EndsWithScript" => !string.IsNullOrWhiteSpace(StartsWithScript),
+                _ => false,
+            };
 
+            if (enable)
+            {
+                Func<bool> func = str switch
+                {
+                    "StartsWithScript" => RunStartCommand,
+                    "EndsWithScript" => RunEndCommand,
+                    _ => () => false,
+                };
+
+                Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetString("StartTask") + LocalizationHelper.GetString(str)));
+                if (func())
+                {
+                    Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(str)));
+                }
+                else
+                {
+                    Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(str),
+                        UiLogColor.Warning));
+                }
+            }
+        }
+
+        private bool RunStartCommand()
+        {
             try
             {
                 var process = new Process
@@ -487,6 +516,7 @@ namespace MaaWpfGui.ViewModels.UI
                     StartInfo = new ProcessStartInfo
                     {
                         FileName = StartsWithScript,
+                        WindowStyle = ProcessWindowStyle.Minimized,
 
                         // FileName = "cmd.exe",
                         // Arguments = $"/c {StartsWithScript}",
@@ -502,13 +532,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public bool RunEndCommand()
+        private bool RunEndCommand()
         {
-            if (string.IsNullOrWhiteSpace(EndsWithScript))
-            {
-                return false;
-            }
-
             try
             {
                 var process = new Process
@@ -516,6 +541,7 @@ namespace MaaWpfGui.ViewModels.UI
                     StartInfo = new ProcessStartInfo
                     {
                         FileName = EndsWithScript,
+                        WindowStyle = ProcessWindowStyle.Minimized,
 
                         // FileName = "cmd.exe",
                         // Arguments = $"/c {EndsWithScript}",
@@ -680,18 +706,15 @@ namespace MaaWpfGui.ViewModels.UI
 
             for (var i = 0; i < delay; ++i)
             {
-                // TODO: _taskQueueViewModel在SettingsViewModel显示之前为null。所以获取不到Stopping内容，导致无法停止等待,等个有缘人优化下）
-                // 一般是点了“停止”按钮了
-                /*
-                if (_taskQueueViewModel.Stopping)
+                if (Instances.TaskQueueViewModel.Stopping)
                 {
                     AsstProxy.AsstLog("Stop waiting for the emulator to start");
                     return;
                 }
-                */
+
                 if (i % 10 == 0)
                 {
-                    // 同样的问题，因为_taskQueueViewModel为null，所以无法偶在主界面的log里显示
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("WaitForEmulator") + ": " + (delay - i));
                     AsstProxy.AsstLog("Waiting for the emulator to start: " + (delay - i) + "s");
                 }
 

@@ -13,7 +13,6 @@
 
 using System;
 using System.IO;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Threading;
@@ -38,8 +37,6 @@ namespace MaaWpfGui.Main
     /// </summary>
     public class Bootstrapper : Bootstrapper<RootViewModel>
     {
-        private static SettingsViewModel _settingsViewModel;
-        private static TrayIcon _trayIcon;
         private static ILogger _logger = Logger.None;
 
         /// <inheritdoc/>
@@ -142,17 +139,16 @@ namespace MaaWpfGui.Main
         {
             var windowManager = (IWindowManager)GetInstance(typeof(Helper.WindowManager));
             windowManager.ShowWindow(rootViewModel);
+
+            // TrayIcon应该在显示rootViewModel之后再加载
+            // 故只能在rootViewModel显示之后再初始化实例管理者
+            Instances.InitializeInstances(Container);
         }
 
         /// <inheritdoc/>
         protected override void OnLaunch()
         {
-            var versionUpdateViewModel = (VersionUpdateViewModel)GetInstance(typeof(VersionUpdateViewModel));
-            versionUpdateViewModel.ShowUpdateOrDownload();
-
-            // TrayIcon应该在显示rootViewModel之后再加载
-            _trayIcon = (TrayIcon)GetInstance(typeof(TrayIcon));
-            _settingsViewModel = (SettingsViewModel)GetInstance(typeof(SettingsViewModel));
+            Instances.VersionUpdateViewModel.ShowUpdateOrDownload();
         }
 
         /// <inheritdoc/>
@@ -160,7 +156,7 @@ namespace MaaWpfGui.Main
         protected override void OnExit(ExitEventArgs e)
         {
             // MessageBox.Show("O(∩_∩)O 拜拜");
-            _settingsViewModel.Sober();
+            Instances.SettingsViewModel.Sober();
 
             // 关闭程序时清理操作中心中的通知
             var os = RuntimeInformation.OSDescription;
@@ -170,7 +166,7 @@ namespace MaaWpfGui.Main
             }
 
             // 注销任务栏图标
-            _trayIcon.Close();
+            Instances.TrayIcon.Close();
             ConfigurationHelper.Release();
 
             _logger.Information("MaaAssistantArknights GUI exited");

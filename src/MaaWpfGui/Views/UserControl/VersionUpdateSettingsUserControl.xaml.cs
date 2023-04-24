@@ -11,6 +11,13 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
+using System.Windows.Input;
+using System.Windows.Threading;
+using HandyControl.Controls;
+using HandyControl.Data;
+using MaaWpfGui.Helper;
+
 namespace MaaWpfGui.Views.UserControl
 {
     /// <summary>
@@ -24,6 +31,60 @@ namespace MaaWpfGui.Views.UserControl
         public VersionUpdateSettingsUserControl()
         {
             InitializeComponent();
+            timer.Tick += (s, e1) =>
+            {
+                count = 0;
+                timer.IsEnabled = false;
+            };
+        }
+
+        private const int ClickCount = 1;
+        private int count = 0;
+        private readonly DispatcherTimer timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 2, 0), };
+
+        private void EasterEggs(object sender, MouseButtonEventArgs e)
+        {
+            count += 1;
+            timer.IsEnabled = true;
+            if (count % ClickCount == 0)
+            {
+                count = 0;
+                timer.IsEnabled = false;
+
+                var growinfo = new GrowlInfo
+                {
+                    IsCustom = true,
+                    Message = LocalizationHelper.GetString("HelloWorld"),
+                    IconKey = "InfoGeometry",
+                    IconBrushKey = "PallasBrush",
+                };
+
+                switch (new Random().Next(0, 5))
+                {
+                    case 1:
+                        growinfo.Message = LocalizationHelper.GetString("BuyWineOnAprilFoolsDay");
+                        growinfo.IconKey = "HangoverGeometry";
+                        break;
+                    case 2:
+                        growinfo.Message = LocalizationHelper.GetString("Burping");
+                        growinfo.IconKey = "DrunkAndStaggeringGeometry";
+                        break;
+                    case 3:
+                        growinfo.Message = LocalizationHelper.GetString("DrunkAndStaggering");
+                        growinfo.IconKey = "DrunkAndStaggeringGeometry";
+                        break;
+                    case 4:
+                        growinfo.Message = LocalizationHelper.GetString("Hangover");
+                        growinfo.IconKey = "HangoverGeometry";
+                        break;
+                    default:
+                        // case 0
+                        growinfo.IconBrushKey = "InfoBrush";
+                        break;
+                }
+
+                Growl.Info(growinfo);
+            }
         }
     }
 }
