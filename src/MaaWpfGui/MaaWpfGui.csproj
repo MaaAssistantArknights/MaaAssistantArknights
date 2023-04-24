@@ -1,5 +1,6 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <XamlDebuggingInformation>True</XamlDebuggingInformation>
     <OutputType>WinExe</OutputType>
     <RootNamespace>MaaWpfGui</RootNamespace>
     <AssemblyName>MAA</AssemblyName>
