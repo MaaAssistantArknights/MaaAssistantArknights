@@ -9,7 +9,7 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
-#include "Vision/Battle/BattleSkillReadyAnalyzer.h"
+#include "Vision/Battle/BattlefieldClassifier.h"
 #include "Vision/OCRer.h"
 
 using namespace asst;
@@ -126,7 +126,7 @@ bool asst::ReclamationBattlePlugin::communicate_with_aux(
     std::ignore = npcName;
     std::ignore = orderComp;
     //    auto image = ctrler()->get_image();
-    //    BattleSkillReadyAnalyzer skillReadyAnalyzer(image);
+    //    BattlefieldClassifier skillReadyAnalyzer(image);
     //    if (!skillReadyAnalyzer.analyze()) {
     //        Log.info(__FUNCTION__, " | ", "no ready skills");
     //        return false;

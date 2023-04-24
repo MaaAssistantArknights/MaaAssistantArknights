@@ -28,7 +28,7 @@ public:
 
     ResultOpt analyze() const;
     // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉
-    Result result() const { return m_result; }
+    Result get_result() const { return m_result; }
 
 public:
     struct RawResult

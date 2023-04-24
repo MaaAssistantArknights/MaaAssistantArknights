@@ -32,8 +32,8 @@ protected:
     bool analyze_drops_for_12();
 
     int match_quantity(const Rect& roi, const std::string& item, bool use_word_model = false);
-    std::optional<TextRect> match_quantity_string(const Rect& roi, bool use_word_model = false);
-    std::optional<TextRect> match_quantity_string(const Rect& roi, const std::string& item,
+    std::optional<vision::OCRer::Result> match_quantity_string(const Rect& roi, bool use_word_model = false);
+    std::optional<vision::OCRer::Result> match_quantity_string(const Rect& roi, const std::string& item,
                                                   bool use_word_model = false);
     static int quantity_string_to_int(const std::string& str);
 

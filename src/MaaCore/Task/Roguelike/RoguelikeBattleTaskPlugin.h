@@ -8,7 +8,7 @@
 #include "Config/Miscellaneous/TilePack.h"
 #include "Task/AbstractTaskPlugin.h"
 #include "Task/BattleHelper.h"
-#include "Vision/Battle/BattleAnalyzer.h"
+#include "Vision/Battle/BattlefieldMatcher.h"
 
 namespace asst
 {

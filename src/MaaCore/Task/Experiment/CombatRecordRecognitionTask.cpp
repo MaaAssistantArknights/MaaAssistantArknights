@@ -7,18 +7,19 @@
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
 #include "Utils/Ranges.hpp"
-#include "Vision/Battle/BattleDeployDirectionAnalyzer.h"
 #include "Vision/Battle/BattleFormationAnalyzer.h"
-#include "Vision/Battle/BattleAnalyzer.h"
-#include "Vision/Battle/BattleOperatorsAnalyzer.h"
-#include "Vision/Battle/BattleSkillReadyAnalyzer.h"
+#include "Vision/Battle/BattlefieldClassifier.h"
+#include "Vision/Battle/BattlefieldDetector.h"
+#include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/BestMatcher.h"
 #include "Vision/RegionOCRer.h"
 
 #include <unordered_map>
 #include <unordered_set>
 
-bool asst::CombatRecordRecognitionTask::set_video_path(const std::filesystem::path& path)
+MAA_NS_BEGIN
+
+bool CombatRecordRecognitionTask::set_video_path(const std::filesystem::path& path)
 {
     if (!std::filesystem::exists(path)) {
         Log.error(__FUNCTION__, "filename not exists", path);
@@ -28,13 +29,13 @@ bool asst::CombatRecordRecognitionTask::set_video_path(const std::filesystem::pa
     return true;
 }
 
-bool asst::CombatRecordRecognitionTask::set_stage_name(const std::string& stage_name)
+bool CombatRecordRecognitionTask::set_stage_name(const std::string& stage_name)
 {
     m_stage_name = stage_name;
     return true;
 }
 
-bool asst::CombatRecordRecognitionTask::_run()
+bool CombatRecordRecognitionTask::_run()
 {
     LogTraceFunction;
 
@@ -116,14 +117,14 @@ bool asst::CombatRecordRecognitionTask::_run()
     return true;
 }
 
-bool asst::CombatRecordRecognitionTask::analyze_formation()
+bool CombatRecordRecognitionTask::analyze_formation()
 {
     LogTraceFunction;
     callback(AsstMsg::SubTaskStart, basic_info_with_what("OcrFormation"));
 
     const int skip_count = m_video_fps > m_formation_fps ? static_cast<int>(m_video_fps / m_formation_fps) - 1 : 0;
 
-    BattleFormationAnalyzer formation_ananlyzer;
+    vision::BattleFormationAnalyzer formation_ananlyzer;
     int no_changes_count = 0;
     for (size_t i = 0; i < m_video_frame_count; i += skip_frames(skip_count) + 1) {
         cv::Mat frame;
@@ -166,14 +167,14 @@ bool asst::CombatRecordRecognitionTask::analyze_formation()
         m_copilot_json["opers"].array_emplace(std::move(oper_json));
 
         cb_formation.array_emplace(name);
-        asst::imwrite(utils::path("debug/video_export/formation/") / utils::path(name + ".png"), avatar);
+        imwrite(utils::path("debug/video_export/formation/") / utils::path(name + ".png"), avatar);
     }
     callback(AsstMsg::SubTaskCompleted, cb_info);
 
     return true;
 }
 
-bool asst::CombatRecordRecognitionTask::analyze_stage()
+bool CombatRecordRecognitionTask::analyze_stage()
 {
     LogTraceFunction;
 
@@ -194,13 +195,13 @@ bool asst::CombatRecordRecognitionTask::analyze_stage()
 
             cv::resize(frame, frame, cv::Size(), m_scale, m_scale, cv::INTER_AREA);
 
-            RegionOCRer stage_analyzer(frame);
+            vision::RegionOCRer stage_analyzer(frame);
             stage_analyzer.set_task_info(stage_name_task_ptr);
             bool analyzed = stage_analyzer.analyze();
             show_img(stage_analyzer);
 
             if (!analyzed) {
-                // BattleAnalyzer battle_analyzer(frame);
+                // BattlefieldMatcher battle_analyzer(frame);
                 // if (battle_analyzer.analyze()) {
                 //     Log.error(i, "already start button, but still failed to analyze stage name");
                 //     m_stage_ocr_end_frame = i;
@@ -239,15 +240,15 @@ bool asst::CombatRecordRecognitionTask::analyze_stage()
     return true;
 }
 
-bool asst::CombatRecordRecognitionTask::analyze_deployment()
+bool CombatRecordRecognitionTask::analyze_deployment()
 {
     LogTraceFunction;
     callback(AsstMsg::SubTaskStart, basic_info_with_what("MatchDeployment"));
 
     const int skip_count = m_video_fps > m_deployment_fps ? static_cast<int>(m_video_fps / m_deployment_fps) - 1 : 0;
 
-    BattleAnalyzer oper_analyzer;
-    oper_analyzer.set_object_to_analyze(BattleAnalyzer::ObjectOfInterest::Oper);
+    vision::BattlefieldMatcher oper_analyzer;
+    oper_analyzer.set_object_to_analyze(BattlefieldMatcher::ObjectOfInterest::Oper);
 
     for (size_t i = m_stage_ocr_end_frame; i < m_video_frame_count; i += skip_frames(skip_count) + 1) {
         cv::Mat frame;
@@ -315,7 +316,7 @@ bool asst::CombatRecordRecognitionTask::analyze_deployment()
     return !m_all_avatars.empty();
 }
 
-bool asst::CombatRecordRecognitionTask::slice_video()
+bool CombatRecordRecognitionTask::slice_video()
 {
     LogTraceFunction;
     callback(AsstMsg::SubTaskStart, basic_info_with_what("Slice"));
@@ -358,10 +359,10 @@ bool asst::CombatRecordRecognitionTask::slice_video()
         }
         cv::resize(frame, frame, cv::Size(), m_scale, m_scale, cv::INTER_AREA);
 
-        BattleAnalyzer oper_analyzer(frame);
-        oper_analyzer.set_object_to_analyze(BattleAnalyzer::ObjectOfInterest::Oper |
-                                            BattleAnalyzer::ObjectOfInterest::DetailPage |
-                                            BattleAnalyzer::ObjectOfInterest::Kills);
+        BattlefieldMatcher oper_analyzer(frame);
+        oper_analyzer.set_object_to_analyze(BattlefieldMatcher::ObjectOfInterest::Oper |
+                                            BattlefieldMatcher::ObjectOfInterest::DetailPage |
+                                            BattlefieldMatcher::ObjectOfInterest::Kills);
         oper_analyzer.set_total_kills_prompt(total_kills);
         bool analyzed = oper_analyzer.analyze();
         show_img(oper_analyzer);
@@ -482,7 +483,7 @@ bool asst::CombatRecordRecognitionTask::slice_video()
     return true;
 }
 
-bool asst::CombatRecordRecognitionTask::analyze_clip(ClipInfo& clip, ClipInfo* pre_clip_ptr)
+bool CombatRecordRecognitionTask::analyze_clip(ClipInfo& clip, ClipInfo* pre_clip_ptr)
 {
     LogTraceFunction;
 
@@ -499,7 +500,7 @@ bool asst::CombatRecordRecognitionTask::analyze_clip(ClipInfo& clip, ClipInfo* p
     return true;
 }
 
-bool asst::CombatRecordRecognitionTask::compare_skill(ClipInfo& clip, ClipInfo& pre_clip)
+bool CombatRecordRecognitionTask::compare_skill(ClipInfo& clip, ClipInfo& pre_clip)
 {
     LogTraceFunction;
 
@@ -508,7 +509,7 @@ bool asst::CombatRecordRecognitionTask::compare_skill(ClipInfo& clip, ClipInfo& 
     const std::string oper_name = pre_clip.ends_oper_name;
     const Point target_location = m_operator_locations[oper_name];
     const Point target_position = m_normal_tile_info[target_location].pos;
-    BattleSkillReadyAnalyzer analyzer(pre_clip.end_frame);
+    BattlefieldClassifier analyzer(pre_clip.end_frame);
     analyzer.set_base_point(target_position);
     bool pre_ready = analyzer.analyze();
     show_img(analyzer);
@@ -556,7 +557,7 @@ bool asst::CombatRecordRecognitionTask::compare_skill(ClipInfo& clip, ClipInfo& 
     return true;
 }
 
-bool asst::CombatRecordRecognitionTask::detect_operators(ClipInfo& clip, [[maybe_unused]] ClipInfo* pre_clip_ptr)
+bool CombatRecordRecognitionTask::detect_operators(ClipInfo& clip, [[maybe_unused]] ClipInfo* pre_clip_ptr)
 {
     LogTraceFunction;
 
@@ -626,7 +627,7 @@ bool asst::CombatRecordRecognitionTask::detect_operators(ClipInfo& clip, [[maybe
     return true;
 }
 
-bool asst::CombatRecordRecognitionTask::classify_direction(ClipInfo& clip, ClipInfo* pre_clip_ptr)
+bool CombatRecordRecognitionTask::classify_direction(ClipInfo& clip, ClipInfo* pre_clip_ptr)
 {
     LogTraceFunction;
 
@@ -675,7 +676,7 @@ bool asst::CombatRecordRecognitionTask::classify_direction(ClipInfo& clip, ClipI
     return true;
 }
 
-bool asst::CombatRecordRecognitionTask::process_changes(ClipInfo& clip, ClipInfo* pre_clip_ptr)
+bool CombatRecordRecognitionTask::process_changes(ClipInfo& clip, ClipInfo* pre_clip_ptr)
 {
     LogTraceFunction;
     std::ignore = m_video_ptr;
@@ -768,7 +769,7 @@ bool asst::CombatRecordRecognitionTask::process_changes(ClipInfo& clip, ClipInfo
     return true;
 }
 
-void asst::CombatRecordRecognitionTask::ananlyze_deployment_names(ClipInfo& clip)
+void CombatRecordRecognitionTask::ananlyze_deployment_names(ClipInfo& clip)
 {
     LogTraceFunction;
 
@@ -802,7 +803,7 @@ void asst::CombatRecordRecognitionTask::ananlyze_deployment_names(ClipInfo& clip
     }
 }
 
-json::object asst::CombatRecordRecognitionTask::analyze_action_condition(ClipInfo& clip, ClipInfo* pre_clip_ptr)
+json::object CombatRecordRecognitionTask::analyze_action_condition(ClipInfo& clip, ClipInfo* pre_clip_ptr)
 {
     LogTraceFunction;
 
@@ -828,8 +829,8 @@ json::object asst::CombatRecordRecognitionTask::analyze_action_condition(ClipInf
         { "kills", kills },
     };
 
-    BattleAnalyzer analyzer;
-    analyzer.set_object_to_analyze(BattleAnalyzer::ObjectOfInterest::Cost);
+    BattlefieldMatcher analyzer;
+    analyzer.set_object_to_analyze(BattlefieldMatcher::ObjectOfInterest::Cost);
 
     analyzer.set_image(pre_clip_ptr->end_frame); // 开始执行这次操作的画面
     if (!analyzer.analyze()) {
@@ -848,7 +849,7 @@ json::object asst::CombatRecordRecognitionTask::analyze_action_condition(ClipInf
     return condition;
 }
 
-size_t asst::CombatRecordRecognitionTask::skip_frames(size_t count)
+size_t CombatRecordRecognitionTask::skip_frames(size_t count)
 {
     for (size_t i = 0; i < count; ++i) {
         cv::Mat ignore;
@@ -857,7 +858,7 @@ size_t asst::CombatRecordRecognitionTask::skip_frames(size_t count)
     return count;
 }
 
-std::string asst::CombatRecordRecognitionTask::analyze_detail_page_oper_name(const cv::Mat& frame)
+std::string CombatRecordRecognitionTask::analyze_detail_page_oper_name(const cv::Mat& frame)
 {
     auto analyze = [&](OCRer& name_analyzer) {
         name_analyzer.set_image(frame);
@@ -887,7 +888,7 @@ std::string asst::CombatRecordRecognitionTask::analyze_detail_page_oper_name(con
     return name;
 }
 
-void asst::CombatRecordRecognitionTask::show_img(const asst::VisionHelper& analyzer)
+void CombatRecordRecognitionTask::show_img(const VisionHelper& analyzer)
 {
 #ifdef ASST_DEBUG
     show_img(analyzer.get_draw());
@@ -896,7 +897,7 @@ void asst::CombatRecordRecognitionTask::show_img(const asst::VisionHelper& analy
 #endif
 }
 
-void asst::CombatRecordRecognitionTask::show_img(const cv::Mat& img)
+void CombatRecordRecognitionTask::show_img(const cv::Mat& img)
 {
 #ifdef ASST_DEBUG
     cv::imshow(DrawWindow, img);
@@ -905,3 +906,5 @@ void asst::CombatRecordRecognitionTask::show_img(const cv::Mat& img)
     std::ignore = img;
 #endif
 }
+
+MAA_NS_END

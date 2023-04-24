@@ -127,18 +127,18 @@ bool asst::BattleFormationTask::select_random_support_unit()
     return ProcessTask(*this, { "BattleSupportUnitFormation" }).run();
 }
 
-std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_opers()
+std::vector<asst::vision::OCRer::Result> asst::BattleFormationTask::analyzer_opers()
 {
     auto formation_task_ptr = Task.get("BattleQuickFormationOCR");
     auto image = ctrler()->get_image();
     const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
 
-    TemplDetOCRer name_analyzer(image);
+    vision::TemplDetOCRer name_analyzer(image);
     name_analyzer.set_task_info("BattleQuickFormation-OperNameFlag", "BattleQuickFormationOCR");
     name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
     name_analyzer.analyze();
 
-    TemplDetOCRer special_focus_analyzer(image);
+    vision::TemplDetOCRer special_focus_analyzer(image);
     special_focus_analyzer.set_task_info("BattleQuickFormation-OperNameFlag-SpecialFocus", "BattleQuickFormationOCR");
     special_focus_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
     special_focus_analyzer.analyze();
@@ -152,7 +152,7 @@ std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_opers()
     }
 
     // 按位置排个序
-    ranges::sort(opers_result, [](const TextRect& lhs, const TextRect& rhs) -> bool {
+    ranges::sort(opers_result, [](const vision::OCRer::Result& lhs, const vision::OCRer::Result& rhs) -> bool {
         if (std::abs(lhs.rect.x - rhs.rect.x) < 5) { // x差距较小则理解为是同一列的，按y排序
             return lhs.rect.y < rhs.rect.y;
         }

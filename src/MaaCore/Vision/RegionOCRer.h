@@ -14,7 +14,7 @@ public:
     virtual ~RegionOCRer() override = default;
 
     ResultOpt analyze() const;
-    Result result() const { return m_result; }
+    Result get_result() const { return m_result; }
 
 protected:
     virtual void _set_roi(const Rect& roi) override { set_roi(roi); }

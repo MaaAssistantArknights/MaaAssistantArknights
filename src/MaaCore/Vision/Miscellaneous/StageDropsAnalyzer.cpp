@@ -530,7 +530,7 @@ std::string StageDropsAnalyzer::match_item(const Rect& roi, StageDropType type, 
     return result;
 }
 
-std::optional<TextRect> StageDropsAnalyzer::match_quantity_string(const Rect& roi, bool use_word_model)
+std::optional<vision::OCRer::Result> StageDropsAnalyzer::match_quantity_string(const Rect& roi, bool use_word_model)
 {
     auto task_ptr = Task.get<MatchTaskInfo>("StageDrops-Quantity");
 
@@ -598,7 +598,7 @@ std::optional<TextRect> StageDropsAnalyzer::match_quantity_string(const Rect& ro
     return analyzer.get_result().front();
 }
 
-std::optional<TextRect> StageDropsAnalyzer::match_quantity_string(const Rect& roi, const std::string& item,
+std::optional<vision::OCRer::Result> StageDropsAnalyzer::match_quantity_string(const Rect& roi, const std::string& item,
                                                                   bool use_word_model)
 {
     auto task_ptr = Task.get<MatchTaskInfo>("StageDrops-Quantity");
@@ -696,7 +696,7 @@ int StageDropsAnalyzer::quantity_string_to_int(const std::string& str)
 
 int StageDropsAnalyzer::match_quantity(const Rect& roi, const std::string& item, bool use_word_model)
 {
-    TextRect result;
+    vision::OCRer::Result result;
     // is furniture?
     if (item.empty() || item == "furni") {
         auto opt = match_quantity_string(roi, use_word_model);

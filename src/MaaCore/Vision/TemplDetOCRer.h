@@ -21,7 +21,7 @@ public:
 
     ResultsVecOpt analyze() const;
     // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉
-    ResultsVec result() const { return m_results; }
+    ResultsVec get_result() const { return m_results; }
 
 protected:
     // from Config

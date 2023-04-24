@@ -7,6 +7,7 @@
 
 #include "Common/AsstTypes.h"
 #include "Config/Miscellaneous/RecruitConfig.h"
+#include "Vision/OCRer.h"
 
 namespace asst
 {
@@ -47,7 +48,7 @@ namespace asst
         bool hire_all();
         bool initialize_dirty_slot_info(const cv::Mat&);
         std::vector<std::string> get_tag_names(const std::vector<RecruitConfig::TagId>& ids) const;
-        static std::vector<TextRect> start_recruit_analyze(const cv::Mat& image);
+        static std::vector<vision::OCRer::Result> start_recruit_analyze(const cv::Mat& image);
 
         template <typename Rng>
         void upload_result(const Rng& tag_ids, const json::value& details);

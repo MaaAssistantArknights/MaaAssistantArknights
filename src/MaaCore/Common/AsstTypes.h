@@ -191,11 +191,6 @@ namespace asst
     {
         return To { rect.x, rect.y, rect.width, rect.height };
     }
-
-    inline cv::Mat make_roi(const cv::Mat& img, const Rect& roi)
-    {
-        return img(make_rect<cv::Rect>(roi));
-    }
 } // namespace asst
 
 namespace std
@@ -216,14 +211,6 @@ namespace std
         {
             return std::hash<int>()(rect.x) ^ std::hash<int>()(rect.y) ^ std::hash<int>()(rect.width) ^
                    std::hash<int>()(rect.height);
-        }
-    };
-    template <>
-    struct hash<asst::TextRect>
-    {
-        size_t operator()(const asst::TextRect& tr) const noexcept
-        {
-            return std::hash<std::string>()(tr.text) ^ std::hash<asst::Rect>()(tr.rect);
         }
     };
 }

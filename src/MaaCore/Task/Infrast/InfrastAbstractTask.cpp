@@ -102,7 +102,7 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
         return false;
     }
 
-    InfrastFacilityAnalyzer analyzer(ctrler()->get_image());
+    vision::InfrastFacilityAnalyzer analyzer(ctrler()->get_image());
     analyzer.set_to_be_analyzed({ facility_name() });
     if (!analyzer.analyze()) {
         Log.info("result is empty");
@@ -250,9 +250,9 @@ bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig co
     auto room_config = origin_room_config;
 
     const auto image = ctrler()->get_image();
-    InfrastOperAnalyzer oper_analyzer(image);
-    oper_analyzer.set_to_be_calced(InfrastOperAnalyzer::ToBeCalced::Selected |
-                                   InfrastOperAnalyzer::ToBeCalced::Doing);
+    vision::InfrastOperAnalyzer oper_analyzer(image);
+    oper_analyzer.set_to_be_calced(vision::InfrastOperAnalyzer::ToBeCalced::Selected |
+                                   vision::InfrastOperAnalyzer::ToBeCalced::Doing);
     if (!oper_analyzer.analyze()) {
         Log.warn("No oper");
         return false;
@@ -278,7 +278,7 @@ bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig co
 
     const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
     for (const auto& oper : oper_analyzer_res) {
-        RegionOCRer name_analyzer;
+        vision::RegionOCRer name_analyzer;
         name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
         name_analyzer.set_image(oper.name_img);
         name_analyzer.set_bin_expansion(0);
@@ -289,7 +289,7 @@ bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig co
             break;
         }
 
-        const std::string& name = name_analyzer.get_result().front().text;
+        const std::string& name = name_analyzer.get_result().text;
         if (auto iter = ranges::find(room_config.names, name); iter != room_config.names.end()) {
             Log.info(name, "在\"operators\"中，且已选中");
             room_config.names.erase(iter);
@@ -323,8 +323,8 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
     }
 
     const auto image = ctrler()->get_image();
-    InfrastOperAnalyzer oper_analyzer(image);
-    oper_analyzer.set_to_be_calced(InfrastOperAnalyzer::ToBeCalced::Selected);
+    vision::InfrastOperAnalyzer oper_analyzer(image);
+    oper_analyzer.set_to_be_calced(vision::InfrastOperAnalyzer::ToBeCalced::Selected);
     if (!oper_analyzer.analyze()) {
         Log.warn("No oper");
         return false;
@@ -334,14 +334,14 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
 
     const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
     for (const auto& oper : oper_analyzer.get_result()) {
-        RegionOCRer name_analyzer;
+        vision::RegionOCRer name_analyzer;
         name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
         name_analyzer.set_image(oper.name_img);
         name_analyzer.set_bin_expansion(0);
         if (!name_analyzer.analyze()) {
             continue;
         }
-        const std::string& name = name_analyzer.get_result().front().text;
+        const std::string& name = name_analyzer.get_result().text;
         partial_result.emplace_back(name);
 
         if (auto iter = ranges::find(room_config.names, name); iter != room_config.names.end()) {
@@ -380,8 +380,8 @@ void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::str
     }
 
     const auto image = ctrler()->get_image();
-    InfrastOperAnalyzer oper_analyzer(image);
-    oper_analyzer.set_to_be_calced(InfrastOperAnalyzer::ToBeCalced::Selected);
+    vision::InfrastOperAnalyzer oper_analyzer(image);
+    oper_analyzer.set_to_be_calced(vision::InfrastOperAnalyzer::ToBeCalced::Selected);
     if (!oper_analyzer.analyze()) {
         Log.warn("No oper");
         return;
@@ -389,22 +389,22 @@ void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::str
     oper_analyzer.sort_by_loc();
     const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
 
-    std::vector<TextRect> page_result;
+    std::vector<vision::RegionOCRer::Result> page_result;
     for (const auto& oper : oper_analyzer.get_result()) {
-        RegionOCRer name_analyzer;
+        vision::RegionOCRer name_analyzer;
         name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
         name_analyzer.set_image(oper.name_img);
         name_analyzer.set_bin_expansion(0);
         if (!name_analyzer.analyze()) {
             continue;
         }
-        TextRect tr = name_analyzer.get_result().front();
+        auto tr = name_analyzer.get_result();
         tr.rect = oper.rect;
         page_result.emplace_back(std::move(tr));
     }
 
     for (const std::string& name : names) {
-        auto iter = ranges::find_if(page_result, [&name](const TextRect& tr) { return tr.text == name; });
+        auto iter = ranges::find_if(page_result, [&name](const auto& tr) { return tr.text == name; });
         if (iter != page_result.cend()) {
             ctrler()->click(iter->rect);
         }
@@ -441,8 +441,8 @@ bool asst::InfrastAbstractTask::click_clear_button()
         // 有可能点快了，清空按钮刚刚出来，实际点上去还不生效，就点了
         // 所以多识别一次，如果没清掉就再清一下
         if (ret) {
-            InfrastOperAnalyzer analyzer(ctrler()->get_image());
-            analyzer.set_to_be_calced(InfrastOperAnalyzer::ToBeCalced::Selected);
+            vision::InfrastOperAnalyzer analyzer(ctrler()->get_image());
+            analyzer.set_to_be_calced(vision::InfrastOperAnalyzer::ToBeCalced::Selected);
             if (!analyzer.analyze()) {
                 return false;
             }

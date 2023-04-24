@@ -6,8 +6,8 @@
 
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "Vision/Battle/BattleAnalyzer.h"
-#include "Vision/Battle/BattleSkillReadyAnalyzer.h"
+#include "Vision/Battle/BattlefieldMatcher.h"
+#include "Vision/Battle/BattlefieldClassifier.h"
 #include "Vision/Miscellaneous/DepotAnalyzer.h"
 #include "Vision/Miscellaneous/StageDropsAnalyzer.h"
 
@@ -44,7 +44,7 @@ void asst::DebugTask::test_skill_ready()
     int correct = 0;
     for (const auto& entry : std::filesystem::directory_iterator(R"(../../test/skill_ready/y)")) {
         cv::Mat image = imread(entry.path().string());
-        BattleSkillReadyAnalyzer analyzer(image);
+        BattlefieldClassifier analyzer(image);
         total++;
         if (analyzer.analyze()) {
             correct++;
@@ -52,7 +52,7 @@ void asst::DebugTask::test_skill_ready()
     }
     for (const auto& entry : std::filesystem::directory_iterator(R"(../../test/skill_ready/n)")) {
         cv::Mat image = imread(entry.path().string());
-        BattleSkillReadyAnalyzer analyzer(image);
+        BattlefieldClassifier analyzer(image);
         total++;
         if (!analyzer.analyze()) {
             correct++;
@@ -66,7 +66,7 @@ void asst::DebugTask::test_battle_image()
     cv::Mat image = asst::imread(utils::path("1.png"));
     cv::Mat resized;
     cv::resize(image, resized, cv::Size(1280, 720), 0, 0, cv::INTER_AREA);
-    BattleAnalyzer analyzer(resized);
-    analyzer.set_object_to_analyze(BattleAnalyzer::ObjectOfInterest::Oper);
+    BattlefieldMatcher analyzer(resized);
+    analyzer.set_object_to_analyze(BattlefieldMatcher::ObjectOfInterest::Oper);
     analyzer.analyze();
 }

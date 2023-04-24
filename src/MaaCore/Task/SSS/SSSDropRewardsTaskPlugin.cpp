@@ -34,7 +34,7 @@ bool asst::SSSDropRewardsTaskPlugin::_run()
 
     struct DropRecruitment
     {
-        TextRect ocr_res;
+        vision::OCRer::Result ocr_res;
         std::optional<Role> role;
     };
 

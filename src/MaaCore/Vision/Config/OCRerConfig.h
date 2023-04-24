@@ -36,7 +36,7 @@ public:
     virtual void set_task_info(std::shared_ptr<TaskInfo> task_ptr);
     virtual void set_task_info(const std::string& task_name);
 
-    virtual void set_use_char_model(bool enable) noexcept;
+    void set_use_char_model(bool enable) noexcept;
 
     void set_bin_threshold(int lower, int upper = 255);
     void set_bin_expansion(int expansion);

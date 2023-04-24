@@ -11,7 +11,7 @@
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/HashAnalyzer.h"
+#include "Vision/Hasher.h"
 #include "Vision/Infrast/InfrastOperAnalyzer.h"
 #include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
@@ -336,7 +336,7 @@ size_t asst::InfrastProductionTask::opers_detect()
                 return false;
             }
             // 有可能是同一个干员，比一下hash
-            int dist = HashAnalyzer::hamming(cur_oper.face_hash, oper.face_hash);
+            int dist = Hasher::hamming(cur_oper.face_hash, oper.face_hash);
             Log.debug("opers_detect hash dist |", dist);
             return dist < face_hash_thres;
         });
@@ -662,7 +662,7 @@ bool asst::InfrastProductionTask::opers_choose()
             }
             {
                 auto avlb_iter = ranges::find_if(m_all_available_opers, [&](const infrast::Oper& lhs) -> bool {
-                    int dist = HashAnalyzer::hamming(lhs.face_hash, find_iter->face_hash);
+                    int dist = Hasher::hamming(lhs.face_hash, find_iter->face_hash);
                     Log.debug("opers_choose | face hash dist", dist);
                     return dist < face_hash_thres;
                 });

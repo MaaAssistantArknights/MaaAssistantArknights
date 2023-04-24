@@ -16,8 +16,8 @@
 #include "Utils/Algorithm.hpp"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "Vision/Battle/BattleAnalyzer.h"
-#include "Vision/Battle/BattleSkillReadyAnalyzer.h"
+#include "Vision/Battle/BattlefieldMatcher.h"
+#include "Vision/Battle/BattlefieldClassifier.h"
 #include "Vision/Matcher.h"
 #include "Vision/RegionOCRer.h"
 

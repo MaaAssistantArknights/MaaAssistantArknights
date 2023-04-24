@@ -17,7 +17,7 @@ public:
 
     ResultsVecOpt analyze() const;
     // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉
-    ResultsVec result() const { return m_result; }
+    ResultsVec get_result() const { return m_result; }
 
 protected:
     virtual void _set_roi(const Rect& roi) override { set_roi(roi); }
