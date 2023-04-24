@@ -7,7 +7,7 @@
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 
-MAA_NS_BEGIN
+MAA_VISION_NS_BEGIN
 
 Matcher::ResultOpt Matcher::analyze() const
 {
@@ -85,4 +85,4 @@ Matcher::RawResult Matcher::preproc_and_match(
     return RawResult { .matched = matched, .templ = templ, .templ_name = templ_name };
 }
 
-MAA_NS_END
+MAA_VISION_NS_END

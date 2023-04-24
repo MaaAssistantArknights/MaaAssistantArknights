@@ -3,7 +3,7 @@
 #include "Config/Miscellaneous/OcrConfig.h"
 #include "Config/TaskData.h"
 
-MAA_NS_BEGIN
+MAA_VISION_NS_BEGIN
 
 void OCRerConfig::set_params(Params params)
 {
@@ -45,6 +45,17 @@ void OCRerConfig::set_use_char_model(bool enable) noexcept
     m_params.use_char_model = enable;
 }
 
+void OCRerConfig::set_bin_threshold(int lower, int upper)
+{
+    m_params.bin_threshold_lower = lower;
+    m_params.bin_threshold_upper = upper;
+}
+
+void OCRerConfig::set_bin_expansion(int expansion)
+{
+    m_params.bin_expansion = expansion;
+}
+
 void OCRerConfig::_set_task_info(OcrTaskInfo task_info)
 {
     set_required(std::move(task_info.text));
@@ -56,4 +67,4 @@ void OCRerConfig::_set_task_info(OcrTaskInfo task_info)
     _set_roi(task_info.roi);
 }
 
-MAA_NS_END
+MAA_VISION_NS_END

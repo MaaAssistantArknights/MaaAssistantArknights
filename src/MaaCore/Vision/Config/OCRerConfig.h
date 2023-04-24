@@ -5,7 +5,7 @@
 
 #include <variant>
 
-MAA_NS_BEGIN
+MAA_VISION_NS_BEGIN
 
 class OCRerConfig
 {
@@ -18,6 +18,10 @@ public:
         bool replace_full = false;
         bool without_det = false;
         bool use_char_model = false;
+
+        int bin_threshold_lower = 140;
+        int bin_threshold_upper = 255;
+        int bin_expansion = 2;
     };
 
 public:
@@ -34,6 +38,9 @@ public:
 
     virtual void set_use_char_model(bool enable) noexcept;
 
+    void set_bin_threshold(int lower, int upper = 255);
+    void set_bin_expansion(int expansion);
+
 protected:
     virtual void _set_roi(const Rect& roi) = 0;
     virtual void _set_task_info(OcrTaskInfo task_info);
@@ -42,4 +49,4 @@ protected:
     Params m_params;
 };
 
-MAA_NS_END
+MAA_VISION_NS_END

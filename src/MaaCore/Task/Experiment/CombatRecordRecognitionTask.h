@@ -13,7 +13,7 @@ namespace cv
     class VideoCapture;
 }
 
-MAA_NS_BEGIN
+MAA_VISION_NS_BEGIN
 
 class VisionHelper;
 
@@ -104,4 +104,4 @@ private:
 #endif
 };
 
-MAA_NS_END
+MAA_VISION_NS_END

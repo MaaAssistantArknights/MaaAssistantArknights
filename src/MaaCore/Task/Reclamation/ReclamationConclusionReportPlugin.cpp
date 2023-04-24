@@ -7,8 +7,8 @@
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/OcrImageAnalyzer.h"
+#include "Vision/Matcher.h"
+#include "Vision/OcrAnalyzer.h"
 
 bool asst::ReclamationConclusionReportPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -35,7 +35,7 @@ bool asst::ReclamationConclusionReportPlugin::_run()
 
 bool asst::ReclamationConclusionReportPlugin::check_page_valid(const cv::Mat& image)
 {
-    MatchImageAnalyzer pageAnalyzer(image);
+    MatchAnalyzer pageAnalyzer(image);
     pageAnalyzer.set_task_info("Reclamation@GiveupSkipConfirm");
     return pageAnalyzer.analyze();
 }
@@ -51,12 +51,12 @@ void asst::ReclamationConclusionReportPlugin::analyze(const cv::Mat& image)
 
 int asst::ReclamationConclusionReportPlugin::analyze_badges(const cv::Mat& image)
 {
-    MatchImageAnalyzer badgeIconAnalyzer(image);
+    MatchAnalyzer badgeIconAnalyzer(image);
     badgeIconAnalyzer.set_task_info("Reclamation@ConclusionReportBadgeIcon");
     if (!badgeIconAnalyzer.analyze()) return -1;
     const auto& iconRect = badgeIconAnalyzer.get_result();
 
-    OcrImageAnalyzer badgeCntAnalyzer(image);
+    OcrAnalyzer badgeCntAnalyzer(image);
     badgeCntAnalyzer.set_task_info("NumberOcrReplace");
     Rect roi = Task.get("Reclamation@ReportBadgesOcr")->roi;
     int newX = iconRect.rect.x + iconRect.rect.width;
@@ -75,7 +75,7 @@ int asst::ReclamationConclusionReportPlugin::analyze_badges(const cv::Mat& image
 
 int asst::ReclamationConclusionReportPlugin::analyze_construction_points(const cv::Mat& image)
 {
-    OcrImageAnalyzer consAnalyzer(image);
+    OcrAnalyzer consAnalyzer(image);
     consAnalyzer.set_task_info("NumberOcrReplace");
     consAnalyzer.set_roi(Task.get("Reclamation@ReportConstructPointsOcr")->roi);
     if (!consAnalyzer.analyze()) return -1;

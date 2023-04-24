@@ -4,8 +4,8 @@
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/OcrImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/OcrAnalyzer.h"
+#include "Vision/RegionOCRer.h"
 
 #include "ReclamationBattlePlugin.h"
 

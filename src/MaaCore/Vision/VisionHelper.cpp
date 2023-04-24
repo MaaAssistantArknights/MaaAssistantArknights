@@ -9,7 +9,7 @@
 #include "Utils/StringMisc.hpp"
 #include "Utils/Time.hpp"
 
-MAA_NS_BEGIN
+MAA_VISION_NS_BEGIN
 
 VisionHelper::VisionHelper(const cv::Mat& image, const Rect& roi, Assistant* inst)
     : InstHelper(inst), m_image(image), m_roi(correct_rect(roi, image))
@@ -92,4 +92,4 @@ bool VisionHelper::save_img(const std::filesystem::path& relative_dir)
     return ret;
 }
 
-MAA_NS_END
+MAA_VISION_NS_END

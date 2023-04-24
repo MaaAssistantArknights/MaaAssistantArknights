@@ -5,7 +5,7 @@
 #include "Config/Miscellaneous/OcrPack.h"
 #include "Vision/Config/OCRerConfig.h"
 
-MAA_NS_BEGIN
+MAA_VISION_NS_BEGIN
 
 class OCRer : public VisionHelper, public OCRerConfig
 {
@@ -23,6 +23,10 @@ public:
 protected:
     virtual void _set_roi(const Rect& roi) override { set_roi(roi); }
 
+    // Not working for OCR with detection
+    using OCRerConfig::set_bin_expansion;
+    using OCRerConfig::set_bin_threshold;
+
 protected:
     void postproc_rect_(Result& res);
     void postproc_trim_(Result& res);
@@ -32,4 +36,4 @@ protected:
     bool filter_and_replace_by_required_(Result& res);
 };
 
-MAA_NS_END
+MAA_VISION_NS_END

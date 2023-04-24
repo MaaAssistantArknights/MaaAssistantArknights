@@ -10,7 +10,7 @@
 // #define ASST_DEBUG
 // #endif // ! ASST_DEBUG
 
-MAA_NS_BEGIN
+MAA_VISION_NS_BEGIN
 
 class TaskData;
 class Status;
@@ -97,4 +97,4 @@ inline static void sort_by_required_(ResultsVec& results, const std::vector<std:
     });
 }
 
-MAA_NS_END
+MAA_VISION_NS_END

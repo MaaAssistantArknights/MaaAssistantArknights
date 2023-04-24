@@ -6,8 +6,8 @@
 #include "Task/ProcessTask.h"
 #include "Task/SSS/SSSBattleProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/OcrImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/OcrAnalyzer.h"
+#include "Vision/RegionOCRer.h"
 
 bool asst::SSSStageManagerTask::_run()
 {
@@ -71,7 +71,7 @@ std::optional<std::string> asst::SSSStageManagerTask::analyze_stage()
 {
     LogTraceFunction;
 
-    OcrWithPreprocessImageAnalyzer analyzer(ctrler()->get_image());
+    OcrWithPreprocessAnalyzer analyzer(ctrler()->get_image());
     analyzer.set_task_info("SSSStageNameOCR");
     if (!analyzer.analyze()) {
         return std::nullopt;

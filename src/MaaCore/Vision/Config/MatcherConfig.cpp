@@ -2,7 +2,7 @@
 
 #include "Config/TaskData.h"
 
-MAA_NS_BEGIN
+MAA_VISION_NS_BEGIN
 
 void MatcherConfig::set_params(Params params)
 {
@@ -45,4 +45,4 @@ void MatcherConfig::_set_task_info(MatchTaskInfo task_info)
     _set_roi(task_info.roi);
 }
 
-MAA_NS_END
+MAA_VISION_NS_END

@@ -9,7 +9,7 @@
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/Miscellaneous/DepotImageAnalyzer.h"
+#include "Vision/Miscellaneous/DepotAnalyzer.h"
 
 bool asst::DepotRecognitionTask::_run()
 {
@@ -28,7 +28,7 @@ bool asst::DepotRecognitionTask::swipe_and_analyze()
 
     size_t pre_pos = 0ULL;
     while (true) {
-        DepotImageAnalyzer analyzer(ctrler()->get_image());
+        DepotAnalyzer analyzer(ctrler()->get_image());
 
         auto future = std::async(std::launch::async, [&]() { swipe(); });
 
@@ -39,7 +39,7 @@ bool asst::DepotRecognitionTask::swipe_and_analyze()
             break;
         }
         size_t cur_pos = analyzer.get_match_begin_pos();
-        if (cur_pos == pre_pos || cur_pos == DepotImageAnalyzer::NPos) {
+        if (cur_pos == pre_pos || cur_pos == DepotAnalyzer::NPos) {
             break;
         }
         pre_pos = cur_pos;

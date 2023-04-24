@@ -8,7 +8,7 @@
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
 
-MAA_NS_BEGIN
+MAA_VISION_NS_BEGIN
 
 OCRer::ResultsVecOpt OCRer::analyze() const
 {
@@ -109,4 +109,4 @@ bool OCRer::filter_and_replace_by_required_(Result& res)
     };
 }
 
-MAA_NS_END
+MAA_VISION_NS_END

@@ -9,7 +9,7 @@
 #include "Config/TemplResource.h"
 #include "Utils/Logger.hpp"
 
-MAA_NS_BEGIN
+MAA_VISION_NS_BEGIN
 
 MultiMatcher::ResultsVecOpt MultiMatcher::analyze() const
 {
@@ -71,4 +71,4 @@ MultiMatcher::ResultsVecOpt MultiMatcher::analyze() const
     return results;
 }
 
-MAA_NS_END
+MAA_VISION_NS_END

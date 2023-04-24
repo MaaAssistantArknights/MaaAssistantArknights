@@ -13,7 +13,7 @@
 #include "Task/ProcessTask.h"
 #include "Task/ReportDataTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
+#include "Vision/Miscellaneous/StageDropsAnalyzer.h"
 
 bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -104,7 +104,7 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
         return false;
     }
 
-    StageDropsImageAnalyzer analyzer(ctrler()->get_image());
+    StageDropsAnalyzer analyzer(ctrler()->get_image());
     if (!analyzer.analyze()) {
         auto info = basic_info();
         info["subtask"] = "RecognizeDrops";

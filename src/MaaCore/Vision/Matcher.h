@@ -3,7 +3,7 @@
 
 #include "Vision/Config/MatcherConfig.h"
 
-MAA_NS_BEGIN
+MAA_VISION_NS_BEGIN
 
 class Matcher : public VisionHelper, public MatcherConfig
 {
@@ -41,4 +41,4 @@ protected:
     virtual void _set_roi(const Rect& roi) override { set_roi(roi); }
 };
 
-MAA_NS_END
+MAA_VISION_NS_END

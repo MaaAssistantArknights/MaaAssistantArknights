@@ -8,7 +8,7 @@
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 
-MAA_NS_BEGIN
+MAA_VISION_NS_BEGIN
 
 void BestMatcher::append_templ(std::string name, const cv::Mat& templ)
 {
@@ -56,4 +56,4 @@ BestMatcher::ResultOpt BestMatcher::analyze() const
     return result;
 }
 
-MAA_NS_END
+MAA_VISION_NS_END

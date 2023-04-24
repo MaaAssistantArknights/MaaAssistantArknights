@@ -11,11 +11,11 @@
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/HashImageAnalyzer.h"
-#include "Vision/Infrast/InfrastOperImageAnalyzer.h"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/MultiMatchImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/HashAnalyzer.h"
+#include "Vision/Infrast/InfrastOperAnalyzer.h"
+#include "Vision/Matcher.h"
+#include "Vision/MultiMatcher.h"
+#include "Vision/RegionOCRer.h"
 
 asst::InfrastProductionTask& asst::InfrastProductionTask::set_uses_of_drone(std::string uses_of_drones) noexcept
 {
@@ -75,51 +75,50 @@ void asst::InfrastProductionTask::change_product()
 {
     auto customProduct = current_room_config().product;
     switch (customProduct) {
-        /*制造站的产品类型*/
-        case infrast::CustomRoomConfig::Product::BattleRecord: {
-            ProcessTask(*this, { "ChangeProductToMiddleBattleRecord" }).run();
-            json::value callback_info = basic_info_with_what("ProductChanged");
-            callback_info["details"]["product"] = "MiddleBattleRecord";
-            callback(AsstMsg::SubTaskExtraInfo, callback_info);
-            break;
-        }
-        case infrast::CustomRoomConfig::Product::PureGold: {
-            ProcessTask(*this, { "ChangeProductToPureGold" }).run();
-            json::value callback_info = basic_info_with_what("ProductChanged");
-            callback_info["details"]["product"] = "PureGold";
-            callback(AsstMsg::SubTaskExtraInfo, callback_info);
-            break;
-        }
-        case infrast::CustomRoomConfig::Product::OriginiumShard: {
-            ProcessTask(*this, { "ChangeProductToOriginiumShard" }).run();
-            json::value callback_info = basic_info_with_what("ProductChanged");
-            callback_info["details"]["product"] = "OriginiumShard";
-            callback(AsstMsg::SubTaskExtraInfo, callback_info);
-            break;
-        }
-        case infrast::CustomRoomConfig::Product::Dualchip: {
+    /*制造站的产品类型*/
+    case infrast::CustomRoomConfig::Product::BattleRecord: {
+        ProcessTask(*this, { "ChangeProductToMiddleBattleRecord" }).run();
+        json::value callback_info = basic_info_with_what("ProductChanged");
+        callback_info["details"]["product"] = "MiddleBattleRecord";
+        callback(AsstMsg::SubTaskExtraInfo, callback_info);
+        break;
+    }
+    case infrast::CustomRoomConfig::Product::PureGold: {
+        ProcessTask(*this, { "ChangeProductToPureGold" }).run();
+        json::value callback_info = basic_info_with_what("ProductChanged");
+        callback_info["details"]["product"] = "PureGold";
+        callback(AsstMsg::SubTaskExtraInfo, callback_info);
+        break;
+    }
+    case infrast::CustomRoomConfig::Product::OriginiumShard: {
+        ProcessTask(*this, { "ChangeProductToOriginiumShard" }).run();
+        json::value callback_info = basic_info_with_what("ProductChanged");
+        callback_info["details"]["product"] = "OriginiumShard";
+        callback(AsstMsg::SubTaskExtraInfo, callback_info);
+        break;
+    }
+    case infrast::CustomRoomConfig::Product::Dualchip: {
+        break;
+    }
+    /*贸易站的订单类型*/
+    case infrast::CustomRoomConfig::Product::LMD: {
+        ProcessTask(*this, { "ChangeToMoneyOrder" }).run();
+        json::value callback_info = basic_info_with_what("ProductChanged");
+        callback_info["details"]["product"] = "Money";
+        callback(AsstMsg::SubTaskExtraInfo, callback_info);
+        break;
+    }
+    case infrast::CustomRoomConfig::Product::Orundum: {
+        ProcessTask(*this, { "ChangeToSyntheticJadeFlagOrder" }).run();
+        json::value callback_info = basic_info_with_what("ProductChanged");
+        callback_info["details"]["product"] = "SyntheticJade";
+        callback(AsstMsg::SubTaskExtraInfo, callback_info);
+        break;
+    }
 
-            break;
-        }
-        /*贸易站的订单类型*/
-        case infrast::CustomRoomConfig::Product::LMD: {
-            ProcessTask(*this, { "ChangeToMoneyOrder" }).run();
-            json::value callback_info = basic_info_with_what("ProductChanged");
-            callback_info["details"]["product"] = "Money";
-            callback(AsstMsg::SubTaskExtraInfo, callback_info);
-            break;
-        }
-        case infrast::CustomRoomConfig::Product::Orundum: {
-            ProcessTask(*this, { "ChangeToSyntheticJadeFlagOrder" }).run();
-            json::value callback_info = basic_info_with_what("ProductChanged");
-            callback_info["details"]["product"] = "SyntheticJade";
-            callback(AsstMsg::SubTaskExtraInfo, callback_info);
-            break;
-        }
-
-        default: {
-            break;
-        }   
+    default: {
+        break;
+    }
     }
 }
 
@@ -160,7 +159,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
 
         /* 识别当前制造/贸易站有没有添加干员按钮，没有就不换班 */
         const auto image = ctrler()->get_image();
-        MatchImageAnalyzer add_analyzer(image);
+        MatchAnalyzer add_analyzer(image);
         const auto add_task_ptr = Task.get("InfrastAddOperator" + facility_name() + m_work_mode_name);
         add_analyzer.set_task_info(add_task_ptr);
         if (!add_analyzer.analyze()) {
@@ -174,7 +173,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
 
         /* 识别当前正在造什么 */
-        MatchImageAnalyzer product_analyzer(image);
+        MatchAnalyzer product_analyzer(image);
         auto& all_products = InfrastData.get_facility_info(facility_name()).products;
         std::string cur_product = all_products.at(0);
         double max_score = 0;
@@ -190,7 +189,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
         set_product(cur_product);
 
-        MultiMatchImageAnalyzer locked_analyzer(image);
+        MultiMatchAnalyzer locked_analyzer(image);
         locked_analyzer.set_task_info("InfrastOperLocked" + facility_name());
         if (locked_analyzer.analyze()) {
             m_cur_num_of_locked_opers = static_cast<int>(locked_analyzer.get_result().size());
@@ -302,8 +301,8 @@ size_t asst::InfrastProductionTask::opers_detect()
     LogTraceFunction;
     const auto image = ctrler()->get_image();
 
-    InfrastOperImageAnalyzer oper_analyzer(image);
-    oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::All);
+    InfrastOperAnalyzer oper_analyzer(image);
+    oper_analyzer.set_to_be_calced(InfrastOperAnalyzer::ToBeCalced::All);
     oper_analyzer.set_facility(facility_name());
 
     if (!oper_analyzer.analyze()) {
@@ -337,7 +336,7 @@ size_t asst::InfrastProductionTask::opers_detect()
                 return false;
             }
             // 有可能是同一个干员，比一下hash
-            int dist = HashImageAnalyzer::hamming(cur_oper.face_hash, oper.face_hash);
+            int dist = HashAnalyzer::hamming(cur_oper.face_hash, oper.face_hash);
             Log.debug("opers_detect hash dist |", dist);
             return dist < face_hash_thres;
         });
@@ -503,7 +502,7 @@ bool asst::InfrastProductionTask::optimal_calc()
                         hash_matched = true;
                     }
                     else {
-                        OcrWithPreprocessImageAnalyzer name_analyzer(find_iter->name_img);
+                        OcrWithPreprocessAnalyzer name_analyzer(find_iter->name_img);
                         name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
                                                   Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
                         Log.trace("Analyze name filter");
@@ -592,8 +591,8 @@ bool asst::InfrastProductionTask::opers_choose()
             return false;
         }
         const auto image = ctrler()->get_image();
-        InfrastOperImageAnalyzer oper_analyzer(image);
-        oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::All);
+        InfrastOperAnalyzer oper_analyzer(image);
+        oper_analyzer.set_to_be_calced(InfrastOperAnalyzer::ToBeCalced::All);
         oper_analyzer.set_facility(facility_name());
         if (!oper_analyzer.analyze()) {
             return false;
@@ -631,7 +630,7 @@ bool asst::InfrastProductionTask::opers_choose()
                     return true;
                 }
                 else {
-                    OcrWithPreprocessImageAnalyzer name_analyzer(lhs.name_img);
+                    OcrWithPreprocessAnalyzer name_analyzer(lhs.name_img);
                     name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
                                               Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
                     Log.trace("Analyze name filter");
@@ -663,7 +662,7 @@ bool asst::InfrastProductionTask::opers_choose()
             }
             {
                 auto avlb_iter = ranges::find_if(m_all_available_opers, [&](const infrast::Oper& lhs) -> bool {
-                    int dist = HashImageAnalyzer::hamming(lhs.face_hash, find_iter->face_hash);
+                    int dist = HashAnalyzer::hamming(lhs.face_hash, find_iter->face_hash);
                     Log.debug("opers_choose | face hash dist", dist);
                     return dist < face_hash_thres;
                 });
@@ -743,7 +742,7 @@ bool asst::InfrastProductionTask::facility_list_detect()
     m_facility_list_tabs.clear();
 
     const auto image = ctrler()->get_image();
-    MultiMatchImageAnalyzer mm_analyzer(image);
+    MultiMatchAnalyzer mm_analyzer(image);
 
     mm_analyzer.set_task_info("InfrastFacilityListTab" + facility_name());
 

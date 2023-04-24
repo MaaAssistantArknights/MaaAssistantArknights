@@ -7,9 +7,9 @@
 #include "Task/ProcessTask.h"
 #include "Task/ReportDataTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/Miscellaneous/RecruitImageAnalyzer.h"
-#include "Vision/MultiMatchImageAnalyzer.h"
-#include "Vision/OcrImageAnalyzer.h"
+#include "Vision/Miscellaneous/RecruitAnalyzer.h"
+#include "Vision/MultiMatcher.h"
+#include "Vision/OcrAnalyzer.h"
 
 #include "Utils/Ranges.hpp"
 #include <algorithm>
@@ -252,7 +252,7 @@ bool asst::AutoRecruitTask::_run()
 
 std::vector<asst::TextRect> asst::AutoRecruitTask::start_recruit_analyze(const cv::Mat& image)
 {
-    OcrImageAnalyzer start_analyzer;
+    OcrAnalyzer start_analyzer;
     start_analyzer.set_task_info("StartRecruit");
     start_analyzer.set_image(image);
     if (!start_analyzer.analyze()) return {};
@@ -344,7 +344,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
     for (size_t image_analyzer_retry = 0; image_analyzer_retry < analyze_limit;) {
         ++image_analyzer_retry;
 
-        RecruitImageAnalyzer image_analyzer(ctrler()->get_image());
+        RecruitAnalyzer image_analyzer(ctrler()->get_image());
         if (!image_analyzer.analyze()) continue;
         if (image_analyzer.get_tags_result().size() != RecruitConfig::CorrectNumberOfTags) continue;
 
@@ -592,7 +592,7 @@ bool asst::AutoRecruitTask::check_timer(int minutes_expected)
     const auto replace_map = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
 
     {
-        OcrImageAnalyzer hour_ocr(image);
+        OcrAnalyzer hour_ocr(image);
         hour_ocr.set_task_info("RecruitTimerH");
         hour_ocr.set_replace(replace_map);
         if (!hour_ocr.analyze()) return false;
@@ -602,7 +602,7 @@ bool asst::AutoRecruitTask::check_timer(int minutes_expected)
     if (minutes_expected % 60 == 0) return true; // minute counter stays untouched
 
     {
-        OcrImageAnalyzer minute_ocr(image);
+        OcrAnalyzer minute_ocr(image);
         minute_ocr.set_task_info("RecruitTimerM");
         minute_ocr.set_replace(replace_map);
         if (!minute_ocr.analyze()) return false;
@@ -642,7 +642,7 @@ bool asst::AutoRecruitTask::hire_all(const cv::Mat& image)
     LogTraceFunction;
     // mark slots with *Hire* button clean (regardless of whether hiring will success)
     {
-        MultiMatchImageAnalyzer hire_searcher(image);
+        MultiMatchAnalyzer hire_searcher(image);
         hire_searcher.set_task_info("RecruitFinish");
         hire_searcher.analyze();
         for (const MatchRect& r : hire_searcher.get_result()) {

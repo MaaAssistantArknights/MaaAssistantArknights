@@ -141,10 +141,7 @@
     <ClInclude Include="Common\AsstVersion.h">
       <Filter>源文件\Common</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\VisionHelper.h">
-      <Filter>源文件\Vision</Filter>
-    </ClInclude>
-    <ClInclude Include="Vision\HashImageAnalyzer.h">
+    <ClInclude Include="Vision\Hasher.h">
       <Filter>源文件\Vision</Filter>
     </ClInclude>
     <ClInclude Include="Vision\Matcher.h">
@@ -156,46 +153,43 @@
     <ClInclude Include="Vision\OCRer.h">
       <Filter>源文件\Vision</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\OcrWithFlagTemplImageAnalyzer.h">
+    <ClInclude Include="Vision\TemplDetOCRer.h">
       <Filter>源文件\Vision</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\OcrWithPreprocessImageAnalyzer.h">
+    <ClInclude Include="Vision\RegionOCRer.h">
       <Filter>源文件\Vision</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\Infrast\InfrastClueImageAnalyzer.h">
+    <ClInclude Include="Vision\Infrast\InfrastClueVacancyAnalyzer.h">
       <Filter>源文件\Vision\Infrast</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\Infrast\InfrastClueVacancyImageAnalyzer.h">
+    <ClInclude Include="Vision\Infrast\InfrastFacilityAnalyzer.h">
       <Filter>源文件\Vision\Infrast</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\Infrast\InfrastFacilityImageAnalyzer.h">
+    <ClInclude Include="Vision\Infrast\InfrastOperAnalyzer.h">
       <Filter>源文件\Vision\Infrast</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\Infrast\InfrastOperImageAnalyzer.h">
+    <ClInclude Include="Vision\Infrast\InfrastSmileyAnalyzer.h">
       <Filter>源文件\Vision\Infrast</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\Infrast\InfrastSmileyImageAnalyzer.h">
-      <Filter>源文件\Vision\Infrast</Filter>
-    </ClInclude>
-    <ClInclude Include="Vision\Miscellaneous\CreditShopImageAnalyzer.h">
+    <ClInclude Include="Vision\Miscellaneous\CreditShopAnalyzer.h">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\Miscellaneous\DepotImageAnalyzer.h">
+    <ClInclude Include="Vision\Miscellaneous\DepotAnalyzer.h">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\Miscellaneous\ProcessTaskImageAnalyzer.h">
+    <ClInclude Include="Vision\Miscellaneous\ProcessTaskAnalyzer.h">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\Miscellaneous\RecruitImageAnalyzer.h">
+    <ClInclude Include="Vision\Miscellaneous\RecruitAnalyzer.h">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\Roguelike\RoguelikeFormationImageAnalyzer.h">
+    <ClInclude Include="Vision\Roguelike\RoguelikeFormationAnalyzer.h">
       <Filter>源文件\Vision\Roguelike</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\Roguelike\RoguelikeRecruitImageAnalyzer.h">
+    <ClInclude Include="Vision\Roguelike\RoguelikeRecruitAnalyzer.h">
       <Filter>源文件\Vision\Roguelike</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\Roguelike\RoguelikeSkillSelectionImageAnalyzer.h">
+    <ClInclude Include="Vision\Roguelike\RoguelikeSkillSelectionAnalyzer.h">
       <Filter>源文件\Vision\Roguelike</Filter>
     </ClInclude>
     <ClInclude Include="Vision\Roguelike\RoguelikeRecruitSupportAnalyzer.h">
@@ -474,7 +468,7 @@
     <ClInclude Include="InstHelper.h">
       <Filter>源文件</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\Miscellaneous\StageDropsImageAnalyzer.h">
+    <ClInclude Include="Vision\Miscellaneous\StageDropsAnalyzer.h">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClInclude>
     <ClInclude Include="Task\BattleHelper.h">
@@ -573,16 +567,16 @@
     <ClInclude Include="Task\Interface\VideoRecognitionTask.h">
       <Filter>源文件\Task\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\Battle\BattleFormationImageAnalyzer.h">
+    <ClInclude Include="Vision\Battle\BattleFormationAnalyzer.h">
       <Filter>源文件\Vision\Battle</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\Battle\BattleImageAnalyzer.h">
+    <ClInclude Include="Vision\Battle\BattlefieldMatcher.h">
       <Filter>源文件\Vision\Battle</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\Battle\BattlefieldImageClassifier.h">
+    <ClInclude Include="Vision\Battle\BattlefieldClassifier.h">
       <Filter>源文件\Vision\Battle</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\Battle\BattlefieldImageDetector.h">
+    <ClInclude Include="Vision\Battle\BattlefieldDetector.h">
       <Filter>源文件\Vision\Battle</Filter>
     </ClInclude>
     <ClInclude Include="Config\OnnxSessions.h">
@@ -590,9 +584,6 @@
     </ClInclude>
     <ClInclude Include="Utils\Algorithm.hpp">
       <Filter>源文件\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Vision\OnnxRuntimeImageAnalyzer.h">
-      <Filter>源文件\Vision</Filter>
     </ClInclude>
     <ClInclude Include="Task\Experiment\CombatRecordRecognitionTask.h">
       <Filter>源文件\Task\Experiment</Filter>
@@ -609,12 +600,15 @@
     <ClInclude Include="Vision\Config\OCRerConfig.h">
       <Filter>源文件\Vision\Config</Filter>
     </ClInclude>
+    <ClInclude Include="Vision\OnnxHelper.h">
+      <Filter>源文件\Vision</Filter>
+    </ClInclude>
+    <ClInclude Include="Vision\VisionHelper.h">
+      <Filter>源文件\Vision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Vision\VisionHelper.cpp">
-      <Filter>源文件\Vision</Filter>
-    </ClCompile>
-    <ClCompile Include="Vision\HashImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Hasher.cpp">
       <Filter>源文件\Vision</Filter>
     </ClCompile>
     <ClCompile Include="Vision\Matcher.cpp">
@@ -626,46 +620,43 @@
     <ClCompile Include="Vision\OCRer.cpp">
       <Filter>源文件\Vision</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\OcrWithFlagTemplImageAnalyzer.cpp">
+    <ClCompile Include="Vision\TemplDetOCRer.cpp">
       <Filter>源文件\Vision</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\OcrWithPreprocessImageAnalyzer.cpp">
+    <ClCompile Include="Vision\RegionOCRer.cpp">
       <Filter>源文件\Vision</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\Infrast\InfrastClueImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Infrast\InfrastClueVacancyAnalyzer.cpp">
       <Filter>源文件\Vision\Infrast</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\Infrast\InfrastClueVacancyImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Infrast\InfrastFacilityAnalyzer.cpp">
       <Filter>源文件\Vision\Infrast</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\Infrast\InfrastFacilityImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Infrast\InfrastOperAnalyzer.cpp">
       <Filter>源文件\Vision\Infrast</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\Infrast\InfrastOperImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Infrast\InfrastSmileyAnalyzer.cpp">
       <Filter>源文件\Vision\Infrast</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\Infrast\InfrastSmileyImageAnalyzer.cpp">
-      <Filter>源文件\Vision\Infrast</Filter>
-    </ClCompile>
-    <ClCompile Include="Vision\Miscellaneous\CreditShopImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Miscellaneous\CreditShopAnalyzer.cpp">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\Miscellaneous\DepotImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Miscellaneous\DepotAnalyzer.cpp">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\Miscellaneous\ProcessTaskImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Miscellaneous\ProcessTaskAnalyzer.cpp">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\Miscellaneous\RecruitImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Miscellaneous\RecruitAnalyzer.cpp">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\Roguelike\RoguelikeFormationImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Roguelike\RoguelikeFormationAnalyzer.cpp">
       <Filter>源文件\Vision\Roguelike</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\Roguelike\RoguelikeRecruitImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Roguelike\RoguelikeRecruitAnalyzer.cpp">
       <Filter>源文件\Vision\Roguelike</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\Roguelike\RoguelikeSkillSelectionImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Roguelike\RoguelikeSkillSelectionAnalyzer.cpp">
       <Filter>源文件\Vision\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Vision\Roguelike\RoguelikeRecruitSupportAnalyzer.cpp">
@@ -890,7 +881,7 @@
     <ClCompile Include="InstHelper.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\Miscellaneous\StageDropsImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Miscellaneous\StageDropsAnalyzer.cpp">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Task\BattleHelper.cpp">
@@ -968,23 +959,20 @@
     <ClCompile Include="Task\Interface\VideoRecognitionTask.cpp">
       <Filter>源文件\Task\Interface</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\Battle\BattleFormationImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Battle\BattleFormationAnalyzer.cpp">
       <Filter>源文件\Vision\Battle</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\Battle\BattleImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Battle\BattlefieldMatcher.cpp">
       <Filter>源文件\Vision\Battle</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\Battle\BattlefieldImageClassifier.cpp">
+    <ClCompile Include="Vision\Battle\BattlefieldClassifier.cpp">
       <Filter>源文件\Vision\Battle</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\Battle\BattlefieldImageDetector.cpp">
+    <ClCompile Include="Vision\Battle\BattlefieldDetector.cpp">
       <Filter>源文件\Vision\Battle</Filter>
     </ClCompile>
     <ClCompile Include="Config\OnnxSessions.cpp">
       <Filter>源文件\Resource\Miscellaneous</Filter>
-    </ClCompile>
-    <ClCompile Include="Vision\OnnxRuntimeImageAnalyzer.cpp">
-      <Filter>源文件\Vision</Filter>
     </ClCompile>
     <ClCompile Include="Task\Experiment\CombatRecordRecognitionTask.cpp">
       <Filter>源文件\Task\Experiment</Filter>
@@ -1000,6 +988,12 @@
     </ClCompile>
     <ClCompile Include="Vision\Config\OCRerConfig.cpp">
       <Filter>源文件\Vision\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="Vision\OnnxHelper.cpp">
+      <Filter>源文件\Vision</Filter>
+    </ClCompile>
+    <ClCompile Include="Vision\VisionHelper.cpp">
+      <Filter>源文件\Vision</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

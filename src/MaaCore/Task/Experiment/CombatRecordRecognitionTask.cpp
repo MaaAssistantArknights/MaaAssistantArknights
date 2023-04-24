@@ -7,13 +7,13 @@
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
 #include "Utils/Ranges.hpp"
-#include "Vision/Battle/BattleDeployDirectionImageAnalyzer.h"
-#include "Vision/Battle/BattleFormationImageAnalyzer.h"
-#include "Vision/Battle/BattleImageAnalyzer.h"
-#include "Vision/Battle/BattleOperatorsImageAnalyzer.h"
-#include "Vision/Battle/BattleSkillReadyImageAnalyzer.h"
-#include "Vision/BestMatchImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/Battle/BattleDeployDirectionAnalyzer.h"
+#include "Vision/Battle/BattleFormationAnalyzer.h"
+#include "Vision/Battle/BattleAnalyzer.h"
+#include "Vision/Battle/BattleOperatorsAnalyzer.h"
+#include "Vision/Battle/BattleSkillReadyAnalyzer.h"
+#include "Vision/BestMatcher.h"
+#include "Vision/RegionOCRer.h"
 
 #include <unordered_map>
 #include <unordered_set>
@@ -123,7 +123,7 @@ bool asst::CombatRecordRecognitionTask::analyze_formation()
 
     const int skip_count = m_video_fps > m_formation_fps ? static_cast<int>(m_video_fps / m_formation_fps) - 1 : 0;
 
-    BattleFormationImageAnalyzer formation_ananlyzer;
+    BattleFormationAnalyzer formation_ananlyzer;
     int no_changes_count = 0;
     for (size_t i = 0; i < m_video_frame_count; i += skip_frames(skip_count) + 1) {
         cv::Mat frame;
@@ -194,13 +194,13 @@ bool asst::CombatRecordRecognitionTask::analyze_stage()
 
             cv::resize(frame, frame, cv::Size(), m_scale, m_scale, cv::INTER_AREA);
 
-            OcrWithPreprocessImageAnalyzer stage_analyzer(frame);
+            OcrWithPreprocessAnalyzer stage_analyzer(frame);
             stage_analyzer.set_task_info(stage_name_task_ptr);
             bool analyzed = stage_analyzer.analyze();
             show_img(stage_analyzer);
 
             if (!analyzed) {
-                // BattleImageAnalyzer battle_analyzer(frame);
+                // BattleAnalyzer battle_analyzer(frame);
                 // if (battle_analyzer.analyze()) {
                 //     Log.error(i, "already start button, but still failed to analyze stage name");
                 //     m_stage_ocr_end_frame = i;
@@ -246,8 +246,8 @@ bool asst::CombatRecordRecognitionTask::analyze_deployment()
 
     const int skip_count = m_video_fps > m_deployment_fps ? static_cast<int>(m_video_fps / m_deployment_fps) - 1 : 0;
 
-    BattleImageAnalyzer oper_analyzer;
-    oper_analyzer.set_object_to_analyze(BattleImageAnalyzer::ObjectOfInterest::Oper);
+    BattleAnalyzer oper_analyzer;
+    oper_analyzer.set_object_to_analyze(BattleAnalyzer::ObjectOfInterest::Oper);
 
     for (size_t i = m_stage_ocr_end_frame; i < m_video_frame_count; i += skip_frames(skip_count) + 1) {
         cv::Mat frame;
@@ -272,7 +272,7 @@ bool asst::CombatRecordRecognitionTask::analyze_deployment()
 
     auto avatar_task_ptr = Task.get("BattleAvatarDataForFormation");
     for (const auto& [name, formation_avatar] : m_formation) {
-        BestMatchImageAnalyzer best_match_analyzer(formation_avatar);
+        BestMatchAnalyzer best_match_analyzer(formation_avatar);
         best_match_analyzer.set_task_info(avatar_task_ptr);
 
         std::unordered_set<battle::Role> roles = { BattleData.get_role(name) };
@@ -358,10 +358,10 @@ bool asst::CombatRecordRecognitionTask::slice_video()
         }
         cv::resize(frame, frame, cv::Size(), m_scale, m_scale, cv::INTER_AREA);
 
-        BattleImageAnalyzer oper_analyzer(frame);
-        oper_analyzer.set_object_to_analyze(BattleImageAnalyzer::ObjectOfInterest::Oper |
-                                            BattleImageAnalyzer::ObjectOfInterest::DetailPage |
-                                            BattleImageAnalyzer::ObjectOfInterest::Kills);
+        BattleAnalyzer oper_analyzer(frame);
+        oper_analyzer.set_object_to_analyze(BattleAnalyzer::ObjectOfInterest::Oper |
+                                            BattleAnalyzer::ObjectOfInterest::DetailPage |
+                                            BattleAnalyzer::ObjectOfInterest::Kills);
         oper_analyzer.set_total_kills_prompt(total_kills);
         bool analyzed = oper_analyzer.analyze();
         show_img(oper_analyzer);
@@ -508,7 +508,7 @@ bool asst::CombatRecordRecognitionTask::compare_skill(ClipInfo& clip, ClipInfo& 
     const std::string oper_name = pre_clip.ends_oper_name;
     const Point target_location = m_operator_locations[oper_name];
     const Point target_position = m_normal_tile_info[target_location].pos;
-    BattleSkillReadyImageAnalyzer analyzer(pre_clip.end_frame);
+    BattleSkillReadyAnalyzer analyzer(pre_clip.end_frame);
     analyzer.set_base_point(target_position);
     bool pre_ready = analyzer.analyze();
     show_img(analyzer);
@@ -649,12 +649,12 @@ bool asst::CombatRecordRecognitionTask::classify_direction(ClipInfo& clip, ClipI
     callback(AsstMsg::SubTaskStart, basic_info_with_what("ClassifyDirection"));
 
     /* classify direction */
-    using Losses = BattleDeployDirectionImageAnalyzer::Raw;
-    constexpr size_t ClsSize = BattleDeployDirectionImageAnalyzer::ClsSize;
+    using Losses = BattleDeployDirectionAnalyzer::Raw;
+    constexpr size_t ClsSize = BattleDeployDirectionAnalyzer::ClsSize;
     std::unordered_map<Point, Losses> dir_cls_sampling;
 
     for (const cv::Mat& frame : clip.random_frames) {
-        BattleDeployDirectionImageAnalyzer analyzer(frame);
+        BattleDeployDirectionAnalyzer analyzer(frame);
         for (const auto& loc : newcomer) {
             analyzer.set_base_point(m_normal_tile_info.at(loc).pos);
             analyzer.analyze();
@@ -776,7 +776,7 @@ void asst::CombatRecordRecognitionTask::ananlyze_deployment_names(ClipInfo& clip
         if (!oper.name.empty()) {
             continue;
         }
-        BestMatchImageAnalyzer avatar_analyzer(oper.avatar);
+        BestMatchAnalyzer avatar_analyzer(oper.avatar);
         static const double threshold = Task.get<MatchTaskInfo>("BattleAvatarDataForVideo")->templ_threshold;
         avatar_analyzer.set_threshold(threshold);
         // static const double drone_threshold = Task.get<MatchTaskInfo>("BattleDroneAvatarData")->templ_threshold;
@@ -828,8 +828,8 @@ json::object asst::CombatRecordRecognitionTask::analyze_action_condition(ClipInf
         { "kills", kills },
     };
 
-    BattleImageAnalyzer analyzer;
-    analyzer.set_object_to_analyze(BattleImageAnalyzer::ObjectOfInterest::Cost);
+    BattleAnalyzer analyzer;
+    analyzer.set_object_to_analyze(BattleAnalyzer::ObjectOfInterest::Cost);
 
     analyzer.set_image(pre_clip_ptr->end_frame); // 开始执行这次操作的画面
     if (!analyzer.analyze()) {
@@ -859,7 +859,7 @@ size_t asst::CombatRecordRecognitionTask::skip_frames(size_t count)
 
 std::string asst::CombatRecordRecognitionTask::analyze_detail_page_oper_name(const cv::Mat& frame)
 {
-    auto analyze = [&](OcrImageAnalyzer& name_analyzer) {
+    auto analyze = [&](OcrAnalyzer& name_analyzer) {
         name_analyzer.set_image(frame);
         name_analyzer.set_task_info("BattleOperName");
         name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
@@ -871,12 +871,12 @@ std::string asst::CombatRecordRecognitionTask::analyze_detail_page_oper_name(con
         return name_analyzer.get_result().front().text;
     };
 
-    OcrWithPreprocessImageAnalyzer preproc_analyzer;
+    OcrWithPreprocessAnalyzer preproc_analyzer;
     std::string name = analyze(preproc_analyzer);
 
     if (BattleData.is_name_invalid(name)) {
         Log.warn("ocr with preprocess got a invalid name, try to use detect model", name);
-        OcrImageAnalyzer det_analyzer;
+        OcrAnalyzer det_analyzer;
         std::string det_name = analyze(det_analyzer);
         if (BattleData.is_name_invalid(det_name)) {
             return std::string();

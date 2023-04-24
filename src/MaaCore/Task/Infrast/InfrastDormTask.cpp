@@ -6,10 +6,10 @@
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/Infrast/InfrastOperImageAnalyzer.h"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/OcrImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/Infrast/InfrastOperAnalyzer.h"
+#include "Vision/Matcher.h"
+#include "Vision/OcrAnalyzer.h"
+#include "Vision/RegionOCRer.h"
 
 asst::InfrastDormTask& asst::InfrastDormTask::set_notstationed_enabled(bool dorm_notstationed_enabled) noexcept
 {
@@ -90,9 +90,9 @@ bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& 
             return false;
         }
         const auto image = ctrler()->get_image();
-        InfrastOperImageAnalyzer oper_analyzer(image);
+        InfrastOperAnalyzer oper_analyzer(image);
 
-        constexpr int without_skill = InfrastOperImageAnalyzer::All ^ InfrastOperImageAnalyzer::Skill;
+        constexpr int without_skill = InfrastOperAnalyzer::All ^ InfrastOperAnalyzer::Skill;
         oper_analyzer.set_to_be_calced(without_skill);
         if (!oper_analyzer.analyze()) {
             Log.error("mood analyze failed!");
@@ -131,7 +131,7 @@ bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& 
                 if (m_dorm_trust_enabled && m_next_step != NextStep::Rest && oper.selected == false &&
                     oper.doing != infrast::Doing::Working && oper.doing != infrast::Doing::Resting) {
                     // 获得干员信赖值
-                    OcrWithPreprocessImageAnalyzer trust_analyzer(oper.name_img);
+                    OcrWithPreprocessAnalyzer trust_analyzer(oper.name_img);
                     if (!trust_analyzer.analyze()) {
                         Log.trace("ERROR:!trust_analyzer.analyze()");
                         break;
@@ -164,7 +164,7 @@ bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& 
                     }
 
                     // 获得干员所在设施
-                    OcrWithPreprocessImageAnalyzer facility_analyzer(oper.facility_img);
+                    OcrWithPreprocessAnalyzer facility_analyzer(oper.facility_img);
                     if (!facility_analyzer.analyze()) {
                         Log.trace("ERROR:!facility_analyzer.analyze()");
                         break;

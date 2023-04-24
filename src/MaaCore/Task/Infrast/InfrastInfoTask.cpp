@@ -3,14 +3,14 @@
 #include "Controller/Controller.h"
 #include "Status.h"
 #include "Utils/Logger.hpp"
-#include "Vision/Infrast/InfrastFacilityImageAnalyzer.h"
+#include "Vision/Infrast/InfrastFacilityAnalyzer.h"
 
 bool asst::InfrastInfoTask::_run()
 {
     swipe_to_the_left_of_main_ui();
     const auto image = ctrler()->get_image();
 
-    InfrastFacilityImageAnalyzer analyzer(image);
+    InfrastFacilityAnalyzer analyzer(image);
 
     analyzer.set_to_be_analyzed({ "Mfg", "Trade", "Power", "Dorm" });
     if (!analyzer.analyze()) {

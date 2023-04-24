@@ -5,7 +5,7 @@
 
 #include <variant>
 
-MAA_NS_BEGIN
+MAA_VISION_NS_BEGIN
 
 class MatcherConfig
 {
@@ -41,4 +41,4 @@ protected:
     Params m_params;
 };
 
-MAA_NS_END
+MAA_VISION_NS_END

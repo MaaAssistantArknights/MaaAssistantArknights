@@ -8,8 +8,8 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
-#include "Vision/OcrImageAnalyzer.h"
-#include "Vision/Roguelike/RoguelikeRecruitImageAnalyzer.h"
+#include "Vision/OcrAnalyzer.h"
+#include "Vision/Roguelike/RoguelikeRecruitAnalyzer.h"
 #include "Vision/Roguelike/RoguelikeRecruitSupportAnalyzer.h"
 
 using namespace asst::battle::roguelike;
@@ -165,7 +165,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             return false;
         }
         auto image = ctrler()->get_image();
-        RoguelikeRecruitImageAnalyzer analyzer(image);
+        RoguelikeRecruitAnalyzer analyzer(image);
         if (!analyzer.analyze()) {
             Log.trace(__FUNCTION__, "| Page", i, "recruit list analyse failed");
             // 还没滑动就识别失败，通常是招募界面为空，视为招募成功并退出
@@ -348,7 +348,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         }
 
         auto image = ctrler()->get_image();
-        RoguelikeRecruitImageAnalyzer analyzer(image);
+        RoguelikeRecruitAnalyzer analyzer(image);
         if (!analyzer.analyze()) {
             Log.error(__FUNCTION__, "| Random recruitment analyse failed");
             return false;
@@ -421,7 +421,7 @@ bool asst::RoguelikeRecruitTaskPlugin::check_char(const std::string& char_name, 
             return false;
         }
         auto image = ctrler()->get_image();
-        RoguelikeRecruitImageAnalyzer analyzer(image);
+        RoguelikeRecruitAnalyzer analyzer(image);
 
         // 只处理识别成功的情况，失败(无任何结果)时继续滑动
         int max_oper_x = 700;

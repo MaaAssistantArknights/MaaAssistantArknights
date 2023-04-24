@@ -6,10 +6,10 @@
 
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "Vision/Battle/BattleImageAnalyzer.h"
-#include "Vision/Battle/BattleSkillReadyImageAnalyzer.h"
-#include "Vision/Miscellaneous/DepotImageAnalyzer.h"
-#include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
+#include "Vision/Battle/BattleAnalyzer.h"
+#include "Vision/Battle/BattleSkillReadyAnalyzer.h"
+#include "Vision/Miscellaneous/DepotAnalyzer.h"
+#include "Vision/Miscellaneous/StageDropsAnalyzer.h"
 
 asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) : InterfaceTask(callback, inst, TaskType) {}
 
@@ -32,7 +32,7 @@ void asst::DebugTask::test_drops()
         total += 1;
         cv::Mat resized;
         cv::resize(image, resized, cv::Size(1280, 720), 0, 0, cv::INTER_AREA);
-        StageDropsImageAnalyzer analyzer(resized);
+        StageDropsAnalyzer analyzer(resized);
         success += analyzer.analyze();
     }
     Log.info(__FUNCTION__, success, "/", total);
@@ -44,7 +44,7 @@ void asst::DebugTask::test_skill_ready()
     int correct = 0;
     for (const auto& entry : std::filesystem::directory_iterator(R"(../../test/skill_ready/y)")) {
         cv::Mat image = imread(entry.path().string());
-        BattleSkillReadyImageAnalyzer analyzer(image);
+        BattleSkillReadyAnalyzer analyzer(image);
         total++;
         if (analyzer.analyze()) {
             correct++;
@@ -52,7 +52,7 @@ void asst::DebugTask::test_skill_ready()
     }
     for (const auto& entry : std::filesystem::directory_iterator(R"(../../test/skill_ready/n)")) {
         cv::Mat image = imread(entry.path().string());
-        BattleSkillReadyImageAnalyzer analyzer(image);
+        BattleSkillReadyAnalyzer analyzer(image);
         total++;
         if (!analyzer.analyze()) {
             correct++;
@@ -66,7 +66,7 @@ void asst::DebugTask::test_battle_image()
     cv::Mat image = asst::imread(utils::path("1.png"));
     cv::Mat resized;
     cv::resize(image, resized, cv::Size(1280, 720), 0, 0, cv::INTER_AREA);
-    BattleImageAnalyzer analyzer(resized);
-    analyzer.set_object_to_analyze(BattleImageAnalyzer::ObjectOfInterest::Oper);
+    BattleAnalyzer analyzer(resized);
+    analyzer.set_object_to_analyze(BattleAnalyzer::ObjectOfInterest::Oper);
     analyzer.analyze();
 }

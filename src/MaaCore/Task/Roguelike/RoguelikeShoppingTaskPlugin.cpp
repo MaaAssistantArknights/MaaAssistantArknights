@@ -6,7 +6,7 @@
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/OcrWithFlagTemplImageAnalyzer.h"
+#include "Vision/OcrWithFlagTemplAnalyzer.h"
 
 bool asst::RoguelikeShoppingTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -37,7 +37,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    OcrWithFlagTemplImageAnalyzer analyzer;
+    OcrWithFlagTemplAnalyzer analyzer;
     analyzer.set_task_info("RoguelikeTraderShopping", "RoguelikeTraderShoppingOcr");
 
     analyzer.set_image(ctrler()->get_image());

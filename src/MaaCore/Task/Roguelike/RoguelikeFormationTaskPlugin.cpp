@@ -7,7 +7,7 @@
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/Roguelike/RoguelikeFormationImageAnalyzer.h"
+#include "Vision/Roguelike/RoguelikeFormationAnalyzer.h"
 
 bool asst::RoguelikeFormationTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -36,7 +36,7 @@ bool asst::RoguelikeFormationTaskPlugin::verify(AsstMsg msg, const json::value& 
 
 bool asst::RoguelikeFormationTaskPlugin::_run()
 {
-    RoguelikeFormationImageAnalyzer formation_analyzer(ctrler()->get_image());
+    RoguelikeFormationAnalyzer formation_analyzer(ctrler()->get_image());
     if (!formation_analyzer.analyze()) {
         return false;
     }
@@ -66,7 +66,7 @@ bool asst::RoguelikeFormationTaskPlugin::_run()
         formation_analyzer.set_image(ctrler()->get_image());
 
         if (!formation_analyzer.analyze()) {
-            Log.warn("RoguelikeFormationImageAnalyzer re analyze failed");
+            Log.warn("RoguelikeFormationAnalyzer re analyze failed");
             return true;
         }
 
@@ -101,7 +101,7 @@ void asst::RoguelikeFormationTaskPlugin::clear_and_reselect()
 
 size_t asst::RoguelikeFormationTaskPlugin::analyze_and_select()
 {
-    RoguelikeFormationImageAnalyzer formation_analyzer(ctrler()->get_image());
+    RoguelikeFormationAnalyzer formation_analyzer(ctrler()->get_image());
     if (!formation_analyzer.analyze()) {
         return false;
     }

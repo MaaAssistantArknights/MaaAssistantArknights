@@ -4,7 +4,7 @@
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Status.h"
-#include "Vision/Roguelike/RoguelikeSkillSelectionImageAnalyzer.h"
+#include "Vision/Roguelike/RoguelikeSkillSelectionAnalyzer.h"
 
 #include "Utils/Logger.hpp"
 
@@ -38,7 +38,7 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
     LogTraceFunction;
 
     auto image = ctrler()->get_image();
-    RoguelikeSkillSelectionImageAnalyzer analyzer(image);
+    RoguelikeSkillSelectionAnalyzer analyzer(image);
 
     if (!analyzer.analyze()) {
         return false;

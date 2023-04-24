@@ -3,7 +3,7 @@
 #include "Matcher.h"
 #include "Vision/Config/MatcherConfig.h"
 
-MAA_NS_BEGIN
+MAA_VISION_NS_BEGIN
 
 class BestMatcher : public VisionHelper, public MatcherConfig
 {
@@ -45,4 +45,4 @@ private:
     std::vector<TemplInfo> m_templs;
 };
 
-MAA_NS_END
+MAA_VISION_NS_END

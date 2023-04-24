@@ -11,17 +11,19 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
-#include "Vision/Battle/BattleImageAnalyzer.h"
+#include "Vision/Battle/BattleAnalyzer.h"
 #include "Vision/Battle/BattlefieldImageClassifier.h"
-#include "Vision/BestMatchImageAnalyzer.h"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/BestMatcher.h"
+#include "Vision/Matcher.h"
+#include "Vision/RegionOCRer.h"
 
-using namespace asst::battle;
+MAA_NS_BEGIN
 
-asst::BattleHelper::BattleHelper(Assistant* inst) : m_inst_helper(inst) {}
+using namespace battle;
 
-bool asst::BattleHelper::set_stage_name(const std::string& name)
+BattleHelper::BattleHelper(Assistant* inst) : m_inst_helper(inst) {}
+
+bool BattleHelper::set_stage_name(const std::string& name)
 {
     LogTraceFunction;
 
@@ -32,7 +34,7 @@ bool asst::BattleHelper::set_stage_name(const std::string& name)
     return true;
 }
 
-void asst::BattleHelper::clear()
+void BattleHelper::clear()
 {
     m_side_tile_info.clear();
     m_normal_tile_info.clear();
@@ -49,7 +51,7 @@ void asst::BattleHelper::clear()
     m_used_tiles.clear();
 }
 
-bool asst::BattleHelper::calc_tiles_info(const std::string& stage_name, double shift_x, double shift_y)
+bool BattleHelper::calc_tiles_info(const std::string& stage_name, double shift_x, double shift_y)
 {
     LogTraceFunction;
 
@@ -63,26 +65,26 @@ bool asst::BattleHelper::calc_tiles_info(const std::string& stage_name, double s
     return true;
 }
 
-bool asst::BattleHelper::pause()
+bool BattleHelper::pause()
 {
     LogTraceFunction;
 
     return ProcessTask(this_task(), { "BattlePause" }).run();
 }
 
-bool asst::BattleHelper::speed_up()
+bool BattleHelper::speed_up()
 {
     LogTraceFunction;
 
     return ProcessTask(this_task(), { "BattleSpeedUp" }).run();
 }
 
-bool asst::BattleHelper::abandon()
+bool BattleHelper::abandon()
 {
     return ProcessTask(this_task(), { "RoguelikeBattleExitBegin" }).run();
 }
 
-bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
+bool BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
 {
     LogTraceFunction;
 
@@ -96,8 +98,8 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         auto draw_future = std::async(std::launch::async, [&]() { save_map(image); });
     }
 
-    BattleImageAnalyzer oper_analyzer(image);
-    oper_analyzer.set_object_to_analyze(BattleImageAnalyzer::ObjectOfInterest {
+    BattleAnalyzer oper_analyzer(image);
+    oper_analyzer.set_object_to_analyze(BattleAnalyzer::ObjectOfInterest {
         .deployment = true,
     });
     if (!oper_analyzer.analyze()) {
@@ -129,7 +131,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
     std::vector<DeploymentOper> unknown_opers;
 
     for (auto& oper : cur_opers) {
-        BestMatchImageAnalyzer avatar_analyzer(oper.avatar);
+        BestMatchAnalyzer avatar_analyzer(oper.avatar);
         if (oper.cooling) {
             Log.trace("start matching cooling", oper.index);
             static const double cooling_threshold = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_threshold;
@@ -197,17 +199,17 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
                 return false;
             }
 
-            OcrWithPreprocessImageAnalyzer preproc_analyzer(name_image);
+            OcrWithPreprocessAnalyzer preproc_analyzer(name_image);
             preproc_analyzer.set_task_info(oper_name_ocr_task_name());
             preproc_analyzer.set_replace(name_replace_task_ptr->replace_map, name_replace_task_ptr->replace_full);
-            std::string name = preproc_analyzer.analyze().value_or(OcrWithPreprocessImageAnalyzer::Result {}).text;
+            std::string name = preproc_analyzer.analyze().value_or(OcrWithPreprocessAnalyzer::Result {}).text;
 
             if (BattleData.is_name_invalid(name)) {
                 Log.warn("ocr with preprocess got a invalid name, try to use detect model", name);
-                OcrImageAnalyzer det_analyzer(name_image);
+                OcrAnalyzer det_analyzer(name_image);
                 det_analyzer.set_task_info(oper_name_ocr_task_name());
                 det_analyzer.set_replace(name_replace_task_ptr->replace_map, name_replace_task_ptr->replace_full);
-                std::string det_name = det_analyzer.analyze().value_or(OcrImageAnalyzer::ResultsVec {}).front().text;
+                std::string det_name = det_analyzer.analyze().value_or(OcrAnalyzer::ResultsVec {}).front().text;
                 if (det_name.empty()) {
                     Log.warn("ocr with det model failed");
                 }
@@ -243,14 +245,14 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
     return check_in_battle(image);
 }
 
-bool asst::BattleHelper::update_kills(const cv::Mat& reusable)
+bool BattleHelper::update_kills(const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
-    BattleImageAnalyzer analyzer(image);
+    BattleAnalyzer analyzer(image);
     if (m_total_kills) {
         analyzer.set_total_kills_prompt(m_total_kills);
     }
-    analyzer.set_object_to_analyze(BattleImageAnalyzer::ObjectOfInterest { .kills = true });
+    analyzer.set_object_to_analyze(BattleAnalyzer::ObjectOfInterest { .kills = true });
     if (!analyzer.analyze()) {
         return false;
     }
@@ -258,11 +260,11 @@ bool asst::BattleHelper::update_kills(const cv::Mat& reusable)
     return true;
 }
 
-bool asst::BattleHelper::update_cost(const cv::Mat& reusable)
+bool BattleHelper::update_cost(const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
-    BattleImageAnalyzer analyzer(image);
-    analyzer.set_object_to_analyze(BattleImageAnalyzer::ObjectOfInterest { .costs = true });
+    BattleAnalyzer analyzer(image);
+    analyzer.set_object_to_analyze(BattleAnalyzer::ObjectOfInterest { .costs = true });
     if (!analyzer.analyze()) {
         return false;
     }
@@ -270,7 +272,7 @@ bool asst::BattleHelper::update_cost(const cv::Mat& reusable)
     return true;
 }
 
-bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, DeployDirection direction)
+bool BattleHelper::deploy_oper(const std::string& name, const Point& loc, DeployDirection direction)
 {
     LogTraceFunction;
 
@@ -335,7 +337,7 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
     return true;
 }
 
-bool asst::BattleHelper::retreat_oper(const std::string& name)
+bool BattleHelper::retreat_oper(const std::string& name)
 {
     LogTraceFunction;
 
@@ -353,7 +355,7 @@ bool asst::BattleHelper::retreat_oper(const std::string& name)
     return true;
 }
 
-bool asst::BattleHelper::retreat_oper(const Point& loc, bool manually)
+bool BattleHelper::retreat_oper(const Point& loc, bool manually)
 {
     LogTraceFunction;
 
@@ -368,7 +370,7 @@ bool asst::BattleHelper::retreat_oper(const Point& loc, bool manually)
     return true;
 }
 
-bool asst::BattleHelper::use_skill(const std::string& name, bool keep_waiting)
+bool BattleHelper::use_skill(const std::string& name, bool keep_waiting)
 {
     LogTraceFunction;
 
@@ -381,32 +383,32 @@ bool asst::BattleHelper::use_skill(const std::string& name, bool keep_waiting)
     return use_skill(oper_iter->second, keep_waiting);
 }
 
-bool asst::BattleHelper::use_skill(const Point& loc, bool keep_waiting)
+bool BattleHelper::use_skill(const Point& loc, bool keep_waiting)
 {
     LogTraceFunction;
 
     return click_oper_on_battlefield(loc) && click_skill(keep_waiting);
 }
 
-bool asst::BattleHelper::check_pause_button(const cv::Mat& reusable)
+bool BattleHelper::check_pause_button(const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
 
-    MatchImageAnalyzer battle_flag_analyzer(image);
+    MatchAnalyzer battle_flag_analyzer(image);
     battle_flag_analyzer.set_task_info("BattleOfficiallyBegin");
     bool ret = battle_flag_analyzer.analyze().has_value();
 
-    BattleImageAnalyzer battle_flag_analyzer_2(image);
-    ret &= battle_flag_analyzer_2.analyze().value_or(BattleImageAnalyzer::Result {}).pause_button;
+    BattleAnalyzer battle_flag_analyzer_2(image);
+    ret &= battle_flag_analyzer_2.analyze().value_or(BattleAnalyzer::Result {}).pause_button;
 
     return ret;
 }
 
-bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)
+bool BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     if (weak) {
-        BattleImageAnalyzer analyzer(image);
+        BattleAnalyzer analyzer(image);
         m_in_battle = analyzer.analyze().has_value();
     }
     else {
@@ -415,7 +417,7 @@ bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)
     return m_in_battle;
 }
 
-bool asst::BattleHelper::wait_until_start(bool weak)
+bool BattleHelper::wait_until_start(bool weak)
 {
     LogTraceFunction;
 
@@ -429,7 +431,7 @@ bool asst::BattleHelper::wait_until_start(bool weak)
     return true;
 }
 
-bool asst::BattleHelper::wait_until_end(bool weak)
+bool BattleHelper::wait_until_end(bool weak)
 {
     LogTraceFunction;
 
@@ -443,13 +445,13 @@ bool asst::BattleHelper::wait_until_end(bool weak)
     return true;
 }
 
-bool asst::BattleHelper::do_strategic_action(const cv::Mat& reusable)
+bool BattleHelper::do_strategic_action(const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     return use_all_ready_skill(image);
 }
 
-bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
+bool BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
 {
     bool used = false;
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
@@ -483,7 +485,7 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
     return used;
 }
 
-bool asst::BattleHelper::check_and_use_skill(const std::string& name, bool& has_error, const cv::Mat& reusable)
+bool BattleHelper::check_and_use_skill(const std::string& name, bool& has_error, const cv::Mat& reusable)
 {
     auto oper_iter = m_battlefield_opers.find(name);
     if (oper_iter == m_battlefield_opers.cend()) {
@@ -493,7 +495,7 @@ bool asst::BattleHelper::check_and_use_skill(const std::string& name, bool& has_
     return check_and_use_skill(oper_iter->second, has_error, reusable);
 }
 
-bool asst::BattleHelper::check_and_use_skill(const Point& loc, bool& has_error, const cv::Mat& reusable)
+bool BattleHelper::check_and_use_skill(const Point& loc, bool& has_error, const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     BattlefieldImageClassifier skill_analyzer(image);
@@ -513,11 +515,11 @@ bool asst::BattleHelper::check_and_use_skill(const Point& loc, bool& has_error, 
     return true;
 }
 
-void asst::BattleHelper::save_map(const cv::Mat& image)
+void BattleHelper::save_map(const cv::Mat& image)
 {
     LogTraceFunction;
 
-    using namespace asst::utils::path_literals;
+    using namespace utils::path_literals;
     const auto& MapRelativeDir = "debug"_p / "map"_p;
 
     auto draw = image.clone();
@@ -530,10 +532,10 @@ void asst::BattleHelper::save_map(const cv::Mat& image)
     if (++m_camera_count > 1) {
         suffix = "-" + std::to_string(m_camera_count);
     }
-    asst::imwrite(MapRelativeDir / asst::utils::path(m_stage_name + suffix + ".png"), draw);
+    imwrite(MapRelativeDir / utils::path(m_stage_name + suffix + ".png"), draw);
 }
 
-bool asst::BattleHelper::click_oper_on_deployment(const std::string& name)
+bool BattleHelper::click_oper_on_deployment(const std::string& name)
 {
     LogTraceFunction;
 
@@ -545,7 +547,7 @@ bool asst::BattleHelper::click_oper_on_deployment(const std::string& name)
     return click_oper_on_deployment(*rect_opt);
 }
 
-bool asst::BattleHelper::click_oper_on_deployment(const Rect& rect)
+bool BattleHelper::click_oper_on_deployment(const Rect& rect)
 {
     LogTraceFunction;
 
@@ -556,7 +558,7 @@ bool asst::BattleHelper::click_oper_on_deployment(const Rect& rect)
     return true;
 }
 
-bool asst::BattleHelper::click_oper_on_battlefield(const std::string& name)
+bool BattleHelper::click_oper_on_battlefield(const std::string& name)
 {
     LogTraceFunction;
 
@@ -568,7 +570,7 @@ bool asst::BattleHelper::click_oper_on_battlefield(const std::string& name)
     return click_oper_on_battlefield(oper_iter->second);
 }
 
-bool asst::BattleHelper::click_oper_on_battlefield(const Point& loc)
+bool BattleHelper::click_oper_on_battlefield(const Point& loc)
 {
     LogTraceFunction;
 
@@ -587,14 +589,14 @@ bool asst::BattleHelper::click_oper_on_battlefield(const Point& loc)
     return true;
 }
 
-bool asst::BattleHelper::click_retreat()
+bool BattleHelper::click_retreat()
 {
     LogTraceFunction;
 
     return ProcessTask(this_task(), { "BattleOperRetreatJustClick" }).run();
 }
 
-bool asst::BattleHelper::click_skill(bool keep_waiting)
+bool BattleHelper::click_skill(bool keep_waiting)
 {
     LogTraceFunction;
 
@@ -614,12 +616,12 @@ bool asst::BattleHelper::click_skill(bool keep_waiting)
     }
 }
 
-bool asst::BattleHelper::cancel_oper_selection()
+bool BattleHelper::cancel_oper_selection()
 {
     return ProcessTask(this_task(), { "BattleCancelSelection" }).run();
 }
 
-bool asst::BattleHelper::move_camera(const std::pair<double, double>& delta)
+bool BattleHelper::move_camera(const std::pair<double, double>& delta)
 {
     LogTraceFunction;
     Log.info("move", delta.first, delta.second);
@@ -641,7 +643,7 @@ bool asst::BattleHelper::move_camera(const std::pair<double, double>& delta)
     return update_deployment(true);
 }
 
-std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const std::string& name) const
+std::optional<Rect> BattleHelper::get_oper_rect_on_deployment(const std::string& name) const
 {
     LogTraceFunction;
 
@@ -653,3 +655,5 @@ std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const 
 
     return oper_iter->second.rect;
 }
+
+MAA_NS_END
