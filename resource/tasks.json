@@ -6980,10 +6980,6 @@
                 "1"
             ],
             [
-                "亻",
-                "1"
-            ],
-            [
                 "十",
                 "+"
             ],
@@ -9817,6 +9813,7 @@
     "OperBoxLevelOCR": {
         "algorithm": "OcrDetect",
         "fullMatch": true,
+        "isAscii": true,
         "text": [],
         "roi": [
             -13,

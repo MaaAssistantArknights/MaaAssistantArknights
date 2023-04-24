@@ -34,8 +34,9 @@ bool asst::OperBoxRecognitionTask::swipe_and_analyze()
         if (!analyzer.analyze()) {
             break;
         }
-        const auto& opers_result = analyzer.get_result_box();
-        if (opers_result.back().name == current_page_last_oper_name && opers_result.front().name == current_page_first_oper_name) {
+        const auto& opers_result = analyzer.get_result();
+        if (opers_result.back().name == current_page_last_oper_name &&
+            opers_result.front().name == current_page_first_oper_name) {
             break;
         }
         else {
