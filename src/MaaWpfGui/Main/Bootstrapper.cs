@@ -125,6 +125,7 @@ namespace MaaWpfGui.Main
             builder.Bind<StageManager>().ToSelf();
 
             builder.Bind<HotKeyManager>().ToSelf().InSingletonScope();
+
             builder.Bind<IMaaHotKeyManager>().To<MaaHotKeyManager>().InSingletonScope();
             builder.Bind<IMaaHotKeyActionHandler>().To<MaaHotKeyActionHandler>().InSingletonScope();
 
@@ -137,12 +138,8 @@ namespace MaaWpfGui.Main
         /// <inheritdoc/>
         protected override void DisplayRootView(object rootViewModel)
         {
-            var windowManager = (IWindowManager)GetInstance(typeof(Helper.WindowManager));
-            windowManager.ShowWindow(rootViewModel);
-
-            // TrayIcon应该在显示rootViewModel之后再加载
-            // 故只能在rootViewModel显示之后再初始化实例管理者
-            Instances.InitializeInstances(Container);
+            Instances.WindowManager.ShowWindow(rootViewModel);
+            Instances.InstantiateOnRootViewDisplayed(Container);
         }
 
         /// <inheritdoc/>

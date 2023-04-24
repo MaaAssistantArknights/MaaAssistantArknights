@@ -19,10 +19,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Main;
 using Newtonsoft.Json.Linq;
 using Stylet;
-using StyletIoC;
 
 namespace MaaWpfGui.ViewModels.UI
 {
@@ -31,27 +29,17 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class RecognizerViewModel : Screen
     {
-        private readonly IWindowManager _windowManager;
-        private readonly IContainer _container;
-
-        private AsstProxy _asstProxy;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="RecognizerViewModel"/> class.
         /// </summary>
-        /// <param name="container">The IoC container.</param>
-        /// <param name="windowManager">The window manager.</param>
-        public RecognizerViewModel(IContainer container, IWindowManager windowManager)
+        public RecognizerViewModel()
         {
-            _container = container;
-            _windowManager = windowManager;
             DisplayName = LocalizationHelper.GetString("IdentificationTool");
         }
 
         protected override void OnInitialActivate()
         {
             base.OnInitialActivate();
-            _asstProxy = _container.Get<AsstProxy>();
         }
 
         private static string PadRightEx(string str, int totalByteCount)
@@ -193,7 +181,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             string errMsg = string.Empty;
             RecruitInfo = LocalizationHelper.GetString("ConnectingToEmulator");
-            _recruitCaught = await Task.Run(() => _asstProxy.AsstConnect(ref errMsg));
+            _recruitCaught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
             if (!_recruitCaught)
             {
                 RecruitInfo = errMsg;
@@ -225,7 +213,7 @@ namespace MaaWpfGui.ViewModels.UI
                 levelList.Add(6);
             }
 
-            _asstProxy.AsstStartRecruitCalc(levelList.ToArray(), RecruitAutoSetTime);
+            Instances.AsstProxy.AsstStartRecruitCalc(levelList.ToArray(), RecruitAutoSetTime);
         }
 
         #endregion Recruit
@@ -342,7 +330,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             string errMsg = string.Empty;
             DepotInfo = LocalizationHelper.GetString("ConnectingToEmulator");
-            bool caught = await Task.Run(() => _asstProxy.AsstConnect(ref errMsg));
+            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
             if (!caught)
             {
                 DepotInfo = errMsg;
@@ -352,7 +340,7 @@ namespace MaaWpfGui.ViewModels.UI
             DepotInfo = LocalizationHelper.GetString("Identifying");
             DepotClear();
 
-            _asstProxy.AsstStartDepot();
+            Instances.AsstProxy.AsstStartDepot();
         }
 
         #endregion Depot
@@ -478,14 +466,14 @@ namespace MaaWpfGui.ViewModels.UI
 
             string errMsg = string.Empty;
             OperBoxInfo = LocalizationHelper.GetString("ConnectingToEmulator");
-            bool caught = await Task.Run(() => _asstProxy.AsstConnect(ref errMsg));
+            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
             if (!caught)
             {
                 OperBoxInfo = errMsg;
                 return;
             }
 
-            if (_asstProxy.AsstStartOperBox())
+            if (Instances.AsstProxy.AsstStartOperBox())
             {
                 OperBoxInfo = LocalizationHelper.GetString("Identifying");
             }
