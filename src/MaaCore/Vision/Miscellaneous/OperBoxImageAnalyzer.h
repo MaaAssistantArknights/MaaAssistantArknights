@@ -8,8 +8,8 @@ namespace asst
     {
         std::string name;
         std::string id;
-        int level = 0; //等级
-        int elite = 0; //精英度
+        int level = 0; // 等级
+        int elite = 0; // 精英度
         bool own = false;
     };
     class OperBoxImageAnalyzer final : public AbstractImageAnalyzer
@@ -26,6 +26,6 @@ namespace asst
         std::vector<OperBoxInfo> m_current_page_opers;
 #ifdef ASST_DEBUG
         cv::Mat m_image_draw_oper;
-#endif  
+#endif
     };
 }

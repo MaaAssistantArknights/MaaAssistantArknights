@@ -2,8 +2,8 @@
 
 #include "Utils/Ranges.hpp"
 
-#include "Config/TaskData.h"
 #include "Config/Roguelike/RoguelikeRecruitConfig.h"
+#include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Status.h"
 #include "Task/ProcessTask.h"
@@ -91,7 +91,7 @@ void asst::RoguelikeFormationTaskPlugin::clear_and_reselect()
 {
     // 清空并退出游戏会自动按等级重新排序
     ProcessTask(*this, { "RoguelikeQuickFormationClearAndReselect" }).run();
-    
+
     oper_list.clear();
     cur_page = 1;
     analyze();

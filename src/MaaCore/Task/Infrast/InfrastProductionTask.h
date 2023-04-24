@@ -41,8 +41,7 @@ namespace asst
         infrast::CustomDronesConfig m_custom_drones_config;
 
     protected:
-        void change_product(); 
+        void change_product();
         bool m_is_product_incorrect = false;
-
     };
 }

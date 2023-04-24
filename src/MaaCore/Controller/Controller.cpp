@@ -2,10 +2,6 @@
 
 #include "Utils/Platform.hpp"
 
-#include <algorithm>
-#include <chrono>
-#include <cstdint>
-#include <memory>
 #include <regex>
 #include <utility>
 #include <vector>
@@ -24,14 +20,9 @@
 #endif
 
 #include "AdbController.h"
-#include "MaatouchController.h"
-#include "MinitouchController.h"
 
 #include "Common/AsstTypes.h"
-#include "Config/GeneralConfig.h"
 #include "Utils/Logger.hpp"
-#include "Utils/StringMisc.hpp"
-#include "Utils/WorkingDir.hpp"
 
 asst::Controller::Controller(const AsstCallback& callback, Assistant* inst)
     : InstHelper(inst), m_callback(callback), m_rand_engine(std::random_device {}())
