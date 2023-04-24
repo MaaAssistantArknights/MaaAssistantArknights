@@ -8,7 +8,7 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
-#include "Vision/OcrAnalyzer.h"
+#include "Vision/OCRer.h"
 
 bool asst::ReclamationConclusionReportPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -56,7 +56,7 @@ int asst::ReclamationConclusionReportPlugin::analyze_badges(const cv::Mat& image
     if (!badgeIconAnalyzer.analyze()) return -1;
     const auto& iconRect = badgeIconAnalyzer.get_result();
 
-    OcrAnalyzer badgeCntAnalyzer(image);
+    OCRer badgeCntAnalyzer(image);
     badgeCntAnalyzer.set_task_info("NumberOcrReplace");
     Rect roi = Task.get("Reclamation@ReportBadgesOcr")->roi;
     int newX = iconRect.rect.x + iconRect.rect.width;
@@ -75,7 +75,7 @@ int asst::ReclamationConclusionReportPlugin::analyze_badges(const cv::Mat& image
 
 int asst::ReclamationConclusionReportPlugin::analyze_construction_points(const cv::Mat& image)
 {
-    OcrAnalyzer consAnalyzer(image);
+    OCRer consAnalyzer(image);
     consAnalyzer.set_task_info("NumberOcrReplace");
     consAnalyzer.set_roi(Task.get("Reclamation@ReportConstructPointsOcr")->roi);
     if (!consAnalyzer.analyze()) return -1;

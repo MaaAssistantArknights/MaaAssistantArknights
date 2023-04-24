@@ -9,7 +9,7 @@
 #include "Utils/Logger.hpp"
 #include "Vision/Miscellaneous/RecruitAnalyzer.h"
 #include "Vision/MultiMatcher.h"
-#include "Vision/OcrAnalyzer.h"
+#include "Vision/OCRer.h"
 
 #include "Utils/Ranges.hpp"
 #include <algorithm>
@@ -252,7 +252,7 @@ bool asst::AutoRecruitTask::_run()
 
 std::vector<asst::TextRect> asst::AutoRecruitTask::start_recruit_analyze(const cv::Mat& image)
 {
-    OcrAnalyzer start_analyzer;
+    OCRer start_analyzer;
     start_analyzer.set_task_info("StartRecruit");
     start_analyzer.set_image(image);
     if (!start_analyzer.analyze()) return {};
@@ -592,7 +592,7 @@ bool asst::AutoRecruitTask::check_timer(int minutes_expected)
     const auto replace_map = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
 
     {
-        OcrAnalyzer hour_ocr(image);
+        OCRer hour_ocr(image);
         hour_ocr.set_task_info("RecruitTimerH");
         hour_ocr.set_replace(replace_map);
         if (!hour_ocr.analyze()) return false;
@@ -602,7 +602,7 @@ bool asst::AutoRecruitTask::check_timer(int minutes_expected)
     if (minutes_expected % 60 == 0) return true; // minute counter stays untouched
 
     {
-        OcrAnalyzer minute_ocr(image);
+        OCRer minute_ocr(image);
         minute_ocr.set_task_info("RecruitTimerM");
         minute_ocr.set_replace(replace_map);
         if (!minute_ocr.analyze()) return false;

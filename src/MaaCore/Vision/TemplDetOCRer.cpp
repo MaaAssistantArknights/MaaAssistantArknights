@@ -8,7 +8,7 @@ MAA_VISION_NS_BEGIN
 
 TemplDetOCRer::ResultsVecOpt TemplDetOCRer::analyze() const
 {
-    MultiMatcher flag_analyzer(m_image, m_roi, m_inst);
+    MultiMatcher flag_analyzer(m_image, m_roi);
     flag_analyzer.set_params(MatcherConfig::m_params);
 
     auto matched_vec_opt = flag_analyzer.analyze();
@@ -21,7 +21,7 @@ TemplDetOCRer::ResultsVecOpt TemplDetOCRer::analyze() const
     for (const auto& matched : matched_vec) {
         Rect roi = matched.rect.move(m_flag_rect_move);
 
-        RegionOCRer ocr_analyzer(m_image, roi, m_inst);
+        RegionOCRer ocr_analyzer(m_image, roi);
         ocr_analyzer.set_params(OCRerConfig::m_params);
         auto ocr_opt = ocr_analyzer.analyze();
         if (!ocr_opt) {
@@ -34,7 +34,8 @@ TemplDetOCRer::ResultsVecOpt TemplDetOCRer::analyze() const
         return std::nullopt;
     }
 
-    return results;
+    m_results = std::move(results);
+    return m_results;
 }
 
 void TemplDetOCRer::set_task_info(const std::string& templ_task_name, const std::string& ocr_task_name)

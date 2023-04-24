@@ -502,7 +502,7 @@ bool asst::InfrastProductionTask::optimal_calc()
                         hash_matched = true;
                     }
                     else {
-                        OcrWithPreprocessAnalyzer name_analyzer(find_iter->name_img);
+                        RegionOCRer name_analyzer(find_iter->name_img);
                         name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
                                                   Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
                         Log.trace("Analyze name filter");
@@ -630,7 +630,7 @@ bool asst::InfrastProductionTask::opers_choose()
                     return true;
                 }
                 else {
-                    OcrWithPreprocessAnalyzer name_analyzer(lhs.name_img);
+                    RegionOCRer name_analyzer(lhs.name_img);
                     name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
                                               Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
                     Log.trace("Analyze name filter");

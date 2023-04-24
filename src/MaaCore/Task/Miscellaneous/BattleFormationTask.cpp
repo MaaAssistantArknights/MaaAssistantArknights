@@ -9,7 +9,7 @@
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/OcrWithFlagTemplAnalyzer.h"
+#include "Vision/TemplDetOCRer.h"
 
 void asst::BattleFormationTask::append_additional_formation(AdditionalFormation formation)
 {
@@ -133,12 +133,12 @@ std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_opers()
     auto image = ctrler()->get_image();
     const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
 
-    OcrWithFlagTemplAnalyzer name_analyzer(image);
+    TemplDetOCRer name_analyzer(image);
     name_analyzer.set_task_info("BattleQuickFormation-OperNameFlag", "BattleQuickFormationOCR");
     name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
     name_analyzer.analyze();
 
-    OcrWithFlagTemplAnalyzer special_focus_analyzer(image);
+    TemplDetOCRer special_focus_analyzer(image);
     special_focus_analyzer.set_task_info("BattleQuickFormation-OperNameFlag-SpecialFocus", "BattleQuickFormationOCR");
     special_focus_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
     special_focus_analyzer.analyze();

@@ -10,7 +10,7 @@
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/Battle/BattleSkillReadyAnalyzer.h"
-#include "Vision/OcrAnalyzer.h"
+#include "Vision/OCRer.h"
 
 using namespace asst;
 
@@ -77,12 +77,12 @@ bool asst::ReclamationBattlePlugin::quit_action()
         const auto img = ctrler()->get_image();
         bool check1 = check_in_battle(img, false);
 
-        OcrAnalyzer confirmAnalyzer(img);
+        OCRer confirmAnalyzer(img);
         confirmAnalyzer.set_task_info("Reclamation@ExitLevelConfirm");
         bool check2 = confirmAnalyzer.analyze();
 
         // 出现Loading转一会儿就结算了，没结算还有error_next
-        OcrAnalyzer loadingAnalyzer(img);
+        OCRer loadingAnalyzer(img);
         loadingAnalyzer.set_task_info("LoadingText");
         bool check3 = loadingAnalyzer.analyze();
 
@@ -144,7 +144,7 @@ bool asst::ReclamationBattlePlugin::communicate_with_aux(
     //        sleep(use_oper_task_ptr->pre_delay);
     //
     //        image = ctrler()->get_image();
-    //        OcrAnalyzer npcNameAnalyzer(image);
+    //        OCRer npcNameAnalyzer(image);
     //        npcNameAnalyzer.set_task_info("Reclamation@Liaison");
     //        npcNameAnalyzer.set_required({});
     //        if (!npcNameAnalyzer.analyze()) {
@@ -189,7 +189,7 @@ bool asst::ReclamationBattlePlugin::do_dialog_procedure(const std::vector<std::s
                 if (retry == max_retry) break;
 
                 const auto& image = ctrler()->get_image();
-                OcrAnalyzer dialogAnalyzer(image);
+                OCRer dialogAnalyzer(image);
                 dialogAnalyzer.set_task_info("Reclamation@BalckMarketDialogOption");
                 dialogAnalyzer.set_required({ step });
                 if (!dialogAnalyzer.analyze()) {

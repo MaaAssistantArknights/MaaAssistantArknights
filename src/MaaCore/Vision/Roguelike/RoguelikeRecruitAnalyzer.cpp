@@ -4,7 +4,8 @@
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
 #include "Vision/Matcher.h"
-#include "Vision/OcrWithFlagTemplAnalyzer.h"
+#include "Vision/RegionOCRer.h"
+#include "Vision/TemplDetOCRer.h"
 
 MAA_VISION_NS_BEGIN
 
@@ -12,13 +13,14 @@ bool RoguelikeRecruitAnalyzer::analyze()
 {
     LogTraceFunction;
 
-    OcrWithFlagTemplAnalyzer analyzer(m_image);
+    TemplDetOCRer analyzer(m_image);
     analyzer.set_task_info("RoguelikeRecruitOcrFlag", "RoguelikeRecruitOcr");
     analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
                          Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
     analyzer.set_threshold(Task.get("RoguelikeRecruitOcr")->specific_rect.x);
 
-    if (!analyzer.analyze()) {
+    auto result_opt = analyzer.analyze();
+    if (!result_opt) {
         return false;
     }
 
@@ -30,7 +32,7 @@ bool RoguelikeRecruitAnalyzer::analyze()
         cv::merge(std::array { blue, blue, blue }, bbb_image);
     }
 
-    for (const auto& [_, rect, name] : analyzer.get_result()) {
+    for (const auto& [_, rect, name] : *result_opt) {
         int elite = match_elite(rect);
         int level = match_level(bbb_image, rect);
 
@@ -67,16 +69,17 @@ int RoguelikeRecruitAnalyzer::match_elite(const Rect& raw_roi)
     double max_score = 0;
 
     for (const auto& [task_name, elite] : EliteTaskName) {
-        MatchAnalyzer analyzer(m_image);
+        Matcher analyzer(m_image);
         auto task_ptr = Task.get(task_name);
         analyzer.set_task_info(task_ptr);
         analyzer.set_roi(raw_roi.move(task_ptr->rect_move));
 
-        if (!analyzer.analyze()) {
+        auto result_opt = analyzer.analyze();
+        if (!result_opt) {
             continue;
         }
 
-        if (double score = analyzer.get_result().score; score > max_score) {
+        if (double score = result_opt->score; score > max_score) {
             max_score = score;
             elite_result = elite;
         }
@@ -88,20 +91,21 @@ int RoguelikeRecruitAnalyzer::match_level(const cv::Mat& image, const Rect& raw_
 {
     LogTraceFunction;
 
-    OcrWithPreprocessAnalyzer analyzer(image);
+    RegionOCRer analyzer(image);
     analyzer.set_task_info("NumberOcrReplace");
     analyzer.set_roi(raw_roi.move(Task.get("RoguelikeRecruitLevel")->rect_move));
     analyzer.set_bin_expansion(1);
 
-    if (!analyzer.analyze()) {
+    auto result_opt = analyzer.analyze();
+    if (!result_opt) {
         return -1;
     }
 
-    const std::string& level = analyzer.get_result().front().text;
+    const std::string& level = result_opt->text;
     if (level.empty() || !ranges::all_of(level, [](char c) -> bool { return std::isdigit(c); })) {
         return 0;
     }
     return std::stoi(level);
 }
 
-MAAMAA_VISION_NS_END
+MAA_VISION_NS_END

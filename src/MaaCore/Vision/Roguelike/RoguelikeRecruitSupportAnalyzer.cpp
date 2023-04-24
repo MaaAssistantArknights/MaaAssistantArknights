@@ -9,34 +9,44 @@
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
 #include "Vision/Matcher.h"
-#include "Vision/OcrAnalyzer.h"
-#include "Vision/OcrWithFlagTemplAnalyzer.h"
+#include "Vision/OCRer.h"
+#include "Vision/RegionOCRer.h"
+#include "Vision/TemplDetOCRer.h"
 
-bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
+MAA_VISION_NS_BEGIN
+
+bool RoguelikeRecruitSupportAnalyzer::analyze()
 {
     LogTraceFunction;
 
     if (m_mode == battle::roguelike::SupportAnalyzeMode::ChooseSupportBtn) {
         // 识别“选择助战”
-        OcrAnalyzer analyzer(m_image);
+        OCRer analyzer(m_image);
         const auto& task = Task.get<OcrTaskInfo>("RoguelikeChooseSupportBtnOcr");
         analyzer.set_roi(task->roi);
         analyzer.set_required(task->text);
-        if (!analyzer.analyze()) return false;
-        m_choose_support_result = analyzer.get_result().front().rect;
+        auto result_opt = analyzer.analyze();
+
+        if (!result_opt) {
+            return false;
+        }
+        m_choose_support_result = result_opt->front().rect;
         Log.info(__FUNCTION__, "| ChooseSupportBtn");
         return true;
     }
     else if (m_mode == battle::roguelike::SupportAnalyzeMode::AnalyzeChars) {
         // 识别干员
-        OcrAnalyzer analyzer(m_image);
+        OCRer analyzer(m_image);
         analyzer.set_roi(Task.get("RoguelikeRecruitSupportOcr")->roi);
         analyzer.set_required(m_required);
         analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
                              Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
-        if (!analyzer.analyze()) return false;
+        auto result_opt = analyzer.analyze();
+        if (!result_opt) {
+            return false;
+        }
 
-        const auto& char_name_rects = analyzer.get_result();
+        const auto& char_name_rects = *result_opt;
         const auto& task_off1 = Task.get("RoguelikeRecruitSupportOff1");
         const auto& task_off_elite = Task.get("RoguelikeRecruitSupportEliteOff");
         const auto& task_off_level = Task.get("RoguelikeRecruitSupportLevelOff");
@@ -92,23 +102,27 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
     }
     else if (m_mode == battle::roguelike::SupportAnalyzeMode::RefreshSupportBtn) {
         // 识别“更新助战列表”
-        OcrAnalyzer analyzer(m_image);
+        OCRer analyzer(m_image);
 
         // 未处在冷却时间
         analyzer.set_task_info("RoguelikeRefreshSupportBtnOcr");
-        if (analyzer.analyze()) {
-            m_refresh_result = { analyzer.get_result().front().rect, false, 0 };
+        auto result_opt = analyzer.analyze();
+
+        if (result_opt) {
+            m_refresh_result = { result_opt->front().rect, false, 0 };
             return true;
         }
 
         // 刷新冷却中
         analyzer.set_required({});
         analyzer.set_replace({ { "：", ":" } });
-        if (!analyzer.analyze()) {
+        auto result_opt = analyzer.analyze();
+
+        if (!result_opt) {
             Log.info(__FUNCTION__, "| RefreshSupportBtn analyse failed");
             return false;
         }
-        const auto& results = analyzer.get_result();
+        const auto& results = *result_opt;
         for (const auto& result : results) {
             Log.info(__FUNCTION__, "| RefreshSupportBtn parse `", result.text, "`", result.score);
             std::smatch match_results;
@@ -128,7 +142,7 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
     return false;
 }
 
-int asst::RoguelikeRecruitSupportAnalyzer::match_elite(const Rect& roi, const int threshold)
+int RoguelikeRecruitSupportAnalyzer::match_elite(const Rect& roi, const int threshold)
 {
     LogTraceFunction;
 
@@ -146,17 +160,18 @@ int asst::RoguelikeRecruitSupportAnalyzer::match_elite(const Rect& roi, const in
     cv::threshold(m_image, bin_img, threshold, 255, cv::THRESH_BINARY);
 
     for (const auto& [task_name, elite] : EliteTaskName) {
-        MatchAnalyzer analyzer(bin_img);
+        Matcher analyzer(bin_img);
         auto task_ptr = Task.get(task_name);
         analyzer.set_task_info(task_ptr);
         analyzer.set_roi(roi);
         analyzer.set_threshold(Task.get<MatchTaskInfo>(task_name)->templ_threshold);
 
-        if (!analyzer.analyze()) {
+        auto result_opt = analyzer.analyze();
+        if (!result_opt) {
             continue;
         }
 
-        double score = analyzer.get_result().score;
+        double score = result_opt->score;
         if (score > max_score) {
             max_score = score;
             elite_result = elite;
@@ -167,7 +182,7 @@ int asst::RoguelikeRecruitSupportAnalyzer::match_elite(const Rect& roi, const in
     return elite_result;
 }
 
-int asst::RoguelikeRecruitSupportAnalyzer::judge_is_friend(const Rect& roi, const double threshold)
+int RoguelikeRecruitSupportAnalyzer::judge_is_friend(const Rect& roi, const double threshold)
 {
     LogTraceFunction;
 
@@ -185,21 +200,22 @@ int asst::RoguelikeRecruitSupportAnalyzer::judge_is_friend(const Rect& roi, cons
     return is_friend;
 }
 
-int asst::RoguelikeRecruitSupportAnalyzer::match_level(const Rect& roi)
+int RoguelikeRecruitSupportAnalyzer::match_level(const Rect& roi)
 {
     LogTraceFunction;
 
-    OcrWithPreprocessAnalyzer analyzer(m_image);
+    RegionOCRer analyzer(m_image);
     analyzer.set_task_info("NumberOcrReplace");
     analyzer.set_roi(roi);
     analyzer.set_bin_expansion(1);
 
-    if (!analyzer.analyze()) {
+    auto result_opt = analyzer.analyze();
+    if (!result_opt) {
         return -1;
     }
 
-    Log.info(__FUNCTION__, "| ", roi, "`", analyzer.get_result().front().text, "`");
-    const std::string& level = analyzer.get_result().front().text;
+    const std::string& level = result_opt->front().text;
+    Log.info(__FUNCTION__, "| ", roi, "`", level, "`");
     if (level.empty() || !ranges::all_of(level, [](char c) -> bool { return std::isdigit(c); })) {
         return 0;
     }

@@ -4,7 +4,7 @@
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/OcrAnalyzer.h"
+#include "Vision/OCRer.h"
 #include "Vision/RegionOCRer.h"
 
 #include "ReclamationBattlePlugin.h"

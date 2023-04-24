@@ -124,7 +124,7 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
         if (need_exit()) {
             return false;
         }
-        OcrWithPreprocessAnalyzer name_analyzer(ctrler()->get_image());
+        RegionOCRer name_analyzer(ctrler()->get_image());
         name_analyzer.set_task_info(stage_name_task_ptr);
         if (!name_analyzer.analyze()) {
             continue;

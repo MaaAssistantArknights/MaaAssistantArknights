@@ -194,7 +194,7 @@ bool asst::CombatRecordRecognitionTask::analyze_stage()
 
             cv::resize(frame, frame, cv::Size(), m_scale, m_scale, cv::INTER_AREA);
 
-            OcrWithPreprocessAnalyzer stage_analyzer(frame);
+            RegionOCRer stage_analyzer(frame);
             stage_analyzer.set_task_info(stage_name_task_ptr);
             bool analyzed = stage_analyzer.analyze();
             show_img(stage_analyzer);
@@ -859,7 +859,7 @@ size_t asst::CombatRecordRecognitionTask::skip_frames(size_t count)
 
 std::string asst::CombatRecordRecognitionTask::analyze_detail_page_oper_name(const cv::Mat& frame)
 {
-    auto analyze = [&](OcrAnalyzer& name_analyzer) {
+    auto analyze = [&](OCRer& name_analyzer) {
         name_analyzer.set_image(frame);
         name_analyzer.set_task_info("BattleOperName");
         name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
@@ -871,12 +871,12 @@ std::string asst::CombatRecordRecognitionTask::analyze_detail_page_oper_name(con
         return name_analyzer.get_result().front().text;
     };
 
-    OcrWithPreprocessAnalyzer preproc_analyzer;
+    RegionOCRer preproc_analyzer;
     std::string name = analyze(preproc_analyzer);
 
     if (BattleData.is_name_invalid(name)) {
         Log.warn("ocr with preprocess got a invalid name, try to use detect model", name);
-        OcrAnalyzer det_analyzer;
+        OCRer det_analyzer;
         std::string det_name = analyze(det_analyzer);
         if (BattleData.is_name_invalid(det_name)) {
             return std::string();

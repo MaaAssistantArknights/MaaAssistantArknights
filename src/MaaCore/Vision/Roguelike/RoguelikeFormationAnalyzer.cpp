@@ -6,19 +6,21 @@
 #include "Utils/Logger.hpp"
 #include "Vision/MultiMatcher.h"
 
-bool asst::RoguelikeFormationAnalyzer::analyze()
+MAA_VISION_NS_BEGIN
+
+bool RoguelikeFormationAnalyzer::analyze()
 {
     m_result.clear();
 
-    MultiMatchAnalyzer opers_analyzer(m_image);
+    MultiMatcher opers_analyzer(m_image);
     opers_analyzer.set_task_info("RoguelikeFormationOper");
 
-    if (!opers_analyzer.analyze()) {
+    auto opers_opt = opers_analyzer.analyze();
+    if (!opers_opt) {
         return false;
     }
-    opers_analyzer.sort_result_vertical();
-    const auto& all_opers = opers_analyzer.get_result();
-    for (const MatchRect& oper_mr : all_opers) {
+    sort_by_vertical_(*opers_opt);
+    for (const auto& oper_mr : opers_opt.value()) {
         FormationOper oper;
         oper.rect = oper_mr.rect;
         oper.selected = selected_analyze(oper_mr.rect);
@@ -38,13 +40,7 @@ bool asst::RoguelikeFormationAnalyzer::analyze()
     return !m_result.empty();
 }
 
-const std::vector<asst::RoguelikeFormationAnalyzer::FormationOper>& asst::RoguelikeFormationAnalyzer::get_result()
-    const noexcept
-{
-    return m_result;
-}
-
-bool asst::RoguelikeFormationAnalyzer::selected_analyze(const Rect& roi)
+bool RoguelikeFormationAnalyzer::selected_analyze(const Rect& roi)
 {
     cv::Mat img_roi = m_image(make_rect<cv::Rect>(roi));
     cv::Mat bin;
@@ -58,3 +54,5 @@ bool asst::RoguelikeFormationAnalyzer::selected_analyze(const Rect& roi)
 
     return upper > 250 && lower < 2;
 }
+
+MAA_VISION_NS_END

@@ -11,7 +11,7 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
-#include "Vision/OcrWithFlagTemplAnalyzer.h"
+#include "Vision/TemplDetOCRer.h"
 #include "Vision/RegionOCRer.h"
 
 #include <numbers>
@@ -49,7 +49,7 @@ bool StageDropsAnalyzer::analyze_stage_code()
 {
     LogTraceFunction;
 
-    OcrAnalyzer analyzer(m_image);
+    OCRer analyzer(m_image);
     analyzer.set_task_info("StageDrops-StageName");
     if (!analyzer.analyze()) {
         return false;
@@ -247,7 +247,7 @@ bool StageDropsAnalyzer::analyze_drops_for_CF()
 
     bool has_error = false;
 
-    OcrAnalyzer food_analyzer(m_image);
+    OCRer food_analyzer(m_image);
     food_analyzer.set_task_info("StageDrops-StageCF-FoodBonusFlag");
     if (food_analyzer.analyze()) {
         // 这个企鹅物流不收，而且也不好识别，直接报错拉倒
@@ -255,7 +255,7 @@ bool StageDropsAnalyzer::analyze_drops_for_CF()
         has_error = true;
     }
 
-    OcrWithFlagTemplAnalyzer analyzer(m_image);
+    TemplDetOCRer analyzer(m_image);
     for (const auto& item_name : CFDrops) {
         analyzer.set_task_info(item_name, "StageDrops-StageCF-ItemQuantity");
         if (!analyzer.analyze()) {
@@ -296,7 +296,7 @@ bool StageDropsAnalyzer::analyze_drops_for_12()
     }
     LogTraceFunction;
 
-    OcrAnalyzer flag_analyzer(m_image);
+    OCRer flag_analyzer(m_image);
     flag_analyzer.set_task_info("StageDrops-Stage12-TripleFlag");
     return !flag_analyzer.analyze();
 }
@@ -585,7 +585,7 @@ std::optional<TextRect> StageDropsAnalyzer::match_quantity_string(const Rect& ro
     int far_left = contours.back().start;
     int far_right = contours.front().end;
 
-    OcrWithPreprocessAnalyzer analyzer(m_image);
+    RegionOCRer analyzer(m_image);
     analyzer.set_task_info("NumberOcrReplace");
     analyzer.set_roi(Rect(quantity_roi.x + far_left, quantity_roi.y, far_right - far_left, quantity_roi.height));
     analyzer.set_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
@@ -651,7 +651,7 @@ std::optional<TextRect> StageDropsAnalyzer::match_quantity_string(const Rect& ro
     cv::Mat ocr_img = m_image.clone();
     cv::subtract(ocr_img(make_rect<cv::Rect>(new_roi)), templ * 0.41, ocr_img(make_rect<cv::Rect>(new_roi)));
 
-    OcrWithPreprocessAnalyzer ocr(ocr_img);
+    RegionOCRer ocr(ocr_img);
     ocr.set_task_info("NumberOcrReplace");
     Rect ocr_roi { new_roi.x + mask_rect.x, new_roi.y + mask_rect.y, mask_rect.width, mask_rect.height };
     ocr.set_roi(ocr_roi);

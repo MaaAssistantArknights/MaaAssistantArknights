@@ -7,7 +7,7 @@
 #include "Task/ProcessTask.h"
 #include "Task/SSS/SSSBattleProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/OcrAnalyzer.h"
+#include "Vision/OCRer.h"
 #include "Vision/RegionOCRer.h"
 
 bool asst::SSSDropRewardsTaskPlugin::verify(AsstMsg msg, const json::value& details) const
@@ -25,7 +25,7 @@ bool asst::SSSDropRewardsTaskPlugin::_run()
     using namespace battle;
     LogTraceFunction;
 
-    OcrAnalyzer analyzer(ctrler()->get_image());
+    OCRer analyzer(ctrler()->get_image());
     analyzer.set_task_info("SSSDropRecruitmentOCR");
     if (!analyzer.analyze()) {
         Log.error(__FUNCTION__, "OCR failed to analyze");

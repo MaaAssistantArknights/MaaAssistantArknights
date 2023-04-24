@@ -14,14 +14,15 @@ MAA_VISION_NS_BEGIN
 
 bool RoguelikeSkillSelectionAnalyzer::analyze()
 {
-    MultiMatchAnalyzer flag_analyzer(m_image);
+    MultiMatcher flag_analyzer(m_image);
     flag_analyzer.set_task_info("RoguelikeSkillSelectionFlag");
 
-    if (!flag_analyzer.analyze()) {
+    auto flag_result_opt = flag_analyzer.analyze();
+    if (!flag_result_opt) {
         return false;
     }
 
-    const auto& flags = flag_analyzer.get_result();
+    const auto& flags = *flag_result_opt;
 
     if (flags.size() > 13) {
         // https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/669
@@ -50,19 +51,20 @@ bool RoguelikeSkillSelectionAnalyzer::analyze()
 
 std::string RoguelikeSkillSelectionAnalyzer::name_analyze(const Rect& roi)
 {
-    OcrWithPreprocessAnalyzer analyzer;
+    RegionOCRer analyzer;
     auto name_task_ptr = Task.get<OcrTaskInfo>("RoguelikeSkillSelectionName");
-    analyzer.set_threshold(name_task_ptr->specific_rect.x);
+    analyzer.set_bin_threshold(name_task_ptr->specific_rect.x);
     analyzer.set_task_info(name_task_ptr);
     analyzer.set_image(m_image);
     analyzer.set_roi(roi.move(name_task_ptr->roi));
     analyzer.set_replace(std::dynamic_pointer_cast<OcrTaskInfo>(Task.get("CharsNameOcrReplace"))->replace_map,
                          std::dynamic_pointer_cast<OcrTaskInfo>(Task.get("CharsNameOcrReplace"))->replace_full);
 
-    if (!analyzer.analyze()) {
+    auto result_opt = analyzer.analyze();
+    if (!result_opt) {
         return {};
     }
-    return analyzer.get_result().front().text;
+    return result_opt->text;
 }
 
 std::vector<Rect> RoguelikeSkillSelectionAnalyzer::skill_analyze(const Rect& roi)
@@ -83,7 +85,7 @@ std::vector<Rect> RoguelikeSkillSelectionAnalyzer::skill_analyze(const Rect& roi
 
 void RoguelikeSkillSelectionAnalyzer::team_full_analyze()
 {
-    MatchAnalyzer analyzer(m_image);
+    Matcher analyzer(m_image);
     analyzer.set_task_info("RoguelikeSkillSelectionTeamFull");
     m_team_full = !analyzer.analyze();
 }

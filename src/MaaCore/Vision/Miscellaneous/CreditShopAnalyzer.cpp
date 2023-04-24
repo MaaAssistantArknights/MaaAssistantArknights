@@ -8,7 +8,7 @@
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
-#include "Vision/OcrAnalyzer.h"
+#include "Vision/OCRer.h"
 
 MAA_VISION_NS_BEGIN
 
@@ -41,20 +41,18 @@ bool CreditShopAnalyzer::commodities_analyze()
 {
     // 识别信用点的图标
     const auto commodity_task_ptr = Task.get("CreditShop-Commodities");
-    MultiMatchAnalyzer mm_analyzer(m_image);
+    MultiMatcher mm_analyzer(m_image);
     mm_analyzer.set_task_info(commodity_task_ptr);
 
-    if (!mm_analyzer.analyze()) {
+    auto mm_result_opt = mm_analyzer.analyze();
+    if (!mm_result_opt) {
         return false;
     }
-    mm_analyzer.sort_result_horizontal();
-    auto credit_points_result = mm_analyzer.get_result();
-    if (credit_points_result.empty()) {
-        return false;
-    }
+    sort_by_horizontal_(mm_result_opt.value());
+    auto& credit_points_result = *mm_result_opt;
 
     m_commodities.reserve(credit_points_result.size());
-    for (const MatchRect& mr : credit_points_result) {
+    for (const auto& mr : credit_points_result) {
         Rect commodity;
         commodity.x = mr.rect.x + commodity_task_ptr->rect_move.x;
         commodity.y = mr.rect.y + commodity_task_ptr->rect_move.y;
@@ -78,11 +76,12 @@ bool CreditShopAnalyzer::whether_to_buy_analyze()
         name_roi.x += commodity.x;
         name_roi.y += commodity.y;
 
-        OcrAnalyzer ocr_analyzer(m_image);
+        OCRer ocr_analyzer(m_image);
         ocr_analyzer.set_roi(name_roi);
         ocr_analyzer.set_replace(product_name_task_ptr->replace_map);
         ocr_analyzer.set_required(m_shopping_list);
-        if (ocr_analyzer.analyze()) {
+        auto ocr_result_opt = ocr_analyzer.analyze();
+        if (ocr_result_opt) {
             // 黑名单模式，有识别结果说明这个商品不买，直接跳过
             if (!m_is_white_list && !m_shopping_list.empty()) {
                 continue;
@@ -96,8 +95,7 @@ bool CreditShopAnalyzer::whether_to_buy_analyze()
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(commodity), cv::Scalar(0, 0, 255), 2);
 #endif
-        const std::string& name =
-            ocr_analyzer.get_result().empty() ? std::string() : ocr_analyzer.get_result().front().text;
+        const std::string& name = ocr_result_opt.value_or(OCRer::ResultsVec {}).front().text;
         Log.info("need to buy", name);
         m_need_to_buy.emplace_back(commodity, name);
     }
@@ -113,7 +111,7 @@ bool CreditShopAnalyzer::whether_to_buy_analyze()
 bool CreditShopAnalyzer::sold_out_analyze()
 {
     // 识别是否售罄
-    MatchAnalyzer sold_out_analyzer(m_image);
+    Matcher sold_out_analyzer(m_image);
     sold_out_analyzer.set_task_info("CreditShop-SoldOut");
 
     for (const auto& commodity : m_need_to_buy | views::keys) {

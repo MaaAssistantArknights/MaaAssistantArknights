@@ -42,7 +42,8 @@ RegionOCRer::ResultOpt RegionOCRer::analyze() const
     if (!result) {
         return std::nullopt;
     }
-    return result->front();
+    m_result = result->front();
+    return m_result;
 }
 
 MAA_VISION_NS_END

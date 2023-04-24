@@ -7,7 +7,7 @@
 #include "Config/TaskData.h"
 #include "InfrastSmileyAnalyzer.h"
 #include "Utils/Logger.hpp"
-#include "Vision/HashAnalyzer.h"
+#include "Vision/Hasher.h"
 #include "Vision/Matcher.h"
 
 MAA_VISION_NS_BEGIN
@@ -211,7 +211,7 @@ void InfrastOperAnalyzer::face_hash_analyze()
 
     const Rect hash_rect_move = Task.get("InfrastOperFaceHash")->rect_move;
 
-    HashAnalyzer hash_analyzer(m_image);
+    Hasher hash_analyzer(m_image);
 
     for (auto&& oper : m_result) {
         Rect roi = oper.smiley.rect.move(hash_rect_move);
@@ -228,9 +228,10 @@ void InfrastOperAnalyzer::skill_analyze()
     const auto task_ptr = Task.get<MatchTaskInfo>("InfrastSkills");
     const int bright_thres = task_ptr->special_params.front();
 
-    MatchAnalyzer skill_analyzer(m_image);
+    Matcher skill_analyzer(m_image);
 
-    skill_analyzer.set_mask_range(task_ptr->mask_range);
+    auto&& [l, u] = task_ptr->mask_range;
+    skill_analyzer.set_mask_range(l, u);
     skill_analyzer.set_threshold(task_ptr->templ_threshold);
 
     for (auto&& oper : m_result) {
@@ -273,15 +274,15 @@ void InfrastOperAnalyzer::skill_analyze()
             // 针对裁剪出来的每个技能进行识别
             skill_analyzer.set_roi(skill_rect);
 
-            std::vector<std::pair<infrast::Skill, MatchRect>> possible_skills;
+            std::vector<std::pair<infrast::Skill, Matcher::Result>> possible_skills;
             // 逐个该设施内所有可能的技能，取得分最高的
             for (const auto& skill : InfrastData.get_skills(m_facility) | views::values) {
-                skill_analyzer.set_templ_name(skill.templ_name);
+                skill_analyzer.set_templ(skill.templ_name);
 
                 if (!skill_analyzer.analyze()) {
                     continue;
                 }
-                possible_skills.emplace_back(std::make_pair(skill, skill_analyzer.get_result()));
+                possible_skills.emplace_back(std::make_pair(skill, skill_analyzer.result()));
             }
             if (possible_skills.empty()) {
                 Log.error("skill has no recognition result");
@@ -385,7 +386,7 @@ void InfrastOperAnalyzer::doing_analyze()
     const auto working_task_ptr = Task.get("InfrastOperOnShift");
     Rect rect_move = working_task_ptr->rect_move;
 
-    MatchAnalyzer working_analyzer(m_image);
+    Matcher working_analyzer(m_image);
 
     working_analyzer.set_task_info(working_task_ptr);
 

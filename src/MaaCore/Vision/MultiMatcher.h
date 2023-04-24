@@ -16,9 +16,15 @@ public:
     virtual ~MultiMatcher() override = default;
 
     ResultsVecOpt analyze() const;
+    // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉
+    ResultsVec result() const { return m_result; }
 
 protected:
     virtual void _set_roi(const Rect& roi) override { set_roi(roi); }
+
+private:
+    // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉
+    mutable ResultsVec m_result;
 };
 
 MAA_VISION_NS_END

@@ -33,11 +33,12 @@ Matcher::ResultOpt Matcher::analyze() const
         return std::nullopt;
     }
 
-    return Result { .rect = rect, .score = max_val };
+    // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉
+    m_result = Result { .rect = rect, .score = max_val };
+    return m_result;
 }
 
-Matcher::RawResult Matcher::preproc_and_match(
-    const cv::Mat& image, const MatcherConfig::Params& params)
+Matcher::RawResult Matcher::preproc_and_match(const cv::Mat& image, const MatcherConfig::Params& params)
 {
     cv::Mat templ;
     std::string templ_name;

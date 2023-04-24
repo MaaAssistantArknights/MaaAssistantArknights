@@ -45,10 +45,11 @@ OCRer::ResultsVecOpt OCRer::analyze() const
         return std::nullopt;
     }
 
-    return results_vec;
+    m_results = std::move(results_vec);
+    return m_results;
 }
 
-void OCRer::postproc_rect_(Result& res)
+void OCRer::postproc_rect_(Result& res) const
 {
     if (m_params.without_det) {
         res.rect = m_roi;
@@ -59,18 +60,18 @@ void OCRer::postproc_rect_(Result& res)
     }
 }
 
-void OCRer::postproc_trim_(Result& res)
+void OCRer::postproc_trim_(Result& res) const
 {
     utils::string_trim_(res.text);
 }
 
-void OCRer::postproc_equivalence_(Result& res)
+void OCRer::postproc_equivalence_(Result& res) const
 {
     auto& ocr_config = OcrConfig::get_instance();
     res.text = ocr_config.process_equivalence_class(res.text);
 }
 
-void OCRer::postproc_replace_(Result& res)
+void OCRer::postproc_replace_(Result& res) const
 {
     if (m_params.replace.empty()) {
         return;
@@ -88,7 +89,7 @@ void OCRer::postproc_replace_(Result& res)
     }
 }
 
-bool OCRer::filter_and_replace_by_required_(Result& res)
+bool OCRer::filter_and_replace_by_required_(Result& res) const
 {
     if (m_params.required.empty()) {
         return true;

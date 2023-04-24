@@ -11,7 +11,9 @@
 
 #include <numbers>
 
-bool asst::DepotAnalyzer::analyze()
+MAA_VISION_NS_BEGIN
+
+bool DepotAnalyzer::analyze()
 {
     LogTraceFunction;
 
@@ -34,17 +36,17 @@ bool asst::DepotAnalyzer::analyze()
     return ret;
 }
 
-void asst::DepotAnalyzer::set_match_begin_pos(size_t pos) noexcept
+void DepotAnalyzer::set_match_begin_pos(size_t pos) noexcept
 {
     m_match_begin_pos = pos;
 }
 
-size_t asst::DepotAnalyzer::get_match_begin_pos() const noexcept
+size_t DepotAnalyzer::get_match_begin_pos() const noexcept
 {
     return m_match_begin_pos;
 }
 
-void asst::DepotAnalyzer::resize()
+void DepotAnalyzer::resize()
 {
     LogTraceFunction;
 
@@ -57,7 +59,7 @@ void asst::DepotAnalyzer::resize()
 }
 
 template <typename F>
-cv::Mat asst::DepotAnalyzer::image_from_function(const cv::Size& size, const F& func)
+cv::Mat DepotAnalyzer::image_from_function(const cv::Size& size, const F& func)
 {
     auto result = cv::Mat1f { size, CV_32F };
     for (int i = 0; i < result.cols; ++i)
@@ -67,7 +69,7 @@ cv::Mat asst::DepotAnalyzer::image_from_function(const cv::Size& size, const F& 
     return result;
 }
 
-bool asst::DepotAnalyzer::analyze_base_rect()
+bool DepotAnalyzer::analyze_base_rect()
 {
     LogTraceFunction;
 
@@ -119,7 +121,7 @@ bool asst::DepotAnalyzer::analyze_base_rect()
     return !m_all_items_roi.empty();
 }
 
-bool asst::DepotAnalyzer::analyze_all_items()
+bool DepotAnalyzer::analyze_all_items()
 {
     LogTraceFunction;
 
@@ -158,21 +160,20 @@ bool asst::DepotAnalyzer::analyze_all_items()
     return !m_result.empty();
 }
 
-bool asst::DepotAnalyzer::check_roi_empty(const Rect& roi)
+bool DepotAnalyzer::check_roi_empty(const Rect& roi)
 {
     // TODO
     std::ignore = roi;
     return false;
 }
 
-size_t asst::DepotAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo& item_info, size_t begin_index,
-                                            bool with_enlarge)
+size_t DepotAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo& item_info, size_t begin_index, bool with_enlarge)
 {
     LogTraceFunction;
 
     const auto& all_items = ItemData.get_ordered_material_item_id();
 
-    MatchAnalyzer analyzer(m_image_resized);
+    Matcher analyzer(m_image_resized);
     analyzer.set_task_info("DepotMatchData");
     // spacing 有时候算的差一个像素，干脆把 roi 扩大一点好了
     Rect enlarged_roi = roi;
@@ -215,7 +216,7 @@ size_t asst::DepotAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo& item
     return matched_index;
 }
 
-int asst::DepotAnalyzer::match_quantity(const ItemInfo& item)
+int DepotAnalyzer::match_quantity(const ItemInfo& item)
 {
     auto task_ptr = Task.get<MatchTaskInfo>("DepotQuantity");
     auto item_templ = TemplResource::get_instance().get_templ(item.item_id);
@@ -253,7 +254,7 @@ int asst::DepotAnalyzer::match_quantity(const ItemInfo& item)
     cv::subtract(m_image_resized(make_rect<cv::Rect>(item.rect)), item_templ * 0.41,
                  ocr_img(make_rect<cv::Rect>(item.rect)));
 
-    OcrWithPreprocessAnalyzer analyzer(m_image_resized);
+    RegionOCRer analyzer(m_image_resized);
     analyzer.set_task_info("NumberOcrReplace");
     analyzer.set_roi(ocr_roi);
     analyzer.set_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
@@ -305,7 +306,7 @@ int asst::DepotAnalyzer::match_quantity(const ItemInfo& item)
     return quantity;
 }
 
-asst::Rect asst::DepotAnalyzer::resize_rect_to_raw_size(const asst::Rect& rect)
+Rect DepotAnalyzer::resize_rect_to_raw_size(const Rect& rect)
 {
     LogTraceFunction;
 
@@ -322,3 +323,5 @@ asst::Rect asst::DepotAnalyzer::resize_rect_to_raw_size(const asst::Rect& rect)
 
     return raw_rect;
 }
+
+MAA_VISION_NS_END

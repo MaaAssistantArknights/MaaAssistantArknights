@@ -4,7 +4,7 @@
 #include "Config/TaskData.h"
 #include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
-#include "Vision/OcrAnalyzer.h"
+#include "Vision/OCRer.h"
 
 MAA_VISION_NS_BEGIN
 
@@ -22,7 +22,7 @@ bool asst::RecruitAnalyzer::analyze()
 bool asst::RecruitAnalyzer::tags_analyze()
 {
     static bool analyzer_inited = false;
-    static OcrAnalyzer tags_analyzer;
+    static OCRer tags_analyzer;
     if (!analyzer_inited) {
         tags_analyzer.set_task_info("RecruitTags");
         auto& all_tags_set = RecruitData.get_all_tags();

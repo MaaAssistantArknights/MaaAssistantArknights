@@ -11,7 +11,7 @@ public:
     using VisionHelper::VisionHelper;
     virtual ~RoguelikeRecruitAnalyzer() noexcept override = default;
 
-    bool analyze() override;
+    bool analyze();
 
     const auto& get_result() const noexcept { return m_result; }
 

@@ -6,7 +6,7 @@
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/OcrAnalyzer.h"
+#include "Vision/OCRer.h"
 
 bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -79,7 +79,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_squad()
     constexpr size_t SwipeTimes = 7;
     for (size_t i = 0; i != SwipeTimes; ++i) {
         auto image = ctrler()->get_image();
-        OcrAnalyzer analyzer(image);
+        OCRer analyzer(image);
         analyzer.set_task_info("RoguelikeCustom-HijackSquad");
         analyzer.set_required({ m_customs[RoguelikeCustomType::Squad] });
 
@@ -99,7 +99,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_squad()
 bool asst::RoguelikeCustomStartTaskPlugin::hijack_roles()
 {
     auto image = ctrler()->get_image();
-    OcrAnalyzer analyzer(image);
+    OCRer analyzer(image);
     analyzer.set_task_info("RoguelikeCustom-HijackRoles");
     analyzer.set_required({ m_customs[RoguelikeCustomType::Roles] });
 
@@ -130,7 +130,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
     const std::string& role_ocr_name = role_iter->second;
     Log.info("role", role_ocr_name);
     auto image = ctrler()->get_image();
-    OcrAnalyzer analyzer(image);
+    OCRer analyzer(image);
     analyzer.set_task_info("RoguelikeCustom-HijackCoChar");
     analyzer.set_required({ role_ocr_name });
     if (!analyzer.analyze()) {

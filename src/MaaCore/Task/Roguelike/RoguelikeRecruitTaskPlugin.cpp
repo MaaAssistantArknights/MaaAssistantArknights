@@ -8,7 +8,7 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
-#include "Vision/OcrAnalyzer.h"
+#include "Vision/OCRer.h"
 #include "Vision/Roguelike/RoguelikeRecruitAnalyzer.h"
 #include "Vision/Roguelike/RoguelikeRecruitSupportAnalyzer.h"
 

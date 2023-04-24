@@ -8,7 +8,7 @@
 #include "Utils/Logger.hpp"
 #include "Vision/Infrast/InfrastOperAnalyzer.h"
 #include "Vision/Matcher.h"
-#include "Vision/OcrAnalyzer.h"
+#include "Vision/OCRer.h"
 #include "Vision/RegionOCRer.h"
 
 asst::InfrastDormTask& asst::InfrastDormTask::set_notstationed_enabled(bool dorm_notstationed_enabled) noexcept
@@ -131,7 +131,7 @@ bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& 
                 if (m_dorm_trust_enabled && m_next_step != NextStep::Rest && oper.selected == false &&
                     oper.doing != infrast::Doing::Working && oper.doing != infrast::Doing::Resting) {
                     // 获得干员信赖值
-                    OcrWithPreprocessAnalyzer trust_analyzer(oper.name_img);
+                    RegionOCRer trust_analyzer(oper.name_img);
                     if (!trust_analyzer.analyze()) {
                         Log.trace("ERROR:!trust_analyzer.analyze()");
                         break;
@@ -164,7 +164,7 @@ bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& 
                     }
 
                     // 获得干员所在设施
-                    OcrWithPreprocessAnalyzer facility_analyzer(oper.facility_img);
+                    RegionOCRer facility_analyzer(oper.facility_img);
                     if (!facility_analyzer.analyze()) {
                         Log.trace("ERROR:!facility_analyzer.analyze()");
                         break;

@@ -199,17 +199,17 @@ bool BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
                 return false;
             }
 
-            OcrWithPreprocessAnalyzer preproc_analyzer(name_image);
+            RegionOCRer preproc_analyzer(name_image);
             preproc_analyzer.set_task_info(oper_name_ocr_task_name());
             preproc_analyzer.set_replace(name_replace_task_ptr->replace_map, name_replace_task_ptr->replace_full);
-            std::string name = preproc_analyzer.analyze().value_or(OcrWithPreprocessAnalyzer::Result {}).text;
+            std::string name = preproc_analyzer.analyze().value_or(RegionOCRer::Result {}).text;
 
             if (BattleData.is_name_invalid(name)) {
                 Log.warn("ocr with preprocess got a invalid name, try to use detect model", name);
-                OcrAnalyzer det_analyzer(name_image);
+                OCRer det_analyzer(name_image);
                 det_analyzer.set_task_info(oper_name_ocr_task_name());
                 det_analyzer.set_replace(name_replace_task_ptr->replace_map, name_replace_task_ptr->replace_full);
-                std::string det_name = det_analyzer.analyze().value_or(OcrAnalyzer::ResultsVec {}).front().text;
+                std::string det_name = det_analyzer.analyze().value_or(OCRer::ResultsVec {}).front().text;
                 if (det_name.empty()) {
                     Log.warn("ocr with det model failed");
                 }

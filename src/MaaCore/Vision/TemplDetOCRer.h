@@ -20,6 +20,8 @@ public:
     void set_flag_rect_move(Rect flag_rect_move);
 
     ResultsVecOpt analyze() const;
+    // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉
+    ResultsVec result() const { return m_results; }
 
 protected:
     // from Config
@@ -31,6 +33,10 @@ protected:
 
 private:
     Rect m_flag_rect_move;
+
+private:
+    // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉
+    mutable ResultsVec m_results;
 };
 
 MAA_VISION_NS_END

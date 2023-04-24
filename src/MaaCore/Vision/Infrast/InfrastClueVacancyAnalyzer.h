@@ -8,7 +8,6 @@ class InfrastClueVacancyAnalyzer final : public VisionHelper
 public:
     using VisionHelper::VisionHelper;
     virtual ~InfrastClueVacancyAnalyzer() override = default;
-    InfrastClueVacancyAnalyzer(const cv::Mat& image, const Rect& roi) = delete;
 
     bool analyze();
     static constexpr int MaxNumOfClue = 7;

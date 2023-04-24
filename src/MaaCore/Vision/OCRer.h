@@ -19,6 +19,8 @@ public:
     virtual ~OCRer() override = default;
 
     ResultsVecOpt analyze() const;
+    // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉
+    ResultsVec result() const { return m_results; }
 
 protected:
     virtual void _set_roi(const Rect& roi) override { set_roi(roi); }
@@ -28,12 +30,16 @@ protected:
     using OCRerConfig::set_bin_threshold;
 
 protected:
-    void postproc_rect_(Result& res);
-    void postproc_trim_(Result& res);
-    void postproc_equivalence_(Result& res);
-    void postproc_replace_(Result& res);
+    void postproc_rect_(Result& res) const;
+    void postproc_trim_(Result& res) const;
+    void postproc_equivalence_(Result& res) const;
+    void postproc_replace_(Result& res) const;
 
-    bool filter_and_replace_by_required_(Result& res);
+    bool filter_and_replace_by_required_(Result& res) const;
+
+private:
+    // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉
+    mutable ResultsVec m_results;
 };
 
 MAA_VISION_NS_END

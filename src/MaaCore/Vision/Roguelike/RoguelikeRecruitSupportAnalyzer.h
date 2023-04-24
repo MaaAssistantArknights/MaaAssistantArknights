@@ -3,7 +3,7 @@
 
 #include "Common/AsstBattleDef.h"
 
-MAA_VSION_NS_BEGIN
+MAA_VISION_NS_BEGIN
 
 class RoguelikeRecruitSupportAnalyzer final : public VisionHelper
 {
@@ -11,10 +11,10 @@ public:
     using VisionHelper::VisionHelper;
     virtual ~RoguelikeRecruitSupportAnalyzer() noexcept override = default;
 
-    bool analyze() override;
+    bool analyze();
 
     void set_mode(battle::roguelike::SupportAnalyzeMode mode) noexcept { m_mode = mode; }
-    void set_required(std::vector<std::string> required) noexcept { m_required = required; }
+    void set_required(std::vector<std::string> required) noexcept { m_required = std::move(required); }
 
     const auto& get_result_choose_support() { return m_choose_support_result; }
     const auto& get_result_char() { return m_char_result; }
@@ -32,4 +32,4 @@ private:
     int match_level(const Rect& roi);
 };
 
-MAA_VSION_NS_END
+MAA_VISION_NS_END
