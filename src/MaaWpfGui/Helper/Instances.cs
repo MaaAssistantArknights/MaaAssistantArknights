@@ -11,7 +11,6 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System;
 using GlobalHotKey;
 using MaaWpfGui.Main;
 using MaaWpfGui.Services;
@@ -25,12 +24,10 @@ using StyletIoC;
 namespace MaaWpfGui.Helper
 {
     /// <summary>
-    /// 实例管理者，只能在RootView显示之后取用实例，方便在各种地方取所需要的非null实例
+    /// The instance manager.
     /// </summary>
     public static class Instances
     {
-        public static IContainer Container { get; private set; }
-
         public static IWindowManager WindowManager { get; private set; }
 
         public static TaskQueueViewModel TaskQueueViewModel { get; private set; }
@@ -47,8 +44,6 @@ namespace MaaWpfGui.Helper
 
         public static TrayIcon TrayIcon { get; private set; }
 
-        public static StageManager StageManager { get; private set; }
-
         public static HotKeyManager HotKeyManager { get; private set; }
 
         public static IMaaHotKeyManager MaaHotKeyManager { get; private set; }
@@ -61,29 +56,30 @@ namespace MaaWpfGui.Helper
 
         public static IMaaApiService MaaApiService { get; private set; }
 
-        public static void InitializeInstances(IContainer container)
+        public static void Instantiate(IContainer container)
         {
-            Container = container;
             WindowManager = container.Get<WindowManager>();
 
+            AsstProxy = container.Get<AsstProxy>();
             TaskQueueViewModel = container.Get<TaskQueueViewModel>();
             RecognizerViewModel = container.Get<RecognizerViewModel>();
             SettingsViewModel = container.Get<SettingsViewModel>();
             CopilotViewModel = container.Get<CopilotViewModel>();
             VersionUpdateViewModel = container.Get<VersionUpdateViewModel>();
 
-            AsstProxy = container.Get<AsstProxy>();
-            TrayIcon = container.Get<TrayIcon>();
-            StageManager = container.Get<StageManager>();
+            // 这仨实例化时存在依赖顺序
+            HttpService = container.Get<HttpService>();
+            MaaApiService = container.Get<MaaApiService>();
 
             HotKeyManager = container.Get<HotKeyManager>();
             MaaHotKeyManager = container.Get<MaaHotKeyManager>();
             MaaHotKeyActionHandler = container.Get<MaaHotKeyActionHandler>();
+        }
 
+        public static void InstantiateOnRootViewDisplayed(IContainer container)
+        {
             MainWindowManager = container.Get<MainWindowManager>();
-
-            HttpService = container.Get<HttpService>();
-            MaaApiService = container.Get<MaaApiService>();
+            TrayIcon = container.Get<TrayIcon>();
         }
     }
 }
