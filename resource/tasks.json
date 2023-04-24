@@ -861,7 +861,6 @@
         ]
     },
     "CF-8@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "CF-8"
         ]
@@ -936,19 +935,16 @@
         ]
     },
     "GA-6@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "GA-6"
         ]
     },
     "GA-7@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "GA-7"
         ]
     },
     "GA-8@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "GA-8"
         ]
@@ -1019,19 +1015,16 @@
         ]
     },
     "WB-7@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "WB-7"
         ]
     },
     "WB-8@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "WB-8"
         ]
     },
     "WB-9@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "WB-9"
         ]
@@ -1105,19 +1098,16 @@
         ]
     },
     "IW-6@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "IW-6"
         ]
     },
     "IW-7@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "IW-7"
         ]
     },
     "IW-8@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "IW-8"
         ]
@@ -1191,19 +1181,16 @@
         ]
     },
     "FC-5@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "FC-5"
         ]
     },
     "FC-6@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "FC-6"
         ]
     },
     "FC-7@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "FC-7"
         ]
@@ -1316,19 +1303,16 @@
         ]
     },
     "IS-10@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "IS-10"
         ]
     },
     "IS-9@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "IS-9"
         ]
     },
     "IS-8@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "IS-8"
         ]
@@ -1398,19 +1382,16 @@
         ]
     },
     "NL-10@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "NL-10"
         ]
     },
     "NL-9@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "NL-9"
         ]
     },
     "NL-8@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "NL-8"
         ]
@@ -1455,7 +1436,6 @@
         ]
     },
     "GT-5@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "GT-5"
         ]
@@ -1532,7 +1512,6 @@
         ]
     },
     "OF-1@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "OF-1",
             "0F-1"
@@ -1599,21 +1578,18 @@
         ]
     },
     "IC-9@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "IC-9",
             "1C-9"
         ]
     },
     "IC-8@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "IC-8",
             "1C-8"
         ]
     },
     "IC-7@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "IC-7",
             "1C-7"
@@ -1690,19 +1666,16 @@
         ]
     },
     "DV-8@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "DV-8"
         ]
     },
     "DV-7@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "DV-7"
         ]
     },
     "DV-6@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "DV-6"
         ]
@@ -1770,19 +1743,16 @@
         ]
     },
     "LE-5@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "LE-5"
         ]
     },
     "LE-6@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "LE-6"
         ]
     },
     "LE-7@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "LE-7"
         ]
@@ -1829,13 +1799,19 @@
     },
     "SN-Chapter2": {
         "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "失落旗舰",
+            "失落",
+            "旗舰"
+        ],
         "roi": [
             163,
-            418,
-            197,
+            417,
+            195,
             125
         ],
-        "postDelay": 2000,
+        "preDelay": 2000,
         "next": [
             "SN-Chapter2",
             "ChapterSwipeToTheRight"
@@ -1843,13 +1819,19 @@
     },
     "SN-Chapter3": {
         "action": "ClickSelf",
-        "roi": [
-            205,
-            487,
-            254,
-            165
+        "algorithm": "OcrDetect",
+        "text": [
+            "无名之海",
+            "无名",
+            "之海"
         ],
-        "postDelay": 2000,
+        "roi": [
+            258,
+            503,
+            194,
+            123
+        ],
+        "preDelay": 2000,
         "next": [
             "SN-Chapter3",
             "ChapterSwipeToTheLeft"
@@ -1943,7 +1925,6 @@
         ]
     },
     "DH-9@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "DH-9"
         ]
@@ -2347,8 +2328,8 @@
                 "U-Official"
             ],
             [
-                "^混乱.*派对.*",
-                "混乱“派对”"
+                ".*威龙陈",
+                "假日威龙陈"
             ]
         ]
     },
@@ -5983,8 +5964,7 @@
             800,
             100
         ],
-        "ocrReplace": [
-        ]
+        "ocrReplace": []
     },
     "BattleSupportUnitFormation": {
         "action": "ClickSelf",
@@ -10176,6 +10156,10 @@
             [
                 "枯朽.*育",
                 "枯朽孕育"
+            ],
+            [
+                "^混乱.*派对.*",
+                "混乱“派对”"
             ]
         ]
     },
@@ -11624,7 +11608,9 @@
             207,
             105
         ],
-        "next": [ "ChooseMoneyOrder" ]
+        "next": [
+            "ChooseMoneyOrder"
+        ]
     },
     "ChooseMoneyOrder": {
         "algorithm": "MatchTemplate",
@@ -11637,7 +11623,9 @@
             248,
             427
         ],
-        "next": [ "ChangeOrderComfirm" ]
+        "next": [
+            "ChangeOrderComfirm"
+        ]
     },
     "ChangeOrderComfirm": {
         "algorithm": "JustReturn",
@@ -11664,7 +11652,9 @@
             207,
             105
         ],
-        "next": [ "ChooseSyntheticJadeOrder" ]
+        "next": [
+            "ChooseSyntheticJadeOrder"
+        ]
     },
     "ChooseSyntheticJadeOrder": {
         "algorithm": "MatchTemplate",
@@ -11677,7 +11667,9 @@
             250,
             427
         ],
-        "next": [ "ChangeOrderComfirm" ]
+        "next": [
+            "ChangeOrderComfirm"
+        ]
     },
     "ChooseProductList": {
         "algorithm": "MatchTemplate",
@@ -11708,7 +11700,9 @@
             120,
             120
         ],
-        "next": [ "ProductFinalComfirm" ]
+        "next": [
+            "ProductFinalComfirm"
+        ]
     },
     "ClickProductMax": {
         "algorithm": "MatchTemplate",
@@ -11721,7 +11715,9 @@
             85,
             60
         ],
-        "next": [ "ComfirmProductChange" ]
+        "next": [
+            "ComfirmProductChange"
+        ]
     },
     "ChooseBattleRecord": {
         "algorithm": "MatchTemplate",
@@ -11734,7 +11730,9 @@
             190,
             195
         ],
-        "next": [ "ClickProductMax" ]
+        "next": [
+            "ClickProductMax"
+        ]
     },
     "ProductFinalComfirm": {
         "algorithm": "MatchTemplate",
@@ -11763,7 +11761,9 @@
             100,
             110
         ],
-        "next": [ "ChoosePureGold" ]
+        "next": [
+            "ChoosePureGold"
+        ]
     },
     "ChoosePureGold": {
         "algorithm": "MatchTemplate",
@@ -11776,7 +11776,9 @@
             190,
             195
         ],
-        "next": [ "ClickProductMax" ]
+        "next": [
+            "ClickProductMax"
+        ]
     },
     "ChooseOriginiumShardTab": {
         "algorithm": "MatchTemplate",
@@ -11789,7 +11791,9 @@
             100,
             110
         ],
-        "next": [ "ChooseOriginiumShard" ]
+        "next": [
+            "ChooseOriginiumShard"
+        ]
     },
     "ChooseOriginiumShard": {
         "algorithm": "MatchTemplate",
@@ -11802,7 +11806,9 @@
             190,
             195
         ],
-        "next": [ "ClickProductMax" ]
+        "next": [
+            "ClickProductMax"
+        ]
     },
     "ChangeProductToMiddleBattleRecord": {
         "algorithm": "MatchTemplate",
@@ -11821,7 +11827,9 @@
             80,
             80
         ],
-        "next": [ "ChooseBattleRecord" ]
+        "next": [
+            "ChooseBattleRecord"
+        ]
     },
     "ChangeProductToPureGold": {
         "algorithm": "MatchTemplate",
@@ -11840,7 +11848,9 @@
             80,
             80
         ],
-        "next": [ "ChoosePureGoldTab" ]
+        "next": [
+            "ChoosePureGoldTab"
+        ]
     },
     "ChangeProductToOriginiumShard": {
         "algorithm": "MatchTemplate",
@@ -11859,6 +11869,8 @@
             80,
             80
         ],
-        "next": [ "ChooseOriginiumShardTab" ]
+        "next": [
+            "ChooseOriginiumShardTab"
+        ]
     }
 }
