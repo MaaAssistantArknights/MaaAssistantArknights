@@ -33,24 +33,17 @@ namespace MaaWpfGui.Views.UserControl
             InitializeComponent();
             timer.Tick += (s, e1) =>
             {
-                count = 0;
                 timer.IsEnabled = false;
             };
         }
 
-        private const int ClickCount = 1;
-        private int count = 0;
-        private readonly DispatcherTimer timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 2, 0), };
+        private readonly DispatcherTimer timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 1500), };
 
         private void EasterEggs(object sender, MouseButtonEventArgs e)
         {
-            count += 1;
-            timer.IsEnabled = true;
-            if (count % ClickCount == 0)
+            if (!timer.IsEnabled)
             {
-                count = 0;
-                timer.IsEnabled = false;
-
+                timer.IsEnabled = true;
                 var growinfo = new GrowlInfo
                 {
                     IsCustom = true,
