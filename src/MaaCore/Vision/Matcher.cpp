@@ -1,4 +1,4 @@
-#include "MatchImageAnalyzer.h"
+#include "Matcher.h"
 
 #include "Utils/NoWarningCV.h"
 
@@ -7,10 +7,10 @@
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 
-const asst::MatchImageAnalyzer::ResultOpt& asst::MatchImageAnalyzer::analyze()
-{
-    m_result = std::nullopt;
+MAA_NS_BEGIN
 
+Matcher::ResultOpt Matcher::analyze() const
+{
     const auto& [matched, templ, templ_name] = preproc_and_match(make_roi(m_image, m_roi), m_params);
 
     if (matched.empty()) {
@@ -29,14 +29,15 @@ const asst::MatchImageAnalyzer::ResultOpt& asst::MatchImageAnalyzer::analyze()
         Log.trace("match_templ |", templ_name, "score:", max_val, "rect:", rect, "roi:", m_roi);
     }
 
-    if (m_params.templ_thres <= max_val) {
-        m_result = Result { .rect = rect, .score = max_val };
+    if (max_val < m_params.templ_thres) {
+        return std::nullopt;
     }
-    return m_result;
+
+    return Result { .rect = rect, .score = max_val };
 }
 
-asst::MatchImageAnalyzer::RawResult asst::MatchImageAnalyzer::preproc_and_match(
-    const cv::Mat& image, const MatchImageAnalyzerConfig::Params& params)
+Matcher::RawResult Matcher::preproc_and_match(
+    const cv::Mat& image, const MatcherConfig::Params& params)
 {
     cv::Mat templ;
     std::string templ_name;
@@ -84,12 +85,4 @@ asst::MatchImageAnalyzer::RawResult asst::MatchImageAnalyzer::preproc_and_match(
     return RawResult { .matched = matched, .templ = templ, .templ_name = templ_name };
 }
 
-const asst::MatchImageAnalyzer::ResultOpt& asst::MatchImageAnalyzer::result() const noexcept
-{
-    return m_result;
-}
-
-void asst::MatchImageAnalyzer::_set_roi(const Rect& roi)
-{
-    AbstractImageAnalyzer::set_roi(roi);
-}
+MAA_NS_END

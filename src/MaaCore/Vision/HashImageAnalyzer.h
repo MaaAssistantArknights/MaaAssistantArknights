@@ -1,15 +1,15 @@
 #pragma once
-#include "AbstractImageAnalyzer.h"
+#include "VisionHelper.h"
 
 #include <unordered_map>
 
 namespace asst
 {
     // FIXME: 删掉这个类，以及对应的 task 类型
-    class HashImageAnalyzer : public AbstractImageAnalyzer
+    class HashImageAnalyzer : public VisionHelper
     {
     public:
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
+        using VisionHelper::VisionHelper;
         virtual ~HashImageAnalyzer() override = default;
 
         bool analyze();

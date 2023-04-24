@@ -181,6 +181,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             return false;
         }
 
+        const auto& name_replace_task_ptr = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
         for (auto& oper : unknown_opers) {
             LogTraceScope("rec unknown oper: " + std::to_string(oper.index));
             if (oper.cooling) {
@@ -196,24 +197,17 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
                 return false;
             }
 
-            auto analyze = [&](OcrImageAnalyzer& name_analyzer) {
-                name_analyzer.set_image(name_image);
-                name_analyzer.set_task_info(oper_name_ocr_task_name());
-                name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
-                                          Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
-                if (!name_analyzer.analyze()) {
-                    return std::string();
-                }
-                name_analyzer.sort_results_by_score();
-                return name_analyzer.result()->front().text;
-            };
+            OcrWithPreprocessImageAnalyzer preproc_analyzer(name_image);
+            preproc_analyzer.set_task_info(oper_name_ocr_task_name());
+            preproc_analyzer.set_replace(name_replace_task_ptr->replace_map, name_replace_task_ptr->replace_full);
+            std::string name = preproc_analyzer.analyze().value_or(OcrWithPreprocessImageAnalyzer::Result {}).text;
 
-            OcrWithPreprocessImageAnalyzer preproc_analyzer;
-            std::string name = analyze(preproc_analyzer);
             if (BattleData.is_name_invalid(name)) {
                 Log.warn("ocr with preprocess got a invalid name, try to use detect model", name);
-                OcrImageAnalyzer det_analyzer;
-                std::string det_name = analyze(det_analyzer);
+                OcrImageAnalyzer det_analyzer(name_image);
+                det_analyzer.set_task_info(oper_name_ocr_task_name());
+                det_analyzer.set_replace(name_replace_task_ptr->replace_map, name_replace_task_ptr->replace_full);
+                std::string det_name = det_analyzer.analyze().value_or(OcrImageAnalyzer::ResultsVec {}).front().text;
                 if (det_name.empty()) {
                     Log.warn("ocr with det model failed");
                 }

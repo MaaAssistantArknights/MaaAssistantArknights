@@ -71,7 +71,5 @@ namespace asst
 
         ObjectOfInterest m_object_of_interest; // 待识别的目标
         Point m_base_point;
-
-        ResultOpt m_result;
     };
 } // namespace asst

@@ -1,5 +1,5 @@
 #pragma once
-#include "Vision/AbstractImageAnalyzer.h"
+#include "Vision/VisionHelper.h"
 
 #include <memory>
 #include <string>
@@ -12,7 +12,7 @@
 
 namespace asst
 {
-    class ProcessTaskImageAnalyzer : public AbstractImageAnalyzer
+    class ProcessTaskImageAnalyzer : public VisionHelper
     {
     public:
         struct Result
@@ -24,7 +24,7 @@ namespace asst
         using ResultOpt = std::optional<Result>;
 
     public:
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
+        using VisionHelper::VisionHelper;
         virtual ~ProcessTaskImageAnalyzer() override = default;
 
         void set_tasks(std::vector<std::string> tasks_name) { m_tasks_name = std::move(tasks_name); }
@@ -37,7 +37,5 @@ namespace asst
         OcrImageAnalyzer::ResultsVecOpt ocr_analyze(const std::shared_ptr<TaskInfo>& task_ptr);
 
         std::vector<std::string> m_tasks_name;
-
-        ResultOpt m_result;
     };
 }

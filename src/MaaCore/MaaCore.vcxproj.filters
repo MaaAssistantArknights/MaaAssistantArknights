@@ -141,19 +141,19 @@
     <ClInclude Include="Common\AsstVersion.h">
       <Filter>源文件\Common</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\AbstractImageAnalyzer.h">
+    <ClInclude Include="Vision\VisionHelper.h">
       <Filter>源文件\Vision</Filter>
     </ClInclude>
     <ClInclude Include="Vision\HashImageAnalyzer.h">
       <Filter>源文件\Vision</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\MatchImageAnalyzer.h">
+    <ClInclude Include="Vision\Matcher.h">
       <Filter>源文件\Vision</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\MultiMatchImageAnalyzer.h">
+    <ClInclude Include="Vision\MultiMatcher.h">
       <Filter>源文件\Vision</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\OcrImageAnalyzer.h">
+    <ClInclude Include="Vision\OCRer.h">
       <Filter>源文件\Vision</Filter>
     </ClInclude>
     <ClInclude Include="Vision\OcrWithFlagTemplImageAnalyzer.h">
@@ -501,7 +501,7 @@
     <ClInclude Include="Task\Miscellaneous\StopGameTaskPlugin.h">
       <Filter>源文件\Task\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\BestMatchImageAnalyzer.h">
+    <ClInclude Include="Vision\BestMatcher.h">
       <Filter>源文件\Vision</Filter>
     </ClInclude>
     <ClInclude Include="Task\Interface\SingleStepTask.h">
@@ -603,30 +603,27 @@
     <ClInclude Include="Controller\PlayToolsController.h">
       <Filter>源文件\Controller</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\Config\MatchImageAnalyzerConfig.h">
+    <ClInclude Include="Vision\Config\MatcherConfig.h">
       <Filter>源文件\Vision\Config</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\Config\OcrImageAnalyzerConfig.h">
-      <Filter>源文件\Vision\Config</Filter>
-    </ClInclude>
-    <ClInclude Include="Vision\Config\OnnxImageAnalyzerConfig.h">
+    <ClInclude Include="Vision\Config\OCRerConfig.h">
       <Filter>源文件\Vision\Config</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Vision\AbstractImageAnalyzer.cpp">
+    <ClCompile Include="Vision\VisionHelper.cpp">
       <Filter>源文件\Vision</Filter>
     </ClCompile>
     <ClCompile Include="Vision\HashImageAnalyzer.cpp">
       <Filter>源文件\Vision</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\MatchImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Matcher.cpp">
       <Filter>源文件\Vision</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\MultiMatchImageAnalyzer.cpp">
+    <ClCompile Include="Vision\MultiMatcher.cpp">
       <Filter>源文件\Vision</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\OcrImageAnalyzer.cpp">
+    <ClCompile Include="Vision\OCRer.cpp">
       <Filter>源文件\Vision</Filter>
     </ClCompile>
     <ClCompile Include="Vision\OcrWithFlagTemplImageAnalyzer.cpp">
@@ -917,7 +914,7 @@
     <ClCompile Include="Task\SSS\SSSDropRewardsTaskPlugin.cpp">
       <Filter>源文件\Task\SSS</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\BestMatchImageAnalyzer.cpp">
+    <ClCompile Include="Vision\BestMatcher.cpp">
       <Filter>源文件\Vision</Filter>
     </ClCompile>
     <ClCompile Include="Task\Interface\SingleStepTask.cpp">
@@ -998,10 +995,10 @@
     <ClCompile Include="Controller\PlayToolsController.cpp">
       <Filter>源文件\Controller</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\Config\MatchImageAnalyzerConfig.cpp">
+    <ClCompile Include="Vision\Config\MatcherConfig.cpp">
       <Filter>源文件\Vision\Config</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\Config\OcrImageAnalyzerConfig.cpp">
+    <ClCompile Include="Vision\Config\OCRerConfig.cpp">
       <Filter>源文件\Vision\Config</Filter>
     </ClCompile>
   </ItemGroup>

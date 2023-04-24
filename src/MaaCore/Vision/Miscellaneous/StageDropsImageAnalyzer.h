@@ -1,17 +1,17 @@
 #pragma once
 #include "Config/Miscellaneous/StageDropsConfig.h"
-#include "Vision/AbstractImageAnalyzer.h"
+#include "Vision/VisionHelper.h"
 
 #include <optional>
 
 namespace asst
 {
-    class StageDropsImageAnalyzer final : public AbstractImageAnalyzer
+    class StageDropsImageAnalyzer final : public VisionHelper
     {
         static constexpr const char* LMD_ID = "4001";
 
     public:
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
+        using VisionHelper::VisionHelper;
         virtual ~StageDropsImageAnalyzer() override = default;
 
         bool analyze();

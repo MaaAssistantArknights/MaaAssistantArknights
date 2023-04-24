@@ -1,5 +1,12 @@
 #pragma once
 
+#define MAA_NS asst
+#define MAA_NS_BEGIN   \
+    namespace MAA_NS \
+    {
+#define MAA_NS_END }
+
+
 namespace asst::utils
 {
     template <typename... Unused>

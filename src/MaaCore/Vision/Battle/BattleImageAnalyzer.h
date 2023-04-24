@@ -1,11 +1,11 @@
 #pragma once
-#include "Vision/AbstractImageAnalyzer.h"
+#include "Vision/VisionHelper.h"
 
 #include "Common/AsstBattleDef.h"
 
 namespace asst
 {
-    class BattleImageAnalyzer : public AbstractImageAnalyzer
+    class BattleImageAnalyzer : public VisionHelper
     {
     public:
         struct ObjectOfInterest
@@ -33,7 +33,7 @@ namespace asst
         using ResultOpt = std::optional<Result>;
 
     public:
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
+        using VisionHelper::VisionHelper;
         virtual ~BattleImageAnalyzer() override = default;
 
         void set_object_to_analyze(ObjectOfInterest obj);
@@ -59,8 +59,5 @@ namespace asst
 
         ObjectOfInterest m_object_of_interest; // 待识别的目标
         int m_total_kills_prompt = 0; // 之前的击杀总数，因为击杀数经常识别不准所以依赖外部传入作为参考
-
-    private:
-        ResultOpt m_result;
     };
 } // namespace asst

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Vision/AbstractImageAnalyzer.h"
+#include "Vision/VisionHelper.h"
 
 namespace asst
 {
-    class BattleFormationImageAnalyzer : public AbstractImageAnalyzer
+    class BattleFormationImageAnalyzer : public VisionHelper
     {
     public:
         struct Result
@@ -16,13 +16,10 @@ namespace asst
         using ResultsVecOpt = std::optional<ResultsVec>;
 
     public:
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
+        using VisionHelper::VisionHelper;
         virtual ~BattleFormationImageAnalyzer() override = default;
 
         const ResultsVecOpt& analyze();
         const ResultsVecOpt& result() const noexcept { return m_result; }
-
-    private:
-        ResultsVecOpt m_result;
     };
 }

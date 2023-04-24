@@ -9,7 +9,7 @@ const asst::OcrWithFlagTemplImageAnalyzer::ResultsVecOpt& asst::OcrWithFlagTempl
     m_result = std::nullopt;
 
     MultiMatchImageAnalyzer flag_analyzer(m_image, m_roi, m_inst);
-    flag_analyzer.set_params(MatchImageAnalyzerConfig::m_params);
+    flag_analyzer.set_params(MatcherConfig::m_params);
 
     auto matched_vec_opt = flag_analyzer.analyze();
     if (!matched_vec_opt) {
@@ -22,7 +22,7 @@ const asst::OcrWithFlagTemplImageAnalyzer::ResultsVecOpt& asst::OcrWithFlagTempl
         Rect roi = matched.rect.move(m_flag_rect_move);
 
         OcrWithPreprocessImageAnalyzer ocr_analyzer(m_image, roi, m_inst);
-        ocr_analyzer.set_params(OcrImageAnalyzerConfig::m_params);
+        ocr_analyzer.set_params(OCRerConfig::m_params);
         auto ocr_opt = ocr_analyzer.analyze();
         if (!ocr_opt) {
             continue;
@@ -43,11 +43,11 @@ void asst::OcrWithFlagTemplImageAnalyzer::set_task_info(const std::string& templ
 {
     auto match_task_ptr = Task.get<MatchTaskInfo>(templ_task_name);
     m_roi = match_task_ptr->roi;
-    MatchImageAnalyzerConfig::_set_task_info(*match_task_ptr);
+    MatcherConfig::_set_task_info(*match_task_ptr);
 
     auto ocr_task_ptr = Task.get<OcrTaskInfo>(ocr_task_name);
     m_flag_rect_move = ocr_task_ptr->roi;
-    OcrImageAnalyzerConfig::_set_task_info(*ocr_task_ptr);
+    OCRerConfig::_set_task_info(*ocr_task_ptr);
 }
 
 void asst::OcrWithFlagTemplImageAnalyzer::set_flag_rect_move(Rect flag_rect_move)
@@ -85,5 +85,5 @@ void asst::OcrWithFlagTemplImageAnalyzer::sort_results_by_required()
     if (!m_result) {
         return;
     }
-    sort_by_required_(m_result.value(), OcrImageAnalyzerConfig::m_params.required);
+    sort_by_required_(m_result.value(), OCRerConfig::m_params.required);
 }

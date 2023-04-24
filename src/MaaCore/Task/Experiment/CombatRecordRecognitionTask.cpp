@@ -887,7 +887,7 @@ std::string asst::CombatRecordRecognitionTask::analyze_detail_page_oper_name(con
     return name;
 }
 
-void asst::CombatRecordRecognitionTask::show_img(const asst::AbstractImageAnalyzer& analyzer)
+void asst::CombatRecordRecognitionTask::show_img(const asst::VisionHelper& analyzer)
 {
 #ifdef ASST_DEBUG
     show_img(analyzer.get_draw());

@@ -50,7 +50,5 @@ namespace asst
         std::vector<OperatorResult> operator_analyze();
 
         ObjectOfInterest m_object_of_interest;
-
-        ResultOpt m_result;
     };
 }

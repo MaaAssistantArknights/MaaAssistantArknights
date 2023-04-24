@@ -1,23 +1,23 @@
-#include "BestMatchImageAnalyzer.h"
+#include "BestMatcher.h"
 
 #include "Utils/NoWarningCV.h"
 
 #include "Config/TaskData.h"
 #include "Config/TemplResource.h"
-#include "MatchImageAnalyzer.h"
+#include "Matcher.h"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 
-void asst::BestMatchImageAnalyzer::append_templ(std::string name, const cv::Mat& templ)
+MAA_NS_BEGIN
+
+void BestMatcher::append_templ(std::string name, const cv::Mat& templ)
 {
     m_templs.emplace_back(TemplInfo { std::move(name), templ });
 }
 
-const asst::BestMatchImageAnalyzer::ResultOpt& asst::BestMatchImageAnalyzer::analyze()
+BestMatcher::ResultOpt BestMatcher::analyze() const
 {
-    m_result = std::nullopt;
-
-    MatchImageAnalyzer match_analyzer(m_image, m_roi);
+    Matcher match_analyzer(m_image, m_roi, m_inst);
     match_analyzer.set_params(m_params);
 #ifdef ASST_DEBUG
     match_analyzer.set_log_tracing(m_log_tracing);
@@ -25,6 +25,7 @@ const asst::BestMatchImageAnalyzer::ResultOpt& asst::BestMatchImageAnalyzer::ana
     match_analyzer.set_log_tracing(false);
 #endif
 
+    Result result;
     for (const auto& templ_info : m_templs) {
         auto&& [name, templ] = templ_info;
 
@@ -40,27 +41,19 @@ const asst::BestMatchImageAnalyzer::ResultOpt& asst::BestMatchImageAnalyzer::ana
             continue;
         }
         const auto& cur_matched = cur_opt.value();
-        if (!m_result || m_result->matched.score < cur_matched.score) {
-            m_result = Result { .matched = cur_matched, .templ_info = templ_info };
+        if (result.matched.score < cur_matched.score) {
+            result = Result { .matched = cur_matched, .templ_info = templ_info };
         }
     }
 
-    if (!m_result) {
+    if (!result.matched.score) {
         return std::nullopt;
     }
 
     if (m_log_tracing) {
-        Log.trace("The best match is", m_result->matched.to_string(), m_result->templ_info.name);
+        Log.trace("The best match is", result.matched.to_string(), result.templ_info.name);
     }
-    return m_result;
+    return result;
 }
 
-const asst::BestMatchImageAnalyzer::ResultOpt& asst::BestMatchImageAnalyzer::result() const noexcept
-{
-    return m_result;
-}
-
-void asst::BestMatchImageAnalyzer::_set_roi(const Rect& roi)
-{
-    AbstractImageAnalyzer::set_roi(roi);
-}
+MAA_NS_END

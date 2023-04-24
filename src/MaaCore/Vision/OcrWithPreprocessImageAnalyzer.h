@@ -3,14 +3,14 @@
 
 namespace asst
 {
-    class OcrWithPreprocessImageAnalyzer : public AbstractImageAnalyzer, public OcrImageAnalyzerConfig
+    class OcrWithPreprocessImageAnalyzer : public VisionHelper, public OCRerConfig
     {
     public:
         using Result = OcrImageAnalyzer::Result;
         using ResultOpt = std::optional<Result>;
 
     public:
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
+        using VisionHelper::VisionHelper;
         virtual ~OcrWithPreprocessImageAnalyzer() override = default;
 
         const ResultOpt& analyze();
@@ -28,8 +28,5 @@ namespace asst
         int m_threshold_upper = 255;
         // bool m_split = false;
         int m_expansion = 2;
-
-    private:
-        ResultOpt m_result;
     };
 }

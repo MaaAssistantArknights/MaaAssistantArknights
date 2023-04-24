@@ -1,4 +1,4 @@
-#include "OcrImageAnalyzer.h"
+#include "OCRer.h"
 
 #include <regex>
 #include <unordered_map>
@@ -8,10 +8,10 @@
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
 
-const asst::OcrImageAnalyzer::ResultsVecOpt& asst::OcrImageAnalyzer::analyze()
-{
-    m_result = std::nullopt;
+MAA_NS_BEGIN
 
+OCRer::ResultsVecOpt OCRer::analyze() const
+{
     OcrPack* ocr_ptr = nullptr;
     if (m_params.use_char_model) {
         ocr_ptr = &CharOcr::get_instance();
@@ -45,43 +45,10 @@ const asst::OcrImageAnalyzer::ResultsVecOpt& asst::OcrImageAnalyzer::analyze()
         return std::nullopt;
     }
 
-    m_result = results_vec;
-    return m_result;
+    return results_vec;
 }
 
-void asst::OcrImageAnalyzer::sort_results_by_horizontal()
-{
-    if (!m_result) {
-        return;
-    }
-    sort_by_horizontal_(m_result.value());
-}
-
-void asst::OcrImageAnalyzer::sort_results_by_vertical()
-{
-    if (!m_result) {
-        return;
-    }
-    sort_by_vertical_(m_result.value());
-}
-
-void asst::OcrImageAnalyzer::sort_results_by_score()
-{
-    if (!m_result) {
-        return;
-    }
-    sort_by_score_(m_result.value());
-}
-
-void asst::OcrImageAnalyzer::sort_results_by_required()
-{
-    if (!m_result) {
-        return;
-    }
-    sort_by_required_(m_result.value(), m_params.required);
-}
-
-void asst::OcrImageAnalyzer::postproc_rect_(Result& res)
+void OCRer::postproc_rect_(Result& res)
 {
     if (m_params.without_det) {
         res.rect = m_roi;
@@ -92,18 +59,18 @@ void asst::OcrImageAnalyzer::postproc_rect_(Result& res)
     }
 }
 
-void asst::OcrImageAnalyzer::postproc_trim_(Result& res)
+void OCRer::postproc_trim_(Result& res)
 {
     utils::string_trim_(res.text);
 }
 
-void asst::OcrImageAnalyzer::postproc_equivalence_(Result& res)
+void OCRer::postproc_equivalence_(Result& res)
 {
     auto& ocr_config = OcrConfig::get_instance();
     res.text = ocr_config.process_equivalence_class(res.text);
 }
 
-void asst::OcrImageAnalyzer::postproc_replace_(Result& res)
+void OCRer::postproc_replace_(Result& res)
 {
     if (m_params.replace.empty()) {
         return;
@@ -121,7 +88,7 @@ void asst::OcrImageAnalyzer::postproc_replace_(Result& res)
     }
 }
 
-bool asst::OcrImageAnalyzer::filter_and_replace_by_required_(Result& res)
+bool OCRer::filter_and_replace_by_required_(Result& res)
 {
     if (m_params.required.empty()) {
         return true;
@@ -141,3 +108,5 @@ bool asst::OcrImageAnalyzer::filter_and_replace_by_required_(Result& res)
         return ranges::find_if(m_params.required, is_sub) != m_params.required.cend();
     };
 }
+
+MAA_NS_END

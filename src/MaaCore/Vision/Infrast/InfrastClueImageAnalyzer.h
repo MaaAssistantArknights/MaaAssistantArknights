@@ -1,12 +1,12 @@
 #pragma once
-#include "Vision/AbstractImageAnalyzer.h"
+#include "Vision/VisionHelper.h"
 
 namespace asst
 {
-    class InfrastClueImageAnalyzer : public AbstractImageAnalyzer
+    class InfrastClueImageAnalyzer : public VisionHelper
     {
     public:
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
+        using VisionHelper::VisionHelper;
         virtual ~InfrastClueImageAnalyzer() override = default;
 
         bool analyze();

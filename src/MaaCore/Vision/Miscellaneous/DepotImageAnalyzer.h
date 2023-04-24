@@ -1,5 +1,5 @@
 #pragma once
-#include "Vision/AbstractImageAnalyzer.h"
+#include "Vision/VisionHelper.h"
 
 namespace asst
 {
@@ -10,13 +10,13 @@ namespace asst
         int quantity = 0;
         Rect rect;
     };
-    class DepotImageAnalyzer final : public AbstractImageAnalyzer
+    class DepotImageAnalyzer final : public VisionHelper
     {
     public:
         static constexpr size_t NPos = ~0ULL;
 
     public:
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
+        using VisionHelper::VisionHelper;
         virtual ~DepotImageAnalyzer() override = default;
 
         bool analyze();
