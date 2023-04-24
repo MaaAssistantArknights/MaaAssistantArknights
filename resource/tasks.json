@@ -5964,8 +5964,7 @@
             800,
             100
         ],
-        "ocrReplace": [
-        ]
+        "ocrReplace": []
     },
     "BattleSupportUnitFormation": {
         "action": "ClickSelf",
@@ -11563,7 +11562,9 @@
             207,
             105
         ],
-        "next": [ "ChooseMoneyOrder" ]
+        "next": [
+            "ChooseMoneyOrder"
+        ]
     },
     "ChooseMoneyOrder": {
         "algorithm": "MatchTemplate",
@@ -11576,7 +11577,9 @@
             248,
             427
         ],
-        "next": [ "ChangeOrderComfirm" ]
+        "next": [
+            "ChangeOrderComfirm"
+        ]
     },
     "ChangeOrderComfirm": {
         "algorithm": "JustReturn",
@@ -11603,7 +11606,9 @@
             207,
             105
         ],
-        "next": [ "ChooseSyntheticJadeOrder" ]
+        "next": [
+            "ChooseSyntheticJadeOrder"
+        ]
     },
     "ChooseSyntheticJadeOrder": {
         "algorithm": "MatchTemplate",
@@ -11616,7 +11621,9 @@
             250,
             427
         ],
-        "next": [ "ChangeOrderComfirm" ]
+        "next": [
+            "ChangeOrderComfirm"
+        ]
     },
     "ChooseProductList": {
         "algorithm": "MatchTemplate",
@@ -11647,7 +11654,9 @@
             120,
             120
         ],
-        "next": [ "ProductFinalComfirm" ]
+        "next": [
+            "ProductFinalComfirm"
+        ]
     },
     "ClickProductMax": {
         "algorithm": "MatchTemplate",
@@ -11660,7 +11669,9 @@
             85,
             60
         ],
-        "next": [ "ComfirmProductChange" ]
+        "next": [
+            "ComfirmProductChange"
+        ]
     },
     "ChooseBattleRecord": {
         "algorithm": "MatchTemplate",
@@ -11673,7 +11684,9 @@
             190,
             195
         ],
-        "next": [ "ClickProductMax" ]
+        "next": [
+            "ClickProductMax"
+        ]
     },
     "ProductFinalComfirm": {
         "algorithm": "MatchTemplate",
@@ -11702,7 +11715,9 @@
             100,
             110
         ],
-        "next": [ "ChoosePureGold" ]
+        "next": [
+            "ChoosePureGold"
+        ]
     },
     "ChoosePureGold": {
         "algorithm": "MatchTemplate",
@@ -11715,7 +11730,9 @@
             190,
             195
         ],
-        "next": [ "ClickProductMax" ]
+        "next": [
+            "ClickProductMax"
+        ]
     },
     "ChooseOriginiumShardTab": {
         "algorithm": "MatchTemplate",
@@ -11728,7 +11745,9 @@
             100,
             110
         ],
-        "next": [ "ChooseOriginiumShard" ]
+        "next": [
+            "ChooseOriginiumShard"
+        ]
     },
     "ChooseOriginiumShard": {
         "algorithm": "MatchTemplate",
@@ -11741,7 +11760,9 @@
             190,
             195
         ],
-        "next": [ "ClickProductMax" ]
+        "next": [
+            "ClickProductMax"
+        ]
     },
     "ChangeProductToMiddleBattleRecord": {
         "algorithm": "MatchTemplate",
@@ -11760,7 +11781,9 @@
             80,
             80
         ],
-        "next": [ "ChooseBattleRecord" ]
+        "next": [
+            "ChooseBattleRecord"
+        ]
     },
     "ChangeProductToPureGold": {
         "algorithm": "MatchTemplate",
@@ -11779,7 +11802,9 @@
             80,
             80
         ],
-        "next": [ "ChoosePureGoldTab" ]
+        "next": [
+            "ChoosePureGoldTab"
+        ]
     },
     "ChangeProductToOriginiumShard": {
         "algorithm": "MatchTemplate",
@@ -11798,6 +11823,8 @@
             80,
             80
         ],
-        "next": [ "ChooseOriginiumShardTab" ]
+        "next": [
+            "ChooseOriginiumShardTab"
+        ]
     }
 }
