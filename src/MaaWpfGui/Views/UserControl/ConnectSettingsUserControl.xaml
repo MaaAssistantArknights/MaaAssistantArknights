@@ -215,6 +215,9 @@
             Width="250"
             Height="30"
             Margin="10"
+            AllowDrop="True"
+            Drop="StartsWithScript_Drop"
+            PreviewDragOver="TextBox_PreviewDragOver"
             Text="{Binding StartsWithScript}" />
         <controls:TextBlock
             Grid.Row="9"
@@ -229,6 +232,9 @@
             Width="250"
             Height="30"
             Margin="10"
+            AllowDrop="True"
+            Drop="EndsWithScript_Drop"
+            PreviewDragOver="TextBox_PreviewDragOver"
             Text="{Binding EndsWithScript}" />
     </Grid>
 </UserControl>

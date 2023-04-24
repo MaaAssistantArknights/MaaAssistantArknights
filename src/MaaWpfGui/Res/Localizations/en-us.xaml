@@ -192,7 +192,7 @@
     <system:String x:Key="AutoRestartOption">Restart when game disconnects</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">Startup Emulator after launched</system:String>
     <system:String x:Key="MinimizingStartup">Minimizing the startup Emulator</system:String>
-    <system:String x:Key="WaitForEmulator">Delay time</system:String>
+    <system:String x:Key="WaitForEmulator">Delay time (s)</system:String>
     <system:String x:Key="EmulatorPath">Emulator exec path</system:String>
     <system:String x:Key="Select">Select</system:String>
     <system:String x:Key="ForcedReplaceADB">Forced Replace ADB File</system:String>

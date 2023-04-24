@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:mdg="clr-namespace:Neo.Markdig.Xaml;assembly=Neo.Markdig.Xaml"
+    xmlns:markdig="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:vm="clr-namespace:MaaWpfGui"
@@ -54,20 +54,25 @@
             <FlowDocumentScrollViewer.Template>
                 <ControlTemplate TargetType="FlowDocumentScrollViewer">
                     <Border
+                        CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}"
+                        Margin="{TemplateBinding Padding}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         Focusable="False">
                         
                         <hc:ScrollViewer
                             x:Name="PART_ContentHost"
-                            IsInertiaEnabled="True"/>
+                            IsInertiaEnabled="True"
+                            CanContentScroll="True"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </Border>
                 </ControlTemplate>
             </FlowDocumentScrollViewer.Template>
 
             <FlowDocumentScrollViewer.CommandBindings>
                 <CommandBinding
-                    Command="{x:Static mdg:MarkdownXaml.Hyperlink}"
+                    Command="{x:Static markdig:Commands.Hyperlink}"
                     Executed="{s:Action OpenHyperlink}" />
             </FlowDocumentScrollViewer.CommandBindings>
         </FlowDocumentScrollViewer>
