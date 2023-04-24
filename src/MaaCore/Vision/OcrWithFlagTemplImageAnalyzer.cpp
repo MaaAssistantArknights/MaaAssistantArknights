@@ -1,28 +1,17 @@
 #include "OcrWithFlagTemplImageAnalyzer.h"
 
+#include "MultiMatchImageAnalyzer.h"
+#include "OcrWithPreprocessImageAnalyzer.h"
 #include "Config/TaskData.h"
-
-asst::OcrWithFlagTemplImageAnalyzer::OcrWithFlagTemplImageAnalyzer(const cv::Mat& image, const Rect& roi)
-    : OcrWithPreprocessImageAnalyzer(image, roi), m_multi_match_image_analyzer(image)
-{}
-
-void asst::OcrWithFlagTemplImageAnalyzer::set_image(const cv::Mat& image)
-{
-    OcrWithPreprocessImageAnalyzer::set_image(image);
-    m_multi_match_image_analyzer.set_image(image);
-}
-
-void asst::OcrWithFlagTemplImageAnalyzer::set_roi(const Rect& roi) noexcept
-{
-    OcrWithPreprocessImageAnalyzer::set_roi(roi);
-    m_multi_match_image_analyzer.set_roi(roi);
-}
 
 const asst::OcrWithFlagTemplImageAnalyzer::ResultsVecOpt& asst::OcrWithFlagTemplImageAnalyzer::analyze()
 {
     m_result = std::nullopt;
 
-    auto matched_vec_opt = m_multi_match_image_analyzer.analyze();
+    MultiMatchImageAnalyzer flag_analyzer(m_image, m_roi, m_inst);
+    flag_analyzer.set_params(MatchImageAnalyzerConfig::m_params);
+
+    auto matched_vec_opt = flag_analyzer.analyze();
     if (!matched_vec_opt) {
         return std::nullopt;
     }
@@ -31,14 +20,14 @@ const asst::OcrWithFlagTemplImageAnalyzer::ResultsVecOpt& asst::OcrWithFlagTempl
     ResultsVec results;
     for (const auto& matched : matched_vec) {
         Rect roi = matched.rect.move(m_flag_rect_move);
-        set_roi(roi);
 
-        auto ocr_opt = OcrWithPreprocessImageAnalyzer::analyze();
+        OcrWithPreprocessImageAnalyzer ocr_analyzer(m_image, roi, m_inst);
+        ocr_analyzer.set_params(OcrImageAnalyzerConfig::m_params);
+        auto ocr_opt = ocr_analyzer.analyze();
         if (!ocr_opt) {
             continue;
         }
-        auto& ocr_res = *ocr_opt;
-        results.insert(results.end(), std::make_move_iterator(ocr_res.begin()), std::make_move_iterator(ocr_res.end()));
+        results.emplace_back(*ocr_opt);
     }
 
     if (results.empty()) {
@@ -52,13 +41,49 @@ const asst::OcrWithFlagTemplImageAnalyzer::ResultsVecOpt& asst::OcrWithFlagTempl
 void asst::OcrWithFlagTemplImageAnalyzer::set_task_info(const std::string& templ_task_name,
                                                         const std::string& ocr_task_name)
 {
+    auto match_task_ptr = Task.get<MatchTaskInfo>(templ_task_name);
+    m_roi = match_task_ptr->roi;
+    MatchImageAnalyzerConfig::_set_task_info(*match_task_ptr);
+
     auto ocr_task_ptr = Task.get<OcrTaskInfo>(ocr_task_name);
-    _set_task_info(*ocr_task_ptr);
     m_flag_rect_move = ocr_task_ptr->roi;
-    m_multi_match_image_analyzer.set_task_info(templ_task_name);
+    OcrImageAnalyzerConfig::_set_task_info(*ocr_task_ptr);
 }
 
 void asst::OcrWithFlagTemplImageAnalyzer::set_flag_rect_move(Rect flag_rect_move)
 {
     m_flag_rect_move = flag_rect_move;
+}
+
+
+void asst::OcrWithFlagTemplImageAnalyzer::sort_results_by_horizontal()
+{
+    if (!m_result) {
+        return;
+    }
+    sort_by_horizontal_(m_result.value());
+}
+
+void asst::OcrWithFlagTemplImageAnalyzer::sort_results_by_vertical()
+{
+    if (!m_result) {
+        return;
+    }
+    sort_by_vertical_(m_result.value());
+}
+
+void asst::OcrWithFlagTemplImageAnalyzer::sort_results_by_score()
+{
+    if (!m_result) {
+        return;
+    }
+    sort_by_score_(m_result.value());
+}
+
+void asst::OcrWithFlagTemplImageAnalyzer::sort_results_by_required()
+{
+    if (!m_result) {
+        return;
+    }
+    sort_by_required_(m_result.value(), OcrImageAnalyzerConfig::m_params.required);
 }

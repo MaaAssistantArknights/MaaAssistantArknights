@@ -18,18 +18,19 @@ namespace asst
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         virtual ~OcrImageAnalyzer() override = default;
 
-        virtual const ResultsVecOpt& analyze();
+        const ResultsVecOpt& analyze();
 
-        void sort_results_by_horizontal(); // 按位置排序，左上角的排在前面，右上角在左下角前面
-        void sort_results_by_vertical();   // 按位置排序，左上角的排在前面，左下角在右上角前面
-        void sort_results_by_score();      // 按分数排序，得分最高的在前面
-        void sort_results_by_required();   // 按传入的需求数组排序，传入的在前面结果接在前面
+        void sort_results_by_horizontal();
+        void sort_results_by_vertical();
+        void sort_results_by_score();
+        void sort_results_by_required();
 
-        const ResultsVecOpt& result() const noexcept;
+        const ResultsVecOpt& result() const noexcept { return m_result; }
 
     protected:
-        virtual void _set_roi(const Rect& roi) override;
+        virtual void _set_roi(const Rect& roi) override { set_roi(roi); }
 
+    protected:
         void postproc_rect_(Result& res);
         void postproc_trim_(Result& res);
         void postproc_equivalence_(Result& res);
@@ -37,7 +38,7 @@ namespace asst
 
         bool filter_and_replace_by_required_(Result& res);
 
-    protected:
+    private:
         ResultsVecOpt m_result;
     };
 } // namespace asst

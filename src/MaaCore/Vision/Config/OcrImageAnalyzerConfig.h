@@ -10,8 +10,21 @@ namespace asst
     class OcrImageAnalyzerConfig
     {
     public:
+        struct Params
+        {
+            std::vector<std::string> required;
+            bool full_match = false;
+            std::unordered_map<std::string, std::string> replace;
+            bool replace_full = false;
+            bool without_det = false;
+            bool use_char_model = false;
+        };
+
+    public:
         OcrImageAnalyzerConfig() = default;
         virtual ~OcrImageAnalyzerConfig() = default;
+
+        void set_params(Params params);
 
         void set_required(std::vector<std::string> required) noexcept;
         void set_replace(const std::unordered_map<std::string, std::string>& replace,
@@ -26,11 +39,7 @@ namespace asst
         virtual void _set_roi(const Rect& roi) = 0;
         virtual void _set_task_info(OcrTaskInfo task_info);
 
-        std::vector<std::string> m_required;
-        bool m_full_match = false;
-        std::unordered_map<std::string, std::string> m_replace;
-        bool m_replace_full = false;
-        bool m_without_det = false;
-        bool m_use_char_model = false;
+    protected:
+        Params m_params;
     };
 }

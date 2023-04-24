@@ -1,34 +1,45 @@
 #pragma once
-#include "MultiMatchImageAnalyzer.h"
-#include "OcrWithPreprocessImageAnalyzer.h"
+#include "Config/MatchImageAnalyzerConfig.h"
+#include "Config/OcrImageAnalyzerConfig.h"
+#include "OcrImageAnalyzer.h"
 
 namespace asst
 {
-    class OcrWithFlagTemplImageAnalyzer : public OcrWithPreprocessImageAnalyzer
+    class OcrWithFlagTemplImageAnalyzer : public AbstractImageAnalyzer,
+                                          public OcrImageAnalyzerConfig,
+                                          public MatchImageAnalyzerConfig
     {
     public:
-        using Result = OcrWithPreprocessImageAnalyzer::Result;
-        using ResultsVec = OcrWithPreprocessImageAnalyzer::ResultsVec;
-        using ResultsVecOpt = OcrWithPreprocessImageAnalyzer::ResultsVecOpt;
+        using Result = OcrImageAnalyzer::Result;
+        using ResultsVec = OcrImageAnalyzer::ResultsVec;
+        using ResultsVecOpt = OcrImageAnalyzer::ResultsVecOpt;
 
     public:
-        OcrWithFlagTemplImageAnalyzer() = default;
-        OcrWithFlagTemplImageAnalyzer(const cv::Mat& image, const Rect& roi = Rect());
+        using AbstractImageAnalyzer::AbstractImageAnalyzer;
         virtual ~OcrWithFlagTemplImageAnalyzer() override = default;
-
-        virtual void set_image(const cv::Mat& image) override;
-        virtual void set_roi(const Rect& roi) noexcept override;
-
-        virtual const ResultsVecOpt& analyze() override;
 
         void set_task_info(const std::string& templ_task_name, const std::string& ocr_task_name);
         void set_flag_rect_move(Rect flag_rect_move);
 
+        const ResultsVecOpt& analyze();
+
+        void sort_results_by_horizontal();
+        void sort_results_by_vertical();
+        void sort_results_by_score();
+        void sort_results_by_required();
+
+        const ResultsVecOpt& result() const noexcept { return m_result; }
+
     protected:
-        using OcrWithPreprocessImageAnalyzer::set_task_info;
+        // from Config
+        virtual void _set_roi(const Rect& roi) override { std::ignore = roi; }
+
+    protected:
+        using MatchImageAnalyzerConfig::set_task_info;
+        using OcrImageAnalyzerConfig::set_task_info;
 
     private:
-        MultiMatchImageAnalyzer m_multi_match_image_analyzer;
         Rect m_flag_rect_move;
+        ResultsVecOpt m_result;
     };
 }

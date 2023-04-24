@@ -13,13 +13,13 @@ const asst::OcrImageAnalyzer::ResultsVecOpt& asst::OcrImageAnalyzer::analyze()
     m_result = std::nullopt;
 
     OcrPack* ocr_ptr = nullptr;
-    if (m_use_char_model) {
+    if (m_params.use_char_model) {
         ocr_ptr = &CharOcr::get_instance();
     }
     else {
         ocr_ptr = &WordOcr::get_instance();
     }
-    ResultsVec raw_results = ocr_ptr->recognize(make_roi(m_image, m_roi), m_without_det);
+    ResultsVec raw_results = ocr_ptr->recognize(make_roi(m_image, m_roi), m_params.without_det);
     ocr_ptr = nullptr;
 
     /* post process */
@@ -78,17 +78,12 @@ void asst::OcrImageAnalyzer::sort_results_by_required()
     if (!m_result) {
         return;
     }
-    sort_by_required_(m_result.value(), m_required);
-}
-
-void asst::OcrImageAnalyzer::_set_roi(const Rect& roi)
-{
-    AbstractImageAnalyzer::set_roi(roi);
+    sort_by_required_(m_result.value(), m_params.required);
 }
 
 void asst::OcrImageAnalyzer::postproc_rect_(Result& res)
 {
-    if (m_without_det) {
+    if (m_params.without_det) {
         res.rect = m_roi;
     }
     else {
@@ -110,12 +105,12 @@ void asst::OcrImageAnalyzer::postproc_equivalence_(Result& res)
 
 void asst::OcrImageAnalyzer::postproc_replace_(Result& res)
 {
-    if (m_replace.empty()) {
+    if (m_params.replace.empty()) {
         return;
     }
 
-    for (const auto& [regex, new_str] : m_replace) {
-        if (m_replace_full) {
+    for (const auto& [regex, new_str] : m_params.replace) {
+        if (m_params.replace_full) {
             if (std::regex_search(res.text, std::regex(regex))) {
                 res.text = new_str;
             }
@@ -128,12 +123,12 @@ void asst::OcrImageAnalyzer::postproc_replace_(Result& res)
 
 bool asst::OcrImageAnalyzer::filter_and_replace_by_required_(Result& res)
 {
-    if (m_required.empty()) {
+    if (m_params.required.empty()) {
         return true;
     }
 
-    if (m_full_match) {
-        return ranges::find(m_required, res.text) != m_required.cend();
+    if (m_params.full_match) {
+        return ranges::find(m_params.required, res.text) != m_params.required.cend();
     }
     else {
         auto is_sub = [&res](const std::string& str) -> bool {
@@ -143,11 +138,6 @@ bool asst::OcrImageAnalyzer::filter_and_replace_by_required_(Result& res)
             res.text = str;
             return true;
         };
-        return ranges::find_if(m_required, is_sub) != m_required.cend();
+        return ranges::find_if(m_params.required, is_sub) != m_params.required.cend();
     };
-}
-
-const asst::OcrImageAnalyzer::ResultsVecOpt& asst::OcrImageAnalyzer::result() const noexcept
-{
-    return m_result;
 }
