@@ -47,34 +47,10 @@ namespace MaaWpfGui.Views.UserControl
                 var growinfo = new GrowlInfo
                 {
                     IsCustom = true,
-                    Message = LocalizationHelper.GetString("HelloWorld"),
-                    IconKey = "InfoGeometry",
+                    Message = LocalizationHelper.GetString("BuyWineOnAprilFoolsDay"),
+                    IconKey = "HangoverGeometry",
                     IconBrushKey = "PallasBrush",
                 };
-
-                switch (new Random().Next(0, 5))
-                {
-                    case 1:
-                        growinfo.Message = LocalizationHelper.GetString("BuyWineOnAprilFoolsDay");
-                        growinfo.IconKey = "HangoverGeometry";
-                        break;
-                    case 2:
-                        growinfo.Message = LocalizationHelper.GetString("Burping");
-                        growinfo.IconKey = "DrunkAndStaggeringGeometry";
-                        break;
-                    case 3:
-                        growinfo.Message = LocalizationHelper.GetString("DrunkAndStaggering");
-                        growinfo.IconKey = "DrunkAndStaggeringGeometry";
-                        break;
-                    case 4:
-                        growinfo.Message = LocalizationHelper.GetString("Hangover");
-                        growinfo.IconKey = "HangoverGeometry";
-                        break;
-                    default:
-                        // case 0
-                        growinfo.IconBrushKey = "InfoBrush";
-                        break;
-                }
 
                 Growl.Info(growinfo);
             }
