@@ -704,17 +704,20 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
+            Instances.TaskQueueViewModel.Idle = false;
             for (var i = 0; i < delay; ++i)
             {
                 if (Instances.TaskQueueViewModel.Stopping)
                 {
+                    Execute.OnUIThread(() => Instances.TaskQueueViewModel.SetStopped());
                     AsstProxy.AsstLog("Stop waiting for the emulator to start");
                     return;
                 }
 
                 if (i % 10 == 0)
                 {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("WaitForEmulator") + ": " + (delay - i));
+                    Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetString("WaitForEmulator") + ": " + (delay - i) + "s"));
                     AsstProxy.AsstLog("Waiting for the emulator to start: " + (delay - i) + "s");
                 }
 
