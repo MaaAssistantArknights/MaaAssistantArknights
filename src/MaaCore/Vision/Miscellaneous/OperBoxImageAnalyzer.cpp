@@ -77,11 +77,15 @@ bool asst::OperBoxImageAnalyzer::opers_analyze()
         const auto& flag_rect = flag_list[i];
         const auto& name_tr = name_list[i];
 
+        const std::string& name = name_tr.text;
+
         OperBoxInfo box;
-        box.id = BattleData.get_id(name_tr.text);
-        box.name = name_tr.text;
-        box.own = true;
+        box.id = BattleData.get_id(name);
+        box.name = name;
+        box.rarity = BattleData.get_rarity(name);
+
         box.rect = flag_rect;
+        box.own = true;
 
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(flag_rect), cv::Scalar(0, 255, 0), 2);

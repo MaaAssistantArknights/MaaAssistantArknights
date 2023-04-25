@@ -8,11 +8,13 @@ namespace asst
     {
         std::string id;
         std::string name;
-        int level = 0; // 等级
-        int elite = 0; // 精英度
-        bool own = false;
+        int level = 0;     // 等级
+        int elite = 0;     // 精英度
         int potential = 0; // 潜能
+        int rarity = 0;    // 稀有度
+
         Rect rect;
+        bool own = false;
     };
     class OperBoxImageAnalyzer final : public AbstractImageAnalyzer
     {
