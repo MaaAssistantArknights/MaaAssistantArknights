@@ -169,7 +169,6 @@
         <Button
             Grid.Row="5"
             Grid.Column="2"
-            Width="100"
             Height="30"
             Margin="10"
             HorizontalAlignment="Left"
