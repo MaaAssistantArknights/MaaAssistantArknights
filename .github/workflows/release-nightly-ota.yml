@@ -65,12 +65,12 @@ jobs:
           $ids = $($described -split "-")
           if ($ids.length -eq 3) {
             $ver = "v$(semver --increment $ids[0].Substring(1))"
-            $dist = `printf "%05d"` $ids[1]
+            $dist = `printf "%03d"` $ids[1]
             echo "tag=$ver-alpha.1.$($dist).$($ids[2])" >> $env:GITHUB_OUTPUT
             exit 0
           }
           if ($ids.length -eq 4) {
-            $dist = `printf "%05d"` $ids[2]
+            $dist = `printf "%03d"` $ids[2]
             echo "tag=$($ids[0])-$($ids[1]).$($dist).$($ids[3])" >> $env:GITHUB_OUTPUT
             exit 0
           }
