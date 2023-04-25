@@ -23,7 +23,7 @@ namespace asst
         const auto& get_result() const noexcept { return m_current_page_opers; }
 
     private:
-        int level_num(std::string level);
+        int level_num(const std::string& level);
         bool analyzer_oper_box();
         // 获取lv rect
         bool lv_flag_analyzer();

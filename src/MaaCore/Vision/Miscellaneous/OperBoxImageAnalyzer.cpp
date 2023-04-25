@@ -20,7 +20,7 @@ bool asst::OperBoxImageAnalyzer::analyze()
     return oper_box;
 }
 
-int asst::OperBoxImageAnalyzer::level_num(std::string level)
+int asst::OperBoxImageAnalyzer::level_num(const std::string &level)
 {
     if (level.empty() || !ranges::all_of(level, [](const char& c) -> bool { return std::isdigit(c); })) {
         return 1;

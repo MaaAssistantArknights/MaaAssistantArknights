@@ -76,18 +76,17 @@ void asst::OperBoxRecognitionTask::callback_analyze_result(bool done)
             { "name", name },
             { "own", own },
         });
-        if (own) {
-            const auto& box_info = m_own_opers[name];
-            own_opers.emplace_back(json::object {
-                { "id", BattleData.get_id(name) },
-                { "name", name },
-                { "own", own },
-                { "elite", box_info.elite },
-                { "level", box_info.level },
-                { "potential", box_info.potential },
-                // TODO
-            });
-        }
+    }
+    for (const auto& [name,box_info] : m_own_opers) {
+        own_opers.emplace_back(json::object {
+            { "id", box_info.id },
+            { "name", box_info.name },
+            { "own", box_info.own },
+            { "elite", box_info.elite },
+            { "level", box_info.level },
+            { "potential", box_info.potential },
+            // TODO
+        });
     }
 
     callback(AsstMsg::SubTaskExtraInfo, info);
