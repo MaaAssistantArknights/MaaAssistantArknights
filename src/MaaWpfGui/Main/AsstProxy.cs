@@ -216,9 +216,10 @@ namespace MaaWpfGui.Main
             string officialClientType = "Official";
             string bilibiliClientType = "Bilibili";
 
-            bool LoadResIfExists(string path)
+            static bool LoadResIfExists(string path)
             {
-                if (!Directory.Exists(path))
+                string resource = "\\resource";
+                if (!Directory.Exists(path + resource))
                 {
                     return true;
                 }
