@@ -2328,6 +2328,30 @@
                 "U-Official"
             ],
             [
+                "^4",
+                ""
+            ],
+            [
+                "^α",
+                ""
+            ],
+            [
+                "^-",
+                ""
+            ],
+            [
+                "—",
+                ""
+            ],
+            [
+                ".*12F",
+                "12F"
+            ],
+            [
+                "^_",
+                ""
+            ],
+            [
                 ".*威龙陈",
                 "假日威龙陈"
             ]
@@ -9745,15 +9769,61 @@
             327
         ]
     },
+    "OperBoxFlagElite1": {
+        "doc": "精英一 模板"
+    },
+    "OperBoxFlagElite2": {
+        "doc": "精英二 模板"
+    },
+    "OperBoxFlagElite": {
+        "doc": "偏移，识别精英度，扩大两个像素点",
+        "template": "empty.png",
+        "templThreshold": 0.9,
+        "roi": [
+            -7,
+            -52,
+            24,
+            35
+        ]
+    },
+    "OperBoxPotential": {
+        "doc": "偏移，识别潜能，扩大两个像素点",
+        "template": "empty.png",
+        "templThreshold": 0.85,
+        "roi": [
+            81,
+            -29,
+            24,
+            24
+        ]
+    },
+    "OperBoxPotential1": {},
+    "OperBoxPotential2": {},
+    "OperBoxPotential3": {},
+    "OperBoxPotential4": {},
+    "OperBoxPotential5": {},
     "OperBoxNameOCR": {
         "algorithm": "OcrDetect",
         "fullMatch": true,
         "text": [],
         "roi": [
-            -10,
+            5,
             42,
-            120,
+            105,
             20
+        ],
+        "postDelay": 100
+    },
+    "OperBoxLevelOCR": {
+        "algorithm": "OcrDetect",
+        "fullMatch": true,
+        "isAscii": true,
+        "text": [],
+        "roi": [
+            -13,
+            7,
+            37,
+            23
         ],
         "postDelay": 100
     },
