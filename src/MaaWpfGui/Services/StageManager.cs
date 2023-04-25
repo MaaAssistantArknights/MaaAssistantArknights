@@ -154,8 +154,14 @@ namespace MaaWpfGui.Services
         {
             var clientType = GetClientType();
 
-            JObject activity = await _maaApiService.RequestMaaApiWithCache(StageApi);
-            JObject tasksJson = await _maaApiService.RequestMaaApiWithCache(TasksApi);
+            var activityTask = _maaApiService.RequestMaaApiWithCache(StageApi);
+            var tasksTask = _maaApiService.RequestMaaApiWithCache(TasksApi);
+
+            await Task.WhenAll(activityTask, tasksTask);
+
+            JObject activity = await activityTask;
+            JObject tasksJson = await tasksTask;
+
             if (clientType != "Official" && tasksJson != null)
             {
                 var tasksPath = "resource/global/" + clientType + '/' + TasksApi;
