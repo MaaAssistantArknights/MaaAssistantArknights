@@ -478,7 +478,7 @@ namespace MaaWpfGui.ViewModels.UI
             bool enable = str switch
             {
                 "StartsWithScript" => !string.IsNullOrWhiteSpace(StartsWithScript),
-                "EndsWithScript" => !string.IsNullOrWhiteSpace(StartsWithScript),
+                "EndsWithScript" => !string.IsNullOrWhiteSpace(EndsWithScript),
                 _ => false,
             };
 
