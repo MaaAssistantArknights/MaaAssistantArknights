@@ -23,7 +23,9 @@ bool asst::OperBoxRecognitionTask::swipe_and_analyze()
 {
     LogTraceFunction;
     std::string current_page_last_oper_name = "";
+    std::string current_page_first_oper_name = "";
     m_own_opers.clear();
+
     while (!need_exit()) {
         OperBoxImageAnalyzer analyzer(ctrler()->get_image());
 
@@ -33,10 +35,12 @@ bool asst::OperBoxRecognitionTask::swipe_and_analyze()
             break;
         }
         const auto& opers_result = analyzer.get_result();
-        if (opers_result.back().name == current_page_last_oper_name) {
+        if (opers_result.back().name == current_page_last_oper_name &&
+            opers_result.front().name == current_page_first_oper_name) {
             break;
         }
         else {
+            current_page_first_oper_name = opers_result.front().name;
             current_page_last_oper_name = opers_result.back().name;
             for (const auto& box_info : opers_result) {
                 m_own_opers.emplace(box_info.name, box_info);
@@ -72,13 +76,17 @@ void asst::OperBoxRecognitionTask::callback_analyze_result(bool done)
             { "name", name },
             { "own", own },
         });
-        if (own) {
-            own_opers.emplace_back(json::object {
-                { "id", BattleData.get_id(name) }, { "name", name }, { "own", own },
-                // TODO
-                // { "elite", 0 }, { "level", 0 },
-            });
-        }
+    }
+    for (const auto& [name,box_info] : m_own_opers) {
+        own_opers.emplace_back(json::object {
+            { "id", box_info.id },
+            { "name", box_info.name },
+            { "own", box_info.own },
+            { "elite", box_info.elite },
+            { "level", box_info.level },
+            { "potential", box_info.potential },
+            // TODO
+        });
     }
 
     callback(AsstMsg::SubTaskExtraInfo, info);
