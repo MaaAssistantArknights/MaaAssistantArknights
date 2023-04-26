@@ -195,6 +195,7 @@
     <system:String x:Key="OpenEmulatorAfterLaunch">启动MAA后自动开启模拟器</system:String>
     <system:String x:Key="MinimizingStartup">最小化启动模拟器</system:String>
     <system:String x:Key="WaitForEmulator">等待模拟器启动时间（秒）</system:String>
+    <system:String x:Key="WaitForEmulatorFinish">等待结束</system:String>
     <system:String x:Key="EmulatorPath">模拟器路径</system:String>
     <system:String x:Key="Select">选择</system:String>
     <system:String x:Key="ForcedReplaceADB">强制替换 ADB</system:String>

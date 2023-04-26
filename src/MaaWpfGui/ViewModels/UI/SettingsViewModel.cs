@@ -705,6 +705,10 @@ namespace MaaWpfGui.ViewModels.UI
                 Thread.Sleep(1000);
             }
 
+            Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
+                LocalizationHelper.GetString("WaitForEmulatorFinish")));
+            AsstProxy.AsstLog("The wait is over");
+
             // 重置按钮状态，不影响后续判断
             Instances.TaskQueueViewModel.Idle = true;
         }
