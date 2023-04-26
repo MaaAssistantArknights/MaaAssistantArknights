@@ -2790,6 +2790,14 @@
         "baseTask": "StartButton1",
         "exceededNext": [],
         "reduceOtherTimes": [],
+        "preDelay": 0,
+        "rectMoveDoc": "点击“行动”避免第二次点击时点到StartButton2",
+        "rectMove": [
+            38,
+            0,
+            35,
+            17
+        ],
         "next": [
             "StartButton1#next"
         ]
