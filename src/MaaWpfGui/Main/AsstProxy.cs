@@ -328,6 +328,11 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.Idle = true;
                     Instances.TaskQueueViewModel.LinkStart();
                 }
+                else
+                {
+                    Instances.TaskQueueViewModel.SetStopped();
+                    return;
+                }
             });
         }
 
