@@ -12,7 +12,7 @@
 
 MAA_VISION_NS_BEGIN
 
-class ProcessTaskAnalyzer : public VisionHelper
+class PipelineAnalyzer : public VisionHelper
 {
 public:
     struct Result
@@ -25,7 +25,7 @@ public:
 
 public:
     using VisionHelper::VisionHelper;
-    virtual ~ProcessTaskAnalyzer() override = default;
+    virtual ~PipelineAnalyzer() override = default;
 
     void set_tasks(std::vector<std::string> tasks_name) { m_tasks_name = std::move(tasks_name); }
 

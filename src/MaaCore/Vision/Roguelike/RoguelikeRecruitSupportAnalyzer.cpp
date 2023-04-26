@@ -214,7 +214,7 @@ int RoguelikeRecruitSupportAnalyzer::match_level(const Rect& roi)
         return -1;
     }
 
-    const std::string& level = result_opt->front().text;
+    const std::string& level = result_opt->text;
     Log.info(__FUNCTION__, "| ", roi, "`", level, "`");
     if (level.empty() || !ranges::all_of(level, [](char c) -> bool { return std::isdigit(c); })) {
         return 0;

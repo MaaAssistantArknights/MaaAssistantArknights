@@ -1,6 +1,8 @@
 #pragma once
 #include "Vision/VisionHelper.h"
 
+#include "Vision/Matcher.h"
+
 MAA_VISION_NS_BEGIN
 
 class InfrastFacilityAnalyzer final : public VisionHelper
@@ -37,14 +39,14 @@ public:
             }
         }
     }
-    const std::unordered_map<std::string, std::vector<MatchRect>>& get_result() const noexcept { return m_result; }
+    const std::unordered_map<std::string, std::vector<Matcher::Result>>& get_result() const noexcept { return m_result; }
 
 private:
     // 该分析器不支持外部设置ROI
     using VisionHelper::set_roi;
 
     // key：设施名，value：所有这种设施的当前Rect（例如所有制造站的位置）
-    std::unordered_map<std::string, std::vector<MatchRect>> m_result;
+    std::unordered_map<std::string, std::vector<Matcher::Result>> m_result;
     // 需要识别的设施名
     std::vector<std::string> m_to_be_analyzed;
 };

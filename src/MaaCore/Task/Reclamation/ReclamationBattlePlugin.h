@@ -2,6 +2,7 @@
 #include "Task/AbstractTaskPlugin.h"
 #include "Task/BattleHelper.h"
 #include "Task/Miscellaneous/BattleProcessTask.h"
+#include "Vision/Matcher.h"
 
 namespace asst
 {
@@ -33,7 +34,7 @@ namespace asst
         bool buy_water();
         bool communicate_with(const std::string& npcName);
         bool communicate_with_aux(const std::string& npcName,
-                                  std::function<bool(const MatchRect&, const MatchRect&)> orderComp);
+                                  std::function<bool(const Matcher::Result&, const Matcher::Result&)> orderComp);
         bool do_dialog_procedure(const std::vector<std::string>& procedure);
 
         ReclamationBattleMode m_battle_mode = ReclamationBattleMode::Giveup;

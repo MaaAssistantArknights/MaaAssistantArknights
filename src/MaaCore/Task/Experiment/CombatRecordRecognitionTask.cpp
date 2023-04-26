@@ -13,6 +13,7 @@
 #include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/BestMatcher.h"
 #include "Vision/RegionOCRer.h"
+#include "Utils/Platform.hpp"
 
 #include <unordered_map>
 #include <unordered_set>
@@ -124,7 +125,7 @@ bool CombatRecordRecognitionTask::analyze_formation()
 
     const int skip_count = m_video_fps > m_formation_fps ? static_cast<int>(m_video_fps / m_formation_fps) - 1 : 0;
 
-    vision::BattleFormationAnalyzer formation_ananlyzer;
+    BattleFormationAnalyzer formation_ananlyzer;
     int no_changes_count = 0;
     for (size_t i = 0; i < m_video_frame_count; i += skip_frames(skip_count) + 1) {
         cv::Mat frame;
@@ -138,11 +139,11 @@ bool CombatRecordRecognitionTask::analyze_formation()
         cv::resize(frame, frame, cv::Size(), m_scale, m_scale, cv::INTER_AREA);
 
         formation_ananlyzer.set_image(frame);
-        bool analyzed = formation_ananlyzer.analyze();
+        auto formation_opt = formation_ananlyzer.analyze();
         show_img(formation_ananlyzer);
         // 有些视频会有个过渡或者动画啥的，只取一帧识别的可能不全。多识别几帧
-        if (analyzed) {
-            const auto& cur = formation_ananlyzer.get_result();
+        if (formation_opt) {
+            const auto& cur = *formation_opt;
             if (cur.size() > m_formation.size()) {
                 m_formation = cur;
             }
@@ -157,7 +158,7 @@ bool CombatRecordRecognitionTask::analyze_formation()
         }
     }
 
-    Log.info("Formation:", m_formation | views::keys);
+    Log.info("Formation:", m_formation);
     auto cb_info = basic_info_with_what("OcrFormation");
     auto& cb_formation = cb_info["details"]["formation"];
     for (const auto& [name, avatar] : m_formation) {
@@ -195,7 +196,7 @@ bool CombatRecordRecognitionTask::analyze_stage()
 
             cv::resize(frame, frame, cv::Size(), m_scale, m_scale, cv::INTER_AREA);
 
-            vision::RegionOCRer stage_analyzer(frame);
+            RegionOCRer stage_analyzer(frame);
             stage_analyzer.set_task_info(stage_name_task_ptr);
             bool analyzed = stage_analyzer.analyze();
             show_img(stage_analyzer);
@@ -247,7 +248,7 @@ bool CombatRecordRecognitionTask::analyze_deployment()
 
     const int skip_count = m_video_fps > m_deployment_fps ? static_cast<int>(m_video_fps / m_deployment_fps) - 1 : 0;
 
-    vision::BattlefieldMatcher oper_analyzer;
+    BattlefieldMatcher oper_analyzer;
     oper_analyzer.set_object_to_analyze(BattlefieldMatcher::ObjectOfInterest::Oper);
 
     for (size_t i = m_stage_ocr_end_frame; i < m_video_frame_count; i += skip_frames(skip_count) + 1) {
@@ -273,7 +274,7 @@ bool CombatRecordRecognitionTask::analyze_deployment()
 
     auto avatar_task_ptr = Task.get("BattleAvatarDataForFormation");
     for (const auto& [name, formation_avatar] : m_formation) {
-        BestMatchAnalyzer best_match_analyzer(formation_avatar);
+        BestMatcher best_match_analyzer(formation_avatar);
         best_match_analyzer.set_task_info(avatar_task_ptr);
 
         std::unordered_set<battle::Role> roles = { BattleData.get_role(name) };
@@ -777,7 +778,7 @@ void CombatRecordRecognitionTask::ananlyze_deployment_names(ClipInfo& clip)
         if (!oper.name.empty()) {
             continue;
         }
-        BestMatchAnalyzer avatar_analyzer(oper.avatar);
+        BestMatcher avatar_analyzer(oper.avatar);
         static const double threshold = Task.get<MatchTaskInfo>("BattleAvatarDataForVideo")->templ_threshold;
         avatar_analyzer.set_threshold(threshold);
         // static const double drone_threshold = Task.get<MatchTaskInfo>("BattleDroneAvatarData")->templ_threshold;

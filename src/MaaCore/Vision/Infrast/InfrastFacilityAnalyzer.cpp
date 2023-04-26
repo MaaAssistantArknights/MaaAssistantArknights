@@ -42,7 +42,7 @@ bool InfrastFacilityAnalyzer::analyze()
             if (!task_analyze(task_name + task_name_suffix.at(cor_suffix_index))) {
                 continue;
             }
-            cur_facility_result = mm_analyzer.result();
+            cur_facility_result = mm_analyzer.get_result();
         }
         else {
             double max_score = 0;
@@ -51,7 +51,7 @@ bool InfrastFacilityAnalyzer::analyze()
                     continue;
                 }
 
-                const auto& cur_res = mm_analyzer.result();
+                const auto& cur_res = mm_analyzer.get_result();
                 auto cur_max_iter =
                     ranges::max_element(cur_res, std::less {}, std::mem_fn(&MultiMatcher::Result::score));
                 if (cur_max_iter == cur_res.cend()) {

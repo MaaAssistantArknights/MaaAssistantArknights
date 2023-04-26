@@ -102,7 +102,7 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
         return false;
     }
 
-    vision::InfrastFacilityAnalyzer analyzer(ctrler()->get_image());
+    InfrastFacilityAnalyzer analyzer(ctrler()->get_image());
     analyzer.set_to_be_analyzed({ facility_name() });
     if (!analyzer.analyze()) {
         Log.info("result is empty");
@@ -250,9 +250,9 @@ bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig co
     auto room_config = origin_room_config;
 
     const auto image = ctrler()->get_image();
-    vision::InfrastOperAnalyzer oper_analyzer(image);
-    oper_analyzer.set_to_be_calced(vision::InfrastOperAnalyzer::ToBeCalced::Selected |
-                                   vision::InfrastOperAnalyzer::ToBeCalced::Doing);
+    InfrastOperAnalyzer oper_analyzer(image);
+    oper_analyzer.set_to_be_calced(InfrastOperAnalyzer::ToBeCalced::Selected |
+                                   InfrastOperAnalyzer::ToBeCalced::Doing);
     if (!oper_analyzer.analyze()) {
         Log.warn("No oper");
         return false;
@@ -278,7 +278,7 @@ bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig co
 
     const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
     for (const auto& oper : oper_analyzer_res) {
-        vision::RegionOCRer name_analyzer;
+        RegionOCRer name_analyzer;
         name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
         name_analyzer.set_image(oper.name_img);
         name_analyzer.set_bin_expansion(0);
@@ -323,8 +323,8 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
     }
 
     const auto image = ctrler()->get_image();
-    vision::InfrastOperAnalyzer oper_analyzer(image);
-    oper_analyzer.set_to_be_calced(vision::InfrastOperAnalyzer::ToBeCalced::Selected);
+    InfrastOperAnalyzer oper_analyzer(image);
+    oper_analyzer.set_to_be_calced(InfrastOperAnalyzer::ToBeCalced::Selected);
     if (!oper_analyzer.analyze()) {
         Log.warn("No oper");
         return false;
@@ -334,7 +334,7 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
 
     const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
     for (const auto& oper : oper_analyzer.get_result()) {
-        vision::RegionOCRer name_analyzer;
+        RegionOCRer name_analyzer;
         name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
         name_analyzer.set_image(oper.name_img);
         name_analyzer.set_bin_expansion(0);
@@ -380,8 +380,8 @@ void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::str
     }
 
     const auto image = ctrler()->get_image();
-    vision::InfrastOperAnalyzer oper_analyzer(image);
-    oper_analyzer.set_to_be_calced(vision::InfrastOperAnalyzer::ToBeCalced::Selected);
+    InfrastOperAnalyzer oper_analyzer(image);
+    oper_analyzer.set_to_be_calced(InfrastOperAnalyzer::ToBeCalced::Selected);
     if (!oper_analyzer.analyze()) {
         Log.warn("No oper");
         return;
@@ -389,9 +389,9 @@ void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::str
     oper_analyzer.sort_by_loc();
     const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
 
-    std::vector<vision::RegionOCRer::Result> page_result;
+    std::vector<RegionOCRer::Result> page_result;
     for (const auto& oper : oper_analyzer.get_result()) {
-        vision::RegionOCRer name_analyzer;
+        RegionOCRer name_analyzer;
         name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
         name_analyzer.set_image(oper.name_img);
         name_analyzer.set_bin_expansion(0);
@@ -441,8 +441,8 @@ bool asst::InfrastAbstractTask::click_clear_button()
         // 有可能点快了，清空按钮刚刚出来，实际点上去还不生效，就点了
         // 所以多识别一次，如果没清掉就再清一下
         if (ret) {
-            vision::InfrastOperAnalyzer analyzer(ctrler()->get_image());
-            analyzer.set_to_be_calced(vision::InfrastOperAnalyzer::ToBeCalced::Selected);
+            InfrastOperAnalyzer analyzer(ctrler()->get_image());
+            analyzer.set_to_be_calced(InfrastOperAnalyzer::ToBeCalced::Selected);
             if (!analyzer.analyze()) {
                 return false;
             }

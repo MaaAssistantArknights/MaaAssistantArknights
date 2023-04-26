@@ -4,7 +4,7 @@
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
-#include "Vision/Miscellaneous/ProcessTaskAnalyzer.h"
+#include "Vision/Miscellaneous/PipelineAnalyzer.h"
 #include "Vision/TemplDetOCRer.h"
 
 MAA_VISION_NS_BEGIN
@@ -13,7 +13,8 @@ BattleFormationAnalyzer::ResultsVecOpt BattleFormationAnalyzer::analyze() const
 {
     LogTraceFunction;
 
-    ProcessTaskAnalyzer start_button_analyzer(m_image, Task.get("BattleStartAll")->next, nullptr);
+    PipelineAnalyzer start_button_analyzer(m_image);
+    start_button_analyzer.set_tasks(Task.get("BattleStartAll")->next);
     if (!start_button_analyzer.analyze()) {
         return std::nullopt;
     }

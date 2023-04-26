@@ -159,7 +159,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
 
         /* 识别当前制造/贸易站有没有添加干员按钮，没有就不换班 */
         const auto image = ctrler()->get_image();
-        MatchAnalyzer add_analyzer(image);
+        Matcher add_analyzer(image);
         const auto add_task_ptr = Task.get("InfrastAddOperator" + facility_name() + m_work_mode_name);
         add_analyzer.set_task_info(add_task_ptr);
         if (!add_analyzer.analyze()) {
@@ -173,7 +173,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
 
         /* 识别当前正在造什么 */
-        MatchAnalyzer product_analyzer(image);
+        Matcher product_analyzer(image);
         auto& all_products = InfrastData.get_facility_info(facility_name()).products;
         std::string cur_product = all_products.at(0);
         double max_score = 0;
@@ -189,7 +189,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
         set_product(cur_product);
 
-        MultiMatchAnalyzer locked_analyzer(image);
+        MultiMatcher locked_analyzer(image);
         locked_analyzer.set_task_info("InfrastOperLocked" + facility_name());
         if (locked_analyzer.analyze()) {
             m_cur_num_of_locked_opers = static_cast<int>(locked_analyzer.get_result().size());
@@ -742,7 +742,7 @@ bool asst::InfrastProductionTask::facility_list_detect()
     m_facility_list_tabs.clear();
 
     const auto image = ctrler()->get_image();
-    MultiMatchAnalyzer mm_analyzer(image);
+    MultiMatcher mm_analyzer(image);
 
     mm_analyzer.set_task_info("InfrastFacilityListTab" + facility_name());
 

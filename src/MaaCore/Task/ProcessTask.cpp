@@ -11,7 +11,7 @@
 #include "Controller/Controller.h"
 #include "Status.h"
 #include "Utils/Logger.hpp"
-#include "Vision/Miscellaneous/ProcessTaskAnalyzer.h"
+#include "Vision/Miscellaneous/PipelineAnalyzer.h"
 
 using namespace asst;
 
@@ -120,7 +120,7 @@ bool ProcessTask::_run()
         else {
             cv::Mat image = m_reusable.empty() ? ctrler()->get_image() : m_reusable;
             m_reusable = cv::Mat();
-            ProcessTaskAnalyzer analyzer(image, m_cur_task_name_list, m_inst);
+            PipelineAnalyzer analyzer(image, m_cur_task_name_list, m_inst);
 
             if (!analyzer.analyze()) {
                 return false;

@@ -46,7 +46,7 @@ bool asst::RecruitAnalyzer::tags_analyze()
 
 bool asst::RecruitAnalyzer::time_analyze()
 {
-    MultiMatchAnalyzer decrement_a(m_image);
+    MultiMatcher decrement_a(m_image);
     decrement_a.set_task_info("RecruitTimerDecrement");
     if (!decrement_a.analyze()) return false;
     if (decrement_a.get_result().size() != 2) return false; // expecting two buttons
@@ -58,7 +58,7 @@ bool asst::RecruitAnalyzer::time_analyze()
 
 bool asst::RecruitAnalyzer::refresh_analyze()
 {
-    MatchAnalyzer refresh_analyzer(m_image);
+    Matcher refresh_analyzer(m_image);
 
     refresh_analyzer.set_task_info("RecruitRefresh");
 

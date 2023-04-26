@@ -35,7 +35,7 @@ bool asst::ReclamationConclusionReportPlugin::_run()
 
 bool asst::ReclamationConclusionReportPlugin::check_page_valid(const cv::Mat& image)
 {
-    MatchAnalyzer pageAnalyzer(image);
+    Matcher pageAnalyzer(image);
     pageAnalyzer.set_task_info("Reclamation@GiveupSkipConfirm");
     return pageAnalyzer.analyze();
 }
@@ -51,7 +51,7 @@ void asst::ReclamationConclusionReportPlugin::analyze(const cv::Mat& image)
 
 int asst::ReclamationConclusionReportPlugin::analyze_badges(const cv::Mat& image)
 {
-    MatchAnalyzer badgeIconAnalyzer(image);
+    Matcher badgeIconAnalyzer(image);
     badgeIconAnalyzer.set_task_info("Reclamation@ConclusionReportBadgeIcon");
     if (!badgeIconAnalyzer.analyze()) return -1;
     const auto& iconRect = badgeIconAnalyzer.get_result();

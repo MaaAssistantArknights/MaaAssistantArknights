@@ -9,6 +9,12 @@ class BattleFormationAnalyzer : public VisionHelper
 public:
     struct Result
     {
+        std::string to_string() const
+        {
+            return name;
+        }
+        explicit operator std::string() const { return to_string(); }
+
         std::string name;
         cv::Mat avatar;
     };
@@ -21,6 +27,5 @@ public:
 
     ResultsVecOpt analyze() const;
 };
-}
 
 MAA_VISION_NS_END

@@ -2,6 +2,7 @@
 #include "Vision/VisionHelper.h"
 
 #include "Common/AsstTypes.h"
+#include "Vision/OCRer.h"
 
 MAA_VISION_NS_BEGIN
 
@@ -14,7 +15,7 @@ public:
 
     bool analyze();
 
-    const std::vector<vision::OCRer::Result>& get_tags_result() const noexcept { return m_tags_result; }
+    const std::vector<OCRer::Result>& get_tags_result() const noexcept { return m_tags_result; }
     Rect get_hour_decrement_rect() const noexcept { return m_hour_decrement; }
     Rect get_minute_decrement_rect() const noexcept { return m_minute_decrement; }
     Rect get_refresh_rect() const noexcept { return m_refresh_rect; }
@@ -26,7 +27,7 @@ private:
     bool time_analyze();
     bool refresh_analyze();
 
-    std::vector<vision::OCRer::Result> m_tags_result;
+    std::vector<OCRer::Result> m_tags_result;
     Rect m_hour_decrement;
     Rect m_minute_decrement;
     Rect m_refresh_rect;

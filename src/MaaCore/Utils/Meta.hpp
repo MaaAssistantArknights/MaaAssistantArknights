@@ -6,13 +6,14 @@
     {
 #define MAA_NS_END }
 
-#define MAA_VISION_NS MAA_NS ::vision
+/* 步子迈大了 ::vision */
+#define MAA_VISION_NS MAA_NS
 #define MAA_VISION_NS_BEGIN \
     namespace MAA_VISION_NS \
     {
 #define MAA_VISION_NS_END }
 
-#define MAA_UTILS_NS MAA_NS ::utils
+#define MAA_UTILS_NS MAA_NS::utils
 #define MAA_UTILS_NS_BEGIN \
     namespace MAA_UTILS_NS \
     {

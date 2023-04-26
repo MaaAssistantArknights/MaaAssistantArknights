@@ -1,4 +1,4 @@
-#include "ProcessTaskAnalyzer.h"
+#include "PipelineAnalyzer.h"
 
 #include <regex>
 #include <utility>
@@ -12,7 +12,7 @@
 
 MAA_VISION_NS_BEGIN
 
-ProcessTaskAnalyzer::ResultOpt ProcessTaskAnalyzer::analyze() const
+PipelineAnalyzer::ResultOpt PipelineAnalyzer::analyze() const
 {
     for (const std::string& task_name : m_tasks_name) {
         const auto& task_ptr = Task.get(task_name);
@@ -47,7 +47,7 @@ ProcessTaskAnalyzer::ResultOpt ProcessTaskAnalyzer::analyze() const
     return std::nullopt;
 }
 
-Matcher::ResultOpt ProcessTaskAnalyzer::match(const std::shared_ptr<TaskInfo>& task_ptr) const
+Matcher::ResultOpt PipelineAnalyzer::match(const std::shared_ptr<TaskInfo>& task_ptr) const
 {
     Matcher match_analyzer(m_image, m_roi);
 
@@ -78,7 +78,7 @@ Matcher::ResultOpt ProcessTaskAnalyzer::match(const std::shared_ptr<TaskInfo>& t
     return result_opt;
 }
 
-OCRer::ResultsVecOpt ProcessTaskAnalyzer::ocr(const std::shared_ptr<TaskInfo>& task_ptr) const
+OCRer::ResultsVecOpt PipelineAnalyzer::ocr(const std::shared_ptr<TaskInfo>& task_ptr) const
 {
     const auto ocr_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(task_ptr);
 

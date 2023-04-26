@@ -88,7 +88,7 @@
     <ClInclude Include="Vision\Matcher.h" />
     <ClInclude Include="Vision\Miscellaneous\CreditShopAnalyzer.h" />
     <ClInclude Include="Vision\Miscellaneous\DepotAnalyzer.h" />
-    <ClInclude Include="Vision\Miscellaneous\ProcessTaskAnalyzer.h" />
+    <ClInclude Include="Vision\Miscellaneous\PipelineAnalyzer.h" />
     <ClInclude Include="Vision\Miscellaneous\RecruitAnalyzer.h" />
     <ClInclude Include="Vision\Miscellaneous\StageDropsAnalyzer.h" />
     <ClInclude Include="Vision\MultiMatcher.h" />
@@ -238,7 +238,7 @@
     <ClCompile Include="Vision\Matcher.cpp" />
     <ClCompile Include="Vision\Miscellaneous\CreditShopAnalyzer.cpp" />
     <ClCompile Include="Vision\Miscellaneous\DepotAnalyzer.cpp" />
-    <ClCompile Include="Vision\Miscellaneous\ProcessTaskAnalyzer.cpp" />
+    <ClCompile Include="Vision\Miscellaneous\PipelineAnalyzer.cpp" />
     <ClCompile Include="Vision\Miscellaneous\RecruitAnalyzer.cpp" />
     <ClCompile Include="Vision\Miscellaneous\StageDropsAnalyzer.cpp" />
     <ClCompile Include="Vision\MultiMatcher.cpp" />
@@ -349,7 +349,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -509,7 +509,7 @@
       <Optimization>Disabled</Optimization>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <AdditionalOptions>/utf-8 $(ExternalCompilerOptions) %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8 /MP $(ExternalCompilerOptions) %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>

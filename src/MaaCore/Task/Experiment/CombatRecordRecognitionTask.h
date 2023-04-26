@@ -5,6 +5,7 @@
 #include "Common/AsstBattleDef.h"
 #include "Common/AsstTypes.h"
 #include "Config/Miscellaneous/TilePack.h"
+#include "Vision/Battle/BattleFormationAnalyzer.h"
 
 #include <meojson/json.hpp>
 
@@ -87,7 +88,7 @@ private:
     std::vector<std::pair<size_t /*frame*/, int /*kills*/>> m_frame_kills;
 
     std::unordered_map<Point, TilePack::TileInfo> m_normal_tile_info;
-    std::unordered_map<std::string, cv::Mat> m_formation;
+    BattleFormationAnalyzer::ResultsVec m_formation;
     std::unordered_map<std::string, cv::Mat> m_all_avatars;
 
     std::unordered_map<std::string, Point> m_operator_locations;

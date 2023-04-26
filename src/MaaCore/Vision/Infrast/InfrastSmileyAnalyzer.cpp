@@ -26,7 +26,7 @@ bool InfrastSmileyAnalyzer::analyze()
         if (!mm_analyzer.analyze()) {
             continue;
         }
-        const auto& res = mm_analyzer.result();
+        const auto& res = mm_analyzer.get_result();
         for (const auto& mr : res) {
             temp_result.emplace_back(infrast::Smiley { type, mr.rect });
 #ifdef ASST_DEBUG

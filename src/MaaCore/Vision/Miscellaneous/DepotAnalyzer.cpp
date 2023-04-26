@@ -182,7 +182,7 @@ size_t DepotAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo& item_info,
     }
     analyzer.set_roi(enlarged_roi);
 
-    MatchRect matched;
+    Matcher::Result matched;
     std::string matched_item_id;
     size_t matched_index = NPos;
     for (size_t index = begin_index, extra_count = 0; index < all_items.size(); ++index) {

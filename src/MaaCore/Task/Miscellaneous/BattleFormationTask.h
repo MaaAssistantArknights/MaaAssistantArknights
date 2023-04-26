@@ -49,7 +49,7 @@ namespace asst
         bool parse_formation();
         bool select_random_support_unit();
 
-        std::vector<vision::OCRer::Result> analyzer_opers();
+        std::vector<OCRer::Result> analyzer_opers();
 
         std::string m_stage_name;
         std::unordered_map<battle::Role, std::vector<OperGroup>> m_formation;

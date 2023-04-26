@@ -3,6 +3,8 @@
 #include "Common/AsstTypes.h"
 #include "Config/AbstractResource.h"
 
+#include <vector>
+
 namespace cv
 {
     class Mat;
@@ -10,7 +12,7 @@ namespace cv
 
 namespace fastdeploy
 {
-    namespace vision::ocr
+    namespace ocr
     {
         class DBDetector;
         class Recognizer;
@@ -54,9 +56,9 @@ namespace asst
     protected:
         OcrPack();
 
-        std::unique_ptr<fastdeploy::vision::ocr::DBDetector> m_det;
-        std::unique_ptr<fastdeploy::vision::ocr::Recognizer> m_rec;
-        std::unique_ptr<fastdeploy::pipeline::PPOCRv3> m_ocr;
+        std::shared_ptr<fastdeploy::ocr::DBDetector> m_det = nullptr;
+        std::shared_ptr<fastdeploy::ocr::Recognizer> m_rec = nullptr;
+        std::shared_ptr<fastdeploy::pipeline::PPOCRv3> m_ocr = nullptr;
     };
 
     class WordOcr final : public SingletonHolder<WordOcr>, public OcrPack

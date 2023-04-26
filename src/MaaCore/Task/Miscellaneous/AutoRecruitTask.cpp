@@ -250,7 +250,7 @@ bool asst::AutoRecruitTask::_run()
     return true;
 }
 
-std::vector<asst::vision::OCRer::Result> asst::AutoRecruitTask::start_recruit_analyze(const cv::Mat& image)
+std::vector<asst::OCRer::Result> asst::AutoRecruitTask::start_recruit_analyze(const cv::Mat& image)
 {
     OCRer start_analyzer;
     start_analyzer.set_task_info("StartRecruit");
@@ -264,7 +264,7 @@ std::optional<asst::Rect> asst::AutoRecruitTask::try_get_start_button(const cv::
     const auto result = start_recruit_analyze(image);
     if (result.empty()) return std::nullopt;
     auto iter = ranges::find_if(
-        result, [&](const vision::OCRer::Result& r) -> bool { return !m_force_skipped.contains(slot_index_from_rect(r.rect)); });
+        result, [&](const OCRer::Result& r) -> bool { return !m_force_skipped.contains(slot_index_from_rect(r.rect)); });
     if (iter == result.cend()) return std::nullopt;
     Log.info("Found slot index", slot_index_from_rect(iter->rect), ".");
     return iter->rect;
@@ -348,11 +348,11 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         if (!image_analyzer.analyze()) continue;
         if (image_analyzer.get_tags_result().size() != RecruitConfig::CorrectNumberOfTags) continue;
 
-        const std::vector<vision::OCRer::Result>& tags = image_analyzer.get_tags_result();
+        const std::vector<OCRer::Result>& tags = image_analyzer.get_tags_result();
         bool has_refresh = !image_analyzer.get_refresh_rect().empty();
 
         std::vector<RecruitConfig::TagId> tag_ids;
-        ranges::transform(tags, std::back_inserter(tag_ids), std::mem_fn(&vision::OCRer::Result::text));
+        ranges::transform(tags, std::back_inserter(tag_ids), std::mem_fn(&OCRer::Result::text));
 
         bool has_special_tag = false;
         bool has_robot_tag = false;
@@ -557,7 +557,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         // select tags
         for (const std::string& final_tag_name : final_combination.tags) {
-            auto tag_rect_iter = ranges::find_if(tags, [&](const vision::OCRer::Result& r) { return r.text == final_tag_name; });
+            auto tag_rect_iter = ranges::find_if(tags, [&](const OCRer::Result& r) { return r.text == final_tag_name; });
             if (tag_rect_iter != tags.cend()) {
                 ctrler()->click(tag_rect_iter->rect);
             }
@@ -642,10 +642,10 @@ bool asst::AutoRecruitTask::hire_all(const cv::Mat& image)
     LogTraceFunction;
     // mark slots with *Hire* button clean (regardless of whether hiring will success)
     {
-        MultiMatchAnalyzer hire_searcher(image);
+        MultiMatcher hire_searcher(image);
         hire_searcher.set_task_info("RecruitFinish");
         hire_searcher.analyze();
-        for (const MatchRect& r : hire_searcher.get_result()) {
+        for (const Matcher::Result& r : hire_searcher.get_result()) {
             Log.info("Mark", slot_index_from_rect(r.rect), "clean");
             m_dirty_slots.erase(slot_index_from_rect(r.rect));
         }
@@ -666,7 +666,7 @@ bool asst::AutoRecruitTask::hire_all()
 {
     m_dirty_slots.clear();
     const auto result = start_recruit_analyze(image);
-    for (const vision::OCRer::Result& r : result) {
+    for (const OCRer::Result& r : result) {
         m_dirty_slots.emplace(slot_index_from_rect(r.rect));
     }
     Log.info("Dirty slots are", m_dirty_slots);

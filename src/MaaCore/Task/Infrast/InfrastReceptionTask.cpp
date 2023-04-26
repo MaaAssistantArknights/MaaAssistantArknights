@@ -119,14 +119,14 @@ bool asst::InfrastReceptionTask::proc_clue_vacancy()
         // 识别右边列表中的线索，然后用最底下的那个（一般都是剩余时间最短的）
         // swipe_to_the_bottom_of_clue_list_on_the_right();
         image = ctrler()->get_image();
-        vision::MultiMatcher clue_analyzer(image);
+        MultiMatcher clue_analyzer(image);
         clue_analyzer.set_task_info("InfrastClue");
         InfrastClueAnalyzer clue_analyzer(image);
 
         if (!clue_analyzer.analyze()) {
             continue;
         }
-        vision::sort_by_horizontal_();
+        sort_by_horizontal_();
         ctrler()->click(clue_analyzer.get_result().back().first);
         sleep(delay);
     }
@@ -162,7 +162,7 @@ bool asst::InfrastReceptionTask::shift()
     }
 
     const auto image = ctrler()->get_image();
-    MatchAnalyzer add_analyzer(image);
+    Matcher add_analyzer(image);
 
     const auto raw_task_ptr = Task.get("InfrastAddOperator" + facility_name() + m_work_mode_name);
     switch (raw_task_ptr->algorithm) {

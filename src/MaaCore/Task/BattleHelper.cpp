@@ -127,11 +127,11 @@ bool BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         oper.is_unusual_location = battle::get_role_usual_location(oper.role) == oper.location_type;
     };
 
-    auto cur_opers = oper_analyzer.result()->deployment;
+    auto cur_opers = oper_analyzer.get_result()->deployment;
     std::vector<DeploymentOper> unknown_opers;
 
     for (auto& oper : cur_opers) {
-        BestMatchAnalyzer avatar_analyzer(oper.avatar);
+        BestMatcher avatar_analyzer(oper.avatar);
         if (oper.cooling) {
             Log.trace("start matching cooling", oper.index);
             static const double cooling_threshold = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_threshold;
@@ -150,7 +150,7 @@ bool BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             avatar_analyzer.append_templ(name, avatar);
         }
         if (avatar_analyzer.analyze()) {
-            set_oper_name(oper, avatar_analyzer.result()->templ_info.name);
+            set_oper_name(oper, avatar_analyzer.get_result()->templ_info.name);
             m_cur_deployment_opers.insert_or_assign(oper.name, oper);
             remove_cooling_from_battlefield(oper);
         }
@@ -256,7 +256,7 @@ bool BattleHelper::update_kills(const cv::Mat& reusable)
     if (!analyzer.analyze()) {
         return false;
     }
-    std::tie(m_kills, m_total_kills) = analyzer.result()->kills.value();
+    std::tie(m_kills, m_total_kills) = analyzer.get_result()->kills.value();
     return true;
 }
 
@@ -268,7 +268,7 @@ bool BattleHelper::update_cost(const cv::Mat& reusable)
     if (!analyzer.analyze()) {
         return false;
     }
-    m_cost = analyzer.result()->costs.value();
+    m_cost = analyzer.get_result()->costs.value();
     return true;
 }
 
@@ -394,7 +394,7 @@ bool BattleHelper::check_pause_button(const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
 
-    MatchAnalyzer battle_flag_analyzer(image);
+    Matcher battle_flag_analyzer(image);
     battle_flag_analyzer.set_task_info("BattleOfficiallyBegin");
     bool ret = battle_flag_analyzer.analyze().has_value();
 

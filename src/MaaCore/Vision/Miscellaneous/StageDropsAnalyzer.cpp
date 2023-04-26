@@ -76,7 +76,7 @@ bool StageDropsAnalyzer::analyze_stars()
         { 3, "StageDrops-Stars-3" },
     };
 
-    MatchAnalyzer analyzer(m_image);
+    Matcher analyzer(m_image);
     int matched_stars = 0;
     double max_score = 0.0;
 
@@ -119,7 +119,7 @@ bool StageDropsAnalyzer::analyze_difficulty()
     LogTraceFunction;
 
     auto task_ptr = Task.get("StageDrops-Difficulty-Tough");
-    MatchAnalyzer analyzer(m_image);
+    Matcher analyzer(m_image);
     analyzer.set_task_info(task_ptr);
 
     auto log = [&]() {
@@ -416,7 +416,7 @@ StageDropType StageDropsAnalyzer::match_droptype(const Rect& roi)
         { StageDropType::Reward, "StageDrops-DropType-Reward" },
     };
 
-    MatchAnalyzer analyzer(m_image);
+    Matcher analyzer(m_image);
     auto matched = StageDropType::Unknown;
     double max_score = 0.0;
 
@@ -489,7 +489,7 @@ std::string StageDropsAnalyzer::match_item(const Rect& roi, StageDropType type, 
     }
 
     auto match_item_with_templs = [&](const std::vector<std::string>& templs_list) -> std::string {
-        MatchAnalyzer analyzer(m_image);
+        Matcher analyzer(m_image);
         analyzer.set_task_info("StageDrops-Item");
         analyzer.set_mask_with_close(true);
         analyzer.set_roi(roi);
@@ -530,7 +530,7 @@ std::string StageDropsAnalyzer::match_item(const Rect& roi, StageDropType type, 
     return result;
 }
 
-std::optional<vision::OCRer::Result> StageDropsAnalyzer::match_quantity_string(const Rect& roi, bool use_word_model)
+std::optional<OCRer::Result> StageDropsAnalyzer::match_quantity_string(const Rect& roi, bool use_word_model)
 {
     auto task_ptr = Task.get<MatchTaskInfo>("StageDrops-Quantity");
 
@@ -598,7 +598,7 @@ std::optional<vision::OCRer::Result> StageDropsAnalyzer::match_quantity_string(c
     return analyzer.get_result().front();
 }
 
-std::optional<vision::OCRer::Result> StageDropsAnalyzer::match_quantity_string(const Rect& roi, const std::string& item,
+std::optional<OCRer::Result> StageDropsAnalyzer::match_quantity_string(const Rect& roi, const std::string& item,
                                                                   bool use_word_model)
 {
     auto task_ptr = Task.get<MatchTaskInfo>("StageDrops-Quantity");
@@ -608,7 +608,7 @@ std::optional<vision::OCRer::Result> StageDropsAnalyzer::match_quantity_string(c
         return std::nullopt;
     }
 
-    MatchAnalyzer analyzer(m_image);
+    Matcher analyzer(m_image);
     analyzer.set_templ(templ);
     analyzer.set_mask_range(1, 255);
     analyzer.set_mask_with_close(true);
@@ -696,7 +696,7 @@ int StageDropsAnalyzer::quantity_string_to_int(const std::string& str)
 
 int StageDropsAnalyzer::match_quantity(const Rect& roi, const std::string& item, bool use_word_model)
 {
-    vision::OCRer::Result result;
+    OCRer::Result result;
     // is furniture?
     if (item.empty() || item == "furni") {
         auto opt = match_quantity_string(roi, use_word_model);

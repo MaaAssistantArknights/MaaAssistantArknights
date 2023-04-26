@@ -282,7 +282,7 @@ void InfrastOperAnalyzer::skill_analyze()
                 if (!skill_analyzer.analyze()) {
                     continue;
                 }
-                possible_skills.emplace_back(std::make_pair(skill, skill_analyzer.result()));
+                possible_skills.emplace_back(std::make_pair(skill, skill_analyzer.get_result()));
             }
             if (possible_skills.empty()) {
                 Log.error("skill has no recognition result");

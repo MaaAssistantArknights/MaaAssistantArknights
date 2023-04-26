@@ -107,11 +107,11 @@ bool asst::ReclamationBattlePlugin::buy_water()
 bool asst::ReclamationBattlePlugin::communicate_with(const std::string& npcName)
 {
     // 在存在两个及以上npc时地图会移动，从上到下、从下到上各试一次，还不行算了
-    if (communicate_with_aux(npcName, [](const MatchRect& l, const MatchRect& r) {
+    if (communicate_with_aux(npcName, [](const Matcher::Result& l, const Matcher::Result& r) {
             return l.rect.y < r.rect.y || (l.rect.y == r.rect.y && l.rect.x < r.rect.x);
         }))
         return true;
-    if (communicate_with_aux(npcName, [](const MatchRect& l, const MatchRect& r) {
+    if (communicate_with_aux(npcName, [](const Matcher::Result& l, const Matcher::Result& r) {
             return l.rect.y > r.rect.y || (l.rect.y == r.rect.y && l.rect.x > r.rect.x);
         }))
         return true;
@@ -121,7 +121,7 @@ bool asst::ReclamationBattlePlugin::communicate_with(const std::string& npcName)
 }
 
 bool asst::ReclamationBattlePlugin::communicate_with_aux(
-    const std::string& npcName, std::function<bool(const MatchRect&, const MatchRect&)> orderComp)
+    const std::string& npcName, std::function<bool(const Matcher::Result&, const Matcher::Result&)> orderComp)
 {
     std::ignore = npcName;
     std::ignore = orderComp;
@@ -131,7 +131,7 @@ bool asst::ReclamationBattlePlugin::communicate_with_aux(
     //        Log.info(__FUNCTION__, " | ", "no ready skills");
     //        return false;
     //    }
-    //    std::vector<MatchRect> skill_results = skillReadyAnalyzer.get_result();
+    //    std::vector<Matcher::Result> skill_results = skillReadyAnalyzer.get_result();
     //
     //    std::sort(skill_results.begin(), skill_results.end(), orderComp);
     //    for (const auto& [score, rect] : skill_results) {
