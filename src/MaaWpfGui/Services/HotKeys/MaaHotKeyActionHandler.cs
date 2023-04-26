@@ -14,26 +14,16 @@
 using System;
 using System.Windows;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Services.Managers;
-using MaaWpfGui.ViewModels.UI;
-using StyletIoC;
 
 namespace MaaWpfGui.Services.HotKeys
 {
     public class MaaHotKeyActionHandler : IMaaHotKeyActionHandler
     {
-        private readonly IMainWindowManager _mainWindowManager;
-
-        private readonly TaskQueueViewModel _taskQueueViewModel;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MaaHotKeyActionHandler"/> class.
         /// </summary>
-        /// <param name="container"></param>
-        public MaaHotKeyActionHandler(IContainer container)
+        public MaaHotKeyActionHandler()
         {
-            _taskQueueViewModel = container.Get<TaskQueueViewModel>();
-            _mainWindowManager = container.Get<IMainWindowManager>();
         }
 
         /// <inheritdoc/>
@@ -52,20 +42,20 @@ namespace MaaWpfGui.Services.HotKeys
             }
         }
 
-        protected virtual void HandleShowGui() => _mainWindowManager.SwitchWindowState();
+        protected virtual void HandleShowGui() => Instances.MainWindowManager.SwitchWindowState();
 
         protected virtual void HandleLinkStart()
         {
-            if (_taskQueueViewModel.Stopping)
+            if (Instances.TaskQueueViewModel.Stopping)
             {
                 return;
             }
 
-            if (_taskQueueViewModel.Idle)
+            if (Instances.TaskQueueViewModel.Idle)
             {
-                _taskQueueViewModel.LinkStart();
+                Instances.TaskQueueViewModel.LinkStart();
 
-                if (_mainWindowManager.GetWindowState() != WindowState.Minimized)
+                if (Instances.MainWindowManager.GetWindowState() != WindowState.Minimized)
                 {
                     return;
                 }
@@ -75,7 +65,7 @@ namespace MaaWpfGui.Services.HotKeys
             }
             else
             {
-                _ = _taskQueueViewModel.Stop();
+                _ = Instances.TaskQueueViewModel.Stop();
 
                 if (Application.Current.MainWindow == null ||
                     Application.Current.MainWindow.WindowState != WindowState.Minimized)

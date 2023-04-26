@@ -13,7 +13,7 @@
 
 using System.Threading.Tasks;
 using System.Windows;
-using MaaWpfGui.Main;
+using MaaWpfGui.Helper;
 using Stylet;
 using StyletIoC;
 
@@ -24,25 +24,13 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class RootViewModel : Conductor<Screen>.Collection.OneActive
     {
-        private readonly AsstProxy _asstProxy;
-        private readonly TaskQueueViewModel _taskQueueViewModel;
-        private readonly RecognizerViewModel _recognizerViewModel;
-        private readonly SettingsViewModel _settingsViewModel;
-        private readonly CopilotViewModel _copilotViewModel;
-        private readonly VersionUpdateViewModel _versionUpdateViewModel;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="RootViewModel"/> class.
         /// </summary>
         /// <param name="container">The IoC container.</param>
         public RootViewModel(IContainer container)
         {
-            _asstProxy = container.Get<AsstProxy>();
-            _taskQueueViewModel = container.Get<TaskQueueViewModel>();
-            _recognizerViewModel = container.Get<RecognizerViewModel>();
-            _settingsViewModel = container.Get<SettingsViewModel>();
-            _copilotViewModel = container.Get<CopilotViewModel>();
-            _versionUpdateViewModel = container.Get<VersionUpdateViewModel>();
+            Instances.Instantiate(container);
         }
 
         /// <inheritdoc/>
@@ -55,23 +43,23 @@ namespace MaaWpfGui.ViewModels.UI
 
         private async void InitProxy()
         {
-            await Task.Run(_asstProxy.Init);
+            await Task.Run(Instances.AsstProxy.Init);
         }
 
         private void InitViewModels()
         {
-            Items.Add(_taskQueueViewModel);
-            Items.Add(_copilotViewModel);
-            Items.Add(_recognizerViewModel);
-            Items.Add(_settingsViewModel);
+            Items.Add(Instances.TaskQueueViewModel);
+            Items.Add(Instances.CopilotViewModel);
+            Items.Add(Instances.RecognizerViewModel);
+            Items.Add(Instances.SettingsViewModel);
 
-            _settingsViewModel.UpdateWindowTitle(); // 在标题栏上显示模拟器和IP端口 必须在 Items.Add(settings)之后执行。
-            ActiveItem = _taskQueueViewModel;
+            Instances.SettingsViewModel.UpdateWindowTitle(); // 在标题栏上显示模拟器和IP端口 必须在 Items.Add(settings)之后执行。
+            ActiveItem = Instances.TaskQueueViewModel;
         }
 
         private bool CheckAndUpdateNow()
         {
-            return _versionUpdateViewModel.CheckAndUpdateNow();
+            return Instances.VersionUpdateViewModel.CheckAndUpdateNow();
         }
 
         private string _windowTitle = "MAA";
