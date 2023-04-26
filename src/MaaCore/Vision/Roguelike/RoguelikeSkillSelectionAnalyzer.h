@@ -28,6 +28,5 @@ private:
     std::unordered_map<std::string, std::vector<Rect>> m_result; // 干员名 : 技能的位置（多个技能）
     bool m_team_full = false;
 };
-}
 
 MAA_VISION_NS_END

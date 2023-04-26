@@ -32,7 +32,7 @@ bool RoguelikeRecruitAnalyzer::analyze()
         cv::merge(std::array { blue, blue, blue }, bbb_image);
     }
 
-    for (const auto& [_, rect, name] : *result_opt) {
+    for (const auto& [name, rect, _] : *result_opt) {
         int elite = match_elite(rect);
         int level = match_level(bbb_image, rect);
 

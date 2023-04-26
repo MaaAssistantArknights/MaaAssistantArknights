@@ -58,8 +58,9 @@ Matcher::RawResult Matcher::preproc_and_match(const cv::Mat& image, const Matche
         Log.error("templ is empty!", templ_name);
 #ifdef ASST_DEBUG
         throw std::runtime_error("templ is empty: " + templ_name);
-#endif
+#else
         return {};
+#endif
     }
 
     if (templ.cols > image.cols || templ.rows > image.rows) {

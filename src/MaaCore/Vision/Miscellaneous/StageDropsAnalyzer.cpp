@@ -11,8 +11,8 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
-#include "Vision/TemplDetOCRer.h"
 #include "Vision/RegionOCRer.h"
+#include "Vision/TemplDetOCRer.h"
 
 #include <numbers>
 
@@ -135,8 +135,7 @@ bool StageDropsAnalyzer::analyze_difficulty()
 #endif
     };
 
-    bool analyzed = analyzer.analyze();
-    if (!analyzed) {
+    if (!analyzer.analyze().has_value()) {
         m_difficulty = StageDifficulty::Normal;
         log();
         return true;
@@ -490,14 +489,14 @@ std::string StageDropsAnalyzer::match_item(const Rect& roi, StageDropType type, 
 
     auto match_item_with_templs = [&](const std::vector<std::string>& templs_list) -> std::string {
         Matcher analyzer(m_image);
+        analyzer.set_mask_range(0, 0, false, true);
         analyzer.set_task_info("StageDrops-Item");
-        analyzer.set_mask_with_close(true);
         analyzer.set_roi(roi);
 
         double max_score = 0.0;
         std::string matched;
         for (const std::string& templ : templs_list) {
-            analyzer.set_templ_name(templ);
+            analyzer.set_templ(templ);
             if (!analyzer.analyze()) {
                 continue;
             }
@@ -588,18 +587,18 @@ std::optional<OCRer::Result> StageDropsAnalyzer::match_quantity_string(const Rec
     RegionOCRer analyzer(m_image);
     analyzer.set_task_info("NumberOcrReplace");
     analyzer.set_roi(Rect(quantity_roi.x + far_left, quantity_roi.y, far_right - far_left, quantity_roi.height));
-    analyzer.set_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
+    analyzer.set_bin_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
     analyzer.set_use_char_model(!use_word_model);
 
     if (!analyzer.analyze()) {
         return std::nullopt;
     }
 
-    return analyzer.get_result().front();
+    return analyzer.get_result();
 }
 
 std::optional<OCRer::Result> StageDropsAnalyzer::match_quantity_string(const Rect& roi, const std::string& item,
-                                                                  bool use_word_model)
+                                                                       bool use_word_model)
 {
     auto task_ptr = Task.get<MatchTaskInfo>("StageDrops-Quantity");
     auto templ = TemplResource::get_instance().get_templ(item).clone();
@@ -610,8 +609,7 @@ std::optional<OCRer::Result> StageDropsAnalyzer::match_quantity_string(const Rec
 
     Matcher analyzer(m_image);
     analyzer.set_templ(templ);
-    analyzer.set_mask_range(1, 255);
-    analyzer.set_mask_with_close(true);
+    analyzer.set_mask_range(1, 255, false, true);
     analyzer.set_roi(roi);
     if (!analyzer.analyze()) {
         return std::nullopt;
@@ -656,13 +654,13 @@ std::optional<OCRer::Result> StageDropsAnalyzer::match_quantity_string(const Rec
     Rect ocr_roi { new_roi.x + mask_rect.x, new_roi.y + mask_rect.y, mask_rect.width, mask_rect.height };
     ocr.set_roi(ocr_roi);
     ocr.set_use_char_model(!use_word_model);
-    ocr.set_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
+    ocr.set_bin_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
 
     if (!ocr.analyze()) {
         return std::nullopt;
     }
 
-    return ocr.get_result().front();
+    return ocr.get_result();
 }
 
 int StageDropsAnalyzer::quantity_string_to_int(const std::string& str)

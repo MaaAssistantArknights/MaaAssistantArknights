@@ -99,10 +99,11 @@ bool BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
     }
 
     BattlefieldMatcher oper_analyzer(image);
-    oper_analyzer.set_object_to_analyze(BattlefieldMatcher::ObjectOfInterest {
+    oper_analyzer.set_object_of_interest(BattlefieldMatcher::ObjectOfInterest {
         .deployment = true,
     });
-    if (!oper_analyzer.analyze()) {
+    auto oper_result_opt = oper_analyzer.analyze();
+    if (!oper_result_opt) {
         check_in_battle(image);
         return false;
     }
@@ -127,10 +128,9 @@ bool BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         oper.is_unusual_location = battle::get_role_usual_location(oper.role) == oper.location_type;
     };
 
-    auto cur_opers = oper_analyzer.get_result()->deployment;
     std::vector<DeploymentOper> unknown_opers;
 
-    for (auto& oper : cur_opers) {
+    for (auto& oper : oper_result_opt->deployment) {
         BestMatcher avatar_analyzer(oper.avatar);
         if (oper.cooling) {
             Log.trace("start matching cooling", oper.index);
@@ -149,8 +149,10 @@ bool BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         for (const auto& [name, avatar] : avatar_cache) {
             avatar_analyzer.append_templ(name, avatar);
         }
-        if (avatar_analyzer.analyze()) {
-            set_oper_name(oper, avatar_analyzer.get_result()->templ_info.name);
+
+        auto avatar_result_opt = avatar_analyzer.analyze();
+        if (avatar_result_opt) {
+            set_oper_name(oper, avatar_result_opt->templ_info.name);
             m_cur_deployment_opers.insert_or_assign(oper.name, oper);
             remove_cooling_from_battlefield(oper);
         }
@@ -252,11 +254,12 @@ bool BattleHelper::update_kills(const cv::Mat& reusable)
     if (m_total_kills) {
         analyzer.set_total_kills_prompt(m_total_kills);
     }
-    analyzer.set_object_to_analyze(BattlefieldMatcher::ObjectOfInterest { .kills = true });
-    if (!analyzer.analyze()) {
+    analyzer.set_object_of_interest(BattlefieldMatcher::ObjectOfInterest { .kills = true });
+    auto result_opt = analyzer.analyze();
+    if (!result_opt) {
         return false;
     }
-    std::tie(m_kills, m_total_kills) = analyzer.get_result()->kills.value();
+    std::tie(m_kills, m_total_kills) = result_opt->kills.value();
     return true;
 }
 
@@ -264,11 +267,12 @@ bool BattleHelper::update_cost(const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     BattlefieldMatcher analyzer(image);
-    analyzer.set_object_to_analyze(BattlefieldMatcher::ObjectOfInterest { .costs = true });
-    if (!analyzer.analyze()) {
+    analyzer.set_object_of_interest(BattlefieldMatcher::ObjectOfInterest { .costs = true });
+    auto result_opt = analyzer.analyze();
+    if (!result_opt) {
         return false;
     }
-    m_cost = analyzer.get_result()->costs.value();
+    m_cost = result_opt->costs.value();
     return true;
 }
 
@@ -498,7 +502,7 @@ bool BattleHelper::check_and_use_skill(const std::string& name, bool& has_error,
 bool BattleHelper::check_and_use_skill(const Point& loc, bool& has_error, const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
-    BattlefieldImageClassifier skill_analyzer(image);
+    BattlefieldClassifier skill_analyzer(image);
 
     auto target_iter = m_normal_tile_info.find(loc);
     if (target_iter == m_normal_tile_info.end()) {

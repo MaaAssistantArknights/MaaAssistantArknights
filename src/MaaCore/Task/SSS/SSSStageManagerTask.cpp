@@ -73,12 +73,13 @@ std::optional<std::string> asst::SSSStageManagerTask::analyze_stage()
 
     RegionOCRer analyzer(ctrler()->get_image());
     analyzer.set_task_info("SSSStageNameOCR");
-    if (!analyzer.analyze()) {
+
+    auto result_opt = analyzer.analyze();
+    if (!result_opt) {
         return std::nullopt;
     }
 
-    analyzer.sort_result_by_score();
-    const std::string& text = analyzer.get_result().front().text;
+    const std::string& text = result_opt->text;
 
     const auto& stages_data = SSSCopilot.get_data().stages_data;
     for (const auto& [name, stage_info] : stages_data) {

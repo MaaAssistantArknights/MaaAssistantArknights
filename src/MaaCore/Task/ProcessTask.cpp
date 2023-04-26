@@ -120,13 +120,15 @@ bool ProcessTask::_run()
         else {
             cv::Mat image = m_reusable.empty() ? ctrler()->get_image() : m_reusable;
             m_reusable = cv::Mat();
-            PipelineAnalyzer analyzer(image, m_cur_task_name_list, m_inst);
+            PipelineAnalyzer analyzer(image, Rect(), m_inst);
+            analyzer.set_tasks(m_cur_task_name_list);
 
-            if (!analyzer.analyze()) {
+            auto result_opt = analyzer.analyze();
+            if (!result_opt) {
                 return false;
             }
-            m_cur_task_ptr = analyzer.get_result();
-            rect = analyzer.get_rect();
+            m_cur_task_ptr = result_opt->task_ptr;
+            rect = result_opt->rect;
         }
         if (need_exit()) {
             return false;

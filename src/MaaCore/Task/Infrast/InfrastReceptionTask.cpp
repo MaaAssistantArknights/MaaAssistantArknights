@@ -121,13 +121,12 @@ bool asst::InfrastReceptionTask::proc_clue_vacancy()
         image = ctrler()->get_image();
         MultiMatcher clue_analyzer(image);
         clue_analyzer.set_task_info("InfrastClue");
-        InfrastClueAnalyzer clue_analyzer(image);
-
-        if (!clue_analyzer.analyze()) {
+        auto clue_opt = clue_analyzer.analyze();
+        if (!clue_opt) {
             continue;
         }
-        sort_by_horizontal_();
-        ctrler()->click(clue_analyzer.get_result().back().first);
+        sort_by_vertical_(*clue_opt);
+        ctrler()->click(clue_opt->back().rect);
         sleep(delay);
     }
     return true;

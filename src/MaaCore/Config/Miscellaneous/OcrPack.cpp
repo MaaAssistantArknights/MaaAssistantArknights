@@ -42,7 +42,7 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
     if (std::filesystem::exists(det_model_file)) {
         auto det_model = asst::utils::read_file<std::string>(det_model_file);
         option.SetModelBuffer(det_model.data(), det_model.size(), nullptr, 0, fastdeploy::ModelFormat::ONNX);
-        m_det = std::make_unique<fastdeploy::ocr::DBDetector>("dummy.onnx", std::string(), option,
+        m_det = std::make_unique<fastdeploy::vision::ocr::DBDetector>("dummy.onnx", std::string(), option,
                                                                       fastdeploy::ModelFormat::ONNX);
     }
 
@@ -54,7 +54,7 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
         auto rec_model = asst::utils::read_file<std::string>(rec_model_file);
         std::string rec_label = asst::utils::read_file<std::string>(rec_label_file);
         option.SetModelBuffer(rec_model.data(), rec_model.size(), nullptr, 0, fastdeploy::ModelFormat::ONNX);
-        m_rec = std::make_unique<fastdeploy::ocr::Recognizer>("dummy.onnx", std::string(), rec_label, option,
+        m_rec = std::make_unique<fastdeploy::vision::ocr::Recognizer>("dummy.onnx", std::string(), rec_label, option,
                                                                       fastdeploy::ModelFormat::ONNX);
     }
 
@@ -69,7 +69,7 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
 asst::OcrPack::ResultsVec asst::OcrPack::recognize(const cv::Mat& image, bool without_det)
 {
     std::string class_type = utils::demangle(typeid(*this).name());
-    fastdeploy::OCRResult ocr_result;
+    fastdeploy::vision::OCRResult ocr_result;
     if (!without_det) {
         Log.trace("Ocr Pipeline with", class_type);
         m_ocr->Predict(image, &ocr_result);

@@ -12,7 +12,7 @@ namespace cv
 
 namespace fastdeploy
 {
-    namespace ocr
+    namespace vision::ocr
     {
         class DBDetector;
         class Recognizer;
@@ -56,9 +56,9 @@ namespace asst
     protected:
         OcrPack();
 
-        std::shared_ptr<fastdeploy::ocr::DBDetector> m_det = nullptr;
-        std::shared_ptr<fastdeploy::ocr::Recognizer> m_rec = nullptr;
-        std::shared_ptr<fastdeploy::pipeline::PPOCRv3> m_ocr = nullptr;
+        std::unique_ptr<fastdeploy::vision::ocr::DBDetector> m_det = nullptr;
+        std::unique_ptr<fastdeploy::vision::ocr::Recognizer> m_rec = nullptr;
+        std::unique_ptr<fastdeploy::pipeline::PPOCRv3> m_ocr = nullptr;
     };
 
     class WordOcr final : public SingletonHolder<WordOcr>, public OcrPack

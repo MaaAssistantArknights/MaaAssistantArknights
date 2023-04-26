@@ -116,7 +116,7 @@ bool RoguelikeRecruitSupportAnalyzer::analyze()
         // 刷新冷却中
         analyzer.set_required({});
         analyzer.set_replace({ { "：", ":" } });
-        auto result_opt = analyzer.analyze();
+        result_opt = analyzer.analyze();
 
         if (!result_opt) {
             Log.info(__FUNCTION__, "| RefreshSupportBtn analyse failed");

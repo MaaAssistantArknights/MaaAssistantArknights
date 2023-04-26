@@ -47,7 +47,7 @@ MultiMatcher::ResultsVecOpt MultiMatcher::analyze() const
                 break;
             }
             if (need_push) {
-                results.emplace_back(value, rect);
+                results.emplace_back(Result { .rect = rect, .score = value });
             }
         }
     }

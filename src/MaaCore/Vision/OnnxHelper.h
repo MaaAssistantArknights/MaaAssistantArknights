@@ -11,7 +11,7 @@ MAA_VISION_NS_BEGIN
 class OnnxHelper
 {
 public:
-    virtual ~OnnxHelper() = 0;
+    virtual ~OnnxHelper() = default;
 
 protected:
     template <typename T>

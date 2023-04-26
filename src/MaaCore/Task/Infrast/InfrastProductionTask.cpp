@@ -509,7 +509,7 @@ bool asst::InfrastProductionTask::optimal_calc()
                         if (!name_analyzer.analyze()) {
                             continue;
                         }
-                        std::string name = name_analyzer.get_result().front().text;
+                        const std::string& name = name_analyzer.get_result().text;
                         hash_matched = ranges::find(opt.name_filter, name) != opt.name_filter.cend();
                     }
                     if (!hash_matched) {
@@ -637,7 +637,7 @@ bool asst::InfrastProductionTask::opers_choose()
                     if (!name_analyzer.analyze()) {
                         return false;
                     }
-                    std::string name = name_analyzer.get_result().front().text;
+                    const std::string& name = name_analyzer.get_result().text;
                     return ranges::find(std::as_const(opt_iter->name_filter), name) != opt_iter->name_filter.cend();
                 }
             });
@@ -746,14 +746,12 @@ bool asst::InfrastProductionTask::facility_list_detect()
 
     mm_analyzer.set_task_info("InfrastFacilityListTab" + facility_name());
 
-    if (!mm_analyzer.analyze()) {
+    auto result_opt = mm_analyzer.analyze();
+    if (!result_opt) {
         return false;
     }
-    mm_analyzer.sort_result_horizontal();
-    m_facility_list_tabs.reserve(mm_analyzer.get_result().size());
-    for (const auto& res : mm_analyzer.get_result()) {
-        m_facility_list_tabs.emplace_back(res.rect);
-    }
+    sort_by_horizontal_(result_opt.value());
+    ranges::transform(result_opt.value(), m_facility_list_tabs.end(), std::mem_fn(&MultiMatcher::Result::rect));
 
     return true;
 }

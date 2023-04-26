@@ -36,7 +36,7 @@ public:
     using VisionHelper::VisionHelper;
     virtual ~BattlefieldMatcher() override = default;
 
-    void set_object_to_analyze(ObjectOfInterest obj);
+    void set_object_of_interest(ObjectOfInterest obj);
     void set_total_kills_prompt(int prompt);
 
     ResultOpt analyze() const;

@@ -6,8 +6,8 @@
 
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/Battle/BattlefieldClassifier.h"
+#include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/Miscellaneous/DepotAnalyzer.h"
 #include "Vision/Miscellaneous/StageDropsAnalyzer.h"
 
@@ -67,6 +67,6 @@ void asst::DebugTask::test_battle_image()
     cv::Mat resized;
     cv::resize(image, resized, cv::Size(1280, 720), 0, 0, cv::INTER_AREA);
     BattlefieldMatcher analyzer(resized);
-    analyzer.set_object_to_analyze(BattlefieldMatcher::ObjectOfInterest::Oper);
+    analyzer.set_object_of_interest({ .deployment = true });
     analyzer.analyze();
 }

@@ -33,6 +33,10 @@ public:
 
     bool save_img(const std::filesystem::path& relative_dir = utils::path("debug"));
 
+#ifdef ASST_DEBUG
+    const cv::Mat& draw() const { return m_image_draw; }
+#endif
+
 protected:
     using InstHelper::status;
 

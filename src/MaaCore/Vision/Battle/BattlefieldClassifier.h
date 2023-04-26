@@ -50,8 +50,8 @@ public:
     {
         ObjectOfInterest object_of_interest;
 
-        std::optional<SkillReadyResult> skill_ready;
-        std::optional<DeployDirectionResult> deploy_direction;
+        SkillReadyResult skill_ready;
+        DeployDirectionResult deploy_direction;
     };
 
     using ResultOpt = std::optional<Result>;
@@ -60,7 +60,7 @@ public:
     using VisionHelper::VisionHelper;
     virtual ~BattlefieldClassifier() override = default;
 
-    void set_object_to_analyze(ObjectOfInterest obj) { m_object_of_interest = obj; }
+    void set_object_of_interest(ObjectOfInterest obj) { m_object_of_interest = obj; }
     void set_base_point(const Point& pt) { m_base_point = pt; }
 
     ResultOpt analyze() const;

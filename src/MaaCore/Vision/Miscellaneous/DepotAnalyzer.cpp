@@ -257,13 +257,13 @@ int DepotAnalyzer::match_quantity(const ItemInfo& item)
     RegionOCRer analyzer(m_image_resized);
     analyzer.set_task_info("NumberOcrReplace");
     analyzer.set_roi(ocr_roi);
-    analyzer.set_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
+    analyzer.set_bin_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
 
     if (!analyzer.analyze()) {
         return 0;
     }
 
-    const auto& result = analyzer.get_result().front();
+    const auto& result = analyzer.get_result();
 
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw_resized, make_rect<cv::Rect>(result.rect), cv::Scalar(0, 0, 255));

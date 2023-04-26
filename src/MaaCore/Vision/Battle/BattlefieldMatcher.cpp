@@ -16,7 +16,7 @@
 
 MAA_VISION_NS_BEGIN
 
-void BattlefieldMatcher::set_object_to_analyze(ObjectOfInterest obj)
+void BattlefieldMatcher::set_object_of_interest(ObjectOfInterest obj)
 {
     m_object_of_interest = std::move(obj);
 }

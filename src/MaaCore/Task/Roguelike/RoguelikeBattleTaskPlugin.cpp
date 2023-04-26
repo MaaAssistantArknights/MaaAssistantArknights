@@ -17,9 +17,8 @@
 #include "Task/ProcessTask.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "Vision/Matcher.h"
 #include "Vision/Battle/BattlefieldMatcher.h"
-#include "Vision/Battle/BattlefieldClassifier.h"
+#include "Vision/Matcher.h"
 #include "Vision/RegionOCRer.h"
 
 using namespace asst::battle;
@@ -129,8 +128,7 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
         if (!name_analyzer.analyze()) {
             continue;
         }
-        name_analyzer.sort_result_by_score();
-        const std::string& text = name_analyzer.get_result().front().text;
+        const std::string& text = name_analyzer.get_result().text;
         if (text.empty()) {
             continue;
         }
