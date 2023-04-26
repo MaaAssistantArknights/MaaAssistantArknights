@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|ARM64">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|ARM64">
       <Configuration>Release</Configuration>
       <Platform>ARM64</Platform>
@@ -60,6 +68,8 @@
     <ClInclude Include="Task\Experiment\SingleStepBattleProcessTask.h" />
     <ClInclude Include="Task\Interface\CustomTask.h" />
     <ClInclude Include="Task\Interface\VideoRecognitionTask.h" />
+    <ClInclude Include="Task\Interface\OperBoxTask.h" />
+    <ClInclude Include="Task\Miscellaneous\OperBoxRecognitionTask.h" />
     <ClInclude Include="Task\Reclamation\ReclamationControlTask.h" />
     <ClInclude Include="Task\Reclamation\ReclamationConclusionReportPlugin.h" />
     <ClInclude Include="Task\Reclamation\ReclamationBattlePlugin.h" />
@@ -72,6 +82,7 @@
     <ClInclude Include="Task\SSS\SSSStageManagerTask.h" />
     <ClInclude Include="Utils\Algorithm.hpp" />
     <ClInclude Include="Utils\File.hpp" />
+    <ClInclude Include="Vision\Miscellaneous\OperBoxAnalyzer.h" />
     <ClInclude Include="Vision\VisionHelper.h" />
     <ClInclude Include="Vision\Battle\BattleFormationAnalyzer.h" />
     <ClInclude Include="Vision\Battle\BattlefieldMatcher.h" />
@@ -155,7 +166,6 @@
     <ClInclude Include="Task\Miscellaneous\CreditFightTask.h" />
     <ClInclude Include="Task\Miscellaneous\CreditShoppingTask.h" />
     <ClInclude Include="Task\Miscellaneous\DepotRecognitionTask.h" />
-    <ClInclude Include="Task\Miscellaneous\GameCrashRestartTaskPlugin.h" />
     <ClInclude Include="Task\Miscellaneous\StartGameTaskPlugin.h" />
     <ClInclude Include="Task\Miscellaneous\StopGameTaskPlugin.h" />
     <ClInclude Include="Task\PackageTask.h" />
@@ -212,6 +222,8 @@
     <ClCompile Include="Task\Experiment\CombatRecordRecognitionTask.cpp" />
     <ClCompile Include="Task\Experiment\SingleStepBattleProcessTask.cpp" />
     <ClCompile Include="Task\Interface\VideoRecognitionTask.cpp" />
+    <ClCompile Include="Task\Interface\OperBoxTask.cpp" />
+    <ClCompile Include="Task\Miscellaneous\OperBoxRecognitionTask.cpp" />
     <ClCompile Include="Task\Reclamation\ReclamationControlTask.cpp" />
     <ClCompile Include="Task\Reclamation\ReclamationConclusionReportPlugin.cpp" />
     <ClCompile Include="Task\Reclamation\ReclamationBattlePlugin.cpp" />
@@ -222,6 +234,7 @@
     <ClCompile Include="Task\SSS\SSSBattleProcessTask.cpp" />
     <ClCompile Include="Task\SSS\SSSDropRewardsTaskPlugin.cpp" />
     <ClCompile Include="Task\SSS\SSSStageManagerTask.cpp" />
+    <ClCompile Include="Vision\Miscellaneous\OperBoxAnalyzer.cpp" />
     <ClCompile Include="Vision\VisionHelper.cpp" />
     <ClCompile Include="Vision\Battle\BattleFormationAnalyzer.cpp" />
     <ClCompile Include="Vision\Battle\BattlefieldMatcher.cpp" />
@@ -302,7 +315,6 @@
     <ClCompile Include="Task\Miscellaneous\CreditFightTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\CreditShoppingTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\DepotRecognitionTask.cpp" />
-    <ClCompile Include="Task\Miscellaneous\GameCrashRestartTaskPlugin.cpp" />
     <ClCompile Include="Task\Miscellaneous\StartGameTaskPlugin.cpp" />
     <ClCompile Include="Task\Miscellaneous\StopGameTaskPlugin.cpp" />
     <ClCompile Include="Task\PackageTask.cpp" />
@@ -353,11 +365,25 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|ARM64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -374,7 +400,13 @@
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|ARM64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -396,8 +428,20 @@
     <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include;$(ProjectDir)</IncludePath>
+    <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|ARM64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include;$(ProjectDir)</IncludePath>
+    <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include;$(ProjectDir)</IncludePath>
     <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
@@ -416,6 +460,7 @@
       <Optimization>MaxSpeed</Optimization>
       <AdditionalOptions>/utf-8 /MP $(ExternalCompilerOptions) %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningVersion>19.35.32217</WarningVersion>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -462,6 +507,7 @@
       <Optimization>MaxSpeed</Optimization>
       <AdditionalOptions>/utf-8 /MP $(ExternalCompilerOptions) %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningVersion>19.35.32217</WarningVersion>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -511,6 +557,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <AdditionalOptions>/utf-8 /MP $(ExternalCompilerOptions) %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningVersion>19.35.32217</WarningVersion>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -520,6 +567,60 @@
       <AdditionalDependencies>MaaDerpLearning.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <Profile>true</Profile>
+      <AdditionalOptions>/ignore:4286 %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>
+      </Message>
+    </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <PreLinkEvent>
+      <Message>
+      </Message>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CONSOLE;ASST_DLL_EXPORTS;ASST_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <Optimization>Disabled</Optimization>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <AdditionalOptions>/utf-8 /MP $(ExternalCompilerOptions) %(AdditionalOptions)</AdditionalOptions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4127</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>
+      </EnableCOMDATFolding>
+      <OptimizeReferences>
+      </OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>MaaDerpLearning.lib;opencv_world4d.lib;zlibd.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl-d.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <Profile>
+      </Profile>
       <AdditionalOptions>/ignore:4286 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
@@ -560,6 +661,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <AdditionalOptions>/utf-8 /MP $(ExternalCompilerOptions) %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningVersion>19.35.32217</WarningVersion>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -569,6 +671,60 @@
       <AdditionalDependencies>MaaDerpLearning.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <Profile>true</Profile>
+      <AdditionalOptions>/ignore:4286 %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>
+      </Message>
+    </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <PreLinkEvent>
+      <Message>
+      </Message>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CONSOLE;ASST_DLL_EXPORTS;ASST_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <Optimization>Disabled</Optimization>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <AdditionalOptions>/utf-8 /MP $(ExternalCompilerOptions) %(AdditionalOptions)</AdditionalOptions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4127</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>
+      </EnableCOMDATFolding>
+      <OptimizeReferences>
+      </OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>MaaDerpLearning.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <Profile>
+      </Profile>
       <AdditionalOptions>/ignore:4286 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>

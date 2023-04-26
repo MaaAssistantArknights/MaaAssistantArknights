@@ -1,5 +1,6 @@
 #pragma once
 #include "Task/AbstractTaskPlugin.h"
+#include "Vision/Roguelike/RoguelikeFormationAnalyzer.h"
 
 namespace asst
 {
@@ -19,6 +20,12 @@ namespace asst
         virtual bool _run() override;
 
         void clear_and_reselect();
-        size_t analyze_and_select();
+        bool analyze();
+        bool select(asst::RoguelikeFormationAnalyzer::FormationOper oper);
+
+    private:
+        int cur_page = 0;
+        bool first_page_full = false;
+        std::vector<asst::RoguelikeFormationAnalyzer::FormationOper> oper_list;
     };
 }

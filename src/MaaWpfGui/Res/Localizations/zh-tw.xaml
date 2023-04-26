@@ -182,6 +182,7 @@
     <system:String x:Key="UseAlternateStage">使用備選關卡</system:String>
     <system:String x:Key="UseRemainingSanityStage">使用剩餘理智</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">在完成主任務後刷取指定關卡，不再自動回復理智</system:String>
+    <system:String x:Key="UseExpiringMedicine">無限吃48小時內過期的理智藥</system:String>
     <system:String x:Key="HideUnavailableStage">隱藏當日不開放關卡</system:String>
     <system:String x:Key="MainViewButtonFeature">主介面可選擇按鈕功能</system:String>
     <system:String x:Key="CustomStageCode">手動輸入關卡代名</system:String>
@@ -306,13 +307,13 @@
     <system:String x:Key="AutoSelectLevel4Tags">自動選擇 4 星 Tags</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">自動選擇 5 星 Tags</system:String>
     <system:String x:Key="AutoSelectLevel6Tags">自動選擇 6 星 Tags</system:String>
-    <system:String x:Key="BeganToRecruit">開始辨識</system:String>
+    <system:String x:Key="StartToRecruit">開始辨識</system:String>
     <!--  公招辨識  -->
 
     <!--  倉庫識別  -->
     <system:String x:Key="DepotRecognition">倉庫識別</system:String>
     <system:String x:Key="DepotRecognitionTip">該功能尚處於測試階段，請檢查結果是否準確再行使用。若有誤，歡迎打包 debug/depot 文件夾後向我們提交 issue ~</system:String>
-    <system:String x:Key="BeganToDepotRecognition">開始識別</system:String>
+    <system:String x:Key="StartToDepotRecognition">開始識別</system:String>
     <system:String x:Key="ExportToArkplanner">導出至企鵝物流刷圖規劃</system:String>
     <system:String x:Key="ExportToLolicon">導出至明日方舟工具箱</system:String>
     <system:String x:Key="CopiedToClipboard">已複製到剪切板</system:String>
@@ -342,8 +343,10 @@
         1. 請在有“開始行動”按鈕的介面再使用本功能；\n\n
         2. 使用好友助戰可以關閉“自動編隊”，手動選擇幹員後開始；\n\n
         3. 模擬悖論需要關閉“自動編隊”，並選好技能後處於“開始模擬”按鈕的介面再開始；\n\n
-        4. 保全派駐 在 resource/copilot 文件夾下內置了兩份作業。\n
-        請手動編隊後在“開始部署”界面開始（可配合“循環次數”使用）
+        4. 保全派駐 在 resource/copilot 文件夾下內置了4份作業。\n
+        請手動編隊後在“開始部署”界面開始（可配合“循環次數”使用）\n\n
+        5. 現已支持視頻識別，請將攻略視頻拖入使用。 \n
+        需要視頻分辨率為 16:9，無黑邊、模擬器邊框、異形屏矯正等乾擾元素\n\n
     </system:String>
 
     <system:String x:Key="CopilotFileReadError">讀取檔案失敗！</system:String>

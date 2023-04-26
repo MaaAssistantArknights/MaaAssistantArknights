@@ -49,7 +49,7 @@ asst::PosixIO::~PosixIO()
 
 std::optional<int> asst::PosixIO::call_command(const std::string& cmd, const bool recv_by_socket,
                                                std::string& pipe_data, std::string& sock_data, const int64_t timeout,
-                                               const std::chrono::steady_clock::time_point start_time)
+                                               std::chrono::steady_clock::time_point start_time)
 {
     using namespace std::chrono;
 
@@ -252,7 +252,7 @@ asst::IOHandlerPosix::~IOHandlerPosix()
     if (m_process > 0) ::kill(m_process, SIGTERM);
 }
 
-bool asst::IOHandlerPosix::write(const std::string_view data)
+bool asst::IOHandlerPosix::write(std::string_view data)
 {
     if (m_process < 0 || m_write_fd < 0) return false;
     if (::write(m_write_fd, data.data(), data.length()) >= 0) return true;
@@ -262,7 +262,7 @@ bool asst::IOHandlerPosix::write(const std::string_view data)
 
 std::string asst::IOHandlerPosix::read(unsigned timeout_sec)
 {
-    if (m_process < 0 || m_read_fd < 0) return NULL;
+    if (m_process < 0 || m_read_fd < 0) return {};
     std::string ret_str;
     constexpr int PipeReadBuffSize = 4096ULL;
 

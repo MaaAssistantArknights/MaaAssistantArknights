@@ -429,9 +429,6 @@
     <ClInclude Include="Task\Miscellaneous\DepotRecognitionTask.h">
       <Filter>源文件\Task\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Miscellaneous\GameCrashRestartTaskPlugin.h">
-      <Filter>源文件\Task\Miscellaneous</Filter>
-    </ClInclude>
     <ClInclude Include="Task\Miscellaneous\StartGameTaskPlugin.h">
       <Filter>源文件\Task\Miscellaneous</Filter>
     </ClInclude>
@@ -605,6 +602,11 @@
     </ClInclude>
     <ClInclude Include="Vision\VisionHelper.h">
       <Filter>源文件\Vision</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Interface\OperBoxTask.h" />
+    <ClInclude Include="Task\Miscellaneous\OperBoxRecognitionTask.h" />
+    <ClInclude Include="Vision\Miscellaneous\OperBoxAnalyzer.h">
+      <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -839,9 +841,6 @@
     <ClCompile Include="Task\Miscellaneous\DepotRecognitionTask.cpp">
       <Filter>源文件\Task\Miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Miscellaneous\GameCrashRestartTaskPlugin.cpp">
-      <Filter>源文件\Task\Miscellaneous</Filter>
-    </ClCompile>
     <ClCompile Include="Task\Miscellaneous\StartGameTaskPlugin.cpp">
       <Filter>源文件\Task\Miscellaneous</Filter>
     </ClCompile>
@@ -994,6 +993,11 @@
     </ClCompile>
     <ClCompile Include="Vision\VisionHelper.cpp">
       <Filter>源文件\Vision</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Interface\OperBoxTask.cpp" />
+    <ClCompile Include="Task\Miscellaneous\OperBoxRecognitionTask.cpp" />
+    <ClCompile Include="Vision\Miscellaneous\OperBoxAnalyzer.cpp">
+      <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

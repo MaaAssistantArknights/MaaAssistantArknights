@@ -1,7 +1,7 @@
 #pragma once
 #include "Common/AsstBattleDef.h"
 #include "Task/AbstractTask.h"
-#include "Vision/OCRer.h"
+#include "Vision/TemplDetOCRer.h"
 
 namespace asst
 {
@@ -49,7 +49,7 @@ namespace asst
         bool parse_formation();
         bool select_random_support_unit();
 
-        std::vector<OCRer::Result> analyzer_opers();
+        TemplDetOCRer::ResultsVec analyzer_opers();
 
         std::string m_stage_name;
         std::unordered_map<battle::Role, std::vector<OperGroup>> m_formation;

@@ -370,17 +370,34 @@
     <system:String x:Key="AutoSelectLevel4Tags">自动选择 4 星 Tags</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">自动选择 5 星 Tags</system:String>
     <system:String x:Key="AutoSelectLevel6Tags">自动选择 6 星 Tags</system:String>
-    <system:String x:Key="BeganToRecruit">开始识别</system:String>
+    <system:String x:Key="StartToRecruit">开始识别</system:String>
     <!--  公招识别  -->
 
     <!--  仓库识别  -->
     <system:String x:Key="DepotRecognition">仓库识别</system:String>
     <system:String x:Key="DepotRecognitionTip">该功能尚处于测试阶段，请检查结果是否准确再行使用。若有误，欢迎打包 debug/depot 文件夹后向我们提交 issue ~</system:String>
-    <system:String x:Key="BeganToDepotRecognition">开始识别</system:String>
+    <system:String x:Key="StartToDepotRecognition">开始识别</system:String>
     <system:String x:Key="ExportToArkplanner">导出至企鹅物流刷图规划</system:String>
     <system:String x:Key="ExportToLolicon">导出至明日方舟工具箱</system:String>
     <system:String x:Key="CopiedToClipboard">已复制到剪切板</system:String>
     <!--  仓库识别  -->
+
+    <!--  干员识别  -->
+    <system:String x:Key="OperBoxRecognition">干员识别</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">该功能尚处于测试阶段，若统计有误，欢迎打包 debug/oper 文件后向我们提交issue ~</system:String>
+    <system:String x:Key="OperBoxRecognitionResult">未拥有：{0} 名：\n\n{1}\n\n已拥有：{2} 名：\n\n{3}</system:String>
+    <system:String x:Key="StartToOperBoxRecognition">开始识别</system:String>
+    <system:String x:Key="OperBoxCopyToClipboard">复制到剪切板</system:String>
+    <!--  干员识别  -->
+
+    <!--  视频识别  -->
+    <system:String x:Key="VideoRecognition">视频识别</system:String>
+    <system:String x:Key="StartToVideoRecognition">开始识别</system:String>
+    <system:String x:Key="OpenVideoRecognitionResult">打开文件夹</system:String>
+    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">请打开“自动战斗”页，将攻略视频文件拖入后开始即可。
+
+需要视频分辨率为 16:9，且无黑边、模拟器边框、异形屏矫正等干扰因素。</system:String>
+    <!--  视频识别  -->
 
     <!--  日志  -->
     <system:String x:Key="Identifying">正在识别……</system:String>
@@ -409,8 +426,10 @@
         1. 请在有“开始行动”按钮的界面再使用本功能；\n\n
         2. 使用好友助战可以关闭“自动编队”，手动选择干员后开始；\n\n
         3. 模拟悖论需要关闭“自动编队”，并选好技能后处于“开始模拟”按钮的界面再开始；\n\n
-        4. 保全派驻 在 resource/copilot 文件夹下内置了两份作业。\n
-        请手动编队后在“开始部署”界面开始（可配合“循环次数”使用）
+        4. 保全派驻 在 resource/copilot 文件夹下内置了4份作业。\n
+        请手动编队后在“开始部署”界面开始（可配合“循环次数”使用）\n\n
+        5. 现已支持视频识别，请将攻略视频文件拖入后开始。\n
+        需要视频分辨率为 16:9，无黑边、模拟器边框、异形屏矫正等干扰元素\n\n
     </system:String>
 
     <system:String x:Key="CopilotFileReadError">读取文件失败！</system:String>

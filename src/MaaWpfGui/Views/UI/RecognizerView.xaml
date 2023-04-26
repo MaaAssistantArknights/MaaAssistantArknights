@@ -5,25 +5,23 @@
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:styles="clr-namespace:MaaWpfGui.Styles"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
     xmlns:vm="clr-namespace:MaaWpfGui"
-    xmlns:hc="https://handyorg.github.io/handycontrol"
     d:DataContext="{d:DesignInstance {x:Type ui:RecognizerViewModel}}"
-    d:DesignHeight="1200"
+    d:DesignHeight="600"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <TabControl
-        SelectedIndex="3"
         Margin="0,10"
         BorderThickness="0"
         Style="{StaticResource TabControlSliding}">
         <TabItem Header="{DynamicResource RecruitmentRecognition}">
-            <Grid
-                Margin="20,0,20,20">
+            <Grid Margin="20,0,20,20">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="150" />
@@ -31,8 +29,8 @@
                 <hc:ScrollViewer
                     Grid.Row="0"
                     Margin="10,0"
-                    IsInertiaEnabled="True"
-                    VerticalAlignment="Top">
+                    VerticalAlignment="Top"
+                    IsInertiaEnabled="True">
                     <StackPanel>
                         <controls:TextBlock
                             Height="36"
@@ -103,17 +101,16 @@
                     <Button
                         Width="180"
                         Height="70"
-                        Margin="30"
+                        Margin="38,0,0,0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Command="{s:Action RecruitStartCalc}"
-                        Content="{DynamicResource BeganToRecruit}" />
+                        Content="{DynamicResource StartToRecruit}" />
                 </StackPanel>
             </Grid>
         </TabItem>
         <TabItem Header="{DynamicResource DepotRecognition}">
-            <Grid
-                Margin="20,0,20,20">
+            <Grid Margin="20,0,20,20">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="150" />
@@ -121,8 +118,8 @@
                 <hc:ScrollViewer
                     Grid.Row="0"
                     Margin="10,0"
-                    IsInertiaEnabled="True"
-                    VerticalAlignment="Top">
+                    VerticalAlignment="Top"
+                    IsInertiaEnabled="True">
                     <StackPanel>
                         <controls:TextBlock
                             Height="36"
@@ -136,6 +133,7 @@
                         <controls:TextBlock
                             Margin="10"
                             HorizontalAlignment="Left"
+                            FontFamily="Consolas"
                             FontSize="14"
                             Text="{Binding DepotResult}"
                             TextWrapping="Wrap" />
@@ -171,10 +169,76 @@
                         Margin="30"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Command="{s:Action Start}"
-                        Content="{DynamicResource BeganToDepotRecognition}" />
+                        Command="{s:Action StartDepot}"
+                        Content="{DynamicResource StartToDepotRecognition}"
+                        IsEnabled="{Binding DepotDone}" />
                 </StackPanel>
             </Grid>
+        </TabItem>
+        <TabItem Header="{DynamicResource OperBoxRecognition}">
+            <Grid Margin="20,0,20,20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="150" />
+                </Grid.RowDefinitions>
+                <hc:ScrollViewer
+                    Grid.Row="0"
+                    Margin="10,0"
+                    VerticalAlignment="Top"
+                    IsInertiaEnabled="True">
+                    <StackPanel>
+                        <controls:TextBlock
+                            Height="36"
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            FontSize="14"
+                            Style="{StaticResource TextBlockDefaultBold}"
+                            Text="{Binding OperBoxInfo}"
+                            TextWrapping="Wrap" />
+                        <controls:TextBlock
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            FontFamily="Consolas"
+                            FontSize="14"
+                            Text="{Binding OperBoxResult}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </hc:ScrollViewer>
+                <StackPanel
+                    Grid.Row="1"
+                    Margin="27,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        Width="180"
+                        Height="70"
+                        Margin="30"
+                        Command="{s:Action ExportOperBox}"
+                        Content="{DynamicResource OperBoxCopyToClipboard}"
+                        IsEnabled="{Binding OperBoxDone}" />
+                    <Button
+                        Width="180"
+                        Height="70"
+                        Margin="30"
+                        Command="{s:Action StartOperBox}"
+                        Content="{DynamicResource StartToOperBoxRecognition}"
+                        IsEnabled="{Binding OperBoxDone}" />
+                </StackPanel>
+            </Grid>
+        </TabItem>
+        <TabItem Header="{DynamicResource VideoRecognition}">
+            <controls:TextBlock
+                Height="80"
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Focusable="True"
+                FontSize="14"
+                Style="{StaticResource TextBlockDefaultBold}"
+                Text="{DynamicResource VideoRecognitionTips}"
+                TextWrapping="Wrap" />
         </TabItem>
     </TabControl>
 </UserControl>

@@ -8,9 +8,18 @@ MAA_VISION_NS_BEGIN
 class TemplDetOCRer : public VisionHelper, public OCRerConfig, public MatcherConfig
 {
 public:
-    using Result = OCRer::Result;
-    using ResultsVec = OCRer::ResultsVec;
-    using ResultsVecOpt = OCRer::ResultsVecOpt;
+    struct Result
+    {
+        std::string text;
+        Rect rect;
+        double score = .0;
+
+        Rect flag_rect;
+        double flag_score = .0;
+    };
+
+    using ResultsVec = std::vector<Result>;
+    using ResultsVecOpt = std::optional<ResultsVec>;
 
 public:
     using VisionHelper::VisionHelper;

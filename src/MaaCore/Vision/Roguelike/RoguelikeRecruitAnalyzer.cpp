@@ -31,10 +31,10 @@ bool RoguelikeRecruitAnalyzer::analyze()
         cv::extractChannel(m_image, blue, 0);
         cv::merge(std::array { blue, blue, blue }, bbb_image);
     }
-
-    for (const auto& [name, rect, _] : *result_opt) {
-        int elite = match_elite(rect);
-        int level = match_level(bbb_image, rect);
+    sort_by_vertical_(*result_opt);
+    for (const auto& result : *result_opt) {
+        int elite = match_elite(result.rect);
+        int level = match_level(bbb_image, result.rect);
 
         if (level < 0) {
             // 要么就是识别错了，要么这个干员希望不够，是灰色的
@@ -43,12 +43,12 @@ bool RoguelikeRecruitAnalyzer::analyze()
         }
 
         battle::roguelike::Recruitment info;
-        info.rect = rect;
-        info.name = name;
+        info.rect = result.rect;
+        info.name = result.text;
         info.elite = elite;
         info.level = level;
 
-        Log.info(__FUNCTION__, name, elite, level, rect.to_string());
+        Log.info(__FUNCTION__, info.name, elite, level, info.rect);
         m_result.emplace_back(std::move(info));
     }
 

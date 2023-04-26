@@ -10,6 +10,8 @@ public:
     {
         Rect rect;
         bool selected = false;
+        std::string name;
+        int page = 0;
         // TODO
     };
 

@@ -22,14 +22,10 @@ using System.Windows;
 using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Main;
-using MaaWpfGui.Services;
-using MaaWpfGui.Services.Web;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
-using StyletIoC;
 using DataFormats = System.Windows.Forms.DataFormats;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -39,13 +35,6 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class CopilotViewModel : Screen
     {
-        private readonly IWindowManager _windowManager;
-        private readonly IHttpService _httpService;
-        private readonly IContainer _container;
-
-        private AsstProxy _asstProxy;
-        private SettingsViewModel _settingsViewModel;
-
         /// <summary>
         /// Gets or sets the view models of log items.
         /// </summary>
@@ -54,14 +43,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Initializes a new instance of the <see cref="CopilotViewModel"/> class.
         /// </summary>
-        /// <param name="container">The IoC container.</param>
-        /// <param name="windowManager">The window manager.</param>
-        /// <param name="httpService">The http service.</param>
-        public CopilotViewModel(IContainer container, IWindowManager windowManager, IHttpService httpService)
+        public CopilotViewModel()
         {
-            _container = container;
-            _windowManager = windowManager;
-            _httpService = httpService;
             DisplayName = LocalizationHelper.GetString("Copilot");
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
             AddLog(LocalizationHelper.GetString("CopilotTip"));
@@ -70,8 +53,6 @@ namespace MaaWpfGui.ViewModels.UI
         protected override void OnInitialActivate()
         {
             base.OnInitialActivate();
-            _asstProxy = _container.Get<AsstProxy>();
-            _settingsViewModel = _container.Get<SettingsViewModel>();
         }
 
         /// <summary>
@@ -81,20 +62,6 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="color">The font color.</param>
         /// <param name="weight">The font weight.</param>
         public void AddLog(string content, string color = UiLogColor.Trace, string weight = "Regular")
-        {
-            LogItemViewModels.Add(new LogItemViewModel(content, color, weight));
-
-            // LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
-        }
-
-        /// <summary>
-        /// Adds log with URL.
-        /// </summary>
-        /// <param name="content">The content.</param>
-        /// <param name="url">The URL.</param>
-        /// <param name="color">The font color.</param>
-        /// <param name="weight">The font weight.</param>
-        public void AddLogWithUrl(string content, string url, string color = UiLogColor.Trace, string weight = "Regular")
         {
             LogItemViewModels.Add(new LogItemViewModel(content, color, weight));
 
@@ -234,7 +201,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             try
             {
-                var jsonResponse = await _httpService.GetStringAsync(new Uri($@"https://prts.maa.plus/copilot/get/{copilotID}"));
+                var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri($@"https://prts.maa.plus/copilot/get/{copilotID}"));
                 var json = (JObject)JsonConvert.DeserializeObject(jsonResponse);
                 if (json != null && json.ContainsKey("status_code") && json["status_code"].ToString() == "200")
                 {
@@ -498,7 +465,7 @@ namespace MaaWpfGui.ViewModels.UI
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
 
             string errMsg = string.Empty;
-            _caught = await Task.Run(() => _asstProxy.AsstConnect(ref errMsg));
+            _caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
             if (!_caught)
             {
                 AddLog(errMsg, UiLogColor.Error);
@@ -510,12 +477,12 @@ namespace MaaWpfGui.ViewModels.UI
                 AddLog(errMsg, UiLogColor.Error);
             }
 
-            bool ret = _asstProxy.AsstStartCopilot(IsDataFromWeb ? TempCopilotFile : Filename, Form, TaskType,
+            bool ret = Instances.AsstProxy.AsstStartCopilot(IsDataFromWeb ? TempCopilotFile : Filename, Form, TaskType,
                 Loop ? LoopTimes : 1);
             if (ret)
             {
                 AddLog(LocalizationHelper.GetString("Running"));
-                if (!_settingsViewModel.AdbReplaced && !_settingsViewModel.IsAdbTouchMode())
+                if (!Instances.SettingsViewModel.AdbReplaced && !Instances.SettingsViewModel.IsAdbTouchMode())
                 {
                     AddLog(LocalizationHelper.GetString("AdbReplacementTips"), UiLogColor.Info);
                 }
@@ -529,7 +496,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public bool StartVideoTask()
         {
-            return _asstProxy.AsstStartVideoRec(Filename);
+            return Instances.AsstProxy.AsstStartVideoRec(Filename);
         }
 
         /// <summary>
@@ -537,7 +504,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public void Stop()
         {
-            _asstProxy.AsstStop();
+            Instances.AsstProxy.AsstStop();
             Idle = true;
         }
 
@@ -607,10 +574,10 @@ namespace MaaWpfGui.ViewModels.UI
             string jsonParam = JsonConvert.SerializeObject(new
             {
                 id = CopilotId,
-                rating = rating,
+                rating,
             });
 
-            var response = await _httpService.PostAsJsonAsync(new Uri(_copilotRatingUrl), jsonParam);
+            var response = await Instances.HttpService.PostAsJsonAsync(new Uri(_copilotRatingUrl), jsonParam);
             if (response == null)
             {
                 AddLog(LocalizationHelper.GetString("FailedToLikeWebJson"), UiLogColor.Error);

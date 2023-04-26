@@ -191,12 +191,10 @@ bool asst::MinitouchController::swipe(const Point& p1, const Point& p2, int dura
         }
     };
 
-    constexpr int DefaultDuration = 200;
-    minitouch_move(x1, y1, x2, y2, duration ? duration : DefaultDuration);
+    minitouch_move(x1, y1, x2, y2, duration ? duration : opt.minitouch_swipe_default_duration);
 
     if (extra_swipe && opt.minitouch_extra_swipe_duration > 0) {
-        constexpr int ExtraEndDelay = 100; // 停留终点
-        m_minitoucher->wait(ExtraEndDelay);
+        m_minitoucher->wait(opt.minitouch_swipe_extra_end_delay); // 停留终点
         minitouch_move(x2, y2, x2, y2 - opt.minitouch_extra_swipe_dist, opt.minitouch_extra_swipe_duration);
     }
     bool ret = m_minitoucher->up();

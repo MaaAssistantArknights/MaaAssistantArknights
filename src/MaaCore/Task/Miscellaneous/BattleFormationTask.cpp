@@ -127,7 +127,7 @@ bool asst::BattleFormationTask::select_random_support_unit()
     return ProcessTask(*this, { "BattleSupportUnitFormation" }).run();
 }
 
-std::vector<asst::OCRer::Result> asst::BattleFormationTask::analyzer_opers()
+asst::TemplDetOCRer::ResultsVec asst::BattleFormationTask::analyzer_opers()
 {
     auto formation_task_ptr = Task.get("BattleQuickFormationOCR");
     auto image = ctrler()->get_image();
@@ -151,15 +151,7 @@ std::vector<asst::OCRer::Result> asst::BattleFormationTask::analyzer_opers()
         return {};
     }
 
-    // 按位置排个序
-    ranges::sort(opers_result, [](const OCRer::Result& lhs, const OCRer::Result& rhs) -> bool {
-        if (std::abs(lhs.rect.x - rhs.rect.x) < 5) { // x差距较小则理解为是同一列的，按y排序
-            return lhs.rect.y < rhs.rect.y;
-        }
-        else {
-            return lhs.rect.x < rhs.rect.x; // 否则按x排序
-        }
-    });
+    sort_by_vertical_(opers_result);
 
     if (m_the_right_name == opers_result.back().text) {
         return {};

@@ -101,7 +101,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
             continue;
         }
 
-        auto find_it = ranges::find_if(result, [&](const OCRer::Result& tr) -> bool {
+        auto find_it = ranges::find_if(result, [&](const auto& tr) -> bool {
             return tr.text.find(goods.name) != std::string::npos || goods.name.find(tr.text) != std::string::npos;
         });
         if (find_it == result.cend()) {

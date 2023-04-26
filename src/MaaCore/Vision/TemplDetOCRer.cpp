@@ -27,7 +27,14 @@ TemplDetOCRer::ResultsVecOpt TemplDetOCRer::analyze() const
         if (!ocr_opt) {
             continue;
         }
-        results.emplace_back(*ocr_opt);
+        Result result;
+        result.text = ocr_opt->text;
+        result.rect = ocr_opt->rect;
+        result.score = ocr_opt->score;
+        result.flag_rect = matched.rect;
+        result.flag_score = matched.score;
+
+        results.emplace_back(std::move(result));
     }
 
     if (results.empty()) {

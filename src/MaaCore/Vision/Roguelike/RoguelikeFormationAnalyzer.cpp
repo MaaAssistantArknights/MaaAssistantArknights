@@ -5,6 +5,7 @@
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
 #include "Vision/MultiMatcher.h"
+#include "Vision/TemplDetOCRer.h"
 
 MAA_VISION_NS_BEGIN
 
@@ -12,18 +13,26 @@ bool RoguelikeFormationAnalyzer::analyze()
 {
     m_result.clear();
 
-    MultiMatcher opers_analyzer(m_image);
-    opers_analyzer.set_task_info("RoguelikeFormationOper");
+    TemplDetOCRer analyzer(m_image);
+    analyzer.set_task_info("RoguelikeFormationOper", "RoguelikeFormationOcr");
+    auto replace_task = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
+    analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
+    analyzer.set_threshold(Task.get("RoguelikeFormationOcr")->special_params[0]);
 
-    auto opers_opt = opers_analyzer.analyze();
-    if (!opers_opt) {
+    auto result_opt = analyzer.analyze();
+    if (!result_opt) {
         return false;
     }
-    sort_by_vertical_(*opers_opt);
-    for (const auto& oper_mr : opers_opt.value()) {
+
+    sort_by_vertical_(*result_opt);
+    int pos = 0;
+    for (const auto& result : *result_opt) {
+        Rect rect = result.flag_rect;
         FormationOper oper;
-        oper.rect = oper_mr.rect;
-        oper.selected = selected_analyze(oper_mr.rect);
+        oper.rect = rect;
+        oper.selected = selected_analyze(rect);
+        oper.name = result.text;
+        pos++;
 
 #ifdef ASST_DEBUG
         if (oper.selected) {

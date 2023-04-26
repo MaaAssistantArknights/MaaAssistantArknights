@@ -184,6 +184,7 @@
     "EpisodeOcrReplace": {
         "Doc": "base_task",
         "algorithm": "OcrDetect",
+        "text": [],
         "ocrReplace": [
             [
                 "[EF]PIS[O0]DE",
@@ -860,7 +861,6 @@
         ]
     },
     "CF-8@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "CF-8"
         ]
@@ -935,19 +935,16 @@
         ]
     },
     "GA-6@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "GA-6"
         ]
     },
     "GA-7@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "GA-7"
         ]
     },
     "GA-8@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "GA-8"
         ]
@@ -1018,19 +1015,16 @@
         ]
     },
     "WB-7@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "WB-7"
         ]
     },
     "WB-8@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "WB-8"
         ]
     },
     "WB-9@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "WB-9"
         ]
@@ -1104,19 +1098,16 @@
         ]
     },
     "IW-6@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "IW-6"
         ]
     },
     "IW-7@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "IW-7"
         ]
     },
     "IW-8@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "IW-8"
         ]
@@ -1190,19 +1181,16 @@
         ]
     },
     "FC-5@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "FC-5"
         ]
     },
     "FC-6@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "FC-6"
         ]
     },
     "FC-7@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "FC-7"
         ]
@@ -1315,19 +1303,16 @@
         ]
     },
     "IS-10@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "IS-10"
         ]
     },
     "IS-9@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "IS-9"
         ]
     },
     "IS-8@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "IS-8"
         ]
@@ -1397,19 +1382,16 @@
         ]
     },
     "NL-10@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "NL-10"
         ]
     },
     "NL-9@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "NL-9"
         ]
     },
     "NL-8@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "NL-8"
         ]
@@ -1454,7 +1436,6 @@
         ]
     },
     "GT-5@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "GT-5"
         ]
@@ -1531,7 +1512,6 @@
         ]
     },
     "OF-1@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "OF-1",
             "0F-1"
@@ -1598,21 +1578,18 @@
         ]
     },
     "IC-9@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "IC-9",
             "1C-9"
         ]
     },
     "IC-8@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "IC-8",
             "1C-8"
         ]
     },
     "IC-7@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "IC-7",
             "1C-7"
@@ -1689,19 +1666,16 @@
         ]
     },
     "DV-8@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "DV-8"
         ]
     },
     "DV-7@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "DV-7"
         ]
     },
     "DV-6@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "DV-6"
         ]
@@ -1769,19 +1743,16 @@
         ]
     },
     "LE-5@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "LE-5"
         ]
     },
     "LE-6@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "LE-6"
         ]
     },
     "LE-7@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "LE-7"
         ]
@@ -1828,13 +1799,19 @@
     },
     "SN-Chapter2": {
         "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "失落旗舰",
+            "失落",
+            "旗舰"
+        ],
         "roi": [
             163,
-            418,
-            197,
+            417,
+            195,
             125
         ],
-        "postDelay": 2000,
+        "preDelay": 2000,
         "next": [
             "SN-Chapter2",
             "ChapterSwipeToTheRight"
@@ -1842,13 +1819,19 @@
     },
     "SN-Chapter3": {
         "action": "ClickSelf",
-        "roi": [
-            205,
-            487,
-            254,
-            165
+        "algorithm": "OcrDetect",
+        "text": [
+            "无名之海",
+            "无名",
+            "之海"
         ],
-        "postDelay": 2000,
+        "roi": [
+            258,
+            503,
+            194,
+            123
+        ],
+        "preDelay": 2000,
         "next": [
             "SN-Chapter3",
             "ChapterSwipeToTheLeft"
@@ -1942,7 +1925,6 @@
         ]
     },
     "DH-9@SideStoryStage": {
-        "baseTask": "SideStoryStage",
         "text": [
             "DH-9"
         ]
@@ -2346,8 +2328,32 @@
                 "U-Official"
             ],
             [
-                "^混乱.*派对.*",
-                "混乱“派对”"
+                "^4",
+                ""
+            ],
+            [
+                "^α",
+                ""
+            ],
+            [
+                "^-",
+                ""
+            ],
+            [
+                "—",
+                ""
+            ],
+            [
+                ".*12F",
+                "12F"
+            ],
+            [
+                "^_",
+                ""
+            ],
+            [
+                ".*威龙陈",
+                "假日威龙陈"
             ]
         ]
     },
@@ -2784,6 +2790,14 @@
         "baseTask": "StartButton1",
         "exceededNext": [],
         "reduceOtherTimes": [],
+        "preDelay": 0,
+        "rectMoveDoc": "点击“行动”避免第二次点击时点到StartButton2",
+        "rectMove": [
+            38,
+            0,
+            35,
+            17
+        ],
         "next": [
             "StartButton1#next"
         ]
@@ -3019,9 +3033,9 @@
         "action": "ClickRect",
         "specificRect": [
             1000,
-            120,
+            20,
             270,
-            10
+            50
         ],
         "maxTimes": 5,
         "next": [
@@ -5982,8 +5996,7 @@
             800,
             100
         ],
-        "ocrReplace": [
-        ]
+        "ocrReplace": []
     },
     "BattleSupportUnitFormation": {
         "action": "ClickSelf",
@@ -7247,6 +7260,16 @@
             "Roguelike@ChooseOper"
         ]
     },
+    "Roguelike@TempRecruitFlag": {
+        "action": "DoNothing",
+        "roi": [
+            587,
+            76,
+            100,
+            20
+        ],
+        "templThreshold": 0.5
+    },
     "Roguelike@ClickToDrops": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
@@ -8305,6 +8328,7 @@
             "Roguelike@StageEncounterLeaveConfirm",
             "Roguelike@StageEncounterOptionLeave",
             "Roguelike@StageEncounterOptionUnknown",
+            "Roguelike@NextLevel#next",
             "Roguelike@StageEncounterOptions#next"
         ]
     },
@@ -8316,6 +8340,7 @@
             "Roguelike@StageEncounterLeaveConfirm",
             "Roguelike@StageEncounterOptionFree",
             "Roguelike@StageEncounterOptionUnknown",
+            "Roguelike@NextLevel#next",
             "Roguelike@StageEncounterOptions#next"
         ]
     },
@@ -8327,6 +8352,7 @@
             "Roguelike@StageEncounterLeaveConfirm",
             "Roguelike@StageEncounterOptionFree",
             "Roguelike@StageEncounterOptionUnknown",
+            "Roguelike@NextLevel#next",
             "Roguelike@StageEncounterOptions#next"
         ]
     },
@@ -9511,6 +9537,20 @@
         ],
         "templThreshold": 0.9
     },
+    "RoguelikeFormationOcr": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "fullMatch": true,
+        "roi": [
+            205,
+            83,
+            100,
+            23
+        ],
+        "specialParams": [
+            100
+        ]
+    },
     "RoguelikeQuickFormationClearAndReselect": {
         "action": "ClickSelf",
         "roi": [
@@ -9666,6 +9706,134 @@
             20,
             20
         ]
+    },
+    "OperBoxBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "OperBoxEnter",
+            "OperBoxRoleTabSelect",
+            "OperBoxRoleTab",
+            "OperBoxEnter@ReturnTo"
+        ]
+    },
+    "OperBoxEnter": {
+        "action": "ClickSelf",
+        "roi": [
+            935,
+            300,
+            265,
+            110
+        ],
+        "next": [
+            "OperBoxRoleTabSelect",
+            "Stop"
+        ]
+    },
+    "OperBoxRoleTabSelect": {
+        "action": "ClickSelf",
+        "roi": [
+            1200,
+            20,
+            80,
+            50
+        ],
+        "next": [
+            "OperBoxRoleTab"
+        ],
+        "maxTimes": 3
+    },
+    "OperBoxRoleTab": {
+        "action": "DoNothing",
+        "roi": [
+            1195,
+            15,
+            80,
+            50
+        ]
+    },
+    "OperBoxSlowlySwipeToTheRight": {
+        "doc": "6个横向干员防止识别不全990px",
+        "baseTask": "SlowlySwipeToTheRight",
+        "specificRect": [
+            1090,
+            350,
+            20,
+            20
+        ],
+        "rectMove": [
+            100,
+            350,
+            20,
+            20
+        ]
+    },
+    "OperBoxFlagLV": {
+        "templThreshold": 0.6,
+        "roi": [
+            40,
+            310,
+            1128,
+            327
+        ]
+    },
+    "OperBoxFlagElite1": {
+        "doc": "精英一 模板"
+    },
+    "OperBoxFlagElite2": {
+        "doc": "精英二 模板"
+    },
+    "OperBoxFlagElite": {
+        "doc": "偏移，识别精英度，扩大两个像素点",
+        "template": "empty.png",
+        "templThreshold": 0.9,
+        "roi": [
+            -7,
+            -52,
+            24,
+            35
+        ]
+    },
+    "OperBoxPotential": {
+        "doc": "偏移，识别潜能，扩大两个像素点",
+        "template": "empty.png",
+        "templThreshold": 0.85,
+        "roi": [
+            81,
+            -29,
+            24,
+            24
+        ]
+    },
+    "OperBoxPotential1": {},
+    "OperBoxPotential2": {},
+    "OperBoxPotential3": {},
+    "OperBoxPotential4": {},
+    "OperBoxPotential5": {},
+    "OperBoxNameOCR": {
+        "algorithm": "OcrDetect",
+        "fullMatch": true,
+        "text": [],
+        "roi": [
+            5,
+            42,
+            105,
+            20
+        ],
+        "postDelay": 100
+    },
+    "OperBoxLevelOCR": {
+        "algorithm": "OcrDetect",
+        "fullMatch": true,
+        "isAscii": true,
+        "text": [],
+        "roi": [
+            -13,
+            7,
+            37,
+            23
+        ],
+        "postDelay": 100
     },
     "RoguelikeRecruitSwipeMaxTime": {
         "algorithm": "JustReturn",
@@ -10020,6 +10188,10 @@
             [
                 "枯朽.*育",
                 "枯朽孕育"
+            ],
+            [
+                "^混乱.*派对.*",
+                "混乱“派对”"
             ]
         ]
     },
@@ -11468,7 +11640,9 @@
             207,
             105
         ],
-        "next": [ "ChooseMoneyOrder" ]
+        "next": [
+            "ChooseMoneyOrder"
+        ]
     },
     "ChooseMoneyOrder": {
         "algorithm": "MatchTemplate",
@@ -11481,7 +11655,9 @@
             248,
             427
         ],
-        "next": [ "ChangeOrderComfirm" ]
+        "next": [
+            "ChangeOrderComfirm"
+        ]
     },
     "ChangeOrderComfirm": {
         "algorithm": "JustReturn",
@@ -11508,7 +11684,9 @@
             207,
             105
         ],
-        "next": [ "ChooseSyntheticJadeOrder" ]
+        "next": [
+            "ChooseSyntheticJadeOrder"
+        ]
     },
     "ChooseSyntheticJadeOrder": {
         "algorithm": "MatchTemplate",
@@ -11521,7 +11699,9 @@
             250,
             427
         ],
-        "next": [ "ChangeOrderComfirm" ]
+        "next": [
+            "ChangeOrderComfirm"
+        ]
     },
     "ChooseProductList": {
         "algorithm": "MatchTemplate",
@@ -11552,7 +11732,9 @@
             120,
             120
         ],
-        "next": [ "ProductFinalComfirm" ]
+        "next": [
+            "ProductFinalComfirm"
+        ]
     },
     "ClickProductMax": {
         "algorithm": "MatchTemplate",
@@ -11565,7 +11747,9 @@
             85,
             60
         ],
-        "next": [ "ComfirmProductChange" ]
+        "next": [
+            "ComfirmProductChange"
+        ]
     },
     "ChooseBattleRecord": {
         "algorithm": "MatchTemplate",
@@ -11578,7 +11762,9 @@
             190,
             195
         ],
-        "next": [ "ClickProductMax" ]
+        "next": [
+            "ClickProductMax"
+        ]
     },
     "ProductFinalComfirm": {
         "algorithm": "MatchTemplate",
@@ -11607,7 +11793,9 @@
             100,
             110
         ],
-        "next": [ "ChoosePureGold" ]
+        "next": [
+            "ChoosePureGold"
+        ]
     },
     "ChoosePureGold": {
         "algorithm": "MatchTemplate",
@@ -11620,7 +11808,9 @@
             190,
             195
         ],
-        "next": [ "ClickProductMax" ]
+        "next": [
+            "ClickProductMax"
+        ]
     },
     "ChooseOriginiumShardTab": {
         "algorithm": "MatchTemplate",
@@ -11633,7 +11823,9 @@
             100,
             110
         ],
-        "next": [ "ChooseOriginiumShard" ]
+        "next": [
+            "ChooseOriginiumShard"
+        ]
     },
     "ChooseOriginiumShard": {
         "algorithm": "MatchTemplate",
@@ -11646,7 +11838,9 @@
             190,
             195
         ],
-        "next": [ "ClickProductMax" ]
+        "next": [
+            "ClickProductMax"
+        ]
     },
     "ChangeProductToMiddleBattleRecord": {
         "algorithm": "MatchTemplate",
@@ -11665,7 +11859,9 @@
             80,
             80
         ],
-        "next": [ "ChooseBattleRecord" ]
+        "next": [
+            "ChooseBattleRecord"
+        ]
     },
     "ChangeProductToPureGold": {
         "algorithm": "MatchTemplate",
@@ -11684,7 +11880,9 @@
             80,
             80
         ],
-        "next": [ "ChoosePureGoldTab" ]
+        "next": [
+            "ChoosePureGoldTab"
+        ]
     },
     "ChangeProductToOriginiumShard": {
         "algorithm": "MatchTemplate",
@@ -11703,6 +11901,8 @@
             80,
             80
         ],
-        "next": [ "ChooseOriginiumShardTab" ]
+        "next": [
+            "ChooseOriginiumShardTab"
+        ]
     }
 }
