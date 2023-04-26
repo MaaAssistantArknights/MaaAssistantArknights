@@ -17,7 +17,7 @@ ASST_SUPPRESS_CV_WARNINGS_END
 #include "Utils/Ranges.hpp"
 #include "Utils/StringMisc.hpp"
 
-asst::OcrPack::OcrPack()
+asst::OcrPack::OcrPack() : m_det(nullptr), m_rec(nullptr), m_ocr(nullptr)
 {
     LogTraceFunction;
 }
