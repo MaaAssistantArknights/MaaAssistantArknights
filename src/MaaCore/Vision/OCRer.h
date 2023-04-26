@@ -39,7 +39,7 @@ protected:
 
 private:
     // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉
-    mutable ResultsVec m_results;
+    mutable ResultsVec m_result;
 };
 
 MAA_VISION_NS_END

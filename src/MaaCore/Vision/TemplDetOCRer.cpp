@@ -34,8 +34,8 @@ TemplDetOCRer::ResultsVecOpt TemplDetOCRer::analyze() const
         return std::nullopt;
     }
 
-    m_results = std::move(results);
-    return m_results;
+    m_result = std::move(results);
+    return m_result;
 }
 
 void TemplDetOCRer::set_task_info(const std::string& templ_task_name, const std::string& ocr_task_name)

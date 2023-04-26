@@ -45,8 +45,8 @@ OCRer::ResultsVecOpt OCRer::analyze() const
         return std::nullopt;
     }
 
-    m_results = std::move(results_vec);
-    return m_results;
+    m_result = std::move(results_vec);
+    return m_result;
 }
 
 void OCRer::postproc_rect_(Result& res) const
