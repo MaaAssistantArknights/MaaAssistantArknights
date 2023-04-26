@@ -22,8 +22,8 @@ bool asst::OperBoxRecognitionTask::_run()
 bool asst::OperBoxRecognitionTask::swipe_and_analyze()
 {
     LogTraceFunction;
-    std::string current_page_last_oper_name = "";
-    std::string current_page_first_oper_name = "";
+    std::string current_page_last_oper_name;
+    std::string current_page_first_oper_name;
     m_own_opers.clear();
 
     while (!need_exit()) {
@@ -74,10 +74,11 @@ void asst::OperBoxRecognitionTask::callback_analyze_result(bool done)
         all_opers.emplace_back(json::object {
             { "id", BattleData.get_id(name) },
             { "name", name },
+            { "rarity", BattleData.get_rarity(name) },
             { "own", own },
         });
     }
-    for (const auto& [name,box_info] : m_own_opers) {
+    for (const auto& [name, box_info] : m_own_opers) {
         own_opers.emplace_back(json::object {
             { "id", box_info.id },
             { "name", box_info.name },
@@ -85,7 +86,7 @@ void asst::OperBoxRecognitionTask::callback_analyze_result(bool done)
             { "elite", box_info.elite },
             { "level", box_info.level },
             { "potential", box_info.potential },
-            // TODO
+            { "rarity", box_info.rarity },
         });
     }
 

@@ -36,6 +36,7 @@ using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using Microsoft.Win32;
 using Newtonsoft.Json;
+using Serilog;
 using Stylet;
 using Timer = System.Timers.Timer;
 
@@ -46,6 +47,8 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class SettingsViewModel : Screen
     {
+        private static readonly ILogger _logger = Log.ForContext<TaskQueueViewModel>();
+
         [DllImport("MaaCore.dll")]
         private static extern IntPtr AsstGetVersion();
 
@@ -2101,8 +2104,9 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 emulators = adapter.RefreshEmulatorsInfo();
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.Information(e.Message);
                 error = LocalizationHelper.GetString("EmulatorException");
                 return false;
             }
