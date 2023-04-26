@@ -690,7 +690,6 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (Instances.TaskQueueViewModel.Stopping)
                 {
-                    Execute.OnUIThread(() => Instances.TaskQueueViewModel.SetStopped());
                     AsstProxy.AsstLog("Stop waiting for the emulator to start");
                     return;
                 }
