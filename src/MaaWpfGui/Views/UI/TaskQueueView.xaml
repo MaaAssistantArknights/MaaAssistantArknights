@@ -73,17 +73,20 @@
                                         Content="{Binding Name}"
                                         IsChecked="{Binding IsChecked}"
                                         IsHitTestVisible="{Binding ElementName=TaskList, Path=DataContext.Idle}" />
-                                    <RadioButton
-                                        Margin="0"
-                                        Padding="0"
-                                        hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
-                                        hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
-                                        Background="Transparent"
-                                        BorderThickness="0"
-                                        Foreground="{DynamicResource SecondaryTextBrush}"
-                                        GroupName="TaskSetting"
-                                        IsChecked="{Binding EnableSetting}"
-                                        Style="{DynamicResource RadioGroupItemSingle}" />
+                                    <hc:ButtonGroup>
+                                        <RadioButton
+                                            Margin="0"
+                                            Padding="0"
+                                            hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
+                                            hc:VisualElement.HighlightBackground="Transparent"
+                                            hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            Foreground="{DynamicResource SecondaryTextBrush}"
+                                            GroupName="TaskSettings"
+                                            IsChecked="{Binding EnableSetting}"
+                                            Style="{DynamicResource RadioGroupItemSingle}" />
+                                    </hc:ButtonGroup>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -186,8 +189,8 @@
         </Grid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition />
+                <RowDefinition Height="4*" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <hc:ScrollViewer
                 Grid.Row="0"
@@ -197,14 +200,34 @@
                 HorizontalScrollBarVisibility="Auto"
                 IsInertiaEnabled="True"
                 VerticalScrollBarVisibility="Auto">
-                <hc:SimpleStackPanel>
-                    <userControl:ConnectSettingsUserControl IsEnabled="{Binding Idle}" Visibility="{c:Binding TaskSettingVisibilities.WakeUp}" />
-                    <userControl:AutoRecruitSettingsUserControl IsEnabled="{Binding Idle}" Visibility="{c:Binding TaskSettingVisibilities.Recruiting}" />
-                    <userControl:InfrastSettingsUserControl IsEnabled="{Binding Idle}" Visibility="{c:Binding TaskSettingVisibilities.Base}" />
-                    <userControl:MallSettingsUserControl IsEnabled="{Binding Idle}" Visibility="{c:Binding TaskSettingVisibilities.Mall}" />
+                <hc:SimpleStackPanel Width="220" Margin="0,0,5,0">
                     <userControl:FightSettingsUserControl Visibility="{c:Binding TaskSettingVisibilities.Combat}" />
-                    <userControl:RoguelikeSettingsUserControl IsEnabled="{Binding Idle}" Visibility="{c:Binding TaskSettingVisibilities.Mission}" />
-                    <userControl:RoguelikeSettingsUserControl IsEnabled="{Binding Idle}" Visibility="{c:Binding TaskSettingVisibilities.AutoRoguelike}" />
+                    <userControl:AutoRecruitSettingsUserControl
+                        DataContext="{Binding TaskSettingDataContext}"
+                        IsEnabled="{Binding Idle}"
+                        Visibility="{c:Binding TaskSettingVisibilities.Recruiting}" />
+                    <userControl:ConnectSettingsOnWakeUpUserControl
+                        DataContext="{Binding TaskSettingDataContext}"
+                        IsEnabled="{Binding Idle}"
+                        Visibility="{c:Binding TaskSettingVisibilities.WakeUp}" />
+                    <userControl:InfrastSettingsUserControl
+                        DataContext="{Binding TaskSettingDataContext}"
+                        IsEnabled="{Binding Idle}"
+                        Visibility="{c:Binding TaskSettingVisibilities.Base}" />
+                    <userControl:MallSettingsUserControl
+                        DataContext="{Binding TaskSettingDataContext}"
+                        IsEnabled="{Binding Idle}"
+                        Visibility="{c:Binding TaskSettingVisibilities.Mall}" />
+                    <!--
+                        userControl:RoguelikeSettingsUserControl
+                        DataContext="{Binding TaskSettingDataContext}"
+                        IsEnabled="{Binding Idle}"
+                        Visibility="{c:Binding TaskSettingVisibilities.Mission}" /
+                    -->
+                    <userControl:RoguelikeSettingsUserControl
+                        DataContext="{Binding TaskSettingDataContext}"
+                        IsEnabled="{Binding Idle}"
+                        Visibility="{c:Binding TaskSettingVisibilities.AutoRoguelike}" />
                 </hc:SimpleStackPanel>
             </hc:ScrollViewer>
             <hc:ScrollViewer

@@ -16,7 +16,7 @@ using Stylet;
 namespace MaaWpfGui.Models
 {
     /// <summary>
-    /// The task setting visibility info.
+    /// The task setting enable info.
     /// </summary>
     public class TaskSettingVisibilityInfo : PropertyChangedBase
     {
