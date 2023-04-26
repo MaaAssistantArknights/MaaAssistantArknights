@@ -19,7 +19,7 @@ public:
 
     bool analyze();
 
-    const std::vector<FormationOper>& get_result() const noexcept { return m_result; }
+    const auto& get_result() const noexcept { return m_result; }
 
 protected:
     // 该分析器不支持外部设置ROI

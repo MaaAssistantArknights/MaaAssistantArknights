@@ -13,7 +13,7 @@ public:
 
     bool analyze();
 
-    auto get_result() const noexcept -> const std::vector<infrast::Smiley>& { return m_result; }
+    const auto& get_result() const noexcept { return m_result; }
 
 protected:
     std::vector<infrast::Smiley> m_result;

@@ -200,7 +200,7 @@ bool asst::ReclamationBattlePlugin::do_dialog_procedure(const std::vector<std::s
                         continue;
                     }
                 }
-                const auto& rect = dialogAnalyzer.get_result().front().rect;
+                auto rect = dialogAnalyzer.get_result().front().rect;
                 ctrler()->click(rect);
                 Log.info(__FUNCTION__, " | ", "perform dialog option ", step);
                 sleep(Task.get("Reclamation@BalckMarketDialogOption")->post_delay);

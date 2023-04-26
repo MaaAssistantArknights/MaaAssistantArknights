@@ -30,7 +30,7 @@ public:
     void sort_by_loc();
     void sort_by_mood();
 
-    auto get_result() const noexcept -> const std::vector<infrast::Oper>& { return m_result; }
+    const auto& get_result() const noexcept { return m_result; }
     int get_num_of_opers_with_skills() const noexcept { return m_num_of_opers_with_skills; }
     void set_facility(std::string facility) noexcept { m_facility = std::move(facility); }
     void set_to_be_calced(int to_be_calced) noexcept { m_to_be_calced = to_be_calced | Smiley; }
