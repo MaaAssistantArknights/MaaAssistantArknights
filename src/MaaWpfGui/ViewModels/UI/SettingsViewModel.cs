@@ -38,6 +38,7 @@ using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using Microsoft.Win32;
 using Newtonsoft.Json;
+using Serilog;
 using Stylet;
 using IContainer = StyletIoC.IContainer;
 using Timer = System.Timers.Timer;
@@ -53,6 +54,9 @@ namespace MaaWpfGui.ViewModels.UI
         private readonly IContainer _container;
         private IMaaHotKeyManager _maaHotKeyManager;
         private IMainWindowManager _mainWindowManager;
+
+        private static readonly ILogger _logger = Log.ForContext<TaskQueueViewModel>();
+
         private TaskQueueViewModel _taskQueueViewModel;
         private AsstProxy _asstProxy;
         private VersionUpdateViewModel _versionUpdateViewModel;
@@ -2124,8 +2128,9 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 emulators = adapter.RefreshEmulatorsInfo();
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.Information(e.Message);
                 error = LocalizationHelper.GetString("EmulatorException");
                 return false;
             }
