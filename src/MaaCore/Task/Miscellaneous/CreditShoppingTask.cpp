@@ -42,7 +42,7 @@ int asst::CreditShoppingTask::credit_ocr()
         return -1;
     }
 
-    const std::string& credit = credit_analyzer.get_result().front().text;
+    std::string credit = credit_analyzer.get_result().front().text;
 
     if (credit.empty() || !ranges::all_of(credit, [](char c) -> bool { return std::isdigit(c); })) {
         return -1;
