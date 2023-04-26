@@ -685,6 +685,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
+            // 让按钮变成停止按钮，可手动停止等待
             Instances.TaskQueueViewModel.Idle = false;
             for (var i = 0; i < delay; ++i)
             {
@@ -704,6 +705,7 @@ namespace MaaWpfGui.ViewModels.UI
                 Thread.Sleep(1000);
             }
 
+            // 重置按钮状态，不影响后续判断
             Instances.TaskQueueViewModel.Idle = true;
         }
 
