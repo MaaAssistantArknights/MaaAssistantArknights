@@ -8,19 +8,22 @@
 #include "Vision/BestMatchImageAnalyzer.h"
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/MultiMatchImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/OcrWithFlagTemplImageAnalyzer.h"
 
 bool asst::OperBoxImageAnalyzer::analyze()
 {
     LogTraceFunction;
 
-    m_current_page_opers.clear();
-    bool oper_box = analyzer_oper_box();
+    m_result.clear();
+
+    bool ret = analyzer_oper_box();
+
     save_img(utils::path("debug") / utils::path("oper"));
-    return oper_box;
+
+    return ret;
 }
 
-int asst::OperBoxImageAnalyzer::level_num(const std::string &level)
+int asst::OperBoxImageAnalyzer::level_num(const std::string& level)
 {
     if (level.empty() || !ranges::all_of(level, [](const char& c) -> bool { return std::isdigit(c); })) {
         return 1;
@@ -32,106 +35,69 @@ bool asst::OperBoxImageAnalyzer::analyzer_oper_box()
 {
     LogTraceFunction;
 
-#ifdef ASST_DEBUG
-    m_image_draw_oper = m_image_draw;
-#endif // ASST_DEBUG
-
-    if (!lv_flag_analyzer()) {
+    if (!opers_analyze()) {
         return false;
     }
 
-    if (!names_analyzer()) {
+    if (!level_analyze()) {
         return false;
     }
 
-    if (!level_analyzer()) {
+    if (!elite_analyze()) {
         return false;
     }
 
-    if (!elite_analyzer()) {
+    if (!potential_analyze()) {
         return false;
     }
 
-    if (!potential_analyzer()) {
-        return false;
-    }
+    sort_();
 
-    sort_oper_horizontal(m_current_page_opers);
-    for (const auto& box : m_current_page_opers) {
-        Log.trace("operBox{", "\"rect_lv\":[", box.rect.x, box.rect.y, box.rect.width, box.rect.height,
-                  "], \"id\": ", box.id, ", \"name\": ", box.name, ", \"elite\": ", box.elite,
-                  ", \"level\": ", box.level, ", \"potential\": ", box.potential, "}");
-    }
-
-#ifdef ASST_DEBUG
-    m_image_draw = m_image_draw_oper;
-#endif
-
-    return !m_current_page_opers.empty();
+    return !m_result.empty();
 }
 
-// 获取lv_flag,必须是第一步
-bool asst::OperBoxImageAnalyzer::lv_flag_analyzer()
+bool asst::OperBoxImageAnalyzer::opers_analyze()
 {
-    MultiMatchImageAnalyzer m_multi_match_image_analyzer(m_image);
-    m_multi_match_image_analyzer.set_task_info("OperBoxFlagLV");
-    m_multi_match_image_analyzer.analyze();
-    const auto& m_lv_flags = m_multi_match_image_analyzer.get_result();
-
-    if (m_lv_flags.empty()) {
-        return false;
-    }
-
-    // 填入rect
-    for (const auto& lv_flag : m_lv_flags) {
-        OperBoxInfo box;
-        box.rect = lv_flag.rect;
-        box.own = true;
-        m_current_page_opers.emplace_back(box);
-
-#ifdef ASST_DEBUG
-        cv::rectangle(m_image_draw_oper, make_rect<cv::Rect>(lv_flag.rect), cv::Scalar(0, 255, 0), 1);
-#endif // ASST_DEBUG
-    }
-    return true;
-}
-
-// 识别名字
-bool asst::OperBoxImageAnalyzer::names_analyzer()
-{
-    OcrWithPreprocessImageAnalyzer name_analyzer(m_image);
-    name_analyzer.set_task_info("OperBoxNameOCR");
-    const Rect name_roi = Task.get<OcrTaskInfo>("OperBoxNameOCR")->roi;
-
     const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
 
-    name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
+    OcrWithFlagTemplImageAnalyzer oper_name_analyzer(m_image);
 
-    for (auto& box : m_current_page_opers) {
-        Rect roi = box.rect.move(name_roi);
-        if (roi.x + roi.width >= WindowWidthDefault) {
-            // 超出范围提示,框width该缩小。
-            Log.error("name rect:[", roi.x, roi.y, roi.width, roi.height, " out of range ");
-            return false;
-        }
-        name_analyzer.set_roi(roi);
-        if (name_analyzer.analyze()) {
-            const auto& ocr_result = name_analyzer.get_result().front();
-            std::string name = ocr_result.text;
-            box.id = BattleData.get_id(name);
-            box.name = std::move(name);
+    oper_name_analyzer.set_task_info("OperBoxFlagLV", "OperBoxNameOCR");
+    oper_name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
+    const auto& all_opers = BattleData.get_all_oper_names();
+    oper_name_analyzer.set_required(std::vector(all_opers.begin(), all_opers.end()));
+    if (!oper_name_analyzer.analyze()) {
+        return false;
+    }
+
+    size_t size = oper_name_analyzer.get_flag_result().size();
+    const auto& flag_list = oper_name_analyzer.get_flag_result();
+    const auto& name_list = oper_name_analyzer.get_result();
+    for (size_t i = 0; i != size; ++i) {
+        const auto& flag_rect = flag_list[i];
+        const auto& name_tr = name_list[i];
+
+        const std::string& name = name_tr.text;
+
+        OperBoxInfo box;
+        box.id = BattleData.get_id(name);
+        box.name = name;
+        box.rarity = BattleData.get_rarity(name);
+
+        box.rect = flag_rect;
+        box.own = true;
+
 #ifdef ASST_DEBUG
-            cv::rectangle(m_image_draw_oper, make_rect<cv::Rect>(ocr_result.rect), cv::Scalar(0, 255, 0), 1);
-            cv::putText(m_image_draw_oper, box.id, cv::Point(roi.x, roi.y + 35), cv::FONT_HERSHEY_SIMPLEX, 0.5,
-                        cv::Scalar(0, 0, 255), 2);
-#endif // ASST_DEBUG
-        }
+        cv::rectangle(m_image_draw, make_rect<cv::Rect>(flag_rect), cv::Scalar(0, 255, 0), 2);
+#endif
+
+        m_result.emplace_back(std::move(box));
     }
     return true;
 }
 
 // 识别等级
-bool asst::OperBoxImageAnalyzer::level_analyzer()
+bool asst::OperBoxImageAnalyzer::level_analyze()
 {
     OcrWithPreprocessImageAnalyzer level_analyzer(m_image);
     level_analyzer.set_task_info("OperBoxLevelOCR");
@@ -140,29 +106,32 @@ bool asst::OperBoxImageAnalyzer::level_analyzer()
     const auto& ocr_replace_num = Task.get<OcrTaskInfo>("NumberOcrReplace");
     level_analyzer.set_replace(ocr_replace_num->replace_map, ocr_replace_num->replace_full);
 
-    for (auto& box : m_current_page_opers) {
+    for (auto& box : m_result) {
         Rect roi = box.rect.move(level_roi);
         if (roi.x < 0) {
             // 等级在lv的左,lv的识别框x该右移
-            Log.error("level rect:[", roi.x, roi.y, roi.width, roi.height, " out of range ");
+            Log.error("level roi", roi, "is out of range");
             return false;
         }
         level_analyzer.set_roi(roi);
-        if (level_analyzer.analyze()) {
-            const auto& ocr_result = level_analyzer.get_result().front();
-            std::string level = ocr_result.text;
-            box.level = std::move(level_num(level));
-#ifdef ASST_DEBUG
-            cv::rectangle(m_image_draw_oper, make_rect<cv::Rect>(ocr_result.rect), cv::Scalar(0, 255, 0), 1);
-            cv::putText(m_image_draw_oper, level, cv::Point(roi.x, roi.y - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5,
-                        cv::Scalar(0, 0, 255), 2);
-#endif // ASST_DEBUG
+        if (!level_analyzer.analyze()) {
+            box.level = 1;
+            continue;
         }
+        const auto& ocr_result = level_analyzer.get_result().front();
+        const std::string& level = ocr_result.text;
+        box.level = level_num(level);
+#ifdef ASST_DEBUG
+        cv::rectangle(m_image_draw, make_rect<cv::Rect>(ocr_result.rect), cv::Scalar(0, 255, 0), 1);
+        cv::putText(m_image_draw, level, cv::Point(roi.x, roi.y - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5,
+                    cv::Scalar(0, 0, 255), 2);
+#endif // ASST_DEBUG}
     }
     return true;
 }
+
 // 识别精英度
-bool asst::OperBoxImageAnalyzer::elite_analyzer()
+bool asst::OperBoxImageAnalyzer::elite_analyze()
 {
     const std::string task_name = "OperBoxFlagElite";
     const Rect elite_roi = Task.get(task_name)->roi;
@@ -170,34 +139,30 @@ bool asst::OperBoxImageAnalyzer::elite_analyzer()
     elite_analyzer.set_task_info(task_name);
     elite_analyzer.append_templ("OperBoxFlagElite1.png");
     elite_analyzer.append_templ("OperBoxFlagElite2.png");
-    for (auto& box : m_current_page_opers) {
+    for (auto& box : m_result) {
         Rect roi = box.rect.move(elite_roi);
         if (roi.x < 0) {
             // 等级在lv的左,lv的识别框x该右移
-            Log.error("elite rect:[", roi.x, roi.y, roi.width, roi.height, " out of range ");
+            Log.error("elite roi", roi, "is out of range");
             return false;
         }
         elite_analyzer.set_roi(roi);
         if (!elite_analyzer.analyze()) {
             box.elite = 0;
+            continue;
         }
-        else {
-            const auto& elite_templ = elite_analyzer.get_result();
-            std::string elite = elite_templ.name.substr(task_name.size(), 1);
-            box.elite = std::stoi(elite);
+        const auto& elite_templ = elite_analyzer.get_result();
+        std::string elite = elite_templ.name.substr(task_name.size(), 1);
+        box.elite = std::stoi(elite);
 #ifdef ASST_DEBUG
-            cv::rectangle(m_image_draw_oper, make_rect<cv::Rect>(roi), cv::Scalar(0, 255, 0), 1);
-#endif // ASST_DEBUG
-        }
-#ifdef ASST_DEBUG
-        cv::putText(m_image_draw_oper, std::to_string(box.elite), cv::Point(roi.x, roi.y - 10),
-                    cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
+        cv::rectangle(m_image_draw, make_rect<cv::Rect>(roi), cv::Scalar(0, 255, 0), 1);
 #endif // ASST_DEBUG
     }
     return true;
 }
+
 // 识别潜能
-bool asst::OperBoxImageAnalyzer::potential_analyzer()
+bool asst::OperBoxImageAnalyzer::potential_analyze()
 {
     const std::string task_name_p = "OperBoxPotential";
     const Rect potential_roi = Task.get(task_name_p)->roi;
@@ -207,37 +172,29 @@ bool asst::OperBoxImageAnalyzer::potential_analyzer()
         std::string potential_temp_name = task_name_p + std::to_string(i) + ".png";
         potential_analyzer.append_templ(potential_temp_name);
     }
-    for (auto& box : m_current_page_opers) {
+
+    for (auto& box : m_result) {
         Rect roi = box.rect.move(potential_roi);
-        if (roi.x + roi.width < 0) {
-            // 潜能在lv的右,lv的识别框width该缩小
-            Log.error("level rect:[", roi.x, roi.y, roi.width, roi.height, " out of range ");
-            return false;
-        }
+
         potential_analyzer.set_roi(roi);
         if (!potential_analyzer.analyze()) {
             box.potential = 0;
+            continue;
         }
-        else {
-            const auto& poten_templ = potential_analyzer.get_result();
-            std::string potential = poten_templ.name.substr(task_name_p.size(), 1);
-            box.potential = std::stoi(potential);
+        const auto& poten_templ = potential_analyzer.get_result();
+        std::string potential = poten_templ.name.substr(task_name_p.size(), 1);
+        box.potential = std::stoi(potential);
 #ifdef ASST_DEBUG
-            cv::rectangle(m_image_draw_oper, make_rect<cv::Rect>(roi), cv::Scalar(0, 255, 0), 1);
-#endif // ASST_DEBUG
-        }
-#ifdef ASST_DEBUG
-        cv::putText(m_image_draw_oper, std::to_string(box.potential), cv::Point(roi.x, roi.y - 10),
-                    cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
+        cv::rectangle(m_image_draw, make_rect<cv::Rect>(roi), cv::Scalar(0, 255, 0), 1);
 #endif // ASST_DEBUG
     }
     return true;
 }
 
-void asst::OperBoxImageAnalyzer::sort_oper_horizontal(std::vector<asst::OperBoxInfo> m_oper_boxs)
+void asst::OperBoxImageAnalyzer::sort_()
 {
     // 按位置排个序
-    ranges::sort(m_oper_boxs, [](const OperBoxInfo& lhs, const OperBoxInfo& rhs) -> bool {
+    ranges::sort(m_result, [](const OperBoxInfo& lhs, const OperBoxInfo& rhs) -> bool {
         if (std::abs(lhs.rect.y - rhs.rect.y) < 5) { // y差距较小则理解为是同一排的，按x排序
             return lhs.rect.x < rhs.rect.x;
         }
