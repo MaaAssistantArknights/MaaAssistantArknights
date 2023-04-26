@@ -703,6 +703,8 @@ namespace MaaWpfGui.ViewModels.UI
 
                 Thread.Sleep(1000);
             }
+
+            Instances.TaskQueueViewModel.Idle = true;
         }
 
         /// <summary>
