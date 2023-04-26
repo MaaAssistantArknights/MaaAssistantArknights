@@ -26,15 +26,12 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Services;
-using MaaWpfGui.Services.Web;
 using Markdig;
 using Markdig.Wpf;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Semver;
 using Stylet;
-using StyletIoC;
 
 namespace MaaWpfGui.ViewModels.UI
 {
@@ -43,21 +40,11 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class VersionUpdateViewModel : Screen
     {
-        private readonly IWindowManager _windowManager;
-        private readonly SettingsViewModel _settingsViewModel;
-        private readonly TaskQueueViewModel _taskQueueViewModel;
-        private readonly IHttpService _httpService;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="VersionUpdateViewModel"/> class.
         /// </summary>
-        /// <param name="container">The IoC container.</param>
-        public VersionUpdateViewModel(IContainer container)
+        public VersionUpdateViewModel()
         {
-            _windowManager = container.Get<Helper.WindowManager>();
-            _settingsViewModel = container.Get<SettingsViewModel>();
-            _taskQueueViewModel = container.Get<TaskQueueViewModel>();
-            _httpService = container.Get<IHttpService>();
         }
 
         [DllImport("MaaCore.dll")]
@@ -363,7 +350,7 @@ namespace MaaWpfGui.ViewModels.UI
             if (IsFirstBootAfterUpdate)
             {
                 IsFirstBootAfterUpdate = false;
-                _windowManager.ShowWindow(this);
+                Instances.WindowManager.ShowWindow(this);
             }
             else
             {
@@ -382,7 +369,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
         public async Task<CheckUpdateRetT> CheckAndDownloadUpdate(bool force = false)
         {
-            _settingsViewModel.IsCheckingForUpdates = true;
+            Instances.SettingsViewModel.IsCheckingForUpdates = true;
 
             async Task<CheckUpdateRetT> CheckUpdateInner()
             {
@@ -435,7 +422,7 @@ namespace MaaWpfGui.ViewModels.UI
                 UpdateUrl = _latestJson["html_url"]?.ToString();
 
                 bool otaFound = _assetsObject != null;
-                bool goDownload = otaFound && _settingsViewModel.AutoDownloadUpdatePackage;
+                bool goDownload = otaFound && Instances.SettingsViewModel.AutoDownloadUpdatePackage;
 #pragma warning disable IDE0042
                 var openUrlToastButton = (
                     text: LocalizationHelper.GetString("NewVersionFoundButtonGoWebpage"),
@@ -531,7 +518,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             var checkResult = await CheckUpdateInner();
 
-            _settingsViewModel.IsCheckingForUpdates = false;
+            Instances.SettingsViewModel.IsCheckingForUpdates = false;
             return checkResult;
         }
 
@@ -557,7 +544,7 @@ namespace MaaWpfGui.ViewModels.UI
         private async Task<CheckUpdateRetT> CheckUpdate(bool force = false)
         {
             // 自动更新或者手动触发
-            if (!(_settingsViewModel.UpdateCheck || force))
+            if (!(Instances.SettingsViewModel.UpdateCheck || force))
             {
                 return CheckUpdateRetT.NoNeedToUpdate;
             }
@@ -571,7 +558,7 @@ namespace MaaWpfGui.ViewModels.UI
             const int RequestRetryMaxTimes = 2;
             try
             {
-                if (!_settingsViewModel.UpdateBeta && !_settingsViewModel.UpdateNightly)
+                if (!Instances.SettingsViewModel.UpdateBeta && !Instances.SettingsViewModel.UpdateNightly)
                 {
                     // 稳定版更新使用主仓库 /latest 接口
                     // 直接使用 MaaRelease 的话，30 个可能会找不到稳定版，因为有可能 Nightly 发了很多
@@ -607,7 +594,7 @@ namespace MaaWpfGui.ViewModels.UI
                     _latestJson = null;
                     foreach (var item in releaseArray)
                     {
-                        if (!_settingsViewModel.UpdateNightly && !isStdVersion(item["tag_name"].ToString()))
+                        if (!Instances.SettingsViewModel.UpdateNightly && !isStdVersion(item["tag_name"].ToString()))
                         {
                             continue;
                         }
@@ -625,7 +612,7 @@ namespace MaaWpfGui.ViewModels.UI
                 _latestVersion = _latestJson["tag_name"].ToString();
                 var releaseAssets = _latestJson["assets"] as JArray;
 
-                if (_settingsViewModel.UpdateNightly)
+                if (Instances.SettingsViewModel.UpdateNightly)
                 {
                     if (_curVersion == _latestVersion)
                     {
@@ -698,7 +685,7 @@ namespace MaaWpfGui.ViewModels.UI
                 for (var i = 0; i < requestSource.Length; i++)
                 {
                     // prevent current thread
-                    response = await _httpService.GetStringAsync(new Uri(requestSource[i] + url)).ConfigureAwait(false);
+                    response = await Instances.HttpService.GetStringAsync(new Uri(requestSource[i] + url)).ConfigureAwait(false);
                     if (!string.IsNullOrEmpty(response))
                     {
                         break;
@@ -717,10 +704,10 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>操作成功返回 true，反之则返回 false</returns>
         private async Task<bool> DownloadGithubAssets(string url, JObject assetsObject)
         {
-            _logItemViewModels = _taskQueueViewModel.LogItemViewModels;
+            _logItemViewModels = Instances.TaskQueueViewModel.LogItemViewModels;
             try
             {
-                return await _httpService.DownloadFileAsync(
+                return await Instances.HttpService.DownloadFileAsync(
                     new Uri(url),
                     assetsObject["name"].ToString(),
                     assetsObject["content_type"].ToString())

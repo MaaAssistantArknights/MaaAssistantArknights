@@ -21,17 +21,13 @@ using System.Text;
 using System.Threading.Tasks;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Main;
 using MaaWpfGui.Models;
-using MaaWpfGui.Services.Web;
 using MaaWpfGui.Utilities.ValueType;
-using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Semver;
 using Serilog;
 using Stylet;
-using StyletIoC;
 
 namespace MaaWpfGui.Services
 {
@@ -47,11 +43,6 @@ namespace MaaWpfGui.Services
         private const string StageApi = "gui/StageActivity.json";
         private const string TasksApi = "resource/tasks.json";
 
-        // model references
-        private readonly TaskQueueViewModel _taskQueueViewModel;
-        private readonly AsstProxy _asstProxy;
-        private readonly IMaaApiService _maaApiService;
-
         private static readonly ILogger _logger = Log.ForContext<StageManager>();
 
         // datas
@@ -60,23 +51,19 @@ namespace MaaWpfGui.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="StageManager"/> class.
         /// </summary>
-        /// <param name="container">The IoC container.</param>
-        public StageManager(IContainer container)
+        public StageManager()
         {
-            _taskQueueViewModel = container.Get<TaskQueueViewModel>();
-            _asstProxy = container.Get<AsstProxy>();
-            _maaApiService = container.Get<IMaaApiService>();
             UpdateStageLocal();
 
             Task.Run(async () =>
             {
                 await UpdateStageWeb();
-                if (_taskQueueViewModel != null)
+                if (Instances.TaskQueueViewModel != null)
                 {
                     Execute.OnUIThread(() =>
                     {
-                        _taskQueueViewModel.UpdateDatePrompt();
-                        _taskQueueViewModel.UpdateStageList(true);
+                        Instances.TaskQueueViewModel.UpdateDatePrompt();
+                        Instances.TaskQueueViewModel.UpdateStageList(true);
                     });
                 }
             });
@@ -124,7 +111,7 @@ namespace MaaWpfGui.Services
 
         private JObject LoadLocalStages()
         {
-            JObject activity = _maaApiService.LoadApiCache(StageApi);
+            JObject activity = Instances.MaaApiService.LoadApiCache(StageApi);
             return activity;
         }
 
@@ -133,9 +120,9 @@ namespace MaaWpfGui.Services
             // Check if we need to update from the web
             string lastUpdateTimeFile = "lastUpdateTime.json";
             string allFileDownloadCompleteFile = "allFileDownloadComplete.json";
-            JObject localLastUpdatedJson = _maaApiService.LoadApiCache(lastUpdateTimeFile);
-            JObject allFileDownloadCompleteJson = _maaApiService.LoadApiCache(allFileDownloadCompleteFile);
-            JObject webLastUpdatedJson = await _maaApiService.RequestMaaApiWithCache(lastUpdateTimeFile).ConfigureAwait(false);
+            JObject localLastUpdatedJson = Instances.MaaApiService.LoadApiCache(lastUpdateTimeFile);
+            JObject allFileDownloadCompleteJson = Instances.MaaApiService.LoadApiCache(allFileDownloadCompleteFile);
+            JObject webLastUpdatedJson = await Instances.MaaApiService.RequestMaaApiWithCache(lastUpdateTimeFile).ConfigureAwait(false);
             if (localLastUpdatedJson != null && webLastUpdatedJson != null)
             {
                 long localTimestamp = localLastUpdatedJson["timestamp"].ToObject<long>();
@@ -154,8 +141,8 @@ namespace MaaWpfGui.Services
         {
             var clientType = GetClientType();
 
-            var activityTask = _maaApiService.RequestMaaApiWithCache(StageApi);
-            var tasksTask = _maaApiService.RequestMaaApiWithCache(TasksApi);
+            var activityTask = Instances.MaaApiService.RequestMaaApiWithCache(StageApi);
+            var tasksTask = Instances.MaaApiService.RequestMaaApiWithCache(TasksApi);
 
             await Task.WhenAll(activityTask, tasksTask);
 
@@ -169,10 +156,10 @@ namespace MaaWpfGui.Services
                 // Download the client specific resources only when the Official ones are successfully downloaded so that the client specific resource version is the actual version
                 // TODO: There may be an issue when the CN resource is loaded from cache (e.g. network down) while global resource is downloaded (e.g. network up again)
                 // var tasksJsonClient = fromWeb ? WebService.RequestMaaApiWithCache(tasksPath) : WebService.RequestMaaApiWithCache(tasksPath);
-                await _maaApiService.RequestMaaApiWithCache(tasksPath);
+                await Instances.MaaApiService.RequestMaaApiWithCache(tasksPath);
             }
 
-            _asstProxy.LoadResource(true);
+            Instances.AsstProxy.LoadResource(true);
 
             return activity;
         }
