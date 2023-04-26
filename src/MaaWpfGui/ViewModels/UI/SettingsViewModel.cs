@@ -31,6 +31,7 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using MaaWpfGui.Models;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
@@ -78,6 +79,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// The Pallas language key.
         /// </summary>
         public static readonly string PallasLangKey = "pallas";
+
+        /// <summary>
+        /// Gets the visibility of task setting views.
+        /// </summary>
+        public TaskSettingVisibilityInfo TaskSettingVisibilities { get; } = TaskSettingVisibilityInfo.Current;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
@@ -935,6 +941,8 @@ namespace MaaWpfGui.ViewModels.UI
                 ++index;
             }
         }
+
+        public TaskQueueViewModel CustomInfrastPlanDataContext { get => Instances.TaskQueueViewModel; }
 
         private string _usesOfDrones = ConfigurationHelper.GetValue(ConfigurationKeys.UsesOfDrones, "Money");
 

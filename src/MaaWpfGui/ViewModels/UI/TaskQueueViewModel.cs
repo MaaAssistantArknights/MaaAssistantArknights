@@ -60,6 +60,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public TaskSettingVisibilityInfo TaskSettingVisibilities { get; } = TaskSettingVisibilityInfo.Current;
 
+        public SettingsViewModel TaskSettingDataContext { get => Instances.SettingsViewModel; }
+
         /// <summary>
         /// 实时更新任务顺序
         /// </summary>

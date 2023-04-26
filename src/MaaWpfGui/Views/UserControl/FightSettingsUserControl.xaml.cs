@@ -30,21 +30,5 @@ namespace MaaWpfGui.Views.UserControl
         {
             InitializeComponent();
         }
-
-        // 限制输入为整数
-        private void TextBox_RestrictInputInt(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
-        }
-
-        private void FightSettingsTextBoxLostFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox textBox = sender as TextBox;
-            if (string.IsNullOrEmpty(textBox.Text))
-            {
-                textBox.Text = "0";
-            }
-        }
     }
 }
