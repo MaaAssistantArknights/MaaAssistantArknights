@@ -44,4 +44,3 @@ void MatcherConfig::_set_task_info(MatchTaskInfo task_info)
 
     _set_roi(task_info.roi);
 }
-

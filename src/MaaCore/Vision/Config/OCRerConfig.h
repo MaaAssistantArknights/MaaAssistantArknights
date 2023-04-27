@@ -49,5 +49,4 @@ namespace asst
     protected:
         Params m_params;
     };
-
 }

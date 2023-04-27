@@ -45,4 +45,3 @@ OcrWithPreprocessImageAnalyzer::ResultOpt OcrWithPreprocessImageAnalyzer::analyz
     m_result = result->front();
     return m_result;
 }
-
