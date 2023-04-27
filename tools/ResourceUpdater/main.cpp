@@ -87,7 +87,15 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
 
-    const auto solution_dir = std::filesystem::current_path().parent_path().parent_path();
+    auto solution_dir = cur_path;
+    for (int i = 0; i != 10; ++i) {
+        solution_dir = solution_dir.parent_path();
+        if (std::filesystem::exists(solution_dir / "resource")) {
+            break;
+        }
+    }
+    std::cout << "working dir:" << solution_dir << std::endl;
+
     const auto resource_dir = solution_dir / "resource";
 
     /* Update levels.json from Arknights-Bot-Resource*/
