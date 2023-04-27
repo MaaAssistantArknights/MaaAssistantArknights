@@ -390,7 +390,7 @@ bool asst::CombatRecordRecognitionTask::slice_video()
             pre_distance = distance;
         }
 
-        bool in_detail_page = oper_analyzer.get_in_detail_page() || !oper_analyzer.get_pause_button();
+        bool in_detail_page = oper_analyzer.get_in_detail_page() || !oper_analyzer.get_pause_button() || !continuity;
         bool oper_auto_retreat =
             in_segment && continuity && !m_clips.empty() && cur_opers.size() != m_clips.back().deployment.size();
 
