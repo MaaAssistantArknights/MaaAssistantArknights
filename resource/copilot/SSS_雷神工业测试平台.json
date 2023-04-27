@@ -581,8 +581,7 @@
                 {
                     "core": "夜莺",
                     "tool_men": {
-                        "狙击": 1,
-                        "医疗": 1
+                        "狙击": 1
                     },
                     "location": [
                         1,
@@ -615,7 +614,7 @@
                 {
                     "core": "白面鸮",
                     "tool_men": {
-                        "狙击": 2
+                        "狙击": 1
                     },
                     "location": [
                         1,
@@ -628,19 +627,8 @@
                         "辅助": 100
                     },
                     "location": [
-                        6,
-                        4
-                    ],
-                    "direction": "Right"
-                },
-                {
-                    "tool_men": {
-                        "先锋": 100,
-                        "重装": 100
-                    },
-                    "location": [
-                        1,
-                        3
+                        3,
+                        2
                     ],
                     "direction": "Right"
                 }
@@ -659,6 +647,14 @@
                         1
                     ],
                     "direction": "Down"
+                },
+                {
+                    "type": "Retreat",
+                    "costs": 60,
+                    "location": [
+                        1,
+                        3
+                    ]
                 },
                 {
                     "type": "Deploy",
