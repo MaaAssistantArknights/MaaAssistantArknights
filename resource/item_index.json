@@ -997,7 +997,7 @@
         "icon": "Logistics_Special_Permit.png",
         "name": "后勤特别许可证",
         "sortId": 30200,
-        "usage": "使用后勤特别许可证后的作战不消耗理智，原常规掉落的报酬数量翻倍并调整为固定掉落"
+        "usage": "使用后勤特别许可证后的作战不消耗理智，原常规掉落的报酬改为固定掉落且数量增加至三倍。"
     },
     "REP_COIN": {
         "classifyType": "NORMAL",
