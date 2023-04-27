@@ -22,13 +22,11 @@ bool asst::RoguelikeFormationImageAnalyzer::analyze()
         return false;
     }
     sort_by_vertical_(*result_opt);
-    int pos = 0;
     for (const auto& res : *result_opt) {
         FormationOper oper;
         oper.rect = res.flag_rect;
         oper.selected = selected_analyze(res.flag_rect);
         oper.name = res.text;
-        pos++;
 
 #ifdef ASST_DEBUG
         if (oper.selected) {
