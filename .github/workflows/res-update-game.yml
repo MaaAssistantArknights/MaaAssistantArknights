@@ -41,7 +41,7 @@ jobs:
             $commit_msg = "chore: Auto Update Game Resources - $(Get-Date -Format 'yyyy-MM-dd')"
           }
           git commit -m "$commit_msg"
-          git pull --unshallow --rebase
+          git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
 
       - name: Push changes # push the output folder to your repo
         uses: ad-m/github-push-action@master
