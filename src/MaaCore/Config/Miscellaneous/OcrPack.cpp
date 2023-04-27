@@ -32,42 +32,42 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
     LogTraceFunction;
     Log.info("load", path);
 
-    fastdeploy::RuntimeOption option;
-    option.UseOrtBackend();
-
     using namespace asst::utils::path_literals;
     const auto det_dir = path / "det"_p;
     const auto det_model_file = det_dir / "inference.onnx"_p;
 
-    if (std::filesystem::exists(det_model_file)) {
-        auto det_model = asst::utils::read_file<std::string>(det_model_file);
-        option.SetModelBuffer(det_model.data(), det_model.size(), nullptr, 0, fastdeploy::ModelFormat::ONNX);
-        m_det = std::make_unique<fastdeploy::vision::ocr::DBDetector>("dummy.onnx", std::string(), option,
-                                                                      fastdeploy::ModelFormat::ONNX);
+    if (std::filesystem::exists(det_model_file) && m_det_model_path != det_model_file) {
+        m_det_model_path = det_model_file;
+        m_det = nullptr;
     }
 
     const auto rec_dir = path / "rec"_p;
     const auto rec_model_file = rec_dir / "inference.onnx"_p;
     const auto rec_label_file = rec_dir / "keys.txt"_p;
 
-    if (std::filesystem::exists(rec_model_file) && std::filesystem::exists(rec_label_file)) {
-        auto rec_model = asst::utils::read_file<std::string>(rec_model_file);
-        std::string rec_label = asst::utils::read_file<std::string>(rec_label_file);
-        option.SetModelBuffer(rec_model.data(), rec_model.size(), nullptr, 0, fastdeploy::ModelFormat::ONNX);
-        m_rec = std::make_unique<fastdeploy::vision::ocr::Recognizer>("dummy.onnx", std::string(), rec_label, option,
-                                                                      fastdeploy::ModelFormat::ONNX);
+    if (std::filesystem::exists(rec_model_file) && m_rec_model_path != rec_model_file) {
+        m_rec_model_path = rec_model_file;
+        m_rec = nullptr;
+    }
+    if (std::filesystem::exists(rec_label_file) && m_rec_model_path != rec_label_file) {
+        m_rec_label_path = rec_label_file;
+        m_rec = nullptr;
     }
 
     if (m_det && m_rec) {
         m_ocr = std::make_unique<fastdeploy::pipeline::PPOCRv3>(m_det.get(), m_rec.get());
     }
 
-    return m_det != nullptr && m_rec != nullptr && m_ocr != nullptr && m_det->Initialized() && m_rec->Initialized() &&
-           m_ocr->Initialized();
+    return !m_det_model_path.empty() && !m_rec_model_path.empty() && !m_rec_label_path.empty();
 }
 
 asst::OcrPack::ResultsVec asst::OcrPack::recognize(const cv::Mat& image, bool without_det)
 {
+    if (!check_and_load()) {
+        Log.error(__FUNCTION__, "check_and_load failed");
+        return {};
+    }
+
     fastdeploy::vision::OCRResult ocr_result;
 
     auto start_time = std::chrono::steady_clock::now();
@@ -120,4 +120,39 @@ asst::OcrPack::ResultsVec asst::OcrPack::recognize(const cv::Mat& image, bool wi
     std::string class_type = utils::demangle(typeid(*this).name());
     Log.trace(class_type, raw_results, without_det ? "by Rec" : "by Pipeline", ", cost", costs, "ms");
     return raw_results;
+}
+
+bool asst::OcrPack::check_and_load()
+{
+    if (m_det && m_rec) {
+        return true;
+    }
+
+    LogTraceFunction;
+
+    fastdeploy::RuntimeOption option;
+    option.UseOrtBackend();
+
+    auto det_model = asst::utils::read_file<std::string>(m_det_model_path);
+    option.SetModelBuffer(det_model.data(), det_model.size(), nullptr, 0, fastdeploy::ModelFormat::ONNX);
+    m_det = std::make_unique<fastdeploy::vision::ocr::DBDetector>("dummy.onnx", std::string(), option,
+                                                                  fastdeploy::ModelFormat::ONNX);
+
+    auto rec_model = asst::utils::read_file<std::string>(m_rec_model_path);
+    std::string rec_label = asst::utils::read_file<std::string>(m_rec_label_path);
+    option.SetModelBuffer(rec_model.data(), rec_model.size(), nullptr, 0, fastdeploy::ModelFormat::ONNX);
+    m_rec = std::make_unique<fastdeploy::vision::ocr::Recognizer>("dummy.onnx", std::string(), rec_label, option,
+                                                                  fastdeploy::ModelFormat::ONNX);
+
+    if (m_det && m_rec) {
+        m_ocr = std::make_unique<fastdeploy::pipeline::PPOCRv3>(m_det.get(), m_rec.get());
+    }
+
+    bool det_inited = m_det && m_det->Initialized();
+    bool rec_inited = m_rec && m_rec->Initialized();
+    bool ocr_inited = m_ocr && m_ocr->Initialized();
+
+    Log.info("det", det_inited, "rec", rec_inited, "ocr", ocr_inited);
+
+    return det_inited && rec_inited && ocr_inited;
 }
