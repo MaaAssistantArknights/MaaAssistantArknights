@@ -228,7 +228,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
 
     MatchImageAnalyzer skill_analyzer(m_image);
 
-    skill_analyzer.set_mask_range(task_ptr->mask_range);
+    skill_analyzer.set_mask_range(task_ptr->mask_range.first, task_ptr->mask_range.second);
     skill_analyzer.set_threshold(task_ptr->templ_threshold);
 
     for (auto&& oper : m_result) {
@@ -274,7 +274,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
             std::vector<std::pair<infrast::Skill, MatchRect>> possible_skills;
             // 逐个该设施内所有可能的技能，取得分最高的
             for (const auto& skill : InfrastData.get_skills(m_facility) | views::values) {
-                skill_analyzer.set_templ_name(skill.templ_name);
+                skill_analyzer.set_templ(skill.templ_name);
 
                 if (!skill_analyzer.analyze()) {
                     continue;

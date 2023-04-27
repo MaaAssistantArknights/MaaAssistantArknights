@@ -46,11 +46,12 @@ bool asst::RecruitImageAnalyzer::time_analyze()
 {
     MultiMatchImageAnalyzer decrement_a(m_image);
     decrement_a.set_task_info("RecruitTimerDecrement");
-    if (!decrement_a.analyze()) return false;
-    if (decrement_a.get_result().size() != 2) return false; // expecting two buttons
-    decrement_a.sort_result_horizontal();
-    m_hour_decrement = decrement_a.get_result().at(0).rect;
-    m_minute_decrement = decrement_a.get_result().at(1).rect;
+    auto result_opt = decrement_a.analyze();
+    if (!result_opt) return false;
+    if (result_opt->size() != 2) return false; // expecting two buttons
+    sort_by_horizontal_(*result_opt);
+    m_hour_decrement = result_opt->at(0).rect;
+    m_minute_decrement = result_opt->at(1).rect;
     return true;
 }
 

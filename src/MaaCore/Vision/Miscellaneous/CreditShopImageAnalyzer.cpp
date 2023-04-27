@@ -45,11 +45,12 @@ bool asst::CreditShopImageAnalyzer::commodities_analyze()
     if (!mm_analyzer.analyze()) {
         return false;
     }
-    mm_analyzer.sort_result_horizontal();
     auto credit_points_result = mm_analyzer.get_result();
     if (credit_points_result.empty()) {
         return false;
     }
+
+    sort_by_horizontal_(credit_points_result);
 
     m_commodities.reserve(credit_points_result.size());
     for (const MatchRect& mr : credit_points_result) {
