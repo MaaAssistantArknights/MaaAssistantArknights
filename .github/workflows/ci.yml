@@ -220,8 +220,6 @@ jobs:
         with:
           p12-file-base64: ${{ secrets.HGUANDL_SIGN_CERT_P12 }}
           p12-password: ${{ secrets.HGUANDL_SIGN_CERT_PASSWD }}
-      - name: Install Dependencies
-        run: brew install create-dmg
       - name: Build Universal Binaries
         run: |
           mkdir build
@@ -255,7 +253,11 @@ jobs:
       - name: Create Disk Image
         if: startsWith(github.ref, 'refs/tags/v')
         working-directory: src/MaaMacGui
-        run: create-dmg --background dmg-bkg.png --window-size 500 300 --icon-size 128 --icon MAA.app 0 120 --hide-extension MAA.app --app-drop-link 270 120 MAA.dmg Export/MAA.app
+        run: |
+          mkdir Image
+          mv Export/MAA.app Image/
+          ln -s /Applications Image/
+          hdiutil create -volname MAA -srcfolder Image -ov -fs APFS -format ULMO MAA.dmg
       - name: Archive Debug Symbols
         if: startsWith(github.ref, 'refs/tags/v')
         working-directory: src/MaaMacGui/MAA.xcarchive/dSYMs
@@ -278,6 +280,7 @@ jobs:
         working-directory: release
         run: |
           find . -name "*.dmg" | while read dmg; do
+            codesign -s "$NOTARY_TEAM" --timestamp ${dmg}
             xcrun notarytool submit --apple-id "$NOTARY_USER" --password "$NOTARY_PASSWD" --team-id "$NOTARY_TEAM" --wait ${dmg}
             xcrun stapler staple ${dmg}
           done
