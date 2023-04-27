@@ -44,9 +44,15 @@ namespace asst
     protected:
         OcrPack();
 
+        bool check_and_load();
+
         std::unique_ptr<fastdeploy::vision::ocr::DBDetector> m_det;
         std::unique_ptr<fastdeploy::vision::ocr::Recognizer> m_rec;
         std::unique_ptr<fastdeploy::pipeline::PPOCRv3> m_ocr;
+
+        std::filesystem::path m_det_model_path;
+        std::filesystem::path m_rec_model_path;
+        std::filesystem::path m_rec_label_path;
     };
 
     class WordOcr final : public SingletonHolder<WordOcr>, public OcrPack
