@@ -92,6 +92,9 @@
     <Filter Include="源文件\Task\Experiment">
       <UniqueIdentifier>{987541fc-58f0-40eb-8b93-c0cb38881d92}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Vision\Config">
+      <UniqueIdentifier>{bf83678b-e9d7-4cf1-8616-aba2009072b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json">
@@ -158,9 +161,6 @@
     </ClInclude>
     <ClInclude Include="Vision\OcrWithPreprocessImageAnalyzer.h">
       <Filter>源文件\Vision</Filter>
-    </ClInclude>
-    <ClInclude Include="Vision\Infrast\InfrastClueImageAnalyzer.h">
-      <Filter>源文件\Vision\Infrast</Filter>
     </ClInclude>
     <ClInclude Include="Vision\Infrast\InfrastClueVacancyImageAnalyzer.h">
       <Filter>源文件\Vision\Infrast</Filter>
@@ -609,6 +609,12 @@
     <ClInclude Include="Vision\Miscellaneous\OperBoxImageAnalyzer.h">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClInclude>
+    <ClInclude Include="Vision\Config\MatcherConfig.h">
+      <Filter>源文件\Vision\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Vision\Config\OCRerConfig.h">
+      <Filter>源文件\Vision\Config</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\AbstractImageAnalyzer.cpp">
@@ -631,9 +637,6 @@
     </ClCompile>
     <ClCompile Include="Vision\OcrWithPreprocessImageAnalyzer.cpp">
       <Filter>源文件\Vision</Filter>
-    </ClCompile>
-    <ClCompile Include="Vision\Infrast\InfrastClueImageAnalyzer.cpp">
-      <Filter>源文件\Vision\Infrast</Filter>
     </ClCompile>
     <ClCompile Include="Vision\Infrast\InfrastClueVacancyImageAnalyzer.cpp">
       <Filter>源文件\Vision\Infrast</Filter>
@@ -1003,6 +1006,12 @@
     </ClCompile>
     <ClCompile Include="Vision\Miscellaneous\OperBoxImageAnalyzer.cpp">
       <Filter>源文件\Vision\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Vision\Config\MatcherConfig.cpp">
+      <Filter>源文件\Vision\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="Vision\Config\OCRerConfig.cpp">
+      <Filter>源文件\Vision\Config</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
