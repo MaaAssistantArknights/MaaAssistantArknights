@@ -37,7 +37,7 @@ bool asst::ReclamationConclusionReportPlugin::check_page_valid(const cv::Mat& im
 {
     MatchImageAnalyzer pageAnalyzer(image);
     pageAnalyzer.set_task_info("Reclamation@GiveupSkipConfirm");
-    return pageAnalyzer.analyze();
+    return pageAnalyzer.analyze().has_value();
 }
 
 void asst::ReclamationConclusionReportPlugin::analyze(const cv::Mat& image)

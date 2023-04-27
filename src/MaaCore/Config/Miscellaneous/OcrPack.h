@@ -1,9 +1,9 @@
 #pragma once
-#include "Config/AbstractResource.h"
-
-#include <functional>
 
 #include "Common/AsstTypes.h"
+#include "Config/AbstractResource.h"
+
+#include <vector>
 
 namespace cv
 {
@@ -31,14 +31,15 @@ namespace asst
     class OcrPack : public AbstractResource
     {
     public:
+        using Result = TextRect;
+        using ResultsVec = std::vector<Result>;
+
+    public:
         virtual ~OcrPack() override;
 
         virtual bool load(const std::filesystem::path& path) override;
 
-        std::vector<TextRect> recognize(const cv::Mat& image, const TextRectProc& pred = nullptr,
-                                        bool without_det = false, bool trim = true);
-        std::vector<TextRect> recognize(const cv::Mat& image, const Rect& roi, const TextRectProc& pred = nullptr,
-                                        bool without_det = false, bool trim = true);
+        ResultsVec recognize(const cv::Mat& image, bool without_det = false);
 
     protected:
         OcrPack();

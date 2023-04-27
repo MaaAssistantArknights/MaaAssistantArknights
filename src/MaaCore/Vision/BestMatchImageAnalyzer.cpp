@@ -4,48 +4,54 @@
 
 #include "Config/TaskData.h"
 #include "Config/TemplResource.h"
+#include "MatchImageAnalyzer.h"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 
-bool asst::BestMatchImageAnalyzer::analyze()
-{
-#ifndef ASST_DEBUG
-    MatchImageAnalyzer::set_log_tracing(false);
-#endif
-    set_use_cache(false);
+using namespace asst;
 
-    MatchRect best_matched;
-    for (const auto& templ_info : m_templs) {
-        auto&& [name, templ] = templ_info;
-        if (templ.empty()) {
-            set_templ_name(name);
-        }
-        else {
-            set_templ(templ);
-        }
-
-        if (!MatchImageAnalyzer::analyze()) {
-            continue;
-        }
-        const auto& cur_matched = MatchImageAnalyzer::get_result();
-        if (best_matched.score < cur_matched.score) {
-            best_matched = cur_matched;
-            m_result = templ_info;
-        }
-    }
-
-    if (m_best_log_tracing) {
-        Log.trace("The best match is", best_matched.to_string(), m_result.name);
-    }
-    return best_matched.score > 0;
-}
-
-void asst::BestMatchImageAnalyzer::set_log_tracing(bool enable)
-{
-    m_best_log_tracing = enable;
-}
-
-void asst::BestMatchImageAnalyzer::append_templ(std::string name, const cv::Mat& templ)
+void BestMatchImageAnalyzer::append_templ(std::string name, const cv::Mat& templ)
 {
     m_templs.emplace_back(TemplInfo { std::move(name), templ });
+}
+
+BestMatchImageAnalyzer::ResultOpt BestMatchImageAnalyzer::analyze() const
+{
+    MatchImageAnalyzer match_analyzer(m_image, m_roi);
+    match_analyzer.set_params(m_params);
+#ifdef ASST_DEBUG
+    match_analyzer.set_log_tracing(m_log_tracing);
+#else
+    match_analyzer.set_log_tracing(false);
+#endif
+
+    Result result;
+    for (const auto& templ_info : m_templs) {
+        auto&& [name, templ] = templ_info;
+
+        if (templ.empty()) {
+            match_analyzer.set_templ(name);
+        }
+        else {
+            match_analyzer.set_templ(templ);
+        }
+
+        const auto& cur_opt = match_analyzer.analyze();
+        if (!cur_opt) {
+            continue;
+        }
+        const auto& cur_matched = cur_opt.value();
+        if (result.score < cur_matched.score) {
+            result = Result { .rect = cur_matched.rect, .score = cur_matched.score, .templ_info = templ_info };
+        }
+    }
+
+    if (!result.score) {
+        return std::nullopt;
+    }
+
+    if (m_log_tracing) {
+        Log.trace("The best match is", result.to_string(), result.templ_info.name);
+    }
+    return result;
 }

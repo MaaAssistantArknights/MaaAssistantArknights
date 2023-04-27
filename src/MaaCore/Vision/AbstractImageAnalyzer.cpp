@@ -9,55 +9,37 @@
 #include "Utils/StringMisc.hpp"
 #include "Utils/Time.hpp"
 
-asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image)
-    : m_image(image), m_roi(correct_rect(Rect(), image))
+using namespace asst;
+
+AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image, const Rect& roi, Assistant* inst)
+    : InstHelper(inst), m_image(image), m_roi(correct_rect(roi, image))
 #ifdef ASST_DEBUG
       ,
       m_image_draw(image.clone())
 #endif
 {}
 
-#ifdef ASST_DEBUG
-asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image, cv::Mat& draw)
-    : m_image(image), m_roi(correct_rect(Rect(), image)), m_image_draw(draw)
-{}
-#endif
-
-asst::AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image, Assistant* inst)
-    : InstHelper(inst), m_image(image), m_roi(correct_rect(Rect(), image))
-#ifdef ASST_DEBUG
-      ,
-      m_image_draw(image.clone())
-#endif
-{}
-
-void asst::AbstractImageAnalyzer::set_image(const cv::Mat& image)
+void AbstractImageAnalyzer::set_image(const cv::Mat& image)
 {
     m_image = image;
 #ifdef ASST_DEBUG
     m_image_draw = image.clone();
 #endif
+
+    set_roi(m_roi);
 }
 
-#ifdef ASST_DEBUG
-void asst::AbstractImageAnalyzer::set_image(const cv::Mat& image, cv::Mat& draw)
-{
-    m_image = image;
-    m_image_draw = draw;
-}
-#endif
-
-void asst::AbstractImageAnalyzer::set_roi(const Rect& roi) noexcept
+void AbstractImageAnalyzer::set_roi(const Rect& roi)
 {
     m_roi = correct_rect(roi, m_image);
 }
 
-void asst::AbstractImageAnalyzer::set_log_tracing(bool enable)
+void AbstractImageAnalyzer::set_log_tracing(bool enable)
 {
     m_log_tracing = enable;
 }
 
-asst::Rect asst::AbstractImageAnalyzer::correct_rect(const Rect& rect, const cv::Mat& image) noexcept
+Rect AbstractImageAnalyzer::correct_rect(const Rect& rect, const cv::Mat& image)
 {
     if (image.empty()) {
         Log.error(__FUNCTION__, "image is empty");
@@ -96,23 +78,17 @@ asst::Rect asst::AbstractImageAnalyzer::correct_rect(const Rect& rect, const cv:
     return res;
 }
 
-bool asst::AbstractImageAnalyzer::save_img(const std::filesystem::path& relative_dir)
+bool AbstractImageAnalyzer::save_img(const std::filesystem::path& relative_dir)
 {
     std::string stem = utils::get_time_filestem();
     auto relative_path = relative_dir / (stem + "_raw.png");
     Log.trace("Save image", relative_path);
-    bool ret = asst::imwrite(relative_path, m_image);
+    bool ret = imwrite(relative_path, m_image);
 
 #ifdef ASST_DEBUG
-    asst::imwrite(relative_dir / (stem + "_draw.png"), m_image_draw);
+    imwrite(relative_dir / (stem + "_draw.png"), m_image_draw);
 #endif
 
     return ret;
 }
 
-#ifdef ASST_DEBUG
-cv::Mat asst::AbstractImageAnalyzer::get_draw() const
-{
-    return m_image_draw;
-}
-#endif

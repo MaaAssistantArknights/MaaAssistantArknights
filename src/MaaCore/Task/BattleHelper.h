@@ -62,6 +62,8 @@ namespace asst
         bool cancel_oper_selection();
         bool move_camera(const std::pair<double, double>& delta);
 
+        std::string analyze_detail_page_oper_name(const cv::Mat& image);
+
         std::optional<Rect> get_oper_rect_on_deployment(const std::string& name) const;
 
         std::string m_stage_name;
