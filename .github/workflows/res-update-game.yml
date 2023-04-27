@@ -42,8 +42,6 @@ jobs:
           }
           git commit -m "$commit_msg"
 
-          git pull --rebase
-
       - name: Push changes # push the output folder to your repo
         uses: ad-m/github-push-action@master
         with:
