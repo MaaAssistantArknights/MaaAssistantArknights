@@ -988,31 +988,16 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
             if (exists_replace.contains(base_name)) {
                 continue;
             }
-            std::cout << "Roguelike add new field: " << base_name << ", " << output_dir << std::endl;
             replace_array.emplace_back(json::array { name, base_name });
         }
     };
-    std::filesystem::create_directories(output_dir);
 
-    {
-        auto& stage_arr = task_json["BattleStageName"]["ocrReplace"].as_array();
-        proc(stage_arr, base_stage_names, stage_names);
-        std::ofstream ofs(output_dir / "stage.json", std::ios::out);
-        ofs << stage_arr.format(true) << std::endl;
-    }
+    proc(task_json["BattleStageName"]["ocrReplace"].as_array(), base_stage_names, stage_names);
+    proc(task_json["CharsNameOcrReplace"]["ocrReplace"].as_array(), base_char_names, char_names);
+    proc(task_json["RoguelikeTraderShoppingOcr"]["ocrReplace"].as_array(), base_item_names, item_names);
 
-    {
-        auto& chars_arr = task_json["CharsNameOcrReplace"]["ocrReplace"].as_array();
-        proc(chars_arr, base_char_names, char_names);
-        std::ofstream ofs(output_dir / "chars.json", std::ios::out);
-        ofs << chars_arr.format(true) << std::endl;
-    }
-    {
-        auto& shopping_arr = task_json["RoguelikeTraderShoppingOcr"]["ocrReplace"].as_array();
-        proc(shopping_arr, base_item_names, item_names);
-        std::ofstream ofs(output_dir / "shopping.json", std::ios::out);
-        ofs << shopping_arr.format(true) << std::endl;
-    }
+    std::ofstream ofs(tasks_path, std::ios::out);
+    ofs << task_json.format(true) << std::endl;
 
     return true;
 }
