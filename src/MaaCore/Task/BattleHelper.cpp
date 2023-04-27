@@ -133,8 +133,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             static const double cooling_threshold = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_threshold;
             static const auto cooling_mask_range = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->mask_range;
             avatar_analyzer.set_threshold(cooling_threshold);
-            avatar_analyzer.set_mask_range(cooling_mask_range, true);
-            avatar_analyzer.set_mask_with_close(true);
+            avatar_analyzer.set_mask_range(cooling_mask_range.first, cooling_mask_range.second, true, true);
         }
         else {
             static const double threshold = Task.get<MatchTaskInfo>("BattleAvatarData")->templ_threshold;
@@ -147,7 +146,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             avatar_analyzer.append_templ(name, avatar);
         }
         if (avatar_analyzer.analyze()) {
-            set_oper_name(oper, avatar_analyzer.get_result().name);
+            set_oper_name(oper, avatar_analyzer.get_result().templ_info.name);
             m_cur_deployment_opers.insert_or_assign(oper.name, oper);
             remove_cooling_from_battlefield(oper);
         }
@@ -195,33 +194,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
                 return false;
             }
 
-            auto analyze = [&](OcrImageAnalyzer& name_analyzer) {
-                name_analyzer.set_image(name_image);
-                name_analyzer.set_task_info(oper_name_ocr_task_name());
-                name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
-                                          Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
-                if (!name_analyzer.analyze()) {
-                    return std::string();
-                }
-                name_analyzer.sort_result_by_score();
-                return name_analyzer.get_result().front().text;
-            };
-
-            OcrWithPreprocessImageAnalyzer preproc_analyzer;
-            std::string name = analyze(preproc_analyzer);
-            if (BattleData.is_name_invalid(name)) {
-                Log.warn("ocr with preprocess got a invalid name, try to use detect model", name);
-                OcrImageAnalyzer det_analyzer;
-                std::string det_name = analyze(det_analyzer);
-                if (det_name.empty()) {
-                    Log.warn("ocr with det model failed");
-                }
-                else if (!BattleData.is_name_invalid(det_name)) {
-                    Log.info("use ocr with det", det_name);
-                    name = det_name;
-                }
-            }
-
+            std::string name = analyze_detail_page_oper_name(name_image);
             // 这时候即使名字不合法也只能凑合用了，但是为空还是不行的
             if (name.empty()) {
                 Log.error("name is empty");
@@ -399,7 +372,7 @@ bool asst::BattleHelper::check_pause_button(const cv::Mat& reusable)
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     MatchImageAnalyzer battle_flag_analyzer(image);
     battle_flag_analyzer.set_task_info("BattleOfficiallyBegin");
-    bool ret = battle_flag_analyzer.analyze();
+    bool ret = battle_flag_analyzer.analyze().has_value();
     BattleImageAnalyzer battle_flag_analyzer_2(image);
     ret &= battle_flag_analyzer_2.analyze() && battle_flag_analyzer_2.get_pause_button();
     return ret;
@@ -642,6 +615,34 @@ bool asst::BattleHelper::move_camera(const std::pair<double, double>& delta)
 
     calc_tiles_info(m_stage_name, -m_camera_shift.first, m_camera_shift.second);
     return update_deployment(true);
+}
+
+std::string asst::BattleHelper::analyze_detail_page_oper_name(const cv::Mat& image)
+{
+    const auto& replace_task = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
+    const auto& task = Task.get<OcrTaskInfo>(oper_name_ocr_task_name());
+
+    OcrWithPreprocessImageAnalyzer preproc_analyzer(image);
+    preproc_analyzer.set_task_info(task);
+    preproc_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
+    auto preproc_result_opt = preproc_analyzer.analyze();
+
+    if (preproc_result_opt && !BattleData.is_name_invalid(preproc_result_opt->text)) {
+        return preproc_result_opt->text;
+    }
+
+    Log.warn("ocr with preprocess got a invalid name, try to use detect model");
+    OcrImageAnalyzer det_analyzer(image);
+    det_analyzer.set_task_info(task);
+    det_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
+    auto det_result_opt = det_analyzer.analyze();
+    if (!det_result_opt) {
+        return {};
+    }
+    sort_by_score_(*det_result_opt);
+    const auto& det_name = det_result_opt->front().text;
+
+    return BattleData.is_name_invalid(det_name) ? std::string() : det_name;
 }
 
 std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const std::string& name) const

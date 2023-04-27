@@ -4,6 +4,7 @@
 #include "InstHelper.h"
 #include "Utils/NoWarningCVMat.h"
 #include "Utils/Platform.hpp"
+#include "Utils/Ranges.hpp"
 
 // #ifndef  ASST_DEBUG
 // #define ASST_DEBUG
@@ -14,54 +15,99 @@ namespace asst
     class TaskData;
     class Status;
     class Assistant;
+}
 
+namespace asst
+{
     class AbstractImageAnalyzer : protected InstHelper
     {
     public:
         AbstractImageAnalyzer() = default;
-        AbstractImageAnalyzer(const cv::Mat& image);
-#ifdef ASST_DEBUG
-        AbstractImageAnalyzer(const cv::Mat& image, cv::Mat& draw);
-#endif
-        AbstractImageAnalyzer(const cv::Mat& image, Assistant* inst);
-        AbstractImageAnalyzer(const AbstractImageAnalyzer&) = delete;
-        AbstractImageAnalyzer(AbstractImageAnalyzer&&) = delete;
+        AbstractImageAnalyzer(const cv::Mat& image, const Rect& roi = Rect(), Assistant* inst = nullptr);
         virtual ~AbstractImageAnalyzer() = default;
 
         virtual void set_image(const cv::Mat& image);
-#ifdef ASST_DEBUG
-        virtual void set_image(const cv::Mat& image, cv::Mat& draw);
-#endif
-        virtual void set_roi(const Rect& roi) noexcept;
-
-        virtual bool analyze() = 0;
+        virtual void set_roi(const Rect& roi);
         virtual void set_log_tracing(bool enable);
-
-        AbstractImageAnalyzer& operator=(const AbstractImageAnalyzer&) = delete;
-        AbstractImageAnalyzer& operator=(AbstractImageAnalyzer&&) = delete;
 
         bool save_img(const std::filesystem::path& relative_dir = utils::path("debug"));
 
 #ifdef ASST_DEBUG
-        cv::Mat get_draw() const;
+        const cv::Mat& get_draw() const { return m_image_draw; }
 #endif
 
     protected:
         using InstHelper::status;
 
     protected:
-        static Rect correct_rect(const Rect& rect, const cv::Mat& image) noexcept;
+        static Rect correct_rect(const Rect& rect, const cv::Mat& image);
 
         cv::Mat m_image;
-        Rect m_roi;
-        bool m_log_tracing = true;
-
 #ifdef ASST_DEBUG
         cv::Mat m_image_draw;
 #endif
+        Rect m_roi;
+        bool m_log_tracing = true;
 
     private:
         using InstHelper::ctrler;
         using InstHelper::need_exit;
     };
+
+    template <typename RectTy>
+    inline static cv::Mat make_roi(const cv::Mat& img, const RectTy& roi)
+    {
+        return img(make_rect<cv::Rect>(roi));
+    }
+
+    // | 1 2 3 4 |
+    // | 5 6 7 8 |
+    template <typename ResultsVec>
+    inline static void sort_by_horizontal_(ResultsVec& results)
+    {
+        ranges::sort(results, [](const auto& lhs, const auto& rhs) -> bool {
+            // y 差距较小则理解为是同一排的，按x排序
+            return std::abs(lhs.rect.y - rhs.rect.y) < 5 ? lhs.rect.x < rhs.rect.x : lhs.rect.y < rhs.rect.y;
+        });
+    }
+
+    // | 1 3 5 7 |
+    // | 2 4 6 8 |
+    template <typename ResultsVec>
+    inline static void sort_by_vertical_(ResultsVec& results)
+    {
+        ranges::sort(results, [](const auto& lhs, const auto& rhs) -> bool {
+            // x 差距较小则理解为是同一排的，按y排序
+            return std::abs(lhs.rect.x - rhs.rect.x) < 5 ? lhs.rect.y < rhs.rect.y : lhs.rect.x < rhs.rect.x;
+        });
+    }
+
+    template <typename ResultsVec>
+    inline static void sort_by_score_(ResultsVec& results)
+    {
+        ranges::sort(results, std::greater {}, std::mem_fn(&ResultsVec::value_type::score));
+    }
+
+    template <typename ResultsVec>
+    inline static void sort_by_required_(ResultsVec& results, const std::vector<std::string>& required)
+    {
+        std::unordered_map<std::string, size_t> req_cache;
+        for (size_t i = 0; i != required.size(); ++i) {
+            req_cache.emplace(required.at(i), i + 1);
+        }
+
+        // 不在 required 中的将被排在最后
+        ranges::sort(results, [&req_cache](const auto& lhs, const auto& rhs) -> bool {
+            size_t lvalue = req_cache[lhs.text];
+            size_t rvalue = req_cache[rhs.text];
+            if (lvalue == 0) {
+                return false;
+            }
+            else if (rvalue == 0) {
+                return true;
+            }
+            return lvalue < rvalue;
+        });
+    }
+
 } // namespace asst

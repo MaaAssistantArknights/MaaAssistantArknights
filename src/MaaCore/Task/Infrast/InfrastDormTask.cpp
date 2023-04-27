@@ -137,7 +137,7 @@ bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& 
                         break;
                     }
 
-                    std::string opertrust = trust_analyzer.get_result().front().text;
+                    std::string opertrust = trust_analyzer.get_result().text;
                     std::regex rule("[^0-9]"); // 只保留数字
                     opertrust = std::regex_replace(opertrust, rule, "");
                     Log.trace("opertrust:", opertrust);
@@ -170,7 +170,7 @@ bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& 
                         break;
                     }
 
-                    std::string facilityname = facility_analyzer.get_result().front().text;
+                    std::string facilityname = facility_analyzer.get_result().text;
                     std::regex rule2("[^BF0-9]"); // 只保留B、F和数字
                     facilityname = std::regex_replace(facilityname, rule2, "");
 

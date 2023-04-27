@@ -79,12 +79,12 @@ bool asst::ReclamationBattlePlugin::quit_action()
 
         OcrImageAnalyzer confirmAnalyzer(img);
         confirmAnalyzer.set_task_info("Reclamation@ExitLevelConfirm");
-        bool check2 = confirmAnalyzer.analyze();
+        bool check2 = confirmAnalyzer.analyze().has_value();
 
         // 出现Loading转一会儿就结算了，没结算还有error_next
         OcrImageAnalyzer loadingAnalyzer(img);
         loadingAnalyzer.set_task_info("LoadingText");
-        bool check3 = loadingAnalyzer.analyze();
+        bool check3 = loadingAnalyzer.analyze().has_value();
 
         Log.info(__FUNCTION__, "| click exit level check ", check1, check2, check3);
 

@@ -281,7 +281,7 @@ bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig co
         OcrWithPreprocessImageAnalyzer name_analyzer;
         name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
         name_analyzer.set_image(oper.name_img);
-        name_analyzer.set_expansion(0);
+        name_analyzer.set_bin_expansion(0);
         if (!name_analyzer.analyze()) {
             continue;
         }
@@ -289,7 +289,7 @@ bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig co
             break;
         }
 
-        const std::string& name = name_analyzer.get_result().front().text;
+        const std::string& name = name_analyzer.get_result().text;
         if (auto iter = ranges::find(room_config.names, name); iter != room_config.names.end()) {
             Log.info(name, "在\"operators\"中，且已选中");
             room_config.names.erase(iter);
@@ -337,11 +337,11 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
         OcrWithPreprocessImageAnalyzer name_analyzer;
         name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
         name_analyzer.set_image(oper.name_img);
-        name_analyzer.set_expansion(0);
+        name_analyzer.set_bin_expansion(0);
         if (!name_analyzer.analyze()) {
             continue;
         }
-        const std::string& name = name_analyzer.get_result().front().text;
+        const std::string& name = name_analyzer.get_result().text;
         partial_result.emplace_back(name);
 
         if (auto iter = ranges::find(room_config.names, name); iter != room_config.names.end()) {
@@ -394,11 +394,11 @@ void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::str
         OcrWithPreprocessImageAnalyzer name_analyzer;
         name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
         name_analyzer.set_image(oper.name_img);
-        name_analyzer.set_expansion(0);
+        name_analyzer.set_bin_expansion(0);
         if (!name_analyzer.analyze()) {
             continue;
         }
-        TextRect tr = name_analyzer.get_result().front();
+        TextRect tr = name_analyzer.get_result();
         tr.rect = oper.rect;
         page_result.emplace_back(std::move(tr));
     }
