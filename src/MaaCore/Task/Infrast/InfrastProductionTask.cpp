@@ -98,7 +98,6 @@ void asst::InfrastProductionTask::change_product()
         break;
     }
     case infrast::CustomRoomConfig::Product::Dualchip: {
-
         break;
     }
     /*贸易站的订单类型*/

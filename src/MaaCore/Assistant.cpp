@@ -481,7 +481,6 @@ void asst::Assistant::call_proc()
     LogTraceFunction;
 
     while (!m_thread_exit) {
-
         AsyncCallItem call_item;
 
         {

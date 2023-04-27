@@ -77,4 +77,3 @@ MultiMatchImageAnalyzer::ResultsVecOpt MultiMatchImageAnalyzer::analyze() const
     m_result = std::move(results);
     return m_result;
 }
-

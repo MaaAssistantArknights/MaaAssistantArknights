@@ -91,4 +91,3 @@ bool AbstractImageAnalyzer::save_img(const std::filesystem::path& relative_dir)
 
     return ret;
 }
-

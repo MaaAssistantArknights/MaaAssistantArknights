@@ -7,7 +7,6 @@
 
 namespace asst
 {
-
     class MatcherConfig
     {
     public:
@@ -41,5 +40,4 @@ namespace asst
     protected:
         Params m_params;
     };
-
 }

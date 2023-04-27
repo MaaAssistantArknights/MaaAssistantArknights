@@ -6,9 +6,9 @@
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/MultiMatchImageAnalyzer.h"
 #include "Vision/Infrast/InfrastClueVacancyImageAnalyzer.h"
 #include "Vision/MatchImageAnalyzer.h"
+#include "Vision/MultiMatchImageAnalyzer.h"
 
 bool asst::InfrastReceptionTask::_run()
 {

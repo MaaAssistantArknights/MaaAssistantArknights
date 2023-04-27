@@ -109,5 +109,4 @@ namespace asst
             return lvalue < rvalue;
         });
     }
-
 } // namespace asst

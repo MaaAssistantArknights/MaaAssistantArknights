@@ -7,7 +7,6 @@
 
 namespace asst
 {
-
     class OcrImageAnalyzer : public AbstractImageAnalyzer, public OCRerConfig
     {
     public:
