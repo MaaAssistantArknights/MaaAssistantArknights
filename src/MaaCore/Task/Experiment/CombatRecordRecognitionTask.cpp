@@ -28,12 +28,6 @@ bool asst::CombatRecordRecognitionTask::set_video_path(const std::filesystem::pa
     return true;
 }
 
-bool asst::CombatRecordRecognitionTask::set_stage_name(const std::string& stage_name)
-{
-    m_stage_name = stage_name;
-    return true;
-}
-
 bool asst::CombatRecordRecognitionTask::_run()
 {
     LogTraceFunction;
@@ -177,48 +171,46 @@ bool asst::CombatRecordRecognitionTask::analyze_stage()
 {
     LogTraceFunction;
 
-    if (m_stage_name.empty()) {
-        callback(AsstMsg::SubTaskStart, basic_info_with_what("OcrStage"));
+    callback(AsstMsg::SubTaskStart, basic_info_with_what("OcrStage"));
 
-        const auto stage_name_task_ptr = Task.get("BattleStageName");
-        const int skip_count = m_video_fps > m_stage_ocr_fps ? static_cast<int>(m_video_fps / m_stage_ocr_fps) - 1 : 0;
+    const auto stage_name_task_ptr = Task.get("BattleStageName");
+    const int skip_count = m_video_fps > m_stage_ocr_fps ? static_cast<int>(m_video_fps / m_stage_ocr_fps) - 1 : 0;
 
-        for (size_t i = m_formation_end_frame; i < m_video_frame_count; i += skip_frames(skip_count) + 1) {
-            cv::Mat frame;
-            *m_video_ptr >> frame;
-            if (frame.empty()) {
-                Log.error(i, "frame is empty");
-                callback(AsstMsg::SubTaskError, basic_info_with_what("OcrStage"));
-                return false;
-            }
-
-            cv::resize(frame, frame, cv::Size(), m_scale, m_scale, cv::INTER_AREA);
-
-            OcrWithPreprocessImageAnalyzer stage_analyzer(frame);
-            stage_analyzer.set_task_info(stage_name_task_ptr);
-            bool analyzed = stage_analyzer.analyze().has_value();
-            show_img(stage_analyzer);
-
-            if (!analyzed) {
-                // BattleImageAnalyzer battle_analyzer(frame);
-                // if (battle_analyzer.analyze()) {
-                //     Log.error(i, "already start button, but still failed to analyze stage name");
-                //     m_stage_ocr_end_frame = i;
-                //     callback(AsstMsg::SubTaskError, basic_info_with_what("OcrStage"));
-                //     return false;
-                // }
-                continue;
-            }
-            const std::string& text = stage_analyzer.get_result().text;
-
-            if (text.empty() || !Tile.find(text)) {
-                continue;
-            }
-
-            m_stage_name = text;
-            m_stage_ocr_end_frame = i;
-            break;
+    for (size_t i = m_formation_end_frame; i < m_video_frame_count; i += skip_frames(skip_count) + 1) {
+        cv::Mat frame;
+        *m_video_ptr >> frame;
+        if (frame.empty()) {
+            Log.error(i, "frame is empty");
+            callback(AsstMsg::SubTaskError, basic_info_with_what("OcrStage"));
+            return false;
         }
+
+        cv::resize(frame, frame, cv::Size(), m_scale, m_scale, cv::INTER_AREA);
+
+        OcrWithPreprocessImageAnalyzer stage_analyzer(frame);
+        stage_analyzer.set_task_info(stage_name_task_ptr);
+        bool analyzed = stage_analyzer.analyze().has_value();
+        show_img(stage_analyzer);
+
+        if (!analyzed) {
+            // BattleImageAnalyzer battle_analyzer(frame);
+            // if (battle_analyzer.analyze()) {
+            //     Log.error(i, "already start button, but still failed to analyze stage name");
+            //     m_stage_ocr_end_frame = i;
+            //     callback(AsstMsg::SubTaskError, basic_info_with_what("OcrStage"));
+            //     return false;
+            // }
+            continue;
+        }
+        const std::string& text = stage_analyzer.get_result().text;
+
+        if (text.empty() || !Tile.find(text)) {
+            continue;
+        }
+
+        m_stage_name = text;
+        m_stage_ocr_end_frame = i;
+        break;
     }
 
     Log.info("Stage", m_stage_name);
