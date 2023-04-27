@@ -341,7 +341,10 @@ bool asst::CombatRecordRecognitionTask::slice_video()
         in_segment = false;
     };
     for (; i < ends; i += skip_frames(skip_count) + 1, pre_frame = frame) {
-        *m_video_ptr >> frame;
+        cv::Mat temp;
+        // 这里如果不用temp，frame的所有权会出错
+        *m_video_ptr >> temp;
+        frame = temp;
         if (frame.empty()) {
             Log.warn(i, "frame is empty");
             battle_over();
