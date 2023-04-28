@@ -39,6 +39,6 @@ jobs:
 
       - name: Merge into dev and push
         run: |
-          git merge "${{ steps.extract_tag.outputs.tag_name }}"
+          git merge master
           git push origin dev
       
