@@ -9,7 +9,6 @@ ASST_SUPPRESS_CV_WARNINGS_START
 #include "fastdeploy/vision/ocr/ppocr/recognizer.h"
 ASST_SUPPRESS_CV_WARNINGS_END
 
-#include "Config/GeneralConfig.h"
 #include "Utils/Demangle.hpp"
 #include "Utils/File.hpp"
 #include "Utils/Logger.hpp"
