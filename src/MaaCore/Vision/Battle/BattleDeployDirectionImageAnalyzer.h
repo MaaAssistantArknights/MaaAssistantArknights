@@ -15,7 +15,7 @@ namespace asst
         virtual ~BattleDeployDirectionImageAnalyzer() override = default;
 
         void set_base_point(const Point& pt);
-        virtual bool analyze() override;
+        bool analyze();
 
         size_t get_class_id() const { return m_class_id; }
         RawResults get_raw_results() const { return m_raw_results; }

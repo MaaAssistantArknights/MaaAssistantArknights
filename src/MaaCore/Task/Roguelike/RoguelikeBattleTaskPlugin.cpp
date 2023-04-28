@@ -129,8 +129,7 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
         if (!name_analyzer.analyze()) {
             continue;
         }
-        name_analyzer.sort_result_by_score();
-        const std::string& text = name_analyzer.get_result().front().text;
+        const std::string& text = name_analyzer.get_result().text;
         if (text.empty()) {
             continue;
         }

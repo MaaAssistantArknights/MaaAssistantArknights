@@ -28,12 +28,6 @@ bool asst::CombatRecordRecognitionTask::set_video_path(const std::filesystem::pa
     return true;
 }
 
-bool asst::CombatRecordRecognitionTask::set_stage_name(const std::string& stage_name)
-{
-    m_stage_name = stage_name;
-    return true;
-}
-
 bool asst::CombatRecordRecognitionTask::_run()
 {
     LogTraceFunction;
@@ -177,49 +171,46 @@ bool asst::CombatRecordRecognitionTask::analyze_stage()
 {
     LogTraceFunction;
 
-    if (m_stage_name.empty()) {
-        callback(AsstMsg::SubTaskStart, basic_info_with_what("OcrStage"));
+    callback(AsstMsg::SubTaskStart, basic_info_with_what("OcrStage"));
 
-        const auto stage_name_task_ptr = Task.get("BattleStageName");
-        const int skip_count = m_video_fps > m_stage_ocr_fps ? static_cast<int>(m_video_fps / m_stage_ocr_fps) - 1 : 0;
+    const auto stage_name_task_ptr = Task.get("BattleStageName");
+    const int skip_count = m_video_fps > m_stage_ocr_fps ? static_cast<int>(m_video_fps / m_stage_ocr_fps) - 1 : 0;
 
-        for (size_t i = m_formation_end_frame; i < m_video_frame_count; i += skip_frames(skip_count) + 1) {
-            cv::Mat frame;
-            *m_video_ptr >> frame;
-            if (frame.empty()) {
-                Log.error(i, "frame is empty");
-                callback(AsstMsg::SubTaskError, basic_info_with_what("OcrStage"));
-                return false;
-            }
-
-            cv::resize(frame, frame, cv::Size(), m_scale, m_scale, cv::INTER_AREA);
-
-            OcrWithPreprocessImageAnalyzer stage_analyzer(frame);
-            stage_analyzer.set_task_info(stage_name_task_ptr);
-            bool analyzed = stage_analyzer.analyze();
-            show_img(stage_analyzer);
-
-            if (!analyzed) {
-                // BattleImageAnalyzer battle_analyzer(frame);
-                // if (battle_analyzer.analyze()) {
-                //     Log.error(i, "already start button, but still failed to analyze stage name");
-                //     m_stage_ocr_end_frame = i;
-                //     callback(AsstMsg::SubTaskError, basic_info_with_what("OcrStage"));
-                //     return false;
-                // }
-                continue;
-            }
-            stage_analyzer.sort_result_by_score();
-            const std::string& text = stage_analyzer.get_result().front().text;
-
-            if (text.empty() || !Tile.find(text)) {
-                continue;
-            }
-
-            m_stage_name = text;
-            m_stage_ocr_end_frame = i;
-            break;
+    for (size_t i = m_formation_end_frame; i < m_video_frame_count; i += skip_frames(skip_count) + 1) {
+        cv::Mat frame;
+        *m_video_ptr >> frame;
+        if (frame.empty()) {
+            Log.error(i, "frame is empty");
+            callback(AsstMsg::SubTaskError, basic_info_with_what("OcrStage"));
+            return false;
         }
+
+        cv::resize(frame, frame, cv::Size(), m_scale, m_scale, cv::INTER_AREA);
+
+        OcrWithPreprocessImageAnalyzer stage_analyzer(frame);
+        stage_analyzer.set_task_info(stage_name_task_ptr);
+        bool analyzed = stage_analyzer.analyze().has_value();
+        show_img(stage_analyzer);
+
+        if (!analyzed) {
+            // BattleImageAnalyzer battle_analyzer(frame);
+            // if (battle_analyzer.analyze()) {
+            //     Log.error(i, "already start button, but still failed to analyze stage name");
+            //     m_stage_ocr_end_frame = i;
+            //     callback(AsstMsg::SubTaskError, basic_info_with_what("OcrStage"));
+            //     return false;
+            // }
+            continue;
+        }
+        const std::string& text = stage_analyzer.get_result().text;
+
+        if (text.empty() || !Tile.find(text)) {
+            continue;
+        }
+
+        m_stage_name = text;
+        m_stage_ocr_end_frame = i;
+        break;
     }
 
     Log.info("Stage", m_stage_name);
@@ -302,13 +293,13 @@ bool asst::CombatRecordRecognitionTask::analyze_deployment()
                 candidate.emplace(flag, oper.avatar);
             }
         }
-        bool analyzed = best_match_analyzer.analyze();
+        bool analyzed = best_match_analyzer.analyze().has_value();
         // show_img(best_match_analyzer);
         if (!analyzed) {
             Log.warn(m_battle_start_frame, "failed to match", name);
             continue;
         }
-        m_all_avatars.emplace(name, candidate.at(best_match_analyzer.get_result().name));
+        m_all_avatars.emplace(name, candidate.at(best_match_analyzer.get_result().templ_info.name));
     }
     callback(AsstMsg::SubTaskCompleted, basic_info_with_what("MatchDeployment"));
 
@@ -350,7 +341,10 @@ bool asst::CombatRecordRecognitionTask::slice_video()
         in_segment = false;
     };
     for (; i < ends; i += skip_frames(skip_count) + 1, pre_frame = frame) {
-        *m_video_ptr >> frame;
+        cv::Mat temp;
+        // 这里如果不用temp，frame的所有权会出错
+        *m_video_ptr >> temp;
+        frame = temp;
         if (frame.empty()) {
             Log.warn(i, "frame is empty");
             battle_over();
@@ -396,7 +390,7 @@ bool asst::CombatRecordRecognitionTask::slice_video()
             pre_distance = distance;
         }
 
-        bool in_detail_page = oper_analyzer.get_in_detail_page() || !oper_analyzer.get_pause_button();
+        bool in_detail_page = oper_analyzer.get_in_detail_page() || !oper_analyzer.get_pause_button() || !continuity;
         bool oper_auto_retreat =
             in_segment && continuity && !m_clips.empty() && cur_opers.size() != m_clips.back().deployment.size();
 
@@ -790,10 +784,10 @@ void asst::CombatRecordRecognitionTask::ananlyze_deployment_names(ClipInfo& clip
                 avatar_analyzer.append_templ(name, avatar);
             }
         }
-        bool analyzed = avatar_analyzer.analyze();
+        bool analyzed = avatar_analyzer.analyze().has_value();
         // show_img(avatar_analyzer.get_draw());
         if (analyzed) {
-            oper.name = avatar_analyzer.get_result().name;
+            oper.name = avatar_analyzer.get_result().templ_info.name;
         }
         else {
             oper.name = "UnknownDeployment";
@@ -858,32 +852,29 @@ size_t asst::CombatRecordRecognitionTask::skip_frames(size_t count)
 
 std::string asst::CombatRecordRecognitionTask::analyze_detail_page_oper_name(const cv::Mat& frame)
 {
-    auto analyze = [&](OcrImageAnalyzer& name_analyzer) {
-        name_analyzer.set_image(frame);
-        name_analyzer.set_task_info("BattleOperName");
-        name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
-                                  Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
-        if (!name_analyzer.analyze()) {
-            return std::string();
-        }
-        name_analyzer.sort_result_by_score();
-        return name_analyzer.get_result().front().text;
-    };
+    const auto& replace_task = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
 
-    OcrWithPreprocessImageAnalyzer preproc_analyzer;
-    std::string name = analyze(preproc_analyzer);
+    OcrWithPreprocessImageAnalyzer preproc_analyzer(frame);
+    preproc_analyzer.set_task_info("BattleOperName");
+    preproc_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
+    auto preproc_result_opt = preproc_analyzer.analyze();
 
-    if (BattleData.is_name_invalid(name)) {
-        Log.warn("ocr with preprocess got a invalid name, try to use detect model", name);
-        OcrImageAnalyzer det_analyzer;
-        std::string det_name = analyze(det_analyzer);
-        if (BattleData.is_name_invalid(det_name)) {
-            return std::string();
-        }
-        Log.info("use ocr with det", det_name);
-        return det_name;
+    if (preproc_result_opt && !BattleData.is_name_invalid(preproc_result_opt->text)) {
+        return preproc_result_opt->text;
     }
-    return name;
+
+    Log.warn("ocr with preprocess got a invalid name, try to use detect model");
+    OcrImageAnalyzer det_analyzer(frame);
+    det_analyzer.set_task_info("BattleOperName");
+    det_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
+    auto det_result_opt = det_analyzer.analyze();
+    if (!det_result_opt) {
+        return {};
+    }
+    sort_by_score_(*det_result_opt);
+    const auto& det_name = det_result_opt->front().text;
+
+    return BattleData.is_name_invalid(det_name) ? std::string() : det_name;
 }
 
 void asst::CombatRecordRecognitionTask::show_img(const asst::AbstractImageAnalyzer& analyzer)

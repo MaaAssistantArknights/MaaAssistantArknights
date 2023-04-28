@@ -77,8 +77,7 @@ std::optional<std::string> asst::SSSStageManagerTask::analyze_stage()
         return std::nullopt;
     }
 
-    analyzer.sort_result_by_score();
-    const std::string& text = analyzer.get_result().front().text;
+    const std::string& text = analyzer.get_result().text;
 
     const auto& stages_data = SSSCopilot.get_data().stages_data;
     for (const auto& [name, stage_info] : stages_data) {

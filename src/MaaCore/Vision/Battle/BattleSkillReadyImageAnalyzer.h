@@ -10,7 +10,7 @@ namespace asst
         using OnnxRuntimeImageAnalyzer::OnnxRuntimeImageAnalyzer;
         virtual ~BattleSkillReadyImageAnalyzer() override = default;
 
-        virtual bool analyze() override;
+        bool analyze();
 
         void set_base_point(const Point& pt);
     };

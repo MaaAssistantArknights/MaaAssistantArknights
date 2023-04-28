@@ -178,7 +178,7 @@ namespace MaaWpfGui.Main
                 _logger.Fatal(e.Exception, "Unhandled exception");
             }
 
-            var errorView = new ErrorView(e.Exception.Message, e.Exception.StackTrace, true);
+            var errorView = new ErrorView(e.Exception, true);
             errorView.ShowDialog();
         }
     }

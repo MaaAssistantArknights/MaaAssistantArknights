@@ -14,7 +14,7 @@ namespace asst
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         virtual ~StageDropsImageAnalyzer() override = default;
 
-        virtual bool analyze() override;
+        bool analyze();
 
         StageKey get_stage_key() const;
         int get_stars() const noexcept;
