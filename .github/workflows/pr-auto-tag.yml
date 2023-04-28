@@ -35,7 +35,7 @@ jobs:
 
       - uses: actions/checkout@v3
         with: 
-          path: dev
+          ref: dev
 
       - name: Merge into dev and push
         run: |
