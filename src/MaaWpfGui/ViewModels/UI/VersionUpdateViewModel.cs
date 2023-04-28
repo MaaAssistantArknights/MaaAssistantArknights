@@ -61,7 +61,7 @@ namespace MaaWpfGui.ViewModels.UI
             return Regex.Replace(text, @"([^\[`]|^)@([^\s]+)", "$1[@$2](https://github.com/$2)");
         }
 
-        private readonly string _curVersion = Marshal.PtrToStringAnsi(AsstGetVersion());
+        private readonly string _curVersion = "v4.15.0";// Marshal.PtrToStringAnsi(AsstGetVersion());
         private string _latestVersion;
 
         private string _updateTag = ConfigurationHelper.GetValue(ConfigurationKeys.VersionName, string.Empty);
@@ -436,26 +436,35 @@ namespace MaaWpfGui.ViewModels.UI
 #pragma warning restore IDE0042
                 Execute.OnUIThread(() =>
                 {
-                    using var toast = new ToastNotification(otaFound ?
+                    using var toast = new ToastNotification((otaFound ?
                         LocalizationHelper.GetString("NewVersionFoundTitle") :
-                        LocalizationHelper.GetString("NewVersionFoundButNoPackageTitle"));
+                        LocalizationHelper.GetString("NewVersionFoundButNoPackageTitle")) + " : " + UpdateTag);
                     if (goDownload)
                     {
                         OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadPreparing"));
                         toast.AppendContentText(LocalizationHelper.GetString("NewVersionFoundDescDownloading"));
                     }
 
-                    toast.AppendContentText(LocalizationHelper.GetString("NewVersionFoundDescId") + UpdateTag);
-
                     if (!otaFound)
                     {
                         toast.AppendContentText(LocalizationHelper.GetString("NewVersionFoundButNoPackageDesc"));
                     }
 
-                    var toastDesc = UpdateInfo.Length > 100 ?
-                        UpdateInfo.Substring(0, 100) + "..." :
-                        UpdateInfo;
-                    toast.AppendContentText(LocalizationHelper.GetString("NewVersionFoundDescInfo") + toastDesc);
+                    int count = 0;
+                    foreach (var line in UpdateInfo.Split('\n'))
+                    {
+                        if (line.StartsWith("#") || string.IsNullOrWhiteSpace(line))
+                        {
+                            continue;
+                        }
+
+                        toast.AppendContentText(line);
+                        if (++count >= 10)
+                        {
+                            break;
+                        }
+                    }
+
                     toast.AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action);
                     toast.ButtonSystemUrl = UpdateUrl;
                     toast.ShowUpdateVersion();
