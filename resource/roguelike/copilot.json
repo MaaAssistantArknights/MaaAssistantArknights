@@ -1607,7 +1607,15 @@
     },
     {
         "stage_name": "大君遗脉",
-        "replacement_home": [],
+        "replacement_home": [
+            {
+                "location": [
+                    4,
+                    5
+                ],
+                "direction": "up"
+            }
+        ],
         "blacklist_location": [
             [
                 9,
