@@ -2,6 +2,8 @@ name: Auto Tag Release PR
 
 on:
   pull_request:
+    branches:
+      - master
     types:
       - closed
 
@@ -31,9 +33,12 @@ jobs:
           git tag -a "${{ steps.extract_tag.outputs.tag_name }}" -m "${{ steps.extract_tag.outputs.tag_name }}" -f
           git push origin "${{ steps.extract_tag.outputs.tag_name }}" -f
 
+      - uses: actions/checkout@v3
+        with: 
+          path: dev
+
       - name: Merge into dev and push
         run: |
-          git switch dev
           git merge "${{ steps.extract_tag.outputs.tag_name }}"
           git push origin dev
       
