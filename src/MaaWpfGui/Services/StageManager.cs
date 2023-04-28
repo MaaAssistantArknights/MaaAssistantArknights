@@ -31,7 +31,6 @@ using Stylet;
 
 namespace MaaWpfGui.Services
 {
-
     /// <summary>
     /// Stage manager
     /// </summary>
@@ -158,8 +157,6 @@ namespace MaaWpfGui.Services
                 // var tasksJsonClient = fromWeb ? WebService.RequestMaaApiWithCache(tasksPath) : WebService.RequestMaaApiWithCache(tasksPath);
                 await Instances.MaaApiService.RequestMaaApiWithCache(tasksPath);
             }
-
-            Instances.AsstProxy.LoadResource(true);
 
             return activity;
         }

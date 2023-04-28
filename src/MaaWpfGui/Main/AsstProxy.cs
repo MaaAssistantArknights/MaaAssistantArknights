@@ -175,30 +175,12 @@ namespace MaaWpfGui.Main
             }
         }
 
-        private string _curResource = "_Unloaded";
-
-        private static readonly bool ForcedReloadResource = File.Exists("DEBUG") || File.Exists("DEBUG.txt");
-
         /// <summary>
-        /// 加载全局资源。
+        /// 加载全局资源。新版 core 全惰性加载资源，所以可以无脑调用
         /// </summary>
-        /// <param name="onlyReloadOTA">是否强制加载ota资源。</param>
         /// <returns>是否成功。</returns>
-        public bool LoadResource(bool onlyReloadOTA = false)
+        public bool LoadResource()
         {
-            if (!ForcedReloadResource && !onlyReloadOTA && Instances.SettingsViewModel.ClientType == _curResource)
-            {
-                return true;
-            }
-
-            string mainRes = Directory.GetCurrentDirectory();
-            string globalResource = mainRes + "\\resource\\global\\" + Instances.SettingsViewModel.ClientType;
-            string mainCache = Directory.GetCurrentDirectory() + "\\cache";
-            string globalCache = mainCache + "\\resource\\global\\" + Instances.SettingsViewModel.ClientType;
-
-            string officialClientType = "Official";
-            string bilibiliClientType = "Bilibili";
-
             static bool LoadResIfExists(string path)
             {
                 string resource = "\\resource";
@@ -210,73 +192,27 @@ namespace MaaWpfGui.Main
                 return AsstLoadResource(path);
             }
 
+            string clientType = Instances.SettingsViewModel.ClientType;
+            string mainRes = Directory.GetCurrentDirectory();
+            string globalResource = mainRes + "\\resource\\global\\" + clientType;
+            string mainCache = Directory.GetCurrentDirectory() + "\\cache";
+            string globalCache = mainCache + "\\resource\\global\\" + clientType;
+
+            string officialClientType = "Official";
+            string bilibiliClientType = "Bilibili";
+
             bool loaded = false;
-            if (Instances.SettingsViewModel.ClientType == string.Empty
-                || Instances.SettingsViewModel.ClientType == officialClientType || Instances.SettingsViewModel.ClientType == bilibiliClientType)
+            if (clientType == string.Empty || clientType == officialClientType || clientType == bilibiliClientType)
             {
-                // The resources of Official and Bilibili are the same
-                if (!ForcedReloadResource && !onlyReloadOTA && (_curResource == officialClientType || _curResource == bilibiliClientType))
-                {
-                    return true;
-                }
-
-                if (!onlyReloadOTA)
-                {
-                    loaded = LoadResIfExists(mainRes);
-                }
-
-                // Load the cached incremental resources
-                loaded = loaded && LoadResIfExists(mainCache);
-            }
-            else if (_curResource == officialClientType || _curResource == bilibiliClientType)
-            {
-                // Load basic resources for CN client first
-                // Then load global incremental resources
-                if (!onlyReloadOTA)
-                {
-                    loaded = LoadResIfExists(globalResource);
-                }
-
-                // Load the cached incremental resources
-                loaded = loaded && LoadResIfExists(mainCache)
-                    && LoadResIfExists(globalCache);
+                // Read resources first, then read cache
+                loaded = LoadResIfExists(mainRes);
+                loaded &= LoadResIfExists(mainCache);
             }
             else
             {
-                // Load basic resources for CN client first
-                // Then load global incremental resources
-                if (!onlyReloadOTA)
-                {
-                    loaded = LoadResIfExists(mainRes)
-                    && LoadResIfExists(globalResource);
-                }
-
-                // Load the cached incremental resources
-                loaded = loaded && LoadResIfExists(mainCache)
-                    && LoadResIfExists(globalCache);
-            }
-
-            if (!loaded)
-            {
-                return false;
-            }
-
-            if (ForcedReloadResource)
-            {
-                Execute.OnUIThread(() =>
-                {
-                    using var toast = new ToastNotification("Auto Reload");
-                    toast.Show();
-                });
-            }
-
-            if (Instances.SettingsViewModel.ClientType == string.Empty)
-            {
-                _curResource = officialClientType;
-            }
-            else
-            {
-                _curResource = Instances.SettingsViewModel.ClientType;
+                // Read resources first, then read cache
+                loaded = LoadResIfExists(mainRes) && LoadResIfExists(globalResource);
+                loaded &= LoadResIfExists(mainCache) && LoadResIfExists(globalCache);
             }
 
             return loaded;
