@@ -61,7 +61,7 @@ namespace MaaWpfGui.ViewModels.UI
             return Regex.Replace(text, @"([^\[`]|^)@([^\s]+)", "$1[@$2](https://github.com/$2)");
         }
 
-        private readonly string _curVersion = "v4.15.0";// Marshal.PtrToStringAnsi(AsstGetVersion());
+        private readonly string _curVersion = Marshal.PtrToStringAnsi(AsstGetVersion());
         private string _latestVersion;
 
         private string _updateTag = ConfigurationHelper.GetValue(ConfigurationKeys.VersionName, string.Empty);
