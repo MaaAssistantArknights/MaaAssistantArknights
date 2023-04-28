@@ -544,10 +544,9 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="manual">Whether to start manually.</param>
         public void TryToStartEmulator(bool manual = false)
         {
-            if ((EmulatorPath.Length == 0
-                || !File.Exists(EmulatorPath))
-                || !(StartEmulator
-                || manual))
+            if (EmulatorPath.Length == 0
+                || !File.Exists(EmulatorPath)
+                || (!StartEmulator && !manual))
             {
                 return;
             }

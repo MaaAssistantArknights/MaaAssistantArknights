@@ -732,6 +732,7 @@ namespace MaaWpfGui.ViewModels.UI
                 AddLog(errMsg, UiLogColor.Error);
                 AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToStartEmulator"));
                 await Task.Run(() => Instances.SettingsViewModel.TryToStartEmulator(true));
+                Idle = false;
 
                 if (Stopping)
                 {
