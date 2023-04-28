@@ -5,13 +5,14 @@
 
 namespace asst
 {
+    // FIXME: 删掉这个类，以及对应的 task 类型
     class HashImageAnalyzer : public AbstractImageAnalyzer
     {
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         virtual ~HashImageAnalyzer() override = default;
 
-        virtual bool analyze() override;
+        bool analyze();
 
         void set_mask_range(int lower, int upper) noexcept;
         void set_mask_range(std::pair<int, int> mask_range) noexcept;

@@ -10,7 +10,7 @@ namespace asst
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         virtual ~BattleFormationImageAnalyzer() override = default;
 
-        virtual bool analyze() override;
+        bool analyze();
 
         const auto& get_result() const { return m_result; }
 

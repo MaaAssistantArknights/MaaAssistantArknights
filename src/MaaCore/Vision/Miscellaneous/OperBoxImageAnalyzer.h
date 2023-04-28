@@ -21,7 +21,7 @@ namespace asst
     public:
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         virtual ~OperBoxImageAnalyzer() override = default;
-        virtual bool analyze() override;
+        bool analyze();
         const auto& get_result() const noexcept { return m_result; }
 
     private:
@@ -32,10 +32,6 @@ namespace asst
         bool level_analyze();
         bool elite_analyze();
         bool potential_analyze();
-        // 按位置排序
-        // 1 - 2 - 3
-        // 4 - 5 - 6
-        void sort_();
 
         std::vector<asst::OperBoxInfo> m_result;
     };

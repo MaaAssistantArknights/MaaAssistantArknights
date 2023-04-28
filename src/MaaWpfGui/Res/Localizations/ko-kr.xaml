@@ -185,6 +185,7 @@
     <system:String x:Key="OpenEmulatorAfterLaunch">MAA 실행 후 에뮬레이터를 실행</system:String>
     <system:String x:Key="MinimizingStartup">시작 시뮬레이터 최소화</system:String>
     <system:String x:Key="WaitForEmulator">에뮬레이터 실행 대기 (초)</system:String>
+    <system:String x:Key="WaitForEmulatorFinish">기다림은 끝났다</system:String>
     <system:String x:Key="EmulatorPath">에뮬레이터 경로</system:String>
     <system:String x:Key="Select">선택</system:String>
     <system:String x:Key="ForcedReplaceADB">ADB 강제 교체</system:String>

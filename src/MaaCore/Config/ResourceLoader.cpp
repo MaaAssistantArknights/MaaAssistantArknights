@@ -63,16 +63,6 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LogTraceFunction;
     using namespace asst::utils::path_literals;
 
-    auto word_ocr_future = std::async(std::launch::async, [&]() -> bool {
-        LoadResourceAndCheckRet(WordOcr, "PaddleOCR"_p);
-        return true;
-    });
-
-    auto char_ocr_future = std::async(std::launch::async, [&]() -> bool {
-        LoadResourceAndCheckRet(CharOcr, "PaddleCharOCR"_p);
-        return true;
-    });
-
     /* load resource with json files*/
     LoadResourceAndCheckRet(GeneralConfig, "config.json"_p);
     LoadResourceAndCheckRet(RecruitConfig, "recruitment.json"_p);
@@ -103,13 +93,15 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     /* tiles info */
     LoadResourceAndCheckRet(TilePack, "Arknights-Tile-Pos"_p);
 
+    /* ocr */
+    LoadResourceAndCheckRet(WordOcr, "PaddleOCR"_p);
+    LoadResourceAndCheckRet(CharOcr, "PaddleCharOCR"_p);
+
 #undef LoadTemplByConfigAndCheckRet
 #undef LoadResourceAndCheckRet
 #undef LoadCacheWithoutRet
 
     m_loaded = true;
-    m_loaded &= word_ocr_future.get();
-    m_loaded &= char_ocr_future.get();
 
     return m_loaded;
 }

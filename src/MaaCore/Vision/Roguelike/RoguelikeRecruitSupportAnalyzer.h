@@ -11,7 +11,7 @@ namespace asst
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         virtual ~RoguelikeRecruitSupportAnalyzer() noexcept override = default;
 
-        bool analyze() override;
+        bool analyze();
 
         void set_mode(battle::roguelike::SupportAnalyzeMode mode) noexcept { m_mode = mode; }
         void set_required(std::vector<std::string> required) noexcept { m_required = required; }

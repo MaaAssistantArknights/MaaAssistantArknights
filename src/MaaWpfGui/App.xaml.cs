@@ -30,7 +30,7 @@ namespace MaaWpfGui
         public void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
             Hyperlink link = sender as Hyperlink;
-            if (!string.IsNullOrEmpty(link.NavigateUri.AbsoluteUri))
+            if (!string.IsNullOrEmpty(link?.NavigateUri?.AbsoluteUri))
             {
                 Process.Start(new ProcessStartInfo(link.NavigateUri.AbsoluteUri));
             }

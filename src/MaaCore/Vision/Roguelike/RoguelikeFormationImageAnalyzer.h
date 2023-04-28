@@ -19,7 +19,7 @@ namespace asst
         using AbstractImageAnalyzer::AbstractImageAnalyzer;
         virtual ~RoguelikeFormationImageAnalyzer() override = default;
 
-        virtual bool analyze() override;
+        bool analyze();
 
         const std::vector<FormationOper>& get_result() const noexcept;
 

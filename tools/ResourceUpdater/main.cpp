@@ -70,6 +70,17 @@ int main([[maybe_unused]] int argc, char** argv)
 {
     const char* str_exec_path = argv[0];
     const auto cur_path = std::filesystem::path(str_exec_path).parent_path();
+
+    auto solution_dir = cur_path;
+    for (int i = 0; i != 10; ++i) {
+        solution_dir = solution_dir.parent_path();
+        if (std::filesystem::exists(solution_dir / "resource")) {
+            break;
+        }
+    }
+    std::cout << "Temp dir: " << cur_path << std::endl;
+    std::cout << "Working dir: " << solution_dir << std::endl;
+
     const std::filesystem::path arkbot_res_dir = cur_path / "Arknights-Bot-Resource";
 
     std::cout << "------------Update Arknights-Bot-Resource------------" << std::endl;
@@ -87,7 +98,6 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
 
-    const auto solution_dir = std::filesystem::current_path().parent_path().parent_path();
     const auto resource_dir = solution_dir / "resource";
 
     /* Update levels.json from Arknights-Bot-Resource*/
@@ -152,6 +162,25 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
 
+    // gamedata 繁中不更新了，自己下载一下
+    std::string gamedata_tw_exec = cur_path.string() + "/gamedata-tw.exe";
+    std::string download_zhtw =
+        "curl https://ota.maa.plus/MaaAssistantArknights/api/binaries/gamedata-tw.exe --ssl-no-revoke > " +
+        gamedata_tw_exec;
+    int dl = system(download_zhtw.c_str());
+    if (dl != 0) {
+        std::cout << "download zhtw gamedata failed" << std::endl;
+        return -1;
+    }
+    int zhtw_ret = system(("cd " + cur_path.string() + " && " + gamedata_tw_exec).c_str());
+    if (zhtw_ret != 0) {
+        std::cout << "zhtw gamedata update failed" << std::endl;
+        return -1;
+    }
+    auto zhtw_gamedata_dir = game_data_dir / "zh_TW" / "gamedata";
+    std::filesystem::remove_all(zhtw_gamedata_dir);
+    std::filesystem::rename(cur_path / "data" / "gamedata", zhtw_gamedata_dir);
+
     /* Update recruitment data from ArknightsGameData*/
     std::cout << "------------Update recruitment data------------" << std::endl;
     if (!update_recruitment_data(game_data_dir / "zh_CN" / "gamedata" / "excel", resource_dir / "recruitment.json",
@@ -161,11 +190,10 @@ int main([[maybe_unused]] int argc, char** argv)
     }
 
     std::unordered_map<std::string, std::string> global_dirs = {
-        // 繁中的gamedata很久没更新了，暂时不从这里拿数据了
         { "en_US", "YoStarEN" },
         { "ja_JP", "YoStarJP" },
         { "ko_KR", "YoStarKR" },
-        /* { "zh_TW", "txwy" } */
+        { "zh_TW", "txwy" },
     };
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update recruitment data for " << out << "------------" << std::endl;
@@ -192,11 +220,6 @@ int main([[maybe_unused]] int argc, char** argv)
     }
 
     for (const auto& [in, out] : global_dirs) {
-        // 台服的gamedata很久没更新了，先不管了
-        // 韩服maa还没支持肉鸽，也不管了
-        if (in == "zh_TW" || in == "ko_KR") {
-            continue;
-        }
         if (!check_roguelike_replace_for_overseas(game_data_dir / in / "gamedata" / "excel",
                                                   resource_dir / "global" / out / "resource" / "tasks.json",
                                                   game_data_dir / "zh_CN" / "gamedata" / "excel", cur_path / in)) {
@@ -965,31 +988,16 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
             if (exists_replace.contains(base_name)) {
                 continue;
             }
-            std::cout << "Roguelike add new field: " << base_name << ", " << output_dir << std::endl;
             replace_array.emplace_back(json::array { name, base_name });
         }
     };
-    std::filesystem::create_directories(output_dir);
 
-    {
-        auto& stage_arr = task_json["BattleStageName"]["ocrReplace"].as_array();
-        proc(stage_arr, base_stage_names, stage_names);
-        std::ofstream ofs(output_dir / "stage.json", std::ios::out);
-        ofs << stage_arr.format(true) << std::endl;
-    }
+    proc(task_json["BattleStageName"]["ocrReplace"].as_array(), base_stage_names, stage_names);
+    proc(task_json["CharsNameOcrReplace"]["ocrReplace"].as_array(), base_char_names, char_names);
+    proc(task_json["RoguelikeTraderShoppingOcr"]["ocrReplace"].as_array(), base_item_names, item_names);
 
-    {
-        auto& chars_arr = task_json["CharsNameOcrReplace"]["ocrReplace"].as_array();
-        proc(chars_arr, base_char_names, char_names);
-        std::ofstream ofs(output_dir / "chars.json", std::ios::out);
-        ofs << chars_arr.format(true) << std::endl;
-    }
-    {
-        auto& shopping_arr = task_json["RoguelikeTraderShoppingOcr"]["ocrReplace"].as_array();
-        proc(shopping_arr, base_item_names, item_names);
-        std::ofstream ofs(output_dir / "shopping.json", std::ios::out);
-        ofs << shopping_arr.format(true) << std::endl;
-    }
+    std::ofstream ofs(tasks_path, std::ios::out);
+    ofs << task_json.format(true) << std::endl;
 
     return true;
 }
