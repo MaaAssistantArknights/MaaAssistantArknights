@@ -15,16 +15,18 @@ jobs:
 
       - name: Extract Tag Name
         id: extract_tag
-        run: echo "::set-output name=tag_name::$(echo ${GITHUB_REF#refs/pull/} | cut -d'/' -f1)"
+        run: echo "{tag_name}={$(echo ${GITHUB_REF#refs/pull/} | cut -d'/' -f1)"}" >> $GITHUB_OUTPUT
 
       - name: Create Release Tag
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git tag -a "${{ steps.extract_tag.outputs.tag_name }}" -m "${{ steps.extract_tag.outputs.tag_name }}"
+          git config --local user.email "${{ github.event.pull_request.user.email }}"
+          git config --local user.name "${{ github.event.pull_request.user.login }}"
+          git tag -a "${{ steps.extract_tag.outputs.tag_name }}" -m "${{ steps.extract_tag.outputs.tag_name }}" -f
 
       - name: Push Tag to Remote
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: "${{ steps.extract_tag.outputs.tag_name }}"
+          force: true
+          
