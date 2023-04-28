@@ -40,6 +40,10 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         }                                                         \
     }
 
+#ifdef ASST_DEBUG
+    // DEBUG 模式下这里同步加载，并检查返回值的，方便排查问题
+#define AsyncLoadConfig(Config, Filename) LoadResourceAndCheckRet(Config, Filename)
+#else
 #define AsyncLoadConfig(Config, Filename)                         \
     {                                                             \
         auto full_path = path / Filename;                         \
@@ -49,6 +53,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
             return false;                                         \
         }                                                         \
     }
+#endif // ASST_DEBUG
 
 #define LoadResourceWithTemplAndCheckRet(Config, Filename, TemplDir)                             \
     {                                                                                            \
@@ -73,13 +78,21 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
 
     std::vector<std::future<bool>> futures;
 
-    // 不太重要又加载的慢的资源，但不怎么占内存的，实时异步加载
-    AsyncLoadConfig(StageDropsConfig, "stages.json"_p);
-    AsyncLoadConfig(TilePack, "Arknights-Tile-Pos"_p);
-    AsyncLoadConfig(RoguelikeCopilotConfig, "roguelike"_p / "copilot.json"_p);
-    AsyncLoadConfig(RoguelikeRecruitConfig, "roguelike"_p / "recruitment.json"_p);
-    AsyncLoadConfig(RoguelikeShoppingConfig, "roguelike"_p / "shopping.json"_p);
-    AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "stage_encounter.json"_p);
+#ifdef ASST_DEBUG
+    futures.emplace_back(std::async(std::launch::async, [&]() -> bool {
+#endif // ASST_DEBUG
+       // 不太重要又加载的慢的资源，但不怎么占内存的，实时异步加载
+       // DEBUG 模式下这里还是检查返回值的，方便排查问题
+        AsyncLoadConfig(StageDropsConfig, "stages.json"_p);
+        AsyncLoadConfig(TilePack, "Arknights-Tile-Pos"_p);
+        AsyncLoadConfig(RoguelikeCopilotConfig, "roguelike"_p / "copilot.json"_p);
+        AsyncLoadConfig(RoguelikeRecruitConfig, "roguelike"_p / "recruitment.json"_p);
+        AsyncLoadConfig(RoguelikeShoppingConfig, "roguelike"_p / "shopping.json"_p);
+        AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "stage_encounter.json"_p);
+#ifdef ASST_DEBUG
+        return true;
+    }));
+#endif // ASST_DEBUG
 
     // 太占内存的资源，都是惰性加载
     futures.emplace_back(std::async(std::launch::async, [&]() -> bool {
