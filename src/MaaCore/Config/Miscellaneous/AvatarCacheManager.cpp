@@ -15,9 +15,9 @@ bool asst::AvatarCacheManager::load(const std::filesystem::path& path)
     }
     Log.info("load", path);
 
-    m_waiting_to_load.clear();
     m_save_path = path;
 
+    LoadItem waiting_to_load;
     for (const auto& entry : std::filesystem::directory_iterator(path)) {
         if (!entry.is_regular_file()) {
             continue;
@@ -31,32 +31,16 @@ bool asst::AvatarCacheManager::load(const std::filesystem::path& path)
             continue;
         }
 
-        m_waiting_to_load.insert_or_assign(name, filepath);
+        waiting_to_load[role].emplace(name, filepath);
     }
+
+    m_load_future = std::async(std::launch::async, &AvatarCacheManager::_load, this, waiting_to_load);
 
     return true;
 }
 
 const asst::AvatarCacheManager::AvatarsMap& asst::AvatarCacheManager::get_avatars(battle::Role role)
 {
-    if (!m_waiting_to_load.empty()) {
-        const auto& [_1, _2, w, h] = Task.get("BattleOperAvatar")->rect_move;
-        for (auto& [name, filepath] : m_waiting_to_load) {
-            Log.info("load", name, filepath);
-            auto avatar = asst::imread(filepath);
-            if (avatar.empty()) {
-                Log.error("load failed", filepath);
-                continue;
-            }
-            if (avatar.cols != w || avatar.rows != h) {
-                Log.error("size mismatch", filepath, avatar.cols, avatar.rows);
-                continue;
-            }
-            m_avatars[role].insert_or_assign(std::move(name), std::move(avatar));
-        }
-        m_waiting_to_load.clear();
-    }
-
     return m_avatars[role];
 }
 
@@ -83,4 +67,34 @@ void asst::AvatarCacheManager::set_avatar(const std::string& name, battle::Role 
     Log.info(path);
 
     asst::imwrite(path, avatar);
+}
+
+void asst::AvatarCacheManager::_load(const LoadItem& waiting_to_load)
+{
+    LogTraceFunction;
+
+    if (waiting_to_load.empty()) {
+        return;
+    }
+
+    const auto& [_1, _2, w, h] = Task.get("BattleOperAvatar")->rect_move;
+
+    for (const auto& [role, name_and_paths] : waiting_to_load) {
+        for (const auto& [name, filepath] : name_and_paths) {
+            Log.info("load", name, filepath);
+
+            auto avatar = asst::imread(filepath);
+
+            if (avatar.empty()) {
+                Log.error("load failed", filepath);
+                continue;
+            }
+            if (avatar.cols != w || avatar.rows != h) {
+                Log.error("size mismatch", filepath, avatar.cols, avatar.rows);
+                continue;
+            }
+
+            m_avatars[role].insert_or_assign(name, std::move(avatar));
+        }
+    }
 }
