@@ -41,7 +41,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     }
 
 #ifdef ASST_DEBUG
-    // DEBUG 模式下这里同步加载，并检查返回值的，方便排查问题
+// DEBUG 模式下这里同步加载，并检查返回值的，方便排查问题
 #define AsyncLoadConfig(Config, Filename) LoadResourceAndCheckRet(Config, Filename)
 #else
 #define AsyncLoadConfig(Config, Filename)                         \
@@ -66,11 +66,10 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         }                                                                                        \
     }
 
-#define LoadCacheWithoutRet(Config, Dir)                              \
-    {                                                                 \
-        LogTraceScope(std::string("LoadCacheWithoutRet ") + #Config); \
-        auto full_path = UserDir.get() / "cache"_p / Dir;             \
-        SingletonHolder<Config>::get_instance().load(full_path);      \
+#define LoadCacheWithoutRet(Config, Dir)                         \
+    {                                                            \
+        auto full_path = UserDir.get() / "cache"_p / Dir;        \
+        SingletonHolder<Config>::get_instance().load(full_path); \
     }
 
     LogTraceFunction;
@@ -84,7 +83,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
        // 不太重要又加载的慢的资源，但不怎么占内存的，实时异步加载
        // DEBUG 模式下这里还是检查返回值的，方便排查问题
         AsyncLoadConfig(StageDropsConfig, "stages.json"_p);
-        AsyncLoadConfig(TilePack, "Arknights-Tile-Pos"_p);
+        AsyncLoadConfig(TilePack, "Arknights-Tile-Pos"_p / "overview.json"_p);
         AsyncLoadConfig(RoguelikeCopilotConfig, "roguelike"_p / "copilot.json"_p);
         AsyncLoadConfig(RoguelikeRecruitConfig, "roguelike"_p / "recruitment.json"_p);
         AsyncLoadConfig(RoguelikeShoppingConfig, "roguelike"_p / "shopping.json"_p);
@@ -137,6 +136,8 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
 #undef LoadCacheWithoutRet
 
     m_loaded = ranges::all_of(futures, [](auto& f) { return f.get(); });
+
+    Log.info(__FUNCTION__, "ret", m_loaded);
     return m_loaded;
 }
 
