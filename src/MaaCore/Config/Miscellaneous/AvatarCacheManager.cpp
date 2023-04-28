@@ -84,7 +84,7 @@ void asst::AvatarCacheManager::_load(LoadItem waiting_to_load)
 
     for (const auto& [role, name_and_paths] : waiting_to_load) {
         for (const auto& [name, filepath] : name_and_paths) {
-            Log.info("load", name, filepath);
+            Log.trace(__FUNCTION__, name, filepath);
 
             auto avatar = asst::imread(filepath);
 

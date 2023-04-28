@@ -25,6 +25,7 @@ bool asst::TilePack::parse(const json::value& json)
 {
     LogTraceFunction;
 
+    auto dir = m_path.parent_path();
     for (const auto& [_, summary] : json.as_object()) {
         LevelKey level_key {
             .stageId = summary.at("stageId").as_string(),
@@ -32,7 +33,7 @@ bool asst::TilePack::parse(const json::value& json)
             .levelId = summary.at("levelId").as_string(),
             .name = summary.get("name", "UnknownLevelName"),
         };
-        auto filepath = m_path / utils::path(summary.at("filename").as_string());
+        auto filepath = dir / utils::path(summary.at("filename").as_string());
         if (!std::filesystem::exists(filepath)) {
             Log.error("file not exists", filepath);
             return false;
