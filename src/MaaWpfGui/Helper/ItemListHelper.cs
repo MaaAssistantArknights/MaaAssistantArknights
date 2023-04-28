@@ -1,4 +1,4 @@
-﻿// <copyright file="ItemListHelper.cs" company="MaaAssistantArknights">
+// <copyright file="ItemListHelper.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -26,6 +26,7 @@ namespace MaaWpfGui.Helper
         public static Dictionary<string, ArkItem> ArkItems { get; }
 
         private static readonly ILogger _logger = Log.ForContext("SourceContext", "ItemListHelper");
+
         private static readonly Dictionary<string, string> _clientDirectoryMapper = new Dictionary<string, string>
         {
             { "zh-tw", "txwy" },
@@ -43,8 +44,10 @@ namespace MaaWpfGui.Helper
                 case "zh-cn":
                     filename = Path.Combine(Directory.GetCurrentDirectory(), "resource", "item_index.json");
                     break;
+
                 case "pallas":
                     break;
+
                 default:
                     filename = Path.Combine(Directory.GetCurrentDirectory(), "resource", "global", _clientDirectoryMapper[language], "resource", "item_index.json");
                     break;

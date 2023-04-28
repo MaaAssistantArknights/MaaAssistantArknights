@@ -18,7 +18,6 @@ using System.Media;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -567,6 +566,7 @@ namespace MaaWpfGui.Helper
             /// </summary>
             public uint dwTimeout;
         }
+
 #pragma warning restore SA1307 // Accessible fields should begin with upper-case letter
 
         /// <summary>

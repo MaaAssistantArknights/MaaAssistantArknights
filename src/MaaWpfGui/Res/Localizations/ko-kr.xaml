@@ -1,9 +1,7 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespaces:MaaWpfGui"
-    xmlns:system="clr-namespace:System;assembly=mscorlib"
-    xmlns:uri="clr-namespace:System;assembly=System.Runtime">
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  설정  -->
     <system:String x:Key="Settings">설정</system:String>
     <system:String x:Key="GameSettings">클라이언트</system:String>

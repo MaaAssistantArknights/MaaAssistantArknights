@@ -1,9 +1,7 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespaces:MaaWpfGui"
-    xmlns:system="clr-namespace:System;assembly=mscorlib"
-    xmlns:uri="clr-namespace:System;assembly=System.Runtime">
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  Settings  -->
     <system:String x:Key="Settings">Settings</system:String>
     <system:String x:Key="GameSettings">Client</system:String>
@@ -450,7 +448,7 @@ The video resolution is required to be 16:9, and there are no interference facto
     <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>
     <system:String x:Key="CopyErrorMessage">Copy error message</system:String>
- 
+
     <!--  AsstProxy  -->
     <system:String x:Key="ResourceBroken">The resource is damaged, please download the full package again</system:String>
     <system:String x:Key="ReplaceADBNotExists">ADB File NOT exists</system:String>
