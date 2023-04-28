@@ -5996,7 +5996,12 @@
             800,
             100
         ],
-        "ocrReplace": []
+        "ocrReplace": [
+            [
+                ".*前顾后",
+                "瞻前顾后"
+            ]
+        ]
     },
     "BattleSupportUnitFormation": {
         "action": "ClickSelf",
@@ -10181,10 +10186,6 @@
             50
         ],
         "ocrReplace": [
-            [
-                ".*前顾后",
-                "瞻前顾后"
-            ],
             [
                 "枯朽.*育",
                 "枯朽孕育"
