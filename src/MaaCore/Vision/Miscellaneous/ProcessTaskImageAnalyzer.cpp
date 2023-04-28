@@ -25,7 +25,7 @@ ProcessTaskImageAnalyzer::ResultOpt ProcessTaskImageAnalyzer::analyze() const
             continue;
         }
 
-        Log.trace("Pipeline", task_ptr->name);
+        Log.trace(__FUNCTION__, task_ptr->name);
         switch (task_ptr->algorithm) {
         case AlgorithmType::JustReturn: {
             return Result { .task_ptr = task_ptr };
