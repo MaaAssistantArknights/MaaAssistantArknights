@@ -12,14 +12,15 @@ bool asst::BattleFormationImageAnalyzer::analyze()
     LogTraceFunction;
     m_result.clear();
 
-    ProcessTaskImageAnalyzer start_button_analyzer(m_image, Task.get("BattleStartAll")->next, nullptr);
+    ProcessTaskImageAnalyzer start_button_analyzer(m_image);
+    start_button_analyzer.set_tasks(Task.get("BattleStartAll")->next);
     if (!start_button_analyzer.analyze()) {
         return false;
     }
 
     OcrWithFlagTemplImageAnalyzer oper_names_analyzer(m_image);
     oper_names_analyzer.set_task_info("BattleFormationOCRNameFlag", "BattleFormationOperNames");
-    oper_names_analyzer.set_expansion(3);
+    oper_names_analyzer.set_bin_expansion(3);
     if (!oper_names_analyzer.analyze()) {
         return false;
     }
@@ -49,7 +50,7 @@ bool asst::BattleFormationImageAnalyzer::analyze()
     // 识别到了结果，但是确实没有可用的干员名。说明游戏UI可能是老版本的，布局不一样
     if (m_result.empty()) {
         oper_names_analyzer.set_task_info("BattleFormationOCRNameFlag", "BattleFormationOperNamesOldVersion");
-        oper_names_analyzer.set_expansion(2);
+        oper_names_analyzer.set_bin_expansion(2);
         if (!oper_names_analyzer.analyze()) {
             return false;
         }

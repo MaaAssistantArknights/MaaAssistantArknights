@@ -6,9 +6,9 @@
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/Infrast/InfrastClueImageAnalyzer.h"
 #include "Vision/Infrast/InfrastClueVacancyImageAnalyzer.h"
 #include "Vision/MatchImageAnalyzer.h"
+#include "Vision/MultiMatchImageAnalyzer.h"
 
 bool asst::InfrastReceptionTask::_run()
 {
@@ -119,12 +119,15 @@ bool asst::InfrastReceptionTask::proc_clue_vacancy()
         // 识别右边列表中的线索，然后用最底下的那个（一般都是剩余时间最短的）
         // swipe_to_the_bottom_of_clue_list_on_the_right();
         image = ctrler()->get_image();
-        InfrastClueImageAnalyzer clue_analyzer(image);
+        MultiMatchImageAnalyzer clue_analyzer(image);
+        clue_analyzer.set_task_info("InfrastClue");
 
-        if (!clue_analyzer.analyze()) {
+        auto clue_result_opt = clue_analyzer.analyze();
+        if (!clue_result_opt) {
             continue;
         }
-        ctrler()->click(clue_analyzer.get_result().back().first);
+        sort_by_horizontal_(*clue_result_opt);
+        ctrler()->click(clue_result_opt->back().rect);
         sleep(delay);
     }
     return true;

@@ -12,6 +12,7 @@
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/MultiMatchImageAnalyzer.h"
 #include "Vision/OcrWithFlagTemplImageAnalyzer.h"
+#include "Vision/OcrWithPreprocessImageAnalyzer.h"
 
 bool asst::BattleImageAnalyzer::set_target(int target)
 {
@@ -130,11 +131,11 @@ bool asst::BattleImageAnalyzer::opers_analyze()
     if (!flags_analyzer.analyze()) {
         return false;
     }
-    flags_analyzer.sort_result_horizontal();
     auto flags = flags_analyzer.get_result();
     if (flags.empty()) {
         return false;
     }
+    sort_by_horizontal_(flags);
 
     const auto click_move = Task.get("BattleOperClickRange")->rect_move;
     const auto role_move = Task.get("BattleOperRoleRange")->rect_move;
@@ -145,7 +146,7 @@ bool asst::BattleImageAnalyzer::opers_analyze()
     // const int unselected_y = flag_task_ptr->roi.y;
 
     size_t index = 0;
-    for (const MatchRect& flag_mrect : flags) {
+    for (const auto& flag_mrect : flags) {
         battle::DeploymentOper oper;
         oper.rect = flag_mrect.rect.move(click_move);
 
@@ -223,7 +224,7 @@ asst::battle::Role asst::BattleImageAnalyzer::oper_role_analyze(const Rect& roi)
         return battle::Role::Unknown;
     }
 
-    const auto& templ_name = role_analyzer.get_result().name;
+    const auto& templ_name = role_analyzer.get_result().templ_info.name;
 
     std::string role_name = templ_name.substr(TaskName.size(), templ_name.size() - TaskName.size() - Ext.size());
 
@@ -347,7 +348,7 @@ bool asst::BattleImageAnalyzer::kills_flag_analyze()
 {
     MatchImageAnalyzer flag_analyzer(m_image);
     flag_analyzer.set_task_info("BattleKillsFlag");
-    return flag_analyzer.analyze();
+    return flag_analyzer.analyze().has_value();
 }
 
 bool asst::BattleImageAnalyzer::kills_analyze()
@@ -425,7 +426,7 @@ bool asst::BattleImageAnalyzer::cost_analyze()
         return false;
     }
 
-    std::string cost_str = cost_analyzer.get_result().front().text;
+    std::string cost_str = cost_analyzer.get_result().text;
 
     if (cost_str.empty() || !ranges::all_of(cost_str, [](const char& c) -> bool { return std::isdigit(c); })) {
         return false;

@@ -186,7 +186,7 @@ size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo&
     size_t matched_index = NPos;
     for (size_t index = begin_index, extra_count = 0; index < all_items.size(); ++index) {
         const std::string& item_id = all_items.at(index);
-        // analyzer.set_templ_name(item_id);
+        // analyzer.set_templ(item_id);
         // TODO: too slow? find a way to set mask directly
         cv::Mat templ = TemplResource::get_instance().get_templ(item_id).clone();
         templ(cv::Rect { templ.cols - 80, templ.rows - 50, 80, 50 }) = cv::Scalar { 0, 0, 0 };
@@ -256,13 +256,13 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
     OcrWithPreprocessImageAnalyzer analyzer(m_image_resized);
     analyzer.set_task_info("NumberOcrReplace");
     analyzer.set_roi(ocr_roi);
-    analyzer.set_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
+    analyzer.set_bin_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
 
     if (!analyzer.analyze()) {
         return 0;
     }
 
-    const auto& result = analyzer.get_result().front();
+    const auto& result = analyzer.get_result();
 
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw_resized, make_rect<cv::Rect>(result.rect), cv::Scalar(0, 0, 255));

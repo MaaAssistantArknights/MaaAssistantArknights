@@ -839,6 +839,14 @@
         "sortId": 10101,
         "usage": "新型招聘合約中對於過期契約的處理手段，可用來兌換各種資源。"
     },
+    "EXTERMINATION_AGENT": {
+        "classifyType": "NORMAL",
+        "description": "以海量實戰記錄為基礎，透過資料精算、邏輯演練與場景類比，PRTS能在代理指揮剿滅作戰時完美復現您的戰術。您甚至不需要再去關注過程。",
+        "icon": "EXTERMINATION_AGENT.png",
+        "name": "PRTS剿滅代理卡",
+        "sortId": 30200,
+        "usage": "承載PRTS功能權限的卡片，啟動後可在剿滅作戰中為您提供代理指揮。"
+    },
     "LINKAGE_TKT_GACHA_10_1701": {
         "classifyType": "NORMAL",
         "description": "為了確保人才擴展而應博士要求準備的應急手段，該批尋訪條目具有一定的針對性與時效性，以及，小小的風險。",
@@ -891,6 +899,14 @@
         "classifyType": "NORMAL",
         "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
         "icon": "LMTGS_COIN_2501.png",
+        "name": "尋訪數據契約",
+        "sortId": 10016,
+        "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
+    },
+    "LMTGS_COIN_2701": {
+        "classifyType": "NORMAL",
+        "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
+        "icon": "LMTGS_COIN_2701.png",
         "name": "尋訪數據契約",
         "sortId": 10016,
         "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
@@ -974,6 +990,14 @@
         "name": "沃倫姆德搜查令",
         "sortId": -10000,
         "usage": "由沃倫姆德憲兵隊頒發，用以深入淪陷區，追捕在動亂中逃竄的暴徒。"
+    },
+    "act11mini_token_card": {
+        "classifyType": "NONE",
+        "description": "擁有這一張借閱證，便可以自由閱覽那些你在意的故事。不論後續如何，時光都會記錄。",
+        "icon": "act11mini_token_card.png",
+        "name": "借閱證",
+        "sortId": -10000,
+        "usage": "私人圖書室獨立發行的借閱證，可用於圖書室書籍的借閱。不可將書籍帶出圖書室。"
     },
     "act12d0_token_components": {
         "classifyType": "NONE",
@@ -1151,6 +1175,14 @@
         "sortId": -10000,
         "usage": "夕自製的墨，沒有人知道製作方法，也許可以用來向她本人詢問一些事情。"
     },
+    "act16side_token_bolt": {
+        "classifyType": "NONE",
+        "description": "根據口徑的不同，收藏價值也有所不同。至於為什麼“彈殼”能在甜品店交換物資——要知道，作為拉特蘭人造訪頻率最高的場所，拉特蘭甜品店從來不只是甜品店。",
+        "icon": "act16side_token_bolt.png",
+        "name": "蝕刻彈彈殼",
+        "sortId": -10000,
+        "usage": "拉特蘭人之間頗為流行的一種收藏品。收集一定數量可以與甜品店老闆交換各種物資。"
+    },
     "act17d0_token_form": {
         "classifyType": "NONE",
         "description": "證書上有著負責人的簽名、防偽標誌、以及幹員所需調配物資和原因的詳細記錄。在核實這三點後，負責物資調配的幹員會收取隨證書附上的票卷，將物資分發給外勤幹員。",
@@ -1161,11 +1193,11 @@
     },
     "act17side_token_compass": {
         "classifyType": "NONE",
-        "description": "曾經的伊比利亞人以羅盤為自己指引航向，旋轉的指針中承載著他們磅礴的野心、金色的夢想。如今這不過是舊時代的囈語，指針已折斷，黃銅已蒙塵，巨艦不知所終，唯余寂靜的海。",
+        "description": "曾經的伊比利亞人以羅盤為自己指引航向，旋轉的指標中承載著他們磅礴的野心、金色的夢想。如今這不過是舊時代的囈語，指針已折斷，黃銅已蒙塵，巨艦不知所終，唯餘寂靜的海。",
         "icon": "act17side_token_compass.png",
         "name": "銹蝕的羅盤",
         "sortId": -10000,
-        "usage": "一切妄圖踏足海洋的努力皆屬徒勞，羅盤所指必為苦澀，必為渾濁，必為沈沒。"
+        "usage": "一切妄圖踏足海洋的努力皆屬徒勞，羅盤所指必為苦澀，必為渾濁，必為沉沒。"
     },
     "act18d0_token_page": {
         "classifyType": "NONE",
@@ -1319,6 +1351,14 @@
         "sortId": 30002,
         "usage": "用以臨時維持理智的大劑量試劑，將腦海中冗餘的雜質一掃而空，可能會引起偏頭痛。"
     },
+    "ap_supply_lt_120": {
+        "classifyType": "CONSUME",
+        "description": "使用現代技術濃縮後本產品效果有一定程度的提升，切勿當成藥品使用。當情況緊急到需要使用本品維持清醒的時候，您不應當有空來閱讀這些資訊。祝您好運！",
+        "icon": "ap_supply_lt_120.png",
+        "name": "緊急理智濃縮液",
+        "sortId": 30001,
+        "usage": "用於臨時維持理智的大劑量濃縮緊急合劑，配方中新增活性成分，效果立竿見影，可能會造成生理時鐘紊亂，服用前請仔細閱讀說明。"
+    },
     "ap_supply_lt_60": {
         "classifyType": "CONSUME",
         "description": "雖然暴飲暴食可以緩解戰場帶來的焦慮與壓力，但總歸不利於博士的身體健康。本品含有一定糖分，故而外包裝採取特製結構，較難拆解，請借此消耗掉多餘的卡路里。",
@@ -1326,6 +1366,14 @@
         "name": "緊急理智試劑",
         "sortId": 30003,
         "usage": "用以臨時維持理智的試劑，可以讓頭腦保持清醒。"
+    },
+    "ap_supply_lt_80": {
+        "classifyType": "CONSUME",
+        "description": "雖然暴飲暴食可以緩解戰場帶來的焦慮與壓力，但總歸不利於博士的身體健康。本品含有一定糖分，故而外包裝採取特製結構，較難拆解，請借此消耗掉多餘的卡路里。",
+        "icon": "ap_supply_lt_80.png",
+        "name": "緊急理智加強劑",
+        "sortId": 30003,
+        "usage": "用以臨時維持理智的緊急合劑，稍微加大了劑量，可以保持頭腦清醒，驅散疲勞。"
     },
     "base_ap": {
         "classifyType": "NONE",
@@ -1359,12 +1407,28 @@
         "sortId": 90001,
         "usage": "用以解鎖幹員的模組。"
     },
+    "mod_update_token_1": {
+        "classifyType": "MATERIAL",
+        "description": "經驗具象成資料，資料轉化為武裝。瞭解自己，瞭解戰場，是成為真正戰士的必修課。\n凝結了工程部同事的心血，升級後的模組將有效提升幹員的作戰能力。",
+        "icon": "mod_update_token_1.png",
+        "name": "數據增補條",
+        "sortId": 90003,
+        "usage": "用於升級幹員的模組。"
+    },
+    "mod_update_token_2": {
+        "classifyType": "MATERIAL",
+        "description": "經驗具象成資料，資料轉化為武裝。瞭解自己，瞭解戰場，是成為真正戰士的必修課。\n凝結了工程部同事的心血，再次升級後的模組將幫助幹員優化戰鬥方式，大幅提升作戰能力。",
+        "icon": "mod_update_token_2.png",
+        "name": "數據增補儀",
+        "sortId": 90002,
+        "usage": "用於升級幹員的模組。"
+    },
     "randomDiamondShd_1": {
         "classifyType": "CONSUME",
         "description": "沒有人知道到底是誰掏的腰包，只有對羅德島滿懷希望的情感是真切的。",
         "icon": "randomDiamondShd_1.png",
         "name": "羅德島迎春紅包",
-        "sortId": 60105,
+        "sortId": 60107,
         "usage": "分發給羅德島全員的紅包，數額隨機，飽含著對新年的祝福。"
     },
     "randomDiamondShd_2": {
@@ -1372,7 +1436,7 @@
         "description": "沒有人知道到底是誰掏的腰包，只有對羅德島滿懷希望的情感是真切的。",
         "icon": "randomDiamondShd_2.png",
         "name": "慶典禮盒",
-        "sortId": 60106,
+        "sortId": 60108,
         "usage": "分發給羅德島全員的禮盒，數額隨機，飽含著慶典到來的喜悅。"
     },
     "randomMaterialRune_0": {
@@ -1380,7 +1444,7 @@
         "description": "來自危機合約的材料補給箱。給予努力治療著這片大地的人們的微小回報。----危機合約",
         "icon": "randomMaterialRune_0.png",
         "name": "荒蕪行動物資補給",
-        "sortId": 60001,
+        "sortId": 60011,
         "usage": "裝有各種物資補給，包含多種隨機材料。"
     },
     "randomMaterialRune_1": {
@@ -1388,7 +1452,7 @@
         "description": "來自危機合約的材料補給箱。給予努力治療著這片大地的人們的微小回報。----危機合約",
         "icon": "randomMaterialRune_1.png",
         "name": "黃鐵行動物資補給",
-        "sortId": 60002,
+        "sortId": 60012,
         "usage": "裝有各種物資補給，包含多種隨機材料。"
     },
     "randomMaterialRune_2": {
@@ -1396,7 +1460,7 @@
         "description": "來自危機合約的材料補給箱。給予努力治療著這片大地的人們的微小回報。----危機合約",
         "icon": "randomMaterialRune_2.png",
         "name": "利刃行動物資補給",
-        "sortId": 60003,
+        "sortId": 60013,
         "usage": "裝有各種物資補給，包含多種隨機材料。"
     },
     "randomMaterialRune_3": {
@@ -1404,7 +1468,7 @@
         "description": "來自危機合約的材料補給箱。給予努力治療著這片大地的人們的微小回報。----危機合約",
         "icon": "randomMaterialRune_3.png",
         "name": "燃灰行動物資補給",
-        "sortId": 60004,
+        "sortId": 60014,
         "usage": "裝有各種物資補給，包含多種隨機材料。"
     },
     "randomMaterialRune_4": {
@@ -1412,7 +1476,7 @@
         "description": "來自危機合約的材料補給箱。給予努力治療著這片大地的人們的微小回報。----危機合約",
         "icon": "randomMaterialRune_4.png",
         "name": "鉛封行動物資補給",
-        "sortId": 60005,
+        "sortId": 60015,
         "usage": "裝有各種物資補給，包含多種隨機材料。"
     },
     "randomMaterialRune_5": {
@@ -1420,7 +1484,7 @@
         "description": "來自危機合約的材料補給箱。給予努力治療著這片大地的人們的微小回報。----危機合約",
         "icon": "randomMaterialRune_5.png",
         "name": "光譜行動物資補給",
-        "sortId": 60006,
+        "sortId": 60016,
         "usage": "裝有各種物資補給，包含多種隨機材料。"
     },
     "randomMaterialRune_6": {
@@ -1428,7 +1492,7 @@
         "description": "來自危機合約的材料補給箱。給予努力治療著這片大地的人們的微小回報。----危機合約",
         "icon": "randomMaterialRune_6.png",
         "name": "蠻鱗行動物資補給",
-        "sortId": 60007,
+        "sortId": 60017,
         "usage": "裝有各種物資補給，包含多種隨機材料。"
     },
     "randomMaterialRune_7": {
@@ -1436,7 +1500,23 @@
         "description": "來自危機合約的材料補給箱。給予努力治療著這片大地的人們的微小回報。----危機合約",
         "icon": "randomMaterialRune_7.png",
         "name": "松煙行動物資補給",
-        "sortId": 60008,
+        "sortId": 60018,
+        "usage": "裝有各種物資補給，包含多種隨機材料。"
+    },
+    "randomMaterialRune_8": {
+        "classifyType": "CONSUME",
+        "description": "來自危機合約的材料補給箱。給予努力治療著這片大地的人們的微小回報。----危機合約",
+        "icon": "randomMaterialRune_8.png",
+        "name": "尋晝行動物資補給",
+        "sortId": 60019,
+        "usage": "裝有各種物資補給，包含多種隨機材料。"
+    },
+    "randomMaterialRune_9": {
+        "classifyType": "CONSUME",
+        "description": "來自危機合約的材料補給箱。給予努力治療著這片大地的人們的微小回報。----危機合約",
+        "icon": "randomMaterialRune_9.png",
+        "name": "淵默行動物資補給",
+        "sortId": 60020,
         "usage": "裝有各種物資補給，包含多種隨機材料。"
     },
     "randomMaterial_1": {
@@ -1476,7 +1556,15 @@
         "description": "羅德島從各地採購、儲備的材料補給箱。不過因為缺乏系統性的整理收納，每一個箱子裡都裝著截然不同的材料。",
         "icon": "randomMaterial_5.png",
         "name": "羅德島物資補給II",
-        "sortId": 60107,
+        "sortId": 60105,
+        "usage": "裝有各種物資補給，包含多種隨機材料。"
+    },
+    "randomMaterial_6": {
+        "classifyType": "CONSUME",
+        "description": "羅德島從各地採購、儲備的材料補給箱。不過因為缺乏系統性的整理收納，每一個箱子裡都裝著截然不同的材料。",
+        "icon": "randomMaterial_6.png",
+        "name": "羅德島物資補給III",
+        "sortId": 60106,
         "usage": "裝有各種物資補給，包含多種隨機材料。"
     },
     "return_credit_token": {

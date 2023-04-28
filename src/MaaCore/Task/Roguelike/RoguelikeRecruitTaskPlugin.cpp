@@ -165,7 +165,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     auto image = ctrler()->get_image();
     MatchImageAnalyzer temp_recruit_analyzer(image);
     temp_recruit_analyzer.set_task_info("Roguelike@TempRecruitFlag");
-    temp_recruit_exist = temp_recruit_analyzer.analyze();
+    temp_recruit_exist = temp_recruit_analyzer.analyze().has_value();
     Log.trace(__FUNCTION__, "temp_recruit_exist", temp_recruit_exist);
 
     // 翻页找出所有候选干员

@@ -193,6 +193,7 @@
     <system:String x:Key="OpenEmulatorAfterLaunch">Startup Emulator after launched</system:String>
     <system:String x:Key="MinimizingStartup">Minimizing the startup Emulator</system:String>
     <system:String x:Key="WaitForEmulator">Delay time (s)</system:String>
+    <system:String x:Key="WaitForEmulatorFinish">End of wait</system:String>
     <system:String x:Key="EmulatorPath">Emulator exec path</system:String>
     <system:String x:Key="Select">Select</system:String>
     <system:String x:Key="ForcedReplaceADB">Forced Replace ADB File</system:String>
@@ -439,19 +440,23 @@ The video resolution is required to be 16:9, and there are no interference facto
     <!--  Logs  -->
     <!--  Copilot  -->
 
-    <!--  AsstProxy  -->
-    <system:String x:Key="ResourceBroken">The resource is damaged, please download the full package again</system:String>
+    <!--  ErrorView  -->
     <system:String x:Key="Error">Error</system:String>
+    <system:String x:Key="ErrorProlog">MAA has encountered an error</system:String>
     <system:String x:Key="ErrorDetails">Details</system:String>
     <system:String x:Key="ErrorSolution">Solution</system:String>
     <system:String x:Key="ErrorSolutionCrash">Please refer to the documentation: FAQ - Crashes to solve.</system:String>
     <system:String x:Key="ErrorSolutionReplaceADB">Please use administrator to open MAA</system:String>
+    <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
+    <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>
+    <system:String x:Key="CopyErrorMessage">Copy error message</system:String>
+ 
+    <!--  AsstProxy  -->
+    <system:String x:Key="ResourceBroken">The resource is damaged, please download the full package again</system:String>
     <system:String x:Key="ReplaceADBNotExists">ADB File NOT exists</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB Download Failed</system:String>
     <system:String x:Key="AdbDownloadFailedDesc">Please do it manually (rename adb.exe and replace the adb file in the emulator)</system:String>
     <system:String x:Key="SuccessfullyReplacedADB">Successfully Replaced ADB File</system:String>
-    <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
-    <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>
     <system:String x:Key="InitializationError">Initialization error!</system:String>
     <system:String x:Key="ResolutionNotSupported">Emulator resolution not supported, please set at least 720P with 16:9 ratio</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">fails to be obtain emulator resolution . Please restart computer or consider try other emulator</system:String>
