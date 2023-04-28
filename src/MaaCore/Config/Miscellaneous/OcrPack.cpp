@@ -118,7 +118,7 @@ asst::OcrPack::ResultsVec asst::OcrPack::recognize(const cv::Mat& image, bool wi
     auto costs =
         std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time).count();
     std::string class_type = utils::demangle(typeid(*this).name());
-    Log.trace(class_type, raw_results, without_det ? "by Rec" : "by Pipeline", ", cost", costs, "ms");
+    Log.trace(class_type, raw_results, without_det ? "by OCR Rec" : "by OCR Pipeline", ", cost", costs, "ms");
     return raw_results;
 }
 
