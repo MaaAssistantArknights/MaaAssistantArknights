@@ -38,6 +38,6 @@ jobs:
       - name: Merge into dev and push
         run: |
           git switch dev
-          git merge master
+          git merge master --no-commit --no-ff
           git push origin dev
       
