@@ -7,7 +7,7 @@ on:
 
 jobs:
   auto_tag_release:
-    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.title, 'Release', true)
+    if: github.event.pull_request.merged == true && (startsWith(github.event.pull_request.title, 'Release') || startsWith(github.event.pull_request.title, 'release'))
     runs-on: ubuntu-latest
 
     steps:
