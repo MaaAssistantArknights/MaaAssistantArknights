@@ -19,8 +19,8 @@ jobs:
 
       - name: Create Release Tag
         run: |
-          git config --local user.email "${{ github.event.pull_request.user.email }}"
-          git config --local user.name "${{ github.event.pull_request.user.name }}"
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git tag -a "${{ steps.extract_tag.outputs.tag_name }}" -m "${{ steps.extract_tag.outputs.tag_name }}" -f
 
       - name: Push Tag to Remote
