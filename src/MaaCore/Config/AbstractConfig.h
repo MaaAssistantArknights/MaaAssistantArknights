@@ -16,7 +16,7 @@ namespace asst
     {
     public:
         virtual ~AbstractConfig() override = default;
-        virtual bool load(const std::filesystem::path& path);
+        virtual bool load(const std::filesystem::path& path) override;
         virtual void async_load(const std::filesystem::path& path);
 
     protected:
