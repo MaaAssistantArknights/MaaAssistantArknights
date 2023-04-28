@@ -3,6 +3,7 @@
 #pragma once
 #include "Config/AbstractResource.h"
 
+#include <future>
 #include <unordered_map>
 
 #include "Utils/NoWarningCVMat.h"
@@ -27,9 +28,13 @@ namespace asst
         void set_avatar(const std::string& name, battle::Role role, const cv::Mat& avatar, bool overlay = true);
 
     private:
-        std::unordered_map<std::string, std::filesystem::path> m_waiting_to_load;
-        std::unordered_map<battle::Role, std::unordered_map<std::string, cv::Mat>> m_avatars;
+        using LoadItem = std::unordered_map<battle::Role, std::unordered_map<std::string, std::filesystem::path>>;
+        void _load(const LoadItem& waiting_to_load);
+
         std::filesystem::path m_save_path;
+        std::future<void> m_load_future;
+
+        std::unordered_map<battle::Role, std::unordered_map<std::string, cv::Mat>> m_avatars;
     };
     inline static auto& AvatarCache = AvatarCacheManager::get_instance();
 }
