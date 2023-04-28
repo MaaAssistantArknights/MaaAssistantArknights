@@ -26,10 +26,12 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
         if (!filepath.has_extension()) {
             filepath.replace_extension(asst::utils::path(".png"));
         }
+
         if (std::filesystem::exists(filepath)) {
-            m_templ_paths.insert_or_assign(name, filepath);
-            if (auto iter = m_templs.find(name); iter != m_templs.end()) {
-                m_templs.erase(iter);
+            if (auto path_iter = m_templ_paths.find(name);
+                path_iter == m_templ_paths.end() || path_iter->second != filepath) {
+                m_templs.erase(name);
+                m_templ_paths.insert_or_assign(name, filepath);
             }
         }
         else if (m_loaded) {
