@@ -252,9 +252,8 @@ bool asst::AutoRecruitTask::_run()
 
 std::vector<asst::TextRect> asst::AutoRecruitTask::start_recruit_analyze(const cv::Mat& image)
 {
-    OcrImageAnalyzer start_analyzer;
+    OcrImageAnalyzer start_analyzer(image);
     start_analyzer.set_task_info("StartRecruit");
-    start_analyzer.set_image(image);
     if (!start_analyzer.analyze()) return {};
     return start_analyzer.get_result();
 }
