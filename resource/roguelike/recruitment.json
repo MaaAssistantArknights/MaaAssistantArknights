@@ -39,7 +39,7 @@
                 "threshold": 1
             },
             {
-                "groups": [ "单奶", "群奶" ],
+                "groups": [ "群奶", "单奶" ],
                 "threshold": 1
             },
             {
@@ -224,7 +224,6 @@
                     "skill": 2,
                     "recruit_priority": 540,
                     "promote_priority": 150,
-                    "is_start": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [ "百嘉", "基石", "召唤", "号角", "地面C" ],
@@ -252,7 +251,6 @@
                     "skill": 1,
                     "recruit_priority": 325,
                     "promote_priority": 0,
-                    "is_start": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [ "百嘉", "基石", "召唤", "号角", "地面C" ],
@@ -904,7 +902,13 @@
                             "groups": [ "单奶", "群奶" ],
                             "threshold": 0,
                             "is_less": true,
-                            "offset": 600
+                            "offset": 500
+                        },
+                        {
+                            "groups": [ "高台C", "控制" ],
+                            "threshold": 0,
+                            "is_less": true,
+                            "offset": -600
                         }
                     ]
                 },
