@@ -27,7 +27,7 @@ MultiMatchImageAnalyzer::ResultsVecOpt MultiMatchImageAnalyzer::analyze() const
     for (int i = 0; i != matched.rows; ++i) {
         for (int j = 0; j != matched.cols; ++j) {
             auto value = matched.at<float>(i, j);
-            if (value < m_params.templ_thres || std::isnan(value)) {
+            if (value < m_params.templ_thres || std::isnan(value) || std::isinf(value)) {
                 continue;
             }
 
