@@ -63,46 +63,62 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LogTraceFunction;
     using namespace asst::utils::path_literals;
 
-    /* load resource with json files*/
-    LoadResourceAndCheckRet(GeneralConfig, "config.json"_p);
-    LoadResourceAndCheckRet(RecruitConfig, "recruitment.json"_p);
-    LoadResourceAndCheckRet(StageDropsConfig, "stages.json"_p);
-    LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "copilot.json"_p);
-    LoadResourceAndCheckRet(RoguelikeRecruitConfig, "roguelike"_p / "recruitment.json"_p);
-    LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike"_p / "shopping.json"_p);
-    LoadResourceAndCheckRet(RoguelikeStageEncounterConfig, "roguelike"_p / "stage_encounter.json"_p);
-    LoadResourceAndCheckRet(BattleDataConfig, "battle_data.json"_p);
-    LoadResourceAndCheckRet(OcrConfig, "ocr_config.json"_p);
+    std::vector<std::future<bool>> futures;
 
-    /* load resource with json and template files*/
-    LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
-    LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
-    LoadResourceWithTemplAndCheckRet(ItemConfig, "item_index.json"_p, "template"_p / "items"_p);
+    // 这俩比较慢的单独拿出来，放最前面
+    futures.emplace_back(std::async(std::launch::async | std::launch::deferred, [&]() -> bool {
+        LoadResourceAndCheckRet(StageDropsConfig, "stages.json"_p);
+        return true;
+    }));
+    futures.emplace_back(std::async(std::launch::async | std::launch::deferred, [&]() -> bool {
+        LoadResourceAndCheckRet(TilePack, "Arknights-Tile-Pos"_p);
+        return true;
+    }));
 
-    /* load cache */
-    LoadCacheWithoutRet(AvatarCacheManager, "avatars"_p);
+    futures.emplace_back(std::async(std::launch::async | std::launch::deferred, [&]() -> bool {
+        // 战斗中技能识别，二分类模型
+        LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "skill_ready_cls.onnx"_p);
+        // 战斗中部署方向识别，四分类模型
+        LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "deploy_direction_cls.onnx"_p);
+        // 战斗中干员（血条）检测，yolov8 检测模型
+        LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "operators_det.onnx"_p);
 
-    /*** lazy loading ***/
-    // 战斗中技能识别，二分类模型
-    LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "skill_ready_cls.onnx"_p);
-    // 战斗中部署方向识别，四分类模型
-    LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "deploy_direction_cls.onnx"_p);
-    // 战斗中干员（血条）检测，yolov8 检测模型
-    LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "operators_det.onnx"_p);
+        /* ocr */
+        LoadResourceAndCheckRet(WordOcr, "PaddleOCR"_p);
+        LoadResourceAndCheckRet(CharOcr, "PaddleCharOCR"_p);
+        return true;
+    }));
 
-    /* tiles info */
-    LoadResourceAndCheckRet(TilePack, "Arknights-Tile-Pos"_p);
+    futures.emplace_back(std::async(std::launch::async | std::launch::deferred, [&]() -> bool {
+        /* load resource with json files*/
+        LoadResourceAndCheckRet(GeneralConfig, "config.json"_p);
+        LoadResourceAndCheckRet(RecruitConfig, "recruitment.json"_p);
+        LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "copilot.json"_p);
+        LoadResourceAndCheckRet(RoguelikeRecruitConfig, "roguelike"_p / "recruitment.json"_p);
+        LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike"_p / "shopping.json"_p);
+        LoadResourceAndCheckRet(RoguelikeStageEncounterConfig, "roguelike"_p / "stage_encounter.json"_p);
+        LoadResourceAndCheckRet(BattleDataConfig, "battle_data.json"_p);
+        LoadResourceAndCheckRet(OcrConfig, "ocr_config.json"_p);
 
-    /* ocr */
-    LoadResourceAndCheckRet(WordOcr, "PaddleOCR"_p);
-    LoadResourceAndCheckRet(CharOcr, "PaddleCharOCR"_p);
+        /* load cache */
+        // 这个任务依赖 BattleDataConfig
+        LoadCacheWithoutRet(AvatarCacheManager, "avatars"_p);
+        return true;
+    }));
+
+    futures.emplace_back(std::async(std::launch::async | std::launch::deferred, [&]() -> bool {
+        /* load resource with json and template files*/
+        LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
+        LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
+        LoadResourceWithTemplAndCheckRet(ItemConfig, "item_index.json"_p, "template"_p / "items"_p);
+        return true;
+    }));
 
 #undef LoadTemplByConfigAndCheckRet
 #undef LoadResourceAndCheckRet
 #undef LoadCacheWithoutRet
 
-    m_loaded = true;
-
+    m_loaded = ranges::all_of(futures, [](auto& f) { return f.get(); });
     return m_loaded;
 }
 
