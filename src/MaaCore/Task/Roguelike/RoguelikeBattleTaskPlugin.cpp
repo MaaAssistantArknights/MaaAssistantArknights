@@ -174,31 +174,29 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
                                                .ban_medic = opt->force_ban_medic };
         m_deploy_plan = opt->deploy_plan;
         m_retreat_plan = opt->retreat_plan;
-
-        if (opt->replacement_home.empty()) {
-            for (const auto& [loc, side] : m_normal_tile_info) {
-                if (side.key == TilePack::TileKey::Home) {
-                    m_homes.emplace_back(ReplacementHome { loc, battle::DeployDirection::None });
-                }
+    }
+    if (m_homes.empty()) {
+        for (const auto& [loc, side] : m_normal_tile_info) {
+            if (side.key == TilePack::TileKey::Home) {
+                m_homes.emplace_back(ReplacementHome { loc, battle::DeployDirection::None });
             }
-            m_allow_to_use_dice = true;
-            m_role_order = {
-                battle::Role::Warrior, battle::Role::Pioneer, battle::Role::Medic,
-                battle::Role::Tank,    battle::Role::Sniper,  battle::Role::Caster,
-                battle::Role::Support, battle::Role::Special, battle::Role::Drone,
-            };
         }
-        else {
-            auto homes_pos = m_homes | views::transform(&ReplacementHome::location);
-            auto invalid_homes_pos =
-                homes_pos |
-                views::filter([&](const auto& home_pos) { return !m_normal_tile_info.contains(home_pos); }) |
-                views::transform(&Point::to_string);
-            if (!invalid_homes_pos.empty()) {
-                Log.error("No replacement homes point:", invalid_homes_pos);
-            }
-            Log.info("replacement home:", homes_pos | views::transform(&Point::to_string));
+        m_allow_to_use_dice = true;
+        m_role_order = {
+            battle::Role::Warrior, battle::Role::Pioneer, battle::Role::Medic,
+            battle::Role::Tank,    battle::Role::Sniper,  battle::Role::Caster,
+            battle::Role::Support, battle::Role::Special, battle::Role::Drone,
+        };
+    }
+    else {
+        auto homes_pos = m_homes | views::transform(&ReplacementHome::location);
+        auto invalid_homes_pos =
+            homes_pos | views::filter([&](const auto& home_pos) { return !m_normal_tile_info.contains(home_pos); }) |
+            views::transform(&Point::to_string);
+        if (!invalid_homes_pos.empty()) {
+            Log.error("No replacement homes point:", invalid_homes_pos);
         }
+        Log.info("replacement home:", homes_pos | views::transform(&Point::to_string));
     }
 
     if (m_homes.empty()) {
