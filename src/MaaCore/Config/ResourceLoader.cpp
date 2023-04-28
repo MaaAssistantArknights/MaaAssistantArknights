@@ -66,35 +66,44 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         }                                                                                        \
     }
 
-#define LoadCacheWithoutRet(Config, Dir)                         \
-    {                                                            \
-        auto full_path = UserDir.get() / "cache"_p / Dir;        \
-        SingletonHolder<Config>::get_instance().load(full_path); \
+#define LoadCacheWithoutRet(Config, Dir)                             \
+    {                                                                \
+        auto full_path = UserDir.get() / "cache"_p / Dir;            \
+        if (std::filesystem::exists(full_path)) {                    \
+            SingletonHolder<Config>::get_instance().load(full_path); \
+        }                                                            \
     }
 
     LogTraceFunction;
     using namespace asst::utils::path_literals;
 
-    std::vector<std::future<bool>> futures;
-
 #ifdef ASST_DEBUG
-    futures.emplace_back(std::async(std::launch::async, [&]() -> bool {
-#endif // ASST_DEBUG
-       // 不太重要又加载的慢的资源，但不怎么占内存的，实时异步加载
-       // DEBUG 模式下这里还是检查返回值的，方便排查问题
+#define FutureAppendBegins
+#define FutureAppendEnds
+#else
+    std::vector<std::future<bool>> futures;
+#define FutureAppendBegins futures.emplace_back(std::async(std::launch::async, [&]() -> bool
+#define FutureAppendEnds \
+    return true;         \
+    ))
+#endif
+
+    FutureAppendBegins
+    {
+        // 不太重要又加载的慢的资源，但不怎么占内存的，实时异步加载
+        // DEBUG 模式下这里还是检查返回值的，方便排查问题
         AsyncLoadConfig(StageDropsConfig, "stages.json"_p);
         AsyncLoadConfig(TilePack, "Arknights-Tile-Pos"_p / "overview.json"_p);
         AsyncLoadConfig(RoguelikeCopilotConfig, "roguelike"_p / "copilot.json"_p);
         AsyncLoadConfig(RoguelikeRecruitConfig, "roguelike"_p / "recruitment.json"_p);
         AsyncLoadConfig(RoguelikeShoppingConfig, "roguelike"_p / "shopping.json"_p);
         AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "stage_encounter.json"_p);
-#ifdef ASST_DEBUG
-        return true;
-    }));
-#endif // ASST_DEBUG
+    }
+    FutureAppendEnds;
 
-    // 太占内存的资源，都是惰性加载
-    futures.emplace_back(std::async(std::launch::async, [&]() -> bool {
+    FutureAppendBegins
+    {
+        // 太占内存的资源，都是惰性加载
         // 战斗中技能识别，二分类模型
         LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "skill_ready_cls.onnx"_p);
         // 战斗中部署方向识别，四分类模型
@@ -105,11 +114,12 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         /* ocr */
         LoadResourceAndCheckRet(WordOcr, "PaddleOCR"_p);
         LoadResourceAndCheckRet(CharOcr, "PaddleCharOCR"_p);
-        return true;
-    }));
+    }
+    FutureAppendEnds;
 
-    // 重要的资源，实时加载
-    futures.emplace_back(std::async(std::launch::async, [&]() -> bool {
+    FutureAppendBegins
+    {
+        // 重要的资源，实时加载
         /* load resource with json files*/
         LoadResourceAndCheckRet(GeneralConfig, "config.json"_p);
         LoadResourceAndCheckRet(RecruitConfig, "recruitment.json"_p);
@@ -119,23 +129,28 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         /* load cache */
         // 这个任务依赖 BattleDataConfig
         LoadCacheWithoutRet(AvatarCacheManager, "avatars"_p);
-        return true;
-    }));
+    }
+    FutureAppendEnds;
 
-    // 重要的资源，实时加载（图片还是惰性的）
-    futures.emplace_back(std::async(std::launch::async, [&]() -> bool {
-        /* load resource with json and template files*/
+    FutureAppendBegins
+    {
+        // 重要的资源，实时加载（图片还是惰性的）
+
         LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
         LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
         LoadResourceWithTemplAndCheckRet(ItemConfig, "item_index.json"_p, "template"_p / "items"_p);
-        return true;
-    }));
+    }
+    FutureAppendEnds;
 
 #undef LoadTemplByConfigAndCheckRet
 #undef LoadResourceAndCheckRet
 #undef LoadCacheWithoutRet
 
+#ifdef ASST_DEBUG
+    m_loaded = true;
+#else
     m_loaded = ranges::all_of(futures, [](auto& f) { return f.get(); });
+#endif
 
     Log.info(__FUNCTION__, "ret", m_loaded);
     return m_loaded;
