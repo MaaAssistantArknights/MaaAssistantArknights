@@ -27,5 +27,5 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: "${{ steps.extract_tag.outputs.tag_name }}"
+          tags: true
           force: true
