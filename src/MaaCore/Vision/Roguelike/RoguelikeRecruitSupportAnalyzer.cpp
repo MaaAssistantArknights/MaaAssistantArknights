@@ -11,6 +11,7 @@
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/OcrImageAnalyzer.h"
 #include "Vision/OcrWithFlagTemplImageAnalyzer.h"
+#include "Vision/OcrWithPreprocessImageAnalyzer.h"
 
 bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
 {
@@ -192,14 +193,14 @@ int asst::RoguelikeRecruitSupportAnalyzer::match_level(const Rect& roi)
     OcrWithPreprocessImageAnalyzer analyzer(m_image);
     analyzer.set_task_info("NumberOcrReplace");
     analyzer.set_roi(roi);
-    analyzer.set_expansion(1);
+    analyzer.set_bin_expansion(1);
 
     if (!analyzer.analyze()) {
         return -1;
     }
 
-    Log.info(__FUNCTION__, "| ", roi, "`", analyzer.get_result().front().text, "`");
-    const std::string& level = analyzer.get_result().front().text;
+    Log.info(__FUNCTION__, "| ", roi, "`", analyzer.get_result().text, "`");
+    const std::string& level = analyzer.get_result().text;
     if (level.empty() || !ranges::all_of(level, [](char c) -> bool { return std::isdigit(c); })) {
         return 0;
     }

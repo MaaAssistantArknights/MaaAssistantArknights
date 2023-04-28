@@ -9,6 +9,7 @@
 #include "Vision/MatchImageAnalyzer.h"
 #include "Vision/MultiMatchImageAnalyzer.h"
 #include "Vision/OcrWithFlagTemplImageAnalyzer.h"
+#include "Vision/OcrWithPreprocessImageAnalyzer.h"
 
 bool asst::OperBoxImageAnalyzer::analyze()
 {
@@ -51,8 +52,6 @@ bool asst::OperBoxImageAnalyzer::analyzer_oper_box()
         return false;
     }
 
-    sort_();
-
     return !m_result.empty();
 }
 
@@ -69,15 +68,12 @@ bool asst::OperBoxImageAnalyzer::opers_analyze()
     if (!oper_name_analyzer.analyze()) {
         return false;
     }
+    auto result_list = oper_name_analyzer.get_result();
+    sort_by_horizontal_(result_list);
 
-    size_t size = oper_name_analyzer.get_flag_result().size();
-    const auto& flag_list = oper_name_analyzer.get_flag_result();
-    const auto& name_list = oper_name_analyzer.get_result();
-    for (size_t i = 0; i != size; ++i) {
-        const auto& flag_rect = flag_list[i];
-        const auto& name_tr = name_list[i];
-
-        const std::string& name = name_tr.text;
+    for (const auto& oper : result_list) {
+        const Rect& flag_rect = oper.flag_rect;
+        const std::string& name = oper.text;
 
         OperBoxInfo box;
         box.id = BattleData.get_id(name);
@@ -118,7 +114,7 @@ bool asst::OperBoxImageAnalyzer::level_analyze()
             box.level = 1;
             continue;
         }
-        const auto& ocr_result = level_analyzer.get_result().front();
+        const auto& ocr_result = level_analyzer.get_result();
         const std::string& level = ocr_result.text;
         box.level = level_num(level);
 #ifdef ASST_DEBUG
@@ -152,7 +148,7 @@ bool asst::OperBoxImageAnalyzer::elite_analyze()
             continue;
         }
         const auto& elite_templ = elite_analyzer.get_result();
-        std::string elite = elite_templ.name.substr(task_name.size(), 1);
+        std::string elite = elite_templ.templ_info.name.substr(task_name.size(), 1);
         box.elite = std::stoi(elite);
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(roi), cv::Scalar(0, 255, 0), 1);
@@ -182,24 +178,11 @@ bool asst::OperBoxImageAnalyzer::potential_analyze()
             continue;
         }
         const auto& poten_templ = potential_analyzer.get_result();
-        std::string potential = poten_templ.name.substr(task_name_p.size(), 1);
+        std::string potential = poten_templ.templ_info.name.substr(task_name_p.size(), 1);
         box.potential = std::stoi(potential);
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(roi), cv::Scalar(0, 255, 0), 1);
 #endif // ASST_DEBUG
     }
     return true;
-}
-
-void asst::OperBoxImageAnalyzer::sort_()
-{
-    // 按位置排个序
-    ranges::sort(m_result, [](const OperBoxInfo& lhs, const OperBoxInfo& rhs) -> bool {
-        if (std::abs(lhs.rect.y - rhs.rect.y) < 5) { // y差距较小则理解为是同一排的，按x排序
-            return lhs.rect.x < rhs.rect.x;
-        }
-        else {
-            return lhs.rect.y < rhs.rect.y;
-        }
-    });
 }

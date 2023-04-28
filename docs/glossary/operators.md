@@ -37,7 +37,7 @@ THRM-EX|THRM-EX|THRM-EX|THRM-EX
 预备干员-术师|Reserve Operator - Caster|予備隊員-術師|예비 인원 - 캐스터
 预备干员-后勤|Reserve Operator - Logistics|予備隊員-支援|예비 인원 - 지원
 预备干员-狙击|Reserve Operator - Sniper|予備隊員-狙撃|예비 인원 - 스나이퍼
-预备干员-重装|Reserve Operator - Defender||
+预备干员-重装|Reserve Operator - Defender|予備隊員-重装|
 
 中文|English|日本語|한국어
 ---|---|---|---
@@ -92,7 +92,7 @@ THRM-EX|THRM-EX|THRM-EX|THRM-EX
 布丁|Pudding|プリン|푸딩
 褐果|Chestnut|チェストナット|체스트넛
 罗小黑|Luo Xiaohei|羅小黒|나소흑
-铅踝|Totter||
+铅踝|Totter|トター|
 石英|Quarts||
 
 中文|English|日本語|한국어
@@ -213,8 +213,8 @@ Stormeye|Stormeye|Stormeye|Stormeye
 但书|Proviso|プロヴァイゾ|프로바이조
 海沫|Highmore||
 郁金香|Tulip||
-达格达|Dagda||
-明椒|Paprika||
+达格达|Dagda|ダグザ|
+明椒|Paprika|パプリカ|
 雪绒|Qanipalaat||
 子月|Lunacub||
 谜图|Puzzle||
@@ -290,7 +290,7 @@ W|W|W|W
 鸿雪|Позёмка|パゼオンカ|파죰카
 百炼嘉维尔|Gavial the Invincible|百練ガヴィル|가비알 디 인빈서블
 玛恩纳|Mlynar|ムリナール|무에나
-白铁|Stainless||
+白铁|Stainless|ステインレス|
 伺夜|Vigil||
 斥罪|Penance||
 缄默德克萨斯|Texas the Omertosa||

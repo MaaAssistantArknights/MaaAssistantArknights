@@ -24,7 +24,6 @@ namespace asst
         virtual ~CombatRecordRecognitionTask() override = default;
 
         bool set_video_path(const std::filesystem::path& path);
-        bool set_stage_name(const std::string& stage_name);
 
     protected:
         virtual bool _run() override;

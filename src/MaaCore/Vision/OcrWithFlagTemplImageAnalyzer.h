@@ -1,34 +1,46 @@
 #pragma once
-#include "MultiMatchImageAnalyzer.h"
-#include "OcrWithPreprocessImageAnalyzer.h"
+#include "AbstractImageAnalyzer.h"
+#include "Config/MatcherConfig.h"
+#include "Config/OCRerConfig.h"
 
 namespace asst
 {
-    class OcrWithFlagTemplImageAnalyzer : public OcrWithPreprocessImageAnalyzer
+    class OcrWithFlagTemplImageAnalyzer : public AbstractImageAnalyzer, public OCRerConfig, public MatcherConfig
     {
     public:
-        OcrWithFlagTemplImageAnalyzer() = default;
-        OcrWithFlagTemplImageAnalyzer(const cv::Mat& image);
+        struct Result : public TextRect
+        {
+            Rect flag_rect;
+            double flag_score = .0;
+        };
+
+        using ResultsVec = std::vector<Result>;
+        using ResultsVecOpt = std::optional<ResultsVec>;
+
+    public:
+        using AbstractImageAnalyzer::AbstractImageAnalyzer;
         virtual ~OcrWithFlagTemplImageAnalyzer() override = default;
-
-        virtual void set_image(const cv::Mat& image) override;
-        virtual void set_roi(const Rect& roi) noexcept override;
-
-        virtual bool analyze() override;
-
-        virtual const std::vector<TextRect>& get_result() const noexcept override;
-        virtual std::vector<TextRect>& get_result() noexcept override;
-        std::vector<Rect>& get_flag_result() noexcept;
 
         void set_task_info(const std::string& templ_task_name, const std::string& ocr_task_name);
         void set_flag_rect_move(Rect flag_rect_move);
 
-    protected:
-        using OcrWithPreprocessImageAnalyzer::set_task_info;
+        ResultsVecOpt analyze() const;
+        // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉
+        const auto& get_result() const noexcept { return m_result; }
 
-        MultiMatchImageAnalyzer m_multi_match_image_analyzer;
+    protected:
+        // from Config
+        virtual void _set_roi(const Rect& roi) override { std::ignore = roi; }
+
+    protected:
+        using MatcherConfig::set_task_info;
+        using OCRerConfig::set_task_info;
+
+    private:
         Rect m_flag_rect_move;
-        std::vector<TextRect> m_all_result;
-        std::vector<Rect> m_flag_result;
+
+    private:
+        // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉
+        mutable ResultsVec m_result;
     };
 }
