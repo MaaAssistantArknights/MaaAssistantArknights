@@ -22,7 +22,7 @@ MatchImageAnalyzer::ResultOpt MatchImageAnalyzer::analyze() const
     cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
 
     Rect rect(max_loc.x + m_roi.x, max_loc.y + m_roi.y, templ.cols, templ.rows);
-    if (max_val > 2.0) {
+    if (std::isnan(max_val)) {
         max_val = 0;
     }
     if (m_log_tracing && max_val > m_params.templ_thres * 0.7) { // 得分太低的肯定不对，没必要打印

@@ -25,7 +25,7 @@ OcrImageAnalyzer::ResultsVecOpt OcrImageAnalyzer::analyze() const
     /* post process */
     ResultsVec results_vec;
     for (Result& res : raw_results) {
-        if (res.text.empty() || res.score > 1.0) {
+        if (res.text.empty() || std::isnan(res.score)) {
             continue;
         }
 
