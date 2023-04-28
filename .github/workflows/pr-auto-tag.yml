@@ -1,0 +1,31 @@
+name: Auto Tag Release PR
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  auto_tag_release:
+    if: github.event.pull_request.merged == true && startsWith(toLower(github.event.pull_request.title), 'release')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Extract Tag Name
+        id: extract_tag
+        run: echo "::set-output name=tag_name::$(echo ${GITHUB_REF#refs/pull/} | cut -d'/' -f1)"
+
+      - name: Create Release Tag
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag -a "${{ steps.extract_tag.outputs.tag_name }}" -m "${{ steps.extract_tag.outputs.tag_name }}"
+
+      - name: Push Tag to Remote
+        uses: ad-m/github-push-action@v0.5.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: "${{ steps.extract_tag.outputs.tag_name }}"
