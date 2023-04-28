@@ -30,20 +30,28 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         return false;
     }
 
-#define LoadResourceAndCheckRet(Config, Filename)                         \
-    {                                                                     \
-        LogTraceScope(std::string("LoadResourceAndCheckRet ") + #Config); \
-        auto full_path = path / Filename;                                 \
-        bool ret = load_resource<Config>(full_path);                      \
-        if (!ret) {                                                       \
-            Log.error(#Config, " load failed, path:", full_path);         \
-            return false;                                                 \
-        }                                                                 \
+#define LoadResourceAndCheckRet(Config, Filename)                 \
+    {                                                             \
+        auto full_path = path / Filename;                         \
+        bool ret = load_resource<Config>(full_path);              \
+        if (!ret) {                                               \
+            Log.error(#Config, " load failed, path:", full_path); \
+            return false;                                         \
+        }                                                         \
+    }
+
+#define AsyncLoadConfig(Config, Filename)                         \
+    {                                                             \
+        auto full_path = path / Filename;                         \
+        bool ret = async_load_config<Config>(full_path);          \
+        if (!ret) {                                               \
+            Log.error(#Config, " load failed, path:", full_path); \
+            return false;                                         \
+        }                                                         \
     }
 
 #define LoadResourceWithTemplAndCheckRet(Config, Filename, TemplDir)                             \
     {                                                                                            \
-        LogTraceScope(std::string("LoadResourceWithTemplAndCheckRet ") + #Config);               \
         auto full_path = path / Filename;                                                        \
         auto full_templ_dir = path / TemplDir;                                                   \
         bool ret = load_resource_with_templ<Config>(full_path, full_templ_dir);                  \
@@ -65,17 +73,16 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
 
     std::vector<std::future<bool>> futures;
 
-    // 这俩比较慢的单独拿出来，放最前面
-    futures.emplace_back(std::async(std::launch::async | std::launch::deferred, [&]() -> bool {
-        LoadResourceAndCheckRet(StageDropsConfig, "stages.json"_p);
-        return true;
-    }));
-    futures.emplace_back(std::async(std::launch::async | std::launch::deferred, [&]() -> bool {
-        LoadResourceAndCheckRet(TilePack, "Arknights-Tile-Pos"_p);
-        return true;
-    }));
+    // 不太重要又加载的慢的资源，但不怎么占内存的，实时异步加载
+    AsyncLoadConfig(StageDropsConfig, "stages.json"_p);
+    AsyncLoadConfig(TilePack, "Arknights-Tile-Pos"_p);
+    AsyncLoadConfig(RoguelikeCopilotConfig, "roguelike"_p / "copilot.json"_p);
+    AsyncLoadConfig(RoguelikeRecruitConfig, "roguelike"_p / "recruitment.json"_p);
+    AsyncLoadConfig(RoguelikeShoppingConfig, "roguelike"_p / "shopping.json"_p);
+    AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "stage_encounter.json"_p);
 
-    futures.emplace_back(std::async(std::launch::async | std::launch::deferred, [&]() -> bool {
+    // 太占内存的资源，都是惰性加载
+    futures.emplace_back(std::async(std::launch::async, [&]() -> bool {
         // 战斗中技能识别，二分类模型
         LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "skill_ready_cls.onnx"_p);
         // 战斗中部署方向识别，四分类模型
@@ -89,14 +96,11 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         return true;
     }));
 
-    futures.emplace_back(std::async(std::launch::async | std::launch::deferred, [&]() -> bool {
+    // 重要的资源，实时加载
+    futures.emplace_back(std::async(std::launch::async, [&]() -> bool {
         /* load resource with json files*/
         LoadResourceAndCheckRet(GeneralConfig, "config.json"_p);
         LoadResourceAndCheckRet(RecruitConfig, "recruitment.json"_p);
-        LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "copilot.json"_p);
-        LoadResourceAndCheckRet(RoguelikeRecruitConfig, "roguelike"_p / "recruitment.json"_p);
-        LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike"_p / "shopping.json"_p);
-        LoadResourceAndCheckRet(RoguelikeStageEncounterConfig, "roguelike"_p / "stage_encounter.json"_p);
         LoadResourceAndCheckRet(BattleDataConfig, "battle_data.json"_p);
         LoadResourceAndCheckRet(OcrConfig, "ocr_config.json"_p);
 
@@ -106,7 +110,8 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         return true;
     }));
 
-    futures.emplace_back(std::async(std::launch::async | std::launch::deferred, [&]() -> bool {
+    // 重要的资源，实时加载（图片还是惰性的）
+    futures.emplace_back(std::async(std::launch::async, [&]() -> bool {
         /* load resource with json and template files*/
         LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
         LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
