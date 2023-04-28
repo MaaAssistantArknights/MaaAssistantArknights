@@ -14,6 +14,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Git config
         run: |
@@ -33,12 +35,9 @@ jobs:
           git tag -a "${{ steps.extract_tag.outputs.tag_name }}" -m "${{ steps.extract_tag.outputs.tag_name }}" -f
           git push origin "${{ steps.extract_tag.outputs.tag_name }}" -f
 
-      - uses: actions/checkout@v3
-        with: 
-          ref: dev
-
       - name: Merge into dev and push
         run: |
+          git switch dev
           git merge master
           git push origin dev
       
