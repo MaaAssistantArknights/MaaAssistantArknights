@@ -1243,10 +1243,6 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _roguelikeMode, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeMode, value);
-                if (value == "1")
-                {
-                    RoguelikeInvestmentEnabled = true;
-                }
             }
         }
 
@@ -1352,6 +1348,18 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _roguelikeInvestmentEnabled, value.ToString());
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeInvestmentEnabled, value.ToString());
+            }
+        }
+
+        private string _roguelikeRefreshTraderWithDice = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeRefreshTraderWithDice, false.ToString());
+
+        public bool RoguelikeRefreshTraderWithDice
+        {
+            get => bool.Parse(_roguelikeRefreshTraderWithDice);
+            set
+            {
+                SetAndNotify(ref _roguelikeRefreshTraderWithDice, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeRefreshTraderWithDice, value.ToString());
             }
         }
 

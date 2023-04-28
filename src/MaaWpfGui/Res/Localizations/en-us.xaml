@@ -211,6 +211,7 @@
     <system:String x:Key="GoldTimesLimit">Stop after investing N times</system:String>
     <system:String x:Key="StopOnGoldLimit">Stop when deposited coins reached limit</system:String>
     <system:String x:Key="InvestmentEnabled">Deposit coins</system:String>
+    <system:String x:Key="RefreshTraderWithDice">Refresh Trader with Dice</system:String>
 
     <system:String x:Key="PenguinID">Penguin Report ID(Number part only)</system:String>
     <system:String x:Key="DrGrandet">Use Originiums like Dr. Grandet</system:String>
@@ -497,6 +498,7 @@ The video resolution is required to be 16:9, and there are no interference facto
     <system:String x:Key="GameDrop">Game disconnected, pending reconnect</system:String>
     <system:String x:Key="GameDropNoRestart">Game disconnected, not restarting, stopping</system:String>
     <system:String x:Key="RoguelikeGamePass">Game cleared! congratulations!</system:String>
+    <system:String x:Key="RoguelikeSpecialItemBought">Special Item Bought!</system:String>
     <system:String x:Key="SSSGamePass">Game cleared! congratulations!</system:String>
     <system:String x:Key="Trader">Stage: Trader</system:String>
     <system:String x:Key="SafeHouse">Stage: SafeHouse</system:String>
