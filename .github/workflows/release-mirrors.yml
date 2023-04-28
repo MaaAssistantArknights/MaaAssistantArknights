@@ -31,7 +31,7 @@ jobs:
         run: |
           mkdir -pv upload-dir/${{ env.release_tag }}
           cd upload-dir/${{ env.release_tag }}
-          gh release download ${{ env.release_tag }} --repo 'MaaAssistantArknights/MaaAssistantArknights' --pattern "MAA-${{ env.release_tag }}-*" --clobber
+          gh release download ${{ env.release_tag }} --repo 'MaaAssistantArknights/MaaAssistantArknights' --clobber
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   #     - name: "Upload to mirror 0"
