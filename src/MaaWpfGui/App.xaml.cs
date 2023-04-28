@@ -11,14 +11,9 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Documents;
-using HandyControl.Themes;
-using MaaWpfGui.Constants;
-using MaaWpfGui.Helper;
-using MaaWpfGui.ViewModels.UI;
 
 namespace MaaWpfGui
 {

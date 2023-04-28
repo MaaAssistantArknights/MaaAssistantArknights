@@ -34,9 +34,11 @@ namespace MaaWpfGui.Services.HotKeys
                 case MaaHotKeyAction.ShowGui:
                     HandleShowGui();
                     break;
+
                 case MaaHotKeyAction.LinkStart:
                     HandleLinkStart();
                     break;
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(action), action, null);
             }

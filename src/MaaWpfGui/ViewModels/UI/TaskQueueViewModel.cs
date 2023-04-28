@@ -32,7 +32,6 @@ using MaaWpfGui.Utilities.ValueType;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
-using Stylet;
 using StyletIoC;
 using Application = System.Windows.Application;
 using ComboBox = System.Windows.Controls.ComboBox;

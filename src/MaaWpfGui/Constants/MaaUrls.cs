@@ -38,7 +38,6 @@ namespace MaaWpfGui.Constants
 
         public const string QQchannel = "https://pd.qq.com/s/4j1ju9z47";
 
-
         private static string language => ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
 
         public static string HelpUri => $"https://maa.plus/docs/{_helpUrl[language]}";
