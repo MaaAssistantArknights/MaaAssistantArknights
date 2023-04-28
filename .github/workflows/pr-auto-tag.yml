@@ -15,7 +15,7 @@ jobs:
 
       - name: Extract Tag Name
         id: extract_tag
-        run: echo "{tag_name}={$(echo ${GITHUB_REF#refs/pull/} | cut -d'/' -f1)"}" >> $GITHUB_OUTPUT
+        run: echo "{tag_name}={$(echo ${GITHUB_REF#refs/pull/} | cut -d'/' -f1)}" >> $GITHUB_OUTPUT
 
       - name: Create Release Tag
         run: |
