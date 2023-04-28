@@ -29,10 +29,11 @@ namespace asst
 
     private:
         using LoadItem = std::unordered_map<battle::Role, std::unordered_map<std::string, std::filesystem::path>>;
-        void _load(const LoadItem& waiting_to_load);
+        void _load(LoadItem waiting_to_load);
 
         std::filesystem::path m_save_path;
         std::future<void> m_load_future;
+        std::mutex m_load_mutex;
 
         std::unordered_map<battle::Role, std::unordered_map<std::string, cv::Mat>> m_avatars;
     };

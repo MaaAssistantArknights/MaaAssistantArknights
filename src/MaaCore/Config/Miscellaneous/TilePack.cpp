@@ -21,43 +21,24 @@ ASST_SUPPRESS_CV_WARNINGS_END
 
 #include "Utils/Logger.hpp"
 
-bool asst::TilePack::load(const std::filesystem::path& path)
+bool asst::TilePack::parse(const json::value& json)
 {
     LogTraceFunction;
 
-    auto overview_path = path / "overview.json";
-    Log.info("load", overview_path);
-
-    if (!std::filesystem::exists(overview_path)) {
-        return false;
-    }
-
-    auto overview_opt = json::open(overview_path);
-    if (!overview_opt) {
-        Log.error(overview_path, "failed to open");
-        return false;
-    }
-
-    auto& overview = overview_opt.value();
-    for (const auto& [_, summary] : overview.as_object()) {
+    for (const auto& [_, summary] : json.as_object()) {
         LevelKey level_key {
             .stageId = summary.at("stageId").as_string(),
             .code = summary.at("code").as_string(),
             .levelId = summary.at("levelId").as_string(),
             .name = summary.get("name", "UnknownLevelName"),
         };
-        auto filepath = path / utils::path(summary.at("filename").as_string());
+        auto filepath = m_path / utils::path(summary.at("filename").as_string());
         if (!std::filesystem::exists(filepath)) {
             Log.error("file not exists", filepath);
             return false;
         }
         m_summarize.emplace_back(std::move(level_key), std::move(filepath));
     }
-
-    if (!m_tile_calculator) {
-        m_tile_calculator = std::make_shared<Map::TileCalc>(WindowWidthDefault, WindowHeightDefault);
-    }
-
     return true;
 }
 
@@ -122,7 +103,9 @@ std::unordered_map<asst::Point, asst::TilePack::TileInfo> asst::TilePack::calc_(
     std::vector<std::vector<Map::Tile>> tiles;
 
     Map::Level level(*json_opt);
-    bool ret = m_tile_calculator->run(level, side, pos, tiles, shift_x, shift_y);
+    Map::TileCalc calcer(WindowWidthDefault, WindowHeightDefault);
+
+    bool ret = calcer.run(level, side, pos, tiles, shift_x, shift_y);
 
     if (!ret) {
         Log.info("Tiles calc error!");

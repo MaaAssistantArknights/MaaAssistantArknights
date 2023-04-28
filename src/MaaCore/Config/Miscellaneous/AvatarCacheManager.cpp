@@ -34,7 +34,7 @@ bool asst::AvatarCacheManager::load(const std::filesystem::path& path)
         waiting_to_load[role].emplace(name, filepath);
     }
 
-    m_load_future = std::async(std::launch::async, &AvatarCacheManager::_load, this, waiting_to_load);
+    m_load_future = std::async(std::launch::async, &AvatarCacheManager::_load, this, std::move(waiting_to_load));
 
     return true;
 }
@@ -69,7 +69,7 @@ void asst::AvatarCacheManager::set_avatar(const std::string& name, battle::Role 
     asst::imwrite(path, avatar);
 }
 
-void asst::AvatarCacheManager::_load(const LoadItem& waiting_to_load)
+void asst::AvatarCacheManager::_load(LoadItem waiting_to_load)
 {
     LogTraceFunction;
 
@@ -77,7 +77,10 @@ void asst::AvatarCacheManager::_load(const LoadItem& waiting_to_load)
         return;
     }
 
-    const auto& [_1, _2, w, h] = Task.get("BattleOperAvatar")->rect_move;
+    std::unique_lock<std::mutex> lock(m_load_mutex);
+    // const auto [_1, _2, w, h] = Task.get("BattleOperAvatar")->rect_move;
+    constexpr int w = 60;
+    constexpr int h = 60;
 
     for (const auto& [role, name_and_paths] : waiting_to_load) {
         for (const auto& [name, filepath] : name_and_paths) {
