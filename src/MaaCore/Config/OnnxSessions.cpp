@@ -11,16 +11,12 @@ bool asst::OnnxSessions::load(const std::filesystem::path& path)
     LogTraceFunction;
     Log.info("record path", path);
 
-    if (!std::filesystem::exists(path)) {
-        Log.error("file not exist:", path);
-        return false;
-    }
-
     std::string name = utils::path_to_utf8_string(path.stem());
-    if (auto iter = m_sessions.find(name); iter != m_sessions.end()) {
-        m_sessions.erase(iter);
+
+    if (auto iter = m_model_paths.find(name); iter == m_model_paths.end() || iter->second != path) {
+        m_sessions.erase(name);
+        m_model_paths.insert_or_assign(name, path);
     }
-    m_model_paths.insert_or_assign(name, path);
 
     return true;
 }
