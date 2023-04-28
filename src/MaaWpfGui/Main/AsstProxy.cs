@@ -731,6 +731,10 @@ namespace MaaWpfGui.Main
                     case "BattleStartAll":
                         Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissionStart"), UiLogColor.Info);
                         break;
+
+                    case "StageTraderSpecialShoppingAfterRefresh":
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeSpecialItemBought"), UiLogColor.RareOperator);
+                        break;
                 }
             }
             else if (subTask == "CombatRecordRecognitionTask")
@@ -1513,7 +1517,7 @@ namespace MaaWpfGui.Main
         /// <param name="theme">肉鸽名字。["Phantom", "Mizuki"]</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRoguelike(int mode, int starts, bool investment_enabled, int invests, bool stop_when_full,
-            string squad, string roles, string core_char, bool use_support, bool enable_nonfriend_support, string theme)
+            string squad, string roles, string core_char, bool use_support, bool enable_nonfriend_support, string theme, bool refresh_trader_with_dice)
         {
             var task_params = new JObject
             {
@@ -1541,6 +1545,7 @@ namespace MaaWpfGui.Main
 
             task_params["use_support"] = use_support;
             task_params["use_nonfriend_support"] = enable_nonfriend_support;
+            task_params["refresh_trader_with_dice"] = refresh_trader_with_dice;
 
             AsstTaskId id = AsstAppendTaskWithEncoding("Roguelike", task_params);
             _latestTaskId[TaskType.Roguelike] = id;

@@ -77,12 +77,19 @@
                         </hc:TextBox.Text>
                     </hc:TextBox>
                 </StackPanel>
-                <CheckBox
-                    Margin="10"
+                <StackPanel
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Content="{DynamicResource InvestmentEnabled}"
-                    IsChecked="{Binding RoguelikeInvestmentEnabled}" />
+                    Orientation="Horizontal">
+                    <CheckBox
+                        Margin="10"
+                        Content="{DynamicResource InvestmentEnabled}"
+                        IsChecked="{Binding RoguelikeInvestmentEnabled}" />
+                    <CheckBox
+                        Margin="10"
+                        Content="{DynamicResource RefreshTraderWithDice}"
+                        IsChecked="{Binding RoguelikeRefreshTraderWithDice}" />
+                </StackPanel>
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                     <controls:TextBlock
                         VerticalAlignment="Center"

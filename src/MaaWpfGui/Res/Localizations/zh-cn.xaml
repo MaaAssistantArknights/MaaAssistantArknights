@@ -213,6 +213,7 @@
     <system:String x:Key="GoldTimesLimit">投资 N 个源石锭后停止任务</system:String>
     <system:String x:Key="StopOnGoldLimit">储备源石锭达到上限时停止</system:String>
     <system:String x:Key="InvestmentEnabled">投资源石锭</system:String>
+    <system:String x:Key="RefreshTraderWithDice">刷新商店（指路鳞）</system:String>
 
     <system:String x:Key="PenguinID">企鹅物流汇报ID（仅数字部分）</system:String>
     <system:String x:Key="DrGrandet">博朗台碎石模式</system:String>
@@ -499,6 +500,7 @@
     <system:String x:Key="GameDrop">游戏掉线，重新连接</system:String>
     <system:String x:Key="GameDropNoRestart">游戏掉线，不重新连接，停止任务</system:String>
     <system:String x:Key="RoguelikeGamePass">肉鸽通关啦！</system:String>
+    <system:String x:Key="RoguelikeSpecialItemBought">购买了特殊商品！</system:String>
     <system:String x:Key="SSSGamePass">保全通关啦！</system:String>
     <system:String x:Key="Trader">关卡：诡意行商</system:String>
     <system:String x:Key="SafeHouse">关卡：安全的角落</system:String>

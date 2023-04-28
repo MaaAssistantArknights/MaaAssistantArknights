@@ -8442,6 +8442,7 @@
         "postDelay": 3000,
         "next": [
             "Roguelike@StageTraderEnter",
+            "Roguelike@StageTraderRefreshWithDice",
             "Roguelike@StageTraderInvestSystem",
             "Roguelike@TraderRandomShopping",
             "Roguelike@StageTraderLeave"
@@ -8476,6 +8477,96 @@
             "Roguelike@StageTraderInvestSystemFull",
             "Roguelike@StageTraderInvestConfirm",
             "Roguelike@StageTraderInvestCancel"
+        ]
+    },
+    "Roguelike@StageTraderRefreshWithDice": {
+        "action": "ClickSelf",
+        "roi": [
+            230,
+            47,
+            211,
+            139
+        ],
+        "next": [
+            "Roguelike@StageTraderRefreshWithDiceConfirm",
+            "Roguelike@StageTraderRefreshWithDiceNotAvaiable",
+            "Roguelike@StageTraderInvestSystem",
+            "Roguelike@TraderRandomShopping",
+            "Roguelike@StageTraderLeave"
+        ],
+        "exceededNext": [
+            "Roguelike@StageTraderInvestSystem",
+            "Roguelike@TraderRandomShopping",
+            "Roguelike@StageTraderLeave"
+        ]
+    },
+    "Roguelike@StageTraderRefreshWithDiceConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            759,
+            415,
+            171,
+            161
+        ],
+        "next": [
+            "Roguelike@StageTraderRefreshWithDiceConfirm",
+            "Roguelike@StageTraderRefreshWithDiceDoubleConfirm"
+        ]
+    },
+    "Roguelike@StageTraderRefreshWithDiceDoubleConfirm": {
+        "action": "ClickRect",
+        "algorithm": "JustReturn",
+        "specificRect": [
+            545,
+            568,
+            182,
+            152
+        ],
+        "next": [
+            "Roguelike@StageTraderSpecialShoppingAfterRefresh",
+            "Roguelike@StageTraderRefreshWithDice",
+            "Roguelike@TraderRandomShopping",
+            "Roguelike@StageTraderInvestSystem",
+            "Roguelike@StageTraderLeave",
+            "Roguelike@StageTraderRefreshWithDiceDoubleConfirm"
+
+        ]
+    },
+    "Roguelike@StageTraderSpecialShoppingAfterRefresh": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "roi": [
+            308,
+            25,
+            972,
+            442
+        ],
+        "text": [
+            "指路",
+            "指路鳞"
+        ],
+        "next": [
+            "Roguelike@TraderRandomShopping#next"
+        ]
+    },
+    "Roguelike@StageTraderRefreshWithDiceNotAvaiable": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "本商店",
+            "刷新次数",
+            "已用完"
+        ],
+        "action": "DoNothing",
+        "roi": [
+            988,
+            47,
+            292,
+            139
+        ],
+        "next": [
+            "Roguelike@StageTraderInvestSystem",
+            "Roguelike@TraderRandomShopping",
+            "Roguelike@StageTraderLeave"
         ]
     },
     "Roguelike@StageTraderInvestSystem": {
@@ -9937,7 +10028,12 @@
             190,
             35
         ],
-        "ocrReplace": []
+        "ocrReplace": [
+            [
+                "指路.*",
+                "指路鳞"
+            ]
+        ]
     },
     "RoguelikeTraderShoppingOver": {
         "template": "Roguelike@StageTraderLeave.png",
