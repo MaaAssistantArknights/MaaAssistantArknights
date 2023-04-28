@@ -5,5 +5,6 @@ After a long period of development, our new GUI [MaaX](https://github.com/MaaAss
 
 ### 修复
 
-- 修复 v4.15.1 启动即报错的问题 @MistEO
+- 修复 v4.15.0 一打开就会爆炸的问题 @MistEO
 - 修复 720p 视频识别错误 @MistEO
+- 修复 Mac Release 编译问题 @hguandl
