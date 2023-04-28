@@ -27,8 +27,9 @@ namespace asst
         void set_avatar(const std::string& name, battle::Role role, const cv::Mat& avatar, bool overlay = true);
 
     private:
+        std::unordered_map<std::string, std::filesystem::path> m_waiting_to_load;
         std::unordered_map<battle::Role, std::unordered_map<std::string, cv::Mat>> m_avatars;
-        std::filesystem::path m_path;
+        std::filesystem::path m_save_path;
     };
     inline static auto& AvatarCache = AvatarCacheManager::get_instance();
 }

@@ -37,5 +37,6 @@ bool asst::StageDropsConfig::parse(const json::value& json)
         m_all_stage_code.emplace(code);
         m_stage_info.emplace(std::move(key), std::move(info));
     }
+
     return true;
 }
