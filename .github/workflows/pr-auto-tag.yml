@@ -24,7 +24,7 @@ jobs:
           git tag -a "${{ steps.extract_tag.outputs.tag_name }}" -m "${{ steps.extract_tag.outputs.tag_name }}"
 
       - name: Push Tag to Remote
-        uses: ad-m/github-push-action@v0.5.0
+        uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: "${{ steps.extract_tag.outputs.tag_name }}"
