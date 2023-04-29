@@ -28,6 +28,7 @@ namespace asst
         // Not working for OCR with detection
         using OCRerConfig::set_bin_expansion;
         using OCRerConfig::set_bin_threshold;
+        using OCRerConfig::set_bin_trim_threshold;
 
     protected:
         void postproc_rect_(Result& res) const;

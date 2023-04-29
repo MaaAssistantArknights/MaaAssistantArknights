@@ -8,8 +8,8 @@
 #include "Vision/BestMatcher.h"
 #include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
-#include "Vision/TemplDetOCRer.h"
 #include "Vision/RegionOCRer.h"
+#include "Vision/TemplDetOCRer.h"
 
 bool asst::OperBoxImageAnalyzer::analyze()
 {
@@ -63,6 +63,8 @@ bool asst::OperBoxImageAnalyzer::opers_analyze()
 
     oper_name_analyzer.set_task_info("OperBoxFlagLV", "OperBoxNameOCR");
     oper_name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
+    oper_name_analyzer.set_bin_expansion(4);
+    oper_name_analyzer.set_bin_trim_threshold(4, 0);
     const auto& all_opers = BattleData.get_all_oper_names();
     oper_name_analyzer.set_required(std::vector(all_opers.begin(), all_opers.end()));
     if (!oper_name_analyzer.analyze()) {
@@ -84,7 +86,10 @@ bool asst::OperBoxImageAnalyzer::opers_analyze()
         box.own = true;
 
 #ifdef ASST_DEBUG
-        cv::rectangle(m_image_draw, make_rect<cv::Rect>(flag_rect), cv::Scalar(0, 255, 0), 2);
+        cv::rectangle(m_image_draw, make_rect<cv::Rect>(flag_rect), cv::Scalar(0, 255, 0), 1);
+        cv::putText(m_image_draw, std::to_string(oper.flag_score), cv::Point(flag_rect.x + 10, flag_rect.y),
+                    cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 1);
+        cv::rectangle(m_image_draw, make_rect<cv::Rect>(oper.rect), cv::Scalar(0, 255, 0), 1);
 #endif
 
         m_result.emplace_back(std::move(box));
@@ -152,6 +157,8 @@ bool asst::OperBoxImageAnalyzer::elite_analyze()
         box.elite = std::stoi(elite);
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(roi), cv::Scalar(0, 255, 0), 1);
+        cv::putText(m_image_draw, std::to_string(box.elite), cv::Point(roi.x, roi.y - 10), cv::FONT_HERSHEY_SIMPLEX,
+                    0.5, cv::Scalar(0, 0, 255), 2);
 #endif // ASST_DEBUG
     }
     return true;
@@ -182,6 +189,8 @@ bool asst::OperBoxImageAnalyzer::potential_analyze()
         box.potential = std::stoi(potential);
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(roi), cv::Scalar(0, 255, 0), 1);
+        cv::putText(m_image_draw, std::to_string(box.potential), cv::Point(roi.x, roi.y - 10), cv::FONT_HERSHEY_SIMPLEX,
+                    0.5, cv::Scalar(0, 0, 255), 2);
 #endif // ASST_DEBUG
     }
     return true;

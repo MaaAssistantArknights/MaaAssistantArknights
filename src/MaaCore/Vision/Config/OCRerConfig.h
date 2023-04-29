@@ -22,6 +22,8 @@ namespace asst
             int bin_threshold_lower = 140;
             int bin_threshold_upper = 255;
             int bin_expansion = 2;
+            int bin_left_trim_threshold = 0;
+            int bin_right_trim_threshold = 0;
         };
 
     public:
@@ -42,6 +44,7 @@ namespace asst
 
         void set_bin_threshold(int lower, int upper = 255);
         void set_bin_expansion(int expansion);
+        void set_bin_trim_threshold(int left, int right);
 
     protected:
         virtual void _set_roi(const Rect& roi) = 0;

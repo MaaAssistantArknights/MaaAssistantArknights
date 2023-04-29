@@ -21,6 +21,9 @@ namespace asst
         using OCRerConfig::set_without_det;
         virtual void _set_roi(const Rect& roi) override { set_roi(roi); }
 
+        void bin_left_trim(cv::Mat& bin) const;
+        void bin_right_trim(cv::Mat& bin) const;
+
     private:
         // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉
         mutable Result m_result;
