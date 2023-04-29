@@ -92,7 +92,7 @@ bool asst::OperBoxImageAnalyzer::opers_analyze()
     if (results.empty()) {
         return false;
     }
-    results = NMS(results);
+    results = NMS(std::move(results));
     sort_by_horizontal_(results);
 
     for (const auto& oper : results) {

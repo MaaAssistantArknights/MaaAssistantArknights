@@ -10576,6 +10576,20 @@
             200
         ]
     },
+    "BattleSpeedButton": {
+        "template": "empty.png",
+        "roi": [
+            1069,
+            22,
+            55,
+            59
+        ],
+        "specialParams_Doc": "亮度阈值；点的数量",
+        "specialParams": [
+            245,
+            160
+        ]
+    },
     "Reclamation@PopupConfirm": {
         "Doc": "base_task",
         "template": "PopupConfirm.png",

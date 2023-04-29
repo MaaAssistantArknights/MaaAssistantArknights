@@ -56,8 +56,13 @@ BattlefieldMatcher::ResultOpt BattlefieldMatcher::analyze() const
         }
     }
 
-    if (m_object_of_interest.in_detail) {
-        result.in_detail = in_detail_analyze();
+    // 识别的不准，暂时不用了
+    // if (m_object_of_interest.in_detail) {
+    //    result.in_detail = in_detail_analyze();
+    //}
+
+    if (m_object_of_interest.speed_button) {
+        result.speed_button = speed_button_analyze();
     }
 
     return result;
@@ -318,16 +323,23 @@ std::optional<int> BattlefieldMatcher::costs_analyze() const
 
 bool BattlefieldMatcher::pause_button_analyze() const
 {
-    auto has_started_task_ptr = Task.get("BattleHasStarted");
-    cv::Mat roi = m_image(make_rect<cv::Rect>(has_started_task_ptr->roi));
+    auto task_ptr = Task.get("BattleHasStarted");
+    cv::Mat roi = m_image(make_rect<cv::Rect>(task_ptr->roi));
     cv::Mat roi_gray;
     cv::cvtColor(roi, roi_gray, cv::COLOR_BGR2GRAY);
     cv::Mat bin;
-    const int value_threshold = has_started_task_ptr->special_params[0];
+    const int value_threshold = task_ptr->special_params[0];
     cv::threshold(roi_gray, bin, value_threshold, 255, cv::THRESH_BINARY);
     int count = cv::countNonZero(bin);
-    const int count_threshold = has_started_task_ptr->special_params[1];
+    const int count_threshold = task_ptr->special_params[1];
     Log.trace(__FUNCTION__, "count", count, "threshold", count_threshold);
+
+#ifdef ASST_DEBUG
+    cv::rectangle(m_image_draw, make_rect<cv::Rect>(task_ptr->roi), cv::Scalar(0, 0, 255), 2);
+    cv::putText(m_image_draw, std::to_string(count) + "/" + std::to_string(count_threshold),
+                cv::Point(task_ptr->roi.x, task_ptr->roi.y + task_ptr->roi.height + 10), cv::FONT_HERSHEY_PLAIN, 1.2,
+                cv::Scalar(255, 255, 255), 2);
+#endif
 
     return count > count_threshold;
 }
@@ -357,4 +369,27 @@ bool BattlefieldMatcher::in_detail_analyze() const
         return false;
     }
     return true;
+}
+
+bool asst::BattlefieldMatcher::speed_button_analyze() const
+{
+    auto task_ptr = Task.get("BattleSpeedButton");
+    cv::Mat roi = m_image(make_rect<cv::Rect>(task_ptr->roi));
+    cv::Mat roi_gray;
+    cv::cvtColor(roi, roi_gray, cv::COLOR_BGR2GRAY);
+    cv::Mat bin;
+    const int value_threshold = task_ptr->special_params[0];
+    cv::threshold(roi_gray, bin, value_threshold, 255, cv::THRESH_BINARY);
+    int count = cv::countNonZero(bin);
+    const int count_threshold = task_ptr->special_params[1];
+    Log.trace(__FUNCTION__, "count", count, "threshold", count_threshold);
+
+#ifdef ASST_DEBUG
+    cv::rectangle(m_image_draw, make_rect<cv::Rect>(task_ptr->roi), cv::Scalar(0, 0, 255), 2);
+    cv::putText(m_image_draw, std::to_string(count) + "/" + std::to_string(count_threshold),
+                cv::Point(task_ptr->roi.x, task_ptr->roi.y + task_ptr->roi.height + 20), cv::FONT_HERSHEY_PLAIN, 1.2,
+                cv::Scalar(255, 255, 255), 2);
+#endif
+
+    return count > count_threshold;
 }

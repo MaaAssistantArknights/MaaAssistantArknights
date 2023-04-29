@@ -358,7 +358,7 @@ bool asst::CombatRecordRecognitionTask::slice_video()
         analyzer.set_object_of_interest({
             .deployment = true,
             .kills = true,
-            .in_detail = true,
+            .speed_button = true,
         });
 
         analyzer.set_total_kills_prompt(total_kills);
@@ -398,11 +398,11 @@ bool asst::CombatRecordRecognitionTask::slice_video()
             pre_distance = distance;
         }
 
-        bool in_detail_page = result_opt->in_detail || !result_opt->pause_button || !continuity;
+        bool oper_is_clicked = !result_opt->speed_button || !result_opt->pause_button;
         bool oper_auto_retreat =
             in_segment && continuity && !m_clips.empty() && cur_opers.size() != m_clips.back().deployment.size();
 
-        if (in_detail_page || oper_auto_retreat) {
+        if (oper_is_clicked || oper_auto_retreat) {
             if (m_clips.empty()) {
                 continue;
             }
