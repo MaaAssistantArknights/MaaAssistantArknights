@@ -103,20 +103,22 @@ std::vector<BattlefieldDetector::OperatorResult> BattlefieldDetector::operator_a
         int y = center_y - h / 2;
         Rect rect { x, y, w, h };
 
-        OperatorResult box { OperatorResult::Cls::Operator, rect, score };
+        all_results.emplace_back(OperatorResult { OperatorResult::Cls::Operator, rect, score });
+    }
+
+    auto nms_results = NMS(std::move(all_results));
 
 #ifdef ASST_DEBUG
 
+    for (const auto& box : nms_results) {
         Rect draw_rect = box.rect;
         draw_rect.y += draw_offset_y;
         draw_rect.height += draw_offset_h;
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(draw_rect), cv::Scalar(0, 0, 255), 5);
         cv::putText(m_image_draw, std::to_string(box.score), cv::Point(draw_rect.x, draw_rect.y - 10),
                     cv::FONT_HERSHEY_PLAIN, 1.2, cv::Scalar(0, 0, 255), 2);
+    }
 #endif
 
-        all_results.emplace_back(std::move(box));
-    }
-
-    return NMS(all_results);
+    return nms_results;
 }

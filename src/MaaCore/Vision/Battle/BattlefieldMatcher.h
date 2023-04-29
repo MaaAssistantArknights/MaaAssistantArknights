@@ -14,7 +14,8 @@ namespace asst
             bool deployment = false;
             bool kills = false;
             bool costs = false;
-            bool in_detail = false;
+            // bool in_detail = false;
+            bool speed_button = false;
         };
 
         struct Result
@@ -26,7 +27,8 @@ namespace asst
             std::optional<std::pair<int, int>> kills;
             std::optional<int> costs;
 
-            bool in_detail = false;
+            // bool in_detail = false;
+            bool speed_button = false;
             bool pause_button = false;
         };
 
@@ -55,6 +57,7 @@ namespace asst
         std::optional<std::pair<int, int>> kills_analyze() const; // 识别击杀数
         std::optional<int> costs_analyze() const;                 // 识别费用
         bool in_detail_analyze() const;                           // 识别是否在详情页
+        bool speed_button_analyze() const; // 识别是否有加速按钮（在详情页就没有）
 
         ObjectOfInterest m_object_of_interest; // 待识别的目标
         int m_total_kills_prompt = 0; // 之前的击杀总数，因为击杀数经常识别不准所以依赖外部传入作为参考

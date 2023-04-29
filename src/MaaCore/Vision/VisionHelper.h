@@ -112,7 +112,7 @@ namespace asst
 
     // Non-Maximum Suppression
     template <typename ResultsVec>
-    inline static ResultsVec NMS(ResultsVec& results, double threshold = 0.7)
+    inline static ResultsVec NMS(ResultsVec results, double threshold = 0.7)
     {
         ranges::sort(results, [](const auto& a, const auto& b) { return a.score > b.score; });
 
