@@ -55,11 +55,11 @@ Talk is cheap. Show me the pictures!<br>
 
 ### Basic Settings
 
-1. Please refer to [Emulator Supports](https://maa.plus/docs/en-us/1.3-EMULATOR_SUPPORTS.html) to configure your emulator.
+1. Please refer to [Emulator Supports](./1.3-EMULATOR_SUPPORTS.md) to configure your emulator.
 2. Change your emulator resolution to `1280 * 720` or higher with `16:9` aspect ratio.
 3. Enjoy it!
 
-See also: [User Manual](https://maa.plus/docs/en-us/1.1-USER_MANUAL.html)
+See also: [User Manual](./1.1-USER_MANUAL.md)
 
 ## FAQ
 
@@ -70,7 +70,7 @@ See also: [User Manual](https://maa.plus/docs/en-us/1.1-USER_MANUAL.html)
 - Download speed is too slow, or the mirror site is not accessible.
 - Download halfway and prompt "login"/"authentication"
 
-Please refer to: [FAQ](https://maa.plus/docs/en-us/1.2-FAQ.html)
+Please refer to: [FAQ](./1.2-FAQ.md)
 
 ## Supports for overseas clients
 
@@ -134,11 +134,11 @@ Thanks to all friends who contribute to development/testing for making MAA bette
 
 2. Open `MAA.sln` with Visual Studio 2022, right-click `MaaWpfGui` and set it as the startup project.
 3. Right-click `MaaWpfGui` - Properties - Debugging - Enable Local Debugging (so you can hang the breakpoint on the C++ Core).
-4. (Optional) If you are going to submit a PR, I recommend you enable [clang-format support](https://maa.plus/docs/en-us/2.2-DEVELOPMENT.html#using-clang-format-in-visual-studio).
+4. (Optional) If you are going to submit a PR, I recommend you enable [clang-format support](./2.2-DEVELOPMENT.md#using-clang-format-in-visual-studio).
 
 ### Linux/MacOS
 
-Please refer to [Linux Tutorial](https://maa.plus/docs/en-us/2.1-LINUX_TUTORIAL.html)
+Please refer to [Linux Tutorial](./2.1-LINUX_TUTORIAL.md)
 
 ### API
 
@@ -150,22 +150,22 @@ Please refer to [Linux Tutorial](https://maa.plus/docs/en-us/2.1-LINUX_TUTORIAL.
 - [Java HTTP interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Java/Readme.md)
 - [Rust interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust/src/maa_sys): [HTTP interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust)
 - [TypeScript interface](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
-- [Integration Documentation](https://maa.plus/docs/en-us/3.1-INTEGRATION.html)
-- [Callback Schema](https://maa.plus/docs/en-us/3.2-CALLBACK_SCHEMA.html)
-- [Task Schema](https://maa.plus/docs/en-us/3.4-TASK_SCHEMA.html)
-- [Copilot Schema](https://maa.plus/docs/en-us/3.3-COPILOT_SCHEMA.html)
+- [Integration Documentation](./3.1-INTEGRATION.md)
+- [Callback Schema](./3.2-CALLBACK_SCHEMA.md)
+- [Task Schema](./3.4-TASK_SCHEMA.md)
+- [Copilot Schema](./3.3-COPILOT_SCHEMA.md)
 
 ### Overseas Clients Adaptation
 
-Please refer to [Overseas clients Adaptation](https://maa.plus/docs/en-us/2.5-OVERSEAS_CLIENTS_ADAPTATION.html). For the functions already supported by the CN client, most of the overseas clients adaptation tasks only need screenshots and simple JSON modification.
+Please refer to [Overseas clients Adaptation](./2.5-OVERSEAS_CLIENTS_ADAPTATION.md). For the functions already supported by the CN client, most of the overseas clients adaptation tasks only need screenshots and simple JSON modification.
 
 ### For Novice Users of GitHub
 
-[Development](https://maa.plus/docs/en-us/2.2-DEVELOPMENT.html#introduction-to-github-pull-request-flow)
+[Development](./2.2-DEVELOPMENT.md#introduction-to-github-pull-request-flow)
 
 ### Issue Bot
 
-Please refer to [Issue Bot Usage](https://maa.plus/docs/en-us/2.3-ISSUE_BOT_USAGE.html)
+Please refer to [Issue Bot Usage](./2.3-ISSUE_BOT_USAGE.md)
 
 ## Disclaimer
 

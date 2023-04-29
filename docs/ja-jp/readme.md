@@ -18,7 +18,7 @@
 </div>
 <br>
 
-[简体中文](../readme.md) | [繁體中文](/zh-tw/readme.md) | [English](/en-us/readme.md) | [日本語](/ja-jp/readme.md) | [한국어](/ko-kr/readme.md)
+[简体中文](../readme.md) | [繁體中文](../zh-tw/readme.md) | [English](../en-us/readme.md) | [日本語](../ja-jp/readme.md) | [한국어](../ko-kr/readme.md)
 
 MAAは、MAA Assistant Arknightsです。
 
@@ -55,11 +55,11 @@ UIを見れば使い方もすぐ分かる！<br>
 
 ### 基本設定
 
-1. [エミュレータのサポート](https://maa.plus/docs/ja-jp/1.3-エミュレータのサポート.html)を参照して、対応するエミュレーターの操作に進んでください。
+1. [エミュレータのサポート](./1.3-エミュレータのサポート.md)を参照して、対応するエミュレーターの操作に進んでください。
 2. エミュレータ解像度を `16:9`、`1280 * 720` 以上に変更してください。それより大きい解像度でも大丈夫です。
 3. ゲームスタート！
 
-詳しいマニュアルは[MAA使用説明書](https://maa.plus/docs/ja-jp/1.1-詳細説明.html)を参照してください。
+詳しいマニュアルは[MAA使用説明書](./1.1-詳細説明.md)を参照してください。
 
 ## よくある質問
 
@@ -68,7 +68,7 @@ UIを見れば使い方もすぐ分かる！<br>
 - 認識エラー、またはオペレーション開始した後に反応がない。
 - ダウンロードが中途半端になり "ログイン"/"認証 "のプロンプトが出る。
 
-[よくある質問](https://maa.plus/docs/ja-jp/1.2-よくある質問.html)を参照してください。
+[よくある質問](./1.2-よくある質問.md)を参照してください。
 
 ## サーバーに応じてサポートされる機能
 
@@ -132,11 +132,11 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 
 2. Visual Studio 2022 で `MAA.sln` を開き、`MaaWpfGui` を右クリックして、スタートアップ プロジェクトとして設定します。
 3. `MaaWpfGui` を右クリックし、[プロパティ] - [デバッグ] - [ローカル デバッグを有効にする] を選択します (これにより、C++ コアにブレークポイントを掛けることができます)。
-4. (オプション) PR を送信する場合は、[clang-formatを有効にする](https://maa.plus/docs/ja-jp/2.2-プルリクエスト.html)を有効にすることをお勧めします。
+4. (オプション) PR を送信する場合は、[clang-formatを有効にする](./2.2-プルリクエスト.md)を有効にすることをお勧めします。
 
 ### Linux | macOS
 
-[Linuxチュートリアル](https://maa.plus/docs/ja-jp/2.1-Linuxチュートリアル.html)を参照してください。
+[Linuxチュートリアル](./2.1-Linuxチュートリアル.md)を参照してください。
 
 ### API
 
@@ -148,22 +148,22 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 - [Java HTTPインターフェース](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Java/Readme.md)
 - [Rustインターフェース](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust/src/maa_sys)：[HTTPインターフェース](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust)
 - [TypeScriptインターフェース](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
-- [統合ドキュメント](https://maa.plus/docs/ja-jp/3.1-統合ドキュメント.html)
-- [コールバックAPI](https://maa.plus/docs/ja-jp/3.2-コールバックAPI.html)
-- [タスクAPI](https://maa.plus/docs/ja-jp/3.4-タスクAPI.html)
-- [自動作戦API](https://maa.plus/docs/ja-jp/3.3-自動作戦API.html)
+- [統合ドキュメント](./3.1-統合ドキュメント.md)
+- [コールバックAPI](./3.2-コールバックAPI.md)
+- [タスクAPI](./3.4-タスクAPI.md)
+- [自動作戦API](./3.3-自動作戦API.md)
 
 ### グローバル版を含む海外クライアントの対応について
 
-[海外版クライアントの対応について](https://maa.plus/docs/ja-jp/2.5-OVERSEAS_CLIENTS_ADAPTATION.html)をご覧ください。大陸版で既にサポートされている機能を他地域クライアントへ移植するための必要作業の大半は、簡単なJSONの修正と（作業に必要な）スクリーンショットの提出で済みます。。
+[海外版クライアントの対応について](./2.5-OVERSEAS_CLIENTS_ADAPTATION.md)をご覧ください。大陸版で既にサポートされている機能を他地域クライアントへ移植するための必要作業の大半は、簡単なJSONの修正と（作業に必要な）スクリーンショットの提出で済みます。。
 
 ### 開発に参加したいがGitHubの使い方がよくわかりません
 
-[Githubプルリクエストのプロセス](https://maa.plus/docs/ja-jp/2.2-プルリクエスト.html)
+[Githubプルリクエストのプロセス](./2.2-プルリクエスト.md)
 
 ### Issue bot
 
-詳細については[Issue bot 使用方法](https://maa.plus/docs/ja-jp/2.3-IssueBot使う方.html)を参照してください。
+詳細については[Issue bot 使用方法](./2.3-IssueBot使う方.md)を参照してください。
 
 ## 免責事項
 
