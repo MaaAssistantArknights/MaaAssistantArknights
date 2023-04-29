@@ -1521,6 +1521,14 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 public event PropertyChangedEventHandler PropertyChanged;
 
+                public TimerProperties(int timeId, bool isOn, int hour, int min)
+                {
+                    TimerId = timeId;
+                    _isOn = isOn;
+                    _hour = hour;
+                    _min = min;
+                }
+
                 protected void OnPropertyChanged([CallerMemberName] string name = null)
                 {
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
@@ -1588,13 +1596,11 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 for (int i = 0; i < 8; i++)
                 {
-                    Timers[i] = new TimerProperties
-                    {
-                        TimerId = i,
-                        IsOn = ConfigurationHelper.GetTimer(i, bool.FalseString) == bool.TrueString,
-                        Hour = int.Parse(ConfigurationHelper.GetTimerHour(i, $"{i * 3}")),
-                        Min = int.Parse(ConfigurationHelper.GetTimerMin(i, "0")),
-                    };
+                    Timers[i] = new TimerProperties(
+                        i,
+                        ConfigurationHelper.GetTimer(i, bool.FalseString) == bool.TrueString,
+                        int.Parse(ConfigurationHelper.GetTimerHour(i, $"{i * 3}")),
+                        int.Parse(ConfigurationHelper.GetTimerMin(i, "0")));
                 }
             }
         }
@@ -2902,7 +2908,7 @@ namespace MaaWpfGui.ViewModels.UI
                 RoguelikeSquadList.Add(item);
             }
 
-            RoguelikeSquad = RoguelikeSquadList.Any(x => x.Value == roguelikeSquad) ? roguelikeSquad : string.Empty;
+            _roguelikeSquad = RoguelikeSquadList.Any(x => x.Value == roguelikeSquad) ? roguelikeSquad : string.Empty;
         }
     }
 }
