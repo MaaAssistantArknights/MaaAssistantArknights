@@ -109,4 +109,31 @@ namespace asst
             return lvalue < rvalue;
         });
     }
+
+    // Non-Maximum Suppression
+    template <typename ResultsVec>
+    inline static ResultsVec NMS(ResultsVec& results, double threshold = 0.7)
+    {
+        ranges::sort(results, [](const auto& a, const auto& b) { return a.score > b.score; });
+
+        ResultsVec nms_results;
+        for (size_t i = 0; i < results.size(); ++i) {
+            const auto& box = results[i];
+            if (box.score < 0.1f) {
+                continue;
+            }
+            nms_results.emplace_back(box);
+            for (size_t j = i + 1; j < results.size(); ++j) {
+                auto& box2 = results[j];
+                if (box2.score < 0.1f) {
+                    continue;
+                }
+                int iou_area = (make_rect<cv::Rect>(box.rect) & make_rect<cv::Rect>(box2.rect)).area();
+                if (iou_area > threshold * box2.rect.area()) {
+                    box2.score = 0;
+                }
+            }
+        }
+        return nms_results;
+    }
 } // namespace asst

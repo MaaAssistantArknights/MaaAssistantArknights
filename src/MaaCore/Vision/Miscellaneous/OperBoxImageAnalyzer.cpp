@@ -4,6 +4,7 @@
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
+#include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/BestMatcher.h"
 #include "Vision/Matcher.h"
@@ -57,23 +58,44 @@ bool asst::OperBoxImageAnalyzer::analyzer_oper_box()
 
 bool asst::OperBoxImageAnalyzer::opers_analyze()
 {
-    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
-
     TemplDetOCRer oper_name_analyzer(m_image);
 
-    oper_name_analyzer.set_task_info("OperBoxFlagLV", "OperBoxNameOCR");
-    oper_name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
+    oper_name_analyzer.set_bin_threshold(160);
     oper_name_analyzer.set_bin_expansion(4);
     oper_name_analyzer.set_bin_trim_threshold(4, 0);
     const auto& all_opers = BattleData.get_all_oper_names();
     oper_name_analyzer.set_required(std::vector(all_opers.begin(), all_opers.end()));
-    if (!oper_name_analyzer.analyze()) {
+
+    TemplDetOCRer::ResultsVec results;
+
+    Rect roi_top = Task.get("OperBoxFlagRoleTopROI")->roi;
+    Rect roi_bottom = Task.get("OperBoxFlagRoleBottomROI")->roi;
+
+    for (int i = 1; i < 10; ++i) {
+        oper_name_analyzer.set_task_info("OperBoxFlagRole" + std::to_string(i), "OperBoxNameOCR");
+
+        oper_name_analyzer.set_roi(roi_top);
+        auto top_result_opt = oper_name_analyzer.analyze();
+        if (top_result_opt) {
+            results.insert(results.end(), std::make_move_iterator(top_result_opt->begin()),
+                           std::make_move_iterator(top_result_opt->end()));
+        }
+
+        oper_name_analyzer.set_roi(roi_bottom);
+        auto bottom_result_opt = oper_name_analyzer.analyze();
+        if (bottom_result_opt) {
+            results.insert(results.end(), std::make_move_iterator(bottom_result_opt->begin()),
+                           std::make_move_iterator(bottom_result_opt->end()));
+        }
+    }
+
+    if (results.empty()) {
         return false;
     }
-    auto result_list = oper_name_analyzer.get_result();
-    sort_by_horizontal_(result_list);
+    results = NMS(results);
+    sort_by_horizontal_(results);
 
-    for (const auto& oper : result_list) {
+    for (const auto& oper : results) {
         const Rect& flag_rect = oper.flag_rect;
         const std::string& name = oper.text;
 
@@ -87,7 +109,7 @@ bool asst::OperBoxImageAnalyzer::opers_analyze()
 
 #ifdef ASST_DEBUG
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(flag_rect), cv::Scalar(0, 255, 0), 1);
-        cv::putText(m_image_draw, std::to_string(oper.flag_score), cv::Point(flag_rect.x + 10, flag_rect.y),
+        cv::putText(m_image_draw, std::to_string(oper.flag_score), cv::Point(flag_rect.x, flag_rect.y - 10),
                     cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 1);
         cv::rectangle(m_image_draw, make_rect<cv::Rect>(oper.rect), cv::Scalar(0, 255, 0), 1);
 #endif

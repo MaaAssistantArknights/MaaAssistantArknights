@@ -118,29 +118,5 @@ std::vector<BattlefieldDetector::OperatorResult> BattlefieldDetector::operator_a
         all_results.emplace_back(std::move(box));
     }
 
-    // NMS
-    constexpr double NmsThreshold = 0.7f;
-    std::sort(all_results.begin(), all_results.end(),
-              [](const OperatorResult& a, const OperatorResult& b) { return a.score > b.score; });
-
-    std::vector<OperatorResult> nms_results;
-    for (size_t i = 0; i < all_results.size(); ++i) {
-        const auto& box = all_results[i];
-        if (box.score < 0.1f) {
-            continue;
-        }
-        nms_results.emplace_back(box);
-        for (size_t j = i + 1; j < all_results.size(); ++j) {
-            auto& box2 = all_results[j];
-            if (box2.score < 0.1f) {
-                continue;
-            }
-            int iou_area = (make_rect<cv::Rect>(box.rect) & make_rect<cv::Rect>(box2.rect)).area();
-            if (iou_area > NmsThreshold * box2.rect.area()) {
-                box2.score = 0;
-            }
-        }
-    }
-
-    return nms_results;
+    return NMS(all_results);
 }
