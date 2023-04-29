@@ -12151,6 +12151,14 @@
     },
     "GachaSwipeToOpenBag": {
         "baseTask": "SwipeToTheRight",
+        "algorithm": "MatchTemplate",
+        "template": "GachaSkip.png",
+        "roi": [
+            1144,
+            0,
+            136,
+            148
+        ],
         "next": [
             "GachaSkip"
         ],

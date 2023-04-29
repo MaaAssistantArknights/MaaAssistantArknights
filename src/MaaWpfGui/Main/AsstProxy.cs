@@ -21,6 +21,8 @@ using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using HandyControl.Data;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
@@ -154,6 +156,39 @@ namespace MaaWpfGui.Main
             {
                 AsstLog(ptr1, ptr2);
             }
+        }
+
+        [DllImport("MaaCore.dll")]
+        private static extern unsafe ulong AsstGetImage(AsstHandle handle, byte* buff, ulong buff_size);
+
+        [DllImport("MaaCore.dll")]
+        private static extern unsafe ulong AsstGetNullSize();
+
+        public static unsafe BitmapImage AsstGetImage(AsstHandle handle)
+        {
+            byte[] buff = new byte[1280 * 720 * 3];
+            ulong read_size = 0;
+            fixed (byte* ptr = buff)
+            {
+                read_size = AsstGetImage(handle, ptr, (ulong)buff.Length);
+            }
+
+            if (read_size == AsstGetNullSize())
+            {
+                return null;
+            }
+
+            // buff is a png data
+            var image = new BitmapImage();
+            image.BeginInit();
+            image.StreamSource = new MemoryStream(buff, 0, (int)read_size);
+            image.EndInit();
+            return image;
+        }
+
+        public BitmapImage AsstGetImage()
+        {
+            return AsstGetImage(_handle);
         }
 
         private readonly CallbackDelegate _callback;

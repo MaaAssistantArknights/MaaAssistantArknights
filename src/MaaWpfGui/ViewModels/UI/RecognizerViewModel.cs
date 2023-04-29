@@ -13,10 +13,15 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using Newtonsoft.Json.Linq;
@@ -499,7 +504,16 @@ namespace MaaWpfGui.ViewModels.UI
         public bool GachaDone
         {
             get => _gachaDone;
-            set => SetAndNotify(ref _gachaDone, value);
+            set
+            {
+                SetAndNotify(ref _gachaDone, value);
+                if (value)
+                {
+                    _gachaImageTimer.Stop();
+                    // 强制再刷一下
+                    RefreshGachaImage(null, null);
+                }
+            }
         }
 
         private string _gachaInfo = LocalizationHelper.GetString("GachaInitTip");
@@ -523,6 +537,7 @@ namespace MaaWpfGui.ViewModels.UI
         public async void StartGacha(bool once = true)
         {
             GachaDone = false;
+            GachaImage = null;
 
             string errMsg = string.Empty;
             GachaInfo = LocalizationHelper.GetString("ConnectingToEmulator");
@@ -533,10 +548,40 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            if (Instances.AsstProxy.AsstStartGacha(once))
+            if (!Instances.AsstProxy.AsstStartGacha(once))
             {
-                var rd = new Random();
-                GachaInfo = LocalizationHelper.GetString("GachaTip" + rd.Next(1, 18).ToString());
+                return;
+            }
+
+            _gachaImageTimer.Interval = TimeSpan.FromMilliseconds(500);
+            _gachaImageTimer.Tick += RefreshGachaImage;
+            _gachaImageTimer.Start();
+        }
+
+        private readonly DispatcherTimer _gachaImageTimer = new DispatcherTimer();
+
+        private static readonly object _lock = new object();
+
+        private BitmapImage _gachaImage;
+
+        public BitmapImage GachaImage
+        {
+            get => _gachaImage;
+            set => SetAndNotify(ref _gachaImage, value);
+        }
+
+        private void RefreshGachaImage(object sender, EventArgs e)
+        {
+            lock (_lock)
+            {
+                var image = Instances.AsstProxy.AsstGetImage();
+                if (!GachaImage.IsEqual(image))
+                {
+                    GachaImage = image;
+
+                    var rd = new Random();
+                    GachaInfo = LocalizationHelper.GetString("GachaTip" + rd.Next(1, 18).ToString());
+                }
             }
         }
 

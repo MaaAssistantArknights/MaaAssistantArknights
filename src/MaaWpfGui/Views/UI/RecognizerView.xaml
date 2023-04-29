@@ -247,14 +247,12 @@
         <TabItem Header="{DynamicResource Gacha}">
             <Grid Margin="20,0,20,20">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="150" />
+                    <RowDefinition Height="80" />
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="150" />
+                    <RowDefinition Height="100" />
                 </Grid.RowDefinitions>
                 <controls:TextBlock
                     Grid.Row="0"
-                    Height="80"
-                    Margin="10"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Focusable="True"
@@ -262,15 +260,12 @@
                     Style="{StaticResource TextBlockDefaultBold}"
                     Text="{Binding GachaInfo}"
                     TextWrapping="Wrap" />
-                <controls:TextBlock
+                <Image
+                    Margin="10"
                     Grid.Row="1"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Focusable="True"
-                    FontSize="14"
-                    Style="{StaticResource TextBlockDefaultBold}"
-                    Text="（这里显示游戏截图）"
-                    TextWrapping="Wrap" />
+                    Source="{Binding GachaImage}" />
                 <StackPanel
                     Grid.Row="2"
                     HorizontalAlignment="Center"
@@ -279,14 +274,14 @@
                     <Button
                         Width="180"
                         Height="70"
-                        Margin="30"
+                        Margin="30,0"
                         Command="{s:Action GachaOnce}"
                         Content="{DynamicResource GachaOnce}"
                         IsEnabled="{Binding GachaDone}" />
                     <Button
                         Width="180"
                         Height="70"
-                        Margin="30"
+                        Margin="30,0"
                         Command="{s:Action GachaTenTimes}"
                         Content="{DynamicResource GachaTenTimes}"
                         IsEnabled="{Binding GachaDone}" />
