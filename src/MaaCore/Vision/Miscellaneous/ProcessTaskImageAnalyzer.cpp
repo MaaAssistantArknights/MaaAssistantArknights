@@ -94,24 +94,25 @@ OcrImageAnalyzer::ResultsVecOpt ProcessTaskImageAnalyzer::ocr(const std::shared_
     OcrImageAnalyzer::ResultsVec result_vec;
 
     if (det) {
-        OcrImageAnalyzer OcrImageAnalyzer(m_image, m_roi);
-        OcrImageAnalyzer.set_task_info(ocr_task_ptr);
+        OcrImageAnalyzer analyzer(m_image, m_roi);
+        analyzer.set_task_info(ocr_task_ptr);
         if (use_cache && cache_opt) {
-            OcrImageAnalyzer.set_roi(*cache_opt);
+            analyzer.set_roi(*cache_opt);
+            analyzer.set_without_det(true);
         }
-        auto result_opt = OcrImageAnalyzer.analyze();
+        auto result_opt = analyzer.analyze();
         if (!result_opt) {
             return std::nullopt;
         }
         result_vec = std::move(*result_opt);
     }
     else {
-        OcrWithPreprocessImageAnalyzer OcrImageAnalyzer(m_image, m_roi);
-        OcrImageAnalyzer.set_task_info(ocr_task_ptr);
+        OcrWithPreprocessImageAnalyzer analyzer(m_image, m_roi);
+        analyzer.set_task_info(ocr_task_ptr);
         if (use_cache && cache_opt) {
-            OcrImageAnalyzer.set_roi(*cache_opt);
+            analyzer.set_roi(*cache_opt);
         }
-        auto result_opt = OcrImageAnalyzer.analyze();
+        auto result_opt = analyzer.analyze();
         if (!result_opt) {
             return std::nullopt;
         }

@@ -35,6 +35,7 @@ namespace asst
     protected:
         using MatcherConfig::set_task_info;
         using OCRerConfig::set_task_info;
+        using OCRerConfig::set_without_det;
 
     private:
         Rect m_flag_rect_move;

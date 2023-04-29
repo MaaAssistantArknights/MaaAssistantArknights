@@ -37,6 +37,7 @@ namespace asst
         virtual void set_task_info(std::shared_ptr<TaskInfo> task_ptr);
         virtual void set_task_info(const std::string& task_name);
 
+        void set_without_det(bool without_det) noexcept;
         void set_use_char_model(bool enable) noexcept;
 
         void set_bin_threshold(int lower, int upper = 255);

@@ -18,6 +18,7 @@ namespace asst
         const auto& get_result() const noexcept { return m_result; }
 
     protected:
+        using OCRerConfig::set_without_det;
         virtual void _set_roi(const Rect& roi) override { set_roi(roi); }
 
     private:
