@@ -12154,7 +12154,7 @@
         "next": [
             "GachaSkip"
         ],
-        "postDelay": 2000
+        "postDelay": 3000
     },
     "GachaSkip": {
         "template": "GachaSkip.png",

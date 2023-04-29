@@ -16,7 +16,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows;
 using HandyControl.Data;
@@ -515,7 +517,8 @@ namespace MaaWpfGui.Main
                             || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.RecruitCalc, out var recruitCalcTaskId) ? recruitCalcTaskId : 0)
                             || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0)
                             || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.Depot, out var depotTaskId) ? depotTaskId : 0)
-                            || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.OperBox, out var operBoxTaskId) ? operBoxTaskId : 0))
+                            || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.OperBox, out var operBoxTaskId) ? operBoxTaskId : 0)
+                            || unique_finished_task == (_latestTaskId.TryGetValue(TaskType.Gacha, out var gachaTaskId) ? gachaTaskId : 0))
                         {
                             isMainTaskQueueAllCompleted = false;
                         }
@@ -532,6 +535,7 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.Idle = true;
                     Instances.TaskQueueViewModel.UseStone = false;
                     Instances.CopilotViewModel.Idle = true;
+                    Instances.RecognizerViewModel.GachaDone = true;
 
                     if (isMainTaskQueueAllCompleted)
                     {
@@ -1209,6 +1213,7 @@ namespace MaaWpfGui.Main
             VideoRec,
             Depot,
             OperBox,
+            Gacha,
         }
 
         private readonly Dictionary<TaskType, AsstTaskId> _latestTaskId = new Dictionary<TaskType, AsstTaskId>();
@@ -1616,6 +1621,17 @@ namespace MaaWpfGui.Main
             var task_params = new JObject();
             AsstTaskId id = AsstAppendTaskWithEncoding("OperBox", task_params);
             _latestTaskId[TaskType.OperBox] = id;
+            return id != 0 && AsstStart();
+        }
+
+        public bool AsstStartGacha(bool once = true)
+        {
+            var task_params = new JObject
+            {
+                ["task_names"] = new JArray { once ? "GachaOnce" : "GachaTenTimes" },
+            };
+            AsstTaskId id = AsstAppendTaskWithEncoding("Custom", task_params);
+            _latestTaskId[TaskType.Gacha] = id;
             return id != 0 && AsstStart();
         }
 
