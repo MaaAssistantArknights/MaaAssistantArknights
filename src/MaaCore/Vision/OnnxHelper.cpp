@@ -2,7 +2,9 @@
 
 #include "Utils/NoWarningCV.h"
 
-std::vector<float> asst::OnnxHelper::image_to_tensor(const cv::Mat& image)
+using namespace asst;
+
+std::vector<float> OnnxHelper::image_to_tensor(const cv::Mat& image)
 {
     cv::Mat src = image.clone();
     cv::cvtColor(src, src, cv::COLOR_BGR2RGB);
@@ -17,7 +19,7 @@ std::vector<float> asst::OnnxHelper::image_to_tensor(const cv::Mat& image)
     return tensor;
 }
 
-cv::Mat asst::OnnxHelper::hwc_to_chw(const cv::Mat& src)
+cv::Mat OnnxHelper::hwc_to_chw(const cv::Mat& src)
 {
     std::vector<cv::Mat> rgb_images;
     cv::split(src, rgb_images);
