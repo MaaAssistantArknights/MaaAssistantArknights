@@ -85,7 +85,7 @@
     <ClInclude Include="Vision\VisionHelper.h" />
     <ClInclude Include="Vision\Battle\BattleDeployDirectionImageAnalyzer.h" />
     <ClInclude Include="Vision\Battle\BattleFormationImageAnalyzer.h" />
-    <ClInclude Include="Vision\Battle\BattleImageAnalyzer.h" />
+    <ClInclude Include="Vision\Battle\BattlefieldMatcher.h" />
     <ClInclude Include="Vision\Battle\BattleOperatorsImageAnalyzer.h" />
     <ClInclude Include="Vision\Battle\BattleSkillReadyImageAnalyzer.h" />
     <ClInclude Include="Vision\BestMatcher.h" />
@@ -238,7 +238,7 @@
     <ClCompile Include="Vision\VisionHelper.cpp" />
     <ClCompile Include="Vision\Battle\BattleDeployDirectionImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Battle\BattleFormationImageAnalyzer.cpp" />
-    <ClCompile Include="Vision\Battle\BattleImageAnalyzer.cpp" />
+    <ClCompile Include="Vision\Battle\BattlefieldMatcher.cpp" />
     <ClCompile Include="Vision\Battle\BattleOperatorsImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Battle\BattleSkillReadyImageAnalyzer.cpp" />
     <ClCompile Include="Vision\BestMatcher.cpp" />

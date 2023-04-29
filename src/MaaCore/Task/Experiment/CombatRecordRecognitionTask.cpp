@@ -9,9 +9,9 @@
 #include "Utils/Ranges.hpp"
 #include "Vision/Battle/BattleDeployDirectionImageAnalyzer.h"
 #include "Vision/Battle/BattleFormationImageAnalyzer.h"
-#include "Vision/Battle/BattleImageAnalyzer.h"
 #include "Vision/Battle/BattleOperatorsImageAnalyzer.h"
 #include "Vision/Battle/BattleSkillReadyImageAnalyzer.h"
+#include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/BestMatcher.h"
 #include "Vision/RegionOCRer.h"
 
@@ -193,7 +193,7 @@ bool asst::CombatRecordRecognitionTask::analyze_stage()
         show_img(stage_analyzer);
 
         if (!analyzed) {
-            // BattleImageAnalyzer battle_analyzer(frame);
+            // BattlefieldMatcher battle_analyzer(frame);
             // if (battle_analyzer.analyze()) {
             //     Log.error(i, "already start button, but still failed to analyze stage name");
             //     m_stage_ocr_end_frame = i;
@@ -237,9 +237,10 @@ bool asst::CombatRecordRecognitionTask::analyze_deployment()
 
     const int skip_count = m_video_fps > m_deployment_fps ? static_cast<int>(m_video_fps / m_deployment_fps) - 1 : 0;
 
-    BattleImageAnalyzer oper_analyzer;
-    oper_analyzer.set_target(BattleImageAnalyzer::Target::Oper);
+    BattlefieldMatcher oper_analyzer;
+    oper_analyzer.set_object_of_interest({ .deployment = true });
 
+    std::vector<battle::DeploymentOper> deployment;
     for (size_t i = m_stage_ocr_end_frame; i < m_video_frame_count; i += skip_frames(skip_count) + 1) {
         cv::Mat frame;
         *m_video_ptr >> frame;
@@ -252,14 +253,15 @@ bool asst::CombatRecordRecognitionTask::analyze_deployment()
         cv::resize(frame, frame, cv::Size(), m_scale, m_scale, cv::INTER_AREA);
 
         oper_analyzer.set_image(frame);
-        bool analyzed = oper_analyzer.analyze() && oper_analyzer.get_pause_button();
+        auto oper_result_opt = oper_analyzer.analyze();
+        bool analyzed = oper_result_opt && oper_result_opt->pause_button;
         show_img(oper_analyzer);
         if (analyzed) {
             m_battle_start_frame = i;
+            deployment = std::move(oper_result_opt->deployment);
             break;
         }
     }
-    const auto& deployment = oper_analyzer.get_opers();
 
     auto avatar_task_ptr = Task.get("BattleAvatarDataForFormation");
     for (const auto& [name, formation_avatar] : m_formation) {
@@ -352,14 +354,18 @@ bool asst::CombatRecordRecognitionTask::slice_video()
         }
         cv::resize(frame, frame, cv::Size(), m_scale, m_scale, cv::INTER_AREA);
 
-        BattleImageAnalyzer oper_analyzer(frame);
-        oper_analyzer.set_target(BattleImageAnalyzer::Target::Oper | BattleImageAnalyzer::Target::DetailPage |
-                                 BattleImageAnalyzer::Target::Kills);
-        oper_analyzer.set_pre_total_kills(total_kills);
-        bool analyzed = oper_analyzer.analyze();
-        show_img(oper_analyzer);
+        BattlefieldMatcher analyzer(frame);
+        analyzer.set_object_of_interest({
+            .deployment = true,
+            .kills = true,
+            .in_detail = true,
+        });
 
-        if (!analyzed) {
+        analyzer.set_total_kills_prompt(total_kills);
+        auto result_opt = analyzer.analyze();
+        show_img(analyzer);
+
+        if (!result_opt) {
             battle_over();
             if (++not_in_battle_count > 10) {
                 break;
@@ -369,14 +375,16 @@ bool asst::CombatRecordRecognitionTask::slice_video()
         m_battle_end_frame = 0;
         not_in_battle_count = 0;
 
-        int cur_kills = oper_analyzer.get_kills();
-        if (cur_kills != latest_kills) {
-            m_frame_kills.emplace_back(std::make_pair(i, cur_kills));
+        if (result_opt->kills) {
+            auto& [cur_kills, cur_total_kills] = *result_opt->kills;
+            if (cur_kills != latest_kills) {
+                m_frame_kills.emplace_back(std::make_pair(i, cur_kills));
+            }
+            latest_kills = cur_kills;
+            total_kills = cur_total_kills;
         }
-        total_kills = oper_analyzer.get_total_kills();
-        latest_kills = oper_analyzer.get_kills();
 
-        const auto& cur_opers = oper_analyzer.get_opers();
+        const auto& cur_opers = result_opt->deployment;
         bool continuity = true;
         int pre_distance = 0;
         for (auto iter = cur_opers.begin(); iter != cur_opers.end(); ++iter) {
@@ -390,7 +398,7 @@ bool asst::CombatRecordRecognitionTask::slice_video()
             pre_distance = distance;
         }
 
-        bool in_detail_page = oper_analyzer.get_in_detail_page() || !oper_analyzer.get_pause_button() || !continuity;
+        bool in_detail_page = result_opt->in_detail || !result_opt->pause_button || !continuity;
         bool oper_auto_retreat =
             in_segment && continuity && !m_clips.empty() && cur_opers.size() != m_clips.back().deployment.size();
 
@@ -821,22 +829,22 @@ json::object asst::CombatRecordRecognitionTask::analyze_action_condition(ClipInf
         { "kills", kills },
     };
 
-    BattleImageAnalyzer analyzer;
-    analyzer.set_target(BattleImageAnalyzer::Target::Cost);
-
-    analyzer.set_image(pre_clip_ptr->end_frame); // 开始执行这次操作的画面
-    if (!analyzer.analyze()) {
+    BattlefieldMatcher analyzer(pre_clip_ptr->end_frame); // 开始执行这次操作的画面
+    analyzer.set_object_of_interest({ .costs = true });
+    auto end_result_opt = analyzer.analyze();
+    if (!end_result_opt || !end_result_opt->costs) {
         m_pre_action_costs = -1;
         return condition;
     }
-    int start_costs = analyzer.get_cost();
+    int start_costs = end_result_opt->costs.value();
     int cost_changes = start_costs - m_pre_action_costs;
     if (m_pre_action_costs >= 0 && cost_changes > 0) {
         condition.emplace("cost_changes", cost_changes);
     }
 
     analyzer.set_image(clip.start_frame); // 这次操作执行完了的画面
-    m_pre_action_costs = analyzer.analyze() ? analyzer.get_cost() : start_costs;
+    auto start_result_opt = analyzer.analyze();
+    m_pre_action_costs = (start_result_opt && start_result_opt->costs) ? start_result_opt->costs.value() : start_costs;
 
     return condition;
 }
