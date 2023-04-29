@@ -16,6 +16,7 @@ namespace asst
         Rect rect;
         bool own = false;
     };
+
     class OperBoxImageAnalyzer final : public VisionHelper
     {
     public:

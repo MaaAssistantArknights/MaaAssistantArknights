@@ -2324,30 +2324,6 @@
                 "U-Official"
             ],
             [
-                "^4",
-                ""
-            ],
-            [
-                "^α",
-                ""
-            ],
-            [
-                "^-",
-                ""
-            ],
-            [
-                "—",
-                ""
-            ],
-            [
-                ".*12F",
-                "12F"
-            ],
-            [
-                "^_",
-                ""
-            ],
-            [
                 ".*威龙陈",
                 "假日威龙陈"
             ]
@@ -9862,15 +9838,33 @@
             20
         ]
     },
-    "OperBoxFlagLV": {
-        "templThreshold": 0.6,
+    "OperBoxFlagRoleTopROI": {
+        "template": "empty.png",
         "roi": [
-            40,
-            310,
-            1128,
-            327
+            0,
+            78,
+            1145,
+            50
         ]
     },
+    "OperBoxFlagRoleBottomROI": {
+        "template": "empty.png",
+        "roi": [
+            0,
+            394,
+            1145,
+            50
+        ]
+    },
+    "OperBoxFlagRole1": {},
+    "OperBoxFlagRole2": {},
+    "OperBoxFlagRole3": {},
+    "OperBoxFlagRole4": {},
+    "OperBoxFlagRole5": {},
+    "OperBoxFlagRole6": {},
+    "OperBoxFlagRole7": {},
+    "OperBoxFlagRole8": {},
+    "OperBoxFlagRole9": {},
     "OperBoxFlagElite1": {
         "doc": "精英一 模板"
     },
@@ -9882,8 +9876,8 @@
         "template": "empty.png",
         "templThreshold": 0.9,
         "roi": [
-            -7,
-            -52,
+            11,
+            171,
             24,
             35
         ]
@@ -9893,8 +9887,8 @@
         "template": "empty.png",
         "templThreshold": 0.85,
         "roi": [
-            81,
-            -29,
+            99,
+            194,
             24,
             24
         ]
@@ -9905,16 +9899,14 @@
     "OperBoxPotential4": {},
     "OperBoxPotential5": {},
     "OperBoxNameOCR": {
-        "algorithm": "OcrDetect",
-        "fullMatch": true,
+        "baseTask": "CharsNameOcrReplace",
         "text": [],
         "roi": [
-            5,
-            42,
-            105,
-            20
-        ],
-        "postDelay": 100
+            4,
+            269,
+            122,
+            14
+        ]
     },
     "OperBoxLevelOCR": {
         "algorithm": "OcrDetect",
@@ -9922,12 +9914,11 @@
         "isAscii": true,
         "text": [],
         "roi": [
-            -13,
-            7,
+            5,
+            230,
             37,
             23
-        ],
-        "postDelay": 100
+        ]
     },
     "RoguelikeRecruitSwipeMaxTime": {
         "algorithm": "JustReturn",
