@@ -1,10 +1,10 @@
-#include "OcrWithPreprocessImageAnalyzer.h"
+#include "RegionOCRer.h"
 
 #include "Utils/NoWarningCV.h"
 
 using namespace asst;
 
-OcrWithPreprocessImageAnalyzer::ResultOpt OcrWithPreprocessImageAnalyzer::analyze() const
+RegionOCRer::ResultOpt RegionOCRer::analyze() const
 {
     cv::Mat img_roi = make_roi(m_image, m_roi);
     cv::Mat img_roi_gray;
@@ -33,7 +33,7 @@ OcrWithPreprocessImageAnalyzer::ResultOpt OcrWithPreprocessImageAnalyzer::analyz
     cv::rectangle(m_image_draw, make_rect<cv::Rect>(new_roi), cv::Scalar(0, 0, 255), 1);
 #endif // ASST_DEBUG
 
-    OcrImageAnalyzer ocr_analyzer(m_image, new_roi);
+    OCRer ocr_analyzer(m_image, new_roi);
     auto config = m_params;
     config.without_det = true;
     ocr_analyzer.set_params(std::move(config));

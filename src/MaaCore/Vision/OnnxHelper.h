@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Vision/AbstractImageAnalyzer.h"
+#include "Vision/VisionHelper.h"
 
 namespace asst
 {
-    class OnnxRuntimeImageAnalyzer : public AbstractImageAnalyzer
+    class OnnxHelper : public VisionHelper
     {
     public:
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~OnnxRuntimeImageAnalyzer() override = default;
+        using VisionHelper::VisionHelper;
+        virtual ~OnnxHelper() override = default;
 
     protected:
         template <typename T>

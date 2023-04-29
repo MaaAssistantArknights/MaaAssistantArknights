@@ -1,23 +1,23 @@
-#include "BestMatchImageAnalyzer.h"
+#include "BestMatcher.h"
 
 #include "Utils/NoWarningCV.h"
 
 #include "Config/TaskData.h"
 #include "Config/TemplResource.h"
-#include "MatchImageAnalyzer.h"
+#include "Matcher.h"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 
 using namespace asst;
 
-void BestMatchImageAnalyzer::append_templ(std::string name, const cv::Mat& templ)
+void BestMatcher::append_templ(std::string name, const cv::Mat& templ)
 {
     m_templs.emplace_back(TemplInfo { std::move(name), templ });
 }
 
-BestMatchImageAnalyzer::ResultOpt BestMatchImageAnalyzer::analyze() const
+BestMatcher::ResultOpt BestMatcher::analyze() const
 {
-    MatchImageAnalyzer match_analyzer(m_image, m_roi);
+    Matcher match_analyzer(m_image, m_roi);
     match_analyzer.set_params(m_params);
 #ifdef ASST_DEBUG
     match_analyzer.set_log_tracing(m_log_tracing);

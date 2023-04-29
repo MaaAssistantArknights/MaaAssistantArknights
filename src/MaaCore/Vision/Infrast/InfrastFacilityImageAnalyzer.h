@@ -1,12 +1,12 @@
 #pragma once
-#include "Vision/AbstractImageAnalyzer.h"
+#include "Vision/VisionHelper.h"
 
 namespace asst
 {
-    class InfrastFacilityImageAnalyzer final : public AbstractImageAnalyzer
+    class InfrastFacilityImageAnalyzer final : public VisionHelper
     {
     public:
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
+        using VisionHelper::VisionHelper;
         virtual ~InfrastFacilityImageAnalyzer() override = default;
         InfrastFacilityImageAnalyzer(const cv::Mat& image, const Rect& roi) = delete;
 
@@ -44,7 +44,7 @@ namespace asst
 
     private:
         // 该分析器不支持外部设置ROI
-        using AbstractImageAnalyzer::set_roi;
+        using VisionHelper::set_roi;
 
         // key：设施名，value：所有这种设施的当前Rect（例如所有制造站的位置）
         std::unordered_map<std::string, std::vector<MatchRect>> m_result;

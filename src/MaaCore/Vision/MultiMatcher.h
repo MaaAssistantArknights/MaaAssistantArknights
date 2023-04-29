@@ -1,10 +1,10 @@
 #pragma once
-#include "AbstractImageAnalyzer.h"
+#include "VisionHelper.h"
 #include "Vision/Config/MatcherConfig.h"
 
 namespace asst
 {
-    class MultiMatchImageAnalyzer : public AbstractImageAnalyzer, public MatcherConfig
+    class MultiMatcher : public VisionHelper, public MatcherConfig
     {
     public:
         using Result = MatchRect;
@@ -12,8 +12,8 @@ namespace asst
         using ResultsVecOpt = std::optional<ResultsVec>;
 
     public:
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~MultiMatchImageAnalyzer() override = default;
+        using VisionHelper::VisionHelper;
+        virtual ~MultiMatcher() override = default;
 
         ResultsVecOpt analyze() const;
         // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉

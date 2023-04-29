@@ -4,21 +4,21 @@
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
-#include "Vision/Miscellaneous/ProcessTaskImageAnalyzer.h"
-#include "Vision/OcrWithFlagTemplImageAnalyzer.h"
+#include "Vision/Miscellaneous/PipelineAnalyzer.h"
+#include "Vision/TemplDetOCRer.h"
 
 bool asst::BattleFormationImageAnalyzer::analyze()
 {
     LogTraceFunction;
     m_result.clear();
 
-    ProcessTaskImageAnalyzer start_button_analyzer(m_image);
+    PipelineAnalyzer start_button_analyzer(m_image);
     start_button_analyzer.set_tasks(Task.get("BattleStartAll")->next);
     if (!start_button_analyzer.analyze()) {
         return false;
     }
 
-    OcrWithFlagTemplImageAnalyzer oper_names_analyzer(m_image);
+    TemplDetOCRer oper_names_analyzer(m_image);
     oper_names_analyzer.set_task_info("BattleFormationOCRNameFlag", "BattleFormationOperNames");
     oper_names_analyzer.set_bin_expansion(3);
     if (!oper_names_analyzer.analyze()) {

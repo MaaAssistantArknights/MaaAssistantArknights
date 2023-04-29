@@ -3,15 +3,15 @@
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/OcrWithFlagTemplImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/Matcher.h"
+#include "Vision/TemplDetOCRer.h"
+#include "Vision/RegionOCRer.h"
 
 bool asst::RoguelikeRecruitImageAnalyzer::analyze()
 {
     LogTraceFunction;
 
-    OcrWithFlagTemplImageAnalyzer analyzer(m_image);
+    TemplDetOCRer analyzer(m_image);
     analyzer.set_task_info("RoguelikeRecruitOcrFlag", "RoguelikeRecruitOcr");
     analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
                          Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
@@ -68,7 +68,7 @@ int asst::RoguelikeRecruitImageAnalyzer::match_elite(const Rect& raw_roi)
     double max_score = 0;
 
     for (const auto& [task_name, elite] : EliteTaskName) {
-        MatchImageAnalyzer analyzer(m_image);
+        Matcher analyzer(m_image);
         auto task_ptr = Task.get(task_name);
         analyzer.set_task_info(task_ptr);
         analyzer.set_roi(raw_roi.move(task_ptr->rect_move));
@@ -89,7 +89,7 @@ int asst::RoguelikeRecruitImageAnalyzer::match_level(const cv::Mat& image, const
 {
     LogTraceFunction;
 
-    OcrWithPreprocessImageAnalyzer analyzer(image);
+    RegionOCRer analyzer(image);
     analyzer.set_task_info("NumberOcrReplace");
     analyzer.set_roi(raw_roi.move(Task.get("RoguelikeRecruitLevel")->rect_move));
     analyzer.set_bin_expansion(1);

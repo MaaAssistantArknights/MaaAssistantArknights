@@ -1,11 +1,11 @@
 #pragma once
 
-#include "AbstractImageAnalyzer.h"
+#include "VisionHelper.h"
 #include "Vision/Config/MatcherConfig.h"
 
 namespace asst
 {
-    class BestMatchImageAnalyzer : public AbstractImageAnalyzer, public MatcherConfig
+    class BestMatcher : public VisionHelper, public MatcherConfig
     {
     public:
         struct TemplInfo
@@ -30,8 +30,8 @@ namespace asst
         using ResultOpt = std::optional<Result>;
 
     public:
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~BestMatchImageAnalyzer() override = default;
+        using VisionHelper::VisionHelper;
+        virtual ~BestMatcher() override = default;
 
         void append_templ(std::string name, const cv::Mat& templ = cv::Mat());
 

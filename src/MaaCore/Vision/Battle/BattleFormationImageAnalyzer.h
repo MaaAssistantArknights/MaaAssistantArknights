@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Vision/AbstractImageAnalyzer.h"
+#include "Vision/VisionHelper.h"
 
 namespace asst
 {
-    class BattleFormationImageAnalyzer : public AbstractImageAnalyzer
+    class BattleFormationImageAnalyzer : public VisionHelper
     {
     public:
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
+        using VisionHelper::VisionHelper;
         virtual ~BattleFormationImageAnalyzer() override = default;
 
         bool analyze();

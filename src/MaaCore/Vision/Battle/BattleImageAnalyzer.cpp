@@ -8,11 +8,11 @@
 #include "Config/TaskData.h"
 #include "Config/TemplResource.h"
 #include "Utils/Logger.hpp"
-#include "Vision/BestMatchImageAnalyzer.h"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/MultiMatchImageAnalyzer.h"
-#include "Vision/OcrWithFlagTemplImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/BestMatcher.h"
+#include "Vision/Matcher.h"
+#include "Vision/MultiMatcher.h"
+#include "Vision/TemplDetOCRer.h"
+#include "Vision/RegionOCRer.h"
 
 bool asst::BattleImageAnalyzer::set_target(int target)
 {
@@ -122,7 +122,7 @@ void asst::BattleImageAnalyzer::sort_opers_by_cost()
 
 bool asst::BattleImageAnalyzer::opers_analyze()
 {
-    MultiMatchImageAnalyzer flags_analyzer(m_image);
+    MultiMatcher flags_analyzer(m_image);
     const auto& flag_task_ptr = Task.get("BattleOpersFlag");
     flags_analyzer.set_task_info(flag_task_ptr);
 #ifndef ASST_DEBUG
@@ -209,7 +209,7 @@ asst::battle::Role asst::BattleImageAnalyzer::oper_role_analyze(const Rect& roi)
 
     static const std::string TaskName = "BattleOperRole";
     static const std::string Ext = ".png";
-    BestMatchImageAnalyzer role_analyzer(m_image);
+    BestMatcher role_analyzer(m_image);
 #ifndef ASST_DEBUG
     role_analyzer.set_log_tracing(false);
 #endif // !ASST_DEBUG
@@ -331,7 +331,7 @@ bool asst::BattleImageAnalyzer::hp_flag_analyze()
 {
     // 识别 HP 的那个蓝白色图标
     auto flag_task_ptr = Task.get("BattleHpFlag");
-    MatchImageAnalyzer flag_analyzer(m_image);
+    Matcher flag_analyzer(m_image);
     flag_analyzer.set_task_info(flag_task_ptr);
     if (!flag_analyzer.analyze()) {
         // 漏怪的时候，那个图标会变成红色的，所以多识别一次
@@ -346,14 +346,14 @@ bool asst::BattleImageAnalyzer::hp_flag_analyze()
 
 bool asst::BattleImageAnalyzer::kills_flag_analyze()
 {
-    MatchImageAnalyzer flag_analyzer(m_image);
+    Matcher flag_analyzer(m_image);
     flag_analyzer.set_task_info("BattleKillsFlag");
     return flag_analyzer.analyze().has_value();
 }
 
 bool asst::BattleImageAnalyzer::kills_analyze()
 {
-    OcrWithFlagTemplImageAnalyzer kills_analyzer(m_image);
+    TemplDetOCRer kills_analyzer(m_image);
     kills_analyzer.set_task_info("BattleKillsFlag", "BattleKills");
     kills_analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
 
@@ -418,7 +418,7 @@ bool asst::BattleImageAnalyzer::kills_analyze()
 
 bool asst::BattleImageAnalyzer::cost_analyze()
 {
-    OcrWithPreprocessImageAnalyzer cost_analyzer(m_image);
+    RegionOCRer cost_analyzer(m_image);
     cost_analyzer.set_task_info("BattleCostData");
     cost_analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
 

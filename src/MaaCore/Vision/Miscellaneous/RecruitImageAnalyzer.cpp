@@ -2,9 +2,9 @@
 
 #include "Config/Miscellaneous/RecruitConfig.h"
 #include "Config/TaskData.h"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/MultiMatchImageAnalyzer.h"
-#include "Vision/OcrImageAnalyzer.h"
+#include "Vision/Matcher.h"
+#include "Vision/MultiMatcher.h"
+#include "Vision/OCRer.h"
 
 bool asst::RecruitImageAnalyzer::analyze()
 {
@@ -20,7 +20,7 @@ bool asst::RecruitImageAnalyzer::analyze()
 bool asst::RecruitImageAnalyzer::tags_analyze()
 {
     static bool analyzer_inited = false;
-    static OcrImageAnalyzer tags_analyzer;
+    static OCRer tags_analyzer;
     if (!analyzer_inited) {
         tags_analyzer.set_task_info("RecruitTags");
         auto& all_tags_set = RecruitData.get_all_tags();
@@ -44,7 +44,7 @@ bool asst::RecruitImageAnalyzer::tags_analyze()
 
 bool asst::RecruitImageAnalyzer::time_analyze()
 {
-    MultiMatchImageAnalyzer decrement_a(m_image);
+    MultiMatcher decrement_a(m_image);
     decrement_a.set_task_info("RecruitTimerDecrement");
     auto result_opt = decrement_a.analyze();
     if (!result_opt) return false;
@@ -57,7 +57,7 @@ bool asst::RecruitImageAnalyzer::time_analyze()
 
 bool asst::RecruitImageAnalyzer::refresh_analyze()
 {
-    MatchImageAnalyzer refresh_analyzer(m_image);
+    Matcher refresh_analyzer(m_image);
 
     refresh_analyzer.set_task_info("RecruitRefresh");
 

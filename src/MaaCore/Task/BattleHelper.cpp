@@ -13,9 +13,9 @@
 #include "Utils/NoWarningCV.h"
 #include "Vision/Battle/BattleImageAnalyzer.h"
 #include "Vision/Battle/BattleSkillReadyImageAnalyzer.h"
-#include "Vision/BestMatchImageAnalyzer.h"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/BestMatcher.h"
+#include "Vision/Matcher.h"
+#include "Vision/RegionOCRer.h"
 
 using namespace asst::battle;
 
@@ -127,7 +127,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
     std::vector<DeploymentOper> unknown_opers;
 
     for (auto& oper : cur_opers) {
-        BestMatchImageAnalyzer avatar_analyzer(oper.avatar);
+        BestMatcher avatar_analyzer(oper.avatar);
         if (oper.cooling) {
             Log.trace("start matching cooling", oper.index);
             static const double cooling_threshold = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_threshold;
@@ -370,7 +370,7 @@ bool asst::BattleHelper::use_skill(const Point& loc, bool keep_waiting)
 bool asst::BattleHelper::check_pause_button(const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
-    MatchImageAnalyzer battle_flag_analyzer(image);
+    Matcher battle_flag_analyzer(image);
     battle_flag_analyzer.set_task_info("BattleOfficiallyBegin");
     bool ret = battle_flag_analyzer.analyze().has_value();
     BattleImageAnalyzer battle_flag_analyzer_2(image);
@@ -622,7 +622,7 @@ std::string asst::BattleHelper::analyze_detail_page_oper_name(const cv::Mat& ima
     const auto& replace_task = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
     const auto& task = Task.get<OcrTaskInfo>(oper_name_ocr_task_name());
 
-    OcrWithPreprocessImageAnalyzer preproc_analyzer(image);
+    RegionOCRer preproc_analyzer(image);
     preproc_analyzer.set_task_info(task);
     preproc_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
     auto preproc_result_opt = preproc_analyzer.analyze();
@@ -632,7 +632,7 @@ std::string asst::BattleHelper::analyze_detail_page_oper_name(const cv::Mat& ima
     }
 
     Log.warn("ocr with preprocess got a invalid name, try to use detect model");
-    OcrImageAnalyzer det_analyzer(image);
+    OCRer det_analyzer(image);
     det_analyzer.set_task_info(task);
     det_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
     auto det_result_opt = det_analyzer.analyze();

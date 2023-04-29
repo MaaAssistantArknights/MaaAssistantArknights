@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Vision/OnnxRuntimeImageAnalyzer.h"
+#include "Vision/OnnxHelper.h"
 
 namespace asst
 {
-    class BattleSkillReadyImageAnalyzer final : public OnnxRuntimeImageAnalyzer
+    class BattleSkillReadyImageAnalyzer final : public OnnxHelper
     {
     public:
-        using OnnxRuntimeImageAnalyzer::OnnxRuntimeImageAnalyzer;
+        using OnnxHelper::OnnxHelper;
         virtual ~BattleSkillReadyImageAnalyzer() override = default;
 
         bool analyze();

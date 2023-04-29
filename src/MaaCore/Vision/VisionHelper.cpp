@@ -1,4 +1,4 @@
-#include "AbstractImageAnalyzer.h"
+#include "VisionHelper.h"
 
 #include "Utils/NoWarningCV.h"
 
@@ -11,7 +11,7 @@
 
 using namespace asst;
 
-AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image, const Rect& roi, Assistant* inst)
+VisionHelper::VisionHelper(const cv::Mat& image, const Rect& roi, Assistant* inst)
     : InstHelper(inst), m_image(image), m_roi(correct_rect(roi, image))
 #ifdef ASST_DEBUG
       ,
@@ -19,7 +19,7 @@ AbstractImageAnalyzer::AbstractImageAnalyzer(const cv::Mat& image, const Rect& r
 #endif
 {}
 
-void AbstractImageAnalyzer::set_image(const cv::Mat& image)
+void VisionHelper::set_image(const cv::Mat& image)
 {
     m_image = image;
 #ifdef ASST_DEBUG
@@ -29,17 +29,17 @@ void AbstractImageAnalyzer::set_image(const cv::Mat& image)
     set_roi(m_roi);
 }
 
-void AbstractImageAnalyzer::set_roi(const Rect& roi)
+void VisionHelper::set_roi(const Rect& roi)
 {
     m_roi = correct_rect(roi, m_image);
 }
 
-void AbstractImageAnalyzer::set_log_tracing(bool enable)
+void VisionHelper::set_log_tracing(bool enable)
 {
     m_log_tracing = enable;
 }
 
-Rect AbstractImageAnalyzer::correct_rect(const Rect& rect, const cv::Mat& image)
+Rect VisionHelper::correct_rect(const Rect& rect, const cv::Mat& image)
 {
     if (image.empty()) {
         Log.error(__FUNCTION__, "image is empty");
@@ -78,7 +78,7 @@ Rect AbstractImageAnalyzer::correct_rect(const Rect& rect, const cv::Mat& image)
     return res;
 }
 
-bool AbstractImageAnalyzer::save_img(const std::filesystem::path& relative_dir)
+bool VisionHelper::save_img(const std::filesystem::path& relative_dir)
 {
     std::string stem = utils::get_time_filestem();
     auto relative_path = relative_dir / (stem + "_raw.png");

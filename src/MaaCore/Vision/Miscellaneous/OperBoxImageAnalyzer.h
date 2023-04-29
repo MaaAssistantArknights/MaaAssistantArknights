@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Vision/AbstractImageAnalyzer.h"
+#include "Vision/VisionHelper.h"
 
 namespace asst
 {
@@ -16,10 +16,10 @@ namespace asst
         Rect rect;
         bool own = false;
     };
-    class OperBoxImageAnalyzer final : public AbstractImageAnalyzer
+    class OperBoxImageAnalyzer final : public VisionHelper
     {
     public:
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
+        using VisionHelper::VisionHelper;
         virtual ~OperBoxImageAnalyzer() override = default;
         bool analyze();
         const auto& get_result() const noexcept { return m_result; }

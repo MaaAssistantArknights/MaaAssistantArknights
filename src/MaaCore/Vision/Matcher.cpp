@@ -1,4 +1,4 @@
-#include "MatchImageAnalyzer.h"
+#include "Matcher.h"
 
 #include "Utils/NoWarningCV.h"
 
@@ -9,7 +9,7 @@
 
 using namespace asst;
 
-MatchImageAnalyzer::ResultOpt MatchImageAnalyzer::analyze() const
+Matcher::ResultOpt Matcher::analyze() const
 {
     const auto& [matched, templ, templ_name] = preproc_and_match(make_roi(m_image, m_roi), m_params);
 
@@ -39,7 +39,7 @@ MatchImageAnalyzer::ResultOpt MatchImageAnalyzer::analyze() const
     return m_result;
 }
 
-MatchImageAnalyzer::RawResult MatchImageAnalyzer::preproc_and_match(const cv::Mat& image,
+Matcher::RawResult Matcher::preproc_and_match(const cv::Mat& image,
                                                                     const MatcherConfig::Params& params)
 {
     cv::Mat templ;

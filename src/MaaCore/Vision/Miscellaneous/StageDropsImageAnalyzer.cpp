@@ -10,9 +10,9 @@
 #include "Config/TemplResource.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/OcrWithFlagTemplImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/Matcher.h"
+#include "Vision/TemplDetOCRer.h"
+#include "Vision/RegionOCRer.h"
 
 #include <numbers>
 
@@ -47,7 +47,7 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_code()
 {
     LogTraceFunction;
 
-    OcrImageAnalyzer analyzer(m_image);
+    OCRer analyzer(m_image);
     analyzer.set_task_info("StageDrops-StageName");
     if (!analyzer.analyze()) {
         return false;
@@ -74,7 +74,7 @@ bool asst::StageDropsImageAnalyzer::analyze_stars()
         { 3, "StageDrops-Stars-3" },
     };
 
-    MatchImageAnalyzer analyzer(m_image);
+    Matcher analyzer(m_image);
     int matched_stars = 0;
     double max_score = 0.0;
 
@@ -117,7 +117,7 @@ bool asst::StageDropsImageAnalyzer::analyze_difficulty()
     LogTraceFunction;
 
     auto task_ptr = Task.get("StageDrops-Difficulty-Tough");
-    MatchImageAnalyzer analyzer(m_image);
+    Matcher analyzer(m_image);
     analyzer.set_task_info(task_ptr);
 
     auto log = [&]() {
@@ -245,7 +245,7 @@ bool asst::StageDropsImageAnalyzer::analyze_drops_for_CF()
 
     bool has_error = false;
 
-    OcrImageAnalyzer food_analyzer(m_image);
+    OCRer food_analyzer(m_image);
     food_analyzer.set_task_info("StageDrops-StageCF-FoodBonusFlag");
     if (food_analyzer.analyze()) {
         // 这个企鹅物流不收，而且也不好识别，直接报错拉倒
@@ -253,7 +253,7 @@ bool asst::StageDropsImageAnalyzer::analyze_drops_for_CF()
         has_error = true;
     }
 
-    OcrWithFlagTemplImageAnalyzer analyzer(m_image);
+    TemplDetOCRer analyzer(m_image);
     for (const auto& item_name : CFDrops) {
         analyzer.set_task_info(item_name, "StageDrops-StageCF-ItemQuantity");
         if (!analyzer.analyze()) {
@@ -294,7 +294,7 @@ bool asst::StageDropsImageAnalyzer::analyze_drops_for_12()
     }
     LogTraceFunction;
 
-    OcrImageAnalyzer flag_analyzer(m_image);
+    OCRer flag_analyzer(m_image);
     flag_analyzer.set_task_info("StageDrops-Stage12-TripleFlag");
     return !flag_analyzer.analyze();
 }
@@ -414,7 +414,7 @@ asst::StageDropType asst::StageDropsImageAnalyzer::match_droptype(const Rect& ro
         { StageDropType::Reward, "StageDrops-DropType-Reward" },
     };
 
-    MatchImageAnalyzer analyzer(m_image);
+    Matcher analyzer(m_image);
     auto matched = StageDropType::Unknown;
     double max_score = 0.0;
 
@@ -487,7 +487,7 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
     }
 
     auto match_item_with_templs = [&](const std::vector<std::string>& templs_list) -> std::string {
-        MatchImageAnalyzer analyzer(m_image);
+        Matcher analyzer(m_image);
         analyzer.set_mask_range(0, 0, false, true);
         analyzer.set_task_info("StageDrops-Item");
         analyzer.set_roi(roi);
@@ -584,7 +584,7 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     int far_left = contours.back().start;
     int far_right = contours.front().end;
 
-    OcrWithPreprocessImageAnalyzer analyzer(m_image);
+    RegionOCRer analyzer(m_image);
     analyzer.set_task_info("NumberOcrReplace");
     analyzer.set_roi(Rect(quantity_roi.x + far_left, quantity_roi.y, far_right - far_left, quantity_roi.height));
     analyzer.set_bin_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
@@ -608,7 +608,7 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
         return std::nullopt;
     }
 
-    MatchImageAnalyzer analyzer(m_image);
+    Matcher analyzer(m_image);
     analyzer.set_templ(templ);
     analyzer.set_mask_range(1, 255, false, true);
     analyzer.set_roi(roi);
@@ -650,7 +650,7 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     cv::Mat ocr_img = m_image.clone();
     cv::subtract(ocr_img(make_rect<cv::Rect>(new_roi)), templ * 0.41, ocr_img(make_rect<cv::Rect>(new_roi)));
 
-    OcrWithPreprocessImageAnalyzer ocr(ocr_img);
+    RegionOCRer ocr(ocr_img);
     ocr.set_task_info("NumberOcrReplace");
     Rect ocr_roi { new_roi.x + mask_rect.x, new_roi.y + mask_rect.y, mask_rect.width, mask_rect.height };
     ocr.set_roi(ocr_roi);

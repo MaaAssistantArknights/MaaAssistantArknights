@@ -7,7 +7,7 @@
 #include "Task/ProcessTask.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/RegionOCRer.h"
 
 bool asst::RoguelikeStageEncounterTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -59,7 +59,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
         cv::threshold(grey_image, black_image, 80, 255, 0); // 要做个二值化，不然识别效果很差
         cv::cvtColor(black_image, image, cv::COLOR_GRAY2RGB);
 
-        OcrWithPreprocessImageAnalyzer name_analyzer(image);
+        RegionOCRer name_analyzer(image);
         name_analyzer.set_task_info(event_name_task_ptr);
         event_name_task_ptr->roi.y += 5; // 因文本纵向位置不固定，这里用一个滑动窗进行ocr
         if (!name_analyzer.analyze()) {
