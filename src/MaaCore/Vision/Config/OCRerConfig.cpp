@@ -61,6 +61,12 @@ void OCRerConfig::set_bin_expansion(int expansion)
     m_params.bin_expansion = expansion;
 }
 
+void asst::OCRerConfig::set_bin_trim_threshold(int left, int right)
+{
+    m_params.bin_left_trim_threshold = left;
+    m_params.bin_right_trim_threshold = right;
+}
+
 void OCRerConfig::_set_task_info(OcrTaskInfo task_info)
 {
     set_required(std::move(task_info.text));

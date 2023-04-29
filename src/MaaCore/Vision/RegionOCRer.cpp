@@ -11,6 +11,10 @@ RegionOCRer::ResultOpt RegionOCRer::analyze() const
     cv::cvtColor(img_roi, img_roi_gray, cv::COLOR_BGR2GRAY);
     cv::Mat bin;
     cv::inRange(img_roi_gray, m_params.bin_threshold_lower, m_params.bin_threshold_upper, bin);
+
+    bin_left_trim(bin);
+    bin_right_trim(bin);
+
     cv::Rect bounding_rect = cv::boundingRect(bin);
     bounding_rect.x += m_roi.x;
     bounding_rect.y += m_roi.y;
@@ -19,7 +23,6 @@ RegionOCRer::ResultOpt RegionOCRer::analyze() const
     if (new_roi.empty()) {
         return std::nullopt;
     }
-    // todo: split
 
     int exp = m_params.bin_expansion;
     if (exp) {
@@ -44,4 +47,54 @@ RegionOCRer::ResultOpt RegionOCRer::analyze() const
     }
     m_result = result->front();
     return m_result;
+}
+
+void asst::RegionOCRer::bin_left_trim(cv::Mat& bin) const
+{
+    if (!m_params.bin_left_trim_threshold) {
+        return;
+    }
+
+    int pre_white_col = 0;
+    for (int i = 0; i < bin.cols; ++i) {
+        bool has_white = false;
+        for (int j = 0; j < bin.rows; ++j) {
+            if (bin.at<uchar>(j, i)) {
+                has_white = true;
+                break;
+            }
+        }
+        if (has_white) {
+            pre_white_col = i;
+        }
+        else if (i - pre_white_col > m_params.bin_left_trim_threshold) {
+            bin.colRange(0, i).setTo(0);
+            break;
+        }
+    }
+}
+
+void asst::RegionOCRer::bin_right_trim(cv::Mat& bin) const
+{
+    if (!m_params.bin_right_trim_threshold) {
+        return;
+    }
+
+    int pre_white_col = bin.cols - 1;
+    for (int i = bin.cols - 1; i >= 0; --i) {
+        bool has_white = false;
+        for (int j = 0; j < bin.rows; ++j) {
+            if (bin.at<uchar>(j, i)) {
+                has_white = true;
+                break;
+            }
+        }
+        if (has_white) {
+            pre_white_col = i;
+        }
+        else if (pre_white_col - i > m_params.bin_right_trim_threshold) {
+            bin.colRange(i, bin.cols).setTo(0);
+            break;
+        }
+    }
 }
