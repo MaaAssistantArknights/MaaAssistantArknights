@@ -12004,5 +12004,171 @@
         "next": [
             "ChooseOriginiumShardTab"
         ]
+    },
+    "GachaOnce": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "GachaOncePrefix@GachaBegin"
+        ]
+    },
+    "GachaTenTimes": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "GachaTenTimesPrefix@GachaBegin"
+        ]
+    },
+    "GachaBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "DoGacha",
+            "GachaEnter",
+            "GachaEnter@ReturnTo",
+            "GachaLastOnceResult",
+            "GachaLastTenTimesResult"
+        ]
+    },
+    "GachaEnter": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            1052,
+            443,
+            228,
+            156
+        ],
+        "next": [
+            "GachaEnter@LoadingText",
+            "DoGacha",
+            "GachaLastOnceResult",
+            "GachaLastTenTimesResult"
+        ]
+    },
+    "GachaLastOnceResult": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "凭证",
+            "信物",
+            "获得"
+        ],
+        "roi": [
+            1002,
+            241,
+            278,
+            371
+        ],
+        "next": [
+            "DoGacha",
+            "GachaLastOnceResult",
+            "GachaLastTenTimesResult"
+        ]
+    },
+    "GachaLastTenTimesResult": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "获得物资"
+        ],
+        "roi": [
+            508,
+            66,
+            267,
+            172
+        ],
+        "next": [
+            "GachaLastOnceResult#next"
+        ]
+    },
+    "DoGacha": {
+        "action": "DoNothing",
+        "template": "empty.png"
+    },
+    "GachaOncePrefix@DoGacha": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "寻访一次"
+        ],
+        "roi": [
+            779,
+            576,
+            248,
+            141
+        ],
+        "next": [
+            "GachaOncePrefix@DoGacha@LoadingText",
+            "GachaConfirm"
+        ]
+    },
+    "GachaTenTimesPrefix@DoGacha": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "寻访十次"
+        ],
+        "roi": [
+            975,
+            571,
+            257,
+            149
+        ],
+        "next": [
+            "GachaTenTimesPrefix@DoGacha@LoadingText",
+            "GachaConfirm"
+        ]
+    },
+    "GachaConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            830,
+            431,
+            228,
+            151
+        ],
+        "next": [
+            "GachaConfirm@LoadingText",
+            "GachaWaitingForBag"
+        ]
+    },
+    "GachaWaitingForBag": {
+        "action": "DoNothing",
+        "template": "GachaSkip.png",
+        "roi": [
+            1144,
+            0,
+            136,
+            148
+        ],
+        "postDelay": 2000,
+        "next": [
+            "GachaSwipeToOpenBag"
+        ]
+    },
+    "GachaSwipeToOpenBag": {
+        "baseTask": "SwipeToTheRight",
+        "next": [
+            "GachaSkip"
+        ],
+        "postDelay": 2000
+    },
+    "GachaSkip": {
+        "template": "GachaSkip.png",
+        "action": "ClickSelf",
+        "roi": [
+            1144,
+            0,
+            136,
+            148
+        ],
+        "next": [
+            "GachaSkip",
+            "Stop"
+        ],
+        "postDelay": 2000
     }
 }
