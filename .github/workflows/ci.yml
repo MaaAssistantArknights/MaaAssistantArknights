@@ -312,5 +312,6 @@ jobs:
       - name: Trigger secondary workflows # ref: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
         run: |
           gh workflow run --repo $GITHUB_REPOSITORY release-ota
+          gh workflow run --repo $GITHUB_REPOSITORY release-mirrors
         env:
           GH_TOKEN: ${{ github.token }}
