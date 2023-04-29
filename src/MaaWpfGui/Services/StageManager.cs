@@ -323,6 +323,7 @@ namespace MaaWpfGui.Services
         public StageInfo GetStageInfo(string stage)
         {
             _stages.TryGetValue(stage, out var stageInfo);
+            stageInfo ??= new StageInfo { Display = stage, Value = stage };
             return stageInfo;
         }
 

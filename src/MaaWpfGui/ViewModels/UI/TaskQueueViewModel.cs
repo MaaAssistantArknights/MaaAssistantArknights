@@ -840,13 +840,15 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            bool mainFightRet = Instances.AsstProxy.AsstAppendFight(Stage, medicine, stone, times, DropsItemId, drops_quantity);
+            string curStage = Stage;
 
-            if (mainFightRet && (Stage == "Annihilation") && Instances.SettingsViewModel.UseAlternateStage)
+            bool mainFightRet = Instances.AsstProxy.AsstAppendFight(curStage, medicine, stone, times, DropsItemId, drops_quantity);
+
+            if (mainFightRet && (curStage == "Annihilation") && Instances.SettingsViewModel.UseAlternateStage)
             {
                 foreach (var stage in new[] { Stage1, Stage2, Stage3 })
                 {
-                    if (IsStageOpen(stage) && (stage != Stage))
+                    if (IsStageOpen(stage) && (stage != curStage))
                     {
                         mainFightRet = Instances.AsstProxy.AsstAppendFight(stage, medicine, 0, int.MaxValue, string.Empty, 0);
                     }
