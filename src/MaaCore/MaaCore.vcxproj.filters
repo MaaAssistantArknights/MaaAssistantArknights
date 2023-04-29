@@ -570,7 +570,7 @@
     <ClInclude Include="Vision\Battle\BattleFormationImageAnalyzer.h">
       <Filter>源文件\Vision\Battle</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\Battle\BattleImageAnalyzer.h">
+    <ClInclude Include="Vision\Battle\BattlefieldMatcher.h">
       <Filter>源文件\Vision\Battle</Filter>
     </ClInclude>
     <ClInclude Include="Vision\Battle\BattleSkillReadyImageAnalyzer.h">
@@ -971,7 +971,7 @@
     <ClCompile Include="Vision\Battle\BattleFormationImageAnalyzer.cpp">
       <Filter>源文件\Vision\Battle</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\Battle\BattleImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Battle\BattlefieldMatcher.cpp">
       <Filter>源文件\Vision\Battle</Filter>
     </ClCompile>
     <ClCompile Include="Vision\Battle\BattleSkillReadyImageAnalyzer.cpp">

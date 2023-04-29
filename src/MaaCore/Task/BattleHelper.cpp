@@ -11,8 +11,8 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
-#include "Vision/Battle/BattleImageAnalyzer.h"
 #include "Vision/Battle/BattleSkillReadyImageAnalyzer.h"
+#include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/BestMatcher.h"
 #include "Vision/Matcher.h"
 #include "Vision/RegionOCRer.h"
@@ -96,9 +96,10 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         auto draw_future = std::async(std::launch::async, [&]() { save_map(image); });
     }
 
-    BattleImageAnalyzer oper_analyzer(image);
-    oper_analyzer.set_target(BattleImageAnalyzer::Target::Oper);
-    if (!oper_analyzer.analyze()) {
+    BattlefieldMatcher oper_analyzer(image);
+    oper_analyzer.set_object_of_interest({ .deployment = true });
+    auto oper_result_opt = oper_analyzer.analyze();
+    if (!oper_result_opt) {
         check_in_battle(image);
         return false;
     }
@@ -123,7 +124,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         oper.is_unusual_location = battle::get_role_usual_location(oper.role) == oper.location_type;
     };
 
-    auto cur_opers = oper_analyzer.get_opers();
+    auto& cur_opers = oper_result_opt->deployment;
     std::vector<DeploymentOper> unknown_opers;
 
     for (auto& oper : cur_opers) {
@@ -224,28 +225,29 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
 bool asst::BattleHelper::update_kills(const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
-    BattleImageAnalyzer analyzer(image);
+    BattlefieldMatcher analyzer(image);
+    analyzer.set_object_of_interest({ .kills = true });
     if (m_total_kills) {
-        analyzer.set_pre_total_kills(m_total_kills);
+        analyzer.set_total_kills_prompt(m_total_kills);
     }
-    analyzer.set_target(BattleImageAnalyzer::Target::Kills);
-    if (!analyzer.analyze()) {
+    auto result_opt = analyzer.analyze();
+    if (!result_opt || !result_opt->kills) {
         return false;
     }
-    m_kills = analyzer.get_kills();
-    m_total_kills = analyzer.get_total_kills();
+    std::tie(m_kills, m_total_kills) = result_opt->kills.value();
     return true;
 }
 
 bool asst::BattleHelper::update_cost(const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
-    BattleImageAnalyzer analyzer(image);
-    analyzer.set_target(BattleImageAnalyzer::Target::Cost);
-    if (!analyzer.analyze()) {
+    BattlefieldMatcher analyzer(image);
+    analyzer.set_object_of_interest({ .costs = true });
+    auto result_opt = analyzer.analyze();
+    if (!result_opt || !result_opt->costs) {
         return false;
     }
-    m_cost = analyzer.get_cost();
+    m_cost = result_opt->costs.value();
     return true;
 }
 
@@ -373,8 +375,10 @@ bool asst::BattleHelper::check_pause_button(const cv::Mat& reusable)
     Matcher battle_flag_analyzer(image);
     battle_flag_analyzer.set_task_info("BattleOfficiallyBegin");
     bool ret = battle_flag_analyzer.analyze().has_value();
-    BattleImageAnalyzer battle_flag_analyzer_2(image);
-    ret &= battle_flag_analyzer_2.analyze() && battle_flag_analyzer_2.get_pause_button();
+
+    BattlefieldMatcher battle_flag_analyzer_2(image);
+    auto battle_result_opt = battle_flag_analyzer_2.analyze();
+    ret &= battle_result_opt && battle_result_opt->pause_button;
     return ret;
 }
 
@@ -382,8 +386,8 @@ bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     if (weak) {
-        BattleImageAnalyzer analyzer(image);
-        m_in_battle = analyzer.analyze();
+        BattlefieldMatcher analyzer(image);
+        m_in_battle = analyzer.analyze().has_value();
     }
     else {
         m_in_battle = check_pause_button(image);

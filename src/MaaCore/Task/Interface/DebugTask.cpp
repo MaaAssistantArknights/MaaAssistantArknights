@@ -6,8 +6,8 @@
 
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "Vision/Battle/BattleImageAnalyzer.h"
 #include "Vision/Battle/BattleSkillReadyImageAnalyzer.h"
+#include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/Miscellaneous/DepotImageAnalyzer.h"
 #include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
 
@@ -15,8 +15,6 @@ asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) : Inte
 
 bool asst::DebugTask::run()
 {
-    test_battle_image();
-
     return true;
 }
 
@@ -66,7 +64,7 @@ void asst::DebugTask::test_battle_image()
     cv::Mat image = asst::imread(utils::path("1.png"));
     cv::Mat resized;
     cv::resize(image, resized, cv::Size(1280, 720), 0, 0, cv::INTER_AREA);
-    BattleImageAnalyzer analyzer(resized);
-    analyzer.set_target(BattleImageAnalyzer::Target::Oper);
+    BattlefieldMatcher analyzer(resized);
+    analyzer.set_object_of_interest({ .deployment = true });
     analyzer.analyze();
 }
