@@ -1,17 +1,17 @@
 #pragma once
-#include "OcrImageAnalyzer.h"
+#include "OCRer.h"
 
 namespace asst
 {
-    class OcrWithPreprocessImageAnalyzer : public AbstractImageAnalyzer, public OCRerConfig
+    class RegionOCRer : public VisionHelper, public OCRerConfig
     {
     public:
-        using Result = OcrImageAnalyzer::Result;
+        using Result = OCRer::Result;
         using ResultOpt = std::optional<Result>;
 
     public:
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~OcrWithPreprocessImageAnalyzer() override = default;
+        using VisionHelper::VisionHelper;
+        virtual ~RegionOCRer() override = default;
 
         ResultOpt analyze() const;
         // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉

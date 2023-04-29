@@ -12,9 +12,9 @@
 #include "Utils/Ranges.hpp"
 #include "Vision/Infrast/InfrastFacilityImageAnalyzer.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/OcrImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/Matcher.h"
+#include "Vision/OCRer.h"
+#include "Vision/RegionOCRer.h"
 
 asst::InfrastAbstractTask::InfrastAbstractTask(const AsstCallback& callback, Assistant* inst,
                                                std::string_view task_chain)
@@ -278,7 +278,7 @@ bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig co
 
     const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
     for (const auto& oper : oper_analyzer_res) {
-        OcrWithPreprocessImageAnalyzer name_analyzer;
+        RegionOCRer name_analyzer;
         name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
         name_analyzer.set_image(oper.name_img);
         name_analyzer.set_bin_expansion(0);
@@ -334,7 +334,7 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
 
     const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
     for (const auto& oper : oper_analyzer.get_result()) {
-        OcrWithPreprocessImageAnalyzer name_analyzer;
+        RegionOCRer name_analyzer;
         name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
         name_analyzer.set_image(oper.name_img);
         name_analyzer.set_bin_expansion(0);
@@ -391,7 +391,7 @@ void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::str
 
     std::vector<TextRect> page_result;
     for (const auto& oper : oper_analyzer.get_result()) {
-        OcrWithPreprocessImageAnalyzer name_analyzer;
+        RegionOCRer name_analyzer;
         name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
         name_analyzer.set_image(oper.name_img);
         name_analyzer.set_bin_expansion(0);

@@ -1,15 +1,15 @@
 #pragma once
-#include "Vision/AbstractImageAnalyzer.h"
+#include "Vision/VisionHelper.h"
 
 namespace asst
 {
-    class RoguelikeSkillSelectionImageAnalyzer final : public AbstractImageAnalyzer
+    class RoguelikeSkillSelectionImageAnalyzer final : public VisionHelper
     {
     public:
         static constexpr size_t MaxNumOfSkills = 3;
 
     public:
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
+        using VisionHelper::VisionHelper;
         virtual ~RoguelikeSkillSelectionImageAnalyzer() override = default;
 
         bool analyze();
@@ -19,7 +19,7 @@ namespace asst
 
     private:
         // 该分析器不支持外部设置ROI
-        using AbstractImageAnalyzer::set_roi;
+        using VisionHelper::set_roi;
 
         std::string name_analyze(const Rect& roi);
         std::vector<Rect> skill_analyze(const Rect& roi);

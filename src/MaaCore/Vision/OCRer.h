@@ -1,5 +1,5 @@
 #pragma once
-#include "AbstractImageAnalyzer.h"
+#include "VisionHelper.h"
 
 #include "Common/AsstTypes.h"
 #include "Config/Miscellaneous/OcrPack.h"
@@ -7,7 +7,7 @@
 
 namespace asst
 {
-    class OcrImageAnalyzer : public AbstractImageAnalyzer, public OCRerConfig
+    class OCRer : public VisionHelper, public OCRerConfig
     {
     public:
         using Result = OcrPack::Result;
@@ -15,8 +15,8 @@ namespace asst
         using ResultsVecOpt = std::optional<ResultsVec>;
 
     public:
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~OcrImageAnalyzer() override = default;
+        using VisionHelper::VisionHelper;
+        virtual ~OCRer() override = default;
 
         ResultsVecOpt analyze() const;
         // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉

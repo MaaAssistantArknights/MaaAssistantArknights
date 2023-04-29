@@ -19,12 +19,12 @@ namespace asst
 
 namespace asst
 {
-    class AbstractImageAnalyzer : protected InstHelper
+    class VisionHelper : protected InstHelper
     {
     public:
-        AbstractImageAnalyzer() = default;
-        AbstractImageAnalyzer(const cv::Mat& image, const Rect& roi = Rect(), Assistant* inst = nullptr);
-        virtual ~AbstractImageAnalyzer() = default;
+        VisionHelper() = default;
+        VisionHelper(const cv::Mat& image, const Rect& roi = Rect(), Assistant* inst = nullptr);
+        virtual ~VisionHelper() = default;
 
         virtual void set_image(const cv::Mat& image);
         virtual void set_roi(const Rect& roi);

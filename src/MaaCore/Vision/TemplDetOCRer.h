@@ -1,11 +1,11 @@
 #pragma once
-#include "AbstractImageAnalyzer.h"
 #include "Config/MatcherConfig.h"
 #include "Config/OCRerConfig.h"
+#include "VisionHelper.h"
 
 namespace asst
 {
-    class OcrWithFlagTemplImageAnalyzer : public AbstractImageAnalyzer, public OCRerConfig, public MatcherConfig
+    class TemplDetOCRer : public VisionHelper, public OCRerConfig, public MatcherConfig
     {
     public:
         struct Result : public TextRect
@@ -18,8 +18,8 @@ namespace asst
         using ResultsVecOpt = std::optional<ResultsVec>;
 
     public:
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
-        virtual ~OcrWithFlagTemplImageAnalyzer() override = default;
+        using VisionHelper::VisionHelper;
+        virtual ~TemplDetOCRer() override = default;
 
         void set_task_info(const std::string& templ_task_name, const std::string& ocr_task_name);
         void set_flag_rect_move(Rect flag_rect_move);

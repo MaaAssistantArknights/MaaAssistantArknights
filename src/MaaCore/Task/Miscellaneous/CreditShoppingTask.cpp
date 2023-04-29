@@ -7,9 +7,9 @@
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/MatchImageAnalyzer.h"
+#include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/CreditShopImageAnalyzer.h"
-#include "Vision/OcrImageAnalyzer.h"
+#include "Vision/OCRer.h"
 
 void asst::CreditShoppingTask::set_black_list(std::vector<std::string> black_list)
 {
@@ -33,7 +33,7 @@ asst::CreditShoppingTask& asst::CreditShoppingTask::set_force_shopping_if_credit
 int asst::CreditShoppingTask::credit_ocr()
 {
     cv::Mat credit_image = ctrler()->get_image();
-    OcrImageAnalyzer credit_analyzer(credit_image);
+    OCRer credit_analyzer(credit_image);
     credit_analyzer.set_task_info("CreditShop-CreditOcr");
     credit_analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
 

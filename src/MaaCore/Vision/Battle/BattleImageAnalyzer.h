@@ -1,11 +1,11 @@
 #pragma once
-#include "Vision/AbstractImageAnalyzer.h"
+#include "Vision/VisionHelper.h"
 
 #include "Common/AsstBattleDef.h"
 
 namespace asst
 {
-    class BattleImageAnalyzer : public AbstractImageAnalyzer
+    class BattleImageAnalyzer : public VisionHelper
     {
     public:
         enum Target // 需要识别的目标
@@ -18,7 +18,7 @@ namespace asst
         };
 
     public:
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
+        using VisionHelper::VisionHelper;
         virtual ~BattleImageAnalyzer() override = default;
 
         bool set_target(int target);

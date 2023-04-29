@@ -1,14 +1,14 @@
-#include "OcrWithFlagTemplImageAnalyzer.h"
+#include "TemplDetOCRer.h"
 
 #include "Config/TaskData.h"
-#include "MultiMatchImageAnalyzer.h"
-#include "OcrWithPreprocessImageAnalyzer.h"
+#include "MultiMatcher.h"
+#include "RegionOCRer.h"
 
 using namespace asst;
 
-OcrWithFlagTemplImageAnalyzer::ResultsVecOpt OcrWithFlagTemplImageAnalyzer::analyze() const
+TemplDetOCRer::ResultsVecOpt TemplDetOCRer::analyze() const
 {
-    MultiMatchImageAnalyzer flag_analyzer(m_image, m_roi);
+    MultiMatcher flag_analyzer(m_image, m_roi);
     flag_analyzer.set_params(MatcherConfig::m_params);
 
     auto matched_vec_opt = flag_analyzer.analyze();
@@ -21,7 +21,7 @@ OcrWithFlagTemplImageAnalyzer::ResultsVecOpt OcrWithFlagTemplImageAnalyzer::anal
     for (const auto& matched : matched_vec) {
         Rect roi = matched.rect.move(m_flag_rect_move);
 
-        OcrWithPreprocessImageAnalyzer ocr_analyzer(m_image, roi);
+        RegionOCRer ocr_analyzer(m_image, roi);
         ocr_analyzer.set_params(OCRerConfig::m_params);
         auto ocr_opt = ocr_analyzer.analyze();
         if (!ocr_opt) {
@@ -45,7 +45,7 @@ OcrWithFlagTemplImageAnalyzer::ResultsVecOpt OcrWithFlagTemplImageAnalyzer::anal
     return m_result;
 }
 
-void OcrWithFlagTemplImageAnalyzer::set_task_info(const std::string& templ_task_name, const std::string& ocr_task_name)
+void TemplDetOCRer::set_task_info(const std::string& templ_task_name, const std::string& ocr_task_name)
 {
     auto match_task_ptr = Task.get<MatchTaskInfo>(templ_task_name);
     m_roi = match_task_ptr->roi;
@@ -56,7 +56,7 @@ void OcrWithFlagTemplImageAnalyzer::set_task_info(const std::string& templ_task_
     OCRerConfig::_set_task_info(*ocr_task_ptr);
 }
 
-void OcrWithFlagTemplImageAnalyzer::set_flag_rect_move(Rect flag_rect_move)
+void TemplDetOCRer::set_flag_rect_move(Rect flag_rect_move)
 {
     m_flag_rect_move = flag_rect_move;
 }

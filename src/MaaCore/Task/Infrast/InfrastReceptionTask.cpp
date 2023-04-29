@@ -7,8 +7,8 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Infrast/InfrastClueVacancyImageAnalyzer.h"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/MultiMatchImageAnalyzer.h"
+#include "Vision/Matcher.h"
+#include "Vision/MultiMatcher.h"
 
 bool asst::InfrastReceptionTask::_run()
 {
@@ -119,7 +119,7 @@ bool asst::InfrastReceptionTask::proc_clue_vacancy()
         // 识别右边列表中的线索，然后用最底下的那个（一般都是剩余时间最短的）
         // swipe_to_the_bottom_of_clue_list_on_the_right();
         image = ctrler()->get_image();
-        MultiMatchImageAnalyzer clue_analyzer(image);
+        MultiMatcher clue_analyzer(image);
         clue_analyzer.set_task_info("InfrastClue");
 
         auto clue_result_opt = clue_analyzer.analyze();
@@ -162,7 +162,7 @@ bool asst::InfrastReceptionTask::shift()
     }
 
     const auto image = ctrler()->get_image();
-    MatchImageAnalyzer add_analyzer(image);
+    Matcher add_analyzer(image);
 
     const auto raw_task_ptr = Task.get("InfrastAddOperator" + facility_name() + m_work_mode_name);
     switch (raw_task_ptr->algorithm) {

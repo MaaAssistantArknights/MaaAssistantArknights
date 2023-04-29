@@ -1,12 +1,12 @@
 #pragma once
-#include "Vision/AbstractImageAnalyzer.h"
+#include "Vision/VisionHelper.h"
 
 namespace asst
 {
-    class CreditShopImageAnalyzer final : public AbstractImageAnalyzer
+    class CreditShopImageAnalyzer final : public VisionHelper
     {
     public:
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
+        using VisionHelper::VisionHelper;
         virtual ~CreditShopImageAnalyzer() override = default;
 
         bool analyze();
@@ -18,7 +18,7 @@ namespace asst
 
     private:
         // 该分析器不支持外部设置ROI
-        using AbstractImageAnalyzer::set_roi;
+        using VisionHelper::set_roi;
         bool commodities_analyze();
         bool whether_to_buy_analyze();
         bool sold_out_analyze();

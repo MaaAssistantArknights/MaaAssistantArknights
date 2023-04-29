@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Vision/OnnxRuntimeImageAnalyzer.h"
+#include "Vision/OnnxHelper.h"
 
 namespace asst
 {
     // 战斗中干员（血条）检测，yolov8 模型
-    class BattleOperatorsImageAnalyzer final : public OnnxRuntimeImageAnalyzer
+    class BattleOperatorsImageAnalyzer final : public OnnxHelper
     {
     public:
         enum class Cls
@@ -20,7 +20,7 @@ namespace asst
         };
 
     public:
-        using OnnxRuntimeImageAnalyzer::OnnxRuntimeImageAnalyzer;
+        using OnnxHelper::OnnxHelper;
         virtual ~BattleOperatorsImageAnalyzer() override = default;
 
         bool analyze();

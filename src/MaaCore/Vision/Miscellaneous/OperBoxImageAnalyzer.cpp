@@ -5,11 +5,11 @@
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
-#include "Vision/BestMatchImageAnalyzer.h"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/MultiMatchImageAnalyzer.h"
-#include "Vision/OcrWithFlagTemplImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/BestMatcher.h"
+#include "Vision/Matcher.h"
+#include "Vision/MultiMatcher.h"
+#include "Vision/TemplDetOCRer.h"
+#include "Vision/RegionOCRer.h"
 
 bool asst::OperBoxImageAnalyzer::analyze()
 {
@@ -59,7 +59,7 @@ bool asst::OperBoxImageAnalyzer::opers_analyze()
 {
     const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
 
-    OcrWithFlagTemplImageAnalyzer oper_name_analyzer(m_image);
+    TemplDetOCRer oper_name_analyzer(m_image);
 
     oper_name_analyzer.set_task_info("OperBoxFlagLV", "OperBoxNameOCR");
     oper_name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
@@ -95,7 +95,7 @@ bool asst::OperBoxImageAnalyzer::opers_analyze()
 // 识别等级
 bool asst::OperBoxImageAnalyzer::level_analyze()
 {
-    OcrWithPreprocessImageAnalyzer level_analyzer(m_image);
+    RegionOCRer level_analyzer(m_image);
     level_analyzer.set_task_info("OperBoxLevelOCR");
     const Rect level_roi = Task.get<OcrTaskInfo>("OperBoxLevelOCR")->roi;
 
@@ -131,7 +131,7 @@ bool asst::OperBoxImageAnalyzer::elite_analyze()
 {
     const std::string task_name = "OperBoxFlagElite";
     const Rect elite_roi = Task.get(task_name)->roi;
-    BestMatchImageAnalyzer elite_analyzer(m_image);
+    BestMatcher elite_analyzer(m_image);
     elite_analyzer.set_task_info(task_name);
     elite_analyzer.append_templ("OperBoxFlagElite1.png");
     elite_analyzer.append_templ("OperBoxFlagElite2.png");
@@ -162,7 +162,7 @@ bool asst::OperBoxImageAnalyzer::potential_analyze()
 {
     const std::string task_name_p = "OperBoxPotential";
     const Rect potential_roi = Task.get(task_name_p)->roi;
-    BestMatchImageAnalyzer potential_analyzer(m_image);
+    BestMatcher potential_analyzer(m_image);
     potential_analyzer.set_task_info(task_name_p);
     for (int i = 1; i < 6; i++) {
         std::string potential_temp_name = task_name_p + std::to_string(i) + ".png";

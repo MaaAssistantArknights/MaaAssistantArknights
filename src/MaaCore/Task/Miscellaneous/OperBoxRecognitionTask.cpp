@@ -8,7 +8,7 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Miscellaneous/OperBoxImageAnalyzer.h"
-#include "Vision/OcrWithFlagTemplImageAnalyzer.h"
+#include "Vision/TemplDetOCRer.h"
 #include <future>
 
 bool asst::OperBoxRecognitionTask::_run()

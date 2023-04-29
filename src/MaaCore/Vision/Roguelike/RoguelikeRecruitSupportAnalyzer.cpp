@@ -8,10 +8,10 @@
 #include "Controller/Controller.h"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/OcrImageAnalyzer.h"
-#include "Vision/OcrWithFlagTemplImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/Matcher.h"
+#include "Vision/OCRer.h"
+#include "Vision/TemplDetOCRer.h"
+#include "Vision/RegionOCRer.h"
 
 bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
 {
@@ -19,7 +19,7 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
 
     if (m_mode == battle::roguelike::SupportAnalyzeMode::ChooseSupportBtn) {
         // 识别“选择助战”
-        OcrImageAnalyzer analyzer(m_image);
+        OCRer analyzer(m_image);
         const auto& task = Task.get<OcrTaskInfo>("RoguelikeChooseSupportBtnOcr");
         analyzer.set_roi(task->roi);
         analyzer.set_required(task->text);
@@ -30,7 +30,7 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
     }
     else if (m_mode == battle::roguelike::SupportAnalyzeMode::AnalyzeChars) {
         // 识别干员
-        OcrImageAnalyzer analyzer(m_image);
+        OCRer analyzer(m_image);
         analyzer.set_roi(Task.get("RoguelikeRecruitSupportOcr")->roi);
         analyzer.set_required(m_required);
         analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
@@ -93,7 +93,7 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
     }
     else if (m_mode == battle::roguelike::SupportAnalyzeMode::RefreshSupportBtn) {
         // 识别“更新助战列表”
-        OcrImageAnalyzer analyzer(m_image);
+        OCRer analyzer(m_image);
 
         // 未处在冷却时间
         analyzer.set_task_info("RoguelikeRefreshSupportBtnOcr");
@@ -147,7 +147,7 @@ int asst::RoguelikeRecruitSupportAnalyzer::match_elite(const Rect& roi, const in
     cv::threshold(m_image, bin_img, threshold, 255, cv::THRESH_BINARY);
 
     for (const auto& [task_name, elite] : EliteTaskName) {
-        MatchImageAnalyzer analyzer(bin_img);
+        Matcher analyzer(bin_img);
         auto task_ptr = Task.get(task_name);
         analyzer.set_task_info(task_ptr);
         analyzer.set_roi(roi);
@@ -190,7 +190,7 @@ int asst::RoguelikeRecruitSupportAnalyzer::match_level(const Rect& roi)
 {
     LogTraceFunction;
 
-    OcrWithPreprocessImageAnalyzer analyzer(m_image);
+    RegionOCRer analyzer(m_image);
     analyzer.set_task_info("NumberOcrReplace");
     analyzer.set_roi(roi);
     analyzer.set_bin_expansion(1);

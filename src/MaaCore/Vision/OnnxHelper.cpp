@@ -1,8 +1,8 @@
-#include "OnnxRuntimeImageAnalyzer.h"
+#include "OnnxHelper.h"
 
 #include "Utils/NoWarningCV.h"
 
-std::vector<float> asst::OnnxRuntimeImageAnalyzer::image_to_tensor(const cv::Mat& image)
+std::vector<float> asst::OnnxHelper::image_to_tensor(const cv::Mat& image)
 {
     cv::Mat src = image.clone();
     cv::cvtColor(src, src, cv::COLOR_BGR2RGB);
@@ -17,7 +17,7 @@ std::vector<float> asst::OnnxRuntimeImageAnalyzer::image_to_tensor(const cv::Mat
     return tensor;
 }
 
-cv::Mat asst::OnnxRuntimeImageAnalyzer::hwc_to_chw(const cv::Mat& src)
+cv::Mat asst::OnnxHelper::hwc_to_chw(const cv::Mat& src)
 {
     std::vector<cv::Mat> rgb_images;
     cv::split(src, rgb_images);

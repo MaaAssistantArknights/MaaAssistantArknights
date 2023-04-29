@@ -12,8 +12,8 @@
 #include "Vision/Battle/BattleImageAnalyzer.h"
 #include "Vision/Battle/BattleOperatorsImageAnalyzer.h"
 #include "Vision/Battle/BattleSkillReadyImageAnalyzer.h"
-#include "Vision/BestMatchImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/BestMatcher.h"
+#include "Vision/RegionOCRer.h"
 
 #include <unordered_map>
 #include <unordered_set>
@@ -187,7 +187,7 @@ bool asst::CombatRecordRecognitionTask::analyze_stage()
 
         cv::resize(frame, frame, cv::Size(), m_scale, m_scale, cv::INTER_AREA);
 
-        OcrWithPreprocessImageAnalyzer stage_analyzer(frame);
+        RegionOCRer stage_analyzer(frame);
         stage_analyzer.set_task_info(stage_name_task_ptr);
         bool analyzed = stage_analyzer.analyze().has_value();
         show_img(stage_analyzer);
@@ -263,7 +263,7 @@ bool asst::CombatRecordRecognitionTask::analyze_deployment()
 
     auto avatar_task_ptr = Task.get("BattleAvatarDataForFormation");
     for (const auto& [name, formation_avatar] : m_formation) {
-        BestMatchImageAnalyzer best_match_analyzer(formation_avatar);
+        BestMatcher best_match_analyzer(formation_avatar);
         best_match_analyzer.set_task_info(avatar_task_ptr);
 
         std::unordered_set<battle::Role> roles = { BattleData.get_role(name) };
@@ -769,7 +769,7 @@ void asst::CombatRecordRecognitionTask::ananlyze_deployment_names(ClipInfo& clip
         if (!oper.name.empty()) {
             continue;
         }
-        BestMatchImageAnalyzer avatar_analyzer(oper.avatar);
+        BestMatcher avatar_analyzer(oper.avatar);
         static const double threshold = Task.get<MatchTaskInfo>("BattleAvatarDataForVideo")->templ_threshold;
         avatar_analyzer.set_threshold(threshold);
         // static const double drone_threshold = Task.get<MatchTaskInfo>("BattleDroneAvatarData")->templ_threshold;
@@ -854,7 +854,7 @@ std::string asst::CombatRecordRecognitionTask::analyze_detail_page_oper_name(con
 {
     const auto& replace_task = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
 
-    OcrWithPreprocessImageAnalyzer preproc_analyzer(frame);
+    RegionOCRer preproc_analyzer(frame);
     preproc_analyzer.set_task_info("BattleOperName");
     preproc_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
     auto preproc_result_opt = preproc_analyzer.analyze();
@@ -864,7 +864,7 @@ std::string asst::CombatRecordRecognitionTask::analyze_detail_page_oper_name(con
     }
 
     Log.warn("ocr with preprocess got a invalid name, try to use detect model");
-    OcrImageAnalyzer det_analyzer(frame);
+    OCRer det_analyzer(frame);
     det_analyzer.set_task_info("BattleOperName");
     det_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
     auto det_result_opt = det_analyzer.analyze();
@@ -877,7 +877,7 @@ std::string asst::CombatRecordRecognitionTask::analyze_detail_page_oper_name(con
     return BattleData.is_name_invalid(det_name) ? std::string() : det_name;
 }
 
-void asst::CombatRecordRecognitionTask::show_img(const asst::AbstractImageAnalyzer& analyzer)
+void asst::CombatRecordRecognitionTask::show_img(const asst::VisionHelper& analyzer)
 {
 #ifdef ASST_DEBUG
     show_img(analyzer.get_draw());

@@ -4,14 +4,14 @@
 
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
-#include "Vision/MultiMatchImageAnalyzer.h"
-#include "Vision/OcrWithFlagTemplImageAnalyzer.h"
+#include "Vision/MultiMatcher.h"
+#include "Vision/TemplDetOCRer.h"
 
 bool asst::RoguelikeFormationImageAnalyzer::analyze()
 {
     m_result.clear();
 
-    OcrWithFlagTemplImageAnalyzer analyzer(m_image);
+    TemplDetOCRer analyzer(m_image);
     analyzer.set_task_info("RoguelikeFormationOper", "RoguelikeFormationOcr");
     auto replace_task = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
     analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);

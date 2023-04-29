@@ -15,7 +15,7 @@ namespace cv
 
 namespace asst
 {
-    class AbstractImageAnalyzer;
+    class VisionHelper;
 
     class CombatRecordRecognitionTask : public AbstractTask
     {
@@ -95,7 +95,7 @@ namespace asst
         json::value m_copilot_json;
         int m_pre_action_costs = -1;
 
-        void show_img(const AbstractImageAnalyzer& analyzer);
+        void show_img(const VisionHelper& analyzer);
         void show_img(const cv::Mat& img);
 
 #ifdef ASST_DEBUG

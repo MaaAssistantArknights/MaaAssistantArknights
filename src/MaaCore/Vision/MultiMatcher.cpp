@@ -1,4 +1,4 @@
-#include "MultiMatchImageAnalyzer.h"
+#include "MultiMatcher.h"
 
 #include "Utils/Ranges.hpp"
 #include <utility>
@@ -8,14 +8,14 @@
 #include "Config/TaskData.h"
 #include "Config/TemplResource.h"
 #include "Utils/Logger.hpp"
-#include "Vision/MatchImageAnalyzer.h"
+#include "Vision/Matcher.h"
 
 using namespace asst;
 
-MultiMatchImageAnalyzer::ResultsVecOpt MultiMatchImageAnalyzer::analyze() const
+MultiMatcher::ResultsVecOpt MultiMatcher::analyze() const
 {
     const auto& [matched, templ, templ_name] =
-        MatchImageAnalyzer::preproc_and_match(make_roi(m_image, m_roi), m_params);
+        Matcher::preproc_and_match(make_roi(m_image, m_roi), m_params);
 
     if (matched.empty()) {
         return std::nullopt;

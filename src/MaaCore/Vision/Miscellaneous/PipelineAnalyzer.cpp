@@ -1,4 +1,4 @@
-#include "ProcessTaskImageAnalyzer.h"
+#include "PipelineAnalyzer.h"
 
 #include <regex>
 #include <utility>
@@ -6,13 +6,13 @@
 #include "Config/TaskData.h"
 #include "Status.h"
 #include "Utils/Logger.hpp"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/OcrImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/Matcher.h"
+#include "Vision/OCRer.h"
+#include "Vision/RegionOCRer.h"
 
 using namespace asst;
 
-ProcessTaskImageAnalyzer::ResultOpt ProcessTaskImageAnalyzer::analyze() const
+PipelineAnalyzer::ResultOpt PipelineAnalyzer::analyze() const
 {
     for (const std::string& task_name : m_tasks_name) {
         const auto& task_ptr = Task.get(task_name);
@@ -48,9 +48,9 @@ ProcessTaskImageAnalyzer::ResultOpt ProcessTaskImageAnalyzer::analyze() const
     return std::nullopt;
 }
 
-MatchImageAnalyzer::ResultOpt ProcessTaskImageAnalyzer::match(const std::shared_ptr<TaskInfo>& task_ptr) const
+Matcher::ResultOpt PipelineAnalyzer::match(const std::shared_ptr<TaskInfo>& task_ptr) const
 {
-    MatchImageAnalyzer match_analyzer(m_image, m_roi);
+    Matcher match_analyzer(m_image, m_roi);
 
     const auto match_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(task_ptr);
     if (match_task_ptr->templ_threshold > 1.0) {
@@ -79,7 +79,7 @@ MatchImageAnalyzer::ResultOpt ProcessTaskImageAnalyzer::match(const std::shared_
     return result_opt;
 }
 
-OcrImageAnalyzer::ResultsVecOpt ProcessTaskImageAnalyzer::ocr(const std::shared_ptr<TaskInfo>& task_ptr) const
+OCRer::ResultsVecOpt PipelineAnalyzer::ocr(const std::shared_ptr<TaskInfo>& task_ptr) const
 {
     const auto ocr_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(task_ptr);
 
@@ -91,10 +91,10 @@ OcrImageAnalyzer::ResultsVecOpt ProcessTaskImageAnalyzer::ocr(const std::shared_
         cache_opt = status()->get_rect(ocr_task_ptr->name);
     }
 
-    OcrImageAnalyzer::ResultsVec result_vec;
+    OCRer::ResultsVec result_vec;
 
     if (det) {
-        OcrImageAnalyzer analyzer(m_image, m_roi);
+        OCRer analyzer(m_image, m_roi);
         analyzer.set_task_info(ocr_task_ptr);
         if (use_cache && cache_opt) {
             analyzer.set_roi(*cache_opt);
@@ -107,7 +107,7 @@ OcrImageAnalyzer::ResultsVecOpt ProcessTaskImageAnalyzer::ocr(const std::shared_
         result_vec = std::move(*result_opt);
     }
     else {
-        OcrWithPreprocessImageAnalyzer analyzer(m_image, m_roi);
+        RegionOCRer analyzer(m_image, m_roi);
         analyzer.set_task_info(ocr_task_ptr);
         if (use_cache && cache_opt) {
             analyzer.set_roi(*cache_opt);

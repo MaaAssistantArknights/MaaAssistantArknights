@@ -141,25 +141,25 @@
     <ClInclude Include="Common\AsstVersion.h">
       <Filter>源文件\Common</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\AbstractImageAnalyzer.h">
+    <ClInclude Include="Vision\VisionHelper.h">
       <Filter>源文件\Vision</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\HashImageAnalyzer.h">
+    <ClInclude Include="Vision\Hasher.h">
       <Filter>源文件\Vision</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\MatchImageAnalyzer.h">
+    <ClInclude Include="Vision\Matcher.h">
       <Filter>源文件\Vision</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\MultiMatchImageAnalyzer.h">
+    <ClInclude Include="Vision\MultiMatcher.h">
       <Filter>源文件\Vision</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\OcrImageAnalyzer.h">
+    <ClInclude Include="Vision\OCRer.h">
       <Filter>源文件\Vision</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\OcrWithFlagTemplImageAnalyzer.h">
+    <ClInclude Include="Vision\TemplDetOCRer.h">
       <Filter>源文件\Vision</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\OcrWithPreprocessImageAnalyzer.h">
+    <ClInclude Include="Vision\RegionOCRer.h">
       <Filter>源文件\Vision</Filter>
     </ClInclude>
     <ClInclude Include="Vision\Infrast\InfrastClueVacancyImageAnalyzer.h">
@@ -180,7 +180,7 @@
     <ClInclude Include="Vision\Miscellaneous\DepotImageAnalyzer.h">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\Miscellaneous\ProcessTaskImageAnalyzer.h">
+    <ClInclude Include="Vision\Miscellaneous\PipelineAnalyzer.h">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClInclude>
     <ClInclude Include="Vision\Miscellaneous\RecruitImageAnalyzer.h">
@@ -495,7 +495,7 @@
     <ClInclude Include="Task\Miscellaneous\StopGameTaskPlugin.h">
       <Filter>源文件\Task\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\BestMatchImageAnalyzer.h">
+    <ClInclude Include="Vision\BestMatcher.h">
       <Filter>源文件\Vision</Filter>
     </ClInclude>
     <ClInclude Include="Task\Interface\SingleStepTask.h">
@@ -588,7 +588,7 @@
     <ClInclude Include="Utils\Algorithm.hpp">
       <Filter>源文件\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Vision\OnnxRuntimeImageAnalyzer.h">
+    <ClInclude Include="Vision\OnnxHelper.h">
       <Filter>源文件\Vision</Filter>
     </ClInclude>
     <ClInclude Include="Task\Experiment\CombatRecordRecognitionTask.h">
@@ -617,25 +617,25 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Vision\AbstractImageAnalyzer.cpp">
+    <ClCompile Include="Vision\VisionHelper.cpp">
       <Filter>源文件\Vision</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\HashImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Hasher.cpp">
       <Filter>源文件\Vision</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\MatchImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Matcher.cpp">
       <Filter>源文件\Vision</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\MultiMatchImageAnalyzer.cpp">
+    <ClCompile Include="Vision\MultiMatcher.cpp">
       <Filter>源文件\Vision</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\OcrImageAnalyzer.cpp">
+    <ClCompile Include="Vision\OCRer.cpp">
       <Filter>源文件\Vision</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\OcrWithFlagTemplImageAnalyzer.cpp">
+    <ClCompile Include="Vision\TemplDetOCRer.cpp">
       <Filter>源文件\Vision</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\OcrWithPreprocessImageAnalyzer.cpp">
+    <ClCompile Include="Vision\RegionOCRer.cpp">
       <Filter>源文件\Vision</Filter>
     </ClCompile>
     <ClCompile Include="Vision\Infrast\InfrastClueVacancyImageAnalyzer.cpp">
@@ -656,7 +656,7 @@
     <ClCompile Include="Vision\Miscellaneous\DepotImageAnalyzer.cpp">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\Miscellaneous\ProcessTaskImageAnalyzer.cpp">
+    <ClCompile Include="Vision\Miscellaneous\PipelineAnalyzer.cpp">
       <Filter>源文件\Vision\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Vision\Miscellaneous\RecruitImageAnalyzer.cpp">
@@ -914,7 +914,7 @@
     <ClCompile Include="Task\SSS\SSSDropRewardsTaskPlugin.cpp">
       <Filter>源文件\Task\SSS</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\BestMatchImageAnalyzer.cpp">
+    <ClCompile Include="Vision\BestMatcher.cpp">
       <Filter>源文件\Vision</Filter>
     </ClCompile>
     <ClCompile Include="Task\Interface\SingleStepTask.cpp">
@@ -986,7 +986,7 @@
     <ClCompile Include="Config\OnnxSessions.cpp">
       <Filter>源文件\Resource\Miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="Vision\OnnxRuntimeImageAnalyzer.cpp">
+    <ClCompile Include="Vision\OnnxHelper.cpp">
       <Filter>源文件\Vision</Filter>
     </ClCompile>
     <ClCompile Include="Task\Experiment\CombatRecordRecognitionTask.cpp">

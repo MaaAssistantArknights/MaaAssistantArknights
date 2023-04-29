@@ -1,12 +1,12 @@
 #pragma once
-#include "Vision/AbstractImageAnalyzer.h"
+#include "Vision/VisionHelper.h"
 
 namespace asst
 {
-    class InfrastClueVacancyImageAnalyzer final : public AbstractImageAnalyzer
+    class InfrastClueVacancyImageAnalyzer final : public VisionHelper
     {
     public:
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
+        using VisionHelper::VisionHelper;
         virtual ~InfrastClueVacancyImageAnalyzer() override = default;
         InfrastClueVacancyImageAnalyzer(const cv::Mat& image, const Rect& roi) = delete;
 
@@ -22,7 +22,7 @@ namespace asst
 
     private:
         // 该分析器不支持外部设置ROI
-        using AbstractImageAnalyzer::set_roi;
+        using VisionHelper::set_roi;
 
         std::vector<std::string> m_to_be_analyzed;
         std::unordered_map<std::string, Rect> m_clue_vacancy;

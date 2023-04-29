@@ -1,14 +1,14 @@
 #pragma once
-#include "Vision/AbstractImageAnalyzer.h"
+#include "Vision/VisionHelper.h"
 
 #include "Common/AsstBattleDef.h"
 
 namespace asst
 {
-    class RoguelikeRecruitSupportAnalyzer final : public AbstractImageAnalyzer
+    class RoguelikeRecruitSupportAnalyzer final : public VisionHelper
     {
     public:
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
+        using VisionHelper::VisionHelper;
         virtual ~RoguelikeRecruitSupportAnalyzer() noexcept override = default;
 
         bool analyze();

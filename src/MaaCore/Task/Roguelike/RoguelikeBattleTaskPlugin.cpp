@@ -19,8 +19,8 @@
 #include "Utils/Logger.hpp"
 #include "Vision/Battle/BattleImageAnalyzer.h"
 #include "Vision/Battle/BattleSkillReadyImageAnalyzer.h"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/Matcher.h"
+#include "Vision/RegionOCRer.h"
 
 using namespace asst::battle;
 using namespace asst::battle::roguelike;
@@ -124,7 +124,7 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
         if (need_exit()) {
             return false;
         }
-        OcrWithPreprocessImageAnalyzer name_analyzer(ctrler()->get_image());
+        RegionOCRer name_analyzer(ctrler()->get_image());
         name_analyzer.set_task_info(stage_name_task_ptr);
         if (!name_analyzer.analyze()) {
             continue;

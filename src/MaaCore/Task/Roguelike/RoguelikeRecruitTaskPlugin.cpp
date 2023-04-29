@@ -8,8 +8,8 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/OcrImageAnalyzer.h"
+#include "Vision/Matcher.h"
+#include "Vision/OCRer.h"
 #include "Vision/Roguelike/RoguelikeRecruitImageAnalyzer.h"
 #include "Vision/Roguelike/RoguelikeRecruitSupportAnalyzer.h"
 
@@ -163,7 +163,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
     bool temp_recruit_exist = false; // 检测是否存在临时招募
     auto image = ctrler()->get_image();
-    MatchImageAnalyzer temp_recruit_analyzer(image);
+    Matcher temp_recruit_analyzer(image);
     temp_recruit_analyzer.set_task_info("Roguelike@TempRecruitFlag");
     temp_recruit_exist = temp_recruit_analyzer.analyze().has_value();
     Log.trace(__FUNCTION__, "temp_recruit_exist", temp_recruit_exist);

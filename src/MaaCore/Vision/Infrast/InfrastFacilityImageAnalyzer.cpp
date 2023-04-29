@@ -4,7 +4,7 @@
 
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
-#include "Vision/MultiMatchImageAnalyzer.h"
+#include "Vision/MultiMatcher.h"
 
 bool asst::InfrastFacilityImageAnalyzer::analyze()
 {
@@ -17,7 +17,7 @@ bool asst::InfrastFacilityImageAnalyzer::analyze()
     // 所以对每种情况都进行一下识别，取其中得分最高的
     const static std::vector<std::string> task_name_suffix = { "", "Mini" };
 
-    MultiMatchImageAnalyzer mm_analyzer(m_image);
+    MultiMatcher mm_analyzer(m_image);
 
     auto task_analyze = [&](const std::string& task_name) -> bool {
         mm_analyzer.set_task_info(task_name);

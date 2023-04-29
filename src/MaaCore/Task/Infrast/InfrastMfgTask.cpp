@@ -1,7 +1,7 @@
 #include "InfrastMfgTask.h"
 
 #include "Controller/Controller.h"
-#include "Vision/MatchImageAnalyzer.h"
+#include "Vision/Matcher.h"
 
 bool asst::InfrastMfgTask::_run()
 {

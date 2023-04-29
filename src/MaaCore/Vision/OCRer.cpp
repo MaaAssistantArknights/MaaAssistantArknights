@@ -1,4 +1,4 @@
-#include "OcrImageAnalyzer.h"
+#include "OCRer.h"
 
 #include <regex>
 #include <unordered_map>
@@ -10,7 +10,7 @@
 
 using namespace asst;
 
-OcrImageAnalyzer::ResultsVecOpt OcrImageAnalyzer::analyze() const
+OCRer::ResultsVecOpt OCRer::analyze() const
 {
     OcrPack* ocr_ptr = nullptr;
     if (m_params.use_char_model) {
@@ -51,7 +51,7 @@ OcrImageAnalyzer::ResultsVecOpt OcrImageAnalyzer::analyze() const
     return m_result;
 }
 
-void OcrImageAnalyzer::postproc_rect_(Result& res) const
+void OCRer::postproc_rect_(Result& res) const
 {
     if (m_params.without_det) {
         res.rect = m_roi;
@@ -62,18 +62,18 @@ void OcrImageAnalyzer::postproc_rect_(Result& res) const
     }
 }
 
-void OcrImageAnalyzer::postproc_trim_(Result& res) const
+void OCRer::postproc_trim_(Result& res) const
 {
     utils::string_trim(res.text);
 }
 
-void OcrImageAnalyzer::postproc_equivalence_(Result& res) const
+void OCRer::postproc_equivalence_(Result& res) const
 {
     auto& ocr_config = OcrConfig::get_instance();
     res.text = ocr_config.process_equivalence_class(res.text);
 }
 
-void OcrImageAnalyzer::postproc_replace_(Result& res) const
+void OCRer::postproc_replace_(Result& res) const
 {
     if (m_params.replace.empty()) {
         return;
@@ -91,7 +91,7 @@ void OcrImageAnalyzer::postproc_replace_(Result& res) const
     }
 }
 
-bool OcrImageAnalyzer::filter_and_replace_by_required_(Result& res) const
+bool OCRer::filter_and_replace_by_required_(Result& res) const
 {
     if (m_params.required.empty()) {
         return true;

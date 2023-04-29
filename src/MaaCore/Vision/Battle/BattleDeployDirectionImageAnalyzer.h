@@ -1,17 +1,17 @@
 #pragma once
 
-#include "Vision/OnnxRuntimeImageAnalyzer.h"
+#include "Vision/OnnxHelper.h"
 
 namespace asst
 {
-    class BattleDeployDirectionImageAnalyzer final : public OnnxRuntimeImageAnalyzer
+    class BattleDeployDirectionImageAnalyzer final : public OnnxHelper
     {
     public:
         static constexpr size_t ClassificationSize = 4;
         using RawResults = std::array<float, ClassificationSize>;
 
     public:
-        using OnnxRuntimeImageAnalyzer::OnnxRuntimeImageAnalyzer;
+        using OnnxHelper::OnnxHelper;
         virtual ~BattleDeployDirectionImageAnalyzer() override = default;
 
         void set_base_point(const Point& pt);

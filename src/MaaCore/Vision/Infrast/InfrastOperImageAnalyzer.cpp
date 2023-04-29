@@ -7,8 +7,8 @@
 #include "Config/TaskData.h"
 #include "InfrastSmileyImageAnalyzer.h"
 #include "Utils/Logger.hpp"
-#include "Vision/HashImageAnalyzer.h"
-#include "Vision/MatchImageAnalyzer.h"
+#include "Vision/Hasher.h"
+#include "Vision/Matcher.h"
 
 bool asst::InfrastOperImageAnalyzer::analyze()
 {
@@ -209,7 +209,7 @@ void asst::InfrastOperImageAnalyzer::face_hash_analyze()
 
     const Rect hash_rect_move = Task.get("InfrastOperFaceHash")->rect_move;
 
-    HashImageAnalyzer hash_analyzer(m_image);
+    Hasher hash_analyzer(m_image);
 
     for (auto&& oper : m_result) {
         Rect roi = oper.smiley.rect.move(hash_rect_move);
@@ -226,7 +226,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
     const auto task_ptr = Task.get<MatchTaskInfo>("InfrastSkills");
     const int bright_thres = task_ptr->special_params.front();
 
-    MatchImageAnalyzer skill_analyzer(m_image);
+    Matcher skill_analyzer(m_image);
 
     skill_analyzer.set_mask_range(task_ptr->mask_range.first, task_ptr->mask_range.second);
     skill_analyzer.set_threshold(task_ptr->templ_threshold);
@@ -383,7 +383,7 @@ void asst::InfrastOperImageAnalyzer::doing_analyze()
     const auto working_task_ptr = Task.get("InfrastOperOnShift");
     Rect rect_move = working_task_ptr->rect_move;
 
-    MatchImageAnalyzer working_analyzer(m_image);
+    Matcher working_analyzer(m_image);
 
     working_analyzer.set_task_info(working_task_ptr);
 

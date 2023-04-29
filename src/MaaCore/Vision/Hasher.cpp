@@ -1,10 +1,10 @@
-#include "HashImageAnalyzer.h"
+#include "Hasher.h"
 
 #include "Utils/NoWarningCV.h"
 
 #include "Utils/Logger.hpp"
 
-bool asst::HashImageAnalyzer::analyze()
+bool asst::Hasher::analyze()
 {
     m_hash_result.clear();
     m_min_dist_name.clear();
@@ -52,42 +52,42 @@ bool asst::HashImageAnalyzer::analyze()
     return true;
 }
 
-void asst::HashImageAnalyzer::set_mask_range(int lower, int upper) noexcept
+void asst::Hasher::set_mask_range(int lower, int upper) noexcept
 {
     m_mask_range = std::make_pair(lower, upper);
 }
 
-void asst::HashImageAnalyzer::set_mask_range(std::pair<int, int> mask_range) noexcept
+void asst::Hasher::set_mask_range(std::pair<int, int> mask_range) noexcept
 {
     m_mask_range = std::move(mask_range);
 }
 
-void asst::HashImageAnalyzer::set_hash_templates(std::unordered_map<std::string, std::string> hash_templates) noexcept
+void asst::Hasher::set_hash_templates(std::unordered_map<std::string, std::string> hash_templates) noexcept
 {
     m_hash_templates = std::move(hash_templates);
 }
 
-void asst::HashImageAnalyzer::set_need_split(bool need_split) noexcept
+void asst::Hasher::set_need_split(bool need_split) noexcept
 {
     m_need_split = need_split;
 }
 
-void asst::HashImageAnalyzer::set_need_bound(bool need_bound) noexcept
+void asst::Hasher::set_need_bound(bool need_bound) noexcept
 {
     m_need_bound = need_bound;
 }
 
-const std::vector<std::string>& asst::HashImageAnalyzer::get_min_dist_name() const noexcept
+const std::vector<std::string>& asst::Hasher::get_min_dist_name() const noexcept
 {
     return m_min_dist_name;
 }
 
-const std::vector<std::string>& asst::HashImageAnalyzer::get_hash() const noexcept
+const std::vector<std::string>& asst::Hasher::get_hash() const noexcept
 {
     return m_hash_result;
 }
 
-std::string asst::HashImageAnalyzer::s_hash(const cv::Mat& img)
+std::string asst::Hasher::s_hash(const cv::Mat& img)
 {
     static constexpr int HashKernelSize = 16;
     cv::Mat resized;
@@ -112,7 +112,7 @@ std::string asst::HashImageAnalyzer::s_hash(const cv::Mat& img)
     return hash_value.str();
 }
 
-std::vector<cv::Mat> asst::HashImageAnalyzer::split_bin(const cv::Mat& bin)
+std::vector<cv::Mat> asst::Hasher::split_bin(const cv::Mat& bin)
 {
     std::vector<cv::Mat> result;
 
@@ -147,12 +147,12 @@ std::vector<cv::Mat> asst::HashImageAnalyzer::split_bin(const cv::Mat& bin)
     return result;
 }
 
-cv::Mat asst::HashImageAnalyzer::bound_bin(const cv::Mat& bin)
+cv::Mat asst::Hasher::bound_bin(const cv::Mat& bin)
 {
     return bin(cv::boundingRect(bin));
 }
 
-int asst::HashImageAnalyzer::hamming(std::string hash1, std::string hash2)
+int asst::Hasher::hamming(std::string hash1, std::string hash2)
 {
     static constexpr int HammingFlags = 64;
 
