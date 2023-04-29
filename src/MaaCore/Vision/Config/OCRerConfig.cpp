@@ -40,6 +40,11 @@ void OCRerConfig::set_task_info(const std::string& task_name)
     set_task_info(Task.get(task_name));
 }
 
+void asst::OCRerConfig::set_without_det(bool without_det) noexcept
+{
+    m_params.without_det = without_det;
+}
+
 void OCRerConfig::set_use_char_model(bool enable) noexcept
 {
     m_params.use_char_model = enable;
