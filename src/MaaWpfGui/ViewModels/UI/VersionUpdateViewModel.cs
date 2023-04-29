@@ -478,31 +478,46 @@ namespace MaaWpfGui.ViewModels.UI
                     return CheckUpdateRetT.NoNeedToUpdate;
                 }
 
+                string rawUrl = _assetsObject["browser_download_url"]?.ToString();
+
+                async Task<bool> download_from_mirror(Tuple<string, string> rep)
+                {
+                    var url = string.Copy(rawUrl);
+                    if (rep != null)
+                    {
+                        url = url.Replace(rep.Item1, rep.Item2);
+                    }
+
+                    if (await DownloadGithubAssets(url, _assetsObject))
+                    {
+                        OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"));
+                        return true;
+                    }
+
+                    return false;
+                }
+
                 // 下载压缩包
-                var downloaded = false;
                 var mirroredReplaceMap = new List<Tuple<string, string>>
                 {
                     new Tuple<string, string>("github.com", "agent.imgg.dev"),
+                    new Tuple<string, string>("github.com", "maa.r2.imgg.dev"),
                     new Tuple<string, string>("github.com", "ota.maa.plus"),
                     null,
                 };
 
-                string rawUrl = _assetsObject["browser_download_url"]?.ToString();
-                const int DownloadRetryMaxTimes = 1;
-                for (int i = 0; i <= DownloadRetryMaxTimes && !downloaded; i++)
-                {
-                    foreach (var repTuple in mirroredReplaceMap)
-                    {
-                        var url = string.Copy(rawUrl);
-                        if (repTuple != null)
-                        {
-                            url = url.Replace(repTuple.Item1, repTuple.Item2);
-                        }
+                // 0, 1 两个镜像流量比较充足，优先用
+                var rand_index = new Random().Next(0, 2);   // 前闭后开 [0, 2)
+                bool downloaded = await download_from_mirror(mirroredReplaceMap[rand_index]);
 
-                        if (await DownloadGithubAssets(url, _assetsObject))
+                if (!downloaded)
+                {
+                    mirroredReplaceMap.RemoveAt(rand_index);
+                    for (int i = 0; i < mirroredReplaceMap.Count && !downloaded; i++)
+                    {
+                        downloaded = await download_from_mirror(mirroredReplaceMap[i]);
+                        if (downloaded)
                         {
-                            OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"));
-                            downloaded = true;
                             break;
                         }
                     }
