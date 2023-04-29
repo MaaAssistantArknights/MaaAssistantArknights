@@ -9893,11 +9893,11 @@
             24
         ]
     },
-    "OperBoxPotential1": {},
     "OperBoxPotential2": {},
     "OperBoxPotential3": {},
     "OperBoxPotential4": {},
     "OperBoxPotential5": {},
+    "OperBoxPotential6": {},
     "OperBoxNameOCR": {
         "baseTask": "CharsNameOcrReplace",
         "text": [],

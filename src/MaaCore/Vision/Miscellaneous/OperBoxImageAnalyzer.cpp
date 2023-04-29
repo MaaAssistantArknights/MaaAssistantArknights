@@ -193,7 +193,7 @@ bool asst::OperBoxImageAnalyzer::potential_analyze()
     const Rect potential_roi = Task.get(task_name_p)->roi;
     BestMatcher potential_analyzer(m_image);
     potential_analyzer.set_task_info(task_name_p);
-    for (int i = 1; i < 6; i++) {
+    for (int i = 2; i <= 6; i++) {
         std::string potential_temp_name = task_name_p + std::to_string(i) + ".png";
         potential_analyzer.append_templ(potential_temp_name);
     }
@@ -203,7 +203,7 @@ bool asst::OperBoxImageAnalyzer::potential_analyze()
 
         potential_analyzer.set_roi(roi);
         if (!potential_analyzer.analyze()) {
-            box.potential = 0;
+            box.potential = 1;
             continue;
         }
         const auto& poten_templ = potential_analyzer.get_result();
