@@ -11,7 +11,7 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
-#include "Vision/Battle/BattleSkillReadyImageAnalyzer.h"
+#include "Vision/Battle/BattlefieldClassifier.h"
 #include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/BestMatcher.h"
 #include "Vision/Matcher.h"
@@ -476,7 +476,8 @@ bool asst::BattleHelper::check_and_use_skill(const std::string& name, bool& has_
 bool asst::BattleHelper::check_and_use_skill(const Point& loc, bool& has_error, const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
-    BattleSkillReadyImageAnalyzer skill_analyzer(image);
+    BattlefieldClassifier skill_analyzer(image);
+    skill_analyzer.set_object_of_interest({ .skill_ready = true });
 
     auto target_iter = m_normal_tile_info.find(loc);
     if (target_iter == m_normal_tile_info.end()) {
@@ -485,7 +486,7 @@ bool asst::BattleHelper::check_and_use_skill(const Point& loc, bool& has_error, 
     }
     const Point& battlefield_point = target_iter->second.pos;
     skill_analyzer.set_base_point(battlefield_point);
-    if (!skill_analyzer.analyze()) {
+    if (!skill_analyzer.analyze()->skill_ready.ready) {
         return false;
     }
 

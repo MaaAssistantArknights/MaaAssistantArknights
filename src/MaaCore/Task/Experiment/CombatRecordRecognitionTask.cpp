@@ -7,10 +7,9 @@
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
 #include "Utils/Ranges.hpp"
-#include "Vision/Battle/BattleDeployDirectionImageAnalyzer.h"
-#include "Vision/Battle/BattleFormationImageAnalyzer.h"
-#include "Vision/Battle/BattleOperatorsImageAnalyzer.h"
-#include "Vision/Battle/BattleSkillReadyImageAnalyzer.h"
+#include "Vision/Battle/BattleFormationAnalyzer.h"
+#include "Vision/Battle/BattlefieldClassifier.h"
+#include "Vision/Battle/BattlefieldDetector.h"
 #include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/BestMatcher.h"
 #include "Vision/RegionOCRer.h"
@@ -117,7 +116,7 @@ bool asst::CombatRecordRecognitionTask::analyze_formation()
 
     const int skip_count = m_video_fps > m_formation_fps ? static_cast<int>(m_video_fps / m_formation_fps) - 1 : 0;
 
-    BattleFormationImageAnalyzer formation_ananlyzer;
+    BattleFormationAnalyzer formation_ananlyzer;
     int no_changes_count = 0;
     for (size_t i = 0; i < m_video_frame_count; i += skip_frames(skip_count) + 1) {
         cv::Mat frame;
@@ -131,13 +130,14 @@ bool asst::CombatRecordRecognitionTask::analyze_formation()
         cv::resize(frame, frame, cv::Size(), m_scale, m_scale, cv::INTER_AREA);
 
         formation_ananlyzer.set_image(frame);
-        bool analyzed = formation_ananlyzer.analyze();
+        auto formation_opt = formation_ananlyzer.analyze();
         show_img(formation_ananlyzer);
         // 有些视频会有个过渡或者动画啥的，只取一帧识别的可能不全。多识别几帧
-        if (analyzed) {
-            const auto& cur = formation_ananlyzer.get_result();
-            if (cur.size() > m_formation.size()) {
-                m_formation = cur;
+        if (formation_opt) {
+            if (formation_opt->size() > m_formation.size()) {
+                for (const auto& [name, avatar] : *formation_opt) {
+                    m_formation.insert_or_assign(name, avatar);
+                }
             }
             else if (++no_changes_count > 5) {
                 m_formation_end_frame = i;
@@ -509,9 +509,10 @@ bool asst::CombatRecordRecognitionTask::compare_skill(ClipInfo& clip, ClipInfo& 
     const std::string oper_name = pre_clip.ends_oper_name;
     const Point target_location = m_operator_locations[oper_name];
     const Point target_position = m_normal_tile_info[target_location].pos;
-    BattleSkillReadyImageAnalyzer analyzer(pre_clip.end_frame);
+    BattlefieldClassifier analyzer(pre_clip.end_frame);
+    analyzer.set_object_of_interest({ .skill_ready = true });
     analyzer.set_base_point(target_position);
-    bool pre_ready = analyzer.analyze();
+    bool pre_ready = analyzer.analyze()->skill_ready.ready;
     show_img(analyzer);
 
     if (!pre_ready) {
@@ -539,7 +540,7 @@ bool asst::CombatRecordRecognitionTask::compare_skill(ClipInfo& clip, ClipInfo& 
     }
     cv::resize(frame, frame, cv::Size(), m_scale, m_scale, cv::INTER_AREA);
     analyzer.set_image(frame);
-    bool cur_ready = analyzer.analyze();
+    bool cur_ready = analyzer.analyze()->skill_ready.ready;
 
     if (pre_ready && !cur_ready) {
         json::object condition = analyze_action_condition(clip, &pre_clip);
@@ -590,13 +591,14 @@ bool asst::CombatRecordRecognitionTask::detect_operators(ClipInfo& clip, [[maybe
         }
 
         cv::resize(frame, frame, cv::Size(), m_scale, m_scale, cv::INTER_AREA);
-        BattleOperatorsImageAnalyzer analyzer(frame);
-        analyzer.analyze();
+        BattlefieldDetector analyzer(frame);
+        analyzer.set_object_of_interest({ .operators = true });
+        auto result_opt = analyzer.analyze();
         show_img(analyzer);
 
         DetectionResult cur_locations;
         auto tiles = m_normal_tile_info | views::values;
-        for (const auto& box : analyzer.get_results()) {
+        for (const auto& box : result_opt->operators) {
             Rect rect = box.rect.move(det_box_move);
             auto iter = ranges::find_if(tiles, [&](const TilePack::TileInfo& t) { return rect.include(t.pos); });
             if (iter == tiles.end()) {
@@ -650,18 +652,19 @@ bool asst::CombatRecordRecognitionTask::classify_direction(ClipInfo& clip, ClipI
     callback(AsstMsg::SubTaskStart, basic_info_with_what("ClassifyDirection"));
 
     /* classify direction */
-    using Losses = BattleDeployDirectionImageAnalyzer::RawResults;
-    constexpr size_t ClsSize = BattleDeployDirectionImageAnalyzer::ClassificationSize;
-    std::unordered_map<Point, Losses> dir_cls_sampling;
+    using Raw = BattlefieldClassifier::DeployDirectionResult::Raw;
+    constexpr size_t ClsSize = BattlefieldClassifier::DeployDirectionResult::ClsSize;
+    std::unordered_map<Point, Raw> dir_cls_sampling;
 
     for (const cv::Mat& frame : clip.random_frames) {
-        BattleDeployDirectionImageAnalyzer analyzer(frame);
+        BattlefieldClassifier analyzer(frame);
+        analyzer.set_object_of_interest({ .skill_ready = false, .deploy_direction = true });
         for (const auto& loc : newcomer) {
             analyzer.set_base_point(m_normal_tile_info.at(loc).pos);
-            analyzer.analyze();
+            auto result_opt = analyzer.analyze();
             show_img(analyzer);
             for (size_t i = 0; i < ClsSize; ++i) {
-                dir_cls_sampling[loc][i] += analyzer.get_raw_results()[i];
+                dir_cls_sampling[loc][i] += result_opt->deploy_direction.raw[i];
             }
         }
     }

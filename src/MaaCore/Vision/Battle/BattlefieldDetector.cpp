@@ -1,4 +1,4 @@
-#include "BattleOperatorsImageAnalyzer.h"
+#include "BattlefieldDetector.h"
 
 #include <algorithm>
 #include <array>
@@ -12,11 +12,29 @@
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
 
-bool asst::BattleOperatorsImageAnalyzer::analyze()
+using namespace asst;
+
+BattlefieldDetector::ResultOpt BattlefieldDetector::analyze() const
 {
     LogTraceFunction;
 
+    Result result { .object_of_interest = m_object_of_interest };
+    bool analyzed = false;
 
+    if (m_object_of_interest.operators) {
+        result.operators = operator_analyze();
+        analyzed = true;
+    }
+
+    if (!analyzed) {
+        return std::nullopt;
+    }
+
+    return result;
+}
+
+std::vector<BattlefieldDetector::OperatorResult> BattlefieldDetector::operator_analyze() const
+{
     const double x_scale = 640.0 / m_image.cols;
     const double y_scale = 640.0 / m_image.rows;
 
@@ -60,7 +78,14 @@ bool asst::BattleOperatorsImageAnalyzer::analyze()
         output[i] = std::vector<float>(raw_output + i * output_shape[2], raw_output + (i + 1) * output_shape[2]);
     }
 
-    std::vector<Box> all_results;
+#ifdef ASST_DEBUG
+
+    const int draw_offset_y = static_cast<int>(m_image.rows * -0.15);
+    const int draw_offset_h = static_cast<int>(m_image.rows * 0.13);
+
+#endif
+
+    std::vector<OperatorResult> all_results;
     const auto& conf_vec = output.back();
     for (size_t i = 0; i < conf_vec.size(); ++i) {
         float score = conf_vec[i];
@@ -68,6 +93,7 @@ bool asst::BattleOperatorsImageAnalyzer::analyze()
         if (score < Threshold) {
             continue;
         }
+
         int center_x = static_cast<int>(output[0][i] / x_scale);
         int center_y = static_cast<int>(output[1][i] / y_scale);
         int w = static_cast<int>(output[2][i] / x_scale);
@@ -76,13 +102,28 @@ bool asst::BattleOperatorsImageAnalyzer::analyze()
         int x = center_x - w / 2;
         int y = center_y - h / 2;
         Rect rect { x, y, w, h };
-        all_results.emplace_back(Box { Cls::Operator, rect, score });
+
+        OperatorResult box { OperatorResult::Cls::Operator, rect, score };
+
+#ifdef ASST_DEBUG
+
+        Rect draw_rect = box.rect;
+        draw_rect.y += draw_offset_y;
+        draw_rect.height += draw_offset_h;
+        cv::rectangle(m_image_draw, make_rect<cv::Rect>(draw_rect), cv::Scalar(0, 0, 255), 5);
+        cv::putText(m_image_draw, std::to_string(box.score), cv::Point(draw_rect.x, draw_rect.y - 10),
+                    cv::FONT_HERSHEY_PLAIN, 1.2, cv::Scalar(0, 0, 255), 2);
+#endif
+
+        all_results.emplace_back(std::move(box));
     }
 
     // NMS
     constexpr double NmsThreshold = 0.7f;
-    std::sort(all_results.begin(), all_results.end(), [](const Box& a, const Box& b) { return a.score > b.score; });
-    std::vector<Box> nms_results;
+    std::sort(all_results.begin(), all_results.end(),
+              [](const OperatorResult& a, const OperatorResult& b) { return a.score > b.score; });
+
+    std::vector<OperatorResult> nms_results;
     for (size_t i = 0; i < all_results.size(); ++i) {
         const auto& box = all_results[i];
         if (box.score < 0.1f) {
@@ -101,21 +142,5 @@ bool asst::BattleOperatorsImageAnalyzer::analyze()
         }
     }
 
-#ifdef ASST_DEBUG
-    int draw_offset_y = static_cast<int>(m_image.rows * -0.15);
-    int draw_offset_h = static_cast<int>(m_image.rows * 0.13);
-    for (const auto& box : nms_results) {
-        Rect draw_rect = box.rect;
-        draw_rect.y += draw_offset_y;
-        draw_rect.height += draw_offset_h;
-        cv::rectangle(m_image_draw, make_rect<cv::Rect>(draw_rect), cv::Scalar(0, 0, 255), 5);
-        cv::putText(m_image_draw, std::to_string(box.score), cv::Point(draw_rect.x, draw_rect.y - 10),
-                    cv::FONT_HERSHEY_PLAIN, 1.2, cv::Scalar(0, 0, 255), 2);
-        m_draw_rect.emplace_back(draw_rect);
-    }
-#endif
-
-    m_results = std::move(nms_results);
-
-    return true;
+    return nms_results;
 }

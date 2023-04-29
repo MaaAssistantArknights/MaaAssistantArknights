@@ -8,7 +8,6 @@
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/Battle/BattleSkillReadyImageAnalyzer.h"
 #include "Vision/Matcher.h"
 #include "Vision/OCRer.h"
 
@@ -126,7 +125,8 @@ bool asst::ReclamationBattlePlugin::communicate_with_aux(
     std::ignore = npcName;
     std::ignore = orderComp;
     //    auto image = ctrler()->get_image();
-    //    BattleSkillReadyImageAnalyzer skillReadyAnalyzer(image);
+    //    BattlefieldClassifier skillReadyAnalyzer(image);
+    // analyzer.set_object_of_interest({ .skill_ready = true });
     //    if (!skillReadyAnalyzer.analyze()) {
     //        Log.info(__FUNCTION__, " | ", "no ready skills");
     //        return false;
