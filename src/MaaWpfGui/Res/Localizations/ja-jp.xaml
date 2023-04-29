@@ -357,7 +357,7 @@
     <!--  ログ  -->
     <!--  スタート  -->
 
-    <system:String x:Key="IdentificationTool">認識ツール</system:String>
+    <system:String x:Key="Toolbox">ツールボックス</system:String>
 
     <!--  公開求人認識  -->
     <system:String x:Key="RecruitmentRecognition">公開求人認識</system:String>

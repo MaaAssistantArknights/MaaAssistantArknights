@@ -358,7 +358,7 @@
     <!--  Logs  -->
     <!--  Farming  -->
 
-    <system:String x:Key="IdentificationTool">Identification Tool</system:String>
+    <system:String x:Key="Toolbox">Toolbox</system:String>
 
     <!--  Recruitment Recognition  -->
     <system:String x:Key="RecruitmentRecognition">Recruitment</system:String>
@@ -401,6 +401,10 @@ The video resolution is required to be 16:9, and there are no interference facto
     <system:String x:Key="Identifying">Identifying...</system:String>
     <system:String x:Key="IdentificationCompleted">Identification completed</system:String>
     <!--  Logs  -->
+
+    <system:String x:Key="Gacha">Gacha</system:String>
+    <system:String x:Key="GachaOnce">Gacha Once</system:String>
+    <system:String x:Key="GachaTenTimes">Gacha Ten Times</system:String>
 
     <!--  Copilot  -->
     <system:String x:Key="Copilot">Copilot</system:String>

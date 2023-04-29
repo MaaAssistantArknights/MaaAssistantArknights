@@ -336,7 +336,7 @@
     <!--  로그  -->
     <!--  메인 화면  -->
 
-    <system:String x:Key="IdentificationTool">인식 도구</system:String>
+    <system:String x:Key="Toolbox">공구 상자</system:String>
 
     <!--  공개모집 인식  -->
     <system:String x:Key="RecruitmentRecognition">공개모집 인식</system:String>

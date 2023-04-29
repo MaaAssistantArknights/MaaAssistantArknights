@@ -243,5 +243,55 @@
                 Text="{DynamicResource VideoRecognitionTips}"
                 TextWrapping="Wrap" />
         </TabItem>
+
+        <TabItem Header="{DynamicResource Gacha}">
+            <Grid Margin="20,0,20,20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="150" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="150" />
+                </Grid.RowDefinitions>
+                <controls:TextBlock
+                    Grid.Row="0"
+                    Height="80"
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Focusable="True"
+                    FontSize="14"
+                    Style="{StaticResource TextBlockDefaultBold}"
+                    Text="{Binding GachaInfo}"
+                    TextWrapping="Wrap" />
+                <controls:TextBlock
+                    Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Focusable="True"
+                    FontSize="14"
+                    Style="{StaticResource TextBlockDefaultBold}"
+                    Text="（这里显示游戏截图）"
+                    TextWrapping="Wrap" />
+                <StackPanel
+                    Grid.Row="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        Width="180"
+                        Height="70"
+                        Margin="30"
+                        Command="{s:Action GachaOnce}"
+                        Content="{DynamicResource GachaOnce}"
+                        IsEnabled="{Binding GachaDone}" />
+                    <Button
+                        Width="180"
+                        Height="70"
+                        Margin="30"
+                        Command="{s:Action GachaTenTimes}"
+                        Content="{DynamicResource GachaTenTimes}"
+                        IsEnabled="{Binding GachaDone}" />
+                </StackPanel>
+            </Grid>
+        </TabItem>
     </TabControl>
 </UserControl>

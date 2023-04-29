@@ -360,7 +360,7 @@
     <!--  日志  -->
     <!--  一键长草  -->
 
-    <system:String x:Key="IdentificationTool">识别工具</system:String>
+    <system:String x:Key="Toolbox">小工具</system:String>
 
     <!--  公招识别  -->
     <system:String x:Key="RecruitmentRecognition">公招识别</system:String>
@@ -398,6 +398,28 @@
 
 需要视频分辨率为 16:9，且无黑边、模拟器边框、异形屏矫正等干扰因素。</system:String>
     <!--  视频识别  -->
+
+    <system:String x:Key="Gacha">牛牛抽卡</system:String>
+    <system:String x:Key="GachaOnce">寻访一次</system:String>
+    <system:String x:Key="GachaTenTimes">寻访十次</system:String>
+    <system:String x:Key="GachaInitTip">在罗德岛竟然有这么多志同道合的志士。是的，诗歌！战争！自由！能在历史的洪流中汇集众人的力量，为这片大地的改变而奋斗。真是令人振奋！这些悲壮又非凡的故事，是应当被传颂下去的。</system:String>
+    <system:String x:Key="GachaTip1">保佑胜利的英雄，我将领受你们的祝福。</system:String>
+    <system:String x:Key="GachaTip2">伟大的战士们啊，我会在你们身边，与你们一同奋勇搏杀。</system:String>
+    <system:String x:Key="GachaTip3">再转身回头的时候，我们将带着胜利归来。</system:String>
+    <system:String x:Key="GachaTip4">不需畏惧，我们会战胜那些鲁莽的家伙！</system:String>
+    <system:String x:Key="GachaTip5">欢呼吧！</system:String>
+    <system:String x:Key="GachaTip6">来吧——</system:String>
+    <system:String x:Key="GachaTip7">现在可没有后悔的余地了。</system:String>
+    <system:String x:Key="GachaTip8">无需退路。</system:String>
+    <system:String x:Key="GachaTip9">英雄们啊，为这最强大的信念，请站在我们这边。</system:String>
+    <system:String x:Key="GachaTip10">颤抖吧，在真正的勇敢面前。</system:String>
+    <system:String x:Key="GachaTip11">哭嚎吧，为你们不堪一击的信念。</system:String>
+    <system:String x:Key="GachaTip12">你将在此跪拜。</system:String>
+    <system:String x:Key="GachaTip13">是吗，我们做到了吗......我现在，正体会至高的荣誉和幸福。</system:String>
+    <system:String x:Key="GachaTip14">转身吧，勇士们。我们已经获得了完美的胜利，现在是该回去享受庆祝的盛典了。</system:String>
+    <system:String x:Key="GachaTip15">听啊，悲鸣停止了。这是幸福的和平到来前的宁静。</system:String>
+    <system:String x:Key="GachaTip16">纵使人类的战争没尽头......在这一刻，我们守护住了自己生的尊严。离开吧。但要昂首挺胸。</system:String>
+    <system:String x:Key="GachaTip17">这对角可能会不小心撞倒些家具，我会尽量小心。</system:String>
 
     <!--  日志  -->
     <system:String x:Key="Identifying">正在识别……</system:String>

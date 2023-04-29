@@ -34,7 +34,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public RecognizerViewModel()
         {
-            DisplayName = LocalizationHelper.GetString("IdentificationTool");
+            DisplayName = LocalizationHelper.GetString("Toolbox");
         }
 
         protected override void OnInitialActivate()
@@ -491,5 +491,55 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         #endregion OperBox
+
+        #region Gacha
+
+        private bool _gachaDone = true;
+
+        public bool GachaDone
+        {
+            get => _gachaDone;
+            set => SetAndNotify(ref _gachaDone, value);
+        }
+
+        private string _gachaInfo = LocalizationHelper.GetString("GachaInitTip");
+
+        public string GachaInfo
+        {
+            get => _gachaInfo;
+            set => SetAndNotify(ref _gachaInfo, value);
+        }
+
+        public void GachaOnce()
+        {
+            StartGacha(true);
+        }
+
+        public void GachaTenTimes()
+        {
+            StartGacha(false);
+        }
+
+        public async void StartGacha(bool once = true)
+        {
+            GachaDone = false;
+
+            string errMsg = string.Empty;
+            GachaInfo = LocalizationHelper.GetString("ConnectingToEmulator");
+            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            if (!caught)
+            {
+                GachaInfo = errMsg;
+                return;
+            }
+
+            if (Instances.AsstProxy.AsstStartGacha(once))
+            {
+                var rd = new Random();
+                GachaInfo = LocalizationHelper.GetString("GachaTip" + rd.Next(1, 18).ToString());
+            }
+        }
+
+        #endregion Gacha
     }
 }

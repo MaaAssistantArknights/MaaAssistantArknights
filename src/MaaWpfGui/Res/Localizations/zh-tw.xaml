@@ -296,7 +296,7 @@
     <!--  日誌  -->
     <!--  一鍵長草  -->
 
-    <system:String x:Key="IdentificationTool">識別工具</system:String>
+    <system:String x:Key="Toolbox">小工具</system:String>
 
     <!--  公招辨識  -->
     <system:String x:Key="RecruitmentRecognition">公招辨識</system:String>
