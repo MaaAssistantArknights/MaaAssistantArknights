@@ -37,7 +37,7 @@ jobs:
         uses: microsoft/setup-msbuild@v1
       - name: Build MAA
         run: |
-          MSBUILD MAA.sln /t:rebuild /p:Configuration="Debug" /p:Platform="x64" /p:BuildProjectReferences=true /m
+          MSBUILD MAA.sln /t:rebuild /p:Configuration="Debug" /p:Platform="x64" /m
       - name: Run Testing
         run: |
           .\x64\Debug\Sample.exe
