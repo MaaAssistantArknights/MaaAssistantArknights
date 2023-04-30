@@ -585,6 +585,23 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _gachaShowDisclaimer = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.GachaShowDisclaimer, bool.TrueString));
+
+        public bool GachaShowDisclaimer
+        {
+            get => _gachaShowDisclaimer;
+            set
+            {
+                SetAndNotify(ref _gachaShowDisclaimer, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.GachaShowDisclaimer, value.ToString());
+            }
+        }
+
+        public void GachaAgreeDisclaimer()
+        {
+            GachaShowDisclaimer = false;
+        }
+
         #endregion Gacha
     }
 }
