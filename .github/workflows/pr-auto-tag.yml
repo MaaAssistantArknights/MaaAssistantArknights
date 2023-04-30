@@ -21,7 +21,7 @@ jobs:
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          git remote set-url origin https://x-access-token:${{ secrets.PUBLISH_GH_PAT }}@github.com/${{ github.repository }}
+          git remote set-url origin https://x-access-token:${{ secrets.AUTO_TAG_PAT }}@github.com/${{ github.repository }}
 
 
       - name: Extract Tag Name
