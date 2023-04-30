@@ -12077,10 +12077,7 @@
             371
         ],
         "next": [
-            "DoGacha",
-            "GachaLastOnceResult",
-            "GachaLastTenTimesResult1",
-            "GachaLastTenTimesResult2"
+            "GachaBegin#next"
         ]
     },
     "GachaLastTenTimesResult1": {
@@ -12094,7 +12091,7 @@
             42
         ],
         "next": [
-            "GachaLastOnceResult#next"
+            "GachaBegin#next"
         ]
     },
     "GachaLastTenTimesResult2": {
@@ -12111,7 +12108,7 @@
             172
         ],
         "next": [
-            "GachaLastOnceResult#next"
+            "GachaBegin#next"
         ]
     },
     "DoGacha": {
