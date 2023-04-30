@@ -2,7 +2,8 @@ from argparse import ArgumentParser
 import os
 import json
 import re
-import requests
+import urllib.request
+import urllib.error
 
 cur_dir = os.path.dirname(__file__)
 contributors_path = os.path.abspath(os.path.join(cur_dir, 'contributors.json'))
@@ -157,13 +158,42 @@ def print_commits(commits: dict, indent: str = "", need_sort: bool = True) -> (s
 
     return ret_message, ret_contributor
 
+
+def retry_urlopen(*args, **kwargs):
+    import time
+    import http.client
+    for _ in range(5):
+        try:
+            resp: http.client.HTTPResponse = urllib.request.urlopen(*args, **kwargs)
+            return resp
+        except urllib.error.HTTPError as e:
+            if e.status == 403 and e.headers.get("x-ratelimit-remaining") == "0":
+                # rate limit
+                t0 = time.time()
+                reset_time = t0 + 10
+                try:
+                    reset_time = int(e.headers.get("x-ratelimit-reset", 0))
+                except ValueError:
+                    pass
+                reset_time = max(reset_time, t0 + 10)
+                print(f"rate limit exceeded, retrying after {reset_time - t0:.1f} seconds")
+                time.sleep(reset_time - t0)
+                continue
+            raise
+
+
 # 贡献者名字转账号名
 def convert_contributors_name(name: str, commit_hash: str, name_type: str):
     global contributors
     if name not in contributors:
         try:
-            github_info = requests.get(f"https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/commits/{commit_hash}")
-            userid = json.loads(github_info.text)[name_type]['login']
+            req = urllib.request.Request(f"https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/commits/{commit_hash}")
+            token = os.environ.get("GH_TOKEN", os.environ.get("GITHUB_TOKEN", None))
+            if token:
+                req.add_header("Authorization", f"Bearer {token}")
+            resp = retry_urlopen(req).read()
+            print(resp)
+            userid = json.loads(resp)[name_type]['login']
             contributors.update({name: userid})
             return userid
         except Exception as e:
