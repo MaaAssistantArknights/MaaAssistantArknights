@@ -6,9 +6,23 @@ on:
       - 'v*'
     branches-ignore:
       - 'master'
+    paths:
+      - '3rdparty/include/**'
+      - 'include/**'
+      - 'src/**'
+      - 'cmake/**'
+      - 'CMakeLists.txt'
+      - 'MAA.sln'
   pull_request:
     branches:
       - 'dev'
+    paths:
+      - '3rdparty/include/**'
+      - 'include/**'
+      - 'src/**'
+      - 'cmake/**'
+      - 'CMakeLists.txt'
+      - 'MAA.sln'
   workflow_dispatch:
 
 jobs:
