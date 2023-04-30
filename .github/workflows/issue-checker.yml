@@ -6,7 +6,6 @@ on:
     types: [opened, edited]
   issue_comment:
     types: [created, edited]
-  push:
 
 permissions:
   contents: read
