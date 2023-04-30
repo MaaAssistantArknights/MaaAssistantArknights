@@ -252,7 +252,7 @@ namespace MaaWpfGui.ViewModels.UI
             foreach (var file in Directory.GetFiles(extractDir, "*", SearchOption.AllDirectories))
             {
                 var fileName = Path.GetFileName(file);
-                if (fileName == "removelist.txt" || fileName == "md5sum.txt")
+                if (fileName == "removelist.txt" || fileName == "filelist.txt")
                 {
                     continue;
                 }

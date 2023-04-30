@@ -201,9 +201,9 @@ class Updater:
                 f.close()
             remove_with_print(removelist_path)
 
-        md5sum_path = os.path.join(self.path, 'md5sum.txt')
-        if os.path.isfile(md5sum_path):
-            remove_with_print(md5sum_path)
+        filelist_path = os.path.join(self.path, 'filelist.txt')
+        if os.path.isfile(filelist_path):
+            remove_with_print(filelist_path)
         for file in os.listdir(self.path):
             if 'OTA' in file:
                 file_path = os.path.join(self.path, file)
