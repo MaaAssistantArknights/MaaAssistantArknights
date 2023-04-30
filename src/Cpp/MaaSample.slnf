@@ -2,7 +2,7 @@
   "solution": {
     "path": "../../MAA.sln",
     "projects": [
-      "MaaSample.vcxproj"
+      "Sample"
     ]
   }
 }
