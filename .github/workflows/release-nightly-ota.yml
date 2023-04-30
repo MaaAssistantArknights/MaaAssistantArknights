@@ -143,9 +143,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           mkdir -pv build-ota && cd build-ota
-          cd ${{ needs.build-win-nightly.outputs.tag }}
-          zip -d *.zip '*.lib' '*.pdb' '*.exp' '*.config' '*.xml'
-          cd ..
+
 
           gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit || 30 }} | tee ./release_maa.txt
           gh release list --repo "${{ github.repository_owner }}/MaaRelease" --limit ${{ inputs.limit_2 || 30 }} | tee ./release_mr.txt
@@ -165,6 +163,12 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd build-ota
+
+          pushd ${{ needs.build-win-nightly.outputs.tag }}
+          zip -d *.zip '*.lib' '*.pdb' '*.exp' '*.config' '*.xml'
+          mv *.zip MAA-${{ env.release_tag }}-win-${{ matrix.target }}.zip
+          popd
+
           $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./config ${{ matrix.target }} "${{ github.repository_owner }}/MaaRelease"
           mv -v ${{ needs.build-win-nightly.outputs.tag }}/*.zip ./MAA-${{ env.release_tag }}-win-${{ matrix.target }}.zip
 
