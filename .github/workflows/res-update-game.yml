@@ -41,6 +41,8 @@ jobs:
             $commit_msg = "chore: Auto Update Game Resources - $(Get-Date -Format 'yyyy-MM-dd')"
           }
           git commit -m "$commit_msg"
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+
           git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
 
       - name: Push changes # push the output folder to your repo
@@ -51,6 +53,6 @@ jobs:
       - name: Run Testing and Release # ref: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
         run: |
           gh workflow run test
-          gh workflow run release-nightly-ota -f release_body="Auto release of resource updates"
+          gh workflow run release-nightly-ota -f release_body="Auto Release of Resource Updates"
         env:
           GH_TOKEN: ${{ github.token }}
