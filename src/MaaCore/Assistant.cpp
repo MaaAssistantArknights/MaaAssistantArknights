@@ -322,7 +322,7 @@ std::vector<Assistant::TaskId> asst::Assistant::get_tasks_list() const
 bool asst::Assistant::start(bool block)
 {
     LogTraceFunction;
-    Log.trace("Start |", block ? "block" : "non block");
+    Log.info("Start |", block ? "block" : "non block");
 
     if (!m_thread_idle) {
         return false;
@@ -341,7 +341,7 @@ bool asst::Assistant::start(bool block)
 bool Assistant::stop(bool block)
 {
     LogTraceFunction;
-    Log.trace("Stop |", block ? "block" : "non block");
+    Log.info("Stop |", block ? "block" : "non block");
 
     m_thread_idle = true;
 
