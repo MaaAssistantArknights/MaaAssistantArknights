@@ -24,7 +24,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  update-game-resources:
+  smoke-testing:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
