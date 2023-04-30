@@ -13,11 +13,11 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Bootstrap MaaDeps
+      - name: Generate Changelog
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python3 tools/changelog_generator.py
+          python3 tools/ChangelogGenerator/changelog_generator.py
 
       - name: Add files to git
         run: |
