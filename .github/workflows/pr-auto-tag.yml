@@ -21,7 +21,7 @@ jobs:
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          git remote set-url origin https://x-access-token:${{ secrets.AUTO_TAG_PAT }}@github.com/${{ github.repository }}
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
 
 
       - name: Extract Tag Name
@@ -34,6 +34,7 @@ jobs:
         run: |
           git tag -a "${{ steps.extract_tag.outputs.tag_name }}" -m "${{ steps.extract_tag.outputs.tag_name }}" -f
           git push origin "${{ steps.extract_tag.outputs.tag_name }}" -f
+          gh workflow run --repo $GITHUB_REPOSITORY --ref "${{ steps.extract_tag.outputs.tag_name }}" ci
 
       - name: Merge into dev and push
         run: |
