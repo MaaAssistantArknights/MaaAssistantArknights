@@ -2418,12 +2418,20 @@
     },
     "StartUp": {
         "template": "Terminal.png",
-        "action": "Stop",
+        "action": "DoNothing",
         "roi": [
             880,
             100,
             180,
             120
+        ],
+        "Doc": "有时候明明已经在主界面了，停了一小会又弹个窗。多检测几次，一直在主界面才算完成",
+        "postDelay": 1000,
+        "maxTimes": 3,
+        "next": [
+            "StartUp",
+            "StartUp@LoadingText",
+            "CloseAnnos#next"
         ]
     },
     "CloseAnnos": {
@@ -2456,6 +2464,9 @@
             24,
             138,
             139
+        ],
+        "next": [
+            "CloseAnnos#next"
         ]
     },
     "TodaysSupplies": {
@@ -3856,9 +3867,11 @@
         ],
         "next": [
             "VisitNext",
+            "VisitNext@LoadingText",
             "VisitNextBlack",
             "VisitNextOcr"
-        ]
+        ],
+        "postDelay": 2000
     },
     "VisitNext": {
         "action": "ClickSelf",
