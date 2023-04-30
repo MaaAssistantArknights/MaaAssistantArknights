@@ -1,0 +1,49 @@
+name: smoke-testing
+
+on:
+  push:
+    tags:
+      - 'v*'
+    branches-ignore:
+      - 'master'
+    paths:
+      - '3rdparty/include/**'
+      - 'include/**'
+      - 'src/**'
+      - 'cmake/**'
+      - 'CMakeLists.txt'
+      - 'MAA.sln'
+      - 'resource/**'
+      - 'MaaDeps/**'
+  pull_request:
+    branches:
+      - 'dev'
+    paths:
+      - '3rdparty/include/**'
+      - 'include/**'
+      - 'src/**'
+      - 'cmake/**'
+      - 'CMakeLists.txt'
+      - 'MAA.sln'
+      - 'resource/**'
+      - 'MaaDeps/**'
+  workflow_dispatch:
+
+jobs:
+  update-game-resources:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Bootstrap MaaDeps
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 maadeps-download.py x64-windows
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1
+      - name: Build Resource Updater
+        run: |
+          MSBUILD MAA.sln /t:rebuild /p:Configuration="Debug" /p:Platform="x64" /p:BuildProjectReferences=true /m
+      - name: Run Testing
+        run: |
+          .\x64\Debug\Sample.exe
