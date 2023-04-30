@@ -1,9 +1,7 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespaces:MaaWpfGui"
-    xmlns:system="clr-namespace:System;assembly=mscorlib"
-    xmlns:uri="clr-namespace:System;assembly=System.Runtime">
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
     <system:String x:Key="GameSettings">対象クライアント</system:String>
@@ -191,6 +189,7 @@
     <system:String x:Key="OpenEmulatorAfterLaunch">起動時にエミュレータ自動起動</system:String>
     <system:String x:Key="MinimizingStartup">エミュレーターの起動を最小化する</system:String>
     <system:String x:Key="WaitForEmulator">エミュレータを待つ時間（秒）</system:String>
+    <system:String x:Key="WaitForEmulatorFinish">待ち時間は終わりました</system:String>
     <system:String x:Key="EmulatorPath">エミュレータパス</system:String>
     <system:String x:Key="Select">選択</system:String>
     <system:String x:Key="ForcedReplaceADB">ADB強制置き換え</system:String>
@@ -358,7 +357,7 @@
     <!--  ログ  -->
     <!--  スタート  -->
 
-    <system:String x:Key="IdentificationTool">認識ツール</system:String>
+    <system:String x:Key="Toolbox">ツールボックス</system:String>
 
     <!--  公開求人認識  -->
     <system:String x:Key="RecruitmentRecognition">公開求人認識</system:String>

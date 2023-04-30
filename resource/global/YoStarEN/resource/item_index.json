@@ -335,6 +335,14 @@
         "sortId": 100002,
         "usage": "An expensive Originium industry product. Can be used for major upgrades."
     },
+    "30155": {
+        "classifyType": "MATERIAL",
+        "description": "A material that possesses a molecular recognitive capacity under specific high-temperature conditions. Can selectively adsorb Originium when used as a reagent, allowing for precise handling of Originium materials, lower Originium device energy consumption, and the opening of further new possibilities.",
+        "icon": "30155.png",
+        "name": "Nucleic Crystal Sinter",
+        "sortId": 100001,
+        "usage": "A product of modern technology that requires the ultimate in industrial craft. Used in advanced strengthening projects."
+    },
     "31013": {
         "classifyType": "MATERIAL",
         "description": "An artificial material serendipitously born in the laboratory. It has excellent resistance to extreme temperatures, is lightweight, and is easy to process, making it ideal for use in high-tech projects.",
@@ -422,6 +430,22 @@
         "name": "Cutting Fluid Solution",
         "sortId": 100008,
         "usage": "A stock solution prepared from a variety of active solvents. Can be used for high level upgrades."
+    },
+    "31063": {
+        "classifyType": "MATERIAL",
+        "description": "The surface of this material has mutable characteristics, realizing results that were originally nearly impossible. CAUTION: industrial salt is not to be eaten under any circumstances.",
+        "icon": "31063.png",
+        "name": "Transmuted Salt",
+        "sortId": 100007,
+        "usage": "A compound crystallization that has undergone low-tolerance refinement. Can be used in a variety of strengthening projects."
+    },
+    "31064": {
+        "classifyType": "MATERIAL",
+        "description": "A stable crystalline body, manufactured as a crystal blend within saturated solutions. Can provide materials with a diverse array of capabilities.",
+        "icon": "31064.png",
+        "name": "Transmuted Salt Agglomerate",
+        "sortId": 100006,
+        "usage": "A compound crystal mass that has undergone high-tolerance refinement. Used in a variety of strengthening projects, and is a common material in synthetic items at factories."
     },
     "3112": {
         "classifyType": "NORMAL",
@@ -1653,6 +1677,14 @@
         "icon": "randomMaterial_6.png",
         "name": "Rhodes Island Supplies III",
         "sortId": 60106,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterial_7": {
+        "classifyType": "CONSUME",
+        "description": "Rhodes Island purchases and stores boxes of supplies from various places. However, due to the lack of an organized storage system, each box contains seemingly random materials.",
+        "icon": "randomMaterial_7.png",
+        "name": "Rhodes Island Supplies IV",
+        "sortId": 60107,
         "usage": "Filled with an assortment of supplies and materials."
     },
     "return_credit_token": {

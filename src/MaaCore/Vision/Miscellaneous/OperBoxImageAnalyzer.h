@@ -1,31 +1,39 @@
 #pragma once
 
-#include "Vision/AbstractImageAnalyzer.h"
+#include "Vision/VisionHelper.h"
 
 namespace asst
 {
     struct OperBoxInfo
     {
-        std::string name;
         std::string id;
-        int level = 0; // 等级
-        int elite = 0; // 精英度
+        std::string name;
+        int level = 0;     // 等级
+        int elite = 0;     // 精英度
+        int potential = 0; // 潜能
+        int rarity = 0;    // 稀有度
+
+        Rect rect;
         bool own = false;
     };
-    class OperBoxImageAnalyzer final : public AbstractImageAnalyzer
+
+    class OperBoxImageAnalyzer final : public VisionHelper
     {
     public:
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
+        using VisionHelper::VisionHelper;
         virtual ~OperBoxImageAnalyzer() override = default;
-        virtual bool analyze() override;
-        const auto& get_result() const noexcept { return m_current_page_opers; }
+        bool analyze();
+        const auto& get_result() const noexcept { return m_result; }
 
     private:
-        bool analyzer_opers();
+        int level_num(const std::string& level);
+        bool analyzer_oper_box();
+        // 获取lv rect
+        bool opers_analyze();
+        bool level_analyze();
+        bool elite_analyze();
+        bool potential_analyze();
 
-        std::vector<OperBoxInfo> m_current_page_opers;
-#ifdef ASST_DEBUG
-        cv::Mat m_image_draw_oper;
-#endif
+        std::vector<asst::OperBoxInfo> m_result;
     };
 }

@@ -1,5 +1,5 @@
 {
-  "name": "maa-docs",
+  "name": "maa-docs-main",
   "version": "1.0.0",
   "description": "manual for MaaAssistantArknights",
   "main": "index.js",
@@ -7,14 +7,17 @@
   "author": "bakashigure <me@shigure.fun>",
   "license": "AGPL-3.0",
   "dependencies": {
-    "@vuepress/plugin-docsearch": "^2.0.0-beta.43",
-    "@vuepress/plugin-search": "^2.0.0-beta.43"
+    "@vuepress/plugin-docsearch": "next",
+    "@vuepress/plugin-search": "next"
   },
   "devDependencies": {
-    "vuepress": "^2.0.0-beta.43"
+    "markdownlint-cli": "^0.32.2",
+    "vuepress": "next"
   },
   "scripts": {
-    "dev": ": > readme.md | cat 详细介绍.md 常见问题.md 模拟器支持.md 回调消息协议.md 写给萌新的发电全流程.md >> readme.md | vuepress dev .",
-    "build": ": > readme.md | cat 详细介绍.md 常见问题.md 模拟器支持.md 回调消息协议.md 写给萌新的发电全流程.md >> readme.md | vuepress build ."
+    "dev": "vuepress dev .",
+    "dev:doc": "vuepress dev .",
+    "build": "vuepress build .",
+    "lintfix": "markdownlint \"**/*.md\" --fix"
   }
 }

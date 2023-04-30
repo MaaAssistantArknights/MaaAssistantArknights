@@ -37,6 +37,7 @@
                             Margin="10"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
+                            Focusable="True"
                             FontSize="14"
                             Style="{StaticResource TextBlockDefaultBold}"
                             Text="{Binding RecruitInfo}"
@@ -96,8 +97,6 @@
                             Content="{DynamicResource AutoSelectLevel6Tags}"
                             IsChecked="{Binding ChooseLevel6}" />
                     </StackPanel>
-                    <!--  <Label x:Name="prompt" Content="提示：本辅助仅会帮你选择最优Tags，&#xA;但是不会帮你点击确定按钮！！！&#xA;请自行检查辅助选择的是否正确，&#xA;若辅助出现识别错误，遗漏了高星干员，&#xA;作者概不负责哦__(:з」∠)_"  -->
-                    <!--  HorizontalAlignment="Center" VerticalAlignment="Center" Height="121" Width="292" FontSize="16" />  -->
                     <Button
                         Width="180"
                         Height="70"
@@ -126,6 +125,7 @@
                             Margin="10"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
+                            Focusable="True"
                             FontSize="14"
                             Style="{StaticResource TextBlockDefaultBold}"
                             Text="{Binding DepotInfo}"
@@ -192,6 +192,7 @@
                             Margin="10"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
+                            Focusable="True"
                             FontSize="14"
                             Style="{StaticResource TextBlockDefaultBold}"
                             Text="{Binding OperBoxInfo}"
@@ -239,6 +240,76 @@
                 Style="{StaticResource TextBlockDefaultBold}"
                 Text="{DynamicResource VideoRecognitionTips}"
                 TextWrapping="Wrap" />
+        </TabItem>
+
+        <TabItem Header="{DynamicResource Gacha}">
+            <Grid Margin="20,0,20,20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="80" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="100" />
+                </Grid.RowDefinitions>
+                <controls:TextBlock
+                    Grid.Row="0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Focusable="True"
+                    FontSize="14"
+                    Style="{StaticResource TextBlockDefaultBold}"
+                    Text="{Binding GachaInfo}"
+                    TextWrapping="Wrap"
+                    Visibility="{c:Binding !GachaShowDisclaimer}" />
+                <Image
+                    Grid.Row="1"
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Source="{Binding GachaImage}" />
+                <StackPanel
+                    Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical"
+                    Visibility="{c:Binding GachaShowDisclaimer}">
+                    <controls:TextBlock
+                        Margin="50"
+                        FontSize="24"
+                        Style="{StaticResource TextBlockDefaultBold}"
+                        Text="{DynamicResource GachaDisclaimer}"
+                        TextWrapping="Wrap" />
+                    <Button
+                        Width="110"
+                        Height="60"
+                        Margin="50"
+                        Command="{s:Action GachaAgreeDisclaimer}"
+                        Content="{DynamicResource GachaAgreeDisclaimer}"
+                        FontSize="16" />
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Row="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Visibility="{c:Binding !GachaShowDisclaimer}">
+                    <Button
+                        Width="180"
+                        Height="70"
+                        Margin="30,0"
+                        Command="{s:Action GachaOnce}"
+                        Content="{DynamicResource GachaOnce}"
+                        FontSize="16"
+                        IsEnabled="{Binding GachaDone}" />
+                    <Button
+                        Width="180"
+                        Height="70"
+                        Margin="30,0"
+                        Command="{s:Action GachaTenTimes}"
+                        Content="{DynamicResource GachaTenTimes}"
+                        FontSize="16"
+                        IsEnabled="{Binding GachaDone}" />
+                </StackPanel>
+            </Grid>
         </TabItem>
     </TabControl>
 </UserControl>

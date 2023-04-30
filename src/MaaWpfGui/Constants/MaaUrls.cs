@@ -38,23 +38,17 @@ namespace MaaWpfGui.Constants
 
         public const string QQchannel = "https://pd.qq.com/s/4j1ju9z47";
 
-        public static string HelpUri
-        {
-            get
-            {
-                var language = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
-                return $"https://maa.plus/docs/{_helpUrl[language]}";
-            }
-        }
+        private static string language => ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
 
-        public static string OverseasAdaptation
+        public static string HelpUri => $"https://maa.plus/docs/{_helpUrl[language]}";
+
+        public static string OverseasAdaptation => $"https://maa.plus/docs/{_overseasAdaptation[language]}";
+
+        public static string NewIssueUri => language switch
         {
-            get
-            {
-                var language = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
-                return $"https://maa.plus/docs/{_overseasAdaptation[language]}";
-            }
-        }
+            "zh-cn" => "https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/new?assignees=&labels=bug&template=cn-bug-report.yaml",
+            _ => "https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/new?assignees=&labels=bug&template=en-bug-report.yaml",
+        };
 
         private static readonly Dictionary<string, string> _overseasAdaptation = new Dictionary<string, string>
         {

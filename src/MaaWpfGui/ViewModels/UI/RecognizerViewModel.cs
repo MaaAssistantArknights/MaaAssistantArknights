@@ -13,16 +13,19 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Main;
 using Newtonsoft.Json.Linq;
 using Stylet;
-using StyletIoC;
 
 namespace MaaWpfGui.ViewModels.UI
 {
@@ -31,27 +34,17 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class RecognizerViewModel : Screen
     {
-        private readonly IWindowManager _windowManager;
-        private readonly IContainer _container;
-
-        private AsstProxy _asstProxy;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="RecognizerViewModel"/> class.
         /// </summary>
-        /// <param name="container">The IoC container.</param>
-        /// <param name="windowManager">The window manager.</param>
-        public RecognizerViewModel(IContainer container, IWindowManager windowManager)
+        public RecognizerViewModel()
         {
-            _container = container;
-            _windowManager = windowManager;
-            DisplayName = LocalizationHelper.GetString("IdentificationTool");
+            DisplayName = LocalizationHelper.GetString("Toolbox");
         }
 
         protected override void OnInitialActivate()
         {
             base.OnInitialActivate();
-            _asstProxy = _container.Get<AsstProxy>();
         }
 
         private static string PadRightEx(string str, int totalByteCount)
@@ -193,7 +186,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             string errMsg = string.Empty;
             RecruitInfo = LocalizationHelper.GetString("ConnectingToEmulator");
-            _recruitCaught = await Task.Run(() => _asstProxy.AsstConnect(ref errMsg));
+            _recruitCaught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
             if (!_recruitCaught)
             {
                 RecruitInfo = errMsg;
@@ -225,7 +218,7 @@ namespace MaaWpfGui.ViewModels.UI
                 levelList.Add(6);
             }
 
-            _asstProxy.AsstStartRecruitCalc(levelList.ToArray(), RecruitAutoSetTime);
+            Instances.AsstProxy.AsstStartRecruitCalc(levelList.ToArray(), RecruitAutoSetTime);
         }
 
         #endregion Recruit
@@ -342,7 +335,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             string errMsg = string.Empty;
             DepotInfo = LocalizationHelper.GetString("ConnectingToEmulator");
-            bool caught = await Task.Run(() => _asstProxy.AsstConnect(ref errMsg));
+            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
             if (!caught)
             {
                 DepotInfo = errMsg;
@@ -352,7 +345,7 @@ namespace MaaWpfGui.ViewModels.UI
             DepotInfo = LocalizationHelper.GetString("Identifying");
             DepotClear();
 
-            _asstProxy.AsstStartDepot();
+            Instances.AsstProxy.AsstStartDepot();
         }
 
         #endregion Depot
@@ -478,14 +471,14 @@ namespace MaaWpfGui.ViewModels.UI
 
             string errMsg = string.Empty;
             OperBoxInfo = LocalizationHelper.GetString("ConnectingToEmulator");
-            bool caught = await Task.Run(() => _asstProxy.AsstConnect(ref errMsg));
+            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
             if (!caught)
             {
                 OperBoxInfo = errMsg;
                 return;
             }
 
-            if (_asstProxy.AsstStartOperBox())
+            if (Instances.AsstProxy.AsstStartOperBox())
             {
                 OperBoxInfo = LocalizationHelper.GetString("Identifying");
             }
@@ -503,5 +496,112 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         #endregion OperBox
+
+        #region Gacha
+
+        private bool _gachaDone = true;
+
+        public bool GachaDone
+        {
+            get => _gachaDone;
+            set
+            {
+                SetAndNotify(ref _gachaDone, value);
+                if (value)
+                {
+                    _gachaImageTimer.Stop();
+                    // 强制再刷一下
+                    RefreshGachaImage(null, null);
+                }
+            }
+        }
+
+        private string _gachaInfo = LocalizationHelper.GetString("GachaInitTip");
+
+        public string GachaInfo
+        {
+            get => _gachaInfo;
+            set => SetAndNotify(ref _gachaInfo, value);
+        }
+
+        public void GachaOnce()
+        {
+            StartGacha(true);
+        }
+
+        public void GachaTenTimes()
+        {
+            StartGacha(false);
+        }
+
+        public async void StartGacha(bool once = true)
+        {
+            GachaDone = false;
+            GachaImage = null;
+
+            string errMsg = string.Empty;
+            GachaInfo = LocalizationHelper.GetString("ConnectingToEmulator");
+            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            if (!caught)
+            {
+                GachaInfo = errMsg;
+                return;
+            }
+
+            if (!Instances.AsstProxy.AsstStartGacha(once))
+            {
+                return;
+            }
+
+            _gachaImageTimer.Interval = TimeSpan.FromMilliseconds(500);
+            _gachaImageTimer.Tick += RefreshGachaImage;
+            _gachaImageTimer.Start();
+        }
+
+        private readonly DispatcherTimer _gachaImageTimer = new DispatcherTimer();
+
+        private static readonly object _lock = new object();
+
+        private BitmapImage _gachaImage;
+
+        public BitmapImage GachaImage
+        {
+            get => _gachaImage;
+            set => SetAndNotify(ref _gachaImage, value);
+        }
+
+        private void RefreshGachaImage(object sender, EventArgs e)
+        {
+            lock (_lock)
+            {
+                var image = Instances.AsstProxy.AsstGetImage();
+                if (!GachaImage.IsEqual(image))
+                {
+                    GachaImage = image;
+
+                    var rd = new Random();
+                    GachaInfo = LocalizationHelper.GetString("GachaTip" + rd.Next(1, 18).ToString());
+                }
+            }
+        }
+
+        private bool _gachaShowDisclaimer = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.GachaShowDisclaimer, bool.TrueString));
+
+        public bool GachaShowDisclaimer
+        {
+            get => _gachaShowDisclaimer;
+            set
+            {
+                SetAndNotify(ref _gachaShowDisclaimer, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.GachaShowDisclaimer, value.ToString());
+            }
+        }
+
+        public void GachaAgreeDisclaimer()
+        {
+            GachaShowDisclaimer = false;
+        }
+
+        #endregion Gacha
     }
 }

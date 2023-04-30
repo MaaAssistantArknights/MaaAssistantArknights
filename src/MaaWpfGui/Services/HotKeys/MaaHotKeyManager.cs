@@ -17,7 +17,6 @@ using System.Windows.Input;
 using GlobalHotKey;
 using MaaWpfGui.Helper;
 using Newtonsoft.Json;
-using StyletIoC;
 
 namespace MaaWpfGui.Services.HotKeys
 {
@@ -28,14 +27,9 @@ namespace MaaWpfGui.Services.HotKeys
 
         private const string HotKeyConfigName = "HotKeys";
 
-        private readonly HotKeyManager _hotKeyManager;
-        private readonly IMaaHotKeyActionHandler _actionHandler;
-
-        public MaaHotKeyManager(IContainer container)
+        public MaaHotKeyManager()
         {
-            _hotKeyManager = container.Get<HotKeyManager>();
-            _actionHandler = container.Get<IMaaHotKeyActionHandler>();
-            _hotKeyManager.KeyPressed += HotKeyManagerPressed;
+            Instances.HotKeyManager.KeyPressed += HotKeyManagerPressed;
 
             foreach (var kvPair in GetPersistentHotKeys())
             {
@@ -56,7 +50,7 @@ namespace MaaWpfGui.Services.HotKeys
 
             try
             {
-                _hotKeyManager.Register(hotKey);
+                Instances.HotKeyManager.Register(hotKey);
                 _actionHotKeyMapping[action] = hotKey;
             }
             catch
@@ -97,7 +91,7 @@ namespace MaaWpfGui.Services.HotKeys
                 return;
             }
 
-            _hotKeyManager.Unregister(_actionHotKeyMapping[action]);
+            Instances.HotKeyManager.Unregister(_actionHotKeyMapping[action]);
             _actionHotKeyMapping[action] = null;
         }
 
@@ -109,7 +103,7 @@ namespace MaaWpfGui.Services.HotKeys
         private void HotKeyManagerPressed(object sender, KeyPressedEventArgs e)
         {
             var action = _actionHotKeyMapping.Where(x => x.Value.Equals(e.HotKey)).Select(x => x.Key).FirstOrDefault();
-            _actionHandler.HandleKeyPressed(action);
+            Instances.MaaHotKeyActionHandler.HandleKeyPressed(action);
         }
 
         private Dictionary<MaaHotKeyAction, MaaHotKey> GetPersistentHotKeys()

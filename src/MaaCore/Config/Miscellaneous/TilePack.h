@@ -2,20 +2,13 @@
 
 #include "Common/AsstBattleDef.h"
 #include "Common/AsstTypes.h"
-#include "Config/AbstractResource.h"
-
-#include <memory>
+#include "Config/AbstractConfig.h"
 
 #include <Arknights-Tile-Pos/TileDef.hpp>
 
-namespace Map
-{
-    class TileCalc;
-}
-
 namespace asst
 {
-    class TilePack final : public SingletonHolder<TilePack>, public AbstractResource
+    class TilePack final : public SingletonHolder<TilePack>, public AbstractConfig
     {
     public:
         using LevelKey = Map::LevelKey;
@@ -61,8 +54,6 @@ namespace asst
     public:
         virtual ~TilePack() override = default;
 
-        virtual bool load(const std::filesystem::path& path) override;
-
         template <typename KeyT>
         std::optional<LazyMap::value_type> find(const KeyT& key) const
         {
@@ -85,11 +76,12 @@ namespace asst
             return calc_(file_opt->second, side, shift_x, shift_y);
         }
 
+    protected:
+        virtual bool parse(const json::value& json) override;
+
     private:
         std::unordered_map<Point, TileInfo> calc_(const std::filesystem::path& filepath, bool side, double shift_x,
                                                   double shift_y) const;
-
-        std::shared_ptr<Map::TileCalc> m_tile_calculator = nullptr;
         LazyMap m_summarize;
     };
 

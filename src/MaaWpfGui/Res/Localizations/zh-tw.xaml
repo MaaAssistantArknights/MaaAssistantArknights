@@ -1,9 +1,7 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespaces:MaaWpfGui"
-    xmlns:system="clr-namespace:System;assembly=mscorlib"
-    xmlns:uri="clr-namespace:System;assembly=System.Runtime">
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
     <system:String x:Key="BaseSettings">基建設定</system:String>
@@ -148,6 +146,7 @@
     <system:String x:Key="OpenEmulatorAfterLaunch">啟動後自動開啟模擬器</system:String>
     <system:String x:Key="MinimizingStartup">最小化啟動模擬器</system:String>
     <system:String x:Key="WaitForEmulator">等待模擬器啟動時間（秒）</system:String>
+    <system:String x:Key="WaitForEmulatorFinish">等待結束</system:String>
     <system:String x:Key="EmulatorPath">模擬器路徑</system:String>
     <system:String x:Key="Select">選擇</system:String>
     <system:String x:Key="AdditionCommand">附加命令</system:String>
@@ -297,7 +296,7 @@
     <!--  日誌  -->
     <!--  一鍵長草  -->
 
-    <system:String x:Key="IdentificationTool">識別工具</system:String>
+    <system:String x:Key="Toolbox">小工具</system:String>
 
     <!--  公招辨識  -->
     <system:String x:Key="RecruitmentRecognition">公招辨識</system:String>

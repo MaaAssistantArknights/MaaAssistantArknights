@@ -11,14 +11,9 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Documents;
-using HandyControl.Themes;
-using MaaWpfGui.Constants;
-using MaaWpfGui.Helper;
-using MaaWpfGui.ViewModels.UI;
 
 namespace MaaWpfGui
 {
@@ -30,7 +25,7 @@ namespace MaaWpfGui
         public void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
             Hyperlink link = sender as Hyperlink;
-            if (!string.IsNullOrEmpty(link.NavigateUri.AbsoluteUri))
+            if (!string.IsNullOrEmpty(link?.NavigateUri?.AbsoluteUri))
             {
                 Process.Start(new ProcessStartInfo(link.NavigateUri.AbsoluteUri));
             }

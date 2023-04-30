@@ -99,7 +99,7 @@ jobs:
           target: ${{ format('{0}/{1}', 'OTA/MaaAssistantArknights/MaaRelease/releases/download', env.release_tag) }}
 
   make-ota-mac:
-    runs-on: macos-latest
+    runs-on: macos-13
     steps:
       - name: Fetch Release Information
         env:

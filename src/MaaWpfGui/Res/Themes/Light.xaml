@@ -1,12 +1,11 @@
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <SolidColorBrush x:Key="PallasBrush" Color="#6A6AAB" />
+    <SolidColorBrush x:Key="PallasBrush" Color="#6969AA" />
     <SolidColorBrush x:Key="ErrorViewBackgroundBrush" Color="#E6E6E6" />
     <SolidColorBrush x:Key="VersionUpdateViewBackgroundBrush" Color="#ffffff" />
+    <SolidColorBrush x:Key="MarkdigCodeBrush" Color="LightGray" />
 
-    <!-- UiLogColor -->
+    <!--  UiLogColor  -->
     <SolidColorBrush x:Key="ErrorLogBrush" Color="DarkRed" />
     <SolidColorBrush x:Key="WarningLogBrush" Color="DarkGoldenrod" />
     <SolidColorBrush x:Key="InfoLogBrush" Color="DarkCyan" />
@@ -15,5 +14,4 @@
     <SolidColorBrush x:Key="RareOperatorLogBrush" Color="DarkOrange" />
     <SolidColorBrush x:Key="RobotOperatorLogBrush" Color="DarkGray" />
     <SolidColorBrush x:Key="DownloadLogBrush" Color="BlueViolet" />
-
 </ResourceDictionary>

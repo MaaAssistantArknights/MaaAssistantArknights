@@ -30,20 +30,33 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         return false;
     }
 
-#define LoadResourceAndCheckRet(Config, Filename)                         \
-    {                                                                     \
-        LogTraceScope(std::string("LoadResourceAndCheckRet ") + #Config); \
-        auto full_path = path / Filename;                                 \
-        bool ret = load_resource<Config>(full_path);                      \
-        if (!ret) {                                                       \
-            Log.error(#Config, " load failed, path:", full_path);         \
-            return false;                                                 \
-        }                                                                 \
+#define LoadResourceAndCheckRet(Config, Filename)                 \
+    {                                                             \
+        auto full_path = path / Filename;                         \
+        bool ret = load_resource<Config>(full_path);              \
+        if (!ret) {                                               \
+            Log.error(#Config, " load failed, path:", full_path); \
+            return false;                                         \
+        }                                                         \
     }
+
+#ifdef ASST_DEBUG
+// DEBUG 模式下这里同步加载，并检查返回值的，方便排查问题
+#define AsyncLoadConfig(Config, Filename) LoadResourceAndCheckRet(Config, Filename)
+#else
+#define AsyncLoadConfig(Config, Filename)                         \
+    {                                                             \
+        auto full_path = path / Filename;                         \
+        bool ret = async_load_config<Config>(full_path);          \
+        if (!ret) {                                               \
+            Log.error(#Config, " load failed, path:", full_path); \
+            return false;                                         \
+        }                                                         \
+    }
+#endif // ASST_DEBUG
 
 #define LoadResourceWithTemplAndCheckRet(Config, Filename, TemplDir)                             \
     {                                                                                            \
-        LogTraceScope(std::string("LoadResourceWithTemplAndCheckRet ") + #Config);               \
         auto full_path = path / Filename;                                                        \
         auto full_templ_dir = path / TemplDir;                                                   \
         bool ret = load_resource_with_templ<Config>(full_path, full_templ_dir);                  \
@@ -53,64 +66,93 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         }                                                                                        \
     }
 
-#define LoadCacheWithoutRet(Config, Dir)                              \
-    {                                                                 \
-        LogTraceScope(std::string("LoadCacheWithoutRet ") + #Config); \
-        auto full_path = UserDir.get() / "cache"_p / Dir;             \
-        SingletonHolder<Config>::get_instance().load(full_path);      \
+#define LoadCacheWithoutRet(Config, Dir)                             \
+    {                                                                \
+        auto full_path = UserDir.get() / "cache"_p / Dir;            \
+        if (std::filesystem::exists(full_path)) {                    \
+            SingletonHolder<Config>::get_instance().load(full_path); \
+        }                                                            \
     }
 
     LogTraceFunction;
     using namespace asst::utils::path_literals;
 
-    auto word_ocr_future = std::async(std::launch::async, [&]() -> bool {
+#ifdef ASST_DEBUG
+#define FutureAppendBegins
+#define FutureAppendEnds
+#else
+    std::vector<std::future<bool>> futures;
+#define FutureAppendBegins futures.emplace_back(std::async(std::launch::async, [&]() -> bool {
+#define FutureAppendEnds \
+    return true;         \
+    }))
+#endif
+
+    FutureAppendBegins
+    {
+        // 不太重要又加载的慢的资源，但不怎么占内存的，实时异步加载
+        // DEBUG 模式下这里还是检查返回值的，方便排查问题
+        AsyncLoadConfig(StageDropsConfig, "stages.json"_p);
+        AsyncLoadConfig(TilePack, "Arknights-Tile-Pos"_p / "overview.json"_p);
+        AsyncLoadConfig(RoguelikeCopilotConfig, "roguelike"_p / "copilot.json"_p);
+        AsyncLoadConfig(RoguelikeRecruitConfig, "roguelike"_p / "recruitment.json"_p);
+        AsyncLoadConfig(RoguelikeShoppingConfig, "roguelike"_p / "shopping.json"_p);
+        AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "stage_encounter.json"_p);
+    }
+    FutureAppendEnds;
+
+    FutureAppendBegins
+    {
+        // 太占内存的资源，都是惰性加载
+        // 战斗中技能识别，二分类模型
+        LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "skill_ready_cls.onnx"_p);
+        // 战斗中部署方向识别，四分类模型
+        LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "deploy_direction_cls.onnx"_p);
+        // 战斗中干员（血条）检测，yolov8 检测模型
+        LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "operators_det.onnx"_p);
+
+        /* ocr */
         LoadResourceAndCheckRet(WordOcr, "PaddleOCR"_p);
-        return true;
-    });
-
-    auto char_ocr_future = std::async(std::launch::async, [&]() -> bool {
         LoadResourceAndCheckRet(CharOcr, "PaddleCharOCR"_p);
-        return true;
-    });
+    }
+    FutureAppendEnds;
 
-    /* load resource with json files*/
-    LoadResourceAndCheckRet(GeneralConfig, "config.json"_p);
-    LoadResourceAndCheckRet(RecruitConfig, "recruitment.json"_p);
-    LoadResourceAndCheckRet(StageDropsConfig, "stages.json"_p);
-    LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "copilot.json"_p);
-    LoadResourceAndCheckRet(RoguelikeRecruitConfig, "roguelike"_p / "recruitment.json"_p);
-    LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike"_p / "shopping.json"_p);
-    LoadResourceAndCheckRet(RoguelikeStageEncounterConfig, "roguelike"_p / "stage_encounter.json"_p);
-    LoadResourceAndCheckRet(BattleDataConfig, "battle_data.json"_p);
-    LoadResourceAndCheckRet(OcrConfig, "ocr_config.json"_p);
+    FutureAppendBegins
+    {
+        // 重要的资源，实时加载
+        /* load resource with json files*/
+        LoadResourceAndCheckRet(GeneralConfig, "config.json"_p);
+        LoadResourceAndCheckRet(RecruitConfig, "recruitment.json"_p);
+        LoadResourceAndCheckRet(BattleDataConfig, "battle_data.json"_p);
+        LoadResourceAndCheckRet(OcrConfig, "ocr_config.json"_p);
 
-    /* load resource with json and template files*/
-    LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
-    LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
-    LoadResourceWithTemplAndCheckRet(ItemConfig, "item_index.json"_p, "template"_p / "items"_p);
+        /* load cache */
+        // 这个任务依赖 BattleDataConfig
+        LoadCacheWithoutRet(AvatarCacheManager, "avatars"_p);
+    }
+    FutureAppendEnds;
 
-    /* load cache */
-    LoadCacheWithoutRet(AvatarCacheManager, "avatars"_p);
+    FutureAppendBegins
+    {
+        // 重要的资源，实时加载（图片还是惰性的）
 
-    /*** lazy loading ***/
-    // 战斗中技能识别，二分类模型
-    LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "skill_ready_cls.onnx"_p);
-    // 战斗中部署方向识别，四分类模型
-    LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "deploy_direction_cls.onnx"_p);
-    // 战斗中干员（血条）检测，yolov8 检测模型
-    LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "operators_det.onnx"_p);
-
-    /* tiles info */
-    LoadResourceAndCheckRet(TilePack, "Arknights-Tile-Pos"_p);
+        LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
+        LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
+        LoadResourceWithTemplAndCheckRet(ItemConfig, "item_index.json"_p, "template"_p / "items"_p);
+    }
+    FutureAppendEnds;
 
 #undef LoadTemplByConfigAndCheckRet
 #undef LoadResourceAndCheckRet
 #undef LoadCacheWithoutRet
 
+#ifdef ASST_DEBUG
     m_loaded = true;
-    m_loaded &= word_ocr_future.get();
-    m_loaded &= char_ocr_future.get();
+#else
+    m_loaded = ranges::all_of(futures, [](auto& f) { return f.get(); });
+#endif
 
+    Log.info(__FUNCTION__, "ret", m_loaded);
     return m_loaded;
 }
 

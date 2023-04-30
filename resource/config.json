@@ -37,7 +37,7 @@
         },
         "yituliuReport": {
             "Doc": "一图流汇报：https://yituliu.site/maarecruitdata",
-            "url": "https://houduan.yituliu.site/tool/recruitUpload",
+            "url": "https://backend.yituliu.site/maa/upload/recruit",
             "timeout": 5000,
             "headers": {
                 "Content-Type": "application/json"

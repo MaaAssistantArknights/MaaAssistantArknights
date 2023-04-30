@@ -7,9 +7,9 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/OcrImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/Matcher.h"
+#include "Vision/OCRer.h"
+#include "Vision/RegionOCRer.h"
 
 asst::InfrastDormTask& asst::InfrastDormTask::set_notstationed_enabled(bool dorm_notstationed_enabled) noexcept
 {
@@ -131,13 +131,13 @@ bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& 
                 if (m_dorm_trust_enabled && m_next_step != NextStep::Rest && oper.selected == false &&
                     oper.doing != infrast::Doing::Working && oper.doing != infrast::Doing::Resting) {
                     // 获得干员信赖值
-                    OcrWithPreprocessImageAnalyzer trust_analyzer(oper.name_img);
+                    RegionOCRer trust_analyzer(oper.name_img);
                     if (!trust_analyzer.analyze()) {
                         Log.trace("ERROR:!trust_analyzer.analyze()");
                         break;
                     }
 
-                    std::string opertrust = trust_analyzer.get_result().front().text;
+                    std::string opertrust = trust_analyzer.get_result().text;
                     std::regex rule("[^0-9]"); // 只保留数字
                     opertrust = std::regex_replace(opertrust, rule, "");
                     Log.trace("opertrust:", opertrust);
@@ -164,13 +164,13 @@ bool asst::InfrastDormTask::opers_choose(asst::infrast::CustomRoomConfig const& 
                     }
 
                     // 获得干员所在设施
-                    OcrWithPreprocessImageAnalyzer facility_analyzer(oper.facility_img);
+                    RegionOCRer facility_analyzer(oper.facility_img);
                     if (!facility_analyzer.analyze()) {
                         Log.trace("ERROR:!facility_analyzer.analyze()");
                         break;
                     }
 
-                    std::string facilityname = facility_analyzer.get_result().front().text;
+                    std::string facilityname = facility_analyzer.get_result().text;
                     std::regex rule2("[^BF0-9]"); // 只保留B、F和数字
                     facilityname = std::regex_replace(facilityname, rule2, "");
 

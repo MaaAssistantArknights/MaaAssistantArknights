@@ -12,7 +12,7 @@ if (BUILD_XCFRAMEWORK)
 
     add_custom_command(OUTPUT ONNXRuntime.xcframework
         COMMAND rm -rf ONNXRuntime.xcframework
-        COMMAND xcodebuild -create-xcframework -library "${PROJECT_SOURCE_DIR}/MaaDeps/runtime/${MAADEPS_TRIPLET}/libonnxruntime.1.12.1.dylib" -output ONNXRuntime.xcframework
+        COMMAND xcodebuild -create-xcframework -library "${PROJECT_SOURCE_DIR}/MaaDeps/runtime/${MAADEPS_TRIPLET}/libonnxruntime.1.14.1.dylib" -output ONNXRuntime.xcframework
     )
 
     add_custom_command(OUTPUT MaaDerpLearning.xcframework

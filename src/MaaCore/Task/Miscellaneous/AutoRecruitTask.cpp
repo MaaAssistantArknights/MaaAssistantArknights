@@ -8,8 +8,8 @@
 #include "Task/ReportDataTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Miscellaneous/RecruitImageAnalyzer.h"
-#include "Vision/MultiMatchImageAnalyzer.h"
-#include "Vision/OcrImageAnalyzer.h"
+#include "Vision/MultiMatcher.h"
+#include "Vision/OCRer.h"
 
 #include "Utils/Ranges.hpp"
 #include <algorithm>
@@ -252,9 +252,8 @@ bool asst::AutoRecruitTask::_run()
 
 std::vector<asst::TextRect> asst::AutoRecruitTask::start_recruit_analyze(const cv::Mat& image)
 {
-    OcrImageAnalyzer start_analyzer;
+    OCRer start_analyzer(image);
     start_analyzer.set_task_info("StartRecruit");
-    start_analyzer.set_image(image);
     if (!start_analyzer.analyze()) return {};
     return start_analyzer.get_result();
 }
@@ -592,7 +591,7 @@ bool asst::AutoRecruitTask::check_timer(int minutes_expected)
     const auto replace_map = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
 
     {
-        OcrImageAnalyzer hour_ocr(image);
+        OCRer hour_ocr(image);
         hour_ocr.set_task_info("RecruitTimerH");
         hour_ocr.set_replace(replace_map);
         if (!hour_ocr.analyze()) return false;
@@ -602,7 +601,7 @@ bool asst::AutoRecruitTask::check_timer(int minutes_expected)
     if (minutes_expected % 60 == 0) return true; // minute counter stays untouched
 
     {
-        OcrImageAnalyzer minute_ocr(image);
+        OCRer minute_ocr(image);
         minute_ocr.set_task_info("RecruitTimerM");
         minute_ocr.set_replace(replace_map);
         if (!minute_ocr.analyze()) return false;
@@ -642,7 +641,7 @@ bool asst::AutoRecruitTask::hire_all(const cv::Mat& image)
     LogTraceFunction;
     // mark slots with *Hire* button clean (regardless of whether hiring will success)
     {
-        MultiMatchImageAnalyzer hire_searcher(image);
+        MultiMatcher hire_searcher(image);
         hire_searcher.set_task_info("RecruitFinish");
         hire_searcher.analyze();
         for (const MatchRect& r : hire_searcher.get_result()) {

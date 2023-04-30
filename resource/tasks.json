@@ -191,16 +191,12 @@
                 "EPISODE"
             ],
             [
-                "O(\\d)",
-                "0${1}"
+                "[Oo]$",
+                "0"
             ],
             [
-                "(\\d)O",
-                "${1}0"
-            ],
-            [
-                "OO",
-                "00"
+                "[Oo](\\d)",
+                "0$1"
             ],
             [
                 " ",
@@ -2422,12 +2418,20 @@
     },
     "StartUp": {
         "template": "Terminal.png",
-        "action": "Stop",
+        "action": "DoNothing",
         "roi": [
             880,
             100,
             180,
             120
+        ],
+        "Doc": "有时候明明已经在主界面了，停了一小会又弹个窗。多检测几次，一直在主界面才算完成",
+        "postDelay": 1000,
+        "maxTimes": 3,
+        "next": [
+            "StartUp",
+            "StartUp@LoadingText",
+            "CloseAnnos#next"
         ]
     },
     "CloseAnnos": {
@@ -2460,6 +2464,9 @@
             24,
             138,
             139
+        ],
+        "next": [
+            "CloseAnnos#next"
         ]
     },
     "TodaysSupplies": {
@@ -2766,6 +2773,14 @@
         "baseTask": "StartButton1",
         "exceededNext": [],
         "reduceOtherTimes": [],
+        "preDelay": 0,
+        "rectMoveDoc": "点击“行动”避免第二次点击时点到StartButton2",
+        "rectMove": [
+            38,
+            0,
+            35,
+            17
+        ],
         "next": [
             "StartButton1#next"
         ]
@@ -3852,9 +3867,11 @@
         ],
         "next": [
             "VisitNext",
+            "VisitNext@LoadingText",
             "VisitNextBlack",
             "VisitNextOcr"
-        ]
+        ],
+        "postDelay": 2000
     },
     "VisitNext": {
         "action": "ClickSelf",
@@ -4013,6 +4030,8 @@
     },
     "VisitNextBlack": {
         "action": "DoNothing",
+        "templThreshold": 0.9,
+        "cache": false,
         "roi": [
             1080,
             570,
@@ -4135,12 +4154,12 @@
         ],
         "ocrReplace": [
             [
-                "^资深.+",
-                "资深干员"
-            ],
-            [
                 ".*高级.+",
                 "高级资深干员"
+            ],
+            [
+                "^资深.+",
+                "资深干员"
             ]
         ]
     },
@@ -5964,7 +5983,12 @@
             800,
             100
         ],
-        "ocrReplace": []
+        "ocrReplace": [
+            [
+                ".*前顾后",
+                "瞻前顾后"
+            ]
+        ]
     },
     "BattleSupportUnitFormation": {
         "action": "ClickSelf",
@@ -8405,6 +8429,7 @@
         "postDelay": 3000,
         "next": [
             "Roguelike@StageTraderEnter",
+            "Roguelike@StageTraderRefreshWithDice",
             "Roguelike@StageTraderInvestSystem",
             "Roguelike@TraderRandomShopping",
             "Roguelike@StageTraderLeave"
@@ -8439,6 +8464,98 @@
             "Roguelike@StageTraderInvestSystemFull",
             "Roguelike@StageTraderInvestConfirm",
             "Roguelike@StageTraderInvestCancel"
+        ]
+    },
+    "Roguelike@StageTraderRefreshWithDice": {
+        "action": "ClickSelf",
+        "roi": [
+            230,
+            47,
+            211,
+            139
+        ],
+        "next": [
+            "Roguelike@StageTraderRefreshWithDiceConfirm",
+            "Roguelike@StageTraderRefreshWithDiceNotAvaiable",
+            "Roguelike@StageTraderInvestSystem",
+            "Roguelike@TraderRandomShopping",
+            "Roguelike@StageTraderLeave"
+        ],
+        "exceededNext": [
+            "Roguelike@StageTraderInvestSystem",
+            "Roguelike@TraderRandomShopping",
+            "Roguelike@StageTraderLeave"
+        ]
+    },
+    "Roguelike@StageTraderRefreshWithDiceConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            759,
+            415,
+            171,
+            161
+        ],
+        "next": [
+            "Roguelike@StageTraderRefreshWithDiceConfirm",
+            "Roguelike@StageTraderRefreshWithDiceDoubleConfirm"
+        ]
+    },
+    "Roguelike@StageTraderRefreshWithDiceDoubleConfirm": {
+        "action": "ClickRect",
+        "algorithm": "JustReturn",
+        "specificRect": [
+            545,
+            568,
+            182,
+            152
+        ],
+        "next": [
+            "Roguelike@StageTraderSpecialShoppingAfterRefresh",
+            "Roguelike@StageTraderRefreshWithDice",
+            "Roguelike@TraderRandomShopping",
+            "Roguelike@StageTraderInvestSystem",
+            "Roguelike@StageTraderLeave",
+            "Roguelike@StageTraderRefreshWithDiceDoubleConfirm"
+
+        ]
+    },
+    "Roguelike@StageTraderSpecialShoppingAfterRefresh": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "cache": "false",
+        "roi": [
+            308,
+            25,
+            972,
+            442
+        ],
+        "text": [
+            "指路",
+            "指路鳞"
+        ],
+        "next": [
+            "Roguelike@TraderRandomShopping#next"
+        ]
+    },
+    "Roguelike@StageTraderRefreshWithDiceNotAvaiable": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "本商店",
+            "刷新次数",
+            "已用完"
+        ],
+        "cache": "false",
+        "action": "DoNothing",
+        "roi": [
+            988,
+            47,
+            292,
+            139
+        ],
+        "next": [
+            "Roguelike@StageTraderInvestSystem",
+            "Roguelike@TraderRandomShopping",
+            "Roguelike@StageTraderLeave"
         ]
     },
     "Roguelike@StageTraderInvestSystem": {
@@ -9736,26 +9853,87 @@
             20
         ]
     },
-    "OperBoxFlagLV": {
-        "templThreshold": 0.6,
+    "OperBoxFlagRoleTopROI": {
+        "template": "empty.png",
         "roi": [
-            40,
-            310,
-            1128,
-            327
+            0,
+            78,
+            1145,
+            50
         ]
     },
+    "OperBoxFlagRoleBottomROI": {
+        "template": "empty.png",
+        "roi": [
+            0,
+            394,
+            1145,
+            50
+        ]
+    },
+    "OperBoxFlagRole1": {},
+    "OperBoxFlagRole2": {},
+    "OperBoxFlagRole3": {},
+    "OperBoxFlagRole4": {},
+    "OperBoxFlagRole5": {},
+    "OperBoxFlagRole6": {},
+    "OperBoxFlagRole7": {},
+    "OperBoxFlagRole8": {},
+    "OperBoxFlagRole9": {},
+    "OperBoxFlagElite1": {
+        "doc": "精英一 模板"
+    },
+    "OperBoxFlagElite2": {
+        "doc": "精英二 模板"
+    },
+    "OperBoxFlagElite": {
+        "doc": "偏移，识别精英度，扩大两个像素点",
+        "template": "empty.png",
+        "templThreshold": 0.9,
+        "roi": [
+            11,
+            171,
+            24,
+            35
+        ]
+    },
+    "OperBoxPotential": {
+        "doc": "偏移，识别潜能，扩大两个像素点",
+        "template": "empty.png",
+        "templThreshold": 0.85,
+        "roi": [
+            99,
+            194,
+            24,
+            24
+        ]
+    },
+    "OperBoxPotential2": {},
+    "OperBoxPotential3": {},
+    "OperBoxPotential4": {},
+    "OperBoxPotential5": {},
+    "OperBoxPotential6": {},
     "OperBoxNameOCR": {
-        "algorithm": "OcrDetect",
-        "fullMatch": true,
+        "baseTask": "CharsNameOcrReplace",
         "text": [],
         "roi": [
-            -10,
-            42,
-            120,
-            20
-        ],
-        "postDelay": 100
+            4,
+            269,
+            122,
+            14
+        ]
+    },
+    "OperBoxLevelOCR": {
+        "algorithm": "OcrDetect",
+        "fullMatch": true,
+        "isAscii": true,
+        "text": [],
+        "roi": [
+            5,
+            230,
+            37,
+            23
+        ]
     },
     "RoguelikeRecruitSwipeMaxTime": {
         "algorithm": "JustReturn",
@@ -9854,7 +10032,12 @@
             190,
             35
         ],
-        "ocrReplace": []
+        "ocrReplace": [
+            [
+                "指路.*",
+                "指路鳞"
+            ]
+        ]
     },
     "RoguelikeTraderShoppingOver": {
         "template": "Roguelike@StageTraderLeave.png",
@@ -10103,10 +10286,6 @@
             50
         ],
         "ocrReplace": [
-            [
-                ".*前顾后",
-                "瞻前顾后"
-            ],
             [
                 "枯朽.*育",
                 "枯朽孕育"
@@ -10410,6 +10589,20 @@
         "specialParams": [
             245,
             200
+        ]
+    },
+    "BattleSpeedButton": {
+        "template": "empty.png",
+        "roi": [
+            1069,
+            22,
+            55,
+            59
+        ],
+        "specialParams_Doc": "亮度阈值；点的数量",
+        "specialParams": [
+            245,
+            160
         ]
     },
     "Reclamation@PopupConfirm": {
@@ -11826,5 +12019,203 @@
         "next": [
             "ChooseOriginiumShardTab"
         ]
+    },
+    "GachaOnce": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "GachaOncePrefix@GachaBegin"
+        ]
+    },
+    "GachaTenTimes": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "GachaTenTimesPrefix@GachaBegin"
+        ]
+    },
+    "GachaBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "DoGacha",
+            "GachaEnter",
+            "GachaEnter@ReturnTo",
+            "GachaLastOnceResult",
+            "GachaLastTenTimesResult1",
+            "GachaLastTenTimesResult2"
+        ]
+    },
+    "GachaEnter": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            1052,
+            443,
+            228,
+            156
+        ],
+        "next": [
+            "GachaEnter@LoadingText",
+            "DoGacha"
+        ]
+    },
+    "GachaLastOnceResult": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "凭证",
+            "信物",
+            "获得"
+        ],
+        "roi": [
+            1002,
+            241,
+            278,
+            371
+        ],
+        "next": [
+            "DoGacha",
+            "GachaLastOnceResult",
+            "GachaLastTenTimesResult1",
+            "GachaLastTenTimesResult2"
+        ]
+    },
+    "GachaLastTenTimesResult1": {
+        "action": "ClickSelf",
+        "templThreshold": 0.7,
+        "cache": false,
+        "roi": [
+            0,
+            145,
+            1280,
+            42
+        ],
+        "next": [
+            "GachaLastOnceResult#next"
+        ]
+    },
+    "GachaLastTenTimesResult2": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "获得物资"
+        ],
+        "roi": [
+            508,
+            66,
+            267,
+            172
+        ],
+        "next": [
+            "GachaLastOnceResult#next"
+        ]
+    },
+    "DoGacha": {
+        "action": "DoNothing",
+        "template": "empty.png"
+    },
+    "GachaOncePrefix@DoGacha": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "寻访一次"
+        ],
+        "roi": [
+            779,
+            576,
+            248,
+            141
+        ],
+        "next": [
+            "GachaOncePrefix@DoGacha@LoadingText",
+            "GachaConfirm"
+        ]
+    },
+    "GachaTenTimesPrefix@DoGacha": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "寻访十次"
+        ],
+        "roi": [
+            975,
+            571,
+            257,
+            149
+        ],
+        "next": [
+            "GachaTenTimesPrefix@DoGacha@LoadingText",
+            "GachaConfirm"
+        ]
+    },
+    "GachaConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            830,
+            431,
+            228,
+            151
+        ],
+        "next": [
+            "GachaConfirm@LoadingText",
+            "GachaWaitingForBag",
+            "GachaNoMoney"
+        ]
+    },
+    "GachaNoMoney": {
+        "action": "Stop",
+        "roi": [
+            511,
+            148,
+            283,
+            152
+        ]
+    },
+    "GachaWaitingForBag": {
+        "action": "DoNothing",
+        "template": "GachaSkip.png",
+        "roi": [
+            1144,
+            0,
+            136,
+            148
+        ],
+        "postDelay": 2000,
+        "next": [
+            "GachaSwipeToOpenBag"
+        ]
+    },
+    "GachaSwipeToOpenBag": {
+        "baseTask": "SwipeToTheRight",
+        "algorithm": "MatchTemplate",
+        "template": "GachaSkip.png",
+        "roi": [
+            1144,
+            0,
+            136,
+            148
+        ],
+        "next": [
+            "GachaSkip"
+        ],
+        "postDelay": 3000
+    },
+    "GachaSkip": {
+        "template": "GachaSkip.png",
+        "action": "ClickSelf",
+        "roi": [
+            1144,
+            0,
+            136,
+            148
+        ],
+        "next": [
+            "GachaSkip",
+            "Stop"
+        ],
+        "postDelay": 2000
     }
 }

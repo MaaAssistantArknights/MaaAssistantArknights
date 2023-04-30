@@ -54,7 +54,7 @@ namespace MaaWpfGui.Helper
             SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
         }
 
-        #endregion
+        #endregion Swith Theme
 
         #region Check UiLogColor
 
@@ -84,7 +84,7 @@ namespace MaaWpfGui.Helper
             return (int)(((((512 + rmean) * r * r) >> 8) + (4 * g * g) + (((767 - rmean) * b * b) >> 8)) >> 14);
         }
 
-        #endregion
+        #endregion Check UiLogColor
 
         #region Convert
 
@@ -142,6 +142,6 @@ namespace MaaWpfGui.Helper
             return new SolidColorBrush(String2Color(str));
         }
 
-        #endregion
+        #endregion Convert
     }
 }

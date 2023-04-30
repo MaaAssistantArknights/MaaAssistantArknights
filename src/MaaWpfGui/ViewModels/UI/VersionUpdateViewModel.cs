@@ -26,15 +26,12 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Services;
-using MaaWpfGui.Services.Web;
 using Markdig;
-using Neo.Markdig.Xaml;
+using Markdig.Wpf;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Semver;
 using Stylet;
-using StyletIoC;
 
 namespace MaaWpfGui.ViewModels.UI
 {
@@ -43,21 +40,11 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class VersionUpdateViewModel : Screen
     {
-        private readonly IWindowManager _windowManager;
-        private readonly SettingsViewModel _settingsViewModel;
-        private readonly TaskQueueViewModel _taskQueueViewModel;
-        private readonly IHttpService _httpService;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="VersionUpdateViewModel"/> class.
         /// </summary>
-        /// <param name="container">The IoC container.</param>
-        public VersionUpdateViewModel(IContainer container)
+        public VersionUpdateViewModel()
         {
-            _windowManager = container.Get<Helper.WindowManager>();
-            _settingsViewModel = container.Get<SettingsViewModel>();
-            _taskQueueViewModel = container.Get<TaskQueueViewModel>();
-            _httpService = container.Get<IHttpService>();
         }
 
         [DllImport("MaaCore.dll")]
@@ -120,8 +107,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public FlowDocument UpdateInfoDoc => MarkdownXaml.ToFlowDocument(UpdateInfo,
-                new MarkdownPipelineBuilder().UseXamlSupportedExtensions().Build());
+        public FlowDocument UpdateInfoDoc => Markdig.Wpf.Markdown.ToFlowDocument(UpdateInfo,
+                new MarkdownPipelineBuilder().UseSupportedExtensions().Build());
 
         private string _updateUrl;
 
@@ -363,7 +350,7 @@ namespace MaaWpfGui.ViewModels.UI
             if (IsFirstBootAfterUpdate)
             {
                 IsFirstBootAfterUpdate = false;
-                _windowManager.ShowWindow(this);
+                Instances.WindowManager.ShowWindow(this);
             }
             else
             {
@@ -382,7 +369,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
         public async Task<CheckUpdateRetT> CheckAndDownloadUpdate(bool force = false)
         {
-            _settingsViewModel.IsCheckingForUpdates = true;
+            Instances.SettingsViewModel.IsCheckingForUpdates = true;
 
             async Task<CheckUpdateRetT> CheckUpdateInner()
             {
@@ -435,7 +422,7 @@ namespace MaaWpfGui.ViewModels.UI
                 UpdateUrl = _latestJson["html_url"]?.ToString();
 
                 bool otaFound = _assetsObject != null;
-                bool goDownload = otaFound && _settingsViewModel.AutoDownloadUpdatePackage;
+                bool goDownload = otaFound && Instances.SettingsViewModel.AutoDownloadUpdatePackage;
 #pragma warning disable IDE0042
                 var openUrlToastButton = (
                     text: LocalizationHelper.GetString("NewVersionFoundButtonGoWebpage"),
@@ -449,26 +436,35 @@ namespace MaaWpfGui.ViewModels.UI
 #pragma warning restore IDE0042
                 Execute.OnUIThread(() =>
                 {
-                    using var toast = new ToastNotification(otaFound ?
+                    using var toast = new ToastNotification((otaFound ?
                         LocalizationHelper.GetString("NewVersionFoundTitle") :
-                        LocalizationHelper.GetString("NewVersionFoundButNoPackageTitle"));
+                        LocalizationHelper.GetString("NewVersionFoundButNoPackageTitle")) + " : " + UpdateTag);
                     if (goDownload)
                     {
                         OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadPreparing"));
                         toast.AppendContentText(LocalizationHelper.GetString("NewVersionFoundDescDownloading"));
                     }
 
-                    toast.AppendContentText(LocalizationHelper.GetString("NewVersionFoundDescId") + UpdateTag);
-
                     if (!otaFound)
                     {
                         toast.AppendContentText(LocalizationHelper.GetString("NewVersionFoundButNoPackageDesc"));
                     }
 
-                    var toastDesc = UpdateInfo.Length > 100 ?
-                        UpdateInfo.Substring(0, 100) + "..." :
-                        UpdateInfo;
-                    toast.AppendContentText(LocalizationHelper.GetString("NewVersionFoundDescInfo") + toastDesc);
+                    int count = 0;
+                    foreach (var line in UpdateInfo.Split('\n'))
+                    {
+                        if (line.StartsWith("#") || string.IsNullOrWhiteSpace(line))
+                        {
+                            continue;
+                        }
+
+                        toast.AppendContentText(line);
+                        if (++count >= 10)
+                        {
+                            break;
+                        }
+                    }
+
                     toast.AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action);
                     toast.ButtonSystemUrl = UpdateUrl;
                     toast.ShowUpdateVersion();
@@ -482,31 +478,46 @@ namespace MaaWpfGui.ViewModels.UI
                     return CheckUpdateRetT.NoNeedToUpdate;
                 }
 
+                string rawUrl = _assetsObject["browser_download_url"]?.ToString();
+
+                async Task<bool> download_from_mirror(Tuple<string, string> rep)
+                {
+                    var url = string.Copy(rawUrl);
+                    if (rep != null)
+                    {
+                        url = url.Replace(rep.Item1, rep.Item2);
+                    }
+
+                    if (await DownloadGithubAssets(url, _assetsObject))
+                    {
+                        OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"));
+                        return true;
+                    }
+
+                    return false;
+                }
+
                 // 下载压缩包
-                var downloaded = false;
                 var mirroredReplaceMap = new List<Tuple<string, string>>
                 {
                     new Tuple<string, string>("github.com", "agent.imgg.dev"),
+                    new Tuple<string, string>("github.com", "maa.r2.imgg.dev"),
                     new Tuple<string, string>("github.com", "ota.maa.plus"),
                     null,
                 };
 
-                string rawUrl = _assetsObject["browser_download_url"]?.ToString();
-                const int DownloadRetryMaxTimes = 1;
-                for (int i = 0; i <= DownloadRetryMaxTimes && !downloaded; i++)
-                {
-                    foreach (var repTuple in mirroredReplaceMap)
-                    {
-                        var url = string.Copy(rawUrl);
-                        if (repTuple != null)
-                        {
-                            url = url.Replace(repTuple.Item1, repTuple.Item2);
-                        }
+                // 0, 1 两个镜像流量比较充足，优先用
+                var rand_index = new Random().Next(0, 2);   // 前闭后开 [0, 2)
+                bool downloaded = await download_from_mirror(mirroredReplaceMap[rand_index]);
 
-                        if (await DownloadGithubAssets(url, _assetsObject))
+                if (!downloaded)
+                {
+                    mirroredReplaceMap.RemoveAt(rand_index);
+                    for (int i = 0; i < mirroredReplaceMap.Count && !downloaded; i++)
+                    {
+                        downloaded = await download_from_mirror(mirroredReplaceMap[i]);
+                        if (downloaded)
                         {
-                            OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"));
-                            downloaded = true;
                             break;
                         }
                     }
@@ -531,7 +542,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             var checkResult = await CheckUpdateInner();
 
-            _settingsViewModel.IsCheckingForUpdates = false;
+            Instances.SettingsViewModel.IsCheckingForUpdates = false;
             return checkResult;
         }
 
@@ -557,7 +568,7 @@ namespace MaaWpfGui.ViewModels.UI
         private async Task<CheckUpdateRetT> CheckUpdate(bool force = false)
         {
             // 自动更新或者手动触发
-            if (!(_settingsViewModel.UpdateCheck || force))
+            if (!(Instances.SettingsViewModel.UpdateCheck || force))
             {
                 return CheckUpdateRetT.NoNeedToUpdate;
             }
@@ -571,7 +582,7 @@ namespace MaaWpfGui.ViewModels.UI
             const int RequestRetryMaxTimes = 2;
             try
             {
-                if (!_settingsViewModel.UpdateBeta && !_settingsViewModel.UpdateNightly)
+                if (!Instances.SettingsViewModel.UpdateBeta && !Instances.SettingsViewModel.UpdateNightly)
                 {
                     // 稳定版更新使用主仓库 /latest 接口
                     // 直接使用 MaaRelease 的话，30 个可能会找不到稳定版，因为有可能 Nightly 发了很多
@@ -607,7 +618,7 @@ namespace MaaWpfGui.ViewModels.UI
                     _latestJson = null;
                     foreach (var item in releaseArray)
                     {
-                        if (!_settingsViewModel.UpdateNightly && !isStdVersion(item["tag_name"].ToString()))
+                        if (!Instances.SettingsViewModel.UpdateNightly && !isStdVersion(item["tag_name"].ToString()))
                         {
                             continue;
                         }
@@ -625,7 +636,7 @@ namespace MaaWpfGui.ViewModels.UI
                 _latestVersion = _latestJson["tag_name"].ToString();
                 var releaseAssets = _latestJson["assets"] as JArray;
 
-                if (_settingsViewModel.UpdateNightly)
+                if (Instances.SettingsViewModel.UpdateNightly)
                 {
                     if (_curVersion == _latestVersion)
                     {
@@ -698,7 +709,7 @@ namespace MaaWpfGui.ViewModels.UI
                 for (var i = 0; i < requestSource.Length; i++)
                 {
                     // prevent current thread
-                    response = await _httpService.GetStringAsync(new Uri(requestSource[i] + url)).ConfigureAwait(false);
+                    response = await Instances.HttpService.GetStringAsync(new Uri(requestSource[i] + url)).ConfigureAwait(false);
                     if (!string.IsNullOrEmpty(response))
                     {
                         break;
@@ -717,10 +728,10 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>操作成功返回 true，反之则返回 false</returns>
         private async Task<bool> DownloadGithubAssets(string url, JObject assetsObject)
         {
-            _logItemViewModels = _taskQueueViewModel.LogItemViewModels;
+            _logItemViewModels = Instances.TaskQueueViewModel.LogItemViewModels;
             try
             {
-                return await _httpService.DownloadFileAsync(
+                return await Instances.HttpService.DownloadFileAsync(
                     new Uri(url),
                     assetsObject["name"].ToString(),
                     assetsObject["content_type"].ToString())

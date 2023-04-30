@@ -11,11 +11,11 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
-#include "Vision/Battle/BattleImageAnalyzer.h"
-#include "Vision/Battle/BattleSkillReadyImageAnalyzer.h"
-#include "Vision/BestMatchImageAnalyzer.h"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/Battle/BattlefieldClassifier.h"
+#include "Vision/Battle/BattlefieldMatcher.h"
+#include "Vision/BestMatcher.h"
+#include "Vision/Matcher.h"
+#include "Vision/RegionOCRer.h"
 
 using namespace asst::battle;
 
@@ -96,9 +96,10 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         auto draw_future = std::async(std::launch::async, [&]() { save_map(image); });
     }
 
-    BattleImageAnalyzer oper_analyzer(image);
-    oper_analyzer.set_target(BattleImageAnalyzer::Target::Oper);
-    if (!oper_analyzer.analyze()) {
+    BattlefieldMatcher oper_analyzer(image);
+    oper_analyzer.set_object_of_interest({ .deployment = true });
+    auto oper_result_opt = oper_analyzer.analyze();
+    if (!oper_result_opt) {
         check_in_battle(image);
         return false;
     }
@@ -123,18 +124,17 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         oper.is_unusual_location = battle::get_role_usual_location(oper.role) == oper.location_type;
     };
 
-    auto cur_opers = oper_analyzer.get_opers();
+    auto& cur_opers = oper_result_opt->deployment;
     std::vector<DeploymentOper> unknown_opers;
 
     for (auto& oper : cur_opers) {
-        BestMatchImageAnalyzer avatar_analyzer(oper.avatar);
+        BestMatcher avatar_analyzer(oper.avatar);
         if (oper.cooling) {
             Log.trace("start matching cooling", oper.index);
             static const double cooling_threshold = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_threshold;
             static const auto cooling_mask_range = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->mask_range;
             avatar_analyzer.set_threshold(cooling_threshold);
-            avatar_analyzer.set_mask_range(cooling_mask_range, true);
-            avatar_analyzer.set_mask_with_close(true);
+            avatar_analyzer.set_mask_range(cooling_mask_range.first, cooling_mask_range.second, true, true);
         }
         else {
             static const double threshold = Task.get<MatchTaskInfo>("BattleAvatarData")->templ_threshold;
@@ -147,7 +147,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             avatar_analyzer.append_templ(name, avatar);
         }
         if (avatar_analyzer.analyze()) {
-            set_oper_name(oper, avatar_analyzer.get_result().name);
+            set_oper_name(oper, avatar_analyzer.get_result().templ_info.name);
             m_cur_deployment_opers.insert_or_assign(oper.name, oper);
             remove_cooling_from_battlefield(oper);
         }
@@ -195,33 +195,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
                 return false;
             }
 
-            auto analyze = [&](OcrImageAnalyzer& name_analyzer) {
-                name_analyzer.set_image(name_image);
-                name_analyzer.set_task_info(oper_name_ocr_task_name());
-                name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
-                                          Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
-                if (!name_analyzer.analyze()) {
-                    return std::string();
-                }
-                name_analyzer.sort_result_by_score();
-                return name_analyzer.get_result().front().text;
-            };
-
-            OcrWithPreprocessImageAnalyzer preproc_analyzer;
-            std::string name = analyze(preproc_analyzer);
-            if (BattleData.is_name_invalid(name)) {
-                Log.warn("ocr with preprocess got a invalid name, try to use detect model", name);
-                OcrImageAnalyzer det_analyzer;
-                std::string det_name = analyze(det_analyzer);
-                if (det_name.empty()) {
-                    Log.warn("ocr with det model failed");
-                }
-                else if (!BattleData.is_name_invalid(det_name)) {
-                    Log.info("use ocr with det", det_name);
-                    name = det_name;
-                }
-            }
-
+            std::string name = analyze_detail_page_oper_name(name_image);
             // 这时候即使名字不合法也只能凑合用了，但是为空还是不行的
             if (name.empty()) {
                 Log.error("name is empty");
@@ -251,28 +225,29 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
 bool asst::BattleHelper::update_kills(const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
-    BattleImageAnalyzer analyzer(image);
+    BattlefieldMatcher analyzer(image);
+    analyzer.set_object_of_interest({ .kills = true });
     if (m_total_kills) {
-        analyzer.set_pre_total_kills(m_total_kills);
+        analyzer.set_total_kills_prompt(m_total_kills);
     }
-    analyzer.set_target(BattleImageAnalyzer::Target::Kills);
-    if (!analyzer.analyze()) {
+    auto result_opt = analyzer.analyze();
+    if (!result_opt || !result_opt->kills) {
         return false;
     }
-    m_kills = analyzer.get_kills();
-    m_total_kills = analyzer.get_total_kills();
+    std::tie(m_kills, m_total_kills) = result_opt->kills.value();
     return true;
 }
 
 bool asst::BattleHelper::update_cost(const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
-    BattleImageAnalyzer analyzer(image);
-    analyzer.set_target(BattleImageAnalyzer::Target::Cost);
-    if (!analyzer.analyze()) {
+    BattlefieldMatcher analyzer(image);
+    analyzer.set_object_of_interest({ .costs = true });
+    auto result_opt = analyzer.analyze();
+    if (!result_opt || !result_opt->costs) {
         return false;
     }
-    m_cost = analyzer.get_cost();
+    m_cost = result_opt->costs.value();
     return true;
 }
 
@@ -397,11 +372,13 @@ bool asst::BattleHelper::use_skill(const Point& loc, bool keep_waiting)
 bool asst::BattleHelper::check_pause_button(const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
-    MatchImageAnalyzer battle_flag_analyzer(image);
+    Matcher battle_flag_analyzer(image);
     battle_flag_analyzer.set_task_info("BattleOfficiallyBegin");
-    bool ret = battle_flag_analyzer.analyze();
-    BattleImageAnalyzer battle_flag_analyzer_2(image);
-    ret &= battle_flag_analyzer_2.analyze() && battle_flag_analyzer_2.get_pause_button();
+    bool ret = battle_flag_analyzer.analyze().has_value();
+
+    BattlefieldMatcher battle_flag_analyzer_2(image);
+    auto battle_result_opt = battle_flag_analyzer_2.analyze();
+    ret &= battle_result_opt && battle_result_opt->pause_button;
     return ret;
 }
 
@@ -409,8 +386,8 @@ bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     if (weak) {
-        BattleImageAnalyzer analyzer(image);
-        m_in_battle = analyzer.analyze();
+        BattlefieldMatcher analyzer(image);
+        m_in_battle = analyzer.analyze().has_value();
     }
     else {
         m_in_battle = check_pause_button(image);
@@ -499,7 +476,8 @@ bool asst::BattleHelper::check_and_use_skill(const std::string& name, bool& has_
 bool asst::BattleHelper::check_and_use_skill(const Point& loc, bool& has_error, const cv::Mat& reusable)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
-    BattleSkillReadyImageAnalyzer skill_analyzer(image);
+    BattlefieldClassifier skill_analyzer(image);
+    skill_analyzer.set_object_of_interest({ .skill_ready = true });
 
     auto target_iter = m_normal_tile_info.find(loc);
     if (target_iter == m_normal_tile_info.end()) {
@@ -508,7 +486,7 @@ bool asst::BattleHelper::check_and_use_skill(const Point& loc, bool& has_error, 
     }
     const Point& battlefield_point = target_iter->second.pos;
     skill_analyzer.set_base_point(battlefield_point);
-    if (!skill_analyzer.analyze()) {
+    if (!skill_analyzer.analyze()->skill_ready.ready) {
         return false;
     }
 
@@ -642,6 +620,34 @@ bool asst::BattleHelper::move_camera(const std::pair<double, double>& delta)
 
     calc_tiles_info(m_stage_name, -m_camera_shift.first, m_camera_shift.second);
     return update_deployment(true);
+}
+
+std::string asst::BattleHelper::analyze_detail_page_oper_name(const cv::Mat& image)
+{
+    const auto& replace_task = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
+    const auto& task = Task.get<OcrTaskInfo>(oper_name_ocr_task_name());
+
+    RegionOCRer preproc_analyzer(image);
+    preproc_analyzer.set_task_info(task);
+    preproc_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
+    auto preproc_result_opt = preproc_analyzer.analyze();
+
+    if (preproc_result_opt && !BattleData.is_name_invalid(preproc_result_opt->text)) {
+        return preproc_result_opt->text;
+    }
+
+    Log.warn("ocr with preprocess got a invalid name, try to use detect model");
+    OCRer det_analyzer(image);
+    det_analyzer.set_task_info(task);
+    det_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
+    auto det_result_opt = det_analyzer.analyze();
+    if (!det_result_opt) {
+        return {};
+    }
+    sort_by_score_(*det_result_opt);
+    const auto& det_name = det_result_opt->front().text;
+
+    return BattleData.is_name_invalid(det_name) ? std::string() : det_name;
 }
 
 std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const std::string& name) const

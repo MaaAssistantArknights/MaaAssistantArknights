@@ -5,7 +5,6 @@
 #include <meojson/json.hpp>
 
 #include "Config/GeneralConfig.h"
-#include "Config/Miscellaneous/OcrPack.h"
 #include "Controller/Controller.h"
 #include "Status.h"
 #include "Task/Interface/AwardTask.h"
