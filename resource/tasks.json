@@ -12056,6 +12056,7 @@
             156
         ],
         "next": [
+            "GachaEnter",
             "GachaEnter@LoadingText",
             "DoGacha"
         ]
