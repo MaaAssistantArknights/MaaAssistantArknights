@@ -30,6 +30,17 @@ namespace asst
         }
 
         template <Singleton T>
+        requires std::is_base_of_v<AbstractConfig, T>
+        bool async_load_config(const std::filesystem::path& path)
+        {
+            if (!std::filesystem::exists(path)) {
+                return m_loaded;
+            }
+            SingletonHolder<T>::get_instance().async_load(path);
+            return true;
+        }
+
+        template <Singleton T>
         requires std::is_base_of_v<AbstractConfigWithTempl, T>
         bool load_resource_with_templ(const std::filesystem::path& path, const std::filesystem::path& templ_dir)
         {

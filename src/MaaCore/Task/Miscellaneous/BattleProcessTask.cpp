@@ -16,10 +16,8 @@
 #include "Utils/Algorithm.hpp"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "Vision/Battle/BattleImageAnalyzer.h"
-#include "Vision/Battle/BattleSkillReadyImageAnalyzer.h"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/Matcher.h"
+#include "Vision/RegionOCRer.h"
 
 using namespace asst::battle;
 using namespace asst::battle::copilot;

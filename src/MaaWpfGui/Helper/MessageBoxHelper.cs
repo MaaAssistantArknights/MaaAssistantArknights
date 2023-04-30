@@ -14,6 +14,7 @@
 #pragma warning disable SA1307
 #pragma warning disable SA1401
 #pragma warning disable IDE0051
+
 using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
@@ -94,7 +95,6 @@ namespace MaaWpfGui.Helper
         private static extern bool SetWindowText(IntPtr hWnd, string lpString);
 
         [StructLayout(LayoutKind.Sequential)]
-
         public struct CWPRETSTRUCT
         {
             public IntPtr lResult;
@@ -106,8 +106,10 @@ namespace MaaWpfGui.Helper
 
         private static readonly HookProc hookProc;
         private static readonly EnumChildProc enumProc;
+
         [ThreadStatic]
         private static IntPtr hHook;
+
         [ThreadStatic]
         private static int nButton;
 
@@ -266,21 +268,27 @@ namespace MaaWpfGui.Helper
                     case MBOK:
                         SetWindowText(hWnd, OK);
                         break;
+
                     case MBCancel:
                         SetWindowText(hWnd, Cancel);
                         break;
+
                     case MBAbort:
                         SetWindowText(hWnd, Abort);
                         break;
+
                     case MBRetry:
                         SetWindowText(hWnd, Retry);
                         break;
+
                     case MBIgnore:
                         SetWindowText(hWnd, Ignore);
                         break;
+
                     case MBYes:
                         SetWindowText(hWnd, Yes);
                         break;
+
                     case MBNo:
                         SetWindowText(hWnd, No);
                         break;
@@ -303,14 +311,17 @@ namespace MaaWpfGui.Helper
                     key = ResourceToken.AskGeometry;
                     brushKey = ResourceToken.AccentBrush;
                     break;
+
                 case MessageBoxImage.Error:
                     key = ResourceToken.ErrorGeometry;
                     brushKey = ResourceToken.DangerBrush;
                     break;
+
                 case MessageBoxImage.Warning:
                     key = ResourceToken.WarningGeometry;
                     brushKey = ResourceToken.WarningBrush;
                     break;
+
                 case MessageBoxImage.Information:
                     key = ResourceToken.InfoGeometry;
                     brushKey = ResourceToken.InfoBrush;

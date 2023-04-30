@@ -15,9 +15,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Services.Managers;
 using MaaWpfGui.ViewModels.UI;
-using StyletIoC;
 
 namespace MaaWpfGui.Services
 {
@@ -26,20 +24,13 @@ namespace MaaWpfGui.Services
     /// </summary>
     public class TrayIcon
     {
-        private readonly IMainWindowManager _mainWindowManager;
         private readonly NotifyIcon _notifyIcon = new NotifyIcon();
-        private readonly TaskQueueViewModel _taskQueueViewModel;
-        private readonly SettingsViewModel _settingsViewModel;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TrayIcon"/> class.
         /// </summary>
-        /// <param name="container">The IoC container.</param>
-        public TrayIcon(IContainer container)
+        public TrayIcon()
         {
-            _mainWindowManager = container.Get<IMainWindowManager>();
-            _taskQueueViewModel = container.Get<TaskQueueViewModel>();
-            _settingsViewModel = container.Get<SettingsViewModel>();
             InitIcon();
             this.SetVisible(true);
         }
@@ -68,7 +59,7 @@ namespace MaaWpfGui.Services
                 var langMenu = new MenuItem(lang.Value);
                 langMenu.Click += (sender, e) =>
                 {
-                    _settingsViewModel.Language = lang.Key;
+                    Instances.SettingsViewModel.Language = lang.Key;
                 };
                 switchLangMenu.MenuItems.Add(langMenu);
             }
@@ -86,18 +77,18 @@ namespace MaaWpfGui.Services
                 return;
             }
 
-            _mainWindowManager.SwitchWindowState();
+            Instances.MainWindowManager.SwitchWindowState();
         }
 
         private void StartTask(object sender, EventArgs e)
         {
             // taskQueueViewModel意外为null了是不是也可以考虑Log一下
-            _taskQueueViewModel?.LinkStart();
+            Instances.TaskQueueViewModel?.LinkStart();
         }
 
         private void StopTask(object sender, EventArgs e)
         {
-            _taskQueueViewModel?.Stop();
+            Instances.TaskQueueViewModel?.Stop();
         }
 
         private void App_exit(object sender, EventArgs e)
@@ -107,12 +98,12 @@ namespace MaaWpfGui.Services
 
         private void App_show(object sender, EventArgs e)
         {
-            _mainWindowManager.Show();
+            Instances.MainWindowManager.Show();
         }
 
         private void OnNotifyIconDoubleClick(object sender, EventArgs e)
         {
-            _mainWindowManager.Show();
+            Instances.MainWindowManager.Show();
         }
 
         /// <summary>

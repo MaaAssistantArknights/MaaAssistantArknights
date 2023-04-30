@@ -2,16 +2,16 @@
     x:Class="MaaWpfGui.Views.UserControl.RoguelikeSettingsUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:vm="clr-namespace:MaaWpfGui"
-    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
-    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:styles="clr-namespace:MaaWpfGui.Styles"
-    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
+    xmlns:vm="clr-namespace:MaaWpfGui"
     d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
     d:DesignWidth="550"
     mc:Ignorable="d">
@@ -71,18 +71,25 @@
                         <hc:TextBox.Text>
                             <Binding Path="RoguelikeStartsCount">
                                 <Binding.ValidationRules>
-                                    <hc:RegexRule Type="Int"/>
+                                    <hc:RegexRule Type="Int" />
                                 </Binding.ValidationRules>
                             </Binding>
                         </hc:TextBox.Text>
                     </hc:TextBox>
                 </StackPanel>
-                <CheckBox
-                    Margin="10"
+                <StackPanel
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Content="{DynamicResource InvestmentEnabled}"
-                    IsChecked="{Binding RoguelikeInvestmentEnabled}" />
+                    Orientation="Horizontal">
+                    <CheckBox
+                        Margin="10"
+                        Content="{DynamicResource InvestmentEnabled}"
+                        IsChecked="{Binding RoguelikeInvestmentEnabled}" />
+                    <CheckBox
+                        Margin="10"
+                        Content="{DynamicResource RefreshTraderWithDice}"
+                        IsChecked="{Binding RoguelikeRefreshTraderWithDice}" />
+                </StackPanel>
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                     <controls:TextBlock
                         VerticalAlignment="Center"
@@ -100,7 +107,7 @@
                         <hc:TextBox.Text>
                             <Binding Path="RoguelikeInvestsCount">
                                 <Binding.ValidationRules>
-                                    <hc:RegexRule Type="Int"/>
+                                    <hc:RegexRule Type="Int" />
                                 </Binding.ValidationRules>
                             </Binding>
                         </hc:TextBox.Text>

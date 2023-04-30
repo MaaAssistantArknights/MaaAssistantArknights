@@ -6,13 +6,13 @@
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/MultiMatchImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/Matcher.h"
+#include "Vision/MultiMatcher.h"
+#include "Vision/RegionOCRer.h"
 
 bool asst::RoguelikeSkillSelectionImageAnalyzer::analyze()
 {
-    MultiMatchImageAnalyzer flag_analyzer(m_image);
+    MultiMatcher flag_analyzer(m_image);
     flag_analyzer.set_task_info("RoguelikeSkillSelectionFlag");
 
     if (!flag_analyzer.analyze()) {
@@ -48,9 +48,9 @@ bool asst::RoguelikeSkillSelectionImageAnalyzer::analyze()
 
 std::string asst::RoguelikeSkillSelectionImageAnalyzer::name_analyze(const Rect& roi)
 {
-    OcrWithPreprocessImageAnalyzer analyzer;
+    RegionOCRer analyzer;
     auto name_task_ptr = Task.get<OcrTaskInfo>("RoguelikeSkillSelectionName");
-    analyzer.set_threshold(name_task_ptr->specific_rect.x);
+    analyzer.set_bin_threshold(name_task_ptr->specific_rect.x);
     analyzer.set_task_info(name_task_ptr);
     analyzer.set_image(m_image);
     analyzer.set_roi(roi.move(name_task_ptr->roi));
@@ -60,7 +60,7 @@ std::string asst::RoguelikeSkillSelectionImageAnalyzer::name_analyze(const Rect&
     if (!analyzer.analyze()) {
         return {};
     }
-    return analyzer.get_result().front().text;
+    return analyzer.get_result().text;
 }
 
 std::vector<asst::Rect> asst::RoguelikeSkillSelectionImageAnalyzer::skill_analyze(const Rect& roi)
@@ -81,7 +81,7 @@ std::vector<asst::Rect> asst::RoguelikeSkillSelectionImageAnalyzer::skill_analyz
 
 void asst::RoguelikeSkillSelectionImageAnalyzer::team_full_analyze()
 {
-    MatchImageAnalyzer analyzer(m_image);
+    Matcher analyzer(m_image);
     analyzer.set_task_info("RoguelikeSkillSelectionTeamFull");
     m_team_full = !analyzer.analyze();
 }

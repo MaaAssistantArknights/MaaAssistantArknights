@@ -2,17 +2,33 @@
 
 #include <meojson/json.hpp>
 
+#include "Utils/Demangle.hpp"
 #include "Utils/Logger.hpp"
 
 bool asst::AbstractConfig::load(const std::filesystem::path& path)
 {
-    LogTraceFunction;
-    Log.info("load", path);
+    return _load(path);
+}
 
+void asst::AbstractConfig::async_load(const std::filesystem::path& path)
+{
+    m_load_future = std::async(std::launch::async, &AbstractConfig::_load, this, path);
+}
+
+bool asst::AbstractConfig::_load(std::filesystem::path path)
+{
     if (!std::filesystem::exists(path) || !std::filesystem::is_regular_file(path)) {
-        Log.error("file does not exist", path);
+        std::string class_name = utils::demangle(typeid(*this).name());
+        Log.error(class_name, "file does not exist", path);
         return false;
     }
+    m_path = path;
+
+    std::unique_lock lock(m_load_mutex);
+
+    std::string class_name = utils::demangle(typeid(*this).name());
+    LogTraceScope(class_name);
+    Log.info(path.string());
 
     auto ret = json::open(path, true);
     if (!ret) {

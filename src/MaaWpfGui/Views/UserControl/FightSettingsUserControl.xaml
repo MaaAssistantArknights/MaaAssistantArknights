@@ -259,7 +259,7 @@
                     Visibility="{c:Binding CustomStageCode and UseRemainingSanityStage}" />
             </StackPanel>
         </Grid>
-        <Grid Grid.Row="3">
+        <Grid Grid.Row="3" Visibility="{c:Binding CustomInfrastEnabled}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" MinWidth="100" />
                 <ColumnDefinition />
@@ -272,8 +272,7 @@
                         VerticalAlignment="Center"
                         Text="{DynamicResource CustomInfrastPlan}"
                         TextAlignment="Center"
-                        TextWrapping="Wrap"
-                        Visibility="{c:Binding CustomInfrastEnabled}" />
+                        TextWrapping="Wrap" />
                 </Grid>
             </StackPanel>
             <StackPanel
@@ -288,8 +287,7 @@
                     IsHitTestVisible="{c:Binding !InfrastTaskRunning}"
                     ItemsSource="{Binding CustomInfrastPlanList}"
                     SelectedValue="{Binding CustomInfrastPlanIndex}"
-                    SelectedValuePath="Value"
-                    Visibility="{c:Binding CustomInfrastEnabled}" />
+                    SelectedValuePath="Value" />
             </StackPanel>
         </Grid>
     </Grid>

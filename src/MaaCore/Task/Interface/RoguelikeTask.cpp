@@ -87,6 +87,10 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         // 禁用投资系统，通过 exceededNext 进入商店购买逻辑
         m_roguelike_task_ptr->set_times_limit("StageTraderInvestSystem", 0);
     }
+    bool refresh_trader_with_dice = params.get("refresh_trader_with_dice", false);
+    if (!refresh_trader_with_dice) {
+        m_roguelike_task_ptr->set_times_limit("StageTraderRefreshWithDice", 0);
+    }
 
     int number_of_investments = params.get("investments_count", INT_MAX);
     m_roguelike_task_ptr->set_times_limit("StageTraderInvestConfirm", number_of_investments);

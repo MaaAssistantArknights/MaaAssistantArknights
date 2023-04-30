@@ -48,7 +48,7 @@ namespace MaaWpfGui.ViewModels
             Name = name;
             OriginalName = originalName;
             _storageKey = storageKey;
-            IsChecked = Convert.ToBoolean(ConfigurationHelper.GetCheckedStorage(storageKey, originalName, bool.TrueString));
+            _isChecked = Convert.ToBoolean(ConfigurationHelper.GetCheckedStorage(storageKey, originalName, bool.TrueString));
         }
 
         private string _originalName;

@@ -194,48 +194,27 @@ namespace asst
 
     struct TextRect
     {
-        TextRect() = default;
-        ~TextRect() = default;
-        TextRect(const TextRect&) = default;
-        TextRect(TextRect&&) noexcept = default;
-        TextRect(double score, const Rect& rect, const std::string& text) : score(score), rect(rect), text(text) {}
-
-        TextRect& operator=(const TextRect&) = default;
-        TextRect& operator=(TextRect&&) noexcept = default;
-        bool operator==(const TextRect& rhs) const noexcept { return text == rhs.text && rect == rhs.rect; }
-        bool operator==(const std::string& rhs) const noexcept { return text == rhs; }
-        explicit operator Rect() const noexcept { return rect; }
         std::string to_string() const
         {
             return "{ " + text + ": " + rect.to_string() + ", score: " + std::to_string(score) + " }";
         }
         explicit operator std::string() const { return to_string(); }
 
-        double score = 0.0;
         Rect rect;
+        double score = 0.0;
         std::string text;
     };
-    using TextRectProc = std::function<bool(TextRect&)>;
 
     struct MatchRect
     {
-        MatchRect() = default;
-        ~MatchRect() = default;
-        MatchRect(const MatchRect&) = default;
-        MatchRect(MatchRect&&) noexcept = default;
-        MatchRect(double score, const Rect& rect) : score(score), rect(rect) {}
-
-        explicit operator Rect() const noexcept { return rect; }
-        MatchRect& operator=(const MatchRect&) = default;
-        MatchRect& operator=(MatchRect&&) noexcept = default;
         std::string to_string() const
         {
             return "{ rect: " + rect.to_string() + ", score: " + std::to_string(score) + " }";
         }
         explicit operator std::string() const { return to_string(); }
 
-        double score = 0.0;
         Rect rect;
+        double score = 0.0;
     };
 } // namespace asst
 
@@ -257,14 +236,6 @@ namespace std
         {
             return std::hash<int>()(rect.x) ^ std::hash<int>()(rect.y) ^ std::hash<int>()(rect.width) ^
                    std::hash<int>()(rect.height);
-        }
-    };
-    template <>
-    struct hash<asst::TextRect>
-    {
-        size_t operator()(const asst::TextRect& tr) const noexcept
-        {
-            return std::hash<std::string>()(tr.text) ^ std::hash<asst::Rect>()(tr.rect);
         }
     };
 }

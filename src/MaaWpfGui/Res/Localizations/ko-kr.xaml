@@ -1,9 +1,7 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespaces:MaaWpfGui"
-    xmlns:system="clr-namespace:System;assembly=mscorlib"
-    xmlns:uri="clr-namespace:System;assembly=System.Runtime">
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  설정  -->
     <system:String x:Key="Settings">설정</system:String>
     <system:String x:Key="GameSettings">클라이언트</system:String>
@@ -185,6 +183,7 @@
     <system:String x:Key="OpenEmulatorAfterLaunch">MAA 실행 후 에뮬레이터를 실행</system:String>
     <system:String x:Key="MinimizingStartup">시작 시뮬레이터 최소화</system:String>
     <system:String x:Key="WaitForEmulator">에뮬레이터 실행 대기 (초)</system:String>
+    <system:String x:Key="WaitForEmulatorFinish">기다림은 끝났다</system:String>
     <system:String x:Key="EmulatorPath">에뮬레이터 경로</system:String>
     <system:String x:Key="Select">선택</system:String>
     <system:String x:Key="ForcedReplaceADB">ADB 강제 교체</system:String>
@@ -337,7 +336,7 @@
     <!--  로그  -->
     <!--  메인 화면  -->
 
-    <system:String x:Key="IdentificationTool">인식 도구</system:String>
+    <system:String x:Key="Toolbox">공구 상자</system:String>
 
     <!--  공개모집 인식  -->
     <system:String x:Key="RecruitmentRecognition">공개모집 인식</system:String>

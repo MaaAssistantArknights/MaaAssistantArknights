@@ -173,7 +173,7 @@ jobs:
 
   macOS-Core:
     needs: meta
-    runs-on: macos-latest
+    runs-on: macos-13
     strategy:
       matrix:
         arch: [arm64, x86_64]
@@ -201,7 +201,7 @@ jobs:
 
   macOS-GUI:
     needs: [meta, macOS-Core]
-    runs-on: macos-12
+    runs-on: macos-13
     steps:
       - uses: actions/checkout@v3
         with:

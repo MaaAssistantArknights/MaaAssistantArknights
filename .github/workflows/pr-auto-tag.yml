@@ -1,0 +1,43 @@
+name: Auto Tag Release PR
+
+on:
+  pull_request:
+    branches:
+      - master
+    types:
+      - closed
+
+jobs:
+  auto_tag_release:
+    if: github.event.pull_request.merged == true && (startsWith(github.event.pull_request.title, 'Release v') || startsWith(github.event.pull_request.title, 'release v'))
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Git config
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+
+
+      - name: Extract Tag Name
+        id: extract_tag
+        run: |
+          tag_name=$(echo "${{ github.event.pull_request.title }}" | sed -E 's/(Release|release)//' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+          echo "tag_name=$tag_name" >> $GITHUB_OUTPUT
+
+      - name: Create Release Tag and push
+        run: |
+          git tag -a "${{ steps.extract_tag.outputs.tag_name }}" -m "${{ steps.extract_tag.outputs.tag_name }}" -f
+          git push origin "${{ steps.extract_tag.outputs.tag_name }}" -f
+
+      - name: Merge into dev and push
+        run: |
+          git switch dev
+          git merge "${{ steps.extract_tag.outputs.tag_name }}"
+          git push origin dev
+      

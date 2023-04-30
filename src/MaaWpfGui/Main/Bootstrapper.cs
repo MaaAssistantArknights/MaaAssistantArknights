@@ -13,7 +13,6 @@
 
 using System;
 using System.IO;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Threading;
@@ -38,8 +37,6 @@ namespace MaaWpfGui.Main
     /// </summary>
     public class Bootstrapper : Bootstrapper<RootViewModel>
     {
-        private static SettingsViewModel _settingsViewModel;
-        private static TrayIcon _trayIcon;
         private static ILogger _logger = Logger.None;
 
         /// <inheritdoc/>
@@ -128,6 +125,7 @@ namespace MaaWpfGui.Main
             builder.Bind<StageManager>().ToSelf();
 
             builder.Bind<HotKeyManager>().ToSelf().InSingletonScope();
+
             builder.Bind<IMaaHotKeyManager>().To<MaaHotKeyManager>().InSingletonScope();
             builder.Bind<IMaaHotKeyActionHandler>().To<MaaHotKeyActionHandler>().InSingletonScope();
 
@@ -140,19 +138,14 @@ namespace MaaWpfGui.Main
         /// <inheritdoc/>
         protected override void DisplayRootView(object rootViewModel)
         {
-            var windowManager = (IWindowManager)GetInstance(typeof(Helper.WindowManager));
-            windowManager.ShowWindow(rootViewModel);
+            Instances.WindowManager.ShowWindow(rootViewModel);
+            Instances.InstantiateOnRootViewDisplayed(Container);
         }
 
         /// <inheritdoc/>
         protected override void OnLaunch()
         {
-            var versionUpdateViewModel = (VersionUpdateViewModel)GetInstance(typeof(VersionUpdateViewModel));
-            versionUpdateViewModel.ShowUpdateOrDownload();
-
-            // TrayIcon应该在显示rootViewModel之后再加载
-            _trayIcon = (TrayIcon)GetInstance(typeof(TrayIcon));
-            _settingsViewModel = (SettingsViewModel)GetInstance(typeof(SettingsViewModel));
+            Instances.VersionUpdateViewModel.ShowUpdateOrDownload();
         }
 
         /// <inheritdoc/>
@@ -160,7 +153,7 @@ namespace MaaWpfGui.Main
         protected override void OnExit(ExitEventArgs e)
         {
             // MessageBox.Show("O(∩_∩)O 拜拜");
-            _settingsViewModel.Sober();
+            Instances.SettingsViewModel.Sober();
 
             // 关闭程序时清理操作中心中的通知
             var os = RuntimeInformation.OSDescription;
@@ -170,7 +163,7 @@ namespace MaaWpfGui.Main
             }
 
             // 注销任务栏图标
-            _trayIcon.Close();
+            Instances.TrayIcon.Close();
             ConfigurationHelper.Release();
 
             _logger.Information("MaaAssistantArknights GUI exited");
@@ -185,7 +178,7 @@ namespace MaaWpfGui.Main
                 _logger.Fatal(e.Exception, "Unhandled exception");
             }
 
-            var errorView = new ErrorView(e.Exception.Message, e.Exception.StackTrace, true);
+            var errorView = new ErrorView(e.Exception, true);
             errorView.ShowDialog();
         }
     }

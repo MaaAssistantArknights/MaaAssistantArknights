@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|ARM64">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|ARM64">
       <Configuration>Release</Configuration>
       <Platform>ARM64</Platform>
@@ -74,31 +82,31 @@
     <ClInclude Include="Task\SSS\SSSStageManagerTask.h" />
     <ClInclude Include="Utils\Algorithm.hpp" />
     <ClInclude Include="Utils\File.hpp" />
-    <ClInclude Include="Vision\AbstractImageAnalyzer.h" />
-    <ClInclude Include="Vision\Battle\BattleDeployDirectionImageAnalyzer.h" />
-    <ClInclude Include="Vision\Battle\BattleFormationImageAnalyzer.h" />
-    <ClInclude Include="Vision\Battle\BattleImageAnalyzer.h" />
-    <ClInclude Include="Vision\Battle\BattleOperatorsImageAnalyzer.h" />
-    <ClInclude Include="Vision\Battle\BattleSkillReadyImageAnalyzer.h" />
-    <ClInclude Include="Vision\BestMatchImageAnalyzer.h" />
-    <ClInclude Include="Vision\HashImageAnalyzer.h" />
-    <ClInclude Include="Vision\Infrast\InfrastClueImageAnalyzer.h" />
+    <ClInclude Include="Vision\VisionHelper.h" />
+    <ClInclude Include="Vision\Battle\BattleFormationAnalyzer.h" />
+    <ClInclude Include="Vision\Battle\BattlefieldMatcher.h" />
+    <ClInclude Include="Vision\Battle\BattlefieldDetector.h" />
+    <ClInclude Include="Vision\Battle\BattlefieldClassifier.h" />
+    <ClInclude Include="Vision\BestMatcher.h" />
+    <ClInclude Include="Vision\Config\MatcherConfig.h" />
+    <ClInclude Include="Vision\Config\OCRerConfig.h" />
+    <ClInclude Include="Vision\Hasher.h" />
     <ClInclude Include="Vision\Infrast\InfrastClueVacancyImageAnalyzer.h" />
     <ClInclude Include="Vision\Infrast\InfrastFacilityImageAnalyzer.h" />
     <ClInclude Include="Vision\Infrast\InfrastOperImageAnalyzer.h" />
     <ClInclude Include="Vision\Infrast\InfrastSmileyImageAnalyzer.h" />
-    <ClInclude Include="Vision\MatchImageAnalyzer.h" />
+    <ClInclude Include="Vision\Matcher.h" />
     <ClInclude Include="Vision\Miscellaneous\CreditShopImageAnalyzer.h" />
     <ClInclude Include="Vision\Miscellaneous\DepotImageAnalyzer.h" />
-    <ClInclude Include="Vision\Miscellaneous\ProcessTaskImageAnalyzer.h" />
+    <ClInclude Include="Vision\Miscellaneous\PipelineAnalyzer.h" />
     <ClInclude Include="Vision\Miscellaneous\RecruitImageAnalyzer.h" />
     <ClInclude Include="Vision\Miscellaneous\StageDropsImageAnalyzer.h" />
     <ClInclude Include="Vision\Miscellaneous\OperBoxImageAnalyzer.h" />
-    <ClInclude Include="Vision\MultiMatchImageAnalyzer.h" />
-    <ClInclude Include="Vision\OcrImageAnalyzer.h" />
-    <ClInclude Include="Vision\OcrWithFlagTemplImageAnalyzer.h" />
-    <ClInclude Include="Vision\OcrWithPreprocessImageAnalyzer.h" />
-    <ClInclude Include="Vision\OnnxRuntimeImageAnalyzer.h" />
+    <ClInclude Include="Vision\MultiMatcher.h" />
+    <ClInclude Include="Vision\OCRer.h" />
+    <ClInclude Include="Vision\TemplDetOCRer.h" />
+    <ClInclude Include="Vision\RegionOCRer.h" />
+    <ClInclude Include="Vision\OnnxHelper.h" />
     <ClInclude Include="Vision\Roguelike\RoguelikeFormationImageAnalyzer.h" />
     <ClInclude Include="Vision\Roguelike\RoguelikeRecruitImageAnalyzer.h" />
     <ClInclude Include="Vision\Roguelike\RoguelikeRecruitSupportAnalyzer.h" />
@@ -226,31 +234,31 @@
     <ClCompile Include="Task\SSS\SSSBattleProcessTask.cpp" />
     <ClCompile Include="Task\SSS\SSSDropRewardsTaskPlugin.cpp" />
     <ClCompile Include="Task\SSS\SSSStageManagerTask.cpp" />
-    <ClCompile Include="Vision\AbstractImageAnalyzer.cpp" />
-    <ClCompile Include="Vision\Battle\BattleDeployDirectionImageAnalyzer.cpp" />
-    <ClCompile Include="Vision\Battle\BattleFormationImageAnalyzer.cpp" />
-    <ClCompile Include="Vision\Battle\BattleImageAnalyzer.cpp" />
-    <ClCompile Include="Vision\Battle\BattleOperatorsImageAnalyzer.cpp" />
-    <ClCompile Include="Vision\Battle\BattleSkillReadyImageAnalyzer.cpp" />
-    <ClCompile Include="Vision\BestMatchImageAnalyzer.cpp" />
-    <ClCompile Include="Vision\HashImageAnalyzer.cpp" />
-    <ClCompile Include="Vision\Infrast\InfrastClueImageAnalyzer.cpp" />
+    <ClCompile Include="Vision\VisionHelper.cpp" />
+    <ClCompile Include="Vision\Battle\BattleFormationAnalyzer.cpp" />
+    <ClCompile Include="Vision\Battle\BattlefieldMatcher.cpp" />
+    <ClCompile Include="Vision\Battle\BattlefieldDetector.cpp" />
+    <ClCompile Include="Vision\Battle\BattlefieldClassifier.cpp" />
+    <ClCompile Include="Vision\BestMatcher.cpp" />
+    <ClCompile Include="Vision\Config\MatcherConfig.cpp" />
+    <ClCompile Include="Vision\Config\OCRerConfig.cpp" />
+    <ClCompile Include="Vision\Hasher.cpp" />
     <ClCompile Include="Vision\Infrast\InfrastClueVacancyImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Infrast\InfrastFacilityImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Infrast\InfrastOperImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Infrast\InfrastSmileyImageAnalyzer.cpp" />
-    <ClCompile Include="Vision\MatchImageAnalyzer.cpp" />
+    <ClCompile Include="Vision\Matcher.cpp" />
     <ClCompile Include="Vision\Miscellaneous\CreditShopImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Miscellaneous\DepotImageAnalyzer.cpp" />
-    <ClCompile Include="Vision\Miscellaneous\ProcessTaskImageAnalyzer.cpp" />
+    <ClCompile Include="Vision\Miscellaneous\PipelineAnalyzer.cpp" />
     <ClCompile Include="Vision\Miscellaneous\RecruitImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Miscellaneous\StageDropsImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Miscellaneous\OperBoxImageAnalyzer.cpp" />
-    <ClCompile Include="Vision\MultiMatchImageAnalyzer.cpp" />
-    <ClCompile Include="Vision\OcrImageAnalyzer.cpp" />
-    <ClCompile Include="Vision\OcrWithFlagTemplImageAnalyzer.cpp" />
-    <ClCompile Include="Vision\OcrWithPreprocessImageAnalyzer.cpp" />
-    <ClCompile Include="Vision\OnnxRuntimeImageAnalyzer.cpp" />
+    <ClCompile Include="Vision\MultiMatcher.cpp" />
+    <ClCompile Include="Vision\OCRer.cpp" />
+    <ClCompile Include="Vision\TemplDetOCRer.cpp" />
+    <ClCompile Include="Vision\RegionOCRer.cpp" />
+    <ClCompile Include="Vision\OnnxHelper.cpp" />
     <ClCompile Include="Vision\Roguelike\RoguelikeFormationImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Roguelike\RoguelikeRecruitImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Roguelike\RoguelikeRecruitSupportAnalyzer.cpp" />
@@ -357,11 +365,25 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|ARM64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -378,7 +400,13 @@
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|ARM64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -400,8 +428,20 @@
     <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include;$(ProjectDir)</IncludePath>
+    <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|ARM64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include;$(ProjectDir)</IncludePath>
+    <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include;$(ProjectDir)</IncludePath>
     <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
@@ -420,6 +460,7 @@
       <Optimization>MaxSpeed</Optimization>
       <AdditionalOptions>/utf-8 /MP $(ExternalCompilerOptions) %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningVersion>19.35.32217</WarningVersion>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -466,6 +507,7 @@
       <Optimization>MaxSpeed</Optimization>
       <AdditionalOptions>/utf-8 /MP $(ExternalCompilerOptions) %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningVersion>19.35.32217</WarningVersion>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -515,6 +557,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <AdditionalOptions>/utf-8 /MP $(ExternalCompilerOptions) %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningVersion>19.35.32217</WarningVersion>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -524,6 +567,60 @@
       <AdditionalDependencies>MaaDerpLearning.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <Profile>true</Profile>
+      <AdditionalOptions>/ignore:4286 %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>
+      </Message>
+    </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <PreLinkEvent>
+      <Message>
+      </Message>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CONSOLE;ASST_DLL_EXPORTS;ASST_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <Optimization>Disabled</Optimization>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <AdditionalOptions>/utf-8 /MP $(ExternalCompilerOptions) %(AdditionalOptions)</AdditionalOptions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4127</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>
+      </EnableCOMDATFolding>
+      <OptimizeReferences>
+      </OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>MaaDerpLearning.lib;opencv_world4d.lib;zlibd.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl-d.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <Profile>
+      </Profile>
       <AdditionalOptions>/ignore:4286 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
@@ -564,6 +661,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <AdditionalOptions>/utf-8 /MP $(ExternalCompilerOptions) %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningVersion>19.35.32217</WarningVersion>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -573,6 +671,60 @@
       <AdditionalDependencies>MaaDerpLearning.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <Profile>true</Profile>
+      <AdditionalOptions>/ignore:4286 %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>
+      </Message>
+    </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <PreLinkEvent>
+      <Message>
+      </Message>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CONSOLE;ASST_DLL_EXPORTS;ASST_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <Optimization>Disabled</Optimization>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <AdditionalOptions>/utf-8 /MP $(ExternalCompilerOptions) %(AdditionalOptions)</AdditionalOptions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4127</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>
+      </EnableCOMDATFolding>
+      <OptimizeReferences>
+      </OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>MaaDerpLearning.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <Profile>
+      </Profile>
       <AdditionalOptions>/ignore:4286 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>

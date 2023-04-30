@@ -6893,6 +6893,15 @@
         "stageId": "camp_r_15",
         "width": 13
     },
+    "camp_r_16-obt/campaign/level_camp_r_16": {
+        "code": "莱塔尼亚",
+        "filename": "camp_r_16-obt-campaign-level_camp_r_16.json",
+        "height": 9,
+        "levelId": "obt/campaign/level_camp_r_16",
+        "name": "休止符街道",
+        "stageId": "camp_r_16",
+        "width": 13
+    },
     "easy_09-01-obt/main/level_easy_09-01": {
         "code": "9-2",
         "filename": "easy_09-01-obt-main-level_easy_09-01.json",
@@ -11195,6 +11204,15 @@
         "stageId": "mem_aurora_1",
         "width": 9
     },
+    "mem_ayer_1-obt/memory/level_memory_ayer_1": {
+        "code": "mem_ayer_1",
+        "filename": "mem_ayer_1-obt-memory-level_memory_ayer_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_ayer_1",
+        "name": " 防卫才能",
+        "stageId": "mem_ayer_1",
+        "width": 10
+    },
     "mem_beewax_1-obt/memory/level_memory_beewax_1": {
         "code": "mem_beewax_1",
         "filename": "mem_beewax_1-obt-memory-level_memory_beewax_1.json",
@@ -11726,6 +11744,15 @@
         "stageId": "mem_ling_1",
         "width": 11
     },
+    "mem_lionhd_1-obt/memory/level_memory_lionhd_1": {
+        "code": "mem_lionhd_1",
+        "filename": "mem_lionhd_1-obt-memory-level_memory_lionhd_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_lionhd_1",
+        "name": "解构阵域",
+        "stageId": "mem_lionhd_1",
+        "width": 13
+    },
     "mem_liskam_1-obt/memory/level_memory_liskam_1": {
         "code": "mem_liskam_1",
         "filename": "mem_liskam_1-obt-memory-level_memory_liskam_1.json",
@@ -11743,6 +11770,15 @@
         "name": "生财有道",
         "stageId": "mem_lmlee_1",
         "width": 11
+    },
+    "mem_lumen_1-obt/memory/level_memory_lumen_1": {
+        "code": "mem_lumen_1",
+        "filename": "mem_lumen_1-obt-memory-level_memory_lumen_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_lumen_1",
+        "name": "风浪微光",
+        "stageId": "mem_lumen_1",
+        "width": 9
     },
     "mem_mantic_1-obt/memory/level_memory_mantic_1": {
         "code": "mem_mantic_1",
@@ -12004,6 +12040,15 @@
         "name": "别让自己冻僵",
         "stageId": "mem_prove_1",
         "width": 9
+    },
+    "mem_quartz_1-obt/memory/level_memory_quartz_1": {
+        "code": "mem_quartz_1",
+        "filename": "mem_quartz_1-obt-memory-level_memory_quartz_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_quartz_1",
+        "name": "来路无归",
+        "stageId": "mem_quartz_1",
+        "width": 11
     },
     "mem_quercu_1-obt/memory/level_memory_quercu_1": {
         "code": "mem_quercu_1",

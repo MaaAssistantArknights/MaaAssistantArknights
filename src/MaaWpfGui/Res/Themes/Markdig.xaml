@@ -1,0 +1,96 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:markdig="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf">
+    <!--  Document styles  -->
+    <Style x:Key="{x:Static markdig:Styles.DocumentStyleKey}" TargetType="{x:Type FlowDocument}">
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="TextAlignment" Value="Left" />
+    </Style>
+    <Style TargetType="{x:Type List}">
+        <Setter Property="Margin" Value="40,0,0,0" />
+        <Setter Property="Padding" Value="0,0,0,0" />
+    </Style>
+    <Style x:Key="{x:Static markdig:Styles.CodeBlockStyleKey}" TargetType="{x:Type Paragraph}">
+        <Setter Property="Background" Value="{DynamicResource MarkdigCodeBrush}" />
+        <Setter Property="FontFamily" Value="Consolas, Lucida Sans Typewriter, Courier New" />
+    </Style>
+    <Style x:Key="{x:Static markdig:Styles.CodeStyleKey}" TargetType="{x:Type Run}">
+        <Setter Property="Background" Value="{DynamicResource MarkdigCodeBrush}" />
+        <Setter Property="FontFamily" Value="Consolas, Lucida Sans Typewriter, Courier New" />
+    </Style>
+    <Style x:Key="{x:Static markdig:Styles.Heading1StyleKey}" TargetType="{x:Type Paragraph}">
+        <Setter Property="FontSize" Value="42" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    <Style x:Key="{x:Static markdig:Styles.Heading2StyleKey}" TargetType="{x:Type Paragraph}">
+        <Setter Property="FontSize" Value="25" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    <Style x:Key="{x:Static markdig:Styles.Heading3StyleKey}" TargetType="{x:Type Paragraph}">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    <Style x:Key="{x:Static markdig:Styles.Heading4StyleKey}" TargetType="{x:Type Paragraph}">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+        <Setter Property="FontWeight" Value="Light" />
+        <Setter Property="TextDecorations" Value="Underline" />
+    </Style>
+    <Style x:Key="{x:Static markdig:Styles.Heading5StyleKey}" TargetType="{x:Type Paragraph}">
+        <!--  no changes  -->
+    </Style>
+    <Style x:Key="{x:Static markdig:Styles.Heading6StyleKey}" TargetType="{x:Type Paragraph}">
+        <!--  no changes  -->
+    </Style>
+    <Style x:Key="{x:Static markdig:Styles.HyperlinkStyleKey}" TargetType="{x:Type Hyperlink}">
+        <Setter Property="TextDecorations" Value="None" />
+    </Style>
+    <Style x:Key="{x:Static markdig:Styles.ImageStyleKey}" TargetType="{x:Type Image}">
+        <Setter Property="MaxHeight" Value="{Binding RelativeSource={RelativeSource Self}, Path=Source.(BitmapSource.PixelHeight)}" />
+        <Setter Property="MaxWidth" Value="{Binding RelativeSource={RelativeSource Self}, Path=Source.(BitmapSource.PixelWidth)}" />
+    </Style>
+    <Style x:Key="{x:Static markdig:Styles.QuoteBlockStyleKey}" TargetType="{x:Type Section}">
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
+        <Setter Property="BorderThickness" Value="4,0,0,0" />
+        <Setter Property="Foreground" Value="Gray" />
+        <Setter Property="Padding" Value="16,0,0,0" />
+    </Style>
+    <Style x:Key="{x:Static markdig:Styles.TableStyleKey}" TargetType="{x:Type Table}">
+        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryTextBrush}" />
+        <Setter Property="BorderThickness" Value="0,0,1,1" />
+        <Setter Property="CellSpacing" Value="0" />
+    </Style>
+    <Style x:Key="{x:Static markdig:Styles.TableCellStyleKey}" TargetType="{x:Type TableCell}">
+        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryTextBrush}" />
+        <Setter Property="BorderThickness" Value="1,1,0,0" />
+    </Style>
+    <Style x:Key="{x:Static markdig:Styles.TableHeaderStyleKey}" TargetType="{x:Type TableRow}">
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    <Style x:Key="{x:Static markdig:Styles.TaskListStyleKey}" TargetType="{x:Type CheckBox}">
+        <Setter Property="Margin" Value="0,0,0,-2" />
+    </Style>
+    <Style x:Key="{x:Static markdig:Styles.ThematicBreakStyleKey}" TargetType="{x:Type Line}">
+        <Setter Property="Stretch" Value="Fill" />
+        <Setter Property="Stroke" Value="{DynamicResource PrimaryTextBrush}" />
+    </Style>
+    <Style x:Key="{x:Static markdig:Styles.SubscriptStyleKey}" TargetType="{x:Type Span}">
+        <Setter Property="Typography.Variants" Value="Subscript" />
+    </Style>
+    <Style x:Key="{x:Static markdig:Styles.SuperscriptStyleKey}" TargetType="{x:Type Span}">
+        <Setter Property="Typography.Variants" Value="Superscript" />
+    </Style>
+    <Style x:Key="{x:Static markdig:Styles.StrikeThroughStyleKey}" TargetType="{x:Type Span}">
+        <Setter Property="TextBlock.TextDecorations" Value="Strikethrough" />
+    </Style>
+    <Style x:Key="{x:Static markdig:Styles.InsertedStyleKey}" TargetType="{x:Type Span}">
+        <Setter Property="TextBlock.TextDecorations" Value="Underline" />
+    </Style>
+    <Style x:Key="{x:Static markdig:Styles.MarkedStyleKey}" TargetType="{x:Type Span}">
+        <Setter Property="Background" Value="Yellow" />
+    </Style>
+</ResourceDictionary>

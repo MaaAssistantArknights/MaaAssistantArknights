@@ -3,7 +3,7 @@
 #include "Utils/NoWarningCV.h"
 
 #include "Utils/StringMisc.hpp"
-#include "Vision/MultiMatchImageAnalyzer.h"
+#include "Vision/MultiMatcher.h"
 
 bool asst::InfrastSmileyImageAnalyzer::analyze()
 {
@@ -15,7 +15,7 @@ bool asst::InfrastSmileyImageAnalyzer::analyze()
 
     m_result.clear();
 
-    MultiMatchImageAnalyzer mm_analyzer(m_image);
+    MultiMatcher mm_analyzer(m_image);
 
     decltype(m_result) temp_result;
     for (const auto& [type, task_name] : smiley_map) {

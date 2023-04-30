@@ -6,8 +6,8 @@
 #include "Task/ProcessTask.h"
 #include "Task/SSS/SSSBattleProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/OcrImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/OCRer.h"
+#include "Vision/RegionOCRer.h"
 
 bool asst::SSSStageManagerTask::_run()
 {
@@ -71,14 +71,13 @@ std::optional<std::string> asst::SSSStageManagerTask::analyze_stage()
 {
     LogTraceFunction;
 
-    OcrWithPreprocessImageAnalyzer analyzer(ctrler()->get_image());
+    RegionOCRer analyzer(ctrler()->get_image());
     analyzer.set_task_info("SSSStageNameOCR");
     if (!analyzer.analyze()) {
         return std::nullopt;
     }
 
-    analyzer.sort_result_by_score();
-    const std::string& text = analyzer.get_result().front().text;
+    const std::string& text = analyzer.get_result().text;
 
     const auto& stages_data = SSSCopilot.get_data().stages_data;
     for (const auto& [name, stage_info] : stages_data) {

@@ -2,16 +2,16 @@
     x:Class="MaaWpfGui.Views.UI.VersionUpdateView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:mdg="clr-namespace:Neo.Markdig.Xaml;assembly=Neo.Markdig.Xaml"
-    xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:hc="https://handyorg.github.io/handycontrol"
-    xmlns:vm="clr-namespace:MaaWpfGui"
-    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
-    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
-    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:markdig="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
+    xmlns:vm="clr-namespace:MaaWpfGui"
     Title="{DynamicResource VersionUpdated}"
     Width="600"
     Height="500"
@@ -30,45 +30,50 @@
             Orientation="Horizontal">
             <controls:TextBlock
                 Margin="0,10,0,5"
+                VerticalAlignment="Bottom"
                 FontSize="20"
                 Style="{StaticResource TextBlockDefaultBold}"
                 Text="{DynamicResource VersionUpdatedTo}"
-                TextWrapping="Wrap" VerticalAlignment="Bottom" />
+                TextWrapping="Wrap" />
             <controls:TextBlock
                 Margin="0,10,0,5"
+                VerticalAlignment="Bottom"
                 FontSize="20"
                 Style="{StaticResource TextBlockDefaultBold}"
                 Text="{Binding UpdateTag}"
-                TextWrapping="Wrap" VerticalAlignment="Bottom" />
+                TextWrapping="Wrap" />
         </StackPanel>
 
         <FlowDocumentScrollViewer
             x:Name="UpdateInfoMarkdownDocument"
-            Language="zh-cn"
-            Document="{Binding UpdateInfoDoc}"
             Grid.Row="1"
             Margin="16,0"
-            Zoom="90"
-            IsSelectionEnabled="False">
+            Document="{Binding UpdateInfoDoc}"
+            IsSelectionEnabled="False"
+            Language="zh-cn"
+            Zoom="90">
 
             <FlowDocumentScrollViewer.Template>
                 <ControlTemplate TargetType="FlowDocumentScrollViewer">
                     <Border
-                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Margin="{TemplateBinding Padding}"
                         BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
                         Focusable="False">
-                        
+
                         <hc:ScrollViewer
                             x:Name="PART_ContentHost"
-                            IsInertiaEnabled="True"/>
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            CanContentScroll="True"
+                            IsInertiaEnabled="True" />
                     </Border>
                 </ControlTemplate>
             </FlowDocumentScrollViewer.Template>
 
             <FlowDocumentScrollViewer.CommandBindings>
-                <CommandBinding
-                    Command="{x:Static mdg:MarkdownXaml.Hyperlink}"
-                    Executed="{s:Action OpenHyperlink}" />
+                <CommandBinding Command="{x:Static markdig:Commands.Hyperlink}" Executed="{s:Action OpenHyperlink}" />
             </FlowDocumentScrollViewer.CommandBindings>
         </FlowDocumentScrollViewer>
     </Grid>

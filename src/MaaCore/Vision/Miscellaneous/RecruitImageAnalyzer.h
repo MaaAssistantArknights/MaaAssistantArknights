@@ -1,18 +1,18 @@
 #pragma once
-#include "Vision/AbstractImageAnalyzer.h"
+#include "Vision/VisionHelper.h"
 
 #include "Common/AsstTypes.h"
 
 namespace asst
 {
-    class RecruitImageAnalyzer final : public AbstractImageAnalyzer
+    class RecruitImageAnalyzer final : public VisionHelper
     {
     public:
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
+        using VisionHelper::VisionHelper;
         RecruitImageAnalyzer(const cv::Mat& image, const Rect& roi) = delete;
         virtual ~RecruitImageAnalyzer() override = default;
 
-        virtual bool analyze() override;
+        bool analyze();
 
         const std::vector<TextRect>& get_tags_result() const noexcept { return m_tags_result; }
         Rect get_hour_decrement_rect() const noexcept { return m_hour_decrement; }
@@ -21,7 +21,7 @@ namespace asst
 
     private:
         // 该分析器不支持外部设置ROI
-        using AbstractImageAnalyzer::set_roi;
+        using VisionHelper::set_roi;
         bool tags_analyze();
         bool time_analyze();
         bool refresh_analyze();

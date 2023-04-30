@@ -14,6 +14,7 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using MaaWpfGui.Helper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -21,21 +22,18 @@ namespace MaaWpfGui.Services.Web
 {
     public class MaaApiService : IMaaApiService
     {
-        private readonly IHttpService _httpService;
-
         private const string CacheDir = "cache/";
         private const string MaaApi = "https://ota.maa.plus/MaaAssistantArknights/api/";
 
-        public MaaApiService(IHttpService httpService)
+        public MaaApiService()
         {
-            _httpService = httpService;
         }
 
         public async Task<JObject> RequestMaaApiWithCache(string api)
         {
             var url = MaaApi + api;
 
-            var response = await _httpService.GetStringAsync(new Uri(url));
+            var response = await Instances.HttpService.GetStringAsync(new Uri(url));
             if (response == null)
             {
                 return LoadApiCache(api);

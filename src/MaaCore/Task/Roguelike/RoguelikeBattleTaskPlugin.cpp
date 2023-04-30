@@ -17,10 +17,8 @@
 #include "Task/ProcessTask.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "Vision/Battle/BattleImageAnalyzer.h"
-#include "Vision/Battle/BattleSkillReadyImageAnalyzer.h"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/Matcher.h"
+#include "Vision/RegionOCRer.h"
 
 using namespace asst::battle;
 using namespace asst::battle::roguelike;
@@ -124,13 +122,12 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
         if (need_exit()) {
             return false;
         }
-        OcrWithPreprocessImageAnalyzer name_analyzer(ctrler()->get_image());
+        RegionOCRer name_analyzer(ctrler()->get_image());
         name_analyzer.set_task_info(stage_name_task_ptr);
         if (!name_analyzer.analyze()) {
             continue;
         }
-        name_analyzer.sort_result_by_score();
-        const std::string& text = name_analyzer.get_result().front().text;
+        const std::string& text = name_analyzer.get_result().text;
         if (text.empty()) {
             continue;
         }
@@ -164,17 +161,8 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
     }
 
     auto opt = RoguelikeCopilot.get_stage_data(m_stage_name);
-    if (opt && !opt->replacement_home.empty()) {
+    if (opt) {
         m_homes = opt->replacement_home;
-        auto homes_pos = m_homes | views::transform(&ReplacementHome::location);
-        auto invalid_homes_pos =
-            homes_pos | views::filter([&](const auto& home_pos) { return !m_normal_tile_info.contains(home_pos); }) |
-            views::transform(&Point::to_string);
-        if (!invalid_homes_pos.empty()) {
-            Log.error("No replacement homes point:", invalid_homes_pos);
-        }
-        Log.info("replacement home:", homes_pos | views::transform(&Point::to_string));
-
         m_allow_to_use_dice = opt->use_dice_stage;
         m_blacklist_location = opt->blacklist_location;
         m_role_order = opt->role_order;
@@ -185,7 +173,7 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
         m_deploy_plan = opt->deploy_plan;
         m_retreat_plan = opt->retreat_plan;
     }
-    else {
+    if (m_homes.empty()) {
         for (const auto& [loc, side] : m_normal_tile_info) {
             if (side.key == TilePack::TileKey::Home) {
                 m_homes.emplace_back(ReplacementHome { loc, battle::DeployDirection::None });
@@ -198,6 +186,17 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
             battle::Role::Support, battle::Role::Special, battle::Role::Drone,
         };
     }
+    else {
+        auto homes_pos = m_homes | views::transform(&ReplacementHome::location);
+        auto invalid_homes_pos =
+            homes_pos | views::filter([&](const auto& home_pos) { return !m_normal_tile_info.contains(home_pos); }) |
+            views::transform(&Point::to_string);
+        if (!invalid_homes_pos.empty()) {
+            Log.error("No replacement homes point:", invalid_homes_pos);
+        }
+        Log.info("replacement home:", homes_pos | views::transform(&Point::to_string));
+    }
+
     if (m_homes.empty()) {
         Log.error("Unknown home pos");
         return false;
@@ -325,8 +324,9 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
             Log.info("operator", oper.name, "is cooling now.");
             continue;
         }
-        const auto& recruit_info = RoguelikeRecruit.get_oper_info(rogue_theme, oper.name);
-        int group_id = RoguelikeRecruit.get_group_id(rogue_theme, oper.name);
+        const std::string& oper_name = oper_name_in_config(oper);
+        const auto& recruit_info = RoguelikeRecruit.get_oper_info(rogue_theme, oper_name);
+        int group_id = RoguelikeRecruit.get_group_id(rogue_theme, oper_name);
         std::string group_name = groups[group_id];
         if (m_deploy_plan.contains(group_name)) {
             for (const auto& info : m_deploy_plan[group_name]) {

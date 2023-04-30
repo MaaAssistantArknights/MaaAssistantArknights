@@ -12,9 +12,9 @@
 #include "Utils/Ranges.hpp"
 #include "Vision/Infrast/InfrastFacilityImageAnalyzer.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/OcrImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/Matcher.h"
+#include "Vision/OCRer.h"
+#include "Vision/RegionOCRer.h"
 
 asst::InfrastAbstractTask::InfrastAbstractTask(const AsstCallback& callback, Assistant* inst,
                                                std::string_view task_chain)
@@ -278,10 +278,10 @@ bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig co
 
     const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
     for (const auto& oper : oper_analyzer_res) {
-        OcrWithPreprocessImageAnalyzer name_analyzer;
+        RegionOCRer name_analyzer;
         name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
         name_analyzer.set_image(oper.name_img);
-        name_analyzer.set_expansion(0);
+        name_analyzer.set_bin_expansion(0);
         if (!name_analyzer.analyze()) {
             continue;
         }
@@ -289,7 +289,7 @@ bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig co
             break;
         }
 
-        const std::string& name = name_analyzer.get_result().front().text;
+        const std::string& name = name_analyzer.get_result().text;
         if (auto iter = ranges::find(room_config.names, name); iter != room_config.names.end()) {
             Log.info(name, "在\"operators\"中，且已选中");
             room_config.names.erase(iter);
@@ -334,14 +334,14 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
 
     const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
     for (const auto& oper : oper_analyzer.get_result()) {
-        OcrWithPreprocessImageAnalyzer name_analyzer;
+        RegionOCRer name_analyzer;
         name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
         name_analyzer.set_image(oper.name_img);
-        name_analyzer.set_expansion(0);
+        name_analyzer.set_bin_expansion(0);
         if (!name_analyzer.analyze()) {
             continue;
         }
-        const std::string& name = name_analyzer.get_result().front().text;
+        const std::string& name = name_analyzer.get_result().text;
         partial_result.emplace_back(name);
 
         if (auto iter = ranges::find(room_config.names, name); iter != room_config.names.end()) {
@@ -391,14 +391,14 @@ void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::str
 
     std::vector<TextRect> page_result;
     for (const auto& oper : oper_analyzer.get_result()) {
-        OcrWithPreprocessImageAnalyzer name_analyzer;
+        RegionOCRer name_analyzer;
         name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
         name_analyzer.set_image(oper.name_img);
-        name_analyzer.set_expansion(0);
+        name_analyzer.set_bin_expansion(0);
         if (!name_analyzer.analyze()) {
             continue;
         }
-        TextRect tr = name_analyzer.get_result().front();
+        TextRect tr = name_analyzer.get_result();
         tr.rect = oper.rect;
         page_result.emplace_back(std::move(tr));
     }
