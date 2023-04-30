@@ -12027,7 +12027,8 @@
             "GachaEnter",
             "GachaEnter@ReturnTo",
             "GachaLastOnceResult",
-            "GachaLastTenTimesResult"
+            "GachaLastTenTimesResult1",
+            "GachaLastTenTimesResult2"
         ]
     },
     "GachaEnter": {
@@ -12041,9 +12042,7 @@
         ],
         "next": [
             "GachaEnter@LoadingText",
-            "DoGacha",
-            "GachaLastOnceResult",
-            "GachaLastTenTimesResult"
+            "DoGacha"
         ]
     },
     "GachaLastOnceResult": {
@@ -12064,10 +12063,25 @@
         "next": [
             "DoGacha",
             "GachaLastOnceResult",
-            "GachaLastTenTimesResult"
+            "GachaLastTenTimesResult1",
+            "GachaLastTenTimesResult2"
         ]
     },
-    "GachaLastTenTimesResult": {
+    "GachaLastTenTimesResult1": {
+        "action": "ClickSelf",
+        "templThreshold": 0.7,
+        "cache": false,
+        "roi": [
+            0,
+            145,
+            1280,
+            42
+        ],
+        "next": [
+            "GachaLastOnceResult#next"
+        ]
+    },
+    "GachaLastTenTimesResult2": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
@@ -12132,7 +12146,17 @@
         ],
         "next": [
             "GachaConfirm@LoadingText",
-            "GachaWaitingForBag"
+            "GachaWaitingForBag",
+            "GachaNoMoney"
+        ]
+    },
+    "GachaNoMoney": {
+        "action": "Stop",
+        "roi": [
+            511,
+            148,
+            283,
+            152
         ]
     },
     "GachaWaitingForBag": {
