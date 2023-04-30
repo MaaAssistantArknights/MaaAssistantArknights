@@ -28,13 +28,10 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Cache .nuke/temp, ~/.nuget/packages
-        uses: actions/cache@v3
-        with:
-          path: |
-            .nuke/temp
-            ~/.nuget/packages
-          key: windows-x64-${{ hashFiles('**/global.json', '**/*.csproj') }}
+      
+      - uses: NuGet/setup-nuget@v1.2.0
+      - run: nuget restore MAA.sln
+      
       - name: Bootstrap MaaDeps
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -46,11 +43,13 @@ jobs:
       - name: Build MAA
         run: |
           MSBUILD MAA.sln /t:rebuild /p:Configuration="Debug" /p:Platform="x64" /m
+
       - name: Run Testing
         run: |
           .\x64\Debug\Sample.exe
 
-      - uses: actions/upload-artifact@v3
+      - name: Upload Logs
+        uses: actions/upload-artifact@v3
         with:
           name: log
           path: .\x64\Debug\debug
