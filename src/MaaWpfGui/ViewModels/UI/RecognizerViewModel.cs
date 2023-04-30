@@ -506,10 +506,13 @@ namespace MaaWpfGui.ViewModels.UI
             get => _gachaDone;
             set
             {
+                bool stop = value && !_gachaDone;
                 SetAndNotify(ref _gachaDone, value);
-                if (value)
+
+                if (stop)
                 {
                     _gachaImageTimer.Stop();
+
                     // 强制再刷一下
                     RefreshGachaImage(null, null);
                 }
