@@ -4030,6 +4030,8 @@
     },
     "VisitNextBlack": {
         "action": "DoNothing",
+        "templThreshold": 0.9,
+        "cache": false,
         "roi": [
             1080,
             570,
