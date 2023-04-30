@@ -178,12 +178,19 @@ namespace MaaWpfGui.Main
                 return null;
             }
 
-            // buff is a png data
-            var image = new BitmapImage();
-            image.BeginInit();
-            image.StreamSource = new MemoryStream(buff, 0, (int)read_size);
-            image.EndInit();
-            return image;
+            try
+            {
+                // buff is a png data
+                var image = new BitmapImage();
+                image.BeginInit();
+                image.StreamSource = new MemoryStream(buff, 0, (int)read_size);
+                image.EndInit();
+                return image;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public BitmapImage AsstGetImage()

@@ -12077,10 +12077,7 @@
             371
         ],
         "next": [
-            "DoGacha",
-            "GachaLastOnceResult",
-            "GachaLastTenTimesResult1",
-            "GachaLastTenTimesResult2"
+            "GachaBegin#next"
         ]
     },
     "GachaLastTenTimesResult1": {
@@ -12094,7 +12091,7 @@
             42
         ],
         "next": [
-            "GachaLastOnceResult#next"
+            "GachaBegin#next"
         ]
     },
     "GachaLastTenTimesResult2": {
@@ -12111,7 +12108,7 @@
             172
         ],
         "next": [
-            "GachaLastOnceResult#next"
+            "GachaBegin#next"
         ]
     },
     "DoGacha": {
@@ -12122,7 +12119,8 @@
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": [
-            "寻访一次"
+            "寻访一次",
+            "访一次"
         ],
         "roi": [
             779,
@@ -12132,6 +12130,7 @@
         ],
         "next": [
             "GachaOncePrefix@DoGacha@LoadingText",
+            "GachaOncePrefix@DoGacha",
             "GachaConfirm"
         ]
     },
@@ -12139,7 +12138,8 @@
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": [
-            "寻访十次"
+            "寻访十次",
+            "访十次"
         ],
         "roi": [
             975,
@@ -12149,6 +12149,7 @@
         ],
         "next": [
             "GachaTenTimesPrefix@DoGacha@LoadingText",
+            "GachaTenTimesPrefix@DoGacha",
             "GachaConfirm"
         ]
     },
@@ -12163,7 +12164,8 @@
         "next": [
             "GachaConfirm@LoadingText",
             "GachaWaitingForBag",
-            "GachaNoMoney"
+            "GachaNoMoney",
+            "GachaConfirm"
         ]
     },
     "GachaNoMoney": {
