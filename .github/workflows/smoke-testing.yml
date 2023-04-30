@@ -2,10 +2,6 @@ name: smoke-testing
 
 on:
   push:
-    tags:
-      - 'v*'
-    branches-ignore:
-      - 'master'
     paths:
       - '3rdparty/include/**'
       - 'include/**'
@@ -16,8 +12,6 @@ on:
       - 'resource/**'
       - 'MaaDeps/**'
   pull_request:
-    branches:
-      - 'dev'
     paths:
       - '3rdparty/include/**'
       - 'include/**'
