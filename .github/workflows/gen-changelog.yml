@@ -37,11 +37,11 @@ jobs:
             $commit_msg = "docs: Auto Generate Changelog - $(Get-Date -Format 'yyyy-MM-dd')"
           }
           git commit -m "$commit_msg"
-          git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
+          git switch -c changelog
 
       - name: Push changes # push the output folder to your repo
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          force_with_lease: true
+          force: true
           branch: changelog
