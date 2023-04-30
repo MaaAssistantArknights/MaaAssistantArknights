@@ -1,8 +1,8 @@
 {
   "solution": {
-    "path": "../../MAA.sln",
+    "path": "..\\..\\MAA.sln",
     "projects": [
-      "src/Cpp/MaaSample.vcxproj"
+      "src\\Cpp\\MaaSample.vcxproj"
     ]
   }
 }
