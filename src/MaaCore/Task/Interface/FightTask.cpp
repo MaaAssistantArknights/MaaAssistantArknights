@@ -17,6 +17,8 @@ asst::FightTask::FightTask(const AsstCallback& callback, Assistant* inst)
       m_stage_navigation_task_ptr(std::make_shared<StageNavigationTask>(m_callback, m_inst, TaskType)),
       m_fight_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType))
 {
+    LogTraceFunction;
+
     // 进入选关界面
     // 对于指定关卡，就是主界面的“终端”点进去
     // 对于当前/上次，就是点到 蓝色开始行动 为止。
@@ -52,6 +54,8 @@ asst::FightTask::FightTask(const AsstCallback& callback, Assistant* inst)
 
 bool asst::FightTask::set_params(const json::value& params)
 {
+    LogTraceFunction;
+
     const std::string stage = params.get("stage", "");
     const int medicine = params.get("medicine", 0);
     const int expiring_medicine = params.get("expiring_medicine", 0);

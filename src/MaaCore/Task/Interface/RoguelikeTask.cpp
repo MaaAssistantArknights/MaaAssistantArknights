@@ -19,6 +19,8 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
     : InterfaceTask(callback, inst, TaskType),
       m_roguelike_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType))
 {
+    LogTraceFunction;
+
     m_roguelike_task_ptr->set_ignore_error(true);
     m_roguelike_task_ptr->register_plugin<RoguelikeFormationTaskPlugin>();
     m_roguelike_task_ptr->register_plugin<RoguelikeControlTaskPlugin>();
@@ -43,6 +45,8 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
 
 bool asst::RoguelikeTask::set_params(const json::value& params)
 {
+    LogTraceFunction;
+
     std::string theme = params.get("theme", std::string(RoguelikePhantomThemeName));
     if (theme != RoguelikePhantomThemeName && theme != RoguelikeMizukiThemeName) {
         Log.error("Unknown roguelike theme", theme);

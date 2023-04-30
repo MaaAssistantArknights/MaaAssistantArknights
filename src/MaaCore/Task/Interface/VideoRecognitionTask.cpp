@@ -7,7 +7,9 @@
 
 asst::VideoRecognitionTask::VideoRecognitionTask(const AsstCallback& callback, Assistant* inst)
     : InterfaceTask(callback, inst, TaskType)
-{}
+{
+    LogTraceFunction;
+}
 
 bool asst::VideoRecognitionTask::set_params(const json::value& params)
 {
