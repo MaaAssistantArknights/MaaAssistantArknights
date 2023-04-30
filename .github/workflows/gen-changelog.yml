@@ -1,0 +1,47 @@
+name: gen-changelog
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_message:
+        description: 'Commit Message'
+        type: string
+        required: false
+
+jobs:
+  gen:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Generate Changelog
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 tools/ChangelogGenerator/changelog_generator.py
+
+      - name: Add files to git
+        run: |
+          git status
+          
+          git config user.name "$env:GITHUB_ACTOR"
+          git config user.email "$env:GITHUB_ACTOR@users.noreply.github.com"
+          git add .
+
+          $commit_msg = "${{ github.event.inputs.commit_message }}"
+          if (-not [string]::IsNullOrWhiteSpace($commit_msg)) {
+            $commit_msg = $commit_msg.Trim()
+          } else {
+            $commit_msg = "docs: Auto Generate Changelog - $(Get-Date -Format 'yyyy-MM-dd')"
+          }
+          git commit -m "$commit_msg"
+          git switch -c changelog
+
+      - name: Push changes # push the output folder to your repo
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          force: true
+          branch: changelog

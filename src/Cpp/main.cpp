@@ -33,7 +33,7 @@ int main([[maybe_unused]] int argc, char** argv)
 #ifndef ASST_DEBUG
     AsstAsyncConnect(ptr, "adb", "127.0.0.1:5555", nullptr, true);
 #else
-    AsstAsyncConnect(ptr, "adb", "127.0.0.1:3439", "General", true);
+    AsstAsyncConnect(ptr, "adb", "127.0.0.1:5555", "DEBUG", true);
 #endif
     if (!AsstConnected(ptr)) {
         std::cerr << "connect failed" << std::endl;
@@ -94,7 +94,7 @@ int main([[maybe_unused]] int argc, char** argv)
 
 #else
 
-    AsstAppendTask(ptr, "Custom", R"({"task_names": [ "GachaOnce" ] })");
+    AsstAppendTask(ptr, "Debug", nullptr);
 
 #endif
 
