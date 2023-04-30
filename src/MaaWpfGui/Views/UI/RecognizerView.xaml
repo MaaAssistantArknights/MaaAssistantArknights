@@ -266,20 +266,21 @@
                     VerticalAlignment="Center"
                     Source="{Binding GachaImage}" />
                 <StackPanel
-                    Grid.Row="2"
+                    Grid.Row="1"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Orientation="Horizontal"
+                    Orientation="Vertical"
                     Visibility="{c:Binding GachaShowDisclaimer}">
                     <controls:TextBlock
-                        FontSize="16"
+                        Margin="50"
+                        FontSize="24"
                         Style="{StaticResource TextBlockDefaultBold}"
                         Text="{DynamicResource GachaDisclaimer}"
                         TextWrapping="Wrap" />
                     <Button
-                        Width="180"
-                        Height="70"
-                        Margin="30,0"
+                        Width="110"
+                        Height="60"
+                        Margin="50"
                         Command="{s:Action GachaAgreeDisclaimer}"
                         Content="{DynamicResource GachaAgreeDisclaimer}"
                         FontSize="16" />
