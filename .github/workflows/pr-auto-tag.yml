@@ -41,8 +41,8 @@ jobs:
           git merge "${{ steps.extract_tag.outputs.tag_name }}"
           git push origin dev
       
-      - name: Trigger secondary workflows # ref: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
+      - name: Run CI with Tag # ref: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
         run: |
-          gh workflow run --repo $GITHUB_REPOSITORY --ref "${{ steps.extract_tag.outputs.tag_name }}" ci
+          gh workflow run ci --ref "${{ steps.extract_tag.outputs.tag_name }}"
         env:
           GH_TOKEN: ${{ github.token }}
