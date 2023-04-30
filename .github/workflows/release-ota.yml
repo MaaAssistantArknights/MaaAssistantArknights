@@ -54,10 +54,8 @@ jobs:
         run: |
           mkdir -pv build-ota/${{ env.release_tag }}
           cd build-ota/${{ env.release_tag }}
-          mkdir -pv content
           gh release download ${{ env.release_tag }} --repo 'MaaAssistantArknights/MaaAssistantArknights' --pattern "MAA-${{ env.release_tag }}-win-${{ matrix.target }}.zip" --clobber
-          unzip -q -O GB2312 -o "*.zip" -d 'content'
-          mv *.zip ..
+          cp *.zip ..
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: "Build OTA"
