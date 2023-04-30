@@ -28,11 +28,19 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Cache .nuke/temp, ~/.nuget/packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            .nuke/temp
+            ~/.nuget/packages
+          key: windows-x64-${{ hashFiles('**/global.json', '**/*.csproj') }}
       - name: Bootstrap MaaDeps
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 maadeps-download.py x64-windows
+          
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1
       - name: Build MAA
