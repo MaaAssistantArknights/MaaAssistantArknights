@@ -34,7 +34,7 @@ jobs:
           path: |
             .nuke/temp
             ~/.nuget/packages
-          key: windows-x64-${{ hashFiles('**/global.json', '**/*.csproj', 'MAA.sln') }}
+          key: windows-x64-${{ hashFiles('**/global.json', '**/*.csproj') }}
       - name: Bootstrap MaaDeps
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
