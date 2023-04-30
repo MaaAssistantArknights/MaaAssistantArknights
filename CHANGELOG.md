@@ -29,24 +29,24 @@
 
 ### 修复
 
-- 修复 Changelog 弹窗 (#4422) (#4486) @moomiji
+- 修复 Win UI Changelog 弹窗 (#4422) (#4486) @moomiji
 - 修复剿灭模式下任务失败时备选关卡为未在列表的主线关卡被跳过的问题 @ABA2396
 - 修复主线导航 ocrReplace 错误 @ABA2396
 - Mac UI 修复自定义基建文件权限 @hguandl
-- 修复 Win UI 绑定错误 @ABA2396
 - 修复任务还未结束时就显示 Link Start @ABA2396
 - 部分肉鸽地图无法正确部署 (#4522) @LingXii
 - 再次修复肉鸽“瞻前顾后”关卡名识别错误 @MistEO
-- 修复Mac UI release编译 @hguandl
 - 修复识别工具失去焦点重置界面问题 @ABA2396
 - 修复启动时自动开启模拟器后无法自动停止 @ABA2396
 - 修复只自动开启模拟器时停不下来的情况 @moomiji
 - 修复二次点击 StartButton1 时误触 StartButton2 @ABA2396
 - Mac UI 修复干员识别适配 @hguandl
 - 修复路径检查错误 @ABA2396
-- SettingsView displayed incompletely @moomiji
+- Win UI SettingsView displayed incompletely @moomiji
 - 修复开启 `启动MAA后自动开启模拟器` 报错 @ABA2396
 - perf: TryToStartEmulator 执行不更改按钮状态 #4533 @ABA2396
+- 修复开始唤醒任务提前结束，导致基建等任务点进商店的问题 @MistEO
+- 修复 mac 上访问好友任务出错
 
 ### 其他
 
@@ -57,6 +57,7 @@
 - Auto Tag Release PR (#4531) @MistEO
 - 升级 macOS 编译环境，清理多余依赖  @hguandl
 - 代码清理 @MistEO @hguandl @ABA2396
+- 修复 Win UI 绑定错误 @ABA2396
 
 ### For overseas
 
