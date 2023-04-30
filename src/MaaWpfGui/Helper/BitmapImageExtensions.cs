@@ -37,7 +37,7 @@ namespace MaaWpfGui.Helper
 
                     return data;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                 }
             }
