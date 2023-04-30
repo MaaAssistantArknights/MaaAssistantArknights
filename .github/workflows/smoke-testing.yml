@@ -41,3 +41,8 @@ jobs:
       - name: Run Testing
         run: |
           .\x64\Debug\Sample.exe
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: log
+          path: .\x64\Debug\debug
