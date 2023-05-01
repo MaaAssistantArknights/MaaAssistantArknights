@@ -11,10 +11,6 @@ on:
         description: 'Commit to build (git checkout)'
         type: string
         required: false
-      tag_name:
-        description: 'Tag name to release'
-        type: string
-        required: false
       limit:
         description: 'Number of releases to fetch from MaaAssistantArknights'
         required: true
@@ -39,6 +35,8 @@ jobs:
       MAABUILDER_TARGET_PLATFORM: ${{ matrix.msbuild_target }}
     outputs:
       tag: ${{ steps.set_tag.outputs.tag }}
+      pre_version: ${{ steps.set_tag.outputs.pre_version }}
+      main_tag_name: ${{ steps.push_main_tag.outputs.main_tag_name }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -46,6 +44,7 @@ jobs:
           submodules: recursive
           #ref: ${{ inputs.ref }}
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout ref
         run: |
           if ("${{ inputs.ref }}" -ne "") {
@@ -57,21 +56,21 @@ jobs:
       - name: Set tag
         id: set_tag
         run: |
-          if ("${{ inputs.tag_name }}" -ne "") {
-            echo "tag=${{ inputs.tag_name }}" >> $env:GITHUB_OUTPUT
-            exit 0
-          }
           $described = $(git describe --tags --long --match 'v*')
           $ids = $($described -split "-")
           if ($ids.length -eq 3) {
             $ver = "v$(semver --increment $ids[0].Substring(1))"
+            $pre_version = $($ids[0])
             $dist = `printf "%03d"` $ids[1]
             echo "tag=$ver-alpha.1.d$($dist).$($ids[2])" >> $env:GITHUB_OUTPUT
+            echo "pre_version=$pre_version" >> $env:GITHUB_OUTPUT
             exit 0
           }
           if ($ids.length -eq 4) {
             $dist = `printf "%03d"` $ids[2]
+            $pre_version = $($ids[0])-$($ids[1])
             echo "tag=$($ids[0])-$($ids[1]).d$($dist).$($ids[3])" >> $env:GITHUB_OUTPUT
+            echo "pre_version=$pre_version" >> $env:GITHUB_OUTPUT
             exit 0
           }
           exit 1
@@ -102,6 +101,17 @@ jobs:
         with:
           name: MAA-win-${{ matrix.lowercase_target }}
           path: artifacts
+
+      - name: Push tag to main repo
+        id: push_main_tag
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          $main_tag_name=$(echo "alpha/${{ steps.set_tag.outputs.tag }}")
+          git tag $main_tag_name || exit 0 # do nothing if the tag already exists
+          git push --tags origin HEAD:refs/tags/$main_tag_name
+          echo "main_tag_name=$main_tag_name" >> $env:GITHUB_OUTPUT
 
   push-tag:
     needs: build-win-nightly
@@ -172,6 +182,16 @@ jobs:
           $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./config ${{ matrix.target }} "${{ github.repository_owner }}/MaaRelease"
           mv -v ${{ needs.build-win-nightly.outputs.tag }}/*.zip ./MAA-${{ env.release_tag }}-win-${{ matrix.target }}.zip
 
+      - name: Make release body
+        id: make_release_body
+        run: |
+          pre_version=${{ needs.build-win-nightly.outputs.pre_version }}
+          cur_version=${{ needs.build-win-nightly.outputs.main_tag_name }}
+          echo -e ${{ inputs.release_body || '' }}"\n\n**Full Changelog**: [$pre_version -> $cur_version]""(https://github.com/$GITHUB_REPOSITORY/compare/$pre_version...$cur_version)" > alpha_changelog.md
+          export full_release_body=$(cat alpha_changelog.md)
+          echo $full_release_body
+          echo "full_release_body=$full_release_body" >> "$GITHUB_OUTPUT"
+
       - name: "Upload to MaaRelease"
         uses: svenstaro/upload-release-action@v2
         with:
@@ -182,7 +202,8 @@ jobs:
           tag: ${{ env.release_tag }}
           prerelease: true
           overwrite: true
-          body: ${{ inputs.release_body || '' }}
+          body: ${{ steps.make_release_body.outputs.full_release_body }}
+
       - name: "Upload to server"
         uses: appleboy/scp-action@master
         with:
