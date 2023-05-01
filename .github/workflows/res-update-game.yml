@@ -29,6 +29,7 @@ jobs:
         run: |
           .\tools\ResourceUpdater\x64\Release\ResourceUpdater.exe
       - name: Add files to git
+        id: extract_tag
         run: |
           git status
           
