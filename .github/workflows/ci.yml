@@ -327,5 +327,6 @@ jobs:
         run: |
           gh workflow run --repo $GITHUB_REPOSITORY release-ota
           gh workflow run --repo $GITHUB_REPOSITORY release-mirrors
+          gh workflow run --repo MaaAssistantArknights/MaaRelease release-mirrors
         env:
           GH_TOKEN: ${{ github.token }}
