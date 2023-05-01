@@ -33,7 +33,7 @@
             <controls:TextBlock Text="{DynamicResource Level3UseShortTime}" TextWrapping="Wrap" />
         </CheckBox>
         <hc:NumericUpDown
-            Margin="0,10"
+            Margin="0,5"
             hc:InfoElement.Title="{DynamicResource RecruitMaxTimes}"
             Style="{StaticResource NumericUpDownExtend}"
             Value="{Binding RecruitMaxTimes}" />
@@ -55,7 +55,7 @@
             Content="{DynamicResource AutoSelectLevel5}"
             IsChecked="{Binding ChooseLevel5}" />
         <CheckBox
-            Margin="0,10"
+            Margin="0,10,0,0"
             Content="{DynamicResource AutoSelectLevel6}"
             IsChecked="False"
             IsEnabled="False" />

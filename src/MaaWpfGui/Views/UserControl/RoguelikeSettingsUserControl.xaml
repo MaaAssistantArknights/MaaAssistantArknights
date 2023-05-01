@@ -17,9 +17,9 @@
     d:DesignWidth="220"
     mc:Ignorable="d">
     <StackPanel>
-        <StackPanel>
+        <StackPanel Visibility="{c:Binding !TaskSettingVisibilities.EnableAdvancedSettings}">
             <ComboBox
-                Margin="0,10"
+                Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource RoguelikeTheme}"
                 IsHitTestVisible="{Binding Idle}"
                 ItemsSource="{Binding RoguelikeThemeList}"
@@ -27,7 +27,7 @@
                 SelectedValuePath="Value"
                 Style="{StaticResource ComboBoxExtend}" />
             <ComboBox
-                Margin="0,10"
+                Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource Strategy}"
                 DisplayMemberPath="Display"
                 IsHitTestVisible="{Binding Path=Idle}"
@@ -36,7 +36,7 @@
                 SelectedValuePath="Value"
                 Style="{StaticResource ComboBoxExtend}" />
             <hc:NumericUpDown
-                Margin="0,10"
+                Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource StartTimesLimit}"
                 Style="{StaticResource NumericUpDownExtend}"
                 Value="{Binding RoguelikeStartsCount}" />
@@ -44,15 +44,34 @@
                 Margin="0,10"
                 Content="{DynamicResource RefreshTraderWithDice}"
                 IsChecked="{Binding RoguelikeRefreshTraderWithDice}" />
+            <ComboBox
+                Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource StartingSquad}"
+                DisplayMemberPath="Display"
+                IsHitTestVisible="{Binding Idle}"
+                ItemsSource="{Binding RoguelikeSquadList}"
+                MaxDropDownHeight="800"
+                SelectedValue="{Binding RoguelikeSquad}"
+                SelectedValuePath="Value"
+                Style="{StaticResource ComboBoxExtend}" />
+            <ComboBox
+                Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource StartingRoles}"
+                DisplayMemberPath="Display"
+                IsHitTestVisible="{Binding Idle}"
+                ItemsSource="{Binding RoguelikeRolesList}"
+                SelectedValue="{Binding RoguelikeRoles}"
+                SelectedValuePath="Value"
+                Style="{StaticResource ComboBoxExtend}" />
         </StackPanel>
 
-        <StackPanel>
+        <StackPanel Visibility="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}">
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource InvestmentEnabled}"
                 IsChecked="{Binding RoguelikeInvestmentEnabled}" />
             <hc:NumericUpDown
-                Margin="0,10"
+                Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource GoldTimesLimit}"
                 IsEnabled="{Binding RoguelikeInvestmentEnabled}"
                 Style="{StaticResource NumericUpDownExtend}"
@@ -66,34 +85,15 @@
                     Text="{DynamicResource StopOnGoldLimit}"
                     TextWrapping="Wrap" />
             </CheckBox>
-            <ComboBox
-                Margin="0,10"
-                hc:InfoElement.Title="{DynamicResource StartingSquad}"
-                DisplayMemberPath="Display"
-                IsHitTestVisible="{Binding Idle}"
-                ItemsSource="{Binding RoguelikeSquadList}"
-                MaxDropDownHeight="800"
-                SelectedValue="{Binding RoguelikeSquad}"
-                SelectedValuePath="Value"
-                Style="{StaticResource ComboBoxExtend}" />
-            <ComboBox
-                Margin="0,10"
-                hc:InfoElement.Title="{DynamicResource StartingRoles}"
-                DisplayMemberPath="Display"
-                IsHitTestVisible="{Binding Idle}"
-                ItemsSource="{Binding RoguelikeRolesList}"
-                SelectedValue="{Binding RoguelikeRoles}"
-                SelectedValuePath="Value"
-                Style="{StaticResource ComboBoxExtend}" />
             <TextBlock
-                Margin="8,10,8,5"
+                Margin="8,10,8,0"
                 HorizontalAlignment="Left"
                 Block.TextAlignment="Center"
                 Foreground="{DynamicResource PrimaryTextBrush}"
                 Text="{DynamicResource StartingCoreChar}"
                 TextWrapping="Wrap" />
             <hc:TextBox
-                Margin="0,0,0,10"
+                Margin="0,5"
                 Text="{Binding RoguelikeCoreChar}"
                 TextWrapping="Wrap"
                 ToolTip="{DynamicResource StartingCoreCharTip}" />

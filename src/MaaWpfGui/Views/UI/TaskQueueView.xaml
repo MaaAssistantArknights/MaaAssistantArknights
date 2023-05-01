@@ -189,8 +189,9 @@
         </Grid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="4*" />
-                <RowDefinition Height="*" />
+                <RowDefinition Height="*" MinHeight="360" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" MaxHeight="230" />
             </Grid.RowDefinitions>
             <hc:ScrollViewer
                 Grid.Row="0"
@@ -200,7 +201,7 @@
                 HorizontalScrollBarVisibility="Auto"
                 IsInertiaEnabled="True"
                 VerticalScrollBarVisibility="Auto">
-                <hc:SimpleStackPanel Width="220" Margin="0,0,5,0">
+                <hc:SimpleStackPanel Width="220" Margin="0,0,10,0">
                     <userControl:FightSettingsUserControl Visibility="{c:Binding TaskSettingVisibilities.Combat}" />
                     <userControl:AutoRecruitSettingsUserControl
                         DataContext="{Binding TaskSettingDataContext}"
@@ -230,14 +231,28 @@
                         Visibility="{c:Binding TaskSettingVisibilities.AutoRoguelike}" />
                 </hc:SimpleStackPanel>
             </hc:ScrollViewer>
-            <hc:ScrollViewer
+            <hc:ButtonGroup
                 Grid.Row="1"
+                Width="220"
+                Margin="0,0,10,0"
+                Orientation="Horizontal">
+                <RadioButton
+                    Content="{DynamicResource GeneralSettings}"
+                    IsChecked="{c:Binding !TaskSettingVisibilities.EnableAdvancedSettings}"
+                    IsEnabled="True" />
+                <RadioButton
+                    Content="{DynamicResource AdvancedSettings}"
+                    IsChecked="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}"
+                    IsEnabled="{c:Binding TaskSettingVisibilities.AdvancedSettingsVisibility}" />
+            </hc:ButtonGroup>
+            <hc:ScrollViewer
+                Grid.Row="2"
                 Width="200"
-                Margin="10"
+                Margin="0,10,10,10"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
                 IsInertiaEnabled="True">
-                <controls:TextBlock Text="{Binding StagesOfToday}" />
+                <controls:TextBlock Text="{Binding StagesOfToday}" TextWrapping="Wrap" />
             </hc:ScrollViewer>
         </Grid>
 
