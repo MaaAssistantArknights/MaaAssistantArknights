@@ -1,18 +1,28 @@
+## v4.16.2
+
+### 修复
+
+- 修复活动关卡 `CW-10` 偶现上传失败 @MistEO
+- 修复活动关卡 `CW-10` 偶现导航失败 @ABA2396
+- 修复部分中文路径下的崩溃问题 @MistEO
+
 ## v4.16.1
 
 **明日方舟游戏大版本更新，部分新内容暂不可用。**  
 **包括 新干员 BOX 识别、新干员视频识别、新干员肉鸽使用、新干员基建技能等，请等待之后版本的更新~**  
-**目前已支持 新地图抄作业、掉落上传、公招池新干员。**
+**目前已支持 新地图关卡导航、抄作业、掉落上传、公招池新干员。**
 
 ### 新增
 
 - 牛牛抽卡！ @MistEO @hguandl
 - 新地图抄作业、掉落上传、公招新加入干员 @yuanyan3060 @MistEO
+- 新地图关卡导航 @ABA2396
 - 新增肉鸽刷指路鳞（请在设置中打开） @MistEO @hguandl
 - 新增内置保全作业 雷神工业测试平台 浊蒂版，更稳定 (#4528) @junyihan233 @MistEO
 - Mac UI 支持启动 iOS 客户端 @hguandl
 - Mac UI 仓库结果导出 JSON @hguandl
-- 干员 BOX 识别增加等级和精英度 (#4438) @GD-GK @MistEO
+- 干员 BOX 识别增加等级、精英度、稀有度 (#4438) @GD-GK @MistEO
+- 自动游戏资源更新+自动发版 CI （发内测版） @MistEO 
 
 ### 改进
 
@@ -31,7 +41,6 @@
 - Mac UI 启动前加载外服资源 @hguandl
 - Mac UI 添加视频识别说明 @hguandl
 - Mac UI 添加全选/取消任务的菜单和快捷键 @hguandl
-- Auto Update Game Resources - 2023-04-27 @MistEO
 
 ### 修复
 
@@ -73,7 +82,7 @@
 
 #### Common
 
-- Added CI that automatically updates game resources, including all overseas clients resources (but needs to be manually triggered). If you want to create a pull request to update game resources, you can use \<your forked repo\> -> `Actions` -> `res-update-game` -> `Run workflow` to update resources instead of manual update. @MistEO
+- Added a CI that automatically updates game resources, including all overseas clients, and will automatically release a nightly version after the resources are updated  @MistEO
 - Fix the recognition error of recruiting senior operators @MistEO
 - fix #4471: Add loading instructions for overseas clients resource files @hguandl
 
