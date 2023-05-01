@@ -372,12 +372,16 @@ namespace MaaWpfGui.Main
                     ProcConnectInfo(details);
                     break;
 
+                case AsstMsg.TaskChainStart:
+                    Instances.TaskQueueViewModel.Running = true;
+                    goto case AsstMsg.TaskChainExtraInfo;  // fallthrough
                 case AsstMsg.AllTasksCompleted:
                 case AsstMsg.TaskChainError:
-                case AsstMsg.TaskChainStart:
                 case AsstMsg.TaskChainCompleted:
-                case AsstMsg.TaskChainExtraInfo:
                 case AsstMsg.TaskChainStopped:
+                    Instances.TaskQueueViewModel.Running = false;
+                    goto case AsstMsg.TaskChainExtraInfo;  // fallthrough
+                case AsstMsg.TaskChainExtraInfo:
                     ProcTaskChainMsg(msg, details);
                     break;
 

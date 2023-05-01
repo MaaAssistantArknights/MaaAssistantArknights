@@ -11,6 +11,8 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
 using MaaWpfGui.Helper;
@@ -28,7 +30,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// Initializes a new instance of the <see cref="RootViewModel"/> class.
         /// </summary>
         /// <param name="container">The IoC container.</param>
-        public RootViewModel(IContainer container)
+        public RootViewModel(StyletIoC.IContainer container)
         {
             Instances.Instantiate(container);
         }
@@ -82,6 +84,18 @@ namespace MaaWpfGui.ViewModels.UI
         protected override void OnClose()
         {
             Application.Current.Shutdown();
+        }
+
+        public void CloseWindowCommand(CancelEventArgs args)
+        {
+            if (Instances.TaskQueueViewModel.Running)
+            {
+                var result = MessageBoxHelper.ShowNative(Window.GetWindow(View), LocalizationHelper.GetString("ConfirmExitText"), LocalizationHelper.GetString("ConfirmExitTitle"), "MAA", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+                if (result != MessageBoxResult.Yes)
+                {
+                    args.Cancel = true;
+                }
+            }
         }
     }
 }
