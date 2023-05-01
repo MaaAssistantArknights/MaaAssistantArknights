@@ -442,21 +442,6 @@ namespace asst
                         std::filesystem::rename(m_log_path, m_log_bak_path);
                     }
                 }
-                // FIXME: 迁移以前文件路径，之后版本删了这段
-                {
-                    using namespace asst::utils::path_literals;
-                    if (std::filesystem::exists(m_directory / "asst.log")) {
-                        std::filesystem::remove(m_directory / "asst.log");
-                    }
-                    if (std::filesystem::exists(m_directory / "asst.bak.log")) {
-                        std::filesystem::remove(m_directory / "asst.bak.log");
-                    }
-                    const auto& MapDir = UserDir.get() / "debug"_p / "map"_p;
-                    const auto& OldMapDir = "map"_p;
-                    if (std::filesystem::exists(OldMapDir)) {
-                        std::filesystem::rename(OldMapDir, MapDir);
-                    }
-                }
             }
             catch (...) {
             }
