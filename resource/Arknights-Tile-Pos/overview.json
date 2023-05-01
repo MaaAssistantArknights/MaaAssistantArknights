@@ -8136,74 +8136,74 @@
         "width": 12
     },
     "level_rune_11-01-obt/rune/level_rune_11-01": {
-        "code": "level_rune_11-01",
+        "code": "伊比利亚",
         "filename": "level_rune_11-01-obt-rune-level_rune_11-01.json",
         "height": 8,
         "levelId": "obt/rune/level_rune_11-01",
-        "name": "level_rune_11-01",
+        "name": "盐风溶洞",
         "stageId": "level_rune_11-01",
         "width": 12
     },
     "level_rune_11-02-obt/rune/level_rune_11-02": {
-        "code": "level_rune_11-02",
+        "code": "炎国",
         "filename": "level_rune_11-02-obt-rune-level_rune_11-02.json",
         "height": 8,
         "levelId": "obt/rune/level_rune_11-02",
-        "name": "level_rune_11-02",
+        "name": "尚蜀山道",
         "stageId": "level_rune_11-02",
         "width": 12
     },
     "level_rune_12-01-obt/rune/level_rune_12-01": {
-        "code": "level_rune_12-01",
+        "code": "维多利亚",
         "filename": "level_rune_12-01-obt-rune-level_rune_12-01.json",
         "height": 9,
         "levelId": "obt/rune/level_rune_12-01",
-        "name": "level_rune_12-01",
+        "name": "伦蒂尼姆边缘区块",
         "stageId": "level_rune_12-01",
         "width": 12
     },
     "level_rune_12-02-obt/rune/level_rune_12-02": {
-        "code": "level_rune_12-02",
+        "code": "维多利亚",
         "filename": "level_rune_12-02-obt-rune-level_rune_12-02.json",
         "height": 8,
         "levelId": "obt/rune/level_rune_12-02",
-        "name": "level_rune_12-02",
+        "name": "小丘郡物流站",
         "stageId": "level_rune_12-02",
         "width": 12
     },
     "level_rune_13-01-obt/rune/level_rune_13-01": {
-        "code": "level_rune_13-01",
+        "code": "玻利瓦尔",
         "filename": "level_rune_13-01-obt-rune-level_rune_13-01.json",
         "height": 8,
         "levelId": "obt/rune/level_rune_13-01",
-        "name": "level_rune_13-01",
+        "name": "在建沙滩",
         "stageId": "level_rune_13-01",
         "width": 12
     },
     "level_rune_13-02-obt/rune/level_rune_13-02": {
-        "code": "level_rune_13-02",
+        "code": "乌萨斯",
         "filename": "level_rune_13-02-obt-rune-level_rune_13-02.json",
         "height": 8,
         "levelId": "obt/rune/level_rune_13-02",
-        "name": "level_rune_13-02",
+        "name": "冻原矿场",
         "stageId": "level_rune_13-02",
         "width": 11
     },
     "level_rune_14-01-obt/rune/level_rune_14-01": {
-        "code": "level_rune_14-01",
+        "code": "荒野",
         "filename": "level_rune_14-01-obt-rune-level_rune_14-01.json",
         "height": 8,
         "levelId": "obt/rune/level_rune_14-01",
-        "name": "level_rune_14-01",
+        "name": " 无名庇护所",
         "stageId": "level_rune_14-01",
         "width": 12
     },
     "level_rune_14-02-obt/rune/level_rune_14-02": {
-        "code": "level_rune_14-02",
+        "code": " 维多利亚",
         "filename": "level_rune_14-02-obt-rune-level_rune_14-02.json",
         "height": 8,
         "levelId": "obt/rune/level_rune_14-02",
-        "name": "level_rune_14-02",
+        "name": " 迷雾战区",
         "stageId": "level_rune_14-02",
         "width": 12
     },
