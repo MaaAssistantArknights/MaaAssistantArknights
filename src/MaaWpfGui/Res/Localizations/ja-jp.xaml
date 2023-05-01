@@ -4,6 +4,8 @@
     xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
+    <system:String x:Key="GeneralSettings">一般設定</system:String>
+    <system:String x:Key="AdvancedSettings">高度な設定</system:String>
     <system:String x:Key="GameSettings">対象クライアント</system:String>
     <system:String x:Key="BaseSettings">基地設定</system:String>
     <system:String x:Key="RoguelikeSettings">統合戦略設定</system:String>

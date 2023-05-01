@@ -72,6 +72,32 @@ namespace MaaWpfGui.Models
                     AutoRoguelike = enable;
                     break;
             }
+
+            EnableAdvancedSettings = false;
+            if (Base || Combat || AutoRoguelike)
+            {
+                AdvancedSettingsVisibility = true;
+            }
+            else
+            {
+                AdvancedSettingsVisibility = false;
+            }
+        }
+
+        private bool _enableAdvancedSettings;
+
+        public bool EnableAdvancedSettings
+        {
+            get => _enableAdvancedSettings;
+            set => SetAndNotify(ref _enableAdvancedSettings, value);
+        }
+
+        private bool _advancedSettingsVisibility;
+
+        public bool AdvancedSettingsVisibility
+        {
+            get => _advancedSettingsVisibility;
+            set => SetAndNotify(ref _advancedSettingsVisibility, value);
         }
     }
 }

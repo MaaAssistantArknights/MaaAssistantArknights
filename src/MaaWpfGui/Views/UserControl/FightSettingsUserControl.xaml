@@ -17,7 +17,7 @@
     d:DesignWidth="220"
     mc:Ignorable="d">
     <StackPanel>
-        <Grid>
+        <Grid Visibility="{c:Binding !TaskSettingVisibilities.EnableAdvancedSettings}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -255,45 +255,49 @@
             </Grid>
         </Grid>
 
-        <StackPanel DataContext="{Binding TaskSettingDataContext}" IsEnabled="{Binding Idle}">
+        <StackPanel
+            DataContext="{Binding TaskSettingDataContext}"
+            IsEnabled="{Binding Idle}"
+            Visibility="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}">
             <CheckBox
-                Margin="6,10"
-                HorizontalAlignment="Left"
+                Margin="0,10"
                 Content="{DynamicResource DrGrandet}"
                 IsChecked="{Binding IsDrGrandet}"
                 ToolTip="{DynamicResource DrGrandetTip}" />
             <CheckBox
-                Margin="6,10"
-                HorizontalAlignment="Left"
+                Margin="0,10"
                 Content="{DynamicResource CustomStageCode}"
                 IsChecked="{Binding CustomStageCode}"
                 ToolTip="{DynamicResource CustomStageCodeTip}" />
             <CheckBox
-                Margin="6,10"
-                HorizontalAlignment="Left"
+                Margin="0,10"
                 Content="{DynamicResource UseAlternateStage}"
                 IsChecked="{Binding UseAlternateStage}" />
             <CheckBox
-                Margin="6,10"
-                HorizontalAlignment="Left"
+                Margin="0,10"
                 Content="{DynamicResource UseRemainingSanityStage}"
                 IsChecked="{Binding UseRemainingSanityStage}"
                 ToolTip="{DynamicResource UseRemainingSanityStageTip}" />
+            <CheckBox Margin="0,10" IsChecked="{Binding UseExpiringMedicine}">
+                <TextBlock
+                    Block.TextAlignment="Left"
+                    Text="{DynamicResource UseExpiringMedicine}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
             <CheckBox
-                Margin="6,10"
-                HorizontalAlignment="Left"
-                Content="{DynamicResource UseExpiringMedicine}"
-                IsChecked="{Binding UseExpiringMedicine}" />
-            <CheckBox
-                Margin="6,10"
-                HorizontalAlignment="Left"
+                Margin="0,10"
                 Content="{DynamicResource HideUnavailableStage}"
                 IsChecked="{Binding HideUnavailableStage}"
                 IsEnabled="{c:Binding !CustomStageCode}" />
-            <TextBox
-                Margin="6,10"
+            <TextBlock
+                Margin="8,10,8,0"
                 HorizontalAlignment="Left"
-                hc:InfoElement.Title="{DynamicResource PenguinID}"
+                Block.TextAlignment="Center"
+                Foreground="{DynamicResource PrimaryTextBrush}"
+                Text="{DynamicResource PenguinID}"
+                TextWrapping="Wrap" />
+            <TextBox
+                Margin="0,5"
                 InputMethod.IsInputMethodEnabled="False"
                 Style="{StaticResource TextBoxExtend}"
                 Text="{Binding PenguinId}" />
