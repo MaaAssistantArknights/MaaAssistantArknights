@@ -184,13 +184,19 @@ jobs:
 
       - name: Make release body
         id: make_release_body
+        shell: bash
         run: |
           pre_version=${{ needs.build-win-nightly.outputs.pre_version }}
           cur_version=${{ needs.build-win-nightly.outputs.main_tag_name }}
           echo -e "${{ inputs.release_body || '' }}\n\n**Full Changelog**: [$pre_version -> $cur_version](https://github.com/$GITHUB_REPOSITORY/compare/$pre_version...$cur_version)" > alpha_changelog.md
-          export full_release_body=$(cat alpha_changelog.md)
-          echo $full_release_body
-          echo "full_release_body=$full_release_body" >> "$GITHUB_OUTPUT"
+          export r=$(cat alpha_changelog.md)
+          
+          # https://github.com/svenstaro/upload-release-action
+          r="${r//'%'/'%25'}"                               # Multiline escape sequences for %
+          r="${r//$'\n'/'%0A'}"                             # Multiline escape sequences for '\n'
+          r="${r//$'\r'/'%0D'}"                             # Multiline escape sequences for '\r'
+          echo $r
+          echo "full_release_body=$r" >> $GITHUB_OUTPUT
 
       - name: "Upload to MaaRelease"
         uses: svenstaro/upload-release-action@v2
