@@ -47,7 +47,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout ref
         run: |
-          echo $GITHUB_REPOSITORY
           if ("${{ inputs.ref }}" -ne "") {
             git checkout --progress --recurse-submodules ${{ inputs.ref || 'dev' }}
           }
@@ -184,14 +183,14 @@ jobs:
           mv -v ${{ needs.build-win-nightly.outputs.tag }}/*.zip ./MAA-${{ env.release_tag }}-win-${{ matrix.target }}.zip
 
       - name: Make release body
-      id: make_release_body
-      run: |
-        pre_version=${{ needs.build-win-nightly.outputs.pre_version }}
-        cur_version=${{ needs.build-win-nightly.outputs.main_tag_name }}
-        echo -e ${{ inputs.release_body || '' }}"\n\n**Full Changelog**: [$pre_version -> $cur_version]""(https://github.com/$GITHUB_REPOSITORY/compare/$pre_version...$cur_version)" > alpha_changelog.md
-        export full_release_body=$(cat alpha_changelog.md)
-        echo $full_release_body
-        echo "full_release_body=$full_release_body" >> "$GITHUB_OUTPUT"
+        id: make_release_body
+        run: |
+          pre_version=${{ needs.build-win-nightly.outputs.pre_version }}
+          cur_version=${{ needs.build-win-nightly.outputs.main_tag_name }}
+          echo -e ${{ inputs.release_body || '' }}"\n\n**Full Changelog**: [$pre_version -> $cur_version]""(https://github.com/$GITHUB_REPOSITORY/compare/$pre_version...$cur_version)" > alpha_changelog.md
+          export full_release_body=$(cat alpha_changelog.md)
+          echo $full_release_body
+          echo "full_release_body=$full_release_body" >> "$GITHUB_OUTPUT"
 
       - name: "Upload to MaaRelease"
         uses: svenstaro/upload-release-action@v2
