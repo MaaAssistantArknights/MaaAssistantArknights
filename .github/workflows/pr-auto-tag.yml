@@ -21,7 +21,7 @@ jobs:
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          git remote set-url origin https://x-access-token:${{ secrets.AUTO_TAG_PAT }}@github.com/${{ github.repository }}
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
 
 
       - name: Extract Tag Name
@@ -41,3 +41,8 @@ jobs:
           git merge "${{ steps.extract_tag.outputs.tag_name }}"
           git push origin dev
       
+      - name: Run CI with Tag # ref: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
+        run: |
+          gh workflow run ci --ref "${{ steps.extract_tag.outputs.tag_name }}"
+        env:
+          GH_TOKEN: ${{ github.token }}
