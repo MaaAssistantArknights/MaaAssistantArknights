@@ -176,6 +176,7 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
 
     auto ret = json::parse(params.empty() ? "{}" : params);
     if (!ret) {
+        Log.error("json::parse failed");
         return 0;
     }
 
@@ -220,14 +221,17 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
 
     bool params_ret = ptr->set_params(json);
     if (!params_ret) {
+        Log.error(__FUNCTION__, "| invalid params:", params);
         return 0;
     }
 
     std::unique_lock<std::mutex> lock(m_mutex);
-    ++m_task_id;
-    ptr->set_task_id(m_task_id);
-    m_tasks_list.emplace_back(m_task_id, ptr);
-    return m_task_id;
+    int task_id = ++m_task_id;
+    ptr->set_task_id(task_id);
+    m_tasks_list.emplace_back(task_id, ptr);
+    Log.info(__FUNCTION__, "| task_id:", task_id);
+
+    return task_id;
 }
 
 bool asst::Assistant::set_task_params(TaskId task_id, const std::string& params)

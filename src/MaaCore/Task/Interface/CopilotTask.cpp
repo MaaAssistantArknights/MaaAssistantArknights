@@ -15,6 +15,8 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst)
       m_battle_task_ptr(std::make_shared<BattleProcessTask>(callback, inst, TaskType)),
       m_stop_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType))
 {
+    LogTraceFunction;
+
     auto start_1_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
     start_1_tp->set_tasks({ "BattleStartPre" }).set_retry_times(0).set_ignore_error(true);
     m_subtasks.emplace_back(start_1_tp);
@@ -34,6 +36,8 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst)
 
 bool asst::CopilotTask::set_params(const json::value& params)
 {
+    LogTraceFunction;
+
     if (m_running) {
         return false;
     }
