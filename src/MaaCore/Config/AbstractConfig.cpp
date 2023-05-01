@@ -28,7 +28,7 @@ bool asst::AbstractConfig::_load(std::filesystem::path path)
 
     std::string class_name = utils::demangle(typeid(*this).name());
     LogTraceScope(class_name);
-    Log.info(path.string());
+    Log.info(path);
 
     auto ret = json::open(path, true);
     if (!ret) {
