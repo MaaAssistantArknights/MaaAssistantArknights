@@ -46,7 +46,6 @@ jobs:
           submodules: recursive
           #ref: ${{ inputs.ref }}
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout ref
         run: |
           if ("${{ inputs.ref }}" -ne "") {
@@ -99,18 +98,10 @@ jobs:
         env:
           Reason: 'Build nightly version'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - uses: actions/upload-artifact@v3
         with:
           name: MAA-win-${{ matrix.lowercase_target }}
           path: artifacts
-
-      - name: Setup tag
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git tag ${{ needs.build-win-nightly.outputs.tag }} || exit 0 # do nothing if the tag already exists
-          git push --tags origin HEAD:refs/tags/${{ needs.build-win-nightly.outputs.tag }}
 
   push-tag:
     needs: build-win-nightly
@@ -129,9 +120,8 @@ jobs:
           git checkout --orphan __temp
           git rm -rf .
           git commit --allow-empty --message ${{ needs.build-win-nightly.outputs.tag }}
-          main_tag_name=$(echo "alpha/"${{ needs.build-win-nightly.outputs.tag }})
-          git tag $main_tag_name || exit 0 # do nothing if the tag already exists
-          git push --tags origin HEAD:refs/tags/$main_tag_name
+          git tag ${{ needs.build-win-nightly.outputs.tag }} || exit 0 # do nothing if the tag already exists
+          git push --tags origin HEAD:refs/tags/${{ needs.build-win-nightly.outputs.tag }}
 
   make-ota:
     needs: [build-win-nightly, push-tag]
