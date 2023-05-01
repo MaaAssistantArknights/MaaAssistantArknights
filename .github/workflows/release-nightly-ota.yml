@@ -129,8 +129,9 @@ jobs:
           git checkout --orphan __temp
           git rm -rf .
           git commit --allow-empty --message ${{ needs.build-win-nightly.outputs.tag }}
-          git tag ${{ needs.build-win-nightly.outputs.tag }} || exit 0 # do nothing if the tag already exists
-          git push --tags origin HEAD:refs/tags/${{ needs.build-win-nightly.outputs.tag }}
+          main_tag_name=$(echo "alpha/"${{ needs.build-win-nightly.outputs.tag }})
+          git tag $main_tag_name || exit 0 # do nothing if the tag already exists
+          git push --tags origin HEAD:refs/tags/$main_tag_name
 
   make-ota:
     needs: [build-win-nightly, push-tag]
