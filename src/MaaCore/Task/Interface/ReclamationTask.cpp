@@ -13,12 +13,16 @@ asst::ReclamationTask::ReclamationTask(const AsstCallback& callback, Assistant* 
     : InterfaceTask(callback, inst, TaskType),
       m_reclamation_task_ptr(std::make_shared<ReclamationControlTask>(callback, inst, TaskType))
 {
+    LogTraceFunction;
+
     m_reclamation_task_ptr->register_plugin<ReclamationConclusionReportPlugin>();
     m_subtasks.emplace_back(m_reclamation_task_ptr);
 }
 
 bool asst::ReclamationTask::set_params(const json::value& params)
 {
+    LogTraceFunction;
+
     // 0 - 刷分与建造点，进入战斗直接退出
     // 1 - 刷赤金，联络员买水后基地锻造
     int mode = params.get("mode", 0);

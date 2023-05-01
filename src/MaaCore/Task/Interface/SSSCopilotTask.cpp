@@ -15,6 +15,8 @@ asst::SSSCopilotTask::SSSCopilotTask(const AsstCallback& callback, Assistant* in
       m_formation_task_ptr(std::make_shared<BattleFormationTask>(callback, inst, TaskType)),
       m_stage_task_ptr(std::make_shared<SSSStageManagerTask>(callback, inst, TaskType))
 {
+    LogTraceFunction;
+
     m_begin_task_ptr->set_tasks({ inst_string() + "@SSSBegin", "SSSStartFighting" })
         .set_times_limit("SSSStartFighting", 0)
         .set_ignore_error(false);
@@ -35,6 +37,8 @@ asst::SSSCopilotTask::SSSCopilotTask(const AsstCallback& callback, Assistant* in
 
 bool asst::SSSCopilotTask::set_params(const json::value& params)
 {
+    LogTraceFunction;
+
     if (m_running) {
         Log.error("SSSCopilotTask not support set_params when running");
         return false;

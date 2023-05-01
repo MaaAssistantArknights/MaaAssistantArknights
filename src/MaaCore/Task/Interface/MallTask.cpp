@@ -4,6 +4,8 @@
 #include "Task/Miscellaneous/CreditShoppingTask.h"
 #include "Task/ProcessTask.h"
 
+#include "Utils/Logger.hpp"
+
 asst::MallTask::MallTask(const AsstCallback& callback, Assistant* inst)
     : InterfaceTask(callback, inst, TaskType),
       m_visit_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
@@ -13,6 +15,8 @@ asst::MallTask::MallTask(const AsstCallback& callback, Assistant* inst)
       m_shopping_task_ptr(std::make_shared<CreditShoppingTask>(callback, inst, TaskType)),
       m_shopping_force_task_ptr(std::make_shared<CreditShoppingTask>(callback, inst, TaskType))
 {
+    LogTraceFunction;
+
     m_visit_task_ptr->set_tasks({ "VisitBegin" });
     m_mall_task_ptr->set_tasks({ "MallBegin" });
     m_shopping_first_task_ptr->set_enable(false).set_retry_times(1);
@@ -29,6 +33,8 @@ asst::MallTask::MallTask(const AsstCallback& callback, Assistant* inst)
 
 bool asst::MallTask::set_params(const json::value& params)
 {
+    LogTraceFunction;
+
     bool shopping = params.get("shopping", true);
 
     if (shopping) {

@@ -804,7 +804,108 @@
         "algorithm": "OcrDetect",
         "baseTask": "Stage",
         "isAscii": true,
-        "text": []
+        "text": [],
+        "ocrReplace": [
+            [
+                " (\\d)",
+                "-$1"
+            ]
+        ]
+    },
+    "CW-10": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "CW-Open"
+        ],
+        "next": [
+            "CW-10@SideStoryStage"
+        ]
+    },
+    "CW-9": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "CW-Open"
+        ],
+        "next": [
+            "CW-9@SideStoryStage"
+        ]
+    },
+    "CW-8": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "CW-Open"
+        ],
+        "next": [
+            "CW-8@SideStoryStage"
+        ]
+    },
+    "CW-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "孤星",
+            "已开放"
+        ],
+        "postDelay": 2000,
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "next": [
+            "CWChapterToCW"
+        ]
+    },
+    "CWChapterToCW": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "未来将至"
+        ],
+        "preDelay": 1000,
+        "roi": [
+            971,
+            126,
+            201,
+            133
+        ],
+        "next": [
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "CW-10@SideStoryStage": {
+        "text": [
+            "CW-10"
+        ],
+        "roi": [
+            0,
+            215,
+            587,
+            306
+        ]
+    },
+    "CW-9@SideStoryStage": {
+        "text": [
+            "CW-9"
+        ],
+        "roi": [
+            0,
+            215,
+            587,
+            306
+        ]
+    },
+    "CW-8@SideStoryStage": {
+        "text": [
+            "CW-8"
+        ],
+        "roi": [
+            0,
+            215,
+            587,
+            306
+        ]
     },
     "CF-8": {
         "algorithm": "JustReturn",

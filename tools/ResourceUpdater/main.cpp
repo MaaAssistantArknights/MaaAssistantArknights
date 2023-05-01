@@ -599,7 +599,11 @@ bool update_levels_json(const std::filesystem::path& input_file, const std::file
         std::string filename = stem + ".json";
         asst::utils::string_replace_all_in_place(filename, "/", "-");
         auto filepath = output_dir / filename;
-        if (!std::filesystem::exists(filepath)) {
+        // 仓库里之前已有的，一般都是手动的patch，以原来的为准
+        if (auto pre_stage_opt = json::open(filepath)) {
+            stage_info = std::move(*pre_stage_opt);
+        }
+        else {
             std::ofstream ofs(filepath, std::ios::out);
             ofs << stage_info.format(true);
             ofs.close();

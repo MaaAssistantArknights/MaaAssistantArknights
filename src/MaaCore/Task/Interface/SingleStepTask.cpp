@@ -7,7 +7,9 @@
 
 asst::SingleStepTask::SingleStepTask(const AsstCallback& callback, Assistant* inst)
     : InterfaceTask(callback, inst, TaskType)
-{}
+{
+    LogTraceFunction;
+}
 
 bool asst::SingleStepTask::set_params(const json::value& params)
 {
