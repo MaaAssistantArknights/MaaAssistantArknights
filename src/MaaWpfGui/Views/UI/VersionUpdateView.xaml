@@ -50,7 +50,6 @@
             Margin="16,0"
             Document="{Binding UpdateInfoDoc}"
             IsSelectionEnabled="False"
-            Language="zh-cn"
             Zoom="90">
 
             <FlowDocumentScrollViewer.Template>
