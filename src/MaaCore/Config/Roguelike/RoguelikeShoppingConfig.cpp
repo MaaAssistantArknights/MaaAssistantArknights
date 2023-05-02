@@ -4,6 +4,8 @@
 
 bool asst::RoguelikeShoppingConfig::parse(const json::value& json)
 {
+    LogTraceFunction;
+
     clear();
 
     for (const auto& theme_view : { RoguelikePhantomThemeName, RoguelikeMizukiThemeName }) {
