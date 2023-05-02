@@ -50,14 +50,14 @@ namespace asst
             return load_resource<TemplResource>(templ_dir);
         }
 
-        void add_load_queue(std::shared_ptr<AbstractResource> res_ptr, const std::filesystem::path& path);
+        void add_load_queue(AbstractResource& res, const std::filesystem::path& path);
 
     private:
         bool m_loaded = false;
 
         // only for async load
         bool m_load_thread_exit = false;
-        std::deque<std::pair<std::shared_ptr<AbstractResource>, std::filesystem::path>> m_load_queue;
+        std::deque<std::pair<AbstractResource*, std::filesystem::path>> m_load_queue;
         std::mutex m_load_mutex;
         std::condition_variable m_load_cv;
         std::thread m_load_thread;
