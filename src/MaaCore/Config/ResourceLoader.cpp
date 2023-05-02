@@ -23,6 +23,54 @@
 #include "TemplResource.h"
 #include "Utils/Logger.hpp"
 
+asst::ResourceLoader::ResourceLoader()
+{
+    m_load_thread = std::thread(&ResourceLoader::load_thread_func, this);
+}
+
+void asst::ResourceLoader::load_thread_func()
+{
+    while (!m_load_thread_exit) {
+        std::unique_lock<std::mutex> lock(m_load_mutex);
+
+        if (m_load_queue.empty()) {
+            m_load_cv.wait(lock);
+            continue;
+        }
+
+        auto [res_ptr, path] = std::move(m_load_queue.front());
+        m_load_queue.pop_front();
+        lock.unlock();
+
+        res_ptr->load(path);
+    }
+}
+
+void asst::ResourceLoader::add_load_queue(std::shared_ptr<AbstractResource> res_ptr, const std::filesystem::path& path)
+{
+    if (!res_ptr || !std::filesystem::exists(path)) {
+        return;
+    }
+
+    std::unique_lock<std::mutex> lock(m_load_mutex);
+    m_load_queue.emplace_back(std::move(res_ptr), path);
+    m_load_cv.notify_all();
+}
+
+asst::ResourceLoader::~ResourceLoader()
+{
+    m_load_thread_exit = true;
+
+    {
+        std::unique_lock<std::mutex> lock(m_load_mutex);
+        m_load_cv.notify_all();
+    }
+
+    if (m_load_thread.joinable()) {
+        m_load_thread.join();
+    }
+}
+
 bool asst::ResourceLoader::load(const std::filesystem::path& path)
 {
     if (!std::filesystem::exists(path)) {
@@ -44,14 +92,10 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
 // DEBUG 模式下这里同步加载，并检查返回值的，方便排查问题
 #define AsyncLoadConfig(Config, Filename) LoadResourceAndCheckRet(Config, Filename)
 #else
-#define AsyncLoadConfig(Config, Filename)                         \
-    {                                                             \
-        auto full_path = path / Filename;                         \
-        bool ret = async_load_config<Config>(full_path);          \
-        if (!ret) {                                               \
-            Log.error(#Config, " load failed, path:", full_path); \
-            return false;                                         \
-        }                                                         \
+#define AsyncLoadConfig(Config, Filename)          \
+    {                                              \
+        auto res_ptr = std::make_shared<Config>(); \
+        add_load_queue(res_ptr, path / Filename);  \
     }
 #endif // ASST_DEBUG
 
