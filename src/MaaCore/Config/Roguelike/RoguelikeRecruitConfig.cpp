@@ -2,8 +2,9 @@
 #include "Config/Miscellaneous/BattleDataConfig.h"
 
 #include <algorithm>
-
 #include <meojson/json.hpp>
+
+#include "Utils/Logger.hpp"
 
 const asst::RoguelikeOperInfo& asst::RoguelikeRecruitConfig::get_oper_info(const std::string& theme,
                                                                            const std::string& name) noexcept
@@ -63,6 +64,8 @@ int asst::RoguelikeRecruitConfig::get_group_id(const std::string& theme, const s
 
 bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
 {
+    LogTraceFunction;
+
     clear();
     for (const auto& theme_view : { RoguelikePhantomThemeName, RoguelikeMizukiThemeName }) {
         const std::string theme(theme_view);

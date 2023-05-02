@@ -18,6 +18,8 @@ std::optional<CombatData> asst::RoguelikeCopilotConfig::get_stage_data(const std
 
 bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
 {
+    LogTraceFunction;
+
     for (const auto& stage_info : json.as_array()) {
         std::string stage_name = stage_info.at("stage_name").as_string();
         CombatData data;

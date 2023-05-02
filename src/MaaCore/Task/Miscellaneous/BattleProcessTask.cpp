@@ -93,10 +93,18 @@ bool asst::BattleProcessTask::to_group()
     }
 
     auto result_opt = algorithm::get_char_allocation_for_each_group(groups, char_set);
-    if (!result_opt) {
-        return false;
+    if (result_opt) {
+        m_oper_in_group = *result_opt;
     }
-    m_oper_in_group = *result_opt;
+    else {
+        Log.warn("get_char_allocation_for_each_group failed");
+        for (const auto& [gp, names] : groups) {
+            if (names.empty()) {
+                continue;
+            }
+            m_oper_in_group.emplace(gp, names.front());
+        }
+    }
 
     std::unordered_map<std::string, std::string> ungrouped;
     const auto& grouped_view = m_oper_in_group | views::values;

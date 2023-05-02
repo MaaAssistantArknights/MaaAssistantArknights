@@ -158,6 +158,7 @@ namespace MaaWpfGui.Services
                 await Instances.MaaApiService.RequestMaaApiWithCache(tasksPath);
             }
 
+            Instances.AsstProxy.LoadResource();
             return activity;
         }
 

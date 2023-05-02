@@ -6,7 +6,8 @@
 
 bool asst::BattleDataConfig::parse(const json::value& json)
 {
-    m_opers.clear();
+    LogTraceFunction;
+
     for (const auto& [id, char_data_json] : json.at("chars").as_object()) {
         battle::OperProps data;
         data.id = id;
@@ -24,7 +25,7 @@ bool asst::BattleDataConfig::parse(const json::value& json)
         }
         else {
             data.role = iter->second;
-            m_opers.insert(name); // 所有干员名
+            m_opers.emplace(name); // 所有干员名
         }
 
         const auto& ranges_json = char_data_json.at("rangeId").as_array();
