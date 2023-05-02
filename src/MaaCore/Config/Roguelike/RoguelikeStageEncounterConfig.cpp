@@ -4,6 +4,8 @@
 
 bool asst::RoguelikeStageEncounterConfig::parse(const json::value& json)
 {
+    LogTraceFunction;
+
     m_events.clear();
 
     for (const auto& theme_view : { RoguelikePhantomThemeName, RoguelikeMizukiThemeName }) {
