@@ -77470,7 +77470,7 @@
         "zoneId": "act25side_zone1"
     },
     {
-        "apCost": 12,
+        "apCost": 15,
         "code": "CW-6",
         "code_i18n": {
             "en": "CW-6",
@@ -77550,7 +77550,7 @@
         "zoneId": "act25side_zone1"
     },
     {
-        "apCost": 12,
+        "apCost": 15,
         "code": "CW-7",
         "code_i18n": {
             "en": "CW-7",
