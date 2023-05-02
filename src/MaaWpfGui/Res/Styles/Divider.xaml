@@ -1,0 +1,14 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:hc="https://handyorg.github.io/handycontrol">
+
+    <!--  A Style that affects all Divider  -->
+    <Style BasedOn="{StaticResource DividerBaseStyle}" TargetType="hc:Divider">
+        <Setter Property="Foreground" Value="{DynamicResource TraceLogBrush}" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="10,0" />
+    </Style>
+
+</ResourceDictionary>
