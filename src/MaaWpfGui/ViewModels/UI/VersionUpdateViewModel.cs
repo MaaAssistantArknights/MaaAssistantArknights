@@ -274,7 +274,14 @@ namespace MaaWpfGui.ViewModels.UI
 
             foreach (var oldFile in Directory.GetFiles(curDir, "*.old"))
             {
-                File.Delete(oldFile);
+                try
+                {
+                    File.Delete(oldFile);
+                }
+                catch (Exception)
+                {
+                    File.Move(oldFile, oldFile + ".old");
+                }
             }
 
             // 操作完了，把解压的文件删了
