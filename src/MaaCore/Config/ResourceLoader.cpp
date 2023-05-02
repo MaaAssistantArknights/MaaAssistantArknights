@@ -46,14 +46,14 @@ void asst::ResourceLoader::load_thread_func()
     }
 }
 
-void asst::ResourceLoader::add_load_queue(std::shared_ptr<AbstractResource> res_ptr, const std::filesystem::path& path)
+void asst::ResourceLoader::add_load_queue(AbstractResource& res, const std::filesystem::path& path)
 {
-    if (!res_ptr || !std::filesystem::exists(path)) {
+    if (!std::filesystem::exists(path)) {
         return;
     }
 
     std::unique_lock<std::mutex> lock(m_load_mutex);
-    m_load_queue.emplace_back(std::move(res_ptr), path);
+    m_load_queue.emplace_back(&res, path);
     m_load_cv.notify_all();
 }
 
@@ -92,10 +92,9 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
 // DEBUG 模式下这里同步加载，并检查返回值的，方便排查问题
 #define AsyncLoadConfig(Config, Filename) LoadResourceAndCheckRet(Config, Filename)
 #else
-#define AsyncLoadConfig(Config, Filename)          \
-    {                                              \
-        auto res_ptr = std::make_shared<Config>(); \
-        add_load_queue(res_ptr, path / Filename);  \
+#define AsyncLoadConfig(Config, Filename)                                         \
+    {                                                                             \
+        add_load_queue(SingletonHolder<Config>::get_instance(), path / Filename); \
     }
 #endif // ASST_DEBUG
 
