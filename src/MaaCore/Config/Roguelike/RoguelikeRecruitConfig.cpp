@@ -2,8 +2,9 @@
 #include "Config/Miscellaneous/BattleDataConfig.h"
 
 #include <algorithm>
-
 #include <meojson/json.hpp>
+
+#include "Utils/Logger.hpp"
 
 const asst::RoguelikeOperInfo& asst::RoguelikeRecruitConfig::get_oper_info(const std::string& theme,
                                                                            const std::string& name) noexcept
