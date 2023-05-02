@@ -17,16 +17,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
-using System.Text;
 using System.Windows;
-using System.Windows.Interop;
 using HandyControl.Data;
 using Vanara.PInvoke;
-using Point = System.Windows.Point;
 
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, UnmanagedCode = true)]
 
@@ -71,20 +66,6 @@ namespace MaaWpfGui.Helper
         /// No text
         /// </summary>
         public static string No = "No";
-
-
-        private static HwndSource source = null;
-
-        private static HwndSource CreateHwndSource(Window owner)
-        {
-            return (HwndSource)PresentationSource.FromVisual(owner);
-        }
-
-        private static IntPtr GetWindowHandle(Window w)
-        {
-            var interop = new WindowInteropHelper(w);
-            return interop.Handle;
-        }
 
         private static void SetImage(MessageBoxImage messageBoxImage, ref string iconKey, ref string iconBrushKey)
         {
@@ -132,7 +113,6 @@ namespace MaaWpfGui.Helper
             string yes = "",
             string no = "",
             bool useNativeMethod = false) => Show(WindowHandle.None, messageBoxText, caption, buttons, icon, iconKey, iconBrushKey, ok, cancel, yes, no, useNativeMethod);
-
 
         public static MessageBoxResult Show(
             WindowHandle ownerWindow,
