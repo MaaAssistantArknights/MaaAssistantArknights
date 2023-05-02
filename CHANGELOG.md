@@ -1,22 +1,20 @@
-## v4.16.2-9-g8a8ef306
+## v4.16.3
 
-### 新增
-
-- add maa s3 as a new mirror @LiamSho
+**由于《明日方舟》客户端数据结构的更改，导致 MAA 各类资源的更新遇到了一定的困难，部分功能的适配将会延期或暂缓**
+**如您熟悉这方面的技术并愿意协助 MAA 改进相关自动化任务，欢迎您联系我们。**
+**感谢各位用户长期以来对 MAA 的支持和贡献，祝博士们四周年快乐。**
 
 ### 改进
 
-- 更新游戏资源 - 230502 @MistEO
-- 简单处理下连续更新后.old文件删除报错的问题 @MistEO
-- 修改异步加载资源的方式 @MistEO
+- 更新游戏资源，适配新干员 自动战斗、BOX、肉鸽识别 @MistEO @GalvinGao @yuanyan3060
+- 优化并修复异步加载资源的方式 @MistEO
 - 首次活动 ota 更新后需要重启才能选择对应关卡 @ABA2396
 
 ### 修复
 
-- build error @MistEO
+- 简单处理下连续更新后 .old 文件删除报错的问题 @MistEO
 - 修复保全派驻干员技能用法错误 @MistEO
 
 ### 其他
 
-- ResourceLoader 添加一些日志 @MistEO
-- add MaaAssistantArknights/MaaRelease release-mirrors @GalvinGao
+- add maa s3 as a new mirror @LiamSho @GalvinGao
