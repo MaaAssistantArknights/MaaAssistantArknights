@@ -280,7 +280,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                                 if (RecruitmentShowPotential && OperBoxPotential != null && (tag_level >= 4 || oper_level == 1))
                                 {
-                                    if (OperBoxPotential.ContainsKey(oper_name) && oper_level != 5)
+                                    if (OperBoxPotential.ContainsKey(oper_name))
                                     {
                                         potential = " ( " + OperBoxPotential[oper_name] + " )";
                                     }
