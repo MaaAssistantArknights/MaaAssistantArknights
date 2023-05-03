@@ -280,7 +280,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                                 if (RecruitmentShowPotential && (tag_level >= 4 || oper_level == 1))
                                 {
-                                    if (OperBoxPotential.ContainsKey(oper_name))
+                                    if (OperBoxPotential.ContainsKey(oper_name) && oper_level != 5)
                                     {
                                         potential = " ( " + OperBoxPotential[oper_name] + " )";
                                     }
@@ -437,19 +437,19 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// 未实装干员，但在battle_data中，
         /// </summary>
-        private static readonly string[] VirtuallyOpers =
+        private static readonly HashSet<string> VirtuallyOpers = new HashSet<string>
         {
-            "预备干员-近战",
-            "预备干员-术师",
-            "预备干员-后勤",
-            "预备干员-狙击",
-            "预备干员-重装",
-            "郁金香",
-            "Stormeye",
-            "Touch",
-            "Pith",
-            "Sharp",
-            "阿米娅-WARRIOR",
+            "char_504_rguard",
+            "char_505_rcast",
+            "char_506_rmedic",
+            "char_507_rsnipe",
+            "char_514_rdfend",
+            "char_513_apionr",
+            "char_511_asnipe",
+            "char_510_amedic",
+            "char_509_acast",
+            "char_508_aguard",
+            "char_1001_amiya2",
         };
 
         private string _operBoxInfo = LocalizationHelper.GetString("OperBoxRecognitionTip");
@@ -517,31 +517,39 @@ namespace MaaWpfGui.ViewModels.UI
         {
             JArray operBoxs = (JArray)details["all_opers"];
 
-            List<string> operHave = new List<string>();
-            List<string> operNotHave = new List<string>();
+            List<Tuple<string, int>> operHave = new List<Tuple<string, int>>();
+            List<Tuple<string, int>> operNotHave = new List<Tuple<string, int>>();
 
             foreach (JObject operBox in operBoxs.Cast<JObject>())
             {
+                var tuple = new Tuple<string, int>((string)operBox["name"], (int)operBox["rarity"]);
+
+                if (VirtuallyOpers.Contains((string)operBox["id"]))
+                {
+                    continue;
+                }
+
                 if ((bool)operBox["own"])
                 {
                     /*已拥有干员*/
-                    operHave.Add((string)operBox["name"]);
+                    operHave.Add(tuple);
                 }
                 else
                 {
                     /*未拥有干员,包含预备干员等*/
-                    operNotHave.Add((string)operBox["name"]);
+                    operNotHave.Add(tuple);
                 }
             }
 
-            /*移除未实装干员*/
-            operNotHave = operNotHave.Except(second: VirtuallyOpers).ToList();
+            operHave.Sort((x, y) => y.Item2.CompareTo(x.Item2));
+            operNotHave.Sort((x, y) => y.Item2.CompareTo(x.Item2));
 
             int newline_flag = 0;
             string operNotHaveNames = "\t";
 
-            foreach (var name in operNotHave)
+            foreach (var tuple in operNotHave)
             {
+                var name = tuple.Item1;
                 operNotHaveNames += PadRightEx(name, 12) + "\t";
                 if (newline_flag++ == 3)
                 {
@@ -552,8 +560,9 @@ namespace MaaWpfGui.ViewModels.UI
 
             newline_flag = 0;
             string operHaveNames = "\t";
-            foreach (var name in operHave)
+            foreach (var tuple in operHave)
             {
+                var name = tuple.Item1;
                 operHaveNames += PadRightEx(name, 12) + "\t";
                 if (newline_flag++ == 3)
                 {
