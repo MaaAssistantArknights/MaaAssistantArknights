@@ -17,6 +17,7 @@ using System.Text.RegularExpressions;
 using MaaBuilder.Models;
 using static Nuke.Common.Tools.VSWhere.VSWhereTasks;
 using Nuke.Common.Tools.MSBuild;
+using Nuke.Common.Utilities.Collections;
 
 namespace MaaBuilder;
 
@@ -198,8 +199,9 @@ public partial class Build
             }
 
             var ghEvent = b.GitHubActions.GitHubEvent;
+            Log.Information("GitHub Event：{Event}", ghEvent.ToString());
 
-            if (ghEvent.ContainsKey("inputs"))
+            if (ghEvent.ContainsKey("inputs") && !ghEvent["inputs"].IsNullOrEmpty())
             {
                 IsWorkflowDispatch = true;
 
