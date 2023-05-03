@@ -93,16 +93,7 @@ namespace MaaWpfGui.Services
 
         private void App_exit(object sender, EventArgs e)
         {
-            if (Instances.TaskQueueViewModel.Running)
-            {
-                Instances.MainWindowManager.Show();
-                if (!Instances.TaskQueueViewModel.ConfirmExit())
-                {
-                    return;
-                }
-            }
-
-            System.Windows.Application.Current.Shutdown();
+            System.Windows.Application.Current.MainWindow.Close();
         }
 
         private void App_show(object sender, EventArgs e)
