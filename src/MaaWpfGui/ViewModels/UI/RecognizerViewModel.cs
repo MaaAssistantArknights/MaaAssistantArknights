@@ -24,6 +24,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
 
@@ -64,6 +65,75 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         #region Recruit
+
+        public void procRecruitMsg(JObject details)
+        {
+            string what = details["what"].ToString();
+            var subTaskDetails = details["details"];
+
+            switch (what)
+            {
+                case "RecruitTagsDetected":
+                    {
+                        JArray tags = (JArray)subTaskDetails["tags"];
+                        string info_content = LocalizationHelper.GetString("RecruitTagsDetected");
+                        foreach (var tag_name in tags)
+                        {
+                            string tag_str = tag_name.ToString();
+                            info_content += tag_str + "    ";
+                        }
+
+                        RecruitInfo = info_content;
+                    }
+
+                    break;
+
+                case "RecruitResult":
+                    {
+                        string resultContent = string.Empty;
+                        JArray result_array = (JArray)subTaskDetails["result"];
+                        /* int level = (int)subTaskDetails["level"]; */
+                        foreach (var combs in result_array)
+                        {
+                            int tag_level = (int)combs["level"];
+                            resultContent += tag_level + " ★ Tags:  ";
+                            foreach (var tag in (JArray)combs["tags"])
+                            {
+                                resultContent += tag + "    ";
+                            }
+
+                            resultContent += "\n\t";
+                            foreach (var oper in (JArray)combs["opers"])
+                            {
+                                int oper_level = (int)oper["level"];
+                                string oper_name = oper["name"].ToString();
+
+                                string potential = string.Empty;
+
+                                if (tag_level >= 4 && oper_level >= 4)
+                                {
+                                    if (OperBoxPotential.ContainsKey(oper_name))
+                                    {
+                                        potential = " ( " + OperBoxPotential[oper_name] + " )";
+                                    }
+                                    else
+                                    {
+                                        potential = " ( !!! NEW !!! )";
+                                    }
+                                }
+
+                                resultContent += oper_level + " - " + oper_name + potential + "    ";
+                            }
+
+                            resultContent += "\n\n";
+                        }
+
+                        RecruitResult = resultContent;
+                    }
+
+                    break;
+            }
+        }
 
         private string _recruitInfo = LocalizationHelper.GetString("RecruitmentRecognitionTip");
 
@@ -397,7 +467,39 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _operBoxDone, value);
         }
 
-        private string _operBoxExportData = string.Empty;
+        public string OperBoxExportData { get; set; } = string.Empty;
+
+        private JArray _operBoxDataArray = (JArray)JsonConvert.DeserializeObject(ConfigurationHelper.GetValue(ConfigurationKeys.OperBoxData, string.Empty));
+
+        public JArray OperBoxDataArray
+        {
+            get => _operBoxDataArray;
+            set
+            {
+                SetAndNotify(ref _operBoxDataArray, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.OperBoxData, value.ToString());
+                _operBoxPotential = null;   // reset
+            }
+        }
+
+        private Dictionary<string, int> _operBoxPotential = null;
+
+        public Dictionary<string, int> OperBoxPotential
+        {
+            get
+            {
+                if (_operBoxPotential == null)
+                {
+                    _operBoxPotential = new Dictionary<string, int>();
+                    foreach (JObject operBoxData in OperBoxDataArray.Cast<JObject>())
+                    {
+                        _operBoxPotential.Add((string)operBoxData["name"], (int)operBoxData["potential"]);
+                    }
+                }
+
+                return _operBoxPotential;
+            }
+        }
 
         public bool OperBoxParse(JObject details)
         {
@@ -453,7 +555,8 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 OperBoxInfo = LocalizationHelper.GetString("IdentificationCompleted") + "\n" + LocalizationHelper.GetString("OperBoxRecognitionTip");
                 OperBoxResult = string.Format(LocalizationHelper.GetString("OperBoxRecognitionResult"), operNotHave.Count, operNotHaveNames, operHave.Count, operHaveNames);
-                _operBoxExportData = details["own_opers"].ToString();
+                OperBoxExportData = details["own_opers"].ToString();
+                OperBoxDataArray = (JArray)details["own_opers"];
                 OperBoxDone = true;
             }
             else
@@ -466,7 +569,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public async void StartOperBox()
         {
-            _operBoxExportData = string.Empty;
+            OperBoxExportData = string.Empty;
             OperBoxDone = false;
 
             string errMsg = string.Empty;
@@ -486,12 +589,12 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void ExportOperBox()
         {
-            if (string.IsNullOrEmpty(_operBoxExportData))
+            if (string.IsNullOrEmpty(OperBoxExportData))
             {
                 return;
             }
 
-            Clipboard.SetDataObject(_operBoxExportData);
+            Clipboard.SetDataObject(OperBoxExportData);
             OperBoxInfo = LocalizationHelper.GetString("CopiedToClipboard");
         }
 
