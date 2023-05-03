@@ -9166,6 +9166,7 @@
         "next": [
             "Mizuki@Roguelike@StageEncounterEnter",
             "Mizuki@Roguelike@NextLevel#next",
+            "Mizuki@Roguelike@StageEncounterOptions#next",
             "Mizuki@Roguelike@DropsFlag",
             "Mizuki@Roguelike@CloseEvent"
         ]
@@ -9539,7 +9540,8 @@
             "Mizuki@Roguelike@StageEncounterOptionWonderland",
             "Mizuki@Roguelike@ChooseOperFlag",
             "Mizuki@Roguelike@StageEmergencyDpsEnter",
-            "Mizuki@Roguelike@StageCambatDpsEnter"
+            "Mizuki@Roguelike@StageCambatDpsEnter",
+            "Mizuki@Roguelike@CloseEvent"
         ]
     },
     "Mizuki@Roguelike@StageEncounterJudgeOption": {},
