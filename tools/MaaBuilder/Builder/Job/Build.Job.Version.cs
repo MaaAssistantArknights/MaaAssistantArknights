@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Nuke.Common;
 using Nuke.Common.Git;
@@ -10,18 +10,18 @@ namespace MaaBuilder;
 
 public partial class Build
 {
-    Target UseRsVersion => _ => _
+    private Target UseRsVersion => _ => _
         .Triggers(SetVersion)
         .Executes(() =>
         {
             Information($"Release Simulation: {Parameters.GhActionWdRsTagName}");
-            
+
             Version = Parameters.GhActionWdRsTagName;
 
             GitHubTasks.GitHubClient = new GitHubClient(new ProductHeaderValue(nameof(NukeBuild)));
         });
-    
-    Target UseCommitVersion => _ => _
+
+    private Target UseCommitVersion => _ => _
         .Triggers(SetVersion)
         .Executes(() =>
         {
@@ -29,7 +29,7 @@ public partial class Build
             Version = !envReleaseTag.IsNullOrEmpty() ? envReleaseTag : $"{Parameters.BuildTime}-{Parameters.CommitHash}";
         });
 
-    Target UseTagVersion => _ => _
+    private Target UseTagVersion => _ => _
         .Triggers(SetVersion)
         .Executes(() =>
         {
@@ -39,8 +39,8 @@ public partial class Build
 
                 var repo = GitRepository.FromLocalDirectory(RootDirectory);
                 Assert.True(repo is not null, "不在 Git Repo 中");
-                
-                var tag = repo.Tags.FirstOrDefault();
+
+                var tag = repo.Tags.ToList().Find(v => v.StartsWith("v"));
 
                 if (tag is not null)
                 {
@@ -63,12 +63,12 @@ public partial class Build
                 };
 
                 LatestTag = Parameters.IsPreRelease ? GetLatestTag() : GetLatestReleaseTag();
-                
+
                 Version = Parameters.GhTag;
             }
         });
 
-    Target SetVersion => _ => _
+    private Target SetVersion => _ => _
         .Executes(() =>
         {
             Information($"当前版本号设置为：{Version}");
