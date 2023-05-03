@@ -278,7 +278,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                                 string potential = string.Empty;
 
-                                if (RecruitmentShowPotential && (tag_level >= 4 || oper_level == 1))
+                                if (RecruitmentShowPotential && OperBoxPotential != null && (tag_level >= 4 || oper_level == 1))
                                 {
                                     if (OperBoxPotential.ContainsKey(oper_name) && oper_level != 5)
                                     {
@@ -500,6 +500,11 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get
             {
+                if (OperBoxDataArray == null)
+                {
+                    return null;
+                }
+
                 if (_operBoxPotential == null)
                 {
                     _operBoxPotential = new Dictionary<string, int>();
