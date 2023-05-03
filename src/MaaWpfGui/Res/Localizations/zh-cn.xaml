@@ -366,6 +366,8 @@
     <system:String x:Key="RecruitmentRecognition">公招识别</system:String>
     <system:String x:Key="RecruitmentRecognitionTip">小提示：和主界面的自动公招是两个独立的功能，请手动打开游戏公招 Tags 界面后使用~</system:String>
     <system:String x:Key="AutoSettingTime">自动设置时间</system:String>
+    <system:String x:Key="RecruitmentShowPotential">显示干员潜能（四星及以上）</system:String>
+    <system:String x:Key="RecruitmentShowPotentialTips">请使用“干员识别”获取干员信息</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">自动选择 3 星 Tags</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">自动选择 4 星 Tags</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">自动选择 5 星 Tags</system:String>
