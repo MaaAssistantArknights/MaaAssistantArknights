@@ -256,6 +256,7 @@
         </Grid>
 
         <StackPanel
+            s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
             DataContext="{Binding TaskSettingDataContext}"
             IsEnabled="{Binding Idle}"
             Visibility="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}">
