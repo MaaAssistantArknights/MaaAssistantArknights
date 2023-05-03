@@ -21,6 +21,11 @@ namespace MaaWpfGui.Helper
 
         public static implicit operator WindowHandle(Window w)
         {
+            if (w == null)
+            {
+                return None;
+            }
+
             var interop = new WindowInteropHelper(w);
             return new WindowHandle { _handle = interop.Handle };
         }

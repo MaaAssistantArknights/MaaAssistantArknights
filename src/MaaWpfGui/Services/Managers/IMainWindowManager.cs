@@ -46,5 +46,11 @@ namespace MaaWpfGui.Services.Managers
         /// </summary>
         /// <param name="shouldMinimizeToTaskbar">Whether to minimize to taskbar.</param>
         void SetMinimizeToTaskbar(bool shouldMinimizeToTaskbar);
+
+        /// <summary>
+        /// Get the main window if it is visible.
+        /// </summary>
+        /// <returns>The <see cref="Window"/> if it is visible, or <see cref="null"/>. </returns>
+        Window GetWindowIfVisible();
     }
 }

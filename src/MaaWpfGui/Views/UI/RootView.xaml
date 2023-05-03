@@ -17,11 +17,6 @@
     d:DataContext="{d:DesignInstance {x:Type ui:RootViewModel}}"
     Icon="../../newlogo.ico"
     mc:Ignorable="d">
-    <hc:Interaction.Triggers>
-        <hc:EventTrigger EventName="Closing">
-            <hc:EventToCommand Command="{s:Action CloseWindowCommand}" PassEventArgsToCommand="True" />
-        </hc:EventTrigger>
-    </hc:Interaction.Triggers>
 
     <DockPanel>
         <TabControl
