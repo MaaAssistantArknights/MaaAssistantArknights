@@ -154,6 +154,33 @@ namespace MaaWpfGui.ViewModels.UI
 
         private readonly DispatcherTimer _timer = new DispatcherTimer();
 
+        public bool ConfirmExit()
+        {
+            if (Application.Current.IsShuttingDown())
+            {
+                // allow close if application is shutting down
+                return true;
+            }
+
+            if (!Running)
+            {
+                // no need to confirm if no running task
+                return true;
+            }
+
+            var window = Instances.MainWindowManager.GetWindowIfVisible();
+            var result = MessageBoxHelper.ShowNative(window, LocalizationHelper.GetString("ConfirmExitText"), LocalizationHelper.GetString("ConfirmExitTitle"), "MAA", MessageBoxButton.YesNo, MessageBoxImage.Information, MessageBoxResult.No);
+            return result == MessageBoxResult.Yes;
+        }
+
+#pragma warning disable CS0672 // Member overrides obsolete member
+        // WHY OBSOLETED?
+        protected override bool CanClose()
+#pragma warning restore CS0672 // Member overrides obsolete member
+        {
+            return ConfirmExit();
+        }
+
         private void InitTimer()
         {
             _timer.Interval = TimeSpan.FromSeconds(50);

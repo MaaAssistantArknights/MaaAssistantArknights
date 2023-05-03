@@ -85,17 +85,5 @@ namespace MaaWpfGui.ViewModels.UI
         {
             Application.Current.Shutdown();
         }
-
-        public void CloseWindowCommand(CancelEventArgs args)
-        {
-            if (Instances.TaskQueueViewModel.Running)
-            {
-                var result = MessageBoxHelper.ShowNative(Window.GetWindow(View), LocalizationHelper.GetString("ConfirmExitText"), LocalizationHelper.GetString("ConfirmExitTitle"), "MAA", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
-                if (result != MessageBoxResult.Yes)
-                {
-                    args.Cancel = true;
-                }
-            }
-        }
     }
 }
