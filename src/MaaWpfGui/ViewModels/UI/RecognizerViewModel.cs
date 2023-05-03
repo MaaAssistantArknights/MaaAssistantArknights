@@ -66,75 +66,6 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region Recruit
 
-        public void procRecruitMsg(JObject details)
-        {
-            string what = details["what"].ToString();
-            var subTaskDetails = details["details"];
-
-            switch (what)
-            {
-                case "RecruitTagsDetected":
-                    {
-                        JArray tags = (JArray)subTaskDetails["tags"];
-                        string info_content = LocalizationHelper.GetString("RecruitTagsDetected");
-                        foreach (var tag_name in tags)
-                        {
-                            string tag_str = tag_name.ToString();
-                            info_content += tag_str + "    ";
-                        }
-
-                        RecruitInfo = info_content;
-                    }
-
-                    break;
-
-                case "RecruitResult":
-                    {
-                        string resultContent = string.Empty;
-                        JArray result_array = (JArray)subTaskDetails["result"];
-                        /* int level = (int)subTaskDetails["level"]; */
-                        foreach (var combs in result_array)
-                        {
-                            int tag_level = (int)combs["level"];
-                            resultContent += tag_level + " ★ Tags:  ";
-                            foreach (var tag in (JArray)combs["tags"])
-                            {
-                                resultContent += tag + "    ";
-                            }
-
-                            resultContent += "\n\t";
-                            foreach (var oper in (JArray)combs["opers"])
-                            {
-                                int oper_level = (int)oper["level"];
-                                string oper_name = oper["name"].ToString();
-
-                                string potential = string.Empty;
-
-                                if (tag_level >= 4 && oper_level >= 4)
-                                {
-                                    if (OperBoxPotential.ContainsKey(oper_name))
-                                    {
-                                        potential = " ( " + OperBoxPotential[oper_name] + " )";
-                                    }
-                                    else
-                                    {
-                                        potential = " ( !!! NEW !!! )";
-                                    }
-                                }
-
-                                resultContent += oper_level + " - " + oper_name + potential + "    ";
-                            }
-
-                            resultContent += "\n\n";
-                        }
-
-                        RecruitResult = resultContent;
-                    }
-
-                    break;
-            }
-        }
-
         private string _recruitInfo = LocalizationHelper.GetString("RecruitmentRecognitionTip");
 
         /// <summary>
@@ -289,6 +220,87 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             Instances.AsstProxy.AsstStartRecruitCalc(levelList.ToArray(), RecruitAutoSetTime);
+        }
+
+        private bool _recruitmentShowPotential = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RecruitmentShowPotential, bool.TrueString));
+
+        public bool RecruitmentShowPotential
+        {
+            get => _recruitmentShowPotential;
+            set
+            {
+                SetAndNotify(ref _recruitmentShowPotential, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RecruitmentShowPotential, value.ToString());
+            }
+        }
+
+        public void procRecruitMsg(JObject details)
+        {
+            string what = details["what"].ToString();
+            var subTaskDetails = details["details"];
+
+            switch (what)
+            {
+                case "RecruitTagsDetected":
+                    {
+                        JArray tags = (JArray)subTaskDetails["tags"];
+                        string info_content = LocalizationHelper.GetString("RecruitTagsDetected");
+                        foreach (var tag_name in tags)
+                        {
+                            string tag_str = tag_name.ToString();
+                            info_content += tag_str + "    ";
+                        }
+
+                        RecruitInfo = info_content;
+                    }
+
+                    break;
+
+                case "RecruitResult":
+                    {
+                        string resultContent = string.Empty;
+                        JArray result_array = (JArray)subTaskDetails["result"];
+                        /* int level = (int)subTaskDetails["level"]; */
+                        foreach (var combs in result_array)
+                        {
+                            int tag_level = (int)combs["level"];
+                            resultContent += tag_level + " ★ Tags:  ";
+                            foreach (var tag in (JArray)combs["tags"])
+                            {
+                                resultContent += tag + "    ";
+                            }
+
+                            resultContent += "\n\t";
+                            foreach (var oper in (JArray)combs["opers"])
+                            {
+                                int oper_level = (int)oper["level"];
+                                string oper_name = oper["name"].ToString();
+
+                                string potential = string.Empty;
+
+                                if (RecruitmentShowPotential && (tag_level >= 4 || oper_level == 1))
+                                {
+                                    if (OperBoxPotential.ContainsKey(oper_name))
+                                    {
+                                        potential = " ( " + OperBoxPotential[oper_name] + " )";
+                                    }
+                                    else
+                                    {
+                                        potential = " ( !!! NEW !!! )";
+                                    }
+                                }
+
+                                resultContent += oper_level + " - " + oper_name + potential + "    ";
+                            }
+
+                            resultContent += "\n\n";
+                        }
+
+                        RecruitResult = resultContent;
+                    }
+
+                    break;
+            }
         }
 
         #endregion Recruit

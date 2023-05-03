@@ -67,6 +67,7 @@ namespace MaaWpfGui.Constants
         public const string ChooseLevel6 = "Recruit.ChooseLevel6";
         public const string AutoSetTime = "Recruit.AutoSetTime";
         public const string Level3UseShortTime = "Recruit.IsLevel3UseShortTime";
+        public const string RecruitmentShowPotential = "Recruit.ShowPotential";
 
         public const string DormThreshold = "Infrast.DormThreshold";
         public const string UsesOfDrones = "Infrast.UsesOfDrones";
