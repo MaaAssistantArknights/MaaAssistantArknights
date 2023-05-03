@@ -198,6 +198,7 @@ public partial class Build
             }
 
             var ghEvent = b.GitHubActions.GitHubEvent;
+            Log.Information("GitHub Event：{Event}", ghEvent);
 
             if (ghEvent.ContainsKey("inputs"))
             {
