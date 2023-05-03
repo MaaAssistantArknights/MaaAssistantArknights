@@ -505,12 +505,14 @@
                 "desc": [
                     "进驻宿舍时，自身心情每小时恢复+0.55，该宿舍内所有干员的心情每小时恢复+0.1（同种效果取最高）",
                     "进驻宿舍时，自身心情每小时恢复+0.55，该宿舍内所有干员的心情每小时恢复+0.1（同种效果取最高）",
+                    "进驻宿舍时，自身心情每小时恢复+0.55，该宿舍内所有干员的心情每小时恢复+0.1（同种效果取最高）",
                     "进驻宿舍时，自身心情每小时恢复+0.55，该宿舍内所有干员的心情每小时恢复+0.1（同种效果取最高）"
                 ],
                 "name": [
                     "牧歌",
                     "解脱",
-                    "“归乡”"
+                    "“归乡”",
+                    "天生丽质"
                 ],
                 "template": "Bskill_dorm_all&one3.png"
             },
@@ -1168,13 +1170,15 @@
             },
             "bskill_man_spd3": {
                 "desc": [
+                    "进驻制造站时，生产力+30%",
                     "进驻制造站时，生产力+30%"
                 ],
                 "efficient": {
                     "all": 30
                 },
                 "name": [
-                    "咪波·制造型"
+                    "咪波·制造型",
+                    "莱茵科技·γ"
                 ],
                 "template": "Bskill_man_spd3.png"
             },
@@ -2103,6 +2107,7 @@
                 "desc": [
                     "进驻人力办公室时，人脉资源的联络速度+40%",
                     "进驻人力办公室时，人脉资源的联络速度+40%",
+                    "进驻人力办公室时，人脉资源的联络速度+40%",
                     "进驻人力办公室时，人脉资源的联络速度+40%"
                 ],
                 "efficient": {
@@ -2111,7 +2116,8 @@
                 "name": [
                     "WRITER",
                     "B-girl",
-                    "心理学"
+                    "心理学",
+                    "不停歇的电话"
                 ],
                 "template": "Bskill_hire_spd4.png"
             },
@@ -2274,6 +2280,18 @@
                     "脉冲电弧·β"
                 ],
                 "template": "Bskill_pow_spd3.png"
+            },
+            "bskill_power_rec_rhine": {
+                "desc": [
+                    "进驻发电站时，无人机充能速度+10%，基建内（不包含副手）每有1名除自身以外的莱茵生命干员（最多5名），充能速度额外+3%"
+                ],
+                "name": [
+                    "生态科主任"
+                ],
+                "efficient": {
+                    "all": 11
+                },
+                "template": "Bskill_power_rec_rhine.png"
             }
         },
         "skillsGroup": [
@@ -2479,6 +2497,15 @@
                 ],
                 "template": "Bskill_meet_rhodes2.png"
             },
+            "bskill_meet_spd&condChar_mustget": {
+                "desc": [
+                    "进驻会客室时，如果会客室内只有自身处于工作状态时，连续消耗超过16点心情下一次必定获得莱茵生命的线索"
+                ],
+                "name": [
+                    "文献学顾问"
+                ],
+                "template": "Bskill_meet_spd&condChar_mustget.png"
+            },
             "bskill_meet_spd&cost": {
                 "desc": [
                     "进驻会客室时，线索搜集速度提升35%，心情每小时消耗+2"
@@ -2499,6 +2526,24 @@
                     "双面间谍"
                 ],
                 "template": "Bskill_meet_spd&cost_condChar.png"
+            },
+            "bskill_meet_spd&cost_condChar2": {
+                "desc": [
+                    "进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升15%，心情每小时消耗+1"
+                ],
+                "name": [
+                    "“职业操守”·α"
+                ],
+                "template": "Bskill_meet_spd&cost_condChar2.png"
+            },
+            "bskill_meet_spd&cost_condChar3": {
+                "desc": [
+                    "进驻会客室时，如果会客室内只有自身处于工作状态时，线索搜集速度提升35%，心情每小时消耗+1"
+                ],
+                "name": [
+                    "“职业操守”·β"
+                ],
+                "template": "Bskill_meet_spd&cost_condChar3.png"
             },
             "bskill_meet_spd1": {
                 "desc": [
