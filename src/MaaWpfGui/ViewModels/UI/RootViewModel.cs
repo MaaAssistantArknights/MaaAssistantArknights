@@ -26,15 +26,6 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class RootViewModel : Conductor<Screen>.Collection.OneActive
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RootViewModel"/> class.
-        /// </summary>
-        /// <param name="container">The IoC container.</param>
-        public RootViewModel(StyletIoC.IContainer container)
-        {
-            Instances.Instantiate(container);
-        }
-
         /// <inheritdoc/>
         protected override void OnViewLoaded()
         {
