@@ -50,7 +50,7 @@ jobs:
       - id: set_tag
         run: |
           ${{ startsWith(github.ref, 'refs/pull/') && 'cd temp' || '' }}
-          echo tag=$(git describe --tags ${{ github.ref }} || git rev-parse --short HEAD) | tee -a $GITHUB_OUTPUT
+          echo tag=$(git describe --tags --match "v*" ${{ github.ref }} || git rev-parse --short HEAD) | tee -a $GITHUB_OUTPUT
           exit ${PIPESTATUS[0]}
 
       - id: set_pre
@@ -65,9 +65,9 @@ jobs:
         run: |
           this_tag=${{ steps.set_tag.outputs.tag }}
           if [[ '${{ steps.set_pre.outputs.prerelease }}' != 'false' ]]; then
-            last_tag=$(git describe --tags --abbrev=0 --exclude='${{ steps.set_tag.outputs.tag }}')
+            last_tag=$(git describe --tags --match "v*" --abbrev=0 --exclude='${{ steps.set_tag.outputs.tag }}')
           else
-            last_tag=$(git describe --tags --abbrev=0 --exclude='${{ steps.set_tag.outputs.tag }}' --exclude='*-*')
+            last_tag=$(git describe --tags --match "v*" --abbrev=0 --exclude='${{ steps.set_tag.outputs.tag }}' --exclude='*-*')
           fi
           echo >> CHANGELOG.md
           echo "**Full Changelog**: [$last_tag -> $this_tag](https://github.com/MaaAssistantArknights/MaaAssistantArknights/compare/${last_tag}...${this_tag})" >> CHANGELOG.md

@@ -211,10 +211,10 @@ def main(tag_name=None, latest=None):
         pass
     # 从哪个 tag 开始
     if latest == None:
-        latest = os.popen("git describe --abbrev=0 --tags").read().strip()
+        latest = os.popen("git describe --tags --match 'v*' --abbrev=0").read().strip()
 
     if tag_name == None:
-        tag_name = os.popen("git describe --tags").read().strip()
+        tag_name = os.popen("git describe --tags --match 'v*'").read().strip()
     print("From:", latest, ", To:", tag_name, "\n")
 
     # 输出一张好看的 git log 图到控制台
