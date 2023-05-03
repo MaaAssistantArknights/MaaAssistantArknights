@@ -169,12 +169,12 @@ public partial class Build
             if (b.GitHubActions.Ref.StartsWith(ReleaseTagRefPrefix))
             {
                 var tag = $"v{b.GitHubActions.Ref.Replace(ReleaseTagRefPrefix, "")}";
-                var pattern = @"v((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)";
+                var pattern = @"^v((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)";
                 var match = Regex.Match(tag, pattern);
                 if (match.Success)
                 {
                     GhTag = tag;
-                    var preReleasePattern = @"v((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*))(-)";
+                    var preReleasePattern = @"^v((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*))(-)";
                     var preReleaseMatch = Regex.Match(tag, preReleasePattern);
                     IsPreRelease = preReleaseMatch.Success;
                 }
