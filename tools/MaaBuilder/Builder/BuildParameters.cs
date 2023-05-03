@@ -200,7 +200,7 @@ public partial class Build
             var ghEvent = b.GitHubActions.GitHubEvent;
             Log.Information("GitHub Event：{Event}", ghEvent.ToString());
 
-            if (ghEvent.ContainsKey("inputs"))
+            if (ghEvent.ContainsKey("inputs") && ghEvent["inputs"] != null)
             {
                 IsWorkflowDispatch = true;
 
