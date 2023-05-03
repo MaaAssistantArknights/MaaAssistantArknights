@@ -150,6 +150,8 @@ namespace MaaWpfGui.Constants
         public const string VersionUpdateIsFirstBoot = "VersionUpdate.isfirstboot";
         public const string VersionUpdatePackage = "VersionUpdate.package";
 
+        public const string OperBoxData = "OperBox.Data";
+
         public const string GachaShowDisclaimer = "Gacha.ShowDisclaimer";
     }
 }
