@@ -9166,7 +9166,7 @@
         "next": [
             "Mizuki@Roguelike@StageEncounterEnter",
             "Mizuki@Roguelike@NextLevel#next",
-            "Mizuki@RoguelikeStageEncounterOptions#next",
+            "Mizuki@Roguelike@StageEncounterOptions#next",
             "Mizuki@Roguelike@DropsFlag",
             "Mizuki@Roguelike@CloseEvent"
         ]
