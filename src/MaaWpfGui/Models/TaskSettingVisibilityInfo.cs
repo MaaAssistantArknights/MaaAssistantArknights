@@ -11,7 +11,11 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using MaaWpfGui.Constants;
+using MaaWpfGui.Helper;
+using System;
 using Stylet;
+using MaaWpfGui.ViewModels.UI;
 
 namespace MaaWpfGui.Models
 {
@@ -48,6 +52,12 @@ namespace MaaWpfGui.Models
 
         public void Set(string taskName, bool enable)
         {
+            if (Guide && enable)
+            {
+                currentEnable = taskName;
+                enable = false;
+            }
+
             switch (taskName)
             {
                 case "WakeUp":
@@ -98,6 +108,20 @@ namespace MaaWpfGui.Models
         {
             get => _advancedSettingsVisibility;
             set => SetAndNotify(ref _advancedSettingsVisibility, value);
+        }
+
+        private string currentEnable;
+
+        private bool _guide = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, "0")) < SettingsViewModel.GuideMaxStep;
+
+        public bool Guide
+        {
+            get => _guide;
+            set
+            {
+                SetAndNotify(ref _guide, value);
+                Set(currentEnable, !value);
+            }
         }
     }
 }

@@ -2925,5 +2925,53 @@ namespace MaaWpfGui.ViewModels.UI
 
             _roguelikeSquad = RoguelikeSquadList.Any(x => x.Value == roguelikeSquad) ? roguelikeSquad : string.Empty;
         }
+
+        #region SettingsGuide
+
+        // 目前共4步，再多塞不下了，后续可以整个新功能展示（
+        public const int GuideMaxStep = 4;
+
+        private int _guideStepIndex = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, "0"));
+
+        public int GuideStepIndex
+        {
+            get => _guideStepIndex;
+            set
+            {
+                SetAndNotify(ref _guideStepIndex, value);
+                if (value == GuideMaxStep)
+                {
+                    ConfigurationHelper.SetValue(ConfigurationKeys.GuideStepIndex, value.ToString());
+                }
+            }
+        }
+
+        private string _guideTransitionMode = "Bottom2Top";
+
+        public string GuideTransitionMode
+        {
+            get => _guideTransitionMode;
+            set => SetAndNotify(ref _guideTransitionMode, value);
+        }
+
+        public void NextGuide(HandyControl.Controls.StepBar stepBar)
+        {
+            GuideTransitionMode = "Bottom2Top";
+            stepBar.Next();
+        }
+
+        public void PrevGuide(HandyControl.Controls.StepBar stepBar)
+        {
+            GuideTransitionMode = "Top2Bottom";
+            stepBar.Prev();
+        }
+
+        public void DoneGuide()
+        {
+            TaskSettingVisibilities.Guide = false;
+            GuideStepIndex = GuideMaxStep;
+        }
+
+        #endregion
     }
 }

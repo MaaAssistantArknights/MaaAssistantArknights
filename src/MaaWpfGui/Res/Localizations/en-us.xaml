@@ -22,6 +22,17 @@
 
     <system:String x:Key="Version">Version</system:String>
 
+    <!--  Settings Guide  -->
+    <system:String x:Key="TaskSettings">Task Settings</system:String>
+    <system:String x:Key="SettingsGuide">Settings Guide</system:String>
+    <system:String x:Key="PrevGuide">Prev</system:String>
+    <system:String x:Key="NextGuide">Next</system:String>
+    <system:String x:Key="DoneGuide">Done</system:String>
+    <system:String x:Key="TaskGuide">↑Task</system:String>
+    <system:String x:Key="OftenUsedGuide">↓Often Used</system:String>
+    <system:String x:Key="SometimesUsedGuide">Sometimes Used↑</system:String>
+    <system:String x:Key="LinkStartGuide">← Start Tasks</system:String>
+
     <system:String x:Key="Dorm">Dorm</system:String>
     <system:String x:Key="Mfg">Manufacturing Station</system:String>
     <system:String x:Key="Trade">Trade Post</system:String>
