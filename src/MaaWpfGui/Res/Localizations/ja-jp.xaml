@@ -22,6 +22,17 @@
 
     <system:String x:Key="Version">バージョン</system:String>
 
+    <!--  設定ガイド  -->
+    <system:String x:Key="TaskSettings">タスク設定</system:String>
+    <system:String x:Key="SettingsGuide">設定ガイド</system:String>
+    <system:String x:Key="PrevGuide">前へ</system:String>
+    <system:String x:Key="NextGuide">次へ</system:String>
+    <system:String x:Key="DoneGuide">完了</system:String>
+    <system:String x:Key="TaskGuide">↑タスク</system:String>
+    <system:String x:Key="OftenUsedGuide">↓よく使われる</system:String>
+    <system:String x:Key="SometimesUsedGuide">あまり使われていない↑</system:String>
+    <system:String x:Key="LinkStartGuide">← タスクを開始</system:String>
+
     <system:String x:Key="Dorm">宿舎</system:String>
     <system:String x:Key="Mfg">製造所</system:String>
     <system:String x:Key="Trade">貿易所</system:String>

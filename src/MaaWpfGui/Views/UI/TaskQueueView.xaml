@@ -187,6 +187,15 @@
                 <CheckBox IsChecked="{Binding Suspend}" Content="待机" Visibility="{Binding Visible}"  HorizontalAlignment="Center" VerticalAlignment="Center" />-->
             <!--</StackPanel>-->
         </Grid>
+
+        <userControl:GuideUserControl
+            x:Name="Guide"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+            DataContext="{Binding TaskSettingDataContext}"
+            Visibility="{c:Binding TaskSettingVisibilities.Guide}" />
+
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" MinHeight="360" />
@@ -271,7 +280,8 @@
             VerticalAlignment="Top"
             properties:AutoScroll.AutoScroll="True"
             HorizontalScrollBarVisibility="Disabled"
-            IsInertiaEnabled="True">
+            IsInertiaEnabled="True"
+            Visibility="{c:Binding !TaskSettingVisibilities.Guide}">
             <ItemsControl
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"

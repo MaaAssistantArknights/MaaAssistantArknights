@@ -22,6 +22,17 @@
 
     <system:String x:Key="Version">版本号</system:String>
 
+    <!--  设置指引  -->
+    <system:String x:Key="TaskSettings">任务设置</system:String>
+    <system:String x:Key="SettingsGuide">设置指引</system:String>
+    <system:String x:Key="PrevGuide">上一步</system:String>
+    <system:String x:Key="NextGuide">下一步</system:String>
+    <system:String x:Key="DoneGuide">完成</system:String>
+    <system:String x:Key="TaskGuide">↑任务</system:String>
+    <system:String x:Key="OftenUsedGuide">↓常用的</system:String>
+    <system:String x:Key="SometimesUsedGuide">不常用的↑</system:String>
+    <system:String x:Key="LinkStartGuide">← 开始任务</system:String>
+
     <system:String x:Key="Dorm">宿舍</system:String>
     <system:String x:Key="Mfg">制造站</system:String>
     <system:String x:Key="Trade">贸易站</system:String>
