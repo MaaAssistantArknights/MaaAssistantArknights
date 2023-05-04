@@ -13,6 +13,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -318,15 +319,22 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _depotInfo, value);
         }
 
-        private string _depotResult;
+        private ObservableCollection<DepotResultDate> _depotResult = new ObservableCollection<DepotResultDate>();
 
         /// <summary>
         /// Gets or sets the depot result.
         /// </summary>
-        public string DepotResult
+        public ObservableCollection<DepotResultDate> DepotResult
         {
             get => _depotResult;
             set => SetAndNotify(ref _depotResult, value);
+        }
+
+        public class DepotResultDate
+        {
+            public string Name { get; set; }
+
+            public int Count { get; set; }
         }
 
         /// <summary>
@@ -346,19 +354,12 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>Success or not</returns>
         public bool DepotParse(JObject details)
         {
-            string result = string.Empty;
-            int count = 0;
+            DepotResult.Clear();
             foreach (var item in details["arkplanner"]["object"]["items"].Cast<JObject>())
             {
-                result += PadRightEx((string)item["name"], 12) + " : " + ((string)item["have"]).PadRight(5) + "\t";
-                if (++count == 3)
-                {
-                    result += "\n";
-                    count = 0;
-                }
+                DepotResultDate result = new DepotResultDate() { Name = (string)item["name"], Count = (int)item["have"] };
+                DepotResult.Add(result);
             }
-
-            DepotResult = result;
 
             ArkPlannerResult = (string)details["arkplanner"]["data"];
             LoliconResult = (string)details["lolicon"]["data"];
@@ -404,7 +405,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void DepotClear()
         {
-            DepotResult = string.Empty;
+            DepotResult.Clear();
             ArkPlannerResult = string.Empty;
             LoliconResult = string.Empty;
             DepotDone = false;
