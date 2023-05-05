@@ -931,7 +931,7 @@ namespace MaaWpfGui.ViewModels.UI
             int index = 0;
             foreach (var item in InfrastItemViewModels)
             {
-                ConfigurationHelper.GetFacilityOrder(item.OriginalName, index.ToString());
+                ConfigurationHelper.SetFacilityOrder(item.OriginalName, index.ToString());
                 ++index;
             }
         }
