@@ -2548,7 +2548,8 @@
         "next": [
             "CloseAnno",
             "CloseAnnoTexas",
-            "TodaysSupplies"
+            "TodaysSupplies",
+            "StartUp"
         ]
     },
     "CloseAnno": {
@@ -2563,7 +2564,8 @@
         "next": [
             "#back",
             "CloseAnnos#next",
-            "TodaysSupplies"
+            "TodaysSupplies",
+            "StartUp"
         ]
     },
     "CloseAnnoTexas": {
