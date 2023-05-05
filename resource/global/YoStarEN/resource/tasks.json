@@ -3541,5 +3541,39 @@
         "text": [
             "Visit Next"
         ]
+    },
+    "GachaLastOnceResult": {
+        "text": [
+            "Certificate",
+            "Token",
+            "Duplicate"
+        ]
+    },
+    "GachaOncePrefix@DoGacha": { 
+	    "fullMatch": true,
+        "text": [
+            "Headhunt x1"
+        ]
+    },
+    "GachaTenTimesPrefix@DoGacha": {
+        "text": [
+            "Headhunt x10"
+        ]
+    },
+	"RoguelikeChooseSupportBtnOcr": {
+        "text": [
+            "Select Support"
+        ]
+    },
+	"Roguelike@RecruitSupportConfirm": {
+        "text": [
+            "Recruit support"
+        ]
+    },
+	"RoguelikeRefreshSupportBtnOcr": {
+        "text": [
+            "Refresh support list",
+			"Refresh support"
+        ]
     }
 }
