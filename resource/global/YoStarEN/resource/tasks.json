@@ -3549,10 +3549,6 @@
             "Duplicate"
         ]
     },
-	"DoGacha": {
-        "action": "DoNothing",
-        "template": "empty.png"
-    },
     "GachaOncePrefix@DoGacha": { 
 	    "fullMatch": true,
         "text": [
