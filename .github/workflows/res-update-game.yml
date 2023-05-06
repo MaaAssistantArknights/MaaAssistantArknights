@@ -1,8 +1,8 @@
 name: res-update-game
 
 on:
-  # schedule:
-  #  - cron: "*/20 * * * *"
+  schedule:
+   - cron: "*/20 * * * *"
   workflow_dispatch:
     inputs:
       commit_message:
@@ -12,6 +12,7 @@ on:
 
 jobs:
   update-game-resources:
+    if: github.action_repository == "MaaAssistantArknights"
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
