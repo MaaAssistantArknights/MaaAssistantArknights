@@ -31,6 +31,16 @@ namespace MaaWpfGui.Constants
         public const string WindowTitlePrefix = "GUI.WindowTitlePrefix";
         public const string DarkMode = "GUI.DarkMode";
 
+        public const string MonitorNumber = "GUI.Monitor.Number";
+        public const string MonitorWidth = "GUI.Monitor.Width";
+        public const string MonitorHeight = "GUI.Monitor.Height";
+        public const string PositionLeft = "GUI.Position.Left";
+        public const string PositionTop = "GUI.Position.Top";
+        public const string WindowWidth = "GUI.Size.Width";
+        public const string WindowHeight = "GUI.Size.Height";
+        public const string LoadPositionAndSize = "GUI.PositionAndSize.Load";
+        public const string SavePositionAndSize = "GUI.PositionAndSize.SaveOnClosing";
+
         public const string AddressHistory = "Connect.AddressHistory";
         public const string AutoDetect = "Connect.AutoDetect";
         public const string AlwaysAutoDetect = "Connect.AlwaysAutoDetect";
