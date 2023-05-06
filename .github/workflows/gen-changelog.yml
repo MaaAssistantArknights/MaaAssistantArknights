@@ -27,7 +27,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python3 tools/ChangelogGenerator/changelog_generator.py --tags "${{ steps.extract_tag.outputs.tag_name }}"
+          python3 tools/ChangelogGenerator/changelog_generator.py --tag "${{ steps.extract_tag.outputs.tag_name }}"
 
       - name: Add files to git
         run: |
