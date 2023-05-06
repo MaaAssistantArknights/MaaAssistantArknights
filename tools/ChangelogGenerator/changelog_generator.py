@@ -209,10 +209,10 @@ def main(tag_name=None, latest=None):
     except:
         pass
     # 从哪个 tag 开始
-    if latest == None:
+    if not latest:
         latest = os.popen("git describe --tags --match \"v*\" --abbrev=0").read().strip()
 
-    if tag_name == None:
+    if not tag_name:
         tag_name = os.popen("git describe --tags --match \"v*\"").read().strip()
     print("From:", latest, ", To:", tag_name, "\n")
 
