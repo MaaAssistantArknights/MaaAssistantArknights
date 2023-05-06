@@ -27,6 +27,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          git switch dev
           python3 tools/ChangelogGenerator/changelog_generator.py --tag "${{ steps.extract_tag.outputs.tag_name }}"
 
       - name: Add files to git
@@ -49,7 +50,9 @@ jobs:
           force: true
           branch: changelog
           
-      - name: Create changelogs PR
+      - run: git fetch origin/changelog
+          
+      - name: Create PR
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
