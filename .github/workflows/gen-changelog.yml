@@ -37,7 +37,7 @@ jobs:
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git add .
 
-          commit_msg="docs: Auto Generate Changelog - ""${{ steps.extract_tag.outputs.tag_name }}"
+          commit_msg="docs: Auto Generate Changelog of Release ""${{ steps.extract_tag.outputs.tag_name }}"
           git commit -m "$commit_msg"
           git switch -c changelog
 
@@ -53,5 +53,6 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           title: ${{ steps.extract_tag.outputs.pr_title }}
+          base: 'dev'
           branch: 'changelog'
           delete-branch: true
