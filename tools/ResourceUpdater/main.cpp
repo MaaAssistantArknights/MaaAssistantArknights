@@ -166,8 +166,8 @@ int main([[maybe_unused]] int argc, char** argv)
     std::string gamedata_tw_exec = cur_path.string() + "/gamedata-tw.exe";
     if (!std::filesystem::exists(gamedata_tw_exec)) {
         std::string download_zhtw = "curl --ssl-no-revoke "
-                                    "https://github.com/MaaAssistantArknights/MaaRelease/raw/main/"
-                                    "MaaAssistantArknights/api/binaries/gamedata-tw.exe  > " +
+                                    "https://raw.githubusercontent.com/MaaAssistantArknights/"
+                                    "MaaRelease/main/MaaAssistantArknights/api/binaries/gamedata-tw.exe  > " +
                                     gamedata_tw_exec;
         int dl = system(download_zhtw.c_str());
         if (dl != 0) {
