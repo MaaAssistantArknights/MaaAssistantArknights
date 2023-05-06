@@ -2225,14 +2225,14 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         private readonly string _bluestacksConfig = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigPath, string.Empty);
-        private readonly string _bluestacksKeyWord = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigKeyword, "bst.instance.Nougat64.status.adb_port");
+        private string _bluestacksKeyWord = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigKeyword, string.Empty);
 
         /// <summary>
         /// Tries to set Bluestack Hyper V address.
         /// </summary>
         public void TryToSetBlueStacksHyperVAddress()
         {
-            if (_bluestacksConfig.Length == 0)
+            if (String.IsNullOrEmpty(_bluestacksConfig))
             {
                 return;
             }
@@ -2244,12 +2244,27 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             var all_lines = File.ReadAllLines(_bluestacksConfig);
+
+            if (String.IsNullOrEmpty(_bluestacksKeyWord))
+            {
+                foreach (var line in all_lines)
+                {
+                    if (line.StartsWith("bst.installed_images"))
+                    {
+                        var images = line.Split('"')[1].Split(',');
+                        _bluestacksKeyWord = "bst.instance." + images[0] + ".status.adb_port";
+                        break;
+                    }
+                }
+            }
+
             foreach (var line in all_lines)
             {
                 if (line.StartsWith(_bluestacksKeyWord))
                 {
                     var sp = line.Split('"');
                     ConnectAddress = "127.0.0.1:" + sp[1];
+                    break;
                 }
             }
         }
