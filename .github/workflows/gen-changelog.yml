@@ -1,41 +1,43 @@
 name: gen-changelog
 
 on:
+  pull_request:
+    types: [opened, reopened, synchronize]
   workflow_dispatch:
-    inputs:
-      commit_message:
-        description: 'Commit Message'
-        type: string
-        required: false
 
 jobs:
   gen:
-    runs-on: windows-latest
+    if: startsWith(github.event.pull_request.title, 'Release v') || startsWith(github.event.pull_request.title, 'release v')
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
+      - name: Extract Tag Name
+        id: extract_tag
+        run: |
+          tag_name=$(echo "${{ github.event.pull_request.title }}" | sed -E 's/(Release|release)//' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+          echo "tag_name=$tag_name" >> $GITHUB_OUTPUT
+          
+          pr_title="docs: Auto Update Changelogs of "$tag_name
+          echo "pr_title=$pr_title" >> $GITHUB_OUTPUT
+
       - name: Generate Changelog
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python3 tools/ChangelogGenerator/changelog_generator.py
+          python3 tools/ChangelogGenerator/changelog_generator.py --tag "${{ steps.extract_tag.outputs.tag_name }}"
 
       - name: Add files to git
         run: |
           git status
           
-          git config user.name "$env:GITHUB_ACTOR"
-          git config user.email "$env:GITHUB_ACTOR@users.noreply.github.com"
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git add .
 
-          $commit_msg = "${{ github.event.inputs.commit_message }}"
-          if (-not [string]::IsNullOrWhiteSpace($commit_msg)) {
-            $commit_msg = $commit_msg.Trim()
-          } else {
-            $commit_msg = "docs: Auto Generate Changelog - $(Get-Date -Format 'yyyy-MM-dd')"
-          }
+          commit_msg="docs: Auto Generate Changelog of Release ""${{ steps.extract_tag.outputs.tag_name }}"
           git commit -m "$commit_msg"
           git switch -c changelog
 
@@ -45,3 +47,13 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           force: true
           branch: changelog
+          
+      - name: Create changelogs PR
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: ${{ steps.extract_tag.outputs.pr_title }}
+          body: ${{ github.event.pull_request.html_url }}
+          base: 'dev'
+          branch: 'changelog'
+          delete-branch: true
