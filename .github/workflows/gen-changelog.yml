@@ -2,7 +2,7 @@ name: gen-changelog
 
 on:
   pull_request:
-    types: [opened, reopened]
+    types: [opened, reopened, synchronize]
   workflow_dispatch:
 
 jobs:
@@ -14,12 +14,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Generate Changelog
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          python3 tools/ChangelogGenerator/changelog_generator.py
-
       - name: Extract Tag Name
         id: extract_tag
         run: |
@@ -28,6 +22,13 @@ jobs:
           
           pr_title="docs: Auto Update Changelogs of "$tag_name
           echo "pr_title=$pr_title" >> $GITHUB_OUTPUT
+
+
+      - name: Generate Changelog
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 tools/ChangelogGenerator/changelog_generator.py
 
       - name: Add files to git
         run: |
@@ -53,6 +54,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           title: ${{ steps.extract_tag.outputs.pr_title }}
+          body: ${{ github.event.pull_request.html_url }}
           base: 'dev'
           branch: 'changelog'
           delete-branch: true
