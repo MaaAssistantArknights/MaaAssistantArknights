@@ -60,4 +60,3 @@ jobs:
           body: ${{ github.event.pull_request.html_url }}
           base: 'dev'
           branch: 'changelog'
-          delete-branch: true
