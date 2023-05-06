@@ -184,6 +184,7 @@ int main([[maybe_unused]] int argc, char** argv)
     if (std::filesystem::exists(zhtw_gamedata_dir)) {
         std::filesystem::remove_all(zhtw_gamedata_dir);
     }
+    std::filesystem::create_directories(zhtw_gamedata_dir.parent_path());
     std::filesystem::rename(cur_path / "data" / "gamedata", zhtw_gamedata_dir);
 
     /* Update recruitment data from ArknightsGameData*/
