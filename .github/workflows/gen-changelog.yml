@@ -23,12 +23,11 @@ jobs:
           pr_title="docs: Auto Update Changelogs of "$tag_name
           echo "pr_title=$pr_title" >> $GITHUB_OUTPUT
 
-
       - name: Generate Changelog
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python3 tools/ChangelogGenerator/changelog_generator.py
+          python3 tools/ChangelogGenerator/changelog_generator.py --tags "${{ steps.extract_tag.outputs.tag_name }}"
 
       - name: Add files to git
         run: |
