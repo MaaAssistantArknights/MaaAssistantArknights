@@ -81,12 +81,12 @@ int main([[maybe_unused]] int argc, char** argv)
     std::cout << "Temp dir: " << cur_path << std::endl;
     std::cout << "Working dir: " << solution_dir << std::endl;
 
-    const std::filesystem::path arkbot_res_dir = cur_path / "Arknights-Bot-Resource";
+    const std::filesystem::path arkbot_res_dir = cur_path / "ArknightsGameResource";
 
-    std::cout << "------------Update Arknights-Bot-Resource------------" << std::endl;
+    std::cout << "------------Update ArknightsGameResource------------" << std::endl;
     std::string git_cmd;
     if (!std::filesystem::exists(arkbot_res_dir)) {
-        git_cmd = "git clone https://github.com/yuanyan3060/Arknights-Bot-Resource.git --depth=1 \"" +
+        git_cmd = "git clone https://github.com/yuanyan3060/ArknightsGameResource.git --depth=1 \"" +
                   arkbot_res_dir.string() + "\"";
     }
     else {
@@ -100,7 +100,7 @@ int main([[maybe_unused]] int argc, char** argv)
 
     const auto resource_dir = solution_dir / "resource";
 
-    /* Update levels.json from Arknights-Bot-Resource*/
+    /* Update levels.json from ArknightsGameResource*/
     std::cout << "------------Update levels.json------------" << std::endl;
     if (!update_levels_json(arkbot_res_dir / "levels.json", resource_dir / "Arknights-Tile-Pos")) {
         std::cerr << "update levels.json failed" << std::endl;
@@ -110,21 +110,21 @@ int main([[maybe_unused]] int argc, char** argv)
     // 这个 en_levels.json 是自己手动生成放进去的
     generate_english_roguelike_stage_name_replacement(arkbot_res_dir / "levels.json", cur_path / "en_levels.json");
 
-    /* Update infrast data from Arknights-Bot-Resource*/
+    /* Update infrast data from ArknightsGameResource*/
     std::cout << "------------Update infrast data------------" << std::endl;
     if (!update_infrast_data(arkbot_res_dir, resource_dir)) {
         std::cerr << "Update infrast data failed" << std::endl;
         return -1;
     }
 
-    /* Update infrast templates from Arknights-Bot-Resource*/
+    /* Update infrast templates from ArknightsGameResource*/
     std::cout << "------------Update infrast templates------------" << std::endl;
     if (!update_infrast_templates(arkbot_res_dir / "building_skill", resource_dir / "template" / "infrast")) {
         std::cerr << "Update infrast templates failed" << std::endl;
         return -1;
     }
 
-    ///* Update roguelike recruit data from Arknights-Bot-Resource*/
+    ///* Update roguelike recruit data from ArknightsGameResource*/
     // std::cout << "------------Update roguelike recruit data------------" << std::endl;
     // if (!update_roguelike_recruit(arkbot_res_dir, resource_dir, solution_dir)) {
     //     std::cerr << "Update roguelike recruit data failed" << std::endl;
@@ -138,7 +138,7 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
 
-    /* Update battle chars info from Arknights-Bot-Resource*/
+    /* Update battle chars info from ArknightsGameResource*/
     std::cout << "------------Update battle chars info------------" << std::endl;
     if (!update_battle_chars_info(arkbot_res_dir, resource_dir)) {
         std::cerr << "Update battle chars info failed" << std::endl;
@@ -164,13 +164,16 @@ int main([[maybe_unused]] int argc, char** argv)
 
     // gamedata 繁中不更新了，自己下载一下
     std::string gamedata_tw_exec = cur_path.string() + "/gamedata-tw.exe";
-    std::string download_zhtw =
-        "curl https://ota.maa.plus/MaaAssistantArknights/api/binaries/gamedata-tw.exe --ssl-no-revoke > " +
-        gamedata_tw_exec;
-    int dl = system(download_zhtw.c_str());
-    if (dl != 0) {
-        std::cout << "download zhtw gamedata failed" << std::endl;
-        return -1;
+    if (!std::filesystem::exists(gamedata_tw_exec)) {
+        std::string download_zhtw = "curl --ssl-no-revoke "
+                                    "https://github.com/MaaAssistantArknights/MaaRelease/raw/main/"
+                                    "MaaAssistantArknights/api/binaries/gamedata-tw.exe  > " +
+                                    gamedata_tw_exec;
+        int dl = system(download_zhtw.c_str());
+        if (dl != 0) {
+            std::cout << "download zhtw gamedata failed" << std::endl;
+            return -1;
+        }
     }
     int zhtw_ret = system(("cd " + cur_path.string() + " && " + gamedata_tw_exec).c_str());
     if (zhtw_ret != 0) {
@@ -183,8 +186,7 @@ int main([[maybe_unused]] int argc, char** argv)
 
     /* Update recruitment data from ArknightsGameData*/
     std::cout << "------------Update recruitment data------------" << std::endl;
-    if (!update_recruitment_data(game_data_dir / "zh_CN" / "gamedata" / "excel", resource_dir / "recruitment.json",
-                                 true)) {
+    if (!update_recruitment_data(arkbot_res_dir / "gamedata" / "excel", resource_dir / "recruitment.json", true)) {
         std::cerr << "Update recruitment data failed" << std::endl;
         return -1;
     }
@@ -204,7 +206,7 @@ int main([[maybe_unused]] int argc, char** argv)
         }
     }
 
-    /* Update items template and json  from Arknights-Bot-Resource*/
+    /* Update items template and json  from ArknightsGameResource*/
     std::cout << "------------Update items template and json------------" << std::endl;
     if (!update_items_data(arkbot_res_dir, resource_dir)) {
         std::cerr << "Update items data failed" << std::endl;
@@ -222,7 +224,7 @@ int main([[maybe_unused]] int argc, char** argv)
     for (const auto& [in, out] : global_dirs) {
         if (!check_roguelike_replace_for_overseas(game_data_dir / in / "gamedata" / "excel",
                                                   resource_dir / "global" / out / "resource" / "tasks.json",
-                                                  game_data_dir / "zh_CN" / "gamedata" / "excel", cur_path / in)) {
+                                                  arkbot_res_dir / "gamedata" / "excel", cur_path / in)) {
             std::cerr << "Update roguelike replace for overseas failed" << std::endl;
             return -1;
         }

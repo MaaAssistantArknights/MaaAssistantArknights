@@ -69,6 +69,14 @@
                             ToolTip="{DynamicResource Level3UseShortTimeTip}">
                             <controls:TextBlock Text="{DynamicResource Level3UseShortTime}" TextWrapping="Wrap" />
                         </CheckBox>
+                        <CheckBox
+                            MaxWidth="200"
+                            Margin="5"
+                            HorizontalAlignment="Left"
+                            IsChecked="{Binding RecruitmentShowPotential}"
+                            ToolTip="{DynamicResource RecruitmentShowPotentialTips}">
+                            <controls:TextBlock Text="{DynamicResource RecruitmentShowPotential}" TextWrapping="Wrap" />
+                        </CheckBox>
                     </StackPanel>
 
                     <StackPanel Margin="40,0,40,0" VerticalAlignment="Center">
@@ -108,6 +116,60 @@
                 </StackPanel>
             </Grid>
         </TabItem>
+        <TabItem Header="{DynamicResource OperBoxRecognition}">
+            <Grid Margin="20,0,20,20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="150" />
+                </Grid.RowDefinitions>
+                <hc:ScrollViewer
+                    Grid.Row="0"
+                    Margin="10,0"
+                    VerticalAlignment="Top"
+                    IsInertiaEnabled="True">
+                    <StackPanel>
+                        <controls:TextBlock
+                            Height="36"
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Focusable="True"
+                            FontSize="14"
+                            Style="{StaticResource TextBlockDefaultBold}"
+                            Text="{Binding OperBoxInfo}"
+                            TextWrapping="Wrap" />
+                        <controls:TextBlock
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            FontFamily="SimSun"
+                            FontSize="14"
+                            Text="{Binding OperBoxResult}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </hc:ScrollViewer>
+                <StackPanel
+                    Grid.Row="1"
+                    Margin="27,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        Width="180"
+                        Height="70"
+                        Margin="30"
+                        Command="{s:Action ExportOperBox}"
+                        Content="{DynamicResource OperBoxCopyToClipboard}"
+                        IsEnabled="{Binding OperBoxDone}" />
+                    <Button
+                        Width="180"
+                        Height="70"
+                        Margin="30"
+                        Command="{s:Action StartOperBox}"
+                        Content="{DynamicResource StartToOperBoxRecognition}"
+                        IsEnabled="{Binding OperBoxDone}" />
+                </StackPanel>
+            </Grid>
+        </TabItem>
         <TabItem Header="{DynamicResource DepotRecognition}">
             <Grid Margin="20,0,20,20">
                 <Grid.RowDefinitions>
@@ -130,13 +192,17 @@
                             Style="{StaticResource TextBlockDefaultBold}"
                             Text="{Binding DepotInfo}"
                             TextWrapping="Wrap" />
-                        <controls:TextBlock
-                            Margin="10"
-                            HorizontalAlignment="Left"
-                            FontFamily="Consolas"
-                            FontSize="14"
-                            Text="{Binding DepotResult}"
-                            TextWrapping="Wrap" />
+                        <DataGrid
+                            Width="600"
+                            HorizontalAlignment="Center"
+                            IsReadOnly="True"
+                            ItemsSource="{Binding DepotResult}">
+                            <DataGrid.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="3" />
+                                </ItemsPanelTemplate>
+                            </DataGrid.ItemsPanel>
+                        </DataGrid>
                     </StackPanel>
                 </hc:ScrollViewer>
                 <StackPanel
@@ -172,60 +238,6 @@
                         Command="{s:Action StartDepot}"
                         Content="{DynamicResource StartToDepotRecognition}"
                         IsEnabled="{Binding DepotDone}" />
-                </StackPanel>
-            </Grid>
-        </TabItem>
-        <TabItem Header="{DynamicResource OperBoxRecognition}">
-            <Grid Margin="20,0,20,20">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="150" />
-                </Grid.RowDefinitions>
-                <hc:ScrollViewer
-                    Grid.Row="0"
-                    Margin="10,0"
-                    VerticalAlignment="Top"
-                    IsInertiaEnabled="True">
-                    <StackPanel>
-                        <controls:TextBlock
-                            Height="36"
-                            Margin="10"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Focusable="True"
-                            FontSize="14"
-                            Style="{StaticResource TextBlockDefaultBold}"
-                            Text="{Binding OperBoxInfo}"
-                            TextWrapping="Wrap" />
-                        <controls:TextBlock
-                            Margin="10"
-                            HorizontalAlignment="Left"
-                            FontFamily="Consolas"
-                            FontSize="14"
-                            Text="{Binding OperBoxResult}"
-                            TextWrapping="Wrap" />
-                    </StackPanel>
-                </hc:ScrollViewer>
-                <StackPanel
-                    Grid.Row="1"
-                    Margin="27,0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
-                    <Button
-                        Width="180"
-                        Height="70"
-                        Margin="30"
-                        Command="{s:Action ExportOperBox}"
-                        Content="{DynamicResource OperBoxCopyToClipboard}"
-                        IsEnabled="{Binding OperBoxDone}" />
-                    <Button
-                        Width="180"
-                        Height="70"
-                        Margin="30"
-                        Command="{s:Action StartOperBox}"
-                        Content="{DynamicResource StartToOperBoxRecognition}"
-                        IsEnabled="{Binding OperBoxDone}" />
                 </StackPanel>
             </Grid>
         </TabItem>

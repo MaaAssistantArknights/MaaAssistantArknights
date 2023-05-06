@@ -1077,54 +1077,7 @@ namespace MaaWpfGui.Main
 
         private void ProcRecruitCalcMsg(JObject details)
         {
-            string what = details["what"].ToString();
-            var subTaskDetails = details["details"];
-
-            switch (what)
-            {
-                case "RecruitTagsDetected":
-                    {
-                        JArray tags = (JArray)subTaskDetails["tags"];
-                        string info_content = LocalizationHelper.GetString("RecruitTagsDetected");
-                        foreach (var tag_name in tags)
-                        {
-                            string tag_str = tag_name.ToString();
-                            info_content += tag_str + "    ";
-                        }
-
-                        Instances.RecognizerViewModel.RecruitInfo = info_content;
-                    }
-
-                    break;
-
-                case "RecruitResult":
-                    {
-                        string resultContent = string.Empty;
-                        JArray result_array = (JArray)subTaskDetails["result"];
-                        /* int level = (int)subTaskDetails["level"]; */
-                        foreach (var combs in result_array)
-                        {
-                            int tag_level = (int)combs["level"];
-                            resultContent += tag_level + " ★ Tags:  ";
-                            foreach (var tag in (JArray)combs["tags"])
-                            {
-                                resultContent += tag + "    ";
-                            }
-
-                            resultContent += "\n\t";
-                            foreach (var oper in (JArray)combs["opers"])
-                            {
-                                resultContent += oper["level"] + " - " + oper["name"] + "    ";
-                            }
-
-                            resultContent += "\n\n";
-                        }
-
-                        Instances.RecognizerViewModel.RecruitResult = resultContent;
-                    }
-
-                    break;
-            }
+            Instances.RecognizerViewModel.procRecruitMsg(details);
         }
 
         private void ProcVideoRecMsg(JObject details)

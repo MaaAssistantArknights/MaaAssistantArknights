@@ -322,7 +322,7 @@
     <system:String x:Key="ConnectingToEmulator">에뮬레이터에 연결 중...</system:String>
     <system:String x:Key="UnselectedTask">선택된 작업이 없습니다</system:String>
     <system:String x:Key="Running">실행 중...</system:String>
-    <system:String x:Key="AdbReplacementTips">프로그램이 작동하지 않으면 설정 - 연결 설정 - ADB 강제 교체를 실행하거나 호환 터치 모드를 활성화해 주세요.</system:String>
+    <system:String x:Key="AdbReplacementTips">프로그램이 작동하지 않으면 설정 - 연결 설정 - ADB 강제 교체를 실행하거나 호환 터치 모드를 활성화해 주세요 (추천하지 않음).</system:String>
     <system:String x:Key="Stopping">중지 중...</system:String>
     <system:String x:Key="Stopped">중지됨</system:String>
     <system:String x:Key="UnknownErrorOccurs">예상치 못한 오류가 발생했습니다</system:String>

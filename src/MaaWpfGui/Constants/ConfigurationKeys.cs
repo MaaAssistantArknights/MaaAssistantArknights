@@ -67,6 +67,7 @@ namespace MaaWpfGui.Constants
         public const string ChooseLevel6 = "Recruit.ChooseLevel6";
         public const string AutoSetTime = "Recruit.AutoSetTime";
         public const string Level3UseShortTime = "Recruit.IsLevel3UseShortTime";
+        public const string RecruitmentShowPotential = "Recruit.ShowPotential";
 
         public const string DormThreshold = "Infrast.DormThreshold";
         public const string UsesOfDrones = "Infrast.UsesOfDrones";
@@ -149,6 +150,8 @@ namespace MaaWpfGui.Constants
         public const string VersionUpdateBody = "VersionUpdate.body";
         public const string VersionUpdateIsFirstBoot = "VersionUpdate.isfirstboot";
         public const string VersionUpdatePackage = "VersionUpdate.package";
+
+        public const string OperBoxData = "OperBox.Data";
 
         public const string GachaShowDisclaimer = "Gacha.ShowDisclaimer";
     }

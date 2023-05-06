@@ -109,9 +109,9 @@ UIを見れば使い方もすぐ分かる！<br>
 ### データソース
 
 - ~~公開求人データ：[アークナイツツール](https://www.bigfun.cn/tools/aktools/hr)~~
-- オペレーターおよび基地データ：[PRTSアークナイツ中国語WIKI](http://prts.wiki/)
+- ~~オペレーターおよび基地データ：[PRTSアークナイツ中国語WIKI](http://prts.wiki/)~~
 - ステージデータ：[PenguinStatsデータ統計](https://penguin-stats.io/)
-- ゲームのデータとリソース：[アークナイツbotリソース](https://github.com/yuanyan3060/Arknights-Bot-Resource)
+- ゲームのデータとリソース：[アークナイツのクライアント資料](https://github.com/yuanyan3060/ArknightsGameResource)
 - ゲームデータ：[アークナイツのゲームデータ](https://github.com/Kengxxiao/ArknightsGameData)
 
 ### 貢献/協力者

@@ -13,6 +13,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -24,6 +25,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
 
@@ -221,6 +223,87 @@ namespace MaaWpfGui.ViewModels.UI
             Instances.AsstProxy.AsstStartRecruitCalc(levelList.ToArray(), RecruitAutoSetTime);
         }
 
+        private bool _recruitmentShowPotential = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RecruitmentShowPotential, bool.TrueString));
+
+        public bool RecruitmentShowPotential
+        {
+            get => _recruitmentShowPotential;
+            set
+            {
+                SetAndNotify(ref _recruitmentShowPotential, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RecruitmentShowPotential, value.ToString());
+            }
+        }
+
+        public void procRecruitMsg(JObject details)
+        {
+            string what = details["what"].ToString();
+            var subTaskDetails = details["details"];
+
+            switch (what)
+            {
+                case "RecruitTagsDetected":
+                    {
+                        JArray tags = (JArray)subTaskDetails["tags"];
+                        string info_content = LocalizationHelper.GetString("RecruitTagsDetected");
+                        foreach (var tag_name in tags)
+                        {
+                            string tag_str = tag_name.ToString();
+                            info_content += tag_str + "    ";
+                        }
+
+                        RecruitInfo = info_content;
+                    }
+
+                    break;
+
+                case "RecruitResult":
+                    {
+                        string resultContent = string.Empty;
+                        JArray result_array = (JArray)subTaskDetails["result"];
+                        /* int level = (int)subTaskDetails["level"]; */
+                        foreach (var combs in result_array)
+                        {
+                            int tag_level = (int)combs["level"];
+                            resultContent += tag_level + " ★ Tags:  ";
+                            foreach (var tag in (JArray)combs["tags"])
+                            {
+                                resultContent += tag + "    ";
+                            }
+
+                            resultContent += "\n\t";
+                            foreach (var oper in (JArray)combs["opers"])
+                            {
+                                int oper_level = (int)oper["level"];
+                                string oper_name = oper["name"].ToString();
+
+                                string potential = string.Empty;
+
+                                if (RecruitmentShowPotential && OperBoxPotential != null && (tag_level >= 4 || oper_level == 1))
+                                {
+                                    if (OperBoxPotential.ContainsKey(oper_name))
+                                    {
+                                        potential = " ( " + OperBoxPotential[oper_name] + " )";
+                                    }
+                                    else
+                                    {
+                                        potential = " ( !!! NEW !!! )";
+                                    }
+                                }
+
+                                resultContent += oper_level + " - " + oper_name + potential + "    ";
+                            }
+
+                            resultContent += "\n\n";
+                        }
+
+                        RecruitResult = resultContent;
+                    }
+
+                    break;
+            }
+        }
+
         #endregion Recruit
 
         #region Depot
@@ -236,15 +319,22 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _depotInfo, value);
         }
 
-        private string _depotResult;
+        private ObservableCollection<DepotResultDate> _depotResult = new ObservableCollection<DepotResultDate>();
 
         /// <summary>
         /// Gets or sets the depot result.
         /// </summary>
-        public string DepotResult
+        public ObservableCollection<DepotResultDate> DepotResult
         {
             get => _depotResult;
             set => SetAndNotify(ref _depotResult, value);
+        }
+
+        public class DepotResultDate
+        {
+            public string Name { get; set; }
+
+            public int Count { get; set; }
         }
 
         /// <summary>
@@ -264,19 +354,12 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>Success or not</returns>
         public bool DepotParse(JObject details)
         {
-            string result = string.Empty;
-            int count = 0;
+            DepotResult.Clear();
             foreach (var item in details["arkplanner"]["object"]["items"].Cast<JObject>())
             {
-                result += PadRightEx((string)item["name"], 12) + " : " + ((string)item["have"]).PadRight(5) + "\t";
-                if (++count == 3)
-                {
-                    result += "\n";
-                    count = 0;
-                }
+                DepotResultDate result = new DepotResultDate() { Name = (string)item["name"], Count = (int)item["have"] };
+                DepotResult.Add(result);
             }
-
-            DepotResult = result;
 
             ArkPlannerResult = (string)details["arkplanner"]["data"];
             LoliconResult = (string)details["lolicon"]["data"];
@@ -322,7 +405,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void DepotClear()
         {
-            DepotResult = string.Empty;
+            DepotResult.Clear();
             ArkPlannerResult = string.Empty;
             LoliconResult = string.Empty;
             DepotDone = false;
@@ -355,19 +438,19 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// 未实装干员，但在battle_data中，
         /// </summary>
-        private static readonly string[] VirtuallyOpers =
+        private static readonly HashSet<string> VirtuallyOpers = new HashSet<string>
         {
-            "预备干员-近战",
-            "预备干员-术师",
-            "预备干员-后勤",
-            "预备干员-狙击",
-            "预备干员-重装",
-            "郁金香",
-            "Stormeye",
-            "Touch",
-            "Pith",
-            "Sharp",
-            "阿米娅-WARRIOR",
+            "char_504_rguard",
+            "char_505_rcast",
+            "char_506_rmedic",
+            "char_507_rsnipe",
+            "char_514_rdfend",
+            "char_513_apionr",
+            "char_511_asnipe",
+            "char_510_amedic",
+            "char_509_acast",
+            "char_508_aguard",
+            "char_1001_amiya2",
         };
 
         private string _operBoxInfo = LocalizationHelper.GetString("OperBoxRecognitionTip");
@@ -397,37 +480,82 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _operBoxDone, value);
         }
 
-        private string _operBoxExportData = string.Empty;
+        public string OperBoxExportData { get; set; } = string.Empty;
+
+        private JArray _operBoxDataArray = (JArray)JsonConvert.DeserializeObject(ConfigurationHelper.GetValue(ConfigurationKeys.OperBoxData, string.Empty));
+
+        public JArray OperBoxDataArray
+        {
+            get => _operBoxDataArray;
+            set
+            {
+                SetAndNotify(ref _operBoxDataArray, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.OperBoxData, value.ToString());
+                _operBoxPotential = null;   // reset
+            }
+        }
+
+        private Dictionary<string, int> _operBoxPotential = null;
+
+        public Dictionary<string, int> OperBoxPotential
+        {
+            get
+            {
+                if (OperBoxDataArray == null)
+                {
+                    return null;
+                }
+
+                if (_operBoxPotential == null)
+                {
+                    _operBoxPotential = new Dictionary<string, int>();
+                    foreach (JObject operBoxData in OperBoxDataArray.Cast<JObject>())
+                    {
+                        _operBoxPotential.Add((string)operBoxData["name"], (int)operBoxData["potential"]);
+                    }
+                }
+
+                return _operBoxPotential;
+            }
+        }
 
         public bool OperBoxParse(JObject details)
         {
             JArray operBoxs = (JArray)details["all_opers"];
 
-            List<string> operHave = new List<string>();
-            List<string> operNotHave = new List<string>();
+            List<Tuple<string, int>> operHave = new List<Tuple<string, int>>();
+            List<Tuple<string, int>> operNotHave = new List<Tuple<string, int>>();
 
             foreach (JObject operBox in operBoxs.Cast<JObject>())
             {
+                var tuple = new Tuple<string, int>((string)operBox["name"], (int)operBox["rarity"]);
+
+                if (VirtuallyOpers.Contains((string)operBox["id"]))
+                {
+                    continue;
+                }
+
                 if ((bool)operBox["own"])
                 {
                     /*已拥有干员*/
-                    operHave.Add((string)operBox["name"]);
+                    operHave.Add(tuple);
                 }
                 else
                 {
                     /*未拥有干员,包含预备干员等*/
-                    operNotHave.Add((string)operBox["name"]);
+                    operNotHave.Add(tuple);
                 }
             }
 
-            /*移除未实装干员*/
-            operNotHave = operNotHave.Except(second: VirtuallyOpers).ToList();
+            operHave.Sort((x, y) => y.Item2.CompareTo(x.Item2));
+            operNotHave.Sort((x, y) => y.Item2.CompareTo(x.Item2));
 
             int newline_flag = 0;
             string operNotHaveNames = "\t";
 
-            foreach (var name in operNotHave)
+            foreach (var tuple in operNotHave)
             {
+                var name = tuple.Item1;
                 operNotHaveNames += PadRightEx(name, 12) + "\t";
                 if (newline_flag++ == 3)
                 {
@@ -438,8 +566,9 @@ namespace MaaWpfGui.ViewModels.UI
 
             newline_flag = 0;
             string operHaveNames = "\t";
-            foreach (var name in operHave)
+            foreach (var tuple in operHave)
             {
+                var name = tuple.Item1;
                 operHaveNames += PadRightEx(name, 12) + "\t";
                 if (newline_flag++ == 3)
                 {
@@ -453,7 +582,8 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 OperBoxInfo = LocalizationHelper.GetString("IdentificationCompleted") + "\n" + LocalizationHelper.GetString("OperBoxRecognitionTip");
                 OperBoxResult = string.Format(LocalizationHelper.GetString("OperBoxRecognitionResult"), operNotHave.Count, operNotHaveNames, operHave.Count, operHaveNames);
-                _operBoxExportData = details["own_opers"].ToString();
+                OperBoxExportData = details["own_opers"].ToString();
+                OperBoxDataArray = (JArray)details["own_opers"];
                 OperBoxDone = true;
             }
             else
@@ -466,7 +596,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public async void StartOperBox()
         {
-            _operBoxExportData = string.Empty;
+            OperBoxExportData = string.Empty;
             OperBoxDone = false;
 
             string errMsg = string.Empty;
@@ -486,12 +616,12 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void ExportOperBox()
         {
-            if (string.IsNullOrEmpty(_operBoxExportData))
+            if (string.IsNullOrEmpty(OperBoxExportData))
             {
                 return;
             }
 
-            Clipboard.SetDataObject(_operBoxExportData);
+            Clipboard.SetDataObject(OperBoxExportData);
             OperBoxInfo = LocalizationHelper.GetString("CopiedToClipboard");
         }
 

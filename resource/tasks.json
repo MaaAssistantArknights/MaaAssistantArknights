@@ -811,8 +811,8 @@
                 "-$1"
             ],
             [
-                "-1O",
-                "-10"
+                "-1O$",
+                "-10$"
             ]
         ]
     },
@@ -822,7 +822,8 @@
             "CW-Open"
         ],
         "next": [
-            "CW-10@SideStoryStage"
+            "CW-10@SideStoryStage",
+            "CW-10@SwipeToStage"
         ]
     },
     "CW-9": {
@@ -831,7 +832,8 @@
             "CW-Open"
         ],
         "next": [
-            "CW-9@SideStoryStage"
+            "CW-9@SideStoryStage",
+            "CW-9@SwipeToStage"
         ]
     },
     "CW-8": {
@@ -840,7 +842,8 @@
             "CW-Open"
         ],
         "next": [
-            "CW-8@SideStoryStage"
+            "CW-8@SideStoryStage",
+            "CW-8@SwipeToStage"
         ]
     },
     "CW-Open": {
@@ -864,6 +867,7 @@
     "CWChapterToCW": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
+        "cache": false,
         "text": [
             "未来将至"
         ],
@@ -884,9 +888,9 @@
         ],
         "roi": [
             0,
-            215,
-            587,
-            306
+            422,
+            1274,
+            36
         ]
     },
     "CW-9@SideStoryStage": {
@@ -895,9 +899,9 @@
         ],
         "roi": [
             0,
-            215,
-            587,
-            306
+            422,
+            1274,
+            36
         ]
     },
     "CW-8@SideStoryStage": {
@@ -906,9 +910,9 @@
         ],
         "roi": [
             0,
-            215,
-            587,
-            306
+            305,
+            1277,
+            38
         ]
     },
     "CF-8": {
@@ -2544,7 +2548,8 @@
         "next": [
             "CloseAnno",
             "CloseAnnoTexas",
-            "TodaysSupplies"
+            "TodaysSupplies",
+            "StartUp"
         ]
     },
     "CloseAnno": {
@@ -2559,7 +2564,8 @@
         "next": [
             "#back",
             "CloseAnnos#next",
-            "TodaysSupplies"
+            "TodaysSupplies",
+            "StartUp"
         ]
     },
     "CloseAnnoTexas": {
@@ -9166,6 +9172,7 @@
         "next": [
             "Mizuki@Roguelike@StageEncounterEnter",
             "Mizuki@Roguelike@NextLevel#next",
+            "Mizuki@Roguelike@StageEncounterOptions#next",
             "Mizuki@Roguelike@DropsFlag",
             "Mizuki@Roguelike@CloseEvent"
         ]
@@ -9539,7 +9546,8 @@
             "Mizuki@Roguelike@StageEncounterOptionWonderland",
             "Mizuki@Roguelike@ChooseOperFlag",
             "Mizuki@Roguelike@StageEmergencyDpsEnter",
-            "Mizuki@Roguelike@StageCambatDpsEnter"
+            "Mizuki@Roguelike@StageCambatDpsEnter",
+            "Mizuki@Roguelike@CloseEvent"
         ]
     },
     "Mizuki@Roguelike@StageEncounterJudgeOption": {},
