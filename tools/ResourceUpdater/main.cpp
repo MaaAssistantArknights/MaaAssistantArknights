@@ -181,7 +181,9 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
     auto zhtw_gamedata_dir = game_data_dir / "zh_TW" / "gamedata";
-    std::filesystem::remove_all(zhtw_gamedata_dir);
+    if (std::filesystem::exists(zhtw_gamedata_dir)) {
+        std::filesystem::remove_all(zhtw_gamedata_dir);
+    }
     std::filesystem::rename(cur_path / "data" / "gamedata", zhtw_gamedata_dir);
 
     /* Update recruitment data from ArknightsGameData*/
