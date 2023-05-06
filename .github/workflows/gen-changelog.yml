@@ -39,6 +39,7 @@ jobs:
 
           commit_msg="docs: Auto Generate Changelog of Release ""${{ steps.extract_tag.outputs.tag_name }}"
           git commit -m "$commit_msg"
+          git branch -D changelog
           git switch -c changelog
 
       - name: Push changes # push the output folder to your repo
