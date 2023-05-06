@@ -12,7 +12,7 @@ on:
 
 jobs:
   update-game-resources:
-    if: github.action_repository == "MaaAssistantArknights"
+    if: github.repository_owner == "MaaAssistantArknights"
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
