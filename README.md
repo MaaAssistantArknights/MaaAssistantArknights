@@ -115,7 +115,7 @@ MAA 的意思是 MAA Assistant Arknights
 ### 数据源
 
 - ~~公开招募数据：[明日方舟工具箱](https://www.bigfun.cn/tools/aktools/hr)~~
-- 干员及基建数据：[PRTS明日方舟中文WIKI](http://prts.wiki/)
+- ~~干员及基建数据：[PRTS明日方舟中文WIKI](http://prts.wiki/)~~
 - 关卡数据：[企鹅物流数据统计](https://penguin-stats.cn/)
 - 游戏数据及资源：[明日方舟客户端素材](https://github.com/yuanyan3060/ArknightsGameResource)
 - 外服游戏数据：[《明日方舟》游戏数据](https://github.com/Kengxxiao/ArknightsGameData)

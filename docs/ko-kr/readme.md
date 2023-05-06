@@ -110,7 +110,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 ### 데이터 소스
 
 - ~~공개모집 데이터: [ArkTools](https://www.bigfun.cn/tools/aktools/hr)~~
-- 오퍼레이터/기반시설 데이터: [PRTS Arknights Wiki (Chinese)](http://prts.wiki/)
+- ~~오퍼레이터/기반시설 데이터: [PRTS Arknights Wiki (Chinese)](http://prts.wiki/)~~
 - 스테이지 데이터: [Penguin Stats](https://penguin-stats.io/)
 - 게임 데이터/리소스: [Arknights Game Resource](https://github.com/yuanyan3060/ArknightsGameResource)
 - 게임 데이터: [Arknights Game Data](https://github.com/Kengxxiao/ArknightsGameData)
