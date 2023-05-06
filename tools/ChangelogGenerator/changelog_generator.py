@@ -192,7 +192,6 @@ def convert_contributors_name(name: str, commit_hash: str, name_type: str):
             if token:
                 req.add_header("Authorization", f"Bearer {token}")
             resp = retry_urlopen(req).read()
-            print(resp)
             userid = json.loads(resp)[name_type]['login']
             contributors.update({name: userid})
             return userid
@@ -211,16 +210,15 @@ def main(tag_name=None, latest=None):
         pass
     # 从哪个 tag 开始
     if latest == None:
-        latest = os.popen("git describe --tags --match 'v*' --abbrev=0").read().strip()
+        latest = os.popen("git describe --tags --match \"v*\" --abbrev=0").read().strip()
 
     if tag_name == None:
-        tag_name = os.popen("git describe --tags --match 'v*'").read().strip()
+        tag_name = os.popen("git describe --tags --match \"v*\"").read().strip()
     print("From:", latest, ", To:", tag_name, "\n")
 
     # 输出一张好看的 git log 图到控制台
     git_pretty_command = rf'git log {latest}..HEAD --pretty=format:"%C(yellow)%d%Creset %s %C(bold blue)@%an%Creset (%Cgreen%h%Creset)" --graph'
     # os.system(git_pretty_command)
-    print()
 
     # 获取详细的 git log 信息
     # git_command = rf'git log {latest}..HEAD --pretty=format:"\"%H\":{{\"hash\":\"%h\",\"author\":\"%aN\",\"committer\":\"%cN\",\"message\":\"%s\",\"parent\":\"%P\"}},"'
@@ -248,8 +246,10 @@ def main(tag_name=None, latest=None):
 
     res = print_commits(build_commits_tree([x for x in raw_commits_info.keys()][0]))
 
+    changelog_content = "## " + tag_name + "\n" + res[0]
+    print(changelog_content)
     with open(changelog_path, "w", encoding="utf8") as f:
-        f.write("## " + tag_name + "\n" + res[0])
+        f.write(changelog_content)
 
     with open(contributors_path, "w") as f:
         json.dump(contributors, f)
@@ -260,7 +260,7 @@ def ArgParser():
     parser.add_argument("--base", "--latest", help="base tag name", metavar="TAG", dest="latest", default=None)
     parser.add_argument("-wh", "--with-hash", help="print commit message with hash", action="store_true", dest="with_hash")
     parser.add_argument("-wc", "--with-commitizen", help="print commit message with commitizen", action="store_true", dest="with_commitizen")
-    parser.add_argument("-im", "--ignore-merge-author", help="ignore merge author", action="store_true", dest="ignore_merge_author")
+    parser.add_argument("-im", "--ignore-merge-author", help="ignore merge author", action="store_true", dest="ignore_merge_author", default=True)
     parser.add_argument("-ca", "--committer-is-author", help="treat committer the same as author", action="store_true", dest="committer_is_author")
     return parser
 
