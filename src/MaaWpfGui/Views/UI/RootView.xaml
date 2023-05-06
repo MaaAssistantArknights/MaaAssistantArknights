@@ -19,6 +19,7 @@
     mc:Ignorable="d">
     <DockPanel>
         <TabControl
+            BorderThickness="0,1,0,0"
             DisplayMemberPath="DisplayName"
             ItemsSource="{Binding Items}"
             SelectedItem="{s:RethrowingBinding ActiveItem}"
