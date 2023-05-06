@@ -1918,6 +1918,24 @@
             "Event"
         ]
     },
+    "GachaLastOnceResult": {
+        "text": [
+            "Certificate",
+            "Token",
+            "Duplicate"
+        ]
+    },
+    "GachaOncePrefix@DoGacha": {
+        "fullMatch": true,
+        "text": [
+            "Headhunt x1"
+        ]
+    },
+    "GachaTenTimesPrefix@DoGacha": {
+        "text": [
+            "Headhunt x10"
+        ]
+    },
     "GoLastBattle": {
         "text": [
             "To the most recent stage"
@@ -2110,6 +2128,11 @@
             "ENTER"
         ]
     },
+    "Roguelike@RecruitSupportConfirm": {
+        "text": [
+            "Recruit support"
+        ]
+    },
     "Roguelike@StageTraderInvestConfirm": {
         "templThreshold": 0.55
     },
@@ -2122,6 +2145,11 @@
     "Roguelike@StageTraderInvestSystemFull": {
         "text": [
             "Storage full"
+        ]
+    },
+    "RoguelikeChooseSupportBtnOcr": {
+        "text": [
+            "Select Support"
         ]
     },
     "RoguelikeCustom-HijackCoChar": {
@@ -2231,6 +2259,12 @@
                 "First-Class Squad",
                 "高规格分队"
             ]
+        ]
+    },
+    "RoguelikeRefreshSupportBtnOcr": {
+        "text": [
+            "Refresh support list",
+            "Refresh support"
         ]
     },
     "RoguelikeTraderShoppingOcr": {
@@ -3540,40 +3574,6 @@
     "VisitNextOcr": {
         "text": [
             "Visit Next"
-        ]
-    },
-    "GachaLastOnceResult": {
-        "text": [
-            "Certificate",
-            "Token",
-            "Duplicate"
-        ]
-    },
-    "GachaOncePrefix@DoGacha": { 
-	    "fullMatch": true,
-        "text": [
-            "Headhunt x1"
-        ]
-    },
-    "GachaTenTimesPrefix@DoGacha": {
-        "text": [
-            "Headhunt x10"
-        ]
-    },
-	"RoguelikeChooseSupportBtnOcr": {
-        "text": [
-            "Select Support"
-        ]
-    },
-	"Roguelike@RecruitSupportConfirm": {
-        "text": [
-            "Recruit support"
-        ]
-    },
-	"RoguelikeRefreshSupportBtnOcr": {
-        "text": [
-            "Refresh support list",
-			"Refresh support"
         ]
     }
 }
