@@ -50,7 +50,7 @@ jobs:
           force: true
           branch: changelog
           
-      - run: git fetch origin/changelog
+      - run: git fetch origin changelog
           
       - name: Create PR
         uses: peter-evans/create-pull-request@v5
