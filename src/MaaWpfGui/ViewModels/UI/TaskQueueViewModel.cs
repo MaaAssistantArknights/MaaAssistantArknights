@@ -27,6 +27,7 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using MaaWpfGui.Models;
 using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
 using Newtonsoft.Json;
@@ -53,6 +54,13 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets or sets the view models of task items.
         /// </summary>
         public ObservableCollection<DragItemViewModel> TaskItemViewModels { get; set; }
+
+        /// <summary>
+        /// Gets the visibility of task setting views.
+        /// </summary>
+        public TaskSettingVisibilityInfo TaskSettingVisibilities { get; } = TaskSettingVisibilityInfo.Current;
+
+        public SettingsViewModel TaskSettingDataContext { get => Instances.SettingsViewModel; }
 
         /// <summary>
         /// 实时更新任务顺序
@@ -260,6 +268,11 @@ namespace MaaWpfGui.ViewModels.UI
                 bool parsed = int.TryParse(ConfigurationHelper.GetTaskOrder(task, "-1"), out var order);
 
                 var vm = new DragItemViewModel(LocalizationHelper.GetString(task), task, "TaskQueue.");
+
+                if (task == TaskSettingVisibilityInfo.DefaultVisibleTaskSetting)
+                {
+                    vm.EnableSetting = true;
+                }
 
                 if (!parsed || order < 0 || order >= temp_order_list.Count)
                 {

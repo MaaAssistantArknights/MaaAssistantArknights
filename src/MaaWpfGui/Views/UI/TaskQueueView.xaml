@@ -59,6 +59,7 @@
                         dd:DragDrop.IsDragSource="{Binding Idle}"
                         dd:DragDrop.IsDropTarget="{Binding Idle}"
                         BorderThickness="0"
+                        ItemContainerStyle="{StaticResource CustomListBoxItemStyle}"
                         ItemsSource="{Binding Path=TaskItemViewModels}"
                         SelectionChanged="{s:Action TaskItemSelectionChanged}"
                         ToolTip="{DynamicResource LabelSequenceTip}">
@@ -68,9 +69,24 @@
                                     <!--<maa:TextBlock  Text="{Binding ID}" />
                             <maa:TextBlock  Text=". " />-->
                                     <CheckBox
+                                        Width="155"
                                         Content="{Binding Name}"
                                         IsChecked="{Binding IsChecked}"
                                         IsHitTestVisible="{Binding ElementName=TaskList, Path=DataContext.Idle}" />
+                                    <hc:ButtonGroup>
+                                        <RadioButton
+                                            Margin="0"
+                                            Padding="0"
+                                            hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
+                                            hc:VisualElement.HighlightBackground="Transparent"
+                                            hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            Foreground="{DynamicResource SecondaryTextBrush}"
+                                            GroupName="TaskSettings"
+                                            IsChecked="{Binding EnableSetting}"
+                                            Style="{DynamicResource RadioGroupItemSingle}" />
+                                    </hc:ButtonGroup>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -171,23 +187,87 @@
                 <CheckBox IsChecked="{Binding Suspend}" Content="待机" Visibility="{Binding Visible}"  HorizontalAlignment="Center" VerticalAlignment="Center" />-->
             <!--</StackPanel>-->
         </Grid>
+
+        <userControl:GuideUserControl
+            x:Name="Guide"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+            DataContext="{Binding TaskSettingDataContext}"
+            Visibility="{c:Binding TaskSettingVisibilities.Guide}" />
+
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
+                <RowDefinition Height="*" MinHeight="360" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition />
+                <RowDefinition Height="*" MaxHeight="230" />
             </Grid.RowDefinitions>
-            <userControl:FightSettingsUserControl
+            <hc:ScrollViewer
                 Grid.Row="0"
                 Margin="10"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Top" />
-            <hc:ScrollViewer
+                VerticalAlignment="Top"
+                HorizontalScrollBarVisibility="Auto"
+                IsInertiaEnabled="True"
+                VerticalScrollBarVisibility="Auto">
+                <hc:SimpleStackPanel Width="220" Margin="0,0,10,0">
+                    <userControl:FightSettingsUserControl Visibility="{c:Binding TaskSettingVisibilities.Combat}" />
+                    <userControl:AutoRecruitSettingsUserControl
+                        s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+                        DataContext="{Binding TaskSettingDataContext}"
+                        IsEnabled="{Binding Idle}"
+                        Visibility="{c:Binding TaskSettingVisibilities.Recruiting}" />
+                    <userControl:ConnectSettingsOnWakeUpUserControl
+                        s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+                        DataContext="{Binding TaskSettingDataContext}"
+                        IsEnabled="{Binding Idle}"
+                        Visibility="{c:Binding TaskSettingVisibilities.WakeUp}" />
+                    <userControl:InfrastSettingsUserControl
+                        s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+                        DataContext="{Binding TaskSettingDataContext}"
+                        IsEnabled="{Binding Idle}"
+                        Visibility="{c:Binding TaskSettingVisibilities.Base}" />
+                    <userControl:MallSettingsUserControl
+                        s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+                        DataContext="{Binding TaskSettingDataContext}"
+                        IsEnabled="{Binding Idle}"
+                        Visibility="{c:Binding TaskSettingVisibilities.Mall}" />
+                    <!--
+                        userControl:RoguelikeSettingsUserControl
+                        s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+                        DataContext="{Binding TaskSettingDataContext}"
+                        IsEnabled="{Binding Idle}"
+                        Visibility="{c:Binding TaskSettingVisibilities.Mission}" /
+                    -->
+                    <userControl:RoguelikeSettingsUserControl
+                        s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+                        DataContext="{Binding TaskSettingDataContext}"
+                        IsEnabled="{Binding Idle}"
+                        Visibility="{c:Binding TaskSettingVisibilities.AutoRoguelike}" />
+                </hc:SimpleStackPanel>
+            </hc:ScrollViewer>
+            <hc:ButtonGroup
                 Grid.Row="1"
+                Width="220"
+                Margin="0,0,10,0"
+                Orientation="Horizontal">
+                <RadioButton
+                    Content="{DynamicResource GeneralSettings}"
+                    IsChecked="{c:Binding !TaskSettingVisibilities.EnableAdvancedSettings}"
+                    IsEnabled="True" />
+                <RadioButton
+                    Content="{DynamicResource AdvancedSettings}"
+                    IsChecked="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}"
+                    IsEnabled="{c:Binding TaskSettingVisibilities.AdvancedSettingsVisibility}" />
+            </hc:ButtonGroup>
+            <hc:ScrollViewer
+                Grid.Row="2"
                 Width="200"
-                Margin="10"
+                Margin="0,10,10,10"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Bottom">
-                <controls:TextBlock Text="{Binding StagesOfToday}" />
+                VerticalAlignment="Bottom"
+                IsInertiaEnabled="True">
+                <controls:TextBlock Text="{Binding StagesOfToday}" TextWrapping="Wrap" />
             </hc:ScrollViewer>
         </Grid>
 
@@ -200,7 +280,8 @@
             VerticalAlignment="Top"
             properties:AutoScroll.AutoScroll="True"
             HorizontalScrollBarVisibility="Disabled"
-            IsInertiaEnabled="True">
+            IsInertiaEnabled="True"
+            Visibility="{c:Binding !TaskSettingVisibilities.Guide}">
             <ItemsControl
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"

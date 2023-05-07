@@ -29,40 +29,16 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
         </Grid.RowDefinitions>
-        <StackPanel
-            Grid.Row="0"
-            Grid.Column="1"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Orientation="Horizontal">
-            <CheckBox
-                Margin="10"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Content="{DynamicResource AutoDetectConnection}"
-                IsChecked="{Binding AutoDetectConnection}"
-                ToolTip="{DynamicResource AutoDetectConnectionTip}" />
-            <CheckBox
-                Margin="10"
-                VerticalAlignment="Center"
-                Content="{DynamicResource AlwaysAutoDetectConnection}"
-                IsChecked="{Binding AlwaysAutoDetectConnection}"
-                Visibility="{c:Binding AutoDetectConnection}" />
-        </StackPanel>
         <controls:TextBlock
-            Grid.Row="1"
+            Grid.Row="0"
             Grid.Column="0"
             Margin="10"
             Block.TextAlignment="Center"
             Text="{DynamicResource ADBPath}"
             TextWrapping="Wrap" />
         <TextBox
-            Grid.Row="1"
+            Grid.Row="0"
             Grid.Column="1"
             Width="250"
             Height="30"
@@ -70,7 +46,7 @@
             IsEnabled="{c:Binding !AutoDetectConnection}"
             Text="{Binding AdbPath}" />
         <Button
-            Grid.Row="1"
+            Grid.Row="0"
             Grid.Column="2"
             Width="60"
             Height="30"
@@ -79,95 +55,17 @@
             Command="{s:Action SelectFile}"
             Content="{DynamicResource Select}"
             IsEnabled="{c:Binding !AutoDetectConnection}" />
-
-        <controls:TextBlock
-            Grid.Row="2"
-            Grid.Column="0"
-            Margin="10"
-            Block.TextAlignment="Center"
-            Text="{DynamicResource ConnectionAddress}"
-            TextWrapping="Wrap" />
-        <ComboBox
-            Grid.Row="2"
-            Grid.Column="1"
-            Width="250"
-            Height="30"
-            Margin="10"
-            IsEditable="True"
-            IsEnabled="{c:Binding !AutoDetectConnection}"
-            ItemsSource="{Binding ConnectAddressHistory}"
-            Text="{Binding ConnectAddress, UpdateSourceTrigger=LostFocus}"
-            ToolTip="{DynamicResource ConnectionAddressTip}">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid Width="{c:Binding ActualWidth - 20, RelativeSource={RelativeSource AncestorType=ComboBox}}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock
-                            Grid.Column="0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Text="{Binding}" />
-                        <Button
-                            Grid.Column="1"
-                            HorizontalAlignment="Right"
-                            Command="{s:Action RemoveAddress_Click}"
-                            CommandParameter="{Binding}"
-                            Content="×"
-                            FontWeight="Bold" />
-                    </Grid>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-
-        <controls:TextBlock
-            Grid.Row="3"
-            Grid.Column="0"
-            Margin="10"
-            Block.TextAlignment="Center"
-            Text="{DynamicResource ConnectionPreset}"
-            TextWrapping="Wrap" />
-        <ComboBox
-            Grid.Row="3"
-            Grid.Column="1"
-            Width="250"
-            Height="30"
-            Margin="10"
-            DisplayMemberPath="Display"
-            IsEnabled="{c:Binding !AutoDetectConnection}"
-            ItemsSource="{Binding ConnectConfigList}"
-            SelectedValue="{Binding ConnectConfig}"
-            SelectedValuePath="Value" />
         <CheckBox
-            Grid.Row="4"
+            Grid.Row="1"
             Grid.Column="0"
-            Grid.ColumnSpan="3"
-            Margin="15"
+            Grid.ColumnSpan="2"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Content="{DynamicResource RetryOnDisconnected}"
             IsChecked="{Binding RetryOnDisconnected}"
             ToolTip="{DynamicResource RetryOnDisconnectedTip}" />
-        <controls:TextBlock
-            Grid.Row="5"
-            Grid.Column="0"
-            VerticalAlignment="Center"
-            Text="{DynamicResource TouchMode}" />
-        <ComboBox
-            Grid.Row="5"
-            Grid.Column="1"
-            Width="250"
-            Height="30"
-            Margin="10"
-            DisplayMemberPath="Display"
-            IsHitTestVisible="{Binding Idle}"
-            ItemsSource="{Binding TouchModeList}"
-            SelectedValue="{Binding TouchMode}"
-            SelectedValuePath="Value" />
         <Button
-            Grid.Row="5"
+            Grid.Row="1"
             Grid.Column="2"
             Height="30"
             Margin="10"
@@ -175,7 +73,7 @@
             Command="{s:Action ReplaceADB}"
             Content="{DynamicResource ForcedReplaceADB}" />
         <CheckBox
-            Grid.Row="6"
+            Grid.Row="2"
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Margin="80,10,10,10"
@@ -184,7 +82,7 @@
             Content="{DynamicResource KillAdbOnExit}"
             IsChecked="{Binding KillAdbOnExit}" />
         <CheckBox
-            Grid.Row="6"
+            Grid.Row="2"
             Grid.Column="1"
             Grid.ColumnSpan="2"
             Margin="160,10,10,10"
@@ -193,7 +91,7 @@
             Content="{DynamicResource AdbLiteEnabled}"
             IsChecked="{Binding AdbLiteEnabled}" />
         <CheckBox
-            Grid.Row="7"
+            Grid.Row="3"
             Grid.Column="0"
             Grid.ColumnSpan="3"
             Margin="10"
@@ -202,14 +100,14 @@
             Content="{DynamicResource DeploymentWithPause}"
             IsChecked="{Binding DeploymentWithPause}" />
         <controls:TextBlock
-            Grid.Row="8"
+            Grid.Row="4"
             Grid.Column="0"
             Margin="10"
             Block.TextAlignment="Center"
             Text="{DynamicResource StartsWithScript}"
             TextWrapping="Wrap" />
         <TextBox
-            Grid.Row="8"
+            Grid.Row="4"
             Grid.Column="1"
             Width="250"
             Height="30"
@@ -219,14 +117,14 @@
             PreviewDragOver="TextBox_PreviewDragOver"
             Text="{Binding StartsWithScript}" />
         <controls:TextBlock
-            Grid.Row="9"
+            Grid.Row="5"
             Grid.Column="0"
             Margin="10"
             Block.TextAlignment="Center"
             Text="{DynamicResource EndsWithScript}"
             TextWrapping="Wrap" />
         <TextBox
-            Grid.Row="9"
+            Grid.Row="5"
             Grid.Column="1"
             Width="250"
             Height="30"
