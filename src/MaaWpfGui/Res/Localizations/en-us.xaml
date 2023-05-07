@@ -356,7 +356,7 @@
     <system:String x:Key="ConnectingToEmulator">Connecting to emulator...</system:String>
     <system:String x:Key="UnselectedTask">Unselected task</system:String>
     <system:String x:Key="Running">Running...</system:String>
-    <system:String x:Key="AdbReplacementTips">If all stuck, plz go to Settings - Connection Settings - Forced Replace ADB File, or turn on Compatibility Touch Mode (not recommended).</system:String>
+    <system:String x:Key="AdbReplacementTips">If all stuck, plz go to Settings - Connection Settings - Forced Replace ADB File, or turn on Compatibility Touch Mode in Task Settings - Login (not recommended).</system:String>
     <system:String x:Key="Stopping">Stopping...</system:String>
     <system:String x:Key="Stopped">Has stopped</system:String>
     <system:String x:Key="UnknownErrorOccurs">Unknown error occurred</system:String>
@@ -484,7 +484,7 @@ The video resolution is required to be 16:9, and there are no interference facto
     <system:String x:Key="ReconnectSuccess">Reconnect succeeded. Continue the task</system:String>
     <system:String x:Key="ReconnectFailed">Reconnect failed. The connection is down!</system:String>
     <system:String x:Key="ScreencapFailed">Screencap failed. If it happens repeatedly, try restarting or changing the emulator.</system:String>
-    <system:String x:Key="TouchModeNotAvailable">Touch mode is not available, please enter Settings - Connection Settings to change other touch modes</system:String>
+    <system:String x:Key="TouchModeNotAvailable">Touch mode is not available, please enter Task Settings - Login to change other touch modes</system:String>
     <system:String x:Key="IdentifyTheMistakes">Identify error</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">Task error: </system:String>
     <system:String x:Key="CombatError">Combat error</system:String>
