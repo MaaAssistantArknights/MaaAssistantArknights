@@ -35,7 +35,7 @@
 
         <hc:ScrollViewer
             Grid.Column="1"
-            Margin="20,0"
+            Margin="20,10"
             HorizontalAlignment="Stretch"
             properties:ScrollViewerBinding.DividerVerticalOffsetList="{Binding DividerVerticalOffsetList}"
             properties:ScrollViewerBinding.ExtentHeight="{Binding ScrollExtentHeight}"
