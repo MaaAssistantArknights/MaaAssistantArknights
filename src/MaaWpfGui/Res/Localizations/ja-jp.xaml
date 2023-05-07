@@ -405,8 +405,10 @@
         1. 「行動開始」ボタンのあるインターフェースでこの機能を使用してください；\n\n
         2. サポートを使うときは、「自動編成」をオフにし、手動でオペレーターを選択してから始めましょう；\n\n
         3. 逆理演算の場合は、「自動編成」をオフにする必要があり、スキルを選択した後、「演算開始」ボタンのインターフェースから開始する必要があります；\n\n
-        4. For SSS, There are two built-in files under the resource/copilot folder.\n
-        Please start on the &quot;Start Deployment&quot; screen after manual formation (can be used with &quot;Loop times&quot;)
+        4. SSSには、resource/copilot フォルダー内に複数の組み込みファイルがあります。\n
+        手動形成後、「開始デプロイメント」画面から開始してください（「ループ回数」で使用可能）。\n\n
+        5. ビデオ認識がサポートされており、ガイドビデオをドラッグして使用できます。\n
+        ビデオ解像度は16:9が必要で、黒い枠、エミュレーターの枠、特殊形状の画面修正などの邪魔な要素はありません。\n\n
     </system:String>
 
     <system:String x:Key="CopilotFileReadError">ファイルの読み取りに失敗しました！</system:String>

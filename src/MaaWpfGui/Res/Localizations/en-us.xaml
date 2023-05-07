@@ -365,7 +365,7 @@
     <system:String x:Key="RecruitmentRecognitionTip">Tip: This recognition is independent from main tab (Farming); need open up in game recruit tag selection screen then begin ~</system:String>
     <system:String x:Key="AutoSettingTime">Auto setting time</system:String>
     <system:String x:Key="RecruitmentShowPotential">Show Potential</system:String>
-    <system:String x:Key="RecruitmentShowPotentialTips">Please use the "Operator" to get information</system:String>
+    <system:String x:Key="RecruitmentShowPotentialTips">Please use the &quot;Operator&quot; to get information</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">Auto select 3 ★ Tags</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">Auto select 4 ★ Tags</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">Auto select 5 ★ Tags</system:String>
@@ -394,7 +394,7 @@
     <system:String x:Key="VideoRecognition">Video</system:String>
     <system:String x:Key="StartToVideoRecognition">Start to identify</system:String>
     <system:String x:Key="OpenVideoRecognitionResult">Open Directory</system:String>
-    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">For video recognition, please open the "Copilot" page and drag the strategy video into it.
+    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">For video recognition, please open the &quot;Copilot&quot; page and drag the strategy video into it.
 
 The video resolution is required to be 16:9, and there are no interference factors such as black borders, emulator borders, and special-shaped screen corrections.</system:String>
     <!--  Video Recognition  -->
@@ -432,7 +432,7 @@ The video resolution is required to be 16:9, and there are no interference facto
         1. Please use this function only when &quot;Start&quot; is visible in game.\n\n
         2. You need turn off the &quot;Auto squad&quot; if using friend support unit, then start with your support unit selected.\n\n
         3. For Paradox Simulation, you need to turn off &quot;Auto squad&quot; and select the skill before, then start in game &quot;start&quot; screen.\n\n
-        4. For SSS, There are two built-in files under the resource/copilot folder.\n
+        4. For SSS, There are multiple built-in files under the resource/copilot folder.\n
         Please start on the &quot;Start Deployment&quot; screen after manual formation (can be used with &quot;Loop times&quot;)\n\n
         5. Video recognition is now supported, please drag the guide video to use. \n
         The video resolution is required to be 16:9, and there are no distracting elements such as black borders, emulator borders, and special-shaped screen corrections.\n\n
