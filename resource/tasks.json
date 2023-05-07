@@ -3180,7 +3180,8 @@
         ],
         "next": [
             "StartButton1",
-            "OfflineConfirm"
+            "OfflineConfirm",
+            "MedicineConfirm@LoadingText"
         ]
     },
     "UseStone": {
