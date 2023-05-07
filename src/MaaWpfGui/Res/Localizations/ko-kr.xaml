@@ -382,8 +382,10 @@
         팁:\n\n1. '작전 개시' 버튼이 있는 화면에서 이 기능을 사용하세요.\n\n
         2. 친구의 오퍼레이터를 사용하는 경우에는 '자동 편성'을 선택하지 말고 수동으로 오퍼레이터를 선택하고 시작하세요.\n\n
         3. 패러독스 시뮬레이션의 경우에는 '자동 편성'을 선택하지 말고, 스킬을 선택하고 '시뮬레이션 시작' 버튼이 있는 화면에 시작하세요.\n\n
-        4. For SSS, There are two built-in files under the resource/copilot folder.\n
-        Please start on the &quot;Start Deployment&quot; screen after manual formation (can be used with &quot;Loop times&quot;)
+        4. SSS 에는 resource/copilot 폴더에 여러 내장 파일이 있습니다.\n
+        수동 형성 후 &quot;Start Deployment&quot; 화면에서 시작하십시오( &quot;반복 횟수&quot;와 함께 사용 가능)\n\n
+        5. 비디오 인식이 지원되며, 가이드 비디오를 드래그하여 사용할 수 있습니다.\n
+        비디오 해상도는 16:9이어야 하며, 검은 테두리, 에뮬레이터 테두리 및 특수 모양의 화면 보정과 같은 방해 요소가 없어야합니다.\n\n
     </system:String>
 
     <system:String x:Key="CopilotFileReadError">파일을 읽지 못했습니다!</system:String>
