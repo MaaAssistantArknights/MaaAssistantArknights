@@ -41,9 +41,28 @@
                     </hc:ThemeResources.ThemeDictionaries>
                 </hc:ThemeResources>
                 <hc:Theme />
+
             </ResourceDictionary.MergedDictionaries>
             <!--  A Style that affects all TextBlocks  -->
             <Style BasedOn="{StaticResource TextBlockDefault}" TargetType="controls:TextBlock" />
+            <!--  A Style that affects all Divider  -->
+            <Style BasedOn="{StaticResource DividerBaseStyle}" TargetType="hc:Divider">
+                <Setter Property="Foreground" Value="{DynamicResource TraceLogBrush}" />
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="Padding" Value="10,0" />
+            </Style>
+            <Style
+                x:Key="CustomListBoxItemStyle"
+                BasedOn="{StaticResource ListBoxItemBaseStyle}"
+                TargetType="ListBoxItem">
+                <Setter Property="Padding" Value="10,0,0,0" />
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="true">
+                        <Setter Property="Background" Value="{DynamicResource RegionBrush}" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
 
             <Style TargetType="Hyperlink">
                 <EventSetter Event="Click" Handler="Hyperlink_Click" />

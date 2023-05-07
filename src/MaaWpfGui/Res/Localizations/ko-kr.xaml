@@ -4,6 +4,8 @@
     xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  설정  -->
     <system:String x:Key="Settings">설정</system:String>
+    <system:String x:Key="GeneralSettings">일반 설정</system:String>
+    <system:String x:Key="AdvancedSettings">고급 설정</system:String>
     <system:String x:Key="GameSettings">클라이언트</system:String>
     <system:String x:Key="BaseSettings">기반시설</system:String>
     <system:String x:Key="RoguelikeSettings">통합전략</system:String>
@@ -19,6 +21,17 @@
     <system:String x:Key="AboutUs">정보</system:String>
 
     <system:String x:Key="Version">버전</system:String>
+
+    <!--  설정 가이드  -->
+    <system:String x:Key="TaskSettings">작업 설정</system:String>
+    <system:String x:Key="SettingsGuide">설정 가이드</system:String>
+    <system:String x:Key="PrevGuide">이전 단계</system:String>
+    <system:String x:Key="NextGuide">다음 단계</system:String>
+    <system:String x:Key="DoneGuide">완료</system:String>
+    <system:String x:Key="TaskGuide">↑태스크</system:String>
+    <system:String x:Key="OftenUsedGuide">↓자주 사용하는</system:String>
+    <system:String x:Key="SometimesUsedGuide">흔하지 않게 사용되는↑</system:String>
+    <system:String x:Key="LinkStartGuide">← 작업 시작</system:String>
 
     <system:String x:Key="Dorm">숙소</system:String>
     <system:String x:Key="Mfg">제조소</system:String>
@@ -322,7 +335,7 @@
     <system:String x:Key="ConnectingToEmulator">에뮬레이터에 연결 중...</system:String>
     <system:String x:Key="UnselectedTask">선택된 작업이 없습니다</system:String>
     <system:String x:Key="Running">실행 중...</system:String>
-    <system:String x:Key="AdbReplacementTips">프로그램이 작동하지 않으면 설정 - 연결 설정 - ADB 강제 교체를 실행하거나 호환 터치 모드를 활성화해 주세요 (추천하지 않음).</system:String>
+    <system:String x:Key="AdbReplacementTips">프로그램이 작동하지 않으면 설정 - 연결 설정 - ADB 강제 교체를 실행하거나 작업 설정 - 로그인 중 호환 터치 모드를 활성화해 주세요 (추천하지 않음).</system:String>
     <system:String x:Key="Stopping">중지 중...</system:String>
     <system:String x:Key="Stopped">중지됨</system:String>
     <system:String x:Key="UnknownErrorOccurs">예상치 못한 오류가 발생했습니다</system:String>
@@ -417,7 +430,7 @@
     <system:String x:Key="ReconnectSuccess">다시 연결되었습니다. 작업을 계속합니다.</system:String>
     <system:String x:Key="ReconnectFailed">다시 연결하지 못했습니다. 연결 해제되었습니다!</system:String>
     <system:String x:Key="ScreencapFailed">스크린샷 캡처에 실패했습니다. 반복적으로 발생 시 에뮬레이터를 다시 시작하거나 변경해 보세요.</system:String>
-    <system:String x:Key="TouchModeNotAvailable">터치 수행 방식이 사용 불가능합니다. 설정 - 연결 설정에서 다른 방식으로 변경해 주세요.</system:String>
+    <system:String x:Key="TouchModeNotAvailable">터치 수행 방식이 사용 불가능합니다. 작업 설정 - 로그인 설정에서 다른 방식으로 변경해 주세요.</system:String>
     <system:String x:Key="IdentifyTheMistakes">인식 오류</system:String>
     <system:String x:Key="TaskError">작업 오류:</system:String>
     <system:String x:Key="CombatError">작전 오류</system:String>
