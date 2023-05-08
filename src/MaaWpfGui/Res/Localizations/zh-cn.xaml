@@ -621,4 +621,9 @@
     <system:String x:Key="VersionUpdated">版本已更新</system:String>
     <system:String x:Key="VersionUpdatedTo">已更新：</system:String>
     <!--  VersionUpdatePopup  -->
+
+    <!-- RootViewModel -->
+    <system:String x:Key="ConfirmExitTitle">MAA 正在运行任务</system:String>
+    <system:String x:Key="ConfirmExitText">确定要退出吗？</system:String>
+    <!-- RootViewModel -->
 </ResourceDictionary>

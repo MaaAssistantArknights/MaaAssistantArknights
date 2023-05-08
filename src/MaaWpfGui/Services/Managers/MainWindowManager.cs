@@ -108,5 +108,25 @@ namespace MaaWpfGui.Services.Managers
                 MainWindow.Visibility = Visibility.Hidden;
             }
         }
+
+        public virtual Window GetWindowIfVisible()
+        {
+            if (MainWindow == null)
+            {
+                return null;
+            }
+
+            if (MainWindow.WindowState == WindowState.Minimized)
+            {
+                return null;
+            }
+
+            if (MainWindow.Visibility != Visibility.Visible)
+            {
+                return null;
+            }
+
+            return MainWindow;
+        }
     }
 }

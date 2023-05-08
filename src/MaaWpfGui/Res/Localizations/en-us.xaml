@@ -596,4 +596,9 @@ The video resolution is required to be 16:9, and there are no interference facto
     <system:String x:Key="VersionUpdated">Version Updated</system:String>
     <system:String x:Key="VersionUpdatedTo">Version:</system:String>
     <!--  VersionUpdatePopup  -->
+
+    <!-- RootViewModel -->
+    <system:String x:Key="ConfirmExitTitle">MAA is running tasks</system:String>
+    <system:String x:Key="ConfirmExitText">Are you sure want to exit?</system:String>
+    <!-- RootViewModel -->
 </ResourceDictionary>
