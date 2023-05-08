@@ -135,6 +135,12 @@ namespace MaaWpfGui.Main
             builder.Bind<IMaaApiService>().To<MaaApiService>().InSingletonScope();
         }
 
+        protected override void Configure()
+        {
+            base.Configure();
+            Instances.Instantiate(Container);
+        }
+
         /// <inheritdoc/>
         protected override void DisplayRootView(object rootViewModel)
         {
