@@ -6326,6 +6326,150 @@
         "stageId": "act25side_10",
         "width": 12
     },
+    "act25side_ex01#f#-activities/act25side/level_act25side_ex01": {
+        "code": "CW-EX-1",
+        "filename": "act25side_ex01#f#-activities-act25side-level_act25side_ex01.json",
+        "height": 8,
+        "levelId": "activities/act25side/level_act25side_ex01",
+        "name": "投石问犬",
+        "stageId": "act25side_ex01#f#",
+        "width": 12
+    },
+    "act25side_ex01-activities/act25side/level_act25side_ex01": {
+        "code": "CW-EX-1",
+        "filename": "act25side_ex01-activities-act25side-level_act25side_ex01.json",
+        "height": 8,
+        "levelId": "activities/act25side/level_act25side_ex01",
+        "name": "投石问犬",
+        "stageId": "act25side_ex01",
+        "width": 12
+    },
+    "act25side_ex02#f#-activities/act25side/level_act25side_ex02": {
+        "code": "CW-EX-2",
+        "filename": "act25side_ex02#f#-activities-act25side-level_act25side_ex02.json",
+        "height": 8,
+        "levelId": "activities/act25side/level_act25side_ex02",
+        "name": "未来战争",
+        "stageId": "act25side_ex02#f#",
+        "width": 12
+    },
+    "act25side_ex02-activities/act25side/level_act25side_ex02": {
+        "code": "CW-EX-2",
+        "filename": "act25side_ex02-activities-act25side-level_act25side_ex02.json",
+        "height": 8,
+        "levelId": "activities/act25side/level_act25side_ex02",
+        "name": "未来战争",
+        "stageId": "act25side_ex02",
+        "width": 12
+    },
+    "act25side_ex03#f#-activities/act25side/level_act25side_ex03": {
+        "code": "CW-EX-3",
+        "filename": "act25side_ex03#f#-activities-act25side-level_act25side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act25side/level_act25side_ex03",
+        "name": "双管齐下",
+        "stageId": "act25side_ex03#f#",
+        "width": 11
+    },
+    "act25side_ex03-activities/act25side/level_act25side_ex03": {
+        "code": "CW-EX-3",
+        "filename": "act25side_ex03-activities-act25side-level_act25side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act25side/level_act25side_ex03",
+        "name": "双管齐下",
+        "stageId": "act25side_ex03",
+        "width": 11
+    },
+    "act25side_ex04#f#-activities/act25side/level_act25side_ex04": {
+        "code": "CW-EX-4",
+        "filename": "act25side_ex04#f#-activities-act25side-level_act25side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act25side/level_act25side_ex04",
+        "name": "死路",
+        "stageId": "act25side_ex04#f#",
+        "width": 12
+    },
+    "act25side_ex04-activities/act25side/level_act25side_ex04": {
+        "code": "CW-EX-4",
+        "filename": "act25side_ex04-activities-act25side-level_act25side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act25side/level_act25side_ex04",
+        "name": "死路",
+        "stageId": "act25side_ex04",
+        "width": 12
+    },
+    "act25side_ex05#f#-activities/act25side/level_act25side_ex05": {
+        "code": "CW-EX-5",
+        "filename": "act25side_ex05#f#-activities-act25side-level_act25side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act25side/level_act25side_ex05",
+        "name": "开罚单",
+        "stageId": "act25side_ex05#f#",
+        "width": 11
+    },
+    "act25side_ex05-activities/act25side/level_act25side_ex05": {
+        "code": "CW-EX-5",
+        "filename": "act25side_ex05-activities-act25side-level_act25side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act25side/level_act25side_ex05",
+        "name": "开罚单",
+        "stageId": "act25side_ex05",
+        "width": 11
+    },
+    "act25side_ex06#f#-activities/act25side/level_act25side_ex06": {
+        "code": "CW-EX-6",
+        "filename": "act25side_ex06#f#-activities-act25side-level_act25side_ex06.json",
+        "height": 9,
+        "levelId": "activities/act25side/level_act25side_ex06",
+        "name": "交通要道",
+        "stageId": "act25side_ex06#f#",
+        "width": 13
+    },
+    "act25side_ex06-activities/act25side/level_act25side_ex06": {
+        "code": "CW-EX-6",
+        "filename": "act25side_ex06-activities-act25side-level_act25side_ex06.json",
+        "height": 9,
+        "levelId": "activities/act25side/level_act25side_ex06",
+        "name": "交通要道",
+        "stageId": "act25side_ex06",
+        "width": 13
+    },
+    "act25side_ex07#f#-activities/act25side/level_act25side_ex07": {
+        "code": "CW-EX-7",
+        "filename": "act25side_ex07#f#-activities-act25side-level_act25side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act25side/level_act25side_ex07",
+        "name": "前线模拟",
+        "stageId": "act25side_ex07#f#",
+        "width": 12
+    },
+    "act25side_ex07-activities/act25side/level_act25side_ex07": {
+        "code": "CW-EX-7",
+        "filename": "act25side_ex07-activities-act25side-level_act25side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act25side/level_act25side_ex07",
+        "name": "前线模拟",
+        "stageId": "act25side_ex07",
+        "width": 12
+    },
+    "act25side_ex08#f#-activities/act25side/level_act25side_ex08": {
+        "code": "CW-EX-8",
+        "filename": "act25side_ex08#f#-activities-act25side-level_act25side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act25side/level_act25side_ex08",
+        "name": "寂寥的光",
+        "stageId": "act25side_ex08#f#",
+        "width": 13
+    },
+    "act25side_ex08-activities/act25side/level_act25side_ex08": {
+        "code": "CW-EX-8",
+        "filename": "act25side_ex08-activities-act25side-level_act25side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act25side/level_act25side_ex08",
+        "name": "寂寥的光",
+        "stageId": "act25side_ex08",
+        "width": 13
+    },
     "act25side_sp01-activities/act25side/level_act25side_sp01": {
         "code": "CW-P-1",
         "filename": "act25side_sp01-activities-act25side-level_act25side_sp01.json",
@@ -11753,6 +11897,15 @@
         "stageId": "mem_deepcl_1",
         "width": 9
     },
+    "mem_doroth_1-obt/memory/level_memory_doroth_1": {
+        "code": "mem_doroth_1",
+        "filename": "mem_doroth_1-obt-memory-level_memory_doroth_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_doroth_1",
+        "name": "重塑绿野",
+        "stageId": "mem_doroth_1",
+        "width": 10
+    },
     "mem_durin_1-obt/memory/level_memory_durin_1": {
         "code": "mem_durin_1",
         "filename": "mem_durin_1-obt-memory-level_memory_durin_1.json",
@@ -11888,6 +12041,15 @@
         "stageId": "mem_frncat_1",
         "width": 10
     },
+    "mem_frostl_1-obt/memory/level_memory_frostl_1": {
+        "code": "mem_frostl_1",
+        "filename": "mem_frostl_1-obt-memory-level_memory_frostl_1.json",
+        "height": 6,
+        "levelId": "obt/memory/level_memory_frostl_1",
+        "name": "小队",
+        "stageId": "mem_frostl_1",
+        "width": 9
+    },
     "mem_ghost_1-obt/memory/level_memory_ghost_1": {
         "code": "mem_ghost_1",
         "filename": "mem_ghost_1-obt-memory-level_memory_ghost_1.json",
@@ -11895,6 +12057,15 @@
         "levelId": "obt/memory/level_memory_ghost_1",
         "name": "魂骨尚存",
         "stageId": "mem_ghost_1",
+        "width": 9
+    },
+    "mem_glacus_1-obt/memory/level_memory_glacus_1": {
+        "code": "mem_glacus_1",
+        "filename": "mem_glacus_1-obt-memory-level_memory_glacus_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_glacus_1",
+        "name": "飞行管制",
+        "stageId": "mem_glacus_1",
         "width": 9
     },
     "mem_glady_1-obt/memory/level_memory_glady_1": {
@@ -12293,6 +12464,15 @@
         "stageId": "mem_panda_1",
         "width": 10
     },
+    "mem_peper_1-obt/memory/level_memory_peper_1": {
+        "code": "mem_peper_1",
+        "filename": "mem_peper_1-obt-memory-level_memory_peper_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_peper_1",
+        "name": "“别动我的同伴！”",
+        "stageId": "mem_peper_1",
+        "width": 11
+    },
     "mem_phatom_1-obt/memory/level_memory_phatom_1": {
         "code": "mem_phatom_1",
         "filename": "mem_phatom_1-obt-memory-level_memory_phatom_1.json",
@@ -12435,6 +12615,15 @@
         "levelId": "obt/memory/level_memory_serum_1",
         "name": "勇往直前",
         "stageId": "mem_serum_1",
+        "width": 11
+    },
+    "mem_sesa_1-obt/memory/level_memory_sesa_1": {
+        "code": "mem_sesa_1",
+        "filename": "mem_sesa_1-obt-memory-level_memory_sesa_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_sesa_1",
+        "name": "全面打击",
+        "stageId": "mem_sesa_1",
         "width": 11
     },
     "mem_shotst_1-obt/memory/level_memory_shotst_1": {
