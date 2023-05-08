@@ -35,6 +35,7 @@ jobs:
           
           git config user.name "$env:GITHUB_ACTOR"
           git config user.email "$env:GITHUB_ACTOR@users.noreply.github.com"
+          git add .
 
           $commit_msg = "${{ github.event.inputs.commit_message }}"
           if (-not [string]::IsNullOrWhiteSpace($commit_msg)) {
@@ -42,7 +43,7 @@ jobs:
           } else {
             $commit_msg = "chore: Auto Update Game Resources - $(Get-Date -Format 'yyyy-MM-dd')"
           }
-          git commit -am "$commit_msg"
+          git commit -m "$commit_msg"
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
 
           git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
