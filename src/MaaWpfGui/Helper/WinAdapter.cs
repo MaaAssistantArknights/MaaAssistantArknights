@@ -78,7 +78,7 @@ namespace MaaWpfGui.Helper
                         var adbPath = Path.GetDirectoryName(processPath) + "\\" + path;
                         if (File.Exists(adbPath))
                         {
-                            _adbAbsolutePathDict.Add(emulatorId, adbPath);
+                            _adbAbsolutePathDict[emulatorId] = adbPath;
                         }
                     }
                 }
