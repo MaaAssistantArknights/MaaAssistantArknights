@@ -20,6 +20,7 @@ using MaaWpfGui.Views.UI;
 using Newtonsoft.Json;
 using Serilog;
 using Stylet;
+using Rect = MaaWpfGui.Models.Rect;
 
 namespace MaaWpfGui.Helper
 {
@@ -158,7 +159,18 @@ namespace MaaWpfGui.Helper
 
         private bool GetWindowPlacement(WindowHandle window, out WindowPlacement wp)
         {
-            return GetWindowPlacement(window.Handle, out wp);
+            if (GetWindowPlacement(window.Handle, out wp))
+            {
+                // get the aero snap position of the window
+                if (wp.ShowCmd == SwShownormal && GetWindowRect(window.Handle, out Rect rect))
+                {
+                    wp.NormalPosition = rect;
+                }
+
+                return true;
+            }
+
+            return false;
         }
 
         #region Win32 API declarations to set and get window placement
@@ -168,6 +180,9 @@ namespace MaaWpfGui.Helper
 
         [DllImport("user32.dll")]
         private static extern bool GetWindowPlacement(IntPtr hWnd, out WindowPlacement lpwndpl);
+
+        [DllImport("user32.dll")]
+        private static extern bool GetWindowRect(IntPtr hWnd, out Rect lpRect);
 
         private const int SwShownormal = 1;
         private const int SwShowminimized = 2;
