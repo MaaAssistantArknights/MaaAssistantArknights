@@ -486,7 +486,7 @@
     <system:String x:Key="ErrorDetails">详细信息</system:String>
     <system:String x:Key="ErrorSolution">解决方案</system:String>
     <system:String x:Key="ErrorSolutionCrash">请参考文档：常见问题 - 闪退 进行操作</system:String>
-    <system:String x:Key="ErrorSolutionReplaceADB">请使用管理员权限打开 MAA 进行操作</system:String>
+    <system:String x:Key="ErrorSolutionReplaceADB">请关闭模拟器与 ADB 或重启电脑后使用管理员权限打开 MAA 进行操作</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">创建 GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">加入QQ群反馈问题</system:String>
     <system:String x:Key="CopyErrorMessage">复制错误信息</system:String>

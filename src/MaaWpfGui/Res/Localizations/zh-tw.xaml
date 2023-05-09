@@ -371,6 +371,17 @@
     <!--  日誌  -->
     <!--  自動戰鬥  -->
 
+    <!--  ErrorView  -->
+    <system:String x:Key="Error">錯誤</system:String>
+    <system:String x:Key="ErrorProlog">MAA 遇到了問題</system:String>
+    <system:String x:Key="ErrorDetails">詳細信息</system:String>
+    <system:String x:Key="ErrorSolution">解決方案</system:String>
+    <system:String x:Key="ErrorSolutionCrash">請參考文檔：常見問題 - 閃退 進行操作</system:String>
+    <system:String x:Key="ErrorSolutionReplaceADB">請關閉模擬器與 ADB 或重啟電腦後使用管理員權限打開 MAA 進行操作</system:String>
+    <system:String x:Key="ErrorFeedbackLinkText">创建 GitHub issue</system:String>
+    <system:String x:Key="ErrorQqGroupLinkText">加入QQ群反馈问题</system:String>
+    <system:String x:Key="CopyErrorMessage">复制错误信息</system:String>
+
     <!--  AsstProxy  -->
     <system:String x:Key="ResourceBroken">資源損毀，請重新下載完整安裝包</system:String>
     <system:String x:Key="Error">錯誤</system:String>
