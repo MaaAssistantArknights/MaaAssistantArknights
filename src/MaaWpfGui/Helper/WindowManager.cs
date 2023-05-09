@@ -12,13 +12,14 @@
 // </copyright>
 
 using System;
-using System.Globalization;
-using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Models;
 using MaaWpfGui.Views.UI;
+using Newtonsoft.Json;
+using Serilog;
 using Stylet;
-using Screen = System.Windows.Forms.Screen;
 
 namespace MaaWpfGui.Helper
 {
@@ -29,40 +30,12 @@ namespace MaaWpfGui.Helper
         {
         }
 
-        private readonly string ScreenName = ConfigurationHelper.GetValue(ConfigurationKeys.MonitorNumber, string.Empty);
-        private readonly int ScreenWidth = int.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.MonitorWidth, "-1"));
-        private readonly int ScreenHeight = int.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.MonitorHeight, "-1"));
+        private static readonly ILogger _logger = Log.ForContext<WindowManager>();
 
-        private static readonly double DefaultDouble = -114514;
-        private readonly double Left = double.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.PositionLeft, DefaultDouble.ToString(CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);
-        private readonly double Top = double.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.PositionTop, DefaultDouble.ToString(CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);
-        private readonly double Width = double.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.WindowWidth, DefaultDouble.ToString(CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);
-        private readonly double Height = double.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.WindowHeight, DefaultDouble.ToString(CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);
-
-        /// <summary>
-        /// Move MaaWpfGui.RootView
-        /// </summary>
-        private void MoveWindowToDisplay(string displayName, Window window)
-        {
-            if (Math.Abs(Left - DefaultDouble) < 0.01f || Math.Abs(Top - DefaultDouble) < 0.01f)
-            {
-                return;
-            }
-
-            var screen = Screen.AllScreens.FirstOrDefault(x => x.DeviceName == displayName);
-            if (screen != null)
-            {
-                var screenRect = screen.Bounds;
-                if (screenRect.Height == ScreenHeight && screenRect.Width == ScreenWidth)
-                {
-                    window.WindowStartupLocation = WindowStartupLocation.Manual;
-                    window.Left = (int)(screenRect.Left + Left);
-                    window.Top = (int)(screenRect.Top + Top);
-                    window.Width = Width;
-                    window.Height = Height;
-                }
-            }
-        }
+        private readonly bool _loadWindowPlacement = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.LoadWindowPlacement, bool.TrueString));
+        private readonly bool _saveWindowPlacement = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.SaveWindowPlacement, bool.TrueString));
+        private readonly bool _minimizeDirectly = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeDirectly, bool.FalseString));
+        private readonly bool _minimizeToTray = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
 
         /// <summary>
         /// Center other windows in MaaWpfGui.RootView
@@ -85,20 +58,30 @@ namespace MaaWpfGui.Helper
             Window window = base.CreateWindow(viewModel, isDialog, ownerViewModel);
             if (window is RootView)
             {
-                bool needMoveRootView = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.LoadPositionAndSize, bool.TrueString));
-                if (needMoveRootView)
+                if (_loadWindowPlacement && GetConfiguration(out WindowPlacement wp))
                 {
-                    MoveWindowToDisplay(ScreenName, window);
+                    window.SourceInitialized += (s, e) =>
+                    {
+                        bool success = SetWindowPlacement(window, ref wp);
+                        _logger.Information("Whether the window placement was set successfully: {Success}", success);
+                    };
                 }
 
-                bool minimizeDirectly = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeDirectly, bool.FalseString));
-                if (minimizeDirectly)
+                if (_loadWindowPlacement && _saveWindowPlacement)
+                {
+                    window.Closing += (s, e) =>
+                    {
+                        GetWindowPlacement(window, out WindowPlacement wp);
+                        SetConfiguration(wp);
+                    };
+                }
+
+                if (_minimizeDirectly)
                 {
                     window.WindowState = WindowState.Minimized;
                 }
 
-                bool minimizeToTray = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
-                if (minimizeDirectly && minimizeToTray)
+                if (_minimizeDirectly && _minimizeToTray)
                 {
                     window.ShowInTaskbar = false;
                     window.Visibility = Visibility.Hidden;
@@ -111,5 +94,84 @@ namespace MaaWpfGui.Helper
 
             return window;
         }
+
+        private bool SetConfiguration(WindowPlacement wp)
+        {
+            try
+            {
+                // 请在配置文件中修改该部分配置，暂不支持从GUI设置
+                // Please modify this part of configuration in the configuration file.
+                ConfigurationHelper.SetValue(ConfigurationKeys.LoadWindowPlacement, _loadWindowPlacement.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.SaveWindowPlacement, _saveWindowPlacement.ToString());
+
+                return ConfigurationHelper.SetValue(ConfigurationKeys.WindowPlacement, JsonConvert.SerializeObject(wp));
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Failed to serialize json string to {Key}", ConfigurationKeys.WindowPlacement);
+            }
+
+            return false;
+        }
+
+        private bool GetConfiguration(out WindowPlacement wp)
+        {
+            wp = default;
+            var jsonStr = ConfigurationHelper.GetValue(ConfigurationKeys.WindowPlacement, string.Empty);
+            if (string.IsNullOrEmpty(jsonStr))
+            {
+                return false;
+            }
+
+            try
+            {
+                wp = JsonConvert.DeserializeObject<WindowPlacement?>(jsonStr) ?? throw new Exception("Failed to parse json string");
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Failed to deserialize json string from {Key}", ConfigurationKeys.WindowPlacement);
+            }
+
+            return false;
+        }
+
+        private bool SetWindowPlacement(WindowHandle window, ref WindowPlacement wp)
+        {
+            try
+            {
+                // Load window placement details for previous application session from application settings
+                // Note - if window was closed on a monitor that is now disconnected from the computer,
+                //        SetWindowPlacement will place the window onto a visible monitor.
+                wp.Length = Marshal.SizeOf(typeof(WindowPlacement));
+                wp.Flags = 0;
+
+                // wp.ShowCmd = wp.ShowCmd == SwShowminimized ? SwShownormal : wp.ShowCmd;
+                wp.ShowCmd = _minimizeDirectly ? SwShowminimized : SwShownormal;
+                return SetWindowPlacement(window.Handle, ref wp);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private bool GetWindowPlacement(WindowHandle window, out WindowPlacement wp)
+        {
+            return GetWindowPlacement(window.Handle, out wp);
+        }
+
+        #region Win32 API declarations to set and get window placement
+
+        [DllImport("user32.dll")]
+        private static extern bool SetWindowPlacement(IntPtr hWnd, [In] ref WindowPlacement lpwndpl);
+
+        [DllImport("user32.dll")]
+        private static extern bool GetWindowPlacement(IntPtr hWnd, out WindowPlacement lpwndpl);
+
+        private const int SwShownormal = 1;
+        private const int SwShowminimized = 2;
+
+        #endregion
     }
 }
