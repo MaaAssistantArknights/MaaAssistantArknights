@@ -433,6 +433,17 @@
     <!--  ログ  -->
     <!--  自動戦闘  -->
 
+    <!--  ErrorView  -->
+    <system:String x:Key="Error">エラー</system:String>
+    <system:String x:Key="ErrorProlog">MAA に問題が発生しました</system:String>
+    <system:String x:Key="ErrorDetails">詳細情報</system:String>
+    <system:String x:Key="ErrorSolution">解決策</system:String>
+    <system:String x:Key="ErrorSolutionCrash">ドキュメント「よくある問題 - クラッシュ」を参照してください</system:String>
+    <system:String x:Key="ErrorSolutionReplaceADB">エミュレータとADBを閉じるか、コンピューターを再起動してから、管理者権限でMAAを開いて操作してください</system:String>
+    <system:String x:Key="ErrorFeedbackLinkText">GitHub issueを作成する</system:String>
+    <system:String x:Key="ErrorQqGroupLinkText">QQグループに参加して問題をフィードバックする</system:String>
+    <system:String x:Key="CopyErrorMessage">エラー情報をコピーする</system:String>
+
     <!--  AsstProxy  -->
     <system:String x:Key="ResourceBroken">リソースファイルが破損しています。完全なパッケージを再度ダウンロードしてください</system:String>
     <system:String x:Key="Error">エラー</system:String>

@@ -416,7 +416,7 @@
     <system:String x:Key="ErrorDetails">상세</system:String>
     <system:String x:Key="ErrorSolution">해결 방안</system:String>
     <system:String x:Key="ErrorSolutionCrash">FAQ 문서의 Crashes 문단을 참조해 해결하세요.</system:String>
-    <system:String x:Key="ErrorSolutionReplaceADB">관리자 권한으로 MAA를 실행해 주세요</system:String>
+    <system:String x:Key="ErrorSolutionReplaceADB">모바일 앱 애널라이저(MAA)를 관리자 권한으로 열기 위해 모바일 시뮬레이터와 ADB를 닫거나 컴퓨터를 재시작해주세요.</system:String>
     <system:String x:Key="ReplaceADBNotExists">ADB 파일이 존재하지 않습니다</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB 다운로드 실패</system:String>
     <system:String x:Key="AdbDownloadFailedDesc">수동으로 진행해 주세요 (adb.exe의 이름을 바꾸고 에뮬레이터의 adb 파일을 교체해 주세요)</system:String>
