@@ -85,7 +85,8 @@
                                             Foreground="{DynamicResource SecondaryTextBrush}"
                                             GroupName="TaskSettings"
                                             IsChecked="{Binding EnableSetting}"
-                                            Style="{DynamicResource RadioGroupItemSingle}" />
+                                            Style="{DynamicResource RadioGroupItemSingle}"
+                                            ToolTip="{DynamicResource TaskSettings}" />
                                     </hc:ButtonGroup>
                                 </StackPanel>
                             </DataTemplate>

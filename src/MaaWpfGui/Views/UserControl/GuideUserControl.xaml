@@ -143,21 +143,39 @@
                     </hc:TransitioningContentControl>
 
                     <hc:TransitioningContentControl
-                        Width="240"
-                        Height="260"
+                        Width="230"
+                        Height="270"
                         TransitionMode="{Binding GuideTransitionMode}"
                         Visibility="{c:Binding 'GuideStepIndex == 3'}">
-                        <hc:RelativePanel Margin="10">
+                        <hc:RelativePanel>
+                            <TextBlock
+                                Name="ToolTipGuide"
+                                Margin="0,10"
+                                Text="{DynamicResource ToolTipGuide}" />
+                            <Border
+                                Name="PerformBattlesGuide"
+                                Margin="5"
+                                Padding="5"
+                                hc:RelativePanel.RightOf="{Binding ElementName=ToolTipGuide}"
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="4">
+                                <TextBlock Text="{DynamicResource PerformBattles}" ToolTip="{DynamicResource CheckBoxesNotSaved}" />
+                            </Border>
                             <Border
                                 Name="Task"
                                 Padding="5,0,0,0"
+                                hc:RelativePanel.Below="{Binding ElementName=ToolTipGuide}"
                                 BorderBrush="{DynamicResource BorderBrush}"
                                 BorderThickness="1"
                                 CornerRadius="4">
                                 <StackPanel Orientation="Horizontal">
                                     <!--<maa:TextBlock  Text="{Binding ID}" />
                             <maa:TextBlock  Text=". " />-->
-                                    <CheckBox Width="180" Content="{DynamicResource Combat}" />
+                                    <CheckBox
+                                        Width="180"
+                                        Content="{DynamicResource Combat}"
+                                        ToolTip="{DynamicResource LabelSequenceTip}" />
                                     <hc:ButtonGroup>
                                         <RadioButton
                                             hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
@@ -166,7 +184,8 @@
                                             Background="Transparent"
                                             BorderThickness="0"
                                             Foreground="{DynamicResource SecondaryTextBrush}"
-                                            Style="{DynamicResource RadioGroupItemSingle}" />
+                                            Style="{DynamicResource RadioGroupItemSingle}"
+                                            ToolTip="{DynamicResource TaskSettings}" />
                                     </hc:ButtonGroup>
                                 </StackPanel>
                             </Border>

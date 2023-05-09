@@ -27,6 +27,7 @@
     <system:String x:Key="PrevGuide">上一步</system:String>
     <system:String x:Key="NextGuide">下一步</system:String>
     <system:String x:Key="DoneGuide">完成</system:String>
+    <system:String x:Key="ToolTipGuide">鼠標放上去有提示哦↓→</system:String>
     <system:String x:Key="TaskGuide">↑任務</system:String>
     <system:String x:Key="OftenUsedGuide">↓常用的</system:String>
     <system:String x:Key="SometimesUsedGuide">不常用的↑</system:String>

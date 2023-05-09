@@ -28,6 +28,7 @@
     <system:String x:Key="PrevGuide">이전 단계</system:String>
     <system:String x:Key="NextGuide">다음 단계</system:String>
     <system:String x:Key="DoneGuide">완료</system:String>
+    <system:String x:Key="ToolTipGuide">호버에 힌트가 있습니다↓→</system:String>
     <system:String x:Key="TaskGuide">↑태스크</system:String>
     <system:String x:Key="OftenUsedGuide">↓자주 사용하는</system:String>
     <system:String x:Key="SometimesUsedGuide">흔하지 않게 사용되는↑</system:String>

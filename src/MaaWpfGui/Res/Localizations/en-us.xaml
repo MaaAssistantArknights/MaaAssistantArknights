@@ -28,6 +28,7 @@
     <system:String x:Key="PrevGuide">Prev</system:String>
     <system:String x:Key="NextGuide">Next</system:String>
     <system:String x:Key="DoneGuide">Done</system:String>
+    <system:String x:Key="ToolTipGuide">Prompt appears when hovered↓→</system:String>
     <system:String x:Key="TaskGuide">↑Task</system:String>
     <system:String x:Key="OftenUsedGuide">↓Often Used</system:String>
     <system:String x:Key="SometimesUsedGuide">Sometimes Used↑</system:String>
