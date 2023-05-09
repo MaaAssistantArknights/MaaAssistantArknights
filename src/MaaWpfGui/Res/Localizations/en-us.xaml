@@ -274,7 +274,7 @@
     <system:String x:Key="Combat">Combat</system:String>
     <!--  <system:String x:Key="Visiting">Visit Friends</system:String>  -->
     <system:String x:Key="Mall">Credit Store</system:String>
-    <system:String x:Key="Mission">Collect mission rewards</system:String>
+    <system:String x:Key="Mission">Daily &amp; Weekly</system:String>
     <system:String x:Key="AutoRoguelike">Auto I.S.</system:String>
     <system:String x:Key="ReclamationAlgorithm">Reclamation Algorithm</system:String>
 
@@ -313,7 +313,7 @@
 
     <!--<system:String x:Key="CurrentStage">Current Stage</system:String>
     <system:String x:Key="LastBattle">Last Battle</system:String>-->
-    <system:String x:Key="DefaultStage">Cur/Last Stage</system:String>
+    <system:String x:Key="DefaultStage">Cur/Last</system:String>
     <system:String x:Key="ClosedStage">The event not open</system:String>
     <system:String x:Key="UnsupportedStages">Unsupported stages</system:String>
     <system:String x:Key="LowVersion">Low version</system:String>
@@ -597,8 +597,8 @@ The video resolution is required to be 16:9, and there are no interference facto
     <system:String x:Key="VersionUpdatedTo">Version:</system:String>
     <!--  VersionUpdatePopup  -->
 
-    <!-- RootViewModel -->
+    <!--  RootViewModel  -->
     <system:String x:Key="ConfirmExitTitle">MAA is running tasks</system:String>
     <system:String x:Key="ConfirmExitText">Are you sure want to exit?</system:String>
-    <!-- RootViewModel -->
+    <!--  RootViewModel  -->
 </ResourceDictionary>
