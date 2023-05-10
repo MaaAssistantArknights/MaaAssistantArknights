@@ -546,7 +546,7 @@ The video resolution is required to be 16:9, and there are no interference facto
     <system:String x:Key="BattleFormation">Start formation</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selection of operator: </system:String>
     <system:String x:Key="CurrentSteps">Current step: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">Unsupported levels, please update the MAA, or check input file</system:String>
+    <system:String x:Key="UnsupportedLevel">Unsupported stage. Please update the MAA software version!\nUnsupported stage. Please update the MAA software version!\nUnsupported stage. Please update the MAA software version!\n\nIf you receive a prompt that the latest version is already installed, please try checking the developer version or beta version.</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identify results: </system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
     <system:String x:Key="TryToStartEmulator">Trying to start the emulator</system:String>
