@@ -70,6 +70,7 @@
     <system:String x:Key="GeneralWithoutScreencapErr">General Mode (Blocked exception output)</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
     <system:String x:Key="MuMuEmulator">MuMu Emulator</system:String>
+    <system:String x:Key="MuMuEmulator12">MuMu Emulator 12</system:String>
     <system:String x:Key="LDPlayer">LD Player</system:String>
     <system:String x:Key="Nox">Nox</system:String>
     <system:String x:Key="XYAZ">MEmu</system:String>

@@ -182,6 +182,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
 #pragma warning disable CS0672 // Member overrides obsolete member
+
         // WHY OBSOLETED?
         protected override bool CanClose()
 #pragma warning restore CS0672 // Member overrides obsolete member
@@ -1070,8 +1071,57 @@ namespace MaaWpfGui.ViewModels.UI
                 "LDPlayer" => KillEmulatorLDPlayer(),
                 "XYAZ" => KillEmulatorXYAZ(),
                 "BlueStacks" => KillEmulatorBlueStacks(),
+                "MuMuEmulator12" => KillEmulatorMuMuEmulator12(),
                 _ => KillEumlatorbyWindow(),
             };
+        }
+
+        /// <summary>
+        /// 一个用于调用 MuMu12 模拟器控制台关闭 MuMu12 的方法
+        /// </summary>
+        /// <returns>是否关闭成功</returns>
+        public bool KillEmulatorMuMuEmulator12()
+        {
+            string address = Instances.SettingsViewModel.ConnectAddress;
+            int emuIndex;
+            if (address == "127.0.0.1:16384")
+            {
+                emuIndex = 0;
+            }
+            else
+            {
+                string portStr = address.Split(':')[1];
+                int port = int.Parse(portStr);
+                emuIndex = (port - 16384) / 32;
+            }
+
+            Process[] processes = Process.GetProcessesByName("MuMuPlayer");
+            if (processes.Length > 0)
+            {
+                string emuLocation = processes[0].MainModule.FileName;
+                emuLocation = Path.GetDirectoryName(emuLocation);
+                string consolePath = Path.Combine(emuLocation, "MuMuManager.exe");
+
+                if (File.Exists(consolePath))
+                {
+                    ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
+                    {
+                        Arguments = $"api -v {emuIndex} shutdown_player",
+                        CreateNoWindow = true,
+                        UseShellExecute = false,
+                    };
+                    Process.Start(startInfo);
+
+                    return KillEmulator();
+                }
+                else
+                {
+                    AsstProxy.AsstLog($"Error: `{consolePath}` not found, try to kill eumlator by window.");
+                    return KillEumlatorbyWindow();
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
