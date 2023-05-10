@@ -1,8 +1,8 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:hc="clr-namespace:HandyControl.Controls"
-    xmlns:interactivity="clr-namespace:HandyControl.Interactivity">
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:interactivity="clr-namespace:HandyControl.Interactivity;assembly=HandyControl">
 
     <Style
         x:Key="MessageBoxButtonStyle"
@@ -34,7 +34,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="hc:MessageBox">
                     <Border
-                        Background="{TemplateBinding Background}"
+                        Background="{DynamicResource RegionBrush}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         SnapsToDevicePixels="True">
@@ -45,7 +45,7 @@
                             </Grid.RowDefinitions>
                             <Grid
                                 Name="PART_NonClientArea"
-                                Background="{TemplateBinding NonClientAreaBackground}"
+                                Background="{DynamicResource SecondaryRegionBrush}"
                                 TextElement.Foreground="{TemplateBinding NonClientAreaForeground}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
@@ -165,8 +165,8 @@
                                         Grid.Row="1"
                                         Grid.Column="0"
                                         Grid.ColumnSpan="2"
-                                        Margin="0,10,0,16"
-                                        HorizontalAlignment="Center"
+                                        Margin="0,10,10,16"
+                                        HorizontalAlignment="Right"
                                         Orientation="Horizontal" />
                                 </Grid>
                             </AdornerDecorator>
