@@ -37,6 +37,7 @@ using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using Microsoft.Win32;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using Timer = System.Timers.Timer;
@@ -2223,7 +2224,23 @@ namespace MaaWpfGui.ViewModels.UI
                 prefix += " - ";
             }
 
-            rvm.WindowTitle = $"{prefix}MAA - {VersionId} - {connectConfigName} ({ConnectAddress}) - {ClientName}";
+            string officialClientType = "Official";
+            string bilibiliClientType = "Bilibili";
+            string jsonPath = "resource/version.json";
+            if (!(ClientType == string.Empty || ClientType == officialClientType || ClientType == bilibiliClientType))
+            {
+                jsonPath = $"resource/global/{ClientType}/resource/version.json";
+            }
+
+            string pool = string.Empty;
+            if (File.Exists(jsonPath))
+            {
+                JObject poolJson = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
+                pool = poolJson?["gacha"]?["pool"]?.ToString() ?? string.Empty;
+            }
+
+            string poolString = !string.IsNullOrEmpty(pool) ? $" - {pool}" : string.Empty;
+            rvm.WindowTitle = $"{prefix}MAA - {VersionId}{poolString} - {connectConfigName} ({ConnectAddress}) - {ClientName}";
         }
 
         private readonly string _bluestacksConfig = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigPath, string.Empty);
