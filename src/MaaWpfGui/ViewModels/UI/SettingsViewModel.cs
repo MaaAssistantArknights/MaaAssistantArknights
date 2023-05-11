@@ -2234,7 +2234,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public void TryToSetBlueStacksHyperVAddress()
         {
-            if (String.IsNullOrEmpty(_bluestacksConfig))
+            if (string.IsNullOrEmpty(_bluestacksConfig))
             {
                 return;
             }
@@ -2247,7 +2247,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             var all_lines = File.ReadAllLines(_bluestacksConfig);
 
-            if (String.IsNullOrEmpty(_bluestacksKeyWord))
+            if (string.IsNullOrEmpty(_bluestacksKeyWord))
             {
                 foreach (var line in all_lines)
                 {
