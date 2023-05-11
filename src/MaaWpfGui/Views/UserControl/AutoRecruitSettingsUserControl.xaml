@@ -36,6 +36,7 @@
             Margin="0,5"
             hc:InfoElement.Title="{DynamicResource RecruitMaxTimes}"
             Style="{StaticResource NumericUpDownExtend}"
+            ValueChanged="NumericUpDown_ValueChanged"
             Value="{Binding RecruitMaxTimes}" />
         <CheckBox
             Margin="0,10"
