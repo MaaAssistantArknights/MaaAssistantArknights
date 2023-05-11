@@ -109,12 +109,13 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         }                                                                                        \
     }
 
-#define LoadCacheWithoutRet(Config, Dir)                             \
-    {                                                                \
-        auto full_path = UserDir.get() / "cache"_p / Dir;            \
-        if (std::filesystem::exists(full_path)) {                    \
-            SingletonHolder<Config>::get_instance().load(full_path); \
-        }                                                            \
+#define LoadCacheWithoutRet(Config, Dir)                         \
+    {                                                            \
+        auto full_path = UserDir.get() / "cache"_p / Dir;        \
+        if (!std::filesystem::exists(full_path)) {               \
+            std::filesystem::create_directories(full_path);      \
+        }                                                        \
+        SingletonHolder<Config>::get_instance().load(full_path); \
     }
 
     LogTraceFunction;
