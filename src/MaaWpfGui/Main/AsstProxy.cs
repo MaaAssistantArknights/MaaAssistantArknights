@@ -1141,6 +1141,8 @@ namespace MaaWpfGui.Main
                 {
                     return false;
                 }
+
+                Instances.SettingsViewModel.TryToSetBlueStacksHyperVAddress();
             }
 
             bool ret = AsstConnect(_handle, Instances.SettingsViewModel.AdbPath, Instances.SettingsViewModel.ConnectAddress, Instances.SettingsViewModel.ConnectConfig);
