@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -29,6 +30,15 @@ namespace MaaWpfGui.Views.UserControl
         public FightSettingsUserControl()
         {
             InitializeComponent();
+        }
+
+        private static readonly MethodInfo SetText = typeof(HandyControl.Controls.NumericUpDown).GetMethod("SetText", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        private static readonly object[] paras = new object[] { true };
+
+        private void NumericUpDown_ValueChanged(object sender, HandyControl.Data.FunctionEventArgs<double> e)
+        {
+            SetText?.Invoke(sender, paras);
         }
     }
 }
