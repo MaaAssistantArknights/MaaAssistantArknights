@@ -501,7 +501,7 @@
     <system:String x:Key="SuccessfullyReplacedADB">成功替换 ADB 文件</system:String>
     <system:String x:Key="InitializationError">初始化错误！</system:String>
     <system:String x:Key="ResolutionNotSupported">模拟器分辨率不支持，请设置为 720p 或更高，且为 16:9 比例</system:String>
-    <system:String x:Key="ResolutionAcquisitionFailure">模拟器分辨率获取失败，建议重启电脑，或更换模拟器后再次尝试</system:String>
+    <system:String x:Key="ResolutionAcquisitionFailure">模拟器分辨率获取失败，建议重启模拟器与 ADB 或重启电脑，或更换模拟器后再次尝试</system:String>
     <system:String x:Key="TryToReconnect">模拟器断开，正在尝试重连</system:String>
     <system:String x:Key="ReconnectSuccess">重连成功，继续任务</system:String>
     <system:String x:Key="ReconnectFailed">重连失败，连接断开！</system:String>
@@ -571,7 +571,7 @@
     <system:String x:Key="RecruitTagsDetected">识别结果：</system:String>
     <system:String x:Key="ConnectFailed">连接失败</system:String>
     <system:String x:Key="TryToStartEmulator">正在尝试启动模拟器</system:String>
-    <system:String x:Key="CheckSettings">请检查连接设置或尝试重启电脑</system:String>
+    <system:String x:Key="CheckSettings">请检查连接设置或尝试重启模拟器与 ADB 或重启电脑</system:String>
     <!--  AsstProxy  -->
 
     <!--  TrayIcon  -->

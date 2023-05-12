@@ -481,7 +481,7 @@ The video resolution is required to be 16:9, and there are no interference facto
     <system:String x:Key="SuccessfullyReplacedADB">Successfully Replaced ADB File</system:String>
     <system:String x:Key="InitializationError">Initialization error!</system:String>
     <system:String x:Key="ResolutionNotSupported">Emulator resolution not supported, please set at least 720P with 16:9 ratio</system:String>
-    <system:String x:Key="ResolutionAcquisitionFailure">fails to be obtain emulator resolution . Please restart computer or consider try other emulator</system:String>
+    <system:String x:Key="ResolutionAcquisitionFailure">Fails to be obtain emulator resolution. It is recommended to restart the emulator and ADB, or restart the computer, or consider try other emulator</system:String>
     <system:String x:Key="TryToReconnect">Emulator disconnected, trying to reconnect</system:String>
     <system:String x:Key="ReconnectSuccess">Reconnect succeeded. Continue the task</system:String>
     <system:String x:Key="ReconnectFailed">Reconnect failed. The connection is down!</system:String>
@@ -547,11 +547,11 @@ The video resolution is required to be 16:9, and there are no interference facto
     <system:String x:Key="BattleFormation">Start formation</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selection of operator: </system:String>
     <system:String x:Key="CurrentSteps">Current step: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">Unsupported stage. Please update the MAA software version!\nUnsupported stage. Please update the MAA software version!\nUnsupported stage. Please update the MAA software version!\n\nIf you receive a prompt that the latest version is already installed, please try checking the developer version or beta version.</system:String>
+    <system:String x:Key="UnsupportedLevel">Unsupported stage. Please update the MAA software version!\nUnsupported stage. Please update the MAA software version!\nUnsupported stage. Please update the MAA software version!\n\nIf you receive a prompt that the latest version is already installed, please try checking the developer version or beta version</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identify results: </system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
     <system:String x:Key="TryToStartEmulator">Trying to start the emulator</system:String>
-    <system:String x:Key="CheckSettings">Please check the connection Settings or try to restart the computer</system:String>
+    <system:String x:Key="CheckSettings">Please check your connection settings or try restarting the emulator and ADB, or restart your computer</system:String>
     <!--  AsstProxy  -->
 
     <!--  TrayIcon  -->
