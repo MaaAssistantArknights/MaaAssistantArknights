@@ -388,7 +388,7 @@
     <system:String x:Key="ResourceBroken">資源損毀，請重新下載完整安裝包</system:String>
     <system:String x:Key="InitializationError">初始化錯誤！</system:String>
     <system:String x:Key="ResolutionNotSupported">模擬器解析度不支持，請設定為 720p 或更高，且為 16:9 比例</system:String>
-    <system:String x:Key="ResolutionAcquisitionFailure">模擬器解析度獲取失敗，建議重啟電腦，或更換模擬器後再次嘗試</system:String>
+    <system:String x:Key="ResolutionAcquisitionFailure">模擬器解析度獲取失敗，建議重啟模擬器與 ADB 或重啟電腦，或更換模擬器後再次嘗試</system:String>
     <system:String x:Key="TryToReconnect">模擬器斷開，正在嘗試重連</system:String>
     <system:String x:Key="ReconnectSuccess">重連成功，繼續任務</system:String>
     <system:String x:Key="ReconnectFailed">重連失敗，連接斷開！</system:String>
@@ -455,7 +455,7 @@
     <system:String x:Key="RecruitTagsDetected">辨識結果：</system:String>
     <system:String x:Key="ConnectFailed">連接失敗</system:String>
     <system:String x:Key="TryToStartEmulator">正在嘗試啟動模擬器</system:String>
-    <system:String x:Key="CheckSettings">請檢查連接設定或嘗試重啟電腦</system:String>
+    <system:String x:Key="CheckSettings">請檢查連接設置或嘗試重啟模擬器與 ADB 或重啟電腦</system:String>
     <!--  AsstProxy  -->
 
     <!--  TrayIcon  -->
