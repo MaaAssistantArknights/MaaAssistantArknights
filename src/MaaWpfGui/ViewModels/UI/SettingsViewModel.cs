@@ -1893,7 +1893,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task ManualUpdate()
         {
-            var ret = await Instances.VersionUpdateViewModel.CheckAndDownloadUpdate(true);
+            var ret = await Instances.VersionUpdateViewModel.CheckAndDownloadUpdate();
 
             string toastMessage = null;
             switch (ret)
@@ -2916,6 +2916,6 @@ namespace MaaWpfGui.ViewModels.UI
             GuideStepIndex = GuideMaxStep;
         }
 
-        #endregion
+        #endregion SettingsGuide
     }
 }
