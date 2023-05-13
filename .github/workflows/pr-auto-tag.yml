@@ -6,29 +6,36 @@ on:
       - master
     types:
       - closed
+  workflow_dispatch:
+    inputs:
+      tag:
+        type: string
+        required: true
 
 jobs:
   auto_tag_release:
-    if: github.event.pull_request.merged == true && (startsWith(github.event.pull_request.title, 'Release v') || startsWith(github.event.pull_request.title, 'release v'))
+    if: github.event.pull_request.merged == true && (startsWith(github.event.pull_request.title, 'Release v') || startsWith(github.event.pull_request.title, 'release v')) || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
+          token: ${{ secrets.AUTO_TAG_PAT }}
       - name: Git config
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-
 
       - name: Extract Tag Name
         id: extract_tag
         run: |
-          tag_name=$(echo "${{ github.event.pull_request.title }}" | sed -E 's/(Release|release)//' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
-          echo "tag_name=$tag_name" >> $GITHUB_OUTPUT
+          if ${{ github.event_name != 'workflow_dispatch' }}; then
+            tag_name=$(echo "${{ github.event.pull_request.title }}" | sed -E 's/(Release|release)//' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+            echo "tag_name=$tag_name" >> $GITHUB_OUTPUT
+          else
+            echo "tag_name=${{ inputs.tag }}" >> $GITHUB_OUTPUT
+          fi
 
       - name: Create Release Tag and push
         run: |
@@ -40,9 +47,3 @@ jobs:
           git switch dev
           git merge "${{ steps.extract_tag.outputs.tag_name }}"
           git push origin dev
-      
-      - name: Run CI with Tag # ref: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
-        run: |
-          gh workflow run ci --ref "${{ steps.extract_tag.outputs.tag_name }}"
-        env:
-          GH_TOKEN: ${{ github.token }}
