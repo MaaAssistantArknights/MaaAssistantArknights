@@ -48,6 +48,10 @@ jobs:
 
           git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
 
+      - name: Cancelling
+        if: ${{ failure() }}
+        uses: andymckay/cancel-action@0.3
+
       - name: Push changes # push the output folder to your repo
         uses: ad-m/github-push-action@master
         with:
