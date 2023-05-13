@@ -29,8 +29,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - uses: NuGet/setup-nuget@v1.2.0
-      - run: nuget restore MAA.sln
+      - name: Cache .nuke/temp, ~/.nuget/packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            .nuke/temp
+            ~/.nuget/packages
+          key: Windows-x64-${{ hashFiles('**/global.json', '**/*.csproj') }}
       
       - name: Bootstrap MaaDeps
         env:
