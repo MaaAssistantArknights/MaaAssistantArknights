@@ -33,40 +33,5 @@ namespace MaaWpfGui
                 Process.Start(new ProcessStartInfo(link.NavigateUri.AbsoluteUri));
             }
         }
-
-        //private Mutex _mutex;
-
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            // FIXME: 版本更新之后，这里重新打开进程应用更新包，这里是必炸的
-            // 先全删掉，等学姐来修（
-
-            //// 设置互斥量的名称
-            //string mutexName = "MAA_" + Directory.GetCurrentDirectory().Replace("\\", "_").Replace(":", string.Empty);
-            //_mutex = new Mutex(true, mutexName);
-
-            //if (!_mutex.WaitOne(TimeSpan.Zero, true))
-            //{
-            //    // 这里还没加载语言包，就不 GetString 了
-            //    MessageBox.Show("同一路径下只能启动一个实例！\n\n" +
-            //                    "同一路徑下只能啟動一個實例！\n\n" +
-            //                    "Only one instance can be launched under the same path!\n\n" +
-            //                    "同じパスの下で1つのインスタンスしか起動できません！\n\n" +
-            //                    "동일한 경로에는 하나의 인스턴스만 실행할 수 있습니다!");
-            //    Current.Shutdown();
-            //    return;
-            //}
-
-            base.OnStartup(e);
-        }
-
-        protected override void OnExit(ExitEventArgs e)
-        {
-            //// 释放互斥量
-            //_mutex.ReleaseMutex();
-            //_mutex.Dispose();
-
-            base.OnExit(e);
-        }
     }
 }
