@@ -221,3 +221,9 @@ jobs:
           source: "build-ota/*.zip"
           strip_components: 1
           target: ${{ format('{0}/{1}', 'OTA/MaaAssistantArknights/MaaRelease/releases/download', env.release_tag) }}
+      
+      - name: Update Version API
+        run: |
+            gh workflow --repo MaaAssistantArknights/MaaRelease run update_version_api.yml
+        env:
+            GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
