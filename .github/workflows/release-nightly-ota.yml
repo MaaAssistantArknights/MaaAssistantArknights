@@ -75,6 +75,17 @@ jobs:
           }
           exit 1
 
+      - name: Push tag to main repo
+        id: push_main_tag
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          $main_tag_name=$(echo "alpha/${{ steps.set_tag.outputs.tag }}")
+          git tag $main_tag_name || exit 0 # do nothing if the tag already exists
+          git push --tags origin HEAD:refs/tags/$main_tag_name
+          echo "main_tag_name=$main_tag_name" >> $env:GITHUB_OUTPUT
+
       - name: Cache .nuke/temp, ~/.nuget/packages
         uses: actions/cache@v3
         with:
@@ -102,16 +113,6 @@ jobs:
           name: MAA-win-${{ matrix.lowercase_target }}
           path: artifacts
 
-      - name: Push tag to main repo
-        id: push_main_tag
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email 'github-actions[bot]@users.noreply.github.com'
-          
-          $main_tag_name=$(echo "alpha/${{ steps.set_tag.outputs.tag }}")
-          git tag $main_tag_name || exit 0 # do nothing if the tag already exists
-          git push --tags origin HEAD:refs/tags/$main_tag_name
-          echo "main_tag_name=$main_tag_name" >> $env:GITHUB_OUTPUT
 
   push-tag:
     needs: build-win-nightly
