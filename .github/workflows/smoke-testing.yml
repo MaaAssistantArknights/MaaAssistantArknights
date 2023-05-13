@@ -35,7 +35,7 @@ jobs:
           path: |
             .nuke/temp
             ~/.nuget/packages
-          key: Windows-x64-${{ hashFiles('**/global.json', '**/*.csproj') }}
+          key: Windows-${{ hashFiles('**/global.json', '**/*.csproj') }}
       
       - name: Bootstrap MaaDeps
         env:
