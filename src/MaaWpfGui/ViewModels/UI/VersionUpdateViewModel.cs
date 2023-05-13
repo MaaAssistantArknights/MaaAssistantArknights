@@ -26,6 +26,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using Markdig;
 using Markdig.Wpf;
 using Newtonsoft.Json;
@@ -567,7 +568,7 @@ namespace MaaWpfGui.ViewModels.UI
             if (result == MessageBoxResult.OK)
             {
                 Application.Current.Shutdown();
-                System.Windows.Forms.Application.Restart();
+                Bootstrapper.RestartApplication();
             }
         }
 

@@ -114,7 +114,7 @@ namespace MaaWpfGui.ViewModels.UI
                     iconKey: "HangoverGeometry",
                     iconBrushKey: "PallasBrush");
                 Application.Current.Shutdown();
-                System.Windows.Forms.Application.Restart();
+                Bootstrapper.RestartApplication();
             }
         }
 
@@ -2558,7 +2558,7 @@ namespace MaaWpfGui.ViewModels.UI
                 if (result == MessageBoxResult.OK)
                 {
                     Application.Current.Shutdown();
-                    System.Windows.Forms.Application.Restart();
+                    Bootstrapper.RestartApplication();
                 }
                 */
             }
@@ -2693,7 +2693,7 @@ namespace MaaWpfGui.ViewModels.UI
                 if (result == MessageBoxResult.OK)
                 {
                     Application.Current.Shutdown();
-                    System.Windows.Forms.Application.Restart();
+                    Bootstrapper.RestartApplication();
                 }
 
                 SetAndNotify(ref _language, value);
@@ -2763,7 +2763,7 @@ namespace MaaWpfGui.ViewModels.UI
             if (result == MessageBoxResult.OK)
             {
                 Application.Current.Shutdown();
-                System.Windows.Forms.Application.Restart();
+                Bootstrapper.RestartApplication();
             }
         }
 
