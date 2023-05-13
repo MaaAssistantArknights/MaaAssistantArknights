@@ -16,6 +16,8 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.AUTO_TAG_PAT }}
       - name: Bootstrap MaaDeps
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -59,7 +61,6 @@ jobs:
 
       - name: Run Testing and Release # ref: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
         run: |
-          gh workflow run test
           gh workflow run release-nightly-ota -f release_body="Auto Release of Resource Updates"
         env:
           GH_TOKEN: ${{ github.token }}
