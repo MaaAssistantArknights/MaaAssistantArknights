@@ -60,6 +60,7 @@
                         VerticalContentAlignment="Center"
                         Maximum="9999"
                         Minimum="0"
+                        ValueChanged="NumericUpDown_ValueChanged"
                         Value="{Binding MedicineNumber, UpdateSourceTrigger=PropertyChanged}" />
                     <hc:NumericUpDown
                         Width="70"
@@ -70,6 +71,7 @@
                         VerticalContentAlignment="Center"
                         Maximum="9999"
                         Minimum="0"
+                        ValueChanged="NumericUpDown_ValueChanged"
                         Value="{Binding StoneNumber, UpdateSourceTrigger=PropertyChanged}" />
                     <hc:NumericUpDown
                         Width="70"
@@ -80,6 +82,7 @@
                         VerticalContentAlignment="Center"
                         Maximum="9999"
                         Minimum="0"
+                        ValueChanged="NumericUpDown_ValueChanged"
                         Value="{Binding MaxTimes, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </Grid>
@@ -126,6 +129,7 @@
                         HorizontalAlignment="Left"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
+                        ValueChanged="NumericUpDown_ValueChanged"
                         Visibility="{c:Binding IsSpecifiedDrops}"
                         Value="{Binding DropsQuantity, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>

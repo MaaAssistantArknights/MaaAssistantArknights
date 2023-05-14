@@ -39,6 +39,7 @@
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource StartTimesLimit}"
                 Style="{StaticResource NumericUpDownExtend}"
+                ValueChanged="NumericUpDown_ValueChanged"
                 Value="{Binding RoguelikeStartsCount}" />
             <CheckBox
                 Margin="0,10"
@@ -75,6 +76,7 @@
                 hc:InfoElement.Title="{DynamicResource GoldTimesLimit}"
                 IsEnabled="{Binding RoguelikeInvestmentEnabled}"
                 Style="{StaticResource NumericUpDownExtend}"
+                ValueChanged="NumericUpDown_ValueChanged"
                 Value="{Binding RoguelikeInvestsCount}" />
             <CheckBox
                 Margin="0,10"
