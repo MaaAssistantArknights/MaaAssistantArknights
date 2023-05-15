@@ -77,5 +77,14 @@
             SelectedValue="{Binding TouchMode}"
             SelectedValuePath="Value"
             Style="{StaticResource ComboBoxExtend}" />
+        <ComboBox
+            Margin="0,5"
+            hc:InfoElement.Title="{DynamicResource ClientType}"
+            DisplayMemberPath="Display"
+            IsHitTestVisible="{Binding Idle}"
+            ItemsSource="{Binding ClientTypeList}"
+            SelectedValue="{Binding ClientType}"
+            SelectedValuePath="Value"
+            Style="{StaticResource ComboBoxExtend}" />
     </StackPanel>
 </UserControl>

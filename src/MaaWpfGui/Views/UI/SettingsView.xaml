@@ -43,14 +43,15 @@
             properties:ScrollViewerBinding.ViewportHeight="{Binding ScrollViewportHeight}"
             IsInertiaEnabled="True">
             <StackPanel>
+
                 <hc:Divider Content="{Binding ListTitle[0]}" />
+                <userControl:TimerSettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
+
+                <hc:Divider Content="{Binding ListTitle[1]}" />
                 <userControl:GameClientUserControl
                     Margin="0,20"
                     HorizontalAlignment="Center"
                     IsEnabled="{Binding Idle}" />
-
-                <hc:Divider Content="{Binding ListTitle[1]}" />
-                <userControl:GUISettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
 
                 <hc:Divider Content="{Binding ListTitle[2]}" />
                 <userControl:ConnectSettingsUserControl
@@ -62,7 +63,7 @@
                 <userControl:StartSettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
 
                 <hc:Divider Content="{Binding ListTitle[4]}" />
-                <userControl:TimerSettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
+                <userControl:GUISettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
 
                 <hc:Divider Content="{Binding ListTitle[5]}" />
                 <userControl:HotKeySettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
