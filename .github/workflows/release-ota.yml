@@ -86,6 +86,13 @@ jobs:
           tag: ${{ env.release_tag }}
           prerelease: ${{ env.prerelease }}
           overwrite: true
+
+      - name: Update Version API
+        run: |
+            gh workflow --repo MaaAssistantArknights/MaaRelease run update_version_api.yml
+        env:
+            GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
+
       - name: "Upload to server"
         uses: appleboy/scp-action@master
         with:
