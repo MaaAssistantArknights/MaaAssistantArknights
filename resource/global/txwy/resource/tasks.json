@@ -1293,6 +1293,7 @@
         ]
     },
     "LE-Open": {
+        "algorithm": "OcrDetect",
         "text": [
             "塵影餘音",
             "活動",
