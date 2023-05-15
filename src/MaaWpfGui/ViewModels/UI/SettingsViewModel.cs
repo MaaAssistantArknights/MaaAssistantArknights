@@ -2443,7 +2443,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _useRemainingSanityStage = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, bool.TrueString));
+        private bool _useRemainingSanityStage = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, bool.FalseString));
 
         public bool UseRemainingSanityStage
         {
