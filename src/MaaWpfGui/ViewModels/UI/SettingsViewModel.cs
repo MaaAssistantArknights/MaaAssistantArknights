@@ -92,11 +92,12 @@ namespace MaaWpfGui.ViewModels.UI
         public SettingsViewModel()
         {
             DisplayName = LocalizationHelper.GetString("Settings");
+
+            _listTitle.Add(LocalizationHelper.GetString("ScheduleSettings"));
             _listTitle.Add(LocalizationHelper.GetString("GameSettings"));
-            _listTitle.Add(LocalizationHelper.GetString("UISettings"));
             _listTitle.Add(LocalizationHelper.GetString("ConnectionSettings"));
             _listTitle.Add(LocalizationHelper.GetString("StartupSettings"));
-            _listTitle.Add(LocalizationHelper.GetString("ScheduleSettings"));
+            _listTitle.Add(LocalizationHelper.GetString("UISettings"));
             _listTitle.Add(LocalizationHelper.GetString("HotKeySettings"));
             _listTitle.Add(LocalizationHelper.GetString("UpdateSettings"));
             _listTitle.Add(LocalizationHelper.GetString("AboutUs"));
