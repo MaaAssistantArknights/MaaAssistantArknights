@@ -11,11 +11,11 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using System;
-using Stylet;
 using MaaWpfGui.ViewModels.UI;
+using Stylet;
 
 namespace MaaWpfGui.Models
 {
@@ -84,13 +84,13 @@ namespace MaaWpfGui.Models
             }
 
             EnableAdvancedSettings = false;
-            if (Base || Combat || AutoRoguelike)
+            if (Mission || WakeUp)
             {
-                AdvancedSettingsVisibility = true;
+                AdvancedSettingsVisibility = false;
             }
             else
             {
-                AdvancedSettingsVisibility = false;
+                AdvancedSettingsVisibility = true;
             }
         }
 
