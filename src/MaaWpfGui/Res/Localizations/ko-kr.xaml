@@ -260,7 +260,7 @@
     <system:String x:Key="Recruiting">공개모집</system:String>
     <system:String x:Key="Base">기반시설 교대</system:String>
     <system:String x:Key="Combat">이성 사용</system:String>
-    <!--  <system:String x:Key="Visiting">친구 방문</system:String>  -->
+    <system:String x:Key="Visiting">친구 방문</system:String>
     <system:String x:Key="Mall">크레딧 수급 및 상점</system:String>
     <system:String x:Key="Mission">임무 보상 수령</system:String>
     <system:String x:Key="AutoRoguelike">통합전략</system:String>
