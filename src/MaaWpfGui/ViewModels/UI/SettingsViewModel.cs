@@ -734,7 +734,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _clientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty);
+        private string _clientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, "Official");
 
         /// <summary>
         /// Gets or sets the client type.
