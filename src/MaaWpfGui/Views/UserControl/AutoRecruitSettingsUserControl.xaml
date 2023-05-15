@@ -2,6 +2,7 @@
     x:Class="MaaWpfGui.Views.UserControl.AutoRecruitSettingsUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
@@ -16,49 +17,54 @@
     d:DesignWidth="220"
     mc:Ignorable="d">
     <StackPanel>
-        <CheckBox
-            Margin="0,10"
-            Content="{DynamicResource AutoRefresh}"
-            IsChecked="{Binding RefreshLevel3}" />
-        <CheckBox
-            Margin="0,10"
-            Content="{DynamicResource AutoUseExpedited}"
-            IsChecked="{Binding UseExpedited}"
-            ToolTip="{DynamicResource CheckBoxesNotSaved}" />
-        <CheckBox
-            Margin="0,10"
-            HorizontalAlignment="Left"
-            IsChecked="{Binding IsLevel3UseShortTime}"
-            ToolTip="{DynamicResource Level3UseShortTimeTip}">
-            <controls:TextBlock Text="{DynamicResource Level3UseShortTime}" TextWrapping="Wrap" />
-        </CheckBox>
-        <hc:NumericUpDown
-            Margin="0,5"
-            hc:InfoElement.Title="{DynamicResource RecruitMaxTimes}"
-            Style="{StaticResource NumericUpDownExtend}"
-            ValueChanged="NumericUpDown_ValueChanged"
-            Value="{Binding RecruitMaxTimes}" />
-        <CheckBox
-            Margin="0,10"
-            Content="{DynamicResource ManuallySelectLevel1}"
-            IsChecked="{Binding NotChooseLevel1}"
-            ToolTip="{DynamicResource Level1Tip}" />
-        <CheckBox
-            Margin="0,10"
-            Content="{DynamicResource AutoSelectLevel3}"
-            IsChecked="{Binding ChooseLevel3}" />
-        <CheckBox
-            Margin="0,10"
-            Content="{DynamicResource AutoSelectLevel4}"
-            IsChecked="{Binding ChooseLevel4}" />
-        <CheckBox
-            Margin="0,10"
-            Content="{DynamicResource AutoSelectLevel5}"
-            IsChecked="{Binding ChooseLevel5}" />
-        <CheckBox
-            Margin="0,10,0,0"
-            Content="{DynamicResource AutoSelectLevel6}"
-            IsChecked="False"
-            IsEnabled="False" />
+        <StackPanel Visibility="{c:Binding !TaskSettingVisibilities.EnableAdvancedSettings}">
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource AutoUseExpedited}"
+                IsChecked="{Binding UseExpedited}"
+                ToolTip="{DynamicResource CheckBoxesNotSaved}" />
+            <hc:NumericUpDown
+                Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource RecruitMaxTimes}"
+                Style="{StaticResource NumericUpDownExtend}"
+                ValueChanged="NumericUpDown_ValueChanged"
+                Value="{Binding RecruitMaxTimes}" />
+        </StackPanel>
+
+        <StackPanel Visibility="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}">
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource AutoRefresh}"
+                IsChecked="{Binding RefreshLevel3}" />
+            <CheckBox
+                Margin="0,10"
+                HorizontalAlignment="Left"
+                IsChecked="{Binding IsLevel3UseShortTime}"
+                ToolTip="{DynamicResource Level3UseShortTimeTip}">
+                <controls:TextBlock Text="{DynamicResource Level3UseShortTime}" TextWrapping="Wrap" />
+            </CheckBox>
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource ManuallySelectLevel1}"
+                IsChecked="{Binding NotChooseLevel1}"
+                ToolTip="{DynamicResource Level1Tip}" />
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource AutoSelectLevel3}"
+                IsChecked="{Binding ChooseLevel3}" />
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource AutoSelectLevel4}"
+                IsChecked="{Binding ChooseLevel4}" />
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource AutoSelectLevel5}"
+                IsChecked="{Binding ChooseLevel5}" />
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource AutoSelectLevel6}"
+                IsChecked="False"
+                IsEnabled="False" />
+        </StackPanel>
     </StackPanel>
 </UserControl>

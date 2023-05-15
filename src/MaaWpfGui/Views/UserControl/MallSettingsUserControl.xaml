@@ -2,6 +2,7 @@
     x:Class="MaaWpfGui.Views.UserControl.MallSettingsUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
@@ -16,39 +17,47 @@
     d:DesignWidth="220"
     mc:Ignorable="d">
     <StackPanel>
-        <CheckBox
-            Margin="0,10"
-            Block.TextAlignment="Left"
-            Content="{DynamicResource SocialPtShop}"
-            IsChecked="{Binding CreditShopping}" />
-        <CheckBox Margin="0,10" IsChecked="{Binding CreditForceShoppingIfCreditFull}">
-            <TextBlock
+        <StackPanel Visibility="{c:Binding !TaskSettingVisibilities.EnableAdvancedSettings}">
+            <CheckBox
+                Margin="0,10"
                 Block.TextAlignment="Left"
-                Text="{DynamicResource ForceShoppingIfCreditFull}"
-                TextWrapping="Wrap" />
-        </CheckBox>
-        <CheckBox
-            Margin="0,10"
-            Block.TextAlignment="Left"
-            IsChecked="{Binding CreditFightTaskEnabledDisplay}"
-            ToolTip="{DynamicResource CreditFightTip}">
-            <TextBlock
+                Content="{DynamicResource SocialPtShop}"
+                IsChecked="{Binding CreditShopping}" />
+        </StackPanel>
+
+        <StackPanel Visibility="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}">
+            <CheckBox
+                Margin="0,10"
                 Block.TextAlignment="Left"
-                Text="{DynamicResource CreditFight}"
-                TextWrapping="Wrap" />
-        </CheckBox>
-        <TextBox
-            Margin="0,10"
-            hc:InfoElement.Title="{DynamicResource Blacklist}"
-            IsEnabled="{Binding CreditShopping}"
-            Style="{StaticResource TextBoxExtend}"
-            Text="{Binding CreditBlackList}" />
-        <TextBox
-            Margin="0,10"
-            hc:InfoElement.Title="{DynamicResource HighPriority}"
-            IsEnabled="{Binding CreditShopping}"
-            Style="{StaticResource TextBoxExtend}"
-            Text="{Binding CreditFirstList}"
-            ToolTip="{DynamicResource Drink}" />
+                IsChecked="{Binding CreditFightTaskEnabledDisplay}"
+                ToolTip="{DynamicResource CreditFightTip}">
+                <TextBlock
+                    Block.TextAlignment="Left"
+                    Text="{DynamicResource CreditFight}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
+            <CheckBox
+                Margin="0,10"
+                IsChecked="{Binding CreditForceShoppingIfCreditFull}"
+                IsEnabled="{Binding CreditShopping}">
+                <TextBlock
+                    Block.TextAlignment="Left"
+                    Text="{DynamicResource ForceShoppingIfCreditFull}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
+            <TextBox
+                Margin="0,10"
+                hc:InfoElement.Title="{DynamicResource Blacklist}"
+                IsEnabled="{Binding CreditShopping}"
+                Style="{StaticResource TextBoxExtend}"
+                Text="{Binding CreditBlackList}" />
+            <TextBox
+                Margin="0,10"
+                hc:InfoElement.Title="{DynamicResource HighPriority}"
+                IsEnabled="{Binding CreditShopping}"
+                Style="{StaticResource TextBoxExtend}"
+                Text="{Binding CreditFirstList}"
+                ToolTip="{DynamicResource Drink}" />
+        </StackPanel>
     </StackPanel>
 </UserControl>
