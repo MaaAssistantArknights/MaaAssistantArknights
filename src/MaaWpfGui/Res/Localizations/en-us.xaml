@@ -274,7 +274,7 @@
     <system:String x:Key="Recruiting">Recruit</system:String>
     <system:String x:Key="Base">Base</system:String>
     <system:String x:Key="Combat">Combat</system:String>
-    <!--  <system:String x:Key="Visiting">Visit Friends</system:String>  -->
+    <system:String x:Key="Visiting">Visit Friends</system:String>
     <system:String x:Key="Mall">Credit Store</system:String>
     <system:String x:Key="Mission">Daily &amp; Weekly</system:String>
     <system:String x:Key="AutoRoguelike">Auto I.S.</system:String>

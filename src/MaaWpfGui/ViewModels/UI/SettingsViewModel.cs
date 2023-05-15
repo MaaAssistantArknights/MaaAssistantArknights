@@ -1221,7 +1221,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         /* 肉鸽设置 */
 
-        private string _roguelikeTheme = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, "Phantom");
+        private string _roguelikeTheme = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, "Mizuki");
 
         /// <summary>
         /// Gets or sets the Roguelike theme.

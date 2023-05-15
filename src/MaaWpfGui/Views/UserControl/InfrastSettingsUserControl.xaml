@@ -27,7 +27,10 @@
                 Content="{DynamicResource DormTrustEnabled}"
                 IsChecked="{Binding DormTrustEnabled}" />
             <CheckBox Margin="0,10" IsChecked="{Binding DormFilterNotStationedEnabled}">
-                <controls:TextBlock Text="{DynamicResource DormFilterNotStationedEnabled}" TextWrapping="Wrap" />
+                <controls:TextBlock
+                    Text="{DynamicResource DormFilterNotStationedEnabled}"
+                    TextWrapping="Wrap"
+                    ToolTip="{DynamicResource DormFilterNotStationedTips}" />
             </CheckBox>
             <CheckBox Margin="0,10" IsChecked="{Binding OriginiumShardAutoReplenishment}">
                 <controls:TextBlock Text="{DynamicResource OriginiumShardAutoReplenishment}" TextWrapping="Wrap" />

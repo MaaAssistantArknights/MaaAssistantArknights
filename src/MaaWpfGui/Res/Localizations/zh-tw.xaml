@@ -219,7 +219,7 @@
     <system:String x:Key="Recruiting">自動公招</system:String>
     <system:String x:Key="Base">基建換班</system:String>
     <system:String x:Key="Combat">刷理智</system:String>
-    <!--  <system:String x:Key="Visiting">訪問好友</system:String>  -->
+    <system:String x:Key="Visiting">訪問好友</system:String>
     <system:String x:Key="Mall">獲取信用及購物</system:String>
     <system:String x:Key="Mission">領取日常獎勵</system:String>
     <system:String x:Key="AutoRoguelike">自動肉鴿</system:String>
