@@ -75,6 +75,16 @@
 
         <!--  不开自定义基建计划时，放在常规设置的部分  -->
         <StackPanel Visibility="{c:Binding (CustomInfrastEnabled and TaskSettingVisibilities.EnableAdvancedSettings) or (!CustomInfrastEnabled and !TaskSettingVisibilities.EnableAdvancedSettings)}">
+
+            <ComboBox
+                Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource DroneUsage}"
+                DisplayMemberPath="Display"
+                IsEnabled="{c:Binding !CustomInfrastEnabled}"
+                ItemsSource="{Binding UsesOfDronesList}"
+                SelectedValue="{Binding UsesOfDrones}"
+                SelectedValuePath="Value"
+                Style="{StaticResource ComboBoxExtend}" />
             <StackPanel Margin="0">
                 <TextBlock
                     Margin="0,5"
@@ -90,14 +100,6 @@
                     ToolTip="{DynamicResource InfrastThresholdTip}"
                     Value="{Binding DormThreshold}" />
             </StackPanel>
-            <ComboBox
-                Margin="0,5"
-                hc:InfoElement.Title="{DynamicResource DroneUsage}"
-                DisplayMemberPath="Display"
-                ItemsSource="{Binding UsesOfDronesList}"
-                SelectedValue="{Binding UsesOfDrones}"
-                SelectedValuePath="Value"
-                Style="{StaticResource ComboBoxExtend}" />
             <ListBox
                 Margin="0,5"
                 dd:DragDrop.IsDragSource="True"
