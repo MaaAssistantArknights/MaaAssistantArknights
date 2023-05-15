@@ -645,7 +645,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             _latestVersion = latestVersion;
-            _latestJson = json["ota_details"] as JObject;
+            _latestJson = (json["details"] ?? json["ota_details"]) as JObject;
             _assetsObject = null;
             foreach (var curAssets in _latestJson["assets"] as JArray)
             {
