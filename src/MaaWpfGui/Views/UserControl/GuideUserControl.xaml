@@ -120,26 +120,7 @@
                         Width="200"
                         TransitionMode="{Binding GuideTransitionMode}"
                         Visibility="{c:Binding 'GuideStepIndex == 2'}">
-                        <hc:SimpleStackPanel>
-                            <userControl:ConnectSettingsOnWakeUpUserControl />
-                            <hc:SimpleStackPanel
-                                Margin="0,5"
-                                Orientation="Horizontal"
-                                Visibility="{c:Binding !AutoDetectConnection}">
-                                <hc:TextBox
-                                    Width="140"
-                                    hc:BorderElement.CornerRadius="4,0,0,4"
-                                    hc:InfoElement.Title="{DynamicResource ADBPath}"
-                                    Text="{Binding AdbPath}" />
-                                <Button
-                                    Width="60"
-                                    VerticalAlignment="Bottom"
-                                    hc:BorderElement.CornerRadius="0,4,4,0"
-                                    BorderThickness="0,1,1,1"
-                                    Command="{s:Action SelectFile}"
-                                    Content="{DynamicResource Select}" />
-                            </hc:SimpleStackPanel>
-                        </hc:SimpleStackPanel>
+                        <userControl:ConnectSettingsOnWakeUpUserControl />
                     </hc:TransitioningContentControl>
 
                     <hc:TransitioningContentControl
