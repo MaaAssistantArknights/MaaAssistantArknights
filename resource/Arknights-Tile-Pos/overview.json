@@ -6470,6 +6470,60 @@
         "stageId": "act25side_ex08",
         "width": 13
     },
+    "act25side_s01_a-activities/act25side/level_act25side_sub-1-1-a": {
+        "code": "CW-S-1-A",
+        "filename": "act25side_s01_a-activities-act25side-level_act25side_sub-1-1-a.json",
+        "height": 8,
+        "levelId": "activities/act25side/level_act25side_sub-1-1-a",
+        "name": "花式滑冰·α",
+        "stageId": "act25side_s01_a",
+        "width": 12
+    },
+    "act25side_s01_b-activities/act25side/level_act25side_sub-1-1-b": {
+        "code": "CW-S-1-B",
+        "filename": "act25side_s01_b-activities-act25side-level_act25side_sub-1-1-b.json",
+        "height": 8,
+        "levelId": "activities/act25side/level_act25side_sub-1-1-b",
+        "name": "花式滑冰·β",
+        "stageId": "act25side_s01_b",
+        "width": 12
+    },
+    "act25side_s02_a-activities/act25side/level_act25side_sub-1-2-a": {
+        "code": "CW-S-2-A",
+        "filename": "act25side_s02_a-activities-act25side-level_act25side_sub-1-2-a.json",
+        "height": 9,
+        "levelId": "activities/act25side/level_act25side_sub-1-2-a",
+        "name": "战壕·α",
+        "stageId": "act25side_s02_a",
+        "width": 13
+    },
+    "act25side_s03_a-activities/act25side/level_act25side_sub-1-3-a": {
+        "code": "CW-S-3-A",
+        "filename": "act25side_s03_a-activities-act25side-level_act25side_sub-1-3-a.json",
+        "height": 8,
+        "levelId": "activities/act25side/level_act25side_sub-1-3-a",
+        "name": "拉力赛·α",
+        "stageId": "act25side_s03_a",
+        "width": 12
+    },
+    "act25side_s04#f#-activities/act25side/level_act25side_sub-1-4": {
+        "code": "CW-S-4",
+        "filename": "act25side_s04#f#-activities-act25side-level_act25side_sub-1-4.json",
+        "height": 9,
+        "levelId": "activities/act25side/level_act25side_sub-1-4",
+        "name": "新星爆发",
+        "stageId": "act25side_s04#f#",
+        "width": 13
+    },
+    "act25side_s04-activities/act25side/level_act25side_sub-1-4": {
+        "code": "CW-S-4",
+        "filename": "act25side_s04-activities-act25side-level_act25side_sub-1-4.json",
+        "height": 9,
+        "levelId": "activities/act25side/level_act25side_sub-1-4",
+        "name": "新星爆发",
+        "stageId": "act25side_s04",
+        "width": 13
+    },
     "act25side_sp01-activities/act25side/level_act25side_sp01": {
         "code": "CW-P-1",
         "filename": "act25side_sp01-activities-act25side-level_act25side_sp01.json",
