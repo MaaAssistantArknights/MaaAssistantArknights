@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          token: ${{ secrets.AUTO_TAG_PAT }}
+          token: ${{ secrets.MAARELEASE_RELEASE }}
       - name: Git config
         run: |
           git config user.name "$GITHUB_ACTOR"
