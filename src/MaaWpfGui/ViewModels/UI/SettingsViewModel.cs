@@ -2250,17 +2250,18 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Tries to set Bluestack Hyper V address.
         /// </summary>
-        public void TryToSetBlueStacksHyperVAddress()
+        /// <returns>success</returns>
+        public bool TryToSetBlueStacksHyperVAddress()
         {
             if (string.IsNullOrEmpty(_bluestacksConfig))
             {
-                return;
+                return false;
             }
 
             if (!File.Exists(_bluestacksConfig))
             {
                 ConfigurationHelper.SetValue(ConfigurationKeys.BluestacksConfigError, "File not exists");
-                return;
+                return false;
             }
 
             var all_lines = File.ReadAllLines(_bluestacksConfig);
@@ -2287,6 +2288,8 @@ namespace MaaWpfGui.ViewModels.UI
                     break;
                 }
             }
+
+            return true;
         }
 
         public bool IsAdbTouchMode()
