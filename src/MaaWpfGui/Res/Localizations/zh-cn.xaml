@@ -4,6 +4,8 @@
     xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  设置  -->
     <system:String x:Key="Settings">设置</system:String>
+    <system:String x:Key="GeneralSettings">常规设置</system:String>
+    <system:String x:Key="AdvancedSettings">高级设置</system:String>
     <system:String x:Key="GameSettings">游戏设置</system:String>
     <system:String x:Key="BaseSettings">基建设置</system:String>
     <system:String x:Key="RoguelikeSettings">肉鸽设置</system:String>
@@ -19,6 +21,18 @@
     <system:String x:Key="AboutUs">关于我们</system:String>
 
     <system:String x:Key="Version">版本号</system:String>
+
+    <!--  设置指引  -->
+    <system:String x:Key="TaskSettings">任务设置</system:String>
+    <system:String x:Key="SettingsGuide">设置指引</system:String>
+    <system:String x:Key="PrevGuide">上一步</system:String>
+    <system:String x:Key="NextGuide">下一步</system:String>
+    <system:String x:Key="DoneGuide">完成</system:String>
+    <system:String x:Key="ToolTipGuide">鼠标移至此处会有提示哦↓→</system:String>
+    <system:String x:Key="TaskGuide">↑任务</system:String>
+    <system:String x:Key="OftenUsedGuide">↓常用的</system:String>
+    <system:String x:Key="SometimesUsedGuide">不常用的↑</system:String>
+    <system:String x:Key="LinkStartGuide">← 开始任务</system:String>
 
     <system:String x:Key="Dorm">宿舍</system:String>
     <system:String x:Key="Mfg">制造站</system:String>
@@ -37,6 +51,7 @@
     <system:String x:Key="Chip">制造站-芯片组</system:String>
     <system:String x:Key="DormTrustEnabled">宿舍空余位置蹭信赖</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">不将已进驻的干员放入宿舍</system:String>
+    <system:String x:Key="DormFilterNotStationedTips">勾选则不会将艾丽妮等干员从训练室移除，但也会导致加工站干员不能进入宿舍</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">源石碎片自动补货</system:String>
     <system:String x:Key="CustomInfrastEnabled">启用自定义基建配置（beta）</system:String>
     <system:String x:Key="DefaultInfrast">内置配置</system:String>
@@ -56,6 +71,7 @@
     <system:String x:Key="General">通用模式</system:String>
     <system:String x:Key="BlueStacks">蓝叠模拟器</system:String>
     <system:String x:Key="MuMuEmulator">MuMu 模拟器</system:String>
+    <system:String x:Key="MuMuEmulator12">MuMu 模拟器 12</system:String>
     <system:String x:Key="LDPlayer">雷电模拟器</system:String>
     <system:String x:Key="Nox">夜神模拟器</system:String>
     <system:String x:Key="XYAZ">逍遥模拟器</system:String>
@@ -219,8 +235,8 @@
     <system:String x:Key="DrGrandet">博朗台碎石模式</system:String>
     <system:String x:Key="DrGrandetTip">在碎石确认界面等待，直到当前的 1 点理智恢复完成再立即确认。不碎石时该选项不影响正常运行</system:String>
 
-    <system:String x:Key="SocialPtShop">信用购物</system:String>
-    <system:String x:Key="CreditFight">借助战赚信用</system:String>
+    <system:String x:Key="SocialPtShop">信用交易所自动购物</system:String>
+    <system:String x:Key="CreditFight">借助战打 OF-1 赚信用</system:String>
     <system:String x:Key="CreditFightTip" xml:space="preserve">访问好友后借助战打一把OF-1赚30信用。&#x0a;一日只执行一次。&#x0a;关卡选择为「当前/上次」时此功能无效。&#x0a;别传「火蓝之心」关卡OF-1未解锁时请勿勾选。</system:String>
     <system:String x:Key="HighPriority">优先购买 子串即可 分号分隔</system:String>
     <system:String x:Key="Blacklist">黑名单 子串即可 分号分隔</system:String>
@@ -245,7 +261,7 @@
 
     <system:String x:Key="AutoDetectConnection">自动检测连接</system:String>
     <system:String x:Key="AutoDetectConnectionTip">每次检测完成后会自动取消勾选，若需要重新检测可再次勾选，若反复连接失败可勾选始终自动检测连接</system:String>
-    <system:String x:Key="AlwaysAutoDetectConnection">始终检测</system:String>
+    <system:String x:Key="AlwaysAutoDetectConnection">每次重新检测</system:String>
     <system:String x:Key="ADBPath">adb 路径 (相对/绝对)</system:String>
     <system:String x:Key="ConnectionAddress">连接地址</system:String>
     <system:String x:Key="ConnectionAddressTip">若遇到问题可尝试手动修改</system:String>
@@ -261,7 +277,7 @@
     <system:String x:Key="Recruiting">自动公招</system:String>
     <system:String x:Key="Base">基建换班</system:String>
     <system:String x:Key="Combat">刷理智</system:String>
-    <!--  <system:String x:Key="Visiting">访问好友</system:String> -->
+    <system:String x:Key="Visiting">访问好友</system:String>
     <system:String x:Key="Mall">获取信用及购物</system:String>
     <system:String x:Key="Mission">领取日常奖励</system:String>
     <system:String x:Key="AutoRoguelike">自动肉鸽</system:String>
@@ -452,7 +468,7 @@
         1. 请在有“开始行动”按钮的界面再使用本功能；\n\n
         2. 使用好友助战可以关闭“自动编队”，手动选择干员后开始；\n\n
         3. 模拟悖论需要关闭“自动编队”，并选好技能后处于“开始模拟”按钮的界面再开始；\n\n
-        4. 保全派驻 在 resource/copilot 文件夹下内置了4份作业。\n
+        4. 保全派驻 在 resource/copilot 文件夹下内置了多份作业。\n
         请手动编队后在“开始部署”界面开始（可配合“循环次数”使用）\n\n
         5. 现已支持视频识别，请将攻略视频文件拖入后开始。\n
         需要视频分辨率为 16:9，无黑边、模拟器边框、异形屏矫正等干扰元素\n\n
@@ -473,7 +489,7 @@
     <system:String x:Key="ErrorDetails">详细信息</system:String>
     <system:String x:Key="ErrorSolution">解决方案</system:String>
     <system:String x:Key="ErrorSolutionCrash">请参考文档：常见问题 - 闪退 进行操作</system:String>
-    <system:String x:Key="ErrorSolutionReplaceADB">请使用管理员权限打开 MAA 进行操作</system:String>
+    <system:String x:Key="ErrorSolutionReplaceADB">请关闭模拟器与 ADB 或重启电脑后使用管理员权限打开 MAA 进行操作</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">创建 GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">加入QQ群反馈问题</system:String>
     <system:String x:Key="CopyErrorMessage">复制错误信息</system:String>
@@ -486,7 +502,7 @@
     <system:String x:Key="SuccessfullyReplacedADB">成功替换 ADB 文件</system:String>
     <system:String x:Key="InitializationError">初始化错误！</system:String>
     <system:String x:Key="ResolutionNotSupported">模拟器分辨率不支持，请设置为 720p 或更高，且为 16:9 比例</system:String>
-    <system:String x:Key="ResolutionAcquisitionFailure">模拟器分辨率获取失败，建议重启电脑，或更换模拟器后再次尝试</system:String>
+    <system:String x:Key="ResolutionAcquisitionFailure">模拟器分辨率获取失败，建议重启模拟器与 ADB 或重启电脑，或更换模拟器后再次尝试</system:String>
     <system:String x:Key="TryToReconnect">模拟器断开，正在尝试重连</system:String>
     <system:String x:Key="ReconnectSuccess">重连成功，继续任务</system:String>
     <system:String x:Key="ReconnectFailed">重连失败，连接断开！</system:String>
@@ -552,16 +568,11 @@
     <system:String x:Key="BattleFormation">开始编队</system:String>
     <system:String x:Key="BattleFormationSelected">选择干员：</system:String>
     <system:String x:Key="CurrentSteps">当前步骤：{0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">
-        不支持的关卡，请更新 MAA 软件版本！\n
-        不支持的关卡，请更新 MAA 软件版本！\n
-        不支持的关卡，请更新 MAA 软件版本！\n\n
-        若提示已是最新版本，请尝试检查开发版或内测版。
-    </system:String>
+    <system:String x:Key="UnsupportedLevel">不支持的关卡，请更新 MAA 软件版本！\n不支持的关卡，请更新 MAA 软件版本！\n不支持的关卡，请更新 MAA 软件版本！\n\n若提示已是最新版本，请尝试检查开发版或内测版。</system:String>
     <system:String x:Key="RecruitTagsDetected">识别结果：</system:String>
     <system:String x:Key="ConnectFailed">连接失败</system:String>
     <system:String x:Key="TryToStartEmulator">正在尝试启动模拟器</system:String>
-    <system:String x:Key="CheckSettings">请检查连接设置或尝试重启电脑</system:String>
+    <system:String x:Key="CheckSettings">请检查连接设置或尝试重启模拟器与 ADB 或重启电脑</system:String>
     <!--  AsstProxy  -->
 
     <!--  TrayIcon  -->
@@ -608,4 +619,9 @@
     <system:String x:Key="VersionUpdated">版本已更新</system:String>
     <system:String x:Key="VersionUpdatedTo">已更新：</system:String>
     <!--  VersionUpdatePopup  -->
+
+    <!--  RootViewModel  -->
+    <system:String x:Key="ConfirmExitTitle">MAA 正在运行任务</system:String>
+    <system:String x:Key="ConfirmExitText">确定要退出吗？</system:String>
+    <!--  RootViewModel  -->
 </ResourceDictionary>

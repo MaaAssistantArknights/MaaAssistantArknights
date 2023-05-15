@@ -21,6 +21,16 @@ namespace MaaWpfGui.Constants
         public const string Localization = "GUI.Localization";
         public const string MinimizeToTray = "GUI.MinimizeToTray";
         public const string UseNotify = "GUI.UseNotify";
+        public const string WindowPlacement = "GUI.Placement";
+        public const string LoadWindowPlacement = "GUI.Placement.Load";
+        public const string SaveWindowPlacement = "GUI.Placement.SaveOnClosing";
+        public const string UseAlternateStage = "GUI.UseAlternateStage";
+        public const string HideUnavailableStage = "GUI.HideUnavailableStage";
+        public const string CustomStageCode = "GUI.CustomStageCode";
+        public const string InverseClearMode = "GUI.InverseClearMode";
+        public const string WindowTitlePrefix = "GUI.WindowTitlePrefix";
+        public const string DarkMode = "GUI.DarkMode";
+
         public const string MonitorNumber = "GUI.Monitor.Number";
         public const string MonitorWidth = "GUI.Monitor.Width";
         public const string MonitorHeight = "GUI.Monitor.Height";
@@ -30,12 +40,6 @@ namespace MaaWpfGui.Constants
         public const string WindowHeight = "GUI.Size.Height";
         public const string LoadPositionAndSize = "GUI.PositionAndSize.Load";
         public const string SavePositionAndSize = "GUI.PositionAndSize.SaveOnClosing";
-        public const string UseAlternateStage = "GUI.UseAlternateStage";
-        public const string HideUnavailableStage = "GUI.HideUnavailableStage";
-        public const string CustomStageCode = "GUI.CustomStageCode";
-        public const string InverseClearMode = "GUI.InverseClearMode";
-        public const string WindowTitlePrefix = "GUI.WindowTitlePrefix";
-        public const string DarkMode = "GUI.DarkMode";
 
         public const string AddressHistory = "Connect.AddressHistory";
         public const string AutoDetect = "Connect.AutoDetect";
@@ -154,5 +158,7 @@ namespace MaaWpfGui.Constants
         public const string OperBoxData = "OperBox.Data";
 
         public const string GachaShowDisclaimer = "Gacha.ShowDisclaimer";
+
+        public const string GuideStepIndex = "Guide.StepIndex";
     }
 }

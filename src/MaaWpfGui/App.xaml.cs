@@ -11,7 +11,10 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
 using System.Diagnostics;
+using System.IO;
+using System.Threading;
 using System.Windows;
 using System.Windows.Documents;
 
@@ -29,11 +32,6 @@ namespace MaaWpfGui
             {
                 Process.Start(new ProcessStartInfo(link.NavigateUri.AbsoluteUri));
             }
-        }
-
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            base.OnStartup(e);
         }
     }
 }

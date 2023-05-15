@@ -2,12 +2,12 @@ name: gen-changelog
 
 on:
   pull_request:
-    types: [opened, reopened]
+    types: [opened, reopened, ready_for_review]
   workflow_dispatch:
 
 jobs:
   gen:
-    if: startsWith(github.event.pull_request.title, 'Release v') || startsWith(github.event.pull_request.title, 'release v')
+    if: github.event.pull_request.draft == false && (startsWith(github.event.pull_request.title, 'Release v') || startsWith(github.event.pull_request.title, 'release v'))
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

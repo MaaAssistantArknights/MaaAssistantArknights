@@ -35,12 +35,21 @@
     <RepositoryUrl>https://github.com/MaaAssistantArknights/MaaAssistantArknights</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <IncludeSymbols>False</IncludeSymbols>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <ItemGroup>
     <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
   <!-- StyleCop -->
+
+  <ItemGroup>
+    <Page Include="Properties\DesignTimeResources.xaml" Condition="'$(DesignTime)'=='true' OR ('$(SolutionPath)'!='' AND Exists('$(SolutionPath)') AND '$(BuildingInsideVisualStudio)'!='true' AND '$(BuildingInsideExpressionBlend)'!='true')">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <ContainsDesignTimeResources>true</ContainsDesignTimeResources>
+    </Page>
+  </ItemGroup>
 
   <ItemGroup>
     <None Include="..\..\README.md">
@@ -109,6 +118,8 @@
     <PackageReference Include="System.Text.Json">
       <Version>7.0.2</Version>
     </PackageReference>
+    <PackageReference Include="Vanara.PInvoke.ComCtl32" Version="3.4.14" />
+    <PackageReference Include="Vanara.PInvoke.Shell32" Version="3.4.14" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="newlogo.ico" />

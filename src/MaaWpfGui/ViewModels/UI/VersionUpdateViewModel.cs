@@ -26,11 +26,13 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using Markdig;
 using Markdig.Wpf;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Semver;
+using Serilog;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -49,6 +51,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         [DllImport("MaaCore.dll")]
         private static extern IntPtr AsstGetVersion();
+
+        private static readonly ILogger _logger = Log.ForContext<VersionUpdateViewModel>();
 
         private static string AddContributorLink(string text)
         {
@@ -165,6 +169,8 @@ namespace MaaWpfGui.ViewModels.UI
         private const string StableRequestUrl = "repos/MaaAssistantArknights/MaaAssistantArknights/releases/latest";
         private const string MaaReleaseRequestUrlByTag = "repos/MaaAssistantArknights/MaaRelease/releases/tags/";
         private const string InfoRequestUrl = "repos/MaaAssistantArknights/MaaAssistantArknights/releases/tags/";
+
+        private const string MaaUpdateAPI = "https://ota.maa.plus/MaaAssistantArknights/api/version/";
 
         private JObject _latestJson;
         private JObject _assetsObject;
@@ -372,16 +378,15 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// 检查更新，并下载更新包。
         /// </summary>
-        /// <param name="force">是否强制检查。</param>
         /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
-        public async Task<CheckUpdateRetT> CheckAndDownloadUpdate(bool force = false)
+        public async Task<CheckUpdateRetT> CheckAndDownloadUpdate()
         {
             Instances.SettingsViewModel.IsCheckingForUpdates = true;
 
             async Task<CheckUpdateRetT> CheckUpdateInner()
             {
                 // 检查更新
-                var checkRet = await CheckUpdate(force);
+                var checkRet = await CheckUpdate();
                 if (checkRet != CheckUpdateRetT.OK)
                 {
                     return checkRet;
@@ -563,29 +568,107 @@ namespace MaaWpfGui.ViewModels.UI
             if (result == MessageBoxResult.OK)
             {
                 Application.Current.Shutdown();
-                System.Windows.Forms.Application.Restart();
+                Bootstrapper.RestartApplication();
             }
         }
 
         /// <summary>
         /// 检查更新。
         /// </summary>
-        /// <param name="force">是否强制检查。</param>
         /// <returns>检查到更新返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
-        private async Task<CheckUpdateRetT> CheckUpdate(bool force = false)
+        private async Task<CheckUpdateRetT> CheckUpdate()
         {
-            // 自动更新或者手动触发
-            if (!(Instances.SettingsViewModel.UpdateCheck || force))
-            {
-                return CheckUpdateRetT.NoNeedToUpdate;
-            }
-
             // 调试版不检查更新
             if (isDebugVersion())
             {
                 return CheckUpdateRetT.FailedToGetInfo;
             }
 
+            try
+            {
+                var maaApiRet = await CheckUpdateByMaaApi();
+                if (maaApiRet != CheckUpdateRetT.FailedToGetInfo)
+                {
+                    return maaApiRet;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Failed to check update by Maa API.");
+            }
+
+            return await CheckUpdateByGithubApi();
+        }
+
+        private async Task<CheckUpdateRetT> CheckUpdateByMaaApi()
+        {
+            string url;
+            string response;
+            if (Instances.SettingsViewModel.UpdateNightly)
+            {
+                url = MaaUpdateAPI + "alpha.json";
+            }
+            else if (Instances.SettingsViewModel.UpdateBeta)
+            {
+                url = MaaUpdateAPI + "beta.json";
+            }
+            else
+            {
+                url = MaaUpdateAPI + "stable.json";
+            }
+
+            try
+            {
+                response = await Instances.HttpService.GetStringAsync(new Uri(url)).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Failed to get update info from Maa API.");
+                return CheckUpdateRetT.FailedToGetInfo;
+            }
+
+            if (string.IsNullOrEmpty(response))
+            {
+                return CheckUpdateRetT.FailedToGetInfo;
+            }
+
+            var json = JsonConvert.DeserializeObject(response) as JObject;
+            if (json == null)
+            {
+                return CheckUpdateRetT.FailedToGetInfo;
+            }
+
+            string latestVersion = json["version"]?.ToString();
+            if (!NeedToUpdate(latestVersion))
+            {
+                return CheckUpdateRetT.AlreadyLatest;
+            }
+
+            _latestVersion = latestVersion;
+            _latestJson = json["ota_details"] as JObject;
+            _assetsObject = null;
+            foreach (var curAssets in _latestJson["assets"] as JArray)
+            {
+                string name = curAssets["name"].ToString().ToLower();
+                if (name.Contains("ota") && name.Contains("win") && name.Contains($"{_curVersion}_{_latestVersion}"))
+                {
+                    _assetsObject = curAssets as JObject;
+                    if (IsArm ^ name.Contains("arm"))
+                    {
+                        continue; // 兼容旧版本，以前 ota 不区分指令集架构
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return CheckUpdateRetT.OK;
+        }
+
+        private async Task<CheckUpdateRetT> CheckUpdateByGithubApi()
+        {
             const int RequestRetryMaxTimes = 2;
             try
             {
@@ -707,6 +790,25 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool NeedToUpdate(string latestVersion)
+        {
+            if (isDebugVersion())
+            {
+                return false;
+            }
+
+            bool curParsed = SemVersion.TryParse(_curVersion, SemVersionStyles.AllowLowerV, out var curVersionObj);
+            bool latestPared = SemVersion.TryParse(latestVersion, SemVersionStyles.AllowLowerV, out var latestVersionObj);
+            if (curParsed && latestPared)
+            {
+                return curVersionObj.CompareSortOrderTo(latestVersionObj) < 0;
+            }
+            else
+            {
+                return string.CompareOrdinal(_curVersion, latestVersion) < 0;
+            }
+        }
+
         private async Task<string> RequestGithubApi(string url, int retryTimes)
         {
             string response = string.Empty;
@@ -741,7 +843,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return await Instances.HttpService.DownloadFileAsync(
                     new Uri(url),
                     assetsObject["name"].ToString(),
-                    assetsObject["content_type"].ToString())
+                    assetsObject["content_type"]?.ToString())
                     .ConfigureAwait(false);
             }
             catch (Exception)
@@ -795,7 +897,7 @@ namespace MaaWpfGui.ViewModels.UI
         private bool isDebugVersion(string version = null)
         {
             version ??= _curVersion;
-            return version == "DEBUG VERSION";
+            return version.Contains("DEBUG");
         }
 
         private bool isStdVersion(string version = null)

@@ -14,7 +14,6 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Shapes;
 
 namespace MaaWpfGui.Styles.Properties
 {
@@ -249,71 +248,71 @@ namespace MaaWpfGui.Styles.Properties
 
         #endregion ExtentHeight attached property
 
-        #region RectangleVerticalOffsetList attached property
+        #region DividerVerticalOffsetList attached property
 
         /// <summary>
-        /// RectangleIndex attached property.
+        /// DividerIndex attached property.
         /// </summary>
-        public static readonly DependencyProperty RectangleVerticalOffsetListProperty =
-            DependencyProperty.RegisterAttached("RectangleVerticalOffsetList",
+        public static readonly DependencyProperty DividerVerticalOffsetListProperty =
+            DependencyProperty.RegisterAttached("DividerVerticalOffsetList",
                 typeof(List<double>),
                 typeof(ScrollViewerBinding),
                 new FrameworkPropertyMetadata(new List<double>(),
                     FrameworkPropertyMetadataOptions.AffectsRender |
                     FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                    OnRectangleVerticalOffsetListPropertyChanged));
+                    OnDividerVerticalOffsetListPropertyChanged));
 
         /// <summary>
         /// Just a flag that the binding has been applied.
         /// </summary>
-        private static readonly DependencyProperty RectangleVerticalOffsetListBindingProperty =
-            DependencyProperty.RegisterAttached("RectangleVerticalOffsetListBinding", typeof(bool?), typeof(ScrollViewerBinding));
+        private static readonly DependencyProperty DividerVerticalOffsetListBindingProperty =
+            DependencyProperty.RegisterAttached("DividerVerticalOffsetListBinding", typeof(bool?), typeof(ScrollViewerBinding));
 
         /// <summary>
-        /// Gets rectangle vertical offset property.
+        /// Gets divider vertical offset property.
         /// </summary>
         /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
         /// <returns>The property value.</returns>
-        public static List<double> GetRectangleVerticalOffsetList(DependencyObject depObj)
+        public static List<double> GetDividerVerticalOffsetList(DependencyObject depObj)
         {
-            return (List<double>)depObj.GetValue(RectangleVerticalOffsetListProperty);
+            return (List<double>)depObj.GetValue(DividerVerticalOffsetListProperty);
         }
 
         /// <summary>
-        /// Sets rectangle vertical offset property.
+        /// Sets divider vertical offset property.
         /// </summary>
         /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
         /// <param name="value">The new property value.</param>
-        public static void SetRectangleVerticalOffsetList(DependencyObject depObj, List<double> value)
+        public static void SetDividerVerticalOffsetList(DependencyObject depObj, List<double> value)
         {
             if (!(depObj is ScrollViewer))
             {
                 return;
             }
 
-            depObj.SetValue(RectangleVerticalOffsetListProperty, value);
+            depObj.SetValue(DividerVerticalOffsetListProperty, value);
         }
 
-        private static void OnRectangleVerticalOffsetListPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnDividerVerticalOffsetListPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (!(d is ScrollViewer scrollViewer))
             {
                 return;
             }
 
-            BindRectangleVerticalOffsetList(scrollViewer);
+            BindDividerVerticalOffsetList(scrollViewer);
         }
 
-        private static void BindRectangleVerticalOffsetList(ScrollViewer scrollViewer)
+        private static void BindDividerVerticalOffsetList(ScrollViewer scrollViewer)
         {
-            if (scrollViewer.GetValue(RectangleVerticalOffsetListBindingProperty) != null)
+            if (scrollViewer.GetValue(DividerVerticalOffsetListBindingProperty) != null)
             {
                 return;
             }
 
-            scrollViewer.SetValue(RectangleVerticalOffsetListBindingProperty, true);
+            scrollViewer.SetValue(DividerVerticalOffsetListBindingProperty, true);
 
-            // 当滚动条载入时，遍历 StackPanel 中的所有 Rectangle 子元素对应位置
+            // 当滚动条载入时，遍历 StackPanel 中的所有 Divider 子元素对应位置
             scrollViewer.Loaded += (s, se) =>
             {
                 if (!scrollViewer.HasContent || !(scrollViewer.Content is StackPanel))
@@ -321,30 +320,30 @@ namespace MaaWpfGui.Styles.Properties
                     return;
                 }
 
-                var rectangleOffsetList = new List<double>();
+                var dividerOffsetList = new List<double>();
                 var stackPanel = (StackPanel)scrollViewer.Content;
                 var point = new Point(10, scrollViewer.VerticalOffset);
 
                 foreach (var child in stackPanel.Children)
                 {
-                    // 以 Rectangle 为定位元素
-                    if (!(child is Rectangle))
+                    // 以 Divider 为定位元素
+                    if (!(child is HandyControl.Controls.Divider))
                     {
                         continue;
                     }
 
-                    // 转换计算并保存 Rectangle 在滚动面板中的垂直位置
+                    // 转换计算并保存 Divider 在滚动面板中的垂直位置
                     var targetPosition = ((FrameworkElement)child).TransformToVisual(scrollViewer).Transform(point);
-                    rectangleOffsetList.Add(targetPosition.Y);
+                    dividerOffsetList.Add(targetPosition.Y);
                 }
 
-                if (rectangleOffsetList.Count > 0)
+                if (dividerOffsetList.Count > 0)
                 {
-                    SetRectangleVerticalOffsetList(scrollViewer, rectangleOffsetList);
+                    SetDividerVerticalOffsetList(scrollViewer, dividerOffsetList);
                 }
             };
         }
 
-        #endregion RectangleVerticalOffsetList attached property
+        #endregion DividerVerticalOffsetList attached property
     }
 }

@@ -17,6 +17,7 @@
     d:DataContext="{d:DesignInstance {x:Type ui:RootViewModel}}"
     Icon="../../newlogo.ico"
     mc:Ignorable="d">
+
     <DockPanel>
         <TabControl
             BorderThickness="0,1,0,0"

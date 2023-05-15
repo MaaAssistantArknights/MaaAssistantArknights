@@ -4,6 +4,8 @@
     xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  Settings  -->
     <system:String x:Key="Settings">Settings</system:String>
+    <system:String x:Key="GeneralSettings">General</system:String>
+    <system:String x:Key="AdvancedSettings">Advanced</system:String>
     <system:String x:Key="GameSettings">Client</system:String>
     <system:String x:Key="BaseSettings">Base</system:String>
     <system:String x:Key="RoguelikeSettings">I.S.</system:String>
@@ -19,6 +21,18 @@
     <system:String x:Key="AboutUs">About us</system:String>
 
     <system:String x:Key="Version">Version</system:String>
+
+    <!--  Settings Guide  -->
+    <system:String x:Key="TaskSettings">Task Settings</system:String>
+    <system:String x:Key="SettingsGuide">Settings Guide</system:String>
+    <system:String x:Key="PrevGuide">Prev</system:String>
+    <system:String x:Key="NextGuide">Next</system:String>
+    <system:String x:Key="DoneGuide">Done</system:String>
+    <system:String x:Key="ToolTipGuide">Prompt appears when hovered↓→</system:String>
+    <system:String x:Key="TaskGuide">↑Task</system:String>
+    <system:String x:Key="OftenUsedGuide">↓Often Used</system:String>
+    <system:String x:Key="SometimesUsedGuide">Sometimes Used↑</system:String>
+    <system:String x:Key="LinkStartGuide">← Start Tasks</system:String>
 
     <system:String x:Key="Dorm">Dorm</system:String>
     <system:String x:Key="Mfg">Manufacturing Station</system:String>
@@ -57,6 +71,7 @@
     <system:String x:Key="GeneralWithoutScreencapErr">General Mode (Blocked exception output)</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
     <system:String x:Key="MuMuEmulator">MuMu Emulator</system:String>
+    <system:String x:Key="MuMuEmulator12">MuMu Emulator 12</system:String>
     <system:String x:Key="LDPlayer">LD Player</system:String>
     <system:String x:Key="Nox">Nox</system:String>
     <system:String x:Key="XYAZ">MEmu</system:String>
@@ -243,7 +258,7 @@
 
     <system:String x:Key="AutoDetectConnection">Auto detect connection</system:String>
     <system:String x:Key="AutoDetectConnectionTip">The checkbox will be automatically unchecked after each detect is completed, and can be checked again if you need to re-detect</system:String>
-    <system:String x:Key="AlwaysAutoDetectConnection">Always detect</system:String>
+    <system:String x:Key="AlwaysAutoDetectConnection">Re-detect every times</system:String>
     <system:String x:Key="ADBPath">ADB path (rel/abs)</system:String>
     <system:String x:Key="ConnectionAddress">Connection address</system:String>
     <system:String x:Key="ConnectionAddressTip">It will be filled in automatically when you use it for the first time. If you encounter any problems, you can try to manually modify it</system:String>
@@ -259,9 +274,9 @@
     <system:String x:Key="Recruiting">Recruit</system:String>
     <system:String x:Key="Base">Base</system:String>
     <system:String x:Key="Combat">Combat</system:String>
-    <!--  <system:String x:Key="Visiting">Visit Friends</system:String>  -->
+    <system:String x:Key="Visiting">Visit Friends</system:String>
     <system:String x:Key="Mall">Credit Store</system:String>
-    <system:String x:Key="Mission">Collect mission rewards</system:String>
+    <system:String x:Key="Mission">Daily &amp; Weekly</system:String>
     <system:String x:Key="AutoRoguelike">Auto I.S.</system:String>
     <system:String x:Key="ReclamationAlgorithm">Reclamation Algorithm</system:String>
 
@@ -300,7 +315,7 @@
 
     <!--<system:String x:Key="CurrentStage">Current Stage</system:String>
     <system:String x:Key="LastBattle">Last Battle</system:String>-->
-    <system:String x:Key="DefaultStage">Cur/Last Stage</system:String>
+    <system:String x:Key="DefaultStage">Cur/Last</system:String>
     <system:String x:Key="ClosedStage">The event not open</system:String>
     <system:String x:Key="UnsupportedStages">Unsupported stages</system:String>
     <system:String x:Key="LowVersion">Low version</system:String>
@@ -365,7 +380,7 @@
     <system:String x:Key="RecruitmentRecognitionTip">Tip: This recognition is independent from main tab (Farming); need open up in game recruit tag selection screen then begin ~</system:String>
     <system:String x:Key="AutoSettingTime">Auto setting time</system:String>
     <system:String x:Key="RecruitmentShowPotential">Show Potential</system:String>
-    <system:String x:Key="RecruitmentShowPotentialTips">Please use the "Operator" to get information</system:String>
+    <system:String x:Key="RecruitmentShowPotentialTips">Please use the &quot;Operator&quot; to get information</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">Auto select 3 ★ Tags</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">Auto select 4 ★ Tags</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">Auto select 5 ★ Tags</system:String>
@@ -394,7 +409,7 @@
     <system:String x:Key="VideoRecognition">Video</system:String>
     <system:String x:Key="StartToVideoRecognition">Start to identify</system:String>
     <system:String x:Key="OpenVideoRecognitionResult">Open Directory</system:String>
-    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">For video recognition, please open the "Copilot" page and drag the strategy video into it.
+    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">For video recognition, please open the &quot;Copilot&quot; page and drag the strategy video into it.
 
 The video resolution is required to be 16:9, and there are no interference factors such as black borders, emulator borders, and special-shaped screen corrections.</system:String>
     <!--  Video Recognition  -->
@@ -432,7 +447,7 @@ The video resolution is required to be 16:9, and there are no interference facto
         1. Please use this function only when &quot;Start&quot; is visible in game.\n\n
         2. You need turn off the &quot;Auto squad&quot; if using friend support unit, then start with your support unit selected.\n\n
         3. For Paradox Simulation, you need to turn off &quot;Auto squad&quot; and select the skill before, then start in game &quot;start&quot; screen.\n\n
-        4. For SSS, There are two built-in files under the resource/copilot folder.\n
+        4. For SSS, There are multiple built-in files under the resource/copilot folder.\n
         Please start on the &quot;Start Deployment&quot; screen after manual formation (can be used with &quot;Loop times&quot;)\n\n
         5. Video recognition is now supported, please drag the guide video to use. \n
         The video resolution is required to be 16:9, and there are no distracting elements such as black borders, emulator borders, and special-shaped screen corrections.\n\n
@@ -453,7 +468,7 @@ The video resolution is required to be 16:9, and there are no interference facto
     <system:String x:Key="ErrorDetails">Details</system:String>
     <system:String x:Key="ErrorSolution">Solution</system:String>
     <system:String x:Key="ErrorSolutionCrash">Please refer to the documentation: FAQ - Crashes to solve.</system:String>
-    <system:String x:Key="ErrorSolutionReplaceADB">Please use administrator to open MAA</system:String>
+    <system:String x:Key="ErrorSolutionReplaceADB">Please close the emulator and ADB or restart your computer, then open MAA with administrator privileges to proceed.</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>
     <system:String x:Key="CopyErrorMessage">Copy error message</system:String>
@@ -466,7 +481,7 @@ The video resolution is required to be 16:9, and there are no interference facto
     <system:String x:Key="SuccessfullyReplacedADB">Successfully Replaced ADB File</system:String>
     <system:String x:Key="InitializationError">Initialization error!</system:String>
     <system:String x:Key="ResolutionNotSupported">Emulator resolution not supported, please set at least 720P with 16:9 ratio</system:String>
-    <system:String x:Key="ResolutionAcquisitionFailure">fails to be obtain emulator resolution . Please restart computer or consider try other emulator</system:String>
+    <system:String x:Key="ResolutionAcquisitionFailure">Fails to be obtain emulator resolution. It is recommended to restart the emulator and ADB, or restart the computer, or consider try other emulator</system:String>
     <system:String x:Key="TryToReconnect">Emulator disconnected, trying to reconnect</system:String>
     <system:String x:Key="ReconnectSuccess">Reconnect succeeded. Continue the task</system:String>
     <system:String x:Key="ReconnectFailed">Reconnect failed. The connection is down!</system:String>
@@ -532,11 +547,11 @@ The video resolution is required to be 16:9, and there are no interference facto
     <system:String x:Key="BattleFormation">Start formation</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selection of operator: </system:String>
     <system:String x:Key="CurrentSteps">Current step: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">Unsupported levels, please update the MAA, or check input file</system:String>
+    <system:String x:Key="UnsupportedLevel">Unsupported stage. Please update the MAA software version!\nUnsupported stage. Please update the MAA software version!\nUnsupported stage. Please update the MAA software version!\n\nIf you receive a prompt that the latest version is already installed, please try checking the developer version or beta version</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identify results: </system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
     <system:String x:Key="TryToStartEmulator">Trying to start the emulator</system:String>
-    <system:String x:Key="CheckSettings">Please check the connection Settings or try to restart the computer</system:String>
+    <system:String x:Key="CheckSettings">Please check your connection settings or try restarting the emulator and ADB, or restart your computer</system:String>
     <!--  AsstProxy  -->
 
     <!--  TrayIcon  -->
@@ -583,4 +598,9 @@ The video resolution is required to be 16:9, and there are no interference facto
     <system:String x:Key="VersionUpdated">Version Updated</system:String>
     <system:String x:Key="VersionUpdatedTo">Version:</system:String>
     <!--  VersionUpdatePopup  -->
+
+    <!--  RootViewModel  -->
+    <system:String x:Key="ConfirmExitTitle">MAA is running tasks</system:String>
+    <system:String x:Key="ConfirmExitText">Are you sure want to exit?</system:String>
+    <!--  RootViewModel  -->
 </ResourceDictionary>
