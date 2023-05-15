@@ -4,6 +4,8 @@
     xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
+    <system:String x:Key="GeneralSettings">常規設置</system:String>
+    <system:String x:Key="AdvancedSettings">高級設置</system:String>
     <system:String x:Key="BaseSettings">基建設定</system:String>
     <system:String x:Key="RoguelikeSettings">肉鴿設定</system:String>
     <system:String x:Key="RecruitingSettings">自動公招</system:String>
@@ -18,6 +20,18 @@
     <system:String x:Key="AboutUs">關於我們</system:String>
 
     <system:String x:Key="Version">版本號</system:String>
+
+    <!--  設置指引  -->
+    <system:String x:Key="TaskSettings">任務設置</system:String>
+    <system:String x:Key="SettingsGuide">設置指引</system:String>
+    <system:String x:Key="PrevGuide">上一步</system:String>
+    <system:String x:Key="NextGuide">下一步</system:String>
+    <system:String x:Key="DoneGuide">完成</system:String>
+    <system:String x:Key="ToolTipGuide">滑鼠移至此處會有提示喔↓→</system:String>
+    <system:String x:Key="TaskGuide">↑任務</system:String>
+    <system:String x:Key="OftenUsedGuide">↓常用的</system:String>
+    <system:String x:Key="SometimesUsedGuide">不常用的↑</system:String>
+    <system:String x:Key="LinkStartGuide">← 開始任務</system:String>
 
     <system:String x:Key="Dorm">宿舍</system:String>
     <system:String x:Key="Mfg">製造站</system:String>
@@ -49,6 +63,7 @@
     <system:String x:Key="GeneralWithoutScreencapErr">通用模式（阻塞異常輸出）</system:String>
     <system:String x:Key="BlueStacks">藍疊模擬器</system:String>
     <system:String x:Key="MuMuEmulator">MuMu 模擬器</system:String>
+    <system:String x:Key="MuMuEmulator12">MuMu 模擬器 12</system:String>
     <system:String x:Key="LDPlayer">雷電模擬器</system:String>
     <system:String x:Key="Nox">夜神模擬器</system:String>
     <system:String x:Key="XYAZ">逍遙模擬器</system:String>
@@ -204,7 +219,7 @@
     <system:String x:Key="Recruiting">自動公招</system:String>
     <system:String x:Key="Base">基建換班</system:String>
     <system:String x:Key="Combat">刷理智</system:String>
-    <!--  <system:String x:Key="Visiting">訪問好友</system:String>  -->
+    <system:String x:Key="Visiting">訪問好友</system:String>
     <system:String x:Key="Mall">獲取信用及購物</system:String>
     <system:String x:Key="Mission">領取日常獎勵</system:String>
     <system:String x:Key="AutoRoguelike">自動肉鴿</system:String>
@@ -343,7 +358,7 @@
         1. 請在有“開始行動”按鈕的介面再使用本功能；\n\n
         2. 使用好友助戰可以關閉“自動編隊”，手動選擇幹員後開始；\n\n
         3. 模擬悖論需要關閉“自動編隊”，並選好技能後處於“開始模擬”按鈕的介面再開始；\n\n
-        4. 保全派駐 在 resource/copilot 文件夾下內置了4份作業。\n
+        4. 保全派駐 在 resource/copilot 文件夾下內置了多份作業。\n
         請手動編隊後在“開始部署”界面開始（可配合“循環次數”使用）\n\n
         5. 現已支持視頻識別，請將攻略視頻拖入使用。 \n
         需要視頻分辨率為 16:9，無黑邊、模擬器邊框、異形屏矯正等乾擾元素\n\n
@@ -358,17 +373,22 @@
     <!--  日誌  -->
     <!--  自動戰鬥  -->
 
-    <!--  AsstProxy  -->
-    <system:String x:Key="ResourceBroken">資源損毀，請重新下載完整安裝包</system:String>
+    <!--  ErrorView  -->
     <system:String x:Key="Error">錯誤</system:String>
+    <system:String x:Key="ErrorProlog">MAA 遇到了問題</system:String>
     <system:String x:Key="ErrorDetails">詳細信息</system:String>
     <system:String x:Key="ErrorSolution">解決方案</system:String>
     <system:String x:Key="ErrorSolutionCrash">請參考文檔：常見問題 - 閃退 進行操作</system:String>
-    <system:String x:Key="ErrorFeedbackLinkText">創建 GitHub issue</system:String>
-    <system:String x:Key="ErrorQqGroupLinkText">加入QQ群反饋問題</system:String>
+    <system:String x:Key="ErrorSolutionReplaceADB">請關閉模擬器與 ADB 或重啟電腦後使用管理員權限打開 MAA 進行操作</system:String>
+    <system:String x:Key="ErrorFeedbackLinkText">创建 GitHub issue</system:String>
+    <system:String x:Key="ErrorQqGroupLinkText">加入QQ群反馈问题</system:String>
+    <system:String x:Key="CopyErrorMessage">复制错误信息</system:String>
+
+    <!--  AsstProxy  -->
+    <system:String x:Key="ResourceBroken">資源損毀，請重新下載完整安裝包</system:String>
     <system:String x:Key="InitializationError">初始化錯誤！</system:String>
     <system:String x:Key="ResolutionNotSupported">模擬器解析度不支持，請設定為 720p 或更高，且為 16:9 比例</system:String>
-    <system:String x:Key="ResolutionAcquisitionFailure">模擬器解析度獲取失敗，建議重啟電腦，或更換模擬器後再次嘗試</system:String>
+    <system:String x:Key="ResolutionAcquisitionFailure">模擬器解析度獲取失敗，建議重啟模擬器與 ADB 或重啟電腦，或更換模擬器後再次嘗試</system:String>
     <system:String x:Key="TryToReconnect">模擬器斷開，正在嘗試重連</system:String>
     <system:String x:Key="ReconnectSuccess">重連成功，繼續任務</system:String>
     <system:String x:Key="ReconnectFailed">重連失敗，連接斷開！</system:String>
@@ -431,11 +451,11 @@
     <system:String x:Key="BattleFormation">開始編隊</system:String>
     <system:String x:Key="BattleFormationSelected">選擇幹員：</system:String>
     <system:String x:Key="CurrentSteps">當前步驟：{0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">不支持的關卡，請更新 MAA 軟體版本，或檢查作業檔案</system:String>
+    <system:String x:Key="UnsupportedLevel">不支援的關卡，請更新 MAA 軟件版本！\n不支援的關卡，請更新 MAA 軟件版本！\n不支援的關卡，請更新 MAA 軟件版本！\n\n若提示已是最新版本，請嘗試檢查開發版或內測版。</system:String>
     <system:String x:Key="RecruitTagsDetected">辨識結果：</system:String>
     <system:String x:Key="ConnectFailed">連接失敗</system:String>
     <system:String x:Key="TryToStartEmulator">正在嘗試啟動模擬器</system:String>
-    <system:String x:Key="CheckSettings">請檢查連接設定或嘗試重啟電腦</system:String>
+    <system:String x:Key="CheckSettings">請檢查連接設置或嘗試重啟模擬器與 ADB 或重啟電腦</system:String>
     <!--  AsstProxy  -->
 
     <!--  TrayIcon  -->

@@ -2,8 +2,6 @@
     x:Class="MaaWpfGui.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
-    xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:main="clr-namespace:MaaWpfGui.Main"
     xmlns:s="https://github.com/canton7/Stylet">
     <Application.Resources>
@@ -20,30 +18,14 @@
                 <!--  默认语言文件，这个资源会被动态修改，所以需要放在第一位  -->
                 <!--  Reference: Helper/Localization.cs  -->
                 <ResourceDictionary Source="/MAA;component/Res/Localizations/zh-cn.xaml" />
-                <ResourceDictionary Source="/MAA;component/Res/Themes/Markdig.xaml" />
-                <ResourceDictionary Source="/MAA;component/Res/Themes/Geometries.xaml" />
                 <s:ApplicationLoader>
                     <s:ApplicationLoader.Bootstrapper>
                         <main:Bootstrapper />
                     </s:ApplicationLoader.Bootstrapper>
                 </s:ApplicationLoader>
-
-                <hc:ThemeResources>
-                    <hc:ThemeResources.ThemeDictionaries>
-                        <ResourceDictionary
-                            x:Key="Light"
-                            hc:ThemeDictionary.Key="Light"
-                            Source="/MAA;component/Res/Themes/Light.xaml" />
-                        <ResourceDictionary
-                            x:Key="Dark"
-                            hc:ThemeDictionary.Key="Dark"
-                            Source="/MAA;component/Res/Themes/Dark.xaml" />
-                    </hc:ThemeResources.ThemeDictionaries>
-                </hc:ThemeResources>
-                <hc:Theme />
+                <ResourceDictionary Source="/MAA;component/Res/Theme.xaml" />
+                <ResourceDictionary Source="/MAA;component/Res/Style.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <!--  A Style that affects all TextBlocks  -->
-            <Style BasedOn="{StaticResource TextBlockDefault}" TargetType="controls:TextBlock" />
 
             <Style TargetType="Hyperlink">
                 <EventSetter Event="Click" Handler="Hyperlink_Click" />

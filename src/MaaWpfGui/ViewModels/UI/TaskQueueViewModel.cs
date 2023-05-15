@@ -27,6 +27,7 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using MaaWpfGui.Models;
 using MaaWpfGui.Services;
 using MaaWpfGui.Utilities.ValueType;
 using Newtonsoft.Json;
@@ -53,6 +54,13 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets or sets the view models of task items.
         /// </summary>
         public ObservableCollection<DragItemViewModel> TaskItemViewModels { get; set; }
+
+        /// <summary>
+        /// Gets the visibility of task setting views.
+        /// </summary>
+        public TaskSettingVisibilityInfo TaskSettingVisibilities { get; } = TaskSettingVisibilityInfo.Current;
+
+        public SettingsViewModel TaskSettingDataContext { get => Instances.SettingsViewModel; }
 
         /// <summary>
         /// 实时更新任务顺序
@@ -127,11 +135,6 @@ namespace MaaWpfGui.ViewModels.UI
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
             InitializeItems();
             InitTimer();
-
-            if (Instances.SettingsViewModel.LoadGUIParameters && Instances.SettingsViewModel.SaveGUIParametersOnClosing)
-            {
-                Application.Current.MainWindow!.Closing += Instances.SettingsViewModel.SaveGUIParameters;
-            }
         }
 
         /*
@@ -150,7 +153,37 @@ namespace MaaWpfGui.ViewModels.UI
         }
         */
 
+        public bool Running { get; set; }
+
         private readonly DispatcherTimer _timer = new DispatcherTimer();
+
+        public bool ConfirmExit()
+        {
+            if (Application.Current.IsShuttingDown())
+            {
+                // allow close if application is shutting down
+                return true;
+            }
+
+            if (!Running)
+            {
+                // no need to confirm if no running task
+                return true;
+            }
+
+            var window = Instances.MainWindowManager.GetWindowIfVisible();
+            var result = MessageBoxHelper.ShowNative(window, LocalizationHelper.GetString("ConfirmExitText"), LocalizationHelper.GetString("ConfirmExitTitle"), "MAA", MessageBoxButton.YesNo, MessageBoxImage.Information, MessageBoxResult.No);
+            return result == MessageBoxResult.Yes;
+        }
+
+#pragma warning disable CS0672 // Member overrides obsolete member
+
+        // WHY OBSOLETED?
+        protected override bool CanClose()
+#pragma warning restore CS0672 // Member overrides obsolete member
+        {
+            return ConfirmExit();
+        }
 
         private void InitTimer()
         {
@@ -260,6 +293,11 @@ namespace MaaWpfGui.ViewModels.UI
                 bool parsed = int.TryParse(ConfigurationHelper.GetTaskOrder(task, "-1"), out var order);
 
                 var vm = new DragItemViewModel(LocalizationHelper.GetString(task), task, "TaskQueue.");
+
+                if (task == TaskSettingVisibilityInfo.DefaultVisibleTaskSetting)
+                {
+                    vm.EnableSetting = true;
+                }
 
                 if (!parsed || order < 0 || order >= temp_order_list.Count)
                 {
@@ -1028,8 +1066,57 @@ namespace MaaWpfGui.ViewModels.UI
                 "LDPlayer" => KillEmulatorLDPlayer(),
                 "XYAZ" => KillEmulatorXYAZ(),
                 "BlueStacks" => KillEmulatorBlueStacks(),
+                "MuMuEmulator12" => KillEmulatorMuMuEmulator12(),
                 _ => KillEumlatorbyWindow(),
             };
+        }
+
+        /// <summary>
+        /// 一个用于调用 MuMu12 模拟器控制台关闭 MuMu12 的方法
+        /// </summary>
+        /// <returns>是否关闭成功</returns>
+        public bool KillEmulatorMuMuEmulator12()
+        {
+            string address = Instances.SettingsViewModel.ConnectAddress;
+            int emuIndex;
+            if (address == "127.0.0.1:16384")
+            {
+                emuIndex = 0;
+            }
+            else
+            {
+                string portStr = address.Split(':')[1];
+                int port = int.Parse(portStr);
+                emuIndex = (port - 16384) / 32;
+            }
+
+            Process[] processes = Process.GetProcessesByName("MuMuPlayer");
+            if (processes.Length > 0)
+            {
+                string emuLocation = processes[0].MainModule.FileName;
+                emuLocation = Path.GetDirectoryName(emuLocation);
+                string consolePath = Path.Combine(emuLocation, "MuMuManager.exe");
+
+                if (File.Exists(consolePath))
+                {
+                    ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
+                    {
+                        Arguments = $"api -v {emuIndex} shutdown_player",
+                        CreateNoWindow = true,
+                        UseShellExecute = false,
+                    };
+                    Process.Start(startInfo);
+
+                    return KillEmulator();
+                }
+                else
+                {
+                    AsstProxy.AsstLog($"Error: `{consolePath}` not found, try to kill eumlator by window.");
+                    return KillEumlatorbyWindow();
+                }
+            }
+
+            return false;
         }
 
         /// <summary>

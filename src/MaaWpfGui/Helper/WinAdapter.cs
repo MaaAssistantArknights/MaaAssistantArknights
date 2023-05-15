@@ -30,7 +30,7 @@ namespace MaaWpfGui.Helper
             { "dnplayer", "LDPlayer" },
             { "Nox", "Nox" },
             { "NemuPlayer", "MuMuEmulator" },
-            { "MuMuPlayer", "MuMuEmulator" }, // MuMu 12
+            { "MuMuPlayer", "MuMuEmulator12" }, // MuMu 12
             { "MEmu", "XYAZ" },
         };
 
@@ -47,6 +47,14 @@ namespace MaaWpfGui.Helper
             { "Nox",  new List<string> { ".\\nox_adb.exe" } },
             {
                 "MuMuEmulator",  new List<string>
+                {
+                    "..\\vmonitor\\bin\\adb_server.exe",
+                    "..\\..\\MuMu\\emulator\\nemu\\vmonitor\\bin\\adb_server.exe",
+                    ".\\adb.exe",
+                }
+            },
+            {
+                "MuMuEmulator12",  new List<string>
                 {
                     "..\\vmonitor\\bin\\adb_server.exe",
                     "..\\..\\MuMu\\emulator\\nemu\\vmonitor\\bin\\adb_server.exe",
@@ -78,7 +86,7 @@ namespace MaaWpfGui.Helper
                         var adbPath = Path.GetDirectoryName(processPath) + "\\" + path;
                         if (File.Exists(adbPath))
                         {
-                            _adbAbsolutePathDict.Add(emulatorId, adbPath);
+                            _adbAbsolutePathDict[emulatorId] = adbPath;
                         }
                     }
                 }

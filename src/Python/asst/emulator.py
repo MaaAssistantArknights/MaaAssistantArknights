@@ -3,15 +3,18 @@ import subprocess
 
 class Bluestacks:
     @staticmethod
-    def get_hyperv_port(conf_path=r"C:\ProgramData\BlueStacks_nxt\bluestacks.conf", instance_name="Pie64") -> int:
+    def get_hyperv_port(conf_path=r"C:\ProgramData\BlueStacks_nxt\bluestacks.conf", instance_name="Pie64", read_imageinfo_from_config=False) -> int:
         """ 获取Hyper-v版蓝叠的adb port
 
         :param conf_path: bluestacks.conf 的路径+文件名
         :param instance_name: 多开的名称，在bluestacks.conf中以类似bst.instance.<instance_name>.status.adb_port的形式出现，如Nougat64，Pie64，Pie64_1等
         :return: adb端口
         """
-        with open(conf_path) as f:
+        with open(conf_path, encoding="UTF-8") as f:
             configs = dict(list(map(lambda line: line.replace('\n', '').split('='), f.readlines())))
+            if read_imageinfo_from_config:
+                instances = [i.strip('"') for i in configs['bst.installed_images'].split(',')]
+                instance_name = instances[0]
         return int(configs[f'bst.instance.{instance_name}.status.adb_port'].replace('"', ""))
     
     @staticmethod

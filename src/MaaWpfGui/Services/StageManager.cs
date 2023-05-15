@@ -173,7 +173,7 @@ namespace MaaWpfGui.Services
 
             var clientType = GetClientType();
 
-            bool isDebugVersion = Marshal.PtrToStringAnsi(AsstGetVersion()) == "DEBUG VERSION";
+            bool isDebugVersion = Marshal.PtrToStringAnsi(AsstGetVersion()).Contains("DEBUG");
             bool curVerParsed = SemVersion.TryParse(Marshal.PtrToStringAnsi(AsstGetVersion()), SemVersionStyles.AllowLowerV, out var curVersionObj);
 
             // bool curResourceVerParsed = SemVersion.TryParse(

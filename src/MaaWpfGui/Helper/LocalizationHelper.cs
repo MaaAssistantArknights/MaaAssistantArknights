@@ -15,7 +15,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows;
+using System.Windows.Markup;
 using MaaWpfGui.Constants;
 
 namespace MaaWpfGui.Helper
@@ -89,6 +91,16 @@ namespace MaaWpfGui.Helper
                 {
                     break;
                 }
+            }
+
+            try
+            {
+                Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(_culture);
+                FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(Thread.CurrentThread.CurrentCulture.Name)));
+            }
+            catch
+            {
+                /* ignore */
             }
         }
 

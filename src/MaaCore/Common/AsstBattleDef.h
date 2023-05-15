@@ -56,7 +56,7 @@ namespace asst::battle
     {
         static const std::unordered_map<std::string, Role> NameToRole = {
             { "warrior", Role::Warrior },    { "WARRIOR", Role::Warrior },    { "Warrior", Role::Warrior },
-            { "近卫", Role::Warrior },       { "GUARD", Role::Warrior },      { "gurad", Role::Warrior },
+            { "近卫", Role::Warrior },       { "GUARD", Role::Warrior },      { "guard", Role::Warrior },
             { "Guard", Role::Warrior },
 
             { "pioneer", Role::Pioneer },    { "PIONEER", Role::Pioneer },    { "Pioneer", Role::Pioneer },
@@ -79,6 +79,7 @@ namespace asst::battle
             { "法师", Role::Caster },
 
             { "support", Role::Support },    { "SUPPORT", Role::Support },    { "Support", Role::Support },
+            { "supporter", Role::Support },    { "SUPPORTER", Role::Support },    { "Supporter", Role::Support },
             { "辅助", Role::Support },       { "支援", Role::Support },
 
             { "special", Role::Special },    { "SPECIAL", Role::Special },    { "Special", Role::Special },

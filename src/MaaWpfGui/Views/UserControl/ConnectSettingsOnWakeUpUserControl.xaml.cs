@@ -1,4 +1,4 @@
-// <copyright file="OtherCombatSettingsUserControl.xaml.cs" company="MaaAssistantArknights">
+// <copyright file="ConnectSettingsOnWakeUpUserControl.xaml.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -14,14 +14,14 @@
 namespace MaaWpfGui.Views.UserControl
 {
     /// <summary>
-    /// OtherCombatSettingsUserControl.xaml 的交互逻辑
+    /// ConnectSettingsOnWakeUpUserControl.xaml 的交互逻辑
     /// </summary>
-    public partial class OtherCombatSettingsUserControl : System.Windows.Controls.UserControl
+    public partial class ConnectSettingsOnWakeUpUserControl : System.Windows.Controls.UserControl
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="OtherCombatSettingsUserControl"/> class.
+        /// Initializes a new instance of the <see cref="ConnectSettingsOnWakeUpUserControl"/> class.
         /// </summary>
-        public OtherCombatSettingsUserControl()
+        public ConnectSettingsOnWakeUpUserControl()
         {
             InitializeComponent();
         }

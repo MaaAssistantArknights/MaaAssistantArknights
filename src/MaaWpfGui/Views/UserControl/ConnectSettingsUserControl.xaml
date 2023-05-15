@@ -143,13 +143,22 @@
         <CheckBox
             Grid.Row="4"
             Grid.Column="0"
-            Grid.ColumnSpan="3"
-            Margin="15"
-            HorizontalAlignment="Center"
+            Grid.ColumnSpan="2"
+            Margin="80,10,10,10"
+            HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Content="{DynamicResource RetryOnDisconnected}"
             IsChecked="{Binding RetryOnDisconnected}"
             ToolTip="{DynamicResource RetryOnDisconnectedTip}" />
+        <CheckBox
+            Grid.Row="4"
+            Grid.Column="2"
+            Grid.ColumnSpan="1"
+            Margin="-80,10,10,10"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Content="{DynamicResource AutoRestartOption}"
+            IsChecked="{Binding AutoRestartOnDrop}" />
         <controls:TextBlock
             Grid.Row="5"
             Grid.Column="0"

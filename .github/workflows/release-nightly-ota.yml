@@ -75,6 +75,17 @@ jobs:
           }
           exit 1
 
+      - name: Push tag to main repo
+        id: push_main_tag
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          $main_tag_name=$(echo "alpha/${{ steps.set_tag.outputs.tag }}")
+          git tag $main_tag_name || exit 0 # do nothing if the tag already exists
+          git push --tags origin HEAD:refs/tags/$main_tag_name
+          echo "main_tag_name=$main_tag_name" >> $env:GITHUB_OUTPUT
+
       - name: Cache .nuke/temp, ~/.nuget/packages
         uses: actions/cache@v3
         with:
@@ -102,16 +113,6 @@ jobs:
           name: MAA-win-${{ matrix.lowercase_target }}
           path: artifacts
 
-      - name: Push tag to main repo
-        id: push_main_tag
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email 'github-actions[bot]@users.noreply.github.com'
-          
-          $main_tag_name=$(echo "alpha/${{ steps.set_tag.outputs.tag }}")
-          git tag $main_tag_name || exit 0 # do nothing if the tag already exists
-          git push --tags origin HEAD:refs/tags/$main_tag_name
-          echo "main_tag_name=$main_tag_name" >> $env:GITHUB_OUTPUT
 
   push-tag:
     needs: build-win-nightly
@@ -144,6 +145,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           path: MaaAssistantArknights
+          token: ${{ secrets.MAARELEASE_RELEASE }}
       - uses: actions/download-artifact@v3
         with:
           name: MAA-win-${{ matrix.target }}
@@ -219,3 +221,9 @@ jobs:
           source: "build-ota/*.zip"
           strip_components: 1
           target: ${{ format('{0}/{1}', 'OTA/MaaAssistantArknights/MaaRelease/releases/download', env.release_tag) }}
+      
+      - name: Update Version API
+        run: |
+            gh workflow --repo MaaAssistantArknights/MaaRelease run update_version_api.yml
+        env:
+            GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}

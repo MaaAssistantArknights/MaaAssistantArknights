@@ -66,6 +66,8 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
                                           const std::filesystem::path& base_dir,
                                           const std::filesystem::path& output_dir);
 
+bool update_version_info(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
+
 int main([[maybe_unused]] int argc, char** argv)
 {
     const char* str_exec_path = argv[0];
@@ -163,11 +165,11 @@ int main([[maybe_unused]] int argc, char** argv)
     }
 
     // gamedata 繁中不更新了，自己下载一下
-    std::string gamedata_tw_exec = cur_path.string() + "/gamedata-tw.exe";
+    std::string gamedata_tw_exec = "\"" + cur_path.string() + "/gamedata-tw.exe" + "\"";
     if (!std::filesystem::exists(gamedata_tw_exec)) {
         std::string download_zhtw = "curl --ssl-no-revoke "
-                                    "https://github.com/MaaAssistantArknights/MaaRelease/raw/main/"
-                                    "MaaAssistantArknights/api/binaries/gamedata-tw.exe  > " +
+                                    "https://raw.githubusercontent.com/MaaAssistantArknights/"
+                                    "MaaRelease/main/MaaAssistantArknights/api/binaries/gamedata-tw.exe  > " +
                                     gamedata_tw_exec;
         int dl = system(download_zhtw.c_str());
         if (dl != 0) {
@@ -181,7 +183,10 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
     auto zhtw_gamedata_dir = game_data_dir / "zh_TW" / "gamedata";
-    std::filesystem::remove_all(zhtw_gamedata_dir);
+    if (std::filesystem::exists(zhtw_gamedata_dir)) {
+        std::filesystem::remove_all(zhtw_gamedata_dir);
+    }
+    std::filesystem::create_directories(zhtw_gamedata_dir.parent_path());
     std::filesystem::rename(cur_path / "data" / "gamedata", zhtw_gamedata_dir);
 
     /* Update recruitment data from ArknightsGameData*/
@@ -226,6 +231,22 @@ int main([[maybe_unused]] int argc, char** argv)
                                                   resource_dir / "global" / out / "resource" / "tasks.json",
                                                   arkbot_res_dir / "gamedata" / "excel", cur_path / in)) {
             std::cerr << "Update roguelike replace for overseas failed" << std::endl;
+            return -1;
+        }
+    }
+
+    std::cout << "------------Update version info------------" << std::endl;
+
+    if (!update_version_info(arkbot_res_dir / "gamedata" / "excel", resource_dir)) {
+        std::cerr << "Update version info failed" << std::endl;
+        return -1;
+    }
+
+    for (const auto& [in, out] : global_dirs) {
+        std::cout << "------------Update version info for " << out << "------------" << std::endl;
+        if (!update_version_info(game_data_dir / in / "gamedata" / "excel",
+                                 resource_dir / "global" / out / "resource")) {
+            std::cerr << "Update version info failed" << std::endl;
             return -1;
         }
     }
@@ -1004,6 +1025,39 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
 
     std::ofstream ofs(tasks_path, std::ios::out);
     ofs << task_json.format(true) << std::endl;
+
+    return true;
+}
+
+bool update_version_info(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir)
+{
+    const auto json_path = input_dir / "gacha_table.json";
+    auto gacha_json_opt = json::open(json_path);
+    if (!gacha_json_opt) {
+        std::cerr << "faild to parse " << json_path;
+        return false;
+    }
+    auto& gacha_json = *gacha_json_opt;
+
+    uint64_t time = 0;
+    std::string pool;
+    for (auto& gacha_info : gacha_json["gachaPoolClient"].as_array()) {
+        if (gacha_info["gachaRuleType"].as_string() != "LIMITED") {
+            continue;
+        }
+        auto cur_time = gacha_info["openTime"].as_unsigned_long_long();
+        if (time < cur_time) {
+            time = cur_time;
+            pool = gacha_info["gachaPoolName"].as_string();
+        }
+    }
+
+    json::value result;
+    result["gacha"]["time"] = time;
+    result["gacha"]["pool"] = pool;
+
+    std::ofstream ofs(output_dir / "version.json", std::ios::out);
+    ofs << result.format(true) << std::endl;
 
     return true;
 }

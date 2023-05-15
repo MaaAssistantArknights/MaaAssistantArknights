@@ -4,6 +4,8 @@
     xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
+    <system:String x:Key="GeneralSettings">一般設定</system:String>
+    <system:String x:Key="AdvancedSettings">高度な設定</system:String>
     <system:String x:Key="GameSettings">対象クライアント</system:String>
     <system:String x:Key="BaseSettings">基地設定</system:String>
     <system:String x:Key="RoguelikeSettings">統合戦略設定</system:String>
@@ -19,6 +21,18 @@
     <system:String x:Key="AboutUs">About</system:String>
 
     <system:String x:Key="Version">バージョン</system:String>
+
+    <!--  設定ガイド  -->
+    <system:String x:Key="TaskSettings">タスク設定</system:String>
+    <system:String x:Key="SettingsGuide">設定ガイド</system:String>
+    <system:String x:Key="PrevGuide">前へ</system:String>
+    <system:String x:Key="NextGuide">次へ</system:String>
+    <system:String x:Key="DoneGuide">完了</system:String>
+    <system:String x:Key="ToolTipGuide">マウスを乗せるとヒントあり↓→</system:String>
+    <system:String x:Key="TaskGuide">↑タスク</system:String>
+    <system:String x:Key="OftenUsedGuide">↓よく使われる</system:String>
+    <system:String x:Key="SometimesUsedGuide">あまり使われていない↑</system:String>
+    <system:String x:Key="LinkStartGuide">← タスクを開始</system:String>
 
     <system:String x:Key="Dorm">宿舎</system:String>
     <system:String x:Key="Mfg">製造所</system:String>
@@ -57,6 +71,7 @@
     <system:String x:Key="GeneralWithoutScreencapErr">一般モード（ブロックされた例外出力）</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
     <system:String x:Key="MuMuEmulator">MuMuPlayer</system:String>
+    <system:String x:Key="MuMuEmulator12">MuMuPlayer 12</system:String>
     <system:String x:Key="LDPlayer">LDPlayer</system:String>
     <system:String x:Key="Nox">NoxPlayer</system:String>
     <system:String x:Key="XYAZ">MEmu</system:String>
@@ -237,7 +252,7 @@
 
     <system:String x:Key="AutoDetectConnection">接続自動認識</system:String>
     <system:String x:Key="AutoDetectConnectionTip">このチェックボックスは、検出が完了するたびに自動的にチェックが外れますが、再検出が必要な場合は再度チェックを入れることができます</system:String>
-    <system:String x:Key="AlwaysAutoDetectConnection">常時検知</system:String>
+    <system:String x:Key="AlwaysAutoDetectConnection">毎回再検出する</system:String>
     <system:String x:Key="ADBPath">adbパス（相対/絶対）</system:String>
     <system:String x:Key="ConnectionAddress">接続先アドレス</system:String>
     <system:String x:Key="ConnectionAddressTip">問題があれば手動で修正してください。</system:String>
@@ -253,7 +268,7 @@
     <system:String x:Key="Recruiting">公開求人</system:String>
     <system:String x:Key="Base">基地仕事</system:String>
     <system:String x:Key="Combat">作戦</system:String>
-    <!--  <system:String x:Key="Visiting">戦友訪問</system:String>  -->
+    <system:String x:Key="Visiting">戦友訪問</system:String>
     <system:String x:Key="Mall">FP獲得と交換</system:String>
     <system:String x:Key="Mission">報酬受取</system:String>
     <system:String x:Key="AutoRoguelike">自動ローグ</system:String>
@@ -405,8 +420,10 @@
         1. 「行動開始」ボタンのあるインターフェースでこの機能を使用してください；\n\n
         2. サポートを使うときは、「自動編成」をオフにし、手動でオペレーターを選択してから始めましょう；\n\n
         3. 逆理演算の場合は、「自動編成」をオフにする必要があり、スキルを選択した後、「演算開始」ボタンのインターフェースから開始する必要があります；\n\n
-        4. For SSS, There are two built-in files under the resource/copilot folder.\n
-        Please start on the &quot;Start Deployment&quot; screen after manual formation (can be used with &quot;Loop times&quot;)
+        4. SSSには、resource/copilot フォルダー内に複数の組み込みファイルがあります。\n
+        手動形成後、「開始デプロイメント」画面から開始してください（「ループ回数」で使用可能）。\n\n
+        5. ビデオ認識がサポートされており、ガイドビデオをドラッグして使用できます。\n
+        ビデオ解像度は16:9が必要で、黒い枠、エミュレーターの枠、特殊形状の画面修正などの邪魔な要素はありません。\n\n
     </system:String>
 
     <system:String x:Key="CopilotFileReadError">ファイルの読み取りに失敗しました！</system:String>
@@ -418,15 +435,22 @@
     <!--  ログ  -->
     <!--  自動戦闘  -->
 
+    <!--  ErrorView  -->
+    <system:String x:Key="Error">エラー</system:String>
+    <system:String x:Key="ErrorProlog">MAA に問題が発生しました</system:String>
+    <system:String x:Key="ErrorDetails">詳細情報</system:String>
+    <system:String x:Key="ErrorSolution">解決策</system:String>
+    <system:String x:Key="ErrorSolutionCrash">ドキュメント「よくある問題 - クラッシュ」を参照してください</system:String>
+    <system:String x:Key="ErrorSolutionReplaceADB">エミュレータとADBを閉じるか、コンピューターを再起動してから、管理者権限でMAAを開いて操作してください</system:String>
+    <system:String x:Key="ErrorFeedbackLinkText">GitHub issueを作成する</system:String>
+    <system:String x:Key="ErrorQqGroupLinkText">QQグループに参加して問題をフィードバックする</system:String>
+    <system:String x:Key="CopyErrorMessage">エラー情報をコピーする</system:String>
+
     <!--  AsstProxy  -->
     <system:String x:Key="ResourceBroken">リソースファイルが破損しています。完全なパッケージを再度ダウンロードしてください</system:String>
-    <system:String x:Key="Error">エラー</system:String>
-    <system:String x:Key="ErrorDetails">情報</system:String>
-    <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
-    <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>
     <system:String x:Key="InitializationError">初期化エラー！</system:String>
     <system:String x:Key="ResolutionNotSupported">エミュレータの解像度はサポートされていません。アスペクト比16：9で、720p以上に設定してください</system:String>
-    <system:String x:Key="ResolutionAcquisitionFailure">エミュレータの解像度を取得できませんでした。コンピュータを再起動するか、エミュレータを変更してから再試行することをお勧めします</system:String>
+    <system:String x:Key="ResolutionAcquisitionFailure">エミュレータの解像度を取得できませんでした。エミュレータとADBを再起動するか、コンピュータを再起動することをお勧めします、エミュレータを変更してから再試行することをお勧めします</system:String>
     <system:String x:Key="TryToReconnect">エミュレータが切断、再接続を行います</system:String>
     <system:String x:Key="ReconnectSuccess">再接続に成功、タスクを続行します</system:String>
     <system:String x:Key="ReconnectFailed">再接続に失敗、切断されました！</system:String>
@@ -490,11 +514,11 @@
     <system:String x:Key="BattleFormation">編成開始</system:String>
     <system:String x:Key="BattleFormationSelected">オペレーターを選択：</system:String>
     <system:String x:Key="CurrentSteps">現在の手順：{0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">このステージはサポートされていません。MAAのバージョンをアップデートするか、攻略ファイルを確認してください</system:String>
+    <system:String x:Key="UnsupportedLevel">サポートされていないレベルです。MAAソフトウェアのバージョンを更新してください！\nサポートされていないレベルです。MAAソフトウェアのバージョンを更新してください！\nサポートされていないレベルです。MAAソフトウェアのバージョンを更新してください！\n\n最新バージョンがすでにインストールされているとプロンプトが表示された場合は、開発版またはベータ版を確認してみてください。</system:String>
     <system:String x:Key="RecruitTagsDetected">認識結果：</system:String>
     <system:String x:Key="ConnectFailed">接続失敗</system:String>
     <system:String x:Key="TryToStartEmulator">エミュレータを起動しようとしています</system:String>
-    <system:String x:Key="CheckSettings">接続設定を確認するか、コンピュータを再起動してみてください</system:String>
+    <system:String x:Key="CheckSettings">接続設定を確認するか、エミュレータとADBを再起動するか、コンピューターを再起動してください</system:String>
     <!--  AsstProxy  -->
 
     <!--  TrayIcon  -->

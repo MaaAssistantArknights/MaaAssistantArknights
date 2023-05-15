@@ -31,11 +31,13 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using MaaWpfGui.Models;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using Microsoft.Win32;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using Timer = System.Timers.Timer;
@@ -80,20 +82,21 @@ namespace MaaWpfGui.ViewModels.UI
         public static readonly string PallasLangKey = "pallas";
 
         /// <summary>
+        /// Gets the visibility of task setting views.
+        /// </summary>
+        public TaskSettingVisibilityInfo TaskSettingVisibilities { get; } = TaskSettingVisibilityInfo.Current;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
         /// </summary>
         public SettingsViewModel()
         {
             DisplayName = LocalizationHelper.GetString("Settings");
+
+            _listTitle.Add(LocalizationHelper.GetString("ScheduleSettings"));
             _listTitle.Add(LocalizationHelper.GetString("GameSettings"));
-            _listTitle.Add(LocalizationHelper.GetString("BaseSettings"));
-            _listTitle.Add(LocalizationHelper.GetString("RoguelikeSettings"));
-            _listTitle.Add(LocalizationHelper.GetString("RecruitingSettings"));
-            _listTitle.Add(LocalizationHelper.GetString("MallSettings"));
-            _listTitle.Add(LocalizationHelper.GetString("OtherCombatSettings"));
             _listTitle.Add(LocalizationHelper.GetString("ConnectionSettings"));
             _listTitle.Add(LocalizationHelper.GetString("StartupSettings"));
-            _listTitle.Add(LocalizationHelper.GetString("ScheduleSettings"));
             _listTitle.Add(LocalizationHelper.GetString("UISettings"));
             _listTitle.Add(LocalizationHelper.GetString("HotKeySettings"));
             _listTitle.Add(LocalizationHelper.GetString("UpdateSettings"));
@@ -112,7 +115,7 @@ namespace MaaWpfGui.ViewModels.UI
                     iconKey: "HangoverGeometry",
                     iconBrushKey: "PallasBrush");
                 Application.Current.Shutdown();
-                System.Windows.Forms.Application.Restart();
+                Bootstrapper.RestartApplication();
             }
         }
 
@@ -206,6 +209,7 @@ namespace MaaWpfGui.ViewModels.UI
                 new CombinedData { Display = LocalizationHelper.GetString("General"), Value = "General" },
                 new CombinedData { Display = LocalizationHelper.GetString("BlueStacks"), Value = "BlueStacks" },
                 new CombinedData { Display = LocalizationHelper.GetString("MuMuEmulator"), Value = "MuMuEmulator" },
+                new CombinedData { Display = LocalizationHelper.GetString("MuMuEmulator12"), Value = "MuMuEmulator12" },
                 new CombinedData { Display = LocalizationHelper.GetString("LDPlayer"), Value = "LDPlayer" },
                 new CombinedData { Display = LocalizationHelper.GetString("Nox"), Value = "Nox" },
                 new CombinedData { Display = LocalizationHelper.GetString("XYAZ"), Value = "XYAZ" },
@@ -731,7 +735,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _clientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty);
+        private string _clientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, "Official");
 
         /// <summary>
         /// Gets or sets the client type.
@@ -936,6 +940,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        public TaskQueueViewModel CustomInfrastPlanDataContext { get => Instances.TaskQueueViewModel; }
+
         private string _usesOfDrones = ConfigurationHelper.GetValue(ConfigurationKeys.UsesOfDrones, "Money");
 
         /// <summary>
@@ -1124,9 +1130,9 @@ namespace MaaWpfGui.ViewModels.UI
         public double ScrollExtentHeight { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of rectangle vertical offset.
+        /// Gets or sets the list of divider vertical offset.
         /// </summary>
-        public List<double> RectangleVerticalOffsetList { get; set; }
+        public List<double> DividerVerticalOffsetList { get; set; }
 
         private int _selectedIndex = 0;
 
@@ -1144,13 +1150,13 @@ namespace MaaWpfGui.ViewModels.UI
                         _notifySource = NotifyType.SelectedIndex;
                         SetAndNotify(ref _selectedIndex, value);
 
-                        var isInRange = RectangleVerticalOffsetList != null
-                            && RectangleVerticalOffsetList.Count > 0
-                            && value < RectangleVerticalOffsetList.Count;
+                        var isInRange = DividerVerticalOffsetList != null
+                            && DividerVerticalOffsetList.Count > 0
+                            && value < DividerVerticalOffsetList.Count;
 
                         if (isInRange)
                         {
-                            ScrollOffset = RectangleVerticalOffsetList[value];
+                            ScrollOffset = DividerVerticalOffsetList[value];
                         }
 
                         ResetNotifySource();
@@ -1180,24 +1186,24 @@ namespace MaaWpfGui.ViewModels.UI
                         SetAndNotify(ref _scrollOffset, value);
 
                         // 设置 ListBox SelectedIndex 为当前 ScrollOffset 索引
-                        var isInRange = RectangleVerticalOffsetList != null && RectangleVerticalOffsetList.Count > 0;
+                        var isInRange = DividerVerticalOffsetList != null && DividerVerticalOffsetList.Count > 0;
 
                         if (isInRange)
                         {
-                            // 滚动条滚动到底部，返回最后一个 Rectangle 索引
+                            // 滚动条滚动到底部，返回最后一个 Divider 索引
                             if (value + ScrollViewportHeight >= ScrollExtentHeight)
                             {
-                                SelectedIndex = RectangleVerticalOffsetList.Count - 1;
+                                SelectedIndex = DividerVerticalOffsetList.Count - 1;
                                 ResetNotifySource();
                                 break;
                             }
 
-                            // 根据出当前 ScrollOffset 选出最后一个在可视范围的 Rectangle 索引
-                            var rectangleSelect = RectangleVerticalOffsetList.Select((n, i) => (
-                            rectangleAppeared: value >= n,
+                            // 根据出当前 ScrollOffset 选出最后一个在可视范围的 Divider 索引
+                            var dividerSelect = DividerVerticalOffsetList.Select((n, i) => (
+                            dividerAppeared: value >= n,
                             index: i));
 
-                            var index = rectangleSelect.LastOrDefault(n => n.rectangleAppeared).index;
+                            var index = dividerSelect.LastOrDefault(n => n.dividerAppeared).index;
                             SelectedIndex = index;
                         }
 
@@ -1215,7 +1221,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         /* 肉鸽设置 */
 
-        private string _roguelikeTheme = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, "Phantom");
+        private string _roguelikeTheme = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, "Mizuki");
 
         /// <summary>
         /// Gets or sets the Roguelike theme.
@@ -1888,7 +1894,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task ManualUpdate()
         {
-            var ret = await Instances.VersionUpdateViewModel.CheckAndDownloadUpdate(true);
+            var ret = await Instances.VersionUpdateViewModel.CheckAndDownloadUpdate();
 
             string toastMessage = null;
             switch (ret)
@@ -2108,6 +2114,7 @@ namespace MaaWpfGui.ViewModels.UI
             { "General", new List<string> { string.Empty } },
             { "BlueStacks", new List<string> { "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5565", "127.0.0.1:5575", "127.0.0.1:5585", "127.0.0.1:5595", "127.0.0.1:5554" } },
             { "MuMuEmulator", new List<string> { "127.0.0.1:7555" } },
+            { "MuMuEmulator12", new List<string> { "127.0.0.1:16384", "127.0.0.1:16416", "127.0.0.1:16448", "127.0.0.1:16480", "127.0.0.1:16512", "127.0.0.1:16544", "127.0.0.1:16576" } },
             { "LDPlayer", new List<string> { "emulator-5554", "emulator-5556", "emulator-5558", "emulator-5560", "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5554" } },
             { "Nox", new List<string> { "127.0.0.1:62001", "127.0.0.1:59865" } },
             { "XYAZ", new List<string> { "127.0.0.1:21503" } },
@@ -2218,18 +2225,34 @@ namespace MaaWpfGui.ViewModels.UI
                 prefix += " - ";
             }
 
-            rvm.WindowTitle = $"{prefix}MAA - {VersionId} - {connectConfigName} ({ConnectAddress}) - {ClientName}";
+            string officialClientType = "Official";
+            string bilibiliClientType = "Bilibili";
+            string jsonPath = "resource/version.json";
+            if (!(ClientType == string.Empty || ClientType == officialClientType || ClientType == bilibiliClientType))
+            {
+                jsonPath = $"resource/global/{ClientType}/resource/version.json";
+            }
+
+            string pool = string.Empty;
+            if (File.Exists(jsonPath))
+            {
+                JObject poolJson = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
+                pool = poolJson?["gacha"]?["pool"]?.ToString() ?? string.Empty;
+            }
+
+            string poolString = !string.IsNullOrEmpty(pool) ? $" - {pool}" : string.Empty;
+            rvm.WindowTitle = $"{prefix}MAA - {VersionId}{poolString} - {connectConfigName} ({ConnectAddress}) - {ClientName}";
         }
 
         private readonly string _bluestacksConfig = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigPath, string.Empty);
-        private readonly string _bluestacksKeyWord = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigKeyword, "bst.instance.Nougat64.status.adb_port");
+        private string _bluestacksKeyWord = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigKeyword, string.Empty);
 
         /// <summary>
         /// Tries to set Bluestack Hyper V address.
         /// </summary>
         public void TryToSetBlueStacksHyperVAddress()
         {
-            if (_bluestacksConfig.Length == 0)
+            if (string.IsNullOrEmpty(_bluestacksConfig))
             {
                 return;
             }
@@ -2241,12 +2264,27 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             var all_lines = File.ReadAllLines(_bluestacksConfig);
+
+            if (string.IsNullOrEmpty(_bluestacksKeyWord))
+            {
+                foreach (var line in all_lines)
+                {
+                    if (line.StartsWith("bst.installed_images"))
+                    {
+                        var images = line.Split('"')[1].Split(',');
+                        _bluestacksKeyWord = "bst.instance." + images[0] + ".status.adb_port";
+                        break;
+                    }
+                }
+            }
+
             foreach (var line in all_lines)
             {
                 if (line.StartsWith(_bluestacksKeyWord))
                 {
                     var sp = line.Split('"');
                     ConnectAddress = "127.0.0.1:" + sp[1];
+                    break;
                 }
             }
         }
@@ -2385,96 +2423,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _loadGUIParameters = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.LoadPositionAndSize, bool.TrueString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to load GUI parameters.
-        /// </summary>
-        public bool LoadGUIParameters
-        {
-            get => _loadGUIParameters;
-            set
-            {
-                SetAndNotify(ref _loadGUIParameters, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.LoadPositionAndSize, value.ToString());
-                if (value)
-                {
-                    if (SaveGUIParametersOnClosing)
-                    {
-                        Application.Current.MainWindow.Closing += SaveGUIParameters;
-                    }
-                    else
-                    {
-                        SaveGUIParameters();
-                    }
-                }
-            }
-        }
-
-        private bool _saveGUIParametersOnClosing = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.SavePositionAndSize, bool.TrueString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to save GUI parameters on closing main window.
-        /// </summary>
-        public bool SaveGUIParametersOnClosing
-        {
-            get => _saveGUIParametersOnClosing;
-            set
-            {
-                SetAndNotify(ref _saveGUIParametersOnClosing, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.SavePositionAndSize, value.ToString());
-                if (value)
-                {
-                    Application.Current.MainWindow.Closing += SaveGUIParameters;
-                }
-                else
-                {
-                    Application.Current.MainWindow.Closing -= SaveGUIParameters;
-                }
-            }
-        }
-
-        public void SaveGUIParameters(object sender, EventArgs e)
-        {
-            SaveGUIParameters();
-        }
-
-        /// <summary>
-        /// Save main window left edge, top edge, width and heigth.
-        /// </summary>
-        public void SaveGUIParameters()
-        {
-            var mainWindow = Application.Current.MainWindow;
-            if (mainWindow.WindowState != WindowState.Normal)
-            {
-                return;
-            }
-
-            var mainWindowRect = new Rect(mainWindow.Left + 25, mainWindow.Top + 25, mainWindow.Width - 50, mainWindow.Height - 50);
-            var virtualScreenRect = new Rect(SystemParameters.VirtualScreenLeft, SystemParameters.VirtualScreenTop, SystemParameters.VirtualScreenWidth, SystemParameters.VirtualScreenHeight);
-            if (!virtualScreenRect.IntersectsWith(mainWindowRect))
-            {
-                return;
-            }
-
-            // 请在配置文件中修改该部分配置，暂不支持从GUI设置
-            // Please modify this part of configuration in the configuration file.
-            ConfigurationHelper.SetValue(ConfigurationKeys.LoadPositionAndSize, LoadGUIParameters.ToString());
-            ConfigurationHelper.SetValue(ConfigurationKeys.SavePositionAndSize, SaveGUIParametersOnClosing.ToString());
-
-            System.Windows.Forms.Screen currentScreen =
-                System.Windows.Forms.Screen.FromHandle(new WindowInteropHelper(mainWindow).Handle);
-            var screenRect = currentScreen.Bounds;
-            ConfigurationHelper.SetValue(ConfigurationKeys.MonitorNumber, currentScreen.DeviceName);
-            ConfigurationHelper.SetValue(ConfigurationKeys.MonitorWidth, screenRect.Width.ToString());
-            ConfigurationHelper.SetValue(ConfigurationKeys.MonitorHeight, screenRect.Height.ToString());
-
-            ConfigurationHelper.SetValue(ConfigurationKeys.PositionLeft, (mainWindow.Left - screenRect.Left).ToString(CultureInfo.InvariantCulture));
-            ConfigurationHelper.SetValue(ConfigurationKeys.PositionTop, (mainWindow.Top - screenRect.Top).ToString(CultureInfo.InvariantCulture));
-            ConfigurationHelper.SetValue(ConfigurationKeys.WindowWidth, mainWindow.Width.ToString(CultureInfo.InvariantCulture));
-            ConfigurationHelper.SetValue(ConfigurationKeys.WindowHeight, mainWindow.Height.ToString(CultureInfo.InvariantCulture));
-        }
-
         private bool _useAlternateStage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseAlternateStage, bool.FalseString));
 
         /// <summary>
@@ -2495,7 +2443,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _useRemainingSanityStage = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, bool.TrueString));
+        private bool _useRemainingSanityStage = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, bool.FalseString));
 
         public bool UseRemainingSanityStage
         {
@@ -2611,7 +2559,7 @@ namespace MaaWpfGui.ViewModels.UI
                 if (result == MessageBoxResult.OK)
                 {
                     Application.Current.Shutdown();
-                    System.Windows.Forms.Application.Restart();
+                    Bootstrapper.RestartApplication();
                 }
                 */
             }
@@ -2746,10 +2694,22 @@ namespace MaaWpfGui.ViewModels.UI
                 if (result == MessageBoxResult.OK)
                 {
                     Application.Current.Shutdown();
-                    System.Windows.Forms.Application.Restart();
+                    Bootstrapper.RestartApplication();
                 }
 
                 SetAndNotify(ref _language, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the language info.
+        /// </summary>
+        public string LanguageInfo
+        {
+            get
+            {
+                var language = (string)Application.Current.Resources["Language"];
+                return language == "Language" ? language : language + " / Language";
             }
         }
 
@@ -2804,7 +2764,7 @@ namespace MaaWpfGui.ViewModels.UI
             if (result == MessageBoxResult.OK)
             {
                 Application.Current.Shutdown();
-                System.Windows.Forms.Application.Restart();
+                Bootstrapper.RestartApplication();
             }
         }
 
@@ -2910,5 +2870,53 @@ namespace MaaWpfGui.ViewModels.UI
 
             _roguelikeSquad = RoguelikeSquadList.Any(x => x.Value == roguelikeSquad) ? roguelikeSquad : string.Empty;
         }
+
+        #region SettingsGuide
+
+        // 目前共4步，再多塞不下了，后续可以整个新功能展示（
+        public const int GuideMaxStep = 4;
+
+        private int _guideStepIndex = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, "0"));
+
+        public int GuideStepIndex
+        {
+            get => _guideStepIndex;
+            set
+            {
+                SetAndNotify(ref _guideStepIndex, value);
+                if (value == GuideMaxStep)
+                {
+                    ConfigurationHelper.SetValue(ConfigurationKeys.GuideStepIndex, value.ToString());
+                }
+            }
+        }
+
+        private string _guideTransitionMode = "Bottom2Top";
+
+        public string GuideTransitionMode
+        {
+            get => _guideTransitionMode;
+            set => SetAndNotify(ref _guideTransitionMode, value);
+        }
+
+        public void NextGuide(HandyControl.Controls.StepBar stepBar)
+        {
+            GuideTransitionMode = "Bottom2Top";
+            stepBar.Next();
+        }
+
+        public void PrevGuide(HandyControl.Controls.StepBar stepBar)
+        {
+            GuideTransitionMode = "Top2Bottom";
+            stepBar.Prev();
+        }
+
+        public void DoneGuide()
+        {
+            TaskSettingVisibilities.Guide = false;
+            GuideStepIndex = GuideMaxStep;
+        }
+
+        #endregion SettingsGuide
     }
 }

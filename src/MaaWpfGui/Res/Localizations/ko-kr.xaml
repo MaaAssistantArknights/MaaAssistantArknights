@@ -4,6 +4,8 @@
     xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  설정  -->
     <system:String x:Key="Settings">설정</system:String>
+    <system:String x:Key="GeneralSettings">일반 설정</system:String>
+    <system:String x:Key="AdvancedSettings">고급 설정</system:String>
     <system:String x:Key="GameSettings">클라이언트</system:String>
     <system:String x:Key="BaseSettings">기반시설</system:String>
     <system:String x:Key="RoguelikeSettings">통합전략</system:String>
@@ -19,6 +21,18 @@
     <system:String x:Key="AboutUs">정보</system:String>
 
     <system:String x:Key="Version">버전</system:String>
+
+    <!--  설정 가이드  -->
+    <system:String x:Key="TaskSettings">작업 설정</system:String>
+    <system:String x:Key="SettingsGuide">설정 가이드</system:String>
+    <system:String x:Key="PrevGuide">이전 단계</system:String>
+    <system:String x:Key="NextGuide">다음 단계</system:String>
+    <system:String x:Key="DoneGuide">완료</system:String>
+    <system:String x:Key="ToolTipGuide">호버에 힌트가 있습니다↓→</system:String>
+    <system:String x:Key="TaskGuide">↑태스크</system:String>
+    <system:String x:Key="OftenUsedGuide">↓자주 사용하는</system:String>
+    <system:String x:Key="SometimesUsedGuide">흔하지 않게 사용되는↑</system:String>
+    <system:String x:Key="LinkStartGuide">← 작업 시작</system:String>
 
     <system:String x:Key="Dorm">숙소</system:String>
     <system:String x:Key="Mfg">제조소</system:String>
@@ -57,6 +71,7 @@
     <system:String x:Key="GeneralWithoutScreencapErr">일반 모드 (차단됨 예외 출력)</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
     <system:String x:Key="MuMuEmulator">MuMu Player</system:String>
+    <system:String x:Key="MuMuEmulator12">MuMu Player 12</system:String>
     <system:String x:Key="LDPlayer">LD Player</system:String>
     <system:String x:Key="Nox">Nox</system:String>
     <system:String x:Key="XYAZ">MEmu</system:String>
@@ -229,7 +244,7 @@
 
     <system:String x:Key="AutoDetectConnection">연결 자동 감지</system:String>
     <system:String x:Key="AutoDetectConnectionTip">이 체크박스는 감지가 끝나면 자동으로 체크가 해제됩니다. 다시 감지하려면 다시 체크해주세요.</system:String>
-    <system:String x:Key="AlwaysAutoDetectConnection">항상 감지</system:String>
+    <system:String x:Key="AlwaysAutoDetectConnection">매번 재감지</system:String>
     <system:String x:Key="ADBPath">adb 경로 (상대/절대)</system:String>
     <system:String x:Key="ConnectionAddress">연결 주소</system:String>
     <system:String x:Key="ConnectionAddressTip">문제 발생 시 직접 수정해 주세요</system:String>
@@ -245,7 +260,7 @@
     <system:String x:Key="Recruiting">공개모집</system:String>
     <system:String x:Key="Base">기반시설 교대</system:String>
     <system:String x:Key="Combat">이성 사용</system:String>
-    <!--  <system:String x:Key="Visiting">친구 방문</system:String>  -->
+    <system:String x:Key="Visiting">친구 방문</system:String>
     <system:String x:Key="Mall">크레딧 수급 및 상점</system:String>
     <system:String x:Key="Mission">임무 보상 수령</system:String>
     <system:String x:Key="AutoRoguelike">통합전략</system:String>
@@ -382,8 +397,10 @@
         팁:\n\n1. '작전 개시' 버튼이 있는 화면에서 이 기능을 사용하세요.\n\n
         2. 친구의 오퍼레이터를 사용하는 경우에는 '자동 편성'을 선택하지 말고 수동으로 오퍼레이터를 선택하고 시작하세요.\n\n
         3. 패러독스 시뮬레이션의 경우에는 '자동 편성'을 선택하지 말고, 스킬을 선택하고 '시뮬레이션 시작' 버튼이 있는 화면에 시작하세요.\n\n
-        4. For SSS, There are two built-in files under the resource/copilot folder.\n
-        Please start on the &quot;Start Deployment&quot; screen after manual formation (can be used with &quot;Loop times&quot;)
+        4. SSS 에는 resource/copilot 폴더에 여러 내장 파일이 있습니다.\n
+        수동 형성 후 &quot;Start Deployment&quot; 화면에서 시작하십시오( &quot;반복 횟수&quot;와 함께 사용 가능)\n\n
+        5. 비디오 인식이 지원되며, 가이드 비디오를 드래그하여 사용할 수 있습니다.\n
+        비디오 해상도는 16:9이어야 하며, 검은 테두리, 에뮬레이터 테두리 및 특수 모양의 화면 보정과 같은 방해 요소가 없어야합니다.\n\n
     </system:String>
 
     <system:String x:Key="CopilotFileReadError">파일을 읽지 못했습니다!</system:String>
@@ -401,7 +418,7 @@
     <system:String x:Key="ErrorDetails">상세</system:String>
     <system:String x:Key="ErrorSolution">해결 방안</system:String>
     <system:String x:Key="ErrorSolutionCrash">FAQ 문서의 Crashes 문단을 참조해 해결하세요.</system:String>
-    <system:String x:Key="ErrorSolutionReplaceADB">관리자 권한으로 MAA를 실행해 주세요</system:String>
+    <system:String x:Key="ErrorSolutionReplaceADB">모바일 앱 애널라이저(MAA)를 관리자 권한으로 열기 위해 모바일 시뮬레이터와 ADB를 닫거나 컴퓨터를 재시작해주세요.</system:String>
     <system:String x:Key="ReplaceADBNotExists">ADB 파일이 존재하지 않습니다</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB 다운로드 실패</system:String>
     <system:String x:Key="AdbDownloadFailedDesc">수동으로 진행해 주세요 (adb.exe의 이름을 바꾸고 에뮬레이터의 adb 파일을 교체해 주세요)</system:String>
@@ -410,7 +427,7 @@
     <system:String x:Key="ErrorQqGroupLinkText">QQ 그룹 가입</system:String>
     <system:String x:Key="InitializationError">초기화 오류!</system:String>
     <system:String x:Key="ResolutionNotSupported">에뮬레이터 해상도가 지원되지 않습니다. 해상도를 720p 이상, 16:9 비율로 설정해주세요.</system:String>
-    <system:String x:Key="ResolutionAcquisitionFailure">에뮬레이터 해상도를 가져오지 못했습니다. 컴퓨터를 다시 시작하거나 에뮬레이터를 변경한 후 다시 시도하는 것이 좋습니다.</system:String>
+    <system:String x:Key="ResolutionAcquisitionFailure">시뮬레이터 해상도를 가져올 수 없습니다. 시뮬레이터와 ADB를 재시작하거나 컴퓨터를 재부팅하거나 시뮬레이터를 교체한 후 다시 시도하십시오.</system:String>
     <system:String x:Key="TryToReconnect">에뮬레이터가 연결 해제되었습니다. 재연결을 시도합니다.</system:String>
     <system:String x:Key="ReconnectSuccess">다시 연결되었습니다. 작업을 계속합니다.</system:String>
     <system:String x:Key="ReconnectFailed">다시 연결하지 못했습니다. 연결 해제되었습니다!</system:String>
@@ -475,11 +492,11 @@
     <system:String x:Key="BattleFormation">편성 시작</system:String>
     <system:String x:Key="BattleFormationSelected">오퍼레이터를 선택:</system:String>
     <system:String x:Key="CurrentSteps">현재 단계: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">지원하지 않는 스테이지입니다. MAA를 업데이트하세요.</system:String>
+    <system:String x:Key="UnsupportedLevel">지원되지 않는 레벨입니다. MAA 소프트웨어 버전을 업데이트하세요!\n지원되지 않는 레벨입니다. MAA 소프트웨어 버전을 업데이트하세요!\n지원되지 않는 레벨입니다. MAA 소프트웨어 버전을 업데이트하세요!\n\n최신 버전이 이미 설치되어 있다는 메시지가 나오면, 개발 버전이나 베타 버전을 확인해보세요.</system:String>
     <system:String x:Key="RecruitTagsDetected">인식 결과:</system:String>
     <system:String x:Key="ConnectFailed">연결 실패</system:String>
     <system:String x:Key="TryToStartEmulator">에뮬레이터를 시작하는 중입니다</system:String>
-    <system:String x:Key="CheckSettings">연결 설정을 확인하거나 시스템을 재시작해보세요</system:String>
+    <system:String x:Key="CheckSettings">연결 설정을 확인하거나 에뮬레이터와 ADB를 다시 시작하거나 컴퓨터를 재시작해주세요.</system:String>
     <!--  AsstProxy  -->
 
     <!--  TrayIcon  -->

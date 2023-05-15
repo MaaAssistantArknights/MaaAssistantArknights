@@ -3180,7 +3180,8 @@
         ],
         "next": [
             "StartButton1",
-            "OfflineConfirm"
+            "OfflineConfirm",
+            "MedicineConfirm@LoadingText"
         ]
     },
     "UseStone": {
@@ -3256,7 +3257,8 @@
         ],
         "next": [
             "StartButton1",
-            "OfflineConfirm"
+            "OfflineConfirm",
+            "ExpiringMedicineConfirm@LoadingText"
         ]
     },
     "StoneConfirm": {
@@ -3277,7 +3279,8 @@
         ],
         "next": [
             "StartButton1",
-            "OfflineConfirm"
+            "OfflineConfirm",
+            "StoneConfirm@LoadingText"
         ]
     },
     "NoStone": {
