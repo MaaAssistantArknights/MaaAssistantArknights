@@ -30,7 +30,7 @@
             Orientation="Horizontal"
             Visibility="{c:Binding !AutoDetectConnection}">
             <hc:TextBox
-                Width="140"
+                Width="160"
                 hc:BorderElement.CornerRadius="4,0,0,4"
                 hc:InfoElement.Title="{DynamicResource ADBPath}"
                 Text="{Binding AdbPath}" />
