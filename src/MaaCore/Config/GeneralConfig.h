@@ -62,7 +62,6 @@ namespace asst
         std::string screencap_raw_with_gzip;
         std::string screencap_raw_by_nc;
         std::string nc_address;
-        unsigned short nc_port = 0U;
         std::string screencap_encode;
         std::string release;
         std::string start;
