@@ -1125,6 +1125,7 @@ namespace MaaWpfGui.Main
                 return false;
             }
 
+            bool hyperV = Instances.SettingsViewModel.TryToSetBlueStacksHyperVAddress();
             if (!Instances.SettingsViewModel.AutoDetectConnection
                 && connected
                 && connectedAdb == Instances.SettingsViewModel.AdbPath
@@ -1133,7 +1134,6 @@ namespace MaaWpfGui.Main
                 return true;
             }
 
-            bool hyperV = Instances.SettingsViewModel.TryToSetBlueStacksHyperVAddress();
             if (!hyperV && Instances.SettingsViewModel.AutoDetectConnection &&
                 !Instances.SettingsViewModel.DetectAdbConfig(ref error))
             {
