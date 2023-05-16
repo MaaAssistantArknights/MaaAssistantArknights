@@ -14,14 +14,14 @@ int main([[maybe_unused]] int argc, char** argv)
     // AsstSetUserDir(cur_path.c_str());
 
     // 这里默认读取的是可执行文件同目录下 resource 文件夹里的资源
-    bool load_error = false;
     bool loaded = AsstLoadResource(cur_path.string().c_str());
     if (!loaded) {
-        load_error = true;
         std::cerr << "-------- load resource failed --------" << std::endl;
+        return -1;
     }
 
 #ifdef ASST_DEBUG
+    bool load_error = false;
     const auto overseas_dir = cur_path / "resource" / "global";
     for (const auto& client : { "YoStarJP", "YoStarEN", "YoStarKR", "txwy" }) {
         const auto overseas_path = overseas_dir / client;
@@ -33,11 +33,10 @@ int main([[maybe_unused]] int argc, char** argv)
             std::cerr << "-------- load resource failed: " << client << " --------" << std::endl;
         }
     }
-#endif
-
     if (load_error) {
         return -1;
     }
+#endif
 
     auto ptr = AsstCreate();
     if (ptr == nullptr) {
