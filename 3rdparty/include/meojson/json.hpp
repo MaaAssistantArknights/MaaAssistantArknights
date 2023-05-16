@@ -425,9 +425,9 @@ namespace json
         decltype(auto) get(std::tuple<key_then_default_value_t...> keys_then_default_value,
                            std::index_sequence<keys_indexes_t...>) const;
         template <typename value_t, typename... rest_keys_t>
-        decltype(auto) get_helper(const value_t& default_value, string_t&& key, rest_keys_t&&... rest) const;
+        decltype(auto) get_helper(const value_t& default_value, const string_t& key, rest_keys_t&&... rest) const;
         template <typename value_t>
-        decltype(auto) get_helper(const value_t& default_value, string_t&& key) const;
+        decltype(auto) get_helper(const value_t& default_value, const string_t& key) const;
 
         string_t format(size_t indent, size_t indent_times) const;
 
@@ -1622,7 +1622,7 @@ namespace json
 
     template <typename string_t>
     template <typename value_t, typename... rest_keys_t>
-    MEOJSON_INLINE decltype(auto) basic_object<string_t>::get_helper(const value_t& default_value, string_t&& key,
+    MEOJSON_INLINE decltype(auto) basic_object<string_t>::get_helper(const value_t& default_value, const string_t& key,
                                                                      rest_keys_t&&... rest) const
     {
         if (contains(key)) {
@@ -1643,7 +1643,8 @@ namespace json
 
     template <typename string_t>
     template <typename value_t>
-    MEOJSON_INLINE decltype(auto) basic_object<string_t>::get_helper(const value_t& default_value, string_t&& key) const
+    MEOJSON_INLINE decltype(auto) basic_object<string_t>::get_helper(const value_t& default_value,
+                                                                     const string_t& key) const
     {
         constexpr bool is_json = std::is_same_v<basic_value<string_t>, value_t> ||
                                  std::is_same_v<basic_array<string_t>, value_t> ||
