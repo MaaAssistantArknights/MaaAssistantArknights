@@ -386,6 +386,7 @@
     <system:String x:Key="AutoSquad">자동 편성</system:String>
     <system:String x:Key="LoopTimes">반복 횟수</system:String>
     <system:String x:Key="AutoSquadTip">자동 편성은 '선호' 오퍼레이터를 인식할 수 없습니다</system:String>
+    <system:String x:Key="ThanksForLikeWebJson">감사합니다 평가하십시오!\n웹 페이지에는 이미 댓글 섹션이 열려 있으며 의견을 남기시기 바랍니다!</system:String>
 
     <system:String x:Key="Start">시작</system:String>
 
