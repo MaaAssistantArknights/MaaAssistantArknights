@@ -93,7 +93,7 @@ THRM-EX|THRM-EX|THRM-EX|THRM-EX
 褐果|Chestnut|チェストナット|체스트넛
 罗小黑|Luo Xiaohei|羅小黒|나소흑
 铅踝|Totter|トター|
-石英|Quarts||
+石英|Quarts|クォーツ|
 
 中文|English|日本語|한국어
 ---|---|---|---
@@ -211,12 +211,12 @@ Stormeye|Stormeye|Stormeye|Stormeye
 至简|Minimalist|ミニマリスト|미니멀리스트
 晓歌|Cantabile|カンタービレ|칸타빌레
 但书|Proviso|プロヴァイゾ|프로바이조
-海沫|Highmore||
+海沫|Highmore|ハイモア|
 郁金香|Tulip||
 达格达|Dagda|ダグザ|
 明椒|Paprika|パプリカ|
-雪绒|Qanipalaat||
-子月|Lunacub||
+雪绒|Qanipalaat|カニパラート|
+子月|Lunacub|ルナカブ|
 谜图|Puzzle||
 和弦|Harmonie||
 截云|Jieyun||
@@ -291,9 +291,9 @@ W|W|W|W
 百炼嘉维尔|Gavial the Invincible|百練ガヴィル|가비알 디 인빈서블
 玛恩纳|Mlynar|ムリナール|무에나
 白铁|Stainless|ステインレス|
-伺夜|Vigil||
-斥罪|Penance||
-缄默德克萨斯|Texas the Omertosa||
+伺夜|Vigil|ヴィジェル|
+斥罪|Penance|ペナンス|
+缄默德克萨斯|Texas the Omertosa|血掟テキサス|
 焰影苇草|Reed The Flame Shadow||
 林|Lin||
 重岳|Chongyue||
