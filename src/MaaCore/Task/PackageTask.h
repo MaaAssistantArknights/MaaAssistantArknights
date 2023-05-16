@@ -4,10 +4,7 @@
 
 #include <memory>
 
-namespace json
-{
-    class value;
-}
+#include <meojson/json.hpp>
 
 namespace asst
 {
