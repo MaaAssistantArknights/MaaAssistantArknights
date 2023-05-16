@@ -119,7 +119,7 @@ namespace json
 
         // Usage: get(key_1, key_2, ..., default_value);
         template <typename... key_then_default_value_t>
-        decltype(auto) get(key_then_default_value_t&&... keys_then_default_value) const;
+        auto get(key_then_default_value_t&&... keys_then_default_value) const;
 
         template <typename value_t = basic_value<string_t>>
         std::optional<value_t> find(size_t pos) const;
@@ -208,13 +208,13 @@ namespace json
         static var_t deep_copy(const var_t& src);
 
         template <typename... key_then_default_value_t, size_t... keys_indexes_t>
-        decltype(auto) get(std::tuple<key_then_default_value_t...> keys_then_default_value,
-                           std::index_sequence<keys_indexes_t...>) const;
+        auto get(std::tuple<key_then_default_value_t...> keys_then_default_value,
+                 std::index_sequence<keys_indexes_t...>) const;
 
         template <typename value_t, typename first_key_t, typename... rest_keys_t>
-        decltype(auto) get_helper(const value_t& default_value, first_key_t&& first, rest_keys_t&&... rest) const;
+        auto get_helper(const value_t& default_value, first_key_t&& first, rest_keys_t&&... rest) const;
         template <typename value_t, typename unique_key_t>
-        decltype(auto) get_helper(const value_t& default_value, unique_key_t&& first) const;
+        auto get_helper(const value_t& default_value, unique_key_t&& first) const;
 
         const string_t& as_basic_type_str() const;
         string_t& as_basic_type_str();
@@ -275,7 +275,7 @@ namespace json
 
         // Usage: get(key_1, key_2, ..., default_value);
         template <typename... key_then_default_value_t>
-        decltype(auto) get(key_then_default_value_t&&... keys_then_default_value) const;
+        auto get(key_then_default_value_t&&... keys_then_default_value) const;
 
         template <typename value_t = basic_value<string_t>>
         std::optional<value_t> find(size_t pos) const;
@@ -319,12 +319,12 @@ namespace json
 
     private:
         template <typename... key_then_default_value_t, size_t... keys_indexes_t>
-        decltype(auto) get(std::tuple<key_then_default_value_t...> keys_then_default_value,
-                           std::index_sequence<keys_indexes_t...>) const;
+        auto get(std::tuple<key_then_default_value_t...> keys_then_default_value,
+                 std::index_sequence<keys_indexes_t...>) const;
         template <typename value_t, typename... rest_keys_t>
-        decltype(auto) get_helper(const value_t& default_value, size_t pos, rest_keys_t&&... rest) const;
+        auto get_helper(const value_t& default_value, size_t pos, rest_keys_t&&... rest) const;
         template <typename value_t>
-        decltype(auto) get_helper(const value_t& default_value, size_t pos) const;
+        auto get_helper(const value_t& default_value, size_t pos) const;
 
         string_t format(size_t indent, size_t indent_times) const;
 
@@ -383,7 +383,7 @@ namespace json
 
         // Usage: get(key_1, key_2, ..., default_value);
         template <typename... key_then_default_value_t>
-        decltype(auto) get(key_then_default_value_t&&... keys_then_default_value) const;
+        auto get(key_then_default_value_t&&... keys_then_default_value) const;
 
         template <typename value_t = basic_value<string_t>>
         std::optional<value_t> find(const string_t& key) const;
@@ -422,12 +422,12 @@ namespace json
 
     private:
         template <typename... key_then_default_value_t, size_t... keys_indexes_t>
-        decltype(auto) get(std::tuple<key_then_default_value_t...> keys_then_default_value,
-                           std::index_sequence<keys_indexes_t...>) const;
+        auto get(std::tuple<key_then_default_value_t...> keys_then_default_value,
+                 std::index_sequence<keys_indexes_t...>) const;
         template <typename value_t, typename... rest_keys_t>
-        decltype(auto) get_helper(const value_t& default_value, const string_t& key, rest_keys_t&&... rest) const;
+        auto get_helper(const value_t& default_value, const string_t& key, rest_keys_t&&... rest) const;
         template <typename value_t>
-        decltype(auto) get_helper(const value_t& default_value, const string_t& key) const;
+        auto get_helper(const value_t& default_value, const string_t& key) const;
 
         string_t format(size_t indent, size_t indent_times) const;
 
@@ -667,8 +667,7 @@ namespace json
 
     template <typename string_t>
     template <typename... key_then_default_value_t>
-    MEOJSON_INLINE decltype(auto) basic_value<string_t>::get(
-        key_then_default_value_t&&... keys_then_default_value) const
+    MEOJSON_INLINE auto basic_value<string_t>::get(key_then_default_value_t&&... keys_then_default_value) const
     {
         return get(std::forward_as_tuple(keys_then_default_value...),
                    std::make_index_sequence<sizeof...(keys_then_default_value) - 1> {});
@@ -676,8 +675,8 @@ namespace json
 
     template <typename string_t>
     template <typename... key_then_default_value_t, size_t... keys_indexes_t>
-    MEOJSON_INLINE decltype(auto) basic_value<string_t>::get(
-        std::tuple<key_then_default_value_t...> keys_then_default_value, std::index_sequence<keys_indexes_t...>) const
+    MEOJSON_INLINE auto basic_value<string_t>::get(std::tuple<key_then_default_value_t...> keys_then_default_value,
+                                                   std::index_sequence<keys_indexes_t...>) const
     {
         constexpr unsigned long default_value_index = sizeof...(key_then_default_value_t) - 1;
         return get_helper(std::get<default_value_index>(keys_then_default_value),
@@ -686,8 +685,8 @@ namespace json
 
     template <typename string_t>
     template <typename value_t, typename first_key_t, typename... rest_keys_t>
-    MEOJSON_INLINE decltype(auto) basic_value<string_t>::get_helper(const value_t& default_value, first_key_t&& first,
-                                                                    rest_keys_t&&... rest) const
+    MEOJSON_INLINE auto basic_value<string_t>::get_helper(const value_t& default_value, first_key_t&& first,
+                                                          rest_keys_t&&... rest) const
     {
         if constexpr (std::is_constructible_v<string_t, first_key_t>) {
             return is_object() ? as_object().get_helper(default_value, std::forward<first_key_t>(first),
@@ -706,8 +705,7 @@ namespace json
 
     template <typename string_t>
     template <typename value_t, typename unique_key_t>
-    MEOJSON_INLINE decltype(auto) basic_value<string_t>::get_helper(const value_t& default_value,
-                                                                    unique_key_t&& first) const
+    MEOJSON_INLINE auto basic_value<string_t>::get_helper(const value_t& default_value, unique_key_t&& first) const
     {
         if constexpr (std::is_constructible_v<string_t, unique_key_t>) {
             return is_object() ? as_object().get_helper(default_value, std::forward<unique_key_t>(first))
@@ -723,8 +721,7 @@ namespace json
 
     template <typename string_t>
     template <typename... key_then_default_value_t>
-    MEOJSON_INLINE decltype(auto) basic_array<string_t>::get(
-        key_then_default_value_t&&... keys_then_default_value) const
+    MEOJSON_INLINE auto basic_array<string_t>::get(key_then_default_value_t&&... keys_then_default_value) const
     {
         return get(std::forward_as_tuple(keys_then_default_value...),
                    std::make_index_sequence<sizeof...(keys_then_default_value) - 1> {});
@@ -732,8 +729,8 @@ namespace json
 
     template <typename string_t>
     template <typename... key_then_default_value_t, size_t... keys_indexes_t>
-    MEOJSON_INLINE decltype(auto) basic_array<string_t>::get(
-        std::tuple<key_then_default_value_t...> keys_then_default_value, std::index_sequence<keys_indexes_t...>) const
+    MEOJSON_INLINE auto basic_array<string_t>::get(std::tuple<key_then_default_value_t...> keys_then_default_value,
+                                                   std::index_sequence<keys_indexes_t...>) const
     {
         constexpr unsigned long default_value_index = sizeof...(key_then_default_value_t) - 1;
         return get_helper(std::get<default_value_index>(keys_then_default_value),
@@ -742,8 +739,7 @@ namespace json
 
     template <typename string_t>
     template <typename... key_then_default_value_t>
-    MEOJSON_INLINE decltype(auto) basic_object<string_t>::get(
-        key_then_default_value_t&&... keys_then_default_value) const
+    MEOJSON_INLINE auto basic_object<string_t>::get(key_then_default_value_t&&... keys_then_default_value) const
     {
         return get(std::forward_as_tuple(keys_then_default_value...),
                    std::make_index_sequence<sizeof...(keys_then_default_value) - 1> {});
@@ -751,8 +747,8 @@ namespace json
 
     template <typename string_t>
     template <typename... key_then_default_value_t, size_t... keys_indexes_t>
-    MEOJSON_INLINE decltype(auto) basic_object<string_t>::get(
-        std::tuple<key_then_default_value_t...> keys_then_default_value, std::index_sequence<keys_indexes_t...>) const
+    MEOJSON_INLINE auto basic_object<string_t>::get(std::tuple<key_then_default_value_t...> keys_then_default_value,
+                                                    std::index_sequence<keys_indexes_t...>) const
     {
         constexpr unsigned long default_value_index = sizeof...(key_then_default_value_t) - 1;
         return get_helper(std::get<default_value_index>(keys_then_default_value),
@@ -1295,28 +1291,8 @@ namespace json
 
     template <typename string_t>
     template <typename value_t, typename... rest_keys_t>
-    MEOJSON_INLINE decltype(auto) basic_array<string_t>::get_helper(const value_t& default_value, size_t pos,
-                                                                    rest_keys_t&&... rest) const
-    {
-        if (contains(pos)) {
-            return at(pos).get_helper(default_value, std::forward<rest_keys_t>(rest)...);
-        }
-        else if constexpr (std::is_same_v<basic_value<string_t>, value_t> ||
-                           std::is_same_v<basic_array<string_t>, value_t> ||
-                           std::is_same_v<basic_object<string_t>, value_t>) {
-            return value_t(default_value);
-        }
-        else if constexpr (std::is_constructible_v<string_t, value_t>) {
-            return string_t { default_value };
-        }
-        else {
-            return value_t(default_value);
-        }
-    }
-
-    template <typename string_t>
-    template <typename value_t>
-    MEOJSON_INLINE decltype(auto) basic_array<string_t>::get_helper(const value_t& default_value, size_t pos) const
+    MEOJSON_INLINE auto basic_array<string_t>::get_helper(const value_t& default_value, size_t pos,
+                                                          rest_keys_t&&... rest) const
     {
         constexpr bool is_json = std::is_same_v<basic_value<string_t>, value_t> ||
                                  std::is_same_v<basic_array<string_t>, value_t> ||
@@ -1324,11 +1300,29 @@ namespace json
         constexpr bool is_string = std::is_constructible_v<string_t, value_t> && !is_json;
 
         if (!contains(pos)) {
-            if constexpr (is_json) {
+            if constexpr (is_string) {
+                return string_t(default_value);
+            }
+            else {
                 return value_t(default_value);
             }
-            else if constexpr (is_string) {
-                return string_t { default_value };
+        }
+
+        return at(pos).get_helper(default_value, std::forward<rest_keys_t>(rest)...);
+    }
+
+    template <typename string_t>
+    template <typename value_t>
+    MEOJSON_INLINE auto basic_array<string_t>::get_helper(const value_t& default_value, size_t pos) const
+    {
+        constexpr bool is_json = std::is_same_v<basic_value<string_t>, value_t> ||
+                                 std::is_same_v<basic_array<string_t>, value_t> ||
+                                 std::is_same_v<basic_object<string_t>, value_t>;
+        constexpr bool is_string = std::is_constructible_v<string_t, value_t> && !is_json;
+
+        if (!contains(pos)) {
+            if constexpr (is_string) {
+                return string_t(default_value);
             }
             else {
                 return value_t(default_value);
@@ -1336,10 +1330,7 @@ namespace json
         }
 
         auto val = _array_data.at(pos);
-        if constexpr (is_json) {
-            return val;
-        }
-        else if constexpr (is_string) {
+        if constexpr (is_string) {
             return val.template as<string_t>();
         }
         else if (val.template is<value_t>()) {
@@ -1622,29 +1613,8 @@ namespace json
 
     template <typename string_t>
     template <typename value_t, typename... rest_keys_t>
-    MEOJSON_INLINE decltype(auto) basic_object<string_t>::get_helper(const value_t& default_value, const string_t& key,
-                                                                     rest_keys_t&&... rest) const
-    {
-        if (contains(key)) {
-            return at(key).get_helper(default_value, std::forward<rest_keys_t>(rest)...);
-        }
-        else if constexpr (std::is_same_v<basic_value<string_t>, value_t> ||
-                           std::is_same_v<basic_array<string_t>, value_t> ||
-                           std::is_same_v<basic_object<string_t>, value_t>) {
-            return value_t(default_value);
-        }
-        else if constexpr (std::is_constructible_v<string_t, value_t>) {
-            return string_t { default_value };
-        }
-        else {
-            return value_t(default_value);
-        }
-    }
-
-    template <typename string_t>
-    template <typename value_t>
-    MEOJSON_INLINE decltype(auto) basic_object<string_t>::get_helper(const value_t& default_value,
-                                                                     const string_t& key) const
+    MEOJSON_INLINE auto basic_object<string_t>::get_helper(const value_t& default_value, const string_t& key,
+                                                           rest_keys_t&&... rest) const
     {
         constexpr bool is_json = std::is_same_v<basic_value<string_t>, value_t> ||
                                  std::is_same_v<basic_array<string_t>, value_t> ||
@@ -1652,11 +1622,29 @@ namespace json
         constexpr bool is_string = std::is_constructible_v<string_t, value_t> && !is_json;
 
         if (!contains(key)) {
-            if constexpr (is_json) {
+            if constexpr (is_string) {
+                return string_t(default_value);
+            }
+            else {
                 return value_t(default_value);
             }
-            else if constexpr (is_string) {
-                return string_t { default_value };
+        }
+
+        return at(key).get_helper(default_value, std::forward<rest_keys_t>(rest)...);
+    }
+
+    template <typename string_t>
+    template <typename value_t>
+    MEOJSON_INLINE auto basic_object<string_t>::get_helper(const value_t& default_value, const string_t& key) const
+    {
+        constexpr bool is_json = std::is_same_v<basic_value<string_t>, value_t> ||
+                                 std::is_same_v<basic_array<string_t>, value_t> ||
+                                 std::is_same_v<basic_object<string_t>, value_t>;
+        constexpr bool is_string = std::is_constructible_v<string_t, value_t> && !is_json;
+
+        if (!contains(key)) {
+            if constexpr (is_string) {
+                return string_t(default_value);
             }
             else {
                 return value_t(default_value);
@@ -1664,10 +1652,7 @@ namespace json
         }
 
         auto val = _object_data.at(key);
-        if constexpr (is_json) {
-            return val;
-        }
-        else if constexpr (is_string) {
+        if constexpr (is_string) {
             return val.template as<string_t>();
         }
         else if (val.template is<value_t>()) {
