@@ -479,6 +479,8 @@ The video resolution is required to be 16:9, and there are no interference facto
     <system:String x:Key="AdbDownloadFailedTitle">ADB Download Failed</system:String>
     <system:String x:Key="AdbDownloadFailedDesc">Please do it manually (rename adb.exe and replace the adb file in the emulator)</system:String>
     <system:String x:Key="SuccessfullyReplacedADB">Successfully Replaced ADB File</system:String>
+    <system:String x:Key="FailedToReplaceAdbAndUseLocal">Falied to replace ADB file</system:String>
+    <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">Please use the administrator to open MAA, or restart the computer and try again.\nTemporarily connected using local ADB.</system:String>
     <system:String x:Key="InitializationError">Initialization error!</system:String>
     <system:String x:Key="ResolutionNotSupported">Emulator resolution not supported, please set at least 720P with 16:9 ratio</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">Fails to be obtain emulator resolution. It is recommended to restart the emulator and ADB, or restart the computer, or consider try other emulator</system:String>
