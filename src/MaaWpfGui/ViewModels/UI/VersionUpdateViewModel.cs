@@ -514,7 +514,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     new Tuple<string, string>("github.com", "agent.imgg.dev"),
                     new Tuple<string, string>("github.com", "maa.r2.imgg.dev"),
-                    new Tuple<string, string>("github.com", "ota.maa.plus"),
+                    // new Tuple<string, string>("github.com", "ota.maa.plus"),
                     null,
                 };
 
