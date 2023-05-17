@@ -2357,17 +2357,12 @@ namespace MaaWpfGui.ViewModels.UI
             const string UnzipDir = "adb";
             const string NewAdb = UnzipDir + "/platform-tools/adb.exe";
 
-            void unzip_adb()
+            if (Directory.Exists(UnzipDir))
             {
-                if (Directory.Exists(UnzipDir))
-                {
-                    Directory.Delete(UnzipDir, true);
-                }
-
-                ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
+                Directory.Delete(UnzipDir, true);
             }
 
-            unzip_adb();
+            ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
 
             bool replaced = false;
             try
@@ -2380,7 +2375,6 @@ namespace MaaWpfGui.ViewModels.UI
 
                 File.Copy(AdbPath, AdbPath + ".bak", true);
                 File.Copy(NewAdb, AdbPath, true);
-                Directory.Delete(UnzipDir, true);
                 replaced = true;
             }
             catch (Exception ex)
@@ -2401,12 +2395,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else
             {
-                if (!File.Exists(NewAdb))
-                {
-                    unzip_adb();
-                }
-
-                AdbPath = UnzipDir + "/platform-tools/adb.exe";
+                AdbPath = NewAdb;
 
                 await Execute.OnUIThreadAsync(() =>
                 {
