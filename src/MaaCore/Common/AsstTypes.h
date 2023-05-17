@@ -15,11 +15,6 @@
 #define NOMINMAX
 #endif
 
-namespace json
-{
-    class value;
-}
-
 namespace asst
 {
     constexpr double DoubleDiff = 1e-12;

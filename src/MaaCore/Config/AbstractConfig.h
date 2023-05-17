@@ -5,10 +5,7 @@
 #include <future>
 #include <mutex>
 
-namespace json
-{
-    class value;
-}
+#include <meojson/json.hpp>
 
 namespace asst
 {

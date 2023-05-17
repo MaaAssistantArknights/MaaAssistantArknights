@@ -2250,17 +2250,18 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Tries to set Bluestack Hyper V address.
         /// </summary>
-        public void TryToSetBlueStacksHyperVAddress()
+        /// <returns>success</returns>
+        public string TryToSetBlueStacksHyperVAddress()
         {
             if (string.IsNullOrEmpty(_bluestacksConfig))
             {
-                return;
+                return null;
             }
 
             if (!File.Exists(_bluestacksConfig))
             {
                 ConfigurationHelper.SetValue(ConfigurationKeys.BluestacksConfigError, "File not exists");
-                return;
+                return null;
             }
 
             var all_lines = File.ReadAllLines(_bluestacksConfig);
@@ -2283,10 +2284,11 @@ namespace MaaWpfGui.ViewModels.UI
                 if (line.StartsWith(_bluestacksKeyWord))
                 {
                     var sp = line.Split('"');
-                    ConnectAddress = "127.0.0.1:" + sp[1];
-                    break;
+                    return "127.0.0.1:" + sp[1];
                 }
             }
+
+            return null;
         }
 
         public bool IsAdbTouchMode()
@@ -2316,7 +2318,8 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         private static readonly string GoogleAdbDownloadUrl = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip";
-        private static readonly string GoogleAdbFilename = "adb.zip";
+        private static readonly string AdbMaaMirrorDownloadUrl = "https://ota.maa.plus/MaaAssistantArknights/api/binaries/adb-windows.zip";
+        private static readonly string GoogleAdbFilename = "adb-windows.zip";
 
         public async void ReplaceADB()
         {
@@ -2333,6 +2336,12 @@ namespace MaaWpfGui.ViewModels.UI
             if (!File.Exists(GoogleAdbFilename))
             {
                 var downloadResult = await Instances.HttpService.DownloadFileAsync(new Uri(GoogleAdbDownloadUrl), GoogleAdbFilename);
+
+                if (!downloadResult)
+                {
+                    downloadResult = await Instances.HttpService.DownloadFileAsync(new Uri(AdbMaaMirrorDownloadUrl), GoogleAdbFilename);
+                }
+
                 if (!downloadResult)
                 {
                     await Execute.OnUIThreadAsync(() =>
@@ -2344,35 +2353,55 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            var procTask = Task.Run(() =>
-           {
-               // ErrorView.xaml.cs里有个报错的逻辑，这里如果改的话那边也要对应改一下
-               foreach (var process in Process.GetProcessesByName(Path.GetFileName(AdbPath)))
-               {
-                   process.Kill();
-               }
+            const string UnzipDir = "adb";
+            const string NewAdb = UnzipDir + "/platform-tools/adb.exe";
 
-               File.Copy(AdbPath, AdbPath + ".bak", true);
-
-               const string UnzipDir = "adb_unzip";
-               if (Directory.Exists(UnzipDir))
-               {
-                   Directory.Delete(UnzipDir, true);
-               }
-
-               ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
-               File.Copy(UnzipDir + "/platform-tools/adb.exe", AdbPath, true);
-               Directory.Delete(UnzipDir, true);
-           });
-            await procTask;
-
-            AdbReplaced = true;
-            ConfigurationHelper.SetValue(ConfigurationKeys.AdbReplaced, true.ToString());
-            Execute.OnUIThread(() =>
+            if (Directory.Exists(UnzipDir))
             {
-                using var toast = new ToastNotification(LocalizationHelper.GetString("SuccessfullyReplacedADB"));
-                toast.Show();
-            });
+                Directory.Delete(UnzipDir, true);
+            }
+
+            ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
+
+            bool replaced = false;
+            try
+            {
+                // ErrorView.xaml.cs里有个报错的逻辑，这里如果改的话那边也要对应改一下
+                foreach (var process in Process.GetProcessesByName(Path.GetFileName(AdbPath)))
+                {
+                    process.Kill();
+                }
+
+                File.Copy(AdbPath, AdbPath + ".bak", true);
+                File.Copy(NewAdb, AdbPath, true);
+                replaced = true;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.ToString());
+                replaced = false;
+            }
+
+            if (replaced)
+            {
+                AdbReplaced = true;
+                ConfigurationHelper.SetValue(ConfigurationKeys.AdbReplaced, true.ToString());
+                await Execute.OnUIThreadAsync(() =>
+                {
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("SuccessfullyReplacedADB"));
+                    toast.Show();
+                });
+            }
+            else
+            {
+                AdbPath = NewAdb;
+
+                await Execute.OnUIThreadAsync(() =>
+                {
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("FailedToReplaceAdbAndUseLocal"));
+                    toast.AppendContentText(LocalizationHelper.GetString("FailedToReplaceAdbAndUseLocalDesc")).Show();
+                });
+            }
         }
 
         public bool AdbReplaced { get; set; } = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AdbReplaced, false.ToString()));
