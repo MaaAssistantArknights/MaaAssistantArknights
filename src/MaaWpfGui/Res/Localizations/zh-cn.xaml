@@ -500,6 +500,8 @@
     <system:String x:Key="AdbDownloadFailedTitle">ADB 下载失败</system:String>
     <system:String x:Key="AdbDownloadFailedDesc">请手动进行操作（将 adb.exe 重命名后替换上方模拟器自带 adb 即可）</system:String>
     <system:String x:Key="SuccessfullyReplacedADB">成功替换 ADB 文件</system:String>
+    <system:String x:Key="FailedToReplaceAdbAndUseLocal">替换 ADB 失败</system:String>
+    <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">请使用管理员权限打开 MAA，或重启电脑后再试\n已临时使用本地 ADB 进行连接</system:String>
     <system:String x:Key="InitializationError">初始化错误！</system:String>
     <system:String x:Key="ResolutionNotSupported">模拟器分辨率不支持，请设置为 720p 或更高，且为 16:9 比例</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">模拟器分辨率获取失败，建议重启模拟器与 ADB 或重启电脑，或更换模拟器后再次尝试</system:String>
