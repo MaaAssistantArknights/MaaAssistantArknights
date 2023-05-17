@@ -453,7 +453,7 @@
     <system:String x:Key="SelectTheFileTip">作业文件可以直接用鼠标拖进来哦 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">作业怎么样？评价下吧！</system:String>
     <system:String x:Key="FailedToLikeWebJson">出现错误，评价失败 : &lt;</system:String>
-    <system:String x:Key="ThanksForLikeWebJson">感谢评价！\n网页端即将开放评论区，敬请期待！</system:String>
+    <system:String x:Key="ThanksForLikeWebJson">感谢评价！\n网页已经开放评论区，欢迎前往留下你的评论！</system:String>
     <system:String x:Key="AutoSquad">自动编队</system:String>
     <system:String x:Key="LoopTimes">循环次数</system:String>
     <system:String x:Key="AutoSquadTip">自动编队暂时无法识别“特别关注”的干员</system:String>
@@ -500,6 +500,8 @@
     <system:String x:Key="AdbDownloadFailedTitle">ADB 下载失败</system:String>
     <system:String x:Key="AdbDownloadFailedDesc">请手动进行操作（将 adb.exe 重命名后替换上方模拟器自带 adb 即可）</system:String>
     <system:String x:Key="SuccessfullyReplacedADB">成功替换 ADB 文件</system:String>
+    <system:String x:Key="FailedToReplaceAdbAndUseLocal">替换 ADB 失败</system:String>
+    <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">请使用管理员权限打开 MAA，或重启电脑后再试\n已临时使用本地 ADB 进行连接</system:String>
     <system:String x:Key="InitializationError">初始化错误！</system:String>
     <system:String x:Key="ResolutionNotSupported">模拟器分辨率不支持，请设置为 720p 或更高，且为 16:9 比例</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">模拟器分辨率获取失败，建议重启模拟器与 ADB 或重启电脑，或更换模拟器后再次尝试</system:String>
@@ -568,7 +570,7 @@
     <system:String x:Key="BattleFormation">开始编队</system:String>
     <system:String x:Key="BattleFormationSelected">选择干员：</system:String>
     <system:String x:Key="CurrentSteps">当前步骤：{0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">不支持的关卡，请更新 MAA 软件版本！\n不支持的关卡，请更新 MAA 软件版本！\n不支持的关卡，请更新 MAA 软件版本！\n\n若提示已是最新版本，请尝试检查开发版或内测版。</system:String>
+    <system:String x:Key="UnsupportedLevel">不支持的关卡，请更新 MAA 软件版本！\n不支持的关卡，请更新 MAA 软件版本！\n不支持的关卡，请更新 MAA 软件版本！\n\n若提示已是最新版本，请尝试检查公测版或内测版。</system:String>
     <system:String x:Key="RecruitTagsDetected">识别结果：</system:String>
     <system:String x:Key="ConnectFailed">连接失败</system:String>
     <system:String x:Key="TryToStartEmulator">正在尝试启动模拟器</system:String>

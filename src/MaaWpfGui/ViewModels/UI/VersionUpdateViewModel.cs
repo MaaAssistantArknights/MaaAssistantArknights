@@ -514,7 +514,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     new Tuple<string, string>("github.com", "agent.imgg.dev"),
                     new Tuple<string, string>("github.com", "maa.r2.imgg.dev"),
-                    new Tuple<string, string>("github.com", "ota.maa.plus"),
+                    // new Tuple<string, string>("github.com", "ota.maa.plus"),
                     null,
                 };
 
@@ -645,7 +645,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             _latestVersion = latestVersion;
-            _latestJson = json["ota_details"] as JObject;
+            _latestJson = (json["details"] ?? json["ota_details"]) as JObject;
             _assetsObject = null;
             foreach (var curAssets in _latestJson["assets"] as JArray)
             {
