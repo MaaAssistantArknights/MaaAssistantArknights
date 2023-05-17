@@ -89,7 +89,7 @@ int main([[maybe_unused]] int argc, char** argv)
     std::string git_cmd;
     if (!std::filesystem::exists(arkbot_res_dir)) {
         git_cmd = "git clone https://github.com/yuanyan3060/ArknightsGameResource.git --depth=1 \"" +
-                  arkbot_res_dir.string() + "\"";
+            arkbot_res_dir.string() + "\"";
     }
     else {
         git_cmd = "git -C \"" + arkbot_res_dir.string() + "\" pull --autostash";
@@ -168,9 +168,9 @@ int main([[maybe_unused]] int argc, char** argv)
     std::string gamedata_tw_exec = "\"" + cur_path.string() + "/gamedata-tw.exe" + "\"";
     if (!std::filesystem::exists(gamedata_tw_exec)) {
         std::string download_zhtw = "curl --ssl-no-revoke "
-                                    "https://raw.githubusercontent.com/MaaAssistantArknights/"
-                                    "MaaRelease/main/MaaAssistantArknights/api/binaries/gamedata-tw.exe  > " +
-                                    gamedata_tw_exec;
+            "https://raw.githubusercontent.com/MaaAssistantArknights/"
+            "MaaRelease/main/MaaAssistantArknights/api/binaries/gamedata-tw.exe  > " +
+            gamedata_tw_exec;
         int dl = system(download_zhtw.c_str());
         if (dl != 0) {
             std::cout << "download zhtw gamedata failed" << std::endl;
@@ -205,7 +205,7 @@ int main([[maybe_unused]] int argc, char** argv)
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update recruitment data for " << out << "------------" << std::endl;
         if (!update_recruitment_data(game_data_dir / in / "gamedata" / "excel",
-                                     resource_dir / "global" / out / "resource" / "recruitment.json", false)) {
+            resource_dir / "global" / out / "resource" / "recruitment.json", false)) {
             std::cerr << "Update recruitment data failed" << std::endl;
             return -1;
         }
@@ -228,8 +228,8 @@ int main([[maybe_unused]] int argc, char** argv)
 
     for (const auto& [in, out] : global_dirs) {
         if (!check_roguelike_replace_for_overseas(game_data_dir / in / "gamedata" / "excel",
-                                                  resource_dir / "global" / out / "resource" / "tasks.json",
-                                                  arkbot_res_dir / "gamedata" / "excel", cur_path / in)) {
+            resource_dir / "global" / out / "resource" / "tasks.json",
+            arkbot_res_dir / "gamedata" / "excel", cur_path / in)) {
             std::cerr << "Update roguelike replace for overseas failed" << std::endl;
             return -1;
         }
@@ -245,7 +245,7 @@ int main([[maybe_unused]] int argc, char** argv)
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update version info for " << out << "------------" << std::endl;
         if (!update_version_info(game_data_dir / in / "gamedata" / "excel",
-                                 resource_dir / "global" / out / "resource")) {
+            resource_dir / "global" / out / "resource")) {
             std::cerr << "Update version info failed" << std::endl;
             return -1;
         }
@@ -338,7 +338,7 @@ bool update_items_data(const std::filesystem::path& input_dir, const std::filesy
     }
     auto output_json_path = output_dir / "item_index.json";
     std::ofstream ofs(output_json_path, std::ios::out);
-    ofs << output_json.format(true);
+    ofs << output_json.format();
     ofs.close();
 
     return true;
@@ -511,7 +511,7 @@ bool update_infrast_data(const std::filesystem::path& input_dir, const std::file
     root["roomType"] = json::array(rooms);
 
     std::ofstream ofs(output_file, std::ios::out);
-    ofs << root.format(true);
+    ofs << root.format();
     ofs.close();
 
     return true;
@@ -537,7 +537,7 @@ bool update_stages_data(const std::filesystem::path& input_dir, const std::files
     auto& stage_json = parse_ret.value();
 
     std::ofstream ofs(output_dir / "stages.json", std::ios::out);
-    ofs << stage_json.format(true);
+    ofs << stage_json.format();
     ofs.close();
 
     return true;
@@ -597,7 +597,7 @@ bool update_roguelike_recruit(const std::filesystem::path& input_dir, const std:
     std::filesystem::path python_file =
         solution_dir / "tools" / "RoguelikeResourceUpdater" / "generate_roguelike_recruit.py";
     python_cmd = "python " + python_file.string() + " --input=\"" + input_dir.string() + "\" --output=\"" +
-                 output_dir.string() + "\"";
+        output_dir.string() + "\"";
     int python_ret = system(python_cmd.c_str());
     if (python_ret != 0) {
         return false;
@@ -628,7 +628,7 @@ bool update_levels_json(const std::filesystem::path& input_file, const std::file
         }
         else {
             std::ofstream ofs(filepath, std::ios::out);
-            ofs << stage_info.format(true);
+            ofs << stage_info.format();
             ofs.close();
         }
 
@@ -640,7 +640,7 @@ bool update_levels_json(const std::filesystem::path& input_file, const std::file
     }
 
     std::ofstream ofs(overview_path, std::ios::out);
-    ofs << overview.format(true);
+    ofs << overview.format();
     ofs.close();
 
     return true;
@@ -710,7 +710,7 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
         if (int direction = range_data["direction"].as_integer(); direction != 1) {
             // 现在都是 1，朝右的，以后不知道会不会改，加个warning，真遇到再说
             std::cout << "!!!Warning!!! range_id: " << id << " 's direction is " << std::to_string(direction)
-                      << std::endl;
+                << std::endl;
         }
         json::array points;
         for (auto& grids : range_data["grids"].as_array()) {
@@ -732,8 +732,8 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
         const std::string& default_range = char_data.get("phases", 0, "rangeId", "0-1");
         char_new_data["rangeId"] = json::array {
             default_range,
-            char_data.get("phases", 1, "rangeId", default_range),
-            char_data.get("phases", 2, "rangeId", default_range),
+                char_data.get("phases", 1, "rangeId", default_range),
+                char_data.get("phases", 2, "rangeId", default_range),
         };
         char_new_data["rarity"] = static_cast<int>(char_data["rarity"]) + 1;
         char_new_data["position"] = char_data["position"];
@@ -771,7 +771,7 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
 
     const auto& out_file = output_dir / "battle_data.json";
     std::ofstream ofs(out_file, std::ios::out);
-    ofs << result.format(true) << std::endl;
+    ofs << result.format() << std::endl;
 
     return true;
 }
@@ -916,7 +916,7 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
     }
 
     std::ofstream ofs(output, std::ios::out);
-    ofs << result.format(true) << std::endl;
+    ofs << result.format() << std::endl;
 
     return true;
 }
@@ -996,27 +996,27 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
 
     auto proc = [&output_dir](json::array& replace_array, const std::unordered_map<std::string, std::string>& base_map,
                               const std::unordered_map<std::string, std::string>& cur_map) {
-        std::unordered_map<std::string, std::string> exists_replace;
-        for (const auto& replace : replace_array) {
-            exists_replace.emplace(replace.as_array()[1], replace.as_array()[0]);
-        }
+                                  std::unordered_map<std::string, std::string> exists_replace;
+                                  for (const auto& replace : replace_array) {
+                                      exists_replace.emplace(replace.as_array()[1], replace.as_array()[0]);
+                                  }
 
-        for (const auto& [id, base_name] : base_map) {
-            // 国服有，但是外服还没有这个关的，跳过
-            if (!cur_map.contains(id)) {
-                continue;
-            }
-            // 国服和外服都有，但是名字一样的，跳过
-            const std::string name = cur_map.at(id);
-            if (base_name == name) {
-                continue;
-            }
-            // 之前手动写的替换，跳过
-            if (exists_replace.contains(base_name)) {
-                continue;
-            }
-            replace_array.emplace_back(json::array { name, base_name });
-        }
+                                  for (const auto& [id, base_name] : base_map) {
+                                      // 国服有，但是外服还没有这个关的，跳过
+                                      if (!cur_map.contains(id)) {
+                                          continue;
+                                      }
+                                      // 国服和外服都有，但是名字一样的，跳过
+                                      const std::string name = cur_map.at(id);
+                                      if (base_name == name) {
+                                          continue;
+                                      }
+                                      // 之前手动写的替换，跳过
+                                      if (exists_replace.contains(base_name)) {
+                                          continue;
+                                      }
+                                      replace_array.emplace_back(json::array { name, base_name });
+                                  }
     };
 
     proc(task_json["BattleStageName"]["ocrReplace"].as_array(), base_stage_names, stage_names);
@@ -1024,7 +1024,7 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
     proc(task_json["RoguelikeTraderShoppingOcr"]["ocrReplace"].as_array(), base_item_names, item_names);
 
     std::ofstream ofs(tasks_path, std::ios::out);
-    ofs << task_json.format(true) << std::endl;
+    ofs << task_json.format() << std::endl;
 
     return true;
 }
@@ -1057,7 +1057,7 @@ bool update_version_info(const std::filesystem::path& input_dir, const std::file
     result["gacha"]["pool"] = pool;
 
     std::ofstream ofs(output_dir / "version.json", std::ios::out);
-    ofs << result.format(true) << std::endl;
+    ofs << result.format() << std::endl;
 
     return true;
 }
