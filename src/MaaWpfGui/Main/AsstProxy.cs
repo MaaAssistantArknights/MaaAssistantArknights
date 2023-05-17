@@ -1125,7 +1125,6 @@ namespace MaaWpfGui.Main
                 return false;
             }
 
-            bool hyperV = Instances.SettingsViewModel.TryToSetBlueStacksHyperVAddress();
             if (!Instances.SettingsViewModel.AutoDetectConnection
                 && connected
                 && connectedAdb == Instances.SettingsViewModel.AdbPath
@@ -1134,10 +1133,17 @@ namespace MaaWpfGui.Main
                 return true;
             }
 
-            if (!hyperV && Instances.SettingsViewModel.AutoDetectConnection &&
-                !Instances.SettingsViewModel.DetectAdbConfig(ref error))
+            if (Instances.SettingsViewModel.AutoDetectConnection)
             {
-                return false;
+                string bsHvAddress = Instances.SettingsViewModel.TryToSetBlueStacksHyperVAddress();
+                if (bsHvAddress != null)
+                {
+                    Instances.SettingsViewModel.ConnectAddress = bsHvAddress;
+                }
+                else if (!Instances.SettingsViewModel.DetectAdbConfig(ref error))
+                {
+                    return false;
+                }
             }
 
             bool ret = AsstConnect(_handle, Instances.SettingsViewModel.AdbPath, Instances.SettingsViewModel.ConnectAddress, Instances.SettingsViewModel.ConnectConfig);
