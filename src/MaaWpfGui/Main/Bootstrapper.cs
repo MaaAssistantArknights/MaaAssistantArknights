@@ -39,27 +39,30 @@ namespace MaaWpfGui.Main
     public class Bootstrapper : Bootstrapper<RootViewModel>
     {
         private static ILogger _logger = Logger.None;
-        //private static Mutex _mutex;
+
+        // private static Mutex _mutex;
 
         /// <inheritdoc/>
         /// <remarks>初始化些啥自己加。</remarks>
         protected override void OnStart()
         {
+            /*
             // 设置互斥量的名称
-            //string mutexName = "MAA_" + Directory.GetCurrentDirectory().Replace("\\", "_").Replace(":", string.Empty);
-            //_mutex = new Mutex(true, mutexName);
+            string mutexName = "MAA_" + Directory.GetCurrentDirectory().Replace("\\", "_").Replace(":", string.Empty);
+            _mutex = new Mutex(true, mutexName);
 
-            //if (!_mutex.WaitOne(TimeSpan.Zero, true))
-            //{
-            //    // 这里还没加载语言包，就不 GetString 了
-            //    MessageBox.Show("同一路径下只能启动一个实例！\n\n" +
-            //                    "同一路徑下只能啟動一個實例！\n\n" +
-            //                    "Only one instance can be launched under the same path!\n\n" +
-            //                    "同じパスの下で1つのインスタンスしか起動できません！\n\n" +
-            //                    "동일한 경로에는 하나의 인스턴스만 실행할 수 있습니다!");
-            //    Application.Current.Shutdown();
-            //    return;
-            //}
+            if (!_mutex.WaitOne(TimeSpan.Zero, true))
+            {
+                // 这里还没加载语言包，就不 GetString 了
+                MessageBox.Show("同一路径下只能启动一个实例！\n\n" +
+                                "同一路徑下只能啟動一個實例！\n\n" +
+                                "Only one instance can be launched under the same path!\n\n" +
+                                "同じパスの下で1つのインスタンスしか起動できません！\n\n" +
+                                "동일한 경로에는 하나의 인스턴스만 실행할 수 있습니다!");
+                Application.Current.Shutdown();
+                return;
+            }
+            */
 
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
             if (Directory.Exists("debug") is false)
@@ -176,9 +179,11 @@ namespace MaaWpfGui.Main
         /// <remarks>退出时执行啥自己加。</remarks>
         protected override void OnExit(ExitEventArgs e)
         {
-            //// 释放互斥量
-            //_mutex?.ReleaseMutex();
-            //_mutex?.Dispose();
+            /*
+             // 释放互斥量
+            _mutex?.ReleaseMutex();
+            _mutex?.Dispose();
+            */
 
             // MessageBox.Show("O(∩_∩)O 拜拜");
             Instances.SettingsViewModel.Sober();
@@ -202,11 +207,13 @@ namespace MaaWpfGui.Main
         public static void RestartApplication()
         {
             //// 释放互斥量
-            //_mutex?.ReleaseMutex();
-            //_mutex?.Dispose();
+            /*
+            _mutex?.ReleaseMutex();
+            _mutex?.Dispose();
 
-            //// 避免 OnExit 时再次释放
-            //_mutex = null;
+            // 避免 OnExit 时再次释放
+            _mutex = null;
+            */
 
             System.Windows.Forms.Application.Restart();
         }
