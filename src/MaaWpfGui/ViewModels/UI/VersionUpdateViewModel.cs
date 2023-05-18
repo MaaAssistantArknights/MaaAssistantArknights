@@ -223,6 +223,28 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
+            static void DeleteFileWithBackup(string filePath)
+            {
+                try
+                {
+                    File.Delete(filePath);
+                }
+                catch (Exception)
+                {
+                    int index = 0;
+                    string currentDate = DateTime.Now.ToString("yyyyMMddHHmm");
+                    string backupFilePath = $"{filePath}.{currentDate}.{index}";
+
+                    while (File.Exists(backupFilePath))
+                    {
+                        index++;
+                        backupFilePath = $"{filePath}.{currentDate}.{index}";
+                    }
+
+                    File.Move(filePath, backupFilePath);
+                }
+            }
+
             string removeListFile = Path.Combine(extractDir, "removelist.txt");
             if (File.Exists(removeListFile))
             {
@@ -235,7 +257,7 @@ namespace MaaWpfGui.ViewModels.UI
                         string moveTo = Path.Combine(oldFileDir, file);
                         if (File.Exists(moveTo))
                         {
-                            File.Delete(moveTo);
+                            DeleteFileWithBackup(moveTo);
                         }
                         else
                         {
@@ -258,7 +280,7 @@ namespace MaaWpfGui.ViewModels.UI
             foreach (var file in Directory.GetFiles(extractDir, "*", SearchOption.AllDirectories))
             {
                 var fileName = Path.GetFileName(file);
-                if (fileName == "removelist.txt" || fileName == "filelist.txt")
+                if (fileName == "removelist.txt")
                 {
                     continue;
                 }
@@ -269,25 +291,13 @@ namespace MaaWpfGui.ViewModels.UI
                     string moveTo = file.Replace(extractDir, oldFileDir);
                     if (File.Exists(moveTo))
                     {
-                        File.Delete(moveTo);
+                        DeleteFileWithBackup(moveTo);
                     }
 
                     File.Move(curFileName, moveTo);
                 }
 
                 File.Move(file, curFileName);
-            }
-
-            foreach (var oldFile in Directory.GetFiles(curDir, "*.old"))
-            {
-                try
-                {
-                    File.Delete(oldFile);
-                }
-                catch (Exception)
-                {
-                    File.Move(oldFile, oldFile + ".old");
-                }
             }
 
             // 操作完了，把解压的文件删了
