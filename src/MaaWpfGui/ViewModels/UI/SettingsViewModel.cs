@@ -2323,16 +2323,6 @@ namespace MaaWpfGui.ViewModels.UI
 
         public async void ReplaceADB()
         {
-            if (!File.Exists(AdbPath))
-            {
-                Execute.OnUIThread(() =>
-                {
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("ReplaceADBNotExists"));
-                    toast.Show();
-                });
-                return;
-            }
-
             if (!File.Exists(GoogleAdbFilename))
             {
                 var downloadResult = await Instances.HttpService.DownloadFileAsync(new Uri(GoogleAdbDownloadUrl), GoogleAdbFilename);
@@ -2364,28 +2354,37 @@ namespace MaaWpfGui.ViewModels.UI
             ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
 
             bool replaced = false;
-            try
+            if (File.Exists(AdbPath))
             {
-                // ErrorView.xaml.cs里有个报错的逻辑，这里如果改的话那边也要对应改一下
-                foreach (var process in Process.GetProcessesByName(Path.GetFileName(AdbPath)))
+                try
                 {
-                    process.Kill();
-                }
+                    foreach (var process in Process.GetProcessesByName(Path.GetFileName(AdbPath)))
+                    {
+                        process.Kill();
+                    }
 
-                File.Copy(AdbPath, AdbPath + ".bak", true);
-                File.Copy(NewAdb, AdbPath, true);
-                replaced = true;
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex.ToString());
-                replaced = false;
+                    string adbBack = AdbPath + ".bak";
+                    if (!File.Exists(adbBack))
+                    {
+                        File.Copy(AdbPath, adbBack, true);
+                    }
+
+                    File.Copy(NewAdb, AdbPath, true);
+                    replaced = true;
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex.ToString());
+                    replaced = false;
+                }
             }
 
             if (replaced)
             {
                 AdbReplaced = true;
+
                 ConfigurationHelper.SetValue(ConfigurationKeys.AdbReplaced, true.ToString());
+
                 await Execute.OnUIThreadAsync(() =>
                 {
                     using var toast = new ToastNotification(LocalizationHelper.GetString("SuccessfullyReplacedADB"));
