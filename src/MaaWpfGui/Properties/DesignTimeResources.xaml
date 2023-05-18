@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:hc="https://handyorg.github.io/handycontrol">
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/MAA;component/Res/Localizations/zh-cn.xaml" />
         <hc:IntellisenseResources Source="/HandyControl;Component/DesignTime/DesignTimeResources.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
