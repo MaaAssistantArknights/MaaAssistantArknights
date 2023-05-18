@@ -655,23 +655,42 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             _latestVersion = latestVersion;
-            _latestJson = (json["details"] ?? json["ota_details"]) as JObject;
+            _latestJson = json["details"] as JObject;
             _assetsObject = null;
+
+            JObject full_package = null;
+
+            var cur_version_lower = _curVersion.ToLower();
+            var latest_version_lower = _latestVersion.ToLower();
             foreach (var curAssets in _latestJson["assets"] as JArray)
             {
                 string name = curAssets["name"].ToString().ToLower();
-                if (name.Contains("ota") && name.Contains("win") && name.Contains($"{_curVersion}_{_latestVersion}"))
+
+                if (IsArm ^ name.Contains("arm"))
+                {
+                    continue;
+                }
+
+                if (!name.Contains("win"))
+                {
+                    continue;
+                }
+
+                if (name.Contains($"maa-{latest_version_lower}-"))
+                {
+                    full_package = curAssets as JObject;
+                }
+
+                if (name.Contains("ota") && name.Contains($"{cur_version_lower}_{latest_version_lower}"))
                 {
                     _assetsObject = curAssets as JObject;
-                    if (IsArm ^ name.Contains("arm"))
-                    {
-                        continue; // 兼容旧版本，以前 ota 不区分指令集架构
-                    }
-                    else
-                    {
-                        break;
-                    }
+                    break;
                 }
+            }
+
+            if (_assetsObject == null && full_package != null)
+            {
+                _assetsObject = full_package;
             }
 
             return CheckUpdateRetT.OK;
@@ -734,7 +753,6 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 _latestVersion = _latestJson["tag_name"].ToString();
-                var releaseAssets = _latestJson["assets"] as JArray;
 
                 if (Instances.SettingsViewModel.UpdateNightly)
                 {
@@ -773,6 +791,7 @@ namespace MaaWpfGui.ViewModels.UI
                     _latestJson = JsonConvert.DeserializeObject(infoResponse) as JObject;
                 }
 
+                var releaseAssets = _latestJson["assets"] as JArray;
                 _assetsObject = null;
                 foreach (var curAssets in releaseAssets)
                 {
