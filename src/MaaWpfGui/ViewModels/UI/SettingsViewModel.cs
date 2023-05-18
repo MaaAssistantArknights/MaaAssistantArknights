@@ -2354,7 +2354,7 @@ namespace MaaWpfGui.ViewModels.UI
             ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
 
             bool replaced = false;
-            if (File.Exists(AdbPath))
+            if (AdbPath != NewAdb && File.Exists(AdbPath))
             {
                 try
                 {
