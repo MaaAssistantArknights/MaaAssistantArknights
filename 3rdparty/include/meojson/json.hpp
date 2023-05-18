@@ -1371,7 +1371,7 @@ MEOJSON_INLINE bool basic_array<string_t>::erase(size_t pos)
 
 template <typename string_t>
 template <typename... args_t>
-decltype(auto) basic_array<string_t>::emplace_back(args_t&&... args)
+MEOJSON_INLINE decltype(auto) basic_array<string_t>::emplace_back(args_t&&... args)
 {
     static_assert(std::is_constructible_v<value_type, args_t...>,
                   "Parameter can't be used to construct a raw_array::value_type");
@@ -1380,7 +1380,7 @@ decltype(auto) basic_array<string_t>::emplace_back(args_t&&... args)
 
 template <typename string_t>
 template <typename... args_t>
-decltype(auto) basic_array<string_t>::push_back(args_t&&... args)
+MEOJSON_INLINE decltype(auto) basic_array<string_t>::push_back(args_t&&... args)
 {
     return emplace_back(std::forward<args_t>(args)...);
 }
@@ -1694,7 +1694,7 @@ MEOJSON_INLINE bool basic_object<string_t>::erase(const string_t& key)
 
 template <typename string_t>
 template <typename... args_t>
-decltype(auto) basic_object<string_t>::emplace(args_t&&... args)
+MEOJSON_INLINE decltype(auto) basic_object<string_t>::emplace(args_t&&... args)
 {
     static_assert(std::is_constructible_v<value_type, args_t...>,
                   "Parameter can't be used to construct a raw_object::value_type");
@@ -1703,7 +1703,7 @@ decltype(auto) basic_object<string_t>::emplace(args_t&&... args)
 
 template <typename string_t>
 template <typename... args_t>
-decltype(auto) basic_object<string_t>::insert(args_t&&... args)
+MEOJSON_INLINE decltype(auto) basic_object<string_t>::insert(args_t&&... args)
 {
     return emplace(std::forward<args_t>(args)...);
 }
@@ -2378,77 +2378,77 @@ MEOJSON_INLINE auto open(const path_t& filepath, bool check_bom)
 
 namespace literals
 {
-    value operator""_json(const char* str, size_t len)
+    MEOJSON_INLINE value operator""_json(const char* str, size_t len)
     {
         return operator""_jvalue(str, len);
     }
-    wvalue operator""_json(const wchar_t* str, size_t len)
+    MEOJSON_INLINE wvalue operator""_json(const wchar_t* str, size_t len)
     {
         return operator""_jvalue(str, len);
     }
-    u16value operator""_json(const char16_t* str, size_t len)
+    MEOJSON_INLINE u16value operator""_json(const char16_t* str, size_t len)
     {
         return operator""_jvalue(str, len);
     }
-    u32value operator""_json(const char32_t* str, size_t len)
+    MEOJSON_INLINE u32value operator""_json(const char32_t* str, size_t len)
     {
         return operator""_jvalue(str, len);
     }
 
-    value operator""_jvalue(const char* str, size_t len)
+    MEOJSON_INLINE value operator""_jvalue(const char* str, size_t len)
     {
         return parse(std::string_view(str, len)).value_or(value());
     }
-    wvalue operator""_jvalue(const wchar_t* str, size_t len)
+    MEOJSON_INLINE wvalue operator""_jvalue(const wchar_t* str, size_t len)
     {
         return parse(std::wstring_view(str, len)).value_or(wvalue());
     }
-    u16value operator""_jvalue(const char16_t* str, size_t len)
+    MEOJSON_INLINE u16value operator""_jvalue(const char16_t* str, size_t len)
     {
         return parse(std::u16string_view(str, len)).value_or(u16value());
     }
-    u32value operator""_jvalue(const char32_t* str, size_t len)
+    MEOJSON_INLINE u32value operator""_jvalue(const char32_t* str, size_t len)
     {
         return parse(std::u32string_view(str, len)).value_or(u32value());
     }
 
-    array operator""_jarray(const char* str, size_t len)
+    MEOJSON_INLINE array operator""_jarray(const char* str, size_t len)
     {
         auto val = parse(std::string_view(str, len)).value_or(value());
         return val.is_array() ? val.as_array() : array();
     }
-    warray operator""_jarray(const wchar_t* str, size_t len)
+    MEOJSON_INLINE warray operator""_jarray(const wchar_t* str, size_t len)
     {
         auto val = parse(std::wstring_view(str, len)).value_or(wvalue());
         return val.is_array() ? val.as_array() : warray();
     }
-    u16array operator""_jarray(const char16_t* str, size_t len)
+    MEOJSON_INLINE u16array operator""_jarray(const char16_t* str, size_t len)
     {
         auto val = parse(std::u16string_view(str, len)).value_or(u16value());
         return val.is_array() ? val.as_array() : u16array();
     }
-    u32array operator""_jarray(const char32_t* str, size_t len)
+    MEOJSON_INLINE u32array operator""_jarray(const char32_t* str, size_t len)
     {
         auto val = parse(std::u32string_view(str, len)).value_or(u32value());
         return val.is_array() ? val.as_array() : u32array();
     }
 
-    object operator""_jobject(const char* str, size_t len)
+    MEOJSON_INLINE object operator""_jobject(const char* str, size_t len)
     {
         auto val = parse(std::string_view(str, len)).value_or(value());
         return val.is_object() ? val.as_object() : object();
     }
-    wobject operator""_jobject(const wchar_t* str, size_t len)
+    MEOJSON_INLINE wobject operator""_jobject(const wchar_t* str, size_t len)
     {
         auto val = parse(std::wstring_view(str, len)).value_or(wvalue());
         return val.is_object() ? val.as_object() : wobject();
     }
-    u16object operator""_jobject(const char16_t* str, size_t len)
+    MEOJSON_INLINE u16object operator""_jobject(const char16_t* str, size_t len)
     {
         auto val = parse(std::u16string_view(str, len)).value_or(u16value());
         return val.is_object() ? val.as_object() : u16object();
     }
-    u32object operator""_jobject(const char32_t* str, size_t len)
+    MEOJSON_INLINE u32object operator""_jobject(const char32_t* str, size_t len)
     {
         auto val = parse(std::u32string_view(str, len)).value_or(u32value());
         return val.is_object() ? val.as_object() : u32object();
