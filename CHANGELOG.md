@@ -13,9 +13,9 @@
 
 ### 修复
 
+- 修复关卡 `消息传递`、`窒息`、`“命运的宠儿”` 识别错误 (#4781) @cenfusheng @MistEO
 - 修正 Android 12 上无法结束游戏进程的问题 (#4685) @AnnAngela
 - 修复碎石后加载时间过长导致任务提前中止的问题 @zzyyyl
-- 修复关卡 `消息传递`、`窒息` 识别错误 (#4781) @cenfusheng
 - 解决抄作业guard和supporter字段不识别的问题 (#4735) @AnnoyingFlowers
 - XAML Intellisense unable to load resources stored in ResourceDictionary @moomiji
 - avatar saved at wrong path in set_avatar() (#4724) @lengyanyu258
