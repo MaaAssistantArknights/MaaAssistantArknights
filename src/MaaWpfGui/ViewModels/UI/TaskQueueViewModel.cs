@@ -1111,7 +1111,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
                 else
                 {
-                    AsstProxy.AsstLog($"Error: `{consolePath}` not found, try to kill eumlator by window.");
+                    _logger.Error($"Error: `{consolePath}` not found, try to kill eumlator by window.");
                     return KillEumlatorbyWindow();
                 }
             }
@@ -1161,7 +1161,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
                 else
                 {
-                    AsstProxy.AsstLog($"Error: `{consolePath}` not found, try to kill eumlator by window.");
+                    _logger.Information($"Error: `{consolePath}` not found, try to kill eumlator by window.");
                     return KillEumlatorbyWindow();
                 }
             }
@@ -1209,7 +1209,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
                 else
                 {
-                    AsstProxy.AsstLog($"Error: `{consolePath}` not found, try to kill eumlator by window.");
+                    _logger.Information($"Error: `{consolePath}` not found, try to kill eumlator by window.");
                     return KillEumlatorbyWindow();
                 }
             }
@@ -1250,7 +1250,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
                 else
                 {
-                    AsstProxy.AsstLog($"Error: `{consolePath}` not found, try to kill eumlator by window.");
+                    _logger.Information($"Error: `{consolePath}` not found, try to kill eumlator by window.");
                     return KillEumlatorbyWindow();
                 }
             }
@@ -1273,12 +1273,12 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (File.Exists(consolePath))
                 {
-                    AsstProxy.AsstLog($"Info: `{consolePath}` has been found. This may be the BlueStacks China emulator, try to kill the emulator by window.");
+                    _logger.Information($"Info: `{consolePath}` has been found. This may be the BlueStacks China emulator, try to kill the emulator by window.");
                     return KillEumlatorbyWindow();
                 }
                 else
                 {
-                    AsstProxy.AsstLog($"Info: `{consolePath}` not found. This may be the BlueStacks International emulator, try to kill the emulator by the port.");
+                    _logger.Information($"Info: `{consolePath}` not found. This may be the BlueStacks International emulator, try to kill the emulator by the port.");
                     if (KillEmulator())
                     {
                         return true;
@@ -1287,13 +1287,13 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         try
                         {
-                            AsstProxy.AsstLog($"Info: Failed to kill emulator by the port, try to kill emulator process with PID.");
+                            _logger.Information($"Info: Failed to kill emulator by the port, try to kill emulator process with PID.");
                             processes[0].Kill();
                             return processes[0].WaitForExit(20000);
                         }
                         catch (Exception ex)
                         {
-                            AsstProxy.AsstLog($"Error: Failed to kill emulator process with PID {processes[0].Id}. Exception: {ex.Message}");
+                            _logger.Information($"Error: Failed to kill emulator process with PID {processes[0].Id}. Exception: {ex.Message}");
                         }
                     }
                 }
