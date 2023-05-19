@@ -1105,7 +1105,8 @@ namespace MaaWpfGui.ViewModels.UI
                         CreateNoWindow = true,
                         UseShellExecute = false,
                     };
-                    Process.Start(startInfo);
+                    var process = Process.Start(startInfo);
+                    process.WaitForExit(5000);
 
                     return KillEmulator();
                 }
@@ -1155,7 +1156,8 @@ namespace MaaWpfGui.ViewModels.UI
                         CreateNoWindow = true,
                         UseShellExecute = false,
                     };
-                    Process.Start(startInfo);
+                    var process = Process.Start(startInfo);
+                    process.WaitForExit(5000);
 
                     return KillEmulator();
                 }
@@ -1203,7 +1205,8 @@ namespace MaaWpfGui.ViewModels.UI
                         CreateNoWindow = true,
                         UseShellExecute = false,
                     };
-                    Process.Start(startInfo);
+                    var process = Process.Start(startInfo);
+                    process.WaitForExit(5000);
 
                     return KillEmulator();
                 }
@@ -1244,7 +1247,8 @@ namespace MaaWpfGui.ViewModels.UI
                         CreateNoWindow = true,
                         UseShellExecute = false,
                     };
-                    Process.Start(startInfo);
+                    var process = Process.Start(startInfo);
+                    process.WaitForExit(5000);
 
                     return KillEmulator();
                 }
