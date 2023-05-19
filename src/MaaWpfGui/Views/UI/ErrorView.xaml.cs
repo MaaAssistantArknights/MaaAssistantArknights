@@ -79,7 +79,10 @@ namespace MaaWpfGui.Views.UI
 
         private string GetSolution(string error, string details)
         {
-            if (details.Contains("AsstGetVersion()") || details.Contains("DllNotFoundException") || details.Contains("lambda_method"))
+            if (details.Contains("AsstGetVersion()") ||
+                details.Contains("DllNotFoundException") ||
+                details.Contains("lambda_method") ||
+                details.Contains("HandyControl"))
             {
                 return LocalizationHelper.GetString("ErrorSolutionCrash");
             }
