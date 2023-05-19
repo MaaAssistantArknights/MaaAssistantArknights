@@ -750,6 +750,7 @@ namespace MaaWpfGui.ViewModels.UI
                 UpdateWindowTitle(); /* 每次修改客户端时更新WindowTitle */
                 Instances.TaskQueueViewModel.UpdateStageList(true);
                 Instances.TaskQueueViewModel.UpdateDatePrompt();
+                Instances.AsstProxy.LoadResource();
             }
         }
 
