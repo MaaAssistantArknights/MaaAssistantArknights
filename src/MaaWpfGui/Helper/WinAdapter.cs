@@ -16,6 +16,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using MaaWpfGui.Main;
+using MaaWpfGui.ViewModels.UI;
+using Serilog;
 
 namespace MaaWpfGui.Helper
 {
@@ -24,6 +26,8 @@ namespace MaaWpfGui.Helper
     /// </summary>
     public class WinAdapter
     {
+        private static readonly ILogger _logger = Log.ForContext<TaskQueueViewModel>();
+
         private static readonly Dictionary<string, string> _emulatorIdDict = new Dictionary<string, string>
         {
             { "HD-Player",  "BlueStacks" },
@@ -129,7 +133,7 @@ namespace MaaWpfGui.Helper
                 process.StartInfo.RedirectStandardOutput = true;
                 process.Start();
                 var output = process.StandardOutput.ReadToEnd();
-                AsstProxy.AsstLog(adbPath + " devices | output:\n" + output);
+                _logger.Information(adbPath + " devices | output:\n" + output);
                 var outLines = output.Split(new[] { '\r', '\n' });
                 foreach (var line in outLines)
                 {
