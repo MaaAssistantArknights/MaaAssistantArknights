@@ -1,3 +1,27 @@
+## v4.17.1
+
+### Breaking changes
+
+- **若出现 HandyControl 相关报错，请重新安装 [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-offline-installer) 或参考 [常见问题](https://maa.plus/docs/1.2-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98.html#%E8%BD%AF%E4%BB%B6%E6%97%A0%E6%B3%95%E8%BF%90%E8%A1%8C-%E9%97%AA%E9%80%80-%E6%8A%A5%E9%94%99) 解决**
+- **若配置过 Hyper-V 蓝叠的 conf 地址检测但无法连接模拟器，请勾选 `自动检测` + `每次检测`**
+
+### 改进
+
+- 优化连接前的资源加载逻辑 @MistEO
+- HandyControl 相关报错添加提示 @MistEO
+- 增量包找不到时则下载全量包 @MistEO
+- 繁中界面的第二语言使用简中 @moomiji
+
+### 修复
+
+- 修复 hyperv 蓝叠每次都重新连接的问题 @MistEO
+- 修复 `麒麟X夜刀` 识别错误 @MistEO
+
+### 其他
+
+- 调整设计时语言资源的引用方式 @moomiji
+- 更新文档 @MistEO
+
 ## v4.17.0
 
 ### 改进
