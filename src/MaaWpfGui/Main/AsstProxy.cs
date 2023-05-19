@@ -1119,12 +1119,6 @@ namespace MaaWpfGui.Main
         /// <returns>是否成功。</returns>
         public bool AsstConnect(ref string error)
         {
-            if (!LoadResource())
-            {
-                error = "Load Resource Failed";
-                return false;
-            }
-
             if (Instances.SettingsViewModel.AutoDetectConnection)
             {
                 string bsHvAddress = Instances.SettingsViewModel.TryToSetBlueStacksHyperVAddress();
@@ -1142,6 +1136,12 @@ namespace MaaWpfGui.Main
                 connectedAddress == Instances.SettingsViewModel.ConnectAddress)
             {
                 return true;
+            }
+
+            if (!LoadResource())
+            {
+                error = "Load Resource Failed";
+                return false;
             }
 
             bool ret = AsstConnect(_handle, Instances.SettingsViewModel.AdbPath, Instances.SettingsViewModel.ConnectAddress, Instances.SettingsViewModel.ConnectConfig);
