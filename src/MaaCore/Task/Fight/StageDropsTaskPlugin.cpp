@@ -77,6 +77,9 @@ bool asst::StageDropsTaskPlugin::_run()
     set_start_button_delay();
 
     if (!recognize_drops()) {
+        if (!check_stage_valid()) {
+            stop_task();
+        }
         return false;
     }
     if (need_exit()) {
@@ -105,19 +108,21 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
     }
 
     StageDropsImageAnalyzer analyzer(ctrler()->get_image());
-    if (!analyzer.analyze()) {
-        auto info = basic_info();
-        info["subtask"] = "RecognizeDrops";
-        info["why"] = "掉落识别错误";
-        callback(AsstMsg::SubTaskError, info);
-        return false;
-    }
+    bool ret = analyzer.analyze();
 
     auto&& [code, difficulty] = analyzer.get_stage_key();
     m_stage_code = std::move(code);
     m_stage_difficulty = difficulty;
     m_stars = analyzer.get_stars();
     m_cur_drops = analyzer.get_drops();
+
+    if (!ret) {
+        auto info = basic_info();
+        info["subtask"] = "RecognizeDrops";
+        info["why"] = "掉落识别错误";
+        callback(AsstMsg::SubTaskError, info);
+        return false;
+    }
 
     if (m_is_annihilation) {
         return true;
