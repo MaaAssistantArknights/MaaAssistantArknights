@@ -171,18 +171,20 @@ namespace MaaWpfGui.ViewModels.UI
                 return true;
             }
 
+            if (!Instances.RecognizerViewModel.GachaDone)
+            {
+                // no need to confirm if Gacha running
+                return true;
+            }
+
             var window = Instances.MainWindowManager.GetWindowIfVisible();
             var result = MessageBoxHelper.ShowNative(window, LocalizationHelper.GetString("ConfirmExitText"), LocalizationHelper.GetString("ConfirmExitTitle"), "MAA", MessageBoxButton.YesNo, MessageBoxImage.Information, MessageBoxResult.No);
             return result == MessageBoxResult.Yes;
         }
 
-#pragma warning disable CS0672 // Member overrides obsolete member
-
-        // WHY OBSOLETED?
-        protected override bool CanClose()
-#pragma warning restore CS0672 // Member overrides obsolete member
+        public override Task<bool> CanCloseAsync()
         {
-            return ConfirmExit();
+            return Task.FromResult(this.ConfirmExit());
         }
 
         private void InitTimer()
