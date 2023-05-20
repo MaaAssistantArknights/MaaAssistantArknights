@@ -32,6 +32,7 @@ jobs:
         run: |
           .\tools\ResourceUpdater\x64\Release\ResourceUpdater.exe
       - name: Add files to git
+        id: add_files
         run: |
           git status
           
@@ -46,12 +47,14 @@ jobs:
             $commit_msg = "chore: Auto Update Game Resources - $(Get-Date -Format 'yyyy-MM-dd')"
           }
           git commit -m "$commit_msg"
-          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          if ($LASTEXITCODE) {
+            echo "no_commits=1" >> $env:GITHUB_OUTPUT
+          }
 
           git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
 
       - name: Cancelling
-        if: ${{ failure() }}
+        if: ${{ steps.add_files.outputs.no_commits }} == 1
         uses: andymckay/cancel-action@0.3
 
       - name: Push changes # push the output folder to your repo
