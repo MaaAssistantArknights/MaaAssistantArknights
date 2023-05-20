@@ -557,6 +557,7 @@ The video resolution is required to be 16:9, and there are no interference facto
     <!--  AsstProxy  -->
 
     <!--  TrayIcon  -->
+    <system:String x:Key="ForceShow">Force display of MAA</system:String>
     <system:String x:Key="Exit">Exit</system:String>
     <!--  TrayIcon  -->
 

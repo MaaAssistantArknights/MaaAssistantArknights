@@ -501,6 +501,7 @@
     <!--  AsstProxy  -->
 
     <!--  TrayIcon  -->
+    <system:String x:Key="ForceShow">MAA 강제 표시</system:String>
     <system:String x:Key="Exit">종료</system:String>
     <!--  TrayIcon  -->
 

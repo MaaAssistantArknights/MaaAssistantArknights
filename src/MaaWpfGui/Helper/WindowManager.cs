@@ -141,6 +141,12 @@ namespace MaaWpfGui.Helper
             return false;
         }
 
+        public bool ForceShow(Window window)
+        {
+            WindowPlacement wp = default;
+            return SetWindowPlacement(window, ref wp);
+        }
+
         private bool SetWindowPlacement(WindowHandle window, ref WindowPlacement wp)
         {
             try
