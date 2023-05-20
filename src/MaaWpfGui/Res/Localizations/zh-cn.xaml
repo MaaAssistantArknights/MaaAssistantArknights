@@ -578,6 +578,7 @@
     <!--  AsstProxy  -->
 
     <!--  TrayIcon  -->
+    <system:String x:Key="ForceShow">强制显示MAA</system:String>
     <system:String x:Key="Exit">退出</system:String>
     <!--  TrayIcon  -->
 

@@ -460,6 +460,7 @@
     <!--  AsstProxy  -->
 
     <!--  TrayIcon  -->
+    <system:String x:Key="ForceShow">強制顯示MAA</system:String>
     <system:String x:Key="Exit">退出</system:String>
     <!--  TrayIcon  -->
 
