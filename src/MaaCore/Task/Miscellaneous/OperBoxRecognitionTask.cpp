@@ -2,6 +2,8 @@
 
 #include "Utils/Ranges.hpp"
 
+#include <future>
+
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
@@ -9,7 +11,6 @@
 #include "Utils/Logger.hpp"
 #include "Vision/Miscellaneous/OperBoxImageAnalyzer.h"
 #include "Vision/TemplDetOCRer.h"
-#include <future>
 
 bool asst::OperBoxRecognitionTask::_run()
 {
@@ -22,8 +23,8 @@ bool asst::OperBoxRecognitionTask::_run()
 bool asst::OperBoxRecognitionTask::swipe_and_analyze()
 {
     LogTraceFunction;
-    std::string current_page_last_oper_name;
-    std::string current_page_first_oper_name;
+    std::string pre_pre_last_oper;
+    std::string pre_last_oper;
     m_own_opers.clear();
 
     while (!need_exit()) {
@@ -35,18 +36,18 @@ bool asst::OperBoxRecognitionTask::swipe_and_analyze()
             break;
         }
         const auto& opers_result = analyzer.get_result();
-        if (opers_result.back().name == current_page_last_oper_name &&
-            opers_result.front().name == current_page_first_oper_name) {
+
+        const std::string& last_oper = opers_result.back().name;
+        if (last_oper == pre_last_oper && pre_last_oper == pre_pre_last_oper) {
             break;
         }
-        else {
-            current_page_first_oper_name = opers_result.front().name;
-            current_page_last_oper_name = opers_result.back().name;
-            for (const auto& box_info : opers_result) {
-                m_own_opers.emplace(box_info.name, box_info);
-            }
-            callback_analyze_result(false);
+        pre_pre_last_oper = pre_last_oper;
+        pre_last_oper = last_oper;
+
+        for (const auto& box_info : opers_result) {
+            m_own_opers.emplace(box_info.name, box_info);
         }
+        callback_analyze_result(false);
         future.wait();
     }
     return !m_own_opers.empty();

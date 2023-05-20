@@ -20,7 +20,9 @@ bool asst::OperBoxImageAnalyzer::analyze()
 
     bool ret = analyzer_oper_box();
 
-    save_img(utils::path("debug") / utils::path("oper"));
+    if (m_result.size() != 16 && m_result.size() != 14) { // 完整的一页是14或16个，有可能是识别错了
+        save_img(utils::path("debug") / utils::path("oper"));
+    }
 
     return ret;
 }
