@@ -1039,16 +1039,22 @@ bool update_version_info(const std::filesystem::path& input_dir, const std::file
     }
     auto& gacha_json = *gacha_json_opt;
 
+    std::unordered_map<std::string, size_t> pool_count;
+    for (auto& gacha_info : gacha_json["gachaPoolClient"].as_array()) {
+        pool_count[gacha_info["gachaPoolName"].as_string()]++;
+    }
+
     uint64_t time = 0;
     std::string pool;
     for (auto& gacha_info : gacha_json["gachaPoolClient"].as_array()) {
-        if (gacha_info["gachaRuleType"].as_string() != "LIMITED") {
+        const auto& pool_name = gacha_info["gachaPoolName"].as_string();
+        if (pool_count[pool_name] > 5) { // 把常驻池过滤掉
             continue;
         }
         auto cur_time = gacha_info["openTime"].as_unsigned_long_long();
         if (time < cur_time) {
             time = cur_time;
-            pool = gacha_info["gachaPoolName"].as_string();
+            pool = pool_name;
         }
     }
 
