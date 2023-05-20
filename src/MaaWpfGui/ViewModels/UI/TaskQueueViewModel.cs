@@ -678,80 +678,6 @@ namespace MaaWpfGui.ViewModels.UI
 
             await Task.Run(() => Instances.SettingsViewModel.RunScript("StartsWithScript"));
 
-            bool ret = true;
-
-            // 直接遍历TaskItemViewModels里面的内容，是排序后的
-            int count = 0;
-            foreach (var item in TaskItemViewModels)
-            {
-                if (item.IsChecked == false)
-                {
-                    continue;
-                }
-
-                ++count;
-                if (item.OriginalName == "Base")
-                {
-                    ret &= appendInfrast();
-                }
-                else if (item.OriginalName == "WakeUp")
-                {
-                    ret &= appendStart();
-                }
-                else if (item.OriginalName == "Combat")
-                {
-                    ret &= appendFight();
-                }
-                else if (item.OriginalName == "Recruiting")
-                {
-                    ret &= appendRecruit();
-                }
-                else if (item.OriginalName == "Mall")
-                {
-                    ret &= appendMall();
-                }
-                else if (item.OriginalName == "Mission")
-                {
-                    ret &= Instances.AsstProxy.AsstAppendAward();
-                }
-                else if (item.OriginalName == "AutoRoguelike")
-                {
-                    ret &= AppendRoguelike();
-                }
-                else if (item.OriginalName == "ReclamationAlgorithm")
-                {
-                    ret &= AppendReclamation();
-                }
-                else
-                {
-                    --count;
-
-                    // TODO 报错
-                }
-
-                if (!ret)
-                {
-                    AddLog(item.OriginalName + "Error", UiLogColor.Error);
-                    ret = true;
-                    --count;
-                }
-            }
-
-            if (count == 0)
-            {
-                AddLog(LocalizationHelper.GetString("UnselectedTask"));
-                Idle = true;
-                SetStopped();
-                return;
-            }
-
-            // 一般是点了“停止”按钮了
-            if (Stopping)
-            {
-                SetStopped();
-                return;
-            }
-
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
 
             string errMsg = string.Empty;
@@ -793,9 +719,76 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            ret &= Instances.AsstProxy.AsstStart();
+            bool taskRet = true;
 
-            if (ret)
+            // 直接遍历TaskItemViewModels里面的内容，是排序后的
+            int count = 0;
+            foreach (var item in TaskItemViewModels)
+            {
+                if (item.IsChecked == false)
+                {
+                    continue;
+                }
+
+                ++count;
+                if (item.OriginalName == "Base")
+                {
+                    taskRet &= appendInfrast();
+                }
+                else if (item.OriginalName == "WakeUp")
+                {
+                    taskRet &= appendStart();
+                }
+                else if (item.OriginalName == "Combat")
+                {
+                    taskRet &= appendFight();
+                }
+                else if (item.OriginalName == "Recruiting")
+                {
+                    taskRet &= appendRecruit();
+                }
+                else if (item.OriginalName == "Mall")
+                {
+                    taskRet &= appendMall();
+                }
+                else if (item.OriginalName == "Mission")
+                {
+                    taskRet &= Instances.AsstProxy.AsstAppendAward();
+                }
+                else if (item.OriginalName == "AutoRoguelike")
+                {
+                    taskRet &= AppendRoguelike();
+                }
+                else if (item.OriginalName == "ReclamationAlgorithm")
+                {
+                    taskRet &= AppendReclamation();
+                }
+                else
+                {
+                    --count;
+
+                    // TODO 报错
+                }
+
+                if (!taskRet)
+                {
+                    AddLog(item.OriginalName + "Error", UiLogColor.Error);
+                    taskRet = true;
+                    --count;
+                }
+            }
+
+            if (count == 0)
+            {
+                AddLog(LocalizationHelper.GetString("UnselectedTask"));
+                Idle = true;
+                SetStopped();
+                return;
+            }
+
+            taskRet &= Instances.AsstProxy.AsstStart();
+
+            if (taskRet)
             {
                 AddLog(LocalizationHelper.GetString("Running"));
                 if (!Instances.SettingsViewModel.AdbReplaced && !Instances.SettingsViewModel.IsAdbTouchMode())
