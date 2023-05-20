@@ -22,10 +22,11 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" MinWidth="90" />
+                    <ColumnDefinition Width="Auto" MinWidth="100" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Vertical">
@@ -88,7 +89,7 @@
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" MinWidth="90" />
+                    <ColumnDefinition Width="Auto" MinWidth="100" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Vertical">
@@ -134,9 +135,40 @@
                         Value="{Binding DropsQuantity, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </Grid>
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="2" Visibility="{c:Binding CustomInfrastEnabled and TaskSettingVisibilities.CustomInfrastPlanShowInFightSettings}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" MinWidth="90" />
+                    <ColumnDefinition Width="Auto" MinWidth="100" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <Grid Height="42">
+                        <controls:TextBlock
+                            Margin="6"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{DynamicResource CustomInfrastPlan}"
+                            TextAlignment="Center"
+                            TextWrapping="Wrap" />
+                    </Grid>
+                </StackPanel>
+                <StackPanel
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Orientation="Vertical">
+                    <ComboBox
+                        Height="30"
+                        Margin="6"
+                        VerticalContentAlignment="Center"
+                        DisplayMemberPath="Display"
+                        IsHitTestVisible="{c:Binding !InfrastTaskRunning}"
+                        ItemsSource="{Binding CustomInfrastPlanList}"
+                        SelectedValue="{Binding CustomInfrastPlanIndex}"
+                        SelectedValuePath="Value" />
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="100" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Row="2" Orientation="Vertical">
@@ -294,6 +326,10 @@
                 Content="{DynamicResource HideUnavailableStage}"
                 IsChecked="{Binding HideUnavailableStage}"
                 IsEnabled="{c:Binding !CustomStageCode}" />
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource CustomInfrastPlanShowInFightSettings}"
+                IsChecked="{Binding TaskSettingVisibilities.CustomInfrastPlanShowInFightSettings}" />
             <TextBlock
                 Margin="8,10,8,0"
                 HorizontalAlignment="Left"
