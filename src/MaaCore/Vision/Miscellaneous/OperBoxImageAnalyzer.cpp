@@ -66,6 +66,9 @@ bool asst::OperBoxImageAnalyzer::opers_analyze()
     const auto& all_opers = BattleData.get_all_oper_names();
     oper_name_analyzer.set_required(std::vector(all_opers.begin(), all_opers.end()));
 
+    const auto& replace_task = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
+    oper_name_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
+
     TemplDetOCRer::ResultsVec results;
 
     Rect roi_top = Task.get("OperBoxFlagRoleTopROI")->roi;
