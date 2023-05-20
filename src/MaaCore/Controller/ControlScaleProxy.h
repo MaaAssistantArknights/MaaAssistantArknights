@@ -40,12 +40,12 @@ namespace asst
         void callback(const json::object& details);
 
         std::shared_ptr<ControllerAPI> m_controller;
-        ProxyCallback m_callback;
+        ControllerType m_controller_type = ControllerType::Minitouch;
+        ProxyCallback m_callback = nullptr;
 
         std::minstd_rand m_rand_engine;
 
         std::pair<int, int> m_scale_size = { WindowWidthDefault, WindowHeightDefault };
         double m_control_scale = 1.0;
-        ControllerType m_controller_type = ControllerType::Minitouch;
     };
 }
