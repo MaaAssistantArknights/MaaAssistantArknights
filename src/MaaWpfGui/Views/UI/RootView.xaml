@@ -16,6 +16,7 @@
     MinHeight="600"
     d:DataContext="{d:DesignInstance {x:Type ui:RootViewModel}}"
     Icon="../../newlogo.ico"
+    ShowCloseButton="{Binding ShowCloseButton}"
     mc:Ignorable="d">
 
     <DockPanel>
