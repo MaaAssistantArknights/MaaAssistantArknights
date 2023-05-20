@@ -91,7 +91,7 @@
     <system:String x:Key="StartingCoreCharTip">Only supports the CN name of a single oper, default if not filled.</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">Select &quot;Starting Oper&quot; from support unit list</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">Enable nonfirend support</system:String>
-    <system:String x:Key="DeploymentWithPause">Deployment with Pause, Works for IS, Copilot and SSS, Beta function, Not recommended yet</system:String>
+    <system:String x:Key="DeploymentWithPause" xml:space="preserve">Deployment with Pause, Works for IS, Copilot and SSS,&#x0a;Beta function, Not recommended yet</system:String>
     <system:String x:Key="AdbLiteEnabled">Use Adb Lite (Experimental)</system:String>
     <system:String x:Key="KillAdbOnExit">Kill Adb On Exit</system:String>
 
