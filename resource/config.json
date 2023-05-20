@@ -14,6 +14,8 @@
         "adbExtraSwipeDuration_Doc": "额外的滑动持续时间：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来。若小于0，则关闭额外滑动功能",
         "adbSwipeDurationMultiplier": 10.0,
         "adbSwipeDurationMultiplier_Doc": "adb 滑动延迟倍数",
+        "adbSwipeXDistanceMultiplier": 0.8,
+        "adbSwipeXDistanceMultiplier_Doc": "adb 滑动 X 距离倍数",
         "minitouchSwipeDefaultDuration": 200,
         "minitouchSwipeExtraEndDelay": 150,
         "minitouchExtraSwipeDist": 100,

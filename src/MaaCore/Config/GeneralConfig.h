@@ -36,7 +36,8 @@ namespace asst
         // adb有bug，同样的参数，偶尔会划得非常远。
         // 额外做一个短程滑动，把之前的停下来。
         // 若小于0，则关闭额外滑动功能。
-        double adb_swipe_duration_multiplier = 0; // adb 滑动持续时间倍数
+        double adb_swipe_duration_multiplier = 0;   // adb 滑动持续时间倍数
+        double adb_swipe_x_distance_multiplier = 0; // adb 滑动距离倍数
         int minitouch_extra_swipe_dist = 0;
         int minitouch_extra_swipe_duration = -1;
         int minitouch_swipe_default_duration = 0;

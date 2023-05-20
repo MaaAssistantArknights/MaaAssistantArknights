@@ -15,7 +15,8 @@ namespace asst
         using ProxyCallback = std::function<void(const json::object&)>;
 
     public:
-        ControlScaleProxy(std::shared_ptr<ControllerAPI> controller, ProxyCallback proxy_callback);
+        ControlScaleProxy(std::shared_ptr<ControllerAPI> controller, ControllerType controller_type,
+                          ProxyCallback proxy_callback);
         ~ControlScaleProxy() = default;
 
         ControlScaleProxy(const ControlScaleProxy&) = delete;
@@ -45,5 +46,6 @@ namespace asst
 
         std::pair<int, int> m_scale_size = { WindowWidthDefault, WindowHeightDefault };
         double m_control_scale = 1.0;
+        ControllerType m_controller_type = ControllerType::Minitouch;
     };
 }

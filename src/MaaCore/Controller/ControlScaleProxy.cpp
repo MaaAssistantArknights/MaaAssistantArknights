@@ -1,7 +1,11 @@
 #include "ControlScaleProxy.h"
 
-asst::ControlScaleProxy::ControlScaleProxy(std::shared_ptr<ControllerAPI> controller, ProxyCallback proxy_callback)
-    : m_controller(controller), m_callback(proxy_callback), m_rand_engine(std::random_device {}())
+#include "Config/GeneralConfig.h"
+
+asst::ControlScaleProxy::ControlScaleProxy(std::shared_ptr<ControllerAPI> controller, ControllerType controller_type,
+                                           ProxyCallback proxy_callback)
+    : m_controller(controller), m_controller_type(controller_type), m_callback(proxy_callback),
+      m_rand_engine(std::random_device {}())
 {
     auto screen_res = m_controller->get_screen_res();
 
@@ -74,8 +78,17 @@ bool asst::ControlScaleProxy::swipe(const Point& p1, const Point& p2, int durati
 bool asst::ControlScaleProxy::swipe(const Rect& r1, const Rect& r2, int duration, bool extra_swipe, double slope_in,
                                     double slope_out, bool with_pause)
 {
-    return swipe(rand_point_in_rect(r1), rand_point_in_rect(r2), duration, extra_swipe, slope_in, slope_out,
-                 with_pause);
+    auto rand_p1 = rand_point_in_rect(r1);
+    auto rand_p2 = rand_point_in_rect(r2);
+
+    if (m_controller_type == ControllerType::Adb) {
+        // 同样的参数 ADB 总是划过头，糊点屎进来
+        const auto& opt = Config.get_options();
+        auto x_dist = rand_p1.x - rand_p2.x;
+        rand_p2.x = rand_p1.x - static_cast<int>(x_dist * opt.adb_swipe_x_distance_multiplier);
+    }
+
+    return swipe(rand_p1, rand_p2, duration, extra_swipe, slope_in, slope_out, with_pause);
 }
 
 bool asst::ControlScaleProxy::inject_input_event(InputEvent event)

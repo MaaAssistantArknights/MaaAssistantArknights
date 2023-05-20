@@ -186,7 +186,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     };
 
     try {
-        m_scale_proxy = std::make_shared<ControlScaleProxy>(m_controller, proxy_callback);
+        m_scale_proxy = std::make_shared<ControlScaleProxy>(m_controller, m_controller_type, proxy_callback);
     }
     catch (const std::exception& e) {
         Log.error("Cannot create controller proxy: {}", e.what());
