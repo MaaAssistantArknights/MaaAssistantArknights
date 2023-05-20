@@ -43,6 +43,7 @@ namespace asst
         bool enter_selection_page();
         bool select_opers_in_cur_page(std::vector<OperGroup>& groups);
         void swipe_page();
+        void swipe_to_the_left(int times = 2);
         bool confirm_selection();
         bool click_role_table(battle::Role role);
         bool parse_formation();
@@ -56,5 +57,7 @@ namespace asst
         std::string m_support_unit_name;
         DataResource m_data_resource = DataResource::Copilot;
         std::vector<AdditionalFormation> m_additional;
+
+        std::string m_last_oper_name;
     };
 }

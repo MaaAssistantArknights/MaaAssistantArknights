@@ -41,6 +41,7 @@ bool asst::BattleFormationTask::_run()
     for (auto& [role, oper_groups] : m_formation) {
         click_role_table(role);
         bool has_error = false;
+        int swipe_times = 0;
         while (!need_exit()) {
             if (select_opers_in_cur_page(oper_groups)) {
                 has_error = false;
@@ -48,17 +49,21 @@ bool asst::BattleFormationTask::_run()
                     break;
                 }
                 swipe_page();
+                ++swipe_times;
             }
             else if (has_error) {
+                swipe_to_the_left(swipe_times);
                 // reset page
                 click_role_table(role == battle::Role::Unknown ? battle::Role::Pioneer : battle::Role::Unknown);
                 click_role_table(role);
+                swipe_to_the_left(swipe_times);
+                swipe_times = 0;
                 has_error = false;
             }
             else {
                 has_error = true;
-                // swipe and retry again
-                swipe_page();
+                swipe_to_the_left(swipe_times);
+                swipe_times = 0;
             }
         }
     }
@@ -179,6 +184,13 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
         Task.get("BattleQuickFormationSkill3")->specific_rect,
     };
 
+    if (opers_result.empty() || m_last_oper_name == opers_result.back().text) {
+        Log.info("last oper name is same as current, skip");
+        return false;
+    }
+
+    m_last_oper_name = opers_result.back().text;
+
     int delay = Task.get("BattleQuickFormationOCR")->post_delay;
 
     int skill = 1;
@@ -221,6 +233,13 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
 void asst::BattleFormationTask::swipe_page()
 {
     ProcessTask(*this, { "BattleFormationOperListSlowlySwipeToTheRight" }).run();
+}
+
+void asst::BattleFormationTask::swipe_to_the_left(int times)
+{
+    for (int i = 0; i < times; ++i) {
+        ProcessTask(*this, { "BattleFormationOperListSwipeToTheLeft" }).run();
+    }
 }
 
 bool asst::BattleFormationTask::confirm_selection()
