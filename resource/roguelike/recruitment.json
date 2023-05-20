@@ -309,7 +309,7 @@
                 {
                     "name": "鸿雪",
                     "skill": 3,
-                    "alternate_skill": 2,
+                    "alternate_skill": 1,
                     "recruit_priority": 950,
                     "promote_priority": 980,
                     "is_key": true,
@@ -2307,7 +2307,7 @@
                 {
                     "name": "鸿雪",
                     "skill": 3,
-                    "alternate_skill": 2,
+                    "alternate_skill": 1,
                     "is_key": true,
                     "recruit_priority": 700,
                     "promote_priority": 650
