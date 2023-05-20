@@ -249,6 +249,7 @@
 
     <system:String x:Key="MinimizeToTray">最小化时隐藏至托盘</system:String>
     <system:String x:Key="SystemNotification">重要信息弹出系统通知</system:String>
+    <system:String x:Key="HideCloseButton">隐藏关闭按钮</system:String>
     <system:String x:Key="DarkModeSetColorsTip">是否立刻重启应用更改</system:String>
     <system:String x:Key="UseAlternateStage">使用备选关卡</system:String>
     <system:String x:Key="UseRemainingSanityStage">使用剩余理智</system:String>

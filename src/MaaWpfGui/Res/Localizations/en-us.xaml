@@ -246,6 +246,7 @@
 
     <system:String x:Key="MinimizeToTray">Hide to tray when minimized</system:String>
     <system:String x:Key="SystemNotification">System Notification</system:String>
+    <system:String x:Key="HideCloseButton">Hide close button</system:String>
     <system:String x:Key="DarkModeSetColorsTip">Whether to restart immediately to apply changes</system:String>
     <system:String x:Key="UseAlternateStage">Use alternate stage</system:String>
     <system:String x:Key="UseRemainingSanityStage">Use remaining sanity stage</system:String>

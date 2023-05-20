@@ -2429,6 +2429,23 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _hideCloseButton = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.HideCloseButton, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to hide close button.
+        /// </summary>
+        public bool HideCloseButton
+        {
+            get => _hideCloseButton;
+            set
+            {
+                SetAndNotify(ref _hideCloseButton, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.HideCloseButton, value.ToString());
+                var rvm = (RootViewModel)this.Parent;
+                rvm.ShowCloseButton = !value;
+            }
+        }
+
         private bool _useNotify = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseNotify, bool.TrueString));
 
         /// <summary>

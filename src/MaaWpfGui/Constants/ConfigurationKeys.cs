@@ -20,6 +20,7 @@ namespace MaaWpfGui.Constants
     {
         public const string Localization = "GUI.Localization";
         public const string MinimizeToTray = "GUI.MinimizeToTray";
+        public const string HideCloseButton = "GUI.HideCloseButton";
         public const string UseNotify = "GUI.UseNotify";
         public const string WindowPlacement = "GUI.Placement";
         public const string LoadWindowPlacement = "GUI.Placement.Load";

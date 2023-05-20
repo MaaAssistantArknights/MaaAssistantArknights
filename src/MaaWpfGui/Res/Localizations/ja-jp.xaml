@@ -241,6 +241,7 @@
 
     <system:String x:Key="MinimizeToTray">最小化した際にトレイに表示</system:String>
     <system:String x:Key="SystemNotification">重要な通知をポップアップする</system:String>
+    <system:String x:Key="HideCloseButton">「閉じる」ボタンを隠す</system:String>
     <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String>
     <system:String x:Key="UseRemainingSanityStage">余剰理性の使用</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">メインタスク終了後に指定されたレベルを選択しても、自動的に理性を回復しません</system:String>
