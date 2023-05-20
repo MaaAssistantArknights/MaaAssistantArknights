@@ -48,13 +48,13 @@ jobs:
           }
           git commit -m "$commit_msg"
           if ($LASTEXITCODE) {
-            echo "no_commits=1" >> $env:GITHUB_OUTPUT
+            echo "no_commits=True" >> $env:GITHUB_OUTPUT
           }
 
           git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
 
       - name: Cancelling
-        if: ${{ steps.add_files.outputs.no_commits }} == 1
+        if: steps.add_files.outputs.no_commits == 'True'
         uses: andymckay/cancel-action@0.3
 
       - name: Push changes # push the output folder to your repo
