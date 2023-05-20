@@ -147,49 +147,29 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
 
-    /* Git update ArknightsGameData */
-    std::cout << "------------Update ArknightsGameData------------" << std::endl;
-    const std::filesystem::path game_data_dir = cur_path / "ArknightsGameData";
+    /* Update overseas data */
+    std::cout << "------------Update overseas data------------" << std::endl;
+    const std::filesystem::path overseas_data_dir = cur_path;
 
-    if (!std::filesystem::exists(game_data_dir)) {
-        git_cmd =
-            "git clone https://github.com/Kengxxiao/ArknightsGameData.git --depth=1 \"" + game_data_dir.string() + "\"";
-    }
-    else {
-        git_cmd = "git -C \"" + game_data_dir.string() + "\" pull --autostash";
-    }
-    git_ret = system(git_cmd.c_str());
-    if (git_ret != 0) {
-        std::cerr << "git cmd failed" << std::endl;
-        return -1;
-    }
-
-    // gamedata 繁中不更新了，自己下载一下
-    std::string gamedata_tw_exec = "\"" + cur_path.string() + "/arknights_rs.exe" + "\"";
-    if (!std::filesystem::exists(gamedata_tw_exec)) {
-        std::string download_zhtw = "curl --ssl-no-revoke "
-                                    "https://raw.githubusercontent.com/MaaAssistantArknights/"
-                                    "MaaRelease/main/MaaAssistantArknights/api/binaries/arknights_rs.exe  > " +
-                                    gamedata_tw_exec;
-        int dl = system(download_zhtw.c_str());
+    std::string data_exec = "\"" + cur_path.string() + "/arknights_rs.exe" + "\"";
+    if (!std::filesystem::exists(data_exec)) {
+        std::string download_cmd = "curl --ssl-no-revoke "
+                                   "https://raw.githubusercontent.com/MaaAssistantArknights/"
+                                   "MaaRelease/main/MaaAssistantArknights/api/binaries/arknights_rs.exe  > " +
+                                   data_exec;
+        int dl = system(download_cmd.c_str());
         if (dl != 0) {
-            std::cerr << "download zhtw gamedata failed" << std::endl;
+            std::cerr << "download overseas exec failed" << std::endl;
             return -1;
         }
     }
-    int zhtw_ret = system(("cd " + cur_path.string() + " && " + gamedata_tw_exec).c_str());
+    int zhtw_ret = system(("cd " + cur_path.string() + " && " + data_exec).c_str());
     if (zhtw_ret != 0) {
-        std::cerr << "zhtw gamedata update failed" << std::endl;
+        std::cerr << "overseas update failed" << std::endl;
         return -1;
     }
-    auto zhtw_gamedata_dir = game_data_dir / "zh_TW" / "gamedata";
-    if (std::filesystem::exists(zhtw_gamedata_dir)) {
-        std::filesystem::remove_all(zhtw_gamedata_dir);
-    }
-    std::filesystem::create_directories(zhtw_gamedata_dir.parent_path());
-    std::filesystem::rename(cur_path / "tw" / "gamedata", zhtw_gamedata_dir);
 
-    /* Update recruitment data from ArknightsGameData*/
+    /* Update recruitment data from overseas data*/
     std::cout << "------------Update recruitment data------------" << std::endl;
     if (!update_recruitment_data(arkbot_res_dir / "gamedata" / "excel", resource_dir / "recruitment.json", true)) {
         std::cerr << "Update recruitment data failed" << std::endl;
@@ -197,14 +177,14 @@ int main([[maybe_unused]] int argc, char** argv)
     }
 
     std::unordered_map<std::string, std::string> global_dirs = {
-        { "en_US", "YoStarEN" },
-        { "ja_JP", "YoStarJP" },
-        { "ko_KR", "YoStarKR" },
-        { "zh_TW", "txwy" },
+        { "en", "YoStarEN" },
+        { "jp", "YoStarJP" },
+        { "kr", "YoStarKR" },
+        { "tw", "txwy" },
     };
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update recruitment data for " << out << "------------" << std::endl;
-        if (!update_recruitment_data(game_data_dir / in / "gamedata" / "excel",
+        if (!update_recruitment_data(overseas_data_dir / in / "gamedata" / "excel",
                                      resource_dir / "global" / out / "resource" / "recruitment.json", false)) {
             std::cerr << "Update recruitment data failed" << std::endl;
             return -1;
@@ -217,17 +197,17 @@ int main([[maybe_unused]] int argc, char** argv)
         std::cerr << "Update items data failed" << std::endl;
         return -1;
     }
-    /* Update items global json from ArknightsGameData*/
+    /* Update items global json from overseas data*/
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update items json for " << out << "------------" << std::endl;
-        if (!update_items_data(game_data_dir / in, resource_dir / "global" / out / "resource", false)) {
+        if (!update_items_data(overseas_data_dir / in, resource_dir / "global" / out / "resource", false)) {
             std::cerr << "Update items json failed" << std::endl;
             return -1;
         }
     }
 
     for (const auto& [in, out] : global_dirs) {
-        if (!check_roguelike_replace_for_overseas(game_data_dir / in / "gamedata" / "excel",
+        if (!check_roguelike_replace_for_overseas(overseas_data_dir / in / "gamedata" / "excel",
                                                   resource_dir / "global" / out / "resource" / "tasks.json",
                                                   arkbot_res_dir / "gamedata" / "excel", cur_path / in)) {
             std::cerr << "Update roguelike replace for overseas failed" << std::endl;
@@ -244,7 +224,7 @@ int main([[maybe_unused]] int argc, char** argv)
 
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update version info for " << out << "------------" << std::endl;
-        if (!update_version_info(game_data_dir / in / "gamedata" / "excel",
+        if (!update_version_info(overseas_data_dir / in / "gamedata" / "excel",
                                  resource_dir / "global" / out / "resource")) {
             std::cerr << "Update version info failed" << std::endl;
             return -1;
