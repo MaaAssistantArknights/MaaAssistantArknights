@@ -84,6 +84,7 @@ namespace MaaWpfGui.Constants
         public const string CustomInfrastEnabled = "Infrast.CustomInfrastEnabled";
         public const string CustomInfrastFile = "Infrast.CustomInfrastFile";
         public const string CustomInfrastPlanIndex = "Infrast.CustomInfrastPlanIndex";
+        public const string CustomInfrastPlanShowInFightSettings = "Infrast.CustomInfrastPlanShowInFightSettings";
 
         public const string UseRemainingSanityStage = "Fight.UseRemainingSanityStage";
         public const string UseExpiringMedicine = "Fight.UseExpiringMedicine";
