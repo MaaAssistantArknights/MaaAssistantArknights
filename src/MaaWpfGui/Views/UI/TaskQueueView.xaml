@@ -65,18 +65,23 @@
                         ToolTip="{DynamicResource LabelSequenceTip}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="110" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
                                     <!--<maa:TextBlock  Text="{Binding ID}" />
-                            <maa:TextBlock  Text=". " />-->
+                                    <maa:TextBlock  Text=". " />-->
                                     <CheckBox
-                                        Width="155"
+                                        Grid.ColumnSpan="2"
+                                        HorizontalAlignment="Left"
                                         Content="{Binding Name}"
                                         IsChecked="{Binding IsChecked}"
                                         IsHitTestVisible="{Binding ElementName=TaskList, Path=DataContext.Idle}" />
-                                    <hc:ButtonGroup>
+                                    <hc:ButtonGroup Grid.Column="1" HorizontalAlignment="Left">
                                         <RadioButton
                                             Margin="0"
-                                            Padding="0"
+                                            Padding="45,0,0,0"
                                             hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
                                             hc:VisualElement.HighlightBackground="Transparent"
                                             hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
@@ -88,7 +93,7 @@
                                             Style="{DynamicResource RadioGroupItemSingle}"
                                             ToolTip="{DynamicResource TaskSettings}" />
                                     </hc:ButtonGroup>
-                                </StackPanel>
+                                </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
