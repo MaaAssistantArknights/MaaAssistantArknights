@@ -96,7 +96,7 @@ int main([[maybe_unused]] int argc, char** argv)
     }
     int git_ret = system(git_cmd.c_str());
     if (git_ret != 0) {
-        std::cout << "git cmd failed" << std::endl;
+        std::cerr << "git cmd failed" << std::endl;
         return -1;
     }
 
@@ -160,26 +160,26 @@ int main([[maybe_unused]] int argc, char** argv)
     }
     git_ret = system(git_cmd.c_str());
     if (git_ret != 0) {
-        std::cout << "git cmd failed" << std::endl;
+        std::cerr << "git cmd failed" << std::endl;
         return -1;
     }
 
     // gamedata 繁中不更新了，自己下载一下
-    std::string gamedata_tw_exec = "\"" + cur_path.string() + "/gamedata-tw.exe" + "\"";
+    std::string gamedata_tw_exec = "\"" + cur_path.string() + "/arknights_rs.exe" + "\"";
     if (!std::filesystem::exists(gamedata_tw_exec)) {
         std::string download_zhtw = "curl --ssl-no-revoke "
                                     "https://raw.githubusercontent.com/MaaAssistantArknights/"
-                                    "MaaRelease/main/MaaAssistantArknights/api/binaries/gamedata-tw.exe  > " +
+                                    "MaaRelease/main/MaaAssistantArknights/api/binaries/arknights_rs.exe  > " +
                                     gamedata_tw_exec;
         int dl = system(download_zhtw.c_str());
         if (dl != 0) {
-            std::cout << "download zhtw gamedata failed" << std::endl;
+            std::cerr << "download zhtw gamedata failed" << std::endl;
             return -1;
         }
     }
     int zhtw_ret = system(("cd " + cur_path.string() + " && " + gamedata_tw_exec).c_str());
     if (zhtw_ret != 0) {
-        std::cout << "zhtw gamedata update failed" << std::endl;
+        std::cerr << "zhtw gamedata update failed" << std::endl;
         return -1;
     }
     auto zhtw_gamedata_dir = game_data_dir / "zh_TW" / "gamedata";
@@ -187,7 +187,7 @@ int main([[maybe_unused]] int argc, char** argv)
         std::filesystem::remove_all(zhtw_gamedata_dir);
     }
     std::filesystem::create_directories(zhtw_gamedata_dir.parent_path());
-    std::filesystem::rename(cur_path / "data" / "gamedata", zhtw_gamedata_dir);
+    std::filesystem::rename(cur_path / "tw" / "gamedata", zhtw_gamedata_dir);
 
     /* Update recruitment data from ArknightsGameData*/
     std::cout << "------------Update recruitment data------------" << std::endl;
@@ -261,7 +261,7 @@ bool update_items_data(const std::filesystem::path& input_dir, const std::filesy
 
     auto parse_ret = json::open(input_json_path);
     if (!parse_ret) {
-        std::cout << "parse json failed" << std::endl;
+        std::cerr << "parse json failed" << std::endl;
         return false;
     }
 
@@ -348,7 +348,7 @@ bool cvt_single_item_template(const std::filesystem::path& input, const std::fil
 {
     cv::Mat src = cv::imread(input.string(), -1);
     if (src.empty()) {
-        std::cout << input << " is empty" << std::endl;
+        std::cerr << input << " is empty" << std::endl;
         return false;
     }
     cv::Mat dst;
@@ -439,7 +439,7 @@ bool update_infrast_data(const std::filesystem::path& input_dir, const std::file
     {
         auto opt = json::open(input_file);
         if (!opt) {
-            std::cout << input_file << " parse error" << std::endl;
+            std::cerr << input_file << " parse error" << std::endl;
             return false;
         }
         input_json = std::move(opt.value());
@@ -449,7 +449,7 @@ bool update_infrast_data(const std::filesystem::path& input_dir, const std::file
     {
         auto opt = json::open(output_file);
         if (!opt) {
-            std::cout << output_file << " parse error" << std::endl;
+            std::cerr << output_file << " parse error" << std::endl;
             return false;
         }
         old_json = std::move(opt.value());
@@ -530,7 +530,7 @@ bool update_stages_data(const std::filesystem::path& input_dir, const std::files
 
     auto parse_ret = json::open(TempFile);
     if (!parse_ret) {
-        std::cout << "parse stages.json failed" << std::endl;
+        std::cerr << "parse stages.json failed" << std::endl;
         return false;
     }
 
@@ -709,7 +709,7 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
     for (auto& [id, range_data] : range_json.as_object()) {
         if (int direction = range_data["direction"].as_integer(); direction != 1) {
             // 现在都是 1，朝右的，以后不知道会不会改，加个warning，真遇到再说
-            std::cout << "!!!Warning!!! range_id: " << id << " 's direction is " << std::to_string(direction)
+            std::cerr << "!!!Warning!!! range_id: " << id << " 's direction is " << std::to_string(direction)
                       << std::endl;
         }
         json::array points;
