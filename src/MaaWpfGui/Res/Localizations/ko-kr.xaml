@@ -218,8 +218,8 @@
     <system:String x:Key="InvestmentEnabled">오리지늄각뿔 투자</system:String>
 
     <system:String x:Key="PenguinID">펭귄 물류 보고 ID (숫자만)</system:String>
-    <system:String x:Key="DrGrandet">그랑데 영감처럼 순오리지늄 사용하기</system:String>
-    <system:String x:Key="DrGrandetTip">순오리지늄을 이용한 이성 회복 화면에서 1이성이 회복될 때까지 기다린 후에야 순오리지늄을 사용합니다.</system:String>
+    <system:String x:Key="DrGrandet">그랑드 모드</system:String>
+    <system:String x:Key="DrGrandetTip">정신 회복 확인 화면에서 현재 1 점 정신 회복이 완료될 때까지 기다린 후 즉시 확인하세요.</system:String>
 
     <system:String x:Key="SocialPtShop">크레딧 구매</system:String>
     <system:String x:Key="CreditFight">지원 오퍼레이터 사용으로 크레딧 얻기</system:String>

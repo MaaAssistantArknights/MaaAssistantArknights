@@ -224,8 +224,8 @@
     <system:String x:Key="InvestmentEnabled">源石錐を投資する</system:String>
 
     <system:String x:Key="PenguinID">Penguin-StatsのレポートのID（デジタル部分のみ）</system:String>
-    <system:String x:Key="DrGrandet">Dr.グランデのように源石を使う</system:String>
-    <system:String x:Key="DrGrandetTip">純正源石使用確認画面で理性が1回復するのを待って、純正源石を使用します</system:String>
+    <system:String x:Key="DrGrandet">Dr.グランデモード</system:String>
+    <system:String x:Key="DrGrandetTip">理性の回復確認画面で、現在の1ポイントの理性回復が完了するまで待ってから、すぐに確認してください。</system:String>
 
     <system:String x:Key="SocialPtShop">FP交換</system:String>
     <system:String x:Key="CreditFight">サポートを借りて戦闘を行いポイントを獲得します</system:String>

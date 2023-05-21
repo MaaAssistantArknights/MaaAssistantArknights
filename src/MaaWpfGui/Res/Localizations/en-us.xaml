@@ -229,8 +229,8 @@
     <system:String x:Key="RefreshTraderWithDice">Refresh Trader with Dice</system:String>
 
     <system:String x:Key="PenguinID">Penguin Report ID(Number part only)</system:String>
-    <system:String x:Key="DrGrandet">Use Originiums like Dr. Grandet</system:String>
-    <system:String x:Key="DrGrandetTip">Wait in the using Originites confirmation screen until the 1 point of sanity has been restored and then immediately use the Originite.</system:String>
+    <system:String x:Key="DrGrandet">Dr.Grandet Mode</system:String>
+    <system:String x:Key="DrGrandetTip">Wait on the sanity confirmation screen until the current sanity recovers to 1 point, then confirm immediately.</system:String>
 
     <system:String x:Key="SocialPtShop">Social Point shopping</system:String>
     <system:String x:Key="CreditFight">Combat with Support to earn credits</system:String>
