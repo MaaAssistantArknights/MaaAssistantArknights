@@ -157,6 +157,8 @@ namespace MaaWpfGui.Constants
 
         public const string OperBoxData = "OperBox.Data";
 
+        public const string GachaShowDisclaimerNoMore = "Gacha.ShowDisclaimerNoMore";
+
         public const string GuideStepIndex = "Guide.StepIndex";
     }
 }

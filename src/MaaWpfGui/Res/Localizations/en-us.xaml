@@ -424,6 +424,7 @@ The video resolution is required to be 16:9, and there are no interference facto
     <system:String x:Key="GachaTenTimes">Gacha Ten Times</system:String>
     <system:String x:Key="GachaDisclaimer">Note that this is a real gacha, not a simulation.</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">Got it</system:String>
+    <system:String x:Key="GachaShowDisclaimerNoMore">Don't show again</system:String>
 
     <!--  Copilot  -->
     <system:String x:Key="Copilot">Copilot</system:String>
