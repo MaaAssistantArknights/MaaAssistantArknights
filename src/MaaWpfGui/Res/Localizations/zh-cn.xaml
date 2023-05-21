@@ -440,6 +440,7 @@
     <system:String x:Key="GachaTip17">这对角可能会不小心撞倒些家具，我会尽量小心。</system:String>
     <system:String x:Key="GachaDisclaimer">请注意，这是真的抽卡！不是模拟！！！</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">知道了</system:String>
+    <system:String x:Key="GachaShowDisclaimerNoMore">下次不再提示</system:String>
 
     <!--  日志  -->
     <system:String x:Key="Identifying">正在识别……</system:String>
