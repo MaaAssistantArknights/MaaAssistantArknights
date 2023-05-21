@@ -1751,17 +1751,17 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (Instances.SettingsViewModel.UseAlternateStage)
                 {
-                    if (IsStageOpen(Stage1) || (CustomStageCode && !StageList.Any(x => x.Value == Stage1)))
+                    if (IsStageOpen(Stage1))
                     {
                         return Stage1;
                     }
 
-                    if (IsStageOpen(Stage2) || (CustomStageCode && !StageList.Any(x => x.Value == Stage2)))
+                    if (IsStageOpen(Stage2))
                     {
                         return Stage2;
                     }
 
-                    if (IsStageOpen(Stage3) || (CustomStageCode && !StageList.Any(x => x.Value == Stage3)))
+                    if (IsStageOpen(Stage3))
                     {
                         return Stage3;
                     }
