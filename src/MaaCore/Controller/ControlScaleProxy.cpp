@@ -83,6 +83,8 @@ bool asst::ControlScaleProxy::swipe(const Rect& r1, const Rect& r2, int duration
 
     if (m_controller_type == ControllerType::Adb) {
         // 同样的参数 ADB 总是划过头，糊点屎进来
+        // 外部调用 swipe(Point, Point) 时，说明是精确要求位置的，不能做这个调整
+        // 所以屎没法糊在下面一层，只能糊在这里了（
         const auto& opt = Config.get_options();
         auto x_dist = rand_p1.x - rand_p2.x;
         rand_p2.x = rand_p1.x - static_cast<int>(x_dist * opt.adb_swipe_x_distance_multiplier);
