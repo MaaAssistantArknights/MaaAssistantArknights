@@ -233,7 +233,7 @@
 
     <system:String x:Key="PenguinID">企鹅物流汇报ID（仅数字部分）</system:String>
     <system:String x:Key="DrGrandet">博朗台碎石模式</system:String>
-    <system:String x:Key="DrGrandetTip">在碎石确认界面等待，直到当前的 1 点理智恢复完成再立即确认。不碎石时该选项不影响正常运行</system:String>
+    <system:String x:Key="DrGrandetTip">在恢复理智确认界面等待，直到当前的 1 点理智恢复完成再立即确认。</system:String>
 
     <system:String x:Key="SocialPtShop">信用交易所自动购物</system:String>
     <system:String x:Key="CreditFight">借助战打 OF-1 赚信用</system:String>
