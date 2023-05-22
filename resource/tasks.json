@@ -6507,7 +6507,7 @@
             60,
             60
         ],
-        "postDelay": 100
+        "postDelay": 200
     },
     "BattleCancelSelection": {
         "algorithm": "JustReturn",
