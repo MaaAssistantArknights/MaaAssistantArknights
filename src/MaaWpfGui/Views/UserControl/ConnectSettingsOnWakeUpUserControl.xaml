@@ -25,23 +25,25 @@
             IsChecked="{Binding AlwaysAutoDetectConnection}"
             Visibility="{c:Binding AutoDetectConnection}" />
 
-        <hc:SimpleStackPanel
-            Margin="0,5"
-            Orientation="Horizontal"
-            Visibility="{c:Binding !AutoDetectConnection}">
+        <Grid Margin="0,5" Visibility="{c:Binding !AutoDetectConnection}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
             <hc:TextBox
-                Width="160"
+                Grid.Column="0"
                 hc:BorderElement.CornerRadius="4,0,0,4"
                 hc:InfoElement.Title="{DynamicResource ADBPath}"
                 Text="{Binding AdbPath}" />
             <Button
+                Grid.Column="1"
                 Width="60"
                 VerticalAlignment="Bottom"
                 hc:BorderElement.CornerRadius="0,4,4,0"
                 BorderThickness="0,1,1,1"
                 Command="{s:Action SelectFile}"
                 Content="{DynamicResource Select}" />
-        </hc:SimpleStackPanel>
+        </Grid>
 
         <ComboBox
             Margin="0,5"

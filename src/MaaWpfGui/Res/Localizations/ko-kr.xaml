@@ -90,7 +90,7 @@
     <system:String x:Key="StartingCoreCharTip">단일 오퍼레이터의 중국어 이름만 지원하며, 입력하지 않으면 기본값이 선택됩니다</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">시작 오퍼레이터로 지원 유닛 사용</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">친구가 아니어도 지원 유닛 사용</system:String>
-    <system:String x:Key="DeploymentWithPause">일시정지 상태로 배치하기 - 통합전략, 자동 작전, 보안 파견에 적용 (베타 기능, 현재 비권장)</system:String>
+    <system:String x:Key="DeploymentWithPause" xml:space="preserve">일시정지 상태로 배치하기 - 통합전략, 자동 작전, 보안 파견에 적용&#x0a;(베타 기능, 현재 비권장)</system:String>
     <system:String x:Key="AdbLiteEnabled">Adb Lite 사용 (실험적)</system:String>
 
     <system:String x:Key="DefaultSquad">기본값</system:String>
@@ -218,8 +218,8 @@
     <system:String x:Key="InvestmentEnabled">오리지늄각뿔 투자</system:String>
 
     <system:String x:Key="PenguinID">펭귄 물류 보고 ID (숫자만)</system:String>
-    <system:String x:Key="DrGrandet">그랑데 영감처럼 순오리지늄 사용하기</system:String>
-    <system:String x:Key="DrGrandetTip">순오리지늄을 이용한 이성 회복 화면에서 1이성이 회복될 때까지 기다린 후에야 순오리지늄을 사용합니다.</system:String>
+    <system:String x:Key="DrGrandet">그랑드 모드</system:String>
+    <system:String x:Key="DrGrandetTip">정신 회복 확인 화면에서 현재 1 점 정신 회복이 완료될 때까지 기다린 후 즉시 확인하세요.</system:String>
 
     <system:String x:Key="SocialPtShop">크레딧 구매</system:String>
     <system:String x:Key="CreditFight">지원 오퍼레이터 사용으로 크레딧 얻기</system:String>

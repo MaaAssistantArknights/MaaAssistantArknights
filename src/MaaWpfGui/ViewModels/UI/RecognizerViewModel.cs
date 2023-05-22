@@ -718,7 +718,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _gachaShowDisclaimer = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.GachaShowDisclaimer, bool.TrueString));
+        private bool _gachaShowDisclaimer = !Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.GachaShowDisclaimerNoMore, bool.FalseString));
 
         public bool GachaShowDisclaimer
         {
@@ -726,7 +726,18 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _gachaShowDisclaimer, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.GachaShowDisclaimer, value.ToString());
+            }
+        }
+
+        private bool _gachaShowDisclaimerNoMore = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.GachaShowDisclaimerNoMore, bool.FalseString));
+
+        public bool GachaShowDisclaimerNoMore
+        {
+            get => _gachaShowDisclaimerNoMore;
+            set
+            {
+                SetAndNotify(ref _gachaShowDisclaimerNoMore, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.GachaShowDisclaimerNoMore, value.ToString());
             }
         }
 

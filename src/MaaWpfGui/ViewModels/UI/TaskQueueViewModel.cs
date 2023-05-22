@@ -678,80 +678,6 @@ namespace MaaWpfGui.ViewModels.UI
 
             await Task.Run(() => Instances.SettingsViewModel.RunScript("StartsWithScript"));
 
-            bool ret = true;
-
-            // 直接遍历TaskItemViewModels里面的内容，是排序后的
-            int count = 0;
-            foreach (var item in TaskItemViewModels)
-            {
-                if (item.IsChecked == false)
-                {
-                    continue;
-                }
-
-                ++count;
-                if (item.OriginalName == "Base")
-                {
-                    ret &= appendInfrast();
-                }
-                else if (item.OriginalName == "WakeUp")
-                {
-                    ret &= appendStart();
-                }
-                else if (item.OriginalName == "Combat")
-                {
-                    ret &= appendFight();
-                }
-                else if (item.OriginalName == "Recruiting")
-                {
-                    ret &= appendRecruit();
-                }
-                else if (item.OriginalName == "Mall")
-                {
-                    ret &= appendMall();
-                }
-                else if (item.OriginalName == "Mission")
-                {
-                    ret &= Instances.AsstProxy.AsstAppendAward();
-                }
-                else if (item.OriginalName == "AutoRoguelike")
-                {
-                    ret &= AppendRoguelike();
-                }
-                else if (item.OriginalName == "ReclamationAlgorithm")
-                {
-                    ret &= AppendReclamation();
-                }
-                else
-                {
-                    --count;
-
-                    // TODO 报错
-                }
-
-                if (!ret)
-                {
-                    AddLog(item.OriginalName + "Error", UiLogColor.Error);
-                    ret = true;
-                    --count;
-                }
-            }
-
-            if (count == 0)
-            {
-                AddLog(LocalizationHelper.GetString("UnselectedTask"));
-                Idle = true;
-                SetStopped();
-                return;
-            }
-
-            // 一般是点了“停止”按钮了
-            if (Stopping)
-            {
-                SetStopped();
-                return;
-            }
-
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
 
             string errMsg = string.Empty;
@@ -793,9 +719,76 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            ret &= Instances.AsstProxy.AsstStart();
+            bool taskRet = true;
 
-            if (ret)
+            // 直接遍历TaskItemViewModels里面的内容，是排序后的
+            int count = 0;
+            foreach (var item in TaskItemViewModels)
+            {
+                if (item.IsChecked == false)
+                {
+                    continue;
+                }
+
+                ++count;
+                if (item.OriginalName == "Base")
+                {
+                    taskRet &= appendInfrast();
+                }
+                else if (item.OriginalName == "WakeUp")
+                {
+                    taskRet &= appendStart();
+                }
+                else if (item.OriginalName == "Combat")
+                {
+                    taskRet &= appendFight();
+                }
+                else if (item.OriginalName == "Recruiting")
+                {
+                    taskRet &= appendRecruit();
+                }
+                else if (item.OriginalName == "Mall")
+                {
+                    taskRet &= appendMall();
+                }
+                else if (item.OriginalName == "Mission")
+                {
+                    taskRet &= Instances.AsstProxy.AsstAppendAward();
+                }
+                else if (item.OriginalName == "AutoRoguelike")
+                {
+                    taskRet &= AppendRoguelike();
+                }
+                else if (item.OriginalName == "ReclamationAlgorithm")
+                {
+                    taskRet &= AppendReclamation();
+                }
+                else
+                {
+                    --count;
+
+                    // TODO 报错
+                }
+
+                if (!taskRet)
+                {
+                    AddLog(item.OriginalName + "Error", UiLogColor.Error);
+                    taskRet = true;
+                    --count;
+                }
+            }
+
+            if (count == 0)
+            {
+                AddLog(LocalizationHelper.GetString("UnselectedTask"));
+                Idle = true;
+                SetStopped();
+                return;
+            }
+
+            taskRet &= Instances.AsstProxy.AsstStart();
+
+            if (taskRet)
             {
                 AddLog(LocalizationHelper.GetString("Running"));
                 if (!Instances.SettingsViewModel.AdbReplaced && !Instances.SettingsViewModel.IsAdbTouchMode())
@@ -1105,13 +1098,14 @@ namespace MaaWpfGui.ViewModels.UI
                         CreateNoWindow = true,
                         UseShellExecute = false,
                     };
-                    Process.Start(startInfo);
+                    var process = Process.Start(startInfo);
+                    process.WaitForExit(5000);
 
                     return KillEmulator();
                 }
                 else
                 {
-                    AsstProxy.AsstLog($"Error: `{consolePath}` not found, try to kill eumlator by window.");
+                    _logger.Error($"Error: `{consolePath}` not found, try to kill eumlator by window.");
                     return KillEumlatorbyWindow();
                 }
             }
@@ -1155,13 +1149,14 @@ namespace MaaWpfGui.ViewModels.UI
                         CreateNoWindow = true,
                         UseShellExecute = false,
                     };
-                    Process.Start(startInfo);
+                    var process = Process.Start(startInfo);
+                    process.WaitForExit(5000);
 
                     return KillEmulator();
                 }
                 else
                 {
-                    AsstProxy.AsstLog($"Error: `{consolePath}` not found, try to kill eumlator by window.");
+                    _logger.Information($"Error: `{consolePath}` not found, try to kill eumlator by window.");
                     return KillEumlatorbyWindow();
                 }
             }
@@ -1203,13 +1198,14 @@ namespace MaaWpfGui.ViewModels.UI
                         CreateNoWindow = true,
                         UseShellExecute = false,
                     };
-                    Process.Start(startInfo);
+                    var process = Process.Start(startInfo);
+                    process.WaitForExit(5000);
 
                     return KillEmulator();
                 }
                 else
                 {
-                    AsstProxy.AsstLog($"Error: `{consolePath}` not found, try to kill eumlator by window.");
+                    _logger.Information($"Error: `{consolePath}` not found, try to kill eumlator by window.");
                     return KillEumlatorbyWindow();
                 }
             }
@@ -1244,13 +1240,14 @@ namespace MaaWpfGui.ViewModels.UI
                         CreateNoWindow = true,
                         UseShellExecute = false,
                     };
-                    Process.Start(startInfo);
+                    var process = Process.Start(startInfo);
+                    process.WaitForExit(5000);
 
                     return KillEmulator();
                 }
                 else
                 {
-                    AsstProxy.AsstLog($"Error: `{consolePath}` not found, try to kill eumlator by window.");
+                    _logger.Information($"Error: `{consolePath}` not found, try to kill eumlator by window.");
                     return KillEumlatorbyWindow();
                 }
             }
@@ -1273,12 +1270,12 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (File.Exists(consolePath))
                 {
-                    AsstProxy.AsstLog($"Info: `{consolePath}` has been found. This may be the BlueStacks China emulator, try to kill the emulator by window.");
+                    _logger.Information($"Info: `{consolePath}` has been found. This may be the BlueStacks China emulator, try to kill the emulator by window.");
                     return KillEumlatorbyWindow();
                 }
                 else
                 {
-                    AsstProxy.AsstLog($"Info: `{consolePath}` not found. This may be the BlueStacks International emulator, try to kill the emulator by the port.");
+                    _logger.Information($"Info: `{consolePath}` not found. This may be the BlueStacks International emulator, try to kill the emulator by the port.");
                     if (KillEmulator())
                     {
                         return true;
@@ -1287,13 +1284,13 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         try
                         {
-                            AsstProxy.AsstLog($"Info: Failed to kill emulator by the port, try to kill emulator process with PID.");
+                            _logger.Information($"Info: Failed to kill emulator by the port, try to kill emulator process with PID.");
                             processes[0].Kill();
                             return processes[0].WaitForExit(20000);
                         }
                         catch (Exception ex)
                         {
-                            AsstProxy.AsstLog($"Error: Failed to kill emulator process with PID {processes[0].Id}. Exception: {ex.Message}");
+                            _logger.Information($"Error: Failed to kill emulator process with PID {processes[0].Id}. Exception: {ex.Message}");
                         }
                     }
                 }
@@ -1754,17 +1751,17 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (Instances.SettingsViewModel.UseAlternateStage)
                 {
-                    if (IsStageOpen(Stage1) || (CustomStageCode && !StageList.Any(x => x.Value == Stage1)))
+                    if (IsStageOpen(Stage1))
                     {
                         return Stage1;
                     }
 
-                    if (IsStageOpen(Stage2) || (CustomStageCode && !StageList.Any(x => x.Value == Stage2)))
+                    if (IsStageOpen(Stage2))
                     {
                         return Stage2;
                     }
 
-                    if (IsStageOpen(Stage3) || (CustomStageCode && !StageList.Any(x => x.Value == Stage3)))
+                    if (IsStageOpen(Stage3))
                     {
                         return Stage3;
                     }

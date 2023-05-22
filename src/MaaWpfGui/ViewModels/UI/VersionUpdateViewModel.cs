@@ -501,47 +501,31 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 string rawUrl = _assetsObject["browser_download_url"]?.ToString();
+                var mirrors = _assetsObject["mirrors"]?.ToObject<List<string>>();
 
-                async Task<bool> download_from_mirror(Tuple<string, string> rep)
+                bool downloaded = false;
+                var urls = new List<string>();
+                if (mirrors != null)
                 {
-                    var url = string.Copy(rawUrl);
-                    if (rep != null)
-                    {
-                        url = url.Replace(rep.Item1, rep.Item2);
-                    }
-
-                    if (await DownloadGithubAssets(url, _assetsObject))
-                    {
-                        OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"));
-                        return true;
-                    }
-
-                    return false;
+                    urls.AddRange(mirrors);
                 }
 
-                // 下载压缩包
-                var mirroredReplaceMap = new List<Tuple<string, string>>
-                {
-                    new Tuple<string, string>("github.com", "agent.imgg.dev"),
-                    new Tuple<string, string>("github.com", "maa.r2.imgg.dev"),
-                    // new Tuple<string, string>("github.com", "ota.maa.plus"),
-                    null,
-                };
+                // 负载均衡
+                var rand = new Random();
+                urls = urls.OrderBy(_ => rand.Next()).ToList();
 
-                // 0, 1 两个镜像流量比较充足，优先用
-                var rand_index = new Random().Next(0, 2);   // 前闭后开 [0, 2)
-                bool downloaded = await download_from_mirror(mirroredReplaceMap[rand_index]);
-
-                if (!downloaded)
+                if (rawUrl != null)
                 {
-                    mirroredReplaceMap.RemoveAt(rand_index);
-                    for (int i = 0; i < mirroredReplaceMap.Count && !downloaded; i++)
+                    urls.Add(rawUrl);
+                }
+
+                foreach (var url in urls)
+                {
+                    downloaded = await DownloadGithubAssets(url, _assetsObject);
+                    if (downloaded)
                     {
-                        downloaded = await download_from_mirror(mirroredReplaceMap[i]);
-                        if (downloaded)
-                        {
-                            break;
-                        }
+                        OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"));
+                        break;
                     }
                 }
 
@@ -596,18 +580,13 @@ namespace MaaWpfGui.ViewModels.UI
 
             try
             {
-                var maaApiRet = await CheckUpdateByMaaApi();
-                if (maaApiRet != CheckUpdateRetT.FailedToGetInfo)
-                {
-                    return maaApiRet;
-                }
+                return await CheckUpdateByMaaApi();
             }
             catch (Exception ex)
             {
                 _logger.Error(ex, "Failed to check update by Maa API.");
+                return CheckUpdateRetT.FailedToGetInfo;
             }
-
-            return await CheckUpdateByGithubApi();
         }
 
         private async Task<CheckUpdateRetT> CheckUpdateByMaaApi()
@@ -694,129 +673,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             return CheckUpdateRetT.OK;
-        }
-
-        private async Task<CheckUpdateRetT> CheckUpdateByGithubApi()
-        {
-            const int RequestRetryMaxTimes = 2;
-            try
-            {
-                if (!Instances.SettingsViewModel.UpdateBeta && !Instances.SettingsViewModel.UpdateNightly)
-                {
-                    // 稳定版更新使用主仓库 /latest 接口
-                    // 直接使用 MaaRelease 的话，30 个可能会找不到稳定版，因为有可能 Nightly 发了很多
-                    var stableResponse = await RequestGithubApi(StableRequestUrl, RequestRetryMaxTimes);
-                    if (string.IsNullOrEmpty(stableResponse))
-                    {
-                        return CheckUpdateRetT.NetworkError;
-                    }
-
-                    _latestJson = JsonConvert.DeserializeObject(stableResponse) as JObject;
-                    _latestVersion = _latestJson["tag_name"].ToString();
-                    stableResponse = await RequestGithubApi(MaaReleaseRequestUrlByTag + _latestVersion, RequestRetryMaxTimes);
-
-                    // 主仓库能找到版，但是 MaaRelease 找不到，说明 MaaRelease 还没有同步（一般过个十分钟就同步好了）
-                    if (string.IsNullOrEmpty(stableResponse))
-                    {
-                        return CheckUpdateRetT.NewVersionIsBeingBuilt;
-                    }
-
-                    _latestJson = JsonConvert.DeserializeObject(stableResponse) as JObject;
-                }
-                else
-                {
-                    // 非稳定版更新使用 MaaRelease/releases 接口
-                    var response = await RequestGithubApi(RequestUrl, RequestRetryMaxTimes);
-                    if (string.IsNullOrEmpty(response))
-                    {
-                        return CheckUpdateRetT.NetworkError;
-                    }
-
-                    var releaseArray = JsonConvert.DeserializeObject(response) as JArray;
-
-                    _latestJson = null;
-                    foreach (var item in releaseArray)
-                    {
-                        if (!Instances.SettingsViewModel.UpdateNightly && !isStdVersion(item["tag_name"].ToString()))
-                        {
-                            continue;
-                        }
-
-                        _latestJson = item as JObject;
-                        break;
-                    }
-                }
-
-                if (_latestJson == null)
-                {
-                    return CheckUpdateRetT.AlreadyLatest;
-                }
-
-                _latestVersion = _latestJson["tag_name"].ToString();
-
-                if (Instances.SettingsViewModel.UpdateNightly)
-                {
-                    if (_curVersion == _latestVersion)
-                    {
-                        return CheckUpdateRetT.AlreadyLatest;
-                    }
-                }
-                else
-                {
-                    bool curParsed = SemVersion.TryParse(_curVersion, SemVersionStyles.AllowLowerV, out var curVersionObj);
-                    bool latestPared = SemVersion.TryParse(_latestVersion, SemVersionStyles.AllowLowerV, out var latestVersionObj);
-                    if (curParsed && latestPared)
-                    {
-                        if (curVersionObj.CompareSortOrderTo(latestVersionObj) >= 0)
-                        {
-                            return CheckUpdateRetT.AlreadyLatest;
-                        }
-                    }
-                    else if (string.CompareOrdinal(_curVersion, _latestVersion) >= 0)
-                    {
-                        return CheckUpdateRetT.AlreadyLatest;
-                    }
-                }
-
-                // 从主仓库获取changelog等信息
-                // 非稳定版本是 Nightly 下载的，主仓库没有它的更新信息，不必请求
-                if (isStdVersion(_latestVersion))
-                {
-                    var infoResponse = await RequestGithubApi(InfoRequestUrl + _latestVersion, RequestRetryMaxTimes);
-                    if (string.IsNullOrEmpty(infoResponse))
-                    {
-                        return CheckUpdateRetT.FailedToGetInfo;
-                    }
-
-                    _latestJson = JsonConvert.DeserializeObject(infoResponse) as JObject;
-                }
-
-                var releaseAssets = _latestJson["assets"] as JArray;
-                _assetsObject = null;
-                foreach (var curAssets in releaseAssets)
-                {
-                    string name = curAssets["name"].ToString().ToLower();
-                    if (name.Contains("ota") && name.Contains("win") && name.Contains($"{_curVersion}_{_latestVersion}"))
-                    {
-                        _assetsObject = curAssets as JObject;
-                        if (IsArm ^ name.Contains("arm"))
-                        {
-                            continue; // 兼容旧版本，以前 ota 不区分指令集架构
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                }
-
-                return CheckUpdateRetT.OK;
-            }
-            catch (Exception)
-            {
-                // Refactor pending
-                return CheckUpdateRetT.UnknownError;
-            }
         }
 
         private bool NeedToUpdate(string latestVersion)

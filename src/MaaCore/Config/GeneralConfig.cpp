@@ -18,6 +18,7 @@ bool asst::GeneralConfig::parse(const json::value& json)
         m_options.adb_extra_swipe_dist = options_json.get("adbExtraSwipeDist", 100);
         m_options.adb_extra_swipe_duration = options_json.get("adbExtraSwipeDuration", -1);
         m_options.adb_swipe_duration_multiplier = options_json.get("adbSwipeDurationMultiplier", 10.0);
+        m_options.adb_swipe_x_distance_multiplier = options_json.get("adbSwipeXDistanceMultiplier", 0.8);
         m_options.minitouch_extra_swipe_dist = options_json.get("minitouchExtraSwipeDist", 100);
         m_options.minitouch_extra_swipe_duration = options_json.get("minitouchExtraSwipeDuration", -1);
         m_options.minitouch_swipe_default_duration = options_json.get("minitouchSwipeDefaultDuration", 200);

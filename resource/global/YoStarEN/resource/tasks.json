@@ -1950,6 +1950,9 @@
             "Assign"
         ]
     },
+    "InfrastFilterMenuNotStationedButton": {
+        "templThreshold": 0.75
+    },
     "InfrastReward": {
         "text": [
             "Collectable",

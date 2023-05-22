@@ -7,7 +7,7 @@
     <SolidColorBrush x:Key="MarkdigCodeBrush" Color="LightGray" />
 
     <!--  HandyControl Brush  -->
-    <SolidColorBrush x:Key="SecondaryRegionBrush" Color="#f5f5f5" />
+    <SolidColorBrush x:Key="SecondaryRegionBrush" Color="#F3F3F3" />
 
     <!--  UiLogColor  -->
     <SolidColorBrush x:Key="ErrorLogBrush" Color="DarkRed" />

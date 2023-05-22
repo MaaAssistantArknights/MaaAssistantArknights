@@ -236,6 +236,9 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                         priority += 150;
                         temp_recruit_exist = false;
                     }
+                    if (oper_info.elite < 2) { // 若未精二，则晋升无意义
+                        priority = 0;
+                    }
                 }
             }
             else {
