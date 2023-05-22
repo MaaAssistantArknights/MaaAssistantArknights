@@ -510,6 +510,10 @@ namespace MaaWpfGui.ViewModels.UI
                     urls.AddRange(mirrors);
                 }
 
+                // 负载均衡
+                var rand = new Random();
+                urls = urls.OrderBy(_ => rand.Next()).ToList();
+
                 if (rawUrl != null)
                 {
                     urls.Add(rawUrl);
