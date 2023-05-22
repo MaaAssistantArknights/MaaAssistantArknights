@@ -60,7 +60,7 @@ jobs:
           $ids = $($described -split "-")
           if ($ids.length -eq 3) {
             $ver = "v$(semver --increment $ids[0].Substring(1))"
-            $pre_version = $($ids[0])
+            $pre_version = "$($ids[0])"
             $dist = `printf "%03d"` $ids[1]
             echo "tag=$ver-alpha.1.d$($dist).$($ids[2])" >> $env:GITHUB_OUTPUT
             echo "pre_version=$pre_version" >> $env:GITHUB_OUTPUT
@@ -68,7 +68,7 @@ jobs:
           }
           if ($ids.length -eq 4) {
             $dist = `printf "%03d"` $ids[2]
-            $pre_version = $($ids[0])-$($ids[1])
+            $pre_version = "$($ids[0])""-""$($ids[1])"
             echo "tag=$($ids[0])-$($ids[1]).d$($dist).$($ids[3])" >> $env:GITHUB_OUTPUT
             echo "pre_version=$pre_version" >> $env:GITHUB_OUTPUT
             exit 0
