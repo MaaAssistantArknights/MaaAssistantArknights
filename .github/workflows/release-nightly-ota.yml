@@ -82,8 +82,8 @@ jobs:
           git config user.email 'github-actions[bot]@users.noreply.github.com'
           
           $main_tag_name=$(echo "alpha/${{ steps.set_tag.outputs.tag }}")
-          git tag $main_tag_name || exit 0 # do nothing if the tag already exists
-          git push --tags origin HEAD:refs/tags/$main_tag_name
+          git tag $main_tag_name -f
+          git push --tags origin HEAD:refs/tags/$main_tag_name -f
           echo "main_tag_name=$main_tag_name" >> $env:GITHUB_OUTPUT
 
       - name: Cache .nuke/temp, ~/.nuget/packages
