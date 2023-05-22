@@ -164,9 +164,9 @@ MAA 的意思是 MAA Assistant Arknights
 
 请参考 [外服适配教程](https://maa.plus/docs/2.5-外服适配教程.html)，对于国服已支持的功能，绝大部分的外服适配工作仅需要截图 + 简单的 JSON 修改即可。
 
-### 想参与开发，但不太会用 Github?
+### 想参与开发，但不太会用 GitHub?
 
-[Github Pull Request 流程简述](https://maa.plus/docs/2.2-开发相关.html#github-pull-request-流程简述)
+[GitHub Pull Request 流程简述](https://maa.plus/docs/2.2-开发相关.html#github-pull-request-流程简述)
 
 ### Issue bot
 
