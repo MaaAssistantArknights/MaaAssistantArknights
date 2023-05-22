@@ -1011,36 +1011,64 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
 
 bool update_version_info(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir)
 {
-    const auto json_path = input_dir / "gacha_table.json";
-    auto gacha_json_opt = json::open(json_path);
-    if (!gacha_json_opt) {
-        std::cerr << "faild to parse " << json_path;
-        return false;
-    }
-    auto& gacha_json = *gacha_json_opt;
-
-    std::unordered_map<std::string, size_t> pool_count;
-    for (auto& gacha_info : gacha_json["gachaPoolClient"].as_array()) {
-        pool_count[gacha_info["gachaPoolName"].as_string()]++;
-    }
-
-    uint64_t time = 0;
-    std::string pool;
-    for (auto& gacha_info : gacha_json["gachaPoolClient"].as_array()) {
-        const auto& pool_name = gacha_info["gachaPoolName"].as_string();
-        if (pool_count[pool_name] > 5) { // 把常驻池过滤掉
-            continue;
-        }
-        auto cur_time = gacha_info["openTime"].as_unsigned_long_long();
-        if (time < cur_time) {
-            time = cur_time;
-            pool = pool_name;
-        }
-    }
-
     json::value result;
-    result["gacha"]["time"] = time;
-    result["gacha"]["pool"] = pool;
+    {
+        const auto json_path = input_dir / "gacha_table.json";
+        auto gacha_json_opt = json::open(json_path);
+        if (!gacha_json_opt) {
+            std::cerr << "faild to parse " << json_path;
+            return false;
+        }
+        auto& gacha_json = *gacha_json_opt;
+
+        std::unordered_map<std::string, size_t> pool_count;
+        for (auto& gacha_info : gacha_json["gachaPoolClient"].as_array()) {
+            pool_count[gacha_info["gachaPoolName"].as_string()]++;
+        }
+
+        uint64_t time = 0;
+        std::string pool;
+        for (auto& gacha_info : gacha_json["gachaPoolClient"].as_array()) {
+            const auto& pool_name = gacha_info["gachaPoolName"].as_string();
+            if (pool_count[pool_name] > 5) { // 把常驻池过滤掉
+                continue;
+            }
+            auto cur_time = gacha_info["openTime"].as_unsigned_long_long();
+            if (time < cur_time) {
+                time = cur_time;
+                pool = pool_name;
+            }
+        }
+
+        result["gacha"]["time"] = time;
+        result["gacha"]["pool"] = pool;
+    }
+    {
+        const auto json_path = input_dir / "activity_table.json";
+        auto activity_json_opt = json::open(json_path);
+        if (!activity_json_opt) {
+            std::cerr << "faild to parse " << json_path;
+            return false;
+        }
+
+        uint64_t time = 0;
+        std::string name;
+
+        auto& activity_json = *activity_json_opt;
+        for (const auto& [_, act] : activity_json["basicInfo"].as_object()) {
+            if (!act.at("displayOnHome").as_boolean()) {
+                continue;
+            }
+            auto cur_time = act.at("startTime").as_unsigned_long_long();
+            if (time < cur_time) {
+                time = cur_time;
+                name = act.at("name").as_string();
+            }
+        }
+
+        result["activity"]["time"] = time;
+        result["activity"]["name"] = name;
+    }
 
     std::ofstream ofs(output_dir / "version.json", std::ios::out);
     ofs << result.format(true) << std::endl;
