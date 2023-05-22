@@ -76982,85 +76982,6 @@
             "ko": "CW-1",
             "zh": "CW-1"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30011"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30061"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30031"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30021"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30041"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30051"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 6
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1684699200000,
@@ -77078,9 +76999,6 @@
             }
         },
         "minClearTime": 177000,
-        "recognitionOnly": [
-            "act25side_token_fdrchips"
-        ],
         "stageId": "act25side_01",
         "stageType": "ACTIVITY",
         "zoneId": "act25side_zone1"
@@ -77094,85 +77012,6 @@
             "ko": "CW-2",
             "zh": "CW-2"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30011"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30061"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30031"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30021"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30041"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30051"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 6
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1684699200000,
@@ -77190,9 +77029,6 @@
             }
         },
         "minClearTime": 210000,
-        "recognitionOnly": [
-            "act25side_token_fdrchips"
-        ],
         "stageId": "act25side_02",
         "stageType": "ACTIVITY",
         "zoneId": "act25side_zone1"
@@ -77206,85 +77042,6 @@
             "ko": "CW-3",
             "zh": "CW-3"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30011"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30061"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30031"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30021"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30041"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30051"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 6
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1684699200000,
@@ -77302,9 +77059,6 @@
             }
         },
         "minClearTime": 166000,
-        "recognitionOnly": [
-            "act25side_token_fdrchips"
-        ],
         "stageId": "act25side_03",
         "stageType": "ACTIVITY",
         "zoneId": "act25side_zone1"
@@ -77318,53 +77072,6 @@
             "ko": "CW-4",
             "zh": "CW-4"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30062"
-            },
-            {
-                "bounds": {
-                    "lower": 1,
-                    "upper": 3
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30032"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 1,
-                    "upper": 2
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1684699200000,
@@ -77382,9 +77089,6 @@
             }
         },
         "minClearTime": 242000,
-        "recognitionOnly": [
-            "act25side_token_fdrchips"
-        ],
         "stageId": "act25side_04",
         "stageType": "ACTIVITY",
         "zoneId": "act25side_zone1"
@@ -77398,53 +77102,6 @@
             "ko": "CW-5",
             "zh": "CW-5"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30042"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30052"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 2
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1684699200000,
@@ -77462,9 +77119,6 @@
             }
         },
         "minClearTime": 151000,
-        "recognitionOnly": [
-            "act25side_token_fdrchips"
-        ],
         "stageId": "act25side_05",
         "stageType": "ACTIVITY",
         "zoneId": "act25side_zone1"
@@ -77478,53 +77132,6 @@
             "ko": "CW-6",
             "zh": "CW-6"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 1,
-                    "upper": 3
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30022"
-            },
-            {
-                "bounds": {
-                    "lower": 1,
-                    "upper": 3
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30012"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 2,
-                    "upper": 2
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1684699200000,
@@ -77542,9 +77149,6 @@
             }
         },
         "minClearTime": 194000,
-        "recognitionOnly": [
-            "act25side_token_fdrchips"
-        ],
         "stageId": "act25side_06",
         "stageType": "ACTIVITY",
         "zoneId": "act25side_zone1"
@@ -77558,53 +77162,6 @@
             "ko": "CW-7",
             "zh": "CW-7"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 1,
-                    "upper": 3
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30042"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30062"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 1,
-                    "upper": 2
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1684699200000,
@@ -77622,9 +77179,6 @@
             }
         },
         "minClearTime": 163000,
-        "recognitionOnly": [
-            "act25side_token_fdrchips"
-        ],
         "stageId": "act25side_07",
         "stageType": "ACTIVITY",
         "zoneId": "act25side_zone1"
@@ -77638,45 +77192,6 @@
             "ko": "CW-8",
             "zh": "CW-8"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30053"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1684699200000,
@@ -77694,9 +77209,6 @@
             }
         },
         "minClearTime": 208000,
-        "recognitionOnly": [
-            "act25side_token_fdrchips"
-        ],
         "stageId": "act25side_08",
         "stageType": "ACTIVITY",
         "zoneId": "act25side_zone1"
@@ -77710,45 +77222,6 @@
             "ko": "CW-9",
             "zh": "CW-9"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "31043"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1684699200000,
@@ -77766,9 +77239,6 @@
             }
         },
         "minClearTime": 233000,
-        "recognitionOnly": [
-            "act25side_token_fdrchips"
-        ],
         "stageId": "act25side_09",
         "stageType": "ACTIVITY",
         "zoneId": "act25side_zone1"
@@ -77782,45 +77252,6 @@
             "ko": "CW-10",
             "zh": "CW-10"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "31023"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1684699200000,
@@ -77838,9 +77269,6 @@
             }
         },
         "minClearTime": 242500,
-        "recognitionOnly": [
-            "act25side_token_fdrchips"
-        ],
         "stageId": "act25side_10",
         "stageType": "ACTIVITY",
         "zoneId": "act25side_zone1"

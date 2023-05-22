@@ -614,7 +614,7 @@ namespace MaaWpfGui.ViewModels.UI
                     StartInfo = startInfo,
                 };
 
-                AsstProxy.AsstLog("Try to start emulator: \nfileName: " + fileName + "\narguments: " + arguments);
+                _logger.Information("Try to start emulator: \nfileName: " + fileName + "\narguments: " + arguments);
                 process.Start();
 
                 try
@@ -623,7 +623,7 @@ namespace MaaWpfGui.ViewModels.UI
                     process.WaitForInputIdle();
                     if (MinimizingStartup)
                     {
-                        AsstProxy.AsstLog("Try minimizing the emulator");
+                        _logger.Information("Try minimizing the emulator");
                         int i;
                         for (i = 0; !IsIconic(process.MainWindowHandle) && i < 100; ++i)
                         {
@@ -637,14 +637,14 @@ namespace MaaWpfGui.ViewModels.UI
 
                         if (i >= 100)
                         {
-                            AsstProxy.AsstLog("Attempts to exceed the limit");
+                            _logger.Information("Attempts to exceed the limit");
                             throw new Exception();
                         }
                     }
                 }
                 catch (Exception)
                 {
-                    AsstProxy.AsstLog("The emulator was already start");
+                    _logger.Information("The emulator was already start");
 
                     // 如果之前就启动了模拟器，如果开启了最小化启动，就把所有模拟器最小化
                     // TODO:只最小化需要开启的模拟器
@@ -654,7 +654,7 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         if (MinimizingStartup)
                         {
-                            AsstProxy.AsstLog("Try minimizing the emulator by processName: " + processName);
+                            _logger.Information("Try minimizing the emulator by processName: " + processName);
                             foreach (Process p in processes)
                             {
                                 int i;
@@ -666,7 +666,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                                 if (i >= 100)
                                 {
-                                    AsstProxy.AsstLog("The emulator minimization failure");
+                                    _logger.Warning("The emulator minimization failure");
                                 }
                             }
                         }
@@ -675,7 +675,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
             catch (Exception)
             {
-                AsstProxy.AsstLog("Start emulator error, try to start using the default: \n" +
+                _logger.Information("Start emulator error, try to start using the default: \n" +
                     "EmulatorPath: " + EmulatorPath + "\n" +
                     "EmulatorAddCommand: " + EmulatorAddCommand);
                 if (EmulatorAddCommand.Length != 0)
@@ -697,7 +697,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (Instances.TaskQueueViewModel.Stopping)
                 {
-                    AsstProxy.AsstLog("Stop waiting for the emulator to start");
+                    _logger.Information("Stop waiting for the emulator to start");
                     return;
                 }
 
@@ -705,7 +705,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
                         LocalizationHelper.GetString("WaitForEmulator") + ": " + (delay - i) + "s"));
-                    AsstProxy.AsstLog("Waiting for the emulator to start: " + (delay - i) + "s");
+                    _logger.Information("Waiting for the emulator to start: " + (delay - i) + "s");
                 }
 
                 Thread.Sleep(1000);
@@ -713,7 +713,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
                 LocalizationHelper.GetString("WaitForEmulatorFinish")));
-            AsstProxy.AsstLog("The wait is over");
+            _logger.Information("The wait is over");
 
             // 重置按钮状态，不影响后续判断
             Instances.TaskQueueViewModel.Idle = idle;
@@ -750,6 +750,7 @@ namespace MaaWpfGui.ViewModels.UI
                 UpdateWindowTitle(); /* 每次修改客户端时更新WindowTitle */
                 Instances.TaskQueueViewModel.UpdateStageList(true);
                 Instances.TaskQueueViewModel.UpdateDatePrompt();
+                Instances.AsstProxy.LoadResource();
             }
         }
 

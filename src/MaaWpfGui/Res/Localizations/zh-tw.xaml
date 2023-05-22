@@ -176,8 +176,8 @@
     <system:String x:Key="InvestmentEnabled">投資源石錠</system:String>
 
     <system:String x:Key="PenguinID">企鵝物流匯報ID（僅數字部分）</system:String>
-    <system:String x:Key="DrGrandet">博朗台碎石模式</system:String>
-    <system:String x:Key="DrGrandetTip">在碎石確認界面等待，直到當前的 1 點理智恢復完成再立即確認。不碎石時該選項不影響正常運行</system:String>
+    <system:String x:Key="DrGrandet">博朗台模式</system:String>
+    <system:String x:Key="DrGrandetTip">在恢復理智確認界面等待，直到當前的 1 點理智恢復完成再立即確認。</system:String>
 
     <system:String x:Key="SocialPtShop">信用購物</system:String>
     <system:String x:Key="CreditFight">藉助戰賺信用</system:String>

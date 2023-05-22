@@ -112,7 +112,7 @@ UIを見れば使い方もすぐ分かる！<br>
 - ~~オペレーターおよび基地データ：[PRTSアークナイツ中国語WIKI](http://prts.wiki/)~~
 - ステージデータ：[PenguinStatsデータ統計](https://penguin-stats.io/)
 - ゲームのデータとリソース：[アークナイツのクライアント資料](https://github.com/yuanyan3060/ArknightsGameResource)
-- ゲームデータ：[アークナイツのゲームデータ](https://github.com/Kengxxiao/ArknightsGameData)
+- ~~ゲームデータ：[アークナイツのゲームデータ](https://github.com/Kengxxiao/ArknightsGameData)~~
 
 ### 貢献/協力者
 

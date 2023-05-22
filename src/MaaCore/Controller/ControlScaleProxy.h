@@ -15,7 +15,8 @@ namespace asst
         using ProxyCallback = std::function<void(const json::object&)>;
 
     public:
-        ControlScaleProxy(std::shared_ptr<ControllerAPI> controller, ProxyCallback proxy_callback);
+        ControlScaleProxy(std::shared_ptr<ControllerAPI> controller, ControllerType controller_type,
+                          ProxyCallback proxy_callback);
         ~ControlScaleProxy() = default;
 
         ControlScaleProxy(const ControlScaleProxy&) = delete;
@@ -39,7 +40,8 @@ namespace asst
         void callback(const json::object& details);
 
         std::shared_ptr<ControllerAPI> m_controller;
-        ProxyCallback m_callback;
+        ControllerType m_controller_type = ControllerType::Minitouch;
+        ProxyCallback m_callback = nullptr;
 
         std::minstd_rand m_rand_engine;
 

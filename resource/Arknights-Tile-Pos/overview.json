@@ -11933,6 +11933,15 @@
         "stageId": "mem_chiave_1",
         "width": 11
     },
+    "mem_ctable_1-obt/memory/level_memory_ctable_1": {
+        "code": "mem_ctable_1",
+        "filename": "mem_ctable_1-obt-memory-level_memory_ctable_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_ctable_1",
+        "name": "匿影藏形",
+        "stageId": "mem_ctable_1",
+        "width": 9
+    },
     "mem_cutter_1-obt/memory/level_memory_cutter_1": {
         "code": "mem_cutter_1",
         "filename": "mem_cutter_1-obt-memory-level_memory_cutter_1.json",
@@ -11995,6 +12004,15 @@
         "name": "目标在这儿呢！",
         "stageId": "mem_elysm_1",
         "width": 11
+    },
+    "mem_erato_1-obt/memory/level_memory_erato_1": {
+        "code": "mem_erato_1",
+        "filename": "mem_erato_1-obt-memory-level_memory_erato_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_erato_1",
+        "name": "沉渊美梦",
+        "stageId": "mem_erato_1",
+        "width": 10
     },
     "mem_estell_1-obt/memory/level_memory_estell_1": {
         "code": "mem_estell_1",
@@ -12248,6 +12266,15 @@
         "stageId": "mem_iris_1",
         "width": 10
     },
+    "mem_jaksel_1-obt/memory/level_memory_jaksel_1": {
+        "code": "mem_jaksel_1",
+        "filename": "mem_jaksel_1-obt-memory-level_memory_jaksel_1.json",
+        "height": 9,
+        "levelId": "obt/memory/level_memory_jaksel_1",
+        "name": "危机现场",
+        "stageId": "mem_jaksel_1",
+        "width": 13
+    },
     "mem_jesica_1-obt/memory/level_memory_jesica_1": {
         "code": "mem_jesica_1",
         "filename": "mem_jesica_1-obt-memory-level_memory_jesica_1.json",
@@ -12256,6 +12283,15 @@
         "name": "战战兢兢",
         "stageId": "mem_jesica_1",
         "width": 11
+    },
+    "mem_kazema_1-obt/memory/level_memory_kazema_1": {
+        "code": "mem_kazema_1",
+        "filename": "mem_kazema_1-obt-memory-level_memory_kazema_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_kazema_1",
+        "name": "共谋",
+        "stageId": "mem_kazema_1",
+        "width": 12
     },
     "mem_kirara_1-obt/memory/level_memory_kirara_1": {
         "code": "mem_kirara_1",

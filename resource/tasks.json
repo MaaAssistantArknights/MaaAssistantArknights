@@ -6507,7 +6507,7 @@
             60,
             60
         ],
-        "postDelay": 100
+        "postDelay": 200
     },
     "BattleCancelSelection": {
         "algorithm": "JustReturn",
@@ -6874,6 +6874,10 @@
             ],
             [
                 "^.+-MO-?\\d+$",
+                "_INVALID_"
+            ],
+            [
+                "^OF-1$",
                 "_INVALID_"
             ],
             [
@@ -7277,6 +7281,21 @@
         ],
         "rectMove": [
             400,
+            350,
+            20,
+            20
+        ]
+    },
+    "BattleFormationOperListSwipeToTheLeft": {
+        "baseTask": "SwipeToTheLeft",
+        "specificRect": [
+            400,
+            350,
+            20,
+            20
+        ],
+        "rectMove": [
+            1100,
             350,
             20,
             20

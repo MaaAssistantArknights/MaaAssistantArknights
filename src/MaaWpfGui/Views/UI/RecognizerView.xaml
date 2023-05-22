@@ -292,10 +292,17 @@
                     <Button
                         Width="110"
                         Height="60"
-                        Margin="50"
+                        Margin="0,50,0,0"
                         Command="{s:Action GachaAgreeDisclaimer}"
                         Content="{DynamicResource GachaAgreeDisclaimer}"
                         FontSize="16" />
+                    <CheckBox
+                        Height="30"
+                        Margin="6"
+                        HorizontalAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Content="{DynamicResource GachaShowDisclaimerNoMore}"
+                        IsChecked="{Binding GachaShowDisclaimerNoMore}" />
                 </StackPanel>
 
                 <StackPanel
