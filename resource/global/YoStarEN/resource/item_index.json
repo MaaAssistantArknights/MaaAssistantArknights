@@ -943,6 +943,14 @@
         "sortId": 10018,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
+    "LMTGS_COIN_3301": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_3301.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10019,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
@@ -1310,6 +1318,14 @@
         "name": "Photocopies of 'Stranger Things'",
         "sortId": -10000,
         "usage": "Photocopies of a gaudy magazine, the contents preposterous, yet well-loved by Durin far and wide. Can be used at the Leaping Gloompincer Market to trade with the Durin for supplies."
+    },
+    "act21side_token_permesso": {
+        "classifyType": "NONE",
+        "description": "Steaks, seasonal vegetables, and fresh fruit to please any soul, or a little something otherwise. The clever ones know what the famiglie want, and will ready it in advance, to be supplied when the time comes.",
+        "icon": "act21side_token_permesso.png",
+        "name": "Permesso di Importazione",
+        "sortId": -10000,
+        "usage": "Permits issued by the Dipartimento di Sicurezza Alimentare to the famiglie. These grant famiglia members entry to the Dipartimento di Sicurezza Alimentare and the right to obtain goods, whether said goods fall under 'alimentare' notwithstanding."
     },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
@@ -1708,6 +1724,14 @@
         "description": null,
         "icon": "rogue_1_token_grow.png",
         "name": "Caliginous Insights",
+        "sortId": -10000,
+        "usage": null
+    },
+    "rogue_2_token_bp": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "rogue_2_token_bp.png",
+        "name": "Living Cells",
         "sortId": -10000,
         "usage": null
     },
