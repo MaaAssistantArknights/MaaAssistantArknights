@@ -943,6 +943,14 @@
         "sortId": 10018,
         "usage": "신형 모집 협약에서 정한 일종의 기간 한정 화폐. 일정 수량을 누적하여 지정된 기간 동안 지정된 오퍼레이터를 채용할 수 있다."
     },
+    "LMTGS_COIN_3301": {
+        "classifyType": "NORMAL",
+        "description": "헤드헌팅 회사와 장기적이고 안정적인 협력 관계를 유지한 보답. 효과적으로 지출을 조절할 수 있지만, 매번 이와 같은 수단을 써야 하는 것은 아니다.",
+        "icon": "LMTGS_COIN_3301.png",
+        "name": "헤드헌팅 데이터 계약",
+        "sortId": 10019,
+        "usage": "신형 모집 협약에서 정한 일종의 기간 한정 화폐. 일정 수량을 누적하여 지정된 기간 동안 지정된 오퍼레이터를 채용할 수 있다."
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "헤드헌팅 회사와 장기적이고 안정적인 협력 관계를 유지한 보답. 효과적으로 지출을 조절할 수 있지만, 매번 이와 같은 수단을 써야 하는 것은 아니다.",
@@ -1310,6 +1318,14 @@
         "name": "《기담괴론》 사본",
         "sortId": -10000,
         "usage": "어느 화사한 잡지의 사본. 터무니없는 내용으로 가득 차 있지만, 어째서인지 두린들은 참 좋아하는 것 같다. 리핑 글룸핀서 마켓에서 두린족과 물자를 교환하는 용도로 쓰인다."
+    },
+    "act21side_token_permesso": {
+        "classifyType": "NONE",
+        "description": "먹음직스러운 스테이크, 제철 채소, 신선한 과일 또는 기타 물건. 현명한 사람은 패밀리가 원하는 것이 무엇인지 알고, 미리 준비하여 적절한 시기에 제공해준다.",
+        "icon": "act21side_token_permesso.png",
+        "name": "수입 통행증",
+        "sortId": -10000,
+        "usage": "식품안전부가 패밀리를 상대로 발행하는 통행증. 패밀리는 이것을 사용해 식품안전부에 들어가 물자를 가져올 수 있다. 일부는 '식품' 범주에 속하지 않지만."
     },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
@@ -1708,6 +1724,14 @@
         "description": null,
         "icon": "rogue_1_token_grow.png",
         "name": "어두운 영감",
+        "sortId": -10000,
+        "usage": null
+    },
+    "rogue_2_token_bp": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "rogue_2_token_bp.png",
+        "name": "생체 세포",
         "sortId": -10000,
         "usage": null
     },
