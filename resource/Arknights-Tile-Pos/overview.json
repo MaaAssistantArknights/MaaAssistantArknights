@@ -8135,6 +8135,42 @@
         "stageId": "hard_12-04",
         "width": 13
     },
+    "level_act38rune_01-01-activities/act38rune/level_act38rune_01-01": {
+        "code": "level_act38rune_01-01",
+        "filename": "level_act38rune_01-01-activities-act38rune-level_act38rune_01-01.json",
+        "height": 8,
+        "levelId": "activities/act38rune/level_act38rune_01-01",
+        "name": "level_act38rune_01-01",
+        "stageId": "level_act38rune_01-01",
+        "width": 12
+    },
+    "level_act38rune_01-02-activities/act38rune/level_act38rune_01-02": {
+        "code": "level_act38rune_01-02",
+        "filename": "level_act38rune_01-02-activities-act38rune-level_act38rune_01-02.json",
+        "height": 8,
+        "levelId": "activities/act38rune/level_act38rune_01-02",
+        "name": "level_act38rune_01-02",
+        "stageId": "level_act38rune_01-02",
+        "width": 12
+    },
+    "level_act38rune_01-03-activities/act38rune/level_act38rune_01-03": {
+        "code": "level_act38rune_01-03",
+        "filename": "level_act38rune_01-03-activities-act38rune-level_act38rune_01-03.json",
+        "height": 8,
+        "levelId": "activities/act38rune/level_act38rune_01-03",
+        "name": "level_act38rune_01-03",
+        "stageId": "level_act38rune_01-03",
+        "width": 12
+    },
+    "level_act38rune_01-04-activities/act38rune/level_act38rune_01-04": {
+        "code": "level_act38rune_01-04",
+        "filename": "level_act38rune_01-04-activities-act38rune-level_act38rune_01-04.json",
+        "height": 8,
+        "levelId": "activities/act38rune/level_act38rune_01-04",
+        "name": "level_act38rune_01-04",
+        "stageId": "level_act38rune_01-04",
+        "width": 11
+    },
     "level_rune_01-01-obt/rune/level_rune_01-01": {
         "code": "level_rune_01-01",
         "filename": "level_rune_01-01-obt-rune-level_rune_01-01.json",
