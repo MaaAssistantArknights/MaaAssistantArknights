@@ -1,4 +1,4 @@
-## v4.18.0
+## v4.18.1
 
 ### 新增
 
@@ -15,6 +15,7 @@
 
 ### 修复
 
+- 修复不能部署干员的问题 @MistEO
 - 全局减小 adb 滑动距离 @MistEO
 - 修复干员识别偶尔滑动失效提前结束的问题；并少存一点日志图 @MistEO
 - 调整鸿雪肉鸽默认技能为1技能 @MistEO
@@ -53,6 +54,7 @@
 
 #### YostarKR
 
+- Fix crash for KR @178619
 - Makes Mizuki theme roguelike available for KR (initially) and updates localization (#4894) @178619
 - Update resources for KR (#4868) @178619
 
