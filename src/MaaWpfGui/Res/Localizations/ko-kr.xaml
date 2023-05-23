@@ -79,7 +79,6 @@
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">호환 모드</system:String>
     <system:String x:Key="SecondResolution">분할 화면</system:String>
-    <system:String x:Key="GeneralWithoutScreencapErr">通用模式（屏蔽异常输出）</system:String>
 
     <system:String x:Key="DormThreshold">오퍼레이터 컨디션 한계점</system:String>
     <system:String x:Key="InfrastThresholdTip">커스텀 기반시설이 활성화되어 있다면, 이 설정은 자동배치 시설에만 유효합니다</system:String>
@@ -457,7 +456,6 @@
     <system:String x:Key="AutoSquad">자동 편성</system:String>
     <system:String x:Key="LoopTimes">반복 횟수</system:String>
     <system:String x:Key="AutoSquadTip">자동 편성은 '선호' 오퍼레이터를 인식할 수 없습니다</system:String>
-    <system:String x:Key="ThanksForLikeWebJson">감사합니다 평가하십시오!\n웹 페이지에는 이미 댓글 섹션이 열려 있으며 의견을 남기시기 바랍니다!</system:String>
 
     <system:String x:Key="Start">시작</system:String>
 
