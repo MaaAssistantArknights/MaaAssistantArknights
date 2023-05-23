@@ -943,6 +943,14 @@
         "sortId": 10018,
         "usage": "新型採用契約による期限付きポイント。一定数溜まると対象スカウトのオペレーターを指名できる。"
     },
+    "LMTGS_COIN_3301": {
+        "classifyType": "NORMAL",
+        "description": "人材派遣会社との長期的かつ安定的な協力態勢の賜物。支出のコントロールに効果が期待できる。しかし、毎回この手段を使わざるを得ないような状況にはなってほしくないものだ。",
+        "icon": "LMTGS_COIN_3301.png",
+        "name": "限定契約証",
+        "sortId": 10019,
+        "usage": "新型採用契約による期限付きポイント。一定数溜まると対象スカウトのオペレーターを指名できる。"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "人材派遣会社との長期的かつ安定的な協力態勢の賜物。支出のコントロールに効果が期待できる。しかし、毎回この手段を使わざるを得ないような状況にはなってほしくないものだ。",
@@ -1310,6 +1318,14 @@
         "name": "『奇談怪論』複製本",
         "sortId": -10000,
         "usage": "けばけばしい色の雑誌。内容は荒唐無稽だが、ドゥリン人たちには大人気である。ぴょんぴょん鉗獣市場で物資と交換することができる。"
+    },
+    "act21side_token_permesso": {
+        "classifyType": "NONE",
+        "description": "誰もが満足するようなステーキや旬の野菜と果物、或いはもっと別なもの。マフィアの面々がいつどこで何を欲するのかをよく理解し、事前に手配を済ませてピッタリなタイミングで提供する。それが賢い者のやり方だ。",
+        "icon": "act21side_token_permesso.png",
+        "name": "買付許可証",
+        "sortId": -10000,
+        "usage": "食品安全保証部がマフィアのファミリーに発行している許可証。これがあれば食品安全保証部に出入りし、物資を確保することができる。たとえそれらが「食品」とは呼べない代物であっても。"
     },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
@@ -1708,6 +1724,14 @@
         "description": null,
         "icon": "rogue_1_token_grow.png",
         "name": "昏きセンス",
+        "sortId": -10000,
+        "usage": null
+    },
+    "rogue_2_token_bp": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "rogue_2_token_bp.png",
+        "name": "有機細胞",
         "sortId": -10000,
         "usage": null
     },

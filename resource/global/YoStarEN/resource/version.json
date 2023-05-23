@@ -1,6 +1,10 @@
 {
+    "activity": {
+        "name": "IL Siracusano",
+        "time": 1684843200
+    },
     "gacha": {
-        "pool": "Bearings And Sparks",
-        "time": 1682614800
+        "pool": "Through A Path of Briars",
+        "time": 1684843200
     }
 }

@@ -3,6 +3,7 @@
 #include "Assistant.h"
 #include "Common/AsstConf.h"
 #include "Utils/NoWarningCV.h"
+#include <cstdint>
 
 #ifdef _MSC_VER
 #pragma warning(push)
@@ -322,14 +323,25 @@ bool asst::AdbController::convert_lf(std::string& data)
 bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect)
 {
     DecodeFunc decode_raw = [&](const std::string& data) -> bool {
-        if (data.empty()) {
+        constexpr size_t header_size = 16;
+        if (data.size() < header_size) return false;
+        // assuming little endian
+        uint32_t w = static_cast<uint32_t>(static_cast<unsigned char>(data[0])) << 0 |
+                     static_cast<uint32_t>(static_cast<unsigned char>(data[1])) << 8 |
+                     static_cast<uint32_t>(static_cast<unsigned char>(data[2])) << 16 |
+                     static_cast<uint32_t>(static_cast<unsigned char>(data[3])) << 24;
+        uint32_t h = static_cast<uint32_t>(static_cast<unsigned char>(data[4])) << 0 |
+                     static_cast<uint32_t>(static_cast<unsigned char>(data[5])) << 8 |
+                     static_cast<uint32_t>(static_cast<unsigned char>(data[6])) << 16 |
+                     static_cast<uint32_t>(static_cast<unsigned char>(data[7])) << 24;
+        if (int(w) != m_width || int(h) != m_height) {
+            Log.error("Size from image header", w, h, "does not match the size of screen", m_width, m_height);
             return false;
         }
         size_t std_size = 4ULL * m_width * m_height;
-        if (data.size() < std_size) {
+        if (data.size() < std_size + header_size) {
             return false;
         }
-        size_t header_size = data.size() - std_size;
         auto img_data_beg = data.cbegin() + header_size;
         cv::Mat temp(m_height, m_width, CV_8UC4, const_cast<char*>(&*img_data_beg));
         if (temp.empty()) {
