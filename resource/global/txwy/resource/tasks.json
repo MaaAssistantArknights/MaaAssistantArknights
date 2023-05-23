@@ -311,6 +311,12 @@
             "開始試煉"
         ]
     },
+    "BattleStartOCR": {
+        "text": [
+            "行動",
+            "開始"
+        ]
+    },
     "CharsNameOcrReplace": {
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的繁中识别任务复用",
         "ocrReplace": [
