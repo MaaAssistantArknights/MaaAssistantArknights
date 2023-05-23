@@ -3783,5 +3783,31 @@
         "text": [
             "次を訪問"
         ]
+    },
+    "RecruitingActivitiesRecruit": {
+        "text": [
+            "1回スカウト",
+            "スカウト"
+        ]
+    },
+    "RecruitingActivitiesRecruitEnd": {
+        "text": [
+            "1回スカウト",
+            "スカウト"
+        ]
+    },
+    "GachaOncePrefix@DoGacha": {
+        "text": [
+            "1回スカウト",
+            "1回",
+            "スカウ"
+        ]
+    },
+    "GachaTenTimesPrefix@DoGacha": {
+        "text": [
+            "10回スカウト",
+            "10回",
+            "スカウ"
+        ]
     }
 }
