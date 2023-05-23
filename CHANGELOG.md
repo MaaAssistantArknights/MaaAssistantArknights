@@ -1,4 +1,8 @@
-## v4.18.0-beta.1
+## v4.18.0
+
+### 新增
+
+- 支持 `尖灭测试作战` 抄作业 @MistEO @yuanyan3060 @lza11111
 
 ### 改进
 
@@ -7,7 +11,7 @@
 - 刷理智若检测到OF-1自动停止 @MistEO
 - 软件更新弃用 github api，并全面启用 maa version api @MistEO
 - 博朗台模式同时支持等理智药 @MistEO @ABA2396
-- Auto Update Game Resources - 2023-05-22
+- 为窗口标题添加活动名 @MistEO
 
 ### 修复
 
@@ -27,8 +31,9 @@
 - 对蓝叠模拟器Hyper-V的补充说明(#4806) (#4866) @SherkeyXD
 - 修改抽卡重复提示条件，每次启动都会显示抽卡提示 @ABA2396
 - fix s3 synchronization path @GalvinGao
-- ui相关日志移至gui.json @ABA2396
+- ui 相关日志移至 gui.json @ABA2396
 - 更新文档 @MistEO
+- fix typo: Github -> GitHub (#4883) @eltociear
 
 ### For overseas
 
@@ -46,5 +51,6 @@
 
 #### YostarKR
 
+- Makes Mizuki theme roguelike available for KR (initially) and updates localization (#4894) @178619
 - Update resources for KR (#4868) @178619
 
