@@ -1,3 +1,10 @@
+"""
+Author       : UniMars
+Date         : 2023-05-24 03:00:39
+LastEditors  : UniMars
+LastEditTime : 2023-05-24 03:18:47
+Description  : file head
+"""
 import os.path
 import subprocess
 
@@ -11,13 +18,14 @@ def get_latest_file_content(file_path='./cli.py', encoding='utf-8'):
                             capture_output=True,
                             text=True)
 
-    commit_id = result.stdout.decode().replace('"', '').replace('\'', '').strip()
+    commit_id = result.stdout.replace('"', '').replace('\'', '').strip()
 
     result = subprocess.run(['git', 'show', f'{commit_id}:./{basename}'],
                             cwd=dirname,
                             capture_output=True,
-                            text=True)
-    return result.stdout.decode(encoding)
+                            text=True,
+                            encoding=encoding)
+    return result.stdout
 
 
 if __name__ == '__main__':
