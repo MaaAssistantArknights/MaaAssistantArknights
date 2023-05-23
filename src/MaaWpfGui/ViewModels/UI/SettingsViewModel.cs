@@ -2234,14 +2234,24 @@ namespace MaaWpfGui.ViewModels.UI
                 jsonPath = $"resource/global/{ClientType}/resource/version.json";
             }
 
-            string pool = string.Empty;
+            string versionName = string.Empty;
             if (File.Exists(jsonPath))
             {
-                JObject poolJson = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
-                pool = poolJson?["gacha"]?["pool"]?.ToString() ?? string.Empty;
+                JObject versionJson = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
+                var poolTime = (ulong)versionJson?["gacha"]["time"];
+                var activityTime = (ulong)versionJson?["activity"]["time"];
+
+                if (poolTime > activityTime)
+                {
+                    versionName = versionJson?["gacha"]?["pool"]?.ToString() ?? string.Empty;
+                }
+                else
+                {
+                    versionName = versionJson?["activity"]?["name"]?.ToString() ?? string.Empty;
+                }
             }
 
-            string poolString = !string.IsNullOrEmpty(pool) ? $" - {pool}" : string.Empty;
+            string poolString = !string.IsNullOrEmpty(versionName) ? $" - {versionName}" : string.Empty;
             rvm.WindowTitle = $"{prefix}MAA - {VersionId}{poolString} - {connectConfigName} ({ConnectAddress}) - {ClientName}";
         }
 
