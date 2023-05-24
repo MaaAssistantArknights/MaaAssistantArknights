@@ -266,7 +266,7 @@ class XamlParser:
             'ratio_mode': 'accurate',
             'uniqueattrs': uniqueattrs})
         new_action = []
-        logging.info(f"all movements contains {len(res)} steps")
+        logging.info(f"all movements contains {len([i for i in res if type(i).__name__ == 'UpdateTextIn'])} steps")
         for i in res:
             if type(i).__name__ == 'MoveNode' and 'comment()' in i.node:
                 try:
@@ -347,7 +347,7 @@ class XamlParser:
             'ratio_mode': 'accurate',
             'uniqueattrs': uniqueattrs})
         new_actions = []
-        logging.info(f"all movements contains {len(res)} steps")
+        logging.info(f"all movements contains {len([i for i in res if type(i).__name__ == 'UpdateTextIn'])} steps")
         for i in res:
             if type(i).__name__ == 'UpdateTextIn':
                 if i.node.endswith('comment()[1]') and i.text[0] == '$':

@@ -19,8 +19,8 @@ def get_latest_file_content(file_path='./cli.py', encoding='utf-8'):
                             text=True)
 
     commit_id = result.stdout.replace('"', '').replace('\'', '').strip()
-
-    result = subprocess.run(['git', 'show', f'{commit_id}:./{basename}'],
+    heading = 'HEAD' if not commit_id else commit_id
+    result = subprocess.run(['git', 'show', f'{heading}:./{basename}'],
                             cwd=dirname,
                             capture_output=True,
                             text=True,
