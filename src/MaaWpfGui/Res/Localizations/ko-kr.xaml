@@ -48,7 +48,7 @@
     <system:String x:Key="Chip">제조소-칩</system:String>
     <system:String x:Key="DormTrustEnabled">숙소의 남은 자리로 신뢰도 증가</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">이미 배치된 오퍼레이터를 숙소에 넣지 않기</system:String>
-    <system:String x:Key="DormFilterNotStationedTips">Checking the box will not remove operators such as Eileen from the training room, but it will also prevent operators from the workshop from entering the dormitory.</system:String>
+    <system:String x:Key="DormFilterNotStationedTips">체크박스를 선택하면 에일린과 같은 운영자를 훈련실에서 제거하지 않을 뿐만 아니라, 공장 스테이션에서 운영자가 기숙사에 들어오는 것을 방지합니다.</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">오리지늄 조각 자동 보충</system:String>
     <system:String x:Key="CustomInfrastEnabled">커스텀 기반시설 (베타)</system:String>
     <system:String x:Key="DefaultInfrast">기본 구성</system:String>
@@ -117,7 +117,7 @@
     <system:String x:Key="AlgorithmFinish">演算结束</system:String>
     <system:String x:Key="AlgorithmBadge">繁荣证章</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">建造点数</system:String>
-    <system:String x:Key="AlgorithmDoneSmeltGold">Forging Red Gold</system:String>
+    <system:String x:Key="AlgorithmDoneSmeltGold">锻造赤金</system:String>
 
     <system:String x:Key="NotSelected">미선택</system:String>
     <system:String x:Key="Official">공식 서버</system:String>
@@ -202,7 +202,7 @@
     <system:String x:Key="MinimizeAfterLaunch">MAA 실행 후 최소화</system:String>
     <system:String x:Key="ClientType">클라이언트 종류</system:String>
     <system:String x:Key="AutoRestartOption">게임 연결이 끊어지면 자동으로 다시 연결</system:String>
-    <system:String x:Key="HelpUsWithOverseasServersTip">Foreign server adaptation is not selling well, help us! You don't need to know how to program.</system:String>
+    <system:String x:Key="HelpUsWithOverseasServersTip">외국 서버 적응이 잘 안되고 있어요, 도와주세요! 프로그래밍을 알 필요는 없습니다.</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">MAA 실행 후 에뮬레이터를 실행</system:String>
     <system:String x:Key="MinimizingStartup">시작 시뮬레이터 최소화</system:String>
     <system:String x:Key="WaitForEmulator">에뮬레이터 실행 대기 (초)</system:String>
@@ -249,7 +249,7 @@
     <system:String x:Key="DarkModeSetColorsTip">변경 사항을 적용하려면 즉시 다시 시작하시겠습니까?</system:String>
     <system:String x:Key="UseAlternateStage">대체 스테이지 사용</system:String>
     <system:String x:Key="UseRemainingSanityStage">남은 이성 활용</system:String>
-    <system:String x:Key="UseRemainingSanityStageTip">주요 임무를 완료한 후 지정된 스테이지를 손질하고, 자동으로 정신 상태가 되돌아가지 않습니다.</system:String>
+    <system:String x:Key="UseRemainingSanityStageTip">주요 작업을 완료한 후 지정된 스테이지를 브러시하면 더 이상 자동으로 정신 상태로 돌아가지 않습니다.</system:String>
     <system:String x:Key="UseExpiringMedicine">48시간 미만 내 소멸하는 회복제 전부 사용</system:String>
     <system:String x:Key="HideUnavailableStage">미개방 스테이지 숨기기</system:String>
     <system:String x:Key="MainViewButtonFeature">메인 화면 버튼의 기능</system:String>
@@ -417,34 +417,34 @@
     <system:String x:Key="Gacha">헤드헌팅</system:String>
     <system:String x:Key="GachaOnce">1회 진행</system:String>
     <system:String x:Key="GachaTenTimes">10회 진행</system:String>
-    <system:String x:Key="GachaInitTip">It's amazing that there are so many like-minded people in Rhodes Island. Yes, poetry! War! Freedom! They can gather people's strength in the torrent of history and fight for the change of this land. It's really inspiring! These tragic and extraordinary stories should be passed down and celebrated.</system:String>
-    <system:String x:Key="GachaTip1">Bless the victorious heroes, I will receive your blessings.</system:String>
-    <system:String x:Key="GachaTip2">Great warriors, I will be by your side, fighting bravely with you.</system:String>
-    <system:String x:Key="GachaTip3">When we turn around, we will return with victory.</system:String>
-    <system:String x:Key="GachaTip4">Do not be afraid, we will defeat those reckless guys!</system:String>
-    <system:String x:Key="GachaTip5">Cheer!</system:String>
-    <system:String x:Key="GachaTip6">Come on.</system:String>
-    <system:String x:Key="GachaTip7">There is no room for regret now.</system:String>
-    <system:String x:Key="GachaTip8">No way out.</system:String>
-    <system:String x:Key="GachaTip9">Heroes, please stand with us for this strongest belief.</system:String>
-    <system:String x:Key="GachaTip10">Tremble, in the face of true bravery.</system:String>
-    <system:String x:Key="GachaTip11">Cry out loud for your belief that is so weak that it can't withstand a single blow.</system:String>
-    <system:String x:Key="GachaTip12">You will kneel here.</system:String>
-    <system:String x:Key="GachaTip13">Is that so, have we done it... I am now experiencing the supreme honor and happiness.</system:String>
-    <system:String x:Key="GachaTip14">Turn around, warriors. We have achieved a perfect victory. Now it's time to go back and enjoy the celebration.</system:String>
-    <system:String x:Key="GachaTip15">Listen, the wailing has stopped. This is the calm before the happy peace arrives.</system:String>
-    <system:String x:Key="GachaTip16">Even if human wars are endless... at this moment, we have guarded our own dignity. Leave. But leave with your head held high.</system:String>
-    <system:String x:Key="GachaTip17">This corner may accidentally knock over some furniture, I will try my best to be careful.</system:String>
+    <system:String x:Key="GachaInitTip">로드아일랜드에는 많은 유사한 사람들이 있다는 것이 놀라운 일이다. 그렇다, 시! 전쟁! 자유! 이것들은 역사의 흐름에서 사람들의 힘을 모을 수 있고 이 땅의 변화를 위해 싸울 수 있다. 이것은 정말로 영감을 준다! 이러한 비극적이고 비범한 이야기들은 전해져야 한다.</system:String>
+    <system:String x:Key="GachaTip1">승리한 영웅들에게 축복을, 나는 당신의 축복을 받을 것입니다.</system:String>
+    <system:String x:Key="GachaTip2">위대한 전사들여, 나는 당신들과 함께하며 용감하게 싸우겠습니다.</system:String>
+    <system:String x:Key="GachaTip3">우리가 돌아서면, 우리는 승리를 안고 돌아올 것이다.</system:String>
+    <system:String x:Key="GachaTip4">두려워하지 마세요, 우리는 그 무모한 사람들을 이길 것입니다!</system:String>
+    <system:String x:Key="GachaTip5">건배!</system:String>
+    <system:String x:Key="GachaTip6">와라.</system:String>
+    <system:String x:Key="GachaTip7">이제 후회할 여지는 없다.</system:String>
+    <system:String x:Key="GachaTip8">출구가 없습니다.</system:String>
+    <system:String x:Key="GachaTip9">영웅들아, 이 가장 강한 믿음을 위해 우리와 함께 서 주세요.</system:String>
+    <system:String x:Key="GachaTip10">진정한 용기에 직면하여 떨다.</system:String>
+    <system:String x:Key="GachaTip11">당신의 믿음이 충분히 강인하지 않아 일격에 견딜 수 없다면 울어라.</system:String>
+    <system:String x:Key="GachaTip12">당신은 여기 무릎을 꿇을 것입니다.</system:String>
+    <system:String x:Key="GachaTip13">그렇게요? 우리가 성공했나요...? 지금, 저는 최고의 영광과 행복을 느끼고 있습니다.</system:String>
+    <system:String x:Key="GachaTip14">전진하던 전사들아, 돌아서라. 완벽한 승리를 거머쥐었다. 이제 축하를 즐기러 돌아가는 시간이다.</system:String>
+    <system:String x:Key="GachaTip15">들어봐, 울음 소리가 멈췄어. 이것은 행복한 평화가 도래하기 전의 차분함이야.</system:String>
+    <system:String x:Key="GachaTip16">인간의 전쟁이 끝나지 않아도... 이 순간, 우리는 우리 삶의 존엄성을 지켜왔습니다. 떠나십시오. 하지만 기뻐하며 떠나십시오.</system:String>
+    <system:String x:Key="GachaTip17">가구를 우연히 넘어뜨릴 수도 있는 이 구석, 최대한 조심하겠습니다.</system:String>
     <system:String x:Key="GachaDisclaimer">정말로 헤드헌팅을 진행하게 될 겁니다! 시뮬레이션이 아닙니다!!!</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">확인했습니다.</system:String>
     <system:String x:Key="GachaShowDisclaimerNoMore">다시 보지 않기</system:String>
 
-    <!--再转身回头的时候，我们将带着胜利归来。-->
+    <!--Even though human wars have no end... at this moment, we have guarded the dignity of our lives. Leave. But leave with your head held high.-->
     <system:String x:Key="Identifying">식별 중...</system:String>
     <system:String x:Key="IdentificationCompleted">식별 완료</system:String>
     <!--再转身回头的时候，我们将带着胜利归来。-->
 
-    <!--Gacha Ten Times-->
+    <!--  로그  -->
     <system:String x:Key="Copilot">자동 지휘</system:String>
     <system:String x:Key="CopilotLocation">작업 파일 경로/코드</system:String>
     <system:String x:Key="SelectTheFile">작업 선택</system:String>
@@ -460,7 +460,7 @@
 
     <system:String x:Key="VideoLink">영상 링크</system:String>
 
-    <!--再转身回头的时候，我们将带着胜利归来。-->
+    <!--Start-->
     <system:String x:Key="CopilotTip">
         팁:\n\n
         1. '작전 개시' 버튼이 있는 화면에서 이 기능을 사용하세요.\n\n
@@ -478,7 +478,7 @@
     <system:String x:Key="CopilotJsonError">전략 파일 분석 중 오류가 발생했습니다!</system:String>
     <system:String x:Key="NotCopilotJson">전략 파일이 아닙니다</system:String>
     <system:String x:Key="CheckTheFile">파일 내용을 확인해주세요!</system:String>
-    <!--  Logs  -->
+    <!--  로그  -->
     <!--  로그  -->
 
     <!--  자동 작전  -->
@@ -579,7 +579,7 @@
     <system:String x:Key="Exit">종료</system:String>
     <!--  TrayIcon  -->
 
-    <!--  About  -->
+    <!--  TrayIcon  -->
     <system:String x:Key="Website">MAA 공식 웹사이트</system:String>
     <system:String x:Key="Github">소스 코드: GitHub</system:String>
     <system:String x:Key="PrtsPlus">자동 전투 전략 공유 웹사이트</system:String>
@@ -590,7 +590,7 @@
     <system:String x:Key="Telegram">Telegram</system:String>
     <system:String x:Key="Help">자주 묻는 질문</system:String>
     <system:String x:Key="Issue">이슈</system:String>
-    <!--  About  -->
+    <!--Telegram-->
 
     <!--  About  -->
     <system:String x:Key="AutoRefresh">★3 태그를 자동 새로고침하기</system:String>
@@ -607,7 +607,7 @@
     <!--Recruit max times-->
 
     <!--  AutoRecruitSettings  -->
-    <system:String x:Key="BuyWineOnAprilFoolsDay">의사님, Ms. Closure의 가게에서 '이소프로필 알코올'의 새로운 상품이 출시되었다는 소식 들어보셨나요? 함께 확인해볼까요?</system:String>
+    <system:String x:Key="BuyWineOnAprilFoolsDay">의사님, Ms. Closure의 가게에서 '이소프로필 알코올'의 새로운 상품 목록을 들어보셨나요? 함께 확인해 볼까요?</system:String>
     <system:String x:Key="Burping">으…… 우웁……</system:String>
     <system:String x:Key="DrunkAndStaggering">어머, 박사님. 왜 그렇게 비틀비틀 걷고 계시나요?</system:String>
     <system:String x:Key="Hangover">다, 다음엔 적당히 마셔야지……</system:String>
@@ -620,7 +620,7 @@
     <system:String x:Key="VersionUpdatedTo">버전: </system:String>
     <!--  VersionUpdatePopup  -->
 
-    <!--  RootViewModel  -->
+    <!--  VersionUpdatePopup  -->
     <system:String x:Key="ConfirmExitTitle">MAA가 작업을 진행 중입니다</system:String>
     <system:String x:Key="ConfirmExitText">정말로 종료하시겠습니까?</system:String>
     <!--  RootViewModel  -->
