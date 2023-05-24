@@ -3813,5 +3813,27 @@
             "10回",
             "スカウ"
         ]
+    },
+    "IS-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "シラクザーノ"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "next": [
+            "EnterChapterIS"
+        ]
+    },
+    "EnterChapterIS": {
+        "text": [
+            "ウォルシーニ",
+            "ウォル"
+        ]
     }
 }
