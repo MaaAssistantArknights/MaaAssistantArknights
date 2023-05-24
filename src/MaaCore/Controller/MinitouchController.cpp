@@ -149,7 +149,6 @@ bool asst::MinitouchController::swipe(const Point& p1, const Point& p2, int dura
         y1 = std::clamp(y1, 0, m_height - 1);
     }
 
-    const auto& opt = Config.get_options();
     Log.trace(m_use_maa_touch ? "maatouch" : "minitouch", "swipe", p1, p2, duration, extra_swipe, slope_in, slope_out);
     m_minitoucher->down(x1, y1);
 
@@ -163,6 +162,7 @@ bool asst::MinitouchController::swipe(const Point& p1, const Point& p2, int dura
     }; // TODO: move this to math.hpp
 
     bool need_pause = with_pause && use_swipe_with_pause();
+    const auto& opt = Config.get_options();
     std::future<void> pause_future;
     auto minitouch_move = [&](int _x1, int _y1, int _x2, int _y2, int _duration) {
         for (int cur_time = TimeInterval; cur_time < _duration; cur_time += TimeInterval) {

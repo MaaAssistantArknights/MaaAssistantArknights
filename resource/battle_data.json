@@ -2674,6 +2674,17 @@
             ],
             "rarity": 1
         },
+        "char_4093_frston": {
+            "name": "Friston-3",
+            "position": "MELEE",
+            "profession": "TANK",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
         "char_411_tomimi": {
             "name": "特米米",
             "position": "RANGED",

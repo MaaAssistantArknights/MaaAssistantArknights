@@ -96,7 +96,7 @@ int main([[maybe_unused]] int argc, char** argv)
     }
     int git_ret = system(git_cmd.c_str());
     if (git_ret != 0) {
-        std::cout << "git cmd failed" << std::endl;
+        std::cerr << "git cmd failed" << std::endl;
         return -1;
     }
 
@@ -147,49 +147,29 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
 
-    /* Git update ArknightsGameData */
-    std::cout << "------------Update ArknightsGameData------------" << std::endl;
-    const std::filesystem::path game_data_dir = cur_path / "ArknightsGameData";
+    /* Update overseas data */
+    std::cout << "------------Update overseas data------------" << std::endl;
+    const std::filesystem::path overseas_data_dir = cur_path;
 
-    if (!std::filesystem::exists(game_data_dir)) {
-        git_cmd =
-            "git clone https://github.com/Kengxxiao/ArknightsGameData.git --depth=1 \"" + game_data_dir.string() + "\"";
-    }
-    else {
-        git_cmd = "git -C \"" + game_data_dir.string() + "\" pull --autostash";
-    }
-    git_ret = system(git_cmd.c_str());
-    if (git_ret != 0) {
-        std::cout << "git cmd failed" << std::endl;
-        return -1;
-    }
-
-    // gamedata 繁中不更新了，自己下载一下
-    std::string gamedata_tw_exec = "\"" + cur_path.string() + "/gamedata-tw.exe" + "\"";
-    if (!std::filesystem::exists(gamedata_tw_exec)) {
-        std::string download_zhtw = "curl --ssl-no-revoke "
-                                    "https://raw.githubusercontent.com/MaaAssistantArknights/"
-                                    "MaaRelease/main/MaaAssistantArknights/api/binaries/gamedata-tw.exe  > " +
-                                    gamedata_tw_exec;
-        int dl = system(download_zhtw.c_str());
+    std::string data_exec = "\"" + cur_path.string() + "/arknights_rs.exe" + "\"";
+    if (!std::filesystem::exists(data_exec)) {
+        std::string download_cmd = "curl --ssl-no-revoke "
+                                   "https://raw.githubusercontent.com/MaaAssistantArknights/"
+                                   "MaaRelease/main/MaaAssistantArknights/api/binaries/arknights_rs.exe  > " +
+                                   data_exec;
+        int dl = system(download_cmd.c_str());
         if (dl != 0) {
-            std::cout << "download zhtw gamedata failed" << std::endl;
+            std::cerr << "download overseas exec failed" << std::endl;
             return -1;
         }
     }
-    int zhtw_ret = system(("cd " + cur_path.string() + " && " + gamedata_tw_exec).c_str());
+    int zhtw_ret = system(("cd " + cur_path.string() + " && " + data_exec).c_str());
     if (zhtw_ret != 0) {
-        std::cout << "zhtw gamedata update failed" << std::endl;
+        std::cerr << "overseas update failed" << std::endl;
         return -1;
     }
-    auto zhtw_gamedata_dir = game_data_dir / "zh_TW" / "gamedata";
-    if (std::filesystem::exists(zhtw_gamedata_dir)) {
-        std::filesystem::remove_all(zhtw_gamedata_dir);
-    }
-    std::filesystem::create_directories(zhtw_gamedata_dir.parent_path());
-    std::filesystem::rename(cur_path / "data" / "gamedata", zhtw_gamedata_dir);
 
-    /* Update recruitment data from ArknightsGameData*/
+    /* Update recruitment data from overseas data*/
     std::cout << "------------Update recruitment data------------" << std::endl;
     if (!update_recruitment_data(arkbot_res_dir / "gamedata" / "excel", resource_dir / "recruitment.json", true)) {
         std::cerr << "Update recruitment data failed" << std::endl;
@@ -197,14 +177,14 @@ int main([[maybe_unused]] int argc, char** argv)
     }
 
     std::unordered_map<std::string, std::string> global_dirs = {
-        { "en_US", "YoStarEN" },
-        { "ja_JP", "YoStarJP" },
-        { "ko_KR", "YoStarKR" },
-        { "zh_TW", "txwy" },
+        { "en", "YoStarEN" },
+        { "jp", "YoStarJP" },
+        { "kr", "YoStarKR" },
+        { "tw", "txwy" },
     };
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update recruitment data for " << out << "------------" << std::endl;
-        if (!update_recruitment_data(game_data_dir / in / "gamedata" / "excel",
+        if (!update_recruitment_data(overseas_data_dir / in / "gamedata" / "excel",
                                      resource_dir / "global" / out / "resource" / "recruitment.json", false)) {
             std::cerr << "Update recruitment data failed" << std::endl;
             return -1;
@@ -217,17 +197,17 @@ int main([[maybe_unused]] int argc, char** argv)
         std::cerr << "Update items data failed" << std::endl;
         return -1;
     }
-    /* Update items global json from ArknightsGameData*/
+    /* Update items global json from overseas data*/
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update items json for " << out << "------------" << std::endl;
-        if (!update_items_data(game_data_dir / in, resource_dir / "global" / out / "resource", false)) {
+        if (!update_items_data(overseas_data_dir / in, resource_dir / "global" / out / "resource", false)) {
             std::cerr << "Update items json failed" << std::endl;
             return -1;
         }
     }
 
     for (const auto& [in, out] : global_dirs) {
-        if (!check_roguelike_replace_for_overseas(game_data_dir / in / "gamedata" / "excel",
+        if (!check_roguelike_replace_for_overseas(overseas_data_dir / in / "gamedata" / "excel",
                                                   resource_dir / "global" / out / "resource" / "tasks.json",
                                                   arkbot_res_dir / "gamedata" / "excel", cur_path / in)) {
             std::cerr << "Update roguelike replace for overseas failed" << std::endl;
@@ -244,7 +224,7 @@ int main([[maybe_unused]] int argc, char** argv)
 
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update version info for " << out << "------------" << std::endl;
-        if (!update_version_info(game_data_dir / in / "gamedata" / "excel",
+        if (!update_version_info(overseas_data_dir / in / "gamedata" / "excel",
                                  resource_dir / "global" / out / "resource")) {
             std::cerr << "Update version info failed" << std::endl;
             return -1;
@@ -261,7 +241,7 @@ bool update_items_data(const std::filesystem::path& input_dir, const std::filesy
 
     auto parse_ret = json::open(input_json_path);
     if (!parse_ret) {
-        std::cout << "parse json failed" << std::endl;
+        std::cerr << "parse json failed" << std::endl;
         return false;
     }
 
@@ -348,7 +328,7 @@ bool cvt_single_item_template(const std::filesystem::path& input, const std::fil
 {
     cv::Mat src = cv::imread(input.string(), -1);
     if (src.empty()) {
-        std::cout << input << " is empty" << std::endl;
+        std::cerr << input << " is empty" << std::endl;
         return false;
     }
     cv::Mat dst;
@@ -439,7 +419,7 @@ bool update_infrast_data(const std::filesystem::path& input_dir, const std::file
     {
         auto opt = json::open(input_file);
         if (!opt) {
-            std::cout << input_file << " parse error" << std::endl;
+            std::cerr << input_file << " parse error" << std::endl;
             return false;
         }
         input_json = std::move(opt.value());
@@ -449,7 +429,7 @@ bool update_infrast_data(const std::filesystem::path& input_dir, const std::file
     {
         auto opt = json::open(output_file);
         if (!opt) {
-            std::cout << output_file << " parse error" << std::endl;
+            std::cerr << output_file << " parse error" << std::endl;
             return false;
         }
         old_json = std::move(opt.value());
@@ -530,7 +510,7 @@ bool update_stages_data(const std::filesystem::path& input_dir, const std::files
 
     auto parse_ret = json::open(TempFile);
     if (!parse_ret) {
-        std::cout << "parse stages.json failed" << std::endl;
+        std::cerr << "parse stages.json failed" << std::endl;
         return false;
     }
 
@@ -709,7 +689,7 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
     for (auto& [id, range_data] : range_json.as_object()) {
         if (int direction = range_data["direction"].as_integer(); direction != 1) {
             // 现在都是 1，朝右的，以后不知道会不会改，加个warning，真遇到再说
-            std::cout << "!!!Warning!!! range_id: " << id << " 's direction is " << std::to_string(direction)
+            std::cerr << "!!!Warning!!! range_id: " << id << " 's direction is " << std::to_string(direction)
                       << std::endl;
         }
         json::array points;
@@ -1031,30 +1011,64 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
 
 bool update_version_info(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir)
 {
-    const auto json_path = input_dir / "gacha_table.json";
-    auto gacha_json_opt = json::open(json_path);
-    if (!gacha_json_opt) {
-        std::cerr << "faild to parse " << json_path;
-        return false;
-    }
-    auto& gacha_json = *gacha_json_opt;
-
-    uint64_t time = 0;
-    std::string pool;
-    for (auto& gacha_info : gacha_json["gachaPoolClient"].as_array()) {
-        if (gacha_info["gachaRuleType"].as_string() != "LIMITED") {
-            continue;
-        }
-        auto cur_time = gacha_info["openTime"].as_unsigned_long_long();
-        if (time < cur_time) {
-            time = cur_time;
-            pool = gacha_info["gachaPoolName"].as_string();
-        }
-    }
-
     json::value result;
-    result["gacha"]["time"] = time;
-    result["gacha"]["pool"] = pool;
+    {
+        const auto json_path = input_dir / "gacha_table.json";
+        auto gacha_json_opt = json::open(json_path);
+        if (!gacha_json_opt) {
+            std::cerr << "faild to parse " << json_path;
+            return false;
+        }
+        auto& gacha_json = *gacha_json_opt;
+
+        std::unordered_map<std::string, size_t> pool_count;
+        for (auto& gacha_info : gacha_json["gachaPoolClient"].as_array()) {
+            pool_count[gacha_info["gachaPoolName"].as_string()]++;
+        }
+
+        uint64_t time = 0;
+        std::string pool;
+        for (auto& gacha_info : gacha_json["gachaPoolClient"].as_array()) {
+            const auto& pool_name = gacha_info["gachaPoolName"].as_string();
+            if (pool_count[pool_name] > 5) { // 把常驻池过滤掉
+                continue;
+            }
+            auto cur_time = gacha_info["openTime"].as_unsigned_long_long();
+            if (time < cur_time) {
+                time = cur_time;
+                pool = pool_name;
+            }
+        }
+
+        result["gacha"]["time"] = time;
+        result["gacha"]["pool"] = pool;
+    }
+    {
+        const auto json_path = input_dir / "activity_table.json";
+        auto activity_json_opt = json::open(json_path);
+        if (!activity_json_opt) {
+            std::cerr << "faild to parse " << json_path;
+            return false;
+        }
+
+        uint64_t time = 0;
+        std::string name;
+
+        auto& activity_json = *activity_json_opt;
+        for (const auto& [_, act] : activity_json["basicInfo"].as_object()) {
+            if (!act.at("displayOnHome").as_boolean()) {
+                continue;
+            }
+            auto cur_time = act.at("startTime").as_unsigned_long_long();
+            if (time < cur_time) {
+                time = cur_time;
+                name = act.at("name").as_string();
+            }
+        }
+
+        result["activity"]["time"] = time;
+        result["activity"]["name"] = name;
+    }
 
     std::ofstream ofs(output_dir / "version.json", std::ios::out);
     ofs << result.format() << std::endl;

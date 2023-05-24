@@ -20,7 +20,9 @@ bool asst::OperBoxImageAnalyzer::analyze()
 
     bool ret = analyzer_oper_box();
 
-    save_img(utils::path("debug") / utils::path("oper"));
+    if (m_result.size() != 16 && m_result.size() != 14) { // 完整的一页是14或16个，有可能是识别错了
+        save_img(utils::path("debug") / utils::path("oper"));
+    }
 
     return ret;
 }
@@ -65,6 +67,9 @@ bool asst::OperBoxImageAnalyzer::opers_analyze()
     oper_name_analyzer.set_bin_trim_threshold(4, 0);
     const auto& all_opers = BattleData.get_all_oper_names();
     oper_name_analyzer.set_required(std::vector(all_opers.begin(), all_opers.end()));
+
+    const auto& replace_task = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
+    oper_name_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
 
     TemplDetOCRer::ResultsVec results;
 

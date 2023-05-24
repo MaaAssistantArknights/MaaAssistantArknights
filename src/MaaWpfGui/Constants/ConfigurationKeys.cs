@@ -20,6 +20,7 @@ namespace MaaWpfGui.Constants
     {
         public const string Localization = "GUI.Localization";
         public const string MinimizeToTray = "GUI.MinimizeToTray";
+        public const string HideCloseButton = "GUI.HideCloseButton";
         public const string UseNotify = "GUI.UseNotify";
         public const string WindowPlacement = "GUI.Placement";
         public const string LoadWindowPlacement = "GUI.Placement.Load";
@@ -83,6 +84,7 @@ namespace MaaWpfGui.Constants
         public const string CustomInfrastEnabled = "Infrast.CustomInfrastEnabled";
         public const string CustomInfrastFile = "Infrast.CustomInfrastFile";
         public const string CustomInfrastPlanIndex = "Infrast.CustomInfrastPlanIndex";
+        public const string CustomInfrastPlanShowInFightSettings = "Infrast.CustomInfrastPlanShowInFightSettings";
 
         public const string UseRemainingSanityStage = "Fight.UseRemainingSanityStage";
         public const string UseExpiringMedicine = "Fight.UseExpiringMedicine";
@@ -157,7 +159,7 @@ namespace MaaWpfGui.Constants
 
         public const string OperBoxData = "OperBox.Data";
 
-        public const string GachaShowDisclaimer = "Gacha.ShowDisclaimer";
+        public const string GachaShowDisclaimerNoMore = "Gacha.ShowDisclaimerNoMore";
 
         public const string GuideStepIndex = "Guide.StepIndex";
     }

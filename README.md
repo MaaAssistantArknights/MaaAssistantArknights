@@ -118,7 +118,7 @@ MAA 的意思是 MAA Assistant Arknights
 - ~~干员及基建数据：[PRTS明日方舟中文WIKI](http://prts.wiki/)~~
 - 关卡数据：[企鹅物流数据统计](https://penguin-stats.cn/)
 - 游戏数据及资源：[明日方舟客户端素材](https://github.com/yuanyan3060/ArknightsGameResource)
-- 外服游戏数据：[《明日方舟》游戏数据](https://github.com/Kengxxiao/ArknightsGameData)
+- ~~游戏数据：[《明日方舟》游戏数据](https://github.com/Kengxxiao/ArknightsGameData)~~
 
 ### 贡献/参与者
 
@@ -164,9 +164,9 @@ MAA 的意思是 MAA Assistant Arknights
 
 请参考 [外服适配教程](https://maa.plus/docs/2.5-外服适配教程.html)，对于国服已支持的功能，绝大部分的外服适配工作仅需要截图 + 简单的 JSON 修改即可。
 
-### 想参与开发，但不太会用 Github?
+### 想参与开发，但不太会用 GitHub?
 
-[Github Pull Request 流程简述](https://maa.plus/docs/2.2-开发相关.html#github-pull-request-流程简述)
+[GitHub Pull Request 流程简述](https://maa.plus/docs/2.2-开发相关.html#github-pull-request-流程简述)
 
 ### Issue bot
 

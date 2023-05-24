@@ -1119,24 +1119,28 @@ namespace MaaWpfGui.Main
         /// <returns>是否成功。</returns>
         public bool AsstConnect(ref string error)
         {
-            if (!LoadResource())
+            if (Instances.SettingsViewModel.AutoDetectConnection)
             {
-                error = "Load Resource Failed";
-                return false;
+                string bsHvAddress = Instances.SettingsViewModel.TryToSetBlueStacksHyperVAddress();
+                if (bsHvAddress != null)
+                {
+                    Instances.SettingsViewModel.ConnectAddress = bsHvAddress;
+                }
+                else if (!Instances.SettingsViewModel.DetectAdbConfig(ref error))
+                {
+                    return false;
+                }
             }
 
-            bool hyperV = Instances.SettingsViewModel.TryToSetBlueStacksHyperVAddress();
-            if (!Instances.SettingsViewModel.AutoDetectConnection
-                && connected
-                && connectedAdb == Instances.SettingsViewModel.AdbPath
-                && connectedAddress == Instances.SettingsViewModel.ConnectAddress)
+            if (connected && connectedAdb == Instances.SettingsViewModel.AdbPath &&
+                connectedAddress == Instances.SettingsViewModel.ConnectAddress)
             {
                 return true;
             }
 
-            if (!hyperV && Instances.SettingsViewModel.AutoDetectConnection &&
-                !Instances.SettingsViewModel.DetectAdbConfig(ref error))
+            if (!LoadResource())
             {
+                error = "Load Resource Failed";
                 return false;
             }
 

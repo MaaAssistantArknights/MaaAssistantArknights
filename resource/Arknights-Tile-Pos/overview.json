@@ -8135,6 +8135,42 @@
         "stageId": "hard_12-04",
         "width": 13
     },
+    "level_act38rune_01-01-activities/act38rune/level_act38rune_01-01": {
+        "code": "哥伦比亚",
+        "filename": "level_act38rune_01-01-activities-act38rune-level_act38rune_01-01.json",
+        "height": 8,
+        "levelId": "activities/act38rune/level_act38rune_01-01",
+        "name": "实验基地封锁区",
+        "stageId": "level_act38rune_01-01",
+        "width": 12
+    },
+    "level_act38rune_01-02-activities/act38rune/level_act38rune_01-02": {
+        "code": "玻利瓦尔",
+        "filename": "level_act38rune_01-02-activities-act38rune-level_act38rune_01-02.json",
+        "height": 8,
+        "levelId": "activities/act38rune/level_act38rune_01-02",
+        "name": "翻修中沙滩",
+        "stageId": "level_act38rune_01-02",
+        "width": 12
+    },
+    "level_act38rune_01-03-activities/act38rune/level_act38rune_01-03": {
+        "code": "维多利亚",
+        "filename": "level_act38rune_01-03-activities-act38rune-level_act38rune_01-03.json",
+        "height": 8,
+        "levelId": "activities/act38rune/level_act38rune_01-03",
+        "name": "淤浊沼泽",
+        "stageId": "level_act38rune_01-03",
+        "width": 12
+    },
+    "level_act38rune_01-04-activities/act38rune/level_act38rune_01-04": {
+        "code": "切尔诺伯格",
+        "filename": "level_act38rune_01-04-activities-act38rune-level_act38rune_01-04.json",
+        "height": 8,
+        "levelId": "activities/act38rune/level_act38rune_01-04",
+        "name": "13区废墟",
+        "stageId": "level_act38rune_01-04",
+        "width": 11
+    },
     "level_rune_01-01-obt/rune/level_rune_01-01": {
         "code": "level_rune_01-01",
         "filename": "level_rune_01-01-obt-rune-level_rune_01-01.json",
@@ -11933,6 +11969,15 @@
         "stageId": "mem_chiave_1",
         "width": 11
     },
+    "mem_ctable_1-obt/memory/level_memory_ctable_1": {
+        "code": "mem_ctable_1",
+        "filename": "mem_ctable_1-obt-memory-level_memory_ctable_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_ctable_1",
+        "name": "匿影藏形",
+        "stageId": "mem_ctable_1",
+        "width": 9
+    },
     "mem_cutter_1-obt/memory/level_memory_cutter_1": {
         "code": "mem_cutter_1",
         "filename": "mem_cutter_1-obt-memory-level_memory_cutter_1.json",
@@ -11995,6 +12040,15 @@
         "name": "目标在这儿呢！",
         "stageId": "mem_elysm_1",
         "width": 11
+    },
+    "mem_erato_1-obt/memory/level_memory_erato_1": {
+        "code": "mem_erato_1",
+        "filename": "mem_erato_1-obt-memory-level_memory_erato_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_erato_1",
+        "name": "沉渊美梦",
+        "stageId": "mem_erato_1",
+        "width": 10
     },
     "mem_estell_1-obt/memory/level_memory_estell_1": {
         "code": "mem_estell_1",
@@ -12248,6 +12302,15 @@
         "stageId": "mem_iris_1",
         "width": 10
     },
+    "mem_jaksel_1-obt/memory/level_memory_jaksel_1": {
+        "code": "mem_jaksel_1",
+        "filename": "mem_jaksel_1-obt-memory-level_memory_jaksel_1.json",
+        "height": 9,
+        "levelId": "obt/memory/level_memory_jaksel_1",
+        "name": "危机现场",
+        "stageId": "mem_jaksel_1",
+        "width": 13
+    },
     "mem_jesica_1-obt/memory/level_memory_jesica_1": {
         "code": "mem_jesica_1",
         "filename": "mem_jesica_1-obt-memory-level_memory_jesica_1.json",
@@ -12256,6 +12319,15 @@
         "name": "战战兢兢",
         "stageId": "mem_jesica_1",
         "width": 11
+    },
+    "mem_kazema_1-obt/memory/level_memory_kazema_1": {
+        "code": "mem_kazema_1",
+        "filename": "mem_kazema_1-obt-memory-level_memory_kazema_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_kazema_1",
+        "name": "共谋",
+        "stageId": "mem_kazema_1",
+        "width": 12
     },
     "mem_kirara_1-obt/memory/level_memory_kirara_1": {
         "code": "mem_kirara_1",

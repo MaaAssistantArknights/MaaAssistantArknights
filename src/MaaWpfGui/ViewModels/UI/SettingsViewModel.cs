@@ -614,7 +614,7 @@ namespace MaaWpfGui.ViewModels.UI
                     StartInfo = startInfo,
                 };
 
-                AsstProxy.AsstLog("Try to start emulator: \nfileName: " + fileName + "\narguments: " + arguments);
+                _logger.Information("Try to start emulator: \nfileName: " + fileName + "\narguments: " + arguments);
                 process.Start();
 
                 try
@@ -623,7 +623,7 @@ namespace MaaWpfGui.ViewModels.UI
                     process.WaitForInputIdle();
                     if (MinimizingStartup)
                     {
-                        AsstProxy.AsstLog("Try minimizing the emulator");
+                        _logger.Information("Try minimizing the emulator");
                         int i;
                         for (i = 0; !IsIconic(process.MainWindowHandle) && i < 100; ++i)
                         {
@@ -637,14 +637,14 @@ namespace MaaWpfGui.ViewModels.UI
 
                         if (i >= 100)
                         {
-                            AsstProxy.AsstLog("Attempts to exceed the limit");
+                            _logger.Information("Attempts to exceed the limit");
                             throw new Exception();
                         }
                     }
                 }
                 catch (Exception)
                 {
-                    AsstProxy.AsstLog("The emulator was already start");
+                    _logger.Information("The emulator was already start");
 
                     // 如果之前就启动了模拟器，如果开启了最小化启动，就把所有模拟器最小化
                     // TODO:只最小化需要开启的模拟器
@@ -654,7 +654,7 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         if (MinimizingStartup)
                         {
-                            AsstProxy.AsstLog("Try minimizing the emulator by processName: " + processName);
+                            _logger.Information("Try minimizing the emulator by processName: " + processName);
                             foreach (Process p in processes)
                             {
                                 int i;
@@ -666,7 +666,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                                 if (i >= 100)
                                 {
-                                    AsstProxy.AsstLog("The emulator minimization failure");
+                                    _logger.Warning("The emulator minimization failure");
                                 }
                             }
                         }
@@ -675,7 +675,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
             catch (Exception)
             {
-                AsstProxy.AsstLog("Start emulator error, try to start using the default: \n" +
+                _logger.Information("Start emulator error, try to start using the default: \n" +
                     "EmulatorPath: " + EmulatorPath + "\n" +
                     "EmulatorAddCommand: " + EmulatorAddCommand);
                 if (EmulatorAddCommand.Length != 0)
@@ -697,7 +697,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (Instances.TaskQueueViewModel.Stopping)
                 {
-                    AsstProxy.AsstLog("Stop waiting for the emulator to start");
+                    _logger.Information("Stop waiting for the emulator to start");
                     return;
                 }
 
@@ -705,7 +705,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
                         LocalizationHelper.GetString("WaitForEmulator") + ": " + (delay - i) + "s"));
-                    AsstProxy.AsstLog("Waiting for the emulator to start: " + (delay - i) + "s");
+                    _logger.Information("Waiting for the emulator to start: " + (delay - i) + "s");
                 }
 
                 Thread.Sleep(1000);
@@ -713,7 +713,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
                 LocalizationHelper.GetString("WaitForEmulatorFinish")));
-            AsstProxy.AsstLog("The wait is over");
+            _logger.Information("The wait is over");
 
             // 重置按钮状态，不影响后续判断
             Instances.TaskQueueViewModel.Idle = idle;
@@ -750,6 +750,7 @@ namespace MaaWpfGui.ViewModels.UI
                 UpdateWindowTitle(); /* 每次修改客户端时更新WindowTitle */
                 Instances.TaskQueueViewModel.UpdateStageList(true);
                 Instances.TaskQueueViewModel.UpdateDatePrompt();
+                Instances.AsstProxy.LoadResource();
             }
         }
 
@@ -2233,14 +2234,24 @@ namespace MaaWpfGui.ViewModels.UI
                 jsonPath = $"resource/global/{ClientType}/resource/version.json";
             }
 
-            string pool = string.Empty;
+            string versionName = string.Empty;
             if (File.Exists(jsonPath))
             {
-                JObject poolJson = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
-                pool = poolJson?["gacha"]?["pool"]?.ToString() ?? string.Empty;
+                JObject versionJson = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
+                var poolTime = (ulong)versionJson?["gacha"]["time"];
+                var activityTime = (ulong)versionJson?["activity"]["time"];
+
+                if (poolTime > activityTime)
+                {
+                    versionName = versionJson?["gacha"]?["pool"]?.ToString() ?? string.Empty;
+                }
+                else
+                {
+                    versionName = versionJson?["activity"]?["name"]?.ToString() ?? string.Empty;
+                }
             }
 
-            string poolString = !string.IsNullOrEmpty(pool) ? $" - {pool}" : string.Empty;
+            string poolString = !string.IsNullOrEmpty(versionName) ? $" - {versionName}" : string.Empty;
             rvm.WindowTitle = $"{prefix}MAA - {VersionId}{poolString} - {connectConfigName} ({ConnectAddress}) - {ClientName}";
         }
 
@@ -2251,17 +2262,17 @@ namespace MaaWpfGui.ViewModels.UI
         /// Tries to set Bluestack Hyper V address.
         /// </summary>
         /// <returns>success</returns>
-        public bool TryToSetBlueStacksHyperVAddress()
+        public string TryToSetBlueStacksHyperVAddress()
         {
             if (string.IsNullOrEmpty(_bluestacksConfig))
             {
-                return false;
+                return null;
             }
 
             if (!File.Exists(_bluestacksConfig))
             {
                 ConfigurationHelper.SetValue(ConfigurationKeys.BluestacksConfigError, "File not exists");
-                return false;
+                return null;
             }
 
             var all_lines = File.ReadAllLines(_bluestacksConfig);
@@ -2284,12 +2295,11 @@ namespace MaaWpfGui.ViewModels.UI
                 if (line.StartsWith(_bluestacksKeyWord))
                 {
                     var sp = line.Split('"');
-                    ConnectAddress = "127.0.0.1:" + sp[1];
-                    break;
+                    return "127.0.0.1:" + sp[1];
                 }
             }
 
-            return true;
+            return null;
         }
 
         public bool IsAdbTouchMode()
@@ -2319,23 +2329,20 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         private static readonly string GoogleAdbDownloadUrl = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip";
-        private static readonly string GoogleAdbFilename = "adb.zip";
+        private static readonly string AdbMaaMirrorDownloadUrl = "https://ota.maa.plus/MaaAssistantArknights/api/binaries/adb-windows.zip";
+        private static readonly string GoogleAdbFilename = "adb-windows.zip";
 
         public async void ReplaceADB()
         {
-            if (!File.Exists(AdbPath))
-            {
-                Execute.OnUIThread(() =>
-                {
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("ReplaceADBNotExists"));
-                    toast.Show();
-                });
-                return;
-            }
-
             if (!File.Exists(GoogleAdbFilename))
             {
                 var downloadResult = await Instances.HttpService.DownloadFileAsync(new Uri(GoogleAdbDownloadUrl), GoogleAdbFilename);
+
+                if (!downloadResult)
+                {
+                    downloadResult = await Instances.HttpService.DownloadFileAsync(new Uri(AdbMaaMirrorDownloadUrl), GoogleAdbFilename);
+                }
+
                 if (!downloadResult)
                 {
                     await Execute.OnUIThreadAsync(() =>
@@ -2347,35 +2354,64 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            var procTask = Task.Run(() =>
-           {
-               // ErrorView.xaml.cs里有个报错的逻辑，这里如果改的话那边也要对应改一下
-               foreach (var process in Process.GetProcessesByName(Path.GetFileName(AdbPath)))
-               {
-                   process.Kill();
-               }
+            const string UnzipDir = "adb";
+            const string NewAdb = UnzipDir + "/platform-tools/adb.exe";
 
-               File.Copy(AdbPath, AdbPath + ".bak", true);
-
-               const string UnzipDir = "adb_unzip";
-               if (Directory.Exists(UnzipDir))
-               {
-                   Directory.Delete(UnzipDir, true);
-               }
-
-               ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
-               File.Copy(UnzipDir + "/platform-tools/adb.exe", AdbPath, true);
-               Directory.Delete(UnzipDir, true);
-           });
-            await procTask;
-
-            AdbReplaced = true;
-            ConfigurationHelper.SetValue(ConfigurationKeys.AdbReplaced, true.ToString());
-            Execute.OnUIThread(() =>
+            if (Directory.Exists(UnzipDir))
             {
-                using var toast = new ToastNotification(LocalizationHelper.GetString("SuccessfullyReplacedADB"));
-                toast.Show();
-            });
+                Directory.Delete(UnzipDir, true);
+            }
+
+            ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
+
+            bool replaced = false;
+            if (AdbPath != NewAdb && File.Exists(AdbPath))
+            {
+                try
+                {
+                    foreach (var process in Process.GetProcessesByName(Path.GetFileName(AdbPath)))
+                    {
+                        process.Kill();
+                    }
+
+                    string adbBack = AdbPath + ".bak";
+                    if (!File.Exists(adbBack))
+                    {
+                        File.Copy(AdbPath, adbBack, true);
+                    }
+
+                    File.Copy(NewAdb, AdbPath, true);
+                    replaced = true;
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex.ToString());
+                    replaced = false;
+                }
+            }
+
+            if (replaced)
+            {
+                AdbReplaced = true;
+
+                ConfigurationHelper.SetValue(ConfigurationKeys.AdbReplaced, true.ToString());
+
+                await Execute.OnUIThreadAsync(() =>
+                {
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("SuccessfullyReplacedADB"));
+                    toast.Show();
+                });
+            }
+            else
+            {
+                AdbPath = NewAdb;
+
+                await Execute.OnUIThreadAsync(() =>
+                {
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("FailedToReplaceAdbAndUseLocal"));
+                    toast.AppendContentText(LocalizationHelper.GetString("FailedToReplaceAdbAndUseLocalDesc")).Show();
+                });
+            }
         }
 
         public bool AdbReplaced { get; set; } = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AdbReplaced, false.ToString()));
@@ -2400,6 +2436,23 @@ namespace MaaWpfGui.ViewModels.UI
                 SetAndNotify(ref _minimizeToTray, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.MinimizeToTray, value.ToString());
                 Instances.MainWindowManager.SetMinimizeToTaskbar(value);
+            }
+        }
+
+        private bool _hideCloseButton = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.HideCloseButton, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to hide close button.
+        /// </summary>
+        public bool HideCloseButton
+        {
+            get => _hideCloseButton;
+            set
+            {
+                SetAndNotify(ref _hideCloseButton, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.HideCloseButton, value.ToString());
+                var rvm = (RootViewModel)this.Parent;
+                rvm.ShowCloseButton = !value;
             }
         }
 

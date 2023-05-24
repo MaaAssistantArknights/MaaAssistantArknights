@@ -171,18 +171,20 @@ namespace MaaWpfGui.ViewModels.UI
                 return true;
             }
 
+            if (!Instances.RecognizerViewModel.GachaDone)
+            {
+                // no need to confirm if Gacha running
+                return true;
+            }
+
             var window = Instances.MainWindowManager.GetWindowIfVisible();
             var result = MessageBoxHelper.ShowNative(window, LocalizationHelper.GetString("ConfirmExitText"), LocalizationHelper.GetString("ConfirmExitTitle"), "MAA", MessageBoxButton.YesNo, MessageBoxImage.Information, MessageBoxResult.No);
             return result == MessageBoxResult.Yes;
         }
 
-#pragma warning disable CS0672 // Member overrides obsolete member
-
-        // WHY OBSOLETED?
-        protected override bool CanClose()
-#pragma warning restore CS0672 // Member overrides obsolete member
+        public override Task<bool> CanCloseAsync()
         {
-            return ConfirmExit();
+            return Task.FromResult(this.ConfirmExit());
         }
 
         private void InitTimer()
@@ -322,12 +324,6 @@ namespace MaaWpfGui.ViewModels.UI
 
             TaskItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
 
-            RemainingSanityStageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList())
-            {
-                // It's Cur/Last option
-                [0] = new CombinedData { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty },
-            };
-
             InitDrops();
             NeedToUpdateDatePrompt();
             UpdateDatePrompt();
@@ -360,41 +356,43 @@ namespace MaaWpfGui.ViewModels.UI
         // 这个函数被列为public可见，意味着他注入对象前被调用
         public void UpdateStageList(bool forceUpdate)
         {
-            if (Instances.SettingsViewModel.HideUnavailableStage)
-            {
-                // update available stage list
-                var stage1 = Stage1 ??= string.Empty;
-                StageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList(_curDayOfWeek));
+            var hideUnavailableStage = Instances.SettingsViewModel.HideUnavailableStage;
 
-                // reset closed stage1 to "Last/Current"
+            // forceUpdate: initializing or settings changing, update stage list forcely
+            if (forceUpdate || hideUnavailableStage)
+            {
+                var stage1 = Stage1 ??= string.Empty;
+                var stage2 = Stage2 ??= string.Empty;
+                var stage3 = Stage3 ??= string.Empty;
+
+                EnableSetFightParams = false;
+
+                if (hideUnavailableStage)
+                {
+                    StageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList(_curDayOfWeek));
+                }
+                else
+                {
+                    StageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList());
+                }
+
+                AlternateStageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList());
+
+                // reset closed stages to "Last/Current"
                 if (!CustomStageCode)
                 {
-                    Stage1 = _stageManager.IsStageOpen(stage1, _curDayOfWeek) ? stage1 : string.Empty;
+                    Stage1 = StageList.Any(x => x.Value == stage1) ? stage1 : string.Empty;
+                    Stage2 = AlternateStageList.Any(x => x.Value == stage2) ? stage2 : string.Empty;
+                    Stage3 = AlternateStageList.Any(x => x.Value == stage3) ? stage3 : string.Empty;
                 }
-            }
-            else
-            {
-                // initializing or settings changing, update stage list forcely
-                if (forceUpdate)
+                else
                 {
-                    var stage1 = Stage1 ??= string.Empty;
-                    var stage2 = Stage2 ??= string.Empty;
-                    var stage3 = Stage3 ??= string.Empty;
-
-                    EnableSetFightParams = false;
-
-                    StageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList());
-
-                    // reset closed stages to "Last/Current"
-                    if (!CustomStageCode)
-                    {
-                        Stage1 = StageList.Any(x => x.Value == stage1) ? stage1 : string.Empty;
-                        Stage2 = StageList.Any(x => x.Value == stage2) ? stage2 : string.Empty;
-                        Stage3 = StageList.Any(x => x.Value == stage3) ? stage3 : string.Empty;
-                    }
-
-                    EnableSetFightParams = true;
+                    Stage1 = stage1;
+                    Stage2 = stage2;
+                    Stage3 = stage3;
                 }
+
+                EnableSetFightParams = true;
             }
 
             var rss = RemainingSanityStage ??= string.Empty;
@@ -678,80 +676,6 @@ namespace MaaWpfGui.ViewModels.UI
 
             await Task.Run(() => Instances.SettingsViewModel.RunScript("StartsWithScript"));
 
-            bool ret = true;
-
-            // 直接遍历TaskItemViewModels里面的内容，是排序后的
-            int count = 0;
-            foreach (var item in TaskItemViewModels)
-            {
-                if (item.IsChecked == false)
-                {
-                    continue;
-                }
-
-                ++count;
-                if (item.OriginalName == "Base")
-                {
-                    ret &= appendInfrast();
-                }
-                else if (item.OriginalName == "WakeUp")
-                {
-                    ret &= appendStart();
-                }
-                else if (item.OriginalName == "Combat")
-                {
-                    ret &= appendFight();
-                }
-                else if (item.OriginalName == "Recruiting")
-                {
-                    ret &= appendRecruit();
-                }
-                else if (item.OriginalName == "Mall")
-                {
-                    ret &= appendMall();
-                }
-                else if (item.OriginalName == "Mission")
-                {
-                    ret &= Instances.AsstProxy.AsstAppendAward();
-                }
-                else if (item.OriginalName == "AutoRoguelike")
-                {
-                    ret &= AppendRoguelike();
-                }
-                else if (item.OriginalName == "ReclamationAlgorithm")
-                {
-                    ret &= AppendReclamation();
-                }
-                else
-                {
-                    --count;
-
-                    // TODO 报错
-                }
-
-                if (!ret)
-                {
-                    AddLog(item.OriginalName + "Error", UiLogColor.Error);
-                    ret = true;
-                    --count;
-                }
-            }
-
-            if (count == 0)
-            {
-                AddLog(LocalizationHelper.GetString("UnselectedTask"));
-                Idle = true;
-                SetStopped();
-                return;
-            }
-
-            // 一般是点了“停止”按钮了
-            if (Stopping)
-            {
-                SetStopped();
-                return;
-            }
-
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
 
             string errMsg = string.Empty;
@@ -793,9 +717,76 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            ret &= Instances.AsstProxy.AsstStart();
+            bool taskRet = true;
 
-            if (ret)
+            // 直接遍历TaskItemViewModels里面的内容，是排序后的
+            int count = 0;
+            foreach (var item in TaskItemViewModels)
+            {
+                if (item.IsChecked == false)
+                {
+                    continue;
+                }
+
+                ++count;
+                if (item.OriginalName == "Base")
+                {
+                    taskRet &= appendInfrast();
+                }
+                else if (item.OriginalName == "WakeUp")
+                {
+                    taskRet &= appendStart();
+                }
+                else if (item.OriginalName == "Combat")
+                {
+                    taskRet &= appendFight();
+                }
+                else if (item.OriginalName == "Recruiting")
+                {
+                    taskRet &= appendRecruit();
+                }
+                else if (item.OriginalName == "Mall")
+                {
+                    taskRet &= appendMall();
+                }
+                else if (item.OriginalName == "Mission")
+                {
+                    taskRet &= Instances.AsstProxy.AsstAppendAward();
+                }
+                else if (item.OriginalName == "AutoRoguelike")
+                {
+                    taskRet &= AppendRoguelike();
+                }
+                else if (item.OriginalName == "ReclamationAlgorithm")
+                {
+                    taskRet &= AppendReclamation();
+                }
+                else
+                {
+                    --count;
+
+                    // TODO 报错
+                }
+
+                if (!taskRet)
+                {
+                    AddLog(item.OriginalName + "Error", UiLogColor.Error);
+                    taskRet = true;
+                    --count;
+                }
+            }
+
+            if (count == 0)
+            {
+                AddLog(LocalizationHelper.GetString("UnselectedTask"));
+                Idle = true;
+                SetStopped();
+                return;
+            }
+
+            taskRet &= Instances.AsstProxy.AsstStart();
+
+            if (taskRet)
             {
                 AddLog(LocalizationHelper.GetString("Running"));
                 if (!Instances.SettingsViewModel.AdbReplaced && !Instances.SettingsViewModel.IsAdbTouchMode())
@@ -893,7 +884,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            if (mainFightRet && UseRemainingSanityStage && (RemainingSanityStage != string.Empty))
+            if (mainFightRet && UseRemainingSanityStage && !string.IsNullOrEmpty(RemainingSanityStage))
             {
                 return Instances.AsstProxy.AsstAppendFight(RemainingSanityStage, 0, 0, int.MaxValue, string.Empty, 0, false);
             }
@@ -990,7 +981,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             return Instances.AsstProxy.AsstAppendMall(
-                this.Stage != string.Empty && Instances.SettingsViewModel.CreditFightTaskEnabled,
+                !string.IsNullOrEmpty(this.Stage) && Instances.SettingsViewModel.CreditFightTaskEnabled,
                 Instances.SettingsViewModel.CreditShopping,
                 buy_first,
                 black_list,
@@ -1105,13 +1096,14 @@ namespace MaaWpfGui.ViewModels.UI
                         CreateNoWindow = true,
                         UseShellExecute = false,
                     };
-                    Process.Start(startInfo);
+                    var process = Process.Start(startInfo);
+                    process.WaitForExit(5000);
 
                     return KillEmulator();
                 }
                 else
                 {
-                    AsstProxy.AsstLog($"Error: `{consolePath}` not found, try to kill eumlator by window.");
+                    _logger.Error($"Error: `{consolePath}` not found, try to kill eumlator by window.");
                     return KillEumlatorbyWindow();
                 }
             }
@@ -1155,13 +1147,14 @@ namespace MaaWpfGui.ViewModels.UI
                         CreateNoWindow = true,
                         UseShellExecute = false,
                     };
-                    Process.Start(startInfo);
+                    var process = Process.Start(startInfo);
+                    process.WaitForExit(5000);
 
                     return KillEmulator();
                 }
                 else
                 {
-                    AsstProxy.AsstLog($"Error: `{consolePath}` not found, try to kill eumlator by window.");
+                    _logger.Information($"Error: `{consolePath}` not found, try to kill eumlator by window.");
                     return KillEumlatorbyWindow();
                 }
             }
@@ -1203,13 +1196,14 @@ namespace MaaWpfGui.ViewModels.UI
                         CreateNoWindow = true,
                         UseShellExecute = false,
                     };
-                    Process.Start(startInfo);
+                    var process = Process.Start(startInfo);
+                    process.WaitForExit(5000);
 
                     return KillEmulator();
                 }
                 else
                 {
-                    AsstProxy.AsstLog($"Error: `{consolePath}` not found, try to kill eumlator by window.");
+                    _logger.Information($"Error: `{consolePath}` not found, try to kill eumlator by window.");
                     return KillEumlatorbyWindow();
                 }
             }
@@ -1244,13 +1238,14 @@ namespace MaaWpfGui.ViewModels.UI
                         CreateNoWindow = true,
                         UseShellExecute = false,
                     };
-                    Process.Start(startInfo);
+                    var process = Process.Start(startInfo);
+                    process.WaitForExit(5000);
 
                     return KillEmulator();
                 }
                 else
                 {
-                    AsstProxy.AsstLog($"Error: `{consolePath}` not found, try to kill eumlator by window.");
+                    _logger.Information($"Error: `{consolePath}` not found, try to kill eumlator by window.");
                     return KillEumlatorbyWindow();
                 }
             }
@@ -1273,12 +1268,12 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (File.Exists(consolePath))
                 {
-                    AsstProxy.AsstLog($"Info: `{consolePath}` has been found. This may be the BlueStacks China emulator, try to kill the emulator by window.");
+                    _logger.Information($"Info: `{consolePath}` has been found. This may be the BlueStacks China emulator, try to kill the emulator by window.");
                     return KillEumlatorbyWindow();
                 }
                 else
                 {
-                    AsstProxy.AsstLog($"Info: `{consolePath}` not found. This may be the BlueStacks International emulator, try to kill the emulator by the port.");
+                    _logger.Information($"Info: `{consolePath}` not found. This may be the BlueStacks International emulator, try to kill the emulator by the port.");
                     if (KillEmulator())
                     {
                         return true;
@@ -1287,13 +1282,13 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         try
                         {
-                            AsstProxy.AsstLog($"Info: Failed to kill emulator by the port, try to kill emulator process with PID.");
+                            _logger.Information($"Info: Failed to kill emulator by the port, try to kill emulator process with PID.");
                             processes[0].Kill();
                             return processes[0].WaitForExit(20000);
                         }
                         catch (Exception ex)
                         {
-                            AsstProxy.AsstLog($"Error: Failed to kill emulator process with PID {processes[0].Id}. Exception: {ex.Message}");
+                            _logger.Information($"Error: Failed to kill emulator process with PID {processes[0].Id}. Exception: {ex.Message}");
                         }
                     }
                 }
@@ -1745,6 +1740,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         public ObservableCollection<CombinedData> RemainingSanityStageList { get; set; } = new ObservableCollection<CombinedData>();
 
+        public ObservableCollection<CombinedData> AlternateStageList { get; set; } = new ObservableCollection<CombinedData>();
+
         /// <summary>
         /// Gets the stage.
         /// </summary>
@@ -1754,17 +1751,17 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (Instances.SettingsViewModel.UseAlternateStage)
                 {
-                    if (IsStageOpen(Stage1) || (CustomStageCode && !StageList.Any(x => x.Value == Stage1)))
+                    if (IsStageOpen(Stage1))
                     {
                         return Stage1;
                     }
 
-                    if (IsStageOpen(Stage2) || (CustomStageCode && !StageList.Any(x => x.Value == Stage2)))
+                    if (IsStageOpen(Stage2))
                     {
                         return Stage2;
                     }
 
-                    if (IsStageOpen(Stage3) || (CustomStageCode && !StageList.Any(x => x.Value == Stage3)))
+                    if (IsStageOpen(Stage3))
                     {
                         return Stage3;
                     }

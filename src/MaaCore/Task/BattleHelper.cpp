@@ -282,9 +282,9 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
     }
     bool deploy_with_pause =
         ControlFeat::support(m_inst_helper.ctrler()->support_features(), ControlFeat::SWIPE_WITH_PAUSE);
-    m_inst_helper.ctrler()->swipe(oper_rect, Rect(target_point.x, target_point.y, 1, 1), duration, false,
-                                  swipe_oper_task_ptr->special_params.at(1), swipe_oper_task_ptr->special_params.at(2),
-                                  deploy_with_pause);
+    Point oper_point(oper_rect.x + oper_rect.width / 2, oper_rect.y + oper_rect.height / 2);
+    m_inst_helper.ctrler()->swipe(oper_point, target_point, duration, false, swipe_oper_task_ptr->special_params.at(1),
+                                  swipe_oper_task_ptr->special_params.at(2), deploy_with_pause);
 
     // 拖动干员朝向
     if (direction != DeployDirection::None) {

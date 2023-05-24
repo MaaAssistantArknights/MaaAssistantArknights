@@ -1,36 +1,63 @@
-## v4.17.0-beta.1
+## v4.18.1
+
+### 新增
+
+- 支持 `尖灭测试作战` 抄作业 @MistEO @yuanyan3060 @lza11111
 
 ### 改进
 
-- 设置布局大重构 ✿✿ヽ(°▽°)ノ✿ @moomiji @ABA2396 @MistEO
-- 版本更新大优化 ✿✿ヽ(°▽°)ノ✿ @MistEO
-- 添加 MuMu12 检测连接与控制台退出模拟器 @ABA2396 @MistEO
-- 支持蓝叠hyperV使用自动检测 @ABA2396
-- 支持直接读取蓝叠模拟器Hyper-V版本非多开模式下使用的核心 (#4673) @SherkeyXD
-- 标题栏显示卡池信息 @MistEO @ABA2396
-- UI improvements (#4582) @dantmnf
-- 优化保全派驻内置作业 SSS_约翰老妈在建地块_浊蒂水陈版.json (#4686) @junyihan233
+- 自动战斗编队列表识别不到时，自动划回来重试 @MistEO
+- 刷理智若检测到OF-1自动停止 @MistEO
+- 软件更新弃用 github api，并全面启用 maa version api @MistEO
+- 博朗台模式同时支持等理智药 @MistEO @ABA2396
+- 肉鸽中不再进阶未精二的干员 (#4825) @whatss7
+- 为窗口标题添加活动名 @MistEO
 
 ### 修复
 
-- 解决抄作业guard和supporter字段不识别的问题 (#4735) @AnnoyingFlowers
-- XAML Intellisense unable to load resources stored in ResourceDictionary @moomiji
-- avatar saved at wrong path in set_avatar() (#4724) @lengyanyu258
-- 修正 Android 12 上无法结束游戏进程的问题 (#4685) @AnnAngela
-- 修复碎石后加载时间过长导致任务提前中止的问题 @zzyyyl
+- 修复不能部署干员的问题 @MistEO
+- 全局减小 adb 滑动距离 @MistEO
+- 修复干员识别偶尔滑动失效提前结束的问题；并少存一点日志图 @MistEO
+- 调整鸿雪肉鸽默认技能为1技能 @MistEO
+- 修复连接失败时任务仍被添加的问题 @MistEO
+- 延长战斗中暂停的后延迟 @MistEO
+- GUI display issues @moomiji
+- 修复干员识别replace不生效的问题 @MistEO
+- 控制台退出模拟器统一添加等待时间 #4808 @ABA2396
+- 每次修改客户端类型时主动重新读取资源 @MistEO
 
 ### 其他
 
-- 优化并修复一些CI的错误 @MistEO @horror-proton
-- 文档补充 maadeps-download.py 位置 (#4672) @niuden
+- 更新海外客户端数据源，移除对 ArknightsGameData 的引用 @MistEO
+- log error on mismatched image size @horror-proton
+- 对蓝叠模拟器Hyper-V的补充说明(#4806) (#4866) @SherkeyXD
+- 修改抽卡重复提示条件，每次启动都会显示抽卡提示 @ABA2396
+- fix s3 synchronization path @GalvinGao
+- ui 相关日志移至 gui.json @ABA2396
+- 修复部分 CI @MistEO
+- 更新文档 @MistEO
+- fix typo: Github -> GitHub (#4883) @eltociear
 
 ### For overseas
 
+#### Common
+
+- Fix title version error @MistEO
+
+#### YostarJP
+
+- update JP templates for support of recent features @liuyifan-eric
+
+#### YostarEN
+
+- update InfrastFilterMenuNotStationedButton for EN (#4827) @Enochen
+
 #### YostarKR
 
-- Fix getting stuck in RIIC for KR (#4749) @178619
+- Fix crash for KR @178619
+- Makes Mizuki theme roguelike available for KR (initially) and updates localization (#4894) @178619
+- Update resources for KR (#4868) @178619
 
-### For develops
+#### txwy
 
-- update linux tutorial @horror-proton
-- 让VS可以补全头文件 @MistEO
+- 添加台服开始战斗ocr @ABA2396

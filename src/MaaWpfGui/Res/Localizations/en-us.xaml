@@ -91,7 +91,7 @@
     <system:String x:Key="StartingCoreCharTip">Only supports the CN name of a single oper, default if not filled.</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">Select &quot;Starting Oper&quot; from support unit list</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">Enable nonfirend support</system:String>
-    <system:String x:Key="DeploymentWithPause">Deployment with Pause, Works for IS, Copilot and SSS, Beta function, Not recommended yet</system:String>
+    <system:String x:Key="DeploymentWithPause" xml:space="preserve">Deployment with Pause, Works for IS, Copilot and SSS,&#x0a;Beta function, Not recommended yet</system:String>
     <system:String x:Key="AdbLiteEnabled">Use Adb Lite (Experimental)</system:String>
     <system:String x:Key="KillAdbOnExit">Kill Adb On Exit</system:String>
 
@@ -209,7 +209,7 @@
     <system:String x:Key="WaitForEmulatorFinish">End of wait</system:String>
     <system:String x:Key="EmulatorPath">Emulator exec path</system:String>
     <system:String x:Key="Select">Select</system:String>
-    <system:String x:Key="ForcedReplaceADB">Forced Replace ADB File</system:String>
+    <system:String x:Key="ForcedReplaceADB">Replace ADB</system:String>
     <system:String x:Key="TouchMode">Touch Mode</system:String>
     <system:String x:Key="MiniTouchMode">Minitouch (Default)</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch (Experimental)</system:String>
@@ -229,8 +229,8 @@
     <system:String x:Key="RefreshTraderWithDice">Refresh Trader with Dice</system:String>
 
     <system:String x:Key="PenguinID">Penguin Report ID(Number part only)</system:String>
-    <system:String x:Key="DrGrandet">Use Originiums like Dr. Grandet</system:String>
-    <system:String x:Key="DrGrandetTip">Wait in the using Originites confirmation screen until the 1 point of sanity has been restored and then immediately use the Originite.</system:String>
+    <system:String x:Key="DrGrandet">Dr.Grandet Mode</system:String>
+    <system:String x:Key="DrGrandetTip">Wait on the sanity confirmation screen until the current sanity recovers to 1 point, then confirm immediately.</system:String>
 
     <system:String x:Key="SocialPtShop">Social Point shopping</system:String>
     <system:String x:Key="CreditFight">Combat with Support to earn credits</system:String>
@@ -246,12 +246,14 @@
 
     <system:String x:Key="MinimizeToTray">Hide to tray when minimized</system:String>
     <system:String x:Key="SystemNotification">System Notification</system:String>
+    <system:String x:Key="HideCloseButton">Hide close button</system:String>
     <system:String x:Key="DarkModeSetColorsTip">Whether to restart immediately to apply changes</system:String>
     <system:String x:Key="UseAlternateStage">Use alternate stage</system:String>
     <system:String x:Key="UseRemainingSanityStage">Use remaining sanity stage</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">Brush the specified stage after completing the main task, no longer automatically revert to sanity</system:String>
     <system:String x:Key="UseExpiringMedicine">Unlimited use of expiring sanity potion</system:String>
     <system:String x:Key="HideUnavailableStage">Hide today not open stage</system:String>
+    <system:String x:Key="CustomInfrastPlanShowInFightSettings">Show Base Plan</system:String>
     <system:String x:Key="MainViewButtonFeature">Variable function button</system:String>
     <system:String x:Key="CustomStageCode">Manual entry of level names</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">Support most main stage names + stage names from the original list (e.g. 4-10, AP-5, H10-1-Hard, etc.)&#x0a;At the end of the level, enter &quot;Normal/Hard&quot; to switch between Normal and Tough difficulty</system:String>
@@ -424,6 +426,7 @@ The video resolution is required to be 16:9, and there are no interference facto
     <system:String x:Key="GachaTenTimes">Gacha Ten Times</system:String>
     <system:String x:Key="GachaDisclaimer">Note that this is a real gacha, not a simulation.</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">Got it</system:String>
+    <system:String x:Key="GachaShowDisclaimerNoMore">Don't show again</system:String>
 
     <!--  Copilot  -->
     <system:String x:Key="Copilot">Copilot</system:String>
@@ -479,6 +482,8 @@ The video resolution is required to be 16:9, and there are no interference facto
     <system:String x:Key="AdbDownloadFailedTitle">ADB Download Failed</system:String>
     <system:String x:Key="AdbDownloadFailedDesc">Please do it manually (rename adb.exe and replace the adb file in the emulator)</system:String>
     <system:String x:Key="SuccessfullyReplacedADB">Successfully Replaced ADB File</system:String>
+    <system:String x:Key="FailedToReplaceAdbAndUseLocal">Falied to replace ADB file</system:String>
+    <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">Temporarily connected using local ADB.</system:String>
     <system:String x:Key="InitializationError">Initialization error!</system:String>
     <system:String x:Key="ResolutionNotSupported">Emulator resolution not supported, please set at least 720P with 16:9 ratio</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">Fails to be obtain emulator resolution. It is recommended to restart the emulator and ADB, or restart the computer, or consider try other emulator</system:String>
@@ -555,6 +560,7 @@ The video resolution is required to be 16:9, and there are no interference facto
     <!--  AsstProxy  -->
 
     <!--  TrayIcon  -->
+    <system:String x:Key="ForceShow">Force display of MAA</system:String>
     <system:String x:Key="Exit">Exit</system:String>
     <!--  TrayIcon  -->
 

@@ -2421,6 +2421,10 @@
                 "麒麟X夜刀"
             ],
             [
+                "麒.+夜刀$",
+                "麒麟X夜刀"
+            ],
+            [
                 ".*龙.*黑角$",
                 "火龙S黑角"
             ],
@@ -6101,6 +6105,10 @@
             [
                 ".*前顾后",
                 "瞻前顾后"
+            ],
+            [
+                ".*命运的宠儿.*",
+                "“命运的宠儿”"
             ]
         ]
     },
@@ -6333,7 +6341,8 @@
         "text": [
             "开始行动",
             "开始突袭",
-            "开始试炼"
+            "开始试炼",
+            "开始测试"
         ],
         "cache": false,
         "roi": [
@@ -6499,7 +6508,7 @@
             60,
             60
         ],
-        "postDelay": 100
+        "postDelay": 200
     },
     "BattleCancelSelection": {
         "algorithm": "JustReturn",
@@ -6866,6 +6875,10 @@
             ],
             [
                 "^.+-MO-?\\d+$",
+                "_INVALID_"
+            ],
+            [
+                "^OF-1$",
                 "_INVALID_"
             ],
             [
@@ -7269,6 +7282,21 @@
         ],
         "rectMove": [
             400,
+            350,
+            20,
+            20
+        ]
+    },
+    "BattleFormationOperListSwipeToTheLeft": {
+        "baseTask": "SwipeToTheLeft",
+        "specificRect": [
+            400,
+            350,
+            20,
+            20
+        ],
+        "rectMove": [
+            1100,
             350,
             20,
             20
