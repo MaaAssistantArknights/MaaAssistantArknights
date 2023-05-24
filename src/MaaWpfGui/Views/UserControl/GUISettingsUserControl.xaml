@@ -22,7 +22,7 @@
         HorizontalAlignment="Center"
         VerticalAlignment="Center">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MinWidth="200" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
@@ -34,7 +34,7 @@
         <CheckBox
             Grid.Row="0"
             Grid.Column="0"
-            Margin="0,10"
+            Margin="10"
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Content="{DynamicResource MinimizeToTray}"
@@ -42,11 +42,19 @@
         <CheckBox
             Grid.Row="1"
             Grid.Column="0"
-            Margin="0,10"
+            Margin="10"
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Content="{DynamicResource SystemNotification}"
             IsChecked="{Binding UseNotify}" />
+        <CheckBox
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="10"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Content="{DynamicResource HideCloseButton}"
+            IsChecked="{Binding HideCloseButton}" />
         <controls:TextBlock
             Grid.Row="0"
             Grid.Column="1"
@@ -54,7 +62,8 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
             Block.TextAlignment="Center"
-            Text="{Binding LanguageInfo, Mode=OneTime}" />
+            Text="{Binding LanguageInfo, Mode=OneTime}"
+            TextWrapping="Wrap" />
         <ComboBox
             x:Name="LanguageSelector"
             Grid.Row="0"
@@ -74,7 +83,8 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
             Block.TextAlignment="Center"
-            Text="UI Theme" />
+            Text="UI Theme"
+            TextWrapping="Wrap" />
         <ComboBox
             Grid.Row="1"
             Grid.Column="2"
@@ -86,26 +96,26 @@
             ItemsSource="{Binding DarkModeList}"
             SelectedValue="{Binding DarkMode}"
             SelectedValuePath="Value" />
-        <StackPanel
+        <controls:TextBlock
             Grid.Row="2"
-            Grid.ColumnSpan="3"
-            HorizontalAlignment="Center"
+            Grid.Column="1"
+            Margin="10"
+            HorizontalAlignment="Right"
             VerticalAlignment="Center"
-            Orientation="Horizontal">
-            <controls:TextBlock
-                Margin="10"
-                VerticalAlignment="Center"
-                Block.TextAlignment="Center"
-                Text="{DynamicResource MainViewButtonFeature}" />
-            <ComboBox
-                Width="120"
-                Margin="10"
-                VerticalAlignment="Center"
-                DisplayMemberPath="Display"
-                IsHitTestVisible="{Binding Idle}"
-                ItemsSource="{Binding InverseClearModeList}"
-                SelectedValue="{Binding InverseClearMode}"
-                SelectedValuePath="Value" />
-        </StackPanel>
+            Block.TextAlignment="Center"
+            Text="{DynamicResource MainViewButtonFeature}"
+            TextWrapping="Wrap" />
+        <ComboBox
+            Grid.Row="2"
+            Grid.Column="2"
+            Width="120"
+            Margin="10"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            DisplayMemberPath="Display"
+            IsHitTestVisible="{Binding Idle}"
+            ItemsSource="{Binding InverseClearModeList}"
+            SelectedValue="{Binding InverseClearMode}"
+            SelectedValuePath="Value" />
     </Grid>
 </UserControl>

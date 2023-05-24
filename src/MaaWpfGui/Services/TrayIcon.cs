@@ -64,9 +64,12 @@ namespace MaaWpfGui.Services
                 switchLangMenu.MenuItems.Add(langMenu);
             }
 
+            MenuItem forceShowMenu = new MenuItem(LocalizationHelper.GetString("ForceShow"));
+            forceShowMenu.Click += ForceShow;
+
             MenuItem exitMenu = new MenuItem(LocalizationHelper.GetString("Exit"));
             exitMenu.Click += App_exit;
-            MenuItem[] menuItems = new MenuItem[] { startMenu, stopMenu, switchLangMenu, exitMenu };
+            MenuItem[] menuItems = new MenuItem[] { startMenu, stopMenu, switchLangMenu, forceShowMenu, exitMenu };
             this._notifyIcon.ContextMenu = new ContextMenu(menuItems);
         }
 
@@ -89,6 +92,11 @@ namespace MaaWpfGui.Services
         private void StopTask(object sender, EventArgs e)
         {
             Instances.TaskQueueViewModel?.Stop();
+        }
+
+        private void ForceShow(object sender, EventArgs e)
+        {
+            Instances.MainWindowManager.ForceShow();
         }
 
         private void App_exit(object sender, EventArgs e)

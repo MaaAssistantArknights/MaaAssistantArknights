@@ -22,10 +22,11 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" MinWidth="90" />
+                    <ColumnDefinition Width="Auto" MinWidth="100" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Vertical">
@@ -88,7 +89,7 @@
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" MinWidth="90" />
+                    <ColumnDefinition Width="Auto" MinWidth="100" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Vertical">
@@ -134,9 +135,40 @@
                         Value="{Binding DropsQuantity, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </Grid>
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="2" Visibility="{c:Binding CustomInfrastEnabled and TaskSettingVisibilities.CustomInfrastPlanShowInFightSettings}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" MinWidth="90" />
+                    <ColumnDefinition Width="Auto" MinWidth="100" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <Grid Height="42">
+                        <controls:TextBlock
+                            Margin="6"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{DynamicResource CustomInfrastPlan}"
+                            TextAlignment="Center"
+                            TextWrapping="Wrap" />
+                    </Grid>
+                </StackPanel>
+                <StackPanel
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Orientation="Vertical">
+                    <ComboBox
+                        Height="30"
+                        Margin="6"
+                        VerticalContentAlignment="Center"
+                        DisplayMemberPath="Display"
+                        IsHitTestVisible="{c:Binding !InfrastTaskRunning}"
+                        ItemsSource="{Binding CustomInfrastPlanList}"
+                        SelectedValue="{Binding CustomInfrastPlanIndex}"
+                        SelectedValuePath="Value" />
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="100" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Row="2" Orientation="Vertical">
@@ -187,6 +219,7 @@
                         Margin="6"
                         VerticalContentAlignment="Center"
                         DisplayMemberPath="Display"
+                        IsEnabled="{c:Binding !CustomStageCode}"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
                         ItemsSource="{Binding StageList}"
                         SelectedValue="{Binding Stage1}"
@@ -197,8 +230,9 @@
                         Margin="6"
                         VerticalContentAlignment="Center"
                         DisplayMemberPath="Display"
+                        IsEnabled="{c:Binding !CustomStageCode and UseAlternateStage}"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
-                        ItemsSource="{Binding StageList}"
+                        ItemsSource="{Binding AlternateStageList}"
                         SelectedValue="{Binding Stage2}"
                         SelectedValuePath="Value"
                         Visibility="{c:Binding !CustomStageCode and UseAlternateStage}" />
@@ -207,8 +241,9 @@
                         Margin="6"
                         VerticalContentAlignment="Center"
                         DisplayMemberPath="Display"
+                        IsEnabled="{c:Binding !CustomStageCode and UseAlternateStage}"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
-                        ItemsSource="{Binding StageList}"
+                        ItemsSource="{Binding AlternateStageList}"
                         SelectedValue="{Binding Stage3}"
                         SelectedValuePath="Value"
                         Visibility="{c:Binding !CustomStageCode and UseAlternateStage}" />
@@ -217,6 +252,7 @@
                         Margin="6"
                         VerticalContentAlignment="Center"
                         DisplayMemberPath="Display"
+                        IsEnabled="{c:Binding !CustomStageCode and UseRemainingSanityStage}"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
                         ItemsSource="{Binding RemainingSanityStageList}"
                         SelectedValue="{Binding RemainingSanityStage}"
@@ -227,6 +263,7 @@
                         Height="30"
                         Margin="6"
                         VerticalContentAlignment="Center"
+                        IsEnabled="{c:Binding CustomStageCode}"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
                         Text="{Binding Stage1, UpdateSourceTrigger=PropertyChanged}"
                         ToolTip="{DynamicResource CustomStageCodeTip}"
@@ -235,6 +272,7 @@
                         Height="30"
                         Margin="6"
                         VerticalContentAlignment="Center"
+                        IsEnabled="{c:Binding CustomStageCode}"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
                         Text="{Binding Stage2, UpdateSourceTrigger=PropertyChanged}"
                         ToolTip="{DynamicResource CustomStageCodeTip}"
@@ -243,6 +281,7 @@
                         Height="30"
                         Margin="6"
                         VerticalContentAlignment="Center"
+                        IsEnabled="{c:Binding CustomStageCode and UseAlternateStage}"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
                         Text="{Binding Stage3, UpdateSourceTrigger=PropertyChanged}"
                         ToolTip="{DynamicResource CustomStageCodeTip}"
@@ -251,6 +290,7 @@
                         Height="30"
                         Margin="6"
                         VerticalContentAlignment="Center"
+                        IsEnabled="{c:Binding CustomStageCode and UseRemainingSanityStage}"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
                         Text="{Binding RemainingSanityStage, UpdateSourceTrigger=PropertyChanged}"
                         ToolTip="{DynamicResource UseRemainingSanityStageTip}"
@@ -294,6 +334,10 @@
                 Content="{DynamicResource HideUnavailableStage}"
                 IsChecked="{Binding HideUnavailableStage}"
                 IsEnabled="{c:Binding !CustomStageCode}" />
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource CustomInfrastPlanShowInFightSettings}"
+                IsChecked="{Binding TaskSettingVisibilities.CustomInfrastPlanShowInFightSettings}" />
             <TextBlock
                 Margin="8,10,8,0"
                 HorizontalAlignment="Left"

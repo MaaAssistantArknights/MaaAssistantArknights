@@ -1346,6 +1346,10 @@
                 "阿"
             ],
             [
+                "^ア回.*すス$",
+                "阿"
+            ],
+            [
                 "スノーズント",
                 "雪雉"
             ],
@@ -2169,6 +2173,12 @@
             "エントリー"
         ]
     },
+    "EnterChapterIS": {
+        "text": [
+            "ウォルシーニ",
+            "ウォル"
+        ]
+    },
     "ExpiringMedicineCheck": {
         "ocrReplace": [
             [
@@ -2192,9 +2202,39 @@
             "1日"
         ]
     },
+    "GachaOncePrefix@DoGacha": {
+        "text": [
+            "1回スカウト",
+            "1回",
+            "スカウ"
+        ]
+    },
+    "GachaTenTimesPrefix@DoGacha": {
+        "text": [
+            "10回スカウト",
+            "10回",
+            "スカウ"
+        ]
+    },
     "GoLastBattle": {
         "text": [
             "前回の参加作戦"
+        ]
+    },
+    "IS-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "next": [
+            "EnterChapterIS"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "text": [
+            "シラクザーノ"
         ]
     },
     "InfrastEnterOperList": {
@@ -2378,6 +2418,18 @@
                 "ロボット",
                 "支援机械"
             ]
+        ]
+    },
+    "RecruitingActivitiesRecruit": {
+        "text": [
+            "1回スカウト",
+            "スカウト"
+        ]
+    },
+    "RecruitingActivitiesRecruitEnd": {
+        "text": [
+            "1回スカウト",
+            "スカウト"
         ]
     },
     "Roguelike@RecruitSupportConfirm": {

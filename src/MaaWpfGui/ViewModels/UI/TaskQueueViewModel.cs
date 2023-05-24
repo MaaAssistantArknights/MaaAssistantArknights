@@ -171,18 +171,20 @@ namespace MaaWpfGui.ViewModels.UI
                 return true;
             }
 
+            if (!Instances.RecognizerViewModel.GachaDone)
+            {
+                // no need to confirm if Gacha running
+                return true;
+            }
+
             var window = Instances.MainWindowManager.GetWindowIfVisible();
             var result = MessageBoxHelper.ShowNative(window, LocalizationHelper.GetString("ConfirmExitText"), LocalizationHelper.GetString("ConfirmExitTitle"), "MAA", MessageBoxButton.YesNo, MessageBoxImage.Information, MessageBoxResult.No);
             return result == MessageBoxResult.Yes;
         }
 
-#pragma warning disable CS0672 // Member overrides obsolete member
-
-        // WHY OBSOLETED?
-        protected override bool CanClose()
-#pragma warning restore CS0672 // Member overrides obsolete member
+        public override Task<bool> CanCloseAsync()
         {
-            return ConfirmExit();
+            return Task.FromResult(this.ConfirmExit());
         }
 
         private void InitTimer()
@@ -322,12 +324,6 @@ namespace MaaWpfGui.ViewModels.UI
 
             TaskItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
 
-            RemainingSanityStageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList())
-            {
-                // It's Cur/Last option
-                [0] = new CombinedData { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty },
-            };
-
             InitDrops();
             NeedToUpdateDatePrompt();
             UpdateDatePrompt();
@@ -360,41 +356,43 @@ namespace MaaWpfGui.ViewModels.UI
         // 这个函数被列为public可见，意味着他注入对象前被调用
         public void UpdateStageList(bool forceUpdate)
         {
-            if (Instances.SettingsViewModel.HideUnavailableStage)
-            {
-                // update available stage list
-                var stage1 = Stage1 ??= string.Empty;
-                StageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList(_curDayOfWeek));
+            var hideUnavailableStage = Instances.SettingsViewModel.HideUnavailableStage;
 
-                // reset closed stage1 to "Last/Current"
+            // forceUpdate: initializing or settings changing, update stage list forcely
+            if (forceUpdate || hideUnavailableStage)
+            {
+                var stage1 = Stage1 ??= string.Empty;
+                var stage2 = Stage2 ??= string.Empty;
+                var stage3 = Stage3 ??= string.Empty;
+
+                EnableSetFightParams = false;
+
+                if (hideUnavailableStage)
+                {
+                    StageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList(_curDayOfWeek));
+                }
+                else
+                {
+                    StageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList());
+                }
+
+                AlternateStageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList());
+
+                // reset closed stages to "Last/Current"
                 if (!CustomStageCode)
                 {
-                    Stage1 = _stageManager.IsStageOpen(stage1, _curDayOfWeek) ? stage1 : string.Empty;
+                    Stage1 = StageList.Any(x => x.Value == stage1) ? stage1 : string.Empty;
+                    Stage2 = AlternateStageList.Any(x => x.Value == stage2) ? stage2 : string.Empty;
+                    Stage3 = AlternateStageList.Any(x => x.Value == stage3) ? stage3 : string.Empty;
                 }
-            }
-            else
-            {
-                // initializing or settings changing, update stage list forcely
-                if (forceUpdate)
+                else
                 {
-                    var stage1 = Stage1 ??= string.Empty;
-                    var stage2 = Stage2 ??= string.Empty;
-                    var stage3 = Stage3 ??= string.Empty;
-
-                    EnableSetFightParams = false;
-
-                    StageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList());
-
-                    // reset closed stages to "Last/Current"
-                    if (!CustomStageCode)
-                    {
-                        Stage1 = StageList.Any(x => x.Value == stage1) ? stage1 : string.Empty;
-                        Stage2 = StageList.Any(x => x.Value == stage2) ? stage2 : string.Empty;
-                        Stage3 = StageList.Any(x => x.Value == stage3) ? stage3 : string.Empty;
-                    }
-
-                    EnableSetFightParams = true;
+                    Stage1 = stage1;
+                    Stage2 = stage2;
+                    Stage3 = stage3;
                 }
+
+                EnableSetFightParams = true;
             }
 
             var rss = RemainingSanityStage ??= string.Empty;
@@ -886,7 +884,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            if (mainFightRet && UseRemainingSanityStage && (RemainingSanityStage != string.Empty))
+            if (mainFightRet && UseRemainingSanityStage && !string.IsNullOrEmpty(RemainingSanityStage))
             {
                 return Instances.AsstProxy.AsstAppendFight(RemainingSanityStage, 0, 0, int.MaxValue, string.Empty, 0, false);
             }
@@ -983,7 +981,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             return Instances.AsstProxy.AsstAppendMall(
-                this.Stage != string.Empty && Instances.SettingsViewModel.CreditFightTaskEnabled,
+                !string.IsNullOrEmpty(this.Stage) && Instances.SettingsViewModel.CreditFightTaskEnabled,
                 Instances.SettingsViewModel.CreditShopping,
                 buy_first,
                 black_list,
@@ -1741,6 +1739,8 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         public ObservableCollection<CombinedData> RemainingSanityStageList { get; set; } = new ObservableCollection<CombinedData>();
+
+        public ObservableCollection<CombinedData> AlternateStageList { get; set; } = new ObservableCollection<CombinedData>();
 
         /// <summary>
         /// Gets the stage.
