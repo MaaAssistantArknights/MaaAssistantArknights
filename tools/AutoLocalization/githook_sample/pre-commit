@@ -25,15 +25,8 @@ if [ $flag -eq 1 ]; then
         .source venv/Scripts/activate
         pip install -r requirements.txt
     fi
-    if git rev-parse "tag-autolocalization" >/dev/null 2>&1; then
-        echo "Tag exists. Doing something..."
-        source .venv/Scripts/activate
-        python ./main.py update
-    else
-        echo "Tag does not exist. Doing something else..."
-        source .venv/Scripts/activate
-        python ./main.py create
-    fi
+    source .venv/Scripts/activate
+    python ./main.py update
 fi
 if [ $? -ne 0 ]; then
     echo "Your program found an error in $FILE. Commit aborted."
