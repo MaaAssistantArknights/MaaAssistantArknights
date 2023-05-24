@@ -1058,20 +1058,10 @@ MEOJSON_INLINE decltype(auto) basic_value<string_t>::emplace(args_t&&... args)
     static_assert(is_array_args || is_object_args, "Args can not constructure a array or object value");
 
     if constexpr (is_array_args) {
-        if (is_array()) {
-            return as_array().emplace_back(std::forward<args_t>(args)...);
-        }
-        else {
-            throw exception("Not a array");
-        }
+        return as_array().emplace_back(std::forward<args_t>(args)...);
     }
     else if constexpr (is_object_args) {
-        if (is_object()) {
-            return as_object().emplace(std::forward<args_t>(args)...);
-        }
-        else {
-            throw exception("Not a object");
-        }
+        return as_object().emplace(std::forward<args_t>(args)...);
     }
 }
 
