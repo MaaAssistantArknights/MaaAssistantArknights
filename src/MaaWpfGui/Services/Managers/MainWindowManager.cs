@@ -51,6 +51,12 @@ namespace MaaWpfGui.Services.Managers
         }
 
         /// <inheritdoc/>
+        public virtual void ForceShow()
+        {
+            ((WindowManager)Instances.WindowManager).ForceShow(MainWindow);
+        }
+
+        /// <inheritdoc/>
         public virtual void Collapse()
         {
             MainWindow.WindowState = MainWindow.WindowState = WindowState.Minimized;
