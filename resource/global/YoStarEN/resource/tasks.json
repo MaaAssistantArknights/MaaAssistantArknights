@@ -2315,6 +2315,27 @@
             "Credit Store"
         ]
     },
+    "Phantom@Roguelike@NextLevel": {
+        "text": [
+            "Mist-stricken Missteps",
+            "Sunset Courtyard",
+            "Homeland Remnants",
+            "Nightmare's Prelude",
+            "Blood-soaked Corridor",
+            "Hall of Desires"
+        ]
+    },
+	"Mizuki@Roguelike@NextLevel": {
+        "text": [
+            "Celeste and Seashore",
+            "Isolated Isle",
+            "Billowy Land",
+            "Mysterious Hotbed",
+            "Ashless Cave",
+            "Forest Undersea",
+            "Sweet Dream"
+        ]
+    },
     "ExpiringMedicineCheck": {
         "ocrReplace": [
             [
@@ -2415,6 +2436,11 @@
     "Phantom@Roguelike@SelectTheme": {
         "text": [
             "Phantom"
+        ]
+    },
+	"Mizuki@Roguelike@SelectTheme": {
+        "text": [
+            "Mizuki"
         ]
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
@@ -4408,6 +4434,22 @@
                 "Drifting Cache",
                 "漂流秘匣"
             ]
+        ]
+    },
+    "Mizuki@Roguelike@GetDropSelectRecruit": {
+        "template": "Mizuki@Roguelike@GetDropSelectRecruit.png"
+    },
+	"Roguelike@StageTraderSpecialShoppingAfterRefresh": {
+        "text": [
+            "Pathfinder Fins"
+        ]
+    },
+	"Roguelike@StageTraderRefreshWithDiceNotAvaiable": {
+        "text": [
+            "Used up rereshes for this",
+			"Used up rereshes",
+            "for this",
+            "for this shop"
         ]
     },
     "ShamareThumbnail1": {
