@@ -370,8 +370,11 @@ void Assistant::working_proc()
     LogTraceFunction;
 
     std::vector<TaskId> finished_tasks;
-    while (!m_thread_exit) {
+    while (true) {
         std::unique_lock<std::mutex> lock(m_mutex);
+        if (!m_thread_exit) {
+            return;
+        }
 
         if (m_thread_idle || m_tasks_list.empty()) {
             m_thread_idle = true;
@@ -429,8 +432,11 @@ void Assistant::msg_proc()
 {
     LogTraceFunction;
 
-    while (!m_thread_exit) {
+    while (true) {
         std::unique_lock<std::mutex> lock(m_msg_mutex);
+        if (!m_thread_exit) {
+            return;
+        }
 
         if (m_msg_queue.empty()) {
             m_msg_condvar.wait(lock);
@@ -487,8 +493,11 @@ void asst::Assistant::call_proc()
 {
     LogTraceFunction;
 
-    while (!m_thread_exit) {
+    while (true) {
         std::unique_lock<std::mutex> lock(m_call_mutex);
+        if (!m_thread_exit) {
+            return;
+        }
 
         if (m_call_queue.empty()) {
             m_call_condvar.wait(lock);
