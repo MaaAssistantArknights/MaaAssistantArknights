@@ -65,18 +65,20 @@ bool asst::OperBoxImageAnalyzer::opers_analyze()
     oper_name_analyzer.set_bin_threshold(160);
     oper_name_analyzer.set_bin_expansion(4);
     oper_name_analyzer.set_bin_trim_threshold(4, 0);
-    const auto& all_opers = BattleData.get_all_oper_names();
-    oper_name_analyzer.set_required(std::vector(all_opers.begin(), all_opers.end()));
 
     TemplDetOCRer::ResultsVec results;
 
+    const auto& replace_task = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
+    const auto& all_opers = BattleData.get_all_oper_names();
+    
     Rect roi_top = Task.get("OperBoxFlagRoleTopROI")->roi;
     Rect roi_bottom = Task.get("OperBoxFlagRoleBottomROI")->roi;
-    const auto& replace_task = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
     
     for (int i = 1; i < 10; ++i) {
         oper_name_analyzer.set_task_info("OperBoxFlagRole" + std::to_string(i), "OperBoxNameOCR");
         oper_name_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
+        oper_name_analyzer.set_required(std::vector(all_opers.begin(), all_opers.end()));
+        
         oper_name_analyzer.set_roi(roi_top);
         auto top_result_opt = oper_name_analyzer.analyze();
         if (top_result_opt) {
