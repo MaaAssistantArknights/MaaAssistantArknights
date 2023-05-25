@@ -238,8 +238,8 @@
     <system:String x:Key="CreditFightTip" xml:space="preserve">OF-1을 지원 오퍼레이터와 함께 수행해 30크레딧을 얻습니다.&#x0a;이 기능은 현재 스테이지가 현재/최근으로 설정되어 있을 때는 작동하지 않습니다.&#x0a;OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="HighPriority">구매 우선 항목 (세미콜론으로 구분)</system:String>
     <system:String x:Key="Blacklist">무시 항목 (세미콜론으로 구분)</system:String>
-    <system:String x:Key="HighPriorityDefault">모집 허가증</system:String>
-    <system:String x:Key="BlacklistDefault">카본;가구 부품;즉시 완료 허가증</system:String>
+    <system:String x:Key="HighPriorityDefault">모집허가증</system:String>
+    <system:String x:Key="BlacklistDefault">카본;가구부품;즉시완료허가증</system:String>
     <system:String x:Key="Drink">술 한잔은 어떻습니까🍷? 박사님</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">크레딧이 넘치면 무시 항목도 구매</system:String>
 
@@ -377,8 +377,8 @@
     <system:String x:Key="Toolbox">툴박스</system:String>
 
     <!--  공개모집 인식  -->
-    <system:String x:Key="RecruitmentRecognition">공개모집 인식</system:String>
-    <system:String x:Key="RecruitmentRecognitionTip">팁: 메인 화면의 자동 모집과는 별도로 독립된 기능입니다. 게임 내 공개모집 태그 화면에서 사용하세요~</system:String>
+    <system:String x:Key="RecruitmentRecognition">공개모집 태그 인식</system:String>
+    <system:String x:Key="RecruitmentRecognitionTip">팁: 메인 화면의 자동 모집과는 별도로 독립된 기능입니다. 게임 내 공개모집 태그 화면에 진입한 뒤 인식 시작 버튼을 누르세요~</system:String>
     <system:String x:Key="AutoSettingTime">자동 시간 설정</system:String>
     <system:String x:Key="RecruitmentShowPotential">잠재능력 확인(★4 이상)</system:String>
     <system:String x:Key="RecruitmentShowPotentialTips">오퍼레이터 정보를 불러오려면 “오퍼레이터 식별” 기능을 사용하세요.</system:String>
@@ -391,7 +391,7 @@
 
     <!--  창고 정리  -->
     <system:String x:Key="DepotRecognition">창고 정리</system:String>
-    <system:String x:Key="DepotRecognitionTip">이 기능은 현재 테스트 중입니다. 인식 결과가 맞는지 확인 후에 사용해 주세요. 만약 오류가 있다면 debug/depot 폴더를 압축해서 이슈로 보내 주세요.</system:String>
+    <system:String x:Key="DepotRecognitionTip">이 기능은 현재 테스트 중입니다. 내보내기 전 인식 결과가 맞는지 확인 후에 사용해 주세요. 만약 오류가 있다면 MAA 경로 내 debug 폴더 안의 depot 폴더 전체를 압축해서 Github의 issue로 올려주세요.</system:String>
     <system:String x:Key="StartToDepotRecognition">식별 시작</system:String>
     <system:String x:Key="ExportToArkplanner">Arkplanner로 내보내기</system:String>
     <system:String x:Key="ExportToLolicon">Lolicon으로 내보내기</system:String>
@@ -400,7 +400,7 @@
 
     <!--  干员识别  -->
     <system:String x:Key="OperBoxRecognition">오퍼레이터 식별</system:String>
-    <system:String x:Key="OperBoxRecognitionTip">이 기능은 현재 테스트 중입니다. 만약 오류가 있다면 debug/oper 폴더를 압축해서 이슈로 보내 주세요~</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">이 기능은 현재 테스트 중입니다. 만약 오류가 있다면 MAA 경로 내 debug 폴더 안의 oper 폴더 전체를 압축해서 Github의 issue로 올려주세요.~</system:String>
     <system:String x:Key="OperBoxRecognitionResult">미소유：{0} 목록:\n\n{1}\n\n소유：{2} 목록:\n\n{3}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">식별 시작</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">클립보드에 복사</system:String>
@@ -417,28 +417,26 @@
     <system:String x:Key="Gacha">헤드헌팅</system:String>
     <system:String x:Key="GachaOnce">1회 진행</system:String>
     <system:String x:Key="GachaTenTimes">10회 진행</system:String>
-<!--
-    <system:String x:Key="GachaInitTip">在罗德岛竟然有这么多志同道合的志士。是的，诗歌！战争！自由！能在历史的洪流中汇集众人的力量，为这片大地的改变而奋斗。真是令人振奋！这些悲壮又非凡的故事，是应当被传颂下去的。</system:String>
-    <system:String x:Key="GachaTip1">保佑胜利的英雄，我将领受你们的祝福。</system:String>
-    <system:String x:Key="GachaTip2">伟大的战士们啊，我会在你们身边，与你们一同奋勇搏杀。</system:String>
-    <system:String x:Key="GachaTip3">再转身回头的时候，我们将带着胜利归来。</system:String>
-    <system:String x:Key="GachaTip4">不需畏惧，我们会战胜那些鲁莽的家伙！</system:String>
-    <system:String x:Key="GachaTip5">欢呼吧！</system:String>
-    <system:String x:Key="GachaTip6">来吧——</system:String>
-    <system:String x:Key="GachaTip7">现在可没有后悔的余地了。</system:String>
-    <system:String x:Key="GachaTip8">无需退路。</system:String>
-    <system:String x:Key="GachaTip9">英雄们啊，为这最强大的信念，请站在我们这边。</system:String>
-    <system:String x:Key="GachaTip10">颤抖吧，在真正的勇敢面前。</system:String>
-    <system:String x:Key="GachaTip11">哭嚎吧，为你们不堪一击的信念。</system:String>
-    <system:String x:Key="GachaTip12">你将在此跪拜。</system:String>
-    <system:String x:Key="GachaTip13">是吗，我们做到了吗......我现在，正体会至高的荣誉和幸福。</system:String>
-    <system:String x:Key="GachaTip14">转身吧，勇士们。我们已经获得了完美的胜利，现在是该回去享受庆祝的盛典了。</system:String>
-    <system:String x:Key="GachaTip15">听啊，悲鸣停止了。这是幸福的和平到来前的宁静。</system:String>
-    <system:String x:Key="GachaTip16">纵使人类的战争没尽头......在这一刻，我们守护住了自己生的尊严。离开吧。但要昂首挺胸。</system:String>
-    <system:String x:Key="GachaTip17">这对角可能会不小心撞倒些家具，我会尽量小心。</system:String>
--->
-    <system:String x:Key="GachaDisclaimer">정말로 헤드헌팅을 진행하게 될 겁니다! 시뮬레이션이 아닙니다!!!</system:String>
-    <system:String x:Key="GachaAgreeDisclaimer">확인했습니다.</system:String>
+    <system:String x:Key="GachaInitTip">뜻을 같이 하는 지사님이 로도스에 이렇게 오실 줄은 몰랐습니다. 네, 노래! 전투! 자유! 역사의 본류 속에서 사람들의 힘을 집결시켜, 이 대지를 바꾸기 위해서 분투할 수 있다니, 이 무슨 생각일까요. 비장하고 범상치 않은 이야기는 반드시 전해져 내려가야 해요.</system:String>
+    <system:String x:Key="GachaTip1">승리를 지키는 영웅들이여, 그 축복을 내리소서.</system:String>
+    <system:String x:Key="GachaTip2">위대한 전사들이여, 제가 함께 서서 신들과 싸워 나가겠습니다.</system:String>
+    <system:String x:Key="GachaTip3">다음에 돌아올 때는 승리를 가지고 귀환할 때입니다.</system:String>
+    <system:String x:Key="GachaTip4">두려워할 것 없습니다, 만용의 무리 따위는 적이 아닙니다.</system:String>
+    <system:String x:Key="GachaTip5">환호하라!</system:String>
+    <system:String x:Key="GachaTip6">와라!</system:String>
+    <system:String x:Key="GachaTip7">이제 후회의 여지는 없습니다.</system:String>
+    <system:String x:Key="GachaTip8">퇴로같은 건 필요 없어요.</system:String>
+    <system:String x:Key="GachaTip9">영웅들이여, 이 확고한 신념을 위해 우리의 편이 되소서.</system:String>
+    <system:String x:Key="GachaTip10">떨어라, 진정한 용감함을 앞에 두고.</system:String>
+    <system:String x:Key="GachaTip11">울부짖어라, 그 여린 신념 아래서.</system:String>
+    <system:String x:Key="GachaTip12">여기에 무릎꿇는겁니다.</system:String>
+    <system:String x:Key="GachaTip13">네, 드디어 해낸 것이군요, 저는 지금 최고의 영예와 행복에 싸여 있습니다.</system:String>
+    <system:String x:Key="GachaTip14">뒤돌아 보십시오, 용사들, 우리는 나무랄 데 없는 승리를 거두었습니다. 돌아가서 환희연을 올립시다.</system:String>
+    <system:String x:Key="GachaTip15">귀를 기울여 주세요, 이제 비명소리는 더 이상 들리지 않습니다. "이것이 행복과 평화가 찾아오기 전의 고요함입니다"</system:String>
+    <system:String x:Key="GachaTip16">인류의 전쟁은 끝이 없어도 이번만큼은 생명의 존엄성을 지킬 수 있었습니다. 철수합시다, 가슴 펴고 당당하게.</system:String>
+    <system:String x:Key="GachaTip17">이 뿔로 가구를 넘어뜨리지 않도록 조심하도록 하겠습니다.</system:String>
+    <system:String x:Key="GachaDisclaimer">실제로 게임 내에서 헤드헌팅을 진행하게 됩니다! 시뮬레이션이 아닙니다!!!</system:String>
+    <system:String x:Key="GachaAgreeDisclaimer">알겠습니다</system:String>
     <system:String x:Key="GachaShowDisclaimerNoMore">다시 보지 않기</system:String>
 
 
@@ -491,7 +489,7 @@
     <system:String x:Key="ErrorSolution">해결 방법</system:String>
     <system:String x:Key="ErrorSolutionCrash">FAQ 문서의 크래시 관련 문단을 참고하세요.</system:String>
     <system:String x:Key="ErrorSolutionReplaceADB">에뮬레이터와 adb를 종료하거나 컴퓨터를 재시작하고 관리자 권한으로 MAA를 실행해 주세요.</system:String>
-    <system:String x:Key="ErrorFeedbackLinkText">GitHub 이슈 생성</system:String>
+    <system:String x:Key="ErrorFeedbackLinkText">GitHub에 issue 생성</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">QQ 그룹 가입</system:String>
     <system:String x:Key="CopyErrorMessage">오류 메시지 복사</system:String>
 
@@ -504,7 +502,7 @@
     <system:String x:Key="FailedToReplaceAdbAndUseLocal">ADB 교체 실패</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">로컬 adb 파일로 임시적으로 연결했습니다.</system:String>
     <system:String x:Key="InitializationError">초기화 오류!</system:String>
-    <system:String x:Key="ResolutionNotSupported">에뮬레이터 해상도가 지원되지 않습니다. 해상도를 720p 이상, 16:9 비율로 설정해주세요.</system:String>
+    <system:String x:Key="ResolutionNotSupported">에뮬레이터 해상도가 지원되지 않습니다. 16:9 비율로 설정하시고 해상도를 720p 이상으로 설정해주세요.</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">시뮬레이터 해상도를 가져올 수 없습니다. 시뮬레이터와 ADB를 재시작하거나 컴퓨터를 재부팅하거나 시뮬레이터를 교체한 후 다시 시도하십시오.</system:String>
     <system:String x:Key="TryToReconnect">에뮬레이터가 연결 해제되었습니다. 재연결을 시도합니다.</system:String>
     <system:String x:Key="ReconnectSuccess">다시 연결되었습니다. 작업을 계속합니다.</system:String>
@@ -525,18 +523,18 @@
     <system:String x:Key="ErrorOccurred">오류가 발생했습니다</system:String>
     <system:String x:Key="HasReturned">반환했습니다</system:String>
     <system:String x:Key="DropRecognitionError">드롭 인식 오류</system:String>
-    <system:String x:Key="GiveUpUploadingPenguins">펭귄 물류에 업로드 중단</system:String>
+    <system:String x:Key="GiveUpUploadingPenguins">펭귄 물류에 업로드 불가</system:String>
     <system:String x:Key="TheEX">EX 스테이지가 없어 중단되었습니다</system:String>
     <system:String x:Key="MissionStart">행동 개시</system:String>
     <system:String x:Key="UnitTime">회</system:String>
     <system:String x:Key="MedicineUsed">이성 회복 아이템을 사용했습니다</system:String>
     <system:String x:Key="StoneUsed">순오리지늄을 사용했습니다</system:String>
     <system:String x:Key="ActingCommandError">PRTS 오류</system:String>
-    <system:String x:Key="LabelsRefreshed">태그가 새로 고쳐졌습니다.</system:String>
+    <system:String x:Key="LabelsRefreshed">태그를 새로 고쳤습니다.</system:String>
     <system:String x:Key="RecruitConfirm">모집 확정</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">요구 오퍼레이터 충돌</system:String>
-    <system:String x:Key="BegunToExplore">탐험 시작됨</system:String>
-    <system:String x:Key="HasInvested">투자함</system:String>
+    <system:String x:Key="BegunToExplore">탐험 시작됨:</system:String>
+    <system:String x:Key="HasInvested">각뿔 투자함:</system:String>
     <system:String x:Key="ExplorationAbandoned">탐사 중단</system:String>
     <system:String x:Key="FightCompleted">작전 완료</system:String>
     <system:String x:Key="FightFailed">작전 실패</system:String>
@@ -558,7 +556,7 @@
     <system:String x:Key="TotalDrop">드롭 통계:</system:String>
     <system:String x:Key="ThisFacility">현재 시설:</system:String>
     <system:String x:Key="ProductIncorrect">생산품이 구성과 맞지 않습니다.</system:String>
-    <system:String x:Key="ProductUnknown">식별할 수 없는 산물</system:String>
+    <system:String x:Key="ProductUnknown">식별할 수 없는 결과물</system:String>
     <system:String x:Key="ProductChanged">결과물이 변경됨</system:String>
     <system:String x:Key="RecruitingResults">공개모집 인식 결과:</system:String>
     <system:String x:Key="RecruitingTips">공개모집 팁</system:String>
