@@ -916,11 +916,13 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
             return false;
         }
         auto& rg_json = rg_opt.value();
-        for (auto&& [id, stage_obj] : rg_json["details"]["rogue_1"]["stages"].as_object()) {
-            base_stage_names.emplace(id, stage_obj["name"].as_string());
-        }
-        for (auto&& [id, item_obj] : rg_json["details"]["rogue_1"]["items"].as_object()) {
-            base_item_names.emplace(id, item_obj["name"].as_string());
+        for (auto& [rogue_index, rogue_details] : rg_json["details"].as_object()) {
+            for (auto&& [id, stage_obj] : rogue_details["stages"].as_object()) {
+                base_stage_names.emplace(id, stage_obj["name"].as_string());
+            }
+            for (auto&& [id, item_obj] : rogue_details["items"].as_object()) {
+                base_item_names.emplace(id, item_obj["name"].as_string());
+            }
         }
     }
 
@@ -948,11 +950,14 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
     std::unordered_map</*id*/ std::string, /*name*/ std::string> item_names;
 
     auto& rg_json = rg_opt.value();
-    for (auto&& [id, stage_obj] : rg_json["details"]["rogue_1"]["stages"].as_object()) {
-        stage_names.emplace(id, stage_obj["name"].as_string());
-    }
-    for (auto&& [id, item_obj] : rg_json["details"]["rogue_1"]["items"].as_object()) {
-        item_names.emplace(id, item_obj["name"].as_string());
+
+    for (auto& [rogue_index, rogue_details] : rg_json["details"].as_object()) {
+        for (auto&& [id, stage_obj] : rogue_details["stages"].as_object()) {
+            stage_names.emplace(id, stage_obj["name"].as_string());
+        }
+        for (auto&& [id, item_obj] : rogue_details["items"].as_object()) {
+            item_names.emplace(id, item_obj["name"].as_string());
+        }
     }
 
     std::unordered_map</*id*/ std::string, /*name*/ std::string> char_names;
