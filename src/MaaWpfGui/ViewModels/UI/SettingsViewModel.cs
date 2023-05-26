@@ -27,6 +27,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
+using HandyControl.Controls;
+using HandyControl.Data;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -890,11 +892,26 @@ namespace MaaWpfGui.ViewModels.UI
             if (ConfigurationHelper.AddConfiguration(NewConfigurationName, CurrentConfiguration))
             {
                 ConfigurationList.Add(new CombinedData { Display = NewConfigurationName, Value = NewConfigurationName });
-                MessageBoxHelper.Show(string.Format(LocalizationHelper.GetString("AddConfigSuccess"), NewConfigurationName));
+
+                var growinfo = new GrowlInfo
+                {
+                    IsCustom = true,
+                    Message = string.Format(LocalizationHelper.GetString("AddConfigSuccess"), NewConfigurationName),
+                    IconKey = "HangoverGeometry",
+                    IconBrushKey = "PallasBrush",
+                };
+                Growl.Info(growinfo);
             }
             else
             {
-                MessageBoxHelper.Show(string.Format(LocalizationHelper.GetString("ConfigExists"), NewConfigurationName));
+                var growinfo = new GrowlInfo
+                {
+                    IsCustom = true,
+                    Message = string.Format(LocalizationHelper.GetString("ConfigExists"), NewConfigurationName),
+                    IconKey = "HangoverGeometry",
+                    IconBrushKey = "PallasBrush",
+                };
+                Growl.Info(growinfo);
             }
         }
 
@@ -2791,7 +2808,7 @@ namespace MaaWpfGui.ViewModels.UI
                 string FormatText(string text, string key)
                     => string.Format(text, LocalizationHelper.GetString(key, value), LocalizationHelper.GetString(key, _language));
 
-                Window mainWindow = Application.Current.MainWindow;
+                var mainWindow = Application.Current.MainWindow;
                 mainWindow.Show();
                 mainWindow.WindowState = mainWindow.WindowState = WindowState.Normal;
                 mainWindow.Activate();
