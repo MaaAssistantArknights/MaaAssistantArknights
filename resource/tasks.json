@@ -1389,8 +1389,7 @@
     },
     "SwipeToStageIS": {
         "Doc": "IS关特殊的上下滑动",
-        "algorithm": "JustReturn",
-        "action": "Swipe",
+        "baseTask": "SlowlySwipeToTheRight",
         "specificRect": [
             98,
             469,
@@ -2379,6 +2378,7 @@
         "algorithm": "OcrDetect",
         "text": [],
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的识别任务复用",
+        "fullMatch": true,
         "ocrReplace": [
             [
                 "^令.+",

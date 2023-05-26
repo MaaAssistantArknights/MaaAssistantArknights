@@ -1,63 +1,55 @@
-## v4.18.1
+## v4.19.0-beta.1
 
 ### 新增
 
-- 支持 `尖灭测试作战` 抄作业 @MistEO @yuanyan3060 @lza11111
+- Supported Auto I.S. (roguelike) for YostarKR, YostarJP, YostarEN @178619 @su6aru @liuyifan-eric @Pitiedwzr @RiichiTsumo
+- 切换配置功能 @MistEO @ABA2396
+- 自定义关卡快捷输入 @ABA2396
 
 ### 改进
 
-- 自动战斗编队列表识别不到时，自动划回来重试 @MistEO
-- 刷理智若检测到OF-1自动停止 @MistEO
-- 软件更新弃用 github api，并全面启用 maa version api @MistEO
-- 博朗台模式同时支持等理智药 @MistEO @ABA2396
-- 肉鸽中不再进阶未精二的干员 (#4825) @whatss7
-- 为窗口标题添加活动名 @MistEO
+- 扩大任务设置可选范围 @moomiji
+- 添加刷理智任务设置中显示基建计划功能 @moomiji
+- improve ConfirmExit() @moomiji
+- 添加隐藏关闭按钮功能 @moomiji
+- 添加托盘图标强制显示MAA功能 @moomiji
+- 增加一个文件被占用的解决方法 @MistEO
+- 加回 gui.json 备份机制 @MistEO
 
 ### 修复
 
-- 修复不能部署干员的问题 @MistEO
-- 全局减小 adb 滑动距离 @MistEO
-- 修复干员识别偶尔滑动失效提前结束的问题；并少存一点日志图 @MistEO
-- 调整鸿雪肉鸽默认技能为1技能 @MistEO
-- 修复连接失败时任务仍被添加的问题 @MistEO
-- 延长战斗中暂停的后延迟 @MistEO
-- GUI display issues @moomiji
-- 修复干员识别replace不生效的问题 @MistEO
-- 控制台退出模拟器统一添加等待时间 #4808 @ABA2396
-- 每次修改客户端类型时主动重新读取资源 @MistEO
+- 修复干员 Box 识别错误 @MistEO
+- 拖动任务顺序后无法保存修改后的顺序 @ABA2396
+- 关卡名OCR识别大小写出错导致掉落上传失败 #4867 @ABA2396
+- 尝试修复关卡选择变为null的情况 #4871 @ABA2396
+- 关卡选择为null时仍会执行借助战任务 @ABA2396
+- 修复 `火哨` 的基建技能 @MistEO
 
 ### 其他
 
-- 更新海外客户端数据源，移除对 ArknightsGameData 的引用 @MistEO
-- log error on mismatched image size @horror-proton
-- 对蓝叠模拟器Hyper-V的补充说明(#4806) (#4866) @SherkeyXD
-- 修改抽卡重复提示条件，每次启动都会显示抽卡提示 @ABA2396
-- fix s3 synchronization path @GalvinGao
-- ui 相关日志移至 gui.json @ABA2396
-- 修复部分 CI @MistEO
-- 更新文档 @MistEO
-- fix typo: Github -> GitHub (#4883) @eltociear
+- 创建本地化文档自动翻译工具 & 更新本地化文档 (#4912) @UniMars @wallsman
+- 修复资源更新器不更新水月肉鸽的问题 @MistEO
+- update meojson (#4789) @MistEO
+- 部分 CI 优化 @MistEO
+- Update operators.md (#4929) @wallsman
+- 修改对于蓝叠的支持说明 @ABA2396 @MistEO
 
 ### For overseas
 
-#### Common
-
-- Fix title version error @MistEO
-
 #### YostarJP
 
-- update JP templates for support of recent features @liuyifan-eric
+- Supported Auto I.S. (roguelike) (#4936) (#4921) @su6aru @liuyifan-eric
+- JP navigation to IS event stages @liuyifan-eric
+- update JP json for gacha pull @liuyifan-eric
+- IS-10 (Yostar ongoing) slowly swipe to stage @liuyifan-eric
+- JP oper ocr replace update @liuyifan-eric
+- ad hoc fix for JP ocr of 阿 ア @liuyifan-eric
 
 #### YostarEN
 
-- update InfrastFilterMenuNotStationedButton for EN (#4827) @Enochen
+- Supported Auto I.S. (roguelike) (#4936) @Pitiedwzr @RiichiTsumo
 
 #### YostarKR
 
-- Fix crash for KR @178619
-- Makes Mizuki theme roguelike available for KR (initially) and updates localization (#4894) @178619
-- Update resources for KR (#4868) @178619
-
-#### txwy
-
-- 添加台服开始战斗ocr @ABA2396
+- Supported Auto I.S. (roguelike) (#4932) @178619
+- Localization fix for ko-KR (#4930) @GyeRyak

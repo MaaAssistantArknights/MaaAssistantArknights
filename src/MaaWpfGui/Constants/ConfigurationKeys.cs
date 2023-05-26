@@ -18,8 +18,15 @@ namespace MaaWpfGui.Constants
     /// </summary>
     public static class ConfigurationKeys
     {
+        public const string CurrentConfiguration = "Current";
+        public const string DefaultConfiguration = "Default";
+        public const string ConfigurationMap = "Configurations";
+        public const string ConfigurationData = "Data";
+        public const string ConfigurationCron = "Cron";
+
         public const string Localization = "GUI.Localization";
         public const string MinimizeToTray = "GUI.MinimizeToTray";
+        public const string HideCloseButton = "GUI.HideCloseButton";
         public const string UseNotify = "GUI.UseNotify";
         public const string WindowPlacement = "GUI.Placement";
         public const string LoadWindowPlacement = "GUI.Placement.Load";
@@ -83,6 +90,7 @@ namespace MaaWpfGui.Constants
         public const string CustomInfrastEnabled = "Infrast.CustomInfrastEnabled";
         public const string CustomInfrastFile = "Infrast.CustomInfrastFile";
         public const string CustomInfrastPlanIndex = "Infrast.CustomInfrastPlanIndex";
+        public const string CustomInfrastPlanShowInFightSettings = "Infrast.CustomInfrastPlanShowInFightSettings";
 
         public const string UseRemainingSanityStage = "Fight.UseRemainingSanityStage";
         public const string UseExpiringMedicine = "Fight.UseExpiringMedicine";

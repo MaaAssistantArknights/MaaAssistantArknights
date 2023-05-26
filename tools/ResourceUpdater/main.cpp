@@ -318,7 +318,7 @@ bool update_items_data(const std::filesystem::path& input_dir, const std::filesy
     }
     auto output_json_path = output_dir / "item_index.json";
     std::ofstream ofs(output_json_path, std::ios::out);
-    ofs << output_json.format(true);
+    ofs << output_json.format();
     ofs.close();
 
     return true;
@@ -491,7 +491,7 @@ bool update_infrast_data(const std::filesystem::path& input_dir, const std::file
     root["roomType"] = json::array(rooms);
 
     std::ofstream ofs(output_file, std::ios::out);
-    ofs << root.format(true);
+    ofs << root.format();
     ofs.close();
 
     return true;
@@ -517,7 +517,7 @@ bool update_stages_data(const std::filesystem::path& input_dir, const std::files
     auto& stage_json = parse_ret.value();
 
     std::ofstream ofs(output_dir / "stages.json", std::ios::out);
-    ofs << stage_json.format(true);
+    ofs << stage_json.format();
     ofs.close();
 
     return true;
@@ -608,7 +608,7 @@ bool update_levels_json(const std::filesystem::path& input_file, const std::file
         }
         else {
             std::ofstream ofs(filepath, std::ios::out);
-            ofs << stage_info.format(true);
+            ofs << stage_info.format();
             ofs.close();
         }
 
@@ -620,7 +620,7 @@ bool update_levels_json(const std::filesystem::path& input_file, const std::file
     }
 
     std::ofstream ofs(overview_path, std::ios::out);
-    ofs << overview.format(true);
+    ofs << overview.format();
     ofs.close();
 
     return true;
@@ -751,7 +751,7 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
 
     const auto& out_file = output_dir / "battle_data.json";
     std::ofstream ofs(out_file, std::ios::out);
-    ofs << result.format(true) << std::endl;
+    ofs << result.format() << std::endl;
 
     return true;
 }
@@ -896,7 +896,7 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
     }
 
     std::ofstream ofs(output, std::ios::out);
-    ofs << result.format(true) << std::endl;
+    ofs << result.format() << std::endl;
 
     return true;
 }
@@ -916,11 +916,13 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
             return false;
         }
         auto& rg_json = rg_opt.value();
-        for (auto&& [id, stage_obj] : rg_json["details"]["rogue_1"]["stages"].as_object()) {
-            base_stage_names.emplace(id, stage_obj["name"].as_string());
-        }
-        for (auto&& [id, item_obj] : rg_json["details"]["rogue_1"]["items"].as_object()) {
-            base_item_names.emplace(id, item_obj["name"].as_string());
+        for (auto& [rogue_index, rogue_details] : rg_json["details"].as_object()) {
+            for (auto&& [id, stage_obj] : rogue_details["stages"].as_object()) {
+                base_stage_names.emplace(id, stage_obj["name"].as_string());
+            }
+            for (auto&& [id, item_obj] : rogue_details["items"].as_object()) {
+                base_item_names.emplace(id, item_obj["name"].as_string());
+            }
         }
     }
 
@@ -948,11 +950,14 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
     std::unordered_map</*id*/ std::string, /*name*/ std::string> item_names;
 
     auto& rg_json = rg_opt.value();
-    for (auto&& [id, stage_obj] : rg_json["details"]["rogue_1"]["stages"].as_object()) {
-        stage_names.emplace(id, stage_obj["name"].as_string());
-    }
-    for (auto&& [id, item_obj] : rg_json["details"]["rogue_1"]["items"].as_object()) {
-        item_names.emplace(id, item_obj["name"].as_string());
+
+    for (auto& [rogue_index, rogue_details] : rg_json["details"].as_object()) {
+        for (auto&& [id, stage_obj] : rogue_details["stages"].as_object()) {
+            stage_names.emplace(id, stage_obj["name"].as_string());
+        }
+        for (auto&& [id, item_obj] : rogue_details["items"].as_object()) {
+            item_names.emplace(id, item_obj["name"].as_string());
+        }
     }
 
     std::unordered_map</*id*/ std::string, /*name*/ std::string> char_names;
@@ -1004,7 +1009,7 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
     proc(task_json["RoguelikeTraderShoppingOcr"]["ocrReplace"].as_array(), base_item_names, item_names);
 
     std::ofstream ofs(tasks_path, std::ios::out);
-    ofs << task_json.format(true) << std::endl;
+    ofs << task_json.format() << std::endl;
 
     return true;
 }
@@ -1071,7 +1076,7 @@ bool update_version_info(const std::filesystem::path& input_dir, const std::file
     }
 
     std::ofstream ofs(output_dir / "version.json", std::ios::out);
-    ofs << result.format(true) << std::endl;
+    ofs << result.format() << std::endl;
 
     return true;
 }

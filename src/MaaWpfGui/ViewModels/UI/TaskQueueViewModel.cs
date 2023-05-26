@@ -67,12 +67,15 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public void TaskItemSelectionChanged()
         {
-            int index = 0;
-            foreach (var item in TaskItemViewModels)
+            Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                ConfigurationHelper.SetTaskOrder(item.OriginalName, index.ToString());
-                ++index;
-            }
+                int index = 0;
+                foreach (var item in TaskItemViewModels)
+                {
+                    ConfigurationHelper.SetTaskOrder(item.OriginalName, index.ToString());
+                    ++index;
+                }
+            });
         }
 
         /// <summary>
@@ -171,18 +174,20 @@ namespace MaaWpfGui.ViewModels.UI
                 return true;
             }
 
+            if (!Instances.RecognizerViewModel.GachaDone)
+            {
+                // no need to confirm if Gacha running
+                return true;
+            }
+
             var window = Instances.MainWindowManager.GetWindowIfVisible();
             var result = MessageBoxHelper.ShowNative(window, LocalizationHelper.GetString("ConfirmExitText"), LocalizationHelper.GetString("ConfirmExitTitle"), "MAA", MessageBoxButton.YesNo, MessageBoxImage.Information, MessageBoxResult.No);
             return result == MessageBoxResult.Yes;
         }
 
-#pragma warning disable CS0672 // Member overrides obsolete member
-
-        // WHY OBSOLETED?
-        protected override bool CanClose()
-#pragma warning restore CS0672 // Member overrides obsolete member
+        public override Task<bool> CanCloseAsync()
         {
-            return ConfirmExit();
+            return Task.FromResult(this.ConfirmExit());
         }
 
         private void InitTimer()
@@ -322,12 +327,6 @@ namespace MaaWpfGui.ViewModels.UI
 
             TaskItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
 
-            RemainingSanityStageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList())
-            {
-                // It's Cur/Last option
-                [0] = new CombinedData { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty },
-            };
-
             InitDrops();
             NeedToUpdateDatePrompt();
             UpdateDatePrompt();
@@ -360,41 +359,43 @@ namespace MaaWpfGui.ViewModels.UI
         // 这个函数被列为public可见，意味着他注入对象前被调用
         public void UpdateStageList(bool forceUpdate)
         {
-            if (Instances.SettingsViewModel.HideUnavailableStage)
-            {
-                // update available stage list
-                var stage1 = Stage1 ??= string.Empty;
-                StageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList(_curDayOfWeek));
+            var hideUnavailableStage = Instances.SettingsViewModel.HideUnavailableStage;
 
-                // reset closed stage1 to "Last/Current"
+            // forceUpdate: initializing or settings changing, update stage list forcely
+            if (forceUpdate || hideUnavailableStage)
+            {
+                var stage1 = Stage1 ??= string.Empty;
+                var stage2 = Stage2 ??= string.Empty;
+                var stage3 = Stage3 ??= string.Empty;
+
+                EnableSetFightParams = false;
+
+                if (hideUnavailableStage)
+                {
+                    StageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList(_curDayOfWeek));
+                }
+                else
+                {
+                    StageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList());
+                }
+
+                AlternateStageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList());
+
+                // reset closed stages to "Last/Current"
                 if (!CustomStageCode)
                 {
-                    Stage1 = _stageManager.IsStageOpen(stage1, _curDayOfWeek) ? stage1 : string.Empty;
+                    Stage1 = StageList.Any(x => x.Value == stage1) ? stage1 : string.Empty;
+                    Stage2 = AlternateStageList.Any(x => x.Value == stage2) ? stage2 : string.Empty;
+                    Stage3 = AlternateStageList.Any(x => x.Value == stage3) ? stage3 : string.Empty;
                 }
-            }
-            else
-            {
-                // initializing or settings changing, update stage list forcely
-                if (forceUpdate)
+                else
                 {
-                    var stage1 = Stage1 ??= string.Empty;
-                    var stage2 = Stage2 ??= string.Empty;
-                    var stage3 = Stage3 ??= string.Empty;
-
-                    EnableSetFightParams = false;
-
-                    StageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList());
-
-                    // reset closed stages to "Last/Current"
-                    if (!CustomStageCode)
-                    {
-                        Stage1 = StageList.Any(x => x.Value == stage1) ? stage1 : string.Empty;
-                        Stage2 = StageList.Any(x => x.Value == stage2) ? stage2 : string.Empty;
-                        Stage3 = StageList.Any(x => x.Value == stage3) ? stage3 : string.Empty;
-                    }
-
-                    EnableSetFightParams = true;
+                    Stage1 = stage1;
+                    Stage2 = stage2;
+                    Stage3 = stage3;
                 }
+
+                EnableSetFightParams = true;
             }
 
             var rss = RemainingSanityStage ??= string.Empty;
@@ -886,7 +887,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            if (mainFightRet && UseRemainingSanityStage && (RemainingSanityStage != string.Empty))
+            if (mainFightRet && UseRemainingSanityStage && !string.IsNullOrEmpty(RemainingSanityStage))
             {
                 return Instances.AsstProxy.AsstAppendFight(RemainingSanityStage, 0, 0, int.MaxValue, string.Empty, 0, false);
             }
@@ -983,7 +984,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             return Instances.AsstProxy.AsstAppendMall(
-                this.Stage != string.Empty && Instances.SettingsViewModel.CreditFightTaskEnabled,
+                !string.IsNullOrEmpty(this.Stage) && Instances.SettingsViewModel.CreditFightTaskEnabled,
                 Instances.SettingsViewModel.CreditShopping,
                 buy_first,
                 black_list,
@@ -1742,6 +1743,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         public ObservableCollection<CombinedData> RemainingSanityStageList { get; set; } = new ObservableCollection<CombinedData>();
 
+        public ObservableCollection<CombinedData> AlternateStageList { get; set; } = new ObservableCollection<CombinedData>();
+
         /// <summary>
         /// Gets the stage.
         /// </summary>
@@ -1771,6 +1774,24 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private readonly Dictionary<string, string> stageDictionary = new Dictionary<string, string>
+        {
+            { "AN", "Annihilation" },
+            { "剿灭", "Annihilation" },
+            { "CE", "CE-6" },
+            { "龙门币", "CE-6" },
+            { "LS", "LS-6" },
+            { "经验", "LS-6" },
+            { "狗粮", "LS-6" },
+            { "CA", "CA-5" },
+            { "技能", "CA-5" },
+            { "AP", "AP-5" },
+            { "红票", "AP-5" },
+            { "SK", "SK-5" },
+            { "碳", "SK-5" },
+            { "炭", "SK-5" },
+        };
+
         private string ToUpperAndCheckStage(string value)
         {
             if (string.IsNullOrEmpty(value))
@@ -1778,19 +1799,19 @@ namespace MaaWpfGui.ViewModels.UI
                 return value;
             }
 
-            value = value.ToUpper();
+            string upperValue = value.ToUpper();
+            if (stageDictionary.ContainsKey(upperValue))
+            {
+                return stageDictionary[upperValue];
+            }
+
             if (StageList != null)
             {
                 foreach (var item in StageList)
                 {
-                    if (value == item.Value)
+                    if (upperValue == item.Value.ToUpper() || upperValue == item.Display.ToUpper())
                     {
-                        break;
-                    }
-                    else if (value == item.Display)
-                    {
-                        value = item.Value;
-                        break;
+                        return item.Value;
                     }
                 }
             }
@@ -1815,7 +1836,11 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (CustomStageCode)
                 {
-                    value = ToUpperAndCheckStage(value);
+                    // 从后往前删
+                    if (_stage1.Length != 3)
+                    {
+                        value = ToUpperAndCheckStage(value);
+                    }
                 }
 
                 SetAndNotify(ref _stage1, value);
@@ -1842,7 +1867,10 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (CustomStageCode)
                 {
-                    value = ToUpperAndCheckStage(value);
+                    if (_stage2.Length != 3)
+                    {
+                        value = ToUpperAndCheckStage(value);
+                    }
                 }
 
                 SetAndNotify(ref _stage2, value);
@@ -1869,7 +1897,10 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (CustomStageCode)
                 {
-                    value = ToUpperAndCheckStage(value);
+                    if (_stage3.Length != 3)
+                    {
+                        value = ToUpperAndCheckStage(value);
+                    }
                 }
 
                 SetAndNotify(ref _stage3, value);
@@ -1930,7 +1961,10 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (CustomStageCode)
                 {
-                    value = ToUpperAndCheckStage(value);
+                    if (_remainingSanityStage.Length != 3)
+                    {
+                        value = ToUpperAndCheckStage(value);
+                    }
                 }
 
                 SetAndNotify(ref _remainingSanityStage, value);

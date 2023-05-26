@@ -1,0 +1,30 @@
+#!/bin/sh
+
+
+FILES_TO_CHECK=(
+    "src/MaaWpfGui/Res/Localizations/zh-cn.xaml"
+    "src/MaaWpfGui/Res/Localizations/zh-tw.xaml"
+    "src/MaaWpfGui/Res/Localizations/en-us.xaml"
+    "src/MaaWpfGui/Res/Localizations/ja-jp.xaml"
+    "src/MaaWpfGui/Res/Localizations/ko-kr.xaml"
+)
+flag=0
+# 遍历数组
+cd ./tools/AutoLocalization
+for file in "${FILES_TO_CHECK[@]}"
+do
+    echo examine file: $file
+     # 检查文件是否已经被修改
+    if git diff --name-only HEAD^ HEAD | grep --quiet "$file"
+    then
+        # 如果文件已经被修改，那么打上tag
+        git tag -f "tag-autolocalization"
+        break
+    fi
+done
+if [ $? -ne 0 ]; then
+    echo "Your program found an error in $FILE. Commit aborted."
+    exit 1
+fi
+
+# 检查你的程序的退出状态
