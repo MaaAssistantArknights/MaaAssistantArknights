@@ -10,6 +10,8 @@ from xmldiff.actions import UpdateTextIn, InsertComment, UpdateTextAfter, Delete
 
 from src.translator.translate import ChatTranslator
 
+SPACE = '{http://www.w3.org/XML/1998/namespace}space'
+
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
@@ -180,10 +182,12 @@ class XamlParser:
         assert self.x_uid_ns == compare_parser.x_uid_ns, f"{self.language} 和 {compare_parser.language}x:Uid命名空间不一致"
         pt = re.compile(r'/\*/\*/\*\[\d*]/comment\(\)\[1]')
         uniqueattrs = [self.x_key_ns, self.x_uid_ns]
+        ignored_attrs = [SPACE]
         res = main.diff_trees(this_tree, compare_tree, diff_options={
             'F': 0.1,
             'ratio_mode': 'accurate',
-            'uniqueattrs': uniqueattrs})
+            'uniqueattrs': uniqueattrs,
+            'ignored_attrs': ignored_attrs, })
         for i in res:
             if type(i).__name__ == 'UpdateTextIn' and pt.search(i.node):
                 continue
@@ -258,6 +262,7 @@ class XamlParser:
         assert self.x_key_ns == compare_parser.x_key_ns, f"{self.language}和{compare_parser.language}x:Key命名空间不一致"
         assert self.x_uid_ns == compare_parser.x_uid_ns, f"{self.language}和{compare_parser.language}x:Uid命名空间不一致"
         uniqueattrs = [self.x_key_ns, self.x_uid_ns]
+        ignored_attrs = [SPACE]
         chat = None if skip_translate else ChatTranslator(language=self.language, base_language=compare_parser.language)
         self.counter(start=True,
                      test=skip_translate,
@@ -265,7 +270,8 @@ class XamlParser:
         res = main.diff_trees(target_cp_tree, base_cp_tree, diff_options={
             'F': 0.1,
             'ratio_mode': 'accurate',
-            'uniqueattrs': uniqueattrs})
+            'uniqueattrs': uniqueattrs,
+            'ignored_attrs': ignored_attrs, })
         new_action = []
         logging.info(f"all movements contains {len([i for i in res if type(i).__name__ == 'UpdateTextIn'])} steps")
         for i in res:
@@ -343,10 +349,13 @@ class XamlParser:
                      test=skip_translate,
                      messages=f"start compare translate {compare_new_parser.language} -> {self.language}")
         uniqueattrs = [self.x_key_ns, self.x_uid_ns]
+        ignored_attrs = [SPACE]
         res = main.diff_trees(compare_old_tree, compare_new_tree, diff_options={
             'F': 0.1,
             'ratio_mode': 'accurate',
-            'uniqueattrs': uniqueattrs})
+            'uniqueattrs': uniqueattrs,
+            'ignored_attrs': ignored_attrs
+        })
         new_actions = []
         logging.info(f"all movements contains {len([i for i in res if type(i).__name__ == 'UpdateTextIn'])} steps")
         for i in res:
