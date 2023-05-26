@@ -2378,6 +2378,7 @@
         "algorithm": "OcrDetect",
         "text": [],
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的识别任务复用",
+        "fullMatch": true,
         "ocrReplace": [
             [
                 "^令.+",
