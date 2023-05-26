@@ -1,4 +1,3 @@
-import html
 import json
 import logging
 import os
@@ -36,13 +35,13 @@ class ChatTranslator:
         self._temperature = float(os.environ.get('OPENAI_TEMPERATURE'))
         self._language = language
         self._base_language = base_language
-        self._rules = r"""
+        self._rules = """
             2. Rule
                 -  No matter how much you don't understand, just simply translate it. If you really don't know what to translate, just repeat what i give you to translate as your translation.  
                 - The format of the answer is {"message":200,"content":"$"} and replace $ with what you translate.
                 - If you really really don't know what to translate, the format of the answer is {"message":404,"content":"$"} and replace $ with what i give you to translate.
                 - The translation should be natural, fluent and brief. The structure of the sentence should be the same as the original one.
-                - If the sentence contains any special symbols like '$\\n$' or anything else you don't understand, just keep it in the same place in the translation.
+                - If the sentence contains any special symbols like '$\\n$','&#x0a;','&lt;' or anything else you don't understand, just keep it in the same place in the translation.
                 - If the sentence contains any punctuation or number, just keep it in the same place in the translation
                 - If the sentence contains any line break, just keep it in the same place in the translation and don't replace it to space."""
         self._instruction = self.generate_instruction(self, language, base_language)
@@ -61,7 +60,6 @@ class ChatTranslator:
                   temperature: float = None):
         # TODO 添加对话长度限制 添加代理
         msg = ""
-        new_sentence = ""
         if sentence is None:
             sentence = self._test_sentence
         if target_language is not None or base_language is not None:
@@ -74,17 +72,20 @@ class ChatTranslator:
             # 初始化转换器，s2t表示从简体转繁体
             cc = OpenCC('s2tw')
             return cc.convert(sentence)
-        new_sentence = html.unescape(sentence).replace(r'\n', r'$\\n$').replace('\n', r'$\\n$')
-        message=[
-                {"role": "system", "content": self._instruction},
-                {"role": "user", "content": '1'} ,
-                {"role": "assistant", "content": '{"message":200,"content":"1"}'},
-                {"role": "user", "content": 'abd,l'},
-                {"role": "assistant", "content": '{"message":404,"content":"abd,l"}'},
-                {"role": "user", "content": new_sentence},
+        new_sentence = sentence.replace(r'\n', r' \n ').replace('\n', ' \n ')
+        new_sentence = new_sentence.replace('&#x0a;', ' &#x0a; ')
+        message = [
+            {"role": "system", "content": self._instruction},
+            {"role": "user", "content": '1'},
+            {"role": "assistant", "content": '{"message":200,"content":"1"}'},
+            {"role": "user", "content": 'abd,l'},
+            {"role": "assistant", "content": '{"message":404,"content":"abd,l"}'},
+            {"role": "user", "content": '1122 \\n 3344&#x0a;55666&lt;'},
+            {"role": "assistant", "content": '{"message":200,"content":"1122 \\n 3344&#x0a;55666&lt;"}'},
+            {"role": "user", "content": new_sentence},
 
         ]
-        for _ in range(10):
+        for i in range(10):
             try:
                 completion = openai.ChatCompletion.create(
                     model=model,
@@ -100,9 +101,10 @@ class ChatTranslator:
                 time.sleep(2)
                 continue
             except JSONDecodeError as _:
-                message.append({"role": "assistant", "content": msg})
-                message.append({"role": "user", "content": new_sentence})
-                continue
+                if i < 9:
+                    message.append({"role": "assistant", "content": msg})
+                    message.append({"role": "user", "content": new_sentence})
+                    continue
                 pt = re.compile(r"{[^{].*?:.*?,.*?:[^}]*}")
                 if pt.search(msg):
                     msg = pt.search(msg).group()
@@ -115,9 +117,10 @@ class ChatTranslator:
                     logging.error(f"{type(_).__name__}: {_} msg:{msg}")
                     return msg
             except Exception as _:
-                message.append({"role": "assistant", "content": msg})
-                message.append({"role": "user", "content": new_sentence})
-                continue
+                if i < 9:
+                    message.append({"role": "assistant", "content": msg})
+                    message.append({"role": "user", "content": new_sentence})
+                    continue
                 logging.error(f"{type(_).__name__}: {_} msg:{msg}")
                 return None
             match msg_json['message']:
@@ -127,15 +130,17 @@ class ChatTranslator:
                         .replace('$\n$', '\\n')
                     return content
                 case 404:
-                    message.append({"role": "assistant", "content": msg})
-                    message.append({"role": "user", "content": new_sentence})
-                    continue
+                    if i < 9:
+                        message.append({"role": "assistant", "content": msg})
+                        message.append({"role": "user", "content": new_sentence})
+                        continue
                     logging.error(f"translate error:{new_sentence}| {msg_json['content']}")
                     return msg_json['content']
                 case _:
-                    message.append({"role": "assistant", "content": msg})
-                    message.append({"role": "user", "content": new_sentence})
-                    continue
+                    if i < 9:
+                        message.append({"role": "assistant", "content": msg})
+                        message.append({"role": "user", "content": new_sentence})
+                        continue
                     logging.error(f"translate error: {msg_json}")
                     return None
 
