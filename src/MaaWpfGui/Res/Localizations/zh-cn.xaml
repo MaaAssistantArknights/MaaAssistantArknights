@@ -200,6 +200,8 @@
 
     <system:String x:Key="Timer">定时</system:String>
 
+    <system:String x:Key="SwitchConfiguration">切换配置</system:String>
+
     <system:String x:Key="LaunchOnSystemStartup">开机自动启动MAA</system:String>
     <system:String x:Key="RunTaskAfterLaunch">启动MAA后直接运行</system:String>
     <system:String x:Key="MinimizeAfterLaunch">启动MAA后直接最小化</system:String>

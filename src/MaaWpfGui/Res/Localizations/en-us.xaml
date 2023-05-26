@@ -197,6 +197,7 @@
     <system:String x:Key="NewVersionFoundButNoPackageDesc">Please download the full package manually to update.</system:String>
 
     <system:String x:Key="Timer">Timer</system:String>
+    <system:String x:Key="SwitchConfiguration">Switch Configuration</system:String>
 
     <system:String x:Key="LaunchOnSystemStartup">Auto start with PC</system:String>
     <system:String x:Key="RunTaskAfterLaunch">Auto Run task after launched</system:String>
