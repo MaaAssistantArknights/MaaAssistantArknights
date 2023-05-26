@@ -67,12 +67,15 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public void TaskItemSelectionChanged()
         {
-            int index = 0;
-            foreach (var item in TaskItemViewModels)
+            Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                ConfigurationHelper.SetTaskOrder(item.OriginalName, index.ToString());
-                ++index;
-            }
+                int index = 0;
+                foreach (var item in TaskItemViewModels)
+                {
+                    ConfigurationHelper.SetTaskOrder(item.OriginalName, index.ToString());
+                    ++index;
+                }
+            });
         }
 
         /// <summary>
