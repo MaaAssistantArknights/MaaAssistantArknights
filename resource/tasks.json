@@ -1389,8 +1389,7 @@
     },
     "SwipeToStageIS": {
         "Doc": "IS关特殊的上下滑动",
-        "algorithm": "JustReturn",
-        "action": "Swipe",
+        "baseTask": "SlowlySwipeToTheRight",
         "specificRect": [
             98,
             469,
