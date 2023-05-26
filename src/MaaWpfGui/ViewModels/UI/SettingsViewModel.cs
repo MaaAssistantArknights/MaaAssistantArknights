@@ -93,6 +93,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             DisplayName = LocalizationHelper.GetString("Settings");
 
+            _listTitle.Add(LocalizationHelper.GetString("SwitchConfiguration"));
             _listTitle.Add(LocalizationHelper.GetString("ScheduleSettings"));
             _listTitle.Add(LocalizationHelper.GetString("GameSettings"));
             _listTitle.Add(LocalizationHelper.GetString("ConnectionSettings"));
@@ -264,6 +265,14 @@ namespace MaaWpfGui.ViewModels.UI
                 new CombinedData { Display = LocalizationHelper.GetString("YoStarKR"), Value = "YoStarKR" },
                 new CombinedData { Display = LocalizationHelper.GetString("txwy"), Value = "txwy" },
             };
+
+            var configurations = new List<CombinedData>();
+            foreach (var conf in ConfigurationHelper.GetConfigurationList())
+            {
+                configurations.Add(new CombinedData { Display = conf, Value = conf });
+            }
+
+            ConfigurationList = configurations;
 
             DarkModeList = new List<CombinedData>
             {
@@ -850,6 +859,23 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets or sets the list of the client types.
         /// </summary>
         public List<CombinedData> ClientTypeList { get; set; }
+
+        public List<CombinedData> ConfigurationList { get; set; }
+
+        private string _currentConfiguration = ConfigurationHelper.GetCurrentConfiguration();
+
+        public string CurrentConfiguration
+        {
+            get => _currentConfiguration;
+            set
+            {
+                SetAndNotify(ref _currentConfiguration, value);
+                ConfigurationHelper.SwitchConfiguration(value);
+
+                Application.Current.Shutdown();
+                Bootstrapper.RestartApplication();
+            }
+        }
 
         /// <summary>
         /// Gets or sets the list of the configuration of connection.
