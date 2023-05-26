@@ -1848,12 +1848,10 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
-                value ??= string.Empty;
-
                 if (CustomStageCode)
                 {
                     // 从后往前删
-                    if (_stage1.Length != 3)
+                    if (_stage1?.Length != 3 && value != null)
                     {
                         value = ToUpperAndCheckStage(value);
                     }
@@ -1881,11 +1879,9 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
-                value ??= string.Empty;
-
                 if (CustomStageCode)
                 {
-                    if (_stage2.Length != 3)
+                    if (_stage2?.Length != 3 && value != null)
                     {
                         value = ToUpperAndCheckStage(value);
                     }
@@ -1913,11 +1909,9 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
-                value ??= string.Empty;
-
                 if (CustomStageCode)
                 {
-                    if (_stage3.Length != 3)
+                    if (_stage3?.Length != 3 && value != null)
                     {
                         value = ToUpperAndCheckStage(value);
                     }
@@ -1979,11 +1973,9 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
-                value ??= string.Empty;
-
                 if (CustomStageCode)
                 {
-                    if (_remainingSanityStage.Length != 3)
+                    if (_remainingSanityStage?.Length != 3 && value != null)
                     {
                         value = ToUpperAndCheckStage(value);
                     }
