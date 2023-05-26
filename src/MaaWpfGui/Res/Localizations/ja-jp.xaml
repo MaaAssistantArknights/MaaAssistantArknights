@@ -324,7 +324,7 @@
     <system:String x:Key="UnsupportedStages">未サポートステージ</system:String>
     <system:String x:Key="LowVersion">更新必要</system:String>
     <system:String x:Key="MinimumRequirements">最低バージョン要件：</system:String>
-    <system:String x:Key="Daysleftopen">公開日まで:</system:String>
+    <system:String x:Key="Daysleftopen" xml:space="preserve">公開日まで: </system:String>
     <system:String x:Key="LessThanOneDay">1日以内</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龍門幣-6(CE-6)</system:String>
