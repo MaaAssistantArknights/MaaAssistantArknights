@@ -92,7 +92,7 @@
     <system:String x:Key="StartingCoreCharTip">Only supports the CN name of a single oper, default if not filled.</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">Select "Starting Oper" from support unit list</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">Enable nonfirend support</system:String>
-    <system:String x:Key="DeploymentWithPause">Deployment with Pause, Works for IS, Copilot and SSS,\nBeta function, Not recommended yet</system:String>
+    <system:String x:Key="DeploymentWithPause" xml:space="preserve">Deployment with Pause, Works for IS, Copilot and SSS,\nBeta function, Not recommended yet</system:String>
     <system:String x:Key="AdbLiteEnabled">Use Adb Lite (Experimental)</system:String>
     <system:String x:Key="KillAdbOnExit">Kill Adb On Exit</system:String>
 
@@ -324,8 +324,8 @@
     <system:String x:Key="ClosedStage">The event not open</system:String>
     <system:String x:Key="UnsupportedStages">Unsupported stages</system:String>
     <system:String x:Key="LowVersion">Low version</system:String>
-    <system:String x:Key="MinimumRequirements">Minimum Requirements:</system:String>
-    <system:String x:Key="Daysleftopen">Days left open:</system:String>
+    <system:String x:Key="MinimumRequirements" xml:space="preserve">Minimum Requirements: </system:String>
+    <system:String x:Key="Daysleftopen" xml:space="preserve">Days left open: </system:String>
     <system:String x:Key="LessThanOneDay">Less than 1 day</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6</system:String>
@@ -345,7 +345,7 @@
 
     <system:String x:Key="Annihilation">Annihilation</system:String>
 
-    <system:String x:Key="TodaysStageTip">Today's Stage tips:</system:String>
+    <system:String x:Key="TodaysStageTip" xml:space="preserve">Today's Stage tips: </system:String>
     <system:String x:Key="CETip">CE (LMD)</system:String>
     <system:String x:Key="APTip">AP (Shop Voucher)</system:String>
     <system:String x:Key="CATip">CA (Skill Summary)</system:String>
@@ -514,11 +514,11 @@ The video resolution is required to be 16:9, and there are no interference facto
     <system:String x:Key="TouchModeNotAvailable">Touch mode is not available, please enter Settings - Connection Settings to change other touch modes</system:String>
     <system:String x:Key="ScreencapFailed">Screencap failed. If it happens repeatedly, try restarting or changing the emulator.</system:String>
     <system:String x:Key="IdentifyTheMistakes">Identify error</system:String>
-    <system:String x:Key="TaskError">Task error:</system:String>
+    <system:String x:Key="TaskError" xml:space="preserve">Task error: </system:String>
     <system:String x:Key="CombatError">Combat error</system:String>
-    <system:String x:Key="StartTask">Start task:</system:String>
-    <system:String x:Key="CompleteTask">Complete task:</system:String>
-    <system:String x:Key="StartCombat">Start combat:</system:String>
+    <system:String x:Key="StartTask" xml:space="preserve">Start task: </system:String>
+    <system:String x:Key="CompleteTask" xml:space="preserve">Complete task: </system:String>
+    <system:String x:Key="StartCombat" xml:space="preserve">Start combat: </system:String>
     <system:String x:Key="CompleteCombat">Complete combat</system:String>
     <system:String x:Key="AllTasksComplete">All task(s) completed!</system:String>
     <system:String x:Key="BackgroundLinkStarted">Tasks started</system:String>
@@ -558,11 +558,11 @@ The video resolution is required to be 16:9, and there are no interference facto
     <system:String x:Key="NoDrop">Nothing</system:String>
     <system:String x:Key="Drop">Drops:</system:String>
     <system:String x:Key="TotalDrop">Total Drops:</system:String>
-    <system:String x:Key="ThisFacility">Current Facility:</system:String>
+    <system:String x:Key="ThisFacility" xml:space="preserve">Current Facility: </system:String>
     <system:String x:Key="ProductIncorrect">Product does NOT match the configuration.</system:String>
     <system:String x:Key="ProductUnknown">Unknown Product</system:String>
     <system:String x:Key="ProductChanged">Product has changed</system:String>
-    <system:String x:Key="RecruitingResults">Recruitment Results:</system:String>
+    <system:String x:Key="RecruitingResults" xml:space="preserve">Recruitment Results: </system:String>
     <system:String x:Key="RecruitingTips">Recruiting Tips</system:String>
     <system:String x:Key="RecruitmentOfStar">{0} star has been recruited</system:String>
     <system:String x:Key="RecruitmentOfBot">Robot! robot! more robot!</system:String>
@@ -571,10 +571,10 @@ The video resolution is required to be 16:9, and there are no interference facto
     <system:String x:Key="NotEnoughStaff">Insufficient operators (wait what you understaff?)</system:String>
     <system:String x:Key="StageInfoError">Stage recognition error</system:String>
     <system:String x:Key="BattleFormation">Start formation</system:String>
-    <system:String x:Key="BattleFormationSelected">Selection of operator:</system:String>
+    <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selection of operator: </system:String>
     <system:String x:Key="CurrentSteps">Current step: {0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">Unsupported stage. Please update the MAA software version!\nUnsupported stage. Please update the MAA software version!\nUnsupported stage. Please update the MAA software version!\n\nIf you receive a prompt that the latest version is already installed, please try checking the developer version or beta version</system:String>
-    <system:String x:Key="RecruitTagsDetected">Identify results:</system:String>
+    <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identify results: </system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
     <system:String x:Key="TryToStartEmulator">Trying to start the emulator</system:String>
     <system:String x:Key="CheckSettings">Please check your connection settings or try restarting the emulator and ADB, or restart your computer</system:String>
