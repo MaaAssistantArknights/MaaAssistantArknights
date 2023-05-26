@@ -9,7 +9,9 @@ on:
         description: 'Commit Message'
         type: string
         required: false
-
+  push:
+    paths:
+      - 'tools/ResourceUpdater/**'
 jobs:
   update-game-resources:
     if: github.repository_owner == 'MaaAssistantArknights'
@@ -38,8 +40,10 @@ jobs:
             git status
 
             $diff = $(git diff --numstat HEAD | findstr -i resource)
+            echo "diff: "$diff
             $sp = $($diff -split "\s+")
             $numbers = $($sp | Where-Object { $_ -match "^\d+$" })
+            echo "numbers: "$numbers
 
             $length = $numbers.Length
             $isAllEqual = $true
@@ -52,6 +56,7 @@ jobs:
                     break
                 }
             }
+            echo "isAllEqual: "$isAllEqual
             echo "only_sorted=$isAllEqual" >> $env:GITHUB_OUTPUT
         
       - name: Cancelling
@@ -59,6 +64,7 @@ jobs:
         uses: andymckay/cancel-action@0.3
 
       - name: Add files to git
+        if: steps.check_only_sorted.outputs.only_sorted != 'True'
         id: add_files
         run: |
           git status
@@ -85,11 +91,13 @@ jobs:
         uses: andymckay/cancel-action@0.3
 
       - name: Push changes # push the output folder to your repo
+        if: steps.add_files.outputs.no_commits != 'True'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.MISTEOWORKFLOW }}
 
       - name: Release # ref: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
+        if: steps.add_files.outputs.no_commits != 'True'
         run: |
           gh workflow run release-nightly-ota -f release_body="Auto Release of Resource Updates"
         env:
