@@ -268,6 +268,7 @@ namespace MaaWpfGui.Helper
         public static void Release()
         {
             Save();
+            File.Copy(_configurationFile, _configurationBakFile, true);
             Released = true;
         }
 
