@@ -2307,7 +2307,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             string poolString = !string.IsNullOrEmpty(versionName) ? $" - {versionName}" : string.Empty;
-            rvm.WindowTitle = $"{prefix}MAA - {VersionId}{poolString} - {connectConfigName} ({ConnectAddress}) - {ClientName}";
+            rvm.WindowTitle = $"{prefix}MAA - {VersionId}{poolString} - {connectConfigName} ({ConnectAddress}) - {ClientName} - {CurrentConfiguration}";
         }
 
         private readonly string _bluestacksConfig = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigPath, string.Empty);
