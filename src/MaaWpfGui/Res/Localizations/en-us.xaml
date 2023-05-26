@@ -197,7 +197,12 @@
     <system:String x:Key="NewVersionFoundButNoPackageDesc">Please download the full package manually to update.</system:String>
 
     <system:String x:Key="Timer">Timer</system:String>
+
     <system:String x:Key="SwitchConfiguration">Switch Configuration</system:String>
+    <system:String x:Key="ConfigurationName">Config</system:String>
+    <system:String x:Key="AddConfiguration">Add</system:String>
+    <system:String x:Key="AddConfigSuccess">Configuration &lt;{0}&gt; added successfully.</system:String>
+    <system:String x:Key="ConfigExists">Configuration &lt;{0}&gt; already exists.</system:String>
 
     <system:String x:Key="LaunchOnSystemStartup">Auto start with PC</system:String>
     <system:String x:Key="RunTaskAfterLaunch">Auto Run task after launched</system:String>
