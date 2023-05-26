@@ -1,0 +1,36 @@
+#!/bin/sh
+
+
+FILES_TO_CHECK=(
+    "src/MaaWpfGui/Res/Localizations/zh-cn.xaml"
+    "src/MaaWpfGui/Res/Localizations/en-us.xaml"
+)
+flag=0
+# 遍历数组
+cd ./tools/AutoLocalization
+for file in "${FILES_TO_CHECK[@]}"
+do
+     # 检查文件是否已经被修改
+    if git diff --name-only --cached | grep --quiet "$file"
+    then
+        flag=1
+    fi
+done
+if [ $flag -eq 1 ]; then
+    # 如果文件已经被修改，那么运行你的代码
+    # 在提交之前运行你的程序
+    if [ ! -d .venv ]; then
+        pip install virtualenv
+        virtualenv .venv
+        .source venv/Scripts/activate
+        pip install -r requirements.txt
+    fi
+    source .venv/Scripts/activate
+    python ./main.py update
+fi
+if [ $? -ne 0 ]; then
+    echo "Your program found an error in $FILE. Commit aborted."
+    exit 1
+fi
+
+# 检查你的程序的退出状态

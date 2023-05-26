@@ -18,6 +18,12 @@ namespace MaaWpfGui.Constants
     /// </summary>
     public static class ConfigurationKeys
     {
+        public const string CurrentConfiguration = "Current";
+        public const string DefaultConfiguration = "Default";
+        public const string ConfigurationMap = "Configurations";
+        public const string ConfigurationData = "Data";
+        public const string ConfigurationCron = "Cron";
+
         public const string Localization = "GUI.Localization";
         public const string MinimizeToTray = "GUI.MinimizeToTray";
         public const string HideCloseButton = "GUI.HideCloseButton";

@@ -67,12 +67,15 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public void TaskItemSelectionChanged()
         {
-            int index = 0;
-            foreach (var item in TaskItemViewModels)
+            Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                ConfigurationHelper.SetTaskOrder(item.OriginalName, index.ToString());
-                ++index;
-            }
+                int index = 0;
+                foreach (var item in TaskItemViewModels)
+                {
+                    ConfigurationHelper.SetTaskOrder(item.OriginalName, index.ToString());
+                    ++index;
+                }
+            });
         }
 
         /// <summary>
@@ -1771,6 +1774,24 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private readonly Dictionary<string, string> stageDictionary = new Dictionary<string, string>
+        {
+            { "AN", "Annihilation" },
+            { "剿灭", "Annihilation" },
+            { "CE", "CE-6" },
+            { "龙门币", "CE-6" },
+            { "LS", "LS-6" },
+            { "经验", "LS-6" },
+            { "狗粮", "LS-6" },
+            { "CA", "CA-5" },
+            { "技能", "CA-5" },
+            { "AP", "AP-5" },
+            { "红票", "AP-5" },
+            { "SK", "SK-5" },
+            { "碳", "SK-5" },
+            { "炭", "SK-5" },
+        };
+
         private string ToUpperAndCheckStage(string value)
         {
             if (string.IsNullOrEmpty(value))
@@ -1778,19 +1799,19 @@ namespace MaaWpfGui.ViewModels.UI
                 return value;
             }
 
-            value = value.ToUpper();
+            string upperValue = value.ToUpper();
+            if (stageDictionary.ContainsKey(upperValue))
+            {
+                return stageDictionary[upperValue];
+            }
+
             if (StageList != null)
             {
                 foreach (var item in StageList)
                 {
-                    if (value == item.Value)
+                    if (upperValue == item.Value.ToUpper() || upperValue == item.Display.ToUpper())
                     {
-                        break;
-                    }
-                    else if (value == item.Display)
-                    {
-                        value = item.Value;
-                        break;
+                        return item.Value;
                     }
                 }
             }
@@ -1815,7 +1836,11 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (CustomStageCode)
                 {
-                    value = ToUpperAndCheckStage(value);
+                    // 从后往前删
+                    if (_stage1.Length != 3)
+                    {
+                        value = ToUpperAndCheckStage(value);
+                    }
                 }
 
                 SetAndNotify(ref _stage1, value);
@@ -1842,7 +1867,10 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (CustomStageCode)
                 {
-                    value = ToUpperAndCheckStage(value);
+                    if (_stage2.Length != 3)
+                    {
+                        value = ToUpperAndCheckStage(value);
+                    }
                 }
 
                 SetAndNotify(ref _stage2, value);
@@ -1869,7 +1897,10 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (CustomStageCode)
                 {
-                    value = ToUpperAndCheckStage(value);
+                    if (_stage3.Length != 3)
+                    {
+                        value = ToUpperAndCheckStage(value);
+                    }
                 }
 
                 SetAndNotify(ref _stage3, value);
@@ -1930,7 +1961,10 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (CustomStageCode)
                 {
-                    value = ToUpperAndCheckStage(value);
+                    if (_remainingSanityStage.Length != 3)
+                    {
+                        value = ToUpperAndCheckStage(value);
+                    }
                 }
 
                 SetAndNotify(ref _remainingSanityStage, value);
