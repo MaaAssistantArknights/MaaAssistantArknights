@@ -235,7 +235,8 @@ class XamlParser:
         self.counter(start=True,
                      test=skip_translate,
                      messages=f"start force translate {self.language} -> {target_language}")
-        for i in self.__merged_node.findall('.//s:String[@x:Key]', namespaces=self.__nsmap):
+        t = self.__merged_node if self.__merged_node is not None else self.__root
+        for i in t.findall('.//s:String[@x:Key]', namespaces=self.__nsmap):
             key = i.get(self.__x_key_ns)
             node = output_tree.find(f'.//s:String[@x:Key="{key}"]', namespaces=self.__nsmap)
             node.text = i.text if skip_translate else chat.translate(i.text)
