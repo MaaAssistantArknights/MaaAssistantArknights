@@ -89,7 +89,7 @@ namespace MaaWpfGui.Views.UI
 
             if (details.Contains("System.IO.File.InternalMove"))
             {
-                return LocalizationHelper.GetString("ErrorSolutionReplaceADB");
+                return LocalizationHelper.GetString("ErrorSolutionFailedToMove");
             }
 
             return LocalizationHelper.GetString("UnknownErrorOccurs");
