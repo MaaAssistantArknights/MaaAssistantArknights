@@ -31,6 +31,33 @@ jobs:
       - name: Run Resource Updater
         run: |
           .\tools\ResourceUpdater\x64\Release\ResourceUpdater.exe
+
+      - name: Check if only sorted
+        id: check_only_sorted
+        run: |
+            git status
+
+            $diff = $(git diff --numstat HEAD | findstr -i resource)
+            $sp = $($diff -split "\s+")
+            $numbers = $($sp | Where-Object { $_ -match "^\d+$" })
+
+            $length = $numbers.Length
+            $isAllEqual = $true
+            for ($i = 0; $i -lt $length; $i += 2) {
+                $firstNumber = $numbers[$i]
+                $secondNumber = $numbers[$i+1]
+            
+                if ($firstNumber -ne $secondNumber) {
+                    $isAllEqual = $false
+                    break
+                }
+            }
+            echo "only_sorted=$isAllEqual" >> $env:GITHUB_OUTPUT
+        
+      - name: Cancelling
+        if: steps.check_only_sorted.outputs.only_sorted == 'True'
+        uses: andymckay/cancel-action@0.3
+
       - name: Add files to git
         id: add_files
         run: |
