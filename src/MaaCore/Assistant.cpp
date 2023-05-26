@@ -370,8 +370,11 @@ void Assistant::working_proc()
     LogTraceFunction;
 
     std::vector<TaskId> finished_tasks;
-    while (!m_thread_exit) {
+    while (true) {
         std::unique_lock<std::mutex> lock(m_mutex);
+        if (m_thread_exit) {
+            return;
+        }
 
         if (m_thread_idle || m_tasks_list.empty()) {
             m_thread_idle = true;
@@ -429,8 +432,11 @@ void Assistant::msg_proc()
 {
     LogTraceFunction;
 
-    while (!m_thread_exit) {
+    while (true) {
         std::unique_lock<std::mutex> lock(m_msg_mutex);
+        if (m_thread_exit) {
+            return;
+        }
 
         if (m_msg_queue.empty()) {
             m_msg_condvar.wait(lock);
@@ -472,8 +478,12 @@ asst::Assistant::AsyncCallId asst::Assistant::append_async_call(AsyncCallItem::T
 
 bool asst::Assistant::wait_async_id(AsyncCallId id)
 {
-    while (!m_thread_exit) {
+    while (true) {
         std::unique_lock<std::mutex> lock(m_completed_call_mutex);
+        if (m_thread_exit) {
+            return false;
+        }
+
         // 需要保证队列中id一定是有序的
         if (id <= m_completed_call) {
             return true;
@@ -487,8 +497,11 @@ void asst::Assistant::call_proc()
 {
     LogTraceFunction;
 
-    while (!m_thread_exit) {
+    while (true) {
         std::unique_lock<std::mutex> lock(m_call_mutex);
+        if (m_thread_exit) {
+            return;
+        }
 
         if (m_call_queue.empty()) {
             m_call_condvar.wait(lock);

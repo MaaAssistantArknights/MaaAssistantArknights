@@ -61,7 +61,7 @@
                         BorderThickness="0"
                         ItemContainerStyle="{StaticResource CustomListBoxItemStyle}"
                         ItemsSource="{Binding Path=TaskItemViewModels}"
-                        SelectionChanged="{s:Action TaskItemSelectionChanged}"
+                        DragDrop.Drop="{s:Action TaskItemSelectionChanged}"
                         ToolTip="{DynamicResource LabelSequenceTip}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>

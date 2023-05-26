@@ -135,10 +135,10 @@
     <system:String x:Key="Executable">可执行文件</system:String>
     <system:String x:Key="ADBProgram">adb程序</system:String>
 
-    <system:String x:Key="EmulatorException">检测模拟器出错&#x0a;请使用管理员权限打开本软件&#x0a;或手动设置连接</system:String>
-    <system:String x:Key="AdbException">检测ADB出错&#x0a;请使用管理员权限打开本软件&#x0a;或手动设置连接</system:String>
-    <system:String x:Key="EmulatorNotFound">未检测到任何模拟器&#x0a;请使用管理员权限打开本软件&#x0a;或手动设置连接</system:String>
-    <system:String x:Key="EmulatorTooMany">检测到多个模拟器&#x0a;请关闭不需要的模拟器&#x0a;或手动设置连接</system:String>
+    <system:String x:Key="EmulatorException">检测模拟器出错\n请使用管理员权限打开本软件\n或手动设置连接</system:String>
+    <system:String x:Key="AdbException">检测ADB出错\n请使用管理员权限打开本软件\n或手动设置连接</system:String>
+    <system:String x:Key="EmulatorNotFound">未检测到任何模拟器\n请使用管理员权限打开本软件\n或手动设置连接</system:String>
+    <system:String x:Key="EmulatorTooMany">检测到多个模拟器\n请关闭不需要的模拟器\n或手动设置连接</system:String>
 
     <system:String x:Key="SwitchLanguage">切换语言</system:String>
     <system:String x:Key="Language">语言</system:String>
@@ -200,6 +200,12 @@
 
     <system:String x:Key="Timer">定时</system:String>
 
+    <system:String x:Key="SwitchConfiguration">切换配置</system:String>
+    <system:String x:Key="ConfigurationName">配置名称</system:String>
+    <system:String x:Key="AddConfiguration">添加</system:String>
+    <system:String x:Key="AddConfigSuccess">配置 &lt;{0}&gt; 添加成功</system:String>
+    <system:String x:Key="ConfigExists">配置 &lt;{0}&gt; 已存在</system:String>
+
     <system:String x:Key="LaunchOnSystemStartup">开机自动启动MAA</system:String>
     <system:String x:Key="RunTaskAfterLaunch">启动MAA后直接运行</system:String>
     <system:String x:Key="MinimizeAfterLaunch">启动MAA后直接最小化</system:String>
@@ -259,7 +265,7 @@
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">显示基建计划</system:String>
     <system:String x:Key="MainViewButtonFeature">主界面可选择按钮功能</system:String>
     <system:String x:Key="CustomStageCode">手动输入关卡名</system:String>
-    <system:String x:Key="CustomStageCodeTip" xml:space="preserve">支持大部分主线关卡名与原列表的关卡名（如4-10、AP-5、H10-1-Hard）&#x0a;可在关卡结尾输入&quot;Normal/Hard&quot;表示需要切换标准与磨难难度</system:String>
+    <system:String x:Key="CustomStageCodeTip" xml:space="preserve">支持大部分主线关卡名与原列表的关卡名（如4-10、AP-5、H10-1-Hard）&#x0a;可在关卡结尾输入"Normal/Hard"表示需要切换标准与磨难难度</system:String>
 
     <system:String x:Key="AutoDetectConnection">自动检测连接</system:String>
     <system:String x:Key="AutoDetectConnectionTip">每次检测完成后会自动取消勾选，若需要重新检测可再次勾选，若反复连接失败可勾选始终自动检测连接</system:String>
@@ -493,6 +499,7 @@
     <system:String x:Key="ErrorSolution">解决方案</system:String>
     <system:String x:Key="ErrorSolutionCrash">请参考文档：常见问题 - 闪退 进行操作</system:String>
     <system:String x:Key="ErrorSolutionReplaceADB">请关闭模拟器与 ADB 或重启电脑后使用管理员权限打开 MAA 进行操作</system:String>
+    <system:String x:Key="ErrorSolutionFailedToMove">文件被占用，请重启电脑后重试</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">创建 GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">加入QQ群反馈问题</system:String>
     <system:String x:Key="CopyErrorMessage">复制错误信息</system:String>
