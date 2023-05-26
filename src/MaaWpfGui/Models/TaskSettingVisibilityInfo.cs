@@ -54,7 +54,7 @@ namespace MaaWpfGui.Models
         {
             if (Guide && enable)
             {
-                currentEnable = taskName;
+                currentEnableSetting = taskName;
                 enable = false;
             }
 
@@ -110,7 +110,7 @@ namespace MaaWpfGui.Models
             set => SetAndNotify(ref _advancedSettingsVisibility, value);
         }
 
-        private string currentEnable;
+        private string currentEnableSetting;
 
         private bool _guide = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, "0")) < SettingsViewModel.GuideMaxStep;
 
@@ -120,8 +120,24 @@ namespace MaaWpfGui.Models
             set
             {
                 SetAndNotify(ref _guide, value);
-                Set(currentEnable, !value);
+                Set(currentEnableSetting, !value);
             }
         }
+
+        #region 双入口设置可见性
+
+        private bool _customInfrastPlanShowInFightSettings = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastPlanShowInFightSettings, false.ToString()));
+
+        public bool CustomInfrastPlanShowInFightSettings
+        {
+            get => _customInfrastPlanShowInFightSettings;
+            set
+            {
+                SetAndNotify(ref _customInfrastPlanShowInFightSettings, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.CustomInfrastPlanShowInFightSettings, value.ToString());
+            }
+        }
+
+        #endregion
     }
 }

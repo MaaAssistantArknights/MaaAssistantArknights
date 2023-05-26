@@ -212,7 +212,7 @@ Stormeye|Stormeye|Stormeye|Stormeye
 晓歌|Cantabile|カンタービレ|칸타빌레
 但书|Proviso|プロヴァイゾ|프로바이조
 海沫|Highmore|ハイモア|
-郁金香|Tulip||
+郁金香|Tulip|チューリップ|
 达格达|Dagda|ダグザ|
 明椒|Paprika|パプリカ|
 雪绒|Qanipalaat|カニパラート|

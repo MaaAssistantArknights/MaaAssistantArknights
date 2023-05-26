@@ -15,6 +15,7 @@ using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using Stylet;
 using StyletIoC;
@@ -64,6 +65,17 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get => _windowTitle;
             set => SetAndNotify(ref _windowTitle, value);
+        }
+
+        private bool _showCloseButton = !Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.HideCloseButton, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to show close button.
+        /// </summary>
+        public bool ShowCloseButton
+        {
+            get => _showCloseButton;
+            set => SetAndNotify(ref _showCloseButton, value);
         }
 
         protected override void OnInitialActivate()

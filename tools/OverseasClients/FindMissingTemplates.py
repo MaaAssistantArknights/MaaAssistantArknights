@@ -34,7 +34,6 @@ ignore_list_file_name = "ignore_list_of_templates.txt"
 # NOTE
 # You may customize here
 regex_ignore_list = [
-    "Mizuki",
     "SSS",
     "Reclamation"
 ]

@@ -26,6 +26,11 @@ namespace MaaWpfGui.Services.Managers
         void Show();
 
         /// <summary>
+        /// Force show the main window
+        /// </summary>
+        void ForceShow();
+
+        /// <summary>
         /// Collapse the main window
         /// </summary>
         void Collapse();

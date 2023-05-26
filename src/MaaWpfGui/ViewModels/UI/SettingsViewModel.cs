@@ -27,6 +27,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
+using HandyControl.Controls;
+using HandyControl.Data;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -93,6 +95,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             DisplayName = LocalizationHelper.GetString("Settings");
 
+            _listTitle.Add(LocalizationHelper.GetString("SwitchConfiguration"));
             _listTitle.Add(LocalizationHelper.GetString("ScheduleSettings"));
             _listTitle.Add(LocalizationHelper.GetString("GameSettings"));
             _listTitle.Add(LocalizationHelper.GetString("ConnectionSettings"));
@@ -264,6 +267,14 @@ namespace MaaWpfGui.ViewModels.UI
                 new CombinedData { Display = LocalizationHelper.GetString("YoStarKR"), Value = "YoStarKR" },
                 new CombinedData { Display = LocalizationHelper.GetString("txwy"), Value = "txwy" },
             };
+
+            var configurations = new ObservableCollection<CombinedData>();
+            foreach (var conf in ConfigurationHelper.GetConfigurationList())
+            {
+                configurations.Add(new CombinedData { Display = conf, Value = conf });
+            }
+
+            ConfigurationList = configurations;
 
             DarkModeList = new List<CombinedData>
             {
@@ -850,6 +861,67 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets or sets the list of the client types.
         /// </summary>
         public List<CombinedData> ClientTypeList { get; set; }
+
+        public ObservableCollection<CombinedData> ConfigurationList { get; set; }
+
+        private string _currentConfiguration = ConfigurationHelper.GetCurrentConfiguration();
+
+        public string CurrentConfiguration
+        {
+            get => _currentConfiguration;
+            set
+            {
+                SetAndNotify(ref _currentConfiguration, value);
+                ConfigurationHelper.SwitchConfiguration(value);
+
+                Application.Current.Shutdown();
+                Bootstrapper.RestartApplication();
+            }
+        }
+
+        private string _newConfigurationName;
+
+        public string NewConfigurationName
+        {
+            get => _newConfigurationName;
+            set => SetAndNotify(ref _newConfigurationName, value);
+        }
+
+        public void AddConfiguration()
+        {
+            if (ConfigurationHelper.AddConfiguration(NewConfigurationName, CurrentConfiguration))
+            {
+                ConfigurationList.Add(new CombinedData { Display = NewConfigurationName, Value = NewConfigurationName });
+
+                var growinfo = new GrowlInfo
+                {
+                    IsCustom = true,
+                    Message = string.Format(LocalizationHelper.GetString("AddConfigSuccess"), NewConfigurationName),
+                    IconKey = "HangoverGeometry",
+                    IconBrushKey = "PallasBrush",
+                };
+                Growl.Info(growinfo);
+            }
+            else
+            {
+                var growinfo = new GrowlInfo
+                {
+                    IsCustom = true,
+                    Message = string.Format(LocalizationHelper.GetString("ConfigExists"), NewConfigurationName),
+                    IconKey = "HangoverGeometry",
+                    IconBrushKey = "PallasBrush",
+                };
+                Growl.Info(growinfo);
+            }
+        }
+
+        public void DeleteConfiguration(CombinedData delete)
+        {
+            if (ConfigurationHelper.DeleteConfiguration(delete.Display))
+            {
+                ConfigurationList.Remove(delete);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the list of the configuration of connection.
@@ -2252,7 +2324,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             string poolString = !string.IsNullOrEmpty(versionName) ? $" - {versionName}" : string.Empty;
-            rvm.WindowTitle = $"{prefix}MAA - {VersionId}{poolString} - {connectConfigName} ({ConnectAddress}) - {ClientName}";
+            rvm.WindowTitle = $"{prefix}MAA - {VersionId}{poolString} - {connectConfigName} ({ConnectAddress}) - {ClientName} - {CurrentConfiguration}";
         }
 
         private readonly string _bluestacksConfig = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigPath, string.Empty);
@@ -2436,6 +2508,23 @@ namespace MaaWpfGui.ViewModels.UI
                 SetAndNotify(ref _minimizeToTray, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.MinimizeToTray, value.ToString());
                 Instances.MainWindowManager.SetMinimizeToTaskbar(value);
+            }
+        }
+
+        private bool _hideCloseButton = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.HideCloseButton, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to hide close button.
+        /// </summary>
+        public bool HideCloseButton
+        {
+            get => _hideCloseButton;
+            set
+            {
+                SetAndNotify(ref _hideCloseButton, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.HideCloseButton, value.ToString());
+                var rvm = (RootViewModel)this.Parent;
+                rvm.ShowCloseButton = !value;
             }
         }
 
@@ -2719,7 +2808,7 @@ namespace MaaWpfGui.ViewModels.UI
                 string FormatText(string text, string key)
                     => string.Format(text, LocalizationHelper.GetString(key, value), LocalizationHelper.GetString(key, _language));
 
-                Window mainWindow = Application.Current.MainWindow;
+                var mainWindow = Application.Current.MainWindow;
                 mainWindow.Show();
                 mainWindow.WindowState = mainWindow.WindowState = WindowState.Normal;
                 mainWindow.Activate();

@@ -28,11 +28,11 @@
     <system:String x:Key="PrevGuide">이전 단계</system:String>
     <system:String x:Key="NextGuide">다음 단계</system:String>
     <system:String x:Key="DoneGuide">완료</system:String>
-    <system:String x:Key="ToolTipGuide">호버에 힌트가 있습니다↓→</system:String>
-    <system:String x:Key="TaskGuide">↑태스크</system:String>
-    <system:String x:Key="OftenUsedGuide">↓자주 사용하는</system:String>
-    <system:String x:Key="SometimesUsedGuide">흔하지 않게 사용되는↑</system:String>
-    <system:String x:Key="LinkStartGuide">← 작업 시작</system:String>
+    <system:String x:Key="ToolTipGuide">마우스를 올리면 팁이 보입니다↓→</system:String>
+    <system:String x:Key="TaskGuide">↑작업</system:String>
+    <system:String x:Key="OftenUsedGuide">↓자주 쓰는 설정</system:String>
+    <system:String x:Key="SometimesUsedGuide">가끔 쓰는 설정↑</system:String>
+    <system:String x:Key="LinkStartGuide">← 연결 및 동작 시작</system:String>
 
     <system:String x:Key="Dorm">숙소</system:String>
     <system:String x:Key="Mfg">제조소</system:String>
@@ -51,6 +51,7 @@
     <system:String x:Key="Chip">제조소-칩</system:String>
     <system:String x:Key="DormTrustEnabled">숙소의 남은 자리로 신뢰도 증가</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">이미 배치된 오퍼레이터를 숙소에 넣지 않기</system:String>
+    <system:String x:Key="DormFilterNotStationedTips">체크박스를 선택하면 에일린과 같은 오퍼레이터를 훈련실에서 제거하지 않을 뿐만 아니라 워크샵에서의 오퍼레이터가 기숙사에 들어오는 것을 방지합니다.</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">오리지늄 조각 자동 보충</system:String>
     <system:String x:Key="CustomInfrastEnabled">커스텀 기반시설 (베타)</system:String>
     <system:String x:Key="DefaultInfrast">기본 구성</system:String>
@@ -68,7 +69,6 @@
     <system:String x:Key="CustomizeInfrastSelectionEmpty">커스텀 시설 설정 선택이 비어 있습니다. 구성을 확인하거나 사용자 정의 기능을 끄십시오.</system:String>
 
     <system:String x:Key="General">일반 모드</system:String>
-    <system:String x:Key="GeneralWithoutScreencapErr">일반 모드 (차단됨 예외 출력)</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
     <system:String x:Key="MuMuEmulator">MuMu Player</system:String>
     <system:String x:Key="MuMuEmulator12">MuMu Player 12</system:String>
@@ -79,6 +79,7 @@
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">호환 모드</system:String>
     <system:String x:Key="SecondResolution">분할 화면</system:String>
+    <system:String x:Key="GeneralWithoutScreencapErr">일반 모드 (차단됨 예외 출력)</system:String>
 
     <system:String x:Key="DormThreshold">오퍼레이터 컨디션 한계점</system:String>
     <system:String x:Key="InfrastThresholdTip">커스텀 기반시설이 활성화되어 있다면, 이 설정은 자동배치 시설에만 유효합니다</system:String>
@@ -91,9 +92,9 @@
     <system:String x:Key="StartingCoreCharTip">단일 오퍼레이터의 중국어 이름만 지원하며, 입력하지 않으면 기본값이 선택됩니다</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">시작 오퍼레이터로 지원 유닛 사용</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">친구가 아니어도 지원 유닛 사용</system:String>
-    <system:String x:Key="DeploymentWithPause" xml:space="preserve">일시정지 상태로 배치하기 - 통합전략, 자동 작전, 보안 파견에 적용&#x0a;(베타 기능, 현재 비권장)</system:String>
+    <system:String x:Key="DeploymentWithPause" xml:space="preserve">일시정지 상태로 배치하기 - 통합전략, 자동 작전, 보안 파견에 적용\n(베타 기능, 현재 비권장)</system:String>
     <system:String x:Key="AdbLiteEnabled">adb Lite 사용 (실험적)</system:String>
-    <system:String x:Key="KillAdbOnExit">나갈 때 adb 종료</system:String>
+    <system:String x:Key="KillAdbOnExit">종료 시 adb도 종료</system:String>
 
     <system:String x:Key="DefaultSquad">기본값</system:String>
     <system:String x:Key="IS2NewSquad1">마음가짐 분대</system:String>
@@ -134,10 +135,10 @@
     <system:String x:Key="Executable">실행 파일</system:String>
     <system:String x:Key="ADBProgram">adb 프로그램</system:String>
 
-    <system:String x:Key="EmulatorException">에뮬레이터를 검색하는 중에 오류가 발생했습니다.&#x0a;이 소프트웨어를 관리자로 실행하거나&#x0a;수동으로 연결을 설정해 주세요.</system:String>
-    <system:String x:Key="AdbException">adb를 찾을 수 없었습니다.&#x0a;관리자 권한으로 실행하거나&#x0a;수동으로 연결 설정해 주세요.</system:String>
-    <system:String x:Key="EmulatorNotFound">에뮬레이터를 찾을 수 없습니다.&#x0a;이 소프트웨어를 관리자로 실행하거나&#x0a;수동으로 연결을 설정해 주세요.</system:String>
-    <system:String x:Key="EmulatorTooMany">여러 에뮬레이터가 실행 중입니다.&#x0a;사용하지 않는 에뮬레이터를 종료하거나&#x0a;수동으로 연결을 설정해 주세요.</system:String>
+    <system:String x:Key="EmulatorException">에뮬레이터를 검색하는 중에 오류가 발생했습니다.\n이 소프트웨어를 관리자로 실행하거나\n수동으로 연결을 설정해 주세요.</system:String>
+    <system:String x:Key="AdbException">adb를 찾을 수 없었습니다.\n관리자 권한으로 실행하거나\n수동으로 연결 설정해 주세요.</system:String>
+    <system:String x:Key="EmulatorNotFound">에뮬레이터를 찾을 수 없습니다.\n이 소프트웨어를 관리자로 실행하거나\n수동으로 연결을 설정해 주세요.</system:String>
+    <system:String x:Key="EmulatorTooMany">여러 에뮬레이터가 실행 중입니다.\n사용하지 않는 에뮬레이터를 종료하거나\n수동으로 연결을 설정해 주세요.</system:String>
 
     <system:String x:Key="SwitchLanguage">언어 전환</system:String>
     <system:String x:Key="Language">언어</system:String>
@@ -154,8 +155,8 @@
     <system:String x:Key="HotKeyLinkStart">[단축키] Link 시작/중지</system:String>
     <system:String x:Key="HotKeyChangingTip">Backspace/Esc/Delete 키를 누르면 현재 값이 지워집니다</system:String>
 
-    <system:String x:Key="LabelSequenceTip">드래그하여 순서를 변경할 수 있습니다</system:String>
-    <system:String x:Key="CheckBoxesNotSaved">재시작 후 변경 사항이 저장되지 않습니다</system:String>
+    <system:String x:Key="LabelSequenceTip">드래그하여 작업 순서를 변경할 수 있습니다</system:String>
+    <system:String x:Key="CheckBoxesNotSaved">체크 여부가 저장되지 않고 재시작하면 초기화됩니다</system:String>
     <system:String x:Key="NoAutoNavigation">해당 스테이지로 자동 이동하지 않습니다</system:String>
 
     <system:String x:Key="StartupUpdateCheck">시작시 업데이트 확인</system:String>
@@ -204,6 +205,7 @@
     <system:String x:Key="MinimizeAfterLaunch">MAA 실행 후 최소화</system:String>
     <system:String x:Key="ClientType">클라이언트 종류</system:String>
     <system:String x:Key="AutoRestartOption">게임 연결이 끊어지면 자동으로 다시 연결</system:String>
+    <system:String x:Key="HelpUsWithOverseasServersTip">외국 서버 적응은 판매할 수 없습니다. 우리를 도와주세요! 프로그래밍을 알 필요는 없습니다.</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">MAA 실행 후 에뮬레이터를 실행</system:String>
     <system:String x:Key="MinimizingStartup">시작 시뮬레이터 최소화</system:String>
     <system:String x:Key="WaitForEmulator">에뮬레이터 실행 대기 (초)</system:String>
@@ -231,7 +233,7 @@
 
     <system:String x:Key="PenguinID">펭귄 물류 보고 ID (숫자만)</system:String>
     <system:String x:Key="DrGrandet">그랑데 영감 모드</system:String>
-    <system:String x:Key="DrGrandetTip">이성 회복 화면에서 1이성이 회복될 때까지 기다린 후에야 계속 진행합니다.</system:String>
+    <system:String x:Key="DrGrandetTip">회복제나 오리지늄 사용 시 이성이 자연 회복될 때까지 기다렸다가 회복되는 즉시 사용합니다.</system:String>
 
     <system:String x:Key="SocialPtShop">크레딧 구매</system:String>
     <system:String x:Key="CreditFight">지원 오퍼레이터 사용으로 크레딧 얻기</system:String>
@@ -247,13 +249,17 @@
 
     <system:String x:Key="MinimizeToTray">트레이로 최소화</system:String>
     <system:String x:Key="SystemNotification">중요 알림 팝업</system:String>
+    <system:String x:Key="HideCloseButton">닫기 버튼 숨기기</system:String>
+    <system:String x:Key="DarkModeSetColorsTip">변경 사항을 적용하려면 즉시 다시 시작하시겠습니까?</system:String>
     <system:String x:Key="UseAlternateStage">대체 스테이지 사용</system:String>
     <system:String x:Key="UseRemainingSanityStage">남은 이성 활용</system:String>
+    <system:String x:Key="UseRemainingSanityStageTip">주요 작업을 완료한 후 지정된 스테이지를 브러시하고, 자동으로 정신 상태로 되돌아가지 않습니다.</system:String>
     <system:String x:Key="UseExpiringMedicine">48시간 미만 내 소멸하는 회복제 전부 사용</system:String>
     <system:String x:Key="HideUnavailableStage">미개방 스테이지 숨기기</system:String>
+    <system:String x:Key="CustomInfrastPlanShowInFightSettings">기반시설 계획 표시</system:String>
     <system:String x:Key="MainViewButtonFeature">메인 화면 버튼의 기능</system:String>
     <system:String x:Key="CustomStageCode">스테이지 코드 수동 입력</system:String>
-    <system:String x:Key="CustomStageCodeTip" xml:space="preserve">대부분의 메인 스테이지와 원래 목록(예: 4-10, AP-5, H10-1-Hard)에 있는 스테이지 이름을 지원합니다.</system:String>
+    <system:String x:Key="CustomStageCodeTip" xml:space="preserve">대부분의 메인 스테이지와 원래 목록(예: 4-10, AP-5, H10-1-Hard)에 있는 스테이지 이름을 지원합니다.&#x0a; 레벨 끝에서 "Normal / Hard"를 입력하여 일반 및 터프 난이도 간 전환</system:String>
 
     <system:String x:Key="AutoDetectConnection">연결 자동 감지</system:String>
     <system:String x:Key="AutoDetectConnectionTip">이 체크박스는 감지가 끝나면 자동으로 체크가 해제됩니다. 다시 감지하려면 다시 체크해주세요.</system:String>
@@ -283,9 +289,9 @@
     <system:String x:Key="Dark">다크</system:String>
     <system:String x:Key="SyncWithOS">시스템 연동</system:String>
 
-    <system:String x:Key="SelectAll">전원 선택</system:String>
+    <system:String x:Key="SelectAll">모두 선택</system:String>
     <system:String x:Key="Inverse">선택 반전</system:String>
-    <system:String x:Key="Clear">선택 취소</system:String>
+    <system:String x:Key="Clear">모두 해제</system:String>
 
     <system:String x:Key="Then">완료 후</system:String>
     <system:String x:Key="DoNothing">-</system:String>
@@ -375,8 +381,8 @@
     <system:String x:Key="Toolbox">툴박스</system:String>
 
     <!--  공개모집 인식  -->
-    <system:String x:Key="RecruitmentRecognition">공개모집 인식</system:String>
-    <system:String x:Key="RecruitmentRecognitionTip">팁: 메인 화면의 자동 모집과는 별도로 독립된 기능입니다. 게임 내 공개모집 태그 화면에서 사용하세요~</system:String>
+    <system:String x:Key="RecruitmentRecognition">공개모집 태그 인식</system:String>
+    <system:String x:Key="RecruitmentRecognitionTip">팁: 메인 화면의 자동 모집과는 별도로 독립된 기능입니다. 게임 내 공개모집 태그 화면에 진입한 뒤 인식 시작 버튼을 누르세요~</system:String>
     <system:String x:Key="AutoSettingTime">자동 시간 설정</system:String>
     <system:String x:Key="RecruitmentShowPotential">잠재능력 확인(★4 이상)</system:String>
     <system:String x:Key="RecruitmentShowPotentialTips">오퍼레이터 정보를 불러오려면 “오퍼레이터 식별” 기능을 사용하세요.</system:String>
@@ -389,7 +395,7 @@
 
     <!--  창고 정리  -->
     <system:String x:Key="DepotRecognition">창고 정리</system:String>
-    <system:String x:Key="DepotRecognitionTip">이 기능은 현재 테스트 중입니다. 인식 결과가 맞는지 확인 후에 사용해 주세요. 만약 오류가 있다면 debug/depot 폴더를 압축해서 이슈로 보내 주세요.</system:String>
+    <system:String x:Key="DepotRecognitionTip">이 기능은 현재 테스트 중입니다. 내보내기 전 인식 결과가 맞는지 확인 후에 사용해 주세요. 만약 오류가 있다면 MAA 경로 내 debug 폴더 안의 depot 폴더 전체를 압축해서 Github의 issue로 올려주세요.</system:String>
     <system:String x:Key="StartToDepotRecognition">식별 시작</system:String>
     <system:String x:Key="ExportToArkplanner">Arkplanner로 내보내기</system:String>
     <system:String x:Key="ExportToLolicon">Lolicon으로 내보내기</system:String>
@@ -398,7 +404,7 @@
 
     <!--  干员识别  -->
     <system:String x:Key="OperBoxRecognition">오퍼레이터 식별</system:String>
-    <system:String x:Key="OperBoxRecognitionTip">이 기능은 현재 테스트 중입니다. 만약 오류가 있다면 debug/oper 폴더를 압축해서 이슈로 보내 주세요~</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">이 기능은 현재 테스트 중입니다. 만약 오류가 있다면 MAA 경로 내 debug 폴더 안의 oper 폴더 전체를 압축해서 Github의 issue로 올려주세요~</system:String>
     <system:String x:Key="OperBoxRecognitionResult">미소유：{0} 목록:\n\n{1}\n\n소유：{2} 목록:\n\n{3}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">식별 시작</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">클립보드에 복사</system:String>
@@ -408,44 +414,40 @@
     <system:String x:Key="VideoRecognition">영상 인식</system:String>
     <system:String x:Key="StartToVideoRecognition">식별 시작</system:String>
     <system:String x:Key="OpenVideoRecognitionResult">폴더 열기</system:String>
-    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">“자동 지휘” 페이지에서 영상 파일을 드래그하여 시작하세요.
-
-동영상의 해상도는 16:9여야 하며, 검은색 테두리, 에뮬레이터 테두리, 특수한 모양의 화면 보정 등의 방해 요소가 없어야 합니다.</system:String>
+    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">“자동 지휘” 페이지에서 영상 파일을 드래그하여 시작하세요.&#x0a;&#x0a;동영상의 해상도는 16:9여야 하며, 검은색 테두리, 에뮬레이터 테두리, 특수한 모양의 화면 보정 등의 방해 요소가 없어야 합니다.</system:String>
     <!--  视频识别  -->
+
     <system:String x:Key="Gacha">헤드헌팅</system:String>
     <system:String x:Key="GachaOnce">1회 진행</system:String>
     <system:String x:Key="GachaTenTimes">10회 진행</system:String>
-<!--
-    <system:String x:Key="GachaInitTip">在罗德岛竟然有这么多志同道合的志士。是的，诗歌！战争！自由！能在历史的洪流中汇集众人的力量，为这片大地的改变而奋斗。真是令人振奋！这些悲壮又非凡的故事，是应当被传颂下去的。</system:String>
-    <system:String x:Key="GachaTip1">保佑胜利的英雄，我将领受你们的祝福。</system:String>
-    <system:String x:Key="GachaTip2">伟大的战士们啊，我会在你们身边，与你们一同奋勇搏杀。</system:String>
-    <system:String x:Key="GachaTip3">再转身回头的时候，我们将带着胜利归来。</system:String>
-    <system:String x:Key="GachaTip4">不需畏惧，我们会战胜那些鲁莽的家伙！</system:String>
-    <system:String x:Key="GachaTip5">欢呼吧！</system:String>
-    <system:String x:Key="GachaTip6">来吧——</system:String>
-    <system:String x:Key="GachaTip7">现在可没有后悔的余地了。</system:String>
-    <system:String x:Key="GachaTip8">无需退路。</system:String>
-    <system:String x:Key="GachaTip9">英雄们啊，为这最强大的信念，请站在我们这边。</system:String>
-    <system:String x:Key="GachaTip10">颤抖吧，在真正的勇敢面前。</system:String>
-    <system:String x:Key="GachaTip11">哭嚎吧，为你们不堪一击的信念。</system:String>
-    <system:String x:Key="GachaTip12">你将在此跪拜。</system:String>
-    <system:String x:Key="GachaTip13">是吗，我们做到了吗......我现在，正体会至高的荣誉和幸福。</system:String>
-    <system:String x:Key="GachaTip14">转身吧，勇士们。我们已经获得了完美的胜利，现在是该回去享受庆祝的盛典了。</system:String>
-    <system:String x:Key="GachaTip15">听啊，悲鸣停止了。这是幸福的和平到来前的宁静。</system:String>
-    <system:String x:Key="GachaTip16">纵使人类的战争没尽头......在这一刻，我们守护住了自己生的尊严。离开吧。但要昂首挺胸。</system:String>
-    <system:String x:Key="GachaTip17">这对角可能会不小心撞倒些家具，我会尽量小心。</system:String>
--->
+    <system:String x:Key="GachaInitTip">로드 아일랜드에는 많은 유사한 사람들이 있다는 것이 놀라운 일이다. 그렇다, 시! 전쟁! 자유! 이것들은 역사의 급류에서 사람들의 힘을 모을 수 있고 이 땅의 변화를 위해 싸울 수 있다. 이것은 정말로 영감을 주는 일이다! 이러한 비극적이고 비범한 이야기들은 전해져야 한다.</system:String>
+    <system:String x:Key="GachaTip1">승리한 영웅들에게 축복을, 저는 당신의 축복을 받겠습니다.</system:String>
+    <system:String x:Key="GachaTip2">위대한 전사들, 나는 당신들과 함께하며 용감하게 싸우겠습니다.</system:String>
+    <system:String x:Key="GachaTip3">우리가 돌아서면, 우리는 승리와 함께 돌아올 것입니다.</system:String>
+    <system:String x:Key="GachaTip4">두려워하지 마세요, 우리는 그 무모한 사람들을 물리칠 것입니다!</system:String>
+    <system:String x:Key="GachaTip5">힘내세요!</system:String>
+    <system:String x:Key="GachaTip6">와라.</system:String>
+    <system:String x:Key="GachaTip7">이젠 후회할 시간은 없어.</system:String>
+    <system:String x:Key="GachaTip8">출구가 없습니다.</system:String>
+    <system:String x:Key="GachaTip9">영웅들아, 이 가장 강한 믿음을 위해 우리 편에 서 주십시오.</system:String>
+    <system:String x:Key="GachaTip10">진정한 용기 앞에서 떨다.</system:String>
+    <system:String x:Key="GachaTip11">당신의 믿음이 충분히 강하지 않아 일격에 버틸 수 없다면 울어라.</system:String>
+    <system:String x:Key="GachaTip12">당신은 여기 무릎을 꿇을 것입니다.</system:String>
+    <system:String x:Key="GachaTip13">이게 맞아요? 우리 이제 성공한 거죠... 저는 이제 최고의 영광과 행복을 느끼고 있어요.</system:String>
+    <system:String x:Key="GachaTip14">전진하던 전사들아, 돌아서세요. 완벽한 승리를 거두었습니다. 이제 축하를 즐기러 돌아갈 시간입니다.</system:String>
+    <system:String x:Key="GachaTip15">들어봐, 울음소리가 멈췄어. 이것은 행복한 평화가 도래하기 전의 평온한 순간이야.</system:String>
+    <system:String x:Key="GachaTip16">인간의 전쟁이 끝나지 않더라도... 이 순간, 우리는 우리 삶의 존엄성을 지켰습니다. 떠나세요. 하지만 기뻐하며 떠나세요.</system:String>
+    <system:String x:Key="GachaTip17">이 구석은 가구를 실수로 넘어뜨릴 수도 있으니, 최대한 조심하겠습니다.</system:String>
     <system:String x:Key="GachaDisclaimer">정말로 헤드헌팅을 진행하게 될 겁니다! 시뮬레이션이 아닙니다!!!</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">확인했습니다.</system:String>
     <system:String x:Key="GachaShowDisclaimerNoMore">다시 보지 않기</system:String>
 
-
-    <!--  로그  -->
+    <!--  Even if human wars have no end... at this moment, we have guarded the dignity of our lives. Leave. But leave with your head held high.  -->
     <system:String x:Key="Identifying">식별 중...</system:String>
     <system:String x:Key="IdentificationCompleted">식별 완료</system:String>
-    <!--  로그  -->
+    <!--  再转身回头的时候，我们将带着胜利归来。  -->
 
-    <!--  자동 작전  -->
+    <!--  로그  -->
     <system:String x:Key="Copilot">자동 지휘</system:String>
     <system:String x:Key="CopilotLocation">작업 파일 경로/코드</system:String>
     <system:String x:Key="SelectTheFile">작업 선택</system:String>
@@ -461,7 +463,7 @@
 
     <system:String x:Key="VideoLink">영상 링크</system:String>
 
-    <!--  로그  -->
+    <!--  Start  -->
     <system:String x:Key="CopilotTip">
         팁:\n\n
         1. '작전 개시' 버튼이 있는 화면에서 이 기능을 사용하세요.\n\n
@@ -480,20 +482,20 @@
     <system:String x:Key="NotCopilotJson">전략 파일이 아닙니다</system:String>
     <system:String x:Key="CheckTheFile">파일 내용을 확인해주세요!</system:String>
     <!--  로그  -->
-    <!--  자동 작전  -->
+    <!--  로그  -->
 
-    <!--  ErrorView  -->
+    <!--  자동 작전  -->
     <system:String x:Key="Error">오류</system:String>
     <system:String x:Key="ErrorProlog">MAA에서 오류가 발생했습니다.</system:String>
     <system:String x:Key="ErrorDetails">세부 정보</system:String>
     <system:String x:Key="ErrorSolution">해결 방법</system:String>
     <system:String x:Key="ErrorSolutionCrash">FAQ 문서의 크래시 관련 문단을 참고하세요.</system:String>
     <system:String x:Key="ErrorSolutionReplaceADB">에뮬레이터와 adb를 종료하거나 컴퓨터를 재시작하고 관리자 권한으로 MAA를 실행해 주세요.</system:String>
-    <system:String x:Key="ErrorFeedbackLinkText">GitHub 이슈 생성</system:String>
+    <system:String x:Key="ErrorFeedbackLinkText">GitHub에 issue 생성</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">QQ 그룹 가입</system:String>
     <system:String x:Key="CopyErrorMessage">오류 메시지 복사</system:String>
 
-    <!--  AsstProxy  -->
+    <!--  ErrorView  -->
     <system:String x:Key="ResourceBroken">리소스가 손상되었습니다. 전체 패키지를 다시 다운로드하세요.</system:String>
     <system:String x:Key="ReplaceADBNotExists">ADB 파일이 존재하지 않습니다</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB 다운로드 실패</system:String>
@@ -502,7 +504,7 @@
     <system:String x:Key="FailedToReplaceAdbAndUseLocal">ADB 교체 실패</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">로컬 adb 파일로 임시적으로 연결했습니다.</system:String>
     <system:String x:Key="InitializationError">초기화 오류!</system:String>
-    <system:String x:Key="ResolutionNotSupported">에뮬레이터 해상도가 지원되지 않습니다. 해상도를 720p 이상, 16:9 비율로 설정해주세요.</system:String>
+    <system:String x:Key="ResolutionNotSupported">에뮬레이터 해상도가 지원되지 않습니다. 16:9 비율로 설정하시고 해상도를 720p 이상으로 설정해주세요.</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">시뮬레이터 해상도를 가져올 수 없습니다. 시뮬레이터와 ADB를 재시작하거나 컴퓨터를 재부팅하거나 시뮬레이터를 교체한 후 다시 시도하십시오.</system:String>
     <system:String x:Key="TryToReconnect">에뮬레이터가 연결 해제되었습니다. 재연결을 시도합니다.</system:String>
     <system:String x:Key="ReconnectSuccess">다시 연결되었습니다. 작업을 계속합니다.</system:String>
@@ -523,18 +525,18 @@
     <system:String x:Key="ErrorOccurred">오류가 발생했습니다</system:String>
     <system:String x:Key="HasReturned">반환했습니다</system:String>
     <system:String x:Key="DropRecognitionError">드롭 인식 오류</system:String>
-    <system:String x:Key="GiveUpUploadingPenguins">펭귄 물류에 업로드 중단</system:String>
+    <system:String x:Key="GiveUpUploadingPenguins">펭귄 물류에 업로드 불가</system:String>
     <system:String x:Key="TheEX">EX 스테이지가 없어 중단되었습니다</system:String>
     <system:String x:Key="MissionStart">행동 개시</system:String>
     <system:String x:Key="UnitTime">회</system:String>
     <system:String x:Key="MedicineUsed">이성 회복 아이템을 사용했습니다</system:String>
     <system:String x:Key="StoneUsed">순오리지늄을 사용했습니다</system:String>
     <system:String x:Key="ActingCommandError">PRTS 오류</system:String>
-    <system:String x:Key="LabelsRefreshed">태그가 새로 고쳐졌습니다.</system:String>
+    <system:String x:Key="LabelsRefreshed">태그를 새로 고쳤습니다.</system:String>
     <system:String x:Key="RecruitConfirm">모집 확정</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">요구 오퍼레이터 충돌</system:String>
-    <system:String x:Key="BegunToExplore">탐험 시작됨</system:String>
-    <system:String x:Key="HasInvested">투자함</system:String>
+    <system:String x:Key="BegunToExplore">탐험 시작됨:</system:String>
+    <system:String x:Key="HasInvested">각뿔 투자함:</system:String>
     <system:String x:Key="ExplorationAbandoned">탐사 중단</system:String>
     <system:String x:Key="FightCompleted">작전 완료</system:String>
     <system:String x:Key="FightFailed">작전 실패</system:String>
@@ -556,7 +558,7 @@
     <system:String x:Key="TotalDrop">드롭 통계:</system:String>
     <system:String x:Key="ThisFacility">현재 시설:</system:String>
     <system:String x:Key="ProductIncorrect">생산품이 구성과 맞지 않습니다.</system:String>
-    <system:String x:Key="ProductUnknown">식별할 수 없는 산물</system:String>
+    <system:String x:Key="ProductUnknown">식별할 수 없는 결과물</system:String>
     <system:String x:Key="ProductChanged">결과물이 변경됨</system:String>
     <system:String x:Key="RecruitingResults">공개모집 인식 결과:</system:String>
     <system:String x:Key="RecruitingTips">공개모집 팁</system:String>
@@ -574,13 +576,14 @@
     <system:String x:Key="ConnectFailed">연결 실패</system:String>
     <system:String x:Key="TryToStartEmulator">에뮬레이터를 시작하는 중입니다</system:String>
     <system:String x:Key="CheckSettings">연결 설정을 확인하거나 에뮬레이터와 ADB를 다시 시작하거나 컴퓨터를 재시작해주세요.</system:String>
-    <!--  AsstProxy  -->
+    <!--  Current step: {0} {1}  -->
 
-    <!--  TrayIcon  -->
+    <!--  AsstProxy  -->
+    <system:String x:Key="ForceShow">MAA 강제 표시</system:String>
     <system:String x:Key="Exit">종료</system:String>
     <!--  TrayIcon  -->
 
-    <!--  About  -->
+    <!--  TrayIcon  -->
     <system:String x:Key="Website">MAA 공식 웹사이트</system:String>
     <system:String x:Key="Github">소스 코드: GitHub</system:String>
     <system:String x:Key="PrtsPlus">자동 전투 전략 공유 웹사이트</system:String>
@@ -591,13 +594,13 @@
     <system:String x:Key="Telegram">Telegram</system:String>
     <system:String x:Key="Help">자주 묻는 질문</system:String>
     <system:String x:Key="Issue">이슈</system:String>
-    <!--  About  -->
+    <!--  Telegram  -->
 
-    <!--  AutoRecruitSettings  -->
+    <!--  About  -->
     <system:String x:Key="AutoRefresh">★3 태그를 자동 새로고침하기</system:String>
     <system:String x:Key="AutoUseExpedited">즉시 완료 허가증을 자동 사용*</system:String>
     <system:String x:Key="Level3UseShortTime">★3 태그 9:00 대신 7:40 설정</system:String>
-    <system:String x:Key="Level3UseShortTimeTip">다른 등급에는 해당되지 않습니다</system:String>
+    <system:String x:Key="Level3UseShortTimeTip">다른 등급에는 적용되지 않습니다</system:String>
     <system:String x:Key="RecruitMaxTimes">시행 시의 최대 모집횟수</system:String>
     <system:String x:Key="ManuallySelectLevel1">로봇 수동 모집</system:String>
     <system:String x:Key="AutoSelectLevel3">★3 자동 모집</system:String>
@@ -605,22 +608,23 @@
     <system:String x:Key="AutoSelectLevel5">★5 자동 모집</system:String>
     <system:String x:Key="AutoSelectLevel6">★6 자동 모집</system:String>
     <system:String x:Key="Level1Tip">체크 시, ★1 태그를 인식할 때 이번 모집을 건너뜁니다. 체크하지 않으면 ★1 태그를 무시합니다.</system:String>
-    <!--  AutoRecruitSettings  -->
+    <!--  Recruit max times  -->
 
-    <!--  EasterEggs  -->
+    <!--  AutoRecruitSettings  -->
+    <system:String x:Key="BuyWineOnAprilFoolsDay">의사님, Ms. Closure의 가게에서 '이소프로필 알코올'의 새로운 상품 목록을 들어보셨나요? 함께 확인해 볼까요?</system:String>
     <system:String x:Key="Burping">으…… 우웁……</system:String>
     <system:String x:Key="DrunkAndStaggering">어머, 박사님. 왜 그렇게 비틀비틀 걷고 계시나요?</system:String>
     <system:String x:Key="Hangover">다, 다음엔 적당히 마셔야지……</system:String>
     <system:String x:Key="HelloWorld">Hello World!</system:String>
     <!--  EasterEggs  -->
 
-    <!--  VersionUpdatePopup  -->
+    <!--  EasterEggs  -->
     <system:String x:Key="UpdateNotificationOK">好的！</system:String>
     <system:String x:Key="VersionUpdated">업데이트 완료</system:String>
-    <system:String x:Key="VersionUpdatedTo">버전: </system:String>
+    <system:String x:Key="VersionUpdatedTo">버전:</system:String>
     <!--  VersionUpdatePopup  -->
 
-    <!--  RootViewModel  -->
+    <!--  VersionUpdatePopup  -->
     <system:String x:Key="ConfirmExitTitle">MAA가 작업을 진행 중입니다</system:String>
     <system:String x:Key="ConfirmExitText">정말로 종료하시겠습니까?</system:String>
     <!--  RootViewModel  -->
