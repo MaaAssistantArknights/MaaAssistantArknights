@@ -62,7 +62,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <controls:TextBlock Grid.Column="0" Text="配置名称" />
+            <controls:TextBlock Grid.Column="0" Text="{DynamicResource ConfigurationName}" />
             <TextBox
                 Grid.Column="1"
                 Margin="10"
@@ -75,7 +75,7 @@
                 Grid.Column="2"
                 Width="60"
                 Command="{s:Action AddConfiguration}"
-                Content="添加" />
+                Content="{DynamicResource AddConfiguration}" />
         </Grid>
     </StackPanel>
 </UserControl>

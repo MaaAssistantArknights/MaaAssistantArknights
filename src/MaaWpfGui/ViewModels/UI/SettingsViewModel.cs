@@ -890,11 +890,11 @@ namespace MaaWpfGui.ViewModels.UI
             if (ConfigurationHelper.AddConfiguration(NewConfigurationName, CurrentConfiguration))
             {
                 ConfigurationList.Add(new CombinedData { Display = NewConfigurationName, Value = NewConfigurationName });
-                MessageBoxHelper.Show($"配置 {NewConfigurationName} 添加成功");
+                MessageBoxHelper.Show(string.Format(LocalizationHelper.GetString("AddConfigSuccess"), NewConfigurationName));
             }
             else
             {
-                MessageBoxHelper.Show($"配置 {NewConfigurationName} 已存在");
+                MessageBoxHelper.Show(string.Format(LocalizationHelper.GetString("ConfigExists"), NewConfigurationName));
             }
         }
 
