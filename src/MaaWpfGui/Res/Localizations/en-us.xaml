@@ -473,6 +473,7 @@ The video resolution is required to be 16:9, and there are no interference facto
     <system:String x:Key="ErrorSolution">Solution</system:String>
     <system:String x:Key="ErrorSolutionCrash">Please refer to the documentation: FAQ - Crashes to solve.</system:String>
     <system:String x:Key="ErrorSolutionReplaceADB">Please close the emulator and ADB or restart your computer, then open MAA with administrator privileges to proceed.</system:String>
+    <system:String x:Key="ErrorSolutionFailedToMove">The file is occupied, please restart the computer and try again.</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>
     <system:String x:Key="CopyErrorMessage">Copy error message</system:String>

@@ -87,7 +87,7 @@ namespace MaaWpfGui.Views.UI
                 return LocalizationHelper.GetString("ErrorSolutionCrash");
             }
 
-            if (details.Contains("SettingsViewModel.<ReplaceADB>"))
+            if (details.Contains("System.IO.File.InternalMove"))
             {
                 return LocalizationHelper.GetString("ErrorSolutionReplaceADB");
             }
