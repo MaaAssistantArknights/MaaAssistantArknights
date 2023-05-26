@@ -266,7 +266,7 @@ namespace MaaWpfGui.ViewModels.UI
                 new CombinedData { Display = LocalizationHelper.GetString("txwy"), Value = "txwy" },
             };
 
-            var configurations = new List<CombinedData>();
+            var configurations = new ObservableCollection<CombinedData>();
             foreach (var conf in ConfigurationHelper.GetConfigurationList())
             {
                 configurations.Add(new CombinedData { Display = conf, Value = conf });
@@ -860,7 +860,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public List<CombinedData> ClientTypeList { get; set; }
 
-        public List<CombinedData> ConfigurationList { get; set; }
+        public ObservableCollection<CombinedData> ConfigurationList { get; set; }
 
         private string _currentConfiguration = ConfigurationHelper.GetCurrentConfiguration();
 
@@ -874,6 +874,35 @@ namespace MaaWpfGui.ViewModels.UI
 
                 Application.Current.Shutdown();
                 Bootstrapper.RestartApplication();
+            }
+        }
+
+        private string _newConfigurationName;
+
+        public string NewConfigurationName
+        {
+            get => _newConfigurationName;
+            set => SetAndNotify(ref _newConfigurationName, value);
+        }
+
+        public void AddConfiguration()
+        {
+            if (ConfigurationHelper.AddConfiguration(NewConfigurationName, CurrentConfiguration))
+            {
+                ConfigurationList.Add(new CombinedData { Display = NewConfigurationName, Value = NewConfigurationName });
+                MessageBoxHelper.Show($"配置 {NewConfigurationName} 添加成功");
+            }
+            else
+            {
+                MessageBoxHelper.Show($"配置 {NewConfigurationName} 已存在");
+            }
+        }
+
+        public void DeleteConfiguration(CombinedData delete)
+        {
+            if (ConfigurationHelper.DeleteConfiguration(delete.Display))
+            {
+                ConfigurationList.Remove(delete);
             }
         }
 

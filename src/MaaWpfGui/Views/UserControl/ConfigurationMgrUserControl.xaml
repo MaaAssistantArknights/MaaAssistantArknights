@@ -27,10 +27,55 @@
             Margin="10"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            DisplayMemberPath="Display"
+            IsEditable="True"
             IsHitTestVisible="{Binding Idle}"
+            IsReadOnly="True"
             ItemsSource="{Binding ConfigurationList}"
             SelectedValue="{Binding CurrentConfiguration}"
-            SelectedValuePath="Value" />
+            SelectedValuePath="Value">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Width="{c:Binding ActualWidth - 20, RelativeSource={RelativeSource AncestorType=ComboBox}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Text="{Binding}" />
+                        <Button
+                            Grid.Column="1"
+                            HorizontalAlignment="Right"
+                            Command="{s:Action DeleteConfiguration}"
+                            CommandParameter="{Binding}"
+                            Content="×"
+                            FontWeight="Bold" />
+                    </Grid>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <Grid Width="200">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <controls:TextBlock Grid.Column="0" Text="配置名称" />
+            <TextBox
+                Grid.Column="1"
+                Margin="10"
+                Text="{Binding NewConfigurationName, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Enter" Command="{s:Action AddConfiguration}" />
+                </TextBox.InputBindings>
+            </TextBox>
+            <Button
+                Grid.Column="2"
+                Width="60"
+                Command="{s:Action AddConfiguration}"
+                Content="添加" />
+        </Grid>
     </StackPanel>
 </UserControl>
