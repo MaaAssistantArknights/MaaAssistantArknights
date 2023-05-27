@@ -5,12 +5,14 @@ from shutil import copy
 
 from dotenv import load_dotenv
 
-from src.auto_localization.xaml_load import XamlParser
-from src.auto_localization.git import get_latest_file_content
+from .git import get_latest_file_content
+from .xaml_load import XamlParser
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logging.debug(os.path.abspath('.env'))
 load_dotenv(dotenv_path='.env')
+if os.path.exists('../.env'):
+    load_dotenv(dotenv_path='../.env')
 if os.path.exists('../../.env'):
     load_dotenv(dotenv_path='../../.env')
 root_path = os.getenv("LOCALIZATION_PATH")
@@ -22,15 +24,13 @@ ja_jp_path = os.path.join(root_path, "ja-jp.xaml")
 ko_kr_path = os.path.join(root_path, "ko-kr.xaml")
 
 
-def initiate():
+def initiate(args):
     logging.info("initiate project")
     copy('./copy.env', '.env')
     with open('./copy.env', 'r') as f:
         content = f.read()
     api_key = input("please input openai api key:")
-    local_path = input("please input localization path:")
-    content.replace('OPENAI_API_KEY=\n', f'OPENAI_API_KEY={api_key}\n')
-    content.replace('LOCALIZATION_PATH=\n', f'LOCALIZATION_PATH={local_path}\n')
+    content = content.replace('OPENAI_API_KEY=YOUR_API_KEY\n', f'OPENAI_API_KEY={api_key}\n')
     with open(".env", "w") as f:
         f.write(content)
 
@@ -149,7 +149,7 @@ def update_by_language(test, path, language):
     parser.update_translate(compare_old_parser, compare_new_parser, skip_translate=test)
 
 
-def cli(test=None):
+def cli_ui(test=None):
     parser = argparse.ArgumentParser(description="一个用于自动翻译本地化目录下不同语言文档的命令行工具。")
     subparsers = parser.add_subparsers()
     parser_init = subparsers.add_parser('init', help='初始化工具')
@@ -173,6 +173,10 @@ def cli(test=None):
         args.func(args)
 
 
+def main():
+    cli_ui()
+
+
 if __name__ == '__main__':
-    cli(["create"])
+    cli_ui(["init"])
     print()
