@@ -93,8 +93,8 @@
     <system:String x:Key="RoguelikeUseSupportUnit">開局幹員使用助戰</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助戰</system:String>
     <system:String x:Key="DeploymentWithPause">暫停下幹員（同時影響肉鴿、自動戰鬥、保全）（不穩定，暫不推薦開啟）</system:String>
-    <system:String x:Key="AdbLiteEnabled">使用 Adb Lite（實驗性功能）</system:String>
-    <system:String x:Key="KillAdbOnExit">退出時釋放 Adb</system:String>
+    <system:String x:Key="AdbLiteEnabled">使用 ADB Lite（實驗性功能）</system:String>
+    <system:String x:Key="KillAdbOnExit">退出時釋放 ADB</system:String>
 
     <system:String x:Key="DefaultSquad">默認分隊</system:String>
     <system:String x:Key="IS2NewSquad1">心勝於物分隊</system:String>
@@ -133,7 +133,7 @@
     <system:String x:Key="Switchable">可切換</system:String>
 
     <system:String x:Key="Executable">可執行檔</system:String>
-    <system:String x:Key="ADBProgram">adb程式</system:String>
+    <system:String x:Key="ADBProgram">ADB程式</system:String>
 
     <system:String x:Key="EmulatorException">檢測模擬器出錯\n請使用管理員許可權打開本軟體\n或手動設定連接</system:String>
     <system:String x:Key="AdbException">檢測ADB出錯\n請使用管理員權限打開本軟件\n或手動設置連接</system:String>
@@ -216,7 +216,7 @@
     <system:String x:Key="TouchMode">觸控模式</system:String>
     <system:String x:Key="MiniTouchMode">Minitouch（默認）</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch（實驗功能）</system:String>
-    <system:String x:Key="AdbTouchMode">Adb Input（兼容模式）</system:String>
+    <system:String x:Key="AdbTouchMode">ADB Input（兼容模式）</system:String>
     <system:String x:Key="AdditionCommand">附加命令</system:String>
     <system:String x:Key="StartsWithScript">開始前腳本</system:String>
     <system:String x:Key="EndsWithScript">結束後腳本</system:String>
@@ -259,17 +259,18 @@
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">顯示基建計劃</system:String>
     <system:String x:Key="MainViewButtonFeature">主介面可選擇按鈕功能</system:String>
     <system:String x:Key="CustomStageCode">手動輸入關卡代名</system:String>
-    <system:String x:Key="CustomStageCodeTip" xml:space="preserve">支持大部分主線關卡名與原列表的關卡名（如4-10、AP-5、H10-1-Hard）&#x0a;可在關卡結尾輸入"Normal/Hard"表示需要切換標準與磨難難度</system:String>
+    <system:String x:Key="CustomStageCodeTip" xml:space="preserve">支持大部分主線關卡名與原列表的關卡名（如4-10、AP-5、H10-1-Hard）&#x0a;可在關卡結尾輸入&quot;Normal/Hard&quot;表示需要切換標準與磨難難度</system:String>
 
     <system:String x:Key="AutoDetectConnection">自動檢測連接</system:String>
     <system:String x:Key="AutoDetectConnectionTip">每次檢測完成後會自動取消勾選，若需要重新檢測可再次勾選</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">每次重新檢測</system:String>
-    <system:String x:Key="ADBPath">adb 路徑 (相對/絕對)</system:String>
+    <system:String x:Key="ADBPath">ADB 路徑 (相對/絕對)</system:String>
     <system:String x:Key="ConnectionAddress">連接地址</system:String>
     <system:String x:Key="ConnectionAddressTip">若遇到問題可嘗試手動修改</system:String>
     <system:String x:Key="ConnectionPreset">連接配置</system:String>
-    <system:String x:Key="RetryOnDisconnected">adb 重連失敗時自動重啟模擬器</system:String>
+    <system:String x:Key="RetryOnDisconnected">ADB 重連失敗時自動重啟模擬器</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">重連失敗 20 次後嘗試重啟模擬器，使用後台定時任務且設置任務完成關閉模擬器時必須勾選</system:String>
+    <system:String x:Key="AllowADBRestart">連接失敗後嘗試重啟 ADB</system:String>
     <!--  設定  -->
 
     <!--  一鍵長草  -->
@@ -501,7 +502,7 @@
     <system:String x:Key="ResourceBroken">資源損毀，請重新下載完整安裝包</system:String>
     <system:String x:Key="ReplaceADBNotExists">ADB 路徑不存在</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB 下載失敗</system:String>
-    <system:String x:Key="AdbDownloadFailedDesc">請手動進行操作（將 adb.exe 重命名後替換上方模擬器自帶 adb 即可）</system:String>
+    <system:String x:Key="AdbDownloadFailedDesc">請手動進行操作（將 adb.exe 重命名後替換上方模擬器自帶 ADB 即可）</system:String>
     <system:String x:Key="SuccessfullyReplacedADB">成功替換 ADB 文件</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocal">替換 ADB 失敗</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">已臨時使用本地 ADB 進行連接</system:String>
@@ -577,6 +578,7 @@
     <system:String x:Key="RecruitTagsDetected">辨識結果：</system:String>
     <system:String x:Key="ConnectFailed">連接失敗</system:String>
     <system:String x:Key="TryToStartEmulator">正在嘗試啟動模擬器</system:String>
+    <system:String x:Key="RestartADB">正在嘗試重啟 ADB</system:String>
     <system:String x:Key="CheckSettings">請檢查連接設置或嘗試重啟模擬器與 ADB 或重啟電腦</system:String>
     <!--  About  -->
 
