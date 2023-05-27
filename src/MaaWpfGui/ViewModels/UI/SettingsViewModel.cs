@@ -731,6 +731,44 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         /// <summary>
+        /// Restarts the ADB (Android Debug Bridge).
+        /// </summary>
+        public void RestartADB()
+        {
+            if (!AllowADBRestart)
+            {
+                return;
+            }
+
+            string adbPath = AdbPath;
+
+            if (string.IsNullOrEmpty(adbPath))
+            {
+                return;
+            }
+
+            ProcessStartInfo processStartInfo = new ProcessStartInfo
+            {
+                FileName = "cmd.exe",
+                RedirectStandardInput = true,
+                RedirectStandardOutput = true,
+                CreateNoWindow = true,
+                UseShellExecute = false,
+            };
+
+            Process process = new Process
+            {
+                StartInfo = processStartInfo,
+            };
+
+            process.Start();
+            process.StandardInput.WriteLine($"{adbPath} kill-server");
+            process.StandardInput.WriteLine($"{adbPath} start-server");
+            process.StandardInput.WriteLine("exit");
+            process.WaitForExit();
+        }
+
+        /// <summary>
         /// Selects the emulator to execute.
         /// </summary>
         public void SelectEmulatorExec()
@@ -2137,6 +2175,21 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _retryOnDisconnected, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RetryOnAdbDisconnected, value.ToString());
+            }
+        }
+
+        private bool _allowADBRestart = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AllowADBRestart, bool.TrueString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to retry task after adb disconnected.
+        /// </summary>
+        public bool AllowADBRestart
+        {
+            get => _allowADBRestart;
+            set
+            {
+                SetAndNotify(ref _allowADBRestart, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.AllowADBRestart, value.ToString());
             }
         }
 
