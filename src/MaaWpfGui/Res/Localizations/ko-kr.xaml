@@ -93,8 +93,8 @@
     <system:String x:Key="RoguelikeUseSupportUnit">시작 오퍼레이터로 지원 유닛 사용</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">친구가 아니어도 지원 유닛 사용</system:String>
     <system:String x:Key="DeploymentWithPause" xml:space="preserve">일시정지 상태로 배치하기 - 통합전략, 자동 작전, 보안 파견에 적용\n(베타 기능, 현재 비권장)</system:String>
-    <system:String x:Key="AdbLiteEnabled">adb Lite 사용 (실험적)</system:String>
-    <system:String x:Key="KillAdbOnExit">종료 시 adb도 종료</system:String>
+    <system:String x:Key="AdbLiteEnabled">ADB Lite 사용 (실험적)</system:String>
+    <system:String x:Key="KillAdbOnExit">종료 시 ADB도 종료</system:String>
 
     <system:String x:Key="DefaultSquad">기본값</system:String>
     <system:String x:Key="IS2NewSquad1">마음가짐 분대</system:String>
@@ -133,10 +133,10 @@
     <system:String x:Key="Switchable">전환 가능</system:String>
 
     <system:String x:Key="Executable">실행 파일</system:String>
-    <system:String x:Key="ADBProgram">adb 프로그램</system:String>
+    <system:String x:Key="ADBProgram">ADB 프로그램</system:String>
 
     <system:String x:Key="EmulatorException">에뮬레이터를 검색하는 중에 오류가 발생했습니다.\n이 소프트웨어를 관리자로 실행하거나\n수동으로 연결을 설정해 주세요.</system:String>
-    <system:String x:Key="AdbException">adb를 찾을 수 없었습니다.\n관리자 권한으로 실행하거나\n수동으로 연결 설정해 주세요.</system:String>
+    <system:String x:Key="AdbException">ADB를 찾을 수 없었습니다.\n관리자 권한으로 실행하거나\n수동으로 연결 설정해 주세요.</system:String>
     <system:String x:Key="EmulatorNotFound">에뮬레이터를 찾을 수 없습니다.\n이 소프트웨어를 관리자로 실행하거나\n수동으로 연결을 설정해 주세요.</system:String>
     <system:String x:Key="EmulatorTooMany">여러 에뮬레이터가 실행 중입니다.\n사용하지 않는 에뮬레이터를 종료하거나\n수동으로 연결을 설정해 주세요.</system:String>
 
@@ -216,7 +216,7 @@
     <system:String x:Key="TouchMode">터치 수행 방식</system:String>
     <system:String x:Key="MiniTouchMode">Minitouch (기본값)</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch (실험적)</system:String>
-    <system:String x:Key="AdbTouchMode">Adb Input (호환 모드)</system:String>
+    <system:String x:Key="AdbTouchMode">ADB Input (호환 모드)</system:String>
     <system:String x:Key="AdditionCommand">추가 변수</system:String>
     <system:String x:Key="StartsWithScript">시작 시 추가 스크립트</system:String>
     <system:String x:Key="EndsWithScript">종료 시 추가 스크립트</system:String>
@@ -264,11 +264,11 @@
     <system:String x:Key="AutoDetectConnection">연결 자동 감지</system:String>
     <system:String x:Key="AutoDetectConnectionTip">이 체크박스는 감지가 끝나면 자동으로 체크가 해제됩니다. 다시 감지하려면 다시 체크해주세요.</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">매번 재감지</system:String>
-    <system:String x:Key="ADBPath">adb 경로 (상대/절대)</system:String>
+    <system:String x:Key="ADBPath">ADB 경로 (상대/절대)</system:String>
     <system:String x:Key="ConnectionAddress">연결 주소</system:String>
     <system:String x:Key="ConnectionAddressTip">문제 발생 시 직접 수정해 주세요</system:String>
     <system:String x:Key="ConnectionPreset">연결 프리셋</system:String>
-    <system:String x:Key="RetryOnDisconnected">adb 재연결이 실패하면 자동으로 에뮬레이터를 다시 시작합니다</system:String>
+    <system:String x:Key="RetryOnDisconnected">ADB 재연결이 실패하면 자동으로 에뮬레이터를 다시 시작합니다</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">재연결을 20회 시도해도 실패하면 에뮬레이터를 다시 시작합니다. 백그라운드 예약을 사용하고 작업이 완료되면 에뮬레이터가 종료되도록 설정하려면 반드시 선택해야 합니다.</system:String>
     <system:String x:Key="AllowADBRestart">연결 실패 후 ADB 재시작 시도</system:String>
     <!--  설정  -->
@@ -491,7 +491,7 @@
     <system:String x:Key="ErrorDetails">세부 정보</system:String>
     <system:String x:Key="ErrorSolution">해결 방법</system:String>
     <system:String x:Key="ErrorSolutionCrash">FAQ 문서의 크래시 관련 문단을 참고하세요.</system:String>
-    <system:String x:Key="ErrorSolutionReplaceADB">에뮬레이터와 adb를 종료하거나 컴퓨터를 재시작하고 관리자 권한으로 MAA를 실행해 주세요.</system:String>
+    <system:String x:Key="ErrorSolutionReplaceADB">에뮬레이터와 ADB를 종료하거나 컴퓨터를 재시작하고 관리자 권한으로 MAA를 실행해 주세요.</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">GitHub에 issue 생성</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">QQ 그룹 가입</system:String>
     <system:String x:Key="CopyErrorMessage">오류 메시지 복사</system:String>
@@ -500,10 +500,10 @@
     <system:String x:Key="ResourceBroken">리소스가 손상되었습니다. 전체 패키지를 다시 다운로드하세요.</system:String>
     <system:String x:Key="ReplaceADBNotExists">ADB 파일이 존재하지 않습니다</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB 다운로드 실패</system:String>
-    <system:String x:Key="AdbDownloadFailedDesc">수동으로 진행해 주세요. (adb.exe의 이름을 바꾸고 에뮬레이터의 adb 파일을 교체해 주세요)</system:String>
+    <system:String x:Key="AdbDownloadFailedDesc">수동으로 진행해 주세요. (adb.exe의 이름을 바꾸고 에뮬레이터의 ADB 파일을 교체해 주세요)</system:String>
     <system:String x:Key="SuccessfullyReplacedADB">성공적으로 ADB 파일을 교체했습니다</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocal">ADB 교체 실패</system:String>
-    <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">로컬 adb 파일로 임시적으로 연결했습니다.</system:String>
+    <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">로컬 ADB 파일로 임시적으로 연결했습니다.</system:String>
     <system:String x:Key="InitializationError">초기화 오류!</system:String>
     <system:String x:Key="ResolutionNotSupported">에뮬레이터 해상도가 지원되지 않습니다. 16:9 비율로 설정하시고 해상도를 720p 이상으로 설정해주세요.</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">시뮬레이터 해상도를 가져올 수 없습니다. 시뮬레이터와 ADB를 재시작하거나 컴퓨터를 재부팅하거나 시뮬레이터를 교체한 후 다시 시도하십시오.</system:String>

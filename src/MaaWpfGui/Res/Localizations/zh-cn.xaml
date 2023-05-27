@@ -93,8 +93,8 @@
     <system:String x:Key="RoguelikeUseSupportUnit">“开局干员”使用助战</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助战</system:String>
     <system:String x:Key="DeploymentWithPause">暂停下干员（同时影响肉鸽、自动战斗、保全）（不稳定，暂不推荐开启）</system:String>
-    <system:String x:Key="AdbLiteEnabled">使用 Adb Lite（实验性功能）</system:String>
-    <system:String x:Key="KillAdbOnExit">退出时释放 Adb</system:String>
+    <system:String x:Key="AdbLiteEnabled">使用 ADB Lite（实验性功能）</system:String>
+    <system:String x:Key="KillAdbOnExit">退出时释放 ADB</system:String>
 
     <system:String x:Key="DefaultSquad">默认分队</system:String>
     <system:String x:Key="IS2NewSquad1">心胜于物分队</system:String>
@@ -133,7 +133,7 @@
     <system:String x:Key="Switchable">可切换</system:String>
 
     <system:String x:Key="Executable">可执行文件</system:String>
-    <system:String x:Key="ADBProgram">adb程序</system:String>
+    <system:String x:Key="ADBProgram">ADB程序</system:String>
 
     <system:String x:Key="EmulatorException">检测模拟器出错\n请使用管理员权限打开本软件\n或手动设置连接</system:String>
     <system:String x:Key="AdbException">检测ADB出错\n请使用管理员权限打开本软件\n或手动设置连接</system:String>
@@ -222,7 +222,7 @@
     <system:String x:Key="TouchMode">触控模式</system:String>
     <system:String x:Key="MiniTouchMode">Minitouch（默认）</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch（实验功能）</system:String>
-    <system:String x:Key="AdbTouchMode">Adb Input（兼容模式）</system:String>
+    <system:String x:Key="AdbTouchMode">ADB Input（兼容模式）</system:String>
     <system:String x:Key="AdditionCommand">附加命令</system:String>
     <system:String x:Key="StartsWithScript">开始前脚本</system:String>
     <system:String x:Key="EndsWithScript">结束后脚本</system:String>
@@ -270,11 +270,11 @@
     <system:String x:Key="AutoDetectConnection">自动检测连接</system:String>
     <system:String x:Key="AutoDetectConnectionTip">每次检测完成后会自动取消勾选，若需要重新检测可再次勾选，若反复连接失败可勾选始终自动检测连接</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">每次重新检测</system:String>
-    <system:String x:Key="ADBPath">adb 路径 (相对/绝对)</system:String>
+    <system:String x:Key="ADBPath">ADB 路径 (相对/绝对)</system:String>
     <system:String x:Key="ConnectionAddress">连接地址</system:String>
     <system:String x:Key="ConnectionAddressTip">若遇到问题可尝试手动修改</system:String>
     <system:String x:Key="ConnectionPreset">连接配置</system:String>
-    <system:String x:Key="RetryOnDisconnected">adb 重连失败时自动重启模拟器</system:String>
+    <system:String x:Key="RetryOnDisconnected">ADB 重连失败时自动重启模拟器</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">重连失败 20 次后尝试重启模拟器，使用后台定时任务且设置任务完成关闭模拟器时请勾选</system:String>
     <system:String x:Key="AllowADBRestart">连接失败后尝试重启 ADB</system:String>
     <!--  设置  -->
@@ -509,7 +509,7 @@
     <system:String x:Key="ResourceBroken">资源损坏，请重新下载完整安装包</system:String>
     <system:String x:Key="ReplaceADBNotExists">ADB 路径不存在</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB 下载失败</system:String>
-    <system:String x:Key="AdbDownloadFailedDesc">请手动进行操作（将 adb.exe 重命名后替换上方模拟器自带 adb 即可）</system:String>
+    <system:String x:Key="AdbDownloadFailedDesc">请手动进行操作（将 adb.exe 重命名后替换上方模拟器自带 ADB 即可）</system:String>
     <system:String x:Key="SuccessfullyReplacedADB">成功替换 ADB 文件</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocal">替换 ADB 失败</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">已临时使用本地 ADB 进行连接</system:String>
