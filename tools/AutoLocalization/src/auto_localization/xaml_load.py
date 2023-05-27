@@ -8,7 +8,7 @@ from lxml import etree
 from xmldiff import main
 from xmldiff.actions import UpdateTextIn, InsertComment, UpdateTextAfter, DeleteNode
 
-from src.auto_localization.translate import ChatTranslator
+from .translate import ChatTranslator
 
 SPACE = '{http://www.w3.org/XML/1998/namespace}space'
 
@@ -81,7 +81,7 @@ class XamlParser:
 
     @staticmethod
     def __from_file(file):
-        assert os.path.exists(file), 'file not exists'
+        assert os.path.exists(file), f'{file}file not exists'
         encoding = judge_encoding(file)
         language = parse_lang_str(file)
         with open(file, 'r', encoding=encoding) as f:
@@ -98,7 +98,7 @@ class XamlParser:
                 children = list(parent)
                 index = children.index(child)
                 if index == 0:
-                    if self.__merged_node and parent.tag == f'{{{self.__default_namespace}}}ResourceDictionary':
+                    if self.__merged_node is not None and parent.tag == f'{{{self.__default_namespace}}}ResourceDictionary':
                         continue
                     # 注释节点为第一个节点
                     cp_comment = self.copy_node(child, cp_text=False)
@@ -420,6 +420,6 @@ class XamlParser:
 
 
 if __name__ == '__main__':
-    zh_parser = XamlParser(parse_type=0, file='../../sample/zh-cn.xaml')
-    zh_new_parser = XamlParser(parse_type=0, file='../../sample/zh-cn_new.xaml')
+    zh_parser = XamlParser(parse_type=0, file='../../example/zh-cn.xaml')
+    zh_new_parser = XamlParser(parse_type=0, file='../../example/zh-cn_new.xaml')
     print()

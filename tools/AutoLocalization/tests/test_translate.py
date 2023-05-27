@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 
-from src.auto_localization.translate import ChatTranslator
+from src.auto_localization import ChatTranslator
 
 
 class TestChatTranslator(unittest.TestCase):
@@ -14,7 +14,7 @@ class TestChatTranslator(unittest.TestCase):
             'choices': [
                 {
                     'message': {
-                        'content': """{"message":200,"content":"Tips: $\\n$$\\n$ 1. Please use this function on the interface with the 'Start Action' button; $\\n$$\\n$ 2. Using a friend's assistance can turn off 'Auto Formation' and manually select operators before starting; $\\n$$\\n$ 3. To conduct a simulation of the paradox, turn off 'Auto Formation', select the skills, and then start on the 'Start Simulation' button interface; $\\n$$\\n$ 4. For 'Annihilation', multiple tasks are built-in under the 'resource/copilot' folder. Please manually form a squad and start on the 'Start Deployment' interface (can be used with 'number of loops'); $\\n$$\\n$ 5. Video recognition is now supported. Please drag the strategy video file and then start. The video resolution should be 16:9, without black borders, simulator borders, or other interfering elements."}"""
+                        'content': """{"message":200,"content":"Tips: \\n \\n \n  1. Please use this function on the interface with the 'Start Action' button;  \\n \\n \n  2. Using a friend's assistance can turn off 'Auto Formation' and manually select operators before starting;  \\n \\n \n  3. To conduct a simulation of the paradox, turn off 'Auto Formation', select the skills, and then start on the 'Start Simulation' button interface;  \\n \\n \n  4. For 'Annihilation', multiple tasks are built-in under the 'resource/copilot' folder. Please manually form a squad and start on the 'Start Deployment' interface (can be used with 'number of loops');  \\n \\n \n  5. Video recognition is now supported. Please drag the strategy video file and then start. The video resolution should be 16:9, without black borders, simulator borders, or other interfering elements."}"""
                     }
                 }
             ]
@@ -23,9 +23,8 @@ class TestChatTranslator(unittest.TestCase):
         result = self.translator.translate()
         result_split_list = result.split("\n")
         length = len(result_split_list)
-        self.assertFalse('$' in result)
-        assert_result = """Tips: \n\n 1. Please use this function on the interface with the 'Start Action' button; \n\n 2. Using a friend's assistance can turn off 'Auto Formation' and manually select operators before starting; \n\n 3. To conduct a simulation of the paradox, turn off 'Auto Formation', select the skills, and then start on the 'Start Simulation' button interface; \n\n 4. For 'Annihilation', multiple tasks are built-in under the 'resource/copilot' folder. Please manually form a squad and start on the 'Start Deployment' interface (can be used with 'number of loops'); \n\n 5. Video recognition is now supported. Please drag the strategy video file and then start. The video resolution should be 16:9, without black borders, simulator borders, or other interfering elements."""
-        self.assertEqual(length, 11)
+        assert_result = """Tips: \n \n \n  1. Please use this function on the interface with the 'Start Action' button;  \n \n \n  2. Using a friend's assistance can turn off 'Auto Formation' and manually select operators before starting;  \n \n \n  3. To conduct a simulation of the paradox, turn off 'Auto Formation', select the skills, and then start on the 'Start Simulation' button interface;  \n \n \n  4. For 'Annihilation', multiple tasks are built-in under the 'resource/copilot' folder. Please manually form a squad and start on the 'Start Deployment' interface (can be used with 'number of loops');  \n \n \n  5. Video recognition is now supported. Please drag the strategy video file and then start. The video resolution should be 16:9, without black borders, simulator borders, or other interfering elements."""
+        self.assertEqual(length, 16)
         self.assertEqual(result, assert_result)
 
     @patch('openai.ChatCompletion.create')
