@@ -904,6 +904,10 @@
                 "Midnight",
                 "月见夜"
             ],
+			[
+                "Reserve Operator  Melee",
+                "Reserve Operator - Melee"
+            ],
             [
                 "Reserve Operator - Melee",
                 "预备干员-近战"
@@ -979,6 +983,10 @@
             [
                 "Orchid",
                 "梓兰"
+            ],
+			[
+                "Reserve Operator  Caster",
+                "Reserve Operator - Caster"
             ],
             [
                 "Reserve Operator - Caster",
@@ -1063,6 +1071,10 @@
             [
                 "Honeyberry",
                 "蜜莓"
+            ],
+			[
+                "Reserve Operator  Logistics",
+                "Reserve Operator - Logistics"
             ],
             [
                 "Reserve Operator - Logistics",
@@ -1283,6 +1295,10 @@
             [
                 "Rangers",
                 "巡林者"
+            ],
+			[
+                "Reserve Operator  Sniper",
+                "Reserve Operator - Sniper"
             ],
             [
                 "Reserve Operator - Sniper",
@@ -2080,9 +2096,17 @@
                 "Minimalist",
                 "至简"
             ],
+			[
+                "Pozemka",
+                "Pozëmka"
+            ],
             [
                 "Pozëmka",
                 "鸿雪"
+            ],
+			[
+                "Gavial the",
+                "Gavial the Invincible"
             ],
             [
                 "Gavial the Invincible",
@@ -2111,6 +2135,10 @@
             [
                 "Entitative Program Controller",
                 "实体程式控制"
+            ],
+			[
+                "Reserve Operator  Defender",
+                "Reserve Operator - Defender"
             ],
             [
                 "Reserve Operator - Defender",
@@ -2315,6 +2343,27 @@
             "Credit Store"
         ]
     },
+    "Phantom@Roguelike@NextLevel": {
+        "text": [
+            "Mist-stricken Missteps",
+            "Sunset Courtyard",
+            "Homeland Remnants",
+            "Nightmare's Prelude",
+            "Blood-soaked Corridor",
+            "Hall of Desires"
+        ]
+    },
+	"Mizuki@Roguelike@NextLevel": {
+        "text": [
+            "Celeste and Seashore",
+            "Isolated Isle",
+            "Billowy Land",
+            "Mysterious Hotbed",
+            "Ashless Cave",
+            "Forest Undersea",
+            "Sweet Dream"
+        ]
+    },
     "ExpiringMedicineCheck": {
         "ocrReplace": [
             [
@@ -2391,20 +2440,6 @@
             "Store"
         ]
     },
-    "Mizuki@Roguelike@GetDropSelectRecruit": {
-        "template": "Mizuki@Roguelike@GetDropSelectRecruit.png"
-    },
-    "Mizuki@Roguelike@NextLevel": {
-        "text": [
-            "Celeste and Seashore",
-            "Isolated Isle",
-            "Billowy Land",
-            "Mysterious Hotbed",
-            "Ashless Cave",
-            "Forest Undersea",
-            "Sweet Dream"
-        ]
-    },
     "Mizuki@Roguelike@SelectTheme": {
         "text": [
             "Mizuki"
@@ -2426,19 +2461,14 @@
             "Takeover"
         ]
     },
-    "Phantom@Roguelike@NextLevel": {
-        "text": [
-            "Mist-stricken Missteps",
-            "Sunset Courtyard",
-            "Homeland Remnants",
-            "Nightmare's Prelude",
-            "Blood-soaked Corridor",
-            "Hall of Desires"
-        ]
-    },
     "Phantom@Roguelike@SelectTheme": {
         "text": [
             "Phantom"
+        ]
+    },
+	"Mizuki@Roguelike@SelectTheme": {
+        "text": [
+            "Mizuki"
         ]
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
@@ -2592,19 +2622,6 @@
     "Roguelike@StageTraderInvestSystemFull": {
         "text": [
             "Storage full"
-        ]
-    },
-    "Roguelike@StageTraderRefreshWithDiceNotAvaiable": {
-        "text": [
-            "Used up rereshes for this",
-            "Used up rereshes",
-            "for this",
-            "for this shop"
-        ]
-    },
-    "Roguelike@StageTraderSpecialShoppingAfterRefresh": {
-        "text": [
-            "Pathfinder Fins"
         ]
     },
     "RoguelikeChooseSupportBtnOcr": {
@@ -4445,6 +4462,22 @@
                 "Drifting Cache",
                 "漂流秘匣"
             ]
+        ]
+    },
+    "Mizuki@Roguelike@GetDropSelectRecruit": {
+        "template": "Mizuki@Roguelike@GetDropSelectRecruit.png"
+    },
+	"Roguelike@StageTraderSpecialShoppingAfterRefresh": {
+        "text": [
+            "Pathfinder Fins"
+        ]
+    },
+	"Roguelike@StageTraderRefreshWithDiceNotAvaiable": {
+        "text": [
+            "Used up rereshes for this",
+			"Used up rereshes",
+            "for this",
+            "for this shop"
         ]
     },
     "ShamareThumbnail1": {
