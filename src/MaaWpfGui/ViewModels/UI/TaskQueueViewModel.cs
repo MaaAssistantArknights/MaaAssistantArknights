@@ -693,7 +693,6 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (!connected)
             {
-                AddLog(errMsg, UiLogColor.Error);
                 AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToStartEmulator"));
                 await Task.Run(() => Instances.SettingsViewModel.TryToStartEmulator(true));
 
@@ -704,13 +703,28 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
-                if (!connected)
+            }
+
+            if (!connected)
+            {
+                AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("RestartADB"));
+                await Task.Run(() => Instances.SettingsViewModel.RestartADB());
+
+                if (Stopping)
                 {
-                    AddLog(errMsg, UiLogColor.Error);
-                    Idle = true;
                     SetStopped();
                     return;
                 }
+
+                connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            }
+
+            if (!connected)
+            {
+                AddLog(errMsg, UiLogColor.Error);
+                Idle = true;
+                SetStopped();
+                return;
             }
 
             // 一般是点了“停止”按钮了
