@@ -45,54 +45,68 @@ server_list = [
     "txwy"
 ]
 
-# Get the server name from argument
-try:
-    # server_name = YoStarJP
-    server_name = sys.argv[1]
-    if server_name not in server_list:
-        raise
-except Exception:
-    server_name = None
-    while (not server_name):
-        print("Enter one and only one server name:",
-              ", ".join(server_list))
-        t = input()
-        server_name = t if t in server_list else None
-
-
-# Get current directory so script is run at the correct dir
 cur_dir = os.path.dirname(os.path.abspath(__file__))
+proj_dir = os.path.join(cur_dir, "../../")
 
-zh_dir = os.path.join(cur_dir, "../../resource/template/")
-gl_dir = os.path.join(cur_dir, "../../resource/global/",
-                      server_name, "resource/template/")
+def find_missing_templates(server_name):
 
-zh_files = [f for f in os.listdir(
-    zh_dir) if os.path.isfile(os.path.join(zh_dir, f))]
-gl_files = [f for f in os.listdir(
-    gl_dir) if os.path.isfile(os.path.join(gl_dir, f))]
+    zh_dir = os.path.join(proj_dir, "resource/template/")
+    gl_dir = os.path.join(proj_dir, "resource/global/",
+                        server_name, "resource/template/")
 
-with open(os.path.join(cur_dir, ignore_list_file_name)) as f:
-    ignore_files = [line.rstrip('\n') for line in f]
+    zh_files = [f for f in os.listdir(
+        zh_dir) if os.path.isfile(os.path.join(zh_dir, f))]
+    gl_files = [f for f in os.listdir(
+        gl_dir) if os.path.isfile(os.path.join(gl_dir, f))]
 
-# ZH server pics not found in global server nor ignored will be filtered here
-diff_files = [f for f in zh_files if
-              not any(map(lambda x: re.search(x, f), regex_ignore_list)) and
-              f not in gl_files and
-              f not in ignore_files
-              ]
+    with open(os.path.join(cur_dir, ignore_list_file_name)) as f:
+        ignore_files = [line.rstrip('\n') for line in f]
 
-# These pictures will be copied to the missing_templates folder for reference.
-# Contributors of global servers may screenshot the corresponding files.
-# Note this folder is in .gitignore so it will not be uploaded.
-out_dir = os.path.join(cur_dir, "missing_templates/", server_name)
-if os.path.exists(out_dir):
-    shutil.rmtree(out_dir)
-os.makedirs(out_dir)
+    # ZH server pics not found in global server nor ignored will be filtered here
+    diff_files = [f for f in zh_files if
+                not any(map(lambda x: re.search(x, f), regex_ignore_list)) and
+                f not in gl_files and
+                f not in ignore_files
+                ]
 
-for f in diff_files:
-    # print(f)
-    shutil.copyfile(os.path.join(zh_dir, f), os.path.join(out_dir, f))
+    # These pictures will be copied to the missing_templates folder for reference.
+    # Contributors of global servers may screenshot the corresponding files.
+    # Note this folder is in .gitignore so it will not be uploaded.
+    out_dir = os.path.join(cur_dir, "missing_templates/", server_name)
+    if os.path.exists(out_dir):
+        shutil.rmtree(out_dir)
+    os.makedirs(out_dir)
 
-print("Pictures not included in", server_name,
-      "server resources is copied to missing_templates/" + server_name)
+    for f in diff_files:
+        # print(f)
+        shutil.copyfile(os.path.join(zh_dir, f), os.path.join(out_dir, f))
+
+    print("Pictures not included in", server_name,
+        "server resources is copied to missing_templates/" + server_name)
+
+def main():
+    # Get the server name from argument
+    # try:
+    #     # server_name = "YoStarJP"
+    #     server_names = sys.argv[1:]
+    #     for server_name in server_names:
+    #         if server_name not in server_list:
+    #             raise Exception(f"{server_name} is not a valid server name.")
+    # except Exception as e:
+    #     print(e)
+    #     server_names = None
+    #     while (not server_names):
+    #         print("Enter one or more server names separated by space:",
+    #             ", ".join(server_list))
+    #         t = input()
+    #         server_names = t.split() if all(name in server_list for name in t.split()) else None
+
+    server_names = sys.argv[1:]
+    if not server_names:
+        server_names = server_list
+
+    for server_name in server_names:
+        find_missing_templates(server_name)
+
+if __name__ == "__main__":
+    main()
