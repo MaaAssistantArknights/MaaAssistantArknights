@@ -1834,6 +1834,8 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
+                value ??= string.Empty;
+
                 if (CustomStageCode)
                 {
                     // 从后往前删
@@ -1865,6 +1867,8 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
+                value ??= string.Empty;
+
                 if (CustomStageCode)
                 {
                     if (_stage2.Length != 3)
@@ -1894,6 +1898,8 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     return;
                 }
+
+                value ??= string.Empty;
 
                 if (CustomStageCode)
                 {
@@ -1958,6 +1964,8 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     return;
                 }
+
+                value ??= string.Empty;
 
                 if (CustomStageCode)
                 {
