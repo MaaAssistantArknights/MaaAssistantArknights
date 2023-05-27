@@ -93,8 +93,8 @@
     <system:String x:Key="RoguelikeUseSupportUnit">Select &quot;Starting Oper&quot; from support unit list</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">Enable nonfirend support</system:String>
     <system:String x:Key="DeploymentWithPause" xml:space="preserve">Deployment with Pause, Works for IS, Copilot and SSS,\nBeta function, Not recommended yet</system:String>
-    <system:String x:Key="AdbLiteEnabled">Use Adb Lite (Experimental)</system:String>
-    <system:String x:Key="KillAdbOnExit">Kill Adb On Exit</system:String>
+    <system:String x:Key="AdbLiteEnabled">Use ADB Lite (Experimental)</system:String>
+    <system:String x:Key="KillAdbOnExit">Kill ADB On Exit</system:String>
 
     <system:String x:Key="DefaultSquad">Default</system:String>
     <system:String x:Key="IS2NewSquad1">Mind over matter (to be updated)</system:String>
@@ -222,7 +222,7 @@
     <system:String x:Key="TouchMode">Touch Mode</system:String>
     <system:String x:Key="MiniTouchMode">Minitouch (Default)</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch (Experimental)</system:String>
-    <system:String x:Key="AdbTouchMode">Adb Input (Compatibility)</system:String>
+    <system:String x:Key="AdbTouchMode">ADB Input (Compatibility)</system:String>
     <system:String x:Key="AdditionCommand">Addiction Command arguments</system:String>
     <system:String x:Key="StartsWithScript">Starts with Script</system:String>
     <system:String x:Key="EndsWithScript">Ends with Script</system:String>
@@ -274,7 +274,7 @@
     <system:String x:Key="ConnectionAddress">Connection address</system:String>
     <system:String x:Key="ConnectionAddressTip">It will be filled in automatically when you use it for the first time. If you encounter any problems, you can try to manually modify it</system:String>
     <system:String x:Key="ConnectionPreset">Connection Preset</system:String>
-    <system:String x:Key="RetryOnDisconnected">Auto restart emulator when adb reconnection fails</system:String>
+    <system:String x:Key="RetryOnDisconnected">Auto restart emulator when ADB reconnection fails</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">Try restarting the emulator after 20 failed reconnect attempts, Must be checked when using a background timed task and setting the task to close the emulator when finished</system:String>
     <system:String x:Key="AllowADBRestart">Attempt to restart ADB after connection failure</system:String>
     <!--  Settings  -->
@@ -509,7 +509,7 @@ The video resolution is required to be 16:9, and there are no interference facto
     <system:String x:Key="ResourceBroken">The resource is damaged, please download the full package again</system:String>
     <system:String x:Key="ReplaceADBNotExists">ADB File NOT exists</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB Download Failed</system:String>
-    <system:String x:Key="AdbDownloadFailedDesc">Please do it manually (rename adb.exe and replace the adb file in the emulator)</system:String>
+    <system:String x:Key="AdbDownloadFailedDesc">Please do it manually (rename adb.exe and replace the ADB file in the emulator)</system:String>
     <system:String x:Key="SuccessfullyReplacedADB">Successfully Replaced ADB File</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocal">Falied to replace ADB file</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">Temporarily connected using local ADB.</system:String>
