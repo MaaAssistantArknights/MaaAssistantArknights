@@ -8,7 +8,7 @@ from lxml import etree
 from xmldiff import main
 from xmldiff.actions import UpdateTextIn, InsertComment, UpdateTextAfter, DeleteNode
 
-from src.translator.translate import ChatTranslator
+from src.auto_localization.translate import ChatTranslator
 
 SPACE = '{http://www.w3.org/XML/1998/namespace}space'
 

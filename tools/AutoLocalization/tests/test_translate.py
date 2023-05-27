@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 
-from translate import ChatTranslator
+from src.auto_localization.translate import ChatTranslator
 
 
 class TestChatTranslator(unittest.TestCase):
