@@ -904,6 +904,10 @@
                 "Midnight",
                 "月见夜"
             ],
+			[
+                "Reserve Operator  Melee",
+                "Reserve Operator - Melee"
+            ],
             [
                 "Reserve Operator - Melee",
                 "预备干员-近战"
@@ -979,6 +983,14 @@
             [
                 "Orchid",
                 "梓兰"
+            ],
+			[
+                "Reserve Operator  Caster",
+                "Reserve Operator - Caster"
+            ],
+			[
+                "Reserve Operator -- Ca",
+                "Reserve Operator - Caster"
             ],
             [
                 "Reserve Operator - Caster",
@@ -1063,6 +1075,10 @@
             [
                 "Honeyberry",
                 "蜜莓"
+            ],
+			[
+                "Reserve Operator  Logistics",
+                "Reserve Operator - Logistics"
             ],
             [
                 "Reserve Operator - Logistics",
@@ -1283,6 +1299,10 @@
             [
                 "Rangers",
                 "巡林者"
+            ],
+			[
+                "Reserve Operator  Sniper",
+                "Reserve Operator - Sniper"
             ],
             [
                 "Reserve Operator - Sniper",
@@ -2080,12 +2100,12 @@
                 "Minimalist",
                 "至简"
             ],
-            [
-                "Pozëmka",
+			[
+                "Poz.*mka",
                 "鸿雪"
             ],
-            [
-                "Gavial the Invincible",
+			[
+                "Gavial the.*",
                 "百炼嘉维尔"
             ],
             [
@@ -2111,6 +2131,10 @@
             [
                 "Entitative Program Controller",
                 "实体程式控制"
+            ],
+			[
+                "Reserve Operator  Defender",
+                "Reserve Operator - Defender"
             ],
             [
                 "Reserve Operator - Defender",
