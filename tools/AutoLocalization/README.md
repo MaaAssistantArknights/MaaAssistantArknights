@@ -15,7 +15,7 @@
 ## 参数
 
 ```bash
-python main.py -h
+python run.py -h
 ```
 
 ```
