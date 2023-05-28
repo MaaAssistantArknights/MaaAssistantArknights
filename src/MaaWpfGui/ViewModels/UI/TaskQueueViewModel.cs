@@ -205,7 +205,7 @@ namespace MaaWpfGui.ViewModels.UI
                 UpdateStageList(false);
 
                 // 随机延迟，防止同时更新
-                var delayTime = new Random().Next(0, 10 * 60 * 1000);
+                var delayTime = new Random().Next(10, 10 * 60 * 1000);
                 _ = Task.Run(async () =>
                 {
                     await Task.Delay(delayTime);
@@ -367,6 +367,7 @@ namespace MaaWpfGui.ViewModels.UI
                 var stage1 = Stage1 ??= string.Empty;
                 var stage2 = Stage2 ??= string.Empty;
                 var stage3 = Stage3 ??= string.Empty;
+                var rss = RemainingSanityStage ??= string.Empty;
 
                 EnableSetFightParams = false;
 
@@ -381,31 +382,28 @@ namespace MaaWpfGui.ViewModels.UI
 
                 AlternateStageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList());
 
+                RemainingSanityStageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList())
+                {
+                    [0] = new CombinedData { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty },
+                };
+
                 // reset closed stages to "Last/Current"
                 if (!CustomStageCode)
                 {
                     Stage1 = StageList.Any(x => x.Value == stage1) ? stage1 : string.Empty;
                     Stage2 = AlternateStageList.Any(x => x.Value == stage2) ? stage2 : string.Empty;
                     Stage3 = AlternateStageList.Any(x => x.Value == stage3) ? stage3 : string.Empty;
+                    RemainingSanityStage = RemainingSanityStageList.Any(x => x.Value == rss) ? rss : string.Empty;
                 }
                 else
                 {
                     Stage1 = stage1;
                     Stage2 = stage2;
                     Stage3 = stage3;
+                    RemainingSanityStage = rss;
                 }
 
                 EnableSetFightParams = true;
-            }
-
-            var rss = RemainingSanityStage ??= string.Empty;
-            RemainingSanityStageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList())
-            {
-                [0] = new CombinedData { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty },
-            };
-            if (!CustomStageCode)
-            {
-                RemainingSanityStage = RemainingSanityStageList.Any(x => x.Value == rss) ? rss : string.Empty;
             }
         }
 
@@ -693,7 +691,6 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (!connected)
             {
-                AddLog(errMsg, UiLogColor.Error);
                 AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToStartEmulator"));
                 await Task.Run(() => Instances.SettingsViewModel.TryToStartEmulator(true));
 
@@ -704,13 +701,28 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
-                if (!connected)
+            }
+
+            if (!connected)
+            {
+                AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("RestartADB"));
+                await Task.Run(() => Instances.SettingsViewModel.RestartADB());
+
+                if (Stopping)
                 {
-                    AddLog(errMsg, UiLogColor.Error);
-                    Idle = true;
                     SetStopped();
                     return;
                 }
+
+                connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            }
+
+            if (!connected)
+            {
+                AddLog(errMsg, UiLogColor.Error);
+                Idle = true;
+                SetStopped();
+                return;
             }
 
             // 一般是点了“停止”按钮了
@@ -1837,7 +1849,7 @@ namespace MaaWpfGui.ViewModels.UI
                 if (CustomStageCode)
                 {
                     // 从后往前删
-                    if (_stage1.Length != 3)
+                    if (_stage1?.Length != 3 && value != null)
                     {
                         value = ToUpperAndCheckStage(value);
                     }
@@ -1867,7 +1879,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (CustomStageCode)
                 {
-                    if (_stage2.Length != 3)
+                    if (_stage2?.Length != 3 && value != null)
                     {
                         value = ToUpperAndCheckStage(value);
                     }
@@ -1897,7 +1909,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (CustomStageCode)
                 {
-                    if (_stage3.Length != 3)
+                    if (_stage3?.Length != 3 && value != null)
                     {
                         value = ToUpperAndCheckStage(value);
                     }
@@ -1961,7 +1973,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (CustomStageCode)
                 {
-                    if (_remainingSanityStage.Length != 3)
+                    if (_remainingSanityStage?.Length != 3 && value != null)
                     {
                         value = ToUpperAndCheckStage(value);
                     }

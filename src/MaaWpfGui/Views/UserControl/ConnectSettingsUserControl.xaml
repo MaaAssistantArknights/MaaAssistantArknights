@@ -153,6 +153,10 @@
                 ToolTip="{DynamicResource RetryOnDisconnectedTip}" />
             <CheckBox
                 Margin="20,10"
+                Content="{DynamicResource AllowADBRestart}"
+                IsChecked="{Binding AllowADBRestart}" />
+            <CheckBox
+                Margin="20,10"
                 Content="{DynamicResource AutoRestartOption}"
                 IsChecked="{Binding AutoRestartOnDrop}" />
         </WrapPanel>

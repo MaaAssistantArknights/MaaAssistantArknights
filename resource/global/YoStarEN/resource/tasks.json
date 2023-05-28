@@ -8,6 +8,9 @@
         ],
         "template": "Task.png"
     },
+	"UsePrts": {
+        "templThreshold": 0.7
+    },
     "BattleStageName": {
         "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
         "ocrReplace": [
@@ -904,6 +907,14 @@
                 "Midnight",
                 "月见夜"
             ],
+			[
+                "Reserve Operator  Melee",
+                "Reserve Operator - Melee"
+            ],
+			[
+                "Reserve Operator -- M.*",
+                "Reserve Operator - Melee"
+            ],
             [
                 "Reserve Operator - Melee",
                 "预备干员-近战"
@@ -980,12 +991,20 @@
                 "Orchid",
                 "梓兰"
             ],
+			[
+                "Reserve Operator  Caster",
+                "Reserve Operator - Caster"
+            ],
+			[
+                "Reserve Operator -- C.*",
+                "Reserve Operator - Caster"
+            ],
             [
                 "Reserve Operator - Caster",
                 "预备干员-术师"
             ],
             [
-                "Hibiscus",
+                "^Hibiscus$",
                 "芙蓉"
             ],
             [
@@ -997,7 +1016,7 @@
                 "末药"
             ],
             [
-                "Gavial",
+                "^Gavial$",
                 "嘉维尔"
             ],
             [
@@ -1064,6 +1083,14 @@
                 "Honeyberry",
                 "蜜莓"
             ],
+			[
+                "Reserve Operator  Logistics",
+                "Reserve Operator - Logistics"
+            ],
+			[
+                "Reserve Operator -- L.*",
+                "Reserve Operator - Logistics"
+            ],
             [
                 "Reserve Operator - Logistics",
                 "预备干员-后勤"
@@ -1117,7 +1144,7 @@
                 "推进之王"
             ],
             [
-                "Texas",
+                "^Texas$",
                 "德克萨斯"
             ],
             [
@@ -1283,6 +1310,14 @@
             [
                 "Rangers",
                 "巡林者"
+            ],
+			[
+                "Reserve Operator  Sniper",
+                "Reserve Operator - Sniper"
+            ],
+			[
+                "Reserve Operator -- S.*",
+                "Reserve Operator - Sniper"
             ],
             [
                 "Reserve Operator - Sniper",
@@ -1469,7 +1504,7 @@
                 "莫斯提马"
             ],
             [
-                "Greyy",
+                "^Greyy$",
                 "格雷伊"
             ],
             [
@@ -2080,12 +2115,12 @@
                 "Minimalist",
                 "至简"
             ],
-            [
-                "Pozëmka",
+			[
+                "Poz.*mka",
                 "鸿雪"
             ],
-            [
-                "Gavial the Invincible",
+			[
+                "Gavial the.*",
                 "百炼嘉维尔"
             ],
             [
@@ -2111,6 +2146,14 @@
             [
                 "Entitative Program Controller",
                 "实体程式控制"
+            ],
+			[
+                "Reserve Operator  Defender",
+                "Reserve Operator - Defender"
+            ],
+			[
+                "Reserve Operator -- D.*",
+                "Reserve Operator - Defender"
             ],
             [
                 "Reserve Operator - Defender",
@@ -2403,6 +2446,12 @@
             "Ashless Cave",
             "Forest Undersea",
             "Sweet Dream"
+        ]
+    },
+	"Mizuki@Roguelike@StageSafeHouseReuse": {
+        "text": [
+            "Use the Safe House again",
+			"Use the Safe"
         ]
     },
     "Mizuki@Roguelike@SelectTheme": {
@@ -2718,6 +2767,18 @@
             [
                 "First-Class Squad",
                 "高规格分队"
+            ],
+            [
+                "Mind Over Matter Squad",
+                "心胜于物分队"
+            ],
+            [
+                "Resourceful Squad",
+                "物尽其用分队"
+            ],
+            [
+                "People-Oriented Squad",
+                "以人为本分队"
             ]
         ]
     },

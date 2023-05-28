@@ -443,7 +443,7 @@ namespace MaaWpfGui.Main
                         if (Instances.SettingsViewModel.RetryOnDisconnected)
                         {
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TryToStartEmulator"), UiLogColor.Error);
-                            Instances.TaskQueueViewModel.KillEmulator();
+                            Instances.TaskQueueViewModel.KillEmulatorModeSwitcher();
                             await Task.Delay(3000);
                             await Instances.TaskQueueViewModel.Stop();
                             Instances.TaskQueueViewModel.SetStopped();

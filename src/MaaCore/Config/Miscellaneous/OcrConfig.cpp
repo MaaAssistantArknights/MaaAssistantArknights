@@ -19,6 +19,8 @@ bool asst::OcrConfig::parse(const json::value& json)
 {
     LogTraceFunction;
 
+    m_eq_classes.clear();
+
     for (const json::value& eq_class : json.at("equivalence_classes").as_array()) {
         equivalence_class eq_class_tmp;
         for (const json::value& eq_element : eq_class.as_array()) {
