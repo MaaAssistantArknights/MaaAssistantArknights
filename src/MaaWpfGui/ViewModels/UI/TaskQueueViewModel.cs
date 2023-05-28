@@ -364,11 +364,6 @@ namespace MaaWpfGui.ViewModels.UI
             // forceUpdate: initializing or settings changing, update stage list forcely
             if (forceUpdate || hideUnavailableStage)
             {
-                var stage1 = Stage1 ??= string.Empty;
-                var stage2 = Stage2 ??= string.Empty;
-                var stage3 = Stage3 ??= string.Empty;
-                var rss = RemainingSanityStage ??= string.Empty;
-
                 EnableSetFightParams = false;
 
                 if (hideUnavailableStage)
@@ -390,17 +385,17 @@ namespace MaaWpfGui.ViewModels.UI
                 // reset closed stages to "Last/Current"
                 if (!CustomStageCode)
                 {
-                    Stage1 = StageList.Any(x => x.Value == stage1) ? stage1 : string.Empty;
-                    Stage2 = AlternateStageList.Any(x => x.Value == stage2) ? stage2 : string.Empty;
-                    Stage3 = AlternateStageList.Any(x => x.Value == stage3) ? stage3 : string.Empty;
-                    RemainingSanityStage = RemainingSanityStageList.Any(x => x.Value == rss) ? rss : string.Empty;
+                    Stage1 = StageList.Any(x => x.Value == Stage1) ? Stage1 : string.Empty;
+                    Stage2 = AlternateStageList.Any(x => x.Value == Stage2) ? Stage2 : string.Empty;
+                    Stage3 = AlternateStageList.Any(x => x.Value == Stage3) ? Stage3 : string.Empty;
+                    RemainingSanityStage = RemainingSanityStageList.Any(x => x.Value == RemainingSanityStage) ? RemainingSanityStage : string.Empty;
                 }
                 else
                 {
-                    Stage1 = stage1;
-                    Stage2 = stage2;
-                    Stage3 = stage3;
-                    RemainingSanityStage = rss;
+                    if (hideUnavailableStage && !UseAlternateStage)
+                    {
+                        Stage1 = IsStageOpen(Stage1) ? Stage1 : string.Empty;
+                    }
                 }
 
                 EnableSetFightParams = true;
@@ -1841,7 +1836,7 @@ namespace MaaWpfGui.ViewModels.UI
             get => _stage1;
             set
             {
-                if (_stage1 == value)
+                if (_stage1 == value || value == null)
                 {
                     return;
                 }
@@ -1849,7 +1844,7 @@ namespace MaaWpfGui.ViewModels.UI
                 if (CustomStageCode)
                 {
                     // 从后往前删
-                    if (_stage1?.Length != 3 && value != null)
+                    if (_stage1.Length != 3)
                     {
                         value = ToUpperAndCheckStage(value);
                     }
@@ -1872,14 +1867,14 @@ namespace MaaWpfGui.ViewModels.UI
             get => _stage2;
             set
             {
-                if (_stage2 == value)
+                if (_stage2 == value || value == null)
                 {
                     return;
                 }
 
                 if (CustomStageCode)
                 {
-                    if (_stage2?.Length != 3 && value != null)
+                    if (_stage2.Length != 3)
                     {
                         value = ToUpperAndCheckStage(value);
                     }
@@ -1902,14 +1897,14 @@ namespace MaaWpfGui.ViewModels.UI
             get => _stage3;
             set
             {
-                if (_stage3 == value)
+                if (_stage3 == value || value == null)
                 {
                     return;
                 }
 
                 if (CustomStageCode)
                 {
-                    if (_stage3?.Length != 3 && value != null)
+                    if (_stage3.Length != 3)
                     {
                         value = ToUpperAndCheckStage(value);
                     }
@@ -1966,14 +1961,14 @@ namespace MaaWpfGui.ViewModels.UI
 
             set
             {
-                if (_remainingSanityStage == value)
+                if (_remainingSanityStage == value || value == null)
                 {
                     return;
                 }
 
                 if (CustomStageCode)
                 {
-                    if (_remainingSanityStage?.Length != 3 && value != null)
+                    if (_remainingSanityStage.Length != 3)
                     {
                         value = ToUpperAndCheckStage(value);
                     }
