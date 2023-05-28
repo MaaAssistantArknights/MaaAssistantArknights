@@ -323,8 +323,7 @@ bool asst::AdbController::convert_lf(std::string& data)
 bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect)
 {
     DecodeFunc decode_raw = [&](const std::string& data) -> bool {
-        constexpr size_t header_size = 16;
-        if (data.size() < header_size) return false;
+        if (data.size() < 8) return false;
         // assuming little endian
         uint32_t w = static_cast<uint32_t>(static_cast<unsigned char>(data[0])) << 0 |
                      static_cast<uint32_t>(static_cast<unsigned char>(data[1])) << 8 |
@@ -339,9 +338,9 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             return false;
         }
         size_t std_size = 4ULL * m_width * m_height;
-        if (data.size() < std_size + header_size) {
-            return false;
-        }
+        if (data.size() < std_size) return false;
+        const size_t header_size = data.size() - std_size; // 12 or 16. ref:
+        // https://android.googlesource.com/platform/frameworks/base/+/26a2b97dbe48ee45e9ae70110714048f2f360f97%5E%21/cmds/screencap/screencap.cpp
         auto img_data_beg = data.cbegin() + header_size;
         cv::Mat temp(m_height, m_width, CV_8UC4, const_cast<char*>(&*img_data_beg));
         if (temp.empty()) {
