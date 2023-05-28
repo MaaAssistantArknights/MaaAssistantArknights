@@ -97,7 +97,6 @@ Mizuki@Roguelike@StageEmergencyTransportation.png
 Mizuki@Roguelike@StageEncounter.png
 Mizuki@Roguelike@StageEncounterOptionFree.png
 Mizuki@Roguelike@StageEncounterOptionLeave.png
-Mizuki@Roguelike@StageEncounterOptionUnknown.png
 Mizuki@Roguelike@StageEncounterOptionWonderland.png
 Mizuki@Roguelike@StageEncounterSpecialClose.png
 Mizuki@Roguelike@StageGambling.png

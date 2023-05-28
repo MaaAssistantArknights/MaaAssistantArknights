@@ -1,3 +1,7 @@
-/.env
 **/__pycache__
-/sample/*.xaml
+build/
+dist/
+**/*.egg-info/
+
+/tests/data/
+**/.env
