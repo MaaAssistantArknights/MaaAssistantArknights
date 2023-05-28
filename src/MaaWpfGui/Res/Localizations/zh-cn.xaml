@@ -63,7 +63,7 @@
     <system:String x:Key="333_3">333 一天3换</system:String>
     <system:String x:Key="CustomInfrastFile">自定义基建配置文件</system:String>
     <system:String x:Key="CustomInfrastFileParseFailed">自定义基建配置文件解析错误！</system:String>
-    <system:String x:Key="CustomInfrastTitle">自定义基建配置：</system:String>
+    <system:String x:Key="CustomInfrastTitle" xml:space="preserve">自定义基建配置: </system:String>
     <system:String x:Key="CustomInfrastPlan">基建计划</system:String>
     <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">自动保存为下个计划</system:String>
     <system:String x:Key="CustomizeInfrastSelectionEmpty">自定义设施配置选择为空，请检查配置或关闭自定义功能。</system:String>
@@ -172,15 +172,15 @@
 
     <system:String x:Key="NewVersionFoundTitle">检测到新版本</system:String>
     <system:String x:Key="NewVersionFoundDescDownloading">正在后台下载……</system:String>
-    <system:String x:Key="NewVersionFoundDescId">版本号：</system:String>
-    <system:String x:Key="NewVersionFoundDescInfo">更新信息：</system:String>
+    <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">版本号: </system:String>
+    <system:String x:Key="NewVersionFoundDescInfo" xml:space="preserve">更新信息: </system:String>
     <system:String x:Key="NewVersionFoundButtonGoWebpage">前往页面查看</system:String>
 
     <system:String x:Key="NewVersionZipFileFoundTitle">检测到更新包</system:String>
     <system:String x:Key="NewVersionZipFileFoundDescDecompressing">正在解压，请稍等……</system:String>
 
     <system:String x:Key="NewVersionZipFileBrokenTitle">更新包损坏！</system:String>
-    <system:String x:Key="NewVersionZipFileBrokenDescFilename">文件名：</system:String>
+    <system:String x:Key="NewVersionZipFileBrokenDescFilename" xml:space="preserve">文件名: </system:String>
     <system:String x:Key="NewVersionZipFileBrokenDescDeleted">已将其删除！</system:String>
 
     <system:String x:Key="AlreadyLatest">已是最新版本~</system:String>
@@ -243,7 +243,10 @@
 
     <system:String x:Key="SocialPtShop">信用交易所自动购物</system:String>
     <system:String x:Key="CreditFight">借助战打 OF-1 赚信用</system:String>
-    <system:String x:Key="CreditFightTip" xml:space="preserve">访问好友后借助战打一把OF-1赚30信用。&#x0a;一日只执行一次。&#x0a;关卡选择为「当前/上次」时此功能无效。&#x0a;别传「火蓝之心」关卡OF-1未解锁时请勿勾选。</system:String>
+    <system:String x:Key="CreditFightTip" xml:space="preserve">访问好友后借助战打一把OF-1赚30信用。
+一日只执行一次。
+关卡选择为「当前/上次」时此功能无效。
+别传「火蓝之心」关卡OF-1未解锁时请勿勾选。</system:String>
     <system:String x:Key="HighPriority">优先购买 子串即可 分号分隔</system:String>
     <system:String x:Key="Blacklist">黑名单 子串即可 分号分隔</system:String>
     <system:String x:Key="HighPriorityDefault">招聘许可</system:String>
@@ -331,8 +334,8 @@
     <system:String x:Key="ClosedStage">活动未开放</system:String>
     <system:String x:Key="UnsupportedStages">不支持的关卡</system:String>
     <system:String x:Key="LowVersion">版本过低</system:String>
-    <system:String x:Key="MinimumRequirements">最低需求：</system:String>
-    <system:String x:Key="Daysleftopen">剩余开放天数：</system:String>
+    <system:String x:Key="MinimumRequirements" xml:space="preserve">最低需求: </system:String>
+    <system:String x:Key="Daysleftopen" xml:space="preserve">剩余开放天数: </system:String>
     <system:String x:Key="LessThanOneDay">不到 1 天</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龙门币-6/5</system:String>
@@ -352,7 +355,7 @@
 
     <system:String x:Key="Annihilation">剿灭模式</system:String>
 
-    <system:String x:Key="TodaysStageTip">今日关卡小提示：</system:String>
+    <system:String x:Key="TodaysStageTip" xml:space="preserve">今日关卡小提示: </system:String>
     <system:String x:Key="CETip">CE（龙门币）</system:String>
     <system:String x:Key="APTip">AP（红票）</system:String>
     <system:String x:Key="CATip">CA（技能）</system:String>
@@ -389,7 +392,7 @@
 
     <!--  公招识别  -->
     <system:String x:Key="RecruitmentRecognition">公招识别</system:String>
-    <system:String x:Key="RecruitmentRecognitionTip">小提示：和主界面的自动公招是两个独立的功能，请手动打开游戏公招 Tags 界面后使用~</system:String>
+    <system:String x:Key="RecruitmentRecognitionTip">小提示: 和主界面的自动公招是两个独立的功能，请手动打开游戏公招 Tags 界面后使用~</system:String>
     <system:String x:Key="AutoSettingTime">自动设置时间</system:String>
     <system:String x:Key="RecruitmentShowPotential">显示干员潜能（四星及以上）</system:String>
     <system:String x:Key="RecruitmentShowPotentialTips">请使用“干员识别”获取干员信息</system:String>
@@ -412,7 +415,7 @@
     <!--  干员识别  -->
     <system:String x:Key="OperBoxRecognition">干员识别</system:String>
     <system:String x:Key="OperBoxRecognitionTip">该功能尚处于测试阶段，若统计有误，欢迎打包 debug/oper 文件后向我们提交issue ~</system:String>
-    <system:String x:Key="OperBoxRecognitionResult">未拥有：{0} 名：\n\n{1}\n\n已拥有：{2} 名：\n\n{3}</system:String>
+    <system:String x:Key="OperBoxRecognitionResult">未拥有: {0} 名: \n\n{1}\n\n已拥有: {2} 名: \n\n{3}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">开始识别</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">复制到剪切板</system:String>
     <!--  干员识别  -->
@@ -474,7 +477,7 @@
 
     <!--  日志  -->
     <system:String x:Key="CopilotTip">
-        小提示：\n\n
+        小提示: \n\n
         1. 请在有“开始行动”按钮的界面再使用本功能；\n\n
         2. 使用好友助战可以关闭“自动编队”，手动选择干员后开始；\n\n
         3. 模拟悖论需要关闭“自动编队”，并选好技能后处于“开始模拟”按钮的界面再开始；\n\n
@@ -498,7 +501,7 @@
     <system:String x:Key="ErrorProlog">MAA 遇到了问题</system:String>
     <system:String x:Key="ErrorDetails">详细信息</system:String>
     <system:String x:Key="ErrorSolution">解决方案</system:String>
-    <system:String x:Key="ErrorSolutionCrash">请参考文档：常见问题 - 闪退 进行操作</system:String>
+    <system:String x:Key="ErrorSolutionCrash">请参考文档: 常见问题 - 闪退 进行操作</system:String>
     <system:String x:Key="ErrorSolutionReplaceADB">请关闭模拟器与 ADB 或重启电脑后使用管理员权限打开 MAA 进行操作</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">文件被占用，请重启电脑后重试</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">创建 GitHub issue</system:String>
@@ -522,11 +525,11 @@
     <system:String x:Key="TouchModeNotAvailable">触控模式不可用。请进入 设置 - 连接设置 切换其他触控模式</system:String>
     <system:String x:Key="ScreencapFailed">截图失败，如反复出现请尝试重启或更换模拟器！</system:String>
     <system:String x:Key="IdentifyTheMistakes">识别错误</system:String>
-    <system:String x:Key="TaskError">任务出错：</system:String>
+    <system:String x:Key="TaskError" xml:space="preserve">任务出错: </system:String>
     <system:String x:Key="CombatError">战斗出错</system:String>
-    <system:String x:Key="StartTask">开始任务：</system:String>
-    <system:String x:Key="CompleteTask">完成任务：</system:String>
-    <system:String x:Key="StartCombat">开始战斗：</system:String>
+    <system:String x:Key="StartTask" xml:space="preserve">开始任务: </system:String>
+    <system:String x:Key="CompleteTask" xml:space="preserve">完成任务: </system:String>
+    <system:String x:Key="StartCombat" xml:space="preserve">开始战斗: </system:String>
     <system:String x:Key="CompleteCombat">完成战斗</system:String>
     <system:String x:Key="AllTasksComplete">任务已全部完成！</system:String>
     <system:String x:Key="BackgroundLinkStarted">开始执行任务</system:String>
@@ -557,20 +560,20 @@
     <system:String x:Key="RoguelikeGamePass">肉鸽通关啦！</system:String>
     <system:String x:Key="RoguelikeSpecialItemBought">购买了特殊商品！</system:String>
     <system:String x:Key="SSSGamePass">保全通关啦！</system:String>
-    <system:String x:Key="Trader">关卡：诡意行商</system:String>
-    <system:String x:Key="SafeHouse">关卡：安全的角落</system:String>
-    <system:String x:Key="Encounter">关卡：不期而遇</system:String>
-    <system:String x:Key="CambatDps">关卡：普通作战</system:String>
-    <system:String x:Key="EmergencyDps">关卡：紧急作战</system:String>
-    <system:String x:Key="DreadfulFoe">关卡：险路恶敌</system:String>
+    <system:String x:Key="Trader">关卡: 诡意行商</system:String>
+    <system:String x:Key="SafeHouse">关卡: 安全的角落</system:String>
+    <system:String x:Key="Encounter">关卡: 不期而遇</system:String>
+    <system:String x:Key="CambatDps">关卡: 普通作战</system:String>
+    <system:String x:Key="EmergencyDps">关卡: 紧急作战</system:String>
+    <system:String x:Key="DreadfulFoe">关卡: 险路恶敌</system:String>
     <system:String x:Key="NoDrop">无</system:String>
-    <system:String x:Key="Drop">本次掉落：</system:String>
-    <system:String x:Key="TotalDrop">掉落统计：</system:String>
-    <system:String x:Key="ThisFacility">当前设施：</system:String>
+    <system:String x:Key="Drop" xml:space="preserve">本次掉落: </system:String>
+    <system:String x:Key="TotalDrop" xml:space="preserve">掉落统计: </system:String>
+    <system:String x:Key="ThisFacility" xml:space="preserve">当前设施: </system:String>
     <system:String x:Key="ProductIncorrect">产物与配置不相符</system:String>
     <system:String x:Key="ProductUnknown">无法识别的产物</system:String>
     <system:String x:Key="ProductChanged">产物已切换</system:String>
-    <system:String x:Key="RecruitingResults">公招识别结果：</system:String>
+    <system:String x:Key="RecruitingResults" xml:space="preserve">公招识别结果: </system:String>
     <system:String x:Key="RecruitingTips">公招提示</system:String>
     <system:String x:Key="RecruitmentOfStar">公招出 {0} 星了哦！</system:String>
     <system:String x:Key="RecruitmentOfBot">公招出小车了哦！</system:String>
@@ -579,10 +582,10 @@
     <system:String x:Key="NotEnoughStaff">可用干员不足</system:String>
     <system:String x:Key="StageInfoError">关卡识别错误</system:String>
     <system:String x:Key="BattleFormation">开始编队</system:String>
-    <system:String x:Key="BattleFormationSelected">选择干员：</system:String>
-    <system:String x:Key="CurrentSteps">当前步骤：{0} {1}</system:String>
+    <system:String x:Key="BattleFormationSelected" xml:space="preserve">选择干员: </system:String>
+    <system:String x:Key="CurrentSteps">当前步骤: {0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">不支持的关卡，请更新 MAA 软件版本！\n不支持的关卡，请更新 MAA 软件版本！\n不支持的关卡，请更新 MAA 软件版本！\n\n若提示已是最新版本，请尝试检查公测版或内测版。</system:String>
-    <system:String x:Key="RecruitTagsDetected">识别结果：</system:String>
+    <system:String x:Key="RecruitTagsDetected" xml:space="preserve">识别结果: </system:String>
     <system:String x:Key="ConnectFailed">连接失败</system:String>
     <system:String x:Key="TryToStartEmulator">正在尝试启动模拟器</system:String>
     <system:String x:Key="RestartADB">正在尝试重启 ADB</system:String>
@@ -596,7 +599,7 @@
 
     <!--  About  -->
     <system:String x:Key="Website">MAA 官网</system:String>
-    <system:String x:Key="Github">源码：GitHub</system:String>
+    <system:String x:Key="Github">源码: GitHub</system:String>
     <system:String x:Key="PrtsPlus">自动战斗作业分享</system:String>
     <system:String x:Key="MapPrts">自动战斗地图坐标</system:String>
     <system:String x:Key="CustomInfrastGenerator">自定义基建排班制作器</system:String>
@@ -632,7 +635,7 @@
     <!--  VersionUpdatePopup  -->
     <system:String x:Key="UpdateNotificationOK">好的！</system:String>
     <system:String x:Key="VersionUpdated">版本已更新</system:String>
-    <system:String x:Key="VersionUpdatedTo">已更新：</system:String>
+    <system:String x:Key="VersionUpdatedTo" xml:space="preserve">已更新: </system:String>
     <!--  VersionUpdatePopup  -->
 
     <!--  RootViewModel  -->
