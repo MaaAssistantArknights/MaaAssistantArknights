@@ -8,6 +8,9 @@
         ],
         "template": "Task.png"
     },
+    "UsePrts": {
+        "templThreshold": 0.7
+    },
     "BattleStageName": {
         "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
         "ocrReplace": [
@@ -904,7 +907,7 @@
                 "Midnight",
                 "月见夜"
             ],
-			[
+            [
                 "Reserve Operator  Melee",
                 "Reserve Operator - Melee"
             ],
@@ -984,11 +987,11 @@
                 "Orchid",
                 "梓兰"
             ],
-			[
+            [
                 "Reserve Operator  Caster",
                 "Reserve Operator - Caster"
             ],
-			[
+            [
                 "Reserve Operator -- Ca",
                 "Reserve Operator - Caster"
             ],
@@ -1076,7 +1079,7 @@
                 "Honeyberry",
                 "蜜莓"
             ],
-			[
+            [
                 "Reserve Operator  Logistics",
                 "Reserve Operator - Logistics"
             ],
@@ -1300,7 +1303,7 @@
                 "Rangers",
                 "巡林者"
             ],
-			[
+            [
                 "Reserve Operator  Sniper",
                 "Reserve Operator - Sniper"
             ],
@@ -2100,11 +2103,11 @@
                 "Minimalist",
                 "至简"
             ],
-			[
+            [
                 "Poz.*mka",
                 "鸿雪"
             ],
-			[
+            [
                 "Gavial the.*",
                 "百炼嘉维尔"
             ],
@@ -2132,7 +2135,7 @@
                 "Entitative Program Controller",
                 "实体程式控制"
             ],
-			[
+            [
                 "Reserve Operator  Defender",
                 "Reserve Operator - Defender"
             ],
