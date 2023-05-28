@@ -1,0 +1,570 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="clr-namespace:System;assembly=mscorlib">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary x:Uid="RootViewModel">
+            <s:String x:Key="Farming">スタート</s:String>
+            <s:String x:Key="Copilot">自動戦闘</s:String>
+            <s:String x:Key="Toolbox">ツールボックス</s:String>
+            <s:String x:Key="Settings">設定</s:String>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Uid="Settings">
+            <s:String x:Key="GeneralSettings">一般設定</s:String>
+            <s:String x:Key="AdvancedSettings">高度な設定</s:String>
+            <s:String x:Key="GameSettings">対象クライアント</s:String>
+            <s:String x:Key="BaseSettings">基地設定</s:String>
+            <s:String x:Key="RoguelikeSettings">統合戦略設定</s:String>
+            <s:String x:Key="RecruitingSettings">公開求人設定</s:String>
+            <s:String x:Key="MallSettings">FP設定</s:String>
+            <s:String x:Key="OtherCombatSettings">戦闘設定</s:String>
+            <s:String x:Key="ConnectionSettings">接続設定</s:String>
+            <s:String x:Key="StartupSettings">起動設定</s:String>
+            <s:String x:Key="ScheduleSettings">スケジュール実行設定</s:String>
+            <s:String x:Key="UISettings">UI設定</s:String>
+            <s:String x:Key="HotKeySettings">ホットキー設定</s:String>
+            <s:String x:Key="UpdateSettings">アップデート設定</s:String>
+            <s:String x:Key="AboutUs">About</s:String>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Uid="SettingsGuide">
+            <s:String x:Key="TaskSettings">タスク設定</s:String>
+            <s:String x:Key="SettingsGuide">設定ガイド</s:String>
+            <s:String x:Key="PrevGuide">前へ</s:String>
+            <s:String x:Key="NextGuide">次へ</s:String>
+            <s:String x:Key="DoneGuide">完了</s:String>
+            <s:String x:Key="ToolTipGuide">マウスを乗せるとヒントあり↓→</s:String>
+            <s:String x:Key="TaskGuide">↑タスク</s:String>
+            <s:String x:Key="OftenUsedGuide">↓よく使われる</s:String>
+            <s:String x:Key="SometimesUsedGuide">あまり使われていない↑</s:String>
+            <s:String x:Key="LinkStartGuide">← タスクを開始</s:String>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Uid="BaseSettings">
+            <s:String x:Key="Dorm">宿舎</s:String>
+            <s:String x:Key="Mfg">製造所</s:String>
+            <s:String x:Key="Trade">貿易所</s:String>
+            <s:String x:Key="Power">発電所</s:String>
+            <s:String x:Key="Reception">応接室</s:String>
+            <s:String x:Key="Office">事務所</s:String>
+            <s:String x:Key="Control">制御中枢</s:String>
+
+            <s:String x:Key="DroneUsage">ドローンの使用</s:String>
+            <s:String x:Key="DronesNotUse">ドローンを使わない</s:String>
+            <s:String x:Key="Money">貿易所-龍門幣</s:String>
+            <s:String x:Key="SyntheticJade">貿易所-合成玉</s:String>
+            <s:String x:Key="CombatRecord">製造所-作戦記録</s:String>
+            <s:String x:Key="PureGold">製造所-純金</s:String>
+            <s:String x:Key="OriginStone">製造所-源石の欠片</s:String>
+            <s:String x:Key="Chip">製造所-中級SoC</s:String>
+
+            <s:String x:Key="DormTrustEnabled">宿舎の空き位置で信頼を上げる</s:String>
+            <s:String x:Key="DormFilterNotStationedEnabled">作業中の人員を宿舎に移動しない（例:訓練所でのアイリーニなど）</s:String>
+            <s:String x:Key="OriginiumShardAutoReplenishment">源石の欠片を自動で補充</s:String>
+
+            <s:String x:Key="DormThreshold">体力が設定した%以下になれば宿舎へ移動する</s:String>
+            <s:String x:Key="InfrastThresholdTip">カスタムシフトが有効な場合、この項目は自動入力された部屋に対してのみ有効です。</s:String>
+
+            <s:String x:Key="CustomInfrastEnabled">カスタムされた基地構成を有効にする（ベータ）</s:String>
+            <s:String x:Key="DefaultInfrast">標準設定</s:String>
+            <s:String x:Key="UserDefined">ユーザー定義</s:String>
+            <s:String x:Key="153_3">153 3周/日</s:String>
+            <s:String x:Key="243_3">243 3周/日</s:String>
+            <s:String x:Key="243_4">243 4周/日</s:String>
+            <s:String x:Key="252_3">252 3周/日</s:String>
+            <s:String x:Key="333_3">333 3周/日</s:String>
+            <s:String x:Key="CustomInfrastFile">基地構成ファイルの指定</s:String>
+            <s:String x:Key="CustomInfrastFileParseFailed">基地構成ファイルのパースエラー！</s:String>
+            <s:String x:Key="CustomInfrastTitle">基地構成ファイルの設定：</s:String>
+            <s:String x:Key="CustomInfrastPlan">基地計画</s:String>
+            <s:String x:Key="CustomInfrastPlanIndexAutoSwitch">次の計画を自動保存</s:String>
+            <s:String x:Key="CustomizeInfrastSelectionEmpty">カスタム施設設定が空です。設定を確認するか、カスタマイズ機能をオフにしてください。</s:String>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Uid="ConnectionSettings">
+            <s:String x:Key="General">一般モード</s:String>
+            <s:String x:Key="BlueStacks">BlueStacks</s:String>
+            <s:String x:Key="MuMuEmulator">MuMuPlayer</s:String>
+            <s:String x:Key="MuMuEmulator12">MuMuPlayer 12</s:String>
+            <s:String x:Key="LDPlayer">LDPlayer</s:String>
+            <s:String x:Key="Nox">NoxPlayer</s:String>
+            <s:String x:Key="XYAZ">MEmu</s:String>
+            <s:String x:Key="WSA">古いバージョンのWSA</s:String>
+            <s:String x:Key="MaaTouch">MaaTouch</s:String>
+            <s:String x:Key="Compatible">互換モード</s:String>
+            <s:String x:Key="GeneralWithoutScreencapErr">一般モード（ブロックされた例外出力）</s:String>
+
+            <s:String x:Key="AutoDetectConnection">接続自動認識</s:String>
+            <s:String x:Key="AutoDetectConnectionTip">このチェックボックスは、検出が完了するたびに自動的にチェックが外れますが、再検出が必要な場合は再度チェックを入れることができます</s:String>
+            <s:String x:Key="AlwaysAutoDetectConnection">毎回再検出する</s:String>
+            <s:String x:Key="ADBPath">adbパス（相対/絶対）</s:String>
+            <s:String x:Key="ConnectionAddress">接続先アドレス</s:String>
+            <s:String x:Key="ConnectionAddressTip">問題があれば手動で修正してください。</s:String>
+            <s:String x:Key="ConnectionPreset">接続構成</s:String>
+            <s:String x:Key="RetryOnDisconnected">adb再接続失敗時にエミュレータを自動で再起動</s:String>
+            <s:String x:Key="RetryOnDisconnectedTip">再接続に20回失敗した後、エミュレータを再起動してみてください，バックグラウンドのタイムドタスクを使用し、終了時にエミュレータを終了させるタスクを設定する場合は、必ずチェックを入れること</s:String>
+
+            <s:String x:Key="DeploymentWithPause">統合戦略/保全駐在でポーズトリックを使用します（ベータ機能のため非推奨です）</s:String>
+            <s:String x:Key="AdbLiteEnabled">軽量Adbを使用(実験機能)</s:String>
+            <s:String x:Key="RoguelikeTheme">主題</s:String>
+            <s:String x:Key="RoguelikeThemePhantom">ファントム</s:String>
+            <s:String x:Key="RoguelikeThemeMizuki">ミヅキ</s:String>
+            <s:String x:Key="Strategy">ストラテジー</s:String>
+            <s:String x:Key="StartTimesLimit">冒険をN回始めた後に停止する</s:String>
+            <s:String x:Key="GoldTimesLimit">N回投資した後に停止する</s:String>
+            <s:String x:Key="StopOnGoldLimit">源石錐が上限に達した後に停止する</s:String>
+            <s:String x:Key="InvestmentEnabled">源石錐を投資する</s:String>
+            <s:String x:Key="RoguelikeStrategyExp">経験値を取得し、できるだけクリア</s:String>
+            <s:String x:Key="RoguelikeStrategyGold">源石錐の収集、2階到着後終了</s:String>
+            <s:String x:Key="StartingSquad">最初の分隊</s:String>
+            <s:String x:Key="StartingRoles">最初の職業</s:String>
+            <s:String x:Key="StartingCoreChar">最初のオペレーター（一人だけ、中国名のみを入力可能）</s:String>
+            <s:String x:Key="StartingCoreCharTip">一人のオペレーターの中国名のみをサポートします。入力されていない場合はデフォルトになります。</s:String>
+            <s:String x:Key="RoguelikeUseSupportUnit">&quot;最初のオペレーター&quot;をサポートから選択</s:String>
+            <s:String x:Key="RoguelikeUseNonFriendSupport">フレンド以外のサポートの使用を許可</s:String>
+
+            <s:String x:Key="DefaultSquad">デフォルト</s:String>
+            <s:String x:Key="IS2NewSquad1">（ミヅキ）心胜于物分队</s:String>
+            <s:String x:Key="IS2NewSquad2">（ミヅキ）物尽其用分队</s:String>
+            <s:String x:Key="IS2NewSquad3">（ミヅキ）以人为本分队</s:String>
+            <s:String x:Key="LeaderSquad">指揮分隊</s:String>
+            <s:String x:Key="GatheringSquad">集団分隊</s:String>
+            <s:String x:Key="SupportSquad">支援分隊</s:String>
+            <s:String x:Key="SpearheadSquad">先鋒分隊</s:String>
+            <s:String x:Key="TacticalAssaultOperative">突撃戦術分隊</s:String>
+            <s:String x:Key="TacticalFortificationOperative">要塞戦術分隊</s:String>
+            <s:String x:Key="TacticalRangedOperative">援護戦術分隊</s:String>
+            <s:String x:Key="TacticalDestructionOperative">破壊戦術分隊</s:String>
+            <s:String x:Key="ResearchSquad">研究分隊</s:String>
+            <s:String x:Key="First-ClassSquad">高規格分隊</s:String>
+
+            <s:String x:Key="DefaultRoles">デフォルト</s:String>
+            <s:String x:Key="FirstMoveAdvantage">先手必勝</s:String>
+            <s:String x:Key="SlowAndSteadyWinsTheRace">攻守一体</s:String>
+            <s:String x:Key="OvercomingYourWeaknesses">前線支援</s:String>
+            <s:String x:Key="AsYourHeartDesires">自由自在</s:String>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Uid="GameSettings">
+            <s:String x:Key="ClientType">クライアントバージョン</s:String>
+            <s:String x:Key="NotSelected">選ばない</s:String>
+            <s:String x:Key="Official">CN-公式</s:String>
+            <s:String x:Key="Bilibili">Bilibili</s:String>
+            <s:String x:Key="YoStarEN">YoStarEN</s:String>
+            <s:String x:Key="YoStarJP">YoStarJP</s:String>
+            <s:String x:Key="YoStarKR">YoStarKR</s:String>
+            <s:String x:Key="txwy">txwy</s:String>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Uid="UISettings">
+            <s:String x:Key="MinimizeToTray">最小化した際にトレイに表示</s:String>
+            <s:String x:Key="SystemNotification">重要な通知をポップアップする</s:String>
+            <s:String x:Key="MainViewButtonFeature">スタート画面に表示する便利ボタン</s:String>
+            <s:String x:Key="Switchable">切り替え可能</s:String>
+
+            <s:String x:Key="SwitchLanguage">言語を切り替える</s:String>
+            <s:String x:Key="Language">言語</s:String>
+            <s:String x:Key="LanguageChangedTip">言語設定が変更されました、今すぐMAAを再起動して言語設定を適用しますか？</s:String>
+
+            <s:String x:Key="HotKeyShowGui">[ホットキー] MAAの表示/最小化</s:String>
+            <s:String x:Key="HotKeyLinkStart">[ホットキー] Link 開始/停止</s:String>
+            <s:String x:Key="HotKeyChangingTip">バックスペース/Esc/デリート キーを押すことで初期化できます</s:String>
+
+            <s:String x:Key="Exit">終了</s:String>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Uid="UpdateSettings">
+            <s:String x:Key="Version">バージョン</s:String>
+
+            <s:String x:Key="StartupUpdateCheck">起動時の更新チェック</s:String>
+            <s:String x:Key="UpdatAutoCheck">定期的な更新チェック</s:String>
+            <s:String x:Key="UpdateAutoDownload">自動アップデート</s:String>
+            <s:String x:Key="UpdateCheckStable">安定版</s:String>
+            <s:String x:Key="UpdateCheckBeta">ベータ版</s:String>
+            <s:String x:Key="UpdateCheckNightly">内部テスト版</s:String>
+            <s:String x:Key="UpdateCheck">Update version</s:String>
+            <s:String x:Key="DownloadWithAria2">aria2を使う</s:String>
+            <s:String x:Key="UpdateCheckNow">アップデートを確認する</s:String>
+            <s:String x:Key="Timer">タイマー</s:String>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Uid="StartupSettings">
+            <s:String x:Key="LaunchOnSystemStartup">スタートアップ</s:String>
+            <s:String x:Key="RunTaskAfterLaunch">アプリの起動時に自動的に実行</s:String>
+            <s:String x:Key="MinimizeAfterLaunch">アプリの起動時に自動的に最小化</s:String>
+            <s:String x:Key="AutoRestartOption">ゲームが切断されたときに自動的に再接続する</s:String>
+            <s:String x:Key="OpenEmulatorAfterLaunch">起動時にエミュレータ自動起動</s:String>
+            <s:String x:Key="MinimizingStartup">エミュレーターの起動を最小化する</s:String>
+            <s:String x:Key="WaitForEmulator">エミュレータを待つ時間（秒）</s:String>
+            <s:String x:Key="WaitForEmulatorFinish">待ち時間は終わりました</s:String>
+            <s:String x:Key="EmulatorPath">エミュレータパス</s:String>
+            <s:String x:Key="Select">選択</s:String>
+            <s:String x:Key="ForcedReplaceADB">ADB強制置き換え</s:String>
+            <s:String x:Key="TouchMode">タッチモード</s:String>
+            <s:String x:Key="MiniTouchMode">Minitouch (標準)</s:String>
+            <s:String x:Key="MaaTouchMode">MaaTouch (実験機能)</s:String>
+            <s:String x:Key="AdbTouchMode">Adb Input (互換性)</s:String>
+            <s:String x:Key="AdditionCommand">追加コマンド</s:String>
+            <s:String x:Key="UseSanityPotion">理性剤使用数</s:String>
+            <s:String x:Key="UseOriginitePrime">割る源石の数*</s:String>
+            <s:String x:Key="PerformBattles">周回数指定*</s:String>
+            <s:String x:Key="AssignedMaterial">素材を限定</s:String>
+            <s:String x:Key="Quantity">ドロップ数</s:String>
+            <s:String x:Key="StageSelect">ステージ</s:String>
+            <s:String x:Key="StageSelect2">代替ステージ</s:String>
+            <s:String x:Key="RemainingSanityStage">余剰理性の消費</s:String>
+            <s:String x:Key="NoUse">使用しない</s:String>
+            <!--<s:String x:Key="Amend">設定の変更</s:String>-->
+
+            <!--<s:String x:Key="CurrentStage">現在ステージ</s:String>
+            <s:String x:Key="LastBattle">前回ステージ</s:String>-->
+            <s:String x:Key="DefaultStage">現在/前回</s:String>
+            <s:String x:Key="ClosedStage">イベントは未公開か既に終了</s:String>
+            <s:String x:Key="UnsupportedStages">未サポートステージ</s:String>
+            <s:String x:Key="LowVersion">更新必要</s:String>
+            <s:String x:Key="MinimumRequirements">最低バージョン要件：</s:String>
+            <s:String x:Key="Daysleftopen" xml:space="preserve">公開日まで: </s:String>
+            <s:String x:Key="LessThanOneDay">1日以内</s:String>
+            <s:String x:Key="1-7">1-7</s:String>
+            <s:String x:Key="CE-6">龍門幣-6(CE-6)</s:String>
+            <s:String x:Key="AP-5">購買資格証-5(AP-5)</s:String>
+            <s:String x:Key="CA-5">アーツ学-5(CA-5)</s:String>
+            <s:String x:Key="LS-6">作戦記録-6(LS-6)</s:String>
+            <s:String x:Key="SK-5">炭素材-5(SK-5)</s:String>
+
+            <s:String x:Key="PR-A-1">医療/重装SoC・初</s:String>
+            <s:String x:Key="PR-A-2">医療/重装SoC・中</s:String>
+            <s:String x:Key="PR-B-1">術師/狙撃SoC・初</s:String>
+            <s:String x:Key="PR-B-2">術師/狙撃SoC・中</s:String>
+            <s:String x:Key="PR-C-1">先鋒/補助SoC・初</s:String>
+            <s:String x:Key="PR-C-2">先鋒/補助SoC・中</s:String>
+            <s:String x:Key="PR-D-1">前衛/特殊SoC・初</s:String>
+            <s:String x:Key="PR-D-2">前衛/特殊SoC・中</s:String>
+
+            <s:String x:Key="Annihilation">殲滅作戦</s:String>
+
+            <s:String x:Key="PenguinID">Penguin-StatsのレポートのID（デジタル部分のみ）</s:String>
+            <s:String x:Key="DrGrandet">Dr.グランデのように源石を使う</s:String>
+            <s:String x:Key="DrGrandetTip">純正源石使用確認画面で理性が1回復するのを待って、純正源石を使用します</s:String>
+            <s:String x:Key="CustomStageCode">ステージ名を入力する</s:String>
+            <s:String x:Key="CustomStageCodeTip" xml:space="preserve">(テスト機能)ステージ名と番号（例：4-10、AP-5、H10-1-Hardなど）の両方がサポートされています。レベルの最後に&quot;Normal/Hard&quot;を入力することで、標準とハードの難易度を切り替えることができます。</s:String>
+            <s:String x:Key="UseAlternateStage">代替ステージを選択可能にする</s:String>
+            <s:String x:Key="UseRemainingSanityStage">余剰理性の使用</s:String>
+            <s:String x:Key="UseRemainingSanityStageTip">メインタスク終了後に指定されたレベルを選択しても、自動的に理性を回復しません</s:String>
+            <s:String x:Key="UseExpiringMedicine">48時間以内に期限が切れる理性剤を無制限に使用</s:String>
+            <s:String x:Key="HideUnavailableStage">当日開放されないステージを隠す</s:String>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Uid="MallSettings">
+            <s:String x:Key="SocialPtShop">FP交換</s:String>
+            <s:String x:Key="CreditFight">サポートを借りて戦闘を行いポイントを獲得します</s:String>
+            <s:String x:Key="CreditFightTip" xml:space="preserve">基地訪問後、OF-1でサポートを使用すると、30クレジット獲得できます。&#x0a;この機能は、ステージを現在/前回に選択している場合は無効です。</s:String>
+            <s:String x:Key="HighPriority">優先購入（セミコロンで区切）</s:String>
+            <s:String x:Key="Blacklist">ブラックリスト（セミコロンで区切）</s:String>
+            <s:String x:Key="HighPriorityDefault">求人票</s:String>
+            <s:String x:Key="BlacklistDefault">炭素材;家具;緊急招集票</s:String>
+            <s:String x:Key="Drink">飲み物はいかがですか🍷？ドクター</s:String>
+            <s:String x:Key="ForceShoppingIfCreditFull">クレジットがあふれた際はブラックリストを無視する</s:String>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Uid="RecruitingSettings">
+            <s:String x:Key="AutoRefresh">星3タグを自動的に更新する</s:String>
+            <s:String x:Key="AutoUseExpedited">緊急招集票を自動的に使用*</s:String>
+            <s:String x:Key="Level3UseShortTime">星3タグを7:40に設定する</s:String>
+            <s:String x:Key="Level3UseShortTimeTip">他のレアリティには影響しない</s:String>
+            <s:String x:Key="RecruitMaxTimes">1回の実行あたりの求人の最大回数</s:String>
+            <s:String x:Key="ManuallySelectLevel1">ロボットを手動的に確認する</s:String>
+            <s:String x:Key="AutoSelectLevel3">星3を自動的に確認する</s:String>
+            <s:String x:Key="AutoSelectLevel4">星4を自動的に確認する</s:String>
+            <s:String x:Key="AutoSelectLevel5">星5を自動的に確認する</s:String>
+            <s:String x:Key="AutoSelectLevel6">星6を自動的に確認する</s:String>
+            <s:String x:Key="Level1Tip">チェックの際に星1タグが特定された場合、募集はスキップされ、チェックされていない場合、星1タグは無視されます。</s:String>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Uid="Farming">
+            <s:String x:Key="WakeUp">ウェイクアップ</s:String>
+            <s:String x:Key="Recruiting">公開求人</s:String>
+            <s:String x:Key="Base">基地仕事</s:String>
+            <s:String x:Key="Combat">作戦</s:String>
+            <s:String x:Key="Visiting">戦友訪問</s:String>
+            <s:String x:Key="Mall">FP獲得と交換</s:String>
+            <s:String x:Key="Mission">報酬受取</s:String>
+            <s:String x:Key="AutoRoguelike">自動ローグ</s:String>
+
+            <s:String x:Key="SelectAll">全て選択</s:String>
+            <s:String x:Key="Inverse">逆選択</s:String>
+            <s:String x:Key="Clear">解除</s:String>
+
+            <s:String x:Key="Then">完了後</s:String>
+            <s:String x:Key="DoNothing">何もしない</s:String>
+            <s:String x:Key="ExitArknights">アークナイツを終了する</s:String>
+            <s:String x:Key="ExitSelf">MAAを終了する</s:String>
+            <s:String x:Key="ExitEmulator">エミュレータを終了する</s:String>
+            <s:String x:Key="ExitEmulatorAndSelf">MAAとエミュレータを終了する</s:String>
+            <s:String x:Key="ExitEmulatorAndSelfAndHibernate">MAAとエミューレータを終了し、PCをスリープさせる</s:String>
+            <s:String x:Key="Hibernate">休止状態にする</s:String>
+            <s:String x:Key="Shutdown">シャットダウン</s:String>
+
+            <s:String x:Key="LinkStart">Link Start!</s:String>
+            <s:String x:Key="Stop">止める</s:String>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Uid="Tip">
+            <s:String x:Key="LabelSequenceTip">タブの順番はドラッグ可能です</s:String>
+            <s:String x:Key="CheckBoxesNotSaved">このオプション設定は再起動後に保存されません</s:String>
+            <s:String x:Key="NoAutoNavigation">このオプションは、対応するステージに自動的に移動するものではありません</s:String>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Uid="TodaysStageTip">
+            <s:String x:Key="TodaysStageTip">今日のステージのヒント：</s:String>
+            <s:String x:Key="CETip">CE（龍門幣）</s:String>
+            <s:String x:Key="APTip">AP（購買資格証）</s:String>
+            <s:String x:Key="CATip">CA（アーツ学）</s:String>
+            <s:String x:Key="LSTip">LS（作戦記録）</s:String>
+            <s:String x:Key="SKTip">SK（炭素材）</s:String>
+            <s:String x:Key="PR-ATip">PR-A（医療/重装SoC）</s:String>
+            <s:String x:Key="PR-BTip">PR-B（術師/狙撃SoC）</s:String>
+            <s:String x:Key="PR-CTip">PR-C（先鋒/補助SoC）</s:String>
+            <s:String x:Key="PR-DTip">PR-D（前衛/特殊SoC）</s:String>
+            <s:String x:Key="Pormpt1">月曜です。殲滅作戦がリセットされています！</s:String>
+            <s:String x:Key="Pormpt2">日曜です。殲滅作戦は忘れてないですか？</s:String>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Uid="Copilot">
+            <s:String x:Key="CopilotLocation">攻略ファイルパス/ミステリーコード</s:String>
+            <s:String x:Key="SelectTheFile">ファイル選択</s:String>
+            <s:String x:Key="SelectTheFileTip">攻略ファイルはマウスで直接ドラッグして取り込むことがきます(oﾟvﾟ)ノ</s:String>
+            <s:String x:Key="ThanksForLikeWebJson">感謝評価！\nウェブページには既にコメント欄が開放されており、あなたのコメントをお待ちしております！</s:String>
+            <s:String x:Key="AutoSquad">自動編成</s:String>
+            <s:String x:Key="LoopTimes">ループ回数</s:String>
+            <s:String x:Key="AutoSquadTip">自動編成では、一時的に「戦術要員」オペレーターを認識できません</s:String>
+
+            <s:String x:Key="Start">開始</s:String>
+
+            <s:String x:Key="VideoLink">ビデオハイパーリンク</s:String>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Uid="RecruitmentRecognition">
+            <s:String x:Key="RecruitmentRecognition">公開求人認識</s:String>
+            <s:String x:Key="RecruitmentRecognitionTip">ヒント：スタート画面の公開求人とは、別々の機能になっています。使用する前にゲームの公開求人を手動で開いてください</s:String>
+            <s:String x:Key="AutoSettingTime">募集期間を自動的に設定する</s:String>
+            <s:String x:Key="AutoSelectLevel3Tags">星3タグを自動的に選択する</s:String>
+            <s:String x:Key="AutoSelectLevel4Tags">星4タグを自動的に選択する</s:String>
+            <s:String x:Key="AutoSelectLevel5Tags">星5タグを自動的に選択する</s:String>
+            <s:String x:Key="AutoSelectLevel6Tags">星6タグを自動的に選択する</s:String>
+            <s:String x:Key="StartToRecruit">認識開始</s:String>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Uid="DepotRecognition">
+            <s:String x:Key="DepotRecognition">倉庫アイテム認識</s:String>
+            <s:String x:Key="DepotRecognitionTip">この機能はまだテスト版です。倉庫を開いた後、素材のタブを選択してから認識を行い、結果が正しいかどうか確認してください。エラーが発生した場合は、debug/depotフォルダを作業パスに圧縮して、issueを提出してください。</s:String>
+            <s:String x:Key="StartToDepotRecognition">認識開始</s:String>
+            <s:String x:Key="ExportToArkplanner">Arkplannerへ出力</s:String>
+            <s:String x:Key="ExportToLolicon">Loliconへ出力</s:String>
+            <s:String x:Key="CopiedToClipboard">クリップボードへコピー</s:String>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Uid="OperBoxRecognition">
+            <s:String x:Key="ConnectingToEmulator">エミュレータ接続中……</s:String>
+            <s:String x:Key="UnselectedTask">タスクが選択されていません</s:String>
+            <s:String x:Key="Running">動作中……</s:String>
+            <s:String x:Key="AdbReplacementTips">もし全てでスタックする場合は、設定 - 接続設定 - ADBの強制置き換え、もしくは 互換性 タッチモード をチェックしてください（お勧めしない）。</s:String>
+            <s:String x:Key="Stopping">動作停止中……</s:String>
+            <s:String x:Key="Stopped">動作停止</s:String>
+            <s:String x:Key="UnknownErrorOccurs">不明なエラーが発生しました</s:String>
+            <s:String x:Key="SetSuccessfully">設定に成功しました</s:String>
+            <s:String x:Key="SetFailed">設定に失敗しました</s:String>
+            <s:String x:Key="CloseArknightsFailed">ゲームの終了に失敗しました</s:String>
+            <s:String x:Key="ExitEmulatorFailed">エミュレータの終了に失敗しました</s:String>
+            <s:String x:Key="AboutToShutdown">完了しました。シャットダウンしようとしています。キャンセルしますか？</s:String>
+            <s:String x:Key="ShutdownPrompt">ヒント</s:String>
+            <s:String x:Key="HibernatePrompt">完了しました。休止状態にしようとしています。</s:String>
+            <s:String x:Key="AnnihilationTaskFailed">殲滅戦に失敗、代替ステージを使用しますが、一部の戦闘設定が有効ではありません</s:String>
+
+            <s:String x:Key="EmulatorException">エミュレータのエラー検出&#x0a;管理者権限でこのアプリを開くか&#x0a;手動で接続設定を行ってください</s:String>
+            <s:String x:Key="AdbException">ADB検出エラー&#x0a;このソフトウェアを開くには管理者権限を使用するか&#x0a;手動で接続を設定してください。</s:String>
+            <s:String x:Key="EmulatorNotFound">エミュレータが検出されない&#x0a;管理者権限でこのアプリを開くか&#x0a;手動で接続設定を行ってください</s:String>
+            <s:String x:Key="EmulatorTooMany">複数のシミュレータが検出されたため&#x0a;不要なエミュレータを閉じるか&#x0a;手動で接続設定を行ってください</s:String>
+
+            <s:String x:Key="Identifying">認識中……</s:String>
+            <s:String x:Key="IdentificationCompleted">認識完了</s:String>
+
+            <s:String x:Key="CopilotTip">
+                ヒント：\n\n
+                1. 「行動開始」ボタンのあるインターフェースでこの機能を使用してください；\n\n
+                2. サポートを使うときは、「自動編成」をオフにし、手動でオペレーターを選択してから始めましょう；\n\n
+                3. 逆理演算の場合は、「自動編成」をオフにする必要があり、スキルを選択した後、「演算開始」ボタンのインターフェースから開始する必要があります；\n\n
+                4. SSSには、resource/copilot フォルダー内に複数の組み込みファイルがあります。\n
+                手動形成後、「開始デプロイメント」画面から開始してください（「ループ回数」で使用可能）。\n\n
+                5. ビデオ認識がサポートされており、ガイドビデオをドラッグして使用できます。\n
+                ビデオ解像度は16:9が必要で、黒い枠、エミュレーターの枠、特殊形状の画面修正などの邪魔な要素はありません。\n\n
+            </s:String>
+
+            <s:String x:Key="CopilotFileReadError">ファイルの読み取りに失敗しました！</s:String>
+            <s:String x:Key="CopilotNoFound">対応する攻略ファイルが見つかりません！</s:String>
+            <s:String x:Key="NetworkServiceError">ネットワークサービスの要求中にエラーが発生しました！</s:String>
+            <s:String x:Key="CopilotJsonError">攻略ファイルの解析中にエラーが発生しました！</s:String>
+            <s:String x:Key="NotCopilotJson">攻略ファイルではありません</s:String>
+            <s:String x:Key="CheckTheFile">ファイルの内容を確認してください！</s:String>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Uid="AsstProxy">
+            <s:String x:Key="ResourceBroken">リソースファイルが破損しています。完全なパッケージを再度ダウンロードしてください</s:String>
+            <s:String x:Key="InitializationError">初期化エラー！</s:String>
+            <s:String x:Key="ResolutionNotSupported">エミュレータの解像度はサポートされていません。アスペクト比16：9で、720p以上に設定してください</s:String>
+            <s:String x:Key="ResolutionAcquisitionFailure">エミュレータの解像度を取得できませんでした。エミュレータとADBを再起動するか、コンピュータを再起動することをお勧めします、エミュレータを変更してから再試行することをお勧めします</s:String>
+            <s:String x:Key="TryToReconnect">エミュレータが切断、再接続を行います</s:String>
+            <s:String x:Key="ReconnectSuccess">再接続に成功、タスクを続行します</s:String>
+            <s:String x:Key="ReconnectFailed">再接続に失敗、切断されました！</s:String>
+            <s:String x:Key="ScreencapFailed">スクリーンキャプチャに失敗しました。繰り返し発生する場合は、エミュレータの再起動または変更をお試しください</s:String>
+            <s:String x:Key="IdentifyTheMistakes">認識エラー</s:String>
+            <s:String x:Key="TaskError">タスクエラー：</s:String>
+            <s:String x:Key="CombatError">戦闘エラー</s:String>
+            <s:String x:Key="StartTask">タスク開始：</s:String>
+            <s:String x:Key="CompleteTask">タスク完了：</s:String>
+            <s:String x:Key="StartCombat">戦闘開始：</s:String>
+            <s:String x:Key="CompleteCombat">戦闘完了</s:String>
+            <s:String x:Key="AllTasksComplete">すべてのタスクが完了しました！</s:String>
+            <s:String x:Key="BackgroundLinkStarted">Tasks started</s:String>
+            <s:String x:Key="BackgroundLinkStopped">Tasks stopped</s:String>
+            <s:String x:Key="FailedToOpenClient">クライアントを開くのに失敗しました。構成ファイルを確認してください</s:String>
+            <s:String x:Key="ErrorOccurred">エラー発生</s:String>
+            <s:String x:Key="HasReturned">戻ります</s:String>
+            <s:String x:Key="DropRecognitionError">ドロップ認識エラー</s:String>
+            <s:String x:Key="GiveUpUploadingPenguins">Penguin-Statsへのアップロードをあきらめました</s:String>
+            <s:String x:Key="TheEX">ステージ報酬がないため停止します</s:String>
+            <s:String x:Key="MissionStart">行動開始しました</s:String>
+            <s:String x:Key="UnitTime">回</s:String>
+            <s:String x:Key="MedicineUsed">回復剤を使った</s:String>
+            <s:String x:Key="StoneUsed">源石を使った</s:String>
+            <s:String x:Key="ActingCommandError">自動指揮のミスが生じました</s:String>
+            <s:String x:Key="LabelsRefreshed">タグが更新されました</s:String>
+            <s:String x:Key="RecruitConfirm">募集を行いました</s:String>
+            <s:String x:Key="InfrastDormDoubleConfirmed">オペレーターが競合しました</s:String>
+            <s:String x:Key="BegunToExplore">冒険を開始しました</s:String>
+            <s:String x:Key="HasInvested">投資しました</s:String>
+            <s:String x:Key="ExplorationAbandoned">この冒険を放棄しました</s:String>
+            <s:String x:Key="FightCompleted">戦闘完了</s:String>
+            <s:String x:Key="FightFailed">戦闘失敗</s:String>
+            <s:String x:Key="UpperLimit">源石錐が上限に達しました</s:String>
+            <s:String x:Key="GameCrash">ゲームがクラッシュ。再起動を行います</s:String>
+            <s:String x:Key="GameDrop">回線が落ちました。再接続を行います</s:String>
+            <s:String x:Key="GameDropNoRestart">ゲームが落ちる、再接続しない、クエストを停止する</s:String>
+            <s:String x:Key="RoguelikeGamePass">ゲームクリア、おめでとうございます！</s:String>
+            <s:String x:Key="SSSGamePass">ゲームクリア、おめでとうございます！</s:String>
+            <s:String x:Key="Trader">ステージ：怪しい旅商人</s:String>
+            <s:String x:Key="SafeHouse">ステージ：安全な片隅</s:String>
+            <s:String x:Key="Encounter">ステージ：思わぬ遭遇</s:String>
+            <s:String x:Key="CambatDps">ステージ：作戦</s:String>
+            <s:String x:Key="EmergencyDps">ステージ：緊急作戦</s:String>
+            <s:String x:Key="DreadfulFoe">ステージ：悪路凶敵</s:String>
+            <s:String x:Key="NoDrop">ドロップなし</s:String>
+            <s:String x:Key="Drop">ドロップ：</s:String>
+            <s:String x:Key="TotalDrop">ドロップ統計：</s:String>
+            <s:String x:Key="ThisFacility">現在の施設：</s:String>
+            <s:String x:Key="ProductIncorrect">Product does NOT match the configuration.</s:String>
+            <s:String x:Key="ProductUnknown">Unknown Product</s:String>
+            <s:String x:Key="ProductChanged">Product has changed</s:String>
+            <s:String x:Key="RecruitingResults">公開求人の認識結果：</s:String>
+            <s:String x:Key="RecruitingTips">公開求人ヒント</s:String>
+            <s:String x:Key="RecruitmentOfStar">公開求人で星{0}が出ました！</s:String>
+            <s:String x:Key="RecruitmentOfBot">公開求人でロボットが出ました！</s:String>
+            <s:String x:Key="Choose">選択</s:String>
+            <s:String x:Key="Refreshed">現在のタグが更新されました</s:String>
+            <s:String x:Key="NotEnoughStaff">利用可能なオペレーターが不足しています</s:String>
+            <s:String x:Key="StageInfoError">ステージ認識エラー</s:String>
+            <s:String x:Key="BattleFormation">編成開始</s:String>
+            <s:String x:Key="BattleFormationSelected">オペレーターを選択：</s:String>
+            <s:String x:Key="CurrentSteps">現在の手順：{0} {1}</s:String>
+            <s:String x:Key="UnsupportedLevel">サポートされていないレベルです。MAAソフトウェアのバージョンを更新してください！\nサポートされていないレベルです。MAAソフトウェアのバージョンを更新してください！\nサポートされていないレベルです。MAAソフトウェアのバージョンを更新してください！\n\n最新バージョンがすでにインストールされているとプロンプトが表示された場合は、開発版またはベータ版を確認してみてください。</s:String>
+            <s:String x:Key="RecruitTagsDetected">認識結果：</s:String>
+            <s:String x:Key="ConnectFailed">接続失敗</s:String>
+            <s:String x:Key="TryToStartEmulator">エミュレータを起動しようとしています</s:String>
+            <s:String x:Key="CheckSettings">接続設定を確認するか、エミュレータとADBを再起動するか、コンピューターを再起動してください</s:String>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Uid="DialogBox">
+            <s:String x:Key="Tip">ヒント</s:String>
+            <s:String x:Key="Yes">はい</s:String>
+            <s:String x:Key="No">いいえ</s:String>
+            <s:String x:Key="Ok">はい</s:String>
+            <s:String x:Key="Cancel">キャンセル</s:String>
+            <s:String x:Key="ManualRestart">後で</s:String>
+
+            <s:String x:Key="Executable">実行ファイル</s:String>
+            <s:String x:Key="ADBProgram">ADBプログラム</s:String>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Uid="VersionUpdateView">
+            <s:String x:Key="NewVersionFoundTitle">新しいバージョンが見つかりました</s:String>
+            <s:String x:Key="NewVersionFoundDescDownloading">バックグラウンドでダウンロードを行います・・・</s:String>
+            <s:String x:Key="NewVersionFoundDescId">バージョン:</s:String>
+            <s:String x:Key="NewVersionFoundDescInfo">内容:</s:String>
+            <s:String x:Key="NewVersionFoundButtonGoWebpage">Webサイトで確認</s:String>
+
+            <s:String x:Key="NewVersionZipFileFoundTitle">アップデートパッケージが見つかりました</s:String>
+            <s:String x:Key="NewVersionZipFileFoundDescDecompressing">解凍中です、お待ち下さい・・・</s:String>
+
+            <s:String x:Key="NewVersionZipFileBrokenTitle">パッケージが壊れています</s:String>
+            <s:String x:Key="NewVersionZipFileBrokenDescFilename">ファイル名:</s:String>
+            <s:String x:Key="NewVersionZipFileBrokenDescDeleted">消去しました。</s:String>
+
+            <s:String x:Key="AlreadyLatest">最新版をインストール済みです。</s:String>
+            <s:String x:Key="NewVersionDetectFailedTitle">アップデートパッケージを見つけるのに失敗しました</s:String>
+            <s:String x:Key="CheckNetworking">ネットワークの接続状況とプロクシの設定を確認してください。</s:String>
+            <s:String x:Key="GetReleaseNoteFailed">リリースノートの取得に失敗しました。</s:String>
+            <s:String x:Key="NewVersionIsBeingBuilt">新しいバージョンの準備中です。時間をおいてからもう一度実行してください。</s:String>
+
+            <s:String x:Key="NewVersionDownloadPreparing">アップデートパッケージのダウンロードを準備中です・・・</s:String>
+            <s:String x:Key="NewVersionDownloadFailedTitle">アップデートパッケージのダウンロードに失敗しました</s:String>
+            <s:String x:Key="NewVersionDownloadFailedDesc">ZIPファイルを手動でダウンロードし、ディレクトリに配置してください。</s:String>
+            <s:String x:Key="NewVersionDownloadCompletedTitle">アップデートパッケージのダウンロードが完了しました</s:String>
+            <s:String x:Key="NewVersionDownloadCompletedDesc">MAAをすぐにアップグレードしますか？(処理を再開)</s:String>
+
+            <s:String x:Key="NewVersionFoundButNoPackageTitle">新バージョンが見つかりましたが、アップデートパッケージがありません</s:String>
+            <s:String x:Key="NewVersionFoundButNoPackageDesc">アップデートするには、手動でフルパッケージをダウンロードしてください。</s:String>
+
+            <s:String x:Key="Error">エラー</s:String>
+            <s:String x:Key="ErrorProlog">MAA に問題が発生しました</s:String>
+            <s:String x:Key="ErrorDetails">詳細情報</s:String>
+            <s:String x:Key="ErrorSolution">解決策</s:String>
+            <s:String x:Key="ErrorSolutionCrash">ドキュメント「よくある問題 - クラッシュ」を参照してください</s:String>
+            <s:String x:Key="ErrorSolutionReplaceADB">エミュレータとADBを閉じるか、コンピューターを再起動してから、管理者権限でMAAを開いて操作してください</s:String>
+            <s:String x:Key="ErrorFeedbackLinkText">GitHub issueを作成する</s:String>
+            <s:String x:Key="ErrorQqGroupLinkText">QQグループに参加して問題をフィードバックする</s:String>
+            <s:String x:Key="CopyErrorMessage">エラー情報をコピーする</s:String>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Uid="AboutUs">
+            <s:String x:Key="Website">MAA公式サイト</s:String>
+            <s:String x:Key="Github">ソースコード：GitHub</s:String>
+            <s:String x:Key="PrtsPlus">自動攻略ファイルシェアWebサイト</s:String>
+            <s:String x:Key="MapPrts">Copilot Map and Coordinate</s:String>
+            <s:String x:Key="CustomInfrastGenerator">Custom Base Json Generator</s:String>
+            <s:String x:Key="QQgroup">QQグループ</s:String>
+            <s:String x:Key="QQchannel">QQ channel</s:String>
+            <s:String x:Key="Telegram">Telegram</s:String>
+            <s:String x:Key="Help">よくある質問</s:String>
+            <s:String x:Key="Issue">フィードバック</s:String>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Uid="EasterEggs">
+            <s:String x:Key="Burping">うぅ……オエッ</s:String>
+            <s:String x:Key="DrunkAndStaggering">あれ、ドクター。どうしてそんなフラフラと歩いておられるのですか？</s:String>
+            <s:String x:Key="Hangover">つ、次は飲みすぎないようにしないと……</s:String>
+            <s:String x:Key="HelloWorld">Hello World!</s:String>
+        </ResourceDictionary>
+
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--  Farming  -->
+    <s:String x:Key="ReclamationAlgorithm">生息演算（大陸版）</s:String>
+    <!--  Farming  -->
+    <!--  GuiLog  -->
+    <s:String x:Key="AlgorithmFinish">演算结束</s:String>
+    <s:String x:Key="AlgorithmBadge">繁荣证章</s:String>
+    <s:String x:Key="AlgorithmConstructionPoint">建造点数</s:String>
+    <s:String x:Key="AlgorithmDoneSmeltGold">锻造赤金</s:String>
+    <!--  GuiLog  -->
+</ResourceDictionary>
