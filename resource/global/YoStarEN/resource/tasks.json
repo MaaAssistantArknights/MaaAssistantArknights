@@ -8,7 +8,7 @@
         ],
         "template": "Task.png"
     },
-	"UsePrts": {
+    "UsePrts": {
         "templThreshold": 0.7
     },
     "BattleStageName": {
@@ -1028,7 +1028,7 @@
                 "白面鸮"
             ],
             [
-                "Silence",
+                "^Silence$",
                 "赫默"
             ],
             [
@@ -1128,7 +1128,7 @@
                 "风笛"
             ],
             [
-                "Reed",
+                "^Reed$",
                 "苇草"
             ],
             [
@@ -1196,7 +1196,7 @@
                 "熔泉"
             ],
             [
-                "Ash",
+                "^Ash$",
                 "灰烬"
             ],
             [
@@ -1208,7 +1208,7 @@
                 "松果"
             ],
             [
-                "Rosmontis",
+                "^Rosmontis$",
                 "迷迭香"
             ],
             [
@@ -1244,7 +1244,7 @@
                 "安比尔"
             ],
             [
-                "May",
+                "^May$",
                 "梅"
             ],
             [
@@ -1536,7 +1536,7 @@
                 "史都华德"
             ],
             [
-                "^Lava",
+                "^Lava$",
                 "炎熔"
             ],
             [
@@ -1592,7 +1592,7 @@
                 "阿"
             ],
             [
-                "Snowsant",
+                "^Snowsant$",
                 "雪雉"
             ],
             [
@@ -2232,11 +2232,7 @@
                 "高效泡打粉"
             ],
             [
-                "Stainless™ Multifunctional Platform",
-                "白铁™多功能平台"
-            ],
-            [
-                "Stainless™ Multifunctional Platform",
+                "Stainless.*? Multifunctional Platform",
                 "白铁™多功能平台"
             ],
             [
@@ -2256,7 +2252,7 @@
                 "石英"
             ],
             [
-                "Dice",
+                "^Dice$",
                 "骰子"
             ],
             [
@@ -2434,8 +2430,11 @@
             "Store"
         ]
     },
+    "Mizuki@Roguelike@GetDropRecruit": {
+        "templThreshold": 0.7
+    },
     "Mizuki@Roguelike@GetDropSelectRecruit": {
-        "template": "Mizuki@Roguelike@GetDropSelectRecruit.png"
+        "templThreshold": 0.8
     },
     "Mizuki@Roguelike@NextLevel": {
         "text": [
@@ -4027,10 +4026,6 @@
                 "游戏室管理员权限卡"
             ],
             [
-                "8-Sided Die",
-                "八面骰子"
-            ],
-            [
                 "Advanced Guard Recruitment Voucher",
                 "精锐近卫招募券"
             ],
@@ -4127,72 +4122,12 @@
                 "心胜于物分队"
             ],
             [
-                "Mind Over Matter Squad",
-                "心胜于物分队"
-            ],
-            [
-                "Mind Over Matter Squad",
-                "心胜于物分队"
-            ],
-            [
-                "Resourceful Squad",
-                "物尽其用分队"
-            ],
-            [
-                "Resourceful Squad",
-                "物尽其用分队"
-            ],
-            [
                 "Resourceful Squad",
                 "物尽其用分队"
             ],
             [
                 "People-Oriented Squad",
                 "以人为本分队"
-            ],
-            [
-                "People-Oriented Squad",
-                "以人为本分队"
-            ],
-            [
-                "People-Oriented Squad",
-                "以人为本分队"
-            ],
-            [
-                "6-Sided Die",
-                "六面骰子"
-            ],
-            [
-                "6-Sided Die",
-                "六面骰子"
-            ],
-            [
-                "8-Sided Die",
-                "八面骰子"
-            ],
-            [
-                "6-Sided Die",
-                "六面骰子"
-            ],
-            [
-                "8-Sided Die",
-                "八面骰子"
-            ],
-            [
-                "8-Sided Die",
-                "八面骰子"
-            ],
-            [
-                "12-Sided Die",
-                "十二面骰子"
-            ],
-            [
-                "6-Sided Die",
-                "六面骰子"
-            ],
-            [
-                "8-Sided Die",
-                "八面骰子"
             ],
             [
                 "6-Sided Die",
