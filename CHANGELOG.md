@@ -1,38 +1,18 @@
-## v4.19.0-beta.2
+## v4.19.0-rc.1
 
-### 改进
+### 新增
 
-- 支持连接失败重启 ADB @ABA2396
-- 优化关卡列表相关逻辑 @ABA2396
+- 勾选`手动输入关卡名`时可勾选`隐藏当日不开放关卡` @moomiji
+- 为日志加入简单的rotate @MistEO
 
 ### 修复
 
-- 修复截图方式判断错误导致的操作慢问题 @horror-proton @MistEO
-- 修复切换日服后再切回后OCR配置不清空的问题 @MistEO
+- 修复关卡选择变null的现象 @moomiji
+- stuck at a specific event (KR, #4973) @178619
 
 ### 其他
 
-- 修复自动翻译工具 python3.11无法安装依赖的问题 & 重构项目结构，方便后续打包，并调整部分模块 (#4951) @UniMars
-- 优化调整一些 CI @AnnAngela @MistEO
-- 翻译优化 @ABA2396 @Alisa
-
-### For overseas
-
-#### Common
-
-- i18n: Translations update from MAA Weblate (#4971) @weblate
-- update overseas json/template tool @liuyifan-eric
-
-#### YostarJP
-
-- try to fix JP IS StageEncounter Stuck @liuyifan-eric
-
-#### YostarEN
-
-- Optimize and fix some issues of Mizuki @peter1997546 @Pitiedwzr
-- Fix threshold issue with `UsePrts` for YostarEN @MistEO
-
-#### YostarKR
-
-- Update resources for KR @178619
-- Update 1.3-EMULATOR_SUPPORTS.md (KR) @178619
+- Update tasks.json (EN, #4978) (#4985) @178619
+   - Update tasks.json @178619
+   - Update tasks.json (EN, #4978) @178619
+- 修改LanguageList初始化过程 @ABA2396
