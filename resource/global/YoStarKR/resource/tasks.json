@@ -2451,6 +2451,18 @@
             "크레딜"
         ]
     },
+    "EnterChapterDifficultyHard": {
+        "text": [
+            "하드모드",
+            "하드"
+        ]
+    },
+    "EnterChapterDifficultyNormal": {
+        "text": [
+            "노멀모드",
+            "노멀"
+        ]
+    },
     "ExpiringMedicineCheck": {
         "ocrReplace": [
             [
@@ -2466,18 +2478,6 @@
             "1일",
             "시간",
             "분"
-        ]
-    },
-    "EnterChapterDifficultyHard": {
-        "text": [
-            "하드모드",
-            "하드"
-        ]
-    },
-    "EnterChapterDifficultyNormal": {
-        "text": [
-            "노멀모드",
-            "노멀"
         ]
     },
     "FightMissionFailed": {
