@@ -151,7 +151,7 @@ int main([[maybe_unused]] int argc, char** argv)
     std::cout << "------------Update overseas data------------" << std::endl;
     const std::filesystem::path overseas_data_dir = cur_path;
 
-    std::string data_exec = "\"" + cur_path.string() + "/arknights_rs.exe" + "\"";
+    std::string data_exec = (overseas_data_dir / "arknights_rs.exe").string();
     if (!std::filesystem::exists(data_exec)) {
         std::string download_cmd = "curl --ssl-no-revoke "
                                    "https://raw.githubusercontent.com/MaaAssistantArknights/"
