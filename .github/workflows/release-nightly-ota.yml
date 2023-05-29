@@ -212,7 +212,7 @@ jobs:
           overwrite: true
           body: ${{ steps.make_release_body.outputs.full_release_body }}
 
-      - name: Update Version API
+      - name: Deploy the release
         run: |
             gh workflow --repo MaaAssistantArknights/MaaRelease run release-mirrors.yml
         env:
