@@ -1253,6 +1253,31 @@
             "實驗基地"
         ]
     },
+    "NL-Open": {
+		"action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "長夜",
+            "復刻",
+            "活動",
+            "開放"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "postDelay": 2000,
+        "next": [
+            "NLChapterToNL"
+        ]
+    },
+	"NLChapterToNL": {
+        "text": [
+            "大騎士領"
+        ]
+    },
     "EndOfActionAnnihilation": {
         "text": [
             "行動結束"
