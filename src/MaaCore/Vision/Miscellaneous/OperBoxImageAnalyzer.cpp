@@ -62,23 +62,24 @@ bool asst::OperBoxImageAnalyzer::opers_analyze()
 {
     TemplDetOCRer oper_name_analyzer(m_image);
 
-    oper_name_analyzer.set_bin_threshold(160);
-    oper_name_analyzer.set_bin_expansion(4);
-    oper_name_analyzer.set_bin_trim_threshold(4, 0);
+    const auto& params = Task.get("OperBoxNameOCR")->special_params;
+    oper_name_analyzer.set_bin_threshold(params[0]);
+    oper_name_analyzer.set_bin_expansion(params[1]);
+    oper_name_analyzer.set_bin_trim_threshold(params[2], params[3]);
 
     TemplDetOCRer::ResultsVec results;
 
     const auto& replace_task = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
     const auto& all_opers = BattleData.get_all_oper_names();
-    
+
     Rect roi_top = Task.get("OperBoxFlagRoleTopROI")->roi;
     Rect roi_bottom = Task.get("OperBoxFlagRoleBottomROI")->roi;
-    
+
     for (int i = 1; i < 10; ++i) {
         oper_name_analyzer.set_task_info("OperBoxFlagRole" + std::to_string(i), "OperBoxNameOCR");
         oper_name_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
         oper_name_analyzer.set_required(std::vector(all_opers.begin(), all_opers.end()));
-        
+
         oper_name_analyzer.set_roi(roi_top);
         auto top_result_opt = oper_name_analyzer.analyze();
         if (top_result_opt) {
