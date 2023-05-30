@@ -10069,6 +10069,12 @@
             269,
             122,
             14
+        ],
+        "specialParams": [
+            160,
+            4,
+            4,
+            0
         ]
     },
     "OperBoxLevelOCR": {
