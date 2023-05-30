@@ -287,8 +287,8 @@ namespace MaaWpfGui.ViewModels.UI
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("Shutdown"), Value = ActionType.Shutdown },
 
                 // new GenericCombData<ActionType> { Display = Localization.GetString("ExitEmulatorAndSelfAndHibernate") + "*", Value = ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist },
-                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("Hibernate") + "*", Value = ActionType.HibernateWithoutPersist },
-                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("Shutdown") + "*", Value = ActionType.ShutdownWithoutPersist },
+                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("HibernateWithoutPersist"), Value = ActionType.HibernateWithoutPersist },
+                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ShutdownWithoutPersist"), Value = ActionType.ShutdownWithoutPersist },
             };
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[task_list.Length]);
             var non_order_list = new List<DragItemViewModel>();
