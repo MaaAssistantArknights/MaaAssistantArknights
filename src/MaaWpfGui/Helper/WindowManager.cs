@@ -175,6 +175,24 @@ namespace MaaWpfGui.Helper
                 if (wp.ShowCmd == SwShownormal && GetWindowRect(window.Handle, out Rect rect))
                 {
                     wp.NormalPosition = rect;
+
+                    // rect is screen coordinates, wp is workspace coordinates
+                    if (SetWindowPlacement(window.Handle, ref wp)
+                        && GetWindowPlacement(window.Handle, out WindowPlacement currentWp)
+                        && GetWindowRect(window.Handle, out Rect currentRect))
+                    {
+                        var taskbarWidth = currentRect.Left - currentWp.NormalPosition.Left;
+                        var taskbarHeight = currentRect.Top - currentWp.NormalPosition.Top;
+                        if (taskbarWidth != 0 || taskbarHeight != 0)
+                        {
+                            rect.Left -= taskbarWidth;
+                            rect.Right -= taskbarWidth;
+                            rect.Top -= taskbarHeight;
+                            rect.Bottom -= taskbarHeight;
+                            wp.NormalPosition = rect;
+                            SetWindowPlacement(window.Handle, ref wp);
+                        }
+                    }
                 }
 
                 return true;
