@@ -31,6 +31,7 @@
 - 关卡选择为null时仍会执行借助战任务 @ABA2396
 - 修复 `火哨` 的基建技能 @MistEO
 - 修改LanguageList初始化过程 @ABA2396
+- 修复 `夕` 识别错误 @cenfusheng
 
 ### 其他
 
@@ -66,6 +67,7 @@
 - Update tasks.json (EN, #4978) (#4985) @178619
 - Optimize and fix some issues of Mizuki @peter1997546 @Pitiedwzr
 - Fix threshold issue with `UsePrts` for YostarEN @MistEO
+- Optimize the replacement of some operator names @Constrat
 
 #### YostarKR
 
