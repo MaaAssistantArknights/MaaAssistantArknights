@@ -420,6 +420,7 @@ namespace asst
             if (m_ofs.is_open()) {
                 m_ofs.close();
             }
+            rotate();
         }
 
     private:
@@ -428,11 +429,11 @@ namespace asst
         Logger() : m_directory(UserDir.get())
         {
             std::filesystem::create_directories(m_log_path.parent_path());
-            check_filesize_and_remove();
+            rotate();
             log_init_info();
         }
 
-        void check_filesize_and_remove() const
+        void rotate() const
         {
             constexpr uintmax_t MaxLogSize = 4ULL * 1024 * 1024;
             try {

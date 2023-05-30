@@ -297,7 +297,7 @@ namespace MaaWpfGui.ViewModels.UI
                 new GenericCombinedData<UpdateVersionType> { Display = LocalizationHelper.GetString("UpdateCheckStable"), Value = UpdateVersionType.Stable },
             };
 
-            LanguageList = new List<CombinedData>();
+            var languageList = new List<CombinedData>();
             foreach (var pair in LocalizationHelper.SupportedLanguages)
             {
                 if (pair.Key == PallasLangKey && !Cheers)
@@ -305,8 +305,10 @@ namespace MaaWpfGui.ViewModels.UI
                     continue;
                 }
 
-                LanguageList.Add(new CombinedData { Display = pair.Value, Value = pair.Key });
+                languageList.Add(new CombinedData { Display = pair.Value, Value = pair.Key });
             }
+
+            LanguageList = languageList;
         }
 
         private bool _idle = true;
