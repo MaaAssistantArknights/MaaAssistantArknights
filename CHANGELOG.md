@@ -32,6 +32,7 @@
 - 修复 `火哨` 的基建技能 @MistEO
 - 修改LanguageList初始化过程 @ABA2396
 - 修复 `夕` 识别错误 @cenfusheng
+- window creep after restart @moomiji
 
 ### 其他
 
@@ -42,7 +43,8 @@
 - Update operators.md (#4929) @wallsman
 - 修改对于蓝叠的支持说明 @ABA2396 @MistEO
 - 优化调整一些 CI @AnnAngela @MistEO
-- 翻译优化 @ABA2396 @LiamSho 
+- 翻译优化 @ABA2396 @LiamSho
+- add docs & emulator support for linux users (#4996) @zayn7lie
 
 ### For overseas
 
@@ -68,6 +70,7 @@
 - Optimize and fix some issues of Mizuki @peter1997546 @Pitiedwzr
 - Fix threshold issue with `UsePrts` for YostarEN @MistEO
 - Optimize the replacement of some operator names @Constrat
+- Skadi Alter / Wild Mane fixed in oper recognition (#4998) @Constrat
 
 #### YostarKR
 
