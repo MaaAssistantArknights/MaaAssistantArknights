@@ -214,6 +214,6 @@ jobs:
 
       - name: Deploy the release
         run: |
-            gh workflow --repo MaaAssistantArknights/MaaRelease run release-mirrors.yml --field is_nightly_ota=true
+            gh workflow --repo MaaAssistantArknights/MaaRelease run release-mirrors.yml
         env:
             GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
