@@ -58,6 +58,7 @@ std::optional<int> asst::AdbLiteIO::call_command(const std::string& cmd, bool re
 
     // adb connect
     // TODO: adb server 尚未实现，第一次连接需要执行一次 adb.exe 启动 daemon
+    // FIXME: 已经在 Controller类中实现了 startAdbServer 用于启动adb.exe的daemon
     if (std::regex_match(cmd, match, connect_regex)) {
         m_adb_client = adb::client::create(match[1].str()); // TODO: compare address with existing (if any)
 

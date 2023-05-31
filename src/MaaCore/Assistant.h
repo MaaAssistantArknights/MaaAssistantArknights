@@ -23,6 +23,8 @@ public:
     static bool set_static_option(asst::StaticOptionKey key, const std::string& value);
     // 设置实例级参数
     virtual bool set_instance_option(asst::InstanceOptionKey key, const std::string& value) = 0;
+    // 启动adb server
+    virtual bool async_StartAdbServer(const std::string& adb_path, const std::string& config) = 0;
 
     // 同步连接，功能已完全被异步连接取代
     // FIXME: 5.0 版本将废弃此接口
@@ -72,8 +74,11 @@ namespace asst
 
         virtual bool set_instance_option(InstanceOptionKey key, const std::string& value) override;
 
+        virtual bool async_StartAdbServer(const std::string& adb_path, const std::string& config) override;
+
         virtual bool connect(const std::string& adb_path, const std::string& address,
                              const std::string& config) override;
+
         virtual AsyncCallId async_connect(const std::string& adb_path, const std::string& address,
                                           const std::string& config, bool block = false) override;
         virtual AsyncCallId async_click(int x, int y, bool block = false) override;
@@ -109,6 +114,7 @@ namespace asst
                 Connect,
                 Click,
                 Screencap,
+                StartAdbServer
             };
             struct ConnectParams
             {
@@ -144,6 +150,7 @@ namespace asst
         bool ctrl_connect(const std::string& adb_path, const std::string& address, const std::string& config);
         bool ctrl_click(int x, int y);
         bool ctrl_screencap();
+        bool ctrl_StartAdbServer(const std::string& adb_path, const std::string& config);
 
         std::string m_uuid;
 

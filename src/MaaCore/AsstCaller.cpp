@@ -96,6 +96,14 @@ void AsstDestroy(AsstHandle handle)
     handle = nullptr;
 }
 
+AsstAsyncCallId ASSTAPI AdbStartService(AsstHandle handle, const char* adb_path, const char* config)
+{
+    if (!inited() || handle == nullptr) {
+        return InvalidId;
+    }
+    return handle->async_StartAdbServer(adb_path, config);
+}
+
 AsstBool AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, const char* value)
 {
     if (handle == nullptr) {

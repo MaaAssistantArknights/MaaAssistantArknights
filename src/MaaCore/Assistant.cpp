@@ -138,6 +138,14 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
     return false;
 }
 
+bool asst::Assistant::async_StartAdbServer(const std::string& adb_path, const std::string& config)
+{
+    LogTraceFunction;
+
+    return append_async_call(AsyncCallItem::Type::StartAdbServer,
+                             AsyncCallItem::ConnectParams { .adb_path = adb_path, .config = config });
+}
+
 bool asst::Assistant::ctrl_connect(const std::string& adb_path, const std::string& address, const std::string& config)
 {
     LogTraceFunction;
@@ -168,6 +176,13 @@ bool asst::Assistant::ctrl_click(int x, int y)
 bool asst::Assistant::ctrl_screencap()
 {
     return m_ctrler->screencap();
+}
+
+bool asst::Assistant::ctrl_StartAdbServer(const std::string& adb_path, const std::string& config)
+{
+    LogTraceFunction;
+
+    return m_ctrler->startAdbServer(adb_path, config);
 }
 
 asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, const std::string& params)
@@ -531,6 +546,11 @@ void asst::Assistant::call_proc()
             what = "Screencap";
             std::ignore = std::get<AsyncCallItem::ScreencapParams>(call_item.params);
             ret = ctrl_screencap();
+        } break;
+        case AsyncCallItem::Type::StartAdbServer: {
+            what = "StartAdbServer";
+            const auto& [adb_path, address, config] = std::get<AsyncCallItem::ConnectParams>(call_item.params);
+            ret = ctrl_StartAdbServer(adb_path, config);
         } break;
         default:
             what = "Unknown";

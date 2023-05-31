@@ -32,6 +32,8 @@ extern "C"
     AsstHandle ASSTAPI AsstCreateEx(AsstApiCallback callback, void* custom_arg);
     void ASSTAPI AsstDestroy(AsstHandle handle);
 
+    AsstAsyncCallId ASSTAPI AdbStartService(AsstHandle handle, const char* adb_path, const char* config);
+
     AsstBool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, const char* value);
 
     // 同步连接，功能已完全被异步连接取代

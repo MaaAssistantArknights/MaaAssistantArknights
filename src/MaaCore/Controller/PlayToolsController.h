@@ -21,6 +21,8 @@ namespace asst
         PlayToolsController(PlayToolsController&&) = delete;
         virtual ~PlayToolsController();
 
+        virtual bool startAdbServer(const std::string& adb_path, const std::string& config) override {};//TODO FIXME: MAC上是否需要调起adb进程？
+
         virtual bool connect(const std::string& adb_path, const std::string& address,
                              const std::string& config) override;
         virtual bool inited() const noexcept override;

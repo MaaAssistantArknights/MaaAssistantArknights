@@ -46,6 +46,23 @@ asst::AdbController::~AdbController()
     release();
 }
 
+bool asst::AdbController::startAdbServer(const std::string& adb_path, const std::string& config)
+{
+    LogTraceFunction;
+    auto adb_ret = Config.get_adb_cfg(config);
+    if (!adb_ret) {
+        m_adb.devices = "adb devices"; // FIXME: 如果没有从配置文件读到数据，默认认为adb.exe在系统环境变量
+    }
+    else {
+        auto cmd_replace = [&](const std::string& cfg_cmd) -> std::string {
+            return utils::string_replace_all(cfg_cmd, { { "[Adb]", adb_path } });
+        };
+        const auto& adb_cfg = adb_ret.value();
+        m_adb.devices = cmd_replace(adb_cfg.devices);
+    }
+    return call_command(m_adb.devices, 30LL * 1000, false /* 不重试 */).has_value();
+}
+
 std::optional<std::string> asst::AdbController::reconnect(const std::string& cmd, int64_t timeout, bool recv_by_socket)
 {
     LogTraceFunction;

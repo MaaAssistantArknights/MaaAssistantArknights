@@ -53,6 +53,7 @@ namespace asst
     struct AdbCfg
     {
         /* command */
+        std::string devices;
         std::string connect;
         std::string display_id;
         std::string uuid;

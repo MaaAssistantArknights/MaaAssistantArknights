@@ -142,6 +142,22 @@ asst::ControlFeat::Feat asst::Controller::support_features()
     return m_controller->support_features();
 }
 
+bool asst::Controller::startAdbServer(const std::string& adb_path, const std::string& config)
+{
+    LogTraceFunction;
+
+    m_controller = m_controller_factory->create_controller(m_controller_type, adb_path, "", config, m_platform_type);
+
+    if (!m_controller) {
+        Log.error("Initial m_controller failed");
+        return false;
+    }
+
+    sync_params();
+
+    return m_controller->startAdbServer(adb_path, config);
+}
+
 bool asst::Controller::connect(const std::string& adb_path, const std::string& address, const std::string& config)
 {
     LogTraceFunction;
@@ -152,9 +168,11 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
         m_controller_factory->create_controller(m_controller_type, adb_path, address, config, m_platform_type);
 
     if (!m_controller) {
-        Log.error("connect failed");
+        Log.error("m_controller Initialize failed");
         return false;
     }
+
+    m_controller->connect(adb_path, address, config);
 
     sync_params();
 

@@ -41,7 +41,7 @@ namespace asst
                 Log.error("Cannot create controller: {}", e.what());
                 return nullptr;
             }
-            if (controller->connect(adb_path, address, config)) {
+            if (controller) {
                 return controller;
             }
             return nullptr;

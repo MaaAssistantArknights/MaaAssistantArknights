@@ -95,6 +95,12 @@
     <Filter Include="源文件\Vision\Config">
       <UniqueIdentifier>{bf83678b-e9d7-4cf1-8616-aba2009072b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Controller\ScaleProxy">
+      <UniqueIdentifier>{1803efe4-dfb8-4888-a08e-89c6a7792f68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Controller\Controllers">
+      <UniqueIdentifier>{2c18ecbc-8f0e-4a62-a5ba-1d1f08228206}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json">
@@ -117,9 +123,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\AsstCaller.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\AsstPort.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -531,18 +534,6 @@
     <ClInclude Include="Controller\ControllerFactory.h">
       <Filter>源文件\Controller</Filter>
     </ClInclude>
-    <ClInclude Include="Controller\ControlScaleProxy.h">
-      <Filter>源文件\Controller</Filter>
-    </ClInclude>
-    <ClInclude Include="Controller\MaatouchController.h">
-      <Filter>源文件\Controller</Filter>
-    </ClInclude>
-    <ClInclude Include="Controller\MinitouchController.h">
-      <Filter>源文件\Controller</Filter>
-    </ClInclude>
-    <ClInclude Include="Controller\AdbController.h">
-      <Filter>源文件\Controller</Filter>
-    </ClInclude>
     <ClInclude Include="Controller\Platform\AdbLiteIO.h">
       <Filter>源文件\Controller\Platform</Filter>
     </ClInclude>
@@ -594,9 +585,6 @@
     <ClInclude Include="Task\Experiment\SingleStepBattleProcessTask.h">
       <Filter>源文件\Task\Experiment</Filter>
     </ClInclude>
-    <ClInclude Include="Controller\PlayToolsController.h">
-      <Filter>源文件\Controller</Filter>
-    </ClInclude>
     <ClInclude Include="Task\Interface\OperBoxTask.h">
       <Filter>源文件\Task\Interface</Filter>
     </ClInclude>
@@ -611,6 +599,24 @@
     </ClInclude>
     <ClInclude Include="Vision\Config\OCRerConfig.h">
       <Filter>源文件\Vision\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\ControlScaleProxy.h">
+      <Filter>源文件\Controller\ScaleProxy</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\PlayToolsController.h">
+      <Filter>源文件\Controller\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\MinitouchController.h">
+      <Filter>源文件\Controller\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\AdbController.h">
+      <Filter>源文件\Controller\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\MaatouchController.h">
+      <Filter>源文件\Controller\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\AsstCaller.h">
+      <Filter>源文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -938,15 +944,6 @@
     <ClCompile Include="Controller\adb-lite\protocol.cpp">
       <Filter>源文件\Controller\adb-lite</Filter>
     </ClCompile>
-    <ClCompile Include="Controller\MinitouchController.cpp">
-      <Filter>源文件\Controller</Filter>
-    </ClCompile>
-    <ClCompile Include="Controller\AdbController.cpp">
-      <Filter>源文件\Controller</Filter>
-    </ClCompile>
-    <ClCompile Include="Controller\ControlScaleProxy.cpp">
-      <Filter>源文件\Controller</Filter>
-    </ClCompile>
     <ClCompile Include="Controller\Platform\AdbLiteIO.cpp">
       <Filter>源文件\Controller\Platform</Filter>
     </ClCompile>
@@ -989,9 +986,6 @@
     <ClCompile Include="Task\Experiment\SingleStepBattleProcessTask.cpp">
       <Filter>源文件\Task\Experiment</Filter>
     </ClCompile>
-    <ClCompile Include="Controller\PlayToolsController.cpp">
-      <Filter>源文件\Controller</Filter>
-    </ClCompile>
     <ClCompile Include="Task\Interface\OperBoxTask.cpp">
       <Filter>源文件\Task\Interface</Filter>
     </ClCompile>
@@ -1006,6 +1000,18 @@
     </ClCompile>
     <ClCompile Include="Vision\Config\OCRerConfig.cpp">
       <Filter>源文件\Vision\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\ControlScaleProxy.cpp">
+      <Filter>源文件\Controller\ScaleProxy</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\PlayToolsController.cpp">
+      <Filter>源文件\Controller\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\MinitouchController.cpp">
+      <Filter>源文件\Controller\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\AdbController.cpp">
+      <Filter>源文件\Controller\Controllers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

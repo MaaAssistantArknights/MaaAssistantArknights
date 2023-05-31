@@ -19,6 +19,8 @@ namespace asst
         AdbController(AdbController&&) = delete;
         virtual ~AdbController();
 
+        virtual bool startAdbServer(const std::string& adb_path, const std::string& config) override;
+
         virtual bool connect(const std::string& adb_path, const std::string& address,
                              const std::string& config) override;
 
@@ -82,6 +84,7 @@ namespace asst
         struct AdbProperty
         {
             /* command */
+            std::string devices;
             std::string connect;
             std::string call_minitouch;
             std::string call_maatouch;

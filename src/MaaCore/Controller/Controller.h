@@ -37,7 +37,7 @@ namespace asst
         Controller(const Controller&) = delete;
         Controller(Controller&&) = delete;
         ~Controller();
-
+        bool startAdbServer(const std::string& adb_path, const std::string& config);
         bool connect(const std::string& adb_path, const std::string& address, const std::string& config);
         bool inited() noexcept;
         void set_touch_mode(const TouchMode& mode) noexcept;
