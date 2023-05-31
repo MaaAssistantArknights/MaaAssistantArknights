@@ -2435,7 +2435,7 @@
         "templThreshold": 0.7
     },
     "Mizuki@Roguelike@GetDropSelectRecruit": {
-        "templThreshold": 0.8
+        "templThreshold": 0.75
     },
     "Mizuki@Roguelike@NextLevel": {
         "text": [
