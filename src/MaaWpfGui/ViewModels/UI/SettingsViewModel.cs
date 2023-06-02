@@ -52,7 +52,7 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class SettingsViewModel : Screen
     {
-        private static readonly ILogger _logger = Log.ForContext<TaskQueueViewModel>();
+        private static readonly ILogger _logger = Log.ForContext<SettingsViewModel>();
 
         [DllImport("MaaCore.dll")]
         private static extern IntPtr AsstGetVersion();
