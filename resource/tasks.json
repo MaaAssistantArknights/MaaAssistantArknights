@@ -6412,6 +6412,7 @@
             "BattleStartNormal",
             "BattleStartRaid",
             "BattleStartExercise",
+            "BattleStartAdverse",
             "BattleStartSimulation",
             "BattleStartTrials",
             "BattleStartTrialsRaid",
@@ -6425,6 +6426,9 @@
         "baseTask": "BattleStart"
     },
     "BattleStartExercise": {
+        "baseTask": "BattleStart"
+    },    
+    "BattleStartAdverse": {
         "baseTask": "BattleStart"
     },
     "BattleStartTrials": {
