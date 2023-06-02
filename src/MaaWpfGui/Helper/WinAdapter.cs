@@ -26,7 +26,7 @@ namespace MaaWpfGui.Helper
     /// </summary>
     public class WinAdapter
     {
-        private static readonly ILogger _logger = Log.ForContext<TaskQueueViewModel>();
+        private static readonly ILogger _logger = Log.ForContext<WinAdapter>();
 
         private static readonly Dictionary<string, string> _emulatorIdDict = new Dictionary<string, string>
         {
