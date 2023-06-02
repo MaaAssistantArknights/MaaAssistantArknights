@@ -26,7 +26,7 @@ namespace MaaWpfGui.Services
     public class TrayIcon
     {
         private readonly NotifyIcon _notifyIcon = new NotifyIcon();
-        private static readonly ILogger _logger = Log.ForContext<StageManager>();
+        private static readonly ILogger _logger = Log.ForContext<TaskQueueViewModel>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TrayIcon"/> class.
