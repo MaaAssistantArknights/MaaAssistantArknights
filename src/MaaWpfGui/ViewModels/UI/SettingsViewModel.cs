@@ -29,6 +29,7 @@ using System.Windows;
 using System.Windows.Interop;
 using HandyControl.Controls;
 using HandyControl.Data;
+using HandyControl.Tools.Extension;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -2104,28 +2105,33 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    if (!ConnectAddressHistory.Contains(value))
-                    {
-                        ConnectAddressHistory.Insert(0, value);
-                        while (ConnectAddressHistory.Count > 5)
-                        {
-                            ConnectAddressHistory.RemoveAt(ConnectAddressHistory.Count - 1);
-                        }
-                    }
-                    else
-                    {
-                        ConnectAddressHistory.Remove(value);
-                        ConnectAddressHistory.Insert(0, value);
-                    }
-                });
+                UpdateConnectionHistory(value);
 
                 SetAndNotify(ref _connectAddress, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.AddressHistory, JsonConvert.SerializeObject(ConnectAddressHistory));
                 ConfigurationHelper.SetValue(ConfigurationKeys.ConnectAddress, value);
                 UpdateWindowTitle(); /* 每次修改连接地址时更新WindowTitle */
             }
+        }
+
+        private void UpdateConnectionHistory(string address)
+        {
+            var history = ConnectAddressHistory.ToList();
+            if (history.Contains(address))
+            {
+                history.Remove(address);
+                history.Insert(0, address);
+            }
+            else
+            {
+                history.Insert(0, address);
+                const int maxHistoryCount = 5;
+                if (history.Count > maxHistoryCount)
+                {
+                    history.RemoveRange(maxHistoryCount, history.Count - maxHistoryCount);
+                }
+            }
+            ConnectAddressHistory = new ObservableCollection<string>(history);
         }
 
         public void RemoveAddress_Click(string address)
