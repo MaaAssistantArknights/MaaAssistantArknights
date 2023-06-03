@@ -757,6 +757,10 @@
                 "幽灵鲨"
             ],
             [
+                ".*Radiant Knight",
+                "Nearl the Radiant Knight"
+            ],
+            [
                 "Nearl the Radiant Knight",
                 "耀骑士临光"
             ],
@@ -1189,6 +1193,10 @@
                 "远牙"
             ],
             [
+                ".*the Holungday",
+                "Ch'en the Holungday"
+            ],
+            [
                 "Ch'en the Holungday",
                 "假日威龙陈"
             ],
@@ -1459,6 +1467,10 @@
             [
                 "^Dusk$",
                 "夕"
+            ],
+            [
+                ".*the Purgatory",
+                "Lava the Purgatory"
             ],
             [
                 "Lava the Purgatory",
@@ -1737,6 +1749,10 @@
                 "高能源石炸弹"
             ],
             [
+                ".*the Keen Glint",
+                "Kroos the Keen Glint"
+            ],
+            [
                 "Kroos the Keen Glint",
                 "寒芒克洛丝"
             ],
@@ -1799,6 +1815,10 @@
             [
                 "Heidi",
                 "海蒂"
+            ],
+            [
+                ".*Deer",
+                "Nine-Colored Deer"
             ],
             [
                 "Nine-Colored Deer",
@@ -2029,6 +2049,10 @@
                 "可靠电池"
             ],
             [
+                ".*the Unchained",
+                "Specter the Unchained"
+            ],
+            [
                 "Specter the Unchained",
                 "归溟幽灵鲨"
             ],
@@ -2055,6 +2079,10 @@
             [
                 "Czerny",
                 "车尔尼"
+            ],
+            [
+                ".*the Purifier",
+                "Hibiscus the Purifier"
             ],
             [
                 "Hibiscus the Purifier",
@@ -2121,7 +2149,11 @@
                 "鸿雪"
             ],
             [
-                "Gavial the.*",
+                ".*Invincible",
+                "Gavial the Invincible"
+            ],
+            [
+                "Gavial the Invincible",
                 "百炼嘉维尔"
             ],
             [
@@ -2167,6 +2199,10 @@
             [
                 "Astgenne",
                 "星源"
+            ],
+            [
+                ".*Lightni.*bearer",
+                "Greyy the Lightningbearer"
             ],
             [
                 "Greyy the Lightningbearer",
@@ -2295,6 +2331,10 @@
             [
                 "Wolfpack",
                 "狼群"
+            ],
+            [
+                ".*the Omertosa",
+                "Texas the Omertosa"
             ],
             [
                 "Texas the Omertosa",
