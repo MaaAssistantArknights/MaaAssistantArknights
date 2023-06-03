@@ -135,38 +135,7 @@
                         Value="{Binding DropsQuantity, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </Grid>
-            <Grid Grid.Row="2" Visibility="{c:Binding CustomInfrastEnabled and TaskSettingVisibilities.CustomInfrastPlanShowInFightSettings}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" MinWidth="100" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0">
-                    <Grid Height="42">
-                        <controls:TextBlock
-                            Margin="6"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Text="{DynamicResource CustomInfrastPlan}"
-                            TextAlignment="Center"
-                            TextWrapping="Wrap" />
-                    </Grid>
-                </StackPanel>
-                <StackPanel
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    Orientation="Vertical">
-                    <ComboBox
-                        Height="30"
-                        Margin="6"
-                        VerticalContentAlignment="Center"
-                        DisplayMemberPath="Display"
-                        IsHitTestVisible="{c:Binding !InfrastTaskRunning}"
-                        ItemsSource="{Binding CustomInfrastPlanList}"
-                        SelectedValue="{Binding CustomInfrastPlanIndex}"
-                        SelectedValuePath="Value" />
-                </StackPanel>
-            </Grid>
-            <Grid Grid.Row="3">
+            <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" MinWidth="100" />
                     <ColumnDefinition />
@@ -295,6 +264,37 @@
                         Text="{Binding RemainingSanityStage, UpdateSourceTrigger=PropertyChanged}"
                         ToolTip="{DynamicResource UseRemainingSanityStageTip}"
                         Visibility="{c:Binding CustomStageCode and UseRemainingSanityStage}" />
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="3" Visibility="{c:Binding CustomInfrastEnabled and TaskSettingVisibilities.CustomInfrastPlanShowInFightSettings}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="100" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <Grid Height="42">
+                        <controls:TextBlock
+                            Margin="6"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{DynamicResource CustomInfrastPlan}"
+                            TextAlignment="Center"
+                            TextWrapping="Wrap" />
+                    </Grid>
+                </StackPanel>
+                <StackPanel
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Orientation="Vertical">
+                    <ComboBox
+                        Height="30"
+                        Margin="6"
+                        VerticalContentAlignment="Center"
+                        DisplayMemberPath="Display"
+                        IsHitTestVisible="{c:Binding !InfrastTaskRunning}"
+                        ItemsSource="{Binding CustomInfrastPlanList}"
+                        SelectedValue="{Binding CustomInfrastPlanIndex}"
+                        SelectedValuePath="Value" />
                 </StackPanel>
             </Grid>
         </Grid>
