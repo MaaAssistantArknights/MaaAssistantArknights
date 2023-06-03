@@ -122,7 +122,6 @@
                         SelectedValue="{Binding DropsItemId}"
                         SelectedValuePath="Value"
                         Text="{Binding DropsItemName}" />
-
                     <hc:NumericUpDown
                         Width="60"
                         Height="30"
@@ -130,6 +129,8 @@
                         HorizontalAlignment="Left"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
+                        Maximum="9999"
+                        Minimum="1"
                         ValueChanged="NumericUpDown_ValueChanged"
                         Visibility="{c:Binding IsSpecifiedDrops}"
                         Value="{Binding DropsQuantity, UpdateSourceTrigger=PropertyChanged}" />
