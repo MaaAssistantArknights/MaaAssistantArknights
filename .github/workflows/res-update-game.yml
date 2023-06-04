@@ -56,6 +56,7 @@ jobs:
             }
             echo "isAllEqual: "$isAllEqual
             echo "only_sorted=$isAllEqual" >> $env:GITHUB_OUTPUT
+            echo "WTF??"
         
       - name: Cancelling
         if: steps.check_only_sorted.outputs.only_sorted == 'True'
