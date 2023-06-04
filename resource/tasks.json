@@ -2513,7 +2513,9 @@
         "algorithm": "OcrDetect",
         "text": [
             "开始唤醒",
-            "登录"
+            "登录",
+            "登",
+            "录"
         ],
         "fullMatch": true,
         "roi": [
