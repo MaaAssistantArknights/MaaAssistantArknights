@@ -2451,6 +2451,7 @@
         "next": [
             "GameStart",
             "StartToWakeUp",
+            "StartToWakeUpOCR",
             "StartLoginBServer",
             "StartUpConnectingFlag",
             "#back",
@@ -2505,6 +2506,21 @@
         "next": [
             "StartUpThemes#next",
             "StartToWakeUp@LoadingIcon"
+        ]
+    },
+    "StartToWakeUpOCR": {
+        "baseTask": "StartToWakeUp",
+        "algorithm": "OcrDetect",
+        "text": [
+            "开始唤醒",
+            "登录"
+        ],
+        "fullMatch": true,
+        "roi": [
+            595,
+            418,
+            87,
+            46
         ]
     },
     "StartLoginBServer": {
@@ -6427,7 +6443,7 @@
     },
     "BattleStartExercise": {
         "baseTask": "BattleStart"
-    },    
+    },
     "BattleStartAdverse": {
         "baseTask": "BattleStart"
     },
