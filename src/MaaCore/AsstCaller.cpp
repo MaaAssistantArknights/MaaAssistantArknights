@@ -42,9 +42,9 @@ BOOL APIENTRY DllMain(HINSTANCE hModule,
 #endif
 #endif
 
-bool inited()
+AsstBool inited()
 {
-    return asst::ResourceLoader::get_instance().loaded();
+    return asst::ResourceLoader::get_instance().loaded() ? AsstTrue : AsstFalse;
 }
 
 AsstBool AsstSetUserDir(const char* path)
@@ -102,7 +102,7 @@ void AsstDestroy(AsstHandle handle)
 AsstBool AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, const char* value)
 {
     if (handle == nullptr) {
-        return false;
+        return AsstFalse;
     }
 
     return handle->set_instance_option(static_cast<asst::InstanceOptionKey>(key), value) ? AsstTrue : AsstFalse;
@@ -111,7 +111,7 @@ AsstBool AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, con
 AsstBool AsstConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config)
 {
     if (!inited() || handle == nullptr) {
-        return false;
+        return AsstFalse;
     }
 
     return handle->connect(adb_path, address, config ? config : std::string()) ? AsstTrue : AsstFalse;
@@ -120,7 +120,7 @@ AsstBool AsstConnect(AsstHandle handle, const char* adb_path, const char* addres
 AsstBool AsstStart(AsstHandle handle)
 {
     if (!inited() || handle == nullptr) {
-        return false;
+        return AsstFalse;
     }
 
     return handle->start() ? AsstTrue : AsstFalse;
@@ -129,7 +129,7 @@ AsstBool AsstStart(AsstHandle handle)
 AsstBool AsstStop(AsstHandle handle)
 {
     if (!inited() || handle == nullptr) {
-        return false;
+        return AsstFalse;
     }
 
     return handle->stop() ? AsstTrue : AsstFalse;
@@ -138,7 +138,7 @@ AsstBool AsstStop(AsstHandle handle)
 AsstBool AsstRunning(AsstHandle handle)
 {
     if (!inited() || handle == nullptr) {
-        return false;
+        return AsstFalse;
     }
 
     return handle->running() ? AsstTrue : AsstFalse;
@@ -147,7 +147,7 @@ AsstBool AsstRunning(AsstHandle handle)
 AsstBool AsstConnected(AsstHandle handle)
 {
     if (!inited() || handle == nullptr) {
-        return false;
+        return AsstFalse;
     }
 
     return handle->connected() ? AsstTrue : AsstFalse;
@@ -174,7 +174,7 @@ AsstTaskId AsstAppendTask(AsstHandle handle, const char* type, const char* param
 AsstBool AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char* params)
 {
     if (!inited() || handle == nullptr) {
-        return false;
+        return AsstFalse;
     }
 
     return handle->set_task_params(id, params ? params : "") ? AsstTrue : AsstFalse;
