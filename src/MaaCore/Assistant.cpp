@@ -381,8 +381,8 @@ void Assistant::working_proc()
         }
 
         if (m_thread_idle || m_tasks_list.empty()) {
-            m_thread_idle = true;
             finished_tasks.clear();
+            m_thread_idle = true;
             Log.flush();
             LogTraceScope("wait for m_condvar");
             m_condvar.wait(lock);
