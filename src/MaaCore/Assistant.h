@@ -150,13 +150,13 @@ namespace asst
         std::shared_ptr<Controller> m_ctrler = nullptr;
         std::shared_ptr<Status> m_status = nullptr;
 
-        bool m_thread_exit = false;
+        std::atomic_bool m_thread_exit = false;
         std::list<std::pair<TaskId, std::shared_ptr<InterfaceTask>>> m_tasks_list;
         inline static TaskId m_task_id = 0; // 进程级唯一
         ApiCallback m_callback = nullptr;
         void* m_callback_arg = nullptr;
 
-        bool m_thread_idle = true;
+        std::atomic_bool m_thread_idle = true;
         mutable std::mutex m_mutex;
         std::condition_variable m_condvar;
 

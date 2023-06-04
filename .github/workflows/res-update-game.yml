@@ -38,6 +38,11 @@ jobs:
             git status
 
             $diff = $(git diff --numstat HEAD | findstr -i resource)
+            if ($LASTEXITCODE -ne 0) {
+              echo "no diff"
+              exit 0
+            }
+            
             echo "diff: "$diff
             $sp = $($diff -split "\s+")
             $numbers = $($sp | Where-Object { $_ -match "^\d+$" })
