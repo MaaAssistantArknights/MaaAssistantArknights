@@ -123,13 +123,14 @@
                         SelectedValuePath="Value"
                         Text="{Binding DropsItemName}" />
                     <hc:NumericUpDown
-                        Width="60"
+                        Width="Auto"
                         Height="30"
+                        MinWidth="60"
                         Margin="6"
                         HorizontalAlignment="Left"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
-                        Maximum="9999"
+                        Maximum="1145141919"
                         Minimum="1"
                         ValueChanged="NumericUpDown_ValueChanged"
                         Visibility="{c:Binding IsSpecifiedDrops}"
