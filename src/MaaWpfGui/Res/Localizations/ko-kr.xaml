@@ -186,7 +186,7 @@
     <system:String x:Key="TouchMode">터치 수행 방식</system:String>
     <system:String x:Key="MiniTouchMode">Minitouch (기본값)</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch (실험적)</system:String>
-    <system:String x:Key="AdbTouchMode">ADB Input (호환 모드)</system:String>
+    <system:String x:Key="AdbTouchMode">ADB Input (권장하지 않음)</system:String>
     <system:String x:Key="AdditionCommand">추가 변수</system:String>
     <system:String x:Key="StartsWithScript">시작 시 추가 스크립트</system:String>
     <system:String x:Key="EndsWithScript">종료 시 추가 스크립트</system:String>
