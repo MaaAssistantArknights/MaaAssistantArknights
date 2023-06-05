@@ -2121,7 +2121,7 @@
                 "鸿雪"
             ],
             [
-                "Gavial the.*",
+                "Gavial the Invincible",
                 "百炼嘉维尔"
             ],
             [
@@ -2167,6 +2167,10 @@
             [
                 "Astgenne",
                 "星源"
+            ],
+            [
+                ".*Lightni.*bearer",
+                "Greyy the Lightningbearer"
             ],
             [
                 "Greyy the Lightningbearer",
@@ -2326,6 +2330,15 @@
             ]
         ]
     },
+    "OperBoxNameOCR": {
+        "specialParams": [
+            160,
+            4,
+            6,
+            0
+        ]
+    },
+
     "ClickChapter1": {
         "text": [
             "Hour of An Awakening",
