@@ -2,16 +2,21 @@
 
 #include "Task/Miscellaneous/AutoRecruitTask.h"
 #include "Task/ProcessTask.h"
+#include "Utils/Logger.hpp"
 
 asst::RecruitTask::RecruitTask(const AsstCallback& callback, Assistant* inst)
     : InterfaceTask(callback, inst, TaskType),
       m_auto_recruit_task_ptr(std::make_shared<AutoRecruitTask>(callback, inst, TaskType))
 {
+    LogTraceFunction;
+
     m_subtasks.emplace_back(m_auto_recruit_task_ptr)->set_retry_times(5);
 }
 
 bool asst::RecruitTask::set_params(const json::value& params)
 {
+    LogTraceFunction;
+
     auto select_opt = params.find<json::array>("select");
     auto confirm_opt = params.find<json::array>("confirm");
     if (!select_opt || !confirm_opt) {

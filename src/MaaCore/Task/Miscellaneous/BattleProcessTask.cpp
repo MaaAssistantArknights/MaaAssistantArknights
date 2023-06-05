@@ -16,10 +16,8 @@
 #include "Utils/Algorithm.hpp"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/Miscellaneous/BattleImageAnalyzer.h"
-#include "Vision/Miscellaneous/BattleSkillReadyImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/Matcher.h"
+#include "Vision/RegionOCRer.h"
 
 using namespace asst::battle;
 using namespace asst::battle::copilot;
@@ -95,10 +93,18 @@ bool asst::BattleProcessTask::to_group()
     }
 
     auto result_opt = algorithm::get_char_allocation_for_each_group(groups, char_set);
-    if (!result_opt) {
-        return false;
+    if (result_opt) {
+        m_oper_in_group = *result_opt;
     }
-    m_oper_in_group = *result_opt;
+    else {
+        Log.warn("get_char_allocation_for_each_group failed");
+        for (const auto& [gp, names] : groups) {
+            if (names.empty()) {
+                continue;
+            }
+            m_oper_in_group.emplace(gp, names.front());
+        }
+    }
 
     std::unordered_map<std::string, std::string> ungrouped;
     const auto& grouped_view = m_oper_in_group | views::values;
@@ -133,7 +139,7 @@ bool asst::BattleProcessTask::to_group()
     return true;
 }
 
-bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, size_t action_index)
+bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, size_t index)
 {
     LogTraceFunction;
 
@@ -173,7 +179,7 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
         break;
 
     case ActionType::BulletTime:
-        ret = enter_bullet_time_for_next_action(action_index + 1, location, name);
+        ret = enter_bullet_time(name, location);
         if (ret) m_in_bullet_time = true;
         break;
 
@@ -195,7 +201,7 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
         ret = wait_until_end();
         break;
     default:
-        ret = do_derived_action(action_index);
+        ret = do_derived_action(action, index);
         break;
     }
 
@@ -318,8 +324,8 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
         }
     }
 
-    // 部署干员还有额外等待费用够或 CD 转好
-    if (!m_in_bullet_time && action.type == ActionType::Deploy) {
+    // 部署干员还要额外等待费用够或 CD 转好
+    if (action.type == ActionType::Deploy) {
         const std::string& name = get_name_from_group(action.name);
         update_image_if_empty();
         while (!need_exit()) {
@@ -337,32 +343,14 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
     return true;
 }
 
-bool asst::BattleProcessTask::enter_bullet_time_for_next_action(size_t next_index, const Point& location,
-                                                                const std::string& name)
+bool asst::BattleProcessTask::enter_bullet_time(const std::string& name, const Point& location)
 {
     LogTraceFunction;
 
-    if (next_index > get_combat_data().actions.size()) {
-        Log.error("Bullet time does not have the next step!");
-        return false;
-    }
-    const auto& next_action = get_combat_data().actions.at(next_index);
-
-    bool ret = false;
-    switch (next_action.type) {
-    case ActionType::Deploy:
+    bool ret = location.empty() ? click_oper_on_battlefield(name) : click_oper_on_battlefield(location);
+    if (!ret) {
         ret = click_oper_on_deployment(name);
-        break;
-
-    case ActionType::UseSkill:
-    case ActionType::Retreat:
-        ret = location.empty() ? click_oper_on_battlefield(name) : click_oper_on_battlefield(location);
-        break;
-
-    default:
-        Log.error("Bullet time 's next step is not deploy, skill or retreat!");
-        return false;
-    }
+    };
 
     return ret;
 }

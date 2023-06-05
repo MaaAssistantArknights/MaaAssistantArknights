@@ -5,7 +5,6 @@
 #include <meojson/json.hpp>
 
 #include "Config/GeneralConfig.h"
-#include "Config/Miscellaneous/OcrPack.h"
 #include "Controller/Controller.h"
 #include "Status.h"
 #include "Task/Interface/AwardTask.h"
@@ -16,12 +15,14 @@
 #include "Task/Interface/FightTask.h"
 #include "Task/Interface/InfrastTask.h"
 #include "Task/Interface/MallTask.h"
+#include "Task/Interface/OperBoxTask.h"
 #include "Task/Interface/ReclamationTask.h"
 #include "Task/Interface/RecruitTask.h"
 #include "Task/Interface/RoguelikeTask.h"
 #include "Task/Interface/SSSCopilotTask.h"
 #include "Task/Interface/SingleStepTask.h"
 #include "Task/Interface/StartUpTask.h"
+#include "Task/Interface/VideoRecognitionTask.h"
 #include "Utils/Logger.hpp"
 #ifdef ASST_DEBUG
 #include "Task/Interface/DebugTask.h"
@@ -40,10 +41,11 @@ Assistant::Assistant(ApiCallback callback, void* callback_arg) : m_callback(call
     LogTraceFunction;
 
     m_status = std::make_shared<Status>();
-    m_ctrler = std::make_shared<Controller>(async_callback, this);
+    m_ctrler = std::make_shared<Controller>(append_callback_for_inst, this);
 
-    m_working_thread = std::thread(&Assistant::working_proc, this);
     m_msg_thread = std::thread(&Assistant::msg_proc, this);
+    m_call_thread = std::thread(&Assistant::call_proc, this);
+    m_working_thread = std::thread(&Assistant::working_proc, this);
 }
 
 Assistant::~Assistant()
@@ -52,17 +54,28 @@ Assistant::~Assistant()
 
     m_thread_exit = true;
     m_thread_idle = true;
+
     {
+        LogTraceScope("m_call_mutex");
+        std::unique_lock<std::mutex> lock(m_call_mutex);
+        m_call_condvar.notify_all();
+    }
+    {
+        LogTraceScope("m_mutex");
         std::unique_lock<std::mutex> lock(m_mutex);
         m_condvar.notify_all();
     }
     {
+        LogTraceScope("m_msg_mutex");
         std::unique_lock<std::mutex> lock(m_msg_mutex);
         m_msg_condvar.notify_all();
     }
 
     if (m_working_thread.joinable()) {
         m_working_thread.join();
+    }
+    if (m_call_thread.joinable()) {
+        m_call_thread.join();
     }
     if (m_msg_thread.joinable()) {
         m_msg_thread.join();
@@ -86,6 +99,10 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
             m_ctrler->set_touch_mode(TouchMode::Maatouch);
             return true;
         }
+        else if (constexpr std::string_view MacPlayTools = "MacPlayTools"; value == MacPlayTools) {
+            m_ctrler->set_touch_mode(TouchMode::MacPlayTools);
+            return true;
+        }
         break;
     case InstanceOptionKey::DeploymentWithPause:
         if (constexpr std::string_view Enable = "1"; value == Enable) {
@@ -107,6 +124,16 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
             return true;
         }
         break;
+    case InstanceOptionKey::KillAdbOnExit:
+        if (constexpr std::string_view Enable = "1"; value == Enable) {
+            m_ctrler->set_kill_adb_on_exit(true);
+            return true;
+        }
+        else if (constexpr std::string_view Disable = "0"; value == Disable) {
+            m_ctrler->set_kill_adb_on_exit(false);
+            return true;
+        }
+        break;
     default:
         break;
     }
@@ -114,7 +141,7 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
     return false;
 }
 
-bool asst::Assistant::connect(const std::string& adb_path, const std::string& address, const std::string& config)
+bool asst::Assistant::ctrl_connect(const std::string& adb_path, const std::string& address, const std::string& config)
 {
     LogTraceFunction;
 
@@ -136,21 +163,32 @@ bool asst::Assistant::connect(const std::string& adb_path, const std::string& ad
     return ret;
 }
 
+bool asst::Assistant::ctrl_click(int x, int y)
+{
+    return m_ctrler->click(Point(x, y));
+}
+
+bool asst::Assistant::ctrl_screencap()
+{
+    return m_ctrler->screencap();
+}
+
 asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, const std::string& params)
 {
     Log.info(__FUNCTION__, type, params);
 
     auto ret = json::parse(params.empty() ? "{}" : params);
     if (!ret) {
+        Log.error("json::parse failed");
         return 0;
     }
 
     std::shared_ptr<InterfaceTask> ptr = nullptr;
 
-#define ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(TASK) \
-    else if (type == TASK::TaskType)                           \
-    {                                                          \
-        ptr = std::make_shared<TASK>(async_callback, this);    \
+#define ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(TASK)        \
+    else if (type == TASK::TaskType)                                  \
+    {                                                                 \
+        ptr = std::make_shared<TASK>(append_callback_for_inst, this); \
     }
 
     if constexpr (false) {}
@@ -165,7 +203,9 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CopilotTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(SSSCopilotTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(SingleStepTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(VideoRecognitionTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(DepotTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(OperBoxTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(ReclamationTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CustomTask)
 #ifdef ASST_DEBUG
@@ -184,14 +224,17 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
 
     bool params_ret = ptr->set_params(json);
     if (!params_ret) {
+        Log.error(__FUNCTION__, "| invalid params:", params);
         return 0;
     }
 
     std::unique_lock<std::mutex> lock(m_mutex);
-    ++m_task_id;
-    ptr->set_task_id(m_task_id);
-    m_tasks_list.emplace_back(m_task_id, ptr);
-    return m_task_id;
+    int task_id = ++m_task_id;
+    ptr->set_task_id(task_id);
+    m_tasks_list.emplace_back(task_id, ptr);
+    Log.info(__FUNCTION__, "| task_id:", task_id);
+
+    return task_id;
 }
 
 bool asst::Assistant::set_task_params(TaskId task_id, const std::string& params)
@@ -234,41 +277,40 @@ std::vector<uchar> asst::Assistant::get_image() const
     return buf;
 }
 
+bool asst::Assistant::connect(const std::string& adb_path, const std::string& address, const std::string& config)
+{
+    LogTraceFunction;
+
+    return ctrl_connect(adb_path, address, config);
+}
+
 asst::Assistant::AsyncCallId asst::Assistant::async_connect(const std::string& adb_path, const std::string& address,
                                                             const std::string& config, bool block)
 {
     LogTraceFunction;
 
-    int async_call_id = ++m_call_id;
-    async_call([&]() -> bool { return connect(adb_path, address, config); }, async_call_id, "Connect", block);
-
-    return async_call_id;
+    return append_async_call(
+        AsyncCallItem::Type::Connect,
+        AsyncCallItem::ConnectParams { .adb_path = adb_path, .address = address, .config = config }, block);
 }
 
 asst::Assistant::AsyncCallId asst::Assistant::async_click(int x, int y, bool block)
 {
     LogTraceFunction;
-    if (!inited()) {
-        return 0;
-    }
 
-    int async_call_id = ++m_call_id;
-    async_call([&]() -> bool { return m_ctrler->click(Point(x, y)); }, async_call_id, "Click", block);
-
-    return async_call_id;
+    return append_async_call(AsyncCallItem::Type::Click, AsyncCallItem::ClickParams { .x = x, .y = y }, block);
 }
 
 asst::Assistant::AsyncCallId asst::Assistant::async_screencap(bool block)
 {
     LogTraceFunction;
-    if (!inited()) {
-        return 0;
-    }
 
-    int async_call_id = ++m_call_id;
-    async_call([&]() -> bool { return m_ctrler->screencap(); }, async_call_id, "Screencap", block);
+    return append_async_call(AsyncCallItem::Type::Screencap, AsyncCallItem::ScreencapParams {}, block);
+}
 
-    return async_call_id;
+bool asst::Assistant::connected() const
+{
+    return inited();
 }
 
 std::string asst::Assistant::get_uuid() const
@@ -287,9 +329,9 @@ std::vector<Assistant::TaskId> asst::Assistant::get_tasks_list() const
 bool asst::Assistant::start(bool block)
 {
     LogTraceFunction;
-    Log.trace("Start |", block ? "block" : "non block");
+    Log.info("Start |", block ? "block" : "non block");
 
-    if (!m_thread_idle || !inited()) {
+    if (!m_thread_idle) {
         return false;
     }
     std::unique_lock<std::mutex> lock;
@@ -306,7 +348,7 @@ bool asst::Assistant::start(bool block)
 bool Assistant::stop(bool block)
 {
     LogTraceFunction;
-    Log.trace("Stop |", block ? "block" : "non block");
+    Log.info("Stop |", block ? "block" : "non block");
 
     m_thread_idle = true;
 
@@ -331,59 +373,62 @@ void Assistant::working_proc()
     LogTraceFunction;
 
     std::vector<TaskId> finished_tasks;
-    while (!m_thread_exit) {
-        // LogTraceScope("Assistant::working_proc Loop");
-
+    while (true) {
+        LogTraceScope("working_proc loop");
         std::unique_lock<std::mutex> lock(m_mutex);
-        if (!m_thread_idle && !m_tasks_list.empty()) {
-            const auto [id, task_ptr] = m_tasks_list.front();
-            lock.unlock();
-            // only one instance of working_proc running, unlock here to allow set_task_param to the running
-            // task
-
-            json::value callback_json = json::object {
-                { "taskchain", std::string(task_ptr->get_task_chain()) },
-                { "taskid", id },
-            };
-            async_callback(AsstMsg::TaskChainStart, callback_json, this);
-
-            bool ret = task_ptr->run();
-            finished_tasks.emplace_back(id);
-
-            lock.lock();
-            if (!m_tasks_list.empty()) {
-                m_tasks_list.pop_front();
-            }
-            lock.unlock();
-
-            auto msg = m_thread_idle ? AsstMsg::TaskChainStopped
-                                     : (ret ? AsstMsg::TaskChainCompleted : AsstMsg::TaskChainError);
-            async_callback(msg, callback_json, this);
-
-            if (m_thread_idle) {
-                finished_tasks.clear();
-                continue;
-            }
-
-            if (m_tasks_list.empty()) {
-                callback_json["finished_tasks"] = json::array(finished_tasks);
-                async_callback(AsstMsg::AllTasksCompleted, callback_json, this);
-                finished_tasks.clear();
-            }
-
-            const int delay = Config.get_options().task_delay;
-            lock.lock();
-            m_condvar.wait_for(lock, std::chrono::milliseconds(delay), [&]() -> bool { return m_thread_idle; });
-
-            if (m_thread_idle) {
-                async_callback(AsstMsg::TaskChainStopped, callback_json, this);
-            }
+        if (m_thread_exit) {
+            return;
         }
-        else {
-            m_thread_idle = true;
+
+        if (m_thread_idle || m_tasks_list.empty()) {
             finished_tasks.clear();
+            m_thread_idle = true;
             Log.flush();
+            LogTraceScope("wait for m_condvar");
             m_condvar.wait(lock);
+            continue;
+        }
+
+        const auto [id, task_ptr] = m_tasks_list.front();
+        lock.unlock();
+        // only one instance of working_proc running, unlock here to allow set_task_param to the running task
+
+        json::value callback_json = json::object {
+            { "taskchain", std::string(task_ptr->get_task_chain()) },
+            { "taskid", id },
+        };
+        append_callback(AsstMsg::TaskChainStart, callback_json);
+
+        bool ret = task_ptr->run();
+        finished_tasks.emplace_back(id);
+
+        lock.lock();
+        if (!m_tasks_list.empty()) {
+            m_tasks_list.pop_front();
+        }
+        lock.unlock();
+
+        auto msg =
+            m_thread_idle ? AsstMsg::TaskChainStopped : (ret ? AsstMsg::TaskChainCompleted : AsstMsg::TaskChainError);
+        append_callback(msg, callback_json);
+
+        if (m_thread_idle) {
+            finished_tasks.clear();
+            continue;
+        }
+
+        if (m_tasks_list.empty()) {
+            callback_json["finished_tasks"] = json::array(finished_tasks);
+            append_callback(AsstMsg::AllTasksCompleted, callback_json);
+            finished_tasks.clear();
+        }
+
+        const int delay = Config.get_options().task_delay;
+        lock.lock();
+        m_condvar.wait_for(lock, std::chrono::milliseconds(delay), [&]() -> bool { return m_thread_idle; });
+
+        if (m_thread_idle) {
+            append_callback(AsstMsg::TaskChainStopped, callback_json);
         }
     }
 }
@@ -392,54 +437,170 @@ void Assistant::msg_proc()
 {
     LogTraceFunction;
 
-    while (!m_thread_exit) {
-        // LogTraceScope("Assistant::msg_proc Loop");
+    while (true) {
+        // LogTraceScope("msg_proc loop");
         std::unique_lock<std::mutex> lock(m_msg_mutex);
-        if (!m_msg_queue.empty()) {
-            // 结构化绑定只能是引用，后续的pop会使引用失效，所以需要重新构造一份，这里采用了move的方式
-            auto&& [temp_msg, temp_detail] = m_msg_queue.front();
-            AsstMsg msg = temp_msg;
-            json::value detail = std::move(temp_detail);
-            m_msg_queue.pop();
-            lock.unlock();
-
-            if (m_callback) {
-                m_callback(static_cast<AsstMsgId>(msg), detail.to_string().c_str(), m_callback_arg);
-            }
+        if (m_thread_exit) {
+            return;
         }
-        else {
+
+        if (m_msg_queue.empty()) {
+            LogTraceScope("wait for m_msg_condvar");
             m_msg_condvar.wait(lock);
+            continue;
+        }
+
+        auto [msg, detail] = std::move(m_msg_queue.front());
+        m_msg_queue.pop();
+        lock.unlock();
+
+        if (m_callback) {
+            m_callback(static_cast<AsstMsgId>(msg), detail.to_string().c_str(), m_callback_arg);
         }
     }
 }
 
-void Assistant::async_callback(AsstMsg msg, const json::value& detail, Assistant* inst)
+asst::Assistant::AsyncCallId asst::Assistant::append_async_call(AsyncCallItem::Type type, AsyncCallItem::Parmas params,
+                                                                bool block)
+{
+    LogTraceFunction;
+
+    AsyncCallId id = 0;
+    {
+        std::unique_lock<std::mutex> lock(m_call_mutex);
+        id = ++m_call_id;
+        AsyncCallItem item { .id = id, .type = type, .params = std::move(params) };
+
+        m_call_queue.emplace(std::move(item));
+        m_call_condvar.notify_one();
+    }
+
+    if (block) {
+        // 需要保证队列中id一定是有序的
+        wait_async_id(id);
+    }
+
+    return id;
+}
+
+bool asst::Assistant::wait_async_id(AsyncCallId id)
+{
+    while (true) {
+        LogTraceScope("wait_async_id loop");
+        std::unique_lock<std::mutex> lock(m_completed_call_mutex);
+        if (m_thread_exit) {
+            return false;
+        }
+
+        // 需要保证队列中id一定是有序的
+        if (id <= m_completed_call) {
+            return true;
+        }
+        m_completed_call_condvar.wait(lock);
+    }
+    return false;
+}
+
+void asst::Assistant::call_proc()
+{
+    LogTraceFunction;
+
+    while (true) {
+        LogTraceScope("call_proc loop");
+        std::unique_lock<std::mutex> lock(m_call_mutex);
+        if (m_thread_exit) {
+            return;
+        }
+
+        if (m_call_queue.empty()) {
+            LogTraceScope("wait for m_call_condvar");
+            m_call_condvar.wait(lock);
+            continue;
+        }
+
+        auto call_item = std::move(m_call_queue.front());
+        m_call_queue.pop();
+        lock.unlock();
+
+        auto start = std::chrono::steady_clock::now();
+        bool ret = false;
+        std::string what;
+
+        switch (call_item.type) {
+        case AsyncCallItem::Type::Connect: {
+            what = "Connect";
+            const auto& [adb_path, address, config] = std::get<AsyncCallItem::ConnectParams>(call_item.params);
+            ret = ctrl_connect(adb_path, address, config);
+        } break;
+        case AsyncCallItem::Type::Click: {
+            what = "Click";
+            const auto& [x, y] = std::get<AsyncCallItem::ClickParams>(call_item.params);
+            ret = ctrl_click(x, y);
+        } break;
+        case AsyncCallItem::Type::Screencap: {
+            what = "Screencap";
+            std::ignore = std::get<AsyncCallItem::ScreencapParams>(call_item.params);
+            ret = ctrl_screencap();
+        } break;
+        default:
+            what = "Unknown";
+            ret = false;
+            break;
+        }
+
+        {
+            std::unique_lock<std::mutex> completed_call_lock(m_completed_call_mutex);
+            m_completed_call = call_item.id;
+            m_completed_call_condvar.notify_all();
+        }
+
+        auto cost =
+            std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start).count();
+        json::value cb_info = json::object {
+            { "uuid", m_uuid },
+            { "what", what },
+            { "async_call_id", call_item.id },
+            {
+                "details",
+                json::object {
+                    { "ret", ret },
+                    { "cost", cost },
+                },
+            },
+        };
+        append_callback(AsstMsg::AsyncCallInfo, cb_info);
+    }
+}
+
+void Assistant::append_callback(AsstMsg msg, const json::value& detail)
 {
     json::value more_detail = detail;
     if (!more_detail.contains("uuid")) {
-        more_detail["uuid"] = inst->m_uuid;
+        more_detail["uuid"] = m_uuid;
     }
-
     switch (msg) {
     case AsstMsg::InternalError:
     case AsstMsg::InitFailed:
-        inst->stop(false);
+        stop(false);
         break;
     default:
         break;
     }
 
     // 加入回调消息队列，由回调消息线程外抛给外部
-    inst->append_callback(msg, std::move(more_detail));
-}
-
-void asst::Assistant::append_callback(AsstMsg msg, json::value detail)
-{
-    Log.info("Assistant::append_callback |", msg, detail.to_string());
+    Log.info("Assistant::append_callback |", msg, more_detail.to_string());
 
     std::unique_lock<std::mutex> lock(m_msg_mutex);
-    m_msg_queue.emplace(msg, std::move(detail));
+    m_msg_queue.emplace(msg, std::move(more_detail));
     m_msg_condvar.notify_one();
+}
+
+void asst::Assistant::append_callback_for_inst(AsstMsg msg, const json::value& detail, Assistant* inst)
+{
+    if (!inst) {
+        return;
+    }
+    inst->append_callback(msg, detail);
 }
 
 void Assistant::clear_cache()
@@ -452,42 +613,4 @@ void Assistant::clear_cache()
 bool asst::Assistant::inited() const noexcept
 {
     return m_ctrler && m_ctrler->inited();
-}
-
-void asst::Assistant::async_call(std::function<bool(void)> func, int async_call_id, const std::string what, bool block)
-{
-    auto future = std::async(std::launch::async, [&]() {
-        auto start = std::chrono::steady_clock::now();
-        bool ret = func();
-        auto cost =
-            std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start).count();
-        json::value info = json::object {
-            { "uuid", m_uuid },
-            { "what", what },
-            { "async_call_id", async_call_id },
-            {
-                "details",
-                json::object {
-                    { "ret", ret },
-                    { "cost", cost },
-                },
-            },
-        };
-        async_callback(AsstMsg::AsyncCallInfo, info, this);
-    });
-
-    if (!block) {
-        std::unique_lock lock(m_call_pending_mutex);
-        m_call_pending.remove_if([](std::future<void>& fut) {
-            if (fut.wait_for(std::chrono::seconds::zero()) == std::future_status::ready) {
-                fut.get();
-                return true;
-            }
-            return false;
-        });
-        m_call_pending.emplace_back(std::move(future));
-    }
-    else {
-        future.get();
-    }
 }

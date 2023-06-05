@@ -335,6 +335,14 @@
         "sortId": 100002,
         "usage": "高価な源石工業製品。昇進やスキル強化に必要な高ランク素材。"
     },
+    "30155": {
+        "classifyType": "MATERIAL",
+        "description": "特定の高温環境下で分子認識の能力を持つ素材。活性剤として源石に選択性を持って吸着することで、源石素材の精密な加工や、源石パーツの消費問題に新たな可能性をもたらす。",
+        "icon": "30155.png",
+        "name": "焼結核凝晶",
+        "sortId": 100001,
+        "usage": "加工の難易度が極めて高い現代科学の産物。昇進やスキル強化に必要な高ランク素材。"
+    },
     "31013": {
         "classifyType": "MATERIAL",
         "description": "実験室で偶然に生まれた人工材料。耐熱性、耐寒性に優れ、強度は高く、軽く、加工しやすいため、最先端のプロジェクトに幅広く運用される。",
@@ -422,6 +430,22 @@
         "name": "上級切削液",
         "sortId": 100008,
         "usage": "活性溶剤を配合して作られた原液。昇進やスキル強化に必要な高ランク素材。"
+    },
+    "31063": {
+        "classifyType": "MATERIAL",
+        "description": "素材表面の性質を変化させ、本来得るのが難しい効果を実現することができる。工業用の塩なので、決して口に入れてはいけない。",
+        "icon": "31063.png",
+        "name": "転化塩",
+        "sortId": 100007,
+        "usage": "製錬処理を経た化合物結晶。昇進やスキル強化に必要な素材。"
+    },
+    "31064": {
+        "classifyType": "MATERIAL",
+        "description": "安定した結晶体。飽和溶液を混合して結晶化させることで作られ、素材に対して多くの機能をもたらす。",
+        "icon": "31064.png",
+        "name": "上級転化塩",
+        "sortId": 100006,
+        "usage": "精錬処理を経た化合物結晶の塊。昇進やスキル強化に必要な素材。"
     },
     "3112": {
         "classifyType": "NORMAL",
@@ -919,6 +943,14 @@
         "sortId": 10018,
         "usage": "新型採用契約による期限付きポイント。一定数溜まると対象スカウトのオペレーターを指名できる。"
     },
+    "LMTGS_COIN_3301": {
+        "classifyType": "NORMAL",
+        "description": "人材派遣会社との長期的かつ安定的な協力態勢の賜物。支出のコントロールに効果が期待できる。しかし、毎回この手段を使わざるを得ないような状況にはなってほしくないものだ。",
+        "icon": "LMTGS_COIN_3301.png",
+        "name": "限定契約証",
+        "sortId": 10019,
+        "usage": "新型採用契約による期限付きポイント。一定数溜まると対象スカウトのオペレーターを指名できる。"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "人材派遣会社との長期的かつ安定的な協力態勢の賜物。支出のコントロールに効果が期待できる。しかし、毎回この手段を使わざるを得ないような状況にはなってほしくないものだ。",
@@ -1031,6 +1063,14 @@
         "sortId": -10000,
         "usage": "デンプンと果糖で作られたミノスの伝統的なお菓子。おやつのお城で報酬を獲得できる。"
     },
+    "act12mini_token_component": {
+        "classifyType": "NONE",
+        "description": "瞬く間に錆びて腐食した戦争の野心の残骸。騎士団が捨てたか、もしくは壊してしまった武器のパーツ。適切に扱わなければ源石感染のリスクがある。理由は不明だが、時折一般的な農家の中から見つかることがある。",
+        "icon": "act12mini_token_component.png",
+        "name": "制式機械パーツ",
+        "sortId": -10000,
+        "usage": "ズヴォネク付近でよく見られる廃棄された機械パーツ。カジミエーシュの町に広く展開するスーパーマーケットで回収できる。"
+    },
     "act12side_point_cmemomedal": {
         "classifyType": "NONE",
         "description": "メダルの1枚1枚が、チェンがカンデラ市長に依頼された件の捜査をする途中で、ついでに解決した事件を表している。チェンがドッソレスに滞在していた期間、都市の犯罪発生率は過去最低を記録した。現地警察への訓示として、メダルは警察本部の中央に陳列されている。",
@@ -1094,6 +1134,14 @@
         "name": "ミェシュコ競技証券",
         "sortId": -10000,
         "usage": "ミェシュコが打ち出した新しいビジネスモデル。カジミエーシュの免税ショップで記念品を購入できる。"
+    },
+    "act13mini_token_can": {
+        "classifyType": "NONE",
+        "description": "今週末、龍門近衛局は現地の動物保護センターと協力して、里親を待つペットの譲渡会を開催いたします。条件を満たす市民の皆様は、奮ってご参加いただけると幸いです。路頭に迷う小さな命に、再び幸せになる機会を与えてあげてください。\nもちろん、里親の条件に満たさない方も、動物たちにペットフードを寄付することができます。寄付をしてくださった皆様には、お礼として素敵なプレゼントもご用意しております。",
+        "icon": "act13mini_token_can.png",
+        "name": "ペットフード缶",
+        "sortId": -10000,
+        "usage": "龍門でよく見られる栄養満点なペットフードの缶詰。お手頃価格でおいしい。缶のプルタブを引くだけで、可愛いペットちゃんがあなたの元へ駆け寄ってくる。"
     },
     "act13side_prestige_armorless": {
         "classifyType": "NONE",
@@ -1247,38 +1295,6 @@
         "sortId": -10000,
         "usage": "試練が終了すると獲得できる経験値。試練の等級を上げることができる。"
     },
-    "act1bossrush_relic_01": {
-        "classifyType": "NONE",
-        "description": null,
-        "icon": "act1bossrush_relic_01.png",
-        "name": "マルチプレキシング",
-        "sortId": -10000,
-        "usage": null
-    },
-    "act1bossrush_relic_02": {
-        "classifyType": "NONE",
-        "description": null,
-        "icon": "act1bossrush_relic_02.png",
-        "name": "アクセラレーション",
-        "sortId": -10000,
-        "usage": null
-    },
-    "act1bossrush_relic_03": {
-        "classifyType": "NONE",
-        "description": null,
-        "icon": "act1bossrush_relic_03.png",
-        "name": "ハイパーストレージ",
-        "sortId": -10000,
-        "usage": null
-    },
-    "act1bossrush_relic_04": {
-        "classifyType": "NONE",
-        "description": null,
-        "icon": "act1bossrush_relic_04.png",
-        "name": "相互作用強化",
-        "sortId": -10000,
-        "usage": null
-    },
     "act1bossrush_token_relic": {
         "classifyType": "NONE",
         "description": "デコードされていないデータブロック。データの変換には必ずロスが生じることを覚えておくといい。データ保存ツールは有効活用すべきであるが、頼りすぎないことだ。",
@@ -1302,6 +1318,14 @@
         "name": "『奇談怪論』複製本",
         "sortId": -10000,
         "usage": "けばけばしい色の雑誌。内容は荒唐無稽だが、ドゥリン人たちには大人気である。ぴょんぴょん鉗獣市場で物資と交換することができる。"
+    },
+    "act21side_token_permesso": {
+        "classifyType": "NONE",
+        "description": "誰もが満足するようなステーキや旬の野菜と果物、或いはもっと別なもの。マフィアの面々がいつどこで何を欲するのかをよく理解し、事前に手配を済ませてピッタリなタイミングで提供する。それが賢い者のやり方だ。",
+        "icon": "act21side_token_permesso.png",
+        "name": "買付許可証",
+        "sortId": -10000,
+        "usage": "食品安全保証部がマフィアのファミリーに発行している許可証。これがあれば食品安全保証部に出入りし、物資を確保することができる。たとえそれらが「食品」とは呼べない代物であっても。"
     },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
@@ -1422,6 +1446,38 @@
         "name": "上級理性回復剤+",
         "sortId": 30001,
         "usage": "一時的に理性を維持させるための高用量の濃縮応急処置用薬剤。新たな有効成分が配合され、直ちに効果が表れる。生体リズムの乱れを引き起こす恐れがあり、服用前には説明書をよく読んでおくこと。"
+    },
+    "ap_supply_lt_120_2022_1": {
+        "classifyType": "CONSUME",
+        "description": "サクサク食感のパイ生地月餅。ほんのりついた焼き色が食欲をそそる。",
+        "icon": "ap_supply_lt_120_2022_1.png",
+        "name": "一家団欒",
+        "sortId": 30001,
+        "usage": "肉餡の詰まったパイ生地月餅。理性を回復するのに用いられる。"
+    },
+    "ap_supply_lt_120_2022_2": {
+        "classifyType": "CONSUME",
+        "description": "サクサク食感のパイ生地月餅。ほんのりついた焼き色が食欲をそそる。",
+        "icon": "ap_supply_lt_120_2022_2.png",
+        "name": "仲秋名月",
+        "sortId": 30001,
+        "usage": "ハム餡の詰まったパイ生地月餅。理性を回復するのに用いられる。"
+    },
+    "ap_supply_lt_120_2022_3": {
+        "classifyType": "CONSUME",
+        "description": "ふわふわ食感の饅頭生地月餅。つやつやな生地によだれが止まらない。",
+        "icon": "ap_supply_lt_120_2022_3.png",
+        "name": "喜色満面",
+        "sortId": 30001,
+        "usage": "薔薇小豆餡の饅頭生地月餅。理性を回復するのに用いられる。"
+    },
+    "ap_supply_lt_120_2022_4": {
+        "classifyType": "CONSUME",
+        "description": "ふわふわ食感の饅頭生地月餅。つやつやな生地によだれが止まらない。",
+        "icon": "ap_supply_lt_120_2022_4.png",
+        "name": "天香桂花",
+        "sortId": 30001,
+        "usage": "椒塩ナッツ餡の饅頭生地月餅。理性を回復するのに用いられる。"
     },
     "ap_supply_lt_60": {
         "classifyType": "CONSUME",
@@ -1639,6 +1695,14 @@
         "sortId": 60106,
         "usage": "補給物資としてランダムに様々な素材が入っている。"
     },
+    "randomMaterial_7": {
+        "classifyType": "CONSUME",
+        "description": "ロドスが各地から買い集め、貯蔵した素材の補給箱。しかし整理整頓ができていないためか、どの箱になんの素材が入っているのか誰にもわからない。",
+        "icon": "randomMaterial_7.png",
+        "name": "補給物資・ロドスIV",
+        "sortId": 60107,
+        "usage": "補給物資としてランダムに様々な素材が入っている。"
+    },
     "return_credit_token": {
         "classifyType": "NONE",
         "description": "重要な立場に戻る者のため、特別に用意された徽章。仕事に慣れていく中で徐々に授けられる。",
@@ -1660,6 +1724,14 @@
         "description": null,
         "icon": "rogue_1_token_grow.png",
         "name": "昏きセンス",
+        "sortId": -10000,
+        "usage": null
+    },
+    "rogue_2_token_bp": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "rogue_2_token_bp.png",
+        "name": "有機細胞",
         "sortId": -10000,
         "usage": null
     },

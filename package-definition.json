@@ -9,46 +9,11 @@
         }
     },
     {
-        "name_template": "MAAComponent-Core-{VERSION}-win-{PLATFORM}",
-        "type": "MaaCore",
-        "configuration": {
-            "include": [
-                "MaaCore.dll"
-            ]
-        }
-    },
-    {
-        "name_template": "MAAComponent-Dependency-{VERSION}-win-{PLATFORM}",
-        "type": "MaaDependency",
-        "configuration": {
-            "include": [
-                "MaaDerpLearning.dll",
-                "onnxruntime_maa.dll",
-                "opencv_world4_maa.dll",
-                "**/PaddleOCR/**",
-                "**/PaddleCharOCR/**"
-            ]
-        }
-    },
-    {
         "name_template": "MAAComponent-DebugSymbol-{VERSION}-win-{PLATFORM}",
         "type": "MaaDebugSymbol",
         "configuration": {
             "include": [
                 "**/*.pdb"
-            ]
-        }
-    },
-    {
-        "name_template": "MAAComponent-Resource-{VERSION}",
-        "type": "MaaResource",
-        "configuration": {
-            "include": [
-                "resource/**"
-            ],
-            "exclude": [
-                "**/PaddleOCR/**",
-                "**/PaddleCharOCR/**"
             ]
         }
     }

@@ -10,9 +10,9 @@
 #include "Config/TemplResource.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/OcrWithFlagTemplImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/Matcher.h"
+#include "Vision/TemplDetOCRer.h"
+#include "Vision/RegionOCRer.h"
 
 #include <numbers>
 
@@ -23,7 +23,7 @@ bool asst::StageDropsImageAnalyzer::analyze()
     analyze_stage_code();
     analyze_difficulty();
     analyze_stars();
-    bool ret = analyze_drops() && analyze_drops_for_CF();
+    bool ret = analyze_drops() && analyze_drops_for_CF() && analyze_drops_for_12();
 
 #ifndef ASST_DEBUG
     if (!ret)
@@ -47,7 +47,7 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_code()
 {
     LogTraceFunction;
 
-    OcrImageAnalyzer analyzer(m_image);
+    OCRer analyzer(m_image);
     analyzer.set_task_info("StageDrops-StageName");
     if (!analyzer.analyze()) {
         return false;
@@ -74,7 +74,7 @@ bool asst::StageDropsImageAnalyzer::analyze_stars()
         { 3, "StageDrops-Stars-3" },
     };
 
-    MatchImageAnalyzer analyzer(m_image);
+    Matcher analyzer(m_image);
     int matched_stars = 0;
     double max_score = 0.0;
 
@@ -116,47 +116,46 @@ bool asst::StageDropsImageAnalyzer::analyze_difficulty()
 {
     LogTraceFunction;
 
-    static const std::unordered_map<std::string, StageDifficulty> DifficultyTaskName = {
-        { "StageDrops-Difficulty-Normal", StageDifficulty::Normal },
-        { "StageDrops-Difficulty-Normal2", StageDifficulty::Normal },
-        { "StageDrops-Difficulty-Tough", StageDifficulty::Tough },
+    auto task_ptr = Task.get("StageDrops-Difficulty-Tough");
+    Matcher analyzer(m_image);
+    analyzer.set_task_info(task_ptr);
+
+    auto log = [&]() {
+        if (m_difficulty == StageDifficulty::Normal) {
+            Log.info(__FUNCTION__, "StageDifficulty::Normal");
+        }
+        else {
+            Log.info(__FUNCTION__, "StageDifficulty::Tough");
+        }
+#ifdef ASST_DEBUG
+        cv::putText(m_image_draw, m_difficulty == StageDifficulty::Normal ? "Normal" : "Tough", cv::Point(75, 120),
+                    cv::FONT_HERSHEY_SIMPLEX, 1.2, cv::Scalar(0, 0, 255), 2);
+#endif
     };
 
-    MatchImageAnalyzer analyzer(m_image);
-    auto matched = StageDifficulty::Normal;
-    double max_score = 0.0;
-
-#ifdef ASST_DEBUG
-    std::string matched_name = "unknown_difficulty";
-    Rect matched_rect;
-#endif
-
-    for (const auto& [task_name, difficulty] : DifficultyTaskName) {
-        auto task_ptr = Task.get(task_name);
-        analyzer.set_task_info(task_name);
-
-        if (!analyzer.analyze()) {
-            continue;
-        }
-
-        if (auto score = analyzer.get_result().score; score > max_score) {
-            max_score = score;
-            matched = difficulty;
-#ifdef ASST_DEBUG
-            matched_name = task_name;
-            matched_rect = analyzer.get_result().rect;
-#endif
-        }
+    auto analyzed = analyzer.analyze();
+    if (!analyzed) {
+        m_difficulty = StageDifficulty::Normal;
+        log();
+        return true;
     }
-    m_difficulty = matched;
-    Log.info(__FUNCTION__, "difficulty", static_cast<int>(m_difficulty));
 
-#ifdef ASST_DEBUG
-    cv::rectangle(m_image_draw, make_rect<cv::Rect>(matched_rect), cv::Scalar(0, 0, 255), 2);
-    matched_name = matched_name.substr(matched_name.find_last_of('-') + 1, matched_name.size());
-    cv::putText(m_image_draw, matched_name, cv::Point(matched_rect.x, matched_rect.y + matched_rect.height + 20),
-                cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
-#endif
+    cv::Mat image_roi = m_image(make_rect<cv::Rect>(analyzed->rect));
+    cv::Mat hsv;
+    cv::cvtColor(image_roi, hsv, cv::COLOR_BGR2HSV);
+
+    cv::Mat bin1;
+    cv::inRange(hsv, cv::Scalar(0, 150, 0), cv::Scalar(2, 255, 255), bin1);
+    cv::Mat bin2;
+    cv::inRange(hsv, cv::Scalar(177, 150, 0), cv::Scalar(179, 255, 255), bin2);
+    cv::Mat bin = bin1 + bin2;
+    int count = cv::countNonZero(bin);
+
+    int threshold = task_ptr->special_params[0];
+    Log.info(__FUNCTION__, "count", count, "threshold", threshold);
+
+    m_difficulty = count > threshold ? StageDifficulty::Tough : StageDifficulty::Normal;
+    log();
 
     return true;
 }
@@ -246,7 +245,7 @@ bool asst::StageDropsImageAnalyzer::analyze_drops_for_CF()
 
     bool has_error = false;
 
-    OcrImageAnalyzer food_analyzer(m_image);
+    OCRer food_analyzer(m_image);
     food_analyzer.set_task_info("StageDrops-StageCF-FoodBonusFlag");
     if (food_analyzer.analyze()) {
         // 这个企鹅物流不收，而且也不好识别，直接报错拉倒
@@ -254,7 +253,7 @@ bool asst::StageDropsImageAnalyzer::analyze_drops_for_CF()
         has_error = true;
     }
 
-    OcrWithFlagTemplImageAnalyzer analyzer(m_image);
+    TemplDetOCRer analyzer(m_image);
     for (const auto& item_name : CFDrops) {
         analyzer.set_task_info(item_name, "StageDrops-StageCF-ItemQuantity");
         if (!analyzer.analyze()) {
@@ -288,6 +287,18 @@ bool asst::StageDropsImageAnalyzer::analyze_drops_for_CF()
     return !has_error;
 }
 
+bool asst::StageDropsImageAnalyzer::analyze_drops_for_12()
+{
+    if (!m_stage_code.starts_with("12-")) {
+        return true;
+    }
+    LogTraceFunction;
+
+    OCRer flag_analyzer(m_image);
+    flag_analyzer.set_task_info("StageDrops-Stage12-TripleFlag");
+    return !flag_analyzer.analyze();
+}
+
 bool asst::StageDropsImageAnalyzer::analyze_baseline()
 {
     LogTraceFunction;
@@ -297,22 +308,20 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
     cv::Mat preprocessed_roi;
 
     {
-        double angle = 60. / 180. * std::numbers::pi;
         cv::Mat temp; // convert to float point for convenience
         m_image.convertTo(temp, CV_32F, 1. / 255);
-        cv::Mat pdy;
-        cv::Mat pdx;
-        cv::Sobel(temp, pdy, CV_32F, 0, 1);
-        cv::Sobel(temp, pdx, CV_32F, 1, 0);
-        // prefer gradient in vertical direction, make value of those pixels positive
-        cv::sqrt(pdy.mul(pdy) - std::pow(std::tan(angle), 2.) * pdx.mul(pdx), temp);
+
+        // convolution kernel: [[-1], [1], [1], [-1]]
+        cv::Mat kernel = cv::Mat(4, 1, CV_32F, -1.);
+        kernel(cv::Rect { 0, 1, 1, 2 }) = cv::Scalar { 1. };
+
+        cv::filter2D(temp, temp, CV_32F, kernel, { -1, -1 }, 0, cv::BORDER_REPLICATE);
 
         temp.convertTo(preprocessed_roi, CV_8U, 255);
 
         // filling small gaps
-        cv::dilate(preprocessed_roi, preprocessed_roi, cv::getStructuringElement(cv::MORPH_RECT, { 3, 1 }));
-        // line must be thick enough
-        cv::erode(preprocessed_roi, preprocessed_roi, cv::getStructuringElement(cv::MORPH_RECT, { 3, 2 }));
+        cv::morphologyEx(preprocessed_roi, preprocessed_roi, cv::MORPH_CLOSE,
+                         cv::getStructuringElement(cv::MORPH_RECT, { 3, 1 }));
 
         // cropping after derivatives, dilation, and erosion
         cv::cvtColor(preprocessed_roi(make_rect<cv::Rect>(task_ptr->roi)), preprocessed_roi, cv::COLOR_BGR2GRAY);
@@ -405,7 +414,7 @@ asst::StageDropType asst::StageDropsImageAnalyzer::match_droptype(const Rect& ro
         { StageDropType::Reward, "StageDrops-DropType-Reward" },
     };
 
-    MatchImageAnalyzer analyzer(m_image);
+    Matcher analyzer(m_image);
     auto matched = StageDropType::Unknown;
     double max_score = 0.0;
 
@@ -478,15 +487,15 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
     }
 
     auto match_item_with_templs = [&](const std::vector<std::string>& templs_list) -> std::string {
-        MatchImageAnalyzer analyzer(m_image);
+        Matcher analyzer(m_image);
+        analyzer.set_mask_range(0, 0, false, true);
         analyzer.set_task_info("StageDrops-Item");
-        analyzer.set_mask_with_close(true);
         analyzer.set_roi(roi);
 
         double max_score = 0.0;
         std::string matched;
         for (const std::string& templ : templs_list) {
-            analyzer.set_templ_name(templ);
+            analyzer.set_templ(templ);
             if (!analyzer.analyze()) {
                 continue;
             }
@@ -575,17 +584,17 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     int far_left = contours.back().start;
     int far_right = contours.front().end;
 
-    OcrWithPreprocessImageAnalyzer analyzer(m_image);
+    RegionOCRer analyzer(m_image);
     analyzer.set_task_info("NumberOcrReplace");
     analyzer.set_roi(Rect(quantity_roi.x + far_left, quantity_roi.y, far_right - far_left, quantity_roi.height));
-    analyzer.set_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
+    analyzer.set_bin_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
     analyzer.set_use_char_model(!use_word_model);
 
     if (!analyzer.analyze()) {
         return std::nullopt;
     }
 
-    return analyzer.get_result().front();
+    return analyzer.get_result();
 }
 
 std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_string(const asst::Rect& roi,
@@ -599,10 +608,9 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
         return std::nullopt;
     }
 
-    MatchImageAnalyzer analyzer(m_image);
+    Matcher analyzer(m_image);
     analyzer.set_templ(templ);
-    analyzer.set_mask_range(1, 255);
-    analyzer.set_mask_with_close(true);
+    analyzer.set_mask_range(1, 255, false, true);
     analyzer.set_roi(roi);
     if (!analyzer.analyze()) {
         return std::nullopt;
@@ -642,18 +650,18 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     cv::Mat ocr_img = m_image.clone();
     cv::subtract(ocr_img(make_rect<cv::Rect>(new_roi)), templ * 0.41, ocr_img(make_rect<cv::Rect>(new_roi)));
 
-    OcrWithPreprocessImageAnalyzer ocr(ocr_img);
+    RegionOCRer ocr(ocr_img);
     ocr.set_task_info("NumberOcrReplace");
     Rect ocr_roi { new_roi.x + mask_rect.x, new_roi.y + mask_rect.y, mask_rect.width, mask_rect.height };
     ocr.set_roi(ocr_roi);
     ocr.set_use_char_model(!use_word_model);
-    ocr.set_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
+    ocr.set_bin_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
 
     if (!ocr.analyze()) {
         return std::nullopt;
     }
 
-    return ocr.get_result().front();
+    return ocr.get_result();
 }
 
 int asst::StageDropsImageAnalyzer::quantity_string_to_int(const std::string& str)

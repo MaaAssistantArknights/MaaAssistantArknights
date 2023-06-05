@@ -15,9 +15,8 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Services.Managers;
 using MaaWpfGui.ViewModels.UI;
-using StyletIoC;
+using Serilog;
 
 namespace MaaWpfGui.Services
 {
@@ -26,20 +25,14 @@ namespace MaaWpfGui.Services
     /// </summary>
     public class TrayIcon
     {
-        private readonly IMainWindowManager _mainWindowManager;
         private readonly NotifyIcon _notifyIcon = new NotifyIcon();
-        private readonly TaskQueueViewModel _taskQueueViewModel;
-        private readonly SettingsViewModel _settingsViewModel;
+        private static readonly ILogger _logger = Log.ForContext<TrayIcon>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TrayIcon"/> class.
         /// </summary>
-        /// <param name="container">The IoC container.</param>
-        public TrayIcon(IContainer container)
+        public TrayIcon()
         {
-            _mainWindowManager = container.Get<IMainWindowManager>();
-            _taskQueueViewModel = container.Get<TaskQueueViewModel>();
-            _settingsViewModel = container.Get<SettingsViewModel>();
             InitIcon();
             this.SetVisible(true);
         }
@@ -68,14 +61,17 @@ namespace MaaWpfGui.Services
                 var langMenu = new MenuItem(lang.Value);
                 langMenu.Click += (sender, e) =>
                 {
-                    _settingsViewModel.Language = lang.Key;
+                    Instances.SettingsViewModel.Language = lang.Key;
                 };
                 switchLangMenu.MenuItems.Add(langMenu);
             }
 
+            MenuItem forceShowMenu = new MenuItem(LocalizationHelper.GetString("ForceShow"));
+            forceShowMenu.Click += ForceShow;
+
             MenuItem exitMenu = new MenuItem(LocalizationHelper.GetString("Exit"));
             exitMenu.Click += App_exit;
-            MenuItem[] menuItems = new MenuItem[] { startMenu, stopMenu, switchLangMenu, exitMenu };
+            MenuItem[] menuItems = new MenuItem[] { startMenu, stopMenu, switchLangMenu, forceShowMenu, exitMenu };
             this._notifyIcon.ContextMenu = new ContextMenu(menuItems);
         }
 
@@ -86,33 +82,42 @@ namespace MaaWpfGui.Services
                 return;
             }
 
-            _mainWindowManager.SwitchWindowState();
+            Instances.MainWindowManager.SwitchWindowState();
         }
 
         private void StartTask(object sender, EventArgs e)
         {
             // taskQueueViewModel意外为null了是不是也可以考虑Log一下
-            _taskQueueViewModel?.LinkStart();
+            //先放个log点方便跟踪
+            Instances.TaskQueueViewModel?.LinkStart();
+            _logger.Information("Tray service task started.");
         }
 
         private void StopTask(object sender, EventArgs e)
         {
-            _taskQueueViewModel?.Stop();
+            Instances.TaskQueueViewModel?.Stop();
+            _logger.Information("Tray service task stop.");
+        }
+
+        private void ForceShow(object sender, EventArgs e)
+        {
+            Instances.MainWindowManager.ForceShow();
+            _logger.Information("WindowManager Forceshow.");
         }
 
         private void App_exit(object sender, EventArgs e)
         {
-            System.Windows.Application.Current.Shutdown();
+            System.Windows.Application.Current.MainWindow.Close();
         }
 
         private void App_show(object sender, EventArgs e)
         {
-            _mainWindowManager.Show();
+            Instances.MainWindowManager.Show();
         }
 
         private void OnNotifyIconDoubleClick(object sender, EventArgs e)
         {
-            _mainWindowManager.Show();
+            Instances.MainWindowManager.Show();
         }
 
         /// <summary>

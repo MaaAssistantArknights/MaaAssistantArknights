@@ -9,7 +9,7 @@
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/OcrWithFlagTemplImageAnalyzer.h"
+#include "Vision/TemplDetOCRer.h"
 
 void asst::BattleFormationTask::append_additional_formation(AdditionalFormation formation)
 {
@@ -41,6 +41,7 @@ bool asst::BattleFormationTask::_run()
     for (auto& [role, oper_groups] : m_formation) {
         click_role_table(role);
         bool has_error = false;
+        int swipe_times = 0;
         while (!need_exit()) {
             if (select_opers_in_cur_page(oper_groups)) {
                 has_error = false;
@@ -48,17 +49,21 @@ bool asst::BattleFormationTask::_run()
                     break;
                 }
                 swipe_page();
+                ++swipe_times;
             }
             else if (has_error) {
+                swipe_to_the_left(swipe_times);
                 // reset page
                 click_role_table(role == battle::Role::Unknown ? battle::Role::Pioneer : battle::Role::Unknown);
                 click_role_table(role);
+                swipe_to_the_left(swipe_times);
+                swipe_times = 0;
                 has_error = false;
             }
             else {
                 has_error = true;
-                // swipe and retry again
-                swipe_page();
+                swipe_to_the_left(swipe_times);
+                swipe_times = 0;
             }
         }
     }
@@ -133,12 +138,12 @@ std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_opers()
     auto image = ctrler()->get_image();
     const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
 
-    OcrWithFlagTemplImageAnalyzer name_analyzer(image);
+    TemplDetOCRer name_analyzer(image);
     name_analyzer.set_task_info("BattleQuickFormation-OperNameFlag", "BattleQuickFormationOCR");
     name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
     name_analyzer.analyze();
 
-    OcrWithFlagTemplImageAnalyzer special_focus_analyzer(image);
+    TemplDetOCRer special_focus_analyzer(image);
     special_focus_analyzer.set_task_info("BattleQuickFormation-OperNameFlag-SpecialFocus", "BattleQuickFormationOCR");
     special_focus_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
     special_focus_analyzer.analyze();
@@ -150,23 +155,18 @@ std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_opers()
     if (opers_result.empty()) {
         return {};
     }
-
-    // 按位置排个序
-    ranges::sort(opers_result, [](const TextRect& lhs, const TextRect& rhs) -> bool {
-        if (std::abs(lhs.rect.x - rhs.rect.x) < 5) { // x差距较小则理解为是同一列的，按y排序
-            return lhs.rect.y < rhs.rect.y;
-        }
-        else {
-            return lhs.rect.x < rhs.rect.x; // 否则按x排序
-        }
-    });
+    sort_by_vertical_(opers_result);
 
     if (m_the_right_name == opers_result.back().text) {
         return {};
     }
     m_the_right_name = opers_result.back().text;
 
-    return opers_result;
+    std::vector<TextRect> tr_res;
+    for (const auto& res : opers_result) {
+        tr_res.emplace_back(TextRect { res.rect, res.score, res.text });
+    }
+    return tr_res;
 }
 
 bool asst::BattleFormationTask::enter_selection_page()
@@ -183,6 +183,13 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
         Task.get("BattleQuickFormationSkill2")->specific_rect,
         Task.get("BattleQuickFormationSkill3")->specific_rect,
     };
+
+    if (opers_result.empty() || m_last_oper_name == opers_result.back().text) {
+        Log.info("last oper name is same as current, skip");
+        return false;
+    }
+
+    m_last_oper_name = opers_result.back().text;
 
     int delay = Task.get("BattleQuickFormationOCR")->post_delay;
 
@@ -226,6 +233,13 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
 void asst::BattleFormationTask::swipe_page()
 {
     ProcessTask(*this, { "BattleFormationOperListSlowlySwipeToTheRight" }).run();
+}
+
+void asst::BattleFormationTask::swipe_to_the_left(int times)
+{
+    for (int i = 0; i < times; ++i) {
+        ProcessTask(*this, { "BattleFormationOperListSwipeToTheLeft" }).run();
+    }
 }
 
 bool asst::BattleFormationTask::confirm_selection()

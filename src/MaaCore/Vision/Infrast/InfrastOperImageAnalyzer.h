@@ -1,11 +1,11 @@
 #pragma once
-#include "Vision/AbstractImageAnalyzer.h"
+#include "Vision/VisionHelper.h"
 
 #include "Common/AsstInfrastDef.h"
 
 namespace asst
 {
-    class InfrastOperImageAnalyzer : public AbstractImageAnalyzer
+    class InfrastOperImageAnalyzer : public VisionHelper
     {
     public:
         enum ToBeCalced
@@ -21,11 +21,11 @@ namespace asst
             All = 127
         };
 
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
+        using VisionHelper::VisionHelper;
         virtual ~InfrastOperImageAnalyzer() override = default;
         InfrastOperImageAnalyzer(const cv::Mat& image, const Rect& roi) = delete;
 
-        virtual bool analyze() override;
+        bool analyze();
 
         void sort_by_loc();
         void sort_by_mood();
@@ -39,7 +39,7 @@ namespace asst
 
     private:
         // 该分析器不支持外部设置ROI
-        using AbstractImageAnalyzer::set_roi;
+        using VisionHelper::set_roi;
 
         void oper_detect();
         void mood_analyze();

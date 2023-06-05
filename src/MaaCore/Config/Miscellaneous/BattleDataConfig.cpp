@@ -1,14 +1,16 @@
 #include "BattleDataConfig.h"
 
+#include "Utils/Logger.hpp"
 #include "Utils/Ranges.hpp"
 #include <meojson/json.hpp>
 
-#include "Utils/Logger.hpp"
-
 bool asst::BattleDataConfig::parse(const json::value& json)
 {
-    for (const auto& char_data_json : json.at("chars").as_object() | views::values) {
+    LogTraceFunction;
+
+    for (const auto& [id, char_data_json] : json.at("chars").as_object()) {
         battle::OperProps data;
+        data.id = id;
         std::string name = char_data_json.at("name").as_string();
         data.name = name;
         static const std::unordered_map<std::string, battle::Role> RoleMap = {
@@ -23,6 +25,7 @@ bool asst::BattleDataConfig::parse(const json::value& json)
         }
         else {
             data.role = iter->second;
+            m_opers.emplace(name); // 所有干员名
         }
 
         const auto& ranges_json = char_data_json.at("rangeId").as_array();

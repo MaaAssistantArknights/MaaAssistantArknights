@@ -1,11 +1,8 @@
-﻿<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespaces:MaaWpfGui"
-    xmlns:system="clr-namespace:System;assembly=mscorlib"
-    xmlns:uri="clr-namespace:System;assembly=System.Runtime">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  Settings  -->
     <system:String x:Key="Settings">Settings</system:String>
+    <system:String x:Key="GeneralSettings">General</system:String>
+    <system:String x:Key="AdvancedSettings">Advanced</system:String>
     <system:String x:Key="GameSettings">Client</system:String>
     <system:String x:Key="BaseSettings">Base</system:String>
     <system:String x:Key="RoguelikeSettings">I.S.</system:String>
@@ -19,9 +16,18 @@
     <system:String x:Key="HotKeySettings">HotKeys</system:String>
     <system:String x:Key="UpdateSettings">Update</system:String>
     <system:String x:Key="AboutUs">About us</system:String>
-
     <system:String x:Key="Version">Version</system:String>
-
+    <!--  Settings Guide  -->
+    <system:String x:Key="TaskSettings">Task Settings</system:String>
+    <system:String x:Key="SettingsGuide">Settings Guide</system:String>
+    <system:String x:Key="PrevGuide">Prev</system:String>
+    <system:String x:Key="NextGuide">Next</system:String>
+    <system:String x:Key="DoneGuide">Done</system:String>
+    <system:String x:Key="ToolTipGuide">Prompt appears when hovered↓→</system:String>
+    <system:String x:Key="TaskGuide">↑Task</system:String>
+    <system:String x:Key="OftenUsedGuide">↓Often Used</system:String>
+    <system:String x:Key="SometimesUsedGuide">Sometimes Used↑</system:String>
+    <system:String x:Key="LinkStartGuide">← Start Tasks</system:String>
     <system:String x:Key="Dorm">Dorm</system:String>
     <system:String x:Key="Mfg">Manufacturing Station</system:String>
     <system:String x:Key="Trade">Trade Post</system:String>
@@ -29,7 +35,6 @@
     <system:String x:Key="Reception">Reception Room</system:String>
     <system:String x:Key="Office">Office</system:String>
     <system:String x:Key="Control">Control Center</system:String>
-
     <system:String x:Key="DronesNotUse">Do not use drones</system:String>
     <system:String x:Key="Money">LMD</system:String>
     <system:String x:Key="SyntheticJade">Orundums</system:String>
@@ -39,6 +44,7 @@
     <system:String x:Key="Chip">Chip Packs</system:String>
     <system:String x:Key="DormTrustEnabled">Trust farming in dorm</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">Do not put stationed opers in dorm</system:String>
+    <system:String x:Key="DormFilterNotStationedTips">Checking the box will not remove operators like Aileen from the training room, but it will also prevent operators from the workshop from entering the dormitory.</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">Originium Shard auto replenishment</system:String>
     <system:String x:Key="CustomInfrastEnabled">Enable Custom Base (beta)</system:String>
     <system:String x:Key="DefaultInfrast">Default Infrast</system:String>
@@ -50,36 +56,35 @@
     <system:String x:Key="333_3">333 3 times a day</system:String>
     <system:String x:Key="CustomInfrastFile">Base Configuration</system:String>
     <system:String x:Key="CustomInfrastFileParseFailed">Base Configuration Parsing Error!</system:String>
-    <system:String x:Key="CustomInfrastTitle">Base Configuration:</system:String>
+    <system:String x:Key="CustomInfrastTitle" xml:space="preserve">Base Configuration: </system:String>
     <system:String x:Key="CustomInfrastPlan">Base Plan</system:String>
     <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">Auto save for next plan</system:String>
     <system:String x:Key="CustomizeInfrastSelectionEmpty">Customize infrastructure selection is empty. Please check your configuration or turn off the customization function.</system:String>
-
     <system:String x:Key="General">General Mode</system:String>
-    <system:String x:Key="GeneralWithoutScreencapErr">General Mode (Blocked exception output)</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
     <system:String x:Key="MuMuEmulator">MuMu Emulator</system:String>
+    <system:String x:Key="MuMuEmulator12">MuMu Emulator 12</system:String>
     <system:String x:Key="LDPlayer">LD Player</system:String>
     <system:String x:Key="Nox">Nox</system:String>
     <system:String x:Key="XYAZ">MEmu</system:String>
     <system:String x:Key="WSA">Old version of WSA</system:String>
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">Compatible Mode</system:String>
-
+    <system:String x:Key="SecondResolution">2nd Resolution</system:String>
+    <system:String x:Key="GeneralWithoutScreencapErr">General Mode (Blocked exception output)</system:String>
     <system:String x:Key="DormThreshold">Morale Threshold</system:String>
     <system:String x:Key="InfrastThresholdTip">If custom shift is enabled, this field is only valid for autofilled rooms</system:String>
-
     <system:String x:Key="RoguelikeStrategyExp">Gain Experience Points, pass stages as more as possible</system:String>
     <system:String x:Key="RoguelikeStrategyGold">Deposit coins, exit after arriving at the second level</system:String>
     <system:String x:Key="StartingSquad">Starting Squad</system:String>
     <system:String x:Key="StartingRoles">Starting Roles</system:String>
     <system:String x:Key="StartingCoreChar">Starting Oper (single, CN name only)</system:String>
     <system:String x:Key="StartingCoreCharTip">Only supports the CN name of a single oper, default if not filled.</system:String>
-    <system:String x:Key="RoguelikeUseSupportUnit">Select &quot;Starting Oper&quot; from support unit list</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnit">Select "Starting Oper" from support unit list</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">Enable nonfirend support</system:String>
-    <system:String x:Key="DeploymentWithPause">Deployment with Pause, Works for IS, Copilot and SSS, Beta function, Not recommended yet</system:String>
-    <system:String x:Key="AdbLiteEnabled">Use Adb Lite (Experimental)</system:String>
-
+    <system:String x:Key="DeploymentWithPause" xml:space="preserve">Deployment with Pause (Works for IS, Copilot and SSS) (Beta function, Not recommended yet)</system:String>
+    <system:String x:Key="AdbLiteEnabled">Use ADB Lite (Experimental)</system:String>
+    <system:String x:Key="KillAdbOnExit">Kill ADB On Exit</system:String>
     <system:String x:Key="DefaultSquad">Default</system:String>
     <system:String x:Key="IS2NewSquad1">Mind over matter (to be updated)</system:String>
     <system:String x:Key="IS2NewSquad2">The best uses (to be updated)</system:String>
@@ -94,17 +99,15 @@
     <system:String x:Key="TacticalDestructionOperative">Tactical Destruction Operative</system:String>
     <system:String x:Key="ResearchSquad">Research Squad</system:String>
     <system:String x:Key="First-ClassSquad">First-Class Squad</system:String>
-
     <system:String x:Key="DefaultRoles">Default</system:String>
     <system:String x:Key="FirstMoveAdvantage">First Move Advantage</system:String>
     <system:String x:Key="SlowAndSteadyWinsTheRace">Slow and Steady Wins the Race</system:String>
     <system:String x:Key="OvercomingYourWeaknesses">Overcoming Your Weaknesses</system:String>
     <system:String x:Key="AsYourHeartDesires">As Your Heart Desires</system:String>
-
     <system:String x:Key="AlgorithmFinish">Algorithm Finish</system:String>
     <system:String x:Key="AlgorithmBadge">Algorithm Badge</system:String>
     <system:String x:Key="AlgorithmConstructionPoint">Algorithm Construction Point</system:String>
-
+    <system:String x:Key="AlgorithmDoneSmeltGold">Forging Red Gold</system:String>
     <system:String x:Key="NotSelected">Not selected</system:String>
     <system:String x:Key="Official">Official (CN)</system:String>
     <system:String x:Key="Bilibili">Bilibili</system:String>
@@ -112,32 +115,28 @@
     <system:String x:Key="YoStarJP">YoStarJP</system:String>
     <system:String x:Key="YoStarKR">YoStarKR</system:String>
     <system:String x:Key="txwy">txwy</system:String>
-
     <system:String x:Key="Switchable">Switchable</system:String>
-
     <system:String x:Key="Executable">Executable</system:String>
     <system:String x:Key="ADBProgram">ADB Program</system:String>
-
-    <system:String x:Key="EmulatorException">Error in detect emulators&#x0a;Please use administrator privileges to open this software&#x0a;or set connection manually</system:String>
-    <system:String x:Key="AdbException">Error in detect ADB&#x0a;Please use administrator privileges to open this software&#x0a;or set connection manually</system:String>
-    <system:String x:Key="EmulatorNotFound">No emulator detected&#x0a;Please use administrator privileges to open this software&#x0a;or set connection manually</system:String>
-    <system:String x:Key="EmulatorTooMany">Too many emulators detected&#x0a;Please shutdown emulators not needed&#x0a;or set connection manually</system:String>
-
+    <system:String x:Key="EmulatorException">Error in detect emulators\nPlease use administrator privileges to open this software\nor set connection manually</system:String>
+    <system:String x:Key="AdbException">Error in detect ADB\nPlease use administrator privileges to open this software\nor set connection manually</system:String>
+    <system:String x:Key="EmulatorNotFound">No emulator detected\nPlease use administrator privileges to open this software\nor set connection manually</system:String>
+    <system:String x:Key="EmulatorTooMany">Too many emulators detected\nPlease shutdown emulators not needed\nor set connection manually</system:String>
     <system:String x:Key="SwitchLanguage">Switch Language</system:String>
     <system:String x:Key="Language">Language</system:String>
     <system:String x:Key="LanguageChangedTip">the language settings has been changed, restart the app now?</system:String>
-    <system:String x:Key="Ok">OK</system:String>
     <system:String x:Key="ManualRestart">Later</system:String>
     <system:String x:Key="Tip">Tip</system:String>
-
+    <system:String x:Key="Yes">Yes</system:String>
+    <system:String x:Key="No">No</system:String>
+    <system:String x:Key="Ok">OK</system:String>
+    <system:String x:Key="Cancel">Cancel</system:String>
     <system:String x:Key="HotKeyShowGui">[HotKey] Show/collapse MAA</system:String>
     <system:String x:Key="HotKeyLinkStart">[HotKey] Link start/stop</system:String>
     <system:String x:Key="HotKeyChangingTip">Press Backspace/Esc/Delete to clear the current value</system:String>
-
     <system:String x:Key="LabelSequenceTip">The label sequence can be dragged</system:String>
     <system:String x:Key="CheckBoxesNotSaved">This option is not saved after restart</system:String>
     <system:String x:Key="NoAutoNavigation">The feature does not automatically navigate to the stage</system:String>
-
     <system:String x:Key="StartupUpdateCheck">Startup Update Check</system:String>
     <system:String x:Key="UpdatAutoCheck">Scheduled Update Check</system:String>
     <system:String x:Key="UpdateAutoDownload">Auto download update</system:String>
@@ -148,53 +147,54 @@
     <system:String x:Key="DownloadWithAria2">Download via aria2</system:String>
     <system:String x:Key="UpdateCheckNow">Check update</system:String>
     <system:String x:Key="ShowChangelog">Changelog</system:String>
-
     <system:String x:Key="NewVersionFoundTitle">New Version Found</system:String>
-    <system:String x:Key="NewVersionFoundDescDownloading">Downloading in the background...</system:String>
-    <system:String x:Key="NewVersionFoundDescId">Version:</system:String>
-    <system:String x:Key="NewVersionFoundDescInfo">Info:</system:String>
+    <system:String x:Key="NewVersionFoundDescDownloading">Downloading in the background……</system:String>
+    <system:String x:Key="NewVersionFoundDescId" xml:space="preserve">Version: </system:String>
+    <system:String x:Key="NewVersionFoundDescInfo" xml:space="preserve">Info: </system:String>
     <system:String x:Key="NewVersionFoundButtonGoWebpage">Go to the website</system:String>
-
     <system:String x:Key="NewVersionZipFileFoundTitle">Update Package Found</system:String>
-    <system:String x:Key="NewVersionZipFileFoundDescDecompressing">Decompressing, plz wait...</system:String>
-
-    <system:String x:Key="NewVersionZipFileBrokenTitle">Update Package Broken</system:String>
-    <system:String x:Key="NewVersionZipFileBrokenDescFilename">Filename:</system:String>
-    <system:String x:Key="NewVersionZipFileBrokenDescDeleted">Deleted it.</system:String>
-
+    <system:String x:Key="NewVersionZipFileFoundDescDecompressing">Decompressing, plz wait……</system:String>
+    <system:String x:Key="NewVersionZipFileBrokenTitle">Update Package Broken!</system:String>
+    <system:String x:Key="NewVersionZipFileBrokenDescFilename" xml:space="preserve">Filename: </system:String>
+    <system:String x:Key="NewVersionZipFileBrokenDescDeleted">Removed!</system:String>
     <system:String x:Key="AlreadyLatest">The latest version already installed~</system:String>
     <system:String x:Key="NewVersionDetectFailedTitle">Update Package Detect Failed</system:String>
     <system:String x:Key="CheckNetworking">Please check your network connection or proxy.</system:String>
     <system:String x:Key="GetReleaseNoteFailed">Failed to get release note.</system:String>
-    <system:String x:Key="NewVersionIsBeingBuilt">The new version is being built, please try again later.</system:String>
-
-    <system:String x:Key="NewVersionDownloadPreparing">Preparing to download update package...</system:String>
+    <system:String x:Key="NewVersionIsBeingBuilt">The new version is being built, please try again later</system:String>
+    <system:String x:Key="NewVersionDownloadPreparing">Preparing to download update package……</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">Update Package Download Failed</system:String>
-    <system:String x:Key="NewVersionDownloadFailedDesc">Please download the zip file manually and place it in the directory.</system:String>
+    <system:String x:Key="NewVersionDownloadFailedDesc">Please download the zip file manually and place it in the directory _(:з」∠)_</system:String>
     <system:String x:Key="NewVersionDownloadCompletedTitle">Update Package Download Completed</system:String>
     <system:String x:Key="NewVersionDownloadCompletedDesc">Do you want to upgrade MAA immediately? (restart the process)</system:String>
-
     <system:String x:Key="NewVersionFoundButNoPackageTitle">New Version Found, But No Update Package</system:String>
-    <system:String x:Key="NewVersionFoundButNoPackageDesc">Please download the full package manually to update.</system:String>
-
+    <system:String x:Key="NewVersionFoundButNoPackageDesc">Please download the full package manually to update!</system:String>
     <system:String x:Key="Timer">Timer</system:String>
-
+    <system:String x:Key="SwitchConfiguration">Switch Configuration</system:String>
+    <system:String x:Key="ConfigurationName">Config</system:String>
+    <system:String x:Key="AddConfiguration">Add</system:String>
+    <system:String x:Key="AddConfigSuccess">Configuration &lt;{0}&gt; added successfully</system:String>
+    <system:String x:Key="ConfigExists">Configuration &lt;{0}&gt; already exists</system:String>
     <system:String x:Key="LaunchOnSystemStartup">Auto start with PC</system:String>
     <system:String x:Key="RunTaskAfterLaunch">Auto Run task after launched</system:String>
+    <system:String x:Key="MinimizeAfterLaunch">Auto Minimize after launched</system:String>
     <system:String x:Key="ClientType">Client Type</system:String>
     <system:String x:Key="AutoRestartOption">Restart when game disconnects</system:String>
+    <system:String x:Key="HelpUsWithOverseasServersTip">Foreign server adaptation is unsalable, help us! You don't need to know programming.</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">Startup Emulator after launched</system:String>
     <system:String x:Key="MinimizingStartup">Minimizing the startup Emulator</system:String>
-    <system:String x:Key="WaitForEmulator">Delay time</system:String>
+    <system:String x:Key="WaitForEmulator">Delay time (s)</system:String>
+    <system:String x:Key="WaitForEmulatorFinish">End of wait</system:String>
     <system:String x:Key="EmulatorPath">Emulator exec path</system:String>
     <system:String x:Key="Select">Select</system:String>
-    <system:String x:Key="ForcedReplaceADB">Forced Replace ADB File</system:String>
+    <system:String x:Key="ForcedReplaceADB">Replace ADB</system:String>
     <system:String x:Key="TouchMode">Touch Mode</system:String>
     <system:String x:Key="MiniTouchMode">Minitouch (Default)</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch (Experimental)</system:String>
-    <system:String x:Key="AdbTouchMode">Adb Input (Compatibility)</system:String>
+    <system:String x:Key="AdbTouchMode">ADB Input (Compatibility)</system:String>
     <system:String x:Key="AdditionCommand">Addiction Command arguments</system:String>
-
+    <system:String x:Key="StartsWithScript">Starts with Script</system:String>
+    <system:String x:Key="EndsWithScript">Ends with Script</system:String>
     <system:String x:Key="RoguelikeTheme">I.S. Theme</system:String>
     <system:String x:Key="RoguelikeThemePhantom">Phantom</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">Mizuki</system:String>
@@ -203,62 +203,65 @@
     <system:String x:Key="GoldTimesLimit">Stop after investing N times</system:String>
     <system:String x:Key="StopOnGoldLimit">Stop when deposited coins reached limit</system:String>
     <system:String x:Key="InvestmentEnabled">Deposit coins</system:String>
-
+    <system:String x:Key="RefreshTraderWithDice">Refresh Trader with Dice</system:String>
     <system:String x:Key="PenguinID">Penguin Report ID(Number part only)</system:String>
-    <system:String x:Key="DrGrandet">Use Originiums like Dr. Grandet</system:String>
-    <system:String x:Key="DrGrandetTip">Wait in the using Originites confirmation screen until the 1 point of sanity has been restored and then immediately use the Originite.</system:String>
-
+    <system:String x:Key="DrGrandet">Dr.Grandet Mode</system:String>
+    <system:String x:Key="DrGrandetTip">Wait on the sanity confirmation screen until the current sanity recovers to 1 point, then confirm immediately.</system:String>
     <system:String x:Key="SocialPtShop">Social Point shopping</system:String>
     <system:String x:Key="CreditFight">Combat with Support to earn credits</system:String>
-    <system:String x:Key="CreditFightTip" xml:space="preserve">Combat with Support Unit in OF-1 after Visit Friends to earn 30 credits.&#x0a;This function is invalid when the stage is selected as Current/Last.&#x0a;Please do not check it when the stage OF-1 is not unlocked.</system:String>
+    <system:String x:Key="CreditFightTip" xml:space="preserve">Combat with Support Unit in OF-1 after Visit Friends to earn 30 credits.
+Only once a day.
+This function is invalid when the stage is selected as Current/Last.
+Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="HighPriority">Whitelist (split by semicolon)</system:String>
     <system:String x:Key="Blacklist">Blacklist (split by semicolon)</system:String>
     <system:String x:Key="HighPriorityDefault">Recruitment Permit</system:String>
     <system:String x:Key="BlacklistDefault">Carbon;Furniture Part;Expedited Plan</system:String>
     <system:String x:Key="Drink">Would you like a drink🍷? doctor</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">Ignore blacklist if credit overflow</system:String>
-
     <system:String x:Key="DroneUsage">Drone Usage</system:String>
-
     <system:String x:Key="MinimizeToTray">Hide to tray when minimized</system:String>
     <system:String x:Key="SystemNotification">System Notification</system:String>
-    <system:String x:Key="DarkModeSetColorsTip">Whether to restart immediately to apply changes</system:String>
+    <system:String x:Key="HideCloseButton">Hide close button</system:String>
+    <system:String x:Key="DarkModeSetColorsTip">Whether to restart immediately to apply changes?</system:String>
     <system:String x:Key="UseAlternateStage">Use alternate stage</system:String>
     <system:String x:Key="UseRemainingSanityStage">Use remaining sanity stage</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">Brush the specified stage after completing the main task, no longer automatically revert to sanity</system:String>
-    <system:String x:Key="HideUnavailableStage">Hide today not open level</system:String>
+    <system:String x:Key="UseExpiringMedicine">Unlimited use of expiring sanity potion</system:String>
+    <system:String x:Key="HideUnavailableStage">Hide today not open stage</system:String>
+    <system:String x:Key="CustomInfrastPlanShowInFightSettings">Show Base Plan</system:String>
     <system:String x:Key="MainViewButtonFeature">Variable function button</system:String>
     <system:String x:Key="CustomStageCode">Manual entry of level names</system:String>
-    <system:String x:Key="CustomStageCodeTip" xml:space="preserve">Support most main stage names + stage names from the original list (e.g. 4-10, AP-5, H10-1-Hard, etc.)&#x0a;At the end of the level, enter &quot;Normal/Hard&quot; to switch between Normal and Tough difficulty</system:String>
-
+    <system:String x:Key="CustomStageCodeTip" xml:space="preserve">Support most main stage names + stage names from the original list (e.g. 4-10, AP-5, H10-1-Hard, etc.)
+At the end of the level, enter "Normal/Hard" to switch between Normal and Tough difficulty</system:String>
     <system:String x:Key="AutoDetectConnection">Auto detect connection</system:String>
     <system:String x:Key="AutoDetectConnectionTip">The checkbox will be automatically unchecked after each detect is completed, and can be checked again if you need to re-detect</system:String>
-    <system:String x:Key="AlwaysAutoDetectConnection">Always detect</system:String>
+    <system:String x:Key="AlwaysAutoDetectConnection">Re-detect every times</system:String>
     <system:String x:Key="ADBPath">ADB path (rel/abs)</system:String>
     <system:String x:Key="ConnectionAddress">Connection address</system:String>
     <system:String x:Key="ConnectionAddressTip">It will be filled in automatically when you use it for the first time. If you encounter any problems, you can try to manually modify it</system:String>
     <system:String x:Key="ConnectionPreset">Connection Preset</system:String>
-    <system:String x:Key="RetryOnDisconnected">Auto restart emulator when adb reconnection fails</system:String>
+    <system:String x:Key="RetryOnDisconnected">Auto restart emulator when ADB reconnection fails</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">Try restarting the emulator after 20 failed reconnect attempts, Must be checked when using a background timed task and setting the task to close the emulator when finished</system:String>
+    <system:String x:Key="AllowADBRestart">Attempt to restart ADB after connection failure</system:String>
     <!--  Settings  -->
-
     <!--  Farming  -->
     <system:String x:Key="Farming">Farming</system:String>
-
     <system:String x:Key="WakeUp">Login</system:String>
     <system:String x:Key="Recruiting">Recruit</system:String>
     <system:String x:Key="Base">Base</system:String>
     <system:String x:Key="Combat">Combat</system:String>
-    <!--  <system:String x:Key="Visiting">Visit Friends</system:String>  -->
+    <system:String x:Key="Visiting">Visit Friends</system:String>
     <system:String x:Key="Mall">Credit Store</system:String>
-    <system:String x:Key="Mission">Collect mission rewards</system:String>
+    <system:String x:Key="Mission">Daily &amp; Weekly</system:String>
     <system:String x:Key="AutoRoguelike">Auto I.S.</system:String>
     <system:String x:Key="ReclamationAlgorithm">Reclamation Algorithm</system:String>
-
+    <system:String x:Key="Light">Light</system:String>
+    <system:String x:Key="Dark">Dark</system:String>
+    <system:String x:Key="SyncWithOS">Sync with OS</system:String>
     <system:String x:Key="SelectAll">Select All</system:String>
     <system:String x:Key="Inverse">Inverse</system:String>
     <system:String x:Key="Clear">Clear</system:String>
-
     <system:String x:Key="Then">Then</system:String>
     <system:String x:Key="DoNothing">Do Nothing</system:String>
     <system:String x:Key="ExitArknights">Exit Arknights</system:String>
@@ -268,10 +271,10 @@
     <system:String x:Key="ExitEmulatorAndSelfAndHibernate">Exit MAA and Emulator, then Hibernate</system:String>
     <system:String x:Key="Hibernate">Hibernate</system:String>
     <system:String x:Key="Shutdown">Shutdown</system:String>
-
+    <system:String x:Key="HibernateWithoutPersist">Hibernate(only once)</system:String>
+    <system:String x:Key="ShutdownWithoutPersist">Shutdown(only once)</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">Stop</system:String>
-
     <!--  FightSettings  -->
     <system:String x:Key="UseSanityPotion">Use Sanity Potion</system:String>
     <system:String x:Key="UseOriginitePrime">Use Originium*</system:String>
@@ -283,13 +286,13 @@
     <system:String x:Key="RemainingSanityStage">Remaining Sanity</system:String>
     <system:String x:Key="NoUse">No Use</system:String>
     <!--<system:String x:Key="Amend">Amend</system:String>-->
-
     <!--<system:String x:Key="CurrentStage">Current Stage</system:String>
     <system:String x:Key="LastBattle">Last Battle</system:String>-->
-    <system:String x:Key="DefaultStage">Cur/Last Stage</system:String>
+    <system:String x:Key="DefaultStage">Cur/Last</system:String>
     <system:String x:Key="ClosedStage">The event not open</system:String>
     <system:String x:Key="UnsupportedStages">Unsupported stages</system:String>
     <system:String x:Key="LowVersion">Low version</system:String>
+    <system:String x:Key="MinimumRequirements" xml:space="preserve">Minimum Requirements: </system:String>
     <system:String x:Key="Daysleftopen" xml:space="preserve">Days left open: </system:String>
     <system:String x:Key="LessThanOneDay">Less than 1 day</system:String>
     <system:String x:Key="1-7">1-7</system:String>
@@ -297,7 +300,7 @@
     <system:String x:Key="AP-5">AP-5</system:String>
     <system:String x:Key="CA-5">CA-5</system:String>
     <system:String x:Key="LS-6">LS-6</system:String>
-
+    <system:String x:Key="SK-5">SK-5</system:String>
     <system:String x:Key="PR-A-1">Med/Def Ⅰ</system:String>
     <system:String x:Key="PR-A-2">Med/Def Ⅱ</system:String>
     <system:String x:Key="PR-B-1">Cst/Sni Ⅰ</system:String>
@@ -306,9 +309,7 @@
     <system:String x:Key="PR-C-2">Pio/Sup Ⅱ</system:String>
     <system:String x:Key="PR-D-1">Grd/Spc Ⅰ</system:String>
     <system:String x:Key="PR-D-2">Grd/Spc Ⅱ</system:String>
-
     <system:String x:Key="Annihilation">Annihilation</system:String>
-
     <system:String x:Key="TodaysStageTip" xml:space="preserve">Today's Stage tips: </system:String>
     <system:String x:Key="CETip">CE (LMD)</system:String>
     <system:String x:Key="APTip">AP (Shop Voucher)</system:String>
@@ -322,13 +323,12 @@
     <system:String x:Key="Pormpt1">It's time to complete Annihilation</system:String>
     <system:String x:Key="Pormpt2">Don't forget Annihilation</system:String>
     <!--  FightSettings  -->
-
     <!--  Logs  -->
-    <system:String x:Key="ConnectingToEmulator">Connecting to emulator...</system:String>
+    <system:String x:Key="ConnectingToEmulator">Connecting to emulator……</system:String>
     <system:String x:Key="UnselectedTask">Unselected task</system:String>
-    <system:String x:Key="Running">Running...</system:String>
-    <system:String x:Key="AdbReplacementTips">If all stuck, plz go to Settings - Connection Settings - Forced Replace ADB File, or turn on Compatibility Touch Mode</system:String>
-    <system:String x:Key="Stopping">Stopping...</system:String>
+    <system:String x:Key="Running">Running……</system:String>
+    <system:String x:Key="AdbReplacementTips">If all stuck, plz go to Settings - Connection Settings - Forced Replace ADB File, or turn on Compatibility Touch Mode (not recommended).</system:String>
+    <system:String x:Key="Stopping">Stopping……</system:String>
     <system:String x:Key="Stopped">Has stopped</system:String>
     <system:String x:Key="UnknownErrorOccurs">Unknown error occurred</system:String>
     <system:String x:Key="SetSuccessfully">Set successfully</system:String>
@@ -341,88 +341,129 @@
     <system:String x:Key="AnnihilationTaskFailed">Annihilation task failed, will try to use alternate stage, some combat settings will not be effective</system:String>
     <!--  Logs  -->
     <!--  Farming  -->
-
+    <system:String x:Key="Toolbox">Toolbox</system:String>
     <!--  Recruitment Recognition  -->
-    <system:String x:Key="RecruitmentRecognition">Recruit tool</system:String>
+    <system:String x:Key="RecruitmentRecognition">Recruitment</system:String>
     <system:String x:Key="RecruitmentRecognitionTip">Tip: This recognition is independent from main tab (Farming); need open up in game recruit tag selection screen then begin ~</system:String>
     <system:String x:Key="AutoSettingTime">Auto setting time</system:String>
+    <system:String x:Key="RecruitmentShowPotential">Show Potential</system:String>
+    <system:String x:Key="RecruitmentShowPotentialTips">Please use the "Operator" to get information.</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">Auto select 3 ★ Tags</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">Auto select 4 ★ Tags</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">Auto select 5 ★ Tags</system:String>
     <system:String x:Key="AutoSelectLevel6Tags">Auto select 6 ★ Tags</system:String>
-    <system:String x:Key="BeganToRecruit">Begin To Recruit</system:String>
+    <system:String x:Key="StartToRecruit">Begin To Recruit</system:String>
     <!--  Recruitment Recognition  -->
-
     <!--  Depot Recognition  -->
-    <system:String x:Key="DepotRecognition">Depot tool beta</system:String>
-    <system:String x:Key="DepotRecognitionTip">This function is still a test version, please check if the recognition result is correct before using it. If there is an error, please submit the issue by compressing the debug/depot folder in the working path.</system:String>
-    <system:String x:Key="BeganToDepotRecognition">Start to identify</system:String>
+    <system:String x:Key="DepotRecognition">Depot</system:String>
+    <system:String x:Key="DepotRecognitionTip">This function is still a test version, please check if the recognition result is correct before using it. If there is an error, please submit the issue by compressing the debug/depot folder in the working path~</system:String>
+    <system:String x:Key="StartToDepotRecognition">Start to identify</system:String>
     <system:String x:Key="ExportToArkplanner">Export to Arkplanner</system:String>
     <system:String x:Key="ExportToLolicon">Export to Lolicon</system:String>
     <system:String x:Key="CopiedToClipboard">Copied to clipboard</system:String>
     <!--  Depot Recognition  -->
+    <!--  Operator Recognition  -->
+    <system:String x:Key="OperBoxRecognition">Operator</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">This function is still in testing, if the statistics are wrong, please pack the debug/oper file and submit an issue to us~</system:String>
+    <system:String x:Key="OperBoxRecognitionResult">Not owned: {0} : \n\n{1}\n\nOwned: {2} : \n\n{3}</system:String>
+    <system:String x:Key="StartToOperBoxRecognition">Start to identify</system:String>
+    <system:String x:Key="OperBoxCopyToClipboard">Copy to clipboard</system:String>
+    <!--  Operator Recognition  -->
+    <!--  Video Recognition  -->
+    <system:String x:Key="VideoRecognition">Video</system:String>
+    <system:String x:Key="StartToVideoRecognition">Start to identify</system:String>
+    <system:String x:Key="OpenVideoRecognitionResult">Open Directory</system:String>
+    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">For video recognition, please open the "Copilot" page and drag the strategy video into it.
 
-    <!--  Logs  -->
-    <system:String x:Key="Identifying">Identifying...</system:String>
+The video resolution is required to be 16:9, and there are no interference factors such as black borders, emulator borders, and special-shaped screen corrections.</system:String>
+    <!--  Video Recognition  -->
+    <system:String x:Key="Gacha">Gacha</system:String>
+    <system:String x:Key="GachaOnce">Gacha Once</system:String>
+    <system:String x:Key="GachaTenTimes">Gacha Ten Times</system:String>
+    <system:String x:Key="GachaInitTip">It's amazing that there are so many like-minded people in Rhodes Island. Yes, poetry! War! Freedom! It can gather the power of the people in the torrent of history and fight for the change of this land. It's really inspiring! These tragic and extraordinary stories should be passed down.</system:String>
+    <system:String x:Key="GachaTip1">Bless the victorious heroes, I will receive your blessings.</system:String>
+    <system:String x:Key="GachaTip2">Great warriors, I will be by your side, fighting bravely with you.</system:String>
+    <system:String x:Key="GachaTip3">When we turn around, we will return with victory.</system:String>
+    <system:String x:Key="GachaTip4">Don't be afraid, we will defeat those reckless guys!</system:String>
+    <system:String x:Key="GachaTip5">Cheer up!</system:String>
+    <system:String x:Key="GachaTip6">Come on.</system:String>
+    <system:String x:Key="GachaTip7">There is no room for regret now.</system:String>
+    <system:String x:Key="GachaTip8">No way out.</system:String>
+    <system:String x:Key="GachaTip9">Heroes, please stand on our side for this strongest belief.</system:String>
+    <system:String x:Key="GachaTip10">Tremble before true bravery.</system:String>
+    <system:String x:Key="GachaTip11">Howl, for your beliefs that are not strong enough to withstand a blow.</system:String>
+    <system:String x:Key="GachaTip12">You will kneel here.</system:String>
+    <system:String x:Key="GachaTip13">Did we do it?... I am now experiencing the supreme honor and happiness.</system:String>
+    <system:String x:Key="GachaTip14">Turn around, warriors. We have achieved a perfect victory. Now it's time to go back and enjoy the celebration.</system:String>
+    <system:String x:Key="GachaTip15">Listen, the wailing has stopped. This is the calm before the happy peace arrives.</system:String>
+    <system:String x:Key="GachaTip16">Even if human wars have no end……at this moment, we have guarded the dignity of our lives. Leave. But leave with your head held high.</system:String>
+    <system:String x:Key="GachaTip17">This corner may accidentally knock down some furniture, I will try my best to be careful.</system:String>
+    <system:String x:Key="GachaDisclaimer">Note that this is a REAL gacha! NOT A SIMULATION!</system:String>
+    <system:String x:Key="GachaAgreeDisclaimer">Got it</system:String>
+    <system:String x:Key="GachaShowDisclaimerNoMore">Don't show again</system:String>
+    <!--  再转身回头的时候，我们将带着胜利归来。  -->
+    <system:String x:Key="Identifying">Identifying……</system:String>
     <system:String x:Key="IdentificationCompleted">Identification completed</system:String>
-    <!--  Logs  -->
-
+    <!--  再转身回头的时候，我们将带着胜利归来。  -->
     <!--  Copilot  -->
     <system:String x:Key="Copilot">Copilot</system:String>
     <system:String x:Key="CopilotLocation">Task file / url</system:String>
     <system:String x:Key="SelectTheFile">Select task file</system:String>
     <system:String x:Key="SelectTheFileTip">Task files can be directly dragged in with the mouse (oﾟvﾟ)ノ</system:String>
-    <system:String x:Key="DoYouLikeThisWebJson">Do you like this task file?</system:String>
+    <system:String x:Key="DoYouLikeThisWebJson">Do you like this task file? Rate it!</system:String>
     <system:String x:Key="FailedToLikeWebJson">An error occurred, the like failed. : &lt;</system:String>
-    <system:String x:Key="ThanksForLikeWebJson">Thanks for the likes!\nThe comment section will be opened soon on the web page, so stay tuned!</system:String>
+    <system:String x:Key="ThanksForLikeWebJson">Thanks for the likes!\nThe comment section is already open on the web page, please feel free to leave your comment!</system:String>
     <system:String x:Key="AutoSquad">Auto squad</system:String>
-    <system:String x:Key="AutoSquadTip">The operator of &quot;special focus&quot; cannot be identified at this time</system:String>
     <system:String x:Key="LoopTimes">LoopTimes</system:String>
-
+    <system:String x:Key="AutoSquadTip">The operator of "special focus" cannot be identified at this time</system:String>
     <system:String x:Key="Start">Start</system:String>
-
     <system:String x:Key="VideoLink">Video Link</system:String>
-
     <!--  Logs  -->
     <system:String x:Key="CopilotTip">
-        Tips：\n\n
-        1. Please use this function only when &quot;Start&quot; is visible in game.\n\n
-        2. You need turn off the &quot;Auto squad&quot; if using friend support unit, then start with your support unit selected.\n\n
-        3. For Paradox Simulation, you need to turn off &quot;Auto squad&quot; and select the skill before, then start in game &quot;start&quot; screen.\n\n
-        4. For SSS, There are two built-in files under the resource/copilot folder.\n
-        Please start on the &quot;Start Deployment&quot; screen after manual formation (can be used with &quot;Loop times&quot;)
+        Tips: \n\n
+        1. Please use this function only when "Start" is visible in game.\n\n
+        2. You need turn off the "Auto squad" if using friend support unit, then start with your support unit selected.\n\n
+        3. For Paradox Simulation, you need to turn off "Auto squad" and select the skill before, then start in game "start" screen.\n\n
+        4. For SSS, There are multiple built-in files under the resource/copilot folder.\n
+        Please start on the "Start Deployment" screen after manual formation (can be used with "Loop times")\n\n
+        5. Video recognition is now supported, please drag the guide video to use. \n
+        The video resolution is required to be 16:9, and there are no distracting elements such as black borders, emulator borders, and special-shaped screen corrections.\n\n
     </system:String>
-
     <system:String x:Key="CopilotFileReadError">Failed to read file!</system:String>
     <system:String x:Key="CopilotNoFound">No corresponding file found!</system:String>
     <system:String x:Key="NetworkServiceError">Network service error!</system:String>
     <system:String x:Key="CopilotJsonError">Copilot Json Error!</system:String>
-    <system:String x:Key="NotCopilotJson">malformed file, not JSON?</system:String>
+    <system:String x:Key="NotCopilotJson">Malformed file</system:String>
     <system:String x:Key="CheckTheFile">malformed copilot Json!</system:String>
     <!--  Logs  -->
     <!--  Copilot  -->
-
-    <!--  AsstProxy  -->
-    <system:String x:Key="ResourceBroken">The resource is damaged, please download the full package again</system:String>
+    <!--  ErrorView  -->
     <system:String x:Key="Error">Error</system:String>
+    <system:String x:Key="ErrorProlog">MAA has encountered an error</system:String>
     <system:String x:Key="ErrorDetails">Details</system:String>
     <system:String x:Key="ErrorSolution">Solution</system:String>
     <system:String x:Key="ErrorSolutionCrash">Please refer to the documentation: FAQ - Crashes to solve.</system:String>
-    <system:String x:Key="ErrorSolutionReplaceADB">Please use administrator to open MAA</system:String>
-    <system:String x:Key="ReplaceADBNotExists">ADB File NOT exists</system:String>
-    <system:String x:Key="AdbDownloadFailedTitle">ADB Download Failed</system:String>
-    <system:String x:Key="AdbDownloadFailedDesc">Please do it manually (rename adb.exe and replace the adb file in the emulator)</system:String>
-    <system:String x:Key="SuccessfullyReplacedADB">Successfully Replaced ADB File</system:String>
+    <system:String x:Key="ErrorSolutionReplaceADB">Please close the emulator and ADB or restart your computer, then open MAA with administrator privileges to proceed.</system:String>
+    <system:String x:Key="ErrorSolutionFailedToMove">The file is occupied, please restart the computer and try again</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>
+    <system:String x:Key="CopyErrorMessage">Copy error message</system:String>
+    <!--  AsstProxy  -->
+    <system:String x:Key="ResourceBroken">The resource is damaged, please download the full package again</system:String>
+    <system:String x:Key="ReplaceADBNotExists">ADB File NOT exists</system:String>
+    <system:String x:Key="AdbDownloadFailedTitle">ADB Download Failed</system:String>
+    <system:String x:Key="AdbDownloadFailedDesc">Please do it manually (rename adb.exe and replace the ADB file in the emulator)</system:String>
+    <system:String x:Key="SuccessfullyReplacedADB">Successfully Replaced ADB File</system:String>
+    <system:String x:Key="FailedToReplaceAdbAndUseLocal">Falied to replace ADB file</system:String>
+    <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">Temporarily connected using local ADB.</system:String>
     <system:String x:Key="InitializationError">Initialization error!</system:String>
     <system:String x:Key="ResolutionNotSupported">Emulator resolution not supported, please set at least 720P with 16:9 ratio</system:String>
-    <system:String x:Key="ResolutionAcquisitionFailure">fails to be obtain emulator resolution . Please restart computer or consider try other emulator</system:String>
+    <system:String x:Key="ResolutionAcquisitionFailure">Fails to be obtain emulator resolution. It is recommended to restart the emulator and ADB, or restart the computer, or consider try other emulator</system:String>
     <system:String x:Key="TryToReconnect">Emulator disconnected, trying to reconnect</system:String>
     <system:String x:Key="ReconnectSuccess">Reconnect succeeded. Continue the task</system:String>
     <system:String x:Key="ReconnectFailed">Reconnect failed. The connection is down!</system:String>
-    <system:String x:Key="ScreencapFailed">Screencap failed. If it happens repeatedly, try restarting or changing the emulator.</system:String>
-    <system:String x:Key="TouchModeNotAvaiable">Touch mode is not available, please enter Settings - Connection Settings to change other touch modes</system:String>
+    <system:String x:Key="TouchModeNotAvailable">Touch mode is not available, please go to Settings - Connection Settings to switch to a different touch mode.</system:String>
+    <system:String x:Key="ScreencapFailed">Screencap failed. If it happens repeatedly, try to restart or change the emulator!</system:String>
     <system:String x:Key="IdentifyTheMistakes">Identify error</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">Task error: </system:String>
     <system:String x:Key="CombatError">Combat error</system:String>
@@ -449,7 +490,7 @@
     <system:String x:Key="InfrastDormDoubleConfirmed">Operator conflict</system:String>
     <system:String x:Key="BegunToExplore">begun to explore</system:String>
     <system:String x:Key="HasInvested">Has invested</system:String>
-    <system:String x:Key="ExplorationAbandoned">Abort! Abort!</system:String>
+    <system:String x:Key="ExplorationAbandoned">Abandoned this expedition</system:String>
     <system:String x:Key="FightCompleted">Fight completed</system:String>
     <system:String x:Key="FightFailed">Fight failed</system:String>
     <system:String x:Key="UpperLimit">Investment limit reached</system:String>
@@ -457,6 +498,7 @@
     <system:String x:Key="GameDrop">Game disconnected, pending reconnect</system:String>
     <system:String x:Key="GameDropNoRestart">Game disconnected, not restarting, stopping</system:String>
     <system:String x:Key="RoguelikeGamePass">Game cleared! congratulations!</system:String>
+    <system:String x:Key="RoguelikeSpecialItemBought">Special Item Bought!</system:String>
     <system:String x:Key="SSSGamePass">Game cleared! congratulations!</system:String>
     <system:String x:Key="Trader">Stage: Trader</system:String>
     <system:String x:Key="SafeHouse">Stage: SafeHouse</system:String>
@@ -465,13 +507,15 @@
     <system:String x:Key="EmergencyDps">Stage: EmergencyDps</system:String>
     <system:String x:Key="DreadfulFoe">Stage: DreadfulFoe</system:String>
     <system:String x:Key="NoDrop">Nothing</system:String>
-    <system:String x:Key="Drop">Drops:</system:String>
-    <system:String x:Key="TotalDrop">Total Drops:</system:String>
+    <system:String x:Key="Drop" xml:space="preserve">Drops: </system:String>
+    <system:String x:Key="TotalDrop" xml:space="preserve">Total Drops: </system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">Current Facility: </system:String>
     <system:String x:Key="ProductIncorrect">Product does NOT match the configuration.</system:String>
+    <system:String x:Key="ProductUnknown">Unknown Product</system:String>
+    <system:String x:Key="ProductChanged">Product has changed</system:String>
     <system:String x:Key="RecruitingResults" xml:space="preserve">Recruitment Results: </system:String>
     <system:String x:Key="RecruitingTips">Recruiting Tips</system:String>
-    <system:String x:Key="RecruitmentOfStar">{0} star has been recruited</system:String>
+    <system:String x:Key="RecruitmentOfStar">{0} star has been recruited!</system:String>
     <system:String x:Key="RecruitmentOfBot">Robot! robot! more robot!</system:String>
     <system:String x:Key="Choose">Choose</system:String>
     <system:String x:Key="Refreshed">Refreshed</system:String>
@@ -480,17 +524,17 @@
     <system:String x:Key="BattleFormation">Start formation</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selection of operator: </system:String>
     <system:String x:Key="CurrentSteps">Current step: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">Unsupported levels, please update the MAA, or check input file</system:String>
+    <system:String x:Key="UnsupportedLevel">Unsupported stage. Please update the MAA software version!\nUnsupported stage. Please update the MAA software version!\nUnsupported stage. Please update the MAA software version!\n\nIf you receive a prompt that the latest version is already installed, please try checking the developer version or beta version.</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identify results: </system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
     <system:String x:Key="TryToStartEmulator">Trying to start the emulator</system:String>
-    <system:String x:Key="CheckSettings">Please check the connection Settings or try to restart the computer</system:String>
+    <system:String x:Key="RestartADB">Trying to restart the ADB</system:String>
+    <system:String x:Key="CheckSettings">Please check your connection settings or try restarting the emulator and ADB, or restart your computer</system:String>
     <!--  AsstProxy  -->
-
     <!--  TrayIcon  -->
+    <system:String x:Key="ForceShow">Force display of MAA</system:String>
     <system:String x:Key="Exit">Exit</system:String>
     <!--  TrayIcon  -->
-
     <!--  About  -->
     <system:String x:Key="Website">MAA Website</system:String>
     <system:String x:Key="Github">Source: GitHub</system:String>
@@ -503,7 +547,6 @@
     <system:String x:Key="Help">FAQ</system:String>
     <system:String x:Key="Issue">Issue</system:String>
     <!--  About  -->
-
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">Auto refresh 3 ★ Tags</system:String>
     <system:String x:Key="AutoUseExpedited">Auto use Expedited*</system:String>
@@ -515,19 +558,22 @@
     <system:String x:Key="AutoSelectLevel4">Auto confirm 4 ★</system:String>
     <system:String x:Key="AutoSelectLevel5">Auto confirm 5 ★</system:String>
     <system:String x:Key="AutoSelectLevel6">Auto confirm 6 ★</system:String>
-    <system:String x:Key="Level1Tip">If checked, will be skip Recruit with 1 ★. If not checked, the entry with 1 ★ will be ignored</system:String>
+    <system:String x:Key="Level1Tip">If checked, 1 ★ recruit will be skipped. If not checked, 1 ★ entry with be ignored.</system:String>
     <!--  AutoRecruitSettings  -->
-
     <!--  EasterEggs  -->
-    <system:String x:Key="Burping">Ugh... Ehem</system:String>
+    <system:String x:Key="BuyWineOnAprilFoolsDay">Dear doctor, ever heard of the new listings of "isopropyl alcohol" in Ms. Closure's store? let's check it out?</system:String>
+    <system:String x:Key="Burping">Ugh……Ehem</system:String>
     <system:String x:Key="DrunkAndStaggering">Ah, doctor. Why do you sway, so much in your movement today?</system:String>
-    <system:String x:Key="Hangover">I must not drink, drink so much next time...</system:String>
+    <system:String x:Key="Hangover">I can not drink…drink so much next time……</system:String>
     <system:String x:Key="HelloWorld">Hello World!</system:String>
     <!--  EasterEggs  -->
-
     <!--  VersionUpdatePopup  -->
     <system:String x:Key="UpdateNotificationOK">OK!</system:String>
     <system:String x:Key="VersionUpdated">Version Updated</system:String>
-    <system:String x:Key="VersionUpdatedTo">Version:</system:String>
+    <system:String x:Key="VersionUpdatedTo" xml:space="preserve">Version: </system:String>
     <!--  VersionUpdatePopup  -->
+    <!--  RootViewModel  -->
+    <system:String x:Key="ConfirmExitTitle">MAA is running tasks</system:String>
+    <system:String x:Key="ConfirmExitText">Are you sure want to exit?</system:String>
+    <!--  RootViewModel  -->
 </ResourceDictionary>

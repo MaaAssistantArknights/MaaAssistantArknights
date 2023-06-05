@@ -6,7 +6,8 @@
 
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "Vision/Miscellaneous/BattleSkillReadyImageAnalyzer.h"
+#include "Vision/Battle/BattlefieldClassifier.h"
+#include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/Miscellaneous/DepotImageAnalyzer.h"
 #include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
 
@@ -14,8 +15,6 @@ asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) : Inte
 
 bool asst::DebugTask::run()
 {
-    test_drops();
-
     return true;
 }
 
@@ -43,19 +42,31 @@ void asst::DebugTask::test_skill_ready()
     int correct = 0;
     for (const auto& entry : std::filesystem::directory_iterator(R"(../../test/skill_ready/y)")) {
         cv::Mat image = imread(entry.path().string());
-        BattleSkillReadyImageAnalyzer analyzer(image);
+        BattlefieldClassifier analyzer(image);
+        analyzer.set_object_of_interest({ .skill_ready = true });
         total++;
-        if (analyzer.analyze()) {
+        if (analyzer.analyze()->skill_ready.ready) {
             correct++;
         }
     }
     for (const auto& entry : std::filesystem::directory_iterator(R"(../../test/skill_ready/n)")) {
         cv::Mat image = imread(entry.path().string());
-        BattleSkillReadyImageAnalyzer analyzer(image);
+        BattlefieldClassifier analyzer(image);
+        analyzer.set_object_of_interest({ .skill_ready = true });
         total++;
-        if (!analyzer.analyze()) {
+        if (!analyzer.analyze()->skill_ready.ready) {
             correct++;
         }
     }
     Log.info(__FUNCTION__, correct, "/", total, ",", double(correct) / total);
+}
+
+void asst::DebugTask::test_battle_image()
+{
+    cv::Mat image = asst::imread(utils::path("1.png"));
+    cv::Mat resized;
+    cv::resize(image, resized, cv::Size(1280, 720), 0, 0, cv::INTER_AREA);
+    BattlefieldMatcher analyzer(resized);
+    analyzer.set_object_of_interest({ .deployment = true });
+    analyzer.analyze();
 }

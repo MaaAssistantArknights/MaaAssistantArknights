@@ -1,9 +1,9 @@
 #pragma once
-#include "Config/AbstractResource.h"
-
-#include <functional>
 
 #include "Common/AsstTypes.h"
+#include "Config/AbstractResource.h"
+
+#include <vector>
 
 namespace cv
 {
@@ -31,21 +31,28 @@ namespace asst
     class OcrPack : public AbstractResource
     {
     public:
+        using Result = TextRect;
+        using ResultsVec = std::vector<Result>;
+
+    public:
         virtual ~OcrPack() override;
 
         virtual bool load(const std::filesystem::path& path) override;
 
-        std::vector<TextRect> recognize(const cv::Mat& image, const TextRectProc& pred = nullptr,
-                                        bool without_det = false, bool trim = true);
-        std::vector<TextRect> recognize(const cv::Mat& image, const Rect& roi, const TextRectProc& pred = nullptr,
-                                        bool without_det = false, bool trim = true);
+        ResultsVec recognize(const cv::Mat& image, bool without_det = false);
 
     protected:
         OcrPack();
 
+        bool check_and_load();
+
         std::unique_ptr<fastdeploy::vision::ocr::DBDetector> m_det;
         std::unique_ptr<fastdeploy::vision::ocr::Recognizer> m_rec;
         std::unique_ptr<fastdeploy::pipeline::PPOCRv3> m_ocr;
+
+        std::filesystem::path m_det_model_path;
+        std::filesystem::path m_rec_model_path;
+        std::filesystem::path m_rec_label_path;
     };
 
     class WordOcr final : public SingletonHolder<WordOcr>, public OcrPack

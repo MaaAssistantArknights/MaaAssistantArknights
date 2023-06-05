@@ -1,9 +1,13 @@
 #include "StageDropsConfig.h"
 
+#include "Utils/Logger.hpp"
+
 #include <meojson/json.hpp>
 
 bool asst::StageDropsConfig::parse(const json::value& json)
 {
+    LogTraceFunction;
+
     for (const json::value& stage_json : json.as_array()) {
         auto drop_infos_opt = stage_json.find<json::array>("dropInfos");
         if (!drop_infos_opt) { // 这种一般是以前的活动关，现在已经关闭了的
@@ -37,5 +41,6 @@ bool asst::StageDropsConfig::parse(const json::value& json)
         m_all_stage_code.emplace(code);
         m_stage_info.emplace(std::move(key), std::move(info));
     }
+
     return true;
 }

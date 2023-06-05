@@ -89,7 +89,24 @@ bool asst::MinitouchController::call_and_hup_minitouch()
     m_minitouch_props.x_scaling = static_cast<double>(m_minitouch_props.max_x) / m_width;
     m_minitouch_props.y_scaling = static_cast<double>(m_minitouch_props.max_y) / m_height;
 
+    m_minitoucher = std::make_unique<Minitoucher>(
+        std::bind(&MinitouchController::input_to_minitouch, this, std::placeholders::_1), m_minitouch_props);
+
     return true;
+}
+
+std::optional<std::string> asst::MinitouchController::reconnect(const std::string& cmd, int64_t timeout,
+                                                                bool recv_by_socket)
+{
+    LogTraceFunction;
+
+    auto ret = AdbController::reconnect(cmd, timeout, recv_by_socket);
+    if (!ret) {
+        return std::nullopt;
+    }
+
+    call_and_hup_minitouch();
+    return ret;
 }
 
 bool asst::MinitouchController::input_to_minitouch(const std::string& cmd)
@@ -132,7 +149,6 @@ bool asst::MinitouchController::swipe(const Point& p1, const Point& p2, int dura
         y1 = std::clamp(y1, 0, m_height - 1);
     }
 
-    const auto& opt = Config.get_options();
     Log.trace(m_use_maa_touch ? "maatouch" : "minitouch", "swipe", p1, p2, duration, extra_swipe, slope_in, slope_out);
     m_minitoucher->down(x1, y1);
 
@@ -146,6 +162,7 @@ bool asst::MinitouchController::swipe(const Point& p1, const Point& p2, int dura
     }; // TODO: move this to math.hpp
 
     bool need_pause = with_pause && use_swipe_with_pause();
+    const auto& opt = Config.get_options();
     std::future<void> pause_future;
     auto minitouch_move = [&](int _x1, int _y1, int _x2, int _y2, int _duration) {
         for (int cur_time = TimeInterval; cur_time < _duration; cur_time += TimeInterval) {
@@ -174,12 +191,10 @@ bool asst::MinitouchController::swipe(const Point& p1, const Point& p2, int dura
         }
     };
 
-    constexpr int DefaultDuration = 200;
-    minitouch_move(x1, y1, x2, y2, duration ? duration : DefaultDuration);
+    minitouch_move(x1, y1, x2, y2, duration ? duration : opt.minitouch_swipe_default_duration);
 
     if (extra_swipe && opt.minitouch_extra_swipe_duration > 0) {
-        constexpr int ExtraEndDelay = 100; // 停留终点
-        m_minitoucher->wait(ExtraEndDelay);
+        m_minitoucher->wait(opt.minitouch_swipe_extra_end_delay); // 停留终点
         minitouch_move(x2, y2, x2, y2 - opt.minitouch_extra_swipe_dist, opt.minitouch_extra_swipe_duration);
     }
     bool ret = m_minitoucher->up();
@@ -297,7 +312,7 @@ bool asst::MinitouchController::connect(const std::string& adb_path, const std::
 
 #ifdef ASST_DEBUG
     if (config == "DEBUG") {
-        make_instance_inited(true);
+        m_inited = true;
         return true;
     }
 #endif
@@ -353,7 +368,5 @@ bool asst::MinitouchController::connect(const std::string& adb_path, const std::
         return false;
     }
 
-    m_minitoucher = std::make_unique<Minitoucher>(
-        std::bind(&MinitouchController::input_to_minitouch, this, std::placeholders::_1), m_minitouch_props);
     return true;
 }

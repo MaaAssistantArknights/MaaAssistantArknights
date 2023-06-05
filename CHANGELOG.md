@@ -1,55 +1,81 @@
-## v4.13.0-beta.1
+## v4.19.0-rc.1
 
 ### 新增
 
-- 界面夜间模式 (#4020) @ABA2396
-- 更新危机合约地图及其他游戏数据 @lza11111 @MistEO
-- macOS OTA 支持 @hguandl
+- Supported Auto I.S. (Mizuki Roguelike) for YostarKR, YostarJP, YostarEN @178619 @su6aru @liuyifan-eric @Pitiedwzr @RiichiTsumo
+- 切换配置功能 @MistEO @ABA2396
+- 自定义关卡快捷输入 @ABA2396
 
 ### 改进
 
-- 未选择任务时界面报错信息 #4034 @ABA2396
-- 危机合约版本更新无法刷钱本等物质搜寻关 #4051 @ABA2396
-- 关闭基建宿舍复查功能 @MistEO
-- 将海蒂加入阿卡胡拉作业黑名单 (#4044) @Snow-dash
+- 支持连接失败重启 ADB @ABA2396
+- 优化关卡列表相关逻辑 @ABA2396
+- 扩大任务设置可选范围 @moomiji
+- 添加刷理智任务设置中显示基建计划功能 @moomiji
+- improve ConfirmExit() @moomiji
+- 添加隐藏关闭按钮功能 @moomiji
+- 添加托盘图标强制显示MAA功能 @moomiji
+- 增加一个文件被占用的解决方法 @MistEO
+- 加回 gui.json 备份机制 @MistEO
+- 勾选`手动输入关卡名`时可勾选`隐藏当日不开放关卡` @moomiji
+- 为日志加入简单的rotate @MistEO
 
 ### 修复
 
-- 修复 Mac LS-6 tag 错误 @ABA2396
-- CE-6 代理识别错误 @ABA2396
-- 修复定时器显示问题 @ABA2396
-- 自定义关卡与备选关卡同时开启时的逻辑问题 #4029 @ABA2396
-- 修复备选关卡不会自动大写的问题 @ABA2396
-- 尝试修复CE-5导航问题 @ABA2396
-- 主线关卡导航问题 @ABA2396
+- 修复截图方式判断错误导致的操作慢问题 @horror-proton @MistEO
+- 修复切换日服后再切回后OCR配置不清空的问题 @MistEO
+- 修复干员 Box 识别错误 @MistEO
+- 拖动任务顺序后无法保存修改后的顺序 @ABA2396
+- 关卡名OCR识别大小写出错导致掉落上传失败 #4867 @ABA2396
+- 尝试修复关卡选择变为null的情况 #4871 @ABA2396 @moomiji
+- 关卡选择为null时仍会执行借助战任务 @ABA2396
+- 修复 `火哨` 的基建技能 @MistEO
+- 修改LanguageList初始化过程 @ABA2396
+- 修复 `夕` 识别错误 @cenfusheng
+- window creep after restart @moomiji
 
 ### 其他
 
-- fix build error with -Werror=restrict (#4052) @aa889788 @horror-proton
-- 修复 Clang / GCC 编译warnings (#4043) @hguandl
-- 优化代码 @ABA2396
-- 加速 `tasks.json` 的读取 (#3977) @zzyyyl
-- prevent unnecessary copy in TilePack @horror-proton
-- 优化作业缓存路径 @MistEO
-- 修改LinkStart任务执行顺序 @ABA2396
-- 修改添加基建任务判断条件 @ABA2396
-- 修改蓝叠模拟器关闭方式 @ABA2396
-- 调整Level6资源关卡代理判断延迟，替换识别图片 @ABA2396
-- 格式化代码 @ABA2396
-- put all config keys in ConfigKeys class; feat: allow customizing window title prefix through config (#3993) @KevinT3Hu
+- 创建本地化文档自动翻译工具 & 更新本地化文档 (#4912) @UniMars @wallsman
+- 修复资源更新器不更新水月肉鸽的问题 @MistEO
+- update meojson (#4789) @MistEO
+- 部分 CI 优化 @MistEO
+- Update operators.md (#4929) @wallsman
+- 修改对于蓝叠的支持说明 @ABA2396 @MistEO
+- 优化调整一些 CI @AnnAngela @MistEO
+- 翻译优化 @ABA2396 @LiamSho
+- add docs & emulator support for linux users (#4996) @zayn7lie
 
 ### For overseas
 
 #### Common
 
-- 增加海外悠星服务器153基建的作业（截止至玛恩纳） (#4050) @BlackNorton
-- sort overseas clients' json @liuyifan-eric
+- i18n: Translations update from MAA Weblate (#4971) @LiamSho 
+- update overseas json/template tool @liuyifan-eric
 
 #### YostarJP
 
-- JP OF-1 credit support @liuyifan-eric
-- Fix 承曦グレイ （YoStarJP） (#4009) @cenfusheng
+- Supported Auto I.S. (Mizuki Roguelike) (#4936) (#4921) @su6aru @liuyifan-eric
+- JP navigation to IS event stages @liuyifan-eric
+- update JP json for gacha pull @liuyifan-eric
+- IS-10 (Yostar ongoing) slowly swipe to stage @liuyifan-eric
+- JP oper ocr replace update @liuyifan-eric
+- ad hoc fix for JP ocr of 阿 ア @liuyifan-eric
+- try to fix JP IS StageEncounter Stuck @liuyifan-eric
 
-#### TXWY
+#### YostarEN
 
-- 修复 礫（txwy）的文字识别问题 (#4009) @cenfusheng
+- Supported Auto I.S. (Mizuki Roguelike) (#4936) @Pitiedwzr @RiichiTsumo
+- Update tasks.json (EN, #4978) (#4985) @178619
+- Optimize and fix some issues of Mizuki @peter1997546 @Pitiedwzr
+- Fix threshold issue with `UsePrts` for YostarEN @MistEO
+- Optimize the replacement of some operator names @Constrat
+- Skadi Alter / Wild Mane fixed in oper recognition (#4998) @Constrat
+
+#### YostarKR
+
+- Supported Auto I.S. (Mizuki Roguelike) (#4932) @178619
+- Localization fix for ko-KR (#4930) @GyeRyak
+- Update resources for KR @178619
+- Update 1.3-EMULATOR_SUPPORTS.md (KR) @178619
+- stuck at a specific event (KR, #4973) @178619

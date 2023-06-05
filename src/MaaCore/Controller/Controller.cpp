@@ -2,10 +2,6 @@
 
 #include "Utils/Platform.hpp"
 
-#include <algorithm>
-#include <chrono>
-#include <cstdint>
-#include <memory>
 #include <regex>
 #include <utility>
 #include <vector>
@@ -24,14 +20,9 @@
 #endif
 
 #include "AdbController.h"
-#include "MaatouchController.h"
-#include "MinitouchController.h"
 
 #include "Common/AsstTypes.h"
-#include "Config/GeneralConfig.h"
 #include "Utils/Logger.hpp"
-#include "Utils/StringMisc.hpp"
-#include "Utils/WorkingDir.hpp"
 
 asst::Controller::Controller(const AsstCallback& callback, Assistant* inst)
     : InstHelper(inst), m_callback(callback), m_rand_engine(std::random_device {}())
@@ -55,6 +46,8 @@ void asst::Controller::clear_info() noexcept
 {
     m_uuid.clear();
     m_scale_size = { WindowWidthDefault, WindowHeightDefault };
+    m_controller = nullptr;
+    m_scale_proxy = nullptr;
 }
 
 void asst::Controller::callback(AsstMsg msg, const json::value& details)
@@ -74,6 +67,7 @@ void asst::Controller::sync_params()
 {
     CHECK_EXIST(m_controller, );
     m_controller->set_swipe_with_pause(m_swipe_with_pause);
+    m_controller->set_kill_adb_on_exit(m_kill_adb_on_exit);
 }
 
 cv::Mat asst::Controller::get_resized_image_cache() const
@@ -192,7 +186,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     };
 
     try {
-        m_scale_proxy = std::make_shared<ControlScaleProxy>(m_controller, proxy_callback);
+        m_scale_proxy = std::make_shared<ControlScaleProxy>(m_controller, m_controller_type, proxy_callback);
     }
     catch (const std::exception& e) {
         Log.error("Cannot create controller proxy: {}", e.what());
@@ -227,6 +221,9 @@ void asst::Controller::set_touch_mode(const TouchMode& mode) noexcept
     case TouchMode::Maatouch:
         m_controller_type = ControllerType::Maatouch;
         break;
+    case TouchMode::MacPlayTools:
+        m_controller_type = ControllerType::MacPlayTools;
+        break;
     default:
         m_controller_type = ControllerType::Minitouch;
     }
@@ -241,6 +238,12 @@ void asst::Controller::set_swipe_with_pause(bool enable) noexcept
 void asst::Controller::set_adb_lite_enabled(bool enable) noexcept
 {
     m_platform_type = enable ? PlatformType::AdbLite : PlatformType::Native;
+}
+
+void asst::Controller::set_kill_adb_on_exit(bool enable) noexcept
+{
+    m_kill_adb_on_exit = enable;
+    sync_params();
 }
 
 const std::string& asst::Controller::get_uuid() const

@@ -5,6 +5,8 @@
 
 bool asst::GeneralConfig::parse(const json::value& json)
 {
+    LogTraceFunction;
+
     m_version = json.at("version").as_string();
 
     {
@@ -16,8 +18,11 @@ bool asst::GeneralConfig::parse(const json::value& json)
         m_options.adb_extra_swipe_dist = options_json.get("adbExtraSwipeDist", 100);
         m_options.adb_extra_swipe_duration = options_json.get("adbExtraSwipeDuration", -1);
         m_options.adb_swipe_duration_multiplier = options_json.get("adbSwipeDurationMultiplier", 10.0);
+        m_options.adb_swipe_x_distance_multiplier = options_json.get("adbSwipeXDistanceMultiplier", 0.8);
         m_options.minitouch_extra_swipe_dist = options_json.get("minitouchExtraSwipeDist", 100);
         m_options.minitouch_extra_swipe_duration = options_json.get("minitouchExtraSwipeDuration", -1);
+        m_options.minitouch_swipe_default_duration = options_json.get("minitouchSwipeDefaultDuration", 200);
+        m_options.minitouch_swipe_extra_end_delay = options_json.get("minitouchSwipeExtraEndDelay", 150);
         m_options.swipe_with_pause_required_distance = options_json.get("swipeWithPauseRequiredDistance", 50);
         if (auto order = options_json.find<json::array>("minitouchProgramsOrder")) {
             m_options.minitouch_programs_order.clear();
@@ -69,7 +74,6 @@ bool asst::GeneralConfig::parse(const json::value& json)
         adb.screencap_raw_with_gzip = cfg_json.get("screencapRawWithGzip", base_cfg.screencap_raw_with_gzip);
         adb.screencap_raw_by_nc = cfg_json.get("screencapRawByNC", base_cfg.screencap_raw_by_nc);
         adb.nc_address = cfg_json.get("ncAddress", base_cfg.nc_address);
-        adb.nc_port = static_cast<unsigned short>(cfg_json.get("ncPort", base_cfg.nc_port));
         adb.screencap_encode = cfg_json.get("screencapEncode", base_cfg.screencap_encode);
         adb.release = cfg_json.get("release", base_cfg.release);
         adb.start = cfg_json.get("start", base_cfg.start);

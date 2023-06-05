@@ -11,11 +11,11 @@
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/HashImageAnalyzer.h"
+#include "Vision/Hasher.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/MultiMatchImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/Matcher.h"
+#include "Vision/MultiMatcher.h"
+#include "Vision/RegionOCRer.h"
 
 asst::InfrastProductionTask& asst::InfrastProductionTask::set_uses_of_drone(std::string uses_of_drones) noexcept
 {
@@ -66,7 +66,59 @@ void asst::InfrastProductionTask::set_product(std::string product_name) noexcept
                 callback_info["details"]["product"] = m_product;
                 callback(AsstMsg::SubTaskExtraInfo, callback_info);
             }
+            m_is_product_incorrect = !is_same_product;
         }
+    }
+}
+
+void asst::InfrastProductionTask::change_product()
+{
+    auto customProduct = current_room_config().product;
+    switch (customProduct) {
+    /*制造站的产品类型*/
+    case infrast::CustomRoomConfig::Product::BattleRecord: {
+        ProcessTask(*this, { "ChangeProductToMiddleBattleRecord" }).run();
+        json::value callback_info = basic_info_with_what("ProductChanged");
+        callback_info["details"]["product"] = "MiddleBattleRecord";
+        callback(AsstMsg::SubTaskExtraInfo, callback_info);
+        break;
+    }
+    case infrast::CustomRoomConfig::Product::PureGold: {
+        ProcessTask(*this, { "ChangeProductToPureGold" }).run();
+        json::value callback_info = basic_info_with_what("ProductChanged");
+        callback_info["details"]["product"] = "PureGold";
+        callback(AsstMsg::SubTaskExtraInfo, callback_info);
+        break;
+    }
+    case infrast::CustomRoomConfig::Product::OriginiumShard: {
+        ProcessTask(*this, { "ChangeProductToOriginiumShard" }).run();
+        json::value callback_info = basic_info_with_what("ProductChanged");
+        callback_info["details"]["product"] = "OriginiumShard";
+        callback(AsstMsg::SubTaskExtraInfo, callback_info);
+        break;
+    }
+    case infrast::CustomRoomConfig::Product::Dualchip: {
+        break;
+    }
+    /*贸易站的订单类型*/
+    case infrast::CustomRoomConfig::Product::LMD: {
+        ProcessTask(*this, { "ChangeToMoneyOrder" }).run();
+        json::value callback_info = basic_info_with_what("ProductChanged");
+        callback_info["details"]["product"] = "Money";
+        callback(AsstMsg::SubTaskExtraInfo, callback_info);
+        break;
+    }
+    case infrast::CustomRoomConfig::Product::Orundum: {
+        ProcessTask(*this, { "ChangeToSyntheticJadeFlagOrder" }).run();
+        json::value callback_info = basic_info_with_what("ProductChanged");
+        callback_info["details"]["product"] = "SyntheticJade";
+        callback(AsstMsg::SubTaskExtraInfo, callback_info);
+        break;
+    }
+
+    default: {
+        break;
+    }
     }
 }
 
@@ -107,7 +159,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
 
         /* 识别当前制造/贸易站有没有添加干员按钮，没有就不换班 */
         const auto image = ctrler()->get_image();
-        MatchImageAnalyzer add_analyzer(image);
+        Matcher add_analyzer(image);
         const auto add_task_ptr = Task.get("InfrastAddOperator" + facility_name() + m_work_mode_name);
         add_analyzer.set_task_info(add_task_ptr);
         if (!add_analyzer.analyze()) {
@@ -121,7 +173,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
 
         /* 识别当前正在造什么 */
-        MatchImageAnalyzer product_analyzer(image);
+        Matcher product_analyzer(image);
         auto& all_products = InfrastData.get_facility_info(facility_name()).products;
         std::string cur_product = all_products.at(0);
         double max_score = 0;
@@ -137,7 +189,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
         set_product(cur_product);
 
-        MultiMatchImageAnalyzer locked_analyzer(image);
+        MultiMatcher locked_analyzer(image);
         locked_analyzer.set_task_info("InfrastOperLocked" + facility_name());
         if (locked_analyzer.analyze()) {
             m_cur_num_of_locked_opers = static_cast<int>(locked_analyzer.get_result().size());
@@ -198,6 +250,10 @@ bool asst::InfrastProductionTask::shift_facility_list()
         }
         click_confirm_button();
 
+        /*启用自定义基建时，如果产物不一致则直接更换产物*/
+        if (m_is_custom && m_is_product_incorrect) {
+            change_product();
+        }
         // 使用无人机
         if (m_is_use_custom_drones) {
             if (m_custom_drones_config.order == infrast::CustomDronesConfig::Order::Post &&
@@ -280,7 +336,7 @@ size_t asst::InfrastProductionTask::opers_detect()
                 return false;
             }
             // 有可能是同一个干员，比一下hash
-            int dist = HashImageAnalyzer::hamming(cur_oper.face_hash, oper.face_hash);
+            int dist = Hasher::hamming(cur_oper.face_hash, oper.face_hash);
             Log.debug("opers_detect hash dist |", dist);
             return dist < face_hash_thres;
         });
@@ -446,14 +502,14 @@ bool asst::InfrastProductionTask::optimal_calc()
                         hash_matched = true;
                     }
                     else {
-                        OcrWithPreprocessImageAnalyzer name_analyzer(find_iter->name_img);
+                        RegionOCRer name_analyzer(find_iter->name_img);
                         name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
                                                   Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
                         Log.trace("Analyze name filter");
                         if (!name_analyzer.analyze()) {
                             continue;
                         }
-                        std::string name = name_analyzer.get_result().front().text;
+                        std::string name = name_analyzer.get_result().text;
                         hash_matched = ranges::find(opt.name_filter, name) != opt.name_filter.cend();
                     }
                     if (!hash_matched) {
@@ -574,14 +630,14 @@ bool asst::InfrastProductionTask::opers_choose()
                     return true;
                 }
                 else {
-                    OcrWithPreprocessImageAnalyzer name_analyzer(lhs.name_img);
+                    RegionOCRer name_analyzer(lhs.name_img);
                     name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
                                               Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
                     Log.trace("Analyze name filter");
                     if (!name_analyzer.analyze()) {
                         return false;
                     }
-                    std::string name = name_analyzer.get_result().front().text;
+                    std::string name = name_analyzer.get_result().text;
                     return ranges::find(std::as_const(opt_iter->name_filter), name) != opt_iter->name_filter.cend();
                 }
             });
@@ -606,7 +662,7 @@ bool asst::InfrastProductionTask::opers_choose()
             }
             {
                 auto avlb_iter = ranges::find_if(m_all_available_opers, [&](const infrast::Oper& lhs) -> bool {
-                    int dist = HashImageAnalyzer::hamming(lhs.face_hash, find_iter->face_hash);
+                    int dist = Hasher::hamming(lhs.face_hash, find_iter->face_hash);
                     Log.debug("opers_choose | face hash dist", dist);
                     return dist < face_hash_thres;
                 });
@@ -686,16 +742,17 @@ bool asst::InfrastProductionTask::facility_list_detect()
     m_facility_list_tabs.clear();
 
     const auto image = ctrler()->get_image();
-    MultiMatchImageAnalyzer mm_analyzer(image);
+    MultiMatcher mm_analyzer(image);
 
     mm_analyzer.set_task_info("InfrastFacilityListTab" + facility_name());
 
-    if (!mm_analyzer.analyze()) {
+    auto result_opt = mm_analyzer.analyze();
+    if (!result_opt) {
         return false;
     }
-    mm_analyzer.sort_result_horizontal();
-    m_facility_list_tabs.reserve(mm_analyzer.get_result().size());
-    for (const auto& res : mm_analyzer.get_result()) {
+    sort_by_vertical_(*result_opt);
+    const auto result = mm_analyzer.get_result();
+    for (const auto& res : *result_opt) {
         m_facility_list_tabs.emplace_back(res.rect);
     }
 

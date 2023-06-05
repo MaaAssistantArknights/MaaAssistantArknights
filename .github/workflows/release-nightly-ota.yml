@@ -11,10 +11,6 @@ on:
         description: 'Commit to build (git checkout)'
         type: string
         required: false
-      tag_name:
-        description: 'Tag name to release'
-        type: string
-        required: false
       limit:
         description: 'Number of releases to fetch from MaaAssistantArknights'
         required: true
@@ -39,6 +35,8 @@ jobs:
       MAABUILDER_TARGET_PLATFORM: ${{ matrix.msbuild_target }}
     outputs:
       tag: ${{ steps.set_tag.outputs.tag }}
+      pre_version: ${{ steps.set_tag.outputs.pre_version }}
+      main_tag_name: ${{ steps.push_main_tag.outputs.main_tag_name }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -46,6 +44,7 @@ jobs:
           submodules: recursive
           #ref: ${{ inputs.ref }}
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout ref
         run: |
           if ("${{ inputs.ref }}" -ne "") {
@@ -57,22 +56,35 @@ jobs:
       - name: Set tag
         id: set_tag
         run: |
-          if ("${{ inputs.tag_name }}" -ne "") {
-            echo "tag=${{ inputs.tag_name }}" >> $env:GITHUB_OUTPUT
-            exit 0
-          }
           $described = $(git describe --tags --long --match 'v*')
           $ids = $($described -split "-")
           if ($ids.length -eq 3) {
             $ver = "v$(semver --increment $ids[0].Substring(1))"
-            echo "tag=$ver-alpha.0.$($ids[1]).$($ids[2])" >> $env:GITHUB_OUTPUT
+            $pre_version = "$($ids[0])"
+            $dist = `printf "%03d"` $ids[1]
+            echo "tag=$ver-alpha.1.d$($dist).$($ids[2])" >> $env:GITHUB_OUTPUT
+            echo "pre_version=$pre_version" >> $env:GITHUB_OUTPUT
             exit 0
           }
           if ($ids.length -eq 4) {
-            echo "tag=$($ids[0])-$($ids[1]).$($ids[2]).$($ids[3])" >> $env:GITHUB_OUTPUT
+            $dist = `printf "%03d"` $ids[2]
+            $pre_version = "$($ids[0])""-""$($ids[1])"
+            echo "tag=$($ids[0])-$($ids[1]).d$($dist).$($ids[3])" >> $env:GITHUB_OUTPUT
+            echo "pre_version=$pre_version" >> $env:GITHUB_OUTPUT
             exit 0
           }
           exit 1
+
+      - name: Push tag to main repo
+        id: push_main_tag
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          $main_tag_name=$(echo "alpha/${{ steps.set_tag.outputs.tag }}")
+          git tag $main_tag_name -f
+          git push --tags origin HEAD:refs/tags/$main_tag_name -f
+          echo "main_tag_name=$main_tag_name" >> $env:GITHUB_OUTPUT
 
       - name: Cache .nuke/temp, ~/.nuget/packages
         uses: actions/cache@v3
@@ -100,6 +112,7 @@ jobs:
         with:
           name: MAA-win-${{ matrix.lowercase_target }}
           path: artifacts
+
 
   push-tag:
     needs: build-win-nightly
@@ -132,6 +145,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           path: MaaAssistantArknights
+          token: ${{ secrets.MAARELEASE_RELEASE }}
       - uses: actions/download-artifact@v3
         with:
           name: MAA-win-${{ matrix.target }}
@@ -141,10 +155,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           mkdir -pv build-ota && cd build-ota
-          cd ${{ needs.build-win-nightly.outputs.tag }}
-          mkdir -pv content
-          unzip -q -O GB2312 -o *.zip -x '*.lib' -x '*.pdb' -x '*.exp' -x '*.config' -x '*.xml' -d content
-          cd ..
+
 
           gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit || 30 }} | tee ./release_maa.txt
           gh release list --repo "${{ github.repository_owner }}/MaaRelease" --limit ${{ inputs.limit_2 || 30 }} | tee ./release_mr.txt
@@ -164,8 +175,30 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd build-ota
+
+          pushd ${{ needs.build-win-nightly.outputs.tag }}
+          zip -d *.zip '*.lib' '*.pdb' '*.exp' '*.config' '*.xml'
+          mv *.zip MAA-${{ env.release_tag }}-win-${{ matrix.target }}.zip
+          popd
+
           $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./config ${{ matrix.target }} "${{ github.repository_owner }}/MaaRelease"
           mv -v ${{ needs.build-win-nightly.outputs.tag }}/*.zip ./MAA-${{ env.release_tag }}-win-${{ matrix.target }}.zip
+
+      - name: Make release body
+        id: make_release_body
+        shell: bash
+        run: |
+          pre_version=${{ needs.build-win-nightly.outputs.pre_version }}
+          cur_version=${{ needs.build-win-nightly.outputs.main_tag_name }}
+          echo -e "${{ inputs.release_body || '' }}\n\n**Full Changelog**: [$pre_version -> $cur_version](https://github.com/$GITHUB_REPOSITORY/compare/$pre_version...$cur_version)" > alpha_changelog.md
+          export r=$(cat alpha_changelog.md)
+          
+          # https://github.com/svenstaro/upload-release-action
+          r="${r//'%'/'%25'}"                               # Multiline escape sequences for %
+          r="${r//$'\n'/'%0A'}"                             # Multiline escape sequences for '\n'
+          r="${r//$'\r'/'%0D'}"                             # Multiline escape sequences for '\r'
+          echo $r
+          echo "full_release_body=$r" >> $GITHUB_OUTPUT
 
       - name: "Upload to MaaRelease"
         uses: svenstaro/upload-release-action@v2
@@ -177,13 +210,10 @@ jobs:
           tag: ${{ env.release_tag }}
           prerelease: true
           overwrite: true
-          body: ${{ inputs.release_body || '' }}
-      - name: "Upload to server"
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_ID }}
-          source: "build-ota/*.zip"
-          strip_components: 1
-          target: ${{ format('{0}/{1}', 'OTA/MaaAssistantArknights/MaaRelease/releases/download', env.release_tag) }}
+          body: ${{ steps.make_release_body.outputs.full_release_body }}
+
+      - name: Deploy the release
+        run: |
+            gh workflow --repo MaaAssistantArknights/MaaRelease run release-mirrors.yml
+        env:
+            GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}

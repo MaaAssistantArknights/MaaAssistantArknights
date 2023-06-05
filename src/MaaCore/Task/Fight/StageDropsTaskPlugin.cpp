@@ -77,6 +77,9 @@ bool asst::StageDropsTaskPlugin::_run()
     set_start_button_delay();
 
     if (!recognize_drops()) {
+        if (!check_stage_valid()) {
+            stop_task();
+        }
         return false;
     }
     if (need_exit()) {
@@ -105,19 +108,23 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
     }
 
     StageDropsImageAnalyzer analyzer(ctrler()->get_image());
-    if (!analyzer.analyze()) {
+    bool ret = analyzer.analyze();
+
+    auto&& [code, difficulty] = analyzer.get_stage_key();
+    m_stage_code = std::move(code);
+    ranges::transform(m_stage_code, m_stage_code.begin(),
+                      [](char ch) -> char { return static_cast<char>(::toupper(ch)); });
+    m_stage_difficulty = difficulty;
+    m_stars = analyzer.get_stars();
+    m_cur_drops = analyzer.get_drops();
+
+    if (!ret) {
         auto info = basic_info();
         info["subtask"] = "RecognizeDrops";
         info["why"] = "掉落识别错误";
         callback(AsstMsg::SubTaskError, info);
         return false;
     }
-
-    auto&& [code, difficulty] = analyzer.get_stage_key();
-    m_stage_code = std::move(code);
-    m_stage_difficulty = difficulty;
-    m_stars = analyzer.get_stars();
-    m_cur_drops = analyzer.get_drops();
 
     if (m_is_annihilation) {
         return true;
@@ -201,8 +208,8 @@ void asst::StageDropsTaskPlugin::set_start_button_delay()
     int64_t duration = time(nullptr) - last_start_time;
     int elapsed = Task.get("EndOfAction")->pre_delay + Task.get("PRTS")->post_delay;
     int64_t delay = duration * 1000 - elapsed;
-    Log.info(__FUNCTION__, "set StartButton2 post delay", delay);
-    m_cast_ptr->set_post_delay("StartButton2", static_cast<int>(delay));
+    Log.info(__FUNCTION__, "set StartButton2WaitTime post delay", delay);
+    m_cast_ptr->set_post_delay("StartButton2WaitTime", static_cast<int>(delay));
 }
 
 void asst::StageDropsTaskPlugin::upload_to_penguin()
@@ -219,13 +226,13 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
     // Doc: https://developer.penguin-stats_vec.io/public-api/api-v2-instruction/report-api
     std::string stage_id = m_cur_info_json.get("stage", "stageId", std::string());
     if (stage_id.empty()) {
-        cb_info["why"] = "未知关卡";
+        cb_info["why"] = "UnknownStage";
         cb_info["details"] = json::object { { "stage_code", m_stage_code } };
         callback(AsstMsg::SubTaskError, cb_info);
         return;
     }
     if (m_stars != 3) {
-        cb_info["why"] = "非三星作战";
+        cb_info["why"] = "NotThreeStars";
         callback(AsstMsg::SubTaskError, cb_info);
         return;
     }
@@ -241,11 +248,16 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
             "SPECIAL_DROP",
         };
         std::string drop_type = drop.at("dropType").as_string();
+        if (drop_type == "UNKNOWN_DROP") {
+            cb_info["why"] = "UnknownDropType";
+            callback(AsstMsg::SubTaskError, cb_info);
+            return;
+        }
         if (ranges::find(filter, drop_type) == filter.cend()) {
             continue;
         }
         if (drop.at("itemId").as_string().empty()) {
-            cb_info["why"] = "存在未知掉落";
+            cb_info["why"] = "UnknownDrops";
             callback(AsstMsg::SubTaskError, cb_info);
             return;
         }

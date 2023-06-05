@@ -4,8 +4,8 @@
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/OcrImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/OCRer.h"
+#include "Vision/RegionOCRer.h"
 
 #include "ReclamationBattlePlugin.h"
 
@@ -56,7 +56,7 @@ bool asst::ReclamationControlTask::run_giveup_upon_fight_procedure()
         RunCheckSuccess(ReclamationBattlePlugin(m_callback, m_inst, m_task_chain)
                             .set_battle_mode(ReclamationBattleMode::Giveup)
                             .run);
-        RunCheckSuccess(level_complete_comfirm);
+        RunCheckSuccess(level_complete_confirm);
 
         if (enter_next_day_if_useup()) {
             RunCheckSuccess(wait_between_day);
@@ -87,7 +87,7 @@ bool asst::ReclamationControlTask::run_smelt_gold_procedure()
                          .set_battle_mode(ReclamationBattleMode::BuyWater)
                          .set_retry_times(0)
                          .run();
-        RunCheckSuccess(level_complete_comfirm);
+        RunCheckSuccess(level_complete_confirm);
     }
 
     RunCheckSuccess(enter_command_center);
@@ -134,7 +134,7 @@ bool asst::ReclamationControlTask::battle_default_formation_start()
     return ProcessTask(*this, { "BattleDefaultFormationStart@Reclamation@Begin" }).run();
 }
 
-bool asst::ReclamationControlTask::level_complete_comfirm()
+bool asst::ReclamationControlTask::level_complete_confirm()
 {
     return ProcessTask(*this, { "LevelCompleteConfirm@Reclamation@LevelComplete" }).run();
 }

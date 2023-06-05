@@ -1,4 +1,4 @@
-﻿// <copyright file="ConfigurationHelper.cs" company="MaaAssistantArknights">
+// <copyright file="ConfigurationHelper.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -14,7 +14,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text.Json;
+using System.Linq;
+using MaaWpfGui.Constants;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Serilog;
 
 namespace MaaWpfGui.Helper
@@ -23,9 +26,13 @@ namespace MaaWpfGui.Helper
     {
         private static readonly string _configurationFile = Path.Combine(Environment.CurrentDirectory, "config/gui.json");
         private static readonly string _configurationBakFile = Path.Combine(Environment.CurrentDirectory, "config/gui.json.bak");
+        private static Dictionary<string, Dictionary<string, string>> _kvsMap;
+        private static string _current = ConfigurationKeys.DefaultConfiguration;
         private static Dictionary<string, string> _kvs;
 
         private static readonly ILogger _logger = Log.ForContext<ConfigurationHelper>();
+
+        private static readonly object _lock = new object();
 
         public delegate void ConfigurationUpdateEventHandler(string key, string oldValue, string newValue);
 
@@ -91,9 +98,9 @@ namespace MaaWpfGui.Helper
         public static bool DeleteValue(string key)
         {
             var old = string.Empty;
-            if (_kvs.ContainsKey(key))
+            if (_kvs.TryGetValue(key, out var kv))
             {
-                old = _kvs[key];
+                old = kv;
             }
 
             _kvs.Remove(key);
@@ -122,29 +129,6 @@ namespace MaaWpfGui.Helper
                 Directory.CreateDirectory("config");
             }
 
-            // Config file migration
-            const string OldConfigFile = "gui.json";
-            if (File.Exists(OldConfigFile))
-            {
-                if (File.Exists(_configurationFile))
-                {
-                    File.Delete(OldConfigFile);
-                }
-
-                File.Move(OldConfigFile, _configurationFile);
-            }
-
-            var oldBakFiles = Directory.GetFiles(".", "gui.json.bak*");
-            if (oldBakFiles.Length != 0)
-            {
-                _logger.Information("Found old backup files, deleting...");
-                foreach (var f in oldBakFiles)
-                {
-                    File.Delete(f);
-                    _logger.Information("Deleted {0}", f);
-                }
-            }
-
             // Load configuration file
             var parsed = ParseJsonFile(_configurationFile);
             if (parsed is null)
@@ -159,22 +143,41 @@ namespace MaaWpfGui.Helper
             if (parsed is null)
             {
                 _logger.Information("Failed to load configuration file, creating a new one");
-                _kvs = new Dictionary<string, string>();
+
+                _kvsMap = new Dictionary<string, Dictionary<string, string>>();
+                _current = ConfigurationKeys.DefaultConfiguration;
+                _kvsMap[_current] = new Dictionary<string, string>();
+                _kvs = _kvsMap[_current];
+
+                return false;
+            }
+
+            if (parsed.ContainsKey(ConfigurationKeys.ConfigurationMap))
+            {
+                // new version
+                _kvsMap = parsed[ConfigurationKeys.ConfigurationMap].ToObject<Dictionary<string, Dictionary<string, string>>>();
+                _current = parsed[ConfigurationKeys.CurrentConfiguration].ToString();
+                _kvs = _kvsMap[_current];
             }
             else
             {
-                _kvs = parsed;
-                return true;
+                // old version
+                _logger.Information("Configuration file is in old version, migrating to new version");
+
+                _kvsMap = new Dictionary<string, Dictionary<string, string>>();
+                _current = ConfigurationKeys.DefaultConfiguration;
+                _kvsMap[_current] = parsed.ToObject<Dictionary<string, string>>();
+                _kvs = _kvsMap[_current];
             }
 
-            return false;
+            return true;
         }
 
         /// <summary>
         /// Save configuration file
         /// </summary>
         /// <returns>The result of saving process</returns>
-        public static bool Save()
+        private static bool Save()
         {
             if (Released)
             {
@@ -182,14 +185,18 @@ namespace MaaWpfGui.Helper
                 return false;
             }
 
-            var jsonStr = JsonSerializer.Serialize(_kvs, new JsonSerializerOptions
+            var jsonStr = JsonConvert.SerializeObject(new Dictionary<string, object>
             {
-                WriteIndented = true,
-            });
+                { ConfigurationKeys.ConfigurationMap, _kvsMap },
+                { ConfigurationKeys.CurrentConfiguration, _current },
+            }, Formatting.Indented);
 
             try
             {
-                File.WriteAllText(_configurationFile, jsonStr);
+                lock (_lock)
+                {
+                    File.WriteAllText(_configurationFile, jsonStr);
+                }
             }
             catch (Exception e)
             {
@@ -263,21 +270,22 @@ namespace MaaWpfGui.Helper
         public static void Release()
         {
             Save();
+            File.Copy(_configurationFile, _configurationBakFile, true);
             Released = true;
         }
 
-        private static Dictionary<string, string> ParseJsonFile(string filePath)
+        private static JObject ParseJsonFile(string filePath)
         {
             if (File.Exists(filePath) is false)
             {
                 return null;
             }
 
-            var fs = File.OpenRead(filePath);
+            var str = File.ReadAllText(filePath);
 
             try
             {
-                var obj = JsonSerializer.Deserialize<Dictionary<string, string>>(fs);
+                var obj = (JObject)JsonConvert.DeserializeObject(str);
                 if (obj is null)
                 {
                     throw new Exception("Failed to parse json file");
@@ -289,12 +297,75 @@ namespace MaaWpfGui.Helper
             {
                 _logger.Error(ex, "Failed to deserialize json file: {FilePath}", filePath);
             }
-            finally
-            {
-                fs.Close();
-            }
 
             return null;
+        }
+
+        public static bool SwitchConfiguration(string configName)
+        {
+            if (_kvsMap.ContainsKey(configName) is false)
+            {
+                _logger.Warning("Configuration {ConfigName} does not exist", configName);
+                return false;
+            }
+
+            _current = configName;
+            _kvs = _kvsMap[_current];
+            return true;
+        }
+
+        public static bool AddConfiguration(string configName, string copyFrom = null)
+        {
+            if (_kvsMap.ContainsKey(configName))
+            {
+                _logger.Warning("Configuration {ConfigName} already exists", configName);
+                return false;
+            }
+
+            if (copyFrom is null)
+            {
+                _kvsMap[configName] = new Dictionary<string, string>();
+            }
+            else
+            {
+                if (_kvsMap.ContainsKey(copyFrom) is false)
+                {
+                    _logger.Warning("Configuration {ConfigName} does not exist", copyFrom);
+                    return false;
+                }
+
+                _kvsMap[configName] = new Dictionary<string, string>(_kvsMap[copyFrom]);
+            }
+
+            return true;
+        }
+
+        public static bool DeleteConfiguration(string configName)
+        {
+            if (_kvsMap.ContainsKey(configName) is false)
+            {
+                _logger.Warning("Configuration {ConfigName} does not exist", configName);
+                return false;
+            }
+
+            if (_current == configName)
+            {
+                _logger.Warning("Configuration {ConfigName} is current configuration, cannot delete", configName);
+                return false;
+            }
+
+            _kvsMap.Remove(configName);
+            return true;
+        }
+
+        public static List<string> GetConfigurationList()
+        {
+            return _kvsMap.Keys.ToList();
+        }
+
+        public static string GetCurrentConfiguration()
+        {
+            return _current;
         }
     }
 }

@@ -56,7 +56,7 @@ namespace asst::battle
     {
         static const std::unordered_map<std::string, Role> NameToRole = {
             { "warrior", Role::Warrior },    { "WARRIOR", Role::Warrior },    { "Warrior", Role::Warrior },
-            { "近卫", Role::Warrior },       { "GUARD", Role::Warrior },      { "gurad", Role::Warrior },
+            { "近卫", Role::Warrior },       { "GUARD", Role::Warrior },      { "guard", Role::Warrior },
             { "Guard", Role::Warrior },
 
             { "pioneer", Role::Pioneer },    { "PIONEER", Role::Pioneer },    { "Pioneer", Role::Pioneer },
@@ -79,6 +79,7 @@ namespace asst::battle
             { "法师", Role::Caster },
 
             { "support", Role::Support },    { "SUPPORT", Role::Support },    { "Support", Role::Support },
+            { "supporter", Role::Support },    { "SUPPORTER", Role::Support },    { "Supporter", Role::Support },
             { "辅助", Role::Support },       { "支援", Role::Support },
 
             { "special", Role::Special },    { "SPECIAL", Role::Special },    { "Special", Role::Special },
@@ -145,6 +146,7 @@ namespace asst::battle
     };
     struct OperProps
     {
+        std::string id;
         std::string name;
         Role role = Role::Unknown;
         std::array<std::string, 3> ranges;
@@ -267,6 +269,15 @@ namespace asst::battle
             DeployDirection direction = DeployDirection::Right;
         };
 
+        struct DeployInfoWithRank
+        {
+            Point location;
+            DeployDirection direction = DeployDirection::None;
+            int rank = 0;
+            int kill_lower_bound = 0;
+            int kill_upper_bound = 9999;
+        };
+
         struct ForceDeployDirection
         {
             DeployDirection direction = DeployDirection::Right;
@@ -284,6 +295,8 @@ namespace asst::battle
             int stop_deploy_blocking_num = INT_MAX;
             int force_deploy_air_defense_num = 0;
             bool force_ban_medic = false;
+            std::unordered_map<std::string, std::vector<DeployInfoWithRank>> deploy_plan;
+            std::vector<DeployInfoWithRank> retreat_plan;
         };
 
         struct Recruitment

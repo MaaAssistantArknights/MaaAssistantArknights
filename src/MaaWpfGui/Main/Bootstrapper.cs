@@ -13,8 +13,8 @@
 
 using System;
 using System.IO;
-using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using GlobalHotKey;
@@ -30,7 +30,6 @@ using Serilog;
 using Serilog.Core;
 using Stylet;
 using StyletIoC;
-using WindowManager = MaaWpfGui.Helper.WindowManager;
 
 namespace MaaWpfGui.Main
 {
@@ -39,42 +38,48 @@ namespace MaaWpfGui.Main
     /// </summary>
     public class Bootstrapper : Bootstrapper<RootViewModel>
     {
-        private static SettingsViewModel _settingsViewModel;
-        private static TrayIcon _trayIconInSettingsViewModel;
-
-        private static readonly FieldInfo _settingsViewModelIContainerFiled =
-            typeof(SettingsViewModel).GetField("_container", BindingFlags.NonPublic | BindingFlags.Instance);
-
         private static ILogger _logger = Logger.None;
 
-        /// <summary>
-        /// Sets tray icon in <see cref="SettingsViewModel"/>.
-        /// </summary>
-        /// <param name="settingsViewModel">The <see cref="SettingsViewModel"/> instance.</param>
-        /// <remarks>
-        /// 应当只能是 <see cref="SettingsViewModel"/> 在构造时调用这个函数。用反射拿 <see cref="SettingsViewModel._container"/> 只是为了不额外修改 <see cref="SettingsViewModel"/> 的定义，
-        /// 并顺便检查传入的 <see cref="SettingsViewModel._container"/> 不为空（即不是随便 <see langword="new"/> 出来的一个 <see cref="SettingsViewModel"/>）。
-        /// </remarks>
-        internal static void SetTrayIconInSettingsViewModel(SettingsViewModel settingsViewModel)
-        {
-            _settingsViewModel = settingsViewModel;
-            var container = (IContainer)_settingsViewModelIContainerFiled.GetValue(settingsViewModel);
-            if (container != null)
-            {
-                _trayIconInSettingsViewModel = container.Get<TrayIcon>();
-            }
-
-            // TODO:出现不符合要求的settingsViewModel应当Log一下，等一个有缘人
-        }
+        // private static Mutex _mutex;
 
         /// <inheritdoc/>
         /// <remarks>初始化些啥自己加。</remarks>
         protected override void OnStart()
         {
+            /*
+            // 设置互斥量的名称
+            string mutexName = "MAA_" + Directory.GetCurrentDirectory().Replace("\\", "_").Replace(":", string.Empty);
+            _mutex = new Mutex(true, mutexName);
+
+            if (!_mutex.WaitOne(TimeSpan.Zero, true))
+            {
+                // 这里还没加载语言包，就不 GetString 了
+                MessageBox.Show("同一路径下只能启动一个实例！\n\n" +
+                                "同一路徑下只能啟動一個實例！\n\n" +
+                                "Only one instance can be launched under the same path!\n\n" +
+                                "同じパスの下で1つのインスタンスしか起動できません！\n\n" +
+                                "동일한 경로에는 하나의 인스턴스만 실행할 수 있습니다!");
+                Application.Current.Shutdown();
+                return;
+            }
+            */
+
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
             if (Directory.Exists("debug") is false)
             {
                 Directory.CreateDirectory("debug");
+            }
+
+            string logFilename = "debug/gui.log";
+            string logBakFilename = "debug/gui.bak.log";
+            if (File.Exists(logFilename) && new FileInfo(logFilename).Length > 4 * 1024 * 1024)
+            {
+                if (File.Exists(logBakFilename))
+                {
+                    File.Delete(logBakFilename);
+                }
+
+                File.Move(logFilename, logBakFilename);
             }
 
             // Bootstrap serilog
@@ -82,10 +87,8 @@ namespace MaaWpfGui.Main
                 .WriteTo.Debug(
                     outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
                 .WriteTo.File(
-                    "debug/gui-.log",
-                    outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}",
-                    rollingInterval: RollingInterval.Day,
-                    retainedFileCountLimit: 7)
+                    logFilename,
+                    outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
                 .Enrich.FromLogContext()
                 .Enrich.WithThreadId()
                 .Enrich.WithThreadName();
@@ -134,16 +137,16 @@ namespace MaaWpfGui.Main
         protected override void ConfigureIoC(IStyletIoCBuilder builder)
         {
             builder.Bind<TaskQueueViewModel>().ToSelf().InSingletonScope();
-            builder.Bind<RecruitViewModel>().ToSelf().InSingletonScope();
+            builder.Bind<RecognizerViewModel>().ToSelf().InSingletonScope();
             builder.Bind<SettingsViewModel>().ToSelf().InSingletonScope();
             builder.Bind<CopilotViewModel>().ToSelf().InSingletonScope();
-            builder.Bind<DepotViewModel>().ToSelf().InSingletonScope();
 
             builder.Bind<AsstProxy>().ToSelf().InSingletonScope();
             builder.Bind<TrayIcon>().ToSelf().InSingletonScope();
             builder.Bind<StageManager>().ToSelf();
 
             builder.Bind<HotKeyManager>().ToSelf().InSingletonScope();
+
             builder.Bind<IMaaHotKeyManager>().To<MaaHotKeyManager>().InSingletonScope();
             builder.Bind<IMaaHotKeyActionHandler>().To<MaaHotKeyActionHandler>().InSingletonScope();
 
@@ -153,19 +156,37 @@ namespace MaaWpfGui.Main
             builder.Bind<IMaaApiService>().To<MaaApiService>().InSingletonScope();
         }
 
+        protected override void Configure()
+        {
+            base.Configure();
+            Instances.Instantiate(Container);
+        }
+
         /// <inheritdoc/>
         protected override void DisplayRootView(object rootViewModel)
         {
-            var windowManager = (WindowManager)GetInstance(typeof(WindowManager));
-            windowManager.ShowWindow(rootViewModel);
+            Instances.WindowManager.ShowWindow(rootViewModel);
+            Instances.InstantiateOnRootViewDisplayed(Container);
+        }
+
+        /// <inheritdoc/>
+        protected override void OnLaunch()
+        {
+            Instances.VersionUpdateViewModel.ShowUpdateOrDownload();
         }
 
         /// <inheritdoc/>
         /// <remarks>退出时执行啥自己加。</remarks>
         protected override void OnExit(ExitEventArgs e)
         {
+            /*
+             // 释放互斥量
+            _mutex?.ReleaseMutex();
+            _mutex?.Dispose();
+            */
+
             // MessageBox.Show("O(∩_∩)O 拜拜");
-            _settingsViewModel.Sober();
+            Instances.SettingsViewModel.Sober();
 
             // 关闭程序时清理操作中心中的通知
             var os = RuntimeInformation.OSDescription;
@@ -175,11 +196,26 @@ namespace MaaWpfGui.Main
             }
 
             // 注销任务栏图标
-            _trayIconInSettingsViewModel.Close();
+            Instances.TrayIcon.Close();
             ConfigurationHelper.Release();
 
             _logger.Information("MaaAssistantArknights GUI exited");
             _logger.Information(string.Empty);
+            base.OnExit(e);
+        }
+
+        public static void RestartApplication()
+        {
+            //// 释放互斥量
+            /*
+            _mutex?.ReleaseMutex();
+            _mutex?.Dispose();
+
+            // 避免 OnExit 时再次释放
+            _mutex = null;
+            */
+
+            System.Windows.Forms.Application.Restart();
         }
 
         /// <inheritdoc/>
@@ -190,7 +226,7 @@ namespace MaaWpfGui.Main
                 _logger.Fatal(e.Exception, "Unhandled exception");
             }
 
-            var errorView = new ErrorView(e.Exception.Message, e.Exception.StackTrace, true);
+            var errorView = new ErrorView(e.Exception, true);
             errorView.ShowDialog();
         }
     }

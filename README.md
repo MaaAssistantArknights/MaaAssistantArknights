@@ -43,14 +43,13 @@ MAA 的意思是 MAA Assistant Arknights
 
 话不多说，看图！<br>
 
-![image](https://user-images.githubusercontent.com/18511905/189659056-67587818-9844-4f5a-b2f5-838a8932b387.png)
-![image](https://user-images.githubusercontent.com/99072975/181418131-f4eefa07-6623-470e-ba4a-0ad15cb8aa91.png)
-![image](https://user-images.githubusercontent.com/99072975/172045163-e9ead337-eb62-4f9f-a354-9e302f767a52.png)
+![zh1](https://user-images.githubusercontent.com/99072975/232381589-558a8213-d840-4d00-a8f6-89467e2d35c9.png)
+![zh2](https://user-images.githubusercontent.com/99072975/232381604-4066d3f5-dfee-45e5-a10f-8ca91ad4404b.png)
 
 ## 下载地址
 
-[稳定版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)<br>
-[开发版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
+- [稳定版/公测版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
+- [内测版](https://github.com/MaaAssistantArknights/MaaRelease/releases)
 
 ## 使用说明
 
@@ -83,10 +82,11 @@ MAA 的意思是 MAA Assistant Arknights
 
 **目前项目组非常缺前端大佬，若您有相关经验，欢迎加入我们！**
 
-- 全新 GUI：[MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) （正在开发中，欢迎加入！）
+- 全新 GUI：[MaaX](https://github.com/MaaAssistantArknights/MaaX) （正在开发中，欢迎加入！）
 - [作业站](https://prts.plus) 前端：[maa-copilot-frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend) （正在开发中，欢迎加入！）
 - [作业站](https://prts.plus) 后端：[MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter)
 - [官网](https://maa.plus)：[前端](https://github.com/MaaAssistantArknights/maa-website)
+- 深度学习：[MaaAI](https://github.com/MaaAssistantArknights/MaaAI)
 
 ## 致谢
 
@@ -107,7 +107,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 安卓触控事件器：[minitouch](https://github.com/openstf/minitouch)
 - 安卓触控事件器：[MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)
 - WPF MVVM框架：[Stylet](https://github.com/canton7/Stylet)
-- WPF控件库：[HandyControl](https://github.com/HandyOrg/HandyControl)
+- WPF控件库：[HandyControl](https://github.com/HandyOrg/HandyControl) -> [HandyControls](https://github.com/ghost1372/HandyControls)
 - C# 日志：[Serilog](https://github.com/serilog/serilog)
 - C# JSON库：[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json) & [System.Text.Json](https://github.com/dotnet/runtime)
 - ~~下载器：[aria2](https://github.com/aria2/aria2)~~
@@ -115,10 +115,10 @@ MAA 的意思是 MAA Assistant Arknights
 ### 数据源
 
 - ~~公开招募数据：[明日方舟工具箱](https://www.bigfun.cn/tools/aktools/hr)~~
-- 干员及基建数据：[PRTS明日方舟中文WIKI](http://prts.wiki/)
+- ~~干员及基建数据：[PRTS明日方舟中文WIKI](http://prts.wiki/)~~
 - 关卡数据：[企鹅物流数据统计](https://penguin-stats.cn/)
-- 游戏数据及资源：[明日方舟bot常用素材](https://github.com/yuanyan3060/Arknights-Bot-Resource)
-- 游戏数据：[《明日方舟》游戏数据](https://github.com/Kengxxiao/ArknightsGameData)
+- 游戏数据及资源：[明日方舟客户端素材](https://github.com/yuanyan3060/ArknightsGameResource)
+- ~~游戏数据：[《明日方舟》游戏数据](https://github.com/Kengxxiao/ArknightsGameData)~~
 
 ### 贡献/参与者
 
@@ -164,9 +164,9 @@ MAA 的意思是 MAA Assistant Arknights
 
 请参考 [外服适配教程](https://maa.plus/docs/2.5-外服适配教程.html)，对于国服已支持的功能，绝大部分的外服适配工作仅需要截图 + 简单的 JSON 修改即可。
 
-### 想参与开发，但不太会用 Github?
+### 想参与开发，但不太会用 GitHub?
 
-[Github Pull Request 流程简述](https://maa.plus/docs/2.2-开发相关.html#github-pull-request-流程简述)
+[GitHub Pull Request 流程简述](https://maa.plus/docs/2.2-开发相关.html#github-pull-request-流程简述)
 
 ### Issue bot
 

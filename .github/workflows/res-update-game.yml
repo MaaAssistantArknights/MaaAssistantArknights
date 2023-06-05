@@ -1,0 +1,107 @@
+name: res-update-game
+
+on:
+  schedule:
+   - cron: "*/20 * * * *"
+  workflow_dispatch:
+    inputs:
+      commit_message:
+        description: 'Commit Message'
+        type: string
+        required: false
+
+jobs:
+  update-game-resources:
+    if: github.repository_owner == 'MaaAssistantArknights'
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.MISTEOWORKFLOW }}
+      - name: Bootstrap MaaDeps
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 maadeps-download.py x64-windows
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1
+      - name: Build Resource Updater
+        run: |
+          MSBUILD tools/ResourceUpdater/ResourceUpdater.vcxproj /t:rebuild /p:Configuration="Release" /p:Platform="x64" /p:BuildProjectReferences=false /m
+      - name: Run Resource Updater
+        run: |
+          .\tools\ResourceUpdater\x64\Release\ResourceUpdater.exe
+
+      - name: Check if only sorted
+        id: check_only_sorted
+        run: |
+            git status
+
+            $diff = $(git diff --numstat HEAD | findstr -i resource)
+            if ($LASTEXITCODE -ne 0) {
+              echo "no diff"
+              exit 0
+            }
+            
+            echo "diff: "$diff
+            $sp = $($diff -split "\s+")
+            $numbers = $($sp | Where-Object { $_ -match "^\d+$" })
+            echo "numbers: "$numbers
+
+            $length = $numbers.Length
+            $isAllEqual = $true
+            for ($i = 0; $i -lt $length; $i += 2) {
+                $firstNumber = $numbers[$i]
+                $secondNumber = $numbers[$i+1]
+            
+                if ($firstNumber -ne $secondNumber) {
+                    $isAllEqual = $false
+                    break
+                }
+            }
+            echo "isAllEqual: "$isAllEqual
+            echo "only_sorted=$isAllEqual" >> $env:GITHUB_OUTPUT
+        
+      - name: Cancelling
+        if: steps.check_only_sorted.outputs.only_sorted == 'True'
+        uses: andymckay/cancel-action@0.3
+
+      - name: Add files to git
+        if: steps.check_only_sorted.outputs.only_sorted != 'True'
+        id: add_files
+        run: |
+          git status
+          
+          git config user.name "$env:GITHUB_ACTOR"
+          git config user.email "$env:GITHUB_ACTOR@users.noreply.github.com"
+          git add .
+
+          $commit_msg = "${{ github.event.inputs.commit_message }}"
+          if (-not [string]::IsNullOrWhiteSpace($commit_msg)) {
+            $commit_msg = $commit_msg.Trim()
+          } else {
+            $commit_msg = "chore: Auto Update Game Resources - $(Get-Date -Format 'yyyy-MM-dd')"
+          }
+          git commit -m "$commit_msg"
+          if ($LASTEXITCODE -eq 0) {
+            echo "have_commits=True" >> $env:GITHUB_OUTPUT
+          }
+
+          git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
+
+      - name: Cancelling
+        if: steps.add_files.outputs.have_commits != 'True'
+        uses: andymckay/cancel-action@0.3
+
+      - name: Push changes # push the output folder to your repo
+        if: steps.add_files.outputs.have_commits == 'True'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.MISTEOWORKFLOW }}
+
+      - name: Release # ref: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
+        if: steps.add_files.outputs.have_commits == 'True'
+        run: |
+          gh workflow run release-nightly-ota -f release_body="Auto Release of Resource Updates"
+        env:
+          GH_TOKEN: ${{ github.token }}

@@ -8,7 +8,8 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
-#include "Vision/OcrImageAnalyzer.h"
+#include "Vision/Matcher.h"
+#include "Vision/OCRer.h"
 #include "Vision/Roguelike/RoguelikeRecruitImageAnalyzer.h"
 #include "Vision/Roguelike/RoguelikeRecruitSupportAnalyzer.h"
 
@@ -56,6 +57,9 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 {
     LogTraceFunction;
 
+    size_t recruit_count = status()->get_number(Status::RoguelikeRecruitmentCount).value_or(0) + 1; // 这是第几次招募
+    status()->set_number(Status::RoguelikeRecruitmentCount, recruit_count); // 这是第几次招募
+
     // 开局干员
     bool use_support = get_status_bool(Status::RoguelikeUseSupport);
     if (use_support) {
@@ -69,20 +73,16 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         }
     }
 
-    bool recruited = false;
-
-    auto recruit_oper = [&](const battle::roguelike::Recruitment& info) {
-        select_oper(info);
-        recruited = true;
-    };
-
     bool team_full_without_rookie = status()->get_number(Status::RoguelikeTeamFullWithoutRookie).value_or(0);
-    Log.info("team_full_without_rookie", team_full_without_rookie);
+    // Log.info("team_full_without_rookie", team_full_without_rookie);
 
     // 编队信息 (已有角色)
+    std::string rogue_theme = status()->get_properties(Status::RoguelikeTheme).value();
     std::string str_chars_info = status()->get_str(Status::RoguelikeCharOverview).value_or(json::value().to_string());
     json::value json_chars_info = json::parse(str_chars_info).value_or(json::value());
     const auto& chars_map = json_chars_info.as_object();
+
+    // __________________will-be-removed-begin__________________
     std::unordered_map<battle::Role, int> team_roles;
     int offset_melee_num = 0;
     for (const auto& oper : chars_map) {
@@ -90,6 +90,64 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         team_roles[battle::get_role_type(oper.first)]++;
         if (is_oper_melee(oper.first)) offset_melee_num++;
     }
+    // __________________will-be-removed-end__________________
+
+    std::unordered_map<std::string, int> group_count;
+    const auto& group_list = RoguelikeRecruit.get_group_info(rogue_theme);
+    for (const auto& oper : chars_map) {
+        int group_id = RoguelikeRecruit.get_group_id(rogue_theme, oper.first);
+        const std::string& group_name = group_list[group_id];
+        group_count[group_name]++;
+    }
+
+    bool start_complete = status()
+                              ->get_number(Status::RoguelikeRecruitmentStartsComplete)
+                              .value_or(0); // 阵容中必须有开局干员，没有前仅招募start干员或预备干员
+    bool team_complete = status()
+                             ->get_number(Status::RoguelikeRecruitmentTeamComplete)
+                             .value_or(0); // 阵容完备前，仅招募key干员或预备干员
+
+    if (!start_complete) {
+        for (const auto& oper : chars_map) {
+            auto& recruit_info = RoguelikeRecruit.get_oper_info(rogue_theme, oper.first);
+            if (recruit_info.is_start) start_complete = true;
+        }
+    }
+
+    if (!team_complete) {
+        bool complete = true;
+        int complete_count = 0;
+        int complete_require = 0;
+        const auto& team_complete_condition = RoguelikeRecruit.get_team_complete_info(rogue_theme);
+        for (const auto& condition : team_complete_condition) {
+            int count = 0;
+            complete_require += condition.threshold;
+            for (const std::string& group_name : condition.groups) {
+                count += group_count[group_name];
+                complete_count += group_count[group_name];
+            }
+            if (count < condition.threshold) {
+                complete = false;
+            }
+        }
+        team_complete = complete;
+        if (complete_count <= complete_require / 2 && recruit_count >= 10) {
+            // 如果第10次招募还没拿到半队key干员，说明账号阵容不齐，放开招募限制，有啥用啥吧
+            team_complete = complete;
+        }
+    }
+
+    if (recruit_count >= 3 && !start_complete) {
+        // 如果第3次招募还没拿到start干员，说明账号练度低且阵容不齐，放开招募限制，有啥用啥吧
+        start_complete = true;
+        team_complete = true;
+    }
+
+    status()->set_number(Status::RoguelikeRecruitmentStartsComplete,
+                         start_complete); // 阵容中必须有开局干员，没有前仅招募start干员或预备干员
+    status()->set_number(Status::RoguelikeRecruitmentTeamComplete,
+                         team_complete); // 阵容完备前，仅招募key干员或预备干员
+
     // 候选干员
     std::vector<RoguelikeRecruitInfo> recruit_list;
 
@@ -103,12 +161,19 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     // 开始识别前先往前翻两页，是方舟的bug，有可能进招募界面时不是从最左边开始
     swipe_to_the_left_of_operlist();
 
+    bool temp_recruit_exist = false; // 检测是否存在临时招募
+    auto image = ctrler()->get_image();
+    Matcher temp_recruit_analyzer(image);
+    temp_recruit_analyzer.set_task_info("Roguelike@TempRecruitFlag");
+    temp_recruit_exist = temp_recruit_analyzer.analyze().has_value();
+    Log.trace(__FUNCTION__, "temp_recruit_exist", temp_recruit_exist);
+
     // 翻页找出所有候选干员
     for (; i != SwipeTimes; ++i) {
         if (need_exit()) {
             return false;
         }
-        auto image = ctrler()->get_image();
+        image = ctrler()->get_image();
         RoguelikeRecruitImageAnalyzer analyzer(image);
         if (!analyzer.analyze()) {
             Log.trace(__FUNCTION__, "| Page", i, "recruit list analyse failed");
@@ -151,12 +216,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             }
 
             // 查询招募配置
-            auto& recruit_info = RoguelikeRecruit.get_oper_info(
-                status()->get_properties(Status::RoguelikeTheme).value(), oper_info.name);
-            if (recruit_info.name.empty()) {
-                continue;
-            }
-
+            auto& recruit_info = RoguelikeRecruit.get_oper_info(rogue_theme, oper_info.name);
             int priority = 0;
 
             // 查询编队是否已持有该干员
@@ -165,22 +225,29 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             if (char_opt.has_value()) {
                 // 干员已在编队中，又出现在招募列表，只有待晋升和预备干员两种情况
                 if (recruit_info.is_alternate) {
-                    // 预备干员可以重复招募
-                    priority = team_full_without_rookie ? recruit_info.recruit_priority_when_team_full
-                                                        : recruit_info.recruit_priority;
+                    // 预备干员可以重复招募，但是最好不要重复招募预备干员占用编队位置
+                    priority = recruit_info.recruit_priority_when_team_full;
                 }
                 else {
                     // 干员待晋升
                     priority = team_full_without_rookie ? recruit_info.promote_priority_when_team_full
                                                         : recruit_info.promote_priority;
+                    if (temp_recruit_exist) { // 临时招募干员的进阶优先级略微提高
+                        priority += 150;
+                        temp_recruit_exist = false;
+                    }
+                    if (oper_info.elite < 2) { // 若未精二，则晋升无意义
+                        priority = 0;
+                    }
                 }
             }
             else {
                 // 干员待招募，检查练度
                 if (oper_info.elite == 2) {
                     // TODO: 招募时已精二 (随机提升或对应分队) => promoted_priority
-                    priority = team_full_without_rookie ? recruit_info.recruit_priority_when_team_full
-                                                        : recruit_info.recruit_priority;
+                    priority = team_full_without_rookie ? recruit_info.recruit_priority_when_team_full +
+                                                              recruit_info.promote_priority_when_team_full
+                                                        : recruit_info.recruit_priority + recruit_info.promote_priority;
                 }
                 else if (oper_info.elite == 1 && (oper_info.level >= 50 || oper_info.level == 0)) {
                     // 精一50级以上
@@ -194,7 +261,13 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                               oper_info.level);
                 }
 
+                if (temp_recruit_exist) { // 临时招募干员具有极高抓取优先级
+                    priority += 1800;
+                    temp_recruit_exist = false;
+                }
+
                 if (!recruit_info.is_alternate) {
+                    // __________________will-be-removed-begin__________________
                     const battle::Role oper_role = get_oper_role(oper_info.name);
                     int role_num = recruit_info.offset_melee ? offset_melee_num : team_roles[oper_role];
                     for (const auto& offset_pair : ranges::reverse_view(recruit_info.recruit_priority_offset)) {
@@ -203,14 +276,32 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                             break;
                         }
                     }
-                    role_num = team_roles[oper_role];
-                    const auto role_info = RoguelikeRecruit.get_role_info(
-                        status()->get_properties(Status::RoguelikeTheme).value(), oper_role);
-                    for (const auto& offset_pair : ranges::reverse_view(role_info)) {
-                        if (role_num >= offset_pair.first) {
-                            priority += offset_pair.second;
-                            break;
+                    // role_num = team_roles[oper_role];
+                    // const auto role_info = RoguelikeRecruit.get_role_info(rogue_theme, oper_role);
+                    // for (const auto& offset_pair : ranges::reverse_view(role_info)) {
+                    //     if (role_num >= offset_pair.first) {
+                    //         priority += offset_pair.second;
+                    //         break;
+                    //     }
+                    // }
+                    //  __________________will-be-removed-end__________________
+                    for (const auto& priority_offset : recruit_info.recruit_priority_offsets) {
+                        int count = 0;
+                        for (const std::string& group_name : priority_offset.groups) {
+                            count += group_count[group_name];
                         }
+                        if (priority_offset.is_less) {
+                            if (count <= priority_offset.threshold) priority += priority_offset.offset;
+                        }
+                        else {
+                            if (count >= priority_offset.threshold) priority += priority_offset.offset;
+                        }
+                    }
+                    if (!start_complete) {
+                        if (!recruit_info.is_start) priority -= 1000;
+                    }
+                    else if (!team_complete) {
+                        if (!recruit_info.is_key) priority -= 1000;
                     }
                 }
             }
@@ -231,6 +322,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                 info.page_index = i;
                 recruit_list.emplace_back(info);
             }
+            Log.info(__FUNCTION__, "| Operator", recruit_info.name, "priority:", priority);
         }
 
         Log.info(__FUNCTION__, "| Page", i, "oper list:", oper_names);
@@ -257,6 +349,12 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         sleep(Task.get("RoguelikeCustom-HijackCoChar")->post_delay);
     }
 
+    bool recruited = false;
+    auto recruit_oper = [&](const battle::roguelike::Recruitment& info) {
+        select_oper(info);
+        recruited = true;
+    };
+
     // 没有候选干员，进入后备逻辑
     if (recruit_list.empty()) {
         Log.trace(__FUNCTION__, "| No oper in recruit list.");
@@ -266,7 +364,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             swipe_to_the_left_of_operlist(i + 1);
         }
 
-        auto image = ctrler()->get_image();
+        image = ctrler()->get_image();
         RoguelikeRecruitImageAnalyzer analyzer(image);
         if (!analyzer.analyze()) {
             Log.error(__FUNCTION__, "| Random recruitment analyse failed");

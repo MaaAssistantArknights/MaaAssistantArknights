@@ -2,17 +2,21 @@
 
 #include <meojson/json.hpp>
 
+#include "Utils/Demangle.hpp"
 #include "Utils/Logger.hpp"
 
 bool asst::AbstractConfig::load(const std::filesystem::path& path)
 {
-    LogTraceFunction;
-    Log.info("load", path);
+    std::string class_name = utils::demangle(typeid(*this).name());
 
     if (!std::filesystem::exists(path) || !std::filesystem::is_regular_file(path)) {
-        Log.error("file does not exist", path);
+        Log.error(class_name, __FUNCTION__, "file does not exist", path);
         return false;
     }
+    m_path = path;
+
+    LogTraceScope(class_name + " :: " + __FUNCTION__);
+    Log.info(path);
 
     auto ret = json::open(path, true);
     if (!ret) {

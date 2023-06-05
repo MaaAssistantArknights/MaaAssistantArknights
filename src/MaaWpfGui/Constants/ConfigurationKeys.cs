@@ -1,4 +1,4 @@
-﻿// <copyright file="ConfigurationKeys.cs" company="MaaAssistantArknights">
+// <copyright file="ConfigurationKeys.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -18,9 +18,26 @@ namespace MaaWpfGui.Constants
     /// </summary>
     public static class ConfigurationKeys
     {
+        public const string CurrentConfiguration = "Current";
+        public const string DefaultConfiguration = "Default";
+        public const string ConfigurationMap = "Configurations";
+        public const string ConfigurationData = "Data";
+        public const string ConfigurationCron = "Cron";
+
         public const string Localization = "GUI.Localization";
         public const string MinimizeToTray = "GUI.MinimizeToTray";
+        public const string HideCloseButton = "GUI.HideCloseButton";
         public const string UseNotify = "GUI.UseNotify";
+        public const string WindowPlacement = "GUI.Placement";
+        public const string LoadWindowPlacement = "GUI.Placement.Load";
+        public const string SaveWindowPlacement = "GUI.Placement.SaveOnClosing";
+        public const string UseAlternateStage = "GUI.UseAlternateStage";
+        public const string HideUnavailableStage = "GUI.HideUnavailableStage";
+        public const string CustomStageCode = "GUI.CustomStageCode";
+        public const string InverseClearMode = "GUI.InverseClearMode";
+        public const string WindowTitlePrefix = "GUI.WindowTitlePrefix";
+        public const string DarkMode = "GUI.DarkMode";
+
         public const string MonitorNumber = "GUI.Monitor.Number";
         public const string MonitorWidth = "GUI.Monitor.Width";
         public const string MonitorHeight = "GUI.Monitor.Height";
@@ -30,12 +47,6 @@ namespace MaaWpfGui.Constants
         public const string WindowHeight = "GUI.Size.Height";
         public const string LoadPositionAndSize = "GUI.PositionAndSize.Load";
         public const string SavePositionAndSize = "GUI.PositionAndSize.SaveOnClosing";
-        public const string UseAlternateStage = "GUI.UseAlternateStage";
-        public const string HideUnavailableStage = "GUI.HideUnavailableStage";
-        public const string CustomStageCode = "GUI.CustomStageCode";
-        public const string InverseClearMode = "GUI.InverseClearMode";
-        public const string WindowTitlePrefix = "GUI.WindowTitlePrefix";
-        public const string SetColors = "GUI.SetColors";
 
         public const string AddressHistory = "Connect.AddressHistory";
         public const string AutoDetect = "Connect.AutoDetect";
@@ -44,18 +55,23 @@ namespace MaaWpfGui.Constants
         public const string AdbPath = "Connect.AdbPath";
         public const string ConnectConfig = "Connect.ConnectConfig";
         public const string RetryOnAdbDisconnected = "Connect.RetryOnDisconnected";
+        public const string AllowADBRestart = "Connect.AllowADBRestart";
         public const string AdbLiteEnabled = "Connect.AdbLiteEnabled";
+        public const string KillAdbOnExit = "Connect.KillAdbOnExit";
         public const string TouchMode = "Connect.TouchMode";
         public const string AdbReplaced = "Connect.AdbReplaced";
 
         public const string ClientType = "Start.ClientType";
         public const string RunDirectly = "Start.RunDirectly";
+        public const string MinimizeDirectly = "Start.MinimizeDirectly";
         public const string StartEmulator = "Start.StartEmulator";
         public const string MinimizingStartup = "Start.MinimizingStartup";
         public const string EmulatorPath = "Start.EmulatorPath";
         public const string EmulatorAddCommand = "Start.EmulatorAddCommand";
         public const string EmulatorWaitSeconds = "Start.EmulatorWaitSeconds";
         public const string AutoRestartOnDrop = "Start.AutoRestartOnDrop";
+        public const string StartsWithScript = "Start.StartsWithScript";
+        public const string EndsWithScript = "Start.EndsWithScript";
 
         public const string ChooseLevel3 = "Recruit.ChooseLevel3";
         public const string ChooseLevel4 = "Recruit.ChooseLevel4";
@@ -63,6 +79,7 @@ namespace MaaWpfGui.Constants
         public const string ChooseLevel6 = "Recruit.ChooseLevel6";
         public const string AutoSetTime = "Recruit.AutoSetTime";
         public const string Level3UseShortTime = "Recruit.IsLevel3UseShortTime";
+        public const string RecruitmentShowPotential = "Recruit.ShowPotential";
 
         public const string DormThreshold = "Infrast.DormThreshold";
         public const string UsesOfDrones = "Infrast.UsesOfDrones";
@@ -74,6 +91,7 @@ namespace MaaWpfGui.Constants
         public const string CustomInfrastEnabled = "Infrast.CustomInfrastEnabled";
         public const string CustomInfrastFile = "Infrast.CustomInfrastFile";
         public const string CustomInfrastPlanIndex = "Infrast.CustomInfrastPlanIndex";
+        public const string CustomInfrastPlanShowInFightSettings = "Infrast.CustomInfrastPlanShowInFightSettings";
 
         public const string UseRemainingSanityStage = "Fight.UseRemainingSanityStage";
         public const string UseExpiringMedicine = "Fight.UseExpiringMedicine";
@@ -88,6 +106,7 @@ namespace MaaWpfGui.Constants
         public const string RoguelikeEnableNonfriendSupport = "Roguelike.RoguelikeEnableNonfriendSupport";
         public const string RoguelikeStartsCount = "Roguelike.StartsCount";
         public const string RoguelikeInvestmentEnabled = "Roguelike.InvestmentEnabled";
+        public const string RoguelikeRefreshTraderWithDice = "Roguelike.RefreshTraderWithDice";
         public const string RoguelikeInvestsCount = "Roguelike.InvestsCount";
         public const string RoguelikeStopWhenInvestmentFull = "Roguelike.StopWhenInvestmentFull";
         public const string RoguelikeDeploymentWithPause = "Roguelike.DeploymentWithPause";
@@ -140,8 +159,15 @@ namespace MaaWpfGui.Constants
 
         // The following should not be modified manually
         public const string VersionName = "VersionUpdate.name";
+
         public const string VersionUpdateBody = "VersionUpdate.body";
         public const string VersionUpdateIsFirstBoot = "VersionUpdate.isfirstboot";
         public const string VersionUpdatePackage = "VersionUpdate.package";
+
+        public const string OperBoxData = "OperBox.Data";
+
+        public const string GachaShowDisclaimerNoMore = "Gacha.ShowDisclaimerNoMore";
+
+        public const string GuideStepIndex = "Guide.StepIndex";
     }
 }

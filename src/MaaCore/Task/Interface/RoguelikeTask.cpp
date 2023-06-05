@@ -12,12 +12,15 @@
 #include "Task/Roguelike/RoguelikeResetTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeShoppingTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeSkillSelectionTaskPlugin.h"
+#include "Task/Roguelike/RoguelikeStageEncounterTaskPlugin.h"
 #include "Utils/Logger.hpp"
 
 asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst)
     : InterfaceTask(callback, inst, TaskType),
       m_roguelike_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType))
 {
+    LogTraceFunction;
+
     m_roguelike_task_ptr->set_ignore_error(true);
     m_roguelike_task_ptr->register_plugin<RoguelikeFormationTaskPlugin>();
     m_roguelike_task_ptr->register_plugin<RoguelikeControlTaskPlugin>();
@@ -32,6 +35,7 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
     m_recruit_task_ptr->set_retry_times(2).set_ignore_error(true);
     m_skill_task_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeSkillSelectionTaskPlugin>();
     m_skill_task_ptr->set_retry_times(2).set_ignore_error(true);
+    m_roguelike_task_ptr->register_plugin<RoguelikeStageEncounterTaskPlugin>()->set_retry_times(0);
 
     // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加一点。先这样凑合用
     for (int i = 0; i != 100; ++i) {
@@ -41,6 +45,8 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
 
 bool asst::RoguelikeTask::set_params(const json::value& params)
 {
+    LogTraceFunction;
+
     std::string theme = params.get("theme", std::string(RoguelikePhantomThemeName));
     if (theme != RoguelikePhantomThemeName && theme != RoguelikeMizukiThemeName) {
         Log.error("Unknown roguelike theme", theme);
@@ -84,6 +90,10 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     if (!investment_enabled) {
         // 禁用投资系统，通过 exceededNext 进入商店购买逻辑
         m_roguelike_task_ptr->set_times_limit("StageTraderInvestSystem", 0);
+    }
+    bool refresh_trader_with_dice = params.get("refresh_trader_with_dice", false);
+    if (!refresh_trader_with_dice) {
+        m_roguelike_task_ptr->set_times_limit("StageTraderRefreshWithDice", 0);
     }
 
     int number_of_investments = params.get("investments_count", INT_MAX);

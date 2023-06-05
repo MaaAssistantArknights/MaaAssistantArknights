@@ -37,7 +37,7 @@ THRM-EX|THRM-EX|THRM-EX|THRM-EX
 预备干员-术师|Reserve Operator - Caster|予備隊員-術師|예비 인원 - 캐스터
 预备干员-后勤|Reserve Operator - Logistics|予備隊員-支援|예비 인원 - 지원
 预备干员-狙击|Reserve Operator - Sniper|予備隊員-狙撃|예비 인원 - 스나이퍼
-预备干员-重装|Reserve Operator - Defender||
+预备干员-重装|Reserve Operator - Defender|予備隊員-重装|
 
 中文|English|日本語|한국어
 ---|---|---|---
@@ -91,9 +91,9 @@ THRM-EX|THRM-EX|THRM-EX|THRM-EX
 罗比菈塔|Roberta|ロベルタ|로베르타
 布丁|Pudding|プリン|푸딩
 褐果|Chestnut|チェストナット|체스트넛
-罗小黑|Luo Xiaohei||
-铅踝|Totter||
-石英|Quarts||
+罗小黑|Luo Xiaohei|羅小黒|나소흑
+铅踝|Totter|トター|
+石英|Quarts|クォーツ|
 
 中文|English|日本語|한국어
 ---|---|---|---
@@ -208,15 +208,15 @@ Stormeye|Stormeye|Stormeye|Stormeye
 埃拉托|Erato|エラト|에라토
 海蒂|Heidi|ハイディ|하이디
 车尔尼|Czerny|ツェルニー|체르니
-至简|Minimalist|ミニマリスト|
-晓歌|Cantabile|カンタービレ|
-但书|Proviso||
-海沫|Highmore||
-郁金香|Tulip||
-达格达|Dagda||
-明椒|Paprika||
-雪绒|Qanipalaat||
-子月|Lunacub||
+至简|Minimalist|ミニマリスト|미니멀리스트
+晓歌|Cantabile|カンタービレ|칸타빌레
+但书|Proviso|プロヴァイゾ|프로바이조
+海沫|Highmore|ハイモア|
+郁金香|Tulip|チューリップ|
+达格达|Dagda|ダグザ|
+明椒|Paprika|パプリカ|
+雪绒|Qanipalaat|カニパラート|
+子月|Lunacub|ルナカブ|
 谜图|Puzzle||
 和弦|Harmonie||
 截云|Jieyun||
@@ -287,13 +287,13 @@ W|W|W|W
 流明|Lumen|ルーメン|루멘
 黑键|Ebenholz|エーベンホルツ|에벤홀츠
 多萝西|Dorothy|ドロシー|도로시
-鸿雪|Позёмка|パゼオンカ|
-百炼嘉维尔|Gavial the Invincible|百練ガヴィル|
-玛恩纳|Mlynar||
-白铁|Stainless||
-伺夜|Vigil||
-斥罪|Penance||
-缄默德克萨斯|Texas the Omertosa||
+鸿雪|Позёмка|パゼオンカ|파죰카
+百炼嘉维尔|Gavial the Invincible|百練ガヴィル|가비알 디 인빈서블
+玛恩纳|Mlynar|ムリナール|무에나
+白铁|Stainless|ステインレス|
+伺夜|Vigil|ヴィジェル|
+斥罪|Penance|ペナンス|
+缄默德克萨斯|Texas the Omertosa|血掟テキサス|
 焰影苇草|Reed The Flame Shadow||
 林|Lin||
 重岳|Chongyue||
