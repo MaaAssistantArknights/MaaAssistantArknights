@@ -186,7 +186,7 @@
     <system:String x:Key="TouchMode">觸控模式</system:String>
     <system:String x:Key="MiniTouchMode">Minitouch（預設）</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch（實驗功能）</system:String>
-    <system:String x:Key="AdbTouchMode">ADB Input（兼容模式）</system:String>
+    <system:String x:Key="AdbTouchMode">ADB Input（不推薦使用）</system:String>
     <system:String x:Key="AdditionCommand">附加命令</system:String>
     <system:String x:Key="StartsWithScript">開始前腳本</system:String>
     <system:String x:Key="EndsWithScript">結束後腳本</system:String>

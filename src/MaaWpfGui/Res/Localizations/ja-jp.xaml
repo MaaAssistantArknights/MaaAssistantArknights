@@ -186,7 +186,7 @@
     <system:String x:Key="TouchMode">タッチモード</system:String>
     <system:String x:Key="MiniTouchMode">Minitouch (標準)</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch (実験機能)</system:String>
-    <system:String x:Key="AdbTouchMode">ADB Input (互換性)</system:String>
+    <system:String x:Key="AdbTouchMode">ADB Input (非推奨)</system:String>
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
     <system:String x:Key="StartsWithScript">スクリプトを使用して始めます</system:String>
     <system:String x:Key="EndsWithScript">終了時にスクリプトを使用します</system:String>
