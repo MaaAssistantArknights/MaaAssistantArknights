@@ -56,17 +56,14 @@ Assistant::~Assistant()
     m_thread_idle = true;
 
     {
-        LogTraceScope("m_call_mutex");
         std::unique_lock<std::mutex> lock(m_call_mutex);
         m_call_condvar.notify_all();
     }
     {
-        LogTraceScope("m_mutex");
         std::unique_lock<std::mutex> lock(m_mutex);
         m_condvar.notify_all();
     }
     {
-        LogTraceScope("m_msg_mutex");
         std::unique_lock<std::mutex> lock(m_msg_mutex);
         m_msg_condvar.notify_all();
     }
@@ -374,7 +371,6 @@ void Assistant::working_proc()
 
     std::vector<TaskId> finished_tasks;
     while (true) {
-        LogTraceScope("working_proc loop");
         std::unique_lock<std::mutex> lock(m_mutex);
         if (m_thread_exit) {
             return;
@@ -384,7 +380,6 @@ void Assistant::working_proc()
             finished_tasks.clear();
             m_thread_idle = true;
             Log.flush();
-            LogTraceScope("wait for m_condvar");
             m_condvar.wait(lock);
             continue;
         }
@@ -438,14 +433,12 @@ void Assistant::msg_proc()
     LogTraceFunction;
 
     while (true) {
-        // LogTraceScope("msg_proc loop");
         std::unique_lock<std::mutex> lock(m_msg_mutex);
         if (m_thread_exit) {
             return;
         }
 
         if (m_msg_queue.empty()) {
-            LogTraceScope("wait for m_msg_condvar");
             m_msg_condvar.wait(lock);
             continue;
         }
@@ -486,7 +479,6 @@ asst::Assistant::AsyncCallId asst::Assistant::append_async_call(AsyncCallItem::T
 bool asst::Assistant::wait_async_id(AsyncCallId id)
 {
     while (true) {
-        LogTraceScope("wait_async_id loop");
         std::unique_lock<std::mutex> lock(m_completed_call_mutex);
         if (m_thread_exit) {
             return false;
@@ -506,14 +498,12 @@ void asst::Assistant::call_proc()
     LogTraceFunction;
 
     while (true) {
-        LogTraceScope("call_proc loop");
         std::unique_lock<std::mutex> lock(m_call_mutex);
         if (m_thread_exit) {
             return;
         }
 
         if (m_call_queue.empty()) {
-            LogTraceScope("wait for m_call_condvar");
             m_call_condvar.wait(lock);
             continue;
         }
