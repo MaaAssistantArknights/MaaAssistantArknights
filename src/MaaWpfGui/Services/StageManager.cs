@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -21,14 +22,12 @@ using System.Threading.Tasks;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
-using MaaWpfGui.Services.Web;
 using MaaWpfGui.Utilities.ValueType;
-using MaaWpfGui.ViewModels.UI;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Semver;
 using Serilog;
 using Stylet;
-using StyletIoC;
 
 namespace MaaWpfGui.Services
 {
@@ -40,9 +39,8 @@ namespace MaaWpfGui.Services
         [DllImport("MaaCore.dll")]
         private static extern IntPtr AsstGetVersion();
 
-        // model references
-        private readonly TaskQueueViewModel _taskQueueViewModel;
-        private readonly IMaaApiService _maaApiService;
+        private const string StageApi = "gui/StageActivity.json";
+        private const string TasksApi = "resource/tasks.json";
 
         private static readonly ILogger _logger = Log.ForContext<StageManager>();
 
@@ -52,54 +50,53 @@ namespace MaaWpfGui.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="StageManager"/> class.
         /// </summary>
-        /// <param name="container">The IoC container.</param>
-        public StageManager(IContainer container)
+        public StageManager()
         {
-            _taskQueueViewModel = container.Get<TaskQueueViewModel>();
-            _maaApiService = container.Get<IMaaApiService>();
-            UpdateStage(false);
+            UpdateStageLocal();
 
-            Execute.OnUIThread(async () =>
+            Task.Run(async () =>
             {
-                var task = Task.Run(() =>
+                await UpdateStageWeb();
+                if (Instances.TaskQueueViewModel != null)
                 {
-                    UpdateStage(true);
-                });
-                await task;
-                if (_taskQueueViewModel != null)
-                {
-                    _taskQueueViewModel.UpdateDatePrompt();
-                    _taskQueueViewModel.UpdateStageList(true);
+                    Execute.OnUIThread(() =>
+                    {
+                        Instances.TaskQueueViewModel.UpdateDatePrompt();
+                        Instances.TaskQueueViewModel.UpdateStageList(true);
+                    });
                 }
             });
         }
 
-        public void UpdateStage(bool fromWeb)
+        public void UpdateStageLocal()
         {
-            if (fromWeb)
+            UpdateStageInternal(LoadLocalStages());
+        }
+
+        public async Task UpdateStageWeb()
+        {
+            if (!await CheckWebUpdate())
             {
-                // Check if we need to update from the web
-                string lastUpdateTimeFile = "lastUpdateTime.json";
-                JObject localLastUpdatedJson = _maaApiService.LoadApiCache(lastUpdateTimeFile);
-                JObject webLastUpdatedJson = _maaApiService.RequestMaaApiWithCache(lastUpdateTimeFile).ConfigureAwait(false).GetAwaiter().GetResult();
-                if (localLastUpdatedJson != null && webLastUpdatedJson != null)
-                {
-                    long localTimestamp = localLastUpdatedJson["timestamp"].ToObject<long>();
-                    long webTimestamp = webLastUpdatedJson["timestamp"].ToObject<long>();
-                    if (webTimestamp <= localTimestamp)
-                    {
-                        return;
-                    }
-                }
+                return;
             }
 
-            var tempStage = new Dictionary<string, StageInfo>
+            static string generateJsonString(bool allFileDownloadComplete)
             {
-                // 这里会被 “剩余理智” 复用，第一个必须是 string.Empty 的
-                // 「当前/上次」关卡导航
-                { string.Empty, new StageInfo { Display = LocalizationHelper.GetString("DefaultStage"), Value = string.Empty } },
-            };
+                JObject json = new JObject
+                {
+                    ["allFileDownloadComplete"] = allFileDownloadComplete,
+                };
+                return JsonConvert.SerializeObject(json);
+            }
 
+            var filePath = "cache/allFileDownloadComplete.json";
+            File.WriteAllText(filePath, generateJsonString(false));
+            UpdateStageInternal(await LoadWebStages());
+            File.WriteAllText(filePath, generateJsonString(true));
+        }
+
+        private string GetClientType()
+        {
             var clientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty);
 
             // 官服和B服使用同样的资源
@@ -108,29 +105,75 @@ namespace MaaWpfGui.Services
                 clientType = "Official";
             }
 
-            // Download the activities
-            const string StageApi = "gui/StageActivity.json";
-            JObject activity = fromWeb
-                ? _maaApiService.RequestMaaApiWithCache(StageApi).ConfigureAwait(false).GetAwaiter().GetResult()
-                : _maaApiService.LoadApiCache(StageApi);
+            return clientType;
+        }
 
-            // Download the tasks resources into cache so MaaCore can load them later
-            var tasksPath = "resource/tasks.json";
-            JObject tasksJson = fromWeb
-                ? _maaApiService.RequestMaaApiWithCache(tasksPath).ConfigureAwait(false).GetAwaiter().GetResult()
-                : _maaApiService.LoadApiCache(tasksPath);
+        private JObject LoadLocalStages()
+        {
+            JObject activity = Instances.MaaApiService.LoadApiCache(StageApi);
+            return activity;
+        }
+
+        private async Task<bool> CheckWebUpdate()
+        {
+            // Check if we need to update from the web
+            string lastUpdateTimeFile = "lastUpdateTime.json";
+            string allFileDownloadCompleteFile = "allFileDownloadComplete.json";
+            JObject localLastUpdatedJson = Instances.MaaApiService.LoadApiCache(lastUpdateTimeFile);
+            JObject allFileDownloadCompleteJson = Instances.MaaApiService.LoadApiCache(allFileDownloadCompleteFile);
+            JObject webLastUpdatedJson = await Instances.MaaApiService.RequestMaaApiWithCache(lastUpdateTimeFile).ConfigureAwait(false);
+            if (localLastUpdatedJson != null && webLastUpdatedJson != null)
+            {
+                long localTimestamp = localLastUpdatedJson["timestamp"].ToObject<long>();
+                long webTimestamp = webLastUpdatedJson["timestamp"].ToObject<long>();
+                bool allFileDownloadComplete = allFileDownloadCompleteJson?["allFileDownloadComplete"]?.ToObject<bool>() ?? false;
+                if (webTimestamp <= localTimestamp && allFileDownloadComplete)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private async Task<JObject> LoadWebStages()
+        {
+            var clientType = GetClientType();
+
+            var activityTask = Instances.MaaApiService.RequestMaaApiWithCache(StageApi);
+            var tasksTask = Instances.MaaApiService.RequestMaaApiWithCache(TasksApi);
+
+            await Task.WhenAll(activityTask, tasksTask);
+
+            JObject activity = await activityTask;
+            JObject tasksJson = await tasksTask;
 
             if (clientType != "Official" && tasksJson != null)
             {
-                tasksPath = "resource/global/" + clientType + '/' + tasksPath;
+                var tasksPath = "resource/global/" + clientType + '/' + TasksApi;
 
                 // Download the client specific resources only when the Official ones are successfully downloaded so that the client specific resource version is the actual version
                 // TODO: There may be an issue when the CN resource is loaded from cache (e.g. network down) while global resource is downloaded (e.g. network up again)
                 // var tasksJsonClient = fromWeb ? WebService.RequestMaaApiWithCache(tasksPath) : WebService.RequestMaaApiWithCache(tasksPath);
-                _ = _maaApiService.RequestMaaApiWithCache(tasksPath);
+                await Instances.MaaApiService.RequestMaaApiWithCache(tasksPath);
             }
 
-            bool isDebugVersion = Marshal.PtrToStringAnsi(AsstGetVersion()) == "DEBUG VERSION";
+            Instances.AsstProxy.LoadResource();
+            return activity;
+        }
+
+        private void UpdateStageInternal(JObject activity)
+        {
+            var tempStage = new Dictionary<string, StageInfo>
+            {
+                // 这里会被 “剩余理智” 复用，第一个必须是 string.Empty 的
+                // 「当前/上次」关卡导航
+                { string.Empty, new StageInfo { Display = LocalizationHelper.GetString("DefaultStage"), Value = string.Empty } },
+            };
+
+            var clientType = GetClientType();
+
+            bool isDebugVersion = Marshal.PtrToStringAnsi(AsstGetVersion()).Contains("DEBUG");
             bool curVerParsed = SemVersion.TryParse(Marshal.PtrToStringAnsi(AsstGetVersion()), SemVersionStyles.AllowLowerV, out var curVersionObj);
 
             // bool curResourceVerParsed = SemVersion.TryParse(
@@ -176,7 +219,7 @@ namespace MaaWpfGui.Services
                             if (!isDebugVersion)
                             {
                                 // &&(!minResourceRequiredParsed || curResourceVersionObj.CompareSortOrderTo(minResourceRequiredObj) < 0)
-                                if (curVersionObj.CompareSortOrderTo(minRequiredObj) < 0)
+                                if (isDebugVersion || curVersionObj.CompareSortOrderTo(minRequiredObj) < 0)
                                 {
                                     if (!tempStage.ContainsKey(LocalizationHelper.GetString("UnsupportedStages")))
                                     {
@@ -184,7 +227,8 @@ namespace MaaWpfGui.Services
                                         {
                                             Display = LocalizationHelper.GetString("UnsupportedStages"),
                                             Value = LocalizationHelper.GetString("UnsupportedStages"),
-                                            Drop = LocalizationHelper.GetString("LowVersion"),
+                                            Drop = LocalizationHelper.GetString("LowVersion") + '\n' +
+                                                   LocalizationHelper.GetString("MinimumRequirements") + minRequiredObj.ToString(),
                                             Activity = new StageActivityInfo()
                                             {
                                                 Tip = stageObj["Activity"]?["Tip"]?.ToString(),
@@ -230,7 +274,7 @@ namespace MaaWpfGui.Services
                 }
                 catch (Exception e)
                 {
-                    _logger.Error(e, "解析 Stage 资源失败");
+                    _logger.Error(e, "Failed to parse Cache Stage resources");
                 }
             }
 
@@ -238,15 +282,15 @@ namespace MaaWpfGui.Services
             {
                 // 主线关卡
                 { "1-7", new StageInfo { Display = "1-7", Value = "1-7" } },
+                { "R8-11", new StageInfo { Display = "R8-11", Value = "R8-11" } },
+                { "12-17-HARD", new StageInfo { Display = "12-17-HARD", Value = "12-17-HARD" } },
 
                 // 资源本
                 { "CE-6", new StageInfo("CE-6", "CETip", new[] { DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday }, resourceCollection) },
                 { "AP-5", new StageInfo("AP-5", "APTip", new[] { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Saturday, DayOfWeek.Sunday }, resourceCollection) },
                 { "CA-5", new StageInfo("CA-5", "CATip", new[] { DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Sunday }, resourceCollection) },
                 { "LS-6", new StageInfo("LS-6", "LSTip", new DayOfWeek[] { }, resourceCollection) },
-
-                // 碳本没做导航，只显示关卡提示
-                { "SK-5", new StageInfo("SK-5", "SKTip", new[] { DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Saturday }, resourceCollection) { IsHidden = true } },
+                { "SK-5", new StageInfo("SK-5", "SKTip", new[] { DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday, DayOfWeek.Saturday }, resourceCollection) },
 
                 // 剿灭模式
                 { "Annihilation", new StageInfo { Display = LocalizationHelper.GetString("Annihilation"), Value = "Annihilation" } },
@@ -280,6 +324,7 @@ namespace MaaWpfGui.Services
         public StageInfo GetStageInfo(string stage)
         {
             _stages.TryGetValue(stage, out var stageInfo);
+            stageInfo ??= new StageInfo { Display = stage, Value = stage };
             return stageInfo;
         }
 

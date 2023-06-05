@@ -2,13 +2,13 @@
 
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
-#include "Vision/MatchImageAnalyzer.h"
+#include "Vision/Matcher.h"
 
 bool asst::InfrastClueVacancyImageAnalyzer::analyze()
 {
     const static std::string clue_vacancy = "InfrastClueVacancy";
 
-    MatchImageAnalyzer analyzer(m_image);
+    Matcher analyzer(m_image);
 
     for (const std::string& suffix : m_to_be_analyzed) {
         analyzer.set_task_info(clue_vacancy + suffix);

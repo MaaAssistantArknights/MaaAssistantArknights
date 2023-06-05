@@ -1,20 +1,20 @@
 #pragma once
 #include "Config/Miscellaneous/StageDropsConfig.h"
-#include "Vision/AbstractImageAnalyzer.h"
+#include "Vision/VisionHelper.h"
 
 #include <optional>
 
 namespace asst
 {
-    class StageDropsImageAnalyzer final : public AbstractImageAnalyzer
+    class StageDropsImageAnalyzer final : public VisionHelper
     {
         static constexpr const char* LMD_ID = "4001";
 
     public:
-        using AbstractImageAnalyzer::AbstractImageAnalyzer;
+        using VisionHelper::VisionHelper;
         virtual ~StageDropsImageAnalyzer() override = default;
 
-        virtual bool analyze() override;
+        bool analyze();
 
         StageKey get_stage_key() const;
         int get_stars() const noexcept;
@@ -30,6 +30,8 @@ namespace asst
         bool analyze_drops();
         // 落叶殇火 活动（异格夜刀）, act24side, 2023-03
         bool analyze_drops_for_CF();
+        // 第十二章主线 活动，前两次打有三倍掉落，过滤，2023-04
+        bool analyze_drops_for_12();
 
         int match_quantity(const Rect& roi, const std::string& item, bool use_word_model = false);
         std::optional<TextRect> match_quantity_string(const Rect& roi, bool use_word_model = false);

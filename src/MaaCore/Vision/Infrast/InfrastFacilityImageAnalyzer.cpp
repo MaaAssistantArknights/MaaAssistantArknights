@@ -4,7 +4,7 @@
 
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
-#include "Vision/MultiMatchImageAnalyzer.h"
+#include "Vision/MultiMatcher.h"
 
 bool asst::InfrastFacilityImageAnalyzer::analyze()
 {
@@ -17,11 +17,11 @@ bool asst::InfrastFacilityImageAnalyzer::analyze()
     // 所以对每种情况都进行一下识别，取其中得分最高的
     const static std::vector<std::string> task_name_suffix = { "", "Mini" };
 
-    MultiMatchImageAnalyzer mm_analyzer(m_image);
+    MultiMatcher mm_analyzer(m_image);
 
     auto task_analyze = [&](const std::string& task_name) -> bool {
         mm_analyzer.set_task_info(task_name);
-        return mm_analyzer.analyze();
+        return mm_analyzer.analyze().has_value();
     };
 
     int cor_suffix_index = -1;
@@ -40,7 +40,6 @@ bool asst::InfrastFacilityImageAnalyzer::analyze()
             if (!task_analyze(task_name + task_name_suffix.at(cor_suffix_index))) {
                 continue;
             }
-            mm_analyzer.sort_result_horizontal();
             cur_facility_result = mm_analyzer.get_result();
         }
         else {
@@ -56,7 +55,6 @@ bool asst::InfrastFacilityImageAnalyzer::analyze()
                     continue;
                 }
                 if (double cur_score = cur_max_iter->score; max_score < cur_score) {
-                    mm_analyzer.sort_result_horizontal();
                     max_score = cur_score;
                     cur_facility_result = cur_res;
                     cor_suffix_index = static_cast<int>(i);
@@ -66,6 +64,8 @@ bool asst::InfrastFacilityImageAnalyzer::analyze()
         if (cur_facility_result.empty()) {
             continue;
         }
+
+        sort_by_horizontal_(cur_facility_result);
 
 #ifdef ASST_DEBUG
         cv::RNG rng(time(0));

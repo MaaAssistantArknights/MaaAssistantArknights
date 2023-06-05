@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -31,20 +32,13 @@ namespace MaaWpfGui.Views.UserControl
             InitializeComponent();
         }
 
-        // 限制输入为整数
-        private void TextBox_RestrictInputInt(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
-        }
+        private static readonly MethodInfo SetText = typeof(HandyControl.Controls.NumericUpDown).GetMethod("SetText", BindingFlags.NonPublic | BindingFlags.Instance);
 
-        private void FightSettingsTextBoxLostFocus(object sender, RoutedEventArgs e)
+        private static readonly object[] paras = new object[] { true };
+
+        private void NumericUpDown_ValueChanged(object sender, HandyControl.Data.FunctionEventArgs<double> e)
         {
-            TextBox textBox = sender as TextBox;
-            if (string.IsNullOrEmpty(textBox.Text))
-            {
-                textBox.Text = "0";
-            }
+            SetText?.Invoke(sender, paras);
         }
     }
 }

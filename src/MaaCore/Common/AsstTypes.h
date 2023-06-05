@@ -15,11 +15,6 @@
 #define NOMINMAX
 #endif
 
-namespace json
-{
-    class value;
-}
-
 namespace asst
 {
     constexpr double DoubleDiff = 1e-12;
@@ -41,6 +36,7 @@ namespace asst
         TouchMode = 2,           // 触控模式设置， "minitouch" | "maatouch" | "adb"
         DeploymentWithPause = 3, // 自动战斗、肉鸽、保全 是否使用 暂停下干员， "0" | "1"
         AdbLiteEnabled = 4,      // 是否使用 AdbLite， "0" | "1"
+        KillAdbOnExit = 5,       // 退出时是否杀掉 Adb 进程， "0" | "1"
     };
 
     enum class TouchMode
@@ -48,6 +44,7 @@ namespace asst
         Adb = 0,
         Minitouch = 1,
         Maatouch = 2,
+        MacPlayTools = 3,
     };
 
     namespace ControlFeat
@@ -192,48 +189,27 @@ namespace asst
 
     struct TextRect
     {
-        TextRect() = default;
-        ~TextRect() = default;
-        TextRect(const TextRect&) = default;
-        TextRect(TextRect&&) noexcept = default;
-        TextRect(double score, const Rect& rect, const std::string& text) : score(score), rect(rect), text(text) {}
-
-        TextRect& operator=(const TextRect&) = default;
-        TextRect& operator=(TextRect&&) noexcept = default;
-        bool operator==(const TextRect& rhs) const noexcept { return text == rhs.text && rect == rhs.rect; }
-        bool operator==(const std::string& rhs) const noexcept { return text == rhs; }
-        explicit operator Rect() const noexcept { return rect; }
         std::string to_string() const
         {
             return "{ " + text + ": " + rect.to_string() + ", score: " + std::to_string(score) + " }";
         }
         explicit operator std::string() const { return to_string(); }
 
-        double score = 0.0;
         Rect rect;
+        double score = 0.0;
         std::string text;
     };
-    using TextRectProc = std::function<bool(TextRect&)>;
 
     struct MatchRect
     {
-        MatchRect() = default;
-        ~MatchRect() = default;
-        MatchRect(const MatchRect&) = default;
-        MatchRect(MatchRect&&) noexcept = default;
-        MatchRect(double score, const Rect& rect) : score(score), rect(rect) {}
-
-        explicit operator Rect() const noexcept { return rect; }
-        MatchRect& operator=(const MatchRect&) = default;
-        MatchRect& operator=(MatchRect&&) noexcept = default;
         std::string to_string() const
         {
             return "{ rect: " + rect.to_string() + ", score: " + std::to_string(score) + " }";
         }
         explicit operator std::string() const { return to_string(); }
 
-        double score = 0.0;
         Rect rect;
+        double score = 0.0;
     };
 } // namespace asst
 
@@ -257,18 +233,24 @@ namespace std
                    std::hash<int>()(rect.height);
         }
     };
-    template <>
-    struct hash<asst::TextRect>
-    {
-        size_t operator()(const asst::TextRect& tr) const noexcept
-        {
-            return std::hash<std::string>()(tr.text) ^ std::hash<asst::Rect>()(tr.rect);
-        }
-    };
 }
 
 namespace asst
 {
+    template <typename CType>
+    struct ContainerHasher
+    {
+        std::size_t operator()(const CType& container) const
+        {
+            using value_type = typename CType::value_type;
+            std::size_t seed = container.size();
+            for (const value_type& e : container) {
+                seed ^= std::hash<value_type>()(e) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+            }
+            return seed;
+        }
+    };
+
     enum class AlgorithmType
     {
         Invalid = -1,

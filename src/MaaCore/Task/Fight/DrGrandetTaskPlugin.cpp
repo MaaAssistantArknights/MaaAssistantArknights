@@ -3,7 +3,7 @@
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Utils/Logger.hpp"
-#include "Vision/OcrImageAnalyzer.h"
+#include "Vision/OCRer.h"
 
 #include <regex>
 
@@ -14,7 +14,7 @@ bool asst::DrGrandetTaskPlugin::verify(AsstMsg msg, const json::value& details) 
     }
 
     const std::string task = details.at("details").at("task").as_string();
-    if (task == "Fight@StoneConfirm") {
+    if (task == "Fight@StoneConfirm" || task == "Fight@MedicineConfirm") {
         return true;
     }
     else {
@@ -49,7 +49,7 @@ int asst::DrGrandetTaskPlugin::analyze_time_left()
 {
     LogTraceFunction;
 
-    OcrImageAnalyzer analyzer(ctrler()->get_image());
+    OCRer analyzer(ctrler()->get_image());
     analyzer.set_task_info("DrGrandetUseOriginiums");
     analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
     // 这里是汉字和数字混合的，用不了单独的en模型

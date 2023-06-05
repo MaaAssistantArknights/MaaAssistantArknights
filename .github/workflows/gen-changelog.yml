@@ -1,0 +1,52 @@
+name: gen-changelog
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review]
+  workflow_dispatch:
+
+jobs:
+  gen:
+    if: github.event.pull_request.draft == false && (startsWith(github.event.pull_request.title, 'Release v') || startsWith(github.event.pull_request.title, 'release v'))
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Extract Tag Name
+        id: extract_tag
+        run: |
+          tag_name=$(echo "${{ github.event.pull_request.title }}" | sed -E 's/(Release|release)//' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+          echo "tag_name=$tag_name" >> $GITHUB_OUTPUT
+          
+          pr_title="docs: Auto Update Changelogs of "$tag_name
+          echo "pr_title=$pr_title" >> $GITHUB_OUTPUT
+
+      - name: Generate Changelog
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git switch dev
+          python3 tools/ChangelogGenerator/changelog_generator.py --tag "${{ steps.extract_tag.outputs.tag_name }}"
+
+      - name: Add files to git
+        run: |
+          git status
+          
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git add .
+
+          commit_msg="docs: Auto Generate Changelog of Release ""${{ steps.extract_tag.outputs.tag_name }}"
+          git commit -m "$commit_msg"
+
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: ${{ steps.extract_tag.outputs.pr_title }}
+          body: ${{ github.event.pull_request.html_url }}
+          base: 'dev'
+          branch: 'changelog'
+          delete-branch: true

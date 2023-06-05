@@ -8,11 +8,15 @@ typedef struct AsstExtAPI* AsstHandle;
 
 typedef uint8_t AsstBool;
 typedef uint64_t AsstSize;
-typedef int32_t AsstMsgId;
-typedef int32_t AsstTaskId;
-typedef int32_t AsstAsyncCallId;
-typedef int32_t AsstStaticOptionKey;
-typedef int32_t AsstInstanceOptionKey;
+
+typedef int32_t AsstId;
+typedef AsstId AsstMsgId;
+typedef AsstId AsstTaskId;
+typedef AsstId AsstAsyncCallId;
+
+typedef int32_t AsstOptionKey;
+typedef AsstOptionKey AsstStaticOptionKey;
+typedef AsstOptionKey AsstInstanceOptionKey;
 
 typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json, void* custom_arg);
 
@@ -29,6 +33,9 @@ extern "C"
     void ASSTAPI AsstDestroy(AsstHandle handle);
 
     AsstBool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, const char* value);
+
+    // 同步连接，功能已完全被异步连接取代
+    // FIXME: 5.0 版本将废弃此接口
     /* deprecated */ AsstBool ASSTAPI AsstConnect(AsstHandle handle, const char* adb_path, const char* address,
                                                   const char* config);
 
@@ -38,6 +45,7 @@ extern "C"
     AsstBool ASSTAPI AsstStart(AsstHandle handle);
     AsstBool ASSTAPI AsstStop(AsstHandle handle);
     AsstBool ASSTAPI AsstRunning(AsstHandle handle);
+    AsstBool ASSTAPI AsstConnected(AsstHandle handle);
 
     /* Aysnc with AsstMsg::AsyncCallInfo Callback*/
     AsstAsyncCallId ASSTAPI AsstAsyncConnect(AsstHandle handle, const char* adb_path, const char* address,

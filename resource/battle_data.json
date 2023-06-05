@@ -240,6 +240,20 @@
             ],
             "rarity": 5
         },
+        "char_1031_slent2": {
+            "name": "淬羽赫默",
+            "position": "RANGED",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "y-2",
+                "y-6",
+                "y-6"
+            ],
+            "rarity": 6,
+            "tokens": [
+                "夜灯"
+            ]
+        },
         "char_103_angel": {
             "name": "能天使",
             "position": "RANGED",
@@ -655,6 +669,17 @@
                 "1-1"
             ],
             "rarity": 4
+        },
+        "char_154_morgan": {
+            "name": "摩根",
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 5
         },
         "char_155_tiger": {
             "name": "因陀罗",
@@ -1311,6 +1336,20 @@
                 "龙腾.F",
                 "龙腾.L",
                 "龙腾.A"
+            ]
+        },
+        "char_249_mlyss": {
+            "name": "缪尔赛思",
+            "position": "RANGED",
+            "profession": "PIONEER",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ],
+            "rarity": 6,
+            "tokens": [
+                "流形"
             ]
         },
         "char_250_phatom": {
@@ -2164,6 +2203,17 @@
             ],
             "rarity": 4
         },
+        "char_4006_melnte": {
+            "name": "玫拉",
+            "position": "RANGED",
+            "profession": "SNIPER",
+            "rangeId": [
+                "2-3",
+                "3-6",
+                "3-6"
+            ],
+            "rarity": 5
+        },
         "char_4009_irene": {
             "name": "艾丽妮",
             "position": "MELEE",
@@ -2268,6 +2318,17 @@
                 "0-1"
             ],
             "rarity": 5
+        },
+        "char_4027_heyak": {
+            "name": "霍尔海雅",
+            "position": "RANGED",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
+            ],
+            "rarity": 6
         },
         "char_402_tuye": {
             "name": "图耶",
@@ -2591,6 +2652,39 @@
             ],
             "rarity": 5
         },
+        "char_4087_ines": {
+            "name": "伊内丝",
+            "position": "MELEE",
+            "profession": "PIONEER",
+            "rangeId": [
+                "2-2",
+                "2-2",
+                "2-2"
+            ],
+            "rarity": 6
+        },
+        "char_4091_ulika": {
+            "name": "U-Official",
+            "position": "RANGED",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "x-4",
+                "x-4",
+                "x-4"
+            ],
+            "rarity": 1
+        },
+        "char_4093_frston": {
+            "name": "Friston-3",
+            "position": "MELEE",
+            "profession": "TANK",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
         "char_411_tomimi": {
             "name": "特米米",
             "position": "RANGED",
@@ -2859,6 +2953,17 @@
             ],
             "rarity": 5
         },
+        "char_464_cement": {
+            "name": "洋灰",
+            "position": "MELEE",
+            "profession": "TANK",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 5
+        },
         "char_466_qanik": {
             "name": "雪绒",
             "position": "RANGED",
@@ -3007,6 +3112,17 @@
                 "5-1"
             ],
             "rarity": 5
+        },
+        "char_491_humus": {
+            "name": "休谟斯",
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-3",
+                "1-3",
+                "1-3"
+            ],
+            "rarity": 4
         },
         "char_492_quercu": {
             "name": "夏栎",
@@ -3594,6 +3710,28 @@
         "token_10028_vigil_wolf": {
             "name": "狼群",
             "position": "MELEE",
+            "profession": "TOKEN",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 6
+        },
+        "token_10029_slent2_protrb": {
+            "name": "夜灯",
+            "position": "ALL",
+            "profession": "TOKEN",
+            "rangeId": [
+                "x-4",
+                "x-4",
+                "x-4"
+            ],
+            "rarity": 6
+        },
+        "token_10030_mlyss_wtrman": {
+            "name": "流形",
+            "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
                 "0-1",
@@ -4724,6 +4862,83 @@
             ],
             "rarity": 1
         },
+        "trap_111_wdfarm": {
+            "name": "街头应急储备",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_112_crsbow": {
+            "name": "解雇者清债程序",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_113_snflwr": {
+            "name": "全自动划账器",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_114_smkbmb": {
+            "name": "爆裂毒气罐",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_115_gasctrl": {
+            "name": "毒雾塔控制",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_116_stdurk": {
+            "name": "“过去的我”",
+            "position": "RANGED",
+            "profession": "TRAP",
+            "rangeId": [
+                "3-6",
+                "3-6",
+                "3-6"
+            ],
+            "rarity": 1
+        },
+        "trap_121_gractrl": {
+            "name": "重力",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
         "trap_400_xbfarm": {
             "name": "便携式种植槽",
             "position": "NONE",
@@ -5276,6 +5491,105 @@
         },
         "trap_713_cdflsb": {
             "name": "劣质闪光弹",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_714_cdaltar": {
+            "name": "能量扰动放大器",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-1",
+                "x-1",
+                "x-1"
+            ],
+            "rarity": 1
+        },
+        "trap_715_cdaltara": {
+            "name": "能量扰动放大器",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-1",
+                "x-1",
+                "x-1"
+            ],
+            "rarity": 1
+        },
+        "trap_716_cdaltarb": {
+            "name": "能量扰动放大器",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-1",
+                "x-1",
+                "x-1"
+            ],
+            "rarity": 1
+        },
+        "trap_717_cddiff": {
+            "name": "战术装备整理箱",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 1
+        },
+        "trap_718_cddiffa": {
+            "name": "战术装备整理箱",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 1
+        },
+        "trap_719_cddiffb": {
+            "name": "战术装备整理箱",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 1
+        },
+        "trap_720_cdheal": {
+            "name": "便携式医疗设备",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_721_cdheala": {
+            "name": "便携式医疗设备",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_722_cdhealb": {
+            "name": "便携式医疗设备",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [

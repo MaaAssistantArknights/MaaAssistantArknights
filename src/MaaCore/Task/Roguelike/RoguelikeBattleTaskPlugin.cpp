@@ -10,16 +10,15 @@
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Miscellaneous/TilePack.h"
 #include "Config/Roguelike/RoguelikeCopilotConfig.h"
+#include "Config/Roguelike/RoguelikeRecruitConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/Miscellaneous/BattleImageAnalyzer.h"
-#include "Vision/Miscellaneous/BattleSkillReadyImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/Matcher.h"
+#include "Vision/RegionOCRer.h"
 
 using namespace asst::battle;
 using namespace asst::battle::roguelike;
@@ -123,13 +122,12 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
         if (need_exit()) {
             return false;
         }
-        OcrWithPreprocessImageAnalyzer name_analyzer(ctrler()->get_image());
+        RegionOCRer name_analyzer(ctrler()->get_image());
         name_analyzer.set_task_info(stage_name_task_ptr);
         if (!name_analyzer.analyze()) {
             continue;
         }
-        name_analyzer.sort_result_by_score();
-        const std::string& text = name_analyzer.get_result().front().text;
+        const std::string& text = name_analyzer.get_result().text;
         if (text.empty()) {
             continue;
         }
@@ -141,7 +139,7 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
 
         for (const std::string& code : RoguelikeStageCode) {
             stage_key.code = code;
-            if (!Tile.contains(stage_key)) {
+            if (!Tile.find(stage_key)) {
                 continue;
             }
             calced = true;
@@ -163,17 +161,8 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
     }
 
     auto opt = RoguelikeCopilot.get_stage_data(m_stage_name);
-    if (opt && !opt->replacement_home.empty()) {
+    if (opt) {
         m_homes = opt->replacement_home;
-        auto homes_pos = m_homes | views::transform(&ReplacementHome::location);
-        auto invalid_homes_pos =
-            homes_pos | views::filter([&](const auto& home_pos) { return !m_normal_tile_info.contains(home_pos); }) |
-            views::transform(&Point::to_string);
-        if (!invalid_homes_pos.empty()) {
-            Log.error("No replacement homes point:", invalid_homes_pos);
-        }
-        Log.info("replacement home:", homes_pos | views::transform(&Point::to_string));
-
         m_allow_to_use_dice = opt->use_dice_stage;
         m_blacklist_location = opt->blacklist_location;
         m_role_order = opt->role_order;
@@ -181,8 +170,10 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
         m_force_air_defense = AirDefenseData { .stop_blocking_deploy_num = opt->stop_deploy_blocking_num,
                                                .deploy_air_defense_num = opt->force_deploy_air_defense_num,
                                                .ban_medic = opt->force_ban_medic };
+        m_deploy_plan = opt->deploy_plan;
+        m_retreat_plan = opt->retreat_plan;
     }
-    else {
+    if (m_homes.empty()) {
         for (const auto& [loc, side] : m_normal_tile_info) {
             if (side.key == TilePack::TileKey::Home) {
                 m_homes.emplace_back(ReplacementHome { loc, battle::DeployDirection::None });
@@ -195,6 +186,17 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
             battle::Role::Support, battle::Role::Special, battle::Role::Drone,
         };
     }
+    else {
+        auto homes_pos = m_homes | views::transform(&ReplacementHome::location);
+        auto invalid_homes_pos =
+            homes_pos | views::filter([&](const auto& home_pos) { return !m_normal_tile_info.contains(home_pos); }) |
+            views::transform(&Point::to_string);
+        if (!invalid_homes_pos.empty()) {
+            Log.error("No replacement homes point:", invalid_homes_pos);
+        }
+        Log.info("replacement home:", homes_pos | views::transform(&Point::to_string));
+    }
+
     if (m_homes.empty()) {
         Log.error("Unknown home pos");
         return false;
@@ -297,6 +299,77 @@ bool asst::RoguelikeBattleTaskPlugin::get_position_full(const battle::Deployment
     return get_position_full(get_oper_location_type(oper));
 }
 
+bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
+{
+    LogTraceFunction;
+    Log.info("m_kills", m_kills);
+
+    bool is_success = false;
+    for (const auto& info : m_retreat_plan) {
+        if (m_kills >= info.kill_lower_bound && m_kills <= info.kill_upper_bound) {
+            if (m_used_tiles.contains(info.location)) {
+                retreat_oper(info.location);
+                Log.info("retreat operator");
+                return true;
+            }
+        }
+    }
+    Log.info("No operator needs to be retreated.");
+
+    std::string rogue_theme = status()->get_properties(Status::RoguelikeTheme).value();
+    std::vector<DeployPlanInfo> deploy_plan_list;
+    const auto& groups = RoguelikeRecruit.get_group_info(rogue_theme);
+    for (const auto& [name, oper] : m_cur_deployment_opers) {
+        if (oper.cooling) {
+            Log.info("operator", oper.name, "is cooling now.");
+            continue;
+        }
+        const std::string& oper_name = oper_name_in_config(oper);
+        const auto& recruit_info = RoguelikeRecruit.get_oper_info(rogue_theme, oper_name);
+        int group_id = RoguelikeRecruit.get_group_id(rogue_theme, oper_name);
+        std::string group_name = groups[group_id];
+        if (m_deploy_plan.contains(group_name)) {
+            for (const auto& info : m_deploy_plan[group_name]) {
+                if (m_kills < info.kill_lower_bound || m_kills > info.kill_upper_bound) {
+                    Log.info("deploy info", oper.name, "in group", group_name, "is waiting.");
+                    is_success = true; // 如果发现了待命干员，此函数最终返回true
+                    continue;
+                }
+                DeployPlanInfo deploy_plan;
+                deploy_plan.oper_name = oper.name;
+                deploy_plan.oper_priority = recruit_info.recruit_priority;
+                deploy_plan.rank = info.rank;
+                deploy_plan.placed = info.location;
+                deploy_plan.direction = info.direction;
+                deploy_plan_list.emplace_back(deploy_plan);
+                Log.info("deploy info", deploy_plan.oper_name, "in group", group_name, "with rank", deploy_plan.rank);
+            }
+        }
+        else {
+            Log.error("operator", oper.name, "is not in the deploy plan.");
+        }
+    }
+    std::sort(deploy_plan_list.begin(), deploy_plan_list.end());
+    for (const auto& deploy_plan : deploy_plan_list) {
+        if (!m_used_tiles.contains(deploy_plan.placed) &&
+            !m_blacklist_location.contains(deploy_plan.placed)) { // 判断该位置是否已被占据
+            auto& oper = m_cur_deployment_opers[deploy_plan.oper_name];
+            if (!oper.available) { // 等费
+                Log.info("best deploy is", deploy_plan.oper_name, "with rank", deploy_plan.rank,
+                         "but now waiting for cost.");
+                return true;
+            }
+            deploy_oper(deploy_plan.oper_name, deploy_plan.placed, deploy_plan.direction);
+            Log.info("best deploy is", deploy_plan.oper_name, "with rank", deploy_plan.rank);
+            auto skill_usage_opt = status()->get_number(Status::RoguelikeSkillUsagePrefix + deploy_plan.oper_name);
+            m_skill_usage[deploy_plan.oper_name] =
+                skill_usage_opt ? static_cast<SkillUsage>(*skill_usage_opt) : SkillUsage::Possibly;
+            return true;
+        }
+    }
+    return is_success;
+}
+
 bool asst::RoguelikeBattleTaskPlugin::do_once()
 {
     check_drone_tiles();
@@ -315,6 +388,8 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
     if (!update_deployment(false, image)) {
         return false;
     }
+    update_cost();
+    update_kills();
 
     std::unordered_set<std::string> cur_cooling;
     size_t cur_available_count = 0;   // without drones
@@ -327,71 +402,78 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
         if (oper.available) ++cur_available_count;
     }
 
-    auto urgent_home_opt = check_urgent(pre_cooling, cur_cooling, pre_battlefield);
-
-    battle::DeploymentOper best_oper;
-    bool best_oper_is_dice = false;
-    size_t normal_home_index = m_cur_home_index;
-    if (!urgent_home_opt) {
-        // 不要随便谁好了就上，等等费用，下点厉害的干员
-        // TODO: 这个逻辑目前太简单了，待优化
-        bool not_battlefield_too_few = m_battlefield_opers.size() > m_homes.size();
-        bool available_too_few = cur_available_count <= cur_deployments_count / 2;
-        bool not_too_many_cooling = cur_cooling.size() < cur_available_count;
-
-        if (not_battlefield_too_few && available_too_few && not_too_many_cooling) {
-            Log.info("wait a minute");
-            return true;
-        }
-    }
-    else {
-        m_cur_home_index = *urgent_home_opt;
-
-        if (m_allow_to_use_dice) {
-            auto deployment_key_views = m_cur_deployment_opers | views::keys;
-            auto dice_key_iter = ranges::find_first_of(deployment_key_views, DiceSet);
-            if (dice_key_iter != deployment_key_views.end()) {
-                best_oper_is_dice = true;
-                best_oper = m_cur_deployment_opers[*dice_key_iter];
-            }
-        }
-    }
-
-    Log.info("To path", m_cur_home_index);
-
-    if (!best_oper_is_dice) {
-        if (auto best_oper_opt = calc_best_oper()) {
-            best_oper = *best_oper_opt;
-        }
-        else {
-            return true;
-        }
-    }
-
-    // 计算最优部署位置及方向
-    auto best_loc_opt = calc_best_loc(best_oper);
-    if (!best_loc_opt) {
-        Log.info("Tiles full while calc best plan.");
-        set_position_full(best_oper, true);
+    if (do_best_deploy()) { // 这是新的部署逻辑，更加精确
+        m_first_deploy = false;
         return true;
     }
-    const auto& [placed_loc, direction] = *best_loc_opt;
+    else { // 这是旧的、通用部署逻辑
+        auto urgent_home_opt = check_urgent(pre_cooling, cur_cooling, pre_battlefield);
 
-    deploy_oper(best_oper.name, placed_loc, direction);
-    postproc_of_deployment_conditions(best_oper, placed_loc, direction);
+        battle::DeploymentOper best_oper;
+        bool best_oper_is_dice = false;
+        size_t normal_home_index = m_cur_home_index;
+        if (!urgent_home_opt) {
+            // 不要随便谁好了就上，等等费用，下点厉害的干员
+            // TODO: 这个逻辑目前太简单了，待优化
+            bool not_battlefield_too_few = m_battlefield_opers.size() > m_homes.size();
+            bool available_too_few = cur_available_count <= cur_deployments_count / 2;
+            bool not_too_many_cooling = cur_cooling.size() < cur_available_count;
 
-    m_first_deploy = false;
+            if (not_battlefield_too_few && available_too_few && not_too_many_cooling) {
+                Log.info("wait a minute");
+                return true;
+            }
+        }
+        else {
+            m_cur_home_index = *urgent_home_opt;
 
-    auto skill_usage_opt = status()->get_number(Status::RoguelikeSkillUsagePrefix + best_oper.name);
-    m_skill_usage[best_oper.name] = skill_usage_opt ? static_cast<SkillUsage>(*skill_usage_opt) : SkillUsage::Possibly;
+            if (m_allow_to_use_dice) {
+                auto deployment_key_views = m_cur_deployment_opers | views::keys;
+                auto dice_key_iter = ranges::find_first_of(deployment_key_views, DiceSet);
+                if (dice_key_iter != deployment_key_views.end()) {
+                    best_oper_is_dice = true;
+                    best_oper = m_cur_deployment_opers[*dice_key_iter];
+                }
+            }
+        }
 
-    if (urgent_home_opt) {
-        m_urgent_home_index.pop_front();
-        m_cur_home_index = normal_home_index;
-    }
-    ++m_cur_home_index;
-    if (m_cur_home_index >= m_homes.size()) {
-        m_cur_home_index = 0;
+        Log.info("To path", m_cur_home_index);
+
+        if (!best_oper_is_dice) {
+            if (auto best_oper_opt = calc_best_oper()) {
+                best_oper = *best_oper_opt;
+            }
+            else {
+                return true;
+            }
+        }
+
+        // 计算最优部署位置及方向
+        auto best_loc_opt = calc_best_loc(best_oper);
+        if (!best_loc_opt) {
+            Log.info("Tiles full while calc best plan.");
+            set_position_full(best_oper, true);
+            return true;
+        }
+        const auto& [placed_loc, direction] = *best_loc_opt;
+
+        deploy_oper(best_oper.name, placed_loc, direction);
+        postproc_of_deployment_conditions(best_oper, placed_loc, direction);
+
+        m_first_deploy = false;
+
+        auto skill_usage_opt = status()->get_number(Status::RoguelikeSkillUsagePrefix + best_oper.name);
+        m_skill_usage[best_oper.name] =
+            skill_usage_opt ? static_cast<SkillUsage>(*skill_usage_opt) : SkillUsage::Possibly;
+
+        if (urgent_home_opt) {
+            m_urgent_home_index.pop_front();
+            m_cur_home_index = normal_home_index;
+        }
+        ++m_cur_home_index;
+        if (m_cur_home_index >= m_homes.size()) {
+            m_cur_home_index = 0;
+        }
     }
 
     return true;
@@ -636,6 +718,8 @@ void asst::RoguelikeBattleTaskPlugin::clear()
     m_medic_for_home_index.clear();
     m_urgent_home_index = decltype(m_urgent_home_index)();
     m_need_clear_tiles = decltype(m_need_clear_tiles)();
+    m_deploy_plan.clear();
+    m_retreat_plan.clear();
 }
 
 std::vector<asst::Point> asst::RoguelikeBattleTaskPlugin::available_locations(const DeploymentOper& oper) const

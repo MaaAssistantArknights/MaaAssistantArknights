@@ -1,20 +1,20 @@
-﻿<UserControl
+<UserControl
     x:Class="MaaWpfGui.Views.UserControl.GameClientUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:constants="clr-namespace:MaaWpfGui.Constants"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:local="clr-namespace:MaaWpfGui"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:vm="clr-namespace:MaaWpfGui"
-    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
-    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
-    xmlns:constants="clr-namespace:MaaWpfGui.Constants"
-    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:styles="clr-namespace:MaaWpfGui.Styles"
-    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
+    xmlns:vm="clr-namespace:MaaWpfGui"
     d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
     d:DesignWidth="550"
     mc:Ignorable="d">
@@ -37,13 +37,10 @@
             ItemsSource="{Binding ClientTypeList}"
             SelectedValue="{Binding ClientType}"
             SelectedValuePath="Value" />
-        <CheckBox
+        <controls:TextBlock
             Margin="10"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Content="{DynamicResource AutoRestartOption}"
-            IsChecked="{Binding AutoRestartOnDrop}" />
-        <controls:TextBlock HorizontalAlignment="Center" Visibility="{c:Binding '(ClientType != &quot;Official&quot;) and (ClientType != &quot;Bilibili&quot;) and (ClientType != &quot;&quot;)'}">
+            Visibility="{c:Binding '(ClientType != &quot;Official&quot;) and (ClientType != &quot;Bilibili&quot;) and (ClientType != &quot;&quot;)'}">
             <Hyperlink
                 Cursor="Hand"
                 NavigateUri="{Binding Source={x:Static constants:MaaUrls.OverseasAdaptation}}"

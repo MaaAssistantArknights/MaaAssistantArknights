@@ -11,9 +11,12 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
-using MaaWpfGui.Main;
+using MaaWpfGui.Constants;
+using MaaWpfGui.Helper;
 using Stylet;
 using StyletIoC;
 
@@ -24,81 +27,33 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class RootViewModel : Conductor<Screen>.Collection.OneActive
     {
-        private readonly IWindowManager _windowManager;
-
-        private readonly AsstProxy _asstProxy;
-        private readonly TaskQueueViewModel _taskQueueViewModel;
-        private readonly RecruitViewModel _recruitViewModel;
-        private readonly SettingsViewModel _settingsViewModel;
-        private readonly CopilotViewModel _copilotViewModel;
-        private readonly DepotViewModel _depotViewModel;
-        private readonly VersionUpdateViewModel _versionUpdateViewModel;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RootViewModel"/> class.
-        /// </summary>
-        /// <param name="container">The IoC container.</param>
-        /// <param name="windowManager">The window manager.</param>
-        public RootViewModel(IContainer container, IWindowManager windowManager)
-        {
-            _windowManager = windowManager;
-
-            _asstProxy = container.Get<AsstProxy>();
-            _taskQueueViewModel = container.Get<TaskQueueViewModel>();
-            _recruitViewModel = container.Get<RecruitViewModel>();
-            _settingsViewModel = container.Get<SettingsViewModel>();
-            _copilotViewModel = container.Get<CopilotViewModel>();
-            _depotViewModel = container.Get<DepotViewModel>();
-            _versionUpdateViewModel = container.Get<VersionUpdateViewModel>();
-        }
-
         /// <inheritdoc/>
         protected override void OnViewLoaded()
         {
             CheckAndUpdateNow();
             InitViewModels();
             InitProxy();
-            ShowUpdateOrDownload();
         }
 
         private async void InitProxy()
         {
-            await Task.Run(_asstProxy.Init);
+            await Task.Run(Instances.AsstProxy.Init);
         }
 
         private void InitViewModels()
         {
-            Items.Add(_taskQueueViewModel);
-            Items.Add(_copilotViewModel);
-            Items.Add(_recruitViewModel);
-            Items.Add(_depotViewModel);
-            Items.Add(_settingsViewModel);
+            Items.Add(Instances.TaskQueueViewModel);
+            Items.Add(Instances.CopilotViewModel);
+            Items.Add(Instances.RecognizerViewModel);
+            Items.Add(Instances.SettingsViewModel);
 
-            _settingsViewModel.UpdateWindowTitle(); // 在标题栏上显示模拟器和IP端口 必须在 Items.Add(settings)之后执行。
-            ActiveItem = _taskQueueViewModel;
+            Instances.SettingsViewModel.UpdateWindowTitle(); // 在标题栏上显示模拟器和IP端口 必须在 Items.Add(settings)之后执行。
+            ActiveItem = Instances.TaskQueueViewModel;
         }
 
         private bool CheckAndUpdateNow()
         {
-            return _versionUpdateViewModel.CheckAndUpdateNow();
-        }
-
-        private async void ShowUpdateOrDownload()
-        {
-            if (_versionUpdateViewModel.IsFirstBootAfterUpdate)
-            {
-                _versionUpdateViewModel.IsFirstBootAfterUpdate = false;
-                _windowManager.ShowWindow(_versionUpdateViewModel);
-            }
-            else
-            {
-                var ret = await Task.Run(() => _versionUpdateViewModel.CheckAndDownloadUpdate());
-
-                if (ret == VersionUpdateViewModel.CheckUpdateRetT.OK)
-                {
-                    _versionUpdateViewModel.AskToRestart();
-                }
-            }
+            return Instances.VersionUpdateViewModel.CheckAndUpdateNow();
         }
 
         private string _windowTitle = "MAA";
@@ -112,12 +67,20 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _windowTitle, value);
         }
 
+        private bool _showCloseButton = !Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.HideCloseButton, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to show close button.
+        /// </summary>
+        public bool ShowCloseButton
+        {
+            get => _showCloseButton;
+            set => SetAndNotify(ref _showCloseButton, value);
+        }
+
         protected override void OnInitialActivate()
         {
             base.OnInitialActivate();
-
-            // TrayIcon应该在显示rootViewModel之后再加载
-            Bootstrapper.SetTrayIconInSettingsViewModel(_settingsViewModel);
         }
 
         /// <inheritdoc/>

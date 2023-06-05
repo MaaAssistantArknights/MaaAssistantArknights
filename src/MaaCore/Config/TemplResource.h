@@ -18,14 +18,12 @@ namespace asst
         void set_load_required(std::unordered_set<std::string> required) noexcept;
         virtual bool load(const std::filesystem::path& path) override;
 
-        bool exist_templ(const std::string& key) const noexcept;
-        const cv::Mat get_templ(const std::string& key) const noexcept;
-
-        void insert_or_assign_templ(const std::string& key, cv::Mat&& templ);
+        const cv::Mat& get_templ(const std::string& name);
 
     private:
-        std::unordered_set<std::string> m_templs_filename;
+        std::unordered_set<std::string> m_load_required;
         std::unordered_map<std::string, cv::Mat> m_templs;
+        std::unordered_map<std::string, std::filesystem::path> m_templ_paths;
 
         bool m_loaded = false;
     };

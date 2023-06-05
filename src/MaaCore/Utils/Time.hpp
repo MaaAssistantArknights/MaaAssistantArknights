@@ -40,7 +40,7 @@ namespace asst::utils
         return buff;
     }
 
-    inline std::string get_random_filestem()
+    inline std::string get_time_filestem()
     {
         std::string stem = utils::get_format_time();
         string_replace_all_in_place(stem, { { ":", "-" }, { " ", "_" }, { ".", "-" } });

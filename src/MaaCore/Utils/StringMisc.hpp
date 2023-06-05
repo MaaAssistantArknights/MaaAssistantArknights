@@ -118,10 +118,10 @@ namespace asst::utils
         return result;
     }
 
-    template <typename StringT, typename CharT = ranges::range_value_t<StringT>>
+    template <typename StringT, typename CharT = ranges::range_value_t<StringT>,
+              typename Pred = decltype([](CharT c) -> bool { return c != ' '; })>
     requires IsSomeKindOfString<StringT>
-    inline void string_trim(
-        StringT& str, const std::function<bool(CharT)>& not_space = [](CharT ch) -> bool { return !std::isspace(ch); })
+    inline void string_trim(StringT& str, Pred not_space = Pred {})
     {
         str.erase(ranges::find_if(str | views::reverse, not_space).base(), str.end());
         str.erase(str.begin(), ranges::find_if(str, not_space));

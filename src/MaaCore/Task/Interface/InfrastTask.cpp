@@ -26,6 +26,8 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst)
       m_office_task_ptr(std::make_shared<InfrastOfficeTask>(callback, inst, TaskType)),
       m_dorm_task_ptr(std::make_shared<InfrastDormTask>(callback, inst, TaskType))
 {
+    LogTraceFunction;
+
     m_infrast_begin_task_ptr->set_tasks({ "InfrastBegin" }).set_ignore_error(true);
     m_replenish_task_ptr = m_mfg_task_ptr->register_plugin<ReplenishOriginiumShardTaskPlugin>();
     m_info_task_ptr->set_ignore_error(true);
@@ -115,10 +117,10 @@ bool asst::InfrastTask::set_params(const json::value& params)
     m_office_task_ptr->set_mood_threshold(threshold);
     m_dorm_task_ptr->set_mood_threshold(threshold);
 
-    bool dorm_notstationed_enabled = params.get("dorm_notstationed_enabled", false);
+    bool dorm_notstationed_enabled = params.get("dorm_notstationed_enabled", true);
     m_dorm_task_ptr->set_notstationed_enabled(dorm_notstationed_enabled);
 
-    bool dorm_trust_enabled = params.get("dorm_trust_enabled", true);
+    bool dorm_trust_enabled = params.get("dorm_trust_enabled", false);
     m_dorm_task_ptr->set_trust_enabled(dorm_trust_enabled);
 
     bool replenish = params.get("replenish", false);

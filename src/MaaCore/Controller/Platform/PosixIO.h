@@ -17,9 +17,9 @@ namespace asst
         PosixIO(PosixIO&&) = delete;
         virtual ~PosixIO();
 
-        virtual std::optional<int> call_command(const std::string& cmd, const bool recv_by_socket,
-                                                std::string& pipe_data, std::string& sock_data, const int64_t timeout,
-                                                const std::chrono::steady_clock::time_point start_time) override;
+        virtual std::optional<int> call_command(const std::string& cmd, bool recv_by_socket, std::string& pipe_data,
+                                                std::string& sock_data, int64_t timeout,
+                                                std::chrono::steady_clock::time_point start_time) override;
 
         virtual std::optional<unsigned short> init_socket(const std::string& local_address) override;
         virtual void close_socket() noexcept override;
@@ -48,9 +48,9 @@ namespace asst
         }
         IOHandlerPosix(const IOHandlerPosix&) = delete;
         IOHandlerPosix(IOHandlerPosix&&) = delete;
-        virtual ~IOHandlerPosix();
+        virtual ~IOHandlerPosix() override;
 
-        virtual bool write(const std::string_view data) override;
+        virtual bool write(std::string_view data) override;
         virtual std::string read(unsigned timeout_sec) override;
 
     private:

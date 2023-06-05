@@ -15,7 +15,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows;
+using System.Windows.Markup;
 using MaaWpfGui.Constants;
 
 namespace MaaWpfGui.Helper
@@ -76,7 +78,14 @@ namespace MaaWpfGui.Helper
                 return;
             }
 
-            var cultureList = new[] { "zh-cn", "en-us", _culture, };
+            string[] cultureList = _culture switch
+            {
+                "zh-cn" => new[] { _culture },
+                "zh-tw" => new[] { "zh-cn", _culture, },
+                "en-us" => new[] { "zh-cn", _culture, },
+                _ => new[] { "zh-cn", "en-us", _culture, },
+            };
+
             foreach (var cur in cultureList)
             {
                 var dictionary = new ResourceDictionary
@@ -89,6 +98,16 @@ namespace MaaWpfGui.Helper
                 {
                     break;
                 }
+            }
+
+            try
+            {
+                Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(_culture);
+                FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(Thread.CurrentThread.CurrentCulture.Name)));
+            }
+            catch
+            {
+                /* ignore */
             }
         }
 

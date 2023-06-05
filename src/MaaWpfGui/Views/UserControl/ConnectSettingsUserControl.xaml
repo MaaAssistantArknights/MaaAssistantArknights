@@ -1,17 +1,17 @@
-﻿<UserControl
+<UserControl
     x:Class="MaaWpfGui.Views.UserControl.ConnectSettingsUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:vm="clr-namespace:MaaWpfGui"
-    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
-    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:styles="clr-namespace:MaaWpfGui.Styles"
-    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
+    xmlns:vm="clr-namespace:MaaWpfGui"
     d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
     d:DesignHeight="300"
     d:DesignWidth="550"
@@ -23,6 +23,8 @@
             <ColumnDefinition Width="150" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
@@ -138,16 +140,26 @@
             ItemsSource="{Binding ConnectConfigList}"
             SelectedValue="{Binding ConnectConfig}"
             SelectedValuePath="Value" />
-        <CheckBox
+        <WrapPanel
             Grid.Row="4"
             Grid.Column="0"
             Grid.ColumnSpan="3"
-            Margin="15"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Content="{DynamicResource RetryOnDisconnected}"
-            IsChecked="{Binding RetryOnDisconnected}"
-            ToolTip="{DynamicResource RetryOnDisconnectedTip}" />
+            VerticalAlignment="Center">
+            <CheckBox
+                Margin="20,10"
+                Content="{DynamicResource RetryOnDisconnected}"
+                IsChecked="{Binding RetryOnDisconnected}"
+                ToolTip="{DynamicResource RetryOnDisconnectedTip}" />
+            <CheckBox
+                Margin="20,10"
+                Content="{DynamicResource AllowADBRestart}"
+                IsChecked="{Binding AllowADBRestart}" />
+            <CheckBox
+                Margin="20,10"
+                Content="{DynamicResource AutoRestartOption}"
+                IsChecked="{Binding AutoRestartOnDrop}" />
+        </WrapPanel>
         <controls:TextBlock
             Grid.Row="5"
             Grid.Column="0"
@@ -167,7 +179,6 @@
         <Button
             Grid.Row="5"
             Grid.Column="2"
-            Width="100"
             Height="30"
             Margin="10"
             HorizontalAlignment="Left"
@@ -176,9 +187,18 @@
         <CheckBox
             Grid.Row="6"
             Grid.Column="0"
-            Grid.ColumnSpan="3"
-            Margin="10"
-            HorizontalAlignment="Center"
+            Grid.ColumnSpan="2"
+            Margin="80,10,10,10"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Content="{DynamicResource KillAdbOnExit}"
+            IsChecked="{Binding KillAdbOnExit}" />
+        <CheckBox
+            Grid.Row="6"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            Margin="160,10,10,10"
+            HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Content="{DynamicResource AdbLiteEnabled}"
             IsChecked="{Binding AdbLiteEnabled}" />
@@ -189,7 +209,45 @@
             Margin="10"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Content="{DynamicResource DeploymentWithPause}"
-            IsChecked="{Binding DeploymentWithPause}" />
+            IsChecked="{Binding DeploymentWithPause}">
+            <controls:TextBlock
+                Block.TextAlignment="Center"
+                Text="{DynamicResource DeploymentWithPause}"
+                TextWrapping="Wrap" />
+        </CheckBox>
+        <controls:TextBlock
+            Grid.Row="8"
+            Grid.Column="0"
+            Margin="10"
+            Block.TextAlignment="Center"
+            Text="{DynamicResource StartsWithScript}"
+            TextWrapping="Wrap" />
+        <TextBox
+            Grid.Row="8"
+            Grid.Column="1"
+            Width="250"
+            Height="30"
+            Margin="10"
+            AllowDrop="True"
+            Drop="StartsWithScript_Drop"
+            PreviewDragOver="TextBox_PreviewDragOver"
+            Text="{Binding StartsWithScript}" />
+        <controls:TextBlock
+            Grid.Row="9"
+            Grid.Column="0"
+            Margin="10"
+            Block.TextAlignment="Center"
+            Text="{DynamicResource EndsWithScript}"
+            TextWrapping="Wrap" />
+        <TextBox
+            Grid.Row="9"
+            Grid.Column="1"
+            Width="250"
+            Height="30"
+            Margin="10"
+            AllowDrop="True"
+            Drop="EndsWithScript_Drop"
+            PreviewDragOver="TextBox_PreviewDragOver"
+            Text="{Binding EndsWithScript}" />
     </Grid>
 </UserControl>

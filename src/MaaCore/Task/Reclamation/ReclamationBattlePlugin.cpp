@@ -8,9 +8,8 @@
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/Miscellaneous/BattleSkillReadyImageAnalyzer.h"
-#include "Vision/OcrImageAnalyzer.h"
+#include "Vision/Matcher.h"
+#include "Vision/OCRer.h"
 
 using namespace asst;
 
@@ -77,14 +76,14 @@ bool asst::ReclamationBattlePlugin::quit_action()
         const auto img = ctrler()->get_image();
         bool check1 = check_in_battle(img, false);
 
-        OcrImageAnalyzer confirmAnalyzer(img);
+        OCRer confirmAnalyzer(img);
         confirmAnalyzer.set_task_info("Reclamation@ExitLevelConfirm");
-        bool check2 = confirmAnalyzer.analyze();
+        bool check2 = confirmAnalyzer.analyze().has_value();
 
         // 出现Loading转一会儿就结算了，没结算还有error_next
-        OcrImageAnalyzer loadingAnalyzer(img);
+        OCRer loadingAnalyzer(img);
         loadingAnalyzer.set_task_info("LoadingText");
-        bool check3 = loadingAnalyzer.analyze();
+        bool check3 = loadingAnalyzer.analyze().has_value();
 
         Log.info(__FUNCTION__, "| click exit level check ", check1, check2, check3);
 
@@ -126,7 +125,8 @@ bool asst::ReclamationBattlePlugin::communicate_with_aux(
     std::ignore = npcName;
     std::ignore = orderComp;
     //    auto image = ctrler()->get_image();
-    //    BattleSkillReadyImageAnalyzer skillReadyAnalyzer(image);
+    //    BattlefieldClassifier skillReadyAnalyzer(image);
+    // analyzer.set_object_of_interest({ .skill_ready = true });
     //    if (!skillReadyAnalyzer.analyze()) {
     //        Log.info(__FUNCTION__, " | ", "no ready skills");
     //        return false;
@@ -144,7 +144,7 @@ bool asst::ReclamationBattlePlugin::communicate_with_aux(
     //        sleep(use_oper_task_ptr->pre_delay);
     //
     //        image = ctrler()->get_image();
-    //        OcrImageAnalyzer npcNameAnalyzer(image);
+    //        OCRer npcNameAnalyzer(image);
     //        npcNameAnalyzer.set_task_info("Reclamation@Liaison");
     //        npcNameAnalyzer.set_required({});
     //        if (!npcNameAnalyzer.analyze()) {
@@ -189,7 +189,7 @@ bool asst::ReclamationBattlePlugin::do_dialog_procedure(const std::vector<std::s
                 if (retry == max_retry) break;
 
                 const auto& image = ctrler()->get_image();
-                OcrImageAnalyzer dialogAnalyzer(image);
+                OCRer dialogAnalyzer(image);
                 dialogAnalyzer.set_task_info("Reclamation@BalckMarketDialogOption");
                 dialogAnalyzer.set_required({ step });
                 if (!dialogAnalyzer.analyze()) {

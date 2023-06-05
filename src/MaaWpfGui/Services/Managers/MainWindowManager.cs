@@ -51,6 +51,12 @@ namespace MaaWpfGui.Services.Managers
         }
 
         /// <inheritdoc/>
+        public virtual void ForceShow()
+        {
+            ((WindowManager)Instances.WindowManager).ForceShow(MainWindow);
+        }
+
+        /// <inheritdoc/>
         public virtual void Collapse()
         {
             MainWindow.WindowState = MainWindow.WindowState = WindowState.Minimized;
@@ -107,6 +113,26 @@ namespace MaaWpfGui.Services.Managers
                 MainWindow.ShowInTaskbar = false;
                 MainWindow.Visibility = Visibility.Hidden;
             }
+        }
+
+        public virtual Window GetWindowIfVisible()
+        {
+            if (MainWindow == null)
+            {
+                return null;
+            }
+
+            if (MainWindow.WindowState == WindowState.Minimized)
+            {
+                return null;
+            }
+
+            if (MainWindow.Visibility != Visibility.Visible)
+            {
+                return null;
+            }
+
+            return MainWindow;
         }
     }
 }

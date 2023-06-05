@@ -18,6 +18,7 @@ namespace asst
 
         const battle::copilot::CombatData& get_data() const noexcept { return m_data; }
         const std::string& get_stage_name() const noexcept { return m_data.info.stage_name; }
+        bool parse_magic_code(const std::string& copilot_magic_code);
         void clear();
 
     protected:

@@ -2,7 +2,9 @@
 
 #include "AbstractResource.h"
 
+#include <deque>
 #include <filesystem>
+#include <memory>
 
 #include "AbstractConfigWithTempl.h"
 #include "TemplResource.h"
@@ -13,12 +15,17 @@ namespace asst
     class ResourceLoader final : public SingletonHolder<ResourceLoader>, public AbstractResource
     {
     public:
-        virtual ~ResourceLoader() override = default;
+        virtual ~ResourceLoader() override;
 
         virtual bool load(const std::filesystem::path& path) override;
         bool loaded() const noexcept;
 
+    public:
+        ResourceLoader();
+
     private:
+        void load_thread_func();
+
         template <Singleton T>
         requires std::is_base_of_v<AbstractResource, T>
         bool load_resource(const std::filesystem::path& path)
@@ -43,7 +50,16 @@ namespace asst
             return load_resource<TemplResource>(templ_dir);
         }
 
+        void add_load_queue(AbstractResource& res, const std::filesystem::path& path);
+
     private:
         bool m_loaded = false;
+
+        // only for async load
+        bool m_load_thread_exit = false;
+        std::deque<std::pair<AbstractResource*, std::filesystem::path>> m_load_queue;
+        std::mutex m_load_mutex;
+        std::condition_variable m_load_cv;
+        std::thread m_load_thread;
     };
 } // namespace asst

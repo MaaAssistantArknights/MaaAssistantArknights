@@ -4,7 +4,6 @@
 
 #include "Config/TaskData.h"
 
-#include "GameCrashRestartTaskPlugin.h"
 #include "Task/AbstractTask.h"
 #include "Task/Fight/StageNavigationTask.h"
 #include "Task/Interface/CopilotTask.h"

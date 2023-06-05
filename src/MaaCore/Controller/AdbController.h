@@ -21,9 +21,10 @@ namespace asst
 
         virtual bool connect(const std::string& adb_path, const std::string& address,
                              const std::string& config) override;
-        virtual bool inited() const noexcept override;
 
-        virtual void set_swipe_with_pause([[maybe_unused]] bool enable) noexcept override {}
+        virtual void set_kill_adb_on_exit(bool enable) noexcept override;
+
+        virtual bool inited() const noexcept override;
 
         virtual const std::string& get_uuid() const override;
 
@@ -51,9 +52,9 @@ namespace asst
         std::optional<std::string> call_command(const std::string& cmd, int64_t timeout = 20000,
                                                 bool allow_reconnect = true, bool recv_by_socket = false);
 
+        virtual std::optional<std::string> reconnect(const std::string& cmd, int64_t timeout, bool recv_by_socket);
+
         void release();
-        void kill_adb_daemon();
-        void make_instance_inited(bool inited);
 
         void close_socket() noexcept;
         std::optional<unsigned short> init_socket(const std::string& local_address);
@@ -116,16 +117,12 @@ namespace asst
         } m_adb;
 
         std::string m_uuid;
-        inline static std::string m_adb_release; // 开了 adb daemon，但是没连上模拟器的时候，
-        // m_adb 并不会存下 release 的命令，但最后仍然需要一次释放。
         std::pair<int, int> m_screen_size = { 0, 0 };
         int m_width = 0;
         int m_height = 0;
         bool m_support_socket = false;
         bool m_server_started = false;
         bool m_inited = false;
-        size_t m_screencap_data_general_size = 0;
-
-        inline static int m_instance_count = 0;
+        bool m_kill_adb_on_exit = false;
     };
 } // namespace asst

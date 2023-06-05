@@ -9,7 +9,6 @@ ASST_SUPPRESS_CV_WARNINGS_START
 #include "fastdeploy/vision/ocr/ppocr/recognizer.h"
 ASST_SUPPRESS_CV_WARNINGS_END
 
-#include "Config/GeneralConfig.h"
 #include "Utils/Demangle.hpp"
 #include "Utils/File.hpp"
 #include "Utils/Logger.hpp"
@@ -32,85 +31,49 @@ bool asst::OcrPack::load(const std::filesystem::path& path)
     LogTraceFunction;
     Log.info("load", path);
 
-    auto& paddle_dir = path;
+    using namespace asst::utils::path_literals;
+    const auto det_dir = path / "det"_p;
+    const auto det_model_file = det_dir / "inference.onnx"_p;
 
-    fastdeploy::RuntimeOption option;
-    option.UseOrtBackend();
+    if (std::filesystem::exists(det_model_file) && m_det_model_path != det_model_file) {
+        m_det_model_path = det_model_file;
+        m_det = nullptr;
+    }
 
-    do {
-        using namespace asst::utils::path_literals;
-        const auto det_dir = paddle_dir / "det"_p;
-        const auto dst_model_file = det_dir / "inference.onnx"_p;
-        // const auto dst_params_file = det_dir / "inference.pdiparams"_p;
-        const auto rec_dir = paddle_dir / "rec"_p;
-        const auto rec_model_file = rec_dir / "inference.onnx"_p;
-        // const auto rec_params_file = rec_dir / "inference.pdiparams"_p;
-        const auto rec_label_file = rec_dir / "keys.txt"_p;
+    const auto rec_dir = path / "rec"_p;
+    const auto rec_model_file = rec_dir / "inference.onnx"_p;
+    const auto rec_label_file = rec_dir / "keys.txt"_p;
 
-        if (std::filesystem::exists(dst_model_file)) {
-            auto det_model = asst::utils::read_file<std::string>(dst_model_file);
-            option.SetModelBuffer(det_model.data(), det_model.size(), nullptr, 0, fastdeploy::ModelFormat::ONNX);
-            m_det = std::make_unique<fastdeploy::vision::ocr::DBDetector>("dummy.onnx", std::string(), option,
-                                                                          fastdeploy::ModelFormat::ONNX);
-        }
-        else if (!m_det) {
-            break;
-        }
-        // else 沿用原来的模型
+    if (std::filesystem::exists(rec_model_file) && m_rec_model_path != rec_model_file) {
+        m_rec_model_path = rec_model_file;
+        m_rec = nullptr;
+    }
+    if (std::filesystem::exists(rec_label_file) && m_rec_model_path != rec_label_file) {
+        m_rec_label_path = rec_label_file;
+        m_rec = nullptr;
+    }
 
-        if (std::filesystem::exists(rec_model_file) && std::filesystem::exists(rec_label_file)) {
-            auto rec_model = asst::utils::read_file<std::string>(rec_model_file);
-            auto label = asst::utils::read_file<std::string>(rec_label_file);
-            option.SetModelBuffer(rec_model.data(), rec_model.size(), nullptr, 0, fastdeploy::ModelFormat::ONNX);
-            m_rec = std::make_unique<fastdeploy::vision::ocr::Recognizer>("dummy.onnx", std::string(), label, option,
-                                                                          fastdeploy::ModelFormat::ONNX);
-        }
-        else if (!m_rec) {
-            break;
-        }
-        // else 沿用原来的模型
+    if (m_det && m_rec) {
+        m_ocr = std::make_unique<fastdeploy::pipeline::PPOCRv3>(m_det.get(), m_rec.get());
+    }
 
-        if (m_det && m_rec) {
-            m_ocr = std::make_unique<fastdeploy::pipeline::PPOCRv3>(m_det.get(), m_rec.get());
-        }
-        else {
-            break;
-        }
-    } while (false);
-
-    return m_det != nullptr && m_rec != nullptr && m_ocr != nullptr && m_det->Initialized() && m_rec->Initialized() &&
-           m_ocr->Initialized();
+    return !m_det_model_path.empty() && !m_rec_model_path.empty() && !m_rec_label_path.empty();
 }
 
-std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const Rect& roi,
-                                                     const asst::TextRectProc& pred, bool without_det, bool trim)
+asst::OcrPack::ResultsVec asst::OcrPack::recognize(const cv::Mat& image, bool without_det)
 {
-    auto rect_cor = [&roi, &pred, &without_det](TextRect& tr) -> bool {
-        if (without_det) {
-            tr.rect = roi;
-        }
-        else {
-            tr.rect.x += roi.x;
-            tr.rect.y += roi.y;
-        }
-        return pred(tr);
-    };
-    Log.trace("OcrPack::recognize | roi:", roi);
-    cv::Mat roi_img = image(make_rect<cv::Rect>(roi));
-    return recognize(roi_img, rect_cor, without_det, trim);
-}
+    if (!check_and_load()) {
+        Log.error(__FUNCTION__, "check_and_load failed");
+        return {};
+    }
 
-std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const asst::TextRectProc& pred,
-                                                     bool without_det, bool trim)
-{
-    std::string class_type = utils::demangle(typeid(*this).name());
     fastdeploy::vision::OCRResult ocr_result;
+
+    auto start_time = std::chrono::steady_clock::now();
     if (!without_det) {
-        LogTraceScope("Ocr Pipeline with " + class_type);
         m_ocr->Predict(image, &ocr_result);
     }
     else {
-        LogTraceScope("Ocr Rec with " + class_type);
         std::string rec_text;
         float rec_score = 0;
         m_rec->Predict(image, &rec_text, &rec_score);
@@ -122,8 +85,7 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
     cv::Mat draw = image.clone();
 #endif
 
-    std::vector<TextRect> raw_result;
-    std::vector<TextRect> proced_result;
+    ResultsVec raw_results;
     for (size_t i = 0; i != ocr_result.text.size(); ++i) {
         // the box rect like ↓
         // 0 - 1
@@ -144,22 +106,52 @@ std::vector<asst::TextRect> asst::OcrPack::recognize(const cv::Mat& image, const
 #ifdef ASST_DEBUG
         cv::rectangle(draw, make_rect<cv::Rect>(det_rect), cv::Scalar(0, 0, 255), 2);
 #endif
-
-        double score = ocr_result.rec_scores.at(i);
-        if (score > 2.0) {
-            score = 0;
-        }
-        TextRect tr(score, det_rect, std::move(ocr_result.text.at(i)));
-        raw_result.emplace_back(tr);
-        if (trim) {
-            utils::string_trim(tr.text);
-        }
-        if (!pred || pred(tr)) {
-            proced_result.emplace_back(std::move(tr));
-        }
+        Result result {
+            .rect = det_rect,
+            .score = ocr_result.rec_scores.at(i),
+            .text = std::move(ocr_result.text.at(i)),
+        };
+        raw_results.emplace_back(std::move(result));
     }
 
-    Log.trace("OcrPack::recognize | raw:", raw_result);
-    Log.trace("OcrPack::recognize | proc:", proced_result);
-    return proced_result;
+    auto costs =
+        std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time).count();
+    std::string class_type = utils::demangle(typeid(*this).name());
+    Log.trace(class_type, raw_results, without_det ? "by OCR Rec" : "by OCR Pipeline", ", cost", costs, "ms");
+    return raw_results;
+}
+
+bool asst::OcrPack::check_and_load()
+{
+    if (m_det && m_rec) {
+        return true;
+    }
+
+    LogTraceFunction;
+
+    fastdeploy::RuntimeOption option;
+    option.UseOrtBackend();
+
+    auto det_model = asst::utils::read_file<std::string>(m_det_model_path);
+    option.SetModelBuffer(det_model.data(), det_model.size(), nullptr, 0, fastdeploy::ModelFormat::ONNX);
+    m_det = std::make_unique<fastdeploy::vision::ocr::DBDetector>("dummy.onnx", std::string(), option,
+                                                                  fastdeploy::ModelFormat::ONNX);
+
+    auto rec_model = asst::utils::read_file<std::string>(m_rec_model_path);
+    std::string rec_label = asst::utils::read_file<std::string>(m_rec_label_path);
+    option.SetModelBuffer(rec_model.data(), rec_model.size(), nullptr, 0, fastdeploy::ModelFormat::ONNX);
+    m_rec = std::make_unique<fastdeploy::vision::ocr::Recognizer>("dummy.onnx", std::string(), rec_label, option,
+                                                                  fastdeploy::ModelFormat::ONNX);
+
+    if (m_det && m_rec) {
+        m_ocr = std::make_unique<fastdeploy::pipeline::PPOCRv3>(m_det.get(), m_rec.get());
+    }
+
+    bool det_inited = m_det && m_det->Initialized();
+    bool rec_inited = m_rec && m_rec->Initialized();
+    bool ocr_inited = m_ocr && m_ocr->Initialized();
+
+    Log.info("det", det_inited, "rec", rec_inited, "ocr", ocr_inited);
+
+    return det_inited && rec_inited && ocr_inited;
 }

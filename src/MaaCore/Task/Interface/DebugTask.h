@@ -16,5 +16,6 @@ namespace asst
     private:
         void test_drops();
         void test_skill_ready();
+        void test_battle_image();
     };
 }

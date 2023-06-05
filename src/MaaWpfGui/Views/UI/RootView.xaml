@@ -1,22 +1,27 @@
-﻿<Window
+<hc:Window
     x:Class="MaaWpfGui.Views.UI.RootView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:vm="clr-namespace:MaaWpfGui"
-    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
+    xmlns:vm="clr-namespace:MaaWpfGui"
     Title="{Binding WindowTitle}"
     Width="800"
     Height="600"
     MinWidth="800"
     MinHeight="600"
     d:DataContext="{d:DesignInstance {x:Type ui:RootViewModel}}"
+    Icon="../../newlogo.ico"
+    ShowCloseButton="{Binding ShowCloseButton}"
     mc:Ignorable="d">
+
     <DockPanel>
         <TabControl
+            BorderThickness="0,1,0,0"
             DisplayMemberPath="DisplayName"
             ItemsSource="{Binding Items}"
             SelectedItem="{s:RethrowingBinding ActiveItem}"
@@ -32,4 +37,4 @@
             </TabControl.ContentTemplate>
         </TabControl>
     </DockPanel>
-</Window>
+</hc:Window>

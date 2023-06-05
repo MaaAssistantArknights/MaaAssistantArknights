@@ -4,6 +4,7 @@
 #include "ControllerAPI.h"
 #include "MaatouchController.h"
 #include "MinitouchController.h"
+#include "PlayToolsController.h"
 
 namespace asst
 {
@@ -29,6 +30,9 @@ namespace asst
                 case ControllerType::Maatouch:
                     controller = std::make_shared<MaatouchController>(m_callback, m_inst, platform_type);
                     break;
+                case ControllerType::MacPlayTools:
+                    controller = std::make_shared<PlayToolsController>(m_callback, m_inst, platform_type);
+                    break;
                 default:
                     return nullptr;
                 }
@@ -37,8 +41,10 @@ namespace asst
                 Log.error("Cannot create controller: {}", e.what());
                 return nullptr;
             }
-            controller->connect(adb_path, address, config);
-            return controller;
+            if (controller->connect(adb_path, address, config)) {
+                return controller;
+            }
+            return nullptr;
         }
 
     private:

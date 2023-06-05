@@ -26,7 +26,9 @@ if (MSVC)
     add_compile_options("/utf-8")
     add_compile_options("/MP")
     add_compile_options("/W4;/WX")
-    
+    add_compile_options("/wd4127")  # conditional expression is constant
+    add_compile_options("/Wv:19.35.32217")  # disable warning introduced after this version 
+
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
 else ()
     add_compile_options("-Wall;-Werror;-Wextra;-Wpedantic;-Wno-missing-field-initializers")
@@ -69,7 +71,7 @@ if (BUILD_TEST)
     target_link_libraries(test MaaCore)
 endif (BUILD_TEST)
 
-find_package(OpenCV REQUIRED COMPONENTS core imgproc imgcodecs)
+find_package(OpenCV REQUIRED COMPONENTS core imgproc imgcodecs videoio)
 find_package(ZLIB REQUIRED)
 find_package(MaaDerpLearning REQUIRED)
 find_package(asio REQUIRED)

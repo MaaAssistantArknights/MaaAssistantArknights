@@ -18,6 +18,8 @@ std::optional<CombatData> asst::RoguelikeCopilotConfig::get_stage_data(const std
 
 bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
 {
+    LogTraceFunction;
+
     for (const auto& stage_info : json.as_array()) {
         std::string stage_name = stage_info.at("stage_name").as_string();
         CombatData data;
@@ -153,6 +155,47 @@ bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
                 }
                 fd_dir.role = std::move(fd_role);
                 data.force_deploy_direction.emplace(location, fd_dir);
+            }
+        }
+
+        if (auto opt = stage_info.find<json::array>("deploy_plan")) {
+            int rank = 1;
+            for (auto& deploy_info : opt.value()) {
+                DeployInfoWithRank info;
+                info.location = Point(deploy_info["location"][0].as_integer(), deploy_info["location"][1].as_integer());
+                const std::string& direction_str = deploy_info.get("direction", "none");
+                if (auto iter = DeployDirectionMapping.find(direction_str); iter != DeployDirectionMapping.end()) {
+                    info.direction = iter->second;
+                }
+                if (auto condition = deploy_info.find<json::array>("condition")) {
+                    info.kill_lower_bound = condition.value()[0].as_integer();
+                    info.kill_upper_bound = condition.value()[1].as_integer();
+                }
+                for (auto& group : deploy_info.at("groups").as_array()) {
+                    std::string group_name = group.as_string();
+                    info.rank = rank;
+                    rank++;
+                    if (data.deploy_plan.contains(group_name)) {
+                        data.deploy_plan[group_name].emplace_back(info);
+                    }
+                    else {
+                        data.deploy_plan[group_name] = std::vector<DeployInfoWithRank> {};
+                        data.deploy_plan[group_name].emplace_back(info);
+                    }
+                }
+            }
+        }
+
+        if (auto opt = stage_info.find<json::array>("retreat_plan")) {
+            for (auto& retreat_info : opt.value()) {
+                DeployInfoWithRank info;
+                info.location =
+                    Point(retreat_info["location"][0].as_integer(), retreat_info["location"][1].as_integer());
+                if (auto condition = retreat_info.find<json::array>("condition")) {
+                    info.kill_lower_bound = condition.value()[0].as_integer();
+                    info.kill_upper_bound = condition.value()[1].as_integer();
+                }
+                data.retreat_plan.emplace_back(info);
             }
         }
 

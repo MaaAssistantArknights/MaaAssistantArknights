@@ -17,6 +17,8 @@ std::string asst::RecruitConfig::get_tag_name(const TagId& id) const noexcept
 
 bool asst::RecruitConfig::parse(const json::value& json)
 {
+    LogTraceFunction;
+
     clear();
 
     for (const json::value& oper : json.at("operators").as_array()) {

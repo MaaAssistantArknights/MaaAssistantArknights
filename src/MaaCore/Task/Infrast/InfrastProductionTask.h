@@ -39,5 +39,9 @@ namespace asst
         size_t max_num_of_opers_per_page = 0;
         bool m_is_use_custom_drones = false;
         infrast::CustomDronesConfig m_custom_drones_config;
+
+    protected:
+        void change_product();
+        bool m_is_product_incorrect = false;
     };
 }

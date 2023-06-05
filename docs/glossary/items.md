@@ -53,6 +53,9 @@ RMA70-24|RMA70-24|RMA70-24|RMA70-24
 双极纳米片|Bipolar Nanoflake|ナノフレーク|바이폴라 나노칩
 D32钢|D32 Steel|D32鋼|D32강
 晶体电子单元|Crystalline Electronic Unit|結晶制御装置|결정 전자 장치
+转质盐组||転化塩|
+转质盐聚块||上級転化塩|
+烧结核凝晶||焼結核凝晶|
 
 中文|English|日本語|한국어
 ---|---|---|---

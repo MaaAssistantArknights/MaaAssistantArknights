@@ -2,10 +2,10 @@
 
 #include "AbstractResource.h"
 
-namespace json
-{
-    class value;
-}
+#include <future>
+#include <mutex>
+
+#include <meojson/json.hpp>
 
 namespace asst
 {
@@ -17,5 +17,7 @@ namespace asst
 
     protected:
         virtual bool parse(const json::value& json) = 0;
+
+        std::filesystem::path m_path;
     };
 }

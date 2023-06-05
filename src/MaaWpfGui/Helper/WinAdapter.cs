@@ -16,6 +16,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using MaaWpfGui.Main;
+using MaaWpfGui.ViewModels.UI;
+using Serilog;
 
 namespace MaaWpfGui.Helper
 {
@@ -24,12 +26,15 @@ namespace MaaWpfGui.Helper
     /// </summary>
     public class WinAdapter
     {
+        private static readonly ILogger _logger = Log.ForContext<WinAdapter>();
+
         private static readonly Dictionary<string, string> _emulatorIdDict = new Dictionary<string, string>
         {
             { "HD-Player",  "BlueStacks" },
             { "dnplayer", "LDPlayer" },
             { "Nox", "Nox" },
             { "NemuPlayer", "MuMuEmulator" },
+            { "MuMuPlayer", "MuMuEmulator12" }, // MuMu 12
             { "MEmu", "XYAZ" },
         };
 
@@ -49,6 +54,15 @@ namespace MaaWpfGui.Helper
                 {
                     "..\\vmonitor\\bin\\adb_server.exe",
                     "..\\..\\MuMu\\emulator\\nemu\\vmonitor\\bin\\adb_server.exe",
+                    ".\\adb.exe",
+                }
+            },
+            {
+                "MuMuEmulator12",  new List<string>
+                {
+                    "..\\vmonitor\\bin\\adb_server.exe",
+                    "..\\..\\MuMu\\emulator\\nemu\\vmonitor\\bin\\adb_server.exe",
+                    ".\\adb.exe",
                 }
             },
             { "XYAZ",  new List<string> { ".\\adb.exe" } },
@@ -76,7 +90,7 @@ namespace MaaWpfGui.Helper
                         var adbPath = Path.GetDirectoryName(processPath) + "\\" + path;
                         if (File.Exists(adbPath))
                         {
-                            _adbAbsolutePathDict.Add(emulatorId, adbPath);
+                            _adbAbsolutePathDict[emulatorId] = adbPath;
                         }
                     }
                 }
@@ -119,7 +133,7 @@ namespace MaaWpfGui.Helper
                 process.StartInfo.RedirectStandardOutput = true;
                 process.Start();
                 var output = process.StandardOutput.ReadToEnd();
-                AsstProxy.AsstLog(adbPath + " devices | output:\n" + output);
+                _logger.Information(adbPath + " devices | output:\n" + output);
                 var outLines = output.Split(new[] { '\r', '\n' });
                 foreach (var line in outLines)
                 {

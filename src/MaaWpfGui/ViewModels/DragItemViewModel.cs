@@ -13,6 +13,7 @@
 
 using System;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Models;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels
@@ -48,7 +49,7 @@ namespace MaaWpfGui.ViewModels
             Name = name;
             OriginalName = originalName;
             _storageKey = storageKey;
-            IsChecked = Convert.ToBoolean(ConfigurationHelper.GetCheckedStorage(storageKey, name, bool.TrueString));
+            _isChecked = Convert.ToBoolean(ConfigurationHelper.GetCheckedStorage(storageKey, originalName, bool.TrueString));
         }
 
         private string _originalName;
@@ -84,7 +85,7 @@ namespace MaaWpfGui.ViewModels
             set
             {
                 SetAndNotify(ref _isChecked, value);
-                ConfigurationHelper.SetCheckedStorage(_storageKey, Name, value.ToString());
+                ConfigurationHelper.SetCheckedStorage(_storageKey, OriginalName, value.ToString());
             }
         }
 
@@ -120,6 +121,21 @@ namespace MaaWpfGui.ViewModels
         {
             get => _runStatus;
             set => SetAndNotify(ref _runStatus, value);
+        }
+
+        private bool _enableSetting;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether gets or sets whether the setting enabled.
+        /// </summary>
+        public bool EnableSetting
+        {
+            get => _enableSetting;
+            set
+            {
+                SetAndNotify(ref _enableSetting, value);
+                TaskSettingVisibilityInfo.Current.Set(OriginalName, value);
+            }
         }
     }
 }

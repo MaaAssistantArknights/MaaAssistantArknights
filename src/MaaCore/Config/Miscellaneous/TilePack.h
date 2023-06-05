@@ -2,23 +2,17 @@
 
 #include "Common/AsstBattleDef.h"
 #include "Common/AsstTypes.h"
-#include "Config/AbstractResource.h"
-
-#include <memory>
+#include "Config/AbstractConfig.h"
 
 #include <Arknights-Tile-Pos/TileDef.hpp>
 
-namespace Map
-{
-    class TileCalc;
-}
-
 namespace asst
 {
-    class TilePack final : public SingletonHolder<TilePack>, public AbstractResource
+    class TilePack final : public SingletonHolder<TilePack>, public AbstractConfig
     {
     public:
         using LevelKey = Map::LevelKey;
+        using LazyMap = std::vector<std::pair<LevelKey, std::filesystem::path>>;
 
     public:
         enum class HeightType
@@ -60,17 +54,35 @@ namespace asst
     public:
         virtual ~TilePack() override = default;
 
-        virtual bool load(const std::filesystem::path& path) override;
+        template <typename KeyT>
+        std::optional<LazyMap::value_type> find(const KeyT& key) const
+        {
+            for (const auto& pair : m_summarize) {
+                if (pair.first == key) {
+                    return pair;
+                }
+            }
+            return std::nullopt;
+        }
 
-        bool contains(const std::string& any_key) const;
-        bool contains(const LevelKey& key) const;
-        std::unordered_map<Point, TileInfo> calc(const std::string& any_key, bool side, double shift_x = 0,
-                                                 double shift_y = 0) const;
-        std::unordered_map<Point, TileInfo> calc(const LevelKey& key, bool side, double shift_x = 0,
-                                                 double shift_y = 0) const;
+        template <typename KeyT>
+        std::unordered_map<Point, TileInfo> calc(const KeyT& key, bool side, double shift_x = 0,
+                                                 double shift_y = 0) const
+        {
+            auto file_opt = find(key);
+            if (!file_opt) {
+                return {};
+            }
+            return calc_(file_opt->second, side, shift_x, shift_y);
+        }
+
+    protected:
+        virtual bool parse(const json::value& json) override;
 
     private:
-        std::shared_ptr<Map::TileCalc> m_tile_calculator = nullptr;
+        std::unordered_map<Point, TileInfo> calc_(const std::filesystem::path& filepath, bool side, double shift_x,
+                                                  double shift_y) const;
+        LazyMap m_summarize;
     };
 
     inline static auto& Tile = TilePack::get_instance();

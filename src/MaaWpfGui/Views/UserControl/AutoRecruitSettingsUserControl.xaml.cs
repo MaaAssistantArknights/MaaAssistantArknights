@@ -11,6 +11,8 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System.Reflection;
+
 namespace MaaWpfGui.Views.UserControl
 {
     /// <summary>
@@ -24,6 +26,15 @@ namespace MaaWpfGui.Views.UserControl
         public AutoRecruitSettingsUserControl()
         {
             InitializeComponent();
+        }
+
+        private static readonly MethodInfo SetText = typeof(HandyControl.Controls.NumericUpDown).GetMethod("SetText", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        private static readonly object[] paras = new object[] { true };
+
+        private void NumericUpDown_ValueChanged(object sender, HandyControl.Data.FunctionEventArgs<double> e)
+        {
+            SetText?.Invoke(sender, paras);
         }
     }
 }

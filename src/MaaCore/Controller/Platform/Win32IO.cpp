@@ -20,9 +20,9 @@ asst::Win32IO::~Win32IO()
     }
 }
 
-std::optional<int> asst::Win32IO::call_command(const std::string& cmd, const bool recv_by_socket,
-                                               std::string& pipe_data, std::string& sock_data, const int64_t timeout,
-                                               const std::chrono::steady_clock::time_point start_time)
+std::optional<int> asst::Win32IO::call_command(const std::string& cmd, bool recv_by_socket, std::string& pipe_data,
+                                               std::string& sock_data, int64_t timeout,
+                                               std::chrono::steady_clock::time_point start_time)
 {
     using namespace std::chrono;
 
@@ -384,7 +384,7 @@ std::string asst::IOHandlerWin32::read(unsigned timeout_sec)
     return pipe_buffer.get();
 }
 
-bool asst::IOHandlerWin32::write(const std::string_view data)
+bool asst::IOHandlerWin32::write(std::string_view data)
 {
     if (m_write == INVALID_HANDLE_VALUE) {
         Log.error("IOHandler write handle invalid", m_write);

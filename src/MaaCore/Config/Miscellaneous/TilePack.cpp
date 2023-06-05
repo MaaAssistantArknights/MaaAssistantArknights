@@ -21,126 +21,26 @@ ASST_SUPPRESS_CV_WARNINGS_END
 
 #include "Utils/Logger.hpp"
 
-bool asst::TilePack::load(const std::filesystem::path& path)
+bool asst::TilePack::parse(const json::value& json)
 {
     LogTraceFunction;
-    Log.info("load", path);
 
-    if (!std::filesystem::exists(path)) {
-        return false;
-    }
-
-    std::queue<std::pair<std::filesystem::path, std::string>> file_strings;
-
-    std::atomic_bool eoq = false;
-    std::mutex queue_mut;
-    std::condition_variable condvar;
-
-    using result_type = std::optional<std::list<json::value>>;
-    std::vector<std::future<result_type>> workers;
-
-    {
-        auto n_workers = std::max(1U, std::thread::hardware_concurrency());
-        workers.reserve(n_workers);
-        for (auto thi = 0U; thi < n_workers; ++thi) {
-            workers.emplace_back(std::async(std::launch::async, [&]() -> result_type {
-                std::list<json::value> result {};
-                while (true) {
-                    std::unique_lock lk { queue_mut };
-                    condvar.wait(lk, [&]() -> bool { return !file_strings.empty() || eoq.load(); });
-                    if (file_strings.empty()) return result;
-
-                    std::string buf {};
-                    buf.swap(file_strings.front().second);
-                    auto path = file_strings.front().first;
-                    file_strings.pop();
-                    lk.unlock();
-
-                    auto json_opt = json::parse(buf);
-                    if (!json_opt) {
-                        Log.error("Unable to parse json file:", path);
-                        eoq.store(true);
-                        return std::nullopt;
-                    }
-
-                    auto& json = json_opt.value();
-                    if (json.is_array()) {
-                        // 兼容上游仓库的 levels.json
-                        // 有些用户习惯于在游戏更新了但maa还没发版前，自己手动更新下 levels.json，可以提前用
-                        result.insert(result.end(), std::make_move_iterator(json.as_array().begin()),
-                                      std::make_move_iterator(json.as_array().end()));
-                    }
-                    else if (json.is_object()) {
-                        result.emplace_back(std::move(json));
-                    }
-                    else {
-                        Log.error("Invalid json file:", path);
-                        eoq.store(true);
-                        return std::nullopt;
-                    }
-                }
-            }));
-        }
-    }
-
-    for (const auto& entry : std::filesystem::directory_iterator(path)) {
-        if (eoq.load()) break; // this means parsing went wrong
-
-        const auto& file_path = entry.path();
-        if (file_path.extension() != ".json") continue;
-
-        const auto f_size = std::filesystem::file_size(file_path);
-        std::ifstream ifs(file_path, std::ios::in);
-        auto buf = std::string(f_size, '\0');
-        ifs.read(buf.data(), static_cast<std::streamsize>(buf.size()));
-        {
-            std::unique_lock lk(queue_mut);
-            file_strings.push(std::make_pair(file_path, std::move(buf)));
-        }
-        condvar.notify_one();
-    }
-
-    eoq.store(true);
-    condvar.notify_all();
-
-    // is this necessary?
-    for (auto&& w : workers) {
-        if (w.wait_for(std::chrono::milliseconds::zero()) == std::future_status::ready) continue;
-        do
-            condvar.notify_all();
-        while (w.wait_for(std::chrono::milliseconds(10)) == std::future_status::timeout);
-    }
-
-    auto result = std::list<json::value> {};
-
-    for (auto&& w : workers) {
-        if (auto opt = w.get())
-            result.splice(result.end(), std::move(opt).value());
-        else
+    auto dir = m_path.parent_path();
+    for (const auto& [_, summary] : json.as_object()) {
+        LevelKey level_key {
+            .stageId = summary.at("stageId").as_string(),
+            .code = summary.at("code").as_string(),
+            .levelId = summary.at("levelId").as_string(),
+            .name = summary.get("name", "UnknownLevelName"),
+        };
+        auto filepath = dir / utils::path(summary.at("filename").as_string());
+        if (!std::filesystem::exists(filepath)) {
+            Log.error("file not exists", filepath);
             return false;
+        }
+        m_summarize.emplace_back(std::move(level_key), std::move(filepath));
     }
-
-    Log.info("got", result.size(), "maps");
-
-    try {
-        // TODO: this move has no effect
-        m_tile_calculator = std::make_shared<Map::TileCalc>(WindowWidthDefault, WindowHeightDefault, std::move(result));
-    }
-    catch (const std::exception& e) {
-        Log.error("Tile create failed", e.what());
-        return false;
-    }
-    return m_tile_calculator != nullptr;
-}
-
-bool asst::TilePack::contains(const std::string& any_key) const
-{
-    return m_tile_calculator->contains(any_key);
-}
-
-bool asst::TilePack::contains(const LevelKey& key) const
-{
-    return m_tile_calculator->contains(key);
+    return true;
 }
 
 std::unordered_map<asst::Point, asst::TilePack::TileInfo> proc_data(const std::vector<std::vector<cv::Point2d>>& pos,
@@ -188,33 +88,25 @@ std::unordered_map<asst::Point, asst::TilePack::TileInfo> proc_data(const std::v
     return dst;
 }
 
-std::unordered_map<asst::Point, asst::TilePack::TileInfo> asst::TilePack::calc(const std::string& any_key, bool side,
-                                                                               double shift_x, double shift_y) const
+std::unordered_map<asst::Point, asst::TilePack::TileInfo> asst::TilePack::calc_(const std::filesystem::path& filepath,
+                                                                                bool side, double shift_x,
+                                                                                double shift_y) const
 {
     LogTraceFunction;
 
-    std::vector<std::vector<cv::Point2d>> pos;
-    std::vector<std::vector<Map::Tile>> tiles;
-
-    bool ret = m_tile_calculator->run(any_key, side, pos, tiles, shift_x, shift_y);
-
-    if (!ret) {
-        Log.info("Tiles calc error!");
+    auto json_opt = json::open(filepath);
+    if (!json_opt) {
+        Log.info("failed to open", filepath);
         return {};
     }
 
-    return proc_data(pos, tiles);
-}
-
-std::unordered_map<asst::Point, asst::TilePack::TileInfo> asst::TilePack::calc(const LevelKey& key, bool side,
-                                                                               double shift_x, double shift_y) const
-{
-    LogTraceFunction;
-
     std::vector<std::vector<cv::Point2d>> pos;
     std::vector<std::vector<Map::Tile>> tiles;
 
-    bool ret = m_tile_calculator->run(key, side, pos, tiles, shift_x, shift_y);
+    Map::Level level(*json_opt);
+    Map::TileCalc calcer(WindowWidthDefault, WindowHeightDefault);
+
+    bool ret = calcer.run(level, side, pos, tiles, shift_x, shift_y);
 
     if (!ret) {
         Log.info("Tiles calc error!");

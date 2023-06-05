@@ -6,8 +6,8 @@
 #include "Config/TaskData.h"
 #include "Config/TemplResource.h"
 #include "Utils/Logger.hpp"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/OcrWithPreprocessImageAnalyzer.h"
+#include "Vision/Matcher.h"
+#include "Vision/RegionOCRer.h"
 
 #include <numbers>
 
@@ -172,7 +172,7 @@ size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo&
 
     const auto& all_items = ItemData.get_ordered_material_item_id();
 
-    MatchImageAnalyzer analyzer(m_image_resized);
+    Matcher analyzer(m_image_resized);
     analyzer.set_task_info("DepotMatchData");
     // spacing 有时候算的差一个像素，干脆把 roi 扩大一点好了
     Rect enlarged_roi = roi;
@@ -186,7 +186,7 @@ size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo&
     size_t matched_index = NPos;
     for (size_t index = begin_index, extra_count = 0; index < all_items.size(); ++index) {
         const std::string& item_id = all_items.at(index);
-        // analyzer.set_templ_name(item_id);
+        // analyzer.set_templ(item_id);
         // TODO: too slow? find a way to set mask directly
         cv::Mat templ = TemplResource::get_instance().get_templ(item_id).clone();
         templ(cv::Rect { templ.cols - 80, templ.rows - 50, 80, 50 }) = cv::Scalar { 0, 0, 0 };
@@ -253,16 +253,16 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
     cv::subtract(m_image_resized(make_rect<cv::Rect>(item.rect)), item_templ * 0.41,
                  ocr_img(make_rect<cv::Rect>(item.rect)));
 
-    OcrWithPreprocessImageAnalyzer analyzer(m_image_resized);
+    RegionOCRer analyzer(m_image_resized);
     analyzer.set_task_info("NumberOcrReplace");
     analyzer.set_roi(ocr_roi);
-    analyzer.set_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
+    analyzer.set_bin_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
 
     if (!analyzer.analyze()) {
         return 0;
     }
 
-    const auto& result = analyzer.get_result().front();
+    const auto& result = analyzer.get_result();
 
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw_resized, make_rect<cv::Rect>(result.rect), cv::Scalar(0, 0, 255));

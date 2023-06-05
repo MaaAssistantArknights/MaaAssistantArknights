@@ -27,20 +27,22 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
+using HandyControl.Controls;
+using HandyControl.Data;
+using HandyControl.Tools.Extension;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
-using MaaWpfGui.Services;
+using MaaWpfGui.Models;
 using MaaWpfGui.Services.HotKeys;
-using MaaWpfGui.Services.Managers;
-using MaaWpfGui.Services.Web;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using Microsoft.Win32;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Serilog;
 using Stylet;
-using IContainer = StyletIoC.IContainer;
 using Timer = System.Timers.Timer;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -50,14 +52,7 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class SettingsViewModel : Screen
     {
-        private readonly IWindowManager _windowManager;
-        private readonly IContainer _container;
-        private IMaaHotKeyManager _maaHotKeyManager;
-        private IMainWindowManager _mainWindowManager;
-        private TaskQueueViewModel _taskQueueViewModel;
-        private AsstProxy _asstProxy;
-        private VersionUpdateViewModel _versionUpdateViewModel;
-        private readonly IHttpService _httpService;
+        private static readonly ILogger _logger = Log.ForContext<SettingsViewModel>();
 
         [DllImport("MaaCore.dll")]
         private static extern IntPtr AsstGetVersion();
@@ -90,26 +85,22 @@ namespace MaaWpfGui.ViewModels.UI
         public static readonly string PallasLangKey = "pallas";
 
         /// <summary>
+        /// Gets the visibility of task setting views.
+        /// </summary>
+        public TaskSettingVisibilityInfo TaskSettingVisibilities { get; } = TaskSettingVisibilityInfo.Current;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
         /// </summary>
-        /// <param name="container">The IoC container.</param>
-        /// <param name="windowManager">The window manager.</param>
-        public SettingsViewModel(IContainer container, IWindowManager windowManager)
+        public SettingsViewModel()
         {
-            _container = container;
-            _windowManager = windowManager;
-            _httpService = container.Get<IHttpService>();
-
             DisplayName = LocalizationHelper.GetString("Settings");
+
+            _listTitle.Add(LocalizationHelper.GetString("SwitchConfiguration"));
+            _listTitle.Add(LocalizationHelper.GetString("ScheduleSettings"));
             _listTitle.Add(LocalizationHelper.GetString("GameSettings"));
-            _listTitle.Add(LocalizationHelper.GetString("BaseSettings"));
-            _listTitle.Add(LocalizationHelper.GetString("RoguelikeSettings"));
-            _listTitle.Add(LocalizationHelper.GetString("RecruitingSettings"));
-            _listTitle.Add(LocalizationHelper.GetString("MallSettings"));
-            _listTitle.Add(LocalizationHelper.GetString("OtherCombatSettings"));
             _listTitle.Add(LocalizationHelper.GetString("ConnectionSettings"));
             _listTitle.Add(LocalizationHelper.GetString("StartupSettings"));
-            _listTitle.Add(LocalizationHelper.GetString("ScheduleSettings"));
             _listTitle.Add(LocalizationHelper.GetString("UISettings"));
             _listTitle.Add(LocalizationHelper.GetString("HotKeySettings"));
             _listTitle.Add(LocalizationHelper.GetString("UpdateSettings"));
@@ -117,15 +108,18 @@ namespace MaaWpfGui.ViewModels.UI
 
             InfrastInit();
 
+            SwitchDarkMode();
             if (Hangover)
             {
                 Hangover = false;
-                _windowManager.ShowMessageBox(
+                MessageBoxHelper.Show(
                     LocalizationHelper.GetString("Hangover"),
                     LocalizationHelper.GetString("Burping"),
-                    MessageBoxButton.OK, MessageBoxImage.Hand);
+                    MessageBoxButton.OK,
+                    iconKey: "HangoverGeometry",
+                    iconBrushKey: "PallasBrush");
                 Application.Current.Shutdown();
-                System.Windows.Forms.Application.Restart();
+                Bootstrapper.RestartApplication();
             }
         }
 
@@ -142,22 +136,12 @@ namespace MaaWpfGui.ViewModels.UI
         protected override void OnInitialActivate()
         {
             base.OnInitialActivate();
-            _maaHotKeyManager = _container.Get<IMaaHotKeyManager>();
-            _mainWindowManager = _container.Get<IMainWindowManager>();
-            _taskQueueViewModel = _container.Get<TaskQueueViewModel>();
-            _asstProxy = _container.Get<AsstProxy>();
-            _versionUpdateViewModel = _container.Get<VersionUpdateViewModel>();
 
             var addressListJson = ConfigurationHelper.GetValue(ConfigurationKeys.AddressHistory, string.Empty);
             if (!string.IsNullOrEmpty(addressListJson))
             {
                 ConnectAddressHistory = JsonConvert.DeserializeObject<ObservableCollection<string>>(addressListJson);
             }
-
-            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                App.SetAllControlColors(Application.Current.MainWindow);
-            }));
         }
 
         private List<string> _listTitle = new List<string>();
@@ -229,11 +213,13 @@ namespace MaaWpfGui.ViewModels.UI
                 new CombinedData { Display = LocalizationHelper.GetString("General"), Value = "General" },
                 new CombinedData { Display = LocalizationHelper.GetString("BlueStacks"), Value = "BlueStacks" },
                 new CombinedData { Display = LocalizationHelper.GetString("MuMuEmulator"), Value = "MuMuEmulator" },
+                new CombinedData { Display = LocalizationHelper.GetString("MuMuEmulator12"), Value = "MuMuEmulator12" },
                 new CombinedData { Display = LocalizationHelper.GetString("LDPlayer"), Value = "LDPlayer" },
                 new CombinedData { Display = LocalizationHelper.GetString("Nox"), Value = "Nox" },
                 new CombinedData { Display = LocalizationHelper.GetString("XYAZ"), Value = "XYAZ" },
                 new CombinedData { Display = LocalizationHelper.GetString("WSA"), Value = "WSA" },
                 new CombinedData { Display = LocalizationHelper.GetString("Compatible"), Value = "Compatible" },
+                new CombinedData { Display = LocalizationHelper.GetString("SecondResolution"), Value = "SecondResolution" },
                 new CombinedData { Display = LocalizationHelper.GetString("GeneralWithoutScreencapErr"), Value = "GeneralWithoutScreencapErr" },
             };
 
@@ -283,6 +269,21 @@ namespace MaaWpfGui.ViewModels.UI
                 new CombinedData { Display = LocalizationHelper.GetString("txwy"), Value = "txwy" },
             };
 
+            var configurations = new ObservableCollection<CombinedData>();
+            foreach (var conf in ConfigurationHelper.GetConfigurationList())
+            {
+                configurations.Add(new CombinedData { Display = conf, Value = conf });
+            }
+
+            ConfigurationList = configurations;
+
+            DarkModeList = new List<CombinedData>
+            {
+                new CombinedData { Display = LocalizationHelper.GetString("Light"), Value = "Light" },
+                new CombinedData { Display = LocalizationHelper.GetString("Dark"), Value = "Dark" },
+                new CombinedData { Display = LocalizationHelper.GetString("SyncWithOS"), Value = "SyncWithOS" },
+            };
+
             InverseClearModeList = new List<CombinedData>
             {
                 new CombinedData { Display = LocalizationHelper.GetString("Clear"), Value = "Clear" },
@@ -297,7 +298,7 @@ namespace MaaWpfGui.ViewModels.UI
                 new GenericCombinedData<UpdateVersionType> { Display = LocalizationHelper.GetString("UpdateCheckStable"), Value = UpdateVersionType.Stable },
             };
 
-            LanguageList = new List<CombinedData>();
+            var languageList = new List<CombinedData>();
             foreach (var pair in LocalizationHelper.SupportedLanguages)
             {
                 if (pair.Key == PallasLangKey && !Cheers)
@@ -305,8 +306,10 @@ namespace MaaWpfGui.ViewModels.UI
                     continue;
                 }
 
-                LanguageList.Add(new CombinedData { Display = pair.Value, Value = pair.Key });
+                languageList.Add(new CombinedData { Display = pair.Value, Value = pair.Key });
             }
+
+            LanguageList = languageList;
         }
 
         private bool _idle = true;
@@ -348,6 +351,21 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _runDirectly, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RunDirectly, value.ToString());
+            }
+        }
+
+        private bool _minimizeDirectly = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeDirectly, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to minimize directly.
+        /// </summary>
+        public bool MinimizeDirectly
+        {
+            get => _minimizeDirectly;
+            set
+            {
+                SetAndNotify(ref _minimizeDirectly, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.MinimizeDirectly, value.ToString());
             }
         }
 
@@ -430,16 +448,123 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private string _startsWithScript = ConfigurationHelper.GetValue(ConfigurationKeys.StartsWithScript, string.Empty);
+
+        public string StartsWithScript
+        {
+            get => _startsWithScript;
+            set
+            {
+                SetAndNotify(ref _startsWithScript, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.StartsWithScript, value);
+            }
+        }
+
+        private string _endsWithScript = ConfigurationHelper.GetValue(ConfigurationKeys.EndsWithScript, string.Empty);
+
+        public string EndsWithScript
+        {
+            get => _endsWithScript;
+            set
+            {
+                SetAndNotify(ref _endsWithScript, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.EndsWithScript, value);
+            }
+        }
+
+        public void RunScript(string str)
+        {
+            bool enable = str switch
+            {
+                "StartsWithScript" => !string.IsNullOrWhiteSpace(StartsWithScript),
+                "EndsWithScript" => !string.IsNullOrWhiteSpace(EndsWithScript),
+                _ => false,
+            };
+
+            if (enable)
+            {
+                Func<bool> func = str switch
+                {
+                    "StartsWithScript" => RunStartCommand,
+                    "EndsWithScript" => RunEndCommand,
+                    _ => () => false,
+                };
+
+                Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetString("StartTask") + LocalizationHelper.GetString(str)));
+                if (func())
+                {
+                    Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(str)));
+                }
+                else
+                {
+                    Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(str),
+                        UiLogColor.Warning));
+                }
+            }
+        }
+
+        private bool RunStartCommand()
+        {
+            try
+            {
+                var process = new Process
+                {
+                    StartInfo = new ProcessStartInfo
+                    {
+                        FileName = StartsWithScript,
+                        WindowStyle = ProcessWindowStyle.Minimized,
+
+                        // FileName = "cmd.exe",
+                        // Arguments = $"/c {StartsWithScript}",
+                    },
+                };
+                process.Start();
+                process.WaitForExit();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        private bool RunEndCommand()
+        {
+            try
+            {
+                var process = new Process
+                {
+                    StartInfo = new ProcessStartInfo
+                    {
+                        FileName = EndsWithScript,
+                        WindowStyle = ProcessWindowStyle.Minimized,
+
+                        // FileName = "cmd.exe",
+                        // Arguments = $"/c {EndsWithScript}",
+                    },
+                };
+                process.Start();
+                process.WaitForExit();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// Tries to start the emulator.
         /// </summary>
         /// <param name="manual">Whether to start manually.</param>
         public void TryToStartEmulator(bool manual = false)
         {
-            if ((EmulatorPath.Length == 0
-                || !File.Exists(EmulatorPath))
-                || !(StartEmulator
-                || manual))
+            if (EmulatorPath.Length == 0
+                || !File.Exists(EmulatorPath)
+                || (!StartEmulator && !manual))
             {
                 return;
             }
@@ -503,7 +628,7 @@ namespace MaaWpfGui.ViewModels.UI
                     StartInfo = startInfo,
                 };
 
-                AsstProxy.AsstLog("Try to start emulator: \nfileName: " + fileName + "\narguments: " + arguments);
+                _logger.Information("Try to start emulator: \nfileName: " + fileName + "\narguments: " + arguments);
                 process.Start();
 
                 try
@@ -512,7 +637,7 @@ namespace MaaWpfGui.ViewModels.UI
                     process.WaitForInputIdle();
                     if (MinimizingStartup)
                     {
-                        AsstProxy.AsstLog("Try minimizing the emulator");
+                        _logger.Information("Try minimizing the emulator");
                         int i;
                         for (i = 0; !IsIconic(process.MainWindowHandle) && i < 100; ++i)
                         {
@@ -526,14 +651,14 @@ namespace MaaWpfGui.ViewModels.UI
 
                         if (i >= 100)
                         {
-                            AsstProxy.AsstLog("Attempts to exceed the limit");
+                            _logger.Information("Attempts to exceed the limit");
                             throw new Exception();
                         }
                     }
                 }
                 catch (Exception)
                 {
-                    AsstProxy.AsstLog("The emulator was already start");
+                    _logger.Information("The emulator was already start");
 
                     // 如果之前就启动了模拟器，如果开启了最小化启动，就把所有模拟器最小化
                     // TODO:只最小化需要开启的模拟器
@@ -543,7 +668,7 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         if (MinimizingStartup)
                         {
-                            AsstProxy.AsstLog("Try minimizing the emulator by processName: " + processName);
+                            _logger.Information("Try minimizing the emulator by processName: " + processName);
                             foreach (Process p in processes)
                             {
                                 int i;
@@ -555,7 +680,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                                 if (i >= 100)
                                 {
-                                    AsstProxy.AsstLog("The emulator minimization failure");
+                                    _logger.Warning("The emulator minimization failure");
                                 }
                             }
                         }
@@ -564,7 +689,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
             catch (Exception)
             {
-                AsstProxy.AsstLog("Start emulator error, try to start using the default: \n" +
+                _logger.Information("Start emulator error, try to start using the default: \n" +
                     "EmulatorPath: " + EmulatorPath + "\n" +
                     "EmulatorAddCommand: " + EmulatorAddCommand);
                 if (EmulatorAddCommand.Length != 0)
@@ -577,25 +702,73 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
+            // 储存按钮状态，以便后续重置
+            bool idle = Instances.TaskQueueViewModel.Idle;
+
+            // 让按钮变成停止按钮，可手动停止等待
+            Instances.TaskQueueViewModel.Idle = false;
             for (var i = 0; i < delay; ++i)
             {
-                // TODO: _taskQueueViewModel在SettingsViewModel显示之前为null。所以获取不到Stopping内容，导致无法停止等待,等个有缘人优化下）
-                // 一般是点了“停止”按钮了
-                /*
-                if (_taskQueueViewModel.Stopping)
+                if (Instances.TaskQueueViewModel.Stopping)
                 {
-                    AsstProxy.AsstLog("Stop waiting for the emulator to start");
+                    _logger.Information("Stop waiting for the emulator to start");
                     return;
                 }
-                */
+
                 if (i % 10 == 0)
                 {
-                    // 同样的问题，因为_taskQueueViewModel为null，所以无法偶在主界面的log里显示
-                    AsstProxy.AsstLog("Waiting for the emulator to start: " + (delay - i) + "s");
+                    Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetString("WaitForEmulator") + ": " + (delay - i) + "s"));
+                    _logger.Information("Waiting for the emulator to start: " + (delay - i) + "s");
                 }
 
                 Thread.Sleep(1000);
             }
+
+            Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
+                LocalizationHelper.GetString("WaitForEmulatorFinish")));
+            _logger.Information("The wait is over");
+
+            // 重置按钮状态，不影响后续判断
+            Instances.TaskQueueViewModel.Idle = idle;
+        }
+
+        /// <summary>
+        /// Restarts the ADB (Android Debug Bridge).
+        /// </summary>
+        public void RestartADB()
+        {
+            if (!AllowADBRestart)
+            {
+                return;
+            }
+
+            string adbPath = AdbPath;
+
+            if (string.IsNullOrEmpty(adbPath))
+            {
+                return;
+            }
+
+            ProcessStartInfo processStartInfo = new ProcessStartInfo
+            {
+                FileName = "cmd.exe",
+                RedirectStandardInput = true,
+                RedirectStandardOutput = true,
+                CreateNoWindow = true,
+                UseShellExecute = false,
+            };
+
+            Process process = new Process
+            {
+                StartInfo = processStartInfo,
+            };
+
+            process.Start();
+            process.StandardInput.WriteLine($"{adbPath} kill-server");
+            process.StandardInput.WriteLine($"{adbPath} start-server");
+            process.StandardInput.WriteLine("exit");
+            process.WaitForExit();
         }
 
         /// <summary>
@@ -614,7 +787,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _clientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty);
+        private string _clientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, "Official");
 
         /// <summary>
         /// Gets or sets the client type.
@@ -627,8 +800,9 @@ namespace MaaWpfGui.ViewModels.UI
                 SetAndNotify(ref _clientType, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ClientType, value);
                 UpdateWindowTitle(); /* 每次修改客户端时更新WindowTitle */
-                _taskQueueViewModel.UpdateStageList(true);
-                _taskQueueViewModel.UpdateDatePrompt();
+                Instances.TaskQueueViewModel.UpdateStageList(true);
+                Instances.TaskQueueViewModel.UpdateDatePrompt();
+                Instances.AsstProxy.LoadResource();
             }
         }
 
@@ -729,6 +903,67 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public List<CombinedData> ClientTypeList { get; set; }
 
+        public ObservableCollection<CombinedData> ConfigurationList { get; set; }
+
+        private string _currentConfiguration = ConfigurationHelper.GetCurrentConfiguration();
+
+        public string CurrentConfiguration
+        {
+            get => _currentConfiguration;
+            set
+            {
+                SetAndNotify(ref _currentConfiguration, value);
+                ConfigurationHelper.SwitchConfiguration(value);
+
+                Application.Current.Shutdown();
+                Bootstrapper.RestartApplication();
+            }
+        }
+
+        private string _newConfigurationName;
+
+        public string NewConfigurationName
+        {
+            get => _newConfigurationName;
+            set => SetAndNotify(ref _newConfigurationName, value);
+        }
+
+        public void AddConfiguration()
+        {
+            if (ConfigurationHelper.AddConfiguration(NewConfigurationName, CurrentConfiguration))
+            {
+                ConfigurationList.Add(new CombinedData { Display = NewConfigurationName, Value = NewConfigurationName });
+
+                var growinfo = new GrowlInfo
+                {
+                    IsCustom = true,
+                    Message = string.Format(LocalizationHelper.GetString("AddConfigSuccess"), NewConfigurationName),
+                    IconKey = "HangoverGeometry",
+                    IconBrushKey = "PallasBrush",
+                };
+                Growl.Info(growinfo);
+            }
+            else
+            {
+                var growinfo = new GrowlInfo
+                {
+                    IsCustom = true,
+                    Message = string.Format(LocalizationHelper.GetString("ConfigExists"), NewConfigurationName),
+                    IconKey = "HangoverGeometry",
+                    IconBrushKey = "PallasBrush",
+                };
+                Growl.Info(growinfo);
+            }
+        }
+
+        public void DeleteConfiguration(CombinedData delete)
+        {
+            if (ConfigurationHelper.DeleteConfiguration(delete.Display))
+            {
+                ConfigurationList.Remove(delete);
+            }
+        }
+
         /// <summary>
         /// Gets or sets the list of the configuration of connection.
         /// </summary>
@@ -738,6 +973,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets or sets the list of touch modes
         /// </summary>
         public List<CombinedData> TouchModeList { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of dark mode.
+        /// </summary>
+        public List<CombinedData> DarkModeList { get; set; }
 
         /// <summary>
         /// Gets or sets the list of inverse clear modes.
@@ -809,10 +1049,12 @@ namespace MaaWpfGui.ViewModels.UI
             int index = 0;
             foreach (var item in InfrastItemViewModels)
             {
-                ConfigurationHelper.GetFacilityOrder(item.OriginalName, index.ToString());
+                ConfigurationHelper.SetFacilityOrder(item.OriginalName, index.ToString());
                 ++index;
             }
         }
+
+        public TaskQueueViewModel CustomInfrastPlanDataContext { get => Instances.TaskQueueViewModel; }
 
         private string _usesOfDrones = ConfigurationHelper.GetValue(ConfigurationKeys.UsesOfDrones, "Money");
 
@@ -871,7 +1113,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _dormFilterNotStationedEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.DormFilterNotStationedEnabled, false.ToString());
+        private string _dormFilterNotStationedEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.DormFilterNotStationedEnabled, true.ToString());
 
         /// <summary>
         /// Gets or sets a value indicating whether the not stationed filter in dorm is enabled.
@@ -886,7 +1128,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _dormTrustEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.DormTrustEnabled, true.ToString());
+        private string _dormTrustEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.DormTrustEnabled, false.ToString());
 
         /// <summary>
         /// Gets or sets a value indicating whether get trust in dorm is enabled.
@@ -925,7 +1167,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _customInfrastEnabled, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.CustomInfrastEnabled, value.ToString());
-                _taskQueueViewModel.CustomInfrastEnabled = value;
+                Instances.TaskQueueViewModel.CustomInfrastEnabled = value;
             }
         }
 
@@ -956,7 +1198,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _customInfrastFile, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.CustomInfrastFile, value);
-                _taskQueueViewModel.RefreshCustonInfrastPlan();
+                Instances.TaskQueueViewModel.RefreshCustonInfrastPlan();
             }
         }
 
@@ -1002,9 +1244,9 @@ namespace MaaWpfGui.ViewModels.UI
         public double ScrollExtentHeight { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of rectangle vertical offset.
+        /// Gets or sets the list of divider vertical offset.
         /// </summary>
-        public List<double> RectangleVerticalOffsetList { get; set; }
+        public List<double> DividerVerticalOffsetList { get; set; }
 
         private int _selectedIndex = 0;
 
@@ -1022,13 +1264,13 @@ namespace MaaWpfGui.ViewModels.UI
                         _notifySource = NotifyType.SelectedIndex;
                         SetAndNotify(ref _selectedIndex, value);
 
-                        var isInRange = RectangleVerticalOffsetList != null
-                            && RectangleVerticalOffsetList.Count > 0
-                            && value < RectangleVerticalOffsetList.Count;
+                        var isInRange = DividerVerticalOffsetList != null
+                            && DividerVerticalOffsetList.Count > 0
+                            && value < DividerVerticalOffsetList.Count;
 
                         if (isInRange)
                         {
-                            ScrollOffset = RectangleVerticalOffsetList[value];
+                            ScrollOffset = DividerVerticalOffsetList[value];
                         }
 
                         ResetNotifySource();
@@ -1058,24 +1300,24 @@ namespace MaaWpfGui.ViewModels.UI
                         SetAndNotify(ref _scrollOffset, value);
 
                         // 设置 ListBox SelectedIndex 为当前 ScrollOffset 索引
-                        var isInRange = RectangleVerticalOffsetList != null && RectangleVerticalOffsetList.Count > 0;
+                        var isInRange = DividerVerticalOffsetList != null && DividerVerticalOffsetList.Count > 0;
 
                         if (isInRange)
                         {
-                            // 滚动条滚动到底部，返回最后一个 Rectangle 索引
+                            // 滚动条滚动到底部，返回最后一个 Divider 索引
                             if (value + ScrollViewportHeight >= ScrollExtentHeight)
                             {
-                                SelectedIndex = RectangleVerticalOffsetList.Count - 1;
+                                SelectedIndex = DividerVerticalOffsetList.Count - 1;
                                 ResetNotifySource();
                                 break;
                             }
 
-                            // 根据出当前 ScrollOffset 选出最后一个在可视范围的 Rectangle 索引
-                            var rectangleSelect = RectangleVerticalOffsetList.Select((n, i) => (
-                            rectangleAppeared: value >= n,
+                            // 根据出当前 ScrollOffset 选出最后一个在可视范围的 Divider 索引
+                            var dividerSelect = DividerVerticalOffsetList.Select((n, i) => (
+                            dividerAppeared: value >= n,
                             index: i));
 
-                            var index = rectangleSelect.LastOrDefault(n => n.rectangleAppeared).index;
+                            var index = dividerSelect.LastOrDefault(n => n.dividerAppeared).index;
                             SelectedIndex = index;
                         }
 
@@ -1093,7 +1335,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         /* 肉鸽设置 */
 
-        private string _roguelikeTheme = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, "Phantom");
+        private string _roguelikeTheme = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, "Mizuki");
 
         /// <summary>
         /// Gets or sets the Roguelike theme.
@@ -1121,10 +1363,6 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _roguelikeMode, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeMode, value);
-                if (value == "1")
-                {
-                    RoguelikeInvestmentEnabled = true;
-                }
             }
         }
 
@@ -1230,6 +1468,18 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _roguelikeInvestmentEnabled, value.ToString());
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeInvestmentEnabled, value.ToString());
+            }
+        }
+
+        private string _roguelikeRefreshTraderWithDice = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeRefreshTraderWithDice, false.ToString());
+
+        public bool RoguelikeRefreshTraderWithDice
+        {
+            get => bool.Parse(_roguelikeRefreshTraderWithDice);
+            set
+            {
+                SetAndNotify(ref _roguelikeRefreshTraderWithDice, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeRefreshTraderWithDice, value.ToString());
             }
         }
 
@@ -1391,6 +1641,14 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 public event PropertyChangedEventHandler PropertyChanged;
 
+                public TimerProperties(int timeId, bool isOn, int hour, int min)
+                {
+                    TimerId = timeId;
+                    _isOn = isOn;
+                    _hour = hour;
+                    _min = min;
+                }
+
                 protected void OnPropertyChanged([CallerMemberName] string name = null)
                 {
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
@@ -1458,13 +1716,11 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 for (int i = 0; i < 8; i++)
                 {
-                    Timers[i] = new TimerProperties
-                    {
-                        TimerId = i,
-                        IsOn = ConfigurationHelper.GetTimer(i, bool.FalseString) == bool.TrueString,
-                        Hour = int.Parse(ConfigurationHelper.GetTimerHour(i, $"{i * 3}")),
-                        Min = int.Parse(ConfigurationHelper.GetTimerMin(i, "0")),
-                    };
+                    Timers[i] = new TimerProperties(
+                        i,
+                        ConfigurationHelper.GetTimer(i, bool.FalseString) == bool.TrueString,
+                        int.Parse(ConfigurationHelper.GetTimerHour(i, $"{i * 3}")),
+                        int.Parse(ConfigurationHelper.GetTimerMin(i, "0")));
                 }
             }
         }
@@ -1749,14 +2005,10 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Updates manually.
         /// </summary>
-        // TODO: 你确定要用 async void 不是 async Task？
-        public async void ManualUpdate()
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task ManualUpdate()
         {
-            var task = Task.Run(() =>
-            {
-                return _versionUpdateViewModel.CheckAndDownloadUpdate(true);
-            });
-            var ret = await task;
+            var ret = await Instances.VersionUpdateViewModel.CheckAndDownloadUpdate();
 
             string toastMessage = null;
             switch (ret)
@@ -1781,7 +2033,7 @@ namespace MaaWpfGui.ViewModels.UI
                     break;
 
                 case VersionUpdateViewModel.CheckUpdateRetT.OK:
-                    _versionUpdateViewModel.AskToRestart();
+                    Instances.VersionUpdateViewModel.AskToRestart();
                     break;
 
                 case VersionUpdateViewModel.CheckUpdateRetT.NewVersionIsBeingBuilt:
@@ -1801,7 +2053,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void ShowChangelog()
         {
-            _windowManager.ShowWindow(_versionUpdateViewModel);
+            Instances.WindowManager.ShowWindow(Instances.VersionUpdateViewModel);
         }
 
         /* 连接设置 */
@@ -1853,28 +2105,33 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    if (!ConnectAddressHistory.Contains(value))
-                    {
-                        ConnectAddressHistory.Insert(0, value);
-                        while (ConnectAddressHistory.Count > 5)
-                        {
-                            ConnectAddressHistory.RemoveAt(ConnectAddressHistory.Count - 1);
-                        }
-                    }
-                    else
-                    {
-                        ConnectAddressHistory.Remove(value);
-                        ConnectAddressHistory.Insert(0, value);
-                    }
-                });
+                UpdateConnectionHistory(value);
 
                 SetAndNotify(ref _connectAddress, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.AddressHistory, JsonConvert.SerializeObject(ConnectAddressHistory));
                 ConfigurationHelper.SetValue(ConfigurationKeys.ConnectAddress, value);
                 UpdateWindowTitle(); /* 每次修改连接地址时更新WindowTitle */
             }
+        }
+
+        private void UpdateConnectionHistory(string address)
+        {
+            var history = ConnectAddressHistory.ToList();
+            if (history.Contains(address))
+            {
+                history.Remove(address);
+                history.Insert(0, address);
+            }
+            else
+            {
+                history.Insert(0, address);
+                const int maxHistoryCount = 5;
+                if (history.Count > maxHistoryCount)
+                {
+                    history.RemoveRange(maxHistoryCount, history.Count - maxHistoryCount);
+                }
+            }
+            ConnectAddressHistory = new ObservableCollection<string>(history);
         }
 
         public void RemoveAddress_Click(string address)
@@ -1929,6 +2186,21 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _allowADBRestart = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AllowADBRestart, bool.TrueString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to retry task after adb disconnected.
+        /// </summary>
+        public bool AllowADBRestart
+        {
+            get => _allowADBRestart;
+            set
+            {
+                SetAndNotify(ref _allowADBRestart, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.AllowADBRestart, value.ToString());
+            }
+        }
+
         private bool _deploymentWithPause = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDeploymentWithPause, false.ToString()));
 
         public bool DeploymentWithPause
@@ -1955,6 +2227,19 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _killAdbOnExit = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.KillAdbOnExit, false.ToString()));
+
+        public bool KillAdbOnExit
+        {
+            get => _killAdbOnExit;
+            set
+            {
+                SetAndNotify(ref _killAdbOnExit, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.KillAdbOnExit, value.ToString());
+                UpdateInstanceSettings();
+            }
+        }
+
         /// <summary>
         /// Gets the default addresses.
         /// </summary>
@@ -1963,7 +2248,8 @@ namespace MaaWpfGui.ViewModels.UI
             { "General", new List<string> { string.Empty } },
             { "BlueStacks", new List<string> { "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5565", "127.0.0.1:5575", "127.0.0.1:5585", "127.0.0.1:5595", "127.0.0.1:5554" } },
             { "MuMuEmulator", new List<string> { "127.0.0.1:7555" } },
-            { "LDPlayer", new List<string> { "emulator-5554", "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5554" } },
+            { "MuMuEmulator12", new List<string> { "127.0.0.1:16384", "127.0.0.1:16416", "127.0.0.1:16448", "127.0.0.1:16480", "127.0.0.1:16512", "127.0.0.1:16544", "127.0.0.1:16576" } },
+            { "LDPlayer", new List<string> { "emulator-5554", "emulator-5556", "emulator-5558", "emulator-5560", "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5554" } },
             { "Nox", new List<string> { "127.0.0.1:62001", "127.0.0.1:59865" } },
             { "XYAZ", new List<string> { "127.0.0.1:21503" } },
             { "WSA", new List<string> { "127.0.0.1:58526" } },
@@ -1982,8 +2268,9 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 emulators = adapter.RefreshEmulatorsInfo();
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.Information(e.Message);
                 error = LocalizationHelper.GetString("EmulatorException");
                 return false;
             }
@@ -2007,33 +2294,29 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
+            var addresses = adapter.GetAdbAddresses(AdbPath);
+
+            if (addresses.Count == 1)
+            {
+                ConnectAddress = addresses.First();
+            }
+            else if (addresses.Count > 1)
+            {
+                foreach (var address in addresses)
+                {
+                    if (address == "emulator-5554")
+                    {
+                        continue;
+                    }
+
+                    ConnectAddress = address;
+                    break;
+                }
+            }
+
             if (ConnectAddress.Length == 0)
             {
-                var addresses = adapter.GetAdbAddresses(AdbPath);
-
-                // 傻逼雷电已经关掉了，用别的 adb 还能检测出来这个端口 device
-                if (addresses.Count == 1 && addresses.First() != "emulator-5554")
-                {
-                    ConnectAddress = addresses.First();
-                }
-                else if (addresses.Count > 1)
-                {
-                    foreach (var address in addresses)
-                    {
-                        if (address == "emulator-5554" && ConnectConfig != "LDPlayer")
-                        {
-                            continue;
-                        }
-
-                        ConnectAddress = address;
-                        break;
-                    }
-                }
-
-                if (ConnectAddress.Length == 0)
-                {
-                    ConnectAddress = DefaultAddress[ConnectConfig][0];
-                }
+                ConnectAddress = DefaultAddress[ConnectConfig][0];
             }
 
             return true;
@@ -2076,37 +2359,80 @@ namespace MaaWpfGui.ViewModels.UI
                 prefix += " - ";
             }
 
-            rvm.WindowTitle = $"{prefix}MAA - {VersionId} - {connectConfigName} ({ConnectAddress}) - {ClientName}";
+            string officialClientType = "Official";
+            string bilibiliClientType = "Bilibili";
+            string jsonPath = "resource/version.json";
+            if (!(ClientType == string.Empty || ClientType == officialClientType || ClientType == bilibiliClientType))
+            {
+                jsonPath = $"resource/global/{ClientType}/resource/version.json";
+            }
+
+            string versionName = string.Empty;
+            if (File.Exists(jsonPath))
+            {
+                JObject versionJson = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
+                var poolTime = (ulong)versionJson?["gacha"]["time"];
+                var activityTime = (ulong)versionJson?["activity"]["time"];
+
+                if (poolTime > activityTime)
+                {
+                    versionName = versionJson?["gacha"]?["pool"]?.ToString() ?? string.Empty;
+                }
+                else
+                {
+                    versionName = versionJson?["activity"]?["name"]?.ToString() ?? string.Empty;
+                }
+            }
+
+            string poolString = !string.IsNullOrEmpty(versionName) ? $" - {versionName}" : string.Empty;
+            rvm.WindowTitle = $"{prefix}MAA - {VersionId}{poolString} - {connectConfigName} ({ConnectAddress}) - {ClientName} - {CurrentConfiguration}";
         }
 
         private readonly string _bluestacksConfig = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigPath, string.Empty);
-        private readonly string _bluestacksKeyWord = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigKeyword, "bst.instance.Nougat64.status.adb_port");
+        private string _bluestacksKeyWord = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigKeyword, string.Empty);
 
         /// <summary>
         /// Tries to set Bluestack Hyper V address.
         /// </summary>
-        public void TryToSetBlueStacksHyperVAddress()
+        /// <returns>success</returns>
+        public string TryToSetBlueStacksHyperVAddress()
         {
-            if (_bluestacksConfig.Length == 0)
+            if (string.IsNullOrEmpty(_bluestacksConfig))
             {
-                return;
+                return null;
             }
 
             if (!File.Exists(_bluestacksConfig))
             {
                 ConfigurationHelper.SetValue(ConfigurationKeys.BluestacksConfigError, "File not exists");
-                return;
+                return null;
             }
 
             var all_lines = File.ReadAllLines(_bluestacksConfig);
+
+            if (string.IsNullOrEmpty(_bluestacksKeyWord))
+            {
+                foreach (var line in all_lines)
+                {
+                    if (line.StartsWith("bst.installed_images"))
+                    {
+                        var images = line.Split('"')[1].Split(',');
+                        _bluestacksKeyWord = "bst.instance." + images[0] + ".status.adb_port";
+                        break;
+                    }
+                }
+            }
+
             foreach (var line in all_lines)
             {
                 if (line.StartsWith(_bluestacksKeyWord))
                 {
                     var sp = line.Split('"');
-                    ConnectAddress = "127.0.0.1:" + sp[1];
+                    return "127.0.0.1:" + sp[1];
                 }
             }
+
+            return null;
         }
 
         public bool IsAdbTouchMode()
@@ -2129,29 +2455,27 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void UpdateInstanceSettings()
         {
-            _asstProxy.AsstSetInstanceOption(InstanceOptionKey.TouchMode, TouchMode);
-            _asstProxy.AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, DeploymentWithPause ? "1" : "0");
-            _asstProxy.AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, AdbLiteEnabled ? "1" : "0");
+            Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.TouchMode, TouchMode);
+            Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, DeploymentWithPause ? "1" : "0");
+            Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, AdbLiteEnabled ? "1" : "0");
+            Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.KillAdbOnExit, KillAdbOnExit ? "1" : "0");
         }
 
         private static readonly string GoogleAdbDownloadUrl = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip";
-        private static readonly string GoogleAdbFilename = "adb.zip";
+        private static readonly string AdbMaaMirrorDownloadUrl = "https://ota.maa.plus/MaaAssistantArknights/api/binaries/adb-windows.zip";
+        private static readonly string GoogleAdbFilename = "adb-windows.zip";
 
         public async void ReplaceADB()
         {
-            if (!File.Exists(AdbPath))
-            {
-                Execute.OnUIThread(() =>
-                {
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("ReplaceADBNotExists"));
-                    toast.Show();
-                });
-                return;
-            }
-
             if (!File.Exists(GoogleAdbFilename))
             {
-                var downloadResult = await _httpService.DownloadFileAsync(new Uri(GoogleAdbDownloadUrl), GoogleAdbFilename);
+                var downloadResult = await Instances.HttpService.DownloadFileAsync(new Uri(GoogleAdbDownloadUrl), GoogleAdbFilename);
+
+                if (!downloadResult)
+                {
+                    downloadResult = await Instances.HttpService.DownloadFileAsync(new Uri(AdbMaaMirrorDownloadUrl), GoogleAdbFilename);
+                }
+
                 if (!downloadResult)
                 {
                     await Execute.OnUIThreadAsync(() =>
@@ -2163,35 +2487,64 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            var procTask = Task.Run(() =>
-           {
-               // ErrorView.xaml.cs里有个报错的逻辑，这里如果改的话那边也要对应改一下
-               foreach (var process in Process.GetProcessesByName(Path.GetFileName(AdbPath)))
-               {
-                   process.Kill();
-               }
+            const string UnzipDir = "adb";
+            const string NewAdb = UnzipDir + "/platform-tools/adb.exe";
 
-               File.Copy(AdbPath, AdbPath + ".bak", true);
-
-               const string UnzipDir = "adb_unzip";
-               if (Directory.Exists(UnzipDir))
-               {
-                   Directory.Delete(UnzipDir, true);
-               }
-
-               ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
-               File.Copy(UnzipDir + "/platform-tools/adb.exe", AdbPath, true);
-               Directory.Delete(UnzipDir, true);
-           });
-            await procTask;
-
-            AdbReplaced = true;
-            ConfigurationHelper.SetValue(ConfigurationKeys.AdbReplaced, true.ToString());
-            Execute.OnUIThread(() =>
+            if (Directory.Exists(UnzipDir))
             {
-                using var toast = new ToastNotification(LocalizationHelper.GetString("SuccessfullyReplacedADB"));
-                toast.Show();
-            });
+                Directory.Delete(UnzipDir, true);
+            }
+
+            ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
+
+            bool replaced = false;
+            if (AdbPath != NewAdb && File.Exists(AdbPath))
+            {
+                try
+                {
+                    foreach (var process in Process.GetProcessesByName(Path.GetFileName(AdbPath)))
+                    {
+                        process.Kill();
+                    }
+
+                    string adbBack = AdbPath + ".bak";
+                    if (!File.Exists(adbBack))
+                    {
+                        File.Copy(AdbPath, adbBack, true);
+                    }
+
+                    File.Copy(NewAdb, AdbPath, true);
+                    replaced = true;
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex.ToString());
+                    replaced = false;
+                }
+            }
+
+            if (replaced)
+            {
+                AdbReplaced = true;
+
+                ConfigurationHelper.SetValue(ConfigurationKeys.AdbReplaced, true.ToString());
+
+                await Execute.OnUIThreadAsync(() =>
+                {
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("SuccessfullyReplacedADB"));
+                    toast.Show();
+                });
+            }
+            else
+            {
+                AdbPath = NewAdb;
+
+                await Execute.OnUIThreadAsync(() =>
+                {
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("FailedToReplaceAdbAndUseLocal"));
+                    toast.AppendContentText(LocalizationHelper.GetString("FailedToReplaceAdbAndUseLocalDesc")).Show();
+                });
+            }
         }
 
         public bool AdbReplaced { get; set; } = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AdbReplaced, false.ToString()));
@@ -2215,7 +2568,24 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _minimizeToTray, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.MinimizeToTray, value.ToString());
-                _mainWindowManager.SetMinimizeToTaskbar(value);
+                Instances.MainWindowManager.SetMinimizeToTaskbar(value);
+            }
+        }
+
+        private bool _hideCloseButton = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.HideCloseButton, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to hide close button.
+        /// </summary>
+        public bool HideCloseButton
+        {
+            get => _hideCloseButton;
+            set
+            {
+                SetAndNotify(ref _hideCloseButton, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.HideCloseButton, value.ToString());
+                var rvm = (RootViewModel)this.Parent;
+                rvm.ShowCloseButton = !value;
             }
         }
 
@@ -2242,116 +2612,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _setColors = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.SetColors, bool.FalseString));
-
-        public bool SetColors
-        {
-            get => _setColors;
-            set
-            {
-                SetAndNotify(ref _setColors, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.SetColors, value.ToString());
-
-                MessageBoxHelper.Unregister();
-                MessageBoxHelper.Yes = LocalizationHelper.GetString("Ok");
-                MessageBoxHelper.No = LocalizationHelper.GetString("ManualRestart");
-                MessageBoxHelper.Register();
-                Window mainWindow = Application.Current.MainWindow;
-                mainWindow!.Show();
-                mainWindow.WindowState = mainWindow.WindowState = WindowState.Normal;
-                mainWindow.Activate();
-                var result = MessageBox.Show(
-                    LocalizationHelper.GetString("DarkModeSetColorsTip"),
-                    LocalizationHelper.GetString("Tip"),
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Question);
-                MessageBoxHelper.Unregister();
-                if (result == MessageBoxResult.Yes)
-                {
-                    Application.Current.Shutdown();
-                    System.Windows.Forms.Application.Restart();
-                }
-            }
-        }
-
-        private bool _loadGUIParameters = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.LoadPositionAndSize, bool.TrueString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to load GUI parameters.
-        /// </summary>
-        public bool LoadGUIParameters
-        {
-            get => _loadGUIParameters;
-            set
-            {
-                SetAndNotify(ref _loadGUIParameters, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.LoadPositionAndSize, value.ToString());
-                if (value)
-                {
-                    if (SaveGUIParametersOnClosing)
-                    {
-                        Application.Current.MainWindow.Closing += SaveGUIParameters;
-                    }
-                    else
-                    {
-                        SaveGUIParameters();
-                    }
-                }
-            }
-        }
-
-        private bool _saveGUIParametersOnClosing = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.SavePositionAndSize, bool.TrueString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to save GUI parameters on closing main window.
-        /// </summary>
-        public bool SaveGUIParametersOnClosing
-        {
-            get => _saveGUIParametersOnClosing;
-            set
-            {
-                SetAndNotify(ref _saveGUIParametersOnClosing, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.SavePositionAndSize, value.ToString());
-                if (value)
-                {
-                    Application.Current.MainWindow.Closing += SaveGUIParameters;
-                }
-                else
-                {
-                    Application.Current.MainWindow.Closing -= SaveGUIParameters;
-                }
-            }
-        }
-
-        public void SaveGUIParameters(object sender, EventArgs e)
-        {
-            SaveGUIParameters();
-        }
-
-        /// <summary>
-        /// Save main window left edge, top edge, width and heigth.
-        /// </summary>
-        public void SaveGUIParameters()
-        {
-            // 请在配置文件中修改该部分配置，暂不支持从GUI设置
-            // Please modify this part of configuration in the configuration file.
-            ConfigurationHelper.SetValue(ConfigurationKeys.LoadPositionAndSize, LoadGUIParameters.ToString());
-            ConfigurationHelper.SetValue(ConfigurationKeys.SavePositionAndSize, SaveGUIParametersOnClosing.ToString());
-
-            var mainWindow = Application.Current.MainWindow;
-            System.Windows.Forms.Screen currentScreen =
-                System.Windows.Forms.Screen.FromHandle(new WindowInteropHelper(mainWindow).Handle);
-            var screenRect = currentScreen.Bounds;
-            ConfigurationHelper.SetValue(ConfigurationKeys.MonitorNumber, currentScreen.DeviceName);
-            ConfigurationHelper.SetValue(ConfigurationKeys.MonitorWidth, screenRect.Width.ToString());
-            ConfigurationHelper.SetValue(ConfigurationKeys.MonitorHeight, screenRect.Height.ToString());
-
-            ConfigurationHelper.SetValue(ConfigurationKeys.PositionLeft, (mainWindow.Left - screenRect.Left).ToString(CultureInfo.InvariantCulture));
-            ConfigurationHelper.SetValue(ConfigurationKeys.PositionTop, (mainWindow.Top - screenRect.Top).ToString(CultureInfo.InvariantCulture));
-            ConfigurationHelper.SetValue(ConfigurationKeys.WindowWidth, mainWindow.Width.ToString(CultureInfo.InvariantCulture));
-            ConfigurationHelper.SetValue(ConfigurationKeys.WindowHeight, mainWindow.Height.ToString(CultureInfo.InvariantCulture));
-        }
-
         private bool _useAlternateStage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseAlternateStage, bool.FalseString));
 
         /// <summary>
@@ -2363,7 +2623,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _useAlternateStage, value);
-                _taskQueueViewModel.UseAlternateStage = value;
+                Instances.TaskQueueViewModel.UseAlternateStage = value;
                 ConfigurationHelper.SetValue(ConfigurationKeys.UseAlternateStage, value.ToString());
                 if (value)
                 {
@@ -2372,7 +2632,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _useRemainingSanityStage = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, bool.TrueString));
+        private bool _useRemainingSanityStage = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, bool.FalseString));
 
         public bool UseRemainingSanityStage
         {
@@ -2380,7 +2640,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _useRemainingSanityStage, value);
-                _taskQueueViewModel.UseRemainingSanityStage = value;
+                Instances.TaskQueueViewModel.UseRemainingSanityStage = value;
                 ConfigurationHelper.SetValue(ConfigurationKeys.UseRemainingSanityStage, value.ToString());
             }
         }
@@ -2415,7 +2675,7 @@ namespace MaaWpfGui.ViewModels.UI
                     UseAlternateStage = false;
                 }
 
-                _taskQueueViewModel.UpdateStageList(true);
+                Instances.TaskQueueViewModel.UpdateStageList(true);
             }
         }
 
@@ -2431,7 +2691,88 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _customStageCode, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.CustomStageCode, value.ToString());
-                _taskQueueViewModel.CustomStageCode = value;
+                Instances.TaskQueueViewModel.CustomStageCode = value;
+            }
+        }
+
+        /// <summary>
+        /// 表示深色模式的类型。
+        /// </summary>
+        public enum DarkModeType
+        {
+            /// <summary>
+            /// 明亮的主题。
+            /// </summary>
+            Light,
+
+            /// <summary>
+            /// 暗黑的主题。
+            /// </summary>
+            Dark,
+
+            /// <summary>
+            /// 与操作系统的深色模式同步。
+            /// </summary>
+            SyncWithOS,
+        }
+
+        private DarkModeType _darkModeType =
+            Enum.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.DarkMode, DarkModeType.Light.ToString()),
+                out DarkModeType temp)
+                ? temp
+                : DarkModeType.Light;
+
+        /// <summary>
+        /// Gets or sets the dark mode.
+        /// </summary>
+        public string DarkMode
+        {
+            get => _darkModeType.ToString();
+            set
+            {
+                if (!Enum.TryParse(value, out DarkModeType tempEnumValue))
+                {
+                    return;
+                }
+
+                SetAndNotify(ref _darkModeType, tempEnumValue);
+                ConfigurationHelper.SetValue(ConfigurationKeys.DarkMode, value);
+                SwitchDarkMode();
+
+                /*
+                var result = MessageBoxHelper.Show(
+                    LocalizationHelper.GetString("DarkModeSetColorsTip"),
+                    LocalizationHelper.GetString("Tip"),
+                    MessageBoxButton.OKCancel,
+                    MessageBoxImage.Question);
+                if (result == MessageBoxResult.OK)
+                {
+                    Application.Current.Shutdown();
+                    Bootstrapper.RestartApplication();
+                }
+                */
+            }
+        }
+
+        public void SwitchDarkMode()
+        {
+            DarkModeType darkModeType =
+                Enum.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.DarkMode, DarkModeType.Light.ToString()),
+                    out DarkModeType temp)
+                    ? temp : DarkModeType.Light;
+            switch (darkModeType)
+            {
+                case DarkModeType.Light:
+                    ThemeHelper.SwitchToLightMode();
+                    break;
+
+                case DarkModeType.Dark:
+                    ThemeHelper.SwitchToDarkMode();
+                    break;
+
+                case DarkModeType.SyncWithOS:
+                    ThemeHelper.SwitchToSyncWithOSMode();
+                    break;
             }
         }
 
@@ -2465,20 +2806,20 @@ namespace MaaWpfGui.ViewModels.UI
                 switch (tempEnumValue)
                 {
                     case InverseClearType.Clear:
-                        _taskQueueViewModel.InverseMode = false;
-                        _taskQueueViewModel.ShowInverse = false;
-                        _taskQueueViewModel.SelectedAllWidth = 90;
+                        Instances.TaskQueueViewModel.InverseMode = false;
+                        Instances.TaskQueueViewModel.ShowInverse = false;
+                        Instances.TaskQueueViewModel.SelectedAllWidth = 90;
                         break;
 
                     case InverseClearType.Inverse:
-                        _taskQueueViewModel.InverseMode = true;
-                        _taskQueueViewModel.ShowInverse = false;
-                        _taskQueueViewModel.SelectedAllWidth = 90;
+                        Instances.TaskQueueViewModel.InverseMode = true;
+                        Instances.TaskQueueViewModel.ShowInverse = false;
+                        Instances.TaskQueueViewModel.SelectedAllWidth = 90;
                         break;
 
                     case InverseClearType.ClearInverse:
-                        _taskQueueViewModel.ShowInverse = true;
-                        _taskQueueViewModel.SelectedAllWidth = TaskQueueViewModel.SelectedAllWidthWhenBoth;
+                        Instances.TaskQueueViewModel.ShowInverse = true;
+                        Instances.TaskQueueViewModel.SelectedAllWidth = TaskQueueViewModel.SelectedAllWidthWhenBoth;
                         break;
                 }
             }
@@ -2527,26 +2868,37 @@ namespace MaaWpfGui.ViewModels.UI
 
                 string FormatText(string text, string key)
                     => string.Format(text, LocalizationHelper.GetString(key, value), LocalizationHelper.GetString(key, _language));
-                MessageBoxHelper.Unregister();
-                MessageBoxHelper.Yes = FormatText("{0}({1})", "Ok");
-                MessageBoxHelper.No = FormatText("{0}({1})", "ManualRestart");
-                MessageBoxHelper.Register();
-                Window mainWindow = Application.Current.MainWindow;
+
+                var mainWindow = Application.Current.MainWindow;
                 mainWindow.Show();
                 mainWindow.WindowState = mainWindow.WindowState = WindowState.Normal;
                 mainWindow.Activate();
-                var result = MessageBox.Show(
+                var result = MessageBoxHelper.Show(
                     FormatText("{0}\n{1}", "LanguageChangedTip"),
                     FormatText("{0}({1})", "Tip"),
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Question);
-                MessageBoxHelper.Unregister();
-                SetAndNotify(ref _language, value);
-                if (result == MessageBoxResult.Yes)
+                    MessageBoxButton.OKCancel,
+                    MessageBoxImage.Question,
+                    ok: FormatText("{0}({1})", "Ok"),
+                    cancel: FormatText("{0}({1})", "ManualRestart"));
+                if (result == MessageBoxResult.OK)
                 {
                     Application.Current.Shutdown();
-                    System.Windows.Forms.Application.Restart();
+                    Bootstrapper.RestartApplication();
                 }
+
+                SetAndNotify(ref _language, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the language info.
+        /// </summary>
+        public string LanguageInfo
+        {
+            get
+            {
+                var language = (string)Application.Current.Resources["Language"];
+                return language == "Language" ? language : language + " / Language";
             }
         }
 
@@ -2592,14 +2944,16 @@ namespace MaaWpfGui.ViewModels.UI
         private void SetPallasLanguage()
         {
             ConfigurationHelper.SetValue(ConfigurationKeys.Localization, PallasLangKey);
-            var result = _windowManager.ShowMessageBox(
+            var result = MessageBoxHelper.Show(
                 LocalizationHelper.GetString("DrunkAndStaggering"),
                 LocalizationHelper.GetString("Burping"),
-                MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                MessageBoxButton.OK,
+                iconKey: "DrunkAndStaggeringGeometry",
+                iconBrushKey: "PallasBrush");
             if (result == MessageBoxResult.OK)
             {
                 Application.Current.Shutdown();
-                System.Windows.Forms.Application.Restart();
+                Bootstrapper.RestartApplication();
             }
         }
 
@@ -2608,7 +2962,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public MaaHotKey HotKeyShowGui
         {
-            get => _maaHotKeyManager.GetOrNull(MaaHotKeyAction.ShowGui);
+            get => Instances.MaaHotKeyManager.GetOrNull(MaaHotKeyAction.ShowGui);
             set => SetHotKey(MaaHotKeyAction.ShowGui, value);
         }
 
@@ -2617,7 +2971,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public MaaHotKey HotKeyLinkStart
         {
-            get => _maaHotKeyManager.GetOrNull(MaaHotKeyAction.LinkStart);
+            get => Instances.MaaHotKeyManager.GetOrNull(MaaHotKeyAction.LinkStart);
             set => SetHotKey(MaaHotKeyAction.LinkStart, value);
         }
 
@@ -2625,11 +2979,11 @@ namespace MaaWpfGui.ViewModels.UI
         {
             if (value != null)
             {
-                _maaHotKeyManager.TryRegister(action, value);
+                Instances.MaaHotKeyManager.TryRegister(action, value);
             }
             else
             {
-                _maaHotKeyManager.Unregister(action);
+                Instances.MaaHotKeyManager.Unregister(action);
             }
         }
 
@@ -2639,6 +2993,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>The answer.</returns>
         public bool DidYouBuyWine()
         {
+            if (DateTime.UtcNow.ToYJDate().IsAprilFoolsDay())
+            {
+                return true;
+            }
+
             var wine_list = new[] { "酒", "drink", "wine", "beer", "술", "🍷", "🍸", "🍺", "🍻", "🥃", "🍶" };
             foreach (var wine in wine_list)
             {
@@ -2698,7 +3057,55 @@ namespace MaaWpfGui.ViewModels.UI
                 RoguelikeSquadList.Add(item);
             }
 
-            RoguelikeSquad = RoguelikeSquadList.Any(x => x.Value == roguelikeSquad) ? roguelikeSquad : string.Empty;
+            _roguelikeSquad = RoguelikeSquadList.Any(x => x.Value == roguelikeSquad) ? roguelikeSquad : string.Empty;
         }
+
+        #region SettingsGuide
+
+        // 目前共4步，再多塞不下了，后续可以整个新功能展示（
+        public const int GuideMaxStep = 4;
+
+        private int _guideStepIndex = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, "0"));
+
+        public int GuideStepIndex
+        {
+            get => _guideStepIndex;
+            set
+            {
+                SetAndNotify(ref _guideStepIndex, value);
+                if (value == GuideMaxStep)
+                {
+                    ConfigurationHelper.SetValue(ConfigurationKeys.GuideStepIndex, value.ToString());
+                }
+            }
+        }
+
+        private string _guideTransitionMode = "Bottom2Top";
+
+        public string GuideTransitionMode
+        {
+            get => _guideTransitionMode;
+            set => SetAndNotify(ref _guideTransitionMode, value);
+        }
+
+        public void NextGuide(HandyControl.Controls.StepBar stepBar)
+        {
+            GuideTransitionMode = "Bottom2Top";
+            stepBar.Next();
+        }
+
+        public void PrevGuide(HandyControl.Controls.StepBar stepBar)
+        {
+            GuideTransitionMode = "Top2Bottom";
+            stepBar.Prev();
+        }
+
+        public void DoneGuide()
+        {
+            TaskSettingVisibilities.Guide = false;
+            GuideStepIndex = GuideMaxStep;
+        }
+
+        #endregion SettingsGuide
     }
 }

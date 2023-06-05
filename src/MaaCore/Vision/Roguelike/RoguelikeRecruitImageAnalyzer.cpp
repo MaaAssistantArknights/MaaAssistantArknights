@@ -3,20 +3,22 @@
 #include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
-#include "Vision/MatchImageAnalyzer.h"
-#include "Vision/OcrWithFlagTemplImageAnalyzer.h"
+#include "Vision/Matcher.h"
+#include "Vision/TemplDetOCRer.h"
+#include "Vision/RegionOCRer.h"
 
 bool asst::RoguelikeRecruitImageAnalyzer::analyze()
 {
     LogTraceFunction;
 
-    OcrWithFlagTemplImageAnalyzer analyzer(m_image);
+    TemplDetOCRer analyzer(m_image);
     analyzer.set_task_info("RoguelikeRecruitOcrFlag", "RoguelikeRecruitOcr");
     analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
                          Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
-    analyzer.set_threshold(Task.get("RoguelikeRecruitOcr")->specific_rect.x);
+    analyzer.set_bin_threshold(Task.get("RoguelikeRecruitOcr")->specific_rect.x);
 
-    if (!analyzer.analyze()) {
+    auto result_opt = analyzer.analyze();
+    if (!result_opt) {
         return false;
     }
 
@@ -28,9 +30,10 @@ bool asst::RoguelikeRecruitImageAnalyzer::analyze()
         cv::merge(std::array { blue, blue, blue }, bbb_image);
     }
 
-    for (const auto& [_, rect, name] : analyzer.get_result()) {
-        int elite = match_elite(rect);
-        int level = match_level(bbb_image, rect);
+    sort_by_vertical_(*result_opt);
+    for (const auto& res : *result_opt) {
+        int elite = match_elite(res.rect);
+        int level = match_level(bbb_image, res.rect);
 
         if (level < 0) {
             // 要么就是识别错了，要么这个干员希望不够，是灰色的
@@ -39,12 +42,12 @@ bool asst::RoguelikeRecruitImageAnalyzer::analyze()
         }
 
         battle::roguelike::Recruitment info;
-        info.rect = rect;
-        info.name = name;
+        info.rect = res.rect;
+        info.name = res.text;
         info.elite = elite;
         info.level = level;
 
-        Log.info(__FUNCTION__, name, elite, level, rect.to_string());
+        Log.info(__FUNCTION__, info.name, elite, level, info.rect);
         m_result.emplace_back(std::move(info));
     }
 
@@ -65,7 +68,7 @@ int asst::RoguelikeRecruitImageAnalyzer::match_elite(const Rect& raw_roi)
     double max_score = 0;
 
     for (const auto& [task_name, elite] : EliteTaskName) {
-        MatchImageAnalyzer analyzer(m_image);
+        Matcher analyzer(m_image);
         auto task_ptr = Task.get(task_name);
         analyzer.set_task_info(task_ptr);
         analyzer.set_roi(raw_roi.move(task_ptr->rect_move));
@@ -86,16 +89,16 @@ int asst::RoguelikeRecruitImageAnalyzer::match_level(const cv::Mat& image, const
 {
     LogTraceFunction;
 
-    OcrWithPreprocessImageAnalyzer analyzer(image);
+    RegionOCRer analyzer(image);
     analyzer.set_task_info("NumberOcrReplace");
     analyzer.set_roi(raw_roi.move(Task.get("RoguelikeRecruitLevel")->rect_move));
-    analyzer.set_expansion(1);
+    analyzer.set_bin_expansion(1);
 
     if (!analyzer.analyze()) {
         return -1;
     }
 
-    const std::string& level = analyzer.get_result().front().text;
+    const std::string& level = analyzer.get_result().text;
     if (level.empty() || !ranges::all_of(level, [](char c) -> bool { return std::isdigit(c); })) {
         return 0;
     }

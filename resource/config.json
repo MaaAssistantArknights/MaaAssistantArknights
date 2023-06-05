@@ -14,6 +14,10 @@
         "adbExtraSwipeDuration_Doc": "额外的滑动持续时间：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来。若小于0，则关闭额外滑动功能",
         "adbSwipeDurationMultiplier": 10.0,
         "adbSwipeDurationMultiplier_Doc": "adb 滑动延迟倍数",
+        "adbSwipeXDistanceMultiplier": 0.8,
+        "adbSwipeXDistanceMultiplier_Doc": "adb 滑动 X 距离倍数",
+        "minitouchSwipeDefaultDuration": 200,
+        "minitouchSwipeExtraEndDelay": 150,
         "minitouchExtraSwipeDist": 100,
         "minitouchExtraSwipeDuration": 200,
         "minitouchProgramsOrder": [
@@ -35,7 +39,7 @@
         },
         "yituliuReport": {
             "Doc": "一图流汇报：https://yituliu.site/maarecruitdata",
-            "url": "https://houduan.yituliu.site/tool/recruitUpload",
+            "url": "https://backend.yituliu.site/maa/upload/recruit",
             "timeout": 5000,
             "headers": {
                 "Content-Type": "application/json"
@@ -69,12 +73,11 @@
             "displayFormat": "%d%d",
             "screencapRawByNC": "[Adb] -s [AdbSerial] exec-out \"screencap | nc -w 3 [NcAddress] [NcPort]\"",
             "ncAddress": "[Adb] -s [AdbSerial] shell \" cat /proc/net/arp | grep : \"",
-            "ncPort": 6723,
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
             "release": "[Adb] kill-server",
             "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
-            "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep Activities= 2>/dev/null | grep -m 1 -i -o -E [^\\ ]*arknights[^/]*`\"",
+            "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep -E '(packageName|Activities)=[^\\n]+arknights' 2>/dev/null | grep -i -o -E '[^= ]*arknights[^ /\\n]*' | head -n 1`\"",
             "abilist": "[Adb] -s [AdbSerial] shell getprop ro.product.cpu.abilist",
             "orientation": "[Adb] -s [AdbSerial] shell dumpsys input | grep SurfaceOrientation | grep -m 1 -o -E [0-9]",
             "pushMinitouch": "[Adb] -s [AdbSerial] push \"[minitouchLocalPath]\" \"/data/local/tmp/[minitouchWorkingFile]\"",
@@ -95,6 +98,10 @@
         },
         {
             "configName": "MuMuEmulator",
+            "baseConfig": "General"
+        },
+        {
+            "configName": "MuMuEmulator12",
             "baseConfig": "General"
         },
         {
@@ -121,6 +128,11 @@
             "configName": "Compatible",
             "baseConfig": "General",
             "uuid": "[Adb] -s [AdbSerial] shell echo 111111"
+        },
+        {
+            "configName": "SecondResolution",
+            "baseConfig": "General",
+            "display": "[Adb] -s [AdbSerial] shell dumpsys window displays | grep -o -E cur=+[^\\ ]+ | tail -n 1 | grep -o -E [0-9]+"
         },
         {
             "configName": "CompatMac",

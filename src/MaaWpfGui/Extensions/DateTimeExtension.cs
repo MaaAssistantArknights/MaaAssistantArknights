@@ -1,4 +1,4 @@
-﻿// <copyright file="DateTimeExtension.cs" company="MaaAssistantArknights">
+// <copyright file="DateTimeExtension.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -49,6 +49,11 @@ namespace MaaWpfGui.Extensions
         public static string ToFormattedString(this DateTime dt)
         {
             return dt.ToString("yyyy/MM/dd HH:mm:ss", DateTimeFormatInfo.InvariantInfo);
+        }
+
+        public static bool IsAprilFoolsDay(this DateTime dt)
+        {
+            return dt.Month == 4 && dt.Day == 1;
         }
     }
 }

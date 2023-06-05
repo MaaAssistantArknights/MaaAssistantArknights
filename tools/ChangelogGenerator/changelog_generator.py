@@ -2,7 +2,8 @@ from argparse import ArgumentParser
 import os
 import json
 import re
-import requests
+import urllib.request
+import urllib.error
 
 cur_dir = os.path.dirname(__file__)
 contributors_path = os.path.abspath(os.path.join(cur_dir, 'contributors.json'))
@@ -157,13 +158,41 @@ def print_commits(commits: dict, indent: str = "", need_sort: bool = True) -> (s
 
     return ret_message, ret_contributor
 
+
+def retry_urlopen(*args, **kwargs):
+    import time
+    import http.client
+    for _ in range(5):
+        try:
+            resp: http.client.HTTPResponse = urllib.request.urlopen(*args, **kwargs)
+            return resp
+        except urllib.error.HTTPError as e:
+            if e.status == 403 and e.headers.get("x-ratelimit-remaining") == "0":
+                # rate limit
+                t0 = time.time()
+                reset_time = t0 + 10
+                try:
+                    reset_time = int(e.headers.get("x-ratelimit-reset", 0))
+                except ValueError:
+                    pass
+                reset_time = max(reset_time, t0 + 10)
+                print(f"rate limit exceeded, retrying after {reset_time - t0:.1f} seconds")
+                time.sleep(reset_time - t0)
+                continue
+            raise
+
+
 # 贡献者名字转账号名
 def convert_contributors_name(name: str, commit_hash: str, name_type: str):
     global contributors
     if name not in contributors:
         try:
-            github_info = requests.get(f"https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/commits/{commit_hash}")
-            userid = json.loads(github_info.text)[name_type]['login']
+            req = urllib.request.Request(f"https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/commits/{commit_hash}")
+            token = os.environ.get("GH_TOKEN", os.environ.get("GITHUB_TOKEN", None))
+            if token:
+                req.add_header("Authorization", f"Bearer {token}")
+            resp = retry_urlopen(req).read()
+            userid = json.loads(resp)[name_type]['login']
             contributors.update({name: userid})
             return userid
         except Exception as e:
@@ -180,21 +209,20 @@ def main(tag_name=None, latest=None):
     except:
         pass
     # 从哪个 tag 开始
-    if latest == None:
-        latest = os.popen("git describe --abbrev=0 --tags").read().strip()
+    if not latest:
+        latest = os.popen("git describe --tags --match \"v*\" --abbrev=0").read().strip()
 
-    if tag_name == None:
-        tag_name = os.popen("git describe --tags").read().strip()
+    if not tag_name:
+        tag_name = os.popen("git describe --tags --match \"v*\"").read().strip()
     print("From:", latest, ", To:", tag_name, "\n")
 
     # 输出一张好看的 git log 图到控制台
     git_pretty_command = rf'git log {latest}..HEAD --pretty=format:"%C(yellow)%d%Creset %s %C(bold blue)@%an%Creset (%Cgreen%h%Creset)" --graph'
-    os.system(git_pretty_command)
-    print()
+    # os.system(git_pretty_command)
 
     # 获取详细的 git log 信息
     # git_command = rf'git log {latest}..HEAD --pretty=format:"\"%H\":{{\"hash\":\"%h\",\"author\":\"%aN\",\"committer\":\"%cN\",\"message\":\"%s\",\"parent\":\"%P\"}},"'
-    git_command = rf'git log {latest}..HEAD --pretty=format:"%H%n%aN%n%cN%n%s%n%P%n'
+    git_command = rf'git log {latest}..HEAD --pretty=format:"%H%n%aN%n%cN%n%s%n%P%n"'
 
     with os.popen(git_command) as fp: bf = fp._stream.buffer.read()
     try: raw_gitlogs = bf.decode().strip()
@@ -218,8 +246,10 @@ def main(tag_name=None, latest=None):
 
     res = print_commits(build_commits_tree([x for x in raw_commits_info.keys()][0]))
 
+    changelog_content = "## " + tag_name + "\n" + res[0]
+    print(changelog_content)
     with open(changelog_path, "w", encoding="utf8") as f:
-        f.write("## " + tag_name + "\n" + res[0])
+        f.write(changelog_content)
 
     with open(contributors_path, "w") as f:
         json.dump(contributors, f)
@@ -230,7 +260,7 @@ def ArgParser():
     parser.add_argument("--base", "--latest", help="base tag name", metavar="TAG", dest="latest", default=None)
     parser.add_argument("-wh", "--with-hash", help="print commit message with hash", action="store_true", dest="with_hash")
     parser.add_argument("-wc", "--with-commitizen", help="print commit message with commitizen", action="store_true", dest="with_commitizen")
-    parser.add_argument("-im", "--ignore-merge-author", help="ignore merge author", action="store_true", dest="ignore_merge_author")
+    parser.add_argument("-im", "--ignore-merge-author", help="ignore merge author", action="store_true", dest="ignore_merge_author", default=True)
     parser.add_argument("-ca", "--committer-is-author", help="treat committer the same as author", action="store_true", dest="committer_is_author")
     return parser
 

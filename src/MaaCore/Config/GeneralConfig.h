@@ -36,9 +36,12 @@ namespace asst
         // adb有bug，同样的参数，偶尔会划得非常远。
         // 额外做一个短程滑动，把之前的停下来。
         // 若小于0，则关闭额外滑动功能。
-        double adb_swipe_duration_multiplier = 0; // adb 滑动持续时间倍数
+        double adb_swipe_duration_multiplier = 0;   // adb 滑动持续时间倍数
+        double adb_swipe_x_distance_multiplier = 0; // adb 滑动距离倍数
         int minitouch_extra_swipe_dist = 0;
         int minitouch_extra_swipe_duration = -1;
+        int minitouch_swipe_default_duration = 0;
+        int minitouch_swipe_extra_end_delay = 0;
         int swipe_with_pause_required_distance = 0;
         std::vector<std::string> minitouch_programs_order;
         RequestInfo penguin_report; // 企鹅物流汇报：
@@ -60,7 +63,6 @@ namespace asst
         std::string screencap_raw_with_gzip;
         std::string screencap_raw_by_nc;
         std::string nc_address;
-        unsigned short nc_port = 0U;
         std::string screencap_encode;
         std::string release;
         std::string start;

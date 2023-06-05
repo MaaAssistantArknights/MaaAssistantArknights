@@ -11,6 +11,9 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System.Windows;
+using MaaWpfGui.Helper;
+
 namespace MaaWpfGui.Views.UserControl
 {
     /// <summary>
@@ -24,6 +27,31 @@ namespace MaaWpfGui.Views.UserControl
         public ConnectSettingsUserControl()
         {
             InitializeComponent();
+        }
+
+        private void StartsWithScript_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                // Note that you can have more than one file.
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                Instances.SettingsViewModel.StartsWithScript = files[0];
+            }
+        }
+
+        private void EndsWithScript_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                // Note that you can have more than one file.
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                Instances.SettingsViewModel.EndsWithScript = files[0];
+            }
+        }
+
+        private void TextBox_PreviewDragOver(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
         }
     }
 }

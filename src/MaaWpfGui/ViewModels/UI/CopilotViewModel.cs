@@ -22,14 +22,10 @@ using System.Windows;
 using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Main;
-using MaaWpfGui.Services;
-using MaaWpfGui.Services.Web;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
-using StyletIoC;
 using DataFormats = System.Windows.Forms.DataFormats;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -39,13 +35,6 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class CopilotViewModel : Screen
     {
-        private readonly IWindowManager _windowManager;
-        private readonly IHttpService _httpService;
-        private readonly IContainer _container;
-
-        private AsstProxy _asstProxy;
-        private SettingsViewModel _settingsViewModel;
-
         /// <summary>
         /// Gets or sets the view models of log items.
         /// </summary>
@@ -54,28 +43,16 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Initializes a new instance of the <see cref="CopilotViewModel"/> class.
         /// </summary>
-        /// <param name="container">The IoC container.</param>
-        /// <param name="windowManager">The window manager.</param>
-        /// <param name="httpService">The http service.</param>
-        public CopilotViewModel(IContainer container, IWindowManager windowManager, IHttpService httpService)
+        public CopilotViewModel()
         {
-            _container = container;
-            _windowManager = windowManager;
-            _httpService = httpService;
             DisplayName = LocalizationHelper.GetString("Copilot");
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
-            AddLog(LocalizationHelper.GetString("CopilotTip"), UiLogColor.Message);
+            AddLog(LocalizationHelper.GetString("CopilotTip"));
         }
 
         protected override void OnInitialActivate()
         {
             base.OnInitialActivate();
-            _asstProxy = _container.Get<AsstProxy>();
-            _settingsViewModel = _container.Get<SettingsViewModel>();
-            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                App.SetAllControlColors(Application.Current.MainWindow);
-            }));
         }
 
         /// <summary>
@@ -85,20 +62,6 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="color">The font color.</param>
         /// <param name="weight">The font weight.</param>
         public void AddLog(string content, string color = UiLogColor.Trace, string weight = "Regular")
-        {
-            LogItemViewModels.Add(new LogItemViewModel(content, color, weight));
-
-            // LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
-        }
-
-        /// <summary>
-        /// Adds log with URL.
-        /// </summary>
-        /// <param name="content">The content.</param>
-        /// <param name="url">The URL.</param>
-        /// <param name="color">The font color.</param>
-        /// <param name="weight">The font weight.</param>
-        public void AddLogWithUrl(string content, string url, string color = UiLogColor.Trace, string weight = "Regular")
         {
             LogItemViewModels.Add(new LogItemViewModel(content, color, weight));
 
@@ -172,10 +135,19 @@ namespace MaaWpfGui.ViewModels.UI
         {
             ClearLog();
             Url = CopilotUiUrl;
+            _isVideoTask = false;
 
             string jsonStr;
             if (File.Exists(filename))
             {
+                var fileSize = new FileInfo(filename).Length;
+                bool isJsonFile = filename.ToLower().EndsWith(".json") || fileSize < 4 * 1024 * 1024;
+                if (!isJsonFile)
+                {
+                    _isVideoTask = true;
+                    return;
+                }
+
                 try
                 {
                     using var reader = new StreamReader(File.OpenRead(filename));
@@ -229,7 +201,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             try
             {
-                var jsonResponse = await _httpService.GetStringAsync(new Uri($@"https://prts.maa.plus/copilot/get/{copilotID}"));
+                var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri($@"https://prts.maa.plus/copilot/get/{copilotID}"));
                 var json = (JObject)JsonConvert.DeserializeObject(jsonResponse);
                 if (json != null && json.ContainsKey("status_code") && json["status_code"].ToString() == "200")
                 {
@@ -393,7 +365,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             var dialog = new OpenFileDialog
             {
-                Filter = "JSON|*.json",
+                Filter = "JSON|*.json|Video|*.mp4;*.m4s;*.mkv;*.flv;*.avi",
             };
 
             if (dialog.ShowDialog() == true)
@@ -401,6 +373,8 @@ namespace MaaWpfGui.ViewModels.UI
                 Filename = dialog.FileName;
             }
         }
+
+        private static readonly string[] SupportExt = { ".json", ".mp4", ".m4s", ".mkv", ".flv", ".avi" };
 
         /// <summary>
         /// Drops file.
@@ -420,7 +394,18 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            if (filename.EndsWith(".json"))
+            var filenameLower = filename.ToLower();
+            bool support = false;
+            foreach (var ext in SupportExt)
+            {
+                if (filenameLower.EndsWith(ext))
+                {
+                    support = true;
+                    break;
+                }
+            }
+
+            if (support)
             {
                 Filename = filename;
             }
@@ -471,14 +456,16 @@ namespace MaaWpfGui.ViewModels.UI
             }*/
             Idle = false;
 
+            if (_isVideoTask)
+            {
+                StartVideoTask();
+                return;
+            }
+
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
 
             string errMsg = string.Empty;
-            var task = Task.Run(() =>
-            {
-                return _asstProxy.AsstConnect(ref errMsg);
-            });
-            _caught = await task;
+            _caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
             if (!_caught)
             {
                 AddLog(errMsg, UiLogColor.Error);
@@ -490,12 +477,12 @@ namespace MaaWpfGui.ViewModels.UI
                 AddLog(errMsg, UiLogColor.Error);
             }
 
-            bool ret = _asstProxy.AsstStartCopilot(IsDataFromWeb ? TempCopilotFile : Filename, Form, TaskType,
+            bool ret = Instances.AsstProxy.AsstStartCopilot(IsDataFromWeb ? TempCopilotFile : Filename, Form, TaskType,
                 Loop ? LoopTimes : 1);
             if (ret)
             {
                 AddLog(LocalizationHelper.GetString("Running"));
-                if (!_settingsViewModel.AdbReplaced && !_settingsViewModel.IsAdbTouchMode())
+                if (!Instances.SettingsViewModel.AdbReplaced && !Instances.SettingsViewModel.IsAdbTouchMode())
                 {
                     AddLog(LocalizationHelper.GetString("AdbReplacementTips"), UiLogColor.Info);
                 }
@@ -507,14 +494,21 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        public bool StartVideoTask()
+        {
+            return Instances.AsstProxy.AsstStartVideoRec(Filename);
+        }
+
         /// <summary>
         /// Stops copilot.
         /// </summary>
         public void Stop()
         {
-            _asstProxy.AsstStop();
+            Instances.AsstProxy.AsstStop();
             Idle = true;
         }
+
+        private bool _isVideoTask = false;
 
         private readonly string _copilotRatingUrl = "https://prts.maa.plus/copilot/rating";
         private readonly List<int> _recentlyRatedCopilotId = new List<int>(); // TODO: 可能考虑加个持久化
@@ -580,10 +574,10 @@ namespace MaaWpfGui.ViewModels.UI
             string jsonParam = JsonConvert.SerializeObject(new
             {
                 id = CopilotId,
-                rating = rating,
+                rating,
             });
 
-            var response = await _httpService.PostAsJsonAsync(new Uri(_copilotRatingUrl), jsonParam);
+            var response = await Instances.HttpService.PostAsJsonAsync(new Uri(_copilotRatingUrl), jsonParam);
             if (response == null)
             {
                 AddLog(LocalizationHelper.GetString("FailedToLikeWebJson"), UiLogColor.Error);

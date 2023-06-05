@@ -1,4 +1,4 @@
-﻿// <copyright file="IHttpService.cs" company="MaaAssistantArknights">
+// <copyright file="IHttpService.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //

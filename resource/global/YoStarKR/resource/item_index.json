@@ -335,6 +335,14 @@
         "sortId": 100002,
         "usage": "값비싼 오리지늄 공산품. 중요한 강화 용도로 쓰인다."
     },
+    "30155": {
+        "classifyType": "MATERIAL",
+        "description": "특정 고온 환경에서 분자를 식별할 수 있는 재료. 첨가제로 사용하면 오리지늄을 선택적으로 흡수할 수 있어, 오리지늄 재료의 정밀 가공 또는 오리지늄 장치의 소모 감소에 새로운 가능성을 보여주고 있다.",
+        "icon": "30155.png",
+        "name": "핵결정체 소결물",
+        "sortId": 100001,
+        "usage": "가공에 대한 요구치가 극도로 높은 현대 과학 기술의 산물. 고급 강화에 사용된다."
+    },
     "31013": {
         "classifyType": "MATERIAL",
         "description": "실험실에서 우연히 탄생한 인공 재료. 고온과 저온 환경에 뛰어난 내성을 지니고 있으며, 높은 강도와 가벼운 중량으로 가공이 용이해 하이테크놀러지에 광범위하게 사용된다.",
@@ -422,6 +430,22 @@
         "name": "절삭유 원액",
         "sortId": 100008,
         "usage": "여러 가지 활성 용제를 배합해 만든 원액. 고급 강화에 사용된다."
+    },
+    "31063": {
+        "classifyType": "MATERIAL",
+        "description": "재료 표면의 특성을 변경하여 원래 얻기 힘든 효과를 얻을 수 있다. 주의, 공업용 소금으로 절대 식용으로 쓰지 말 것.",
+        "icon": "31063.png",
+        "name": "합성 소금 번들",
+        "sortId": 100007,
+        "usage": "제련을 거쳐 생성된 화합물 결정. 각종 강화에 사용된다."
+    },
+    "31064": {
+        "classifyType": "MATERIAL",
+        "description": "포화 용액을 혼합, 결정화하여 만든 안정적인 결정체. 재료에 다양한 기능을 제공한다.",
+        "icon": "31064.png",
+        "name": "합성 소금 팩",
+        "sortId": 100006,
+        "usage": "정련을 거쳐 생성된 화합물 결정. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
     },
     "3112": {
         "classifyType": "NORMAL",
@@ -919,6 +943,14 @@
         "sortId": 10018,
         "usage": "신형 모집 협약에서 정한 일종의 기간 한정 화폐. 일정 수량을 누적하여 지정된 기간 동안 지정된 오퍼레이터를 채용할 수 있다."
     },
+    "LMTGS_COIN_3301": {
+        "classifyType": "NORMAL",
+        "description": "헤드헌팅 회사와 장기적이고 안정적인 협력 관계를 유지한 보답. 효과적으로 지출을 조절할 수 있지만, 매번 이와 같은 수단을 써야 하는 것은 아니다.",
+        "icon": "LMTGS_COIN_3301.png",
+        "name": "헤드헌팅 데이터 계약",
+        "sortId": 10019,
+        "usage": "신형 모집 협약에서 정한 일종의 기간 한정 화폐. 일정 수량을 누적하여 지정된 기간 동안 지정된 오퍼레이터를 채용할 수 있다."
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "헤드헌팅 회사와 장기적이고 안정적인 협력 관계를 유지한 보답. 효과적으로 지출을 조절할 수 있지만, 매번 이와 같은 수단을 써야 하는 것은 아니다.",
@@ -1031,6 +1063,14 @@
         "sortId": -10000,
         "usage": "전분과 과당으로 만든 미노스의 전통 음식. 벌꿀 쿠키 캐슬의 보상을 획득하는 데 쓰인다."
     },
+    "act12mini_token_component": {
+        "classifyType": "NONE",
+        "description": "급속하게 녹슬어간 전쟁 야망의 잔해. 기사단에서 도태되거나 망가진 무기의 부품으로, 잘못 처리하면 오리지늄 감염의 위험이 있다. 이유는 알 수 없지만, 간혹 평범한 농가에서 발견되기도 한다.",
+        "icon": "act12mini_token_component.png",
+        "name": "제식 기계 부품",
+        "sortId": -10000,
+        "usage": "즈보넥 근처에서 비교적 흔히 보이는 망가진 기계의 부품. 카시미어의 슈퍼마켓 체인에서 회수하고 있다."
+    },
     "act12side_point_cmemomedal": {
         "classifyType": "NONE",
         "description": "모든 메달은 칸델라 시장의 의뢰와는 관계없이 첸이 직접 조사하고 해결한 사건들을 상징한다. 그녀가 도솔레스에 체류하는 동안 도시의 범죄율은 최저점을 찍었고, 현지 경찰서에 대한 경고의 의미로 메달은 경찰 총국의 정중앙에 진열되어 있다.",
@@ -1094,6 +1134,14 @@
         "name": "미에슈코 스포츠 증권",
         "sortId": -10000,
         "usage": "미에슈코 그룹에서 내놓은 상업의 새로운 형식. 카시미어의 면세기념품점에서 기념품을 사는 데 쓸 수 있다."
+    },
+    "act13mini_token_can": {
+        "classifyType": "NONE",
+        "description": "이번 주말, 용문 근위국은 유기 동물 보호 센터와 함께 입양 캠페인을 벌일 예정이며, 여건이 되는 시민들은 적극적으로 참여해 길거리를 떠도는 '아이'들에게 새로운 기회를 주시길 바랍니다.\n물론, 입양 조건이 안 되는 분들은 펫 간식을 기부해도 좋습니다. 저희가 기부자들을 위해 멋진 선물도 준비해 두었습니다.",
+        "icon": "act13mini_token_can.png",
+        "name": "펫 간식 캔",
+        "sortId": -10000,
+        "usage": "용문에서 흔하게 구할 수 있는 저렴하고 맛있는 펫 전용 간식. 캔의 고리를 튕기기만 해도 귀염둥이가 당신 곁으로 달려온다."
     },
     "act13side_prestige_armorless": {
         "classifyType": "NONE",
@@ -1247,38 +1295,6 @@
         "sortId": -10000,
         "usage": "시련을 끝마치고 얻은 경험치로 시련의 등급을 올리는 용도로 사용된다."
     },
-    "act1bossrush_relic_01": {
-        "classifyType": "NONE",
-        "description": null,
-        "icon": "act1bossrush_relic_01.png",
-        "name": "모듈 재활용",
-        "sortId": -10000,
-        "usage": null
-    },
-    "act1bossrush_relic_02": {
-        "classifyType": "NONE",
-        "description": null,
-        "icon": "act1bossrush_relic_02.png",
-        "name": "신속 처리",
-        "sortId": -10000,
-        "usage": null
-    },
-    "act1bossrush_relic_03": {
-        "classifyType": "NONE",
-        "description": null,
-        "icon": "act1bossrush_relic_03.png",
-        "name": "플래시 메모리",
-        "sortId": -10000,
-        "usage": null
-    },
-    "act1bossrush_relic_04": {
-        "classifyType": "NONE",
-        "description": null,
-        "icon": "act1bossrush_relic_04.png",
-        "name": "반발력 제어",
-        "sortId": -10000,
-        "usage": null
-    },
     "act1bossrush_token_relic": {
         "classifyType": "NONE",
         "description": "해독되지 않은 데이터 큐브. 정보의 전달 과정에 종종 불가피한 손실을 겪는다는 것을 명심하라. 정보기록 장치를 현명하게 활용하되, 의존하지는 말 것.",
@@ -1302,6 +1318,14 @@
         "name": "《기담괴론》 사본",
         "sortId": -10000,
         "usage": "어느 화사한 잡지의 사본. 터무니없는 내용으로 가득 차 있지만, 어째서인지 두린들은 참 좋아하는 것 같다. 리핑 글룸핀서 마켓에서 두린족과 물자를 교환하는 용도로 쓰인다."
+    },
+    "act21side_token_permesso": {
+        "classifyType": "NONE",
+        "description": "먹음직스러운 스테이크, 제철 채소, 신선한 과일 또는 기타 물건. 현명한 사람은 패밀리가 원하는 것이 무엇인지 알고, 미리 준비하여 적절한 시기에 제공해준다.",
+        "icon": "act21side_token_permesso.png",
+        "name": "수입 통행증",
+        "sortId": -10000,
+        "usage": "식품안전부가 패밀리를 상대로 발행하는 통행증. 패밀리는 이것을 사용해 식품안전부에 들어가 물자를 가져올 수 있다. 일부는 '식품' 범주에 속하지 않지만."
     },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
@@ -1422,6 +1446,38 @@
         "name": "긴급 이성 강화 회복제",
         "sortId": 30001,
         "usage": "일시적으로 이성을 회복시켜주는 대량의 응급약. 새로운 활성 성분이 추가되어 즉시 효과가 나타나며, 생체 리듬의 혼란이 올 수도 있으니 복용하기 전에 주의사항을 자세히 읽어보기 바란다."
+    },
+    "ap_supply_lt_120_2022_1": {
+        "classifyType": "CONSUME",
+        "description": "바삭한 식감의 월병. 노릇하게 구워져 어느샌가 손이 가 있다.",
+        "icon": "ap_supply_lt_120_2022_1.png",
+        "name": "만채색",
+        "sortId": 30001,
+        "usage": "다짐육을 소로 한 페이스트리 월병. 이성 회복에 사용할 수 있다."
+    },
+    "ap_supply_lt_120_2022_2": {
+        "classifyType": "CONSUME",
+        "description": "바삭한 식감의 월병. 노릇하게 구워져 어느샌가 손이 가 있다.",
+        "icon": "ap_supply_lt_120_2022_2.png",
+        "name": "보름달",
+        "sortId": 30001,
+        "usage": "절인 햄을 소로 한 페이스트리 월병. 이성 회복에 사용할 수 있다."
+    },
+    "ap_supply_lt_120_2022_3": {
+        "classifyType": "CONSUME",
+        "description": "부드러운 식감의 월병. 윤기가 흘러 보기만 해도 침이 고인다.",
+        "icon": "ap_supply_lt_120_2022_3.png",
+        "name": "웃음꽃",
+        "sortId": 30001,
+        "usage": "팥앙금을 소로 한 소프트 월병. 이성 회복에 사용할 수 있다."
+    },
+    "ap_supply_lt_120_2022_4": {
+        "classifyType": "CONSUME",
+        "description": "부드러운 식감의 월병. 윤기가 흘러 보기만 해도 침이 고인다.",
+        "icon": "ap_supply_lt_120_2022_4.png",
+        "name": "계수꽃",
+        "sortId": 30001,
+        "usage": "견과류를 소로 한 소프트 월병. 이성 회복에 사용할 수 있다."
     },
     "ap_supply_lt_60": {
         "classifyType": "CONSUME",
@@ -1639,6 +1695,14 @@
         "sortId": 60106,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
+    "randomMaterial_7": {
+        "classifyType": "CONSUME",
+        "description": "로도스 아일랜드가 방방곡곡에서 조달하여 준비한 보급 상자. 하지만 시스템적으로 정리 수납이 잘 되지 않아, 상자에는 각기 다른 자재가 들어가 있다.",
+        "icon": "randomMaterial_7.png",
+        "name": "로도스 아일랜드 물자 보급 IV",
+        "sortId": 60107,
+        "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
+    },
     "return_credit_token": {
         "classifyType": "NONE",
         "description": "중요한 직위에 복귀한 사람들을 위해 특별히 준비한 엠블럼. 업무에 익숙해지는 과정에서 점차 지급된다.",
@@ -1660,6 +1724,14 @@
         "description": null,
         "icon": "rogue_1_token_grow.png",
         "name": "어두운 영감",
+        "sortId": -10000,
+        "usage": null
+    },
+    "rogue_2_token_bp": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "rogue_2_token_bp.png",
+        "name": "생체 세포",
         "sortId": -10000,
         "usage": null
     },

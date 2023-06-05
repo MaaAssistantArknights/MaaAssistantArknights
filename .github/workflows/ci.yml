@@ -6,9 +6,23 @@ on:
       - 'v*'
     branches-ignore:
       - 'master'
+    paths:
+      - '3rdparty/include/**'
+      - 'include/**'
+      - 'src/**'
+      - 'cmake/**'
+      - 'CMakeLists.txt'
+      - 'MAA.sln'
   pull_request:
     branches:
       - 'dev'
+    paths:
+      - '3rdparty/include/**'
+      - 'include/**'
+      - 'src/**'
+      - 'cmake/**'
+      - 'CMakeLists.txt'
+      - 'MAA.sln'
   workflow_dispatch:
 
 jobs:
@@ -36,7 +50,7 @@ jobs:
       - id: set_tag
         run: |
           ${{ startsWith(github.ref, 'refs/pull/') && 'cd temp' || '' }}
-          echo tag=$(git describe --tags ${{ github.ref }} || git rev-parse --short HEAD) | tee -a $GITHUB_OUTPUT
+          echo tag=$(git describe --tags --match "v*" ${{ github.ref }} || git rev-parse --short HEAD) | tee -a $GITHUB_OUTPUT
           exit ${PIPESTATUS[0]}
 
       - id: set_pre
@@ -51,9 +65,9 @@ jobs:
         run: |
           this_tag=${{ steps.set_tag.outputs.tag }}
           if [[ '${{ steps.set_pre.outputs.prerelease }}' != 'false' ]]; then
-            last_tag=$(git describe --tags --abbrev=0 --exclude='${{ steps.set_tag.outputs.tag }}')
+            last_tag=$(git describe --tags --match "v*" --abbrev=0 --exclude='${{ steps.set_tag.outputs.tag }}')
           else
-            last_tag=$(git describe --tags --abbrev=0 --exclude='${{ steps.set_tag.outputs.tag }}' --exclude='*-*')
+            last_tag=$(git describe --tags --match "v*" --abbrev=0 --exclude='${{ steps.set_tag.outputs.tag }}' --exclude='*-*')
           fi
           echo >> CHANGELOG.md
           echo "**Full Changelog**: [$last_tag -> $this_tag](https://github.com/MaaAssistantArknights/MaaAssistantArknights/compare/${last_tag}...${this_tag})" >> CHANGELOG.md
@@ -173,7 +187,7 @@ jobs:
 
   macOS-Core:
     needs: meta
-    runs-on: macos-latest
+    runs-on: macos-13
     strategy:
       matrix:
         arch: [arm64, x86_64]
@@ -189,8 +203,7 @@ jobs:
           python3 maadeps-download.py ${triplet}
       - name: Configure MaaCore
         run: |
-          ${{ startsWith(github.ref, 'refs/tags/v') }} && CONF=Release || CONF=Debug
-          cmake -B build -GNinja -DCMAKE_BUILD_TYPE=$CONF -DCMAKE_OSX_ARCHITECTURES='${{ matrix.arch }}' -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
+          cmake -B build -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES='${{ matrix.arch }}' -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
       - name: Build MaaCore
         run: |
           cmake --build build
@@ -202,7 +215,7 @@ jobs:
 
   macOS-GUI:
     needs: [meta, macOS-Core]
-    runs-on: macos-12
+    runs-on: macos-13
     steps:
       - uses: actions/checkout@v3
         with:
@@ -221,8 +234,6 @@ jobs:
         with:
           p12-file-base64: ${{ secrets.HGUANDL_SIGN_CERT_P12 }}
           p12-password: ${{ secrets.HGUANDL_SIGN_CERT_PASSWD }}
-      - name: Install Dependencies
-        run: brew install create-dmg
       - name: Build Universal Binaries
         run: |
           mkdir build
@@ -256,7 +267,11 @@ jobs:
       - name: Create Disk Image
         if: startsWith(github.ref, 'refs/tags/v')
         working-directory: src/MaaMacGui
-        run: create-dmg --background dmg-bkg.png --window-size 500 300 --icon-size 128 --icon MAA.app 0 120 --hide-extension MAA.app --app-drop-link 270 120 MAA.dmg Export/MAA.app
+        run: |
+          mkdir Image
+          mv Export/MAA.app Image/
+          ln -s /Applications Image/
+          hdiutil create -volname MAA -srcfolder Image -ov -fs APFS -format ULMO MAA.dmg
       - name: Archive Debug Symbols
         if: startsWith(github.ref, 'refs/tags/v')
         working-directory: src/MaaMacGui/MAA.xcarchive/dSYMs
@@ -279,6 +294,7 @@ jobs:
         working-directory: release
         run: |
           find . -name "*.dmg" | while read dmg; do
+            codesign -s "$NOTARY_TEAM" --timestamp ${dmg}
             xcrun notarytool submit --apple-id "$NOTARY_USER" --password "$NOTARY_PASSWD" --team-id "$NOTARY_TEAM" --wait ${dmg}
             xcrun stapler staple ${dmg}
           done
@@ -310,6 +326,5 @@ jobs:
       - name: Trigger secondary workflows # ref: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
         run: |
           gh workflow run --repo $GITHUB_REPOSITORY release-ota
-          gh workflow run --repo $GITHUB_REPOSITORY release-mirrors
         env:
-          GH_TOKEN: ${{ github.token }}
+            GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}

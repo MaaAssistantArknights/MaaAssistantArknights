@@ -17,7 +17,7 @@ std::shared_ptr<asst::Status> asst::InstHelper::status() const
 }
 bool asst::InstHelper::need_exit() const
 {
-    return m_inst ? m_inst->need_exit() : false;
+    return m_inst != nullptr && m_inst->need_exit();
 }
 
 bool asst::InstHelper::sleep(unsigned millisecond) const

@@ -293,8 +293,9 @@ namespace asst
                               "[%s][%s][Px%x][Tx%lx]", asst::utils::get_format_time().c_str(), v.str.data(), _getpid(),
                               ::GetCurrentThreadId());
 #else  // ! _WIN32
-                    sprintf(buff, "[%s][%s][Px%x][Tx%lx]", asst::utils::get_format_time().c_str(), v.str.data(),
-                            getpid(), (unsigned long)(std::hash<std::thread::id> {}(std::this_thread::get_id())));
+                    sprintf(buff, "[%s][%s][Px%x][Tx%hx]", asst::utils::get_format_time().c_str(), v.str.data(),
+                            ::getpid(),
+                            static_cast<unsigned short>(std::hash<std::thread::id> {}(std::this_thread::get_id())));
 #endif // END _WIN32
                     s << buff;
                 }
@@ -419,6 +420,7 @@ namespace asst
             if (m_ofs.is_open()) {
                 m_ofs.close();
             }
+            rotate();
         }
 
     private:
@@ -427,11 +429,11 @@ namespace asst
         Logger() : m_directory(UserDir.get())
         {
             std::filesystem::create_directories(m_log_path.parent_path());
-            check_filesize_and_remove();
+            rotate();
             log_init_info();
         }
 
-        void check_filesize_and_remove() const
+        void rotate() const
         {
             constexpr uintmax_t MaxLogSize = 4ULL * 1024 * 1024;
             try {
@@ -439,21 +441,6 @@ namespace asst
                     const uintmax_t log_size = std::filesystem::file_size(m_log_path);
                     if (log_size >= MaxLogSize) {
                         std::filesystem::rename(m_log_path, m_log_bak_path);
-                    }
-                }
-                // FIXME: 迁移以前文件路径，之后版本删了这段
-                {
-                    using namespace asst::utils::path_literals;
-                    if (std::filesystem::exists(m_directory / "asst.log")) {
-                        std::filesystem::remove(m_directory / "asst.log");
-                    }
-                    if (std::filesystem::exists(m_directory / "asst.bak.log")) {
-                        std::filesystem::remove(m_directory / "asst.bak.log");
-                    }
-                    const auto& MapDir = UserDir.get() / "debug"_p / "map"_p;
-                    const auto& OldMapDir = "map"_p;
-                    if (std::filesystem::exists(OldMapDir)) {
-                        std::filesystem::rename(OldMapDir, MapDir);
                     }
                 }
             }
@@ -493,8 +480,8 @@ namespace asst
     class LoggerAux
     {
     public:
-        explicit LoggerAux(std::string func_name)
-            : m_func_name(std::move(func_name)), m_start_time(std::chrono::steady_clock::now())
+        explicit LoggerAux(std::string_view func_name)
+            : m_func_name(func_name), m_start_time(std::chrono::steady_clock::now())
         {
             Logger::get_instance().trace(m_func_name, "| enter");
         }
@@ -524,7 +511,28 @@ namespace asst
 #define LogInfo Log << Logger::level::info
 #define LogWarn Log << Logger::level::warn
 #define LogError Log << Logger::level::error
+
 #define LogTraceScope LoggerAux _CatVarNameWithLine(_func_aux_)
+
+#ifndef _MSC_VER
+    inline constexpr std::string_view summarize_pretty_function(std::string_view pf) // can be consteval?
+    {
+        // unable to handle something like std::function<void(void)> gen_func()
+        const auto paren = pf.find_first_of('(');
+        if (paren != std::string_view::npos) pf.remove_suffix(pf.size() - paren);
+        const auto space = pf.find_last_of(' ');
+        if (space != std::string_view::npos) pf.remove_prefix(space + 1);
+        return pf;
+    }
+    // TODO: use std::source_location
+#define LogTraceFunction                                       \
+    LogTraceScope                                              \
+    {                                                          \
+        ::asst::summarize_pretty_function(__PRETTY_FUNCTION__) \
+    }
+#else
 #define LogTraceFunction LogTraceScope(__FUNCTION__)
+#endif
+
 #define LogTraceFunctionWithArgs // how to do this?, like LogTraceScope(__FUNCTION__, __FUNCTION_ALL_ARGS__)
 } // namespace asst
