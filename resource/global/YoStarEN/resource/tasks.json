@@ -2330,15 +2330,6 @@
             ]
         ]
     },
-    "OperBoxNameOCR": {
-        "specialParams": [
-            160,
-            4,
-            6,
-            0
-        ]
-    },
-
     "ClickChapter1": {
         "text": [
             "Hour of An Awakening",
@@ -2481,6 +2472,14 @@
         "text": [
             "Enter",
             "Event"
+        ]
+    },
+    "OperBoxNameOCR": {
+        "specialParams": [
+            160,
+            4,
+            6,
+            0
         ]
     },
     "PRTS2": {
