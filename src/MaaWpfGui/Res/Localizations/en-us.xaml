@@ -191,7 +191,7 @@
     <system:String x:Key="TouchMode">Touch Mode</system:String>
     <system:String x:Key="MiniTouchMode">Minitouch (Default)</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch (Experimental)</system:String>
-    <system:String x:Key="AdbTouchMode">ADB Input (Compatibility)</system:String>
+    <system:String x:Key="AdbTouchMode">ADB Input (Deprecated)</system:String>
     <system:String x:Key="AdditionCommand">Addiction Command arguments</system:String>
     <system:String x:Key="StartsWithScript">Starts with Script</system:String>
     <system:String x:Key="EndsWithScript">Ends with Script</system:String>
