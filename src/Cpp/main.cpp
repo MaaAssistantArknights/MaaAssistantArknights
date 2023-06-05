@@ -43,6 +43,12 @@ int main([[maybe_unused]] int argc, char** argv)
         std::cerr << "create failed" << std::endl;
         return -1;
     }
+    
+#ifndef NDEBUG
+    std::cout << "Ended early for smoke testing." << std::endl;
+    return 0;
+#endif
+    
 #ifndef ASST_DEBUG
     AsstAsyncConnect(ptr, "adb", "127.0.0.1:5555", nullptr, true);
 #else
