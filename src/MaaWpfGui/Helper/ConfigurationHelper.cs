@@ -177,7 +177,7 @@ namespace MaaWpfGui.Helper
         /// Save configuration file
         /// </summary>
         /// <returns>The result of saving process</returns>
-        private static bool Save()
+        private static bool Save(string file = null)
         {
             if (Released)
             {
@@ -195,7 +195,7 @@ namespace MaaWpfGui.Helper
             {
                 lock (_lock)
                 {
-                    File.WriteAllText(_configurationFile, jsonStr);
+                    File.WriteAllText(file ?? _configurationFile, jsonStr);
                 }
             }
             catch (Exception e)
@@ -270,7 +270,7 @@ namespace MaaWpfGui.Helper
         public static void Release()
         {
             Save();
-            File.Copy(_configurationFile, _configurationBakFile, true);
+            Save(_configurationBakFile);
             Released = true;
         }
 
