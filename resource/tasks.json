@@ -8694,7 +8694,7 @@
     "Roguelike@StageTraderSpecialShoppingAfterRefresh": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
-        "cache": "false",
+        "cache": false,
         "roi": [
             308,
             25,
@@ -8716,7 +8716,7 @@
             "刷新次数",
             "已用完"
         ],
-        "cache": "false",
+        "cache": false,
         "action": "DoNothing",
         "roi": [
             988,
