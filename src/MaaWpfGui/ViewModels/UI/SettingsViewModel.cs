@@ -2505,6 +2505,7 @@ namespace MaaWpfGui.ViewModels.UI
                     foreach (var process in Process.GetProcessesByName(Path.GetFileName(AdbPath)))
                     {
                         process.Kill();
+                        process.WaitForExit(5000);
                     }
 
                     string adbBack = AdbPath + ".bak";
