@@ -110,8 +110,9 @@ namespace MaaWpfGui.ViewModels.UI
                 string storeValue = value.ToString();
                 SetAndNotify(ref _actionAfterCompleted, storeValue);
 
-                if (value == ActionType.HibernateWithoutPersist || value == ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist
-                    || value == ActionType.ShutdownWithoutPersist)
+                if (value == ActionType.HibernateWithoutPersist ||
+                    value == ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist ||
+                    value == ActionType.ShutdownWithoutPersist)
                 {
                     storeValue = ActionType.DoNothing.ToString();
                 }
@@ -1587,8 +1588,11 @@ namespace MaaWpfGui.ViewModels.UI
                     Process.Start("powercfg", "-h on");
                     break;
 
-                case ActionType.Hibernate:
                 case ActionType.HibernateWithoutPersist:
+                    // 休眠不会导致 MAA 重启，下次执行的还会是休眠
+                    ActionAfterCompleted = ActionType.DoNothing;
+                    goto case ActionType.Hibernate;
+                case ActionType.Hibernate:
                     // 休眠提示
                     AddLog(LocalizationHelper.GetString("HibernatePrompt"), UiLogColor.Error);
 
