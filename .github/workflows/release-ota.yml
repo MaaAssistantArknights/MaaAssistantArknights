@@ -98,7 +98,7 @@ jobs:
       - name: Build OTA
         run: |
           cd build-ota
-          mv -v ../MaaReleaseConfig config
+          tree .
           $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./config ${{ matrix.target }} 'MaaAssistantArknights/MaaRelease'
       - name: Upload to MaaRelease
         uses: svenstaro/upload-release-action@v2
