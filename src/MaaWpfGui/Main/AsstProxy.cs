@@ -1375,8 +1375,10 @@ namespace MaaWpfGui.Main
         /// <param name="use_expedited">是否使用加急许可。</param>
         /// <param name="skip_robot">是否在识别到小车词条时跳过。</param>
         /// <param name="is_level3_use_short_time">三星Tag是否使用短时间（7:40）</param>
+        /// <param name="is_level3_use_short_time2">三星Tag是否使用短时间（1:00）</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendRecruit(int max_times, int[] select_level, int[] confirm_level, bool need_refresh, bool use_expedited, bool skip_robot, bool is_level3_use_short_time)
+        public bool AsstAppendRecruit(int max_times, int[] select_level, int[] confirm_level, bool need_refresh, bool use_expedited,
+            bool skip_robot, bool is_level3_use_short_time, bool is_level3_use_short_time2 = false)
         {
             var task_params = new JObject
             {
@@ -1394,6 +1396,13 @@ namespace MaaWpfGui.Main
                 task_params["recruitment_time"] = new JObject
                 {
                     ["3"] = 460, // 7:40
+                };
+            }
+            else if (is_level3_use_short_time2)
+            {
+                task_params["recruitment_time"] = new JObject
+                {
+                    ["3"] = 60, // 1:00
                 };
             }
 
@@ -1588,9 +1597,21 @@ namespace MaaWpfGui.Main
                 ["report_to_penguin"] = true,
                 ["report_to_yituliu"] = true,
             };
-            task_params["recruitment_time"] = Instances.RecognizerViewModel.IsLevel3UseShortTime ?
-                new JObject { { "3", 460 } } :
-                new JObject { { "3", 540 } };
+            int recruitmentTime;
+            if (Instances.RecognizerViewModel.IsLevel3UseShortTime)
+            {
+                recruitmentTime = 460;
+            }
+            else if (Instances.RecognizerViewModel.IsLevel3UseShortTime2)
+            {
+                recruitmentTime = 60;
+            }
+            else
+            {
+                recruitmentTime = 540;
+            }
+
+            task_params["recruitment_time"] = new JObject { { "3", recruitmentTime } };
             task_params["penguin_id"] = Instances.SettingsViewModel.PenguinId;
             task_params["yituliu_id"] = Instances.SettingsViewModel.PenguinId; // 一图流说随便传个uuid就行，让client自己生成，所以先直接嫖一下企鹅的（
             task_params["server"] = Instances.SettingsViewModel.ServerType;
