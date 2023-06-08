@@ -110,8 +110,9 @@ namespace MaaWpfGui.ViewModels.UI
                 string storeValue = value.ToString();
                 SetAndNotify(ref _actionAfterCompleted, storeValue);
 
-                if (value == ActionType.HibernateWithoutPersist || value == ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist
-                    || value == ActionType.ShutdownWithoutPersist)
+                if (value == ActionType.HibernateWithoutPersist ||
+                    value == ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist ||
+                    value == ActionType.ShutdownWithoutPersist)
                 {
                     storeValue = ActionType.DoNothing.ToString();
                 }
@@ -287,8 +288,8 @@ namespace MaaWpfGui.ViewModels.UI
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("Shutdown"), Value = ActionType.Shutdown },
 
                 // new GenericCombData<ActionType> { Display = Localization.GetString("ExitEmulatorAndSelfAndHibernate") + "*", Value = ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist },
-                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("Hibernate") + "*", Value = ActionType.HibernateWithoutPersist },
-                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("Shutdown") + "*", Value = ActionType.ShutdownWithoutPersist },
+                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("HibernateWithoutPersist"), Value = ActionType.HibernateWithoutPersist },
+                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ShutdownWithoutPersist"), Value = ActionType.ShutdownWithoutPersist },
             };
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[task_list.Length]);
             var non_order_list = new List<DragItemViewModel>();
@@ -1027,9 +1028,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             return Instances.AsstProxy.AsstAppendRecruit(
-                max_times, reqList.ToArray(), cfmList.ToArray(),
-                Instances.SettingsViewModel.RefreshLevel3, Instances.SettingsViewModel.UseExpedited,
-                Instances.SettingsViewModel.NotChooseLevel1, Instances.SettingsViewModel.IsLevel3UseShortTime);
+                max_times, reqList.ToArray(), cfmList.ToArray(), Instances.SettingsViewModel.RefreshLevel3, Instances.SettingsViewModel.UseExpedited,
+                Instances.SettingsViewModel.NotChooseLevel1, Instances.SettingsViewModel.IsLevel3UseShortTime, Instances.SettingsViewModel.IsLevel3UseShortTime2);
         }
 
         private bool AppendRoguelike()
@@ -1587,8 +1587,11 @@ namespace MaaWpfGui.ViewModels.UI
                     Process.Start("powercfg", "-h on");
                     break;
 
-                case ActionType.Hibernate:
                 case ActionType.HibernateWithoutPersist:
+                    // 休眠不会导致 MAA 重启，下次执行的还会是休眠
+                    ActionAfterCompleted = ActionType.DoNothing;
+                    goto case ActionType.Hibernate;
+                case ActionType.Hibernate:
                     // 休眠提示
                     AddLog(LocalizationHelper.GetString("HibernatePrompt"), UiLogColor.Error);
 

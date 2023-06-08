@@ -6560,6 +6560,96 @@
         "stageId": "act25side_tr02",
         "width": 10
     },
+    "act26side_01-activities/act26side/level_act26side_01": {
+        "code": "HE-1",
+        "filename": "act26side_01-activities-act26side-level_act26side_01.json",
+        "height": 6,
+        "levelId": "activities/act26side/level_act26side_01",
+        "name": "我有一个荣美家乡",
+        "stageId": "act26side_01",
+        "width": 12
+    },
+    "act26side_02-activities/act26side/level_act26side_02": {
+        "code": "HE-2",
+        "filename": "act26side_02-activities-act26side-level_act26side_02.json",
+        "height": 7,
+        "levelId": "activities/act26side/level_act26side_02",
+        "name": "生命运河",
+        "stageId": "act26side_02",
+        "width": 9
+    },
+    "act26side_03-activities/act26side/level_act26side_03": {
+        "code": "HE-3",
+        "filename": "act26side_03-activities-act26side-level_act26side_03.json",
+        "height": 7,
+        "levelId": "activities/act26side/level_act26side_03",
+        "name": "岂可空手回天府？",
+        "stageId": "act26side_03",
+        "width": 11
+    },
+    "act26side_04-activities/act26side/level_act26side_04": {
+        "code": "HE-4",
+        "filename": "act26side_04-activities-act26side-level_act26side_04.json",
+        "height": 8,
+        "levelId": "activities/act26side/level_act26side_04",
+        "name": "我曾舍命为你",
+        "stageId": "act26side_04",
+        "width": 10
+    },
+    "act26side_05-activities/act26side/level_act26side_05": {
+        "code": "HE-5",
+        "filename": "act26side_05-activities-act26side-level_act26side_05.json",
+        "height": 8,
+        "levelId": "activities/act26side/level_act26side_05",
+        "name": "主在圣殿中",
+        "stageId": "act26side_05",
+        "width": 11
+    },
+    "act26side_06-activities/act26side/level_act26side_06": {
+        "code": "HE-6",
+        "filename": "act26side_06-activities-act26side-level_act26side_06.json",
+        "height": 7,
+        "levelId": "activities/act26side/level_act26side_06",
+        "name": "夜半歌声",
+        "stageId": "act26side_06",
+        "width": 12
+    },
+    "act26side_07-activities/act26side/level_act26side_07": {
+        "code": "HE-7",
+        "filename": "act26side_07-activities-act26side-level_act26side_07.json",
+        "height": 7,
+        "levelId": "activities/act26side/level_act26side_07",
+        "name": "以爱相连",
+        "stageId": "act26side_07",
+        "width": 12
+    },
+    "act26side_08-activities/act26side/level_act26side_08": {
+        "code": "HE-8",
+        "filename": "act26side_08-activities-act26side-level_act26side_08.json",
+        "height": 9,
+        "levelId": "activities/act26side/level_act26side_08",
+        "name": "愿跟随主",
+        "stageId": "act26side_08",
+        "width": 13
+    },
+    "act26side_tr01-activities/act26side/level_act26side_tr01": {
+        "code": "HE-TR-1",
+        "filename": "act26side_tr01-activities-act26side-level_act26side_tr01.json",
+        "height": 7,
+        "levelId": "activities/act26side/level_act26side_tr01",
+        "name": "祷告良辰",
+        "stageId": "act26side_tr01",
+        "width": 10
+    },
+    "act26side_tr02-activities/act26side/level_act26side_tr02": {
+        "code": "HE-TR-2",
+        "filename": "act26side_tr02-activities-act26side-level_act26side_tr02.json",
+        "height": 8,
+        "levelId": "activities/act26side/level_act26side_tr02",
+        "name": "完全平安",
+        "stageId": "act26side_tr02",
+        "width": 11
+    },
     "act2bossrush_01-activities/act2bossrush/level_bossrush2_01": {
         "code": "TN-1",
         "filename": "act2bossrush_01-activities-act2bossrush-level_bossrush2_01.json",
@@ -12068,6 +12158,15 @@
         "stageId": "mem_ethan_1",
         "width": 11
     },
+    "mem_excu_1-obt/memory/level_memory_excu_1": {
+        "code": "mem_excu_1",
+        "filename": "mem_excu_1-obt-memory-level_memory_excu_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_excu_1",
+        "name": "执行者的工作",
+        "stageId": "mem_excu_1",
+        "width": 9
+    },
     "mem_f12yin_1-obt/memory/level_memory_f12yin_1": {
         "code": "mem_f12yin_1",
         "filename": "mem_f12yin_1-obt-memory-level_memory_f12yin_1.json",
@@ -12130,6 +12229,15 @@
         "name": "直面",
         "stageId": "mem_folivo_1",
         "width": 13
+    },
+    "mem_forcer_1-obt/memory/level_memory_forcer_1": {
+        "code": "mem_forcer_1",
+        "filename": "mem_forcer_1-obt-memory-level_memory_forcer_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_forcer_1",
+        "name": "预备方案",
+        "stageId": "mem_forcer_1",
+        "width": 11
     },
     "mem_franka_1-obt/memory/level_memory_franka_1": {
         "code": "mem_franka_1",
@@ -12354,6 +12462,15 @@
         "levelId": "obt/memory/level_memory_lava_1",
         "name": "不过是几只小虫子！",
         "stageId": "mem_lava_1",
+        "width": 11
+    },
+    "mem_leizi_1-obt/memory/level_memory_leizi_1": {
+        "code": "mem_leizi_1",
+        "filename": "mem_leizi_1-obt-memory-level_memory_leizi_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_leizi_1",
+        "name": "声威在前",
+        "stageId": "mem_leizi_1",
         "width": 11
     },
     "mem_ling_1-obt/memory/level_memory_ling_1": {

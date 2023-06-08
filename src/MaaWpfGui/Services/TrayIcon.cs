@@ -16,6 +16,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.UI;
+using Serilog;
 
 namespace MaaWpfGui.Services
 {
@@ -25,6 +26,7 @@ namespace MaaWpfGui.Services
     public class TrayIcon
     {
         private readonly NotifyIcon _notifyIcon = new NotifyIcon();
+        private static readonly ILogger _logger = Log.ForContext<TrayIcon>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TrayIcon"/> class.
@@ -86,17 +88,21 @@ namespace MaaWpfGui.Services
         private void StartTask(object sender, EventArgs e)
         {
             // taskQueueViewModel意外为null了是不是也可以考虑Log一下
+            // 先放个log点方便跟踪
             Instances.TaskQueueViewModel?.LinkStart();
+            _logger.Information("Tray service task started.");
         }
 
         private void StopTask(object sender, EventArgs e)
         {
             Instances.TaskQueueViewModel?.Stop();
+            _logger.Information("Tray service task stop.");
         }
 
         private void ForceShow(object sender, EventArgs e)
         {
             Instances.MainWindowManager.ForceShow();
+            _logger.Information("WindowManager Forceshow.");
         }
 
         private void App_exit(object sender, EventArgs e)

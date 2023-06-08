@@ -87,8 +87,8 @@ namespace MaaWpfGui.Services.Managers
         /// <summary>
         /// Handle the main window's state changed event
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The object that triggered the event.</param>
+        /// <param name="e">The event arguments.</param>
         protected virtual void MainWindow_StateChanged(object sender, EventArgs e)
         {
             if (ShouldMinimizeToTaskbar)
@@ -100,7 +100,7 @@ namespace MaaWpfGui.Services.Managers
         /// <summary>
         /// Change visibility of the main window
         /// </summary>
-        /// <param name="visible"></param>
+        /// <param name="visible">A boolean indicating whether the main window should be visible or hidden.</param>
         protected virtual void ChangeVisibility(bool visible)
         {
             if (visible)

@@ -29,6 +29,7 @@ using System.Windows;
 using System.Windows.Interop;
 using HandyControl.Controls;
 using HandyControl.Data;
+using HandyControl.Tools.Extension;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -51,7 +52,7 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class SettingsViewModel : Screen
     {
-        private static readonly ILogger _logger = Log.ForContext<TaskQueueViewModel>();
+        private static readonly ILogger _logger = Log.ForContext<SettingsViewModel>();
 
         [DllImport("MaaCore.dll")]
         private static extern IntPtr AsstGetVersion();
@@ -1810,8 +1811,33 @@ namespace MaaWpfGui.ViewModels.UI
             get => _isLevel3UseShortTime;
             set
             {
+                if (value)
+                {
+                    IsLevel3UseShortTime2 = false;
+                }
+
                 SetAndNotify(ref _isLevel3UseShortTime, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.IsLevel3UseShortTime, value.ToString());
+            }
+        }
+
+        private bool _isLevel3UseShortTime2 = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.IsLevel3UseShortTime2, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to shorten the time for level 3.
+        /// </summary>
+        public bool IsLevel3UseShortTime2
+        {
+            get => _isLevel3UseShortTime2;
+            set
+            {
+                if (value)
+                {
+                    IsLevel3UseShortTime = false;
+                }
+
+                SetAndNotify(ref _isLevel3UseShortTime2, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.IsLevel3UseShortTime2, value.ToString());
             }
         }
 
@@ -2104,28 +2130,34 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    if (!ConnectAddressHistory.Contains(value))
-                    {
-                        ConnectAddressHistory.Insert(0, value);
-                        while (ConnectAddressHistory.Count > 5)
-                        {
-                            ConnectAddressHistory.RemoveAt(ConnectAddressHistory.Count - 1);
-                        }
-                    }
-                    else
-                    {
-                        ConnectAddressHistory.Remove(value);
-                        ConnectAddressHistory.Insert(0, value);
-                    }
-                });
+                UpdateConnectionHistory(value);
 
                 SetAndNotify(ref _connectAddress, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.AddressHistory, JsonConvert.SerializeObject(ConnectAddressHistory));
                 ConfigurationHelper.SetValue(ConfigurationKeys.ConnectAddress, value);
                 UpdateWindowTitle(); /* 每次修改连接地址时更新WindowTitle */
             }
+        }
+
+        private void UpdateConnectionHistory(string address)
+        {
+            var history = ConnectAddressHistory.ToList();
+            if (history.Contains(address))
+            {
+                history.Remove(address);
+                history.Insert(0, address);
+            }
+            else
+            {
+                history.Insert(0, address);
+                const int maxHistoryCount = 5;
+                if (history.Count > maxHistoryCount)
+                {
+                    history.RemoveRange(maxHistoryCount, history.Count - maxHistoryCount);
+                }
+            }
+
+            ConnectAddressHistory = new ObservableCollection<string>(history);
         }
 
         public void RemoveAddress_Click(string address)
@@ -2499,6 +2531,7 @@ namespace MaaWpfGui.ViewModels.UI
                     foreach (var process in Process.GetProcessesByName(Path.GetFileName(AdbPath)))
                     {
                         process.Kill();
+                        process.WaitForExit(5000);
                     }
 
                     string adbBack = AdbPath + ".bak";

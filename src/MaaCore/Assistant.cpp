@@ -377,8 +377,8 @@ void Assistant::working_proc()
         }
 
         if (m_thread_idle || m_tasks_list.empty()) {
-            m_thread_idle = true;
             finished_tasks.clear();
+            m_thread_idle = true;
             Log.flush();
             m_condvar.wait(lock);
             continue;

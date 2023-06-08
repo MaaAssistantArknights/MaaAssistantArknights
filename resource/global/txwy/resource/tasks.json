@@ -1199,6 +1199,10 @@
             [
                 "瑪恩納",
                 "玛恩纳"
+            ],
+            [
+                "螢光孢子",
+                "荧光孢子"
             ]
         ]
     },
@@ -1327,6 +1331,31 @@
     "Mall": {
         "text": [
             "採"
+        ]
+    },
+    "NL-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "next": [
+            "NLChapterToNL"
+        ],
+        "postDelay": 2000,
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "text": [
+            "長夜",
+            "復刻",
+            "活動",
+            "開放"
+        ]
+    },
+    "NLChapterToNL": {
+        "text": [
+            "大騎士領"
         ]
     },
     "OFToOF-Chapter": {

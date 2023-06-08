@@ -2121,7 +2121,7 @@
                 "鸿雪"
             ],
             [
-                "Gavial the.*",
+                "Gavial the Invincible",
                 "百炼嘉维尔"
             ],
             [
@@ -2167,6 +2167,10 @@
             [
                 "Astgenne",
                 "星源"
+            ],
+            [
+                ".*Lightni.*bearer",
+                "Greyy the Lightningbearer"
             ],
             [
                 "Greyy the Lightningbearer",
@@ -2435,7 +2439,7 @@
         "templThreshold": 0.7
     },
     "Mizuki@Roguelike@GetDropSelectRecruit": {
-        "templThreshold": 0.8
+        "templThreshold": 0.75
     },
     "Mizuki@Roguelike@NextLevel": {
         "text": [
@@ -2468,6 +2472,14 @@
         "text": [
             "Enter",
             "Event"
+        ]
+    },
+    "OperBoxNameOCR": {
+        "specialParams": [
+            160,
+            4,
+            6,
+            0
         ]
     },
     "PRTS2": {

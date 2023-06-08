@@ -174,8 +174,33 @@ namespace MaaWpfGui.ViewModels.UI
             get => _isLevel3UseShortTime;
             set
             {
+                if (value)
+                {
+                    IsLevel3UseShortTime2 = false;
+                }
+
                 SetAndNotify(ref _isLevel3UseShortTime, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.Level3UseShortTime, value.ToString());
+            }
+        }
+
+        private bool _isLevel3UseShortTime2 = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Level3UseShortTime2, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to shorten the time for level 3.
+        /// </summary>
+        public bool IsLevel3UseShortTime2
+        {
+            get => _isLevel3UseShortTime2;
+            set
+            {
+                if (value)
+                {
+                    IsLevel3UseShortTime = false;
+                }
+
+                SetAndNotify(ref _isLevel3UseShortTime2, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.Level3UseShortTime2, value.ToString());
             }
         }
 

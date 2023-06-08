@@ -15,6 +15,9 @@
 
 static constexpr AsstSize NullSize = static_cast<AsstSize>(-1);
 static constexpr AsstId InvalidId = 0;
+static constexpr AsstBool AsstTrue = 1;
+static constexpr AsstBool AsstFalse = 0;
+
 #if 0
 #if _MSC_VER
 // Win32平台下Dll的入口
@@ -39,15 +42,15 @@ BOOL APIENTRY DllMain(HINSTANCE hModule,
 #endif
 #endif
 
-bool inited()
+AsstBool inited()
 {
-    return asst::ResourceLoader::get_instance().loaded();
+    return asst::ResourceLoader::get_instance().loaded() ? AsstTrue : AsstFalse;
 }
 
 AsstBool AsstSetUserDir(const char* path)
 {
     auto os_path = std::filesystem::absolute(asst::utils::path(path));
-    return asst::UserDir.set(os_path);
+    return asst::UserDir.set(os_path) ? AsstTrue : AsstFalse;
 }
 
 AsstBool AsstLoadResource(const char* path)
@@ -62,12 +65,12 @@ AsstBool AsstLoadResource(const char* path)
     if (asst::UserDir.empty()) {
         asst::UserDir.set(os_path);
     }
-    return asst::ResourceLoader::get_instance().load(res_path);
+    return asst::ResourceLoader::get_instance().load(res_path) ? AsstTrue : AsstFalse;
 }
 
 AsstBool AsstSetStaticOption(AsstStaticOptionKey key, const char* value)
 {
-    return AsstExtAPI::set_static_option(static_cast<asst::StaticOptionKey>(key), value);
+    return AsstExtAPI::set_static_option(static_cast<asst::StaticOptionKey>(key), value) ? AsstTrue : AsstFalse;
 }
 
 AsstHandle AsstCreate()
@@ -99,55 +102,55 @@ void AsstDestroy(AsstHandle handle)
 AsstBool AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, const char* value)
 {
     if (handle == nullptr) {
-        return false;
+        return AsstFalse;
     }
 
-    return handle->set_instance_option(static_cast<asst::InstanceOptionKey>(key), value);
+    return handle->set_instance_option(static_cast<asst::InstanceOptionKey>(key), value) ? AsstTrue : AsstFalse;
 }
 
 AsstBool AsstConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config)
 {
     if (!inited() || handle == nullptr) {
-        return false;
+        return AsstFalse;
     }
 
-    return handle->connect(adb_path, address, config ? config : std::string());
+    return handle->connect(adb_path, address, config ? config : std::string()) ? AsstTrue : AsstFalse;
 }
 
 AsstBool AsstStart(AsstHandle handle)
 {
     if (!inited() || handle == nullptr) {
-        return false;
+        return AsstFalse;
     }
 
-    return handle->start();
+    return handle->start() ? AsstTrue : AsstFalse;
 }
 
 AsstBool AsstStop(AsstHandle handle)
 {
     if (!inited() || handle == nullptr) {
-        return false;
+        return AsstFalse;
     }
 
-    return handle->stop();
+    return handle->stop() ? AsstTrue : AsstFalse;
 }
 
 AsstBool AsstRunning(AsstHandle handle)
 {
     if (!inited() || handle == nullptr) {
-        return false;
+        return AsstFalse;
     }
 
-    return handle->running();
+    return handle->running() ? AsstTrue : AsstFalse;
 }
 
 AsstBool AsstConnected(AsstHandle handle)
 {
     if (!inited() || handle == nullptr) {
-        return false;
+        return AsstFalse;
     }
 
-    return handle->connected();
+    return handle->connected() ? AsstTrue : AsstFalse;
 }
 
 AsstAsyncCallId AsstAsyncConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config,
@@ -171,10 +174,10 @@ AsstTaskId AsstAppendTask(AsstHandle handle, const char* type, const char* param
 AsstBool AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char* params)
 {
     if (!inited() || handle == nullptr) {
-        return false;
+        return AsstFalse;
     }
 
-    return handle->set_task_params(id, params ? params : "");
+    return handle->set_task_params(id, params ? params : "") ? AsstTrue : AsstFalse;
 }
 
 AsstAsyncCallId AsstAsyncClick(AsstHandle handle, int32_t x, int32_t y, AsstBool block)

@@ -688,11 +688,13 @@
             "bskill_dorm_single&one12": {
                 "desc": [
                     "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.35（同种效果取最高）；同时自身心情每小时恢复+0.35",
-                    "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.35（同种效果取最高）；同时自身心情每小时恢复+0.35"
+                    "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.35（同种效果取最高）；同时自身心情每小时恢复+0.35",
+                    "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.4（同种效果取最高）；同时自身心情每小时恢复+0.4"
                 ],
                 "name": [
                     "烹饪",
-                    "Give me five"
+                    "Give me five",
+                    "甜甜圈派对"
                 ],
                 "template": "Bskill_dorm_single&one12.png"
             },
@@ -859,6 +861,15 @@
                 ],
                 "template": "Bskill_man_exp&limit2.png"
             },
+            "bskill_man_exp&limit3": {
+                "desc": [
+                    "进驻制造站时，生产作战记录类配方时，仓库容量上限+4"
+                ],
+                "name": [
+                    "合理利用"
+                ],
+                "template": "Bskill_man_exp&limit3.png"
+            },
             "bskill_man_exp1": {
                 "desc": [
                     "进驻制造站时，作战记录类配方的生产力+25%"
@@ -873,13 +884,15 @@
             },
             "bskill_man_exp2": {
                 "desc": [
+                    "进驻制造站时，作战记录类配方的生产力+30%",
                     "进驻制造站时，作战记录类配方的生产力+30%"
                 ],
                 "efficient": {
                     "CombatRecord": 30.1
                 },
                 "name": [
-                    "作战指导录像"
+                    "作战指导录像",
+                    "公证所教习β"
                 ],
                 "template": "Bskill_man_exp2.png"
             },
@@ -894,6 +907,18 @@
                     "拳术指导录像"
                 ],
                 "template": "Bskill_man_exp3.png"
+            },
+            "bskill_man_exp4": {
+                "desc": [
+                    "进驻制造站时，作战记录类配方的生产力+20%"
+                ],
+                "efficient": {
+                    "CombatRecord": 20.1
+                },
+                "name": [
+                    "公证所教习α"
+                ],
+                "template": "Bskill_man_exp4.png"
             },
             "bskill_man_gold1": {
                 "desc": [
@@ -2002,6 +2027,18 @@
                 ],
                 "template": "Bskill_hire_spd&clue.png"
             },
+            "bskill_hire_spd&clue2": {
+                "desc": [
+                    "进驻人力办公室时，人脉资源的联络速度+30%，同时每个招募位（不包含初始招募位）额外+5%会客室线索搜集速度"
+                ],
+                "efficient": {
+                    "all": 30.1
+                },
+                "name": [
+                    "交游广阔"
+                ],
+                "template": "Bskill_hire_spd&clue2.png"
+            },
             "bskill_hire_spd&cost1": {
                 "desc": [
                     "进驻人力办公室时，人脉资源的联络速度+10%，心情每小时消耗-0.25"
@@ -2211,13 +2248,15 @@
             },
             "bskill_pow_spd&cost": {
                 "desc": [
-                    "进驻发电站时，心情每小时消耗-0.52"
+                    "进驻发电站时，心情每小时消耗-0.52",
+                    "进驻发电站时，心情每小时消耗-0.3"
                 ],
                 "efficient": {
                     "all": 0.1
                 },
                 "name": [
-                    "热情澎湃"
+                    "热情澎湃",
+                    "外卖水果挞"
                 ],
                 "template": "Bskill_pow_spd&cost.png"
             },
@@ -2301,6 +2340,30 @@
                     "生态科主任"
                 ],
                 "template": "Bskill_power_rec_rhine.png"
+            },
+            "bskill_power_rec_spd&addition1": {
+                "desc": [
+                    "进驻发电站时，无人机充能速度首小时+10%，此后每小时+1%，最终达到+15%"
+                ],
+                "efficient": {
+                    "all": 14.9
+                },
+                "name": [
+                    "技术交流α"
+                ],
+                "template": "Bskill_power_rec_spd&addition1.png"
+            },
+            "bskill_power_rec_spd&addition2": {
+                "desc": [
+                    "进驻发电站时，无人机充能速度首小时+15%，此后每小时+1%，最终达到+20%"
+                ],
+                "efficient": {
+                    "all": 19.9
+                },
+                "name": [
+                    "技术交流β"
+                ],
+                "template": "Bskill_power_rec_spd&addition2.png"
             }
         },
         "skillsGroup": [
@@ -2323,6 +2386,7 @@
             "bskill_meet_blacksteel2": {
                 "desc": [
                     "进驻会客室时，线索搜集速度提升10%，且更容易获得黑钢国际线索（工作时长影响概率）",
+                    "进驻会客室时，线索搜集速度提升10%，且更容易获得黑钢国际线索（工作时长影响概率）",
                     "进驻会客室时，线索搜集速度提升10%，且更容易获得黑钢国际线索（工作时长影响概率）"
                 ],
                 "efficient": {
@@ -2331,7 +2395,8 @@
                 },
                 "name": [
                     "B.P.R.S",
-                    "联络员"
+                    "联络员",
+                    "B.P.R.S."
                 ],
                 "template": "Bskill_meet_blacksteel2.png"
             },
