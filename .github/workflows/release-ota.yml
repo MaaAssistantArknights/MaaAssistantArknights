@@ -130,6 +130,20 @@ jobs:
           else
             echo ${{ secrets.SPARKLE_PRIV_KEY }} | ./bin/generate_appcast --ed-key-file - ./packages
           fi
+
+      - name: Install Rclone
+        run: brew install rclone
+      - name: Upload Appcast Packages
+        env:
+          RCLONE_CONFIG_MAA_TYPE: s3
+          RCLONE_CONFIG_MAA_PROVIDER: Cloudflare
+          RCLONE_CONFIG_MAA_ACCESS_KEY_ID: ${{ secrets.R2_KEY_ID }}
+          RCLONE_CONFIG_MAA_SECRET_ACCESS_KEY: ${{ secrets.R2_ACCESS_KEY }}
+          RCLONE_CONFIG_MAA_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
+        run: |
+          rclone sync ./packages MAA:maa-release/macos
+          rclone delete MAA:maa-release/macos --min-age 90d
+
     # TODO: 这里实际上传的都是完整包，而不是 OTA 包，待修复
     #   - name: Upload to MaaRelease
     #     uses: svenstaro/upload-release-action@v2
