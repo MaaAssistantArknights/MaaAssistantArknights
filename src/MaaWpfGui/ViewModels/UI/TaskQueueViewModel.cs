@@ -363,44 +363,51 @@ namespace MaaWpfGui.ViewModels.UI
             var hideUnavailableStage = Instances.SettingsViewModel.HideUnavailableStage;
 
             // forceUpdate: initializing or settings changing, update stage list forcely
-            if (forceUpdate || hideUnavailableStage)
+            if (!forceUpdate && !hideUnavailableStage)
             {
-                EnableSetFightParams = false;
-
-                if (hideUnavailableStage)
-                {
-                    StageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList(_curDayOfWeek));
-                }
-                else
-                {
-                    StageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList());
-                }
-
-                AlternateStageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList());
-
-                RemainingSanityStageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList())
-                {
-                    [0] = new CombinedData { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty },
-                };
-
-                // reset closed stages to "Last/Current"
-                if (!CustomStageCode)
-                {
-                    Stage1 = StageList.Any(x => x.Value == Stage1) ? Stage1 : string.Empty;
-                    Stage2 = AlternateStageList.Any(x => x.Value == Stage2) ? Stage2 : string.Empty;
-                    Stage3 = AlternateStageList.Any(x => x.Value == Stage3) ? Stage3 : string.Empty;
-                    RemainingSanityStage = RemainingSanityStageList.Any(x => x.Value == RemainingSanityStage) ? RemainingSanityStage : string.Empty;
-                }
-                else
-                {
-                    if (hideUnavailableStage && !UseAlternateStage)
-                    {
-                        Stage1 = IsStageOpen(Stage1) ? Stage1 : string.Empty;
-                    }
-                }
-
-                EnableSetFightParams = true;
+                return;
             }
+
+            EnableSetFightParams = false;
+
+            var stage1 = Stage1 ?? string.Empty;
+            var stage2 = Stage2 ?? string.Empty;
+            var stage3 = Stage3 ?? string.Empty;
+            var rss = RemainingSanityStage ?? string.Empty;
+
+            if (hideUnavailableStage)
+            {
+                StageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList(_curDayOfWeek));
+            }
+            else
+            {
+                StageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList());
+            }
+
+            AlternateStageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList());
+
+            RemainingSanityStageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList())
+            {
+                [0] = new CombinedData { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty },
+            };
+
+            // reset closed stages to "Last/Current"
+            if (!CustomStageCode)
+            {
+                Stage1 = StageList.Any(x => x.Value == stage1) ? stage1 : string.Empty;
+                Stage2 = AlternateStageList.Any(x => x.Value == stage2) ? stage2 : string.Empty;
+                Stage3 = AlternateStageList.Any(x => x.Value == stage3) ? stage3 : string.Empty;
+                RemainingSanityStage = RemainingSanityStageList.Any(x => x.Value == rss) ? rss : string.Empty;
+            }
+            else
+            {
+                if (hideUnavailableStage && !UseAlternateStage)
+                {
+                    Stage1 = IsStageOpen(stage1) ? stage1 : string.Empty;
+                }
+            }
+
+            EnableSetFightParams = true;
         }
 
         private bool NeedToUpdateDatePrompt()
@@ -1839,8 +1846,9 @@ namespace MaaWpfGui.ViewModels.UI
             get => _stage1;
             set
             {
-                if (_stage1 == value || value == null)
+                if (_stage1 == value)
                 {
+                    SetAndNotify(ref _stage1, value);
                     return;
                 }
 
@@ -1870,8 +1878,9 @@ namespace MaaWpfGui.ViewModels.UI
             get => _stage2;
             set
             {
-                if (_stage2 == value || value == null)
+                if (_stage2 == value)
                 {
+                    SetAndNotify(ref _stage2, value);
                     return;
                 }
 
@@ -1900,8 +1909,9 @@ namespace MaaWpfGui.ViewModels.UI
             get => _stage3;
             set
             {
-                if (_stage3 == value || value == null)
+                if (_stage3 == value)
                 {
+                    SetAndNotify(ref _stage3, value);
                     return;
                 }
 
@@ -1964,8 +1974,9 @@ namespace MaaWpfGui.ViewModels.UI
 
             set
             {
-                if (_remainingSanityStage == value || value == null)
+                if (_remainingSanityStage == value)
                 {
+                    SetAndNotify(ref _remainingSanityStage, value);
                     return;
                 }
 
