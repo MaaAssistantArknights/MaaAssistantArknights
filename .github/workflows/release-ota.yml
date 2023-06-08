@@ -91,7 +91,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: MaaReleaseConfig
-          path: ./build-ota/config
+          path: ./build-ota
       - name: Download latest version for server
         run: |
           mkdir -pv build-ota/${{ needs.create-tag.outputs.release_tag }}
@@ -101,6 +101,7 @@ jobs:
       - name: Build OTA
         run: |
           cd build-ota
+          mv -v MaaReleaseConfig config
           $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./config ${{ matrix.target }} 'MaaAssistantArknights/MaaRelease'
       - name: Upload to MaaRelease
         uses: svenstaro/upload-release-action@v2
