@@ -65,7 +65,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: MaaReleaseConfig
-          path: .config
+          path: ./build-ota/config
     outputs:
       prerelease: ${{ steps.fetchReleaseInfo.outputs.prerelease }}
       release_tag: ${{ steps.fetchReleaseInfo.outputs.release_tag }}
@@ -91,7 +91,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: MaaReleaseConfig
-          path: .config
+          path: ./build-ota/config
       - name: Download latest version for server
         run: |
           mkdir -pv build-ota/${{ needs.create-tag.outputs.release_tag }}
