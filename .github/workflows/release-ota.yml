@@ -76,7 +76,6 @@ jobs:
           - x64
     steps:
       - uses: actions/download-artifact@v3
-      - run: tree .
       - name: Fetch MaaRelease
         uses: actions/checkout@v3
         with:
@@ -96,7 +95,7 @@ jobs:
       - name: Build OTA
         run: |
           cd build-ota
-          $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./config ${{ matrix.target }} 'MaaAssistantArknights/MaaRelease'
+          $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ../MaaReleaseConfig/config ${{ matrix.target }} 'MaaAssistantArknights/MaaRelease'
       - name: Upload to MaaRelease
         uses: svenstaro/upload-release-action@v2
         with:
