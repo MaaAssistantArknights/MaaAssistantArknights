@@ -2156,6 +2156,7 @@ namespace MaaWpfGui.ViewModels.UI
                     history.RemoveRange(maxHistoryCount, history.Count - maxHistoryCount);
                 }
             }
+
             ConnectAddressHistory = new ObservableCollection<string>(history);
         }
 

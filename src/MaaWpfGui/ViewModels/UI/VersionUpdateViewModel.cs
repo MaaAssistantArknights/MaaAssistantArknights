@@ -165,10 +165,12 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public static bool IsArm => OSArchitecture.StartsWith("arm");
 
+        /*
         private const string RequestUrl = "repos/MaaAssistantArknights/MaaRelease/releases";
         private const string StableRequestUrl = "repos/MaaAssistantArknights/MaaAssistantArknights/releases/latest";
         private const string MaaReleaseRequestUrlByTag = "repos/MaaAssistantArknights/MaaRelease/releases/tags/";
         private const string InfoRequestUrl = "repos/MaaAssistantArknights/MaaAssistantArknights/releases/tags/";
+        */
 
         private const string MaaUpdateAPI = "https://ota.maa.plus/MaaAssistantArknights/api/version/";
 
@@ -621,8 +623,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return CheckUpdateRetT.FailedToGetInfo;
             }
 
-            var json = JsonConvert.DeserializeObject(response) as JObject;
-            if (json == null)
+            if (!(JsonConvert.DeserializeObject(response) is JObject json))
             {
                 return CheckUpdateRetT.FailedToGetInfo;
             }
@@ -694,6 +695,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+#pragma warning disable IDE0051 // 删除未使用的私有成员
         private async Task<string> RequestGithubApi(string url, int retryTimes)
         {
             string response = string.Empty;
@@ -713,6 +715,7 @@ namespace MaaWpfGui.ViewModels.UI
             while (string.IsNullOrEmpty(response) && retryTimes-- > 0);
             return response;
         }
+#pragma warning restore IDE0051 // 删除未使用的私有成员
 
         /// <summary>
         /// 获取 GitHub Assets 对象对应的文件
