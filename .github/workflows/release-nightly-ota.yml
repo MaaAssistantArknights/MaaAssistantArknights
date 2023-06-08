@@ -212,19 +212,8 @@ jobs:
           overwrite: true
           body: ${{ steps.make_release_body.outputs.full_release_body }}
 
-      - name: Update Version API
+      - name: Deploy the release
         run: |
-            gh workflow --repo MaaAssistantArknights/MaaRelease run update_version_api.yml
             gh workflow --repo MaaAssistantArknights/MaaRelease run release-mirrors.yml
         env:
             GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
-
-      - name: "Upload to server"
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_ID }}
-          source: "build-ota/*.zip"
-          strip_components: 1
-          target: ${{ format('{0}/{1}', 'OTA/MaaAssistantArknights/MaaRelease/releases/download', env.release_tag) }}

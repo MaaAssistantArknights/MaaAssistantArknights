@@ -2,38 +2,31 @@ name: release-ota
 
 on:
   release:
-    types: [published]
+    types: 
+      - published
   workflow_dispatch:
     inputs:
       limit:
-        description: 'Number of releases to fetch from MaaAssistantArknights, 2 at least'
+        description: Number of releases to fetch from MaaAssistantArknights, 2 at least
         required: false
         default: "31"
       limit_2:
-        description: 'Number of releases to fetch from MaaRelease'
+        description: Number of releases to fetch from MaaRelease
         required: false
-        default: "30"
+        default: 30
+
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  make-ota:
-    runs-on: "ubuntu-latest"
-    strategy:
-      matrix: 
-        target: [x64]
+  create-tag:
+    runs-on: ubuntu-latest
     steps:
-      - name: "Fetch MaaRelease"
-        uses: actions/checkout@v3
-        with:
-          repository: ${{ format('{0}/{1}', github.repository_owner, 'MaaRelease') }}
-          path: MaaRelease
-          fetch-depth: 0
-          token: ${{ secrets.MAARELEASE_RELEASE }}
       - uses: actions/checkout@v3
         with:
           path: MaaAssistantArknights
-      - name: "Fetch release info"
-        env: 
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Fetch release info
+        id: fetchReleaseInfo
         run: |
           mkdir -pv build-ota && cd build-ota
           gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit || 31 }} | tee ./release_maa.txt
@@ -48,52 +41,64 @@ jobs:
           echo "config:"
           cat ./config
 
-          echo "prerelease=$([ $(head -n 1 release_maa.txt | awk '{ print $2}') = 'Pre-release' ] && echo true || echo false)" >> $GITHUB_ENV
-          echo "release_tag=$(head -n 1 ./config)" >> $GITHUB_ENV
-      - name: "Download latest version for server"
-        run: |
-          mkdir -pv build-ota/${{ env.release_tag }}
-          cd build-ota/${{ env.release_tag }}
-          gh release download ${{ env.release_tag }} --repo 'MaaAssistantArknights/MaaAssistantArknights' --pattern "MAA-${{ env.release_tag }}-win-${{ matrix.target }}.zip" --clobber
-          cp *.zip ..
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: "Build OTA"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cd build-ota
-          $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./config ${{ matrix.target }} 'MaaAssistantArknights/MaaRelease'
-      - name: "Commit and setup tag"
+          echo "prerelease=$([ $(head -n 1 release_maa.txt | awk '{ print $2}') = 'Pre-release' ] && echo true || echo false)" >> $GITHUB_OUTPUT
+          echo "release_tag=$(head -n 1 ./config)" >> $GITHUB_OUTPUT
+      - name: Commit and setup tag
         run: |
           cd MaaRelease
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
           git checkout --orphan __temp
           git rm -rf .
-          git commit --allow-empty --message ${{ env.release_tag }}
-          git tag ${{ env.release_tag }} || exit 0 # do nothing if the tag already exists
+          git commit --allow-empty --message ${{ steps.fetchReleaseInfo.outputs.release_tag }}
+          git tag ${{ steps.fetchReleaseInfo.outputs.release_tag }} || exit 0 # do nothing if the tag already exists
           git push --tags
         env:
           PUSH_REMOTE: https://github-actions[bot]:${{ secrets.MAARELEASE_RELEASE }}@github.com/${{ github.repository_owner }}/MaaRelease
-      - name: "Upload to MaaRelease"
+    outputs:
+      prerelease: ${{ steps.fetchReleaseInfo.outputs.prerelease }}
+      release_tag: ${{ steps.fetchReleaseInfo.outputs.release_tag }}
+
+  make-ota:
+    needs: create-tag
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: 
+        target: 
+          - x64
+    steps:
+      - name: Fetch MaaRelease
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ format('{0}/{1}', github.repository_owner, 'MaaRelease') }}
+          path: MaaRelease
+          fetch-depth: 0
+          token: ${{ secrets.MAARELEASE_RELEASE }}
+      - uses: actions/checkout@v3
+        with:
+          path: MaaAssistantArknights
+      - name: Download latest version for server
+        run: |
+          mkdir -pv build-ota/${{ needs.create-tag.outputs.release_tag }}
+          cd build-ota/${{ needs.create-tag.outputs.release_tag }}
+          gh release download ${{ needs.create-tag.outputs.release_tag }} --repo 'MaaAssistantArknights/MaaAssistantArknights' --pattern "MAA-${{ needs.create-tag.outputs.release_tag }}-win-${{ matrix.target }}.zip" --clobber
+          cp *.zip ..
+      - name: Build OTA
+        run: |
+          cd build-ota
+          $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./config ${{ matrix.target }} 'MaaAssistantArknights/MaaRelease'
+      - name: Upload to MaaRelease
         uses: svenstaro/upload-release-action@v2
         with:
           repo_name: ${{ format('{0}/{1}', github.repository_owner, 'MaaRelease') }}
           repo_token: ${{ secrets.MAARELEASE_RELEASE }}
           file_glob: true
           file: build-ota/*.zip
-          tag: ${{ env.release_tag }}
+          tag: ${{ needs.create-tag.outputs.release_tag }}
           prerelease: ${{ env.prerelease }}
           overwrite: true
 
-      - name: Update Version API
-        run: |
-            gh workflow --repo MaaAssistantArknights/MaaRelease run release-mirrors.yml
-        env:
-            GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
-
-      - name: "Upload to server"
+      - name: Upload to server
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -104,15 +109,12 @@ jobs:
           target: ${{ format('{0}/{1}', 'OTA/MaaAssistantArknights/MaaRelease/releases/download', env.release_tag) }}
 
   make-ota-mac:
+    needs: create-tag
     runs-on: macos-13
     steps:
       - name: Fetch Release Information
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit || 31 }} | tee ./release_maa.txt
       - name: Download Release Packages
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cat ./release_maa.txt | awk '{ print $1 }' | while read tag; do
             gh release download "$tag" --repo 'MaaAssistantArknights/MaaAssistantArknights' --clobber -D packages -p 'MAA-*-macos-universal.dmg' || true
@@ -121,8 +123,6 @@ jobs:
           done
           curl -fsSL -o packages/appcast.xml https://maa-release.hguandl.com/macos/appcast.xml
       - name: Setup Sparkle
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh release download --repo 'sparkle-project/Sparkle' --clobber -O - -p 'Sparkle-*.tar.xz' | tar xf -
       - name: Generate Update Packages
         run: |
@@ -131,15 +131,25 @@ jobs:
           else
             echo ${{ secrets.SPARKLE_PRIV_KEY }} | ./bin/generate_appcast --ed-key-file - ./packages
           fi
-      - name: Install Rclone
-        run: brew install rclone
-      - name: Upload Appcast Packages
-        env:
-          RCLONE_CONFIG_MAA_TYPE: s3
-          RCLONE_CONFIG_MAA_PROVIDER: Cloudflare
-          RCLONE_CONFIG_MAA_ACCESS_KEY_ID: ${{ secrets.R2_KEY_ID }}
-          RCLONE_CONFIG_MAA_SECRET_ACCESS_KEY: ${{ secrets.R2_ACCESS_KEY }}
-          RCLONE_CONFIG_MAA_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
+      - name: Upload to MaaRelease
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_name: ${{ format('{0}/{1}', github.repository_owner, 'MaaRelease') }}
+          repo_token: ${{ secrets.MAARELEASE_RELEASE }}
+          file_glob: true
+          file: packages/*
+          tag: ${{ needs.create-tag.outputs.release_tag }}
+          prerelease: ${{ env.prerelease }}
+          overwrite: true
+
+  release:
+    needs: 
+      - make-ota
+      - make-ota-mac
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy the release
         run: |
-          rclone sync ./packages MAA:maa-release/macos
-          rclone delete MAA:maa-release/macos --min-age 90d
+            gh workflow --repo MaaAssistantArknights/MaaRelease run release-mirrors.yml
+        env:
+            GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
