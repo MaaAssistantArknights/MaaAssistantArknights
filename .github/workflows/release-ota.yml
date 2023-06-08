@@ -29,9 +29,6 @@ jobs:
           path: MaaRelease
           fetch-depth: 0
           token: ${{ secrets.MAARELEASE_RELEASE }}
-      - uses: actions/checkout@v3
-        with:
-          path: MaaAssistantArknights
       - name: Fetch release info
         id: fetchReleaseInfo
         run: |
@@ -78,6 +75,8 @@ jobs:
         target: 
           - x64
     steps:
+      - uses: actions/download-artifact@v3
+      - run: tree .
       - name: Fetch MaaRelease
         uses: actions/checkout@v3
         with:
@@ -88,7 +87,6 @@ jobs:
       - uses: actions/checkout@v3
         with:
           path: MaaAssistantArknights
-      - uses: actions/download-artifact@v3
       - name: Download latest version for server
         run: |
           mkdir -pv build-ota/${{ needs.create-tag.outputs.release_tag }}
@@ -98,7 +96,6 @@ jobs:
       - name: Build OTA
         run: |
           cd build-ota
-          tree .
           $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./config ${{ matrix.target }} 'MaaAssistantArknights/MaaRelease'
       - name: Upload to MaaRelease
         uses: svenstaro/upload-release-action@v2
