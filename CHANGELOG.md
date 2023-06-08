@@ -1,81 +1,94 @@
-## v4.19.0-rc.1
+## v4.19.1-rc.1
 
 ### 新增
 
-- Supported Auto I.S. (Mizuki Roguelike) for YostarKR, YostarJP, YostarEN @178619 @su6aru @liuyifan-eric @Pitiedwzr @RiichiTsumo
-- 切换配置功能 @MistEO @ABA2396
-- 自定义关卡快捷输入 @ABA2396
+- 自动公招/公开招募功能支持3星使用1:00招募时间 @ABA2396
+- 强制替换adb前等待进程退出 @ABA2396
+- Korean client supports OF-1 @ABA2396
+- 方舟新登录ui适配 @ABA2396
+- Mac GUI 支持定时任务 @hguandl
 
 ### 改进
 
-- 支持连接失败重启 ADB @ABA2396
-- 优化关卡列表相关逻辑 @ABA2396
-- 扩大任务设置可选范围 @moomiji
-- 添加刷理智任务设置中显示基建计划功能 @moomiji
-- improve ConfirmExit() @moomiji
-- 添加隐藏关闭按钮功能 @moomiji
-- 添加托盘图标强制显示MAA功能 @moomiji
-- 增加一个文件被占用的解决方法 @MistEO
-- 加回 gui.json 备份机制 @MistEO
-- 勾选`手动输入关卡名`时可勾选`隐藏当日不开放关卡` @moomiji
-- 为日志加入简单的rotate @MistEO
+- 优化界面配置备份逻辑 @MistEO
+- 補充繁中服圖片、更新繁中文案 (#5022) @momomochi987
+   - Update zh-tw.xaml @momomochi987
+   - 繼續補充繁中服圖片 @momomochi987
+   - 補充繁中服圖片 @momomochi987
+- 尝试优化连接历史 @MistEO
 
 ### 修复
 
-- 修复截图方式判断错误导致的操作慢问题 @horror-proton @MistEO
-- 修复切换日服后再切回后OCR配置不清空的问题 @MistEO
-- 修复干员 Box 识别错误 @MistEO
-- 拖动任务顺序后无法保存修改后的顺序 @ABA2396
-- 关卡名OCR识别大小写出错导致掉落上传失败 #4867 @ABA2396
-- 尝试修复关卡选择变为null的情况 #4871 @ABA2396 @moomiji
-- 关卡选择为null时仍会执行借助战任务 @ABA2396
-- 修复 `火哨` 的基建技能 @MistEO
-- 修改LanguageList初始化过程 @ABA2396
-- 修复 `夕` 识别错误 @cenfusheng
-- window creep after restart @moomiji
+- `休眠*` 执行完后不会重置为 `无动作` @ABA2396
+- bool type error in tasks.json @ABA2396
+- vcxproj config @MistEO
+- 尝试修复一些类型 @MistEO
+- Ended early for smoke testing @MistEO
+- JP Proviso 但书 OCR replace @liuyifan-eric
+- 修正错误的日志上下文设置 @ABA2396
+- 尝试修复类型错误 @MistEO
+- 登录界面ocr错误 @ABA2396
+- 尝试修复死锁问题 @MistEO
+- res-update-game.yml @MistEO
+- res-update-game.yml @MistEO
+- 自动启动模拟器时概率关闭上一个打开的模拟器 @ABA2396
+- 修正错误的日志上下文设置 @ABA2396
 
 ### 其他
 
-- 创建本地化文档自动翻译工具 & 更新本地化文档 (#4912) @UniMars @wallsman
-- 修复资源更新器不更新水月肉鸽的问题 @MistEO
-- update meojson (#4789) @MistEO
-- 部分 CI 优化 @MistEO
-- Update operators.md (#4929) @wallsman
-- 修改对于蓝叠的支持说明 @ABA2396 @MistEO
-- 优化调整一些 CI @AnnAngela @MistEO
-- 翻译优化 @ABA2396 @LiamSho
-- add docs & emulator support for linux users (#4996) @zayn7lie
-
-### For overseas
-
-#### Common
-
-- i18n: Translations update from MAA Weblate (#4971) @LiamSho 
-- update overseas json/template tool @liuyifan-eric
-
-#### YostarJP
-
-- Supported Auto I.S. (Mizuki Roguelike) (#4936) (#4921) @su6aru @liuyifan-eric
-- JP navigation to IS event stages @liuyifan-eric
-- update JP json for gacha pull @liuyifan-eric
-- IS-10 (Yostar ongoing) slowly swipe to stage @liuyifan-eric
-- JP oper ocr replace update @liuyifan-eric
-- ad hoc fix for JP ocr of 阿 ア @liuyifan-eric
-- try to fix JP IS StageEncounter Stuck @liuyifan-eric
-
-#### YostarEN
-
-- Supported Auto I.S. (Mizuki Roguelike) (#4936) @Pitiedwzr @RiichiTsumo
-- Update tasks.json (EN, #4978) (#4985) @178619
-- Optimize and fix some issues of Mizuki @peter1997546 @Pitiedwzr
-- Fix threshold issue with `UsePrts` for YostarEN @MistEO
-- Optimize the replacement of some operator names @Constrat
-- Skadi Alter / Wild Mane fixed in oper recognition (#4998) @Constrat
-
-#### YostarKR
-
-- Supported Auto I.S. (Mizuki Roguelike) (#4932) @178619
-- Localization fix for ko-KR (#4930) @GyeRyak
-- Update resources for KR @178619
-- Update 1.3-EMULATOR_SUPPORTS.md (KR) @178619
-- stuck at a specific event (KR, #4973) @178619
+- Auto Update Game Resources - 2023-06-08 @MistEO
+- Auto Update Game Resources - 2023-06-08 @MistEO
+- 格式化代码，消除警告 @ABA2396
+- 修正新干员自动基建效率 @MistEO
+- Auto Update Game Resources - 2023-06-08 @MistEO
+- update README.md @LiamSho
+- Translated json schema for tasks.json (#5086) @Constrat
+   - Translated json schema for tasks.json @Constrat
+- Fix BattleQuickFormationClear.png for Auto Squad in YostarEN (#5085) @Constrat
+   - Changed / Fixed BattleQuickFormationClear.png for YostarEN @Constrat
+- Update 1.3-模拟器支持.md @MistEO
+- Update resource (YoStarKR) @178619
+- i18n: Translations update from MAA Weblate (#5066) @weblate
+   - Translated using Weblate (Japanese) @weblate
+- Auto Update Game Resources - 2023-06-05 @MistEO
+- Revert "chore: 加入一些日志排查死锁问题" @MistEO
+- update linux Containerized Android: waydroid (#5064) @zayn7lie
+- Auto Update Game Resources - 2023-06-05 @MistEO
+- Update tasks.json for OperBoxNameOCR YostarEN (#5059) @Constrat
+   - Update tasks.json @Constrat
+   - Update tasks.json for OperBoxNameOCR YostarEN @Constrat
+- 增加log点 方便跟踪 (#5011) @huige233
+- 将发版流程全部迁移至 MaaRelease (#4981) @AnnAngela
+- smoke-testing always upload logs @MistEO
+- update emulator support for Linux, fix en @horror-proton
+- 调整指定材料刷取数量输入上限 @ABA2396
+- 1.5 linux docs update && translation (#5031) @zayn7lie
+   - delete unnecessary sample @zayn7lie
+   - translation for linux emulator @zayn7lie
+   - normal path @zayn7lie
+   - typo @zayn7lie
+   - typo @zayn7lie
+   - grammar @zayn7lie
+   - translation for mac emulator @zayn7lie
+   - typo @zayn7lie
+   - upload sample (might be more user-friendly) @zayn7lie
+   - avd ports distribution begins from 5554 @zayn7lie
+- 加入一些日志排查死锁问题 @MistEO
+- 指定材料-刷取数量 限制输入为0~9999 @ABA2396
+- 基建计划显示在刷理智界面底部 @ABA2396
+- Added BattleStartAdverse.png for CN and EN (copilot) (#5020) @Constrat
+   - Update tasks.json for BattleStarAdverse.png @Constrat
+   - Added BattleStartAdverse.png for EN @Constrat
+   - Added BattleStartAdverse.png for Adverse start @Constrat
+- Update YostarEN tasks.json Mizuki Roguelike: map drop Triple Recruit permit exception leads to abandon (#5016) @Constrat
+   - Update tasks.json Drop Triple Recruit permit exception @Constrat
+- 改一点文案 @MistEO
+- mumu相关支持的说明 @MistEO
+- Auto Update Game Resources - 2023-05-30 @MistEO
+- 将运行完成后选项中不便理解的*修改为更易懂的文本 (#5008) @zqzhang1996
+   - 将运行完成后选项中不便理解的*修改为更易懂的文本 @zqzhang1996
+- Auto Update Game Resources - 2023-05-30 @MistEO
+- 繁中服-長夜臨光復刻活動入口 (#5003) @vonnoq
+   - 繁中服-長夜臨光復刻活動入口 @vonnoq
+- typo & code block (#5002) @zayn7lie
+   - typo & code block @zayn7lie
