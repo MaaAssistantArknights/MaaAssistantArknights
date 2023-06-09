@@ -23,7 +23,6 @@
 - bool type error in tasks.json @ABA2396
 - 修正错误的日志上下文设置 @ABA2396
 - 自动启动模拟器时概率关闭上一个打开的模拟器 @ABA2396
-- 修正错误的日志上下文设置 @ABA2396
 - Added BattleStartAdverse.png for CN and EN (copilot) (#5020) @Constrat
 
 ### 其他
