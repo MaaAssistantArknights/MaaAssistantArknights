@@ -83,7 +83,7 @@
     <system:String x:Key="StartingRoles">最初の職業</system:String>
     <system:String x:Key="StartingCoreChar">最初のオペレーター（一人だけ、中国名のみを入力可能）</system:String>
     <system:String x:Key="StartingCoreCharTip">一人のオペレーターの中国名のみをサポートします。入力されていない場合はデフォルトになります。</system:String>
-    <system:String x:Key="RoguelikeUseSupportUnit">&quot;最初のオペレーター&quot;をサポートから選択</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnit">"最初のオペレーター"をサポートから選択</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">フレンド以外のサポートの使用を許可</system:String>
     <system:String x:Key="DeploymentWithPause">統合戦略/保全駐在でポーズトリックを使用します（ベータ機能のため非推奨です）</system:String>
     <system:String x:Key="AdbLiteEnabled">軽量ADBを使用(実験機能)</system:String>
@@ -231,7 +231,7 @@
     <system:String x:Key="MainViewButtonFeature">スタート画面に表示する便利ボタン</system:String>
     <system:String x:Key="CustomStageCode">ステージ名を入力する</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">(テスト機能)ステージ名と番号（例: 4-10、AP-5、H10-1-Hardなど）
-の両方がサポートされています。レベルの最後に&quot;Normal/Hard&quot;を入力することで、標準から強襲/厄難に難易度を切り替えることができます</system:String>
+の両方がサポートされています。レベルの最後に"Normal/Hard"を入力することで、標準から強襲/厄難に難易度を切り替えることができます</system:String>
     <system:String x:Key="AutoDetectConnection">接続自動認識</system:String>
     <system:String x:Key="AutoDetectConnectionTip">このチェックボックスは、検出が完了するたびに自動的にチェックが外れますが、再検出が必要な場合は再度チェックを入れることができます</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">毎回再検出する</system:String>
