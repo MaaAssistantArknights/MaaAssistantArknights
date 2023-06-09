@@ -106,7 +106,7 @@ jobs:
           file_glob: true
           file: build-ota/*.zip
           tag: ${{ needs.create-tag.outputs.release_tag }}
-          prerelease: ${{ needs.create-tag.outputs.prerelease }}
+          prerelease: ${{ fromJSON(needs.create-tag.outputs.prerelease) }}
           overwrite: true
 
   make-ota-mac:
@@ -141,7 +141,7 @@ jobs:
           file_glob: true
           file: packages/*
           tag: ${{ needs.create-tag.outputs.release_tag }}
-          prerelease: ${{ needs.create-tag.outputs.prerelease }}
+          prerelease: ${{ fromJSON(needs.create-tag.outputs.prerelease) }}
           overwrite: true
 
   release:
