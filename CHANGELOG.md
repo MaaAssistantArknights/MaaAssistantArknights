@@ -1,7 +1,8 @@
-## v4.19.1-rc.1
+## v4.19.1
 
 ### 新增
 
+- `空想花庭` 活动导航支持 @ABA2396
 - 自动公招/公开招募功能支持3星使用1:00招募时间 @ABA2396
 - 方舟新登录ui适配 @ABA2396
 - Mac GUI 支持定时任务 @hguandl
@@ -14,6 +15,7 @@
 - 调整指定材料刷取数量输入上限 @ABA2396
 - 基建计划显示在刷理智界面底部 @ABA2396
 - 将运行完成后选项中不便理解的`*`修改为更易懂的文本 (#5008) @zqzhang1996
+- 修复关卡选择显示错误 @ABA2396
 
 ### 修复
 
@@ -39,6 +41,7 @@
 - smoke-testing always upload logs @MistEO
 - update emulator support for Linux, fix en @horror-proton
 - typo & code block (#5002) @zayn7lie
+- 修复 OTA CI 错误 @AnnAngela @MistEO
 
 ### For overseas
 
