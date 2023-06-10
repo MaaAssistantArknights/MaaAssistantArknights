@@ -183,7 +183,7 @@
     <system:String x:Key="MinimizeAfterLaunch">Auto Minimize after launched</system:String>
     <system:String x:Key="ClientType">Client Type</system:String>
     <system:String x:Key="AutoRestartOption">Restart when game disconnects</system:String>
-    <system:String x:Key="HelpUsWithOverseasServersTip">The Global Servers' adaptation is very difficult and we need your help! No programming knowledge is required.</system:String>
+    <system:String x:Key="HelpUsWithOverseasServersTip">The adaptation for Overseas clients is very difficult and we need your help! No programming knowledge is required.</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">Startup Emulator after launched</system:String>
     <system:String x:Key="MinimizingStartup">Minimizing the startup Emulator</system:String>
     <system:String x:Key="WaitForEmulator">Delay time (s)</system:String>
