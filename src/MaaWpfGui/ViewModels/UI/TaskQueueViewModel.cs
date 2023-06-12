@@ -1075,7 +1075,7 @@ namespace MaaWpfGui.ViewModels.UI
                 "XYAZ" => KillEmulatorXYAZ(),
                 "BlueStacks" => KillEmulatorBlueStacks(),
                 "MuMuEmulator12" => KillEmulatorMuMuEmulator12(),
-                _ => KillEumlatorbyWindow(),
+                _ => KillEmulatorbyWindow(),
             };
         }
 
@@ -1122,13 +1122,13 @@ namespace MaaWpfGui.ViewModels.UI
                     else
                     {
                         _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
-                        return KillEumlatorbyWindow();
+                        return KillEmulatorbyWindow();
                     }
                 }
                 else
                 {
                     _logger.Error($"Error: `{consolePath}` not found, try to kill eumlator by window.");
-                    return KillEumlatorbyWindow();
+                    return KillEmulatorbyWindow();
                 }
             }
 
@@ -1180,13 +1180,13 @@ namespace MaaWpfGui.ViewModels.UI
                     else
                     {
                         _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
-                        return KillEumlatorbyWindow();
+                        return KillEmulatorbyWindow();
                     }
                 }
                 else
                 {
                     _logger.Information($"Error: `{consolePath}` not found, try to kill eumlator by window.");
-                    return KillEumlatorbyWindow();
+                    return KillEmulatorbyWindow();
                 }
             }
 
@@ -1236,13 +1236,13 @@ namespace MaaWpfGui.ViewModels.UI
                     else
                     {
                         _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
-                        return KillEumlatorbyWindow();
+                        return KillEmulatorbyWindow();
                     }
                 }
                 else
                 {
                     _logger.Information($"Error: `{consolePath}` not found, try to kill eumlator by window.");
-                    return KillEumlatorbyWindow();
+                    return KillEmulatorbyWindow();
                 }
             }
 
@@ -1285,13 +1285,13 @@ namespace MaaWpfGui.ViewModels.UI
                     else
                     {
                         _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
-                        return KillEumlatorbyWindow();
+                        return KillEmulatorbyWindow();
                     }
                 }
                 else
                 {
                     _logger.Information($"Error: `{consolePath}` not found, try to kill eumlator by window.");
-                    return KillEumlatorbyWindow();
+                    return KillEmulatorbyWindow();
                 }
             }
 
@@ -1314,7 +1314,7 @@ namespace MaaWpfGui.ViewModels.UI
                 if (File.Exists(consolePath))
                 {
                     _logger.Information($"Info: `{consolePath}` has been found. This may be the BlueStacks China emulator, try to kill the emulator by window.");
-                    return KillEumlatorbyWindow();
+                    return KillEmulatorbyWindow();
                 }
                 else
                 {
@@ -1346,7 +1346,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// Kills emulator by Window hwnd.
         /// </summary>
         /// <returns>Whether the operation is successful.</returns>
-        public bool KillEumlatorbyWindow()
+        public bool KillEmulatorbyWindow()
         {
             IntPtr hwnd;
             int pid = 0;
