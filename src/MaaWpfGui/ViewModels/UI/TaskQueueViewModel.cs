@@ -1114,9 +1114,16 @@ namespace MaaWpfGui.ViewModels.UI
                         UseShellExecute = false,
                     };
                     var process = Process.Start(startInfo);
-                    process.WaitForExit(5000);
-
-                    return KillEmulator();
+                    if (process.WaitForExit(5000))
+                    {
+                        _logger.Information($"Emulator at index {emuIndex} closed through console. Console path: {consolePath}");
+                        return KillEmulator();
+                    }
+                    else
+                    {
+                        _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
+                        return KillEumlatorbyWindow();
+                    }
                 }
                 else
                 {
@@ -1165,9 +1172,16 @@ namespace MaaWpfGui.ViewModels.UI
                         UseShellExecute = false,
                     };
                     var process = Process.Start(startInfo);
-                    process.WaitForExit(5000);
-
-                    return KillEmulator();
+                    if (process.WaitForExit(5000))
+                    {
+                        _logger.Information($"Emulator at index {emuIndex} closed through console. Console path: {consolePath}");
+                        return KillEmulator();
+                    }
+                    else
+                    {
+                        _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
+                        return KillEumlatorbyWindow();
+                    }
                 }
                 else
                 {
@@ -1214,9 +1228,16 @@ namespace MaaWpfGui.ViewModels.UI
                         UseShellExecute = false,
                     };
                     var process = Process.Start(startInfo);
-                    process.WaitForExit(5000);
-
-                    return KillEmulator();
+                    if (process.WaitForExit(5000))
+                    {
+                        _logger.Information($"Emulator at index {emuIndex} closed through console. Console path: {consolePath}");
+                        return KillEmulator();
+                    }
+                    else
+                    {
+                        _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
+                        return KillEumlatorbyWindow();
+                    }
                 }
                 else
                 {
@@ -1256,9 +1277,16 @@ namespace MaaWpfGui.ViewModels.UI
                         UseShellExecute = false,
                     };
                     var process = Process.Start(startInfo);
-                    process.WaitForExit(5000);
-
-                    return KillEmulator();
+                    if (process.WaitForExit(5000))
+                    {
+                        _logger.Information($"Emulator at index {emuIndex} closed through console. Console path: {consolePath}");
+                        return KillEmulator();
+                    }
+                    else
+                    {
+                        _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
+                        return KillEumlatorbyWindow();
+                    }
                 }
                 else
                 {
@@ -1305,7 +1333,7 @@ namespace MaaWpfGui.ViewModels.UI
                         }
                         catch (Exception ex)
                         {
-                            _logger.Information($"Error: Failed to kill emulator process with PID {processes[0].Id}. Exception: {ex.Message}");
+                            _logger.Error($"Error: Failed to kill emulator process with PID {processes[0].Id}. Exception: {ex.Message}");
                         }
                     }
                 }
@@ -1354,7 +1382,15 @@ namespace MaaWpfGui.ViewModels.UI
                     if (!emulator.WaitForExit(5000))
                     {
                         emulator.Kill();
-                        emulator.WaitForExit(5000);
+                        if (emulator.WaitForExit(5000))
+                        {
+                            _logger.Information($"Emulator with process ID {pid} killed successfully.");
+                        }
+                        else
+                        {
+                            _logger.Error($"Failed to kill emulator with process ID {pid}.");
+                            return false;
+                        }
                     }
                     else
                     {
