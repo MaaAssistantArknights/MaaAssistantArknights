@@ -1,0 +1,2 @@
+ 
+[2023/06/12 10:27:02] ppocr INFO: best metric, acc: 0.9873972600280454, is_float16: False, norm_edit_dis: 0.9970026982157735, fps: 5277.8769910667925, best_epoch: 136
