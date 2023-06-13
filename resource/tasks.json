@@ -2620,10 +2620,10 @@
         ],
         "fullMatch": true,
         "roi": [
-            595,
-            418,
-            87,
-            46
+            373,
+            145,
+            535,
+            430
         ]
     },
     "StartLoginBServer": {
