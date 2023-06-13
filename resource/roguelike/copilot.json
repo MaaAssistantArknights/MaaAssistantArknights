@@ -5297,14 +5297,14 @@
                     2,
                     4
                 ],
-                "direction": "lift"
+                "direction": "left"
             },
             {
                 "location": [
                     2,
                     3
                 ],
-                "direction": "lift"
+                "direction": "left"
             },
             {
                 "location": [
