@@ -1095,6 +1095,14 @@
         "sortId": -10000,
         "usage": "梅什科集團推出的全新商業形式，可以在卡西米爾的免稅紀念商店購買紀念品。"
     },
+    "act13mini_token_can": {
+        "classifyType": "NONE",
+        "description": "本週末，龍門近衛局將攜手本地流浪動物收容站舉辦領養活動，希望條件合適的市民朋友可以踴躍參與，給流離失所的小生命一個重獲新生的機會。\n當然，沒有領養條件的朋友也可以為它們捐助一份營養罐頭，我們為每一位捐助者都準備了精美的小禮品。",
+        "icon": "act13mini_token_can.png",
+        "name": "寵物營養罐頭",
+        "sortId": -10000,
+        "usage": "龍門市面上常見的寵物營養罐頭，實惠美味。只要彈彈罐頭上的拉環，就會有一隻小可愛向你奔來。"
+    },
     "act13side_prestige_armorless": {
         "classifyType": "NONE",
         "description": null,
