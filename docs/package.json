@@ -11,8 +11,10 @@
     "@vuepress/plugin-search": "next"
   },
   "devDependencies": {
+    "markdown-it": "^13.0.1",
+    "markdown-it-anchor": "^8.6.7",
     "markdownlint-cli": "^0.32.2",
-    "vuepress": "next"
+    "vuepress": "^2.0.0-beta.63"
   },
   "scripts": {
     "dev": "vuepress dev .",
