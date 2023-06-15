@@ -6632,6 +6632,150 @@
         "stageId": "act26side_08",
         "width": 13
     },
+    "act26side_ex01#f#-activities/act26side/level_act26side_ex01": {
+        "code": "HE-EX-1",
+        "filename": "act26side_ex01#f#-activities-act26side-level_act26side_ex01.json",
+        "height": 7,
+        "levelId": "activities/act26side/level_act26side_ex01",
+        "name": "齐来崇拜",
+        "stageId": "act26side_ex01#f#",
+        "width": 11
+    },
+    "act26side_ex01-activities/act26side/level_act26side_ex01": {
+        "code": "HE-EX-1",
+        "filename": "act26side_ex01-activities-act26side-level_act26side_ex01.json",
+        "height": 7,
+        "levelId": "activities/act26side/level_act26side_ex01",
+        "name": "齐来崇拜",
+        "stageId": "act26side_ex01",
+        "width": 11
+    },
+    "act26side_ex02#f#-activities/act26side/level_act26side_ex02": {
+        "code": "HE-EX-2",
+        "filename": "act26side_ex02#f#-activities-act26side-level_act26side_ex02.json",
+        "height": 7,
+        "levelId": "activities/act26side/level_act26side_ex02",
+        "name": "带领我归家",
+        "stageId": "act26side_ex02#f#",
+        "width": 11
+    },
+    "act26side_ex02-activities/act26side/level_act26side_ex02": {
+        "code": "HE-EX-2",
+        "filename": "act26side_ex02-activities-act26side-level_act26side_ex02.json",
+        "height": 7,
+        "levelId": "activities/act26side/level_act26side_ex02",
+        "name": "带领我归家",
+        "stageId": "act26side_ex02",
+        "width": 11
+    },
+    "act26side_ex03#f#-activities/act26side/level_act26side_ex03": {
+        "code": "HE-EX-3",
+        "filename": "act26side_ex03#f#-activities-act26side-level_act26side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act26side/level_act26side_ex03",
+        "name": "万古磐石",
+        "stageId": "act26side_ex03#f#",
+        "width": 12
+    },
+    "act26side_ex03-activities/act26side/level_act26side_ex03": {
+        "code": "HE-EX-3",
+        "filename": "act26side_ex03-activities-act26side-level_act26side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act26side/level_act26side_ex03",
+        "name": "万古磐石",
+        "stageId": "act26side_ex03",
+        "width": 12
+    },
+    "act26side_ex04#f#-activities/act26side/level_act26side_ex04": {
+        "code": "HE-EX-4",
+        "filename": "act26side_ex04#f#-activities-act26side-level_act26side_ex04.json",
+        "height": 7,
+        "levelId": "activities/act26side/level_act26side_ex04",
+        "name": "骷髅苦地",
+        "stageId": "act26side_ex04#f#",
+        "width": 12
+    },
+    "act26side_ex04-activities/act26side/level_act26side_ex04": {
+        "code": "HE-EX-4",
+        "filename": "act26side_ex04-activities-act26side-level_act26side_ex04.json",
+        "height": 7,
+        "levelId": "activities/act26side/level_act26side_ex04",
+        "name": "骷髅苦地",
+        "stageId": "act26side_ex04",
+        "width": 12
+    },
+    "act26side_ex05#f#-activities/act26side/level_act26side_ex05": {
+        "code": "HE-EX-5",
+        "filename": "act26side_ex05#f#-activities-act26side-level_act26side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act26side/level_act26side_ex05",
+        "name": "向高处行",
+        "stageId": "act26side_ex05#f#",
+        "width": 12
+    },
+    "act26side_ex05-activities/act26side/level_act26side_ex05": {
+        "code": "HE-EX-5",
+        "filename": "act26side_ex05-activities-act26side-level_act26side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act26side/level_act26side_ex05",
+        "name": "向高处行",
+        "stageId": "act26side_ex05",
+        "width": 12
+    },
+    "act26side_ex06#f#-activities/act26side/level_act26side_ex06": {
+        "code": "HE-EX-6",
+        "filename": "act26side_ex06#f#-activities-act26side-level_act26side_ex06.json",
+        "height": 9,
+        "levelId": "activities/act26side/level_act26side_ex06",
+        "name": "主接纳罪人",
+        "stageId": "act26side_ex06#f#",
+        "width": 12
+    },
+    "act26side_ex06-activities/act26side/level_act26side_ex06": {
+        "code": "HE-EX-6",
+        "filename": "act26side_ex06-activities-act26side-level_act26side_ex06.json",
+        "height": 9,
+        "levelId": "activities/act26side/level_act26side_ex06",
+        "name": "主接纳罪人",
+        "stageId": "act26side_ex06",
+        "width": 12
+    },
+    "act26side_ex07#f#-activities/act26side/level_act26side_ex07": {
+        "code": "HE-EX-7",
+        "filename": "act26side_ex07#f#-activities-act26side-level_act26side_ex07.json",
+        "height": 9,
+        "levelId": "activities/act26side/level_act26side_ex07",
+        "name": "完全的爱",
+        "stageId": "act26side_ex07#f#",
+        "width": 12
+    },
+    "act26side_ex07-activities/act26side/level_act26side_ex07": {
+        "code": "HE-EX-7",
+        "filename": "act26side_ex07-activities-act26side-level_act26side_ex07.json",
+        "height": 9,
+        "levelId": "activities/act26side/level_act26side_ex07",
+        "name": "完全的爱",
+        "stageId": "act26side_ex07",
+        "width": 12
+    },
+    "act26side_ex08#f#-activities/act26side/level_act26side_ex08": {
+        "code": "HE-EX-8",
+        "filename": "act26side_ex08#f#-activities-act26side-level_act26side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act26side/level_act26side_ex08",
+        "name": "夕阳西沉",
+        "stageId": "act26side_ex08#f#",
+        "width": 13
+    },
+    "act26side_ex08-activities/act26side/level_act26side_ex08": {
+        "code": "HE-EX-8",
+        "filename": "act26side_ex08-activities-act26side-level_act26side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act26side/level_act26side_ex08",
+        "name": "夕阳西沉",
+        "stageId": "act26side_ex08",
+        "width": 13
+    },
     "act26side_tr01-activities/act26side/level_act26side_tr01": {
         "code": "HE-TR-1",
         "filename": "act26side_tr01-activities-act26side-level_act26side_tr01.json",
