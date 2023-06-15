@@ -72,7 +72,7 @@ asst::infrast::CustomRoomConfig& asst::InfrastAbstractTask::current_room_config(
 {
     static infrast::CustomRoomConfig empty;
     if (!m_is_custom) {
-        Log.error(__FUNCTION__, "custom is not enabled");
+        Log.info(__FUNCTION__, "custom is not enabled");
         return empty;
     }
 

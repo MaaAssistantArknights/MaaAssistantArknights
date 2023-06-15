@@ -40,7 +40,7 @@ jobs:
       - name: Create Release Tag and push
         run: |
           git tag -a "${{ steps.extract_tag.outputs.tag_name }}" -m "${{ steps.extract_tag.outputs.tag_name }}" -f
-          git push origin "${{ steps.extract_tag.outputs.tag_name }}" -f
+          git push origin "${{ steps.extract_tag.outputs.tag_name }}"
 
       - name: Merge into dev and push
         run: |
