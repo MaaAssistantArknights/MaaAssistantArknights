@@ -133,7 +133,7 @@ jobs:
             echo ${{ secrets.SPARKLE_PRIV_KEY }} | ./bin/generate_appcast --ed-key-file - ./packages
           fi
       - name: Clean unneed files
-        run: find ./packages -type f ! \( -name 'MAA-${{ needs.create-tag.outputs.release_tag }}*.dmg' -o -name 'MAA-${{ needs.create-tag.outputs.release_tag }}*.html' -o -name '*.delta' -o -name '*.xml' \) -print -delete
+        run: find ./packages -type f ! \( -name 'MAA-${{ needs.create-tag.outputs.release_tag }}-macos-universal.dmg' -o -name '*.delta' -o -name '*.xml' \) -print -delete
       - name: Upload to MaaRelease
         uses: svenstaro/upload-release-action@v2
         with:

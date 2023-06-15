@@ -870,6 +870,15 @@
                 ],
                 "template": "Bskill_man_exp&limit3.png"
             },
+            "bskill_man_exp0": {
+                "desc": [
+                    "进驻制造站时，作战记录类配方的生产力+20%"
+                ],
+                "name": [
+                    "公证所教习α"
+                ],
+                "template": "Bskill_man_exp4.png"
+            },
             "bskill_man_exp1": {
                 "desc": [
                     "进驻制造站时，作战记录类配方的生产力+25%"
@@ -907,18 +916,6 @@
                     "拳术指导录像"
                 ],
                 "template": "Bskill_man_exp3.png"
-            },
-            "bskill_man_exp4": {
-                "desc": [
-                    "进驻制造站时，作战记录类配方的生产力+20%"
-                ],
-                "efficient": {
-                    "CombatRecord": 20.1
-                },
-                "name": [
-                    "公证所教习α"
-                ],
-                "template": "Bskill_man_exp4.png"
             },
             "bskill_man_gold1": {
                 "desc": [

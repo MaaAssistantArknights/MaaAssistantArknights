@@ -461,13 +461,18 @@ bool update_infrast_data(const std::filesystem::path& input_dir, const std::file
 
         rooms.emplace(room_type);
 
-        std::string key = static_cast<std::string>(buff_obj["skillIcon"]);
+        std::string raw_key = static_cast<std::string>(buff_obj["skillIcon"]);
         std::string name = static_cast<std::string>(buff_obj["buffName"]);
         // 这玩意里面有类似 xml 的东西，全删一下
         std::string desc = static_cast<std::string>(buff_obj["description"]);
         remove_xml(desc);
 
-        auto& skill = root[room_type]["skills"][key];
+        std::string json_key = raw_key;
+        // https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/5123#issuecomment-1589425675
+        if (json_key == "bskill_man_exp4") {
+            json_key = "bskill_man_exp0";
+        }
+        auto& skill = root[room_type]["skills"][json_key];
         auto& name_arr = skill["name"].as_array();
         bool new_name = true;
         for (auto& name_obj : name_arr) {
@@ -484,7 +489,7 @@ bool update_infrast_data(const std::filesystem::path& input_dir, const std::file
         // 历史遗留问题，以前的图片是从wiki上爬的，都是大写开头
         // Windows下不区分大小写，现在新的小写文件名图片没法覆盖
         // 所以干脆全用大写开头算了
-        std::string filename = key + ".png";
+        std::string filename = raw_key + ".png";
         filename[0] -= 32;
         skill["template"] = std::move(filename);
     }
