@@ -29,7 +29,7 @@
     <SolidColorBrush x:Key="TitleBrush" Color="#326cf3" />
 
     <!--  UiLogColor  -->
-    <SolidColorBrush x:Key="ErrorLogBrush" Color="#C80000" />
+    <SolidColorBrush x:Key="ErrorLogBrush" Color="Red" />
     <SolidColorBrush x:Key="WarningLogBrush" Color="Goldenrod" />
     <SolidColorBrush x:Key="InfoLogBrush" Color="#00C8C8" />
     <SolidColorBrush x:Key="TraceLogBrush" Color="DarkGray" />
