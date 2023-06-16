@@ -3084,20 +3084,6 @@
             "StartButton2WaitTime"
         ]
     },
-    "StartButton3": {
-        "action": "ClickSelf",
-        "preDelay": 1000,
-        "roi": [
-            1000,
-            350,
-            220,
-            340
-        ],
-        "next": [
-            "StartButton3TryAgain",
-            "StartButton3WaitTime"
-        ]
-    },
     "StartButton2TryAgain": {
         "action": "ClickSelf",
         "template": "StartButton2.png",
@@ -3109,19 +3095,6 @@
         ],
         "next": [
             "StartButton2#next"
-        ]
-    },
-    "StartButton3TryAgain": {
-        "action": "ClickSelf",
-        "template": "StartButton3.png",
-        "roi": [
-            1000,
-            350,
-            220,
-            340
-        ],
-        "next": [
-            "StartButton3#next"
         ]
     },
     "StartButton2WaitTime": {
@@ -3136,9 +3109,22 @@
             "WaitAfterPRTS"
         ]
     },
+    "StartButton3": {
+        "baseTask": "StartButton2",
+        "next": [
+            "StartButton3TryAgain",
+            "StartButton3WaitTime"
+        ]
+    },
+    "StartButton3TryAgain": {
+        "baseTask": "StartButton2TryAgain",
+        "template": "StartButton3.png",
+        "next": [
+            "StartButton3#next"
+        ]
+    },
     "StartButton3WaitTime": {
-        "algorithm": "JustReturn",
-        "postDelay": 40000,
+        "baseTask": "StartButton2WaitTime",
         "next": [
             "PRTS#next",
             "EndOfAction",
