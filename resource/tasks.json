@@ -2589,7 +2589,8 @@
         ],
         "reduceOtherTimes": [
             "StartButton1",
-            "StartButton2"
+            "StartButton2",
+            "StartButton3"
         ],
         "next": [
             "StartUpThemes#next",
@@ -2813,7 +2814,8 @@
         ],
         "reduceOtherTimes": [
             "StartButton1",
-            "StartButton2"
+            "StartButton2",
+            "StartButton3"
         ],
         "next": [
             "OfflineConfirmImpl"
@@ -2999,6 +3001,7 @@
         ],
         "next": [
             "StartButton2",
+            "StartButton3",
             "UseMedicine",
             "UseStone",
             "NoStone",
@@ -3081,6 +3084,20 @@
             "StartButton2WaitTime"
         ]
     },
+    "StartButton3": {
+        "action": "ClickSelf",
+        "preDelay": 1000,
+        "roi": [
+            1000,
+            350,
+            220,
+            340
+        ],
+        "next": [
+            "StartButton3TryAgain",
+            "StartButton3WaitTime"
+        ]
+    },
     "StartButton2TryAgain": {
         "action": "ClickSelf",
         "template": "StartButton2.png",
@@ -3094,6 +3111,19 @@
             "StartButton2#next"
         ]
     },
+    "StartButton3TryAgain": {
+        "action": "ClickSelf",
+        "template": "StartButton3.png",
+        "roi": [
+            1000,
+            350,
+            220,
+            340
+        ],
+        "next": [
+            "StartButton3#next"
+        ]
+    },
     "StartButton2WaitTime": {
         "algorithm": "JustReturn",
         "postDelay": 40000,
@@ -3101,6 +3131,18 @@
             "PRTS#next",
             "EndOfAction",
             "StartButton2TryAgain",
+            "PrtsErrorConfirm",
+            "OfflineConfirm",
+            "WaitAfterPRTS"
+        ]
+    },
+    "StartButton3WaitTime": {
+        "algorithm": "JustReturn",
+        "postDelay": 40000,
+        "next": [
+            "PRTS#next",
+            "EndOfAction",
+            "StartButton3TryAgain",
             "PrtsErrorConfirm",
             "OfflineConfirm",
             "WaitAfterPRTS"
@@ -3262,6 +3304,7 @@
         "next": [
             "StartButton1",
             "StartButton2",
+            "StartButton3",
             "UseMedicine",
             "UseStone",
             "NoStone",
@@ -3471,7 +3514,8 @@
         "action": "ClickSelf",
         "reduceOtherTimes": [
             "StartButton1",
-            "StartButton2"
+            "StartButton2",
+            "StartButton3"
         ],
         "roi": [
             0,
@@ -8789,7 +8833,6 @@
             "Roguelike@StageTraderInvestSystem",
             "Roguelike@StageTraderLeave",
             "Roguelike@StageTraderRefreshWithDiceDoubleConfirm"
-
         ]
     },
     "Roguelike@StageTraderSpecialShoppingAfterRefresh": {
