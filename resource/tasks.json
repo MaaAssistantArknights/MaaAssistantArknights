@@ -2589,7 +2589,8 @@
         ],
         "reduceOtherTimes": [
             "StartButton1",
-            "StartButton2"
+            "StartButton2",
+            "StartButton3"
         ],
         "next": [
             "StartUpThemes#next",
@@ -2813,7 +2814,8 @@
         ],
         "reduceOtherTimes": [
             "StartButton1",
-            "StartButton2"
+            "StartButton2",
+            "StartButton3"
         ],
         "next": [
             "OfflineConfirmImpl"
@@ -2999,6 +3001,7 @@
         ],
         "next": [
             "StartButton2",
+            "StartButton3",
             "UseMedicine",
             "UseStone",
             "NoStone",
@@ -3101,6 +3104,31 @@
             "PRTS#next",
             "EndOfAction",
             "StartButton2TryAgain",
+            "PrtsErrorConfirm",
+            "OfflineConfirm",
+            "WaitAfterPRTS"
+        ]
+    },
+    "StartButton3": {
+        "baseTask": "StartButton2",
+        "next": [
+            "StartButton3TryAgain",
+            "StartButton3WaitTime"
+        ]
+    },
+    "StartButton3TryAgain": {
+        "baseTask": "StartButton2TryAgain",
+        "template": "StartButton3.png",
+        "next": [
+            "StartButton3#next"
+        ]
+    },
+    "StartButton3WaitTime": {
+        "baseTask": "StartButton2WaitTime",
+        "next": [
+            "PRTS#next",
+            "EndOfAction",
+            "StartButton3TryAgain",
             "PrtsErrorConfirm",
             "OfflineConfirm",
             "WaitAfterPRTS"
@@ -3262,6 +3290,7 @@
         "next": [
             "StartButton1",
             "StartButton2",
+            "StartButton3",
             "UseMedicine",
             "UseStone",
             "NoStone",
@@ -3471,7 +3500,8 @@
         "action": "ClickSelf",
         "reduceOtherTimes": [
             "StartButton1",
-            "StartButton2"
+            "StartButton2",
+            "StartButton3"
         ],
         "roi": [
             0,
@@ -8789,7 +8819,6 @@
             "Roguelike@StageTraderInvestSystem",
             "Roguelike@StageTraderLeave",
             "Roguelike@StageTraderRefreshWithDiceDoubleConfirm"
-
         ]
     },
     "Roguelike@StageTraderSpecialShoppingAfterRefresh": {
