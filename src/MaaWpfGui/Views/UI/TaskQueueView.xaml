@@ -59,9 +59,9 @@
                         dd:DragDrop.IsDragSource="{Binding Idle}"
                         dd:DragDrop.IsDropTarget="{Binding Idle}"
                         BorderThickness="0"
+                        DragDrop.Drop="{s:Action TaskItemSelectionChanged}"
                         ItemContainerStyle="{StaticResource CustomListBoxItemStyle}"
                         ItemsSource="{Binding Path=TaskItemViewModels}"
-                        DragDrop.Drop="{s:Action TaskItemSelectionChanged}"
                         ToolTip="{DynamicResource LabelSequenceTip}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -206,7 +206,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" MinHeight="360" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" MaxHeight="230" />
+                <RowDefinition Height="*" MaxHeight="250" />
             </Grid.RowDefinitions>
             <hc:ScrollViewer
                 Grid.Row="0"
