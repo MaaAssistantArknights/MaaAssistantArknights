@@ -3094,7 +3094,7 @@
             340
         ],
         "next": [
-            "StartButton2-Normal#next"
+            "StartButton2Normal#next"
         ]
     },
     "StartButton2NormalWaitTime": {
