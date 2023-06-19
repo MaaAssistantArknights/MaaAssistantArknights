@@ -2589,8 +2589,8 @@
         ],
         "reduceOtherTimes": [
             "StartButton1",
-            "StartButton2-Normal",
-            "StartButton2-Adverse"
+            "StartButton2Normal",
+            "StartButton2Adverse"
         ],
         "next": [
             "StartUpThemes#next",
@@ -2814,8 +2814,8 @@
         ],
         "reduceOtherTimes": [
             "StartButton1",
-            "StartButton2-Normal",
-            "StartButton2-Adverse"
+            "StartButton2Normal",
+            "StartButton2Adverse"
         ],
         "next": [
             "OfflineConfirmImpl"
@@ -3000,8 +3000,8 @@
             "(ClickCornerAfterPRTS+ClickCorner)*5"
         ],
         "next": [
-            "StartButton2-Normal",
-            "StartButton2-Adverse",
+            "StartButton2Normal",
+            "StartButton2Adverse",
             "UseMedicine",
             "UseStone",
             "NoStone",
@@ -3015,7 +3015,7 @@
         "exceededNext": [],
         "reduceOtherTimes": [],
         "preDelay": 0,
-        "rectMoveDoc": "点击“行动”避免第二次点击时点到StartButton2-Normal",
+        "rectMoveDoc": "点击“行动”避免第二次点击时点到StartButton2Normal",
         "rectMove": [
             38,
             0,
@@ -3070,7 +3070,7 @@
             "Stop"
         ]
     },
-    "StartButton2-Normal": {
+    "StartButton2Normal": {
         "action": "ClickSelf",
         "preDelay": 1000,
         "roi": [
@@ -3080,13 +3080,13 @@
             340
         ],
         "next": [
-            "StartButton2-NormalTryAgain",
-            "StartButton2-NormalWaitTime"
+            "StartButton2NormalTryAgain",
+            "StartButton2NormalWaitTime"
         ]
     },
-    "StartButton2-NormalTryAgain": {
+    "StartButton2NormalTryAgain": {
         "action": "ClickSelf",
-        "template": "StartButton2-Normal.png",
+        "template": "StartButton2Normal.png",
         "roi": [
             1000,
             350,
@@ -3097,38 +3097,38 @@
             "StartButton2-Normal#next"
         ]
     },
-    "StartButton2-NormalWaitTime": {
+    "StartButton2NormalWaitTime": {
         "algorithm": "JustReturn",
         "postDelay": 40000,
         "next": [
             "PRTS#next",
             "EndOfAction",
-            "StartButton2-NormalTryAgain",
+            "StartButton2NormalTryAgain",
             "PrtsErrorConfirm",
             "OfflineConfirm",
             "WaitAfterPRTS"
         ]
     },
-    "StartButton2-Adverse": {
-        "baseTask": "StartButton2-Normal",
+    "StartButton2Adverse": {
+        "baseTask": "StartButton2Normal",
         "next": [
-            "StartButton2-AdverseTryAgain",
-            "StartButton2-AdverseWaitTime"
+            "StartButton2AdverseTryAgain",
+            "StartButton2AdverseWaitTime"
         ]
     },
-    "StartButton2-AdverseTryAgain": {
-        "baseTask": "StartButton2-NormalTryAgain",
-        "template": "StartButton2-Adverse.png",
+    "StartButton2AdverseTryAgain": {
+        "baseTask": "StartButton2NormalTryAgain",
+        "template": "StartButton2Adverse.png",
         "next": [
-            "StartButton2-Adverse#next"
+            "StartButton2Adverse#next"
         ]
     },
-    "StartButton2-AdverseWaitTime": {
-        "baseTask": "StartButton2-NormalWaitTime",
+    "StartButton2AdverseWaitTime": {
+        "baseTask": "StartButton2NormalWaitTime",
         "next": [
             "PRTS#next",
             "EndOfAction",
-            "StartButton2-AdverseTryAgain",
+            "StartButton2AdverseTryAgain",
             "PrtsErrorConfirm",
             "OfflineConfirm",
             "WaitAfterPRTS"
@@ -3289,8 +3289,8 @@
         "maxTimes": 5,
         "next": [
             "StartButton1",
-            "StartButton2-Normal",
-            "StartButton2-Adverse",
+            "StartButton2Normal",
+            "StartButton2Adverse",
             "UseMedicine",
             "UseStone",
             "NoStone",
@@ -3500,8 +3500,8 @@
         "action": "ClickSelf",
         "reduceOtherTimes": [
             "StartButton1",
-            "StartButton2-Normal",
-            "StartButton2-Adverse"
+            "StartButton2Normal",
+            "StartButton2Adverse"
         ],
         "roi": [
             0,
