@@ -2589,7 +2589,7 @@
         ],
         "reduceOtherTimes": [
             "StartButton1",
-            "StartButton2Normal",
+            "StartButton2",
             "StartButton2Adverse"
         ],
         "next": [
@@ -2814,7 +2814,7 @@
         ],
         "reduceOtherTimes": [
             "StartButton1",
-            "StartButton2Normal",
+            "StartButton2",
             "StartButton2Adverse"
         ],
         "next": [
@@ -3000,7 +3000,7 @@
             "(ClickCornerAfterPRTS+ClickCorner)*5"
         ],
         "next": [
-            "StartButton2Normal",
+            "StartButton2",
             "StartButton2Adverse",
             "UseMedicine",
             "UseStone",
@@ -3015,7 +3015,7 @@
         "exceededNext": [],
         "reduceOtherTimes": [],
         "preDelay": 0,
-        "rectMoveDoc": "点击“行动”避免第二次点击时点到StartButton2Normal",
+        "rectMoveDoc": "点击“行动”避免第二次点击时点到StartButton2",
         "rectMove": [
             38,
             0,
@@ -3070,7 +3070,7 @@
             "Stop"
         ]
     },
-    "StartButton2Normal": {
+    "StartButton2": {
         "action": "ClickSelf",
         "preDelay": 1000,
         "roi": [
@@ -3080,13 +3080,13 @@
             340
         ],
         "next": [
-            "StartButton2NormalTryAgain",
-            "StartButton2NormalWaitTime"
+            "StartButton2TryAgain",
+            "StartButton2WaitTime"
         ]
     },
-    "StartButton2NormalTryAgain": {
+    "StartButton2TryAgain": {
         "action": "ClickSelf",
-        "template": "StartButton2Normal.png",
+        "template": "StartButton2.png",
         "roi": [
             1000,
             350,
@@ -3094,37 +3094,37 @@
             340
         ],
         "next": [
-            "StartButton2Normal#next"
+            "StartButton2#next"
         ]
     },
-    "StartButton2NormalWaitTime": {
+    "StartButton2WaitTime": {
         "algorithm": "JustReturn",
         "postDelay": 40000,
         "next": [
             "PRTS#next",
             "EndOfAction",
-            "StartButton2NormalTryAgain",
+            "StartButton2TryAgain",
             "PrtsErrorConfirm",
             "OfflineConfirm",
             "WaitAfterPRTS"
         ]
     },
     "StartButton2Adverse": {
-        "baseTask": "StartButton2Normal",
+        "baseTask": "StartButton2",
         "next": [
             "StartButton2AdverseTryAgain",
             "StartButton2AdverseWaitTime"
         ]
     },
     "StartButton2AdverseTryAgain": {
-        "baseTask": "StartButton2NormalTryAgain",
+        "baseTask": "StartButton2TryAgain",
         "template": "StartButton2Adverse.png",
         "next": [
             "StartButton2Adverse#next"
         ]
     },
     "StartButton2AdverseWaitTime": {
-        "baseTask": "StartButton2NormalWaitTime",
+        "baseTask": "StartButton2WaitTime",
         "next": [
             "PRTS#next",
             "EndOfAction",
@@ -3289,7 +3289,7 @@
         "maxTimes": 5,
         "next": [
             "StartButton1",
-            "StartButton2Normal",
+            "StartButton2",
             "StartButton2Adverse",
             "UseMedicine",
             "UseStone",
@@ -3500,7 +3500,7 @@
         "action": "ClickSelf",
         "reduceOtherTimes": [
             "StartButton1",
-            "StartButton2Normal",
+            "StartButton2",
             "StartButton2Adverse"
         ],
         "roi": [
