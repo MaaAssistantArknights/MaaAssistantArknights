@@ -352,12 +352,13 @@ namespace MaaWpfGui.Services
         public string GetStageTips(DayOfWeek dayOfWeek)
         {
             var builder = new StringBuilder();
-            var sideStoryFlag = true;
+            var sideStoryFlags = new Dictionary<string, bool>();
             foreach (var item in _stages)
             {
                 if (item.Value.IsStageOpen(dayOfWeek))
                 {
-                    if (sideStoryFlag && !string.IsNullOrEmpty(item.Value.Activity?.StageName))
+                    if (!string.IsNullOrEmpty(item.Value.Activity?.StageName)
+                        && !sideStoryFlags.ContainsKey(item.Value.Activity.StageName))
                     {
                         DateTime dateTime = DateTime.UtcNow;
                         var daysleftopen = (item.Value.Activity.UtcExpireTime - dateTime).Days;
@@ -365,7 +366,7 @@ namespace MaaWpfGui.Services
                             + " "
                             + LocalizationHelper.GetString("Daysleftopen")
                             + (daysleftopen > 0 ? daysleftopen.ToString() : LocalizationHelper.GetString("LessThanOneDay")));
-                        sideStoryFlag = false;
+                        sideStoryFlags[item.Value.Activity.StageName] = true;
                     }
 
                     if (!string.IsNullOrEmpty(item.Value.Tip))

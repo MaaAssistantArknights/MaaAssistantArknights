@@ -153,6 +153,31 @@ jobs:
     steps:
       - name: Deploy the release
         run: |
-            gh workflow --repo MaaAssistantArknights/MaaRelease run release-mirrors.yml
+          gh workflow --repo MaaAssistantArknights/MaaRelease run release-mirrors.yml
         env:
-            GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
+          GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
+      - name: "Fetch MaaAssistantArknights"
+        uses: actions/checkout@v3
+      - name: Deploy the docs
+        env:
+          GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
+        run: |
+          git tag --list 'v*' --sort=-creatordate | head -n 2 > ${{ runner.temp }}/release_maa.txt
+          export NEW_VERSION=$(sed -n '1p' ${{ runner.temp }}/release_maa.txt)
+          echo "NEW_VERSION: $NEW_VERSION"
+          export OLD_VERSION=$(sed -n '2p' ${{ runner.temp }}/release_maa.txt)
+          echo "OLD_VERSION: $OLD_VERSION"
+          git diff --name-only  "$NEW_VERSION" "$OLD_VERSION" > ${{ runner.temp }}/diff
+          export DOCS_CHANGED=false
+          while IFS= read -r file; do
+            file=$(echo "$file" | sed 's/"//g')
+            if [[ $file == "docs/"* ]]; then
+              echo "Found docs changed: $file"
+              export DOCS_CHANGED=true
+            fi
+          done < ${{ runner.temp }}/diff
+          echo "DOCS_CHANGED: $DOCS_CHANGED"
+          if [ "$variable" = "true" ]; then
+            gh workflow --repo MaaAssistantArknights/maa-website run azure-deploy.yaml
+            echo "Deploying the docs."
+          fi

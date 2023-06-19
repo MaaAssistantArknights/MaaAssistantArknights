@@ -571,13 +571,15 @@ namespace MaaWpfGui.ViewModels.UI
 
             CouldLikeWebJson = false;
 
+            // PostAsJsonAsync 会自动序列化为 json
+            /*
             string jsonParam = JsonConvert.SerializeObject(new
             {
                 id = CopilotId,
                 rating,
             });
-
-            var response = await Instances.HttpService.PostAsJsonAsync(new Uri(_copilotRatingUrl), jsonParam);
+            */
+            var response = await Instances.HttpService.PostAsJsonAsync(new Uri(_copilotRatingUrl), new { id = CopilotId, rating });
             if (response == null)
             {
                 AddLog(LocalizationHelper.GetString("FailedToLikeWebJson"), UiLogColor.Error);
