@@ -2589,7 +2589,8 @@
         ],
         "reduceOtherTimes": [
             "StartButton1",
-            "StartButton2"
+            "StartButton2",
+            "StartButton2Adverse"
         ],
         "next": [
             "StartUpThemes#next",
@@ -2813,7 +2814,8 @@
         ],
         "reduceOtherTimes": [
             "StartButton1",
-            "StartButton2"
+            "StartButton2",
+            "StartButton2Adverse"
         ],
         "next": [
             "OfflineConfirmImpl"
@@ -2999,6 +3001,7 @@
         ],
         "next": [
             "StartButton2",
+            "StartButton2Adverse",
             "UseMedicine",
             "UseStone",
             "NoStone",
@@ -3101,6 +3104,31 @@
             "PRTS#next",
             "EndOfAction",
             "StartButton2TryAgain",
+            "PrtsErrorConfirm",
+            "OfflineConfirm",
+            "WaitAfterPRTS"
+        ]
+    },
+    "StartButton2Adverse": {
+        "baseTask": "StartButton2",
+        "next": [
+            "StartButton2AdverseTryAgain",
+            "StartButton2AdverseWaitTime"
+        ]
+    },
+    "StartButton2AdverseTryAgain": {
+        "baseTask": "StartButton2TryAgain",
+        "template": "StartButton2Adverse.png",
+        "next": [
+            "StartButton2Adverse#next"
+        ]
+    },
+    "StartButton2AdverseWaitTime": {
+        "baseTask": "StartButton2WaitTime",
+        "next": [
+            "PRTS#next",
+            "EndOfAction",
+            "StartButton2AdverseTryAgain",
             "PrtsErrorConfirm",
             "OfflineConfirm",
             "WaitAfterPRTS"
@@ -3262,6 +3290,7 @@
         "next": [
             "StartButton1",
             "StartButton2",
+            "StartButton2Adverse",
             "UseMedicine",
             "UseStone",
             "NoStone",
@@ -3471,7 +3500,8 @@
         "action": "ClickSelf",
         "reduceOtherTimes": [
             "StartButton1",
-            "StartButton2"
+            "StartButton2",
+            "StartButton2Adverse"
         ],
         "roi": [
             0,
@@ -8789,7 +8819,6 @@
             "Roguelike@StageTraderInvestSystem",
             "Roguelike@StageTraderLeave",
             "Roguelike@StageTraderRefreshWithDiceDoubleConfirm"
-
         ]
     },
     "Roguelike@StageTraderSpecialShoppingAfterRefresh": {
