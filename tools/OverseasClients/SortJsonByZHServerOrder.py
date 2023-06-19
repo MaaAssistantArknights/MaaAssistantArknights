@@ -17,17 +17,40 @@ import os
 import sys
 from collections import OrderedDict
 
-server_list = [
-    "YoStarJP",
-    "YoStarEN",
-    "YoStarKR",
-    "txwy"
-]
+server_list = {
+    "YoStarJP": [
+        "yostarjp",
+        "jp",
+        "日",
+        "日服"
+    ],
+    "YoStarEN": [
+        "yostaren",
+        "en",
+        "美",
+        "美服",
+        "國際",
+        "國際服"
+    ],
+    "YoStarKR": [
+        "yostarkr",
+        "kr",
+        "韓",
+        "韓服"
+    ],
+    "txwy": [
+        "txwy"
+        "繁中",
+        "繁中服"
+    ]
+}
 
 # Get the server name from argument
 try:
     # server_name = YoStarJP
-    server_name = sys.argv[1]
+    server_name = None
+    for listed_server in server_list:
+        server_name = listed_server if (not server_name) and sys.argv[1].casefold() in server_list[listed_server] else server_name
     if server_name not in server_list:
         raise
 except Exception:
@@ -36,7 +59,8 @@ except Exception:
         print("Enter one and only one server name:",
               ", ".join(server_list))
         t = input()
-        server_name = t if t in server_list else None
+        for listed_server in server_list:
+            server_name = listed_server if (not server_name) and t.casefold() in server_list[listed_server] else server_name
 
 cur_dir = os.path.dirname(os.path.abspath(__file__))
 proj_dir = os.path.join(cur_dir, "../../")
@@ -44,7 +68,10 @@ proj_dir = os.path.join(cur_dir, "../../")
 # File name of the json
 # NOTE: You may change this to e.g. recruitment.json
 # This is hardcoded because tasks.json is the most likely modified one
-json_name = "tasks.json"
+try:
+    json_name = sys.argv[2]
+except IndexError:
+    json_name = "tasks.json"
 
 zh_json_file = os.path.join(proj_dir, "resource/", json_name)
 gl_json_file = os.path.join(proj_dir, "resource/global/",
@@ -66,10 +93,10 @@ key_order = {k: v for v, k in enumerate(zh_json)}
 gl_json_new = OrderedDict(
     sorted(gl_json.items(), key=lambda i: key_order.get(i[0], LAST_POSITIONS)))
 
-with open(gl_json_file, 'w', encoding='utf-8') as gl_fh:
+with open(gl_json_file, 'wb') as gl_fh:
     t = json.dumps(gl_json_new, indent=4, separators=(
         ',', ': '), ensure_ascii=False)
-    gl_fh.write(t)
+    gl_fh.write(bytes(t+'\n', "utf-8"))
     # print(t)
     print("successfully sorted the", server_name,
           "json file (", json_name, ") by the order in ZH json file")
