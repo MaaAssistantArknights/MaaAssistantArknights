@@ -1652,6 +1652,7 @@
             "StageEpisode",
             "StageEpisodeToOF",
             "OFToOF-Chapter",
+            "ChapterSwipeToTheLeft",
             "OF-1@SideStoryStage"
         ]
     },
@@ -1697,7 +1698,7 @@
         "postDelay": 1000,
         "next": [
             "#self",
-            "ChapterSwipeToTheLeft"
+            "Stop"
         ]
     },
     "OF-Chapter2": {
