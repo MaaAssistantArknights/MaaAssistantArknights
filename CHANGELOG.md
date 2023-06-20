@@ -1,4 +1,8 @@
-## v4.19.2-rc.1
+## v4.19.2
+
+### 新增
+
+- 新增 LE 活动关卡导航 @ABA2396
 
 ### 改进
 
@@ -12,21 +16,22 @@
 
 ### 修复
 
-- 修复自动基建 bskill_man_exp4 技能错误 @MistEO
+- 修复特别关注识别错误、部分干员名错误 @MistEO
+- 修复抄作业编队超过 10 人时无法选人的问题 @MistEO
+- 修复自动基建 制造站 bskill_man_exp4 技能错误 @MistEO
 - 扩大roi范围，修复PlayCover无法开始唤醒 #5099 @ABA2396
 - 点赞接口序列化两次导致后端报错 @ABA2396
 
 ### 其他
 
 - fix filename @horror-proton
-- Auto Update Game Resources - 2023-06-15
+- Auto Update Game Resources
 - 修正拼写错误 @ABA2396 @kongwei981126 @doquangminh28
 - Update en-bug-report.yaml @ABA2396
 - 移除不需要的changelog @AnnAngela
 - 删除多余mac完整包 @AnnAngela
 - Do not force push tag @MistEO
 - 集成战略文档更新 (#5186) @LingXii
-- Auto Update Game Resources - 2023-06-18 @MistEO
 - 发版检测到docs发生变动时部署 @AnnAngela
 
 ### For overseas

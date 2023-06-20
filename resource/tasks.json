@@ -1694,6 +1694,11 @@
             439,
             287,
             168
+        ],
+        "postDelay": 1000,
+        "next": [
+            "#self",
+            "Stop"
         ]
     },
     "OF-Chapter2": {
@@ -1923,11 +1928,17 @@
     },
     "LE-Open": {
         "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "复刻",
+            "已开放"
+        ],
+        "postDelay": 2000,
         "roi": [
-            471,
             0,
-            530,
-            711
+            500,
+            500,
+            150
         ]
     },
     "LEChapterToLE": {
@@ -2482,6 +2493,14 @@
         "fullMatch": true,
         "ocrReplace": [
             [
+                "^4",
+                ""
+            ],
+            [
+                "^<",
+                ""
+            ],
+            [
                 "^令.+",
                 "令"
             ],
@@ -2544,6 +2563,10 @@
             [
                 "^夕.*",
                 "夕"
+            ],
+            [
+                "12E",
+                "12F"
             ]
         ]
     },
@@ -6447,7 +6470,7 @@
             107,
             20
         ],
-        "postDelay": 100
+        "postDelay": 200
     },
     "BattleQuickFormationSkill1": {
         "algorithm": "JustReturn",
