@@ -1923,11 +1923,17 @@
     },
     "LE-Open": {
         "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "复刻",
+            "已开放"
+        ],
+        "postDelay": 2000,
         "roi": [
-            471,
             0,
-            530,
-            711
+            500,
+            500,
+            150
         ]
     },
     "LEChapterToLE": {
