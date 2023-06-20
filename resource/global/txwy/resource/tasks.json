@@ -2765,6 +2765,36 @@
             "關卡已開放"
         ]
     },
+    "IC-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "text": [
+            "理想城",
+            "活動",
+            "開放"
+        ]
+    },
+    "ICChapterToIC": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            1030,
+			400,
+			219,
+			130
+        ],
+        "postDelay": 2000,
+        "next": [
+            "ICChapterToIC",
+            "ChapterSwipeToTheRight"
+        ]
+    },
     "StageEpisodeToOF": {
         "text": [
             "火藍之心"
