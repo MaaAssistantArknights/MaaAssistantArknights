@@ -184,12 +184,13 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
         Task.get("BattleQuickFormationSkill3")->specific_rect,
     };
 
-    if (opers_result.empty() || m_last_oper_name == opers_result.back().text) {
-        Log.info("last oper name is same as current, skip");
-        return false;
+    if (!opers_result.empty()) {
+        if (m_last_oper_name == opers_result.back().text) {
+            Log.info("last oper name is same as current, skip");
+            return false;
+        }
+        m_last_oper_name = opers_result.back().text;
     }
-
-    m_last_oper_name = opers_result.back().text;
 
     int delay = Task.get("BattleQuickFormationOCR")->post_delay;
 
@@ -218,6 +219,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
         sleep(delay);
         if (1 <= skill && skill <= 3) {
             ctrler()->click(SkillRectArray.at(skill - 1ULL));
+            sleep(delay);
         }
         groups.erase(iter);
 
