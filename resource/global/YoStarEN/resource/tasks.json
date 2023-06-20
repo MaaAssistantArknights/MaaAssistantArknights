@@ -8,16 +8,6 @@
         ],
         "template": "Task.png"
     },
-    "EnterChapterDifficultyHard": {
-        "text": [
-            "Start Operation"
-        ]
-    },
-    "EnterChapterDifficultyNormal": {
-        "text": [
-            "Start Operation"
-        ]
-    },
     "BattleStageName": {
         "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
         "ocrReplace": [
@@ -2367,6 +2357,16 @@
     "CreditStoreOcr": {
         "text": [
             "Credit Store"
+        ]
+    },
+    "EnterChapterDifficultyHard": {
+        "text": [
+            "Start Operation"
+        ]
+    },
+    "EnterChapterDifficultyNormal": {
+        "text": [
+            "Start Operation"
         ]
     },
     "ExpiringMedicineCheck": {
