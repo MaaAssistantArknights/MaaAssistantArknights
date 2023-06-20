@@ -12266,6 +12266,15 @@
         "stageId": "mem_dusk_1",
         "width": 11
     },
+    "mem_ebnhlz_1-obt/memory/level_memory_ebnhlz_1": {
+        "code": "mem_ebnhlz_1",
+        "filename": "mem_ebnhlz_1-obt-memory-level_memory_ebnhlz_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_ebnhlz_1",
+        "name": "辗转反侧",
+        "stageId": "mem_ebnhlz_1",
+        "width": 11
+    },
     "mem_elysm_1-obt/memory/level_memory_elysm_1": {
         "code": "mem_elysm_1",
         "filename": "mem_elysm_1-obt-memory-level_memory_elysm_1.json",
@@ -12337,6 +12346,15 @@
         "name": "愉快合作",
         "stageId": "mem_fang_1",
         "width": 12
+    },
+    "mem_firwhl_1-obt/memory/level_memory_firwhl_1": {
+        "code": "mem_firwhl_1",
+        "filename": "mem_firwhl_1-obt-memory-level_memory_firwhl_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_firwhl_1",
+        "name": "“热烈欢迎”",
+        "stageId": "mem_firwhl_1",
+        "width": 10
     },
     "mem_flint_1-obt/memory/level_memory_flint_1": {
         "code": "mem_flint_1",
@@ -12482,6 +12500,15 @@
         "stageId": "mem_haak_1",
         "width": 12
     },
+    "mem_hbisc2_1-obt/memory/level_memory_hbisc2_1": {
+        "code": "mem_hbisc2_1",
+        "filename": "mem_hbisc2_1-obt-memory-level_memory_hbisc2_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_hbisc2_1",
+        "name": "并蒂花",
+        "stageId": "mem_hbisc2_1",
+        "width": 11
+    },
     "mem_headbr_1-obt/memory/level_memory_headbr_1": {
         "code": "mem_headbr_1",
         "filename": "mem_headbr_1-obt-memory-level_memory_headbr_1.json",
@@ -12571,6 +12598,15 @@
         "name": "战战兢兢",
         "stageId": "mem_jesica_1",
         "width": 11
+    },
+    "mem_kafka_1-obt/memory/level_memory_kafka_1": {
+        "code": "mem_kafka_1",
+        "filename": "mem_kafka_1-obt-memory-level_memory_kafka_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_kafka_1",
+        "name": "步步紧逼",
+        "stageId": "mem_kafka_1",
+        "width": 12
     },
     "mem_kazema_1-obt/memory/level_memory_kazema_1": {
         "code": "mem_kazema_1",
@@ -12932,6 +12968,15 @@
         "stageId": "mem_prove_1",
         "width": 9
     },
+    "mem_pudd_1-obt/memory/level_memory_pudd_1": {
+        "code": "mem_pudd_1",
+        "filename": "mem_pudd_1-obt-memory-level_memory_pudd_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_pudd_1",
+        "name": "电力充沛",
+        "stageId": "mem_pudd_1",
+        "width": 8
+    },
     "mem_quartz_1-obt/memory/level_memory_quartz_1": {
         "code": "mem_quartz_1",
         "filename": "mem_quartz_1-obt-memory-level_memory_quartz_1.json",
@@ -13264,6 +13309,15 @@
         "name": "伞下荫蔽",
         "stageId": "mem_tuye_1",
         "width": 9
+    },
+    "mem_utage_1-obt/memory/level_memory_utage_1": {
+        "code": "mem_utage_1",
+        "filename": "mem_utage_1-obt-memory-level_memory_utage_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_utage_1",
+        "name": "捍卫潮流",
+        "stageId": "mem_utage_1",
+        "width": 11
     },
     "mem_vigna_1-obt/memory/level_memory_vigna_1": {
         "code": "mem_vigna_1",
