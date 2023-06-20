@@ -6470,7 +6470,7 @@
             107,
             20
         ],
-        "postDelay": 100
+        "postDelay": 200
     },
     "BattleQuickFormationSkill1": {
         "algorithm": "JustReturn",
