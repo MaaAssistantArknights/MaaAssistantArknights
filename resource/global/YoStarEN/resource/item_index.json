@@ -1583,6 +1583,14 @@
         "sortId": 60021,
         "usage": "Filled with an assortment of supplies and materials."
     },
+    "randomMaterialRune_11": {
+        "classifyType": "CONSUME",
+        "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
+        "icon": "randomMaterialRune_11.png",
+        "name": "Operation Fake Waves Supplies",
+        "sortId": 60022,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
     "randomMaterialRune_2": {
         "classifyType": "CONSUME",
         "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
