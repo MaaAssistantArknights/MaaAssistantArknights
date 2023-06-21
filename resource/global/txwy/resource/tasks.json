@@ -1333,6 +1333,36 @@
             "前往上一次作戰"
         ]
     },
+    "IC-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "text": [
+            "理想城",
+            "活動",
+            "開放"
+        ]
+    },
+    "ICChapterToIC": {
+        "action": "ClickSelf",
+        "cache": false,
+        "next": [
+            "ICChapterToIC",
+            "ChapterSwipeToTheRight"
+        ],
+        "postDelay": 2000,
+        "roi": [
+            1030,
+            400,
+            219,
+            130
+        ]
+    },
     "InfrastEnterOperList": {
         "text": [
             "心情",
@@ -2767,36 +2797,6 @@
             "愚人號",
             "活動",
             "關卡已開放"
-        ]
-    },
-    "IC-Open": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
-        "roi": [
-            0,
-            500,
-            500,
-            150
-        ],
-        "text": [
-            "理想城",
-            "活動",
-            "開放"
-        ]
-    },
-    "ICChapterToIC": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            1030,
-			400,
-			219,
-			130
-        ],
-        "postDelay": 2000,
-        "next": [
-            "ICChapterToIC",
-            "ChapterSwipeToTheRight"
         ]
     },
     "StageEpisodeToOF": {
