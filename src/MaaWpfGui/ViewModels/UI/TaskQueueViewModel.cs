@@ -681,6 +681,10 @@ namespace MaaWpfGui.ViewModels.UI
             await Task.Run(() => Instances.SettingsViewModel.RunScript("StartsWithScript"));
 
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
+            if (!Instances.SettingsViewModel.AdbReplaced && !Instances.SettingsViewModel.IsAdbTouchMode())
+            {
+                AddLog(LocalizationHelper.GetString("AdbReplacementTips"), UiLogColor.Info);
+            }
 
             string errMsg = string.Empty;
             bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
@@ -692,6 +696,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
+            // 尝试启动模拟器
             if (!connected)
             {
                 AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToStartEmulator"));
@@ -706,6 +711,7 @@ namespace MaaWpfGui.ViewModels.UI
                 connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
             }
 
+            // 尝试重启adb
             if (!connected)
             {
                 AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("RestartADB"));
@@ -807,10 +813,6 @@ namespace MaaWpfGui.ViewModels.UI
             if (taskRet)
             {
                 AddLog(LocalizationHelper.GetString("Running"));
-                if (!Instances.SettingsViewModel.AdbReplaced && !Instances.SettingsViewModel.IsAdbTouchMode())
-                {
-                    AddLog(LocalizationHelper.GetString("AdbReplacementTips"), UiLogColor.Info);
-                }
             }
             else
             {
