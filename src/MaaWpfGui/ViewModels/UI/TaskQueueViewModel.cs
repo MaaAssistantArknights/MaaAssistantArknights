@@ -1070,6 +1070,7 @@ namespace MaaWpfGui.ViewModels.UI
         public bool KillEmulatorModeSwitcher()
         {
             string emulatorMode = Instances.SettingsViewModel.ConnectConfig;
+            Instances.AsstProxy.Connected = false;
             return emulatorMode switch
             {
                 "Nox" => KillEmulatorNox(),
