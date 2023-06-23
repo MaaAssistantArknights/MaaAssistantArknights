@@ -427,6 +427,13 @@ namespace MaaWpfGui.Main
         }
 
         private bool connected = false;
+
+        public bool Connected
+        {
+            get => connected;
+            set => connected = value;
+        }
+
         private string connectedAdb;
         private string connectedAddress;
 
