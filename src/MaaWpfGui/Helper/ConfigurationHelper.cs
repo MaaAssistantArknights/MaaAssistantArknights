@@ -316,6 +316,11 @@ namespace MaaWpfGui.Helper
 
         public static bool AddConfiguration(string configName, string copyFrom = null)
         {
+            if (string.IsNullOrEmpty(configName))
+            {
+                return false;
+            }
+
             if (_kvsMap.ContainsKey(configName))
             {
                 _logger.Warning("Configuration {ConfigName} already exists", configName);
