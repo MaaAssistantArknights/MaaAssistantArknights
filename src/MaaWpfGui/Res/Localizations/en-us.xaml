@@ -376,7 +376,7 @@ At the end of the level, enter "Normal/Hard" to switch between Standard and Adve
     <system:String x:Key="VideoRecognition">Video</system:String>
     <system:String x:Key="StartToVideoRecognition">Start to identify</system:String>
     <system:String x:Key="OpenVideoRecognitionResult">Open Directory</system:String>
-    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">For video recognition, please open the "Copilot" tab and drag the strategy video into it.\n
+    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">For video recognition, please open the "Copilot" tab and drag the strategy video into it.
 The video aspect ratio needs to be 16:9 without interference factors such as black borders, emulator borders, special shapes and screen corrections.</system:String>
     <!--  Video Recognition  -->
     <system:String x:Key="Gacha">Gacha</system:String>
