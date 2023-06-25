@@ -575,4 +575,5 @@
     <system:String x:Key="AddConfigSuccess">構成&lt; {0}&gt;が正常に追加されました</system:String>
     <system:String x:Key="ConfigExists">構成 &lt; {0}&gt; は既に存在します</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">ファイルが占有されています。コンピュータを再起動して再試行してください</system:String>
+    <system:String x:Key="CheckBoxesNotSavedAsNull">そのオプションは、右クリックで選択した場合に再起動後に保存しないように設定されています</system:String>
 </ResourceDictionary>
