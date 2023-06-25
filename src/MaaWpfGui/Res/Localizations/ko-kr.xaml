@@ -276,7 +276,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <!--  작전 설정  -->
     <system:String x:Key="UseSanityPotion">이성 회복제 사용</system:String>
     <system:String x:Key="UseOriginitePrime">순오리지늄 사용*</system:String>
-    <system:String x:Key="PerformBattles">횟수 제한*</system:String>
+    <system:String x:Key="PerformBattles">횟수 제한</system:String>
     <system:String x:Key="AssignedMaterial">드롭 제한</system:String>
     <system:String x:Key="Quantity">드롭 수</system:String>
     <system:String x:Key="StageSelect">스테이지 선택</system:String>

@@ -40,5 +40,14 @@ namespace MaaWpfGui.Views.UserControl
         {
             SetText?.Invoke(sender, paras);
         }
+
+        private void CheckBox_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Right)
+            {
+                CheckBox checkBox = (CheckBox)sender;
+                checkBox.IsChecked = checkBox.IsChecked == null ? (bool?)false : null;
+            }
+        }
     }
 }

@@ -139,6 +139,7 @@
     <system:String x:Key="HotKeyChangingTip">键入 退格/Esc/Delete 清除当前热键</system:String>
     <system:String x:Key="LabelSequenceTip">标签顺序可拖动</system:String>
     <system:String x:Key="CheckBoxesNotSaved">该选项设置重启后不保存</system:String>
+    <system:String x:Key="CheckBoxesNotSavedAsNull">该选项设置右键选中时重启后不保存</system:String>
     <system:String x:Key="NoAutoNavigation">该选项不会自动导航至对应关卡</system:String>
     <system:String x:Key="StartupUpdateCheck">自动检查更新</system:String>
     <system:String x:Key="UpdatAutoCheck">定时检查更新</system:String>
@@ -281,7 +282,7 @@
     <!--  战斗设置  -->
     <system:String x:Key="UseSanityPotion">吃理智药</system:String>
     <system:String x:Key="UseOriginitePrime">吃源石*</system:String>
-    <system:String x:Key="PerformBattles">指定次数*</system:String>
+    <system:String x:Key="PerformBattles">指定次数</system:String>
     <system:String x:Key="AssignedMaterial">指定材料</system:String>
     <system:String x:Key="Quantity">刷取数量</system:String>
     <system:String x:Key="StageSelect">关卡选择</system:String>
