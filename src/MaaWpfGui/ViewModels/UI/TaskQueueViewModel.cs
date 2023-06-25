@@ -2258,25 +2258,35 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _useMedicine = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicine, bool.FalseString));
+        private bool? _useMedicineWithNull = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicine, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use medicine with null.
+        /// </summary>
+        public bool? UseMedicineWithNull
+        {
+            get => _useMedicineWithNull;
+            set
+            {
+                SetAndNotify(ref _useMedicineWithNull, value);
+                if (value == false)
+                {
+                    UseStone = false;
+                }
+
+                SetFightParams();
+                value ??= false;
+                ConfigurationHelper.SetValue(ConfigurationKeys.UseMedicine, value.ToString());
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether to use medicine.
         /// </summary>
         public bool UseMedicine
         {
-            get => _useMedicine;
-            set
-            {
-                SetAndNotify(ref _useMedicine, value);
-                if (!value)
-                {
-                    UseStone = false;
-                }
-
-                SetFightParams();
-                ConfigurationHelper.SetValue(ConfigurationKeys.UseMedicine, value.ToString());
-            }
+            get => UseMedicineWithNull != false;
+            set => UseMedicineWithNull = value;
         }
 
         private string _medicineNumber = ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicineQuantity, "999");
@@ -2350,19 +2360,30 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _hasTimesLimited;
+        private bool? _hasTimesLimitedWithNull = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.TimesLimited, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the number of times is limited with null.
+        /// </summary>
+        public bool? HasTimesLimitedWithNull
+        {
+            get => _hasTimesLimitedWithNull;
+            set
+            {
+                SetAndNotify(ref _hasTimesLimitedWithNull, value);
+                SetFightParams();
+                value ??= false;
+                ConfigurationHelper.SetValue(ConfigurationKeys.TimesLimited, value.ToString());
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether the number of times is limited.
         /// </summary>
         public bool HasTimesLimited
         {
-            get => _hasTimesLimited;
-            set
-            {
-                SetAndNotify(ref _hasTimesLimited, value);
-                SetFightParams();
-            }
+            get => HasTimesLimitedWithNull != false;
+            set => HasTimesLimitedWithNull = value;
         }
 
         private string _maxTimes = ConfigurationHelper.GetValue(ConfigurationKeys.TimesLimitedQuantity, "5");

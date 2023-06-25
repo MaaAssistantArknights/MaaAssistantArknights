@@ -139,6 +139,7 @@
     <system:String x:Key="HotKeyChangingTip">Press Backspace / Esc / Delete to clear the current value</system:String>
     <system:String x:Key="LabelSequenceTip">The label sequence can be dragged</system:String>
     <system:String x:Key="CheckBoxesNotSaved">This option is not saved after restart</system:String>
+    <system:String x:Key="CheckBoxesNotSavedAsNull">This option is not saved after restart when selected with right-click</system:String>
     <system:String x:Key="NoAutoNavigation">This feature does not automatically navigate to the stage</system:String>
     <system:String x:Key="StartupUpdateCheck">Startup Update Check</system:String>
     <system:String x:Key="UpdatAutoCheck">Scheduled Update Check</system:String>
@@ -281,7 +282,7 @@ At the end of the level, enter "Normal/Hard" to switch between Standard and Adve
     <!--  FightSettings  -->
     <system:String x:Key="UseSanityPotion">Use Sanity Potion</system:String>
     <system:String x:Key="UseOriginitePrime">Use Originium*</system:String>
-    <system:String x:Key="PerformBattles">Perform Battles*</system:String>
+    <system:String x:Key="PerformBattles">Perform Battles</system:String>
     <system:String x:Key="AssignedMaterial">Material</system:String>
     <system:String x:Key="Quantity">Quantity</system:String>
     <system:String x:Key="StageSelect">Stage</system:String>
