@@ -5,6 +5,7 @@
 #include <meojson/json.hpp>
 
 #include "Config/GeneralConfig.h"
+#include "Config/ResourceLoader.h"
 #include "Controller/Controller.h"
 #include "Status.h"
 #include "Task/Interface/AwardTask.h"
@@ -51,6 +52,10 @@ Assistant::Assistant(ApiCallback callback, void* callback_arg) : m_callback(call
 Assistant::~Assistant()
 {
     LogTraceFunction;
+
+    // dirty stuff preventing Logger from being destructed before ResourceLoader::load_thread_func exits,
+    // which creates empty files with random name on Linux. I have no idea how this could work
+    ResourceLoader::get_instance().cancel();
 
     m_thread_exit = true;
     m_thread_idle = true;
