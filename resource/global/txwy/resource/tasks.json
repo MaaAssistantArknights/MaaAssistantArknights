@@ -1371,6 +1371,12 @@
             "進駐"
         ]
     },
+    "InfrastDormConfirmButtonWait": {
+        "text": [
+            "正在提交",
+            "反饋至神經"
+        ]
+    },
     "InfrastReward": {
         "text": [
             "可收穫",
