@@ -57,7 +57,7 @@ void asst::ResourceLoader::add_load_queue(AbstractResource& res, const std::file
     m_load_cv.notify_all();
 }
 
-asst::ResourceLoader::~ResourceLoader()
+void asst::ResourceLoader::cancel()
 {
     m_load_thread_exit = true;
 
@@ -69,6 +69,11 @@ asst::ResourceLoader::~ResourceLoader()
     if (m_load_thread.joinable()) {
         m_load_thread.join();
     }
+}
+
+asst::ResourceLoader::~ResourceLoader()
+{
+    cancel();
 }
 
 bool asst::ResourceLoader::load(const std::filesystem::path& path)
