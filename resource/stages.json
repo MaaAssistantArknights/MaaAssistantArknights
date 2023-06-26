@@ -42390,13 +42390,16 @@
                 "openTime": 1634241600000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1649876400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1681412400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1649934000000
             }
         },
         "minClearTime": 169000,
@@ -42522,13 +42525,16 @@
                 "openTime": 1634241600000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1649876400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1681412400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1649934000000
             }
         },
         "minClearTime": 102000,
@@ -42654,13 +42660,16 @@
                 "openTime": 1634241600000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1649876400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1681412400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1649934000000
             }
         },
         "minClearTime": 201000,
@@ -42786,13 +42795,16 @@
                 "openTime": 1634241600000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1649876400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1681412400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1649934000000
             }
         },
         "minClearTime": 194000,
@@ -42910,13 +42922,16 @@
                 "openTime": 1634241600000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1649876400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1681412400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1649934000000
             }
         },
         "minClearTime": 150000,
@@ -43050,13 +43065,16 @@
                 "openTime": 1634241600000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1649876400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1681412400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1649934000000
             }
         },
         "minClearTime": 175000,
@@ -43214,13 +43232,16 @@
                 "openTime": 1634241600000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1649876400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1681412400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1649934000000
             }
         },
         "minClearTime": 245000,
@@ -43362,13 +43383,16 @@
                 "openTime": 1634241600000
             },
             "JP": {
-                "exist": false
+                "exist": true,
+                "openTime": 1649876400000
             },
             "KR": {
-                "exist": false
+                "exist": true,
+                "openTime": 1681412400000
             },
             "US": {
-                "exist": false
+                "exist": true,
+                "openTime": 1649934000000
             }
         },
         "minClearTime": 167000,

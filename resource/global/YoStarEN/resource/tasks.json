@@ -8,6 +8,14 @@
         ],
         "template": "Task.png"
     },
+    "BattleQuickFormationExpandRole": {
+        "roi": [
+            1166,
+            0,
+            114,
+            120
+        ]
+    },
     "BattleStageName": {
         "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
         "ocrReplace": [
@@ -727,14 +735,6 @@
         "text": [
             "Start",
             "Start Challenge"
-        ]
-    },
-    "BattleQuickFormationExpandRole": {
-        "roi": [
-            1166,
-            0,
-            114,
-            120
         ]
     },
     "CharsNameOcrReplace": {
