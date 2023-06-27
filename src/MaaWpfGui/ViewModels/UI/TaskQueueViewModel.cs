@@ -1388,6 +1388,8 @@ namespace MaaWpfGui.ViewModels.UI
                         if (emulator.WaitForExit(5000))
                         {
                             _logger.Information($"Emulator with process ID {pid} killed successfully.");
+                            KillEmulator();
+                            return true;
                         }
                         else
                         {
