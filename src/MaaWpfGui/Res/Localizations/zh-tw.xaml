@@ -237,7 +237,7 @@
     <system:String x:Key="MainViewButtonFeature">主介面可選擇按鈕功能</system:String>
     <system:String x:Key="CustomStageCode">手動輸入關卡代名</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">支持大部分主線關卡名與原列表的關卡名（如:4-10、AP-5、H10-1-Hard）
-可在關卡結尾輸入 &quot;Normal/Hard&quot; 表示需要切換標準與磨難難度</system:String>
+可在關卡結尾輸入 「Normal/Hard」 表示需要切換標準與磨難難度</system:String>
     <system:String x:Key="AutoDetectConnection">自動檢測連接</system:String>
     <system:String x:Key="AutoDetectConnectionTip">每次檢測完成後會自動取消勾選，若需要重新檢測可再次勾選</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">每次重新檢測</system:String>
