@@ -1381,16 +1381,21 @@ namespace MaaWpfGui.Main
             return id != 0;
         }
 
+        public bool AsstAppendCloseDown()
+        {
+            AsstStop();
+            AsstTaskId id = AsstAppendTaskWithEncoding("CloseDown");
+            _latestTaskId[TaskType.CloseDown] = id;
+            return id != 0;
+        }
+
         /// <summary>
         /// <c>CloseDown</c> 任务。
         /// </summary>
         /// <returns>是否成功。</returns>
         public bool AsstStartCloseDown()
         {
-            AsstStop();
-            AsstTaskId id = AsstAppendTaskWithEncoding("CloseDown");
-            _latestTaskId[TaskType.CloseDown] = id;
-            return id != 0 && AsstStart();
+            return AsstAppendCloseDown() && AsstStart();
         }
 
         /// <summary>

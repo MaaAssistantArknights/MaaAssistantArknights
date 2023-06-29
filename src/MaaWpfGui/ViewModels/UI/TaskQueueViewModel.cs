@@ -269,7 +269,7 @@ namespace MaaWpfGui.ViewModels.UI
                         count++;
                     }
 
-                    if (!Instances.AsstProxy.AsstStartCloseDown())
+                    if (!Instances.AsstProxy.AsstAppendCloseDown())
                     {
                         AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
                     }
