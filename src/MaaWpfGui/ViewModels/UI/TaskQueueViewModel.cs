@@ -193,13 +193,17 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void InitTimer()
         {
-            _timer.Interval = TimeSpan.FromSeconds(50);
+            _timer.Interval = TimeSpan.FromSeconds(60);
             _timer.Tick += Timer1_Elapsed;
             _timer.Start();
         }
 
-        private void Timer1_Elapsed(object sender, EventArgs e)
+        private async void Timer1_Elapsed(object sender, EventArgs e)
         {
+            // 提前记录时间，避免等待超过定时时间
+            int intHour = DateTime.Now.Hour;
+            int intMinute = DateTime.Now.Minute;
+
             if (NeedToUpdateDatePrompt())
             {
                 UpdateDatePrompt();
@@ -216,13 +220,6 @@ namespace MaaWpfGui.ViewModels.UI
                 });
             }
 
-            refreshCustomInfrastPlanIndexByPeriod();
-
-            if (!Idle)
-            {
-                return;
-            }
-
             if (NeedToCheckForUpdates())
             {
                 if (Instances.SettingsViewModel.UpdatAutoCheck)
@@ -237,8 +234,13 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            int intMinute = DateTime.Now.Minute;
-            int intHour = DateTime.Now.Hour;
+            refreshCustomInfrastPlanIndexByPeriod();
+
+            if (!Idle && !Instances.SettingsViewModel.ForceScheduledStart)
+            {
+                return;
+            }
+
             var timeToStart = false;
             for (int i = 0; i < 8; ++i)
             {
@@ -253,6 +255,35 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (timeToStart)
             {
+                if (Instances.SettingsViewModel.ForceScheduledStart)
+                {
+                    if (!Idle)
+                    {
+                        await Stop();
+                    }
+
+                    int count = 0;
+                    while (Instances.AsstProxy.AsstRunning() && count <= 600)
+                    {
+                        await Task.Delay(100);
+                        count++;
+                    }
+
+                    if (Instances.AsstProxy.AsstStartCloseDown())
+                    {
+                        count = 0;
+                        while (Instances.AsstProxy.AsstRunning() && count <= 600)
+                        {
+                            await Task.Delay(100);
+                            count++;
+                        }
+                    }
+                    else
+                    {
+                        AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
+                    }
+                }
+
                 LinkStart();
             }
         }
@@ -831,6 +862,13 @@ namespace MaaWpfGui.ViewModels.UI
             Stopping = true;
             AddLog(LocalizationHelper.GetString("Stopping"));
             await Task.Run(Instances.AsstProxy.AsstStop);
+
+            int count = 0;
+            while (Instances.AsstProxy.AsstRunning() && count <= 600)
+            {
+                await Task.Delay(100);
+                count++;
+            }
         }
 
         public void SetStopped()

@@ -173,6 +173,8 @@
     <system:String x:Key="NewVersionDownloadCompletedDesc">MAAをすぐにアップグレードしますか？(処理を再開)</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageTitle">新バージョンが見つかりましたが、アップデートパッケージがありません</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageDesc">アップデートするには、手動でフルパッケージをダウンロードしてください！</system:String>
+    <system:String x:Key="ForceScheduledStart">強制的なタイミングで起動</system:String>
+    <system:String x:Key="ForceScheduledStartTip">現在のタスクを停止して、ゲームを再起動し、新しいタスクを開始します</system:String>
     <system:String x:Key="Timer">タイマー</system:String>
     <system:String x:Key="SwitchConfiguration">構成を切り替える</system:String>
     <system:String x:Key="ConfigurationName">構成名</system:String>

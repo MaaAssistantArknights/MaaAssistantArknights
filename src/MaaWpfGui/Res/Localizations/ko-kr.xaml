@@ -173,6 +173,8 @@
     <system:String x:Key="NewVersionDownloadCompletedDesc">지금 바로 MAA를 업그레이드하시겠습니까? (프로세스 재시작)</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageTitle">새로운 버전이 확인되지만 업데이트 패키지가 없음</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageDesc">전체 패키지를 수동으로 다운로드해 업데이트해 주세요!</system:String>
+    <system:String x:Key="ForceScheduledStart">강제로 예약된 시작</system:String>
+    <system:String x:Key="ForceScheduledStartTip">현재 작업을 중지하고 게임을 다시 시작하여 새 작업을 시작합니다</system:String>
     <system:String x:Key="Timer">타이머</system:String>
     <system:String x:Key="SwitchConfiguration">구성 전환</system:String>
     <system:String x:Key="ConfigurationName">구성 이름</system:String>
