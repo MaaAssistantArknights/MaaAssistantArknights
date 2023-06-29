@@ -273,6 +273,8 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
                     }
+
+                    ResetFightVariables();
                 }
 
                 LinkStart();
@@ -2286,6 +2288,24 @@ namespace MaaWpfGui.ViewModels.UI
             else
             {
                 ++CustomInfrastPlanIndex;
+            }
+        }
+
+        /// <summary>
+        /// Reset unsaved battle parameters.
+        /// </summary>
+        public void ResetFightVariables()
+        {
+            UseStone = false;
+
+            if (UseMedicineWithNull == null)
+            {
+                UseMedicine = false;
+            }
+
+            if (HasTimesLimitedWithNull == null)
+            {
+                HasTimesLimited = false;
             }
         }
 

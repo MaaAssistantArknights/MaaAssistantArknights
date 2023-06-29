@@ -620,18 +620,8 @@ namespace MaaWpfGui.Main
 
                     _latestTaskId.Clear();
 
+                    Instances.TaskQueueViewModel.ResetFightVariables();
                     Instances.TaskQueueViewModel.Idle = true;
-                    Instances.TaskQueueViewModel.UseStone = false;
-                    if (Instances.TaskQueueViewModel.UseMedicineWithNull == null)
-                    {
-                        Instances.TaskQueueViewModel.UseMedicine = false;
-                    }
-
-                    if (Instances.TaskQueueViewModel.HasTimesLimitedWithNull == null)
-                    {
-                        Instances.TaskQueueViewModel.HasTimesLimited = false;
-                    }
-
                     Instances.CopilotViewModel.Idle = true;
                     Instances.RecognizerViewModel.GachaDone = true;
 
