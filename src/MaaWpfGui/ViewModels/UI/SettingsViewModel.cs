@@ -1728,6 +1728,21 @@ namespace MaaWpfGui.ViewModels.UI
 
         public TimerModel TimerModels { get; set; } = new TimerModel();
 
+        private bool _forceScheduledStart = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ForceScheduledStart, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use DrGrandet mode.
+        /// </summary>
+        public bool ForceScheduledStart
+        {
+            get => _forceScheduledStart;
+            set
+            {
+                SetAndNotify(ref _forceScheduledStart, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ForceScheduledStart, value.ToString());
+            }
+        }
+
         /* 刷理智设置 */
 
         private string _penguinId = ConfigurationHelper.GetValue(ConfigurationKeys.PenguinId, string.Empty);

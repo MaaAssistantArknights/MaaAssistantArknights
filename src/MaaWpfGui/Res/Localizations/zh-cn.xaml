@@ -83,7 +83,7 @@
     <system:String x:Key="StartingRoles">开局职业组</system:String>
     <system:String x:Key="StartingCoreChar">开局干员 (单个)</system:String>
     <system:String x:Key="StartingCoreCharTip">仅支持单个干员中文名，不填写则默认选择。</system:String>
-    <system:String x:Key="RoguelikeUseSupportUnit">“开局干员”使用助战</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnit">「开局干员」使用助战</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助战</system:String>
     <system:String x:Key="DeploymentWithPause">暂停下干员（同时影响肉鸽、自动战斗、保全）（不稳定，暂不推荐开启）</system:String>
     <system:String x:Key="AdbLiteEnabled">使用 ADB Lite（实验性功能）</system:String>
@@ -173,6 +173,8 @@
     <system:String x:Key="NewVersionDownloadCompletedDesc">是否立即更新 MAA？（重启进程）</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageTitle">检测到新版本，但未找到增量包</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageDesc">请手动下载完整包更新！</system:String>
+    <system:String x:Key="ForceScheduledStart">强制定时启动</system:String>
+    <system:String x:Key="ForceScheduledStartTip">停止当前任务，重启游戏并开始新任务</system:String>
     <system:String x:Key="Timer">定时</system:String>
     <system:String x:Key="SwitchConfiguration">切换配置</system:String>
     <system:String x:Key="ConfigurationName">配置名称</system:String>
@@ -351,7 +353,7 @@
     <system:String x:Key="RecruitmentRecognitionTip">小提示: 和主界面的自动公招是两个独立的功能，请手动打开游戏公招 Tags 界面后使用~</system:String>
     <system:String x:Key="AutoSettingTime">自动设置时间</system:String>
     <system:String x:Key="RecruitmentShowPotential">显示干员潜能（四星及以上）</system:String>
-    <system:String x:Key="RecruitmentShowPotentialTips">请使用“干员识别”获取干员信息。</system:String>
+    <system:String x:Key="RecruitmentShowPotentialTips">请使用「干员识别」获取干员信息。</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">自动选择 3 星 Tags</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">自动选择 4 星 Tags</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">自动选择 5 星 Tags</system:String>
@@ -377,7 +379,7 @@
     <system:String x:Key="VideoRecognition">视频识别</system:String>
     <system:String x:Key="StartToVideoRecognition">开始识别</system:String>
     <system:String x:Key="OpenVideoRecognitionResult">打开文件夹</system:String>
-    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">请打开“自动战斗”页，将攻略视频文件拖入后开始即可。\n
+    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">请打开「自动战斗」页，将攻略视频文件拖入后开始即可。\n
 需要视频分辨率为 16:9，且无黑边、模拟器边框、异形屏矫正等干扰因素。</system:String>
     <!--  视频识别  -->
     <system:String x:Key="Gacha">牛牛抽卡</system:String>
@@ -418,17 +420,17 @@
     <system:String x:Key="ThanksForLikeWebJson">感谢评价！\n网页已经开放评论区，欢迎前往留下你的评论！</system:String>
     <system:String x:Key="AutoSquad">自动编队</system:String>
     <system:String x:Key="LoopTimes">循环次数</system:String>
-    <system:String x:Key="AutoSquadTip">自动编队暂时无法识别“特别关注”的干员</system:String>
+    <system:String x:Key="AutoSquadTip">自动编队暂时无法识别「特别关注」的干员</system:String>
     <system:String x:Key="Start">开始</system:String>
     <system:String x:Key="VideoLink">视频链接</system:String>
     <!--  日志  -->
     <system:String x:Key="CopilotTip">
         小提示: \n\n
-        1. 请在有“开始行动”按钮的界面再使用本功能；\n\n
-        2. 使用好友助战可以关闭“自动编队”，手动选择干员后开始；\n\n
-        3. 模拟悖论需要关闭“自动编队”，并选好技能后处于“开始模拟”按钮的界面再开始；\n\n
+        1. 请在有「开始行动」按钮的界面再使用本功能；\n\n
+        2. 使用好友助战可以关闭「自动编队」，手动选择干员后开始；\n\n
+        3. 模拟悖论需要关闭「自动编队」，并选好技能后处于「开始模拟」按钮的界面再开始；\n\n
         4. 保全派驻 在 resource/copilot 文件夹下内置了多份作业。\n
-        请手动编队后在“开始部署”界面开始（可配合“循环次数”使用）\n\n
+        请手动编队后在「开始部署」界面开始（可配合「循环次数」使用）\n\n
         5. 现已支持视频识别，请将攻略视频文件拖入后开始。\n
         需要视频分辨率为 16:9，无黑边、模拟器边框、异形屏矫正等干扰元素\n\n
     </system:String>
@@ -557,7 +559,7 @@
     <system:String x:Key="Level3UseShortTime2">3 星设置 1:00 而非 9:00</system:String>
     <system:String x:Key="Level3UseShortTimeTip">不影响其他星级 Tags</system:String>
     <system:String x:Key="RecruitMaxTimes">每次执行时最大招募次数</system:String>
-    <system:String x:Key="ManuallySelectLevel1">手动确认“支援机械”</system:String>
+    <system:String x:Key="ManuallySelectLevel1">手动确认「支援机械」</system:String>
     <system:String x:Key="AutoSelectLevel3">自动确认 3 星</system:String>
     <system:String x:Key="AutoSelectLevel4">自动确认 4 星</system:String>
     <system:String x:Key="AutoSelectLevel5">自动确认 5 星</system:String>
