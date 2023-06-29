@@ -1363,18 +1363,18 @@
             130
         ]
     },
+    "InfrastDormConfirmButtonWait": {
+        "text": [
+            "正在提交",
+            "反饋至神經"
+        ]
+    },
     "InfrastEnterOperList": {
         "text": [
             "心情",
             "休息中",
             "工作中",
             "進駐"
-        ]
-    },
-    "InfrastDormConfirmButtonWait": {
-        "text": [
-            "正在提交",
-            "反饋至神經"
         ]
     },
     "InfrastReward": {
