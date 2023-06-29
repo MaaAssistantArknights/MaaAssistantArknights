@@ -352,13 +352,15 @@ bool Assistant::stop(bool block)
     LogTraceFunction;
     Log.info("Stop |", block ? "block" : "non block");
 
+    m_thread_idle = true;
+
     std::unique_lock<std::mutex> lock;
     if (block) { // 外部调用
         lock = std::unique_lock<std::mutex>(m_mutex);
     }
     m_tasks_list.clear();
+
     clear_cache();
-    m_thread_idle = true;
 
     return true;
 }
