@@ -173,6 +173,8 @@
     <system:String x:Key="NewVersionDownloadCompletedDesc">是否立即更新 MAA？（重啟進程）</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageTitle">檢測到新版本，但未找到增量包</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageDesc">請手動下載完整包更新！</system:String>
+    <system:String x:Key="ForceScheduledStart">強制定時啟動</system:String>
+    <system:String x:Key="ForceScheduledStartTip">停止當前任務，重新啟動遊戲並開始新任務</system:String>
     <system:String x:Key="Timer">定時</system:String>
     <system:String x:Key="SwitchConfiguration">切換配置</system:String>
     <system:String x:Key="ConfigurationName">配置名稱</system:String>
