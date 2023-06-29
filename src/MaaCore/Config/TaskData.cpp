@@ -756,7 +756,7 @@ asst::TaskData::taskptr_t asst::TaskData::generate_ocr_task_info([[maybe_unused]
     ocr_task_info_ptr->replace_full = task_json.get("replaceFull", default_ptr->replace_full);
     if (auto opt = task_json.find<json::array>("ocrReplace")) {
         for (const json::value& rep : opt.value()) {
-            ocr_task_info_ptr->replace_map.emplace(rep[0].as_string(), rep[1].as_string());
+            ocr_task_info_ptr->replace_map.emplace_back(std::make_pair(rep[0].as_string(), rep[1].as_string()));
         }
     }
     else {
