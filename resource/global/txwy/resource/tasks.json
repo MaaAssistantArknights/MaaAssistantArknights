@@ -1720,6 +1720,21 @@
             ]
         ]
     },
+    "RoguelikeRefreshSupportBtnOcr": {
+        "text": [
+            "更新助戰列表"
+        ]
+    },
+    "RoguelikeChooseSupportBtnOcr": {
+        "text": [
+            "選擇助戰"
+        ]
+    },
+    "Roguelike@RecruitSupportConfirm": {
+        "text": [
+            "招募助戰"
+        ]
+    },
     "RoguelikeRecruitLevel": {
         "Doc": "台服的等级字体比国服大一圈，要改roi",
         "rectMove": [
