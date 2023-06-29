@@ -172,6 +172,9 @@ namespace MaaWpfGui.Main
         private static extern bool AsstStart(AsstHandle handle);
 
         [DllImport("MaaCore.dll")]
+        private static extern bool AsstRunning(AsstHandle handle);
+
+        [DllImport("MaaCore.dll")]
         private static extern bool AsstStop(AsstHandle handle);
 
         [DllImport("MaaCore.dll")]
@@ -617,18 +620,8 @@ namespace MaaWpfGui.Main
 
                     _latestTaskId.Clear();
 
+                    Instances.TaskQueueViewModel.ResetFightVariables();
                     Instances.TaskQueueViewModel.Idle = true;
-                    Instances.TaskQueueViewModel.UseStone = false;
-                    if (Instances.TaskQueueViewModel.UseMedicineWithNull == null)
-                    {
-                        Instances.TaskQueueViewModel.UseMedicine = false;
-                    }
-
-                    if (Instances.TaskQueueViewModel.HasTimesLimitedWithNull == null)
-                    {
-                        Instances.TaskQueueViewModel.HasTimesLimited = false;
-                    }
-
                     Instances.CopilotViewModel.Idle = true;
                     Instances.RecognizerViewModel.GachaDone = true;
 
@@ -1378,16 +1371,21 @@ namespace MaaWpfGui.Main
             return id != 0;
         }
 
+        public bool AsstAppendCloseDown()
+        {
+            AsstStop();
+            AsstTaskId id = AsstAppendTaskWithEncoding("CloseDown");
+            _latestTaskId[TaskType.CloseDown] = id;
+            return id != 0;
+        }
+
         /// <summary>
         /// <c>CloseDown</c> 任务。
         /// </summary>
         /// <returns>是否成功。</returns>
         public bool AsstStartCloseDown()
         {
-            AsstStop();
-            AsstTaskId id = AsstAppendTaskWithEncoding("CloseDown");
-            _latestTaskId[TaskType.CloseDown] = id;
-            return id != 0 && AsstStart();
+            return AsstAppendCloseDown() && AsstStart();
         }
 
         /// <summary>
@@ -1745,6 +1743,15 @@ namespace MaaWpfGui.Main
         public bool AsstStart()
         {
             return AsstStart(_handle);
+        }
+
+        /// <summary>
+        /// 运行中。
+        /// </summary>
+        /// <returns>是否正在运行。</returns>
+        public bool AsstRunning()
+        {
+            return AsstRunning(_handle);
         }
 
         /// <summary>

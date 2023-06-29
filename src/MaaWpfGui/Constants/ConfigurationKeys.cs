@@ -172,5 +172,7 @@ namespace MaaWpfGui.Constants
         public const string GachaShowDisclaimerNoMore = "Gacha.ShowDisclaimerNoMore";
 
         public const string GuideStepIndex = "Guide.StepIndex";
+
+        public const string ForceScheduledStart = "Timer.ForceScheduledStart";
     }
 }

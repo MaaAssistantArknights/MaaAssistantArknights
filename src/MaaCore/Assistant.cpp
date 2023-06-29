@@ -367,7 +367,7 @@ bool Assistant::stop(bool block)
 
 bool asst::Assistant::running() const
 {
-    return !m_thread_idle;
+    return m_running;
 }
 
 void Assistant::working_proc()
@@ -378,17 +378,20 @@ void Assistant::working_proc()
     while (true) {
         std::unique_lock<std::mutex> lock(m_mutex);
         if (m_thread_exit) {
+            m_running = false;
             return;
         }
 
         if (m_thread_idle || m_tasks_list.empty()) {
             finished_tasks.clear();
             m_thread_idle = true;
+            m_running = false;
             Log.flush();
             m_condvar.wait(lock);
             continue;
         }
 
+        m_running = true;
         const auto [id, task_ptr] = m_tasks_list.front();
         lock.unlock();
         // only one instance of working_proc running, unlock here to allow set_task_param to the running task
