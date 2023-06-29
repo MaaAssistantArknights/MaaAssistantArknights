@@ -1753,7 +1753,7 @@ namespace MaaWpfGui.Main
         /// <summary>
         /// 运行中。
         /// </summary>
-        /// <returns>是否成功。</returns>
+        /// <returns>是否正在运行。</returns>
         public bool AsstRunning()
         {
             return AsstRunning(_handle);

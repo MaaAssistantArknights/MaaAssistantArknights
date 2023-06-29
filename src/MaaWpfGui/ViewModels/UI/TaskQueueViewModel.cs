@@ -193,7 +193,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void InitTimer()
         {
-            _timer.Interval = TimeSpan.FromSeconds(60);
+            _timer.Interval = TimeSpan.FromSeconds(59);
             _timer.Tick += Timer1_Elapsed;
             _timer.Start();
         }
@@ -269,16 +269,7 @@ namespace MaaWpfGui.ViewModels.UI
                         count++;
                     }
 
-                    if (Instances.AsstProxy.AsstStartCloseDown())
-                    {
-                        count = 0;
-                        while (Instances.AsstProxy.AsstRunning() && count <= 600)
-                        {
-                            await Task.Delay(100);
-                            count++;
-                        }
-                    }
-                    else
+                    if (!Instances.AsstProxy.AsstStartCloseDown())
                     {
                         AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
                     }
