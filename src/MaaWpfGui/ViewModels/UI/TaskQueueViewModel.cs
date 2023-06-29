@@ -2315,14 +2315,14 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _useStone;
+        private bool? _useStoneWithNull = false;
 
         /// <summary>
-        /// Gets or sets a value indicating whether to use originiums.
+        /// Gets or sets a value indicating whether to use originiums with null.
         /// </summary>
-        public bool UseStone
+        public bool? UseStoneWithNull
         {
-            get => _useStone;
+            get => _useStoneWithNull;
             set
             {
                 // If the amount of medicine is 0, the stone is not used.
@@ -2331,14 +2331,23 @@ namespace MaaWpfGui.ViewModels.UI
                     value = false;
                 }
 
-                SetAndNotify(ref _useStone, value);
-                if (value)
+                SetAndNotify(ref _useStoneWithNull, value);
+                if (value != false)
                 {
                     UseMedicine = true;
                 }
 
                 SetFightParams();
             }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use originiums.
+        /// </summary>
+        public bool UseStone
+        {
+            get => UseStoneWithNull != false;
+            set => UseStoneWithNull = value;
         }
 
         private string _stoneNumber = ConfigurationHelper.GetValue(ConfigurationKeys.UseStoneQuantity, "0");

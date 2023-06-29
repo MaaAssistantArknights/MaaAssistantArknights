@@ -135,8 +135,8 @@
     <system:String x:Key="HotKeyLinkStart">[HotKey] Link start/stop</system:String>
     <system:String x:Key="HotKeyChangingTip">Press Backspace / Esc / Delete to clear the current value</system:String>
     <system:String x:Key="LabelSequenceTip">The label sequence can be dragged</system:String>
-    <system:String x:Key="CheckBoxesNotSaved">This option is not saved after restart</system:String>
-    <system:String x:Key="CheckBoxesNotSavedAsNull">This option is not saved after restart when selected with right-click</system:String>
+    <system:String x:Key="CheckBoxesNotSaved">This option is effective once</system:String>
+    <system:String x:Key="CheckBoxesNotSavedAsNull">This option only takes effect once when right-clicked</system:String>
     <system:String x:Key="NoAutoNavigation">This feature does not automatically navigate to the stage</system:String>
     <system:String x:Key="StartupUpdateCheck">Startup Update Check</system:String>
     <system:String x:Key="UpdatAutoCheck">Scheduled Update Check</system:String>
