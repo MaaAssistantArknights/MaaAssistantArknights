@@ -36,14 +36,16 @@
                         VerticalContentAlignment="Center"
                         Content="{DynamicResource UseSanityPotion}"
                         IsChecked="{Binding UseMedicineWithNull}"
-                        MouseRightButtonDown="CheckBox_MouseRightButtonDown"
+                        MouseRightButtonDown="ToggleCheckBoxNullOnRightClick"
                         ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
                     <CheckBox
                         Height="30"
                         Margin="6"
                         VerticalContentAlignment="Center"
+                        MouseRightButtonDown="ToggleCheckBoxNullOnRightClick"
+                        Click="ToggleCheckBoxNullOnLeftClick"
                         Content="{DynamicResource UseOriginitePrime}"
-                        IsChecked="{Binding UseStone}"
+                        IsChecked="{Binding UseStoneWithNull}"
                         ToolTip="{DynamicResource CheckBoxesNotSaved}" />
                     <CheckBox
                         Height="30"
@@ -51,7 +53,7 @@
                         VerticalContentAlignment="Center"
                         Content="{DynamicResource PerformBattles}"
                         IsChecked="{Binding HasTimesLimitedWithNull}"
-                        MouseRightButtonDown="CheckBox_MouseRightButtonDown"
+                        MouseRightButtonDown="ToggleCheckBoxNullOnRightClick"
                         ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Vertical">
