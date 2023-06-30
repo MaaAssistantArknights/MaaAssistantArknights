@@ -237,10 +237,8 @@ namespace MaaWpfGui.Services
                                                 UtcExpireTime = GetDateTime(stageObj["Activity"], "UtcExpireTime"),
                                             },
                                         };
-                                        if (!stageInfo.Activity.IsExpired)
-                                        {
-                                            tempStage.Add(stageInfo.Display, stageInfo);
-                                        }
+
+                                        tempStage.Add(stageInfo.Display, stageInfo);
                                     }
 
                                     continue;
@@ -266,10 +264,7 @@ namespace MaaWpfGui.Services
                             },
                         };
 
-                        if (!stageInfo.Activity.IsExpired)
-                        {
-                            tempStage.Add(stageInfo.Display, stageInfo);
-                        }
+                        tempStage.Add(stageInfo.Display, stageInfo);
                     }
                 }
                 catch (Exception e)
@@ -395,12 +390,12 @@ namespace MaaWpfGui.Services
         }
 
         /// <summary>
-        /// Gets all stage list
+        /// Gets all open or will open stage list
         /// </summary>
-        /// <returns>All stage list</returns>
+        /// <returns>Open or will open stage list</returns>
         public IEnumerable<CombinedData> GetStageList()
         {
-            return _stages.Values.Where(stage => !stage.IsHidden);
+            return _stages.Values.Where(stage => !stage.IsHidden && stage.IsStageOpenOrWillOpen());
         }
     }
 }
