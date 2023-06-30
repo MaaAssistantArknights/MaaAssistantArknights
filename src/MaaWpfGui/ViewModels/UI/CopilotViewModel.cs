@@ -437,6 +437,28 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        /// <summary>
+        /// On comboBox drop down opened.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event arguments.</param>
+        public void OnDropDownOpened(object sender, EventArgs e)
+        {
+            var comboBox = sender as System.Windows.Controls.ComboBox;
+            if (comboBox != null)
+            {
+                try
+                {
+                    comboBox.ItemsSource = Directory.GetFiles(@".\resource\copilot\", "*.json");
+                }
+                catch (Exception exception)
+                {
+                    comboBox.ItemsSource = null;
+                    AddLog(exception.Message, UiLogColor.Error);
+                }
+            }
+        }
+
         private bool _form = false;
 
         /// <summary>
