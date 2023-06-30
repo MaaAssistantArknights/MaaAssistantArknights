@@ -44,9 +44,11 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBox
+                <ComboBox
                     Height="30"
                     hc:BorderElement.CornerRadius="4,0,0,4"
+                    DropDownOpened="{s:Action OnDropDownOpened}"
+                    IsEditable="True"
                     IsReadOnly="{c:Binding Path=!Idle}"
                     Text="{Binding Filename}" />
                 <Button
