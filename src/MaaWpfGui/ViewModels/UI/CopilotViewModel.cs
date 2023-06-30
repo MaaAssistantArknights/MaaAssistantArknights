@@ -376,6 +376,21 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        /// <summary>
+        /// Paste clipboard contents.
+        /// </summary>
+        public void PasteClipboard()
+        {
+            if (Clipboard.ContainsText())
+            {
+                Filename = Clipboard.GetText();
+            }
+            else if (Clipboard.ContainsFileDropList())
+            {
+                DropFile(Clipboard.GetFileDropList()[0]);
+            }
+        }
+
         private static readonly string[] SupportExt = { ".json", ".mp4", ".m4s", ".mkv", ".flv", ".avi" };
 
         /// <summary>
@@ -385,13 +400,16 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="e">The event arguments.</param>
         public void DropFile(object sender, DragEventArgs e)
         {
-            if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                return;
+                var filename = ((Array)e.Data.GetData(DataFormats.FileDrop))?.GetValue(0).ToString();
+                DropFile(filename);
             }
+        }
 
-            var filename = ((Array)e.Data.GetData(DataFormats.FileDrop))?.GetValue(0).ToString();
-            if (filename == null)
+        private void DropFile(string filename)
+        {
+            if (string.IsNullOrEmpty(filename))
             {
                 return;
             }
