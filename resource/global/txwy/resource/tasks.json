@@ -314,7 +314,8 @@
         "text": [
             "開始行動",
             "開始突襲",
-            "開始試煉"
+            "開始試煉",
+            "開始試束"
         ]
     },
     "CharsNameOcrReplace": {
@@ -1717,6 +1718,21 @@
                 "高.*分.*",
                 "高规格分队"
             ]
+        ]
+    },
+    "RoguelikeRefreshSupportBtnOcr": {
+        "text": [
+            "更新助戰列表"
+        ]
+    },
+    "RoguelikeChooseSupportBtnOcr": {
+        "text": [
+            "選擇助戰"
+        ]
+    },
+    "Roguelike@RecruitSupportConfirm": {
+        "text": [
+            "招募助戰"
         ]
     },
     "RoguelikeRecruitLevel": {
