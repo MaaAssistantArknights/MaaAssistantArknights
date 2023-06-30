@@ -47,7 +47,7 @@
     <system:String x:Key="Chip">Chip Packs</system:String>
     <system:String x:Key="DormTrustEnabled">Trust farming in Dormitory</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">Do not put stationed operators in Dormitory</system:String>
-    <system:String x:Key="DormFilterNotStationedTips">Checking this box will not remove operators like Irene from the Training Room,\nThis will also prevent operators from the Workshop from entering the Dormitory</system:String>
+    <system:String x:Key="DormFilterNotStationedTips">Checking this box will not remove operators like Irene from the Training Room,this will also prevent operators from the Workshop from entering the Dormitory.</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">Originium Shard auto replenishment</system:String>
     <system:String x:Key="CustomInfrastEnabled">Enable Custom Base (beta)</system:String>
     <system:String x:Key="DefaultInfrast">Default Base infrastructure</system:String>
@@ -62,7 +62,7 @@
     <system:String x:Key="CustomInfrastTitle" xml:space="preserve">Base Configuration: </system:String>
     <system:String x:Key="CustomInfrastPlan">Base Plan</system:String>
     <system:String x:Key="CustomInfrastPlanIndexAutoSwitch">Auto save for next plan</system:String>
-    <system:String x:Key="CustomizeInfrastSelectionEmpty">Custom Base infrastructure selection is empty. Please check your configuration or turn off the Custom Base function</system:String>
+    <system:String x:Key="CustomizeInfrastSelectionEmpty">Custom Base infrastructure selection is empty. Please check your configuration or turn off the Custom Base function.</system:String>
     <system:String x:Key="General">General Mode</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
     <system:String x:Key="MuMuEmulator">MuMu Emulator</system:String>
@@ -82,8 +82,8 @@
     <system:String x:Key="StartingSquad">Starting Squad</system:String>
     <system:String x:Key="StartingRoles">Starting Roles</system:String>
     <system:String x:Key="StartingCoreChar">Starting Operator (CN name only)</system:String>
-    <system:String x:Key="StartingCoreCharTip">Only supports the CN name of a single operator, default if not filled</system:String>
-    <system:String x:Key="RoguelikeUseSupportUnit">Select "Starting Operator" from support unit list</system:String>
+    <system:String x:Key="StartingCoreCharTip">Only supports the CN name of a single operator, default if not filled.</system:String>
+    <system:String x:Key="RoguelikeUseSupportUnit">Select 「Starting Operator」 from support unit list</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">Enable non-friend support</system:String>
     <system:String x:Key="DeploymentWithPause" xml:space="preserve">Deployment with Pause (Pause-Trick) (Works for IS, Copilot and SSS) (Beta function, Not recommended yet)</system:String>
     <system:String x:Key="AdbLiteEnabled">Use ADB Lite (Experimental)</system:String>
@@ -138,7 +138,8 @@
     <system:String x:Key="HotKeyLinkStart">[HotKey] Link start/stop</system:String>
     <system:String x:Key="HotKeyChangingTip">Press Backspace / Esc / Delete to clear the current value</system:String>
     <system:String x:Key="LabelSequenceTip">The label sequence can be dragged</system:String>
-    <system:String x:Key="CheckBoxesNotSaved">This option is not saved after restart</system:String>
+    <system:String x:Key="CheckBoxesNotSaved">This option is effective once</system:String>
+    <system:String x:Key="CheckBoxesNotSavedAsNull">This option only takes effect once when right-clicked</system:String>
     <system:String x:Key="NoAutoNavigation">This feature does not automatically navigate to the stage</system:String>
     <system:String x:Key="StartupUpdateCheck">Startup Update Check</system:String>
     <system:String x:Key="UpdatAutoCheck">Scheduled Update Check</system:String>
@@ -162,8 +163,8 @@
     <system:String x:Key="NewVersionZipFileBrokenDescDeleted">Removed!</system:String>
     <system:String x:Key="AlreadyLatest">The latest version has already been installed</system:String>
     <system:String x:Key="NewVersionDetectFailedTitle">Update Package Detect Failed</system:String>
-    <system:String x:Key="CheckNetworking">Please check your network connection or proxy</system:String>
-    <system:String x:Key="GetReleaseNoteFailed">Failed to get release note</system:String>
+    <system:String x:Key="CheckNetworking">Please check your network connection or proxy.</system:String>
+    <system:String x:Key="GetReleaseNoteFailed">Failed to get release note.</system:String>
     <system:String x:Key="NewVersionIsBeingBuilt">The new version is being built, please try again later</system:String>
     <system:String x:Key="NewVersionDownloadPreparing">Preparing to download update package...</system:String>
     <system:String x:Key="NewVersionDownloadFailedTitle">Download of Update Package Failed</system:String>
@@ -172,6 +173,8 @@
     <system:String x:Key="NewVersionDownloadCompletedDesc">Do you want to upgrade MAA immediately? (restart the process)</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageTitle">New version found, but no update package</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageDesc">Please manually download the full package to update!</system:String>
+    <system:String x:Key="ForceScheduledStart">Force scheduled start</system:String>
+    <system:String x:Key="ForceScheduledStartTip">Stop current task, restart game and start new tasks</system:String>
     <system:String x:Key="Timer">Timer</system:String>
     <system:String x:Key="SwitchConfiguration">Switch Configuration</system:String>
     <system:String x:Key="ConfigurationName">Config</system:String>
@@ -183,7 +186,7 @@
     <system:String x:Key="MinimizeAfterLaunch">Auto Minimize after launched</system:String>
     <system:String x:Key="ClientType">Client Type</system:String>
     <system:String x:Key="AutoRestartOption">Restart when game disconnects</system:String>
-    <system:String x:Key="HelpUsWithOverseasServersTip">The adaptation for Overseas clients is very difficult and we need your help! No programming knowledge is required</system:String>
+    <system:String x:Key="HelpUsWithOverseasServersTip">The adaptation for Overseas clients is very difficult and we need your help! No programming knowledge is required.</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">Startup Emulator after launched</system:String>
     <system:String x:Key="MinimizingStartup">Minimizing the startup Emulator</system:String>
     <system:String x:Key="WaitForEmulator">Delay time (s)</system:String>
@@ -209,7 +212,7 @@
     <system:String x:Key="RefreshTraderWithDice">Refresh Rogue Trader with Dice</system:String>
     <system:String x:Key="PenguinID">Penguin Report ID (Number part only)</system:String>
     <system:String x:Key="DrGrandet">Dr. Grandet Mode</system:String>
-    <system:String x:Key="DrGrandetTip">Wait on the sanity confirmation screen until the current sanity recovers to 1 point, then confirm immediately</system:String>
+    <system:String x:Key="DrGrandetTip">Wait on the sanity confirmation screen until the current sanity recovers to 1 point, then confirm immediately.</system:String>
     <system:String x:Key="SocialPtShop">Credit shopping</system:String>
     <system:String x:Key="CreditFight">Combat with Support to earn Credits</system:String>
     <system:String x:Key="CreditFightTip" xml:space="preserve">Combat with Support Unit in OF-1 after Visit Friends to earn 30 credits.
@@ -236,7 +239,7 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="MainViewButtonFeature">Variable function button</system:String>
     <system:String x:Key="CustomStageCode">Manual entry of stage names</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">Support most main stage names + stage names from the original list (e.g. 4-10, AP-5, H10-1-Hard, etc.)
-At the end of the level, enter "Normal/Hard" to switch between Standard and Adverse environment</system:String>
+At the end of the level, enter 「Normal/Hard」 to switch between Standard and Adverse environment</system:String>
     <system:String x:Key="AutoDetectConnection">Auto detect connection</system:String>
     <system:String x:Key="AutoDetectConnectionTip">This checkbox will be automatically unchecked after each detect is completed, and can be checked again if you need to re-detect</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">Re-detect every times</system:String>
@@ -281,7 +284,7 @@ At the end of the level, enter "Normal/Hard" to switch between Standard and Adve
     <!--  FightSettings  -->
     <system:String x:Key="UseSanityPotion">Use Sanity Potion</system:String>
     <system:String x:Key="UseOriginitePrime">Use Originium*</system:String>
-    <system:String x:Key="PerformBattles">Perform Battles*</system:String>
+    <system:String x:Key="PerformBattles">Perform Battles</system:String>
     <system:String x:Key="AssignedMaterial">Material</system:String>
     <system:String x:Key="Quantity">Quantity</system:String>
     <system:String x:Key="StageSelect">Stage</system:String>
@@ -330,7 +333,7 @@ At the end of the level, enter "Normal/Hard" to switch between Standard and Adve
     <system:String x:Key="ConnectingToEmulator">Connecting to emulator...</system:String>
     <system:String x:Key="UnselectedTask">Unselected task</system:String>
     <system:String x:Key="Running">Running...</system:String>
-    <system:String x:Key="AdbReplacementTips">If nothing happens or it gets stuck, please go to Settings → Connection → ADB path and change the ADB.exe, or turn on Compatibility Touch Mode (not recommended).</system:String>
+    <system:String x:Key="AdbReplacementTips">If nothing happens or it gets stuck, please go to Settings → Connection → ADB path and change the ADB.exe, or turn on ADB Input (Deprecated).</system:String>
     <system:String x:Key="Stopping">Stopping...</system:String>
     <system:String x:Key="Stopped">Has stopped</system:String>
     <system:String x:Key="UnknownErrorOccurs">Unknown error occurred</system:String>
@@ -347,10 +350,10 @@ At the end of the level, enter "Normal/Hard" to switch between Standard and Adve
     <system:String x:Key="Toolbox">Toolbox</system:String>
     <!--  Recruitment Recognition  -->
     <system:String x:Key="RecruitmentRecognition">Recruitment</system:String>
-    <system:String x:Key="RecruitmentRecognitionTip">This recruit recognition is independent from the "Farming" tab. Please open the in game recruit tag selection screen before pressing "Begin to Recruit"</system:String>
+    <system:String x:Key="RecruitmentRecognitionTip">This recruit recognition is independent from the 「Farming」 tab. Please open the in game recruit tag selection screen before pressing 「Begin to Recruit」</system:String>
     <system:String x:Key="AutoSettingTime">Auto set time</system:String>
     <system:String x:Key="RecruitmentShowPotential">Show Potential</system:String>
-    <system:String x:Key="RecruitmentShowPotentialTips">Please use the "Operator" task to get the "Potential" information.</system:String>
+    <system:String x:Key="RecruitmentShowPotentialTips">Please use the 「Operator」 task to get the 「Potential」 information.</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">Auto select 3★ Tags</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">Auto select 4★ Tags</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">Auto select 5★ Tags</system:String>
@@ -359,7 +362,7 @@ At the end of the level, enter "Normal/Hard" to switch between Standard and Adve
     <!--  Recruitment Recognition  -->
     <!--  Depot Recognition  -->
     <system:String x:Key="DepotRecognition">Depot</system:String>
-    <system:String x:Key="DepotRecognitionTip">This function is still in testing. If you encouter any unexpected results, please zip the "debug/depot" folder in the installation path and submit an issue on GitHub</system:String>
+    <system:String x:Key="DepotRecognitionTip">This function is still in testing. If you encouter any unexpected results, please zip the 「debug/depot」 folder in the installation path and submit an issue on GitHub</system:String>
     <system:String x:Key="StartToDepotRecognition">Start to Identify</system:String>
     <system:String x:Key="ExportToArkplanner">Export to Arkplanner</system:String>
     <system:String x:Key="ExportToLolicon">Export to Lolicon</system:String>
@@ -367,7 +370,7 @@ At the end of the level, enter "Normal/Hard" to switch between Standard and Adve
     <!--  Depot Recognition  -->
     <!--  Operator Recognition  -->
     <system:String x:Key="OperBoxRecognition">Operator</system:String>
-    <system:String x:Key="OperBoxRecognitionTip">This function is still in testing. If you encouter any unexpected results, please zip the "debug/oper" folder in the installation path and submit an issue on GitHub</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">This function is still in testing. If you encouter any unexpected results, please zip the 「debug/oper」 folder in the installation path and submit an issue on GitHub</system:String>
     <system:String x:Key="OperBoxRecognitionResult">Not owned: {0}\n\n{1}\n\nOwned: {2}\n\n{3}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">Start to Identify</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">Copy to Clipboard</system:String>
@@ -376,7 +379,7 @@ At the end of the level, enter "Normal/Hard" to switch between Standard and Adve
     <system:String x:Key="VideoRecognition">Video</system:String>
     <system:String x:Key="StartToVideoRecognition">Start to identify</system:String>
     <system:String x:Key="OpenVideoRecognitionResult">Open Directory</system:String>
-    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">For video recognition, please open the "Copilot" tab and drag the strategy video into it.\n
+    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">For video recognition, please open the 「Copilot」 tab and drag the strategy video into it.\n
 The video aspect ratio needs to be 16:9 without interference factors such as black borders, emulator borders, special shapes and screen corrections.</system:String>
     <!--  Video Recognition  -->
     <system:String x:Key="Gacha">Gacha</system:String>
@@ -417,17 +420,17 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="ThanksForLikeWebJson">Thanks for the likes!\nThe comment section is already open on the web page, please feel free to leave your comment!</system:String>
     <system:String x:Key="AutoSquad">Auto Squad</system:String>
     <system:String x:Key="LoopTimes">Loop Times</system:String>
-    <system:String x:Key="AutoSquadTip">"Favourite" marked operators cannot be recognized at this time</system:String>
+    <system:String x:Key="AutoSquadTip">「Favourite」 marked operators cannot be recognized at this time</system:String>
     <system:String x:Key="Start">Start</system:String>
     <system:String x:Key="VideoLink">Video Link</system:String>
     <!--  Logs  -->
     <system:String x:Key="CopilotTip">
         Tips: \n\n
-        1. Please use this function only when the "Mission Start" button is visible in game.\n\n
-        2. You need turn off the "Auto Squad" when using a friendly support unit, then start with your support unit selected.\n\n
-        3. For Paradox Simulation, you need to turn off "Auto Squad" and select the skill before, then start in game "Start" screen.\n\n
-        4. For SSS, there are multiple built-in files under the "resource/copilot" folder.\n
-        Please start on the "Start Deployment" screen after manual formation (can be used with "Loop Times")\n\n
+        1. Please use this function only when the 「Mission Start」 button is visible in game.\n\n
+        2. You need turn off the 「Auto Squad」 when using a friendly support unit, then start with your support unit selected.\n\n
+        3. For Paradox Simulation, you need to turn off 「Auto Squad」 and select the skill before, then start in game 「Start」 screen.\n\n
+        4. For SSS, there are multiple built-in files under the 「resource/copilot」 folder.\n
+        Please start on the 「Start Deployment」 screen after manual formation (can be used with 「Loop Times」)\n\n
         5. Video recognition is now supported, please drag the strategy video to use.\n
         The video aspect ratio needs to be 16:9 without interference factors such as black borders, emulator borders special shapes and screen corrections.\n\n
     </system:String>
@@ -444,7 +447,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="ErrorProlog">MAA has encountered an error</system:String>
     <system:String x:Key="ErrorDetails">Details</system:String>
     <system:String x:Key="ErrorSolution">Solution</system:String>
-    <system:String x:Key="ErrorSolutionCrash">Please refer to the documentation: "FAQ - Crashes" to solve.</system:String>
+    <system:String x:Key="ErrorSolutionCrash">Please refer to the documentation: 「FAQ - Crashes」 to solve.</system:String>
     <system:String x:Key="ErrorSolutionReplaceADB">Please close the emulator and ADB or restart your computer, then open MAA with administrator privileges to proceed.</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">The file is occupied, please restart the computer and try again</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
@@ -457,14 +460,14 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="AdbDownloadFailedDesc">Please do it manually (rename adb.exe and replace the ADB file in the emulator)</system:String>
     <system:String x:Key="SuccessfullyReplacedADB">Successfully replaced ADB File</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocal">Falied to replace ADB file</system:String>
-    <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">Temporarily connected using local ADB</system:String>
+    <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">Temporarily connected using local ADB.</system:String>
     <system:String x:Key="InitializationError">Initialization error!</system:String>
     <system:String x:Key="ResolutionNotSupported">Emulator resolution not supported, please set a resolution of at least 1280x720 with a 16:9 aspect ratio</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">Failed to obtain emulator resolution. It is recommended to restart the emulator and ADB, or restart the computer, or consider switching to another emulator</system:String>
     <system:String x:Key="TryToReconnect">Emulator disconnected, trying to reconnect</system:String>
     <system:String x:Key="ReconnectSuccess">Reconnection succeeded. Continuing the task</system:String>
     <system:String x:Key="ReconnectFailed">Reconnection failed. The connection is down!</system:String>
-    <system:String x:Key="TouchModeNotAvailable">Touch mode is not available, please go to "Settings - Connection Settings" to switch to a different touch mode.</system:String>
+    <system:String x:Key="TouchModeNotAvailable">Touch mode is not available, please go to 「Settings - Connection Settings」 to switch to a different touch mode.</system:String>
     <system:String x:Key="ScreencapFailed">Screencap failed. If it happens repeatedly, try to restart or change the emulator!</system:String>
     <system:String x:Key="IdentifyTheMistakes">Recognition error</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">Task error: </system:String>
@@ -561,10 +564,10 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="AutoSelectLevel4">Auto confirm 4★</system:String>
     <system:String x:Key="AutoSelectLevel5">Auto confirm 5★</system:String>
     <system:String x:Key="AutoSelectLevel6">Auto confirm 6★</system:String>
-    <system:String x:Key="Level1Tip">If checked when 1★ tags are identified, will skip the recruitment. If not checked when 1★ tags are identified, they will be ignored</system:String>
+    <system:String x:Key="Level1Tip">If checked when 1★ tags are identified, will skip the recruitment. If not checked when 1★ tags are identified, they will be ignored.</system:String>
     <!--  AutoRecruitSettings  -->
     <!--  EasterEggs  -->
-    <system:String x:Key="BuyWineOnAprilFoolsDay">Dear Doctor, ever heard of the new listings of "isopropyl alcohol" in Ms. Closure's store? Let's check it out?</system:String>
+    <system:String x:Key="BuyWineOnAprilFoolsDay">Dear Doctor, ever heard of the new listings of 「isopropyl alcohol」 in Ms. Closure's store? Let's check it out?</system:String>
     <system:String x:Key="Burping">Ugh... Ehem</system:String>
     <system:String x:Key="DrunkAndStaggering">Ah, doctor, why do you sway so much in your movement today?</system:String>
     <system:String x:Key="Hangover">I won't drink so much next time...</system:String>

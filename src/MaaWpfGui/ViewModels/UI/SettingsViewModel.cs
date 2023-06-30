@@ -930,6 +930,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void AddConfiguration()
         {
+            NewConfigurationName ??= DateTime.Now.ToString("yy/MM/dd HH:mm:ss");
             if (ConfigurationHelper.AddConfiguration(NewConfigurationName, CurrentConfiguration))
             {
                 ConfigurationList.Add(new CombinedData { Display = NewConfigurationName, Value = NewConfigurationName });
@@ -1726,6 +1727,21 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         public TimerModel TimerModels { get; set; } = new TimerModel();
+
+        private bool _forceScheduledStart = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ForceScheduledStart, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use DrGrandet mode.
+        /// </summary>
+        public bool ForceScheduledStart
+        {
+            get => _forceScheduledStart;
+            set
+            {
+                SetAndNotify(ref _forceScheduledStart, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ForceScheduledStart, value.ToString());
+            }
+        }
 
         /* 刷理智设置 */
 
@@ -2659,7 +2675,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _useRemainingSanityStage = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, bool.FalseString));
+        private bool _useRemainingSanityStage = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, bool.TrueString));
 
         public bool UseRemainingSanityStage
         {

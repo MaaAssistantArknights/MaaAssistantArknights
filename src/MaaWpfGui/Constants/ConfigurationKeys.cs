@@ -153,6 +153,7 @@ namespace MaaWpfGui.Constants
         public const string UseMedicine = "MainFunction.UseMedicine";
         public const string UseMedicineQuantity = "MainFunction.UseMedicine.Quantity";
         public const string UseStoneQuantity = "MainFunction.UseStone.Quantity";
+        public const string TimesLimited = "MainFunction.TimesLimited";
         public const string TimesLimitedQuantity = "MainFunction.TimesLimited.Quantity";
         public const string DropsEnable = "MainFunction.Drops.Enable";
         public const string DropsItemId = "MainFunction.Drops.ItemId";
@@ -171,5 +172,7 @@ namespace MaaWpfGui.Constants
         public const string GachaShowDisclaimerNoMore = "Gacha.ShowDisclaimerNoMore";
 
         public const string GuideStepIndex = "Guide.StepIndex";
+
+        public const string ForceScheduledStart = "Timer.ForceScheduledStart";
     }
 }

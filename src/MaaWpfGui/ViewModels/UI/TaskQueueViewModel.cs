@@ -193,13 +193,17 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void InitTimer()
         {
-            _timer.Interval = TimeSpan.FromSeconds(50);
+            _timer.Interval = TimeSpan.FromSeconds(59);
             _timer.Tick += Timer1_Elapsed;
             _timer.Start();
         }
 
-        private void Timer1_Elapsed(object sender, EventArgs e)
+        private async void Timer1_Elapsed(object sender, EventArgs e)
         {
+            // 提前记录时间，避免等待超过定时时间
+            int intHour = DateTime.Now.Hour;
+            int intMinute = DateTime.Now.Minute;
+
             if (NeedToUpdateDatePrompt())
             {
                 UpdateDatePrompt();
@@ -216,13 +220,6 @@ namespace MaaWpfGui.ViewModels.UI
                 });
             }
 
-            refreshCustomInfrastPlanIndexByPeriod();
-
-            if (!Idle)
-            {
-                return;
-            }
-
             if (NeedToCheckForUpdates())
             {
                 if (Instances.SettingsViewModel.UpdatAutoCheck)
@@ -237,8 +234,13 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            int intMinute = DateTime.Now.Minute;
-            int intHour = DateTime.Now.Hour;
+            refreshCustomInfrastPlanIndexByPeriod();
+
+            if (!Idle && !Instances.SettingsViewModel.ForceScheduledStart)
+            {
+                return;
+            }
+
             var timeToStart = false;
             for (int i = 0; i < 8; ++i)
             {
@@ -253,6 +255,28 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (timeToStart)
             {
+                if (Instances.SettingsViewModel.ForceScheduledStart)
+                {
+                    if (!Idle)
+                    {
+                        await Stop();
+                    }
+
+                    int count = 0;
+                    while (Instances.AsstProxy.AsstRunning() && count <= 600)
+                    {
+                        await Task.Delay(100);
+                        count++;
+                    }
+
+                    if (!Instances.AsstProxy.AsstAppendCloseDown())
+                    {
+                        AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
+                    }
+
+                    ResetFightVariables();
+                }
+
                 LinkStart();
             }
         }
@@ -681,6 +705,10 @@ namespace MaaWpfGui.ViewModels.UI
             await Task.Run(() => Instances.SettingsViewModel.RunScript("StartsWithScript"));
 
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
+            if (!Instances.SettingsViewModel.AdbReplaced && !Instances.SettingsViewModel.IsAdbTouchMode())
+            {
+                AddLog(LocalizationHelper.GetString("AdbReplacementTips"), UiLogColor.Info);
+            }
 
             string errMsg = string.Empty;
             bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
@@ -692,6 +720,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
+            // 尝试启动模拟器
             if (!connected)
             {
                 AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToStartEmulator"));
@@ -706,6 +735,7 @@ namespace MaaWpfGui.ViewModels.UI
                 connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
             }
 
+            // 尝试重启adb
             if (!connected)
             {
                 AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("RestartADB"));
@@ -807,10 +837,6 @@ namespace MaaWpfGui.ViewModels.UI
             if (taskRet)
             {
                 AddLog(LocalizationHelper.GetString("Running"));
-                if (!Instances.SettingsViewModel.AdbReplaced && !Instances.SettingsViewModel.IsAdbTouchMode())
-                {
-                    AddLog(LocalizationHelper.GetString("AdbReplacementTips"), UiLogColor.Info);
-                }
             }
             else
             {
@@ -829,6 +855,13 @@ namespace MaaWpfGui.ViewModels.UI
             Stopping = true;
             AddLog(LocalizationHelper.GetString("Stopping"));
             await Task.Run(Instances.AsstProxy.AsstStop);
+
+            int count = 0;
+            while (Instances.AsstProxy.AsstRunning() && count <= 600)
+            {
+                await Task.Delay(100);
+                count++;
+            }
         }
 
         public void SetStopped()
@@ -1068,6 +1101,7 @@ namespace MaaWpfGui.ViewModels.UI
         public bool KillEmulatorModeSwitcher()
         {
             string emulatorMode = Instances.SettingsViewModel.ConnectConfig;
+            Instances.AsstProxy.Connected = false;
             return emulatorMode switch
             {
                 "Nox" => KillEmulatorNox(),
@@ -1385,6 +1419,8 @@ namespace MaaWpfGui.ViewModels.UI
                         if (emulator.WaitForExit(5000))
                         {
                             _logger.Information($"Emulator with process ID {pid} killed successfully.");
+                            KillEmulator();
+                            return true;
                         }
                         else
                         {
@@ -2255,25 +2291,53 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _useMedicine = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicine, bool.FalseString));
+        /// <summary>
+        /// Reset unsaved battle parameters.
+        /// </summary>
+        public void ResetFightVariables()
+        {
+            UseStone = false;
+
+            if (UseMedicineWithNull == null)
+            {
+                UseMedicine = false;
+            }
+
+            if (HasTimesLimitedWithNull == null)
+            {
+                HasTimesLimited = false;
+            }
+        }
+
+        private bool? _useMedicineWithNull = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicine, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use medicine with null.
+        /// </summary>
+        public bool? UseMedicineWithNull
+        {
+            get => _useMedicineWithNull;
+            set
+            {
+                SetAndNotify(ref _useMedicineWithNull, value);
+                if (value == false)
+                {
+                    UseStone = false;
+                }
+
+                SetFightParams();
+                value ??= false;
+                ConfigurationHelper.SetValue(ConfigurationKeys.UseMedicine, value.ToString());
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether to use medicine.
         /// </summary>
         public bool UseMedicine
         {
-            get => _useMedicine;
-            set
-            {
-                SetAndNotify(ref _useMedicine, value);
-                if (!value)
-                {
-                    UseStone = false;
-                }
-
-                SetFightParams();
-                ConfigurationHelper.SetValue(ConfigurationKeys.UseMedicine, value.ToString());
-            }
+            get => UseMedicineWithNull != false;
+            set => UseMedicineWithNull = value;
         }
 
         private string _medicineNumber = ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicineQuantity, "999");
@@ -2300,14 +2364,14 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _useStone;
+        private bool? _useStoneWithNull = false;
 
         /// <summary>
-        /// Gets or sets a value indicating whether to use originiums.
+        /// Gets or sets a value indicating whether to use originiums with null.
         /// </summary>
-        public bool UseStone
+        public bool? UseStoneWithNull
         {
-            get => _useStone;
+            get => _useStoneWithNull;
             set
             {
                 // If the amount of medicine is 0, the stone is not used.
@@ -2316,14 +2380,23 @@ namespace MaaWpfGui.ViewModels.UI
                     value = false;
                 }
 
-                SetAndNotify(ref _useStone, value);
-                if (value)
+                SetAndNotify(ref _useStoneWithNull, value);
+                if (value != false)
                 {
                     UseMedicine = true;
                 }
 
                 SetFightParams();
             }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use originiums.
+        /// </summary>
+        public bool UseStone
+        {
+            get => UseStoneWithNull != false;
+            set => UseStoneWithNull = value;
         }
 
         private string _stoneNumber = ConfigurationHelper.GetValue(ConfigurationKeys.UseStoneQuantity, "0");
@@ -2347,19 +2420,30 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _hasTimesLimited;
+        private bool? _hasTimesLimitedWithNull = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.TimesLimited, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the number of times is limited with null.
+        /// </summary>
+        public bool? HasTimesLimitedWithNull
+        {
+            get => _hasTimesLimitedWithNull;
+            set
+            {
+                SetAndNotify(ref _hasTimesLimitedWithNull, value);
+                SetFightParams();
+                value ??= false;
+                ConfigurationHelper.SetValue(ConfigurationKeys.TimesLimited, value.ToString());
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether the number of times is limited.
         /// </summary>
         public bool HasTimesLimited
         {
-            get => _hasTimesLimited;
-            set
-            {
-                SetAndNotify(ref _hasTimesLimited, value);
-                SetFightParams();
-            }
+            get => HasTimesLimitedWithNull != false;
+            set => HasTimesLimitedWithNull = value;
         }
 
         private string _maxTimes = ConfigurationHelper.GetValue(ConfigurationKeys.TimesLimitedQuantity, "5");

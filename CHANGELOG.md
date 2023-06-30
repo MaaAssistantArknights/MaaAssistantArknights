@@ -1,49 +1,56 @@
-## v4.19.2
+## v4.19.3-beta.1
 
 ### 新增
 
-- 新增 LE 活动关卡导航 @ABA2396
+- 定时任务强制启动 (#5280) @ABA2396 @MistEO
+   - 强制启动时重置刷理智不保存的参数 @ABA2396
+   - 修复多次调用AsstStart的问题 @MistEO
+   - 修复running不准确的问题 @MistEO
+   - Revert "fix: 修复 stop 停止时机" @MistEO
+   - 修复 stop 停止时机 @MistEO
+   - 修复强制执行 @MistEO
+   - 添加强制启动定时任务 @ABA2396
+- 添加 `吃理智药` `指定次数` 右键选中功能，通过右键选中时重启后不保存 @ABA2396
+- 关闭模拟器后重置连接状态，减少无意义重连尝试 @ABA2396
+- 添加连接超时 @ABA2396
 
 ### 改进
 
-- 雷神保全浊蒂版&约翰保全浊蒂版修改 修改职业名称为英文，同步作业站版本 (#5172) @junyihan233
-- 重训了国服, 日服, 台服和韩服的OCR模型 (#5151) @Plumess
-- 更新了简中和英文的ocr det模型, 以及英文的ocr rec模型 (#5156) @Plumess
-- 优化退出模拟器，添加日志 @ABA2396
-- 随机展示简中文档中模拟器支持列表 (#5161) @bakashigure @AnnAngela
-- 优化界面显示 @moomiji @ABA2396
-- 关卡提示支持显示多个活动 @ABA2396
+- 更新 Linux 编译 workflow 链接 (#5252) @AnnAngela
 
 ### 修复
 
-- 修复特别关注识别错误、部分干员名错误 @MistEO
-- 修复抄作业编队超过 10 人时无法选人的问题 @MistEO
-- 修复自动基建 制造站 bskill_man_exp4 技能错误 @MistEO
-- 扩大roi范围，修复PlayCover无法开始唤醒 #5099 @ABA2396
-- 点赞接口序列化两次导致后端报错 @ABA2396
+- 将 OCR replace 改为有序 @MistEO
+- 未设置时剩余理智勾选状态错误显示 @ABA2396
+- 通过窗口关闭模拟器的日志错误 @ABA2396
+- workaround for destruction order issue @horror-proton
+- 集合已修改；可能无法执行枚举操作 @ABA2396
+- Modified operators regex for Auto Squad and role button (#5249) @Constrat
+   - ocrReplace not replacing correctly ch'en alter @Constrat
+   - Modified operators regex for Auto Squad and role button @Constrat
+- 修复配置名为null时添加配置报错，留空时以当前时间作为配置名 @ABA2396
+- 活动结束后活动关卡被误判成常驻关卡 @ABA2396
 
 ### 其他
 
-- fix filename @horror-proton
-- Auto Update Game Resources
-- 修正拼写错误 @ABA2396 @kongwei981126 @doquangminh28
-- Update en-bug-report.yaml @ABA2396
-- 移除不需要的changelog @AnnAngela
-- 删除多余mac完整包 @AnnAngela
-- Do not force push tag @MistEO
-- 集成战略文档更新 (#5186) @LingXii
-- 发版检测到docs发生变动时部署 @AnnAngela
-
-### For overseas
-
-#### YostarEN
-
-- translation refactoring of en-us.xaml for YostarEN (#5111) @Constrat @ABA2396
-- Difficulty selection for YostarEN (#5200) @Constrat
-- Fight Task Adverse Start YostarEN (#5196) @Constrat
-- OperBoxNameOCR tasks.json YostarEN (#5169) @Constrat
-
-#### YostarKR
-
-- recruitment failure with DP-Recovery tag for KR (after OCR update) @178619
-- Update ocrReplaces for KR @178619
+- `""` -> `「」` @ABA2396
+- Merge branch 'master' into dev @AnnAngela
+   - 更新 Linux 编译 workflow 链接 (#5252) @AnnAngela
+- 右键选中改为生效一次，改变吃源石勾选状态显示 @ABA2396
+- Auto Update Game Resources - 2023-06-26 @MistEO
+- 实时显示贡献者 @AnnAngela
+- Update en-us.xaml @ABA2396
+- i18n: Translations update from MAA Weblate (#5248) @weblate
+   - Translated using Weblate (Chinese (Traditional)) @weblate
+- i18n: Translations update from MAA Weblate (#5240) @weblate
+   - Translated using Weblate (Japanese) @weblate
+- typo: useless \n in EN GUI (#5236) @Constrat
+- 在连接前提示替换adb @ABA2396
+- Auto Update Game Resources - 2023-06-21 @MistEO
+- 台服 基建識別 (#5256) @vonnoq
+   - 台服 基建識別 @vonnoq
+- 台服 理想城活動導航 (#5212) @vonnoq
+   - 台服 基建識別 @vonnoq
+   - 台服 理想城導航 @vonnoq
+   - 台服 理想城活動導航 @vonnoq
+- 台服 引航者试炼 (#5283) @vonnoq

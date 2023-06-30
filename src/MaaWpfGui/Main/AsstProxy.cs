@@ -19,6 +19,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Text.Json.Nodes;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -113,6 +114,37 @@ namespace MaaWpfGui.Main
             }
         }
 
+        private static bool AsstConnectWithTimeout(AsstHandle handle, string adb_path, string address, string config, int timeoutMilliseconds = 6000)
+        {
+            bool isConnected = false;
+            ManualResetEventSlim connectEvent = new ManualResetEventSlim();
+
+            Thread connectThread = new Thread(() =>
+            {
+                try
+                {
+                    isConnected = AsstConnect(handle, adb_path, address, config);
+                }
+                catch (ThreadAbortException)
+                {
+                }
+                finally
+                {
+                    connectEvent.Set();
+                }
+            });
+
+            connectThread.Start();
+
+            if (!connectEvent.Wait(timeoutMilliseconds))
+            {
+                connectThread.Abort();
+                return false;
+            }
+
+            return isConnected;
+        }
+
         [DllImport("MaaCore.dll")]
         private static extern unsafe AsstTaskId AsstAppendTask(AsstHandle handle, byte* type, byte* task_params);
 
@@ -138,6 +170,9 @@ namespace MaaWpfGui.Main
 
         [DllImport("MaaCore.dll")]
         private static extern bool AsstStart(AsstHandle handle);
+
+        [DllImport("MaaCore.dll")]
+        private static extern bool AsstRunning(AsstHandle handle);
 
         [DllImport("MaaCore.dll")]
         private static extern bool AsstStop(AsstHandle handle);
@@ -395,6 +430,13 @@ namespace MaaWpfGui.Main
         }
 
         private bool connected = false;
+
+        public bool Connected
+        {
+            get => connected;
+            set => connected = value;
+        }
+
         private string connectedAdb;
         private string connectedAddress;
 
@@ -578,8 +620,8 @@ namespace MaaWpfGui.Main
 
                     _latestTaskId.Clear();
 
+                    Instances.TaskQueueViewModel.ResetFightVariables();
                     Instances.TaskQueueViewModel.Idle = true;
-                    Instances.TaskQueueViewModel.UseStone = false;
                     Instances.CopilotViewModel.Idle = true;
                     Instances.RecognizerViewModel.GachaDone = true;
 
@@ -1144,7 +1186,7 @@ namespace MaaWpfGui.Main
                 return false;
             }
 
-            bool ret = AsstConnect(_handle, Instances.SettingsViewModel.AdbPath, Instances.SettingsViewModel.ConnectAddress, Instances.SettingsViewModel.ConnectConfig);
+            bool ret = AsstConnectWithTimeout(_handle, Instances.SettingsViewModel.AdbPath, Instances.SettingsViewModel.ConnectAddress, Instances.SettingsViewModel.ConnectConfig);
 
             // 尝试默认的备选端口
             if (!ret && Instances.SettingsViewModel.AutoDetectConnection)
@@ -1156,7 +1198,7 @@ namespace MaaWpfGui.Main
                         break;
                     }
 
-                    ret = AsstConnect(_handle, Instances.SettingsViewModel.AdbPath, address, Instances.SettingsViewModel.ConnectConfig);
+                    ret = AsstConnectWithTimeout(_handle, Instances.SettingsViewModel.AdbPath, address, Instances.SettingsViewModel.ConnectConfig);
                     if (ret)
                     {
                         Instances.SettingsViewModel.ConnectAddress = address;
@@ -1329,16 +1371,21 @@ namespace MaaWpfGui.Main
             return id != 0;
         }
 
+        public bool AsstAppendCloseDown()
+        {
+            AsstStop();
+            AsstTaskId id = AsstAppendTaskWithEncoding("CloseDown");
+            _latestTaskId[TaskType.CloseDown] = id;
+            return id != 0;
+        }
+
         /// <summary>
         /// <c>CloseDown</c> 任务。
         /// </summary>
         /// <returns>是否成功。</returns>
         public bool AsstStartCloseDown()
         {
-            AsstStop();
-            AsstTaskId id = AsstAppendTaskWithEncoding("CloseDown");
-            _latestTaskId[TaskType.CloseDown] = id;
-            return id != 0 && AsstStart();
+            return AsstAppendCloseDown() && AsstStart();
         }
 
         /// <summary>
@@ -1696,6 +1743,15 @@ namespace MaaWpfGui.Main
         public bool AsstStart()
         {
             return AsstStart(_handle);
+        }
+
+        /// <summary>
+        /// 运行中。
+        /// </summary>
+        /// <returns>是否正在运行。</returns>
+        public bool AsstRunning()
+        {
+            return AsstRunning(_handle);
         }
 
         /// <summary>

@@ -40,5 +40,20 @@ namespace MaaWpfGui.Views.UserControl
         {
             SetText?.Invoke(sender, paras);
         }
+
+        private void ToggleCheckBoxNullOnRightClick(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Right)
+            {
+                CheckBox checkBox = (CheckBox)sender;
+                checkBox.IsChecked = checkBox.IsChecked == null ? (bool?)false : null;
+            }
+        }
+
+        private void ToggleCheckBoxNullOnLeftClick(object sender, RoutedEventArgs e)
+        {
+            CheckBox checkBox = (CheckBox)sender;
+            checkBox.IsChecked = checkBox.IsChecked == true ? null : (bool?)false;
+        }
     }
 }
