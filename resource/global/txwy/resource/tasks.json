@@ -314,7 +314,8 @@
         "text": [
             "開始行動",
             "開始突襲",
-            "開始試煉"
+            "開始試煉",
+            "開始試束"
         ]
     },
     "CharsNameOcrReplace": {
@@ -394,6 +395,10 @@
             ],
             [
                 "紅雲",
+                "红云"
+            ],
+            [
+                "紅雪",
                 "红云"
             ],
             [
@@ -1329,6 +1334,42 @@
             "前往上一次作戰"
         ]
     },
+    "IC-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "text": [
+            "理想城",
+            "活動",
+            "開放"
+        ]
+    },
+    "ICChapterToIC": {
+        "action": "ClickSelf",
+        "cache": false,
+        "next": [
+            "ICChapterToIC",
+            "ChapterSwipeToTheRight"
+        ],
+        "postDelay": 2000,
+        "roi": [
+            1030,
+            400,
+            219,
+            130
+        ]
+    },
+    "InfrastDormConfirmButtonWait": {
+        "text": [
+            "正在提交",
+            "反饋至神經"
+        ]
+    },
     "InfrastEnterOperList": {
         "text": [
             "心情",
@@ -1677,6 +1718,21 @@
                 "高.*分.*",
                 "高规格分队"
             ]
+        ]
+    },
+    "RoguelikeRefreshSupportBtnOcr": {
+        "text": [
+            "更新助戰列表"
+        ]
+    },
+    "RoguelikeChooseSupportBtnOcr": {
+        "text": [
+            "選擇助戰"
+        ]
+    },
+    "Roguelike@RecruitSupportConfirm": {
+        "text": [
+            "招募助戰"
         ]
     },
     "RoguelikeRecruitLevel": {

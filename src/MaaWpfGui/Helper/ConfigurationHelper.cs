@@ -65,29 +65,32 @@ namespace MaaWpfGui.Helper
         /// <returns>The return value of <see cref="Save"/></returns>
         public static bool SetValue(string key, string value)
         {
-            var old = string.Empty;
-            if (_kvs.ContainsKey(key))
+            lock (_lock)
             {
-                old = _kvs[key];
-                _kvs[key] = value;
-            }
-            else
-            {
-                _kvs.Add(key, value);
-            }
+                var old = string.Empty;
+                if (_kvs.ContainsKey(key))
+                {
+                    old = _kvs[key];
+                    _kvs[key] = value;
+                }
+                else
+                {
+                    _kvs.Add(key, value);
+                }
 
-            var result = Save();
-            if (result)
-            {
-                ConfigurationUpdateEvent?.Invoke(key, old, value);
-                _logger.Debug("Configuration {Key} has been set to {Value}", key, value);
-            }
-            else
-            {
-                _logger.Warning("Failed to save configuration {Key} to {Value}", key, value);
-            }
+                var result = Save();
+                if (result)
+                {
+                    ConfigurationUpdateEvent?.Invoke(key, old, value);
+                    _logger.Debug("Configuration {Key} has been set to {Value}", key, value);
+                }
+                else
+                {
+                    _logger.Warning("Failed to save configuration {Key} to {Value}", key, value);
+                }
 
-            return result;
+                return result;
+            }
         }
 
         /// <summary>
@@ -97,25 +100,28 @@ namespace MaaWpfGui.Helper
         /// <returns>The return value of <see cref="Save"/>.</returns>
         public static bool DeleteValue(string key)
         {
-            var old = string.Empty;
-            if (_kvs.TryGetValue(key, out var kv))
+            lock (_lock)
             {
-                old = kv;
-            }
+                var old = string.Empty;
+                if (_kvs.TryGetValue(key, out var kv))
+                {
+                    old = kv;
+                }
 
-            _kvs.Remove(key);
-            var result = Save();
-            if (result)
-            {
-                ConfigurationUpdateEvent?.Invoke(key, old, string.Empty);
-                _logger.Debug("Configuration {Key} has been deleted", key);
-            }
-            else
-            {
-                _logger.Warning("Failed to save configuration file when deleted {Key}", key);
-            }
+                _kvs.Remove(key);
+                var result = Save();
+                if (result)
+                {
+                    ConfigurationUpdateEvent?.Invoke(key, old, string.Empty);
+                    _logger.Debug("Configuration {Key} has been deleted", key);
+                }
+                else
+                {
+                    _logger.Warning("Failed to save configuration file when deleted {Key}", key);
+                }
 
-            return result;
+                return result;
+            }
         }
 
         /// <summary>
@@ -124,53 +130,56 @@ namespace MaaWpfGui.Helper
         /// <returns>True if success, false if failed</returns>
         public static bool Load()
         {
-            if (Directory.Exists("config") is false)
+            lock (_lock)
             {
-                Directory.CreateDirectory("config");
-            }
-
-            // Load configuration file
-            var parsed = ParseJsonFile(_configurationFile);
-            if (parsed is null)
-            {
-                if (File.Exists(_configurationBakFile))
+                if (Directory.Exists("config") is false)
                 {
-                    File.Copy(_configurationBakFile, _configurationFile, true);
-                    parsed = ParseJsonFile(_configurationFile);
+                    Directory.CreateDirectory("config");
                 }
+
+                // Load configuration file
+                var parsed = ParseJsonFile(_configurationFile);
+                if (parsed is null)
+                {
+                    if (File.Exists(_configurationBakFile))
+                    {
+                        File.Copy(_configurationBakFile, _configurationFile, true);
+                        parsed = ParseJsonFile(_configurationFile);
+                    }
+                }
+
+                if (parsed is null)
+                {
+                    _logger.Information("Failed to load configuration file, creating a new one");
+
+                    _kvsMap = new Dictionary<string, Dictionary<string, string>>();
+                    _current = ConfigurationKeys.DefaultConfiguration;
+                    _kvsMap[_current] = new Dictionary<string, string>();
+                    _kvs = _kvsMap[_current];
+
+                    return false;
+                }
+
+                if (parsed.ContainsKey(ConfigurationKeys.ConfigurationMap))
+                {
+                    // new version
+                    _kvsMap = parsed[ConfigurationKeys.ConfigurationMap].ToObject<Dictionary<string, Dictionary<string, string>>>();
+                    _current = parsed[ConfigurationKeys.CurrentConfiguration].ToString();
+                    _kvs = _kvsMap[_current];
+                }
+                else
+                {
+                    // old version
+                    _logger.Information("Configuration file is in old version, migrating to new version");
+
+                    _kvsMap = new Dictionary<string, Dictionary<string, string>>();
+                    _current = ConfigurationKeys.DefaultConfiguration;
+                    _kvsMap[_current] = parsed.ToObject<Dictionary<string, string>>();
+                    _kvs = _kvsMap[_current];
+                }
+
+                return true;
             }
-
-            if (parsed is null)
-            {
-                _logger.Information("Failed to load configuration file, creating a new one");
-
-                _kvsMap = new Dictionary<string, Dictionary<string, string>>();
-                _current = ConfigurationKeys.DefaultConfiguration;
-                _kvsMap[_current] = new Dictionary<string, string>();
-                _kvs = _kvsMap[_current];
-
-                return false;
-            }
-
-            if (parsed.ContainsKey(ConfigurationKeys.ConfigurationMap))
-            {
-                // new version
-                _kvsMap = parsed[ConfigurationKeys.ConfigurationMap].ToObject<Dictionary<string, Dictionary<string, string>>>();
-                _current = parsed[ConfigurationKeys.CurrentConfiguration].ToString();
-                _kvs = _kvsMap[_current];
-            }
-            else
-            {
-                // old version
-                _logger.Information("Configuration file is in old version, migrating to new version");
-
-                _kvsMap = new Dictionary<string, Dictionary<string, string>>();
-                _current = ConfigurationKeys.DefaultConfiguration;
-                _kvsMap[_current] = parsed.ToObject<Dictionary<string, string>>();
-                _kvs = _kvsMap[_current];
-            }
-
-            return true;
         }
 
         /// <summary>
@@ -185,18 +194,15 @@ namespace MaaWpfGui.Helper
                 return false;
             }
 
-            var jsonStr = JsonConvert.SerializeObject(new Dictionary<string, object>
-            {
-                { ConfigurationKeys.ConfigurationMap, _kvsMap },
-                { ConfigurationKeys.CurrentConfiguration, _current },
-            }, Formatting.Indented);
-
             try
             {
-                lock (_lock)
+                var jsonStr = JsonConvert.SerializeObject(new Dictionary<string, object>
                 {
-                    File.WriteAllText(file ?? _configurationFile, jsonStr);
-                }
+                    { ConfigurationKeys.ConfigurationMap, _kvsMap },
+                    { ConfigurationKeys.CurrentConfiguration, _current },
+                }, Formatting.Indented);
+
+                File.WriteAllText(file ?? _configurationFile, jsonStr);
             }
             catch (Exception e)
             {
@@ -269,9 +275,12 @@ namespace MaaWpfGui.Helper
 
         public static void Release()
         {
-            Save();
-            Save(_configurationBakFile);
-            Released = true;
+            lock (_lock)
+            {
+                Save();
+                Save(_configurationBakFile);
+                Released = true;
+            }
         }
 
         private static JObject ParseJsonFile(string filePath)
@@ -316,6 +325,11 @@ namespace MaaWpfGui.Helper
 
         public static bool AddConfiguration(string configName, string copyFrom = null)
         {
+            if (string.IsNullOrEmpty(configName))
+            {
+                return false;
+            }
+
             if (_kvsMap.ContainsKey(configName))
             {
                 _logger.Warning("Configuration {ConfigName} already exists", configName);

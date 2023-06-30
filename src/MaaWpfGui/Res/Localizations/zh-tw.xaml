@@ -138,7 +138,8 @@
     <system:String x:Key="HotKeyLinkStart">[熱鍵] Link start/stop</system:String>
     <system:String x:Key="HotKeyChangingTip">鍵入 退格/Esc/Delete 清除當前熱鍵</system:String>
     <system:String x:Key="LabelSequenceTip">標籤順序可拖動</system:String>
-    <system:String x:Key="CheckBoxesNotSaved">該選項設定重啟後不保存</system:String>
+    <system:String x:Key="CheckBoxesNotSaved">該選項僅生效一次</system:String>
+    <system:String x:Key="CheckBoxesNotSavedAsNull">該選項右鍵選中時僅生效一次</system:String>
     <system:String x:Key="NoAutoNavigation">該選項不會自動導航至對應關卡</system:String>
     <system:String x:Key="StartupUpdateCheck">啟動時檢查更新</system:String>
     <system:String x:Key="UpdatAutoCheck">定時檢查更新</system:String>
@@ -172,7 +173,14 @@
     <system:String x:Key="NewVersionDownloadCompletedDesc">是否立即更新 MAA？（重啟進程）</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageTitle">檢測到新版本，但未找到增量包</system:String>
     <system:String x:Key="NewVersionFoundButNoPackageDesc">請手動下載完整包更新！</system:String>
+    <system:String x:Key="ForceScheduledStart">強制定時啟動</system:String>
+    <system:String x:Key="ForceScheduledStartTip">停止當前任務，重新啟動遊戲並開始新任務</system:String>
     <system:String x:Key="Timer">定時</system:String>
+    <system:String x:Key="SwitchConfiguration">切換配置</system:String>
+    <system:String x:Key="ConfigurationName">配置名稱</system:String>
+    <system:String x:Key="AddConfiguration">新增</system:String>
+    <system:String x:Key="AddConfigSuccess">配置 &lt;{0}&gt; 新增成功</system:String>
+    <system:String x:Key="ConfigExists">配置 &lt;{0}&gt; 已存在</system:String>
     <system:String x:Key="LaunchOnSystemStartup">開機自動啟動</system:String>
     <system:String x:Key="RunTaskAfterLaunch">啟動後直接運行</system:String>
     <system:String x:Key="MinimizeAfterLaunch">啟動後直接最小化</system:String>
@@ -231,7 +239,7 @@
     <system:String x:Key="MainViewButtonFeature">主介面可選擇按鈕功能</system:String>
     <system:String x:Key="CustomStageCode">手動輸入關卡代名</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">支持大部分主線關卡名與原列表的關卡名（如:4-10、AP-5、H10-1-Hard）
-可在關卡結尾輸入 "Normal/Hard" 表示需要切換標準與磨難難度</system:String>
+可在關卡結尾輸入 「Normal/Hard」 表示需要切換標準與磨難難度</system:String>
     <system:String x:Key="AutoDetectConnection">自動檢測連接</system:String>
     <system:String x:Key="AutoDetectConnectionTip">每次檢測完成後會自動取消勾選，若需要重新檢測可再次勾選</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">每次重新檢測</system:String>
@@ -276,7 +284,7 @@
     <!--  戰鬥設定  -->
     <system:String x:Key="UseSanityPotion">吃理智藥</system:String>
     <system:String x:Key="UseOriginitePrime">吃源石*</system:String>
-    <system:String x:Key="PerformBattles">指定次數*</system:String>
+    <system:String x:Key="PerformBattles">指定次數</system:String>
     <system:String x:Key="AssignedMaterial">指定材料</system:String>
     <system:String x:Key="Quantity">刷取數量</system:String>
     <system:String x:Key="StageSelect">關卡選擇</system:String>
@@ -325,7 +333,7 @@
     <system:String x:Key="ConnectingToEmulator">正在連接模擬器……</system:String>
     <system:String x:Key="UnselectedTask">未選擇任務</system:String>
     <system:String x:Key="Running">正在運行中……</system:String>
-    <system:String x:Key="AdbReplacementTips">如果任務完全沒有反應，請使用 設定 - 連接設定 - 強制替換 ADB，或打開 兼容性觸控模式（不推薦）。</system:String>
+    <system:String x:Key="AdbReplacementTips">如果任務完全沒有反應，請使用 設定 - 連接設定 - 強制替換 ADB，或觸控模式選擇 ADB Input（不推薦）。</system:String>
     <system:String x:Key="Stopping">正在停止……</system:String>
     <system:String x:Key="Stopped">已停止</system:String>
     <system:String x:Key="UnknownErrorOccurs">出現未知錯誤</system:String>
@@ -371,8 +379,7 @@
     <system:String x:Key="VideoRecognition">影片識別</system:String>
     <system:String x:Key="StartToVideoRecognition">開始識別</system:String>
     <system:String x:Key="OpenVideoRecognitionResult">打開資料夾</system:String>
-    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">請打開“自動戰鬥”頁，將攻略影片文件拖入後開始即可。
-
+    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">請打開“自動戰鬥”頁，將攻略影片文件拖入後開始即可。\n
 需要影片分辨率為 16:9，且無黑邊、模擬器邊框、異形屏矯正等干擾因素。</system:String>
     <!--  日誌  -->
     <system:String x:Key="Gacha">牛牛抽卡</system:String>
@@ -442,6 +449,7 @@
     <system:String x:Key="ErrorSolution">解決方法</system:String>
     <system:String x:Key="ErrorSolutionCrash">請參考文件: 常見問題 - 閃退 進行操作。</system:String>
     <system:String x:Key="ErrorSolutionReplaceADB">請關閉模擬器與 ADB 或重啟電腦後使用管理員權限打開 MAA 進行操作。</system:String>
+    <system:String x:Key="ErrorSolutionFailedToMove">檔被佔用，請重啟電腦後重試</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">創建 GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">加入 QQ 群反應問題</system:String>
     <system:String x:Key="CopyErrorMessage">複製錯誤資訊</system:String>
@@ -574,10 +582,4 @@
     <system:String x:Key="ConfirmExitTitle">MAA 正在執行任務</system:String>
     <system:String x:Key="ConfirmExitText">確定要退出嗎？</system:String>
     <!--  RootViewModel  -->
-    <system:String x:Key="SwitchConfiguration">切換配置</system:String>
-    <system:String x:Key="ConfigurationName">配置名稱</system:String>
-    <system:String x:Key="AddConfiguration">新增</system:String>
-    <system:String x:Key="AddConfigSuccess">配置 &lt;{0}&gt; 新增成功</system:String>
-    <system:String x:Key="ConfigExists">配置 &lt;{0}&gt; 已存在</system:String>
-    <system:String x:Key="ErrorSolutionFailedToMove">檔被佔用，請重啟電腦後重試</system:String>
 </ResourceDictionary>

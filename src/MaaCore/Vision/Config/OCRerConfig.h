@@ -14,7 +14,7 @@ namespace asst
         {
             std::vector<std::string> required;
             bool full_match = false;
-            std::unordered_map<std::string, std::string> replace;
+            std::vector<std::pair<std::string, std::string>> replace;
             bool replace_full = false;
             bool without_det = false;
             bool use_char_model = false;
@@ -33,7 +33,7 @@ namespace asst
         void set_params(Params params);
 
         void set_required(std::vector<std::string> required) noexcept;
-        void set_replace(const std::unordered_map<std::string, std::string>& replace,
+        void set_replace(const std::vector<std::pair<std::string, std::string>>& replace,
                          bool replace_full = false) noexcept;
 
         virtual void set_task_info(std::shared_ptr<TaskInfo> task_ptr);

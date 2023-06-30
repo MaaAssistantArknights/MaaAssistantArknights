@@ -1583,6 +1583,14 @@
         "sortId": 60021,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
+    "randomMaterialRune_11": {
+        "classifyType": "CONSUME",
+        "description": "위기 협약에서 온 보급 재료 상자. 이 땅을 치료하기 위해 늘 노력하는 분들께 드리는 작은 보답입니다.——위기 협약",
+        "icon": "randomMaterialRune_11.png",
+        "name": "페이크웨이브 작전 보급 물자",
+        "sortId": 60022,
+        "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
+    },
     "randomMaterialRune_2": {
         "classifyType": "CONSUME",
         "description": "위기 협약에서 온 보급 재료 상자. 이 땅을 치료하기 위해 늘 노력하는 분들께 드리는 작은 보답입니다.——위기 협약",

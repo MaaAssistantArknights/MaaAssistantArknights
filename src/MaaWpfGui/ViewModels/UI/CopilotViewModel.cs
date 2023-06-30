@@ -463,6 +463,10 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
+            if (!Instances.SettingsViewModel.AdbReplaced && !Instances.SettingsViewModel.IsAdbTouchMode())
+            {
+                AddLog(LocalizationHelper.GetString("AdbReplacementTips"), UiLogColor.Info);
+            }
 
             string errMsg = string.Empty;
             _caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
@@ -482,10 +486,6 @@ namespace MaaWpfGui.ViewModels.UI
             if (ret)
             {
                 AddLog(LocalizationHelper.GetString("Running"));
-                if (!Instances.SettingsViewModel.AdbReplaced && !Instances.SettingsViewModel.IsAdbTouchMode())
-                {
-                    AddLog(LocalizationHelper.GetString("AdbReplacementTips"), UiLogColor.Info);
-                }
             }
             else
             {
