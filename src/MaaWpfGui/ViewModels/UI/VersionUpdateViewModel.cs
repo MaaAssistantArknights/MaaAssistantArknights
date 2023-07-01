@@ -20,6 +20,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
@@ -556,6 +557,18 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void AskToRestart()
         {
+            if (Instances.SettingsViewModel.AutoInstallUpdatePackage)
+            {
+                while (!(Instances.TaskQueueViewModel.Idle && Instances.CopilotViewModel.Idle))
+                {
+                    Thread.Sleep(60000);
+                }
+
+                Application.Current.Shutdown();
+                Bootstrapper.RestartApplication();
+                return;
+            }
+
             var result = MessageBoxHelper.Show(
                 LocalizationHelper.GetString("NewVersionDownloadCompletedDesc"),
                 LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"),
