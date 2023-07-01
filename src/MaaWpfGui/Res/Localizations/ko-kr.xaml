@@ -144,6 +144,7 @@
     <system:String x:Key="StartupUpdateCheck">시작시 업데이트 확인</system:String>
     <system:String x:Key="UpdatAutoCheck">일정 시간마다 업데이트 확인</system:String>
     <system:String x:Key="UpdateAutoDownload">자동으로 업데이트</system:String>
+    <system:String x:Key="AutoInstallUpdatePackage">자동 설치 업데이트 패키지</system:String>
     <system:String x:Key="UpdateCheckStable">안정 버전</system:String>
     <system:String x:Key="UpdateCheckBeta">베타 버전</system:String>
     <system:String x:Key="UpdateCheckNightly">개발 버전</system:String>
