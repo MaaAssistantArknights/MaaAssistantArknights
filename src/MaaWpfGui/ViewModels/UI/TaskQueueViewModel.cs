@@ -29,6 +29,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Services;
+using MaaWpfGui.States;
 using MaaWpfGui.Utilities.ValueType;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -47,6 +48,7 @@ namespace MaaWpfGui.ViewModels.UI
     {
         private readonly IContainer _container;
         private StageManager _stageManager;
+        private readonly RunningState runningState;
 
         private static readonly ILogger _logger = Log.ForContext<TaskQueueViewModel>();
 
@@ -128,6 +130,13 @@ namespace MaaWpfGui.ViewModels.UI
         public TaskQueueViewModel(IContainer container)
         {
             _container = container;
+            runningState = RunningState.Instance;
+            runningState.IdleChanged += RunningState_IdleChanged;
+        }
+
+        private void RunningState_IdleChanged(object sender, bool e)
+        {
+            Idle = e;
         }
 
         protected override void OnInitialActivate()
@@ -236,7 +245,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             refreshCustomInfrastPlanIndexByPeriod();
 
-            if (!Idle && !Instances.SettingsViewModel.ForceScheduledStart)
+            if (!runningState.GetIdle() && !Instances.SettingsViewModel.ForceScheduledStart)
             {
                 return;
             }
@@ -257,7 +266,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (Instances.SettingsViewModel.ForceScheduledStart)
                 {
-                    if (!Idle)
+                    if (!runningState.GetIdle())
                     {
                         await Stop();
                     }
@@ -689,12 +698,12 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public async void LinkStart()
         {
-            if (Idle == false)
+            if (!runningState.GetIdle())
             {
                 return;
             }
 
-            Idle = false;
+            runningState.SetIdle(false);
 
             // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次任务及基建列表
             TaskItemSelectionChanged();
@@ -753,7 +762,7 @@ namespace MaaWpfGui.ViewModels.UI
             if (!connected)
             {
                 AddLog(errMsg, UiLogColor.Error);
-                Idle = true;
+                runningState.SetIdle(true);
                 SetStopped();
                 return;
             }
@@ -827,7 +836,7 @@ namespace MaaWpfGui.ViewModels.UI
             if (count == 0)
             {
                 AddLog(LocalizationHelper.GetString("UnselectedTask"));
-                Idle = true;
+                runningState.SetIdle(true);
                 SetStopped();
                 return;
             }
@@ -866,13 +875,13 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void SetStopped()
         {
-            if (!Idle || Stopping)
+            if (!runningState.GetIdle() || Stopping)
             {
                 AddLog(LocalizationHelper.GetString("Stopped"));
             }
 
             Stopping = false;
-            Idle = true;
+            runningState.SetIdle(true);
         }
 
         private bool appendStart()
@@ -1716,7 +1725,7 @@ namespace MaaWpfGui.ViewModels.UI
             NotifyOfPropertyChange("Inited");
         }
 
-        private bool _idle = false;
+        private bool _idle = true;
 
         /// <summary>
         /// Gets or sets a value indicating whether it is idle.
@@ -1727,7 +1736,6 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _idle, value);
-                Instances.SettingsViewModel.Idle = value;
                 if (value)
                 {
                     FightTaskRunning = false;

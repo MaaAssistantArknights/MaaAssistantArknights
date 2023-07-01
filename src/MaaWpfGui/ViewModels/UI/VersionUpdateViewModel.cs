@@ -28,6 +28,7 @@ using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using MaaWpfGui.States;
 using Markdig;
 using Markdig.Wpf;
 using Newtonsoft.Json;
@@ -43,11 +44,14 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class VersionUpdateViewModel : Screen
     {
+        private readonly RunningState runningState;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="VersionUpdateViewModel"/> class.
         /// </summary>
         public VersionUpdateViewModel()
         {
+            runningState = RunningState.Instance;
         }
 
         [DllImport("MaaCore.dll")]
@@ -559,7 +563,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             if (Instances.SettingsViewModel.AutoInstallUpdatePackage)
             {
-                while (!(Instances.TaskQueueViewModel.Idle && Instances.CopilotViewModel.Idle))
+                while (!runningState.GetIdle())
                 {
                     Thread.Sleep(60000);
                 }
