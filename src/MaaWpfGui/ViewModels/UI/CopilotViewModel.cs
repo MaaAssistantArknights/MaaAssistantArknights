@@ -22,6 +22,7 @@ using System.Windows;
 using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.States;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -35,6 +36,8 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class CopilotViewModel : Screen
     {
+        private readonly RunningState runningState;
+
         /// <summary>
         /// Gets or sets the view models of log items.
         /// </summary>
@@ -48,6 +51,13 @@ namespace MaaWpfGui.ViewModels.UI
             DisplayName = LocalizationHelper.GetString("Copilot");
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
             AddLog(LocalizationHelper.GetString("CopilotTip"));
+            runningState = RunningState.Instance;
+            runningState.IdleChanged += RunningState_IdleChanged;
+        }
+
+        private void RunningState_IdleChanged(object sender, bool e)
+        {
+            Idle = e;
         }
 
         protected override void OnInitialActivate()
@@ -76,11 +86,7 @@ namespace MaaWpfGui.ViewModels.UI
         public bool Idle
         {
             get => _idle;
-            set
-            {
-                _idle = value;
-                NotifyOfPropertyChange(() => Idle);
-            }
+            set => SetAndNotify(ref _idle, value);
         }
 
         private bool _startEnabled = true;
@@ -91,11 +97,7 @@ namespace MaaWpfGui.ViewModels.UI
         public bool StartEnabled
         {
             get => _startEnabled;
-            set
-            {
-                _startEnabled = value;
-                NotifyOfPropertyChange(() => StartEnabled);
-            }
+            set => SetAndNotify(ref _startEnabled, value);
         }
 
         /// <summary>
@@ -454,7 +456,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 AddLog(Localization.GetString("AutoSquadTip"), LogColor.Message);
             }*/
-            Idle = false;
+            runningState.SetIdle(false);
 
             if (_isVideoTask)
             {
@@ -489,7 +491,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else
             {
-                Idle = true;
+                runningState.SetIdle(true);
                 AddLog(LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error);
             }
         }
@@ -505,7 +507,7 @@ namespace MaaWpfGui.ViewModels.UI
         public void Stop()
         {
             Instances.AsstProxy.AsstStop();
-            Idle = true;
+            runningState.SetIdle(true);
         }
 
         private bool _isVideoTask = false;

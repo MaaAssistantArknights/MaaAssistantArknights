@@ -28,6 +28,7 @@ using HandyControl.Data;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
+using MaaWpfGui.States;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
@@ -50,6 +51,8 @@ namespace MaaWpfGui.Main
     /// </summary>
     public class AsstProxy
     {
+        private readonly RunningState runningState;
+
         private delegate void CallbackDelegate(int msg, IntPtr json_buffer, IntPtr custom_arg);
 
         private delegate void ProcCallbackMsg(AsstMsg msg, JObject details);
@@ -241,6 +244,7 @@ namespace MaaWpfGui.Main
         public AsstProxy()
         {
             _callback = CallbackFunction;
+            runningState = RunningState.Instance;
         }
 
         /// <summary>
@@ -316,7 +320,7 @@ namespace MaaWpfGui.Main
             }
 
             Instances.TaskQueueViewModel.SetInited();
-            Instances.TaskQueueViewModel.Idle = true;
+            runningState.SetIdle(true);
             this.AsstSetInstanceOption(InstanceOptionKey.TouchMode, Instances.SettingsViewModel.TouchMode);
             this.AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, Instances.SettingsViewModel.DeploymentWithPause ? "1" : "0");
             this.AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, Instances.SettingsViewModel.AdbLiteEnabled ? "1" : "0");
@@ -325,7 +329,7 @@ namespace MaaWpfGui.Main
                 if (Instances.SettingsViewModel.RunDirectly)
                 {
                     // 如果是直接运行模式，就先让按钮显示为运行
-                    Instances.TaskQueueViewModel.Idle = false;
+                    runningState.SetIdle(false);
                 }
 
                 await Task.Run(() => Instances.SettingsViewModel.TryToStartEmulator());
@@ -340,7 +344,7 @@ namespace MaaWpfGui.Main
                 if (Instances.SettingsViewModel.RunDirectly)
                 {
                     // 重置按钮状态，不影响LinkStart判断
-                    Instances.TaskQueueViewModel.Idle = true;
+                    runningState.SetIdle(true);
                     Instances.TaskQueueViewModel.LinkStart();
                 }
             });
@@ -473,7 +477,7 @@ namespace MaaWpfGui.Main
                 case "Disconnect":
                     connected = false;
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ReconnectFailed"), UiLogColor.Error);
-                    if (Instances.TaskQueueViewModel.Idle)
+                    if (runningState.GetIdle())
                     {
                         break;
                     }
@@ -532,7 +536,7 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.SetStopped();
                     if (isCoplitTaskChain)
                     {
-                        Instances.CopilotViewModel.Idle = true;
+                        runningState.SetIdle(true);
                     }
 
                     break;
@@ -544,7 +548,7 @@ namespace MaaWpfGui.Main
                         toast.Show();
                         if (isCoplitTaskChain)
                         {
-                            Instances.CopilotViewModel.Idle = true;
+                            runningState.SetIdle(true);
                             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
                         }
 
@@ -586,7 +590,7 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + taskChain);
                     if (isCoplitTaskChain)
                     {
-                        Instances.CopilotViewModel.Idle = true;
+                        runningState.SetIdle(true);
                         Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CompleteCombat"), UiLogColor.Info);
                     }
 
@@ -621,8 +625,7 @@ namespace MaaWpfGui.Main
                     _latestTaskId.Clear();
 
                     Instances.TaskQueueViewModel.ResetFightVariables();
-                    Instances.TaskQueueViewModel.Idle = true;
-                    Instances.CopilotViewModel.Idle = true;
+                    runningState.SetIdle(true);
                     Instances.RecognizerViewModel.GachaDone = true;
 
                     if (isMainTaskQueueAllCompleted)
@@ -1193,7 +1196,7 @@ namespace MaaWpfGui.Main
             {
                 foreach (var address in Instances.SettingsViewModel.DefaultAddress[Instances.SettingsViewModel.ConnectConfig])
                 {
-                    if (Instances.SettingsViewModel.Idle)
+                    if (runningState.GetIdle())
                     {
                         break;
                     }
