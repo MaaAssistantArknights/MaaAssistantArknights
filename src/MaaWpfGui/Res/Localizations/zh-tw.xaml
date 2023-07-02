@@ -144,6 +144,7 @@
     <system:String x:Key="StartupUpdateCheck">啟動時檢查更新</system:String>
     <system:String x:Key="UpdatAutoCheck">定時檢查更新</system:String>
     <system:String x:Key="UpdateAutoDownload">自動下載更新包</system:String>
+    <system:String x:Key="AutoInstallUpdatePackage">自動安裝更新包</system:String>
     <system:String x:Key="UpdateCheckStable">穩定版</system:String>
     <system:String x:Key="UpdateCheckBeta">公測版</system:String>
     <system:String x:Key="UpdateCheckNightly">內測版</system:String>
