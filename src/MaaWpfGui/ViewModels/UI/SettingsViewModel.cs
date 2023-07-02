@@ -1984,7 +1984,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _updateAutoCheck = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UpdatAutoCheck, bool.TrueString));
+        private bool _updateAutoCheck = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UpdatAutoCheck, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to check update.
@@ -2040,6 +2040,21 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _autoDownloadUpdatePackage, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.AutoDownloadUpdatePackage, value.ToString());
+            }
+        }
+
+        private bool _autoInstallUpdatePackage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoInstallUpdatePackage, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to auto install update package.
+        /// </summary>
+        public bool AutoInstallUpdatePackage
+        {
+            get => _autoInstallUpdatePackage;
+            set
+            {
+                SetAndNotify(ref _autoInstallUpdatePackage, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.AutoInstallUpdatePackage, value.ToString());
             }
         }
 

@@ -137,6 +137,7 @@ namespace MaaWpfGui.Constants
         public const string UpdatAutoCheck = "VersionUpdate.ScheduledUpdateCheck";
         public const string UseAria2 = "VersionUpdate.UseAria2";
         public const string AutoDownloadUpdatePackage = "VersionUpdate.AutoDownloadUpdatePackage";
+        public const string AutoInstallUpdatePackage = "VersionUpdate.AutoInstallUpdatePackage";
 
         public const string PenguinId = "Penguin.Id";
         public const string IsDrGrandet = "Penguin.IsDrGrandet";

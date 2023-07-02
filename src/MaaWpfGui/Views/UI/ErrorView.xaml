@@ -56,7 +56,10 @@
                         <Run FontWeight="Bold" Text="{DynamicResource ErrorSolution}" />
                     </Paragraph>
                     <Paragraph Margin="8,0,0,0">
-                        <Run x:Name="ErrorSolution" Text="{Binding PossibleSolution, ElementName=ErrorViewWindow, Mode=OneWay}" />
+                        <Run
+                            x:Name="ErrorSolution"
+                            Foreground="Red"
+                            Text="{Binding PossibleSolution, ElementName=ErrorViewWindow, Mode=OneWay}" />
                     </Paragraph>
                 </Section>
                 <Section>
@@ -105,7 +108,7 @@
                             Name="LinkToFAQ"
                             Click="Hyperlink_OnClick"
                             NavigateUri="{Binding Source={x:Static constants:MaaUrls.HelpUri}}">
-                            <Run Text="{DynamicResource Help}" />
+                            <Run Foreground="Red" Text="{DynamicResource Help}" />
                         </Hyperlink>
                     </controls:TextBlock>
 

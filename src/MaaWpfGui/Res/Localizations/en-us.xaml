@@ -144,6 +144,7 @@
     <system:String x:Key="StartupUpdateCheck">Startup Update Check</system:String>
     <system:String x:Key="UpdatAutoCheck">Scheduled Update Check</system:String>
     <system:String x:Key="UpdateAutoDownload">Auto Download Update</system:String>
+    <system:String x:Key="AutoInstallUpdatePackage">Auto Install Update</system:String>
     <system:String x:Key="UpdateCheckStable">Stable Release</system:String>
     <system:String x:Key="UpdateCheckBeta">Beta Release</system:String>
     <system:String x:Key="UpdateCheckNightly">Nightly Release</system:String>
