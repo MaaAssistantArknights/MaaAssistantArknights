@@ -19,7 +19,6 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Text.Json.Nodes;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -112,37 +111,6 @@ namespace MaaWpfGui.Main
             {
                 return AsstConnect(handle, ptr1, ptr2, ptr3);
             }
-        }
-
-        private static bool AsstConnectWithTimeout(AsstHandle handle, string adb_path, string address, string config, int timeoutMilliseconds = 6000)
-        {
-            bool isConnected = false;
-            ManualResetEventSlim connectEvent = new ManualResetEventSlim();
-
-            Thread connectThread = new Thread(() =>
-            {
-                try
-                {
-                    isConnected = AsstConnect(handle, adb_path, address, config);
-                }
-                catch (ThreadAbortException)
-                {
-                }
-                finally
-                {
-                    connectEvent.Set();
-                }
-            });
-
-            connectThread.Start();
-
-            if (!connectEvent.Wait(timeoutMilliseconds))
-            {
-                connectThread.Abort();
-                return false;
-            }
-
-            return isConnected;
         }
 
         [DllImport("MaaCore.dll")]
@@ -1186,7 +1154,7 @@ namespace MaaWpfGui.Main
                 return false;
             }
 
-            bool ret = AsstConnectWithTimeout(_handle, Instances.SettingsViewModel.AdbPath, Instances.SettingsViewModel.ConnectAddress, Instances.SettingsViewModel.ConnectConfig);
+            bool ret = AsstConnect(_handle, Instances.SettingsViewModel.AdbPath, Instances.SettingsViewModel.ConnectAddress, Instances.SettingsViewModel.ConnectConfig);
 
             // 尝试默认的备选端口
             if (!ret && Instances.SettingsViewModel.AutoDetectConnection)
@@ -1198,7 +1166,7 @@ namespace MaaWpfGui.Main
                         break;
                     }
 
-                    ret = AsstConnectWithTimeout(_handle, Instances.SettingsViewModel.AdbPath, address, Instances.SettingsViewModel.ConnectConfig);
+                    ret = AsstConnect(_handle, Instances.SettingsViewModel.AdbPath, address, Instances.SettingsViewModel.ConnectConfig);
                     if (ret)
                     {
                         Instances.SettingsViewModel.ConnectAddress = address;
