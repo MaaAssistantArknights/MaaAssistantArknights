@@ -427,18 +427,23 @@ namespace MaaWpfGui.ViewModels.UI
             // reset closed stages to "Last/Current"
             if (!CustomStageCode)
             {
-                Stage1 = StageList.Any(x => x.Value == stage1) ? stage1 : string.Empty;
-                Stage2 = AlternateStageList.Any(x => x.Value == stage2) ? stage2 : string.Empty;
-                Stage3 = AlternateStageList.Any(x => x.Value == stage3) ? stage3 : string.Empty;
-                RemainingSanityStage = RemainingSanityStageList.Any(x => x.Value == rss) ? rss : string.Empty;
+                stage1 = StageList.Any(x => x.Value == stage1) ? stage1 : string.Empty;
+                stage2 = AlternateStageList.Any(x => x.Value == stage2) ? stage2 : string.Empty;
+                stage3 = AlternateStageList.Any(x => x.Value == stage3) ? stage3 : string.Empty;
+                rss = RemainingSanityStageList.Any(x => x.Value == rss) ? rss : string.Empty;
             }
-            else
+            else if (hideUnavailableStage)
             {
-                if (hideUnavailableStage && !UseAlternateStage)
-                {
-                    Stage1 = IsStageOpen(stage1) ? stage1 : string.Empty;
-                }
+                stage1 = IsStageOpen(stage1) ? stage1 : string.Empty;
+                stage2 = IsStageOpen(stage2) ? stage2 : string.Empty;
+                stage3 = IsStageOpen(stage3) ? stage3 : string.Empty;
+                rss = IsStageOpen(rss) ? rss : string.Empty;
             }
+
+            Stage1 = stage1;
+            Stage2 = stage2;
+            Stage3 = stage3;
+            RemainingSanityStage = rss;
 
             EnableSetFightParams = true;
         }
