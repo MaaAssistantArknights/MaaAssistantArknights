@@ -18,6 +18,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -516,83 +517,24 @@ namespace MaaWpfGui.ViewModels.UI
                 var urls = new List<string>();
 
                 // 负载均衡
-                int[] response = await Task.WhenAll(
-                    Task.Run(async () =>
-                    {
-                        try
-                        {
-                            ip_response = await Instances.HttpService.GetStringAsync(new Uri("https://api.iplocation.net/?cmd=get-ip")).ConfigureAwait(false);
-                            if (string.IsNullOrEmpty(ip_response))
-                            {
-                                return -1;
-                            }
-                            if (!(JsonConvert.DeserializeObject(ip_response) is JObject ip_json))
-                            {
-                                return -1;
-                            }
-                            var ip = ip_json['ip']?.ToString();
-                            if (ip == null)
-                            {
-                                return -1;
-                            }
+                string target = "maa-ota.annangela.cn";
+                bool is_outside = false;
+                try
+                {
+                    IPHostEntry hostEntry = Dns.GetHostEntry(target);
 
-                            country_code_response = await Instances.HttpService.GetStringAsync(new Uri($"https://api.iplocation.net/?cmd=ip-country&ip={Uri.EscapeDataString(ip)}")).ConfigureAwait(false);
-                            if (string.IsNullOrEmpty(country_code_response))
-                            {
-                                return -1;
-                            }
-                            if (!(JsonConvert.DeserializeObject(country_code_response) is JObject country_code_json))
-                            {
-                                return -1;
-                            }
-                            var country_code = country_code_json['country_code2']?.ToString();
-                            if (country_code == null)
-                            {
-                                return -1;
-                            }
-                            if (country_code == "CN")
-                            {
-                                return 0;
-                            }
-                            return 1;
-                        }
-                        catch (Exception ex)
-                        {
-                            return -1;
-                        }
-                    }),
-                    Task.Run(async () =>
+                    foreach (IPAddress ipAddress in hostEntry.AddressList)
                     {
-                        try
+                        if (ipAddress.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork
+                        && ipAddress.ToString() == "255.255.255.255")
                         {
-                            pro_code_response = await Instances.HttpService.GetStringAsync(new Uri("https://whois.pconline.com.cn/ipJson.jsp?level=1&json=true")).ConfigureAwait(false);
-                            if (string.IsNullOrEmpty(pro_code_response))
-                            {
-                                return -1;
-                            }
-                            if (!(JsonConvert.DeserializeObject(pro_code_response) is JObject pro_code_json))
-                            {
-                                return -1;
-                            }
-                            var pro_code = pro_code_json['proCode']?.ToString();
-                            if (pro_code == null)
-                            {
-                                return -1;
-                            }
-                            if (Convert.ToInt32(pro_code) < 800000)
-                            {
-                                return 0;
-                            }
-                            return 1;
+                            is_outside = true;
                         }
-                        catch (Exception ex)
-                        {
-                            return -1;
-                        }
-                    })
-                );
-
-                var is_outside = response.Any(x => x == 1);
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
 
                 if (is_outside)
                 {
