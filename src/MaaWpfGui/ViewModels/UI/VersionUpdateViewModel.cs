@@ -526,35 +526,35 @@ namespace MaaWpfGui.ViewModels.UI
 
                 _logger.Information("Start test legacy download urls");
 
-                // run legacy test parallel
+                // run latency test parallel
                 var tasks = urls.ConvertAll(url => Instances.HttpService.HeadAsync(new Uri(url)));
-                var legacies = await Task.WhenAll(tasks);
+                var latencies = await Task.WhenAll(tasks);
 
                 // select the fastest mirror
                 _logger.Information("Selecting the fastest mirror:");
                 var selected = 0;
-                for (int i = 0; i < legacies.Length; i++)
+                for (int i = 0; i < latencies.Length; i++)
                 {
-                    if (legacies[i].Equals(-1.0))
+                    if (latencies[i].Equals(-1.0))
                     {
-                        _logger.Warning("\turl: {0} not available", urls[i]);
+                        _logger.Warning("\turl: {CDNUrl} not available", urls[i]);
                         continue;
                     }
 
-                    _logger.Information("\turl: {0}, legacy: {1:0.00}ms", urls[i], legacies[i]);
-                    if (legacies[i] < legacies[selected])
+                    _logger.Information("\turl: {CDNUrl}, legacy: {1:0.00}ms", urls[i], latencies[i]);
+                    if (latencies[i] < latencies[selected])
                     {
                         selected = i;
                     }
                 }
 
-                if (legacies[selected].Equals(-1.0))
+                if (latencies[selected].Equals(-1.0))
                 {
                     _logger.Error("All mirrors are not available");
                     return CheckUpdateRetT.NetworkError;
                 }
 
-                _logger.Information("Selected mirror: {0}", urls[selected]);
+                _logger.Information("Selected mirror: {CDNUrl}", urls[selected]);
 
 
                 downloaded = await DownloadGithubAssets(urls[selected], _assetsObject);
