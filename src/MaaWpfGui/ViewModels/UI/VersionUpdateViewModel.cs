@@ -117,7 +117,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         public FlowDocument UpdateInfoDoc => Markdig.Wpf.Markdown.ToFlowDocument(UpdateInfo,
-                new MarkdownPipelineBuilder().UseSupportedExtensions().Build());
+            new MarkdownPipelineBuilder().UseSupportedExtensions().Build());
 
         private string _updateUrl;
 
@@ -199,8 +199,8 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionZipFileFoundTitle"));
                 toast.AppendContentText(LocalizationHelper.GetString("NewVersionZipFileFoundDescDecompressing"))
-                     .AppendContentText(UpdateTag)
-                     .ShowUpdateVersion(row: 2);
+                    .AppendContentText(UpdateTag)
+                    .ShowUpdateVersion(row: 2);
             });
 
             string curDir = Directory.GetCurrentDirectory();
@@ -224,8 +224,8 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionZipFileBrokenTitle"));
                     toast.AppendContentText(LocalizationHelper.GetString("NewVersionZipFileBrokenDescFilename") + UpdatePackageName)
-                         .AppendContentText(LocalizationHelper.GetString("NewVersionZipFileBrokenDescDeleted"))
-                         .ShowUpdateVersion();
+                        .AppendContentText(LocalizationHelper.GetString("NewVersionZipFileBrokenDescDeleted"))
+                        .ShowUpdateVersion();
                 });
                 return false;
             }
@@ -422,7 +422,7 @@ namespace MaaWpfGui.ViewModels.UI
                             return version;
                         }
                         else if (SemVersion.TryParse(version, SemVersionStyles.AllowLowerV, out var semVersion) &&
-                            isNightlyVersion(semVersion))
+                                 isNightlyVersion(semVersion))
                         {
                             // v4.6.6-1.g{Hash}
                             // v4.6.7-beta.2.8.g{Hash}
@@ -465,9 +465,7 @@ namespace MaaWpfGui.ViewModels.UI
 #pragma warning restore IDE0042
                 Execute.OnUIThread(() =>
                 {
-                    using var toast = new ToastNotification((otaFound ?
-                        LocalizationHelper.GetString("NewVersionFoundTitle") :
-                        LocalizationHelper.GetString("NewVersionFoundButNoPackageTitle")) + " : " + UpdateTag);
+                    using var toast = new ToastNotification((otaFound ? LocalizationHelper.GetString("NewVersionFoundTitle") : LocalizationHelper.GetString("NewVersionFoundButNoPackageTitle")) + " : " + UpdateTag);
                     if (goDownload)
                     {
                         OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadPreparing"));
@@ -526,17 +524,45 @@ namespace MaaWpfGui.ViewModels.UI
                     urls.Add(rawUrl);
                 }
 
-                foreach (var url in urls)
+                _logger.Information("Start test legacy download urls");
+
+                // run legacy test parallel
+                var tasks = urls.ConvertAll(url => Instances.HttpService.HeadAsync(new Uri(url)));
+                var legacies = await Task.WhenAll(tasks);
+
+                // select the fastest mirror
+                _logger.Information("Selecting the fastest mirror:");
+                var selected = 0;
+                for (int i = 0; i < legacies.Length; i++)
                 {
-                    downloaded = await DownloadGithubAssets(url, _assetsObject);
-                    if (downloaded)
+                    if (legacies[i].Equals(-1.0))
                     {
-                        OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"));
-                        break;
+                        _logger.Warning("\turl: {0} not available", urls[i]);
+                        continue;
+                    }
+
+                    _logger.Information("\turl: {0}, legacy: {1:0.00}ms", urls[i], legacies[i]);
+                    if (legacies[i] < legacies[selected])
+                    {
+                        selected = i;
                     }
                 }
 
-                if (!downloaded)
+                if (legacies[selected].Equals(-1.0))
+                {
+                    _logger.Error("All mirrors are not available");
+                    return CheckUpdateRetT.NetworkError;
+                }
+
+                _logger.Information("Selected mirror: {0}", urls[selected]);
+
+
+                downloaded = await DownloadGithubAssets(urls[selected], _assetsObject);
+                if (downloaded)
+                {
+                    OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"));
+                }
+                else
                 {
                     OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
                     Execute.OnUIThread(() =>
@@ -544,8 +570,8 @@ namespace MaaWpfGui.ViewModels.UI
                         using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
                         toast.ButtonSystemUrl = UpdateUrl;
                         toast.AppendContentText(LocalizationHelper.GetString("NewVersionDownloadFailedDesc"))
-                                .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
-                                .Show();
+                            .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
+                            .Show();
                     });
                     return CheckUpdateRetT.NoNeedToUpdate;
                 }
@@ -728,8 +754,8 @@ namespace MaaWpfGui.ViewModels.UI
                         break;
                     }
                 }
-            }
-            while (string.IsNullOrEmpty(response) && retryTimes-- > 0);
+            } while (string.IsNullOrEmpty(response) && retryTimes-- > 0);
+
             return response;
         }
 #pragma warning restore IDE0051 // 删除未使用的私有成员
@@ -746,9 +772,9 @@ namespace MaaWpfGui.ViewModels.UI
             try
             {
                 return await Instances.HttpService.DownloadFileAsync(
-                    new Uri(url),
-                    assetsObject["name"].ToString(),
-                    assetsObject["content_type"]?.ToString())
+                        new Uri(url),
+                        assetsObject["name"].ToString(),
+                        assetsObject["content_type"]?.ToString())
                     .ConfigureAwait(false);
             }
             catch (Exception)
