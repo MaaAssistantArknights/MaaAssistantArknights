@@ -13,6 +13,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -72,6 +73,34 @@ namespace MaaWpfGui.Services.Web
             BuildDownloaderHttpClient();
         }
 
+        public async Task<double> HeadAsync(Uri uri, Dictionary<string, string> extraHeader = null)
+        {
+            try
+            {
+                var request = new HttpRequestMessage { RequestUri = uri, Method = HttpMethod.Head, };
+
+                if (extraHeader != null)
+                {
+                    foreach (var kvp in extraHeader)
+                    {
+                        request.Headers.Add(kvp.Key, kvp.Value);
+                    }
+                }
+
+                var stopwatch = Stopwatch.StartNew();
+                var response = await _client.SendAsync(request);
+                stopwatch.Stop();
+                response.Log();
+
+                return response.IsSuccessStatusCode is false ? -1.0 : stopwatch.Elapsed.TotalMilliseconds;
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Failed to send GET request to {Uri}", uri);
+                return -1.0;
+            }
+        }
+
         public async Task<string> GetStringAsync(Uri uri, Dictionary<string, string> extraHeader = null)
         {
             var response = await GetAsync(uri, extraHeader);
@@ -96,15 +125,11 @@ namespace MaaWpfGui.Services.Web
             return null;
         }
 
-        public async Task<HttpResponseMessage> GetAsync(Uri uri, Dictionary<string, string> extraHeader = null)
+        public async Task<HttpResponseMessage> GetAsync(Uri uri, Dictionary<string, string> extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseContentRead)
         {
             try
             {
-                var request = new HttpRequestMessage
-                {
-                    RequestUri = uri,
-                    Method = HttpMethod.Get,
-                };
+                var request = new HttpRequestMessage { RequestUri = uri, Method = HttpMethod.Get, };
 
                 if (extraHeader != null)
                 {
@@ -114,7 +139,7 @@ namespace MaaWpfGui.Services.Web
                     }
                 }
 
-                var response = await _client.SendAsync(request);
+                var response = await _client.SendAsync(request, httpCompletionOption);
                 response.Log();
 
                 return response.IsSuccessStatusCode is false ? null : response;
@@ -145,7 +170,7 @@ namespace MaaWpfGui.Services.Web
             }
         }
 
-        public async Task<bool> DownloadFileAsync(Uri uri, string fileName, string contentType = null)
+        public async Task<bool> DownloadFileAsync(Uri uri, string fileName, string contentType = "application/octet-stream")
         {
             string fileDir = Directory.GetCurrentDirectory();
             string fileNameWithTemp = fileName + ".temp";
@@ -153,7 +178,7 @@ namespace MaaWpfGui.Services.Web
             string fullFilePathWithTemp = Path.Combine(fileDir, fileNameWithTemp);
             _logger.Information("Start to download file from {Uri} and save to {TempPath}", uri, fullFilePathWithTemp);
 
-            var response = await GetAsync(uri, extraHeader: new Dictionary<string, string> { { "Accept", contentType } });
+            var response = await GetAsync(uri, extraHeader: new Dictionary<string, string> { { "Accept", contentType } }, httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
 
             if (response is null)
             {
