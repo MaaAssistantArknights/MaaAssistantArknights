@@ -80662,5 +80662,245 @@
         "stageId": "act25side_10_perm",
         "stageType": "ACTIVITY",
         "zoneId": "permanent_sub_5_zone1"
+    },
+    {
+        "apCost": 9,
+        "code": "FD-1",
+        "code_i18n": {
+            "en": "FD-1",
+            "ja": "FD-1",
+            "ko": "FD-1",
+            "zh": "FD-1"
+        },
+        "existence": {
+            "CN": {
+                "closeTime": 1689192000000,
+                "exist": true,
+                "openTime": 1688630400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": null,
+        "stageId": "act15mini_01",
+        "stageType": "ACTIVITY",
+        "zoneId": "act15mini_zone1"
+    },
+    {
+        "apCost": 9,
+        "code": "FD-2",
+        "code_i18n": {
+            "en": "FD-2",
+            "ja": "FD-2",
+            "ko": "FD-2",
+            "zh": "FD-2"
+        },
+        "existence": {
+            "CN": {
+                "closeTime": 1689192000000,
+                "exist": true,
+                "openTime": 1688630400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": null,
+        "stageId": "act15mini_02",
+        "stageType": "ACTIVITY",
+        "zoneId": "act15mini_zone1"
+    },
+    {
+        "apCost": 12,
+        "code": "FD-3",
+        "code_i18n": {
+            "en": "FD-3",
+            "ja": "FD-3",
+            "ko": "FD-3",
+            "zh": "FD-3"
+        },
+        "existence": {
+            "CN": {
+                "closeTime": 1689192000000,
+                "exist": true,
+                "openTime": 1688630400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": null,
+        "stageId": "act15mini_03",
+        "stageType": "ACTIVITY",
+        "zoneId": "act15mini_zone1"
+    },
+    {
+        "apCost": 12,
+        "code": "FD-4",
+        "code_i18n": {
+            "en": "FD-4",
+            "ja": "FD-4",
+            "ko": "FD-4",
+            "zh": "FD-4"
+        },
+        "existence": {
+            "CN": {
+                "closeTime": 1689192000000,
+                "exist": true,
+                "openTime": 1688630400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": null,
+        "stageId": "act15mini_04",
+        "stageType": "ACTIVITY",
+        "zoneId": "act15mini_zone1"
+    },
+    {
+        "apCost": 15,
+        "code": "FD-5",
+        "code_i18n": {
+            "en": "FD-5",
+            "ja": "FD-5",
+            "ko": "FD-5",
+            "zh": "FD-5"
+        },
+        "existence": {
+            "CN": {
+                "closeTime": 1689192000000,
+                "exist": true,
+                "openTime": 1688630400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": null,
+        "stageId": "act15mini_05",
+        "stageType": "ACTIVITY",
+        "zoneId": "act15mini_zone1"
+    },
+    {
+        "apCost": 15,
+        "code": "FD-6",
+        "code_i18n": {
+            "en": "FD-6",
+            "ja": "FD-6",
+            "ko": "FD-6",
+            "zh": "FD-6"
+        },
+        "existence": {
+            "CN": {
+                "closeTime": 1689192000000,
+                "exist": true,
+                "openTime": 1688630400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": null,
+        "stageId": "act15mini_06",
+        "stageType": "ACTIVITY",
+        "zoneId": "act15mini_zone1"
+    },
+    {
+        "apCost": 21,
+        "code": "FD-7",
+        "code_i18n": {
+            "en": "FD-7",
+            "ja": "FD-7",
+            "ko": "FD-7",
+            "zh": "FD-7"
+        },
+        "existence": {
+            "CN": {
+                "closeTime": 1689192000000,
+                "exist": true,
+                "openTime": 1688630400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": null,
+        "stageId": "act15mini_07",
+        "stageType": "ACTIVITY",
+        "zoneId": "act15mini_zone1"
+    },
+    {
+        "apCost": 21,
+        "code": "FD-8",
+        "code_i18n": {
+            "en": "FD-8",
+            "ja": "FD-8",
+            "ko": "FD-8",
+            "zh": "FD-8"
+        },
+        "existence": {
+            "CN": {
+                "closeTime": 1689192000000,
+                "exist": true,
+                "openTime": 1688630400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": null,
+        "stageId": "act15mini_08",
+        "stageType": "ACTIVITY",
+        "zoneId": "act15mini_zone1"
     }
 ]
