@@ -1616,6 +1616,16 @@
             "進入主題"
         ]
     },
+    "Roguelike@RecruitSupportConfirm": {
+        "text": [
+            "招募助戰"
+        ]
+    },
+    "RoguelikeChooseSupportBtnOcr": {
+        "text": [
+            "選擇助戰"
+        ]
+    },
     "RoguelikeCustom-HijackCoChar": {
         "ocrReplace": [
             [
@@ -1720,21 +1730,6 @@
             ]
         ]
     },
-    "RoguelikeRefreshSupportBtnOcr": {
-        "text": [
-            "更新助戰列表"
-        ]
-    },
-    "RoguelikeChooseSupportBtnOcr": {
-        "text": [
-            "選擇助戰"
-        ]
-    },
-    "Roguelike@RecruitSupportConfirm": {
-        "text": [
-            "招募助戰"
-        ]
-    },
     "RoguelikeRecruitLevel": {
         "Doc": "台服的等级字体比国服大一圈，要改roi",
         "rectMove": [
@@ -1742,6 +1737,11 @@
             -1,
             18,
             12
+        ]
+    },
+    "RoguelikeRefreshSupportBtnOcr": {
+        "text": [
+            "更新助戰列表"
         ]
     },
     "RoguelikeTraderShoppingOcr": {
