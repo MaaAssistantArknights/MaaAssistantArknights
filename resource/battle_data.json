@@ -981,6 +981,17 @@
             ],
             "rarity": 4
         },
+        "char_2012_typhon": {
+            "name": "提丰",
+            "position": "RANGED",
+            "profession": "SNIPER",
+            "rangeId": [
+                "4-4",
+                "4-3",
+                "4-3"
+            ],
+            "rarity": 6
+        },
         "char_2013_cerber": {
             "name": "刻俄柏",
             "position": "RANGED",
@@ -1888,6 +1899,17 @@
                 "3-6"
             ],
             "rarity": 6
+        },
+        "char_341_sntlla": {
+            "name": "寒檀",
+            "position": "RANGED",
+            "profession": "CASTER",
+            "rangeId": [
+                "2-3",
+                "3-6",
+                "3-6"
+            ],
+            "rarity": 5
         },
         "char_343_tknogi": {
             "name": "月禾",
