@@ -63,6 +63,7 @@ namespace asst
         virtual void callback(AsstMsg msg, const json::value& detail);
         virtual void click_return_button();
         bool save_img(const std::filesystem::path& relative_dir = utils::path("debug"));
+        size_t filenum_ctrl(const std::filesystem::path& relative_dir, size_t max_files = 1000);
 
         json::value basic_info_with_what(std::string what) const;
 
@@ -76,5 +77,6 @@ namespace asst
         mutable json::value m_basic_info_cache;
         int m_task_id = 0;
         std::set<TaskPluginPtr> m_plugins;
+        std::map<std::filesystem::path, size_t> m_save_file_cnt;
     };
 } // namespace asst
