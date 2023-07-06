@@ -158,7 +158,64 @@ bool asst::AbstractTask::save_img(const std::filesystem::path& relative_dir)
         return false;
     }
     std::string stem = utils::get_time_filestem();
+
+    // 第一次或每执行100次后执行清理
+    if (m_save_file_cnt[relative_dir] == 0) {
+        std::thread t([=]() { 
+            filenum_ctrl(relative_dir, 1000);
+        });
+        t.detach();
+        
+        m_save_file_cnt[relative_dir] = 0;
+    }
+    m_save_file_cnt[relative_dir] = (m_save_file_cnt[relative_dir] + 1) % 100;
+
     auto relative_path = relative_dir / (stem + "_raw.png");
     Log.trace("Save image", relative_path);
     return asst::imwrite(relative_path, image);
+}
+
+size_t asst::AbstractTask::filenum_ctrl(const std::filesystem::path& relative_dir, size_t max_files)
+{
+    std::filesystem::path absolute_path;
+    if (relative_dir.is_relative()) [[likely]] {
+        const auto& user_dir = UserDir.get();
+        absolute_path = user_dir / relative_dir;
+    }
+    else {
+        absolute_path = relative_dir;
+    }
+    if (!std::filesystem::exists(absolute_path)) {
+        return 0;
+    }
+
+    size_t file_nums = 0;
+    std::vector<std::pair<std::filesystem::file_time_type, std::filesystem::path>> filepaths;
+    std::filesystem::directory_iterator iter(absolute_path);
+    for (auto& file : iter) {
+        if (file.is_regular_file()) {
+            ++file_nums;
+            filepaths.emplace_back(last_write_time(file.path()), file.path());
+        }
+    }
+
+    std::sort(filepaths.begin(), filepaths.end(),
+              [](const std::pair<std::filesystem::file_time_type, std::filesystem::path>& a,
+                 const std::pair<std::filesystem::file_time_type, std::filesystem::path>& b) {
+                  if (a.first != b.first) return a.first < b.first;
+                  return a.second < b.second;
+              });
+
+    long long to_del = file_nums - max_files;
+    size_t deleted = 0;
+
+    for (int i = 0; i < to_del; ++i) {
+        auto path = filepaths[i].second;
+        std::cout << filepaths[i].first.time_since_epoch().count() << path << std::endl;
+        if (std::filesystem::remove(path)) {
+            deleted++;
+        }
+    }
+
+    return deleted;
 }
