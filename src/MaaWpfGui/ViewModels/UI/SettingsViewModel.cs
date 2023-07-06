@@ -935,7 +935,11 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void AddConfiguration()
         {
-            NewConfigurationName ??= DateTime.Now.ToString("yy/MM/dd HH:mm:ss");
+            if (string.IsNullOrEmpty(NewConfigurationName))
+            {
+                NewConfigurationName = DateTime.Now.ToString("yy/MM/dd HH:mm:ss");
+            }
+
             if (ConfigurationHelper.AddConfiguration(NewConfigurationName, CurrentConfiguration))
             {
                 ConfigurationList.Add(new CombinedData { Display = NewConfigurationName, Value = NewConfigurationName });
