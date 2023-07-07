@@ -342,6 +342,7 @@ bool asst::Assistant::start(bool block)
     }
 
     m_thread_idle = false;
+    m_running = true;
     m_condvar.notify_one();
 
     return true;
