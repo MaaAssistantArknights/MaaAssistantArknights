@@ -2320,6 +2320,11 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 HasTimesLimited = false;
             }
+
+            if (IsSpecifiedDropsWithNull == null)
+            {
+                IsSpecifiedDrops = false;
+            }
         }
 
         private bool? _useMedicineWithNull = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicine, bool.FalseString));
@@ -2482,20 +2487,30 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region Drops
 
-        private bool _isSpecifiedDrops = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DropsEnable, bool.FalseString));
+        private bool? _isSpecifiedDropsWithNull = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DropsEnable, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the drops are specified.
+        /// </summary>
+        public bool? IsSpecifiedDropsWithNull
+        {
+            get => _isSpecifiedDropsWithNull;
+            set
+            {
+                SetAndNotify(ref _isSpecifiedDropsWithNull, value);
+                SetFightParams();
+                value ??= false;
+                ConfigurationHelper.SetValue(ConfigurationKeys.DropsEnable, value.ToString());
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether the drops are specified.
         /// </summary>
         public bool IsSpecifiedDrops
         {
-            get => _isSpecifiedDrops;
-            set
-            {
-                SetAndNotify(ref _isSpecifiedDrops, value);
-                SetFightParams();
-                ConfigurationHelper.SetValue(ConfigurationKeys.DropsEnable, value.ToString());
-            }
+            get => IsSpecifiedDropsWithNull != false;
+            set => IsSpecifiedDropsWithNull = value;
         }
 
         /// <summary>
