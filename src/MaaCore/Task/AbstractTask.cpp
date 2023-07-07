@@ -159,16 +159,13 @@ bool asst::AbstractTask::save_img(const std::filesystem::path& relative_dir)
     }
     std::string stem = utils::get_time_filestem();
 
-    // 第一次或每执行100次后执行清理
+    // 第1次或每执行 debug.clean_files_freq(100) 次后执行清理
+    // 限制文件数量 debug.max_debug_file_num
     if (m_save_file_cnt[relative_dir] == 0) {
-        std::thread t([=]() { 
-            filenum_ctrl(relative_dir, 1000);
-        });
-        t.detach();
-        
+        filenum_ctrl(relative_dir, Config.get_options().debug.max_debug_file_num);
         m_save_file_cnt[relative_dir] = 0;
     }
-    m_save_file_cnt[relative_dir] = (m_save_file_cnt[relative_dir] + 1) % 100;
+    m_save_file_cnt[relative_dir] = (m_save_file_cnt[relative_dir] + 1) % Config.get_options().debug.clean_files_freq;
 
     auto relative_path = relative_dir / (stem + "_raw.png");
     Log.trace("Save image", relative_path);
@@ -211,11 +208,10 @@ size_t asst::AbstractTask::filenum_ctrl(const std::filesystem::path& relative_di
 
     for (int i = 0; i < to_del; ++i) {
         auto path = filepaths[i].second;
-        std::cout << filepaths[i].first.time_since_epoch().count() << path << std::endl;
         if (std::filesystem::remove(path)) {
             deleted++;
         }
     }
-
+    LogTrace << "Finish folder cleanup delete " << deleted << " files from " << absolute_path;
     return deleted;
 }
