@@ -2825,6 +2825,168 @@
         "stageId": "act15d0_tr01",
         "width": 9
     },
+    "act15mini_01#f#-activities/act15mini/level_act15mini_01": {
+        "code": "FD-1",
+        "filename": "act15mini_01#f#-activities-act15mini-level_act15mini_01.json",
+        "height": 6,
+        "levelId": "activities/act15mini/level_act15mini_01",
+        "name": "繁荣滋长",
+        "stageId": "act15mini_01#f#",
+        "width": 9
+    },
+    "act15mini_01-activities/act15mini/level_act15mini_01": {
+        "code": "FD-1",
+        "filename": "act15mini_01-activities-act15mini-level_act15mini_01.json",
+        "height": 6,
+        "levelId": "activities/act15mini/level_act15mini_01",
+        "name": "繁荣滋长",
+        "stageId": "act15mini_01",
+        "width": 9
+    },
+    "act15mini_02#f#-activities/act15mini/level_act15mini_02": {
+        "code": "FD-2",
+        "filename": "act15mini_02#f#-activities-act15mini-level_act15mini_02.json",
+        "height": 8,
+        "levelId": "activities/act15mini/level_act15mini_02",
+        "name": "边境巡逻",
+        "stageId": "act15mini_02#f#",
+        "width": 11
+    },
+    "act15mini_02-activities/act15mini/level_act15mini_02": {
+        "code": "FD-2",
+        "filename": "act15mini_02-activities-act15mini-level_act15mini_02.json",
+        "height": 8,
+        "levelId": "activities/act15mini/level_act15mini_02",
+        "name": "边境巡逻",
+        "stageId": "act15mini_02",
+        "width": 11
+    },
+    "act15mini_03#f#-activities/act15mini/level_act15mini_03": {
+        "code": "FD-3",
+        "filename": "act15mini_03#f#-activities-act15mini-level_act15mini_03.json",
+        "height": 7,
+        "levelId": "activities/act15mini/level_act15mini_03",
+        "name": "无序礼炮",
+        "stageId": "act15mini_03#f#",
+        "width": 11
+    },
+    "act15mini_03-activities/act15mini/level_act15mini_03": {
+        "code": "FD-3",
+        "filename": "act15mini_03-activities-act15mini-level_act15mini_03.json",
+        "height": 7,
+        "levelId": "activities/act15mini/level_act15mini_03",
+        "name": "无序礼炮",
+        "stageId": "act15mini_03",
+        "width": 11
+    },
+    "act15mini_04#f#-activities/act15mini/level_act15mini_04": {
+        "code": "FD-4",
+        "filename": "act15mini_04#f#-activities-act15mini-level_act15mini_04.json",
+        "height": 7,
+        "levelId": "activities/act15mini/level_act15mini_04",
+        "name": "暗中摸索",
+        "stageId": "act15mini_04#f#",
+        "width": 10
+    },
+    "act15mini_04-activities/act15mini/level_act15mini_04": {
+        "code": "FD-4",
+        "filename": "act15mini_04-activities-act15mini-level_act15mini_04.json",
+        "height": 7,
+        "levelId": "activities/act15mini/level_act15mini_04",
+        "name": "暗中摸索",
+        "stageId": "act15mini_04",
+        "width": 10
+    },
+    "act15mini_05#f#-activities/act15mini/level_act15mini_05": {
+        "code": "FD-5",
+        "filename": "act15mini_05#f#-activities-act15mini-level_act15mini_05.json",
+        "height": 7,
+        "levelId": "activities/act15mini/level_act15mini_05",
+        "name": "冻结痛觉",
+        "stageId": "act15mini_05#f#",
+        "width": 11
+    },
+    "act15mini_05-activities/act15mini/level_act15mini_05": {
+        "code": "FD-5",
+        "filename": "act15mini_05-activities-act15mini-level_act15mini_05.json",
+        "height": 7,
+        "levelId": "activities/act15mini/level_act15mini_05",
+        "name": "冻结痛觉",
+        "stageId": "act15mini_05",
+        "width": 11
+    },
+    "act15mini_06#f#-activities/act15mini/level_act15mini_06": {
+        "code": "FD-6",
+        "filename": "act15mini_06#f#-activities-act15mini-level_act15mini_06.json",
+        "height": 8,
+        "levelId": "activities/act15mini/level_act15mini_06",
+        "name": "古老歌谣",
+        "stageId": "act15mini_06#f#",
+        "width": 12
+    },
+    "act15mini_06-activities/act15mini/level_act15mini_06": {
+        "code": "FD-6",
+        "filename": "act15mini_06-activities-act15mini-level_act15mini_06.json",
+        "height": 8,
+        "levelId": "activities/act15mini/level_act15mini_06",
+        "name": "古老歌谣",
+        "stageId": "act15mini_06",
+        "width": 12
+    },
+    "act15mini_07#f#-activities/act15mini/level_act15mini_07": {
+        "code": "FD-7",
+        "filename": "act15mini_07#f#-activities-act15mini-level_act15mini_07.json",
+        "height": 8,
+        "levelId": "activities/act15mini/level_act15mini_07",
+        "name": "背离法则",
+        "stageId": "act15mini_07#f#",
+        "width": 12
+    },
+    "act15mini_07-activities/act15mini/level_act15mini_07": {
+        "code": "FD-7",
+        "filename": "act15mini_07-activities-act15mini-level_act15mini_07.json",
+        "height": 8,
+        "levelId": "activities/act15mini/level_act15mini_07",
+        "name": "背离法则",
+        "stageId": "act15mini_07",
+        "width": 12
+    },
+    "act15mini_08#f#-activities/act15mini/level_act15mini_08": {
+        "code": "FD-8",
+        "filename": "act15mini_08#f#-activities-act15mini-level_act15mini_08.json",
+        "height": 8,
+        "levelId": "activities/act15mini/level_act15mini_08",
+        "name": "向光探寻",
+        "stageId": "act15mini_08#f#",
+        "width": 12
+    },
+    "act15mini_08-activities/act15mini/level_act15mini_08": {
+        "code": "FD-8",
+        "filename": "act15mini_08-activities-act15mini-level_act15mini_08.json",
+        "height": 8,
+        "levelId": "activities/act15mini/level_act15mini_08",
+        "name": "向光探寻",
+        "stageId": "act15mini_08",
+        "width": 12
+    },
+    "act15mini_s01-activities/act15mini/level_act15mini_sub-1-1": {
+        "code": "FD-S-1",
+        "filename": "act15mini_s01-activities-act15mini-level_act15mini_sub-1-1.json",
+        "height": 7,
+        "levelId": "activities/act15mini/level_act15mini_sub-1-1",
+        "name": "冻土疆界 ",
+        "stageId": "act15mini_s01",
+        "width": 11
+    },
+    "act15mini_s02-activities/act15mini/level_act15mini_sub-2-1": {
+        "code": "FD-S-2",
+        "filename": "act15mini_s02-activities-act15mini-level_act15mini_sub-2-1.json",
+        "height": 8,
+        "levelId": "activities/act15mini/level_act15mini_sub-2-1",
+        "name": "非自然知觉 ",
+        "stageId": "act15mini_s02",
+        "width": 12
+    },
     "act15side_01-activities/act15side/level_act15side_01": {
         "code": "IW-1",
         "filename": "act15side_01-activities-act15side-level_act15side_01.json",
@@ -7460,6 +7622,15 @@
         "stageId": "camp_r_16",
         "width": 13
     },
+    "camp_r_17-obt/campaign/level_camp_r_17": {
+        "code": "维多利亚",
+        "filename": "camp_r_17-obt-campaign-level_camp_r_17.json",
+        "height": 9,
+        "levelId": "obt/campaign/level_camp_r_17",
+        "name": "灰暗泥沼",
+        "stageId": "camp_r_17",
+        "width": 13
+    },
     "easy_09-01-obt/main/level_easy_09-01": {
         "code": "9-2",
         "filename": "easy_09-01-obt-main-level_easy_09-01.json",
@@ -11915,6 +12086,15 @@
         "stageId": "mem_aglina_1",
         "width": 12
     },
+    "mem_akafyu_1-obt/memory/level_memory_akafyu_1": {
+        "code": "mem_akafyu_1",
+        "filename": "mem_akafyu_1-obt-memory-level_memory_akafyu_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_akafyu_1",
+        "name": "抱剑独行",
+        "stageId": "mem_akafyu_1",
+        "width": 11
+    },
     "mem_amgoat_1-obt/memory/level_memory_amgoat_1": {
         "code": "mem_amgoat_1",
         "filename": "mem_amgoat_1-obt-memory-level_memory_amgoat_1.json",
@@ -12779,6 +12959,15 @@
         "stageId": "mem_mizuki_1",
         "width": 11
     },
+    "mem_mlyss_1-obt/memory/level_memory_mlyss_1": {
+        "code": "mem_mlyss_1",
+        "filename": "mem_mlyss_1-obt-memory-level_memory_mlyss_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_mlyss_1",
+        "name": "“亲身经历”",
+        "stageId": "mem_mlyss_1",
+        "width": 10
+    },
     "mem_mm_1-obt/memory/level_memory_mm_1": {
         "code": "mem_mm_1",
         "filename": "mem_mm_1-obt-memory-level_memory_mm_1.json",
@@ -12968,6 +13157,15 @@
         "stageId": "mem_prove_1",
         "width": 9
     },
+    "mem_provs_1-obt/memory/level_memory_provs_1": {
+        "code": "mem_provs_1",
+        "filename": "mem_provs_1-obt-memory-level_memory_provs_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_provs_1",
+        "name": "“雄辩是金”",
+        "stageId": "mem_provs_1",
+        "width": 11
+    },
     "mem_pudd_1-obt/memory/level_memory_pudd_1": {
         "code": "mem_pudd_1",
         "filename": "mem_pudd_1-obt-memory-level_memory_pudd_1.json",
@@ -12976,6 +13174,15 @@
         "name": "电力充沛",
         "stageId": "mem_pudd_1",
         "width": 8
+    },
+    "mem_qanik_1-obt/memory/level_memory_qanik_1": {
+        "code": "mem_qanik_1",
+        "filename": "mem_qanik_1-obt-memory-level_memory_qanik_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_qanik_1",
+        "name": "风雪摇摇乐",
+        "stageId": "mem_qanik_1",
+        "width": 11
     },
     "mem_quartz_1-obt/memory/level_memory_quartz_1": {
         "code": "mem_quartz_1",

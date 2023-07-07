@@ -36,6 +36,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Services.HotKeys;
+using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using Microsoft.Win32;
@@ -52,6 +53,8 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class SettingsViewModel : Screen
     {
+        private readonly RunningState runningState;
+
         private static readonly ILogger _logger = Log.ForContext<SettingsViewModel>();
 
         [DllImport("MaaCore.dll")]
@@ -121,6 +124,8 @@ namespace MaaWpfGui.ViewModels.UI
                 Application.Current.Shutdown();
                 Bootstrapper.RestartApplication();
             }
+
+            runningState = RunningState.Instance;
         }
 
         public void Sober()
@@ -381,7 +386,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _startEmulator, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.StartEmulator, value.ToString());
-                if (ClientType == string.Empty && Idle)
+                if (ClientType == string.Empty && runningState.GetIdle())
                 {
                     ClientType = "Official";
                 }
@@ -703,10 +708,10 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             // 储存按钮状态，以便后续重置
-            bool idle = Instances.TaskQueueViewModel.Idle;
+            bool idle = runningState.GetIdle();
 
             // 让按钮变成停止按钮，可手动停止等待
-            Instances.TaskQueueViewModel.Idle = false;
+            runningState.SetIdle(false);
             for (var i = 0; i < delay; ++i)
             {
                 if (Instances.TaskQueueViewModel.Stopping)
@@ -730,7 +735,7 @@ namespace MaaWpfGui.ViewModels.UI
             _logger.Information("The wait is over");
 
             // 重置按钮状态，不影响后续判断
-            Instances.TaskQueueViewModel.Idle = idle;
+            runningState.SetIdle(idle);
         }
 
         /// <summary>
@@ -930,7 +935,11 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void AddConfiguration()
         {
-            NewConfigurationName ??= DateTime.Now.ToString("yy/MM/dd HH:mm:ss");
+            if (string.IsNullOrEmpty(NewConfigurationName))
+            {
+                NewConfigurationName = DateTime.Now.ToString("yy/MM/dd HH:mm:ss");
+            }
+
             if (ConfigurationHelper.AddConfiguration(NewConfigurationName, CurrentConfiguration))
             {
                 ConfigurationList.Add(new CombinedData { Display = NewConfigurationName, Value = NewConfigurationName });

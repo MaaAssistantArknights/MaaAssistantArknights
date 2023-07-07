@@ -29,6 +29,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Services;
+using MaaWpfGui.States;
 using MaaWpfGui.Utilities.ValueType;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -47,6 +48,7 @@ namespace MaaWpfGui.ViewModels.UI
     {
         private readonly IContainer _container;
         private StageManager _stageManager;
+        private readonly RunningState runningState;
 
         private static readonly ILogger _logger = Log.ForContext<TaskQueueViewModel>();
 
@@ -128,6 +130,13 @@ namespace MaaWpfGui.ViewModels.UI
         public TaskQueueViewModel(IContainer container)
         {
             _container = container;
+            runningState = RunningState.Instance;
+            runningState.IdleChanged += RunningState_IdleChanged;
+        }
+
+        private void RunningState_IdleChanged(object sender, bool e)
+        {
+            Idle = e;
         }
 
         protected override void OnInitialActivate()
@@ -236,7 +245,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             refreshCustomInfrastPlanIndexByPeriod();
 
-            if (!Idle && !Instances.SettingsViewModel.ForceScheduledStart)
+            if (!runningState.GetIdle() && !Instances.SettingsViewModel.ForceScheduledStart)
             {
                 return;
             }
@@ -257,7 +266,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (Instances.SettingsViewModel.ForceScheduledStart)
                 {
-                    if (!Idle)
+                    if (!runningState.GetIdle())
                     {
                         await Stop();
                     }
@@ -418,18 +427,23 @@ namespace MaaWpfGui.ViewModels.UI
             // reset closed stages to "Last/Current"
             if (!CustomStageCode)
             {
-                Stage1 = StageList.Any(x => x.Value == stage1) ? stage1 : string.Empty;
-                Stage2 = AlternateStageList.Any(x => x.Value == stage2) ? stage2 : string.Empty;
-                Stage3 = AlternateStageList.Any(x => x.Value == stage3) ? stage3 : string.Empty;
-                RemainingSanityStage = RemainingSanityStageList.Any(x => x.Value == rss) ? rss : string.Empty;
+                stage1 = StageList.Any(x => x.Value == stage1) ? stage1 : string.Empty;
+                stage2 = AlternateStageList.Any(x => x.Value == stage2) ? stage2 : string.Empty;
+                stage3 = AlternateStageList.Any(x => x.Value == stage3) ? stage3 : string.Empty;
+                rss = RemainingSanityStageList.Any(x => x.Value == rss) ? rss : string.Empty;
             }
-            else
+            else if (hideUnavailableStage)
             {
-                if (hideUnavailableStage && !UseAlternateStage)
-                {
-                    Stage1 = IsStageOpen(stage1) ? stage1 : string.Empty;
-                }
+                stage1 = IsStageOpen(stage1) ? stage1 : string.Empty;
+                stage2 = IsStageOpen(stage2) ? stage2 : string.Empty;
+                stage3 = IsStageOpen(stage3) ? stage3 : string.Empty;
+                rss = IsStageOpen(rss) ? rss : string.Empty;
             }
+
+            Stage1 = stage1;
+            Stage2 = stage2;
+            Stage3 = stage3;
+            RemainingSanityStage = rss;
 
             EnableSetFightParams = true;
         }
@@ -689,12 +703,12 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public async void LinkStart()
         {
-            if (Idle == false)
+            if (!runningState.GetIdle())
             {
                 return;
             }
 
-            Idle = false;
+            runningState.SetIdle(false);
 
             // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次任务及基建列表
             TaskItemSelectionChanged();
@@ -753,7 +767,7 @@ namespace MaaWpfGui.ViewModels.UI
             if (!connected)
             {
                 AddLog(errMsg, UiLogColor.Error);
-                Idle = true;
+                runningState.SetIdle(true);
                 SetStopped();
                 return;
             }
@@ -827,7 +841,7 @@ namespace MaaWpfGui.ViewModels.UI
             if (count == 0)
             {
                 AddLog(LocalizationHelper.GetString("UnselectedTask"));
-                Idle = true;
+                runningState.SetIdle(true);
                 SetStopped();
                 return;
             }
@@ -866,13 +880,13 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void SetStopped()
         {
-            if (!Idle || Stopping)
+            if (!runningState.GetIdle() || Stopping)
             {
                 AddLog(LocalizationHelper.GetString("Stopped"));
             }
 
             Stopping = false;
-            Idle = true;
+            runningState.SetIdle(true);
         }
 
         private bool appendStart()
@@ -1716,7 +1730,7 @@ namespace MaaWpfGui.ViewModels.UI
             NotifyOfPropertyChange("Inited");
         }
 
-        private bool _idle = false;
+        private bool _idle = true;
 
         /// <summary>
         /// Gets or sets a value indicating whether it is idle.
@@ -1727,7 +1741,6 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _idle, value);
-                Instances.SettingsViewModel.Idle = value;
                 if (value)
                 {
                     FightTaskRunning = false;
@@ -1927,7 +1940,7 @@ namespace MaaWpfGui.ViewModels.UI
                 if (CustomStageCode)
                 {
                     // 从后往前删
-                    if (_stage1.Length != 3)
+                    if (_stage1?.Length != 3 && value != null)
                     {
                         value = ToUpperAndCheckStage(value);
                     }
@@ -1958,7 +1971,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (CustomStageCode)
                 {
-                    if (_stage2.Length != 3)
+                    if (_stage2?.Length != 3 && value != null)
                     {
                         value = ToUpperAndCheckStage(value);
                     }
@@ -1989,7 +2002,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (CustomStageCode)
                 {
-                    if (_stage3.Length != 3)
+                    if (_stage3?.Length != 3 && value != null)
                     {
                         value = ToUpperAndCheckStage(value);
                     }
@@ -2054,7 +2067,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (CustomStageCode)
                 {
-                    if (_remainingSanityStage.Length != 3)
+                    if (_remainingSanityStage?.Length != 3 && value != null)
                     {
                         value = ToUpperAndCheckStage(value);
                     }
@@ -2307,6 +2320,11 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 HasTimesLimited = false;
             }
+
+            if (IsSpecifiedDropsWithNull == null)
+            {
+                IsSpecifiedDrops = false;
+            }
         }
 
         private bool? _useMedicineWithNull = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseMedicine, bool.FalseString));
@@ -2381,7 +2399,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 SetAndNotify(ref _useStoneWithNull, value);
-                if (value != false)
+                if (value != false && !UseMedicine)
                 {
                     UseMedicine = true;
                 }
@@ -2469,20 +2487,30 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region Drops
 
-        private bool _isSpecifiedDrops = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DropsEnable, bool.FalseString));
+        private bool? _isSpecifiedDropsWithNull = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DropsEnable, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the drops are specified.
+        /// </summary>
+        public bool? IsSpecifiedDropsWithNull
+        {
+            get => _isSpecifiedDropsWithNull;
+            set
+            {
+                SetAndNotify(ref _isSpecifiedDropsWithNull, value);
+                SetFightParams();
+                value ??= false;
+                ConfigurationHelper.SetValue(ConfigurationKeys.DropsEnable, value.ToString());
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether the drops are specified.
         /// </summary>
         public bool IsSpecifiedDrops
         {
-            get => _isSpecifiedDrops;
-            set
-            {
-                SetAndNotify(ref _isSpecifiedDrops, value);
-                SetFightParams();
-                ConfigurationHelper.SetValue(ConfigurationKeys.DropsEnable, value.ToString());
-            }
+            get => IsSpecifiedDropsWithNull != false;
+            set => IsSpecifiedDropsWithNull = value;
         }
 
         /// <summary>

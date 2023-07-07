@@ -1263,6 +1263,14 @@
         "sortId": -10000,
         "usage": "印有各地独特景观照的明信片，足不出户就可领略各地风光。可用来与各地办事处的工作人员交换物资。"
     },
+    "act15mini_token_figurine": {
+        "classifyType": "NONE",
+        "description": "为便于其他人寻找森林中隐藏的物资，猎手们制作了简单的路标。取用之后，也要记得补充一些，因为树全都知道。",
+        "icon": "act15mini_token_figurine.png",
+        "name": "指木雕刻",
+        "sortId": -10000,
+        "usage": "猎手们留下的粗糙雕刻。一个难以分辨细节的木人向前伸出手，指向储存食物、草药与工具的树洞。"
+    },
     "act15side_token_tea": {
         "classifyType": "NONE",
         "description": "勤劳的工作者们步履匆匆，方便携带的罐装茶饮料应运而生。用茶讲究，色纯香清，味甘绵久，回味悠扬。品牌众多，靠一己之力占领了大炎各大地区超市的饮料专区，唯独折耳根风味无人问津。",
@@ -1995,6 +2003,14 @@
         "classifyType": "NONE",
         "description": "为回到重要岗位的人特别准备的徽记，会在其熟悉工作的过程中逐步发放。",
         "icon": "return_credit_token.png",
+        "name": "二次认证徽记",
+        "sortId": -10000,
+        "usage": "罗德岛内部流通的特殊认证用徽记。收集一定数量可以获得部分罗德岛物资的使用权限。"
+    },
+    "return_credit_token2": {
+        "classifyType": "NONE",
+        "description": "为回到重要岗位的人特别准备的徽记，会在其熟悉工作的过程中逐步发放。",
+        "icon": "return_credit_token2.png",
         "name": "二次认证徽记",
         "sortId": -10000,
         "usage": "罗德岛内部流通的特殊认证用徽记。收集一定数量可以获得部分罗德岛物资的使用权限。"

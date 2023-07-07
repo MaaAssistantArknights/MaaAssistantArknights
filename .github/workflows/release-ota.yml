@@ -150,34 +150,33 @@ jobs:
       - make-ota
       - make-ota-mac
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
     steps:
       - name: Deploy the release
         run: |
           gh workflow --repo MaaAssistantArknights/MaaRelease run release-mirrors.yml
-        env:
-          GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
-      - name: "Fetch MaaAssistantArknights"
-        uses: actions/checkout@v3
       - name: Deploy the docs
-        env:
-          GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
         run: |
-          git tag --list 'v*' --sort=-creatordate | head -n 2 > ${{ runner.temp }}/release_maa.txt
+          mkdir -p ${{ runner.temp }}/new
+          mkdir -p ${{ runner.temp }}/old
+          gh api /repos/MaaAssistantArknights/MaaAssistantArknights/tags --jq '.[].name' > ${{ runner.temp }}/release_maa.txt
           export NEW_VERSION=$(sed -n '1p' ${{ runner.temp }}/release_maa.txt)
           echo "NEW_VERSION: $NEW_VERSION"
           export OLD_VERSION=$(sed -n '2p' ${{ runner.temp }}/release_maa.txt)
           echo "OLD_VERSION: $OLD_VERSION"
-          git diff --name-only  "$NEW_VERSION" "$OLD_VERSION" > ${{ runner.temp }}/diff
-          export DOCS_CHANGED=false
-          while IFS= read -r file; do
-            file=$(echo "$file" | sed 's/"//g')
-            if [[ $file == "docs/"* ]]; then
-              echo "Found docs changed: $file"
-              export DOCS_CHANGED=true
-            fi
-          done < ${{ runner.temp }}/diff
-          echo "DOCS_CHANGED: $DOCS_CHANGED"
-          if [ "$variable" = "true" ]; then
+          gh api "/repos/MaaAssistantArknights/MaaAssistantArknights/tarball/$NEW_VERSION" > ${{ runner.temp }}/new.tar.gz
+          gh api "/repos/MaaAssistantArknights/MaaAssistantArknights/tarball/$OLD_VERSION" > ${{ runner.temp }}/old.tar.gz
+          tar -xzf ${{ runner.temp }}/new.tar.gz -C ${{ runner.temp }}/new
+          tar -xzf ${{ runner.temp }}/old.tar.gz -C ${{ runner.temp }}/old
+          export NEW_PATH = "${{ runner.temp }}/new/$(ls ${{ runner.temp }}/new)/docs"
+          export OLD_PATH = "${{ runner.temp }}/old/$(ls ${{ runner.temp }}/old)/docs"
+          export DOCS_DIFF=$(diff -aqr $NEW_PATH $OLD_PATH)
+          if [ -n "$DOCS_DIFF" ]; then
+            echo "DOCS_DIFF:"
+            echo "$DOCS_DIFF"
             gh workflow --repo MaaAssistantArknights/maa-website run azure-deploy.yaml
             echo "Deploying the docs."
+          else
+            echo "DOCS_DIFF: $DOCS_DIFF"
           fi
