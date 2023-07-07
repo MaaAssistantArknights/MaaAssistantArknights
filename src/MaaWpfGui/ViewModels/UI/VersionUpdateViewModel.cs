@@ -589,13 +589,19 @@ namespace MaaWpfGui.ViewModels.UI
         {
             if (Instances.SettingsViewModel.AutoInstallUpdatePackage)
             {
-                while (!runningState.GetIdle())
+                _ = Task.Run(async () =>
                 {
-                    Thread.Sleep(60000);
-                }
+                    while (!runningState.GetIdle())
+                    {
+                        await Task.Delay(60000);
+                    }
 
-                Application.Current.Shutdown();
-                Bootstrapper.RestartApplication();
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        Application.Current.Shutdown();
+                        Bootstrapper.RestartApplication();
+                    });
+                });
                 return;
             }
 
