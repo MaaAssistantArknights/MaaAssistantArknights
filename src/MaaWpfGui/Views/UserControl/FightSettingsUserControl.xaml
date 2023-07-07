@@ -106,7 +106,7 @@
                         IsChecked="{Binding IsSpecifiedDropsWithNull}"
                         MouseRightButtonDown="ToggleCheckBoxNullOnRightClick"
                         ToolTip="{DynamicResource NoAutoNavigation}" />
-                    <Grid Height="42" Visibility="{c:Binding IsSpecifiedDrops}">
+                    <Grid Height="42" Visibility="{c:Binding IsSpecifiedDropsWithNull}">
                         <controls:TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -139,7 +139,7 @@
                         Maximum="1145141919"
                         Minimum="1"
                         ValueChanged="NumericUpDown_ValueChanged"
-                        Visibility="{c:Binding IsSpecifiedDrops}"
+                        Visibility="{c:Binding IsSpecifiedDropsWithNull}"
                         Value="{Binding DropsQuantity, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </Grid>
