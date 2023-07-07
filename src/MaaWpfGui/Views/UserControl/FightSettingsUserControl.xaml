@@ -42,10 +42,10 @@
                         Height="30"
                         Margin="6"
                         VerticalContentAlignment="Center"
-                        MouseRightButtonDown="ToggleCheckBoxNullOnRightClick"
                         Click="ToggleCheckBoxNullOnLeftClick"
                         Content="{DynamicResource UseOriginitePrime}"
                         IsChecked="{Binding UseStoneWithNull}"
+                        MouseRightButtonDown="ToggleCheckBoxNullOnRightClick"
                         ToolTip="{DynamicResource CheckBoxesNotSaved}" />
                     <CheckBox
                         Height="30"
@@ -103,7 +103,8 @@
                         Margin="6"
                         VerticalContentAlignment="Center"
                         Content="{DynamicResource AssignedMaterial}"
-                        IsChecked="{Binding IsSpecifiedDrops}"
+                        IsChecked="{Binding IsSpecifiedDropsWithNull}"
+                        MouseRightButtonDown="ToggleCheckBoxNullOnRightClick"
                         ToolTip="{DynamicResource NoAutoNavigation}" />
                     <Grid Height="42" Visibility="{c:Binding IsSpecifiedDrops}">
                         <controls:TextBlock
