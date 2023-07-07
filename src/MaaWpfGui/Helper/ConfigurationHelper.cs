@@ -273,6 +273,16 @@ namespace MaaWpfGui.Helper
             return SetValue("TaskQueue.Order." + task, value);
         }
 
+        public static string GetTimerConfig(int i, string defaultValue)
+        {
+            return GetValue($"Timer.Timer{i + 1}.Config", defaultValue);
+        }
+
+        public static bool SetTimerConfig(int i, string value)
+        {
+            return SetValue($"Timer.Timer{i + 1}.Config", value);
+        }
+
         public static void Release()
         {
             lock (_lock)

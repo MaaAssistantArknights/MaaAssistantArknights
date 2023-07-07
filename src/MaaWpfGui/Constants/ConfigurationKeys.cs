@@ -175,5 +175,6 @@ namespace MaaWpfGui.Constants
         public const string GuideStepIndex = "Guide.StepIndex";
 
         public const string ForceScheduledStart = "Timer.ForceScheduledStart";
+        public const string CustomConfig = "Timer.CustomConfig";
     }
 }
