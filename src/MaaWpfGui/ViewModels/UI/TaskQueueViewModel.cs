@@ -238,7 +238,7 @@ namespace MaaWpfGui.ViewModels.UI
                     _ = Task.Run(async () =>
                     {
                         await Task.Delay(delayTime);
-                        await Instances.SettingsViewModel.ManualUpdate();
+                        _ = Instances.SettingsViewModel.ManualUpdate();
                     });
                 }
             }

@@ -585,17 +585,17 @@ namespace MaaWpfGui.ViewModels.UI
             return checkResult;
         }
 
-        public void AskToRestart()
+        public async void AskToRestart()
         {
             if (Instances.SettingsViewModel.AutoInstallUpdatePackage)
             {
-                while (!runningState.GetIdle())
-                {
-                    Thread.Sleep(60000);
-                }
+                await runningState.UntilIdleAsync(60000);
 
-                Application.Current.Shutdown();
-                Bootstrapper.RestartApplication();
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    Application.Current.Shutdown();
+                    Bootstrapper.RestartApplication();
+                });
                 return;
             }
 
