@@ -20,7 +20,6 @@ using System.IO.Compression;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
@@ -518,7 +517,6 @@ namespace MaaWpfGui.ViewModels.UI
                 // 负载均衡
                 // var rand = new Random();
                 // urls = urls.OrderBy(_ => rand.Next()).ToList();
-
                 if (rawUrl != null)
                 {
                     urls.Add(rawUrl);
@@ -555,7 +553,6 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 _logger.Information("Selected mirror: {CDNUrl}", urls[selected]);
-
 
                 downloaded = await DownloadGithubAssets(urls[selected], _assetsObject);
                 if (downloaded)
@@ -738,7 +735,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-#pragma warning disable IDE0051 // 删除未使用的私有成员
         private async Task<string> RequestGithubApi(string url, int retryTimes)
         {
             string response = string.Empty;
@@ -754,11 +750,11 @@ namespace MaaWpfGui.ViewModels.UI
                         break;
                     }
                 }
-            } while (string.IsNullOrEmpty(response) && retryTimes-- > 0);
+            }
+            while (string.IsNullOrEmpty(response) && retryTimes-- > 0);
 
             return response;
         }
-#pragma warning restore IDE0051 // 删除未使用的私有成员
 
         /// <summary>
         /// 获取 GitHub Assets 对象对应的文件
