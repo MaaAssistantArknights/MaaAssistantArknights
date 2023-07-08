@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 
 namespace MaaWpfGui.States
 {
@@ -47,6 +48,14 @@ namespace MaaWpfGui.States
         public virtual void OnIdleChanged(bool newIdleValue)
         {
             IdleChanged?.Invoke(this, newIdleValue);
+        }
+
+        public async Task UntilIdleAsync(int time = 1000)
+        {
+            while (!GetIdle())
+            {
+                await Task.Delay(time);
+            }
         }
     }
 }
