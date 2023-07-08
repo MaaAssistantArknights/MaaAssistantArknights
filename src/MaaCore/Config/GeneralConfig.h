@@ -23,6 +23,12 @@ namespace asst
         std::string ark_planner;
     };
 
+    struct DebugConf
+    {
+        int clean_files_freq = 100;
+        int max_debug_file_num = 1000;
+    };
+
     struct Options
     {
         int task_delay = 0;          // 任务间延时：越快操作越快，但会增加CPU消耗
@@ -48,6 +54,7 @@ namespace asst
         // 每次到结算界面，汇报掉落数据至企鹅物流 https://penguin-stats.cn/
         DepotExportTemplate depot_export_template; // 仓库识别结果导出模板
         RequestInfo yituliu_report; // 一图流大数据汇报：目前只有公招功能，https://yituliu.site/maarecruitdata
+        DebugConf debug;
     };
 
     struct AdbCfg
