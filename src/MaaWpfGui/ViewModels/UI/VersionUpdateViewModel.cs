@@ -600,7 +600,7 @@ namespace MaaWpfGui.ViewModels.UI
                 LocalizationHelper.GetString("NewVersionDownloadCompletedDesc"),
                 LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"),
                 MessageBoxButton.OKCancel,
-                MessageBoxImage.Question, useNativeMethod: true);
+                MessageBoxImage.Question);
             if (result == MessageBoxResult.OK)
             {
                 Application.Current.Shutdown();
