@@ -735,27 +735,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private async Task<string> RequestGithubApi(string url, int retryTimes)
-        {
-            string response = string.Empty;
-            string[] requestSource = { "https://api.github.com/", "https://api.kgithub.com/" };
-            do
-            {
-                for (var i = 0; i < requestSource.Length; i++)
-                {
-                    // prevent current thread
-                    response = await Instances.HttpService.GetStringAsync(new Uri(requestSource[i] + url)).ConfigureAwait(false);
-                    if (!string.IsNullOrEmpty(response))
-                    {
-                        break;
-                    }
-                }
-            }
-            while (string.IsNullOrEmpty(response) && retryTimes-- > 0);
-
-            return response;
-        }
-
         /// <summary>
         /// 获取 GitHub Assets 对象对应的文件
         /// </summary>
