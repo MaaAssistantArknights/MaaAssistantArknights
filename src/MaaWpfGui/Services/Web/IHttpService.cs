@@ -50,6 +50,7 @@ namespace MaaWpfGui.Services.Web
         /// </summary>
         /// <param name="uri">Target Uri</param>
         /// <param name="extraHeader">Extra HTTP Request Headers</param>
+        /// <param name="httpCompletionOption">The HTTP completion option</param>
         /// <returns><see cref="HttpRequestMessage"/> object</returns>
         Task<HttpResponseMessage> GetAsync(Uri uri, Dictionary<string, string> extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseContentRead);
 

@@ -807,11 +807,10 @@ namespace MaaWpfGui.Main
             }
         }
 
-#pragma warning disable IDE0060 // 删除未使用的参数
-
         private void ProcSubTaskCompleted(JObject details)
-#pragma warning restore IDE0060 // 删除未使用的参数
         {
+            // DoNothing
+            _ = details;
         }
 
         private void ProcSubTaskExtraInfo(JObject details)
