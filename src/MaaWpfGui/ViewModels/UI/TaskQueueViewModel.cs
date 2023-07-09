@@ -268,18 +268,10 @@ namespace MaaWpfGui.ViewModels.UI
                     if (!runningState.GetIdle())
                     {
                         await Stop();
-                    }
-
-                    int count = 0;
-                    while (Instances.AsstProxy.AsstRunning() && count <= 600)
-                    {
-                        await Task.Delay(100);
-                        count++;
-                    }
-
-                    if (!Instances.AsstProxy.AsstAppendCloseDown())
-                    {
-                        AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
+                        if (!Instances.AsstProxy.AsstAppendCloseDown())
+                        {
+                            AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
+                        }
                     }
 
                     ResetFightVariables();
