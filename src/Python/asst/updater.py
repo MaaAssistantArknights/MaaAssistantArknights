@@ -106,7 +106,7 @@ class Updater:
             #舍弃版本类型后的字符，避免使用内测版本而出现字母无法转换成数字的情况 XD
             for i in range(len(sub)):
                 if sub[i].startswith('alpha') or sub[i].startswith('beta') or sub[i].startswith('rc'):
-                    sub = sub[:1]
+                    sub = sub[:2]
                     break
             if sub[0] == 'alpha':
                 sub[0] = '1'
