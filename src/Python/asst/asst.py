@@ -54,7 +54,7 @@ class Asst:
             lib_import_func = ctypes.WinDLL
             # 手动加载onnxruntime.dll以避免部分版本的python错误地从System32加载旧版本
             try:
-                lib_import_func(str(pathlib.Path(path) / 'onnxruntime.dll'))
+                lib_import_func(str(pathlib.Path(path) / 'onnxruntime_maa.dll'))
             except Exception as e:
                 print(e)
                 pass
