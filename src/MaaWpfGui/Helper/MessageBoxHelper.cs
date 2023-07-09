@@ -11,9 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #pragma warning disable 0618
-#pragma warning disable SA1307
 #pragma warning disable SA1401
-#pragma warning disable IDE0051
 
 using System;
 using System.Collections.Generic;
