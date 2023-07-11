@@ -20,6 +20,7 @@ namespace MaaWpfGui.Constants
     {
         public const string CurrentConfiguration = "Current";
         public const string DefaultConfiguration = "Default";
+        public const string GlobalConfiguration = "Global";
         public const string ConfigurationMap = "Configurations";
         public const string ConfigurationData = "Data";
         public const string ConfigurationCron = "Cron";
