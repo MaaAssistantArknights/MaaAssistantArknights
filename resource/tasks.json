@@ -6814,6 +6814,11 @@
             64
         ]
     },
+    "BattleSkillClickConfirmed": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "Doc": "战斗中开启技能时用于确保技能按钮已消失，并返回成功结果"
+    },
     "BattleSkillReadyOnClick": {
         "roi": [
             748,
@@ -6830,19 +6835,35 @@
             90,
             90
         ],
-        "postDelay": 300
+        "postDelay": 300,
+        "next": [
+            "BattleSkillReadyOnClick",
+            "BattleSkillClickConfirmed"
+        ]
     },
     "BattleSkillReadyOnClick-SquareMap": {
         "baseTask": "BattleSkillReadyOnClick",
-        "template": "BattleSkillReadyOnClick-SquareMap"
+        "template": "BattleSkillReadyOnClick-SquareMap",
+        "next": [
+            "BattleSkillReadyOnClick-SquareMap",
+            "BattleSkillClickConfirmed"
+        ]
     },
     "BattleSkillStopOnClick": {
         "baseTask": "BattleSkillReadyOnClick",
-        "template": "BattleSkillStopOnClick"
+        "template": "BattleSkillStopOnClick",
+        "next": [
+            "BattleSkillStopOnClick",
+            "BattleSkillClickConfirmed"
+        ]
     },
     "BattleSkillStopOnClick-SquareMap": {
         "baseTask": "BattleSkillReadyOnClick",
-        "template": "BattleSkillStopOnClick-SquareMap"
+        "template": "BattleSkillStopOnClick-SquareMap",
+        "next": [
+            "BattleSkillStopOnClick-SquareMap",
+            "BattleSkillClickConfirmed"
+        ]
     },
     "BattleUseOper": {
         "algorithm": "JustReturn",
