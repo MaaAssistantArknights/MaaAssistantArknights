@@ -8696,6 +8696,25 @@
             "Roguelike@ClickToDrops"
         ]
     },
+    "Roguelike@CloseEvent": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            567,
+            584,
+            145,
+            136
+        ],
+        "next": [
+            "Roguelike@StageEncounterEnter",
+            "Roguelike@NextLevel#next",
+            "Roguelike@StageEncounterOptions#next",
+            "Roguelike@DropsFlag",
+            "Roguelike@CloseEvent"
+        ]
+    },
     "Roguelike@StageEnter": {
         "Doc": "base_task",
         "template": "empty.png",
@@ -9126,6 +9145,7 @@
             "Phantom@Roguelike@RolesDefault"
         ]
     },
+    "Phantom@Roguelike@CloseEvent": {},
     "Phantom@Roguelike@Continue": {},
     "Phantom@Roguelike@DialogSkipConfirm": {
         "template": "Roguelike@DialogSkipConfirm.png",
@@ -9145,6 +9165,7 @@
             "Phantom@Roguelike@StageEncounterSpecialClose",
             "Phantom@Roguelike@EnterAfterRecruit",
             "Phantom@Roguelike@StageTraderLeave",
+            "Phantom@Roguelike@CloseEvent",
             "Phantom@Roguelike@DialogSkip"
         ]
     },
@@ -9285,7 +9306,8 @@
             "Phantom@Roguelike@StageEncounterOptionUnknown",
             "Phantom@Roguelike@ChooseOperFlag",
             "Phantom@Roguelike@StageEmergencyDpsEnter",
-            "Phantom@Roguelike@StageCambatDpsEnter"
+            "Phantom@Roguelike@StageCambatDpsEnter",
+            "Phantom@Roguelike@CloseEvent"
         ]
     },
     "Phantom@Roguelike@StageEncounterSpecialClose": {},
@@ -9368,23 +9390,7 @@
             "Mizuki@Roguelike@ChooseOperFlag"
         ]
     },
-    "Mizuki@Roguelike@CloseEvent": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            567,
-            584,
-            145,
-            136
-        ],
-        "next": [
-            "Mizuki@Roguelike@StageEncounterEnter",
-            "Mizuki@Roguelike@NextLevel#next",
-            "Mizuki@Roguelike@StageEncounterOptions#next",
-            "Mizuki@Roguelike@DropsFlag",
-            "Mizuki@Roguelike@CloseEvent"
-        ]
-    },
+    "Mizuki@Roguelike@CloseEvent": {},
     "Mizuki@Roguelike@CommissionedMissionCompleted": {
         "action": "ClickRect",
         "specificRect": [
