@@ -19,11 +19,20 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
-            <RowDefinition />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+        <controls:TextBlock
+            Grid.Row="0"
+            HorizontalAlignment="Center"
+            FontWeight="Bold"
+            Text="{DynamicResource TimerTip}"
+            TextAlignment="Center" />
+        <StackPanel
+            Grid.Row="1"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
             <CheckBox
-                Grid.Row="0"
                 Height="30"
                 Margin="5,0"
                 HorizontalAlignment="Center"
@@ -32,16 +41,15 @@
                 IsChecked="{Binding ForceScheduledStart}"
                 ToolTip="{DynamicResource ForceScheduledStartTip}" />
             <CheckBox
-                Grid.Row="0"
                 Height="30"
                 Margin="5,0"
                 HorizontalAlignment="Center"
                 VerticalContentAlignment="Center"
-                Content="zdy"
+                Content="{DynamicResource TimerCustomConfig}"
                 IsChecked="{Binding CustomConfig}" />
         </StackPanel>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
