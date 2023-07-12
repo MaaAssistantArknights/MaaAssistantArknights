@@ -46,7 +46,8 @@
                 HorizontalAlignment="Center"
                 VerticalContentAlignment="Center"
                 Content="{DynamicResource TimerCustomConfig}"
-                IsChecked="{Binding CustomConfig}" />
+                IsChecked="{Binding CustomConfig}"
+                ToolTip="{DynamicResource TimerCustomConfigTip}" />
         </StackPanel>
 
         <Grid Grid.Row="2">
