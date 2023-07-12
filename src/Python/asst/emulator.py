@@ -11,7 +11,10 @@ class Bluestacks:
         :return: adb端口
         """
         with open(conf_path, encoding="UTF-8") as f:
-            configs = dict(list(map(lambda line: line.replace('\n', '').split('='), f.readlines())))
+            configs = {
+                line.split('=')[0].strip(): line.split('=')[1].strip().strip('"\n')
+                for line in f
+            }
             if read_imageinfo_from_config:
                 instances = [i.strip('"') for i in configs['bst.installed_images'].split(',')]
                 instance_name = instances[0]
