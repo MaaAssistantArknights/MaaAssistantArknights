@@ -6834,7 +6834,11 @@
             90,
             90
         ],
-        "postDelay": 300
+        "postDelay": 300,
+        "next": [
+            "#self",
+            "Stop"
+        ]
     },
     "BattleSkillReadyOnClick-SquareMap": {
         "baseTask": "BattleSkillReadyOnClick",
