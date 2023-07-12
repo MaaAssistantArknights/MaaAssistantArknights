@@ -177,6 +177,7 @@
     <system:String x:Key="ForceScheduledStart">Force scheduled start</system:String>
     <system:String x:Key="ForceScheduledStartTip">Stop current task, restart game and start new tasks</system:String>
     <system:String x:Key="TimerCustomConfig">Custom config</system:String>
+    <system:String x:Key="TimerCustomConfigTip">Restart and switch configuration two minutes in advance</system:String>
     <system:String x:Key="Timer">Timer</system:String>
     <system:String x:Key="TimerTip">This option page is for global config</system:String>
     <system:String x:Key="SwitchConfiguration">Configuration</system:String>
