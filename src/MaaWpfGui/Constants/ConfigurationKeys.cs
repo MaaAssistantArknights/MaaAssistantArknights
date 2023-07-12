@@ -20,6 +20,7 @@ namespace MaaWpfGui.Constants
     {
         public const string CurrentConfiguration = "Current";
         public const string DefaultConfiguration = "Default";
+        public const string GlobalConfiguration = "Global";
         public const string ConfigurationMap = "Configurations";
         public const string ConfigurationData = "Data";
         public const string ConfigurationCron = "Cron";
@@ -175,5 +176,6 @@ namespace MaaWpfGui.Constants
         public const string GuideStepIndex = "Guide.StepIndex";
 
         public const string ForceScheduledStart = "Timer.ForceScheduledStart";
+        public const string CustomConfig = "Timer.CustomConfig";
     }
 }

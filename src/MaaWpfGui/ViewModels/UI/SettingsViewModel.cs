@@ -1649,12 +1649,20 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 public event PropertyChangedEventHandler PropertyChanged;
 
-                public TimerProperties(int timeId, bool isOn, int hour, int min)
+                public TimerProperties(int timeId, bool isOn, int hour, int min, string timerConfig)
                 {
                     TimerId = timeId;
                     _isOn = isOn;
                     _hour = hour;
                     _min = min;
+                    if (timerConfig == null || !ConfigurationHelper.GetConfigurationList().Contains(timerConfig))
+                    {
+                        _timerConfig = ConfigurationHelper.GetCurrentConfiguration();
+                    }
+                    else
+                    {
+                        _timerConfig = timerConfig;
+                    }
                 }
 
                 protected void OnPropertyChanged([CallerMemberName] string name = null)
@@ -1712,6 +1720,22 @@ namespace MaaWpfGui.ViewModels.UI
                     }
                 }
 
+                private string _timerConfig;
+
+                /// <summary>
+                /// Gets or sets the config of the timer.
+                /// </summary>
+                public string TimerConfig
+                {
+                    get => _timerConfig;
+                    set
+                    {
+                        _timerConfig = value ?? ConfigurationHelper.GetCurrentConfiguration();
+                        OnPropertyChanged();
+                        ConfigurationHelper.SetTimerConfig(TimerId, value.ToString());
+                    }
+                }
+
                 public TimerProperties()
                 {
                     PropertyChanged += (sender, args) => { };
@@ -1728,7 +1752,8 @@ namespace MaaWpfGui.ViewModels.UI
                         i,
                         ConfigurationHelper.GetTimer(i, bool.FalseString) == bool.TrueString,
                         int.Parse(ConfigurationHelper.GetTimerHour(i, $"{i * 3}")),
-                        int.Parse(ConfigurationHelper.GetTimerMin(i, "0")));
+                        int.Parse(ConfigurationHelper.GetTimerMin(i, "0")),
+                        ConfigurationHelper.GetTimerConfig(i, ConfigurationHelper.GetCurrentConfiguration()));
                 }
             }
         }
@@ -1747,6 +1772,21 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _forceScheduledStart, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ForceScheduledStart, value.ToString());
+            }
+        }
+
+        private bool _customConfig = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CustomConfig, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use custom config.
+        /// </summary>
+        public bool CustomConfig
+        {
+            get => _customConfig;
+            set
+            {
+                SetAndNotify(ref _customConfig, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.CustomConfig, value.ToString());
             }
         }
 
