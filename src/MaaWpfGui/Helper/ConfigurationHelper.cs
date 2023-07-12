@@ -29,6 +29,7 @@ namespace MaaWpfGui.Helper
         private static Dictionary<string, Dictionary<string, string>> _kvsMap;
         private static string _current = ConfigurationKeys.DefaultConfiguration;
         private static Dictionary<string, string> _kvs;
+        private static Dictionary<string, string> _globalKvs;
 
         private static readonly ILogger _logger = Log.ForContext<ConfigurationHelper>();
 
@@ -52,6 +53,15 @@ namespace MaaWpfGui.Helper
 
             _logger.Debug("Read configuration key {Key} with default value {DefaultValue}, configuration hit: {HasValue}, configuration value {Value}", key, defaultValue, hasValue, value);
 
+            return hasValue
+                ? value
+                : defaultValue;
+        }
+
+        public static string GetGlobalValue(string key, string defaultValue)
+        {
+            var hasValue = _globalKvs.TryGetValue(key, out var value);
+            _logger.Debug("Read global configuration key {Key} with default value {DefaultValue}, configuration hit: {HasValue}, configuration value {Value}", key, defaultValue, hasValue, value);
             return hasValue
                 ? value
                 : defaultValue;
@@ -87,6 +97,36 @@ namespace MaaWpfGui.Helper
                 else
                 {
                     _logger.Warning("Failed to save configuration {Key} to {Value}", key, value);
+                }
+
+                return result;
+            }
+        }
+
+        public static bool SetGlobalValue(string key, string value)
+        {
+            lock (_lock)
+            {
+                var old = string.Empty;
+                if (_globalKvs.ContainsKey(key))
+                {
+                    old = _globalKvs[key];
+                    _globalKvs[key] = value;
+                }
+                else
+                {
+                    _globalKvs.Add(key, value);
+                }
+
+                var result = Save();
+                if (result)
+                {
+                    ConfigurationUpdateEvent?.Invoke(key, old, value);
+                    _logger.Debug("Global configuration {Key} has been set to {Value}", key, value);
+                }
+                else
+                {
+                    _logger.Warning("Failed to save global configuration {Key} to {Value}", key, value);
                 }
 
                 return result;
@@ -156,6 +196,8 @@ namespace MaaWpfGui.Helper
                     _current = ConfigurationKeys.DefaultConfiguration;
                     _kvsMap[_current] = new Dictionary<string, string>();
                     _kvs = _kvsMap[_current];
+                    _kvsMap[ConfigurationKeys.GlobalConfiguration] = new Dictionary<string, string>();
+                    _globalKvs = _kvsMap[ConfigurationKeys.GlobalConfiguration];
 
                     return false;
                 }
@@ -176,6 +218,15 @@ namespace MaaWpfGui.Helper
                     _current = ConfigurationKeys.DefaultConfiguration;
                     _kvsMap[_current] = parsed.ToObject<Dictionary<string, string>>();
                     _kvs = _kvsMap[_current];
+                }
+
+                if (parsed.ContainsKey(ConfigurationKeys.GlobalConfiguration))
+                {
+                    _globalKvs = parsed[ConfigurationKeys.GlobalConfiguration].ToObject<Dictionary<string, string>>();
+                }
+                else
+                {
+                    _globalKvs = new Dictionary<string, string>();
                 }
 
                 return true;
@@ -200,6 +251,7 @@ namespace MaaWpfGui.Helper
                 {
                     { ConfigurationKeys.ConfigurationMap, _kvsMap },
                     { ConfigurationKeys.CurrentConfiguration, _current },
+                    { ConfigurationKeys.GlobalConfiguration, _globalKvs },
                 }, Formatting.Indented);
 
                 File.WriteAllText(file ?? _configurationFile, jsonStr);
@@ -235,32 +287,59 @@ namespace MaaWpfGui.Helper
 
         public static string GetTimer(int i, string defaultValue)
         {
-            return GetValue($"Timer.Timer{i + 1}", defaultValue);
+            // 迁移旧数据，过几个版本后删除
+            {
+                var val = GetValue($"Timer.Timer{i + 1}", defaultValue);
+                if (val != defaultValue)
+                {
+                    SetTimer(i, val);
+                }
+            }
+
+            return GetGlobalValue($"Timer.Timer{i + 1}", defaultValue);
         }
 
         public static bool SetTimer(int i, string value)
         {
-            return SetValue($"Timer.Timer{i + 1}", value);
+            return SetGlobalValue($"Timer.Timer{i + 1}", value);
         }
 
         public static string GetTimerHour(int i, string defaultValue)
         {
-            return GetValue($"Timer.Timer{i + 1}Hour", defaultValue);
+            // 迁移旧数据，过几个版本后删除
+            {
+                var value = GetValue($"Timer.Timer{i + 1}Hour", defaultValue);
+                if (value != defaultValue)
+                {
+                    SetTimerHour(i, value);
+                }
+            }
+
+            return GetGlobalValue($"Timer.Timer{i + 1}Hour", defaultValue);
         }
 
         public static bool SetTimerHour(int i, string value)
         {
-            return SetValue($"Timer.Timer{i + 1}Hour", value);
+            return SetGlobalValue($"Timer.Timer{i + 1}Hour", value);
         }
 
         public static string GetTimerMin(int i, string defaultValue)
         {
-            return GetValue($"Timer.Timer{i + 1}Min", defaultValue);
+            // 迁移旧数据，过几个版本后删除
+            {
+                var value = GetValue($"Timer.Timer{i + 1}Min", defaultValue);
+                if (value != defaultValue)
+                {
+                    SetTimerMin(i, value);
+                }
+            }
+
+            return GetGlobalValue($"Timer.Timer{i + 1}Min", defaultValue);
         }
 
         public static bool SetTimerMin(int i, string value)
         {
-            return SetValue($"Timer.Timer{i + 1}Min", value);
+            return SetGlobalValue($"Timer.Timer{i + 1}Min", value);
         }
 
         public static string GetTaskOrder(string task, string defaultValue)
@@ -271,6 +350,16 @@ namespace MaaWpfGui.Helper
         public static bool SetTaskOrder(string task, string value)
         {
             return SetValue("TaskQueue.Order." + task, value);
+        }
+
+        public static string GetTimerConfig(int i, string defaultValue)
+        {
+            return GetValue($"Timer.Timer{i + 1}.Config", defaultValue);
+        }
+
+        public static bool SetTimerConfig(int i, string value)
+        {
+            return SetValue($"Timer.Timer{i + 1}.Config", value);
         }
 
         public static void Release()
