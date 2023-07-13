@@ -2039,6 +2039,14 @@
         "sortId": -10000,
         "usage": null
     },
+    "rogue_3_token_bp": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "rogue_3_token_bp.png",
+        "name": "生态标本",
+        "sortId": -10000,
+        "usage": null
+    },
     "token_Obsidian": {
         "classifyType": "NONE",
         "description": "虽然不知道有什么用，但收集来也没错，毕竟商务部门一定会发现它的价值的。",
