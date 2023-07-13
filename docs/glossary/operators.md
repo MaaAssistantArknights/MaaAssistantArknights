@@ -217,9 +217,9 @@ Stormeye|Stormeye|Stormeye|Stormeye
 明椒|Paprika|パプリカ|
 雪绒|Qanipalaat|カニパラート|
 子月|Lunacub|ルナカブ|
-谜图|Puzzle||
-和弦|Harmonie||
-截云|Jieyun||
+谜图|Puzzle|パズル|
+和弦|Harmonie|ハーモニー|
+截云|Jieyun|ジエユン|
 火哨|Firewhistle||
 铎铃|Wind Chimes||
 火哨|Firewhistle||
@@ -294,8 +294,8 @@ W|W|W|W
 伺夜|Vigil|ヴィジェル|
 斥罪|Penance|ペナンス|
 缄默德克萨斯|Texas the Omertosa|血掟テキサス|
-焰影苇草|Reed The Flame Shadow||
+焰影苇草|Reed The Flame Shadow|焔影リード|
 林|Lin||
-重岳|Chongyue||
+重岳|Chongyue|チョンユエ|
 仇白|Qiubai||
 麒麟X夜刀|Kirin X Yato||
