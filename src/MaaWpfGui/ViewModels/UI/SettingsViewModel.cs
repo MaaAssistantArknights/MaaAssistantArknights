@@ -248,6 +248,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 new CombinedData { Display = LocalizationHelper.GetString("RoguelikeThemePhantom"), Value = "Phantom" },
                 new CombinedData { Display = LocalizationHelper.GetString("RoguelikeThemeMizuki"), Value = "Mizuki" },
+                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeThemeSami"), Value = "Sami" },
             };
 
             UpdateRoguelikeThemeList();
@@ -1488,6 +1489,18 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _roguelikeRefreshTraderWithDice, value.ToString());
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeRefreshTraderWithDice, value.ToString());
+            }
+        }
+
+        private bool _roguelikeRefreshTraderWithDiceEnabled = false;
+
+        public bool RoguelikeRefreshTraderWithDiceEnabled
+        {
+            get => _roguelikeRefreshTraderWithDiceEnabled;
+            set
+            {
+                SetAndNotify(ref _roguelikeRefreshTraderWithDiceEnabled, value);
+                RoguelikeRefreshTraderWithDice = false;
             }
         }
 
@@ -3127,15 +3140,43 @@ namespace MaaWpfGui.ViewModels.UI
             switch (RoguelikeTheme)
             {
                 case "Phantom":
-                    // No new items
+                    RoguelikeRefreshTraderWithDiceEnabled = false;
+
+                    foreach (var item in new ObservableCollection<CombinedData>
+                    {
+                        new CombinedData { Display = LocalizationHelper.GetString("ResearchSquad"), Value = "研究分队" },
+                    })
+                    {
+                        RoguelikeSquadList.Add(item);
+                    }
+
                     break;
 
                 case "Mizuki":
+                    RoguelikeRefreshTraderWithDiceEnabled = true;
+
                     foreach (var item in new ObservableCollection<CombinedData>
                     {
                         new CombinedData { Display = LocalizationHelper.GetString("IS2NewSquad1"), Value = "心胜于物分队" },
                         new CombinedData { Display = LocalizationHelper.GetString("IS2NewSquad2"), Value = "物尽其用分队" },
                         new CombinedData { Display = LocalizationHelper.GetString("IS2NewSquad3"), Value = "以人为本分队" },
+                        new CombinedData { Display = LocalizationHelper.GetString("ResearchSquad"), Value = "研究分队" },
+                    })
+                    {
+                        RoguelikeSquadList.Add(item);
+                    }
+
+                    break;
+
+                case "Sami":
+                    RoguelikeRefreshTraderWithDiceEnabled = false;
+
+                    foreach (var item in new ObservableCollection<CombinedData>
+                    {
+                        new CombinedData { Display = LocalizationHelper.GetString("IS3NewSquad1"), Value = "永恒狩猎分队" },
+                        new CombinedData { Display = LocalizationHelper.GetString("IS3NewSquad2"), Value = "生活至上分队" },
+                        new CombinedData { Display = LocalizationHelper.GetString("IS3NewSquad3"), Value = "科学主义分队" },
+                        new CombinedData { Display = LocalizationHelper.GetString("IS3NewSquad4"), Value = "特训分队" },
                     })
                     {
                         RoguelikeSquadList.Add(item);
@@ -3155,7 +3196,6 @@ namespace MaaWpfGui.ViewModels.UI
                 new CombinedData { Display = LocalizationHelper.GetString("TacticalFortificationOperative"), Value = "堡垒战术分队" },
                 new CombinedData { Display = LocalizationHelper.GetString("TacticalRangedOperative"), Value = "远程战术分队" },
                 new CombinedData { Display = LocalizationHelper.GetString("TacticalDestructionOperative"), Value = "破坏战术分队" },
-                new CombinedData { Display = LocalizationHelper.GetString("ResearchSquad"), Value = "研究分队" },
                 new CombinedData { Display = LocalizationHelper.GetString("First-ClassSquad"), Value = "高规格分队" },
             })
             {
