@@ -10280,6 +10280,7 @@
         "action": "ClickSelf",
         "cache": false,
         "next": [
+            "Sami@Roguelike@NextLevelThenExit",
             "Sami@Roguelike@ExitThenAbandon"
         ]
     },
