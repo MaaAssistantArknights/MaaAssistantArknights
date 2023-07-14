@@ -10277,6 +10277,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
+        "postDelay": 3000,
         "next": [
             "Sami@Roguelike@ExitThenAbandon"
         ]
