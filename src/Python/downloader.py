@@ -1,5 +1,6 @@
 import os
 import shutil
+import json
 import tempfile
 from concurrent.futures import ThreadPoolExecutor
 from threading import Lock
@@ -98,7 +99,40 @@ def file_download(urlist, filepath, proxies=None):
     return downloader.download_file(total_size, filepath)
 
 if __name__ == '__main__':
-    urlist = [r"https://mirror.eh.cx/KataGo/katago/pack/2023-06-15/2023-06-15-Macosx(amd64)+Linux(amd64)(无引擎).zip",r"https://ota.eh.cx/KataGo/katago/pack/2023-06-15/2023-06-15-Macosx(amd64)+Linux(amd64)(无引擎).zip",r"https://fake.eh.cx/a"]
-    # 其中前两个是有效的url，第三个是无效的url
-    path = r"F:\programs\credit\req\2023-06-15-Macosx(amd64)+Linux(amd64)(无引擎).zip"
-    file_download(urlist,path)
+    while True:
+        json_string = input("请输入下载指令：")
+        # 解析JSON字符串
+        """
+        Example:
+        {
+            "urlist":["https://mirror1.example.com/file.zip","https://mirror2.example.com/file.zip","https://mirror3.example.com/file.zip"],
+            "filepath":"C:\Download\File.zip"
+            "proxies":"http://127.0.0.1:7890"
+        }
+        """
+        try:
+            data = json.loads(json_string)
+            if isinstance(data, dict):
+                # 这两个参数是必须的
+                urlist = data.get("urlist", None)
+                filepath = data.get("filepath", None)
+                # 这个参数是可选的
+                proxies = data.get("proxies", None)
+
+                # 对于变量的类型进行检查
+                if not isinstance(urlist, list) or not all(isinstance(url, str) for url in urlist):
+                    print("urlist类型错误")
+                    continue
+                if not isinstance(filepath, str):
+                    print("filepath类型错误")
+                    continue
+                if proxies is not None and not isinstance(proxies, str):
+                    print("proxies类型错误")
+                    continue
+
+                # 启动下载
+                file_download(urlist=urlist, filepath=filepath, proxies=proxies)
+            else:
+                print("Json结构错误")
+        except json.JSONDecodeError:
+            print("无法解析JSON。")
