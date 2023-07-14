@@ -9892,6 +9892,7 @@
             "Sami@Roguelike@GetDrops#next",
             "Sami@Roguelike@GetDropCompleted",
             "Sami@Roguelike@GetDropLeave",
+            "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@NextLevel#next",
             "Sami@Roguelike@StageEncounterOptions#next",
             "Sami@Roguelike@StageEncounterSpecialClose",
@@ -9901,7 +9902,11 @@
             "Sami@Roguelike@DialogSkip"
         ]
     },
-    "Sami@Roguelike@EnterAfterRecruit": {},
+    "Sami@Roguelike@EnterAfterRecruit": {
+        "next": [
+            "Sami@Roguelike@NextLevel"
+        ]
+    },
     "Sami@Roguelike@ExitThenAbandon": {
         "template": "Roguelike@ExitThenAbandon.png",
         "next": [
@@ -10012,24 +10017,6 @@
     },
     "Sami@Roguelike@MissionFailedFlag": {},
     "Sami@Roguelike@MissionFailedFlag2": {},
-    "Sami@Roguelike@Begin": {
-        "algorithm": "JustReturn",
-        "next": [
-            "Sami@Roguelike@ChooseDifficulty",
-            "Sami@Roguelike@StartExplore",
-            "Sami@Roguelike@NextLevel",
-            "Sami@Roguelike@NextLevel#next",
-            "Sami@Roguelike@GetDrops#next",
-            "Sami@Roguelike@ExitThenAbandon",
-            "Sami@Roguelike@Abandon",
-            "Sami@Roguelike@TodoEnter",
-            "Sami@Roguelike@Continue",
-            "Sami@Roguelike@ReturnTo",
-            "Sami@Roguelike@ReturnToConfirm",
-            "Sami@Roguelike@StartUpThemes#next",
-            "Sami@Roguelike@FromStageSN"
-        ]
-    },
     "Sami@Roguelike@NextLevel": {
         "text": [
             "完成本层",
@@ -10100,6 +10087,7 @@
         "templThreshold": 0.95,
         "next": [
             "Sami@Roguelike@StageBoonsEnter",
+            "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@NextLevel#next"
         ]
     },
@@ -10115,6 +10103,7 @@
         "baseTask": "Roguelike@StageEnter",
         "next": [
             "Sami@Roguelike@StageBoskyPassageEnter",
+            "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@NextLevel#next"
         ]
     },
@@ -10139,6 +10128,7 @@
             "Sami@Roguelike@StageDreadfulFoeEnter",
             "Sami@Roguelike@StageEmergencyDpsEnter",
             "Sami@Roguelike@StageCambatDpsEnter",
+            "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@NextLevel#next"
         ]
     },
@@ -10156,6 +10146,7 @@
         "templThreshold": 0.95,
         "next": [
             "Sami@Roguelike@StageEncounterEnter",
+            "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@NextLevel#next"
         ]
     },
@@ -10224,12 +10215,21 @@
     "Sami@Roguelike@OptionChoose4-3": {},
     "Sami@Roguelike@OptionChoose4-4": {},
     "Sami@Roguelike@StageEncounterSpecialClose": {},
+    "Sami@Roguelike@StageEncounterClickToLeave": {
+        "next": [
+            "Sami@Roguelike@StageEncounterOptions#next",
+            "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@NextLevel#next",
+            "Sami@Roguelike@StageEncounterClickToLeave"
+        ]
+    },
     "Sami@Roguelike@StageGambling": {
         "Doc": "骰子关卡",
         "baseTask": "Sami@Roguelike@Stage",
         "templThreshold": 0.95,
         "next": [
             "Sami@Roguelike@StageEncounterEnter",
+            "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@NextLevel#next"
         ]
     },
@@ -10239,6 +10239,7 @@
         "templThreshold": 0.95,
         "next": [
             "Sami@Roguelike@StageEncounterEnter",
+            "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@NextLevel#next"
         ]
     },
@@ -10252,7 +10253,31 @@
     "Sami@Roguelike@StageTraderEnter": {},
     "Sami@Roguelike@StageTraderLeaveConfirm": {
         "template": "Roguelike@StageTraderLeaveConfirm.png",
+        "next": [
+            "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@NextLevel#next"
+        ],
         "exceededNext": [
+            "Sami@Roguelike@ExitThenAbandon",
+            "Sami@Roguelike@NextLevelThenExit"
+        ]
+    },
+    "Sami@Roguelike@NextLevelThenExit": {
+        "Doc": "点进下一层后执行退出",
+        "text": [
+            "完成本层",
+            "下一层级"
+        ],
+        "roi": [
+            268,
+            600,
+            197,
+            78
+        ],
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "next": [
             "Sami@Roguelike@ExitThenAbandon"
         ]
     },
@@ -10262,6 +10287,7 @@
         "templThreshold": 0.95,
         "next": [
             "Sami@Roguelike@StageEncounterEnter",
+            "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@NextLevel#next"
         ]
     },
