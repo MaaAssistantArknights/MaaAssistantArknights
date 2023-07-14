@@ -1344,7 +1344,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         /* 肉鸽设置 */
 
-        private string _roguelikeTheme = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, "Mizuki");
+        private string _roguelikeTheme = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, "Sami");
 
         /// <summary>
         /// Gets or sets the Roguelike theme.
@@ -1363,7 +1363,7 @@ namespace MaaWpfGui.ViewModels.UI
         private string _roguelikeMode = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeMode, "0");
 
         /// <summary>
-        /// Gets or sets the roguelike mode.
+        /// 策略，往后打 / 刷一层就退
         /// </summary>
         public string RoguelikeMode
         {
