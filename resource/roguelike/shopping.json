@@ -10,22 +10,40 @@
             "name": "鸭爵金砖"
         },
         {
-            "name": "医疗招募券"
+            "name": "医疗招募券",
+            "roles": [
+                "MEDIC"
+            ]
         },
         {
-            "name": "近卫招募券"
+            "name": "近卫招募券",
+            "roles": [
+                "WARRIOR"
+            ]
         },
         {
-            "name": "狙击招募券"
+            "name": "狙击招募券",
+            "roles": [
+                "SNIPER"
+            ]
         },
         {
-            "name": "特种招募券"
+            "name": "特种招募券",
+            "roles": [
+                "SPECIAL"
+            ]
         },
         {
-            "name": "重装招募券"
+            "name": "重装招募券",
+            "roles": [
+                "TANK"
+            ]
         },
         {
-            "name": "先锋招募券"
+            "name": "先锋招募券",
+            "roles": [
+                "PIONEER"
+            ]
         },
         {
             "name": "“碎片大厦的回忆”"
@@ -34,7 +52,8 @@
             "name": "一份演讲稿"
         },
         {
-            "name": "古旧铸物"
+            "name": "古旧铸物",
+            "promotion": 3
         },
         {
             "name": "立体艺术装置"
@@ -469,8 +488,8 @@
         {
             "name": "突击协议-利刃",
             "roles": [
-                "WARRIOR",
-                "PIONEER"
+                "PIONEER",
+                "WARRIOR"
             ]
         },
         {
@@ -903,7 +922,8 @@
             "name": "一份演讲稿"
         },
         {
-            "name": "古旧铸物"
+            "name": "古旧铸物",
+            "promotion": 3
         },
         {
             "name": "立体艺术装置"
@@ -1338,8 +1358,8 @@
         {
             "name": "突击协议-利刃",
             "roles": [
-                "WARRIOR",
-                "PIONEER"
+                "PIONEER",
+                "WARRIOR"
             ]
         },
         {
@@ -1787,42 +1807,68 @@
             "name": "浓缩抑制剂"
         },
         {
-            "name": "医疗招募券"
+            "name": "医疗招募券",
+            "roles": [
+                "MEDIC"
+            ]
         },
         {
-            "name": "近卫招募券"
+            "name": "近卫招募券",
+            "roles": [
+                "WARRIOR"
+            ]
         },
         {
-            "name": "狙击招募券"
+            "name": "狙击招募券",
+            "roles": [
+                "SNIPER"
+            ]
         },
         {
-            "name": "特种招募券"
+            "name": "特种招募券",
+            "roles": [
+                "SPECIAL"
+            ]
         },
         {
-            "name": "重装招募券"
+            "name": "重装招募券",
+            "roles": [
+                "TANK"
+            ]
         },
         {
-            "name": "先锋招募券"
+            "name": "先锋招募券",
+            "roles": [
+                "PIONEER"
+            ]
         },
         {
             "name": "突击协议-利刃",
             "roles": [
-                "WARRIOR",
-                "PIONEER"
+                "PIONEER",
+                "WARRIOR"
             ]
         },
         {
             "name": "突击协议-散兵",
             "roles": [
-                "WARRIOR",
-                "PIONEER"
+                "PIONEER",
+                "WARRIOR"
             ]
         },
         {
-            "name": "堡垒协议-方阵"
+            "name": "堡垒协议-方阵",
+            "roles": [
+                "TANK",
+                "SUPPORT"
+            ]
         },
         {
-            "name": "堡垒协议-固守"
+            "name": "堡垒协议-固守",
+            "roles": [
+                "TANK",
+                "SUPPORT"
+            ]
         },
         {
             "name": "远程协议-遥击",
@@ -2060,31 +2106,40 @@
             "name": "无瑕宝玉"
         },
         {
-            "name": "游戏室管理员权限卡"
+            "name": "游戏室管理员权限卡",
+            "promotion": 1
         },
         {
-            "name": "游戏室管理员权限卡-α"
+            "name": "游戏室管理员权限卡-α",
+            "promotion": 1
         },
         {
-            "name": "游戏室管理员权限卡-β"
+            "name": "游戏室管理员权限卡-β",
+            "promotion": 1
         },
         {
-            "name": "游戏室管理员权限卡-γ"
+            "name": "游戏室管理员权限卡-γ",
+            "promotion": 1
         },
         {
-            "name": "Miss.Christine摸摸券"
+            "name": "Miss.Christine摸摸券",
+            "promotion": 2
         },
         {
-            "name": "Miss.Christine摸摸券-α"
+            "name": "Miss.Christine摸摸券-α",
+            "promotion": 2
         },
         {
-            "name": "Miss.Christine摸摸券-β"
+            "name": "Miss.Christine摸摸券-β",
+            "promotion": 2
         },
         {
-            "name": "Miss.Christine摸摸券-γ"
+            "name": "Miss.Christine摸摸券-γ",
+            "promotion": 2
         },
         {
-            "name": "古旧铸物"
+            "name": "古旧铸物",
+            "promotion": 3
         },
         {
             "name": "钝爪-典训",
@@ -2094,25 +2149,53 @@
             "promotion": 1
         },
         {
-            "name": "折戟-典训"
+            "name": "折戟-典训",
+            "promotion": 1,
+            "roles": [
+                "WARRIOR"
+            ]
         },
         {
-            "name": "铁卫-典训"
+            "name": "铁卫-典训",
+            "promotion": 1,
+            "roles": [
+                "TANK"
+            ]
         },
         {
-            "name": "残弩-典训"
+            "name": "残弩-典训",
+            "promotion": 1,
+            "roles": [
+                "SNIPER"
+            ]
         },
         {
-            "name": "断杖-典训"
+            "name": "断杖-典训",
+            "promotion": 1,
+            "roles": [
+                "CASTER"
+            ]
         },
         {
-            "name": "支柱-典训"
+            "name": "支柱-典训",
+            "promotion": 1,
+            "roles": [
+                "SUPPORT"
+            ]
         },
         {
-            "name": "医者-典训"
+            "name": "医者-典训",
+            "promotion": 1,
+            "roles": [
+                "MEDIC"
+            ]
         },
         {
-            "name": "锈刃-典训"
+            "name": "锈刃-典训",
+            "promotion": 1,
+            "roles": [
+                "SPECIAL"
+            ]
         },
         {
             "name": "地区行动方案"
@@ -2319,82 +2402,160 @@
             ]
         },
         {
-            "name": "折戟-突破"
+            "name": "折戟-突破",
+            "roles": [
+                "WARRIOR"
+            ]
         },
         {
-            "name": "折戟-锋刃"
+            "name": "折戟-锋刃",
+            "roles": [
+                "WARRIOR"
+            ]
         },
         {
-            "name": "折戟-浴血"
+            "name": "折戟-浴血",
+            "roles": [
+                "WARRIOR"
+            ]
         },
         {
-            "name": "折戟-破釜沉舟"
+            "name": "折戟-破釜沉舟",
+            "roles": [
+                "WARRIOR"
+            ]
         },
         {
-            "name": "铁卫-突破"
+            "name": "铁卫-突破",
+            "roles": [
+                "TANK"
+            ]
         },
         {
-            "name": "铁卫-侵掠"
+            "name": "铁卫-侵掠",
+            "roles": [
+                "TANK"
+            ]
         },
         {
-            "name": "铁卫-无锋"
+            "name": "铁卫-无锋",
+            "roles": [
+                "TANK"
+            ]
         },
         {
-            "name": "残弩-突破"
+            "name": "残弩-突破",
+            "roles": [
+                "SNIPER"
+            ]
         },
         {
-            "name": "残弩-百步穿杨"
+            "name": "残弩-百步穿杨",
+            "roles": [
+                "SNIPER"
+            ]
         },
         {
-            "name": "残弩-交叉火力"
+            "name": "残弩-交叉火力",
+            "roles": [
+                "SNIPER"
+            ]
         },
         {
-            "name": "残弩-神速"
+            "name": "残弩-神速",
+            "roles": [
+                "SNIPER"
+            ]
         },
         {
-            "name": "断杖-突破"
+            "name": "断杖-突破",
+            "roles": [
+                "CASTER"
+            ]
         },
         {
-            "name": "断杖-织法者"
+            "name": "断杖-织法者",
+            "roles": [
+                "CASTER"
+            ]
         },
         {
-            "name": "断杖-凝神"
+            "name": "断杖-凝神",
+            "roles": [
+                "CASTER"
+            ]
         },
         {
-            "name": "断杖-苦难巫咒"
+            "name": "断杖-苦难巫咒",
+            "roles": [
+                "CASTER"
+            ]
         },
         {
-            "name": "支柱-突破"
+            "name": "支柱-突破",
+            "roles": [
+                "SUPPORT"
+            ]
         },
         {
-            "name": "支柱-勤奋"
+            "name": "支柱-勤奋",
+            "roles": [
+                "SUPPORT"
+            ]
         },
         {
-            "name": "支柱-援护"
+            "name": "支柱-援护",
+            "roles": [
+                "SUPPORT"
+            ]
         },
         {
-            "name": "支柱-枯法"
+            "name": "支柱-枯法",
+            "roles": [
+                "SUPPORT"
+            ]
         },
         {
-            "name": "医者-突破"
+            "name": "医者-突破",
+            "roles": [
+                "MEDIC"
+            ]
         },
         {
-            "name": "医者-自医"
+            "name": "医者-自医",
+            "roles": [
+                "MEDIC"
+            ]
         },
         {
-            "name": "医者-妙手"
+            "name": "医者-妙手",
+            "roles": [
+                "MEDIC"
+            ]
         },
         {
-            "name": "医者-固化序列"
+            "name": "医者-固化序列",
+            "roles": [
+                "MEDIC"
+            ]
         },
         {
-            "name": "锈刃-突破"
+            "name": "锈刃-突破",
+            "roles": [
+                "SPECIAL"
+            ]
         },
         {
-            "name": "锈刃-研磨"
+            "name": "锈刃-研磨",
+            "roles": [
+                "SPECIAL"
+            ]
         },
         {
-            "name": "锈刃-可视静谧"
+            "name": "锈刃-可视静谧",
+            "roles": [
+                "SPECIAL"
+            ]
         },
         {
             "name": "扣挠之手"
@@ -2520,10 +2681,16 @@
             "name": "《归来》"
         },
         {
-            "name": "铁卫-整固"
+            "name": "铁卫-整固",
+            "roles": [
+                "TANK"
+            ]
         },
         {
-            "name": "锈刃-锋芒发硎"
+            "name": "锈刃-锋芒发硎",
+            "roles": [
+                "SPECIAL"
+            ]
         },
         {
             "name": "缠斗之手"
