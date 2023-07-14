@@ -29,16 +29,17 @@ class Downloader:
         self.proxies = proxies      # 代理服务器
         self.lock = Lock()
         self.chunk_status = []      # 状态列表
-        self.failed_requests = {url: {'success': 0, 'fail': 0} for url in urlist} # 记录每个 URL 的失败次数和成功次数
+        self.failed_requests = {url: {'success': 0, 'fail': 0} for url in urlist}   # 记录每个 URL 的失败次数和成功次数
+        self.listhash = hex(hash(tuple(urlist)))                                    # 计算urlist的hash
 
     def download_chunk(self, url, chunk_id, total_size):
         start = chunk_id * self.chunksize
         end = min(start + self.chunksize - 1, total_size - 1)
         headers = {'Range': f'bytes={start}-{end}'}
-        filename = f"temp/{chunk_id}"
+        filename = f"temp/{self.listhash}/{chunk_id}"
         if self.chunk_status[chunk_id] != 2:
             try:
-                response = requests.get(url, headers=headers, proxies=self.proxies)
+                response = requests.get(url, headers=headers, proxies=self.proxies, timeout=5)
                 if response.status_code in (301, 302, 303, 307, 308):  # 处理HTTP 3xx 重定向问题，继续发送原来的header（range）
                     redirect_url = response.headers['Location']
                     response = requests.get(redirect_url, headers=headers, timeout=3, proxies=self.proxies)
@@ -61,7 +62,11 @@ class Downloader:
     def download_file(self, total_size, filepath):
         num_chunks = (total_size + self.chunksize - 1) // self.chunksize
         self.chunk_status = [0] * num_chunks
-        os.makedirs('temp', exist_ok=True)
+        try:
+            shutil.rmtree(f'temp/{self.listhash}')
+        except:
+            pass
+        os.makedirs(f'temp/{self.listhash}', exist_ok=True)
         with ThreadPoolExecutor(max_workers=self.max_conn * len(self.urlist)) as executor:
             for url in self.urlist:
                 for chunk_id in range(num_chunks):
@@ -70,12 +75,12 @@ class Downloader:
         # 合并所有临时文件到一个文件
         with open(filepath, 'wb') as outfile:
             for chunk_id in range(num_chunks):
-                filename = f"temp/{chunk_id}"
+                filename = f"temp/{self.listhash}/{chunk_id}"
                 with open(filename, 'rb') as infile:
                     shutil.copyfileobj(infile, outfile)
 
         # 删除临时目录
-        shutil.rmtree('temp')
+        shutil.rmtree(f'temp/{self.listhash}')
 
         # 验证下载文件
         if os.path.getsize(filepath) != total_size:
@@ -93,8 +98,7 @@ def file_download(urlist, filepath, proxies=None):
     return downloader.download_file(total_size, filepath)
 
 if __name__ == '__main__':
-    # 测试。。。
     urlist = [r"https://mirror.eh.cx/KataGo/katago/pack/2023-06-15/2023-06-15-Macosx(amd64)+Linux(amd64)(无引擎).zip",r"https://ota.eh.cx/KataGo/katago/pack/2023-06-15/2023-06-15-Macosx(amd64)+Linux(amd64)(无引擎).zip",r"https://fake.eh.cx/a"]
     # 其中前两个是有效的url，第三个是无效的url
-    path = r"D:\Downloads\2023-06-15-Macosx(amd64)+Linux(amd64)(无引擎).zip"
+    path = r"F:\programs\credit\req\2023-06-15-Macosx(amd64)+Linux(amd64)(无引擎).zip"
     file_download(urlist,path)
