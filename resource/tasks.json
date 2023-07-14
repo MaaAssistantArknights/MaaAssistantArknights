@@ -9886,8 +9886,24 @@
         ]
     },
     "Sami@Roguelike@ContinueClick": {
-        "algorithm": "JustReturn",
-        "action": "ClickRand",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "初霜湖泽",
+            "密静林地",
+            "昧明冻土",
+            "积冰岩骸",
+            "无瑕花园",
+            "远见之构",
+            "深埋迷境"
+        ],
+        "roi": [
+            522,
+            431,
+            245,
+            144
+        ],
         "next": [
             "Sami@Roguelike@Continue"
         ]
