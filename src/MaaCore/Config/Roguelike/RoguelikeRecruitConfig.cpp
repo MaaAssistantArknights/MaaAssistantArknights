@@ -67,7 +67,7 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
     LogTraceFunction;
 
     clear();
-    for (const auto& theme_view : { RoguelikePhantomThemeName, RoguelikeMizukiThemeName }) {
+    for (const auto& theme_view : { RoguelikePhantomThemeName, RoguelikeMizukiThemeName, RoguelikeSamiThemeName }) {
         const std::string theme(theme_view);
         const auto& theme_json = json.at(theme);
         for (const auto& condition_json : theme_json.at("team_complete_condition").as_array()) {
