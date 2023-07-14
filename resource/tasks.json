@@ -10254,6 +10254,7 @@
     "Sami@Roguelike@StageTraderEnter": {},
     "Sami@Roguelike@StageTraderLeaveConfirm": {
         "template": "Roguelike@StageTraderLeaveConfirm.png",
+        "postDelay": 1000,
         "next": [
             "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@NextLevel#next"
@@ -10278,7 +10279,6 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "cache": false,
-        "postDelay": 3000,
         "next": [
             "Sami@Roguelike@ExitThenAbandon"
         ]
