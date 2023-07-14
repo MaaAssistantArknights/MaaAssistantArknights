@@ -2704,6 +2704,7 @@
             "CloseAnno",
             "CloseAnnoTexas",
             "TodaysSupplies",
+            "NotDownloadVoice",
             "StartUp"
         ]
     },
@@ -2730,6 +2731,19 @@
             24,
             138,
             139
+        ],
+        "next": [
+            "CloseAnnos#next"
+        ]
+    },
+    "NotDownloadVoice": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            369,
+            462,
+            152,
+            62
         ],
         "next": [
             "CloseAnnos#next"
