@@ -49,7 +49,6 @@ namespace MaaWpfGui.Services.Web
         private readonly ILogger _logger = Log.ForContext<HttpService>();
 
         private HttpClient _client;
-        private HttpClient _downloader;
 
         public HttpService()
         {
@@ -59,18 +58,22 @@ namespace MaaWpfGui.Services.Web
                 {
                     return;
                 }
-        
+
                 if (old == value)
                 {
                     return;
                 }
-        
-                BuildHttpClient(ref _client, TimeSpan.FromSeconds(15));
-                BuildHttpClient(ref _downloader, TimeSpan.FromMinutes(3));
+
+                if (GetProxy() == null)
+                {
+                    _logger.Warning("Proxy is not a valid URI, and HttpClient is not null, keep using the original HttpClient");
+                    return;
+                }
+
+                _client = BuildHttpClient();
             };
-        
-            BuildHttpClient(ref _client, TimeSpan.FromSeconds(15));
-            BuildHttpClient(ref _downloader, TimeSpan.FromMinutes(3));
+
+            _client = BuildHttpClient();
         }
 
         public async Task<double> HeadAsync(Uri uri, Dictionary<string, string> extraHeader = null)
@@ -242,32 +245,29 @@ namespace MaaWpfGui.Services.Web
             return success;
         }
 
-        private void BuildHttpClient(ref HttpClient client, TimeSpan timeout)
+        private static WebProxy GetProxy()
         {
             var proxyIsUri = Uri.TryCreate(Proxy, UriKind.RelativeOrAbsolute, out var uri);
-            proxyIsUri = proxyIsUri && (!string.IsNullOrEmpty(Proxy));
-            if (proxyIsUri is false)
-            {
-                if (!(client is null))
-                {
-                    _logger.Information("Proxy is not a valid URI, and HttpClient is not null, keep using the original HttpClient");
-                    return;
-                }
-            }
-        
-            _logger.Information("Rebuild HttpClient with proxy {Proxy}", Proxy);
+            return (proxyIsUri && (!string.IsNullOrEmpty(Proxy))) is false ? null : new WebProxy(uri);
+        }
+
+        private HttpClient BuildHttpClient()
+        {
             var handler = new HttpClientHandler { AllowAutoRedirect = true, };
-        
-            if (proxyIsUri)
+
+            var proxy = GetProxy();
+            if (proxy != null)
             {
-                handler.Proxy = new WebProxy(uri);
+                _logger.Information("Rebuild HttpClient with proxy {Proxy}", Proxy);
+                handler.Proxy = proxy;
                 handler.UseProxy = true;
             }
-        
-            client?.Dispose();
+
+            HttpClient client = new HttpClient(handler);
             client = new HttpClient(handler);
             client.DefaultRequestHeaders.Add("User-Agent", UserAgent);
-            client.Timeout = timeout;
+            client.Timeout = TimeSpan.FromSeconds(15);
+            return client;
         }
     }
 }
