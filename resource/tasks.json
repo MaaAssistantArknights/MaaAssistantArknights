@@ -9878,7 +9878,20 @@
         ]
     },
     "Sami@Roguelike@CloseEvent": {},
-    "Sami@Roguelike@Continue": {},
+    "Sami@Roguelike@Continue": {
+        "next": [
+            "Sami@Roguelike@MissionFailedFlag2",
+            "Sami@Roguelike@ExitThenAbandon",
+            "Sami@Roguelike@ContinueClick"
+        ]
+    },
+    "Sami@Roguelike@ContinueClick": {
+        "algorithm": "JustReturn",
+        "action": "ClickRand",
+        "next": [
+            "Sami@Roguelike@Continue"
+        ]
+    },
     "Sami@Roguelike@DialogSkipConfirm": {
         "template": "Roguelike@DialogSkipConfirm.png",
         "next": [
