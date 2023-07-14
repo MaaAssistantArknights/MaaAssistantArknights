@@ -230,14 +230,15 @@ class Updater:
         for i in range(max_retry):
             url = self.assets_object['browser_download_url']
             file = os.path.join(self.path, url.split('/')[-1])
-            if i < 2:
-                url = url.replace(replace_list[i][0], replace_list[i][1])
-                try:
-                    Updater.custom_print(f'开始下载更新包，URL：{url}')
-                    request.urlretrieve(url, file)
-                    break
-                except (HTTPError, URLError) as e:
-                    Updater.custom_print(e)
+
+            replace_attempt = replace_list[i % len(replace_list)]
+            url = url.replace(replace_attempt[0], replace_attempt[1])
+            try:
+                Updater.custom_print(f'开始下载更新包，URL：{url}')
+                request.urlretrieve(url, file)
+                break
+            except (HTTPError, URLError) as e:
+                Updater.custom_print(e)
 
         # 解压
         Updater.custom_print('开始安装更新，请不要关闭')
