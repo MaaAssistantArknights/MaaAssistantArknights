@@ -10,7 +10,7 @@ bool asst::RoguelikeStageEncounterConfig::parse(const json::value& json)
 
     m_events.clear();
 
-    for (const auto& theme_view : { RoguelikePhantomThemeName, RoguelikeMizukiThemeName }) {
+    for (const auto& theme_view : { RoguelikePhantomThemeName, RoguelikeMizukiThemeName, RoguelikeSamiThemeName }) {
         const std::string theme(theme_view);
         const auto& theme_json = json.at(theme);
         for (const auto& event_json : theme_json.as_object()) {
