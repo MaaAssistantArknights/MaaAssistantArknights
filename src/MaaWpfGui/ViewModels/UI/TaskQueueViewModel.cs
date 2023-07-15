@@ -244,7 +244,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             refreshCustomInfrastPlanIndexByPeriod();
 
-            if (!runningState.GetIdle() && !Instances.SettingsViewModel.ForceScheduledStart)
+            if (!runningState.GetIdle() && !Instances.SettingsViewModel.ForceScheduledStart && !Instances.SettingsViewModel.CustomConfig)
             {
                 return;
             }
@@ -277,9 +277,12 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (timeToChangeConfig)
             {
-                // CurrentConfiguration设置后会重启
-                Instances.SettingsViewModel.CurrentConfiguration = Instances.SettingsViewModel.TimerModels.Timers[2].TimerConfig;
-                return;
+                if (Instances.SettingsViewModel.CustomConfig)
+                {
+                    // CurrentConfiguration设置后会重启
+                    Instances.SettingsViewModel.CurrentConfiguration = Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig;
+                    return;
+                }
             }
 
             if (timeToStart)
@@ -289,13 +292,18 @@ namespace MaaWpfGui.ViewModels.UI
                     if (!runningState.GetIdle())
                     {
                         await Stop();
-                        if (!Instances.AsstProxy.AsstAppendCloseDown())
-                        {
-                            AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
-                        }
+                    }
+
+                    if (!Instances.AsstProxy.AsstAppendCloseDown())
+                    {
+                        AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
                     }
 
                     ResetFightVariables();
+                }
+                else if (!runningState.GetIdle())
+                {
+                    return;
                 }
 
                 LinkStart();
