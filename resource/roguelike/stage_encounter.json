@@ -6,42 +6,42 @@
             "choice_require": [
                 {
                     "name": "选择碎草药",
-                    "Chaos": {
+                    "ChaosLevel": {
                         "value": "3",
                         "type": ">"
                     }
                 },
                 {
                     "name": "选择好看的织物",
-                    "Chaos": {
+                    "ChaosLevel": {
                         "value": "3",
                         "type": ">"
                     }
                 },
                 {
                     "name": "选择湿膏药",
-                    "Chaos": {
+                    "ChaosLevel": {
                         "value": "3",
                         "type": ">"
                     }
                 },
                 {
                     "name": "选择好看的木刻",
-                    "Chaos": {
+                    "ChaosLevel": {
                         "value": "3",
                         "type": ">"
                     }
                 },
                 {
                     "name": "选择纯霜露",
-                    "Chaos": {
+                    "ChaosLevel": {
                         "value": "3",
                         "type": ">"
                     }
                 },
                 {
                     "name": "选择琥珀核",
-                    "Chaos": {
+                    "ChaosLevel": {
                         "value": "3",
                         "type": ">"
                     }
@@ -54,14 +54,14 @@
             "choice_require": [
                 {
                     "name": "“活力”",
-                    "Chaos": {
+                    "ChaosLevel": {
                         "value": "3",
                         "type": ">"
                     }
                 },
                 {
                     "name": "“金钱”",
-                    "Chaos": {
+                    "ChaosLevel": {
                         "value": "3",
                         "type": ">"
                     }
@@ -74,14 +74,14 @@
             "choice_require": [
                 {
                     "name": "寻求希望",
-                    "Chaos": {
+                    "ChaosLevel": {
                         "value": "3",
                         "type": ">"
                     }
                 },
                 {
                     "name": "寻求护佑",
-                    "Chaos": {
+                    "ChaosLevel": {
                         "value": "3",
                         "type": ">"
                     }
