@@ -4342,6 +4342,7 @@
     },
     "VisitNextBlack": {
         "action": "DoNothing",
+        "templThreshold": 0.85,
         "roi": [
             1080,
             570,
