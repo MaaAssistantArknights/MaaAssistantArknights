@@ -289,10 +289,16 @@ namespace MaaWpfGui.Helper
         {
             // 迁移旧数据，过几个版本后删除
             {
-                var val = GetValue($"Timer.Timer{i + 1}", defaultValue);
-                if (val != defaultValue)
+                var value = GetValue($"Timer.Timer{i + 1}", defaultValue);
+                if (value != defaultValue)
                 {
-                    SetTimer(i, val);
+                    return value;
+                }
+
+                value = GetValue($"Timer.Timer{i + 1}", defaultValue);
+                if (value != defaultValue)
+                {
+                    SetTimer(i, value);
                 }
             }
 
@@ -311,6 +317,12 @@ namespace MaaWpfGui.Helper
                 var value = GetValue($"Timer.Timer{i + 1}Hour", defaultValue);
                 if (value != defaultValue)
                 {
+                    return value;
+                }
+
+                value = GetValue($"Timer.Timer{i + 1}Hour", defaultValue);
+                if (value != defaultValue)
+                {
                     SetTimerHour(i, value);
                 }
             }
@@ -327,7 +339,13 @@ namespace MaaWpfGui.Helper
         {
             // 迁移旧数据，过几个版本后删除
             {
-                var value = GetValue($"Timer.Timer{i + 1}Min", defaultValue);
+                var value = GetGlobalValue($"Timer.Timer{i + 1}Min", defaultValue);
+                if (value != defaultValue)
+                {
+                    return value;
+                }
+
+                value = GetValue($"Timer.Timer{i + 1}Min", defaultValue);
                 if (value != defaultValue)
                 {
                     SetTimerMin(i, value);
