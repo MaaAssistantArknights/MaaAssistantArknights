@@ -244,7 +244,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             refreshCustomInfrastPlanIndexByPeriod();
 
-            if (!runningState.GetIdle() && !Instances.SettingsViewModel.ForceScheduledStart && !Instances.SettingsViewModel.CustomConfig)
+            if (!runningState.GetIdle() && !Instances.SettingsViewModel.ForceScheduledStart)
             {
                 return;
             }
@@ -300,10 +300,6 @@ namespace MaaWpfGui.ViewModels.UI
                     }
 
                     ResetFightVariables();
-                }
-                else if (!runningState.GetIdle())
-                {
-                    return;
                 }
 
                 LinkStart();
