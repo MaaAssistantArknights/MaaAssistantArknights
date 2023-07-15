@@ -1,4 +1,270 @@
 {
+    "Sami": {
+        "低地市集": {
+            "option_num": 3,
+            "choose": 3
+        },
+        "雪与木的笆篱": {
+            "option_num": 3,
+            "choose": 3
+        },
+        "安玛塔卢": {
+            "option_num": 3,
+            "choose": 3
+        },
+        "北地巫师竞技": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "最好的朋友": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "深渊入口": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "吉兆": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "雨！": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "随到随取": {
+            "option_num": 2,
+            "choose": 1,
+            "visionRequire": [
+                {
+                    "choice": "使用热像仪",
+                    "value": 3,
+                    "type": "LOWER"
+                }
+            ]
+        },
+        "定期维护": {
+            "option_num": 2,
+            "choose": 2,
+            "note": "拥有【安玛的爱】时出现第三选项",
+            "visionRequire": [
+                {
+                    "choice": "检查多色测光望远镜的目镜",
+                    "value": 4,
+                    "type": "LOWER"
+                }
+            ]
+        },
+        "昏黑之室": {
+            "option_num": 3,
+            "choose": 3,
+            "visionRequire": [
+                {
+                    "choice": "用仪器探测",
+                    "value": 5,
+                    "type": "LOWER"
+                }
+            ]
+        },
+        "疗愈仪式": {
+            "option_num": 3,
+            "choose": 3
+        },
+        "黑色足迹": {
+            "option_num": 2,
+            "choose": 2,
+            "note": "抗干扰指数为0或遭遇过【负伤的主树】事件时出现第三选项"
+        },
+        "不冻河": {
+            "option_num": 2,
+            "choose": 2,
+            "note": "拥有【安玛的爱】时出现第三选项"
+        },
+        "野外生存专家": {
+            "option_num": 3,
+            "choose": 1,
+            "visionRequire": [
+                {
+                    "choice": "重金酬谢",
+                    "value": 2,
+                    "type": "LOWER"
+                }
+            ]
+        },
+        "在地公共信号放大站756号": {
+            "option_num": 3,
+            "choose": 1,
+            "visionRequire": [
+                {
+                    "choice": "提供位置，呼叫增援",
+                    "value": 3,
+                    "type": "LOWER"
+                }
+            ]
+        },
+        "特里蒙旅行社特派团": {
+            "option_num": 3,
+            "choose": 1
+        },
+        "在地公共移动站N6号": {
+            "option_num": 2,
+            "choose": 2,
+            "note": "也可能只有一个"
+        },
+        "度假胜地": {
+            "option_num": 1,
+            "choose": 1
+        },
+        "负伤的主树": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "不见群山": {
+            "option_num": 4,
+            "choose": 1,
+            "visionRequire": [
+                {
+                    "choice": "选择她弃在手边的塔罗牌",
+                    "value": 3,
+                    "type": "LOWER"
+                }
+            ]
+        },
+        "远见所向": {
+            "option_num": 4,
+            "choose": 1,
+            "visionRequire": [
+                {
+                    "choice": "我们或许能协作互助",
+                    "value": 4,
+                    "type": "LOWER"
+                }
+            ]
+        },
+        "萨米之语": {
+            "option_num": 1,
+            "choose": 1
+        },
+        "乌萨斯": {
+            "option_num": 3,
+            "choose": 1
+        },
+        "无用之物": {
+            "option_num": 3,
+            "choose": 3
+        },
+        "鲍勃杂货店": {
+            "option_num": 3,
+            "choose": 1,
+            "visionRequire": [
+                {
+                    "choice": "选择他脚边的货品",
+                    "value": 1,
+                    "type": "LOWER"
+                },
+                {
+                    "choice": "选择仓库深处的货品",
+                    "value": 3,
+                    "type": "LOWER"
+                }
+            ]
+        },
+        "科考站": {
+            "option_num": 3,
+            "choose": 1
+        },
+        "探寻前路": {
+            "option_num": 3,
+            "choose": 2
+        },
+        "走过萨米的臂膀": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "木裂前兆": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "悲观者囚笼": {
+            "option_num": 2,
+            "choose": 1
+        },
+        "沼泽里的抽泣声": {
+            "option_num": 3,
+            "choose": 1
+        },
+        "有利可图": {
+            "option_num": 3,
+            "choose": 1,
+            "visionRequire": [
+                {
+                    "choice": "分我一点",
+                    "value": 3,
+                    "type": "LOWER"
+                }
+            ]
+        },
+        "随行人员": {
+            "option_num": 3,
+            "choose": 1,
+            "visionRequire": [
+                {
+                    "choice": "偷听他们聊天",
+                    "value": 1,
+                    "type": "LOWER"
+                }
+            ]
+        },
+        "邪恶计划鸭": {
+            "option_num": 3,
+            "choose": 1
+        },
+        "百里连营": {
+            "option_num": 3,
+            "choose": 3,
+            "visionRequire": [
+                {
+                    "choice": "一边警戒一边前进",
+                    "value": 1,
+                    "type": "LOWER"
+                }
+            ]
+        },
+        "请君入戏": {
+            "option_num": 3,
+            "choose": 3
+        },
+        "北风女巫": {
+            "option_num": 3,
+            "choose": 3,
+            "visionRequire": [
+                {
+                    "choice": "乖乖照做",
+                    "value": 5,
+                    "type": "LOWER"
+                }
+            ]
+        },
+        "时刻警惕": {
+            "option_num": 2,
+            "choose": 2
+        },
+        "猜疑链": {
+            "option_num": 3,
+            "choose": 3,
+            "visionRequire": [
+                {
+                    "choice": "勘察情况并维持秩序",
+                    "value": 3,
+                    "type": "LOWER"
+                }
+            ]
+        },
+        "前行的林地": {
+            "option_num": 2,
+            "choose": 2
+        }
+    },
     "Mizuki": {
         "悬高之葬": {
             "option_num": 1,
@@ -373,176 +639,6 @@
         "命运馈赠": {
             "option_num": 2,
             "choose": 1
-        }
-    },
-    "Sami": {
-        "低地市集": {
-            "option_num": 3,
-            "choose": 3
-        },
-        "雪与木的笆篱": {
-            "option_num": 3,
-            "choose": 3
-        },
-        "安玛塔卢": {
-            "option_num": 3,
-            "choose": 3
-        },
-        "北地巫师竞技": {
-            "option_num": 2,
-            "choose": 2
-        },
-        "最好的朋友": {
-            "option_num": 2,
-            "choose": 2
-        },
-        "深渊入口": {
-            "option_num": 2,
-            "choose": 2
-        },
-        "吉兆": {
-            "option_num": 2,
-            "choose": 2
-        },
-        "雨！": {
-            "option_num": 2,
-            "choose": 1
-        },
-        "随到随取": {
-            "option_num": 2,
-            "choose": 1
-        },
-        "定期维护": {
-            "option_num": 2,
-            "choose": 2,
-            "note": "拥有【安玛的爱】时出现第三选项"
-        },
-        "昏黑之室": {
-            "option_num": 3,
-            "choose": 3
-        },
-        "疗愈仪式": {
-            "option_num": 3,
-            "choose": 3
-        },
-        "黑色足迹": {
-            "option_num": 2,
-            "choose": 2,
-            "note": "抗干扰指数为0或遭遇过【负伤的主树】事件时出现第三选项"
-        },
-        "不冻河": {
-            "option_num": 2,
-            "choose": 2,
-            "note": "拥有【安玛的爱】时出现第三选项"
-        },
-        "野外生存专家": {
-            "option_num": 3,
-            "choose": 1
-        },
-        "在地公共信号放大站756号": {
-            "option_num": 3,
-            "choose": 1
-        },
-        "特里蒙旅行社特派团": {
-            "option_num": 3,
-            "choose": 1
-        },
-        "在地公共移动站N6号": {
-            "option_num": 2,
-            "choose": 2,
-            "note": "也可能只有一个"
-        },
-        "度假胜地": {
-            "option_num": 1,
-            "choose": 1
-        },
-        "负伤的主树": {
-            "option_num": 2,
-            "choose": 1
-        },
-        "不见群山": {
-            "option_num": 4,
-            "choose": 1
-        },
-        "远见所向": {
-            "option_num": 4,
-            "choose": 1
-        },
-        "萨米之语": {
-            "option_num": 1,
-            "choose": 1
-        },
-        "乌萨斯": {
-            "option_num": 3,
-            "choose": 1
-        },
-        "无用之物": {
-            "option_num": 3,
-            "choose": 3
-        },
-        "鲍勃杂货店": {
-            "option_num": 3,
-            "choose": 1
-        },
-        "科考站": {
-            "option_num": 3,
-            "choose": 1
-        },
-        "探寻前路": {
-            "option_num": 3,
-            "choose": 2
-        },
-        "走过萨米的臂膀": {
-            "option_num": 2,
-            "choose": 1
-        },
-        "木裂前兆": {
-            "option_num": 2,
-            "choose": 1
-        },
-        "悲观者囚笼": {
-            "option_num": 2,
-            "choose": 1
-        },
-        "沼泽里的抽泣声": {
-            "option_num": 3,
-            "choose": 1
-        },
-        "有利可图": {
-            "option_num": 3,
-            "choose": 1
-        },
-        "随行人员": {
-            "option_num": 3,
-            "choose": 1
-        },
-        "邪恶计划鸭": {
-            "option_num": 3,
-            "choose": 1
-        },
-        "百里连营": {
-            "option_num": 3,
-            "choose": 3
-        },
-        "请君入戏": {
-            "option_num": 3,
-            "choose": 3
-        },
-        "北风女巫": {
-            "option_num": 3,
-            "choose": 3
-        },
-        "时刻警惕": {
-            "option_num": 2,
-            "choose": 2
-        },
-        "猜疑链": {
-            "option_num": 3,
-            "choose": 3
-        },
-        "前行的林地": {
-            "option_num": 2,
-            "choose": 2
         }
     }
 }
