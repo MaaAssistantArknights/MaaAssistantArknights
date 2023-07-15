@@ -1773,7 +1773,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public TimerModel TimerModels { get; set; } = new TimerModel();
 
-        private bool _forceScheduledStart = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ForceScheduledStart, bool.FalseString));
+        private bool _forceScheduledStart = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ForceScheduledStart, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use DrGrandet mode.
@@ -1784,11 +1784,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _forceScheduledStart, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ForceScheduledStart, value.ToString());
+                ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ForceScheduledStart, value.ToString());
             }
         }
 
-        private bool _customConfig = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CustomConfig, bool.FalseString));
+        private bool _customConfig = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.CustomConfig, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use custom config.
@@ -1799,7 +1799,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _customConfig, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CustomConfig, value.ToString());
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.CustomConfig, value.ToString());
             }
         }
 
