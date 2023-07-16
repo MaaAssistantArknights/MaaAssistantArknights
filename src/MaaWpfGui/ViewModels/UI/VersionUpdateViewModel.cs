@@ -27,6 +27,7 @@ using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using MaaWpfGui.States;
 using Markdig;
 using Markdig.Wpf;
 using Newtonsoft.Json;
@@ -42,11 +43,14 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class VersionUpdateViewModel : Screen
     {
+        private readonly RunningState runningState;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="VersionUpdateViewModel"/> class.
         /// </summary>
         public VersionUpdateViewModel()
         {
+            runningState = RunningState.Instance;
         }
 
         [DllImport("MaaCore.dll")]
@@ -112,7 +116,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         public FlowDocument UpdateInfoDoc => Markdig.Wpf.Markdown.ToFlowDocument(UpdateInfo,
-                new MarkdownPipelineBuilder().UseSupportedExtensions().Build());
+            new MarkdownPipelineBuilder().UseSupportedExtensions().Build());
 
         private string _updateUrl;
 
@@ -194,8 +198,8 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionZipFileFoundTitle"));
                 toast.AppendContentText(LocalizationHelper.GetString("NewVersionZipFileFoundDescDecompressing"))
-                     .AppendContentText(UpdateTag)
-                     .ShowUpdateVersion(row: 2);
+                    .AppendContentText(UpdateTag)
+                    .ShowUpdateVersion(row: 2);
             });
 
             string curDir = Directory.GetCurrentDirectory();
@@ -219,8 +223,8 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionZipFileBrokenTitle"));
                     toast.AppendContentText(LocalizationHelper.GetString("NewVersionZipFileBrokenDescFilename") + UpdatePackageName)
-                         .AppendContentText(LocalizationHelper.GetString("NewVersionZipFileBrokenDescDeleted"))
-                         .ShowUpdateVersion();
+                        .AppendContentText(LocalizationHelper.GetString("NewVersionZipFileBrokenDescDeleted"))
+                        .ShowUpdateVersion();
                 });
                 return false;
             }
@@ -417,7 +421,7 @@ namespace MaaWpfGui.ViewModels.UI
                             return version;
                         }
                         else if (SemVersion.TryParse(version, SemVersionStyles.AllowLowerV, out var semVersion) &&
-                            isNightlyVersion(semVersion))
+                                 isNightlyVersion(semVersion))
                         {
                             // v4.6.6-1.g{Hash}
                             // v4.6.7-beta.2.8.g{Hash}
@@ -460,9 +464,7 @@ namespace MaaWpfGui.ViewModels.UI
 #pragma warning restore IDE0042
                 Execute.OnUIThread(() =>
                 {
-                    using var toast = new ToastNotification((otaFound ?
-                        LocalizationHelper.GetString("NewVersionFoundTitle") :
-                        LocalizationHelper.GetString("NewVersionFoundButNoPackageTitle")) + " : " + UpdateTag);
+                    using var toast = new ToastNotification((otaFound ? LocalizationHelper.GetString("NewVersionFoundTitle") : LocalizationHelper.GetString("NewVersionFoundButNoPackageTitle")) + " : " + UpdateTag);
                     if (goDownload)
                     {
                         OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadPreparing"));
@@ -513,25 +515,51 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 // 负载均衡
-                var rand = new Random();
-                urls = urls.OrderBy(_ => rand.Next()).ToList();
-
+                // var rand = new Random();
+                // urls = urls.OrderBy(_ => rand.Next()).ToList();
                 if (rawUrl != null)
                 {
                     urls.Add(rawUrl);
                 }
 
-                foreach (var url in urls)
+                _logger.Information("Start test legacy download urls");
+
+                // run latency test parallel
+                var tasks = urls.ConvertAll(url => Instances.HttpService.HeadAsync(new Uri(url)));
+                var latencies = await Task.WhenAll(tasks);
+
+                // select the fastest mirror
+                _logger.Information("Selecting the fastest mirror:");
+                var selected = 0;
+                for (int i = 0; i < latencies.Length; i++)
                 {
-                    downloaded = await DownloadGithubAssets(url, _assetsObject);
-                    if (downloaded)
+                    if (latencies[i].Equals(-1.0))
                     {
-                        OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"));
-                        break;
+                        _logger.Warning("\turl: {CDNUrl} not available", urls[i]);
+                        continue;
+                    }
+
+                    _logger.Information("\turl: {CDNUrl}, legacy: {1:0.00}ms", urls[i], latencies[i]);
+                    if (latencies[i] < latencies[selected])
+                    {
+                        selected = i;
                     }
                 }
 
-                if (!downloaded)
+                if (latencies[selected].Equals(-1.0))
+                {
+                    _logger.Error("All mirrors are not available");
+                    return CheckUpdateRetT.NetworkError;
+                }
+
+                _logger.Information("Selected mirror: {CDNUrl}", urls[selected]);
+
+                downloaded = await DownloadGithubAssets(urls[selected], _assetsObject);
+                if (downloaded)
+                {
+                    OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"));
+                }
+                else
                 {
                     OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
                     Execute.OnUIThread(() =>
@@ -539,8 +567,8 @@ namespace MaaWpfGui.ViewModels.UI
                         using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
                         toast.ButtonSystemUrl = UpdateUrl;
                         toast.AppendContentText(LocalizationHelper.GetString("NewVersionDownloadFailedDesc"))
-                                .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
-                                .Show();
+                            .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
+                            .Show();
                     });
                     return CheckUpdateRetT.NoNeedToUpdate;
                 }
@@ -554,13 +582,25 @@ namespace MaaWpfGui.ViewModels.UI
             return checkResult;
         }
 
-        public void AskToRestart()
+        public async void AskToRestart()
         {
+            if (Instances.SettingsViewModel.AutoInstallUpdatePackage)
+            {
+                await runningState.UntilIdleAsync(60000);
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    Application.Current.Shutdown();
+                    Bootstrapper.RestartApplication();
+                });
+                return;
+            }
+
             var result = MessageBoxHelper.Show(
                 LocalizationHelper.GetString("NewVersionDownloadCompletedDesc"),
                 LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"),
                 MessageBoxButton.OKCancel,
-                MessageBoxImage.Question, useNativeMethod: true);
+                MessageBoxImage.Question);
             if (result == MessageBoxResult.OK)
             {
                 Application.Current.Shutdown();
@@ -695,28 +735,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-#pragma warning disable IDE0051 // 删除未使用的私有成员
-        private async Task<string> RequestGithubApi(string url, int retryTimes)
-        {
-            string response = string.Empty;
-            string[] requestSource = { "https://api.github.com/", "https://api.kgithub.com/" };
-            do
-            {
-                for (var i = 0; i < requestSource.Length; i++)
-                {
-                    // prevent current thread
-                    response = await Instances.HttpService.GetStringAsync(new Uri(requestSource[i] + url)).ConfigureAwait(false);
-                    if (!string.IsNullOrEmpty(response))
-                    {
-                        break;
-                    }
-                }
-            }
-            while (string.IsNullOrEmpty(response) && retryTimes-- > 0);
-            return response;
-        }
-#pragma warning restore IDE0051 // 删除未使用的私有成员
-
         /// <summary>
         /// 获取 GitHub Assets 对象对应的文件
         /// </summary>
@@ -729,9 +747,9 @@ namespace MaaWpfGui.ViewModels.UI
             try
             {
                 return await Instances.HttpService.DownloadFileAsync(
-                    new Uri(url),
-                    assetsObject["name"].ToString(),
-                    assetsObject["content_type"]?.ToString())
+                        new Uri(url),
+                        assetsObject["name"].ToString(),
+                        assetsObject["content_type"]?.ToString())
                     .ConfigureAwait(false);
             }
             catch (Exception)

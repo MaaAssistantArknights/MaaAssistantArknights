@@ -157,6 +157,7 @@ namespace asst
         void* m_callback_arg = nullptr;
 
         std::atomic_bool m_thread_idle = true;
+        std::atomic_bool m_running = false;
         mutable std::mutex m_mutex;
         std::condition_variable m_condvar;
 

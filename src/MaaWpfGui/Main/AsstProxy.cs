@@ -16,17 +16,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
 using System.Text;
-using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using HandyControl.Data;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
+using MaaWpfGui.States;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
@@ -49,6 +47,8 @@ namespace MaaWpfGui.Main
     /// </summary>
     public class AsstProxy
     {
+        private readonly RunningState runningState;
+
         private delegate void CallbackDelegate(int msg, IntPtr json_buffer, IntPtr custom_arg);
 
         private delegate void ProcCallbackMsg(AsstMsg msg, JObject details);
@@ -140,6 +140,9 @@ namespace MaaWpfGui.Main
         private static extern bool AsstStart(AsstHandle handle);
 
         [DllImport("MaaCore.dll")]
+        private static extern bool AsstRunning(AsstHandle handle);
+
+        [DllImport("MaaCore.dll")]
         private static extern bool AsstStop(AsstHandle handle);
 
         [DllImport("MaaCore.dll")]
@@ -206,6 +209,7 @@ namespace MaaWpfGui.Main
         public AsstProxy()
         {
             _callback = CallbackFunction;
+            runningState = RunningState.Instance;
         }
 
         /// <summary>
@@ -281,7 +285,7 @@ namespace MaaWpfGui.Main
             }
 
             Instances.TaskQueueViewModel.SetInited();
-            Instances.TaskQueueViewModel.Idle = true;
+            runningState.SetIdle(true);
             this.AsstSetInstanceOption(InstanceOptionKey.TouchMode, Instances.SettingsViewModel.TouchMode);
             this.AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, Instances.SettingsViewModel.DeploymentWithPause ? "1" : "0");
             this.AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, Instances.SettingsViewModel.AdbLiteEnabled ? "1" : "0");
@@ -290,7 +294,7 @@ namespace MaaWpfGui.Main
                 if (Instances.SettingsViewModel.RunDirectly)
                 {
                     // 如果是直接运行模式，就先让按钮显示为运行
-                    Instances.TaskQueueViewModel.Idle = false;
+                    runningState.SetIdle(false);
                 }
 
                 await Task.Run(() => Instances.SettingsViewModel.TryToStartEmulator());
@@ -305,7 +309,7 @@ namespace MaaWpfGui.Main
                 if (Instances.SettingsViewModel.RunDirectly)
                 {
                     // 重置按钮状态，不影响LinkStart判断
-                    Instances.TaskQueueViewModel.Idle = true;
+                    runningState.SetIdle(true);
                     Instances.TaskQueueViewModel.LinkStart();
                 }
             });
@@ -395,6 +399,13 @@ namespace MaaWpfGui.Main
         }
 
         private bool connected = false;
+
+        public bool Connected
+        {
+            get => connected;
+            set => connected = value;
+        }
+
         private string connectedAdb;
         private string connectedAddress;
 
@@ -431,7 +442,7 @@ namespace MaaWpfGui.Main
                 case "Disconnect":
                     connected = false;
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ReconnectFailed"), UiLogColor.Error);
-                    if (Instances.TaskQueueViewModel.Idle)
+                    if (runningState.GetIdle())
                     {
                         break;
                     }
@@ -490,7 +501,7 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.SetStopped();
                     if (isCoplitTaskChain)
                     {
-                        Instances.CopilotViewModel.Idle = true;
+                        runningState.SetIdle(true);
                     }
 
                     break;
@@ -502,7 +513,7 @@ namespace MaaWpfGui.Main
                         toast.Show();
                         if (isCoplitTaskChain)
                         {
-                            Instances.CopilotViewModel.Idle = true;
+                            runningState.SetIdle(true);
                             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
                         }
 
@@ -544,7 +555,7 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + taskChain);
                     if (isCoplitTaskChain)
                     {
-                        Instances.CopilotViewModel.Idle = true;
+                        runningState.SetIdle(true);
                         Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CompleteCombat"), UiLogColor.Info);
                     }
 
@@ -578,9 +589,8 @@ namespace MaaWpfGui.Main
 
                     _latestTaskId.Clear();
 
-                    Instances.TaskQueueViewModel.Idle = true;
-                    Instances.TaskQueueViewModel.UseStone = false;
-                    Instances.CopilotViewModel.Idle = true;
+                    Instances.TaskQueueViewModel.ResetFightVariables();
+                    runningState.SetIdle(true);
                     Instances.RecognizerViewModel.GachaDone = true;
 
                     if (isMainTaskQueueAllCompleted)
@@ -797,11 +807,10 @@ namespace MaaWpfGui.Main
             }
         }
 
-#pragma warning disable IDE0060 // 删除未使用的参数
-
         private void ProcSubTaskCompleted(JObject details)
-#pragma warning restore IDE0060 // 删除未使用的参数
         {
+            // DoNothing
+            _ = details;
         }
 
         private void ProcSubTaskExtraInfo(JObject details)
@@ -1151,7 +1160,7 @@ namespace MaaWpfGui.Main
             {
                 foreach (var address in Instances.SettingsViewModel.DefaultAddress[Instances.SettingsViewModel.ConnectConfig])
                 {
-                    if (Instances.SettingsViewModel.Idle)
+                    if (runningState.GetIdle())
                     {
                         break;
                     }
@@ -1329,16 +1338,21 @@ namespace MaaWpfGui.Main
             return id != 0;
         }
 
+        public bool AsstAppendCloseDown()
+        {
+            AsstStop();
+            AsstTaskId id = AsstAppendTaskWithEncoding("CloseDown");
+            _latestTaskId[TaskType.CloseDown] = id;
+            return id != 0;
+        }
+
         /// <summary>
         /// <c>CloseDown</c> 任务。
         /// </summary>
         /// <returns>是否成功。</returns>
         public bool AsstStartCloseDown()
         {
-            AsstStop();
-            AsstTaskId id = AsstAppendTaskWithEncoding("CloseDown");
-            _latestTaskId[TaskType.CloseDown] = id;
-            return id != 0 && AsstStart();
+            return AsstAppendCloseDown() && AsstStart();
         }
 
         /// <summary>
@@ -1528,7 +1542,7 @@ namespace MaaWpfGui.Main
         /// <param name="core_char"><paramref name="core_char"/> TODO.</param>
         /// <param name="use_support">是否core_char使用好友助战</param>
         /// <param name="enable_nonfriend_support">是否允许使用非好友助战</param>
-        /// <param name="theme">肉鸽名字。["Phantom", "Mizuki"]</param>
+        /// <param name="theme">肉鸽名字。["Phantom", "Mizuki", "Sami"]</param>
         /// <param name="refresh_trader_with_dice">是否用骰子刷新商店购买特殊商品，目前支持水月肉鸽的指路鳞</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRoguelike(int mode, int starts, bool investment_enabled, int invests, bool stop_when_full,
@@ -1696,6 +1710,15 @@ namespace MaaWpfGui.Main
         public bool AsstStart()
         {
             return AsstStart(_handle);
+        }
+
+        /// <summary>
+        /// 运行中。
+        /// </summary>
+        /// <returns>是否正在运行。</returns>
+        public bool AsstRunning()
+        {
+            return AsstRunning(_handle);
         }
 
         /// <summary>

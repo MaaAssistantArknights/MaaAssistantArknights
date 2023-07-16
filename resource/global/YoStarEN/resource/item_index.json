@@ -1327,6 +1327,14 @@
         "sortId": -10000,
         "usage": "Permits issued by the Dipartimento di Sicurezza Alimentare to the famiglie. These grant famiglia members entry to the Dipartimento di Sicurezza Alimentare and the right to obtain goods, whether said goods fall under 'alimentare' notwithstanding."
     },
+    "act22side_token_manuscript": {
+        "classifyType": "NONE",
+        "description": "Few who know these folksongs are able to put them in writing, while those who pen Taran history wouldn't go out of their way to listen. But there'll always be people devoted to compiling the scattered culture of Tara, say the merchants, and it's a business that's gone on for several centuries.",
+        "icon": "act22side_token_manuscript.png",
+        "name": "Manuscripts of Ballads",
+        "sortId": -10000,
+        "usage": "Pages filled with Taran folksongs and legends, copied down as heard. Collect enough, and you'll be able to trade them with the River Valley Caravan for goods."
+    },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
         "description": "Whether it's providing mission feedback, collecting spoils, analyzing materials, facilitating communications, or streamlining operations, Rhodes Island's efficient intelligence system continues to collect complex data from a vast array of actions and operations in order to provide the best course of action. For those unfamiliar to the mechanisms of this black box, just looking at the results will suffice.",
@@ -1581,6 +1589,14 @@
         "icon": "randomMaterialRune_10.png",
         "name": "Operation Ashring Supplies",
         "sortId": 60021,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterialRune_11": {
+        "classifyType": "CONSUME",
+        "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
+        "icon": "randomMaterialRune_11.png",
+        "name": "Operation Fake Waves Supplies",
+        "sortId": 60022,
         "usage": "Filled with an assortment of supplies and materials."
     },
     "randomMaterialRune_2": {

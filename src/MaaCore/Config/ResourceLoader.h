@@ -23,6 +23,8 @@ namespace asst
     public:
         ResourceLoader();
 
+        void cancel();
+
     private:
         void load_thread_func();
 

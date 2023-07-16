@@ -20,6 +20,7 @@ namespace MaaWpfGui.Constants
     {
         public const string CurrentConfiguration = "Current";
         public const string DefaultConfiguration = "Default";
+        public const string GlobalConfiguration = "Global";
         public const string ConfigurationMap = "Configurations";
         public const string ConfigurationData = "Data";
         public const string ConfigurationCron = "Cron";
@@ -137,6 +138,7 @@ namespace MaaWpfGui.Constants
         public const string UpdatAutoCheck = "VersionUpdate.ScheduledUpdateCheck";
         public const string UseAria2 = "VersionUpdate.UseAria2";
         public const string AutoDownloadUpdatePackage = "VersionUpdate.AutoDownloadUpdatePackage";
+        public const string AutoInstallUpdatePackage = "VersionUpdate.AutoInstallUpdatePackage";
 
         public const string PenguinId = "Penguin.Id";
         public const string IsDrGrandet = "Penguin.IsDrGrandet";
@@ -153,6 +155,7 @@ namespace MaaWpfGui.Constants
         public const string UseMedicine = "MainFunction.UseMedicine";
         public const string UseMedicineQuantity = "MainFunction.UseMedicine.Quantity";
         public const string UseStoneQuantity = "MainFunction.UseStone.Quantity";
+        public const string TimesLimited = "MainFunction.TimesLimited";
         public const string TimesLimitedQuantity = "MainFunction.TimesLimited.Quantity";
         public const string DropsEnable = "MainFunction.Drops.Enable";
         public const string DropsItemId = "MainFunction.Drops.ItemId";
@@ -171,5 +174,8 @@ namespace MaaWpfGui.Constants
         public const string GachaShowDisclaimerNoMore = "Gacha.ShowDisclaimerNoMore";
 
         public const string GuideStepIndex = "Guide.StepIndex";
+
+        public const string ForceScheduledStart = "Timer.ForceScheduledStart";
+        public const string CustomConfig = "Timer.CustomConfig";
     }
 }

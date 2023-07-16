@@ -8,6 +8,14 @@
         ],
         "template": "Task.png"
     },
+    "BattleQuickFormationExpandRole": {
+        "roi": [
+            1166,
+            0,
+            114,
+            120
+        ]
+    },
     "BattleStageName": {
         "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
         "ocrReplace": [
@@ -757,6 +765,10 @@
                 "幽灵鲨"
             ],
             [
+                ".*arl the Radiant Knight",
+                "Nearl the Radiant Knight"
+            ],
+            [
                 "Nearl the Radiant Knight",
                 "耀骑士临光"
             ],
@@ -923,6 +935,10 @@
             [
                 "Sora",
                 "空"
+            ],
+            [
+                "S.*a.*i the C.*r.*pt.*ng.*",
+                "Skadi the Corrupting Heart"
             ],
             [
                 "Skadi the Corrup.*ing.*",
@@ -1181,12 +1197,20 @@
                 "夜刀"
             ],
             [
+                ".*stice Knight'",
+                "正义骑士号"
+            ],
+            [
                 "'Justice Knight'",
                 "正义骑士号"
             ],
             [
                 "Fartooth",
                 "远牙"
+            ],
+            [
+                ".*en the Holungday",
+                "假日威龙陈"
             ],
             [
                 "Ch'en the Holungday",
@@ -1459,6 +1483,10 @@
             [
                 "^Dusk$",
                 "夕"
+            ],
+            [
+                ".*va the Purgatory",
+                "炎狱炎熔"
             ],
             [
                 "Lava the Purgatory",
@@ -1737,6 +1765,10 @@
                 "高能源石炸弹"
             ],
             [
+                ".*oos the Keen Glint",
+                "Kroos the Keen Glint"
+            ],
+            [
                 "Kroos the Keen Glint",
                 "寒芒克洛丝"
             ],
@@ -1799,6 +1831,10 @@
             [
                 "Heidi",
                 "海蒂"
+            ],
+            [
+                ".*ne-Colored Deer",
+                "Nine-Colored Deer"
             ],
             [
                 "Nine-Colored Deer",
@@ -2029,6 +2065,10 @@
                 "可靠电池"
             ],
             [
+                ".*cter the Unchained",
+                "归溟幽灵鲨"
+            ],
+            [
                 "Specter the Unchained",
                 "归溟幽灵鲨"
             ],
@@ -2055,6 +2095,10 @@
             [
                 "Czerny",
                 "车尔尼"
+            ],
+            [
+                ".*cus the Purifier",
+                "濯尘芙蓉"
             ],
             [
                 "Hibiscus the Purifier",
@@ -2121,6 +2165,10 @@
                 "鸿雪"
             ],
             [
+                ".*vial the Invincible",
+                "Gavial the Invincible"
+            ],
+            [
                 "Gavial the Invincible",
                 "百炼嘉维尔"
             ],
@@ -2170,6 +2218,10 @@
             ],
             [
                 ".*Lightni.*bearer",
+                "Greyy the Lightningbearer"
+            ],
+            [
+                "Lightni.*the.*",
                 "Greyy the Lightningbearer"
             ],
             [
@@ -2301,6 +2353,10 @@
                 "狼群"
             ],
             [
+                ".*xas the Omertosa",
+                "Texas the Omertosa"
+            ],
+            [
                 "Texas the Omertosa",
                 "缄默德克萨斯"
             ],
@@ -2327,6 +2383,82 @@
             [
                 "8-Sided Dice",
                 "8面骰子"
+            ],
+            [
+                "Reed the Flame Shadow",
+                "焰影苇草"
+            ],
+            [
+                "Block Wavelength",
+                "阻断波长"
+            ],
+            [
+                "Harmonie",
+                "和弦"
+            ],
+            [
+                "Modified Phytohormone",
+                "改性植物激素"
+            ],
+            [
+                "Puzzle",
+                "谜图"
+            ],
+            [
+                "Ægirian Oscilloscope",
+                "阿戈尔示波器"
+            ],
+            [
+                "Heavy Insulated Concrete",
+                "超重绝缘水泥"
+            ],
+            [
+                "Adaptive Supply Component",
+                "自适应补给元件"
+            ],
+            [
+                "Mire Control",
+                "沼泽控制"
+            ],
+            [
+                "Ægirian Oscilloscope",
+                "阿戈尔示波器"
+            ],
+            [
+                "Ægirian Oscilloscope",
+                "阿戈尔示波器"
+            ],
+            [
+                "Adaptive Supply Component",
+                "自适应补给元件"
+            ],
+            [
+                "Adaptive Supply Component",
+                "自适应补给元件"
+            ],
+            [
+                "Coating Device Conduction Valve",
+                "镀膜装置导能阀"
+            ],
+            [
+                "Redeployment Conduction Component",
+                "重整导能组件"
+            ],
+            [
+                "Coating Device Conduction Valve",
+                "镀膜装置导能阀"
+            ],
+            [
+                "Eunectes' Beacon",
+                "丛林用示踪信标"
+            ],
+            [
+                "Jam Wavelength",
+                "干扰波长"
+            ],
+            [
+                "Shoddy Flashbang",
+                "劣质闪光弹"
             ]
         ]
     },
@@ -2357,6 +2489,16 @@
     "CreditStoreOcr": {
         "text": [
             "Credit Store"
+        ]
+    },
+    "EnterChapterDifficultyHard": {
+        "text": [
+            "Start Operation"
+        ]
+    },
+    "EnterChapterDifficultyNormal": {
+        "text": [
+            "Start Operation"
         ]
     },
     "ExpiringMedicineCheck": {
@@ -4524,6 +4666,9 @@
     },
     "UsePrts": {
         "templThreshold": 0.7
+    },
+    "VisitNextBlack": {
+        "templThreshold": 0.85
     },
     "VisitLimited": {
         "text": [

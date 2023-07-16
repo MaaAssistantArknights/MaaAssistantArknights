@@ -981,6 +981,17 @@
             ],
             "rarity": 4
         },
+        "char_2012_typhon": {
+            "name": "提丰",
+            "position": "RANGED",
+            "profession": "SNIPER",
+            "rangeId": [
+                "4-4",
+                "4-3",
+                "4-3"
+            ],
+            "rarity": 6
+        },
         "char_2013_cerber": {
             "name": "刻俄柏",
             "position": "RANGED",
@@ -1889,6 +1900,17 @@
             ],
             "rarity": 6
         },
+        "char_341_sntlla": {
+            "name": "寒檀",
+            "position": "RANGED",
+            "profession": "CASTER",
+            "rangeId": [
+                "2-3",
+                "3-6",
+                "3-6"
+            ],
+            "rarity": 5
+        },
         "char_343_tknogi": {
             "name": "月禾",
             "position": "RANGED",
@@ -2706,6 +2728,17 @@
                 "0-1"
             ],
             "rarity": 1
+        },
+        "char_4102_threye": {
+            "name": "凛视",
+            "position": "RANGED",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "y-2",
+                "y-2",
+                "y-2"
+            ],
+            "rarity": 5
         },
         "char_411_tomimi": {
             "name": "特米米",
@@ -4886,6 +4919,61 @@
         },
         "trap_105_mhwrct": {
             "name": "滞空牵引无人机",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_106_smtree": {
+            "name": "积雪银凇 ",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_107_smpow": {
+            "name": "空间稳定设施",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-2",
+                "x-2",
+                "x-2"
+            ],
+            "rarity": 1
+        },
+        "trap_108_smbox": {
+            "name": "宝箱",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_109_smrbox": {
+            "name": "尖刺宝箱",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_110_smbbox": {
+            "name": "巨壳藤蔓",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [

@@ -22,6 +22,7 @@ using System.Windows;
 using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.States;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -35,6 +36,8 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class CopilotViewModel : Screen
     {
+        private readonly RunningState runningState;
+
         /// <summary>
         /// Gets or sets the view models of log items.
         /// </summary>
@@ -48,6 +51,13 @@ namespace MaaWpfGui.ViewModels.UI
             DisplayName = LocalizationHelper.GetString("Copilot");
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
             AddLog(LocalizationHelper.GetString("CopilotTip"));
+            runningState = RunningState.Instance;
+            runningState.IdleChanged += RunningState_IdleChanged;
+        }
+
+        private void RunningState_IdleChanged(object sender, bool e)
+        {
+            Idle = e;
         }
 
         protected override void OnInitialActivate()
@@ -76,11 +86,7 @@ namespace MaaWpfGui.ViewModels.UI
         public bool Idle
         {
             get => _idle;
-            set
-            {
-                _idle = value;
-                NotifyOfPropertyChange(() => Idle);
-            }
+            set => SetAndNotify(ref _idle, value);
         }
 
         private bool _startEnabled = true;
@@ -91,11 +97,7 @@ namespace MaaWpfGui.ViewModels.UI
         public bool StartEnabled
         {
             get => _startEnabled;
-            set
-            {
-                _startEnabled = value;
-                NotifyOfPropertyChange(() => StartEnabled);
-            }
+            set => SetAndNotify(ref _startEnabled, value);
         }
 
         /// <summary>
@@ -374,6 +376,21 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        /// <summary>
+        /// Paste clipboard contents.
+        /// </summary>
+        public void PasteClipboard()
+        {
+            if (Clipboard.ContainsText())
+            {
+                Filename = Clipboard.GetText();
+            }
+            else if (Clipboard.ContainsFileDropList())
+            {
+                DropFile(Clipboard.GetFileDropList()[0]);
+            }
+        }
+
         private static readonly string[] SupportExt = { ".json", ".mp4", ".m4s", ".mkv", ".flv", ".avi" };
 
         /// <summary>
@@ -383,13 +400,16 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="e">The event arguments.</param>
         public void DropFile(object sender, DragEventArgs e)
         {
-            if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                return;
+                var filename = ((Array)e.Data.GetData(DataFormats.FileDrop))?.GetValue(0).ToString();
+                DropFile(filename);
             }
+        }
 
-            var filename = ((Array)e.Data.GetData(DataFormats.FileDrop))?.GetValue(0).ToString();
-            if (filename == null)
+        private void DropFile(string filename)
+        {
+            if (string.IsNullOrEmpty(filename))
             {
                 return;
             }
@@ -414,6 +434,28 @@ namespace MaaWpfGui.ViewModels.UI
                 Filename = string.Empty;
                 ClearLog();
                 AddLog(LocalizationHelper.GetString("NotCopilotJson"), UiLogColor.Error);
+            }
+        }
+
+        /// <summary>
+        /// On comboBox drop down opened.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The event arguments.</param>
+        public void OnDropDownOpened(object sender, EventArgs e)
+        {
+            var comboBox = sender as System.Windows.Controls.ComboBox;
+            if (comboBox != null)
+            {
+                try
+                {
+                    comboBox.ItemsSource = Directory.GetFiles(@".\resource\copilot\", "*.json");
+                }
+                catch (Exception exception)
+                {
+                    comboBox.ItemsSource = null;
+                    AddLog(exception.Message, UiLogColor.Error);
+                }
             }
         }
 
@@ -454,7 +496,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 AddLog(Localization.GetString("AutoSquadTip"), LogColor.Message);
             }*/
-            Idle = false;
+            runningState.SetIdle(false);
 
             if (_isVideoTask)
             {
@@ -463,6 +505,10 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
+            if (!Instances.SettingsViewModel.AdbReplaced && !Instances.SettingsViewModel.IsAdbTouchMode())
+            {
+                AddLog(LocalizationHelper.GetString("AdbReplacementTips"), UiLogColor.Info);
+            }
 
             string errMsg = string.Empty;
             _caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
@@ -482,14 +528,10 @@ namespace MaaWpfGui.ViewModels.UI
             if (ret)
             {
                 AddLog(LocalizationHelper.GetString("Running"));
-                if (!Instances.SettingsViewModel.AdbReplaced && !Instances.SettingsViewModel.IsAdbTouchMode())
-                {
-                    AddLog(LocalizationHelper.GetString("AdbReplacementTips"), UiLogColor.Info);
-                }
             }
             else
             {
-                Idle = true;
+                runningState.SetIdle(true);
                 AddLog(LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error);
             }
         }
@@ -505,7 +547,7 @@ namespace MaaWpfGui.ViewModels.UI
         public void Stop()
         {
             Instances.AsstProxy.AsstStop();
-            Idle = true;
+            runningState.SetIdle(true);
         }
 
         private bool _isVideoTask = false;
@@ -571,13 +613,15 @@ namespace MaaWpfGui.ViewModels.UI
 
             CouldLikeWebJson = false;
 
+            // PostAsJsonAsync 会自动序列化为 json
+            /*
             string jsonParam = JsonConvert.SerializeObject(new
             {
                 id = CopilotId,
                 rating,
             });
-
-            var response = await Instances.HttpService.PostAsJsonAsync(new Uri(_copilotRatingUrl), jsonParam);
+            */
+            var response = await Instances.HttpService.PostAsJsonAsync(new Uri(_copilotRatingUrl), new { id = CopilotId, rating });
             if (response == null)
             {
                 AddLog(LocalizationHelper.GetString("FailedToLikeWebJson"), UiLogColor.Error);

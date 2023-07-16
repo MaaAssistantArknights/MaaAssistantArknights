@@ -1,4 +1,4 @@
-import {defaultTheme} from '@vuepress/theme-default';
+import { defaultTheme } from '@vuepress/theme-default';
 
 export default defaultTheme({
   repo: 'MaaAssistantArknights/MaaAssistantArknights',
@@ -6,7 +6,10 @@ export default defaultTheme({
   docsBranch: 'dev',
   docsDir: 'docs',
   editLinkPattern: ':repo/edit/:branch/:path',
-  // navbar: [{ text: "必读", link: "/guide.html" }],
+  navbar: [
+    // { text: "必读", link: "/guide.html" },
+    { text: "MAA 官网", link: "/", target: "_blank" }
+  ],
   locales: {
     '/': {
       selectLanguageName: '简体中文',

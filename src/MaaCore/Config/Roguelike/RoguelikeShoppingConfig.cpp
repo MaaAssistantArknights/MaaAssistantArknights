@@ -10,7 +10,7 @@ bool asst::RoguelikeShoppingConfig::parse(const json::value& json)
 
     clear();
 
-    for (const auto& theme_view : { RoguelikePhantomThemeName, RoguelikeMizukiThemeName }) {
+    for (const auto& theme_view : { RoguelikePhantomThemeName, RoguelikeMizukiThemeName, RoguelikeSamiThemeName }) {
         const std::string theme(theme_view);
         const auto& theme_json = json.at(theme);
         for (const auto& goods_json : theme_json.as_array()) {

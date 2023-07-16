@@ -48,6 +48,13 @@
                     Content="{DynamicResource UpdateAutoDownload}"
                     IsChecked="{Binding AutoDownloadUpdatePackage}"
                     IsEnabled="{Binding UpdateCheck}" />
+                <CheckBox
+                    Margin="10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Content="{DynamicResource AutoInstallUpdatePackage}"
+                    IsChecked="{Binding AutoInstallUpdatePackage}"
+                    IsEnabled="{Binding UpdateCheck}" />
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                     <controls:TextBlock
                         Margin="10,10,0,10"

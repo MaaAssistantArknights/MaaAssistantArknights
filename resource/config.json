@@ -49,6 +49,10 @@
             "Doc": "仓库识别导出结果模板",
             "arkPlanner": "{\"@type\": \"@penguin-statistics/depot\",\"items\": []}",
             "arkPlanner_Doc": "https://penguin-stats.cn/planner"
+        },
+        "debug": {
+            "cleanFilesFreq": 100,
+            "maxDebugFileNum": 1000
         }
     },
     "intent": {

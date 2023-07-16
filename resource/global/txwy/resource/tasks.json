@@ -314,7 +314,8 @@
         "text": [
             "開始行動",
             "開始突襲",
-            "開始試煉"
+            "開始試煉",
+            "開始試束"
         ]
     },
     "CharsNameOcrReplace": {
@@ -394,6 +395,10 @@
             ],
             [
                 "紅雲",
+                "红云"
+            ],
+            [
+                "紅雪",
                 "红云"
             ],
             [
@@ -1207,6 +1212,42 @@
             [
                 "羅小黑",
                 "罗小黑"
+            ],
+            [
+                "百煉嘉維爾",
+                "百炼嘉维尔"
+            ],
+            [
+                "至簡",
+                "至简"
+            ],
+            [
+                "鴻雪",
+                "鸿雪"
+            ],
+            [
+                "曉歌",
+                "晓歌"
+            ],
+            [
+                "“打字機”",
+                "“打字机”"
+            ],
+            [
+                "自走車出發點",
+                "自走车出发点"
+            ],
+            [
+                "自走車單行道",
+                "自走车单行道"
+            ],
+            [
+                "實體程式",
+                "实体程式"
+            ],
+            [
+                "實體程式控制",
+                "实体程式控制"
             ]
         ]
     },
@@ -1291,6 +1332,42 @@
     "GoLastBattle": {
         "text": [
             "前往上一次作戰"
+        ]
+    },
+    "IC-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "text": [
+            "理想城",
+            "活動",
+            "開放"
+        ]
+    },
+    "ICChapterToIC": {
+        "action": "ClickSelf",
+        "cache": false,
+        "next": [
+            "ICChapterToIC",
+            "ChapterSwipeToTheRight"
+        ],
+        "postDelay": 2000,
+        "roi": [
+            1030,
+            400,
+            219,
+            130
+        ]
+    },
+    "InfrastDormConfirmButtonWait": {
+        "text": [
+            "正在提交",
+            "反饋至神經"
         ]
     },
     "InfrastEnterOperList": {
@@ -1539,6 +1616,16 @@
             "進入主題"
         ]
     },
+    "Roguelike@RecruitSupportConfirm": {
+        "text": [
+            "招募助戰"
+        ]
+    },
+    "RoguelikeChooseSupportBtnOcr": {
+        "text": [
+            "選擇助戰"
+        ]
+    },
     "RoguelikeCustom-HijackCoChar": {
         "ocrReplace": [
             [
@@ -1650,6 +1737,11 @@
             -1,
             18,
             12
+        ]
+    },
+    "RoguelikeRefreshSupportBtnOcr": {
+        "text": [
+            "更新助戰列表"
         ]
     },
     "RoguelikeTraderShoppingOcr": {

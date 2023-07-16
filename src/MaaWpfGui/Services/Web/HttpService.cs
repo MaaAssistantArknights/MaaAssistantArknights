@@ -13,6 +13,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -48,7 +49,6 @@ namespace MaaWpfGui.Services.Web
         private readonly ILogger _logger = Log.ForContext<HttpService>();
 
         private HttpClient _client;
-        private HttpClient _downloader;
 
         public HttpService()
         {
@@ -64,12 +64,44 @@ namespace MaaWpfGui.Services.Web
                     return;
                 }
 
-                BuildDefaultHttpClient();
-                BuildDownloaderHttpClient();
+                if (GetProxy() == null)
+                {
+                    _logger.Warning("Proxy is not a valid URI, and HttpClient is not null, keep using the original HttpClient");
+                    return;
+                }
+
+                _client = BuildHttpClient();
             };
 
-            BuildDefaultHttpClient();
-            BuildDownloaderHttpClient();
+            _client = BuildHttpClient();
+        }
+
+        public async Task<double> HeadAsync(Uri uri, Dictionary<string, string> extraHeader = null)
+        {
+            try
+            {
+                var request = new HttpRequestMessage { RequestUri = uri, Method = HttpMethod.Head, };
+
+                if (extraHeader != null)
+                {
+                    foreach (var kvp in extraHeader)
+                    {
+                        request.Headers.Add(kvp.Key, kvp.Value);
+                    }
+                }
+
+                var stopwatch = Stopwatch.StartNew();
+                var response = await _client.SendAsync(request).ConfigureAwait(false);
+                stopwatch.Stop();
+                response.Log();
+
+                return response.IsSuccessStatusCode is false ? -1.0 : stopwatch.Elapsed.TotalMilliseconds;
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Failed to send GET request to {Uri}", uri);
+                return -1.0;
+            }
         }
 
         public async Task<string> GetStringAsync(Uri uri, Dictionary<string, string> extraHeader = null)
@@ -96,15 +128,11 @@ namespace MaaWpfGui.Services.Web
             return null;
         }
 
-        public async Task<HttpResponseMessage> GetAsync(Uri uri, Dictionary<string, string> extraHeader = null)
+        public async Task<HttpResponseMessage> GetAsync(Uri uri, Dictionary<string, string> extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseContentRead)
         {
             try
             {
-                var request = new HttpRequestMessage
-                {
-                    RequestUri = uri,
-                    Method = HttpMethod.Get,
-                };
+                var request = new HttpRequestMessage { RequestUri = uri, Method = HttpMethod.Get, };
 
                 if (extraHeader != null)
                 {
@@ -114,7 +142,7 @@ namespace MaaWpfGui.Services.Web
                     }
                 }
 
-                var response = await _client.SendAsync(request);
+                var response = await _client.SendAsync(request, httpCompletionOption);
                 response.Log();
 
                 return response.IsSuccessStatusCode is false ? null : response;
@@ -145,7 +173,7 @@ namespace MaaWpfGui.Services.Web
             }
         }
 
-        public async Task<bool> DownloadFileAsync(Uri uri, string fileName, string contentType = null)
+        public async Task<bool> DownloadFileAsync(Uri uri, string fileName, string contentType = "application/octet-stream")
         {
             string fileDir = Directory.GetCurrentDirectory();
             string fileNameWithTemp = fileName + ".temp";
@@ -153,7 +181,7 @@ namespace MaaWpfGui.Services.Web
             string fullFilePathWithTemp = Path.Combine(fileDir, fileNameWithTemp);
             _logger.Information("Start to download file from {Uri} and save to {TempPath}", uri, fullFilePathWithTemp);
 
-            var response = await GetAsync(uri, extraHeader: new Dictionary<string, string> { { "Accept", contentType } });
+            var response = await GetAsync(uri, extraHeader: new Dictionary<string, string> { { "Accept", contentType } }, httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
 
             if (response is null)
             {
@@ -217,60 +245,29 @@ namespace MaaWpfGui.Services.Web
             return success;
         }
 
-        private void BuildDefaultHttpClient()
+        private static WebProxy GetProxy()
         {
             var proxyIsUri = Uri.TryCreate(Proxy, UriKind.RelativeOrAbsolute, out var uri);
-            proxyIsUri = proxyIsUri && (!string.IsNullOrEmpty(Proxy));
-            if (proxyIsUri is false)
-            {
-                if (!(_client is null))
-                {
-                    _logger.Information("Proxy is not a valid URI, and Default HttpClient is not null, keep using the original HttpClient");
-                    return;
-                }
-            }
-
-            _logger.Information("Rebuild Default HttpClient with proxy {Proxy}", Proxy);
-            var handler = new HttpClientHandler { AllowAutoRedirect = true, };
-
-            if (proxyIsUri)
-            {
-                handler.Proxy = new WebProxy(uri);
-                handler.UseProxy = true;
-            }
-
-            _client?.Dispose();
-            _client = new HttpClient(handler);
-            _client.DefaultRequestHeaders.Add("User-Agent", UserAgent);
-            _client.Timeout = TimeSpan.FromSeconds(15);
+            return (proxyIsUri && (!string.IsNullOrEmpty(Proxy))) is false ? null : new WebProxy(uri);
         }
 
-        private void BuildDownloaderHttpClient()
+        private HttpClient BuildHttpClient()
         {
-            var proxyIsUri = Uri.TryCreate(Proxy, UriKind.RelativeOrAbsolute, out var uri);
-            proxyIsUri = proxyIsUri && (!string.IsNullOrEmpty(Proxy));
-            if (proxyIsUri is false)
-            {
-                if (!(_downloader is null))
-                {
-                    _logger.Information("Proxy is not a valid URI, and Downloader HttpClient is not null, keep using the original HttpClient");
-                    return;
-                }
-            }
-
-            _logger.Information("Rebuild Downloader HttpClient with proxy {Proxy}", Proxy);
             var handler = new HttpClientHandler { AllowAutoRedirect = true, };
 
-            if (proxyIsUri)
+            var proxy = GetProxy();
+            if (proxy != null)
             {
-                handler.Proxy = new WebProxy(uri);
+                _logger.Information("Rebuild HttpClient with proxy {Proxy}", Proxy);
+                handler.Proxy = proxy;
                 handler.UseProxy = true;
             }
 
-            _downloader?.Dispose();
-            _downloader = new HttpClient(handler);
-            _downloader.DefaultRequestHeaders.Add("User-Agent", UserAgent);
-            _downloader.Timeout = TimeSpan.FromMinutes(3);
+            HttpClient client = new HttpClient(handler);
+            client = new HttpClient(handler);
+            client.DefaultRequestHeaders.Add("User-Agent", UserAgent);
+            client.Timeout = TimeSpan.FromSeconds(15);
+            return client;
         }
     }
 }

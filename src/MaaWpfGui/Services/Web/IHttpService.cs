@@ -22,6 +22,14 @@ namespace MaaWpfGui.Services.Web
     public interface IHttpService
     {
         /// <summary>
+        /// Test url available and return legacy
+        /// </summary>
+        /// <param name="uri">Target Uri</param>
+        /// <param name="extraHeader">Extra HTTP Request Headers</param>
+        /// <returns>Legacy in ms, -1 when response code not equal 200</returns>
+        Task<double> HeadAsync(Uri uri, Dictionary<string, string> extraHeader = null);
+
+        /// <summary>
         /// Send HTTP GET request and get a string response
         /// </summary>
         /// <param name="uri">Target Uri</param>
@@ -42,8 +50,9 @@ namespace MaaWpfGui.Services.Web
         /// </summary>
         /// <param name="uri">Target Uri</param>
         /// <param name="extraHeader">Extra HTTP Request Headers</param>
+        /// <param name="httpCompletionOption">The HTTP completion option</param>
         /// <returns><see cref="HttpRequestMessage"/> object</returns>
-        Task<HttpResponseMessage> GetAsync(Uri uri, Dictionary<string, string> extraHeader = null);
+        Task<HttpResponseMessage> GetAsync(Uri uri, Dictionary<string, string> extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseContentRead);
 
         /// <summary>
         /// Send HTTP POST request and a string reponse

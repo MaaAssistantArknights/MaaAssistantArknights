@@ -117,5 +117,37 @@ namespace MaaWpfGui.Models
             // regular stage, always open
             return true;
         }
+
+        /// <summary>
+        /// Determine whether the stage is open or will open
+        /// </summary>
+        /// <returns>Whether stage is open</returns>
+        public bool IsStageOpenOrWillOpen()
+        {
+            if (Activity != null)
+            {
+                if (!Activity.IsExpired)
+                {
+                    return true;
+                }
+
+                // expired activity
+                if (!Activity.IsResourceCollection)
+                {
+                    return false;
+                }
+
+                // expired resource activity, check open days
+            }
+
+            // resource stage
+            if (OpenDays != null && OpenDays.Any())
+            {
+                return true;
+            }
+
+            // regular stage, always open
+            return true;
+        }
     }
 }

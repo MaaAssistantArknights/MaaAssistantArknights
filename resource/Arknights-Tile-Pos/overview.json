@@ -2825,6 +2825,168 @@
         "stageId": "act15d0_tr01",
         "width": 9
     },
+    "act15mini_01#f#-activities/act15mini/level_act15mini_01": {
+        "code": "FD-1",
+        "filename": "act15mini_01#f#-activities-act15mini-level_act15mini_01.json",
+        "height": 6,
+        "levelId": "activities/act15mini/level_act15mini_01",
+        "name": "繁荣滋长",
+        "stageId": "act15mini_01#f#",
+        "width": 9
+    },
+    "act15mini_01-activities/act15mini/level_act15mini_01": {
+        "code": "FD-1",
+        "filename": "act15mini_01-activities-act15mini-level_act15mini_01.json",
+        "height": 6,
+        "levelId": "activities/act15mini/level_act15mini_01",
+        "name": "繁荣滋长",
+        "stageId": "act15mini_01",
+        "width": 9
+    },
+    "act15mini_02#f#-activities/act15mini/level_act15mini_02": {
+        "code": "FD-2",
+        "filename": "act15mini_02#f#-activities-act15mini-level_act15mini_02.json",
+        "height": 8,
+        "levelId": "activities/act15mini/level_act15mini_02",
+        "name": "边境巡逻",
+        "stageId": "act15mini_02#f#",
+        "width": 11
+    },
+    "act15mini_02-activities/act15mini/level_act15mini_02": {
+        "code": "FD-2",
+        "filename": "act15mini_02-activities-act15mini-level_act15mini_02.json",
+        "height": 8,
+        "levelId": "activities/act15mini/level_act15mini_02",
+        "name": "边境巡逻",
+        "stageId": "act15mini_02",
+        "width": 11
+    },
+    "act15mini_03#f#-activities/act15mini/level_act15mini_03": {
+        "code": "FD-3",
+        "filename": "act15mini_03#f#-activities-act15mini-level_act15mini_03.json",
+        "height": 7,
+        "levelId": "activities/act15mini/level_act15mini_03",
+        "name": "无序礼炮",
+        "stageId": "act15mini_03#f#",
+        "width": 11
+    },
+    "act15mini_03-activities/act15mini/level_act15mini_03": {
+        "code": "FD-3",
+        "filename": "act15mini_03-activities-act15mini-level_act15mini_03.json",
+        "height": 7,
+        "levelId": "activities/act15mini/level_act15mini_03",
+        "name": "无序礼炮",
+        "stageId": "act15mini_03",
+        "width": 11
+    },
+    "act15mini_04#f#-activities/act15mini/level_act15mini_04": {
+        "code": "FD-4",
+        "filename": "act15mini_04#f#-activities-act15mini-level_act15mini_04.json",
+        "height": 7,
+        "levelId": "activities/act15mini/level_act15mini_04",
+        "name": "暗中摸索",
+        "stageId": "act15mini_04#f#",
+        "width": 10
+    },
+    "act15mini_04-activities/act15mini/level_act15mini_04": {
+        "code": "FD-4",
+        "filename": "act15mini_04-activities-act15mini-level_act15mini_04.json",
+        "height": 7,
+        "levelId": "activities/act15mini/level_act15mini_04",
+        "name": "暗中摸索",
+        "stageId": "act15mini_04",
+        "width": 10
+    },
+    "act15mini_05#f#-activities/act15mini/level_act15mini_05": {
+        "code": "FD-5",
+        "filename": "act15mini_05#f#-activities-act15mini-level_act15mini_05.json",
+        "height": 7,
+        "levelId": "activities/act15mini/level_act15mini_05",
+        "name": "冻结痛觉",
+        "stageId": "act15mini_05#f#",
+        "width": 11
+    },
+    "act15mini_05-activities/act15mini/level_act15mini_05": {
+        "code": "FD-5",
+        "filename": "act15mini_05-activities-act15mini-level_act15mini_05.json",
+        "height": 7,
+        "levelId": "activities/act15mini/level_act15mini_05",
+        "name": "冻结痛觉",
+        "stageId": "act15mini_05",
+        "width": 11
+    },
+    "act15mini_06#f#-activities/act15mini/level_act15mini_06": {
+        "code": "FD-6",
+        "filename": "act15mini_06#f#-activities-act15mini-level_act15mini_06.json",
+        "height": 8,
+        "levelId": "activities/act15mini/level_act15mini_06",
+        "name": "古老歌谣",
+        "stageId": "act15mini_06#f#",
+        "width": 12
+    },
+    "act15mini_06-activities/act15mini/level_act15mini_06": {
+        "code": "FD-6",
+        "filename": "act15mini_06-activities-act15mini-level_act15mini_06.json",
+        "height": 8,
+        "levelId": "activities/act15mini/level_act15mini_06",
+        "name": "古老歌谣",
+        "stageId": "act15mini_06",
+        "width": 12
+    },
+    "act15mini_07#f#-activities/act15mini/level_act15mini_07": {
+        "code": "FD-7",
+        "filename": "act15mini_07#f#-activities-act15mini-level_act15mini_07.json",
+        "height": 8,
+        "levelId": "activities/act15mini/level_act15mini_07",
+        "name": "背离法则",
+        "stageId": "act15mini_07#f#",
+        "width": 12
+    },
+    "act15mini_07-activities/act15mini/level_act15mini_07": {
+        "code": "FD-7",
+        "filename": "act15mini_07-activities-act15mini-level_act15mini_07.json",
+        "height": 8,
+        "levelId": "activities/act15mini/level_act15mini_07",
+        "name": "背离法则",
+        "stageId": "act15mini_07",
+        "width": 12
+    },
+    "act15mini_08#f#-activities/act15mini/level_act15mini_08": {
+        "code": "FD-8",
+        "filename": "act15mini_08#f#-activities-act15mini-level_act15mini_08.json",
+        "height": 8,
+        "levelId": "activities/act15mini/level_act15mini_08",
+        "name": "向光探寻",
+        "stageId": "act15mini_08#f#",
+        "width": 12
+    },
+    "act15mini_08-activities/act15mini/level_act15mini_08": {
+        "code": "FD-8",
+        "filename": "act15mini_08-activities-act15mini-level_act15mini_08.json",
+        "height": 8,
+        "levelId": "activities/act15mini/level_act15mini_08",
+        "name": "向光探寻",
+        "stageId": "act15mini_08",
+        "width": 12
+    },
+    "act15mini_s01-activities/act15mini/level_act15mini_sub-1-1": {
+        "code": "FD-S-1",
+        "filename": "act15mini_s01-activities-act15mini-level_act15mini_sub-1-1.json",
+        "height": 7,
+        "levelId": "activities/act15mini/level_act15mini_sub-1-1",
+        "name": "冻土疆界 ",
+        "stageId": "act15mini_s01",
+        "width": 11
+    },
+    "act15mini_s02-activities/act15mini/level_act15mini_sub-2-1": {
+        "code": "FD-S-2",
+        "filename": "act15mini_s02-activities-act15mini-level_act15mini_sub-2-1.json",
+        "height": 8,
+        "levelId": "activities/act15mini/level_act15mini_sub-2-1",
+        "name": "非自然知觉 ",
+        "stageId": "act15mini_s02",
+        "width": 12
+    },
     "act15side_01-activities/act15side/level_act15side_01": {
         "code": "IW-1",
         "filename": "act15side_01-activities-act15side-level_act15side_01.json",
@@ -7460,6 +7622,15 @@
         "stageId": "camp_r_16",
         "width": 13
     },
+    "camp_r_17-obt/campaign/level_camp_r_17": {
+        "code": "维多利亚",
+        "filename": "camp_r_17-obt-campaign-level_camp_r_17.json",
+        "height": 9,
+        "levelId": "obt/campaign/level_camp_r_17",
+        "name": "灰暗泥沼",
+        "stageId": "camp_r_17",
+        "width": 13
+    },
     "easy_09-01-obt/main/level_easy_09-01": {
         "code": "9-2",
         "filename": "easy_09-01-obt-main-level_easy_09-01.json",
@@ -11915,6 +12086,15 @@
         "stageId": "mem_aglina_1",
         "width": 12
     },
+    "mem_akafyu_1-obt/memory/level_memory_akafyu_1": {
+        "code": "mem_akafyu_1",
+        "filename": "mem_akafyu_1-obt-memory-level_memory_akafyu_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_akafyu_1",
+        "name": "抱剑独行",
+        "stageId": "mem_akafyu_1",
+        "width": 11
+    },
     "mem_amgoat_1-obt/memory/level_memory_amgoat_1": {
         "code": "mem_amgoat_1",
         "filename": "mem_amgoat_1-obt-memory-level_memory_amgoat_1.json",
@@ -12266,6 +12446,15 @@
         "stageId": "mem_dusk_1",
         "width": 11
     },
+    "mem_ebnhlz_1-obt/memory/level_memory_ebnhlz_1": {
+        "code": "mem_ebnhlz_1",
+        "filename": "mem_ebnhlz_1-obt-memory-level_memory_ebnhlz_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_ebnhlz_1",
+        "name": "辗转反侧",
+        "stageId": "mem_ebnhlz_1",
+        "width": 11
+    },
     "mem_elysm_1-obt/memory/level_memory_elysm_1": {
         "code": "mem_elysm_1",
         "filename": "mem_elysm_1-obt-memory-level_memory_elysm_1.json",
@@ -12337,6 +12526,15 @@
         "name": "愉快合作",
         "stageId": "mem_fang_1",
         "width": 12
+    },
+    "mem_firwhl_1-obt/memory/level_memory_firwhl_1": {
+        "code": "mem_firwhl_1",
+        "filename": "mem_firwhl_1-obt-memory-level_memory_firwhl_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_firwhl_1",
+        "name": "“热烈欢迎”",
+        "stageId": "mem_firwhl_1",
+        "width": 10
     },
     "mem_flint_1-obt/memory/level_memory_flint_1": {
         "code": "mem_flint_1",
@@ -12482,6 +12680,15 @@
         "stageId": "mem_haak_1",
         "width": 12
     },
+    "mem_hbisc2_1-obt/memory/level_memory_hbisc2_1": {
+        "code": "mem_hbisc2_1",
+        "filename": "mem_hbisc2_1-obt-memory-level_memory_hbisc2_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_hbisc2_1",
+        "name": "并蒂花",
+        "stageId": "mem_hbisc2_1",
+        "width": 11
+    },
     "mem_headbr_1-obt/memory/level_memory_headbr_1": {
         "code": "mem_headbr_1",
         "filename": "mem_headbr_1-obt-memory-level_memory_headbr_1.json",
@@ -12571,6 +12778,15 @@
         "name": "战战兢兢",
         "stageId": "mem_jesica_1",
         "width": 11
+    },
+    "mem_kafka_1-obt/memory/level_memory_kafka_1": {
+        "code": "mem_kafka_1",
+        "filename": "mem_kafka_1-obt-memory-level_memory_kafka_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_kafka_1",
+        "name": "步步紧逼",
+        "stageId": "mem_kafka_1",
+        "width": 12
     },
     "mem_kazema_1-obt/memory/level_memory_kazema_1": {
         "code": "mem_kazema_1",
@@ -12742,6 +12958,15 @@
         "name": "进化的佯谬",
         "stageId": "mem_mizuki_1",
         "width": 11
+    },
+    "mem_mlyss_1-obt/memory/level_memory_mlyss_1": {
+        "code": "mem_mlyss_1",
+        "filename": "mem_mlyss_1-obt-memory-level_memory_mlyss_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_mlyss_1",
+        "name": "“亲身经历”",
+        "stageId": "mem_mlyss_1",
+        "width": 10
     },
     "mem_mm_1-obt/memory/level_memory_mm_1": {
         "code": "mem_mm_1",
@@ -12931,6 +13156,33 @@
         "name": "别让自己冻僵",
         "stageId": "mem_prove_1",
         "width": 9
+    },
+    "mem_provs_1-obt/memory/level_memory_provs_1": {
+        "code": "mem_provs_1",
+        "filename": "mem_provs_1-obt-memory-level_memory_provs_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_provs_1",
+        "name": "“雄辩是金”",
+        "stageId": "mem_provs_1",
+        "width": 11
+    },
+    "mem_pudd_1-obt/memory/level_memory_pudd_1": {
+        "code": "mem_pudd_1",
+        "filename": "mem_pudd_1-obt-memory-level_memory_pudd_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_pudd_1",
+        "name": "电力充沛",
+        "stageId": "mem_pudd_1",
+        "width": 8
+    },
+    "mem_qanik_1-obt/memory/level_memory_qanik_1": {
+        "code": "mem_qanik_1",
+        "filename": "mem_qanik_1-obt-memory-level_memory_qanik_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_qanik_1",
+        "name": "风雪摇摇乐",
+        "stageId": "mem_qanik_1",
+        "width": 11
     },
     "mem_quartz_1-obt/memory/level_memory_quartz_1": {
         "code": "mem_quartz_1",
@@ -13264,6 +13516,15 @@
         "name": "伞下荫蔽",
         "stageId": "mem_tuye_1",
         "width": 9
+    },
+    "mem_utage_1-obt/memory/level_memory_utage_1": {
+        "code": "mem_utage_1",
+        "filename": "mem_utage_1-obt-memory-level_memory_utage_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_utage_1",
+        "name": "捍卫潮流",
+        "stageId": "mem_utage_1",
+        "width": 11
     },
     "mem_vigna_1-obt/memory/level_memory_vigna_1": {
         "code": "mem_vigna_1",
@@ -15117,6 +15378,744 @@
         "levelId": "obt/roguelike/ro2/level_rogue2_t-5",
         "name": "鸭本运作",
         "stageId": "ro2_t_5",
+        "width": 11
+    },
+    "ro3_b_1-obt/roguelike/ro3/level_rogue3_b-1": {
+        "code": "ISW-NO",
+        "filename": "ro3_b_1-obt-roguelike-ro3-level_rogue3_b-1.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_b-1",
+        "name": "利刃所指",
+        "stageId": "ro3_b_1",
+        "width": 11
+    },
+    "ro3_b_1_b-obt/roguelike/ro3/level_rogue3_b-1-b": {
+        "code": "ISW-NO",
+        "filename": "ro3_b_1_b-obt-roguelike-ro3-level_rogue3_b-1-b.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_b-1-b",
+        "name": "呼吸",
+        "stageId": "ro3_b_1_b",
+        "width": 11
+    },
+    "ro3_b_2-obt/roguelike/ro3/level_rogue3_b-2": {
+        "code": "ISW-NO",
+        "filename": "ro3_b_2-obt-roguelike-ro3-level_rogue3_b-2.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_b-2",
+        "name": "新部族",
+        "stageId": "ro3_b_2",
+        "width": 10
+    },
+    "ro3_b_2_b-obt/roguelike/ro3/level_rogue3_b-2-b": {
+        "code": "ISW-NO",
+        "filename": "ro3_b_2_b-obt-roguelike-ro3-level_rogue3_b-2-b.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_b-2-b",
+        "name": "夺树者",
+        "stageId": "ro3_b_2_b",
+        "width": 11
+    },
+    "ro3_b_3-obt/roguelike/ro3/level_rogue3_b-3": {
+        "code": "ISW-NO",
+        "filename": "ro3_b_3-obt-roguelike-ro3-level_rogue3_b-3.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_b-3",
+        "name": "自然之怒",
+        "stageId": "ro3_b_3",
+        "width": 9
+    },
+    "ro3_b_3_b-obt/roguelike/ro3/level_rogue3_b-3-b": {
+        "code": "ISW-NO",
+        "filename": "ro3_b_3_b-obt-roguelike-ro3-level_rogue3_b-3-b.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_b-3-b",
+        "name": "大地醒转",
+        "stageId": "ro3_b_3_b",
+        "width": 12
+    },
+    "ro3_b_4-obt/roguelike/ro3/level_rogue3_b-4": {
+        "code": "ISW-DF",
+        "filename": "ro3_b_4-obt-roguelike-ro3-level_rogue3_b-4.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro3/level_rogue3_b-4",
+        "name": "巍峨银凇",
+        "stageId": "ro3_b_4",
+        "width": 13
+    },
+    "ro3_b_5-obt/roguelike/ro3/level_rogue3_b-5": {
+        "code": "ISW-DF",
+        "filename": "ro3_b_5-obt-roguelike-ro3-level_rogue3_b-5.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_b-5",
+        "name": "萨米之熵",
+        "stageId": "ro3_b_5",
+        "width": 12
+    },
+    "ro3_b_6-obt/roguelike/ro3/level_rogue3_b-6": {
+        "code": "ISW-DF",
+        "filename": "ro3_b_6-obt-roguelike-ro3-level_rogue3_b-6.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro3/level_rogue3_b-6",
+        "name": "园丁",
+        "stageId": "ro3_b_6",
+        "width": 13
+    },
+    "ro3_e_1_1-obt/roguelike/ro3/level_rogue3_1-1": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_1_1-obt-roguelike-ro3-level_rogue3_1-1.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_1-1",
+        "name": "死囚之夜",
+        "stageId": "ro3_e_1_1",
+        "width": 9
+    },
+    "ro3_e_1_2-obt/roguelike/ro3/level_rogue3_1-2": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_1_2-obt-roguelike-ro3-level_rogue3_1-2.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_1-2",
+        "name": "度假村冤魂",
+        "stageId": "ro3_e_1_2",
+        "width": 9
+    },
+    "ro3_e_1_3-obt/roguelike/ro3/level_rogue3_1-3": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_1_3-obt-roguelike-ro3-level_rogue3_1-3.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_1-3",
+        "name": "苔手",
+        "stageId": "ro3_e_1_3",
+        "width": 11
+    },
+    "ro3_e_1_4-obt/roguelike/ro3/level_rogue3_1-4": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_1_4-obt-roguelike-ro3-level_rogue3_1-4.json",
+        "height": 6,
+        "levelId": "obt/roguelike/ro3/level_rogue3_1-4",
+        "name": "待宰的兽群",
+        "stageId": "ro3_e_1_4",
+        "width": 8
+    },
+    "ro3_e_2_1-obt/roguelike/ro3/level_rogue3_2-1": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_2_1-obt-roguelike-ro3-level_rogue3_2-1.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_2-1",
+        "name": "没有尽头的路",
+        "stageId": "ro3_e_2_1",
+        "width": 9
+    },
+    "ro3_e_2_2-obt/roguelike/ro3/level_rogue3_2-2": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_2_2-obt-roguelike-ro3-level_rogue3_2-2.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_2-2",
+        "name": "低空机动",
+        "stageId": "ro3_e_2_2",
+        "width": 11
+    },
+    "ro3_e_2_3-obt/roguelike/ro3/level_rogue3_2-3": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_2_3-obt-roguelike-ro3-level_rogue3_2-3.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_2-3",
+        "name": "幽影与鬼魅",
+        "stageId": "ro3_e_2_3",
+        "width": 9
+    },
+    "ro3_e_2_4-obt/roguelike/ro3/level_rogue3_2-4": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_2_4-obt-roguelike-ro3-level_rogue3_2-4.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_2-4",
+        "name": "违和",
+        "stageId": "ro3_e_2_4",
+        "width": 12
+    },
+    "ro3_e_2_5-obt/roguelike/ro3/level_rogue3_2-5": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_2_5-obt-roguelike-ro3-level_rogue3_2-5.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_2-5",
+        "name": "虫虫别回头",
+        "stageId": "ro3_e_2_5",
+        "width": 11
+    },
+    "ro3_e_3_1-obt/roguelike/ro3/level_rogue3_3-1": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_3_1-obt-roguelike-ro3-level_rogue3_3-1.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_3-1",
+        "name": "弄假成真",
+        "stageId": "ro3_e_3_1",
+        "width": 9
+    },
+    "ro3_e_3_2-obt/roguelike/ro3/level_rogue3_3-2": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_3_2-obt-roguelike-ro3-level_rogue3_3-2.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_3-2",
+        "name": "饥渴祭坛",
+        "stageId": "ro3_e_3_2",
+        "width": 11
+    },
+    "ro3_e_3_3-obt/roguelike/ro3/level_rogue3_3-3": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_3_3-obt-roguelike-ro3-level_rogue3_3-3.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_3-3",
+        "name": "狡兽九窟",
+        "stageId": "ro3_e_3_3",
+        "width": 12
+    },
+    "ro3_e_3_4-obt/roguelike/ro3/level_rogue3_3-4": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_3_4-obt-roguelike-ro3-level_rogue3_3-4.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_3-4",
+        "name": "冰海疑影",
+        "stageId": "ro3_e_3_4",
+        "width": 12
+    },
+    "ro3_e_3_5-obt/roguelike/ro3/level_rogue3_3-5": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_3_5-obt-roguelike-ro3-level_rogue3_3-5.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_3-5",
+        "name": "咫尺天涯",
+        "stageId": "ro3_e_3_5",
+        "width": 11
+    },
+    "ro3_e_3_6-obt/roguelike/ro3/level_rogue3_3-6": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_3_6-obt-roguelike-ro3-level_rogue3_3-6.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_3-6",
+        "name": "思维折断",
+        "stageId": "ro3_e_3_6",
+        "width": 11
+    },
+    "ro3_e_4_1-obt/roguelike/ro3/level_rogue3_4-1": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_4_1-obt-roguelike-ro3-level_rogue3_4-1.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_4-1",
+        "name": "公司纠葛",
+        "stageId": "ro3_e_4_1",
+        "width": 11
+    },
+    "ro3_e_4_2-obt/roguelike/ro3/level_rogue3_4-2": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_4_2-obt-roguelike-ro3-level_rogue3_4-2.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_4-2",
+        "name": "应用测试",
+        "stageId": "ro3_e_4_2",
+        "width": 12
+    },
+    "ro3_e_4_3-obt/roguelike/ro3/level_rogue3_4-3": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_4_3-obt-roguelike-ro3-level_rogue3_4-3.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_4-3",
+        "name": "坍缩体的午后",
+        "stageId": "ro3_e_4_3",
+        "width": 11
+    },
+    "ro3_e_4_4-obt/roguelike/ro3/level_rogue3_4-4": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_4_4-obt-roguelike-ro3-level_rogue3_4-4.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_4-4",
+        "name": "大迁徙",
+        "stageId": "ro3_e_4_4",
+        "width": 12
+    },
+    "ro3_e_4_5-obt/roguelike/ro3/level_rogue3_4-5": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_4_5-obt-roguelike-ro3-level_rogue3_4-5.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro3/level_rogue3_4-5",
+        "name": "以守代攻",
+        "stageId": "ro3_e_4_5",
+        "width": 13
+    },
+    "ro3_e_4_6-obt/roguelike/ro3/level_rogue3_4-6": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_4_6-obt-roguelike-ro3-level_rogue3_4-6.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_4-6",
+        "name": "杂音干扰",
+        "stageId": "ro3_e_4_6",
+        "width": 10
+    },
+    "ro3_e_4_7-obt/roguelike/ro3/level_rogue3_4-7": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_4_7-obt-roguelike-ro3-level_rogue3_4-7.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro3/level_rogue3_4-7",
+        "name": "禁区",
+        "stageId": "ro3_e_4_7",
+        "width": 13
+    },
+    "ro3_e_5_1-obt/roguelike/ro3/level_rogue3_5-1": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_5_1-obt-roguelike-ro3-level_rogue3_5-1.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_5-1",
+        "name": "乐理之灾",
+        "stageId": "ro3_e_5_1",
+        "width": 11
+    },
+    "ro3_e_5_2-obt/roguelike/ro3/level_rogue3_5-2": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_5_2-obt-roguelike-ro3-level_rogue3_5-2.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_5-2",
+        "name": "生人勿近",
+        "stageId": "ro3_e_5_2",
+        "width": 12
+    },
+    "ro3_e_5_3-obt/roguelike/ro3/level_rogue3_5-3": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_5_3-obt-roguelike-ro3-level_rogue3_5-3.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro3/level_rogue3_5-3",
+        "name": "混乱的表象",
+        "stageId": "ro3_e_5_3",
+        "width": 10
+    },
+    "ro3_e_5_4-obt/roguelike/ro3/level_rogue3_5-4": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_5_4-obt-roguelike-ro3-level_rogue3_5-4.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_5-4",
+        "name": "求敌得敌",
+        "stageId": "ro3_e_5_4",
+        "width": 11
+    },
+    "ro3_e_5_5-obt/roguelike/ro3/level_rogue3_5-5": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_5_5-obt-roguelike-ro3-level_rogue3_5-5.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_5-5",
+        "name": "亡者行军",
+        "stageId": "ro3_e_5_5",
+        "width": 11
+    },
+    "ro3_e_5_6-obt/roguelike/ro3/level_rogue3_5-6": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_5_6-obt-roguelike-ro3-level_rogue3_5-6.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_5-6",
+        "name": "何处无山海",
+        "stageId": "ro3_e_5_6",
+        "width": 11
+    },
+    "ro3_e_5_7-obt/roguelike/ro3/level_rogue3_5-7": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_5_7-obt-roguelike-ro3-level_rogue3_5-7.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_5-7",
+        "name": "本能污染",
+        "stageId": "ro3_e_5_7",
+        "width": 11
+    },
+    "ro3_e_6_1-obt/roguelike/ro3/level_rogue3_6-1": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_6_1-obt-roguelike-ro3-level_rogue3_6-1.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_6-1",
+        "name": "霜与沙",
+        "stageId": "ro3_e_6_1",
+        "width": 11
+    },
+    "ro3_e_6_2-obt/roguelike/ro3/level_rogue3_6-2": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_6_2-obt-roguelike-ro3-level_rogue3_6-2.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro3/level_rogue3_6-2",
+        "name": "生灵的终点",
+        "stageId": "ro3_e_6_2",
+        "width": 12
+    },
+    "ro3_ev_1-obt/roguelike/ro3/level_rogue3_ev-1": {
+        "code": "ISW-SP",
+        "filename": "ro3_ev_1-obt-roguelike-ro3-level_rogue3_ev-1.json",
+        "height": 6,
+        "levelId": "obt/roguelike/ro3/level_rogue3_ev-1",
+        "name": "天途半道",
+        "stageId": "ro3_ev_1",
+        "width": 9
+    },
+    "ro3_ev_2-obt/roguelike/ro3/level_rogue3_ev-2": {
+        "code": "ISW-SP",
+        "filename": "ro3_ev_2-obt-roguelike-ro3-level_rogue3_ev-2.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_ev-2",
+        "name": "夙愿将偿",
+        "stageId": "ro3_ev_2",
+        "width": 11
+    },
+    "ro3_ev_3-obt/roguelike/ro3/level_rogue3_ev-3": {
+        "code": "ISW-SP",
+        "filename": "ro3_ev_3-obt-roguelike-ro3-level_rogue3_ev-3.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_ev-3",
+        "name": "惩罚",
+        "stageId": "ro3_ev_3",
+        "width": 9
+    },
+    "ro3_ev_4-obt/roguelike/ro3/level_rogue3_ev-4": {
+        "code": "ISW-SP",
+        "filename": "ro3_ev_4-obt-roguelike-ro3-level_rogue3_ev-4.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_ev-4",
+        "name": "英雄无名",
+        "stageId": "ro3_ev_4",
+        "width": 11
+    },
+    "ro3_ev_5-obt/roguelike/ro3/level_rogue3_ev-5": {
+        "code": "ISW-SP",
+        "filename": "ro3_ev_5-obt-roguelike-ro3-level_rogue3_ev-5.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_ev-5",
+        "name": "腹背受敌",
+        "stageId": "ro3_ev_5",
+        "width": 11
+    },
+    "ro3_ev_6-obt/roguelike/ro3/level_rogue3_ev-6": {
+        "code": "ISW-SP",
+        "filename": "ro3_ev_6-obt-roguelike-ro3-level_rogue3_ev-6.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_ev-6",
+        "name": "长期试用",
+        "stageId": "ro3_ev_6",
+        "width": 10
+    },
+    "ro3_ev_7-obt/roguelike/ro3/level_rogue3_ev-7": {
+        "code": "ISW-SP",
+        "filename": "ro3_ev_7-obt-roguelike-ro3-level_rogue3_ev-7.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_ev-7",
+        "name": "自然条款",
+        "stageId": "ro3_ev_7",
+        "width": 11
+    },
+    "ro3_n_1_1-obt/roguelike/ro3/level_rogue3_1-1": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_1_1-obt-roguelike-ro3-level_rogue3_1-1.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_1-1",
+        "name": "死囚之夜",
+        "stageId": "ro3_n_1_1",
+        "width": 9
+    },
+    "ro3_n_1_2-obt/roguelike/ro3/level_rogue3_1-2": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_1_2-obt-roguelike-ro3-level_rogue3_1-2.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_1-2",
+        "name": "度假村冤魂",
+        "stageId": "ro3_n_1_2",
+        "width": 9
+    },
+    "ro3_n_1_3-obt/roguelike/ro3/level_rogue3_1-3": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_1_3-obt-roguelike-ro3-level_rogue3_1-3.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_1-3",
+        "name": "苔手",
+        "stageId": "ro3_n_1_3",
+        "width": 11
+    },
+    "ro3_n_1_4-obt/roguelike/ro3/level_rogue3_1-4": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_1_4-obt-roguelike-ro3-level_rogue3_1-4.json",
+        "height": 6,
+        "levelId": "obt/roguelike/ro3/level_rogue3_1-4",
+        "name": "待宰的兽群",
+        "stageId": "ro3_n_1_4",
+        "width": 8
+    },
+    "ro3_n_2_1-obt/roguelike/ro3/level_rogue3_2-1": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_2_1-obt-roguelike-ro3-level_rogue3_2-1.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_2-1",
+        "name": "没有尽头的路",
+        "stageId": "ro3_n_2_1",
+        "width": 9
+    },
+    "ro3_n_2_2-obt/roguelike/ro3/level_rogue3_2-2": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_2_2-obt-roguelike-ro3-level_rogue3_2-2.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_2-2",
+        "name": "低空机动",
+        "stageId": "ro3_n_2_2",
+        "width": 11
+    },
+    "ro3_n_2_3-obt/roguelike/ro3/level_rogue3_2-3": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_2_3-obt-roguelike-ro3-level_rogue3_2-3.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_2-3",
+        "name": "幽影与鬼魅",
+        "stageId": "ro3_n_2_3",
+        "width": 9
+    },
+    "ro3_n_2_4-obt/roguelike/ro3/level_rogue3_2-4": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_2_4-obt-roguelike-ro3-level_rogue3_2-4.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_2-4",
+        "name": "违和",
+        "stageId": "ro3_n_2_4",
+        "width": 12
+    },
+    "ro3_n_2_5-obt/roguelike/ro3/level_rogue3_2-5": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_2_5-obt-roguelike-ro3-level_rogue3_2-5.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_2-5",
+        "name": "虫虫别回头",
+        "stageId": "ro3_n_2_5",
+        "width": 11
+    },
+    "ro3_n_3_1-obt/roguelike/ro3/level_rogue3_3-1": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_3_1-obt-roguelike-ro3-level_rogue3_3-1.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_3-1",
+        "name": "弄假成真",
+        "stageId": "ro3_n_3_1",
+        "width": 9
+    },
+    "ro3_n_3_2-obt/roguelike/ro3/level_rogue3_3-2": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_3_2-obt-roguelike-ro3-level_rogue3_3-2.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_3-2",
+        "name": "饥渴祭坛",
+        "stageId": "ro3_n_3_2",
+        "width": 11
+    },
+    "ro3_n_3_3-obt/roguelike/ro3/level_rogue3_3-3": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_3_3-obt-roguelike-ro3-level_rogue3_3-3.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_3-3",
+        "name": "狡兽九窟",
+        "stageId": "ro3_n_3_3",
+        "width": 12
+    },
+    "ro3_n_3_4-obt/roguelike/ro3/level_rogue3_3-4": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_3_4-obt-roguelike-ro3-level_rogue3_3-4.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_3-4",
+        "name": "冰海疑影",
+        "stageId": "ro3_n_3_4",
+        "width": 12
+    },
+    "ro3_n_3_5-obt/roguelike/ro3/level_rogue3_3-5": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_3_5-obt-roguelike-ro3-level_rogue3_3-5.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_3-5",
+        "name": "咫尺天涯",
+        "stageId": "ro3_n_3_5",
+        "width": 11
+    },
+    "ro3_n_3_6-obt/roguelike/ro3/level_rogue3_3-6": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_3_6-obt-roguelike-ro3-level_rogue3_3-6.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_3-6",
+        "name": "思维折断",
+        "stageId": "ro3_n_3_6",
+        "width": 11
+    },
+    "ro3_n_4_1-obt/roguelike/ro3/level_rogue3_4-1": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_4_1-obt-roguelike-ro3-level_rogue3_4-1.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_4-1",
+        "name": "公司纠葛",
+        "stageId": "ro3_n_4_1",
+        "width": 11
+    },
+    "ro3_n_4_2-obt/roguelike/ro3/level_rogue3_4-2": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_4_2-obt-roguelike-ro3-level_rogue3_4-2.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_4-2",
+        "name": "应用测试",
+        "stageId": "ro3_n_4_2",
+        "width": 12
+    },
+    "ro3_n_4_3-obt/roguelike/ro3/level_rogue3_4-3": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_4_3-obt-roguelike-ro3-level_rogue3_4-3.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_4-3",
+        "name": "坍缩体的午后",
+        "stageId": "ro3_n_4_3",
+        "width": 11
+    },
+    "ro3_n_4_4-obt/roguelike/ro3/level_rogue3_4-4": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_4_4-obt-roguelike-ro3-level_rogue3_4-4.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_4-4",
+        "name": "大迁徙",
+        "stageId": "ro3_n_4_4",
+        "width": 12
+    },
+    "ro3_n_4_5-obt/roguelike/ro3/level_rogue3_4-5": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_4_5-obt-roguelike-ro3-level_rogue3_4-5.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro3/level_rogue3_4-5",
+        "name": "以守代攻",
+        "stageId": "ro3_n_4_5",
+        "width": 13
+    },
+    "ro3_n_4_6-obt/roguelike/ro3/level_rogue3_4-6": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_4_6-obt-roguelike-ro3-level_rogue3_4-6.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_4-6",
+        "name": "杂音干扰",
+        "stageId": "ro3_n_4_6",
+        "width": 10
+    },
+    "ro3_n_4_7-obt/roguelike/ro3/level_rogue3_4-7": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_4_7-obt-roguelike-ro3-level_rogue3_4-7.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro3/level_rogue3_4-7",
+        "name": "禁区",
+        "stageId": "ro3_n_4_7",
+        "width": 13
+    },
+    "ro3_n_5_1-obt/roguelike/ro3/level_rogue3_5-1": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_5_1-obt-roguelike-ro3-level_rogue3_5-1.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_5-1",
+        "name": "乐理之灾",
+        "stageId": "ro3_n_5_1",
+        "width": 11
+    },
+    "ro3_n_5_2-obt/roguelike/ro3/level_rogue3_5-2": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_5_2-obt-roguelike-ro3-level_rogue3_5-2.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_5-2",
+        "name": "生人勿近",
+        "stageId": "ro3_n_5_2",
+        "width": 12
+    },
+    "ro3_n_5_3-obt/roguelike/ro3/level_rogue3_5-3": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_5_3-obt-roguelike-ro3-level_rogue3_5-3.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro3/level_rogue3_5-3",
+        "name": "混乱的表象",
+        "stageId": "ro3_n_5_3",
+        "width": 10
+    },
+    "ro3_n_5_4-obt/roguelike/ro3/level_rogue3_5-4": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_5_4-obt-roguelike-ro3-level_rogue3_5-4.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_5-4",
+        "name": "求敌得敌",
+        "stageId": "ro3_n_5_4",
+        "width": 11
+    },
+    "ro3_n_5_5-obt/roguelike/ro3/level_rogue3_5-5": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_5_5-obt-roguelike-ro3-level_rogue3_5-5.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_5-5",
+        "name": "亡者行军",
+        "stageId": "ro3_n_5_5",
+        "width": 11
+    },
+    "ro3_n_5_6-obt/roguelike/ro3/level_rogue3_5-6": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_5_6-obt-roguelike-ro3-level_rogue3_5-6.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_5-6",
+        "name": "何处无山海",
+        "stageId": "ro3_n_5_6",
+        "width": 11
+    },
+    "ro3_n_5_7-obt/roguelike/ro3/level_rogue3_5-7": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_5_7-obt-roguelike-ro3-level_rogue3_5-7.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_5-7",
+        "name": "本能污染",
+        "stageId": "ro3_n_5_7",
+        "width": 11
+    },
+    "ro3_n_6_1-obt/roguelike/ro3/level_rogue3_6-1": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_6_1-obt-roguelike-ro3-level_rogue3_6-1.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_6-1",
+        "name": "霜与沙",
+        "stageId": "ro3_n_6_1",
+        "width": 11
+    },
+    "ro3_n_6_2-obt/roguelike/ro3/level_rogue3_6-2": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_6_2-obt-roguelike-ro3-level_rogue3_6-2.json",
+        "height": 9,
+        "levelId": "obt/roguelike/ro3/level_rogue3_6-2",
+        "name": "生灵的终点",
+        "stageId": "ro3_n_6_2",
+        "width": 12
+    },
+    "ro3_t_1-obt/roguelike/ro3/level_rogue3_t-1": {
+        "code": "ISW-DF",
+        "filename": "ro3_t_1-obt-roguelike-ro3-level_rogue3_t-1.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_t-1",
+        "name": "半吊子之旅",
+        "stageId": "ro3_t_1",
+        "width": 11
+    },
+    "ro3_t_2-obt/roguelike/ro3/level_rogue3_t-2": {
+        "code": "ISW-DF",
+        "filename": "ro3_t_2-obt-roguelike-ro3-level_rogue3_t-2.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_t-2",
+        "name": "无中生钱",
+        "stageId": "ro3_t_2",
+        "width": 11
+    },
+    "ro3_t_3-obt/roguelike/ro3/level_rogue3_t-3": {
+        "code": "ISW-DF",
+        "filename": "ro3_t_3-obt-roguelike-ro3-level_rogue3_t-3.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_t-3",
+        "name": "豪华车队",
+        "stageId": "ro3_t_3",
+        "width": 10
+    },
+    "ro3_t_4-obt/roguelike/ro3/level_rogue3_t-4": {
+        "code": "ISW-DF",
+        "filename": "ro3_t_4-obt-roguelike-ro3-level_rogue3_t-4.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_t-4",
+        "name": "“正义使者”",
+        "stageId": "ro3_t_4",
         "width": 11
     },
     "sub_02-01-obt/main/level_sub_02-01": {

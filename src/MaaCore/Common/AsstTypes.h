@@ -382,7 +382,7 @@ namespace asst
         bool is_ascii = false;         // 是否启用字符数字模型
         bool without_det = false;      // 是否不使用检测模型
         bool replace_full = false; // 匹配之后，是否将整个字符串replace（false是只替换match的部分）
-        std::unordered_map<std::string, std::string>
+        std::vector<std::pair<std::string, std::string>>
             replace_map; // 部分文字容易识别错，字符串强制replace之后，再进行匹配
     };
 
@@ -418,4 +418,5 @@ namespace asst
     inline static const std::string UploadDataSource = "MeoAssistant";
     inline static constexpr std::string_view RoguelikePhantomThemeName = "Phantom";
     inline static constexpr std::string_view RoguelikeMizukiThemeName = "Mizuki";
+    inline static constexpr std::string_view RoguelikeSamiThemeName = "Sami";
 } // namespace asst

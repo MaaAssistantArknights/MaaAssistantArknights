@@ -769,6 +769,15 @@
                 ],
                 "template": "Bskill_dorm_single_indigo.png"
             },
+            "bskill_dorm_single_sami": {
+                "desc": [
+                    "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.55（同种效果取最高），如果目标是萨米干员，则恢复效果额外+0.45"
+                ],
+                "name": [
+                    "降生于冰寒"
+                ],
+                "template": "Bskill_dorm_single_sami.png"
+            },
             "bskill_dorm_single_schwarz": {
                 "desc": [
                     "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.55（同种效果取最高），如果目标是锡兰，则恢复效果额外+0.45"
@@ -2568,6 +2577,24 @@
                 ],
                 "template": "Bskill_meet_rhodes2.png"
             },
+            "bskill_meet_spd&bd": {
+                "desc": [
+                    "进驻会客室时，线索搜集速度提升10%，当与提丰进驻会客室一起工作时，线索搜集速度额外提升15%，自身心情每小时消耗+0.5"
+                ],
+                "name": [
+                    "远见"
+                ],
+                "template": "Bskill_meet_spd&bd.png"
+            },
+            "bskill_meet_spd&bd&notOwned": {
+                "desc": [
+                    "进驻会客室时，线索搜集速度提升10%，当与提丰进驻会客室一起工作时，线索搜集速度额外提升15%，自身心情每小时消耗+0.5，且更容易获得线索板上尚未拥有的线索"
+                ],
+                "name": [
+                    "未来之途"
+                ],
+                "template": "Bskill_meet_spd&bd&notOwned.png"
+            },
             "bskill_meet_spd&condChar_mustget": {
                 "desc": [
                     "进驻会客室时，如果会客室内只有自身处于工作状态时，连续消耗超过16点心情下一次必定获得莱茵生命的线索"
@@ -2615,6 +2642,15 @@
                     "“职业操守”·β"
                 ],
                 "template": "Bskill_meet_spd&cost_condChar3.png"
+            },
+            "bskill_meet_spd&sami": {
+                "desc": [
+                    "进驻会客室时，线索搜集速度提升+10%，与其他萨米干员进驻会客室一起工作时，线索搜集速度额外提升+5%，自身心情每小时消耗+0.5"
+                ],
+                "name": [
+                    "冰原游弋"
+                ],
+                "template": "Bskill_meet_spd&sami.png"
             },
             "bskill_meet_spd1": {
                 "desc": [

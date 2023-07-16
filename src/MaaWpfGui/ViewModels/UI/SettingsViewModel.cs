@@ -26,16 +26,15 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Interop;
 using HandyControl.Controls;
 using HandyControl.Data;
-using HandyControl.Tools.Extension;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Services.HotKeys;
+using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using Microsoft.Win32;
@@ -52,6 +51,8 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class SettingsViewModel : Screen
     {
+        private readonly RunningState runningState;
+
         private static readonly ILogger _logger = Log.ForContext<SettingsViewModel>();
 
         [DllImport("MaaCore.dll")]
@@ -121,6 +122,8 @@ namespace MaaWpfGui.ViewModels.UI
                 Application.Current.Shutdown();
                 Bootstrapper.RestartApplication();
             }
+
+            runningState = RunningState.Instance;
         }
 
         public void Sober()
@@ -245,6 +248,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 new CombinedData { Display = LocalizationHelper.GetString("RoguelikeThemePhantom"), Value = "Phantom" },
                 new CombinedData { Display = LocalizationHelper.GetString("RoguelikeThemeMizuki"), Value = "Mizuki" },
+                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeThemeSami"), Value = "Sami" },
             };
 
             UpdateRoguelikeThemeList();
@@ -381,7 +385,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _startEmulator, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.StartEmulator, value.ToString());
-                if (ClientType == string.Empty && Idle)
+                if (ClientType == string.Empty && runningState.GetIdle())
                 {
                     ClientType = "Official";
                 }
@@ -703,10 +707,10 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             // 储存按钮状态，以便后续重置
-            bool idle = Instances.TaskQueueViewModel.Idle;
+            bool idle = runningState.GetIdle();
 
             // 让按钮变成停止按钮，可手动停止等待
-            Instances.TaskQueueViewModel.Idle = false;
+            runningState.SetIdle(false);
             for (var i = 0; i < delay; ++i)
             {
                 if (Instances.TaskQueueViewModel.Stopping)
@@ -730,7 +734,7 @@ namespace MaaWpfGui.ViewModels.UI
             _logger.Information("The wait is over");
 
             // 重置按钮状态，不影响后续判断
-            Instances.TaskQueueViewModel.Idle = idle;
+            runningState.SetIdle(idle);
         }
 
         /// <summary>
@@ -930,6 +934,11 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void AddConfiguration()
         {
+            if (string.IsNullOrEmpty(NewConfigurationName))
+            {
+                NewConfigurationName = DateTime.Now.ToString("yy/MM/dd HH:mm:ss");
+            }
+
             if (ConfigurationHelper.AddConfiguration(NewConfigurationName, CurrentConfiguration))
             {
                 ConfigurationList.Add(new CombinedData { Display = NewConfigurationName, Value = NewConfigurationName });
@@ -1335,7 +1344,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         /* 肉鸽设置 */
 
-        private string _roguelikeTheme = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, "Mizuki");
+        private string _roguelikeTheme = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, "Sami");
 
         /// <summary>
         /// Gets or sets the Roguelike theme.
@@ -1354,7 +1363,7 @@ namespace MaaWpfGui.ViewModels.UI
         private string _roguelikeMode = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeMode, "0");
 
         /// <summary>
-        /// Gets or sets the roguelike mode.
+        /// 策略，往后打 / 刷一层就退
         /// </summary>
         public string RoguelikeMode
         {
@@ -1480,6 +1489,18 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _roguelikeRefreshTraderWithDice, value.ToString());
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeRefreshTraderWithDice, value.ToString());
+            }
+        }
+
+        private bool _roguelikeRefreshTraderWithDiceEnabled = false;
+
+        public bool RoguelikeRefreshTraderWithDiceEnabled
+        {
+            get => _roguelikeRefreshTraderWithDiceEnabled;
+            set
+            {
+                SetAndNotify(ref _roguelikeRefreshTraderWithDiceEnabled, value);
+                RoguelikeRefreshTraderWithDice = false;
             }
         }
 
@@ -1641,12 +1662,20 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 public event PropertyChangedEventHandler PropertyChanged;
 
-                public TimerProperties(int timeId, bool isOn, int hour, int min)
+                public TimerProperties(int timeId, bool isOn, int hour, int min, string timerConfig)
                 {
                     TimerId = timeId;
                     _isOn = isOn;
                     _hour = hour;
                     _min = min;
+                    if (timerConfig == null || !ConfigurationHelper.GetConfigurationList().Contains(timerConfig))
+                    {
+                        _timerConfig = ConfigurationHelper.GetCurrentConfiguration();
+                    }
+                    else
+                    {
+                        _timerConfig = timerConfig;
+                    }
                 }
 
                 protected void OnPropertyChanged([CallerMemberName] string name = null)
@@ -1704,6 +1733,22 @@ namespace MaaWpfGui.ViewModels.UI
                     }
                 }
 
+                private string _timerConfig;
+
+                /// <summary>
+                /// Gets or sets the config of the timer.
+                /// </summary>
+                public string TimerConfig
+                {
+                    get => _timerConfig;
+                    set
+                    {
+                        _timerConfig = value ?? ConfigurationHelper.GetCurrentConfiguration();
+                        OnPropertyChanged();
+                        ConfigurationHelper.SetTimerConfig(TimerId, value.ToString());
+                    }
+                }
+
                 public TimerProperties()
                 {
                     PropertyChanged += (sender, args) => { };
@@ -1720,12 +1765,43 @@ namespace MaaWpfGui.ViewModels.UI
                         i,
                         ConfigurationHelper.GetTimer(i, bool.FalseString) == bool.TrueString,
                         int.Parse(ConfigurationHelper.GetTimerHour(i, $"{i * 3}")),
-                        int.Parse(ConfigurationHelper.GetTimerMin(i, "0")));
+                        int.Parse(ConfigurationHelper.GetTimerMin(i, "0")),
+                        ConfigurationHelper.GetTimerConfig(i, ConfigurationHelper.GetCurrentConfiguration()));
                 }
             }
         }
 
         public TimerModel TimerModels { get; set; } = new TimerModel();
+
+        private bool _forceScheduledStart = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ForceScheduledStart, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use DrGrandet mode.
+        /// </summary>
+        public bool ForceScheduledStart
+        {
+            get => _forceScheduledStart;
+            set
+            {
+                SetAndNotify(ref _forceScheduledStart, value);
+                ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ForceScheduledStart, value.ToString());
+            }
+        }
+
+        private bool _customConfig = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.CustomConfig, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use custom config.
+        /// </summary>
+        public bool CustomConfig
+        {
+            get => _customConfig;
+            set
+            {
+                SetAndNotify(ref _customConfig, value);
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.CustomConfig, value.ToString());
+            }
+        }
 
         /* 刷理智设置 */
 
@@ -1968,7 +2044,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _updateAutoCheck = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UpdatAutoCheck, bool.TrueString));
+        private bool _updateAutoCheck = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UpdatAutoCheck, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to check update.
@@ -2024,6 +2100,21 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _autoDownloadUpdatePackage, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.AutoDownloadUpdatePackage, value.ToString());
+            }
+        }
+
+        private bool _autoInstallUpdatePackage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoInstallUpdatePackage, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to auto install update package.
+        /// </summary>
+        public bool AutoInstallUpdatePackage
+        {
+            get => _autoInstallUpdatePackage;
+            set
+            {
+                SetAndNotify(ref _autoInstallUpdatePackage, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.AutoInstallUpdatePackage, value.ToString());
             }
         }
 
@@ -2659,7 +2750,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _useRemainingSanityStage = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, bool.FalseString));
+        private bool _useRemainingSanityStage = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, bool.TrueString));
 
         public bool UseRemainingSanityStage
         {
@@ -3049,15 +3140,43 @@ namespace MaaWpfGui.ViewModels.UI
             switch (RoguelikeTheme)
             {
                 case "Phantom":
-                    // No new items
+                    RoguelikeRefreshTraderWithDiceEnabled = false;
+
+                    foreach (var item in new ObservableCollection<CombinedData>
+                    {
+                        new CombinedData { Display = LocalizationHelper.GetString("ResearchSquad"), Value = "研究分队" },
+                    })
+                    {
+                        RoguelikeSquadList.Add(item);
+                    }
+
                     break;
 
                 case "Mizuki":
+                    RoguelikeRefreshTraderWithDiceEnabled = true;
+
                     foreach (var item in new ObservableCollection<CombinedData>
                     {
                         new CombinedData { Display = LocalizationHelper.GetString("IS2NewSquad1"), Value = "心胜于物分队" },
                         new CombinedData { Display = LocalizationHelper.GetString("IS2NewSquad2"), Value = "物尽其用分队" },
                         new CombinedData { Display = LocalizationHelper.GetString("IS2NewSquad3"), Value = "以人为本分队" },
+                        new CombinedData { Display = LocalizationHelper.GetString("ResearchSquad"), Value = "研究分队" },
+                    })
+                    {
+                        RoguelikeSquadList.Add(item);
+                    }
+
+                    break;
+
+                case "Sami":
+                    RoguelikeRefreshTraderWithDiceEnabled = false;
+
+                    foreach (var item in new ObservableCollection<CombinedData>
+                    {
+                        new CombinedData { Display = LocalizationHelper.GetString("IS3NewSquad1"), Value = "永恒狩猎分队" },
+                        new CombinedData { Display = LocalizationHelper.GetString("IS3NewSquad2"), Value = "生活至上分队" },
+                        new CombinedData { Display = LocalizationHelper.GetString("IS3NewSquad3"), Value = "科学主义分队" },
+                        new CombinedData { Display = LocalizationHelper.GetString("IS3NewSquad4"), Value = "特训分队" },
                     })
                     {
                         RoguelikeSquadList.Add(item);
@@ -3077,7 +3196,6 @@ namespace MaaWpfGui.ViewModels.UI
                 new CombinedData { Display = LocalizationHelper.GetString("TacticalFortificationOperative"), Value = "堡垒战术分队" },
                 new CombinedData { Display = LocalizationHelper.GetString("TacticalRangedOperative"), Value = "远程战术分队" },
                 new CombinedData { Display = LocalizationHelper.GetString("TacticalDestructionOperative"), Value = "破坏战术分队" },
-                new CombinedData { Display = LocalizationHelper.GetString("ResearchSquad"), Value = "研究分队" },
                 new CombinedData { Display = LocalizationHelper.GetString("First-ClassSquad"), Value = "高规格分队" },
             })
             {

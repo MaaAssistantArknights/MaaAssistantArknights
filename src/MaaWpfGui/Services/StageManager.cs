@@ -237,10 +237,8 @@ namespace MaaWpfGui.Services
                                                 UtcExpireTime = GetDateTime(stageObj["Activity"], "UtcExpireTime"),
                                             },
                                         };
-                                        if (!stageInfo.Activity.IsExpired)
-                                        {
-                                            tempStage.Add(stageInfo.Display, stageInfo);
-                                        }
+
+                                        tempStage.Add(stageInfo.Display, stageInfo);
                                     }
 
                                     continue;
@@ -266,10 +264,7 @@ namespace MaaWpfGui.Services
                             },
                         };
 
-                        if (!stageInfo.Activity.IsExpired)
-                        {
-                            tempStage.Add(stageInfo.Display, stageInfo);
-                        }
+                        tempStage.Add(stageInfo.Display, stageInfo);
                     }
                 }
                 catch (Exception e)
@@ -352,12 +347,13 @@ namespace MaaWpfGui.Services
         public string GetStageTips(DayOfWeek dayOfWeek)
         {
             var builder = new StringBuilder();
-            var sideStoryFlag = true;
+            var sideStoryFlags = new Dictionary<string, bool>();
             foreach (var item in _stages)
             {
                 if (item.Value.IsStageOpen(dayOfWeek))
                 {
-                    if (sideStoryFlag && !string.IsNullOrEmpty(item.Value.Activity?.StageName))
+                    if (!string.IsNullOrEmpty(item.Value.Activity?.StageName)
+                        && !sideStoryFlags.ContainsKey(item.Value.Activity.StageName))
                     {
                         DateTime dateTime = DateTime.UtcNow;
                         var daysleftopen = (item.Value.Activity.UtcExpireTime - dateTime).Days;
@@ -365,7 +361,7 @@ namespace MaaWpfGui.Services
                             + " "
                             + LocalizationHelper.GetString("Daysleftopen")
                             + (daysleftopen > 0 ? daysleftopen.ToString() : LocalizationHelper.GetString("LessThanOneDay")));
-                        sideStoryFlag = false;
+                        sideStoryFlags[item.Value.Activity.StageName] = true;
                     }
 
                     if (!string.IsNullOrEmpty(item.Value.Tip))
@@ -394,12 +390,12 @@ namespace MaaWpfGui.Services
         }
 
         /// <summary>
-        /// Gets all stage list
+        /// Gets all open or will open stage list
         /// </summary>
-        /// <returns>All stage list</returns>
+        /// <returns>Open or will open stage list</returns>
         public IEnumerable<CombinedData> GetStageList()
         {
-            return _stages.Values.Where(stage => !stage.IsHidden);
+            return _stages.Values.Where(stage => !stage.IsHidden && stage.IsStageOpenOrWillOpen());
         }
     }
 }
