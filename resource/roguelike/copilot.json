@@ -8,6 +8,13 @@
                     2
                 ],
                 "direction": "down"
+            },
+            {
+                "location": [
+                    7,
+                    0
+                ],
+                "direction": "none"
             }
         ],
         "deploy_plan": [
@@ -35,6 +42,21 @@
                 "groups": [ "单奶", "群奶", "术师", "狙击", "辅助", "其他高台" ],
                 "location": [ 5, 3 ],
                 "direction": "down"
+            },
+            {
+                "groups": [ "近卫","挡人先锋" ],
+                "location": [ 3, 5],
+                "direction": "up"
+            },
+            {
+                "groups": [ "辅助","狙击","术师" ],
+                "location": [ 4, 1],
+                "direction": "down"
+            },
+            {
+                "groups": [ "单奶", "群奶" ],
+                "location": [ 3, 2],
+                "direction": "down"
             }
         ],
         "retreat_plan": [
@@ -53,6 +75,13 @@
                     3
                 ],
                 "direction": "right"
+            },
+            {
+                "location": [
+                    0,
+                    3
+                ],
+                "direction": "none"
             }
         ],
         "deploy_plan": [
@@ -92,7 +121,22 @@
                 "location": [ 3, 4 ],
                 "direction": "up",
                 "condition": [ 15, 30 ]
-            }
+            },
+            {
+                "groups": [ "近卫" ],
+                "location": [ 2, 3],
+                "direction": "right"
+            },
+            {
+                "groups": [ "辅助","狙击","术师" ],
+                "location": [ 4, 4],
+                "direction": "up"
+            },
+            {
+                "groups": [ "单奶", "群奶" ],
+                "location": [ 1, 4],
+                "direction": "rigit"
+            }      
         ],
         "retreat_plan": [
             {
@@ -110,6 +154,13 @@
                     3
                 ],
                 "direction": "left"
+            },
+            {
+                "location": [
+                    10,
+                    2
+                ],
+                "direction": "none"
             }
         ],
         "deploy_plan": [
@@ -137,6 +188,16 @@
                 "groups": [ "处决者" ],
                 "location": [ 2, 1 ],
                 "direction": "left"
+            },
+            {
+                "groups": [ "近卫" ],
+                "location": [ 7, 3],
+                "direction": "left"
+            },
+            {
+                "groups": [ "辅助","狙击","术师" ],
+                "location": [ 6, 2],
+                "direction": "left"
             }
         ]
     },
@@ -149,6 +210,13 @@
                     3
                 ],
                 "direction": "left"
+            },
+            {
+                "location": [
+                    7,
+                    3
+                ],
+                "direction": "none"
             }
         ],
         "deploy_plan": [
@@ -181,50 +249,16 @@
                 "groups": [ "处决者", "情报官", "其他地面" ],
                 "location": [ 2, 4 ],
                 "direction": "left"
-            }
-        ]
-    },
-    {
-        "stage_name": "待宰的兽群",
-        "replacement_home": [
-            {
-                "location": [
-                    6,
-                    3
-                ],
-                "direction": "left"
-            }
-        ],
-        "deploy_plan": [
-            {
-                "groups": [ "M3", "重装", "近卫", "情报官", "挡人先锋", "其他地面" ],
-                "location": [ 6, 3 ],
-                "direction": "left"
             },
             {
-                "groups": [ "凯尔希", "召唤", "水陈", "速狙", "术师", "狙击", "辅助" ],
-                "location": [ 4, 2 ],
-                "direction": "right"
+                "groups": [ "近卫" ],
+                "location": [ 6, 3],
+                "direction": ""
             },
             {
-                "groups": [ "水陈", "术师", "狙击", "辅助", "单奶", "群奶", "其他高台" ],
-                "location": [ 5, 2 ],
+                "groups": [ "辅助","狙击","术师" ],
+                "location": [ 5, 2],
                 "direction": "down"
-            },
-            {
-                "groups": [ "玛恩纳", "近卫", "重装", "情报官", "挡人先锋", "投锋", "其他地面" ],
-                "location": [ 5, 3 ],
-                "direction": "left"
-            },
-            {
-                "groups": [ "近卫", "重装", "情报官", "挡人先锋", "投锋", "其他地面" ],
-                "location": [ 6, 2 ],
-                "direction": "up"
-            },
-            {
-                "groups": [ "处决者", "情报官", "其他地面" ],
-                "location": [ 2, 4 ],
-                "direction": "left"
             }
         ]
     },
@@ -237,6 +271,13 @@
                     4
                 ],
                 "direction": "up"
+            },
+            {
+                "location": [
+                    0,
+                    5
+                ],
+                "direction": "none"
             }
         ],
         "deploy_plan": [
@@ -291,6 +332,13 @@
                     2
                 ],
                 "direction": "left"
+            },
+            {
+                "location": [
+                    9,
+                    3
+                ],
+                "direction": "none"
             }
         ],
         "deploy_plan": [
@@ -338,6 +386,21 @@
                 "groups": [ "术师", "狙击", "辅助", "单奶", "群奶", "其他高台" ],
                 "location": [ 5, 1 ],
                 "direction": "left"
+            },
+            {
+                "groups": [ "近卫","挡人先锋" ],
+                "location": [ 6, 2],
+                "direction": "left"
+            },
+            {
+                "groups": [ "辅助","狙击","术师" ],
+                "location": [ 5, 1],
+                "direction": "down"
+            },
+            {
+                "groups": [ "单奶", "群奶" ],
+                "location": [ 4, 3],
+                "direction": "down"
             }
         ]
     },
@@ -350,6 +413,13 @@
                     5
                 ],
                 "direction": "right"
+            },
+            {
+                "location": [
+                    3,
+                    4
+                ],
+                "direction": "none"
             }
         ],
         "deploy_plan": [
@@ -397,6 +467,16 @@
                 "groups": [ "速狙", "术师", "狙击", "辅助", "其他高台" ],
                 "location": [ 3, 3 ],
                 "direction": "down"
+            },
+            {
+                "groups": [ "近卫","挡人先锋","重装" ],
+                "location": [ 3, 5 ],
+                "direction": "left"
+            },
+            {
+                "groups": [ "辅助","狙击","术师" ],
+                "location": [ 4, 3 ],
+                "direction": "down"
             }
         ]
     },
@@ -409,7 +489,24 @@
                     3
                 ],
                 "direction": "right"
+            },
+            {
+                "location": [
+                    5,
+                    3
+                ],
+                "direction": "right"
             }
+        ],
+        "blacklist_location": [
+            [
+                4,
+                1
+            ],
+            [
+                4,
+                2
+            ]
         ],
         "deploy_plan": [
             {
@@ -446,6 +543,16 @@
                 "groups": [ "术师", "辅助", "其他高台" ],
                 "location": [ 2, 4 ],
                 "direction": "down"
+            },
+            {
+                "groups": [ "近卫","挡人先锋","重装" ],
+                "location": [ 5, 3 ],
+                "direction": "right"
+            },
+            {
+                "groups": [ "辅助","狙击","术师"],
+                "location": [ 5, 4 ],
+                "direction": "right"
             }
         ]
     },
@@ -456,6 +563,20 @@
                 "location": [
                     4,
                     4
+                ],
+                "direction": "right"
+            },
+            {
+                "location": [
+                    3,
+                    4
+                ],
+                "direction": "right"
+            },
+            {
+                "location": [
+                    4,
+                    5
                 ],
                 "direction": "right"
             }
@@ -490,10 +611,236 @@
                 "groups": [ "水陈", "术师", "狙击", "辅助", "单奶", "群奶", "其他高台" ],
                 "location": [ 7, 4 ],
                 "direction": "left"
+            },
+            {
+                "groups": [ "近卫","挡人先锋","重装" ],
+                "location": [ 4, 5 ],
+                "direction": "up"
+            },
+            {
+                "groups": [ "近卫","挡人先锋","重装" ],
+                "location": [ 3, 4 ],
+                "direction": "right"
             }
         ]
     },
-
+    {
+        "stage_name": "弄假成真",
+        "replacement_home": [
+                {
+                    "location": [
+                        4,
+                        0
+                    ],
+                    "direction": "none"
+                }
+            ],
+            "deploy_plan": [
+                {
+                    "groups": [ "近卫","挡人先锋","重装" ],
+                    "location": [ 4, 1 ],
+                    "direction": "left"
+                },
+                {
+                    "groups": [ "近卫","挡人先锋","重装" ],
+                    "location": [ 5, 1 ],
+                    "direction": "right"
+                }
+        ]
+    },
+    {
+        "stage_name": "饥渴祭坛",
+        "replacement_home": [
+            {
+                "location": [
+                    10,
+                    2
+                ],
+                "direction": "left"
+            },
+            {
+                "location": [
+                    10,
+                    4
+                ],
+                "direction": "left"
+            }
+        ],
+        "deploy_plan": [
+            {
+                "groups": [ "近卫" ],
+                "location": [ 8, 4],
+                "direction": "up"
+            },
+            {
+                "groups": [ "辅助","狙击","术师" ],
+                "location": [ 7, 1],
+                "direction": "left"
+            },
+            {
+                "groups": [ "单奶", "群奶" ],
+                "location": [ 8, 1],
+                "direction": "down"
+            },
+            {
+                "groups": [ "辅助","狙击","术师" ],
+                "location": [ 6, 3],
+                "direction": "left"
+            }
+        ]
+    },
+    {
+        "stage_name": "狡兽九窟",
+        "replacement_home": [
+            {
+                "location": [
+                    8,
+                    3
+                ],
+                "direction": "right"
+            },
+            {
+                "location": [
+                    9,
+                    5
+                ],
+                "direction": "up"
+            },
+            {
+                "location": [
+                    10,
+                    5
+                ],
+                "direction": "up"
+            }
+        ],
+        "deploy_plan": [
+            {
+                "groups": [ "近卫","挡人先锋" ],
+                "location": [ 8, 3 ],
+                "direction": "right"
+            },
+            {
+                "groups": [ "近卫","挡人先锋","狙击" ],
+                "location": [ 6, 4 ],
+                "direction": "up"
+            }
+        ]
+    },
+    {
+        "stage_name": "冰海疑影",
+        "replacement_home": [
+            {
+                "location": [
+                    0,
+                    6
+                ],
+                "direction": "right"
+            }
+        ],
+        "deploy_plan": [
+            {
+                "groups": [ "近卫","挡人先锋","狙击" ],
+                "location": [ 1, 6],
+                "direction": "right"
+            },
+            {
+                "groups": ["近卫","挡人先锋","狙击" ],
+                "location": [ 2, 6],
+                "direction": "right"
+            },
+            {
+                "groups": [ "单奶", "群奶" ],
+                "location": [ 1, 3],
+                "direction": "down"
+            },
+            {
+                "groups": [ "辅助","狙击","术师"],
+                "location": [ 1, 5 ],
+                "direction": "right"
+            },
+            {
+                "groups": [ "辅助","狙击","术师"],
+                "location": [ 3, 3 ],
+                "direction": "right"
+            }
+        ]
+    },
+    {
+        "stage_name": "咫尺天涯",
+        "replacement_home": [
+            {
+                "location": [
+                    7,
+                    6
+                ],
+                "direction": "none"
+            }
+        ],
+        "deploy_plan": [
+            {
+                "groups": [ "辅助","狙击","术师" ],
+                "location": [ 6, 2],
+                "direction": "right"
+            },
+            {
+                "groups": [ "近卫","挡人先锋","狙击" ],
+                "location": [ 6, 6],
+                "direction": "left"
+            },
+            {
+                "groups": [ "单奶", "群奶" ],
+                "location": [ 9, 5],
+                "direction": "left"
+            },
+            {
+                "groups": [ "单奶", "群奶" ],
+                "location": [ 5, 2],
+                "direction": "right"
+            }
+        ]
+    },
+    {
+        "stage_name": "思维折断",
+        "replacement_home": [
+            {
+                "location": [
+                    7,
+                    3
+                ],
+                "direction": "none"
+            },
+            {
+                "location": [
+                    7,
+                    2
+                ],
+                "direction": "none"
+            }
+        ],
+        "deploy_plan": [
+            {
+                "groups": [ "近卫","挡人先锋","狙击" ],
+                "location": [ 6, 3],
+                "direction": "left"
+            },
+            {
+                "groups": [ "近卫","挡人先锋","狙击" ],
+                "location": [ 6, 2],
+                "direction": "left"
+            },
+            {
+                "groups": [ "辅助","狙击","术师" ],
+                "location": [ 4, 2],
+                "direction": "right"
+            },
+            {
+                "groups": [ "单奶", "群奶" ],
+                "location": [ 8, 2],
+                "direction": "left"
+            }
+        ]
+    },
     {
         "stage_name": "蓄水池",
         "replacement_home": [
@@ -523,15 +870,13 @@
         "not_use_dice": false,
         "role_order_Doc": "干员类型部署顺序，未写出部分以近卫，先锋，医疗，重装，狙击，术士，辅助，特种，召唤物的顺序补全，输入英文",
         "role_order": [
-            "warrior",
-            "pioneer",
-            "medic",
-            "tank",
-            "sniper",
-            "caster",
-            "support",
-            "special",
-            "drone"
+            "近卫",
+            "挡人先锋",
+            "单奶", "群奶",
+            "重装",
+            "狙击",
+            "术师",
+            "辅助"
         ],
         "force_air_defense_when_deploy_blocking_num_Doc": "场上有10000个阻挡单位时就开始强制部署总共1个对空单位（填不填写均不影响正常部署逻辑），在此期间不禁止部署医疗单位（不写默认false）",
         "force_air_defense_when_deploy_blocking_num": {
@@ -548,8 +893,8 @@
                 ],
                 "role_Doc": "填入的职业适用强制方向",
                 "role": [
-                    "warrior",
-                    "pioneer"
+                    "近卫",
+                    "挡人先锋"
                 ],
                 "direction": "up"
             },
@@ -559,7 +904,7 @@
                     1
                 ],
                 "role": [
-                    "sniper"
+                    "狙击"
                 ],
                 "direction": "left"
             }
@@ -1005,15 +1350,13 @@
             ]
         ],
         "role_order": [
-            "warrior",
-            "pioneer",
-            "sniper",
-            "caster",
-            "medic",
-            "tank",
-            "support",
-            "special",
-            "drone"
+            "近卫",
+            "挡人先锋",
+            "狙击",
+            "术师",
+            "单奶", "群奶",
+            "重装",
+            "辅助"
         ],
         "deploy_plan": [
             {
@@ -1247,15 +1590,13 @@
             ]
         ],
         "role_order": [
-            "warrior",
-            "pioneer",
-            "sniper",
-            "caster",
-            "medic",
-            "tank",
-            "support",
-            "special",
-            "drone"
+            "近卫",
+            "挡人先锋",
+            "狙击",
+            "术师",
+            "单奶", "群奶",
+            "重装",
+            "辅助"
         ],
         "deploy_plan": [
             {
@@ -1834,8 +2175,8 @@
                     2
                 ],
                 "role": [
-                    "sniper",
-                    "caster"
+                    "狙击",
+                    "术师"
                 ],
                 "direction": "left"
             },
@@ -1845,8 +2186,8 @@
                     3
                 ],
                 "role": [
-                    "sniper",
-                    "caster"
+                    "狙击",
+                    "术师"
                 ],
                 "direction": "left"
             },
@@ -1856,8 +2197,8 @@
                     4
                 ],
                 "role": [
-                    "sniper",
-                    "caster"
+                    "狙击",
+                    "术师"
                 ],
                 "direction": "left"
             }
@@ -1881,15 +2222,13 @@
             ]
         ],
         "role_order": [
-            "warrior",
-            "pioneer",
-            "sniper",
-            "caster",
-            "medic",
-            "tank",
-            "support",
-            "special",
-            "drone"
+            "近卫",
+            "挡人先锋",
+            "狙击",
+            "术师",
+            "单奶", "群奶",
+            "重装",
+            "辅助"
         ],
         "deploy_plan": [
             {
@@ -2008,15 +2347,13 @@
             ]
         ],
         "role_order": [
-            "warrior",
-            "pioneer",
-            "sniper",
-            "caster",
-            "medic",
-            "tank",
-            "support",
-            "special",
-            "drone"
+            "近卫",
+            "挡人先锋",
+            "狙击",
+            "术师",
+            "单奶", "群奶",
+            "重装",
+            "辅助"
         ],
         "force_deploy_direction": [
             {
@@ -2025,8 +2362,8 @@
                     3
                 ],
                 "role": [
-                    "sniper",
-                    "caster"
+                    "狙击",
+                    "术师"
                 ],
                 "direction": "right"
             },
@@ -2036,8 +2373,8 @@
                     3
                 ],
                 "role": [
-                    "sniper",
-                    "caster"
+                    "狙击",
+                    "术师"
                 ],
                 "direction": "right"
             }
@@ -2136,8 +2473,8 @@
                     4
                 ],
                 "role": [
-                    "warrior",
-                    "pioneer"
+                    "近卫",
+                    "挡人先锋"
                 ],
                 "direction": "left"
             },
@@ -2147,8 +2484,8 @@
                     4
                 ],
                 "role": [
-                    "warrior",
-                    "pioneer"
+                    "近卫",
+                    "挡人先锋"
                 ],
                 "direction": "right"
             }
@@ -2256,15 +2593,13 @@
             "ban_medic": false
         },
         "role_order": [
-            "warrior",
-            "pioneer",
-            "sniper",
-            "caster",
-            "medic",
-            "tank",
-            "support",
-            "special",
-            "drone"
+            "近卫",
+            "挡人先锋",
+            "狙击",
+            "术师",
+            "单奶", "群奶",
+            "重装",
+            "辅助"
         ],
         "deploy_plan": [
             {
@@ -2532,8 +2867,8 @@
                     4
                 ],
                 "role": [
-                    "sniper",
-                    "caster"
+                    "狙击",
+                    "术师"
                 ],
                 "direction": "left"
             },
@@ -2543,8 +2878,8 @@
                     2
                 ],
                 "role": [
-                    "sniper",
-                    "caster"
+                    "狙击",
+                    "术师"
                 ],
                 "direction": "left"
             },
@@ -2554,8 +2889,8 @@
                     2
                 ],
                 "role": [
-                    "sniper",
-                    "caster"
+                    "狙击",
+                    "术师"
                 ],
                 "direction": "left"
             },
@@ -2565,8 +2900,8 @@
                     3
                 ],
                 "role": [
-                    "sniper",
-                    "caster"
+                    "狙击",
+                    "术师"
                 ],
                 "direction": "left"
             },
@@ -2576,8 +2911,8 @@
                     4
                 ],
                 "role": [
-                    "sniper",
-                    "caster"
+                    "狙击",
+                    "术师"
                 ],
                 "direction": "left"
             }
@@ -2817,15 +3152,13 @@
             ]
         ],
         "role_order": [
-            "sniper",
-            "caster",
-            "warrior",
-            "pioneer",
-            "medic",
-            "tank",
-            "support",
-            "special",
-            "drone"
+            "狙击",
+            "术师",
+            "近卫",
+            "挡人先锋",
+            "单奶", "群奶",
+            "重装",
+            "辅助"
         ],
         "force_air_defense_when_deploy_blocking_num": {
             "melee_num": 0,
@@ -2839,8 +3172,8 @@
                     3
                 ],
                 "role": [
-                    "sniper",
-                    "caster"
+                    "狙击",
+                    "术师"
                 ],
                 "direction": "right"
             },
@@ -2850,8 +3183,8 @@
                     3
                 ],
                 "role": [
-                    "sniper",
-                    "caster"
+                    "狙击",
+                    "术师"
                 ],
                 "direction": "right"
             }
@@ -3101,15 +3434,13 @@
             }
         ],
         "role_order": [
-            "sniper",
-            "caster",
-            "warrior",
-            "pioneer",
-            "medic",
-            "support",
-            "tank",
-            "special",
-            "drone"
+            "狙击",
+            "术师",
+            "近卫",
+            "挡人先锋",
+            "单奶", "群奶",
+            "辅助",
+            "重装"
         ],
         "deploy_plan": [
             {
@@ -3296,8 +3627,8 @@
                     2
                 ],
                 "role": [
-                    "sniper",
-                    "caster"
+                    "狙击",
+                    "术师"
                 ],
                 "direction": "down"
             },
@@ -3307,8 +3638,8 @@
                     2
                 ],
                 "role": [
-                    "sniper",
-                    "caster"
+                    "狙击",
+                    "术师"
                 ],
                 "direction": "down"
             },
@@ -3318,8 +3649,8 @@
                     2
                 ],
                 "role": [
-                    "sniper",
-                    "caster"
+                    "狙击",
+                    "术师"
                 ],
                 "direction": "down"
             }
@@ -3547,15 +3878,13 @@
             ]
         ],
         "role_order": [
-            "warrior",
-            "pioneer",
-            "sniper",
-            "caster",
-            "medic",
-            "tank",
-            "support",
-            "special",
-            "drone"
+            "近卫",
+            "挡人先锋",
+            "狙击",
+            "术师",
+            "单奶", "群奶",
+            "重装",
+            "辅助"
         ],
         "force_air_defense_when_deploy_blocking_num": {
             "melee_num": 2,
@@ -3569,8 +3898,8 @@
                     1
                 ],
                 "role": [
-                    "sniper",
-                    "caster"
+                    "狙击",
+                    "术师"
                 ],
                 "direction": "right"
             },
@@ -3580,8 +3909,8 @@
                     4
                 ],
                 "role": [
-                    "sniper",
-                    "caster"
+                    "狙击",
+                    "术师"
                 ],
                 "direction": "left"
             }
@@ -4085,15 +4414,13 @@
             "ban_medic": false
         },
         "role_order": [
-            "warrior",
-            "pioneer",
-            "sniper",
-            "medic",
-            "tank",
-            "caster",
-            "support",
-            "special",
-            "drone"
+            "近卫",
+            "挡人先锋",
+            "狙击",
+            "单奶", "群奶",
+            "重装",
+            "术师",
+            "辅助"
         ],
         "force_deploy_direction": [
             {
@@ -4102,8 +4429,8 @@
                     3
                 ],
                 "role": [
-                    "sniper",
-                    "caster"
+                    "狙击",
+                    "术师"
                 ],
                 "direction": "left"
             },
@@ -4113,8 +4440,8 @@
                     3
                 ],
                 "role": [
-                    "sniper",
-                    "caster"
+                    "狙击",
+                    "术师"
                 ],
                 "direction": "left"
             },
@@ -4124,8 +4451,8 @@
                     3
                 ],
                 "role": [
-                    "sniper",
-                    "caster"
+                    "狙击",
+                    "术师"
                 ],
                 "direction": "left"
             }
@@ -4226,15 +4553,13 @@
             }
         ],
         "role_order": [
-            "sniper",
-            "caster",
-            "warrior",
-            "pioneer",
-            "medic",
-            "tank",
-            "support",
-            "special",
-            "drone"
+            "狙击",
+            "术师",
+            "近卫",
+            "挡人先锋",
+            "单奶", "群奶",
+            "重装",
+            "辅助"
         ],
         "force_air_defense_when_deploy_blocking_num": {
             "melee_num": 0,
@@ -4248,8 +4573,8 @@
                     5
                 ],
                 "role": [
-                    "sniper",
-                    "caster"
+                    "狙击",
+                    "术师"
                 ],
                 "direction": "up"
             },
@@ -4259,8 +4584,8 @@
                     3
                 ],
                 "role": [
-                    "sniper",
-                    "caster"
+                    "狙击",
+                    "术师"
                 ],
                 "direction": "left"
             },
@@ -4270,8 +4595,8 @@
                     4
                 ],
                 "role": [
-                    "sniper",
-                    "caster"
+                    "狙击",
+                    "术师"
                 ],
                 "direction": "left"
             }
@@ -4369,15 +4694,13 @@
             }
         ],
         "role_order": [
-            "warrior",
-            "pioneer",
-            "sniper",
-            "caster",
-            "medic",
-            "tank",
-            "support",
-            "special",
-            "drone"
+            "近卫",
+            "挡人先锋",
+            "狙击",
+            "术师",
+            "单奶", "群奶",
+            "重装",
+            "辅助"
         ],
         "deploy_plan": [
             {
@@ -5045,15 +5368,13 @@
             }
         ],
         "role_order": [
-            "warrior",
-            "pioneer",
-            "sniper",
-            "caster",
-            "medic",
-            "tank",
-            "support",
-            "special",
-            "drone"
+            "近卫",
+            "挡人先锋",
+            "狙击",
+            "术师",
+            "单奶", "群奶",
+            "重装",
+            "辅助"
         ],
         "blacklist_location": [
             [
@@ -5096,8 +5417,8 @@
                     5
                 ],
                 "role": [
-                    "sniper",
-                    "caster"
+                    "狙击",
+                    "术师"
                 ],
                 "direction": "right"
             },
@@ -5107,8 +5428,8 @@
                     1
                 ],
                 "role": [
-                    "sniper",
-                    "caster"
+                    "狙击",
+                    "术师"
                 ],
                 "direction": "left"
             },
@@ -5118,8 +5439,8 @@
                     5
                 ],
                 "role": [
-                    "sniper",
-                    "caster"
+                    "狙击",
+                    "术师"
                 ],
                 "direction": "up"
             }
@@ -6206,460 +6527,6 @@
                     5,
                     3
                 ]
-            }
-        ]
-    },
-    {
-        "stage_name": "死囚之夜",
-        "replacement_home": [
-        {
-            "location": [
-                7,
-                0
-            ],
-            "direction": "none"
-        }
-    ],
-        "deploy_plan": [
-            {
-                "groups": [ "Warrior","Pioneer" ],
-                "location": [ 3, 5],
-                "direction": "up"
-            },
-            {
-                "groups": [ "Support","Sniper","Caster" ],
-                "location": [ 4, 1],
-                "direction": "down"
-            },
-            {
-                "groups": [ "Medic" ],
-                "location": [ 3, 2],
-                "direction": "down"
-            }
-        ]
-    },
-    {
-        "stage_name": "度假村冤魂",
-        "replacement_home": [
-            {
-                "location": [
-                    0,
-                    3
-                ],
-                "direction": "none"
-            }
-        ],
-        "deploy_plan": [
-            {
-                "groups": [ "Warrior" ],
-                "location": [ 2, 3],
-                "direction": "right"
-            },
-            {
-                "groups": [ "Support","Sniper","Caster" ],
-                "location": [ 4, 4],
-                "direction": "up"
-            },
-            {
-                "groups": [ "Medic" ],
-                "location": [ 1, 4],
-                "direction": "rigit"
-            }
-        ]
-    },
-    {
-        "stage_name": "苔手",
-        "replacement_home": [
-            {
-                "location": [
-                    10,
-                    2
-                ],
-                "direction": "none"
-            }
-        ],
-        "deploy_plan": [
-            {
-                "groups": [ "Warrior" ],
-                "location": [ 7, 3],
-                "direction": "left"
-            },
-            {
-                "groups": [ "Support","Sniper","Caster" ],
-                "location": [ 6, 2],
-                "direction": "left"
-            }
-        ]
-    },
-    {
-        "stage_name": "待宰的兽群",
-        "replacement_home": [
-            {
-                "location": [
-                    7,
-                    3
-                ],
-                "direction": "none"
-            }
-        ],
-        "deploy_plan": [
-            {
-                "groups": [ "Warrior" ],
-                "location": [ 6, 3],
-                "direction": ""
-            },
-            {
-                "groups": [ "Support","Sniper","Caster" ,"Alternate"],
-                "location": [ 5, 2],
-                "direction": "down"
-            }
-        ]
-    },
-    {
-        "stage_name": "没有尽头的路",
-        "replacement_home": [
-            {
-                "location": [
-                    0,
-                    5
-                ],
-                "direction": "none"
-            }
-        ]
-    },
-    {
-        "stage_name": "低空机动",
-        "replacement_home": [
-            {
-                "location": [
-                    9,
-                    3
-                ],
-                "direction": "none"
-            }
-        ],
-        "deploy_plan": [
-            {
-                "groups": [ "Warrior","Pioneer" ],
-                "location": [ 6, 2],
-                "direction": "left"
-            },
-            {
-                "groups": [ "Support","Sniper","Caster" ],
-                "location": [ 5, 1],
-                "direction": "down"
-            },
-            {
-                "groups": [ "Medic" ],
-                "location": [ 4, 3],
-                "direction": "down"
-            }
-        ]
-    },
-    {
-        "stage_name": "幽灵与鬼魅",
-        "replacement_home": [
-            {
-                "location": [
-                    3,
-                    4
-                ],
-                "direction": "none"
-            }
-        ],
-        "deploy_plan": [
-            {
-                "groups": [ "Warrior","Pioneer","Tank" ],
-                "location": [ 3, 5 ],
-                "direction": "left"
-            },
-            {
-                "groups": [ "Support","Sniper","Caster" ],
-                "location": [ 4, 3 ],
-                "direction": "down"
-            }
-        ]
-    },
-    {
-        "stage_name": "违和",
-        "replacement_home": [
-            {
-                "location": [
-                    5,
-                    3
-                ],
-                "direction": "right"
-            }
-        ],
-        "blacklist_location": [
-                [
-                    4,
-                    1
-                ],
-                [
-                    4,
-                    2
-                ]
-            ],
-            "deploy_plan": [
-            {
-                "groups": [ "Warrior","Pioneer","Tank" ],
-                "location": [ 5, 3 ],
-                "direction": "right"
-            },
-            {
-                "groups": [ "Support","Sniper","Caster","Alternate"],
-                "location": [ 5, 4 ],
-                "direction": "right"
-            }
-        ]
-    },
-    {
-        "stage_name": "虫虫别回头",
-        "replacement_home": [
-            {
-                "location": [
-                    3,
-                    4
-                ],
-                "direction": "right"
-            },
-            {
-                "location": [
-                    4,
-                    5
-                ],
-                "direction": "right"
-            }
-        ],   
-        "deploy_plan": [
-            {
-                "groups": [ "Warrior","Pioneer","Tank" ],
-                "location": [ 4, 5 ],
-                "direction": "up"
-            },
-            {
-                "groups": [ "Warrior","Pioneer","Tank" ],
-                "location": [ 3, 4 ],
-                "direction": "right"
-            }
-         ]
-    },
-    
-    {
-        "stage_name": "弄假成真",
-        "replacement_home": [
-                {
-                    "location": [
-                        4,
-                        0
-                    ],
-                    "direction": "none"
-                }
-            ],
-            "deploy_plan": [
-                {
-                    "groups": [ "Warrior","Pioneer","Tank" ],
-                    "location": [ 4, 1 ],
-                    "direction": "left"
-                },
-                {
-                    "groups": [ "Warrior","Pioneer","Tank" ],
-                    "location": [ 5, 1 ],
-                    "direction": "right"
-                }
-        ]
-    },
-    {
-        "stage_name": "饥渴祭坛",
-        "replacement_home": [
-            {
-                "location": [
-                    10,
-                    2
-                ],
-                "direction": "left"
-            },
-            {
-                "location": [
-                    10,
-                    4
-                ],
-                "direction": "left"
-            }
-        ],
-        "deploy_plan": [
-            {
-                "groups": [ "Warrior" ],
-                "location": [ 8, 4],
-                "direction": "up"
-            },
-            {
-                "groups": [ "Support","Sniper","Caster" ],
-                "location": [ 7, 1],
-                "direction": "left"
-            },
-            {
-                "groups": [ "Medic" ],
-                "location": [ 8, 1],
-                "direction": "down"
-            },
-            {
-                "groups": [ "Support","Sniper","Caster" ],
-                "location": [ 6, 3],
-                "direction": "left"
-            }
-        ]
-    },
-    {
-        "stage_name": "狡兽九窟",
-        "replacement_home": [
-            {
-                "location": [
-                    8,
-                    3
-                ],
-                "direction": "right"
-            },
-            {
-                "location": [
-                    9,
-                    5
-                ],
-                "direction": "up"
-            },
-            {
-                "location": [
-                    10,
-                    5
-                ],
-                "direction": "up"
-            }
-        ],
-        "deploy_plan": [
-            {
-                "groups": [ "Warrior","Pioneer" ],
-                "location": [ 8, 3 ],
-                "direction": "right"
-            },
-            {
-                "groups": [ "Warrior","Pioneer","Sniper","Alternate" ],
-                "location": [ 6, 4 ],
-                "direction": "up"
-            }
-        ]
-    },
-    {
-        "stage_name": "冰海疑影",
-        "replacement_home": [
-            {
-                "location": [
-                    0,
-                    6
-                ],
-                "direction": "right"
-            }
-        ],
-        "deploy_plan": [
-            {
-                "groups": [ "Warrior","Pioneer","Sniper","Alternate" ],
-                "location": [ 1, 6],
-                "direction": "right"
-            },
-            {
-                "groups": ["Warrior","Pioneer","Sniper","Alternate" ],
-                "location": [ 2, 6],
-                "direction": "right"
-            },
-            {
-                "groups": [ "Medic" ],
-                "location": [ 1, 3],
-                "direction": "down"
-            },
-            {
-                "groups": [ "Support","Sniper","Caster","Alternate"],
-                "location": [ 1, 5 ],
-                "direction": "right"
-            },
-            {
-                "groups": [ "Support","Sniper","Caster","Alternate"],
-                "location": [ 3, 3 ],
-                "direction": "right"
-            }
-        ]
-    },
-    {
-        "stage_name": "咫尺天涯",
-        "replacement_home": [
-            {
-                "location": [
-                    7,
-                    6
-                ],
-                "direction": "none"
-            }
-        ],
-        "deploy_plan": [
-            {
-                "groups": [ "Support","Sniper","Caster","Alternate" ],
-                "location": [ 6, 2],
-                "direction": "right"
-            },
-            {
-                "groups": [ "Warrior","Pioneer","Sniper","Alternate" ],
-                "location": [ 6, 6],
-                "direction": "left"
-            },
-            {
-                "groups": [ "Medic" ],
-                "location": [ 9, 5],
-                "direction": "left"
-            },
-            {
-                "groups": [ "Medic" ],
-                "location": [ 5, 2],
-                "direction": "right"
-            }
-        ]
-    },
-    {
-        "stage_name": "思维折断",
-        "replacement_home": [
-            {
-                "location": [
-                    7,
-                    3
-                ],
-                "direction": "none"
-            },
-            {
-                "location": [
-                    7,
-                    2
-                ],
-                "direction": "none"
-            }
-        ],
-        "deploy_plan": [
-            {
-                "groups": [ "Warrior","Pioneer","Sniper","Alternate" ],
-                "location": [ 6, 3],
-                "direction": "left"
-            },
-            {
-                "groups": [ "Warrior","Pioneer","Sniper","Alternate" ],
-                "location": [ 6, 2],
-                "direction": "left"
-            },
-            {
-                "groups": [ "Support","Sniper","Caster","Alternate" ],
-                "location": [ 4, 2],
-                "direction": "right"
-            },
-            {
-                "groups": [ "Medic" ],
-                "location": [ 8, 2],
-                "direction": "left"
             }
         ]
     }
