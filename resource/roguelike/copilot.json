@@ -5739,7 +5739,7 @@
             {
                 "groups": [ "Medic" ],
                 "location": [ 3, 2],
-                "direction": "up"
+                "direction": "down"
             }
         ]
     },
