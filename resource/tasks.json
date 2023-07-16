@@ -10145,6 +10145,7 @@
     },
     "Sami@Roguelike@StageBoskyPassage": {
         "template": "Sami@Roguelike@StageBoskyPassage.png",
+        "templThreshold": 0.9,
         "baseTask": "Roguelike@Stage",
         "next": [
             "Sami@Roguelike@StageBoskyPassageEnter",
