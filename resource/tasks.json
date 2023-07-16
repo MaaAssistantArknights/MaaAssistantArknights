@@ -10212,7 +10212,7 @@
         ]
     },
     "Sami@Roguelike@StageEncounterOptionUnknown": {
-        "templThreshold": 0.91
+        "templThreshold": 0.85
     },
     "Sami@Roguelike@StageEncounterOptionWonderland": {},
     "Sami@Roguelike@StageSafeHouseReuse": {
