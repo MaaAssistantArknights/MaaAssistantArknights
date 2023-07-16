@@ -2547,6 +2547,9 @@
             "To the most recent stage"
         ]
     },
+    "InfrastFlagOriginStone": {
+        "templThreshold": 0.7
+    },
     "InfrastEnterOperList": {
         "fullMatch": true,
         "text": [
