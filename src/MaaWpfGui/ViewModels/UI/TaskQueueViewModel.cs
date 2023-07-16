@@ -244,7 +244,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             refreshCustomInfrastPlanIndexByPeriod();
 
-            if (!runningState.GetIdle() && !Instances.SettingsViewModel.ForceScheduledStart)
+            if (!runningState.GetIdle() && !Instances.SettingsViewModel.ForceScheduledStart && !Instances.SettingsViewModel.CustomConfig)
             {
                 return;
             }
