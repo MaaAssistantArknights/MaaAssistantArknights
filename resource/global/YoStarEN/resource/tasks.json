@@ -4667,6 +4667,9 @@
     "UsePrts": {
         "templThreshold": 0.7
     },
+    "VisitNextBlack": {
+        "templThreshold": 0.85
+    },
     "VisitLimited": {
         "text": [
             "limit",
