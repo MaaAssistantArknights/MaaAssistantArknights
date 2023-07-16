@@ -5722,7 +5722,7 @@
                 7,
                 0
             ],
-            "direction": ""
+            "direction": "none"
         }
     ],
         "deploy_plan": [
@@ -5751,7 +5751,7 @@
                     0,
                     3
                 ],
-                "direction": ""
+                "direction": "none"
             }
         ],
         "deploy_plan": [
