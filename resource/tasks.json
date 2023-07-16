@@ -10093,7 +10093,8 @@
         "template": "Sami@Roguelike@Recruit.png"
     },
     "Sami@Roguelike@RecruitOther": {
-        "template": "Sami@Roguelike@Recruit.png"
+        "template": "Sami@Roguelike@Recruit.png",
+        "templThreshold": 0.8
     },
     "Sami@Roguelike@RecruitWithoutButton": {
         "next": [
@@ -10144,7 +10145,7 @@
     },
     "Sami@Roguelike@StageBoskyPassage": {
         "template": "Sami@Roguelike@StageBoskyPassage.png",
-        "baseTask": "Roguelike@StageEnter",
+        "baseTask": "Roguelike@Stage",
         "next": [
             "Sami@Roguelike@StageBoskyPassageEnter",
             "Sami@Roguelike@NextLevel",
