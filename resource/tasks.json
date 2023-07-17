@@ -8403,10 +8403,10 @@
         "text": [],
         "preDelay": 600,
         "roi": [
-            108,
-            460,
-            200,
-            40
+            0,
+            405,
+            725,
+            225
         ]
     },
     "Roguelike@StageEncounterJudgeOption": {
@@ -8417,6 +8417,34 @@
             "Roguelike@StageEncounterOptions#next",
             "Roguelike@NextLevel#next",
             "Roguelike@StageEncounterClickToLeave"
+        ]
+    },
+    "Roguelike@StageEncounterJudgeClick": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            640,
+            360,
+            0,
+            0
+        ],
+        "preDelay": 150,
+        "next": [
+            "Roguelike@StageEncounterJudgeClick2"
+        ]
+    },
+    "Roguelike@StageEncounterJudgeClick2": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            640,
+            360,
+            0,
+            0
+        ],
+        "preDelay": 150,
+        "next": [
+            "Roguelike@StageEncounterJudgeOption"
         ]
     },
     "Roguelike@OptionChoose1-1": {
@@ -8612,7 +8640,7 @@
         "baseTask": "Roguelike@StageEnter",
         "next": [
             "Roguelike@StageEncounterEnter",
-            "Roguelike@StageEncounterJudgeOption"
+            "Roguelike@StageEncounterJudgeClick"
         ]
     },
     "Roguelike@StageEncounterGiveUpRecruitConfirm": {
@@ -9320,6 +9348,8 @@
         "templThreshold": 0.85
     },
     "Phantom@Roguelike@StageEncounterJudgeOption": {},
+    "Phantom@Roguelike@StageEncounterJudgeClick": {},
+    "Phantom@Roguelike@StageEncounterJudgeClick2": {},
     "Phantom@Roguelike@OptionChoose1-1": {},
     "Phantom@Roguelike@OptionChoose2-1": {},
     "Phantom@Roguelike@OptionChoose2-2": {},
@@ -9796,6 +9826,8 @@
         ]
     },
     "Mizuki@Roguelike@StageEncounterJudgeOption": {},
+    "Mizuki@Roguelike@StageEncounterJudgeClick": {},
+    "Mizuki@Roguelike@StageEncounterJudgeClick2": {},
     "Mizuki@Roguelike@OptionChoose1-1": {},
     "Mizuki@Roguelike@OptionChoose2-1": {},
     "Mizuki@Roguelike@OptionChoose2-2": {},
@@ -10140,7 +10172,8 @@
         "template": "Sami@Roguelike@StageTraderEnter.png",
         "baseTask": "Roguelike@StageEnter",
         "next": [
-            "Sami@Roguelike@StageEncounterJudgeOption"
+            "Sami@Roguelike@StageBoonsEnter",
+            "Sami@Roguelike@StageEncounterJudgeClick"
         ]
     },
     "Sami@Roguelike@StageBoskyPassage": {
@@ -10157,7 +10190,8 @@
         "template": "Sami@Roguelike@StageBoskyPassageEnter.png",
         "baseTask": "Roguelike@StageEnter",
         "next": [
-            "Sami@Roguelike@StageEncounterJudgeOption"
+            "Sami@Roguelike@StageBoskyPassageEnter",
+            "Sami@Roguelike@StageEncounterJudgeClick"
         ]
     },
     "Sami@Roguelike@StageCambatDps": {
@@ -10250,6 +10284,8 @@
         ]
     },
     "Sami@Roguelike@StageEncounterJudgeOption": {},
+    "Sami@Roguelike@StageEncounterJudgeClick": {},
+    "Sami@Roguelike@StageEncounterJudgeClick2": {},
     "Sami@Roguelike@OptionChoose1-1": {},
     "Sami@Roguelike@OptionChoose2-1": {},
     "Sami@Roguelike@OptionChoose2-2": {},
