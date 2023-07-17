@@ -10118,6 +10118,8 @@
             "Sami@Roguelike@StageDreadfulFoe-5",
             "Sami@Roguelike@StageGambling",
             "Sami@Roguelike@StageProphecy",
+            "Sami@Roguelike@StageMysteriousPresage",
+            "Sami@Roguelike@StageFerociousPresage",
             "Sami@Roguelike@CloseCollectionClose"
         ]
     },
@@ -10221,7 +10223,7 @@
     },
     "Sami@Roguelike@StageEmergencyDpsEnter": {},
     "Sami@Roguelike@StageEmergencyTransportation": {
-        "Doc": "紧急运输，拒绝可以获取3希望",
+        "Doc": "先行一步，拒绝可以获取2希望",
         "baseTask": "Sami@Roguelike@Stage",
         "templThreshold": 0.95,
         "next": [
@@ -10251,6 +10253,55 @@
         "templThreshold": 0.85
     },
     "Sami@Roguelike@StageEncounterOptionWonderland": {},
+    "Sami@Roguelike@StageFerociousPresage": {
+        "Doc": "凶戾的预感",
+        "template": "Sami@Roguelike@StageFerociousPresage.png",
+        "baseTask": "Sami@Roguelike@Stage",
+        "templThreshold": 0.9,
+        "next": [
+            "Sami@Roguelike@StageFerociousPresageEnter",
+            "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StageFerociousPresageEnter": {
+        "template": "Sami@Roguelike@StageFerociousPresageEnter.png",
+        "baseTask": "Sami@Roguelike@StageEnterBattle"
+    },
+    "Sami@Roguelike@StageMysteriousPresage": {
+        "Doc": "诡秘的预感",
+        "template": "Sami@Roguelike@StageMysteriousPresage.png",
+        "baseTask": "Sami@Roguelike@Stage",
+        "templThreshold": 0.9,
+        "next": [
+            "Sami@Roguelike@StageMysteriousPresageEnter",
+            "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StageMysteriousPresageEnter": {
+        "template": "Sami@Roguelike@StageMysteriousPresageEnter.png",
+        "baseTask": "Roguelike@StageEnter",
+        "templThreshold": 0.9,
+        "postDelay": 1000,
+        "next": [
+            "Sami@Roguelike@TraderCheck",
+            "Sami@Roguelike@StageEncounterJudgeClick"
+        ]
+    },
+    "Sami@Roguelike@TraderCheck": {
+        "algorithm": "MatchTemplate",
+        "template": "Sami@Roguelike@TraderCheck.png",
+        "roi": [
+            96,
+            210,
+            293,
+            236
+        ],
+        "next": [
+            "Sami@Roguelike@StageTraderEnter#next"
+        ]
+    },
     "Sami@Roguelike@StageSafeHouseReuse": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
@@ -10328,7 +10379,12 @@
     "Sami@Roguelike@StageSafeHouse": {
         "templThreshold": 0.95
     },
-    "Sami@Roguelike@StageSafeHouseEnter": {},
+    "Sami@Roguelike@StageSafeHouseEnter": {
+        "next": [
+            "Sami@Roguelike@StageSafeHouseEnter",
+            "Sami@Roguelike@StageEncounterJudgeClick"
+        ]
+    },
     "Sami@Roguelike@StageTrader": {
         "templThreshold": 0.95
     },
