@@ -344,10 +344,6 @@
             "option_num": 3,
             "choose": 1
         },
-        "探寻前路": {
-            "option_num": 3,
-            "choose": 2
-        },
         "走过萨米的臂膀": {
             "option_num": 2,
             "choose": 1,
@@ -473,10 +469,6 @@
                     }
                 }
             ]
-        },
-        "派遣科考队": {
-            "option_num": 2,
-            "choose": 2
         }
     },
     "Mizuki": {
