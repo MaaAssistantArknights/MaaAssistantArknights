@@ -845,6 +845,20 @@
                 "direction": "left"
             }
         ],
+        "blacklist_location": [
+            [
+                7,
+                5
+            ],
+            [
+                8,
+                5
+            ],
+            [
+                9,
+                5
+            ]
+        ],
         "deploy_plan": [
             {
                 "groups": ["近卫"],
