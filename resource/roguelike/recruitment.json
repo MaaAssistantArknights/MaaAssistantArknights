@@ -824,8 +824,7 @@
                 },
                 {
                     "name": "絮雨",
-                    "skill": 3,
-                    "alternate_skill": 1,
+                    "skill": 2,
                     "recruit_priority": 722,
                     "promote_priority": 410,
                     "is_key": true,
@@ -2293,8 +2292,7 @@
                 },
                 {
                     "name": "絮雨",
-                    "skill": 3,
-                    "alternate_skill": 1,
+                    "skill": 2,
                     "recruit_priority": 722,
                     "promote_priority": 410,
                     "recruit_priority_offsets": [
