@@ -12662,6 +12662,15 @@
         "stageId": "mem_gravel_1",
         "width": 11
     },
+    "mem_greyy2_1-obt/memory/level_memory_greyy2_1": {
+        "code": "mem_greyy2_1",
+        "filename": "mem_greyy2_1-obt-memory-level_memory_greyy2_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_greyy2_1",
+        "name": "光源",
+        "stageId": "mem_greyy2_1",
+        "width": 11
+    },
     "mem_greyy_1-obt/memory/level_memory_greyy_1": {
         "code": "mem_greyy_1",
         "filename": "mem_greyy_1-obt-memory-level_memory_greyy_1.json",
@@ -12679,6 +12688,15 @@
         "name": "\t别问了，快吃",
         "stageId": "mem_haak_1",
         "width": 12
+    },
+    "mem_halo_1-obt/memory/level_memory_halo_1": {
+        "code": "mem_halo_1",
+        "filename": "mem_halo_1-obt-memory-level_memory_halo_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_halo_1",
+        "name": "群星闪烁相映",
+        "stageId": "mem_halo_1",
+        "width": 11
     },
     "mem_hbisc2_1-obt/memory/level_memory_hbisc2_1": {
         "code": "mem_hbisc2_1",
@@ -13003,6 +13021,15 @@
         "name": "良药苦口",
         "stageId": "mem_myrrh_1",
         "width": 11
+    },
+    "mem_nblade_1-obt/memory/level_memory_nblade_1": {
+        "code": "mem_nblade_1",
+        "filename": "mem_nblade_1-obt-memory-level_memory_nblade_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_nblade_1",
+        "name": "锋芒如一",
+        "stageId": "mem_nblade_1",
+        "width": 10
     },
     "mem_nearl2_1-obt/memory/level_memory_nearl2_1": {
         "code": "mem_nearl2_1",
@@ -13353,6 +13380,15 @@
         "levelId": "obt/memory/level_memory_sleach_1",
         "name": "队伍前列",
         "stageId": "mem_sleach_1",
+        "width": 9
+    },
+    "mem_snakek_1-obt/memory/level_memory_snakek_1": {
+        "code": "mem_snakek_1",
+        "filename": "mem_snakek_1-obt-memory-level_memory_snakek_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_snakek_1",
+        "name": "关键球员",
+        "stageId": "mem_snakek_1",
         "width": 9
     },
     "mem_snsant_1-obt/memory/level_memory_snsant_1": {
