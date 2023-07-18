@@ -218,7 +218,7 @@ namespace MaaWpfGui.ViewModels.UI
                 UpdateStageList(false);
 
                 // 随机延迟，防止同时更新
-                var delayTime = new Random().Next(10, 10 * 60 * 1000);
+                var delayTime = new Random().Next(0, 10 * 60 * 1000);
                 _ = Task.Run(async () =>
                 {
                     await Task.Delay(delayTime);
@@ -233,7 +233,7 @@ namespace MaaWpfGui.ViewModels.UI
                 if (Instances.SettingsViewModel.UpdatAutoCheck)
                 {
                     // 随机延迟，防止同时更新
-                    var delayTime = new Random().Next(0, 10 * 60 * 1000);
+                    var delayTime = new Random().Next(0, 60 * 60 * 1000);
                     _ = Task.Run(async () =>
                     {
                         await Task.Delay(delayTime);
