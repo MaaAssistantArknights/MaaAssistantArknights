@@ -8453,7 +8453,7 @@
         "specificRect": [
             1175,
             335,
-            170,
+            100,
             60
         ]
     },
@@ -8493,7 +8493,7 @@
         "specificRect": [
             1175,
             340,
-            170,
+            100,
             60
         ]
     },
@@ -8503,7 +8503,7 @@
         "specificRect": [
             1175,
             500,
-            170,
+            100,
             60
         ]
     },
@@ -8513,7 +8513,7 @@
         "specificRect": [
             1175,
             110,
-            170,
+            100,
             60
         ]
     },
@@ -8523,7 +8523,7 @@
         "specificRect": [
             1175,
             260,
-            170,
+            100,
             60
         ]
     },
@@ -8533,7 +8533,7 @@
         "specificRect": [
             1175,
             417,
-            170,
+            100,
             60
         ]
     },
@@ -8543,7 +8543,7 @@
         "specificRect": [
             1175,
             560,
-            170,
+            100,
             60
         ]
     },
@@ -10243,18 +10243,8 @@
     },
     "Sami@Roguelike@StageEncounterEnter": {},
     "Sami@Roguelike@StageEncounterLeaveConfirm": {},
-    "Sami@Roguelike@StageEncounterOptionFree": {
-        "maskRange": [
-            5,
-            255
-        ]
-    },
-    "Sami@Roguelike@StageEncounterOptionLeave": {
-        "maskRange": [
-            5,
-            255
-        ]
-    },
+    "Sami@Roguelike@StageEncounterOptionFree": {},
+    "Sami@Roguelike@StageEncounterOptionLeave": {},
     "Sami@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.85
     },
