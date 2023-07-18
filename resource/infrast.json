@@ -2577,6 +2577,24 @@
                 ],
                 "template": "Bskill_meet_rhodes2.png"
             },
+            "bskill_meet_spd&bd": {
+                "desc": [
+                    "进驻会客室时，线索搜集速度提升10%，当与提丰进驻会客室一起工作时，线索搜集速度额外提升15%，自身心情每小时消耗+0.5"
+                ],
+                "name": [
+                    "远见"
+                ],
+                "template": "Bskill_meet_spd&bd.png"
+            },
+            "bskill_meet_spd&bd&notOwned": {
+                "desc": [
+                    "进驻会客室时，线索搜集速度提升10%，当与提丰进驻会客室一起工作时，线索搜集速度额外提升15%，自身心情每小时消耗+0.5，且更容易获得线索板上尚未拥有的线索"
+                ],
+                "name": [
+                    "未来之途"
+                ],
+                "template": "Bskill_meet_spd&bd&notOwned.png"
+            },
             "bskill_meet_spd&condChar_mustget": {
                 "desc": [
                     "进驻会客室时，如果会客室内只有自身处于工作状态时，连续消耗超过16点心情下一次必定获得莱茵生命的线索"

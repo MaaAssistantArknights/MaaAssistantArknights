@@ -20,7 +20,6 @@ using System.IO.Compression;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
@@ -518,7 +517,6 @@ namespace MaaWpfGui.ViewModels.UI
                 // 负载均衡
                 // var rand = new Random();
                 // urls = urls.OrderBy(_ => rand.Next()).ToList();
-
                 if (rawUrl != null)
                 {
                     urls.Add(rawUrl);
@@ -556,7 +554,6 @@ namespace MaaWpfGui.ViewModels.UI
 
                 _logger.Information("Selected mirror: {CDNUrl}", urls[selected]);
 
-
                 downloaded = await DownloadGithubAssets(urls[selected], _assetsObject);
                 if (downloaded)
                 {
@@ -585,17 +582,17 @@ namespace MaaWpfGui.ViewModels.UI
             return checkResult;
         }
 
-        public void AskToRestart()
+        public async void AskToRestart()
         {
             if (Instances.SettingsViewModel.AutoInstallUpdatePackage)
             {
-                while (!runningState.GetIdle())
-                {
-                    Thread.Sleep(60000);
-                }
+                await runningState.UntilIdleAsync(60000);
 
-                Application.Current.Shutdown();
-                Bootstrapper.RestartApplication();
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    Application.Current.Shutdown();
+                    Bootstrapper.RestartApplication();
+                });
                 return;
             }
 
@@ -603,7 +600,7 @@ namespace MaaWpfGui.ViewModels.UI
                 LocalizationHelper.GetString("NewVersionDownloadCompletedDesc"),
                 LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"),
                 MessageBoxButton.OKCancel,
-                MessageBoxImage.Question, useNativeMethod: true);
+                MessageBoxImage.Question);
             if (result == MessageBoxResult.OK)
             {
                 Application.Current.Shutdown();
@@ -737,28 +734,6 @@ namespace MaaWpfGui.ViewModels.UI
                 return string.CompareOrdinal(_curVersion, latestVersion) < 0;
             }
         }
-
-#pragma warning disable IDE0051 // 删除未使用的私有成员
-        private async Task<string> RequestGithubApi(string url, int retryTimes)
-        {
-            string response = string.Empty;
-            string[] requestSource = { "https://api.github.com/", "https://api.kgithub.com/" };
-            do
-            {
-                for (var i = 0; i < requestSource.Length; i++)
-                {
-                    // prevent current thread
-                    response = await Instances.HttpService.GetStringAsync(new Uri(requestSource[i] + url)).ConfigureAwait(false);
-                    if (!string.IsNullOrEmpty(response))
-                    {
-                        break;
-                    }
-                }
-            } while (string.IsNullOrEmpty(response) && retryTimes-- > 0);
-
-            return response;
-        }
-#pragma warning restore IDE0051 // 删除未使用的私有成员
 
         /// <summary>
         /// 获取 GitHub Assets 对象对应的文件

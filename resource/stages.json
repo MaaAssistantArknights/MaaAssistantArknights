@@ -126,9 +126,6 @@
             }
         },
         "minClearTime": 63700,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_00-01",
         "stageType": "MAIN",
         "zoneId": "main_0"
@@ -260,9 +257,6 @@
             }
         },
         "minClearTime": 73000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_00-02",
         "stageType": "MAIN",
         "zoneId": "main_0"
@@ -394,9 +388,6 @@
             }
         },
         "minClearTime": 88600,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_00-03",
         "stageType": "MAIN",
         "zoneId": "main_0"
@@ -528,9 +519,6 @@
             }
         },
         "minClearTime": 120600,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_00-04",
         "stageType": "MAIN",
         "zoneId": "main_0"
@@ -662,9 +650,6 @@
             }
         },
         "minClearTime": 95000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_00-05",
         "stageType": "MAIN",
         "zoneId": "main_0"
@@ -796,9 +781,6 @@
             }
         },
         "minClearTime": 101800,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_00-06",
         "stageType": "MAIN",
         "zoneId": "main_0"
@@ -930,9 +912,6 @@
             }
         },
         "minClearTime": 92000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_00-07",
         "stageType": "MAIN",
         "zoneId": "main_0"
@@ -1064,9 +1043,6 @@
             }
         },
         "minClearTime": 102000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_00-08",
         "stageType": "MAIN",
         "zoneId": "main_0"
@@ -1198,9 +1174,6 @@
             }
         },
         "minClearTime": 102000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_00-09",
         "stageType": "MAIN",
         "zoneId": "main_0"
@@ -1332,9 +1305,6 @@
             }
         },
         "minClearTime": 113600,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_00-10",
         "stageType": "MAIN",
         "zoneId": "main_0"
@@ -1466,9 +1436,6 @@
             }
         },
         "minClearTime": 103000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_00-11",
         "stageType": "MAIN",
         "zoneId": "main_0"
@@ -1592,9 +1559,6 @@
             }
         },
         "minClearTime": 137000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_01-01",
         "stageType": "MAIN",
         "zoneId": "main_1"
@@ -1785,9 +1749,6 @@
             }
         },
         "minClearTime": 112000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_01-03",
         "stageType": "MAIN",
         "zoneId": "main_1"
@@ -1911,9 +1872,6 @@
             }
         },
         "minClearTime": 135000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_01-04",
         "stageType": "MAIN",
         "zoneId": "main_1"
@@ -2045,9 +2003,6 @@
             }
         },
         "minClearTime": 165000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_01-05",
         "stageType": "MAIN",
         "zoneId": "main_1"
@@ -2179,9 +2134,6 @@
             }
         },
         "minClearTime": 174000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_01-06",
         "stageType": "MAIN",
         "zoneId": "main_1"
@@ -2313,9 +2265,6 @@
             }
         },
         "minClearTime": 118000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_01-07",
         "stageType": "MAIN",
         "zoneId": "main_1"
@@ -2447,9 +2396,6 @@
             }
         },
         "minClearTime": 130100,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_01-08",
         "stageType": "MAIN",
         "zoneId": "main_1"
@@ -2581,9 +2527,6 @@
             }
         },
         "minClearTime": 120000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_01-09",
         "stageType": "MAIN",
         "zoneId": "main_1"
@@ -2715,9 +2658,6 @@
             }
         },
         "minClearTime": 120000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_01-10",
         "stageType": "MAIN",
         "zoneId": "main_1"
@@ -2908,9 +2848,6 @@
             }
         },
         "minClearTime": 144000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_01-12",
         "stageType": "MAIN",
         "zoneId": "main_1"
@@ -3042,9 +2979,6 @@
             }
         },
         "minClearTime": 184000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_02-01",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -3176,9 +3110,6 @@
             }
         },
         "minClearTime": 166700,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_02-02",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -3310,9 +3241,6 @@
             }
         },
         "minClearTime": 218700,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_02-03",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -3444,9 +3372,6 @@
             }
         },
         "minClearTime": 149000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_02-04",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -3578,9 +3503,6 @@
             }
         },
         "minClearTime": 170500,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_02-05",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -3712,9 +3634,6 @@
             }
         },
         "minClearTime": 174000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_02-06",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -3838,9 +3757,6 @@
             }
         },
         "minClearTime": 176000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_02-07",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -3972,9 +3888,6 @@
             }
         },
         "minClearTime": 187000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_02-08",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -4106,9 +4019,6 @@
             }
         },
         "minClearTime": 193000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_02-09",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -4240,9 +4150,6 @@
             }
         },
         "minClearTime": 171000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_02-10",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -4374,9 +4281,6 @@
             }
         },
         "minClearTime": 113000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_02-01",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -4500,9 +4404,6 @@
             }
         },
         "minClearTime": 132000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_02-02",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -4634,9 +4535,6 @@
             }
         },
         "minClearTime": 130000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_02-03",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -4760,9 +4658,6 @@
             }
         },
         "minClearTime": 144000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_02-04",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -4894,9 +4789,6 @@
             }
         },
         "minClearTime": 178000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_02-05",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -5028,9 +4920,6 @@
             }
         },
         "minClearTime": 142000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_02-06",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -5162,9 +5051,6 @@
             }
         },
         "minClearTime": 166000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_02-07",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -5296,9 +5182,6 @@
             }
         },
         "minClearTime": 110000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_02-08",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -5430,9 +5313,6 @@
             }
         },
         "minClearTime": 142000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_02-09",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -5564,9 +5444,6 @@
             }
         },
         "minClearTime": 172000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_02-10",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -5690,9 +5567,6 @@
             }
         },
         "minClearTime": 179000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_02-11",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -5816,9 +5690,6 @@
             }
         },
         "minClearTime": 135000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_02-12",
         "stageType": "MAIN",
         "zoneId": "main_2"
@@ -5950,9 +5821,6 @@
             }
         },
         "minClearTime": 181000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_03-01",
         "stageType": "MAIN",
         "zoneId": "main_3"
@@ -6076,9 +5944,6 @@
             }
         },
         "minClearTime": 173000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_03-02",
         "stageType": "MAIN",
         "zoneId": "main_3"
@@ -6202,9 +6067,6 @@
             }
         },
         "minClearTime": 172700,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_03-03",
         "stageType": "MAIN",
         "zoneId": "main_3"
@@ -6328,9 +6190,6 @@
             }
         },
         "minClearTime": 216400,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_03-04",
         "stageType": "MAIN",
         "zoneId": "main_3"
@@ -6454,9 +6313,6 @@
             }
         },
         "minClearTime": 165000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_03-05",
         "stageType": "MAIN",
         "zoneId": "main_3"
@@ -6580,9 +6436,6 @@
             }
         },
         "minClearTime": 138000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_03-06",
         "stageType": "MAIN",
         "zoneId": "main_3"
@@ -6714,9 +6567,6 @@
             }
         },
         "minClearTime": 238700,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_03-07",
         "stageType": "MAIN",
         "zoneId": "main_3"
@@ -6872,9 +6722,6 @@
             }
         },
         "minClearTime": 205000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_03-08",
         "stageType": "MAIN",
         "zoneId": "main_3"
@@ -7006,9 +6853,6 @@
             }
         },
         "minClearTime": 130000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_03-1-1",
         "stageType": "SUB",
         "zoneId": "main_3"
@@ -7132,9 +6976,6 @@
             }
         },
         "minClearTime": 125000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_03-1-2",
         "stageType": "SUB",
         "zoneId": "main_3"
@@ -7266,9 +7107,6 @@
             }
         },
         "minClearTime": 208000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_03-2-1",
         "stageType": "SUB",
         "zoneId": "main_3"
@@ -7392,9 +7230,6 @@
             }
         },
         "minClearTime": 136000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_03-2-2",
         "stageType": "SUB",
         "zoneId": "main_3"
@@ -7518,9 +7353,6 @@
             }
         },
         "minClearTime": 147200,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_03-2-3",
         "stageType": "SUB",
         "zoneId": "main_3"
@@ -7660,9 +7492,6 @@
             }
         },
         "minClearTime": 201000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_04-01",
         "stageType": "MAIN",
         "zoneId": "main_4"
@@ -7834,9 +7663,6 @@
             }
         },
         "minClearTime": 140000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_04-02",
         "stageType": "MAIN",
         "zoneId": "main_4"
@@ -7984,9 +7810,6 @@
             }
         },
         "minClearTime": 217500,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_04-03",
         "stageType": "MAIN",
         "zoneId": "main_4"
@@ -8142,9 +7965,6 @@
             }
         },
         "minClearTime": 174000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_04-04",
         "stageType": "MAIN",
         "zoneId": "main_4"
@@ -8300,9 +8120,6 @@
             }
         },
         "minClearTime": 173000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_04-05",
         "stageType": "MAIN",
         "zoneId": "main_4"
@@ -8458,9 +8275,6 @@
             }
         },
         "minClearTime": 198000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_04-06",
         "stageType": "MAIN",
         "zoneId": "main_4"
@@ -8616,9 +8430,6 @@
             }
         },
         "minClearTime": 200000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_04-07",
         "stageType": "MAIN",
         "zoneId": "main_4"
@@ -8782,9 +8593,6 @@
             }
         },
         "minClearTime": 166000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_04-08",
         "stageType": "MAIN",
         "zoneId": "main_4"
@@ -8948,9 +8756,6 @@
             }
         },
         "minClearTime": 216500,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_04-09",
         "stageType": "MAIN",
         "zoneId": "main_4"
@@ -9098,9 +8903,6 @@
             }
         },
         "minClearTime": 240500,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_04-10",
         "stageType": "MAIN",
         "zoneId": "main_4"
@@ -9272,9 +9074,6 @@
             }
         },
         "minClearTime": 179000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_04-1-1",
         "stageType": "SUB",
         "zoneId": "main_4"
@@ -9414,9 +9213,6 @@
             }
         },
         "minClearTime": 214000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_04-1-2",
         "stageType": "SUB",
         "zoneId": "main_4"
@@ -9572,9 +9368,6 @@
             }
         },
         "minClearTime": 160000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_04-1-3",
         "stageType": "SUB",
         "zoneId": "main_4"
@@ -9730,9 +9523,6 @@
             }
         },
         "minClearTime": 181000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_04-2-1",
         "stageType": "SUB",
         "zoneId": "main_4"
@@ -9872,9 +9662,6 @@
             }
         },
         "minClearTime": 150000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_04-2-2",
         "stageType": "SUB",
         "zoneId": "main_4"
@@ -10030,9 +9817,6 @@
             }
         },
         "minClearTime": 120000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_04-2-3",
         "stageType": "SUB",
         "zoneId": "main_4"
@@ -10188,9 +9972,6 @@
             }
         },
         "minClearTime": 199000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_04-3-1",
         "stageType": "SUB",
         "zoneId": "main_4"
@@ -10330,9 +10111,6 @@
             }
         },
         "minClearTime": 195000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_04-3-2",
         "stageType": "SUB",
         "zoneId": "main_4"
@@ -10496,9 +10274,6 @@
             }
         },
         "minClearTime": 247000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_04-3-3",
         "stageType": "SUB",
         "zoneId": "main_4"
@@ -10782,9 +10557,6 @@
             }
         },
         "minClearTime": 99000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "wk_armor_1",
         "stageType": "DAILY",
         "zoneId": "weekly_8"
@@ -10852,9 +10624,6 @@
             }
         },
         "minClearTime": 118000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "wk_armor_2",
         "stageType": "DAILY",
         "zoneId": "weekly_8"
@@ -10930,9 +10699,6 @@
             }
         },
         "minClearTime": 136000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "wk_armor_3",
         "stageType": "DAILY",
         "zoneId": "weekly_8"
@@ -11008,9 +10774,6 @@
             }
         },
         "minClearTime": 121000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "wk_armor_4",
         "stageType": "DAILY",
         "zoneId": "weekly_8"
@@ -11086,9 +10849,6 @@
             }
         },
         "minClearTime": 204000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "wk_armor_5",
         "stageType": "DAILY",
         "zoneId": "weekly_8"
@@ -11156,9 +10916,6 @@
             }
         },
         "minClearTime": 97000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "wk_fly_1",
         "stageType": "DAILY",
         "zoneId": "weekly_6"
@@ -11226,9 +10983,6 @@
             }
         },
         "minClearTime": 101000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "wk_fly_2",
         "stageType": "DAILY",
         "zoneId": "weekly_6"
@@ -11304,9 +11058,6 @@
             }
         },
         "minClearTime": 152000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "wk_fly_3",
         "stageType": "DAILY",
         "zoneId": "weekly_6"
@@ -11390,9 +11141,6 @@
             }
         },
         "minClearTime": 191000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "wk_fly_4",
         "stageType": "DAILY",
         "zoneId": "weekly_6"
@@ -11476,9 +11224,6 @@
             }
         },
         "minClearTime": 173000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "wk_fly_5",
         "stageType": "DAILY",
         "zoneId": "weekly_6"
@@ -11630,9 +11375,6 @@
             }
         },
         "minClearTime": 166000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_05-01",
         "stageType": "MAIN",
         "zoneId": "main_5"
@@ -11792,9 +11534,6 @@
             }
         },
         "minClearTime": 187000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_05-02",
         "stageType": "MAIN",
         "zoneId": "main_5"
@@ -11874,9 +11613,6 @@
             }
         },
         "minClearTime": 218000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_05-03",
         "stageType": "MAIN",
         "zoneId": "main_5"
@@ -12028,9 +11764,6 @@
             }
         },
         "minClearTime": 176000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_05-04",
         "stageType": "MAIN",
         "zoneId": "main_5"
@@ -12190,9 +11923,6 @@
             }
         },
         "minClearTime": 193000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_05-05",
         "stageType": "MAIN",
         "zoneId": "main_5"
@@ -12360,9 +12090,6 @@
             }
         },
         "minClearTime": 314000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_05-06",
         "stageType": "MAIN",
         "zoneId": "main_5"
@@ -12442,9 +12169,6 @@
             }
         },
         "minClearTime": 182800,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_05-07",
         "stageType": "MAIN",
         "zoneId": "main_5"
@@ -12604,9 +12328,6 @@
             }
         },
         "minClearTime": 188000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_05-08",
         "stageType": "MAIN",
         "zoneId": "main_5"
@@ -12758,9 +12479,6 @@
             }
         },
         "minClearTime": 194000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_05-09",
         "stageType": "MAIN",
         "zoneId": "main_5"
@@ -12843,9 +12561,6 @@
             }
         },
         "minClearTime": 337000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_05-10",
         "stageType": "MAIN",
         "zoneId": "main_5"
@@ -12925,9 +12640,6 @@
             }
         },
         "minClearTime": 193000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_05-1-1",
         "stageType": "SUB",
         "zoneId": "main_5"
@@ -13087,9 +12799,6 @@
             }
         },
         "minClearTime": 176000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_05-1-2",
         "stageType": "SUB",
         "zoneId": "main_5"
@@ -13161,9 +12870,6 @@
             }
         },
         "minClearTime": 180000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_05-2-1",
         "stageType": "SUB",
         "zoneId": "main_5"
@@ -13243,9 +12949,6 @@
             }
         },
         "minClearTime": 184000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_05-2-2",
         "stageType": "SUB",
         "zoneId": "main_5"
@@ -13317,9 +13020,6 @@
             }
         },
         "minClearTime": 208000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_05-3-1",
         "stageType": "SUB",
         "zoneId": "main_5"
@@ -13487,9 +13187,6 @@
             }
         },
         "minClearTime": 196000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_05-3-2",
         "stageType": "SUB",
         "zoneId": "main_5"
@@ -14569,9 +14266,6 @@
             }
         },
         "minClearTime": 183000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_06-01",
         "stageType": "MAIN",
         "zoneId": "main_6"
@@ -14731,9 +14425,6 @@
             }
         },
         "minClearTime": 206000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_06-02",
         "stageType": "MAIN",
         "zoneId": "main_6"
@@ -14885,9 +14576,6 @@
             }
         },
         "minClearTime": 172000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_06-03",
         "stageType": "MAIN",
         "zoneId": "main_6"
@@ -15047,9 +14735,6 @@
             }
         },
         "minClearTime": 155000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_06-04",
         "stageType": "MAIN",
         "zoneId": "main_6"
@@ -15129,9 +14814,6 @@
             }
         },
         "minClearTime": 241000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_06-05",
         "stageType": "MAIN",
         "zoneId": "main_6"
@@ -15362,9 +15044,6 @@
             }
         },
         "minClearTime": 140000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_06-07",
         "stageType": "MAIN",
         "zoneId": "main_6"
@@ -15444,9 +15123,6 @@
             }
         },
         "minClearTime": 158000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_06-08",
         "stageType": "MAIN",
         "zoneId": "main_6"
@@ -15598,9 +15274,6 @@
             }
         },
         "minClearTime": 174200,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_06-09",
         "stageType": "MAIN",
         "zoneId": "main_6"
@@ -15680,9 +15353,6 @@
             }
         },
         "minClearTime": 236000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_06-10",
         "stageType": "MAIN",
         "zoneId": "main_6"
@@ -15858,9 +15528,6 @@
             }
         },
         "minClearTime": 171000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_06-11",
         "stageType": "MAIN",
         "zoneId": "main_6"
@@ -16012,9 +15679,6 @@
             }
         },
         "minClearTime": 194000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_06-12",
         "stageType": "MAIN",
         "zoneId": "main_6"
@@ -16174,9 +15838,6 @@
             }
         },
         "minClearTime": 184000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_06-13",
         "stageType": "MAIN",
         "zoneId": "main_6"
@@ -16256,9 +15917,6 @@
             }
         },
         "minClearTime": 312000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_06-14",
         "stageType": "MAIN",
         "zoneId": "main_6"
@@ -16445,9 +16103,6 @@
             }
         },
         "minClearTime": 122000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_03-3-1",
         "stageType": "SUB",
         "zoneId": "main_3"
@@ -16595,9 +16250,6 @@
             }
         },
         "minClearTime": 129000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_04-4-1",
         "stageType": "SUB",
         "zoneId": "main_4"
@@ -16757,9 +16409,6 @@
             }
         },
         "minClearTime": 148000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_05-4-1",
         "stageType": "SUB",
         "zoneId": "main_5"
@@ -16919,9 +16568,6 @@
             }
         },
         "minClearTime": 148000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_05-4-2",
         "stageType": "SUB",
         "zoneId": "main_5"
@@ -17073,9 +16719,6 @@
             }
         },
         "minClearTime": 172000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_06-1-1",
         "stageType": "SUB",
         "zoneId": "main_6"
@@ -17147,9 +16790,6 @@
             }
         },
         "minClearTime": 203000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_06-1-2",
         "stageType": "SUB",
         "zoneId": "main_6"
@@ -17229,9 +16869,6 @@
             }
         },
         "minClearTime": 195000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_06-2-1",
         "stageType": "SUB",
         "zoneId": "main_6"
@@ -17375,9 +17012,6 @@
             }
         },
         "minClearTime": 180000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_06-2-2",
         "stageType": "SUB",
         "zoneId": "main_6"
@@ -18233,9 +17867,6 @@
             }
         },
         "minClearTime": 125000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "wk_melee_1",
         "stageType": "DAILY",
         "zoneId": "weekly_9"
@@ -18295,9 +17926,6 @@
             }
         },
         "minClearTime": 144000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "wk_melee_2",
         "stageType": "DAILY",
         "zoneId": "weekly_9"
@@ -18357,9 +17985,6 @@
             }
         },
         "minClearTime": 141000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "wk_melee_3",
         "stageType": "DAILY",
         "zoneId": "weekly_9"
@@ -18419,9 +18044,6 @@
             }
         },
         "minClearTime": 172800,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "wk_melee_4",
         "stageType": "DAILY",
         "zoneId": "weekly_9"
@@ -18481,9 +18103,6 @@
             }
         },
         "minClearTime": 196000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "wk_melee_5",
         "stageType": "DAILY",
         "zoneId": "weekly_9"
@@ -18544,8 +18163,7 @@
         },
         "minClearTime": 83000,
         "recognitionOnly": [
-            "4006",
-            "act15mini_token_figurine"
+            "4006"
         ],
         "stageId": "wk_toxic_1",
         "stageType": "DAILY",
@@ -18607,8 +18225,7 @@
         },
         "minClearTime": 139000,
         "recognitionOnly": [
-            "4006",
-            "act15mini_token_figurine"
+            "4006"
         ],
         "stageId": "wk_toxic_2",
         "stageType": "DAILY",
@@ -18670,8 +18287,7 @@
         },
         "minClearTime": 160000,
         "recognitionOnly": [
-            "4006",
-            "act15mini_token_figurine"
+            "4006"
         ],
         "stageId": "wk_toxic_3",
         "stageType": "DAILY",
@@ -18733,8 +18349,7 @@
         },
         "minClearTime": 123000,
         "recognitionOnly": [
-            "4006",
-            "act15mini_token_figurine"
+            "4006"
         ],
         "stageId": "wk_toxic_4",
         "stageType": "DAILY",
@@ -18796,8 +18411,7 @@
         },
         "minClearTime": 208000,
         "recognitionOnly": [
-            "4006",
-            "act15mini_token_figurine"
+            "4006"
         ],
         "stageId": "wk_toxic_5",
         "stageType": "DAILY",
@@ -19618,9 +19232,6 @@
             }
         },
         "minClearTime": 175000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_07-01",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -19692,9 +19303,6 @@
             }
         },
         "minClearTime": 233000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_07-02",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -19862,9 +19470,6 @@
             }
         },
         "minClearTime": 184000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_07-03",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -20024,9 +19629,6 @@
             }
         },
         "minClearTime": 213000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_07-04",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -20106,9 +19708,6 @@
             }
         },
         "minClearTime": 209000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_07-05",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -20284,9 +19883,6 @@
             }
         },
         "minClearTime": 182000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_07-06",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -20454,9 +20050,6 @@
             }
         },
         "minClearTime": 207000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_07-07",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -20608,9 +20201,6 @@
             }
         },
         "minClearTime": 170000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_07-08",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -20690,9 +20280,6 @@
             }
         },
         "minClearTime": 199000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_07-09",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -20772,9 +20359,6 @@
             }
         },
         "minClearTime": 226000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_07-10",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -20926,9 +20510,6 @@
             }
         },
         "minClearTime": 183000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_07-11",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -21080,9 +20661,6 @@
             }
         },
         "minClearTime": 196000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_07-12",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -21250,9 +20828,6 @@
             }
         },
         "minClearTime": 200000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_07-13",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -21332,9 +20907,6 @@
             }
         },
         "minClearTime": 195000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_07-14",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -21510,9 +21082,6 @@
             }
         },
         "minClearTime": 219000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_07-15",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -21592,9 +21161,6 @@
             }
         },
         "minClearTime": 227000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_07-16",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -21738,9 +21304,6 @@
             }
         },
         "minClearTime": 141000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_07-1-1",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -21812,9 +21375,6 @@
             }
         },
         "minClearTime": 188000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_07-1-2",
         "stageType": "MAIN",
         "zoneId": "main_7"
@@ -22094,9 +21654,6 @@
             }
         },
         "minClearTime": 167800,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "pro_a_1",
         "stageType": "DAILY",
         "zoneId": "weekly_1"
@@ -22172,9 +21729,6 @@
             }
         },
         "minClearTime": 214500,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "pro_a_2",
         "stageType": "DAILY",
         "zoneId": "weekly_1"
@@ -22250,9 +21804,6 @@
             }
         },
         "minClearTime": 151000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "pro_b_1",
         "stageType": "DAILY",
         "zoneId": "weekly_1"
@@ -22328,9 +21879,6 @@
             }
         },
         "minClearTime": 213000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "pro_b_2",
         "stageType": "DAILY",
         "zoneId": "weekly_1"
@@ -22406,9 +21954,6 @@
             }
         },
         "minClearTime": 145000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "pro_c_1",
         "stageType": "DAILY",
         "zoneId": "weekly_1"
@@ -22484,9 +22029,6 @@
             }
         },
         "minClearTime": 179000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "pro_c_2",
         "stageType": "DAILY",
         "zoneId": "weekly_1"
@@ -22562,9 +22104,6 @@
             }
         },
         "minClearTime": 173800,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "pro_d_1",
         "stageType": "DAILY",
         "zoneId": "weekly_1"
@@ -22640,9 +22179,6 @@
             }
         },
         "minClearTime": 205000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "pro_d_2",
         "stageType": "DAILY",
         "zoneId": "weekly_1"
@@ -22718,9 +22254,6 @@
             }
         },
         "minClearTime": 112000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "wk_kc_1",
         "stageType": "DAILY",
         "zoneId": "weekly_7"
@@ -22796,9 +22329,6 @@
             }
         },
         "minClearTime": 111000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "wk_kc_2",
         "stageType": "DAILY",
         "zoneId": "weekly_7"
@@ -22882,9 +22412,6 @@
             }
         },
         "minClearTime": 140000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "wk_kc_3",
         "stageType": "DAILY",
         "zoneId": "weekly_7"
@@ -22976,9 +22503,6 @@
             }
         },
         "minClearTime": 130000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "wk_kc_4",
         "stageType": "DAILY",
         "zoneId": "weekly_7"
@@ -23062,9 +22586,6 @@
             }
         },
         "minClearTime": 174500,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "wk_kc_5",
         "stageType": "DAILY",
         "zoneId": "weekly_7"
@@ -25172,9 +24693,6 @@
             }
         },
         "minClearTime": 147000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_05-4-3",
         "stageType": "SUB",
         "zoneId": "main_5"
@@ -25254,9 +24772,6 @@
             }
         },
         "minClearTime": 147000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_03-3-2",
         "stageType": "SUB",
         "zoneId": "main_3"
@@ -25400,9 +24915,6 @@
             }
         },
         "minClearTime": 187000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_08-01",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -25578,9 +25090,6 @@
             }
         },
         "minClearTime": 171000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_08-02",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -25740,9 +25249,6 @@
             }
         },
         "minClearTime": 169000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_08-03",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -25814,9 +25320,6 @@
             }
         },
         "minClearTime": 163000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_08-04",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -25896,9 +25399,6 @@
             }
         },
         "minClearTime": 219000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_08-05",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -26050,9 +25550,6 @@
             }
         },
         "minClearTime": 193000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_08-06",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -26228,9 +25725,6 @@
             }
         },
         "minClearTime": 211000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_08-07",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -26310,9 +25804,6 @@
             }
         },
         "minClearTime": 280000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_08-08",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -26392,9 +25883,6 @@
             }
         },
         "minClearTime": 220000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_08-09",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -26546,9 +26034,6 @@
             }
         },
         "minClearTime": 207000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_08-10",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -26708,9 +26193,6 @@
             }
         },
         "minClearTime": 175000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_08-11",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -26790,9 +26272,6 @@
             }
         },
         "minClearTime": 157000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_08-12",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -26944,9 +26423,6 @@
             }
         },
         "minClearTime": 274000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_08-13",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -27098,9 +26574,6 @@
             }
         },
         "minClearTime": 257000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_08-14",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -27331,9 +26804,6 @@
             }
         },
         "minClearTime": 187000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_08-16",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -27501,9 +26971,6 @@
             }
         },
         "minClearTime": 295000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_08-17",
         "stageType": "MAIN",
         "zoneId": "main_8"
@@ -39498,9 +38965,6 @@
             }
         },
         "minClearTime": null,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_09-01",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -39572,9 +39036,6 @@
             }
         },
         "minClearTime": 205000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_09-02",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -39734,9 +39195,6 @@
             }
         },
         "minClearTime": 219000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_09-03",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -39912,9 +39370,6 @@
             }
         },
         "minClearTime": 176000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_09-04",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -40074,9 +39529,6 @@
             }
         },
         "minClearTime": 231000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_09-05",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -40236,9 +39688,6 @@
             }
         },
         "minClearTime": 176000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_09-06",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -40398,9 +39847,6 @@
             }
         },
         "minClearTime": 204000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_09-07",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -40568,9 +40014,6 @@
             }
         },
         "minClearTime": 204000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_09-08",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -40722,9 +40165,6 @@
             }
         },
         "minClearTime": 183000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_09-09",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -40884,9 +40324,6 @@
             }
         },
         "minClearTime": 193000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_09-10",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -41046,9 +40483,6 @@
             }
         },
         "minClearTime": 184000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_09-11",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -41192,9 +40626,6 @@
             }
         },
         "minClearTime": 208000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_09-12",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -41354,9 +40785,6 @@
             }
         },
         "minClearTime": 180000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_09-13",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -41436,9 +40864,6 @@
             }
         },
         "minClearTime": 218000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_09-14",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -41598,9 +41023,6 @@
             }
         },
         "minClearTime": 182000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_09-15",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -41776,9 +41198,6 @@
             }
         },
         "minClearTime": 225000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_09-16",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -41938,9 +41357,6 @@
             }
         },
         "minClearTime": 276000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_09-17",
         "stageType": "MAIN",
         "zoneId": "main_9"
@@ -42116,9 +41532,6 @@
             }
         },
         "minClearTime": 204000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "sub_09-1-1",
         "stageType": "SUB",
         "zoneId": "main_9"
@@ -43101,7 +42514,7 @@
             {
                 "bounds": {
                     "lower": 1,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP"
             }
@@ -43236,7 +42649,7 @@
             {
                 "bounds": {
                     "lower": 1,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "EXTRA_DROP"
             }
@@ -49464,9 +48877,6 @@
             }
         },
         "minClearTime": 170000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_10-01",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -49610,9 +49020,6 @@
             }
         },
         "minClearTime": 170000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_10-01",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -49788,9 +49195,6 @@
             }
         },
         "minClearTime": 158000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_10-02",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -49966,9 +49370,6 @@
             }
         },
         "minClearTime": 158000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_10-02",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -50048,9 +49449,6 @@
             }
         },
         "minClearTime": 189000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_10-03",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -50130,9 +49528,6 @@
             }
         },
         "minClearTime": 189000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_10-03",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -50300,9 +49695,6 @@
             }
         },
         "minClearTime": 180000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_10-04",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -50470,9 +49862,6 @@
             }
         },
         "minClearTime": 180000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_10-04",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -50616,9 +50005,6 @@
             }
         },
         "minClearTime": 182000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_10-05",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -50762,9 +50148,6 @@
             }
         },
         "minClearTime": 182000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_10-05",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -50916,9 +50299,6 @@
             }
         },
         "minClearTime": 205000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_10-06",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -51070,9 +50450,6 @@
             }
         },
         "minClearTime": 205000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_10-06",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -51232,9 +50609,6 @@
             }
         },
         "minClearTime": 158000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_10-07",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -51394,9 +50768,6 @@
             }
         },
         "minClearTime": 158000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_10-07",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -51556,9 +50927,6 @@
             }
         },
         "minClearTime": 180000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_10-08",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -51718,9 +51086,6 @@
             }
         },
         "minClearTime": 180000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_10-08",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -51872,9 +51237,6 @@
             }
         },
         "minClearTime": 188000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_10-09",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -52026,9 +51388,6 @@
             }
         },
         "minClearTime": 188000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_10-09",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -52204,9 +51563,6 @@
             }
         },
         "minClearTime": 212000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_10-10",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -52382,9 +51738,6 @@
             }
         },
         "minClearTime": 212000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_10-10",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -52552,9 +51905,6 @@
             }
         },
         "minClearTime": 191000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_10-11",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -52722,9 +52072,6 @@
             }
         },
         "minClearTime": 191000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_10-11",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -52892,9 +52239,6 @@
             }
         },
         "minClearTime": 157000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_10-12",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -53062,9 +52406,6 @@
             }
         },
         "minClearTime": 157000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_10-12",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -53232,9 +52573,6 @@
             }
         },
         "minClearTime": 177000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_10-13",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -53402,9 +52740,6 @@
             }
         },
         "minClearTime": 177000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_10-13",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -53484,9 +52819,6 @@
             }
         },
         "minClearTime": 199000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_10-14",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -53566,9 +52898,6 @@
             }
         },
         "minClearTime": 199000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_10-14",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -53712,9 +53041,6 @@
             }
         },
         "minClearTime": 283000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_10-15",
         "stageType": "MAIN",
         "zoneId": "main_10"
@@ -53858,9 +53184,6 @@
             }
         },
         "minClearTime": 283000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_10-15",
         "stageType": "MAIN",
         "zoneId": "main_10_tough"
@@ -54509,9 +53832,6 @@
             }
         },
         "minClearTime": 172000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "wk_melee_6",
         "stageType": "DAILY",
         "zoneId": "weekly_9"
@@ -54587,9 +53907,6 @@
             }
         },
         "minClearTime": 183000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "wk_kc_6",
         "stageType": "DAILY",
         "zoneId": "weekly_7"
@@ -60691,9 +60008,6 @@
             }
         },
         "minClearTime": 106000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_11-01",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -60837,9 +60151,6 @@
             }
         },
         "minClearTime": 106000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_11-01",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -60919,9 +60230,6 @@
             }
         },
         "minClearTime": 190000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_11-02",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -61001,9 +60309,6 @@
             }
         },
         "minClearTime": 190000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_11-02",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -61179,9 +60484,6 @@
             }
         },
         "minClearTime": 134000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_11-03",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -61357,9 +60659,6 @@
             }
         },
         "minClearTime": 134000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_11-03",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -61527,9 +60826,6 @@
             }
         },
         "minClearTime": 177000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_11-04",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -61697,9 +60993,6 @@
             }
         },
         "minClearTime": 177000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_11-04",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -61779,9 +61072,6 @@
             }
         },
         "minClearTime": 207000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_11-05",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -61861,9 +61151,6 @@
             }
         },
         "minClearTime": 207000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_11-05",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -62007,9 +61294,6 @@
             }
         },
         "minClearTime": 201000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_11-06",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -62153,9 +61437,6 @@
             }
         },
         "minClearTime": 201000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_11-06",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -62331,9 +61612,6 @@
             }
         },
         "minClearTime": 150000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_11-07",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -62509,9 +61787,6 @@
             }
         },
         "minClearTime": 150000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_11-07",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -62671,9 +61946,6 @@
             }
         },
         "minClearTime": 160000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_11-08",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -62833,9 +62105,6 @@
             }
         },
         "minClearTime": 160000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_11-08",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -63003,9 +62272,6 @@
             }
         },
         "minClearTime": 183000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_11-09",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -63173,9 +62439,6 @@
             }
         },
         "minClearTime": 183000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_11-09",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -63343,9 +62606,6 @@
             }
         },
         "minClearTime": 211000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_11-10",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -63513,9 +62773,6 @@
             }
         },
         "minClearTime": 211000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_11-10",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -63667,9 +62924,6 @@
             }
         },
         "minClearTime": 196500,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_11-11",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -63821,9 +63075,6 @@
             }
         },
         "minClearTime": 196500,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_11-11",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -63999,9 +63250,6 @@
             }
         },
         "minClearTime": 165000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_11-12",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -64177,9 +63425,6 @@
             }
         },
         "minClearTime": 165000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_11-12",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -64331,9 +63576,6 @@
             }
         },
         "minClearTime": 203000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_11-13",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -64485,9 +63727,6 @@
             }
         },
         "minClearTime": 203000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_11-13",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -64655,9 +63894,6 @@
             }
         },
         "minClearTime": 186000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_11-14",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -64825,9 +64061,6 @@
             }
         },
         "minClearTime": 186000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_11-14",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -64883,9 +64116,6 @@
             }
         },
         "minClearTime": 167000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_11-15",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -65037,9 +64267,6 @@
             }
         },
         "minClearTime": 219500,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_11-16",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -65191,9 +64418,6 @@
             }
         },
         "minClearTime": 219500,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_11-16",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -65249,9 +64473,6 @@
             }
         },
         "minClearTime": 111500,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_11-17",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -65427,9 +64648,6 @@
             }
         },
         "minClearTime": 188000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_11-18",
         "stageType": "MAIN",
         "zoneId": "main_11_tough"
@@ -65605,9 +64823,6 @@
             }
         },
         "minClearTime": 188000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_11-18",
         "stageType": "MAIN",
         "zoneId": "main_11"
@@ -68229,13 +67444,19 @@
                 "openTime": 1671091200000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1690398000000,
+                "exist": true,
+                "openTime": 1689231600000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1690398000000,
+                "exist": true,
+                "openTime": 1689231600000
             },
             "US": {
-                "exist": false
+                "closeTime": 1690455600000,
+                "exist": true,
+                "openTime": 1689267600000
             }
         },
         "minClearTime": 112500,
@@ -68259,13 +67480,19 @@
                 "openTime": 1671091200000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1690398000000,
+                "exist": true,
+                "openTime": 1689231600000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1690398000000,
+                "exist": true,
+                "openTime": 1689231600000
             },
             "US": {
-                "exist": false
+                "closeTime": 1690455600000,
+                "exist": true,
+                "openTime": 1689267600000
             }
         },
         "minClearTime": 196000,
@@ -68289,13 +67516,19 @@
                 "openTime": 1671091200000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1690398000000,
+                "exist": true,
+                "openTime": 1689231600000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1690398000000,
+                "exist": true,
+                "openTime": 1689231600000
             },
             "US": {
-                "exist": false
+                "closeTime": 1690455600000,
+                "exist": true,
+                "openTime": 1689267600000
             }
         },
         "minClearTime": 173000,
@@ -68319,13 +67552,19 @@
                 "openTime": 1671091200000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1690398000000,
+                "exist": true,
+                "openTime": 1689231600000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1690398000000,
+                "exist": true,
+                "openTime": 1689231600000
             },
             "US": {
-                "exist": false
+                "closeTime": 1690455600000,
+                "exist": true,
+                "openTime": 1689267600000
             }
         },
         "minClearTime": 177000,
@@ -68349,13 +67588,19 @@
                 "openTime": 1671091200000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1690398000000,
+                "exist": true,
+                "openTime": 1689231600000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1690398000000,
+                "exist": true,
+                "openTime": 1689231600000
             },
             "US": {
-                "exist": false
+                "closeTime": 1690455600000,
+                "exist": true,
+                "openTime": 1689267600000
             }
         },
         "minClearTime": 135000,
@@ -68379,13 +67624,19 @@
                 "openTime": 1671091200000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1690398000000,
+                "exist": true,
+                "openTime": 1689231600000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1690398000000,
+                "exist": true,
+                "openTime": 1689231600000
             },
             "US": {
-                "exist": false
+                "closeTime": 1690455600000,
+                "exist": true,
+                "openTime": 1689267600000
             }
         },
         "minClearTime": 190000,
@@ -68409,13 +67660,19 @@
                 "openTime": 1671091200000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1690398000000,
+                "exist": true,
+                "openTime": 1689231600000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1690398000000,
+                "exist": true,
+                "openTime": 1689231600000
             },
             "US": {
-                "exist": false
+                "closeTime": 1690455600000,
+                "exist": true,
+                "openTime": 1689267600000
             }
         },
         "minClearTime": 185000,
@@ -68439,13 +67696,19 @@
                 "openTime": 1671091200000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1690398000000,
+                "exist": true,
+                "openTime": 1689231600000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1690398000000,
+                "exist": true,
+                "openTime": 1689231600000
             },
             "US": {
-                "exist": false
+                "closeTime": 1690455600000,
+                "exist": true,
+                "openTime": 1689267600000
             }
         },
         "minClearTime": 217000,
@@ -72310,9 +71573,6 @@
             }
         },
         "minClearTime": 208000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_12-01",
         "stageType": "MAIN",
         "zoneId": "main_12_tough"
@@ -72445,9 +71705,6 @@
             }
         },
         "minClearTime": 208000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_12-01",
         "stageType": "MAIN",
         "zoneId": "main_12"
@@ -72620,9 +71877,6 @@
             }
         },
         "minClearTime": 197000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_12-02",
         "stageType": "MAIN",
         "zoneId": "main_12_tough"
@@ -72795,9 +72049,6 @@
             }
         },
         "minClearTime": 197000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_12-02",
         "stageType": "MAIN",
         "zoneId": "main_12"
@@ -72946,9 +72197,6 @@
             }
         },
         "minClearTime": 200000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_12-03",
         "stageType": "MAIN",
         "zoneId": "main_12"
@@ -73097,9 +72345,6 @@
             }
         },
         "minClearTime": 200000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_12-03",
         "stageType": "MAIN",
         "zoneId": "main_12_tough"
@@ -73248,9 +72493,6 @@
             }
         },
         "minClearTime": 192000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_12-04",
         "stageType": "MAIN",
         "zoneId": "main_12"
@@ -73399,9 +72641,6 @@
             }
         },
         "minClearTime": 192000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_12-04",
         "stageType": "MAIN",
         "zoneId": "main_12_tough"
@@ -73566,9 +72805,6 @@
             }
         },
         "minClearTime": 180000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_12-05",
         "stageType": "MAIN",
         "zoneId": "main_12"
@@ -73733,9 +72969,6 @@
             }
         },
         "minClearTime": 180000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_12-05",
         "stageType": "MAIN",
         "zoneId": "main_12_tough"
@@ -73884,9 +73117,6 @@
             }
         },
         "minClearTime": 171000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_12-06",
         "stageType": "MAIN",
         "zoneId": "main_12_tough"
@@ -74035,9 +73265,6 @@
             }
         },
         "minClearTime": 171000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_12-06",
         "stageType": "MAIN",
         "zoneId": "main_12"
@@ -74210,9 +73437,6 @@
             }
         },
         "minClearTime": 199000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_12-07",
         "stageType": "MAIN",
         "zoneId": "main_12"
@@ -74385,9 +73609,6 @@
             }
         },
         "minClearTime": 199000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_12-07",
         "stageType": "MAIN",
         "zoneId": "main_12_tough"
@@ -74552,9 +73773,6 @@
             }
         },
         "minClearTime": 210000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_12-08",
         "stageType": "MAIN",
         "zoneId": "main_12"
@@ -74719,9 +73937,6 @@
             }
         },
         "minClearTime": 210000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_12-08",
         "stageType": "MAIN",
         "zoneId": "main_12_tough"
@@ -74886,9 +74101,6 @@
             }
         },
         "minClearTime": 152000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_12-09",
         "stageType": "MAIN",
         "zoneId": "main_12_tough"
@@ -75053,9 +74265,6 @@
             }
         },
         "minClearTime": 152000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_12-09",
         "stageType": "MAIN",
         "zoneId": "main_12"
@@ -75204,9 +74413,6 @@
             }
         },
         "minClearTime": 240000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_12-10",
         "stageType": "MAIN",
         "zoneId": "main_12"
@@ -75355,9 +74561,6 @@
             }
         },
         "minClearTime": 240000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_12-10",
         "stageType": "MAIN",
         "zoneId": "main_12_tough"
@@ -75522,9 +74725,6 @@
             }
         },
         "minClearTime": 274000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_12-11",
         "stageType": "MAIN",
         "zoneId": "main_12_tough"
@@ -75689,9 +74889,6 @@
             }
         },
         "minClearTime": 274000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_12-11",
         "stageType": "MAIN",
         "zoneId": "main_12"
@@ -75856,9 +75053,6 @@
             }
         },
         "minClearTime": 200000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_12-12",
         "stageType": "MAIN",
         "zoneId": "main_12_tough"
@@ -76023,9 +75217,6 @@
             }
         },
         "minClearTime": 200000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_12-12",
         "stageType": "MAIN",
         "zoneId": "main_12"
@@ -76174,9 +75365,6 @@
             }
         },
         "minClearTime": 204000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_12-13",
         "stageType": "MAIN",
         "zoneId": "main_12_tough"
@@ -76325,9 +75513,6 @@
             }
         },
         "minClearTime": 204000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_12-13",
         "stageType": "MAIN",
         "zoneId": "main_12"
@@ -76476,9 +75661,6 @@
             }
         },
         "minClearTime": 225000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_12-15",
         "stageType": "MAIN",
         "zoneId": "main_12"
@@ -76627,9 +75809,6 @@
             }
         },
         "minClearTime": 225000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_12-15",
         "stageType": "MAIN",
         "zoneId": "main_12_tough"
@@ -76778,9 +75957,6 @@
             }
         },
         "minClearTime": 273000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_12-16",
         "stageType": "MAIN",
         "zoneId": "main_12_tough"
@@ -76929,9 +76105,6 @@
             }
         },
         "minClearTime": 273000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_12-16",
         "stageType": "MAIN",
         "zoneId": "main_12"
@@ -77104,9 +76277,6 @@
             }
         },
         "minClearTime": 262000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_12-17",
         "stageType": "MAIN",
         "zoneId": "main_12_tough"
@@ -77279,9 +76449,6 @@
             }
         },
         "minClearTime": 262000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_12-17",
         "stageType": "MAIN",
         "zoneId": "main_12"
@@ -77446,9 +76613,6 @@
             }
         },
         "minClearTime": 308000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "tough_12-18",
         "stageType": "MAIN",
         "zoneId": "main_12_tough"
@@ -77613,9 +76777,6 @@
             }
         },
         "minClearTime": 308000,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
         "stageId": "main_12-18",
         "stageType": "MAIN",
         "zoneId": "main_12"
@@ -81559,85 +80720,6 @@
             "ko": "FD-1",
             "zh": "FD-1"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30011"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30061"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30031"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30021"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30041"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30051"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 6
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1689192000000,
@@ -81654,10 +80736,7 @@
                 "exist": false
             }
         },
-        "minClearTime": null,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
+        "minClearTime": 184000,
         "stageId": "act15mini_01",
         "stageType": "ACTIVITY",
         "zoneId": "act15mini_zone1"
@@ -81671,85 +80750,6 @@
             "ko": "FD-2",
             "zh": "FD-2"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30011"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30061"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30031"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30021"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30041"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30051"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 6
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1689192000000,
@@ -81766,10 +80766,7 @@
                 "exist": false
             }
         },
-        "minClearTime": null,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
+        "minClearTime": 160000,
         "stageId": "act15mini_02",
         "stageType": "ACTIVITY",
         "zoneId": "act15mini_zone1"
@@ -81783,85 +80780,6 @@
             "ko": "FD-3",
             "zh": "FD-3"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30011"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30061"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30031"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30021"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30041"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30051"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 6
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1689192000000,
@@ -81878,10 +80796,7 @@
                 "exist": false
             }
         },
-        "minClearTime": null,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
+        "minClearTime": 171000,
         "stageId": "act15mini_03",
         "stageType": "ACTIVITY",
         "zoneId": "act15mini_zone1"
@@ -81895,6 +80810,156 @@
             "ko": "FD-4",
             "zh": "FD-4"
         },
+        "existence": {
+            "CN": {
+                "closeTime": 1689192000000,
+                "exist": true,
+                "openTime": 1688630400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 122000,
+        "stageId": "act15mini_04",
+        "stageType": "ACTIVITY",
+        "zoneId": "act15mini_zone1"
+    },
+    {
+        "apCost": 15,
+        "code": "FD-5",
+        "code_i18n": {
+            "en": "FD-5",
+            "ja": "FD-5",
+            "ko": "FD-5",
+            "zh": "FD-5"
+        },
+        "existence": {
+            "CN": {
+                "closeTime": 1689192000000,
+                "exist": true,
+                "openTime": 1688630400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 191000,
+        "stageId": "act15mini_05",
+        "stageType": "ACTIVITY",
+        "zoneId": "act15mini_zone1"
+    },
+    {
+        "apCost": 15,
+        "code": "FD-6",
+        "code_i18n": {
+            "en": "FD-6",
+            "ja": "FD-6",
+            "ko": "FD-6",
+            "zh": "FD-6"
+        },
+        "existence": {
+            "CN": {
+                "closeTime": 1689192000000,
+                "exist": true,
+                "openTime": 1688630400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 228000,
+        "stageId": "act15mini_06",
+        "stageType": "ACTIVITY",
+        "zoneId": "act15mini_zone1"
+    },
+    {
+        "apCost": 21,
+        "code": "FD-7",
+        "code_i18n": {
+            "en": "FD-7",
+            "ja": "FD-7",
+            "ko": "FD-7",
+            "zh": "FD-7"
+        },
+        "existence": {
+            "CN": {
+                "closeTime": 1689192000000,
+                "exist": true,
+                "openTime": 1688630400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 192000,
+        "stageId": "act15mini_07",
+        "stageType": "ACTIVITY",
+        "zoneId": "act15mini_zone1"
+    },
+    {
+        "apCost": 21,
+        "code": "FD-8",
+        "code_i18n": {
+            "en": "FD-8",
+            "ja": "FD-8",
+            "ko": "FD-8",
+            "zh": "FD-8"
+        },
+        "existence": {
+            "CN": {
+                "closeTime": 1689192000000,
+                "exist": true,
+                "openTime": 1688630400000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 195000,
+        "stageId": "act15mini_08",
+        "stageType": "ACTIVITY",
+        "zoneId": "act15mini_zone1"
+    },
+    {
+        "apCost": 9,
+        "code": "DV-1",
+        "code_i18n": {
+            "en": "DV-1",
+            "ja": "DV-1",
+            "ko": "DV-1",
+            "zh": "DV-1"
+        },
         "dropInfos": [
             {
                 "bounds": {
@@ -81976,9 +81041,9 @@
         ],
         "existence": {
             "CN": {
-                "closeTime": 1689192000000,
+                "closeTime": 1690488000000,
                 "exist": true,
-                "openTime": 1688630400000
+                "openTime": 1689667200000
             },
             "JP": {
                 "exist": false
@@ -81990,22 +81055,134 @@
                 "exist": false
             }
         },
-        "minClearTime": null,
+        "minClearTime": 130500,
         "recognitionOnly": [
-            "act15mini_token_figurine"
+            "act19side_token_reagents_rep_1"
         ],
-        "stageId": "act15mini_04",
+        "stageId": "act19side_01_rep",
         "stageType": "ACTIVITY",
-        "zoneId": "act15mini_zone1"
+        "zoneId": "act19sre_zone1"
     },
     {
-        "apCost": 15,
-        "code": "FD-5",
+        "apCost": 9,
+        "code": "DV-2",
         "code_i18n": {
-            "en": "FD-5",
-            "ja": "FD-5",
-            "ko": "FD-5",
-            "zh": "FD-5"
+            "en": "DV-2",
+            "ja": "DV-2",
+            "ko": "DV-2",
+            "zh": "DV-2"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30011"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30061"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30031"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30021"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30041"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30051"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 6
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1690488000000,
+                "exist": true,
+                "openTime": 1689667200000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 170000,
+        "recognitionOnly": [
+            "act19side_token_reagents_rep_1"
+        ],
+        "stageId": "act19side_02_rep",
+        "stageType": "ACTIVITY",
+        "zoneId": "act19sre_zone1"
+    },
+    {
+        "apCost": 12,
+        "code": "DV-3",
+        "code_i18n": {
+            "en": "DV-3",
+            "ja": "DV-3",
+            "ko": "DV-3",
+            "zh": "DV-3"
         },
         "dropInfos": [
             {
@@ -82014,70 +81191,174 @@
                     "upper": 3
                 },
                 "dropType": "NORMAL_DROP",
-                "itemId": "30012"
+                "itemId": "30062"
             },
             {
                 "bounds": {
                     "lower": 0,
                     "upper": 3
                 },
-                "dropType": "EXTRA_DROP",
-                "itemId": "2001"
+                "dropType": "NORMAL_DROP",
+                "itemId": "30032"
             },
             {
                 "bounds": {
                     "lower": 0,
                     "upper": 1
                 },
-                "dropType": "EXTRA_DROP",
-                "itemId": "2002"
+                "dropType": "FURNITURE",
+                "itemId": "furni"
             },
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 5
+                    "upper": 2
                 },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30021"
+                "dropType": "NORMAL_DROP"
             },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1690488000000,
+                "exist": true,
+                "openTime": 1689667200000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 160000,
+        "recognitionOnly": [
+            "act19side_token_reagents_rep_1"
+        ],
+        "stageId": "act19side_03_rep",
+        "stageType": "ACTIVITY",
+        "zoneId": "act19sre_zone1"
+    },
+    {
+        "apCost": 12,
+        "code": "DV-4",
+        "code_i18n": {
+            "en": "DV-4",
+            "ja": "DV-4",
+            "ko": "DV-4",
+            "zh": "DV-4"
+        },
+        "dropInfos": [
             {
                 "bounds": {
                     "lower": 0,
                     "upper": 3
                 },
-                "dropType": "EXTRA_DROP",
+                "dropType": "NORMAL_DROP",
                 "itemId": "30022"
             },
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30041"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
                     "upper": 3
                 },
-                "dropType": "EXTRA_DROP",
+                "dropType": "NORMAL_DROP",
                 "itemId": "30042"
             },
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 5
+                    "upper": 1
                 },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30051"
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 2
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1690488000000,
+                "exist": true,
+                "openTime": 1689667200000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 175000,
+        "recognitionOnly": [
+            "act19side_token_reagents_rep_1"
+        ],
+        "stageId": "act19side_04_rep",
+        "stageType": "ACTIVITY",
+        "zoneId": "act19sre_zone1"
+    },
+    {
+        "apCost": 15,
+        "code": "DV-5",
+        "code_i18n": {
+            "en": "DV-5",
+            "ja": "DV-5",
+            "ko": "DV-5",
+            "zh": "DV-5"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 3
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30062"
             },
             {
                 "bounds": {
                     "lower": 0,
                     "upper": 3
                 },
-                "dropType": "EXTRA_DROP",
+                "dropType": "NORMAL_DROP",
                 "itemId": "30052"
             },
             {
@@ -82091,7 +81372,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 2
                 },
                 "dropType": "NORMAL_DROP"
             },
@@ -82105,16 +81386,16 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 0
                 },
                 "dropType": "EXTRA_DROP"
             }
         ],
         "existence": {
             "CN": {
-                "closeTime": 1689192000000,
+                "closeTime": 1690488000000,
                 "exist": true,
-                "openTime": 1688630400000
+                "openTime": 1689667200000
             },
             "JP": {
                 "exist": false
@@ -82126,87 +81407,31 @@
                 "exist": false
             }
         },
-        "minClearTime": null,
+        "minClearTime": 163000,
         "recognitionOnly": [
-            "act15mini_token_figurine"
+            "act19side_token_reagents_rep_1"
         ],
-        "stageId": "act15mini_05",
+        "stageId": "act19side_05_rep",
         "stageType": "ACTIVITY",
-        "zoneId": "act15mini_zone1"
+        "zoneId": "act19sre_zone1"
     },
     {
-        "apCost": 15,
-        "code": "FD-6",
+        "apCost": 21,
+        "code": "DV-6",
         "code_i18n": {
-            "en": "FD-6",
-            "ja": "FD-6",
-            "ko": "FD-6",
-            "zh": "FD-6"
+            "en": "DV-6",
+            "ja": "DV-6",
+            "ko": "DV-6",
+            "zh": "DV-6"
         },
         "dropInfos": [
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30032"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
                     "upper": 1
                 },
-                "dropType": "EXTRA_DROP",
-                "itemId": "3003"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30011"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30012"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30061"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30062"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30031"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30032"
+                "dropType": "NORMAL_DROP",
+                "itemId": "30033"
             },
             {
                 "bounds": {
@@ -82233,184 +81458,16 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
-        "existence": {
-            "CN": {
-                "closeTime": 1689192000000,
-                "exist": true,
-                "openTime": 1688630400000
-            },
-            "JP": {
-                "exist": false
-            },
-            "KR": {
-                "exist": false
-            },
-            "US": {
-                "exist": false
-            }
-        },
-        "minClearTime": null,
-        "recognitionOnly": [
-            "act15mini_token_figurine"
-        ],
-        "stageId": "act15mini_06",
-        "stageType": "ACTIVITY",
-        "zoneId": "act15mini_zone1"
-    },
-    {
-        "apCost": 21,
-        "code": "FD-7",
-        "code_i18n": {
-            "en": "FD-7",
-            "ja": "FD-7",
-            "ko": "FD-7",
-            "zh": "FD-7"
-        },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30043"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "2001"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "2002"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "2003"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30021"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30022"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30023"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30041"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30042"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30043"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30083"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "31023"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "31063"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
                     "upper": 0
                 },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
                 "dropType": "EXTRA_DROP"
             }
         ],
         "existence": {
             "CN": {
-                "closeTime": 1689192000000,
+                "closeTime": 1690488000000,
                 "exist": true,
-                "openTime": 1688630400000
+                "openTime": 1689667200000
             },
             "JP": {
                 "exist": false
@@ -82422,22 +81479,22 @@
                 "exist": false
             }
         },
-        "minClearTime": null,
+        "minClearTime": 194000,
         "recognitionOnly": [
-            "act15mini_token_figurine"
+            "act19side_token_reagents_rep_1"
         ],
-        "stageId": "act15mini_07",
+        "stageId": "act19side_06_rep",
         "stageType": "ACTIVITY",
-        "zoneId": "act15mini_zone1"
+        "zoneId": "act19sre_zone1"
     },
     {
         "apCost": 21,
-        "code": "FD-8",
+        "code": "DV-7",
         "code_i18n": {
-            "en": "FD-8",
-            "ja": "FD-8",
-            "ko": "FD-8",
-            "zh": "FD-8"
+            "en": "DV-7",
+            "ja": "DV-7",
+            "ko": "DV-7",
+            "zh": "DV-7"
         },
         "dropInfos": [
             {
@@ -82446,70 +81503,6 @@
                     "upper": 1
                 },
                 "dropType": "NORMAL_DROP",
-                "itemId": "30063"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "3003"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30011"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30012"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30013"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30061"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30062"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP",
-                "itemId": "30063"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "EXTRA_DROP",
                 "itemId": "30073"
             },
             {
@@ -82517,8 +81510,72 @@
                     "lower": 0,
                     "upper": 1
                 },
-                "dropType": "EXTRA_DROP",
-                "itemId": "31013"
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1690488000000,
+                "exist": true,
+                "openTime": 1689667200000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 182000,
+        "recognitionOnly": [
+            "act19side_token_reagents_rep_1"
+        ],
+        "stageId": "act19side_07_rep",
+        "stageType": "ACTIVITY",
+        "zoneId": "act19sre_zone1"
+    },
+    {
+        "apCost": 21,
+        "code": "DV-8",
+        "code_i18n": {
+            "en": "DV-8",
+            "ja": "DV-8",
+            "ko": "DV-8",
+            "zh": "DV-8"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "31023"
             },
             {
                 "bounds": {
@@ -82545,16 +81602,16 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 1
+                    "upper": 0
                 },
                 "dropType": "EXTRA_DROP"
             }
         ],
         "existence": {
             "CN": {
-                "closeTime": 1689192000000,
+                "closeTime": 1690488000000,
                 "exist": true,
-                "openTime": 1688630400000
+                "openTime": 1689667200000
             },
             "JP": {
                 "exist": false
@@ -82566,12 +81623,12 @@
                 "exist": false
             }
         },
-        "minClearTime": null,
+        "minClearTime": 247000,
         "recognitionOnly": [
-            "act15mini_token_figurine"
+            "act19side_token_reagents_rep_1"
         ],
-        "stageId": "act15mini_08",
+        "stageId": "act19side_08_rep",
         "stageType": "ACTIVITY",
-        "zoneId": "act15mini_zone1"
+        "zoneId": "act19sre_zone1"
     }
 ]

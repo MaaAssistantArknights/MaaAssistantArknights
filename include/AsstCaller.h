@@ -47,7 +47,7 @@ extern "C"
     AsstBool ASSTAPI AsstRunning(AsstHandle handle);
     AsstBool ASSTAPI AsstConnected(AsstHandle handle);
 
-    /* Aysnc with AsstMsg::AsyncCallInfo Callback*/
+    /* Async with AsstMsg::AsyncCallInfo Callback*/
     AsstAsyncCallId ASSTAPI AsstAsyncConnect(AsstHandle handle, const char* adb_path, const char* address,
                                              const char* config, AsstBool block);
     AsstAsyncCallId ASSTAPI AsstAsyncClick(AsstHandle handle, int32_t x, int32_t y, AsstBool block);
