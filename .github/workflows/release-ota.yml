@@ -169,8 +169,8 @@ jobs:
           gh api "/repos/MaaAssistantArknights/MaaAssistantArknights/tarball/$OLD_VERSION" > ${{ runner.temp }}/old.tar.gz
           tar -xzf ${{ runner.temp }}/new.tar.gz -C ${{ runner.temp }}/new
           tar -xzf ${{ runner.temp }}/old.tar.gz -C ${{ runner.temp }}/old
-          export NEW_PATH = "${{ runner.temp }}/new/$(ls ${{ runner.temp }}/new)/docs"
-          export OLD_PATH = "${{ runner.temp }}/old/$(ls ${{ runner.temp }}/old)/docs"
+          export NEW_PATH="${{ runner.temp }}/new/$(ls ${{ runner.temp }}/new)/docs"
+          export OLD_PATH="${{ runner.temp }}/old/$(ls ${{ runner.temp }}/old)/docs"
           export DOCS_DIFF=$(diff -aqr $NEW_PATH $OLD_PATH)
           if [ -n "$DOCS_DIFF" ]; then
             echo "DOCS_DIFF:"
