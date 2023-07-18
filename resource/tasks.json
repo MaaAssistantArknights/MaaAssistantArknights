@@ -10112,18 +10112,29 @@
         "next": [
             "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@StageTrader",
+            "Sami@Roguelike@StageTraderAI6",
             "Sami@Roguelike@StageSafeHouse",
-            "Sami@Roguelike@StageWindAndRain",
-            "Sami@Roguelike@StageEmergencyTransportation",
-            "Sami@Roguelike@StageEncounter",
+            "Sami@Roguelike@StageSafeHouseAI6",
             "Sami@Roguelike@StageBoons",
+            "Sami@Roguelike@StageBoonsAI6",
+            "Sami@Roguelike@StageEmergencyTransportation",
+            "Sami@Roguelike@StageEmergencyTransportationAI6",
             "Sami@Roguelike@StageBoskyPassage",
+            "Sami@Roguelike@StageBoskyPassageAI6",
+            "Sami@Roguelike@StageGambling",
+            "Sami@Roguelike@StageGamblingAI6",
+            "Sami@Roguelike@StageProphecy",
+            "Sami@Roguelike@StageProphecyAI6",
+            "Sami@Roguelike@StageEncounter",
+            "Sami@Roguelike@StageEncounterAI6",
+            "Sami@Roguelike@StageWindAndRain",
+            "Sami@Roguelike@StageWindAndRainAI6",
             "Sami@Roguelike@StageCambatDps",
+            "Sami@Roguelike@StageCambatDpsAI6",
             "Sami@Roguelike@StageEmergencyDps",
+            "Sami@Roguelike@StageEmergencyDpsAI6",
             "Sami@Roguelike@StageDreadfulFoe",
             "Sami@Roguelike@StageDreadfulFoe-5",
-            "Sami@Roguelike@StageGambling",
-            "Sami@Roguelike@StageProphecy",
             "Sami@Roguelike@StageMysteriousPresage",
             "Sami@Roguelike@StageFerociousPresage",
             "Sami@Roguelike@CloseCollectionClose"
@@ -10172,31 +10183,42 @@
         "templThreshold": 0.95,
         "next": [
             "Sami@Roguelike@StageBoonsEnter",
-            "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StageBoonsAI6": {
+        "templThreshold": 0.95,
+        "next": [
+            "Sami@Roguelike@StageBoonsEnter",
             "Sami@Roguelike@NextLevel#next"
         ]
     },
     "Sami@Roguelike@StageBoonsEnter": {
         "template": "Sami@Roguelike@StageTraderEnter.png",
-        "baseTask": "Roguelike@StageEnter",
+        "baseTask": "Sami@Roguelike@StageEnter",
         "next": [
             "Sami@Roguelike@StageBoonsEnter",
             "Sami@Roguelike@StageEncounterJudgeClick"
         ]
     },
     "Sami@Roguelike@StageBoskyPassage": {
-        "template": "Sami@Roguelike@StageBoskyPassage.png",
+        "templThreshold": 0.9,
+        "baseTask": "Sami@Roguelike@Stage",
+        "next": [
+            "Sami@Roguelike@StageBoskyPassageEnter",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StageBoskyPassageAI6": {
         "templThreshold": 0.9,
         "baseTask": "Roguelike@Stage",
         "next": [
             "Sami@Roguelike@StageBoskyPassageEnter",
-            "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@NextLevel#next"
         ]
     },
     "Sami@Roguelike@StageBoskyPassageEnter": {
-        "template": "Sami@Roguelike@StageBoskyPassageEnter.png",
-        "baseTask": "Roguelike@StageEnter",
+        "baseTask": "Sami@Roguelike@StageEnter",
         "next": [
             "Sami@Roguelike@StageBoskyPassageEnter",
             "Sami@Roguelike@StageEncounterJudgeClick"
@@ -10204,6 +10226,15 @@
     },
     "Sami@Roguelike@StageCambatDps": {
         "templThreshold": 0.95
+    },
+    "Sami@Roguelike@StageCambatDpsAI6": {
+        "templThreshold": 0.95,
+        "baseTask": "Roguelike@Stage",
+        "next": [
+            "Sami@Roguelike@StageCambatDpsEnter",
+            "Sami@Roguelike@StageEmergencyDpsEnter",
+            "Sami@Roguelike@NextLevel#next"
+        ]
     },
     "Sami@Roguelike@StageCambatDpsEnter": {},
     "Sami@Roguelike@StageDreadfulFoe": {},
@@ -10227,6 +10258,15 @@
     "Sami@Roguelike@StageEmergencyDps": {
         "templThreshold": 0.95
     },
+    "Sami@Roguelike@StageEmergencyDpsAI6": {
+        "templThreshold": 0.95,
+        "baseTask": "Roguelike@Stage",
+        "next": [
+            "Sami@Roguelike@StageEmergencyDpsEnter",
+            "Sami@Roguelike@StageCambatDpsEnter",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
     "Sami@Roguelike@StageEmergencyDpsEnter": {},
     "Sami@Roguelike@StageEmergencyTransportation": {
         "Doc": "先行一步，拒绝可以获取2希望",
@@ -10234,12 +10274,27 @@
         "templThreshold": 0.95,
         "next": [
             "Sami@Roguelike@StageEncounterEnter",
-            "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StageEmergencyTransportationAI6": {
+        "baseTask": "Sami@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": [
+            "Sami@Roguelike@StageEncounterEnter",
             "Sami@Roguelike@NextLevel#next"
         ]
     },
     "Sami@Roguelike@StageEncounter": {
         "templThreshold": 0.96
+    },
+    "Sami@Roguelike@StageEncounterAI6": {
+        "templThreshold": 0.96,
+        "baseTask": "Roguelike@Stage",
+        "next": [
+            "Sami@Roguelike@StageEncounterEnter",
+            "Sami@Roguelike@NextLevel#next"
+        ]
     },
     "Sami@Roguelike@StageEncounterEnter": {},
     "Sami@Roguelike@StageEncounterLeaveConfirm": {},
@@ -10251,33 +10306,27 @@
     "Sami@Roguelike@StageEncounterOptionWonderland": {},
     "Sami@Roguelike@StageFerociousPresage": {
         "Doc": "凶戾的预感",
-        "template": "Sami@Roguelike@StageFerociousPresage.png",
         "baseTask": "Sami@Roguelike@Stage",
         "templThreshold": 0.9,
         "next": [
             "Sami@Roguelike@StageFerociousPresageEnter",
-            "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@NextLevel#next"
         ]
     },
     "Sami@Roguelike@StageFerociousPresageEnter": {
-        "template": "Sami@Roguelike@StageFerociousPresageEnter.png",
         "baseTask": "Sami@Roguelike@StageEnterBattle"
     },
     "Sami@Roguelike@StageMysteriousPresage": {
         "Doc": "诡秘的预感",
-        "template": "Sami@Roguelike@StageMysteriousPresage.png",
         "baseTask": "Sami@Roguelike@Stage",
         "templThreshold": 0.9,
         "next": [
             "Sami@Roguelike@StageMysteriousPresageEnter",
-            "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@NextLevel#next"
         ]
     },
     "Sami@Roguelike@StageMysteriousPresageEnter": {
-        "template": "Sami@Roguelike@StageMysteriousPresageEnter.png",
-        "baseTask": "Roguelike@StageEnter",
+        "baseTask": "Sami@Roguelike@StageEnter",
         "templThreshold": 0.9,
         "postDelay": 1000,
         "next": [
@@ -10347,7 +10396,6 @@
     "Sami@Roguelike@StageEncounterClickToLeave": {
         "next": [
             "Sami@Roguelike@StageEncounterOptions#next",
-            "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@NextLevel#next",
             "Sami@Roguelike@StageEncounterClickToLeave"
         ]
@@ -10358,7 +10406,14 @@
         "templThreshold": 0.95,
         "next": [
             "Sami@Roguelike@StageEncounterEnter",
-            "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StageGamblingAI6": {
+        "baseTask": "Sami@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": [
+            "Sami@Roguelike@StageEncounterEnter",
             "Sami@Roguelike@NextLevel#next"
         ]
     },
@@ -10368,12 +10423,27 @@
         "templThreshold": 0.95,
         "next": [
             "Sami@Roguelike@StageEncounterEnter",
-            "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StageProphecyAI6": {
+        "baseTask": "Sami@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": [
+            "Sami@Roguelike@StageEncounterEnter",
             "Sami@Roguelike@NextLevel#next"
         ]
     },
     "Sami@Roguelike@StageSafeHouse": {
         "templThreshold": 0.95
+    },
+    "Sami@Roguelike@StageSafeHouseAI6": {
+        "templThreshold": 0.95,
+        "baseTask": "Sami@Roguelike@Stage",
+        "next": [
+            "Sami@Roguelike@StageSafeHouseEnter",
+            "Sami@Roguelike@NextLevel#next"
+        ]
     },
     "Sami@Roguelike@StageSafeHouseEnter": {
         "next": [
@@ -10383,6 +10453,14 @@
     },
     "Sami@Roguelike@StageTrader": {
         "templThreshold": 0.95
+    },
+    "Sami@Roguelike@StageTraderAI6": {
+        "templThreshold": 0.95,
+        "baseTask": "Sami@Roguelike@Stage",
+        "next": [
+            "Sami@Roguelike@StageTraderEnter",
+            "Sami@Roguelike@NextLevel#next"
+        ]
     },
     "Sami@Roguelike@StageTraderEnter": {},
     "Sami@Roguelike@StageTraderLeaveConfirm": {
@@ -10418,12 +10496,19 @@
         ]
     },
     "Sami@Roguelike@StageWindAndRain": {
-        "Doc": "风雨际会，拒绝可以获取4生命值",
+        "Doc": "失与得",
         "baseTask": "Sami@Roguelike@Stage",
         "templThreshold": 0.95,
         "next": [
             "Sami@Roguelike@StageEncounterEnter",
-            "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StageWindAndRainAI6": {
+        "baseTask": "Sami@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": [
+            "Sami@Roguelike@StageEncounterEnter",
             "Sami@Roguelike@NextLevel#next"
         ]
     },
