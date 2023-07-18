@@ -9925,6 +9925,12 @@
     },
     "Sami@Roguelike@CloseEvent": {},
     "Sami@Roguelike@Continue": {
+        "roi": [
+            967,
+            536,
+            313,
+            177
+        ],
         "next": [
             "Sami@Roguelike@MissionFailedFlag2",
             "Sami@Roguelike@ExitThenAbandon",
