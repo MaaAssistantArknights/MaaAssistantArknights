@@ -2547,9 +2547,6 @@
             "To the most recent stage"
         ]
     },
-    "InfrastFlagOriginStone": {
-        "templThreshold": 0.7
-    },
     "InfrastEnterOperList": {
         "fullMatch": true,
         "text": [
@@ -2561,6 +2558,9 @@
     },
     "InfrastFilterMenuNotStationedButton": {
         "templThreshold": 0.75
+    },
+    "InfrastFlagOriginStone": {
+        "templThreshold": 0.7
     },
     "InfrastReward": {
         "text": [
@@ -4670,14 +4670,14 @@
     "UsePrts": {
         "templThreshold": 0.7
     },
-    "VisitNextBlack": {
-        "templThreshold": 0.85
-    },
     "VisitLimited": {
         "text": [
             "limit",
             "reached"
         ]
+    },
+    "VisitNextBlack": {
+        "templThreshold": 0.85
     },
     "VisitNextOcr": {
         "text": [
