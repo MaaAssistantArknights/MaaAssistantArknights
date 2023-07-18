@@ -1,7 +1,7 @@
 #pragma once
 
 #if !defined(ASST_USE_RANGES_STL) && !defined(ASST_USE_RANGES_RANGE_V3) && !defined(ASST_USE_RANGES_BOOST)
-#ifdef __clang__
+#ifndef __cpp_lib_ranges
 #define ASST_USE_RANGES_RANGE_V3
 #else
 #define ASST_USE_RANGES_STL
