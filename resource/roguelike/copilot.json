@@ -892,13 +892,13 @@
                 "direction": "left"
             },
             {
-                "groups": ["凯尔希", "水陈", "单奶", "群奶"],
+                "groups": ["凯尔希", "水陈", "狙击", "术师", "单奶", "群奶"],
                 "location": [8, 3],
                 "direction": "left"
             },
             {
                 "groups": ["M3", "近卫", "重装", "其他地面"],
-                "location": [8, 3],
+                "location": [5, 2],
                 "direction": "down"
             },
             {
