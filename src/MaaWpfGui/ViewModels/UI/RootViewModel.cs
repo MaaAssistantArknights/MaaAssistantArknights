@@ -12,13 +12,11 @@
 // </copyright>
 
 using System;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using Stylet;
-using StyletIoC;
 
 namespace MaaWpfGui.ViewModels.UI
 {

@@ -1,1 +1,1 @@
-__all__ = ['asst', 'updater', 'utils']
+__all__ = ['asst', 'emulator', 'updater', 'utils']

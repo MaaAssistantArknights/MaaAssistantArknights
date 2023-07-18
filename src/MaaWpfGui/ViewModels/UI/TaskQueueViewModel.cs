@@ -26,7 +26,6 @@ using System.Windows.Threading;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Services;
 using MaaWpfGui.States;
@@ -210,8 +209,8 @@ namespace MaaWpfGui.ViewModels.UI
         private async void Timer1_Elapsed(object sender, EventArgs e)
         {
             // 提前记录时间，避免等待超过定时时间
-            int intHour = DateTime.Now.Hour;
-            int intMinute = DateTime.Now.Minute;
+            DateTime currentTime = DateTime.Now;
+            currentTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour, currentTime.Minute, 0);
 
             if (NeedToUpdateDatePrompt())
             {
@@ -238,27 +237,51 @@ namespace MaaWpfGui.ViewModels.UI
                     _ = Task.Run(async () =>
                     {
                         await Task.Delay(delayTime);
-                        await Instances.SettingsViewModel.ManualUpdate();
+                        _ = Instances.SettingsViewModel.ManualUpdate();
                     });
                 }
             }
 
             refreshCustomInfrastPlanIndexByPeriod();
 
-            if (!runningState.GetIdle() && !Instances.SettingsViewModel.ForceScheduledStart)
+            if (!runningState.GetIdle() && !Instances.SettingsViewModel.ForceScheduledStart && !Instances.SettingsViewModel.CustomConfig)
             {
                 return;
             }
 
             var timeToStart = false;
+            var timeToChangeConfig = false;
+            var configIndex = 0;
             for (int i = 0; i < 8; ++i)
             {
-                if (Instances.SettingsViewModel.TimerModels.Timers[i].IsOn &&
-                    Instances.SettingsViewModel.TimerModels.Timers[i].Hour == intHour &&
-                    Instances.SettingsViewModel.TimerModels.Timers[i].Min == intMinute)
+                if (Instances.SettingsViewModel.TimerModels.Timers[i].IsOn)
                 {
-                    timeToStart = true;
-                    break;
+                    DateTime startTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day,
+                                                      Instances.SettingsViewModel.TimerModels.Timers[i].Hour,
+                                                      Instances.SettingsViewModel.TimerModels.Timers[i].Min,
+                                                      0);
+                    DateTime restartDateTime = startTime.AddMinutes(-2);
+                    if (currentTime == restartDateTime)
+                    {
+                        timeToChangeConfig = true;
+                        configIndex = i;
+                        break;
+                    }
+                    else if (currentTime == startTime)
+                    {
+                        timeToStart = true;
+                        break;
+                    }
+                }
+            }
+
+            if (timeToChangeConfig)
+            {
+                if (Instances.SettingsViewModel.CustomConfig)
+                {
+                    // CurrentConfiguration设置后会重启
+                    Instances.SettingsViewModel.CurrentConfiguration = Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig;
+                    return;
                 }
             }
 
@@ -269,13 +292,6 @@ namespace MaaWpfGui.ViewModels.UI
                     if (!runningState.GetIdle())
                     {
                         await Stop();
-                    }
-
-                    int count = 0;
-                    while (Instances.AsstProxy.AsstRunning() && count <= 600)
-                    {
-                        await Task.Delay(100);
-                        count++;
                     }
 
                     if (!Instances.AsstProxy.AsstAppendCloseDown())
