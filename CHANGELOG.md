@@ -1,64 +1,46 @@
-## v4.19.3
+## v4.20.0-beta.1
 
 ### 新增
 
-- 更新活动游戏数据、地图资源等 @MistEO @yuanyan3060
-- 添加 `吃理智药` `指定次数` 右键选中功能，通过右键选中时重启后不保存 @ABA2396
-- 定时任务强制启动 (#5280) @ABA2396 @MistEO
-- 添加自动安装更新包选项 @ABA2396
-- 指定材料也支持右键单次执行 @ABA2396
-- 添加内置作业下拉框 @moomiji
-- 从剪贴板中复制作业路径 @moomiji
+- 适配萨米肉鸽 (#5393) @DavidWang19 @SherkeyXD @LingXii @qihongrui @HauKuen @yyjdelete @Ziqing19 @mathlover @yc080713
+- 定时任务可切换配置 (#5323) @ABA2396 @MistEO
 
 ### 改进
 
-- 关闭模拟器后重置连接状态，减少无意义重连尝试 @ABA2396
-- 添加连接超时 @ABA2396
-- 错误信息解决方案高亮显示 @ABA2396
-- 对镜像进行延迟测试，并选择最优镜像 (#5311) @LiamSho @ChingCdesu
-- 吃理智药选中时勾选吃源石不改变理智药选中状态 @ABA2396
+- 自动关闭“检测到有未下载的语音资源”窗口 (#5396) @Hydrogina
+- 肉鸽debug日志写入图片前限制文件夹内图片数量 (#5325) @BladeHiker
+- 优化HttpClient构建过程 (#5357) @ChingCdesu @HisAtri
+- 更改更新弹窗格式 @ABA2396
 
 ### 修复
 
-- 将 OCR replace 改为有序 @MistEO
-- 未设置时剩余理智勾选状态错误显示 @ABA2396
-- 通过窗口关闭模拟器的日志错误 @ABA2396
-- 集合已修改；可能无法执行枚举操作 @ABA2396
-- 修复配置名为null时添加配置报错，留空时以当前时间作为配置名 @ABA2396
-- 活动结束后活动关卡被误判成常驻关卡 @ABA2396
-- 修复连接报错问题 @MistEO
-- ArkItems 在反序列化失败时可能引发 `未将对象引用设置到对象的实例` @ABA2396
-- 修复指定材料刷取数量显示状况不及时响应 @ABA2396
-- 关卡选择检测未将对象引用设置到对象的实例 @ABA2396
-- 回滚访问好友相关阈值 @MistEO @ABA2396
-- 修复start后 running 状态不变的问题 @MistEO
-- 尝试修复手动输入关卡名时偶现主选关卡变为空 @ABA2396
-- NewConfigurationName为空字符串也自动改为当前时间 @ABA2396
-- 在RunningState类中用状态机替换idle处理 (#5293) @ABA2396
+- 添加定时器缺少的判断 @ABA2396
+- 点击技能启动按钮时，验证按钮已消失，防止卡死在子弹时间中 (#5374) @chaserhkj
+- 添加山的干员名字纠错规则 (#5372) @chaserhkj
+- add CloseEvent task for Phantom Roguelike (#5358) @chaserhkj
+- 强制启动定时任务未在运行时不关闭方舟 #5346 @ABA2396
+- 尝试修复运行时下载完成更新包后卡死 (#5327) @ABA2396
 
 ### 其他
 
-- workaround for destruction order issue @horror-proton
-- 更新 Linux 编译 workflow 链接 (#5252) @AnnAngela
-- `""` -> `「」` @ABA2396
-- 文档实时显示贡献者 @AnnAngela
-- 在连接前提示替换adb @ABA2396
-- 修复docs变动检测逻辑 @AnnAngela
+- 更新裁图小工具 @MistEO
+- 在文档的导航栏里加上前往官网的链接 @AnnAngela
+- 修改关卡重连描述 @ABA2396
+- 代码清理 @ABA2396
+- fix typo in AsstCaller.h (#5435) @eltociear
 
 ### For overseas
 
 #### YostarEN
 
-- Modified operators regex for Auto Squad and role button (#5249) @Constrat
-- Update en-us.xaml @ABA2396
-- typo: useless \n in EN GUI (#5236) @Constrat
+- raised threshold for StageAnnihilation.png (#5234) @Constrat
+- Added correct StageAnnihilation.png after update @Constrat
+- Visiting only 1 Friend Clue Exchange in YostarEN (#5424) @Constrat
+- Missing .png for YostarEN and modified tools/ignore_list_of_templates.txt (lack of Chinese characters) (#5458) @Constrat
 
-#### txwy
+### For dev
 
-- 台服 基建識別 (#5256) @vonnoq
-- 台服 理想城活動導航 (#5212) @vonnoq
-- 台服 引航者试炼 (#5283) @vonnoq
-
-#### YostarKR
-
-- add CrisisPopup.png for YoStarKR @178619
+- Python api 更新 同时请求多个url下载 (#5390) @HisAtri
+- 使用字典推导式 (#5381) @HisAtri
+- 修复Python更新器中重试次数的问题 (#5402) @Q-ModifiedJ
+- 适配pythonAPI到最新版 (#5347) @DoyoDia
