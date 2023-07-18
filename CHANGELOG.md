@@ -1,64 +1,144 @@
-## v4.19.3
+## v4.20.0-beta.1
 
 ### 新增
 
-- 更新活动游戏数据、地图资源等 @MistEO @yuanyan3060
-- 添加 `吃理智药` `指定次数` 右键选中功能，通过右键选中时重启后不保存 @ABA2396
-- 定时任务强制启动 (#5280) @ABA2396 @MistEO
-- 添加自动安装更新包选项 @ABA2396
-- 指定材料也支持右键单次执行 @ABA2396
-- 添加内置作业下拉框 @moomiji
-- 从剪贴板中复制作业路径 @moomiji
+- 适配了抗干扰指数为6时的节点进入 (#5500) @DavidWang19
+   - 适配了抗干扰指数为6时的节点进入 @DavidWang19
+- 新增抗干扰指数为0时的运行逻辑 @DavidWang19
+- 提高树篱之途节点的识别阈值 @DavidWang19
+- Sami rogue recruitment and copilot (#5430) @LingXii
+- 适配萨米肉鸽 (#5393) @SherkeyXD @DavidWang19 @qihongrui @MistEO
+   - 初步完成对诡异行商商品的标记 (#5401) @SherkeyXD
+      - 初步完成对商品的标记 @SherkeyXD
+   - 结束肉鸽初步适配 @DavidWang19
+   - update tasks.json @DavidWang19
+   - update tasks.json @DavidWang19
+   - update tasks.json @DavidWang19
+   - update tasks.json @DavidWang19
+   - 初步完成肉鸽适配 @DavidWang19
+   - 【UPD】：更新肉鸽3shopping json (#5400) @qihongrui
+      - 【UPD】：更新肉鸽3shopping json @qihongrui
+   - 更新tasks.json @DavidWang19
+   - 肉鸽选项默认值改为萨米 @MistEO
+   - 录入不期而遇配置 @DavidWang19
+   - 适配萨米肉鸽 @DavidWang19
+   - 更新了肉鸽GUI @DavidWang19
+- 自动关闭“检测到有未下载的语音资源”窗口 (#5396) @Hydrogina
+   - 自动关闭“检测到有未下载的语音资源”窗口 @Hydrogina
+- 定时任务可切换配置 (#5323) @ABA2396 @MistEO
+   - 添加提示 @ABA2396
+   - 调整en切换配置翻译 @ABA2396
+   - 增加界面全局配置提示 @ABA2396
+   - 定时设置改为全局设置 @ABA2396
+   - 新增c#全局配置读写接口 @MistEO
+   - 定时任务可选配置，并提前两分钟重启切换 @ABA2396
+   - NewConfigurationName为空字符串也自动改为当前时间 @ABA2396
+- 肉鸽debug日志写入图片前限制文件夹内图片数量 (#5325) @BladeHiker
+   - save_img接口添加自动清理参数 @BladeHiker
+   - 去掉异步执行，添加可配置项 @BladeHiker
+   - FEAT: 日志写入图片前检查文件夹内图片数量 @BladeHiker
 
 ### 改进
 
-- 关闭模拟器后重置连接状态，减少无意义重连尝试 @ABA2396
-- 添加连接超时 @ABA2396
-- 错误信息解决方案高亮显示 @ABA2396
-- 对镜像进行延迟测试，并选择最优镜像 (#5311) @LiamSho @ChingCdesu
-- 吃理智药选中时勾选吃源石不改变理智药选中状态 @ABA2396
+- 更新裁图小工具 @MistEO
+- 优化萨米肉鸽死囚之夜战斗逻辑 (#5466) @HauKuen
+   - 优化萨米肉鸽死囚之夜战斗逻辑 @HauKuen
+- Python api 更新 同时请求多个url下载 (#5390) @HisAtri
+   - 修改 __name__ == '__main__' 的任务 @HisAtri
+   - 更新建立缓存目录的方式 @HisAtri
+   - Merge pull request #1 from HisAtri/HisAtri-commit-1 @HisAtri
+      - 同时请求多个镜像url @HisAtri
+   - 多镜像下载请求，避免缓慢下载 @HisAtri
+- 更新当前活动 @DavidWang19
+- 优化HttpClient构建过程 (#5357) @ChingCdesu @HisAtri
+   - 删除不必要的代码，优化HttpClient构建过程 @ChingCdesu
+   - 合并重复代码 @HisAtri
+   - 合并重复代码 @HisAtri
+- 更改更新弹窗格式 @ABA2396
 
 ### 修复
 
-- 将 OCR replace 改为有序 @MistEO
-- 未设置时剩余理智勾选状态错误显示 @ABA2396
-- 通过窗口关闭模拟器的日志错误 @ABA2396
-- 集合已修改；可能无法执行枚举操作 @ABA2396
-- 修复配置名为null时添加配置报错，留空时以当前时间作为配置名 @ABA2396
-- 活动结束后活动关卡被误判成常驻关卡 @ABA2396
-- 修复连接报错问题 @MistEO
-- ArkItems 在反序列化失败时可能引发 `未将对象引用设置到对象的实例` @ABA2396
-- 修复指定材料刷取数量显示状况不及时响应 @ABA2396
-- 关卡选择检测未将对象引用设置到对象的实例 @ABA2396
-- 回滚访问好友相关阈值 @MistEO @ABA2396
-- 修复start后 running 状态不变的问题 @MistEO
-- 尝试修复手动输入关卡名时偶现主选关卡变为空 @ABA2396
-- NewConfigurationName为空字符串也自动改为当前时间 @ABA2396
-- 在RunningState类中用状态机替换idle处理 (#5293) @ABA2396
+- 修复不期而遇节点部分选项无法选中的问题 @DavidWang19
+- 修复了肉鸽掉线重连后死循环的问题 (#5494) @DavidWang19
+   - 修复了肉鸽掉线重连后死循环的问题 @DavidWang19
+- raised threshold for StageAnnihilation.png (#5234) @Constrat
+- Added correct StageAnnihilation.png after update @Constrat
+- 絮雨在肉鸽中想使用3技能的bug (#5480) @mathlover
+- 修复在先行一步节点卡住的问题 @DavidWang19
+- 修复萨米肉鸽部分问题，重构不期而遇插件识别部分 (#5471) @DavidWang19
+   - 修复萨米肉鸽部分问题，重构不期而遇插件识别部分 @DavidWang19
+- 修复萨米肉鸽部分bug @DavidWang19
+- 尝试修复萨米肉鸽卡杂货铺的问题 (#5450) @yyjdelete
+   - 尝试修复萨米肉鸽卡杂货铺的问题 @yyjdelete
+- 添加定时器缺少的判断 @ABA2396
+- Visiting only 1 Friend Clue Exchange in YostarEN (#5424) @Constrat
+   - Changed to EN only @Constrat
+   - Added templThreshold 0.85 to VisitNextBlack @Constrat
+   - aa @Constrat
+   - Mall - VisitNextBlack templThreshold issue @Constrat
+- 修复Python更新器中重试次数的问题 (#5402) @Q-ModifiedJ
+   - 修复Python更新器中重试次数的问题 @Q-ModifiedJ
+- 定时设置不全为全局设置问题 @ABA2396
+- 定时逻辑错误 @ABA2396
+- 修复定时设置不保存 @ABA2396
+- 点击技能启动按钮时，验证按钮已消失，防止卡死在子弹时间中 (#5374) @chaserhkj
+- 添加山的干员名字纠错规则 (#5372) @chaserhkj
+   - 添加山的干员名字纠错规则 @chaserhkj
+- add CloseEvent task for Phantom Roguelike (#5358) @chaserhkj
+   - add CloseEvent task for Phantom Roguelike @chaserhkj
+- 强制启动定时任务未在运行时不关闭方舟 #5346 @ABA2396
+- 尝试修复运行时下载完成更新包后卡死 (#5327) @ABA2396
+   - 提取UntilIdleAsync函数 @ABA2396
+   - 尝试修复运行时下载完成更新包后卡死 @ABA2396
 
 ### 其他
 
-- workaround for destruction order issue @horror-proton
-- 更新 Linux 编译 workflow 链接 (#5252) @AnnAngela
-- `""` -> `「」` @ABA2396
-- 文档实时显示贡献者 @AnnAngela
-- 在连接前提示替换adb @ABA2396
-- 修复docs变动检测逻辑 @AnnAngela
-
-### For overseas
-
-#### YostarEN
-
-- Modified operators regex for Auto Squad and role button (#5249) @Constrat
-- Update en-us.xaml @ABA2396
-- typo: useless \n in EN GUI (#5236) @Constrat
-
-#### txwy
-
-- 台服 基建識別 (#5256) @vonnoq
-- 台服 理想城活動導航 (#5212) @vonnoq
-- 台服 引航者试炼 (#5283) @vonnoq
-
-#### YostarKR
-
-- add CrisisPopup.png for YoStarKR @178619
+- Auto Update Game Resources - 2023-07-18 @MistEO
+- 修改萨米肉鸽关卡低空机动摆放 (#5498) @HauKuen
+   - 修改萨米肉鸽关卡低空机动摆放 @HauKuen
+- Auto Update Game Resources - 2023-07-18 @MistEO
+- 修改萨米肉鸽关卡“饥渴祭坛”摆放 (#5486) @yc080713
+   - 修改萨米肉鸽关卡“饥渴祭坛”摆放 @yc080713
+- Missing .png for YostarEN and modified tools/ignore_list_of_templates.txt (lack of Chinese characters) (#5458) @Constrat
+   - Lowered score for Shard in base detection YostarEN @Constrat
+   - Images without Chinese characters added to file @Constrat
+   - Added missing .png to YostarEN @Constrat
+- 合并萨米肉鸽中相同关卡的自动战斗逻辑 (#5444) @SherkeyXD
+   - 修正被误改为中文的role_order与role @SherkeyXD
+   - 更改copilot.json的缩进逻辑使其更可读 @SherkeyXD
+   - 合并萨米肉鸽中相同关卡的自动战斗逻辑 @SherkeyXD
+- 增加萨米肉鸽战斗关卡作业 (#5433) @yc080713
+   - 再次优化 @yc080713
+   - 增加萨米肉鸽战斗关卡作业 @yc080713
+   - 增加萨米肉鸽战斗关卡作业 @yc080713
+- fix typo in AsstCaller.h (#5435) @eltociear
+   - fix typo in AsstCaller.h @eltociear
+- 删除多余判断 @ABA2396
+- 扩充不期而遇选项标记 (#5421) @SherkeyXD
+   - 消除名称歧义 @SherkeyXD
+   - 标记更多选项需求 @SherkeyXD
+- Auto Update Game Resources - 2023-07-15 @MistEO
+- 完成对不期而遇选项所需抗干扰指数的标记 (#5416) @SherkeyXD
+   - 标记抗干扰指数要求 @SherkeyXD
+   - 把当前肉鸽主题放最前面 @SherkeyXD
+- 在文档的导航栏里加上前往官网的链接 @AnnAngela
+- Stage encounter update (#5408) @Ziqing19
+   - update: data type @Ziqing19
+   - update: stage_encounter.json @Ziqing19
+- Auto Update Game Resources - 2023-07-13 @MistEO
+- Update operators.md (#5385) @wallsman
+   - Update operators.md @wallsman
+- Auto Update Game Resources - 2023-07-13 @MistEO
+- Auto Update Game Resources - 2023-07-13 @MistEO
+- Auto Update Game Resources - 2023-07-13 @MistEO
+- 修改关卡重连描述 @ABA2396
+- Auto Update Game Resources - 2023-07-12 @MistEO
+- 使用字典推导式 (#5381) @HisAtri
+   - 使用高效明了的字典推导式 @HisAtri
+- 适配pythonAPI到最新版 (#5347) @MistEO @DoyoDia
+   - Update asst.py @MistEO
+   - beta后面的数忘了不能舍了（） @DoyoDia
+   - 更新pythonAPI使其适配现版本 @DoyoDia
+- 删除无用的函数 @ABA2396
+- 格式化代码 @ABA2396
+- 代码清理 @ABA2396
