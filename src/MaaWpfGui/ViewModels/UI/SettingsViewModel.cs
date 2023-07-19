@@ -1784,7 +1784,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _forceScheduledStart, value);
-                ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ForceScheduledStart, value.ToString());
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ForceScheduledStart, value.ToString());
             }
         }
 
