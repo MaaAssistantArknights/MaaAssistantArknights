@@ -196,14 +196,9 @@
                 "direction": "left"
             },
             {
-                "groups": ["水陈", "单奶", "群奶", "术师", "狙击", "辅助", "其他高台"],
+                "groups": ["水陈", "单奶", "术师", "狙击", "辅助", "其他高台"],
                 "location": [4, 2],
                 "direction": "right"
-            },
-            {
-                "groups": ["焰苇"],
-                "location": [6, 2],
-                "direction": "left"
             },
             {
                 "groups": [
@@ -217,6 +212,16 @@
                 ],
                 "location": [6, 3],
                 "direction": "left"
+            },
+            {
+                "groups": ["焰苇"],
+                "location": [6, 2],
+                "direction": "left"
+            },
+            {
+                "groups": ["单奶", "群奶"],
+                "location": [6, 4],
+                "direction": "up"
             },
             {
                 "groups": ["处决者"],
@@ -882,7 +887,7 @@
                 "direction": "right"
             },
             {
-                "groups": ["单奶", "群奶", "焰苇"],
+                "groups": ["焰苇", "单奶", "群奶"],
                 "location": [2, 1],
                 "direction": "right"
             },
@@ -927,7 +932,12 @@
                 "direction": "left"
             },
             {
-                "groups": ["凯尔希", "水陈", "狙击", "术师", "焰苇", "单奶", "群奶"],
+                "groups": ["焰苇"],
+                "location": [8, 3],
+                "direction": "left"
+            },
+            {
+                "groups": ["凯尔希", "水陈", "狙击", "术师", "单奶", "群奶"],
                 "location": [8, 3],
                 "direction": "left"
             },
@@ -976,8 +986,13 @@
                 "direction": "left"
             },
             {
-                "groups": ["单奶", "群奶", "焰苇"],
+                "groups": ["焰苇", "单奶", "群奶"],
                 "location": [7, 4],
+                "direction": "right"
+            },
+            {
+                "groups": ["焰苇"],
+                "location": [9, 3],
                 "direction": "right"
             },
             {
