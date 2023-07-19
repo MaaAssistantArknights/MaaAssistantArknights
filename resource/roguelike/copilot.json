@@ -948,7 +948,7 @@
                 "direction": "right"
             },
             {
-                "groups": ["水陈", "术士", "狙击", "辅助", "焰苇"],
+                "groups": ["水陈", "术师", "狙击", "辅助", "焰苇"],
                 "location": [7, 3],
                 "direction": "right"
             },
@@ -963,12 +963,12 @@
                 "direction": "up"
             },
             {
-                "groups": ["术士", "狙击", "辅助"],
+                "groups": ["术师", "狙击", "辅助"],
                 "location": [7, 2],
                 "direction": "left"
             },
             {
-                "groups": ["术士", "狙击", "辅助"],
+                "groups": ["术师", "狙击", "辅助"],
                 "location": [1, 3],
                 "direction": "right"
             }
@@ -989,7 +989,7 @@
                 "direction": "right"
             },
             {
-                "groups": ["水陈", "狙击", "术士", "辅助"],
+                "groups": ["水陈", "狙击", "术师", "辅助"],
                 "location": [4, 6],
                 "direction": "right"
             },
@@ -1065,7 +1065,7 @@
                 "direction": "left"
             },
             {
-                "groups": ["狙击", "术士", "辅助"],
+                "groups": ["狙击", "术师", "辅助"],
                 "location": [6, 4],
                 "direction": "left"
             },
@@ -1125,7 +1125,7 @@
                 "direction": "left"
             },
             {
-                "groups": ["单奶", "群奶", "焰苇", "狙击", "术士", "辅助"],
+                "groups": ["单奶", "群奶", "焰苇", "狙击", "术师", "辅助"],
                 "location": [6, 2],
                 "direction": "down"
             },
@@ -1169,7 +1169,7 @@
         ],
         "not_use_dice_Doc": "蓝门干员撤退时是否需要用骰子，不写默认false",
         "not_use_dice": false,
-        "role_order_Doc": "干员类型部署顺序，未写出部分以近卫，先锋，医疗，重装，狙击，术士，辅助，特种，召唤物的顺序补全，输入英文",
+        "role_order_Doc": "干员类型部署顺序，未写出部分以近卫，先锋，医疗，重装，狙击，术师，辅助，特种，召唤物的顺序补全，输入英文",
         "role_order": [
             "warrior",
             "pioneer",
