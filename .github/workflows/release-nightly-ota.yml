@@ -118,7 +118,7 @@ jobs:
     needs: build-win-nightly
     runs-on: ubuntu-latest
     steps:
-      - name: "Fetch MaaRelease"
+      - name: Fetch MaaRelease
         uses: actions/checkout@v3
         with:
           repository: ${{ format('{0}/{1}', github.repository_owner, 'MaaRelease') }}
@@ -150,7 +150,7 @@ jobs:
         with:
           name: MAA-win-${{ matrix.target }}
           path: ${{ format('{0}/{1}', 'build-ota', needs.build-win-nightly.outputs.tag) }}
-      - name: "Fetch release info"
+      - name: Fetch release info
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -170,7 +170,7 @@ jobs:
           cat ./config
 
           echo "release_tag=$(head -n 1 ./config)" >> $GITHUB_ENV
-      - name: "Build OTA"
+      - name: Build OTA
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -200,7 +200,7 @@ jobs:
           echo $r
           echo "full_release_body=$r" >> $GITHUB_OUTPUT
 
-      - name: "Upload to MaaRelease"
+      - name: Upload to MaaRelease
         uses: svenstaro/upload-release-action@v2
         with:
           repo_name: ${{ format('{0}/{1}', github.repository_owner, 'MaaRelease') }}
@@ -212,7 +212,7 @@ jobs:
           overwrite: true
           body: ${{ steps.make_release_body.outputs.full_release_body }}
 
-      - name: Deploy the release
+      - name: Setup release mirror
         run: |
             gh workflow --repo MaaAssistantArknights/MaaRelease run release-mirrors.yml
         env:
