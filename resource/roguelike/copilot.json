@@ -1093,7 +1093,12 @@
                 "groups": ["近卫", "挡人先锋"],
                 "location": [8, 3],
                 "direction": "right"
-            }
+            },
+            {
+                "groups": ["处决者", "情报官"],
+                "location": [5, 2],
+                "direction": "up"
+            },
         ]
     },
 	{
