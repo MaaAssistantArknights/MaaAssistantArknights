@@ -5,6 +5,7 @@
             "M3",
             "玛恩纳",
             "水陈",
+			"焰苇",
             "处决者",
             "近卫",
             "重装",
@@ -112,6 +113,34 @@
                     "recruit_priority": 980,
                     "promote_priority": 990,
                     "is_key": true
+                }
+            ]
+        },
+        "焰苇": {
+            "opers": [
+                {
+                    "name": "焰影苇草",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "is_key": true,
+                    "is_start": true,
+					"doc": "相比凯尔希，焰苇的前期费用压力更小，更适合开局，属于下限高上限低的那种",
+                    "recruit_priority": 700,
+                    "promote_priority": 450,
+					"recruit_priority_offsets": [
+                        {
+                            "groups": [ "凯尔希", "近卫", "重装" ],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -300
+                        },
+                        {
+                            "groups": [ "术士" ],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -100
+                        }
+                    ]
                 }
             ]
         },
@@ -2406,7 +2435,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [ "单奶", "群奶" ],
+                            "groups": [ "单奶", "群奶", "焰苇" ],
                             "threshold": 0,
                             "is_less": true,
                             "offset": 500
@@ -2427,7 +2456,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [ "单奶", "群奶" ],
+                            "groups": [ "单奶", "群奶", "焰苇" ],
                             "threshold": 0,
                             "is_less": true,
                             "offset": 600
