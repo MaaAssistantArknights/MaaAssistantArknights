@@ -65,8 +65,13 @@
                 "direction": "down"
             },
             {
-                "groups": ["单奶", "群奶"],
+                "groups": ["焰苇", "群奶"],
                 "location": [3, 2],
+                "direction": "down"
+            },
+            {
+                "groups": ["单奶"],
+                "location": [3, 1],
                 "direction": "down"
             }
         ],
@@ -100,6 +105,7 @@
                     "凯尔希",
                     "召唤",
                     "水陈",
+					"焰苇",
                     "速狙",
                     "术师",
                     "狙击",
@@ -124,7 +130,7 @@
             {
                 "groups": ["处决者"],
                 "location": [7, 2],
-                "direction": "up",
+                "direction": "down",
                 "condition": [0, 10]
             },
             {
@@ -156,7 +162,7 @@
             {
                 "groups": ["单奶", "群奶"],
                 "location": [1, 4],
-                "direction": "rigit"
+                "direction": "right"
             }
         ],
         "retreat_plan": [
@@ -190,15 +196,7 @@
                 "direction": "left"
             },
             {
-                "groups": [
-                    "水陈",
-                    "单奶",
-                    "群奶",
-                    "术师",
-                    "狙击",
-                    "辅助",
-                    "其他高台"
-                ],
+                "groups": ["水陈", "单奶", "术师", "狙击", "辅助", "其他高台"],
                 "location": [4, 2],
                 "direction": "right"
             },
@@ -214,6 +212,16 @@
                 ],
                 "location": [6, 3],
                 "direction": "left"
+            },
+            {
+                "groups": ["焰苇"],
+                "location": [6, 2],
+                "direction": "left"
+            },
+            {
+                "groups": ["单奶", "群奶"],
+                "location": [6, 4],
+                "direction": "up"
             },
             {
                 "groups": ["处决者"],
@@ -268,6 +276,13 @@
                     "辅助"
                 ],
                 "location": [4, 2],
+                "direction": "right"
+            },
+            {
+                "groups": [
+                    "焰苇"
+                ],
+                "location": [3, 3],
                 "direction": "right"
             },
             {
@@ -363,6 +378,11 @@
                     "辅助"
                 ],
                 "location": [1, 4],
+                "direction": "right"
+            },
+            {
+                "groups": ["焰苇"],
+                "location": [4, 4],
                 "direction": "right"
             },
             {
@@ -508,6 +528,7 @@
                     "辅助",
                     "单奶",
                     "群奶",
+					"焰苇",
                     "其他高台"
                 ],
                 "location": [4, 1],
@@ -547,7 +568,7 @@
                 "direction": "down"
             },
             {
-                "groups": ["单奶", "群奶"],
+                "groups": ["焰苇", "单奶", "群奶"],
                 "location": [4, 3],
                 "direction": "down"
             }
@@ -603,6 +624,11 @@
             {
                 "groups": ["单奶", "群奶"],
                 "location": [3, 3],
+                "direction": "down"
+            },
+            {
+                "groups": ["焰苇"],
+                "location": [2, 4],
                 "direction": "down"
             },
             {
@@ -665,19 +691,24 @@
         ],
         "deploy_plan": [
             {
-                "groups": ["速狙", "狙击", "召唤", "单奶"],
-                "location": [9, 1],
-                "direction": "down"
-            },
-            {
                 "groups": ["M3", "挡人先锋", "近卫", "重装", "其他地面"],
-                "location": [4, 3],
+                "location": [5, 3],
                 "direction": "right"
             },
             {
                 "groups": ["凯尔希", "单奶", "群奶"],
                 "location": [5, 4],
                 "direction": "up"
+            },
+            {
+                "groups": ["焰苇"],
+                "location": [6, 1],
+                "direction": "down"
+            },
+            {
+                "groups": ["速狙", "狙击", "召唤", "单奶"],
+                "location": [9, 1],
+                "direction": "down"
             },
             {
                 "groups": ["速狙", "狙击", "召唤", "单奶"],
@@ -719,12 +750,17 @@
             },
             {
                 "groups": ["近卫", "挡人先锋", "重装"],
-                "location": [5, 3],
+                "location": [4, 3],
                 "direction": "right"
             },
             {
                 "groups": ["辅助", "狙击", "术师"],
                 "location": [5, 4],
+                "direction": "right"
+            },
+            {
+                "groups": ["术师", "辅助", "其他高台"],
+                "location": [7, 5],
                 "direction": "right"
             }
         ]
@@ -776,6 +812,7 @@
                     "辅助",
                     "单奶",
                     "群奶",
+					"焰苇",
                     "其他高台"
                 ],
                 "location": [3, 3],
@@ -820,7 +857,7 @@
             }
         ]
     },
-    {
+	{
         "stage_name": "弄假成真",
         "replacement_home": [
             {
@@ -837,6 +874,31 @@
             {
                 "groups": ["近卫", "挡人先锋", "重装"],
                 "location": [5, 1],
+                "direction": "down"
+            },
+            {
+                "groups": ["凯尔希", "单奶", "群奶"],
+                "location": [6, 1],
+                "direction": "left"
+            },
+            {
+                "groups": ["M3", "挡人先锋", "近卫", "重装", "其他地面"],
+                "location": [5, 2],
+                "direction": "right"
+            },
+            {
+                "groups": ["焰苇", "单奶", "群奶"],
+                "location": [2, 1],
+                "direction": "right"
+            },
+            {
+                "groups": ["水陈", "狙击", "术师", "辅助", "其他高台"],
+                "location": [4, 2],
+                "direction": "left"
+            },
+            {
+                "groups": ["近卫", "挡人先锋", "重装"],
+                "location": [3, 1],
                 "direction": "right"
             }
         ]
@@ -854,24 +916,15 @@
             }
         ],
         "blacklist_location": [
-            [
-                7,
-                5
-            ],
-            [
-                8,
-                5
-            ],
-            [
-                9,
-                5
-            ]
+            [7, 5],
+            [8, 5],
+            [9, 5]
         ],
         "deploy_plan": [
             {
-                "groups": ["近卫"],
+                "groups": ["近卫", "重装"],
                 "location": [8, 4],
-                "direction": "up"
+                "direction": "left"
             },
             {
                 "groups": ["辅助", "狙击", "术师"],
@@ -879,7 +932,22 @@
                 "direction": "left"
             },
             {
-                "groups": ["单奶", "群奶"],
+                "groups": ["焰苇"],
+                "location": [8, 3],
+                "direction": "left"
+            },
+            {
+                "groups": ["凯尔希", "水陈", "狙击", "术师", "单奶", "群奶"],
+                "location": [8, 3],
+                "direction": "left"
+            },
+            {
+                "groups": ["M3", "近卫", "重装", "其他地面"],
+                "location": [5, 2],
+                "direction": "down"
+            },
+            {
+                "groups": ["单奶"],
                 "location": [8, 1],
                 "direction": "down"
             },
@@ -894,28 +962,58 @@
         "stage_name": "狡兽九窟",
         "replacement_home": [
             {
-                "location": [8, 3],
-                "direction": "right"
-            },
-            {
-                "location": [9, 5],
+                "location": [8, 4],
                 "direction": "up"
             },
             {
-                "location": [10, 5],
-                "direction": "up"
+                "location": [9, 3],
+                "direction": "left"
+            },
+            {
+                "location": [10, 3],
+                "direction": "left"
             }
         ],
         "deploy_plan": [
             {
-                "groups": ["近卫", "挡人先锋"],
-                "location": [8, 3],
+                "groups": ["术师", "速狙", "狙击"],
+                "location": [1, 3],
                 "direction": "right"
             },
             {
-                "groups": ["近卫", "挡人先锋", "狙击"],
-                "location": [6, 4],
+                "groups": ["术师", "速狙", "狙击"],
+                "location": [7, 3],
+                "direction": "left"
+            },
+            {
+                "groups": ["焰苇", "单奶", "群奶"],
+                "location": [7, 4],
+                "direction": "right"
+            },
+            {
+                "groups": ["焰苇"],
+                "location": [9, 3],
+                "direction": "right"
+            },
+            {
+                "groups": ["近卫", "挡人先锋", "重装"],
+                "location": [10, 3],
+                "direction": "left"
+            },
+            {
+                "groups": ["术师", "辅助", "狙击", "其他高台"],
+                "location": [7, 2],
+                "direction": "right"
+            },
+            {
+                "groups": ["近卫", "挡人先锋", "重装"],
+                "location": [8, 4],
                 "direction": "up"
+            },
+            {
+                "groups": ["近卫", "挡人先锋", "重装"],
+                "location": [9, 3],
+                "direction": "left"
             }
         ]
     },
@@ -929,28 +1027,28 @@
         ],
         "deploy_plan": [
             {
-                "groups": ["近卫", "挡人先锋", "狙击"],
-                "location": [1, 6],
+                "groups": ["单奶", "群奶", "焰苇"],
+                "location": [4, 6],
                 "direction": "right"
             },
             {
-                "groups": ["近卫", "挡人先锋", "狙击"],
-                "location": [2, 6],
+                "groups": ["水陈", "狙击", "术师", "辅助"],
+                "location": [4, 6],
                 "direction": "right"
             },
             {
-                "groups": ["单奶", "群奶"],
-                "location": [1, 3],
-                "direction": "down"
-            },
-            {
-                "groups": ["辅助", "狙击", "术师"],
-                "location": [1, 5],
+                "groups": ["重装", "M3", "近卫", "挡人先锋"],
+                "location": [5, 5],
                 "direction": "right"
             },
             {
                 "groups": ["辅助", "狙击", "术师"],
-                "location": [3, 3],
+                "location": [4, 4],
+                "direction": "right"
+            },
+            {
+                "groups": ["凯尔希", "单奶", "群奶", "焰苇"],
+                "location": [3, 4],
                 "direction": "right"
             }
         ]
@@ -1000,24 +1098,99 @@
         ],
         "deploy_plan": [
             {
-                "groups": ["近卫", "挡人先锋", "狙击"],
+                "groups": ["近卫", "挡人先锋"],
                 "location": [6, 3],
                 "direction": "left"
             },
             {
-                "groups": ["近卫", "挡人先锋", "狙击"],
+                "groups": ["重装", "M3", "近卫", "挡人先锋"],
                 "location": [6, 2],
                 "direction": "left"
             },
             {
-                "groups": ["辅助", "狙击", "术师"],
+                "groups": ["狙击", "术师", "辅助"],
+                "location": [6, 4],
+                "direction": "left"
+            },
+            {
+                "groups": ["玛恩纳"],
+                "location": [5, 4],
+                "direction": "left"
+            },
+            {
+                "groups": ["水陈", "辅助", "狙击", "术师"],
                 "location": [4, 2],
                 "direction": "right"
             },
             {
-                "groups": ["单奶", "群奶"],
+                "groups": ["凯尔希", "单奶", "群奶", "焰苇"],
                 "location": [8, 2],
                 "direction": "left"
+            },
+            {
+                "groups": ["单奶", "群奶", "焰苇"],
+                "location": [6, 1],
+                "direction": "down"
+            },
+            {
+                "groups": ["近卫", "挡人先锋"],
+                "location": [8, 3],
+                "direction": "right"
+            },
+            {
+                "groups": ["处决者", "情报官"],
+                "location": [5, 2],
+                "direction": "up"
+            }
+        ]
+    },
+	{
+        "stage_name": "半吊子之旅",
+        "replacement_home": [
+            {
+                "location": [7, 3],
+                "direction": "none"
+            },
+            {
+                "location": [7, 4],
+                "direction": "none"
+            }
+        ],
+        "deploy_plan": [
+            {
+                "groups": ["近卫", "挡人先锋", "重装"],
+                "location": [6, 4],
+                "direction": "left"
+            },
+            {
+                "groups": ["重装", "M3", "近卫", "挡人先锋"],
+                "location": [5, 3],
+                "direction": "left"
+            },
+            {
+                "groups": ["单奶", "群奶", "焰苇", "狙击", "术师", "辅助"],
+                "location": [6, 2],
+                "direction": "down"
+            },
+            {
+                "groups": ["水陈", "辅助", "狙击", "术师"],
+                "location": [4, 2],
+                "direction": "right"
+            },
+            {
+                "groups": ["凯尔希", "单奶", "群奶", "焰苇"],
+                "location": [8, 3],
+                "direction": "left"
+            },
+            {
+                "groups": ["近卫", "挡人先锋"],
+                "location": [7, 3],
+                "direction": "right"
+            },
+            {
+                "groups": ["单奶", "群奶"],
+                "location": [7, 5],
+                "direction": "up"
             }
         ]
     },
@@ -1039,7 +1212,7 @@
         ],
         "not_use_dice_Doc": "蓝门干员撤退时是否需要用骰子，不写默认false",
         "not_use_dice": false,
-        "role_order_Doc": "干员类型部署顺序，未写出部分以近卫，先锋，医疗，重装，狙击，术士，辅助，特种，召唤物的顺序补全，输入英文",
+        "role_order_Doc": "干员类型部署顺序，未写出部分以近卫，先锋，医疗，重装，狙击，术师，辅助，特种，召唤物的顺序补全，输入英文",
         "role_order": [
             "warrior",
             "pioneer",
