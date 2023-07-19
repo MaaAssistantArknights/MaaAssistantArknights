@@ -24,7 +24,7 @@ jobs:
   create-tag:
     runs-on: ubuntu-latest
     steps:
-      - name: "Fetch MaaRelease"
+      - name: Fetch MaaRelease
         uses: actions/checkout@v3
         with:
           repository: ${{ format('{0}/{1}', github.repository_owner, 'MaaRelease') }}
@@ -113,9 +113,9 @@ jobs:
     needs: create-tag
     runs-on: macos-13
     steps:
-      - name: Fetch Release Information
+      - name: Fetch release info
         run: gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit || 31 }} | tee ./release_maa.txt
-      - name: Download Release Packages
+      - name: Download release packages
         run: |
           cat ./release_maa.txt | awk '{ print $1 }' | while read tag; do
             gh release download "$tag" --repo 'MaaAssistantArknights/MaaAssistantArknights' --clobber -D packages -p 'MAA-*-macos-universal.dmg' || true
@@ -132,7 +132,7 @@ jobs:
           else
             echo ${{ secrets.SPARKLE_PRIV_KEY }} | ./bin/generate_appcast --ed-key-file - ./packages
           fi
-      - name: Clean unneed files
+      - name: Cleanup files
         run: find ./packages -type f ! \( -name 'MAA-${{ needs.create-tag.outputs.release_tag }}-macos-universal.dmg' -o -name '*.delta' -o -name '*.xml' \) -print -delete
       - name: Upload to MaaRelease
         uses: svenstaro/upload-release-action@v2
@@ -153,10 +153,10 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
     steps:
-      - name: Deploy the release
+      - name: Setup release mirror
         run: |
           gh workflow --repo MaaAssistantArknights/MaaRelease run release-mirrors.yml
-      - name: Deploy the docs
+      - name: Deploy docs
         run: |
           mkdir -p ${{ runner.temp }}/new
           mkdir -p ${{ runner.temp }}/old
@@ -169,8 +169,8 @@ jobs:
           gh api "/repos/MaaAssistantArknights/MaaAssistantArknights/tarball/$OLD_VERSION" > ${{ runner.temp }}/old.tar.gz
           tar -xzf ${{ runner.temp }}/new.tar.gz -C ${{ runner.temp }}/new
           tar -xzf ${{ runner.temp }}/old.tar.gz -C ${{ runner.temp }}/old
-          export NEW_PATH = "${{ runner.temp }}/new/$(ls ${{ runner.temp }}/new)/docs"
-          export OLD_PATH = "${{ runner.temp }}/old/$(ls ${{ runner.temp }}/old)/docs"
+          export NEW_PATH="${{ runner.temp }}/new/$(ls ${{ runner.temp }}/new)/docs"
+          export OLD_PATH="${{ runner.temp }}/old/$(ls ${{ runner.temp }}/old)/docs"
           export DOCS_DIFF=$(diff -aqr $NEW_PATH $OLD_PATH)
           if [ -n "$DOCS_DIFF" ]; then
             echo "DOCS_DIFF:"

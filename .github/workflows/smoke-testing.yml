@@ -47,11 +47,11 @@ jobs:
         run: |
           MSBUILD src/Cpp/MaaSample.slnf /t:rebuild /p:Configuration="Debug" /p:Platform="x64" /m
 
-      - name: Run Testing
+      - name: Run tests
         run: |
           .\x64\Debug\Sample.exe
 
-      - name: Upload Logs
+      - name: Upload logs
         if: always()
         uses: actions/upload-artifact@v3
         with:
