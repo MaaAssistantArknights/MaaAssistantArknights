@@ -2,12 +2,13 @@
 
 ### 新增
 
-- 萨米肉鸽 mac gui 选项 @mikucy
+- macOS GUI 添加萨米肉鸽选项 @mikucy
 
 ### 改进
 
 - 优化萨米肉鸽部分关卡战斗逻辑 (#5516) @HauKuen
 - 自动检测更新的随机延迟改为一小时 @ABA2396
+- macOS GUI 修改肉鸽主题时，自动重置编队选项 @hguandl
 
 ### 修复
 
