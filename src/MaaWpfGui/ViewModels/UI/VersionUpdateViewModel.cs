@@ -528,11 +528,16 @@ namespace MaaWpfGui.ViewModels.UI
                 var tasks = urls.ConvertAll(url => Instances.HttpService.HeadAsync(new Uri(url)));
                 var latencies = await Task.WhenAll(tasks);
 
+                var proxy = ConfigurationHelper.GetValue(ConfigurationKeys.UpdateProxy, string.Empty);
+                var hasProxy = String.IsNullOrEmpty(proxy);
+
                 // select the fastest mirror
                 _logger.Information("Selecting the fastest mirror:");
                 var selected = 0;
                 for (int i = 0; i < latencies.Length; i++)
                 {
+                    var isInChina = urls[i].Contains("s3.maa-org.net") || urls[i].Contains("maa-ota.annangela.cn");
+
                     if (latencies[i].Equals(-1.0))
                     {
                         _logger.Warning("\turl: {CDNUrl} not available", urls[i]);
@@ -540,6 +545,13 @@ namespace MaaWpfGui.ViewModels.UI
                     }
 
                     _logger.Information("\turl: {CDNUrl}, legacy: {1:0.00}ms", urls[i], latencies[i]);
+
+                    if (hasProxy && isInChina)
+                    {
+                        // 如果设置了代理，国内镜像的延迟加上一个固定值
+                        latencies[i] += 648;
+                    }
+
                     if (latencies[i] < latencies[selected])
                     {
                         selected = i;
