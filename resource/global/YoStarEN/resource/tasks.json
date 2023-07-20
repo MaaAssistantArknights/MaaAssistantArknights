@@ -16,6 +16,15 @@
             120
         ]
     },
+    "BattleQuickFormationFilter-Cost": {
+        "text": "Deployment Cost",
+        "roi": [
+            996,
+            443,
+            222,
+            125
+        ]
+    },
     "BattleStageName": {
         "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
         "ocrReplace": [
@@ -735,6 +744,18 @@
         "text": [
             "Start",
             "Start Challenge"
+        ]
+    },
+    "BattleStartOCR": {
+        "text": [
+            "MISSION",
+            "START"
+        ],
+        "roi": [
+            1006,
+            444,
+            196,
+            166
         ]
     },
     "CharsNameOcrReplace": {
@@ -2586,6 +2607,32 @@
             "MISTS"
         ]
     },
+    "FightMissionFailed": {
+        "text": [
+            "MISSION",
+            "FAILED"
+        ],
+        "fullMatch": true,
+        "roi": [
+            114,
+            249,
+            311,
+            224
+        ]
+    },
+    "FightMissionFailedAndStop": {
+        "text": [
+            "MISSION",
+            "FAILED"
+        ],
+        "fullMatch": true,
+        "roi": [
+            114,
+            249,
+            311,
+            224
+        ]
+    },
     "GTToGT-5": {
         "text": [
             "Enter",
@@ -2615,6 +2662,30 @@
             "To the most recent stage"
         ]
     },
+    "InfrastConfirmButtonWait": {
+        "text": [
+            "Submitting feedback",
+            "to the neural network"
+        ],
+        "roi": [
+            675,
+            605,
+            427,
+            115
+        ]
+    },
+    "InfrastDormConfirmButtonWait": {
+        "text": [
+            "Submitting feedback",
+            "to the neural network"
+        ],
+        "roi": [
+            675,
+            605,
+            427,
+            115
+        ]
+    },
     "InfrastEnterOperList": {
         "fullMatch": true,
         "text": [
@@ -2641,6 +2712,18 @@
     "InfrastStationedInfo": {
         "text": [
             "Operator"
+        ]
+    },
+    "LoadingText": {
+        "text": [
+            "Submitting feedback",
+            "to the neural network"
+        ],
+        "roi": [
+            675,
+            605,
+            427,
+            115
         ]
     },
     "Mall": {
