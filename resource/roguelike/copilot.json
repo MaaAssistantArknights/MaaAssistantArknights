@@ -1142,7 +1142,49 @@
             }
         ]
     },
-	{
+    {
+        "stage_name": "公司纠葛",
+        "replacement_home": [
+            {
+                "location": [5, 2],
+                "direction": "left"
+            }
+        ],
+        "deploy_plan": [
+            {
+                "groups": ["近卫", "重装", "挡人先锋"],
+                "location": [5, 2],
+                "direction": "left"
+            },
+            {
+                "groups": ["水陈", "焰苇", "狙击", "辅助", "其他高台"],
+                "location": [3, 1],
+                "direction": "down"
+            },
+            {
+                "groups": ["凯尔希", "单奶", "群奶"],
+                "location": [7, 1],
+                "direction": "left"
+            },
+            {
+                "groups": ["M3", "近卫", "重装", "挡人先锋"],
+                "location": [4, 2],
+                "direction": "left"
+            },
+            {
+                "groups": ["挡人先锋","重装"],
+                "location": [6, 2],
+                "direction": "left"
+            },
+            {
+                "groups": ["处决者", "情报官"],
+                "location": [4, 3],
+                "direction": "right",
+                "condition": [ 17, 36 ]
+            }
+        ]
+    },
+    {
         "stage_name": "半吊子之旅",
         "replacement_home": [
             {
