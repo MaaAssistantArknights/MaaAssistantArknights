@@ -2616,6 +2616,19 @@
             "분"
         ]
     },
+    "FC-Open": {
+        "text": [
+            "스테이지",
+            "개방"
+        ]
+    },
+    "FCChapterToFC": {
+        "text": [
+            "안갯속",
+            "늪지대"
+        ]
+    }
+    ,
     "FightMissionFailed": {
         "text": [
             "임무실패"
