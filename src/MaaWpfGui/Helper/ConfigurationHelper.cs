@@ -63,9 +63,13 @@ namespace MaaWpfGui.Helper
         {
             var hasValue = _globalKvs.TryGetValue(key, out var value);
             _logger.Debug("Read global configuration key {Key} with default value {DefaultValue}, configuration hit: {HasValue}, configuration value {Value}", key, defaultValue, hasValue, value);
-            return hasValue
-                ? value
-                : defaultValue;
+            if (!hasValue)
+            {
+                SetGlobalValue(key, defaultValue);
+                return defaultValue;
+            }
+
+            return value;
         }
 
         /// <summary>
@@ -288,21 +292,6 @@ namespace MaaWpfGui.Helper
 
         public static string GetTimer(int i, string defaultValue)
         {
-            // 迁移旧数据，过几个版本后删除
-            {
-                var value = GetGlobalValue($"Timer.Timer{i + 1}", defaultValue);
-                if (value != defaultValue)
-                {
-                    return value;
-                }
-
-                value = GetValue($"Timer.Timer{i + 1}", defaultValue);
-                if (value != defaultValue)
-                {
-                    SetTimer(i, value);
-                }
-            }
-
             return GetGlobalValue($"Timer.Timer{i + 1}", defaultValue);
         }
 
@@ -313,21 +302,6 @@ namespace MaaWpfGui.Helper
 
         public static string GetTimerHour(int i, string defaultValue)
         {
-            // 迁移旧数据，过几个版本后删除
-            {
-                var value = GetGlobalValue($"Timer.Timer{i + 1}Hour", defaultValue);
-                if (value != defaultValue)
-                {
-                    return value;
-                }
-
-                value = GetValue($"Timer.Timer{i + 1}Hour", defaultValue);
-                if (value != defaultValue)
-                {
-                    SetTimerHour(i, value);
-                }
-            }
-
             return GetGlobalValue($"Timer.Timer{i + 1}Hour", defaultValue);
         }
 
@@ -338,21 +312,6 @@ namespace MaaWpfGui.Helper
 
         public static string GetTimerMin(int i, string defaultValue)
         {
-            // 迁移旧数据，过几个版本后删除
-            {
-                var value = GetGlobalValue($"Timer.Timer{i + 1}Min", defaultValue);
-                if (value != defaultValue)
-                {
-                    return value;
-                }
-
-                value = GetValue($"Timer.Timer{i + 1}Min", defaultValue);
-                if (value != defaultValue)
-                {
-                    SetTimerMin(i, value);
-                }
-            }
-
             return GetGlobalValue($"Timer.Timer{i + 1}Min", defaultValue);
         }
 
@@ -363,15 +322,7 @@ namespace MaaWpfGui.Helper
 
         public static string GetTimerConfig(int i, string defaultValue)
         {
-            // 防止未配置过任务时，读取到的是当前值，切换配置后仍会改变当前值
-            var hasValue = _globalKvs.TryGetValue($"Timer.Timer{i + 1}.Config", out var value);
-            if (!hasValue)
-            {
-                SetGlobalValue($"Timer.Timer{i + 1}.Config", value);
-                return defaultValue;
-            }
-
-            return GetGlobalValue($"Timer.Timer{i + 1}.Config", defaultValue); ;
+            return GetGlobalValue($"Timer.Timer{i + 1}.Config", defaultValue);
         }
 
         public static bool SetTimerConfig(int i, string value)
