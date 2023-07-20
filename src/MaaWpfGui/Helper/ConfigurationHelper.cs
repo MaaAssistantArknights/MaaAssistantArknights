@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows.Input;
 using MaaWpfGui.Constants;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -360,6 +361,24 @@ namespace MaaWpfGui.Helper
             return SetGlobalValue($"Timer.Timer{i + 1}Min", value);
         }
 
+        public static string GetTimerConfig(int i, string defaultValue)
+        {
+            // 防止未配置过任务时，读取到的是当前值，切换配置后仍会改变当前值
+            var hasValue = _globalKvs.TryGetValue($"Timer.Timer{i + 1}.Config", out var value);
+            if (!hasValue)
+            {
+                SetGlobalValue($"Timer.Timer{i + 1}.Config", value);
+                return defaultValue;
+            }
+
+            return GetGlobalValue($"Timer.Timer{i + 1}.Config", defaultValue); ;
+        }
+
+        public static bool SetTimerConfig(int i, string value)
+        {
+            return SetGlobalValue($"Timer.Timer{i + 1}.Config", value);
+        }
+
         public static string GetTaskOrder(string task, string defaultValue)
         {
             return GetValue("TaskQueue.Order." + task, defaultValue);
@@ -368,16 +387,6 @@ namespace MaaWpfGui.Helper
         public static bool SetTaskOrder(string task, string value)
         {
             return SetValue("TaskQueue.Order." + task, value);
-        }
-
-        public static string GetTimerConfig(int i, string defaultValue)
-        {
-            return GetValue($"Timer.Timer{i + 1}.Config", defaultValue);
-        }
-
-        public static bool SetTimerConfig(int i, string value)
-        {
-            return SetValue($"Timer.Timer{i + 1}.Config", value);
         }
 
         public static void Release()
