@@ -1713,7 +1713,7 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         _hour = (value >= 0 && value <= 23) ? value : _hour;
                         OnPropertyChanged();
-                        ConfigurationHelper.SetTimerHour(TimerId, value.ToString());
+                        ConfigurationHelper.SetTimerHour(TimerId, _hour.ToString());
                     }
                 }
 
@@ -1729,7 +1729,7 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         _min = (value >= 0 && value <= 59) ? value : _min;
                         OnPropertyChanged();
-                        ConfigurationHelper.SetTimerMin(TimerId, value.ToString());
+                        ConfigurationHelper.SetTimerMin(TimerId, _min.ToString());
                     }
                 }
 
@@ -1745,7 +1745,7 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         _timerConfig = value ?? ConfigurationHelper.GetCurrentConfiguration();
                         OnPropertyChanged();
-                        ConfigurationHelper.SetTimerConfig(TimerId, value.ToString());
+                        ConfigurationHelper.SetTimerConfig(TimerId, _timerConfig.ToString());
                     }
                 }
 
