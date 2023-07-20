@@ -50,7 +50,15 @@
                 "direction": "up"
             },
             {
-                "groups": ["单奶", "群奶", "术师", "狙击", "辅助", "提丰", "其他高台"],
+                "groups": [
+                    "单奶",
+                    "群奶",
+                    "术师",
+                    "狙击",
+                    "辅助",
+                    "提丰",
+                    "其他高台"
+                ],
                 "location": [6, 4],
                 "direction": "left"
             },
@@ -134,7 +142,15 @@
                 "condition": [0, 10]
             },
             {
-                "groups": ["单奶", "群奶", "术师", "狙击", "辅助", "提丰", "其他高台"],
+                "groups": [
+                    "单奶",
+                    "群奶",
+                    "术师",
+                    "狙击",
+                    "辅助",
+                    "提丰",
+                    "其他高台"
+                ],
                 "location": [1, 4],
                 "direction": "right"
             },
@@ -271,7 +287,7 @@
                 "direction": "left"
             },
             {
-                "groups":["提丰"],
+                "groups": ["提丰"],
                 "location": [2, 2],
                 "direction": "right"
             },
@@ -1182,7 +1198,7 @@
                 "direction": "left"
             },
             {
-                "groups": ["挡人先锋","重装"],
+                "groups": ["挡人先锋", "重装"],
                 "location": [6, 2],
                 "direction": "left"
             },
@@ -1190,7 +1206,55 @@
                 "groups": ["处决者", "情报官"],
                 "location": [4, 3],
                 "direction": "right",
-                "condition": [ 17, 36 ]
+                "condition": [17, 36]
+            }
+        ]
+    },
+    {
+        "stage_name": "自然之怒",
+        "replacement_home": [
+            {
+                "location": [4, 6],
+                "direction": "up"
+            }
+        ],
+        "deploy_plan": [
+            {
+                "groups": ["挡人先锋", "近卫", "重装"],
+                "location": [4, 6],
+                "direction": "up"
+            },
+            {
+                "groups": ["水陈", "狙击", "术师", "其他高台"],
+                "location": [6, 4],
+                "direction": "left"
+            },
+            {
+                "groups": ["凯尔希", "单奶", "焰苇"],
+                "location": [7, 4],
+                "direction": "left"
+            },
+            {
+                "groups": ["重装", "近卫", "M3", "挡人先锋"],
+                "location": [4, 5],
+                "direction": "up"
+            },
+            {
+                "groups": ["提丰"],
+                "location": [7, 3],
+                "direction": "left"
+            },
+            {
+                "groups": ["M3", "近卫", "情报官"],
+                "location": [5, 4],
+                "direction": "left"
+            },
+
+            {
+                "groups": ["处决者"],
+                "location": [3, 4],
+                "direction": "right",
+                "condition": [22, 37]
             }
         ]
     },
