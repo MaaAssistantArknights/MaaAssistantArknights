@@ -201,8 +201,7 @@ namespace MaaWpfGui.Helper
                     _current = ConfigurationKeys.DefaultConfiguration;
                     _kvsMap[_current] = new Dictionary<string, string>();
                     _kvs = _kvsMap[_current];
-                    _kvsMap[ConfigurationKeys.GlobalConfiguration] = new Dictionary<string, string>();
-                    _globalKvs = _kvsMap[ConfigurationKeys.GlobalConfiguration];
+                    _globalKvs = new Dictionary<string, string>();
 
                     return false;
                 }
