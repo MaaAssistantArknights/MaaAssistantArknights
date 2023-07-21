@@ -1,40 +1,42 @@
-## v4.20.0-beta.3
-
-### 改进
-
-- 优化萨米肉鸽部分地图摆放策略 @vic233333 @HauKuen
-
-### 修复
-
-- 修复 macOS 萨米肉鸽参数错误 @hguandl
-
-## v4.20.0-beta.2
+## v4.20.0-rc.1
 
 ### 新增
 
-- macOS GUI 添加萨米肉鸽选项 @mikucy
+- 全局配置不存在时会优先使用当前配置的字段，并赋值给全局配置 @ABA2396
+- added missing strings form  missing_translate-YostarEN @Constrat
+- FC event stages implementation for KR @Constrat
+- FC event stages implementation for JP @Constrat
+- FC event stages implementation for EN @Constrat
 
 ### 改进
 
-- 优化萨米肉鸽部分关卡战斗逻辑 (#5516) @HauKuen
-- 自动检测更新的随机延迟改为一小时 @ABA2396
-- macOS GUI 修改肉鸽主题时，自动重置编队选项 @hguandl
+- 优化水月部分地图部署逻辑 (#5576) @Yumi0606
 
 ### 修复
 
-- 强制定时启动无法保存; 配置名称过长显示问题 (#5532) @TiSpH
-- 定时功能设置无法更新 @ABA2396
+- 0时的定时任务无法提前重启 (#5571) @TiSpH
+   - 调整窗口标题 @TiSpH
+   - 0时的定时任务无法提前重启 @TiSpH
+- Workaround for EN infrastracture oper regex (#5549) @Constrat
+- 修复定时器配置从未选择时的逻辑错误 @ABA2396
+- 定时器保存问题 @ABA2396
+- 修复对ranges支持检测的判断条件 (#5548) @hguandl
+   - 修复对ranges支持检测的判断条件 @hguandl
+- 修复输入非法时间时，输入框会重置但却存储错误数据的问题 @ABA2396
 
 ### 其他
 
-- 添加一键编译macOS Core的脚本 @hguandl
-- 在用户有代理的情况下，提升国外镜像的优先级 (s3限速上行50Mbps) @ChingCdesu
-- AsstConf.h 对 clang-tidy 不友好的问题 (#5510) @hxdnshx
-- 规范化step name (#5517) @SherkeyXD
-- 删除export后面多余的空格 (#5515) @SherkeyXD
-
-### For oversease
-
-#### txwy
-
-- 繁中服干员名识别错误 @Arcelibs
+- Update tasks.json (#5580) @Arcelibs
+   - Update tasks.json @Arcelibs
+- 修改第一层提丰放置顺序以及站位 (#5567) @salenth
+   - 修改第一层提丰放置顺序以及站位 @salenth
+- Auto Update Game Resources - 2023-07-20 @MistEO
+- Merge branch 'dev' of https://github.com/MaaAssistantArknights/MaaAssistantArknights into dev @MistEO
+   - 修复初次使用多出来一个Global配置的问题 @MistEO
+- added new ignored Sami IS4 images @Constrat
+- Merge branch 'dev' of https://github.com/MaaAssistantArknights/MaaAssistantArknights into dev @ABA2396
+   - 未配置全局变量时也进行储存 @ABA2396
+- Auto Update Game Resources - 2023-07-20 @MistEO
+- Improved operator awareness in infrastructure (#5564) @zewoosJ
+   - 개발 뉴비 영업용 @zewoosJ
+   - Improved operator awareness in infrastructure @zewoosJ
