@@ -14,6 +14,13 @@
         "deploy_plan": [
             {
                 "groups": [
+                    "提丰"
+                ],
+                "location": [7, 4],
+                "direction": "left"
+            },
+            {
+                "groups": [
                     "凯尔希",
                     "召唤",
                     "水陈",
@@ -56,7 +63,6 @@
                     "术师",
                     "狙击",
                     "辅助",
-                    "提丰",
                     "其他高台"
                 ],
                 "location": [6, 4],
@@ -104,6 +110,13 @@
         ],
         "deploy_plan": [
             {
+                "groups": [
+                    "提丰"
+                ],
+                "location": [1, 2],
+                "direction": "right"
+            },
+            {
                 "groups": ["M3", "近卫", "情报官", "挡人先锋", "其他地面"],
                 "location": [2, 3],
                 "direction": "right"
@@ -148,7 +161,6 @@
                     "术师",
                     "狙击",
                     "辅助",
-                    "提丰",
                     "其他高台"
                 ],
                 "location": [1, 4],
@@ -202,6 +214,13 @@
         ],
         "deploy_plan": [
             {
+                "groups": [
+                    "提丰"
+                ],
+                "location": [2, 2],
+                "direction": "right"
+            },
+            {
                 "groups": ["凯尔希", "召唤", "速狙", "术师", "狙击", "辅助"],
                 "location": [6, 2],
                 "direction": "down"
@@ -210,11 +229,6 @@
                 "groups": ["M3", "近卫", "情报官", "挡人先锋", "其他地面"],
                 "location": [7, 3],
                 "direction": "left"
-            },
-            {
-                "groups": ["提丰"],
-                "location": [2, 2],
-                "direction": "right"
             },
             {
                 "groups": ["水陈", "单奶", "术师", "狙击", "辅助", "其他高台"],
