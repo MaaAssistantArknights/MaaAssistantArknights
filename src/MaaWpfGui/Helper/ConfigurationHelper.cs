@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows.Input;
 using MaaWpfGui.Constants;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -62,9 +63,21 @@ namespace MaaWpfGui.Helper
         {
             var hasValue = _globalKvs.TryGetValue(key, out var value);
             _logger.Debug("Read global configuration key {Key} with default value {DefaultValue}, configuration hit: {HasValue}, configuration value {Value}", key, defaultValue, hasValue, value);
-            return hasValue
-                ? value
-                : defaultValue;
+            if (!hasValue)
+            {
+                hasValue = _kvs.TryGetValue(key, out value);
+                if (hasValue)
+                {
+                    _logger.Debug("Read global configuration key {Key} with current configuration value {Value}, configuration hit: {HasValue}, configuration value {Value}", key, value, hasValue, value);
+                    SetGlobalValue(key, value);
+                    return value;
+                }
+
+                SetGlobalValue(key, defaultValue);
+                return defaultValue;
+            }
+
+            return value;
         }
 
         /// <summary>
@@ -196,8 +209,7 @@ namespace MaaWpfGui.Helper
                     _current = ConfigurationKeys.DefaultConfiguration;
                     _kvsMap[_current] = new Dictionary<string, string>();
                     _kvs = _kvsMap[_current];
-                    _kvsMap[ConfigurationKeys.GlobalConfiguration] = new Dictionary<string, string>();
-                    _globalKvs = _kvsMap[ConfigurationKeys.GlobalConfiguration];
+                    _globalKvs = new Dictionary<string, string>();
 
                     return false;
                 }
@@ -287,21 +299,6 @@ namespace MaaWpfGui.Helper
 
         public static string GetTimer(int i, string defaultValue)
         {
-            // 迁移旧数据，过几个版本后删除
-            {
-                var value = GetValue($"Timer.Timer{i + 1}", defaultValue);
-                if (value != defaultValue)
-                {
-                    return value;
-                }
-
-                value = GetValue($"Timer.Timer{i + 1}", defaultValue);
-                if (value != defaultValue)
-                {
-                    SetTimer(i, value);
-                }
-            }
-
             return GetGlobalValue($"Timer.Timer{i + 1}", defaultValue);
         }
 
@@ -312,21 +309,6 @@ namespace MaaWpfGui.Helper
 
         public static string GetTimerHour(int i, string defaultValue)
         {
-            // 迁移旧数据，过几个版本后删除
-            {
-                var value = GetGlobalValue($"Timer.Timer{i + 1}Hour", defaultValue);
-                if (value != defaultValue)
-                {
-                    return value;
-                }
-
-                value = GetValue($"Timer.Timer{i + 1}Hour", defaultValue);
-                if (value != defaultValue)
-                {
-                    SetTimerHour(i, value);
-                }
-            }
-
             return GetGlobalValue($"Timer.Timer{i + 1}Hour", defaultValue);
         }
 
@@ -337,27 +319,22 @@ namespace MaaWpfGui.Helper
 
         public static string GetTimerMin(int i, string defaultValue)
         {
-            // 迁移旧数据，过几个版本后删除
-            {
-                var value = GetGlobalValue($"Timer.Timer{i + 1}Min", defaultValue);
-                if (value != defaultValue)
-                {
-                    return value;
-                }
-
-                value = GetValue($"Timer.Timer{i + 1}Min", defaultValue);
-                if (value != defaultValue)
-                {
-                    SetTimerMin(i, value);
-                }
-            }
-
             return GetGlobalValue($"Timer.Timer{i + 1}Min", defaultValue);
         }
 
         public static bool SetTimerMin(int i, string value)
         {
             return SetGlobalValue($"Timer.Timer{i + 1}Min", value);
+        }
+
+        public static string GetTimerConfig(int i, string defaultValue)
+        {
+            return GetGlobalValue($"Timer.Timer{i + 1}.Config", defaultValue);
+        }
+
+        public static bool SetTimerConfig(int i, string value)
+        {
+            return SetGlobalValue($"Timer.Timer{i + 1}.Config", value);
         }
 
         public static string GetTaskOrder(string task, string defaultValue)
@@ -368,16 +345,6 @@ namespace MaaWpfGui.Helper
         public static bool SetTaskOrder(string task, string value)
         {
             return SetValue("TaskQueue.Order." + task, value);
-        }
-
-        public static string GetTimerConfig(int i, string defaultValue)
-        {
-            return GetValue($"Timer.Timer{i + 1}.Config", defaultValue);
-        }
-
-        public static bool SetTimerConfig(int i, string value)
-        {
-            return SetValue($"Timer.Timer{i + 1}.Config", value);
         }
 
         public static void Release()
