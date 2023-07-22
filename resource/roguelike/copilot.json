@@ -13,6 +13,11 @@
         ],
         "deploy_plan": [
             {
+                "groups": ["提丰"],
+                "location": [7, 4],
+                "direction": "left"
+            },
+            {
                 "groups": [
                     "凯尔希",
                     "召唤",
@@ -50,15 +55,7 @@
                 "direction": "up"
             },
             {
-                "groups": [
-                    "单奶",
-                    "群奶",
-                    "术师",
-                    "狙击",
-                    "辅助",
-                    "提丰",
-                    "其他高台"
-                ],
+                "groups": ["单奶", "群奶", "术师", "狙击", "辅助", "其他高台"],
                 "location": [6, 4],
                 "direction": "left"
             },
@@ -104,6 +101,11 @@
         ],
         "deploy_plan": [
             {
+                "groups": ["提丰"],
+                "location": [1, 2],
+                "direction": "right"
+            },
+            {
                 "groups": ["M3", "近卫", "情报官", "挡人先锋", "其他地面"],
                 "location": [2, 3],
                 "direction": "right"
@@ -142,15 +144,7 @@
                 "condition": [0, 10]
             },
             {
-                "groups": [
-                    "单奶",
-                    "群奶",
-                    "术师",
-                    "狙击",
-                    "辅助",
-                    "提丰",
-                    "其他高台"
-                ],
+                "groups": ["单奶", "群奶", "术师", "狙击", "辅助", "其他高台"],
                 "location": [1, 4],
                 "direction": "right"
             },
@@ -202,6 +196,11 @@
         ],
         "deploy_plan": [
             {
+                "groups": ["提丰"],
+                "location": [2, 2],
+                "direction": "right"
+            },
+            {
                 "groups": ["凯尔希", "召唤", "速狙", "术师", "狙击", "辅助"],
                 "location": [6, 2],
                 "direction": "down"
@@ -210,11 +209,6 @@
                 "groups": ["M3", "近卫", "情报官", "挡人先锋", "其他地面"],
                 "location": [7, 3],
                 "direction": "left"
-            },
-            {
-                "groups": ["提丰"],
-                "location": [2, 2],
-                "direction": "right"
             },
             {
                 "groups": ["水陈", "单奶", "术师", "狙击", "辅助", "其他高台"],
@@ -1249,7 +1243,6 @@
                 "location": [5, 4],
                 "direction": "left"
             },
-
             {
                 "groups": ["处决者"],
                 "location": [3, 4],
@@ -1461,7 +1454,7 @@
             },
             {
                 "groups": ["控制", "召唤", "高台C", "术师", "狙击", "辅助"],
-                "location": [7, 2],
+                "location": [6, 4],
                 "direction": "left"
             },
             {
@@ -1548,6 +1541,20 @@
         ],
         "deploy_plan": [
             {
+                "groups": [
+                    "地面C",
+                    "玛恩纳",
+                    "号角",
+                    "异德",
+                    "地刺",
+                    "刺客",
+                    "挡人先锋",
+                    "其他地面"
+                ],
+                "location": [3, 2],
+                "direction": "down"
+            },
+            {
                 "groups": ["异德", "刺客", "挡人先锋", "其他地面"],
                 "location": [5, 3],
                 "direction": "left",
@@ -1583,7 +1590,7 @@
             {
                 "groups": ["高台C", "召唤", "控制", "术师", "狙击", "辅助"],
                 "location": [2, 4],
-                "direction": "down"
+                "direction": "right"
             },
             {
                 "groups": [
@@ -1617,21 +1624,7 @@
             {
                 "groups": ["高台C", "召唤", "控制", "术师", "狙击", "辅助"],
                 "location": [3, 6],
-                "direction": "left"
-            },
-            {
-                "groups": [
-                    "地面C",
-                    "玛恩纳",
-                    "号角",
-                    "异德",
-                    "地刺",
-                    "刺客",
-                    "挡人先锋",
-                    "其他地面"
-                ],
-                "location": [3, 2],
-                "direction": "down"
+                "direction": "up"
             }
         ]
     },
@@ -1717,6 +1710,10 @@
             {
                 "location": [7, 4],
                 "direction": "left"
+            },
+            {
+                "location": [6, 4],
+                "direction": "left"
             }
         ],
         "deploy_plan": [
@@ -1724,6 +1721,11 @@
                 "groups": ["异德", "刺客"],
                 "location": [6, 1],
                 "direction": "right"
+            },
+            {
+                "groups": ["异德", "刺客"],
+                "location": [2, 6],
+                "direction": "left"
             },
             {
                 "groups": ["挡人先锋", "投锋", "重装"],
@@ -2143,12 +2145,12 @@
                     "刺客"
                 ],
                 "location": [7, 3],
-                "direction": "down"
+                "direction": "left"
             },
             {
                 "groups": ["召唤", "高台C", "控制", "术师", "狙击", "辅助"],
                 "location": [6, 3],
-                "direction": "down"
+                "direction": "right"
             },
             {
                 "groups": [
@@ -2193,6 +2195,30 @@
                     "其他地面"
                 ],
                 "location": [3, 3],
+                "direction": "left"
+            },
+            {
+                "groups": [
+                    "地面C",
+                    "异德",
+                    "地刺",
+                    "刺客",
+                    "挡人先锋",
+                    "其他地面"
+                ],
+                "location": [3, 1],
+                "direction": "left"
+            },
+            {
+                "groups": [
+                    "地面C",
+                    "异德",
+                    "地刺",
+                    "刺客",
+                    "挡人先锋",
+                    "其他地面"
+                ],
+                "location": [3, 4],
                 "direction": "left"
             }
         ]
@@ -2739,8 +2765,8 @@
         "stage_name": "征兆",
         "replacement_home": [
             {
-                "location": [5, 3],
-                "direction": "right"
+                "location": [3, 4],
+                "direction": "up"
             }
         ],
         "blacklist_location": [
@@ -3714,7 +3740,16 @@
                 "direction": "left"
             },
             {
-                "groups": ["单奶", "群奶"],
+                "groups": [
+                    "单奶",
+                    "群奶",
+                    "高台C",
+                    "控制",
+                    "狙击",
+                    "术师",
+                    "辅助",
+                    "其他高台"
+                ],
                 "location": [8, 2],
                 "direction": "down"
             },
@@ -4281,7 +4316,7 @@
                 "direction": "left"
             },
             {
-                "groups": ["百嘉", "基石"],
+                "groups": ["百嘉", "基石", "异德"],
                 "location": [3, 4],
                 "direction": "left"
             },
@@ -5005,6 +5040,15 @@
     },
     {
         "stage_name": "狩猎场",
+        "role_order": [
+            "pioneer",
+            "sniper",
+            "warrior",
+            "tank",
+            "medic",
+            "caster",
+            "support"
+        ],
         "replacement_home": [
             {
                 "location": [5, 5],
@@ -5696,13 +5740,23 @@
             },
             {
                 "groups": ["号角"],
-                "location": [1, 5],
+                "location": [5, 5],
+                "direction": "up"
+            },
+            {
+                "groups": ["群奶", "单奶"],
+                "location": [1, 4],
                 "direction": "right"
             },
             {
                 "groups": ["群奶", "单奶"],
                 "location": [3, 4],
                 "direction": "right"
+            },
+            {
+                "groups": ["百嘉"],
+                "location": [2, 5],
+                "direction": "up"
             },
             {
                 "groups": ["玛恩纳"],
@@ -5712,7 +5766,7 @@
             {
                 "groups": ["高台C", "召唤", "控制", "狙击", "术师", "辅助"],
                 "location": [5, 4],
-                "direction": "right"
+                "direction": "up"
             },
             {
                 "groups": ["基石", "地面C", "地刺", "挡人先锋", "投锋", "重装"],

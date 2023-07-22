@@ -261,6 +261,13 @@ namespace MaaWpfGui.ViewModels.UI
                                                       Instances.SettingsViewModel.TimerModels.Timers[i].Min,
                                                       0);
                     DateTime restartDateTime = startTime.AddMinutes(-2);
+
+                    // 确保0点的定时会在当日的23:58重启
+                    if (restartDateTime.Day != startTime.Day)
+                    {
+                        restartDateTime = restartDateTime.AddDays(1);
+                    }
+
                     if (currentTime == restartDateTime)
                     {
                         timeToChangeConfig = true;
