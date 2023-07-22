@@ -8,6 +8,7 @@ import time
 from pathlib import Path
 import shutil
 
+TARGET_TAG = "2023-04-24-3"
 basedir = Path(__file__).parent
 
 def detect_host_triplet():
@@ -98,7 +99,7 @@ def main():
         target_triplet = sys.argv[1]
     else:
         target_triplet = detect_host_triplet()
-    print("about to download prebuilt dependency libraries for", target_triplet)
+    print(f"about to download prebuilt dependency libraries for {target_triplet} of {TARGET_TAG}")
     if len(sys.argv) == 1:
         print(f"to specify another triplet, run `{sys.argv[0]} <target triplet>`")
         print(f"e.g. `{sys.argv[0]} arm64-windows`")
@@ -119,6 +120,8 @@ def main():
     devel_asset = None
     runtime_asset = None
     for release in releases:
+        if release["tag_name"] != TARGET_TAG:
+            continue
         for asset in release["assets"]:
             target, component = split_asset_name(asset["name"])
             if target == target_triplet:
