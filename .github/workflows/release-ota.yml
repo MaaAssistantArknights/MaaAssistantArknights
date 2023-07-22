@@ -134,6 +134,12 @@ jobs:
           fi
       - name: Cleanup files
         run: find ./packages -type f ! \( -name 'MAA-${{ needs.create-tag.outputs.release_tag }}-macos-universal.dmg' -o -name '*.delta' -o -name '*.xml' \) -print -delete
+      - name: Unpack the .dmg files for .dylib
+        run: |
+          mkdir -p ${{ runner.temp }}/dylib
+          hdiutil attach MAA-${{ needs.create-tag.outputs.release_tag }}-macos-universal.dmg
+          cp /Volumes/MAA/MAA.app/Contents/Frameworks/*.dylib ${{ runner.temp }}/dylib
+          zip -X9 packages/MAA-${{ needs.create-tag.outputs.release_tag }}-macos-runtime-universal.zip ${{ runner.temp }}/dylib/*
       - name: Upload to MaaRelease
         uses: svenstaro/upload-release-action@v2
         with:
