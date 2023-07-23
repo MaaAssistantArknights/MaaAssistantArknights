@@ -2778,6 +2778,22 @@
             0
         ]
     },
+    "OperBoxRoleTab": {
+        "roi": [
+            1169,
+            0,
+            111,
+            119
+        ]
+    },
+    "OperBoxRoleTabSelect": {
+        "roi": [
+            1159,
+            0,
+            121,
+            122
+        ]
+    },
     "PRTS2": {
         "text": [
             "Takeover"
