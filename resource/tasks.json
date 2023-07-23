@@ -3022,6 +3022,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
+            "Start",
             "开始行动"
         ],
         "cache": false,
