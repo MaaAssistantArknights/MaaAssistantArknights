@@ -1451,7 +1451,14 @@
                     "name": "泡普卡",
                     "skill": 1,
                     "recruit_priority": 460,
-                    "is_key": true
+                    "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [ "焰苇" ],
+                            "threshold": 1,
+                            "offset": 300
+                        }
+                    ]
                 },
                 {
                     "name": "月见夜",
