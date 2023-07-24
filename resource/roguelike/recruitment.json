@@ -598,7 +598,6 @@
                     "skill": 2,
                     "recruit_priority": 290,
                     "promote_priority": 0,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [ "重装" ],
@@ -697,7 +696,6 @@
                     "skill": 1,
                     "recruit_priority": 455,
                     "promote_priority": 70,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [ "水陈", "速狙" ],
@@ -709,7 +707,6 @@
                 {
                     "name": "寒芒克洛丝",
                     "skill": 2,
-                    "is_key": true,
                     "recruit_priority": 550,
                     "promote_priority": 70,
                     "recruit_priority_offsets": [
@@ -857,7 +854,6 @@
                     "alternate_skill": 1,
                     "recruit_priority": 722,
                     "promote_priority": 410,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [ "单奶", "群奶" ],
@@ -964,7 +960,6 @@
                     "skill": 1,
                     "recruit_priority": 132,
                     "promote_priority": 0,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [ "单奶", "群奶" ],
@@ -985,7 +980,6 @@
                     "skill": 1,
                     "recruit_priority": 131,
                     "promote_priority": 0,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [ "单奶", "群奶" ],
@@ -1072,7 +1066,6 @@
                     "skill": 1,
                     "recruit_priority": 687,
                     "promote_priority": 0,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [ "单奶", "群奶" ],
@@ -2432,7 +2425,6 @@
                     "skill": 1,
                     "recruit_priority": 132,
                     "promote_priority": 0,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [ "单奶", "群奶", "焰苇" ],
@@ -2453,7 +2445,6 @@
                     "skill": 1,
                     "recruit_priority": 131,
                     "promote_priority": 0,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [ "单奶", "群奶", "焰苇" ],
