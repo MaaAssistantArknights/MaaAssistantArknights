@@ -596,7 +596,7 @@
                 {
                     "name": "罗比菈塔",
                     "skill": 2,
-                    "recruit_priority": 290,
+                    "recruit_priority": 100,
                     "promote_priority": 0,
                     "recruit_priority_offsets": [
                         {
@@ -3084,7 +3084,7 @@
                 {
                     "name": "罗比菈塔",
                     "skill": 2,
-                    "recruit_priority": 290,
+                    "recruit_priority": 100,
                     "promote_priority": 0,
                     "is_key": true,
                     "recruit_priority_offsets": [
