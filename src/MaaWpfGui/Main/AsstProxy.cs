@@ -1557,6 +1557,12 @@ namespace MaaWpfGui.Main
                 ["stop_when_investment_full"] = stop_when_full,
                 ["theme"] = theme,
             };
+
+            if (mode == 1)
+            {
+                task_params["investment_enabled"] = true;
+            }
+
             if (squad.Length > 0)
             {
                 task_params["squad"] = squad;
