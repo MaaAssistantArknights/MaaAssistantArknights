@@ -6,7 +6,6 @@
             "玛恩纳",
             "水陈",
             "焰苇",
-            "处决者",
             "近卫",
             "重装",
             "速狙",
@@ -26,10 +25,6 @@
         "team_complete_condition": [
             {
                 "groups": [ "玛恩纳", "水陈" ],
-                "threshold": 1
-            },
-            {
-                "groups": [ "处决者" ],
                 "threshold": 1
             },
             {
@@ -139,39 +134,6 @@
                             "threshold": 1,
                             "is_less": true,
                             "offset": -100
-                        }
-                    ]
-                }
-            ]
-        },
-        "处决者": {
-            "opers": [
-                {
-                    "name": "麒麟X夜刀",
-                    "skill": 2,
-                    "is_key": true,
-                    "recruit_priority": 960,
-                    "promote_priority": 971,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [ "处决者" ],
-                            "threshold": 1,
-                            "offset": -300
-                        }
-                    ]
-                },
-                {
-                    "name": "缄默德克萨斯",
-                    "skill": 3,
-                    "alternate_skill": 2,
-                    "is_key": true,
-                    "recruit_priority": 950,
-                    "promote_priority": 961,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [ "处决者" ],
-                            "threshold": 1,
-                            "offset": -300
                         }
                     ]
                 }
@@ -594,19 +556,7 @@
                     "is_alternate": true
                 },
                 {
-                    "name": "罗比菈塔",
-                    "skill": 2,
-                    "recruit_priority": 290,
-                    "promote_priority": 0,
-                    "is_key": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [ "重装" ],
-                            "threshold": 0,
-                            "is_less": true,
-                            "offset": 282
-                        }
-                    ]
+                    "name": "罗比菈塔"
                 },
                 {
                     "name": "泡泡"
@@ -697,7 +647,6 @@
                     "skill": 1,
                     "recruit_priority": 455,
                     "promote_priority": 70,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [ "水陈", "速狙" ],
@@ -709,7 +658,6 @@
                 {
                     "name": "寒芒克洛丝",
                     "skill": 2,
-                    "is_key": true,
                     "recruit_priority": 550,
                     "promote_priority": 70,
                     "recruit_priority_offsets": [
@@ -857,7 +805,6 @@
                     "alternate_skill": 1,
                     "recruit_priority": 722,
                     "promote_priority": 410,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [ "单奶", "群奶" ],
@@ -964,7 +911,6 @@
                     "skill": 1,
                     "recruit_priority": 132,
                     "promote_priority": 0,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [ "单奶", "群奶" ],
@@ -985,7 +931,6 @@
                     "skill": 1,
                     "recruit_priority": 131,
                     "promote_priority": 0,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [ "单奶", "群奶" ],
@@ -1072,7 +1017,6 @@
                     "skill": 1,
                     "recruit_priority": 687,
                     "promote_priority": 0,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [ "单奶", "群奶" ],
@@ -1458,7 +1402,14 @@
                     "name": "泡普卡",
                     "skill": 1,
                     "recruit_priority": 460,
-                    "is_key": true
+                    "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [ "焰苇" ],
+                            "threshold": 1,
+                            "offset": 300
+                        }
+                    ]
                 },
                 {
                     "name": "月见夜",
@@ -2432,7 +2383,6 @@
                     "skill": 1,
                     "recruit_priority": 132,
                     "promote_priority": 0,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [ "单奶", "群奶", "焰苇" ],
@@ -2453,7 +2403,6 @@
                     "skill": 1,
                     "recruit_priority": 131,
                     "promote_priority": 0,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [ "单奶", "群奶", "焰苇" ],
@@ -3091,19 +3040,7 @@
                     "is_alternate": true
                 },
                 {
-                    "name": "罗比菈塔",
-                    "skill": 2,
-                    "recruit_priority": 290,
-                    "promote_priority": 0,
-                    "is_key": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [ "重装" ],
-                            "threshold": 0,
-                            "is_less": true,
-                            "offset": 282
-                        }
-                    ]
+                    "name": "罗比菈塔"
                 },
                 {
                     "name": "泡泡"
