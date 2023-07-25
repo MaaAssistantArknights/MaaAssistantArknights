@@ -557,17 +557,6 @@
                 },
                 {
                     "name": "罗比菈塔",
-                    "skill": 2,
-                    "recruit_priority": 100,
-                    "promote_priority": 0,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [ "重装" ],
-                            "threshold": 0,
-                            "is_less": true,
-                            "offset": 282
-                        }
-                    ]
                 },
                 {
                     "name": "泡泡"
@@ -3052,18 +3041,6 @@
                 },
                 {
                     "name": "罗比菈塔",
-                    "skill": 2,
-                    "recruit_priority": 100,
-                    "promote_priority": 0,
-                    "is_key": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [ "重装" ],
-                            "threshold": 0,
-                            "is_less": true,
-                            "offset": 282
-                        }
-                    ]
                 },
                 {
                     "name": "泡泡"
