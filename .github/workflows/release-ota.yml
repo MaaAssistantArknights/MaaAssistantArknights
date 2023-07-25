@@ -136,15 +136,24 @@ jobs:
         run: find ./packages -type f ! \( -name 'MAA-${{ needs.create-tag.outputs.release_tag }}-macos-universal.dmg' -o -name '*.delta' -o -name '*.xml' \) -print -delete
       - name: Unpack the .dmg files for .dylib
         run: |
+          cd ${{ runner.temp }}
           mkdir -p macos-runtime-temp
-          hdiutil attach packages/MAA-${{ needs.create-tag.outputs.release_tag }}-macos-universal.dmg
-          cp /Volumes/MAA/MAA.app/Contents/Frameworks/*.dylib macos-runtime-temp
-          cp -r /Volumes/MAA/MAA.app/Contents/Resources/resource macos-runtime-temp/resource
+          echo Attaching release package...
+          hdiutil attach ${{ github.workspace }}/packages/MAA-${{ needs.create-tag.outputs.release_tag }}-macos-universal.dmg
+          echo ::group::Copying files...
+          cp -v /Volumes/MAA/MAA.app/Contents/Frameworks/*.dylib macos-runtime-temp/
+          cp -vr /Volumes/MAA/MAA.app/Contents/Resources/resource macos-runtime-temp/resource
+          echo ::endgroup::
+          echo ::group::Linking files...
+          ln -vs macos-runtime-temp/libonnxruntime.1.14.1.dylib macos-runtime-temp/libonnxruntime.dylib
+          ln -vs macos-runtime-temp/libopencv_world4.407.dylib macos-runtime-temp/libopencv_world4.dylib
+          echo ::endgroup::
           cd macos-runtime-temp
-          ln -s libonnxruntime.1.14.1.dylib libonnxruntime.dylib
-          ln -s libopencv_world4.407.dylib libopencv_world4.dylib
-          cd ..
-          zip -rX9 packages/MAA-${{ needs.create-tag.outputs.release_tag }}-macos-runtime-universal.zip macos-runtime-temp/*
+          echo ::group::Compressing files...
+          zip -yrX9 ${{ github.workspace }}/packages/MAA-${{ needs.create-tag.outputs.release_tag }}-macos-runtime-universal.zip *
+          echo ::endgroup::
+          echo Detaching release package...
+          hdiutil detach /Volumes/MAA
       - name: Upload to MaaRelease
         uses: svenstaro/upload-release-action@v2
         with:
