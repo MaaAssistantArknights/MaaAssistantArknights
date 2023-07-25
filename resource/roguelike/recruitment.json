@@ -6,7 +6,6 @@
             "玛恩纳",
             "水陈",
             "焰苇",
-            "处决者",
             "近卫",
             "重装",
             "速狙",
@@ -26,10 +25,6 @@
         "team_complete_condition": [
             {
                 "groups": [ "玛恩纳", "水陈" ],
-                "threshold": 1
-            },
-            {
-                "groups": [ "处决者" ],
                 "threshold": 1
             },
             {
@@ -139,39 +134,6 @@
                             "threshold": 1,
                             "is_less": true,
                             "offset": -100
-                        }
-                    ]
-                }
-            ]
-        },
-        "处决者": {
-            "opers": [
-                {
-                    "name": "麒麟X夜刀",
-                    "skill": 2,
-                    "is_key": true,
-                    "recruit_priority": 960,
-                    "promote_priority": 971,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [ "处决者" ],
-                            "threshold": 1,
-                            "offset": -300
-                        }
-                    ]
-                },
-                {
-                    "name": "缄默德克萨斯",
-                    "skill": 3,
-                    "alternate_skill": 2,
-                    "is_key": true,
-                    "recruit_priority": 950,
-                    "promote_priority": 961,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [ "处决者" ],
-                            "threshold": 1,
-                            "offset": -300
                         }
                     ]
                 }
