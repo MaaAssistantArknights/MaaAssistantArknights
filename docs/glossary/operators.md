@@ -220,7 +220,7 @@ Stormeye|Stormeye|Stormeye|Stormeye
 谜图|Puzzle|パズル|
 和弦|Harmonie|ハーモニー|
 截云|Jieyun|ジエユン|
-火哨|Firewhistle||
+火哨|Firewhistle|ファイヤーホイッスル|
 铎铃|Wind Chimes||
 火哨|Firewhistle||
 火龙S黑角|Rathalos S Noir Cornee||
@@ -295,7 +295,7 @@ W|W|W|W
 斥罪|Penance|ペナンス|
 缄默德克萨斯|Texas the Omertosa|血掟テキサス|
 焰影苇草|Reed The Flame Shadow|焔影リード|
-林|Lin||
+林|Lin|リン|
 重岳|Chongyue|チョンユエ|
 仇白|Qiubai||
 麒麟X夜刀|Kirin X Yato||
