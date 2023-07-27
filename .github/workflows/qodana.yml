@@ -13,7 +13,7 @@ on:
       - 'resource/*'
 jobs:
   qodana:
-    runs-on: jetbrains/qodana-dotnet:2023.2-eap
+    runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
