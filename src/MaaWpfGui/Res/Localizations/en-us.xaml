@@ -251,7 +251,8 @@ At the end of the level, enter 「Normal/Hard」 to switch between Standard and 
     <system:String x:Key="ConnectionPreset">Connection Preset</system:String>
     <system:String x:Key="RetryOnDisconnected">Auto restart emulator when ADB reconnection fails</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">Try restarting the emulator after 20 failed reconnect attempts, must be checked when using a background timed task and setting the task to close the emulator when finished</system:String>
-    <system:String x:Key="AllowADBRestart">Attempt to restart ADB after connection failure</system:String>
+    <system:String x:Key="AllowADBRestart">Attempt to restart ADB Server after connection failure</system:String>
+    <system:String x:Key="AllowADBHardRestart">Attempt to kill and restart ADB process after connection failure</system:String>
     <!--  Settings  -->
     <!--  Farming  -->
     <system:String x:Key="Farming">Farming</system:String>
@@ -536,7 +537,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identification results: </system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
     <system:String x:Key="TryToStartEmulator">Trying to start the emulator</system:String>
-    <system:String x:Key="RestartADB">Trying to restart the ADB</system:String>
+    <system:String x:Key="RestartADB">Trying to restart the ADB Server</system:String>
+    <system:String x:Key="HardRestartADB">Trying to kill and restart the ADB process</system:String>
     <system:String x:Key="CheckSettings">Please check your connection settings or try restarting the emulator and ADB, or restart your computer</system:String>
     <!--  AsstProxy  -->
     <!--  TrayIcon  -->
