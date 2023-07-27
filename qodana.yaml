@@ -7,7 +7,6 @@ profile:
   name: qodana.recommended
 dotnet:
   solution: MAA.sln
-dotnet:
   platform: x86
 exclude:
   - name: All
