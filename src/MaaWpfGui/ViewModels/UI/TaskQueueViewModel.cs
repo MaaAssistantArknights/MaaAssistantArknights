@@ -760,7 +760,6 @@ namespace MaaWpfGui.ViewModels.UI
             // 尝试启动模拟器
             if (!connected)
             {
-                AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToStartEmulator"));
                 await Task.Run(() => Instances.SettingsViewModel.TryToStartEmulator(true));
 
                 if (Stopping)
@@ -775,7 +774,6 @@ namespace MaaWpfGui.ViewModels.UI
             // 尝试重启adb
             if (!connected)
             {
-                AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("RestartADB"));
                 await Task.Run(() => Instances.SettingsViewModel.RestartADB());
 
                 if (Stopping)
@@ -790,7 +788,6 @@ namespace MaaWpfGui.ViewModels.UI
             // 尝试杀掉adb进程
             if (!connected)
             {
-                AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("HardRestartADB"));
                 await Task.Run(() => Instances.SettingsViewModel.HardRestartADB());
 
                 if (Stopping)
