@@ -17,13 +17,13 @@
         ]
     },
     "BattleQuickFormationFilter-Cost": {
-        "text": "Deployment Cost",
         "roi": [
             996,
             443,
             222,
             125
-        ]
+        ],
+        "text": "Deployment Cost"
     },
     "BattleStageName": {
         "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
@@ -740,22 +740,22 @@
             100
         ]
     },
-    "BattleStartPre": {
-        "text": [
-            "Start",
-            "Start Challenge"
-        ]
-    },
     "BattleStartOCR": {
-        "text": [
-            "MISSION",
-            "START"
-        ],
         "roi": [
             1006,
             444,
             196,
             166
+        ],
+        "text": [
+            "MISSION",
+            "START"
+        ]
+    },
+    "BattleStartPre": {
+        "text": [
+            "Start",
+            "Start Challenge"
         ]
     },
     "CharsNameOcrReplace": {
@@ -2608,29 +2608,29 @@
         ]
     },
     "FightMissionFailed": {
-        "text": [
-            "MISSION",
-            "FAILED"
-        ],
         "fullMatch": true,
         "roi": [
             114,
             249,
             311,
             224
+        ],
+        "text": [
+            "MISSION",
+            "FAILED"
         ]
     },
     "FightMissionFailedAndStop": {
-        "text": [
-            "MISSION",
-            "FAILED"
-        ],
         "fullMatch": true,
         "roi": [
             114,
             249,
             311,
             224
+        ],
+        "text": [
+            "MISSION",
+            "FAILED"
         ]
     },
     "GTToGT-5": {
@@ -2663,27 +2663,27 @@
         ]
     },
     "InfrastConfirmButtonWait": {
-        "text": [
-            "Submitting feedback",
-            "to the neural network"
-        ],
         "roi": [
             675,
             605,
             427,
             115
+        ],
+        "text": [
+            "Submitting feedback",
+            "to the neural network"
         ]
     },
     "InfrastDormConfirmButtonWait": {
-        "text": [
-            "Submitting feedback",
-            "to the neural network"
-        ],
         "roi": [
             675,
             605,
             427,
             115
+        ],
+        "text": [
+            "Submitting feedback",
+            "to the neural network"
         ]
     },
     "InfrastEnterOperList": {
@@ -2715,15 +2715,15 @@
         ]
     },
     "LoadingText": {
-        "text": [
-            "Submitting feedback",
-            "to the neural network"
-        ],
         "roi": [
             675,
             605,
             427,
             115
+        ],
+        "text": [
+            "Submitting feedback",
+            "to the neural network"
         ]
     },
     "Mall": {
