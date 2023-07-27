@@ -1,12 +1,14 @@
 version: "1.0"
 linter: jetbrains/qodana-dotnet:latest
-bootstrap: curl -fsSL https://dot.net/v1/dotnet-install.sh | bash -s -- --jsonfile /data/project/global.json -i /usr/share/dotnet
+bootstrap: curl -fsSL https://dot.net/v1/dotnet-install.sh
 plugins:
 - id: com.intellij.grazie.pro
 profile:
   name: qodana.recommended
 dotnet:
-    solution: MAA.sln
+  solution: MAA.sln
+dotnet:
+  platform: x86
 exclude:
   - name: All
     paths:
