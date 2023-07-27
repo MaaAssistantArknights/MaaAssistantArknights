@@ -62,7 +62,7 @@
     <system:String x:Key="CustomizeInfrastSelectionEmpty">カスタム施設設定が空です。設定を確認するか、カスタマイズ機能をオフにしてください。</system:String>
     <system:String x:Key="General">一般モード</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
-    <system:String x:Key="MuMuEmulator">MuMuPlayer</system:String>
+    <system:String x:Key="MuMuEmulator">MuMuPlayer 6</system:String>
     <system:String x:Key="MuMuEmulator12">MuMuPlayer 12</system:String>
     <system:String x:Key="LDPlayer">LDPlayer</system:String>
     <system:String x:Key="Nox">NoxPlayer</system:String>
@@ -282,7 +282,7 @@
     <system:String x:Key="ShutdownWithoutPersist">シャットダウン（1回のみ）</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">止める</system:String>
-    <!--  FightSettings  -->
+    <!--  戦闘設定  -->
     <system:String x:Key="UseSanityPotion">理性剤使用数</system:String>
     <system:String x:Key="UseOriginitePrime">割る源石の数*</system:String>
     <system:String x:Key="PerformBattles">周回数指定</system:String>
@@ -329,7 +329,7 @@
     <system:String x:Key="Pormpt1">月曜です。殲滅作戦がリセットされています〜</system:String>
     <system:String x:Key="Pormpt2">日曜です。殲滅作戦は忘れてないですか〜</system:String>
     <!--  UIの表示バランス大丈夫？  -->
-    <!--  PR-C (Pio/Sup Chip)  -->
+    <!--  Logs  -->
     <system:String x:Key="ConnectingToEmulator">エミュレータ接続中……</system:String>
     <system:String x:Key="UnselectedTask">タスクが選択されていません</system:String>
     <system:String x:Key="Running">動作中……</system:String>
@@ -345,10 +345,10 @@
     <system:String x:Key="ShutdownPrompt">ヒント</system:String>
     <system:String x:Key="HibernatePrompt">完了しました。休止状態にしようとしています</system:String>
     <system:String x:Key="AnnihilationTaskFailed">殲滅戦に失敗、代替ステージを使用しますが、一部の戦闘設定が有効ではありません</system:String>
-    <!--  PR-C (Pio/Sup Chip)  -->
+    <!--  Logs  -->
     <!--  動作不明  -->
     <system:String x:Key="Toolbox">ツールボックス</system:String>
-    <!--  Depot  -->
+    <!--  公開求人  -->
     <system:String x:Key="RecruitmentRecognition">公開求人認識</system:String>
     <system:String x:Key="RecruitmentRecognitionTip">ヒント: スタート画面の公開求人とは、別々の機能になっています。使用する前にゲームの公開求人を手動で開いてください</system:String>
     <system:String x:Key="AutoSettingTime">募集期間を自動的に設定する</system:String>
@@ -359,15 +359,15 @@
     <system:String x:Key="AutoSelectLevel5Tags">星5タグを自動的に選択する</system:String>
     <system:String x:Key="AutoSelectLevel6Tags">星6タグを自動的に選択する</system:String>
     <system:String x:Key="StartToRecruit">認識開始</system:String>
-    <!--  Depot  -->
-    <!--  Depot  -->
+    <!--  公開求人  -->
+    <!--  倉庫アイテム認識  -->
     <system:String x:Key="DepotRecognition">倉庫アイテム認識</system:String>
     <system:String x:Key="DepotRecognitionTip">この機能はまだテスト版です。エラーが発生/統計情報に問題があれば、debug/depotフォルダを圧縮し、issueを提出してください~</system:String>
     <system:String x:Key="StartToDepotRecognition">認識開始</system:String>
     <system:String x:Key="ExportToArkplanner">Arkplannerへ出力</system:String>
     <system:String x:Key="ExportToLolicon">Loliconへ出力</system:String>
     <system:String x:Key="CopiedToClipboard">クリップボードへコピー</system:String>
-    <!--  Annihilation task failed, will try to use alternate stage, some combat settings will not be effective  -->
+    <!--  倉庫アイテム認識  -->
     <!--  馴染みのあるステージ名での表記  -->
     <system:String x:Key="OperBoxRecognition">オペレーター</system:String>
     <system:String x:Key="OperBoxRecognitionTip">この機能はまだテスト中です。もし統計情報に問題があれば、debug/depotフォルダを圧縮し、issueを提出してください~</system:String>
@@ -375,13 +375,13 @@
     <system:String x:Key="StartToOperBoxRecognition">認識開始</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">クリップボードにコピー</system:String>
     <!--  Please use the "Operator" to get information  -->
-    <!--  Please use the "Operator" to get information  -->
+    <!--  VideoRecognition  -->
     <system:String x:Key="VideoRecognition">映像</system:String>
     <system:String x:Key="StartToVideoRecognition">認識を始める</system:String>
     <system:String x:Key="OpenVideoRecognitionResult">ディレクトリを開く</system:String>
     <system:String x:Key="VideoRecognitionTips" xml:space="preserve">映像認識のために、「自動戦闘」ページを開き、映像をドラッグしてください。\n
 映像の解像度は16: 9である必要があり、黒枠、エミュレータ枠、特殊な形状、画面効果などが無いことを確認してください。</system:String>
-    <!--  Open Directory  -->
+    <!--  VideoRecognition  -->
     <system:String x:Key="Gacha">ガチャ</system:String>
     <system:String x:Key="GachaOnce">ガチャを一回引く</system:String>
     <system:String x:Key="GachaTenTimes">10回ガチャ</system:String>
@@ -536,12 +536,12 @@
     <system:String x:Key="TryToStartEmulator">エミュレータを起動しようとしています</system:String>
     <system:String x:Key="RestartADB">ADBの再起動を試みています</system:String>
     <system:String x:Key="CheckSettings">接続設定を確認するか、エミュレータとADBを再起動するか、コンピューターを再起動してください</system:String>
-    <!--  Recruitment Results:  -->
-    <!--  Where use it?  -->
+    <!--  AsstProxy  -->
+    <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">MAAの強制表示</system:String>
     <system:String x:Key="Exit">終了</system:String>
-    <!--  ログ  -->
-    <!--  abort upload to Penguins statistics  -->
+    <!--  TrayIcon  -->
+    <!--  About  -->
     <system:String x:Key="Website">MAA公式サイト</system:String>
     <system:String x:Key="Github">ソースコード: GitHub</system:String>
     <system:String x:Key="PrtsPlus">自動攻略ファイルシェアWebサイト</system:String>
@@ -552,8 +552,8 @@
     <system:String x:Key="Telegram">Telegram</system:String>
     <system:String x:Key="Help">よくある質問</system:String>
     <system:String x:Key="Issue">フィードバック</system:String>
-    <!--  Medicine used  -->
-    <!--  Medicine used  -->
+    <!--  About  -->
+    <!--  自動募集設定  -->
     <system:String x:Key="AutoRefresh">星3タグを自動的に更新する</system:String>
     <system:String x:Key="AutoUseExpedited">緊急招集票を自動的に使用*</system:String>
     <system:String x:Key="Level3UseShortTime">星3タグを7:40に設定する</system:String>
@@ -566,21 +566,19 @@
     <system:String x:Key="AutoSelectLevel5">星5を自動的に確認する</system:String>
     <system:String x:Key="AutoSelectLevel6">星6を自動的に確認する</system:String>
     <system:String x:Key="Level1Tip">チェックの際に星1タグが特定された場合、募集はスキップされ、チェックされていない場合、星1タグは無視されます。</system:String>
-    <!--  Game crashed pending restart  -->
-    <!--  AsstProxy  -->
+    <!--  自動募集設定  -->
     <system:String x:Key="BuyWineOnAprilFoolsDay">尊敬なるドクター、クロージャ様のお店で「イソプロピルアルコール」の新しいリストがあると聞いたことがありませんか？一緒に確認しませんか？</system:String>
     <system:String x:Key="Burping">うぅ……オエッ</system:String>
     <system:String x:Key="DrunkAndStaggering">あれ、ドクター。どうしてそんなフラフラと歩いておられるのですか？</system:String>
     <system:String x:Key="Hangover">つ、次は飲みすぎないようにしないと……</system:String>
     <system:String x:Key="HelloWorld">Hello World!</system:String>
-    <!--  TrayIcon  -->
-    <!--  TrayIcon  -->
+    <!--  VersionUpdatePopup  -->
     <system:String x:Key="UpdateNotificationOK">OK!</system:String>
     <system:String x:Key="VersionUpdated">バージョンが更新されました</system:String>
     <system:String x:Key="VersionUpdatedTo" xml:space="preserve">バージョン: </system:String>
-    <!--  About  -->
-    <!--  About  -->
+    <!--  VersionUpdatePopup  -->
+    <!--  RootViewModel  -->
     <system:String x:Key="ConfirmExitTitle">MAAがタスクを実行しています</system:String>
     <system:String x:Key="ConfirmExitText">終了しますか？</system:String>
-    <!--  AutoRecruitSettings  -->
+    <!--  RootViewModel  -->
 </ResourceDictionary>
