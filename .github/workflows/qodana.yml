@@ -1,4 +1,4 @@
-name: 'QODANA'
+name: 'static-analysis-qodana'
 on:
   workflow_dispatch:
   pull_request: # 在 PR 更新的场合进行扫描
