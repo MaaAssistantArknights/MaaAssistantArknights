@@ -1,0 +1,23 @@
+version: "1.0"
+linter: registry.jetbrains.team/p/sa/containers/qodana-js:latest
+bootstrap: curl -fsSL https://dot.net/v1/dotnet-install.sh | bash -s -- --jsonfile /data/project/global.json -i /usr/share/dotnet
+plugins:
+- id: com.intellij.grazie.pro
+profile:
+  name: qodana.recommended
+dotnet:
+    solution: MAA.sln
+exclude:
+  - name: All
+    paths:
+      - node_modules/
+      - common/node_modules/
+      - scan/node_modules/
+      - vsts/node_modules/
+      - scan/jest.config.js
+      - common/lib
+      - scan/lib
+      - scan/dist
+      - scan/__tests__
+      - vsts/lib
+      - vsts/QodanaScan
