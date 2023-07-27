@@ -1,5 +1,5 @@
 version: "1.0"
-linter: registry.jetbrains.team/p/sa/containers/qodana-js:latest
+linter: jetbrains/qodana-dotnet:latest
 bootstrap: curl -fsSL https://dot.net/v1/dotnet-install.sh | bash -s -- --jsonfile /data/project/global.json -i /usr/share/dotnet
 plugins:
 - id: com.intellij.grazie.pro
