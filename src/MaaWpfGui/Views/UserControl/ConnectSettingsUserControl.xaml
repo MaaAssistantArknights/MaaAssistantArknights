@@ -157,6 +157,10 @@
                 IsChecked="{Binding AllowADBRestart}" />
             <CheckBox
                 Margin="20,10"
+                Content="{DynamicResource AllowADBHardRestart}"
+                IsChecked="{Binding AllowADBHardRestart}" />
+            <CheckBox
+                Margin="20,10"
                 Content="{DynamicResource AutoRestartOption}"
                 IsChecked="{Binding AutoRestartOnDrop}" />
         </WrapPanel>
