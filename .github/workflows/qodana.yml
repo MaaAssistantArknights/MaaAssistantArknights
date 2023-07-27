@@ -6,6 +6,7 @@ on:
     branches:
       - main
       - 'releases/*'
+      - dev
     paths:
       - '.github/workflows/qodana.yml'
       - 'src/*'
