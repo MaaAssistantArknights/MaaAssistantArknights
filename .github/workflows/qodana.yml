@@ -11,6 +11,7 @@ on:
       - '.github/workflows/qodana.yml'
       - 'src/*'
       - 'resource/*'
+      - 'qodana.yaml'
 jobs:
   qodana:
     runs-on: ubuntu-latest
