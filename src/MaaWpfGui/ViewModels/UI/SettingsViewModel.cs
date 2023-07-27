@@ -574,8 +574,6 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToStartEmulator"));
-
             if (!int.TryParse(EmulatorWaitSeconds, out int delay))
             {
                 delay = 60;
@@ -750,8 +748,6 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("RestartADB"));
-
             string adbPath = AdbPath;
 
             if (string.IsNullOrEmpty(adbPath))
@@ -789,8 +785,6 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 return;
             }
-
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("HardRestartADB"));
 
             string adbPath = AdbPath;
 
