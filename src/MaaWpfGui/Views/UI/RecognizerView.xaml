@@ -311,16 +311,30 @@
                             Text="{DynamicResource GachaDisclaimerEmphasize}"
                             TextWrapping="Wrap">
                             <controls:TextBlock.Foreground>
-                                <LinearGradientBrush x:Name="Brush" StartPoint="0,0" EndPoint="1,0">
-                                    <GradientStop Color="Red" Offset="0" />
-                                    <GradientStop Color="Orange" Offset="0.17" />
-                                    <GradientStop Color="Yellow" Offset="0.33" />
-                                    <GradientStop Color="Green" Offset="0.5" />
-                                    <GradientStop Color="Blue" Offset="0.67" />
-                                    <GradientStop Color="Indigo" Offset="0.83" />
-                                    <GradientStop Color="Violet" Offset="1" />
+                                <LinearGradientBrush SpreadMethod="Repeat">
+                                    <LinearGradientBrush.Transform>
+                                        <TranslateTransform x:Name="LinearGradientBrushTranslate" />
+                                    </LinearGradientBrush.Transform>
+                                    <LinearGradientBrush.GradientStops>
+                                        <GradientStop Offset="0.00" Color="Red" />
+                                        <GradientStop Offset="0.17" Color="Orange" />
+                                        <GradientStop Offset="0.33" Color="Yellow" />
+                                        <GradientStop Offset="0.50" Color="Green" />
+                                        <GradientStop Offset="0.67" Color="Blue" />
+                                        <GradientStop Offset="0.83" Color="Indigo" />
+                                        <GradientStop Offset="1.00" Color="Violet" />
+                                    </LinearGradientBrush.GradientStops>
                                 </LinearGradientBrush>
                             </controls:TextBlock.Foreground>
+                            <controls:TextBlock.Triggers>
+                                <EventTrigger RoutedEvent="TextBlock.Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="LinearGradientBrushTranslate" Storyboard.TargetProperty="X" From="0" To="1000" Duration="0:0:1" RepeatBehavior="Forever" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </controls:TextBlock.Triggers>
                             <controls:TextBlock.Effect>
                                 <DropShadowEffect 
                                 ShadowDepth="7" 
