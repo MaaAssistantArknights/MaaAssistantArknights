@@ -35,7 +35,6 @@ using Newtonsoft.Json.Linq;
 using Semver;
 using Serilog;
 using Stylet;
-using Vanara;
 
 namespace MaaWpfGui.ViewModels.UI
 {
