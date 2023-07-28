@@ -409,7 +409,8 @@
     <system:String x:Key="GachaTip15">听啊，悲鸣停止了。这是幸福的和平到来前的宁静。</system:String>
     <system:String x:Key="GachaTip16">纵使人类的战争没尽头……在这一刻，我们守护住了自己生的尊严。离开吧。但要昂首挺胸。</system:String>
     <system:String x:Key="GachaTip17">这对角可能会不小心撞倒些家具，我会尽量小心。</system:String>
-    <system:String x:Key="GachaDisclaimer">请注意，这是真的抽卡！不是模拟！！！</system:String>
+    <system:String x:Key="GachaDisclaimerHead">请注意，这是</system:String>
+    <system:String x:Key="GachaDisclaimerEmphasize">真正的抽卡</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">知道了</system:String>
     <system:String x:Key="GachaShowDisclaimerNoMore">下次不再提示</system:String>
     <!--  日志  -->
