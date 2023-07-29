@@ -22,10 +22,6 @@
         Style="{StaticResource TabControlSliding}">
         <TabItem Header="{DynamicResource RecruitmentRecognition}">
             <Grid Margin="20,0,20,20">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="259*"/>
-                    <ColumnDefinition Width="121*"/>
-                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="150" />
@@ -34,7 +30,7 @@
                     Grid.Row="0"
                     Margin="10,0"
                     VerticalAlignment="Top"
-                    IsInertiaEnabled="True" Grid.ColumnSpan="2">
+                    IsInertiaEnabled="True">
                     <StackPanel>
                         <controls:TextBlock
                             Height="36"
@@ -56,10 +52,10 @@
                 </hc:ScrollViewer>
                 <StackPanel
                     Grid.Row="1"
-                    Margin="29,0,0,0"
-                    HorizontalAlignment="Left"
+                    Margin="27,0"
+                    HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Orientation="Horizontal" Grid.ColumnSpan="2">
+                    Orientation="Horizontal">
                     <StackPanel Margin="40,0,40,0" VerticalAlignment="Center">
                         <CheckBox
                             Margin="5"
