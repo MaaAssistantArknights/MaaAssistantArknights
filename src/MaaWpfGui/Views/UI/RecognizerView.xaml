@@ -330,18 +330,18 @@
                                 <EventTrigger RoutedEvent="TextBlock.Loaded">
                                     <BeginStoryboard>
                                         <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="LinearGradientBrushTranslate" Storyboard.TargetProperty="X" From="0" To="1000" Duration="0:0:1" RepeatBehavior="Forever" />
+                                            <DoubleAnimation Storyboard.TargetName="LinearGradientBrushTranslate" Storyboard.TargetProperty="X" From="0" To="420" Duration="0:0:2" RepeatBehavior="Forever" />
                                         </Storyboard>
                                     </BeginStoryboard>
                                 </EventTrigger>
                             </controls:TextBlock.Triggers>
                             <controls:TextBlock.Effect>
                                 <DropShadowEffect 
-                                ShadowDepth="7" 
-                                BlurRadius="7" 
+                                ShadowDepth="5" 
+                                BlurRadius="8" 
                                 Color="Black" 
-                                Direction="45"
-                                Opacity="0.5" />
+                                Direction="90"
+                                Opacity="0.6" />
                             </controls:TextBlock.Effect>
                         </controls:TextBlock>
                     </StackPanel>
