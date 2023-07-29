@@ -7023,27 +7023,27 @@
                 "direction": "up"
             },
             {
-                "groups": ["奶"],
+                "groups": ["奶" , "凯尔希",  "浊心斯卡蒂"],
                 "location": [6, 4],
                 "direction": "left"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [6, 3],
                 "direction": "up"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [4, 4],
                 "direction": "up"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [5, 3],
                 "direction": "up"
             },
             {
-                "groups": ["奶"],
+                "groups": ["奶" , "凯尔希",  "浊心斯卡蒂"],
                 "location": [2, 4],
                 "direction": "right"
             }
@@ -7079,17 +7079,17 @@
                 "direction": "up"
             },
             {
-                "groups": ["奶"],
+                "groups": ["奶" , "凯尔希",  "浊心斯卡蒂"],
                 "location": [4, 2],
                 "direction": "down"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [5, 2],
                 "direction": "left"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [3, 2],
                 "direction": "right"
             }
@@ -7118,32 +7118,32 @@
                 "direction": "right"
             },
             {
-                "groups": ["奶"],
+                "groups": ["奶" , "凯尔希",  "浊心斯卡蒂"],
                 "location": [8, 4],
                 "direction": "up"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [7, 2],
                 "direction": "down"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [3, 2],
                 "direction": "up"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [1, 5],
                 "direction": "right"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [3, 1],
                 "direction": "right"
             },
             {
-                "groups": ["地面单切"],
+                "groups": ["史尔特尔", "地面单切", "炮灰","地面阻挡"],
                 "location": [7, 3],
                 "direction": "right"
             }
@@ -7182,14 +7182,21 @@
                 "direction": "left"
             }
         ],
+        "blacklist_location": [
+            [2, 4],
+            [3, 4],
+            [3, 5],
+            [6, 5],
+            [2, 3]
+        ],
         "deploy_plan": [
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [3, 2],
                 "direction": "left"
             },
             {
-                "groups": ["奶"],
+                "groups": ["奶" , "凯尔希",  "浊心斯卡蒂"],
                 "location": [5, 2],
                 "direction": "left"
             },
@@ -7199,17 +7206,17 @@
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [3, 3],
                 "direction": "left"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [4, 2],
                 "direction": "down"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [5, 3],
                 "direction": "left"
             }
@@ -7238,27 +7245,27 @@
                 "direction": "up"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [6, 4],
                 "direction": "up"
             },
             {
-                "groups": ["奶"],
+                "groups": ["奶" , "凯尔希",  "浊心斯卡蒂"],
                 "location": [4, 4],
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [1, 3],
                 "direction": "up"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [2, 4],
                 "direction": "up"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [3, 4],
                 "direction": "up"
             }
@@ -7301,47 +7308,47 @@
                 "direction": "right"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [1, 3],
                 "direction": "right"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [3, 4],
                 "direction": "up"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [3, 1],
                 "direction": "down"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [1, 2],
                 "direction": "right"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [1, 1],
                 "direction": "right"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [2, 4],
                 "direction": "right"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [2, 3],
                 "direction": "up"
             },
             {
-                "groups": ["奶"],
+                "groups": ["奶" , "凯尔希",  "浊心斯卡蒂"],
                 "location": [2, 4],
                 "direction": "up"
             },
             {
-                "groups": ["奶"],
+                "groups": ["奶" , "凯尔希",  "浊心斯卡蒂"],
                 "location": [4, 3],
                 "direction": "up"
             }
@@ -7363,16 +7370,8 @@
                 "direction": "left"
             },
             {
-                "location": [5, 2],
-                "direction": "down"
-            },
-            {
                 "location": [7, 2],
                 "direction": "left"
-            },
-            {
-                "location": [1, 3],
-                "direction": "down"
             }
         ],
         "deploy_plan": [
@@ -7382,37 +7381,37 @@
                 "direction": "left"
             },
             {
-                "groups": ["奶"],
+                "groups": ["奶" , "凯尔希",  "浊心斯卡蒂"],
                 "location": [6, 2],
                 "direction": "down"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [3, 2],
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [4, 4],
                 "direction": "left"
             },            
             {
-                "groups": ["高台输出"],
+                "groups": ["浊心斯卡蒂", "高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [7, 2],
                 "direction": "left"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [2, 2],
                 "direction": "down"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [5, 2],
                 "direction": "down"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [6, 4],
                 "direction": "left"
             }
@@ -7437,42 +7436,42 @@
                 "direction": "right"
             },
             {
-                "groups": ["奶"],
+                "groups": ["奶" , "凯尔希",  "浊心斯卡蒂"],
                 "location": [1, 2],
                 "direction": "right"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [2, 1],
                 "direction": "down"
             },
             {
-                "groups": ["地面单切"],
+                "groups": ["史尔特尔", "地面单切", "炮灰","地面阻挡"],
                 "location": [7, 3],
                 "direction": "right"
             },
             {
-                "groups": ["地面单切"],
+                "groups": ["史尔特尔", "地面单切", "炮灰","地面阻挡"],
                 "location": [8, 3],
                 "direction": "right"
             },             
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [1, 5],
                 "direction": "right"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [3, 3],
                 "direction": "right"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [3, 4],
                 "direction": "right"
             },            
             {
-                "groups": ["奶"],
+                "groups": ["奶" , "凯尔希",  "浊心斯卡蒂"],
                 "location": [2, 4],
                 "direction": "right"
             }
@@ -7510,37 +7509,37 @@
                 "direction": "right"
             },
             {
-                "groups": ["奶"],
+                "groups": ["奶" , "凯尔希",  "浊心斯卡蒂"],
                 "location": [2, 2],
                 "direction": "right"
             },            
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [4, 2],
                 "direction": "down"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [5, 2],
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [2, 3],
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [2, 1],
                 "direction": "left"
             }, 
             {
-                "groups": ["奶"],
+                "groups": ["奶" , "凯尔希",  "浊心斯卡蒂"],
                 "location": [1, 2],
                 "direction": "right"
             },
             {
-                "groups": ["地面单切"],
+                "groups": ["史尔特尔", "地面单切", "炮灰","地面阻挡"],
                 "location": [2, 1],
                 "direction": "left"
             }
@@ -7577,7 +7576,7 @@
                 "direction": "left"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [6, 2],
                 "direction": "left"
             },
@@ -7592,22 +7591,22 @@
                 "direction": "left"
             }, 
             {
-                "groups": ["奶"],
+                "groups": ["奶" , "凯尔希",  "浊心斯卡蒂"],
                 "location": [7, 2],
                 "direction": "left"
             },          
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [7, 3],
                 "direction": "up"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [4, 2],
                 "direction": "right"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [7, 3],
                 "direction": "left"
             },
@@ -7632,22 +7631,22 @@
                 "direction": "down"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [6, 3],
                 "direction": "right"
             }, 
             {
-                "groups": ["奶"],
+                "groups": ["奶" , "凯尔希",  "浊心斯卡蒂"],
                 "location": [5, 3],
                 "direction": "up"
             },
             {
-                "groups": ["奶"],
+                "groups": ["奶" , "凯尔希",  "浊心斯卡蒂"],
                 "location": [4, 3],
                 "direction": "right"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [6, 2],
                 "direction": "right"
             }, 
@@ -7657,17 +7656,17 @@
                 "direction": "down"
             }, 
             {
-                "groups": ["奶"],
+                "groups": ["奶" , "凯尔希",  "浊心斯卡蒂"],
                 "location": [3, 3],
                 "direction": "left"
             },          
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [5, 3],
                 "direction": "right"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [5, 2],
                 "direction": "right"
             }
@@ -7709,58 +7708,63 @@
                 "doc":"最好能二倍速下前置7500ms延时"
             },
             {
-                "groups": ["奶"],
+                "groups": ["奶" , "凯尔希",  "浊心斯卡蒂"],
                 "location": [6, 4],
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [5, 4],
                 "direction": "up"
             }, 
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [3, 3],
                 "direction": "right"
             }, 
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [7, 4],
                 "direction": "left"
             },            
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [6, 5],
                 "direction": "right"
             }, 
             {
-                "groups": ["地面单切"],
+                "groups": ["史尔特尔", "地面单切", "炮灰","地面阻挡"],
                 "location": [3, 3],
                 "direction": "right"
             }, 
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [6, 2],
                 "direction": "left"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [7, 2],
                 "direction": "left"
             },
             {
-                "groups": ["奶"],
+                "groups": ["奶" , "凯尔希",  "浊心斯卡蒂"],
                 "location": [3, 4],
                 "direction": "right"
             }
         ],
         "blacklist_location": [
-            [4, 5],
-            [5, 5],
-            [4, 3],
-            [5, 4],            
-            [4, 1],
-            [5, 1]
+            [1, 5],
+            [2, 5],
+            [3, 5],
+            [6, 5],
+            [7, 5],
+            [8, 5],
+            [1, 4],            
+            [1, 3],
+            [2, 3],
+            [8, 3],
+            [8, 4]
         ]
     },
     {
@@ -7782,17 +7786,17 @@
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [8, 3],
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [7, 3],
                 "direction": "left"
             }, 
             {
-                "groups": ["奶"],
+                "groups": ["奶" , "凯尔希",  "浊心斯卡蒂"],
                 "location": [6, 4],
                 "direction": "right"
             },
@@ -7802,17 +7806,17 @@
                 "direction": "left"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [5, 2],
                 "direction": "left"
             }, 
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [7, 3],
                 "direction": "left"
             }, 
             {
-                "groups": ["炮灰"],
+                "groups": ["地面单切", "炮灰","回费"],
                 "location": [3, 3],
                 "direction": "left"
             }
@@ -7870,42 +7874,42 @@
                 "direction": "up"
             }, 
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [6, 4],
                 "direction": "up"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [5, 4],
                 "direction": "up"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [5, 3],
                 "direction": "up"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [4, 4],
                 "direction": "up"
             },
             {
-                "groups": ["奶"],
+                "groups": ["奶" , "凯尔希",  "浊心斯卡蒂"],
                 "location": [6, 6],
                 "direction": "up"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [5, 6],
                 "direction": "up"
             }, 
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [7, 2],
                 "direction": "left"
             }, 
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [7, 3],
                 "direction": "left"
             }
@@ -7947,7 +7951,7 @@
                 "direction": "right"
             }, 
             {
-                "groups": ["奶"],
+                "groups": ["奶" , "凯尔希",  "浊心斯卡蒂"],
                 "location": [6, 1],
                 "direction": "down"
             },
@@ -7963,12 +7967,12 @@
                 "direction": "right"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [3, 5],
                 "direction": "right"
             }, 
             {
-                "groups": ["奶"],
+                "groups": ["奶" , "凯尔希",  "浊心斯卡蒂"],
                 "location": [3, 4],
                 "direction": "left"
             }
@@ -8007,42 +8011,42 @@
                 "direction": "up"
             }, 
             {
-                "groups": ["奶"],
+                "groups": ["凯尔希", "浊心斯卡蒂", "奶"],
                 "location": [9, 2],
                 "direction": "down"
             },            
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [8, 2],
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [10, 3],
                 "direction": "down"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [9, 4],
                 "direction": "left"
             },
             {
-                "groups": ["奶","高台输出"],
+                "groups": ["凯尔希", "浊心斯卡蒂", "奶", "高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [9, 3],
                 "direction": "left"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [8, 5],
                 "direction": "up"
             },
             {
-                "groups": ["奶"],
+                "groups": ["凯尔希", "浊心斯卡蒂", "奶"],
                 "location": [9, 5],
                 "direction": "up"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [5, 2],
                 "direction": "left"
             }
@@ -8088,20 +8092,20 @@
             {
                 "groups": ["棘刺"],
                 "location": [5, 2],
-                "direction": "dowm"
+                "direction": "down"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [4, 1],
                 "direction": "down"
             }, 
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [6, 1],
                 "direction": "down"
             },  
             {
-                "groups": ["奶"],
+                "groups": ["奶", "凯尔希"],
                 "location": [3, 1],
                 "direction": "right"
             },            
@@ -8111,22 +8115,22 @@
                 "direction": "left"
             },
             {
-                "groups": ["奶"],
+                "groups": ["凯尔希", "浊心斯卡蒂", "奶"],
                 "location": [9, 4],
                 "direction": "left"
             }, 
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [5, 1],
                 "direction": "down"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [6, 2],
                 "direction": "left"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [7, 1],
                 "direction": "down"
             },
@@ -8186,17 +8190,22 @@
                 "direction": "left"
             },
             {
-                "groups": ["地面单切","炮灰","对空","高台输出"],
+                "groups": ["地面单切","炮灰","回费","棘刺","高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [8, 5],
                 "direction": "up"
             }, 
             {
-                "groups": ["地面阻挡"],
+                "groups": ["浊心斯卡蒂","高台C",  "高台输出","梓兰", "高台预备","地面阻挡", "地面单切", "炮灰", "银灰", "回费" ],
+                "location": [9, 2],
+                "direction": "left"
+            },
+            {
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [7, 4],
                 "direction": "left"
             }, 
             {
-                "groups": ["棘刺"],
+                "groups": ["棘刺","地面阻挡", "地面单切", "炮灰", "银灰", "回费"],
                 "location": [9, 4],
                 "direction": "left"
             }, 
@@ -8204,39 +8213,34 @@
                 "groups": ["奶"],
                 "location": [9, 3],
                 "direction": "left"
-            }, 
+            },                         
             {
-                "groups": ["浊心斯卡蒂","高台输出"],
-                "location": [9, 2],
-                "direction": "left"
-            },            
-            {
-                "groups": ["地面单切"],
+                "groups": ["史尔特尔", "地面单切", "炮灰","地面阻挡"],
                 "location": [4, 5],
                 "direction": "up"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [7, 2],
                 "direction": "down"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [6, 2],
                 "direction": "down"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [7, 4],
                 "direction": "left"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [8, 5],
                 "direction": "up"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [4, 5],
                 "direction": "up"
             }
@@ -8275,7 +8279,7 @@
                 "direction": "right"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [6, 3],
                 "direction": "right"
             }, 
@@ -8285,12 +8289,12 @@
                 "direction": "right"
             },
             {
-                "groups": ["奶"],
+                "groups": ["浊心斯卡蒂" , "凯尔希", "奶" ],
                 "location": [4, 2],
                 "direction": "right"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [4, 3],
                 "direction": "right"
             }
@@ -8343,47 +8347,47 @@
                 "direction": "left"
             },
             {
-                "groups": ["奶"],
+                "groups": ["奶","浊心斯卡蒂","凯尔希"],
                 "location": [8, 1],
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [6, 1],
                 "direction": "down"
             }, 
             {
-                "groups": ["浊心斯卡蒂","高台输出"],
+                "groups": ["浊心斯卡蒂","高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [8, 2],
                 "direction": "down"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [8, 3],
                 "direction": "down"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [6, 1],
                 "direction": "down"
             },
             {
-                "groups": ["奶"],
+                "groups": ["奶","浊心斯卡蒂","凯尔希"],
                 "location": [5, 1],
                 "direction": "down"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [4, 1],
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [9, 2],
                 "direction": "down"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [5, 2],
                 "direction": "left"
             }
@@ -8427,7 +8431,7 @@
         ],             
         "deploy_plan": [
             {
-                "groups": ["炮灰","地面单切"],
+                "groups": ["地面单切","炮灰"],
                 "location": [7, 2],
                 "direction": "left"
             },
@@ -8440,6 +8444,11 @@
                 "groups": ["梓兰"],
                 "location": [8, 3],
                 "direction": "left"
+            },
+            {
+                "groups": ["高台输出","高台预备"],
+                "location": [7, 3],
+                "direction": "right"
             },
             {
                 "groups": ["浊心斯卡蒂","奶"],
@@ -8458,32 +8467,32 @@
                 "direction": "left"
             },
             {
-                "groups": ["奶"],
+                "groups": ["奶","凯尔希"],
                 "location": [6, 1],
                 "direction": "down"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [3, 1],
                 "direction": "down"
             },
             {
-                "groups": ["地面单切"],
+                "groups": ["史尔特尔", "地面单切", "炮灰","地面阻挡"],
                 "location": [1, 4],
                 "direction": "down"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [7, 5],
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [6, 5],
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [5, 5],
                 "direction": "left"
             },
@@ -8526,51 +8535,51 @@
             },
             {
                 "groups": ["棘刺"],
-                "location": [3,7],
+                "location": [3, 7],
                 "direction": "up"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [4, 7],
                 "direction": "left"
             },
             {
-                "groups": ["奶"],
+                "groups": ["浊心斯卡蒂", "凯尔希","奶"],
                 "location": [5, 7],
                 "direction": "left"
             }, 
             {
-                "groups": ["奶"],
+                "groups": ["浊心斯卡蒂", "凯尔希","奶"],
                 "location": [1, 7],
                 "direction": "right"
             },            
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [2, 7],
                 "direction": "right"
             }, 
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [6, 6],
                 "direction": "left"
             }, 
             {
-                "groups": ["高台输出","奶"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ,"浊心斯卡蒂", "凯尔希","奶"],
                 "location": [6, 7],
                 "direction": "left"
             },
             {
-                "groups": ["高台输出","奶"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ,"浊心斯卡蒂", "凯尔希","奶"],
                 "location": [1, 6],
                 "direction": "right"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [3, 6],
                 "direction": "up"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [4, 6],
                 "direction": "up"
             }
@@ -8605,7 +8614,7 @@
                 "direction": "up"
             },
             {
-                "groups": ["奶"],
+                "groups": ["凯尔希","奶"],
                 "location": [5, 4],
                 "direction": "left"
             },
@@ -8615,7 +8624,7 @@
                 "direction": "right"
             },
             {
-                "groups": ["浊心斯卡蒂","高台输出"],
+                "groups": ["浊心斯卡蒂","高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [6, 2],
                 "direction": "right"
             },
@@ -8625,17 +8634,17 @@
                 "direction": "right"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [3, 5],
                 "direction": "right"
             },
             {
-                "groups": ["地面单切"],
+                "groups": ["史尔特尔", "地面单切", "炮灰","地面阻挡"],
                 "location": [4, 5],
                 "direction": "right"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [4, 2],
                 "direction": "right",
                 "condition": [ 40, 45] 
@@ -8697,7 +8706,7 @@
                 "direction": "right"
             },
             {
-                "groups": ["奶"],
+                "groups": ["浊心斯卡蒂","凯尔希","奶"],
                 "location": [4,4],
                 "direction": "up"
             },
@@ -8739,27 +8748,27 @@
                 "direction": "down"
             },
             {
-                "groups": ["对空"],
+                "groups": ["高台输出"],
                 "location": [2, 2],
                 "direction": "down"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [2, 3],
                 "direction": "down"
             },
             {
-                "groups": ["奶"],
+                "groups": ["浊心斯卡蒂","凯尔希","奶"],
                 "location": [2, 1],
                 "direction": "down"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [6, 3],
                 "direction": "left"
             },
             {
-                "groups": ["奶"],
+                "groups": ["浊心斯卡蒂","凯尔希","奶"],
                 "location": [9, 1],
                 "direction": "down"
             },
@@ -8806,12 +8815,12 @@
                 "direction": "left"
             },
             {
-                "groups": ["奶"],
+                "groups": ["浊心斯卡蒂","凯尔希","奶"],
                 "location": [8, 5],
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [5, 5],
                 "direction": "up"
             },
@@ -8821,28 +8830,28 @@
                 "direction": "left"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [7, 2],
                 "direction": "down"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [6, 1],
                 "direction": "down"
             },
             {
-                "groups": ["奶"],
+                "groups": ["浊心斯卡蒂","凯尔希","奶"],
                 "location": [8, 1],
                 "direction": "down"
             },
             {
-                "groups": ["地面单切"],
+                "groups": ["史尔特尔", "地面单切", "炮灰","地面阻挡"],
                 "location": [1, 5],
                 "direction": "up",
                 "condition": [ 34, 36] 
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [4, 2],
                 "direction": "right",
                 "condition": [ 40, 45] 
@@ -8881,22 +8890,22 @@
                 "direction": "up"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [4, 2],
                 "direction": "right"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [4, 4],
                 "direction": "right"
             },
             {
-                "groups": ["浊心斯卡蒂","高台输出"],
+                "groups": ["浊心斯卡蒂","高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [4, 3],
                 "direction": "right"
             },
             {
-                "groups": ["奶"],
+                "groups": ["浊心斯卡蒂","凯尔希","奶"],
                 "location": [2, 3],
                 "direction": "right"
             },
@@ -8906,12 +8915,12 @@
                 "direction": "right"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [2, 4],
                 "direction": "right"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [2, 2],
                 "direction": "right"
             }
@@ -8951,7 +8960,7 @@
                 "direction": "left"
             },
             {
-                "groups": ["奶"],
+                "groups": ["奶","凯尔希"],
                 "location": [8, 2],
                 "direction": "left"
             },
@@ -8961,37 +8970,37 @@
                 "direction": "down"
             },             
             {
-                "groups": ["浊心斯卡蒂","高台输出"],
+                "groups": ["浊心斯卡蒂","高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [8, 1],
                 "direction": "down"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [8, 3],
                 "direction": "down"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [5, 3],
                 "direction": "down"
             },
             {
-                "groups": ["奶"],
+                "groups": ["浊心斯卡蒂","奶","凯尔希"],
                 "location": [5, 1],
                 "direction": "down"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [4, 1],
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [9, 2],
                 "direction": "down"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [5, 2],
                 "direction": "left"
             }
@@ -9031,17 +9040,17 @@
                 "direction": "right"
             },            
             {
-                "groups": ["奶"],
+                "groups": ["凯尔希","奶"],
                 "location": [6, 3],
                 "direction": "right"
             }, 
             {
-                "groups": ["奶"],
+                "groups": ["凯尔希","奶"],
                 "location": [5, 3],
                 "direction": "down"
             }, 
             {
-                "groups": ["地面单切"],
+                "groups": ["史尔特尔", "地面单切", "炮灰","地面阻挡"],
                 "location": [5, 5],
                 "direction": "right",
                 "doc":"最好能二倍速下前置6000ms延时"
@@ -9052,18 +9061,18 @@
                 "direction": "right"
             }, 
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [8, 3],
                 "direction": "right",
                 "doc":"最好能二倍速下前置20000ms延时"
             }, 
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [9, 4],
                 "direction": "right"
             }, 
             {
-                "groups": ["奶"],
+                "groups": ["凯尔希","奶"],
                 "location": [5, 3],
                 "direction": "right"
             }, 
@@ -9073,12 +9082,12 @@
                 "direction": "right"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [8, 2],
                 "direction": "down"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [8, 4],
                 "direction": "right"
             }
@@ -9113,7 +9122,7 @@
                 "direction": "left"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [9, 2],
                 "direction": "left"
             }, 
@@ -9123,17 +9132,17 @@
                 "direction": "left"
             },
             {
-                "groups": ["奶"],
+                "groups": ["凯尔希","浊心斯卡蒂","奶"],
                 "location": [9, 1],
                 "direction": "left"
             },  
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [6, 2],
                 "direction": "left"
             }, 
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [5, 4],
                 "direction": "left"
             }
@@ -9159,12 +9168,12 @@
                 "direction": "left"
             },
             {
-                "groups": ["奶"],
+                "groups": ["凯尔希", "奶"],
                 "location": [7, 4],
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [7, 5],
                 "direction": "left"
             },
@@ -9179,27 +9188,27 @@
                 "direction": "left"
             },
             {
-                "groups": ["浊心斯卡蒂","高台输出"],
+                "groups": ["浊心斯卡蒂","高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [5, 4],
                 "direction": "left"
             }, 
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [4, 4],
                 "direction": "left"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [6, 4],
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [6, 5],
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [8, 5],
                 "direction": "left"
             }
@@ -9246,12 +9255,12 @@
                 "direction": "right"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [8, 5],
                 "direction": "right"
             }, 
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [8, 2],
                 "direction": "right"
             },
@@ -9261,22 +9270,22 @@
                 "direction": "right"
             },
             {
-                "groups": ["奶"],
+                "groups": ["凯尔希","奶"],
                 "location": [7, 2],
                 "direction": "down"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [6, 5],
                 "direction": "up"
             },
             {
-                "groups": ["奶"],
+                "groups": ["凯尔希","奶"],
                 "location": [7, 5],
                 "direction":"up"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [4, 3],
                 "direction": "right"
             }
@@ -9325,60 +9334,60 @@
                 "direction": "up"
             },
             {
-                "groups": ["奶"],
+                "groups": ["凯尔希","奶"],
                 "location": [10, 2],
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [8, 1],
                 "direction": "left"
             },
             {
-                "groups": ["高台C","高台输出"],
+                "groups": ["高台C","高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [7, 3],
                 "direction": "up"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [8, 3],
                 "direction": "left"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [8, 5],
                 "direction": "left"
             },
             {
-                "groups": ["奶"],
+                "groups": ["凯尔希","奶"],
                 "location": [9, 1],
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [9, 2],
                 "direction": "left"
             },
             {
-                "groups": ["地面单切"],
+                "groups": ["史尔特尔", "地面单切", "炮灰","地面阻挡"],
                 "location": [2, 5],
                 "direction": "up",
                 "condition": [ 8, 10 ] 
             },
             {
-                "groups": ["地面单切"],
+                "groups": ["史尔特尔", "地面单切", "炮灰","地面阻挡"],
                 "location": [2, 5],
                 "direction": "up",
                 "condition": [ 32, 35 ] 
             },
             {
-                "groups": ["地面单切"],
+                "groups": ["史尔特尔", "地面单切", "炮灰","地面阻挡"],
                 "location": [7, 1],
                 "direction": "left",
                 "condition": [ 42, 45 ] 
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [6, 1],
                 "direction": "left",
                 "condition": [ 42, 45 ] 
@@ -9432,17 +9441,17 @@
                 "direction": "up"
             },            
             {
-                "groups": ["奶"],
+                "groups": ["凯尔希","奶"],
                 "location": [7, 1],
                 "direction": "down"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [8, 2],
                 "direction": "down"
             },
             {
-                "groups": ["高台C","高台输出"],
+                "groups": ["高台C","高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [7, 4],
                 "direction": "up"
             },
@@ -9452,7 +9461,7 @@
                 "direction": "up"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [4, 5],
                 "direction": "left"
             },
@@ -9462,17 +9471,17 @@
                 "direction": "left"
             },
             {
-                "groups": ["地面单切"],
+                "groups": ["史尔特尔", "地面单切", "炮灰","地面阻挡"],
                 "location": [1, 4],
                 "direction": "right"
             },
             {
-                "groups": ["地面单切"],
+                "groups": ["史尔特尔", "地面单切", "炮灰","地面阻挡"],
                 "location": [1, 6],
                 "direction": "right"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [8, 1],
                 "direction": "down"
             },
@@ -9481,7 +9490,7 @@
                 "location": [3, 6]
             },
             {
-                "groups": ["奶"],
+                "groups": ["凯尔希","奶"],
                 "location": [7, 3],
                 "direction": "right"
             }
@@ -9527,32 +9536,32 @@
                 "direction": "left"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [6, 3],
                 "direction": "down"
             },
             {
-                "groups": ["奶"],
+                "groups": ["浊心斯卡蒂","凯尔希","奶"],
                 "location": [7, 2],
                 "direction": "down"
             },
             {
-                "groups": ["高台输出","浊心斯卡蒂"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ,"浊心斯卡蒂"],
                 "location": [8, 4],
                 "direction": "left"
             },   
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [6, 5],
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [7, 4],
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [6, 6],
                 "direction": "left"
             }
@@ -9590,47 +9599,47 @@
                 "direction": "left"
             },  
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [2, 3],
                 "direction": "up"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [4, 3],
                 "direction": "left"
             },
             {
-                "groups": ["浊心斯卡蒂","奶"],
+                "groups": ["浊心斯卡蒂","凯尔希","奶"],
                 "location": [3, 4],
                 "direction": "right"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [5, 4],
                 "direction": "right"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [5, 3],
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [4, 2],
                 "direction": "right"
             },
             {
-                "groups": ["奶"],
+                "groups": ["凯尔希","奶"],
                 "location": [6, 4],
                 "direction": "left"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [4, 3],
                 "direction": "right"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [8, 2],
                 "direction": "down"
             }
@@ -9665,7 +9674,7 @@
                 "direction": "right"
             },
             {
-                "groups": ["地面单切"],
+                "groups": ["史尔特尔", "地面单切", "炮灰","地面阻挡"],
                 "location": [5, 1],
                 "direction": "left"
             },
@@ -9675,27 +9684,27 @@
                 "direction": "up"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [8,5],
                 "direction": "up"
             },
             {
-                "groups": ["奶"],
+                "groups": ["凯尔希","奶"],
                 "location": [7, 5],
                 "direction": "right"
             },   
             {
-                "groups": ["地面单切"],
+                "groups": ["史尔特尔", "地面单切", "炮灰","地面阻挡"],
                 "location": [8, 1],
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [9, 4],
                 "direction": "up"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [9, 3],
                 "direction": "up"
             },
@@ -9705,12 +9714,12 @@
                 "direction": "right"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [6,2],
                 "direction": "right"
             },
             {
-                "groups": ["奶"],
+                "groups": ["凯尔希","奶","浊心斯卡蒂"],
                 "location": [6, 5],
                 "direction": "right"
             }
@@ -9753,12 +9762,12 @@
                 "direction": "down"
             },  
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [4,3],
                 "direction": "up"
             },
             {
-                "groups": ["奶"],
+                "groups": ["凯尔希","奶"],
                 "location": [2, 6],
                 "direction": "up"
             }
@@ -9804,7 +9813,7 @@
                 "direction": "right"
             },
             {
-                "groups": ["地面单切"],
+                "groups": ["史尔特尔", "地面单切", "炮灰","地面阻挡"],
                 "location": [7, 1],
                 "direction": "right"
             }, 
@@ -9814,32 +9823,32 @@
                 "direction": "right"
             }, 
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [6,5],
                 "direction": "left"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [6, 2],
                 "direction": "right"
             },
             {
-                "groups": ["奶"],
+                "groups": ["浊心斯卡蒂","凯尔希","奶"],
                 "location": [4,2],
                 "direction": "right"
             },
             {
-                "groups": ["奶"],
+                "groups": ["浊心斯卡蒂","凯尔希","奶"],
                 "location": [5,6],
                 "direction": "up"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [5, 2],
                 "direction": "right"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [7, 4],
                 "direction": "left"
             },
@@ -9855,17 +9864,17 @@
                 "direction": "down"
             },
             {
-                "groups": ["奶"],
+                "groups": ["浊心斯卡蒂","凯尔希","奶"],
                 "location": [5, 3],
                 "direction": "down"
             },  
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [4,3],
                 "direction": "up"
             },
             {
-                "groups": ["奶"],
+                "groups": ["浊心斯卡蒂","凯尔希","奶"],
                 "location": [2, 6],
                 "direction": "up"
             }
@@ -9921,7 +9930,7 @@
                 "direction": "up"
             },  
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [4, 3],
                 "direction": "up"
             }, 
@@ -9931,12 +9940,12 @@
                 "direction": "right"
             },
             {
-                "groups": ["对空"],
+                "groups": ["高台输出"],
                 "location": [5, 4],
                 "direction": "right"
             }, 
             {
-                "groups": ["奶"],
+                "groups": ["凯尔希","奶"],
                 "location": [4,5],
                 "direction": "up"
             }, 
@@ -9946,12 +9955,12 @@
                 "direction": "right"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [2, 2],
                 "direction": "right"
             },
             {
-                "groups": ["浊心斯卡蒂","奶"],
+                "groups": ["浊心斯卡蒂","凯尔希","奶"],
                 "location": [2,3],
                 "direction": "right"
             }
@@ -9963,13 +9972,13 @@
                 "condition": [ 38, 40 ] 
             },
             {
-                "groups": ["地面单切"],
+                "groups": ["史尔特尔", "地面单切", "炮灰","地面阻挡"],
                 "location": [4, 1],
                 "direction": "right",                
                 "condition": [ 43, 45 ] 
             },
             {
-                "groups": ["地面单切"],
+                "groups": ["史尔特尔", "地面单切", "炮灰","地面阻挡"],
                 "location": [3, 1],
                 "direction": "right",               
                 "condition": [ 45, 46 ] 
@@ -10018,7 +10027,7 @@
                 "direction": "right"
             }, 
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C", "高台输出","梓兰", "高台预备" ],
                 "location": [4, 4],
                 "direction": "right"
             },
@@ -10028,27 +10037,27 @@
                 "direction": "right"
             }, 
             {
-                "groups": ["奶"],
+                "groups": ["浊心斯卡蒂","凯尔希","奶"],
                 "location": [4,1],
                 "direction": "down"
             }, 
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [3, 3],
                 "direction": "right"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [5,5],
                 "direction": "right"
             },
             {
-                "groups": ["奶"],
+                "groups": ["凯尔希","奶","浊心斯卡蒂"],
                 "location": [5,1],
                 "direction": "down"
             },
             {
-                "groups": ["炮灰"],
+                "groups": ["地面单切", "炮灰","回费"],
                 "location": [9,4],
                 "direction": "up"
             },
@@ -10074,29 +10083,29 @@
                 "direction": "left"
             },  
             {
-                "groups": ["奶"],
+                "groups": ["奶","凯尔希","浊心斯卡蒂"],
                 "location": [5,5],
                 "direction": "up"
             }, 
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [5, 4],
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [5, 2],
                 "direction": "left"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [4, 1],
                 "direction": "down"
             }
         ]
     },
     {
-        "stage_name": "邪异囚笼", 
+        "stage_name": "无序盛宴", 
         "replacement_home": [
             {
                 "location": [10, 5],
@@ -10115,7 +10124,7 @@
                 "direction": "left"
             },  
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [10, 4],
                 "direction": "left"
             },
@@ -10130,32 +10139,32 @@
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [9, 6],
                 "direction": "left"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [8, 1],
                 "direction": "down"
             },
             {
-                "groups": ["奶"],
+                "groups": ["浊心斯卡蒂","凯尔希","奶"],
                 "location": [9, 1],
                 "direction": "down"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [8, 4],
                 "direction": "right"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [9, 5],
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [8,5],
                 "direction": "left"
             }
@@ -10175,22 +10184,22 @@
                 "direction": "up"
             }, 
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [9, 4],
                 "direction": "left"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [7, 1],
                 "direction": "down"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [6, 6],
                 "direction": "up"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [6, 1],
                 "direction": "down"
             }
@@ -10229,22 +10238,22 @@
                 "direction": "up"
             }, 
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [5, 4],
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡"],
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [4, 3],
                 "direction": "right"
             },
             {
-                "groups": ["高台输出"],
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [4, 4],
                 "direction": "right"
             },
             {
-                "groups": ["奶"],
+                "groups": ["奶","凯尔希","浊心斯卡蒂"],
                 "location": [3, 4],
                 "direction": "right"
             }
