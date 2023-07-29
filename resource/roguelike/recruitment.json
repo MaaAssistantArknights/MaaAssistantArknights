@@ -3371,8 +3371,12 @@
             "地面单切",
             "炮灰",
             "回费",
-            "对空",
-            "推柱子"
+            "梓兰",
+            "史尔特尔",
+            "银灰",
+            "高台预备",
+            "浊心斯卡蒂",
+            "斯卡蒂的海嗣"
         ],
         "team_complete_condition": [
             {
@@ -3384,7 +3388,7 @@
                 "threshold": 1
             },
             {
-                "groups": [ "地面阻挡" ],
+                "groups": [ "地面阻挡","地面单切","炮灰" ],
                 "threshold": 2
             },
             {
@@ -3392,15 +3396,11 @@
                 "threshold": 1
             },
             {
-                "groups": [ "高台输出" ],
+                "groups": [ "高台输出","高台预备" ],
                 "threshold": 1
             },
             {
-                "groups": [ "对空" ],
-                "threshold": 1
-            },
-            {
-                "groups": [ "奶" ],
+                "groups": [ "奶","凯尔希", "浊心斯卡蒂"],
                 "threshold": 2
             }
 
@@ -3543,131 +3543,11 @@
                     "recruit_priority": 5,
                     "promote_priority": 0,
                     "is_alternate": true
-                },
-                {
-                    "name": "银灰",
-                    "skill": 3,
-                    "is_key": true,
-                    "alternate_skill": 1,
-                    "recruit_priority": 710,
-                    "promote_priority": 900,
-                    "promote_priority_when_team_full": 1000,
-                    "recruit_priority_offsets": 
-                    [
-                        {
-                            "groups": [ "凯尔希", "地面阻挡"],
-                            "threshold": 3,
-                            "offset": -300
-                        }                        
-                    ]
-                },
-                {
-                    "name": "史尔特尔",
-                    "skill": 3,
-                    "is_key": true,
-                    "alternate_skill": 1,
-                    "recruit_priority": 760,
-                    "promote_priority": 900,
-                    "promote_priority_when_team_full": 1100
-                },
-                {
-                    "name": "月见夜",
-                    "skill": 1,
-                    "is_key": true,
-                    "recruit_priority": 500,
-                    "promote_priority": 0,
-                    "promote_priority_when_team_full": 0
-                },
-                {
-                    "name": "芬",
-                    "skill": 1,
-                    "is_key":true,
-                    "recruit_priority": 650,
-                    "promote_priority": 0,
-                    "promote_priority_when_team_full": 0
-                },
-                {
-                    "name": "香草",
-                    "skill": 1,
-                    "is_key": true,
-                    "recruit_priority": 650,
-                    "promote_priority": 0,
-                    "promote_priority_when_team_full": 0
-                },
-                {
-                    "name": "红",
-                    "skill": 1,
-                    "is_key": true,
-                    "recruit_priority": 600,
-                    "promote_priority": 0,
-                    "promote_priority_when_team_full": 0
-                },
-                {
-                    "name": "夜刀",
-                    "skill": 1,
-                    "is_key": true,
-                    "recruit_priority": 500,
-                    "promote_priority": 0
-                },
-                {
-                    "name": "预备干员-近战",
-                    "skill": 0,
-                    "recruit_priority": 5,
-                    "promote_priority": 0,
-                    "is_alternate": true
-                },
-                {
-                    "name": "桃金娘",
-                    "skill": 1,
-                    "is_key": true,
-                    "recruit_priority": 700,
-                    "promote_priority": 200,
-                    "promote_priority_when_team_full": 400
                 }
             ]
         },
         "奶": {
             "opers": [
-                {
-                    "name": "浊心斯卡蒂",
-                    "skill": 2,
-                    "recruit_priority": 910,
-                    "promote_priority": 700,
-                    "is_key": true
-                },
-                {
-                    "name":"凯尔希",
-                    "skill":3,
-                    "alternate_skill":2,
-                    "recruit_priority":900,
-                    "promote_priority":850,
-                    "is_key":true,
-                    "Doc":"在阵容未完备时，仅招募核心干员与0希望干员",
-                    "is_start":true,
-                    "Doc2":"开局用干员",
-                    "recruit_priority_offsets":[
-                        {
-                            "groups":[
-                                "近卫",
-                                "重装"
-                            ],
-                            "threshold":1,
-                            "is_less":true,
-                            "offset":100,
-                            "Doc":"地面阻挡输出位≤1时，凯尔希的招募优先级+100"
-                        },
-                        {
-                            "groups":[
-                                "重装",
-                                "水陈",
-                                "玛恩纳"
-                            ],
-                            "threshold":3,
-                            "offset":-600,
-                            "Doc":"地面和高台输出均完备时，凯尔希的招募优先级-600"
-                        }
-                    ]
-                },
                 {
                     "name": "焰影苇草",
                     "skill": 3,
@@ -3697,7 +3577,8 @@
                     "name": "芙蓉",
                     "skill": 1,
                     "recruit_priority": 500,
-                    "promote_priority": 0
+                    "promote_priority": 0,
+                    "is_key": true
                 },
                 {
                     "name": "预备干员-后勤",
@@ -3710,65 +3591,6 @@
         },
         "高台输出": {
             "opers": [
-                {
-                    "name": "假日威龙陈",
-                    "skill": 3,
-                    "alternate_skill": 1,
-                    "recruit_priority": 980,
-                    "promote_priority": 990,
-                    "is_key": true
-                },
-                {
-                    "name": "澄闪",
-                    "skill": 3,
-                    "alternate_skill": 2,
-                    "recruit_priority": 650,
-                    "promote_priority": 932,
-                    "is_key": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [ "高台核心", "高台输出", "对空"],
-                            "threshold": 2,
-                            "is_less": true,
-                            "offset": 300
-                        } 
-                    ]
-                },
-                {
-                    "name": "艾雅法拉",
-                    "skill": 2,
-                    "is_key": true,
-                    "recruit_priority": 600,
-                    "promote_priority": 800,
-                    "promote_priority_when_team_full": 1000,
-                    "recruit_priority_offsets": 
-                    [
-                        {
-                            "groups": [ "高台核心", "高台输出", "对空"],
-                            "threshold": 2,
-                            "is_less": true,
-                            "offset": 300
-                        }                        
-                    ]
-                },
-                {
-                    "name": "焰影苇草",
-                    "skill": 3,
-                    "alternate_skill": 2,
-                    "is_key": true,
-                    "is_start": true,
-					"doc": "相比凯尔希，焰苇的前期费用压力更小，更适合开局，属于下限高上限低的那种",
-                    "recruit_priority": 700,
-                    "promote_priority": 450,
-					"recruit_priority_offsets": [
-                        {
-                            "groups": [ "凯尔希","地面阻挡", "高台输出" ],
-                            "threshold": 1,
-                            "is_less": true,
-                            "offset": -300
-                        }
-                    ]
-                },
                 {
                     "name": "空弦",
                     "skill": 1,
@@ -3797,41 +3619,12 @@
                     "is_key": true,
                     "recruit_priority": 520,
                     "promote_priority": 0
-                },
-                {
-                    "name": "梓兰",
-                    "skill": 1,
-                    "is_key": true,
-                    "recruit_priority": 509,
-                    "promote_priority": 0
-                },
-                {
-                    "name": "预备干员-狙击",
-                    "skill": 0,
-                    "recruit_priority": 100,
-                    "promote_priority": 0,
-                    "is_alternate": true
-                },
-                {
-                    "name": "预备干员-术师",
-                    "skill": 0,
-                    "recruit_priority": 100,
-                    "promote_priority": 0,
-                    "is_alternate": true
                 }
             ]
         },
         "地面单切": {
             "Doc":"暂时只主要招募42,尽量不在该组干员使用希望",
             "opers": [
-                {
-                    "name": "史尔特尔",
-                    "skill": 3,
-                    "alternate_skill": 1,
-                    "recruit_priority": 980,
-                    "promote_priority": 990,
-                    "is_key": true
-                },
                 {
                     "name": "红",
                     "skill": 3,
@@ -3841,14 +3634,11 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [ "地面单切" ],
+                            "groups": [ "地面单切", "史尔特尔"],
                             "threshold": 2,
                             "offset": -200
                         }
                     ]
-                },
-                {
-                    "name": "Mon3tr"
                 },
                 {
                     "name": "缄默德克萨斯",
@@ -3859,7 +3649,7 @@
                     "promote_priority": 961,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [ "地面单切" ],
+                            "groups": [ "地面单切", "史尔特尔" ],
                             "threshold": 2,
                             "offset": -200
                         }
@@ -3873,26 +3663,11 @@
                     "promote_priority": 955,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [ "地面单切" ],
+                            "groups": [ "地面单切", "史尔特尔" ],
                             "threshold": 2,
                             "offset": -200
                         }
                     ]
-                },
-                {
-                    "name": "夜刀",
-                    "skill": 1,
-                    "is_key": true,
-                    "recruit_priority": 500,
-                    "promote_priority": 0,
-                    "promote_priority_when_team_full": 0
-                },
-                {
-                    "name": "预备干员-近战",
-                    "skill": 0,
-                    "recruit_priority": 100,
-                    "promote_priority": 0,
-                    "is_alternate": true
                 }
             ]
         }, 
@@ -3907,80 +3682,11 @@
                     "promote_priority_when_team_full": 0
                 },
                 {
-                    "name": "红",
-                    "skill": 3,
-                    "alternate_skill": 2,
-                    "recruit_priority": 600,
-                    "promote_priority": 302,
-                    "is_key": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [ "地面单切" ],
-                            "threshold": 2,
-                            "offset": -200
-                        }
-                    ]
-                },
-                {
-                    "name": "Mon3tr"
-                },
-                {
-                    "name": "缄默德克萨斯",
-                    "skill": 3,
-                    "is_key": true,
-                    "alternate_skill": 2,
-                    "recruit_priority": 750,
-                    "promote_priority": 961,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [ "地面单切" ],
-                            "threshold": 2,
-                            "offset": -200
-                        }
-                    ]
-                },
-                {
-                    "name": "麒麟X夜刀",
-                    "skill": 2,
-                    "is_key": true,
-                    "recruit_priority": 701,
-                    "promote_priority": 955,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [ "地面单切" ],
-                            "threshold": 2,
-                            "offset": -200
-                        }
-                    ]
-                },
-                {
-                    "name": "夜刀",
-                    "skill": 1,
-                    "is_key": true,
-                    "recruit_priority": 500,
-                    "promote_priority": 0,
-                    "promote_priority_when_team_full": 0
-                },
-                {
                     "name": "预备干员-近战",
                     "skill": 0,
                     "recruit_priority": 100,
                     "promote_priority": 0,
                     "is_alternate": true
-                },
-                {
-                    "name": "预备干员-重装",
-                    "skill": 0,
-                    "recruit_priority": 100,
-                    "promote_priority": 0,
-                    "is_alternate": true
-                },
-                {
-                    "name": "黑角",
-                    "skill": 0,
-                    "is_key": true,
-                    "recruit_priority": 600,
-                    "promote_priority": 0
                 },
                 {
                     "name": "月见夜",
@@ -3989,30 +3695,6 @@
                     "recruit_priority": 500,
                     "promote_priority": 0,
                     "promote_priority_when_team_full": 0
-                },
-                {
-                    "name": "芬",
-                    "skill": 1,
-                    "is_key":true,
-                    "recruit_priority": 650,
-                    "promote_priority": 0,
-                    "promote_priority_when_team_full": 0
-                },
-                {
-                    "name": "香草",
-                    "skill": 1,
-                    "is_key": true,
-                    "recruit_priority": 650,
-                    "promote_priority": 0,
-                    "promote_priority_when_team_full": 0
-                },
-                {
-                    "name": "桃金娘",
-                    "skill": 1,
-                    "is_key": true,
-                    "recruit_priority": 700,
-                    "promote_priority": 200,
-                    "promote_priority_when_team_full": 400
                 }
             ]
         }, 
@@ -4037,90 +3719,22 @@
                     "name": "香草",
                     "skill": 1,
                     "is_key": true,
-                    "recruit_priority": 650,
+                    "recruit_priority": 640,
                     "promote_priority": 0
                 }                
             ]
         },
-        "对空": {
+        "高台预备": {
             "opers": [
                 {
-                    "name": "空弦",
-                    "skill": 1,
-                    "is_key": true,
-                    "recruit_priority": 550,
-                    "promote_priority": 450,
-					"recruit_priority_offsets": [
-                        {
-                            "groups": [ "凯尔希","地面阻挡", "高台输出" ],
-                            "threshold": 1,
-                            "is_less": true,
-                            "offset": -100
-                        }
-                    ]
-                },
-                {
-                    "name": "克洛丝",
-                    "skill": 1,
-                    "recruit_priority": 510,
-                    "promote_priority": 0,
-                    "is_key": true
-                },
-                {
-                    "name": "澄闪",
-                    "skill": 3,
-                    "alternate_skill": 2,
-                    "recruit_priority": 650,
-                    "promote_priority": 932,
-                    "is_key": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [ "高台核心", "高台输出", "对空"],
-                            "threshold": 2,
-                            "is_less": true,
-                            "offset": 300
-                        } 
-                    ]
-                },
-                {
-                    "name": "艾雅法拉",
-                    "skill": 2,
-                    "is_key": true,
-                    "recruit_priority": 600,
-                    "promote_priority": 800,
-                    "promote_priority_when_team_full": 1000,
-                    "recruit_priority_offsets": 
-                    [
-                        {
-                            "groups": [ "高台核心", "高台输出", "对空"],
-                            "threshold": 2,
-                            "is_less": true,
-                            "offset": 300
-                        }                        
-                    ]
-                },
-                {
-                    "name": "预备干员-狙击",
+                    "name": "预备干员-术士",
                     "skill": 0,
                     "recruit_priority": 100,
                     "promote_priority": 0,
                     "is_alternate": true
-                },                
-                {
-                    "name": "史都华德",
-                    "skill": 1,
-                    "recruit_priority": 500,
-                    "promote_priority": 0
                 },
                 {
-                    "name": "梓兰",
-                    "skill": 1,
-                    "is_key": true,
-                    "recruit_priority": 509,
-                    "promote_priority": 0
-                },
-                {
-                    "name": "预备干员-术师",
+                    "name": "预备干员-狙击",
                     "skill": 0,
                     "recruit_priority": 100,
                     "promote_priority": 0,
@@ -4165,8 +3779,7 @@
         "斯卡蒂的海嗣": {
             "opers": [    
                 {
-                    "name": "斯卡蒂的海嗣"
-                   
+                    "name": "斯卡蒂的海嗣"                   
                 }
             ]
         },
