@@ -4881,6 +4881,11 @@
         ]
     },
     "WBChapterToWB": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "CASE INVESTIGATION",
+            "ONSITE"
+        ],
         "roi": [
             1034,
             595,
