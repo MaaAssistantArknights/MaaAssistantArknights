@@ -2536,6 +2536,34 @@
             [
                 "Shoddy Flashbang",
                 "劣质闪光弹"
+            ],
+            [
+                "Chongyue",
+                "重岳"
+            ],
+            [
+                "Lin",
+                "林"
+            ],
+            [
+                "Roadblocks",
+                "城防路障"
+            ],
+            [
+                "Jieyun",
+                "截云"
+            ],
+            [
+                "Firewhistle",
+                "火哨"
+            ],
+            [
+                "Mire Controller",
+                "地形增伤控制"
+            ],
+            [
+                "Shanhaizhong Cipher Machine",
+                "山海密语仪"
             ]
         ]
     },
@@ -4844,6 +4872,20 @@
     "VisitNextOcr": {
         "text": [
             "Visit Next"
+        ]
+    },
+    "WB-Open": {
+        "text": [
+            "Event <Where Vernal Winds Will Never",
+            "Blow> is now open"
+        ]
+    },
+    "WBChapterToWB": {
+        "roi": [
+            1034,
+            595,
+            246,
+            125
         ]
     }
 }
