@@ -1006,7 +1006,7 @@
                 "月禾"
             ],
             [
-                "I?stina",
+                "[Ii]?stina",
                 "Istina"
             ],
             [
@@ -1606,7 +1606,7 @@
                 "艾雅法拉"
             ],
             [
-                "I?frit",
+                "[Ii]?frit",
                 "Ifrit"
             ],
             [
@@ -2118,7 +2118,7 @@
                 "伦蒂尼姆城防副炮"
             ],
             [
-                "I?rene",
+                "[Ii]?rene",
                 "Irene"
             ],
             [
@@ -4881,6 +4881,11 @@
         ]
     },
     "WBChapterToWB": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "CASE INVESTIGATION",
+            "ONSITE"
+        ],
         "roi": [
             1034,
             595,
