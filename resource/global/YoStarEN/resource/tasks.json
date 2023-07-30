@@ -1,195 +1,4 @@
 {
-    "SSSBegin": {
-        "text": [
-            "Start security operation"
-        ],
-        "roi": [
-            970,
-            601,
-            277,
-            119
-        ]
-    },
-    "SSSDebuffConfirm": {
-        "text": [
-            "Confirm Completion"
-        ],
-        "roi": [
-            1034,
-            602,
-            227,
-            118
-        ]
-    },
-    "SSSBuffChoose": {
-        "ocrReplace": [
-            [
-                ".*girian Oscilloscope",
-                "阿戈尔示波器"
-            ],
-            [
-                "Adaptive Supply Component",
-                "自适应补给元件"
-            ],
-            [
-                "Eunectes' *Beacon",
-                "丛林用示踪信标"
-            ],
-            [
-                "Coating Device Conduction Valve",
-                "镀膜装置导能阀"
-            ]
-        ]
-    },
-    "SSSBuffChooseConfirm": {
-        "text": [
-            "Confirm Selection"
-        ],
-        "roi": [
-            1037,
-            600,
-            223,
-            120
-        ]
-    },
-    "SSSEquipmentConfirm": {
-        "text": [
-            "Confirm Equipment",
-            "Confirm Eguipment"
-        ],
-        "roi": [
-            1040,
-            602,
-            219,
-            118
-        ]
-    },
-    "SSSTeamConfirm": {
-        "text": [
-            "View squad"
-        ],
-        "roi": [
-            992,
-            576,
-            288,
-            144
-        ]
-    },
-    "SSSStageNameOCR": {
-        "roi": [
-            121,
-            263,
-            188,
-            50
-        ],
-        "ocrReplace": [
-            [
-                "Jungle Greetings",
-                "丛林式寒暄"
-            ],
-            [
-                "Biodiversity",
-                "生物多样性"
-            ],
-            [
-                "Adaptation",
-                "习以为常"
-            ],
-            [
-                "Glade",
-                "林间空地"
-            ],
-            [
-                "Not Letting Go",
-                "纠缠不休"
-            ],
-            [
-                "Man And Nature",
-                "人与自然"
-            ],
-            [
-                "The Swarming Masses",
-                "蜂拥而上"
-            ],
-            [
-                "Passing Down the Profit",
-                "见者有份"
-            ],
-            [
-                "Industrial Improvement",
-                "产业升级"
-            ],
-            [
-                "Bad Company",
-                "同流合污"
-            ],
-            [
-                "Tipsy Trip",
-                "酩酊之旅"
-            ],
-            [
-                "A Piece of Steak",
-                "一块肉排"
-            ]
-        ]
-    },
-    "SSSStartFighting": {
-        "text": [
-            "Begin Deployment",
-            "Redeploy"
-        ],
-        "roi": [
-            1038,
-            602,
-            221,
-            118
-        ]
-    },
-    "SSSStartFighting2": {
-        "text": [
-            "Start"
-        ],
-        "roi": [
-            992,
-            576,
-            288,
-            144
-        ]
-    },
-    "SSSDropRecruitmentFlag": {
-        "text": [
-            "Choose an Operator",
-            "Select",
-            "Conductive",
-            "Unit"
-        ]
-    },
-    "SSSDropRecruitmentOCR": {
-        "baseTask": "CharsNameOcrReplace",
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "text": [],
-        "cache": false,
-        "roi": [
-            0,
-            352,
-            1280,
-            263
-        ],
-        "postDelay": 1000
-    },
-    "SSSDropRecruitmentConfirm": {
-        "text": [
-            "Confirm assignment",
-            "Confirm Selection"
-        ],
-        "roi": [
-            1105,
-            525,
-            175,
-            140
-        ]
-    },
     "Award": {
         "roi": [
             700,
@@ -199,7 +8,7 @@
         ],
         "template": "Task.png"
     },
-        "BattleQuickFormationExpandRole": {
+    "BattleQuickFormationExpandRole": {
         "roi": [
             1166,
             0,
@@ -4967,6 +4776,198 @@
             ]
         ]
     },
+    "SSSBegin": {
+        "roi": [
+            970,
+            601,
+            277,
+            119
+        ],
+        "text": [
+            "Start security operation"
+        ]
+    },
+    "SSSBuffChoose": {
+        "ocrReplace": [
+            [
+                ".*girian Oscilloscope",
+                "阿戈尔示波器"
+            ],
+            [
+                "Adaptive Supply Component",
+                "自适应补给元件"
+            ],
+            [
+                "Eunectes' *Beacon",
+                "丛林用示踪信标"
+            ],
+            [
+                "Coating Device Conduction Valve",
+                "镀膜装置导能阀"
+            ]
+        ]
+    },
+    "SSSBuffChooseConfirm": {
+        "roi": [
+            1037,
+            600,
+            223,
+            120
+        ],
+        "text": [
+            "Confirm Selection"
+        ]
+    },
+    "SSSDebuffConfirm": {
+        "roi": [
+            1034,
+            602,
+            227,
+            118
+        ],
+        "text": [
+            "Confirm Completion"
+        ]
+    },
+    "SSSDropRecruitmentConfirm": {
+        "roi": [
+            1105,
+            525,
+            175,
+            140
+        ],
+        "text": [
+            "Confirm assignment",
+            "Confirm Selection"
+        ]
+    },
+    "SSSDropRecruitmentFlag": {
+        "text": [
+            "Choose an Operator",
+            "Select",
+            "Conductive",
+            "Unit"
+        ]
+    },
+    "SSSDropRecruitmentOCR": {
+        "action": "DoNothing",
+        "algorithm": "OcrDetect",
+        "baseTask": "CharsNameOcrReplace",
+        "cache": false,
+        "postDelay": 1000,
+        "roi": [
+            0,
+            352,
+            1280,
+            263
+        ],
+        "text": [
+        ]
+    },
+    "SSSEquipmentConfirm": {
+        "roi": [
+            1040,
+            602,
+            219,
+            118
+        ],
+        "text": [
+            "Confirm Equipment",
+            "Confirm Eguipment"
+        ]
+    },
+    "SSSStageNameOCR": {
+        "ocrReplace": [
+            [
+                "Jungle Greetings",
+                "丛林式寒暄"
+            ],
+            [
+                "Biodiversity",
+                "生物多样性"
+            ],
+            [
+                "Adaptation",
+                "习以为常"
+            ],
+            [
+                "Glade",
+                "林间空地"
+            ],
+            [
+                "Not Letting Go",
+                "纠缠不休"
+            ],
+            [
+                "Man And Nature",
+                "人与自然"
+            ],
+            [
+                "The Swarming Masses",
+                "蜂拥而上"
+            ],
+            [
+                "Passing Down the Profit",
+                "见者有份"
+            ],
+            [
+                "Industrial Improvement",
+                "产业升级"
+            ],
+            [
+                "Bad Company",
+                "同流合污"
+            ],
+            [
+                "Tipsy Trip",
+                "酩酊之旅"
+            ],
+            [
+                "A Piece of Steak",
+                "一块肉排"
+            ]
+        ],
+        "roi": [
+            121,
+            263,
+            188,
+            50
+        ]
+    },
+    "SSSStartFighting": {
+        "roi": [
+            1038,
+            602,
+            221,
+            118
+        ],
+        "text": [
+            "Begin Deployment",
+            "Redeploy"
+        ]
+    },
+    "SSSStartFighting2": {
+        "roi": [
+            992,
+            576,
+            288,
+            144
+        ],
+        "text": [
+            "Start"
+        ]
+    },
+    "SSSTeamConfirm": {
+        "roi": [
+            992,
+            576,
+            288,
+            144
+        ],
+        "text": [
+            "View squad"
+        ]
+    },
     "ShamareThumbnail1": {
         "maskRange": [
             1,
@@ -5053,15 +5054,15 @@
     },
     "WBChapterToWB": {
         "algorithm": "OcrDetect",
-        "text": [
-            "CASE INVESTIGATION",
-            "ONSITE"
-        ],
         "roi": [
             1034,
             595,
             246,
             125
+        ],
+        "text": [
+            "CASE INVESTIGATION",
+            "ONSITE"
         ]
     }
 }
