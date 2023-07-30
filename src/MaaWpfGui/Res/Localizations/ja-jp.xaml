@@ -403,7 +403,8 @@
     <system:String x:Key="GachaTip15">耳を澄ませてください、もう悲鳴は聴こえません。これが幸福と平和が訪れる前の静けさというものでしょう。</system:String>
     <system:String x:Key="GachaTip16">人類の戦争に終わりがなくとも……今回ばかりは、命の尊厳を守り通すことができました。撤退しましょう、胸を張って堂々と。</system:String>
     <system:String x:Key="GachaTip17">この角で家具を倒してしまわないよう、気をつけますね。</system:String>
-    <system:String x:Key="GachaDisclaimer">これはシミュレーションではなく、本物のガチャです！！！</system:String>
+    <system:String x:Key="GachaDisclaimerHead">これは、</system:String>
+    <system:String x:Key="GachaDisclaimerEmphasize">本物のガチャです</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">理解した</system:String>
     <system:String x:Key="GachaShowDisclaimerNoMore">再度表示しない</system:String>
     <!--  Listen, the wailing has stopped. This is the calm before the happy peace arrives.  -->

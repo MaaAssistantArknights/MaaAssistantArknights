@@ -404,7 +404,8 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="GachaTip15">들어봐, 울음소리가 멈췄어. 이것은 행복한 평화가 도래하기 전의 평온한 순간이야.</system:String>
     <system:String x:Key="GachaTip16">인간의 전쟁이 끝나지 않더라도……이 순간, 우리는 우리 삶의 존엄성을 지켰습니다. 떠나세요. 하지만 기뻐하며 떠나세요.</system:String>
     <system:String x:Key="GachaTip17">이 구석은 가구를 실수로 넘어뜨릴 수도 있으니, 최대한 조심하겠습니다.</system:String>
-    <system:String x:Key="GachaDisclaimer">정말로 헤드헌팅을 진행하게 될 겁니다! 시뮬레이션이 아닙니다!!!</system:String>
+    <system:String x:Key="GachaDisclaimerHead">이것이</system:String>
+    <system:String x:Key="GachaDisclaimerEmphasize">진정한 뽑기입니다</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">확인했습니다.</system:String>
     <system:String x:Key="GachaShowDisclaimerNoMore">다시 보지 않기</system:String>
     <!--  Even if human wars have no end... at this moment, we have guarded the dignity of our lives. Leave. But leave with your head held high.  -->
