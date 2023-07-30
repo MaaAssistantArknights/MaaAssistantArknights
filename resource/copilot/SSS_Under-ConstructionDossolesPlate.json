@@ -3,50 +3,56 @@
     "stage_name": "Under-Construction Dossoles Plate",
     "minimum_required": "v4.9.0",
     "doc": {
-        "title": "多索雷斯保全(应急同样适用)",
+        "title": "Under-Construction Dossoles Plate",
         "title_color": "dark",
-        "details": "作者:YueShen\n多索雷斯保全(应急同样适用)\n选镀膜装置导能阀\n尽量带档二先锋1技能\n要手动编队\n有问题群里找管理咕咕咕",
+        "details": "Author: YueShen\nAdaptation: Constrat\nUnder-Construction Dossoles Plate\nCoating Device Construction Valve\nBring block 2 vanguard with skill 1\nManual formation required\nIf you have questions please contact the devs",
         "details_color": "dark"
     },
     "buff": "镀膜装置导能阀",
     "equipment": [
-        "A", "A", "A", "A",
-        "A", "A", "A", "A"
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A"
     ],
-    "strategy": "优选策略",
+    "strategy": "Main Strategy",
     "opers": [
         {
-            "name": "棘刺",
+            "name": "Thorns",
             "skill": 3,
             "skill_usage": 1
         },
         {
-            "name": "泥岩",
+            "name": "Mudrock",
             "skill": 2,
             "skill_usage": 0
         },
         {
-            "name": "桃金娘",
+            "name": "Myrtle",
             "skill": 1,
             "skill_usage": 1
         },
         {
-            "name": "煌",
+            "name": "Blaze",
             "skill": 2,
             "skill_usage": 0
         },
         {
-            "name": "塞雷娅",
+            "name": "Saria",
             "skill": 1,
             "skill_usage": 0
         }
     ],
     "tool_men": {
-        "先锋": 1,
-        "近卫": 2,
-        "辅助": 7,
-        "重装": 2,
-        "术士": 3
+        "Vanguard": 1,
+        "Guard": 2,
+        "Supporter": 7,
+        "Defender": 2,
+        "Caster": 3
     },
     "drops": [
         "近卫",

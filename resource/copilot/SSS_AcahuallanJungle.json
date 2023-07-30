@@ -3,9 +3,9 @@
     "stage_name": "Acahuallan Jungle",
     "minimum_required": "v4.9.0",
     "doc": {
-        "title": "保全阿卡胡拉丛林-泥岩水月拉普兰德（兼容应急）",
+        "title": "Acahuallan Jungle - Mudrock Mizuki Lappland",
         "title_color": "dark",
-        "details": "目前只能手动编队，请尽量选择练度高费用低的干员\n请选择能回费的挡二先锋（推王除外）、阻挡数高的重装和近卫，梅尔不要选择二技能，推荐带一个三技能艾丽妮\n\n请在确认导能原件选择了第三个、战术装备全选A、手动编队并阵容确认后，再点击开始\n\n作业：萧然q\nBV1KK411z7t9\n搬运自：作业搬运工",
+        "details": "Form a manual team with high level operators and low DP cost. \nPlease choose vanguards that generate DP and with block 2 (Don't use Siege), high block defenders, and melee guard.\n\nDon't use May's 2nd skill, it's recommended to bring an Irene with 3rd skill.\nUse the third equipment and all A. Manual formation => Click Start\n\n作业: 萧然q\nBV1KK411z7t9\n搬运自: 作业搬运工\nAdaptation: Constrat",
         "details_color": "dark"
     },
     "buff": "丛林用示踪信标",
@@ -19,30 +19,30 @@
         "A",
         "A"
     ],
-    "strategy": "优选策略",
+    "strategy": "Main Strategy",
     "opers": [
         {
-            "name": "泥岩",
+            "name": "Mudrock",
             "skill": 2,
             "skill_usage": 0
         },
         {
-            "name": "水月",
+            "name": "Mizuki",
             "skill": 1,
             "skill_usage": 0
         },
         {
-            "name": "拉普兰德",
+            "name": "Lappland",
             "skill": 2,
             "skill_usage": 0
         }
     ],
     "tool_men": {
-        "先锋": 3,
-        "近卫": 5,
-        "重装": 3,
-        "医疗": 2,
-        "辅助": 4
+        "Vanguard": 3,
+        "Guard": 5,
+        "Defender": 3,
+        "Medic": 2,
+        "Supporter": 4
     },
     "drops": [
         "无需增调干员",
