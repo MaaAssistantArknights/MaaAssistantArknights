@@ -1682,9 +1682,6 @@
             "可放置角色"
         ]
     },
-    "Phantom@Roguelike@StageEncounterOptionUnknown": {
-        "templThreshold": 0.95
-    },
     "RecruitFlag": {
         "text": [
             "公開招募"
@@ -3410,6 +3407,37 @@
                 "燈火",
                 "灯火"
             ]
+        ]
+    },
+    "Phantom@Roguelike@StageEncounterOptionUnknown": {
+        "templThreshold": 0.95
+    },
+    "Roguelike@StageTraderInvestSystemFull": {
+        "text": [
+            "當前儲備餘額已達上限",
+            "當前",
+            "上限"
+        ]
+    },
+	"Phantom@Roguelike@NextLevel": {
+        "text": [
+           "迷霧歧途",
+		   "落陽庭院",
+		   "故土殘軀",
+		   "噩夢之始",
+		   "血月長廊",
+		   "渴欲大廳"
+        ]
+    },
+	"Mizuki@Roguelike@NextLevel": {
+        "text": [
+			"天光海岸",
+			"離岸孤島",
+			"波濤略地",
+			"隱秘溫床",
+			"失塵岩洞",
+			"幽海叢林",
+			"紺碧搖籃"
         ]
     },
     "SN-Chapter2": {
