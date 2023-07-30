@@ -3494,5 +3494,17 @@
             "今日參與",
             "已達上限"
         ]
+    },
+    "GachaOncePrefix@DoGacha": {
+        "text": [
+            "尋訪一次",
+            "訪一次"
+        ]
+    },
+    "GachaTenTimesPrefix@DoGacha": {
+        "text": [
+            "尋訪十次",
+            "訪十次"
+        ]
     }
 }

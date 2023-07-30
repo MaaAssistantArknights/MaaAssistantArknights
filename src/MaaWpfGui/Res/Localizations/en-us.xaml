@@ -405,7 +405,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="GachaTip15">Listen, the wailing has stopped. This is the calm before the happy peace arrives.</system:String>
     <system:String x:Key="GachaTip16">Even if human wars have no end...at this moment, we have guarded the dignity of our lives. Leave. But leave with your head held high.</system:String>
     <system:String x:Key="GachaTip17">This corner may accidentally knock down some furniture, I will try my best to be careful.</system:String>
-    <system:String x:Key="GachaDisclaimer">Note that this is a REAL GACHA! NOT A SIMULATION!</system:String>
+    <system:String x:Key="GachaDisclaimerHead">Note that this is a</system:String>
+    <system:String x:Key="GachaDisclaimerEmphasize">REAL GACHA!</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">Got it</system:String>
     <system:String x:Key="GachaShowDisclaimerNoMore">Don't show again</system:String>
     <!--  再转身回头的时候，我们将带着胜利归来。  -->
