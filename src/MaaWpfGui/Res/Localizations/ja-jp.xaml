@@ -250,7 +250,8 @@
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB再接続失敗時にエミュレータを自動で再起動</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">再接続に20回失敗した後、エミュレータを再起動してみてください，バックグラウンドのタイムドタスクを使用し、終了時にエミュレータを終了させるタスクを設定する場合は、必ずチェックを入れること</system:String>
-    <system:String x:Key="AllowADBRestart">接続失敗後にADBの再起動を試みる</system:String>
+    <system:String x:Key="AllowADBRestart">接続失敗後にADBサーバーの再起動を試みる</system:String>
+    <system:String x:Key="AllowADBHardRestart">接続失敗後にADBプロセスの再起動を試みる</system:String>
     <!--  設定  -->
     <!--  スタート  -->
     <system:String x:Key="Farming">スタート</system:String>
@@ -535,7 +536,8 @@
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">認識結果: </system:String>
     <system:String x:Key="ConnectFailed">接続失敗</system:String>
     <system:String x:Key="TryToStartEmulator">エミュレータを起動しようとしています</system:String>
-    <system:String x:Key="RestartADB">ADBの再起動を試みています</system:String>
+    <system:String x:Key="RestartADB">ADBサーバーの再起動を試みています</system:String>
+    <system:String x:Key="HardRestartADB">ADBプロセスの再起動を試みています</system:String>
     <system:String x:Key="CheckSettings">接続設定を確認するか、エミュレータとADBを再起動するか、コンピューターを再起動してください</system:String>
     <!--  AsstProxy  -->
     <!--  TrayIcon  -->
