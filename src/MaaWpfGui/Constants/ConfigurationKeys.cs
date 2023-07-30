@@ -57,6 +57,7 @@ namespace MaaWpfGui.Constants
         public const string ConnectConfig = "Connect.ConnectConfig";
         public const string RetryOnAdbDisconnected = "Connect.RetryOnDisconnected";
         public const string AllowADBRestart = "Connect.AllowADBRestart";
+        public const string AllowADBHardRestart = "Connect.AllowADBHardRestart";
         public const string AdbLiteEnabled = "Connect.AdbLiteEnabled";
         public const string KillAdbOnExit = "Connect.KillAdbOnExit";
         public const string TouchMode = "Connect.TouchMode";
