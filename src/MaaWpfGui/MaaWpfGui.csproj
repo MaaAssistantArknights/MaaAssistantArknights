@@ -122,6 +122,9 @@
     <PackageReference Include="Vanara.PInvoke.Shell32" Version="3.4.14" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="System.Management" />
+  </ItemGroup>
+  <ItemGroup>
     <Resource Include="newlogo.ico" />
   </ItemGroup>
 </Project>

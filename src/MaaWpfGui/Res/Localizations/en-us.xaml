@@ -251,7 +251,8 @@ At the end of the level, enter 「Normal/Hard」 to switch between Standard and 
     <system:String x:Key="ConnectionPreset">Connection Preset</system:String>
     <system:String x:Key="RetryOnDisconnected">Auto restart emulator when ADB reconnection fails</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">Try restarting the emulator after 20 failed reconnect attempts, must be checked when using a background timed task and setting the task to close the emulator when finished</system:String>
-    <system:String x:Key="AllowADBRestart">Attempt to restart ADB after connection failure</system:String>
+    <system:String x:Key="AllowADBRestart">Attempt to restart ADB Server after connection failure</system:String>
+    <system:String x:Key="AllowADBHardRestart">Attempt to kill and restart ADB process after connection failure</system:String>
     <!--  Settings  -->
     <!--  Farming  -->
     <system:String x:Key="Farming">Farming</system:String>
@@ -405,7 +406,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="GachaTip15">Listen, the wailing has stopped. This is the calm before the happy peace arrives.</system:String>
     <system:String x:Key="GachaTip16">Even if human wars have no end...at this moment, we have guarded the dignity of our lives. Leave. But leave with your head held high.</system:String>
     <system:String x:Key="GachaTip17">This corner may accidentally knock down some furniture, I will try my best to be careful.</system:String>
-    <system:String x:Key="GachaDisclaimer">Note that this is a REAL GACHA! NOT A SIMULATION!</system:String>
+    <system:String x:Key="GachaDisclaimerHead">Note that this is a</system:String>
+    <system:String x:Key="GachaDisclaimerEmphasize">REAL GACHA!</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">Got it</system:String>
     <system:String x:Key="GachaShowDisclaimerNoMore">Don't show again</system:String>
     <!--  再转身回头的时候，我们将带着胜利归来。  -->
@@ -536,7 +538,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identification results: </system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
     <system:String x:Key="TryToStartEmulator">Trying to start the emulator</system:String>
-    <system:String x:Key="RestartADB">Trying to restart the ADB</system:String>
+    <system:String x:Key="RestartADB">Trying to restart the ADB Server</system:String>
+    <system:String x:Key="HardRestartADB">Trying to kill and restart the ADB process</system:String>
     <system:String x:Key="CheckSettings">Please check your connection settings or try restarting the emulator and ADB, or restart your computer</system:String>
     <!--  AsstProxy  -->
     <!--  TrayIcon  -->

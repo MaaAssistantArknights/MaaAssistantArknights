@@ -20,6 +20,7 @@ using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Management;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
@@ -773,6 +774,57 @@ namespace MaaWpfGui.ViewModels.UI
             process.StandardInput.WriteLine($"{adbPath} start-server");
             process.StandardInput.WriteLine("exit");
             process.WaitForExit();
+        }
+
+        /// <summary>
+        /// Kill and restart the ADB (Android Debug Bridge) process.
+        /// </summary>
+        public void HardRestartADB()
+        {
+            if (!AllowADBHardRestart)
+            {
+                return;
+            }
+
+            string adbPath = AdbPath;
+
+            if (string.IsNullOrEmpty(adbPath))
+            {
+                return;
+            }
+
+            // This allows for SQL injection, but since it is not on a real database nothing horrible would happen.
+            // The following query string does what I want, but WMI does not accept it.
+            // var wmiQueryString = string.Format("SELECT ProcessId, CommandLine FROM Win32_Process WHERE ExecutablePath='{0}'", adbPath);
+            var wmiQueryString = "SELECT ProcessId, ExecutablePath, CommandLine FROM Win32_Process";
+            using (var searcher = new ManagementObjectSearcher(wmiQueryString))
+            using (var results = searcher.Get())
+            {
+                var query = from p in Process.GetProcesses()
+                            join mo in results.Cast<ManagementObject>()
+                            on p.Id equals (int)(uint)mo["ProcessId"]
+                            select new
+                            {
+                                Process = p,
+                                Path = (string)mo["ExecutablePath"],
+                            };
+                foreach (var item in query)
+                {
+                    if (item.Path == adbPath)
+                    {
+                        // Some emulators start their adb with administrator privilege.
+                        // Not sure if this is necessary
+                        try
+                        {
+                            item.Process.Kill();
+                            item.Process.WaitForExit();
+                        }
+                        catch
+                        {
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -2315,6 +2367,21 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _allowADBRestart, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.AllowADBRestart, value.ToString());
+            }
+        }
+
+        private bool _allowADBHardRestart = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AllowADBHardRestart, bool.TrueString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to allow for killing adb process.
+        /// </summary>
+        public bool AllowADBHardRestart
+        {
+            get => _allowADBHardRestart;
+            set
+            {
+                SetAndNotify(ref _allowADBHardRestart, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.AllowADBHardRestart, value.ToString());
             }
         }
 
