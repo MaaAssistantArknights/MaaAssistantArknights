@@ -14,8 +14,8 @@
         "deploy_plan": [
             {
                 "groups": ["提丰"],
-                "location": [7, 4],
-                "direction": "left"
+                "location": [4, 1],
+                "direction": "down"
             },
             {
                 "groups": [
@@ -65,9 +65,14 @@
                 "direction": "up"
             },
             {
-                "groups": ["辅助", "狙击", "术师"],
+                "groups": ["狙击", "术师"],
                 "location": [4, 1],
                 "direction": "down"
+            },
+            {
+                "groups": ["辅助", "狙击", "术师"],
+                "location": [5, 3],
+                "direction": "left"
             },
             {
                 "groups": ["焰苇", "群奶"],
