@@ -812,8 +812,16 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     if (item.Path == adbPath)
                     {
-                        item.Process.Kill();
-                        item.Process.WaitForExit();
+                        // Some emulators start their adb with administrator privilege.
+                        // Not sure if this is necessary
+                        try
+                        {
+                            item.Process.Kill();
+                            item.Process.WaitForExit();
+                        }
+                        catch
+                        {
+                        }
                     }
                 }
             }
