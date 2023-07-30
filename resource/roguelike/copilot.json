@@ -7210,15 +7210,16 @@
                 "direction": "left"
             },
             {
-                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
-                "location": [3, 3],
-                "direction": "left"
-            },
-            {
                 "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [4, 2],
                 "direction": "down"
             },
+            {
+                "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
+                "location": [3, 3],
+                "direction": "left"
+            },
+            
             {
                 "groups": ["地面阻挡", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
                 "location": [5, 3],
@@ -7514,7 +7515,12 @@
                 "groups": ["奶" , "凯尔希",  "浊心斯卡蒂"],
                 "location": [2, 2],
                 "direction": "right"
-            },            
+            }, 
+            {
+                "groups": ["梓兰"],
+                "location": [5, 2],
+                "direction": "left"
+            },           
             {
                 "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [4, 2],
@@ -7620,9 +7626,17 @@
         ]
     },
     {
-        "stage_name": "正义", 
+        "stage_name": "正义",
+        "replacement_home": [
+            {
+                "location": [6, 2],
+                "direction": "right"
+            }
+        ], 
         "blacklist_location": [            
-            [8, 1]
+            [8, 1],
+            [8, 2],
+            [8, 3]
         ],              
         "deploy_plan": [
             {
@@ -7641,8 +7655,8 @@
                 "direction": "right"
             }, 
             {
-                "groups": ["奶" , "凯尔希",  "浊心斯卡蒂"],
-                "location": [5, 3],
+                "groups": ["浊心斯卡蒂"],
+                "location": [5, 2],
                 "direction": "up"
             },
             {
@@ -7656,6 +7670,11 @@
                 "direction": "right"
             }, 
             {
+                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
+                "location": [4, 2],
+                "direction": "left"
+            },
+            {
                 "groups": ["炮灰","地面单切"],
                 "location": [1, 2],
                 "direction": "down"
@@ -7668,11 +7687,6 @@
             {
                 "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
                 "location": [5, 3],
-                "direction": "right"
-            },
-            {
-                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
-                "location": [5, 2],
                 "direction": "right"
             }
         ]
@@ -8523,7 +8537,7 @@
                 "direction": "left"
             },
             {
-                "location": [2,7],
+                "location": [2, 7],
                 "direction": "right"
             }
         ],
@@ -8553,7 +8567,7 @@
                 "direction": "left"
             }, 
             {
-                "groups": ["浊心斯卡蒂", "凯尔希","奶"],
+                "groups": [ "凯尔希","奶","浊心斯卡蒂"],
                 "location": [1, 7],
                 "direction": "right"
             },            
@@ -8568,12 +8582,12 @@
                 "direction": "left"
             }, 
             {
-                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ,"浊心斯卡蒂", "凯尔希","奶"],
+                "groups": ["高台C",  "高台输出","梓兰", "凯尔希","奶", "高台预备"],
                 "location": [6, 7],
                 "direction": "left"
             },
             {
-                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ,"浊心斯卡蒂", "凯尔希","奶"],
+                "groups": ["高台C",  "高台输出","梓兰", "凯尔希","奶", "高台预备"],
                 "location": [1, 6],
                 "direction": "right"
             },
@@ -9884,13 +9898,9 @@
                 "direction": "up"
             },
             {
-                "location": [5, 4],
-                "direction": "right"
-            },
-            {
-                "location": [3, 2],
-                "direction": "right"
-            },
+                "location": [3, 4],
+                "direction": "up"
+            },            
             {
                 "location": [1, 5],
                 "direction": "right"
@@ -9951,7 +9961,7 @@
                 "direction": "right"
             },
             {
-                "groups": ["高台C",  "高台输出","梓兰", "高台预备" ],
+                "groups": ["高台C",  "高台输出"],
                 "location": [2, 2],
                 "direction": "right"
             },
@@ -9968,13 +9978,13 @@
                 "condition": [ 38, 40 ] 
             },
             {
-                "groups": ["史尔特尔", "地面单切", "炮灰","地面阻挡"],
+                "groups": ["史尔特尔", "地面单切","地面阻挡","银灰", "炮灰"],
                 "location": [4, 1],
                 "direction": "right",                
                 "condition": [ 43, 45 ] 
             },
             {
-                "groups": ["史尔特尔", "地面单切", "炮灰","地面阻挡"],
+                "groups": ["史尔特尔", "地面单切","地面阻挡","炮灰"],
                 "location": [3, 1],
                 "direction": "right",               
                 "condition": [ 45, 46 ] 
@@ -9993,6 +10003,16 @@
                 "location": [2, 2],
                 "condition": [ 43, 44 ] 
             }        
+        ]
+    },
+    {
+        "stage_name": "鸭爵的戏剧",               
+        "deploy_plan": [
+            {
+                "groups": ["棘刺"],
+                "location": [9, 2],
+                "direction": "left"
+            }
         ]
     },
     {
