@@ -1561,6 +1561,18 @@
             "任務失敗"
         ]
     },
+    "GachaOncePrefix@DoGacha": {
+        "text": [
+            "尋訪一次",
+            "訪一次"
+        ]
+    },
+    "GachaTenTimesPrefix@DoGacha": {
+        "text": [
+            "尋訪十次",
+            "訪十次"
+        ]
+    },
     "GoLastBattle": {
         "text": [
             "前往上一次作戰"
@@ -1646,6 +1658,17 @@
             "採"
         ]
     },
+    "Mizuki@Roguelike@NextLevel": {
+        "text": [
+            "天光海岸",
+            "離岸孤島",
+            "波濤略地",
+            "隱秘溫床",
+            "失塵岩洞",
+            "幽海叢林",
+            "紺碧搖籃"
+        ]
+    },
     "NL-Open": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
@@ -1681,6 +1704,19 @@
         "text": [
             "可放置角色"
         ]
+    },
+    "Phantom@Roguelike@NextLevel": {
+        "text": [
+            "迷霧歧途",
+            "落陽庭院",
+            "故土殘軀",
+            "噩夢之始",
+            "血月長廊",
+            "渴欲大廳"
+        ]
+    },
+    "Phantom@Roguelike@StageEncounterOptionUnknown": {
+        "templThreshold": 0.95
     },
     "RecruitFlag": {
         "text": [
@@ -1848,6 +1884,13 @@
     "Roguelike@RecruitSupportConfirm": {
         "text": [
             "招募助戰"
+        ]
+    },
+    "Roguelike@StageTraderInvestSystemFull": {
+        "text": [
+            "當前儲備餘額已達上限",
+            "當前",
+            "上限"
         ]
     },
     "RoguelikeChooseSupportBtnOcr": {
@@ -3409,37 +3452,6 @@
             ]
         ]
     },
-    "Phantom@Roguelike@StageEncounterOptionUnknown": {
-        "templThreshold": 0.95
-    },
-    "Roguelike@StageTraderInvestSystemFull": {
-        "text": [
-            "當前儲備餘額已達上限",
-            "當前",
-            "上限"
-        ]
-    },
-	"Phantom@Roguelike@NextLevel": {
-        "text": [
-           "迷霧歧途",
-		   "落陽庭院",
-		   "故土殘軀",
-		   "噩夢之始",
-		   "血月長廊",
-		   "渴欲大廳"
-        ]
-    },
-	"Mizuki@Roguelike@NextLevel": {
-        "text": [
-			"天光海岸",
-			"離岸孤島",
-			"波濤略地",
-			"隱秘溫床",
-			"失塵岩洞",
-			"幽海叢林",
-			"紺碧搖籃"
-        ]
-    },
     "SN-Chapter2": {
         "next": [
             "SN-Chapter2",
@@ -3493,18 +3505,6 @@
         "text": [
             "今日參與",
             "已達上限"
-        ]
-    },
-    "GachaOncePrefix@DoGacha": {
-        "text": [
-            "尋訪一次",
-            "訪一次"
-        ]
-    },
-    "GachaTenTimesPrefix@DoGacha": {
-        "text": [
-            "尋訪十次",
-            "訪十次"
         ]
     }
 }
