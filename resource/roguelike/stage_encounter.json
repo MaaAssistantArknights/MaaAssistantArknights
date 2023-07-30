@@ -740,7 +740,7 @@
         },
         "石中剑": {
             "option_num": 3,
-            "choose": 3
+            "choose": 1
         },
         "被困的人": {
             "option_num": 2,
@@ -756,15 +756,15 @@
         },
         "受缚之血": {
             "option_num": 2,
-            "choose": 2
+            "choose": 1
         },
         "幽影狂言": {
             "option_num": 2,
-            "choose": 2
+            "choose": 1
         },
         "艺术与疯狂": {
             "option_num": 2,
-            "choose": 2
+            "choose": 1
         },
         "鸭爵主演": {
             "option_num": 2,
@@ -784,19 +784,19 @@
         },
         "邪恶之棺": {
             "option_num": 2,
-            "choose": 2
+            "choose": 1
         },
         "以血还血": {
             "option_num": 3,
-            "choose": 3
+            "choose": 2
         },
         "暗门": {
             "option_num": 2,
-            "choose": 2
+            "choose": 1
         },
         "密室": {
             "option_num": 2,
-            "choose": 1
+            "choose": 2
         },
         "废品地摊": {
             "option_num": 3,
@@ -804,19 +804,31 @@
         },
         "鉴赏家": {
             "option_num": 4,
-            "choose": 4
+            "choose": 1
         },
         "解脱": {
             "option_num": 2,
             "choose": 2
         },
+        "疯狂玩偶": {
+            "option_num": 2,
+            "choose": 1
+        },
         "赴宴": {
             "option_num": 2,
             "choose": 2
         },
+        "追随者集会": {
+            "option_num": 2,
+            "choose": 1
+        },
         "别打扰他们": {
             "option_num": 2,
-            "choose": 2
+            "choose": 1
+        },
+        "复仇剧": {
+            "option_num": 2,
+            "choose": 1
         },
         "安全的角落": {
             "option_num": 3,
