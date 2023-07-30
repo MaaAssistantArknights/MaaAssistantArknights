@@ -250,7 +250,8 @@
     <system:String x:Key="ConnectionPreset">連接配置</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB 重連失敗時自動重啟模擬器</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">重連失敗 20 次後嘗試重啟模擬器，使用後台定時任務且設定任務完成關閉模擬器時必須勾選</system:String>
-    <system:String x:Key="AllowADBRestart">連接失敗後嘗試重啟 ADB</system:String>
+    <system:String x:Key="AllowADBRestart">連接失敗後嘗試重啟 ADB 伺服器</system:String>
+    <system:String x:Key="AllowADBHardRestart">連接失敗後嘗試重啟 ADB 行程</system:String>
     <!--  設定  -->
     <!--  一鍵長草  -->
     <system:String x:Key="Farming">一鍵長草</system:String>
@@ -404,7 +405,8 @@
     <system:String x:Key="GachaTip15">聽啊，悲鳴停止了。這是幸福的和平到來前的寧靜。</system:String>
     <system:String x:Key="GachaTip16">縱使人類的戰爭沒盡頭……在這一刻，我們守護住了自己生的尊嚴。離開吧。但要昂首挺胸。</system:String>
     <system:String x:Key="GachaTip17">這對角可能會不小心撞倒些傢俱，我會盡量小心。</system:String>
-    <system:String x:Key="GachaDisclaimer">請注意，這是真的抽卡！不是模擬！！！</system:String>
+    <system:String x:Key="GachaDisclaimerHead">請注意，這是</system:String>
+    <system:String x:Key="GachaDisclaimerEmphasize">真正的抽卡</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">知道了</system:String>
     <system:String x:Key="GachaShowDisclaimerNoMore">下次不再提示</system:String>
     <!--  日誌  -->
@@ -535,7 +537,8 @@
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">辨識結果: </system:String>
     <system:String x:Key="ConnectFailed">連接失敗</system:String>
     <system:String x:Key="TryToStartEmulator">正在嘗試啟動模擬器</system:String>
-    <system:String x:Key="RestartADB">正在嘗試重啟 ADB</system:String>
+    <system:String x:Key="RestartADB">正在嘗試重啟 ADB 伺服器</system:String>
+    <system:String x:Key="HardRestartADB">正在嘗試重啟 ADB 行程</system:String>
     <system:String x:Key="CheckSettings">請檢查連接設定或嘗試重啟模擬器與 ADB 或重啟電腦</system:String>
     <!--  About  -->
     <!--  AutoRecruitSettings  -->
