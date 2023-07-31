@@ -1155,17 +1155,25 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>是否关闭成功</returns>
         public bool KillEmulatorModeSwitcher()
         {
-            string emulatorMode = Instances.SettingsViewModel.ConnectConfig;
-            Instances.AsstProxy.Connected = false;
-            return emulatorMode switch
+            try
             {
-                "Nox" => KillEmulatorNox(),
-                "LDPlayer" => KillEmulatorLDPlayer(),
-                "XYAZ" => KillEmulatorXYAZ(),
-                "BlueStacks" => KillEmulatorBlueStacks(),
-                "MuMuEmulator12" => KillEmulatorMuMuEmulator12(),
-                _ => KillEmulatorbyWindow(),
-            };
+                string emulatorMode = Instances.SettingsViewModel.ConnectConfig;
+                Instances.AsstProxy.Connected = false;
+                return emulatorMode switch
+                {
+                    "Nox" => KillEmulatorNox(),
+                    "LDPlayer" => KillEmulatorLDPlayer(),
+                    "XYAZ" => KillEmulatorXYAZ(),
+                    "BlueStacks" => KillEmulatorBlueStacks(),
+                    "MuMuEmulator12" => KillEmulatorMuMuEmulator12(),
+                    _ => KillEmulatorbyWindow(),
+                };
+            }
+            catch (Exception e)
+            {
+                _logger.Error("Failed to close emulator: " + e.Message);
+                return false;
+            }
         }
 
         /// <summary>
