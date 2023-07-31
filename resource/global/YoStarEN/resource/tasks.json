@@ -2502,8 +2502,12 @@
                 "镀膜装置导能阀"
             ],
             [
-                "Redeployment Conduct.*",
+                "Redeployment Conduction.*",
                 "重整导能组件"
+            ],
+            [
+                "Counter Conduction.*",
+                "反制导能组件"
             ],
             [
                 "Eunectes' *Beacon",
