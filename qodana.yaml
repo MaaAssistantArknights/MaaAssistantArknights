@@ -23,6 +23,7 @@ exclude:
       - vsts/lib
       - vsts/QodanaScan
       - src/MaaWpfGui/Views
+      - src/MaaCore
   - name: CppUnreachableCode
   - name: CppUnusedIncludeDirective
   - name: Xaml.RedundantNamespaceAlias
