@@ -51,15 +51,19 @@ std::shared_ptr<asst::TaskInfo> asst::TaskData::get(std::string_view name)
     return expand_task(name, get_raw(name)).value_or(nullptr);
 }
 
+#ifndef ASST_DEBUG
 const bool forcedReloadResource = std::ifstream("DEBUG").good() || std::ifstream("DEBUG.txt").good();
+#endif // !ASST_DEBUG
 
 bool asst::TaskData::parse(const json::value& json)
 {
     LogTraceFunction;
-
+    
+#ifndef ASST_DEBUG
     if (forcedReloadResource) {
         m_all_tasks_info.clear();
     }
+#endif // !ASST_DEBUG
 
     const auto& json_obj = json.as_object();
 
@@ -236,6 +240,7 @@ bool asst::TaskData::parse(const json::value& json)
         }
         if (!validity) return false;
     }
+    m_all_tasks_info.clear();
 #endif
     return true;
 }
