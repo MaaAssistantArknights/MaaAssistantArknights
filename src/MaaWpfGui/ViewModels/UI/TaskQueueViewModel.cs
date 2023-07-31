@@ -758,7 +758,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             // 尝试启动模拟器
-            if (!connected && Instances.SettingsViewModel.StartEmulator)
+            if (!connected && Instances.SettingsViewModel.RetryOnDisconnected)
             {
                 AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToStartEmulator"));
 
