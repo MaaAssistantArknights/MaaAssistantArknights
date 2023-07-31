@@ -291,12 +291,56 @@
                     VerticalAlignment="Center"
                     Orientation="Vertical"
                     Visibility="{c:Binding GachaShowDisclaimer}">
-                    <controls:TextBlock
-                        Margin="50"
-                        FontSize="24"
-                        Style="{StaticResource TextBlockDefaultBold}"
-                        Text="{DynamicResource GachaDisclaimer}"
-                        TextWrapping="Wrap" />
+                    <StackPanel
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+                        <controls:TextBlock
+                            Margin="50,50,0,50"
+                            FontSize="24"
+                            Style="{StaticResource TextBlockDefaultBold}"
+                            Text="{DynamicResource GachaDisclaimerHead}"
+                            TextWrapping="Wrap" />
+                        <controls:TextBlock
+                            Margin="10,50,50,50"
+                            FontSize="40"
+                            Style="{StaticResource TextBlockDefaultBold}"
+                            Text="{DynamicResource GachaDisclaimerEmphasize}"
+                            TextWrapping="Wrap">
+                            <controls:TextBlock.Foreground>
+                                <LinearGradientBrush SpreadMethod="Repeat">
+                                    <LinearGradientBrush.Transform>
+                                        <TranslateTransform x:Name="LinearGradientBrushTranslate" />
+                                    </LinearGradientBrush.Transform>
+                                    <LinearGradientBrush.GradientStops>
+                                        <GradientStop Offset="0.00" Color="Red" />
+                                        <GradientStop Offset="0.17" Color="Orange" />
+                                        <GradientStop Offset="0.33" Color="Yellow" />
+                                        <GradientStop Offset="0.50" Color="Green" />
+                                        <GradientStop Offset="0.67" Color="Blue" />
+                                        <GradientStop Offset="0.83" Color="Indigo" />
+                                        <GradientStop Offset="1.00" Color="Violet" />
+                                    </LinearGradientBrush.GradientStops>
+                                </LinearGradientBrush>
+                            </controls:TextBlock.Foreground>
+                            <controls:TextBlock.Triggers>
+                                <EventTrigger RoutedEvent="TextBlock.Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="LinearGradientBrushTranslate" Storyboard.TargetProperty="X" From="0" To="420" Duration="0:0:2" RepeatBehavior="Forever" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </controls:TextBlock.Triggers>
+                            <controls:TextBlock.Effect>
+                                <DropShadowEffect 
+                                ShadowDepth="5" 
+                                BlurRadius="8" 
+                                Color="Black" 
+                                Direction="90"
+                                Opacity="0.6" />
+                            </controls:TextBlock.Effect>
+                        </controls:TextBlock>
+                    </StackPanel>
                     <Button
                         Width="110"
                         Height="60"

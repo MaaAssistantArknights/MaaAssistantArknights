@@ -1430,7 +1430,7 @@
                 "泡泡"
             ],
             [
-                "Eunectes",
+                "^Eunectes$",
                 "森蚺"
             ],
             [
@@ -1606,7 +1606,7 @@
                 "艾雅法拉"
             ],
             [
-                "I?frit",
+                "[Ii]?frit",
                 "Ifrit"
             ],
             [
@@ -2118,7 +2118,7 @@
                 "伦蒂尼姆城防副炮"
             ],
             [
-                "I?rene",
+                "[Ii]?rene",
                 "Irene"
             ],
             [
@@ -2482,7 +2482,7 @@
                 "谜图"
             ],
             [
-                "Ægirian Oscilloscope",
+                ".*girian Oscilloscope",
                 "阿戈尔示波器"
             ],
             [
@@ -2498,22 +2498,6 @@
                 "沼泽控制"
             ],
             [
-                "Ægirian Oscilloscope",
-                "阿戈尔示波器"
-            ],
-            [
-                "Ægirian Oscilloscope",
-                "阿戈尔示波器"
-            ],
-            [
-                "Adaptive Supply Component",
-                "自适应补给元件"
-            ],
-            [
-                "Adaptive Supply Component",
-                "自适应补给元件"
-            ],
-            [
                 "Coating Device Conduction Valve",
                 "镀膜装置导能阀"
             ],
@@ -2522,11 +2506,7 @@
                 "重整导能组件"
             ],
             [
-                "Coating Device Conduction Valve",
-                "镀膜装置导能阀"
-            ],
-            [
-                "Eunectes' Beacon",
+                "Eunectes' *Beacon",
                 "丛林用示踪信标"
             ],
             [
@@ -2536,6 +2516,34 @@
             [
                 "Shoddy Flashbang",
                 "劣质闪光弹"
+            ],
+            [
+                "Chongyue",
+                "重岳"
+            ],
+            [
+                "Lin",
+                "林"
+            ],
+            [
+                "Roadblocks",
+                "城防路障"
+            ],
+            [
+                "Jieyun",
+                "截云"
+            ],
+            [
+                "Firewhistle",
+                "火哨"
+            ],
+            [
+                "Mire Controller",
+                "地形增伤控制"
+            ],
+            [
+                "Shanhaizhong Cipher Machine",
+                "山海密语仪"
             ]
         ]
     },
@@ -4768,6 +4776,198 @@
             ]
         ]
     },
+    "SSSBegin": {
+        "roi": [
+            970,
+            601,
+            277,
+            119
+        ],
+        "text": [
+            "Start security operation"
+        ]
+    },
+    "SSSBuffChoose": {
+        "ocrReplace": [
+            [
+                ".*girian Oscilloscope",
+                "阿戈尔示波器"
+            ],
+            [
+                "Adaptive Supply Component",
+                "自适应补给元件"
+            ],
+            [
+                "Eunectes' *Beacon",
+                "丛林用示踪信标"
+            ],
+            [
+                "Coating Device Conduction Valve",
+                "镀膜装置导能阀"
+            ]
+        ]
+    },
+    "SSSBuffChooseConfirm": {
+        "roi": [
+            1037,
+            600,
+            223,
+            120
+        ],
+        "text": [
+            "Confirm Selection"
+        ]
+    },
+    "SSSDebuffConfirm": {
+        "roi": [
+            1034,
+            602,
+            227,
+            118
+        ],
+        "text": [
+            "Confirm Completion"
+        ]
+    },
+    "SSSDropRecruitmentConfirm": {
+        "roi": [
+            1105,
+            525,
+            175,
+            140
+        ],
+        "text": [
+            "Confirm assignment",
+            "Confirm Selection"
+        ]
+    },
+    "SSSDropRecruitmentFlag": {
+        "text": [
+            "Choose an Operator",
+            "Select",
+            "Conductive",
+            "Unit"
+        ]
+    },
+    "SSSDropRecruitmentOCR": {
+        "action": "DoNothing",
+        "algorithm": "OcrDetect",
+        "baseTask": "CharsNameOcrReplace",
+        "cache": false,
+        "postDelay": 1000,
+        "roi": [
+            0,
+            352,
+            1280,
+            263
+        ],
+        "text": [
+        ]
+    },
+    "SSSEquipmentConfirm": {
+        "roi": [
+            1040,
+            602,
+            219,
+            118
+        ],
+        "text": [
+            "Confirm Equipment",
+            "Confirm Eguipment"
+        ]
+    },
+    "SSSStageNameOCR": {
+        "ocrReplace": [
+            [
+                "Jungle Greetings",
+                "丛林式寒暄"
+            ],
+            [
+                "Biodiversity",
+                "生物多样性"
+            ],
+            [
+                "Adaptation",
+                "习以为常"
+            ],
+            [
+                "Glade",
+                "林间空地"
+            ],
+            [
+                "Not Letting Go",
+                "纠缠不休"
+            ],
+            [
+                "Man And Nature",
+                "人与自然"
+            ],
+            [
+                "The Swarming Masses",
+                "蜂拥而上"
+            ],
+            [
+                "Passing Down the Profit",
+                "见者有份"
+            ],
+            [
+                "Industrial Improvement",
+                "产业升级"
+            ],
+            [
+                "Bad Company",
+                "同流合污"
+            ],
+            [
+                "Tipsy Trip",
+                "酩酊之旅"
+            ],
+            [
+                "A Piece of Steak",
+                "一块肉排"
+            ]
+        ],
+        "roi": [
+            121,
+            263,
+            188,
+            50
+        ]
+    },
+    "SSSStartFighting": {
+        "roi": [
+            1038,
+            602,
+            221,
+            118
+        ],
+        "text": [
+            "Begin Deployment",
+            "Redeploy"
+        ]
+    },
+    "SSSStartFighting2": {
+        "roi": [
+            992,
+            576,
+            288,
+            144
+        ],
+        "text": [
+            "Start"
+        ]
+    },
+    "SSSTeamConfirm": {
+        "roi": [
+            992,
+            576,
+            288,
+            144
+        ],
+        "text": [
+            "View squad"
+        ]
+    },
     "ShamareThumbnail1": {
         "maskRange": [
             1,
@@ -4844,6 +5044,25 @@
     "VisitNextOcr": {
         "text": [
             "Visit Next"
+        ]
+    },
+    "WB-Open": {
+        "text": [
+            "Event <Where Vernal Winds Will Never",
+            "Blow> is now open"
+        ]
+    },
+    "WBChapterToWB": {
+        "algorithm": "OcrDetect",
+        "roi": [
+            1034,
+            595,
+            246,
+            125
+        ],
+        "text": [
+            "CASE INVESTIGATION",
+            "ONSITE"
         ]
     }
 }
