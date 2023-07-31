@@ -51,9 +51,15 @@ std::shared_ptr<asst::TaskInfo> asst::TaskData::get(std::string_view name)
     return expand_task(name, get_raw(name)).value_or(nullptr);
 }
 
+const bool forcedReloadResource = std::ifstream("DEBUG").good() || std::ifstream("DEBUG.txt").good();
+
 bool asst::TaskData::parse(const json::value& json)
 {
     LogTraceFunction;
+
+    if (forcedReloadResource) {
+        m_all_tasks_info.clear();
+    }
 
     const auto& json_obj = json.as_object();
 
