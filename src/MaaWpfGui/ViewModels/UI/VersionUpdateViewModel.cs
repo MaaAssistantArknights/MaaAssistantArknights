@@ -552,7 +552,7 @@ namespace MaaWpfGui.ViewModels.UI
                         latencies[i] += 648;
                     }
 
-                    if (latencies[selected].Equals(-1.0) || (!latencies[i].Equals(-1.0) && latencies[i] < latencies[selected]))
+                    if (latencies[selected] < 0 || (latencies[i] >= 0 && latencies[i] < latencies[selected]))
                     {
                         selected = i;
                     }
