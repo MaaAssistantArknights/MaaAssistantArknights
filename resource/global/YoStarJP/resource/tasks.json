@@ -2528,6 +2528,34 @@
             [
                 "粗悪なスタングレネード",
                 "劣质闪光弹"
+            ],
+            [
+                "チョンユエ",
+                "重岳"
+            ],
+            [
+                "リン",
+                "林"
+            ],
+            [
+                "都市防衛柵",
+                "城防路障"
+            ],
+            [
+                "ジエユン",
+                "截云"
+            ],
+            [
+                "ファイヤーホイッスル",
+                "火哨"
+            ],
+            [
+                "地形ダメージ制御",
+                "地形增伤控制"
+            ],
+            [
+                "山海密令柱",
+                "山海密语仪"
             ]
         ],
         "replaceFull": true
@@ -2696,6 +2724,15 @@
             203
         ],
         "template": "Mizuki@Roguelike@MissionFailedFlag2.png"
+    },
+    "Mizuki@Roguelike@StageEncounterLeaveConfirm": {
+        "roi": [
+            1063,
+            0,
+            217,
+            700
+        ],
+        "template": "Mizuki@Roguelike@StageEncounterLeaveConfirm.png"
     },
     "NoFriends": {
         "text": [

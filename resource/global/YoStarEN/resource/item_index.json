@@ -951,6 +951,14 @@
         "sortId": 10019,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
+    "LMTGS_COIN_3501": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_3501.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10019,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
@@ -1335,6 +1343,14 @@
         "sortId": -10000,
         "usage": "Pages filled with Taran folksongs and legends, copied down as heard. Collect enough, and you'll be able to trade them with the River Valley Caravan for goods."
     },
+    "act23side_token_spirit": {
+        "classifyType": "NONE",
+        "description": "A Yumen specialty product, high-purity spirit. Beloved by all drinkers, brewed by all brewers. A brew mixed of sandstorms on the border, and sun beating down in the sky and wind on the poplars, one gulp is a throat of blades and a drink of fire, and even the chilliest nights need no longer be feared.",
+        "icon": "act23side_token_spirit.png",
+        "name": "Freshly-Brewed Liedaozi",
+        "sortId": -10000,
+        "usage": "Take a jar of freshly brewed spirit, and trade it with the old smith for a newly-edged sword of fine craft. 'Blood for water, wine for a blade. A close friend crossed by, grace and vengeance all too willing.'"
+    },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
         "description": "Whether it's providing mission feedback, collecting spoils, analyzing materials, facilitating communications, or streamlining operations, Rhodes Island's efficient intelligence system continues to collect complex data from a vast array of actions and operations in order to provide the best course of action. For those unfamiliar to the mechanisms of this black box, just looking at the results will suffice.",
@@ -1526,6 +1542,70 @@
         "name": "Obsidian Festival Ticket",
         "sortId": -10000,
         "usage": "A ticket to the Obsidian Festival. Can be used to enter special stages."
+    },
+    "itempack_mod_10": {
+        "classifyType": "CONSUME",
+        "description": "Faced with the issue of insufficient training data, the Engineering Department has produced an all-new chip etching apparatus to provide Operators with a self-printing service.",
+        "icon": "itempack_mod_10.png",
+        "name": "Sniper Chip Pack Etcher",
+        "sortId": -10000,
+        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can etch chip packs hassle-free, in accordance with Vanguard Operators' needs."
+    },
+    "itempack_mod_11": {
+        "classifyType": "CONSUME",
+        "description": "Faced with the issue of insufficient training data, the Engineering Department has produced an all-new chip etching apparatus to provide Operators with a self-printing service.",
+        "icon": "itempack_mod_11.png",
+        "name": "Caster Chip Pack Etcher",
+        "sortId": -10000,
+        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can etch chip packs hassle-free, in accordance with Vanguard Operators' needs."
+    },
+    "itempack_mod_12": {
+        "classifyType": "CONSUME",
+        "description": "Faced with the issue of insufficient training data, the Engineering Department has produced an all-new chip etching apparatus to provide Operators with a self-printing service.",
+        "icon": "itempack_mod_12.png",
+        "name": "Medic Chip Pack Etcher",
+        "sortId": -10000,
+        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can etch chip packs hassle-free, in accordance with Vanguard Operators' needs."
+    },
+    "itempack_mod_13": {
+        "classifyType": "CONSUME",
+        "description": "Faced with the issue of insufficient training data, the Engineering Department has produced an all-new chip etching apparatus to provide Operators with a self-printing service.",
+        "icon": "itempack_mod_13.png",
+        "name": "Supporter Chip Pack Etcher",
+        "sortId": -10000,
+        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can etch chip packs hassle-free, in accordance with Vanguard Operators' needs."
+    },
+    "itempack_mod_14": {
+        "classifyType": "CONSUME",
+        "description": "Faced with the issue of insufficient training data, the Engineering Department has produced an all-new chip etching apparatus to provide Operators with a self-printing service.",
+        "icon": "itempack_mod_14.png",
+        "name": "Specialist Chip Pack Etcher",
+        "sortId": -10000,
+        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can etch chip packs hassle-free, in accordance with Vanguard Operators' needs."
+    },
+    "itempack_mod_7": {
+        "classifyType": "CONSUME",
+        "description": "Faced with the issue of insufficient training data, the Engineering Department has produced an all-new chip etching apparatus to provide Operators with a self-printing service.",
+        "icon": "itempack_mod_7.png",
+        "name": "Vanguard Chip Pack Etcher",
+        "sortId": -10000,
+        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can etch chip packs hassle-free, in accordance with Vanguard Operators' needs."
+    },
+    "itempack_mod_8": {
+        "classifyType": "CONSUME",
+        "description": "Faced with the issue of insufficient training data, the Engineering Department has produced an all-new chip etching apparatus to provide Operators with a self-printing service.",
+        "icon": "itempack_mod_8.png",
+        "name": "Guard Chip Pack Etcher",
+        "sortId": -10000,
+        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can etch chip packs hassle-free, in accordance with Vanguard Operators' needs."
+    },
+    "itempack_mod_9": {
+        "classifyType": "CONSUME",
+        "description": "Faced with the issue of insufficient training data, the Engineering Department has produced an all-new chip etching apparatus to provide Operators with a self-printing service.",
+        "icon": "itempack_mod_9.png",
+        "name": "Defender Chip Pack Etcher",
+        "sortId": -10000,
+        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can etch chip packs hassle-free, in accordance with Vanguard Operators' needs."
     },
     "mod_unlock_token": {
         "classifyType": "MATERIAL",

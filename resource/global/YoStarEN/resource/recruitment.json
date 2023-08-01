@@ -588,6 +588,17 @@
             ]
         },
         {
+            "id": "char_258_podego",
+            "name": "Podenco",
+            "rarity": 4,
+            "tags": [
+                "减速",
+                "治疗",
+                "远程位",
+                "辅助干员"
+            ]
+        },
+        {
             "id": "char_155_tiger",
             "name": "Indra",
             "rarity": 5,
@@ -1049,6 +1060,18 @@
             ]
         },
         {
+            "id": "char_373_lionhd",
+            "name": "Leonhardt",
+            "rarity": 5,
+            "tags": [
+                "群攻",
+                "爆发",
+                "远程位",
+                "资深干员",
+                "术师干员"
+            ]
+        },
+        {
             "id": "char_103_angel",
             "name": "Exusiai",
             "rarity": 6,
@@ -1289,6 +1312,18 @@
                 "近战位",
                 "高级资深干员",
                 "特种干员"
+            ]
+        },
+        {
+            "id": "char_197_poca",
+            "name": "Rosa",
+            "rarity": 6,
+            "tags": [
+                "输出",
+                "控场",
+                "远程位",
+                "高级资深干员",
+                "狙击干员"
             ]
         }
     ],

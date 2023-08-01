@@ -176,7 +176,7 @@ namespace MaaWpfGui.ViewModels.UI
         private const string InfoRequestUrl = "repos/MaaAssistantArknights/MaaAssistantArknights/releases/tags/";
         */
 
-        private const string MaaUpdateAPI = "https://ota.maa.plus/MaaAssistantArknights/api/version/";
+        private const string MaaUpdateAPI = "https://ota.maa.plus/MaaAssistantArknights/api/version/summary.json";
 
         private JObject _latestJson;
         private JObject _assetsObject;
@@ -538,7 +538,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     var isInChina = urls[i].Contains("s3.maa-org.net") || urls[i].Contains("maa-ota.annangela.cn");
 
-                    if (latencies[i].Equals(-1.0))
+                    if (latencies[i] < 0)
                     {
                         _logger.Warning("\turl: {CDNUrl} not available", urls[i]);
                         continue;
@@ -552,13 +552,13 @@ namespace MaaWpfGui.ViewModels.UI
                         latencies[i] += 648;
                     }
 
-                    if (latencies[i] < latencies[selected])
+                    if (latencies[selected] < 0 || (latencies[i] >= 0 && latencies[i] < latencies[selected]))
                     {
                         selected = i;
                     }
                 }
 
-                if (latencies[selected].Equals(-1.0))
+                if (latencies[selected] < 0)
                 {
                     _logger.Error("All mirrors are not available");
                     return CheckUpdateRetT.NetworkError;
@@ -645,21 +645,56 @@ namespace MaaWpfGui.ViewModels.UI
 
         private async Task<CheckUpdateRetT> CheckUpdateByMaaApi()
         {
-            string url;
             string response;
+            try
+            {
+                response = await Instances.HttpService.GetStringAsync(new Uri(MaaUpdateAPI)).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Failed to get update info from Maa API.");
+                return CheckUpdateRetT.FailedToGetInfo;
+            }
+
+            if (string.IsNullOrEmpty(response))
+            {
+                return CheckUpdateRetT.FailedToGetInfo;
+            }
+
+            if (!(JsonConvert.DeserializeObject(response) is JObject json))
+            {
+                return CheckUpdateRetT.FailedToGetInfo;
+            }
+
+            string latestVersion = null;
+            string detailUrl = null;
             if (Instances.SettingsViewModel.UpdateNightly)
             {
-                url = MaaUpdateAPI + "alpha.json";
+                latestVersion = json["alpha"]?["version"]?.ToString();
+                detailUrl = json["alpha"]?["detail"]?.ToString();
             }
             else if (Instances.SettingsViewModel.UpdateBeta)
             {
-                url = MaaUpdateAPI + "beta.json";
+                latestVersion = json["beta"]?["version"]?.ToString();
+                detailUrl = json["beta"]?["detail"]?.ToString();
             }
             else
             {
-                url = MaaUpdateAPI + "stable.json";
+                latestVersion = json["stable"]?["version"]?.ToString();
+                detailUrl = json["stable"]?["detail"]?.ToString();
             }
 
+            if (!NeedToUpdate(latestVersion))
+            {
+                return CheckUpdateRetT.AlreadyLatest;
+            }
+
+            return await GetVersionDetailsByMaaApi(detailUrl);
+        }
+
+        private async Task<CheckUpdateRetT> GetVersionDetailsByMaaApi(string url)
+        {
+            string response;
             try
             {
                 response = await Instances.HttpService.GetStringAsync(new Uri(url)).ConfigureAwait(false);

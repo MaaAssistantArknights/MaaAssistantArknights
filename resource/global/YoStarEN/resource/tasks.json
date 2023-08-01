@@ -17,13 +17,13 @@
         ]
     },
     "BattleQuickFormationFilter-Cost": {
-        "text": "Deployment Cost",
         "roi": [
             996,
             443,
             222,
             125
-        ]
+        ],
+        "text": "Deployment Cost"
     },
     "BattleStageName": {
         "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
@@ -740,22 +740,22 @@
             100
         ]
     },
-    "BattleStartPre": {
-        "text": [
-            "Start",
-            "Start Challenge"
-        ]
-    },
     "BattleStartOCR": {
-        "text": [
-            "MISSION",
-            "START"
-        ],
         "roi": [
             1006,
             444,
             196,
             166
+        ],
+        "text": [
+            "MISSION",
+            "START"
+        ]
+    },
+    "BattleStartPre": {
+        "text": [
+            "Start",
+            "Start Challenge"
         ]
     },
     "CharsNameOcrReplace": {
@@ -1430,7 +1430,7 @@
                 "泡泡"
             ],
             [
-                "Eunectes",
+                "^Eunectes$",
                 "森蚺"
             ],
             [
@@ -1606,7 +1606,7 @@
                 "艾雅法拉"
             ],
             [
-                "I?frit",
+                "[Ii]?frit",
                 "Ifrit"
             ],
             [
@@ -2118,7 +2118,7 @@
                 "伦蒂尼姆城防副炮"
             ],
             [
-                "I?rene",
+                "[Ii]?rene",
                 "Irene"
             ],
             [
@@ -2474,7 +2474,7 @@
                 "和弦"
             ],
             [
-                "Modified Phytohormone",
+                "Modified Phytohormon.*",
                 "改性植物激素"
             ],
             [
@@ -2482,7 +2482,7 @@
                 "谜图"
             ],
             [
-                "Ægirian Oscilloscope",
+                ".*girian Oscilloscope",
                 "阿戈尔示波器"
             ],
             [
@@ -2490,7 +2490,7 @@
                 "超重绝缘水泥"
             ],
             [
-                "Adaptive Supply Component",
+                "Adaptive Supply Comp.*",
                 "自适应补给元件"
             ],
             [
@@ -2498,35 +2498,19 @@
                 "沼泽控制"
             ],
             [
-                "Ægirian Oscilloscope",
-                "阿戈尔示波器"
-            ],
-            [
-                "Ægirian Oscilloscope",
-                "阿戈尔示波器"
-            ],
-            [
-                "Adaptive Supply Component",
-                "自适应补给元件"
-            ],
-            [
-                "Adaptive Supply Component",
-                "自适应补给元件"
-            ],
-            [
-                "Coating Device Conduction Valve",
+                "Coating Device Condu.*",
                 "镀膜装置导能阀"
             ],
             [
-                "Redeployment Conduction Component",
+                "Redeployment Conduction.*",
                 "重整导能组件"
             ],
             [
-                "Coating Device Conduction Valve",
-                "镀膜装置导能阀"
+                "Counter Conduction.*",
+                "反制导能组件"
             ],
             [
-                "Eunectes' Beacon",
+                "Eunectes' *Beacon",
                 "丛林用示踪信标"
             ],
             [
@@ -2536,6 +2520,34 @@
             [
                 "Shoddy Flashbang",
                 "劣质闪光弹"
+            ],
+            [
+                "Chongyue",
+                "重岳"
+            ],
+            [
+                "Lin",
+                "林"
+            ],
+            [
+                "Roadblocks",
+                "城防路障"
+            ],
+            [
+                "Jieyun",
+                "截云"
+            ],
+            [
+                "Firewhistle",
+                "火哨"
+            ],
+            [
+                "Mire Controller",
+                "地形增伤控制"
+            ],
+            [
+                "Shanhaizhong Cipher Machine",
+                "山海密语仪"
             ]
         ]
     },
@@ -2608,29 +2620,29 @@
         ]
     },
     "FightMissionFailed": {
-        "text": [
-            "MISSION",
-            "FAILED"
-        ],
         "fullMatch": true,
         "roi": [
             114,
             249,
             311,
             224
+        ],
+        "text": [
+            "MISSION",
+            "FAILED"
         ]
     },
     "FightMissionFailedAndStop": {
-        "text": [
-            "MISSION",
-            "FAILED"
-        ],
         "fullMatch": true,
         "roi": [
             114,
             249,
             311,
             224
+        ],
+        "text": [
+            "MISSION",
+            "FAILED"
         ]
     },
     "GTToGT-5": {
@@ -2663,27 +2675,27 @@
         ]
     },
     "InfrastConfirmButtonWait": {
-        "text": [
-            "Submitting feedback",
-            "to the neural network"
-        ],
         "roi": [
             675,
             605,
             427,
             115
+        ],
+        "text": [
+            "Submitting feedback",
+            "to the neural network"
         ]
     },
     "InfrastDormConfirmButtonWait": {
-        "text": [
-            "Submitting feedback",
-            "to the neural network"
-        ],
         "roi": [
             675,
             605,
             427,
             115
+        ],
+        "text": [
+            "Submitting feedback",
+            "to the neural network"
         ]
     },
     "InfrastEnterOperList": {
@@ -2715,15 +2727,15 @@
         ]
     },
     "LoadingText": {
-        "text": [
-            "Submitting feedback",
-            "to the neural network"
-        ],
         "roi": [
             675,
             605,
             427,
             115
+        ],
+        "text": [
+            "Submitting feedback",
+            "to the neural network"
         ]
     },
     "Mall": {
@@ -4768,6 +4780,198 @@
             ]
         ]
     },
+    "SSSBegin": {
+        "roi": [
+            970,
+            601,
+            277,
+            119
+        ],
+        "text": [
+            "Start security operation"
+        ]
+    },
+    "SSSBuffChoose": {
+        "ocrReplace": [
+            [
+                ".*girian Oscilloscope",
+                "阿戈尔示波器"
+            ],
+            [
+                "Adaptive Supply Component",
+                "自适应补给元件"
+            ],
+            [
+                "Eunectes' *Beacon",
+                "丛林用示踪信标"
+            ],
+            [
+                "Coating Device Conduction Valve",
+                "镀膜装置导能阀"
+            ]
+        ]
+    },
+    "SSSBuffChooseConfirm": {
+        "roi": [
+            1037,
+            600,
+            223,
+            120
+        ],
+        "text": [
+            "Confirm Selection"
+        ]
+    },
+    "SSSDebuffConfirm": {
+        "roi": [
+            1034,
+            602,
+            227,
+            118
+        ],
+        "text": [
+            "Confirm Completion"
+        ]
+    },
+    "SSSDropRecruitmentConfirm": {
+        "roi": [
+            1105,
+            525,
+            175,
+            140
+        ],
+        "text": [
+            "Confirm assignment",
+            "Confirm Selection"
+        ]
+    },
+    "SSSDropRecruitmentFlag": {
+        "text": [
+            "Choose an Operator",
+            "Select",
+            "Conductive",
+            "Unit"
+        ]
+    },
+    "SSSDropRecruitmentOCR": {
+        "action": "DoNothing",
+        "algorithm": "OcrDetect",
+        "baseTask": "CharsNameOcrReplace",
+        "cache": false,
+        "postDelay": 1000,
+        "roi": [
+            0,
+            352,
+            1280,
+            263
+        ],
+        "text": [
+        ]
+    },
+    "SSSEquipmentConfirm": {
+        "roi": [
+            1040,
+            602,
+            219,
+            118
+        ],
+        "text": [
+            "Confirm Equipment",
+            "Confirm Eguipment"
+        ]
+    },
+    "SSSStageNameOCR": {
+        "ocrReplace": [
+            [
+                "Jungle Greetings",
+                "丛林式寒暄"
+            ],
+            [
+                "Biodiversity",
+                "生物多样性"
+            ],
+            [
+                "^Adaptation.*",
+                "习以为常"
+            ],
+            [
+                "Glade",
+                "林间空地"
+            ],
+            [
+                "Not Letting Go",
+                "纠缠不休"
+            ],
+            [
+                "Man And Nature",
+                "人与自然"
+            ],
+            [
+                "The Swarming.*",
+                "蜂拥而上"
+            ],
+            [
+                "Passing Down the.*",
+                "见者有份"
+            ],
+            [
+                "Industrial.*",
+                "产业升级"
+            ],
+            [
+                "Bad Company",
+                "同流合污"
+            ],
+            [
+                "Tipsy Trip",
+                "酩酊之旅"
+            ],
+            [
+                "A Piece of Steak",
+                "一块肉排"
+            ]
+        ],
+        "roi": [
+            126,
+            266,
+            175,
+            33
+        ]
+    },
+    "SSSStartFighting": {
+        "roi": [
+            1038,
+            602,
+            221,
+            118
+        ],
+        "text": [
+            "Begin Deployment",
+            "Redeploy"
+        ]
+    },
+    "SSSStartFighting2": {
+        "roi": [
+            992,
+            576,
+            288,
+            144
+        ],
+        "text": [
+            "Start"
+        ]
+    },
+    "SSSTeamConfirm": {
+        "roi": [
+            992,
+            576,
+            288,
+            144
+        ],
+        "text": [
+            "View squad"
+        ]
+    },
     "ShamareThumbnail1": {
         "maskRange": [
             1,
@@ -4818,11 +5022,6 @@
             "Heart of Surging Flame"
         ]
     },
-    "StartButton1": {
-        "text": [
-            "Start"
-        ]
-    },
     "StartRecruit": {
         "text": [
             "Recruit Now"
@@ -4849,6 +5048,25 @@
     "VisitNextOcr": {
         "text": [
             "Visit Next"
+        ]
+    },
+    "WB-Open": {
+        "text": [
+            "Event <Where Vernal Winds Will Never",
+            "Blow> is now open"
+        ]
+    },
+    "WBChapterToWB": {
+        "algorithm": "OcrDetect",
+        "roi": [
+            1034,
+            595,
+            246,
+            125
+        ],
+        "text": [
+            "CASE INVESTIGATION",
+            "ONSITE"
         ]
     }
 }

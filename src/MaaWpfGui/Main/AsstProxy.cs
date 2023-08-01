@@ -1121,6 +1121,8 @@ namespace MaaWpfGui.Main
             return AsstSetInstanceOption(_handle, (AsstInstanceOptionKey)key, value);
         }
 
+        private static readonly bool ForcedReloadResource = File.Exists("DEBUG") || File.Exists("DEBUG.txt");
+
         /// <summary>
         /// 连接模拟器。
         /// </summary>
@@ -1144,6 +1146,21 @@ namespace MaaWpfGui.Main
             if (connected && connectedAdb == Instances.SettingsViewModel.AdbPath &&
                 connectedAddress == Instances.SettingsViewModel.ConnectAddress)
             {
+                if (ForcedReloadResource)
+                {
+                    if (!LoadResource())
+                    {
+                        error = "Load Resource Failed";
+                        return false;
+                    }
+
+                    Execute.OnUIThread(() =>
+                    {
+                        using var toast = new ToastNotification("Auto Reload");
+                        toast.Show();
+                    });
+                }
+
                 return true;
             }
 
@@ -1557,6 +1574,12 @@ namespace MaaWpfGui.Main
                 ["stop_when_investment_full"] = stop_when_full,
                 ["theme"] = theme,
             };
+
+            if (mode == 1)
+            {
+                task_params["investment_enabled"] = true;
+            }
+
             if (squad.Length > 0)
             {
                 task_params["squad"] = squad;
