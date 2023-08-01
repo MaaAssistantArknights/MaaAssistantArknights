@@ -2474,7 +2474,7 @@
                 "和弦"
             ],
             [
-                "Modified Phytohormone",
+                "Modified Phytohormon.*",
                 "改性植物激素"
             ],
             [
@@ -2490,7 +2490,7 @@
                 "超重绝缘水泥"
             ],
             [
-                "Adaptive Supply Component",
+                "Adaptive Supply Comp.*",
                 "自适应补给元件"
             ],
             [
@@ -2498,12 +2498,16 @@
                 "沼泽控制"
             ],
             [
-                "Coating Device Conduction Valve",
+                "Coating Device Condu.*",
                 "镀膜装置导能阀"
             ],
             [
-                "Redeployment Conduction Component",
+                "Redeployment Conduction.*",
                 "重整导能组件"
+            ],
+            [
+                "Counter Conduction.*",
+                "反制导能组件"
             ],
             [
                 "Eunectes' *Beacon",
@@ -4887,7 +4891,7 @@
                 "生物多样性"
             ],
             [
-                "Adaptation",
+                "^Adaptation.*",
                 "习以为常"
             ],
             [
@@ -4903,15 +4907,15 @@
                 "人与自然"
             ],
             [
-                "The Swarming Masses",
+                "The Swarming.*",
                 "蜂拥而上"
             ],
             [
-                "Passing Down the Profit",
+                "Passing Down the.*",
                 "见者有份"
             ],
             [
-                "Industrial Improvement",
+                "Industrial.*",
                 "产业升级"
             ],
             [
@@ -4928,10 +4932,10 @@
             ]
         ],
         "roi": [
-            121,
-            263,
-            188,
-            50
+            126,
+            266,
+            175,
+            33
         ]
     },
     "SSSStartFighting": {
