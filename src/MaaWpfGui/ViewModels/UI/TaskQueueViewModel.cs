@@ -47,7 +47,7 @@ namespace MaaWpfGui.ViewModels.UI
     {
         private readonly IContainer _container;
         private StageManager _stageManager;
-        private readonly RunningState runningState;
+        private readonly RunningState _runningState;
 
         private static readonly ILogger _logger = Log.ForContext<TaskQueueViewModel>();
 
@@ -59,9 +59,9 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets the visibility of task setting views.
         /// </summary>
-        public TaskSettingVisibilityInfo TaskSettingVisibilities { get; } = TaskSettingVisibilityInfo.Current;
+        public TaskSettingVisibilityInfo TaskSettingVisibilities => TaskSettingVisibilityInfo.Current;
 
-        public SettingsViewModel TaskSettingDataContext { get => Instances.SettingsViewModel; }
+        public SettingsViewModel TaskSettingDataContext => Instances.SettingsViewModel;
 
         /// <summary>
         /// 实时更新任务顺序
@@ -129,8 +129,8 @@ namespace MaaWpfGui.ViewModels.UI
         public TaskQueueViewModel(IContainer container)
         {
             _container = container;
-            runningState = RunningState.Instance;
-            runningState.IdleChanged += RunningState_IdleChanged;
+            _runningState = RunningState.Instance;
+            _runningState.IdleChanged += RunningState_IdleChanged;
         }
 
         private void RunningState_IdleChanged(object sender, bool e)
@@ -242,9 +242,9 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            refreshCustomInfrastPlanIndexByPeriod();
+            RefreshCustomInfrastPlanIndexByPeriod();
 
-            if (!runningState.GetIdle() && !Instances.SettingsViewModel.ForceScheduledStart && !Instances.SettingsViewModel.CustomConfig)
+            if (!_runningState.GetIdle() && !Instances.SettingsViewModel.ForceScheduledStart && !Instances.SettingsViewModel.CustomConfig)
             {
                 return;
             }
@@ -254,31 +254,33 @@ namespace MaaWpfGui.ViewModels.UI
             var configIndex = 0;
             for (int i = 0; i < 8; ++i)
             {
-                if (Instances.SettingsViewModel.TimerModels.Timers[i].IsOn)
+                if (!Instances.SettingsViewModel.TimerModels.Timers[i].IsOn)
                 {
-                    DateTime startTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day,
-                                                      Instances.SettingsViewModel.TimerModels.Timers[i].Hour,
-                                                      Instances.SettingsViewModel.TimerModels.Timers[i].Min,
-                                                      0);
-                    DateTime restartDateTime = startTime.AddMinutes(-2);
+                    continue;
+                }
 
-                    // 确保0点的定时会在当日的23:58重启
-                    if (restartDateTime.Day != startTime.Day)
-                    {
-                        restartDateTime = restartDateTime.AddDays(1);
-                    }
+                DateTime startTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day,
+                    Instances.SettingsViewModel.TimerModels.Timers[i].Hour,
+                    Instances.SettingsViewModel.TimerModels.Timers[i].Min,
+                    0);
+                DateTime restartDateTime = startTime.AddMinutes(-2);
 
-                    if (currentTime == restartDateTime)
-                    {
-                        timeToChangeConfig = true;
-                        configIndex = i;
-                        break;
-                    }
-                    else if (currentTime == startTime)
-                    {
-                        timeToStart = true;
-                        break;
-                    }
+                // 确保0点的定时会在当日的23:58重启
+                if (restartDateTime.Day != startTime.Day)
+                {
+                    restartDateTime = restartDateTime.AddDays(1);
+                }
+
+                if (currentTime == restartDateTime)
+                {
+                    timeToChangeConfig = true;
+                    configIndex = i;
+                    break;
+                }
+                else if (currentTime == startTime)
+                {
+                    timeToStart = true;
+                    break;
                 }
             }
 
@@ -292,25 +294,27 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            if (timeToStart)
+            if (!timeToStart)
             {
-                if (Instances.SettingsViewModel.ForceScheduledStart)
+                return;
+            }
+
+            if (Instances.SettingsViewModel.ForceScheduledStart)
+            {
+                if (!_runningState.GetIdle())
                 {
-                    if (!runningState.GetIdle())
-                    {
-                        await Stop();
-                    }
-
-                    if (!Instances.AsstProxy.AsstAppendCloseDown())
-                    {
-                        AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
-                    }
-
-                    ResetFightVariables();
+                    await Stop();
                 }
 
-                LinkStart();
+                if (!Instances.AsstProxy.AsstAppendCloseDown())
+                {
+                    AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
+                }
+
+                ResetFightVariables();
             }
+
+            LinkStart();
         }
 
         /// <summary>
@@ -318,7 +322,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         private void InitializeItems()
         {
-            string[] task_list = new string[]
+            string[] taskList = new string[]
             {
                 "WakeUp",
                 "Recruiting",
@@ -347,11 +351,11 @@ namespace MaaWpfGui.ViewModels.UI
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("HibernateWithoutPersist"), Value = ActionType.HibernateWithoutPersist },
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ShutdownWithoutPersist"), Value = ActionType.ShutdownWithoutPersist },
             };
-            var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[task_list.Length]);
-            var non_order_list = new List<DragItemViewModel>();
-            for (int i = 0; i != task_list.Length; ++i)
+            var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[taskList.Length]);
+            var nonOrderList = new List<DragItemViewModel>();
+            for (int i = 0; i != taskList.Length; ++i)
             {
-                var task = task_list[i];
+                var task = taskList[i];
                 bool parsed = int.TryParse(ConfigurationHelper.GetTaskOrder(task, "-1"), out var order);
 
                 var vm = new DragItemViewModel(LocalizationHelper.GetString(task), task, "TaskQueue.");
@@ -361,34 +365,34 @@ namespace MaaWpfGui.ViewModels.UI
                     vm.EnableSetting = true;
                 }
 
-                if (!parsed || order < 0 || order >= temp_order_list.Count)
+                if (!parsed || order < 0 || order >= tempOrderList.Count)
                 {
-                    non_order_list.Add(vm);
+                    nonOrderList.Add(vm);
                 }
                 else
                 {
-                    temp_order_list[order] = vm;
+                    tempOrderList[order] = vm;
                 }
             }
 
-            foreach (var new_vm in non_order_list)
+            foreach (var newVm in nonOrderList)
             {
                 int i = 0;
-                while (temp_order_list[i] != null)
+                while (tempOrderList[i] != null)
                 {
                     ++i;
                 }
 
-                temp_order_list[i] = new_vm;
+                tempOrderList[i] = newVm;
             }
 
-            TaskItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
+            TaskItemViewModels = new ObservableCollection<DragItemViewModel>(tempOrderList);
 
             InitDrops();
             NeedToUpdateDatePrompt();
             UpdateDatePrompt();
             UpdateStageList(true);
-            RefreshCustonInfrastPlan();
+            RefreshCustomInfrastPlan();
 
             if (DateTime.UtcNow.ToYJDate().IsAprilFoolsDay())
             {
@@ -411,14 +415,14 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Updates stage list.
         /// </summary>
-        /// <param name="forceUpdate">Whether or not to update the stage list for selection forcely</param>
+        /// <param name="forceUpdate">Whether or not to update the stage list for selection forcibly</param>
         // FIXME: 被注入对象只能在private函数内使用，只有Model显示之后才会被注入。如果Model还没有触发OnInitialActivate时调用函数会NullPointerException
         // 这个函数被列为public可见，意味着他注入对象前被调用
         public void UpdateStageList(bool forceUpdate)
         {
             var hideUnavailableStage = Instances.SettingsViewModel.HideUnavailableStage;
 
-            // forceUpdate: initializing or settings changing, update stage list forcely
+            // forceUpdate: initializing or settings changing, update stage list forcibly
             if (!forceUpdate && !hideUnavailableStage)
             {
                 return;
@@ -431,14 +435,9 @@ namespace MaaWpfGui.ViewModels.UI
             var stage3 = Stage3 ?? string.Empty;
             var rss = RemainingSanityStage ?? string.Empty;
 
-            if (hideUnavailableStage)
-            {
-                StageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList(_curDayOfWeek));
-            }
-            else
-            {
-                StageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList());
-            }
+            StageList = hideUnavailableStage
+                ? new ObservableCollection<CombinedData>(_stageManager.GetStageList(_curDayOfWeek))
+                : new ObservableCollection<CombinedData>(_stageManager.GetStageList());
 
             AlternateStageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList());
 
@@ -496,19 +495,14 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool NeedToCheckForUpdates()
+        private static bool NeedToCheckForUpdates()
         {
             var now = DateTime.UtcNow.ToYJDateTime();
             var hour = now.Hour;
             var min = now.Minute;
 
             // yj历的4/22点
-            if (min == 0 && hour == 18)
-            {
-                return true;
-            }
-
-            return false;
+            return min == 0 && hour == 18;
         }
 
         /// <summary>
@@ -524,16 +518,13 @@ namespace MaaWpfGui.ViewModels.UI
             var stages = new[] { Stage1, Stage2, Stage3 };
             foreach (var stage in stages)
             {
-                if (stage == null)
+                if (stage == null || _stageManager.GetStageInfo(stage)?.IsActivityClosed() != true)
                 {
                     continue;
                 }
 
-                if (_stageManager.GetStageInfo(stage)?.IsActivityClosed() == true)
-                {
-                    builder.Append(stage).Append(": ").AppendLine(LocalizationHelper.GetString("ClosedStage"));
-                    break;
-                }
+                builder.Append(stage).Append(": ").AppendLine(LocalizationHelper.GetString("ClosedStage"));
+                break;
             }
 
             // Open stages today
@@ -660,7 +651,9 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _showInverse, value);
         }
 
-        private string _inverseShowText = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, bool.FalseString)) ? LocalizationHelper.GetString("Inverse") : LocalizationHelper.GetString("Clear");
+        private string _inverseShowText = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, bool.FalseString))
+                                            ? LocalizationHelper.GetString("Inverse")
+                                            : LocalizationHelper.GetString("Clear");
 
         /// <summary>
         /// Gets or sets the text to be displayed for "Select inversely".
@@ -671,7 +664,9 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _inverseShowText, value);
         }
 
-        private string _inverseMenuText = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, bool.FalseString)) ? LocalizationHelper.GetString("Clear") : LocalizationHelper.GetString("Inverse");
+        private string _inverseMenuText = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, bool.FalseString))
+                                            ? LocalizationHelper.GetString("Clear")
+                                            : LocalizationHelper.GetString("Inverse");
 
         /// <summary>
         /// Gets or sets the text of inversion menu.
@@ -695,7 +690,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public void InverseSelected()
         {
-            if (_inverseMode)
+            if (InverseMode)
             {
                 foreach (var item in TaskItemViewModels)
                 {
@@ -726,12 +721,12 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public async void LinkStart()
         {
-            if (!runningState.GetIdle())
+            if (!_runningState.GetIdle())
             {
                 return;
             }
 
-            runningState.SetIdle(false);
+            _runningState.SetIdle(false);
 
             // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次任务及基建列表
             TaskItemSelectionChanged();
@@ -808,7 +803,7 @@ namespace MaaWpfGui.ViewModels.UI
             if (!connected)
             {
                 AddLog(errMsg, UiLogColor.Error);
-                runningState.SetIdle(true);
+                _runningState.SetIdle(true);
                 SetStopped();
                 return;
             }
@@ -832,57 +827,52 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 ++count;
-                if (item.OriginalName == "Base")
+                switch (item.OriginalName)
                 {
-                    taskRet &= appendInfrast();
-                }
-                else if (item.OriginalName == "WakeUp")
-                {
-                    taskRet &= appendStart();
-                }
-                else if (item.OriginalName == "Combat")
-                {
-                    taskRet &= appendFight();
-                }
-                else if (item.OriginalName == "Recruiting")
-                {
-                    taskRet &= appendRecruit();
-                }
-                else if (item.OriginalName == "Mall")
-                {
-                    taskRet &= appendMall();
-                }
-                else if (item.OriginalName == "Mission")
-                {
-                    taskRet &= Instances.AsstProxy.AsstAppendAward();
-                }
-                else if (item.OriginalName == "AutoRoguelike")
-                {
-                    taskRet &= AppendRoguelike();
-                }
-                else if (item.OriginalName == "ReclamationAlgorithm")
-                {
-                    taskRet &= AppendReclamation();
-                }
-                else
-                {
-                    --count;
-
-                    // TODO 报错
+                    case "Base":
+                        taskRet &= AppendInfrast();
+                        break;
+                    case "WakeUp":
+                        taskRet &= AppendStart();
+                        break;
+                    case "Combat":
+                        taskRet &= AppendFight();
+                        break;
+                    case "Recruiting":
+                        taskRet &= AppendRecruit();
+                        break;
+                    case "Mall":
+                        taskRet &= AppendMall();
+                        break;
+                    case "Mission":
+                        taskRet &= Instances.AsstProxy.AsstAppendAward();
+                        break;
+                    case "AutoRoguelike":
+                        taskRet &= AppendRoguelike();
+                        break;
+                    case "ReclamationAlgorithm":
+                        taskRet &= AppendReclamation();
+                        break;
+                    default:
+                        --count;
+                        _logger.Error("Unknown task: " + item.OriginalName);
+                        break;
                 }
 
-                if (!taskRet)
+                if (taskRet)
                 {
-                    AddLog(item.OriginalName + "Error", UiLogColor.Error);
-                    taskRet = true;
-                    --count;
+                    continue;
                 }
+
+                AddLog(item.OriginalName + "Error", UiLogColor.Error);
+                taskRet = true;
+                --count;
             }
 
             if (count == 0)
             {
                 AddLog(LocalizationHelper.GetString("UnselectedTask"));
-                runningState.SetIdle(true);
+                _runningState.SetIdle(true);
                 SetStopped();
                 return;
             }
@@ -921,23 +911,23 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void SetStopped()
         {
-            if (!runningState.GetIdle() || Stopping)
+            if (!_runningState.GetIdle() || Stopping)
             {
                 AddLog(LocalizationHelper.GetString("Stopped"));
             }
 
             Stopping = false;
-            runningState.SetIdle(true);
+            _runningState.SetIdle(true);
         }
 
-        private bool appendStart()
+        private static bool AppendStart()
         {
             var mode = Instances.SettingsViewModel.ClientType;
             var enable = mode.Length != 0;
             return Instances.AsstProxy.AsstAppendStartUp(mode, enable);
         }
 
-        private bool appendFight()
+        private bool AppendFight()
         {
             int medicine = 0;
             if (UseMedicine)
@@ -966,18 +956,18 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            int drops_quantity = 0;
+            int dropsQuantity = 0;
             if (IsSpecifiedDrops)
             {
-                if (!int.TryParse(DropsQuantity, out drops_quantity))
+                if (!int.TryParse(DropsQuantity, out dropsQuantity))
                 {
-                    drops_quantity = 0;
+                    dropsQuantity = 0;
                 }
             }
 
             string curStage = Stage;
 
-            bool mainFightRet = Instances.AsstProxy.AsstAppendFight(curStage, medicine, stone, times, DropsItemId, drops_quantity);
+            bool mainFightRet = Instances.AsstProxy.AsstAppendFight(curStage, medicine, stone, times, DropsItemId, dropsQuantity);
 
             if (mainFightRet && (curStage == "Annihilation") && Instances.SettingsViewModel.UseAlternateStage)
             {
@@ -1034,16 +1024,16 @@ namespace MaaWpfGui.ViewModels.UI
                     }
                 }
 
-                int drops_quantity = 0;
+                int dropsQuantity = 0;
                 if (IsSpecifiedDrops)
                 {
-                    if (!int.TryParse(DropsQuantity, out drops_quantity))
+                    if (!int.TryParse(DropsQuantity, out dropsQuantity))
                     {
-                        drops_quantity = 0;
+                        dropsQuantity = 0;
                     }
                 }
 
-                Instances.AsstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, DropsItemId, drops_quantity);
+                Instances.AsstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, DropsItemId, dropsQuantity);
             }
         }
 
@@ -1059,7 +1049,7 @@ namespace MaaWpfGui.ViewModels.UI
                 Instances.SettingsViewModel.CustomInfrastEnabled, Instances.SettingsViewModel.CustomInfrastFile, CustomInfrastPlanIndex);
         }
 
-        private bool appendInfrast()
+        private bool AppendInfrast()
         {
             if (Instances.SettingsViewModel.CustomInfrastEnabled && !File.Exists(Instances.SettingsViewModel.CustomInfrastFile))
             {
@@ -1072,34 +1062,34 @@ namespace MaaWpfGui.ViewModels.UI
                 Instances.SettingsViewModel.CustomInfrastEnabled, Instances.SettingsViewModel.CustomInfrastFile, CustomInfrastPlanIndex);
         }
 
-        private bool appendMall()
+        private bool AppendMall()
         {
-            var buy_first = Instances.SettingsViewModel.CreditFirstList.Split(new char[] { ';', '；' });
-            var black_list = Instances.SettingsViewModel.CreditBlackList.Split(new char[] { ';', '；' });
-            for (var i = 0; i < buy_first.Length; ++i)
+            var buyFirst = Instances.SettingsViewModel.CreditFirstList.Split(';', '；');
+            var blackList = Instances.SettingsViewModel.CreditBlackList.Split(';', '；');
+            for (var i = 0; i < buyFirst.Length; ++i)
             {
-                buy_first[i] = buy_first[i].Trim();
+                buyFirst[i] = buyFirst[i].Trim();
             }
 
-            for (var i = 0; i < black_list.Length; ++i)
+            for (var i = 0; i < blackList.Length; ++i)
             {
-                black_list[i] = black_list[i].Trim();
+                blackList[i] = blackList[i].Trim();
             }
 
             return Instances.AsstProxy.AsstAppendMall(
                 !string.IsNullOrEmpty(this.Stage) && Instances.SettingsViewModel.CreditFightTaskEnabled,
                 Instances.SettingsViewModel.CreditShopping,
-                buy_first,
-                black_list,
+                buyFirst,
+                blackList,
                 Instances.SettingsViewModel.CreditForceShoppingIfCreditFull);
         }
 
-        private bool appendRecruit()
+        private static bool AppendRecruit()
         {
             // for debug
-            if (!int.TryParse(Instances.SettingsViewModel.RecruitMaxTimes, out var max_times))
+            if (!int.TryParse(Instances.SettingsViewModel.RecruitMaxTimes, out var maxTimes))
             {
-                max_times = 0;
+                maxTimes = 0;
             }
 
             var reqList = new List<int>();
@@ -1123,7 +1113,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             return Instances.AsstProxy.AsstAppendRecruit(
-                max_times, reqList.ToArray(), cfmList.ToArray(), Instances.SettingsViewModel.RefreshLevel3, Instances.SettingsViewModel.UseExpedited,
+                maxTimes, reqList.ToArray(), cfmList.ToArray(), Instances.SettingsViewModel.RefreshLevel3, Instances.SettingsViewModel.UseExpedited,
                 Instances.SettingsViewModel.NotChooseLevel1, Instances.SettingsViewModel.IsLevel3UseShortTime, Instances.SettingsViewModel.IsLevel3UseShortTime2);
         }
 
@@ -1162,11 +1152,11 @@ namespace MaaWpfGui.ViewModels.UI
                 return emulatorMode switch
                 {
                     "Nox" => KillEmulatorNox(),
-                    "LDPlayer" => KillEmulatorLDPlayer(),
-                    "XYAZ" => KillEmulatorXYAZ(),
+                    "LDPlayer" => KillEmulatorLdPlayer(),
+                    "XYAZ" => KillEmulatorXyaz(),
                     "BlueStacks" => KillEmulatorBlueStacks(),
                     "MuMuEmulator12" => KillEmulatorMuMuEmulator12(),
-                    _ => KillEmulatorbyWindow(),
+                    _ => KillEmulatorByWindow(),
                 };
             }
             catch (Exception e)
@@ -1196,47 +1186,54 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             Process[] processes = Process.GetProcessesByName("MuMuPlayer");
-            if (processes.Length > 0)
+            if (processes.Length <= 0)
             {
-                string emuLocation = processes[0].MainModule.FileName;
-                emuLocation = Path.GetDirectoryName(emuLocation);
-                string consolePath = Path.Combine(emuLocation, "MuMuManager.exe");
-
-                if (File.Exists(consolePath))
-                {
-                    ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
-                    {
-                        Arguments = $"api -v {emuIndex} shutdown_player",
-                        CreateNoWindow = true,
-                        UseShellExecute = false,
-                    };
-                    var process = Process.Start(startInfo);
-                    if (process.WaitForExit(5000))
-                    {
-                        _logger.Information($"Emulator at index {emuIndex} closed through console. Console path: {consolePath}");
-                        return KillEmulator();
-                    }
-                    else
-                    {
-                        _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
-                        return KillEmulatorbyWindow();
-                    }
-                }
-                else
-                {
-                    _logger.Error($"Error: `{consolePath}` not found, try to kill eumlator by window.");
-                    return KillEmulatorbyWindow();
-                }
+                return false;
             }
 
-            return false;
+            var processModule = processes[0].MainModule;
+            if (processModule == null)
+            {
+                return false;
+            }
+
+            string emuLocation = processModule.FileName;
+            emuLocation = Path.GetDirectoryName(emuLocation);
+            if (emuLocation == null)
+            {
+                return false;
+            }
+
+            string consolePath = Path.Combine(emuLocation, "MuMuManager.exe");
+
+            if (File.Exists(consolePath))
+            {
+                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
+                {
+                    Arguments = $"api -v {emuIndex} shutdown_player",
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                };
+                var process = Process.Start(startInfo);
+                if (process != null && process.WaitForExit(5000))
+                {
+                    _logger.Information($"Emulator at index {emuIndex} closed through console. Console path: {consolePath}");
+                    return KillEmulator();
+                }
+
+                _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
+                return KillEmulatorByWindow();
+            }
+
+            _logger.Error($"Error: `{consolePath}` not found, try to kill emulator by window.");
+            return KillEmulatorByWindow();
         }
 
         /// <summary>
         /// 一个用于调用雷电模拟器控制台关闭雷电模拟器的方法
         /// </summary>
         /// <returns>是否关闭成功</returns>
-        public bool KillEmulatorLDPlayer()
+        public bool KillEmulatorLdPlayer()
         {
             string address = Instances.SettingsViewModel.ConnectAddress;
             int emuIndex;
@@ -1254,40 +1251,47 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             Process[] processes = Process.GetProcessesByName("dnplayer");
-            if (processes.Length > 0)
+            if (processes.Length <= 0)
             {
-                string emuLocation = processes[0].MainModule.FileName;
-                emuLocation = Path.GetDirectoryName(emuLocation);
-                string consolePath = Path.Combine(emuLocation, "ldconsole.exe");
-
-                if (File.Exists(consolePath))
-                {
-                    ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
-                    {
-                        Arguments = $"quit --index {emuIndex}",
-                        CreateNoWindow = true,
-                        UseShellExecute = false,
-                    };
-                    var process = Process.Start(startInfo);
-                    if (process.WaitForExit(5000))
-                    {
-                        _logger.Information($"Emulator at index {emuIndex} closed through console. Console path: {consolePath}");
-                        return KillEmulator();
-                    }
-                    else
-                    {
-                        _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
-                        return KillEmulatorbyWindow();
-                    }
-                }
-                else
-                {
-                    _logger.Information($"Error: `{consolePath}` not found, try to kill eumlator by window.");
-                    return KillEmulatorbyWindow();
-                }
+                return false;
             }
 
-            return false;
+            var processModule = processes[0].MainModule;
+            if (processModule == null)
+            {
+                return false;
+            }
+
+            string emuLocation = processModule.FileName;
+            emuLocation = Path.GetDirectoryName(emuLocation);
+            if (emuLocation == null)
+            {
+                return false;
+            }
+
+            string consolePath = Path.Combine(emuLocation, "ldconsole.exe");
+
+            if (File.Exists(consolePath))
+            {
+                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
+                {
+                    Arguments = $"quit --index {emuIndex}",
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                };
+                var process = Process.Start(startInfo);
+                if (process != null && process.WaitForExit(5000))
+                {
+                    _logger.Information($"Emulator at index {emuIndex} closed through console. Console path: {consolePath}");
+                    return KillEmulator();
+                }
+
+                _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
+                return KillEmulatorByWindow();
+            }
+
+            _logger.Information($"Error: `{consolePath}` not found, try to kill emulator by window.");
+            return KillEmulatorByWindow();
         }
 
         /// <summary>
@@ -1310,89 +1314,102 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             Process[] processes = Process.GetProcessesByName("Nox");
-            if (processes.Length > 0)
+            if (processes.Length <= 0)
             {
-                string emuLocation = processes[0].MainModule.FileName;
-                emuLocation = Path.GetDirectoryName(emuLocation);
-                string consolePath = Path.Combine(emuLocation, "NoxConsole.exe");
-
-                if (File.Exists(consolePath))
-                {
-                    ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
-                    {
-                        Arguments = $"quit -index:{emuIndex}",
-                        CreateNoWindow = true,
-                        UseShellExecute = false,
-                    };
-                    var process = Process.Start(startInfo);
-                    if (process.WaitForExit(5000))
-                    {
-                        _logger.Information($"Emulator at index {emuIndex} closed through console. Console path: {consolePath}");
-                        return KillEmulator();
-                    }
-                    else
-                    {
-                        _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
-                        return KillEmulatorbyWindow();
-                    }
-                }
-                else
-                {
-                    _logger.Information($"Error: `{consolePath}` not found, try to kill eumlator by window.");
-                    return KillEmulatorbyWindow();
-                }
+                return false;
             }
 
-            return false;
+            var processModule = processes[0].MainModule;
+            if (processModule == null)
+            {
+                return false;
+            }
+
+            string emuLocation = processModule.FileName;
+            emuLocation = Path.GetDirectoryName(emuLocation);
+            if (emuLocation == null)
+            {
+                return false;
+            }
+
+            string consolePath = Path.Combine(emuLocation, "NoxConsole.exe");
+
+            if (File.Exists(consolePath))
+            {
+                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
+                {
+                    Arguments = $"quit -index:{emuIndex}",
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                };
+                var process = Process.Start(startInfo);
+                if (process != null && process.WaitForExit(5000))
+                {
+                    _logger.Information($"Emulator at index {emuIndex} closed through console. Console path: {consolePath}");
+                    return KillEmulator();
+                }
+
+                _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
+                return KillEmulatorByWindow();
+            }
+
+            _logger.Information($"Error: `{consolePath}` not found, try to kill emulator by window.");
+            return KillEmulatorByWindow();
         }
 
         /// <summary>
         /// 一个用于调用逍遥模拟器控制台关闭逍遥模拟器的方法
         /// </summary>
         /// <returns>是否关闭成功</returns>
-        public bool KillEmulatorXYAZ()
+        public bool KillEmulatorXyaz()
         {
             string address = Instances.SettingsViewModel.ConnectAddress;
-            int emuIndex;
             string portStr = address.Split(':')[1];
             int port = int.Parse(portStr);
-            emuIndex = (port - 21503) / 10;
+            var emuIndex = (port - 21503) / 10;
 
             Process[] processes = Process.GetProcessesByName("MEmu");
-            if (processes.Length > 0)
+            if (processes.Length <= 0)
             {
-                string emuLocation = processes[0].MainModule.FileName;
-                emuLocation = Path.GetDirectoryName(emuLocation);
-                string consolePath = Path.Combine(emuLocation, "memuc.exe");
-
-                if (File.Exists(consolePath))
-                {
-                    ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
-                    {
-                        Arguments = $"stop -i {emuIndex}",
-                        CreateNoWindow = true,
-                        UseShellExecute = false,
-                    };
-                    var process = Process.Start(startInfo);
-                    if (process.WaitForExit(5000))
-                    {
-                        _logger.Information($"Emulator at index {emuIndex} closed through console. Console path: {consolePath}");
-                        return KillEmulator();
-                    }
-                    else
-                    {
-                        _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
-                        return KillEmulatorbyWindow();
-                    }
-                }
-                else
-                {
-                    _logger.Information($"Error: `{consolePath}` not found, try to kill eumlator by window.");
-                    return KillEmulatorbyWindow();
-                }
+                return false;
             }
 
-            return false;
+            var processModule = processes[0].MainModule;
+            if (processModule == null)
+            {
+                return false;
+            }
+
+            string emuLocation = processModule.FileName;
+            emuLocation = Path.GetDirectoryName(emuLocation);
+            if (emuLocation == null)
+            {
+                return false;
+            }
+
+            string consolePath = Path.Combine(emuLocation, "memuc.exe");
+
+            if (File.Exists(consolePath))
+            {
+                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
+                {
+                    Arguments = $"stop -i {emuIndex}",
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                };
+                var process = Process.Start(startInfo);
+                if (process != null && process.WaitForExit(5000))
+                {
+                    _logger.Information($"Emulator at index {emuIndex} closed through console. Console path: {consolePath}");
+                    return KillEmulator();
+                }
+
+                _logger.Warning($"Console process at index {emuIndex} did not exit within the specified timeout. Killing emulator by window. Console path: {consolePath}");
+                return KillEmulatorByWindow();
+            }
+
+            _logger.Information($"Error: `{consolePath}` not found, try to kill emulator by window.");
+            return KillEmulatorByWindow();
         }
 
         /// <summary>
@@ -1402,38 +1419,47 @@ namespace MaaWpfGui.ViewModels.UI
         public bool KillEmulatorBlueStacks()
         {
             Process[] processes = Process.GetProcessesByName("HD-Player");
-            if (processes.Length > 0)
+            if (processes.Length <= 0)
             {
-                string emuLocation = processes[0].MainModule.FileName;
-                emuLocation = Path.GetDirectoryName(emuLocation);
-                string consolePath = Path.Combine(emuLocation, "bsconsole.exe");
+                return false;
+            }
 
-                if (File.Exists(consolePath))
-                {
-                    _logger.Information($"Info: `{consolePath}` has been found. This may be the BlueStacks China emulator, try to kill the emulator by window.");
-                    return KillEmulatorbyWindow();
-                }
-                else
-                {
-                    _logger.Information($"Info: `{consolePath}` not found. This may be the BlueStacks International emulator, try to kill the emulator by the port.");
-                    if (KillEmulator())
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        try
-                        {
-                            _logger.Information($"Info: Failed to kill emulator by the port, try to kill emulator process with PID.");
-                            processes[0].Kill();
-                            return processes[0].WaitForExit(20000);
-                        }
-                        catch (Exception ex)
-                        {
-                            _logger.Error($"Error: Failed to kill emulator process with PID {processes[0].Id}. Exception: {ex.Message}");
-                        }
-                    }
-                }
+            var processModule = processes[0].MainModule;
+            if (processModule == null)
+            {
+                return false;
+            }
+
+            string emuLocation = processModule.FileName;
+            emuLocation = Path.GetDirectoryName(emuLocation);
+            if (emuLocation == null)
+            {
+                return false;
+            }
+
+            string consolePath = Path.Combine(emuLocation, "bsconsole.exe");
+
+            if (File.Exists(consolePath))
+            {
+                _logger.Information($"Info: `{consolePath}` has been found. This may be the BlueStacks China emulator, try to kill the emulator by window.");
+                return KillEmulatorByWindow();
+            }
+
+            _logger.Information($"Info: `{consolePath}` not found. This may be the BlueStacks International emulator, try to kill the emulator by the port.");
+            if (KillEmulator())
+            {
+                return true;
+            }
+
+            try
+            {
+                _logger.Information("Info: Failed to kill emulator by the port, try to kill emulator process with PID.");
+                processes[0].Kill();
+                return processes[0].WaitForExit(20000);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"Error: Failed to kill emulator process with PID {processes[0].Id}. Exception: {ex.Message}");
             }
 
             return false;
@@ -1443,70 +1469,62 @@ namespace MaaWpfGui.ViewModels.UI
         /// Kills emulator by Window hwnd.
         /// </summary>
         /// <returns>Whether the operation is successful.</returns>
-        public bool KillEmulatorbyWindow()
+        public bool KillEmulatorByWindow()
         {
-            IntPtr hwnd;
             int pid = 0;
-            var windowname = new[]
+            var windowName = new[]
             {
                 "明日方舟",
                 "明日方舟 - MuMu模拟器",
                 "BlueStacks App Player",
                 "BlueStacks",
             };
-            foreach (string i in windowname)
+            foreach (string i in windowName)
             {
-                hwnd = FindWindow(null, i);
-                if (hwnd != IntPtr.Zero)
+                var hwnd = FindWindow(null, i);
+                if (hwnd == IntPtr.Zero)
                 {
-                    GetWindowThreadProcessId(hwnd, out pid);
-                    break;
+                    continue;
                 }
+
+                GetWindowThreadProcessId(hwnd, out pid);
+                break;
             }
 
-            do
+            if (pid == 0)
             {
-                if (pid == 0)
-                {
-                    break;
-                }
+                return KillEmulator();
+            }
 
-                Process emulator;
-                try
+            try
+            {
+                var emulator = Process.GetProcessById(pid);
+                emulator.CloseMainWindow();
+                if (!emulator.WaitForExit(5000))
                 {
-                    emulator = Process.GetProcessById(pid);
-                    emulator.CloseMainWindow();
-                    if (!emulator.WaitForExit(5000))
+                    emulator.Kill();
+                    if (emulator.WaitForExit(5000))
                     {
-                        emulator.Kill();
-                        if (emulator.WaitForExit(5000))
-                        {
-                            _logger.Information($"Emulator with process ID {pid} killed successfully.");
-                            KillEmulator();
-                            return true;
-                        }
-                        else
-                        {
-                            _logger.Error($"Failed to kill emulator with process ID {pid}.");
-                            return false;
-                        }
-                    }
-                    else
-                    {
-                        // 尽管已经成功 CloseMainWindow()，再次尝试 killEmulator()
-                        // Refer to https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/1878
+                        _logger.Information($"Emulator with process ID {pid} killed successfully.");
                         KillEmulator();
-
-                        // 已经成功 CloseMainWindow()，所以不管 killEmulator() 的结果如何，都返回 true
                         return true;
                     }
+
+                    _logger.Error($"Failed to kill emulator with process ID {pid}.");
+                    return false;
                 }
-                catch
-                {
-                    break;
-                }
+
+                // 尽管已经成功 CloseMainWindow()，再次尝试 killEmulator()
+                // Refer to https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/1878
+                KillEmulator();
+
+                // 已经成功 CloseMainWindow()，所以不管 killEmulator() 的结果如何，都返回 true
+                return true;
             }
-            while (false);
+            catch
+            {
+                _logger.Error("Kill emulator by window error");
+            }
 
             return KillEmulator();
         }
@@ -1518,16 +1536,8 @@ namespace MaaWpfGui.ViewModels.UI
         public bool KillEmulator()
         {
             int pid = 0;
-            string port;
             string address = ConfigurationHelper.GetValue(ConfigurationKeys.ConnectAddress, string.Empty);
-            if (address.StartsWith("127"))
-            {
-                port = address.Substring(10);
-            }
-            else
-            {
-                port = "5555";
-            }
+            var port = address.StartsWith("127") ? address.Substring(10) : "5555";
 
             string portCmd = "netstat -ano|findstr \"" + port + "\"";
             Process checkCmd = new Process();
@@ -1550,29 +1560,32 @@ namespace MaaWpfGui.ViewModels.UI
             checkCmd.StandardInput.WriteLine(portCmd);
             checkCmd.StandardInput.WriteLine("exit");
             Regex reg = new Regex("\\s+", RegexOptions.Compiled);
-            string line;
             while (true)
             {
-                line = checkCmd.StandardOutput.ReadLine();
+                var line = checkCmd.StandardOutput.ReadLine();
                 try
                 {
-                    line = line.Trim();
+                    line = line?.Trim();
                 }
                 catch
                 {
                     break;
                 }
 
-                if (line.StartsWith("TCP", StringComparison.OrdinalIgnoreCase))
+                if (line == null || line.StartsWith("TCP", StringComparison.OrdinalIgnoreCase))
                 {
-                    line = reg.Replace(line, ",");
-                    string[] arr = line.Split(',');
-                    if (!Convert.ToBoolean(string.Compare(arr[1], address, StringComparison.Ordinal)) || !Convert.ToBoolean(string.Compare(arr[1], "[::]:" + port, StringComparison.Ordinal)) || !Convert.ToBoolean(string.Compare(arr[1], "0.0.0.0:" + port, StringComparison.Ordinal)))
-                    {
-                        pid = int.Parse(arr[4]);
-                        break;
-                    }
+                    continue;
                 }
+
+                line = reg.Replace(line, ",");
+                string[] arr = line.Split(',');
+                if (Convert.ToBoolean(string.Compare(arr[1], address, StringComparison.Ordinal)) && Convert.ToBoolean(string.Compare(arr[1], "[::]:" + port, StringComparison.Ordinal)) && Convert.ToBoolean(string.Compare(arr[1], "0.0.0.0:" + port, StringComparison.Ordinal)))
+                {
+                    continue;
+                }
+
+                pid = int.Parse(arr[4]);
+                break;
             }
 
             if (pid == 0)
@@ -1759,16 +1772,13 @@ namespace MaaWpfGui.ViewModels.UI
 
                     // Environment.Exit(0);
                     break;
-
-                default:
-                    break;
             }
         }
 
         /// <summary>
         /// Gets a value indicating whether it is initialized.
         /// </summary>
-        public bool Inited { get; private set; } = false;
+        public bool Inited { get; private set; }
 
         /// <summary>
         /// Sets it initialized.
@@ -1776,7 +1786,7 @@ namespace MaaWpfGui.ViewModels.UI
         public void SetInited()
         {
             Inited = true;
-            NotifyOfPropertyChange("Inited");
+            NotifyOfPropertyChange(nameof(Inited));
         }
 
         private bool _idle = true;
@@ -1790,15 +1800,17 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _idle, value);
-                if (value)
+                if (!value)
                 {
-                    FightTaskRunning = false;
-                    InfrastTaskRunning = false;
+                    return;
                 }
+
+                FightTaskRunning = false;
+                InfrastTaskRunning = false;
             }
         }
 
-        private bool _stopping = false;
+        private bool _stopping;
 
         /// <summary>
         /// Gets or sets a value indicating whether `stop` is awaiting.
@@ -1809,7 +1821,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _stopping, value);
         }
 
-        private bool _fightTaskRunning = false;
+        private bool _fightTaskRunning;
 
         /// <summary>
         /// Gets or sets a value indicating whether the battle task is running.
@@ -1820,7 +1832,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _fightTaskRunning, value);
         }
 
-        private bool _infrastTaskRunning = false;
+        private bool _infrastTaskRunning;
 
         public bool InfrastTaskRunning
         {
@@ -1925,7 +1937,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private readonly Dictionary<string, string> stageDictionary = new Dictionary<string, string>
+        private readonly Dictionary<string, string> _stageDictionary = new Dictionary<string, string>
         {
             { "AN", "Annihilation" },
             { "剿灭", "Annihilation" },
@@ -1951,19 +1963,21 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             string upperValue = value.ToUpper();
-            if (stageDictionary.ContainsKey(upperValue))
+            if (_stageDictionary.TryGetValue(upperValue, out var stage))
             {
-                return stageDictionary[upperValue];
+                return stage;
             }
 
-            if (StageList != null)
+            if (StageList == null)
             {
-                foreach (var item in StageList)
+                return value;
+            }
+
+            foreach (var item in StageList)
+            {
+                if (upperValue == item.Value.ToUpper() || upperValue == item.Display.ToUpper())
                 {
-                    if (upperValue == item.Value.ToUpper() || upperValue == item.Display.ToUpper())
-                    {
-                        return item.Value;
-                    }
+                    return item.Value;
                 }
             }
 
@@ -2091,21 +2105,14 @@ namespace MaaWpfGui.ViewModels.UI
         public bool CustomStageCode
         {
             get => _customStageCode;
-            set
-            {
-                SetAndNotify(ref _customStageCode, value);
-            }
+            set => SetAndNotify(ref _customStageCode, value);
         }
 
         private string _remainingSanityStage = ConfigurationHelper.GetValue(ConfigurationKeys.RemainingSanityStage, string.Empty) ?? string.Empty;
 
         public string RemainingSanityStage
         {
-            get
-            {
-                return _remainingSanityStage;
-            }
-
+            get => _remainingSanityStage;
             set
             {
                 if (_remainingSanityStage == value)
@@ -2136,7 +2143,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _customInfrastEnabled, value);
-                RefreshCustonInfrastPlan();
+                RefreshCustomInfrastPlan();
             }
         }
 
@@ -2154,9 +2161,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                     foreach (var period in plan.PeriodList)
                     {
-                        AddLog(string.Format("[ {0:D2}:{1:D2} - {2:D2}:{3:D2} ]",
-                            period.BeginHour, period.BeginMinute,
-                            period.EndHour, period.EndMinute));
+                        AddLog($"[ {period.BeginHour:D2}:{period.BeginMinute:D2} - {period.EndHour:D2}:{period.EndMinute:D2} ]");
                     }
 
                     if (plan.Description != string.Empty)
@@ -2194,10 +2199,10 @@ namespace MaaWpfGui.ViewModels.UI
 
         public List<CustomInfrastPlanInfo> CustomInfrastPlanInfoList { get; set; } = new List<CustomInfrastPlanInfo>();
 
-        private bool _customInfrastPlanHasPeriod = false;
-        private bool _customInfrastInfoOutput = false;
+        private bool _customInfrastPlanHasPeriod;
+        private bool _customInfrastInfoOutput;
 
-        public void RefreshCustonInfrastPlan()
+        public void RefreshCustomInfrastPlan()
         {
             CustomInfrastPlanInfoList.Clear();
             CustomInfrastPlanList.Clear();
@@ -2218,79 +2223,87 @@ namespace MaaWpfGui.ViewModels.UI
                 string jsonStr = File.ReadAllText(Instances.SettingsViewModel.CustomInfrastFile);
                 var root = (JObject)JsonConvert.DeserializeObject(jsonStr);
 
-                if (_customInfrastInfoOutput && root.ContainsKey("title"))
+                if (root != null && _customInfrastInfoOutput && root.TryGetValue("title", out var title))
                 {
                     AddLog(LocalizationHelper.GetString("CustomInfrastTitle"), UiLogColor.Message);
-                    AddLog(root["title"].ToString(), UiLogColor.Info);
-                    if (root.ContainsKey("description"))
+                    AddLog($"title: {JsonConvert.ToString(title)}", UiLogColor.Info);
+                    if (root.TryGetValue("description", out var value))
                     {
-                        AddLog(root["description"].ToString());
+                        AddLog($"description: {JsonConvert.ToString(value)}", UiLogColor.Info);
                     }
                 }
 
-                var plan_list = (JArray)root["plans"];
-                for (int i = 0; i < plan_list.Count; ++i)
+                var planList = (JArray)root?["plans"];
+                if (planList != null)
                 {
-                    var plan = (JObject)plan_list[i];
-                    string display = plan.ContainsKey("name") ? plan["name"].ToString() : ("Plan " + ((char)('A' + i)).ToString());
-                    CustomInfrastPlanList.Add(new GenericCombinedData<int> { Display = display, Value = i });
-                    string desc = plan.ContainsKey("description") ? plan["description"].ToString() : string.Empty;
-                    string descPost = plan.ContainsKey("description_post") ? plan["description_post"].ToString() : string.Empty;
-
-                    if (_customInfrastInfoOutput)
+                    for (int i = 0; i < planList.Count; ++i)
                     {
-                        AddLog(display, UiLogColor.Message);
-                    }
+                        var plan = (JObject)planList[i];
+                        string display = plan.TryGetValue("name", out var name) ? name.ToString() : ("Plan " + ((char)('A' + i)).ToString());
+                        CustomInfrastPlanList.Add(new GenericCombinedData<int> { Display = display, Value = i });
+                        string desc = plan.TryGetValue("description", out var description) ? description.ToString() : string.Empty;
+                        string descPost = plan.TryGetValue("description_post", out var descriptionPost) ? descriptionPost.ToString() : string.Empty;
 
-                    var periodList = new List<CustomInfrastPlanInfo.Period>();
-                    if (plan.ContainsKey("period"))
-                    {
-                        var periodArray = (JArray)plan["period"];
-                        foreach (var periodJson in periodArray)
+                        if (_customInfrastInfoOutput)
                         {
-                            var period = default(CustomInfrastPlanInfo.Period);
-                            string beginTime = periodJson[0].ToString();
-                            var beginSplited = beginTime.Split(':');
-                            period.BeginHour = int.Parse(beginSplited[0]);
-                            period.BeginMinute = int.Parse(beginSplited[1]);
+                            AddLog(display, UiLogColor.Message);
+                        }
 
-                            string endTime = periodJson[1].ToString();
-                            var endSplited = endTime.Split(':');
-                            period.EndHour = int.Parse(endSplited[0]);
-                            period.EndMinute = int.Parse(endSplited[1]);
-                            periodList.Add(period);
-                            if (_customInfrastInfoOutput)
+                        var periodList = new List<CustomInfrastPlanInfo.Period>();
+                        if (plan.TryGetValue("period", out var token))
+                        {
+                            var periodArray = (JArray)token;
+                            foreach (var periodJson in periodArray)
                             {
-                                AddLog(string.Format("[ {0:D2}:{1:D2} - {2:D2}:{3:D2} ]",
-                                    period.BeginHour, period.BeginMinute,
-                                    period.EndHour, period.EndMinute));
+                                var period = default(CustomInfrastPlanInfo.Period);
+                                string beginTime = periodJson[0]?.ToString();
+                                if (beginTime != null)
+                                {
+                                    var beginSplit = beginTime.Split(':');
+                                    period.BeginHour = int.Parse(beginSplit[0]);
+                                    period.BeginMinute = int.Parse(beginSplit[1]);
+                                }
+
+                                string endTime = periodJson[1]?.ToString();
+                                if (endTime != null)
+                                {
+                                    var endSplit = endTime.Split(':');
+                                    period.EndHour = int.Parse(endSplit[0]);
+                                    period.EndMinute = int.Parse(endSplit[1]);
+                                }
+
+                                periodList.Add(period);
+                                if (_customInfrastInfoOutput)
+                                {
+                                    AddLog($"[ {period.BeginHour:D2}:{period.BeginMinute:D2} - {period.EndHour:D2}:{period.EndMinute:D2} ]");
+                                }
+                            }
+
+                            if (periodList.Count != 0)
+                            {
+                                _customInfrastPlanHasPeriod = true;
                             }
                         }
 
-                        if (periodList.Count != 0)
+                        if (_customInfrastInfoOutput && desc != string.Empty)
                         {
-                            _customInfrastPlanHasPeriod = true;
+                            AddLog(desc);
                         }
-                    }
 
-                    if (_customInfrastInfoOutput && desc != string.Empty)
-                    {
-                        AddLog(desc);
-                    }
+                        if (_customInfrastInfoOutput && descPost != string.Empty)
+                        {
+                            AddLog(descPost);
+                        }
 
-                    if (_customInfrastInfoOutput && descPost != string.Empty)
-                    {
-                        AddLog(descPost);
+                        CustomInfrastPlanInfoList.Add(new CustomInfrastPlanInfo
+                        {
+                            Index = i,
+                            Name = display,
+                            Description = desc,
+                            DescriptionPost = descPost,
+                            PeriodList = periodList,
+                        });
                     }
-
-                    CustomInfrastPlanInfoList.Add(new CustomInfrastPlanInfo
-                    {
-                        Index = i,
-                        Name = display,
-                        Description = desc,
-                        DescriptionPost = descPost,
-                        PeriodList = periodList,
-                    });
                 }
 
                 _customInfrastInfoOutput = true;
@@ -2302,30 +2315,26 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            refreshCustomInfrastPlanIndexByPeriod();
+            RefreshCustomInfrastPlanIndexByPeriod();
         }
 
-        private void refreshCustomInfrastPlanIndexByPeriod()
+        private void RefreshCustomInfrastPlanIndexByPeriod()
         {
             if (!CustomInfrastEnabled || !_customInfrastPlanHasPeriod || InfrastTaskRunning)
             {
                 return;
             }
 
-            static bool timeLess(int lHour, int lMin, int rHour, int rMin) => (lHour != rHour) ? (lHour < rHour) : (lMin <= rMin);
+            static bool TimeLess(int lHour, int lMin, int rHour, int rMin) => (lHour != rHour) ? (lHour < rHour) : (lMin <= rMin);
 
             var now = DateTime.Now;
-            foreach (var plan in CustomInfrastPlanInfoList)
+            foreach (var plan in CustomInfrastPlanInfoList.Where(
+                plan => plan.PeriodList.Any(
+                    period => TimeLess(period.BeginHour, period.BeginMinute, now.Hour, now.Minute)
+                              && TimeLess(now.Hour, now.Minute, period.EndHour, period.EndMinute))))
             {
-                foreach (var period in plan.PeriodList)
-                {
-                    if (timeLess(period.BeginHour, period.BeginMinute, now.Hour, now.Minute) &&
-                        timeLess(now.Hour, now.Minute, period.EndHour, period.EndMinute))
-                    {
-                        CustomInfrastPlanIndex = plan.Index;
-                        return;
-                    }
-                }
+                CustomInfrastPlanIndex = plan.Index;
+                return;
             }
         }
 
@@ -2570,21 +2579,21 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// 关卡不可掉落的材料
         /// </summary>
-        private static readonly HashSet<string> excludedValues = new HashSet<string>()
+        private static readonly HashSet<string> _excludedValues = new HashSet<string>()
         {
             "3213", "3223", "3233", "3243", // 双芯片
             "3253", "3263", "3273", "3283",
             "7001", "7002", "7003", "7004", // 许可/凭证
             "4004", "4005",
             "3105", "3131", "3132", "3233", // 龙骨/加固建材
-            "6001",                         // 演习券
-            "3141", "4002",                 // 源石
-            "32001",                        // 芯片助剂
-            "30115",                        // 聚合剂
-            "30125",                        // 双极纳米片
-            "30135",                        // D32钢
-            "30145",                        // 晶体电子单元
-            "30155",                        // 烧结核凝晶
+            "6001", // 演习券
+            "3141", "4002", // 源石
+            "32001", // 芯片助剂
+            "30115", // 聚合剂
+            "30125", // 双极纳米片
+            "30135", // D32钢
+            "30145", // 晶体电子单元
+            "30155", // 烧结核凝晶
         };
 
         private void InitDrops()
@@ -2601,7 +2610,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 var dis = item.Value.Name;
 
-                if (excludedValues.Contains(val))
+                if (_excludedValues.Contains(val))
                 {
                     continue;
                 }
@@ -2609,10 +2618,7 @@ namespace MaaWpfGui.ViewModels.UI
                 AllDrops.Add(new CombinedData { Display = dis, Value = val });
             }
 
-            AllDrops.Sort((a, b) =>
-            {
-                return string.Compare(a.Value, b.Value, StringComparison.Ordinal);
-            });
+            AllDrops.Sort((a, b) => string.Compare(a.Value, b.Value, StringComparison.Ordinal));
             DropsList = new ObservableCollection<CombinedData>(AllDrops);
         }
 
@@ -2657,17 +2663,19 @@ namespace MaaWpfGui.ViewModels.UI
         {
             foreach (var item in DropsList)
             {
-                if (DropsItemName == item.Display)
+                if (DropsItemName != item.Display)
                 {
-                    DropsItemId = item.Value;
-
-                    if (DropsItemName != item.Display || DropsItemId != item.Value)
-                    {
-                        DropsItemName = LocalizationHelper.GetString("NotSelected");
-                    }
-
-                    return;
+                    continue;
                 }
+
+                DropsItemId = item.Value;
+
+                if (DropsItemName != item.Display || DropsItemId != item.Value)
+                {
+                    DropsItemName = LocalizationHelper.GetString("NotSelected");
+                }
+
+                return;
             }
 
             DropsItemName = LocalizationHelper.GetString("NotSelected");
