@@ -8,7 +8,7 @@ on:
       - 'qodana.yaml'
   push:  # 在主分支推送代码的场合进行扫描
     branches:
-      - main
+      - master
       - 'releases/*'
       - dev
     paths:
