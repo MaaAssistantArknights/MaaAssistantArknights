@@ -20,10 +20,7 @@
                 "3-8",
                 "3-10"
             ],
-            "rarity": 6,
-            "tokens": [
-                "Mon3tr"
-            ]
+            "rarity": 6
         },
         "char_009_12fce": {
             "name": "12F",
@@ -89,10 +86,7 @@
                 "x-1",
                 "x-1"
             ],
-            "rarity": 6,
-            "tokens": [
-                "斯卡蒂的海嗣"
-            ]
+            "rarity": 6
         },
         "char_1013_chen2": {
             "name": "假日威龙陈",
@@ -118,6 +112,17 @@
             "tokens": [
                 "“耀阳”"
             ]
+        },
+        "char_1016_agoat2": {
+            "name": "纯烬艾雅法拉",
+            "position": "RANGED",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-3",
+                "3-17",
+                "3-17"
+            ],
+            "rarity": 6
         },
         "char_101_sora": {
             "name": "空",
@@ -265,6 +270,20 @@
             ],
             "rarity": 6
         },
+        "char_1033_swire2": {
+            "name": "琳琅诗怀雅",
+            "position": "MELEE",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 6,
+            "tokens": [
+                "香槟炸弹"
+            ]
+        },
         "char_103_angel": {
             "name": "能天使",
             "position": "RANGED",
@@ -332,10 +351,7 @@
                 "3-1",
                 "3-1"
             ],
-            "rarity": 4,
-            "tokens": [
-                "触手"
-            ]
+            "rarity": 4
         },
         "char_112_siege": {
             "name": "推进之王",
@@ -822,10 +838,7 @@
                 "y-2",
                 "y-2"
             ],
-            "rarity": 6,
-            "tokens": [
-                "幻影"
-            ]
+            "rarity": 6
         },
         "char_180_amgoat": {
             "name": "艾雅法拉",
@@ -1025,7 +1038,7 @@
             ],
             "rarity": 6,
             "tokens": [
-                "\"小自在\""
+                "“小自在”"
             ]
         },
         "char_201_moeshd": {
@@ -1328,10 +1341,7 @@
                 "3-1",
                 "3-1"
             ],
-            "rarity": 5,
-            "tokens": [
-                "机械水獭"
-            ]
+            "rarity": 5
         },
         "char_243_waaifu": {
             "name": "槐琥",
@@ -1369,10 +1379,7 @@
                 "3-3",
                 "3-3"
             ],
-            "rarity": 6,
-            "tokens": [
-                "流形"
-            ]
+            "rarity": 6
         },
         "char_250_phatom": {
             "name": "傀影",
@@ -1383,10 +1390,7 @@
                 "1-1",
                 "1-1"
             ],
-            "rarity": 6,
-            "tokens": [
-                "镜中虚影"
-            ]
+            "rarity": 6
         },
         "char_252_bibeak": {
             "name": "柏喙",
@@ -1862,10 +1866,7 @@
                 "3-1",
                 "3-1"
             ],
-            "rarity": 5,
-            "tokens": [
-                "移动摄影器"
-            ]
+            "rarity": 5
         },
         "char_337_utage": {
             "name": "宴",
@@ -2267,10 +2268,7 @@
                 "1-1",
                 "1-1"
             ],
-            "rarity": 6,
-            "tokens": [
-                "工程蓄水炮"
-            ]
+            "rarity": 6
         },
         "char_4013_kjera": {
             "name": "耶拉",
@@ -2507,10 +2505,7 @@
                 "3-3",
                 "3-3"
             ],
-            "rarity": 6,
-            "tokens": [
-                "共振装置"
-            ]
+            "rarity": 6
         },
         "char_4054_malist": {
             "name": "至简",
@@ -2532,10 +2527,7 @@
                 "3-6",
                 "3-6"
             ],
-            "rarity": 6,
-            "tokens": [
-                "“打字机”"
-            ]
+            "rarity": 6
         },
         "char_405_absin": {
             "name": "苦艾",
@@ -2740,6 +2732,17 @@
             ],
             "rarity": 5
         },
+        "char_4106_bryota": {
+            "name": "苍苔",
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "2-2",
+                "2-2",
+                "2-2"
+            ],
+            "rarity": 5
+        },
         "char_411_tomimi": {
             "name": "特米米",
             "position": "RANGED",
@@ -2837,10 +2840,7 @@
                 "3-3",
                 "3-3"
             ],
-            "rarity": 6,
-            "tokens": [
-                "狼群"
-            ]
+            "rarity": 6
         },
         "char_430_fartth": {
             "name": "远牙",
@@ -2873,10 +2873,7 @@
                 "1-1",
                 "1-1"
             ],
-            "rarity": 5,
-            "tokens": [
-                "可靠电池"
-            ]
+            "rarity": 5
         },
         "char_436_whispr": {
             "name": "絮雨",
@@ -2931,10 +2928,7 @@
                 "3-3",
                 "3-3"
             ],
-            "rarity": 5,
-            "tokens": [
-                "\"夹子\""
-            ]
+            "rarity": 5
         },
         "char_452_bstalk": {
             "name": "豆苗",
@@ -2945,10 +2939,7 @@
                 "3-3",
                 "3-3"
             ],
-            "rarity": 4,
-            "tokens": [
-                "磐蟹护卫队"
-            ]
+            "rarity": 4
         },
         "char_455_nothin": {
             "name": "乌有",
@@ -2992,10 +2983,7 @@
                 "3-3",
                 "3-3"
             ],
-            "rarity": 5,
-            "tokens": [
-                "迎宾踏垫"
-            ]
+            "rarity": 5
         },
         "char_459_tachak": {
             "name": "战车",
@@ -3094,10 +3082,7 @@
                 "3-3",
                 "3-3"
             ],
-            "rarity": 5,
-            "tokens": [
-                "眠兽"
-            ]
+            "rarity": 5
         },
         "char_478_kirara": {
             "name": "绮良",
@@ -3130,10 +3115,7 @@
                 "1-1",
                 "1-1"
             ],
-            "rarity": 4,
-            "tokens": [
-                "全自动造型仪"
-            ]
+            "rarity": 4
         },
         "char_485_pallas": {
             "name": "帕拉斯",
@@ -3154,6 +3136,17 @@
                 "1-2",
                 "1-2",
                 "1-2"
+            ],
+            "rarity": 5
+        },
+        "char_488_buildr": {
+            "name": "青枳",
+            "position": "MELEE",
+            "profession": "PIONEER",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
             ],
             "rarity": 5
         },
@@ -3565,7 +3558,7 @@
             "rarity": 6
         },
         "token_10013_robin_mine": {
-            "name": "\"夹子\"",
+            "name": "“夹子”",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -3587,7 +3580,7 @@
             "rarity": 4
         },
         "token_10015_dusk_drgn": {
-            "name": "\"小自在\"",
+            "name": "“小自在”",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -3798,6 +3791,17 @@
         "token_10030_mlyss_wtrman": {
             "name": "流形",
             "position": "ALL",
+            "profession": "TOKEN",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 6
+        },
+        "token_10031_swire2_gdtrap": {
+            "name": "香槟炸弹",
+            "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
                 "0-1",
@@ -5101,6 +5105,28 @@
                 "0-1",
                 "0-1",
                 "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_122_stmpq": {
+            "name": "景观喷泉",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_123_stmbot": {
+            "name": "水汽汽水瓶",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-5",
+                "x-5",
+                "x-5"
             ],
             "rarity": 1
         },
