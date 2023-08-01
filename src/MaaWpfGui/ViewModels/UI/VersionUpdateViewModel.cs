@@ -538,7 +538,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     var isInChina = urls[i].Contains("s3.maa-org.net") || urls[i].Contains("maa-ota.annangela.cn");
 
-                    if (latencies[i].Equals(-1.0))
+                    if (latencies[i] < 0)
                     {
                         _logger.Warning("\turl: {CDNUrl} not available", urls[i]);
                         continue;
@@ -552,13 +552,13 @@ namespace MaaWpfGui.ViewModels.UI
                         latencies[i] += 648;
                     }
 
-                    if (latencies[i] < latencies[selected])
+                    if (latencies[selected] < 0 || (latencies[i] >= 0 && latencies[i] < latencies[selected]))
                     {
                         selected = i;
                     }
                 }
 
-                if (latencies[selected].Equals(-1.0))
+                if (latencies[selected] < 0)
                 {
                     _logger.Error("All mirrors are not available");
                     return CheckUpdateRetT.NetworkError;
