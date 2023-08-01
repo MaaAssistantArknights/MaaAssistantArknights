@@ -1,81 +1,158 @@
-## v4.20.0
+## v4.21.0-beta.1
 
 ### 新增
 
-- 适配萨米肉鸽 (#5393) @DavidWang19 @SherkeyXD @LingXii @qxdqhr @HauKuen @yyjdelete @Ziqing19 @mathlover @yc080713 @mikucy @hguandl @vic233333 @salenth
-- 定时任务可切换配置 (#5323) @ABA2396 @MistEO
+- 支持活动导航 @ABA2396
+- 新增萨米肉鸽4~5层部署策略 (#5725) @LingXii
+   - 新增萨米肉鸽4~5层部署策略 @LingXii
+   - 新增萨米肉鸽4~5层部署策略 @LingXii
+- 主目录存在 DEBUG.txt 时每次开始任务都重新解析tasks.json (#5736) @ABA2396
+   - debug版本/release版本加DEBUG.txt load时重新加载tasks.json @ABA2396
+   - 主目录存在 DEBUG.txt 时每次开始任务都重新解析tasks.json @ABA2396
+- SSS Implementation for YostarEN @Constrat
+- 繁中服支持牛牛抽卡 @ABA2396
+- 给牛牛抽卡提示增加阴间特效 (#5694) @SherkeyXD
+   - 修正对其他模块的误操作 @SherkeyXD
+   - 更改阴影效果并优化颜色动画使其连贯 @SherkeyXD
+   - 添加多语言本地化键值对 翻译需要优化 @SherkeyXD
+   - 这个劲大.gif @SherkeyXD
+   - 牛牛抽卡提示添加彩虹特效 @SherkeyXD
+- WB event navigation for EN @Constrat
+- 補充繁中服水月肉鴿截圖 (#5673) @momomochi987
+   - 補充水月肉鴿截圖 @momomochi987
+- 貢獻台服水月三張小截圖 (#5670) @Arcelibs
+   - Delete Mizuki@Roguelike@StageEncounter.png @Arcelibs
+   - Delete Mizuki@Roguelike@StageCambatDps.png @Arcelibs
+   - Delete Mizuki@Roguelike@StageEncounterOptionLeave.png @Arcelibs
+   - Delete Mizuki@Roguelike@GetDropCompleted.png @Arcelibs
+   - Delete Mizuki@Roguelike@Abandon.png @Arcelibs
+   - 3出擊1刷新 @Arcelibs
+   - 再更新一些 @Arcelibs
+   - Add files via upload @Arcelibs
+   - Add files via upload @Arcelibs
+   - 繁中服截圖 @Arcelibs
+   - 貢獻台服水月三張小截圖 @Arcelibs
+- 选择刷源石锭策略时强制启用投资选项 (#5625) @SherkeyXD
+   - 选择刷源石锭策略时强制启用投资选项 @SherkeyXD
 
 ### 改进
 
-- 自动关闭“检测到有未下载的语音资源”窗口 (#5396) @Hydrogina
-- 肉鸽debug日志写入图片前限制文件夹内图片数量 (#5325) @BladeHiker
-- 优化HttpClient构建过程 (#5357) @ChingCdesu @HisAtri
-- 自动检测更新的随机延迟改为一小时 @ABA2396
-- 更改更新弹窗格式 @ABA2396
-- 优化水月部分地图部署逻辑 (#5576) @Yumi0606
-- 全局配置不存在时会优先使用当前配置的字段，并赋值给全局配置 @ABA2396
-- 调整窗口标题 @TiSpH
+- 更新的逻辑小错误 (#5752) @tangge233
+   - 这次绝对没问题了 @tangge233
+   - 修复可能会由 double 类型引发的错误 @tangge233
+   - 修改检查镜像源逻辑 @tangge233
+   - 更新的逻辑小错误 @tangge233
+- 优化傀影肉鸽招募逻辑和棘刺队作战逻辑 (#5707) @Lancarus
+   - 优化傀影肉鸽部分关卡作战逻辑 @Lancarus
+   - 优化傀影肉鸽选人逻辑 @Lancarus
+   - 优化傀影肉鸽的选人逻辑 @Lancarus
+   - 优化傀影肉鸽部分关卡部署策略 @Lancarus
+- 使用 version summary api 检查更新 @MistEO
+- 进一步优化水月肉鸽部分关卡作战逻辑 (#5663) @Yumi0606
+- 优化肉鸽招募逻辑 (#5621) @SherkeyXD
+- 改进 macos-runtime-universal.zip 生成 @AnnAngela
 
 ### 修复
 
-- 添加定时器缺少的判断 @ABA2396
-- 点击技能启动按钮时，验证按钮已消失，防止卡死在子弹时间中 (#5374) @chaserhkj
-- 添加山的干员名字纠错规则 (#5372) @chaserhkj
-- add CloseEvent task for Phantom Roguelike (#5358) @chaserhkj
-- 强制启动定时任务未在运行时不关闭方舟 #5346 @ABA2396
-- 尝试修复运行时下载完成更新包后卡死 (#5327) @ABA2396
-- 强制定时启动无法保存; 配置名称过长显示问题 (#5532) @TiSpH
-- 定时功能设置无法更新 @ABA2396
-- 0 时的定时任务无法提前重启 (#5571) @TiSpH
-- 修复定时器配置从未选择时的逻辑错误 @ABA2396
-- 修复输入非法时间时，输入框会重置但却存储错误数据的问题 @ABA2396
+- 日服水月肉鸽事件选项确认页面 (#5749) @Manicsteiner
+   - 日服水月肉鸽事件选项确认页面 @Manicsteiner
+- 重製繁中服部分截圖 (#5748) @momomochi987
+   - 重製肉鴿 SKIP 與數據回溯截圖 @momomochi987
+   - 重製資源關卡截圖_第二部分 @momomochi987
+   - 重製資源關卡截圖_第一部分 @momomochi987
+   - 重製基建各設施截圖 @momomochi987
+- missing name-component for SSS + tweaked regex @Constrat
+- Dossoles ROI and Stage name fixes + temp OCR rep for long names @Constrat
+- 修正繁中服水月肉鴿 "漩渦" 的關卡辨識問題 (#5731) @momomochi987
+   - 修正 "漩渦" 的辨識問題 @momomochi987
+- 关闭模拟器权限不够时失败报错 @ABA2396
+- 连接失败后自动重启模拟器功能失效 @ABA2396
+- 主线导航识别问题 @ABA2396
+- mumu模拟器在游戏未启动时关闭游戏报错，增加关闭游戏日志和判断 @ABA2396
+- ulterior changes / fixes from 9f2c7488b3310ac6a0e2304b7796181d88703f91 @Constrat
+- Auto Update Wrong order, rerun before limited @Constrat
+- 修复一处因 MarkdownIt 引入导致的404链接 (#5680) @abc1763613206
+   - fix a link @abc1763613206
+- 本地化文件错误/localization file error @ABA2396
+- gui.log 在自重启后有几率无法正常写入 (#5624) @TiSpH
+   - gui.log 在自重启后有几率无法正常写入 @TiSpH
+- Manual stage navigation for EN (fix #4874) I have no clue why having the StartButton1 in the two files (official and YostarEN) does not work. I've tried everything from Ascii, fullMatch, copying the entire task, but nothing worked. This was the only solution I found. Also inverting "Start" with "开始行动" won't make it work in one of the two servers. I've tested in both and it seems to work properly. @Constrat
 
 ### 其他
 
-- 优化了互斥规划问题的 dlx 算法实现在一定情况下的速度 @lhhxxxxx
-- 更新裁图小工具 @MistEO
-- 在文档的导航栏里加上前往官网的链接 @AnnAngela
-- 修改关卡重连描述 @ABA2396
-- 代码清理 @ABA2396
-- fix typo in AsstCaller.h (#5435) @eltociear
-- 添加一键编译macOS Core的脚本 @hguandl
-- 在用户有代理的情况下，提升国外镜像的优先级 (s3限速上行50Mbps) @ChingCdesu
-- AsstConf.h 对 clang-tidy 不友好的问题 (#5510) @hxdnshx
-- 规范化step name (#5517) @SherkeyXD
-- 删除export后面多余的空格 (#5515) @SherkeyXD
-- 修复对ranges支持检测的判断条件 (#5548) @hguandl
-- 修复初次使用多出来一个Global配置的问题 @MistEO
-- added new ignored Sami IS4 images @Constrat
-- 打包 macos dylib @AnnAngela
-
-### For overseas
-
-#### Common
-
-- FC event stages implementation for KR, JP, EN @Constrat
-
-#### YostarEN
-
-- raised threshold for StageAnnihilation.png (#5234) @Constrat
-- Added correct StageAnnihilation.png after update @Constrat
-- Visiting only 1 Friend Clue Exchange in YostarEN (#5424) @Constrat
-- Missing .png for YostarEN and modified tools/ignore_list_of_templates.txt (lack of Chinese characters) (#5458) @Constrat
-- OperBox not retrieving Oper Class bar in EN @Constrat
-- added missing strings form missing_translate-YostarEN @Constrat
-- Workaround for EN infrastracture oper regex (#5549) @Constrat
-
-#### YostarKR
-
-- Improved operator awareness in infrastructure (#5564) @zewoosJ
-- add tutorial docs for kr @zewoosJ @178619
-
-#### txwy
-
-- 繁中服干员名识别错误 @Arcelibs
-
-### For dev
-
-- Python api 更新 同时请求多个url下载 (#5390) @HisAtri
-- 使用字典推导式 (#5381) @HisAtri
-- 修复Python更新器中重试次数的问题 (#5402) @Q-ModifiedJ
-- 适配pythonAPI到最新版 (#5347) @DoyoDia
+- Ci: qodana (#5754) @MistEO @hxdnshx
+   - fix branch @MistEO
+   - 增加 Qodana 静态扫描 (#5662) @hxdnshx
+- Auto Update Game Resources - 2023-08-01 @MistEO
+- Rename SSS_Dossoles_BROKEN_,waitforfix.json to SSS_Under-ConstructionDossolesPlate.json @Constrat
+- Rename SSS_AcahuallanJungle_WORKING.json to SSS_AcahuallanJungle.json @Constrat
+- Auto Update Game Resources - 2023-08-01 @MistEO
+- Auto Update Game Resources - 2023-08-01 @MistEO
+- Auto Update Game Resources - 2023-07-31 @MistEO
+- Rename SSS_AcahuallanJungle.json to SSS_AcahuallanJungle_WORKING.json @Constrat
+- Rename SSS_Under-ConstructionDossolesPlate.json to SSS_Dossoles_BROKEN_,waitforfix.json @Constrat
+- Auto Update Game Resources - 2023-07-30 @MistEO
+- duplicate: same as 5f0f2f8610ab1d4c6a774094f4d79f6b0a73e2da @Constrat
+- Merge branch 'dev' of https://github.com/MaaAssistantArknights/MaaAssistantArknights into dev @vonnoq @Lancarus
+   - 繁中服肉鴿 (#5717) @vonnoq
+      - 繁中服水月肉鴿過關圖 @vonnoq
+      - 繁中服肉鴿 @vonnoq
+   - 修复了傀影肉鸽部分关卡的部署逻辑 (#5712) @Lancarus
+      - 修复了傀影肉鸽部分关卡的作战逻辑 @Lancarus
+      - 配合作战逻辑更改了部分傀影肉鸽不期而遇事件的选项 @Lancarus
+      - 修复了傀影肉鸽的商品与顺序 @Lancarus
+      - 修复了傀影肉鸽部分关卡的部署逻辑 @Lancarus
+- i18n: 5ec976c9194d68b9b5c78234152ab2eb1953c5d4 moved changes to new file to allow future edits @Constrat
+- duplicate: same as 1aebcee468199cebeec1373dec144cae0f019d78 @Constrat
+- duplicate: repeats in Ocr replace EN tasks.json @Constrat
+- Implement ADB hard restart. (#5666) @AsterNighT
+   - Fix: Wrap Process.Kill in try/catch @AsterNighT
+   - Merge from dev @AsterNighT
+   - Fix: Localizations for other languages and fix a bug that crashes maa in jp @AsterNighT
+   - Fix: Move logs back to TaskQueueViewModel.cs @AsterNighT
+   - Fix: Remove redundant logs in TaskQueueViewModel.cs @AsterNighT
+   - Feat: Implement ADB hard restart. @AsterNighT
+- SSS available in global, removed from regex @Constrat
+- i18n: Added EN translation to SSS files @Constrat
+- typo: fix typo @ABA2396
+- Fix:一些文字识别问题与死囚之夜部分高台站位 (#5710) @cenfusheng
+   - Fix: 修复归溟幽灵鲨的识别问题 @cenfusheng
+   - Fix: 修复繁中服部分带标点的文字识别内容（TXWY） @cenfusheng
+   - Fix: 优化死囚之夜高台斩味 @cenfusheng
+   - Fix: 修复部分异格干员的文字识别问题（TXWY） @cenfusheng
+- from 88ed4008e414f012a0f65605da3f513674edb8f1 switched to WordOcr from ImageOcr @Constrat
+- Merge branch 'dev' of https://github.com/MaaAssistantArknights/MaaAssistantArknights into dev @momomochi987 @vonnoq @avw621314
+   - 修正繁中服無法正確選擇 "物盡其用分隊" 的問題 (#5701) @momomochi987
+      - 修正物盡其用分隊無法正確選擇的問題 @momomochi987
+   - 補充繁中服截圖、水月肉鴿新分隊名 & 嘗試修復一些問題 (#5691) @momomochi987
+      - 新增水月肉鴿委託任務已完成截圖 @momomochi987
+      - 更新一些水月肉鴿截圖 @momomochi987
+      - 增加水月肉鴿三個新分隊名稱 @momomochi987
+      - 嘗試修復令的召喚物與鴻雪的打字機部屬問題 @momomochi987
+      - 補充圖片 @momomochi987
+      - 更新資源收集關卡截圖 @momomochi987
+      - 更新、替換一些圖片 @momomochi987
+   - TW水月肉鴿圖檔 (#5684) @vonnoq
+      - TW 水月 @vonnoq
+      - Add files via upload @vonnoq
+      - TW 水月肉鴿圖檔 @vonnoq
+      - TW水月肉鴿圖檔 @vonnoq
+   - 重製_tw服水月肉鴿 Mizuki@Roguelike@GetDropRecruit 圖像清晰化 (#5678) @avw621314
+      - 重製_tw服水月肉鴿 Mizuki@Roguelike@GetDropRecruit 圖像清晰化 @avw621314
+- Auto Update Game Resources - 2023-07-28 @MistEO
+- 不知道是个什么东西 @MistEO
+- Auto Update Game Resources - 2023-07-28 @MistEO
+- Auto Update Game Resources - 2023-07-28 @MistEO
+- Auto Update Game Resources - 2023-07-27 @MistEO
+- 界面选项改为 mumu 6 @MistEO
+- MaaFramework! @MistEO
+- 添加关联项目 MaaFramework @MistEO
+- Auto Update Game Resources - 2023-07-27 @MistEO
+- JP : add Operators 登臨意 (#5636) @wallsman
+   - JP : add Operators 登臨意 @wallsman
+- macos-runtime-universal.zip 生成过程自适应版本号 @AnnAngela
+- 添加macos-runtime的resource文件夹和dylib的symlink @ChingCdesu
+- i18n: Translations update from MAA Weblate (#5620) @weblate
+   - Translated using Weblate (Chinese (Traditional)) @weblate
+- Merge branch 'dev' of https://github.com/MaaAssistantArknights/MaaAssistantArknights into dev @Constrat
+   - better StartButton1.png @Constrat
