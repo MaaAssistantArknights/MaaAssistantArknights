@@ -6956,6 +6956,123 @@
         "stageId": "act26side_tr02",
         "width": 11
     },
+    "act27side_01-activities/act27side/level_act27side_01": {
+        "code": "SL-1",
+        "filename": "act27side_01-activities-act27side-level_act27side_01.json",
+        "height": 7,
+        "levelId": "activities/act27side/level_act27side_01",
+        "name": "你的耳朵长不长？",
+        "stageId": "act27side_01",
+        "width": 11
+    },
+    "act27side_02-activities/act27side/level_act27side_02": {
+        "code": "SL-2",
+        "filename": "act27side_02-activities-act27side-level_act27side_02.json",
+        "height": 9,
+        "levelId": "activities/act27side/level_act27side_02",
+        "name": "小蓝孩",
+        "stageId": "act27side_02",
+        "width": 9
+    },
+    "act27side_03-activities/act27side/level_act27side_03": {
+        "code": "SL-3",
+        "filename": "act27side_03-activities-act27side-level_act27side_03.json",
+        "height": 7,
+        "levelId": "activities/act27side/level_act27side_03",
+        "name": "手指之家",
+        "stageId": "act27side_03",
+        "width": 11
+    },
+    "act27side_04-activities/act27side/level_act27side_04": {
+        "code": "SL-4",
+        "filename": "act27side_04-activities-act27side-level_act27side_04.json",
+        "height": 6,
+        "levelId": "activities/act27side/level_act27side_04",
+        "name": "一个水手出海了",
+        "stageId": "act27side_04",
+        "width": 11
+    },
+    "act27side_05-activities/act27side/level_act27side_05": {
+        "code": "SL-5",
+        "filename": "act27side_05-activities-act27side-level_act27side_05.json",
+        "height": 7,
+        "levelId": "activities/act27side/level_act27side_05",
+        "name": "我会唱一首彩虹",
+        "stageId": "act27side_05",
+        "width": 11
+    },
+    "act27side_06-activities/act27side/level_act27side_06": {
+        "code": "SL-6",
+        "filename": "act27side_06-activities-act27side-level_act27side_06.json",
+        "height": 7,
+        "levelId": "activities/act27side/level_act27side_06",
+        "name": "林中小木屋",
+        "stageId": "act27side_06",
+        "width": 11
+    },
+    "act27side_07-activities/act27side/level_act27side_07": {
+        "code": "SL-7",
+        "filename": "act27side_07-activities-act27side-level_act27side_07.json",
+        "height": 7,
+        "levelId": "activities/act27side/level_act27side_07",
+        "name": "靠着我的肩膀哭泣",
+        "stageId": "act27side_07",
+        "width": 11
+    },
+    "act27side_08-activities/act27side/level_act27side_08": {
+        "code": "SL-8",
+        "filename": "act27side_08-activities-act27side-level_act27side_08.json",
+        "height": 8,
+        "levelId": "activities/act27side/level_act27side_08",
+        "name": "爱之歌",
+        "stageId": "act27side_08",
+        "width": 12
+    },
+    "act27side_sp01-activities/act27side/level_act27side_sp01": {
+        "code": "SL-P-1",
+        "filename": "act27side_sp01-activities-act27side-level_act27side_sp01.json",
+        "height": 7,
+        "levelId": "activities/act27side/level_act27side_sp01",
+        "name": "玛丽有只毛绒绒",
+        "stageId": "act27side_sp01",
+        "width": 12
+    },
+    "act27side_sp02-activities/act27side/level_act27side_sp02": {
+        "code": "SL-P-2",
+        "filename": "act27side_sp02-activities-act27side-level_act27side_sp02.json",
+        "height": 8,
+        "levelId": "activities/act27side/level_act27side_sp02",
+        "name": "小农夫在小山谷",
+        "stageId": "act27side_sp02",
+        "width": 13
+    },
+    "act27side_sp03-activities/act27side/level_act27side_sp03": {
+        "code": "SL-P-3",
+        "filename": "act27side_sp03-activities-act27side-level_act27side_sp03.json",
+        "height": 8,
+        "levelId": "activities/act27side/level_act27side_sp03",
+        "name": "划呀划呀划小船",
+        "stageId": "act27side_sp03",
+        "width": 13
+    },
+    "act27side_tr01-activities/act27side/level_act27side_tr01": {
+        "code": "SL-TR-1",
+        "filename": "act27side_tr01-activities-act27side-level_act27side_tr01.json",
+        "height": 5,
+        "levelId": "activities/act27side/level_act27side_tr01",
+        "name": "黑咩咩",
+        "stageId": "act27side_tr01",
+        "width": 11
+    },
+    "act27side_tr02-activities/act27side/level_act27side_tr02": {
+        "code": "SL-TR-2",
+        "filename": "act27side_tr02-activities-act27side-level_act27side_tr02.json",
+        "height": 7,
+        "levelId": "activities/act27side/level_act27side_tr02",
+        "name": "跟着我拍拍手",
+        "stageId": "act27side_tr02",
+        "width": 9
+    },
     "act2bossrush_01-activities/act2bossrush/level_bossrush2_01": {
         "code": "TN-1",
         "filename": "act2bossrush_01-activities-act2bossrush-level_bossrush2_01.json",
