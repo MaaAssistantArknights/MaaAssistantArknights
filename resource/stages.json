@@ -68002,13 +68002,19 @@
                 "openTime": 1673942400000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1691694000000,
+                "exist": true,
+                "openTime": 1690527600000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1691694000000,
+                "exist": true,
+                "openTime": 1690527600000
             },
             "US": {
-                "exist": false
+                "closeTime": 1691751600000,
+                "exist": true,
+                "openTime": 1690563600000
             }
         },
         "minClearTime": 171000,
@@ -68032,13 +68038,19 @@
                 "openTime": 1673942400000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1691694000000,
+                "exist": true,
+                "openTime": 1690527600000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1691694000000,
+                "exist": true,
+                "openTime": 1690527600000
             },
             "US": {
-                "exist": false
+                "closeTime": 1691751600000,
+                "exist": true,
+                "openTime": 1690563600000
             }
         },
         "minClearTime": 190000,
@@ -68062,13 +68074,19 @@
                 "openTime": 1673942400000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1691694000000,
+                "exist": true,
+                "openTime": 1690527600000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1691694000000,
+                "exist": true,
+                "openTime": 1690527600000
             },
             "US": {
-                "exist": false
+                "closeTime": 1691751600000,
+                "exist": true,
+                "openTime": 1690563600000
             }
         },
         "minClearTime": 154000,
@@ -68092,13 +68110,19 @@
                 "openTime": 1673942400000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1691694000000,
+                "exist": true,
+                "openTime": 1690527600000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1691694000000,
+                "exist": true,
+                "openTime": 1690527600000
             },
             "US": {
-                "exist": false
+                "closeTime": 1691751600000,
+                "exist": true,
+                "openTime": 1690563600000
             }
         },
         "minClearTime": 220000,
@@ -68122,13 +68146,19 @@
                 "openTime": 1673942400000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1691694000000,
+                "exist": true,
+                "openTime": 1690527600000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1691694000000,
+                "exist": true,
+                "openTime": 1690527600000
             },
             "US": {
-                "exist": false
+                "closeTime": 1691751600000,
+                "exist": true,
+                "openTime": 1690563600000
             }
         },
         "minClearTime": 204000,
@@ -68152,13 +68182,19 @@
                 "openTime": 1673942400000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1691694000000,
+                "exist": true,
+                "openTime": 1690527600000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1691694000000,
+                "exist": true,
+                "openTime": 1690527600000
             },
             "US": {
-                "exist": false
+                "closeTime": 1691751600000,
+                "exist": true,
+                "openTime": 1690563600000
             }
         },
         "minClearTime": 180000,
@@ -68182,13 +68218,19 @@
                 "openTime": 1673942400000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1691694000000,
+                "exist": true,
+                "openTime": 1690527600000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1691694000000,
+                "exist": true,
+                "openTime": 1690527600000
             },
             "US": {
-                "exist": false
+                "closeTime": 1691751600000,
+                "exist": true,
+                "openTime": 1690563600000
             }
         },
         "minClearTime": 200000,
@@ -68212,13 +68254,19 @@
                 "openTime": 1673942400000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1691694000000,
+                "exist": true,
+                "openTime": 1690527600000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1691694000000,
+                "exist": true,
+                "openTime": 1690527600000
             },
             "US": {
-                "exist": false
+                "closeTime": 1691751600000,
+                "exist": true,
+                "openTime": 1690563600000
             }
         },
         "minClearTime": 219000,
@@ -68242,13 +68290,19 @@
                 "openTime": 1673942400000
             },
             "JP": {
-                "exist": false
+                "closeTime": 1691694000000,
+                "exist": true,
+                "openTime": 1690527600000
             },
             "KR": {
-                "exist": false
+                "closeTime": 1691694000000,
+                "exist": true,
+                "openTime": 1690527600000
             },
             "US": {
-                "exist": false
+                "closeTime": 1691751600000,
+                "exist": true,
+                "openTime": 1690563600000
             }
         },
         "minClearTime": 264000,
@@ -80960,85 +81014,6 @@
             "ko": "DV-1",
             "zh": "DV-1"
         },
-        "dropInfos": [
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30011"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30061"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30031"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30021"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30041"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 5
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30051"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 1
-                },
-                "dropType": "FURNITURE",
-                "itemId": "furni"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 6
-                },
-                "dropType": "NORMAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "SPECIAL_DROP"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
-                    "upper": 0
-                },
-                "dropType": "EXTRA_DROP"
-            }
-        ],
         "existence": {
             "CN": {
                 "closeTime": 1690488000000,
@@ -81056,9 +81031,6 @@
             }
         },
         "minClearTime": 130500,
-        "recognitionOnly": [
-            "act19side_token_reagents_rep_1"
-        ],
         "stageId": "act19side_01_rep",
         "stageType": "ACTIVITY",
         "zoneId": "act19sre_zone1"
@@ -81071,6 +81043,216 @@
             "ja": "DV-2",
             "ko": "DV-2",
             "zh": "DV-2"
+        },
+        "existence": {
+            "CN": {
+                "closeTime": 1690488000000,
+                "exist": true,
+                "openTime": 1689667200000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 170000,
+        "stageId": "act19side_02_rep",
+        "stageType": "ACTIVITY",
+        "zoneId": "act19sre_zone1"
+    },
+    {
+        "apCost": 12,
+        "code": "DV-3",
+        "code_i18n": {
+            "en": "DV-3",
+            "ja": "DV-3",
+            "ko": "DV-3",
+            "zh": "DV-3"
+        },
+        "existence": {
+            "CN": {
+                "closeTime": 1690488000000,
+                "exist": true,
+                "openTime": 1689667200000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 160000,
+        "stageId": "act19side_03_rep",
+        "stageType": "ACTIVITY",
+        "zoneId": "act19sre_zone1"
+    },
+    {
+        "apCost": 12,
+        "code": "DV-4",
+        "code_i18n": {
+            "en": "DV-4",
+            "ja": "DV-4",
+            "ko": "DV-4",
+            "zh": "DV-4"
+        },
+        "existence": {
+            "CN": {
+                "closeTime": 1690488000000,
+                "exist": true,
+                "openTime": 1689667200000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 175000,
+        "stageId": "act19side_04_rep",
+        "stageType": "ACTIVITY",
+        "zoneId": "act19sre_zone1"
+    },
+    {
+        "apCost": 15,
+        "code": "DV-5",
+        "code_i18n": {
+            "en": "DV-5",
+            "ja": "DV-5",
+            "ko": "DV-5",
+            "zh": "DV-5"
+        },
+        "existence": {
+            "CN": {
+                "closeTime": 1690488000000,
+                "exist": true,
+                "openTime": 1689667200000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 163000,
+        "stageId": "act19side_05_rep",
+        "stageType": "ACTIVITY",
+        "zoneId": "act19sre_zone1"
+    },
+    {
+        "apCost": 21,
+        "code": "DV-6",
+        "code_i18n": {
+            "en": "DV-6",
+            "ja": "DV-6",
+            "ko": "DV-6",
+            "zh": "DV-6"
+        },
+        "existence": {
+            "CN": {
+                "closeTime": 1690488000000,
+                "exist": true,
+                "openTime": 1689667200000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 194000,
+        "stageId": "act19side_06_rep",
+        "stageType": "ACTIVITY",
+        "zoneId": "act19sre_zone1"
+    },
+    {
+        "apCost": 21,
+        "code": "DV-7",
+        "code_i18n": {
+            "en": "DV-7",
+            "ja": "DV-7",
+            "ko": "DV-7",
+            "zh": "DV-7"
+        },
+        "existence": {
+            "CN": {
+                "closeTime": 1690488000000,
+                "exist": true,
+                "openTime": 1689667200000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 182000,
+        "stageId": "act19side_07_rep",
+        "stageType": "ACTIVITY",
+        "zoneId": "act19sre_zone1"
+    },
+    {
+        "apCost": 21,
+        "code": "DV-8",
+        "code_i18n": {
+            "en": "DV-8",
+            "ja": "DV-8",
+            "ko": "DV-8",
+            "zh": "DV-8"
+        },
+        "existence": {
+            "CN": {
+                "closeTime": 1690488000000,
+                "exist": true,
+                "openTime": 1689667200000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 247000,
+        "stageId": "act19side_08_rep",
+        "stageType": "ACTIVITY",
+        "zoneId": "act19sre_zone1"
+    },
+    {
+        "apCost": 9,
+        "code": "SL-1",
+        "code_i18n": {
+            "en": "SL-1",
+            "ja": "SL-1",
+            "ko": "SL-1",
+            "zh": "SL-1"
         },
         "dropInfos": [
             {
@@ -81153,9 +81335,9 @@
         ],
         "existence": {
             "CN": {
-                "closeTime": 1690488000000,
+                "closeTime": 1692648000000,
                 "exist": true,
-                "openTime": 1689667200000
+                "openTime": 1690876800000
             },
             "JP": {
                 "exist": false
@@ -81167,39 +81349,71 @@
                 "exist": false
             }
         },
-        "minClearTime": 170000,
+        "minClearTime": 127000,
         "recognitionOnly": [
-            "act19side_token_reagents_rep_1"
+            "act27side_token_fur"
         ],
-        "stageId": "act19side_02_rep",
+        "stageId": "act27side_01",
         "stageType": "ACTIVITY",
-        "zoneId": "act19sre_zone1"
+        "zoneId": "act27side_zone1"
     },
     {
-        "apCost": 12,
-        "code": "DV-3",
+        "apCost": 9,
+        "code": "SL-2",
         "code_i18n": {
-            "en": "DV-3",
-            "ja": "DV-3",
-            "ko": "DV-3",
-            "zh": "DV-3"
+            "en": "SL-2",
+            "ja": "SL-2",
+            "ko": "SL-2",
+            "zh": "SL-2"
         },
         "dropInfos": [
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 3
+                    "upper": 5
                 },
                 "dropType": "NORMAL_DROP",
-                "itemId": "30062"
+                "itemId": "30011"
             },
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 3
+                    "upper": 5
                 },
                 "dropType": "NORMAL_DROP",
-                "itemId": "30032"
+                "itemId": "30061"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30031"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30021"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30041"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30051"
             },
             {
                 "bounds": {
@@ -81212,7 +81426,7 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 2
+                    "upper": 6
                 },
                 "dropType": "NORMAL_DROP"
             },
@@ -81233,9 +81447,9 @@
         ],
         "existence": {
             "CN": {
-                "closeTime": 1690488000000,
+                "closeTime": 1692648000000,
                 "exist": true,
-                "openTime": 1689667200000
+                "openTime": 1690876800000
             },
             "JP": {
                 "exist": false
@@ -81247,24 +81461,144 @@
                 "exist": false
             }
         },
-        "minClearTime": 160000,
+        "minClearTime": 140000,
         "recognitionOnly": [
-            "act19side_token_reagents_rep_1"
+            "act27side_token_fur"
         ],
-        "stageId": "act19side_03_rep",
+        "stageId": "act27side_02",
         "stageType": "ACTIVITY",
-        "zoneId": "act19sre_zone1"
+        "zoneId": "act27side_zone1"
+    },
+    {
+        "apCost": 9,
+        "code": "SL-3",
+        "code_i18n": {
+            "en": "SL-3",
+            "ja": "SL-3",
+            "ko": "SL-3",
+            "zh": "SL-3"
+        },
+        "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30011"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30061"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30031"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30021"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30041"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 5
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30051"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 1
+                },
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 6
+                },
+                "dropType": "NORMAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "SPECIAL_DROP"
+            },
+            {
+                "bounds": {
+                    "lower": 0,
+                    "upper": 0
+                },
+                "dropType": "EXTRA_DROP"
+            }
+        ],
+        "existence": {
+            "CN": {
+                "closeTime": 1692648000000,
+                "exist": true,
+                "openTime": 1690876800000
+            },
+            "JP": {
+                "exist": false
+            },
+            "KR": {
+                "exist": false
+            },
+            "US": {
+                "exist": false
+            }
+        },
+        "minClearTime": 246000,
+        "recognitionOnly": [
+            "act27side_token_fur"
+        ],
+        "stageId": "act27side_03",
+        "stageType": "ACTIVITY",
+        "zoneId": "act27side_zone1"
     },
     {
         "apCost": 12,
-        "code": "DV-4",
+        "code": "SL-4",
         "code_i18n": {
-            "en": "DV-4",
-            "ja": "DV-4",
-            "ko": "DV-4",
-            "zh": "DV-4"
+            "en": "SL-4",
+            "ja": "SL-4",
+            "ko": "SL-4",
+            "zh": "SL-4"
         },
         "dropInfos": [
+            {
+                "bounds": {
+                    "lower": 1,
+                    "upper": 3
+                },
+                "dropType": "NORMAL_DROP",
+                "itemId": "30032"
+            },
             {
                 "bounds": {
                     "lower": 0,
@@ -81276,14 +81610,6 @@
             {
                 "bounds": {
                     "lower": 0,
-                    "upper": 3
-                },
-                "dropType": "NORMAL_DROP",
-                "itemId": "30042"
-            },
-            {
-                "bounds": {
-                    "lower": 0,
                     "upper": 1
                 },
                 "dropType": "FURNITURE",
@@ -81291,7 +81617,7 @@
             },
             {
                 "bounds": {
-                    "lower": 0,
+                    "lower": 1,
                     "upper": 2
                 },
                 "dropType": "NORMAL_DROP"
@@ -81313,9 +81639,9 @@
         ],
         "existence": {
             "CN": {
-                "closeTime": 1690488000000,
+                "closeTime": 1692648000000,
                 "exist": true,
-                "openTime": 1689667200000
+                "openTime": 1690876800000
             },
             "JP": {
                 "exist": false
@@ -81327,22 +81653,22 @@
                 "exist": false
             }
         },
-        "minClearTime": 175000,
+        "minClearTime": 165000,
         "recognitionOnly": [
-            "act19side_token_reagents_rep_1"
+            "act27side_token_fur"
         ],
-        "stageId": "act19side_04_rep",
+        "stageId": "act27side_04",
         "stageType": "ACTIVITY",
-        "zoneId": "act19sre_zone1"
+        "zoneId": "act27side_zone1"
     },
     {
-        "apCost": 15,
-        "code": "DV-5",
+        "apCost": 12,
+        "code": "SL-5",
         "code_i18n": {
-            "en": "DV-5",
-            "ja": "DV-5",
-            "ko": "DV-5",
-            "zh": "DV-5"
+            "en": "SL-5",
+            "ja": "SL-5",
+            "ko": "SL-5",
+            "zh": "SL-5"
         },
         "dropInfos": [
             {
@@ -81351,7 +81677,7 @@
                     "upper": 3
                 },
                 "dropType": "NORMAL_DROP",
-                "itemId": "30062"
+                "itemId": "30042"
             },
             {
                 "bounds": {
@@ -81393,9 +81719,9 @@
         ],
         "existence": {
             "CN": {
-                "closeTime": 1690488000000,
+                "closeTime": 1692648000000,
                 "exist": true,
-                "openTime": 1689667200000
+                "openTime": 1690876800000
             },
             "JP": {
                 "exist": false
@@ -81407,22 +81733,22 @@
                 "exist": false
             }
         },
-        "minClearTime": 163000,
+        "minClearTime": 186000,
         "recognitionOnly": [
-            "act19side_token_reagents_rep_1"
+            "act27side_token_fur"
         ],
-        "stageId": "act19side_05_rep",
+        "stageId": "act27side_05",
         "stageType": "ACTIVITY",
-        "zoneId": "act19sre_zone1"
+        "zoneId": "act27side_zone1"
     },
     {
         "apCost": 21,
-        "code": "DV-6",
+        "code": "SL-6",
         "code_i18n": {
-            "en": "DV-6",
-            "ja": "DV-6",
-            "ko": "DV-6",
-            "zh": "DV-6"
+            "en": "SL-6",
+            "ja": "SL-6",
+            "ko": "SL-6",
+            "zh": "SL-6"
         },
         "dropInfos": [
             {
@@ -81431,7 +81757,7 @@
                     "upper": 1
                 },
                 "dropType": "NORMAL_DROP",
-                "itemId": "30033"
+                "itemId": "30053"
             },
             {
                 "bounds": {
@@ -81465,9 +81791,9 @@
         ],
         "existence": {
             "CN": {
-                "closeTime": 1690488000000,
+                "closeTime": 1692648000000,
                 "exist": true,
-                "openTime": 1689667200000
+                "openTime": 1690876800000
             },
             "JP": {
                 "exist": false
@@ -81479,22 +81805,22 @@
                 "exist": false
             }
         },
-        "minClearTime": 194000,
+        "minClearTime": 168000,
         "recognitionOnly": [
-            "act19side_token_reagents_rep_1"
+            "act27side_token_fur"
         ],
-        "stageId": "act19side_06_rep",
+        "stageId": "act27side_06",
         "stageType": "ACTIVITY",
-        "zoneId": "act19sre_zone1"
+        "zoneId": "act27side_zone1"
     },
     {
         "apCost": 21,
-        "code": "DV-7",
+        "code": "SL-7",
         "code_i18n": {
-            "en": "DV-7",
-            "ja": "DV-7",
-            "ko": "DV-7",
-            "zh": "DV-7"
+            "en": "SL-7",
+            "ja": "SL-7",
+            "ko": "SL-7",
+            "zh": "SL-7"
         },
         "dropInfos": [
             {
@@ -81503,7 +81829,7 @@
                     "upper": 1
                 },
                 "dropType": "NORMAL_DROP",
-                "itemId": "30073"
+                "itemId": "31033"
             },
             {
                 "bounds": {
@@ -81537,9 +81863,9 @@
         ],
         "existence": {
             "CN": {
-                "closeTime": 1690488000000,
+                "closeTime": 1692648000000,
                 "exist": true,
-                "openTime": 1689667200000
+                "openTime": 1690876800000
             },
             "JP": {
                 "exist": false
@@ -81551,22 +81877,22 @@
                 "exist": false
             }
         },
-        "minClearTime": 182000,
+        "minClearTime": 191000,
         "recognitionOnly": [
-            "act19side_token_reagents_rep_1"
+            "act27side_token_fur"
         ],
-        "stageId": "act19side_07_rep",
+        "stageId": "act27side_07",
         "stageType": "ACTIVITY",
-        "zoneId": "act19sre_zone1"
+        "zoneId": "act27side_zone1"
     },
     {
         "apCost": 21,
-        "code": "DV-8",
+        "code": "SL-8",
         "code_i18n": {
-            "en": "DV-8",
-            "ja": "DV-8",
-            "ko": "DV-8",
-            "zh": "DV-8"
+            "en": "SL-8",
+            "ja": "SL-8",
+            "ko": "SL-8",
+            "zh": "SL-8"
         },
         "dropInfos": [
             {
@@ -81575,7 +81901,7 @@
                     "upper": 1
                 },
                 "dropType": "NORMAL_DROP",
-                "itemId": "31023"
+                "itemId": "30083"
             },
             {
                 "bounds": {
@@ -81609,9 +81935,9 @@
         ],
         "existence": {
             "CN": {
-                "closeTime": 1690488000000,
+                "closeTime": 1692648000000,
                 "exist": true,
-                "openTime": 1689667200000
+                "openTime": 1690876800000
             },
             "JP": {
                 "exist": false
@@ -81623,12 +81949,12 @@
                 "exist": false
             }
         },
-        "minClearTime": 247000,
+        "minClearTime": 296500,
         "recognitionOnly": [
-            "act19side_token_reagents_rep_1"
+            "act27side_token_fur"
         ],
-        "stageId": "act19side_08_rep",
+        "stageId": "act27side_08",
         "stageType": "ACTIVITY",
-        "zoneId": "act19sre_zone1"
+        "zoneId": "act27side_zone1"
     }
 ]

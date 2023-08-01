@@ -371,6 +371,7 @@
             409,
             151
         ],
+        "cache": false,
         "specificRect": [
             790,
             310,
@@ -814,6 +815,107 @@
                 "-1O$",
                 "-10$"
             ]
+        ]
+    },
+    "SL-8": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "SL-Open"
+        ],
+        "next": [
+            "SL-8@SideStoryStage",
+            "SL-8@SwipeToStage"
+        ]
+    },
+    "SL-7": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "SL-Open"
+        ],
+        "next": [
+            "SL-7@SideStoryStage",
+            "SL-7@SwipeToStage"
+        ]
+    },
+    "SL-6": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "SL-Open"
+        ],
+        "next": [
+            "SL-6@SideStoryStage",
+            "SL-6@SwipeToStage"
+        ]
+    },
+    "SL-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "火山",
+            "已开放"
+        ],
+        "postDelay": 2000,
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "next": [
+            "SLChapterToSL"
+        ]
+    },
+    "SLChapterToSL": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "温泉假日",
+            "温泉",
+            "假日"
+        ],
+        "preDelay": 1000,
+        "roi": [
+            1043,
+            423,
+            195,
+            133
+        ],
+        "next": [
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "SL-8@SideStoryStage": {
+        "text": [
+            "SL-8"
+        ],
+        "roi": [
+            0,
+            60,
+            1280,
+            550
+        ]
+    },
+    "SL-7@SideStoryStage": {
+        "text": [
+            "SL-7"
+        ],
+        "roi": [
+            0,
+            60,
+            1280,
+            550
+        ]
+    },
+    "SL-6@SideStoryStage": {
+        "text": [
+            "SL-6"
+        ],
+        "roi": [
+            0,
+            60,
+            1280,
+            550
         ]
     },
     "HE-8": {
@@ -2571,6 +2673,10 @@
             [
                 "12E",
                 "12F"
+            ],
+            [
+                "归.*幽灵鲨",
+                "归溟幽灵鲨"
             ]
         ]
     },
@@ -3022,6 +3128,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
+            "Start",
             "开始行动"
         ],
         "cache": false,
@@ -6301,6 +6408,10 @@
             [
                 ".*命运的宠儿.*",
                 "“命运的宠儿”"
+            ],
+            [
+                "巍峨银*",
+                "巍峨银淞"
             ]
         ]
     },

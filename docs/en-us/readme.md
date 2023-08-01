@@ -79,9 +79,10 @@ If you encounter a bug, or have a strong demand for a certain function, welcome 
 
 ## Associated Projects
 
-- New GUI: [MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) (Development in progress, welcome to join us!)
+- New Framework: [MaaFramework](https://github.com/MaaAssistantArknights/MaaFramework)
+- New GUI: [MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI)
 - [Co-pilot (auto-battle) site](https://prts.plus): [frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
-- Backend: [MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter) (Development in progress, welcome to join us!)
+- Backend: [MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter)
 - [Website](https://www.maa.plus): [frontend](https://github.com/MaaAssistantArknights/maa-website)
 - Deep Learning: [MaaAI](https://github.com/MaaAssistantArknights/MaaAI)
 

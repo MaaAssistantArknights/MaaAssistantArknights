@@ -200,6 +200,7 @@ namespace MaaWpfGui.Main
 
             _logger.Information("MaaAssistantArknights GUI exited");
             _logger.Information(string.Empty);
+            Log.CloseAndFlush();
             base.OnExit(e);
         }
 
@@ -214,6 +215,8 @@ namespace MaaWpfGui.Main
             _mutex = null;
             */
 
+            // 有时候软件自重启时 gui.log 会无法正常写入
+            Log.CloseAndFlush();
             System.Windows.Forms.Application.Restart();
         }
 

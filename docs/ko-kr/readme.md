@@ -78,9 +78,10 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 ## 관련 프로젝트
 
-- 새 GUI: [MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) (현재 개발 중입니다. 도움은 환영합니다!)
+- New Framework: [MaaFramework](https://github.com/MaaAssistantArknights/MaaFramework)
+- 새 GUI: [MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI)
 - [전략 파일 저장소](https://prts.plus): [프론트엔드](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
-- 백엔드: [MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter) (현재 개발 중입니다. 도움은 환영합니다!)
+- 백엔드: [MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter)
 - [공식 웹사이트](https://maa.plus): [프론트엔드](https://github.com/MaaAssistantArknights/maa-website)
 - Deep Learning: [MaaAI](https://github.com/MaaAssistantArknights/MaaAI)
 

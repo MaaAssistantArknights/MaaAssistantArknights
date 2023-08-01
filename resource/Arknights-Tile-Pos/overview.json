@@ -12752,6 +12752,15 @@
         "stageId": "mem_huang_1",
         "width": 11
     },
+    "mem_humus_1-obt/memory/level_memory_humus_1": {
+        "code": "mem_humus_1",
+        "filename": "mem_humus_1-obt-memory-level_memory_humus_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_humus_1",
+        "name": "“铮铮铁骨”",
+        "stageId": "mem_humus_1",
+        "width": 9
+    },
     "mem_ifrit_1-obt/memory/level_memory_ifrit_1": {
         "code": "mem_ifrit_1",
         "filename": "mem_ifrit_1-obt-memory-level_memory_ifrit_1.json",
@@ -13020,6 +13029,15 @@
         "levelId": "obt/memory/level_memory_myrrh_1",
         "name": "良药苦口",
         "stageId": "mem_myrrh_1",
+        "width": 11
+    },
+    "mem_myrtle_1-obt/memory/level_memory_myrtle_1": {
+        "code": "mem_myrtle_1",
+        "filename": "mem_myrtle_1-obt-memory-level_memory_myrtle_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_myrtle_1",
+        "name": "“将军风范”",
+        "stageId": "mem_myrtle_1",
         "width": 11
     },
     "mem_nblade_1-obt/memory/level_memory_nblade_1": {

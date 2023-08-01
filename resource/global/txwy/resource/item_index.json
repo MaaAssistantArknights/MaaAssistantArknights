@@ -1647,6 +1647,14 @@
         "sortId": -10000,
         "usage": null
     },
+    "rogue_2_token_bp": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "rogue_2_token_bp.png",
+        "name": "生機細胞",
+        "sortId": -10000,
+        "usage": null
+    },
     "token_Obsidian": {
         "classifyType": "NONE",
         "description": "雖然不知道有什麼用，但收集來也沒錯，畢竟商務部門一定會發現它的價值的。",
