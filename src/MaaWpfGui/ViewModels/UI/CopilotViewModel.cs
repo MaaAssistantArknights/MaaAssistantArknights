@@ -307,7 +307,7 @@ namespace MaaWpfGui.ViewModels.UI
                         count++;
                         string group_name = group["name"] + ": ";
                         var operInfos = new List<string>();
-                        foreach (var oper in group["opers"].Cast<JObject>())
+                        foreach (var oper in group["opers"]!.Cast<JObject>())
                         {
                             operInfos.Add(string.Format("{0} {1}", oper["name"], oper["skill"]));
                         }
