@@ -35,6 +35,6 @@ jobs:
         with:
           pr-mode: false
           post-pr-comment: true
-          args: --baseline,qodana.sarif.json
+          args: --baseline,qodana/qodana.sarif.json
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
