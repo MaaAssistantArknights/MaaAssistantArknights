@@ -6,6 +6,9 @@ on:
       - '.github/workflows/qodana.yml'
       - 'src/MaaWpfGui/*'
       - 'qodana.yaml'
+      - 'src/MaaWpfGui/**'
+      - 'CMakeLists.txt'
+      - 'MAA.sln'
   push:  # 在主分支推送代码的场合进行扫描
     branches:
       - main
@@ -13,7 +16,7 @@ on:
       - dev
     paths:
       - '.github/workflows/qodana.yml'
-      - 'src/MaaWpfGui/*'
+      - 'src/MaaWpfGui/**'
       - 'qodana.yaml'
 jobs:
   qodana:
