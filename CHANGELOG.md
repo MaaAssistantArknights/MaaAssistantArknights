@@ -30,6 +30,7 @@
 
 ### 其他
 
+- 新增 C# 代码静态分析 @hxdnshx
 - 改进 macos-runtime-universal.zip 生成 @AnnAngela
 - 主目录存在 DEBUG.txt 时每次开始任务都重新解析tasks.json (#5736) @ABA2396
 - i18n: 5ec976c9194d68b9b5c78234152ab2eb1953c5d4 moved changes to new file to allow future edits @Constrat
