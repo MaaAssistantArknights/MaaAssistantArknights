@@ -552,6 +552,12 @@ namespace MaaWpfGui.ViewModels.UI
                         latencies[i] += 648;
                     }
 
+                    // 此处如果不加此判断，那么第一个镜像得到的结果为 -1.0 时，将会永远是最小的，不会改变选择
+                    if (latencies[selected].Equals(-1.0) && !latencies[i].Equals(-1.0))
+                    {
+                        selected = i;
+                    }
+
                     if (latencies[i] < latencies[selected])
                     {
                         selected = i;
