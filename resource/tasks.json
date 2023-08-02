@@ -3132,17 +3132,16 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
-            "Start",
             "开始行动"
         ],
         "cache": false,
         "preDelay": 500,
         "postDelay": 1000,
         "roi": [
-            1000,
-            600,
-            280,
-            120
+            1038,
+            640,
+            206,
+            46
         ],
         "exceededNext": [
             "StageSNReturnFlag",

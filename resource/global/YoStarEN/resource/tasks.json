@@ -5030,6 +5030,20 @@
             "Heart of Surging Flame"
         ]
     },
+    "ClickedCorrectStageOrSwipe": {
+        "baseTask": "StartButton1",
+        "action": "DoNothing",
+        "reduceOtherTimes": [],
+        "next": [
+            "ClickedCorrectStage",
+            "FullStageNavigation"
+        ]
+    },
+    "StartButton1": {
+        "text": [
+            "Start"
+        ]
+    },
     "StartRecruit": {
         "text": [
             "Recruit Now"
