@@ -2548,6 +2548,14 @@
             [
                 "Shanhaizhong Cipher Machine",
                 "山海密语仪"
+            ],
+            [
+                "'Clip'",
+                "“夹子”"
+            ],
+            [
+                "'Freeling'",
+                "“小自在”"
             ]
         ]
     },
@@ -2567,6 +2575,16 @@
         "text": [
             "Shadow of A Dying Sun",
             "Shadow of A"
+        ]
+    },
+    "ClickedCorrectStageOrSwipe": {
+        "action": "DoNothing",
+        "baseTask": "StartButton1",
+        "next": [
+            "ClickedCorrectStage",
+            "FullStageNavigation"
+        ],
+        "reduceOtherTimes": [
         ]
     },
     "CreditShop-NoMoney": {
@@ -5020,6 +5038,11 @@
     "StageEpisodeToOF": {
         "text": [
             "Heart of Surging Flame"
+        ]
+    },
+    "StartButton1": {
+        "text": [
+            "Start"
         ]
     },
     "StartRecruit": {
