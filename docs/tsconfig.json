@@ -1,4 +1,3 @@
 {
-  "extends": "maa-tsconfig/react-library.json",
   "include": [".vuepress/**/*.ts"]
 }
