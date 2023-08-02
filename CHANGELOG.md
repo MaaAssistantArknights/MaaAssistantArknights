@@ -1,4 +1,4 @@
-## v4.21.0-beta.1
+## v4.21.0
 
 ### 新增
 
@@ -16,6 +16,7 @@
 - 一些文字识别问题与死囚之夜部分高台站位 (#5710) @cenfusheng
 - 使用 version summary api 检查更新 @MistEO
 - Implement ADB hard restart. (#5666) @AsterNighT
+- 修复干员青枳识别 (#5775) @Black1312
 
 ### 修复
 
@@ -41,6 +42,7 @@
 - 添加关联项目 MaaFramework @MistEO
 - macos-runtime-universal.zip 生成过程自适应版本号 @AnnAngela
 - 添加macos-runtime的resource文件夹和dylib的symlink @ChingCdesu
+- 添加对于mumu12后台保活功能的设置的说明 (#5781) @SherkeyXD
 
 ### For overseas
 
@@ -55,12 +57,15 @@
 - Manual stage navigation for EN (fix #4874) @Constrat
 - duplicate: repeats in Ocr replace EN tasks.json @Constrat
 - better StartButton1.png @Constrat
+- Wrong event in display @Constrat
+- from ba75736 Manual Stage navigation EN @Constrat
 
 #### txwy
 
 - 繁中服水月肉鴿  @vonnoq @Lancarus @momomochi987 @Arcelibs @avw621314
 - 繁中服支持牛牛抽卡 @ABA2396
 - 重製繁中服部分截圖 (#5748) @momomochi987
+- 繁中服水月肉鴿「委託完成」卡住 (#5766) @vonnoq
 
 #### YostarJP
 
