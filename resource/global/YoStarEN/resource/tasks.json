@@ -2577,6 +2577,16 @@
             "Shadow of A"
         ]
     },
+    "ClickedCorrectStageOrSwipe": {
+        "action": "DoNothing",
+        "baseTask": "StartButton1",
+        "next": [
+            "ClickedCorrectStage",
+            "FullStageNavigation"
+        ],
+        "reduceOtherTimes": [
+        ]
+    },
     "CreditShop-NoMoney": {
         "text": [
             "Insufficient Credit",
@@ -5028,15 +5038,6 @@
     "StageEpisodeToOF": {
         "text": [
             "Heart of Surging Flame"
-        ]
-    },
-    "ClickedCorrectStageOrSwipe": {
-        "baseTask": "StartButton1",
-        "action": "DoNothing",
-        "reduceOtherTimes": [],
-        "next": [
-            "ClickedCorrectStage",
-            "FullStageNavigation"
         ]
     },
     "StartButton1": {
