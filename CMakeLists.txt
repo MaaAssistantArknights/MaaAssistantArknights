@@ -58,7 +58,9 @@ set_target_properties(MaaCore PROPERTIES
     PUBLIC_HEADER "${MaaCore_PUBLIC_HEADERS}"
 )
 
-if(UNIX)
+if(APPLE)
+    set_target_properties(MaaCore PROPERTIES INSTALL_RPATH "@loader_path/")
+elseif(UNIX)
     set_target_properties(MaaCore PROPERTIES INSTALL_RPATH "$ORIGIN/")
 endif()
 
