@@ -2577,6 +2577,16 @@
             "Shadow of A"
         ]
     },
+    "ClickedCorrectStageOrSwipe": {
+        "action": "DoNothing",
+        "baseTask": "StartButton1",
+        "next": [
+            "ClickedCorrectStage",
+            "FullStageNavigation"
+        ],
+        "reduceOtherTimes": [
+        ]
+    },
     "CreditShop-NoMoney": {
         "text": [
             "Insufficient Credit",
@@ -4919,7 +4929,7 @@
                 "蜂拥而上"
             ],
             [
-                "Passing Down the.*",
+                "Passing Down.*",
                 "见者有份"
             ],
             [
@@ -4931,7 +4941,7 @@
                 "同流合污"
             ],
             [
-                "Tipsy Trip",
+                "Tips[yv] Trip",
                 "酩酊之旅"
             ],
             [
@@ -5028,6 +5038,11 @@
     "StageEpisodeToOF": {
         "text": [
             "Heart of Surging Flame"
+        ]
+    },
+    "StartButton1": {
+        "text": [
+            "Start"
         ]
     },
     "StartRecruit": {
