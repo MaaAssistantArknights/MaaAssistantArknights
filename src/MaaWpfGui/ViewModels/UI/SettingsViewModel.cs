@@ -2440,11 +2440,6 @@ namespace MaaWpfGui.ViewModels.UI
         };
 
         /// <summary>
-        /// Gets the default bluestack conf.
-        /// </summary>
-        public static List<string> DafaultBluestacksConfPath { get; } = new List<string> { "C:\\ProgramData\\BlueStacks_nxt\\bluestacks.conf", "D:\\BlueStacks_nxt\\bluestacks.conf" };
-
-        /// <summary>
         /// Refreshes ADB config.
         /// </summary>
         /// <param name="error">Errors when doing this operation.</param>
@@ -2509,30 +2504,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             return true;
-        }
-
-
-        /// <summary>
-        /// Get the path of bluestacks.conf
-        /// </summary>
-        /// <returns>path</returns>
-        public static string GetBluestacksConfig()
-        {
-            var conf = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigPath, string.Empty);
-            if (!string.IsNullOrEmpty(conf))
-            {
-                return conf;
-            }
-
-            foreach (var confPath in DafaultBluestacksConfPath)
-            {
-                if (File.Exists(confPath))
-                {
-                    return confPath;
-                }
-            }
-
-            return null;
         }
 
         /// <summary>
@@ -2601,7 +2572,7 @@ namespace MaaWpfGui.ViewModels.UI
             rvm.WindowTitle = $"{prefix}MAA ({CurrentConfiguration}) - {VersionId}{poolString} - {connectConfigName} ({ConnectAddress}) - {ClientName}";
         }
 
-        private readonly string _bluestacksConfig = GetBluestacksConfig();
+        private readonly string _bluestacksConfig = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigPath, string.Empty);
         private string _bluestacksKeyWord = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigKeyword, string.Empty);
 
         /// <summary>
