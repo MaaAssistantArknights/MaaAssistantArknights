@@ -2703,12 +2703,28 @@ namespace MaaWpfGui.ViewModels.UI
             const string UnzipDir = "adb";
             const string NewAdb = UnzipDir + "/platform-tools/adb.exe";
 
-            if (Directory.Exists(UnzipDir))
+            try
             {
-                Directory.Delete(UnzipDir, true);
+                if (Directory.Exists(UnzipDir))
+                {
+                    Directory.Delete(UnzipDir, true);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.ToString() + "; already replace");
+                return;
             }
 
-            ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
+            try
+            {
+                ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.ToString());
+                return;
+            }
 
             bool replaced = false;
             if (AdbPath != NewAdb && File.Exists(AdbPath))
