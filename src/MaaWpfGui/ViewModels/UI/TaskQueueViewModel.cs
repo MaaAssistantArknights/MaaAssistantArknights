@@ -284,7 +284,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (timeToChangeConfig)
             {
-                if (Instances.SettingsViewModel.CustomConfig)
+                if (Instances.SettingsViewModel.CustomConfig && (runningState.GetIdle() || Instances.SettingsViewModel.ForceScheduledStart))
                 {
                     // CurrentConfiguration设置后会重启
                     Instances.SettingsViewModel.CurrentConfiguration = Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig;
