@@ -295,7 +295,6 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (timeToStart)
             {
-
                 if (Instances.SettingsViewModel.ForceScheduledStart)
                 {
                     if (!runningState.GetIdle())
