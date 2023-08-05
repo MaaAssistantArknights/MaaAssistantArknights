@@ -14,7 +14,8 @@
     "markdown-it": "^13.0.1",
     "markdown-it-anchor": "^8.6.7",
     "markdownlint-cli": "^0.32.2",
-    "vuepress": "^2.0.0-beta.63"
+    "vuepress": "^2.0.0-beta.63",
+    "vuepress-plugin-sitemap2": "^2.0.0-beta.233"
   },
   "scripts": {
     "dev": "vuepress dev .",
