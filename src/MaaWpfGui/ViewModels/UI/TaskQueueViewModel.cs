@@ -277,6 +277,7 @@ namespace MaaWpfGui.ViewModels.UI
                     else if (currentTime == startTime)
                     {
                         timeToStart = true;
+                        configIndex = i;
                         break;
                     }
                 }
@@ -294,6 +295,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (timeToStart)
             {
+
                 if (Instances.SettingsViewModel.ForceScheduledStart)
                 {
                     if (!runningState.GetIdle())
@@ -307,6 +309,10 @@ namespace MaaWpfGui.ViewModels.UI
                     }
 
                     ResetFightVariables();
+                }
+                if (Instances.SettingsViewModel.CurrentConfiguration != Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig)
+                {
+                    return;
                 }
 
                 LinkStart();
