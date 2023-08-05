@@ -1,6 +1,7 @@
 import { defineUserConfig } from 'vuepress';
 import Theme from './theme.config';
 import SearchPlugin from './plugins/search';
+import SitemapPlugin from './plugins/sitemap';
 
 export default defineUserConfig({
   base: '/docs/',
@@ -36,7 +37,10 @@ export default defineUserConfig({
       level: [2, 3, 4, 5],
     },
   },
-  plugins: [SearchPlugin()],
+  plugins: [
+    SitemapPlugin(),
+    SearchPlugin()
+  ],
   temp: '.vuepress/.temp',
   cache: '.vuepress/.cache'
 });
