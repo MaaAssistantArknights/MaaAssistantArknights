@@ -114,6 +114,7 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
             }
 
             m_all_opers[theme].insert_or_assign(name, std::move(info));
+            m_oper_groups[theme].emplace_back(name);
         }
         group_id++;
     }
