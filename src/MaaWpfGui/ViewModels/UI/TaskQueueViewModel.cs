@@ -2345,6 +2345,8 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
+            return;
+
             static bool TimeLess(int lHour, int lMin, int rHour, int rMin) => (lHour != rHour) ? (lHour < rHour) : (lMin <= rMin);
         }
 
