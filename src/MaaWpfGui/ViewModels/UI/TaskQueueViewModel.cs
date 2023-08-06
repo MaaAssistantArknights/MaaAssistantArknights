@@ -1144,7 +1144,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// 一个根据连接配置判断使用关闭模拟器的方式的方法
         /// </summary>
         /// <returns>是否关闭成功</returns>
-        public bool KillEmulatorModeSwitcher()
+        public static bool KillEmulatorModeSwitcher()
         {
             try
             {
