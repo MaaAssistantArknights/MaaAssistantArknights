@@ -1,0 +1,174 @@
+{
+    "stage_name": "低空机动",
+    "replacement_home": [
+        {
+            "location": [
+                5,
+                2
+            ],
+            "direction": "left"
+        },
+        {
+            "location": [
+                9,
+                3
+            ],
+            "direction": "none"
+        }
+    ],
+    "deploy_plan": [
+        {
+            "groups": [
+                "M3",
+                "情报官",
+                "挡人先锋",
+                "近卫",
+                "重装",
+                "其他地面"
+            ],
+            "location": [
+                5,
+                2
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "凯尔希"
+            ],
+            "location": [
+                6,
+                1
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "焰苇",
+                "单奶",
+                "群奶"
+            ],
+            "location": [
+                4,
+                3
+            ],
+            "direction": "up"
+        },
+        {
+            "groups": [
+                "M3",
+                "玛恩纳",
+                "近卫",
+                "重装",
+                "情报官",
+                "挡人先锋",
+                "投锋",
+                "其他地面"
+            ],
+            "location": [
+                4,
+                2
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
+                "水陈",
+                "术师",
+                "狙击",
+                "辅助",
+                "单奶",
+                "群奶",
+                "焰苇",
+                "其他高台"
+            ],
+            "location": [
+                4,
+                1
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "M3",
+                "近卫",
+                "重装",
+                "情报官",
+                "挡人先锋",
+                "投锋",
+                "其他地面"
+            ],
+            "location": [
+                3,
+                6
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "近卫",
+                "重装",
+                "其他地面"
+            ],
+            "location": [
+                3,
+                2
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
+                "术师",
+                "狙击",
+                "辅助",
+                "单奶",
+                "群奶",
+                "其他高台"
+            ],
+            "location": [
+                5,
+                1
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "近卫",
+                "挡人先锋"
+            ],
+            "location": [
+                6,
+                2
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "辅助",
+                "狙击",
+                "术师"
+            ],
+            "location": [
+                5,
+                1
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "处决者",
+                "近卫",
+                "重装",
+                "情报官",
+                "挡人先锋",
+                "投锋",
+                "其他地面"
+            ],
+            "location": [
+                2,
+                6
+            ],
+            "direction": "left"
+        }
+    ]
+}

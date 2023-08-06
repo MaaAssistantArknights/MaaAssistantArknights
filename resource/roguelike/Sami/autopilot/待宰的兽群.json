@@ -1,0 +1,155 @@
+{
+    "stage_name": "待宰的兽群",
+    "replacement_home": [
+        {
+            "location": [
+                6,
+                3
+            ],
+            "direction": "left"
+        },
+        {
+            "location": [
+                7,
+                3
+            ],
+            "direction": "none"
+        }
+    ],
+    "deploy_plan": [
+        {
+            "groups": [
+                "M3",
+                "重装",
+                "近卫",
+                "情报官",
+                "挡人先锋",
+                "其他地面"
+            ],
+            "location": [
+                6,
+                3
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "凯尔希",
+                "召唤",
+                "水陈",
+                "速狙",
+                "术师",
+                "狙击",
+                "辅助"
+            ],
+            "location": [
+                4,
+                2
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
+                "焰苇"
+            ],
+            "location": [
+                3,
+                3
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
+                "水陈",
+                "术师",
+                "狙击",
+                "辅助",
+                "单奶",
+                "群奶",
+                "其他高台"
+            ],
+            "location": [
+                5,
+                2
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "M3",
+                "玛恩纳",
+                "近卫",
+                "重装",
+                "情报官",
+                "挡人先锋",
+                "投锋",
+                "其他地面"
+            ],
+            "location": [
+                5,
+                3
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "M3",
+                "近卫",
+                "重装",
+                "情报官",
+                "挡人先锋",
+                "投锋",
+                "其他地面"
+            ],
+            "location": [
+                6,
+                2
+            ],
+            "direction": "up"
+        },
+        {
+            "groups": [
+                "处决者",
+                "情报官",
+                "其他地面"
+            ],
+            "location": [
+                2,
+                4
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "狙击"
+            ],
+            "location": [
+                2,
+                2
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
+                "近卫"
+            ],
+            "location": [
+                6,
+                3
+            ],
+            "direction": ""
+        },
+        {
+            "groups": [
+                "辅助",
+                "狙击",
+                "术师"
+            ],
+            "location": [
+                5,
+                2
+            ],
+            "direction": "down"
+        }
+    ]
+}

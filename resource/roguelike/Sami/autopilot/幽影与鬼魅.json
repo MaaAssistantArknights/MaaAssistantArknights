@@ -1,0 +1,157 @@
+{
+    "stage_name": "幽影与鬼魅",
+    "replacement_home": [
+        {
+            "location": [
+                3,
+                5
+            ],
+            "direction": "right"
+        },
+        {
+            "location": [
+                3,
+                4
+            ],
+            "direction": "none"
+        }
+    ],
+    "deploy_plan": [
+        {
+            "groups": [
+                "处决者",
+                "情报官"
+            ],
+            "location": [
+                2,
+                5
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "M3",
+                "挡人先锋",
+                "近卫",
+                "重装",
+                "其他地面"
+            ],
+            "location": [
+                3,
+                5
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "凯尔希"
+            ],
+            "location": [
+                3,
+                3
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "焰苇",
+                "召唤",
+                "速狙",
+                "术师",
+                "狙击",
+                "辅助"
+            ],
+            "location": [
+                4,
+                3
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "M3",
+                "玛恩纳",
+                "近卫",
+                "重装",
+                "情报官",
+                "挡人先锋",
+                "投锋",
+                "其他地面"
+            ],
+            "location": [
+                4,
+                4
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "单奶",
+                "群奶"
+            ],
+            "location": [
+                2,
+                3
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "近卫",
+                "重装",
+                "情报官",
+                "挡人先锋",
+                "投锋",
+                "其他地面"
+            ],
+            "location": [
+                1,
+                1
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "焰苇",
+                "速狙",
+                "术师",
+                "狙击",
+                "辅助",
+                "其他高台"
+            ],
+            "location": [
+                2,
+                4
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "水陈",
+                "术师",
+                "狙击",
+                "辅助",
+                "单奶",
+                "群奶",
+                "其他高台"
+            ],
+            "location": [
+                5,
+                3
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "辅助",
+                "狙击",
+                "术师"
+            ],
+            "location": [
+                4,
+                3
+            ],
+            "direction": "down"
+        }
+    ]
+}
