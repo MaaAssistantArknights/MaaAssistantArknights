@@ -2548,6 +2548,14 @@
             [
                 "Shanhaizhong Cipher Machine",
                 "山海密语仪"
+            ],
+            [
+                "'Clip'",
+                "“夹子”"
+            ],
+            [
+                "'Freeling'",
+                "“小自在”"
             ]
         ]
     },
@@ -2567,6 +2575,16 @@
         "text": [
             "Shadow of A Dying Sun",
             "Shadow of A"
+        ]
+    },
+    "ClickedCorrectStageOrSwipe": {
+        "action": "DoNothing",
+        "baseTask": "StartButton1",
+        "next": [
+            "ClickedCorrectStage",
+            "FullStageNavigation"
+        ],
+        "reduceOtherTimes": [
         ]
     },
     "CreditShop-NoMoney": {
@@ -4911,7 +4929,7 @@
                 "蜂拥而上"
             ],
             [
-                "Passing Down the.*",
+                "Passing Down.*",
                 "见者有份"
             ],
             [
@@ -4923,7 +4941,7 @@
                 "同流合污"
             ],
             [
-                "Tipsy Trip",
+                "Tips[yv] Trip",
                 "酩酊之旅"
             ],
             [
@@ -5022,6 +5040,11 @@
             "Heart of Surging Flame"
         ]
     },
+    "StartButton1": {
+        "text": [
+            "Start"
+        ]
+    },
     "StartRecruit": {
         "text": [
             "Recruit Now"
@@ -5053,7 +5076,8 @@
     "WB-Open": {
         "text": [
             "Event <Where Vernal Winds Will Never",
-            "Blow> is now open"
+            "Blow> is now open",
+            "Criminal Pursuit,Offsite'stages opened"
         ]
     },
     "WBChapterToWB": {

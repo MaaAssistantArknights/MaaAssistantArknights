@@ -2651,6 +2651,16 @@ namespace MaaWpfGui.ViewModels.UI
 
         public async void ReplaceADB()
         {
+            if (string.IsNullOrEmpty(AdbPath))
+            {
+                _ = Execute.OnUIThreadAsync(() =>
+                {
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("NoAdbPathSpecifiedMessage"));
+                    toast.Show();
+                });
+                return;
+            }
+
             if (!File.Exists(GoogleAdbFilename))
             {
                 var downloadResult = await Instances.HttpService.DownloadFileAsync(new Uri(GoogleAdbDownloadUrl), GoogleAdbFilename);
@@ -2662,7 +2672,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (!downloadResult)
                 {
-                    await Execute.OnUIThreadAsync(() =>
+                    _ = Execute.OnUIThreadAsync(() =>
                     {
                         using var toast = new ToastNotification(LocalizationHelper.GetString("AdbDownloadFailedTitle"));
                         toast.AppendContentText(LocalizationHelper.GetString("AdbDownloadFailedDesc")).Show();
@@ -2674,12 +2684,38 @@ namespace MaaWpfGui.ViewModels.UI
             const string UnzipDir = "adb";
             const string NewAdb = UnzipDir + "/platform-tools/adb.exe";
 
-            if (Directory.Exists(UnzipDir))
+            try
             {
-                Directory.Delete(UnzipDir, true);
+                if (Directory.Exists(UnzipDir))
+                {
+                    Directory.Delete(UnzipDir, true);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"An error occurred while deleting directory: {ex.GetType()}: {ex.Message}");
+                _ = Execute.OnUIThreadAsync(() =>
+                {
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("AdbDeletionFailedMessage"));
+                    toast.Show();
+                });
+                return;
             }
 
-            ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
+            try
+            {
+                ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.ToString());
+                _ = Execute.OnUIThreadAsync(() =>
+                {
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("UnzipFailedMessage"));
+                    toast.Show();
+                });
+                return;
+            }
 
             bool replaced = false;
             if (AdbPath != NewAdb && File.Exists(AdbPath))
@@ -2714,7 +2750,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 ConfigurationHelper.SetValue(ConfigurationKeys.AdbReplaced, true.ToString());
 
-                await Execute.OnUIThreadAsync(() =>
+                _ = Execute.OnUIThreadAsync(() =>
                 {
                     using var toast = new ToastNotification(LocalizationHelper.GetString("SuccessfullyReplacedADB"));
                     toast.Show();
@@ -2724,7 +2760,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 AdbPath = NewAdb;
 
-                await Execute.OnUIThreadAsync(() =>
+                _ = Execute.OnUIThreadAsync(() =>
                 {
                     using var toast = new ToastNotification(LocalizationHelper.GetString("FailedToReplaceAdbAndUseLocal"));
                     toast.AppendContentText(LocalizationHelper.GetString("FailedToReplaceAdbAndUseLocalDesc")).Show();

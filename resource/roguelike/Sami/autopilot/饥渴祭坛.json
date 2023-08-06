@@ -1,0 +1,136 @@
+{
+    "stage_name": "饥渴祭坛",
+    "replacement_home": [
+        {
+            "location": [
+                10,
+                2
+            ],
+            "direction": "left"
+        },
+        {
+            "location": [
+                10,
+                4
+            ],
+            "direction": "left"
+        }
+    ],
+    "blacklist_location": [
+        [
+            7,
+            5
+        ],
+        [
+            8,
+            5
+        ],
+        [
+            9,
+            5
+        ]
+    ],
+    "deploy_plan": [
+        {
+            "groups": [
+                "M3",
+                "挡人先锋",
+                "近卫",
+                "重装",
+                "其他地面"
+            ],
+            "location": [
+                9,
+                4
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "凯尔希"
+            ],
+            "location": [
+                9,
+                1
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "M3",
+                "投锋",
+                "情报官",
+                "近卫",
+                "重装",
+                "处决者",
+                "其他地面"
+            ],
+            "location": [
+                8,
+                4
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "焰苇",
+                "单奶"
+            ],
+            "location": [
+                8,
+                1
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "群奶"
+            ],
+            "location": [
+                8,
+                3
+            ],
+            "direction": "up"
+        },
+        {
+            "groups": [
+                "玛恩纳"
+            ],
+            "location": [
+                7,
+                4
+            ],
+            "direction": "up"
+        },
+        {
+            "groups": [
+                "水陈",
+                "速狙",
+                "辅助",
+                "狙击",
+                "术师",
+                "召唤",
+                "其他高台"
+            ],
+            "location": [
+                7,
+                1
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "单奶",
+                "辅助",
+                "狙击",
+                "术师",
+                "其他高台"
+            ],
+            "location": [
+                6,
+                3
+            ],
+            "direction": "right"
+        }
+    ]
+}
