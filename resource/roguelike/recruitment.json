@@ -3355,15 +3355,15 @@
             "奶",
             "高台输出",
             "地面单切",
-            "炮灰",
             "回费",
             "情报官",
             "梓兰",
             "史尔特尔",
             "银灰",
-            "高台预备",
             "浊心斯卡蒂",
-            "斯卡蒂的海嗣"
+            "斯卡蒂的海嗣",
+            "炮灰",
+            "高台预备"
         ],
         "team_complete_condition": [
             {
@@ -4520,171 +4520,6 @@
                 }
             ]
         }, 
-        "炮灰": {
-            "opers": [
-                {
-                    "name": "夜刀",
-                    "skill": 1,
-                    "is_key": true,
-                    "recruit_priority": 310,
-                    "promote_priority": 0,
-                    "promote_priority_when_team_full": 0
-                },
-                {
-                    "name": "预备干员-近战",
-                    "skill": 0,
-                    "recruit_priority": 100,
-                    "promote_priority": 0,
-                    "is_alternate": true
-                },
-                {
-                    "name": "拉普兰德",
-                    "skill": 2,
-                    "recruit_priority": 440
-                },
-                {
-                    "name": "芳汀",
-                    "skill": 2,
-                    "recruit_priority": 402,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [ "炮灰" ],
-                            "threshold": 2,
-                            "offset": -300
-                        }
-                    ]
-                },
-                {
-                    "name": "断崖",
-                    "skill": 2,
-                    "recruit_priority": 370,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [ "炮灰" ],
-                            "threshold": 2,
-                            "offset": -300
-                        }
-                    ]
-                },
-                {
-                    "name": "刻刀",
-                    "skill": 1,
-                    "recruit_priority": 405
-                },
-                {
-                    "name": "柏喙",
-                    "skill": 2,
-                    "recruit_priority": 405
-                },
-                {
-                    "name": "铸铁",
-                    "skill": 2,
-                    "recruit_priority": 305,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [ "炮灰" ],
-                            "threshold": 2,
-                            "offset": -300
-                        }
-                    ]
-                },
-                {
-                    "name": "布洛卡",
-                    "skill": 2,
-                    "recruit_priority": 412,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [ "炮灰" ],
-                            "threshold": 2,
-                            "offset": -300
-                        }
-                    ]
-                },
-                {
-                    "name": "星极",
-                    "skill": 2,
-                    "recruit_priority": 411,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [ "炮灰" ],
-                            "threshold": 2,
-                            "offset": -300
-                        }
-                    ]
-                },
-                {
-                    "name": "泡普卡",
-                    "skill": 1,
-                    "recruit_priority": 460,
-                    "is_key": true                    
-                },
-                {
-                    "name": "歌蕾蒂娅",
-                    "skill": 1,
-                    "is_start": true,
-                    "recruit_priority": 298,
-                    "promote_priority": 0
-                },
-                {
-                    "name": "掠风",
-                    "skill": 1,
-                    "recruit_priority": 5,
-                    "promote_priority": 0,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [ "炮灰" ],
-                            "threshold": 2,
-                            "offset": -300
-                        }
-                    ]
-                },
-                {
-                    "name": "白铁",
-                    "skill": 1,
-                    "recruit_priority": 6,
-                    "promote_priority": 0,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [ "炮灰" ],
-                            "threshold": 2,
-                            "offset": -300
-                        }
-                    ]
-                },
-                {
-                    "name": "艾斯黛尔",
-                    "skill": 1,
-                    "recruit_priority": 320,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [ "炮灰" ],
-                            "threshold": 2,
-                            "offset": -300
-                        }
-                    ]
-                },
-                {
-                    "name": "霜叶",
-                    "skill": 1,
-                    "recruit_priority": 318,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [ "炮灰" ],
-                            "threshold": 2,
-                            "offset": -300
-                        }
-                    ]
-                },
-                {
-                    "name": "月见夜",
-                    "skill": 1,
-                    "is_key": true,
-                    "recruit_priority": 500,
-                    "promote_priority": 0,
-                    "promote_priority_when_team_full": 0
-                }
-            ]
-        }, 
         "回费": {
             "opers": [
                 {
@@ -4927,6 +4762,238 @@
                 }                
             ]
         },
+        "浊心斯卡蒂": {
+            "opers": [    
+                {
+                    "name": "浊心斯卡蒂",
+                    "skill": 2,
+                    "recruit_priority": 910,
+                    "promote_priority": 700,
+                    "is_key": true
+                }
+            ]
+        },
+        "史尔特尔": {
+            "opers": [    
+                {
+                    "name": "史尔特尔",
+                    "skill": 3,
+                    "alternate_skill": 1,
+                    "recruit_priority": 980,
+                    "promote_priority": 990,
+                    "is_key": true
+                }
+            ]
+        },
+        "斯卡蒂的海嗣": {
+            "opers": [    
+                {
+                    "name": "斯卡蒂的海嗣"                   
+                }
+            ]
+        },
+        "银灰": {
+            "opers": [    
+                {
+                    "name": "银灰",
+                    "skill": 3,
+                    "is_key": true,
+                    "alternate_skill": 1,
+                    "recruit_priority": 710,
+                    "promote_priority": 900,
+                    "promote_priority_when_team_full": 1000,
+                    "recruit_priority_offsets": 
+                    [
+                        {
+                            "groups": [ "凯尔希", "地面阻挡","银灰"],
+                            "threshold": 3,
+                            "offset": -300
+                        }                        
+                    ]
+                },
+                {
+                    "name": "玛恩纳",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "is_key": true,
+                    "recruit_priority": 996,
+                    "promote_priority": 1000,
+                    "recruit_priority_offsets": 
+                    [
+                        {
+                            "groups": [ "凯尔希", "地面阻挡","银灰"],
+                            "threshold": 3,
+                            "offset": -300
+                        }                        
+                    ]
+                }
+            ]
+        }, 
+        "炮灰": {
+            "opers": [
+                {
+                    "name": "夜刀",
+                    "skill": 1,
+                    "is_key": true,
+                    "recruit_priority": 310,
+                    "promote_priority": 0,
+                    "promote_priority_when_team_full": 0
+                },
+                {
+                    "name": "预备干员-近战",
+                    "skill": 0,
+                    "recruit_priority": 100,
+                    "promote_priority": 0,
+                    "is_alternate": true
+                },
+                {
+                    "name": "拉普兰德",
+                    "skill": 2,
+                    "recruit_priority": 440
+                },
+                {
+                    "name": "芳汀",
+                    "skill": 2,
+                    "recruit_priority": 402,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [ "炮灰" ],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "断崖",
+                    "skill": 2,
+                    "recruit_priority": 370,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [ "炮灰" ],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "刻刀",
+                    "skill": 1,
+                    "recruit_priority": 405
+                },
+                {
+                    "name": "柏喙",
+                    "skill": 2,
+                    "recruit_priority": 405
+                },
+                {
+                    "name": "铸铁",
+                    "skill": 2,
+                    "recruit_priority": 305,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [ "炮灰" ],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "布洛卡",
+                    "skill": 2,
+                    "recruit_priority": 412,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [ "炮灰" ],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "星极",
+                    "skill": 2,
+                    "recruit_priority": 411,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [ "炮灰" ],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "泡普卡",
+                    "skill": 1,
+                    "recruit_priority": 460,
+                    "is_key": true                    
+                },
+                {
+                    "name": "歌蕾蒂娅",
+                    "skill": 1,
+                    "is_start": true,
+                    "recruit_priority": 298,
+                    "promote_priority": 0
+                },
+                {
+                    "name": "掠风",
+                    "skill": 1,
+                    "recruit_priority": 5,
+                    "promote_priority": 0,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [ "炮灰" ],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "白铁",
+                    "skill": 1,
+                    "recruit_priority": 6,
+                    "promote_priority": 0,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [ "炮灰" ],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "艾斯黛尔",
+                    "skill": 1,
+                    "recruit_priority": 320,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [ "炮灰" ],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "霜叶",
+                    "skill": 1,
+                    "recruit_priority": 318,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [ "炮灰" ],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "月见夜",
+                    "skill": 1,
+                    "is_key": true,
+                    "recruit_priority": 500,
+                    "promote_priority": 0,
+                    "promote_priority_when_team_full": 0
+                }
+            ]
+        },
         "高台预备": {
             "opers": [
                 {
@@ -5011,73 +5078,6 @@
                     "recruit_priority": 5,
                     "promote_priority": 0,
                     "is_alternate": true
-                }
-            ]
-        },
-        "浊心斯卡蒂": {
-            "opers": [    
-                {
-                    "name": "浊心斯卡蒂",
-                    "skill": 2,
-                    "recruit_priority": 910,
-                    "promote_priority": 700,
-                    "is_key": true
-                }
-            ]
-        },
-        "史尔特尔": {
-            "opers": [    
-                {
-                    "name": "史尔特尔",
-                    "skill": 3,
-                    "alternate_skill": 1,
-                    "recruit_priority": 980,
-                    "promote_priority": 990,
-                    "is_key": true
-                }
-            ]
-        },
-        "斯卡蒂的海嗣": {
-            "opers": [    
-                {
-                    "name": "斯卡蒂的海嗣"                   
-                }
-            ]
-        },
-        "银灰": {
-            "opers": [    
-                {
-                    "name": "银灰",
-                    "skill": 3,
-                    "is_key": true,
-                    "alternate_skill": 1,
-                    "recruit_priority": 710,
-                    "promote_priority": 900,
-                    "promote_priority_when_team_full": 1000,
-                    "recruit_priority_offsets": 
-                    [
-                        {
-                            "groups": [ "凯尔希", "地面阻挡","银灰"],
-                            "threshold": 3,
-                            "offset": -300
-                        }                        
-                    ]
-                },
-                {
-                    "name": "玛恩纳",
-                    "skill": 3,
-                    "alternate_skill": 2,
-                    "is_key": true,
-                    "recruit_priority": 996,
-                    "promote_priority": 1000,
-                    "recruit_priority_offsets": 
-                    [
-                        {
-                            "groups": [ "凯尔希", "地面阻挡","银灰"],
-                            "threshold": 3,
-                            "offset": -300
-                        }                        
-                    ]
                 }
             ]
         }
