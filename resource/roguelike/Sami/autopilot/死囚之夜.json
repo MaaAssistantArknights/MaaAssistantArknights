@@ -1,0 +1,176 @@
+{
+    "stage_name": "死囚之夜",
+    "replacement_home": [
+        {
+            "location": [
+                4,
+                2
+            ],
+            "direction": "down"
+        },
+        {
+            "location": [
+                7,
+                0
+            ],
+            "direction": "none"
+        }
+    ],
+    "deploy_plan": [
+        {
+            "groups": [
+                "狙击"
+            ],
+            "location": [
+                4,
+                1
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "焰苇"
+            ],
+            "location": [
+                3,
+                2
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "凯尔希",
+                "召唤",
+                "水陈",
+                "速狙",
+                "术师",
+                "狙击",
+                "辅助"
+            ],
+            "location": [
+                3,
+                3
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "M3",
+                "近卫"
+            ],
+            "location": [
+                3,
+                4
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
+                "处决者"
+            ],
+            "location": [
+                3,
+                5
+            ],
+            "direction": "up"
+        },
+        {
+            "groups": [
+                "M3",
+                "近卫",
+                "玛恩纳",
+                "重装",
+                "情报官",
+                "挡人先锋",
+                "投锋",
+                "其他地面"
+            ],
+            "location": [
+                4,
+                5
+            ],
+            "direction": "up"
+        },
+        {
+            "groups": [
+                "单奶",
+                "群奶",
+                "术师",
+                "狙击",
+                "辅助",
+                "其他高台"
+            ],
+            "location": [
+                5,
+                3
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "近卫",
+                "挡人先锋"
+            ],
+            "location": [
+                3,
+                5
+            ],
+            "direction": "up"
+        },
+        {
+            "groups": [
+                "狙击",
+                "术师"
+            ],
+            "location": [
+                4,
+                1
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "辅助",
+                "狙击",
+                "术师"
+            ],
+            "location": [
+                5,
+                3
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "群奶"
+            ],
+            "location": [
+                3,
+                2
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "单奶"
+            ],
+            "location": [
+                3,
+                1
+            ],
+            "direction": "down"
+        }
+    ],
+    "retreat_plan": [
+        {
+            "location": [
+                3,
+                5
+            ],
+            "condition": [
+                0,
+                20
+            ]
+        }
+    ]
+}
