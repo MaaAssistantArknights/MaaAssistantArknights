@@ -55,7 +55,7 @@ namespace asst
     protected:
         virtual bool parse(const json::value& json) override;
 
-        void clear();
+        void clear(const std::string& theme);
 
         std::unordered_map<std::string, std::unordered_map<std::string, RoguelikeOperInfo>> m_all_opers;
         std::unordered_map<std::string, std::unordered_map<battle::Role, std::vector<std::pair<int, int>>>>

@@ -6,6 +6,7 @@
 # Generated files
 /.vuepress/.cache/
 /.vuepress/.temp/
+/.vuepress/dist/
 
 # Misc
 .DS_Store
