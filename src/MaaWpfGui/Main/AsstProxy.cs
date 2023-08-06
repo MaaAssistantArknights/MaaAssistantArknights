@@ -25,6 +25,7 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.States;
+using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
@@ -454,7 +455,7 @@ namespace MaaWpfGui.Main
                         if (Instances.SettingsViewModel.RetryOnDisconnected)
                         {
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TryToStartEmulator"), UiLogColor.Error);
-                            Instances.TaskQueueViewModel.KillEmulator();
+                            TaskQueueViewModel.KillEmulator();
                             await Task.Delay(3000);
                             await Instances.TaskQueueViewModel.Stop();
                             Instances.TaskQueueViewModel.SetStopped();
@@ -1146,20 +1147,22 @@ namespace MaaWpfGui.Main
             if (connected && connectedAdb == Instances.SettingsViewModel.AdbPath &&
                 connectedAddress == Instances.SettingsViewModel.ConnectAddress)
             {
-                if (ForcedReloadResource)
+                if (!ForcedReloadResource)
                 {
-                    if (!LoadResource())
-                    {
-                        error = "Load Resource Failed";
-                        return false;
-                    }
-
-                    Execute.OnUIThread(() =>
-                    {
-                        using var toast = new ToastNotification("Auto Reload");
-                        toast.Show();
-                    });
+                    return true;
                 }
+
+                if (!LoadResource())
+                {
+                    error = "Load Resource Failed";
+                    return false;
+                }
+
+                Execute.OnUIThread(() =>
+                {
+                    using var toast = new ToastNotification("Auto Reload");
+                    toast.Show();
+                });
 
                 return true;
             }
