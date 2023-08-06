@@ -350,6 +350,7 @@ At the end of the level, enter 「Normal/Hard」 to switch between Standard and 
     <system:String x:Key="AboutToShutdown">All tasks have been completed: shutting down. Do you want to cancel?</system:String>
     <system:String x:Key="ShutdownPrompt">Tip</system:String>
     <system:String x:Key="HibernatePrompt">Task(s) completed, about to hibernate</system:String>
+    <system:String x:Key="UnknownActionAfterCompleted">Unknown ending action</system:String>
     <system:String x:Key="AnnihilationTaskFailed">Annihilation task failed, will try to use alternate stage, some combat settings will not be effective</system:String>
     <!--  Logs  -->
     <!--  Farming  -->

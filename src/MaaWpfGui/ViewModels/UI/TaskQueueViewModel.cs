@@ -33,6 +33,7 @@ using MaaWpfGui.Utilities.ValueType;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
+using Stylet;
 using StyletIoC;
 using Application = System.Windows.Application;
 using ComboBox = System.Windows.Controls.ComboBox;
@@ -59,7 +60,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets the visibility of task setting views.
         /// </summary>
-        public TaskSettingVisibilityInfo TaskSettingVisibilities => TaskSettingVisibilityInfo.Current;
+        public static TaskSettingVisibilityInfo TaskSettingVisibilities => TaskSettingVisibilityInfo.Current;
 
         public SettingsViewModel TaskSettingDataContext => Instances.SettingsViewModel;
 
@@ -1170,7 +1171,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// 一个用于调用 MuMu12 模拟器控制台关闭 MuMu12 的方法
         /// </summary>
         /// <returns>是否关闭成功</returns>
-        public bool KillEmulatorMuMuEmulator12()
+        private static bool KillEmulatorMuMuEmulator12()
         {
             string address = Instances.SettingsViewModel.ConnectAddress;
             int emuIndex;
@@ -1233,7 +1234,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// 一个用于调用雷电模拟器控制台关闭雷电模拟器的方法
         /// </summary>
         /// <returns>是否关闭成功</returns>
-        public bool KillEmulatorLdPlayer()
+        private static bool KillEmulatorLdPlayer()
         {
             string address = Instances.SettingsViewModel.ConnectAddress;
             int emuIndex;
@@ -1298,7 +1299,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// 一个用于调用夜神模拟器控制台关闭夜神模拟器的方法
         /// </summary>
         /// <returns>是否关闭成功</returns>
-        public bool KillEmulatorNox()
+        private static bool KillEmulatorNox()
         {
             string address = Instances.SettingsViewModel.ConnectAddress;
             int emuIndex;
@@ -1361,7 +1362,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// 一个用于调用逍遥模拟器控制台关闭逍遥模拟器的方法
         /// </summary>
         /// <returns>是否关闭成功</returns>
-        public bool KillEmulatorXyaz()
+        private static bool KillEmulatorXyaz()
         {
             string address = Instances.SettingsViewModel.ConnectAddress;
             string portStr = address.Split(':')[1];
@@ -1416,7 +1417,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// 一个用于关闭蓝叠模拟器的方法
         /// </summary>
         /// <returns>是否关闭成功</returns>
-        public bool KillEmulatorBlueStacks()
+        private static bool KillEmulatorBlueStacks()
         {
             Process[] processes = Process.GetProcessesByName("HD-Player");
             if (processes.Length <= 0)
@@ -1469,7 +1470,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// Kills emulator by Window hwnd.
         /// </summary>
         /// <returns>Whether the operation is successful.</returns>
-        public bool KillEmulatorByWindow()
+        private static bool KillEmulatorByWindow()
         {
             int pid = 0;
             var windowName = new[]
@@ -1533,7 +1534,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// Kills emulator.
         /// </summary>
         /// <returns>Whether the operation is successful.</returns>
-        public bool KillEmulator()
+        public static bool KillEmulator()
         {
             int pid = 0;
             string address = ConfigurationHelper.GetValue(ConfigurationKeys.ConnectAddress, string.Empty);
@@ -1771,6 +1772,15 @@ namespace MaaWpfGui.ViewModels.UI
                     Application.Current.Shutdown();
 
                     // Environment.Exit(0);
+                    break;
+                default:
+                    Execute.OnUIThread(() =>
+                    {
+                        using var toast = new ToastNotification(LocalizationHelper.GetString("UnknownActionAfterCompleted"));
+                        toast.Show();
+                    });
+
+                    _logger.Error($"Unknown ActionAfterCompleted: {ActionAfterCompleted}");
                     break;
             }
         }
