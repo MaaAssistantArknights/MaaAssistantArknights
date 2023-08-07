@@ -44,6 +44,8 @@ namespace MaaWpfGui.ViewModels.UI
     /// <summary>
     /// The view model of task queue.
     /// </summary>
+    // 通过 container.Get<TaskQueueViewModel>(); 实例化或获取实例，需要添加 qodana ignore rule
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class TaskQueueViewModel : Screen
     {
         private readonly IContainer _container;
@@ -53,7 +55,7 @@ namespace MaaWpfGui.ViewModels.UI
         private static readonly ILogger _logger = Log.ForContext<TaskQueueViewModel>();
 
         /// <summary>
-        /// Gets or sets the view models of task items.
+        /// Gets or private sets the view models of task items.
         /// </summary>
         public ObservableCollection<DragItemViewModel> TaskItemViewModels { get; private set; }
 
@@ -68,6 +70,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// 实时更新任务顺序
         /// </summary>
         // 这个不能设置为 private，xaml 中绑定了Action，需要添加 qodana ignore rule
+        // ReSharper disable once MemberCanBePrivate.Global
         public void TaskItemSelectionChanged()
         {
             Application.Current.Dispatcher.InvokeAsync(() =>
@@ -577,6 +580,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// Selects all.
         /// </summary>
         // xaml 中的按钮绑定的 Action 是这个函数，需要添加 qodana ignore rule
+        // ReSharper disable once UnusedMember.Global
         public void SelectedAll()
         {
             foreach (var item in TaskItemViewModels)
@@ -667,6 +671,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// Changes inversion mode.
         /// </summary>
         // xaml 中的按钮绑定的 Action 是这个函数，需要添加 qodana ignore rule
+        // ReSharper disable once UnusedMember.Global
         public void ChangeInverseMode()
         {
             InverseMode = !InverseMode;
@@ -676,6 +681,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// Selects inversely.
         /// </summary>
         // xaml 中的按钮绑定的 Action 是这个函数，需要添加 qodana ignore rule
+        // ReSharper disable once UnusedMember.Global
         public void InverseSelected()
         {
             if (InverseMode)
