@@ -62,11 +62,12 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public static TaskSettingVisibilityInfo TaskSettingVisibilities => TaskSettingVisibilityInfo.Current;
 
-        public SettingsViewModel TaskSettingDataContext => Instances.SettingsViewModel;
+        public static SettingsViewModel TaskSettingDataContext => Instances.SettingsViewModel;
 
         /// <summary>
         /// 实时更新任务顺序
         /// </summary>
+        // 这个不能设置为private，xaml 中绑定了Action，需要添加 qodana ignore rule
         public void TaskItemSelectionChanged()
         {
             Application.Current.Dispatcher.InvokeAsync(() =>
@@ -81,16 +82,16 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         /// <summary>
-        /// Gets or sets the view models of log items.
+        /// Gets or private sets the view models of log items.
         /// </summary>
-        public ObservableCollection<LogItemViewModel> LogItemViewModels { get; set; }
+        public ObservableCollection<LogItemViewModel> LogItemViewModels { get; private set; }
 
         private string _actionAfterCompleted = ConfigurationHelper.GetValue(ConfigurationKeys.ActionAfterCompleted, ActionType.DoNothing.ToString());
 
         /// <summary>
-        /// Gets or sets the list of the actions after completion.
+        /// Gets or private sets the list of the actions after completion.
         /// </summary>
-        public List<GenericCombinedData<ActionType>> ActionAfterCompletedList { get; set; }
+        public List<GenericCombinedData<ActionType>> ActionAfterCompletedList { get; private set; }
 
         /// <summary>
         /// Gets or sets the action after completion.
@@ -99,12 +100,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get
             {
-                if (!Enum.TryParse(_actionAfterCompleted, out ActionType action))
-                {
-                    return ActionType.DoNothing;
-                }
-
-                return action;
+                return !Enum.TryParse(_actionAfterCompleted, out ActionType action) ? ActionType.DoNothing : action;
             }
 
             set
@@ -170,7 +166,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private readonly DispatcherTimer _timer = new DispatcherTimer();
 
-        public bool ConfirmExit()
+        private bool ConfirmExit()
         {
             if (Application.Current.IsShuttingDown())
             {
@@ -278,11 +274,14 @@ namespace MaaWpfGui.ViewModels.UI
                     configIndex = i;
                     break;
                 }
-                else if (currentTime == startTime)
+
+                if (currentTime != startTime)
                 {
-                    timeToStart = true;
-                    break;
+                    continue;
                 }
+
+                timeToStart = true;
+                break;
             }
 
             if (timeToChangeConfig)
@@ -323,7 +322,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         private void InitializeItems()
         {
-            string[] taskList = new string[]
+            string[] taskList =
             {
                 "WakeUp",
                 "Recruiting",
@@ -482,18 +481,14 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 return true;
             }
-            else
+
+            if (_curDayOfWeek == now.DayOfWeek)
             {
-                if (_curDayOfWeek == now.DayOfWeek)
-                {
-                    return false;
-                }
-                else
-                {
-                    _curDayOfWeek = now.DayOfWeek;
-                    return true;
-                }
+                return false;
             }
+
+            _curDayOfWeek = now.DayOfWeek;
+            return true;
         }
 
         private static bool NeedToCheckForUpdates()
@@ -547,12 +542,12 @@ namespace MaaWpfGui.ViewModels.UI
         private string _stagesOfToday = string.Empty;
 
         /// <summary>
-        /// Gets or sets the stages of today.
+        /// Gets or private sets the stages of today.
         /// </summary>
         public string StagesOfToday
         {
             get => _stagesOfToday;
-            set => SetAndNotify(ref _stagesOfToday, value);
+            private set => SetAndNotify(ref _stagesOfToday, value);
         }
 
         /// <summary>
@@ -571,7 +566,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Clears log.
         /// </summary>
-        public void ClearLog()
+        private void ClearLog()
         {
             LogItemViewModels.Clear();
             _logger.Information("Main windows log clear.");
@@ -581,6 +576,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Selects all.
         /// </summary>
+        // xaml 中的按钮绑定的 Action 是这个函数，需要添加 qodana ignore rule
         public void SelectedAll()
         {
             foreach (var item in TaskItemViewModels)
@@ -630,17 +626,6 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _selectedAllWidth, value);
         }
 
-        private int _inverseSelectedWidth = 90;
-
-        /// <summary>
-        /// Gets or sets the width of "Select inversely".
-        /// </summary>
-        public int InverseSelectedWidth
-        {
-            get => _inverseSelectedWidth;
-            set => SetAndNotify(ref _inverseSelectedWidth, value);
-        }
-
         private bool _showInverse = ConfigurationHelper.GetValue(ConfigurationKeys.InverseClearMode, "Clear") == "ClearInverse";
 
         /// <summary>
@@ -657,12 +642,12 @@ namespace MaaWpfGui.ViewModels.UI
                                             : LocalizationHelper.GetString("Clear");
 
         /// <summary>
-        /// Gets or sets the text to be displayed for "Select inversely".
+        /// Gets or private Sets the text to be displayed for "Select inversely".
         /// </summary>
         public string InverseShowText
         {
             get => _inverseShowText;
-            set => SetAndNotify(ref _inverseShowText, value);
+            private set => SetAndNotify(ref _inverseShowText, value);
         }
 
         private string _inverseMenuText = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, bool.FalseString))
@@ -670,17 +655,18 @@ namespace MaaWpfGui.ViewModels.UI
                                             : LocalizationHelper.GetString("Inverse");
 
         /// <summary>
-        /// Gets or sets the text of inversion menu.
+        /// Gets or private sets the text of inversion menu.
         /// </summary>
         public string InverseMenuText
         {
             get => _inverseMenuText;
-            set => SetAndNotify(ref _inverseMenuText, value);
+            private set => SetAndNotify(ref _inverseMenuText, value);
         }
 
         /// <summary>
         /// Changes inversion mode.
         /// </summary>
+        // xaml 中的按钮绑定的 Action 是这个函数，需要添加 qodana ignore rule
         public void ChangeInverseMode()
         {
             InverseMode = !InverseMode;
@@ -989,61 +975,63 @@ namespace MaaWpfGui.ViewModels.UI
             return mainFightRet;
         }
 
-        public bool EnableSetFightParams { get; set; } = true;
+        private bool EnableSetFightParams { get; set; } = true;
 
         /// <summary>
         /// Sets parameters.
         /// </summary>
-        public void SetFightParams()
+        private void SetFightParams()
         {
-            if (EnableSetFightParams)
+            if (!EnableSetFightParams)
             {
-                int medicine = 0;
-                if (UseMedicine)
-                {
-                    if (!int.TryParse(MedicineNumber, out medicine))
-                    {
-                        medicine = 0;
-                    }
-                }
-
-                int stone = 0;
-                if (UseStone)
-                {
-                    if (!int.TryParse(StoneNumber, out stone))
-                    {
-                        stone = 0;
-                    }
-                }
-
-                int times = int.MaxValue;
-                if (HasTimesLimited)
-                {
-                    if (!int.TryParse(MaxTimes, out times))
-                    {
-                        times = 0;
-                    }
-                }
-
-                int dropsQuantity = 0;
-                if (IsSpecifiedDrops)
-                {
-                    if (!int.TryParse(DropsQuantity, out dropsQuantity))
-                    {
-                        dropsQuantity = 0;
-                    }
-                }
-
-                Instances.AsstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, DropsItemId, dropsQuantity);
+                return;
             }
+
+            int medicine = 0;
+            if (UseMedicine)
+            {
+                if (!int.TryParse(MedicineNumber, out medicine))
+                {
+                    medicine = 0;
+                }
+            }
+
+            int stone = 0;
+            if (UseStone)
+            {
+                if (!int.TryParse(StoneNumber, out stone))
+                {
+                    stone = 0;
+                }
+            }
+
+            int times = int.MaxValue;
+            if (HasTimesLimited)
+            {
+                if (!int.TryParse(MaxTimes, out times))
+                {
+                    times = 0;
+                }
+            }
+
+            int dropsQuantity = 0;
+            if (IsSpecifiedDrops)
+            {
+                if (!int.TryParse(DropsQuantity, out dropsQuantity))
+                {
+                    dropsQuantity = 0;
+                }
+            }
+
+            Instances.AsstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, DropsItemId, dropsQuantity);
         }
 
-        public void SetFightRemainingSanityParams()
+        private void SetFightRemainingSanityParams()
         {
             Instances.AsstProxy.AsstSetFightTaskParams(RemainingSanityStage, 0, 0, int.MaxValue, string.Empty, 0, false);
         }
 
-        public void SetInfrastParams()
+        private void SetInfrastParams()
         {
             var order = Instances.SettingsViewModel.GetInfrastOrderList();
             Instances.AsstProxy.AsstSetInfrastTaskParams(order.ToArray(), Instances.SettingsViewModel.UsesOfDrones, Instances.SettingsViewModel.DormThreshold / 100.0, Instances.SettingsViewModel.DormFilterNotStationedEnabled, Instances.SettingsViewModel.DormTrustEnabled, Instances.SettingsViewModel.OriginiumShardAutoReplenishment,
@@ -1107,6 +1095,7 @@ namespace MaaWpfGui.ViewModels.UI
                 cfmList.Add(4);
             }
 
+            // ReSharper disable once InvertIf
             if (Instances.SettingsViewModel.ChooseLevel5)
             {
                 reqList.Add(5);
@@ -1118,7 +1107,7 @@ namespace MaaWpfGui.ViewModels.UI
                 Instances.SettingsViewModel.NotChooseLevel1, Instances.SettingsViewModel.IsLevel3UseShortTime, Instances.SettingsViewModel.IsLevel3UseShortTime2);
         }
 
-        private bool AppendRoguelike()
+        private static bool AppendRoguelike()
         {
             int.TryParse(Instances.SettingsViewModel.RoguelikeMode, out var mode);
 
@@ -1129,7 +1118,7 @@ namespace MaaWpfGui.ViewModels.UI
                 Instances.SettingsViewModel.RoguelikeEnableNonfriendSupport, Instances.SettingsViewModel.RoguelikeTheme, Instances.SettingsViewModel.RoguelikeRefreshTraderWithDice);
         }
 
-        private bool AppendReclamation()
+        private static bool AppendReclamation()
         {
             return Instances.AsstProxy.AsstAppendReclamation();
         }
@@ -1144,7 +1133,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// 一个根据连接配置判断使用关闭模拟器的方式的方法
         /// </summary>
         /// <returns>是否关闭成功</returns>
-        public static bool KillEmulatorModeSwitcher()
+        private static bool KillEmulatorModeSwitcher()
         {
             try
             {
@@ -1823,12 +1812,12 @@ namespace MaaWpfGui.ViewModels.UI
         private bool _stopping;
 
         /// <summary>
-        /// Gets or sets a value indicating whether `stop` is awaiting.
+        /// Gets a value indicating whether `stop` is awaiting.
         /// </summary>
         public bool Stopping
         {
             get => _stopping;
-            set => SetAndNotify(ref _stopping, value);
+            private set => SetAndNotify(ref _stopping, value);
         }
 
         private bool _fightTaskRunning;
@@ -1906,17 +1895,17 @@ namespace MaaWpfGui.ViewModels.UI
         private ObservableCollection<CombinedData> _stageList = new ObservableCollection<CombinedData>();
 
         /// <summary>
-        /// Gets or sets the list of stages.
+        /// Gets or private sets the list of stages.
         /// </summary>
         public ObservableCollection<CombinedData> StageList
         {
             get => _stageList;
-            set => SetAndNotify(ref _stageList, value);
+            private set => SetAndNotify(ref _stageList, value);
         }
 
-        public ObservableCollection<CombinedData> RemainingSanityStageList { get; set; } = new ObservableCollection<CombinedData>();
+        public ObservableCollection<CombinedData> RemainingSanityStageList { get; private set; } = new ObservableCollection<CombinedData>();
 
-        public ObservableCollection<CombinedData> AlternateStageList { get; set; } = new ObservableCollection<CombinedData>();
+        public ObservableCollection<CombinedData> AlternateStageList { get; private set; } = new ObservableCollection<CombinedData>();
 
         /// <summary>
         /// Gets the stage.
@@ -1925,25 +1914,22 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get
             {
-                if (Instances.SettingsViewModel.UseAlternateStage)
+                if (!Instances.SettingsViewModel.UseAlternateStage)
                 {
-                    if (IsStageOpen(Stage1))
-                    {
-                        return Stage1;
-                    }
-
-                    if (IsStageOpen(Stage2))
-                    {
-                        return Stage2;
-                    }
-
-                    if (IsStageOpen(Stage3))
-                    {
-                        return Stage3;
-                    }
+                    return Stage1;
                 }
 
-                return Stage1;
+                if (IsStageOpen(Stage1))
+                {
+                    return Stage1;
+                }
+
+                if (IsStageOpen(Stage2))
+                {
+                    return Stage2;
+                }
+
+                return IsStageOpen(Stage3) ? Stage3 : Stage1;
             }
         }
 
@@ -2186,7 +2172,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public ObservableCollection<GenericCombinedData<int>> CustomInfrastPlanList { get; set; } = new ObservableCollection<GenericCombinedData<int>>();
+        public ObservableCollection<GenericCombinedData<int>> CustomInfrastPlanList { get; } = new ObservableCollection<GenericCombinedData<int>>();
 
         public struct CustomInfrastPlanInfo
         {
@@ -2207,7 +2193,7 @@ namespace MaaWpfGui.ViewModels.UI
             public List<Period> PeriodList;
         }
 
-        public List<CustomInfrastPlanInfo> CustomInfrastPlanInfoList { get; set; } = new List<CustomInfrastPlanInfo>();
+        private List<CustomInfrastPlanInfo> CustomInfrastPlanInfoList { get; } = new List<CustomInfrastPlanInfo>();
 
         private bool _customInfrastPlanHasPeriod;
         private bool _customInfrastInfoOutput;
@@ -2249,7 +2235,7 @@ namespace MaaWpfGui.ViewModels.UI
                     for (int i = 0; i < planList.Count; ++i)
                     {
                         var plan = (JObject)planList[i];
-                        string display = plan.TryGetValue("name", out var name) ? name.ToString() : ("Plan " + ((char)('A' + i)).ToString());
+                        string display = plan.TryGetValue("name", out var name) ? name.ToString() : ("Plan " + ((char)('A' + i)));
                         CustomInfrastPlanList.Add(new GenericCombinedData<int> { Display = display, Value = i });
                         string desc = plan.TryGetValue("description", out var description) ? description.ToString() : string.Empty;
                         string descPost = plan.TryGetValue("description_post", out var descriptionPost) ? descriptionPost.ToString() : string.Empty;
@@ -2345,6 +2331,11 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
+            if (CustomInfrastPlanIndex >= CustomInfrastPlanList.Count || CustomInfrastPlanList.Count < 0)
+            {
+                CustomInfrastPlanIndex = 0;
+            }
+
             return;
 
             static bool TimeLess(int lHour, int lMin, int rHour, int rMin) => (lHour != rHour) ? (lHour < rHour) : (lMin <= rMin);
@@ -2422,7 +2413,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets a value indicating whether to use medicine.
         /// </summary>
-        public bool UseMedicine
+        private bool UseMedicine
         {
             get => UseMedicineWithNull != false;
             set => UseMedicineWithNull = value;
@@ -2481,7 +2472,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets a value indicating whether to use originiums.
         /// </summary>
-        public bool UseStone
+        private bool UseStone
         {
             get => UseStoneWithNull != false;
             set => UseStoneWithNull = value;
@@ -2528,7 +2519,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets a value indicating whether the number of times is limited.
         /// </summary>
-        public bool HasTimesLimited
+        private bool HasTimesLimited
         {
             get => HasTimesLimitedWithNull != false;
             set => HasTimesLimitedWithNull = value;
@@ -2577,21 +2568,21 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets a value indicating whether the drops are specified.
         /// </summary>
-        public bool IsSpecifiedDrops
+        private bool IsSpecifiedDrops
         {
             get => IsSpecifiedDropsWithNull != false;
             set => IsSpecifiedDropsWithNull = value;
         }
 
         /// <summary>
-        /// Gets or sets the list of all drops.
+        /// Gets the list of all drops.
         /// </summary>
-        public List<CombinedData> AllDrops { get; set; } = new List<CombinedData>();
+        private List<CombinedData> AllDrops { get; } = new List<CombinedData>();
 
         /// <summary>
         /// 关卡不可掉落的材料
         /// </summary>
-        private static readonly HashSet<string> _excludedValues = new HashSet<string>()
+        private static readonly HashSet<string> _excludedValues = new HashSet<string>
         {
             "3213", "3223", "3233", "3243", // 双芯片
             "3253", "3263", "3273", "3283",
@@ -2635,9 +2626,9 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         /// <summary>
-        /// Gets or sets the list of drops.
+        /// Gets or private sets the list of drops.
         /// </summary>
-        public ObservableCollection<CombinedData> DropsList { get; set; }
+        public ObservableCollection<CombinedData> DropsList { get; private set; }
 
         private string _dropsItemId = ConfigurationHelper.GetValue(ConfigurationKeys.DropsItemId, string.Empty);
 
@@ -2671,6 +2662,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        // xaml 中绑定了 DropDownClosed 事件，需要添加 qodana ignore rule
+        // ReSharper disable once UnusedMember.Global
         public void DropsListDropDownClosed()
         {
             foreach (var item in DropsList)
@@ -2714,7 +2707,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event args</param>
-        public void DropsList_Loaded(object sender, EventArgs e)
+        // xaml 中绑定了 Loaded 事件，需要添加 qodana ignore rule
+        // EventArgs 不能省略，否则会报错
+        // ReSharper disable once UnusedMember.Global
+        // ReSharper disable once UnusedParameter.Global
+        public void DropsListLoaded(object sender, EventArgs e)
         {
             (sender as ComboBox)?.MakeComboBoxSearchable();
         }

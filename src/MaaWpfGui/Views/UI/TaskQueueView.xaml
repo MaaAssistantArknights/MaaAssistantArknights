@@ -111,7 +111,7 @@
                             IsEnabled="{Binding Idle}" />
                         <hc:SplitButton
                             Grid.Column="1"
-                            Width="{Binding InverseSelectedWidth}"
+                            Width="90"
                             Height="30"
                             VerticalAlignment="Top"
                             Command="{s:Action InverseSelected}"
@@ -121,7 +121,7 @@
                             <hc:SplitButton.DropDownContent>
                                 <Menu>
                                     <MenuItem
-                                        Width="{Binding InverseSelectedWidth}"
+                                        Width="90"
                                         Padding="19,5,0,5"
                                         Command="{s:Action ChangeInverseMode}"
                                         Header="{Binding InverseMenuText}" />
