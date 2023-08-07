@@ -790,6 +790,10 @@
                 "Nearl the Radiant Knight"
             ],
             [
+                "Nearl the Radiant Kn.*",
+                "Nearl the Radiant Knight"
+            ],
+            [
                 "Nearl the Radiant Knight",
                 "耀骑士临光"
             ],
@@ -1230,8 +1234,8 @@
                 "夜刀"
             ],
             [
-                ".*stice Knight'",
-                "正义骑士号"
+                ".*Justice Knight.*",
+                "'Justice Knight'"
             ],
             [
                 "'Justice Knight'",
@@ -1946,7 +1950,7 @@
                 "霜星的源石冰晶"
             ],
             [
-                "Mr. Boom",
+                "Mr. *Boom",
                 "轰隆隆先生"
             ],
             [
@@ -2139,7 +2143,11 @@
             ],
             [
                 ".*cter the Unchained",
-                "归溟幽灵鲨"
+                "Specter the Unchained"
+            ],
+            [
+                "Specter the Unchaine.*",
+                "Specter the Unchained"
             ],
             [
                 "Specter the Unchained",
@@ -2460,6 +2468,10 @@
             [
                 "8-Sided Dice",
                 "8面骰子"
+            ],
+            [
+                "Reed the Flame Shado.*",
+                "Reed the Flame Shadow"
             ],
             [
                 "Reed the Flame Shadow",
