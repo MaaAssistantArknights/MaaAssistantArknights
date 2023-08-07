@@ -28,3 +28,4 @@ exclude:
   - name: CppUnusedIncludeDirective
   - name: Xaml.RedundantNamespaceAlias
   - name: ArrangeTrailingCommaInMultilineLists
+  - name: ArrangeTrailingCommaInSinglelineLists
