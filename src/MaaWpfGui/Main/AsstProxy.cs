@@ -1132,14 +1132,18 @@ namespace MaaWpfGui.Main
         {
             if (Instances.SettingsViewModel.AutoDetectConnection)
             {
-                string bsHvAddress = Instances.SettingsViewModel.TryToSetBlueStacksHyperVAddress();
-                if (bsHvAddress != null)
+                // detect normal simulators first, then bluestacks hyper-v
+                if (!Instances.SettingsViewModel.DetectAdbConfig(ref error))
                 {
-                    Instances.SettingsViewModel.ConnectAddress = bsHvAddress;
-                }
-                else if (!Instances.SettingsViewModel.DetectAdbConfig(ref error))
-                {
-                    return false;
+                    string bsHvAddress = Instances.SettingsViewModel.TryToSetBlueStacksHyperVAddress();
+                    if (bsHvAddress != null)
+                    {
+                        Instances.SettingsViewModel.ConnectAddress = bsHvAddress;
+                        error = string.Empty;
+                    } else
+                    {
+                        return false;
+                    }
                 }
             }
 
