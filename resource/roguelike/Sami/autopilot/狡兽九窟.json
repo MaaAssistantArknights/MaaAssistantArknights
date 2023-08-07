@@ -1,0 +1,159 @@
+{
+    "stage_name": "狡兽九窟",
+    "replacement_home": [
+        {
+            "location": [
+                8,
+                4
+            ],
+            "direction": "up"
+        },
+        {
+            "location": [
+                9,
+                3
+            ],
+            "direction": "left"
+        },
+        {
+            "location": [
+                10,
+                3
+            ],
+            "direction": "left"
+        }
+    ],
+    "deploy_plan": [
+        {
+            "groups": [
+                "M3",
+                "挡人先锋",
+                "情报官",
+                "近卫",
+                "重装",
+                "处决者",
+                "其他地面"
+            ],
+            "location": [
+                8,
+                3
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
+                "M3",
+                "挡人先锋",
+                "情报官",
+                "近卫",
+                "重装",
+                "处决者",
+                "其他地面"
+            ],
+            "location": [
+                10,
+                3
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "焰苇",
+                "水陈",
+                "术师",
+                "速狙",
+                "狙击",
+                "召唤",
+                "其他高台"
+            ],
+            "location": [
+                7,
+                2
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
+                "凯尔希",
+                "单奶"
+            ],
+            "location": [
+                7,
+                4
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
+                "焰苇",
+                "术师",
+                "速狙",
+                "狙击",
+                "其他高台"
+            ],
+            "location": [
+                7,
+                3
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "M3",
+                "重装",
+                "挡人先锋",
+                "情报官",
+                "近卫",
+                "处决者",
+                "其他地面"
+            ],
+            "location": [
+                9,
+                3
+            ],
+            "direction": "up"
+        },
+        {
+            "groups": [
+                "玛恩纳"
+            ],
+            "location": [
+                9,
+                4
+            ],
+            "direction": "up"
+        },
+        {
+            "groups": [
+                "近卫",
+                "挡人先锋",
+                "重装",
+                "挡人先锋",
+                "投锋",
+                "处决者",
+                "其他地面"
+            ],
+            "location": [
+                8,
+                4
+            ],
+            "direction": "up"
+        },
+        {
+            "groups": [
+                "近卫",
+                "挡人先锋",
+                "重装",
+                "挡人先锋",
+                "投锋",
+                "处决者",
+                "其他地面"
+            ],
+            "location": [
+                10,
+                4
+            ],
+            "direction": "up"
+        }
+    ]
+}

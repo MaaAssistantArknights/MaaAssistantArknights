@@ -2556,6 +2556,14 @@
             [
                 "山海密令柱",
                 "山海密语仪"
+            ],
+            [
+                "「クリップ」",
+                "“夹子”"
+            ],
+            [
+                "「小自在」",
+                "“小自在”"
             ]
         ],
         "replaceFull": true
@@ -2724,6 +2732,15 @@
             203
         ],
         "template": "Mizuki@Roguelike@MissionFailedFlag2.png"
+    },
+    "Mizuki@Roguelike@StageEncounterLeaveConfirm": {
+        "roi": [
+            1063,
+            0,
+            217,
+            700
+        ],
+        "template": "Mizuki@Roguelike@StageEncounterLeaveConfirm.png"
     },
     "NoFriends": {
         "text": [

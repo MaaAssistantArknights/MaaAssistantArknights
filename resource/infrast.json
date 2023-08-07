@@ -658,6 +658,15 @@
                 ],
                 "template": "Bskill_dorm_reborn.png"
             },
+            "bskill_dorm_rec_all&profession": {
+                "desc": [
+                    "进驻宿舍时，基建内（不包括副手）每名行医干员为该宿舍内所有干员心情每小时恢复速度+6%（最多生效4名）"
+                ],
+                "name": [
+                    "火山温泉浴"
+                ],
+                "template": "Bskill_dorm_rec_all&profession.png"
+            },
             "bskill_dorm_single&one01": {
                 "desc": [
                     "进驻宿舍时，使该宿舍内除自身以外心情未满的某个干员每小时恢复+0.2（同种效果取最高）；同时自身心情每小时恢复+0.4"
@@ -1051,6 +1060,15 @@
                     "源石技艺理论应用"
                 ],
                 "template": "Bskill_man_skill_spd2.png"
+            },
+            "bskill_man_skill_spd3": {
+                "desc": [
+                    "进驻制造站时，当前制造站内每个金属工艺类技能为自身+5%的生产力"
+                ],
+                "name": [
+                    "打工心得"
+                ],
+                "template": "Bskill_man_skill_spd3.png"
             },
             "bskill_man_spd&limit&cost1": {
                 "desc": [
@@ -3323,6 +3341,15 @@
                     "手工艺品·β"
                 ],
                 "template": "Bskill_tra_wt&cost2.png"
+            },
+            "bskill_trade_ord_spd_variable": {
+                "desc": [
+                    "进驻贸易站时，当前贸易站内干员提升的每个订单上限，提供4%订单获取效率"
+                ],
+                "name": [
+                    "招商引资"
+                ],
+                "template": "Bskill_trade_ord_spd_variable.png"
             }
         },
         "skillsGroup": [

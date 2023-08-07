@@ -1,4 +1,4 @@
-#include "RoguelikeRecruitTaskPlugin.h"
+﻿#include "RoguelikeRecruitTaskPlugin.h"
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Roguelike/RoguelikeRecruitConfig.h"
@@ -59,16 +59,24 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
     size_t recruit_count = status()->get_number(Status::RoguelikeRecruitmentCount).value_or(0) + 1; // 这是第几次招募
     status()->set_number(Status::RoguelikeRecruitmentCount, recruit_count); // 这是第几次招募
+    bool start_complete = status()
+                              ->get_number(Status::RoguelikeRecruitmentStartsComplete)
+                              .value_or(0); // 阵容中必须有开局干员，没有前仅招募start干员或预备干员
+    bool team_complete = status()
+                             ->get_number(Status::RoguelikeRecruitmentTeamComplete)
+                             .value_or(0); // 阵容完备前，仅招募key干员或预备干员
 
     // 开局干员
     bool use_support = get_status_bool(Status::RoguelikeUseSupport);
     if (use_support) {
         if (check_support_char()) {
+            start_complete = true;
             return true;
         }
     }
     else {
         if (check_core_char()) {
+            start_complete = true;
             return true;
         }
     }
@@ -99,13 +107,6 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         const std::string& group_name = group_list[group_id];
         group_count[group_name]++;
     }
-
-    bool start_complete = status()
-                              ->get_number(Status::RoguelikeRecruitmentStartsComplete)
-                              .value_or(0); // 阵容中必须有开局干员，没有前仅招募start干员或预备干员
-    bool team_complete = status()
-                             ->get_number(Status::RoguelikeRecruitmentTeamComplete)
-                             .value_or(0); // 阵容完备前，仅招募key干员或预备干员
 
     if (!start_complete) {
         for (const auto& oper : chars_map) {

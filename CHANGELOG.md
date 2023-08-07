@@ -1,81 +1,73 @@
-## v4.20.0
+## v4.21.0
 
 ### 新增
 
-- 适配萨米肉鸽 (#5393) @DavidWang19 @SherkeyXD @LingXii @qxdqhr @HauKuen @yyjdelete @Ziqing19 @mathlover @yc080713 @mikucy @hguandl @vic233333 @salenth
-- 定时任务可切换配置 (#5323) @ABA2396 @MistEO
+- 新增 `火山旅梦` 活动导航 @ABA2396
+- 更新 `火山旅梦` 部分游戏资源（地图还没更新）@MistEO
+- 给牛牛抽卡提示增加阴间特效 (#5694) @SherkeyXD
 
 ### 改进
 
-- 自动关闭“检测到有未下载的语音资源”窗口 (#5396) @Hydrogina
-- 肉鸽debug日志写入图片前限制文件夹内图片数量 (#5325) @BladeHiker
-- 优化HttpClient构建过程 (#5357) @ChingCdesu @HisAtri
-- 自动检测更新的随机延迟改为一小时 @ABA2396
-- 更改更新弹窗格式 @ABA2396
-- 优化水月部分地图部署逻辑 (#5576) @Yumi0606
-- 全局配置不存在时会优先使用当前配置的字段，并赋值给全局配置 @ABA2396
-- 调整窗口标题 @TiSpH
+- 新增萨米肉鸽4~5层部署策略 (#5725) @LingXii
+- 优化傀影肉鸽招募逻辑和棘刺队作战逻辑 (#5707) @Lancarus
+- 进一步优化水月肉鸽部分关卡作战逻辑 (#5663) @Yumi0606
+- 优化肉鸽招募逻辑 (#5621) @SherkeyXD
+- 选择刷源石锭策略时强制启用投资选项 (#5625) @SherkeyXD
+- 一些文字识别问题与死囚之夜部分高台站位 (#5710) @cenfusheng
+- 使用 version summary api 检查更新 @MistEO
+- Implement ADB hard restart. (#5666) @AsterNighT
+- 修复干员青枳识别 (#5775) @Black1312
 
 ### 修复
 
-- 添加定时器缺少的判断 @ABA2396
-- 点击技能启动按钮时，验证按钮已消失，防止卡死在子弹时间中 (#5374) @chaserhkj
-- 添加山的干员名字纠错规则 (#5372) @chaserhkj
-- add CloseEvent task for Phantom Roguelike (#5358) @chaserhkj
-- 强制启动定时任务未在运行时不关闭方舟 #5346 @ABA2396
-- 尝试修复运行时下载完成更新包后卡死 (#5327) @ABA2396
-- 强制定时启动无法保存; 配置名称过长显示问题 (#5532) @TiSpH
-- 定时功能设置无法更新 @ABA2396
-- 0 时的定时任务无法提前重启 (#5571) @TiSpH
-- 修复定时器配置从未选择时的逻辑错误 @ABA2396
-- 修复输入非法时间时，输入框会重置但却存储错误数据的问题 @ABA2396
+- 更新的逻辑小错误 (#5752) @tangge233
+- 关闭模拟器权限不够时失败报错 @ABA2396
+- 连接失败后自动重启模拟器功能失效 @ABA2396
+- 主线导航识别问题 @ABA2396
+- mumu模拟器在游戏未启动时关闭游戏报错，增加关闭游戏日志和判断 @ABA2396
+- 修复一处因 MarkdownIt 引入导致的404链接 (#5680) @abc1763613206
+- 本地化文件错误/localization file error @ABA2396
+- gui.log 在自重启后有几率无法正常写入 (#5624) @TiSpH
 
 ### 其他
 
-- 优化了互斥规划问题的 dlx 算法实现在一定情况下的速度 @lhhxxxxx
-- 更新裁图小工具 @MistEO
-- 在文档的导航栏里加上前往官网的链接 @AnnAngela
-- 修改关卡重连描述 @ABA2396
-- 代码清理 @ABA2396
-- fix typo in AsstCaller.h (#5435) @eltociear
-- 添加一键编译macOS Core的脚本 @hguandl
-- 在用户有代理的情况下，提升国外镜像的优先级 (s3限速上行50Mbps) @ChingCdesu
-- AsstConf.h 对 clang-tidy 不友好的问题 (#5510) @hxdnshx
-- 规范化step name (#5517) @SherkeyXD
-- 删除export后面多余的空格 (#5515) @SherkeyXD
-- 修复对ranges支持检测的判断条件 (#5548) @hguandl
-- 修复初次使用多出来一个Global配置的问题 @MistEO
-- added new ignored Sami IS4 images @Constrat
-- 打包 macos dylib @AnnAngela
+- 新增 C# 代码静态分析 @hxdnshx
+- 改进 macos-runtime-universal.zip 生成 @AnnAngela
+- 主目录存在 DEBUG.txt 时每次开始任务都重新解析tasks.json (#5736) @ABA2396
+- i18n: 5ec976c9194d68b9b5c78234152ab2eb1953c5d4 moved changes to new file to allow future edits @Constrat
+- SSS available in global, removed from regex @Constrat
+- i18n: Added EN translation to SSS files @Constrat
+- typo: fix typo @ABA2396
+- 界面选项改为 mumu 6 @MistEO
+- 添加关联项目 MaaFramework @MistEO
+- macos-runtime-universal.zip 生成过程自适应版本号 @AnnAngela
+- 添加macos-runtime的resource文件夹和dylib的symlink @ChingCdesu
+- 添加对于mumu12后台保活功能的设置的说明 (#5781) @SherkeyXD
 
 ### For overseas
 
-#### Common
-
-- FC event stages implementation for KR, JP, EN @Constrat
-
 #### YostarEN
 
-- raised threshold for StageAnnihilation.png (#5234) @Constrat
-- Added correct StageAnnihilation.png after update @Constrat
-- Visiting only 1 Friend Clue Exchange in YostarEN (#5424) @Constrat
-- Missing .png for YostarEN and modified tools/ignore_list_of_templates.txt (lack of Chinese characters) (#5458) @Constrat
-- OperBox not retrieving Oper Class bar in EN @Constrat
-- added missing strings form missing_translate-YostarEN @Constrat
-- Workaround for EN infrastracture oper regex (#5549) @Constrat
-
-#### YostarKR
-
-- Improved operator awareness in infrastructure (#5564) @zewoosJ
-- add tutorial docs for kr @zewoosJ @178619
+- SSS Implementation for YostarEN @Constrat
+- WB event navigation for EN @Constrat
+- missing name-component for SSS + tweaked regex @Constrat
+- Dossoles ROI and Stage name fixes + temp OCR rep for long names @Constrat
+- ulterior changes / fixes from 9f2c7488b3310ac6a0e2304b7796181d88703f91 @Constrat
+- Auto Update Wrong order, rerun before limited @Constrat
+- Manual stage navigation for EN (fix #4874) @Constrat
+- duplicate: repeats in Ocr replace EN tasks.json @Constrat
+- better StartButton1.png @Constrat
+- Wrong event in display @Constrat
+- from ba75736 Manual Stage navigation EN @Constrat
 
 #### txwy
 
-- 繁中服干员名识别错误 @Arcelibs
+- 繁中服水月肉鴿  @vonnoq @Lancarus @momomochi987 @Arcelibs @avw621314
+- 繁中服支持牛牛抽卡 @ABA2396
+- 重製繁中服部分截圖 (#5748) @momomochi987
+- 繁中服水月肉鴿「委託完成」卡住 (#5766) @vonnoq
 
-### For dev
+#### YostarJP
 
-- Python api 更新 同时请求多个url下载 (#5390) @HisAtri
-- 使用字典推导式 (#5381) @HisAtri
-- 修复Python更新器中重试次数的问题 (#5402) @Q-ModifiedJ
-- 适配pythonAPI到最新版 (#5347) @DoyoDia
+- 日服水月肉鸽事件选项确认页面 (#5749) @Manicsteiner
+- JP : add Operators 登臨意 (#5636) @wallsman

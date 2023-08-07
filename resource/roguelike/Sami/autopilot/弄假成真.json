@@ -1,0 +1,112 @@
+{
+    "stage_name": "弄假成真",
+    "replacement_home": [
+        {
+            "location": [
+                4,
+                0
+            ],
+            "direction": "none"
+        }
+    ],
+    "deploy_plan": [
+        {
+            "groups": [
+                "M3",
+                "挡人先锋",
+                "近卫",
+                "重装",
+                "其他地面"
+            ],
+            "location": [
+                4,
+                1
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
+                "凯尔希",
+                "焰苇",
+                "单奶",
+                "群奶"
+            ],
+            "location": [
+                6,
+                1
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "M3",
+                "近卫",
+                "挡人先锋",
+                "投锋",
+                "情报官",
+                "重装",
+                "其他地面"
+            ],
+            "location": [
+                5,
+                1
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "M3",
+                "近卫",
+                "挡人先锋",
+                "投锋",
+                "情报官",
+                "重装",
+                "其他地面"
+            ],
+            "location": [
+                5,
+                2
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
+                "焰苇",
+                "单奶",
+                "群奶"
+            ],
+            "location": [
+                5,
+                3
+            ],
+            "direction": "up"
+        },
+        {
+            "groups": [
+                "水陈",
+                "速狙",
+                "狙击",
+                "术师",
+                "辅助",
+                "其他高台"
+            ],
+            "location": [
+                4,
+                2
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "处决者",
+                "情报官",
+                "近卫"
+            ],
+            "location": [
+                2,
+                2
+            ],
+            "direction": "left"
+        }
+    ]
+}
