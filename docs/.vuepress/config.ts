@@ -1,5 +1,5 @@
 import { defineUserConfig } from 'vuepress';
-import Theme from './theme.config';
+import Theme from './theme';
 import SearchPlugin from './plugins/search';
 import SitemapPlugin from './plugins/sitemap';
 
@@ -8,8 +8,8 @@ export default defineUserConfig({
   lang: "zh-CN",
   title: "MaaAssistantArknights",
   description: "MAA",
-  theme: Theme,
   port: 3001,
+
   locales: {
     '/': {
       lang: 'zh-CN',
@@ -32,15 +32,17 @@ export default defineUserConfig({
       description: '문서'
     }
   },
+
   markdown: {
     headers: {
       level: [2, 3, 4, 5],
     },
   },
+
+  theme: Theme,
+
   plugins: [
     SitemapPlugin(),
-    SearchPlugin()
+    SearchPlugin(),
   ],
-  temp: '.vuepress/.temp',
-  cache: '.vuepress/.cache'
 });
