@@ -55,7 +55,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets the view models of task items.
         /// </summary>
-        public ObservableCollection<DragItemViewModel> TaskItemViewModels { get; set; }
+        public ObservableCollection<DragItemViewModel> TaskItemViewModels { get; private set; }
 
         /// <summary>
         /// Gets the visibility of task setting views.
@@ -67,7 +67,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// 实时更新任务顺序
         /// </summary>
-        // 这个不能设置为private，xaml 中绑定了Action，需要添加 qodana ignore rule
+        // 这个不能设置为 private，xaml 中绑定了Action，需要添加 qodana ignore rule
         public void TaskItemSelectionChanged()
         {
             Application.Current.Dispatcher.InvokeAsync(() =>
@@ -675,6 +675,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Selects inversely.
         /// </summary>
+        // xaml 中的按钮绑定的 Action 是这个函数，需要添加 qodana ignore rule
         public void InverseSelected()
         {
             if (InverseMode)
