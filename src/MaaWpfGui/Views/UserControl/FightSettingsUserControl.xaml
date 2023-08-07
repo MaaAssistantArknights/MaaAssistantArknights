@@ -124,7 +124,7 @@
                         IsEditable="True"
                         IsTextSearchEnabled="False"
                         ItemsSource="{Binding DropsList}"
-                        Loaded="{s:Action DropsList_Loaded}"
+                        Loaded="{s:Action DropsListLoaded}"
                         SelectedValue="{Binding DropsItemId}"
                         SelectedValuePath="Value"
                         Text="{Binding DropsItemName}" />
