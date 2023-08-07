@@ -2183,6 +2183,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public struct CustomInfrastPlanInfo
         {
+            // ReSharper disable InconsistentNaming
             public int Index;
             public string Name;
             public string Description;
@@ -2198,6 +2199,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             public List<Period> PeriodList;
+
+            // ReSharper restore InconsistentNaming
         }
 
         private List<CustomInfrastPlanInfo> CustomInfrastPlanInfoList { get; } = new List<CustomInfrastPlanInfo>();
