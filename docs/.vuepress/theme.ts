@@ -3,6 +3,7 @@ import { zhcnNavbar } from "./navbar/index";
 import { zhcnSidebar } from "./sidebar/index";
 
 export default hopeTheme({
+  hostname: "https://maa.plus",
   iconAssets: "iconify",
   repo: "MaaAssistantArknights/MaaAssistantArknights",
   docsBranch: "dev",
@@ -43,7 +44,6 @@ export default hopeTheme({
       codetabs: true,
       container: true,
       echarts: true,
-      figure: true,
       footnote: true,
       gfm: true,
       imgLazyload: true,
@@ -62,7 +62,7 @@ export default hopeTheme({
       dark: "nord",
     },
 
-
+    sitemap: true,
 
   },
 
