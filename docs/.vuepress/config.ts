@@ -1,7 +1,6 @@
 import { defineUserConfig } from 'vuepress';
 import Theme from './theme';
 import SearchPlugin from './plugins/search';
-import SitemapPlugin from './plugins/sitemap';
 
 export default defineUserConfig({
   base: '/docs/',
@@ -42,7 +41,6 @@ export default defineUserConfig({
   theme: Theme,
 
   plugins: [
-    SitemapPlugin(),
     SearchPlugin(),
   ],
 });
