@@ -57,6 +57,10 @@ export default hopeTheme({
   plugins: {
     activeHeaderLinks: false,
 
+    copyright: {
+      license: "AGPL-3.0",
+    },
+
     mdEnhance: {
       align: true,
       card: true,
