@@ -1,6 +1,6 @@
 import { hopeTheme } from "vuepress-theme-hope";
-import { zhcnNavbar } from "./navbar/index";
-import { zhcnSidebar } from "./sidebar/index";
+import { zhcnNavbar, zhtwNavbar, enusNavbar, jajpNavbar, kokrNavbar } from "./navbar/index";
+import { zhcnSidebar, zhtwSidebar, enusSidebar, jajpSidebar, kokrSidebar } from "./sidebar/index";
 
 export default hopeTheme({
   hostname: "https://maa.plus",
@@ -19,16 +19,36 @@ export default hopeTheme({
       },
     },
     "/zh-tw/": {
-      //selectLanguageName: "繁體中文",
+      navbar: zhtwNavbar,
+      sidebar: zhtwSidebar,
+      displayFooter: false,
+      metaLocales: {
+        editLink: "在Github上編輯此頁面",
+      },
     },
     "/en-us/": {
-      //selectLanguageName: "English",
+      navbar: enusNavbar,
+      sidebar: enusSidebar,
+      displayFooter: false,
+      metaLocales: {
+        editLink: "Edit this page on Github",
+      },
     },
     "/ja-jp/": {
-      //selectLanguageName: "日本語",
+      navbar: jajpNavbar,
+      sidebar: jajpSidebar,
+      displayFooter: false,
+      metaLocales: {
+        editLink: "このページをGithubで編集する",
+      },
     },
     "/ko-kr/": {
-      //selectLanguageName: "한국어",
+      navbar: kokrNavbar,
+      sidebar: kokrSidebar,
+      displayFooter: false,
+      metaLocales: {
+        editLink: "Github에서 이 페이지를 편집",
+      },
     },
   },
 

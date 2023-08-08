@@ -42,7 +42,7 @@ export const zhcnSidebar = sidebar({
       ],
     },
     {
-      text: "开发相关",
+      text: "开发文档",
       icon: "ph:code-bold",
       collapsible: true,
       children: [
@@ -51,7 +51,7 @@ export const zhcnSidebar = sidebar({
           link: "/2.1-Linux编译教程",
         },
         {
-          text: "本地PR教程及clang-format配置",
+          text: "开发相关",
           link: "/2.2-开发相关",
         },
         {
