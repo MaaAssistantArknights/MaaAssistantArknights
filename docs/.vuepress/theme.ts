@@ -35,6 +35,35 @@ export default hopeTheme({
 
   plugins: {
     activeHeaderLinks: false,
+
+    mdEnhance: {
+      align: true,
+      card: true,
+      chart: true,
+      codetabs: true,
+      container: true,
+      echarts: true,
+      figure: true,
+      footnote: true,
+      gfm: true,
+      imgLazyload: true,
+      imgMark: true,
+      imgSize: true,
+      mathjax: true,
+      mark: true,
+      mermaid: true,
+      tabs: true,
+      tasklist: true,
+      vPre: true,
+    },
+
+    prismjs: {
+      light: "one-dark",
+      dark: "nord",
+    },
+
+
+
   },
 
 });
