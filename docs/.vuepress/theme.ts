@@ -3,7 +3,7 @@ import { zhcnNavbar } from "./navbar/index";
 import { zhcnSidebar } from "./sidebar/index";
 
 export default hopeTheme({
-  iconAssets: "iconfont",
+  iconAssets: "iconify",
   repo: "MaaAssistantArknights/MaaAssistantArknights",
   docsBranch: "dev",
   docsDir: "/docs",

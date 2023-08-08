@@ -3,13 +3,13 @@ import { sidebar } from "vuepress-theme-hope";
 export const zhcnSidebar = sidebar({
   "/": [
     {
-      text: "MaaAssistantArknights",
-      icon: "home",
+      text: "MAA",
+      icon: "ic:round-home",
       link: "/",
     },
     {
       text: "用户手册",
-      icon: "people",
+      icon: "mdi:user",
       collapsible: true,
       children: [
         {
@@ -31,12 +31,10 @@ export const zhcnSidebar = sidebar({
             },
             {
               text: "Mac",
-              icon: "mac",
               link: "/1.4-Mac模拟器支持",
             },
             {
               text: "Linux",
-              icon: "linux",
               link: "/1.5-Linux模拟器支持",
             },
           ],
@@ -45,7 +43,7 @@ export const zhcnSidebar = sidebar({
     },
     {
       text: "开发相关",
-      icon: "code",
+      icon: "ph:code-bold",
       collapsible: true,
       children: [
         {
@@ -72,7 +70,7 @@ export const zhcnSidebar = sidebar({
     },
     {
       text: "协议文档",
-      icon: "exercise",
+      icon: "basil:document-solid",
       collapsible: true,
       children: [
         {
