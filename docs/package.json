@@ -8,7 +8,7 @@
   "license": "AGPL-3.0",
   "devDependencies": {
     "@vuepress/client": "2.0.0-beta.66",
-    "@vuepress/plugin-docsearch": "^2.0.0-beta.66",
+    "@vuepress/plugin-docsearch": "2.0.0-beta.66",
     "markdown-it": "^13.0.1",
     "markdown-it-anchor": "^8.6.7",
     "markdownlint-cli": "^0.32.2",
