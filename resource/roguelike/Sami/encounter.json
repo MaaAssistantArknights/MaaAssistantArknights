@@ -399,7 +399,7 @@
         {
             "name": "沼泽里的抽泣声",
             "option_num": 3,
-            "choose": 1
+            "choose": 3
         },
         {
             "name": "有利可图",
@@ -418,7 +418,7 @@
         {
             "name": "随行人员",
             "option_num": 3,
-            "choose": 1,
+            "choose": 3,
             "choice_require": [
                 {
                     "name": "偷听他们聊天",
@@ -435,8 +435,8 @@
         },
         {
             "name": "邪恶计划鸭",
-            "option_num": 3,
-            "choose": 1
+            "option_num": 2,
+            "choose": 2
         },
         {
             "name": "百里连营",
