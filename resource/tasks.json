@@ -3190,7 +3190,6 @@
             136
         ],
         "next": [
-            "EndOfActionAnnihilation",
             "EndOfAction"
         ]
     },
@@ -3408,23 +3407,6 @@
         "preDelay": 5000,
         "next": [
             "EndOfActionThenStop"
-        ]
-    },
-    "EndOfActionAnnihilation": {
-        "algorithm": "OcrDetect",
-        "Doc": "本任务注册了插件 StageDropsTaskPlugin",
-        "text": [
-            "行动结束"
-        ],
-        "roi": [
-            0,
-            118,
-            409,
-            194
-        ],
-        "action": "DoNothing",
-        "next": [
-            "ClickCorner"
         ]
     },
     "StageDrops": {
