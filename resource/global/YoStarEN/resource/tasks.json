@@ -742,10 +742,10 @@
     },
     "BattleStartOCR": {
         "roi": [
-            1006,
-            444,
-            196,
-            166
+            1000,
+            404,
+            210,
+            220
         ],
         "text": [
             "MISSION",
@@ -787,6 +787,10 @@
             ],
             [
                 ".*arl the Radiant Knight",
+                "Nearl the Radiant Knight"
+            ],
+            [
+                "Nearl the Radiant Kn.*",
                 "Nearl the Radiant Knight"
             ],
             [
@@ -1230,8 +1234,8 @@
                 "夜刀"
             ],
             [
-                ".*stice Knight'",
-                "正义骑士号"
+                ".*Justice Knight.*",
+                "'Justice Knight'"
             ],
             [
                 "'Justice Knight'",
@@ -1946,7 +1950,7 @@
                 "霜星的源石冰晶"
             ],
             [
-                "Mr. Boom",
+                "Mr. *Boom",
                 "轰隆隆先生"
             ],
             [
@@ -2139,7 +2143,11 @@
             ],
             [
                 ".*cter the Unchained",
-                "归溟幽灵鲨"
+                "Specter the Unchained"
+            ],
+            [
+                "Specter the Unchaine.*",
+                "Specter the Unchained"
             ],
             [
                 "Specter the Unchained",
@@ -2288,6 +2296,10 @@
             [
                 "Astgenne",
                 "星源"
+            ],
+            [
+                "Greyy the Lightningb.*",
+                "Greyy the Lightningbearer"
             ],
             [
                 ".*Lightni.*bearer",
@@ -2460,6 +2472,10 @@
             [
                 "8-Sided Dice",
                 "8面骰子"
+            ],
+            [
+                "Reed the Flame Shado.*",
+                "Reed the Flame Shadow"
             ],
             [
                 "Reed the Flame Shadow",
@@ -2810,18 +2826,18 @@
     },
     "OperBoxRoleTab": {
         "roi": [
-            1169,
+            1166,
             0,
-            111,
-            119
+            114,
+            124
         ]
     },
     "OperBoxRoleTabSelect": {
         "roi": [
-            1159,
+            1158,
             0,
-            121,
-            122
+            122,
+            126
         ]
     },
     "PRTS2": {
