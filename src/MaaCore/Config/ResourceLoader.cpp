@@ -140,22 +140,30 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     }))
 #endif
 
-    FutureAppendBegins
-    {
-        // 不太重要又加载的慢的资源，但不怎么占内存的，实时异步加载
-        // DEBUG 模式下这里还是检查返回值的，方便排查问题
-        AsyncLoadConfig(StageDropsConfig, "stages.json"_p);
-        AsyncLoadConfig(TilePack, "Arknights-Tile-Pos"_p / "overview.json"_p);
-        AsyncLoadConfig(RoguelikeCopilotConfig, "roguelike"_p / "copilot.json"_p);
-        AsyncLoadConfig(RoguelikeRecruitConfig, "roguelike"_p / "recruitment.json"_p);
-        AsyncLoadConfig(RoguelikeShoppingConfig, "roguelike"_p / "shopping.json"_p);
-        AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "stage_encounter.json"_p);
-    }
-    FutureAppendEnds;
+    // 不太重要又加载的慢的资源，但不怎么占内存的，实时异步加载
+    // DEBUG 模式下这里还是检查返回值的，方便排查问题
+    AsyncLoadConfig(StageDropsConfig, "stages.json"_p);
+    AsyncLoadConfig(TilePack, "Arknights-Tile-Pos"_p / "overview.json"_p);
 
+    AsyncLoadConfig(RoguelikeCopilotConfig, "roguelike"_p / "Phantom"_p / "autopilot"_p);
+    AsyncLoadConfig(RoguelikeCopilotConfig, "roguelike"_p / "Mizuki"_p / "autopilot"_p);
+    AsyncLoadConfig(RoguelikeCopilotConfig, "roguelike"_p / "Sami"_p / "autopilot"_p);
+
+    AsyncLoadConfig(RoguelikeRecruitConfig, "roguelike"_p / "Phantom"_p / "recruitment.json"_p);
+    AsyncLoadConfig(RoguelikeRecruitConfig, "roguelike"_p / "Mizuki"_p / "recruitment.json"_p);
+    AsyncLoadConfig(RoguelikeRecruitConfig, "roguelike"_p / "Sami"_p / "recruitment.json"_p);
+
+    AsyncLoadConfig(RoguelikeShoppingConfig, "roguelike"_p / "Phantom"_p / "shopping.json"_p);
+    AsyncLoadConfig(RoguelikeShoppingConfig, "roguelike"_p / "Mizuki"_p / "shopping.json"_p);
+    AsyncLoadConfig(RoguelikeShoppingConfig, "roguelike"_p / "Sami"_p / "shopping.json"_p);
+
+    AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "Phantom"_p / "encounter.json"_p);
+    AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "Mizuki"_p / "encounter.json"_p);
+    AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "Sami"_p / "encounter.json"_p);
+
+    // 太占内存的资源，都是惰性加载
     FutureAppendBegins
     {
-        // 太占内存的资源，都是惰性加载
         // 战斗中技能识别，二分类模型
         LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "skill_ready_cls.onnx"_p);
         // 战斗中部署方向识别，四分类模型
@@ -169,9 +177,9 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     }
     FutureAppendEnds;
 
+    // 重要的资源，实时加载
     FutureAppendBegins
     {
-        // 重要的资源，实时加载
         /* load resource with json files*/
         LoadResourceAndCheckRet(GeneralConfig, "config.json"_p);
         LoadResourceAndCheckRet(RecruitConfig, "recruitment.json"_p);
@@ -184,10 +192,9 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     }
     FutureAppendEnds;
 
+    // 重要的资源，实时加载（图片还是惰性的）
     FutureAppendBegins
     {
-        // 重要的资源，实时加载（图片还是惰性的）
-
         LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
         LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
         LoadResourceWithTemplAndCheckRet(ItemConfig, "item_index.json"_p, "template"_p / "items"_p);
