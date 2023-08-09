@@ -277,6 +277,7 @@ namespace MaaWpfGui.ViewModels.UI
                     else if (currentTime == startTime)
                     {
                         timeToStart = true;
+                        configIndex = i;
                         break;
                     }
                 }
@@ -284,7 +285,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (timeToChangeConfig)
             {
-                if (Instances.SettingsViewModel.CustomConfig)
+                if (Instances.SettingsViewModel.CustomConfig && (runningState.GetIdle() || Instances.SettingsViewModel.ForceScheduledStart))
                 {
                     // CurrentConfiguration设置后会重启
                     Instances.SettingsViewModel.CurrentConfiguration = Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig;
@@ -307,6 +308,10 @@ namespace MaaWpfGui.ViewModels.UI
                     }
 
                     ResetFightVariables();
+                }
+                if (Instances.SettingsViewModel.CurrentConfiguration != Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig)
+                {
+                    return;
                 }
 
                 LinkStart();
