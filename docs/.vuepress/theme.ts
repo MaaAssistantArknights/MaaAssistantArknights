@@ -57,6 +57,16 @@ export default hopeTheme({
   plugins: {
     activeHeaderLinks: false,
 
+    comment: {
+      provider: "Giscus",
+      repo: "MaaAssistantArknights/maa-website",
+      repoId: "R_kgDOHY7Gyg",
+      category: "General",
+      categoryId: "DIC_kwDOHY7Gys4CYefe",
+      mapping: "title",
+      strict: false,
+    },
+
     copyright: {
       license: "AGPL-3.0",
     },
