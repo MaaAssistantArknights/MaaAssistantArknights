@@ -2600,7 +2600,8 @@
             "ClickedCorrectStage",
             "FullStageNavigation"
         ],
-        "reduceOtherTimes": []
+        "reduceOtherTimes": [
+        ]
     },
     "CreditShop-NoMoney": {
         "text": [
@@ -2707,6 +2708,18 @@
             "To the most recent stage"
         ]
     },
+    "InfrastClueSelfFull": {
+        "roi": [
+            287,
+            554,
+            400,
+            124
+        ],
+        "text": [
+            "Clue limit reached",
+            "Unable to receive new Clues"
+        ]
+    },
     "InfrastConfirmButtonWait": {
         "roi": [
             675,
@@ -2717,18 +2730,6 @@
         "text": [
             "Submitting feedback",
             "to the neural network"
-        ]
-    },
-    "InfrastClueSelfFull": {
-        "text": [
-            "Clue limit reached",
-            "Unable to receive new Clues"
-        ],
-        "roi": [
-            287,
-            554,
-            400,
-            124
         ]
     },
     "InfrastDormConfirmButtonWait": {
@@ -4910,7 +4911,8 @@
             1280,
             263
         ],
-        "text": []
+        "text": [
+        ]
     },
     "SSSEquipmentConfirm": {
         "roi": [
