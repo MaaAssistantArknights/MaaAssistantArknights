@@ -1,4 +1,7 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  설정  -->
     <system:String x:Key="Settings">설정</system:String>
     <system:String x:Key="GeneralSettings">일반 설정</system:String>
@@ -461,6 +464,9 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="ResourceBroken">리소스가 손상되었습니다. 전체 패키지를 다시 다운로드하세요</system:String>
     <system:String x:Key="ReplaceADBNotExists">ADB 파일이 존재하지 않습니다</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB 다운로드 실패</system:String>
+    <system:String x:Key="AdbDeletionFailedMessage">디렉터리 삭제를 실패했습니다. 이미 대체되었거나 다른 문제가 발생했을 수 있습니다. 자세한 내용은 로그를 확인하세요.</system:String>
+    <system:String x:Key="UnzipFailedMessage">파일 압축 해제에 실패했습니다. 예기치 않은 오류가 발생했습니다. 자세한 내용은 로그를 확인하세요.</system:String>
+    <system:String x:Key="NoAdbPathSpecifiedMessage">adb 경로가 지정되지 않았습니다</system:String>
     <system:String x:Key="AdbDownloadFailedDesc">수동으로 진행해 주세요. (adb.exe의 이름을 바꾸고 에뮬레이터의 ADB 파일을 교체해 주세요)</system:String>
     <system:String x:Key="SuccessfullyReplacedADB">성공적으로 ADB 파일을 교체했습니다</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocal">ADB 교체 실패</system:String>
