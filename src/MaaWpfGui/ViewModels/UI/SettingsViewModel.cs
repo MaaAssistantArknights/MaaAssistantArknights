@@ -1259,7 +1259,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _customInfrastFile, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.CustomInfrastFile, value);
-                Instances.TaskQueueViewModel.RefreshCustonInfrastPlan();
+                Instances.TaskQueueViewModel.RefreshCustomInfrastPlan();
             }
         }
 
