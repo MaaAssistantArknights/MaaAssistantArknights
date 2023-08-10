@@ -1,26 +1,25 @@
 {
   "name": "maa-docs-main",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "manual for MaaAssistantArknights",
   "main": "index.js",
   "repository": "https://github.com/MaaAssistantArknights/MaaAssistantArknights",
   "author": "bakashigure <me@shigure.fun>",
   "license": "AGPL-3.0",
-  "dependencies": {
-    "@vuepress/plugin-docsearch": "next",
-    "@vuepress/plugin-search": "next"
-  },
   "devDependencies": {
+    "@vuepress/client": "2.0.0-beta.66",
+    "@vuepress/plugin-docsearch": "2.0.0-beta.66",
     "markdown-it": "^13.0.1",
     "markdown-it-anchor": "^8.6.7",
     "markdownlint-cli": "^0.32.2",
-    "vuepress": "^2.0.0-beta.63",
-    "vuepress-plugin-sitemap2": "^2.0.0-beta.233"
+    "vue": "^3.2.47",
+    "vuepress": "2.0.0-beta.66",
+    "vuepress-theme-hope": "2.0.0-beta.234"
   },
   "scripts": {
     "dev": "vuepress dev .",
-    "dev:doc": "vuepress dev .",
     "build": "vuepress build .",
+    "clean": "vuepress dev . --clean-cache",
     "lintfix": "markdownlint \"**/*.md\" --fix"
   }
 }
