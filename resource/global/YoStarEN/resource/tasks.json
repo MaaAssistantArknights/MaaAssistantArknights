@@ -1754,7 +1754,7 @@
                 "“报幕助手”"
             ],
             [
-                "Snowsant's Safe Escape Crane",
+                "Snowsant's Safe Esc.*",
                 "雪雉的安全起重机"
             ],
             [
@@ -2895,6 +2895,14 @@
     "RecruitNow": {
         "text": [
             "Expedite"
+        ]
+    },
+        "BattleStartSimulation": {
+        "roi": [
+            400,
+            566,
+            481,
+            154
         ]
     },
     "RecruitTags": {
