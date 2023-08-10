@@ -2600,8 +2600,7 @@
             "ClickedCorrectStage",
             "FullStageNavigation"
         ],
-        "reduceOtherTimes": [
-        ]
+        "reduceOtherTimes": []
     },
     "CreditShop-NoMoney": {
         "text": [
@@ -4857,6 +4856,18 @@
             ]
         ]
     },
+    "EndOfActionAnnihilation": {
+        "text": [
+            "MISSION",
+            "RESULTS"
+        ],
+        "roi": [
+            13,
+            126,
+            386,
+            208
+        ]
+    },
     "SSSBuffChooseConfirm": {
         "roi": [
             1037,
@@ -4911,8 +4922,7 @@
             1280,
             263
         ],
-        "text": [
-        ]
+        "text": []
     },
     "SSSEquipmentConfirm": {
         "roi": [
