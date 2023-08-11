@@ -46,8 +46,6 @@ namespace asst
         virtual ~RoguelikeRecruitConfig() override = default;
 
         const RoguelikeOperInfo& get_oper_info(const std::string& theme, const std::string& name) noexcept;
-        const std::vector<std::pair<int, int>> get_role_info(const std::string& theme,
-                                                             const battle::Role& role) const noexcept; // [deprecated]
         const std::vector<std::string> get_group_info(const std::string& theme) const noexcept;
         const std::vector<RecruitPriorityOffset> get_team_complete_info(const std::string& theme) const noexcept;
         int get_group_id(const std::string& theme, const std::string& name) const noexcept;
@@ -58,8 +56,6 @@ namespace asst
         void clear(const std::string& theme);
 
         std::unordered_map<std::string, std::unordered_map<std::string, RoguelikeOperInfo>> m_all_opers;
-        std::unordered_map<std::string, std::unordered_map<battle::Role, std::vector<std::pair<int, int>>>>
-            m_role_offset_map; // [deprecated]
         std::unordered_map<std::string, std::vector<std::string>> m_oper_groups;
         std::unordered_map<std::string, std::vector<RecruitPriorityOffset>> m_team_complete_comdition;
     };
