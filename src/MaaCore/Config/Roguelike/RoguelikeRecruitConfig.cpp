@@ -22,19 +22,6 @@ const asst::RoguelikeOperInfo& asst::RoguelikeRecruitConfig::get_oper_info(const
     }
 }
 
-const std::vector<std::pair<int, int>> asst::RoguelikeRecruitConfig::get_role_info(
-    const std::string& theme, const battle::Role& role) const noexcept
-{
-    if (role == battle::Role::Unknown) {
-        return std::vector<std::pair<int, int>>();
-    }
-    auto& map = m_role_offset_map.at(theme);
-    if (auto iter = map.find(role); iter != map.end()) {
-        return iter->second;
-    }
-    return std::vector<std::pair<int, int>>();
-}
-
 const std::vector<std::string> asst::RoguelikeRecruitConfig::get_group_info(const std::string& theme) const noexcept
 {
     return m_oper_groups.at(theme);
@@ -134,7 +121,6 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
 void asst::RoguelikeRecruitConfig::clear(const std::string& key)
 {
     m_all_opers.erase(key);
-    m_role_offset_map.erase(key);
     m_oper_groups.erase(key);
     m_team_complete_comdition.erase(key);
 }
