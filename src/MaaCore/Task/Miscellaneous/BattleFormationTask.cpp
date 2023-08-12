@@ -157,11 +157,6 @@ std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_opers()
     }
     sort_by_vertical_(opers_result);
 
-    if (m_the_right_name == opers_result.back().text) {
-        return {};
-    }
-    m_the_right_name = opers_result.back().text;
-
     std::vector<TextRect> tr_res;
     for (const auto& res : opers_result) {
         tr_res.emplace_back(TextRect { res.rect, res.score, res.text });
@@ -256,7 +251,7 @@ bool asst::BattleFormationTask::click_role_table(battle::Role role)
         { battle::Role::Sniper, "Sniper" }, { battle::Role::Special, "Special" }, { battle::Role::Support, "Support" },
         { battle::Role::Tank, "Tank" },     { battle::Role::Warrior, "Warrior" }, { battle::Role::Unknown, "All" }, 
     };
-    m_the_right_name.clear();
+    m_last_oper_name.clear();
 
     auto role_iter = RoleNameType.find(role);
     if (role_iter == RoleNameType.cend()) {
