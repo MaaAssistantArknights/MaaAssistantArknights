@@ -254,7 +254,7 @@ bool asst::BattleFormationTask::click_role_table(battle::Role role)
     static const std::unordered_map<battle::Role, std::string> RoleNameType = {
         { battle::Role::Caster, "Caster" }, { battle::Role::Medic, "Medic" },     { battle::Role::Pioneer, "Pioneer" },
         { battle::Role::Sniper, "Sniper" }, { battle::Role::Special, "Special" }, { battle::Role::Support, "Support" },
-        { battle::Role::Tank, "Tank" },     { battle::Role::Warrior, "Warrior" },
+        { battle::Role::Tank, "Tank" },     { battle::Role::Warrior, "Warrior" }, { battle::Role::Unknown, "All" }, 
     };
     m_the_right_name.clear();
 
@@ -284,8 +284,13 @@ bool asst::BattleFormationTask::parse_formation()
         }
         formation.array_emplace(name);
 
+        bool same_role = true;
         battle::Role role = BattleData.get_role(opers_vec.front().name);
-        m_formation[role].emplace_back(opers_vec);
+        for (const auto& oper : opers_vec) {
+            same_role &= BattleData.get_role(oper.name) == role;
+        }
+
+        m_formation[same_role ? role : battle::Role::Unknown].emplace_back(opers_vec);
     }
 
     callback(AsstMsg::SubTaskExtraInfo, info);
