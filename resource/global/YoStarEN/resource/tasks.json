@@ -758,6 +758,14 @@
             "Start Challenge"
         ]
     },
+    "BattleStartSimulation": {
+        "roi": [
+            400,
+            566,
+            481,
+            154
+        ]
+    },
     "CharsNameOcrReplace": {
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的英文识别任务复用 This task's ocrReplace is reused by all recognition tasks related to operator names",
         "ocrReplace": [
@@ -2700,6 +2708,25 @@
             "To the most recent stage"
         ]
     },
+    "IW-Open": {
+        "text": [
+            "Event <Invitation to Wine - Rerun> is",
+            "now open"
+        ]
+    },
+    "IWChapterToIW": {
+        "algorithm": "OcrDetect",
+        "roi": [
+            856,
+            511,
+            247,
+            159
+        ],
+        "text": [
+            "TALES OF",
+            "THREE-MOUNTAINS"
+        ]
+    },
     "InfrastClueSelfFull": {
         "roi": [
             287,
@@ -2875,14 +2902,6 @@
     "RecruitNow": {
         "text": [
             "Expedite"
-        ]
-    },
-        "BattleStartSimulation": {
-        "roi": [
-            400,
-            566,
-            481,
-            154
         ]
     },
     "RecruitTags": {
@@ -5507,25 +5526,6 @@
         "text": [
             "CASE INVESTIGATION",
             "ONSITE"
-        ]
-    },
-    "IW-Open": {
-        "text": [
-            "Event <Invitation to Wine - Rerun> is",
-            "now open"
-        ]
-    },
-    "IWChapterToIW": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "TALES OF",
-            "THREE-MOUNTAINS"
-        ],
-        "roi": [
-            856,
-            511,
-            247,
-            159
         ]
     }
 }
