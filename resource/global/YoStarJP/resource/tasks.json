@@ -2686,6 +2686,17 @@
             "シラクザーノ"
         ]
     },
+    "IW-Open": {
+        "text": [
+            "<将進酒>イベント復刻開催中"
+        ]
+    },
+    "IWChapterToIW": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "三山奇聞"
+        ]
+    },
     "InfrastEnterOperList": {
         "text": [
             "体力",
@@ -5177,17 +5188,6 @@
     "VisitNextOcr": {
         "text": [
             "次を訪問"
-        ]
-    },
-    "IW-Open": {
-        "text": [
-            "<将進酒>イベント復刻開催中"
-        ]
-    },
-    "IWChapterToIW": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "三山奇聞"
         ]
     }
 }

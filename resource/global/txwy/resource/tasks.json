@@ -3922,11 +3922,6 @@
             "開始保全作戰"
         ]
     },
-    "SSSDebuffConfirm": {
-        "text": [
-            "確認完畢"
-        ]
-    },
     "SSSBuffChoose": {
         "text": [
             "自適應補給元件"
@@ -3935,6 +3930,29 @@
     "SSSBuffChooseConfirm": {
         "text": [
             "確認選擇"
+        ]
+    },
+    "SSSDebuffConfirm": {
+        "text": [
+            "確認完畢"
+        ]
+    },
+    "SSSDropRecruitmentConfirm": {
+        "text": [
+            "確認調用",
+            "放棄調用",
+            "確認選擇"
+        ]
+    },
+    "SSSDropRecruitmentFlag": {
+        "text": [
+            "請選擇",
+            "請進行",
+            "增調",
+            "異能",
+            "獲得",
+            "甄選",
+            "導能"
         ]
     },
     "SSSDropRecruitmentOCR": {
@@ -3949,16 +3967,12 @@
             1280,
             263
         ],
-        "text": []
+        "text": [
+        ]
     },
     "SSSEquipmentConfirm": {
         "text": [
             "裝備確認"
-        ]
-    },
-    "SSSTeamConfirm": {
-        "text": [
-            "陣容確認"
         ]
     },
     "SSSStageNameOCR": {
@@ -4024,22 +4038,9 @@
             "開始行動"
         ]
     },
-    "SSSDropRecruitmentFlag": {
+    "SSSTeamConfirm": {
         "text": [
-            "請選擇",
-            "請進行",
-            "增調",
-            "異能",
-            "獲得",
-            "甄選",
-            "導能"
-        ]
-    },
-    "SSSDropRecruitmentConfirm": {
-        "text": [
-            "確認調用",
-            "放棄調用",
-            "確認選擇"
+            "陣容確認"
         ]
     },
     "StageEpisodeToOF": {
