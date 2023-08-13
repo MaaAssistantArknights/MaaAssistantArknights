@@ -6,7 +6,8 @@
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/TemplDetOCRer.h"
+#include "Vision/Matcher.h"
+#include "Vision/OCRer.h"
 
 bool asst::RoguelikeShoppingTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -37,14 +38,14 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    TemplDetOCRer analyzer;
-    analyzer.set_task_info("RoguelikeTraderShopping", "RoguelikeTraderShoppingOcr");
-
-    analyzer.set_image(ctrler()->get_image());
+    OCRer analyzer;
+    analyzer.set_task_info("RoguelikeTraderShoppingOcr");
+    auto image = ctrler()->get_image();
+    analyzer.set_image(image);
     if (!analyzer.analyze()) {
         return false;
     }
-
+    
     bool no_longer_buy = status()->get_number(Status::RoguelikeTraderNoLongerBuy).value_or(0) ? true : false;
 
     std::string str_chars_info = status()->get_str(Status::RoguelikeCharOverview).value_or(json::value().to_string());
@@ -90,7 +91,17 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         }
     }
 
-    const auto& result = analyzer.get_result();
+    const auto& raw_result = analyzer.get_result();
+    std::vector<TextRect> result;
+    Matcher matcher_analyzer;
+    matcher_analyzer.set_image(image);
+    matcher_analyzer.set_task_info("RoguelikeTraderShopping");
+    for (auto& item : raw_result) {
+        matcher_analyzer.set_roi(item.rect.move({ -20, 130, 200, 80 }));
+        if (matcher_analyzer.analyze()) {
+            result.emplace_back(item);
+        }
+    }
     bool bought = false;
     auto& all_goods = RoguelikeShopping.get_goods(status()->get_properties(Status::RoguelikeTheme).value());
     for (const auto& goods : all_goods) {
