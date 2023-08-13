@@ -33,7 +33,8 @@ const std::vector<asst::RecruitPriorityOffset> asst::RoguelikeRecruitConfig::get
     return m_team_complete_comdition.at(theme);
 }
 
-int asst::RoguelikeRecruitConfig::get_group_id(const std::string& theme, const std::string& name) const noexcept
+std::vector<int> asst::RoguelikeRecruitConfig::get_group_id(const std::string& theme,
+                                                            const std::string& name) const noexcept
 {
     auto& opers = m_all_opers.at(theme);
     if (auto find_iter = opers.find(name); find_iter != opers.cend()) {
@@ -43,9 +44,9 @@ int asst::RoguelikeRecruitConfig::get_group_id(const std::string& theme, const s
         const auto& role = BattleData.get_role(name);
         if (role != battle::Role::Pioneer && role != battle::Role::Tank && role != battle::Role::Warrior &&
             role != battle::Role::Special)
-            return static_cast<int>(m_oper_groups.at(theme).size()) - 2;
+            return { static_cast<int>(m_oper_groups.at(theme).size()) - 2 };
         else
-            return static_cast<int>(m_oper_groups.at(theme).size()) - 1;
+            return { static_cast<int>(m_oper_groups.at(theme).size()) - 1 };
     }
 }
 
@@ -60,16 +61,27 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
     for (const auto& group_json : json.at("priority").as_array()) {
         for (const auto& oper_info : group_json.at("opers").as_array()) {
             std::string name = oper_info.at("name").as_string();
-            RoguelikeOperInfo info;
+            RoguelikeOperInfo info;   
+            
+            auto iter = m_all_opers[theme].find(name);
+            if (iter != m_all_opers[theme].end()) {
+                // 干员已存在时仅做更新
+                info = iter->second;
+            }
             info.name = name;
-            info.group_id = group_id;
-            info.recruit_priority = oper_info.get("recruit_priority", 0);
-            info.promote_priority = oper_info.get("promote_priority", 0);
-            info.is_alternate = oper_info.get("is_alternate", false);
-            info.skill = oper_info.get("skill", 0);
-            info.alternate_skill = oper_info.get("alternate_skill", 0);
-            info.skill_usage = static_cast<battle::SkillUsage>(oper_info.get("skill_usage", 1));
-            info.alternate_skill_usage = static_cast<battle::SkillUsage>(oper_info.get("alternate_skill_usage", 1));
+            info.group_id.push_back(group_id);
+            info.recruit_priority = oper_info.get("recruit_priority", info.recruit_priority);
+            info.promote_priority = oper_info.get("promote_priority", info.promote_priority);
+            info.is_alternate = oper_info.get("is_alternate", info.is_alternate);
+            info.skill = oper_info.get("skill", info.skill);
+            info.alternate_skill = oper_info.get("alternate_skill", info.alternate_skill);
+            info.skill_usage =
+                static_cast<battle::SkillUsage>(oper_info.get("skill_usage", static_cast<int>(info.skill_usage)));
+            info.alternate_skill_usage = static_cast<battle::SkillUsage>(
+                oper_info.get("alternate_skill_usage", static_cast<int>(info.alternate_skill_usage)));
+            info.is_key = oper_info.get("is_key", info.is_key);
+            info.is_start = oper_info.get("is_start", info.is_start);
+                       
 
             // __________________will-be-removed-begin__________________
             info.recruit_priority_when_team_full =
@@ -84,9 +96,7 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
             }
             info.offset_melee = oper_info.get("offset_melee", false);
             // __________________will-be-removed-end__________________
-
-            info.is_key = oper_info.get("is_key", false);
-            info.is_start = oper_info.get("is_start", false);
+            
             if (auto opt = oper_info.find<json::array>("recruit_priority_offsets")) {
                 for (const auto& offset_json : opt.value()) {
                     RecruitPriorityOffset offset;
@@ -99,8 +109,9 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
                     info.recruit_priority_offsets.emplace_back(std::move(offset));
                 }
             }
+            
 
-            m_all_opers[theme].insert_or_assign(name, std::move(info));
+            m_all_opers[theme][name] = std::move(info);
             m_oper_groups[theme].emplace_back(name);
         }
         group_id++;

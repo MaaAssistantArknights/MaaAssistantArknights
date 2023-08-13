@@ -23,7 +23,7 @@ namespace asst
     struct RoguelikeOperInfo
     {
         std::string name;
-        int group_id = 0;                                         // 干员组id
+        std::vector<int> group_id = {};                           // 干员组id,允许一个干员存在于多个干员组
         int recruit_priority = 0;                                 // 招募优先级 (0-1000)
         int promote_priority = 0;                                 // 晋升优先级 (0-1000)
         int recruit_priority_when_team_full = 0;                  // 队伍满时的招募优先级 (0-1000)
@@ -48,7 +48,7 @@ namespace asst
         const RoguelikeOperInfo& get_oper_info(const std::string& theme, const std::string& name) noexcept;
         const std::vector<std::string> get_group_info(const std::string& theme) const noexcept;
         const std::vector<RecruitPriorityOffset> get_team_complete_info(const std::string& theme) const noexcept;
-        int get_group_id(const std::string& theme, const std::string& name) const noexcept;
+        std::vector<int> get_group_id(const std::string& theme, const std::string& name) const noexcept;
 
     protected:
         virtual bool parse(const json::value& json) override;
