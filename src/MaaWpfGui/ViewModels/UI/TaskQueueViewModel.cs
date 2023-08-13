@@ -1581,7 +1581,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 line = reg.Replace(line, ",");
                 string[] arr = line.Split(',');
-                if (Convert.ToBoolean(string.Compare(arr[1], address, StringComparison.Ordinal)) && Convert.ToBoolean(string.Compare(arr[1], "[::]:" + port, StringComparison.Ordinal)) && Convert.ToBoolean(string.Compare(arr[1], "0.0.0.0:" + port, StringComparison.Ordinal)))
+                if (arr.Length >= 2 && Convert.ToBoolean(string.Compare(arr[1], address, StringComparison.Ordinal)) && Convert.ToBoolean(string.Compare(arr[1], "[::]:" + port, StringComparison.Ordinal)) && Convert.ToBoolean(string.Compare(arr[1], "0.0.0.0:" + port, StringComparison.Ordinal)))
                 {
                     continue;
                 }
