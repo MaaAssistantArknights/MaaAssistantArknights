@@ -2264,10 +2264,10 @@ namespace MaaWpfGui.ViewModels.UI
                 if (root != null && _customInfrastInfoOutput && root.TryGetValue("title", out var title))
                 {
                     AddLog(LocalizationHelper.GetString("CustomInfrastTitle"), UiLogColor.Message);
-                    AddLog($"title: {JsonConvert.ToString(title)}", UiLogColor.Info);
+                    AddLog($"title: {title ?? "null"}", UiLogColor.Info);
                     if (root.TryGetValue("description", out var value))
                     {
-                        AddLog($"description: {JsonConvert.ToString(value)}", UiLogColor.Info);
+                        AddLog($"description: {value ?? "null"}", UiLogColor.Info);
                     }
                 }
 

@@ -326,28 +326,31 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
         }
         const std::string& oper_name = oper_name_in_config(oper);
         const auto& recruit_info = RoguelikeRecruit.get_oper_info(rogue_theme, oper_name);
-        int group_id = RoguelikeRecruit.get_group_id(rogue_theme, oper_name);
-        std::string group_name = groups[group_id];
-        if (m_deploy_plan.contains(group_name)) {
-            for (const auto& info : m_deploy_plan[group_name]) {
-                if (m_kills < info.kill_lower_bound || m_kills > info.kill_upper_bound) {
-                    Log.info("deploy info", oper.name, "in group", group_name, "is waiting.");
-                    is_success = true; // 如果发现了待命干员，此函数最终返回true
-                    continue;
+        std::vector<int> group_ids = RoguelikeRecruit.get_group_id(rogue_theme, oper_name);        
+        for (const auto& group_id : group_ids) {
+            std::string group_name = groups[group_id];
+            if (m_deploy_plan.contains(group_name)) {
+                for (const auto& info : m_deploy_plan[group_name]) {
+                    if (m_kills < info.kill_lower_bound || m_kills > info.kill_upper_bound) {
+                        Log.info("deploy info", oper.name, "in group", group_name, "is waiting.");
+                        is_success = true; // 如果发现了待命干员，此函数最终返回true
+                        continue;
+                    }
+                    DeployPlanInfo deploy_plan;
+                    deploy_plan.oper_name = oper.name;
+                    deploy_plan.oper_priority = recruit_info.recruit_priority;
+                    deploy_plan.rank = info.rank;
+                    deploy_plan.placed = info.location;
+                    deploy_plan.direction = info.direction;
+                    deploy_plan_list.emplace_back(deploy_plan);
+                    Log.info("deploy info", deploy_plan.oper_name, "in group", group_name, "with rank",
+                             deploy_plan.rank);
                 }
-                DeployPlanInfo deploy_plan;
-                deploy_plan.oper_name = oper.name;
-                deploy_plan.oper_priority = recruit_info.recruit_priority;
-                deploy_plan.rank = info.rank;
-                deploy_plan.placed = info.location;
-                deploy_plan.direction = info.direction;
-                deploy_plan_list.emplace_back(deploy_plan);
-                Log.info("deploy info", deploy_plan.oper_name, "in group", group_name, "with rank", deploy_plan.rank);
             }
-        }
-        else {
-            Log.error("operator", oper.name, "is not in the deploy plan.");
-        }
+            else {
+                Log.error("operator", oper.name, "is not in the deploy plan.");
+            }
+        }        
     }
     std::sort(deploy_plan_list.begin(), deploy_plan_list.end());
     for (const auto& deploy_plan : deploy_plan_list) {
