@@ -45,7 +45,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
     if (!analyzer.analyze()) {
         return false;
     }
-    
+
     bool no_longer_buy = status()->get_number(Status::RoguelikeTraderNoLongerBuy).value_or(0) ? true : false;
 
     std::string str_chars_info = status()->get_str(Status::RoguelikeCharOverview).value_or(json::value().to_string());
@@ -102,6 +102,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
             result.emplace_back(item);
         }
     }
+
     bool bought = false;
     auto& all_goods = RoguelikeShopping.get_goods(status()->get_properties(Status::RoguelikeTheme).value());
     for (const auto& goods : all_goods) {
@@ -132,6 +133,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
                 continue;
             }
         }
+        
         if (goods.promotion != 0) {
             if (total_wait_promotion == 0) {
                 Log.trace("Ready to buy", goods.name, ", but there is no one waiting for promotion, skip");
