@@ -59,6 +59,7 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
 
     int group_id = 0;
     for (const auto& group_json : json.at("priority").as_array()) {
+        m_oper_groups[theme].emplace_back(group_json.at("name").as_string());
         for (const auto& oper_info : group_json.at("opers").as_array()) {
             std::string name = oper_info.at("name").as_string();
             RoguelikeOperInfo info;   
@@ -111,8 +112,7 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
             }
             
 
-            m_all_opers[theme][name] = std::move(info);
-            m_oper_groups[theme].emplace_back(name);
+            m_all_opers[theme][name] = std::move(info);            
         }
         group_id++;
     }
