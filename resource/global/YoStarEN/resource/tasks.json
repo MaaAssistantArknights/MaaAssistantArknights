@@ -2779,12 +2779,12 @@
         "templThreshold": 0.7
     },
     "InfrastReward": {
+        "fullMatch": true,
         "text": [
             "Collectable",
             "Orders Acquired",
             "Trust"
-        ],
-        "fullMatch": true
+        ]
     },
     "InfrastStationedInfo": {
         "text": [
