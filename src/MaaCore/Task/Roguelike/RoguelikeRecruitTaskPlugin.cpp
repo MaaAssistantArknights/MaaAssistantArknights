@@ -1,4 +1,4 @@
-﻿#include "RoguelikeRecruitTaskPlugin.h"
+#include "RoguelikeRecruitTaskPlugin.h"
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Roguelike/RoguelikeRecruitConfig.h"
@@ -103,9 +103,11 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     std::unordered_map<std::string, int> group_count;
     const auto& group_list = RoguelikeRecruit.get_group_info(rogue_theme);
     for (const auto& oper : chars_map) {
-        int group_id = RoguelikeRecruit.get_group_id(rogue_theme, oper.first);
-        const std::string& group_name = group_list[group_id];
-        group_count[group_name]++;
+        std::vector<int> group_ids = RoguelikeRecruit.get_group_id(rogue_theme, oper.first);
+        for (const auto& group_id : group_ids){
+            const std::string& group_name = group_list[group_id];
+            group_count[group_name]++;
+        }        
     }
 
     if (!start_complete) {
