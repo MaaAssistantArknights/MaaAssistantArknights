@@ -7,7 +7,7 @@
             120
         ]
     },
-    "BattleQuickFormationFilter-Cost": {
+    "BattleQuickFormationFilter-Cost": {F
         "roi": [
             996,
             443,
@@ -2769,12 +2769,12 @@
         "templThreshold": 0.7
     },
     "InfrastReward": {
+        "fullMatch": true,
         "text": [
             "Collectable",
             "Orders Acquired",
             "Trust"
-        ],
-        "fullMatch": true
+        ]
     },
     "InfrastStationedInfo": {
         "text": [
