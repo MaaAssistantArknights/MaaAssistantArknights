@@ -1,13 +1,4 @@
 {
-    "Award": {
-        "roi": [
-            700,
-            530,
-            200,
-            130
-        ],
-        "template": "Task.png"
-    },
     "BattleQuickFormationExpandRole": {
         "roi": [
             1166,
@@ -2582,13 +2573,12 @@
         ]
     },
     "ClickedCorrectStageOrSwipe": {
-        "action": "DoNothing",
         "baseTask": "StartButton1",
+        "action": "DoNothing",
+        "reduceOtherTimes": [],
         "next": [
             "ClickedCorrectStage",
             "FullStageNavigation"
-        ],
-        "reduceOtherTimes": [
         ]
     },
     "CreditShop-NoMoney": {
@@ -4204,6 +4194,10 @@
                 "替罪领巾"
             ],
             [
+                "Support Replenishment",
+                "Support Replenishment Station"
+            ],
+            [
                 "Support Replenishment Station",
                 "支援补给站"
             ],
@@ -5307,19 +5301,18 @@
         ]
     },
     "SSSDropRecruitmentOCR": {
-        "action": "DoNothing",
-        "algorithm": "OcrDetect",
         "baseTask": "CharsNameOcrReplace",
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": [],
         "cache": false,
-        "postDelay": 1000,
         "roi": [
             0,
             352,
             1280,
             263
         ],
-        "text": [
-        ]
+        "postDelay": 1000
     },
     "SSSEquipmentConfirm": {
         "roi": [
