@@ -1,760 +1,113 @@
 {
-    "BattleQuickFormationExpandRole": {
-        "roi": [
-            1166,
-            0,
-            114,
-            120
+    "ClickChapter1": {
+        "text": [
+            "Hour of An Awakening",
+            "Hour of An"
         ]
     },
-    "BattleQuickFormationFilter-Cost": {
+    "ClickChapter2": {
+        "text": [
+            "Shatter of A Vision",
+            "Shatter of A"
+        ]
+    },
+    "ClickChapter3": {
+        "text": [
+            "Shadow of A Dying Sun",
+            "Shadow of A"
+        ]
+    },
+    "EnterChapterDifficultyHard": {
+        "text": [
+            "Start Operation"
+        ]
+    },
+    "EnterChapterDifficultyNormal": {
+        "text": [
+            "Start Operation"
+        ]
+    },
+    "ClickedCorrectStageOrSwipe": {
+        "baseTask": "StartButton1",
+        "action": "DoNothing",
+        "reduceOtherTimes": [],
+        "next": [
+            "ClickedCorrectStage",
+            "FullStageNavigation"
+        ]
+    },
+    "WB-Open": {
+        "text": [
+            "Event <Where Vernal Winds Will Never",
+            "Blow> is now open",
+            "Criminal Pursuit,Offsite'stages opened"
+        ]
+    },
+    "WBChapterToWB": {
+        "algorithm": "OcrDetect",
         "roi": [
-            996,
-            443,
-            222,
+            1034,
+            595,
+            246,
             125
         ],
-        "text": "Deployment Cost"
-    },
-    "BattleStageName": {
-        "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
-        "ocrReplace": [
-            [
-                "A Date With Slugs",
-                "与虫为伴"
-            ],
-            [
-                "Beast Taming",
-                "驯兽小屋"
-            ],
-            [
-                "Gun Salute",
-                "礼炮小队"
-            ],
-            [
-                "Accident",
-                "意外"
-            ],
-            [
-                "Fight to the Death",
-                "死斗"
-            ],
-            [
-                "The Grand Finale",
-                "压轴登场"
-            ],
-            [
-                "Patrol Squad",
-                "巡逻队"
-            ],
-            [
-                "Destitute Knights",
-                "落魄骑士"
-            ],
-            [
-                "Unequal Split",
-                "分赃不均"
-            ],
-            [
-                "First Come, Last Served",
-                "先来后到"
-            ],
-            [
-                "Justice",
-                "正义"
-            ],
-            [
-                "A Familiar Face",
-                "似曾相识"
-            ],
-            [
-                "Vintage Transport",
-                "酒商运输队"
-            ],
-            [
-                "With The Crowd",
-                "从众效应"
-            ],
-            [
-                "Beast Fighting",
-                "斗兽笼"
-            ],
-            [
-                "Premiere",
-                "首演"
-            ],
-            [
-                "Reform",
-                "感化"
-            ],
-            [
-                "Sculptor and Statue",
-                "雕匠与石像"
-            ],
-            [
-                "Pressing Ahead",
-                "步步紧逼"
-            ],
-            [
-                "Shrouded in Clouds",
-                "阴云笼罩"
-            ],
-            [
-                "Fireworks Show",
-                "烟花秀"
-            ],
-            [
-                "Unending",
-                "永无尽头"
-            ],
-            [
-                "Traveler From Afar",
-                "远方来客"
-            ],
-            [
-                "A Dance Together",
-                "共舞"
-            ],
-            [
-                "Bob's Beers",
-                "鲍勃酒品"
-            ],
-            [
-                "Alpine Visitor",
-                "雪山上的来客"
-            ],
-            [
-                "Drone Landing Zone",
-                "无人机起降库"
-            ],
-            [
-                "The Red Mist",
-                "红雾弥漫"
-            ],
-            [
-                "The Night of Ritual",
-                "仪式之夜"
-            ],
-            [
-                "The Biting Cold",
-                "彻骨冰寒"
-            ],
-            [
-                "Dangers Abound",
-                "危机四伏"
-            ],
-            [
-                "Surprise Factory",
-                "惊喜工厂"
-            ],
-            [
-                "Absurd Trickeries",
-                "荒唐把戏"
-            ],
-            [
-                "From Afar",
-                "隔岸观火"
-            ],
-            [
-                "Sarkaz Desire",
-                "萨卡兹的渴求"
-            ],
-            [
-                "Ursus Desire",
-                "乌萨斯的渴求"
-            ],
-            [
-                "A Date With Slugs",
-                "与虫为伴"
-            ],
-            [
-                "Beast Taming",
-                "驯兽小屋"
-            ],
-            [
-                "Gun Salute",
-                "礼炮小队"
-            ],
-            [
-                "Accident",
-                "意外"
-            ],
-            [
-                "Fight to the Death",
-                "死斗"
-            ],
-            [
-                "The Grand Finale",
-                "压轴登场"
-            ],
-            [
-                "Patrol Squad",
-                "巡逻队"
-            ],
-            [
-                "Destitute Knights",
-                "落魄骑士"
-            ],
-            [
-                "Unequal Split",
-                "分赃不均"
-            ],
-            [
-                "First Come, Last Served",
-                "先来后到"
-            ],
-            [
-                "Justice",
-                "正义"
-            ],
-            [
-                "A Familiar Face",
-                "似曾相识"
-            ],
-            [
-                "Vintage Transport",
-                "酒商运输队"
-            ],
-            [
-                "With The Crowd",
-                "从众效应"
-            ],
-            [
-                "Beast Fighting",
-                "斗兽笼"
-            ],
-            [
-                "Premiere",
-                "首演"
-            ],
-            [
-                "Reform",
-                "感化"
-            ],
-            [
-                "Sculptor and Statue",
-                "雕匠与石像"
-            ],
-            [
-                "Pressing Ahead",
-                "步步紧逼"
-            ],
-            [
-                "Shrouded in Clouds",
-                "阴云笼罩"
-            ],
-            [
-                "Fireworks Show",
-                "烟花秀"
-            ],
-            [
-                "Unending",
-                "永无尽头"
-            ],
-            [
-                "Traveler From Afar",
-                "远方来客"
-            ],
-            [
-                "A Dance Together",
-                "共舞"
-            ],
-            [
-                "Bob's Beers",
-                "鲍勃酒品"
-            ],
-            [
-                "Alpine Visitor",
-                "雪山上的来客"
-            ],
-            [
-                "Drone Landing Zone",
-                "无人机起降库"
-            ],
-            [
-                "The Red Mist",
-                "红雾弥漫"
-            ],
-            [
-                "The Night of Ritual",
-                "仪式之夜"
-            ],
-            [
-                "The Biting Cold",
-                "彻骨冰寒"
-            ],
-            [
-                "Dangers Abound",
-                "危机四伏"
-            ],
-            [
-                "Surprise Factory",
-                "惊喜工厂"
-            ],
-            [
-                "Absurd Trickeries",
-                "荒唐把戏"
-            ],
-            [
-                "From Afar",
-                "隔岸观火"
-            ],
-            [
-                "Sarkaz Desire",
-                "萨卡兹的渴求"
-            ],
-            [
-                "Ursus Desire",
-                "乌萨斯的渴求"
-            ],
-            [
-                "Mind The Doors",
-                "开门请当心"
-            ],
-            [
-                "Theft from Above",
-                "大盗当头"
-            ],
-            [
-                "Terrifying Legends",
-                "恐怖传说"
-            ],
-            [
-                "Fatal Melodies",
-                "悦耳杀机"
-            ],
-            [
-                "A Cold Seperation",
-                "寒渊惜别"
-            ],
-            [
-                "The Point of No Return",
-                "覆水难收"
-            ],
-            [
-                "All I Ask of You",
-                "别无所求"
-            ],
-            [
-                "Twisted Every Way",
-                "诸事不顺"
-            ],
-            [
-                "New Chapter",
-                "再启新篇"
-            ],
-            [
-                "Disorderly Banquet",
-                "无序盛宴"
-            ],
-            [
-                "Demonic Cage",
-                "邪异囚笼"
-            ],
-            [
-                "This Ursus Man",
-                "这位乌萨斯人"
-            ],
-            [
-                "Duck Lord's Play",
-                "鸭爵的戏剧"
-            ],
-            [
-                "Duck Lord's Party",
-                "鸭爵的宴会"
-            ],
-            [
-                "Gopnik's Fist",
-                "高普尼克之拳"
-            ],
-            [
-                "'Knights' Duel'",
-                "“骑士对决”"
-            ],
-            [
-                "Bound by Self",
-                "自缚"
-            ],
-            [
-                "Observation",
-                "观察"
-            ],
-            [
-                "Eternal Wrath",
-                "永恒愤怒"
-            ],
-            [
-                "Craft Brewer Killer",
-                "精酿杀手"
-            ],
-            [
-                "Crime and Punishment",
-                "除暴安良"
-            ],
-            [
-                "The Nest",
-                "巢穴"
-            ],
-            [
-                "Route Revision",
-                "订正"
-            ],
-            [
-                "Vortex",
-                "漩涡"
-            ],
-            [
-                "Sanguinarch's Legacy",
-                "大君遗脉"
-            ],
-            [
-                "Vortex",
-                "漩涡"
-            ],
-            [
-                "The Nest",
-                "巢穴"
-            ],
-            [
-                "Crime and Punishment",
-                "除暴安良"
-            ],
-            [
-                "Requiem Aeternam",
-                "永恒安息"
-            ],
-            [
-                "Avoid Unsafe Roads",
-                "险路勿近"
-            ],
-            [
-                "Separation and Unity",
-                "分离与统一"
-            ],
-            [
-                "Two Forms, One Heart",
-                "异体同心"
-            ],
-            [
-                "Course Correction",
-                "纠错"
-            ],
-            [
-                "Curse of Cognition",
-                "认知即重担"
-            ],
-            [
-                "'Fate's Favored Child'",
-                "“命运的宠儿”"
-            ],
-            [
-                "Destiny of We Many",
-                "大群所向"
-            ],
-            [
-                "Hunting Group",
-                "荒地群猎"
-            ],
-            [
-                "Voiceless Summons",
-                "无声呼号"
-            ],
-            [
-                "Chilling Curse",
-                "寒灾之咒"
-            ],
-            [
-                "Cistern",
-                "蓄水池"
-            ],
-            [
-                "Insect Infestation",
-                "虫群横行"
-            ],
-            [
-                "Sniper Squad",
-                "射手部队"
-            ],
-            [
-                "Symbiosis",
-                "共生"
-            ],
-            [
-                "Leviathan's Followers",
-                "海神的信者"
-            ],
-            [
-                "Malady",
-                "病症"
-            ],
-            [
-                "Omen",
-                "征兆"
-            ],
-            [
-                "Ebb",
-                "回溯"
-            ],
-            [
-                "Troglodyte Tribe",
-                "原始部落"
-            ],
-            [
-                "Craft Brewer Killer",
-                "精酿杀手"
-            ],
-            [
-                "Precarious Defense",
-                "据险固守"
-            ],
-            [
-                "Underground Ascension",
-                "地下天途"
-            ],
-            [
-                "Blaze of Glory",
-                "火之骄子"
-            ],
-            [
-                "Territorial Tendencies",
-                "领地意识"
-            ],
-            [
-                "Seacavern Sandstorm",
-                "海窟沙暴"
-            ],
-            [
-                "Nethersea Brand Land",
-                "溟痕乐园"
-            ],
-            [
-                "Hunting Grounds",
-                "狩猎场"
-            ],
-            [
-                "The Revered Abyss",
-                "崇敬深海"
-            ],
-            [
-                "Mechanical Menace",
-                "机械之灾"
-            ],
-            [
-                "The Faithful's Utopia",
-                "教徒居所"
-            ],
-            [
-                "Out of Control",
-                "失控"
-            ],
-            [
-                "The Piper's Call",
-                "吹笛人的号召"
-            ],
-            [
-                "Ubi bona somnia",
-                "好梦在何方"
-            ],
-            [
-                "Pool of Procreation",
-                "育生池"
-            ],
-            [
-                "The Spread",
-                "蔓延"
-            ],
-            [
-                "Water and Fire Union",
-                "水火相容"
-            ],
-            [
-                "Deep Cognition",
-                "深度认知"
-            ],
-            [
-                "Reality",
-                "真相"
-            ],
-            [
-                "Fanatical Flames",
-                "狂信如火"
-            ],
-            [
-                "'Joy' From a Box",
-                "“喜”从箱来"
-            ],
-            [
-                "Fishing in a Dry Pond",
-                "竭泽而渔"
-            ],
-            [
-                "See the Big Picture",
-                "图穷匕见"
-            ],
-            [
-                "Cistern",
-                "蓄水池"
-            ],
-            [
-                "Insect Infestation",
-                "虫群横行"
-            ],
-            [
-                "Sniper Squad",
-                "射手部队"
-            ],
-            [
-                "Symbiosis",
-                "共生"
-            ],
-            [
-                "Voiceless Summons",
-                "无声呼号"
-            ],
-            [
-                "Leviathan's Followers",
-                "海神的信者"
-            ],
-            [
-                "Malady",
-                "病症"
-            ],
-            [
-                "Omen",
-                "征兆"
-            ],
-            [
-                "Ebb",
-                "回溯"
-            ],
-            [
-                "Troglodyte Tribe",
-                "原始部落"
-            ],
-            [
-                "Sanguinarch's Legacy",
-                "大君遗脉"
-            ],
-            [
-                "Precarious Defense",
-                "据险固守"
-            ],
-            [
-                "Underground Ascension",
-                "地下天途"
-            ],
-            [
-                "Blaze of Glory",
-                "火之骄子"
-            ],
-            [
-                "Territorial Tendencies",
-                "领地意识"
-            ],
-            [
-                "Seacavern Sandstorm",
-                "海窟沙暴"
-            ],
-            [
-                "Nethersea Brand Land",
-                "溟痕乐园"
-            ],
-            [
-                "Hunting Grounds",
-                "狩猎场"
-            ],
-            [
-                "The Revered Abyss",
-                "崇敬深海"
-            ],
-            [
-                "Mechanical Menace",
-                "机械之灾"
-            ],
-            [
-                "The Faithful's Utopia",
-                "教徒居所"
-            ],
-            [
-                "Out of Control",
-                "失控"
-            ],
-            [
-                "The Piper's Call",
-                "吹笛人的号召"
-            ],
-            [
-                "Ubi bona somnia",
-                "好梦在何方"
-            ],
-            [
-                "Pool of Procreation",
-                "育生池"
-            ],
-            [
-                "The Spread",
-                "蔓延"
-            ],
-            [
-                "Water and Fire Union",
-                "水火相容"
-            ],
-            [
-                "Deep Cognition",
-                "深度认知"
-            ],
-            [
-                "Indecisiveness",
-                "犹豫不决"
-            ],
-            [
-                "Supervision Site",
-                "监工现场"
-            ],
-            [
-                "Right in the Kisser",
-                "拳拳到肉"
-            ],
-            [
-                "Tail Between Legs",
-                "抱头狗窜"
-            ],
-            [
-                "A New Day, A New Duck",
-                "鸭本运作"
-            ]
-        ],
-        "roi": [
-            250,
-            435,
-            800,
-            100
+        "text": [
+            "CASE INVESTIGATION",
+            "ONSITE"
         ]
     },
-    "BattleStartOCR": {
+    "IW-Open": {
+        "text": [
+            "Event <Invitation to Wine - Rerun> is",
+            "now open"
+        ]
+    },
+    "IWChapterToIW": {
+        "algorithm": "OcrDetect",
         "roi": [
-            1000,
-            404,
-            210,
-            220
+            856,
+            511,
+            247,
+            159
         ],
         "text": [
-            "MISSION",
-            "START"
+            "TALES OF",
+            "THREE-MOUNTAINS"
         ]
     },
-    "BattleStartPre": {
+    "FC-Open": {
         "text": [
-            "Start",
-            "Start Challenge"
+            "Event <What the Firelight Casts> is now",
+            "open"
         ]
     },
-    "BattleStartSimulation": {
-        "roi": [
-            400,
-            566,
-            481,
-            154
+    "FCChapterToFC": {
+        "text": [
+            "SWAMP",
+            "MISTS"
+        ]
+    },
+    "StageEpisodeToGT": {
+        "text": [
+            "Grani and the Knights' Treasure",
+            "Grani and the Knights"
+        ]
+    },
+    "GTToGT-5": {
+        "text": [
+            "Enter",
+            "Event"
+        ]
+    },
+    "StageEpisodeToOF": {
+        "text": [
+            "Heart of Surging Flame"
+        ]
+    },
+    "OFToOF-Chapter": {
+        "text": [
+            "Enter",
+            "Event"
         ]
     },
     "CharsNameOcrReplace": {
@@ -2554,42 +1907,35 @@
             ]
         ]
     },
-    "ClickChapter1": {
+    "TodaysSupplies": {
+        "algorithm": "OcrDetect",
         "text": [
-            "Hour of An Awakening",
-            "Hour of An"
+            "Resource Today"
         ]
     },
-    "ClickChapter2": {
+    "LoadingText": {
+        "roi": [
+            675,
+            605,
+            427,
+            115
+        ],
         "text": [
-            "Shatter of A Vision",
-            "Shatter of A"
+            "Submitting feedback",
+            "to the neural network"
         ]
     },
-    "ClickChapter3": {
+    "UsePrts": {
+        "templThreshold": 0.7
+    },
+    "StartButton1": {
         "text": [
-            "Shadow of A Dying Sun",
-            "Shadow of A"
+            "Start"
         ]
     },
-    "ClickedCorrectStageOrSwipe": {
-        "baseTask": "StartButton1",
-        "action": "DoNothing",
-        "reduceOtherTimes": [],
-        "next": [
-            "ClickedCorrectStage",
-            "FullStageNavigation"
-        ]
-    },
-    "CreditShop-NoMoney": {
+    "PRTS2": {
         "text": [
-            "Insufficient Credit",
-            "Unable to"
-        ]
-    },
-    "CreditStoreOcr": {
-        "text": [
-            "Credit Store"
+            "Takeover"
         ]
     },
     "EndOfActionAnnihilation": {
@@ -2602,16 +1948,6 @@
         "text": [
             "MISSION",
             "RESULTS"
-        ]
-    },
-    "EnterChapterDifficultyHard": {
-        "text": [
-            "Start Operation"
-        ]
-    },
-    "EnterChapterDifficultyNormal": {
-        "text": [
-            "Start Operation"
         ]
     },
     "ExpiringMedicineCheck": {
@@ -2629,18 +1965,6 @@
             "min",
             "hr",
             "1 day"
-        ]
-    },
-    "FC-Open": {
-        "text": [
-            "Event <What the Firelight Casts> is now",
-            "open"
-        ]
-    },
-    "FCChapterToFC": {
-        "text": [
-            "SWAMP",
-            "MISTS"
         ]
     },
     "FightMissionFailed": {
@@ -2669,220 +1993,15 @@
             "FAILED"
         ]
     },
-    "GTToGT-5": {
-        "text": [
-            "Enter",
-            "Event"
-        ]
-    },
-    "GachaLastOnceResult": {
-        "text": [
-            "Certificate",
-            "Token",
-            "Duplicate"
-        ]
-    },
-    "GachaOncePrefix@DoGacha": {
-        "fullMatch": true,
-        "text": [
-            "Headhunt x1"
-        ]
-    },
-    "GachaTenTimesPrefix@DoGacha": {
-        "text": [
-            "Headhunt x10"
-        ]
-    },
     "GoLastBattle": {
         "text": [
             "To the most recent stage"
         ]
     },
-    "IW-Open": {
+    "StartRecruit": {
         "text": [
-            "Event <Invitation to Wine - Rerun> is",
-            "now open"
+            "Recruit Now"
         ]
-    },
-    "IWChapterToIW": {
-        "algorithm": "OcrDetect",
-        "roi": [
-            856,
-            511,
-            247,
-            159
-        ],
-        "text": [
-            "TALES OF",
-            "THREE-MOUNTAINS"
-        ]
-    },
-    "InfrastClueSelfFull": {
-        "roi": [
-            287,
-            554,
-            400,
-            124
-        ],
-        "text": [
-            "Clue limit reached",
-            "Unable to receive new Clues"
-        ]
-    },
-    "InfrastConfirmButtonWait": {
-        "roi": [
-            675,
-            605,
-            427,
-            115
-        ],
-        "text": [
-            "Submitting feedback",
-            "to the neural network"
-        ]
-    },
-    "InfrastDormConfirmButtonWait": {
-        "roi": [
-            675,
-            605,
-            427,
-            115
-        ],
-        "text": [
-            "Submitting feedback",
-            "to the neural network"
-        ]
-    },
-    "InfrastEnterOperList": {
-        "fullMatch": true,
-        "text": [
-            "Morale",
-            "Resting",
-            "Working",
-            "Assign"
-        ]
-    },
-    "InfrastFilterMenuNotStationedButton": {
-        "templThreshold": 0.75
-    },
-    "InfrastFlagOriginStone": {
-        "templThreshold": 0.7
-    },
-    "InfrastReward": {
-        "fullMatch": true,
-        "text": [
-            "Collectable",
-            "Orders Acquired",
-            "Trust"
-        ]
-    },
-    "InfrastStationedInfo": {
-        "text": [
-            "Operator"
-        ]
-    },
-    "LoadingText": {
-        "roi": [
-            675,
-            605,
-            427,
-            115
-        ],
-        "text": [
-            "Submitting feedback",
-            "to the neural network"
-        ]
-    },
-    "Mall": {
-        "text": [
-            "Store"
-        ]
-    },
-    "Mizuki@Roguelike@GetDropRecruit": {
-        "templThreshold": 0.7
-    },
-    "Mizuki@Roguelike@GetDropSelectRecruit": {
-        "templThreshold": 0.75
-    },
-    "Mizuki@Roguelike@NextLevel": {
-        "text": [
-            "Celeste and Seashore",
-            "Isolated Isle",
-            "Billowy Land",
-            "Mysterious Hotbed",
-            "Ashless Cave",
-            "Forest Undersea",
-            "Sweet Dream"
-        ]
-    },
-    "Mizuki@Roguelike@SelectTheme": {
-        "text": [
-            "Mizuki"
-        ]
-    },
-    "Mizuki@Roguelike@StageSafeHouseReuse": {
-        "text": [
-            "Use the Safe House again",
-            "Use the Safe"
-        ]
-    },
-    "NoFriends": {
-        "text": [
-            "No friends"
-        ]
-    },
-    "OFToOF-Chapter": {
-        "text": [
-            "Enter",
-            "Event"
-        ]
-    },
-    "OperBoxNameOCR": {
-        "specialParams": [
-            160,
-            4,
-            7,
-            0
-        ]
-    },
-    "OperBoxRoleTab": {
-        "roi": [
-            1166,
-            0,
-            114,
-            124
-        ]
-    },
-    "OperBoxRoleTabSelect": {
-        "roi": [
-            1158,
-            0,
-            122,
-            126
-        ]
-    },
-    "PRTS2": {
-        "text": [
-            "Takeover"
-        ]
-    },
-    "Phantom@Roguelike@NextLevel": {
-        "text": [
-            "Mist-stricken Missteps",
-            "Sunset Courtyard",
-            "Homeland Remnants",
-            "Nightmare's Prelude",
-            "Blood-soaked Corridor",
-            "Hall of Desires"
-        ]
-    },
-    "Phantom@Roguelike@SelectTheme": {
-        "text": [
-            "Phantom"
-        ]
-    },
-    "Phantom@Roguelike@StageEncounterOptionUnknown": {
-        "templThreshold": 0.95
     },
     "RecruitFlag": {
         "text": [
@@ -2892,6 +2011,41 @@
     "RecruitNow": {
         "text": [
             "Expedite"
+        ]
+    },
+    "NoFriends": {
+        "text": [
+            "No friends"
+        ]
+    },
+    "VisitNextOcr": {
+        "text": [
+            "Visit Next"
+        ]
+    },
+    "Mall": {
+        "text": [
+            "Store"
+        ]
+    },
+    "CreditStoreOcr": {
+        "text": [
+            "Credit Store"
+        ]
+    },
+    "VisitLimited": {
+        "text": [
+            "limit",
+            "reached"
+        ]
+    },
+    "VisitNextBlack": {
+        "templThreshold": 0.85
+    },
+    "CreditShop-NoMoney": {
+        "text": [
+            "Insufficient Credit",
+            "Unable to"
         ]
     },
     "RecruitTags": {
@@ -3010,14 +2164,880 @@
             ]
         ]
     },
+    "InfrastReward": {
+        "fullMatch": true,
+        "text": [
+            "Collectable",
+            "Orders Acquired",
+            "Trust"
+        ]
+    },
+    "ShamareThumbnail1": {
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "ShamareThumbnail2": {
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "ShamareThumbnail3": {
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "InfrastStationedInfo": {
+        "text": [
+            "Operator"
+        ]
+    },
+    "InfrastEnterOperList": {
+        "fullMatch": true,
+        "text": [
+            "Morale",
+            "Resting",
+            "Working",
+            "Assign"
+        ]
+    },
+    "InfrastFilterMenuNotStationedButton": {
+        "templThreshold": 0.75
+    },
+    "InfrastConfirmButtonWait": {
+        "roi": [
+            675,
+            605,
+            427,
+            115
+        ],
+        "text": [
+            "Submitting feedback",
+            "to the neural network"
+        ]
+    },
+    "InfrastDormConfirmButtonWait": {
+        "roi": [
+            675,
+            605,
+            427,
+            115
+        ],
+        "text": [
+            "Submitting feedback",
+            "to the neural network"
+        ]
+    },
+    "InfrastFlagOriginStone": {
+        "templThreshold": 0.7
+    },
+    "InfrastClueSelfFull": {
+        "roi": [
+            287,
+            554,
+            400,
+            124
+        ],
+        "text": [
+            "Clue limit reached",
+            "Unable to receive new Clues"
+        ]
+    },
+    "BattleStageName": {
+        "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
+        "ocrReplace": [
+            [
+                "A Date With Slugs",
+                "与虫为伴"
+            ],
+            [
+                "Beast Taming",
+                "驯兽小屋"
+            ],
+            [
+                "Gun Salute",
+                "礼炮小队"
+            ],
+            [
+                "Accident",
+                "意外"
+            ],
+            [
+                "Fight to the Death",
+                "死斗"
+            ],
+            [
+                "The Grand Finale",
+                "压轴登场"
+            ],
+            [
+                "Patrol Squad",
+                "巡逻队"
+            ],
+            [
+                "Destitute Knights",
+                "落魄骑士"
+            ],
+            [
+                "Unequal Split",
+                "分赃不均"
+            ],
+            [
+                "First Come, Last Served",
+                "先来后到"
+            ],
+            [
+                "Justice",
+                "正义"
+            ],
+            [
+                "A Familiar Face",
+                "似曾相识"
+            ],
+            [
+                "Vintage Transport",
+                "酒商运输队"
+            ],
+            [
+                "With The Crowd",
+                "从众效应"
+            ],
+            [
+                "Beast Fighting",
+                "斗兽笼"
+            ],
+            [
+                "Premiere",
+                "首演"
+            ],
+            [
+                "Reform",
+                "感化"
+            ],
+            [
+                "Sculptor and Statue",
+                "雕匠与石像"
+            ],
+            [
+                "Pressing Ahead",
+                "步步紧逼"
+            ],
+            [
+                "Shrouded in Clouds",
+                "阴云笼罩"
+            ],
+            [
+                "Fireworks Show",
+                "烟花秀"
+            ],
+            [
+                "Unending",
+                "永无尽头"
+            ],
+            [
+                "Traveler From Afar",
+                "远方来客"
+            ],
+            [
+                "A Dance Together",
+                "共舞"
+            ],
+            [
+                "Bob's Beers",
+                "鲍勃酒品"
+            ],
+            [
+                "Alpine Visitor",
+                "雪山上的来客"
+            ],
+            [
+                "Drone Landing Zone",
+                "无人机起降库"
+            ],
+            [
+                "The Red Mist",
+                "红雾弥漫"
+            ],
+            [
+                "The Night of Ritual",
+                "仪式之夜"
+            ],
+            [
+                "The Biting Cold",
+                "彻骨冰寒"
+            ],
+            [
+                "Dangers Abound",
+                "危机四伏"
+            ],
+            [
+                "Surprise Factory",
+                "惊喜工厂"
+            ],
+            [
+                "Absurd Trickeries",
+                "荒唐把戏"
+            ],
+            [
+                "From Afar",
+                "隔岸观火"
+            ],
+            [
+                "Sarkaz Desire",
+                "萨卡兹的渴求"
+            ],
+            [
+                "Ursus Desire",
+                "乌萨斯的渴求"
+            ],
+            [
+                "A Date With Slugs",
+                "与虫为伴"
+            ],
+            [
+                "Beast Taming",
+                "驯兽小屋"
+            ],
+            [
+                "Gun Salute",
+                "礼炮小队"
+            ],
+            [
+                "Accident",
+                "意外"
+            ],
+            [
+                "Fight to the Death",
+                "死斗"
+            ],
+            [
+                "The Grand Finale",
+                "压轴登场"
+            ],
+            [
+                "Patrol Squad",
+                "巡逻队"
+            ],
+            [
+                "Destitute Knights",
+                "落魄骑士"
+            ],
+            [
+                "Unequal Split",
+                "分赃不均"
+            ],
+            [
+                "First Come, Last Served",
+                "先来后到"
+            ],
+            [
+                "Justice",
+                "正义"
+            ],
+            [
+                "A Familiar Face",
+                "似曾相识"
+            ],
+            [
+                "Vintage Transport",
+                "酒商运输队"
+            ],
+            [
+                "With The Crowd",
+                "从众效应"
+            ],
+            [
+                "Beast Fighting",
+                "斗兽笼"
+            ],
+            [
+                "Premiere",
+                "首演"
+            ],
+            [
+                "Reform",
+                "感化"
+            ],
+            [
+                "Sculptor and Statue",
+                "雕匠与石像"
+            ],
+            [
+                "Pressing Ahead",
+                "步步紧逼"
+            ],
+            [
+                "Shrouded in Clouds",
+                "阴云笼罩"
+            ],
+            [
+                "Fireworks Show",
+                "烟花秀"
+            ],
+            [
+                "Unending",
+                "永无尽头"
+            ],
+            [
+                "Traveler From Afar",
+                "远方来客"
+            ],
+            [
+                "A Dance Together",
+                "共舞"
+            ],
+            [
+                "Bob's Beers",
+                "鲍勃酒品"
+            ],
+            [
+                "Alpine Visitor",
+                "雪山上的来客"
+            ],
+            [
+                "Drone Landing Zone",
+                "无人机起降库"
+            ],
+            [
+                "The Red Mist",
+                "红雾弥漫"
+            ],
+            [
+                "The Night of Ritual",
+                "仪式之夜"
+            ],
+            [
+                "The Biting Cold",
+                "彻骨冰寒"
+            ],
+            [
+                "Dangers Abound",
+                "危机四伏"
+            ],
+            [
+                "Surprise Factory",
+                "惊喜工厂"
+            ],
+            [
+                "Absurd Trickeries",
+                "荒唐把戏"
+            ],
+            [
+                "From Afar",
+                "隔岸观火"
+            ],
+            [
+                "Sarkaz Desire",
+                "萨卡兹的渴求"
+            ],
+            [
+                "Ursus Desire",
+                "乌萨斯的渴求"
+            ],
+            [
+                "Mind The Doors",
+                "开门请当心"
+            ],
+            [
+                "Theft from Above",
+                "大盗当头"
+            ],
+            [
+                "Terrifying Legends",
+                "恐怖传说"
+            ],
+            [
+                "Fatal Melodies",
+                "悦耳杀机"
+            ],
+            [
+                "A Cold Seperation",
+                "寒渊惜别"
+            ],
+            [
+                "The Point of No Return",
+                "覆水难收"
+            ],
+            [
+                "All I Ask of You",
+                "别无所求"
+            ],
+            [
+                "Twisted Every Way",
+                "诸事不顺"
+            ],
+            [
+                "New Chapter",
+                "再启新篇"
+            ],
+            [
+                "Disorderly Banquet",
+                "无序盛宴"
+            ],
+            [
+                "Demonic Cage",
+                "邪异囚笼"
+            ],
+            [
+                "This Ursus Man",
+                "这位乌萨斯人"
+            ],
+            [
+                "Duck Lord's Play",
+                "鸭爵的戏剧"
+            ],
+            [
+                "Duck Lord's Party",
+                "鸭爵的宴会"
+            ],
+            [
+                "Gopnik's Fist",
+                "高普尼克之拳"
+            ],
+            [
+                "'Knights' Duel'",
+                "“骑士对决”"
+            ],
+            [
+                "Bound by Self",
+                "自缚"
+            ],
+            [
+                "Observation",
+                "观察"
+            ],
+            [
+                "Eternal Wrath",
+                "永恒愤怒"
+            ],
+            [
+                "Craft Brewer Killer",
+                "精酿杀手"
+            ],
+            [
+                "Crime and Punishment",
+                "除暴安良"
+            ],
+            [
+                "The Nest",
+                "巢穴"
+            ],
+            [
+                "Route Revision",
+                "订正"
+            ],
+            [
+                "Vortex",
+                "漩涡"
+            ],
+            [
+                "Sanguinarch's Legacy",
+                "大君遗脉"
+            ],
+            [
+                "Vortex",
+                "漩涡"
+            ],
+            [
+                "The Nest",
+                "巢穴"
+            ],
+            [
+                "Crime and Punishment",
+                "除暴安良"
+            ],
+            [
+                "Requiem Aeternam",
+                "永恒安息"
+            ],
+            [
+                "Avoid Unsafe Roads",
+                "险路勿近"
+            ],
+            [
+                "Separation and Unity",
+                "分离与统一"
+            ],
+            [
+                "Two Forms, One Heart",
+                "异体同心"
+            ],
+            [
+                "Course Correction",
+                "纠错"
+            ],
+            [
+                "Curse of Cognition",
+                "认知即重担"
+            ],
+            [
+                "'Fate's Favored Child'",
+                "“命运的宠儿”"
+            ],
+            [
+                "Destiny of We Many",
+                "大群所向"
+            ],
+            [
+                "Hunting Group",
+                "荒地群猎"
+            ],
+            [
+                "Voiceless Summons",
+                "无声呼号"
+            ],
+            [
+                "Chilling Curse",
+                "寒灾之咒"
+            ],
+            [
+                "Cistern",
+                "蓄水池"
+            ],
+            [
+                "Insect Infestation",
+                "虫群横行"
+            ],
+            [
+                "Sniper Squad",
+                "射手部队"
+            ],
+            [
+                "Symbiosis",
+                "共生"
+            ],
+            [
+                "Leviathan's Followers",
+                "海神的信者"
+            ],
+            [
+                "Malady",
+                "病症"
+            ],
+            [
+                "Omen",
+                "征兆"
+            ],
+            [
+                "Ebb",
+                "回溯"
+            ],
+            [
+                "Troglodyte Tribe",
+                "原始部落"
+            ],
+            [
+                "Craft Brewer Killer",
+                "精酿杀手"
+            ],
+            [
+                "Precarious Defense",
+                "据险固守"
+            ],
+            [
+                "Underground Ascension",
+                "地下天途"
+            ],
+            [
+                "Blaze of Glory",
+                "火之骄子"
+            ],
+            [
+                "Territorial Tendencies",
+                "领地意识"
+            ],
+            [
+                "Seacavern Sandstorm",
+                "海窟沙暴"
+            ],
+            [
+                "Nethersea Brand Land",
+                "溟痕乐园"
+            ],
+            [
+                "Hunting Grounds",
+                "狩猎场"
+            ],
+            [
+                "The Revered Abyss",
+                "崇敬深海"
+            ],
+            [
+                "Mechanical Menace",
+                "机械之灾"
+            ],
+            [
+                "The Faithful's Utopia",
+                "教徒居所"
+            ],
+            [
+                "Out of Control",
+                "失控"
+            ],
+            [
+                "The Piper's Call",
+                "吹笛人的号召"
+            ],
+            [
+                "Ubi bona somnia",
+                "好梦在何方"
+            ],
+            [
+                "Pool of Procreation",
+                "育生池"
+            ],
+            [
+                "The Spread",
+                "蔓延"
+            ],
+            [
+                "Water and Fire Union",
+                "水火相容"
+            ],
+            [
+                "Deep Cognition",
+                "深度认知"
+            ],
+            [
+                "Reality",
+                "真相"
+            ],
+            [
+                "Fanatical Flames",
+                "狂信如火"
+            ],
+            [
+                "'Joy' From a Box",
+                "“喜”从箱来"
+            ],
+            [
+                "Fishing in a Dry Pond",
+                "竭泽而渔"
+            ],
+            [
+                "See the Big Picture",
+                "图穷匕见"
+            ],
+            [
+                "Cistern",
+                "蓄水池"
+            ],
+            [
+                "Insect Infestation",
+                "虫群横行"
+            ],
+            [
+                "Sniper Squad",
+                "射手部队"
+            ],
+            [
+                "Symbiosis",
+                "共生"
+            ],
+            [
+                "Voiceless Summons",
+                "无声呼号"
+            ],
+            [
+                "Leviathan's Followers",
+                "海神的信者"
+            ],
+            [
+                "Malady",
+                "病症"
+            ],
+            [
+                "Omen",
+                "征兆"
+            ],
+            [
+                "Ebb",
+                "回溯"
+            ],
+            [
+                "Troglodyte Tribe",
+                "原始部落"
+            ],
+            [
+                "Sanguinarch's Legacy",
+                "大君遗脉"
+            ],
+            [
+                "Precarious Defense",
+                "据险固守"
+            ],
+            [
+                "Underground Ascension",
+                "地下天途"
+            ],
+            [
+                "Blaze of Glory",
+                "火之骄子"
+            ],
+            [
+                "Territorial Tendencies",
+                "领地意识"
+            ],
+            [
+                "Seacavern Sandstorm",
+                "海窟沙暴"
+            ],
+            [
+                "Nethersea Brand Land",
+                "溟痕乐园"
+            ],
+            [
+                "Hunting Grounds",
+                "狩猎场"
+            ],
+            [
+                "The Revered Abyss",
+                "崇敬深海"
+            ],
+            [
+                "Mechanical Menace",
+                "机械之灾"
+            ],
+            [
+                "The Faithful's Utopia",
+                "教徒居所"
+            ],
+            [
+                "Out of Control",
+                "失控"
+            ],
+            [
+                "The Piper's Call",
+                "吹笛人的号召"
+            ],
+            [
+                "Ubi bona somnia",
+                "好梦在何方"
+            ],
+            [
+                "Pool of Procreation",
+                "育生池"
+            ],
+            [
+                "The Spread",
+                "蔓延"
+            ],
+            [
+                "Water and Fire Union",
+                "水火相容"
+            ],
+            [
+                "Deep Cognition",
+                "深度认知"
+            ],
+            [
+                "Indecisiveness",
+                "犹豫不决"
+            ],
+            [
+                "Supervision Site",
+                "监工现场"
+            ],
+            [
+                "Right in the Kisser",
+                "拳拳到肉"
+            ],
+            [
+                "Tail Between Legs",
+                "抱头狗窜"
+            ],
+            [
+                "A New Day, A New Duck",
+                "鸭本运作"
+            ]
+        ],
+        "roi": [
+            250,
+            435,
+            800,
+            100
+        ]
+    },
+    "BattleQuickFormationExpandRole": {
+        "roi": [
+            1166,
+            0,
+            114,
+            120
+        ]
+    },
+    "BattleQuickFormationFilter-Cost": {
+        "roi": [
+            996,
+            443,
+            222,
+            125
+        ],
+        "text": "Deployment Cost"
+    },
+    "BattleStartPre": {
+        "text": [
+            "Start",
+            "Start Challenge"
+        ]
+    },
+    "BattleStartOCR": {
+        "roi": [
+            1000,
+            404,
+            210,
+            220
+        ],
+        "text": [
+            "MISSION",
+            "START"
+        ]
+    },
+    "BattleStartSimulation": {
+        "roi": [
+            400,
+            566,
+            481,
+            154
+        ]
+    },
+    "StageDrops-DropType-ExpAndLMB": {
+        "templThreshold": 0.7
+    },
+    "StageDrops-DropType-Normal": {
+        "templThreshold": 0.7
+    },
+    "StageDrops-DropType-Extra": {
+        "templThreshold": 0.7
+    },
+    "StageDrops-DropType-Furniture": {
+        "templThreshold": 0.7
+    },
+    "StageDrops-DropType-Special": {
+        "templThreshold": 0.7
+    },
+    "StageDrops-DropType-Sanity": {
+        "templThreshold": 0.7
+    },
+    "StageDrops-DropType-Reward": {
+        "templThreshold": 0.7
+    },
     "Roguelike@FromIntegratedStrategies": {
         "text": [
             "ENTER"
         ]
     },
-    "Roguelike@RecruitSupportConfirm": {
+    "Phantom@Roguelike@SelectTheme": {
         "text": [
-            "Recruit support"
+            "Phantom"
+        ]
+    },
+    "Mizuki@Roguelike@SelectTheme": {
+        "text": [
+            "Mizuki"
         ]
     },
     "Roguelike@StageEncounterOcr": {
@@ -3411,6 +3431,19 @@
     "Roguelike@StageTraderInvestConfirm": {
         "templThreshold": 0.55
     },
+    "Roguelike@StageTraderSpecialShoppingAfterRefresh": {
+        "text": [
+            "Pathfinder Fins"
+        ]
+    },
+    "Roguelike@StageTraderRefreshWithDiceNotAvaiable": {
+        "text": [
+            "Used up rereshes for this",
+            "Used up rereshes",
+            "for this",
+            "for this shop"
+        ]
+    },
     "Roguelike@StageTraderInvestSystem": {
         "maskRange": [
             1,
@@ -3422,22 +3455,40 @@
             "Storage full"
         ]
     },
-    "Roguelike@StageTraderRefreshWithDiceNotAvaiable": {
+    "Phantom@Roguelike@NextLevel": {
         "text": [
-            "Used up rereshes for this",
-            "Used up rereshes",
-            "for this",
-            "for this shop"
+            "Mist-stricken Missteps",
+            "Sunset Courtyard",
+            "Homeland Remnants",
+            "Nightmare's Prelude",
+            "Blood-soaked Corridor",
+            "Hall of Desires"
         ]
     },
-    "Roguelike@StageTraderSpecialShoppingAfterRefresh": {
+    "Phantom@Roguelike@StageEncounterOptionUnknown": {
+        "templThreshold": 0.95
+    },
+    "Mizuki@Roguelike@GetDropRecruit": {
+        "templThreshold": 0.7
+    },
+    "Mizuki@Roguelike@GetDropSelectRecruit": {
+        "templThreshold": 0.75
+    },
+    "Mizuki@Roguelike@NextLevel": {
         "text": [
-            "Pathfinder Fins"
+            "Celeste and Seashore",
+            "Isolated Isle",
+            "Billowy Land",
+            "Mysterious Hotbed",
+            "Ashless Cave",
+            "Forest Undersea",
+            "Sweet Dream"
         ]
     },
-    "RoguelikeChooseSupportBtnOcr": {
+    "Mizuki@Roguelike@StageSafeHouseReuse": {
         "text": [
-            "Select Support"
+            "Use the Safe House again",
+            "Use the Safe"
         ]
     },
     "RoguelikeCustom-HijackCoChar": {
@@ -3561,10 +3612,28 @@
             ]
         ]
     },
-    "RoguelikeRefreshSupportBtnOcr": {
-        "text": [
-            "Refresh support list",
-            "Refresh support"
+    "OperBoxRoleTabSelect": {
+        "roi": [
+            1158,
+            0,
+            122,
+            126
+        ]
+    },
+    "OperBoxRoleTab": {
+        "roi": [
+            1166,
+            0,
+            114,
+            124
+        ]
+    },
+    "OperBoxNameOCR": {
+        "specialParams": [
+            160,
+            4,
+            7,
+            0
         ]
     },
     "RoguelikeTraderShoppingOcr": {
@@ -5227,6 +5296,22 @@
             ]
         ]
     },
+    "RoguelikeRefreshSupportBtnOcr": {
+        "text": [
+            "Refresh support list",
+            "Refresh support"
+        ]
+    },
+    "RoguelikeChooseSupportBtnOcr": {
+        "text": [
+            "Select Support"
+        ]
+    },
+    "Roguelike@RecruitSupportConfirm": {
+        "text": [
+            "Recruit support"
+        ]
+    },
     "SSSBegin": {
         "roi": [
             970,
@@ -5236,6 +5321,17 @@
         ],
         "text": [
             "Start security operation"
+        ]
+    },
+    "SSSDebuffConfirm": {
+        "roi": [
+            1034,
+            602,
+            227,
+            118
+        ],
+        "text": [
+            "Confirm Completion"
         ]
     },
     "SSSBuffChoose": {
@@ -5269,51 +5365,6 @@
             "Confirm Selection"
         ]
     },
-    "SSSDebuffConfirm": {
-        "roi": [
-            1034,
-            602,
-            227,
-            118
-        ],
-        "text": [
-            "Confirm Completion"
-        ]
-    },
-    "SSSDropRecruitmentConfirm": {
-        "roi": [
-            1105,
-            525,
-            175,
-            140
-        ],
-        "text": [
-            "Confirm assignment",
-            "Confirm Selection"
-        ]
-    },
-    "SSSDropRecruitmentFlag": {
-        "text": [
-            "Choose an Operator",
-            "Select",
-            "Conductive",
-            "Unit"
-        ]
-    },
-    "SSSDropRecruitmentOCR": {
-        "baseTask": "CharsNameOcrReplace",
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "text": [],
-        "cache": false,
-        "roi": [
-            0,
-            352,
-            1280,
-            263
-        ],
-        "postDelay": 1000
-    },
     "SSSEquipmentConfirm": {
         "roi": [
             1040,
@@ -5324,6 +5375,17 @@
         "text": [
             "Confirm Equipment",
             "Confirm Eguipment"
+        ]
+    },
+    "SSSTeamConfirm": {
+        "roi": [
+            992,
+            576,
+            288,
+            144
+        ],
+        "text": [
+            "View squad"
         ]
     },
     "SSSStageNameOCR": {
@@ -5407,118 +5469,56 @@
             "Start"
         ]
     },
-    "SSSTeamConfirm": {
+    "SSSDropRecruitmentFlag": {
+        "text": [
+            "Choose an Operator",
+            "Select",
+            "Conductive",
+            "Unit"
+        ]
+    },
+    "SSSDropRecruitmentOCR": {
+        "baseTask": "CharsNameOcrReplace",
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": [],
+        "cache": false,
         "roi": [
-            992,
-            576,
-            288,
-            144
+            0,
+            352,
+            1280,
+            263
+        ],
+        "postDelay": 1000
+    },
+    "SSSDropRecruitmentConfirm": {
+        "roi": [
+            1105,
+            525,
+            175,
+            140
         ],
         "text": [
-            "View squad"
+            "Confirm assignment",
+            "Confirm Selection"
         ]
     },
-    "ShamareThumbnail1": {
-        "maskRange": [
-            1,
-            255
-        ]
-    },
-    "ShamareThumbnail2": {
-        "maskRange": [
-            1,
-            255
-        ]
-    },
-    "ShamareThumbnail3": {
-        "maskRange": [
-            1,
-            255
-        ]
-    },
-    "StageDrops-DropType-ExpAndLMB": {
-        "templThreshold": 0.7
-    },
-    "StageDrops-DropType-Extra": {
-        "templThreshold": 0.7
-    },
-    "StageDrops-DropType-Furniture": {
-        "templThreshold": 0.7
-    },
-    "StageDrops-DropType-Normal": {
-        "templThreshold": 0.7
-    },
-    "StageDrops-DropType-Reward": {
-        "templThreshold": 0.7
-    },
-    "StageDrops-DropType-Sanity": {
-        "templThreshold": 0.7
-    },
-    "StageDrops-DropType-Special": {
-        "templThreshold": 0.7
-    },
-    "StageEpisodeToGT": {
+    "GachaLastOnceResult": {
         "text": [
-            "Grani and the Knights' Treasure",
-            "Grani and the Knights"
+            "Certificate",
+            "Token",
+            "Duplicate"
         ]
     },
-    "StageEpisodeToOF": {
+    "GachaOncePrefix@DoGacha": {
+        "fullMatch": true,
         "text": [
-            "Heart of Surging Flame"
+            "Headhunt x1"
         ]
     },
-    "StartButton1": {
+    "GachaTenTimesPrefix@DoGacha": {
         "text": [
-            "Start"
-        ]
-    },
-    "StartRecruit": {
-        "text": [
-            "Recruit Now"
-        ]
-    },
-    "TodaysSupplies": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "Resource Today"
-        ]
-    },
-    "UsePrts": {
-        "templThreshold": 0.7
-    },
-    "VisitLimited": {
-        "text": [
-            "limit",
-            "reached"
-        ]
-    },
-    "VisitNextBlack": {
-        "templThreshold": 0.85
-    },
-    "VisitNextOcr": {
-        "text": [
-            "Visit Next"
-        ]
-    },
-    "WB-Open": {
-        "text": [
-            "Event <Where Vernal Winds Will Never",
-            "Blow> is now open",
-            "Criminal Pursuit,Offsite'stages opened"
-        ]
-    },
-    "WBChapterToWB": {
-        "algorithm": "OcrDetect",
-        "roi": [
-            1034,
-            595,
-            246,
-            125
-        ],
-        "text": [
-            "CASE INVESTIGATION",
-            "ONSITE"
+            "Headhunt x10"
         ]
     }
 }
