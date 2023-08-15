@@ -2746,11 +2746,6 @@
             "구매센터"
         ]
     },
-    "Mizuki@Roguelike@FromIntegratedStrategies": {
-        "text": [
-            "테마진입"
-        ]
-    },
     "Mizuki@Roguelike@NextLevel": {
         "text": [
             "하늘빛해안",
@@ -2790,11 +2785,6 @@
         "text": [
             "배치가능",
             "인원"
-        ]
-    },
-    "Phantom@Roguelike@FromIntegratedStrategies": {
-        "text": [
-            "테마진입"
         ]
     },
     "Phantom@Roguelike@NextLevel": {
@@ -5367,7 +5357,8 @@
             352,
             1280,
             263
-        ]
+        ],
+        "text": []
     },
     "SSSEquipmentConfirm": {
         "text": [
