@@ -259,7 +259,6 @@
                     "recruit_priority": 620,
                     "promote_priority": 350,
                     "is_start": true,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -2183,6 +2182,9 @@
         {
             "name": "高台输出",
             "opers": [
+                {
+                    "name": "假日威龙陈"
+                },
                 {
                     "name": "澄闪"
                 },
