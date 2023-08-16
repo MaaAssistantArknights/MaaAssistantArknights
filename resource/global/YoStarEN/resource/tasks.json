@@ -17,6 +17,18 @@
             "Shadow of A"
         ]
     },
+    "LevelOfDifficulty": {
+        "text": [
+            "Environment",
+            "PRTS"
+        ]
+    },
+    "ChapterDifficultyHard": {
+        "baseTask": "LevelOfDifficulty"
+    },
+    "ChapterDifficultyNormal": {
+        "baseTask": "LevelOfDifficulty"
+    },
     "EnterChapterDifficultyHard": {
         "text": [
             "Start Operation"
@@ -1936,6 +1948,17 @@
     "PRTS2": {
         "text": [
             "Takeover"
+        ]
+    },
+    "PRTS3": {
+        "text": [
+            "Unit Limit"
+        ],
+        "roi": [
+            1144,
+            545,
+            135,
+            32
         ]
     },
     "EndOfActionAnnihilation": {
