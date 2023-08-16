@@ -211,10 +211,10 @@
         "isAscii": true,
         "text": [],
         "roi": [
-            16,
-            219,
-            409,
-            151
+            244,
+            270,
+            129,
+            49
         ],
         "specificRect": [
             787,
@@ -366,10 +366,10 @@
         "isAscii": true,
         "text": [],
         "roi": [
-            16,
-            219,
-            409,
-            151
+            244,
+            270,
+            129,
+            49
         ],
         "cache": false,
         "specificRect": [
