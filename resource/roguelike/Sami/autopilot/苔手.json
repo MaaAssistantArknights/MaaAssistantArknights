@@ -19,10 +19,6 @@
             4
         ],
         [
-            4,
-            4
-        ],
-        [
             5,
             4
         ]         
@@ -47,7 +43,17 @@
                 6,
                 2
             ],
-            "direction": "down"
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "水陈"
+            ],
+            "location": [
+                4,
+                2
+            ],
+            "direction": "right"
         },
         {
             "groups": [
@@ -63,7 +69,8 @@
         },        
         {
             "groups": [
-                "高台输出"
+                "高台输出",
+                "盾法"
             ],
             "location": [
                 4,
