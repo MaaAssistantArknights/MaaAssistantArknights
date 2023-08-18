@@ -43,14 +43,14 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class VersionUpdateViewModel : Screen
     {
-        private readonly RunningState runningState;
+        private readonly RunningState _runningState;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VersionUpdateViewModel"/> class.
         /// </summary>
         public VersionUpdateViewModel()
         {
-            runningState = RunningState.Instance;
+            _runningState = RunningState.Instance;
         }
 
         [DllImport("MaaCore.dll")]
@@ -162,12 +162,12 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets the OS architecture.
         /// </summary>
-        public static string OSArchitecture => RuntimeInformation.OSArchitecture.ToString().ToLower();
+        public static string OsArchitecture => RuntimeInformation.OSArchitecture.ToString().ToLower();
 
         /// <summary>
         /// Gets a value indicating whether the OS is arm.
         /// </summary>
-        public static bool IsArm => OSArchitecture.StartsWith("arm");
+        public static bool IsArm => OsArchitecture.StartsWith("arm");
 
         /*
         private const string RequestUrl = "repos/MaaAssistantArknights/MaaRelease/releases";
@@ -176,7 +176,7 @@ namespace MaaWpfGui.ViewModels.UI
         private const string InfoRequestUrl = "repos/MaaAssistantArknights/MaaAssistantArknights/releases/tags/";
         */
 
-        private const string MaaUpdateAPI = "https://ota.maa.plus/MaaAssistantArknights/api/version/summary.json";
+        private const string MaaUpdateApi = "https://ota.maa.plus/MaaAssistantArknights/api/version/summary.json";
 
         private JObject _latestJson;
         private JObject _assetsObject;
@@ -267,7 +267,7 @@ namespace MaaWpfGui.ViewModels.UI
                         }
                         else
                         {
-                            Directory.CreateDirectory(Path.GetDirectoryName(moveTo));
+                            Directory.CreateDirectory(oldFileDir);
                         }
 
                         File.Move(path, moveTo);
@@ -286,6 +286,8 @@ namespace MaaWpfGui.ViewModels.UI
             foreach (var file in Directory.GetFiles(extractDir, "*", SearchOption.AllDirectories))
             {
                 var fileName = Path.GetFileName(file);
+
+                // ReSharper disable once StringLiteralTypo
                 if (fileName == "removelist.txt")
                 {
                     continue;
@@ -330,6 +332,7 @@ namespace MaaWpfGui.ViewModels.UI
             /// <summary>
             /// 操作成功
             /// </summary>
+            // ReSharper disable once InconsistentNaming
             OK,
 
             /// <summary>
@@ -363,6 +366,7 @@ namespace MaaWpfGui.ViewModels.UI
             NewVersionIsBeingBuilt,
         }
 
+        // ReSharper disable once IdentifierTypo
         public enum Downloader
         {
             /// <summary>
@@ -416,12 +420,12 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     string ComparableHash(string version)
                     {
-                        if (isStdVersion(version))
+                        if (IsStdVersion(version))
                         {
                             return version;
                         }
                         else if (SemVersion.TryParse(version, SemVersionStyles.AllowLowerV, out var semVersion) &&
-                                 isNightlyVersion(semVersion))
+                                 IsNightlyVersion(semVersion))
                         {
                             // v4.6.6-1.g{Hash}
                             // v4.6.7-beta.2.8.g{Hash}
@@ -451,18 +455,16 @@ namespace MaaWpfGui.ViewModels.UI
 
                 bool otaFound = _assetsObject != null;
                 bool goDownload = otaFound && Instances.SettingsViewModel.AutoDownloadUpdatePackage;
-#pragma warning disable IDE0042
-                var openUrlToastButton = (
-                    text: LocalizationHelper.GetString("NewVersionFoundButtonGoWebpage"),
-                    action: new Action(() =>
+                (string text, Action action) = (
+                    LocalizationHelper.GetString("NewVersionFoundButtonGoWebpage"),
+                    () =>
                     {
                         if (!string.IsNullOrWhiteSpace(UpdateUrl))
                         {
                             Process.Start(UpdateUrl);
                         }
-                    }));
-#pragma warning restore IDE0042
-                Execute.OnUIThread(() =>
+                    });
+                await Execute.OnUIThreadAsync(() =>
                 {
                     using var toast = new ToastNotification((otaFound ? LocalizationHelper.GetString("NewVersionFoundTitle") : LocalizationHelper.GetString("NewVersionFoundButNoPackageTitle")) + " : " + UpdateTag);
                     if (goDownload)
@@ -491,7 +493,7 @@ namespace MaaWpfGui.ViewModels.UI
                         }
                     }
 
-                    toast.AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action);
+                    toast.AddButtonLeft(text, action);
                     toast.ButtonSystemUrl = UpdateUrl;
                     toast.ShowUpdateVersion();
                 });
@@ -504,10 +506,14 @@ namespace MaaWpfGui.ViewModels.UI
                     return CheckUpdateRetT.NoNeedToUpdate;
                 }
 
+                if (_assetsObject == null)
+                {
+                    return CheckUpdateRetT.FailedToGetInfo;
+                }
+
                 string rawUrl = _assetsObject["browser_download_url"]?.ToString();
                 var mirrors = _assetsObject["mirrors"]?.ToObject<List<string>>();
 
-                bool downloaded = false;
                 var urls = new List<string>();
                 if (mirrors != null)
                 {
@@ -529,13 +535,14 @@ namespace MaaWpfGui.ViewModels.UI
                 var latencies = await Task.WhenAll(tasks);
 
                 var proxy = ConfigurationHelper.GetValue(ConfigurationKeys.UpdateProxy, string.Empty);
-                var hasProxy = String.IsNullOrEmpty(proxy);
+                var hasProxy = string.IsNullOrEmpty(proxy);
 
                 // select the fastest mirror
                 _logger.Information("Selecting the fastest mirror:");
                 var selected = 0;
                 for (int i = 0; i < latencies.Length; i++)
                 {
+                    // ReSharper disable once StringLiteralTypo
                     var isInChina = urls[i].Contains("s3.maa-org.net") || urls[i].Contains("maa-ota.annangela.cn");
 
                     if (latencies[i] < 0)
@@ -566,7 +573,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 _logger.Information("Selected mirror: {CDNUrl}", urls[selected]);
 
-                downloaded = await DownloadGithubAssets(urls[selected], _assetsObject);
+                var downloaded = await DownloadGithubAssets(urls[selected], _assetsObject);
                 if (downloaded)
                 {
                     OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadCompletedTitle"));
@@ -574,13 +581,13 @@ namespace MaaWpfGui.ViewModels.UI
                 else
                 {
                     OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
-                    Execute.OnUIThread(() =>
+                    await Execute.OnUIThreadAsync(() =>
                     {
                         using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
                         toast.ButtonSystemUrl = UpdateUrl;
                         toast.AppendContentText(LocalizationHelper.GetString("NewVersionDownloadFailedDesc"))
-                            .AddButtonLeft(openUrlToastButton.text, openUrlToastButton.action)
-                            .Show();
+                             .AddButtonLeft(text, action)
+                             .Show();
                     });
                     return CheckUpdateRetT.NoNeedToUpdate;
                 }
@@ -598,7 +605,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             if (Instances.SettingsViewModel.AutoInstallUpdatePackage)
             {
-                await runningState.UntilIdleAsync(60000);
+                await _runningState.UntilIdleAsync(60000);
 
                 Application.Current.Dispatcher.Invoke(() =>
                 {
@@ -627,7 +634,7 @@ namespace MaaWpfGui.ViewModels.UI
         private async Task<CheckUpdateRetT> CheckUpdate()
         {
             // 调试版不检查更新
-            if (isDebugVersion())
+            if (IsDebugVersion())
             {
                 return CheckUpdateRetT.FailedToGetInfo;
             }
@@ -648,7 +655,7 @@ namespace MaaWpfGui.ViewModels.UI
             string response;
             try
             {
-                response = await Instances.HttpService.GetStringAsync(new Uri(MaaUpdateAPI)).ConfigureAwait(false);
+                response = await Instances.HttpService.GetStringAsync(new Uri(MaaUpdateApi)).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -666,8 +673,8 @@ namespace MaaWpfGui.ViewModels.UI
                 return CheckUpdateRetT.FailedToGetInfo;
             }
 
-            string latestVersion = null;
-            string detailUrl = null;
+            string latestVersion;
+            string detailUrl;
             if (Instances.SettingsViewModel.UpdateNightly)
             {
                 latestVersion = json["alpha"]?["version"]?.ToString();
@@ -716,6 +723,11 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             string latestVersion = json["version"]?.ToString();
+            if (string.IsNullOrEmpty(latestVersion))
+            {
+                return CheckUpdateRetT.FailedToGetInfo;
+            }
+
             if (!NeedToUpdate(latestVersion))
             {
                 return CheckUpdateRetT.AlreadyLatest;
@@ -723,15 +735,25 @@ namespace MaaWpfGui.ViewModels.UI
 
             _latestVersion = latestVersion;
             _latestJson = json["details"] as JObject;
+            if (_latestJson == null)
+            {
+                return CheckUpdateRetT.FailedToGetInfo;
+            }
+
             _assetsObject = null;
 
-            JObject full_package = null;
+            JObject fullPackage = null;
 
-            var cur_version_lower = _curVersion.ToLower();
-            var latest_version_lower = _latestVersion.ToLower();
-            foreach (var curAssets in _latestJson["assets"] as JArray)
+            var curVersionLower = _curVersion.ToLower();
+            var latestVersionLower = _latestVersion.ToLower();
+            foreach (var curAssets in ((JArray)_latestJson["assets"])!)
             {
-                string name = curAssets["name"].ToString().ToLower();
+                string name = curAssets["name"]?.ToString().ToLower();
+
+                if (name == null)
+                {
+                    continue;
+                }
 
                 if (IsArm ^ name.Contains("arm"))
                 {
@@ -743,21 +765,22 @@ namespace MaaWpfGui.ViewModels.UI
                     continue;
                 }
 
-                if (name.Contains($"maa-{latest_version_lower}-"))
+                if (name.Contains($"maa-{latestVersionLower}-"))
                 {
-                    full_package = curAssets as JObject;
+                    fullPackage = curAssets as JObject;
                 }
 
-                if (name.Contains("ota") && name.Contains($"{cur_version_lower}_{latest_version_lower}"))
+                // ReSharper disable once InvertIf
+                if (name.Contains("ota") && name.Contains($"{curVersionLower}_{latestVersionLower}"))
                 {
                     _assetsObject = curAssets as JObject;
                     break;
                 }
             }
 
-            if (_assetsObject == null && full_package != null)
+            if (_assetsObject == null && fullPackage != null)
             {
-                _assetsObject = full_package;
+                _assetsObject = fullPackage;
             }
 
             return CheckUpdateRetT.OK;
@@ -765,7 +788,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private bool NeedToUpdate(string latestVersion)
         {
-            if (isDebugVersion())
+            if (IsDebugVersion())
             {
                 return false;
             }
@@ -805,16 +828,12 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private static ObservableCollection<LogItemViewModel> _logItemViewModels = null;
+        private static ObservableCollection<LogItemViewModel> _logItemViewModels;
 
         public static void OutputDownloadProgress(long value = 0, long maximum = 1, int len = 0, double ts = 1)
         {
             OutputDownloadProgress(
-                string.Format("[{0:F}MiB/{1:F}MiB({2}%) {3:F} KiB/s]",
-                    value / 1048576.0,
-                    maximum / 1048576.0,
-                    100 * value / maximum,
-                    len / ts / 1024.0));
+                $"[{value / 1048576.0:F}MiB/{maximum / 1048576.0:F}MiB({100 * value / maximum}%) {len / ts / 1024.0:F} KiB/s]");
         }
 
         private static void OutputDownloadProgress(string output, bool downloading = true)
@@ -847,13 +866,13 @@ namespace MaaWpfGui.ViewModels.UI
             });
         }
 
-        private bool isDebugVersion(string version = null)
+        private bool IsDebugVersion(string version = null)
         {
             version ??= _curVersion;
             return version.Contains("DEBUG");
         }
 
-        private bool isStdVersion(string version = null)
+        private bool IsStdVersion(string version = null)
         {
             // 正式版：vX.X.X
             // DevBuild (CI)：yyyy-MM-dd-HH-mm-ss-{CommitHash[..7]}
@@ -864,7 +883,7 @@ namespace MaaWpfGui.ViewModels.UI
             // Script Compiled：c{CommitHash[..7]}
             version ??= _curVersion;
 
-            if (isDebugVersion(version))
+            if (IsDebugVersion(version))
             {
                 return false;
             }
@@ -876,7 +895,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 return false;
             }
-            else if (isNightlyVersion(semVersion))
+            else if (IsNightlyVersion(semVersion))
             {
                 return false;
             }
@@ -884,13 +903,14 @@ namespace MaaWpfGui.ViewModels.UI
             return true;
         }
 
-        private bool isNightlyVersion(SemVersion version)
+        private static bool IsNightlyVersion(SemVersion version)
         {
             if (!version.IsPrerelease)
             {
                 return false;
             }
 
+            // ReSharper disable once CommentTypo
             // v{Major}.{Minor}.{Patch}-{Prerelease}.{CommitDistance}.g{CommitHash}
             // v4.6.7-beta.2.1.g1234567
             // v4.6.8-5.g1234567
@@ -898,6 +918,7 @@ namespace MaaWpfGui.ViewModels.UI
             return lastId.StartsWith("g") && lastId.Length >= 7;
         }
 
+        /*
         /// <summary>
         /// 复制文件夹内容并覆盖已存在的相同名字的文件
         /// </summary>
@@ -919,12 +940,15 @@ namespace MaaWpfGui.ViewModels.UI
                 File.Copy(newPath, newPath.Replace(sourcePath, targetPath), true);
             }
         }
+        */
 
         /// <summary>
         /// The event handler of opening hyperlink.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
+        // xaml 里用到了
+        // ReSharper disable once UnusedMember.Global
         public void OpenHyperlink(object sender, ExecutedRoutedEventArgs e)
         {
             Process.Start(e.Parameter.ToString());
