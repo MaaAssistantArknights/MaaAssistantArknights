@@ -5,7 +5,9 @@ Castle-3|Castle-3|Castle-3|Castle-3
 THRM-EX|THRM-EX|THRM-EX|THRM-EX
 正义骑士号|'Justice Knight'|ジャスティスナイト|저스티스 나이트
 泰拉大陆调查团|Terra Research Commission||
-
+U-Official|U-Official||
+Friston-3|Friston-3||
+ 
 中文|English|日本語|한국어
 ---|---|---|---
 12F|12F|12F|12F
@@ -94,6 +96,7 @@ THRM-EX|THRM-EX|THRM-EX|THRM-EX
 罗小黑|Luo Xiaohei|羅小黒|나소흑
 铅踝|Totter|トター|
 石英|Quarts|クォーツ|
+休谟斯|Humus||
 
 中文|English|日本語|한국어
 ---|---|---|---
@@ -221,9 +224,17 @@ Stormeye|Stormeye|Stormeye|Stormeye
 和弦|Harmonie|ハーモニー|
 截云|Jieyun|ジエユン|
 火哨|Firewhistle|ファイヤーホイッスル|
-铎铃|Wind Chimes||
-火哨|Firewhistle||
+铎铃|Wind Chimes|ウインドチャイム|
 火龙S黑角|Rathalos S Noir Cornee||
+摩根|Morgan||
+洋灰|Cement||
+玫拉|Melanite||
+隐现|Insider||
+空构|Spuria||
+寒檀|Santalla||
+凛视|Valarqvin||
+苍苔|Bryophyta||
+青枳|Poncirus||
 
 中文|English|日本語|한국어
 ---|---|---|---
@@ -297,5 +308,14 @@ W|W|W|W
 焰影苇草|Reed The Flame Shadow|焔影リード|
 林|Lin|リン|
 重岳|Chongyue|チョンユエ|
-仇白|Qiubai||
+仇白|Qiubai|チューバイ|
 麒麟X夜刀|Kirin X Yato||
+伊内丝|Ines||
+缪尔赛思|Muelsyse||
+霍尔海雅|Ho'olheyak||
+淬羽赫默|Silence The Paradigmatic||
+霍尔海雅|Ho'olheyak||
+圣约送葬人|Executor The Ex Foedere||
+提丰|Typhon||
+琳琅诗怀雅|Swire The Elegant Wit||
+纯烬艾雅法拉|Eyjafjalla The Hvít Aska||
