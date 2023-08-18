@@ -477,7 +477,7 @@
                 {
                     "name": "临光",
                     "skill": 1,
-                    "recruit_priority": 623,
+                    "recruit_priority": 613,
                     "promote_priority": 190,
                     "recruit_priority_offsets": [
                         {
@@ -502,7 +502,7 @@
                 {
                     "name": "古米",
                     "skill": 1,
-                    "recruit_priority": 624,
+                    "recruit_priority": 614,
                     "promote_priority": 0,
                     "recruit_priority_offsets": [
                         {
@@ -603,7 +603,7 @@
                     "name": "蛇屠箱",
                     "skill": 2, 
                     "is_key": true,
-                    "recruit_priority": 623,
+                    "recruit_priority": 622,
                     "promote_priority": 220,
                     "recruit_priority_offsets": [
                         {
@@ -1196,11 +1196,12 @@
                         {
                             "groups": [
                                 "单奶",
-                                "群奶"
+                                "群奶",
+                                "凯尔希"
                             ],
                             "threshold": 0,
                             "is_less": true,
-                            "offset": 500
+                            "offset": 450
                         }
                     ]
                 },                
@@ -1338,8 +1339,8 @@
                                 "单奶",
                                 "群奶"
                             ],
-                            "threshold": 2,
-                            "offset": -200
+                            "threshold": 3,
+                            "offset": -180
                         }
                     ]
                 }
@@ -1502,7 +1503,7 @@
                 {
                     "name": "嵯峨",
                     "skill": 2,
-                    "recruit_priority": 576,
+                    "recruit_priority": 529,
                     "promote_priority": 50,
                     "recruit_priority_offsets": [
                         {
@@ -1519,7 +1520,7 @@
                 {
                     "name": "焰尾",
                     "skill": 2,
-                    "recruit_priority": 578,
+                    "recruit_priority": 528,
                     "promote_priority": 50,
                     "recruit_priority_offsets": [
                         {
@@ -1536,9 +1537,26 @@
                 {
                     "name": "德克萨斯",
                     "skill": 2,
-                    "recruit_priority": 577,
+                    "recruit_priority": 527,
                     "promote_priority": 50,
                     "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "投锋",
+                                "挡人先锋",
+                                "情报官"
+                            ],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
+                }, 
+                {
+                    "name": "青枳",
+                    "skill": 2,
+                    "recruit_priority": 507,
+                    "promote_priority": 50,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -1655,6 +1673,24 @@
                             "offset": -150
                         }
                     ]
+                },
+                {
+                    "name": "谜图",
+                    "skill": 2,
+                    "recruit_priority": 530,
+                    "promote_priority": 330,
+                    "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "挡人先锋",
+                                "情报官",
+                                "投锋"
+                            ],
+                            "threshold": 2,
+                            "offset": -150
+                        }
+                    ]
                 }
                 
             ]
@@ -1668,21 +1704,49 @@
                     "alternate_skill": 2,                    
                     "is_key": true,
                     "recruit_priority": 635,
-                    "promote_priority": 810
+                    "promote_priority": 810,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "术师"
+                            ],
+                            "threshold": 1,
+                            "offset": -120
+                        }
+                    ]
                 },
                 {
                     "name": "艾雅法拉",
-                    "skill": 2,
+                    "skill": 2,                                        
+                    "is_key": true,
                     "recruit_priority": 640,
-                    "promote_priority": 800
-                },
-                
+                    "promote_priority": 800,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "术师"
+                            ],
+                            "threshold": 1,
+                            "offset": -120
+                        }
+                    ]
+                },                
                 {
                     "name": "莫斯提马",
-                    "skill": 3,
+                    "skill": 3,                                        
+                    "is_key": true,
                     "alternate_skill": 2,
                     "recruit_priority": 625,
-                    "promote_priority": 910
+                    "promote_priority": 910,
+                    "recruit_priority_offsets":[
+                        {
+                            "groups": [
+                                "术师"
+                            ],
+                            "threshold": 2,
+                            "offset": -120
+                        }
+                    ]
                 },
                 {
                     "name": "雪绒",
@@ -2009,6 +2073,9 @@
                     "name": "Sharp"
                 },
                 {
+                    "name": "青枳"
+                },
+                {
                     "name": "讯使"
                 },
                 {
@@ -2019,6 +2086,9 @@
                 },
                 {
                     "name": "凛冬"
+                },
+                {
+                    "name": "谜图"
                 },
                 {
                     "name": "泡普卡"
@@ -2055,12 +2125,12 @@
                 },
                 {
                     "name": "拉普兰德"
+                },                                
+                {
+                    "name": "伊内丝"
                 },
                 {
                     "name": "幕落"
-                },                
-                {
-                    "name": "伊内丝"
                 },
                 {
                     "name": "帕拉斯"
@@ -2082,6 +2152,9 @@
                 },
                 {
                     "name": "雷蛇"
+                },
+                {
+                    "name": "谜图"
                 },                
                 {
                     "name": "月见夜"
