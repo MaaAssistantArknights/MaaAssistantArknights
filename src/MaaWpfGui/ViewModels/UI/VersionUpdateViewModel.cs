@@ -409,6 +409,11 @@ namespace MaaWpfGui.ViewModels.UI
         {
             Instances.SettingsViewModel.IsCheckingForUpdates = true;
 
+            var checkResult = await CheckUpdateInner();
+
+            Instances.SettingsViewModel.IsCheckingForUpdates = false;
+            return checkResult;
+
             async Task<CheckUpdateRetT> CheckUpdateInner()
             {
                 // 检查更新
@@ -446,7 +451,8 @@ namespace MaaWpfGui.ViewModels.UI
                         {
                             Process.Start(UpdateUrl);
                         }
-                    });
+                    }
+                );
                 await Execute.OnUIThreadAsync(() =>
                 {
                     using var toast = new ToastNotification((otaFound ? LocalizationHelper.GetString("NewVersionFoundTitle") : LocalizationHelper.GetString("NewVersionFoundButNoPackageTitle")) + " : " + UpdateTag);
@@ -600,11 +606,6 @@ namespace MaaWpfGui.ViewModels.UI
                     return null;
                 }
             }
-
-            var checkResult = await CheckUpdateInner();
-
-            Instances.SettingsViewModel.IsCheckingForUpdates = false;
-            return checkResult;
         }
 
         public async void AskToRestart()
