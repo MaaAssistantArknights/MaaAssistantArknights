@@ -3,20 +3,23 @@
     "replacement_home": [
         {
             "location": [
-                3,
+                4,
                 5
             ],
             "direction": "right"
-        },
-        {
-            "location": [
-                3,
-                4
-            ],
-            "direction": "none"
         }
     ],
     "deploy_plan": [
+        {
+            "groups": [
+                "焰苇"
+            ],
+            "location": [
+                2,
+                2
+            ],
+            "direction": "down"
+        },
         {
             "groups": [
                 "处决者",
@@ -30,17 +33,15 @@
         },
         {
             "groups": [
-                "M3",
-                "挡人先锋",
-                "近卫",
-                "重装",
+                "地面阻挡",
+                "回费",
                 "其他地面"
             ],
             "location": [
                 3,
                 5
             ],
-            "direction": "left"
+            "direction": "right"
         },
         {
             "groups": [
@@ -54,12 +55,42 @@
         },
         {
             "groups": [
-                "焰苇",
-                "召唤",
-                "速狙",
-                "术师",
-                "狙击",
-                "辅助"
+                "召唤"
+            ],
+            "location": [
+                2,
+                3
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "地面阻挡",
+                "回费",
+                "其他地面"
+            ],
+            "location": [
+                3,
+                5
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
+                "狙击"
+            ],
+            "location": [
+                2,
+                4
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [                
+                "高台输出",
+                "盾法",
+                "辅助",
+                "其他高台"
             ],
             "location": [
                 4,
@@ -69,13 +100,9 @@
         },
         {
             "groups": [
-                "M3",
-                "玛恩纳",
-                "近卫",
-                "重装",
-                "情报官",
-                "挡人先锋",
-                "投锋",
+                "地面阻挡",
+                "处决者",
+                "回费",
                 "其他地面"
             ],
             "location": [
@@ -86,72 +113,61 @@
         },
         {
             "groups": [
-                "单奶",
-                "群奶"
+                "奶",
+                "高台输出",
+                "辅助",
+                "盾法",
+                "其他高台"
             ],
             "location": [
-                2,
+                3,
                 3
             ],
             "direction": "down"
         },
         {
             "groups": [
-                "近卫",
-                "重装",
-                "情报官",
-                "挡人先锋",
-                "投锋",
-                "其他地面"
-            ],
-            "location": [
-                1,
-                1
-            ],
-            "direction": "down"
-        },
-        {
-            "groups": [
-                "焰苇",
-                "速狙",
-                "术师",
-                "狙击",
+                "奶",
+                "高台输出",
                 "辅助",
+                "盾法",
                 "其他高台"
             ],
             "location": [
                 2,
                 4
             ],
-            "direction": "down"
+            "direction": "right"
         },
         {
             "groups": [
-                "水陈",
-                "术师",
-                "狙击",
-                "辅助",
-                "单奶",
-                "群奶",
-                "其他高台"
+                "地面远程"
+            ],
+            "location": [
+                2,
+                5
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
+                "地面阻挡"
+            ],
+            "location": [
+                6,
+                2
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "补给站"
             ],
             "location": [
                 5,
                 3
             ],
             "direction": "left"
-        },
-        {
-            "groups": [
-                "辅助",
-                "狙击",
-                "术师"
-            ],
-            "location": [
-                4,
-                3
-            ],
-            "direction": "down"
-        }
+        }            
     ]
 }
