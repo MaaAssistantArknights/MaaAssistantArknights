@@ -154,10 +154,6 @@
                 "Nearl the Radiant Knight"
             ],
             [
-                "Nearl the Radiant Kn.*",
-                "Nearl the Radiant Knight"
-            ],
-            [
                 "Nearl the Radiant Knight",
                 "耀骑士临光"
             ],
@@ -323,10 +319,6 @@
             ],
             [
                 "S.*a.*i the C.*r.*pt.*ng.*",
-                "Skadi the Corrupting Heart"
-            ],
-            [
-                "Skadi the Corrup.*ing.*",
                 "Skadi the Corrupting Heart"
             ],
             [
@@ -838,7 +830,7 @@
                 "临光"
             ],
             [
-                "Gummy",
+                "Gummy?",
                 "古米"
             ],
             [
@@ -1102,7 +1094,7 @@
                 "“报幕助手”"
             ],
             [
-                "Snowsant's Safe Esc.*",
+                "Snowsant's Safe Escape Crane",
                 "雪雉的安全起重机"
             ],
             [
@@ -1494,10 +1486,6 @@
                 "Specter the Unchained"
             ],
             [
-                "Specter the Unchaine.*",
-                "Specter the Unchained"
-            ],
-            [
                 "Specter the Unchained",
                 "归溟幽灵鲨"
             ],
@@ -1640,10 +1628,6 @@
             [
                 "Astgenne",
                 "星源"
-            ],
-            [
-                "Greyy the Lightningb.*",
-                "Greyy the Lightningbearer"
             ],
             [
                 ".*Lightni.*bearer",
@@ -1818,10 +1802,6 @@
                 "8面骰子"
             ],
             [
-                "Reed the Flame Shado.*",
-                "Reed the Flame Shadow"
-            ],
-            [
                 "Reed the Flame Shadow",
                 "焰影苇草"
             ],
@@ -1834,7 +1814,7 @@
                 "和弦"
             ],
             [
-                "Modified Phytohormon.*",
+                "Modified Phytohormone",
                 "改性植物激素"
             ],
             [
@@ -1850,7 +1830,7 @@
                 "超重绝缘水泥"
             ],
             [
-                "Adaptive Supply Comp.*",
+                "Adaptive Supply Component",
                 "自适应补给元件"
             ],
             [
@@ -1858,7 +1838,7 @@
                 "沼泽控制"
             ],
             [
-                "Coating Device Condu.*",
+                "Coating Device Conduction Valve",
                 "镀膜装置导能阀"
             ],
             [
@@ -2034,6 +2014,15 @@
     "RecruitNow": {
         "text": [
             "Expedite"
+        ]
+    },
+    "Award": {
+        "template": "Task.png",
+        "roi": [
+            665,
+            504,
+            252,
+            162
         ]
     },
     "NoFriends": {
@@ -3025,6 +3014,22 @@
             566,
             481,
             154
+        ]
+    },
+    "BattleOperName": {
+        "roi": [
+            5,
+            177,
+            280,
+            37
+        ]
+    },
+    "SSSBattleOperName": {
+        "roi": [
+            0,
+            105,
+            300,
+            31
         ]
     },
     "StageDrops-DropType-ExpAndLMB": {

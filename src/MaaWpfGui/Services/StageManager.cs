@@ -80,7 +80,20 @@ namespace MaaWpfGui.Services
                 return;
             }
 
-            static string generateJsonString(bool allFileDownloadComplete)
+            const string FilePath = "cache/allFileDownloadComplete.json";
+            File.WriteAllText(FilePath, GenerateJsonString(false));
+            UpdateStageInternal(await LoadWebStages());
+            File.WriteAllText(FilePath, GenerateJsonString(true));
+
+            _ = Execute.OnUIThreadAsync(() =>
+            {
+                using var toast = new ToastNotification(LocalizationHelper.GetString("ApiUpdateSuccess"));
+                toast.Show();
+            });
+
+            return;
+
+            static string GenerateJsonString(bool allFileDownloadComplete)
             {
                 JObject json = new JObject
                 {
@@ -88,11 +101,6 @@ namespace MaaWpfGui.Services
                 };
                 return JsonConvert.SerializeObject(json);
             }
-
-            var filePath = "cache/allFileDownloadComplete.json";
-            File.WriteAllText(filePath, generateJsonString(false));
-            UpdateStageInternal(await LoadWebStages());
-            File.WriteAllText(filePath, generateJsonString(true));
         }
 
         private string GetClientType()

@@ -2208,6 +2208,12 @@
     "Mall": {
         "text": [
             "買部"
+        ],
+        "ocrReplace": [
+            [
+                "買瑠",
+                "買部"
+            ]
         ]
     },
     "CreditStoreOcr": {
