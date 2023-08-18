@@ -162,7 +162,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets the OS architecture.
         /// </summary>
-        public static string OsArchitecture => RuntimeInformation.OSArchitecture.ToString().ToLower();
+        private static string OsArchitecture => RuntimeInformation.OSArchitecture.ToString().ToLower();
 
         /// <summary>
         /// Gets a value indicating whether the OS is arm.
@@ -424,29 +424,6 @@ namespace MaaWpfGui.ViewModels.UI
                 var body = _latestJson["body"]?.ToString();
                 if (body == string.Empty)
                 {
-                    string ComparableHash(string version)
-                    {
-                        if (IsStdVersion(version))
-                        {
-                            return version;
-                        }
-                        else if (SemVersion.TryParse(version, SemVersionStyles.AllowLowerV, out var semVersion) &&
-                                 IsNightlyVersion(semVersion))
-                        {
-                            // v4.6.6-1.g{Hash}
-                            // v4.6.7-beta.2.8.g{Hash}
-                            var commitHash = semVersion.PrereleaseIdentifiers.Last().ToString();
-                            if (commitHash.StartsWith("g"))
-                            {
-                                commitHash = commitHash.Remove(0, 1);
-                            }
-
-                            return commitHash;
-                        }
-
-                        return null;
-                    }
-
                     var curHash = ComparableHash(_curVersion);
                     var latestHash = ComparableHash(_latestVersion);
 
@@ -599,6 +576,29 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 return CheckUpdateRetT.OK;
+
+                string ComparableHash(string version)
+                {
+                    if (IsStdVersion(version))
+                    {
+                        return version;
+                    }
+                    else if (SemVersion.TryParse(version, SemVersionStyles.AllowLowerV, out var semVersion) &&
+                             IsNightlyVersion(semVersion))
+                    {
+                        // v4.6.6-1.g{Hash}
+                        // v4.6.7-beta.2.8.g{Hash}
+                        var commitHash = semVersion.PrereleaseIdentifiers.Last().ToString();
+                        if (commitHash.StartsWith("g"))
+                        {
+                            commitHash = commitHash.Remove(0, 1);
+                        }
+
+                        return commitHash;
+                    }
+
+                    return null;
+                }
             }
 
             var checkResult = await CheckUpdateInner();
