@@ -594,4 +594,7 @@
     <system:String x:Key="ConfirmExitTitle">MAA 正在執行任務</system:String>
     <system:String x:Key="ConfirmExitText">確定要退出嗎？</system:String>
     <!--  RootViewModel  -->
+    <!--  Api  -->
+    <system:String x:Key="ApiUpdateSuccess">關卡數據獲取成功</system:String>
+    <!--  Api  -->
 </ResourceDictionary>
