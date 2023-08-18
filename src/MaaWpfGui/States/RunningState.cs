@@ -18,7 +18,7 @@ namespace MaaWpfGui.States
 {
     public class RunningState
     {
-        private static RunningState instance;
+        private static RunningState _instance;
 
         private RunningState()
         {
@@ -28,8 +28,8 @@ namespace MaaWpfGui.States
         {
             get
             {
-                instance ??= new RunningState();
-                return instance;
+                _instance ??= new RunningState();
+                return _instance;
             }
         }
 
@@ -41,11 +41,13 @@ namespace MaaWpfGui.States
             get => _idle;
             set
             {
-                if (_idle != value)
+                if (_idle == value)
                 {
-                    _idle = value;
-                    OnIdleChanged(value);
+                    return;
                 }
+
+                _idle = value;
+                OnIdleChanged(value);
             }
         }
 
@@ -63,6 +65,11 @@ namespace MaaWpfGui.States
             IdleChanged?.Invoke(this, newIdleValue);
         }
 
+        /// <summary>
+        /// 等待状态变为闲置
+        /// </summary>
+        /// <param name="time">查询间隔</param>
+        /// <returns>Task</returns>
         public async Task UntilIdleAsync(int time = 1000)
         {
             while (!GetIdle())
