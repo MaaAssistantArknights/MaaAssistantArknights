@@ -258,20 +258,26 @@ namespace MaaWpfGui.ViewModels.UI
                 foreach (string file in removeList)
                 {
                     string path = Path.Combine(curDir, file);
-                    if (File.Exists(path))
+                    if (!File.Exists(path))
                     {
-                        string moveTo = Path.Combine(oldFileDir, file);
-                        if (File.Exists(moveTo))
-                        {
-                            DeleteFileWithBackup(moveTo);
-                        }
-                        else
-                        {
-                            Directory.CreateDirectory(oldFileDir);
-                        }
-
-                        File.Move(path, moveTo);
+                        continue;
                     }
+
+                    string moveTo = Path.Combine(oldFileDir, file);
+                    if (File.Exists(moveTo))
+                    {
+                        DeleteFileWithBackup(moveTo);
+                    }
+                    else
+                    {
+                        var dir = Path.GetDirectoryName(moveTo);
+                        if (dir != null)
+                        {
+                            Directory.CreateDirectory(dir);
+                        }
+                    }
+
+                    File.Move(path, moveTo);
                 }
             }
 
