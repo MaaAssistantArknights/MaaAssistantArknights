@@ -599,4 +599,7 @@
     <system:String x:Key="ConfirmExitTitle">MAA 正在运行任务</system:String>
     <system:String x:Key="ConfirmExitText">确定要退出吗？</system:String>
     <!--  RootViewModel  -->
+    <!--  Api  -->
+    <system:String x:Key="ApiUpdateSuccess">关卡数据获取成功</system:String>
+    <!--  Api  -->
 </ResourceDictionary>

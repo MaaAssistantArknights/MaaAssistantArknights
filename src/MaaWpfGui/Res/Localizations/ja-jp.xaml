@@ -591,4 +591,7 @@
     <system:String x:Key="ConfirmExitTitle">MAAがタスクを実行しています</system:String>
     <system:String x:Key="ConfirmExitText">終了しますか？</system:String>
     <!--  RootViewModel  -->
+    <!--  Api  -->
+    <system:String x:Key="ApiUpdateSuccess">ステージデータの取得に成功しました</system:String>
+    <!--  Api  -->
 </ResourceDictionary>
