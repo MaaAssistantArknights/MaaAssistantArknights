@@ -3,71 +3,47 @@
     "replacement_home": [
         {
             "location": [
-                7,
+                5,
                 3
             ],
-            "direction": "none"
+            "direction": "left"
         },
         {
             "location": [
-                7,
+                5,
                 4
             ],
-            "direction": "none"
+            "direction": "left"
+        },
+        {
+            "location": [
+                5,
+                2
+            ],
+            "direction": "down"
+        },
+        {
+            "location": [
+                5,
+                5
+            ],
+            "direction": "up"
         }
+    ],
+    "blacklist_location": [
+        [
+            6,
+            3
+        ],
+        [
+            6,
+            4
+        ]             
     ],
     "deploy_plan": [
         {
             "groups": [
-                "M3",
-                "挡人先锋",
-                "情报官",
-                "近卫",
-                "重装",
-                "投锋",
-                "其他地面"
-            ],
-            "location": [
-                6,
-                3
-            ],
-            "direction": "left"
-        },
-        {
-            "groups": [
-                "凯尔希",
-                "焰苇",
-                "单奶",
-                "群奶"
-            ],
-            "location": [
-                8,
-                3
-            ],
-            "direction": "left"
-        },
-        {
-            "groups": [
-                "M3",
-                "挡人先锋",
-                "情报官",
-                "近卫",
-                "重装",
-                "投锋",
-                "其他地面"
-            ],
-            "location": [
-                6,
-                4
-            ],
-            "direction": "left"
-        },
-        {
-            "groups": [
-                "重装",
-                "M3",
-                "近卫",
-                "挡人先锋"
+                "回费"
             ],
             "location": [
                 5,
@@ -77,12 +53,66 @@
         },
         {
             "groups": [
-                "单奶",
-                "群奶",
-                "焰苇",
                 "狙击",
-                "术师",
-                "辅助"
+                "凯尔希"
+            ],
+            "location": [
+                8,
+                3
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "召唤"
+            ],
+            "location": [
+                4,
+                2
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "回费",
+                "地面阻挡",
+                "处决者",
+                "其他地面"
+            ],
+            "location": [
+                5,
+                3
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [                
+                "地面阻挡",
+                "处决者",
+                "其他地面"
+            ],
+            "location": [
+                5,
+                4
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "高台输出",
+                "辅助",
+                "盾法",
+                "其他高台"
+            ],
+            "location": [
+                4,
+                2
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "奶"
             ],
             "location": [
                 6,
@@ -91,25 +121,25 @@
             "direction": "down"
         },
         {
-            "groups": [
-                "水陈",
-                "辅助",
-                "狙击",
-                "术师"
+            "groups": [                
+                "地面阻挡",
+                "处决者",
+                "其他地面"
             ],
             "location": [
-                4,
+                5,
                 2
             ],
-            "direction": "right"
+            "direction": "down"
         },
         {
-            "groups": [
-                "单奶",
-                "群奶"
+            "groups": [                
+                "地面阻挡",
+                "处决者",
+                "其他地面"
             ],
             "location": [
-                7,
+                5,
                 5
             ],
             "direction": "up"
