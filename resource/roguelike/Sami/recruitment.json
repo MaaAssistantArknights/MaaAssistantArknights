@@ -2648,6 +2648,12 @@
                     "name": "霜叶",
                     "skill": 1,
                     "recruit_priority": 318
+                },
+                {
+                    "name": "玛恩纳"
+                },
+                {
+                    "name": "史尔特尔"
                 }
             ]
         },
