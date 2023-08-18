@@ -314,7 +314,6 @@ W|W|W|W
 缪尔赛思|Muelsyse||
 霍尔海雅|Ho'olheyak||
 淬羽赫默|Silence The Paradigmatic||
-霍尔海雅|Ho'olheyak||
 圣约送葬人|Executor The Ex Foedere||
 提丰|Typhon||
 琳琅诗怀雅|Swire The Elegant Wit||
