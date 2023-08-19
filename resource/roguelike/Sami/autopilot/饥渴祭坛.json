@@ -1,16 +1,9 @@
 {
     "stage_name": "饥渴祭坛",
-    "replacement_home": [
+    "replacement_home": [        
         {
             "location": [
-                10,
-                2
-            ],
-            "direction": "left"
-        },
-        {
-            "location": [
-                10,
+                8,
                 4
             ],
             "direction": "left"
@@ -22,22 +15,15 @@
             5
         ],
         [
-            8,
-            5
-        ],
-        [
             9,
             5
-        ]
+        ]        
     ],
     "deploy_plan": [
         {
             "groups": [
-                "M3",
-                "挡人先锋",
-                "近卫",
-                "重装",
-                "其他地面"
+                "情报官",
+                "地面远程"
             ],
             "location": [
                 9,
@@ -47,22 +33,18 @@
         },
         {
             "groups": [
-                "凯尔希"
+                "凯尔希",
+                "单奶"
             ],
             "location": [
-                9,
+                8,
                 1
             ],
             "direction": "down"
         },
         {
             "groups": [
-                "M3",
-                "投锋",
-                "情报官",
-                "近卫",
-                "重装",
-                "处决者",
+                "地面阻挡",
                 "其他地面"
             ],
             "location": [
@@ -74,23 +56,45 @@
         {
             "groups": [
                 "焰苇",
-                "单奶"
+                "水陈"
             ],
             "location": [
                 8,
-                1
+                3
             ],
-            "direction": "down"
+            "direction": "left"
         },
         {
             "groups": [
-                "群奶"
+                "群奶",
+                "高台输出"
             ],
             "location": [
                 8,
                 3
             ],
             "direction": "up"
+        },
+        {
+            "groups": [
+                "大龙"
+            ],
+            "location": [
+                8,
+                5
+            ],
+            "direction": "up"
+        },
+        {
+            "groups": [
+                "领主",
+                "地面远程"
+            ],
+            "location": [
+                8,
+                5
+            ],
+            "direction": "left"
         },
         {
             "groups": [
@@ -104,12 +108,8 @@
         },
         {
             "groups": [
-                "水陈",
-                "速狙",
+                "高台输出",
                 "辅助",
-                "狙击",
-                "术师",
-                "召唤",
                 "其他高台"
             ],
             "location": [
@@ -119,18 +119,25 @@
             "direction": "left"
         },
         {
-            "groups": [
-                "单奶",
-                "辅助",
-                "狙击",
-                "术师",
-                "其他高台"
+            "groups": [                
+                "狙击"
+            ],
+            "location": [
+                9,
+                1
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [                
+                "盾法",
+                "水陈"
             ],
             "location": [
                 6,
                 3
             ],
-            "direction": "right"
+            "direction": "left"
         }
     ]
 }
