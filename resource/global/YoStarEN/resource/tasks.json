@@ -3502,6 +3502,9 @@
     "Mizuki@Roguelike@GetDropSelectRecruit": {
         "templThreshold": 0.75
     },
+    "Mizuki@Roguelike@GetDropBoxOpen": {
+        "templThreshold": 0.95
+    },
     "Mizuki@Roguelike@NextLevel": {
         "text": [
             "Celeste and Seashore",
@@ -3683,19 +3686,19 @@
                 "解约协议"
             ],
             [
-                "Vanguard Rec. Voucher",
+                "Vanguard Rec. *Voucher",
                 "先锋招募券"
             ],
             [
-                "Sabotage Co-op Rec. Voucher",
+                "Sabotage Co-op Rec. *Voucher",
                 "破坏协议招募券"
             ],
             [
-                "Elite Defender Rec. Voucher",
+                "Elite Defender Rec. *Voucher",
                 "高级重装招募券"
             ],
             [
-                "Guard Rec. Voucher",
+                "Guard Rec. *Voucher",
                 "近卫招募券"
             ],
             [
@@ -3719,7 +3722,7 @@
                 "玻璃小鸟"
             ],
             [
-                "Specialist Rec. Voucher",
+                "Specialist Rec. *Voucher",
                 "特种招募券"
             ],
             [
@@ -3727,11 +3730,11 @@
                 "酒神的印记"
             ],
             [
-                "Elite Specialist Rec. Voucher",
+                "Elite Specialist Rec. *Voucher",
                 "高级特种招募券"
             ],
             [
-                "Backline Corps Rec. Voucher",
+                "Backline Corps Rec. *Voucher",
                 "后方协调招募券"
             ],
             [
@@ -3755,7 +3758,7 @@
                 "《独行客》"
             ],
             [
-                "Defender Rec. Voucher",
+                "Defender Rec. *Voucher",
                 "重装招募券"
             ],
             [
@@ -3763,7 +3766,7 @@
                 "《旧高卢地名源流考》"
             ],
             [
-                "Elite Medic Rec. Voucher",
+                "Elite Medic Rec. *Voucher",
                 "高级医疗招募券"
             ],
             [
@@ -3783,7 +3786,7 @@
                 "高卢小圆饼"
             ],
             [
-                "Sniper Rec. Voucher",
+                "Sniper Rec. *Voucher",
                 "狙击招募券"
             ],
             [
@@ -3791,7 +3794,7 @@
                 "高级人事调度函"
             ],
             [
-                "Elite Sniper Rec. Voucher",
+                "Elite Sniper Rec. *Voucher",
                 "高级狙击招募券"
             ],
             [
@@ -3807,7 +3810,7 @@
                 "扩散之手"
             ],
             [
-                "Caster Rec. Voucher",
+                "Caster Rec. *Voucher",
                 "术师招募券"
             ],
             [
@@ -3815,19 +3818,19 @@
                 "医者-理智固剂"
             ],
             [
-                "Elite Vanguard Rec. Voucher",
+                "Elite Vanguard Rec. *Voucher",
                 "高级先锋招募券"
             ],
             [
-                "Supporter Rec. Voucher",
+                "Supporter Rec. *Voucher",
                 "辅助招募券"
             ],
             [
-                "Elite Supporter Rec. Voucher",
+                "Elite Supporter Rec. *Voucher",
                 "高级辅助招募券"
             ],
             [
-                "Medic Rec. Voucher",
+                "Medic Rec. *Voucher",
                 "医疗招募券"
             ],
             [
@@ -3839,7 +3842,7 @@
                 "《大静谧》"
             ],
             [
-                "Elite Guard Rec. Voucher",
+                "Elite Guard Rec. *Voucher",
                 "高级近卫招募券"
             ],
             [
@@ -3847,11 +3850,11 @@
                 "“静音小队”"
             ],
             [
-                "Elite Caster Rec. Voucher",
+                "Elite Caster Rec. *Voucher",
                 "高级术师招募券"
             ],
             [
-                "Assault Co-op Rec. Voucher",
+                "Assault Co-op Rec. *Voucher",
                 "突击协议招募券"
             ],
             [
@@ -3859,15 +3862,15 @@
                 "特别人事调度函"
             ],
             [
-                "Fortification Co-op Rec. Voucher",
+                "Fortification Co-op Rec. *Voucher",
                 "堡垒协议招募券"
             ],
             [
-                "Ranged Co-op Rec. Voucher",
+                "Ranged Co-op Rec. *Voucher",
                 "远程协议招募券"
             ],
             [
-                "Frontline Corps Rec. Voucher",
+                "Frontline Corps Rec. *Voucher",
                 "前线统合招募券"
             ],
             [
@@ -4439,7 +4442,7 @@
                 "锈刃-单兵"
             ],
             [
-                "Rusted Blade *-* *No Man's Land",
+                "Rusted Blade *-* *No Man's.*",
                 "锈刃-无人之境"
             ],
             [
@@ -4847,7 +4850,7 @@
                 "支援地雷组"
             ],
             [
-                "Support Mr. Rumbles",
+                "Support Mr. *Boom",
                 "支援轰隆隆"
             ],
             [
@@ -5195,7 +5198,7 @@
                 "锈刃-研磨"
             ],
             [
-                "Rusted Blade *-* *No Man's Land",
+                "Rusted Blade *-* *No Man's.*",
                 "锈刃-可视静谧"
             ],
             [
