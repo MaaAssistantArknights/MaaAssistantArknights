@@ -970,7 +970,13 @@ namespace MaaWpfGui.ViewModels.UI
 
             bool mainFightRet = Instances.AsstProxy.AsstAppendFight(curStage, medicine, stone, times, DropsItemId, dropsQuantity);
 
-            if (mainFightRet && (curStage == "Annihilation") && Instances.SettingsViewModel.UseAlternateStage)
+            if (!mainFightRet)
+            {
+                AddLog(LocalizationHelper.GetString("UnsupportedStages") + ": " + curStage, UiLogColor.Error);
+                return false;
+            }
+
+            if ((curStage == "Annihilation") && Instances.SettingsViewModel.UseAlternateStage)
             {
                 foreach (var stage in new[] { Stage1, Stage2, Stage3 })
                 {
