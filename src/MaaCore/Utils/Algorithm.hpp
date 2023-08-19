@@ -157,8 +157,6 @@ namespace asst::algorithm
                 left[0] = column_id;
                 right[column_id] = 0;
                 index = column_id;
-                first.clear();
-                size.clear();
             }
 
             void insert(const size_t& row_id, const size_t& column_id)
