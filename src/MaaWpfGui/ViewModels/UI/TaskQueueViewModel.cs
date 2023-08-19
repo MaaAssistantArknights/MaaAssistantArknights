@@ -2746,7 +2746,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         /// <summary>
-        /// DropsList ComboBox loaded
+        /// Make comboBox searchable
         /// </summary>
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event args</param>
@@ -2754,7 +2754,7 @@ namespace MaaWpfGui.ViewModels.UI
         // EventArgs 不能省略，否则会报错
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable once UnusedParameter.Global
-        public void DropsListLoaded(object sender, EventArgs e)
+        public void MakeComboBoxSearchable(object sender, EventArgs e)
         {
             (sender as ComboBox)?.MakeComboBoxSearchable();
         }
