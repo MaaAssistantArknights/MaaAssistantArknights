@@ -40,13 +40,10 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
 
     std::string rogue_theme = status()->get_properties(Status::RoguelikeTheme).value();
     std::string rogue_mode = status()->get_properties(Status::RoguelikeMode).value();
-    // 存钱模式
-    std::vector<RoguelikeEvent> events;
+    std::vector<RoguelikeEvent> events = RoguelikeStageEncounter.get_events(rogue_theme);
+    // 刷源石锭模式
     if (rogue_mode == "1") {
-        events = RoguelikeStageEncounter.get_events(rogue_theme + "_");
-    }
-    else {
-        events = RoguelikeStageEncounter.get_events(rogue_theme);
+        events = RoguelikeStageEncounter.get_events(rogue_theme + "_deposit");
     }
     std::vector<std::string> event_names;
     std::unordered_map<std::string, RoguelikeEvent> event_map;
