@@ -97,10 +97,13 @@
                 Foreground="{DynamicResource PrimaryTextBrush}"
                 Text="{DynamicResource StartingCoreChar}"
                 TextWrapping="Wrap" />
-            <hc:TextBox
+            <ComboBox
                 Margin="0,5"
+                IsEditable="True"
+                IsTextSearchEnabled="False"
+                ItemsSource="{Binding RoguelikeCoreCharList}"
+                Loaded="{s:Action MakeComboBoxSearchable}"
                 Text="{Binding RoguelikeCoreChar}"
-                TextWrapping="Wrap"
                 ToolTip="{DynamicResource StartingCoreCharTip}" />
             <CheckBox Margin="0,10" IsChecked="{Binding RoguelikeUseSupportUnit}">
                 <TextBlock
