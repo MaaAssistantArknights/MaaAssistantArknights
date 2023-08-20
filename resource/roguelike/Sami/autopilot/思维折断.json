@@ -3,29 +3,58 @@
     "replacement_home": [
         {
             "location": [
-                7,
-                3
+                5,
+                4
             ],
-            "direction": "none"
-        },
-        {
-            "location": [
-                7,
-                2
-            ],
-            "direction": "none"
+            "direction": "left"
         }
     ],
     "deploy_plan": [
         {
             "groups": [
-                "M3",
-                "挡人先锋",
                 "情报官",
-                "近卫",
-                "重装",
-                "投锋",
+                "回费"
+            ],
+            "location": [
+                6,
+                3
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [                
+                "回费"
+            ],
+            "location": [
+                6,
+                2
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "召唤"
+            ],
+            "location": [
+                6,
+                1
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "地面阻挡",
                 "其他地面"
+            ],
+            "location": [
+                5,
+                3
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "大龙"
             ],
             "location": [
                 5,
@@ -35,6 +64,7 @@
         },
         {
             "groups": [
+                "提丰",
                 "凯尔希"
             ],
             "location": [
@@ -47,9 +77,7 @@
             "groups": [
                 "焰苇",
                 "速狙",
-                "狙击",
-                "术师",
-                "召唤",
+                "单奶",
                 "辅助",
                 "其他高台"
             ],
@@ -61,29 +89,7 @@
         },
         {
             "groups": [
-                "焰苇",
-                "水陈",
-                "速狙",
-                "狙击",
-                "术师",
-                "召唤",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                6,
-                4
-            ],
-            "direction": "left"
-        },
-        {
-            "groups": [
-                "M3",
-                "挡人先锋",
-                "情报官",
-                "近卫",
-                "重装",
-                "投锋",
+                "地面阻挡",
                 "其他地面"
             ],
             "location": [
@@ -94,9 +100,25 @@
         },
         {
             "groups": [
-                "单奶",
-                "群奶",
-                "辅助"
+                "高台输出",
+                "盾法",
+                "辅助",
+                "奶",
+                "其他高台"
+            ],
+            "location": [
+                6,
+                4
+            ],
+            "direction": "left"
+        },
+        
+        {
+            "groups": [
+                "水陈",
+                "盾法",
+                "辅助",
+                "奶"
             ],
             "location": [
                 4,
@@ -110,21 +132,19 @@
             ],
             "location": [
                 5,
-                3
+                2
             ],
-            "direction": "left"
+            "direction": "down"
         },
         {
             "groups": [
-                "处决者",
-                "情报官",
-                "其他地面"
+                "补给站"
             ],
             "location": [
                 4,
-                5
+                1
             ],
-            "direction": "left"
+            "direction": "down"
         }
     ]
 }
