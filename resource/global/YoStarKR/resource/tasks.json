@@ -2961,6 +2961,11 @@
             "배치코스트"
         ]
     },
+    "BattleQuickFormationRole-All-OCR": {
+        "text": [
+            "전체"
+        ]
+    },
     "BattleStartPre": {
         "text": [
             "작전개시"
