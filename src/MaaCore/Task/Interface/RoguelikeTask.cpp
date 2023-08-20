@@ -66,6 +66,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     // 2 - 【弃用】两者兼顾，投资过后再退出，没有投资就继续往后打
     // 3 - 尝试通关，激进策略（TODO）
     int mode = params.get("mode", 0);
+    status()->set_properties(Status::RoguelikeMode, std::to_string(mode));
     switch (mode) {
     case 0:
         m_debug_task_ptr->set_enable(true);
