@@ -8,6 +8,7 @@
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
+#include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/TemplDetOCRer.h"
 
@@ -137,22 +138,33 @@ std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_opers()
     auto formation_task_ptr = Task.get("BattleQuickFormationOCR");
     auto image = ctrler()->get_image();
     const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
+    std::vector<TemplDetOCRer::Result> opers_result;
 
-    TemplDetOCRer name_analyzer(image);
-    name_analyzer.set_task_info("BattleQuickFormation-OperNameFlag", "BattleQuickFormationOCR");
-    name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
-    name_analyzer.analyze();
+    for (int i = 0; i < 8; ++i) {
+        std::string task_name = "BattleQuickFormation-OperNameFlag" + std::to_string(i);
 
-    TemplDetOCRer special_focus_analyzer(image);
-    special_focus_analyzer.set_task_info("BattleQuickFormation-OperNameFlag-SpecialFocus", "BattleQuickFormationOCR");
-    special_focus_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
-    special_focus_analyzer.analyze();
-
-    auto opers_result = name_analyzer.get_result();
-    const auto& special_focus_res = special_focus_analyzer.get_result();
-    opers_result.insert(opers_result.end(), special_focus_res.cbegin(), special_focus_res.cend());
+        TemplDetOCRer name_analyzer(image);
+        name_analyzer.set_task_info(task_name, "BattleQuickFormationOCR");
+        name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
+        auto cur_opt = name_analyzer.analyze();
+        if (!cur_opt) {
+            continue;
+        }
+        for (auto& res : *cur_opt) {
+            constexpr int kMinDistance = 5;
+            auto find_it = ranges::find_if(opers_result, [&res](const TemplDetOCRer::Result& pre) {
+                return std::abs(pre.flag_rect.x - res.flag_rect.x) < kMinDistance &&
+                       std::abs(pre.flag_rect.y - res.flag_rect.y) < kMinDistance;
+            });
+            if (find_it != opers_result.end()) {
+                continue;
+            }
+            opers_result.emplace_back(std::move(res));
+        }
+    }
 
     if (opers_result.empty()) {
+        Log.error("BattleFormationTask: no oper found");
         return {};
     }
     sort_by_vertical_(opers_result);
@@ -161,6 +173,7 @@ std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_opers()
     for (const auto& res : opers_result) {
         tr_res.emplace_back(TextRect { res.rect, res.score, res.text });
     }
+    Log.info(tr_res);
     return tr_res;
 }
 
@@ -249,17 +262,20 @@ bool asst::BattleFormationTask::click_role_table(battle::Role role)
     static const std::unordered_map<battle::Role, std::string> RoleNameType = {
         { battle::Role::Caster, "Caster" }, { battle::Role::Medic, "Medic" },     { battle::Role::Pioneer, "Pioneer" },
         { battle::Role::Sniper, "Sniper" }, { battle::Role::Special, "Special" }, { battle::Role::Support, "Support" },
-        { battle::Role::Tank, "Tank" },     { battle::Role::Warrior, "Warrior" }, { battle::Role::Unknown, "All" }, 
+        { battle::Role::Tank, "Tank" },     { battle::Role::Warrior, "Warrior" },
     };
     m_last_oper_name.clear();
 
     auto role_iter = RoleNameType.find(role);
+
+    std::vector<std::string> tasks;
     if (role_iter == RoleNameType.cend()) {
-        return ProcessTask(*this, { "BattleQuickFormationRole-All" }).set_retry_times(0).run();
+        tasks = { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" };
     }
     else {
-        return ProcessTask(*this, { "BattleQuickFormationRole-" + role_iter->second }).set_retry_times(0).run();
+        tasks = { "BattleQuickFormationRole-" + role_iter->second };
     }
+    return ProcessTask(*this, tasks).set_retry_times(0).run();
 }
 
 bool asst::BattleFormationTask::parse_formation()
@@ -285,6 +301,7 @@ bool asst::BattleFormationTask::parse_formation()
             same_role &= BattleData.get_role(oper.name) == role;
         }
 
+        // for unknown, will use { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }
         m_formation[same_role ? role : battle::Role::Unknown].emplace_back(opers_vec);
     }
 

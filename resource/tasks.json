@@ -6585,6 +6585,13 @@
             133
         ]
     },
+    "BattleQuickFormationRole-All-OCR": {
+        "baseTask": "BattleQuickFormationRole-All",
+        "algorithm": "OcrDetect",
+        "text": [
+            "全部"
+        ]
+    },
     "BattleQuickFormationRole-Pioneer": {
         "baseTask": "BattleQuickFormationRole"
     },
@@ -6609,35 +6616,46 @@
     "BattleQuickFormationRole-Support": {
         "baseTask": "BattleQuickFormationRole"
     },
-    "BattleQuickFormation-OperNameFlag": {
-        "templThreshold": 0.92,
+    "BattleQuickFormation-OperNameFlagBase": {
+        "template": "empty.png",
         "roi": [
-            370,
-            250,
-            715,
-            420
+            342,
+            66,
+            866,
+            332
         ]
     },
-    "BattleQuickFormation-OperNameFlag-SpecialFocus": {
-        "templThreshold": 0.8,
-        "roi": [
-            370,
-            250,
-            715,
-            420
-        ],
-        "maskRange": [
-            1,
-            250
-        ]
+    "BattleQuickFormation-OperNameFlag0": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag1": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag2": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag3": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag4": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag5": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag6": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag7": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
     },
     "BattleQuickFormationOCR": {
         "algorithm": "OcrDetect",
         "fullMatch": true,
         "text": [],
         "roi": [
-            20,
-            -8,
+            9,
+            233,
             107,
             20
         ],
