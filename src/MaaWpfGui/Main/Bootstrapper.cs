@@ -104,6 +104,7 @@ namespace MaaWpfGui.Main
             _logger.Information("===================================");
             _logger.Information("MaaAssistantArknights GUI started");
             _logger.Information("Maa ENV: {MaaEnv}", maaEnv);
+            _logger.Information("User Dir {CurrentDirectory}", Directory.GetCurrentDirectory());
             _logger.Information("===================================");
 
             try
