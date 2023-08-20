@@ -310,8 +310,16 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
         m_inst_helper.ctrler()->press_esc();
     }
 
-    m_battlefield_opers.emplace(name, loc);
+    // for SSS, multiple operator may be deployed at the same location.
+    if (m_used_tiles.contains(loc)) {
+        std::string pre_name = m_used_tiles.at(loc);
+        Log.info("remove previous oper", pre_name, loc);
+        m_used_tiles.erase(loc);
+        m_battlefield_opers.erase(pre_name);
+    }
+
     m_used_tiles.emplace(loc, name);
+    m_battlefield_opers.emplace(name, loc);
 
     return true;
 }
