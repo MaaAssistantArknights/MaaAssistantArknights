@@ -2,6 +2,21 @@
     "theme": "Sami",
     "priority": [
         {
+            "name": "焰苇",
+            "opers": [
+                {
+                    "name": "焰影苇草",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "is_key": true,
+                    "is_start": true,
+                    "doc": "相比凯尔希，焰苇的前期费用压力更小，更适合开局，属于下限高上限低的那种",
+                    "recruit_priority": 880,
+                    "promote_priority": 840
+                }
+            ]
+        },
+        {
             "name": "凯尔希",
             "opers": [
                 {
@@ -18,12 +33,23 @@
                         {
                             "groups": [
                                 "近卫",
-                                "重装"
+                                "重装",
+                                "召唤"
                             ],
-                            "threshold": 1,
+                            "threshold": 2,
                             "is_less": true,
-                            "offset": 100,
-                            "Doc": "地面阻挡输出位≤1时，凯尔希的招募优先级+100"
+                            "offset": 220,
+                            "Doc": "地面阻挡输出位≤2时，凯尔希的招募优先级+220"
+                        },
+                        {
+                            "groups": [
+                                "单奶",
+                                "群奶"
+                            ],
+                            "threshold": 2,
+                            "is_less": true,
+                            "offset": 220,
+                            "Doc": "地面阻挡输出位≤2时，凯尔希的招募优先级+220"
                         },
                         {
                             "groups": [
@@ -32,9 +58,17 @@
                                 "玛恩纳"
                             ],
                             "threshold": 3,
-                            "offset": -600,
-                            "Doc": "地面和高台输出均完备时，凯尔希的招募优先级-600"
-                        }
+                            "offset": -200,
+                            "Doc": "地面和高台输出均完备时，凯尔希的招募优先级-200"
+                        },                        
+                        {
+                            "groups": [
+                                "单奶",
+                                "群奶"
+                            ],
+                            "threshold": 2,
+                            "offset": -100
+                        }                        
                     ]
                 }
             ]
@@ -80,22 +114,7 @@
                     "is_key": true
                 }
             ]
-        },
-        {
-            "name": "焰苇",
-            "opers": [
-                {
-                    "name": "焰影苇草",
-                    "skill": 3,
-                    "alternate_skill": 2,
-                    "is_key": true,
-                    "is_start": true,
-                    "doc": "相比凯尔希，焰苇的前期费用压力更小，更适合开局，属于下限高上限低的那种",
-                    "recruit_priority": 880,
-                    "promote_priority": 840
-                }
-            ]
-        },
+        },        
         {
             "name": "近卫",
             "opers": [
@@ -258,7 +277,6 @@
                     "skill": 2,
                     "recruit_priority": 620,
                     "promote_priority": 350,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -1015,7 +1033,7 @@
                                 "群奶"
                             ],
                             "threshold": 2,
-                            "offset": -300
+                            "offset": -200
                         }
                     ]
                 },
@@ -1054,7 +1072,8 @@
                     ]
                 },
                 {
-                    "name": "闪灵"
+                    "name": "闪灵",
+                    "skill": 2
                 },
                 {
                     "name": "赫默",
@@ -1090,7 +1109,7 @@
                 },
                 {
                     "name": "苏苏洛",
-                    "skill": 1,
+                    "skill": 2,
                     "recruit_priority": 713,
                     "promote_priority": 50,
                     "recruit_priority_offsets": [
@@ -1311,9 +1330,6 @@
                     ]
                 },
                 {
-                    "name": "Mon3tr"
-                },
-                {
                     "name": "红",
                     "skill": 1,
                     "recruit_priority": 500,
@@ -1429,6 +1445,9 @@
                             "offset": -300
                         }
                     ]
+                },
+                {
+                    "name": "浊心斯卡蒂"
                 }
             ]
         },        
@@ -1637,8 +1656,8 @@
                     
                 },
                 {
-                    "name": "红豆"
-                    
+                    "name": "红豆",
+                    "skill": 2                 
                 },
                 {
                     "name": "翎羽",
@@ -1775,7 +1794,7 @@
                 {
                     "name": "雪绒",
                     "skill": 2,
-                    "recruit_priority": 358,
+                    "recruit_priority": 450,
                     "promote_priority": 310
                 },                 
                 {
@@ -1820,10 +1839,11 @@
             "opers": [
                 {
                     "name": "林",
-                    "skill": 3,
-                    "alternate_skill": 2,
-                    "recruit_priority": 545,
-                    "promote_priority": 710
+                    "skill": 1,
+                    "skill_usage": 2,
+                    "is_key":true,
+                    "recruit_priority": 625,
+                    "promote_priority": 750
                 },
                 {
                     "name": "卡涅利安",
@@ -3268,9 +3288,7 @@
         {
             "groups": [
                 "单奶",
-                "群奶",
-                "凯尔希",
-                "浊心斯卡蒂"
+                "群奶"
             ],
             "threshold": 2
         },
