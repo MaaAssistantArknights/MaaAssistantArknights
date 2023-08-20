@@ -335,6 +335,14 @@
         "sortId": 100002,
         "usage": "昂貴的源石工業產品，用於重要的強化場合。"
     },
+    "30155": {
+        "classifyType": "MATERIAL",
+        "description": "特定高溫環境下具有分子識別能力的材料。作為助劑能選擇性地吸附源石，為精密加工源石材料、降低源石器件耗能提供新可能。",
+        "icon": "30155.png",
+        "name": "燒結核凝晶",
+        "sortId": 100001,
+        "usage": "對工藝要求極高的現代科技產物。用於高級強化場合。"
+    },
     "31013": {
         "classifyType": "MATERIAL",
         "description": "於實驗室中意外誕生的人工材料。擁有優良的高低溫度耐性，強度高，重量輕，易加工，廣泛運用於高新項目。",
@@ -422,6 +430,22 @@
         "name": "切削原液",
         "sortId": 100008,
         "usage": "由多種活性溶劑配置而成的原液。用於高級強化場合。"
+    },
+    "31063": {
+        "classifyType": "MATERIAL",
+        "description": "可改變材料表面的性質，實現原本難以獲得的效果。注意為工業用鹽，絕對不可以食用。",
+        "icon": "31063.png",
+        "name": "轉質鹽組",
+        "sortId": 100007,
+        "usage": "經過粗煉處理的化合物結晶。可用於多種強化場合。"
+    },
+    "31064": {
+        "classifyType": "MATERIAL",
+        "description": "穩定的結晶體，混合飽和溶液並結晶而製成，可為材料提供多種功能。",
+        "icon": "31064.png",
+        "name": "轉質鹽聚塊",
+        "sortId": 100006,
+        "usage": "經過精煉處理的化合物結晶塊。用於多種強化場合，也常作為製造站合成項目的原料。"
     },
     "3112": {
         "classifyType": "NORMAL",
@@ -1621,6 +1645,14 @@
         "icon": "randomMaterial_6.png",
         "name": "羅德島物資補給III",
         "sortId": 60106,
+        "usage": "裝有各種物資補給，包含多種隨機材料。"
+    },
+    "randomMaterial_7": {
+        "classifyType": "CONSUME",
+        "description": "羅德島從各地採購、儲備的材料補給箱。不過因為缺乏系統性的整理收納，每一個箱子裡都裝著截然不同的材料。",
+        "icon": "randomMaterial_7.png",
+        "name": "羅德島物資補給IV",
+        "sortId": 60107,
         "usage": "裝有各種物資補給，包含多種隨機材料。"
     },
     "return_credit_token": {

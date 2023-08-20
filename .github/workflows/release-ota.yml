@@ -146,9 +146,9 @@ jobs:
           cp -vr /Volumes/MAA/MAA.app/Contents/Resources/resource macos-runtime-temp/resource
           echo ::endgroup::
           echo ::group::Linking files...
-          libonnxruntime_file=$(ls -1 macos-runtime-temp/libonnxruntime*.dylib)
+          libonnxruntime_file=$(basename macos-runtime-temp/libonnxruntime*.dylib)
           ln -vs $libonnxruntime_file macos-runtime-temp/libonnxruntime.dylib
-          libopencv_world_file=$(ls -1 macos-runtime-temp/libopencv_world*.dylib)
+          libopencv_world_file=$(basename macos-runtime-temp/libopencv_world*.dylib)
           ln -vs $libopencv_world_file macos-runtime-temp/libopencv_world4.dylib
           echo ::endgroup::
           cd macos-runtime-temp

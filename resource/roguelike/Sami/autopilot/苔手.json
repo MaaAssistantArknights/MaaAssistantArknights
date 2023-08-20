@@ -3,18 +3,25 @@
     "replacement_home": [
         {
             "location": [
-                7,
+                6,
                 3
             ],
             "direction": "left"
-        },
-        {
-            "location": [
-                10,
-                2
-            ],
-            "direction": "none"
         }
+    ],
+    "blacklist_location": [
+        [
+            7,
+            2
+        ],
+        [
+            6,
+            4
+        ],
+        [
+            5,
+            4
+        ]         
     ],
     "deploy_plan": [
         {
@@ -30,66 +37,6 @@
         {
             "groups": [
                 "凯尔希",
-                "召唤",
-                "速狙",
-                "术师",
-                "狙击",
-                "辅助"
-            ],
-            "location": [
-                6,
-                2
-            ],
-            "direction": "down"
-        },
-        {
-            "groups": [
-                "M3",
-                "近卫",
-                "情报官",
-                "挡人先锋",
-                "其他地面"
-            ],
-            "location": [
-                7,
-                3
-            ],
-            "direction": "left"
-        },
-        {
-            "groups": [
-                "焰苇",
-                "水陈",
-                "单奶",
-                "术师",
-                "狙击",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                4,
-                2
-            ],
-            "direction": "right"
-        },
-        {
-            "groups": [
-                "玛恩纳",
-                "近卫",
-                "重装",
-                "情报官",
-                "挡人先锋",
-                "投锋",
-                "其他地面"
-            ],
-            "location": [
-                6,
-                3
-            ],
-            "direction": "left"
-        },
-        {
-            "groups": [
                 "焰苇"
             ],
             "location": [
@@ -100,44 +47,67 @@
         },
         {
             "groups": [
-                "单奶",
-                "群奶"
+                "水陈"
+            ],
+            "location": [
+                4,
+                2
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
+                "地面阻挡",
+                "处决者",
+                "其他地面"
             ],
             "location": [
                 6,
-                4
+                3
+            ],
+            "direction": "left"
+        },        
+        {
+            "groups": [
+                "高台输出",
+                "盾法"
+            ],
+            "location": [
+                4,
+                2
             ],
             "direction": "up"
         },
         {
             "groups": [
-                "处决者"
-            ],
-            "location": [
-                2,
-                1
-            ],
-            "direction": "left"
-        },
-        {
-            "groups": [
-                "近卫"
-            ],
-            "location": [
-                7,
-                3
-            ],
-            "direction": "left"
-        },
-        {
-            "groups": [
-                "辅助",
-                "狙击",
-                "术师"
+                "奶"
             ],
             "location": [
                 6,
                 2
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "辅助"
+            ],
+            "location": [
+                4,
+                2
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "地面远程",
+                "玛恩纳",
+                "地面阻挡",
+                "其他地面"
+            ],
+            "location": [
+                7,
+                3
             ],
             "direction": "left"
         }

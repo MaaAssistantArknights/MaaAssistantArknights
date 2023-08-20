@@ -157,11 +157,6 @@ std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_opers()
     }
     sort_by_vertical_(opers_result);
 
-    if (m_the_right_name == opers_result.back().text) {
-        return {};
-    }
-    m_the_right_name = opers_result.back().text;
-
     std::vector<TextRect> tr_res;
     for (const auto& res : opers_result) {
         tr_res.emplace_back(TextRect { res.rect, res.score, res.text });
@@ -254,9 +249,9 @@ bool asst::BattleFormationTask::click_role_table(battle::Role role)
     static const std::unordered_map<battle::Role, std::string> RoleNameType = {
         { battle::Role::Caster, "Caster" }, { battle::Role::Medic, "Medic" },     { battle::Role::Pioneer, "Pioneer" },
         { battle::Role::Sniper, "Sniper" }, { battle::Role::Special, "Special" }, { battle::Role::Support, "Support" },
-        { battle::Role::Tank, "Tank" },     { battle::Role::Warrior, "Warrior" },
+        { battle::Role::Tank, "Tank" },     { battle::Role::Warrior, "Warrior" }, { battle::Role::Unknown, "All" }, 
     };
-    m_the_right_name.clear();
+    m_last_oper_name.clear();
 
     auto role_iter = RoleNameType.find(role);
     if (role_iter == RoleNameType.cend()) {
@@ -284,8 +279,13 @@ bool asst::BattleFormationTask::parse_formation()
         }
         formation.array_emplace(name);
 
+        bool same_role = true;
         battle::Role role = BattleData.get_role(opers_vec.front().name);
-        m_formation[role].emplace_back(opers_vec);
+        for (const auto& oper : opers_vec) {
+            same_role &= BattleData.get_role(oper.name) == role;
+        }
+
+        m_formation[same_role ? role : battle::Role::Unknown].emplace_back(opers_vec);
     }
 
     callback(AsstMsg::SubTaskExtraInfo, info);

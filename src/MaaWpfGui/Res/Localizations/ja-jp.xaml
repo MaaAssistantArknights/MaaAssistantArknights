@@ -348,6 +348,7 @@
     <system:String x:Key="AboutToShutdown">完了しました。シャットダウンしようとしています。キャンセルしますか？</system:String>
     <system:String x:Key="ShutdownPrompt">ヒント</system:String>
     <system:String x:Key="HibernatePrompt">完了しました。休止状態にしようとしています</system:String>
+    <system:String x:Key="UnknownActionAfterCompleted">未知の終了動作</system:String>
     <system:String x:Key="AnnihilationTaskFailed">殲滅戦に失敗、代替ステージを使用しますが、一部の戦闘設定が有効ではありません</system:String>
     <!--  Logs  -->
     <!--  動作不明  -->
@@ -590,4 +591,7 @@
     <system:String x:Key="ConfirmExitTitle">MAAがタスクを実行しています</system:String>
     <system:String x:Key="ConfirmExitText">終了しますか？</system:String>
     <!--  RootViewModel  -->
+    <!--  Api  -->
+    <system:String x:Key="ApiUpdateSuccess">ステージデータの取得に成功しました</system:String>
+    <!--  Api  -->
 </ResourceDictionary>
