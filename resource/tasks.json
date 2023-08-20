@@ -7560,6 +7560,7 @@
         "next": [
             "DepotEnter",
             "DepotMaterialTab",
+            "DepotAllTab",
             "DepotMaterialTabClicked",
             "DepotEnter@ReturnTo"
         ]
@@ -7571,6 +7572,18 @@
             560,
             171,
             160
+        ],
+        "next": [
+            "DepotMaterialTab"
+        ]
+    },
+    "DepotAllTab": {
+        "action": "ClickSelf",
+        "roi": [
+            452,
+            0,
+            281,
+            134
         ],
         "next": [
             "DepotMaterialTab"
