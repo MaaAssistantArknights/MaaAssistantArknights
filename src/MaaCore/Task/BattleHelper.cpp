@@ -439,7 +439,7 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
         auto& retry = m_skill_error_count[name];
         auto& times = m_skill_need_use_count[name];
 
-        if (usage != SkillUsage::Possibly && usage != SkillUsage::XTimes) {
+        if (usage != SkillUsage::Possibly && usage != SkillUsage::Times) {
             continue;
         }
         bool has_error = false;
@@ -459,8 +459,8 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
         used = true;
         retry = 0;
         times--;
-        if (usage == SkillUsage::XTimes && times == 0) {
-            usage = SkillUsage::XTimesUsed;
+        if (usage == SkillUsage::Times && times == 0) {
+            usage = SkillUsage::TimesUsed;
         }
         image = m_inst_helper.ctrler()->get_image();
     }
