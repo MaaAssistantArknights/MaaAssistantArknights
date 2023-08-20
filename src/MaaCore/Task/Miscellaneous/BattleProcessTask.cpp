@@ -134,6 +134,7 @@ bool asst::BattleProcessTask::to_group()
             continue;
         }
         m_skill_usage.emplace(oper_name, iter->skill_usage);
+        m_skill_need_use_count.emplace(oper_name, iter->skill_x_times);
     }
 
     return true;
@@ -185,6 +186,8 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
 
     case ActionType::SkillUsage:
         m_skill_usage[action.name] = action.modify_usage;
+        if (action.modify_usage == SkillUsage::XTimes) 
+            m_skill_need_use_count[action.name] = action.modify_x_times;
         ret = true;
         break;
 

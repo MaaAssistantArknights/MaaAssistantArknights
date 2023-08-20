@@ -89,6 +89,7 @@ asst::battle::copilot::OperUsageGroups asst::CopilotConfig::parse_groups(const j
                 oper.name = oper_info.at("name").as_string();
                 oper.skill = oper_info.get("skill", 1);
                 oper.skill_usage = static_cast<battle::SkillUsage>(oper_info.get("skill_usage", 0));
+                oper.skill_x_times = oper_info.get("skill_x_times", 1); // 使用技能的次数，默认为 1，兼容曾经的作业
                 oper_vec.emplace_back(std::move(oper));
             }
             groups.emplace(std::move(group_name), std::move(oper_vec));
@@ -101,6 +102,7 @@ asst::battle::copilot::OperUsageGroups asst::CopilotConfig::parse_groups(const j
             oper.name = oper_info.at("name").as_string();
             oper.skill = oper_info.get("skill", 1);
             oper.skill_usage = static_cast<battle::SkillUsage>(oper_info.get("skill_usage", 0));
+            oper.skill_x_times = oper_info.get("skill_x_times", 1); // 使用技能的次数，默认为 1，兼容曾经的作业
 
             // 单个干员的，干员名直接作为组名
             std::string group_name = oper.name;
