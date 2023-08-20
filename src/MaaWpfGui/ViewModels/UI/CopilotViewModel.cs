@@ -164,23 +164,21 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 var copilotIdStr = filename.ToLower().Remove(0, CopilotIdPrefix.Length);
                 int.TryParse(copilotIdStr, out var numberStyles);
-                int tempCopilotId = numberStyles;
-                jsonStr = await RequestCopilotServer(tempCopilotId);
+                jsonStr = await RequestCopilotServer(numberStyles);
                 if (!string.IsNullOrEmpty(jsonStr))
                 {
                     IsDataFromWeb = true;
-                    CopilotId = tempCopilotId;
+                    CopilotId = numberStyles;
                 }
             }
             else if (int.TryParse(filename, out _))
             {
                 int.TryParse(filename, out var numberStyles);
-                int tempCopilotId = numberStyles;
-                jsonStr = await RequestCopilotServer(tempCopilotId);
+                jsonStr = await RequestCopilotServer(numberStyles);
                 if (!string.IsNullOrEmpty(jsonStr))
                 {
                     IsDataFromWeb = true;
-                    CopilotId = tempCopilotId;
+                    CopilotId = numberStyles;
                 }
             }
             else
