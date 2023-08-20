@@ -6585,6 +6585,13 @@
             133
         ]
     },
+    "BattleQuickFormationRole-All-OCR": {
+        "baseTask": "BattleQuickFormationRole-All",
+        "algorithm": "OcrDetect",
+        "text": [
+            "全部"
+        ]
+    },
     "BattleQuickFormationRole-Pioneer": {
         "baseTask": "BattleQuickFormationRole"
     },

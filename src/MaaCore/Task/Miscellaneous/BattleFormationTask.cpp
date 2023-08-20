@@ -249,17 +249,20 @@ bool asst::BattleFormationTask::click_role_table(battle::Role role)
     static const std::unordered_map<battle::Role, std::string> RoleNameType = {
         { battle::Role::Caster, "Caster" }, { battle::Role::Medic, "Medic" },     { battle::Role::Pioneer, "Pioneer" },
         { battle::Role::Sniper, "Sniper" }, { battle::Role::Special, "Special" }, { battle::Role::Support, "Support" },
-        { battle::Role::Tank, "Tank" },     { battle::Role::Warrior, "Warrior" }, { battle::Role::Unknown, "All" }, 
+        { battle::Role::Tank, "Tank" },     { battle::Role::Warrior, "Warrior" },
     };
     m_last_oper_name.clear();
 
     auto role_iter = RoleNameType.find(role);
+
+    std::vector<std::string> tasks;
     if (role_iter == RoleNameType.cend()) {
-        return ProcessTask(*this, { "BattleQuickFormationRole-All" }).set_retry_times(0).run();
+        tasks = { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" };
     }
     else {
-        return ProcessTask(*this, { "BattleQuickFormationRole-" + role_iter->second }).set_retry_times(0).run();
+        tasks = { "BattleQuickFormationRole-" + role_iter->second };
     }
+    return ProcessTask(*this, tasks).set_retry_times(0).run();
 }
 
 bool asst::BattleFormationTask::parse_formation()
@@ -285,6 +288,7 @@ bool asst::BattleFormationTask::parse_formation()
             same_role &= BattleData.get_role(oper.name) == role;
         }
 
+        // for unknown, will use { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }
         m_formation[same_role ? role : battle::Role::Unknown].emplace_back(opers_vec);
     }
 
