@@ -19,6 +19,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
@@ -36,7 +37,7 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class CopilotViewModel : Screen
     {
-        private readonly RunningState runningState;
+        private readonly RunningState _runningState;
 
         /// <summary>
         /// Gets or sets the view models of log items.
@@ -51,18 +52,13 @@ namespace MaaWpfGui.ViewModels.UI
             DisplayName = LocalizationHelper.GetString("Copilot");
             LogItemViewModels = new ObservableCollection<LogItemViewModel>();
             AddLog(LocalizationHelper.GetString("CopilotTip"));
-            runningState = RunningState.Instance;
-            runningState.IdleChanged += RunningState_IdleChanged;
+            _runningState = RunningState.Instance;
+            _runningState.IdleChanged += RunningState_IdleChanged;
         }
 
         private void RunningState_IdleChanged(object sender, bool e)
         {
             Idle = e;
-        }
-
-        protected override void OnInitialActivate()
-        {
-            base.OnInitialActivate();
         }
 
         /// <summary>
@@ -199,21 +195,19 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private async Task<string> RequestCopilotServer(int copilotID)
+        private async Task<string> RequestCopilotServer(int copilotId)
         {
             try
             {
-                var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri($@"https://prts.maa.plus/copilot/get/{copilotID}"));
+                var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri($@"https://prts.maa.plus/copilot/get/{copilotId}"));
                 var json = (JObject)JsonConvert.DeserializeObject(jsonResponse);
-                if (json != null && json.ContainsKey("status_code") && json["status_code"].ToString() == "200")
+                if (json != null && json.ContainsKey("status_code") && json["status_code"]?.ToString() == "200")
                 {
-                    return json["data"]["content"].ToString();
+                    return json["data"]?["content"]?.ToString();
                 }
-                else
-                {
-                    AddLog(LocalizationHelper.GetString("CopilotNoFound"), UiLogColor.Error);
-                    return string.Empty;
-                }
+
+                AddLog(LocalizationHelper.GetString("CopilotNoFound"), UiLogColor.Error);
+                return string.Empty;
             }
             catch (Exception)
             {
@@ -223,7 +217,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         private const string TempCopilotFile = "cache/_temp_copilot.json";
-        private string TaskType = "General";
+        private string _taskType = "General";
 
         private void ParseJsonAndShowInfo(string jsonStr)
         {
@@ -239,37 +233,37 @@ namespace MaaWpfGui.ViewModels.UI
                 var doc = (JObject)json["doc"];
 
                 string title = string.Empty;
-                if (doc != null && doc.ContainsKey("title"))
+                if (doc != null && doc.TryGetValue("title", out var titleValue))
                 {
-                    title = doc["title"].ToString();
+                    title = titleValue.ToString();
                 }
 
                 if (title.Length != 0)
                 {
-                    string title_color = UiLogColor.Message;
-                    if (doc.ContainsKey("title_color"))
+                    string titleColor = UiLogColor.Message;
+                    if (doc != null && doc.TryGetValue("title_color", out var titleColorValue))
                     {
-                        title_color = doc["title_color"].ToString();
+                        titleColor = titleColorValue.ToString();
                     }
 
-                    AddLog(title, title_color);
+                    AddLog(title, titleColor);
                 }
 
                 string details = string.Empty;
-                if (doc != null && doc.ContainsKey("details"))
+                if (doc != null && doc.TryGetValue("details", out var detailsValue))
                 {
-                    details = doc["details"].ToString();
+                    details = detailsValue.ToString();
                 }
 
                 if (details.Length != 0)
                 {
-                    string details_color = UiLogColor.Message;
-                    if (doc.ContainsKey("details_color"))
+                    string detailsColor = UiLogColor.Message;
+                    if (doc != null && doc.TryGetValue("details_color", out var detailsColorValue))
                     {
-                        details_color = doc["details_color"].ToString();
+                        detailsColor = detailsColorValue.ToString();
                     }
 
-                    AddLog(details, details_color);
+                    AddLog(details, detailsColor);
                     {
                         Url = CopilotUiUrl;
                         var linkParser = new Regex(@"(BV.*?).{10}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -294,56 +288,52 @@ namespace MaaWpfGui.ViewModels.UI
 
                 AddLog(string.Empty, UiLogColor.Message);
                 int count = 0;
-                foreach (var oper in json["opers"].Cast<JObject>())
+                foreach (var oper in json["opers"] ?? new JArray())
                 {
                     count++;
-                    AddLog(string.Format("{0}, {1} 技能", oper["name"], oper["skill"]), UiLogColor.Message);
+                    AddLog($"{oper["name"]}, {oper["skill"]} 技能", UiLogColor.Message);
                 }
 
-                if (json.ContainsKey("groups"))
+                if (json.TryGetValue("groups", out var groupsValue))
                 {
-                    foreach (var group in json["groups"].Cast<JObject>())
+                    foreach (var group in groupsValue.Cast<JObject>())
                     {
                         count++;
-                        string group_name = group["name"] + ": ";
-                        var operInfos = new List<string>();
-                        foreach (var oper in group["opers"]!.Cast<JObject>())
-                        {
-                            operInfos.Add(string.Format("{0} {1}", oper["name"], oper["skill"]));
-                        }
+                        string groupName = group["name"] + ": ";
+                        var operInfos = group["opers"]!.Cast<JObject>().Select(oper => $"{oper["name"]} {oper["skill"]}").ToList();
 
-                        AddLog(group_name + string.Join(" / ", operInfos), UiLogColor.Message);
+                        AddLog(groupName + string.Join(" / ", operInfos), UiLogColor.Message);
                     }
                 }
 
-                AddLog(string.Format("共 {0} 名干员", count), UiLogColor.Message);
+                AddLog($"共 {count} 名干员", UiLogColor.Message);
 
-                if (json.ContainsKey("type"))
+                if (json.TryGetValue("type", out var typeValue))
                 {
-                    var type = json["type"].ToString();
+                    var type = typeValue.ToString();
                     if (type == "SSS")
                     {
-                        TaskType = "SSSCopilot";
+                        _taskType = "SSSCopilot";
 
-                        if (json.ContainsKey("tool_men"))
+                        if (json.TryGetValue("tool_men", out var toolMenValue))
                         {
-                            AddLog("编队工具人：\n" + json["tool_men"].ToString(), UiLogColor.Message);
+                            AddLog("编队工具人：\n" + toolMenValue, UiLogColor.Message);
                         }
 
-                        if (json.ContainsKey("equipment"))
+                        if (json.TryGetValue("equipment", out var equipmentValue))
                         {
-                            AddLog("开局装备（横向）：\n" + json["equipment"].ToString(), UiLogColor.Message);
+                            AddLog("开局装备（横向）：\n" + equipmentValue, UiLogColor.Message);
                         }
 
-                        if (json.ContainsKey("strategy"))
+                        if (json.TryGetValue("strategy", out var strategyValue))
                         {
-                            AddLog("开局策略：" + json["strategy"].ToString(), UiLogColor.Message);
+                            AddLog("开局策略：" + strategyValue, UiLogColor.Message);
                         }
                     }
                 }
                 else
                 {
-                    TaskType = "Copilot";
+                    _taskType = "Copilot";
                 }
 
                 if (IsDataFromWeb)
@@ -363,6 +353,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Selects file.
         /// </summary>
+        // ReSharper disable once UnusedMember.Global
         public void SelectFile()
         {
             var dialog = new OpenFileDialog
@@ -379,6 +370,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Paste clipboard contents.
         /// </summary>
+        // ReSharper disable once UnusedMember.Global
         public void PasteClipboard()
         {
             if (Clipboard.ContainsText())
@@ -391,20 +383,24 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private static readonly string[] SupportExt = { ".json", ".mp4", ".m4s", ".mkv", ".flv", ".avi" };
+        private static readonly string[] _supportExt = { ".json", ".mp4", ".m4s", ".mkv", ".flv", ".avi" };
 
         /// <summary>
         /// Drops file.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
+        // ReSharper disable once UnusedMember.Global
+        // TODO: 不知道为啥现在拖放不用了，之后瞅瞅
         public void DropFile(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                var filename = ((Array)e.Data.GetData(DataFormats.FileDrop))?.GetValue(0).ToString();
-                DropFile(filename);
+                return;
             }
+
+            var filename = ((Array)e.Data.GetData(DataFormats.FileDrop))?.GetValue(0).ToString();
+            DropFile(filename);
         }
 
         private void DropFile(string filename)
@@ -415,15 +411,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             var filenameLower = filename.ToLower();
-            bool support = false;
-            foreach (var ext in SupportExt)
-            {
-                if (filenameLower.EndsWith(ext))
-                {
-                    support = true;
-                    break;
-                }
-            }
+            bool support = _supportExt.Any(ext => filenameLower.EndsWith(ext));
 
             if (support)
             {
@@ -442,24 +430,26 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
+        // ReSharper disable once UnusedMember.Global
         public void OnDropDownOpened(object sender, EventArgs e)
         {
-            var comboBox = sender as System.Windows.Controls.ComboBox;
-            if (comboBox != null)
+            if (!(sender is ComboBox comboBox))
             {
-                try
-                {
-                    comboBox.ItemsSource = Directory.GetFiles(@".\resource\copilot\", "*.json");
-                }
-                catch (Exception exception)
-                {
-                    comboBox.ItemsSource = null;
-                    AddLog(exception.Message, UiLogColor.Error);
-                }
+                return;
+            }
+
+            try
+            {
+                comboBox.ItemsSource = Directory.GetFiles(@".\resource\copilot\", "*.json");
+            }
+            catch (Exception exception)
+            {
+                comboBox.ItemsSource = null;
+                AddLog(exception.Message, UiLogColor.Error);
             }
         }
 
-        private bool _form = false;
+        private bool _form;
 
         /// <summary>
         /// Gets or sets a value indicating whether to use auto-formation.
@@ -484,7 +474,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _caught = false;
+        private bool _caught;
 
         /// <summary>
         /// Starts copilot.
@@ -496,7 +486,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 AddLog(Localization.GetString("AutoSquadTip"), LogColor.Message);
             }*/
-            runningState.SetIdle(false);
+            _runningState.SetIdle(false);
 
             if (_isVideoTask)
             {
@@ -523,7 +513,7 @@ namespace MaaWpfGui.ViewModels.UI
                 AddLog(errMsg, UiLogColor.Error);
             }
 
-            bool ret = Instances.AsstProxy.AsstStartCopilot(IsDataFromWeb ? TempCopilotFile : Filename, Form, TaskType,
+            bool ret = Instances.AsstProxy.AsstStartCopilot(IsDataFromWeb ? TempCopilotFile : Filename, Form, _taskType,
                 Loop ? LoopTimes : 1);
             if (ret)
             {
@@ -531,7 +521,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else
             {
-                runningState.SetIdle(true);
+                _runningState.SetIdle(true);
                 AddLog(LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error);
             }
         }
@@ -547,15 +537,15 @@ namespace MaaWpfGui.ViewModels.UI
         public void Stop()
         {
             Instances.AsstProxy.AsstStop();
-            runningState.SetIdle(true);
+            _runningState.SetIdle(true);
         }
 
-        private bool _isVideoTask = false;
+        private bool _isVideoTask;
 
-        private readonly string _copilotRatingUrl = "https://prts.maa.plus/copilot/rating";
+        private const string CopilotRatingUrl = "https://prts.maa.plus/copilot/rating";
         private readonly List<int> _recentlyRatedCopilotId = new List<int>(); // TODO: 可能考虑加个持久化
 
-        private bool _couldLikeWebJson = false;
+        private bool _couldLikeWebJson;
 
         public bool CouldLikeWebJson
         {
@@ -570,7 +560,7 @@ namespace MaaWpfGui.ViewModels.UI
                 _recentlyRatedCopilotId.IndexOf(CopilotId) == -1;
         }
 
-        private bool _isDataFromWeb = false;
+        private bool _isDataFromWeb;
 
         public bool IsDataFromWeb
         {
@@ -582,7 +572,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private int _copilotId = 0;
+        private int _copilotId;
 
         public int CopilotId
         {
@@ -594,11 +584,13 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        // ReSharper disable once UnusedMember.Global
         public void LikeWebJson()
         {
             RateWebJson("Like");
         }
 
+        // ReSharper disable once UnusedMember.Global
         public void DislikeWebJson()
         {
             RateWebJson("Dislike");
@@ -621,7 +613,7 @@ namespace MaaWpfGui.ViewModels.UI
                 rating,
             });
             */
-            var response = await Instances.HttpService.PostAsJsonAsync(new Uri(_copilotRatingUrl), new { id = CopilotId, rating });
+            var response = await Instances.HttpService.PostAsJsonAsync(new Uri(CopilotRatingUrl), new { id = CopilotId, rating });
             if (response == null)
             {
                 AddLog(LocalizationHelper.GetString("FailedToLikeWebJson"), UiLogColor.Error);
@@ -632,7 +624,7 @@ namespace MaaWpfGui.ViewModels.UI
             AddLog(LocalizationHelper.GetString("ThanksForLikeWebJson"), UiLogColor.Info);
         }
 
-        private readonly string CopilotUiUrl = MaaUrls.PrtsPlus;
+        private const string CopilotUiUrl = MaaUrls.PrtsPlus;
         private string _url = MaaUrls.PrtsPlus;
         private string _urlText = LocalizationHelper.GetString("PrtsPlus");
 
@@ -663,6 +655,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         /// <param name="sender">点击事件发送者</param>
         /// <param name="e">点击事件</param>
+        // ReSharper disable once UnusedMember.Global
         public void MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (!(sender is UIElement element))
@@ -680,6 +673,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         /// <param name="sender">点击事件发送者</param>
         /// <param name="e">点击事件</param>
+        // ReSharper disable once UnusedMember.Global
         public void KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key != Key.Enter)
