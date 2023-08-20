@@ -37,6 +37,7 @@ void asst::BattleHelper::clear()
     m_side_tile_info.clear();
     m_normal_tile_info.clear();
     m_skill_usage.clear();
+    m_skill_need_use_count.clear();
     m_skill_error_count.clear();
     m_camera_count = 0;
     m_camera_shift = { 0., 0. };
@@ -443,7 +444,10 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     for (const auto& [name, loc] : m_battlefield_opers) {
         auto& usage = m_skill_usage[name];
-        if (usage != SkillUsage::Possibly && usage != SkillUsage::Once) {
+        auto& retry = m_skill_error_count[name];
+        auto& times = m_skill_need_use_count[name];
+
+        if (usage != SkillUsage::Possibly && usage != SkillUsage::Times) {
             continue;
         }
         bool has_error = false;
@@ -454,16 +458,17 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
         if (has_error) {
             Log.warn("Skill", name, "is not ready");
             constexpr int MaxRetry = 3;
-            if (++m_skill_error_count[name] >= MaxRetry) {
+            if (++retry >= MaxRetry) {
                 Log.warn("Do not use skill anymore", name);
                 usage = SkillUsage::NotUse;
             }
             continue;
         }
         used = true;
-        m_skill_error_count[name] = 0;
-        if (usage == SkillUsage::Once) {
-            usage = SkillUsage::OnceUsed;
+        retry = 0;
+        times--;
+        if (usage == SkillUsage::Times && times == 0) {
+            usage = SkillUsage::TimesUsed;
         }
         image = m_inst_helper.ctrler()->get_image();
     }
