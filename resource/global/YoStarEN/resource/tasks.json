@@ -122,14 +122,6 @@
             "Event"
         ]
     },
-    "BattleQuickFormationOCR": {
-        "roi": [
-            2,
-            230,
-            114,
-            22
-        ]
-    },
     "CharsNameOcrReplace": {
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的英文识别任务复用 This task's ocrReplace is reused by all recognition tasks related to operator names",
         "ocrReplace": [
@@ -2969,6 +2961,14 @@
             125
         ],
         "text": "Deployment Cost"
+    },
+    "BattleQuickFormationOCR": {
+        "roi": [
+            2,
+            230,
+            114,
+            22
+        ]
     },
     "BattleStartPre": {
         "text": [
