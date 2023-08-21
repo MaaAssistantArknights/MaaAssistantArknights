@@ -1915,14 +1915,14 @@
         ]
     },
     "PRTS3": {
-        "text": [
-            "Unit Limit"
-        ],
         "roi": [
             1144,
             545,
             135,
             32
+        ],
+        "text": [
+            "Unit Limit"
         ]
     },
     "EndOfActionAnnihilation": {
@@ -2001,13 +2001,13 @@
         ]
     },
     "Award": {
-        "template": "Task.png",
         "roi": [
             665,
             504,
             252,
             162
-        ]
+        ],
+        "template": "Task.png"
     },
     "NoFriends": {
         "text": [
@@ -3480,14 +3480,14 @@
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
     },
+    "Mizuki@Roguelike@GetDropBoxOpen": {
+        "templThreshold": 0.95
+    },
     "Mizuki@Roguelike@GetDropRecruit": {
         "templThreshold": 0.7
     },
     "Mizuki@Roguelike@GetDropSelectRecruit": {
         "templThreshold": 0.75
-    },
-    "Mizuki@Roguelike@GetDropBoxOpen": {
-        "templThreshold": 0.95
     },
     "Mizuki@Roguelike@NextLevel": {
         "text": [
