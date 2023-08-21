@@ -21,6 +21,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Management;
+using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
@@ -43,6 +44,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
+using Windows.Devices.Geolocation;
 using ComboBox = System.Windows.Controls.ComboBox;
 using Timer = System.Timers.Timer;
 
@@ -2460,9 +2462,11 @@ namespace MaaWpfGui.ViewModels.UI
         };
 
         /// <summary>
-        /// Gets the default bluestack conf.
+        /// RegisterKey of Bluestacks_Nxt
         /// </summary>
-        public static List<string> DafaultBluestacksConfPath { get; } = new List<string> { "C:\\ProgramData\\BlueStacks_nxt\\bluestacks.conf", "D:\\BlueStacks_nxt\\bluestacks.conf", "E:\\BlueStacks_nxt\\bluestacks.conf", "F:\\BlueStacks_nxt\\bluestacks.conf" };
+        public static string BluestacksNxtRegistryKey = @"SOFTWARE\BlueStacks_nxt";
+        public static string BluestacksNxtValueName = "UserDefinedDir";
+
 
         /// <summary>
         /// Refreshes ADB config.
@@ -2537,18 +2541,22 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>path</returns>
         public static string GetBluestacksConfig()
         {
+            using (RegistryKey key = Registry.LocalMachine.OpenSubKey(BluestacksNxtRegistryKey))
+            {
+                if (key != null)
+                {
+                    object value = key.GetValue(BluestacksNxtValueName);
+                    if (value != null)
+                    {
+                        return (string)value + "\\bluestacks.conf";
+                    }
+                }
+            }
+
             var conf = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigPath, string.Empty);
             if (!string.IsNullOrEmpty(conf))
             {
                 return conf;
-            }
-
-            foreach (var confPath in DafaultBluestacksConfPath)
-            {
-                if (File.Exists(confPath))
-                {
-                    return confPath;
-                }
             }
 
             return null;
