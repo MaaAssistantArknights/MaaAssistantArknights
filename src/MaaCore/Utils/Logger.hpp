@@ -1,5 +1,4 @@
 #pragma once
-#define _CRT_SECURE_NO_WARNINGS
 
 #include <filesystem>
 #include <fstream>
@@ -372,7 +371,8 @@ namespace asst
 #ifdef _WIN32
                 // https://stackoverflow.com/questions/55513974/controlling-inheritability-of-file-handles-created-by-c-stdfstream-in-window
                 std::string str_log_path = utils::path_to_crt_string(m_log_path);
-                FILE* file_ptr = fopen(str_log_path.c_str(), "a");
+                FILE* file_ptr = nullptr;
+                fopen_s(&file_ptr, str_log_path.c_str(), "a");
                 SetHandleInformation((HANDLE)_get_osfhandle(_fileno(file_ptr)), HANDLE_FLAG_INHERIT, 0);
                 m_ofs = std::ofstream(file_ptr);
 #else
