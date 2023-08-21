@@ -222,6 +222,7 @@ Sami@Roguelike@StageTraderAI6.png
 Sami@Roguelike@StageWindAndRain.png
 Sami@Roguelike@StageWindAndRainAI6.png
 Sami@Roguelike@TraderCheck.png
+SelectClue.png
 SendClueConfirm.png
 SendClues.png
 SkipThePreBattlePlotConfirm.png

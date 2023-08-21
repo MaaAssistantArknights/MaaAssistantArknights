@@ -51,6 +51,7 @@ namespace asst
         static inline const std::string RoguelikeRecruitmentStartsComplete = "RoguelikeRecruitmentStartsComplete";
         static inline const std::string RoguelikeRecruitmentTeamComplete = "RoguelikeRecruitmentTeamComplete";
         static inline const std::string RoguelikeRecruitmentCount = "RoguelikeRecruitmentCount";
+        static inline const std::string RoguelikeMode = "RoguelikeMode";
 
         static inline const std::string ProcessTaskLastTimePrefix = "#LastTime#";
 

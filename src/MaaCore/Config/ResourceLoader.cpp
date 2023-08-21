@@ -160,6 +160,9 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "Phantom"_p / "encounter.json"_p);
     AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "Mizuki"_p / "encounter.json"_p);
     AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "Sami"_p / "encounter.json"_p);
+    AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "Phantom"_p / "encounter_for_deposit.json"_p);
+    AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "Mizuki"_p / "encounter_for_deposit.json"_p);
+    AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "Sami"_p / "encounter_for_deposit.json"_p);
 
     // 太占内存的资源，都是惰性加载
     FutureAppendBegins
