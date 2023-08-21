@@ -37,7 +37,9 @@ namespace asst
         int skill = 0;
         int alternate_skill = 0;
         battle::SkillUsage skill_usage = battle::SkillUsage::Possibly;
+        int skill_times = 1;
         battle::SkillUsage alternate_skill_usage = battle::SkillUsage::Possibly;
+        int alternate_skill_times = 1;
     };
 
     class RoguelikeRecruitConfig final : public SingletonHolder<RoguelikeRecruitConfig>, public AbstractConfig
