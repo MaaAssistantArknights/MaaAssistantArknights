@@ -37,7 +37,7 @@ void asst::BattleHelper::clear()
     m_side_tile_info.clear();
     m_normal_tile_info.clear();
     m_skill_usage.clear();
-    m_skill_need_use_count.clear();
+    m_skill_times.clear();
     m_skill_error_count.clear();
     m_camera_count = 0;
     m_camera_shift = { 0., 0. };
@@ -445,8 +445,7 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
     for (const auto& [name, loc] : m_battlefield_opers) {
         auto& usage = m_skill_usage[name];
         auto& retry = m_skill_error_count[name];
-        auto& times = m_skill_need_use_count[name];
-
+        auto& times = m_skill_times[name];
         if (usage != SkillUsage::Possibly && usage != SkillUsage::Times) {
             continue;
         }
@@ -466,9 +465,10 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
         }
         used = true;
         retry = 0;
-        times--;
-        if (usage == SkillUsage::Times && times == 0) {
-            usage = SkillUsage::TimesUsed;
+        
+        if (usage == SkillUsage::Times) {
+            times--;
+            if (times == 0) usage = SkillUsage::TimesUsed;
         }
         image = m_inst_helper.ctrler()->get_image();
     }

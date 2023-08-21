@@ -368,6 +368,8 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
             auto skill_usage_opt = status()->get_number(Status::RoguelikeSkillUsagePrefix + deploy_plan.oper_name);
             m_skill_usage[deploy_plan.oper_name] =
                 skill_usage_opt ? static_cast<SkillUsage>(*skill_usage_opt) : SkillUsage::Possibly;
+            auto skill_times_opt = status()->get_number(Status::RoguelikeSkillTimesPrefix + deploy_plan.oper_name);
+            m_skill_times[deploy_plan.oper_name] = skill_times_opt ? static_cast<int>(*skill_times_opt) : 1;
             return true;
         }
     }
@@ -469,6 +471,8 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
         auto skill_usage_opt = status()->get_number(Status::RoguelikeSkillUsagePrefix + best_oper.name);
         m_skill_usage[best_oper.name] =
             skill_usage_opt ? static_cast<SkillUsage>(*skill_usage_opt) : SkillUsage::Possibly;
+        auto skill_times_opt = status()->get_number(Status::RoguelikeSkillTimesPrefix + best_oper.name);
+        m_skill_times[best_oper.name] = skill_times_opt ? static_cast<int>(*skill_times_opt) : 1;
 
         if (urgent_home_opt) {
             m_urgent_home_index.pop_front();
