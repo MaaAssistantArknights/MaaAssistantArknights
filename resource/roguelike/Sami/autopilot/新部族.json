@@ -1,0 +1,169 @@
+{
+    "stage_name": "新部族",
+    "replacement_home": [
+        {
+            "location": [
+                7,
+                3
+            ],
+            "direction": "left"
+        }
+    ],
+    "blacklist_location": [
+        [
+            8,
+            1
+        ],
+        [
+            6,
+            6
+        ],
+        [
+            7,
+            5
+        ],
+        [
+            1,
+            2
+        ]
+    ],
+    "deploy_plan": [
+        {
+            "groups": [
+                "情报官",
+                "回费",
+                "处决者"
+            ],
+            "location": [
+                7,
+                4
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "凯尔希",
+                "苇草",
+                "单奶"
+            ],
+            "location": [
+                7,
+                1
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "召唤"
+            ],
+            "location": [
+                6,
+                1
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "地面阻挡",
+                "其他地面"
+            ],
+            "location": [
+                6,
+                4
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "地面阻挡",
+                "其他地面"
+            ],
+            "location": [
+                7,
+                4
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "玛恩纳"
+            ],
+            "location": [
+                7,
+                3
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [                
+                "狙击"
+            ],
+            "location": [
+                8,
+                2
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [                
+                "水陈"
+            ],
+            "location": [
+                7,
+                2
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [                
+                "术师",
+                "召唤",
+                "速狙",
+                "狙击",
+                "辅助"
+            ],
+            "location": [
+                6,
+                1
+            ],
+            "direction": "down"
+        },        
+        {
+            "groups": [
+                "地面阻挡",
+                "处决者",
+                "其他地面"
+            ],
+            "location": [
+                7,
+                3
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "盾法",
+                "高台输出",
+                "辅助",
+                "群奶"
+            ],
+            "location": [
+                6,
+                2
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "单奶",
+                "狙击",
+                "高台输出"
+            ],
+            "location": [
+                8,
+                5
+            ],
+            "direction": "left"
+        }
+    ]
+}

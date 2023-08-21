@@ -43,6 +43,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
+using ComboBox = System.Windows.Controls.ComboBox;
 using Timer = System.Timers.Timer;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -252,7 +253,8 @@ namespace MaaWpfGui.ViewModels.UI
                 new CombinedData { Display = LocalizationHelper.GetString("RoguelikeThemeSami"), Value = "Sami" },
             };
 
-            UpdateRoguelikeThemeList();
+            UpdateRoguelikeSquadList();
+            UpdateRoguelikeCoreCharList();
 
             RoguelikeRolesList = new List<CombinedData>
             {
@@ -1259,7 +1261,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _customInfrastFile, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.CustomInfrastFile, value);
-                Instances.TaskQueueViewModel.RefreshCustonInfrastPlan();
+                Instances.TaskQueueViewModel.RefreshCustomInfrastPlan();
             }
         }
 
@@ -1407,7 +1409,8 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _roguelikeTheme, value);
-                UpdateRoguelikeThemeList();
+                UpdateRoguelikeSquadList();
+                UpdateRoguelikeCoreCharList();
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeTheme, value);
             }
         }
@@ -1467,9 +1470,26 @@ namespace MaaWpfGui.ViewModels.UI
             get => _roguelikeCoreChar;
             set
             {
+                if (_roguelikeCoreChar == (value ??= string.Empty))
+                {
+                    return;
+                }
+
                 SetAndNotify(ref _roguelikeCoreChar, value);
+                Instances.TaskQueueViewModel.AddLog(value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeCoreChar, value);
             }
+        }
+
+        private ObservableCollection<string> _roguelikeCoreCharList = new ObservableCollection<string>();
+
+        /// <summary>
+        /// Gets or sets the roguelike core character.
+        /// </summary>
+        public ObservableCollection<string> RoguelikeCoreCharList
+        {
+            get => _roguelikeCoreCharList;
+            set => SetAndNotify(ref _roguelikeCoreCharList, value);
         }
 
         private string _roguelikeUseSupportUnit = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeUseSupportUnit, false.ToString());
@@ -2651,6 +2671,16 @@ namespace MaaWpfGui.ViewModels.UI
 
         public async void ReplaceADB()
         {
+            if (string.IsNullOrEmpty(AdbPath))
+            {
+                _ = Execute.OnUIThreadAsync(() =>
+                {
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("NoAdbPathSpecifiedMessage"));
+                    toast.Show();
+                });
+                return;
+            }
+
             if (!File.Exists(GoogleAdbFilename))
             {
                 var downloadResult = await Instances.HttpService.DownloadFileAsync(new Uri(GoogleAdbDownloadUrl), GoogleAdbFilename);
@@ -2662,7 +2692,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (!downloadResult)
                 {
-                    await Execute.OnUIThreadAsync(() =>
+                    _ = Execute.OnUIThreadAsync(() =>
                     {
                         using var toast = new ToastNotification(LocalizationHelper.GetString("AdbDownloadFailedTitle"));
                         toast.AppendContentText(LocalizationHelper.GetString("AdbDownloadFailedDesc")).Show();
@@ -2674,12 +2704,38 @@ namespace MaaWpfGui.ViewModels.UI
             const string UnzipDir = "adb";
             const string NewAdb = UnzipDir + "/platform-tools/adb.exe";
 
-            if (Directory.Exists(UnzipDir))
+            try
             {
-                Directory.Delete(UnzipDir, true);
+                if (Directory.Exists(UnzipDir))
+                {
+                    Directory.Delete(UnzipDir, true);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"An error occurred while deleting directory: {ex.GetType()}: {ex.Message}");
+                _ = Execute.OnUIThreadAsync(() =>
+                {
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("AdbDeletionFailedMessage"));
+                    toast.Show();
+                });
+                return;
             }
 
-            ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
+            try
+            {
+                ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.ToString());
+                _ = Execute.OnUIThreadAsync(() =>
+                {
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("UnzipFailedMessage"));
+                    toast.Show();
+                });
+                return;
+            }
 
             bool replaced = false;
             if (AdbPath != NewAdb && File.Exists(AdbPath))
@@ -2714,7 +2770,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 ConfigurationHelper.SetValue(ConfigurationKeys.AdbReplaced, true.ToString());
 
-                await Execute.OnUIThreadAsync(() =>
+                _ = Execute.OnUIThreadAsync(() =>
                 {
                     using var toast = new ToastNotification(LocalizationHelper.GetString("SuccessfullyReplacedADB"));
                     toast.Show();
@@ -2724,7 +2780,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 AdbPath = NewAdb;
 
-                await Execute.OnUIThreadAsync(() =>
+                _ = Execute.OnUIThreadAsync(() =>
                 {
                     using var toast = new ToastNotification(LocalizationHelper.GetString("FailedToReplaceAdbAndUseLocal"));
                     toast.AppendContentText(LocalizationHelper.GetString("FailedToReplaceAdbAndUseLocalDesc")).Show();
@@ -3195,7 +3251,7 @@ namespace MaaWpfGui.ViewModels.UI
             return false;
         }
 
-        public void UpdateRoguelikeThemeList()
+        public void UpdateRoguelikeSquadList()
         {
             var roguelikeSquad = RoguelikeSquad;
 
@@ -3272,6 +3328,49 @@ namespace MaaWpfGui.ViewModels.UI
             _roguelikeSquad = RoguelikeSquadList.Any(x => x.Value == roguelikeSquad) ? roguelikeSquad : string.Empty;
         }
 
+        public void UpdateRoguelikeCoreCharList()
+        {
+            var filePath = $"resource/roguelike/{RoguelikeTheme}/recruitment.json";
+            if (File.Exists(filePath) is false)
+            {
+                RoguelikeCoreCharList.Clear();
+                return;
+            }
+
+            var jsonStr = File.ReadAllText(filePath);
+            var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
+
+            var roguelikeCoreCharList = new ObservableCollection<string>();
+
+            if (json?["priority"] is JArray priorityArray)
+            {
+                foreach (var priorityItem in priorityArray)
+                {
+                    if (!(priorityItem?["opers"] is JArray opersArray))
+                    {
+                        continue;
+                    }
+
+                    foreach (var operItem in opersArray)
+                    {
+                        var isStart = (bool?)operItem.SelectToken("is_start") ?? false;
+                        if (!isStart)
+                        {
+                            continue;
+                        }
+
+                        var name = (string)operItem.SelectToken("name");
+                        if (!string.IsNullOrEmpty(name))
+                        {
+                            roguelikeCoreCharList.Add(name);
+                        }
+                    }
+                }
+            }
+
+            RoguelikeCoreCharList = roguelikeCoreCharList;
+        }
+
         #region SettingsGuide
 
         // 目前共4步，再多塞不下了，后续可以整个新功能展示（
@@ -3319,5 +3418,19 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         #endregion SettingsGuide
+
+        /// <summary>
+        /// Make comboBox searchable
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event args</param>
+        // xaml 中绑定了 Loaded 事件，需要添加 qodana ignore rule
+        // EventArgs 不能省略，否则会报错
+        // ReSharper disable once UnusedMember.Global
+        // ReSharper disable once UnusedParameter.Global
+        public void MakeComboBoxSearchable(object sender, EventArgs e)
+        {
+            (sender as ComboBox)?.MakeComboBoxSearchable();
+        }
     }
 }

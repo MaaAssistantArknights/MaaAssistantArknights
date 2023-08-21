@@ -211,10 +211,10 @@
         "isAscii": true,
         "text": [],
         "roi": [
-            16,
-            219,
-            409,
-            151
+            244,
+            270,
+            129,
+            49
         ],
         "specificRect": [
             787,
@@ -366,10 +366,10 @@
         "isAscii": true,
         "text": [],
         "roi": [
-            16,
-            219,
-            409,
-            151
+            244,
+            270,
+            129,
+            49
         ],
         "cache": false,
         "specificRect": [
@@ -852,14 +852,15 @@
         "algorithm": "OcrDetect",
         "text": [
             "火山",
+            "旅梦",
             "已开放"
         ],
         "postDelay": 2000,
         "roi": [
-            0,
-            500,
-            500,
-            150
+            710,
+            234,
+            128,
+            36
         ],
         "next": [
             "SLChapterToSL"
@@ -2603,6 +2604,18 @@
                 ""
             ],
             [
+                "^《~",
+                ""
+            ],
+            [
+                "^《",
+                ""
+            ],
+            [
+                "^_",
+                ""
+            ],
+            [
                 "^令.+",
                 "令"
             ],
@@ -2685,6 +2698,26 @@
             [
                 "归.*幽灵鲨",
                 "归溟幽灵鲨"
+            ],
+            [
+                "临六$",
+                "临光"
+            ],
+            [
+                "^临光.*",
+                "临光"
+            ],
+            [
+                "^煌.*",
+                "煌"
+            ],
+            [
+                ".*甜蜜狂搅.*",
+                "“甜蜜狂搅”"
+            ],
+            [
+                "^年.?$",
+                "年"
             ]
         ]
     },
@@ -3536,6 +3569,14 @@
             ],
             [
                 ".+分钟",
+                "分钟"
+            ],
+            [
+                "^\\d+小$",
+                "小时"
+            ],
+            [
+                "^\\d+分$",
                 "分钟"
             ]
         ],
@@ -6548,6 +6589,13 @@
             133
         ]
     },
+    "BattleQuickFormationRole-All-OCR": {
+        "baseTask": "BattleQuickFormationRole-All",
+        "algorithm": "OcrDetect",
+        "text": [
+            "全部"
+        ]
+    },
     "BattleQuickFormationRole-Pioneer": {
         "baseTask": "BattleQuickFormationRole"
     },
@@ -6572,35 +6620,46 @@
     "BattleQuickFormationRole-Support": {
         "baseTask": "BattleQuickFormationRole"
     },
-    "BattleQuickFormation-OperNameFlag": {
-        "templThreshold": 0.92,
+    "BattleQuickFormation-OperNameFlagBase": {
+        "template": "empty.png",
         "roi": [
-            370,
-            250,
-            715,
-            420
+            342,
+            66,
+            866,
+            332
         ]
     },
-    "BattleQuickFormation-OperNameFlag-SpecialFocus": {
-        "templThreshold": 0.8,
-        "roi": [
-            370,
-            250,
-            715,
-            420
-        ],
-        "maskRange": [
-            1,
-            250
-        ]
+    "BattleQuickFormation-OperNameFlag0": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag1": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag2": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag3": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag4": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag5": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag6": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag7": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
     },
     "BattleQuickFormationOCR": {
         "algorithm": "OcrDetect",
         "fullMatch": true,
         "text": [],
         "roi": [
-            20,
-            -8,
+            9,
+            233,
             107,
             20
         ],
@@ -7523,6 +7582,7 @@
         "next": [
             "DepotEnter",
             "DepotMaterialTab",
+            "DepotAllTab",
             "DepotMaterialTabClicked",
             "DepotEnter@ReturnTo"
         ]
@@ -7534,6 +7594,18 @@
             560,
             171,
             160
+        ],
+        "next": [
+            "DepotMaterialTab"
+        ]
+    },
+    "DepotAllTab": {
+        "action": "ClickSelf",
+        "roi": [
+            452,
+            0,
+            281,
+            134
         ],
         "next": [
             "DepotMaterialTab"
@@ -11183,10 +11255,10 @@
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [
-            -120,
-            -160,
-            190,
-            35
+            406,
+            90,
+            825,
+            263
         ],
         "ocrReplace": [
             [
@@ -11457,6 +11529,10 @@
             [
                 "^消息传递.*",
                 "消息传递"
+            ],
+            [
+                "^干.*封锁",
+                "干酪封锁"
             ]
         ]
     },

@@ -1,4 +1,7 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
     <system:String x:Key="GeneralSettings">一般設定</system:String>
@@ -345,6 +348,7 @@
     <system:String x:Key="AboutToShutdown">完了しました。シャットダウンしようとしています。キャンセルしますか？</system:String>
     <system:String x:Key="ShutdownPrompt">ヒント</system:String>
     <system:String x:Key="HibernatePrompt">完了しました。休止状態にしようとしています</system:String>
+    <system:String x:Key="UnknownActionAfterCompleted">未知の終了動作</system:String>
     <system:String x:Key="AnnihilationTaskFailed">殲滅戦に失敗、代替ステージを使用しますが、一部の戦闘設定が有効ではありません</system:String>
     <!--  Logs  -->
     <!--  動作不明  -->
@@ -460,6 +464,9 @@
     <system:String x:Key="ResourceBroken">リソースファイルが破損しています。完全なパッケージを再度ダウンロードしてください</system:String>
     <system:String x:Key="ReplaceADBNotExists">ADBファイルが存在しません</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADBのダウンロードに失敗しました</system:String>
+    <system:String x:Key="AdbDeletionFailedMessage">ディレクトリを削除できません。既に置換されたか、他の問題が発生している可能性があります。詳細な情報はログをご確認ください。</system:String>
+    <system:String x:Key="UnzipFailedMessage">ファイルの解凍に失敗しました。予期せぬエラーが発生しました。詳細な情報はログをご確認ください。</system:String>
+    <system:String x:Key="NoAdbPathSpecifiedMessage">adb パスが指定されていません</system:String>
     <system:String x:Key="AdbDownloadFailedDesc">手動で行ってください（adb.exeの名前を変更し、エミュレーター内のADBファイルを置き換えます）</system:String>
     <system:String x:Key="SuccessfullyReplacedADB">ADBファイルが正常に置き換えられました</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocal">ADBファイルの置換に失敗しました</system:String>
@@ -584,4 +591,7 @@
     <system:String x:Key="ConfirmExitTitle">MAAがタスクを実行しています</system:String>
     <system:String x:Key="ConfirmExitText">終了しますか？</system:String>
     <!--  RootViewModel  -->
+    <!--  Api  -->
+    <system:String x:Key="ApiUpdateSuccess">ステージデータの取得に成功しました</system:String>
+    <!--  Api  -->
 </ResourceDictionary>
