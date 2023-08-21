@@ -95,6 +95,7 @@ namespace MaaWpfGui.ViewModels
         /// <summary>
         /// Gets or sets the icon path.
         /// </summary>
+        // ReSharper disable once UnusedMember.Global
         public string IconPath
         {
             get => _iconPath;

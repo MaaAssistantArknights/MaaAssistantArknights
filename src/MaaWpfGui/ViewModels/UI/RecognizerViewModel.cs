@@ -297,15 +297,16 @@ namespace MaaWpfGui.ViewModels.UI
                             foreach (var oper in (JArray)combs["opers"])
                             {
                                 int oper_level = (int)oper["level"];
+                                string oper_id = oper["id"].ToString();
                                 string oper_name = oper["name"].ToString();
 
                                 string potential = string.Empty;
 
                                 if (RecruitmentShowPotential && OperBoxPotential != null && (tag_level >= 4 || oper_level == 1))
                                 {
-                                    if (OperBoxPotential.ContainsKey(oper_name))
+                                    if (OperBoxPotential.ContainsKey(oper_id))
                                     {
-                                        potential = " ( " + OperBoxPotential[oper_name] + " )";
+                                        potential = " ( " + OperBoxPotential[oper_id] + " )";
                                     }
                                     else
                                     {
@@ -533,7 +534,7 @@ namespace MaaWpfGui.ViewModels.UI
                     _operBoxPotential = new Dictionary<string, int>();
                     foreach (JObject operBoxData in OperBoxDataArray.Cast<JObject>())
                     {
-                        _operBoxPotential.Add((string)operBoxData["name"], (int)operBoxData["potential"]);
+                        _operBoxPotential.Add((string)operBoxData["id"], (int)operBoxData["potential"]);
                     }
                 }
 
