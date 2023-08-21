@@ -23,6 +23,10 @@
 #include <unistd.h>
 #endif
 
+#ifdef _WIN32
+#include <io.h>
+#endif
+
 namespace asst
 {
     template <typename Stream, typename T>
@@ -363,7 +367,16 @@ namespace asst
         auto operator<<(T&& arg)
         {
             if (!m_ofs || !m_ofs.is_open()) {
+
+#ifdef _WIN32
+                // https://stackoverflow.com/questions/55513974/controlling-inheritability-of-file-handles-created-by-c-stdfstream-in-window
+                std::string str_log_path = utils::path_to_crt_string(m_log_path);
+                FILE* file_ptr = fopen(str_log_path.c_str(), "a");
+                SetHandleInformation((HANDLE)_get_osfhandle(_fileno(file_ptr)), HANDLE_FLAG_INHERIT, 0);
+                m_ofs = std::ofstream(file_ptr);
+#else
                 m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
+#endif
             }
             if constexpr (std::same_as<level, remove_cvref_t<T>>) {
 #ifdef ASST_DEBUG
