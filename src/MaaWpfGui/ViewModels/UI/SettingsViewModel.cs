@@ -2575,7 +2575,7 @@ namespace MaaWpfGui.ViewModels.UI
             if (File.Exists(jsonPath))
             {
                 JObject versionJson = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
-                var currentTime = (ulong)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+                var currentTime = (ulong)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
                 var poolTime = (ulong)versionJson?["gacha"]["time"];
                 var activityTime = (ulong)versionJson?["activity"]["time"];
 
