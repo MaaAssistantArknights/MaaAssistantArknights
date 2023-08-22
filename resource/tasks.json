@@ -8298,7 +8298,8 @@
         ],
         "next": [
             "Roguelike@LastRewardConfirm"
-        ]
+        ],
+        "postDelay": 0
     },
     "Roguelike@LastReward2": {
         "Doc": "base_task",
@@ -8401,6 +8402,17 @@
         ],
         "next": [
             "Roguelike@ClickToStartPoint"
+        ]
+    },
+    "Roguelike@LevelName": {
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "text": [],
+        "roi": [
+            593,
+            0,
+            186,
+            129
         ]
     },
     "Roguelike@NextLevel": {
@@ -9459,6 +9471,14 @@
     "Phantom@Roguelike@LastRewardRand": {},
     "Phantom@Roguelike@MissionFailedFlag": {},
     "Phantom@Roguelike@MissionFailedFlag2": {},
+    "Phantom@Roguelike@LevelName": {
+        "text": [
+            "故土残躯"
+        ],
+        "next": [
+            "Phantom@Roguelike@NextLevel"
+        ]
+    },
     "Phantom@Roguelike@NextLevel": {
         "text": [
             "迷雾歧途",
@@ -9469,6 +9489,7 @@
             "渴欲大厅"
         ],
         "next": [
+            "Phantom@Roguelike@LevelName",
             "Phantom@Roguelike@StageTrader",
             "Phantom@Roguelike@StageSafeHouse",
             "Phantom@Roguelike@StageEncounter",
@@ -9853,6 +9874,15 @@
     },
     "Mizuki@Roguelike@MissionFailedFlag": {},
     "Mizuki@Roguelike@MissionFailedFlag2": {},
+    "Mizuki@Roguelike@LevelName": {
+        "text": [
+            "波涛略地",
+            "绀碧摇篮"
+        ],
+        "next": [
+            "Mizuki@Roguelike@NextLevel"
+        ]
+    },
     "Mizuki@Roguelike@NextLevel": {
         "text": [
             "天光海岸",
@@ -9864,6 +9894,7 @@
             "绀碧摇篮"
         ],
         "next": [
+            "Mizuki@Roguelike@LevelName",
             "Mizuki@Roguelike@StageTrader",
             "Mizuki@Roguelike@StageSafeHouse",
             "Mizuki@Roguelike@StageWindAndRain",
@@ -10284,6 +10315,15 @@
     },
     "Sami@Roguelike@MissionFailedFlag": {},
     "Sami@Roguelike@MissionFailedFlag2": {},
+    "Sami@Roguelike@LevelName": {
+        "text": [
+            "昧明冻土",
+            "深埋迷境"
+        ],
+        "next": [
+            "Sami@Roguelike@NextLevel"
+        ]
+    },
     "Sami@Roguelike@NextLevel": {
         "text": [
             "完成本层",
@@ -10296,6 +10336,7 @@
             78
         ],
         "next": [
+            "Sami@Roguelike@LevelName",
             "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@StageTrader",
             "Sami@Roguelike@StageTraderAI6",

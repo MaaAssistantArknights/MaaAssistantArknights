@@ -41,8 +41,8 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     std::string rogue_theme = status()->get_properties(Status::RoguelikeTheme).value();
     std::string rogue_mode = status()->get_properties(Status::RoguelikeMode).value();
     std::vector<RoguelikeEvent> events = RoguelikeStageEncounter.get_events(rogue_theme);
-    // 刷源石锭模式
-    if (rogue_mode == "1") {
+    // 刷源石锭模式和烧水模式
+    if (rogue_mode == "1" || rogue_mode == "4") {
         events = RoguelikeStageEncounter.get_events(rogue_theme + "_deposit");
     }
     std::vector<std::string> event_names;

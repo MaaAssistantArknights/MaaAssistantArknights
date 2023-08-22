@@ -1,5 +1,6 @@
 #include "RoguelikeTask.h"
 
+#include "Config/TaskData.h"
 #include "Common/AsstBattleDef.h"
 #include "Status.h"
 #include "Task/ProcessTask.h"
@@ -61,10 +62,11 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     status()->set_properties(Status::RoguelikeTheme, theme);
     m_roguelike_task_ptr->set_tasks({ theme + "@Roguelike@Begin" });
 
-    // 0 - 刷蜡烛，尽可能稳定地打更多层数
-    // 1 - 刷源石锭，第一层投资完就退出
+    // 0 - 刷经验，尽可能稳定地打更多层数，不期而遇采用激进策略
+    // 1 - 刷源石锭，第一层投资完就退出，不期而遇采用保守策略
     // 2 - 【弃用】两者兼顾，投资过后再退出，没有投资就继续往后打
     // 3 - 尝试通关，激进策略（TODO）
+    // 4 - 刷开局藏品，以获得热水壶或者演讲稿开局，不期而遇采用保守策略
     int mode = params.get("mode", 0);
     status()->set_properties(Status::RoguelikeMode, std::to_string(mode));
     switch (mode) {
@@ -75,15 +77,37 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         m_debug_task_ptr->set_enable(false);
         m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", 0, ProcessTask::TimesLimitType::Post);
         break;
-    [[unlikely]] case 2:
+    [[unlikely]]case 2:
         m_debug_task_ptr->set_enable(true);
-        m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", 0);
+        m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", 0, ProcessTask ::TimesLimitType::Post);
+        break;
+    case 4:
+        m_debug_task_ptr->set_enable(true);
         break;
     default:
         Log.error(__FUNCTION__, "| Unknown mode", mode);
         return false;
     }
 
+    if (mode == 4) {
+        Task.get(theme + "@Roguelike@LevelName")->next = { theme + "@Roguelike@ExitThenAbandon" };
+        Task.get(theme + "@Roguelike@CloseCollection")->next = {
+            theme + "@Roguelike@LastReward", theme + "@Roguelike@LastReward4",
+            theme + "@Roguelike@LastReward2", theme + "@Roguelike@LastReward3",
+            theme + "@Roguelike@LastRewardRand", theme + "@Roguelike@RolesDefault"
+        };
+        Task.get(theme + "@Roguelike@LastReward")->post_delay = INT_MAX;
+        Task.get(theme + "@Roguelike@LastReward4")->post_delay = INT_MAX;
+    }
+    else {
+        Task.get(theme + "@Roguelike@LevelName")->next = { theme + "@Roguelike@NextLevel" };
+        Task.get(theme + "@Roguelike@CloseCollection")->next = {
+            theme + "@Roguelike@LastReward",  theme + "@Roguelike@LastReward2",    theme + "@Roguelike@LastReward3",
+            theme + "@Roguelike@LastReward4", theme + "@Roguelike@LastRewardRand", theme + "@Roguelike@RolesDefault"
+        };
+        Task.get(theme + "@Roguelike@LastReward")->post_delay = 0;
+        Task.get(theme + "@Roguelike@LastReward4")->post_delay = INT_MAX;
+    }
     int number_of_starts = params.get("starts_count", INT_MAX);
     m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StartExplore", number_of_starts);
 
@@ -125,3 +149,4 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
 
     return true;
 }
+

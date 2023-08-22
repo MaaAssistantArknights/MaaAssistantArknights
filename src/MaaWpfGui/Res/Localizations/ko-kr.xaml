@@ -79,6 +79,7 @@
     <system:String x:Key="InfrastThresholdTip">커스텀 기반시설이 활성화되어 있다면, 이 설정은 자동배치 시설에만 유효합니다</system:String>
     <system:String x:Key="RoguelikeStrategyExp">레벨 우선, 안정적으로 가능한 수준에서 최대한 많은 구역 클리어</system:String>
     <system:String x:Key="RoguelikeStrategyGold">오리지늄각뿔 우선, 2번째 구역에 도달하는 즉시 탐험 중도 포기</system:String>
+    <system:String x:Key="RoguelikeLastReward">전투로 시작 보상을 획득, 3 층에 도달하여 퇴장</system:String>
     <system:String x:Key="StartingSquad">시작 분대</system:String>
     <system:String x:Key="StartingRoles">모집 조합</system:String>
     <system:String x:Key="StartingCoreChar">시작 오퍼레이터 (1명)</system:String>

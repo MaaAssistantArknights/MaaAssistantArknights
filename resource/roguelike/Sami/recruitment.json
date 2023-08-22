@@ -596,6 +596,7 @@
                     "recruit_priority": 625,
                     "promote_priority": 0,
                     "is_key": true,
+                    "is_start":true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -852,6 +853,7 @@
                     "skill": 2,
                     "recruit_priority": 550,
                     "promote_priority": 70, 
+                    "is_start": true, 
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -867,6 +869,7 @@
                     "name": "克洛丝",
                     "skill": 1,
                     "is_key": true,
+                    "is_start":true,
                     "recruit_priority": 678,
                     "promote_priority": 0,
                     "recruit_priority_offsets": [
@@ -883,7 +886,7 @@
                 {
                     "name": "预备干员-狙击",
                     "skill": 0,
-                    "recruit_priority": 285,
+                    "recruit_priority": 205,
                     "recruit_priority_when_team_full": 0,
                     "promote_priority": 0,
                     "is_alternate": true
@@ -1161,6 +1164,7 @@
                     "recruit_priority": 635,
                     "promote_priority": 0,
                     "is_key": true,
+                    "is_start": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -1591,7 +1595,6 @@
                     "skill": 2,
                     "recruit_priority": 507,
                     "promote_priority": 50,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -1622,6 +1625,7 @@
                     "recruit_priority": 611,
                     "promote_priority": 0,
                     "is_key": true,
+                    "is_start": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -1638,7 +1642,8 @@
                     "name": "香草",
                     "skill": 1,
                     "recruit_priority": 511,
-                    "promote_priority": 0,
+                    "promote_priority": 0,                    
+                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -1807,7 +1812,7 @@
                 {
                     "name": "预备干员-术师",
                     "skill": 0,
-                    "recruit_priority": 305,
+                    "recruit_priority": 205,
                     "promote_priority": 0,
                     "is_alternate": true
                 },                
@@ -1941,12 +1946,18 @@
                     "skill": 2,
                     "recruit_priority": 462,
                     "promote_priority": 260
-                },
+                },                
                 {
                     "name": "初雪",
                     "skill": 2,
                     "recruit_priority": 353,
                     "promote_priority": 255
+                },
+                {
+                    "name": "凛视",
+                    "skill": 2,
+                    "recruit_priority": 257,
+                    "promote_priority": 200
                 },
                 {
                     "name": "真理",
@@ -3200,6 +3211,7 @@
                 {
                     "name": "夜半",
                     "skill": 2,
+                    "is_start":true,
                     "recruit_priority": 235,
                     "promote_priority": 0,
                     "recruit_priority_offsets": [
@@ -3229,6 +3241,13 @@
                             "offset": 150
                         }
                     ]
+                },
+                {
+                    "name": "安德切尔",
+                    "skill": 1,
+                    "is_key":true,
+                    "recruit_priority": 255,
+                    "promote_priority": 0
                 },
                 {
                     "name": "罗宾",
