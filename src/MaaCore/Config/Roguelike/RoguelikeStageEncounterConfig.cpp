@@ -8,19 +8,15 @@ bool asst::RoguelikeStageEncounterConfig::parse(const json::value& json)
 {
     LogTraceFunction;
 
-    m_events.clear();
+    const std::string theme = json.at("theme").as_string();
+    m_events.erase(theme);
 
-    for (const auto& theme_view : { RoguelikePhantomThemeName, RoguelikeMizukiThemeName }) {
-        const std::string theme(theme_view);
-        const auto& theme_json = json.at(theme);
-        for (const auto& event_json : theme_json.as_object()) {
-            RoguelikeEvent event;
-            event.name = event_json.first;
-            json::value event_info = event_json.second;
-            event.option_num = event_info.get("option_num", 0);
-            event.default_choose = event_info.get("choose", 0);
-            m_events[theme].emplace_back(std::move(event));
-        }
+    for (const auto& event_json : json.at("stage").as_array()) {
+        RoguelikeEvent event;
+        event.name = event_json.at("name").as_string();
+        event.option_num = event_json.get("option_num", 0);
+        event.default_choose = event_json.get("choose", 0);
+        m_events[theme].emplace_back(std::move(event));
     }
     return true;
 }

@@ -45,6 +45,13 @@
             </CheckBox>
             <CheckBox
                 Margin="0,10"
+                HorizontalAlignment="Left"
+                IsChecked="{Binding IsLevel3UseShortTime2}"
+                ToolTip="{DynamicResource Level3UseShortTimeTip}">
+                <controls:TextBlock Text="{DynamicResource Level3UseShortTime2}" TextWrapping="Wrap" />
+            </CheckBox>
+            <CheckBox
+                Margin="0,10"
                 Content="{DynamicResource ManuallySelectLevel1}"
                 IsChecked="{Binding NotChooseLevel1}"
                 ToolTip="{DynamicResource Level1Tip}" />

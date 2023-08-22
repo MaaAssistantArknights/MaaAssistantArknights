@@ -14,13 +14,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using MaaWpfGui.Constants;
@@ -174,8 +171,33 @@ namespace MaaWpfGui.ViewModels.UI
             get => _isLevel3UseShortTime;
             set
             {
+                if (value)
+                {
+                    IsLevel3UseShortTime2 = false;
+                }
+
                 SetAndNotify(ref _isLevel3UseShortTime, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.Level3UseShortTime, value.ToString());
+            }
+        }
+
+        private bool _isLevel3UseShortTime2 = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Level3UseShortTime2, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to shorten the time for level 3.
+        /// </summary>
+        public bool IsLevel3UseShortTime2
+        {
+            get => _isLevel3UseShortTime2;
+            set
+            {
+                if (value)
+                {
+                    IsLevel3UseShortTime = false;
+                }
+
+                SetAndNotify(ref _isLevel3UseShortTime2, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.Level3UseShortTime2, value.ToString());
             }
         }
 
@@ -275,15 +297,16 @@ namespace MaaWpfGui.ViewModels.UI
                             foreach (var oper in (JArray)combs["opers"])
                             {
                                 int oper_level = (int)oper["level"];
+                                string oper_id = oper["id"].ToString();
                                 string oper_name = oper["name"].ToString();
 
                                 string potential = string.Empty;
 
                                 if (RecruitmentShowPotential && OperBoxPotential != null && (tag_level >= 4 || oper_level == 1))
                                 {
-                                    if (OperBoxPotential.ContainsKey(oper_name))
+                                    if (OperBoxPotential.ContainsKey(oper_id))
                                     {
-                                        potential = " ( " + OperBoxPotential[oper_name] + " )";
+                                        potential = " ( " + OperBoxPotential[oper_id] + " )";
                                     }
                                     else
                                     {
@@ -511,7 +534,7 @@ namespace MaaWpfGui.ViewModels.UI
                     _operBoxPotential = new Dictionary<string, int>();
                     foreach (JObject operBoxData in OperBoxDataArray.Cast<JObject>())
                     {
-                        _operBoxPotential.Add((string)operBoxData["name"], (int)operBoxData["potential"]);
+                        _operBoxPotential.Add((string)operBoxData["id"], (int)operBoxData["potential"]);
                     }
                 }
 

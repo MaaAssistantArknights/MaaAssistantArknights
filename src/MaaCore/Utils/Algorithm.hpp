@@ -157,8 +157,6 @@ namespace asst::algorithm
                 left[0] = column_id;
                 right[column_id] = 0;
                 index = column_id;
-                first.clear();
-                size.clear();
             }
 
             void insert(const size_t& row_id, const size_t& column_id)
@@ -221,14 +219,19 @@ namespace asst::algorithm
         for (auto& i : group_list) {
             group_name_mapping[i.first] = group_id_mapping.size();
             group_id_mapping.emplace_back(i.first);
+            bool is_empty = true;
             for (auto& j : i.second) {
                 if (char_set.contains(j)) {
+                    is_empty = false;
                     node_id_mapping.emplace_back(i.first, j);
                     if (!char_name_mapping.contains(j)) {
                         char_name_mapping[j] = char_id_mapping.size();
                         char_id_mapping.emplace_back(j);
                     }
                 }
+            }
+            if (is_empty) {
+                return std::nullopt;
             }
         }
 

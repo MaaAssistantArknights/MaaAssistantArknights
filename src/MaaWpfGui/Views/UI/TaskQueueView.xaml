@@ -59,9 +59,9 @@
                         dd:DragDrop.IsDragSource="{Binding Idle}"
                         dd:DragDrop.IsDropTarget="{Binding Idle}"
                         BorderThickness="0"
+                        DragDrop.Drop="{s:Action TaskItemSelectionChanged}"
                         ItemContainerStyle="{StaticResource CustomListBoxItemStyle}"
                         ItemsSource="{Binding Path=TaskItemViewModels}"
-                        DragDrop.Drop="{s:Action TaskItemSelectionChanged}"
                         ToolTip="{DynamicResource LabelSequenceTip}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -111,7 +111,7 @@
                             IsEnabled="{Binding Idle}" />
                         <hc:SplitButton
                             Grid.Column="1"
-                            Width="{Binding InverseSelectedWidth}"
+                            Width="90"
                             Height="30"
                             VerticalAlignment="Top"
                             Command="{s:Action InverseSelected}"
@@ -121,7 +121,7 @@
                             <hc:SplitButton.DropDownContent>
                                 <Menu>
                                     <MenuItem
-                                        Width="{Binding InverseSelectedWidth}"
+                                        Width="90"
                                         Padding="19,5,0,5"
                                         Command="{s:Action ChangeInverseMode}"
                                         Header="{Binding InverseMenuText}" />
@@ -206,7 +206,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" MinHeight="360" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" MaxHeight="230" />
+                <RowDefinition Height="*" MaxHeight="250" />
             </Grid.RowDefinitions>
             <hc:ScrollViewer
                 Grid.Row="0"

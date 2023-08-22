@@ -439,6 +439,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                 for (const Recruitment& oper_info : ranges::reverse_view(comb.opers)) { // print reversely
                     json::value oper_json;
                     oper_json["name"] = oper_info.name;
+                    oper_json["id"] = oper_info.id;
                     oper_json["level"] = oper_info.level;
                     opers_json_vector.emplace_back(std::move(oper_json));
                 }

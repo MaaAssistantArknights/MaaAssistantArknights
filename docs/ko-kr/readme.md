@@ -18,7 +18,7 @@
 </div>
 <br>
 
-[简体中文](../readme.md) | [繁體中文](../zh-tw/readme.md) | [English](../en-us/readme.md) | [日本語](../ja-jp/readme.md) | [한국어](../ko-kr/readme.md)
+[简体中文](../readme.md) | [繁體中文](../zh-tw/readme.md) | [English](../en-us/readme.md) | [日本語](../ja-jp/readme.md) | [한국어](./readme.md)
 
 MAA는 MAA Assistant Arknights의 약자입니다
 
@@ -78,9 +78,10 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 ## 관련 프로젝트
 
-- 새 GUI: [MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI) (현재 개발 중입니다. 도움은 환영합니다!)
+- New Framework: [MaaFramework](https://github.com/MaaAssistantArknights/MaaFramework)
+- 새 GUI: [MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI)
 - [전략 파일 저장소](https://prts.plus): [프론트엔드](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
-- 백엔드: [MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter) (현재 개발 중입니다. 도움은 환영합니다!)
+- 백엔드: [MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter)
 - [공식 웹사이트](https://maa.plus): [프론트엔드](https://github.com/MaaAssistantArknights/maa-website)
 - Deep Learning: [MaaAI](https://github.com/MaaAssistantArknights/MaaAI)
 
@@ -133,11 +134,11 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 
 2. Visual Studio 2022로 `MAA.sln`을 열고 `MaaWpfGui`를 마우스 오른쪽 버튼으로 클릭하고 시작 프로젝트로 설정합니다.
 3. `MaaWpfGui` - 속성 - 디버깅 - 로컬 디버깅 활성화를 마우스 오른쪽 버튼으로 클릭합니다(따라서 C++ Core에 중단점을 걸 수 있습니다).
-4. (선택 사항) PR을 제출하려는 경우 [clang-format support](../en-us/2.2-DEVELOPMENT.md#using-clang-format-in-visual-studio)를 활성화하는 것이 좋습니다.<!-- Translation Required -->
+4. (선택 사항) PR을 제출하려는 경우 [clang-format support](../ko_KR/2.2-개발_환경_구축하기.md#Visual-Studio에서-clang-format-활성화하기)를 활성화하는 것이 좋습니다.
 
 ### Linux/MacOS
 
-[Linux_튜토리얼](../en-us/2.1-LINUX_TUTORIAL.md) 문서를 참조해 주세요. <!-- Translation Required -->
+[Linux_튜토리얼](./2.1-리눅스_튜토리얼.md) 문서를 참조해 주세요.
 
 ### API
 
@@ -149,22 +150,22 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 - [Java HTTP 인터페이스](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Java/Readme.md)
 - [Rust 인터페이스](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust/src/maa_sys): [HTTP 인터페이스](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust)
 - [TypeScript 인터페이스](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
-- [통합](../en-us/3.1-INTEGRATION.md) <!-- Translation Required -->
-- [콜백 형식](../en-us/3.2-CALLBACK_SCHEMA.md) <!-- Translation Required -->
-- [임무 형식](../en-us/3.4-TASK_SCHEMA.md) <!-- Translation Required -->
-- [전략 형식](../en-us/3.3-COPILOT_SCHEMA.md) <!-- Translation Required -->
+- [연동](./3.1-연동.md)
+- [콜백 스키마](./3.2-콜백_스키마.md)
+- [임무 스키마](./3.4-작업_스키마.md)
+- [전투 스키마](./3.3-전투_스키마.md)
 
-### 해외클라이언트현지화
+### 해외 클라이언트 현지화
 
-[해외 클라이언트 현지화](../en-us/2.5-OVERSEAS_CLIENTS_ADAPTATION.md) 문서를 참고하세요. 대부분의 경우 CN 서버에서 이미 지원하는 기능들은 스크린샷과 간단한 JSON 파일 조작만으로도 타 서버에서 사용 가능합니다. <!-- Translation Required -->
+[해외 클라이언트 현지화](./2.5-해외_클라이언트_현지화.md) 문서를 참고하세요. 대부분의 경우 CN 서버에서 이미 지원하는 기능들은 스크린샷과 간단한 JSON 파일 조작만으로도 타 서버에서 사용 가능합니다.
 
 ### GitHub에 익숙치 않은 사용자용 가이드
 
-[Development](../en-us/2.2-DEVELOPMENT.md#introduction-to-github-pull-request-flow) <!-- Translation Required -->
+[개발 환경 구축하기](./2.2-개발_환경_구축하기.md#introduction-to-github-pull-request-flow)
 
 ### Issue Bot
 
-자세한 내용은 [Issue Bot 사용방법](../en-us/2.3-ISSUE_BOT_USAGE.md)을 참조해 주세요. <!-- Translation Required -->
+자세한 내용은 [Issue Bot 사용방법](./2.3-Issue_Bot_사용방법.md)을 참조해 주세요.
 
 ## 주의사항
 

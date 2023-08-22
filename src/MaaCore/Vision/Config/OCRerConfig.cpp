@@ -17,7 +17,8 @@ void OCRerConfig::set_required(std::vector<std::string> required) noexcept
     m_params.required = std::move(required);
 }
 
-void OCRerConfig::set_replace(const std::unordered_map<std::string, std::string>& replace, bool replace_full) noexcept
+void OCRerConfig::set_replace(const std::vector<std::pair<std::string, std::string>>& replace,
+                              bool replace_full) noexcept
 {
     m_params.replace.clear();
     m_params.replace.reserve(replace.size());
@@ -25,7 +26,7 @@ void OCRerConfig::set_replace(const std::unordered_map<std::string, std::string>
     for (auto&& [key, val] : replace) {
         auto new_key = OcrConfig::get_instance().process_equivalence_class(key);
         // do not create new_val as val is user-provided, and can avoid issues like 夕 and katakana タ
-        m_params.replace.emplace(std::move(new_key), val);
+        m_params.replace.emplace_back(std::make_pair(std::move(new_key), val));
     }
     m_params.replace_full = replace_full;
 }

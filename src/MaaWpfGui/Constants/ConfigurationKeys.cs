@@ -20,6 +20,7 @@ namespace MaaWpfGui.Constants
     {
         public const string CurrentConfiguration = "Current";
         public const string DefaultConfiguration = "Default";
+        public const string GlobalConfiguration = "Global";
         public const string ConfigurationMap = "Configurations";
         public const string ConfigurationData = "Data";
         public const string ConfigurationCron = "Cron";
@@ -56,6 +57,7 @@ namespace MaaWpfGui.Constants
         public const string ConnectConfig = "Connect.ConnectConfig";
         public const string RetryOnAdbDisconnected = "Connect.RetryOnDisconnected";
         public const string AllowADBRestart = "Connect.AllowADBRestart";
+        public const string AllowADBHardRestart = "Connect.AllowADBHardRestart";
         public const string AdbLiteEnabled = "Connect.AdbLiteEnabled";
         public const string KillAdbOnExit = "Connect.KillAdbOnExit";
         public const string TouchMode = "Connect.TouchMode";
@@ -79,6 +81,7 @@ namespace MaaWpfGui.Constants
         public const string ChooseLevel6 = "Recruit.ChooseLevel6";
         public const string AutoSetTime = "Recruit.AutoSetTime";
         public const string Level3UseShortTime = "Recruit.IsLevel3UseShortTime";
+        public const string Level3UseShortTime2 = "Recruit.IsLevel3UseShortTime2";
         public const string RecruitmentShowPotential = "Recruit.ShowPotential";
 
         public const string DormThreshold = "Infrast.DormThreshold";
@@ -117,6 +120,7 @@ namespace MaaWpfGui.Constants
         public const string RecruitMaxTimes = "AutoRecruit.MaxTimes";
         public const string RefreshLevel3 = "AutoRecruit.RefreshLevel3";
         public const string IsLevel3UseShortTime = "AutoRecruit.IsLevel3UseShortTime";
+        public const string IsLevel3UseShortTime2 = "AutoRecruit.IsLevel3UseShortTime2";
         public const string NotChooseLevel1 = "AutoRecruit.NotChooseLevel1";
         public const string RecruitChooseLevel3 = "AutoRecruit.ChooseLevel3";
         public const string RecruitChooseLevel4 = "AutoRecruit.ChooseLevel4";
@@ -135,6 +139,7 @@ namespace MaaWpfGui.Constants
         public const string UpdatAutoCheck = "VersionUpdate.ScheduledUpdateCheck";
         public const string UseAria2 = "VersionUpdate.UseAria2";
         public const string AutoDownloadUpdatePackage = "VersionUpdate.AutoDownloadUpdatePackage";
+        public const string AutoInstallUpdatePackage = "VersionUpdate.AutoInstallUpdatePackage";
 
         public const string PenguinId = "Penguin.Id";
         public const string IsDrGrandet = "Penguin.IsDrGrandet";
@@ -151,6 +156,7 @@ namespace MaaWpfGui.Constants
         public const string UseMedicine = "MainFunction.UseMedicine";
         public const string UseMedicineQuantity = "MainFunction.UseMedicine.Quantity";
         public const string UseStoneQuantity = "MainFunction.UseStone.Quantity";
+        public const string TimesLimited = "MainFunction.TimesLimited";
         public const string TimesLimitedQuantity = "MainFunction.TimesLimited.Quantity";
         public const string DropsEnable = "MainFunction.Drops.Enable";
         public const string DropsItemId = "MainFunction.Drops.ItemId";
@@ -169,5 +175,8 @@ namespace MaaWpfGui.Constants
         public const string GachaShowDisclaimerNoMore = "Gacha.ShowDisclaimerNoMore";
 
         public const string GuideStepIndex = "Guide.StepIndex";
+
+        public const string ForceScheduledStart = "Timer.ForceScheduledStart";
+        public const string CustomConfig = "Timer.CustomConfig";
     }
 }

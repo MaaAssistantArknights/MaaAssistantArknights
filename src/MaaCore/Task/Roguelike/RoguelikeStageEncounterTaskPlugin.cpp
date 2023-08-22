@@ -7,7 +7,7 @@
 #include "Task/ProcessTask.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "Vision/RegionOCRer.h"
+#include "Vision/OCRer.h"
 
 bool asst::RoguelikeStageEncounterTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -38,51 +38,47 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    for (int j = 0; j < 2; ++j) {
-        sleep(150);
-        ctrler()->click(Point(500, 500)); // 先点一下让文字到左边
-    }
     std::string rogue_theme = status()->get_properties(Status::RoguelikeTheme).value();
+    std::string rogue_mode = status()->get_properties(Status::RoguelikeMode).value();
     std::vector<RoguelikeEvent> events = RoguelikeStageEncounter.get_events(rogue_theme);
+    // 刷源石锭模式
+    if (rogue_mode == "1") {
+        events = RoguelikeStageEncounter.get_events(rogue_theme + "_deposit");
+    }
+    std::vector<std::string> event_names;
+    std::unordered_map<std::string, RoguelikeEvent> event_map;
+    for (const auto& event : events) {
+        event_names.emplace_back(event.name);
+        event_map.emplace(event.name, event);
+    }
     const auto event_name_task_ptr = Task.get("Roguelike@StageEncounterOcr");
-    event_name_task_ptr->roi.y = 460;
     sleep(event_name_task_ptr->pre_delay);
 
-    constexpr int EventNameRetryTimes = 15;
-    for (int i = 0; i != EventNameRetryTimes; ++i) {
-        if (need_exit()) {
-            return false;
-        }
-        cv::Mat image = ctrler()->get_image();
-        cv::Mat grey_image, black_image;
-        cv::cvtColor(image, grey_image, cv::COLOR_RGB2GRAY);
-        cv::threshold(grey_image, black_image, 80, 255, 0); // 要做个二值化，不然识别效果很差
-        cv::cvtColor(black_image, image, cv::COLOR_GRAY2RGB);
-
-        RegionOCRer name_analyzer(image);
-        name_analyzer.set_task_info(event_name_task_ptr);
-        event_name_task_ptr->roi.y += 5; // 因文本纵向位置不固定，这里用一个滑动窗进行ocr
-        if (!name_analyzer.analyze()) {
-            continue;
-        }
-        const std::string& text = name_analyzer.get_result().text;
-        if (text.empty()) {
-            continue;
-        }
-
-        for (const auto& event : events) {
-            if (text.find(event.name) != std::string::npos) {
-                Log.info("Event:", event.name, "choose option", event.default_choose);
-                for (int j = 0; j < 2; ++j) {
-                    ProcessTask(*this, { rogue_theme + "@Roguelike@OptionChoose" + std::to_string(event.option_num) +
-                                         "-" + std::to_string(event.default_choose) })
-                        .run();
-                    sleep(300);
-                }
-                return true;
-            }
-        }
+    if (need_exit()) {
+        return false;
     }
-    Log.info("Unknown Event");
+    cv::Mat image = ctrler()->get_image();
+    OCRer name_analyzer(image);
+    name_analyzer.set_task_info(event_name_task_ptr);
+    name_analyzer.set_required(event_names);
+    if (!name_analyzer.analyze()) {
+        Log.info("Unknown Event");
+        return true;
+    }
+    const auto& resultVec = name_analyzer.get_result();
+    if (resultVec.empty()) {
+        Log.info("Unknown Event");
+        return true;
+    }
+    std::string text = resultVec.front().text;
+
+    RoguelikeEvent event = event_map.at(text);
+    Log.info("Event:", event.name, "choose option", event.default_choose);
+    for (int j = 0; j < 2; ++j) {
+        ProcessTask(*this, { rogue_theme + "@Roguelike@OptionChoose" + 
+            std::to_string(event.option_num) + "-" + std::to_string(event.default_choose) }).run();
+        sleep(300);
+    }
+
     return true;
 }

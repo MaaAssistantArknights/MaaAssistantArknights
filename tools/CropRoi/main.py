@@ -1,9 +1,12 @@
-# USAGE
-# python click_and_crop.py
-# 依次展示 ./src 目录下的文件，裁剪后保存到 ./dst 目录
-
 import cv2
 import os
+
+
+print("Usage:\n"
+      "Put the 16:9 images under ./src, and run this script, it will be auto converted to 720p.\n"
+      "Drag mouse to select ROI, press 'S' to save, press 'Q' to quit.\n"
+      "The cropped images will be saved in ./dst\n")
+
 
 # 初始化参考点列表和布尔值标志：是否正在执行裁剪
 refPt = []
@@ -34,11 +37,6 @@ def click_and_crop(event, x, y, flags, param):
         cv2.imshow("image", draw)
 
 
-print("Usage:\n"
-      "Put the 16:9 images under ./src, and run this script, it will be auto converted to 720p.\n"
-      "Drag mouse to select ROI, press 'S' to save, press 'Q' to quit.\n"
-      "The cropped images will be saved in ./dst\n")
-
 std_width: int = 1280
 std_height: int = 720
 std_ratio = std_width / std_height
@@ -63,7 +61,7 @@ for filename in os.listdir("./src"):
         dsize_height: int = std_width / cur_ratio
 
     dsize = (dsize_width, dsize_height)
-    image = cv2.resize(image, dsize)
+    image = cv2.resize(image, dsize, interpolation=cv2.INTER_AREA)
 
     while True:
         cv2.imshow("image", image)

@@ -12,6 +12,8 @@ namespace asst
     public:
         virtual ~RoguelikeCopilotConfig() override = default;
 
+        virtual bool load(const std::filesystem::path& path) override;
+
         std::optional<battle::roguelike::CombatData> get_stage_data(const std::string& stage_name) const;
 
     protected:

@@ -27,7 +27,7 @@ jobs:
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
-      - name: Extract Tag Name
+      - name: Extract tag name
         id: extract_tag
         run: |
           if ${{ github.event_name != 'workflow_dispatch' }}; then
@@ -37,10 +37,10 @@ jobs:
             echo "tag_name=${{ inputs.tag }}" >> $GITHUB_OUTPUT
           fi
 
-      - name: Create Release Tag and push
+      - name: Create release tag and push
         run: |
           git tag -a "${{ steps.extract_tag.outputs.tag_name }}" -m "${{ steps.extract_tag.outputs.tag_name }}" -f
-          git push origin "${{ steps.extract_tag.outputs.tag_name }}" -f
+          git push origin "${{ steps.extract_tag.outputs.tag_name }}"
 
       - name: Merge into dev and push
         run: |

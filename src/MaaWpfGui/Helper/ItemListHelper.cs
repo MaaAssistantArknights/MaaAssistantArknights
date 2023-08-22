@@ -53,9 +53,11 @@ namespace MaaWpfGui.Helper
                     break;
             }
 
+            var tempItems = new Dictionary<string, ArkItem>();
+
             if (File.Exists(filename) is false)
             {
-                ArkItems = new Dictionary<string, ArkItem>();
+                ArkItems = tempItems;
                 _logger.Warning("Item list file not found: {Filename}", filename);
                 return;
             }
@@ -64,12 +66,14 @@ namespace MaaWpfGui.Helper
             {
                 _logger.Information("Loading item list from {filename}", filename);
                 var jsonStr = File.ReadAllText(filename);
-                ArkItems = JsonSerializer.Deserialize<Dictionary<string, ArkItem>>(jsonStr);
+                tempItems = JsonSerializer.Deserialize<Dictionary<string, ArkItem>>(jsonStr);
             }
             catch (Exception e)
             {
                 _logger.Error(e, "Failed to load item list from {filename}", filename);
             }
+
+            ArkItems = tempItems ?? new Dictionary<string, ArkItem>();
         }
 
         public static string GetItemName(string itemId)

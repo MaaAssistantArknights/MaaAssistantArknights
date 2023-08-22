@@ -103,7 +103,11 @@ class Updater:
         pre[0] = pre[0][1:]
         if sub:
             sub = sub.split('.')
-            sub = sub[:-1]
+            #舍弃版本类型后的字符，避免使用内测版本而出现字母无法转换成数字的情况 XD
+            for i in range(len(sub)):
+                if sub[i].startswith('alpha') or sub[i].startswith('beta') or sub[i].startswith('rc'):
+                    sub = sub[:2]
+                    break
             if sub[0] == 'alpha':
                 sub[0] = '1'
             elif sub[0] == 'beta':
@@ -226,14 +230,15 @@ class Updater:
         for i in range(max_retry):
             url = self.assets_object['browser_download_url']
             file = os.path.join(self.path, url.split('/')[-1])
-            if i < 2:
-                url = url.replace(replace_list[i][0], replace_list[i][1])
-                try:
-                    Updater.custom_print(f'开始下载更新包，URL：{url}')
-                    request.urlretrieve(url, file)
-                    break
-                except (HTTPError, URLError) as e:
-                    Updater.custom_print(e)
+
+            replace_attempt = replace_list[i % len(replace_list)]
+            url = url.replace(replace_attempt[0], replace_attempt[1])
+            try:
+                Updater.custom_print(f'开始下载更新包，URL：{url}')
+                request.urlretrieve(url, file)
+                break
+            except (HTTPError, URLError) as e:
+                Updater.custom_print(e)
 
         # 解压
         Updater.custom_print('开始安装更新，请不要关闭')

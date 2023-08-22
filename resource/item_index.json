@@ -983,6 +983,14 @@
         "sortId": 10020,
         "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
     },
+    "LMTGS_COIN_4101": {
+        "classifyType": "NORMAL",
+        "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
+        "icon": "LMTGS_COIN_4101.png",
+        "name": "寻访数据契约",
+        "sortId": 10021,
+        "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
@@ -1263,6 +1271,14 @@
         "sortId": -10000,
         "usage": "印有各地独特景观照的明信片，足不出户就可领略各地风光。可用来与各地办事处的工作人员交换物资。"
     },
+    "act15mini_token_figurine": {
+        "classifyType": "NONE",
+        "description": "为便于其他人寻找森林中隐藏的物资，猎手们制作了简单的路标。取用之后，也要记得补充一些，因为树全都知道。",
+        "icon": "act15mini_token_figurine.png",
+        "name": "指木雕刻",
+        "sortId": -10000,
+        "usage": "猎手们留下的粗糙雕刻。一个难以分辨细节的木人向前伸出手，指向储存食物、草药与工具的树洞。"
+    },
     "act15side_token_tea": {
         "classifyType": "NONE",
         "description": "勤劳的工作者们步履匆匆，方便携带的罐装茶饮料应运而生。用茶讲究，色纯香清，味甘绵久，回味悠扬。品牌众多，靠一己之力占领了大炎各大地区超市的饮料专区，唯独折耳根风味无人问津。",
@@ -1423,6 +1439,22 @@
         "sortId": -10000,
         "usage": "进入秘密区块的许可证，里面的机关似乎有些不同？"
     },
+    "act26side_token_fragmenta": {
+        "classifyType": "NONE",
+        "description": "损毁崩落的圣像碎片遗落在修道院的各个角落，每一片都独一无二。这些碎片或许再也拼不出一个完整的持铳圣徒像，但总有人仍心怀希望。",
+        "icon": "act26side_token_fragmenta.png",
+        "name": "圣像碎片",
+        "sortId": -10000,
+        "usage": "持铳圣徒像曾经被装饰在修道院各处，现在大部分都已不在原处。修道院虔诚的信徒们愿意用他们仅有的一些物资来交换这些碎片。"
+    },
+    "act27side_token_fur": {
+        "classifyType": "NONE",
+        "description": "柔软、防寒且吸水性良好，虽然看上去非常可口，但请不要把它当成棉花糖吃掉。",
+        "icon": "act27side_token_fur.png",
+        "name": "毛绒绒生物的毛",
+        "sortId": -10000,
+        "usage": "看上去可以放进户外保暖装备之中，只不过在这个季节好像没有什么作用。“纯白火山”家的小女儿不知为何很喜欢这种奇怪绒毛，她愿意悄悄拿店里的商品和你交换。注意：千万不要告诉她的哥哥！"
+    },
     "act2bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "模拟中的对错并不重要，它们只是种辅助，帮助你在实战中做出正确的选择。",
@@ -1446,6 +1478,22 @@
         "name": "晶化源石",
         "sortId": -10000,
         "usage": "完成尖灭测试作战后得到的报酬。可用于兑换补给品。"
+    },
+    "act3bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "模拟中的对错并不重要，它们只是种辅助，帮助你在实战中做出正确的选择。",
+        "icon": "act3bossrush_milestone_point.png",
+        "name": "试炼经验",
+        "sortId": -10000,
+        "usage": "试炼结束后获得的经验，可以提升试炼等级。"
+    },
+    "act3bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "未解码的数据方块。永远记住，信息转换往往伴随着不可避免的损耗。善用信息储存工具，但别依赖它们。",
+        "icon": "act3bossrush_token_relic.png",
+        "name": "数据黑盒",
+        "sortId": -10000,
+        "usage": "用于对遏制单元进行数据迭代。"
     },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
@@ -1550,6 +1598,14 @@
         "name": "红松叶彩券",
         "sortId": -10000,
         "usage": "印有红松树叶标签的骑士竞技彩券。凭券可在骑士竞技博彩兑奖处兑换相应奖金，押下你的筹码，然后大赚一笔吧！"
+    },
+    "advanced_material_issue_voucher": {
+        "classifyType": "CONSUME",
+        "description": "为应对加工时部分材料紧缺的问题，采购部发行了提货券供干员们自行取用所需的材料。",
+        "icon": "advanced_material_issue_voucher.png",
+        "name": "高级材料提货券",
+        "sortId": 30201,
+        "usage": "罗德岛采购部特别发行的提货券，凭此券可限时领取一份高级品质的精英材料。"
     },
     "ap_supply_lt_010": {
         "classifyType": "CONSUME",
@@ -1791,6 +1847,14 @@
         "sortId": 90002,
         "usage": "用于升级干员的模组。"
     },
+    "premium_material_issue_voucher": {
+        "classifyType": "CONSUME",
+        "description": "为应对加工时部分材料紧缺的问题，采购部发行了提货券供干员们自行取用所需的材料。",
+        "icon": "premium_material_issue_voucher.png",
+        "name": "特级材料提货券",
+        "sortId": 30200,
+        "usage": "罗德岛采购部特别发行的提货券，凭此券可限时领取一份特级品质的精英材料。"
+    },
     "randomDiamondShd_1": {
         "classifyType": "CONSUME",
         "description": "没有人知道到底是谁掏的腰包，只有对罗德岛满怀希望的情感是真切的。",
@@ -1983,10 +2047,26 @@
         "sortId": 60109,
         "usage": "装有各种物资补给，包含多种随机材料。"
     },
+    "randomMaterial_siesta2": {
+        "classifyType": "CONSUME",
+        "description": "来自峯联贸易的材料补给箱。供货商很高兴能与大客户合作，协同物流公司为您送来这些赠品。",
+        "icon": "randomMaterial_siesta2.png",
+        "name": "峯联贸易物流补给",
+        "sortId": 60111,
+        "usage": "装有各种物资补给，包含多种随机材料。"
+    },
     "return_credit_token": {
         "classifyType": "NONE",
         "description": "为回到重要岗位的人特别准备的徽记，会在其熟悉工作的过程中逐步发放。",
         "icon": "return_credit_token.png",
+        "name": "二次认证徽记",
+        "sortId": -10000,
+        "usage": "罗德岛内部流通的特殊认证用徽记。收集一定数量可以获得部分罗德岛物资的使用权限。"
+    },
+    "return_credit_token2": {
+        "classifyType": "NONE",
+        "description": "为回到重要岗位的人特别准备的徽记，会在其熟悉工作的过程中逐步发放。",
+        "icon": "return_credit_token2.png",
         "name": "二次认证徽记",
         "sortId": -10000,
         "usage": "罗德岛内部流通的特殊认证用徽记。收集一定数量可以获得部分罗德岛物资的使用权限。"
@@ -2012,6 +2092,14 @@
         "description": null,
         "icon": "rogue_2_token_bp.png",
         "name": "生机细胞",
+        "sortId": -10000,
+        "usage": null
+    },
+    "rogue_3_token_bp": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "rogue_3_token_bp.png",
+        "name": "生态标本",
         "sortId": -10000,
         "usage": null
     },

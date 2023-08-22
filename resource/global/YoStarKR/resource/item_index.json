@@ -951,6 +951,14 @@
         "sortId": 10019,
         "usage": "신형 모집 협약에서 정한 일종의 기간 한정 화폐. 일정 수량을 누적하여 지정된 기간 동안 지정된 오퍼레이터를 채용할 수 있다."
     },
+    "LMTGS_COIN_3501": {
+        "classifyType": "NORMAL",
+        "description": "헤드헌팅 회사와 장기적이고 안정적인 협력 관계를 유지한 보답. 효과적으로 지출을 조절할 수 있지만, 매번 이와 같은 수단을 써야 하는 것은 아니다.",
+        "icon": "LMTGS_COIN_3501.png",
+        "name": "헤드헌팅 데이터 계약",
+        "sortId": 10019,
+        "usage": "신형 모집 협약에서 정한 일종의 기간 한정 화폐. 일정 수량을 누적하여 지정된 기간 동안 지정된 오퍼레이터를 채용할 수 있다."
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "헤드헌팅 회사와 장기적이고 안정적인 협력 관계를 유지한 보답. 효과적으로 지출을 조절할 수 있지만, 매번 이와 같은 수단을 써야 하는 것은 아니다.",
@@ -1191,6 +1199,14 @@
         "sortId": -10000,
         "usage": "기사의 나라 축소형 모델로, 늘 응접실의 정교한 선물함 안에 놓여 있다."
     },
+    "act14mini_token_fu": {
+        "classifyType": "NONE",
+        "description": "모선 마을 주민들이 직접 조각한 평안을 기원하는 부적. 이산묘에 가져가 묘축이 주사로 글을 써주면 마음이 더 편안해진다.",
+        "icon": "act14mini_token_fu.png",
+        "name": "호신부",
+        "sortId": -10000,
+        "usage": "복숭아나무로 조각한 목패. 경기가 좋을 때, 어떤 이들은 길조를 위해 약간의 곡물로 솜씨가 좋은 노인들로부터 이런 목패를 교환한다."
+    },
     "act14side_token_stone": {
         "classifyType": "NONE",
         "description": "쉐라간드의 의지가 깃들어 있어, 쉐라그인들은 행복과 평안을 위해 이 돌에 기도한다.",
@@ -1326,6 +1342,38 @@
         "name": "수입 통행증",
         "sortId": -10000,
         "usage": "식품안전부가 패밀리를 상대로 발행하는 통행증. 패밀리는 이것을 사용해 식품안전부에 들어가 물자를 가져올 수 있다. 일부는 '식품' 범주에 속하지 않지만."
+    },
+    "act22side_token_manuscript": {
+        "classifyType": "NONE",
+        "description": "이 가요를 기억하는 사람은 대부분 글로 적을 수 없고, 타라 역사를 쓰는 사람들은 거의 듣지 않는다. 그러나 상인들은 누군가는 흩어진 타라 문명을 수집하는 데 힘쓴다며, 이 장사는 이미 수백 년 동안 지속되었다고 한다.",
+        "icon": "act22side_token_manuscript.png",
+        "name": "가요 필사본",
+        "sortId": -10000,
+        "usage": "타라 가요와 전설이 적혀 있는 종잇장. 일정 수량 모으면 리버 밸리 캐러밴으로부터 물자를 교환할 수 있다."
+    },
+    "act23side_token_spirit": {
+        "classifyType": "NONE",
+        "description": "옥문 특산인 높은 도수의 소주. 누구나 마시기를 즐기고 집집마다 빚을 줄 안다. 한 모금 들이키면 칼을 삼키고 불을 마시는 것 같으니, 아무리 추운 밤이라도 두렵지 않다.",
+        "icon": "act23side_token_spirit.png",
+        "name": "새로 빚은 소주",
+        "sortId": -10000,
+        "usage": "새로 빚은 독한 술 한 항아리로 대장장이와 새로 날 세운 검을 바꾼다. “물을 피 삼아, 술을 칼 삼아, 벗과 함께 잔을 기울이면 원수마저 잊노라.”"
+    },
+    "act2bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "시뮬레이션에서 옳고 그름은 중요하지 않다. 그것들은 단지 실전에서 올바른 선택을 할 수 있도록 도와주는 보조일 뿐이다.",
+        "icon": "act2bossrush_milestone_point.png",
+        "name": "시련 경험치",
+        "sortId": -10000,
+        "usage": "시련을 끝마치고 얻은 경험치로 시련의 등급을 올리는 용도로 사용된다."
+    },
+    "act2bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "해독되지 않은 데이터 큐브. 정보의 전달 과정에 종종 불가피한 손실을 겪는다는 것을 명심하라. 정보기록 장치를 현명하게 활용하되, 의존하지는 말 것.",
+        "icon": "act2bossrush_token_relic.png",
+        "name": "블랙큐브",
+        "sortId": -10000,
+        "usage": "억제 유닛에 데이터를 업그레이드하는 용도로 사용된다."
     },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
@@ -1519,6 +1567,86 @@
         "sortId": -10000,
         "usage": "옵시디언 페스티벌 주최 측에서 판매한 티켓. 각종 특수 스테이지에 진입할 때 사용된다."
     },
+    "itempack_mod_10": {
+        "classifyType": "CONSUME",
+        "description": "훈련 데이터 부족 문제에 관해 엔지니어링부는 새로운 칩셋 각인기를 제작하여, 오퍼레이터들이 스스로 각인할 수 있도록 했다.",
+        "icon": "itempack_mod_10.png",
+        "name": "스나이퍼 칩셋 각인기",
+        "sortId": -10000,
+        "usage": "일회용 선택형 칩셋 각인 기기. 대량의 훈련 기록과 재료가 저장되어 있어, 뱅가드 오퍼레이터의 요구 사항에 따라 칩셋을 쉽게 각인할 수 있다."
+    },
+    "itempack_mod_11": {
+        "classifyType": "CONSUME",
+        "description": "훈련 데이터 부족 문제에 관해 엔지니어링부는 새로운 칩셋 각인기를 제작하여, 오퍼레이터들이 스스로 각인할 수 있도록 했다.",
+        "icon": "itempack_mod_11.png",
+        "name": "캐스터 칩셋 각인기",
+        "sortId": -10000,
+        "usage": "일회용 선택형 칩셋 각인 기기. 대량의 훈련 기록과 재료가 저장되어 있어, 뱅가드 오퍼레이터의 요구 사항에 따라 칩셋을 쉽게 각인할 수 있다."
+    },
+    "itempack_mod_12": {
+        "classifyType": "CONSUME",
+        "description": "훈련 데이터 부족 문제에 관해 엔지니어링부는 새로운 칩셋 각인기를 제작하여, 오퍼레이터들이 스스로 각인할 수 있도록 했다.",
+        "icon": "itempack_mod_12.png",
+        "name": "메딕 칩셋 각인기",
+        "sortId": -10000,
+        "usage": "일회용 선택형 칩셋 각인 기기. 대량의 훈련 기록과 재료가 저장되어 있어, 뱅가드 오퍼레이터의 요구 사항에 따라 칩셋을 쉽게 각인할 수 있다."
+    },
+    "itempack_mod_13": {
+        "classifyType": "CONSUME",
+        "description": "훈련 데이터 부족 문제에 관해 엔지니어링부는 새로운 칩셋 각인기를 제작하여, 오퍼레이터들이 스스로 각인할 수 있도록 했다.",
+        "icon": "itempack_mod_13.png",
+        "name": "서포터 칩셋 각인기",
+        "sortId": -10000,
+        "usage": "일회용 선택형 칩셋 각인 기기. 대량의 훈련 기록과 재료가 저장되어 있어, 뱅가드 오퍼레이터의 요구 사항에 따라 칩셋을 쉽게 각인할 수 있다."
+    },
+    "itempack_mod_14": {
+        "classifyType": "CONSUME",
+        "description": "훈련 데이터 부족 문제에 관해 엔지니어링부는 새로운 칩셋 각인기를 제작하여, 오퍼레이터들이 스스로 각인할 수 있도록 했다.",
+        "icon": "itempack_mod_14.png",
+        "name": "스페셜리스트 칩셋 각인기",
+        "sortId": -10000,
+        "usage": "일회용 선택형 칩셋 각인 기기. 대량의 훈련 기록과 재료가 저장되어 있어, 뱅가드 오퍼레이터의 요구 사항에 따라 칩셋을 쉽게 각인할 수 있다."
+    },
+    "itempack_mod_4": {
+        "classifyType": "NONE",
+        "description": "엔지니어링부 동료들이 심혈을 기울여 만든 통합 블록으로, 포함된 데이터는 오퍼레이터의 기본 요구 사항을 충족할 수 있다.",
+        "icon": "itempack_mod_4.png",
+        "name": "모듈 데이터 통합 블록",
+        "sortId": -10000,
+        "usage": "오퍼레이터의 모듈 개방 및 업그레이드에 사용할 수 있는 아이템이 들어 있다."
+    },
+    "itempack_mod_6": {
+        "classifyType": "NONE",
+        "description": "엔지니어링부 동료들이 심혈을 기울여 만든 통합 상자로, 비축된 방대한 데이터는 오퍼레이터의 모든 요구 사항을 충족할 수 있다.",
+        "icon": "itempack_mod_6.png",
+        "name": "모듈 데이터 통합 상자",
+        "sortId": -10000,
+        "usage": "오퍼레이터의 모듈 개방 및 업그레이드에 사용할 수 있는 아이템이 들어 있다."
+    },
+    "itempack_mod_7": {
+        "classifyType": "CONSUME",
+        "description": "훈련 데이터 부족 문제에 관해 엔지니어링부는 새로운 칩셋 각인기를 제작하여, 오퍼레이터들이 스스로 각인할 수 있도록 했다.",
+        "icon": "itempack_mod_7.png",
+        "name": "뱅가드 칩셋 각인기",
+        "sortId": -10000,
+        "usage": "일회용 선택형 칩셋 각인 기기. 대량의 훈련 기록과 재료가 저장되어 있어, 뱅가드 오퍼레이터의 요구 사항에 따라 칩셋을 쉽게 각인할 수 있다."
+    },
+    "itempack_mod_8": {
+        "classifyType": "CONSUME",
+        "description": "훈련 데이터 부족 문제에 관해 엔지니어링부는 새로운 칩셋 각인기를 제작하여, 오퍼레이터들이 스스로 각인할 수 있도록 했다.",
+        "icon": "itempack_mod_8.png",
+        "name": "가드 칩셋 각인기",
+        "sortId": -10000,
+        "usage": "일회용 선택형 칩셋 각인 기기. 대량의 훈련 기록과 재료가 저장되어 있어, 뱅가드 오퍼레이터의 요구 사항에 따라 칩셋을 쉽게 각인할 수 있다."
+    },
+    "itempack_mod_9": {
+        "classifyType": "CONSUME",
+        "description": "훈련 데이터 부족 문제에 관해 엔지니어링부는 새로운 칩셋 각인기를 제작하여, 오퍼레이터들이 스스로 각인할 수 있도록 했다.",
+        "icon": "itempack_mod_9.png",
+        "name": "디펜더 칩셋 각인기",
+        "sortId": -10000,
+        "usage": "일회용 선택형 칩셋 각인 기기. 대량의 훈련 기록과 재료가 저장되어 있어, 뱅가드 오퍼레이터의 요구 사항에 따라 칩셋을 쉽게 각인할 수 있다."
+    },
     "mod_unlock_token": {
         "classifyType": "MATERIAL",
         "description": "데이터칩에는 엔지니어링부 오퍼레이터들이 모듈을 제작하기 위해 열심히 분투한 모든 낮과 밤이 기록되어 있다.",
@@ -1581,6 +1709,14 @@
         "icon": "randomMaterialRune_10.png",
         "name": "애쉬링 작전 보급 물자",
         "sortId": 60021,
+        "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
+    },
+    "randomMaterialRune_11": {
+        "classifyType": "CONSUME",
+        "description": "위기 협약에서 온 보급 재료 상자. 이 땅을 치료하기 위해 늘 노력하는 분들께 드리는 작은 보답입니다.——위기 협약",
+        "icon": "randomMaterialRune_11.png",
+        "name": "페이크웨이브 작전 보급 물자",
+        "sortId": 60022,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
     "randomMaterialRune_2": {
