@@ -893,10 +893,8 @@
             "stage_name": "微笑必达",
             "strategies": [
                 {
-                    "core": "斥罪",
                     "tool_men": {
-                        "pioneer": 1,
-                        "tank": 1
+                        "pioneer": 1
                     },
                     "location": [
                         5,
@@ -923,6 +921,17 @@
                         4
                     ],
                     "direction": "Left"
+                },
+                {
+                    "core": "斥罪",
+                    "tool_men": {
+                        "tank": 1
+                    },
+                    "location": [
+                        5,
+                        2
+                    ],
+                    "direction": "Down"
                 },
                 {
                     "core": "澄闪",
