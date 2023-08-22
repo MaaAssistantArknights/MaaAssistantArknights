@@ -2972,9 +2972,9 @@
     },
     "BattleQuickFormationOCR": {
         "roi": [
-            2,
-            230,
-            114,
+            0,
+            231,
+            116,
             22
         ]
     },
