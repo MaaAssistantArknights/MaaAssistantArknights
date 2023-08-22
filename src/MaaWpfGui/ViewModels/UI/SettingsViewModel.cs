@@ -2575,10 +2575,23 @@ namespace MaaWpfGui.ViewModels.UI
             if (File.Exists(jsonPath))
             {
                 JObject versionJson = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
+                var currentTime = (ulong)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
                 var poolTime = (ulong)versionJson?["gacha"]["time"];
                 var activityTime = (ulong)versionJson?["activity"]["time"];
 
-                if (poolTime > activityTime)
+                if ((currentTime < poolTime) && (currentTime < activityTime))
+                {
+                    versionName = string.Empty;
+                }
+                else if ((currentTime >= poolTime) && (currentTime < activityTime))
+                {
+                    versionName = versionJson?["gacha"]?["pool"]?.ToString() ?? string.Empty;
+                }
+                else if ((currentTime < poolTime) && (currentTime >= activityTime))
+                {
+                    versionName = versionJson?["activity"]?["name"]?.ToString() ?? string.Empty;
+                }
+                else if (poolTime > activityTime)
                 {
                     versionName = versionJson?["gacha"]?["pool"]?.ToString() ?? string.Empty;
                 }
