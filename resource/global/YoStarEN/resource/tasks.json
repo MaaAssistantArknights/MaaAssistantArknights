@@ -150,7 +150,7 @@
                 "幽灵鲨"
             ],
             [
-                ".*arl the Radiant Knight",
+                "Nearl? the Radiant Kn?ight",
                 "Nearl the Radiant Knight"
             ],
             [
@@ -318,7 +318,7 @@
                 "空"
             ],
             [
-                "S.*a.*i the C.*r.*pt.*ng.*",
+                "Ss?k?ad?i ?the ?Co?r*m?u?pt?i?ng.*",
                 "Skadi the Corrupting Heart"
             ],
             [
@@ -498,7 +498,7 @@
                 "焰尾"
             ],
             [
-                "Wild.*Mane",
+                "Wild Mane",
                 "野鬃"
             ],
             [
@@ -578,7 +578,7 @@
                 "夜刀"
             ],
             [
-                ".*Justice Knight.*",
+                "'?Justice Knight'?",
                 "'Justice Knight'"
             ],
             [
@@ -588,10 +588,6 @@
             [
                 "Fartooth",
                 "远牙"
-            ],
-            [
-                ".*en the Holungday",
-                "假日威龙陈"
             ],
             [
                 "Ch'en the Holungday",
@@ -882,7 +878,7 @@
                 "夕"
             ],
             [
-                ".*va the Purgatory",
+                "Lava the Purgatory",
                 "炎狱炎熔"
             ],
             [
@@ -950,7 +946,7 @@
                 "艾雅法拉"
             ],
             [
-                "[Ii]?frit",
+                "[Iil]?frit",
                 "Ifrit"
             ],
             [
@@ -1178,10 +1174,6 @@
                 "高能源石炸弹"
             ],
             [
-                ".*oos the Keen Glint",
-                "Kroos the Keen Glint"
-            ],
-            [
                 "Kroos the Keen Glint",
                 "寒芒克洛丝"
             ],
@@ -1246,7 +1238,7 @@
                 "海蒂"
             ],
             [
-                ".*ne-Colored Deer",
+                "Nine-*Colored Deer",
                 "Nine-Colored Deer"
             ],
             [
@@ -1482,10 +1474,6 @@
                 "可靠电池"
             ],
             [
-                ".*cter the Unchained",
-                "Specter the Unchained"
-            ],
-            [
                 "Specter the Unchained",
                 "归溟幽灵鲨"
             ],
@@ -1512,10 +1500,6 @@
             [
                 "Czerny",
                 "车尔尼"
-            ],
-            [
-                ".*cus the Purifier",
-                "濯尘芙蓉"
             ],
             [
                 "Hibiscus the Purifier",
@@ -1578,12 +1562,8 @@
                 "至简"
             ],
             [
-                "Poz.*mka",
+                "Poz.mka",
                 "鸿雪"
-            ],
-            [
-                ".*vial the Invincible",
-                "Gavial the Invincible"
             ],
             [
                 "Gavial the Invincible",
@@ -1630,11 +1610,7 @@
                 "星源"
             ],
             [
-                ".*Lightni.*bearer",
-                "Greyy the Lightningbearer"
-            ],
-            [
-                "Lightni.*the.*",
+                "L *ith *t* *nrey *thne",
                 "Greyy the Lightningbearer"
             ],
             [
@@ -1674,7 +1650,7 @@
                 "罗小黑"
             ],
             [
-                "M.*ynar",
+                "M.ynar",
                 "玛恩纳"
             ],
             [
@@ -1768,10 +1744,6 @@
             [
                 "Wolfpack",
                 "狼群"
-            ],
-            [
-                ".*xas the Omertosa",
-                "Texas the Omertosa"
             ],
             [
                 "Texas the Omertosa",
@@ -1896,6 +1868,14 @@
             [
                 "'Freeling'",
                 "“小自在”"
+            ],
+            [
+                "Qiubai",
+                "仇白"
+            ],
+            [
+                "Wind Chimes",
+                "铎铃"
             ]
         ]
     },
@@ -1931,14 +1911,14 @@
         ]
     },
     "PRTS3": {
-        "text": [
-            "Unit Limit"
-        ],
         "roi": [
             1144,
             545,
             135,
             32
+        ],
+        "text": [
+            "Unit Limit"
         ]
     },
     "EndOfActionAnnihilation": {
@@ -2017,13 +1997,13 @@
         ]
     },
     "Award": {
-        "template": "Task.png",
         "roi": [
             665,
             504,
             252,
             162
-        ]
+        ],
+        "template": "Task.png"
     },
     "NoFriends": {
         "text": [
@@ -2071,7 +2051,7 @@
                 "高级资深干员"
             ],
             [
-                "Senior Operator",
+                "Senior Operato.?",
                 "资深干员"
             ],
             [
@@ -2990,6 +2970,14 @@
         ],
         "text": "Deployment Cost"
     },
+    "BattleQuickFormationOCR": {
+        "roi": [
+            2,
+            230,
+            114,
+            22
+        ]
+    },
     "BattleStartPre": {
         "text": [
             "Start",
@@ -3496,14 +3484,14 @@
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
     },
+    "Mizuki@Roguelike@GetDropBoxOpen": {
+        "templThreshold": 0.95
+    },
     "Mizuki@Roguelike@GetDropRecruit": {
         "templThreshold": 0.7
     },
     "Mizuki@Roguelike@GetDropSelectRecruit": {
         "templThreshold": 0.75
-    },
-    "Mizuki@Roguelike@GetDropBoxOpen": {
-        "templThreshold": 0.95
     },
     "Mizuki@Roguelike@NextLevel": {
         "text": [
