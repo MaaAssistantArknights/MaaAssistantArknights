@@ -78,8 +78,10 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
             info.alternate_skill = oper_info.get("alternate_skill", info.alternate_skill);
             info.skill_usage =
                 static_cast<battle::SkillUsage>(oper_info.get("skill_usage", static_cast<int>(info.skill_usage)));
+            info.skill_times = oper_info.get("skill_times", info.skill_times);
             info.alternate_skill_usage = static_cast<battle::SkillUsage>(
                 oper_info.get("alternate_skill_usage", static_cast<int>(info.alternate_skill_usage)));
+            info.alternate_skill_times = oper_info.get("alternate_skill_times", info.alternate_skill_times);
             info.is_key = oper_info.get("is_key", info.is_key);
             info.is_start = oper_info.get("is_start", info.is_start);
                        
