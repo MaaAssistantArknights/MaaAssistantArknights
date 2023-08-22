@@ -1,7 +1,7 @@
 package conf
 
 import (
-	"io/ioutil"
+	"os"
 
 	"gopkg.in/yaml.v2"
 )
@@ -25,7 +25,7 @@ type Asst struct {
 
 func New(path string) (*Config, error) {
 	conf := &Config{}
-	yamlFile, err := ioutil.ReadFile(path)
+	yamlFile, err := os.ReadFile(path)
 	if err != nil {
 		return conf, err
 	}
