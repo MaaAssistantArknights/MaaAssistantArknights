@@ -231,7 +231,7 @@ char_4054_malist|至简|Minimalist|ミニマリスト|미니멀리스트
 char_4066_highmo|海沫|Highmore|ハイモア|하이모어
 char_4071_peper|明椒|Paprika|パプリカ|파프리카
 char_4078_bdhkgt|截云|Jieyun|ジエユン|지에윈
-char_4083_chimes|铎铃|Wind Chimes||
+char_4083_chimes|铎铃|Wind Chimes|ウィンドチャイム|윈드차임스
 char_4102_threye|凛视|Valarqvin||
 char_4106_bryota|苍苔|Bryophyta||
 
@@ -315,6 +315,6 @@ char_4064_mlynar|玛恩纳|Młynar|ムリナール|무에나
 char_4065_judge|斥罪|Penance|ペナンス|페넌스
 char_4072_ironmn|白铁|Stainless|ステインレス|스테인리스
 char_4080_lin|林|Lin|リン|린
-char_4082_qiubai|仇白|Qiubai||
+char_4082_qiubai|仇白|Qiubai|チューバイ|치우바이
 char_4087_ines|伊内丝|Ines||
 
