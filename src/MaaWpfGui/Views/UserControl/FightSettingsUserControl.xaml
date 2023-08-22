@@ -35,21 +35,26 @@
                         Margin="6"
                         VerticalContentAlignment="Center"
                         Content="{DynamicResource UseSanityPotion}"
-                        IsChecked="{Binding UseMedicine}" />
+                        IsChecked="{Binding UseMedicineWithNull}"
+                        MouseRightButtonDown="ToggleCheckBoxNullOnRightClick"
+                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
                     <CheckBox
                         Height="30"
                         Margin="6"
                         VerticalContentAlignment="Center"
+                        Click="ToggleCheckBoxNullOnLeftClick"
                         Content="{DynamicResource UseOriginitePrime}"
-                        IsChecked="{Binding UseStone}"
+                        IsChecked="{Binding UseStoneWithNull}"
+                        MouseRightButtonDown="ToggleCheckBoxNullOnRightClick"
                         ToolTip="{DynamicResource CheckBoxesNotSaved}" />
                     <CheckBox
                         Height="30"
                         Margin="6"
                         VerticalContentAlignment="Center"
                         Content="{DynamicResource PerformBattles}"
-                        IsChecked="{Binding HasTimesLimited}"
-                        ToolTip="{DynamicResource CheckBoxesNotSaved}" />
+                        IsChecked="{Binding HasTimesLimitedWithNull}"
+                        MouseRightButtonDown="ToggleCheckBoxNullOnRightClick"
+                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Vertical">
                     <hc:NumericUpDown
@@ -98,9 +103,10 @@
                         Margin="6"
                         VerticalContentAlignment="Center"
                         Content="{DynamicResource AssignedMaterial}"
-                        IsChecked="{Binding IsSpecifiedDrops}"
+                        IsChecked="{Binding IsSpecifiedDropsWithNull}"
+                        MouseRightButtonDown="ToggleCheckBoxNullOnRightClick"
                         ToolTip="{DynamicResource NoAutoNavigation}" />
-                    <Grid Height="42" Visibility="{c:Binding IsSpecifiedDrops}">
+                    <Grid Height="42" Visibility="{c:Binding IsSpecifiedDropsWithNull}">
                         <controls:TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -118,7 +124,7 @@
                         IsEditable="True"
                         IsTextSearchEnabled="False"
                         ItemsSource="{Binding DropsList}"
-                        Loaded="{s:Action DropsList_Loaded}"
+                        Loaded="{s:Action MakeComboBoxSearchable}"
                         SelectedValue="{Binding DropsItemId}"
                         SelectedValuePath="Value"
                         Text="{Binding DropsItemName}" />
@@ -133,7 +139,7 @@
                         Maximum="1145141919"
                         Minimum="1"
                         ValueChanged="NumericUpDown_ValueChanged"
-                        Visibility="{c:Binding IsSpecifiedDrops}"
+                        Visibility="{c:Binding IsSpecifiedDropsWithNull}"
                         Value="{Binding DropsQuantity, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </Grid>

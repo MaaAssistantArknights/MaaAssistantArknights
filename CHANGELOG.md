@@ -1,81 +1,45 @@
-## v4.19.0-rc.1
-
-### 新增
-
-- Supported Auto I.S. (Mizuki Roguelike) for YostarKR, YostarJP, YostarEN @178619 @su6aru @liuyifan-eric @Pitiedwzr @RiichiTsumo
-- 切换配置功能 @MistEO @ABA2396
-- 自定义关卡快捷输入 @ABA2396
+## v4.22.0-beta.1
 
 ### 改进
 
-- 支持连接失败重启 ADB @ABA2396
-- 优化关卡列表相关逻辑 @ABA2396
-- 扩大任务设置可选范围 @moomiji
-- 添加刷理智任务设置中显示基建计划功能 @moomiji
-- improve ConfirmExit() @moomiji
-- 添加隐藏关闭按钮功能 @moomiji
-- 添加托盘图标强制显示MAA功能 @moomiji
-- 增加一个文件被占用的解决方法 @MistEO
-- 加回 gui.json 备份机制 @MistEO
-- 勾选`手动输入关卡名`时可勾选`隐藏当日不开放关卡` @moomiji
-- 为日志加入简单的rotate @MistEO
+- 更新游戏资源 @yuanyan3060 @MistEO
+- 拆分所有肉鸽资源文件 (#5856) @MistEO @Lancarus
+- 优化萨米肉鸽不期而遇 (#5890) @cenfusheng
+- 傀影肉鸽适配更多干员 (#5817) @cenfusheng
+- 适配萨米肉鸽关卡“豪华车队” (#5798) @cenfusheng
+- 肉鸽开局助战or自选干员后不再要求选用start属性干员 (#5824) @LingXii
+- 增加强制替换adb的信息提示，增加异常处理 (#5838) @ABA2396
 
 ### 修复
 
-- 修复截图方式判断错误导致的操作慢问题 @horror-proton @MistEO
-- 修复切换日服后再切回后OCR配置不清空的问题 @MistEO
-- 修复干员 Box 识别错误 @MistEO
-- 拖动任务顺序后无法保存修改后的顺序 @ABA2396
-- 关卡名OCR识别大小写出错导致掉落上传失败 #4867 @ABA2396
-- 尝试修复关卡选择变为null的情况 #4871 @ABA2396 @moomiji
-- 关卡选择为null时仍会执行借助战任务 @ABA2396
-- 修复 `火哨` 的基建技能 @MistEO
-- 修改LanguageList初始化过程 @ABA2396
-- 修复 `夕` 识别错误 @cenfusheng
-- window creep after restart @moomiji
+- 强制替换adb报错 @ABA2396
+- 修复纯烬艾雅法拉识别 (#5791) @Black1312
+- 修复了傀影肉鸽的一些错误 (#5859) @Lancarus
+- 修正 zh-cn.xaml 文本错误 (#5861) @javilak
 
 ### 其他
 
-- 创建本地化文档自动翻译工具 & 更新本地化文档 (#4912) @UniMars @wallsman
-- 修复资源更新器不更新水月肉鸽的问题 @MistEO
-- update meojson (#4789) @MistEO
-- 部分 CI 优化 @MistEO
-- Update operators.md (#4929) @wallsman
-- 修改对于蓝叠的支持说明 @ABA2396 @MistEO
-- 优化调整一些 CI @AnnAngela @MistEO
-- 翻译优化 @ABA2396 @LiamSho
-- add docs & emulator support for linux users (#4996) @zayn7lie
+- 为文档添加docsearch和sitemap支持 (#5785) @SherkeyXD
+- CI-在静态分析中增加基线 (#5757)(#5867) @hxdnshx
+- 修改了部分肉鸽文档 (#5873) @Lancarus
+- typo of 1.3-模拟器支持.md (#5802) @BlueandwhiteXD
 
 ### For overseas
 
-#### Common
+#### txwy
 
-- i18n: Translations update from MAA Weblate (#4971) @LiamSho 
-- update overseas json/template tool @liuyifan-eric
-
-#### YostarJP
-
-- Supported Auto I.S. (Mizuki Roguelike) (#4936) (#4921) @su6aru @liuyifan-eric
-- JP navigation to IS event stages @liuyifan-eric
-- update JP json for gacha pull @liuyifan-eric
-- IS-10 (Yostar ongoing) slowly swipe to stage @liuyifan-eric
-- JP oper ocr replace update @liuyifan-eric
-- ad hoc fix for JP ocr of 阿 ア @liuyifan-eric
-- try to fix JP IS StageEncounter Stuck @liuyifan-eric
+- 更新繁中服肉鴿不期而遇 ocrReplace (#5882) @momomochi987
+- 修正繁中服水月肉鴿會卡在 "緊急運輸" 的問題 (#5790) @momomochi987
 
 #### YostarEN
 
-- Supported Auto I.S. (Mizuki Roguelike) (#4936) @Pitiedwzr @RiichiTsumo
-- Update tasks.json (EN, #4978) (#4985) @178619
-- Optimize and fix some issues of Mizuki @peter1997546 @Pitiedwzr
-- Fix threshold issue with `UsePrts` for YostarEN @MistEO
-- Optimize the replacement of some operator names @Constrat
-- Skadi Alter / Wild Mane fixed in oper recognition (#4998) @Constrat
+- d0dc294 auto update version issue @Constrat
+- more long names regex for OperBox @Constrat
+- ROI for BattleStartOCR, new IMG+ROI for Oper @Constrat
+- OperBox regex, BattleMatcher regex, longname and IS @Constrat
+- modified text for EX stages (WB event) @Constrat
+- SSS Identification issue with NON-1080 emulators @Constrat
 
 #### YostarKR
 
-- Supported Auto I.S. (Mizuki Roguelike) (#4932) @178619
-- Localization fix for ko-KR (#4930) @GyeRyak
-- Update resources for KR @178619
-- Update 1.3-EMULATOR_SUPPORTS.md (KR) @178619
-- stuck at a specific event (KR, #4973) @178619
+- Goldenglow(澄闪) & Surtr(史尔特尔) ocrReplace (#5852) @Large-Japchae

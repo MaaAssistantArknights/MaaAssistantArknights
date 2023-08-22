@@ -1,0 +1,31 @@
+version: "1.0"
+linter: jetbrains/qodana-dotnet:latest
+bootstrap: curl -fsSL https://dot.net/v1/dotnet-install.sh
+plugins:
+  - id: com.intellij.grazie.pro
+profile:
+  name: qodana.recommended
+dotnet:
+  solution: MAA.sln
+  platform: x86
+exclude:
+  - name: All
+    paths:
+      - node_modules/
+      - common/node_modules/
+      - scan/node_modules/
+      - vsts/node_modules/
+      - scan/jest.config.js
+      - common/lib
+      - scan/lib
+      - scan/dist
+      - scan/__tests__
+      - vsts/lib
+      - vsts/QodanaScan
+      - src/MaaWpfGui/Views
+      - src/MaaCore
+  - name: CppUnreachableCode
+  - name: CppUnusedIncludeDirective
+  - name: Xaml.RedundantNamespaceAlias
+  - name: ArrangeTrailingCommaInMultilineLists
+  - name: ArrangeTrailingCommaInSinglelineLists

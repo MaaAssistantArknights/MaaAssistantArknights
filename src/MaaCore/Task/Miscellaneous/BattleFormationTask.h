@@ -53,11 +53,9 @@ namespace asst
 
         std::string m_stage_name;
         std::unordered_map<battle::Role, std::vector<OperGroup>> m_formation;
-        std::string m_the_right_name;
         std::string m_support_unit_name;
         DataResource m_data_resource = DataResource::Copilot;
         std::vector<AdditionalFormation> m_additional;
-
         std::string m_last_oper_name;
     };
 }

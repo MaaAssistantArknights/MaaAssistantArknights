@@ -1,0 +1,235 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "maa task config",
+    "patternProperties": {
+        "^(?!\\$)": {
+            "type": "object",
+            "oneOf": [
+                {
+                    "$ref": "#/definitions/JustReturnTask"
+                },
+                {
+                    "$ref": "#/definitions/MatchTemplateTask"
+                },
+                {
+                    "$ref": "#/definitions/OcrDetectTask"
+                },
+                {
+                    "$ref": "#/definitions/HashTask"
+                }
+            ]
+        }
+    },
+    "definitions": {
+        "Rectangle": {
+            "type": "array",
+            "maxItems": 4,
+            "minItems": 4,
+            "items": {
+                "type": "number"
+            }
+        },
+        "ParamsArray": {
+            "type": "array",
+            "items": {
+                "type": "number"
+            }
+        },
+        "TaskNameList": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "description": "tasks to be performed"
+            }
+        },
+        "BaseTask": {
+            "properties": {
+                "algorithm": {
+                    "type": "string",
+                    "description": "algorithm type"
+                },
+                "action": {
+                    "type": "string",
+                    "pattern": "ClickSelf|ClickRand|DoNothing|Stop|ClickRect|Swipe",
+                    "default": "DoNothing",
+                    "description": "Optional, indicating the action after recognition\nIf not filled in, the default is DoNothing"
+                },
+                "sub": {
+                    "$ref": "#/definitions/TaskNameList",
+                    "description": "Optional, subtasks. After the current task is executed, each subtask will be executed in turn\nYou can nest dolls, and subtasks can be nested with subtasks. But be careful not to write an infinite loop"
+                },
+                "subErrorIgnored": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Optional, whether to ignore errors from subtasks. The default is false\nWhen it is false, if a subtask fails, the follow-up task will not continue (equivalent to an error in this task)\nWhen it is true, it does not matter whether the subtask fails or not"
+                },
+                "next": {
+                    "$ref": "#/definitions/TaskNameList",
+                    "description": "Optional, which means that after the current task is executed, the next task\n will be identified from the front to the back, and the first matching one will be executed.\n If not filled in, the current task will be executed by default and stop directly"
+                },
+                "maxTimes": {
+                    "type": "number",
+                    "description": "Optional, indicating the maximum execution times of the task\nIf not filled in, the default is infinite\nAfter reaching the maximum number of times, if there is exceededNext field, execute exceededNext; otherwise, the task will stop directly"
+                },
+                "exceededNext": {
+                    "$ref": "#/definitions/TaskNameList",
+                    "description": "Optional, indicating the task to be executed after reaching the maximum number of executions\nIf not filled in, it will stop when the maximum number of executions is reached; after filling in, it will execute here, not in next"
+                },
+                "onErrorNext": {
+                    "$ref": "#/definitions/TaskNameList",
+                    "description": "Optional, indicating the subsequent tasks to be executed when an error occurs"
+                },
+                "preDelay": {
+                    "type": "number",
+                    "description": "Optional, indicating how long the action will be delayed after recognition, in milliseconds; if not filled in, the default is 0"
+                },
+                "postDelay": {
+                    "type": "number",
+                    "description": "Optional, indicating how long the action will be delayed before recognizing next, in milliseconds; if not filled in, the default is 0"
+                },
+                "roi": {
+                    "$ref": "#/definitions/Rectangle",
+                    "description": "Optional, indicating the range of recognition, the format is [ x, y, width, height ]\nAutomatic scaling based on 1280 * 720; default [0, 0, 1280, 720 ]\nFill in as much as possible to reduce The recognition range can reduce performance consumption and speed up recognition"
+                },
+                "cache": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Optional, indicating whether the task uses the cache, the default is true;\nAfter the first recognition, it will always be recognized only at the first recognition position in the future, enabling it can greatly save performance\nBut it is only applicable to pending recognition For tasks where the target position will not change at all, if the target position to be recognized will change, please set it to false"
+                },
+                "rectMove": {
+                    "$ref": "#/definitions/Rectangle",
+                    "description": "Optional, the movement of the target after recognition, it is not recommended to use this option. Automatic scaling based on 1280 * 720\nFor example, if the A icon is recognized, but the actual location to be clicked is a position next to the A icon, move it and then click. If possible, try to directly identify the position to be clicked, this option is not recommended\nWhen the action is Swipe, it means the end of the swipe"
+                },
+                "reduceOtherTimes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "description": "tasks to be performed"
+                    },
+                    "description": "Optionally, decrements the execution count of other tasks after execution. \nOptional, decrements execution counts of other tasks after execution."
+                },
+                "specificRect": {
+                    "$ref": "#/definitions/Rectangle",
+                    "description": "It is valid and mandatory when the action is ClickRect, indicating the specified click position (a random point within the range), and automatically scaled based on 1280 * 720\nIt is valid and mandatory when the action is Swipe, indicating the starting point of sliding"
+                },
+                "specialParams": {
+                    "$ref": "#/definitions/ParamsArray",
+                    "description": "Special parameters used by some tasks (mostly handwritten thresholds etc.)"
+                }
+            }
+        },
+        "JustReturnTask": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/BaseTask"
+                }
+            ],
+            "properties": {
+                "algorithm": {
+                    "type": "string",
+                    "pattern": "JustReturn"
+                }
+            },
+            "description": "Do not identify, execute directly action",
+            "required": [
+                "algorithm"
+            ]
+        },
+        "MatchTemplateTask": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/BaseTask"
+                }
+            ],
+            "properties": {
+                "algorithm": {
+                    "type": "string",
+                    "pattern": "MatchTemplate"
+                },
+                "template": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Optional, the file name of the picture to be matched\nIf not filled, write the default \"task name.png\""
+                },
+                "templThreshold": {
+                    "type": "number",
+                    "default": 0.8,
+                    "description": "Optional, the threshold of the image template matching score, which is considered to be recognized if it exceeds the threshold. \nThe default is 0.8, you can check the actual score according to the log"
+                },
+                "maskRange": {
+                    "type": "array",
+                    "maxItems": 2,
+                    "minimum": 2,
+                    "items": {
+                        "type": "number"
+                    },
+                    "default": [
+                        1,
+                        255
+                    ],
+                    "description": "Optional, grayscale mask range. For example, paint the part of the picture that does not need to be recognized black (the gray value is 0), and then set [ 1, 255 ], and ignore the blacked part immediately when matching"
+                }
+            },
+            "description": "match picture"
+        },
+        "OcrDetectTask": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/BaseTask"
+                }
+            ],
+            "properties": {
+                "algorithm": {
+                    "type": "string",
+                    "pattern": "OcrDetect"
+                },
+                "text": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Mandatory item, the text content to be recognized, as long as any match is found, it is considered to be recognized"
+                },
+                "fullMatch": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Optional, whether text recognition needs whole-word matching (cannot be more than one word), the default is false\nfalse, as long as it is a substring: for example, text: [ \"Start\" ], when \"Start action\" is actually recognized, It is also regarded as a successful recognition; when \ntrue, it must recognize \"begin\", and one more word will not work"
+                },
+                "ocrReplace": {
+                    "type": "array",
+                    "items": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "description": "Optional, to replace commonly misrecognized text (regular support)"
+                }
+            },
+            "description": "text recognition",
+            "required": [
+                "algorithm",
+                "text"
+            ]
+        },
+        "HashTask": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/BaseTask"
+                }
+            ],
+            "properties": {
+                "algorithm": {
+                    "type": "string",
+                    "pattern": "Hash"
+                }
+            },
+            "description": "Hash calculation",
+            "required": [
+                "algorithm"
+            ]
+        }
+    }
+}

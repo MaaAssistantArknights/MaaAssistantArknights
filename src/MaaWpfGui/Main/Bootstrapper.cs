@@ -14,7 +14,6 @@
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using GlobalHotKey;
@@ -105,6 +104,7 @@ namespace MaaWpfGui.Main
             _logger.Information("===================================");
             _logger.Information("MaaAssistantArknights GUI started");
             _logger.Information("Maa ENV: {MaaEnv}", maaEnv);
+            _logger.Information("User Dir {CurrentDirectory}", Directory.GetCurrentDirectory());
             _logger.Information("===================================");
 
             try
@@ -201,6 +201,7 @@ namespace MaaWpfGui.Main
 
             _logger.Information("MaaAssistantArknights GUI exited");
             _logger.Information(string.Empty);
+            Log.CloseAndFlush();
             base.OnExit(e);
         }
 
@@ -215,6 +216,8 @@ namespace MaaWpfGui.Main
             _mutex = null;
             */
 
+            // 有时候软件自重启时 gui.log 会无法正常写入
+            Log.CloseAndFlush();
             System.Windows.Forms.Application.Restart();
         }
 

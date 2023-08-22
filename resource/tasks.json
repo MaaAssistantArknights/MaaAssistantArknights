@@ -211,10 +211,10 @@
         "isAscii": true,
         "text": [],
         "roi": [
-            16,
-            219,
-            409,
-            151
+            244,
+            270,
+            129,
+            49
         ],
         "specificRect": [
             787,
@@ -366,11 +366,12 @@
         "isAscii": true,
         "text": [],
         "roi": [
-            16,
-            219,
-            409,
-            151
+            244,
+            270,
+            129,
+            49
         ],
+        "cache": false,
         "specificRect": [
             790,
             310,
@@ -814,6 +815,209 @@
                 "-1O$",
                 "-10$"
             ]
+        ]
+    },
+    "SL-8": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "SL-Open"
+        ],
+        "next": [
+            "SL-8@SideStoryStage",
+            "SL-8@SwipeToStage"
+        ]
+    },
+    "SL-7": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "SL-Open"
+        ],
+        "next": [
+            "SL-7@SideStoryStage",
+            "SL-7@SwipeToStage"
+        ]
+    },
+    "SL-6": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "SL-Open"
+        ],
+        "next": [
+            "SL-6@SideStoryStage",
+            "SL-6@SwipeToStage"
+        ]
+    },
+    "SL-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "火山",
+            "旅梦",
+            "已开放"
+        ],
+        "postDelay": 2000,
+        "roi": [
+            710,
+            234,
+            128,
+            36
+        ],
+        "next": [
+            "SLChapterToSL"
+        ]
+    },
+    "SLChapterToSL": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "温泉假日",
+            "温泉",
+            "假日"
+        ],
+        "preDelay": 1000,
+        "roi": [
+            1043,
+            423,
+            195,
+            133
+        ],
+        "next": [
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "SL-8@SideStoryStage": {
+        "text": [
+            "SL-8"
+        ],
+        "roi": [
+            0,
+            60,
+            1280,
+            550
+        ]
+    },
+    "SL-7@SideStoryStage": {
+        "text": [
+            "SL-7"
+        ],
+        "roi": [
+            0,
+            60,
+            1280,
+            550
+        ]
+    },
+    "SL-6@SideStoryStage": {
+        "text": [
+            "SL-6"
+        ],
+        "roi": [
+            0,
+            60,
+            1280,
+            550
+        ]
+    },
+    "HE-8": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "HE-Open"
+        ],
+        "next": [
+            "HE-8@SideStoryStage",
+            "HE-8@SwipeToStage"
+        ]
+    },
+    "HE-7": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "HE-Open"
+        ],
+        "next": [
+            "HE-7@SideStoryStage",
+            "HE-7@SwipeToStage"
+        ]
+    },
+    "HE-6": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "HE-Open"
+        ],
+        "next": [
+            "HE-6@SideStoryStage",
+            "HE-6@SwipeToStage"
+        ]
+    },
+    "HE-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "空想花庭",
+            "已开放"
+        ],
+        "postDelay": 2000,
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "next": [
+            "HEChapterToHE"
+        ]
+    },
+    "HEChapterToHE": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "安布罗修修道院",
+            "安布罗修",
+            "修道院"
+        ],
+        "preDelay": 1000,
+        "roi": [
+            1005,
+            461,
+            275,
+            129
+        ],
+        "next": [
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "HE-8@SideStoryStage": {
+        "text": [
+            "HE-8"
+        ],
+        "roi": [
+            0,
+            60,
+            1280,
+            550
+        ]
+    },
+    "HE-7@SideStoryStage": {
+        "text": [
+            "HE-7"
+        ],
+        "roi": [
+            0,
+            60,
+            1280,
+            550
+        ]
+    },
+    "HE-6@SideStoryStage": {
+        "text": [
+            "HE-6"
+        ],
+        "roi": [
+            0,
+            60,
+            1280,
+            550
         ]
     },
     "CW-10": {
@@ -1593,6 +1797,11 @@
             439,
             287,
             168
+        ],
+        "postDelay": 1000,
+        "next": [
+            "#self",
+            "Stop"
         ]
     },
     "OF-Chapter2": {
@@ -1822,11 +2031,17 @@
     },
     "LE-Open": {
         "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "复刻",
+            "已开放"
+        ],
+        "postDelay": 2000,
         "roi": [
-            471,
             0,
-            530,
-            711
+            500,
+            500,
+            150
         ]
     },
     "LEChapterToLE": {
@@ -2381,6 +2596,22 @@
         "fullMatch": true,
         "ocrReplace": [
             [
+                "^4",
+                ""
+            ],
+            [
+                "^<",
+                ""
+            ],
+            [
+                "^《~",
+                ""
+            ],
+            [
+                "^《",
+                ""
+            ],
+            [
                 "^令.+",
                 "令"
             ],
@@ -2443,6 +2674,50 @@
             [
                 "^夕.*",
                 "夕"
+            ],
+            [
+                "青积",
+                "青枳"
+            ],
+            [
+                ".*烬艾雅法拉",
+                "纯烬艾雅法拉"
+            ],
+            [
+                "^山.+",
+                "山"
+            ],
+            [
+                "12E",
+                "12F"
+            ],
+            [
+                "归.*幽灵鲨",
+                "归溟幽灵鲨"
+            ],
+            [
+                "临六$",
+                "临光"
+            ],
+            [
+                "^临光.*",
+                "临光"
+            ],
+            [
+                "^煌.*",
+                "煌"
+            ],
+            [
+                ".*甜蜜狂搅.*",
+                "“甜蜜狂搅”"
+            ],
+            [
+                "^年.?$",
+                "年"
+            ],
+            [
+                "^w$",
+                "W"
             ]
         ]
     },
@@ -2488,7 +2763,8 @@
         ],
         "reduceOtherTimes": [
             "StartButton1",
-            "StartButton2"
+            "StartButton2",
+            "StartButton2Adverse"
         ],
         "next": [
             "StartUpThemes#next",
@@ -2519,10 +2795,10 @@
         ],
         "fullMatch": true,
         "roi": [
-            595,
-            418,
-            87,
-            46
+            373,
+            145,
+            535,
+            430
         ]
     },
     "StartLoginBServer": {
@@ -2575,6 +2851,7 @@
             "CloseAnno",
             "CloseAnnoTexas",
             "TodaysSupplies",
+            "NotDownloadVoice",
             "StartUp"
         ]
     },
@@ -2601,6 +2878,19 @@
             24,
             138,
             139
+        ],
+        "next": [
+            "CloseAnnos#next"
+        ]
+    },
+    "NotDownloadVoice": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            369,
+            462,
+            152,
+            62
         ],
         "next": [
             "CloseAnnos#next"
@@ -2712,7 +3002,8 @@
         ],
         "reduceOtherTimes": [
             "StartButton1",
-            "StartButton2"
+            "StartButton2",
+            "StartButton2Adverse"
         ],
         "next": [
             "OfflineConfirmImpl"
@@ -2768,7 +3059,7 @@
     "Annihilation": {
         "Doc": "剿灭作战，一般本周的满了也不会有人再刷的，所以只识别右上角ToDoList里的剿灭就可以了",
         "template": "StageAnnihilation.png",
-        "templThreshold": 0.6,
+        "templThreshold": 0.9,
         "cache": false,
         "action": "ClickSelf",
         "roi": [
@@ -2884,10 +3175,10 @@
         "preDelay": 500,
         "postDelay": 1000,
         "roi": [
-            1000,
-            600,
-            280,
-            120
+            1038,
+            640,
+            206,
+            46
         ],
         "exceededNext": [
             "StageSNReturnFlag",
@@ -2898,6 +3189,7 @@
         ],
         "next": [
             "StartButton2",
+            "StartButton2Adverse",
             "UseMedicine",
             "UseStone",
             "NoStone",
@@ -3000,6 +3292,31 @@
             "PRTS#next",
             "EndOfAction",
             "StartButton2TryAgain",
+            "PrtsErrorConfirm",
+            "OfflineConfirm",
+            "WaitAfterPRTS"
+        ]
+    },
+    "StartButton2Adverse": {
+        "baseTask": "StartButton2",
+        "next": [
+            "StartButton2AdverseTryAgain",
+            "StartButton2AdverseWaitTime"
+        ]
+    },
+    "StartButton2AdverseTryAgain": {
+        "baseTask": "StartButton2TryAgain",
+        "template": "StartButton2Adverse.png",
+        "next": [
+            "StartButton2Adverse#next"
+        ]
+    },
+    "StartButton2AdverseWaitTime": {
+        "baseTask": "StartButton2WaitTime",
+        "next": [
+            "PRTS#next",
+            "EndOfAction",
+            "StartButton2AdverseTryAgain",
             "PrtsErrorConfirm",
             "OfflineConfirm",
             "WaitAfterPRTS"
@@ -3161,6 +3478,7 @@
         "next": [
             "StartButton1",
             "StartButton2",
+            "StartButton2Adverse",
             "UseMedicine",
             "UseStone",
             "NoStone",
@@ -3251,6 +3569,14 @@
             ],
             [
                 ".+分钟",
+                "分钟"
+            ],
+            [
+                "^\\d+小$",
+                "小时"
+            ],
+            [
+                "^\\d+分$",
                 "分钟"
             ]
         ],
@@ -3370,7 +3696,8 @@
         "action": "ClickSelf",
         "reduceOtherTimes": [
             "StartButton1",
-            "StartButton2"
+            "StartButton2",
+            "StartButton2Adverse"
         ],
         "roi": [
             0,
@@ -4170,8 +4497,6 @@
     },
     "VisitNextBlack": {
         "action": "DoNothing",
-        "templThreshold": 0.9,
-        "cache": false,
         "roi": [
             1080,
             570,
@@ -6131,6 +6456,10 @@
             [
                 ".*命运的宠儿.*",
                 "“命运的宠儿”"
+            ],
+            [
+                "巍峨银*",
+                "巍峨银淞"
             ]
         ]
     },
@@ -6260,6 +6589,13 @@
             133
         ]
     },
+    "BattleQuickFormationRole-All-OCR": {
+        "baseTask": "BattleQuickFormationRole-All",
+        "algorithm": "OcrDetect",
+        "text": [
+            "全部"
+        ]
+    },
     "BattleQuickFormationRole-Pioneer": {
         "baseTask": "BattleQuickFormationRole"
     },
@@ -6284,39 +6620,50 @@
     "BattleQuickFormationRole-Support": {
         "baseTask": "BattleQuickFormationRole"
     },
-    "BattleQuickFormation-OperNameFlag": {
-        "templThreshold": 0.92,
+    "BattleQuickFormation-OperNameFlagBase": {
+        "template": "empty.png",
         "roi": [
-            370,
-            250,
-            715,
-            420
+            342,
+            66,
+            866,
+            332
         ]
     },
-    "BattleQuickFormation-OperNameFlag-SpecialFocus": {
-        "templThreshold": 0.8,
-        "roi": [
-            370,
-            250,
-            715,
-            420
-        ],
-        "maskRange": [
-            1,
-            250
-        ]
+    "BattleQuickFormation-OperNameFlag0": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag1": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag2": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag3": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag4": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag5": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag6": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag7": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
     },
     "BattleQuickFormationOCR": {
         "algorithm": "OcrDetect",
         "fullMatch": true,
         "text": [],
         "roi": [
-            20,
-            -8,
+            9,
+            232,
             107,
             20
         ],
-        "postDelay": 100
+        "postDelay": 200
     },
     "BattleQuickFormationSkill1": {
         "algorithm": "JustReturn",
@@ -6678,7 +7025,11 @@
             90,
             90
         ],
-        "postDelay": 300
+        "postDelay": 300,
+        "next": [
+            "#self",
+            "Stop"
+        ]
     },
     "BattleSkillReadyOnClick-SquareMap": {
         "baseTask": "BattleSkillReadyOnClick",
@@ -7231,6 +7582,7 @@
         "next": [
             "DepotEnter",
             "DepotMaterialTab",
+            "DepotAllTab",
             "DepotMaterialTabClicked",
             "DepotEnter@ReturnTo"
         ]
@@ -7242,6 +7594,18 @@
             560,
             171,
             160
+        ],
+        "next": [
+            "DepotMaterialTab"
+        ]
+    },
+    "DepotAllTab": {
+        "action": "ClickSelf",
+        "roi": [
+            452,
+            0,
+            281,
+            134
         ],
         "next": [
             "DepotMaterialTab"
@@ -7915,6 +8279,15 @@
             "Mizuki@Roguelike@FromIntegratedStrategies"
         ]
     },
+    "Sami@Roguelike@SelectTheme": {
+        "baseTask": "Roguelike@SelectTheme",
+        "text": [
+            "探索"
+        ],
+        "next": [
+            "Sami@Roguelike@FromIntegratedStrategies"
+        ]
+    },
     "Roguelike@LastReward": {
         "Doc": "base_task",
         "Doc2": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援——热水壶",
@@ -8220,10 +8593,10 @@
         "text": [],
         "preDelay": 600,
         "roi": [
-            108,
-            460,
-            200,
-            40
+            0,
+            405,
+            725,
+            225
         ]
     },
     "Roguelike@StageEncounterJudgeOption": {
@@ -8236,13 +8609,41 @@
             "Roguelike@StageEncounterClickToLeave"
         ]
     },
+    "Roguelike@StageEncounterJudgeClick": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            640,
+            360,
+            0,
+            0
+        ],
+        "preDelay": 150,
+        "next": [
+            "Roguelike@StageEncounterJudgeClick2"
+        ]
+    },
+    "Roguelike@StageEncounterJudgeClick2": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            640,
+            360,
+            0,
+            0
+        ],
+        "preDelay": 150,
+        "next": [
+            "Roguelike@StageEncounterJudgeOption"
+        ]
+    },
     "Roguelike@OptionChoose1-1": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [
             1175,
             335,
-            170,
+            100,
             60
         ]
     },
@@ -8282,7 +8683,7 @@
         "specificRect": [
             1175,
             340,
-            170,
+            100,
             60
         ]
     },
@@ -8292,7 +8693,7 @@
         "specificRect": [
             1175,
             500,
-            170,
+            100,
             60
         ]
     },
@@ -8302,7 +8703,7 @@
         "specificRect": [
             1175,
             110,
-            170,
+            100,
             60
         ]
     },
@@ -8312,7 +8713,7 @@
         "specificRect": [
             1175,
             260,
-            170,
+            100,
             60
         ]
     },
@@ -8322,7 +8723,7 @@
         "specificRect": [
             1175,
             417,
-            170,
+            100,
             60
         ]
     },
@@ -8332,7 +8733,7 @@
         "specificRect": [
             1175,
             560,
-            170,
+            100,
             60
         ]
     },
@@ -8429,7 +8830,7 @@
         "baseTask": "Roguelike@StageEnter",
         "next": [
             "Roguelike@StageEncounterEnter",
-            "Roguelike@StageEncounterJudgeOption"
+            "Roguelike@StageEncounterJudgeClick"
         ]
     },
     "Roguelike@StageEncounterGiveUpRecruitConfirm": {
@@ -8542,6 +8943,25 @@
         "next": [
             "Roguelike@StageEncounterSpecialClose",
             "Roguelike@ClickToDrops"
+        ]
+    },
+    "Roguelike@CloseEvent": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            567,
+            584,
+            145,
+            136
+        ],
+        "next": [
+            "Roguelike@StageEncounterEnter",
+            "Roguelike@NextLevel#next",
+            "Roguelike@StageEncounterOptions#next",
+            "Roguelike@DropsFlag",
+            "Roguelike@CloseEvent"
         ]
     },
     "Roguelike@StageEnter": {
@@ -8688,13 +9108,12 @@
             "Roguelike@StageTraderInvestSystem",
             "Roguelike@StageTraderLeave",
             "Roguelike@StageTraderRefreshWithDiceDoubleConfirm"
-
         ]
     },
     "Roguelike@StageTraderSpecialShoppingAfterRefresh": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
-        "cache": "false",
+        "cache": false,
         "roi": [
             308,
             25,
@@ -8716,7 +9135,7 @@
             "刷新次数",
             "已用完"
         ],
-        "cache": "false",
+        "cache": false,
         "action": "DoNothing",
         "roi": [
             988,
@@ -8975,6 +9394,7 @@
             "Phantom@Roguelike@RolesDefault"
         ]
     },
+    "Phantom@Roguelike@CloseEvent": {},
     "Phantom@Roguelike@Continue": {},
     "Phantom@Roguelike@DialogSkipConfirm": {
         "template": "Roguelike@DialogSkipConfirm.png",
@@ -8994,6 +9414,7 @@
             "Phantom@Roguelike@StageEncounterSpecialClose",
             "Phantom@Roguelike@EnterAfterRecruit",
             "Phantom@Roguelike@StageTraderLeave",
+            "Phantom@Roguelike@CloseEvent",
             "Phantom@Roguelike@DialogSkip"
         ]
     },
@@ -9117,6 +9538,8 @@
         "templThreshold": 0.85
     },
     "Phantom@Roguelike@StageEncounterJudgeOption": {},
+    "Phantom@Roguelike@StageEncounterJudgeClick": {},
+    "Phantom@Roguelike@StageEncounterJudgeClick2": {},
     "Phantom@Roguelike@OptionChoose1-1": {},
     "Phantom@Roguelike@OptionChoose2-1": {},
     "Phantom@Roguelike@OptionChoose2-2": {},
@@ -9134,7 +9557,8 @@
             "Phantom@Roguelike@StageEncounterOptionUnknown",
             "Phantom@Roguelike@ChooseOperFlag",
             "Phantom@Roguelike@StageEmergencyDpsEnter",
-            "Phantom@Roguelike@StageCambatDpsEnter"
+            "Phantom@Roguelike@StageCambatDpsEnter",
+            "Phantom@Roguelike@CloseEvent"
         ]
     },
     "Phantom@Roguelike@StageEncounterSpecialClose": {},
@@ -9217,23 +9641,7 @@
             "Mizuki@Roguelike@ChooseOperFlag"
         ]
     },
-    "Mizuki@Roguelike@CloseEvent": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            567,
-            584,
-            145,
-            136
-        ],
-        "next": [
-            "Mizuki@Roguelike@StageEncounterEnter",
-            "Mizuki@Roguelike@NextLevel#next",
-            "Mizuki@Roguelike@StageEncounterOptions#next",
-            "Mizuki@Roguelike@DropsFlag",
-            "Mizuki@Roguelike@CloseEvent"
-        ]
-    },
+    "Mizuki@Roguelike@CloseEvent": {},
     "Mizuki@Roguelike@CommissionedMissionCompleted": {
         "action": "ClickRect",
         "specificRect": [
@@ -9608,6 +10016,8 @@
         ]
     },
     "Mizuki@Roguelike@StageEncounterJudgeOption": {},
+    "Mizuki@Roguelike@StageEncounterJudgeClick": {},
+    "Mizuki@Roguelike@StageEncounterJudgeClick2": {},
     "Mizuki@Roguelike@OptionChoose1-1": {},
     "Mizuki@Roguelike@OptionChoose2-1": {},
     "Mizuki@Roguelike@OptionChoose2-2": {},
@@ -9663,6 +10073,644 @@
     },
     "Mizuki@Roguelike@StartExplore": {},
     "Mizuki@Roguelike@TodoEnter": {},
+    "Sami@Roguelike@Abandon": {},
+    "Sami@Roguelike@ChooseDifficulty": {},
+    "Sami@Roguelike@ChooseOper": {
+        "onErrorNext": [
+            "Sami@Roguelike@RecruitWithoutButton"
+        ],
+        "next": [
+            "Sami@Roguelike@CloseCollectionClose",
+            "Sami@Roguelike@ChooseOperConfirm",
+            "Sami@Roguelike@RecruitSkip"
+        ]
+    },
+    "Sami@Roguelike@CloseCollection": {
+        "next": [
+            "Sami@Roguelike@LastReward",
+            "Sami@Roguelike@LastReward2",
+            "Sami@Roguelike@LastReward3",
+            "Sami@Roguelike@LastReward4",
+            "Sami@Roguelike@LastRewardRand",
+            "Sami@Roguelike@RolesDefault"
+        ]
+    },
+    "Sami@Roguelike@CloseCollectionClose": {
+        "action": "ClickSelf",
+        "cache": false,
+        "templThreshold": 0.9,
+        "roi": [
+            572,
+            434,
+            144,
+            141
+        ],
+        "next": [
+            "Sami@Roguelike@StageEncounterEnter",
+            "Sami@Roguelike@NextLevel#next",
+            "Sami@Roguelike@DropsFlag",
+            "Sami@Roguelike@CloseEvent",
+            "Sami@Roguelike@ChooseOperFlag"
+        ]
+    },
+    "Sami@Roguelike@CloseEvent": {},
+    "Sami@Roguelike@Continue": {
+        "roi": [
+            967,
+            536,
+            313,
+            177
+        ],
+        "next": [
+            "Sami@Roguelike@MissionFailedFlag2",
+            "Sami@Roguelike@ExitThenAbandon",
+            "Sami@Roguelike@ContinueClick"
+        ]
+    },
+    "Sami@Roguelike@ContinueClick": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "初霜湖泽",
+            "密静林地",
+            "昧明冻土",
+            "积冰岩骸",
+            "无瑕花园",
+            "远见之构",
+            "深埋迷境"
+        ],
+        "roi": [
+            522,
+            431,
+            245,
+            144
+        ],
+        "next": [
+            "Sami@Roguelike@Continue"
+        ]
+    },
+    "Sami@Roguelike@DialogSkipConfirm": {
+        "template": "Roguelike@DialogSkipConfirm.png",
+        "next": [
+            "Sami@Roguelike@DialogSkip",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@DropsFlag": {
+        "template": "Roguelike@DropsFlag.png",
+        "next": [
+            "Sami@Roguelike@GetDrops#next",
+            "Sami@Roguelike@GetDropCompleted",
+            "Sami@Roguelike@GetDropLeave",
+            "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@NextLevel#next",
+            "Sami@Roguelike@StageEncounterOptions#next",
+            "Sami@Roguelike@StageEncounterSpecialClose",
+            "Sami@Roguelike@EnterAfterRecruit",
+            "Sami@Roguelike@StageTraderLeave",
+            "Sami@Roguelike@CloseEvent",
+            "Sami@Roguelike@DialogSkip"
+        ]
+    },
+    "Sami@Roguelike@EnterAfterRecruit": {
+        "next": [
+            "Sami@Roguelike@NextLevel"
+        ]
+    },
+    "Sami@Roguelike@ExitThenAbandon": {
+        "template": "Roguelike@ExitThenAbandon.png",
+        "next": [
+            "Sami@Roguelike@ExitThenAbandon",
+            "Sami@Roguelike@Abandon"
+        ]
+    },
+    "Sami@Roguelike@GamePass": {},
+    "Sami@Roguelike@GamePassSkip1": {},
+    "Sami@Roguelike@GamePassSkip1Confirm": {
+        "next": [
+            "Sami@Roguelike@GamePassSkip2",
+            "Sami@Roguelike@GamePassTheEndConfirm",
+            "Sami@Roguelike@GamePass"
+        ]
+    },
+    "Sami@Roguelike@GamePassSkip2": {},
+    "Sami@Roguelike@GamePassTheEndConfirm": {},
+    "Sami@Roguelike@GetDrop1": {},
+    "Sami@Roguelike@GetDrop2": {},
+    "Sami@Roguelike@GetDrop3": {},
+    "Sami@Roguelike@GetDrop4": {
+        "template": "Sami@Roguelike@GetDrop4.png",
+        "baseTask": "Roguelike@GetDrop",
+        "next": [
+            "Sami@Roguelike@DropsFlag",
+            "Sami@Roguelike@ChooseOperFlag",
+            "Sami@Roguelike@ClickToDrops"
+        ]
+    },
+    "Sami@Roguelike@GetDropCompleted": {},
+    "Sami@Roguelike@GetDropLeave": {},
+    "Sami@Roguelike@GetDropRecruit": {},
+    "Sami@Roguelike@GetDropSelect": {
+        "next": [
+            "Sami@Roguelike@GetDropSelectRecruit",
+            "Sami@Roguelike@GetDropSelectReward",
+            "Sami@Roguelike@GetDropSelectReward2",
+            "Sami@Roguelike@ChooseOperFlag",
+            "Sami@Roguelike@GetDropCompleted",
+            "Sami@Roguelike@GetDropSelect"
+        ]
+    },
+    "Sami@Roguelike@GetDropSelectRecruit": {
+        "template": "Sami@Roguelike@Recruit.png"
+    },
+    "Sami@Roguelike@GetDropSelectReward": {},
+    "Sami@Roguelike@GetDropSelectReward2": {
+        "Doc": "密文板三选一",
+        "template": "Sami@Roguelike@GetDropSelectReward2.png",
+        "cache": false,
+        "action": "ClickSelf",
+        "roi": [
+            0,
+            420,
+            1280,
+            175
+        ],
+        "postDelay": 1000,
+        "next": [
+            "Sami@Roguelike@GetDropSelectReward2",
+            "Sami@Roguelike@ChooseOperFlag",
+            "Sami@Roguelike@ClickToDrops"
+        ]
+    },
+    "Sami@Roguelike@GetDrops": {
+        "next": [
+            "Sami@Roguelike@GetDrop1",
+            "Sami@Roguelike@GetDrop2",
+            "Sami@Roguelike@GetDrop3",
+            "Sami@Roguelike@GetDrop4",
+            "Sami@Roguelike@GetDropSelectReward",
+            "Sami@Roguelike@GetDropSelect",
+            "Sami@Roguelike@GetDropRecruit"
+        ]
+    },
+    "Sami@Roguelike@InitalDrop": {},
+    "Sami@Roguelike@LastReward": {},
+    "Sami@Roguelike@LastReward2": {},
+    "Sami@Roguelike@LastReward3": {},
+    "Sami@Roguelike@LastReward4": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            174,
+            151,
+            935,
+            533
+        ],
+        "next": [
+            "Sami@Roguelike@LastRewardConfirm"
+        ]
+    },
+    "Sami@Roguelike@LastRewardConfirm": {},
+    "Sami@Roguelike@LastRewardRand": {},
+    "Sami@Roguelike@MapObject": {
+        "action": "DoNothing",
+        "cache": false,
+        "roi": [
+            257,
+            488,
+            189,
+            123
+        ],
+        "next": [
+            "Sami@Roguelike@RecruitOther"
+        ]
+    },
+    "Sami@Roguelike@MissionFailedFlag": {},
+    "Sami@Roguelike@MissionFailedFlag2": {},
+    "Sami@Roguelike@NextLevel": {
+        "text": [
+            "完成本层",
+            "下一层级"
+        ],
+        "roi": [
+            268,
+            600,
+            197,
+            78
+        ],
+        "next": [
+            "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@StageTrader",
+            "Sami@Roguelike@StageTraderAI6",
+            "Sami@Roguelike@StageSafeHouse",
+            "Sami@Roguelike@StageSafeHouseAI6",
+            "Sami@Roguelike@StageBoons",
+            "Sami@Roguelike@StageBoonsAI6",
+            "Sami@Roguelike@StageEmergencyTransportation",
+            "Sami@Roguelike@StageEmergencyTransportationAI6",
+            "Sami@Roguelike@StageBoskyPassage",
+            "Sami@Roguelike@StageBoskyPassageAI6",
+            "Sami@Roguelike@StageGambling",
+            "Sami@Roguelike@StageGamblingAI6",
+            "Sami@Roguelike@StageProphecy",
+            "Sami@Roguelike@StageProphecyAI6",
+            "Sami@Roguelike@StageEncounter",
+            "Sami@Roguelike@StageEncounterAI6",
+            "Sami@Roguelike@StageWindAndRain",
+            "Sami@Roguelike@StageWindAndRainAI6",
+            "Sami@Roguelike@StageCambatDps",
+            "Sami@Roguelike@StageCambatDpsAI6",
+            "Sami@Roguelike@StageEmergencyDps",
+            "Sami@Roguelike@StageEmergencyDpsAI6",
+            "Sami@Roguelike@StageDreadfulFoe",
+            "Sami@Roguelike@StageDreadfulFoe-5",
+            "Sami@Roguelike@StageMysteriousPresage",
+            "Sami@Roguelike@StageFerociousPresage",
+            "Sami@Roguelike@CloseCollectionClose"
+        ]
+    },
+    "Sami@Roguelike@RecruitMain": {
+        "template": "Sami@Roguelike@Recruit.png"
+    },
+    "Sami@Roguelike@RecruitOther": {
+        "template": "Sami@Roguelike@Recruit.png",
+        "templThreshold": 0.8
+    },
+    "Sami@Roguelike@RecruitWithoutButton": {
+        "next": [
+            "Sami@Roguelike@RecruitOther",
+            "Sami@Roguelike@EnterAfterRecruit",
+            "Sami@Roguelike@TraderRandomShopping",
+            "Sami@Roguelike@StageTraderLeave",
+            "Sami@Roguelike@DropsFlag",
+            "Sami@Roguelike@ChooseOperFlag",
+            "Sami@Roguelike@StageEncounterGiveUpRecruitConfirm",
+            "Sami@Roguelike@RecruitWithoutButton"
+        ]
+    },
+    "Sami@Roguelike@RolesConfirm": {
+        "template": "Sami@Roguelike@LastRewardConfirm"
+    },
+    "Sami@Roguelike@RolesDefault": {},
+    "Sami@Roguelike@SquadConfirm": {
+        "template": "Sami@Roguelike@LastRewardConfirm.png",
+        "next": [
+            "Sami@Roguelike@LastReward",
+            "Sami@Roguelike@LastReward2",
+            "Sami@Roguelike@LastReward3",
+            "Sami@Roguelike@LastReward4",
+            "Sami@Roguelike@LastRewardRand",
+            "Sami@Roguelike@RolesDefault",
+            "Sami@Roguelike@CloseCollection",
+            "Sami@Roguelike@DialogSkip",
+            "Sami@Roguelike@NextLevel#next",
+            "Sami@Roguelike@MapObject"
+        ]
+    },
+    "Sami@Roguelike@SquadDefault": {},
+    "Sami@Roguelike@StageBoons": {
+        "templThreshold": 0.95,
+        "next": [
+            "Sami@Roguelike@StageBoonsEnter",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StageBoonsAI6": {
+        "templThreshold": 0.95,
+        "next": [
+            "Sami@Roguelike@StageBoonsEnter",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StageBoonsEnter": {
+        "template": "Sami@Roguelike@StageTraderEnter.png",
+        "baseTask": "Sami@Roguelike@StageEnter",
+        "next": [
+            "Sami@Roguelike@StageBoonsEnter",
+            "Sami@Roguelike@StageEncounterJudgeClick"
+        ]
+    },
+    "Sami@Roguelike@StageBoskyPassage": {
+        "templThreshold": 0.9,
+        "baseTask": "Sami@Roguelike@Stage",
+        "next": [
+            "Sami@Roguelike@StageBoskyPassageEnter",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StageBoskyPassageAI6": {
+        "templThreshold": 0.9,
+        "baseTask": "Roguelike@Stage",
+        "next": [
+            "Sami@Roguelike@StageBoskyPassageEnter",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StageBoskyPassageEnter": {
+        "baseTask": "Sami@Roguelike@StageEnter",
+        "next": [
+            "Sami@Roguelike@StageBoskyPassageEnter",
+            "Sami@Roguelike@StageEncounterJudgeClick"
+        ]
+    },
+    "Sami@Roguelike@StageCambatDps": {
+        "templThreshold": 0.95
+    },
+    "Sami@Roguelike@StageCambatDpsAI6": {
+        "templThreshold": 0.95,
+        "baseTask": "Roguelike@Stage",
+        "next": [
+            "Sami@Roguelike@StageCambatDpsEnter",
+            "Sami@Roguelike@StageEmergencyDpsEnter",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StageCambatDpsEnter": {},
+    "Sami@Roguelike@StageDreadfulFoe": {},
+    "Sami@Roguelike@StageDreadfulFoe-5": {
+        "Doc": "第五层的boss关卡",
+        "baseTask": "Sami@Roguelike@Stage",
+        "templThreshold": 0.85,
+        "next": [
+            "Sami@Roguelike@StageDreadfulFoe-5Enter",
+            "Sami@Roguelike@StageDreadfulFoeEnter",
+            "Sami@Roguelike@StageEmergencyDpsEnter",
+            "Sami@Roguelike@StageCambatDpsEnter",
+            "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StageDreadfulFoe-5Enter": {
+        "baseTask": "Sami@Roguelike@StageEnterBattle"
+    },
+    "Sami@Roguelike@StageDreadfulFoeEnter": {},
+    "Sami@Roguelike@StageEmergencyDps": {
+        "templThreshold": 0.95
+    },
+    "Sami@Roguelike@StageEmergencyDpsAI6": {
+        "templThreshold": 0.95,
+        "baseTask": "Roguelike@Stage",
+        "next": [
+            "Sami@Roguelike@StageEmergencyDpsEnter",
+            "Sami@Roguelike@StageCambatDpsEnter",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StageEmergencyDpsEnter": {},
+    "Sami@Roguelike@StageEmergencyTransportation": {
+        "Doc": "先行一步，拒绝可以获取2希望",
+        "baseTask": "Sami@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": [
+            "Sami@Roguelike@StageEncounterEnter",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StageEmergencyTransportationAI6": {
+        "baseTask": "Sami@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": [
+            "Sami@Roguelike@StageEncounterEnter",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StageEncounter": {
+        "templThreshold": 0.96
+    },
+    "Sami@Roguelike@StageEncounterAI6": {
+        "templThreshold": 0.96,
+        "baseTask": "Roguelike@Stage",
+        "next": [
+            "Sami@Roguelike@StageEncounterEnter",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StageEncounterEnter": {},
+    "Sami@Roguelike@StageEncounterLeaveConfirm": {},
+    "Sami@Roguelike@StageEncounterOptionFree": {},
+    "Sami@Roguelike@StageEncounterOptionLeave": {},
+    "Sami@Roguelike@StageEncounterOptionUnknown": {
+        "templThreshold": 0.85
+    },
+    "Sami@Roguelike@StageEncounterOptionWonderland": {},
+    "Sami@Roguelike@StageFerociousPresage": {
+        "Doc": "凶戾的预感",
+        "baseTask": "Sami@Roguelike@Stage",
+        "templThreshold": 0.9,
+        "next": [
+            "Sami@Roguelike@StageFerociousPresageEnter",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StageFerociousPresageEnter": {
+        "baseTask": "Sami@Roguelike@StageEnterBattle"
+    },
+    "Sami@Roguelike@StageMysteriousPresage": {
+        "Doc": "诡秘的预感",
+        "baseTask": "Sami@Roguelike@Stage",
+        "templThreshold": 0.9,
+        "next": [
+            "Sami@Roguelike@StageMysteriousPresageEnter",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StageMysteriousPresageEnter": {
+        "baseTask": "Sami@Roguelike@StageEnter",
+        "templThreshold": 0.9,
+        "postDelay": 1000,
+        "next": [
+            "Sami@Roguelike@TraderCheck",
+            "Sami@Roguelike@StageEncounterJudgeClick"
+        ]
+    },
+    "Sami@Roguelike@TraderCheck": {
+        "algorithm": "MatchTemplate",
+        "template": "Sami@Roguelike@TraderCheck.png",
+        "roi": [
+            96,
+            210,
+            293,
+            236
+        ],
+        "next": [
+            "Sami@Roguelike@StageTraderEnter#next"
+        ]
+    },
+    "Sami@Roguelike@StageSafeHouseReuse": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "withoutDet": true,
+        "roi": [
+            880,
+            210,
+            140,
+            36
+        ],
+        "text": [
+            "活用安全屋"
+        ],
+        "preDelay": 500,
+        "next": [
+            "Sami@Roguelike@StageEncounterOption#next"
+        ]
+    },
+    "Sami@Roguelike@StageEncounterOptions": {
+        "next": [
+            "Sami@Roguelike@StageEncounterOptionFree",
+            "Sami@Roguelike@StageSafeHouseReuse",
+            "Sami@Roguelike@StageEncounterOptionLeave",
+            "Sami@Roguelike@StageEncounterOptionUnknown",
+            "Sami@Roguelike@StageEncounterOptionWonderland",
+            "Sami@Roguelike@ChooseOperFlag",
+            "Sami@Roguelike@StageEmergencyDpsEnter",
+            "Sami@Roguelike@StageCambatDpsEnter",
+            "Sami@Roguelike@CloseEvent"
+        ]
+    },
+    "Sami@Roguelike@StageEncounterJudgeOption": {},
+    "Sami@Roguelike@StageEncounterJudgeClick": {},
+    "Sami@Roguelike@StageEncounterJudgeClick2": {},
+    "Sami@Roguelike@OptionChoose1-1": {},
+    "Sami@Roguelike@OptionChoose2-1": {},
+    "Sami@Roguelike@OptionChoose2-2": {},
+    "Sami@Roguelike@OptionChoose3-1": {},
+    "Sami@Roguelike@OptionChoose3-2": {},
+    "Sami@Roguelike@OptionChoose3-3": {},
+    "Sami@Roguelike@OptionChoose4-1": {},
+    "Sami@Roguelike@OptionChoose4-2": {},
+    "Sami@Roguelike@OptionChoose4-3": {},
+    "Sami@Roguelike@OptionChoose4-4": {},
+    "Sami@Roguelike@StageEncounterSpecialClose": {},
+    "Sami@Roguelike@StageEncounterClickToLeave": {
+        "next": [
+            "Sami@Roguelike@StageEncounterOptions#next",
+            "Sami@Roguelike@NextLevel#next",
+            "Sami@Roguelike@StageEncounterClickToLeave"
+        ]
+    },
+    "Sami@Roguelike@StageGambling": {
+        "Doc": "骰子关卡",
+        "baseTask": "Sami@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": [
+            "Sami@Roguelike@StageEncounterEnter",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StageGamblingAI6": {
+        "baseTask": "Sami@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": [
+            "Sami@Roguelike@StageEncounterEnter",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StageProphecy": {
+        "Doc": "结局选择关卡",
+        "baseTask": "Sami@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": [
+            "Sami@Roguelike@StageEncounterEnter",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StageProphecyAI6": {
+        "baseTask": "Sami@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": [
+            "Sami@Roguelike@StageEncounterEnter",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StageSafeHouse": {
+        "templThreshold": 0.95
+    },
+    "Sami@Roguelike@StageSafeHouseAI6": {
+        "templThreshold": 0.95,
+        "baseTask": "Sami@Roguelike@Stage",
+        "next": [
+            "Sami@Roguelike@StageSafeHouseEnter",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StageSafeHouseEnter": {
+        "next": [
+            "Sami@Roguelike@StageSafeHouseEnter",
+            "Sami@Roguelike@StageEncounterJudgeClick"
+        ]
+    },
+    "Sami@Roguelike@StageTrader": {
+        "templThreshold": 0.95
+    },
+    "Sami@Roguelike@StageTraderAI6": {
+        "templThreshold": 0.95,
+        "baseTask": "Sami@Roguelike@Stage",
+        "next": [
+            "Sami@Roguelike@StageTraderEnter",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StageTraderEnter": {},
+    "Sami@Roguelike@StageTraderLeaveConfirm": {
+        "template": "Roguelike@StageTraderLeaveConfirm.png",
+        "postDelay": 1000,
+        "next": [
+            "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@NextLevel#next"
+        ],
+        "exceededNext": [
+            "Sami@Roguelike@ExitThenAbandon",
+            "Sami@Roguelike@NextLevelThenExit"
+        ]
+    },
+    "Sami@Roguelike@NextLevelThenExit": {
+        "Doc": "点进下一层后执行退出",
+        "text": [
+            "完成本层",
+            "下一层级"
+        ],
+        "roi": [
+            268,
+            600,
+            197,
+            78
+        ],
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "next": [
+            "Sami@Roguelike@NextLevelThenExit",
+            "Sami@Roguelike@ExitThenAbandon"
+        ]
+    },
+    "Sami@Roguelike@StageWindAndRain": {
+        "Doc": "失与得",
+        "baseTask": "Sami@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": [
+            "Sami@Roguelike@StageEncounterEnter",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StageWindAndRainAI6": {
+        "baseTask": "Sami@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": [
+            "Sami@Roguelike@StageEncounterEnter",
+            "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StartExplore": {
+        "roi": [
+            958,
+            530,
+            322,
+            189
+        ]
+    },
+    "Sami@Roguelike@TodoEnter": {},
     "Roguelike": {
         "template": "Terminal.png",
         "action": "ClickSelf",
@@ -10207,10 +11255,10 @@
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [
-            -120,
-            -160,
-            190,
-            35
+            406,
+            90,
+            825,
+            263
         ],
         "ocrReplace": [
             [
@@ -10481,6 +11529,10 @@
             [
                 "^消息传递.*",
                 "消息传递"
+            ],
+            [
+                "^干.*封锁",
+                "干酪封锁"
             ]
         ]
     },

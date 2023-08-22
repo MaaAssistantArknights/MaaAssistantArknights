@@ -14,16 +14,20 @@
 using System;
 using System.Windows;
 using MaaWpfGui.Helper;
+using MaaWpfGui.States;
 
 namespace MaaWpfGui.Services.HotKeys
 {
     public class MaaHotKeyActionHandler : IMaaHotKeyActionHandler
     {
+        private readonly RunningState runningState;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MaaHotKeyActionHandler"/> class.
         /// </summary>
         public MaaHotKeyActionHandler()
         {
+            runningState = RunningState.Instance;
         }
 
         /// <inheritdoc/>
@@ -53,7 +57,7 @@ namespace MaaWpfGui.Services.HotKeys
                 return;
             }
 
-            if (Instances.TaskQueueViewModel.Idle)
+            if (runningState.GetIdle())
             {
                 Instances.TaskQueueViewModel.LinkStart();
 

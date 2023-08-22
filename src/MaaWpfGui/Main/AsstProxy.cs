@@ -16,17 +16,16 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
 using System.Text;
-using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using HandyControl.Data;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
+using MaaWpfGui.States;
+using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
@@ -49,6 +48,8 @@ namespace MaaWpfGui.Main
     /// </summary>
     public class AsstProxy
     {
+        private readonly RunningState runningState;
+
         private delegate void CallbackDelegate(int msg, IntPtr json_buffer, IntPtr custom_arg);
 
         private delegate void ProcCallbackMsg(AsstMsg msg, JObject details);
@@ -140,6 +141,9 @@ namespace MaaWpfGui.Main
         private static extern bool AsstStart(AsstHandle handle);
 
         [DllImport("MaaCore.dll")]
+        private static extern bool AsstRunning(AsstHandle handle);
+
+        [DllImport("MaaCore.dll")]
         private static extern bool AsstStop(AsstHandle handle);
 
         [DllImport("MaaCore.dll")]
@@ -206,6 +210,7 @@ namespace MaaWpfGui.Main
         public AsstProxy()
         {
             _callback = CallbackFunction;
+            runningState = RunningState.Instance;
         }
 
         /// <summary>
@@ -245,7 +250,7 @@ namespace MaaWpfGui.Main
             string officialClientType = "Official";
             string bilibiliClientType = "Bilibili";
 
-            bool loaded = false;
+            bool loaded;
             if (clientType == string.Empty || clientType == officialClientType || clientType == bilibiliClientType)
             {
                 // Read resources first, then read cache
@@ -281,7 +286,7 @@ namespace MaaWpfGui.Main
             }
 
             Instances.TaskQueueViewModel.SetInited();
-            Instances.TaskQueueViewModel.Idle = true;
+            runningState.SetIdle(true);
             this.AsstSetInstanceOption(InstanceOptionKey.TouchMode, Instances.SettingsViewModel.TouchMode);
             this.AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, Instances.SettingsViewModel.DeploymentWithPause ? "1" : "0");
             this.AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, Instances.SettingsViewModel.AdbLiteEnabled ? "1" : "0");
@@ -290,7 +295,7 @@ namespace MaaWpfGui.Main
                 if (Instances.SettingsViewModel.RunDirectly)
                 {
                     // 如果是直接运行模式，就先让按钮显示为运行
-                    Instances.TaskQueueViewModel.Idle = false;
+                    runningState.SetIdle(false);
                 }
 
                 await Task.Run(() => Instances.SettingsViewModel.TryToStartEmulator());
@@ -305,7 +310,7 @@ namespace MaaWpfGui.Main
                 if (Instances.SettingsViewModel.RunDirectly)
                 {
                     // 重置按钮状态，不影响LinkStart判断
-                    Instances.TaskQueueViewModel.Idle = true;
+                    runningState.SetIdle(true);
                     Instances.TaskQueueViewModel.LinkStart();
                 }
             });
@@ -395,6 +400,13 @@ namespace MaaWpfGui.Main
         }
 
         private bool connected = false;
+
+        public bool Connected
+        {
+            get => connected;
+            set => connected = value;
+        }
+
         private string connectedAdb;
         private string connectedAddress;
 
@@ -431,7 +443,7 @@ namespace MaaWpfGui.Main
                 case "Disconnect":
                     connected = false;
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ReconnectFailed"), UiLogColor.Error);
-                    if (Instances.TaskQueueViewModel.Idle)
+                    if (runningState.GetIdle())
                     {
                         break;
                     }
@@ -443,7 +455,7 @@ namespace MaaWpfGui.Main
                         if (Instances.SettingsViewModel.RetryOnDisconnected)
                         {
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TryToStartEmulator"), UiLogColor.Error);
-                            Instances.TaskQueueViewModel.KillEmulator();
+                            TaskQueueViewModel.KillEmulator();
                             await Task.Delay(3000);
                             await Instances.TaskQueueViewModel.Stop();
                             Instances.TaskQueueViewModel.SetStopped();
@@ -490,7 +502,7 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.SetStopped();
                     if (isCoplitTaskChain)
                     {
-                        Instances.CopilotViewModel.Idle = true;
+                        runningState.SetIdle(true);
                     }
 
                     break;
@@ -502,7 +514,7 @@ namespace MaaWpfGui.Main
                         toast.Show();
                         if (isCoplitTaskChain)
                         {
-                            Instances.CopilotViewModel.Idle = true;
+                            runningState.SetIdle(true);
                             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
                         }
 
@@ -544,7 +556,7 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + taskChain);
                     if (isCoplitTaskChain)
                     {
-                        Instances.CopilotViewModel.Idle = true;
+                        runningState.SetIdle(true);
                         Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CompleteCombat"), UiLogColor.Info);
                     }
 
@@ -578,9 +590,8 @@ namespace MaaWpfGui.Main
 
                     _latestTaskId.Clear();
 
-                    Instances.TaskQueueViewModel.Idle = true;
-                    Instances.TaskQueueViewModel.UseStone = false;
-                    Instances.CopilotViewModel.Idle = true;
+                    Instances.TaskQueueViewModel.ResetFightVariables();
+                    runningState.SetIdle(true);
                     Instances.RecognizerViewModel.GachaDone = true;
 
                     if (isMainTaskQueueAllCompleted)
@@ -797,11 +808,10 @@ namespace MaaWpfGui.Main
             }
         }
 
-#pragma warning disable IDE0060 // 删除未使用的参数
-
         private void ProcSubTaskCompleted(JObject details)
-#pragma warning restore IDE0060 // 删除未使用的参数
         {
+            // DoNothing
+            _ = details;
         }
 
         private void ProcSubTaskExtraInfo(JObject details)
@@ -1112,6 +1122,8 @@ namespace MaaWpfGui.Main
             return AsstSetInstanceOption(_handle, (AsstInstanceOptionKey)key, value);
         }
 
+        private static readonly bool ForcedReloadResource = File.Exists("DEBUG") || File.Exists("DEBUG.txt");
+
         /// <summary>
         /// 连接模拟器。
         /// </summary>
@@ -1135,6 +1147,23 @@ namespace MaaWpfGui.Main
             if (connected && connectedAdb == Instances.SettingsViewModel.AdbPath &&
                 connectedAddress == Instances.SettingsViewModel.ConnectAddress)
             {
+                if (!ForcedReloadResource)
+                {
+                    return true;
+                }
+
+                if (!LoadResource())
+                {
+                    error = "Load Resource Failed";
+                    return false;
+                }
+
+                Execute.OnUIThread(() =>
+                {
+                    using var toast = new ToastNotification("Auto Reload");
+                    toast.Show();
+                });
+
                 return true;
             }
 
@@ -1151,7 +1180,7 @@ namespace MaaWpfGui.Main
             {
                 foreach (var address in Instances.SettingsViewModel.DefaultAddress[Instances.SettingsViewModel.ConnectConfig])
                 {
-                    if (Instances.SettingsViewModel.Idle)
+                    if (runningState.GetIdle())
                     {
                         break;
                     }
@@ -1329,16 +1358,21 @@ namespace MaaWpfGui.Main
             return id != 0;
         }
 
+        public bool AsstAppendCloseDown()
+        {
+            AsstStop();
+            AsstTaskId id = AsstAppendTaskWithEncoding("CloseDown");
+            _latestTaskId[TaskType.CloseDown] = id;
+            return id != 0;
+        }
+
         /// <summary>
         /// <c>CloseDown</c> 任务。
         /// </summary>
         /// <returns>是否成功。</returns>
         public bool AsstStartCloseDown()
         {
-            AsstStop();
-            AsstTaskId id = AsstAppendTaskWithEncoding("CloseDown");
-            _latestTaskId[TaskType.CloseDown] = id;
-            return id != 0 && AsstStart();
+            return AsstAppendCloseDown() && AsstStart();
         }
 
         /// <summary>
@@ -1375,8 +1409,10 @@ namespace MaaWpfGui.Main
         /// <param name="use_expedited">是否使用加急许可。</param>
         /// <param name="skip_robot">是否在识别到小车词条时跳过。</param>
         /// <param name="is_level3_use_short_time">三星Tag是否使用短时间（7:40）</param>
+        /// <param name="is_level3_use_short_time2">三星Tag是否使用短时间（1:00）</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendRecruit(int max_times, int[] select_level, int[] confirm_level, bool need_refresh, bool use_expedited, bool skip_robot, bool is_level3_use_short_time)
+        public bool AsstAppendRecruit(int max_times, int[] select_level, int[] confirm_level, bool need_refresh, bool use_expedited,
+            bool skip_robot, bool is_level3_use_short_time, bool is_level3_use_short_time2 = false)
         {
             var task_params = new JObject
             {
@@ -1394,6 +1430,13 @@ namespace MaaWpfGui.Main
                 task_params["recruitment_time"] = new JObject
                 {
                     ["3"] = 460, // 7:40
+                };
+            }
+            else if (is_level3_use_short_time2)
+            {
+                task_params["recruitment_time"] = new JObject
+                {
+                    ["3"] = 60, // 1:00
                 };
             }
 
@@ -1519,7 +1562,8 @@ namespace MaaWpfGui.Main
         /// <param name="core_char"><paramref name="core_char"/> TODO.</param>
         /// <param name="use_support">是否core_char使用好友助战</param>
         /// <param name="enable_nonfriend_support">是否允许使用非好友助战</param>
-        /// <param name="theme">肉鸽名字。["Phantom", "Mizuki"]</param>
+        /// <param name="theme">肉鸽名字。["Phantom", "Mizuki", "Sami"]</param>
+        /// <param name="refresh_trader_with_dice">是否用骰子刷新商店购买特殊商品，目前支持水月肉鸽的指路鳞</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRoguelike(int mode, int starts, bool investment_enabled, int invests, bool stop_when_full,
             string squad, string roles, string core_char, bool use_support, bool enable_nonfriend_support, string theme, bool refresh_trader_with_dice)
@@ -1533,6 +1577,12 @@ namespace MaaWpfGui.Main
                 ["stop_when_investment_full"] = stop_when_full,
                 ["theme"] = theme,
             };
+
+            if (mode == 1)
+            {
+                task_params["investment_enabled"] = true;
+            }
+
             if (squad.Length > 0)
             {
                 task_params["squad"] = squad;
@@ -1588,9 +1638,21 @@ namespace MaaWpfGui.Main
                 ["report_to_penguin"] = true,
                 ["report_to_yituliu"] = true,
             };
-            task_params["recruitment_time"] = Instances.RecognizerViewModel.IsLevel3UseShortTime ?
-                new JObject { { "3", 460 } } :
-                new JObject { { "3", 540 } };
+            int recruitmentTime;
+            if (Instances.RecognizerViewModel.IsLevel3UseShortTime)
+            {
+                recruitmentTime = 460;
+            }
+            else if (Instances.RecognizerViewModel.IsLevel3UseShortTime2)
+            {
+                recruitmentTime = 60;
+            }
+            else
+            {
+                recruitmentTime = 540;
+            }
+
+            task_params["recruitment_time"] = new JObject { { "3", recruitmentTime } };
             task_params["penguin_id"] = Instances.SettingsViewModel.PenguinId;
             task_params["yituliu_id"] = Instances.SettingsViewModel.PenguinId; // 一图流说随便传个uuid就行，让client自己生成，所以先直接嫖一下企鹅的（
             task_params["server"] = Instances.SettingsViewModel.ServerType;
@@ -1674,6 +1736,15 @@ namespace MaaWpfGui.Main
         public bool AsstStart()
         {
             return AsstStart(_handle);
+        }
+
+        /// <summary>
+        /// 运行中。
+        /// </summary>
+        /// <returns>是否正在运行。</returns>
+        public bool AsstRunning()
+        {
+            return AsstRunning(_handle);
         }
 
         /// <summary>

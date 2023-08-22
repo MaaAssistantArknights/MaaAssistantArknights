@@ -1,0 +1,118 @@
+{
+    "stage_name": "呼吸",
+    "replacement_home": [
+        {
+            "location": [
+                9,
+                6
+            ],
+            "direction": "up"
+        }
+    ],
+    "deploy_plan": [
+        {
+            "groups": [
+                "情报官",
+                "挡人先锋",
+                "投锋"
+            ],
+            "location": [
+                9,
+                6
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "凯尔希",
+                "召唤"
+            ],
+            "location": [
+                8,
+                2
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "地面阻挡",
+                "其他地面"
+            ],
+            "location": [
+                5,
+                1
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "玛恩纳"
+            ],
+            "location": [
+                7,
+                1
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "焰苇",
+                "水陈",
+                "狙击",
+                "高台输出",
+                "辅助",
+                "其他高台"
+            ],
+            "location": [
+                6,
+                2
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "地面阻挡",
+                "处决者",
+                "其他地面"
+            ],
+            "location": [
+                8,
+                6
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "奶"
+            ],
+            "location": [
+                8,
+                4
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "高台输出",
+                "其他高台"
+            ],
+            "location": [
+                7,
+                4
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "地面阻挡",
+                "处决者",
+                "其他地面"
+            ],
+            "location": [
+                7,
+                6
+            ],
+            "direction": "left"
+        }
+    ]
+}

@@ -461,13 +461,18 @@ bool update_infrast_data(const std::filesystem::path& input_dir, const std::file
 
         rooms.emplace(room_type);
 
-        std::string key = static_cast<std::string>(buff_obj["skillIcon"]);
+        std::string raw_key = static_cast<std::string>(buff_obj["skillIcon"]);
         std::string name = static_cast<std::string>(buff_obj["buffName"]);
         // 这玩意里面有类似 xml 的东西，全删一下
         std::string desc = static_cast<std::string>(buff_obj["description"]);
         remove_xml(desc);
 
-        auto& skill = root[room_type]["skills"][key];
+        std::string json_key = raw_key;
+        // https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/5123#issuecomment-1589425675
+        if (json_key == "bskill_man_exp4") {
+            json_key = "bskill_man_exp0";
+        }
+        auto& skill = root[room_type]["skills"][json_key];
         auto& name_arr = skill["name"].as_array();
         bool new_name = true;
         for (auto& name_obj : name_arr) {
@@ -484,7 +489,7 @@ bool update_infrast_data(const std::filesystem::path& input_dir, const std::file
         // 历史遗留问题，以前的图片是从wiki上爬的，都是大写开头
         // Windows下不区分大小写，现在新的小写文件名图片没法覆盖
         // 所以干脆全用大写开头算了
-        std::string filename = key + ".png";
+        std::string filename = raw_key + ".png";
         filename[0] -= 32;
         skill["template"] = std::move(filename);
     }
@@ -500,24 +505,75 @@ bool update_infrast_data(const std::filesystem::path& input_dir, const std::file
 bool update_stages_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir)
 {
     // 国内访问可以改成 .cn 的域名
-    const std::string PenguinAPI = R"(https://penguin-stats.io/PenguinStats/api/v2/stages)";
+    const std::string PenguinAPI = R"(https://penguin-stats.io/PenguinStats/api/v2/stages?server=)";
+    const std::vector<std::string> PenguinServers = { "CN", "US", "JP", "KR" };
+
     const std::filesystem::path TempFile = input_dir / "stages.json";
-    int stage_request_ret = system(("curl -o \"" + TempFile.string() + "\" " + PenguinAPI).c_str());
-    if (stage_request_ret != 0) {
-        std::cerr << "Request Penguin Stats failed" << std::endl;
-        return false;
+
+    struct DropInfo
+    {
+        std::string item_id;
+        std::string drop_type;
+        bool operator<(const DropInfo& rhs) const { return item_id + drop_type < rhs.item_id + drop_type; }
+        bool operator==(const DropInfo& rhs) const { return item_id == rhs.item_id && drop_type == rhs.drop_type; }
+    };
+
+    std::map<std::string, std::set<DropInfo>> drop_infos;
+    std::map<std::string, json::value> stage_basic_infos;
+    for (const auto& server : PenguinServers) {
+        int stage_request_ret = system(("curl -o \"" + TempFile.string() + "\" " + PenguinAPI + server).c_str());
+        if (stage_request_ret != 0) {
+            std::cerr << "Request Penguin Stats failed" << std::endl;
+            return false;
+        }
+
+        auto parse_ret = json::open(TempFile);
+        if (!parse_ret) {
+            std::cerr << "parse stages.json failed" << std::endl;
+            return false;
+        }
+        auto& stage_json = parse_ret.value();
+
+        for (auto& stage : stage_json.as_array()) {
+            if (!stage.contains("dropInfos")) {
+                continue;
+            }
+            std::string stage_id = stage.at("stageId").as_string();
+            for (auto& drop_json : stage["dropInfos"].as_array()) {
+                DropInfo drop;
+                drop.item_id = drop_json.get("itemId", std::string());
+                if (drop.item_id.empty()) {
+                    continue;
+                }
+
+                drop.drop_type = drop_json.at("dropType").as_string();
+                drop_infos[stage_id].emplace(std::move(drop));
+            }
+
+            json::value basic_json;
+            basic_json["apCost"] = stage["apCost"];
+            basic_json["code"] = stage["code"];
+            basic_json["stageId"] = stage["stageId"];
+            stage_basic_infos.emplace(stage_id, std::move(basic_json));
+        }
     }
 
-    auto parse_ret = json::open(TempFile);
-    if (!parse_ret) {
-        std::cerr << "parse stages.json failed" << std::endl;
-        return false;
+    json::array result;
+    for (const auto& [stage_id, drops] : drop_infos) {
+        json::array drops_json;
+        for (const auto& d : drops) {
+            drops_json.emplace_back(json::object {
+                { "itemId", d.item_id },
+                { "dropType", d.drop_type },
+            });
+        }
+        auto& stage = stage_basic_infos.at(stage_id);
+        stage["dropInfos"] = std::move(drops_json);
+        result.emplace_back(std::move(stage));
     }
-
-    auto& stage_json = parse_ret.value();
 
     std::ofstream ofs(output_dir / "stages.json", std::ios::out);
-    ofs << stage_json.format();
+    ofs << result.format();
     ofs.close();
 
     return true;

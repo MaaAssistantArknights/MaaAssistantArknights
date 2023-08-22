@@ -88,7 +88,7 @@ namespace MaaWpfGui.Services
         private void StartTask(object sender, EventArgs e)
         {
             // taskQueueViewModel意外为null了是不是也可以考虑Log一下
-            //先放个log点方便跟踪
+            // 先放个log点方便跟踪
             Instances.TaskQueueViewModel?.LinkStart();
             _logger.Information("Tray service task started.");
         }

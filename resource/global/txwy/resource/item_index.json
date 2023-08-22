@@ -335,6 +335,14 @@
         "sortId": 100002,
         "usage": "昂貴的源石工業產品，用於重要的強化場合。"
     },
+    "30155": {
+        "classifyType": "MATERIAL",
+        "description": "特定高溫環境下具有分子識別能力的材料。作為助劑能選擇性地吸附源石，為精密加工源石材料、降低源石器件耗能提供新可能。",
+        "icon": "30155.png",
+        "name": "燒結核凝晶",
+        "sortId": 100001,
+        "usage": "對工藝要求極高的現代科技產物。用於高級強化場合。"
+    },
     "31013": {
         "classifyType": "MATERIAL",
         "description": "於實驗室中意外誕生的人工材料。擁有優良的高低溫度耐性，強度高，重量輕，易加工，廣泛運用於高新項目。",
@@ -422,6 +430,22 @@
         "name": "切削原液",
         "sortId": 100008,
         "usage": "由多種活性溶劑配置而成的原液。用於高級強化場合。"
+    },
+    "31063": {
+        "classifyType": "MATERIAL",
+        "description": "可改變材料表面的性質，實現原本難以獲得的效果。注意為工業用鹽，絕對不可以食用。",
+        "icon": "31063.png",
+        "name": "轉質鹽組",
+        "sortId": 100007,
+        "usage": "經過粗煉處理的化合物結晶。可用於多種強化場合。"
+    },
+    "31064": {
+        "classifyType": "MATERIAL",
+        "description": "穩定的結晶體，混合飽和溶液並結晶而製成，可為材料提供多種功能。",
+        "icon": "31064.png",
+        "name": "轉質鹽聚塊",
+        "sortId": 100006,
+        "usage": "經過精煉處理的化合物結晶塊。用於多種強化場合，也常作為製造站合成項目的原料。"
     },
     "3112": {
         "classifyType": "NORMAL",
@@ -911,6 +935,14 @@
         "sortId": 10017,
         "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
     },
+    "LMTGS_COIN_3001": {
+        "classifyType": "NORMAL",
+        "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
+        "icon": "LMTGS_COIN_3001.png",
+        "name": "尋訪數據契約",
+        "sortId": 10018,
+        "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
@@ -1095,6 +1127,14 @@
         "sortId": -10000,
         "usage": "梅什科集團推出的全新商業形式，可以在卡西米爾的免稅紀念商店購買紀念品。"
     },
+    "act13mini_token_can": {
+        "classifyType": "NONE",
+        "description": "本週末，龍門近衛局將攜手本地流浪動物收容站舉辦領養活動，希望條件合適的市民朋友可以踴躍參與，給流離失所的小生命一個重獲新生的機會。\n當然，沒有領養條件的朋友也可以為它們捐助一份營養罐頭，我們為每一位捐助者都準備了精美的小禮品。",
+        "icon": "act13mini_token_can.png",
+        "name": "寵物營養罐頭",
+        "sortId": -10000,
+        "usage": "龍門市面上常見的寵物營養罐頭，實惠美味。只要彈彈罐頭上的拉環，就會有一隻小可愛向你奔來。"
+    },
     "act13side_prestige_armorless": {
         "classifyType": "NONE",
         "description": null,
@@ -1239,6 +1279,22 @@
         "sortId": -10000,
         "usage": "萊茵生命能量科的最新研究成果。收集一定數量可以從危險物品回收處領取必要物資。"
     },
+    "act1bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "模擬中的對錯並不重要，它們只是種輔助，幫助你在實戰中做出正確的選擇。",
+        "icon": "act1bossrush_milestone_point.png",
+        "name": "試煉經驗",
+        "sortId": -10000,
+        "usage": "試煉結束後獲得的經驗，可以提升試煉等級。"
+    },
+    "act1bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "未解碼的數據方塊。永遠記住，資訊轉換往往伴隨著不可避免的損耗。善用資訊儲存工具，但別依賴它們。",
+        "icon": "act1bossrush_token_relic.png",
+        "name": "數據黑盒",
+        "sortId": -10000,
+        "usage": "用於對遏制單元進行數據迭代。"
+    },
     "act1lock_point_reward": {
         "classifyType": "NONE",
         "description": "通過擊破假想敵隊伍獲得的賽事積分，將以獎章形式頒發給參賽隊伍。由米諾斯工匠製作的獎牌上，刻有“英雄都是從普通人做起”的諺語。",
@@ -1246,6 +1302,14 @@
         "name": "賽事獎章",
         "sortId": -10000,
         "usage": "一枚金屬製的小型獎牌。獲取一定數量的獎章將得到相應的賽事獎勵。"
+    },
+    "act20side_token_book": {
+        "classifyType": "NONE",
+        "description": "紙頁上留有各種不同的筆跡，甚至可以從數量上判斷雜誌轉手的次數。其中大多是無意義的塗鴉，但智慧的閃光也散落其間。",
+        "icon": "act20side_token_book.png",
+        "name": "《奇談怪論》複印本",
+        "sortId": -10000,
+        "usage": "花哨的雜誌影本，內容荒誕不經，卻廣受杜林人歡迎。可以用來在跳跳鉗獸大市集與杜林人換取物資。"
     },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
@@ -1463,6 +1527,14 @@
         "sortId": 60012,
         "usage": "裝有各種物資補給，包含多種隨機材料。"
     },
+    "randomMaterialRune_10": {
+        "classifyType": "CONSUME",
+        "description": "來自危機合約的材料補給箱。給予努力治療著這片大地的人們的微小回報。----危機合約",
+        "icon": "randomMaterialRune_10.png",
+        "name": "塵環行動物資補給",
+        "sortId": 60021,
+        "usage": "裝有各種物資補給，包含多種隨機材料。"
+    },
     "randomMaterialRune_2": {
         "classifyType": "CONSUME",
         "description": "來自危機合約的材料補給箱。給予努力治療著這片大地的人們的微小回報。----危機合約",
@@ -1575,6 +1647,14 @@
         "sortId": 60106,
         "usage": "裝有各種物資補給，包含多種隨機材料。"
     },
+    "randomMaterial_7": {
+        "classifyType": "CONSUME",
+        "description": "羅德島從各地採購、儲備的材料補給箱。不過因為缺乏系統性的整理收納，每一個箱子裡都裝著截然不同的材料。",
+        "icon": "randomMaterial_7.png",
+        "name": "羅德島物資補給IV",
+        "sortId": 60107,
+        "usage": "裝有各種物資補給，包含多種隨機材料。"
+    },
     "return_credit_token": {
         "classifyType": "NONE",
         "description": "為回到重要崗位的人特別準備的徽記，會在其熟悉工作的過程中逐步發放。",
@@ -1596,6 +1676,14 @@
         "description": null,
         "icon": "rogue_1_token_grow.png",
         "name": "昏暗的靈感",
+        "sortId": -10000,
+        "usage": null
+    },
+    "rogue_2_token_bp": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "rogue_2_token_bp.png",
+        "name": "生機細胞",
         "sortId": -10000,
         "usage": null
     },

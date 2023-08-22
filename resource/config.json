@@ -49,6 +49,10 @@
             "Doc": "仓库识别导出结果模板",
             "arkPlanner": "{\"@type\": \"@penguin-statistics/depot\",\"items\": []}",
             "arkPlanner_Doc": "https://penguin-stats.cn/planner"
+        },
+        "debug": {
+            "cleanFilesFreq": 100,
+            "maxDebugFileNum": 1000
         }
     },
     "intent": {
@@ -77,7 +81,7 @@
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
             "release": "[Adb] kill-server",
             "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
-            "stop": "[Adb] -s [AdbSerial] shell \"am force-stop `dumpsys activity activities 2>/dev/null | grep -E '(packageName|Activities)=[^\\n]+arknights' 2>/dev/null | grep -i -o -E '[^= ]*arknights[^ /\\n]*' | head -n 1`\"",
+            "stop": "[Adb] -s [AdbSerial] shell \"PACKAGE_NAME=$(dumpsys activity activities 2>/dev/null | grep -E '(packageName|Activities)=[^\\n]+arknights' 2>/dev/null | grep -i -o -E '[^= ]*arknights[^ /\\n]*' | head -n 1); if [ -n \\\"$PACKAGE_NAME\\\" ]; then echo \\\"Closing $PACKAGE_NAME\\\"; am force-stop $PACKAGE_NAME; else echo \\\"app not running or arknights package name not found\\\"; fi\"",
             "abilist": "[Adb] -s [AdbSerial] shell getprop ro.product.cpu.abilist",
             "orientation": "[Adb] -s [AdbSerial] shell dumpsys input | grep SurfaceOrientation | grep -m 1 -o -E [0-9]",
             "pushMinitouch": "[Adb] -s [AdbSerial] push \"[minitouchLocalPath]\" \"/data/local/tmp/[minitouchWorkingFile]\"",
@@ -138,7 +142,13 @@
             "configName": "CompatMac",
             "baseConfig": "Compatible",
             "ncAddress": "[Adb] -s [AdbSerial] shell \"cat /proc/net/arp | grep : | sort\"",
+            "stop": "[Adb] -s [AdbSerial] shell 'PACKAGE_NAME=$(dumpsys activity activities 2>/dev/null | grep -E \"(packageName|Activities)=[^\\n]+arknights\" 2>/dev/null | grep -i -o -E \"[^= ]*arknights[^ /\\n]*\" | head -n 1); if [ -n \"$PACKAGE_NAME\" ]; then echo \"Closing $PACKAGE_NAME\"; am force-stop $PACKAGE_NAME; else echo \"app not running or arknights package name not found\"; fi'",
             "screencapRawWithGzip": ""
+        },
+        {
+            "configName": "CompatPOSIXShell",
+            "baseConfig": "General",
+            "stop": "[Adb] -s [AdbSerial] shell 'PACKAGE_NAME=$(dumpsys activity activities 2>/dev/null | grep -E \"(packageName|Activities)=[^\\n]+arknights\" 2>/dev/null | grep -i -o -E \"[^= ]*arknights[^ /\\n]*\" | head -n 1); if [ -n \"$PACKAGE_NAME\" ]; then echo \"Closing $PACKAGE_NAME\"; am force-stop $PACKAGE_NAME; else echo \"app not running or arknights package name not found\"; fi'"
         },
         {
             "configName": "GeneralWithoutScreencapErr",

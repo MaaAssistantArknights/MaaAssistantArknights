@@ -6,8 +6,9 @@ import re
 # NOTE
 # You may customize here
 regex_ignore_list = [
-    "SSS",
-    "Reclamation"
+    "Sami",
+    "Reclamation",
+    "SSSBuffChoose"
 ]
 
 server_list = [

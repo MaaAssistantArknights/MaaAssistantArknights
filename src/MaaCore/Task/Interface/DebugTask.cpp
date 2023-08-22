@@ -10,11 +10,14 @@
 #include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/Miscellaneous/DepotImageAnalyzer.h"
 #include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
+#include "Vision/Matcher.h"
+#include "Config/TaskData.h"
 
 asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) : InterfaceTask(callback, inst, TaskType) {}
 
 bool asst::DebugTask::run()
 {
+    test_match_template();
     return true;
 }
 
@@ -69,4 +72,21 @@ void asst::DebugTask::test_battle_image()
     BattlefieldMatcher analyzer(resized);
     analyzer.set_object_of_interest({ .deployment = true });
     analyzer.analyze();
+}
+
+void asst::DebugTask::test_match_template()
+{
+    cv::Mat image = asst::imread(utils::path("../../test/match_template/1.png"));
+    cv::Mat resized;
+    cv::resize(image, resized, cv::Size(1280, 720), 0, 0, cv::INTER_AREA);
+    Matcher match_analyzer(resized, Rect(0, 0, 1280, 720));
+    const auto& task_ptr = Task.get("Sami@Roguelike@StageEncounterOptionLeave");
+    const auto match_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(task_ptr);
+    match_analyzer.set_task_info(match_task_ptr);
+    match_analyzer.analyze();
+    const auto& result_opt = match_analyzer.analyze();
+    if (result_opt) {
+        const auto& result = result_opt.value().to_string();
+        Log.info(__FUNCTION__, result);
+    }
 }

@@ -61,7 +61,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 更多使用说明请参考 [详细介绍](https://maa.plus/docs/1.1-详细介绍.html)
 
-## 常见问题
+### 常见问题
 
 - 软件一打开就闪退
 - 连接错误、不知道 adb 路径怎么填写
@@ -73,60 +73,32 @@ MAA 的意思是 MAA Assistant Arknights
 
 请参考 [常见问题](https://maa.plus/docs/1.2-常见问题.html)
 
-## 外服支持
+### 外服支持
 
 目前国际服（美服）、日服、韩服、繁中服的绝大部分功能均已支持。但由于外服用户较少及项目人手不足，很多功能并没有进行全面的测试，所以请自行体验。  
 若您遇到了 Bug，或对某个功能有强需求，欢迎在 [Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) 和 [讨论区](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更；或加入我们一起建设 MAA！请参考 [外服适配教程](#外服适配)
 
-## 主要关联项目
+## 加入我们
+
+### 主要关联项目
 
 **目前项目组非常缺前端大佬，若您有相关经验，欢迎加入我们！**
 
-- 全新 GUI：[MaaX](https://github.com/MaaAssistantArknights/MaaX) （正在开发中，欢迎加入！）
-- [作业站](https://prts.plus) 前端：[maa-copilot-frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend) （正在开发中，欢迎加入！）
+- 全新框架：[MaaFramework](https://github.com/MaaAssistantArknights/MaaFramework)
+- 全新 GUI：[MaaX](https://github.com/MaaAssistantArknights/MaaX)
+- [作业站](https://prts.plus) 前端：[maa-copilot-frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
 - [作业站](https://prts.plus) 后端：[MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter)
 - [官网](https://maa.plus)：[前端](https://github.com/MaaAssistantArknights/maa-website)
 - 深度学习：[MaaAI](https://github.com/MaaAssistantArknights/MaaAI)
 
-## 致谢
 
-### 开源库
+### 多语言 (i18n)
 
-- 图像识别库：[opencv](https://github.com/opencv/opencv.git)
-- ~~文字识别库：[chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)~~
-- 文字识别库：[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
-- 深度学习部署库：[FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
-- 机器学习加速器：[onnxruntime](https://github.com/microsoft/onnxruntime)
-- ~~关卡掉落识别：[企鹅物流识别](https://github.com/penguin-statistics/recognizer)~~
-- 地图格子识别：[Arknights-Tile-Pos](https://github.com/yuanyan3060/Arknights-Tile-Pos)
-- C++ JSON库：[meojson](https://github.com/MistEO/meojson.git)
-- C++ 运算符解析器：[calculator](https://github.com/kimwalisch/calculator)
-- ~~C++ base64编解码：[cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)~~
-- C++ 解压压缩库：[zlib](https://github.com/madler/zlib)
-- C++ Gzip封装：[gzip-hpp](https://github.com/mapbox/gzip-hpp)
-- 安卓触控事件器：[minitouch](https://github.com/openstf/minitouch)
-- 安卓触控事件器：[MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)
-- WPF MVVM框架：[Stylet](https://github.com/canton7/Stylet)
-- WPF控件库：[HandyControl](https://github.com/HandyOrg/HandyControl) -> [HandyControls](https://github.com/ghost1372/HandyControls)
-- C# 日志：[Serilog](https://github.com/serilog/serilog)
-- C# JSON库：[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json) & [System.Text.Json](https://github.com/dotnet/runtime)
-- ~~下载器：[aria2](https://github.com/aria2/aria2)~~
+MAA 支持多国语言，并使用 Weblate 进行本地化管理。如果您通晓多门语言，欢迎前往 [MAA Weblate](https://weblate.maa-org.net) 帮助我们进行翻译。
 
-### 数据源
+MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）为准。
 
-- ~~公开招募数据：[明日方舟工具箱](https://www.bigfun.cn/tools/aktools/hr)~~
-- ~~干员及基建数据：[PRTS明日方舟中文WIKI](http://prts.wiki/)~~
-- 关卡数据：[企鹅物流数据统计](https://penguin-stats.cn/)
-- 游戏数据及资源：[明日方舟客户端素材](https://github.com/yuanyan3060/ArknightsGameResource)
-- ~~游戏数据：[《明日方舟》游戏数据](https://github.com/Kengxxiao/ArknightsGameData)~~
-
-### 贡献/参与者
-
-感谢所有参与到开发/测试中的朋友们，是大家的帮助让 MAA 越来越好！ (\*´▽｀)ノノ
-
-[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
-
-## 开发相关
+[![Weblate](https://weblate.maa-org.net/widgets/maa-assistant-arknights/zh_Hans/maa-wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa-assistant-arknights/zh_Hans/)
 
 ### Windows
 
@@ -171,6 +143,45 @@ MAA 的意思是 MAA Assistant Arknights
 ### Issue bot
 
 请参考 [Issue bot 使用方法](https://maa.plus/docs/2.3-IssueBot使用方法.html)
+
+## 致谢
+
+### 开源库
+
+- 图像识别库：[opencv](https://github.com/opencv/opencv.git)
+- ~~文字识别库：[chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite.git)~~
+- 文字识别库：[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR)
+- 深度学习部署库：[FastDeploy](https://github.com/PaddlePaddle/FastDeploy)
+- 机器学习加速器：[onnxruntime](https://github.com/microsoft/onnxruntime)
+- ~~关卡掉落识别：[企鹅物流识别](https://github.com/penguin-statistics/recognizer)~~
+- 地图格子识别：[Arknights-Tile-Pos](https://github.com/yuanyan3060/Arknights-Tile-Pos)
+- C++ JSON库：[meojson](https://github.com/MistEO/meojson.git)
+- C++ 运算符解析器：[calculator](https://github.com/kimwalisch/calculator)
+- ~~C++ base64编解码：[cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)~~
+- C++ 解压压缩库：[zlib](https://github.com/madler/zlib)
+- C++ Gzip封装：[gzip-hpp](https://github.com/mapbox/gzip-hpp)
+- 安卓触控事件器：[minitouch](https://github.com/openstf/minitouch)
+- 安卓触控事件器：[MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)
+- WPF MVVM框架：[Stylet](https://github.com/canton7/Stylet)
+- WPF控件库：[HandyControl](https://github.com/HandyOrg/HandyControl) -> [HandyControls](https://github.com/ghost1372/HandyControls)
+- C# 日志：[Serilog](https://github.com/serilog/serilog)
+- C# JSON库：[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json) & [System.Text.Json](https://github.com/dotnet/runtime)
+- ~~下载器：[aria2](https://github.com/aria2/aria2)~~
+
+### 数据源
+
+- ~~公开招募数据：[明日方舟工具箱](https://www.bigfun.cn/tools/aktools/hr)~~
+- ~~干员及基建数据：[PRTS明日方舟中文WIKI](http://prts.wiki/)~~
+- 关卡数据：[企鹅物流数据统计](https://penguin-stats.cn/)
+- 游戏数据及资源：[明日方舟客户端素材](https://github.com/yuanyan3060/ArknightsGameResource)
+- ~~游戏数据：[《明日方舟》游戏数据](https://github.com/Kengxxiao/ArknightsGameData)~~
+
+### 贡献/参与者
+
+感谢所有参与到开发/测试中的朋友们，是大家的帮助让 MAA 越来越好！ (\*´▽｀)ノノ
+
+[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
+
 
 ## 声明
 

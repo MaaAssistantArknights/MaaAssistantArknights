@@ -51,9 +51,19 @@ std::shared_ptr<asst::TaskInfo> asst::TaskData::get(std::string_view name)
     return expand_task(name, get_raw(name)).value_or(nullptr);
 }
 
+#ifndef ASST_DEBUG
+const bool forcedReloadResource = std::ifstream("DEBUG").good() || std::ifstream("DEBUG.txt").good();
+#endif // !ASST_DEBUG
+
 bool asst::TaskData::parse(const json::value& json)
 {
     LogTraceFunction;
+    
+#ifndef ASST_DEBUG
+    if (forcedReloadResource) {
+        m_all_tasks_info.clear();
+    }
+#endif // !ASST_DEBUG
 
     const auto& json_obj = json.as_object();
 
@@ -230,6 +240,7 @@ bool asst::TaskData::parse(const json::value& json)
         }
         if (!validity) return false;
     }
+    m_all_tasks_info.clear();
 #endif
     return true;
 }
@@ -756,7 +767,7 @@ asst::TaskData::taskptr_t asst::TaskData::generate_ocr_task_info([[maybe_unused]
     ocr_task_info_ptr->replace_full = task_json.get("replaceFull", default_ptr->replace_full);
     if (auto opt = task_json.find<json::array>("ocrReplace")) {
         for (const json::value& rep : opt.value()) {
-            ocr_task_info_ptr->replace_map.emplace(rep[0].as_string(), rep[1].as_string());
+            ocr_task_info_ptr->replace_map.emplace_back(std::make_pair(rep[0].as_string(), rep[1].as_string()));
         }
     }
     else {
