@@ -162,7 +162,8 @@
                     "skill": 1,
                     "recruit_priority": 720,
                     "promote_priority": 400,
-                    "is_start": true,
+                    "is_start": true,                    
+                    "is_key":true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [

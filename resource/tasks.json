@@ -8337,6 +8337,22 @@
             "Roguelike@LastRewardConfirm"
         ]
     },
+    "Roguelike@LastReward4": {
+        "Doc": "base_task",
+        "Doc2": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 2 希望",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            174,
+            151,
+            935,
+            533
+        ],
+        "next": [
+            "Roguelike@LastRewardConfirm"
+        ]
+    },
     "Roguelike@LastRewardConfirm": {
         "Doc": "base_task",
         "template": "empty.png",
@@ -9471,29 +9487,15 @@
     "Phantom@Roguelike@LastReward": {},
     "Phantom@Roguelike@LastReward2": {},
     "Phantom@Roguelike@LastReward3": {},
-    "Mizuki@Roguelike@LastReward4": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            174,
-            151,
-            935,
-            533
-        ],
-        "next": [
-            "Mizuki@Roguelike@LastRewardConfirm"
-        ]
-    },
+    "Phantom@Roguelike@LastReward4": {},
     "Phantom@Roguelike@LastRewardConfirm": {},
     "Phantom@Roguelike@LastRewardRand": {},
     "Phantom@Roguelike@MissionFailedFlag": {},
     "Phantom@Roguelike@MissionFailedFlag2": {},
     "Phantom@Roguelike@LevelName": {
         "text": [
-            "故土残躯"
         ],
         "next": [
-            "Phantom@Roguelike@NextLevel"
         ]
     },
     "Phantom@Roguelike@NextLevel": {
@@ -9861,19 +9863,7 @@
     "Mizuki@Roguelike@LastReward": {},
     "Mizuki@Roguelike@LastReward2": {},
     "Mizuki@Roguelike@LastReward3": {},
-    "Mizuki@Roguelike@LastReward4": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            174,
-            151,
-            935,
-            533
-        ],
-        "next": [
-            "Mizuki@Roguelike@LastRewardConfirm"
-        ]
-    },
+    "Mizuki@Roguelike@LastReward4": {},
     "Mizuki@Roguelike@LastRewardConfirm": {},
     "Mizuki@Roguelike@LastRewardRand": {},
     "Mizuki@Roguelike@MapObject": {
@@ -9893,11 +9883,8 @@
     "Mizuki@Roguelike@MissionFailedFlag2": {},
     "Mizuki@Roguelike@LevelName": {
         "text": [
-            "波涛略地",
-            "绀碧摇篮"
         ],
         "next": [
-            "Mizuki@Roguelike@NextLevel"
         ]
     },
     "Mizuki@Roguelike@NextLevel": {
@@ -10132,9 +10119,9 @@
     "Sami@Roguelike@CloseCollection": {
         "next": [
             "Sami@Roguelike@LastReward",
+            "Sami@Roguelike@LastReward4",
             "Sami@Roguelike@LastReward2",
             "Sami@Roguelike@LastReward3",
-            "Sami@Roguelike@LastReward4",
             "Sami@Roguelike@LastRewardRand",
             "Sami@Roguelike@RolesDefault"
         ]
@@ -10302,19 +10289,7 @@
     "Sami@Roguelike@LastReward": {},
     "Sami@Roguelike@LastReward2": {},
     "Sami@Roguelike@LastReward3": {},
-    "Sami@Roguelike@LastReward4": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            174,
-            151,
-            935,
-            533
-        ],
-        "next": [
-            "Sami@Roguelike@LastRewardConfirm"
-        ]
-    },
+    "Sami@Roguelike@LastReward4": {},
     "Sami@Roguelike@LastRewardConfirm": {},
     "Sami@Roguelike@LastRewardRand": {},
     "Sami@Roguelike@MapObject": {
@@ -10334,11 +10309,8 @@
     "Sami@Roguelike@MissionFailedFlag2": {},
     "Sami@Roguelike@LevelName": {
         "text": [
-            "昧明冻土",
-            "深埋迷境"
         ],
         "next": [
-            "Sami@Roguelike@NextLevel"
         ]
     },
     "Sami@Roguelike@NextLevel": {
@@ -10411,9 +10383,9 @@
         "template": "Sami@Roguelike@LastRewardConfirm.png",
         "next": [
             "Sami@Roguelike@LastReward",
-            "Sami@Roguelike@LastReward2",
-            "Sami@Roguelike@LastReward3",
             "Sami@Roguelike@LastReward4",
+            "Sami@Roguelike@LastReward3",
+            "Sami@Roguelike@LastReward2",
             "Sami@Roguelike@LastRewardRand",
             "Sami@Roguelike@RolesDefault",
             "Sami@Roguelike@CloseCollection",

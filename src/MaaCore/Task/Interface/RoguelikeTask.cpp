@@ -90,6 +90,8 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     }
 
     if (mode == 4) {
+        Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName")->text = { "故土残躯", "波涛略地", "绀碧摇篮", "昧明冻土",
+                                                                        "深埋迷境" };
         Task.get(theme + "@Roguelike@LevelName")->next = { theme + "@Roguelike@ExitThenAbandon" };
         Task.get(theme + "@Roguelike@CloseCollection")->next = {
             theme + "@Roguelike@LastReward", theme + "@Roguelike@LastReward4",
@@ -100,13 +102,14 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         Task.get(theme + "@Roguelike@LastReward4")->post_delay = INT_MAX;
     }
     else {
+        Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName")->text = { "随便写点什么防止卡住" };
         Task.get(theme + "@Roguelike@LevelName")->next = { theme + "@Roguelike@NextLevel" };
         Task.get(theme + "@Roguelike@CloseCollection")->next = {
             theme + "@Roguelike@LastReward",  theme + "@Roguelike@LastReward2",    theme + "@Roguelike@LastReward3",
             theme + "@Roguelike@LastReward4", theme + "@Roguelike@LastRewardRand", theme + "@Roguelike@RolesDefault"
         };
         Task.get(theme + "@Roguelike@LastReward")->post_delay = 0;
-        Task.get(theme + "@Roguelike@LastReward4")->post_delay = INT_MAX;
+        Task.get(theme + "@Roguelike@LastReward4")->post_delay = 0;
     }
     int number_of_starts = params.get("starts_count", INT_MAX);
     m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StartExplore", number_of_starts);

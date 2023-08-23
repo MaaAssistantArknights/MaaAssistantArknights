@@ -346,6 +346,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
                     deploy_plan_list.emplace_back(deploy_plan);
                     Log.trace("    deploy info", deploy_plan.oper_name, "in group", group_name, "with rank",
                              deploy_plan.rank);
+                    
                 }
             }
             else {
