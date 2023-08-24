@@ -98,6 +98,8 @@ namespace asst
 
         bool m_swipe_with_pause = false;
         bool m_kill_adb_on_exit = false;
+        bool m_resize_window = false;
+        bool m_golden_border = false;
 
         mutable std::shared_mutex m_image_mutex;
         cv::Mat m_cache_image;

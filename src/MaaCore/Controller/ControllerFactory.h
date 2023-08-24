@@ -5,6 +5,7 @@
 #include "MaatouchController.h"
 #include "MinitouchController.h"
 #include "PlayToolsController.h"
+#include "WSAController.h"
 
 namespace asst
 {
@@ -33,6 +34,8 @@ namespace asst
                 case ControllerType::MacPlayTools:
                     controller = std::make_shared<PlayToolsController>(m_callback, m_inst, platform_type);
                     break;
+                case ControllerType::WSA:
+                    controller = std::make_shared<WSAController>(m_callback, m_inst, platform_type);
                 default:
                     return nullptr;
                 }

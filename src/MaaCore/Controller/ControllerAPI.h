@@ -15,6 +15,7 @@ namespace asst
         Minitouch,
         Maatouch,
         MacPlayTools,
+        WSA,
     };
 
     class ControllerAPI
@@ -26,6 +27,8 @@ namespace asst
         virtual bool inited() const noexcept = 0;
         virtual void set_swipe_with_pause([[maybe_unused]] bool enable) noexcept {}
         virtual void set_kill_adb_on_exit([[maybe_unused]] bool enable) noexcept {}
+        virtual void set_resize_window([[maybe_unused]] bool enable) noexcept {};
+        virtual void set_golden_border([[maybe_unused]] bool enable) noexcept {};
 
         virtual const std::string& get_uuid() const = 0;
 
