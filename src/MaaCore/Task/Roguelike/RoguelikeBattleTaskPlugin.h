@@ -32,13 +32,14 @@ namespace asst
         struct DeployPlanInfo
         {
             std::string oper_name;
-            int oper_priority;
+            //int oper_priority;
+            int oper_order_in_group;
             int rank;
             Point placed;
             battle::DeployDirection direction;
             bool operator<(const DeployPlanInfo& x) const
             {
-                return (rank < x.rank) || (rank == x.rank && oper_priority > x.oper_priority);
+                return (rank < x.rank) || (rank == x.rank && oper_order_in_group < x.oper_order_in_group);
             }
         };
         bool do_best_deploy();

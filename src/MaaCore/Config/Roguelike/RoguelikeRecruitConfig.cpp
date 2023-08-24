@@ -53,17 +53,22 @@ std::vector<int> asst::RoguelikeRecruitConfig::get_group_id(const std::string& t
 bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
 {
     LogTraceFunction;
-
+    
+    //肉鸽名字
     const std::string theme = json.at("theme").as_string();
     clear(theme);
 
     int group_id = 0;
+    //{"name":干员组名, "opers":组内干员组成的array}
     for (const auto& group_json : json.at("priority").as_array()) {
-        m_oper_groups[theme].emplace_back(group_json.at("name").as_string());
+        m_oper_groups[theme].emplace_back(group_json.at("name").as_string());        
+        //干员在组内的顺序,int
+        int order_in_group = 0;
+        //遍历"opers"数组
         for (const auto& oper_info : group_json.at("opers").as_array()) {
             std::string name = oper_info.at("name").as_string();
-            RoguelikeOperInfo info;   
-            
+            //肉鸽干员招募信息
+            RoguelikeOperInfo info;               
             auto iter = m_all_opers[theme].find(name);
             if (iter != m_all_opers[theme].end()) {
                 // 干员已存在时仅做更新
@@ -71,6 +76,7 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
             }
             info.name = name;
             info.group_id.push_back(group_id);
+            info.order_in_group[group_id] = order_in_group;
             info.recruit_priority = oper_info.get("recruit_priority", info.recruit_priority);
             info.promote_priority = oper_info.get("promote_priority", info.promote_priority);
             info.is_alternate = oper_info.get("is_alternate", info.is_alternate);
@@ -114,7 +120,8 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
             }
             
 
-            m_all_opers[theme][name] = std::move(info);            
+            m_all_opers[theme][name] = std::move(info);   
+            order_in_group++;
         }
         group_id++;
     }
