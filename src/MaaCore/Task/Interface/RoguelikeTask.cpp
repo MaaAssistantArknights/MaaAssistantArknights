@@ -1,7 +1,7 @@
 #include "RoguelikeTask.h"
 
-#include "Config/TaskData.h"
 #include "Common/AsstBattleDef.h"
+#include "Config/TaskData.h"
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Task/Roguelike/RoguelikeBattleTaskPlugin.h"
@@ -77,7 +77,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         m_debug_task_ptr->set_enable(false);
         m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", 0, ProcessTask::TimesLimitType::Post);
         break;
-    [[unlikely]]case 2:
+    [[unlikely]] case 2:
         m_debug_task_ptr->set_enable(true);
         m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", 0, ProcessTask ::TimesLimitType::Post);
         break;
@@ -93,15 +93,19 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName")->text =
             Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName_mode4")->text;
         Task.get(theme + "@Roguelike@LevelName")->next = Task.get(theme + "@Roguelike@LevelName_mode4")->next;
-        Task.get(theme + "@Roguelike@LastReward")->post_delay = INT_MAX;
-        Task.get(theme + "@Roguelike@LastReward4")->post_delay = INT_MAX;
+        Task.get(theme + "@Roguelike@LastReward")->post_delay =
+            Task.get(theme + "@Roguelike@LastReward_mode4")->post_delay;
+        Task.get(theme + "@Roguelike@LastReward4")->post_delay =
+            Task.get(theme + "@Roguelike@LastReward_mode4")->post_delay;
     }
     else {
         Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName")->text =
             Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName_normal_mode")->text;
         Task.get(theme + "@Roguelike@LevelName")->next = Task.get(theme + "@Roguelike@LevelName_normal_mode")->next;
-        Task.get(theme + "@Roguelike@LastReward")->post_delay = 0;
-        Task.get(theme + "@Roguelike@LastReward4")->post_delay = 0;
+        Task.get(theme + "@Roguelike@LastReward")->post_delay =
+            Task.get(theme + "@Roguelike@LastReward_normal_mode")->post_delay;
+        Task.get(theme + "@Roguelike@LastReward4")->post_delay =
+            Task.get(theme + "@Roguelike@LastReward_normal_mode")->post_delay;
     }
     int number_of_starts = params.get("starts_count", INT_MAX);
     m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StartExplore", number_of_starts);
@@ -144,4 +148,3 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
 
     return true;
 }
-

@@ -8288,6 +8288,14 @@
             "Sami@Roguelike@FromIntegratedStrategies"
         ]
     },
+    "Roguelike@LastReward_normal_mode": {
+        "algorithm": "JustReturn",
+        "postDelay": 0
+    },
+    "Roguelike@LastReward_mode4": {
+        "algorithm": "JustReturn",
+        "postDelay": 2147483647
+    },
     "Roguelike@LastReward": {
         "Doc": "base_task",
         "Doc2": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援——热水壶",
@@ -8441,7 +8449,7 @@
     "Roguelike@LevelName_normal_mode": {
         "algorithm": "OcrDetect",
         "cache": false,
-        "text": ["随便写点什么防止卡住,Leave some words here to avoid stucking"],
+        "text": [ "随便写点什么防止卡住,Leave some words here to avoid stucking" ],
         "roi": [
             593,
             0,
@@ -9516,6 +9524,8 @@
         ]
     },
     "Phantom@Roguelike@InitalDrop": {},
+    "Phantom@Roguelike@LastReward_normal_mode": {},
+    "Phantom@Roguelike@LastReward_mode4": {},
     "Phantom@Roguelike@LastReward": {},
     "Phantom@Roguelike@LastReward2": {},
     "Phantom@Roguelike@LastReward3": {},
@@ -9897,6 +9907,8 @@
         ]
     },
     "Mizuki@Roguelike@InitalDrop": {},
+    "Mizuki@Roguelike@LastReward_normal_mode": {},
+    "Mizuki@Roguelike@LastReward_mode4": {},
     "Mizuki@Roguelike@LastReward": {},
     "Mizuki@Roguelike@LastReward2": {},
     "Mizuki@Roguelike@LastReward3": {},
@@ -10328,6 +10340,8 @@
         ]
     },
     "Sami@Roguelike@InitalDrop": {},
+    "Sami@Roguelike@LastReward_normal_mode": {},
+    "Sami@Roguelike@LastReward_mode4": {},
     "Sami@Roguelike@LastReward": {},
     "Sami@Roguelike@LastReward2": {},
     "Sami@Roguelike@LastReward3": {},
