@@ -53,22 +53,22 @@ std::vector<int> asst::RoguelikeRecruitConfig::get_group_id(const std::string& t
 bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
 {
     LogTraceFunction;
-    
-    //肉鸽名字
+
+    // 肉鸽名字
     const std::string theme = json.at("theme").as_string();
     clear(theme);
 
     int group_id = 0;
     //{"name":干员组名, "opers":组内干员组成的array}
     for (const auto& group_json : json.at("priority").as_array()) {
-        m_oper_groups[theme].emplace_back(group_json.at("name").as_string());        
-        //干员在组内的顺序,int
+        m_oper_groups[theme].emplace_back(group_json.at("name").as_string());
+        // 干员在组内的顺序,int
         int order_in_group = 0;
-        //遍历"opers"数组
+        // 遍历"opers"数组
         for (const auto& oper_info : group_json.at("opers").as_array()) {
             std::string name = oper_info.at("name").as_string();
-            //肉鸽干员招募信息
-            RoguelikeOperInfo info;               
+            // 肉鸽干员招募信息
+            RoguelikeOperInfo info;
             auto iter = m_all_opers[theme].find(name);
             if (iter != m_all_opers[theme].end()) {
                 // 干员已存在时仅做更新
@@ -90,7 +90,6 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
             info.alternate_skill_times = oper_info.get("alternate_skill_times", info.alternate_skill_times);
             info.is_key = oper_info.get("is_key", info.is_key);
             info.is_start = oper_info.get("is_start", info.is_start);
-                       
 
             // __________________will-be-removed-begin__________________
             info.recruit_priority_when_team_full =
@@ -105,7 +104,7 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
             }
             info.offset_melee = oper_info.get("offset_melee", false);
             // __________________will-be-removed-end__________________
-            
+
             if (auto opt = oper_info.find<json::array>("recruit_priority_offsets")) {
                 for (const auto& offset_json : opt.value()) {
                     RecruitPriorityOffset offset;
@@ -118,9 +117,8 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
                     info.recruit_priority_offsets.emplace_back(std::move(offset));
                 }
             }
-            
 
-            m_all_opers[theme][name] = std::move(info);   
+            m_all_opers[theme][name] = std::move(info);
             order_in_group++;
         }
         group_id++;

@@ -75,8 +75,9 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     RoguelikeEvent event = event_map.at(text);
     Log.info("Event:", event.name, "choose option", event.default_choose);
     for (int j = 0; j < 2; ++j) {
-        ProcessTask(*this, { rogue_theme + "@Roguelike@OptionChoose" + 
-            std::to_string(event.option_num) + "-" + std::to_string(event.default_choose) }).run();
+        ProcessTask(*this, { rogue_theme + "@Roguelike@OptionChoose" + std::to_string(event.option_num) + "-" +
+                             std::to_string(event.default_choose) })
+            .run();
         sleep(300);
     }
 
