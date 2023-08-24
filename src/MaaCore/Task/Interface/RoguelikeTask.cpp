@@ -97,8 +97,9 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         Task.get(theme + "@Roguelike@LastReward4")->post_delay = INT_MAX;
     }
     else {
-        Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName")->text = { "随便写点什么防止卡主,Leave some words here to avoid stucking" };
-        Task.get(theme + "@Roguelike@LevelName")->next = { theme + "@Roguelike@NextLevel" };
+        Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName")->text =
+            Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName_normal_mode")->text;
+        Task.get(theme + "@Roguelike@LevelName")->next = Task.get(theme + "@Roguelike@LevelName_normal_mode")->next;
         Task.get(theme + "@Roguelike@LastReward")->post_delay = 0;
         Task.get(theme + "@Roguelike@LastReward4")->post_delay = 0;
     }

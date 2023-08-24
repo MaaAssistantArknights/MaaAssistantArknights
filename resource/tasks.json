@@ -8438,6 +8438,20 @@
             "Roguelike@NextLevel"
         ]
     },
+    "Roguelike@LevelName_normal_mode": {
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "text": ["随便写点什么防止卡住,Leave some words here to avoid stucking"],
+        "roi": [
+            593,
+            0,
+            186,
+            129
+        ],
+        "next": [
+            "Roguelike@NextLevel"
+        ]
+    },
     "Roguelike@LevelName_mode4": {
         "algorithm": "OcrDetect",
         "cache": false,
@@ -9511,6 +9525,7 @@
     "Phantom@Roguelike@MissionFailedFlag": {},
     "Phantom@Roguelike@MissionFailedFlag2": {},
     "Phantom@Roguelike@LevelName": {},
+    "Phantom@Roguelike@LevelName_normal_mode": {},
     "Phantom@Roguelike@LevelName_mode4": {
         "text": [
             "故土残躯"
@@ -9904,6 +9919,7 @@
     "Mizuki@Roguelike@MissionFailedFlag": {},
     "Mizuki@Roguelike@MissionFailedFlag2": {},
     "Mizuki@Roguelike@LevelName": {},
+    "Mizuki@Roguelike@LevelName_normal_mode": {},
     "Mizuki@Roguelike@LevelName_mode4": {
         "text": [
             "波涛略地",
@@ -10334,6 +10350,7 @@
     "Sami@Roguelike@MissionFailedFlag": {},
     "Sami@Roguelike@MissionFailedFlag2": {},
     "Sami@Roguelike@LevelName": {},
+    "Sami@Roguelike@LevelName_normal_mode": {},
     "Sami@Roguelike@LevelName_mode4": {
         "text": [
             "昧明冻土",
