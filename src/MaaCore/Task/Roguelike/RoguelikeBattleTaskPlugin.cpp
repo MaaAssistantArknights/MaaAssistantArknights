@@ -315,19 +315,29 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
         }
     }
     Log.info("No operator needs to be retreated.");
-
+    //获取肉鸽主题
     std::string rogue_theme = status()->get_properties(Status::RoguelikeTheme).value();
+    //构造当前地图的部署指令列表
     std::vector<DeployPlanInfo> deploy_plan_list;
+    //获取当前肉鸽的分组信息[干员组1名称,干员组2名称,...]
     const auto& groups = RoguelikeRecruit.get_group_info(rogue_theme);
+    //获取当前肉鸽的分组内排名信息
+    //const auto& group_rank = RoguelikeRecruit.get_group_rank(rogue_theme);
     for (const auto& [name, oper] : m_cur_deployment_opers) {
+        //干员冷却中
         if (oper.cooling) {
             Log.info("operator", oper.name, "is cooling now.");
             continue;
         }
+        
         const std::string& oper_name = oper_name_in_config(oper);
+        //获取招募信息
         const auto& recruit_info = RoguelikeRecruit.get_oper_info(rogue_theme, oper_name);
-        std::vector<int> group_ids = RoguelikeRecruit.get_group_id(rogue_theme, oper_name);        
-        for (const auto& group_id : group_ids) {            
+        //获取会用到该干员的干员组[干员组1序号,干员组2序号,...]
+        std::vector<int> group_ids = RoguelikeRecruit.get_group_id(rogue_theme, oper_name);
+
+        for (const auto& group_id : group_ids) {
+            //当前干员组名,string类型
             std::string group_name = groups[group_id];
             Log.trace(m_stage_name ,"group_name", group_name);
             if (m_deploy_plan.contains(group_name)) {
@@ -337,16 +347,20 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
                         is_success = true; // 如果发现了待命干员，此函数最终返回true
                         continue;
                     }
+
                     DeployPlanInfo deploy_plan;
                     deploy_plan.oper_name = oper.name;
-                    deploy_plan.oper_priority = recruit_info.recruit_priority;
+                    //deploy_plan.oper_priority = recruit_info.recruit_priority;
+                    //deploy_plan.oper_order_in_group = recruit_info.order_in_group.at(group_id);
+                    
+                    deploy_plan.oper_order_in_group =
+                        recruit_info.order_in_group.empty()? INT_MAX:recruit_info.order_in_group.at(group_id);                      
                     deploy_plan.rank = info.rank;
                     deploy_plan.placed = info.location;
                     deploy_plan.direction = info.direction;
                     deploy_plan_list.emplace_back(deploy_plan);
-                    Log.trace("    deploy info", deploy_plan.oper_name, "in group", group_name, "with rank",
-                             deploy_plan.rank);
-                    
+                    Log.trace("    deploy info", deploy_plan.oper_name, "is No. ", deploy_plan.oper_order_in_group+1, 
+                              "in group", group_name, ", with deploy command rank", deploy_plan.rank);                    
                 }
             }
             else {

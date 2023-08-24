@@ -90,24 +90,15 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     }
 
     if (mode == 4) {
-        Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName")->text = { "故土残躯", "波涛略地", "绀碧摇篮", "昧明冻土",
-                                                                        "深埋迷境" };
-        Task.get(theme + "@Roguelike@LevelName")->next = { theme + "@Roguelike@ExitThenAbandon" };
-        Task.get(theme + "@Roguelike@CloseCollection")->next = {
-            theme + "@Roguelike@LastReward", theme + "@Roguelike@LastReward4",
-            theme + "@Roguelike@LastReward2", theme + "@Roguelike@LastReward3",
-            theme + "@Roguelike@LastRewardRand", theme + "@Roguelike@RolesDefault"
-        };
+        Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName")->text =
+            Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName_mode4")->text;
+        Task.get(theme + "@Roguelike@LevelName")->next = Task.get(theme + "@Roguelike@LevelName_mode4")->next;
         Task.get(theme + "@Roguelike@LastReward")->post_delay = INT_MAX;
         Task.get(theme + "@Roguelike@LastReward4")->post_delay = INT_MAX;
     }
     else {
-        Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName")->text = { "随便写点什么防止卡住" };
+        Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName")->text = { "随便写点什么防止卡主,Leave some words here to avoid stucking" };
         Task.get(theme + "@Roguelike@LevelName")->next = { theme + "@Roguelike@NextLevel" };
-        Task.get(theme + "@Roguelike@CloseCollection")->next = {
-            theme + "@Roguelike@LastReward",  theme + "@Roguelike@LastReward2",    theme + "@Roguelike@LastReward3",
-            theme + "@Roguelike@LastReward4", theme + "@Roguelike@LastRewardRand", theme + "@Roguelike@RolesDefault"
-        };
         Task.get(theme + "@Roguelike@LastReward")->post_delay = 0;
         Task.get(theme + "@Roguelike@LastReward4")->post_delay = 0;
     }
