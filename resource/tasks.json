@@ -8433,6 +8433,23 @@
             0,
             186,
             129
+        ],
+        "next": [
+            "Roguelike@NextLevel"
+        ]
+    },
+    "Roguelike@LevelName_mode4": {
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "text": [],
+        "roi": [
+            593,
+            0,
+            186,
+            129
+        ],
+        "next": [
+            "Roguelike@NextLevel"
         ]
     },
     "Roguelike@NextLevel": {
@@ -9416,6 +9433,7 @@
     "Phantom@Roguelike@CloseCollection": {
         "next": [
             "Phantom@Roguelike@LastReward",
+            "Phantom@Roguelike@LastReward4",
             "Phantom@Roguelike@LastReward2",
             "Phantom@Roguelike@LastReward3",
             "Phantom@Roguelike@LastRewardRand",
@@ -9492,10 +9510,13 @@
     "Phantom@Roguelike@LastRewardRand": {},
     "Phantom@Roguelike@MissionFailedFlag": {},
     "Phantom@Roguelike@MissionFailedFlag2": {},
-    "Phantom@Roguelike@LevelName": {
+    "Phantom@Roguelike@LevelName": {},
+    "Phantom@Roguelike@LevelName_mode4": {
         "text": [
+            "故土残躯"
         ],
         "next": [
+            "Phantom@Roguelike@ExitThenAbandon"
         ]
     },
     "Phantom@Roguelike@NextLevel": {
@@ -9544,6 +9565,7 @@
         "template": "Phantom@Roguelike@LastRewardConfirm.png",
         "next": [
             "Phantom@Roguelike@LastReward",
+            "Phantom@Roguelike@LastReward4",
             "Phantom@Roguelike@LastReward2",
             "Phantom@Roguelike@LastReward3",
             "Phantom@Roguelike@LastRewardRand",
@@ -9630,9 +9652,9 @@
     "Mizuki@Roguelike@CloseCollection": {
         "next": [
             "Mizuki@Roguelike@LastReward",
+            "Mizuki@Roguelike@LastReward4",
             "Mizuki@Roguelike@LastReward2",
             "Mizuki@Roguelike@LastReward3",
-            "Mizuki@Roguelike@LastReward4",
             "Mizuki@Roguelike@LastRewardRand",
             "Mizuki@Roguelike@RolesDefault"
         ]
@@ -9881,10 +9903,14 @@
     },
     "Mizuki@Roguelike@MissionFailedFlag": {},
     "Mizuki@Roguelike@MissionFailedFlag2": {},
-    "Mizuki@Roguelike@LevelName": {
+    "Mizuki@Roguelike@LevelName": {},
+    "Mizuki@Roguelike@LevelName_mode4": {
         "text": [
+            "波涛略地",
+            "绀碧摇篮"
         ],
         "next": [
+            "Mizuki@Roguelike@ExitThenAbandon"
         ]
     },
     "Mizuki@Roguelike@NextLevel": {
@@ -9944,9 +9970,9 @@
         "template": "Mizuki@Roguelike@LastRewardConfirm.png",
         "next": [
             "Mizuki@Roguelike@LastReward",
+            "Mizuki@Roguelike@LastReward4",
             "Mizuki@Roguelike@LastReward2",
             "Mizuki@Roguelike@LastReward3",
-            "Mizuki@Roguelike@LastReward4",
             "Mizuki@Roguelike@LastRewardRand",
             "Mizuki@Roguelike@RolesDefault",
             "Mizuki@Roguelike@CloseCollection",
@@ -10307,10 +10333,14 @@
     },
     "Sami@Roguelike@MissionFailedFlag": {},
     "Sami@Roguelike@MissionFailedFlag2": {},
-    "Sami@Roguelike@LevelName": {
+    "Sami@Roguelike@LevelName": {},
+    "Sami@Roguelike@LevelName_mode4": {
         "text": [
+            "昧明冻土",
+            "深埋迷境"
         ],
         "next": [
+            "Sami@Roguelike@ExitThenAbandon"
         ]
     },
     "Sami@Roguelike@NextLevel": {
