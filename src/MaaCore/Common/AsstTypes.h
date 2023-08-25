@@ -37,6 +37,8 @@ namespace asst
         DeploymentWithPause = 3, // 自动战斗、肉鸽、保全 是否使用 暂停下干员， "0" | "1"
         AdbLiteEnabled = 4,      // 是否使用 AdbLite， "0" | "1"
         KillAdbOnExit = 5,       // 退出时是否杀掉 Adb 进程， "0" | "1"
+        GoldenBorder = 6,        // 是否给明日方舟添加金边框
+        ResizeWindow = 7,        // 是否直接把明日方舟缩放为1280x720
     };
 
     enum class TouchMode
@@ -45,6 +47,7 @@ namespace asst
         Minitouch = 1,
         Maatouch = 2,
         MacPlayTools = 3,
+        WSA = 4,
     };
 
     namespace ControlFeat

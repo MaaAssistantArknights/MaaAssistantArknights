@@ -1866,6 +1866,20 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         /// <summary>
+        /// Gets a value indicating whether WGC feature is not supported.
+        /// </summary>
+        public bool NotSupported { get; private set; }
+
+        /// <summary>
+        /// Sets it initialized.
+        /// </summary>
+        public void SetNotSupported()
+        {
+            NotSupported = true;
+            NotifyOfPropertyChange(nameof(NotSupported));
+        }
+
+        /// <summary>
         /// Gets a value indicating whether it is initialized.
         /// </summary>
         public bool Inited { get; private set; }

@@ -13,7 +13,7 @@
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
     xmlns:vm="clr-namespace:MaaWpfGui"
     d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
-    d:DesignHeight="300"
+    d:DesignHeight="330"
     d:DesignWidth="550"
     mc:Ignorable="d">
     <Grid>
@@ -23,16 +23,17 @@
             <ColumnDefinition Width="150" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition MaxHeight="{c:Binding '(TouchMode == &quot;wsa&quot;) ? 0 : 1024'}" />
+            <RowDefinition MaxHeight="{c:Binding '(TouchMode == &quot;wsa&quot;) ? 0 : 1024'}" />
+            <RowDefinition MaxHeight="{c:Binding '(TouchMode == &quot;wsa&quot;) ? 0 : 1024'}" />
+            <RowDefinition MaxHeight="{c:Binding '(TouchMode == &quot;wsa&quot;) ? 0 : 1024'}" />
+            <RowDefinition MaxHeight="{c:Binding '(TouchMode == &quot;wsa&quot;) ? 0 : 1024'}" />
             <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition MaxHeight="{c:Binding '(TouchMode == &quot;wsa&quot;) ? 0 : 1024'}" />
+            <RowDefinition MaxHeight="{c:Binding '(TouchMode == &quot;wsa&quot;) ? 0 : 1024'}" />
+            <RowDefinition MaxHeight="{c:Binding '(TouchMode == &quot;wsa&quot;) ? 0 : 1024'}" />
+            <RowDefinition MaxHeight="{c:Binding '(TouchMode == &quot;wsa&quot;) ? 0 : 1024'}" />
+            <RowDefinition MaxHeight="{c:Binding '(TouchMode == &quot;wsa&quot;) ? 1024 : 0'}" />
         </Grid.RowDefinitions>
         <StackPanel
             Grid.Row="0"
@@ -253,5 +254,25 @@
             Drop="EndsWithScript_Drop"
             PreviewDragOver="TextBox_PreviewDragOver"
             Text="{Binding EndsWithScript}" />
+        <WrapPanel
+	        Grid.Row="10"
+	        Grid.Column="0"
+	        Grid.ColumnSpan="3"
+	        HorizontalAlignment="Center"
+	        VerticalAlignment="Center" >
+            <controls:TextBlock
+				Margin="10"
+				TextWrapping="Wrap"
+				TextAlignment="Center"
+				Text="{DynamicResource WGCWarn}"/>
+            <CheckBox
+				Margin="20,10"
+				Content="{DynamicResource ResizeWindow}"
+				IsChecked="{Binding ResizeWindow}" />
+            <CheckBox
+				Margin="20,10"
+				Content="{DynamicResource GoldenBorder}"
+				IsChecked="{Binding GoldenBorder}" />
+        </WrapPanel>
     </Grid>
 </UserControl>

@@ -4,7 +4,7 @@
 #if defined(_WIN32)
 
 asst::WSAController::WSAController(const AsstCallback& callback, Assistant* inst, PlatformType type)
-    : InstHelper(inst), m_callback(callback), m_wgc(m_last_error), m_uuid("什么是UUID？")
+    : InstHelper(inst), m_callback(callback), m_wgc(m_last_error), m_uuid("111111")
 {
     LogTraceFunction;
 
@@ -116,9 +116,9 @@ asst::WSAController::FrameBuffer::~FrameBuffer() {
     m_frame_pool = nullptr;
     m_item = nullptr;
     m_device = nullptr;
-    m_staging_texture->Release();
-    m_context->Release();
-    m_native_device->Release();
+    if (m_staging_texture) m_staging_texture->Release();
+    if (m_context) m_context->Release();
+    if (m_native_device) m_native_device->Release();
 }
 
 bool asst::WSAController::FrameBuffer::prepare(bool resize_window, bool golden_border)
@@ -168,7 +168,7 @@ bool asst::WSAController::FrameBuffer::prepare(bool resize_window, bool golden_b
         RECT testCaption = { 0, 0, 100, 100 };
         AdjustWindowRectExForDpi(&testCaption, wndStyle, false, wndExStyle, dpi);
 
-        pub_caption_height = wantedClient.bottom - wantedClient.top - 720;
+        pub_caption_height = testCaption.bottom - testCaption.top - 100;
         wantedSize.right = wantedClient.right;
         wantedSize.bottom = wantedClient.bottom - pub_caption_height;
     }
@@ -223,14 +223,6 @@ bool asst::WSAController::FrameBuffer::prepare(bool resize_window, bool golden_b
         fill_error("winrt::Windows::Graphics::Capture::Direct3D11CaptureFramePool::CreateFreeThreaded");
         return false;
     }
-
-    m_session = m_frame_pool.CreateCaptureSession(m_item);
-    if (m_session == nullptr) {
-        fill_error("winrt::Windows::Graphics::Capture::Direct3D11CaptureFramePool::CreateCaptureSession");
-        return false;
-    }
-    m_session.IsBorderRequired(m_golden_border);
-    m_session.IsCursorCaptureEnabled(false);
 
     return SUCCEEDED(result);
 }

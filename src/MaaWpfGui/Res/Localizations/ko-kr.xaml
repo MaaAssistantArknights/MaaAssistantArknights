@@ -207,6 +207,7 @@
     <system:String x:Key="MiniTouchMode">Minitouch (기본값)</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch (실험적)</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input (권장하지 않음)</system:String>
+    <system:String x:Key="WSATouchMode">WSATouch (WSA전용)</system:String>
     <system:String x:Key="AdditionCommand">추가 변수</system:String>
     <system:String x:Key="StartsWithScript">시작 시 추가 스크립트</system:String>
     <system:String x:Key="EndsWithScript">종료 시 추가 스크립트</system:String>
@@ -479,6 +480,8 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocal">ADB 교체 실패</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">로컬 ADB 파일로 임시적으로 연결했습니다.</system:String>
     <system:String x:Key="InitializationError">초기화 오류!</system:String>
+    <system:String x:Key="FeatureNotSupported">WSATouch에는 빌드 1903 이상의 Windows 버전이 필요합니다.</system:String>
+    <system:String x:Key="CreateDeviceFailed">D3D 장치를 생성하지 못했습니다. 사용 중인 GPU가 Direct3D11을 지원하는지 확인하세요</system:String>
     <system:String x:Key="ResolutionNotSupported">에뮬레이터 해상도가 지원되지 않습니다. 16:9 비율로 설정하시고 해상도를 720p 이상으로 설정해주세요</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">에뮬레이터 해상도를 가져올 수 없습니다. 시뮬레이터와 ADB를 재시작하거나 컴퓨터를 재부팅하거나 시뮬레이터를 교체한 후 다시 시도하십시오</system:String>
     <system:String x:Key="TryToReconnect">에뮬레이터가 연결 해제되었습니다. 재연결을 시도합니다</system:String>

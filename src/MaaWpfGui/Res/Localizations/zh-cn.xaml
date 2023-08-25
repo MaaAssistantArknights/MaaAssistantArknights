@@ -207,9 +207,13 @@
     <system:String x:Key="MiniTouchMode">Minitouch（默认）</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch（实验功能）</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input（不推荐使用）</system:String>
+    <system:String x:Key="WSATouchMode">WSATouch（WSA专用）</system:String>
     <system:String x:Key="AdditionCommand">附加命令</system:String>
     <system:String x:Key="StartsWithScript">开始前脚本</system:String>
     <system:String x:Key="EndsWithScript">结束后脚本</system:String>
+    <system:String x:Key="WGCWarn">注意：使用该模式会自动将WSA明日方舟窗口非最小化</system:String>
+    <system:String x:Key="ResizeWindow">设置WSA明日方舟窗口为最优分辨率（1280x720）</system:String>
+    <system:String x:Key="GoldenBorder">镶金边（字面意思）</system:String>
     <system:String x:Key="RoguelikeTheme">肉鸽主题</system:String>
     <system:String x:Key="RoguelikeThemePhantom">傀影</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
@@ -479,6 +483,8 @@
     <system:String x:Key="FailedToReplaceAdbAndUseLocal">替换 ADB 失败</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">已临时使用本地 ADB 进行连接。</system:String>
     <system:String x:Key="InitializationError">初始化错误！</system:String>
+    <system:String x:Key="FeatureNotSupported">Windows版本过低，使用WSACapture需要win10 build 1903以上的版本</system:String>
+    <system:String x:Key="CreateDeviceFailed">无法创建D3D11设备，请检查显卡是否支持Direct3D11</system:String>
     <system:String x:Key="ResolutionNotSupported">模拟器分辨率不支持，请设置为 720p 或更高，且为 16:9 比例</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">模拟器分辨率获取失败，建议重启模拟器与 ADB 或重启电脑，或更换模拟器后再次尝试</system:String>
     <system:String x:Key="TryToReconnect">模拟器断开，正在尝试重连</system:String>

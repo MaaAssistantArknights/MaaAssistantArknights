@@ -171,7 +171,7 @@
                     Margin="5"
                     Command="{s:Action LinkStart}"
                     Content="{DynamicResource LinkStart}"
-                    IsEnabled="{Binding Inited}"
+                    IsEnabled="{c:Binding Path='Inited and !NotSupported'}"
                     Visibility="{c:Binding Path='(Idle and !Stopping) or !Inited'}" />
                 <Button
                     Width="100"

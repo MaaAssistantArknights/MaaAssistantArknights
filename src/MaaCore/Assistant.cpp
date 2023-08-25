@@ -105,6 +105,10 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
             m_ctrler->set_touch_mode(TouchMode::MacPlayTools);
             return true;
         }
+        else if (constexpr std::string_view WSA = "wsa"; value == WSA) {
+            m_ctrler->set_touch_mode(TouchMode::WSA);
+            return true;
+        }
         break;
     case InstanceOptionKey::DeploymentWithPause:
         if (constexpr std::string_view Enable = "1"; value == Enable) {
@@ -133,6 +137,26 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
         }
         else if (constexpr std::string_view Disable = "0"; value == Disable) {
             m_ctrler->set_kill_adb_on_exit(false);
+            return true;
+        }
+        break;
+    case InstanceOptionKey::GoldenBorder:
+        if (constexpr std::string_view Enable = "1"; value == Enable) {
+            m_ctrler->set_golden_border(true);
+            return true;
+        }
+        else if (constexpr std::string_view Disable = "0"; value == Disable) {
+            m_ctrler->set_golden_border(false);
+            return true;
+        }
+        break;
+    case InstanceOptionKey::ResizeWindow:
+        if (constexpr std::string_view Enable = "1"; value == Enable) {
+            m_ctrler->set_resize_window(true);
+            return true;
+        }
+        else if (constexpr std::string_view Disable = "0"; value == Disable) {
+            m_ctrler->set_resize_window(false);
             return true;
         }
         break;

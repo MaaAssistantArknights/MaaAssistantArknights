@@ -203,6 +203,7 @@
     <system:String x:Key="MiniTouchMode">Minitouch (標準)</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch (実験機能)</system:String>
     <system:String x:Key="AdbTouchMode">ADB Input (非推奨)</system:String>
+    <system:String x:Key="WSATouchMode">WSATouch (WSA専用)</system:String>
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
     <system:String x:Key="StartsWithScript">スクリプトを使用して始めます</system:String>
     <system:String x:Key="EndsWithScript">終了時にスクリプトを使用します</system:String>
@@ -473,6 +474,8 @@
     <system:String x:Key="FailedToReplaceAdbAndUseLocal">ADBファイルの置換に失敗しました</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">一時的にローカルADBを使用して接続されました。</system:String>
     <system:String x:Key="InitializationError">初期化エラー！</system:String>
+    <system:String x:Key="FeatureNotSupported">WSATouchは、ビルド1903より高いWindowsバージョンを必要とします</system:String>
+    <system:String x:Key="CreateDeviceFailed">D3D11デバイスを作成できません。お使いのグラフィックスカードがDirect3D11をサポートしているか確認してください</system:String>
     <system:String x:Key="ResolutionNotSupported">エミュレータの解像度はサポートされていません。アスペクト比16: 9で、720p以上に設定してください</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">エミュレータの解像度を取得できませんでした。エミュレータとADBを再起動するか、コンピュータを再起動することをお勧めします、エミュレータを変更してから再試行することをお勧めします</system:String>
     <system:String x:Key="TryToReconnect">エミュレータが切断、再接続を行います</system:String>

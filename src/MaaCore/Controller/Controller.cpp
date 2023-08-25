@@ -68,6 +68,8 @@ void asst::Controller::sync_params()
     CHECK_EXIST(m_controller, );
     m_controller->set_swipe_with_pause(m_swipe_with_pause);
     m_controller->set_kill_adb_on_exit(m_kill_adb_on_exit);
+    m_controller->set_resize_window(m_resize_window);
+    m_controller->set_golden_border(m_golden_border);
 }
 
 cv::Mat asst::Controller::get_resized_image_cache() const
@@ -149,7 +151,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     clear_info();
 
     m_controller =
-        m_controller_factory->create_controller(m_controller_type, adb_path, address, config, m_platform_type);
+        m_controller_factory->create_controller(m_controller_type, m_platform_type);
 
     if (!m_controller) {
         Log.error("connect failed");
@@ -157,6 +159,11 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     }
 
     sync_params();
+
+    if (!m_controller->connect(adb_path, address, config)) {
+        m_controller.reset();
+        return false;
+    }
 
     m_uuid = m_controller->get_uuid();
 
@@ -224,6 +231,9 @@ void asst::Controller::set_touch_mode(const TouchMode& mode) noexcept
     case TouchMode::MacPlayTools:
         m_controller_type = ControllerType::MacPlayTools;
         break;
+    case TouchMode::WSA:
+        m_controller_type = ControllerType::WSA;
+        break;
     default:
         m_controller_type = ControllerType::Minitouch;
     }
@@ -243,6 +253,18 @@ void asst::Controller::set_adb_lite_enabled(bool enable) noexcept
 void asst::Controller::set_kill_adb_on_exit(bool enable) noexcept
 {
     m_kill_adb_on_exit = enable;
+    sync_params();
+}
+
+void asst::Controller::set_golden_border(bool enable) noexcept
+{
+    m_golden_border = enable;
+    sync_params();
+}
+
+void asst::Controller::set_resize_window(bool enable) noexcept
+{
+    m_resize_window = enable;
     sync_params();
 }
 

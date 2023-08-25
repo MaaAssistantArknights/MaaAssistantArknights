@@ -15,9 +15,7 @@ namespace asst
         ControllerFactory(const AsstCallback& callback, Assistant* inst) : m_callback(callback), m_inst(inst) {}
         ~ControllerFactory() = default;
 
-        std::shared_ptr<ControllerAPI> create_controller(ControllerType type, const std::string& adb_path,
-                                                         const std::string& address, const std::string& config,
-                                                         PlatformType platform_type)
+        std::shared_ptr<ControllerAPI> create_controller(ControllerType type, PlatformType platform_type)
         {
             std::shared_ptr<ControllerAPI> controller;
             try {
@@ -36,6 +34,7 @@ namespace asst
                     break;
                 case ControllerType::WSA:
                     controller = std::make_shared<WSAController>(m_callback, m_inst, platform_type);
+                    break;
                 default:
                     return nullptr;
                 }
@@ -44,10 +43,7 @@ namespace asst
                 Log.error("Cannot create controller: {}", e.what());
                 return nullptr;
             }
-            if (controller->connect(adb_path, address, config)) {
-                return controller;
-            }
-            return nullptr;
+            return controller;
         }
 
     private:

@@ -38,6 +38,7 @@ namespace asst
         virtual bool connect([[maybe_unused]] const std::string& adb_path, [[maybe_unused]] const std::string& address,
                              [[maybe_unused]] const std::string& config) override;
 
+        const std::string& get_uuid() const override { return m_uuid; }
         virtual void set_resize_window(bool enable) noexcept override;
         virtual void set_golden_border(bool enable) noexcept override;
 
@@ -58,8 +59,7 @@ namespace asst
         virtual bool press_esc() override;
         virtual ControlFeat::Feat support_features() const noexcept override
         {
-            // return ControlFeat::SWIPE_WITH_PAUSE | ControlFeat::PRECISE_SWIPE;
-            return ControlFeat::NONE;
+            return ControlFeat::SWIPE_WITH_PAUSE | ControlFeat::PRECISE_SWIPE;
         }
 
         virtual std::pair<int, int> get_screen_res() const noexcept override { return m_screen_size; }
@@ -101,8 +101,8 @@ namespace asst
 
         public:
             std::pair<int, int> pub_size; // 输出大小
-            HWND pub_wndwsa;
-            int pub_caption_height;
+            HWND pub_wndwsa = NULL;
+            int pub_caption_height = 0;
 
         private:
             void process_frame(winrt::Windows::Graphics::Capture::Direct3D11CaptureFramePool const& framePool,
@@ -126,9 +126,9 @@ namespace asst
             std::mutex m_locker;
             cv::Mat m_front, m_back;
             winrt::event_token m_frame_arrived;
-            size_t m_pitch;
+            size_t m_pitch = 0;
             cv::Rect m_arknights_roi;
-            bool m_golden_border;
+            bool m_golden_border = false;
 
         } m_wgc; // Windows Graphics Capture member class;
         DWORD m_last_error;
