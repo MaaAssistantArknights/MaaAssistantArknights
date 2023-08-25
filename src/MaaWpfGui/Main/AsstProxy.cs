@@ -1094,7 +1094,7 @@ namespace MaaWpfGui.Main
 
         private void ProcRecruitCalcMsg(JObject details)
         {
-            Instances.RecognizerViewModel.procRecruitMsg(details);
+            Instances.RecognizerViewModel.ProcRecruitMsg(details);
         }
 
         private void ProcVideoRecMsg(JObject details)
@@ -1648,7 +1648,7 @@ namespace MaaWpfGui.Main
                 ["theme"] = theme,
             };
 
-            if (mode == 1)
+            if (mode == 1 || mode == 4)
             {
                 task_params["investment_enabled"] = true;
             }

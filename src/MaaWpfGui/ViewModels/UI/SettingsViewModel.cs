@@ -246,6 +246,8 @@ namespace MaaWpfGui.ViewModels.UI
 
                 // new CombData { Display = "两者兼顾，投资过后退出", Value = "2" } // 弃用
                 // new CombData { Display = Localization.GetString("3"), Value = "3" },  // 开发中
+
+                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeLastReward"), Value = "4" },
             };
 
             RoguelikeThemeList = new List<CombinedData>
@@ -2611,10 +2613,23 @@ namespace MaaWpfGui.ViewModels.UI
             if (File.Exists(jsonPath))
             {
                 JObject versionJson = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
+                var currentTime = (ulong)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
                 var poolTime = (ulong)versionJson?["gacha"]["time"];
                 var activityTime = (ulong)versionJson?["activity"]["time"];
 
-                if (poolTime > activityTime)
+                if ((currentTime < poolTime) && (currentTime < activityTime))
+                {
+                    versionName = string.Empty;
+                }
+                else if ((currentTime >= poolTime) && (currentTime < activityTime))
+                {
+                    versionName = versionJson?["gacha"]?["pool"]?.ToString() ?? string.Empty;
+                }
+                else if ((currentTime < poolTime) && (currentTime >= activityTime))
+                {
+                    versionName = versionJson?["activity"]?["name"]?.ToString() ?? string.Empty;
+                }
+                else if (poolTime > activityTime)
                 {
                     versionName = versionJson?["gacha"]?["pool"]?.ToString() ?? string.Empty;
                 }

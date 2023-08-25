@@ -106,7 +106,7 @@
                         "type": "string",
                         "description": "要执行的任务"
                     },
-                    "description": "可选项，执行后减少其他任务的执行计数。\n可选项，执行后减少其他任务的执行计数。"
+                    "description": "可选项，执行后减少其他任务的执行计数。"
                 },
                 "specificRect": {
                     "$ref": "#/definitions/Rectangle",
