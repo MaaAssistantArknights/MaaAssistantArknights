@@ -163,6 +163,8 @@ namespace asst
                 }
             };
 
+            int m_caption_height;
+
             double linear_interpolate(double& sx, double& sy, double dx, double dy, double time_stamp, double dur_slice,
                                       double n);
 
@@ -170,7 +172,6 @@ namespace asst
             bool m_inited = false;
 
             HWND m_wnd = NULL;
-            int m_caption_height = 45;
 
             std::thread m_thread;
             std::atomic_bool m_running;

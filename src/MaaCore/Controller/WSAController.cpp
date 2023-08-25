@@ -172,7 +172,8 @@ bool asst::WSAController::FrameBuffer::prepare(bool resize_window, bool golden_b
         RECT testCaption = { 0, 0, 100, 100 };
         AdjustWindowRectExForDpi(&testCaption, wndStyle, false, wndExStyle, dpi);
 
-        pub_caption_height = testCaption.bottom - testCaption.top - 100;
+        auto black = wantedWindow.right - wantedClient.right;
+        pub_caption_height = testCaption.bottom - testCaption.top - 100 - black;
         wantedSize.right = wantedClient.right;
         wantedSize.bottom = wantedClient.bottom - pub_caption_height;
     }
@@ -520,6 +521,7 @@ void asst::WSAController::Toucher::run()
             break;
         case 0:
             m_vm.down();
+            res = SendMessage(m_wnd, WM_LBUTTONDOWN, 0, coord);
             res = SendMessage(m_wnd, WM_LBUTTONDOWN, 0, coord);
             Sleep(40);
             res &= SendMessage(m_wnd, WM_LBUTTONUP, 0, coord);

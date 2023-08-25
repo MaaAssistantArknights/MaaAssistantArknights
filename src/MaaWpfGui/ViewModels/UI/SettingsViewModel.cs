@@ -2455,6 +2455,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _resizeWindow, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ResizeWindow, value.ToString());
+                UpdateInstanceSettings();
             }
         }
 
@@ -2467,6 +2468,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _goldenBorder, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.GoldenBorder, value.ToString());
+                UpdateInstanceSettings();
             }
         }
 
