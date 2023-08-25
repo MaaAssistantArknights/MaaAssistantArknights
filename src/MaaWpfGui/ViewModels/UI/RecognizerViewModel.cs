@@ -535,7 +535,7 @@ namespace MaaWpfGui.ViewModels.UI
                     var potential = (int)operBoxData["potential"];
                     if (id != null)
                     {
-                        _operBoxPotential.Add(id, potential);
+                        _operBoxPotential[id] = potential;
                     }
                 }
 
