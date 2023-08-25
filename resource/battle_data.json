@@ -5789,6 +5789,138 @@
                 "0-1"
             ],
             "rarity": 1
+        },
+        "trap_723_cdcvrt": {
+            "name": "溢能回收转化器",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_724_cdcvrta": {
+            "name": "溢能回收转化器",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_725_cdcvrtb": {
+            "name": "溢能回收转化器",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_726_cdrone": {
+            "name": "战地援护无人机",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-1",
+                "x-1",
+                "x-1"
+            ],
+            "rarity": 1
+        },
+        "trap_727_cdronea": {
+            "name": "战地援护无人机",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-1",
+                "x-1",
+                "x-1"
+            ],
+            "rarity": 1
+        },
+        "trap_728_cdroneb": {
+            "name": "战地援护无人机",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-1",
+                "x-1",
+                "x-1"
+            ],
+            "rarity": 1
+        },
+        "trap_729_cdkzmr": {
+            "name": "竞技记录分析仪",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_730_truamr": {
+            "name": "“甜蜜狂搅”",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 1
+        },
+        "trap_732_ltnova": {
+            "name": "神经再生",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_733_cdkzmra": {
+            "name": "竞技记录分析仪",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_734_cdkzmrb": {
+            "name": "竞技记录分析仪",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_735_platre": {
+            "name": "汲取体",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
         }
     },
     "ranges": {

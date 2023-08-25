@@ -1,12 +1,12 @@
 {
     "type": "SSS",
     "stage_name": "Acahuallan Jungle",
-    "minimum_required": "v4.9.0",
+    "minimum_required": "v4.21.0",
     "doc": {
-        "title": "Acahuallan Jungle - Mudrock Mizuki Lappland",
-        "title_color": "dark",
-        "details": "Form a manual team with high level operators and low DP cost. \nPlease choose vanguards that generate DP and with block 2 (Don't use Siege), high block defenders, and melee guard.\n\nDon't use May's 2nd skill, it's recommended to bring an Irene with 3rd skill.\nUse the third equipment and all A. Manual formation => Click Start\n\n作业: 萧然q\nBV1KK411z7t9\n搬运自: 作业搬运工\nAdaptation: Constrat",
-        "details_color": "dark"
+        "title": "Acahuallan Jungle - Mudrock, Mizuki, Lappland combo",
+        "title_color": "lightgreen",
+        "details": "Form a manual team with leveled operators and low DP cost. \nPlease choose Pioneer Vanguards with block 2 and DP generation (Don't use Siege), 3+ Block Defenders, and Guards.\n\nDon't use May's 2nd skill, it's recommended to bring an Irene with 3rd skill.\nUse the third equipment and all A. Manual formation => Click Start\n\n作业: 萧然q\nBV1KK411z7t9\n搬运自: 作业搬运工\nAdaptation: Constrat",
+        "details_color": "lightgreen"
     },
     "buff": "丛林用示踪信标",
     "equipment": [
@@ -38,11 +38,11 @@
         }
     ],
     "tool_men": {
-        "Vanguard": 3,
         "Guard": 5,
+        "Supporter": 4,
+        "Vanguard": 3,
         "Defender": 3,
-        "Medic": 2,
-        "Supporter": 4
+        "Medic": 2
     },
     "drops": [
         "无需增调干员",

@@ -1,12 +1,12 @@
 {
     "type": "SSS",
     "stage_name": "Under-Construction Dossoles Plate",
-    "minimum_required": "v4.9.0",
+    "minimum_required": "v4.21.0",
     "doc": {
         "title": "Under-Construction Dossoles Plate",
-        "title_color": "dark",
-        "details": "Author: YueShen\nAdaptation: Constrat\nUnder-Construction Dossoles Plate\nCoating Device Construction Valve\nBring block 2 vanguard with skill 1\nManual formation required\nIf you have questions please contact the devs",
-        "details_color": "dark"
+        "title_color": "lightblue",
+        "details": "Author: YueShen\nAdaptation: Constrat\nUnder-Construction Dossoles Plate\nEquipment: Coating Device Construction Valve\nBring Pioneer Vanguards (Block 2 + DP generation) with automatic skills\nManual formation required\nIf you have questions please contact the devs",
+        "details_color": "lightblue"
     },
     "buff": "镀膜装置导能阀",
     "equipment": [
@@ -48,11 +48,11 @@
         }
     ],
     "tool_men": {
-        "Vanguard": 1,
-        "Guard": 2,
         "Supporter": 7,
+        "Caster": 3,
+        "Guard": 2,
         "Defender": 2,
-        "Caster": 3
+        "Vanguard": 1
     },
     "drops": [
         "近卫",

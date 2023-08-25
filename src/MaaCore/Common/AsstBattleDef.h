@@ -17,9 +17,9 @@ namespace asst::battle
     {
         NotUse = 0,   // 不自动使用
         Possibly = 1, // 有就用，例如干员 棘刺 3 技能
-        Once = 2,     // 只用一次，例如干员 山 2 技能
+        Times = 2,    // 用 X 次，例如干员 山 2 技能用 1 次、重岳 3 技能用 5 次，由 "skill_times" 字段控制
         InTime = 3,   // 自动判断使用时机，画饼.jpg
-        OnceUsed
+        TimesUsed     // 已经使用了 X 次
     };
 
     struct OperUsage // 干员用法
@@ -27,6 +27,7 @@ namespace asst::battle
         std::string name;
         int skill = 1; // 技能序号，取值范围 [1, 3]
         SkillUsage skill_usage = SkillUsage::NotUse;
+        int skill_times = 1; // 使用技能的次数，默认为 1，兼容曾经的作业
     };
 
     enum class DeployDirection
@@ -192,6 +193,7 @@ namespace asst::battle
             Point location;
             DeployDirection direction = DeployDirection::Right;
             SkillUsage modify_usage = SkillUsage::NotUse;
+            int modify_times = 1; // 更改使用技能的次数，默认为 1，兼容曾经的作业
             int pre_delay = 0;
             int post_delay = 0;
             int time_out = INT_MAX; // TODO

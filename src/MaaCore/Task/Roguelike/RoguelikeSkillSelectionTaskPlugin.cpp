@@ -69,6 +69,7 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
             has_rookie = true;
         }
         status()->set_number(Status::RoguelikeSkillUsagePrefix + name, static_cast<int>(oper_info.skill_usage));
+        status()->set_number(Status::RoguelikeSkillTimesPrefix + name, static_cast<int>(oper_info.skill_times));
     }
 
     if (!status()->get_str(Status::RoguelikeCharOverview)) {
