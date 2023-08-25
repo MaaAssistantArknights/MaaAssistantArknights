@@ -35,14 +35,16 @@ namespace MaaWpfGui.ViewModels.UI
     /// <summary>
     /// The view model of copilot.
     /// </summary>
+    // 通过 container.Get<CopilotViewModel>(); 实例化或获取实例，需要添加 qodana ignore rule
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class CopilotViewModel : Screen
     {
         private readonly RunningState _runningState;
 
         /// <summary>
-        /// Gets or sets the view models of log items.
+        /// Gets the view models of log items.
         /// </summary>
-        public ObservableCollection<LogItemViewModel> LogItemViewModels { get; set; }
+        public ObservableCollection<LogItemViewModel> LogItemViewModels { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CopilotViewModel"/> class.
@@ -99,7 +101,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Clears log.
         /// </summary>
-        public void ClearLog()
+        private void ClearLog()
         {
             LogItemViewModels.Clear();
         }
@@ -197,7 +199,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             try
             {
-                var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri($@"https://prts.maa.plus/copilot/get/{copilotId}"));
+                var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri($"https://prts.maa.plus/copilot/get/{copilotId}"));
                 var json = (JObject)JsonConvert.DeserializeObject(jsonResponse);
                 if (json != null && json.ContainsKey("status_code") && json["status_code"]?.ToString() == "200")
                 {
@@ -264,7 +266,7 @@ namespace MaaWpfGui.ViewModels.UI
                     AddLog(details, detailsColor);
                     {
                         Url = CopilotUiUrl;
-                        var linkParser = new Regex(@"(BV.*?).{10}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                        var linkParser = new Regex("(BV.*?).{10}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                         foreach (Match match in linkParser.Matches(details))
                         {
                             Url = "https://www.bilibili.com/video/" + match.Value;
@@ -389,6 +391,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
         // ReSharper disable once UnusedMember.Global
+        // ReSharper disable once UnusedParameter.Global
         // TODO: 不知道为啥现在拖放不用了，之后瞅瞅
         public void DropFile(object sender, DragEventArgs e)
         {
@@ -429,6 +432,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
         // ReSharper disable once UnusedMember.Global
+        // ReSharper disable once UnusedParameter.Global
         public void OnDropDownOpened(object sender, EventArgs e)
         {
             if (!(sender is ComboBox comboBox))
@@ -458,7 +462,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _form, value);
         }
 
-        public bool Loop { get; set; } = false;
+        public bool Loop { get; set; }
 
         private int _loopTimes = int.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.CopilotLoopTimes, "1"));
 
@@ -477,6 +481,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Starts copilot.
         /// </summary>
+        // xaml 中绑定了 action
+        // ReSharper disable once UnusedMember.Global
         public async void Start()
         {
             /*
@@ -488,7 +494,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (_isVideoTask)
             {
-                StartVideoTask();
+                _ = StartVideoTask();
                 return;
             }
 
@@ -524,7 +530,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public bool StartVideoTask()
+        private bool StartVideoTask()
         {
             return Instances.AsstProxy.AsstStartVideoRec(Filename);
         }
@@ -532,6 +538,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Stops copilot.
         /// </summary>
+        // xaml 中绑定了 action
+        // ReSharper disable once UnusedMember.Global
         public void Stop()
         {
             Instances.AsstProxy.AsstStop();
@@ -560,7 +568,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private bool _isDataFromWeb;
 
-        public bool IsDataFromWeb
+        private bool IsDataFromWeb
         {
             get => _isDataFromWeb;
             set
@@ -572,7 +580,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private int _copilotId;
 
-        public int CopilotId
+        private int CopilotId
         {
             get => _copilotId;
             set
@@ -627,21 +635,21 @@ namespace MaaWpfGui.ViewModels.UI
         private string _urlText = LocalizationHelper.GetString("PrtsPlus");
 
         /// <summary>
-        /// Gets or sets the UrlText.
+        /// Gets or private sets the UrlText.
         /// </summary>
         public string UrlText
         {
             get => _urlText;
-            set => SetAndNotify(ref _urlText, value);
+            private set => SetAndNotify(ref _urlText, value);
         }
 
         /// <summary>
-        /// Gets or sets the copilot URL.
+        /// Gets or private sets the copilot URL.
         /// </summary>
         public string Url
         {
             get => _url;
-            set
+            private set
             {
                 UrlText = value == CopilotUiUrl ? LocalizationHelper.GetString("PrtsPlus") : LocalizationHelper.GetString("VideoLink");
                 SetAndNotify(ref _url, value);
@@ -654,6 +662,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="sender">点击事件发送者</param>
         /// <param name="e">点击事件</param>
         // ReSharper disable once UnusedMember.Global
+        // ReSharper disable once UnusedParameter.Global
         public void MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (!(sender is UIElement element))

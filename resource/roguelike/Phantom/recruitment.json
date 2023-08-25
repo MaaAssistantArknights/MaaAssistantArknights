@@ -91,7 +91,6 @@
                     "alternate_skill": 1,
                     "recruit_priority": 550,
                     "promote_priority": 580,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -485,6 +484,7 @@
                     "name": "斑点",
                     "skill": 1,
                     "is_key": true,
+                    "is_start": true,
                     "recruit_priority": 700,
                     "promote_priority": 0,
                     "promote_priority_when_team_full": 0
@@ -999,6 +999,7 @@
                 {
                     "name": "安赛尔",
                     "skill": 1,
+                    "is_start": true,
                     "recruit_priority": 510,
                     "promote_priority": 0,
                     "is_key": true
@@ -1214,7 +1215,8 @@
                     "name": "异客",
                     "skill": 3,
                     "alternate_skill": 2,
-                    "is_start": true,
+                    "is_start": true,                    
+                    "is_key": true,
                     "recruit_priority": 459,
                     "promote_priority": 550
                 },
@@ -1238,10 +1240,20 @@
                 },
                 {
                     "name": "莫斯提马",
+                    "skill": 3,                                     
+                    "is_key": true,
+                    "alternate_skill": 2,
+                    "recruit_priority": 643,
+                    "promote_priority": 910
+                },
+                {
+                    "name": "林",
                     "skill": 3,
                     "alternate_skill": 2,
-                    "recruit_priority": 463,
-                    "promote_priority": 910
+                    "is_start": true,                    
+                    "is_key": true,
+                    "recruit_priority": 659,
+                    "promote_priority": 550
                 },
                 {
                     "name": "稀音",
@@ -1279,6 +1291,7 @@
                 {
                     "name": "克洛丝",
                     "skill": 1,
+                    "is_start": true,
                     "recruit_priority": 510,
                     "promote_priority": 0,
                     "is_key": true
@@ -1304,7 +1317,8 @@
                 },
                 {
                     "name": "提丰",
-                    "skill": 3,
+                    "skill": 3,                    
+                    "is_key": true,
                     "alternate_skill": 2,
                     "recruit_priority": 720,
                     "promote_priority": 820
@@ -1538,6 +1552,7 @@
                 {
                     "name": "芬",
                     "skill": 1,
+                    "is_start": true,
                     "is_key": true,
                     "recruit_priority": 650,
                     "promote_priority": 0,
@@ -1669,6 +1684,7 @@
                     "name": "梓兰",
                     "skill": 1,
                     "is_key": true,
+                    "is_start": true,
                     "recruit_priority": 509,
                     "promote_priority": 0
                 }
@@ -2036,7 +2052,8 @@
     "team_complete_condition": [
         {
             "groups": [
-                "高台C"
+                "高台C",
+                "银灰"
             ],
             "threshold": 1
         },
