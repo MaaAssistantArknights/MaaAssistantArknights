@@ -107,6 +107,7 @@ namespace MaaWpfGui.ViewModels
         /// <summary>
         /// Gets or sets the token.
         /// </summary>
+        // ReSharper disable once UnusedMember.Global
         public string Token
         {
             get => _token;
@@ -118,6 +119,7 @@ namespace MaaWpfGui.ViewModels
         /// <summary>
         /// Gets or sets the running status.
         /// </summary>
+        // ReSharper disable once UnusedMember.Global
         public string RunStatus
         {
             get => _runStatus;

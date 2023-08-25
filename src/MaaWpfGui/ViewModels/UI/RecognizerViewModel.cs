@@ -41,24 +41,13 @@ namespace MaaWpfGui.ViewModels.UI
             DisplayName = LocalizationHelper.GetString("Toolbox");
         }
 
-        protected override void OnInitialActivate()
-        {
-            base.OnInitialActivate();
-        }
-
         private static string PadRightEx(string str, int totalByteCount)
         {
-            Encoding coding = Encoding.GetEncoding("gb2312");
-            int dcount = 0;
-            foreach (char ch in str.ToCharArray())
-            {
-                if (coding.GetByteCount(ch.ToString()) == 2)
-                {
-                    dcount++;
-                }
-            }
 
-            string w = str.PadRight(totalByteCount - dcount);
+            Encoding coding = Encoding.GetEncoding("gb2312");
+            int count = str.ToCharArray().Count(ch => coding.GetByteCount(ch.ToString()) == 2);
+
+            string w = str.PadRight(totalByteCount - count);
             return w;
         }
 

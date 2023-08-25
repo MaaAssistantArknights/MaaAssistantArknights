@@ -197,7 +197,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             try
             {
-                var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri($@"https://prts.maa.plus/copilot/get/{copilotId}"));
+                var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri($"https://prts.maa.plus/copilot/get/{copilotId}"));
                 var json = (JObject)JsonConvert.DeserializeObject(jsonResponse);
                 if (json != null && json.ContainsKey("status_code") && json["status_code"]?.ToString() == "200")
                 {
@@ -264,7 +264,7 @@ namespace MaaWpfGui.ViewModels.UI
                     AddLog(details, detailsColor);
                     {
                         Url = CopilotUiUrl;
-                        var linkParser = new Regex(@"(BV.*?).{10}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                        var linkParser = new Regex("(BV.*?).{10}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                         foreach (Match match in linkParser.Matches(details))
                         {
                             Url = "https://www.bilibili.com/video/" + match.Value;

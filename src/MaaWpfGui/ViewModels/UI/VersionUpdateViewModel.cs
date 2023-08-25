@@ -373,6 +373,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         // ReSharper disable once IdentifierTypo
+        // ReSharper disable once UnusedMember.Global
         public enum Downloader
         {
             /// <summary>
