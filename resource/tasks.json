@@ -211,10 +211,10 @@
         "isAscii": true,
         "text": [],
         "roi": [
-            16,
-            219,
-            409,
-            151
+            244,
+            270,
+            129,
+            49
         ],
         "specificRect": [
             787,
@@ -366,10 +366,10 @@
         "isAscii": true,
         "text": [],
         "roi": [
-            16,
-            219,
-            409,
-            151
+            244,
+            270,
+            129,
+            49
         ],
         "cache": false,
         "specificRect": [
@@ -852,14 +852,15 @@
         "algorithm": "OcrDetect",
         "text": [
             "火山",
+            "旅梦",
             "已开放"
         ],
         "postDelay": 2000,
         "roi": [
-            0,
-            500,
-            500,
-            150
+            710,
+            234,
+            128,
+            36
         ],
         "next": [
             "SLChapterToSL"
@@ -2603,6 +2604,14 @@
                 ""
             ],
             [
+                "^《~",
+                ""
+            ],
+            [
+                "^《",
+                ""
+            ],
+            [
                 "^令.+",
                 "令"
             ],
@@ -2685,6 +2694,30 @@
             [
                 "归.*幽灵鲨",
                 "归溟幽灵鲨"
+            ],
+            [
+                "临六$",
+                "临光"
+            ],
+            [
+                "^临光.*",
+                "临光"
+            ],
+            [
+                "^煌.*",
+                "煌"
+            ],
+            [
+                ".*甜蜜狂搅.*",
+                "“甜蜜狂搅”"
+            ],
+            [
+                "^年.?$",
+                "年"
+            ],
+            [
+                "^w$",
+                "W"
             ]
         ]
     },
@@ -3536,6 +3569,14 @@
             ],
             [
                 ".+分钟",
+                "分钟"
+            ],
+            [
+                "^\\d+小$",
+                "小时"
+            ],
+            [
+                "^\\d+分$",
                 "分钟"
             ]
         ],
@@ -6548,6 +6589,13 @@
             133
         ]
     },
+    "BattleQuickFormationRole-All-OCR": {
+        "baseTask": "BattleQuickFormationRole-All",
+        "algorithm": "OcrDetect",
+        "text": [
+            "全部"
+        ]
+    },
     "BattleQuickFormationRole-Pioneer": {
         "baseTask": "BattleQuickFormationRole"
     },
@@ -6572,35 +6620,46 @@
     "BattleQuickFormationRole-Support": {
         "baseTask": "BattleQuickFormationRole"
     },
-    "BattleQuickFormation-OperNameFlag": {
-        "templThreshold": 0.92,
+    "BattleQuickFormation-OperNameFlagBase": {
+        "template": "empty.png",
         "roi": [
-            370,
-            250,
-            715,
-            420
+            342,
+            66,
+            866,
+            332
         ]
     },
-    "BattleQuickFormation-OperNameFlag-SpecialFocus": {
-        "templThreshold": 0.8,
-        "roi": [
-            370,
-            250,
-            715,
-            420
-        ],
-        "maskRange": [
-            1,
-            250
-        ]
+    "BattleQuickFormation-OperNameFlag0": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag1": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag2": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag3": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag4": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag5": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag6": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag7": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
     },
     "BattleQuickFormationOCR": {
         "algorithm": "OcrDetect",
         "fullMatch": true,
         "text": [],
         "roi": [
-            20,
-            -8,
+            9,
+            232,
             107,
             20
         ],
@@ -7523,6 +7582,7 @@
         "next": [
             "DepotEnter",
             "DepotMaterialTab",
+            "DepotAllTab",
             "DepotMaterialTabClicked",
             "DepotEnter@ReturnTo"
         ]
@@ -7534,6 +7594,18 @@
             560,
             171,
             160
+        ],
+        "next": [
+            "DepotMaterialTab"
+        ]
+    },
+    "DepotAllTab": {
+        "action": "ClickSelf",
+        "roi": [
+            452,
+            0,
+            281,
+            134
         ],
         "next": [
             "DepotMaterialTab"
@@ -8216,6 +8288,14 @@
             "Sami@Roguelike@FromIntegratedStrategies"
         ]
     },
+    "Roguelike@LastReward_normal_mode": {
+        "algorithm": "JustReturn",
+        "postDelay": 0
+    },
+    "Roguelike@LastReward_mode4": {
+        "algorithm": "JustReturn",
+        "postDelay": 2147483647
+    },
     "Roguelike@LastReward": {
         "Doc": "base_task",
         "Doc2": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援——热水壶",
@@ -8223,14 +8303,15 @@
         "action": "ClickSelf",
         "cache": false,
         "roi": [
-            174,
+            171,
             151,
             935,
             533
         ],
         "next": [
             "Roguelike@LastRewardConfirm"
-        ]
+        ],
+        "postDelay": 0
     },
     "Roguelike@LastReward2": {
         "Doc": "base_task",
@@ -8239,7 +8320,7 @@
         "action": "ClickSelf",
         "cache": false,
         "roi": [
-            174,
+            171,
             151,
             935,
             533
@@ -8255,7 +8336,23 @@
         "action": "ClickSelf",
         "cache": false,
         "roi": [
-            174,
+            171,
+            151,
+            935,
+            533
+        ],
+        "next": [
+            "Roguelike@LastRewardConfirm"
+        ]
+    },
+    "Roguelike@LastReward4": {
+        "Doc": "base_task",
+        "Doc2": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 2 希望",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            171,
             151,
             935,
             533
@@ -8270,7 +8367,7 @@
         "action": "ClickSelf",
         "cache": false,
         "roi": [
-            174,
+            171,
             151,
             935,
             533
@@ -8287,7 +8384,7 @@
         "action": "ClickSelf",
         "cache": false,
         "roi": [
-            174,
+            171,
             151,
             935,
             533
@@ -8333,6 +8430,48 @@
         ],
         "next": [
             "Roguelike@ClickToStartPoint"
+        ]
+    },
+    "Roguelike@LevelName": {
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "text": [],
+        "roi": [
+            593,
+            0,
+            186,
+            129
+        ],
+        "next": [
+            "Roguelike@NextLevel"
+        ]
+    },
+    "Roguelike@LevelName_normal_mode": {
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "text": [ "随便写点什么防止卡住,Leave some words here to avoid stucking" ],
+        "roi": [
+            593,
+            0,
+            186,
+            129
+        ],
+        "next": [
+            "Roguelike@NextLevel"
+        ]
+    },
+    "Roguelike@LevelName_mode4": {
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "text": [],
+        "roi": [
+            593,
+            0,
+            186,
+            129
+        ],
+        "next": [
+            "Roguelike@NextLevel"
         ]
     },
     "Roguelike@NextLevel": {
@@ -9316,6 +9455,7 @@
     "Phantom@Roguelike@CloseCollection": {
         "next": [
             "Phantom@Roguelike@LastReward",
+            "Phantom@Roguelike@LastReward4",
             "Phantom@Roguelike@LastReward2",
             "Phantom@Roguelike@LastReward3",
             "Phantom@Roguelike@LastRewardRand",
@@ -9384,13 +9524,26 @@
         ]
     },
     "Phantom@Roguelike@InitalDrop": {},
+    "Phantom@Roguelike@LastReward_normal_mode": {},
+    "Phantom@Roguelike@LastReward_mode4": {},
     "Phantom@Roguelike@LastReward": {},
     "Phantom@Roguelike@LastReward2": {},
     "Phantom@Roguelike@LastReward3": {},
+    "Phantom@Roguelike@LastReward4": {},
     "Phantom@Roguelike@LastRewardConfirm": {},
     "Phantom@Roguelike@LastRewardRand": {},
     "Phantom@Roguelike@MissionFailedFlag": {},
     "Phantom@Roguelike@MissionFailedFlag2": {},
+    "Phantom@Roguelike@LevelName": {},
+    "Phantom@Roguelike@LevelName_normal_mode": {},
+    "Phantom@Roguelike@LevelName_mode4": {
+        "text": [
+            "故土残躯"
+        ],
+        "next": [
+            "Phantom@Roguelike@ExitThenAbandon"
+        ]
+    },
     "Phantom@Roguelike@NextLevel": {
         "text": [
             "迷雾歧途",
@@ -9401,6 +9554,7 @@
             "渴欲大厅"
         ],
         "next": [
+            "Phantom@Roguelike@LevelName",
             "Phantom@Roguelike@StageTrader",
             "Phantom@Roguelike@StageSafeHouse",
             "Phantom@Roguelike@StageEncounter",
@@ -9436,6 +9590,7 @@
         "template": "Phantom@Roguelike@LastRewardConfirm.png",
         "next": [
             "Phantom@Roguelike@LastReward",
+            "Phantom@Roguelike@LastReward4",
             "Phantom@Roguelike@LastReward2",
             "Phantom@Roguelike@LastReward3",
             "Phantom@Roguelike@LastRewardRand",
@@ -9522,9 +9677,9 @@
     "Mizuki@Roguelike@CloseCollection": {
         "next": [
             "Mizuki@Roguelike@LastReward",
+            "Mizuki@Roguelike@LastReward4",
             "Mizuki@Roguelike@LastReward2",
             "Mizuki@Roguelike@LastReward3",
-            "Mizuki@Roguelike@LastReward4",
             "Mizuki@Roguelike@LastRewardRand",
             "Mizuki@Roguelike@RolesDefault"
         ]
@@ -9752,22 +9907,12 @@
         ]
     },
     "Mizuki@Roguelike@InitalDrop": {},
+    "Mizuki@Roguelike@LastReward_normal_mode": {},
+    "Mizuki@Roguelike@LastReward_mode4": {},
     "Mizuki@Roguelike@LastReward": {},
     "Mizuki@Roguelike@LastReward2": {},
     "Mizuki@Roguelike@LastReward3": {},
-    "Mizuki@Roguelike@LastReward4": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            174,
-            151,
-            935,
-            533
-        ],
-        "next": [
-            "Mizuki@Roguelike@LastRewardConfirm"
-        ]
-    },
+    "Mizuki@Roguelike@LastReward4": {},
     "Mizuki@Roguelike@LastRewardConfirm": {},
     "Mizuki@Roguelike@LastRewardRand": {},
     "Mizuki@Roguelike@MapObject": {
@@ -9785,6 +9930,17 @@
     },
     "Mizuki@Roguelike@MissionFailedFlag": {},
     "Mizuki@Roguelike@MissionFailedFlag2": {},
+    "Mizuki@Roguelike@LevelName": {},
+    "Mizuki@Roguelike@LevelName_normal_mode": {},
+    "Mizuki@Roguelike@LevelName_mode4": {
+        "text": [
+            "波涛略地",
+            "绀碧摇篮"
+        ],
+        "next": [
+            "Mizuki@Roguelike@ExitThenAbandon"
+        ]
+    },
     "Mizuki@Roguelike@NextLevel": {
         "text": [
             "天光海岸",
@@ -9796,6 +9952,7 @@
             "绀碧摇篮"
         ],
         "next": [
+            "Mizuki@Roguelike@LevelName",
             "Mizuki@Roguelike@StageTrader",
             "Mizuki@Roguelike@StageSafeHouse",
             "Mizuki@Roguelike@StageWindAndRain",
@@ -9841,9 +9998,9 @@
         "template": "Mizuki@Roguelike@LastRewardConfirm.png",
         "next": [
             "Mizuki@Roguelike@LastReward",
+            "Mizuki@Roguelike@LastReward4",
             "Mizuki@Roguelike@LastReward2",
             "Mizuki@Roguelike@LastReward3",
-            "Mizuki@Roguelike@LastReward4",
             "Mizuki@Roguelike@LastRewardRand",
             "Mizuki@Roguelike@RolesDefault",
             "Mizuki@Roguelike@CloseCollection",
@@ -10016,9 +10173,9 @@
     "Sami@Roguelike@CloseCollection": {
         "next": [
             "Sami@Roguelike@LastReward",
+            "Sami@Roguelike@LastReward4",
             "Sami@Roguelike@LastReward2",
             "Sami@Roguelike@LastReward3",
-            "Sami@Roguelike@LastReward4",
             "Sami@Roguelike@LastRewardRand",
             "Sami@Roguelike@RolesDefault"
         ]
@@ -10183,22 +10340,12 @@
         ]
     },
     "Sami@Roguelike@InitalDrop": {},
+    "Sami@Roguelike@LastReward_normal_mode": {},
+    "Sami@Roguelike@LastReward_mode4": {},
     "Sami@Roguelike@LastReward": {},
     "Sami@Roguelike@LastReward2": {},
     "Sami@Roguelike@LastReward3": {},
-    "Sami@Roguelike@LastReward4": {
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            174,
-            151,
-            935,
-            533
-        ],
-        "next": [
-            "Sami@Roguelike@LastRewardConfirm"
-        ]
-    },
+    "Sami@Roguelike@LastReward4": {},
     "Sami@Roguelike@LastRewardConfirm": {},
     "Sami@Roguelike@LastRewardRand": {},
     "Sami@Roguelike@MapObject": {
@@ -10216,6 +10363,17 @@
     },
     "Sami@Roguelike@MissionFailedFlag": {},
     "Sami@Roguelike@MissionFailedFlag2": {},
+    "Sami@Roguelike@LevelName": {},
+    "Sami@Roguelike@LevelName_normal_mode": {},
+    "Sami@Roguelike@LevelName_mode4": {
+        "text": [
+            "昧明冻土",
+            "深埋迷境"
+        ],
+        "next": [
+            "Sami@Roguelike@ExitThenAbandon"
+        ]
+    },
     "Sami@Roguelike@NextLevel": {
         "text": [
             "完成本层",
@@ -10228,6 +10386,7 @@
             78
         ],
         "next": [
+            "Sami@Roguelike@LevelName",
             "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@StageTrader",
             "Sami@Roguelike@StageTraderAI6",
@@ -10285,9 +10444,9 @@
         "template": "Sami@Roguelike@LastRewardConfirm.png",
         "next": [
             "Sami@Roguelike@LastReward",
-            "Sami@Roguelike@LastReward2",
-            "Sami@Roguelike@LastReward3",
             "Sami@Roguelike@LastReward4",
+            "Sami@Roguelike@LastReward3",
+            "Sami@Roguelike@LastReward2",
             "Sami@Roguelike@LastRewardRand",
             "Sami@Roguelike@RolesDefault",
             "Sami@Roguelike@CloseCollection",
@@ -11183,10 +11342,10 @@
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [
-            -120,
-            -160,
-            190,
-            35
+            406,
+            90,
+            825,
+            263
         ],
         "ocrReplace": [
             [
@@ -11457,6 +11616,10 @@
             [
                 "^消息传递.*",
                 "消息传递"
+            ],
+            [
+                "^干.*封锁",
+                "干酪封锁"
             ]
         ]
     },

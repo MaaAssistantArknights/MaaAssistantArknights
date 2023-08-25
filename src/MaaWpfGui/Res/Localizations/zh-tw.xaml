@@ -79,6 +79,7 @@
     <system:String x:Key="InfrastThresholdTip">若啟用自定義換班，該字段僅針對 autofill 的房間有效</system:String>
     <system:String x:Key="RoguelikeStrategyExp">刷等級，盡可能穩定的打更多層數</system:String>
     <system:String x:Key="RoguelikeStrategyGold">刷源石錠，到達第二層後直接退出</system:String>
+    <!-- system:String x:Key="RoguelikeLastReward">燒開水，到達第三層後直接退出</system:String -->
     <system:String x:Key="StartingSquad">開局分隊</system:String>
     <system:String x:Key="StartingRoles">開局職業組</system:String>
     <system:String x:Key="StartingCoreChar">開局幹員(單個)</system:String>
@@ -349,6 +350,7 @@
     <system:String x:Key="AboutToShutdown">已刷完，即將關機，是否取消？</system:String>
     <system:String x:Key="ShutdownPrompt">提示</system:String>
     <system:String x:Key="HibernatePrompt">已刷完，即將休眠</system:String>
+    <system:String x:Key="UnknownActionAfterCompleted">未知的結束動作</system:String>
     <system:String x:Key="AnnihilationTaskFailed">剿滅任務失敗，將嘗試使用剩餘備選關卡，部分戰鬥設定將不生效</system:String>
     <!--  设置失败  -->
     <!--  一鍵長草  -->
@@ -593,4 +595,7 @@
     <system:String x:Key="ConfirmExitTitle">MAA 正在執行任務</system:String>
     <system:String x:Key="ConfirmExitText">確定要退出嗎？</system:String>
     <!--  RootViewModel  -->
+    <!--  Api  -->
+    <system:String x:Key="ApiUpdateSuccess">關卡數據獲取成功</system:String>
+    <!--  Api  -->
 </ResourceDictionary>

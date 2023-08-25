@@ -23,11 +23,12 @@ namespace asst
     struct RoguelikeOperInfo
     {
         std::string name;
-        int group_id = 0;                                         // 干员组id
-        int recruit_priority = 0;                                 // 招募优先级 (0-1000)
-        int promote_priority = 0;                                 // 晋升优先级 (0-1000)
-        int recruit_priority_when_team_full = 0;                  // 队伍满时的招募优先级 (0-1000)
-        int promote_priority_when_team_full = 0;                  // 队伍满时的晋升优先级 (0-1000)
+        std::vector<int> group_id = {};              // 干员组id,允许一个干员存在于多个干员组
+        std::unordered_map<int, int> order_in_group; // 干员在干员组内的顺序 干员组id:干员组内顺序
+        int recruit_priority = 0;                    // 招募优先级 (0-1000)
+        int promote_priority = 0;                    // 晋升优先级 (0-1000)
+        int recruit_priority_when_team_full = 0;     // 队伍满时的招募优先级 (0-1000)
+        int promote_priority_when_team_full = 0;     // 队伍满时的晋升优先级 (0-1000)
         std::vector<std::pair<int, int>> recruit_priority_offset; // [deprecated]
         bool offset_melee = false;                                // [deprecated]
         bool is_key = false;                                      // 是否为核心干员
@@ -37,7 +38,9 @@ namespace asst
         int skill = 0;
         int alternate_skill = 0;
         battle::SkillUsage skill_usage = battle::SkillUsage::Possibly;
+        int skill_times = 1;
         battle::SkillUsage alternate_skill_usage = battle::SkillUsage::Possibly;
+        int alternate_skill_times = 1;
     };
 
     class RoguelikeRecruitConfig final : public SingletonHolder<RoguelikeRecruitConfig>, public AbstractConfig
@@ -46,11 +49,10 @@ namespace asst
         virtual ~RoguelikeRecruitConfig() override = default;
 
         const RoguelikeOperInfo& get_oper_info(const std::string& theme, const std::string& name) noexcept;
-        const std::vector<std::pair<int, int>> get_role_info(const std::string& theme,
-                                                             const battle::Role& role) const noexcept; // [deprecated]
+        // 获取该肉鸽内用到的干员组[干员组1,干员组2,...]
         const std::vector<std::string> get_group_info(const std::string& theme) const noexcept;
         const std::vector<RecruitPriorityOffset> get_team_complete_info(const std::string& theme) const noexcept;
-        int get_group_id(const std::string& theme, const std::string& name) const noexcept;
+        std::vector<int> get_group_id(const std::string& theme, const std::string& name) const noexcept;
 
     protected:
         virtual bool parse(const json::value& json) override;
@@ -58,8 +60,6 @@ namespace asst
         void clear(const std::string& theme);
 
         std::unordered_map<std::string, std::unordered_map<std::string, RoguelikeOperInfo>> m_all_opers;
-        std::unordered_map<std::string, std::unordered_map<battle::Role, std::vector<std::pair<int, int>>>>
-            m_role_offset_map; // [deprecated]
         std::unordered_map<std::string, std::vector<std::string>> m_oper_groups;
         std::unordered_map<std::string, std::vector<RecruitPriorityOffset>> m_team_complete_comdition;
     };
