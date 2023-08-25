@@ -676,6 +676,14 @@ bool asst::WSAController::Toucher::VirtualMouse::inject()
     *(ULONGLONG*)&(m_newcode[13]) = ((ULONGLONG)remote_func_addr);
 
     if (injection_count == 0) memcpy(m_oldcode, m_remote.lpGetKeyState, code_size);
+    {
+        std::ostringstream str_codes;
+        str_codes << std::hex;
+        for (auto i : m_oldcode) {
+            str_codes << "\\x" << (int)i;
+        }
+        Log.info("Old codes: ", str_codes.str());
+    }
     memcpy((char*)m_remote.oldcode, (char*)m_oldcode, code_size);
     memcpy((char*)m_remote.newcode, (char*)m_newcode, code_size);
     m_remote.func_addr = remote_func_addr;
