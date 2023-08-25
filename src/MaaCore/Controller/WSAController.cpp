@@ -1,6 +1,8 @@
 
 #include "WSAController.h"
 
+#include <TlHelp32.h>
+
 #if defined(_WIN32)
 
 asst::WSAController::WSAController(const AsstCallback& callback, Assistant* inst, PlatformType type)
@@ -555,6 +557,220 @@ double asst::WSAController::Toucher::linear_interpolate(double& sx, double& sy, 
         time_stamp += dur_slice;
     }
     return time_stamp;
+}
+
+static int injection_count = 0;
+asst::WSAController::Toucher::VirtualMouse::~VirtualMouse() 
+{
+    if (!injection_count) {
+        SIZE_T wrotten_bytes = 0;
+        if (!WriteProcessMemory(m_target_process, (LPVOID)m_remote.lpGetKeyState, (LPVOID)m_remote.oldcode, code_size,
+                                &wrotten_bytes)) {
+            Log.error("Cannot write the old codes. GetLastError() = ", GetLastError());
+        }
+        if (wrotten_bytes != code_size) {
+            Log.error("Wrong code size! GetLastError() = ", GetLastError());
+        }
+    }
+    restore();
+}
+
+bool asst::WSAController::Toucher::VirtualMouse::inject()
+{
+    if (m_good) return false;
+
+    {
+        HANDLE token;
+        LUID se_debugname;
+
+        if (!OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &token)) {
+            return false;
+        }
+        if (!LookupPrivilegeValue(NULL, SE_DEBUG_NAME, &se_debugname)) {
+            CloseHandle(token);
+            return false;
+        }
+        TOKEN_PRIVILEGES tkp;
+        tkp.PrivilegeCount = 1;
+        tkp.Privileges[0].Luid = se_debugname;
+        tkp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;                      // 特权启用
+        if (!AdjustTokenPrivileges(token, FALSE, &tkp, sizeof(tkp), NULL, NULL)) // 启用指定访问令牌的特权
+        {
+            CloseHandle(token);
+            return false;
+        }
+    }
+
+    DWORD process_id = 0;
+    {
+        HANDLE snap_shot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+        PROCESSENTRY32 pe;
+        pe.dwSize = sizeof(PROCESSENTRY32);
+        if (!Process32First(snap_shot, &pe)) {
+            Log.error("The frist entry of the process list has not been copyied to the buffer");
+            return false;
+        }
+        while (Process32Next(snap_shot, &pe)) // 循环查找下一个进程
+        {
+            if (!lstrcmp(L"WSAClient.exe", pe.szExeFile)) // 找到
+                process_id = pe.th32ProcessID;
+        }
+    }
+
+	if (process_id == 0) {
+        Log.error("Cannot find wsa process id.");
+        return false;
+    }
+
+	m_target_process = OpenProcess(PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ, FALSE, process_id);
+    if (m_target_process == NULL) {
+        Log.error("OpenProcess Error! GetLastError() = ", GetLastError());
+        return false;
+    }
+
+    size_t func_size = 1024ull;
+
+    remote_func_addr =
+        VirtualAllocEx(m_target_process, NULL, func_size, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+    if (remote_func_addr == NULL) {
+        Log.error("Failed to virtual allock!");
+        restore();
+        return false;
+    }
+
+    remote_para_addr =
+        VirtualAllocEx(m_target_process, NULL, sizeof(m_remote), MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+    if (remote_para_addr == NULL) {
+        Log.error("Failed to virtual allock!");
+        restore();
+        return false;
+    }
+
+    Log.info("function addr:", remote_func_addr, " parameter addr : ", remote_para_addr);
+    ZeroMemory(&m_remote, sizeof(m_remote));
+    m_kernel32 = LoadLibrary(L"kernel32.dll");
+    if (m_kernel32 == 0) {
+        Log.error("Failed to load kernel32.dll");
+        restore();
+        return false;
+    }
+    m_user32 = LoadLibrary(L"user32.dll");
+    if (m_user32 == 0) {
+        Log.error("Failed to load user32.dll");
+        restore();
+        return false;
+    }
+
+    m_remote.lpGetCurrentProcess = (LPVOID)GetProcAddress(m_kernel32, "GetCurrentProcess");
+    m_remote.lpWriteProcessMemory = (LPVOID)GetProcAddress(m_kernel32, "WriteProcessMemory");
+    m_remote.lpGetKeyState = (LPVOID)GetProcAddress(m_user32, "GetKeyState");
+
+    *(ULONGLONG*)&(m_newcode[2]) = ((ULONGLONG)remote_para_addr);
+    *(ULONGLONG*)&(m_newcode[13]) = ((ULONGLONG)remote_func_addr);
+
+
+    if (injection_count == 0) memcpy(m_oldcode, m_remote.lpGetKeyState, code_size);
+    memcpy((char*)m_remote.oldcode, (char*)m_oldcode, code_size);
+    memcpy((char*)m_remote.newcode, (char*)m_newcode, code_size);
+    m_remote.func_addr = remote_func_addr;
+    m_remote.flag = 0;
+
+    SIZE_T wrotten_bytes = 0;
+    DWORD pretection;
+
+    VirtualProtectEx(m_target_process, (LPVOID)remote_func_addr, code_size, PAGE_READWRITE, &pretection);
+    if (!WriteProcessMemory(m_target_process, (LPVOID)remote_func_addr, (LPVOID)&func_code, func_size,
+                            &wrotten_bytes)) {
+        Log.error("Failed to write memory, category: 1! GetLastError() = ", GetLastError());
+        restore();
+        return false;
+    }
+    VirtualProtectEx(m_target_process, (LPVOID)remote_func_addr, code_size, PAGE_EXECUTE, &pretection);
+
+    if (!WriteProcessMemory(m_target_process, (LPVOID)remote_para_addr, (LPVOID)&m_remote, sizeof(m_remote),
+                            &wrotten_bytes)) {
+        Log.error("Failed to write memory, category: 2! GetLastError() = ", GetLastError());
+        restore();
+        return false;
+    }
+
+    VirtualProtectEx(m_target_process, (LPVOID)m_remote.lpGetKeyState, code_size, PAGE_READWRITE, &pretection);
+    if (!WriteProcessMemory(m_target_process, (LPVOID)m_remote.lpGetKeyState, (LPVOID)m_newcode, code_size,
+                            &wrotten_bytes)) {
+        Log.error("Failed to write memory, category: 3! GetLastError() = ", GetLastError());
+        restore();
+        return false;
+    }
+    VirtualProtectEx(m_target_process, (LPVOID)m_remote.lpGetKeyState, code_size, PAGE_EXECUTE, &pretection);
+    injection_count++;
+
+    Log.info("injected!");
+
+    remote_flag_addr = (LPVOID)((ULONGLONG)remote_para_addr + m_flag_offset);
+
+    m_good = true;
+    return true;
+}
+
+bool asst::WSAController::Toucher::VirtualMouse::down()
+{
+    if (!m_good) return false;
+    m_remote.flag = 1;
+    SIZE_T wrotten_bytes = 0;
+    if (!WriteProcessMemory(m_target_process, (LPVOID)remote_flag_addr, (LPVOID)&m_remote.flag, sizeof(ULONGLONG),
+                            &wrotten_bytes)) {
+        Log.error("Failed to write memory, category: 4! GetLastError() = ", GetLastError());
+        restore();
+        m_good = false;
+        return false;
+    }
+    if (wrotten_bytes != sizeof(ULONGLONG)) {
+        Log.error("Wrong code size! GetLastError() = ", GetLastError());
+    }
+    return true;
+}
+
+bool asst::WSAController::Toucher::VirtualMouse::up()
+{
+    if (!m_good) return false;
+    m_remote.flag = 0;
+    SIZE_T wrotten_bytes = 0;
+    if (!WriteProcessMemory(m_target_process, (LPVOID)remote_flag_addr, (LPVOID)&m_remote.flag, sizeof(ULONGLONG),
+                            &wrotten_bytes)) {
+        Log.error("Failed to write memory, category: 4! GetLastError() = ", GetLastError());
+        restore();
+        m_good = false;
+        return false;
+    }
+    if (wrotten_bytes != sizeof(ULONGLONG)) {
+        Log.error("Wrong code size! GetLastError() = ", GetLastError());
+    }
+    return true;
+}
+
+void asst::WSAController::Toucher::VirtualMouse::restore()
+{
+    if (remote_func_addr) {
+        VirtualFree(remote_func_addr, 1024ull, MEM_RELEASE);
+        remote_func_addr = nullptr;
+    }
+    if (remote_para_addr) {
+        VirtualFree(remote_para_addr, sizeof(m_remote), MEM_RELEASE);
+        remote_para_addr = nullptr;
+    }
+    if (m_target_process) {
+        CloseHandle(m_target_process);
+        m_target_process = NULL;
+    }
+    if (m_kernel32) {
+        FreeLibrary(m_kernel32);
+        m_kernel32 = NULL;
+    }
+    if (m_user32) {
+        FreeLibrary(m_user32);
+        m_user32 = NULL;
+    }
+    m_good = false;
 }
 
 #endif // _WIN32
