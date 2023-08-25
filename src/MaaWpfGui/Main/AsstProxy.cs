@@ -1191,7 +1191,7 @@ namespace MaaWpfGui.Main
                 bool adbResult = IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
                 bool bsResult = IfPortEstablished(bsHvAddress);
 
-                // 下面这段想不到什么好的逻辑了，只能枚举所有情况
+                // 枚举所有情况
                 if (adbResult && bsResult)
                 {
                     // 2 connections(s)
