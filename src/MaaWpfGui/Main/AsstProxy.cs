@@ -1091,7 +1091,7 @@ namespace MaaWpfGui.Main
 
         private void ProcRecruitCalcMsg(JObject details)
         {
-            Instances.RecognizerViewModel.procRecruitMsg(details);
+            Instances.RecognizerViewModel.ProcRecruitMsg(details);
         }
 
         private void ProcVideoRecMsg(JObject details)

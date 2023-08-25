@@ -190,11 +190,13 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _recruitCaught = false;
+        private bool _recruitCaught;
 
         /// <summary>
         /// Starts calculation.
         /// </summary>
+        // xaml 中绑定了 action
+        // ReSharper disable once UnusedMember.Global
         public async void RecruitStartCalc()
         {
             string errMsg = string.Empty;
@@ -246,7 +248,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public void procRecruitMsg(JObject details)
+        public void ProcRecruitMsg(JObject details)
         {
             string what = details["what"].ToString();
             var subTaskDetails = details["details"];
@@ -256,14 +258,11 @@ namespace MaaWpfGui.ViewModels.UI
                 case "RecruitTagsDetected":
                     {
                         JArray tags = (JArray)subTaskDetails["tags"];
-                        string info_content = LocalizationHelper.GetString("RecruitTagsDetected");
-                        foreach (var tag_name in tags)
-                        {
-                            string tag_str = tag_name.ToString();
-                            info_content += tag_str + "    ";
-                        }
+                        string infoContent = LocalizationHelper.GetString("RecruitTagsDetected");
+                        tags ??= new JArray();
+                        infoContent = tags.Select(tagName => tagName.ToString()).Aggregate(infoContent, (current, tagStr) => current + (tagStr + "    "));
 
-                        RecruitInfo = info_content;
+                        RecruitInfo = infoContent;
                     }
 
                     break;
@@ -271,31 +270,29 @@ namespace MaaWpfGui.ViewModels.UI
                 case "RecruitResult":
                     {
                         string resultContent = string.Empty;
-                        JArray result_array = (JArray)subTaskDetails["result"];
+                        JArray resultArray = (JArray)subTaskDetails["result"];
                         /* int level = (int)subTaskDetails["level"]; */
-                        foreach (var combs in result_array)
+                        foreach (var combs in resultArray ?? new JArray())
                         {
-                            int tag_level = (int)combs["level"];
-                            resultContent += tag_level + " ★ Tags:  ";
-                            foreach (var tag in (JArray)combs["tags"])
-                            {
-                                resultContent += tag + "    ";
-                            }
+                            int tagLevel = (int)combs["level"];
+                            resultContent += tagLevel + " ★ Tags:  ";
+                            resultContent = (((JArray)combs["tags"]) ?? new JArray()).Aggregate(resultContent, (current, tag) => current + (tag + "    "));
 
                             resultContent += "\n\t";
-                            foreach (var oper in (JArray)combs["opers"])
+                            foreach (var oper in (JArray)combs["opers"] ?? new JArray())
                             {
-                                int oper_level = (int)oper["level"];
-                                string oper_id = oper["id"].ToString();
-                                string oper_name = oper["name"].ToString();
+                                int operLevel = (int)oper["level"];
+                                string operId = oper["id"]?.ToString();
+                                string operName = oper["name"]?.ToString();
 
                                 string potential = string.Empty;
 
-                                if (RecruitmentShowPotential && OperBoxPotential != null && (tag_level >= 4 || oper_level == 1))
+                                if (RecruitmentShowPotential && OperBoxPotential != null && operId != null
+                                    && (tagLevel >= 4 || operLevel == 1))
                                 {
-                                    if (OperBoxPotential.ContainsKey(oper_id))
+                                    if (OperBoxPotential.ContainsKey(operId))
                                     {
-                                        potential = " ( " + OperBoxPotential[oper_id] + " )";
+                                        potential = " ( " + OperBoxPotential[operId] + " )";
                                     }
                                     else
                                     {
@@ -303,7 +300,7 @@ namespace MaaWpfGui.ViewModels.UI
                                     }
                                 }
 
-                                resultContent += oper_level + " - " + oper_name + potential + "    ";
+                                resultContent += operLevel + " - " + operName + potential + "    ";
                             }
 
                             resultContent += "\n\n";
@@ -366,8 +363,9 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>Success or not</returns>
         public bool DepotParse(JObject details)
         {
+            if (details == null) { return false; }
             DepotResult.Clear();
-            foreach (var item in details["arkplanner"]["object"]["items"].Cast<JObject>())
+            foreach (var item in details["arkplanner"]?["object"]?["items"]?.Cast<JObject>()!)
             {
                 DepotResultDate result = new DepotResultDate() { Name = (string)item["name"], Count = (int)item["have"] };
                 DepotResult.Add(result);
@@ -377,11 +375,13 @@ namespace MaaWpfGui.ViewModels.UI
             LoliconResult = (string)details["lolicon"]["data"];
 
             bool done = (bool)details["done"];
-            if (done)
+            if (!done)
             {
-                DepotInfo = LocalizationHelper.GetString("IdentificationCompleted") + "\n" + LocalizationHelper.GetString("DepotRecognitionTip");
-                DepotDone = true;
+                return true;
             }
+
+            DepotInfo = LocalizationHelper.GetString("IdentificationCompleted") + "\n" + LocalizationHelper.GetString("DepotRecognitionTip");
+            DepotDone = true;
 
             return true;
         }
@@ -400,6 +400,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Export depot info to ArkPlanner.
         /// </summary>
+        // xaml 中用到了
+        // ReSharper disable once UnusedMember.Global
         public void ExportToArkplanner()
         {
             Clipboard.SetDataObject(ArkPlannerResult);
@@ -409,6 +411,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Export depot info to Lolicon.
         /// </summary>
+        // xaml 中用到了
+        // ReSharper disable once UnusedMember.Global
         public void ExportToLolicon()
         {
             Clipboard.SetDataObject(LoliconResult);
@@ -426,6 +430,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Starts depot recognition.
         /// </summary>
+        // xaml 中用到了
+        // ReSharper disable once UnusedMember.Global
         public async void StartDepot()
         {
             string errMsg = string.Empty;
@@ -450,7 +456,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// 未实装干员，但在battle_data中，
         /// </summary>
-        private static readonly HashSet<string> VirtuallyOpers = new HashSet<string>
+        private static readonly HashSet<string> _virtuallyOpers = new HashSet<string>
         {
             "char_504_rguard",
             "char_505_rcast",
@@ -507,7 +513,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private Dictionary<string, int> _operBoxPotential = null;
+        private Dictionary<string, int> _operBoxPotential;
 
         public Dictionary<string, int> OperBoxPotential
         {
@@ -518,12 +524,19 @@ namespace MaaWpfGui.ViewModels.UI
                     return null;
                 }
 
-                if (_operBoxPotential == null)
+                if (_operBoxPotential != null)
                 {
-                    _operBoxPotential = new Dictionary<string, int>();
-                    foreach (JObject operBoxData in OperBoxDataArray.Cast<JObject>())
+                    return _operBoxPotential;
+                }
+
+                _operBoxPotential = new Dictionary<string, int>();
+                foreach (JObject operBoxData in OperBoxDataArray.Cast<JObject>())
+                {
+                    var id = (string)operBoxData["id"];
+                    var potential = (int)operBoxData["potential"];
+                    if (id != null)
                     {
-                        _operBoxPotential.Add((string)operBoxData["id"], (int)operBoxData["potential"]);
+                        _operBoxPotential.Add(id, potential);
                     }
                 }
 
@@ -533,16 +546,16 @@ namespace MaaWpfGui.ViewModels.UI
 
         public bool OperBoxParse(JObject details)
         {
-            JArray operBoxs = (JArray)details["all_opers"];
+            JArray operBoxes = (JArray)details["all_opers"];
 
             List<Tuple<string, int>> operHave = new List<Tuple<string, int>>();
             List<Tuple<string, int>> operNotHave = new List<Tuple<string, int>>();
 
-            foreach (JObject operBox in operBoxs.Cast<JObject>())
+            foreach (JObject operBox in operBoxes.Cast<JObject>())
             {
                 var tuple = new Tuple<string, int>((string)operBox["name"], (int)operBox["rarity"]);
 
-                if (VirtuallyOpers.Contains((string)operBox["id"]))
+                if (_virtuallyOpers.Contains((string)operBox["id"]))
                 {
                     continue;
                 }
@@ -562,31 +575,33 @@ namespace MaaWpfGui.ViewModels.UI
             operHave.Sort((x, y) => y.Item2.CompareTo(x.Item2));
             operNotHave.Sort((x, y) => y.Item2.CompareTo(x.Item2));
 
-            int newline_flag = 0;
+            int newlineFlag = 0;
             string operNotHaveNames = "\t";
 
-            foreach (var tuple in operNotHave)
+            foreach (var name in operNotHave.Select(tuple => tuple.Item1))
             {
-                var name = tuple.Item1;
                 operNotHaveNames += PadRightEx(name, 12) + "\t";
-                if (newline_flag++ == 3)
+                if (newlineFlag++ != 3)
                 {
-                    operNotHaveNames += "\n\t";
-                    newline_flag = 0;
+                    continue;
                 }
+
+                operNotHaveNames += "\n\t";
+                newlineFlag = 0;
             }
 
-            newline_flag = 0;
+            newlineFlag = 0;
             string operHaveNames = "\t";
-            foreach (var tuple in operHave)
+            foreach (var name in operHave.Select(tuple => tuple.Item1))
             {
-                var name = tuple.Item1;
                 operHaveNames += PadRightEx(name, 12) + "\t";
-                if (newline_flag++ == 3)
+                if (newlineFlag++ != 3)
                 {
-                    operHaveNames += "\n\t";
-                    newline_flag = 0;
+                    continue;
                 }
+
+                operHaveNames += "\n\t";
+                newlineFlag = 0;
             }
 
             bool done = (bool)details["done"];
@@ -606,6 +621,11 @@ namespace MaaWpfGui.ViewModels.UI
             return true;
         }
 
+        /// <summary>
+        /// 开始识别干员
+        /// </summary>
+        // xaml 中用到了
+        // ReSharper disable once UnusedMember.Global
         public async void StartOperBox()
         {
             OperBoxExportData = string.Empty;
@@ -626,6 +646,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        // xaml 中用到了
+        // ReSharper disable once UnusedMember.Global
         public void ExportOperBox()
         {
             if (string.IsNullOrEmpty(OperBoxExportData))
@@ -651,13 +673,15 @@ namespace MaaWpfGui.ViewModels.UI
                 bool stop = value && !_gachaDone;
                 SetAndNotify(ref _gachaDone, value);
 
-                if (stop)
+                if (!stop)
                 {
-                    _gachaImageTimer.Stop();
-
-                    // 强制再刷一下
-                    RefreshGachaImage(null, null);
+                    return;
                 }
+
+                _gachaImageTimer.Stop();
+
+                // 强制再刷一下
+                RefreshGachaImage(null, null);
             }
         }
 
@@ -669,11 +693,15 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _gachaInfo, value);
         }
 
+        // xaml 中用到了
+        // ReSharper disable once UnusedMember.Global
         public void GachaOnce()
         {
-            StartGacha(true);
+            StartGacha();
         }
 
+        // xaml 中用到了
+        // ReSharper disable once UnusedMember.Global
         public void GachaTenTimes()
         {
             StartGacha(false);
@@ -720,13 +748,15 @@ namespace MaaWpfGui.ViewModels.UI
             lock (_lock)
             {
                 var image = Instances.AsstProxy.AsstGetImage();
-                if (!GachaImage.IsEqual(image))
+                if (GachaImage.IsEqual(image))
                 {
-                    GachaImage = image;
-
-                    var rd = new Random();
-                    GachaInfo = LocalizationHelper.GetString("GachaTip" + rd.Next(1, 18).ToString());
+                    return;
                 }
+
+                GachaImage = image;
+
+                var rd = new Random();
+                GachaInfo = LocalizationHelper.GetString("GachaTip" + rd.Next(1, 18).ToString());
             }
         }
 
@@ -753,6 +783,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        // xaml 中用到了
+        // ReSharper disable once UnusedMember.Global
         public void GachaAgreeDisclaimer()
         {
             GachaShowDisclaimer = false;
