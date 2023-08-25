@@ -2,233 +2,115 @@
 
 ### 新增
 
-- Events and Banners displayed according to timetable (#6050) @Constrat
-   - Update src/MaaWpfGui/ViewModels/UI/SettingsViewModel.cs @Constrat
-   - event/pool display follows current time @Constrat
-- 内置国服现版本两个保全作业 (#6025) @AnnoyingFlowers
-- 添加对 "skill_times" 字段的支持，再也不会狂点重岳辣 (#6007) @AnnoyingFlowers
-- 添加用户词典，减少拼写错误提示 @ABA2396
-- 添加刷理智任务报错提示 @ABA2396
+- 新增新保全关卡内置作业 @AnnoyingFlowers @junyihan233
+- 增加烧开水功能，优化萨米肉鸽策略 (#6053) @Lancarus
+- 抄作业新增 "skill_times" 字段 (#6007) @AnnoyingFlowers
 - 肉鸽开局干员支持点选 is_start 中的干员 @ABA2396
 - 增加关卡数据获取成功提示 @ABA2396
-- merge and re-structure stage.json (#5944) @MistEO
-   - merge and re-structure stage.json @MistEO
 - add config `CompatPOSIXShell` (#5945) @wangl-cc
-   - add config `CompatPOSIXShell` @wangl-cc
-- SSS copilot support for YostarKR @178619
-- Invitation to Wine rerun implemen. for JP @Constrat
-- 適配繁中服保全派駐 (#5926) @momomochi987
-   - 增加 "鋼鐵蘿蔔礦場" 的關卡 text @momomochi987
-   - 補充保全派駐圖片 @momomochi987
-   - 重製 "放棄行動" 圖片 @momomochi987
-   - 更新保全派駐相關 text @momomochi987
-- add roguelike encounter ocrReplace for JP and EN (#5903) @momomochi987
-   - add encounter ocrReplace for EN @momomochi987
-   - add encounter ocrReplace for JP @momomochi987
-- 文档大升级 (#5885) @SherkeyXD
 
 ### 改进
 
-- 增加烧开水功能，优化萨米肉鸽策略 (#6053) @Lancarus
-- 保全派驻 阿尔斯特6 开局小优化 (#6037) @junyihan233
-- 从io/ioutil包更新为os包 (#5988) @javilak
+- 添加刷理智任务报错提示 @ABA2396
 - [Roguelike] 优化刷源石锭模式的逻辑 (#5987) @lassnuttun
-   - 在肉鸽辅助协议文档中追加了刷源石锭模式下不期而遇逻辑的相关解释 @lassnuttun
-   - 修改了刷源石锭的不期而遇逻辑的变量名、文件名 @lassnuttun
-   - Merge branch 'mybranch' into dev @lassnuttun
-      - 优化刷源石锭模式的逻辑，保留原先不期而遇选择方案的同时增加了针对刷钱的不期而遇选择方案，根据肉鸽模式使用不同方案 @lassnuttun
-- 重构 CopilotViewModel.cs (#6003) @ABA2396
-   - inline 临时变量 @ABA2396
-   - 重构 CopilotViewModel.cs @ABA2396
-   - 添加用户词典，减少拼写错误提示 @ABA2396
 - 优化萨米肉鸽策略 (#5990) @Lancarus
-   - 优化萨米肉鸽策略 @Lancarus
 - 优化了萨米肉鸽第三层的部分关卡打法,更新了肉鸽文档 (#5986) @Lancarus @ABA2396
-   - Update 3.5-肉鸽辅助协议.md @Lancarus
-   - Update 3.5-肉鸽辅助协议.md @Lancarus
-   - 优化第三层作战逻辑 @Lancarus
-   - 优化第三层作战逻辑 @Lancarus
-   - Merge branch 'dev' of https://github.com/Lancarus/MaaAssistantArknights into dev @Lancarus
-      - 删掉多余文件 @Lancarus
-   - 更新第二层 @Lancarus
-   - 优化萨米肉鸽部分关卡作战逻辑 @Lancarus
-   - 优化招募逻辑 @Lancarus
-   - 优化萨米肉鸽逻辑 @Lancarus
-   - 修复肉鸽的一些bug,将一些log信息的等级提到log.trace方便写作业 @Lancarus
-   - 肉鸽在招募逻辑中使用重复干员,后面会覆盖前面的,现在改为比较后更新 @ABA2396
 - 优化萨米肉鸽招募逻辑，优化前两层作战逻辑 (#5966) @Lancarus
-- 重构 VersionUpdateViewModel.cs (#5981) @ABA2396
-   - Put local function 'CheckUpdateInner' after 'return' @ABA2396
-   - Property 'OsArchitecture' can be made private && Put local function 'CheckUpdateInner' after 'return' @ABA2396
-   - 文件带相对路径时的转移问题 @ABA2396
-   - 重构 VersionUpdateViewModel.cs @ABA2396
 - optimized ROI for EPISODE navigation @Constrat
-- 重构TaskQueueViewModel (#5753) @ABA2396
-   - ReSharper disable InconsistentNaming @ABA2396
-   - 重构基线前的 TaskQueueViewModel @ABA2396
-   - Accessor 'TaskItemViewModels.set' can be made private @ABA2396
-   - 重构基线前的 TaskQueueViewModel @ABA2396
-   - Add explicit 'return' or 'continue' before local functions @ABA2396
-   - Put local function after 'return' or 'continue' @ABA2396
-   - problems were found by Qodana @ABA2396
-   - problems were found by Qodana @ABA2396
-   - 重构TaskQueueViewModel @ABA2396
 - 更新简中OCR识别模型 | Re-training OCR rec model of CN client (#5895) @Plumess
-   - 更新简中OCR识别模型 | Re-training OCR rec model of CN client @Plumess
-- 更新文档内容 (#5901) @AnnAngela
 
 ### 修复
 
-- battlequickformationocr modified roi for EN @Constrat
-- Revert "fix: 尝试修复日志被占用的问题" @MistEO
+- 修复 PlayCover 下识别差异问题 @MistEO @hguandl
 - 修复肉鸽中干员 山 2 技能反复释放的问题 (#6033) @AnnoyingFlowers
-   - 修复肉鸽中干员 山 2 技能反复释放的问题 @AnnoyingFlowers
-   - 修改 "skill_usage" 、 "skill_times" 等字段说明 @AnnoyingFlowers
-- Senior Operator tag EN @Constrat
-- build error of logger @MistEO
-- build error @MistEO
 - 尝试修复日志被占用的问题 @MistEO
 - 修复干员识别错误 (#6022) @Black1312
-- remake StageSK & StagePR-C picture for txwy (#5999) (#6018) @momomochi987
-   - 重製碳素與先輔晶片關卡截圖 @momomochi987
 - 尝试修复mac上阈值差异 @MistEO
 - 修复自动编队部分干员文字识别错误 (#6020) @cenfusheng
-   - 修复干员文字识别错误 @cenfusheng
 - 重写自动战斗编队干员检测 @MistEO
 - all operators are marked as new for overseas clients (Toolbox-Recruitment) (#6009) @178619
-   - all operators are marked as new for overseas clients (Toolbox-Recruitment) @178619
 - 修复SSS技能用法判断错误的问题 @MistEO
 - 修复编队时“全部”识别错误 @MistEO
 - 仓库识别界面未在最左侧时，识别不全的问题 (#6000) @H1MSK
-   - 界面未在最左侧时，仓库识别不全的问题 @H1MSK
 - Prevents possible forced retreat (Amiya S3) @178619
 - 修复一些文字识别问题（txwy） (#5993) @cenfusheng
-   - 修改干员文字识别问题的修复方式（txwy） @cenfusheng
-   - 修复另一些文字识别问题（txwy） @cenfusheng
-   - 修复一些文字识别问题（txwy） @cenfusheng
-- 修复年的识别问题 (#5992) @cenfusheng
-   - 修复年的识别问题 @cenfusheng
 - 紧急修复 dlx 算法工具类的越界问题 @lhhxxxxx
 - Mizuki IS DropBox recog. and Shopping regex @Constrat
 - SL event navigation @Constrat
 - 定时执行逻辑错误 @ABA2396
-- add ocr replace for YostarJP (#5977) @jie17
-   - add ocr replace for YostarJP @jie17
 - "Gummy" with skin undetected with new ROI @Constrat
 - increased ROI in fight task @Constrat
 - changed award ROI and template  EN @Constrat
 - 修复关卡“干酪封锁”与装置““甜蜜狂搅””的识别 (#5975) @cenfusheng
-   - 修复关卡“干酪封锁”与装置““甜蜜狂搅””的识别 @cenfusheng
 - link in mac-runtime release (#5954) @wangl-cc
-   - link in mac-runtime release @wangl-cc
 - 肉鸽在招募逻辑内可以将同一干员纳入多个群组,修复由于拆分文件造成的bug (#5946) @Lancarus
 - 新版萨米肉鸽商店文件&水月肉鸽商店文件提交 (#5936) @Yumi0606
 - 错误的类型转换 @ABA2396
-- make the option to not recruit selectable in SSS for YoStarKR @178619
 - 修复模拟器关闭逻辑错误，增加模拟器退出错误日志 @ABA2396
-- Infrast Task stuck Max Trust notification EN @Constrat
-- #5931 @Constrat
 - `CloseDown` not works on macOS (#5920) @wangl-cc
-   - Only apply to CompatMac @wangl-cc
-   - `CloseDown` not works on macOS @wangl-cc
 - 关闭模拟器时索引超出了数组界限 @ABA2396
 - 添加繁中服对于鸿雪的OCR等价规则 #5931 #5933 @Constrat
 - 肉鸽打折商品识别错误 @ABA2396
 - 修复特别关注干员的识别问题 (#5924) @cenfusheng
-   - 修复特别关注干员的识别问题 @cenfusheng
 - wrong template for reception room detection @Constrat
-- 修复干员煌的文字识别问题 (#5910) @cenfusheng
-   - 修复干员煌的文字识别问题 @cenfusheng
-- 修复临光的文字识别错误 (#5906) @cenfusheng
-   - 修复临光的文字识别错误 @cenfusheng
-- Reception sends clue when full in YostarEN @Constrat
 
 ### 其他
 
-- [JP] Docs Update (#6070) @wallsman
-   - [JP] Update Documents (#6057) @wallsman
-      - Update 1.3-エミュレータのサポート.md @wallsman
-      - Merge pull request #7 from wallsman/wallsman-patch-3 @wallsman
-         - Update 1.1-詳細説明.md @wallsman
-      - Merge pull request #6 from wallsman/wallsman-patch-4 @wallsman
-         - Update 1.2-よくある質問.md @wallsman
-      - Update operators.md @wallsman
-      - Doc : Update JP 翠玉の夢 and add Operators @wallsman
-   - Update 1.1-詳細説明.md @wallsman
+- 更新文档内容 (#5901) (#5885) @SherkeyXD @AnnAngela
+- Events and Banners displayed according to timetable (#6050) @Constrat
+- 添加用户词典，减少拼写错误提示 @ABA2396
+- merge and re-structure stage.json (#5944) @MistEO
+- golang 接口从io/ioutil包更新为os包 (#5988) @javilak
+- 重构 TaskQueueViewModel (#5753) @ABA2396
+- 重构 CopilotViewModel.cs (#6003) @ABA2396
 - tweaked english tasks json schema @Constrat
-- Update 覆水难收.json @Lancarus
-- update tasks.json (YoStarKR) @178619
-- Auto Update Game Resources - 2023-08-22 @MistEO
-- Auto Update Game Resources - 2023-08-22 @MistEO
-- reload resource when controller changes @hguandl
-- Auto Update Game Resources - 2023-08-22 @MistEO
-- Auto Update Game Resources - 2023-08-22 @MistEO
-- rename platform resource for iOS @MistEO
 - 3.1-Integration.md (#6039) @NtskwK
-   - Update(docs): 3.1-Integration.md @NtskwK
-- Auto Update Game Resources - 2023-08-21 @MistEO
 - Update 3.1-集成文档.md (#6036) @hzxjy1
-   - Update 3.1-集成文档.md @hzxjy1
-- 小作文加上最后一句话 (#6032) @junyihan233
-- Adapted EN regex for new AutoSquad algorithm (#6028) @Constrat
-   - Skadi Alter and Greyy Alter Squads regex for 1080 @Constrat
-   - revert: wrong branch my bad @Constrat
-   - senior tag detection fix #6012 @Constrat
-   - W wrong detection in TW and EN @Constrat
-   - optmized ROI and regex for EN quickformation @Constrat
-- styles: format @MistEO
-- 删除小作文！ (#6029) @MistEO
-- Create SSS_荒废灯塔_浊蒂纯艾版.json (#6026) @junyihan233
-- Create SSS_阿尔斯特甜品制作平台_浊蒂版.json (#6027) @junyihan233
-- Auto Update Game Resources - 2023-08-21 @MistEO
-- macOS GUI load platform resource @hguandl
-- pre-support macOS diff resource @MistEO
-- Update tasks.json @178619
-- Update ocrReplaces for YoStarKR @178619
-- DepotAllTab for EN from 1126db9 @Constrat
-- add templates for YoStarKR @178619
 - 修正偶尔OCR错误造成的吃48小时理智药失效问题 (#6004) @bigqiao
-   - 修正偶尔OCR错误造成的吃48小时理智药失效问题 @bigqiao
 - gui.log 启动时记录目录 @ABA2396
-- tweaked SSS copilot descriptions for EN @Constrat
 - ML translation @Constrat
-- Update operators.md @178619
-- Update operators.md @wallsman
-- Update operators.md @wallsman
-- 格式化 RunningState，添加注释 @ABA2396
-- 格式化代码 @ABA2396
-- refactory: typo @Constrat
-- PRTS3 and LevelOFDifficulty i18n EN @Constrat
 - tools: global content update @Constrat
 - ormatting + output log cleanup / clearup @Constrat
-- Auto Update Game Resources - 2023-08-15 @MistEO
-- Merge branch 'dev' of https://github.com/MaaAssistantArknights/MaaAssistantArknights into dev @Constrat
-   - Feat: Auto Update now orders Global tasks.json like Official @Constrat
 - Feat: Auto Update now orders Global tasks.json like Official @Constrat
 - localization update @178619
-- Auto Update Game Resources - 2023-08-15 @MistEO
 - 调整肉鸽商品识别roi范围 @ABA2396
-- Auto Update Game Resources - 2023-08-13 @MistEO
-- Revert "添加繁中服对于鸿雪的OCR等价规则 #5931" (#5935) @MistEO
-   - Revert "添加繁中服对于鸿雪的OCR等价规则 #5931" @MistEO
-- 添加繁中服对于鸿雪的OCR等价规则 #5931 (#5933) @Roland125
-   - 添加繁中服对于鸿雪的OCR等价规则 #5931 @Roland125
-- Revert "Useless png in roguelike JP" @Constrat
-- Removed useless .png from JP I.S. @Constrat
 - Useless png in roguelike JP @Constrat
+- tools: added impossible to translate task @Constrat
+
+### For Overseas
+
+#### YostarKR
+
+- add templates for YoStarKR @178619
+- SSS copilot support for YostarKR @178619
+- make the option to not recruit selectable in SSS for YoStarKR @178619
+
+#### YostarJP
+
+- Invitation to Wine rerun implemen. for JP @Constrat
+- add roguelike encounter ocrReplace for JP and EN (#5903) @momomochi987
+- [JP] Docs Update (#6070) @wallsman
+- add ocr replace for YostarJP (#5977) @jie17
+- Removed useless .png from JP I.S. @Constrat
+
+#### txwy
+
+- 適配繁中服保全派駐 (#5926) @momomochi987
+- remake StageSK & StagePR-C picture for txwy (#5999) (#6018) @momomochi987
+- 添加繁中服对于鸿雪的OCR等价规则 #5931 (#5933) @Roland125 @Constrat @MistEO
+
+#### YoStarEN
+
+- DepotAllTab for EN from 1126db9 @Constrat
+- Adapted EN regex for new AutoSquad algorithm (#6028) @Constrat
+- tweaked SSS copilot descriptions for EN @Constrat
+- PRTS3 and LevelOFDifficulty i18n EN @Constrat
+- Senior Operator tag EN @Constrat
+- Infrast Task stuck Max Trust notification EN @Constrat
+- Reception sends clue when full in YostarEN @Constrat
+- battlequickformationocr modified roi for EN @Constrat
 - optimized: regex for I.S. trader shopping in EN @Constrat
-- Merge branch 'dev' of https://github.com/MaaAssistantArknights/MaaAssistantArknights into dev @MistEO
-   - 修复自动编队时不重试的问题 @MistEO
-   - 抄作业自动编队支持含有不同职业的组 @MistEO
-   - build error @MistEO
-   - 删除目前用不上了的肉鸽代码 @MistEO
-   - Auto Update Game Resources - 2023-08-11 @MistEO
-- typo: 1646e767043e9c23352eaaee34332612848a88eb @Constrat
 - Invitation to Wine rerun implementation for EN @Constrat
 - Oper Regex Tweaked for EN (BattleMatcher) @Constrat
-- Paradox Simulation for YostarEN + BattleMatcher regex @Constrat
-- Auto Update Game Resources - 2023-08-10 @MistEO
 - Adapted EndOfActionAnnihilation for EN @Constrat
-- Auto Update Game Resources - 2023-08-10 @MistEO
-- Auto Update Game Resources - 2023-08-09 @MistEO
-- tools: added impossible to translate task @Constrat
+- Paradox Simulation for YostarEN + BattleMatcher regex @Constrat
