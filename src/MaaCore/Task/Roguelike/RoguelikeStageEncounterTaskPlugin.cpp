@@ -41,8 +41,8 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     std::string rogue_theme = status()->get_properties(Status::RoguelikeTheme).value();
     std::string rogue_mode = status()->get_properties(Status::RoguelikeMode).value();
     std::vector<RoguelikeEvent> events = RoguelikeStageEncounter.get_events(rogue_theme);
-    // 刷源石锭模式
-    if (rogue_mode == "1") {
+    // 刷源石锭模式和烧水模式
+    if (rogue_mode == "1" || rogue_mode == "4") {
         events = RoguelikeStageEncounter.get_events(rogue_theme + "_deposit");
     }
     std::vector<std::string> event_names;
@@ -75,8 +75,9 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     RoguelikeEvent event = event_map.at(text);
     Log.info("Event:", event.name, "choose option", event.default_choose);
     for (int j = 0; j < 2; ++j) {
-        ProcessTask(*this, { rogue_theme + "@Roguelike@OptionChoose" + 
-            std::to_string(event.option_num) + "-" + std::to_string(event.default_choose) }).run();
+        ProcessTask(*this, { rogue_theme + "@Roguelike@OptionChoose" + std::to_string(event.option_num) + "-" +
+                             std::to_string(event.default_choose) })
+            .run();
         sleep(300);
     }
 

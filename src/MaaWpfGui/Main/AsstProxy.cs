@@ -1578,7 +1578,7 @@ namespace MaaWpfGui.Main
                 ["theme"] = theme,
             };
 
-            if (mode == 1)
+            if (mode == 1 || mode == 4)
             {
                 task_params["investment_enabled"] = true;
             }
