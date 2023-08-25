@@ -142,7 +142,7 @@ namespace asst
 
             bool click(int x, int y);
             bool swipe(double sx, double sy, double ex, double ey, int dur);
-            bool swipe_with_pause(double sx, double sy, double ex, double ey, int dur);
+            bool swipe_precisely(double sx, double sy, double ex, double ey, int dur, bool pause);
             void press(int key);
             void wait();
 

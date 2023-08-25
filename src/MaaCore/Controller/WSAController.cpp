@@ -360,12 +360,12 @@ bool asst::WSAController::click(const Point& p)
     return  m_touch.click(p.x, p.y);
 }
 
-bool asst::WSAController::swipe(const Point& p1, const Point& p2, int duration, [[maybe_unused]] bool extra_swipe,
+bool asst::WSAController::swipe(const Point& p1, const Point& p2, int duration, bool extra_swipe,
                                 [[maybe_unused]] double slope_in, [[maybe_unused]] double slope_out,
-                                [[maybe_unused]] bool with_pause)
+                                bool with_pause)
 {
-    if (with_pause) {
-        return m_touch.swipe_with_pause(p1.x, p1.y, p2.x, p2.y, duration);
+    if (extra_swipe) {
+        return m_touch.swipe_precisely(p1.x, p1.y, p2.x, p2.y, duration, with_pause);
     }
     else {
         return m_touch.swipe(p1.x, p1.y, p2.x, p2.y, duration);
@@ -446,7 +446,7 @@ bool asst::WSAController::Toucher::swipe(double sx, double sy, double ex, double
     return true;
 }
 
-bool asst::WSAController::Toucher::swipe_with_pause(double sx, double sy, double ex, double ey, int dur)
+bool asst::WSAController::Toucher::swipe_precisely(double sx, double sy, double ex, double ey, int dur, bool pause)
 {
     if (!m_inited) return false;
 
@@ -475,6 +475,7 @@ bool asst::WSAController::Toucher::swipe_with_pause(double sx, double sy, double
     m_msgs.push({ 100, 0, 0 });
     for (int i = 0; i < 5; i++)
         m_msgs.push({ 1, (int)sx, (int)sy });
+    if (pause) press(VK_ESCAPE);
     auto time_stamp = linear_interpolate(sx, sy, dx, dy, 0, dur_slice, nslices);
 
     dx = -ux * extra_slice_size / neslices, dy = -uy * extra_slice_size / neslices;
