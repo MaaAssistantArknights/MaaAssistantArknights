@@ -43,7 +43,6 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static string PadRightEx(string str, int totalByteCount)
         {
-
             Encoding coding = Encoding.GetEncoding("gb2312");
             int count = str.ToCharArray().Count(ch => coding.GetByteCount(ch.ToString()) == 2);
 
