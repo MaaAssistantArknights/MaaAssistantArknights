@@ -82,6 +82,8 @@ bool asst::WSAController::connect([[maybe_unused]] const std::string& adb_path,
 
     m_touch.init(m_wgc.pub_wndwsa, m_wgc.pub_caption_height);
 
+    m_screen_size = m_wgc.pub_size;
+
     return true;
 }
 
@@ -94,8 +96,8 @@ bool asst::WSAController::connect([[maybe_unused]] const std::string& adb_path,
  }
 
 asst::WSAController::FrameBuffer::FrameBuffer(OUT DWORD& last_error)
-    : m_frame_pool(nullptr), m_session(nullptr), m_item(nullptr)
-{
+     : m_frame_pool(nullptr), m_session(nullptr), m_item(nullptr)
+ {
     LogTraceFunction;
 
     HRESULT result = S_OK;
@@ -201,8 +203,8 @@ bool asst::WSAController::FrameBuffer::prepare(bool resize_window, bool golden_b
     m_back.create(m_size.Height, m_size.Width, CV_8UC3);
 
     {
-        D3D11_TEXTURE2D_DESC desc = { .Width = WindowWidthDefault,
-                                      .Height = WindowHeightDefault,
+        D3D11_TEXTURE2D_DESC desc = { .Width = (UINT)m_size.Width,
+                                      .Height = (UINT)m_size.Height,
                                       .MipLevels = 1,
                                       .ArraySize = 1,
                                       .Format = DXGI_FORMAT_B8G8R8A8_UNORM,
@@ -263,16 +265,20 @@ bool asst::WSAController::FrameBuffer::restart_capture()
     end_capture();
 
     m_frame_pool.Recreate(m_device, winrt::Windows::Graphics::DirectX::DirectXPixelFormat::B8G8R8A8UIntNormalized, 1,
-                          m_size);
+                          m_size); // BGR
 
     start_capture();
 
     return true;
 }
 
-bool asst::WSAController::FrameBuffer::get_once(cv::Mat payload)
+bool asst::WSAController::FrameBuffer::get_once(cv::Mat& payload)
 {
     m_locker.lock();
+    if (m_front.empty()) {
+        m_locker.unlock();
+        return false;
+    }
     payload = m_front(m_arknights_roi).clone();
     m_locker.unlock();
 
@@ -288,12 +294,12 @@ void asst::WSAController::FrameBuffer::process_frame(
         m_locker.unlock();
         return;
     }
-    m_locker.unlock();
 
     winrt::Windows::Graphics::Capture::Direct3D11CaptureFrame frame = framePool.TryGetNextFrame();
     auto size = frame.ContentSize();
 
     if (size != m_size) {
+        m_locker.unlock();
         frame = nullptr;
         restart_capture();
         return;
@@ -315,13 +321,11 @@ void asst::WSAController::FrameBuffer::process_frame(
     uchar* source = (uchar*)field.pData;
     for (size_t i = 0; i < m_size.Height; i++) {
         for (size_t j = 0; j < m_size.Width; j++) {
-            data[i * m_pitch + j * 3] = source[i * field.RowPitch + j * 4 + 2];
+            data[i * m_pitch + j * 3] = source[i * field.RowPitch + j * 4];
             data[i * m_pitch + j * 3 + 1] = source[i * field.RowPitch + j * 4 + 1];
-            data[i * m_pitch + j * 3 + 2] = source[i * field.RowPitch + j * 4];
+            data[i * m_pitch + j * 3 + 2] = source[i * field.RowPitch + j * 4 + 2];
         }
     }
-
-    m_locker.lock();
     std::swap(m_front, m_back);
     m_locker.unlock();
     m_context->Unmap(m_staging_texture.get(), subresource);
@@ -343,16 +347,29 @@ bool asst::WSAController::start_game([[maybe_unused]] const std::string& client_
 {
     LogTraceFunction;
 
-    platform::os_string env = GetEnvironmentStrings();
-    auto path_pos = env.find(platform::to_osstring("APPDATA"));
-    std::wostringstream wiss;
-    wiss << env.substr(path_pos + 7);
-    std::filesystem::path appdata_path = wiss.str();
+    return true; // 如果已经连接上了，那就不用打开游戏了，因为游戏已经打开了
+
+    /*
+    auto lpenvs = GetEnvironmentStrings();
+    std::wostringstream env;
+    std::filesystem::path appdata_path;
+    auto iter_env = lpenvs;
+    do {
+        env.str(std::wstring {});
+        env.clear();
+        env << iter_env;
+        auto path_pos = env.str().find(platform::to_osstring("APPDATA="));
+        if (path_pos != std::wstring::npos) {
+            appdata_path = env.str().substr(path_pos + 8);
+        }
+    } while (*(iter_env += env.str().length()) != 0);
+    FreeEnvironmentStrings(lpenvs);
 
     auto whole_path = appdata_path / m_wsapath;
     system(whole_path.string().c_str());
 
-    return false;
+    return true;
+    */
 }
 
 bool asst::WSAController::click(const Point& p)
@@ -436,8 +453,7 @@ bool asst::WSAController::Toucher::swipe(double sx, double sy, double ex, double
     auto dur_slice = dur / nslices;
 
     m_msgs.push({ 100, 0, 0 });
-    for (int i = 0; i < 5; i++)
-        m_msgs.push({ 1, (int)sx, (int)sy });
+    m_msgs.push({ 1, (int)sx, (int)sy });
     linear_interpolate(sx, sy, dx, dy, 0, dur_slice, nslices);
 
     m_msgs.push({ 2, (int)sx, (int)sy });
@@ -473,8 +489,7 @@ bool asst::WSAController::Toucher::swipe_precisely(double sx, double sy, double 
     auto dur_slice = dur * slide_time_ratio / nslices;
 
     m_msgs.push({ 100, 0, 0 });
-    for (int i = 0; i < 5; i++)
-        m_msgs.push({ 1, (int)sx, (int)sy });
+    m_msgs.push({ 1, (int)sx, (int)sy });
     if (pause) press(VK_ESCAPE);
     auto time_stamp = linear_interpolate(sx, sy, dx, dy, 0, dur_slice, nslices);
 

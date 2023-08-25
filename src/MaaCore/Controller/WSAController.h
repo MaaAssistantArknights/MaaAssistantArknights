@@ -97,7 +97,7 @@ namespace asst
             bool start_capture();
             bool end_capture();
             bool restart_capture();
-            bool get_once(cv::Mat payload);
+            bool get_once(cv::Mat& payload);
 
         public:
             std::pair<int, int> pub_size; // 输出大小
@@ -118,7 +118,7 @@ namespace asst
             winrt::com_ptr<ID3D11Texture2D> m_staging_texture;
             winrt::Windows::Graphics::DirectX::Direct3D11::IDirect3DDevice m_device;
 
-            winrt::Windows::Graphics::SizeInt32 m_size; // 输入大小
+            winrt::Windows::Graphics::SizeInt32 m_size = { 0, 0 }; // 输入大小
 
             const platform::os_string arknights_classname =
                 platform::to_osstring(std::string("com.hypergryph.arknights"));
