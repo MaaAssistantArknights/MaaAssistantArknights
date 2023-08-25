@@ -23,11 +23,12 @@ namespace asst
     struct RoguelikeOperInfo
     {
         std::string name;
-        std::vector<int> group_id = {};                           // 干员组id,允许一个干员存在于多个干员组
-        int recruit_priority = 0;                                 // 招募优先级 (0-1000)
-        int promote_priority = 0;                                 // 晋升优先级 (0-1000)
-        int recruit_priority_when_team_full = 0;                  // 队伍满时的招募优先级 (0-1000)
-        int promote_priority_when_team_full = 0;                  // 队伍满时的晋升优先级 (0-1000)
+        std::vector<int> group_id = {};              // 干员组id,允许一个干员存在于多个干员组
+        std::unordered_map<int, int> order_in_group; // 干员在干员组内的顺序 干员组id:干员组内顺序
+        int recruit_priority = 0;                    // 招募优先级 (0-1000)
+        int promote_priority = 0;                    // 晋升优先级 (0-1000)
+        int recruit_priority_when_team_full = 0;     // 队伍满时的招募优先级 (0-1000)
+        int promote_priority_when_team_full = 0;     // 队伍满时的晋升优先级 (0-1000)
         std::vector<std::pair<int, int>> recruit_priority_offset; // [deprecated]
         bool offset_melee = false;                                // [deprecated]
         bool is_key = false;                                      // 是否为核心干员
@@ -48,6 +49,7 @@ namespace asst
         virtual ~RoguelikeRecruitConfig() override = default;
 
         const RoguelikeOperInfo& get_oper_info(const std::string& theme, const std::string& name) noexcept;
+        // 获取该肉鸽内用到的干员组[干员组1,干员组2,...]
         const std::vector<std::string> get_group_info(const std::string& theme) const noexcept;
         const std::vector<RecruitPriorityOffset> get_team_complete_info(const std::string& theme) const noexcept;
         std::vector<int> get_group_id(const std::string& theme, const std::string& name) const noexcept;
