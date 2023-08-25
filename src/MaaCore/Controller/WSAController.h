@@ -139,7 +139,7 @@ namespace asst
         public:
             ~Toucher();
 
-            void init(HWND, int caption_height);
+            bool init(HWND, int caption_height);
 
             bool click(int x, int y);
             bool swipe(double sx, double sy, double ex, double ey, int dur);
@@ -176,8 +176,6 @@ namespace asst
             std::atomic_bool m_running;
             std::queue<MsgUnit> m_msgs;
             std::vector<double> random_end;
-
-            std::unique_ptr<IOHandler> m_shell;
 
             const size_t max_queue_length = 1024;
 

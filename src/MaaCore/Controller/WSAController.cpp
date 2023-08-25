@@ -358,24 +358,25 @@ bool asst::WSAController::start_game([[maybe_unused]] const std::string& client_
 
 bool asst::WSAController::click(const Point& p)
 {
-    return  m_touch.click(p.x, p.y);
+    bool res = m_touch.click(p.x, p.y);
+    m_touch.wait();
+    return res;
 }
 
 bool asst::WSAController::swipe(const Point& p1, const Point& p2, int duration, bool extra_swipe,
                                 [[maybe_unused]] double slope_in, [[maybe_unused]] double slope_out,
                                 bool with_pause)
 {
-    if (extra_swipe) {
-        return m_touch.swipe_precisely(p1.x, p1.y, p2.x, p2.y, duration, with_pause);
-    }
-    else {
-        return m_touch.swipe(p1.x, p1.y, p2.x, p2.y, duration);
-    }
+    bool res = extra_swipe ? m_touch.swipe_precisely(p1.x, p1.y, p2.x, p2.y, duration, with_pause)
+                           : res = m_touch.swipe(p1.x, p1.y, p2.x, p2.y, duration);
+    m_touch.wait();
+    return res;
 }
 
 bool asst::WSAController::press_esc()
 {
     m_touch.press(VK_ESCAPE);
+    m_touch.wait();
     return true;
 }
 
@@ -385,9 +386,9 @@ asst::WSAController::Toucher::~Toucher()
     if (m_thread.joinable()) m_thread.join();
 }
 
-void asst::WSAController::Toucher::init(HWND hwnd, int caption_height)
+bool asst::WSAController::Toucher::init(HWND hwnd, int caption_height)
 {
-    if (m_inited) return;
+    if (m_inited) return false;
 
     m_wnd = hwnd;
     m_caption_height = caption_height;
@@ -400,7 +401,9 @@ void asst::WSAController::Toucher::init(HWND hwnd, int caption_height)
     for (int i = 0; i < 10; i++)
         random_end.push_back(dist(random_engine));
 
+    if (!m_vm.inject()) return false;
     m_inited = true;
+    return true;
 }
 
 bool asst::WSAController::Toucher::click(int x, int y)
@@ -511,15 +514,17 @@ void asst::WSAController::Toucher::run()
         switch (command.type) {
         case -1:
             res = SendMessage(m_wnd, WM_KEYDOWN, command.x, 0);
-            Sleep(20);
+            Sleep(40);
             res = SendMessage(m_wnd, WM_KEYUP, command.x, 0);
             Sleep(20);
             break;
         case 0:
+            m_vm.down();
             res = SendMessage(m_wnd, WM_LBUTTONDOWN, 0, coord);
-            Sleep(20);
+            Sleep(40);
             res &= SendMessage(m_wnd, WM_LBUTTONUP, 0, coord);
             Sleep(20);
+            m_vm.up();
             break;
         case 100:
             tic = time_point_cast<milliseconds>(high_resolution_clock::now());
@@ -533,10 +538,12 @@ void asst::WSAController::Toucher::run()
             res = TRUE;
             break;
         case 1:
+            m_vm.down();
             res = SendMessage(m_wnd, WM_LBUTTONDOWN, 0, coord);
             break;
         case 2:
             res = SendMessage(m_wnd, WM_LBUTTONUP, 0, coord);
+            m_vm.up();
             break;
         case 3:
             res = SendMessage(m_wnd, WM_MOUSEMOVE, 0, coord);
@@ -560,9 +567,9 @@ double asst::WSAController::Toucher::linear_interpolate(double& sx, double& sy, 
 }
 
 static int injection_count = 0;
-asst::WSAController::Toucher::VirtualMouse::~VirtualMouse() 
+asst::WSAController::Toucher::VirtualMouse::~VirtualMouse()
 {
-    if (!injection_count) {
+    if (injection_count) {
         SIZE_T wrotten_bytes = 0;
         if (!WriteProcessMemory(m_target_process, (LPVOID)m_remote.lpGetKeyState, (LPVOID)m_remote.oldcode, code_size,
                                 &wrotten_bytes)) {
@@ -593,7 +600,7 @@ bool asst::WSAController::Toucher::VirtualMouse::inject()
         TOKEN_PRIVILEGES tkp;
         tkp.PrivilegeCount = 1;
         tkp.Privileges[0].Luid = se_debugname;
-        tkp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;                      // 特权启用
+        tkp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;                     // 特权启用
         if (!AdjustTokenPrivileges(token, FALSE, &tkp, sizeof(tkp), NULL, NULL)) // 启用指定访问令牌的特权
         {
             CloseHandle(token);
@@ -612,17 +619,17 @@ bool asst::WSAController::Toucher::VirtualMouse::inject()
         }
         while (Process32Next(snap_shot, &pe)) // 循环查找下一个进程
         {
-            if (!lstrcmp(L"WSAClient.exe", pe.szExeFile)) // 找到
+            if (!lstrcmp(L"WsaClient.exe", pe.szExeFile)) // 找到
                 process_id = pe.th32ProcessID;
         }
     }
 
-	if (process_id == 0) {
+    if (process_id == 0) {
         Log.error("Cannot find wsa process id.");
         return false;
     }
 
-	m_target_process = OpenProcess(PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ, FALSE, process_id);
+    m_target_process = OpenProcess(PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ, FALSE, process_id);
     if (m_target_process == NULL) {
         Log.error("OpenProcess Error! GetLastError() = ", GetLastError());
         return false;
@@ -667,7 +674,6 @@ bool asst::WSAController::Toucher::VirtualMouse::inject()
 
     *(ULONGLONG*)&(m_newcode[2]) = ((ULONGLONG)remote_para_addr);
     *(ULONGLONG*)&(m_newcode[13]) = ((ULONGLONG)remote_func_addr);
-
 
     if (injection_count == 0) memcpy(m_oldcode, m_remote.lpGetKeyState, code_size);
     memcpy((char*)m_remote.oldcode, (char*)m_oldcode, code_size);
@@ -751,11 +757,11 @@ bool asst::WSAController::Toucher::VirtualMouse::up()
 void asst::WSAController::Toucher::VirtualMouse::restore()
 {
     if (remote_func_addr) {
-        VirtualFree(remote_func_addr, 1024ull, MEM_RELEASE);
+        VirtualFree(remote_func_addr, 0, MEM_RELEASE);
         remote_func_addr = nullptr;
     }
     if (remote_para_addr) {
-        VirtualFree(remote_para_addr, sizeof(m_remote), MEM_RELEASE);
+        VirtualFree(remote_para_addr, 0, MEM_RELEASE);
         remote_para_addr = nullptr;
     }
     if (m_target_process) {
