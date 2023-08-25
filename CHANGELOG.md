@@ -53,6 +53,7 @@
 - 肉鸽打折商品识别错误 @ABA2396
 - 修复特别关注干员的识别问题 (#5924) @cenfusheng
 - wrong template for reception room detection @Constrat
+- 修复添加了具有相同键的项 @MistEO
 
 ### 其他
 
@@ -63,6 +64,8 @@
 - golang 接口从io/ioutil包更新为os包 (#5988) @javilak
 - 重构 TaskQueueViewModel (#5753) @ABA2396
 - 重构 CopilotViewModel.cs (#6003) @ABA2396
+- 重构 RecognizerViewModel.cs @ABA2396
+- 重构 CopilotViewModel.cs @ABA2396
 - tweaked english tasks json schema @Constrat
 - 3.1-Integration.md (#6039) @NtskwK
 - Update 3.1-集成文档.md (#6036) @hzxjy1
