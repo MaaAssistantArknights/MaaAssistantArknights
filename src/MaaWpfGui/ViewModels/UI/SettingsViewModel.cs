@@ -43,6 +43,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
+using ComboBox = System.Windows.Controls.ComboBox;
 using Timer = System.Timers.Timer;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -243,6 +244,8 @@ namespace MaaWpfGui.ViewModels.UI
 
                 // new CombData { Display = "两者兼顾，投资过后退出", Value = "2" } // 弃用
                 // new CombData { Display = Localization.GetString("3"), Value = "3" },  // 开发中
+
+                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeLastReward"), Value = "4" },
             };
 
             RoguelikeThemeList = new List<CombinedData>
@@ -252,7 +255,8 @@ namespace MaaWpfGui.ViewModels.UI
                 new CombinedData { Display = LocalizationHelper.GetString("RoguelikeThemeSami"), Value = "Sami" },
             };
 
-            UpdateRoguelikeThemeList();
+            UpdateRoguelikeSquadList();
+            UpdateRoguelikeCoreCharList();
 
             RoguelikeRolesList = new List<CombinedData>
             {
@@ -1407,7 +1411,8 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _roguelikeTheme, value);
-                UpdateRoguelikeThemeList();
+                UpdateRoguelikeSquadList();
+                UpdateRoguelikeCoreCharList();
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeTheme, value);
             }
         }
@@ -1467,9 +1472,26 @@ namespace MaaWpfGui.ViewModels.UI
             get => _roguelikeCoreChar;
             set
             {
+                if (_roguelikeCoreChar == (value ??= string.Empty))
+                {
+                    return;
+                }
+
                 SetAndNotify(ref _roguelikeCoreChar, value);
+                Instances.TaskQueueViewModel.AddLog(value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeCoreChar, value);
             }
+        }
+
+        private ObservableCollection<string> _roguelikeCoreCharList = new ObservableCollection<string>();
+
+        /// <summary>
+        /// Gets or sets the roguelike core character.
+        /// </summary>
+        public ObservableCollection<string> RoguelikeCoreCharList
+        {
+            get => _roguelikeCoreCharList;
+            set => SetAndNotify(ref _roguelikeCoreCharList, value);
         }
 
         private string _roguelikeUseSupportUnit = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeUseSupportUnit, false.ToString());
@@ -2555,10 +2577,23 @@ namespace MaaWpfGui.ViewModels.UI
             if (File.Exists(jsonPath))
             {
                 JObject versionJson = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
+                var currentTime = (ulong)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
                 var poolTime = (ulong)versionJson?["gacha"]["time"];
                 var activityTime = (ulong)versionJson?["activity"]["time"];
 
-                if (poolTime > activityTime)
+                if ((currentTime < poolTime) && (currentTime < activityTime))
+                {
+                    versionName = string.Empty;
+                }
+                else if ((currentTime >= poolTime) && (currentTime < activityTime))
+                {
+                    versionName = versionJson?["gacha"]?["pool"]?.ToString() ?? string.Empty;
+                }
+                else if ((currentTime < poolTime) && (currentTime >= activityTime))
+                {
+                    versionName = versionJson?["activity"]?["name"]?.ToString() ?? string.Empty;
+                }
+                else if (poolTime > activityTime)
                 {
                     versionName = versionJson?["gacha"]?["pool"]?.ToString() ?? string.Empty;
                 }
@@ -3231,7 +3266,7 @@ namespace MaaWpfGui.ViewModels.UI
             return false;
         }
 
-        public void UpdateRoguelikeThemeList()
+        public void UpdateRoguelikeSquadList()
         {
             var roguelikeSquad = RoguelikeSquad;
 
@@ -3308,6 +3343,49 @@ namespace MaaWpfGui.ViewModels.UI
             _roguelikeSquad = RoguelikeSquadList.Any(x => x.Value == roguelikeSquad) ? roguelikeSquad : string.Empty;
         }
 
+        public void UpdateRoguelikeCoreCharList()
+        {
+            var filePath = $"resource/roguelike/{RoguelikeTheme}/recruitment.json";
+            if (File.Exists(filePath) is false)
+            {
+                RoguelikeCoreCharList.Clear();
+                return;
+            }
+
+            var jsonStr = File.ReadAllText(filePath);
+            var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
+
+            var roguelikeCoreCharList = new ObservableCollection<string>();
+
+            if (json?["priority"] is JArray priorityArray)
+            {
+                foreach (var priorityItem in priorityArray)
+                {
+                    if (!(priorityItem?["opers"] is JArray opersArray))
+                    {
+                        continue;
+                    }
+
+                    foreach (var operItem in opersArray)
+                    {
+                        var isStart = (bool?)operItem.SelectToken("is_start") ?? false;
+                        if (!isStart)
+                        {
+                            continue;
+                        }
+
+                        var name = (string)operItem.SelectToken("name");
+                        if (!string.IsNullOrEmpty(name))
+                        {
+                            roguelikeCoreCharList.Add(name);
+                        }
+                    }
+                }
+            }
+
+            RoguelikeCoreCharList = roguelikeCoreCharList;
+        }
+
         #region SettingsGuide
 
         // 目前共4步，再多塞不下了，后续可以整个新功能展示（
@@ -3355,5 +3433,19 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         #endregion SettingsGuide
+
+        /// <summary>
+        /// Make comboBox searchable
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event args</param>
+        // xaml 中绑定了 Loaded 事件，需要添加 qodana ignore rule
+        // EventArgs 不能省略，否则会报错
+        // ReSharper disable once UnusedMember.Global
+        // ReSharper disable once UnusedParameter.Global
+        public void MakeComboBoxSearchable(object sender, EventArgs e)
+        {
+            (sender as ComboBox)?.MakeComboBoxSearchable();
+        }
     }
 }

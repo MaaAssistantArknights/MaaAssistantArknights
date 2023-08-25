@@ -17,6 +17,7 @@ namespace asst
     struct Recruitment
     {
         std::string name;
+        std::string id;
         int level = 0;
         std::unordered_set<std::string> tags;
 
@@ -39,7 +40,7 @@ namespace asst
 
         friend bool operator==(const Recruitment& lhs, const Recruitment& rhs)
         {
-            return lhs.name == rhs.name && lhs.level == rhs.level;
+            return lhs.id == rhs.id && lhs.level == rhs.level;
         }
     };
 

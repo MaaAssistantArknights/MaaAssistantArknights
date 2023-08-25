@@ -1199,6 +1199,14 @@
         "sortId": -10000,
         "usage": "기사의 나라 축소형 모델로, 늘 응접실의 정교한 선물함 안에 놓여 있다."
     },
+    "act14mini_token_fu": {
+        "classifyType": "NONE",
+        "description": "모선 마을 주민들이 직접 조각한 평안을 기원하는 부적. 이산묘에 가져가 묘축이 주사로 글을 써주면 마음이 더 편안해진다.",
+        "icon": "act14mini_token_fu.png",
+        "name": "호신부",
+        "sortId": -10000,
+        "usage": "복숭아나무로 조각한 목패. 경기가 좋을 때, 어떤 이들은 길조를 위해 약간의 곡물로 솜씨가 좋은 노인들로부터 이런 목패를 교환한다."
+    },
     "act14side_token_stone": {
         "classifyType": "NONE",
         "description": "쉐라간드의 의지가 깃들어 있어, 쉐라그인들은 행복과 평안을 위해 이 돌에 기도한다.",
@@ -1350,6 +1358,22 @@
         "name": "새로 빚은 소주",
         "sortId": -10000,
         "usage": "새로 빚은 독한 술 한 항아리로 대장장이와 새로 날 세운 검을 바꾼다. “물을 피 삼아, 술을 칼 삼아, 벗과 함께 잔을 기울이면 원수마저 잊노라.”"
+    },
+    "act2bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "시뮬레이션에서 옳고 그름은 중요하지 않다. 그것들은 단지 실전에서 올바른 선택을 할 수 있도록 도와주는 보조일 뿐이다.",
+        "icon": "act2bossrush_milestone_point.png",
+        "name": "시련 경험치",
+        "sortId": -10000,
+        "usage": "시련을 끝마치고 얻은 경험치로 시련의 등급을 올리는 용도로 사용된다."
+    },
+    "act2bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "해독되지 않은 데이터 큐브. 정보의 전달 과정에 종종 불가피한 손실을 겪는다는 것을 명심하라. 정보기록 장치를 현명하게 활용하되, 의존하지는 말 것.",
+        "icon": "act2bossrush_token_relic.png",
+        "name": "블랙큐브",
+        "sortId": -10000,
+        "usage": "억제 유닛에 데이터를 업그레이드하는 용도로 사용된다."
     },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
@@ -1582,6 +1606,22 @@
         "name": "스페셜리스트 칩셋 각인기",
         "sortId": -10000,
         "usage": "일회용 선택형 칩셋 각인 기기. 대량의 훈련 기록과 재료가 저장되어 있어, 뱅가드 오퍼레이터의 요구 사항에 따라 칩셋을 쉽게 각인할 수 있다."
+    },
+    "itempack_mod_4": {
+        "classifyType": "NONE",
+        "description": "엔지니어링부 동료들이 심혈을 기울여 만든 통합 블록으로, 포함된 데이터는 오퍼레이터의 기본 요구 사항을 충족할 수 있다.",
+        "icon": "itempack_mod_4.png",
+        "name": "모듈 데이터 통합 블록",
+        "sortId": -10000,
+        "usage": "오퍼레이터의 모듈 개방 및 업그레이드에 사용할 수 있는 아이템이 들어 있다."
+    },
+    "itempack_mod_6": {
+        "classifyType": "NONE",
+        "description": "엔지니어링부 동료들이 심혈을 기울여 만든 통합 상자로, 비축된 방대한 데이터는 오퍼레이터의 모든 요구 사항을 충족할 수 있다.",
+        "icon": "itempack_mod_6.png",
+        "name": "모듈 데이터 통합 상자",
+        "sortId": -10000,
+        "usage": "오퍼레이터의 모듈 개방 및 업그레이드에 사용할 수 있는 아이템이 들어 있다."
     },
     "itempack_mod_7": {
         "classifyType": "CONSUME",

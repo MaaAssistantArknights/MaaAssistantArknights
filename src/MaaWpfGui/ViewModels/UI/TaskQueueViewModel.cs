@@ -314,7 +314,9 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
                 }
-                if (Instances.SettingsViewModel.CurrentConfiguration != Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig)
+
+                if (Instances.SettingsViewModel.CustomConfig &&
+                    Instances.SettingsViewModel.CurrentConfiguration != Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig)
                 {
                     return;
                 }
@@ -968,7 +970,13 @@ namespace MaaWpfGui.ViewModels.UI
 
             bool mainFightRet = Instances.AsstProxy.AsstAppendFight(curStage, medicine, stone, times, DropsItemId, dropsQuantity);
 
-            if (mainFightRet && (curStage == "Annihilation") && Instances.SettingsViewModel.UseAlternateStage)
+            if (!mainFightRet)
+            {
+                AddLog(LocalizationHelper.GetString("UnsupportedStages") + ": " + curStage, UiLogColor.Error);
+                return false;
+            }
+
+            if ((curStage == "Annihilation") && Instances.SettingsViewModel.UseAlternateStage)
             {
                 foreach (var stage in new[] { Stage1, Stage2, Stage3 })
                 {
@@ -1426,7 +1434,17 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            var processModule = processes[0].MainModule;
+            ProcessModule processModule;
+            try
+            {
+                processModule = processes[0].MainModule;
+            }
+            catch
+            {
+                _logger.Error("Error: Failed to get the main module of the emulator process.");
+                return false;
+            }
+
             if (processModule == null)
             {
                 return false;
@@ -1542,19 +1560,25 @@ namespace MaaWpfGui.ViewModels.UI
             var port = address.StartsWith("127") ? address.Substring(10) : "5555";
 
             string portCmd = "netstat -ano|findstr \"" + port + "\"";
-            Process checkCmd = new Process();
-            checkCmd.StartInfo.FileName = "cmd.exe";
-            checkCmd.StartInfo.UseShellExecute = false;
-            checkCmd.StartInfo.RedirectStandardInput = true;
-            checkCmd.StartInfo.RedirectStandardOutput = true;
-            checkCmd.StartInfo.RedirectStandardError = true;
-            checkCmd.StartInfo.CreateNoWindow = true;
+            Process checkCmd = new Process
+            {
+                StartInfo =
+                {
+                    FileName = "cmd.exe",
+                    UseShellExecute = false,
+                    RedirectStandardInput = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true,
+                },
+            };
             try
             {
                 checkCmd.Start();
             }
             catch
             {
+                _logger.Error("Failed to start cmd.exe");
                 checkCmd.Close();
                 return false;
             }
@@ -1565,33 +1589,43 @@ namespace MaaWpfGui.ViewModels.UI
             while (true)
             {
                 var line = checkCmd.StandardOutput.ReadLine();
-                try
-                {
-                    line = line?.Trim();
-                }
-                catch
+                line = line?.Trim();
+
+                if (line == null)
                 {
                     break;
                 }
 
-                if (line == null || line.StartsWith("TCP", StringComparison.OrdinalIgnoreCase))
+                if (!line.StartsWith("TCP", StringComparison.OrdinalIgnoreCase))
                 {
                     continue;
                 }
 
                 line = reg.Replace(line, ",");
-                string[] arr = line.Split(',');
-                if (arr.Length >= 2 && Convert.ToBoolean(string.Compare(arr[1], address, StringComparison.Ordinal)) && Convert.ToBoolean(string.Compare(arr[1], "[::]:" + port, StringComparison.Ordinal)) && Convert.ToBoolean(string.Compare(arr[1], "0.0.0.0:" + port, StringComparison.Ordinal)))
-                {
-                    continue;
-                }
 
-                pid = int.Parse(arr[4]);
-                break;
+                try
+                {
+                    string[] arr = line.Split(',');
+                    if (arr.Length >= 2
+                        && Convert.ToBoolean(string.Compare(arr[1], address, StringComparison.Ordinal))
+                        && Convert.ToBoolean(string.Compare(arr[1], "[::]:" + port, StringComparison.Ordinal))
+                        && Convert.ToBoolean(string.Compare(arr[1], "0.0.0.0:" + port, StringComparison.Ordinal)))
+                    {
+                        continue;
+                    }
+
+                    pid = int.Parse(arr[4]);
+                    break;
+                }
+                catch (Exception e)
+                {
+                    _logger.Error("Failed to parse cmd.exe output: " + e.Message);
+                }
             }
 
             if (pid == 0)
             {
+                _logger.Error("Failed to get emulator PID");
                 return false;
             }
 
@@ -2237,10 +2271,10 @@ namespace MaaWpfGui.ViewModels.UI
                 if (root != null && _customInfrastInfoOutput && root.TryGetValue("title", out var title))
                 {
                     AddLog(LocalizationHelper.GetString("CustomInfrastTitle"), UiLogColor.Message);
-                    AddLog($"title: {JsonConvert.ToString(title)}", UiLogColor.Info);
+                    AddLog($"title: {title}", UiLogColor.Info);
                     if (root.TryGetValue("description", out var value))
                     {
-                        AddLog($"description: {JsonConvert.ToString(value)}", UiLogColor.Info);
+                        AddLog($"description: {value}", UiLogColor.Info);
                     }
                 }
 
@@ -2718,7 +2752,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         /// <summary>
-        /// DropsList ComboBox loaded
+        /// Make comboBox searchable
         /// </summary>
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event args</param>
@@ -2726,7 +2760,7 @@ namespace MaaWpfGui.ViewModels.UI
         // EventArgs 不能省略，否则会报错
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable once UnusedParameter.Global
-        public void DropsListLoaded(object sender, EventArgs e)
+        public void MakeComboBoxSearchable(object sender, EventArgs e)
         {
             (sender as ComboBox)?.MakeComboBoxSearchable();
         }

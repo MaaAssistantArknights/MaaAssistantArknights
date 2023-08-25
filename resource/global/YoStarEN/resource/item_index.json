@@ -1199,6 +1199,14 @@
         "sortId": -10000,
         "usage": "A scale miniature of the Land of the Knights, often elaborately laid out in the decorative cases of parlors."
     },
+    "act14mini_token_fu": {
+        "classifyType": "NONE",
+        "description": "A wellbeing charm hand-carved by the Moushan villagers to pray for blessings. Take it to Yishan Temple, have the censer acolyte bestow it a stroke of cinnabar, and it may put you all the more at ease.\n",
+        "icon": "act14mini_token_fu.png",
+        "name": "Wellbeing Charm",
+        "sortId": -10000,
+        "usage": "A plaque carved of crude peachwood. When a year's harvest is good, some are willing to exchange their foodstuffs with the elderly, whose consummate craft produces these charms, by which auspiciousness is sought."
+    },
     "act14side_token_stone": {
         "classifyType": "NONE",
         "description": "Kjeragandr's will dwells within. Kjerag's people pray to these, to be blessed and for good health.",
@@ -1350,6 +1358,22 @@
         "name": "Freshly-Brewed Liedaozi",
         "sortId": -10000,
         "usage": "Take a jar of freshly brewed spirit, and trade it with the old smith for a newly-edged sword of fine craft. 'Blood for water, wine for a blade. A close friend crossed by, grace and vengeance all too willing.'"
+    },
+    "act2bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "Right and wrong are far from crucial in a simulation. They are only a form of support. They help you make the correct choices when the battle is real.",
+        "icon": "act2bossrush_milestone_point.png",
+        "name": "Trial EXP",
+        "sortId": -10000,
+        "usage": "Experience gained from finished trials. Upgrades trial levels."
+    },
+    "act2bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "An encrypted data block. Always remember, the conversion of information often entails unavoidable wear. Make good use of your information storage devices, but do not depend on them.",
+        "icon": "act2bossrush_token_relic.png",
+        "name": "Data Blackbox",
+        "sortId": -10000,
+        "usage": "Used to perform Data Iteration on Limiter Units."
     },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
@@ -1582,6 +1606,22 @@
         "name": "Specialist Chip Pack Etcher",
         "sortId": -10000,
         "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can etch chip packs hassle-free, in accordance with Vanguard Operators' needs."
+    },
+    "itempack_mod_4": {
+        "classifyType": "NONE",
+        "description": "Fruit of the blood and sweat of our colleagues in Engineering, this data chunk includes the data and information to meet an Operator Module's foundational requirements.",
+        "icon": "itempack_mod_4.png",
+        "name": "Integrated Module Data Chunk",
+        "sortId": -10000,
+        "usage": "Contains items for unlocking and upgrading Operator Modules."
+    },
+    "itempack_mod_6": {
+        "classifyType": "NONE",
+        "description": "Fruit of the blood and sweat of our colleagues in Engineering, this data box stockpiles a ridiculous amount of data, able to meet an Operator Module's requirements on all fronts at once.",
+        "icon": "itempack_mod_6.png",
+        "name": "Integrated Module Data Box",
+        "sortId": -10000,
+        "usage": "Contains items for unlocking and upgrading Operator Modules."
     },
     "itempack_mod_7": {
         "classifyType": "CONSUME",

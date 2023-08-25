@@ -24,6 +24,7 @@ bool asst::RecruitConfig::parse(const json::value& json)
     for (const json::value& oper : json.at("operators").as_array()) {
         Recruitment oper_temp;
         oper_temp.name = oper.at("name").as_string();
+        oper_temp.id = oper.at("id").as_string();
 
         oper_temp.level = oper.at("rarity").as_integer();
         for (const json::value& tag_value : oper.at("tags").as_array()) {
