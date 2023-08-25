@@ -266,6 +266,7 @@ bool asst::WSAController::FrameBuffer::restart_capture()
 
     m_frame_pool.Recreate(m_device, winrt::Windows::Graphics::DirectX::DirectXPixelFormat::B8G8R8A8UIntNormalized, 1,
                           m_size); // BGR
+    pub_size = { m_size.Width, m_size.Height };
 
     start_capture();
 
@@ -277,11 +278,12 @@ bool asst::WSAController::FrameBuffer::get_once(cv::Mat& payload)
     m_locker.lock();
     if (m_front.empty()) {
         m_locker.unlock();
+        m_need_update.store(true);
         return false;
     }
     payload = m_front(m_arknights_roi).clone();
     m_locker.unlock();
-
+    m_need_update.store(true);
     return true;
 }
 
@@ -301,6 +303,7 @@ void asst::WSAController::FrameBuffer::process_frame(
     if (size != m_size) {
         m_locker.unlock();
         frame = nullptr;
+        m_size = size;
         restart_capture();
         return;
     }
@@ -326,7 +329,10 @@ void asst::WSAController::FrameBuffer::process_frame(
             data[i * m_pitch + j * 3 + 2] = source[i * field.RowPitch + j * 4 + 2];
         }
     }
-    std::swap(m_front, m_back);
+    if (m_need_update.load()) {
+        std::swap(m_front, m_back);
+        m_need_update.store(false);
+    }
     m_locker.unlock();
     m_context->Unmap(m_staging_texture.get(), subresource);
 }
@@ -345,31 +351,7 @@ bool asst::WSAController::screencap(cv::Mat& image_payload, [[maybe_unused]] boo
 
 bool asst::WSAController::start_game([[maybe_unused]] const std::string& client_type)
 {
-    LogTraceFunction;
-
     return true; // 如果已经连接上了，那就不用打开游戏了，因为游戏已经打开了
-
-    /*
-    auto lpenvs = GetEnvironmentStrings();
-    std::wostringstream env;
-    std::filesystem::path appdata_path;
-    auto iter_env = lpenvs;
-    do {
-        env.str(std::wstring {});
-        env.clear();
-        env << iter_env;
-        auto path_pos = env.str().find(platform::to_osstring("APPDATA="));
-        if (path_pos != std::wstring::npos) {
-            appdata_path = env.str().substr(path_pos + 8);
-        }
-    } while (*(iter_env += env.str().length()) != 0);
-    FreeEnvironmentStrings(lpenvs);
-
-    auto whole_path = appdata_path / m_wsapath;
-    system(whole_path.string().c_str());
-
-    return true;
-    */
 }
 
 bool asst::WSAController::click(const Point& p)
@@ -403,6 +385,8 @@ asst::WSAController::Toucher::~Toucher()
 
 void asst::WSAController::Toucher::init(HWND hwnd, int caption_height)
 {
+    if (m_inited) return;
+
     m_wnd = hwnd;
     m_caption_height = caption_height;
 
@@ -413,22 +397,19 @@ void asst::WSAController::Toucher::init(HWND hwnd, int caption_height)
     std::uniform_real_distribution<double> dist(-5, 5);
     for (int i = 0; i < 10; i++)
         random_end.push_back(dist(random_engine));
+
+    m_inited = true;
 }
 
 bool asst::WSAController::Toucher::click(int x, int y)
 {
     if (!m_inited) return false;
 
-    m_locker.lock();
-
     if (m_msgs.size() > max_queue_length) {
-        m_locker.unlock();
         return false;
     }
 
     m_msgs.push({ 0, x, y });
-
-    m_locker.unlock();
 
     return true;
 }
@@ -441,10 +422,7 @@ bool asst::WSAController::Toucher::swipe(double sx, double sy, double ex, double
         return false;
     }
 
-    m_locker.lock();
-
     if (m_msgs.size() > max_queue_length) {
-        m_locker.unlock();
         return false;
     }
 
@@ -457,7 +435,6 @@ bool asst::WSAController::Toucher::swipe(double sx, double sy, double ex, double
     linear_interpolate(sx, sy, dx, dy, 0, dur_slice, nslices);
 
     m_msgs.push({ 2, (int)sx, (int)sy });
-    m_locker.unlock();
 
     return true;
 }
@@ -470,10 +447,7 @@ bool asst::WSAController::Toucher::swipe_precisely(double sx, double sy, double 
         return false;
     }
 
-    m_locker.lock();
-
     if (m_msgs.size() > max_queue_length) {
-        m_locker.unlock();
         return false;
     }
 
@@ -498,7 +472,6 @@ bool asst::WSAController::Toucher::swipe_precisely(double sx, double sy, double 
     linear_interpolate(sx, sy, 0, 0, time_stamp, 0, 10);
 
     m_msgs.push({ 2, (int)sx, (int)sy });
-    m_locker.unlock();
 
     return true;
 }
@@ -527,8 +500,6 @@ void asst::WSAController::Toucher::run()
             Sleep(50);
             continue;
         }
-
-        m_locker.lock();
 
         auto command = m_msgs.front();
         LRESULT res = 0;
@@ -571,7 +542,6 @@ void asst::WSAController::Toucher::run()
         }
 
         m_msgs.pop();
-        m_locker.unlock();
     }
 }
 

@@ -124,6 +124,7 @@ namespace asst
                 platform::to_osstring(std::string("com.hypergryph.arknights"));
 
             std::mutex m_locker;
+            std::atomic_bool m_need_update = false;
             cv::Mat m_front, m_back;
             winrt::event_token m_frame_arrived;
             size_t m_pitch = 0;
@@ -168,11 +169,10 @@ namespace asst
         private:
             bool m_inited = false;
 
-            HWND m_wnd;
-            int m_caption_height;
+            HWND m_wnd = NULL;
+            int m_caption_height = 45;
 
             std::thread m_thread;
-            std::mutex m_locker;
             std::atomic_bool m_running;
             std::queue<MsgUnit> m_msgs;
             std::vector<double> random_end;
