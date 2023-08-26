@@ -642,17 +642,18 @@ void asst::WSAController::Toucher::run()
         switch (command.type) {
         case -1:
             res = SendMessage(m_wnd, WM_KEYDOWN, command.x, 0);
-            Sleep(40);
+            Sleep(80);
             res = SendMessage(m_wnd, WM_KEYUP, command.x, 0);
-            Sleep(20);
+            Sleep(40);
             break;
         case 0:
             s_vm.down();
-            res = SendMessage(m_wnd, WM_LBUTTONDOWN, 0, coord);
-            res = SendMessage(m_wnd, WM_LBUTTONDOWN, 0, coord);
-            Sleep(40);
+            for (int i = 0; i < 2; i++) {
+                res = SendMessage(m_wnd, WM_LBUTTONDOWN, 0, coord);
+            }
+            Sleep(80);
             res &= SendMessage(m_wnd, WM_LBUTTONUP, 0, coord);
-            Sleep(20);
+            Sleep(40);
             s_vm.up();
             break;
         case 100:
