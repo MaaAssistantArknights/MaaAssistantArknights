@@ -33,6 +33,73 @@ namespace asst
             "\x55\xd0\x4c\x8b\x45\xd8\x48\x89\xc1\x48\x8b\x45\xe0\x41\xb9\x20\x00\x00\x00\x45\x31\xd2\x48\xc7"
             "\x44\x24\x20\x00\x00\x00\x00\xff\xd0\x8b\x45\xf2\x48\x81\xc4\x80\x00\x00\x00\x5a\x5f\x5e\x5b\x5d"
             "\xc3";
+        /*
+void FunctionCodeCompiledFromBelow()
+{
+	__asm {
+		pop rax
+		push rbp
+		push rbx
+		push rsi
+		push rdi
+		push rdx
+		sub rsp, 128
+		lea rbp, 128[rsp]
+	}
+	RemoteParam* pRP;
+	INT vKey;
+	__asm {
+		mov[vKey], rcx
+		mov[pRP], rax
+	}
+
+	if (vKey == VK_LBUTTON) {
+		if (pRP->lpFlag == 1ull) {
+			__asm {
+				add rsp, 128
+				pop rdx
+				pop rdi
+				pop rsi
+				pop rbx
+				pop rbp
+				mov eax, 8001h
+				ret
+			}
+		}
+		{
+			__asm {
+				add rsp, 128
+				pop rdx
+				pop rdi
+				pop rsi
+				pop rbx
+				pop rbp
+				xor eax, eax
+				ret
+			}
+		}
+	}
+	((PFN_WRITEPROCESSMEMORY)pRP->lpWriteProcessMemory)(
+		((PFN_GETCURRENTPROCESS)pRP->lpGetCurrentProcess)(),
+		pRP->lpGetKeyState, pRP->szOldCode, code_size, NULL
+		);
+	SHORT get = ((PFN_GetKeyState)pRP->lpGetKeyState)(vKey);
+	((PFN_WRITEPROCESSMEMORY)pRP->lpWriteProcessMemory)(
+		((PFN_GETCURRENTPROCESS)pRP->lpGetCurrentProcess)(),
+		pRP->lpGetKeyState, pRP->szNewCode, code_size, NULL
+		);
+	__asm {
+		mov eax, [get]
+		add rsp, 128
+		pop rdx
+		pop rdi
+		pop rsi
+		pop rbx
+		pop rbp
+		ret
+	}
+}
+        */
 
         struct
         {
