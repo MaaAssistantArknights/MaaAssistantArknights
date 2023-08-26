@@ -1201,7 +1201,18 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            var processModule = processes[0].MainModule;
+            ProcessModule processModule;
+            try
+            {
+                processModule = processes[0].MainModule;
+            }
+            catch (Exception e)
+            {
+                _logger.Error("Error: Failed to get the main module of the emulator process.");
+                _logger.Error(e.Message);
+                return false;
+            }
+
             if (processModule == null)
             {
                 return false;
@@ -1266,7 +1277,18 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            var processModule = processes[0].MainModule;
+            ProcessModule processModule;
+            try
+            {
+                processModule = processes[0].MainModule;
+            }
+            catch (Exception e)
+            {
+                _logger.Error("Error: Failed to get the main module of the emulator process.");
+                _logger.Error(e.Message);
+                return false;
+            }
+
             if (processModule == null)
             {
                 return false;
@@ -1329,7 +1351,18 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            var processModule = processes[0].MainModule;
+            ProcessModule processModule;
+            try
+            {
+                processModule = processes[0].MainModule;
+            }
+            catch (Exception e)
+            {
+                _logger.Error("Error: Failed to get the main module of the emulator process.");
+                _logger.Error(e.Message);
+                return false;
+            }
+
             if (processModule == null)
             {
                 return false;
@@ -1384,7 +1417,18 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            var processModule = processes[0].MainModule;
+            ProcessModule processModule;
+            try
+            {
+                processModule = processes[0].MainModule;
+            }
+            catch (Exception e)
+            {
+                _logger.Error("Error: Failed to get the main module of the emulator process.");
+                _logger.Error(e.Message);
+                return false;
+            }
+
             if (processModule == null)
             {
                 return false;
@@ -1439,9 +1483,10 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 processModule = processes[0].MainModule;
             }
-            catch
+            catch (Exception e)
             {
                 _logger.Error("Error: Failed to get the main module of the emulator process.");
+                _logger.Error(e.Message);
                 return false;
             }
 
