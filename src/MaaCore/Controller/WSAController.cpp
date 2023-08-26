@@ -1,9 +1,69 @@
 
+
+#if defined(_WIN32)
+
 #include "WSAController.h"
 
 #include <TlHelp32.h>
 
-#if defined(_WIN32)
+namespace asst
+{
+    static class VirtualMouse
+    {
+    public:
+        ~VirtualMouse();
+        bool inject();
+        bool down();
+        bool up();
+
+    private:
+        void restore();
+
+        static constexpr size_t code_size = 32;
+        static constexpr unsigned char func_code[1024] =
+            "\x58\x55\x53\x56\x57\x52\x48\x81\xec\x80\x00\x00\x00\x48\x8d\xac\x24\x80\x00\x00\x00\x48\x89\x4d"
+            "\xf4\x48\x89\x45\xf8\x83\x7d\xf4\x01\x75\x2c\x48\x8b\x45\xf8\x48\x83\x78\x60\x01\x75\x12\x48\x81"
+            "\xc4\x80\x00\x00\x00\x5a\x5f\x5e\x5b\x5d\xb8\x01\x80\x00\x00\xc3\x48\x81\xc4\x80\x00\x00\x00\x5a"
+            "\x5f\x5e\x5b\x5d\x31\xc0\xc3\x48\x8b\x45\xf8\x48\x8b\x40\x10\x48\x89\x45\xc8\x48\x8b\x45\xf8\x48"
+            "\x83\xc0\x18\x48\x89\x45\xc0\x48\x8b\x45\xf8\x48\x8b\x00\x48\x89\x45\xb8\x48\x8b\x45\xf8\xff\x50"
+            "\x08\x48\x8b\x55\xb8\x4c\x8b\x45\xc0\x48\x89\xc1\x48\x8b\x45\xc8\x41\xb9\x20\x00\x00\x00\x45\x31"
+            "\xd2\x48\xc7\x44\x24\x20\x00\x00\x00\x00\xff\xd0\x48\x8b\x45\xf8\x48\x8b\x00\x8b\x4d\xf4\xff\xd0"
+            "\x66\x89\x45\xf2\x48\x8b\x45\xf8\x48\x8b\x40\x10\x48\x89\x45\xe0\x48\x8b\x45\xf8\x48\x83\xc0\x38"
+            "\x48\x89\x45\xd8\x48\x8b\x45\xf8\x48\x8b\x00\x48\x89\x45\xd0\x48\x8b\x45\xf8\xff\x50\x08\x48\x8b"
+            "\x55\xd0\x4c\x8b\x45\xd8\x48\x89\xc1\x48\x8b\x45\xe0\x41\xb9\x20\x00\x00\x00\x45\x31\xd2\x48\xc7"
+            "\x44\x24\x20\x00\x00\x00\x00\xff\xd0\x8b\x45\xf2\x48\x81\xc4\x80\x00\x00\x00\x5a\x5f\x5e\x5b\x5d"
+            "\xc3";
+
+        struct
+        {
+            LPVOID lpGetKeyState;
+            LPVOID lpGetCurrentProcess;
+            LPVOID lpWriteProcessMemory;
+            unsigned char oldcode[code_size];
+            unsigned char newcode[code_size];
+            LPVOID func_addr;
+            ULONGLONG flag;
+        } m_remote;
+        ULONGLONG m_flag_offset;
+        unsigned char m_oldcode[code_size];
+        unsigned char m_newcode[code_size] =
+            "\x48\xb8\x00\x00\x00\x00\x00\x00\x00\x00\x50\x48\xb8\x00\x00\x00\x00\x00\x00\x00\x00\xff\xe0";
+
+        typedef BOOL(__stdcall* PFN_WRITEPROCESSMEMORY)(HANDLE, LPVOID, LPCVOID, SIZE_T, SIZE_T*);
+        typedef HANDLE(__stdcall* PFN_GETCURRENTPROCESS)(void);
+        typedef SHORT(__stdcall* PFN_GetKeyState)(INT);
+
+        HANDLE m_target_process = nullptr;
+        HMODULE m_kernel32 = nullptr;
+        HMODULE m_user32 = nullptr;
+
+        LPVOID remote_func_addr = nullptr;
+        LPVOID remote_para_addr = nullptr;
+        LPVOID remote_flag_addr = nullptr;
+
+        bool m_good = false;
+    } s_vm;
+}
 
 asst::WSAController::WSAController(const AsstCallback& callback, Assistant* inst, PlatformType type)
     : InstHelper(inst), m_callback(callback), m_wgc(m_last_error), m_uuid("111111")
@@ -120,9 +180,9 @@ asst::WSAController::FrameBuffer::~FrameBuffer() {
     m_frame_pool = nullptr;
     m_item = nullptr;
     m_device = nullptr;
-    if (m_staging_texture) m_staging_texture->Release();
-    if (m_context) m_context->Release();
-    if (m_native_device) m_native_device->Release();
+    m_staging_texture = nullptr;
+    m_context = nullptr;
+    m_native_device = nullptr;
 }
 
 bool asst::WSAController::FrameBuffer::prepare(bool resize_window, bool golden_border)
@@ -237,6 +297,13 @@ bool asst::WSAController::FrameBuffer::start_capture()
     LogTraceFunction;
 
     if (end_capture()) return false;
+
+    if (pub_wndwsa != FindWindow(arknights_classname.c_str(), nullptr)) {
+        m_frame_pool = nullptr;
+        m_session = nullptr;
+        return false;
+    }
+
     m_frame_arrived = m_frame_pool.FrameArrived({ this, &FrameBuffer::process_frame });
     m_session = m_frame_pool.CreateCaptureSession(m_item);
     m_session.IsBorderRequired(m_golden_border);
@@ -402,7 +469,7 @@ bool asst::WSAController::Toucher::init(HWND hwnd, int caption_height)
     for (int i = 0; i < 10; i++)
         random_end.push_back(dist(random_engine));
 
-    if (!m_vm.inject()) return false;
+    if (!s_vm.inject()) return false;
     m_inited = true;
     return true;
 }
@@ -520,13 +587,13 @@ void asst::WSAController::Toucher::run()
             Sleep(20);
             break;
         case 0:
-            m_vm.down();
+            s_vm.down();
             res = SendMessage(m_wnd, WM_LBUTTONDOWN, 0, coord);
             res = SendMessage(m_wnd, WM_LBUTTONDOWN, 0, coord);
             Sleep(40);
             res &= SendMessage(m_wnd, WM_LBUTTONUP, 0, coord);
             Sleep(20);
-            m_vm.up();
+            s_vm.up();
             break;
         case 100:
             tic = time_point_cast<milliseconds>(high_resolution_clock::now());
@@ -540,12 +607,12 @@ void asst::WSAController::Toucher::run()
             res = TRUE;
             break;
         case 1:
-            m_vm.down();
+            s_vm.down();
             res = SendMessage(m_wnd, WM_LBUTTONDOWN, 0, coord);
             break;
         case 2:
             res = SendMessage(m_wnd, WM_LBUTTONUP, 0, coord);
-            m_vm.up();
+            s_vm.up();
             break;
         case 3:
             res = SendMessage(m_wnd, WM_MOUSEMOVE, 0, coord);
@@ -568,10 +635,9 @@ double asst::WSAController::Toucher::linear_interpolate(double& sx, double& sy, 
     return time_stamp;
 }
 
-static int injection_count = 0;
-asst::WSAController::Toucher::VirtualMouse::~VirtualMouse()
+asst::VirtualMouse::~VirtualMouse() 
 {
-    if (injection_count) {
+    if (m_good) {
         SIZE_T wrotten_bytes = 0;
         if (!WriteProcessMemory(m_target_process, (LPVOID)m_remote.lpGetKeyState, (LPVOID)m_remote.oldcode, code_size,
                                 &wrotten_bytes)) {
@@ -580,13 +646,13 @@ asst::WSAController::Toucher::VirtualMouse::~VirtualMouse()
         if (wrotten_bytes != code_size) {
             Log.error("Wrong code size! GetLastError() = ", GetLastError());
         }
+        restore();
     }
-    restore();
 }
 
-bool asst::WSAController::Toucher::VirtualMouse::inject()
+bool asst::VirtualMouse::inject()
 {
-    if (m_good) return false;
+    if (m_good) return true;
 
     {
         HANDLE token;
@@ -656,7 +722,6 @@ bool asst::WSAController::Toucher::VirtualMouse::inject()
     }
 
     Log.info("function addr:", remote_func_addr, " parameter addr : ", remote_para_addr);
-    ZeroMemory(&m_remote, sizeof(m_remote));
     m_kernel32 = LoadLibrary(L"kernel32.dll");
     if (m_kernel32 == 0) {
         Log.error("Failed to load kernel32.dll");
@@ -677,7 +742,7 @@ bool asst::WSAController::Toucher::VirtualMouse::inject()
     *(ULONGLONG*)&(m_newcode[2]) = ((ULONGLONG)remote_para_addr);
     *(ULONGLONG*)&(m_newcode[13]) = ((ULONGLONG)remote_func_addr);
 
-    if (injection_count == 0) memcpy(m_oldcode, m_remote.lpGetKeyState, code_size);
+    memcpy(m_oldcode, m_remote.lpGetKeyState, code_size);
     {
         std::ostringstream str_codes;
         str_codes << std::hex;
@@ -714,21 +779,28 @@ bool asst::WSAController::Toucher::VirtualMouse::inject()
     if (!WriteProcessMemory(m_target_process, (LPVOID)m_remote.lpGetKeyState, (LPVOID)m_newcode, code_size,
                             &wrotten_bytes)) {
         Log.error("Failed to write memory, category: 3! GetLastError() = ", GetLastError());
+        if (!WriteProcessMemory(m_target_process, (LPVOID)m_remote.lpGetKeyState, (LPVOID)m_remote.oldcode, code_size,
+                                &wrotten_bytes)) {
+            Log.error("Cannot write the old codes. GetLastError() = ", GetLastError());
+        }
+        if (wrotten_bytes != code_size) {
+            Log.error("Wrong code size! GetLastError() = ", GetLastError());
+        }
         restore();
         return false;
     }
     VirtualProtectEx(m_target_process, (LPVOID)m_remote.lpGetKeyState, code_size, PAGE_EXECUTE, &pretection);
-    injection_count++;
 
     Log.info("injected!");
-
+    
+    m_flag_offset = (ULONGLONG)&m_remote.flag - (ULONGLONG)&m_remote;
     remote_flag_addr = (LPVOID)((ULONGLONG)remote_para_addr + m_flag_offset);
 
     m_good = true;
     return true;
 }
 
-bool asst::WSAController::Toucher::VirtualMouse::down()
+bool asst::VirtualMouse::down()
 {
     if (!m_good) return false;
     m_remote.flag = 1;
@@ -746,7 +818,7 @@ bool asst::WSAController::Toucher::VirtualMouse::down()
     return true;
 }
 
-bool asst::WSAController::Toucher::VirtualMouse::up()
+bool asst::VirtualMouse::up()
 {
     if (!m_good) return false;
     m_remote.flag = 0;
@@ -764,7 +836,7 @@ bool asst::WSAController::Toucher::VirtualMouse::up()
     return true;
 }
 
-void asst::WSAController::Toucher::VirtualMouse::restore()
+void asst::VirtualMouse::restore()
 {
     if (remote_func_addr) {
         VirtualFree(remote_func_addr, 0, MEM_RELEASE);
