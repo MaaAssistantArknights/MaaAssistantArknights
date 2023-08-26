@@ -29,5 +29,6 @@ namespace asst
         AbstractTask* m_task_ptr = nullptr;
         int m_priority = 0;
         bool m_block = false;
+        bool m_last_reward = false;
     };
 }

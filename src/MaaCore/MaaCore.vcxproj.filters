@@ -612,6 +612,14 @@
     <ClInclude Include="Vision\Config\OCRerConfig.h">
       <Filter>源文件\Vision\Config</Filter>
     </ClInclude>
+    <ClInclude Include="RoguelikeDifficultySelectionTaskPlugin.h" />
+    <ClInclude Include="RoguelikeLastRewardTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeDifficultySelectionTaskPlugin.h">
+      <Filter>源文件\Task\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeLastRewardTaskPlugin.h">
+      <Filter>源文件\Task\Roguelike</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -1006,6 +1014,12 @@
     </ClCompile>
     <ClCompile Include="Vision\Config\OCRerConfig.cpp">
       <Filter>源文件\Vision\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeDifficultySelectionTaskPlugin.cpp">
+      <Filter>源文件\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeLastRewardTaskPlugin.cpp">
+      <Filter>源文件\Task\Roguelike</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

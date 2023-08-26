@@ -115,6 +115,60 @@
         ],
         "maxTimes": 20
     },
+    "SwipeToTheUp": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 200,
+        "specificRect": [
+            600,
+            610,
+            100,
+            100
+        ],
+        "rectMove": [
+            600,
+            0,
+            100,
+            100
+        ],
+        "specialParams": [
+            150,
+            0,
+            1,
+            1
+        ],
+        "next": [
+            "#next"
+        ],
+        "maxTimes": 20
+    },
+    "SwipeToTheDown": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 200,
+        "specificRect": [
+            600,
+            610,
+            100,
+            100
+        ],
+        "rectMove": [
+            600,
+            0,
+            100,
+            100
+        ],
+        "specialParams": [
+            150,
+            0,
+            1,
+            1
+        ],
+        "next": [
+            "#next"
+        ],
+        "maxTimes": 20
+    },
     "StageTheme": {
         "action": "ClickSelf",
         "roi": [
@@ -9360,6 +9414,7 @@
         "next": [
             "Roguelike@SquadDefault",
             "Roguelike@InitalDrop",
+            "Roguelike@ChooseDifficulty",
             "Roguelike@StartExplore"
         ]
     },
@@ -9662,7 +9717,60 @@
     "Phantom@Roguelike@StartExplore": {},
     "Phantom@Roguelike@TodoEnter": {},
     "Mizuki@Roguelike@Abandon": {},
-    "Mizuki@Roguelike@ChooseDifficulty": {},
+    "Mizuki@Roguelike@ChooseDifficulty": {
+        "roi": [
+            1064,
+            294,
+            216,
+            170
+        ],
+        "next": [
+            "Mizuki@Roguelike@ChooseDifficulty0",
+            "Roguelike@StartExplore"
+        ]
+    },
+    "Mizuki@Roguelike@ChooseDifficulty0": {
+        "baseTask": "Roguelike@ChooseDifficulty",
+        "roi": [
+            1064,
+            294,
+            216,
+            170
+        ],
+        "next": [
+            "Roguelike@StartExplore"
+        ]
+    },
+    "Mizuki@Roguelike@ChooseDifficulty_Easiest": {
+        "action": "ClickRect",
+        "specificRect": [ 1144, 472, 78, 24 ],
+        "postDelay": 500,
+        "template": "Mizuki@Roguelike@StartExplore.png",
+        "roi": [
+            1026,
+            470,
+            254,
+            248
+        ],
+        "next": [
+            "(SwipeToTheUp*5)"
+        ]
+    },
+    "Mizuki@Roguelike@ChooseDifficulty_hardest": {
+        "action": "ClickRect",
+        "specificRect": [ 1144, 472, 78, 24 ],
+        "postDelay": 500,
+        "template": "Mizuki@Roguelike@StartExplore.png",
+        "roi": [
+            1026,
+            470,
+            254,
+            248
+        ],
+        "next": [
+            "(SwipeToTheDown*5)"
+        ]
+    },
     "Mizuki@Roguelike@ChooseOper": {
         "onErrorNext": [
             "Mizuki@Roguelike@RecruitWithoutButton"
@@ -10159,7 +10267,44 @@
     "Mizuki@Roguelike@StartExplore": {},
     "Mizuki@Roguelike@TodoEnter": {},
     "Sami@Roguelike@Abandon": {},
-    "Sami@Roguelike@ChooseDifficulty": {},
+    "Sami@Roguelike@ChooseDifficulty": {
+        "roi": [
+            1064,
+            294,
+            216,
+            170
+        ]
+    },
+    "Sami@Roguelike@ChooseDifficulty_Easiest": {
+        "action": "ClickRect",
+        "specificRect": [ 1119, 479, 80, 22 ],
+        "postDelay": 500,
+        "template": "Sami@Roguelike@StartExplore.png",
+        "roi": [
+            958,
+            530,
+            322,
+            189
+        ],
+        "next": [
+            "(SwipeToTheUp*5)"
+        ]
+    },
+    "Sami@Roguelike@ChooseDifficulty_hardest": {
+        "action": "ClickRect",
+        "specificRect": [ 1119, 479, 80, 22 ],
+        "postDelay": 500,
+        "template": "Sami@Roguelike@StartExplore.png",
+        "roi": [
+            958,
+            530,
+            322,
+            189
+        ],
+        "next": [
+            "(SwipeToTheDown*5)"
+        ]
+    },
     "Sami@Roguelike@ChooseOper": {
         "onErrorNext": [
             "Sami@Roguelike@RecruitWithoutButton"
