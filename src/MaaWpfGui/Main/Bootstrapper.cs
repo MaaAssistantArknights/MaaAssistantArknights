@@ -12,6 +12,7 @@
 // </copyright>
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -205,6 +206,9 @@ namespace MaaWpfGui.Main
             base.OnExit(e);
         }
 
+        /// <summary>
+        /// 会带参数重启，切换配置等操作会切换回去
+        /// </summary>
         public static void RestartApplication()
         {
             //// 释放互斥量
@@ -219,6 +223,21 @@ namespace MaaWpfGui.Main
             // 有时候软件自重启时 gui.log 会无法正常写入
             Log.CloseAndFlush();
             System.Windows.Forms.Application.Restart();
+        }
+
+        /// <summary>
+        /// 重启，不带参数
+        /// </summary>
+        public static void ShutdownAndRestartWithOutArgs()
+        {
+            Application.Current.Shutdown();
+            Log.CloseAndFlush();
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                FileName = System.Windows.Forms.Application.ExecutablePath,
+            };
+
+            Process.Start(startInfo);
         }
 
         /// <inheritdoc/>
