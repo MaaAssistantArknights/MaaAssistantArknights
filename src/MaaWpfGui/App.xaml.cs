@@ -43,22 +43,26 @@ namespace MaaWpfGui
             base.OnStartup(e);
 
             string[] args = e.Args;
-            const string ConfigFile = @".\config\gui.json";
             const string ConfigFlag = "--config";
 
-            string desiredConfig = string.Empty;
-
+            string configArgs = string.Empty;
             for (int i = 0; i < args.Length; ++i)
             {
-                if (args[i] != ConfigFlag || i + 1 >= args.Length)
+                switch (args[i])
                 {
-                    continue;
+                    case ConfigFlag when i + 1 < args.Length:
+                        configArgs = args[i + 1];
+                        i += 1;
+                        break;
                 }
-
-                desiredConfig = args[i + 1];
-                i += 1;
             }
 
+            Config(configArgs);
+        }
+
+        private static void Config(string desiredConfig)
+        {
+            const string ConfigFile = @".\config\gui.json";
             if (!File.Exists(ConfigFile) || string.IsNullOrEmpty(desiredConfig))
             {
                 return;
