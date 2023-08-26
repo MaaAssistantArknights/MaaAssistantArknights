@@ -29,7 +29,7 @@ namespace asst
         std::shared_ptr<RoguelikeBattleTaskPlugin> m_battle_task_ptr = nullptr;
         std::shared_ptr<RoguelikeCustomStartTaskPlugin> m_custom_start_task_ptr = nullptr;
         std::shared_ptr<RoguelikeDebugTaskPlugin> m_debug_task_ptr = nullptr;
-        std::shared_ptr<RoguelikeLastRewardTaskPlugin> m_last_reward_ptr = nullptr;
-        std::shared_ptr<RoguelikeDifficultySelectionTaskPlugin> m_difficulty_selection_ptr = nullptr;
+        //std::shared_ptr<RoguelikeLastRewardTaskPlugin> m_last_reward_ptr = nullptr;
+        //std::shared_ptr<RoguelikeDifficultySelectionTaskPlugin> m_difficulty_selection_ptr = nullptr;
     };
 }

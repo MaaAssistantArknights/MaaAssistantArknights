@@ -39,17 +39,32 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::_run()
     std::string mode = status()->get_properties(Status::RoguelikeMode).value();
 
     if (theme != "Phantom" && mode == "4") {
-        if (m_last_reward == true) {
+        if (get_last_reward()) {
             // 到第三层退出，选最高难度开水壶
             ProcessTask(*this, { theme + "@Roguelike@ChooseDifficulty_Hardest" }).run();
+            
         }
         // 其他情况下开始，选最低难度
-        else if (m_last_reward == false) {
+        else if (get_last_reward() == false) {
             ProcessTask(*this, { theme + "@Roguelike@ChooseDifficulty_Easiest" }).run();
         }
-        m_last_reward = false;
-        ProcessTask(*this, { theme + "@Roguelike@ChooseDifficulty" }).run();
+
+       set_last_reward(false);
+        ProcessTask(*this, { theme + "@Roguelike@ChooseDifficultyConfirm" }).run();        
+        ProcessTask(*this, { theme + "@Roguelike@StartExploreConfirm" }).run();
     }
 
     return true;
 }
+
+void asst::RoguelikeDifficultySelectionTaskPlugin::set_last_reward(bool last_reward)
+{
+    AbstractTaskPlugin::set_last_reward(last_reward);
+}
+
+bool asst::RoguelikeDifficultySelectionTaskPlugin::get_last_reward()
+{
+    return AbstractTaskPlugin::get_last_reward();
+}
+
+
