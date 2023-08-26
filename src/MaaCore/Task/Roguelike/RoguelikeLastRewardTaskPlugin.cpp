@@ -34,10 +34,13 @@ bool asst::RoguelikeLastRewardTaskPlugin::_run()
     LogTraceFunction;
 
     std::string theme = status()->get_properties(Status::RoguelikeTheme).value();
-    std::string mode = status()->get_properties(Status::RoguelikeMode).value();    
-    
-    if (theme != "Phantom" && mode == "4" ) {
+    std::string mode = status()->get_properties(Status::RoguelikeMode).value();
+
+    if (theme != "Phantom" && mode == "4") {
         set_last_reward(true);
+        Log.trace("到第三层了", m_last_reward);
+        m_last_reward = true;
+        Log.trace("到第三层了", m_last_reward);
     }
     return true;
 }
