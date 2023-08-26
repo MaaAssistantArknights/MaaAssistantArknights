@@ -262,8 +262,7 @@ bool asst::WSAController::FrameBuffer::prepare(bool resize_window, bool golden_b
     pub_size.second = wantedSize.bottom;
     m_pitch = m_size.Width * 3ull;
 
-    m_front.create(m_size.Height, m_size.Width, CV_8UC3);
-    m_back.create(m_size.Height, m_size.Width, CV_8UC3);
+    m_cache.create(m_size.Height, m_size.Width, CV_8UC3);
 
     {
         D3D11_TEXTURE2D_DESC desc = { .Width = (UINT)m_size.Width,
@@ -346,14 +345,12 @@ bool asst::WSAController::FrameBuffer::restart_capture()
 bool asst::WSAController::FrameBuffer::get_once(cv::Mat& payload)
 {
     m_locker.lock();
-    if (m_front.empty()) {
+    if (m_cache.empty()) [[unlikely]] {
         m_locker.unlock();
-        m_need_update.store(true);
         return false;
     }
-    payload = m_front(m_arknights_roi).clone();
+    payload = m_cache(m_arknights_roi).clone();
     m_locker.unlock();
-    m_need_update.store(true);
     return true;
 }
 
@@ -390,7 +387,7 @@ void asst::WSAController::FrameBuffer::process_frame(
     UINT subresource = D3D11CalcSubresource(0, 0, 0);
     m_context->Map(m_staging_texture.get(), subresource, D3D11_MAP_READ, 0, &field);
 
-    uchar* data = m_back.ptr();
+    uchar* data = m_cache.ptr();
     uchar* source = (uchar*)field.pData;
     for (size_t i = 0; i < m_size.Height; i++) {
         for (size_t j = 0; j < m_size.Width; j++) {
@@ -398,10 +395,6 @@ void asst::WSAController::FrameBuffer::process_frame(
             data[i * m_pitch + j * 3 + 1] = source[i * field.RowPitch + j * 4 + 1];
             data[i * m_pitch + j * 3 + 2] = source[i * field.RowPitch + j * 4 + 2];
         }
-    }
-    if (m_need_update.load()) {
-        std::swap(m_front, m_back);
-        m_need_update.store(false);
     }
     m_locker.unlock();
     m_context->Unmap(m_staging_texture.get(), subresource);

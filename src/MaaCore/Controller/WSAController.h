@@ -124,8 +124,7 @@ namespace asst
                 platform::to_osstring(std::string("com.hypergryph.arknights"));
 
             std::mutex m_locker;
-            std::atomic_bool m_need_update = false;
-            cv::Mat m_front, m_back;
+            cv::Mat m_cache;
             winrt::event_token m_frame_arrived;
             size_t m_pitch = 0;
             cv::Rect m_arknights_roi;
