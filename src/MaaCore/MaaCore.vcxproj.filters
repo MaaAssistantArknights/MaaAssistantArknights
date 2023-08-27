@@ -612,8 +612,6 @@
     <ClInclude Include="Vision\Config\OCRerConfig.h">
       <Filter>源文件\Vision\Config</Filter>
     </ClInclude>
-    <ClInclude Include="RoguelikeDifficultySelectionTaskPlugin.h" />
-    <ClInclude Include="RoguelikeLastRewardTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeDifficultySelectionTaskPlugin.h">
       <Filter>源文件\Task\Roguelike</Filter>
     </ClInclude>
