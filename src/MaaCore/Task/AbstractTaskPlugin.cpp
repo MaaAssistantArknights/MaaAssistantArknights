@@ -20,16 +20,6 @@ void asst::AbstractTaskPlugin::set_block(bool block)
     m_block = block;
 }
 
-void asst::AbstractTaskPlugin::set_last_reward(bool last_reward)
-{
-    m_last_reward = last_reward;
-}
-
-bool asst::AbstractTaskPlugin::get_last_reward() const
-{
-    return m_last_reward;
-}
-
 void asst::AbstractTaskPlugin::set_task_ptr(asst::AbstractTask* ptr)
 {
     m_task_ptr = ptr;

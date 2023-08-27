@@ -19,9 +19,6 @@ namespace asst
         void set_priority(int priority);
         void set_block(bool block);
 
-        void set_last_reward(bool last_reward);
-        bool get_last_reward() const;
-
         virtual void set_task_ptr(AbstractTask* ptr);
 
         virtual bool verify(AsstMsg msg, const json::value& details) const = 0;
@@ -33,6 +30,5 @@ namespace asst
         AbstractTask* m_task_ptr = nullptr;
         int m_priority = 0;
         bool m_block = false;
-        bool m_last_reward = false;
     };
 }

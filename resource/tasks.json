@@ -9798,7 +9798,7 @@
             "(SwipeToTheUp*5)"
         ]
     },
-    "Mizuki@Roguelike@ChooseDifficulty_hardest": {
+    "Mizuki@Roguelike@ChooseDifficulty_Hardest": {
         "action": "ClickRect",
         "specificRect": [ 1144, 472, 78, 24 ],
         "postDelay": 500,
@@ -10345,7 +10345,7 @@
             "(SwipeToTheUp*5)"
         ]
     },
-    "Sami@Roguelike@ChooseDifficulty_hardest": {
+    "Sami@Roguelike@ChooseDifficulty_Hardest": {
         "action": "ClickRect",
         "specificRect": [ 1119, 479, 80, 22 ],
         "postDelay": 500,

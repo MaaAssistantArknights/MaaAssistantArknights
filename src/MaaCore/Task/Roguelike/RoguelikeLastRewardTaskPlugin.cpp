@@ -37,15 +37,8 @@ bool asst::RoguelikeLastRewardTaskPlugin::_run()
     std::string mode = status()->get_properties(Status::RoguelikeMode).value();
 
     if (theme != "Phantom" && mode == "4") {
-        set_last_reward(true);
-        Log.trace("到第三层了", m_last_reward);
-        m_last_reward = true;
-        Log.trace("到第三层了", m_last_reward);
+        status()->set_properties(Status::RoguelikeNeedChangeDifficulty, "max");        
     }
     return true;
 }
 
-void asst::RoguelikeLastRewardTaskPlugin::set_last_reward(bool last_reward)
-{
-    AbstractTaskPlugin::set_last_reward(last_reward);
-}

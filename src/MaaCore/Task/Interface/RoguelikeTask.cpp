@@ -75,6 +75,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     // 4 - 刷开局藏品，以获得热水壶或者演讲稿开局，不期而遇采用保守策略
     int mode = params.get("mode", 0);
     status()->set_properties(Status::RoguelikeMode, std::to_string(mode));
+    status()->set_properties(Status::RoguelikeNeedChangeDifficulty, "0");
     switch (mode) {
     case 0:
         m_debug_task_ptr->set_enable(true);
