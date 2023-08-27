@@ -15,6 +15,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Security.Principal;
 using System.Windows;
 using System.Windows.Threading;
 using GlobalHotKey;
@@ -106,6 +107,10 @@ namespace MaaWpfGui.Main
             _logger.Information("MaaAssistantArknights GUI started");
             _logger.Information("Maa ENV: {MaaEnv}", maaEnv);
             _logger.Information("User Dir {CurrentDirectory}", Directory.GetCurrentDirectory());
+            if (IsUserAdministrator())
+            {
+                _logger.Information("Run as Administrator");
+            }
             _logger.Information("===================================");
 
             try
@@ -132,6 +137,15 @@ namespace MaaWpfGui.Main
             base.OnStart();
             ConfigurationHelper.Load();
             LocalizationHelper.Load();
+        }
+
+        private static bool IsUserAdministrator()
+        {
+            WindowsIdentity identity = WindowsIdentity.GetCurrent();
+            WindowsPrincipal principal = new WindowsPrincipal(identity);
+            SecurityIdentifier adminSid = new SecurityIdentifier(WellKnownSidType.BuiltinAdministratorsSid, null);
+
+            return principal.IsInRole(adminSid);
         }
 
         /// <inheritdoc/>
