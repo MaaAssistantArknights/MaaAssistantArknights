@@ -37,8 +37,7 @@ bool asst::RoguelikeLastRewardTaskPlugin::_run()
     std::string mode = status()->get_properties(Status::RoguelikeMode).value();
 
     if (theme != "Phantom" && mode == "4") {
-        status()->set_properties(Status::RoguelikeNeedChangeDifficulty, "max");        
+        status()->set_properties(Status::RoguelikeNeedChangeDifficulty, "max");
     }
     return true;
 }
-

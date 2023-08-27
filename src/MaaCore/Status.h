@@ -55,7 +55,6 @@ namespace asst
         static inline const std::string RoguelikeMode = "RoguelikeMode";
         static inline const std::string RoguelikeNeedChangeDifficulty = "RoguelikeNeedChangeDifficulty";
 
-
         static inline const std::string ProcessTaskLastTimePrefix = "#LastTime#";
 
     private:

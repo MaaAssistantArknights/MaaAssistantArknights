@@ -1,9 +1,7 @@
 #include "RoguelikeDifficultySelectionTaskPlugin.h"
 
 #include "Status.h"
-#include "Task/Interface/RoguelikeTask.h"
 #include "Task/ProcessTask.h"
-#include "Task/Roguelike/RoguelikeLastRewardTaskPlugin.h"
 #include "Utils/Logger.hpp"
 
 bool asst::RoguelikeDifficultySelectionTaskPlugin::verify(AsstMsg msg, const json::value& details) const
@@ -55,4 +53,3 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::_run()
 
     return true;
 }
-

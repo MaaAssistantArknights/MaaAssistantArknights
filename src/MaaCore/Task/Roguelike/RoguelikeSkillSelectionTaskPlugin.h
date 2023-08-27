@@ -15,8 +15,5 @@ namespace asst
 
     protected:
         virtual bool _run() override;
-
-    public:
-        bool m_last_reward = false;
     };
 }
