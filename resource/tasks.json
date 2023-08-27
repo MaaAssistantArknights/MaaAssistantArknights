@@ -118,7 +118,7 @@
     "SwipeToTheUp": {
         "algorithm": "JustReturn",
         "action": "Swipe",
-        "postDelay": 200,
+        "postDelay": 300,
         "specificRect": [
             600,
             510,
@@ -145,7 +145,7 @@
     "SwipeToTheDown": {
         "algorithm": "JustReturn",
         "action": "Swipe",
-        "postDelay": 200,
+        "postDelay": 300,
         "specificRect": [
             600,
             145,
