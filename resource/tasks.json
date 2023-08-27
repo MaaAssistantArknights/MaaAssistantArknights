@@ -10329,7 +10329,6 @@
             170
         ]
     },
-    "Mizuki@Roguelike@ChooseDifficulty": {},
     "Sami@Roguelike@ChooseDifficulty_Easiest": {
         "action": "ClickRect",
         "specificRect": [ 1119, 479, 80, 22 ],
@@ -10470,7 +10469,7 @@
             "Sami@Roguelike@Abandon"
         ]
     },
-    "Sami@Roguelike@ExitThenAbandon": {
+    "Sami@Roguelike@ExitThenAbandon_mode4": {
         "template": "Roguelike@ExitThenAbandon_mode4.png",
         "next": [
             "Sami@Roguelike@ExitThenAbandon",
