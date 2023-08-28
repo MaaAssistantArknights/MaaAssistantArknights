@@ -28,6 +28,7 @@ using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Serilog;
 using Stylet;
 
 namespace MaaWpfGui.Main
@@ -49,6 +50,7 @@ namespace MaaWpfGui.Main
     public class AsstProxy
     {
         private readonly RunningState runningState;
+        private static readonly ILogger _logger = Log.ForContext<AsstProxy>();
 
         private delegate void CallbackDelegate(int msg, IntPtr json_buffer, IntPtr custom_arg);
 
@@ -106,11 +108,15 @@ namespace MaaWpfGui.Main
 
         private static unsafe bool AsstConnect(AsstHandle handle, string adb_path, string address, string config)
         {
+            _logger.Information(((int)handle).ToString(), adb_path, address, config);
+
             fixed (byte* ptr1 = EncodeNullTerminatedUTF8(adb_path),
                 ptr2 = EncodeNullTerminatedUTF8(address),
                 ptr3 = EncodeNullTerminatedUTF8(config))
             {
-                return AsstConnect(handle, ptr1, ptr2, ptr3);
+                bool ret = AsstConnect(handle, ptr1, ptr2, ptr3);
+                _logger.Information(((int)handle).ToString(), adb_path, address, config, "return", ret);
+                return ret;
             }
         }
 
