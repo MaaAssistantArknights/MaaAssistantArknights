@@ -129,18 +129,6 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LogTraceFunction;
     using namespace asst::utils::path_literals;
 
-    // #ifdef ASST_DEBUG
-    // #define FutureAppendBegins
-    // #define FutureAppendEnds
-    // #else
-    //     std::vector<std::future<bool>> futures;
-    // #define FutureAppendBegins futures.emplace_back(std::async(std::launch::async | std::launch::deferred, [&]() ->
-    // bool {
-    // #def ine FutureAppendEnds \
-//    return true;         \
-//    }))
-    // #endif
-
     // 不太重要又加载的慢的资源，但不怎么占内存的，实时异步加载
     // DEBUG 模式下这里还是检查返回值的，方便排查问题
     AsyncLoadConfig(StageDropsConfig, "stages.json"_p);
@@ -196,12 +184,6 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
 #undef LoadTemplByConfigAndCheckRet
 #undef LoadResourceAndCheckRet
 #undef LoadCacheWithoutRet
-
-    // #ifdef ASST_DEBUG
-    //     m_loaded = true;
-    // #else
-    //     m_loaded = ranges::all_of(futures, [](auto& f) { return f.get(); });
-    // #endif
 
     m_loaded = true;
 
