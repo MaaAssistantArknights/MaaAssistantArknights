@@ -19,7 +19,7 @@
         {
             "name": "委托冒险者",
             "option_num": 3,
-            "choose": 1
+            "choose": 3
         },
         {
             "name": "皇家争执",
@@ -44,7 +44,7 @@
         {
             "name": "哥伦比亚酒商",
             "option_num": 2,
-            "choose": 1
+            "choose": 2
         },
         {
             "name": "锡人",
@@ -54,7 +54,7 @@
         {
             "name": "猩红舞会",
             "option_num": 4,
-            "choose": 1
+            "choose": 4
         },
         {
             "name": "剧目需求",
@@ -64,17 +64,17 @@
         {
             "name": "狂舞之人",
             "option_num": 2,
-            "choose": 1
+            "choose": 2
         },
         {
             "name": "音乐挑战",
             "option_num": 2,
-            "choose": 1
+            "choose": 2
         },
         {
             "name": "石中剑",
             "option_num": 3,
-            "choose": 1
+            "choose": 3
         },
         {
             "name": "被困的人",
@@ -84,32 +84,32 @@
         {
             "name": "佝偻怪客",
             "option_num": 2,
-            "choose": 1
+            "choose": 2
         },
         {
             "name": "沉睡石像",
             "option_num": 2,
-            "choose": 1
+            "choose": 2
         },
         {
             "name": "受缚之血",
             "option_num": 2,
-            "choose": 1
+            "choose": 2
         },
         {
             "name": "幽影狂言",
             "option_num": 2,
-            "choose": 1
+            "choose": 2
         },
         {
             "name": "艺术与疯狂",
             "option_num": 2,
-            "choose": 1
+            "choose": 2
         },
         {
             "name": "鸭爵主演",
             "option_num": 2,
-            "choose": 1
+            "choose": 2
         },
         {
             "name": "鸭爵的宴会",
@@ -129,12 +129,12 @@
         {
             "name": "邪恶之棺",
             "option_num": 2,
-            "choose": 1
+            "choose": 2
         },
         {
             "name": "以血还血",
             "option_num": 3,
-            "choose": 2
+            "choose": 3
         },
         {
             "name": "暗门",
@@ -149,21 +149,26 @@
         {
             "name": "废品地摊",
             "option_num": 3,
-            "choose": 2
+            "choose": 3
         },
         {
             "name": "鉴赏家",
             "option_num": 4,
-            "choose": 1
+            "choose": 3
         },
         {
-            "name": "解脱",
+            "name": "解脱?",
             "option_num": 2,
             "choose": 2
         },
         {
             "name": "疯狂玩偶",
             "option_num": 2,
+            "choose": 1
+        },
+        {
+            "name": "解脱",
+            "option_num": 1,
             "choose": 1
         },
         {
@@ -179,12 +184,12 @@
         {
             "name": "别打扰他们",
             "option_num": 2,
-            "choose": 1
+            "choose": 2
         },
         {
             "name": "复仇剧",
             "option_num": 2,
-            "choose": 1
+            "choose": 2
         },
         {
             "name": "安全的角落",
@@ -203,12 +208,12 @@
         },
         {
             "name": "暴殄天物",
-            "option_num": 2,
-            "choose": 2
+            "option_num": 4,
+            "choose": 1
         },
         {
             "name": "鼠胆神偷",
-            "option_num": 2,
+            "option_num": 3,
             "choose": 1
         },
         {
