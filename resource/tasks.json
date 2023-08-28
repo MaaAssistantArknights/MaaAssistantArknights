@@ -115,6 +115,60 @@
         ],
         "maxTimes": 20
     },
+    "SwipeToTheUp": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 300,
+        "specificRect": [
+            600,
+            510,
+            100,
+            100
+        ],
+        "rectMove": [
+            600,
+            0,
+            100,
+            100
+        ],
+        "specialParams": [
+            150,
+            0,
+            1,
+            1
+        ],
+        "next": [
+            "#next"
+        ],
+        "maxTimes": 20
+    },
+    "SwipeToTheDown": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 300,
+        "specificRect": [
+            600,
+            145,
+            100,
+            100
+        ],
+        "rectMove": [
+            600,
+            610,
+            100,
+            100
+        ],
+        "specialParams": [
+            150,
+            0,
+            1,
+            1
+        ],
+        "next": [
+            "#next"
+        ],
+        "maxTimes": 20
+    },
     "StageTheme": {
         "action": "ClickSelf",
         "roi": [
@@ -7752,6 +7806,19 @@
             "Roguelike@StartExplore"
         ]
     },
+    "Roguelike@ChooseDifficultyConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "text": [ "选择" ],
+        "roi": [
+            1064,
+            294,
+            216,
+            170
+        ]
+    },
+
     "Roguelike@ChooseOper": {
         "Doc": "本任务注册了插件 RoguelikeRecruitTaskPlugin",
         "algorithm": "JustReturn",
@@ -7917,6 +7984,16 @@
         ]
     },
     "Roguelike@ExitThenAbandon": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            0,
+            320,
+            160
+        ]
+    },
+    "Roguelike@ExitThenAbandon_mode4": {
         "action": "ClickSelf",
         "cache": false,
         "roi": [
@@ -9345,6 +9422,18 @@
             "Roguelike@StartAction@LoadingIcon"
         ]
     },
+    "Roguelike@StartExploreConfirm": {
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "cache": false,
+        "postDelay": 2000,
+        "roi": [
+            1064,
+            294,
+            216,
+            170
+        ]
+    },
     "Roguelike@StartExplore": {
         "Doc": "base_task",
         "template": "empty.png",
@@ -9360,6 +9449,7 @@
         "next": [
             "Roguelike@SquadDefault",
             "Roguelike@InitalDrop",
+            "Roguelike@ChooseDifficulty",
             "Roguelike@StartExplore"
         ]
     },
@@ -9494,6 +9584,13 @@
             "Phantom@Roguelike@Abandon"
         ]
     },
+    "Phantom@Roguelike@ExitThenAbandon_mode4": {
+        "template": "Roguelike@ExitThenAbandon_mode4.png",
+        "next": [
+            "Phantom@Roguelike@ExitThenAbandon",
+            "Phantom@Roguelike@Abandon"
+        ]
+    },
     "Phantom@Roguelike@GamePass": {},
     "Phantom@Roguelike@GamePassSkip1": {},
     "Phantom@Roguelike@GamePassSkip1Confirm": {
@@ -9541,7 +9638,7 @@
             "故土残躯"
         ],
         "next": [
-            "Phantom@Roguelike@ExitThenAbandon"
+            "Phantom@Roguelike@ExitThenAbandon_mode4"
         ]
     },
     "Phantom@Roguelike@NextLevel": {
@@ -9663,6 +9760,59 @@
     "Phantom@Roguelike@TodoEnter": {},
     "Mizuki@Roguelike@Abandon": {},
     "Mizuki@Roguelike@ChooseDifficulty": {},
+    "Mizuki@Roguelike@ChooseDifficulty0": {
+        "baseTask": "Roguelike@ChooseDifficulty",
+        "roi": [
+            1064,
+            294,
+            216,
+            170
+        ],
+        "next": [
+            "Roguelike@StartExplore"
+        ]
+    },
+    "Mizuki@Roguelike@ChooseDifficultyConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [ "选择" ],
+        "roi": [
+            1064,
+            294,
+            216,
+            170
+        ]
+    },
+    "Mizuki@Roguelike@ChooseDifficulty_Easiest": {
+        "action": "ClickRect",
+        "specificRect": [ 1144, 472, 78, 24 ],
+        "postDelay": 500,
+        "template": "Mizuki@Roguelike@StartExplore.png",
+        "roi": [
+            1026,
+            470,
+            254,
+            248
+        ],
+        "next": [
+            "(SwipeToTheUp*5)"
+        ]
+    },
+    "Mizuki@Roguelike@ChooseDifficulty_Hardest": {
+        "action": "ClickRect",
+        "specificRect": [ 1144, 472, 78, 24 ],
+        "postDelay": 500,
+        "template": "Mizuki@Roguelike@StartExplore.png",
+        "roi": [
+            1026,
+            470,
+            254,
+            248
+        ],
+        "next": [
+            "(SwipeToTheDown*5)"
+        ]
+    },
     "Mizuki@Roguelike@ChooseOper": {
         "onErrorNext": [
             "Mizuki@Roguelike@RecruitWithoutButton"
@@ -9826,6 +9976,15 @@
             "Mizuki@Roguelike@DataTraceback"
         ]
     },
+    "Mizuki@Roguelike@ExitThenAbandon_mode4": {
+        "template": "Roguelike@ExitThenAbandon.png",
+        "next": [
+            "Mizuki@Roguelike@ExitThenAbandon",
+            "Mizuki@Roguelike@Abandon",
+            "Mizuki@Roguelike@DiceConfirmThenAbandon",
+            "Mizuki@Roguelike@DataTraceback"
+        ]
+    },
     "Mizuki@Roguelike@GamePass": {},
     "Mizuki@Roguelike@GamePassSkip1": {},
     "Mizuki@Roguelike@GamePassSkip1Confirm": {
@@ -9938,7 +10097,7 @@
             "绀碧摇篮"
         ],
         "next": [
-            "Mizuki@Roguelike@ExitThenAbandon"
+            "Mizuki@Roguelike@ExitThenAbandon_mode4"
         ]
     },
     "Mizuki@Roguelike@NextLevel": {
@@ -10157,9 +10316,49 @@
         ]
     },
     "Mizuki@Roguelike@StartExplore": {},
+    "Mizuki@Roguelike@StartExploreConfirm": {
+        "template": "Mizuki@Roguelike@StartExplore.png"
+    },
     "Mizuki@Roguelike@TodoEnter": {},
     "Sami@Roguelike@Abandon": {},
-    "Sami@Roguelike@ChooseDifficulty": {},
+    "Sami@Roguelike@ChooseDifficulty": {
+        "roi": [
+            1064,
+            294,
+            216,
+            170
+        ]
+    },
+    "Sami@Roguelike@ChooseDifficulty_Easiest": {
+        "action": "ClickRect",
+        "specificRect": [ 1119, 479, 80, 22 ],
+        "postDelay": 500,
+        "template": "Sami@Roguelike@StartExplore.png",
+        "roi": [
+            958,
+            530,
+            322,
+            189
+        ],
+        "next": [
+            "(SwipeToTheUp*5)"
+        ]
+    },
+    "Sami@Roguelike@ChooseDifficulty_Hardest": {
+        "action": "ClickRect",
+        "specificRect": [ 1119, 479, 80, 22 ],
+        "postDelay": 500,
+        "template": "Sami@Roguelike@StartExplore.png",
+        "roi": [
+            958,
+            530,
+            322,
+            189
+        ],
+        "next": [
+            "(SwipeToTheDown*5)"
+        ]
+    },
     "Sami@Roguelike@ChooseOper": {
         "onErrorNext": [
             "Sami@Roguelike@RecruitWithoutButton"
@@ -10270,6 +10469,13 @@
             "Sami@Roguelike@Abandon"
         ]
     },
+    "Sami@Roguelike@ExitThenAbandon_mode4": {
+        "template": "Roguelike@ExitThenAbandon_mode4.png",
+        "next": [
+            "Sami@Roguelike@ExitThenAbandon",
+            "Sami@Roguelike@Abandon"
+        ]
+    },
     "Sami@Roguelike@GamePass": {},
     "Sami@Roguelike@GamePassSkip1": {},
     "Sami@Roguelike@GamePassSkip1Confirm": {
@@ -10371,7 +10577,7 @@
             "深埋迷境"
         ],
         "next": [
-            "Sami@Roguelike@ExitThenAbandon"
+            "Sami@Roguelike@ExitThenAbandon_mode4"
         ]
     },
     "Sami@Roguelike@NextLevel": {
@@ -10388,6 +10594,8 @@
         "next": [
             "Sami@Roguelike@LevelName",
             "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@StageBoskyPassage",
+            "Sami@Roguelike@StageBoskyPassageAI6",
             "Sami@Roguelike@StageTrader",
             "Sami@Roguelike@StageTraderAI6",
             "Sami@Roguelike@StageSafeHouse",
@@ -10396,8 +10604,6 @@
             "Sami@Roguelike@StageBoonsAI6",
             "Sami@Roguelike@StageEmergencyTransportation",
             "Sami@Roguelike@StageEmergencyTransportationAI6",
-            "Sami@Roguelike@StageBoskyPassage",
-            "Sami@Roguelike@StageBoskyPassageAI6",
             "Sami@Roguelike@StageGambling",
             "Sami@Roguelike@StageGamblingAI6",
             "Sami@Roguelike@StageProphecy",
@@ -10787,6 +10993,15 @@
         "next": [
             "Sami@Roguelike@StageEncounterEnter",
             "Sami@Roguelike@NextLevel#next"
+        ]
+    },
+    "Sami@Roguelike@StartExploreConfirm": {
+        "template": "Sami@Roguelike@StartExplore.png",
+        "roi": [
+            958,
+            530,
+            322,
+            189
         ]
     },
     "Sami@Roguelike@StartExplore": {
