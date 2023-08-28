@@ -359,7 +359,16 @@
         {
             "name": "科考站",
             "option_num": 3,
-            "choose": 1
+            "choose": 1,
+            "choice_require": [
+                {
+                    "name": "无人机好像有新发现",
+                    "Vision": {
+                        "value": "1",
+                        "type": ">"
+                    }
+                }
+            ]
         },
         {
             "name": "北地巫师竞技",
@@ -424,7 +433,6 @@
                 }
             ]
         },
-        
         {
             "name": "低地市集",
             "option_num": 3,
@@ -519,7 +527,7 @@
         {
             "name": "探寻前路",
             "option_num": 3,
-            "choose": 2            
+            "choose": 3
         },
         {
             "name": "前行的林地",

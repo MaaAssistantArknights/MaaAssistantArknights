@@ -157,13 +157,18 @@
             "choose": 1
         },
         {
-            "name": "解脱",
+            "name": "解脱?",
             "option_num": 2,
             "choose": 2
         },
         {
             "name": "疯狂玩偶",
             "option_num": 2,
+            "choose": 1
+        },
+        {
+            "name": "解脱",
+            "option_num": 1,
             "choose": 1
         },
         {
@@ -203,12 +208,12 @@
         },
         {
             "name": "暴殄天物",
-            "option_num": 2,
-            "choose": 2
+            "option_num": 4,
+            "choose": 4
         },
         {
             "name": "鼠胆神偷",
-            "option_num": 2,
+            "option_num": 3,
             "choose": 1
         },
         {
