@@ -134,7 +134,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
 #define FutureAppendEnds
 #else
     std::vector<std::future<bool>> futures;
-#define FutureAppendBegins futures.emplace_back(std::async(std::launch::async, [&]() -> bool {
+#define FutureAppendBegins futures.emplace_back(std::async(std::launch::async | std::launch::deferred, [&]() -> bool {
 #define FutureAppendEnds \
     return true;         \
     }))
