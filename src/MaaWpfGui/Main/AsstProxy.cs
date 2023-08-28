@@ -104,18 +104,18 @@ namespace MaaWpfGui.Main
         }
 
         [DllImport("MaaCore.dll")]
-        private static extern unsafe bool AsstConnect(AsstHandle handle, byte* adb_path, byte* address, byte* config);
+        private static extern unsafe bool AsstConnect(AsstHandle handle, byte* adbPath, byte* address, byte* config);
 
-        private static unsafe bool AsstConnect(AsstHandle handle, string adb_path, string address, string config)
+        private static unsafe bool AsstConnect(AsstHandle handle, string adbPath, string address, string config)
         {
-            _logger.Information(((int)handle).ToString(), adb_path, address, config);
+            _logger.Information($"handle: {(long)handle}, adbPath: {adbPath}, address: {address}, config: {config}");
 
-            fixed (byte* ptr1 = EncodeNullTerminatedUTF8(adb_path),
+            fixed (byte* ptr1 = EncodeNullTerminatedUTF8(adbPath),
                 ptr2 = EncodeNullTerminatedUTF8(address),
                 ptr3 = EncodeNullTerminatedUTF8(config))
             {
                 bool ret = AsstConnect(handle, ptr1, ptr2, ptr3);
-                _logger.Information(((int)handle).ToString(), adb_path, address, config, "return", ret);
+                _logger.Information($"handle: {((long)handle).ToString()}, adbPath: {adbPath}, address: {address}, config: {config}, return: {ret}");
                 return ret;
             }
         }
