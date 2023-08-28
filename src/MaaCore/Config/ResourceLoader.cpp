@@ -129,16 +129,17 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LogTraceFunction;
     using namespace asst::utils::path_literals;
 
-#ifdef ASST_DEBUG
-#define FutureAppendBegins
-#define FutureAppendEnds
-#else
-    std::vector<std::future<bool>> futures;
-#define FutureAppendBegins futures.emplace_back(std::async(std::launch::async | std::launch::deferred, [&]() -> bool {
-#define FutureAppendEnds \
-    return true;         \
-    }))
-#endif
+    // #ifdef ASST_DEBUG
+    // #define FutureAppendBegins
+    // #define FutureAppendEnds
+    // #else
+    //     std::vector<std::future<bool>> futures;
+    // #define FutureAppendBegins futures.emplace_back(std::async(std::launch::async | std::launch::deferred, [&]() ->
+    // bool {
+    // #def ine FutureAppendEnds \
+//    return true;         \
+//    }))
+    // #endif
 
     // 不太重要又加载的慢的资源，但不怎么占内存的，实时异步加载
     // DEBUG 模式下这里还是检查返回值的，方便排查问题
@@ -165,54 +166,44 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "Sami"_p / "encounter_for_deposit.json"_p);
 
     // 太占内存的资源，都是惰性加载
-    FutureAppendBegins
-    {
-        // 战斗中技能识别，二分类模型
-        LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "skill_ready_cls.onnx"_p);
-        // 战斗中部署方向识别，四分类模型
-        LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "deploy_direction_cls.onnx"_p);
-        // 战斗中干员（血条）检测，yolov8 检测模型
-        LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "operators_det.onnx"_p);
+    // 战斗中技能识别，二分类模型
+    LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "skill_ready_cls.onnx"_p);
+    // 战斗中部署方向识别，四分类模型
+    LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "deploy_direction_cls.onnx"_p);
+    // 战斗中干员（血条）检测，yolov8 检测模型
+    LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "operators_det.onnx"_p);
 
-        /* ocr */
-        LoadResourceAndCheckRet(WordOcr, "PaddleOCR"_p);
-        LoadResourceAndCheckRet(CharOcr, "PaddleCharOCR"_p);
-    }
-    FutureAppendEnds;
+    /* ocr */
+    LoadResourceAndCheckRet(WordOcr, "PaddleOCR"_p);
+    LoadResourceAndCheckRet(CharOcr, "PaddleCharOCR"_p);
 
     // 重要的资源，实时加载
-    FutureAppendBegins
-    {
-        /* load resource with json files*/
-        LoadResourceAndCheckRet(GeneralConfig, "config.json"_p);
-        LoadResourceAndCheckRet(RecruitConfig, "recruitment.json"_p);
-        LoadResourceAndCheckRet(BattleDataConfig, "battle_data.json"_p);
-        LoadResourceAndCheckRet(OcrConfig, "ocr_config.json"_p);
+    /* load resource with json files*/
+    LoadResourceAndCheckRet(GeneralConfig, "config.json"_p);
+    LoadResourceAndCheckRet(RecruitConfig, "recruitment.json"_p);
+    LoadResourceAndCheckRet(BattleDataConfig, "battle_data.json"_p);
+    LoadResourceAndCheckRet(OcrConfig, "ocr_config.json"_p);
 
-        /* load cache */
-        // 这个任务依赖 BattleDataConfig
-        LoadCacheWithoutRet(AvatarCacheManager, "avatars"_p);
-    }
-    FutureAppendEnds;
+    /* load cache */
+    // 这个任务依赖 BattleDataConfig
+    LoadCacheWithoutRet(AvatarCacheManager, "avatars"_p);
 
     // 重要的资源，实时加载（图片还是惰性的）
-    FutureAppendBegins
-    {
-        LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
-        LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
-        LoadResourceWithTemplAndCheckRet(ItemConfig, "item_index.json"_p, "template"_p / "items"_p);
-    }
-    FutureAppendEnds;
+    LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
+    LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
+    LoadResourceWithTemplAndCheckRet(ItemConfig, "item_index.json"_p, "template"_p / "items"_p);
 
 #undef LoadTemplByConfigAndCheckRet
 #undef LoadResourceAndCheckRet
 #undef LoadCacheWithoutRet
 
-#ifdef ASST_DEBUG
+    // #ifdef ASST_DEBUG
+    //     m_loaded = true;
+    // #else
+    //     m_loaded = ranges::all_of(futures, [](auto& f) { return f.get(); });
+    // #endif
+
     m_loaded = true;
-#else
-    m_loaded = ranges::all_of(futures, [](auto& f) { return f.get(); });
-#endif
 
     Log.info(__FUNCTION__, "ret", m_loaded);
     return m_loaded;
