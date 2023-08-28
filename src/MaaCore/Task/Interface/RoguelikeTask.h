@@ -9,6 +9,8 @@ namespace asst
     class RoguelikeBattleTaskPlugin;
     class RoguelikeCustomStartTaskPlugin;
     class RoguelikeDebugTaskPlugin;
+    class RoguelikeLastRewardTaskPlugin;
+    class RoguelikeDifficultySelectionTaskPlugin;
 
     class RoguelikeTask : public InterfaceTask
     {
