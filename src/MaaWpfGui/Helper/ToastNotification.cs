@@ -33,6 +33,8 @@ using Notification.Wpf.Controls;
 using Semver;
 using Serilog;
 using Stylet;
+using Windows.Data.Xml.Dom;
+using Windows.UI.Notifications;
 using Application = System.Windows.Forms.Application;
 using FontFamily = System.Windows.Media.FontFamily;
 
@@ -414,20 +416,28 @@ namespace MaaWpfGui.Helper
                         if (_buttonSystemEnabled)
                         {
                             Uri burl = new Uri(ButtonSystemUrl);
-                            new ToastContentBuilder()
+                            var toastContent = new ToastContentBuilder()
                                 .AddText(_notificationTitle)
                                 .AddText(_contentCollection.ToString())
                                 .AddButton(new ToastButton()
                                     .SetContent(_buttonSystemText)
                                     .SetProtocolActivation(burl))
-                                .Show();
+                                .GetToastContent();
+                            var toastXmlDoc = new XmlDocument();
+                            toastXmlDoc.LoadXml(toastContent.GetContent());
+                            var toastNotification = new Windows.UI.Notifications.ToastNotification(toastXmlDoc);
+                            ToastNotificationManager.CreateToastNotifier().Show(toastNotification);
                         }
                         else
                         {
-                            new ToastContentBuilder()
+                            var toastContent = new ToastContentBuilder()
                                 .AddText(_notificationTitle)
                                 .AddText(_contentCollection.ToString())
-                                .Show();
+                                .GetToastContent();
+                            var toastXmlDoc = new XmlDocument();
+                            toastXmlDoc.LoadXml(toastContent.GetContent());
+                            var toastNotification = new Windows.UI.Notifications.ToastNotification(toastXmlDoc);
+                            ToastNotificationManager.CreateToastNotifier().Show(toastNotification);
                         }
                     });
 

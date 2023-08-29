@@ -28,11 +28,11 @@ using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.Views.UI;
-using Microsoft.Toolkit.Uwp.Notifications;
 using Serilog;
 using Serilog.Core;
 using Stylet;
 using StyletIoC;
+using Windows.UI.Notifications;
 
 namespace MaaWpfGui.Main
 {
@@ -227,7 +227,7 @@ namespace MaaWpfGui.Main
             var os = RuntimeInformation.OSDescription;
             if (string.Compare(os, "Microsoft Windows 10.0.10240", StringComparison.Ordinal) >= 0)
             {
-                ToastNotificationManagerCompat.History.Clear();
+                new ToastNotificationHistory().Clear();
             }
 
             // 注销任务栏图标
