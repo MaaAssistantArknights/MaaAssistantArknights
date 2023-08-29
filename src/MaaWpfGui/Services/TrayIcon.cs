@@ -44,12 +44,12 @@ namespace MaaWpfGui.Services
             _notifyIcon.MouseClick += NotifyIcon_MouseClick;
             _notifyIcon.MouseDoubleClick += OnNotifyIconDoubleClick;
 
-            MenuItem startMenu = new MenuItem(LocalizationHelper.GetString("Farming"));
+            ToolStripMenuItem startMenu = new ToolStripMenuItem (LocalizationHelper.GetString("Farming"));
             startMenu.Click += StartTask;
-            MenuItem stopMenu = new MenuItem(LocalizationHelper.GetString("Stop"));
+            ToolStripMenuItem stopMenu = new ToolStripMenuItem(LocalizationHelper.GetString("Stop"));
             stopMenu.Click += StopTask;
 
-            MenuItem switchLangMenu = new MenuItem(LocalizationHelper.GetString("SwitchLanguage"));
+            ToolStripMenuItem switchLangMenu = new ToolStripMenuItem(LocalizationHelper.GetString("SwitchLanguage"));
 
             foreach (var lang in LocalizationHelper.SupportedLanguages)
             {
@@ -58,21 +58,28 @@ namespace MaaWpfGui.Services
                     continue;
                 }
 
-                var langMenu = new MenuItem(lang.Value);
+                var langMenu = new ToolStripMenuItem(lang.Value);
                 langMenu.Click += (sender, e) =>
                 {
                     Instances.SettingsViewModel.Language = lang.Key;
                 };
-                switchLangMenu.MenuItems.Add(langMenu);
+                switchLangMenu.DropDownItems.Add(langMenu);
             }
 
-            MenuItem forceShowMenu = new MenuItem(LocalizationHelper.GetString("ForceShow"));
+            ToolStripMenuItem forceShowMenu = new ToolStripMenuItem(LocalizationHelper.GetString("ForceShow"));
             forceShowMenu.Click += ForceShow;
 
-            MenuItem exitMenu = new MenuItem(LocalizationHelper.GetString("Exit"));
+            ToolStripMenuItem exitMenu = new ToolStripMenuItem(LocalizationHelper.GetString("Exit"));
             exitMenu.Click += AppExit;
-            MenuItem[] menuItems = { startMenu, stopMenu, switchLangMenu, forceShowMenu, exitMenu };
-            this._notifyIcon.ContextMenu = new ContextMenu(menuItems);
+
+            ToolStripMenuItem[] menuItems = new ToolStripMenuItem[] { startMenu, stopMenu, switchLangMenu, forceShowMenu, exitMenu };
+            var contextMenuStrip = new ContextMenuStrip();
+            foreach (var item in menuItems)
+            {
+                contextMenuStrip.Items.Add(item);
+            }
+
+            this._notifyIcon.ContextMenuStrip = contextMenuStrip;
         }
 
         private static void NotifyIcon_MouseClick(object sender, MouseEventArgs e)
