@@ -2214,14 +2214,8 @@
         ]
     },
     "Mall": {
-        "ocrReplace": [
-            [
-                "買瑠",
-                "買部"
-            ]
-        ],
         "text": [
-            "買部"
+            "購買"
         ]
     },
     "CreditStoreOcr": {
