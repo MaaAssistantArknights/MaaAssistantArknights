@@ -133,7 +133,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
                 continue;
             }
         }
-        
+
         if (goods.promotion != 0) {
             if (total_wait_promotion == 0) {
                 Log.trace("Ready to buy", goods.name, ", but there is no one waiting for promotion, skip");

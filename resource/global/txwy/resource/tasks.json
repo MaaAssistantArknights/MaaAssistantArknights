@@ -1207,6 +1207,15 @@
             "反饋至神經"
         ]
     },
+    "ClickedCorrectStageOrSwipe": {
+        "action": "DoNothing",
+        "baseTask": "StartButton1",
+        "next": [
+            "ClickedCorrectStage",
+            "FullStageNavigation"
+        ],
+        "reduceOtherTimes": []
+    },
     "StartButton1": {
         "text": [
             "開始行動"

@@ -11,9 +11,14 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Documents;
+using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
+using Serilog;
 
 namespace MaaWpfGui
 {
@@ -22,6 +27,8 @@ namespace MaaWpfGui
     /// </summary>
     public partial class App : Application
     {
+        private static readonly ILogger _logger = Log.ForContext<App>();
+
         public void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
             Hyperlink link = sender as Hyperlink;
@@ -29,6 +36,58 @@ namespace MaaWpfGui
             {
                 Process.Start(new ProcessStartInfo(link.NavigateUri.AbsoluteUri));
             }
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            string[] args = e.Args;
+            const string ConfigFlag = "--config";
+
+            string configArgs = string.Empty;
+            for (int i = 0; i < args.Length; ++i)
+            {
+                switch (args[i])
+                {
+                    case ConfigFlag when i + 1 < args.Length:
+                        configArgs = args[i + 1];
+                        i += 1;
+                        break;
+                }
+            }
+
+            Config(configArgs);
+        }
+
+        private static void Config(string desiredConfig)
+        {
+            const string ConfigFile = @".\config\gui.json";
+            if (!File.Exists(ConfigFile) || string.IsNullOrEmpty(desiredConfig))
+            {
+                return;
+            }
+
+            try
+            {
+                if (!UpdateConfiguration(desiredConfig))
+                {
+                    return;
+                }
+
+                Bootstrapper.ShutdownAndRestartWithOutArgs();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"Error updating configuration: {desiredConfig}, ex: {ex.Message}");
+            }
+        }
+
+        private static bool UpdateConfiguration(string desiredConfig)
+        {
+            // 配置名可能就包在引号中，需要转义符，如 \"a\"
+            string currentConfig = ConfigurationHelper.GetCurrentConfiguration();
+            return currentConfig != desiredConfig && ConfigurationHelper.SwitchConfiguration(desiredConfig);
         }
     }
 }

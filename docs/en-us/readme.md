@@ -33,7 +33,7 @@ Development in progress  ✿✿ヽ(°▽°)ノ✿<br>
 ## Features
 
 - Auto-battle, drop items recognition, auto-uploading to [Penguin Stats](https://penguin-stats.io/).
-- Auto-shifting in the Base, auto efficiency calculation of operators, optimal solution in single room. (Only CN client is supported now.)
+- Auto-shifting in the Base, auto efficiency calculation of operators, optimal solution in single room.
 - Auto-recruitment, support for expedited plan. Auto-uploading recruitment data to [Penguin Stats](https://penguin-stats.io/result/stage/recruit/recruit), [Yituliu](https://yituliu.site/maarecruitdata).
 - Visiting friends, collecting credits and purchasing items, collecting daily rewards, completing daily quests in one click!
 - Auto-battle for Integrated Strategy (I.S.) for collecting originium ingots and candles.
