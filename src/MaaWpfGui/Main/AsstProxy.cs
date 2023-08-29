@@ -28,6 +28,7 @@ using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Serilog;
 using Stylet;
 
 namespace MaaWpfGui.Main
@@ -49,6 +50,7 @@ namespace MaaWpfGui.Main
     public class AsstProxy
     {
         private readonly RunningState runningState;
+        private static readonly ILogger _logger = Log.ForContext<AsstProxy>();
 
         private delegate void CallbackDelegate(int msg, IntPtr json_buffer, IntPtr custom_arg);
 
@@ -102,15 +104,19 @@ namespace MaaWpfGui.Main
         }
 
         [DllImport("MaaCore.dll")]
-        private static extern unsafe bool AsstConnect(AsstHandle handle, byte* adb_path, byte* address, byte* config);
+        private static extern unsafe bool AsstConnect(AsstHandle handle, byte* adbPath, byte* address, byte* config);
 
-        private static unsafe bool AsstConnect(AsstHandle handle, string adb_path, string address, string config)
+        private static unsafe bool AsstConnect(AsstHandle handle, string adbPath, string address, string config)
         {
-            fixed (byte* ptr1 = EncodeNullTerminatedUTF8(adb_path),
+            _logger.Information($"handle: {(long)handle}, adbPath: {adbPath}, address: {address}, config: {config}");
+
+            fixed (byte* ptr1 = EncodeNullTerminatedUTF8(adbPath),
                 ptr2 = EncodeNullTerminatedUTF8(address),
                 ptr3 = EncodeNullTerminatedUTF8(config))
             {
-                return AsstConnect(handle, ptr1, ptr2, ptr3);
+                bool ret = AsstConnect(handle, ptr1, ptr2, ptr3);
+                _logger.Information($"handle: {((long)handle).ToString()}, adbPath: {adbPath}, address: {address}, config: {config}, return: {ret}");
+                return ret;
             }
         }
 

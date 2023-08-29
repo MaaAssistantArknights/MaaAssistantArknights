@@ -18,6 +18,7 @@ namespace asst
 
         void set_priority(int priority);
         void set_block(bool block);
+
         virtual void set_task_ptr(AbstractTask* ptr);
 
         virtual bool verify(AsstMsg msg, const json::value& details) const = 0;

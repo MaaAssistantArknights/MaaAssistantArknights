@@ -615,11 +615,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 await _runningState.UntilIdleAsync(60000);
 
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    Application.Current.Shutdown();
-                    Bootstrapper.RestartApplication();
-                });
+                Application.Current.Dispatcher.Invoke(Bootstrapper.ShutdownAndRestartWithOutArgs);
                 return;
             }
 
@@ -630,8 +626,7 @@ namespace MaaWpfGui.ViewModels.UI
                 MessageBoxImage.Question);
             if (result == MessageBoxResult.OK)
             {
-                Application.Current.Shutdown();
-                Bootstrapper.RestartApplication();
+                Bootstrapper.ShutdownAndRestartWithOutArgs();
             }
         }
 

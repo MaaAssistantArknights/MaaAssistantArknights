@@ -121,8 +121,7 @@ namespace MaaWpfGui.ViewModels.UI
                     MessageBoxButton.OK,
                     iconKey: "HangoverGeometry",
                     iconBrushKey: "PallasBrush");
-                Application.Current.Shutdown();
-                Bootstrapper.RestartApplication();
+                Bootstrapper.ShutdownAndRestartWithOutArgs();
             }
 
             runningState = RunningState.Instance;
@@ -975,8 +974,7 @@ namespace MaaWpfGui.ViewModels.UI
                 SetAndNotify(ref _currentConfiguration, value);
                 ConfigurationHelper.SwitchConfiguration(value);
 
-                Application.Current.Shutdown();
-                Bootstrapper.RestartApplication();
+                Bootstrapper.ShutdownAndRestartWithOutArgs();
             }
         }
 
@@ -3003,8 +3001,7 @@ namespace MaaWpfGui.ViewModels.UI
                     MessageBoxImage.Question);
                 if (result == MessageBoxResult.OK)
                 {
-                    Application.Current.Shutdown();
-                    Bootstrapper.RestartApplication();
+                    Bootstrapper.ShutdownAndRestartWithOutArgs();
                 }
                 */
             }
@@ -3138,8 +3135,7 @@ namespace MaaWpfGui.ViewModels.UI
                     cancel: FormatText("{0}({1})", "ManualRestart"));
                 if (result == MessageBoxResult.OK)
                 {
-                    Application.Current.Shutdown();
-                    Bootstrapper.RestartApplication();
+                    Bootstrapper.ShutdownAndRestartWithOutArgs();
                 }
 
                 SetAndNotify(ref _language, value);
@@ -3208,8 +3204,7 @@ namespace MaaWpfGui.ViewModels.UI
                 iconBrushKey: "PallasBrush");
             if (result == MessageBoxResult.OK)
             {
-                Application.Current.Shutdown();
-                Bootstrapper.RestartApplication();
+                Bootstrapper.ShutdownAndRestartWithOutArgs();
             }
         }
 
