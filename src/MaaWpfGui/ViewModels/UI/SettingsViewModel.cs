@@ -2543,6 +2543,12 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>path</returns>
         public static string GetBluestacksConfig()
         {
+            var conf = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigPath, string.Empty);
+            if (!string.IsNullOrEmpty(conf))
+            {
+                return conf;
+            }
+
             using (RegistryKey key = Registry.LocalMachine.OpenSubKey(BluestacksNxtRegistryKey))
             {
                 if (key != null)
@@ -2553,12 +2559,6 @@ namespace MaaWpfGui.ViewModels.UI
                         return (string)value + "\\bluestacks.conf";
                     }
                 }
-            }
-
-            var conf = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigPath, string.Empty);
-            if (!string.IsNullOrEmpty(conf))
-            {
-                return conf;
             }
 
             return null;

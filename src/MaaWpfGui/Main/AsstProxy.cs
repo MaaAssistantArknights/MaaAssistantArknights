@@ -1140,8 +1140,10 @@ namespace MaaWpfGui.Main
                 return false;
             }
 
-            string[] address_ = address.Split(':');
-            string host = address_[0];
+            // normal -> [host]:[port]
+            // LDPlayer -> emulator-[port]
+            string[] address_ = address.Contains(":") ? address.Split(':') : address.Split('-');
+            string host = address_[0].Equals("emulator") ? "127.0.0.1" : address_[0];
             int port = int.Parse(address_[1]);
 
             using (var client = new TcpClient())
