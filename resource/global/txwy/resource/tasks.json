@@ -35,6 +35,15 @@
             "作戰"
         ]
     },
+    "ClickedCorrectStageOrSwipe": {
+        "action": "DoNothing",
+        "baseTask": "StartButton1",
+        "next": [
+            "ClickedCorrectStage",
+            "FullStageNavigation"
+        ],
+        "reduceOtherTimes": []
+    },
     "NL-Open": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
@@ -1206,15 +1215,6 @@
             "正在提交",
             "反饋至神經"
         ]
-    },
-    "ClickedCorrectStageOrSwipe": {
-        "action": "DoNothing",
-        "baseTask": "StartButton1",
-        "next": [
-            "ClickedCorrectStage",
-            "FullStageNavigation"
-        ],
-        "reduceOtherTimes": []
     },
     "StartButton1": {
         "text": [
