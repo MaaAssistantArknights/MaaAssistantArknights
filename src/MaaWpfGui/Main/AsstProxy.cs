@@ -923,6 +923,7 @@ namespace MaaWpfGui.Main
                         string special = subTaskDetails["tag"].ToString();
                         using var toast = new ToastNotification(LocalizationHelper.GetString("RecruitingTips"));
                         toast.AppendContentText(special).ShowRecruitRobot();
+
                     }
 
                     break;
