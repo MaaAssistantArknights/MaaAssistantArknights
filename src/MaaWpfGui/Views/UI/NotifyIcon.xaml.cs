@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using MaaWpfGui.Helper;
@@ -25,12 +26,15 @@ namespace MaaWpfGui.Views.UI
     public partial class NotifyIcon : System.Windows.Controls.UserControl
     {
         private static readonly ILogger _logger = Log.ForContext<NotifyIcon>();
+        private readonly int _menuItemNum; 
 
         public NotifyIcon()
         {
             InitializeComponent();
             InitIcon();
+            _menuItemNum = notifyIcon.ContextMenu.Items.Count;
             ToastNotification.ShowBalloonTip = notifyIcon.ShowBalloonTip;
+            ToastNotification.AddMenuItemOnFirst = AddMenuItemOnFirst;
         }
 
         private void InitIcon()
@@ -57,6 +61,20 @@ namespace MaaWpfGui.Views.UI
                 };
 
                 switchLangMenu.Items.Add(langMenu);
+            }
+        }
+
+        private void AddMenuItemOnFirst(string text, Action action)
+        {
+            var menuItem = new MenuItem() { Header = text };
+            menuItem.Click += (sender, e) => { action?.Invoke(); };
+            if (notifyIcon.ContextMenu.Items.Count == _menuItemNum)
+            {
+                notifyIcon.ContextMenu.Items.Insert(0, menuItem);
+            }
+            else
+            {
+                notifyIcon.ContextMenu.Items[0] = menuItem;
             }
         }
 
