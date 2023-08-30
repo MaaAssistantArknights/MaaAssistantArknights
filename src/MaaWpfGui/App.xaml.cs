@@ -34,7 +34,11 @@ namespace MaaWpfGui
             Hyperlink link = sender as Hyperlink;
             if (!string.IsNullOrEmpty(link?.NavigateUri?.AbsoluteUri))
             {
-                Process.Start(new ProcessStartInfo(link.NavigateUri.AbsoluteUri));
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = link.NavigateUri.AbsoluteUri,
+                    UseShellExecute = true,
+                });
             }
         }
 
