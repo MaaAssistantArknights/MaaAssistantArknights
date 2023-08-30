@@ -30,6 +30,7 @@ namespace MaaWpfGui.Views.UI
         {
             InitializeComponent();
             InitIcon();
+            ToastNotification.ShowBalloonTip = notifyIcon.ShowBalloonTip;
         }
 
         private void InitIcon()
