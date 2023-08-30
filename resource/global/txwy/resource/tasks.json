@@ -1958,6 +1958,11 @@
             ]
         ]
     },
+    "BattleQuickFormationFilter-Cost": {
+        "text": [
+            "部署費用"
+        ]
+    },
     "BattleStartPre": {
         "text": [
             "開始行動",

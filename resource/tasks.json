@@ -1919,11 +1919,17 @@
     },
     "IC-Open": {
         "action": "ClickSelf",
+        "algorithm": "OcrDetect",
         "roi": [
-            471,
             0,
-            530,
-            711
+            500,
+            500,
+            150
+        ],
+        "text": [
+            "理想城",
+            "活动",
+            "开放"
         ],
         "next": [
             "ICChapterToIC"
