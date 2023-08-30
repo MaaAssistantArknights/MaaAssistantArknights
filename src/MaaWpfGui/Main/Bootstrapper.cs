@@ -26,6 +26,7 @@ using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Managers;
 using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.Services.Web;
+using MaaWpfGui.ViewModels;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.Views.UI;
 using Serilog;
@@ -164,7 +165,6 @@ namespace MaaWpfGui.Main
             builder.Bind<CopilotViewModel>().ToSelf().InSingletonScope();
 
             builder.Bind<AsstProxy>().ToSelf().InSingletonScope();
-            builder.Bind<TrayIcon>().ToSelf().InSingletonScope();
             builder.Bind<StageManager>().ToSelf();
 
             builder.Bind<HotKeyManager>().ToSelf().InSingletonScope();
@@ -230,8 +230,6 @@ namespace MaaWpfGui.Main
                 new ToastNotificationHistory().Clear();
             }
 
-            // 注销任务栏图标
-            Instances.TrayIcon.Close();
             ConfigurationHelper.Release();
 
             _logger.Information("MaaAssistantArknights GUI exited");

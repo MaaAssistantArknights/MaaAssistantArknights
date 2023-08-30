@@ -4,11 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:local="clr-namespace:MaaWpfGui.Views.UI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
-    xmlns:vm="clr-namespace:MaaWpfGui"
     Title="{Binding WindowTitle}"
     Width="800"
     Height="600"
@@ -20,6 +20,7 @@
     mc:Ignorable="d">
 
     <DockPanel>
+        <local:NotifyIcon Visibility="Hidden" x:Name="NotifyIcon" />
         <TabControl
             BorderThickness="0,1,0,0"
             DisplayMemberPath="DisplayName"
@@ -37,4 +38,7 @@
             </TabControl.ContentTemplate>
         </TabControl>
     </DockPanel>
+    <hc:Interaction.Behaviors>
+        <hc:TaskbarRebuildBehavior Element="{Binding ElementName=NotifyIcon}" />
+    </hc:Interaction.Behaviors>
 </hc:Window>
