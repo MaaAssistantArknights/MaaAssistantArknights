@@ -907,6 +907,7 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         FileName = StartsWithScript,
                         WindowStyle = ProcessWindowStyle.Minimized,
+                        UseShellExecute = true,
 
                         // FileName = "cmd.exe",
                         // Arguments = $"/c {StartsWithScript}",
@@ -932,6 +933,7 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         FileName = EndsWithScript,
                         WindowStyle = ProcessWindowStyle.Minimized,
+                        UseShellExecute = true,
 
                         // FileName = "cmd.exe",
                         // Arguments = $"/c {EndsWithScript}",
