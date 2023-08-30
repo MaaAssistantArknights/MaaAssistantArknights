@@ -207,6 +207,7 @@
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
     <system:String x:Key="StartsWithScript">スクリプトを使用して始めます</system:String>
     <system:String x:Key="EndsWithScript">終了時にスクリプトを使用します</system:String>
+    <system:String x:Key="WGCWarn">注：このモードを使用すると、アークナイツ ウィンドウは自動的に最小化されません。ただし、WSAのウィンドウが自動的に前面に表示される場合は、WSAの設定->詳細設定->ウィンドウのフォーカスで、"スタンドアロン "オプションを選択してください。</system:String>
     <system:String x:Key="RoguelikeTheme">主題</system:String>
     <system:String x:Key="RoguelikeThemePhantom">ファントム</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">ミヅキ</system:String>

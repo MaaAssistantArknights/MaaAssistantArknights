@@ -207,7 +207,7 @@
     <system:String x:Key="AdditionCommand">附加命令</system:String>
     <system:String x:Key="StartsWithScript">開始前腳本</system:String>
     <system:String x:Key="EndsWithScript">結束後腳本</system:String>
-    <system:String x:Key="WGCWarn">注意：使用該模式會自動將WSA明日方舟視窗非最小化</system:String>
+    <system:String x:Key="WGCWarn">注意：使用該模式會自動將WSA明日方舟視窗非最小化。但如果發現WSA視窗自動前置的現象，請前往wsa設定->高級設定->視窗焦點，選擇“獨立”選項。</system:String>
     <system:String x:Key="ResizeWindow">設定WSA明日方舟視窗為最優分辯率（1280x720）</system:String>
     <system:String x:Key="GoldenBorder">鑲金邊（字面意思）</system:String>
     <system:String x:Key="RoguelikeTheme">肉鴿主題</system:String>

@@ -207,7 +207,7 @@
     <system:String x:Key="AdditionCommand">Additional command arguments</system:String>
     <system:String x:Key="StartsWithScript">Starts with Script</system:String>
     <system:String x:Key="EndsWithScript">Ends with Script</system:String>
-    <system:String x:Key="WGCWarn">Note: Using this mode will automatically show the WSA window</system:String>
+    <system:String x:Key="WGCWarn">Note: Using this mode will automatically show the WSA window, but if you find that WSA window is auto-fronted, please go to wsa settings->advanced settings->window focus and select "standalone".</system:String>
     <system:String x:Key="ResizeWindow">Set the WSA window to 1280x720</system:String>
     <system:String x:Key="GoldenBorder">Gilded Edge</system:String>
     <system:String x:Key="RoguelikeTheme">I.S. Theme</system:String>
