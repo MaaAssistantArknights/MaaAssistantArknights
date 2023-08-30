@@ -64,6 +64,8 @@ namespace MaaWpfGui.Helper
 
         public static Action<string, string, NotifyIconInfoType> ShowBalloonTip { get; set; }
 
+        public static Action<string, Action> AddMenuItemOnFirst { get; set; }
+
         /// <summary>
         /// Checks toast system.
         /// </summary>
@@ -306,6 +308,8 @@ namespace MaaWpfGui.Helper
         /// <returns>返回类本身，可继续调用其它方法</returns>
         public ToastNotification AddButtonLeft(string text, Action action)
         {
+            AddMenuItemOnFirst(text, action); // TODO: 整理过时代码
+
             _buttonLeftText = text;
             _buttonLeftAction = action;
             _buttonSystemText = text;
@@ -322,6 +326,8 @@ namespace MaaWpfGui.Helper
         // ReSharper disable once UnusedMember.Global
         public ToastNotification AddButtonRight(string text, Action action)
         {
+            AddMenuItemOnFirst(text, action); // TODO: 整理过时代码
+
             _buttonRightText = text;
             _buttonRightAction = action;
             _buttonSystemText = text;
