@@ -141,7 +141,7 @@ namespace asst
             bool init(HWND, int caption_height);
 
             bool click(int x, int y);
-            bool swipe(double sx, double sy, double ex, double ey, int dur);
+            bool swipe(double sx, double sy, double ex, double ey, int dur, bool pause);
             bool swipe_precisely(double sx, double sy, double ex, double ey, int dur, bool pause);
             void press(int key);
             void wait();

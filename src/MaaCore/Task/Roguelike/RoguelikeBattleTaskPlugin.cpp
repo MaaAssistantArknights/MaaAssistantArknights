@@ -125,10 +125,15 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
         RegionOCRer name_analyzer(ctrler()->get_image());
         name_analyzer.set_task_info(stage_name_task_ptr);
         if (!name_analyzer.analyze()) {
+            // 电脑性能过高时会得到100张近似黑屏的图片
+            // 为了防止过快得消耗重试次数，同时不给其他非高性能电脑增加负担
+            // 计算图像的熵，如果小于0.5说明画面几乎没有任何信息，需要继续获取有用的画面
+            if (name_analyzer.get_image_entropy() < .5) i--;
             continue;
         }
         const std::string& text = name_analyzer.get_result().text;
         if (text.empty()) {
+            if (name_analyzer.get_image_entropy() < .5) i--;
             continue;
         }
 

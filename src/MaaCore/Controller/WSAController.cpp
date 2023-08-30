@@ -496,7 +496,7 @@ bool asst::WSAController::swipe(const Point& p1, const Point& p2, int duration, 
                                 bool with_pause)
 {
     bool res = extra_swipe ? m_touch.swipe_precisely(p1.x, p1.y, p2.x, p2.y, duration, with_pause)
-                           : res = m_touch.swipe(p1.x, p1.y, p2.x, p2.y, duration);
+                           : res = m_touch.swipe(p1.x, p1.y, p2.x, p2.y, duration, with_pause);
     m_touch.wait();
     return res;
 }
@@ -547,7 +547,7 @@ bool asst::WSAController::Toucher::click(int x, int y)
     return true;
 }
 
-bool asst::WSAController::Toucher::swipe(double sx, double sy, double ex, double ey, int dur)
+bool asst::WSAController::Toucher::swipe(double sx, double sy, double ex, double ey, int dur, bool pause)
 {
     if (!m_inited) return false;
 
@@ -559,15 +559,17 @@ bool asst::WSAController::Toucher::swipe(double sx, double sy, double ex, double
         return false;
     }
 
-    constexpr int nslices = 6;
+    constexpr int nslices = 32;
     auto dx = (ex - sx) / nslices, dy = (ey - sy) / nslices;
     auto dur_slice = dur / nslices;
 
     m_msgs.push({ 100, 0, 0 });
     m_msgs.push({ 1, (int)sx, (int)sy });
+    if (pause) press(VK_ESCAPE);
     linear_interpolate(sx, sy, dx, dy, 0, dur_slice, nslices);
 
     m_msgs.push({ 2, (int)sx, (int)sy });
+    if (pause) press(VK_ESCAPE);
 
     return true;
 }
@@ -584,16 +586,15 @@ bool asst::WSAController::Toucher::swipe_precisely(double sx, double sy, double 
         return false;
     }
 
-    constexpr int nslices = 6;
-    constexpr int neslices = 6;
+    constexpr int nslices = 32;
+    constexpr int neslices = 8;
     constexpr int extra_slice_size = 3;
     ex += extra_slice_size, ey += extra_slice_size;
-    constexpr double slide_time_ratio = 3. / 5.;
 
     auto dx = (ex - sx) / nslices, dy = (ey - sy) / nslices;
     auto ux = std::abs(dx) / dx, uy = std::abs(dy) / dy;
 
-    auto dur_slice = dur * slide_time_ratio / nslices;
+    auto dur_slice = dur / nslices;
 
     m_msgs.push({ 100, 0, 0 });
     m_msgs.push({ 1, (int)sx, (int)sy });
@@ -605,6 +606,7 @@ bool asst::WSAController::Toucher::swipe_precisely(double sx, double sy, double 
     linear_interpolate(sx, sy, 0, 0, time_stamp, 0, 10);
 
     m_msgs.push({ 2, (int)sx, (int)sy });
+    if (pause) press(VK_ESCAPE);
 
     return true;
 }
@@ -639,6 +641,7 @@ void asst::WSAController::Toucher::run()
         command.y += m_caption_height;
         LPARAM coord = MAKELPARAM(command.x, command.y);
 
+        
         switch (command.type) {
         case -1:
             res = SendMessage(m_wnd, WM_KEYDOWN, command.x, 0);
@@ -648,13 +651,21 @@ void asst::WSAController::Toucher::run()
             break;
         case 0:
             s_vm.down();
-            for (int i = 0; i < 2; i++) {
-                res = SendMessage(m_wnd, WM_LBUTTONDOWN, 0, coord);
-            }
+            res = SendMessage(m_wnd, WM_MOUSEHOVER, 0, coord);
+            res = SendMessage(m_wnd, WM_MOUSEHOVER, MK_LBUTTON, coord);
+            res = SendMessage(m_wnd, WM_KEYDOWN, VK_LBUTTON, coord);
+            res = SendMessage(m_wnd, WM_MOUSEHOVER, MK_LBUTTON, coord);
+            res = SendMessage(m_wnd, WM_LBUTTONDOWN, 0, coord);
+            res = SendMessage(m_wnd, WM_MOUSEHOVER, MK_LBUTTON, coord);
             Sleep(80);
-            res &= SendMessage(m_wnd, WM_LBUTTONUP, 0, coord);
-            Sleep(40);
             s_vm.up();
+            res = SendMessage(m_wnd, WM_MOUSEHOVER, 0, coord);
+            res = SendMessage(m_wnd, WM_LBUTTONUP, 0, coord);
+            res = SendMessage(m_wnd, WM_MOUSEHOVER, 0, coord);
+            res = SendMessage(m_wnd, WM_KEYUP, VK_LBUTTON, coord);
+            res = SendMessage(m_wnd, WM_MOUSEHOVER, 0, coord);
+            res = SendMessage(m_wnd, WM_MOUSELEAVE, 0, 0);
+            Sleep(40);
             break;
         case 100:
             tic = time_point_cast<milliseconds>(high_resolution_clock::now());
@@ -669,13 +680,24 @@ void asst::WSAController::Toucher::run()
             break;
         case 1:
             s_vm.down();
+            res = SendMessage(m_wnd, WM_MOUSEHOVER, 0, coord);
+            res = SendMessage(m_wnd, WM_MOUSEHOVER, MK_LBUTTON, coord);
+            res = SendMessage(m_wnd, WM_KEYDOWN, VK_LBUTTON, coord);
+            res = SendMessage(m_wnd, WM_MOUSEHOVER, MK_LBUTTON, coord);
             res = SendMessage(m_wnd, WM_LBUTTONDOWN, 0, coord);
+            res = SendMessage(m_wnd, WM_MOUSEHOVER, MK_LBUTTON, coord);
             break;
         case 2:
-            res = SendMessage(m_wnd, WM_LBUTTONUP, 0, coord);
             s_vm.up();
+            res = SendMessage(m_wnd, WM_MOUSEHOVER, 0, coord);
+            res = SendMessage(m_wnd, WM_LBUTTONUP, 0, coord);
+            res = SendMessage(m_wnd, WM_MOUSEHOVER, 0, coord);
+            res = SendMessage(m_wnd, WM_KEYUP, VK_LBUTTON, coord);
+            res = SendMessage(m_wnd, WM_MOUSEHOVER, 0, coord);
+            res = SendMessage(m_wnd, WM_MOUSELEAVE, 0, 0);
             break;
         case 3:
+            res = SendMessage(m_wnd, WM_MOUSEHOVER, 0, coord);
             res = SendMessage(m_wnd, WM_MOUSEMOVE, 0, coord);
             break;
         }

@@ -30,6 +30,8 @@ namespace asst
         virtual void set_roi(const Rect& roi);
         virtual void set_log_tracing(bool enable);
 
+        virtual double get_image_entropy();
+
         bool save_img(const std::filesystem::path& relative_dir = utils::path("debug"));
 
 #ifdef ASST_DEBUG

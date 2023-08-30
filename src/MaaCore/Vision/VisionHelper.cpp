@@ -39,6 +39,26 @@ void VisionHelper::set_log_tracing(bool enable)
     m_log_tracing = enable;
 }
 
+double asst::VisionHelper::get_image_entropy()
+{
+    // < 5ms
+    cv::Mat grayed, hist;
+    cv::cvtColor(m_image, grayed, cv::COLOR_BGR2GRAY);
+    constexpr int channels[1] = { 0 };
+    constexpr int histSize[1] = { 256 };
+    constexpr float pranges[2] = { 0, 256 };
+    const float* ranges[1] = { pranges };
+    cv::calcHist(&grayed, 1, channels, cv::Mat(), hist, 1, histSize, ranges);
+    const double total = grayed.size().area();
+    hist /= total;
+    double entropy = 0;
+    const float* hist_data = hist.ptr<float>(0);
+    for (int i = 0; i < 256; i++)
+        if (hist_data[i] != 0)
+            entropy += -cv::log(hist_data[i]) * hist_data[i];
+    return entropy;
+}
+
 Rect VisionHelper::correct_rect(const Rect& rect, const cv::Mat& image)
 {
     if (image.empty()) {
