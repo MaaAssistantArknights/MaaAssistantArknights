@@ -22,6 +22,7 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using HandyControl.Data;
 using MaaWpfGui.Constants;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Win32;
@@ -56,6 +57,8 @@ namespace MaaWpfGui.Helper
         private static bool _systemToastCheckInited = false;
 
         private static readonly ILogger _logger = Log.ForContext<ToastNotification>();
+
+        public static Action<string, string, NotifyIconInfoType> ShowBalloonTip { get; set; }
 
         /// <summary>
         /// Checks toast system.
@@ -387,6 +390,15 @@ namespace MaaWpfGui.Helper
         /// <summary>
         /// 显示通知
         /// </summary>
+        public void Show()
+        {
+            _contentCollection.AppendLine(); // content 不能为空，否则通知发不出去
+            ShowBalloonTip(_notificationTitle, _contentCollection.ToString(), NotifyIconInfoType.None);
+        }
+
+        /// <summary>
+        /// 显示通知
+        /// </summary>
         /// <param name="lifeTime">通知显示时间 (s)</param>
         /// <param name="row">内容显示行数，如果内容太多建议使用 <see cref="ShowMore(double, uint, NotificationSounds, NotificationContent)"/></param>
         /// <param name="sound">播放提示音</param>
@@ -396,6 +408,9 @@ namespace MaaWpfGui.Helper
             NotificationSounds sound = NotificationSounds.Notification,
             NotificationContent notificationContent = null)
         {
+            Show();
+            return; // TODO: 整理过时代码
+
             if (!Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseNotify, bool.TrueString)))
             {
                 return;
