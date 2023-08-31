@@ -41,6 +41,7 @@ namespace asst
         const std::string& get_uuid() const override { return m_uuid; }
         virtual void set_resize_window(bool enable) noexcept override;
         virtual void set_golden_border(bool enable) noexcept override;
+        virtual void set_swipe_with_pause(bool enable) noexcept override;
 
         virtual bool inited() const noexcept override { return m_inited; }
 
@@ -59,7 +60,7 @@ namespace asst
         virtual bool press_esc() override;
         virtual ControlFeat::Feat support_features() const noexcept override
         {
-            return ControlFeat::SWIPE_WITH_PAUSE | ControlFeat::PRECISE_SWIPE;
+            return /*ControlFeat::SWIPE_WITH_PAUSE |*/ ControlFeat::PRECISE_SWIPE;
         }
 
         virtual std::pair<int, int> get_screen_res() const noexcept override { return m_screen_size; }
@@ -82,6 +83,7 @@ namespace asst
         bool m_inited = false;
         bool m_resize_window = false;
         bool m_golden_border = false;
+        bool m_use_swipe_with_pause = false;
 
         const std::filesystem::path m_wsapath =
             R"(..\Local\Microsoft\WindowsApps\WsaClient.exe /launch wsa://com.hypergryph.arknights)";
@@ -97,7 +99,8 @@ namespace asst
             bool start_capture();
             bool end_capture();
             bool restart_capture();
-            bool get_once(cv::Mat& payload);
+            bool peek(cv::Mat& payload);
+            bool get(cv::Mat& payload);
 
         public:
             std::pair<int, int> pub_size; // 输出大小
@@ -129,6 +132,8 @@ namespace asst
             size_t m_pitch = 0;
             cv::Rect m_arknights_roi;
             bool m_golden_border = false;
+
+            std::atomic_bool m_recieved = true;
 
         } m_wgc; // Windows Graphics Capture member class;
         DWORD m_last_error;
