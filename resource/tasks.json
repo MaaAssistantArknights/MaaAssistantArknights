@@ -3553,6 +3553,16 @@
         "baseTask": "ClickCorner",
         "next": []
     },
+    "SanityMatch": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [
+            1120,
+            20,
+            150,
+            40
+        ]
+    },
     "UseMedicine": {
         "action": "DoNothing",
         "templThreshold": 0.7,
