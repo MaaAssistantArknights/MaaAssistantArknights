@@ -65,6 +65,29 @@ namespace MaaWpfGui.Main
                 return;
             }
             */
+            Version requiredVersion = new Version("8.0.0"); // 所需的最低版本
+            const string Uri = "https://dotnet.microsoft.com/en-us/download/dotnet/8.0";
+            Version currentVersion = Environment.Version;
+            int comparisonResult = currentVersion.CompareTo(requiredVersion);
+            if (comparisonResult < 0)
+            {
+                Console.WriteLine();
+                MessageBox.Show(
+                    "当前 .Net 版本小于所需版本。\n" +
+                    "Current .Net version is lower than the required version.\n\n" +
+                    $"最低要求 .Net 版本：{requiredVersion}，当前版本：{currentVersion}\n" +
+                    $"Minimum required .NET version: {requiredVersion}, Current version: {currentVersion}\n\n"+
+                    "请在打开链接中下载 \".NET Desktop Runtime\"\n"+
+                    "Please download \".NET Desktop Runtime\" in the opened link."
+                );
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = Uri,
+                    UseShellExecute = true,
+                });
+                Application.Current.Shutdown();
+                return;
+            }
 
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
             if (Directory.Exists("debug") is false)
