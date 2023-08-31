@@ -8063,6 +8063,15 @@
         "stageId": "camp_r_17",
         "width": 13
     },
+    "camp_r_18-obt/campaign/level_camp_r_18": {
+        "code": "萨尔贡",
+        "filename": "camp_r_18-obt-campaign-level_camp_r_18.json",
+        "height": 10,
+        "levelId": "obt/campaign/level_camp_r_18",
+        "name": "“特制小水坑”",
+        "stageId": "camp_r_18",
+        "width": 13
+    },
     "easy_09-01-obt/main/level_easy_09-01": {
         "code": "9-2",
         "filename": "easy_09-01-obt-main-level_easy_09-01.json",
@@ -12923,6 +12932,15 @@
         "stageId": "mem_chiave_1",
         "width": 11
     },
+    "mem_chnut_1-obt/memory/level_memory_chnut_1": {
+        "code": "mem_chnut_1",
+        "filename": "mem_chnut_1-obt-memory-level_memory_chnut_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_chnut_1",
+        "name": "“聚焦”",
+        "stageId": "mem_chnut_1",
+        "width": 11
+    },
     "mem_ctable_1-obt/memory/level_memory_ctable_1": {
         "code": "mem_ctable_1",
         "filename": "mem_ctable_1-obt-memory-level_memory_ctable_1.json",
@@ -13193,6 +13211,15 @@
         "stageId": "mem_glider_1",
         "width": 11
     },
+    "mem_grani_1-obt/memory/level_memory_grani_1": {
+        "code": "mem_grani_1",
+        "filename": "mem_grani_1-obt-memory-level_memory_grani_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_grani_1",
+        "name": "“孤胆骑兵”",
+        "stageId": "mem_grani_1",
+        "width": 10
+    },
     "mem_gravel_1-obt/memory/level_memory_gravel_1": {
         "code": "mem_gravel_1",
         "filename": "mem_gravel_1-obt-memory-level_memory_gravel_1.json",
@@ -13219,6 +13246,15 @@
         "name": "闪烁徘徊",
         "stageId": "mem_greyy_1",
         "width": 9
+    },
+    "mem_gvial2_1-obt/memory/level_memory_gvial2_1": {
+        "code": "mem_gvial2_1",
+        "filename": "mem_gvial2_1-obt-memory-level_memory_gvial2_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_gvial2_1",
+        "name": "“百炼”",
+        "stageId": "mem_gvial2_1",
+        "width": 11
     },
     "mem_haak_1-obt/memory/level_memory_haak_1": {
         "code": "mem_haak_1",
@@ -13264,6 +13300,15 @@
         "name": "吾往矣",
         "stageId": "mem_helage_1",
         "width": 11
+    },
+    "mem_hibisc_1-obt/memory/level_memory_hibisc_1": {
+        "code": "mem_hibisc_1",
+        "filename": "mem_hibisc_1-obt-memory-level_memory_hibisc_1.json",
+        "height": 6,
+        "levelId": "obt/memory/level_memory_hibisc_1",
+        "name": "“持续关注”",
+        "stageId": "mem_hibisc_1",
+        "width": 10
     },
     "mem_hmau_1-obt/memory/level_memory_hmau_1": {
         "code": "mem_hmau_1",
@@ -13444,6 +13489,15 @@
         "name": "风浪微光",
         "stageId": "mem_lumen_1",
         "width": 9
+    },
+    "mem_malist_1-obt/memory/level_memory_malist_1": {
+        "code": "mem_malist_1",
+        "filename": "mem_malist_1-obt-memory-level_memory_malist_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_malist_1",
+        "name": "“故地重游”",
+        "stageId": "mem_malist_1",
+        "width": 10
     },
     "mem_mantic_1-obt/memory/level_memory_mantic_1": {
         "code": "mem_mantic_1",
