@@ -18,7 +18,7 @@ WOFFI_TYPEDEF!
     public using AsstStaticOptionKey = int32;
     public using AsstInstanceOptionKey = int32;
 
-    public using AsstApiCallback = pointer;
+    public using AsstApiCallback = cfunction;
 }
 
 public let AsstTrue = 1: AsstBool;
