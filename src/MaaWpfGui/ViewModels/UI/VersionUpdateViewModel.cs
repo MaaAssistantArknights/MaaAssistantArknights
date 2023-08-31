@@ -391,7 +391,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 IsFirstBootAfterUpdate = false;
                 Instances.WindowManager.ShowWindow(this);
-                if (_curVersion == "v4.23.0")
+                if (false) // _curVersion == "v4.23.0"
                 {
                     var result = MessageBoxHelper.Show(
                     LocalizationHelper.GetString("Dotnet8"),
