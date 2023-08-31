@@ -220,13 +220,17 @@ bool asst::WSAController::connect([[maybe_unused]] const std::string& adb_path,
     return true;
 }
 
- void asst::WSAController::set_resize_window(bool enable) noexcept {
-     m_resize_window = enable;
- }
- 
- void asst::WSAController::set_golden_border(bool enable) noexcept {
-     m_golden_border = enable;
- }
+void asst::WSAController::set_resize_window(bool enable) noexcept {
+    m_resize_window = enable;
+}
+
+void asst::WSAController::set_golden_border(bool enable) noexcept {
+    m_golden_border = enable;
+}
+
+void asst::WSAController::set_swipe_with_pause(bool enable) noexcept {
+    m_use_swipe_with_pause = enable;
+}
 
 asst::WSAController::FrameBuffer::FrameBuffer(OUT DWORD& last_error)
      : m_frame_pool(nullptr), m_session(nullptr), m_item(nullptr)
@@ -413,7 +417,24 @@ bool asst::WSAController::FrameBuffer::restart_capture()
     return true;
 }
 
-bool asst::WSAController::FrameBuffer::get_once(cv::Mat& payload)
+bool asst::WSAController::FrameBuffer::get(cv::Mat& payload)
+{
+    while (!m_recieved.load())
+        ;
+
+    m_locker.lock();
+    if (m_cache.empty()) [[unlikely]] {
+        m_locker.unlock();
+        return false;
+    }
+    payload = m_cache(m_arknights_roi).clone();
+    m_recieved.store(false);
+    m_locker.unlock();
+
+    return true;
+}
+
+bool asst::WSAController::FrameBuffer::peek(cv::Mat& payload)
 {
     m_locker.lock();
     if (m_cache.empty()) [[unlikely]] {
@@ -422,6 +443,7 @@ bool asst::WSAController::FrameBuffer::get_once(cv::Mat& payload)
     }
     payload = m_cache(m_arknights_roi).clone();
     m_locker.unlock();
+
     return true;
 }
 
@@ -467,6 +489,7 @@ void asst::WSAController::FrameBuffer::process_frame(
             data[i * m_pitch + j * 3 + 2] = source[i * field.RowPitch + j * 4 + 2];
         }
     }
+    m_recieved.store(true);
     m_locker.unlock();
     m_context->Unmap(m_staging_texture.get(), subresource);
 }
@@ -480,14 +503,13 @@ void asst::WSAController::callback(AsstMsg msg, const json::value& details)
 
 bool asst::WSAController::screencap(cv::Mat& image_payload, [[maybe_unused]] bool allow_reconnect)
 {
-    return m_wgc.get_once(image_payload);
+    return m_wgc.get(image_payload);
 }
 
 bool asst::WSAController::start_game([[maybe_unused]] const std::string& client_type)
 {
     return true; // 如果已经连接上了，那就不用打开游戏了，因为游戏已经打开了
 }
-
 
 #if defined(ASST_DEBUG)
 static clock_t last_input = clock();
@@ -500,16 +522,15 @@ bool asst::WSAController::click(const Point& p)
     last_input = clock();
     Log.info(std::format("Clicked: [ {} , {} ]", p.x, p.y));
     cv::Mat img;
-    screencap(img);
+    m_wgc.peek(img);
     cv::circle(img, { p.x, p.y }, 25, { 0, 0, 255 }, 10);
     cv::putText(img, std::format("from_last: {}", from_last), { 0, 50 }, cv::FONT_HERSHEY_PLAIN, 2.,
                 { 0, 0, 255 }, 3);
     cv::imshow("Input", img);
     cv::waitKey(1);
 #endif
-    bool res = m_touch.click(p.x, p.y);
     m_touch.wait();
-    return res;
+    return m_touch.click(p.x, p.y);
 }
 
 bool asst::WSAController::swipe(const Point& p1, const Point& p2, int duration, bool extra_swipe,
@@ -519,30 +540,42 @@ bool asst::WSAController::swipe(const Point& p1, const Point& p2, int duration, 
 #if defined(ASST_DEBUG)
     clock_t from_last = clock() - last_input;
     last_input = clock();
-    Log.info(std::format("Swiped: [ {} , {} ] -> [ {} , {} ]", p1.x, p1.y, p2.x, p2.y));
+    Log.info(std::format("Swiped: [ {} , {} ] -> [ {} , {} ]", p1.x, p1.y, p2.x, p2.y),
+             "Type=", extra_swipe ? "Precisely" : "Normal", ", WithPause=", with_pause);
     cv::Mat img;
-    screencap(img);
+    m_wgc.peek(img);
     cv::arrowedLine(img, { p1.x, p1.y }, { p2.x, p2.y }, { 0, 0, 255 }, 5);
     cv::putText(img,
-                std::format("Dur: {}, from_last: {}, type: {}, pause: {}", duration, from_last,
+                std::format("from_last: {}, dur: {}, type: {}, pause: {}", from_last, duration,
                             extra_swipe ? "Precisely" : "Normal", with_pause ? "true" : "false"),
                 { 0, 50 }, cv::FONT_HERSHEY_PLAIN, 2., { 0, 0, 255 }, 3);
     cv::imshow("Input", img);
     cv::waitKey(1);
 #endif
-    bool res = extra_swipe ? m_touch.swipe_precisely(p1.x, p1.y, p2.x, p2.y, duration, with_pause)
-                           : m_touch.swipe(p1.x, p1.y, p2.x, p2.y, duration, with_pause);
     m_touch.wait();
-    return res;
+    with_pause = with_pause && m_use_swipe_with_pause;
+    duration = (duration == 0 ? 400 : duration);
+    return extra_swipe ? m_touch.swipe_precisely(p1.x, p1.y, p2.x, p2.y, duration, with_pause)
+                       : m_touch.swipe(p1.x, p1.y, p2.x, p2.y, duration, with_pause);
 }
 
 bool asst::WSAController::press_esc()
 {
 #if defined(ASST_DEBUG)
+    clock_t from_last = clock() - last_input;
+    last_input = clock();
     Log.info("Pressed escape");
+    cv::Mat img;
+    m_wgc.peek(img);
+    cv::putText(img, std::format("from_last: {}", from_last), { 0, 50 }, cv::FONT_HERSHEY_PLAIN,
+                2., { 0, 0, 255 }, 3);
+    cv::putText(img, "Pressed ESC!", { 300, 300 }, cv::FONT_HERSHEY_PLAIN,
+                3., { 0, 0, 255 }, 5);
+    cv::imshow("Input", img);
+    cv::waitKey(1);
 #endif
-    m_touch.press(VK_ESCAPE);
     m_touch.wait();
+    m_touch.press(VK_ESCAPE);
     return true;
 }
 
@@ -587,13 +620,7 @@ bool asst::WSAController::Toucher::click(int x, int y)
 
 bool asst::WSAController::Toucher::swipe(double sx, double sy, double ex, double ey, int dur, bool pause)
 {
-    UNREFERENCED_PARAMETER(pause);
-
     if (!m_inited) return false;
-
-    if (dur < 40) {
-        return false;
-    }
 
     if (m_msgs.size() > max_queue_length) {
         return false;
@@ -605,26 +632,18 @@ bool asst::WSAController::Toucher::swipe(double sx, double sy, double ex, double
 
     m_msgs.push({ 1, (int)sx, (int)sy });
     m_msgs.push({ 100, 0, 0 });
+    UNREFERENCED_PARAMETER(pause);
 
-    if (pause) m_msgs.push({ 4, int(sx + m_rands[0]), int(sy + m_rands[1]) });
     linear_interpolate(sx, sy, dx, dy, 0, dur_slice, nslices);
-    if (pause) m_msgs.push({ 4, int(sx), int(sy) });
 
     m_msgs.push({ 2, (int)sx, (int)sy });
-    if (pause) press(VK_ESCAPE);
 
     return true;
 }
 
 bool asst::WSAController::Toucher::swipe_precisely(double sx, double sy, double ex, double ey, int dur, bool pause)
 {
-    UNREFERENCED_PARAMETER(pause);
-
     if (!m_inited) return false;
-
-    if (dur < 40) {
-        return false;
-    }
 
     if (m_msgs.size() > max_queue_length) {
         return false;
@@ -643,17 +662,15 @@ bool asst::WSAController::Toucher::swipe_precisely(double sx, double sy, double 
 
     m_msgs.push({ 1, (int)sx, (int)sy });
     m_msgs.push({ 100, 0, 0 });
+    UNREFERENCED_PARAMETER(pause);
 
-    if (pause) m_msgs.push({ 4, int(sx + m_rands[0]), int(sy + m_rands[1]) });
     auto time_stamp = linear_interpolate(sx, sy, dx, dy, 0, dur_slice, nslices);
-    if (pause) m_msgs.push({ 4, int(sx), int(sy) });
 
     dx = -ux * extra_slice_size / neslices, dy = -uy * extra_slice_size / neslices;
     time_stamp = linear_interpolate(sx, sy, dx, dy, time_stamp, dur_slice, neslices);
     linear_interpolate(sx, sy, 0, 0, time_stamp, 0, 10);
 
     m_msgs.push({ 2, (int)sx, (int)sy });
-    if (pause) press(VK_ESCAPE);
 
     return true;
 }
@@ -687,7 +704,6 @@ void asst::WSAController::Toucher::run()
         LRESULT res = 0;
         command.y += m_caption_height;
         LPARAM coord = MAKELPARAM(command.x, command.y);
-
         
         switch (command.type) {
         case -1:
@@ -712,7 +728,7 @@ void asst::WSAController::Toucher::run()
             res = SendMessage(m_wnd, WM_KEYUP, VK_LBUTTON, coord);
             res = SendMessage(m_wnd, WM_MOUSEHOVER, 0, coord);
             res = SendMessage(m_wnd, WM_MOUSELEAVE, 0, 0);
-            Sleep(40);
+            Sleep(80);
             break;
         case 100:
             tic = time_point_cast<milliseconds>(high_resolution_clock::now());
@@ -742,19 +758,16 @@ void asst::WSAController::Toucher::run()
             res = SendMessage(m_wnd, WM_KEYUP, VK_LBUTTON, coord);
             res = SendMessage(m_wnd, WM_MOUSEHOVER, 0, coord);
             res = SendMessage(m_wnd, WM_MOUSELEAVE, 0, 0);
+            Sleep(80);
             break;
         case 3:
-            res = SendMessage(m_wnd, WM_MOUSEHOVER, 0, coord);
+            res = SendMessage(m_wnd, WM_MOUSEHOVER, MK_LBUTTON, coord);
             res = SendMessage(m_wnd, WM_MOUSEMOVE, 0, coord);
             break;
         case 4:
-            res = SendMessage(m_wnd, WM_MOUSEHOVER, 0, coord);
+            res = SendMessage(m_wnd, WM_MOUSEHOVER, MK_LBUTTON, coord);
             res = SendMessage(m_wnd, WM_MOUSEMOVE, 0, coord);
             res = SendMessage(m_wnd, WM_KEYDOWN, VK_ESCAPE, 0);
-            break;
-        case 5:
-            res = SendMessage(m_wnd, WM_MOUSEHOVER, 0, coord);
-            res = SendMessage(m_wnd, WM_MOUSEMOVE, 0, coord);
             res = SendMessage(m_wnd, WM_KEYUP, VK_ESCAPE, 0);
             break;
         }
