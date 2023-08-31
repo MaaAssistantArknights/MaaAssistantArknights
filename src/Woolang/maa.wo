@@ -1,0 +1,73 @@
+// maa.wo
+
+import woo::std;
+import pkg::woffi;
+
+WOFFI_TYPEDEF!
+{
+    public using AsstHandle = pointer;
+    public using AsstBool = uint8;
+    public using AsstSize = uint64;
+
+    public using AsstId = int32;
+    public using AsstMsgId = int32;
+    public using AsstTaskId = int32;
+    public using AsstAsyncCallId = int32;
+
+    public using AsstOptionKey = int32;
+    public using AsstStaticOptionKey = int32;
+    public using AsstInstanceOptionKey = int32;
+
+    public using AsstApiCallback = cfunction;
+}
+
+public let AsstTrue = 1: AsstBool;
+public let AsstFalse = 0: AsstBool;
+
+WOFFI_FUNCTIONS!
+{
+    import "MaaCore.dll";
+
+    public stdcall func AsstSetUserDir(path: cstring)=> AsstBool;
+    public stdcall func AsstLoadResource(path: cstring)=> AsstBool;
+    public stdcall func AsstSetStaticOption(key: AsstStaticOptionKey, value: cstring)=> AsstBool;
+
+    public stdcall func AsstCreate()=> AsstHandle;
+    public stdcall func AsstCreateEx(callback: AsstApiCallback, custom_arg: pointer)=> AsstHandle;
+    public stdcall func AsstDestroy(handle: AsstHandle)=> void;
+
+    public stdcall func AsstSetInstanceOption(
+        handle: AsstHandle, key: AsstInstanceOptionKey, value: cstring)=> AsstBool;  
+
+    // deprecated in 5.0
+    public stdcall func AsstConnect(
+        handle: AsstHandle, adb_path: cstring, address: cstring, config: cstring)=> AsstBool;
+
+    public stdcall func AsstAppendTask(
+        handle: AsstHandle, type: cstring, params: cstring)=> AsstTaskId;
+    public stdcall func AsstSetTaskParams(
+        handle: AsstHandle, id: AsstTaskId, params: cstring)=> AsstTaskId;
+
+    public stdcall func AsstStart(handle: AsstHandle)=> AsstBool;
+    public stdcall func AsstStop(handle: AsstHandle)=> AsstBool;
+    public stdcall func AsstRunning(handle: AsstHandle)=> AsstBool;
+    public stdcall func AsstConnected(handle: AsstHandle)=> AsstBool;
+
+    public stdcall func AsstAsyncConnect(
+        handle: AsstHandle, 
+        adb_path: cstring,
+        address: cstring, 
+        config: cstring, 
+        block: AsstBool)=> AsstAsyncCallId;
+    public stdcall func AsstAsyncClick(handle: AsstHandle, x: int32, y: int32, block: AsstBool)=> AsstAsyncCallId;
+    public stdcall func AsstAsyncScreencap(handle: AsstHandle, block: AsstBool)=>AsstAsyncCallId;
+
+    public stdcall func AsstGetImage(handle: AsstHandle, buff: pointer, buff_size: AsstSize)=> AsstSize;
+    public stdcall func AsstGetUUID(handle: AsstHandle, buff: pointer, buff_size: AsstSize)=> AsstSize;
+    public stdcall func AsstGetTasksList(handle: AsstHandle, buff: pointer, buff_size: AsstSize)=> AsstSize;
+    public stdcall func AsstGetNullSize()=> AsstSize;
+
+    public stdcall func AsstGetVersion()=> cstring;
+    public stdcall func AsstLog(level: cstring, message: cstring)=> void;
+}
+;
