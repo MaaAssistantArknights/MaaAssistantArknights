@@ -8581,6 +8581,7 @@
         "next": [
             "Roguelike@FormationConfirm"
         ],
+        "preDelay": 500,
         "postDelay": 2000
     },
     "Roguelike@RecruitCloseGuide": {

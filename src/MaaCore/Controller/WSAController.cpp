@@ -5,6 +5,10 @@
 #include "WSAController.h"
 
 #include <TlHelp32.h>
+#if defined(ASST_DEBUG)
+#pragma warning(disable : 5054)
+#include <opencv2/opencv.hpp>
+#endif
 
 namespace asst
 {
@@ -484,8 +488,25 @@ bool asst::WSAController::start_game([[maybe_unused]] const std::string& client_
     return true; // 如果已经连接上了，那就不用打开游戏了，因为游戏已经打开了
 }
 
+
+#if defined(ASST_DEBUG)
+static clock_t last_input = clock();
+#endif
+
 bool asst::WSAController::click(const Point& p)
 {
+#if defined(ASST_DEBUG)
+    clock_t from_last = clock() - last_input;
+    last_input = clock();
+    Log.info(std::format("Clicked: [ {} , {} ]", p.x, p.y));
+    cv::Mat img;
+    screencap(img);
+    cv::circle(img, { p.x, p.y }, 25, { 0, 0, 255 }, 10);
+    cv::putText(img, std::format("from_last: {}", from_last), { 0, 50 }, cv::FONT_HERSHEY_PLAIN, 2.,
+                { 0, 0, 255 }, 3);
+    cv::imshow("Input", img);
+    cv::waitKey(1);
+#endif
     bool res = m_touch.click(p.x, p.y);
     m_touch.wait();
     return res;
@@ -495,14 +516,31 @@ bool asst::WSAController::swipe(const Point& p1, const Point& p2, int duration, 
                                 [[maybe_unused]] double slope_in, [[maybe_unused]] double slope_out,
                                 bool with_pause)
 {
+#if defined(ASST_DEBUG)
+    clock_t from_last = clock() - last_input;
+    last_input = clock();
+    Log.info(std::format("Swiped: [ {} , {} ] -> [ {} , {} ]", p1.x, p1.y, p2.x, p2.y));
+    cv::Mat img;
+    screencap(img);
+    cv::arrowedLine(img, { p1.x, p1.y }, { p2.x, p2.y }, { 0, 0, 255 }, 5);
+    cv::putText(img,
+                std::format("Dur: {}, from_last: {}, type: {}, pause: {}", duration, from_last,
+                            extra_swipe ? "Precisely" : "Normal", with_pause ? "true" : "false"),
+                { 0, 50 }, cv::FONT_HERSHEY_PLAIN, 2., { 0, 0, 255 }, 3);
+    cv::imshow("Input", img);
+    cv::waitKey(1);
+#endif
     bool res = extra_swipe ? m_touch.swipe_precisely(p1.x, p1.y, p2.x, p2.y, duration, with_pause)
-                           : res = m_touch.swipe(p1.x, p1.y, p2.x, p2.y, duration, with_pause);
+                           : m_touch.swipe(p1.x, p1.y, p2.x, p2.y, duration, with_pause);
     m_touch.wait();
     return res;
 }
 
 bool asst::WSAController::press_esc()
 {
+#if defined(ASST_DEBUG)
+    Log.info("Pressed escape");
+#endif
     m_touch.press(VK_ESCAPE);
     m_touch.wait();
     return true;
@@ -527,7 +565,7 @@ bool asst::WSAController::Toucher::init(HWND hwnd, int caption_height)
     std::mt19937_64 random_engine { std::random_device {}() };
     std::uniform_real_distribution<double> dist(-5, 5);
     for (int i = 0; i < 10; i++)
-        random_end.push_back(dist(random_engine));
+        m_rands.push_back(dist(random_engine));
 
     if (!s_vm.inject()) return false;
     m_inited = true;
@@ -549,6 +587,8 @@ bool asst::WSAController::Toucher::click(int x, int y)
 
 bool asst::WSAController::Toucher::swipe(double sx, double sy, double ex, double ey, int dur, bool pause)
 {
+    UNREFERENCED_PARAMETER(pause);
+
     if (!m_inited) return false;
 
     if (dur < 40) {
@@ -563,10 +603,12 @@ bool asst::WSAController::Toucher::swipe(double sx, double sy, double ex, double
     auto dx = (ex - sx) / nslices, dy = (ey - sy) / nslices;
     auto dur_slice = dur / nslices;
 
-    m_msgs.push({ 100, 0, 0 });
     m_msgs.push({ 1, (int)sx, (int)sy });
-    if (pause) press(VK_ESCAPE);
+    m_msgs.push({ 100, 0, 0 });
+
+    if (pause) m_msgs.push({ 4, int(sx + m_rands[0]), int(sy + m_rands[1]) });
     linear_interpolate(sx, sy, dx, dy, 0, dur_slice, nslices);
+    if (pause) m_msgs.push({ 4, int(sx), int(sy) });
 
     m_msgs.push({ 2, (int)sx, (int)sy });
     if (pause) press(VK_ESCAPE);
@@ -576,6 +618,8 @@ bool asst::WSAController::Toucher::swipe(double sx, double sy, double ex, double
 
 bool asst::WSAController::Toucher::swipe_precisely(double sx, double sy, double ex, double ey, int dur, bool pause)
 {
+    UNREFERENCED_PARAMETER(pause);
+
     if (!m_inited) return false;
 
     if (dur < 40) {
@@ -586,20 +630,23 @@ bool asst::WSAController::Toucher::swipe_precisely(double sx, double sy, double 
         return false;
     }
 
-    constexpr int nslices = 32;
-    constexpr int neslices = 8;
+    constexpr int nslices = 16;
+    constexpr int neslices = 32;
     constexpr int extra_slice_size = 3;
+    constexpr double time_ratio = 3 / 8.;
     ex += extra_slice_size, ey += extra_slice_size;
 
     auto dx = (ex - sx) / nslices, dy = (ey - sy) / nslices;
     auto ux = std::abs(dx) / dx, uy = std::abs(dy) / dy;
 
-    auto dur_slice = dur / nslices;
+    auto dur_slice = dur * time_ratio / nslices;
 
-    m_msgs.push({ 100, 0, 0 });
     m_msgs.push({ 1, (int)sx, (int)sy });
-    if (pause) press(VK_ESCAPE);
+    m_msgs.push({ 100, 0, 0 });
+
+    if (pause) m_msgs.push({ 4, int(sx + m_rands[0]), int(sy + m_rands[1]) });
     auto time_stamp = linear_interpolate(sx, sy, dx, dy, 0, dur_slice, nslices);
+    if (pause) m_msgs.push({ 4, int(sx), int(sy) });
 
     dx = -ux * extra_slice_size / neslices, dy = -uy * extra_slice_size / neslices;
     time_stamp = linear_interpolate(sx, sy, dx, dy, time_stamp, dur_slice, neslices);
@@ -632,7 +679,7 @@ void asst::WSAController::Toucher::run()
 
     while (m_running.load()) {
         if (m_msgs.empty()) {
-            Sleep(50);
+            std::this_thread::yield();
             continue;
         }
 
@@ -647,7 +694,7 @@ void asst::WSAController::Toucher::run()
             res = SendMessage(m_wnd, WM_KEYDOWN, command.x, 0);
             Sleep(80);
             res = SendMessage(m_wnd, WM_KEYUP, command.x, 0);
-            Sleep(40);
+            Sleep(80);
             break;
         case 0:
             s_vm.down();
@@ -699,6 +746,16 @@ void asst::WSAController::Toucher::run()
         case 3:
             res = SendMessage(m_wnd, WM_MOUSEHOVER, 0, coord);
             res = SendMessage(m_wnd, WM_MOUSEMOVE, 0, coord);
+            break;
+        case 4:
+            res = SendMessage(m_wnd, WM_MOUSEHOVER, 0, coord);
+            res = SendMessage(m_wnd, WM_MOUSEMOVE, 0, coord);
+            res = SendMessage(m_wnd, WM_KEYDOWN, VK_ESCAPE, 0);
+            break;
+        case 5:
+            res = SendMessage(m_wnd, WM_MOUSEHOVER, 0, coord);
+            res = SendMessage(m_wnd, WM_MOUSEMOVE, 0, coord);
+            res = SendMessage(m_wnd, WM_KEYUP, VK_ESCAPE, 0);
             break;
         }
 

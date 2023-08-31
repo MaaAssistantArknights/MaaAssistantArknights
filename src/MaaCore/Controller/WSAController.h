@@ -175,7 +175,7 @@ namespace asst
             std::thread m_thread;
             std::atomic_bool m_running;
             std::queue<MsgUnit> m_msgs;
-            std::vector<double> random_end;
+            std::vector<double> m_rands;
 
             const size_t max_queue_length = 1024;
 
