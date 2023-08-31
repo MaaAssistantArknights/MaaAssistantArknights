@@ -1092,6 +1092,10 @@ namespace MaaWpfGui.Main
                 case "ReclamationSmeltGold":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AlgorithmDoneSmeltGold") + $" {(int)subTaskDetails["times"]} " + LocalizationHelper.GetString("UnitTime"));
                     break;
+
+                case "SanityBeforeStage":
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CurrentSanity") + $" {subTaskDetails["sanity"]} ");
+                    break;
             }
         }
 
