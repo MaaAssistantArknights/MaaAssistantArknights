@@ -15,6 +15,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -1134,6 +1136,50 @@ namespace MaaWpfGui.Main
 
         private static readonly bool ForcedReloadResource = File.Exists("DEBUG") || File.Exists("DEBUG.txt");
 
+
+        /// <summary>
+        /// 检查端口是否有效。
+        /// </summary>
+        /// <param name="address">连接地址。</param>
+        /// <returns>是否有效。</returns>
+        public bool IfPortEstablished(string address)
+        {
+            if (string.IsNullOrEmpty(address))
+            {
+                return false;
+            }
+
+            // normal -> [host]:[port]
+            // LDPlayer -> emulator-[port]
+            string[] address_ = address.Contains(":") ? address.Split(':') : address.Split('-');
+            string host = address_[0].Equals("emulator") ? "127.0.0.1" : address_[0];
+            int port = int.Parse(address_[1]);
+
+            using (var client = new TcpClient())
+            {
+                try
+                {
+                    IAsyncResult result = client.BeginConnect(host, port, null, null);
+                    bool success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(.5));
+
+                    if (success)
+                    {
+                        client.EndConnect(result);
+                        return true;
+                    }
+                    else
+                    {
+                        client.Close();
+                        return false;
+                    }
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+
         /// <summary>
         /// 连接模拟器。
         /// </summary>
@@ -1144,13 +1190,38 @@ namespace MaaWpfGui.Main
             if (Instances.SettingsViewModel.AutoDetectConnection)
             {
                 string bsHvAddress = Instances.SettingsViewModel.TryToSetBlueStacksHyperVAddress();
-                if (bsHvAddress != null)
+                bool adbConfResult = Instances.SettingsViewModel.DetectAdbConfig(ref error);
+
+                if (String.Equals(Instances.SettingsViewModel.ConnectAddress, bsHvAddress))
                 {
-                    Instances.SettingsViewModel.ConnectAddress = bsHvAddress;
+                    // 防止bsHvAddress和connectAddress重合
+                    bsHvAddress = String.Empty;
                 }
-                else if (!Instances.SettingsViewModel.DetectAdbConfig(ref error))
+
+                // tcp连接测试端口是否有效，超时时间500ms
+                bool adbResult = IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
+                bool bsResult = IfPortEstablished(bsHvAddress);
+
+                // 枚举所有情况
+                if (adbResult && bsResult)
                 {
+                    // 2 connections(s)
+                    error = LocalizationHelper.GetString("EmulatorTooMany");
                     return false;
+                }
+                else if (adbResult || bsResult)
+                {
+                    // 1 connections(s)
+                    Instances.SettingsViewModel.ConnectAddress = adbResult ? Instances.SettingsViewModel.ConnectAddress : bsHvAddress;
+                    error = string.Empty;
+                }
+                else
+                {
+                    // 0 connections(s)
+                    if (!adbConfResult)
+                    {
+                        return false;
+                    }
                 }
             }
 
