@@ -286,6 +286,8 @@ At the end of the level, enter 「Normal/Hard」 to switch between Standard and 
     <system:String x:Key="Shutdown">Shutdown</system:String>
     <system:String x:Key="HibernateWithoutPersist">Hibernate (only once)</system:String>
     <system:String x:Key="ShutdownWithoutPersist">Shutdown (only once)</system:String>
+    <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">Exit MAA and Emulator, then Hibernate if no other running MAA</system:String>
+    <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">Exit MAA and Emulator, then Shutdown if no other running MAA</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">Stop</system:String>
     <!--  FightSettings  -->
