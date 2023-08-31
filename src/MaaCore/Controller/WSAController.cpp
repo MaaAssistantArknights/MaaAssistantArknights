@@ -152,6 +152,8 @@ asst::WSAController::WSAController(const AsstCallback& callback, Assistant* inst
               } },
         };
         this->callback(AsstMsg::InternalError, create_device_error);
+        Log.error("platform not supported");
+        throw std::runtime_error("platform not supported");
     }
 
     if (m_last_error != 0) {
@@ -165,6 +167,8 @@ asst::WSAController::WSAController(const AsstCallback& callback, Assistant* inst
               } },
         };
         this->callback(AsstMsg::InternalError, create_device_error);
+        Log.error("failed to createdevice");
+        throw std::runtime_error("failed to createdevice");
     }
 
     m_platform_io = PlatformFactory::create_platform(inst, type);
@@ -277,7 +281,7 @@ bool asst::WSAController::FrameBuffer::prepare(bool resize_window, bool golden_b
     }
 
     if (IsIconic(pub_wndwsa)) {
-        Log.trace("WSA window is iconic. Try to show WSA window.");
+        Log.warn("WSA window is iconic. Try to show WSA window.");
         if (!ShowWindow(pub_wndwsa, SW_SHOW)) return false;
     }
     
