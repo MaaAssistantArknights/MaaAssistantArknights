@@ -17,7 +17,6 @@ bool asst::SanityBeforeStagePlugin::verify(AsstMsg msg, const json::value& detai
 
     const std::string task = details.at("details").at("task").as_string();
     if (task == "FightBegin") {
-        //m_cur_info = std::move(details);
         return true;
     }
     else {
