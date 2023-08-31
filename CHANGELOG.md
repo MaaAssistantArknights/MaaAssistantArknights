@@ -1,27 +1,20 @@
-## v4.23.0-beta.2
+## v4.23.0
 
 ### 新增
 
-- 支持带参数启动切换配置 @ABA2396
-
-### 改进
-
-- 优化烧开水逻辑，现在能在低难度烧水，高难度开始 (#6094) @Lancarus
-- 更新保全阿尔斯特甜品制造平台，不兼容应急 (#6088) @AnnoyingFlowers
-   - 更新保全阿尔斯特甜品制造平台，不兼容应急 @AnnoyingFlowers
-- 更新3.4任务流程协议文档 @ABA2396
+- 繁中服風雪過境復刻導航 (#6130) @momomochi987
+   - 繁中服風雪過境導航 @momomochi987
 
 ### 修复
 
-- try to fix #6006 @MistEO
-- 尝试修复TN-4地图view错误 (#6097) @status102
-- txwy stage navigation, similar to 4c2c644 @Constrat
+- nbsp character from OCR (YoStarKR) @178619
+- ocr replace for YostarJP (#6093) @jie17
+   - ocr replace for YostarJP @jie17
 
 ### 其他
 
-- add log for #6006 @MistEO
-- roguelike: 适配刷源石锭模式不期而遇选择策略 (#6102) @Yumi0606
-- 启动时检测是否为管理员启动 @ABA2396
-- 添加报错信息 #6089 @ABA2396
-- 修改格式为适配更多启动参数 @ABA2396
-- 合并关闭+重启方法 @ABA2396
+- SideStory「理想城：长夏狂欢季」复刻 @ABA2396
+- 繁中服 快捷編隊 部署費用 (#6131) @vonnoq
+   - 繁中服 快捷編隊 部署費用 @vonnoq
+- fix rpath for macos @horror-proton
+- Auto Update Game Resources - 2023-08-29 @MistEO
