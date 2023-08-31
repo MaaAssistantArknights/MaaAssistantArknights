@@ -285,6 +285,8 @@
     <system:String x:Key="Shutdown">關機</system:String>
     <system:String x:Key="HibernateWithoutPersist">休眠（僅一次）</system:String>
     <system:String x:Key="ShutdownWithoutPersist">關機（僅一次）</system:String>
+    <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">退出 MAA 和 模擬器，如無其他 MAA 進程則休眠</system:String>
+    <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">退出 MAA，如無其他 MAA 進程則關機</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
     <!--  戰鬥設定  -->

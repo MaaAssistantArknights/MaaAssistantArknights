@@ -360,6 +360,9 @@ namespace MaaWpfGui.ViewModels.UI
                 // new GenericCombData<ActionType> { Display = Localization.GetString("ExitEmulatorAndSelfAndHibernate") + "*", Value = ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist },
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("HibernateWithoutPersist"), Value = ActionType.HibernateWithoutPersist },
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ShutdownWithoutPersist"), Value = ActionType.ShutdownWithoutPersist },
+
+                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate"), Value = ActionType.ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate },
+                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitSelfIfOtherMaaElseShutdown"), Value = ActionType.ExitSelfIfOtherMaaElseShutdown },
             };
             var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[taskList.Length]);
             var nonOrderList = new List<DragItemViewModel>();
@@ -1755,6 +1758,16 @@ namespace MaaWpfGui.ViewModels.UI
             /// Computer shutdown without Persist.
             /// </summary>
             ShutdownWithoutPersist,
+
+            /// <summary>
+            /// Exits MAA and emulator and, if no other processes of MAA are running, computer hibernates.
+            /// </summary>
+            ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate,
+
+            /// <summary>
+            /// Exits MAA and, if no other processes of MAA are running, computer shutdown.
+            /// </summary>
+            ExitSelfIfOtherMaaElseShutdown,
         }
 
         /// <summary>
@@ -1853,6 +1866,27 @@ namespace MaaWpfGui.ViewModels.UI
 
                     // Environment.Exit(0);
                     break;
+
+                case ActionType.ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate:
+                    if (Process.GetProcessesByName("MAA").Length > 1)
+                    {
+                        goto case ActionType.ExitEmulatorAndSelf;
+                    }
+                    else
+                    {
+                        goto case ActionType.ExitEmulatorAndSelfAndHibernate;
+                    }
+
+                case ActionType.ExitSelfIfOtherMaaElseShutdown:
+                    if (Process.GetProcessesByName("MAA").Length > 1)
+                    {
+                        goto case ActionType.ExitSelf;
+                    }
+                    else
+                    {
+                        goto case ActionType.Shutdown;
+                    }
+
                 default:
                     Execute.OnUIThread(() =>
                     {
