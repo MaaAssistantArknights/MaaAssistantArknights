@@ -618,6 +618,9 @@
     <ClInclude Include="Task\Roguelike\RoguelikeLastRewardTaskPlugin.h">
       <Filter>源文件\Task\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Controller\WSAController.h">
+      <Filter>源文件\Controller</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -1018,6 +1021,9 @@
     </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeLastRewardTaskPlugin.cpp">
       <Filter>源文件\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\WSAController.cpp">
+      <Filter>源文件\Controller</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
