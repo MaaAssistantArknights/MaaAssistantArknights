@@ -81,7 +81,10 @@ namespace MaaWpfGui.Main
         {
             fixed (byte* ptr = EncodeNullTerminatedUTF8(dirname))
             {
-                return AsstLoadResource(ptr);
+                _logger.Information($"AsstLoadResource dirname: {dirname}");
+                var ret = AsstLoadResource(ptr);
+                _logger.Information($"AsstLoadResource ret: {ret}");
+                return ret;
             }
         }
 
@@ -238,16 +241,7 @@ namespace MaaWpfGui.Main
         /// <returns>是否成功。</returns>
         public bool LoadResource()
         {
-            static bool LoadResIfExists(string path)
-            {
-                string resource = "\\resource";
-                if (!Directory.Exists(path + resource))
-                {
-                    return true;
-                }
-
-                return AsstLoadResource(path);
-            }
+            _logger.Information("Load Resource");
 
             string clientType = Instances.SettingsViewModel.ClientType;
             string mainRes = Directory.GetCurrentDirectory();
@@ -273,6 +267,19 @@ namespace MaaWpfGui.Main
             }
 
             return loaded;
+
+            static bool LoadResIfExists(string path)
+            {
+                const string Resource = "\\resource";
+                if (!Directory.Exists(path + Resource))
+                {
+                    _logger.Warning($"Resource not found: {path + Resource}");
+                    return true;
+                }
+
+                _logger.Information($"Load resource: {path + Resource}");
+                return AsstLoadResource(path);
+            }
         }
 
         /// <summary>
@@ -1228,11 +1235,13 @@ namespace MaaWpfGui.Main
             if (connected && connectedAdb == Instances.SettingsViewModel.AdbPath &&
                 connectedAddress == Instances.SettingsViewModel.ConnectAddress)
             {
+                _logger.Information($"Already connected to {connectedAdb} {connectedAddress}");
                 if (!ForcedReloadResource)
                 {
                     return true;
                 }
 
+                _logger.Information("Forced reload resource");
                 if (!LoadResource())
                 {
                     error = "Load Resource Failed";
@@ -1250,6 +1259,7 @@ namespace MaaWpfGui.Main
 
             if (!LoadResource())
             {
+                _logger.Error("Load Resource Failed");
                 error = "Load Resource Failed";
                 return false;
             }
