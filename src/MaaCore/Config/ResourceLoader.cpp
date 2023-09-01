@@ -83,9 +83,6 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         return false;
     }
 
-    static std::mutex load_mutex;
-    std::unique_lock<std::mutex> lock(load_mutex);
-
 #define LoadResourceAndCheckRet(Config, Filename)                 \
     {                                                             \
         auto full_path = path / Filename;                         \
@@ -129,30 +126,6 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LogTraceFunction;
     using namespace asst::utils::path_literals;
 
-    // 不太重要又加载的慢的资源，但不怎么占内存的，实时异步加载
-    // DEBUG 模式下这里还是检查返回值的，方便排查问题
-    AsyncLoadConfig(StageDropsConfig, "stages.json"_p);
-    AsyncLoadConfig(TilePack, "Arknights-Tile-Pos"_p / "overview.json"_p);
-
-    AsyncLoadConfig(RoguelikeCopilotConfig, "roguelike"_p / "Phantom"_p / "autopilot"_p);
-    AsyncLoadConfig(RoguelikeCopilotConfig, "roguelike"_p / "Mizuki"_p / "autopilot"_p);
-    AsyncLoadConfig(RoguelikeCopilotConfig, "roguelike"_p / "Sami"_p / "autopilot"_p);
-
-    AsyncLoadConfig(RoguelikeRecruitConfig, "roguelike"_p / "Phantom"_p / "recruitment.json"_p);
-    AsyncLoadConfig(RoguelikeRecruitConfig, "roguelike"_p / "Mizuki"_p / "recruitment.json"_p);
-    AsyncLoadConfig(RoguelikeRecruitConfig, "roguelike"_p / "Sami"_p / "recruitment.json"_p);
-
-    AsyncLoadConfig(RoguelikeShoppingConfig, "roguelike"_p / "Phantom"_p / "shopping.json"_p);
-    AsyncLoadConfig(RoguelikeShoppingConfig, "roguelike"_p / "Mizuki"_p / "shopping.json"_p);
-    AsyncLoadConfig(RoguelikeShoppingConfig, "roguelike"_p / "Sami"_p / "shopping.json"_p);
-
-    AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "Phantom"_p / "encounter.json"_p);
-    AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "Mizuki"_p / "encounter.json"_p);
-    AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "Sami"_p / "encounter.json"_p);
-    AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "Phantom"_p / "encounter_for_deposit.json"_p);
-    AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "Mizuki"_p / "encounter_for_deposit.json"_p);
-    AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "Sami"_p / "encounter_for_deposit.json"_p);
-
     // 太占内存的资源，都是惰性加载
     // 战斗中技能识别，二分类模型
     LoadResourceAndCheckRet(OnnxSessions, "onnx"_p / "skill_ready_cls.onnx"_p);
@@ -180,6 +153,30 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
     LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
     LoadResourceWithTemplAndCheckRet(ItemConfig, "item_index.json"_p, "template"_p / "items"_p);
+
+    LoadResourceAndCheckRet(StageDropsConfig, "stages.json"_p);
+    LoadResourceAndCheckRet(TilePack, "Arknights-Tile-Pos"_p / "overview.json"_p);
+
+    // 不太重要又加载的慢的资源，但不怎么占内存的，实时异步加载
+    // DEBUG 模式下这里还是检查返回值的，方便排查问题
+    AsyncLoadConfig(RoguelikeCopilotConfig, "roguelike"_p / "Phantom"_p / "autopilot"_p);
+    AsyncLoadConfig(RoguelikeCopilotConfig, "roguelike"_p / "Mizuki"_p / "autopilot"_p);
+    AsyncLoadConfig(RoguelikeCopilotConfig, "roguelike"_p / "Sami"_p / "autopilot"_p);
+
+    AsyncLoadConfig(RoguelikeRecruitConfig, "roguelike"_p / "Phantom"_p / "recruitment.json"_p);
+    AsyncLoadConfig(RoguelikeRecruitConfig, "roguelike"_p / "Mizuki"_p / "recruitment.json"_p);
+    AsyncLoadConfig(RoguelikeRecruitConfig, "roguelike"_p / "Sami"_p / "recruitment.json"_p);
+
+    AsyncLoadConfig(RoguelikeShoppingConfig, "roguelike"_p / "Phantom"_p / "shopping.json"_p);
+    AsyncLoadConfig(RoguelikeShoppingConfig, "roguelike"_p / "Mizuki"_p / "shopping.json"_p);
+    AsyncLoadConfig(RoguelikeShoppingConfig, "roguelike"_p / "Sami"_p / "shopping.json"_p);
+
+    AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "Phantom"_p / "encounter.json"_p);
+    AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "Mizuki"_p / "encounter.json"_p);
+    AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "Sami"_p / "encounter.json"_p);
+    AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "Phantom"_p / "encounter_for_deposit.json"_p);
+    AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "Mizuki"_p / "encounter_for_deposit.json"_p);
+    AsyncLoadConfig(RoguelikeStageEncounterConfig, "roguelike"_p / "Sami"_p / "encounter_for_deposit.json"_p);
 
 #undef LoadTemplByConfigAndCheckRet
 #undef LoadResourceAndCheckRet
