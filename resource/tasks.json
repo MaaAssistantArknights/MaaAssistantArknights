@@ -8740,8 +8740,9 @@
         ]
     },
     "Roguelike@StageVertical": {
-        "Doc": "base_task",
+        "Doc": "理论上只在左边屏幕出现",
         "template": "empty.png",
+        "action": "ClickSelf",
         "cache": false,
         "roi": [
             0,
