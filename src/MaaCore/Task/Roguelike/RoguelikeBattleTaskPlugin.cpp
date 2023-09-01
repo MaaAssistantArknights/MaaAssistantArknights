@@ -92,7 +92,8 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
 
 void asst::RoguelikeBattleTaskPlugin::wait_until_start_button_clicked()
 {
-    ProcessTask(*this, { "RoguelikeWaitForStartButtonClicked" }).set_task_delay(0).set_retry_times(0).run();
+    std::string theme = status()->get_properties(Status::RoguelikeTheme).value();
+    ProcessTask(*this, { theme + "Roguelike@WaitForStartButtonClicked" }).set_task_delay(0).set_retry_times(0).run();
 }
 
 std::string asst::RoguelikeBattleTaskPlugin::oper_name_in_config(const battle::DeploymentOper& oper) const
