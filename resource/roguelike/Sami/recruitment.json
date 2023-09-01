@@ -1299,7 +1299,7 @@
                     ]
                 },
                 {
-                    "name": "麒麟X夜刀",
+                    "name": "麒麟R夜刀",
                     "skill": 2,
                     "is_key": true,
                     "recruit_priority": 701,
@@ -2596,7 +2596,7 @@
                     "name": "傀影"
                 },
                 {
-                    "name": "麒麟X夜刀"
+                    "name": "麒麟R夜刀"
                 },
                 {
                     "name": "缄默德克萨斯"

@@ -2709,11 +2709,11 @@
             ],
             [
                 ".*麟.*夜刀$",
-                "麒麟X夜刀"
+                "麒麟R夜刀"
             ],
             [
                 "麒.+夜刀$",
-                "麒麟X夜刀"
+                "麒麟R夜刀"
             ],
             [
                 ".*龙.*黑角$",
@@ -9008,6 +9008,7 @@
         "template": "empty.png",
         "baseTask": "Roguelike@StageEnter",
         "next": [
+            "Roguelike@StageVerticalConfirm",
             "Roguelike@StageEncounterEnter",
             "Roguelike@StageEncounterJudgeClick"
         ]
@@ -9178,6 +9179,7 @@
         "template": "empty.png",
         "baseTask": "Roguelike@StageEnter",
         "next": [
+            "Roguelike@StageVerticalConfirm",
             "Roguelike@StageSafeHouseEnter",
             "Roguelike@StageEncounterOptions#next",
             "Roguelike@StageEncounterClickToLeave"
@@ -9199,6 +9201,7 @@
         "baseTask": "Roguelike@StageEnter",
         "postDelay": 3000,
         "next": [
+            "Roguelike@StageVerticalConfirm",
             "Roguelike@StageTraderEnter",
             "Roguelike@StageTraderRefreshWithDice",
             "Roguelike@StageTraderInvestSystem",
@@ -11993,6 +11996,7 @@
             146
         ],
         "next": [
+            "Roguelike@StageVerticalConfirm",
             "RoguelikeWaitForStartButtonClicked"
         ]
     },
