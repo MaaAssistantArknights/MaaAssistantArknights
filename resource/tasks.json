@@ -8742,6 +8742,7 @@
     "Roguelike@StageVertical": {
         "Doc": "理论上只在左边屏幕出现",
         "template": "empty.png",
+        "templThreshold": 0.9,
         "action": "ClickSelf",
         "cache": false,
         "roi": [
@@ -8754,6 +8755,7 @@
     "Roguelike@StageVerticalConfirm": {
         "Doc": "base_task",
         "template": "empty.png",
+        "action": "ClickSelf",
         "cache": false,
         "roi": [
             701,
@@ -9008,9 +9010,16 @@
         "template": "empty.png",
         "baseTask": "Roguelike@StageEnter",
         "next": [
-            "Roguelike@StageVerticalConfirm",
+            "Roguelike@StageVerticalConfirmEncounter",
             "Roguelike@StageEncounterEnter",
             "Roguelike@StageEncounterJudgeClick"
+        ]
+    },
+    "Roguelike@StageVerticalConfirmEncounter": {
+        "baseTask": "Roguelike@StageVerticalConfirm",
+        "template": "Roguelike@StageVerticalConfirm.png",
+        "next": [
+            "Roguelike@StageEncounterEnter"
         ]
     },
     "Roguelike@StageEncounterGiveUpRecruitConfirm": {
@@ -9179,10 +9188,17 @@
         "template": "empty.png",
         "baseTask": "Roguelike@StageEnter",
         "next": [
-            "Roguelike@StageVerticalConfirm",
+            "Roguelike@StageVerticalConfirmSafeHouse",
             "Roguelike@StageSafeHouseEnter",
             "Roguelike@StageEncounterOptions#next",
             "Roguelike@StageEncounterClickToLeave"
+        ]
+    },
+    "Roguelike@StageVerticalConfirmSafeHouse": {
+        "baseTask": "Roguelike@StageVerticalConfirm",
+        "template": "Roguelike@StageVerticalConfirm.png",
+        "next": [
+            "Roguelike@StageSafeHouseEnter"
         ]
     },
     "Roguelike@StageTrader": {
@@ -9201,12 +9217,19 @@
         "baseTask": "Roguelike@StageEnter",
         "postDelay": 3000,
         "next": [
-            "Roguelike@StageVerticalConfirm",
+            "Roguelike@StageVerticalConfirmTrader",
             "Roguelike@StageTraderEnter",
             "Roguelike@StageTraderRefreshWithDice",
             "Roguelike@StageTraderInvestSystem",
             "Roguelike@TraderRandomShopping",
             "Roguelike@StageTraderLeave"
+        ]
+    },
+    "Roguelike@StageVerticalConfirmTrader": {
+        "template": "Roguelike@StageVerticalConfirm.png",
+        "baseTask": "Roguelike@StageVerticalConfirm",
+        "next": [
+            "Roguelike@StageTraderEnter"
         ]
     },
     "Roguelike@StageTraderInvestCancel": {
@@ -9829,6 +9852,9 @@
     },
     "Phantom@Roguelike@StartExplore": {},
     "Phantom@Roguelike@TodoEnter": {},
+    "Phantom@Roguelike@WaitForStartButtonClicked": {
+        "template": "Roguelike@QuickFormation.png"
+    },
     "Mizuki@Roguelike@Abandon": {},
     "Mizuki@Roguelike@ChooseDifficulty": {},
     "Mizuki@Roguelike@ChooseDifficulty0": {
@@ -10273,6 +10299,11 @@
         ]
     },
     "Mizuki@Roguelike@SquadDefault": {},
+    "Mizuki@Roguelike@StageVerticalConfirm": {
+        "next": [
+            "#back"
+        ]
+    },
     "Mizuki@Roguelike@StageBoons": {
         "templThreshold": 0.95
     },
@@ -10424,6 +10455,9 @@
         "template": "Mizuki@Roguelike@StartExplore.png"
     },
     "Mizuki@Roguelike@TodoEnter": {},
+    "Mizuki@Roguelike@WaitForStartButtonClicked": {
+        "template": "Roguelike@QuickFormation.png"
+    },
     "Sami@Roguelike@Abandon": {},
     "Sami@Roguelike@ChooseDifficulty": {
         "roi": [
@@ -10914,9 +10948,16 @@
         "template": "Sami@Roguelike@StageTraderEnter.png",
         "baseTask": "Sami@Roguelike@StageEnter",
         "next": [
-            "Sami@Roguelike@StageVerticalConfirm",
+            "Sami@Roguelike@StageVerticalConfirmBoons",
             "Sami@Roguelike@StageBoonsEnter",
             "Sami@Roguelike@StageEncounterJudgeClick"
+        ]
+    },
+    "Sami@Roguelike@StageVerticalConfirmBoons": {
+        "template": "Sami@Roguelike@StageVerticalConfirm.png",
+        "baseTask": "Sami@Roguelike@StageVerticalConfirm",
+        "next": [
+            "Sami@Roguelike@StageBoonsEnter"
         ]
     },
     "Sami@Roguelike@StageBoskyPassage": {
@@ -10954,9 +10995,16 @@
     "Sami@Roguelike@StageBoskyPassageEnter": {
         "baseTask": "Sami@Roguelike@StageEnter",
         "next": [
-            "Sami@Roguelike@StageVerticalConfirm",
+            "Sami@Roguelike@StageVerticalConfirmBoskyPassage",
             "Sami@Roguelike@StageBoskyPassageEnter",
             "Sami@Roguelike@StageEncounterJudgeClick"
+        ]
+    },
+    "Sami@Roguelike@StageVerticalConfirmBoskyPassage": {
+        "template": "Sami@Roguelike@StageVerticalConfirm.png",
+        "baseTask": "Sami@Roguelike@StageVerticalConfirm",
+        "next": [
+            "Sami@Roguelike@StageBoskyPassageEnter"
         ]
     },
     "Sami@Roguelike@StageCambatDps": {
@@ -11044,7 +11092,6 @@
         "baseTask": "Sami@Roguelike@Stage",
         "templThreshold": 0.95,
         "next": [
-            "Sami@Roguelike@StageVerticalConfirm",
             "Sami@Roguelike@StageEncounterEnter",
             "Sami@Roguelike@NextLevel#next"
         ]
@@ -11302,9 +11349,16 @@
     },
     "Sami@Roguelike@StageSafeHouseEnter": {
         "next": [
-            "Sami@Roguelike@StageVerticalConfirm",
+            "Sami@Roguelike@StageVerticalConfirmSafeHouse",
             "Sami@Roguelike@StageSafeHouseEnter",
             "Sami@Roguelike@StageEncounterJudgeClick"
+        ]
+    },
+    "Sami@Roguelike@StageVerticalConfirmSafeHouse": {
+        "template": "Sami@Roguelike@StageVerticalConfirm.png",
+        "baseTask": "Sami@Roguelike@StageVerticalConfirm",
+        "next": [
+            "Sami@Roguelike@StageSafeHouseEnter"
         ]
     },
     "Sami@Roguelike@StageTrader": {
@@ -11434,6 +11488,20 @@
             "Roguelike@IntegratedStrategies"
         ],
         "postDelay": 1000
+    },
+    "Sami@Roguelike@WaitForStartButtonClicked": {
+        "template": "Roguelike@QuickFormation.png",
+        "next": [
+            "Sami@Roguelike@StageVerticalConfirmStartButtonClicked",
+            "Sami@Roguelike@WaitForStartButtonClicked"
+        ]
+    },
+    "Sami@Roguelike@StageVerticalConfirmStartButtonClicked": {
+        "baseTask": "Sami@Roguelike@StageVerticalConfirm",
+        "template": "Sami@Roguelike@StageVerticalConfirm.png",
+        "next": [
+            "Sami@Roguelike@WaitForStartButtonClicked"
+        ]
     },
     "RoguelikeBattleAbandon": {
         "action": "ClickSelf",
@@ -11985,7 +12053,7 @@
             204
         ]
     },
-    "RoguelikeWaitForStartButtonClicked": {
+    "Roguelike@WaitForStartButtonClicked": {
         "Doc": "点了开始行动之后，可能会网络不好一直loading，用这个任务等一会",
         "template": "Roguelike@QuickFormation.png",
         "action": "DoNothing",
@@ -11996,8 +12064,7 @@
             146
         ],
         "next": [
-            "Roguelike@StageVerticalConfirm",
-            "RoguelikeWaitForStartButtonClicked"
+            "Roguelike@WaitForStartButtonClicked"
         ]
     },
     "RoguelikeRecruitSupportOcr": {
