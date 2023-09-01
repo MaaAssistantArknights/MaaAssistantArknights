@@ -42,8 +42,6 @@ void asst::SanityBeforeStagePlugin::get_sanity()
     // 直接摘抄博朗台部分，DrGrandetTaskPlugin
     OCRer analyzer(ctrler()->get_image());
     analyzer.set_task_info("SanityMatch");
-    analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
-    analyzer.set_use_char_model(false);
 
     if (!analyzer.analyze()) {
         return;
