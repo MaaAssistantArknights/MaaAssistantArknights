@@ -40,7 +40,6 @@ void asst::SanityBeforeStagePlugin::get_sanity()
     LogTraceFunction;
 
     // 直接摘抄博朗台部分，DrGrandetTaskPlugin
-    //OCRer analyzer(imread(utils::path("debug") / utils::path("sanity_test.png")));
     OCRer analyzer(ctrler()->get_image());
     analyzer.set_task_info("SanityMatch");
 
