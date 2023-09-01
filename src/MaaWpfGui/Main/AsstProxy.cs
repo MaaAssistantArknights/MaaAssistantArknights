@@ -1173,12 +1173,6 @@ namespace MaaWpfGui.Main
                 return true;
             }
 
-            if (!LoadResource())
-            {
-                error = "Load Resource Failed";
-                return false;
-            }
-
             bool ret = AsstConnect(_handle, Instances.SettingsViewModel.AdbPath, Instances.SettingsViewModel.ConnectAddress, Instances.SettingsViewModel.ConnectConfig);
 
             // 尝试默认的备选端口
