@@ -1621,7 +1621,7 @@ namespace MaaWpfGui.Main
         /// <list type="bullet">
         ///     <item>
         ///         <term><c>0</c></term>
-        ///         <description>刷蜡烛，尽可能稳定的打更多层数。</description>
+        ///         <description>刷蜡烛，尽可能稳定地打更多层数。</description>
         ///     </item>
         ///     <item>
         ///         <term><c>1</c></term>
