@@ -11387,6 +11387,7 @@
         ]
     },
     "Sami@Roguelike@StageVerticalTrader": {
+        "baseTask": "Roguelike@StageVertical",
         "templThreshold": 0.95,
         "next": [
             "Sami@Roguelike@StageTraderEnter",
@@ -11394,8 +11395,8 @@
         ]
     },
     "Sami@Roguelike@StageVerticalTraderAI6": {
+        "baseTask": "Roguelike@StageVertical",
         "templThreshold": 0.95,
-        "baseTask": "Sami@Roguelike@Stage",
         "next": [
             "Sami@Roguelike@StageTraderEnter",
             "Sami@Roguelike@NextLevel#next"
