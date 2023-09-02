@@ -9019,7 +9019,8 @@
         "baseTask": "Roguelike@StageVerticalConfirm",
         "template": "Roguelike@StageVerticalConfirm.png",
         "next": [
-            "Roguelike@StageEncounterEnter"
+            "Roguelike@StageEncounterEnter",
+            "Roguelike@StageEncounterJudgeClick"
         ]
     },
     "Roguelike@StageEncounterGiveUpRecruitConfirm": {
@@ -9198,7 +9199,10 @@
         "baseTask": "Roguelike@StageVerticalConfirm",
         "template": "Roguelike@StageVerticalConfirm.png",
         "next": [
-            "Roguelike@StageSafeHouseEnter"
+            "Roguelike@StageSafeHouseEnter",
+            "Roguelike@StageSafeHouseEnter",
+            "Roguelike@StageEncounterOptions#next",
+            "Roguelike@StageEncounterClickToLeave"
         ]
     },
     "Roguelike@StageTrader": {
@@ -9229,7 +9233,12 @@
         "template": "Roguelike@StageVerticalConfirm.png",
         "baseTask": "Roguelike@StageVerticalConfirm",
         "next": [
-            "Roguelike@StageTraderEnter"
+            "Roguelike@StageTraderEnter",
+            "Roguelike@StageTraderEnter",
+            "Roguelike@StageTraderRefreshWithDice",
+            "Roguelike@StageTraderInvestSystem",
+            "Roguelike@TraderRandomShopping",
+            "Roguelike@StageTraderLeave"
         ]
     },
     "Roguelike@StageTraderInvestCancel": {
@@ -10910,6 +10919,7 @@
     },
     "Sami@Roguelike@SquadDefault": {},
     "Sami@Roguelike@StageVerticalConfirm": {
+        "action": "ClickSelf",
         "next": [
             "#back"
         ]
@@ -10957,7 +10967,8 @@
         "template": "Sami@Roguelike@StageVerticalConfirm.png",
         "baseTask": "Sami@Roguelike@StageVerticalConfirm",
         "next": [
-            "Sami@Roguelike@StageBoonsEnter"
+            "Sami@Roguelike@StageBoonsEnter",
+            "Sami@Roguelike@StageEncounterJudgeClick"
         ]
     },
     "Sami@Roguelike@StageBoskyPassage": {
@@ -11004,7 +11015,8 @@
         "template": "Sami@Roguelike@StageVerticalConfirm.png",
         "baseTask": "Sami@Roguelike@StageVerticalConfirm",
         "next": [
-            "Sami@Roguelike@StageBoskyPassageEnter"
+            "Sami@Roguelike@StageBoskyPassageEnter",
+            "Sami@Roguelike@StageEncounterJudgeClick"
         ]
     },
     "Sami@Roguelike@StageCambatDps": {
@@ -11358,7 +11370,9 @@
         "template": "Sami@Roguelike@StageVerticalConfirm.png",
         "baseTask": "Sami@Roguelike@StageVerticalConfirm",
         "next": [
-            "Sami@Roguelike@StageSafeHouseEnter"
+            "Sami@Roguelike@StageSafeHouseEnter",
+            "Sami@Roguelike@StageSafeHouseEnter",
+            "Sami@Roguelike@StageEncounterJudgeClick"
         ]
     },
     "Sami@Roguelike@StageTrader": {
