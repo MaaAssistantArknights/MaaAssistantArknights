@@ -3,24 +3,32 @@
     "replacement_home": [
         {
             "location": [
-                9,
-                3
+                5,
+                4
             ],
-            "direction": "left"
+            "direction": "down"
         }
     ],
     "deploy_plan": [
         {
             "groups": [
-                "情报官",
-                "挡人先锋",
-                "投锋"
+                "回费"
             ],
             "location": [
                 7,
                 3
             ],
             "direction": "left"
+        },
+        {
+            "groups": [
+                "回费"
+            ],
+            "location": [
+                5,
+                1
+            ],
+            "direction": "down"
         },
         {
             "groups": [
@@ -63,6 +71,16 @@
             "location": [
                 5,
                 4
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "地面远程"
+            ],
+            "location": [
+                5,
+                3
             ],
             "direction": "down"
         },

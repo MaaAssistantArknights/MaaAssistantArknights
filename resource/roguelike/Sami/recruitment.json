@@ -1364,6 +1364,7 @@
         },
         {
             "name": "浊心斯卡蒂",
+            "is_key": true,
             "opers": [
                 {
                     "name": "浊心斯卡蒂",
@@ -1828,7 +1829,7 @@
                     "skill": 3,
                     "alternate_skill": 2,
                     "recruit_priority": 359,
-                    "promote_priority": 350
+                    "promote_priority": 550
                 },
                 {
                     "name": "黑键",
@@ -1847,7 +1848,7 @@
                     "skill": 1,
                     "skill_usage": 2,
                     "is_key": true,
-                    "recruit_priority": 625,
+                    "recruit_priority": 626,
                     "promote_priority": 750
                 },
                 {
@@ -1987,23 +1988,14 @@
                     "name": "百炼嘉维尔"
                 },
                 {
-                    "name": "圣约送葬人"
-                },
-                {
-                    "name": "海沫"
-                },
-                {
-                    "name": "羽毛笔"
-                },
-                {
-                    "name": "休谟斯"
-                },
-                {
-                    "name": "塞雷娅"
-                },
-                {
                     "name": "Mon3tr"
                 },
+                {
+                    "name": "圣约送葬人"
+                },                
+                {
+                    "name": "塞雷娅"
+                },                
                 {
                     "name": "煌"
                 },
@@ -2018,6 +2010,15 @@
                 },
                 {
                     "name": "年"
+                },
+                {
+                    "name": "海沫"
+                },
+                {
+                    "name": "羽毛笔"
+                },
+                {
+                    "name": "休谟斯"
                 },
                 {
                     "name": "泥岩"
