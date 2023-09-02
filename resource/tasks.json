@@ -8425,8 +8425,7 @@
         ],
         "next": [
             "Roguelike@LastRewardConfirm"
-        ],
-        "postDelay": 0
+        ]
     },
     "Roguelike@LastReward2": {
         "Doc": "base_task",
