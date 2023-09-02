@@ -44,6 +44,11 @@ export const zhcnSidebar = sidebar({
             },
           ],
         },
+        {
+          text: "CLI使用指南",
+          icon: "material-symbols:terminal",
+          link: "/1.6-CLI使用指南",
+        },
       ],
     },
     {
