@@ -12,9 +12,7 @@
     "deploy_plan": [
         {
             "groups": [
-                "情报官",
-                "挡人先锋",
-                "地面阻挡"
+                "回费"
             ],
             "location": [
                 4,
@@ -134,6 +132,17 @@
             ],
             "location": [
                 3,
+                5
+            ],
+            "direction": "up"
+        },
+        {
+            "groups": [
+                "炮灰",
+                "其他地面"
+            ],
+            "location": [
+                4,
                 5
             ],
             "direction": "up"

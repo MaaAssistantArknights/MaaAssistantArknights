@@ -241,7 +241,7 @@
         {
             "name": "邪恶计划鸭",
             "option_num": 2,
-            "choose": 1,
+            "choose": 2,
             "choice_require": [
                 {
                     "name": "你在做什么?",
