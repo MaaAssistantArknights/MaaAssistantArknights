@@ -1863,6 +1863,7 @@
                     "name": "林",
                     "skill": 1,
                     "skill_usage": 2,
+                    "skill_times": 1,
                     "is_key": true,
                     "recruit_priority": 626,
                     "promote_priority": 750
