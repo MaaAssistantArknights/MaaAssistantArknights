@@ -12,7 +12,7 @@
                     "is_start": true,
                     "doc": "相比凯尔希，焰苇的前期费用压力更小，更适合开局，属于下限高上限低的那种",
                     "recruit_priority": 880,
-                    "promote_priority": 840
+                    "promote_priority": 880
                 }
             ]
         },
