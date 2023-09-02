@@ -127,6 +127,15 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         Task.get(theme + "@Roguelike@LastRewardRand")->next =
             Task.get(theme + "@Roguelike@LastReward_normal_mode")->next;
     }
+
+    if (mode == 1) {
+        // 战斗后奖励只拿钱
+        Task.get(theme + "@Roguelike@DropsFlag")->next = Task.get(theme + "@Roguelike@DropsFlag_mode1")->next;
+    }
+    else {
+        // 重置战斗后奖励next
+        Task.get(theme + "@Roguelike@DropsFlag")->next = Task.get(theme + "@Roguelike@DropsFlag_normal_mode")->next;
+    }
     int number_of_starts = params.get("starts_count", INT_MAX);
     m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StartExplore", number_of_starts);
 
