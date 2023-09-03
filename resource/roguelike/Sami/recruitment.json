@@ -302,7 +302,7 @@
                             "Doc": "地面阻挡≤1时，幽灵鲨的招募优先级-300"
                         }
                     ]
-                },                
+                },
                 {
                     "name": "归溟幽灵鲨",
                     "skill": 2,
@@ -2016,10 +2016,10 @@
                 },
                 {
                     "name": "圣约送葬人"
-                },                
+                },
                 {
                     "name": "塞雷娅"
-                },                
+                },
                 {
                     "name": "煌"
                 },
@@ -2193,7 +2193,7 @@
                 },
                 {
                     "name": "艾丝黛尔",
-                    "skill":2
+                    "skill": 2
                 },
                 {
                     "name": "芬"
@@ -2501,7 +2501,7 @@
                 {
                     "name": "白金",
                     "skill": 2,
-                    "promote_priority":350
+                    "promote_priority": 350
                 },
                 {
                     "name": "克洛丝"
@@ -2509,7 +2509,7 @@
                 {
                     "name": "卡达",
                     "skill": 2,
-                    "promote_priority":300
+                    "promote_priority": 300
                 },
                 {
                     "name": "史都华德"
@@ -2575,7 +2575,8 @@
                 },
                 {
                     "name": "伊桑",
-                    "skill": 1,
+                    "skill": 2,
+                    "is_key": true,
                     "recruit_priority": 405,
                     "promote_priority": 405,
                     "recruit_priority_offsets": [
@@ -2679,6 +2680,18 @@
                 },
                 {
                     "name": "“弦惊”"
+                },
+                {
+                    "name": "幻影"
+                },
+                {
+                    "name": "掩体"
+                },
+                {
+                    "name": "归溟幽灵鲨"
+                },
+                {
+                    "name": "幽灵鲨"
                 }
             ]
         },
@@ -2738,7 +2751,7 @@
                             "offset": -300
                         }
                     ]
-                },  
+                },
                 {
                     "name": "歌蕾蒂娅",
                     "skill": 3,
@@ -2818,16 +2831,7 @@
                     "name": "泡普卡",
                     "skill": 1,
                     "recruit_priority": 460,
-                    "is_key": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "焰苇"
-                            ],
-                            "threshold": 1,
-                            "offset": 300
-                        }
-                    ]
+                    "is_key": true
                 },
                 {
                     "name": "月见夜",
@@ -2969,7 +2973,7 @@
                     "name": "莱恩哈特",
                     "skill": 2,
                     "promote_priority": 250
-                },                
+                },
                 {
                     "name": "罗宾",
                     "skill": 1,
