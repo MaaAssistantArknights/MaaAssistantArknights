@@ -123,7 +123,7 @@
             <s:String x:Key="InvestmentEnabled">投资源石锭</s:String>
             <s:String x:Key="RefreshTraderWithDice">刷新商店（指路鳞）</s:String>
 
-            <s:String x:Key="RoguelikeStrategyExp">刷等级，尽可能稳定的打更多层数</s:String>
+            <s:String x:Key="RoguelikeStrategyExp">刷等级，尽可能稳定地打更多层数</s:String>
             <s:String x:Key="RoguelikeStrategyGold">刷源石锭，到达第二层后直接退出</s:String>
             <s:String x:Key="StartingSquad">开局分队</s:String>
             <s:String x:Key="StartingRoles">开局职业组</s:String>
