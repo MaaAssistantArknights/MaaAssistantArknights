@@ -1,6 +1,6 @@
 {
     "stage_name": "饥渴祭坛",
-    "replacement_home": [        
+    "replacement_home": [
         {
             "location": [
                 8,
@@ -13,11 +13,7 @@
         [
             7,
             5
-        ],
-        [
-            9,
-            5
-        ]        
+        ]
     ],
     "deploy_plan": [
         {
@@ -28,6 +24,16 @@
             "location": [
                 9,
                 4
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "回费"
+            ],
+            "location": [
+                9,
+                5
             ],
             "direction": "left"
         },
@@ -119,7 +125,7 @@
             "direction": "left"
         },
         {
-            "groups": [                
+            "groups": [
                 "狙击"
             ],
             "location": [
@@ -129,7 +135,7 @@
             "direction": "left"
         },
         {
-            "groups": [                
+            "groups": [
                 "盾法",
                 "水陈"
             ],
