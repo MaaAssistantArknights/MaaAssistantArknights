@@ -2,11 +2,11 @@
 
 #include <regex>
 
+#include "Config/TaskData.h"
+#include "Controller/Controller.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/OCRer.h"
-#include "Controller/Controller.h"
-#include "Config/TaskData.h"
 
 bool asst::SanityBeforeStagePlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -24,7 +24,8 @@ bool asst::SanityBeforeStagePlugin::verify(AsstMsg msg, const json::value& detai
     }
 }
 
-bool asst::SanityBeforeStagePlugin::_run() {
+bool asst::SanityBeforeStagePlugin::_run()
+{
     LogTraceFunction;
 
     get_sanity();
@@ -44,11 +45,23 @@ void asst::SanityBeforeStagePlugin::get_sanity()
     analyzer.set_task_info("SanityMatch");
 
     if (!analyzer.analyze()) {
+        Log.info("__FUNCTION__", "Current Sanity analyze failed");
         return;
     }
     auto text = analyzer.get_result().front().text;
 
-    Log.info("Current Sanity:" + text);
+    Log.info("__FUNCTION__", "Current Sanity:" + text);
+    if (!text.find('/')) {
+        if (text.ends_with(' ')) {
+            text = text.substr(0, text.find_last_not_of(' ') + 1);
+        }
+        if (text[text.length() - 3] == '1' && text[text.length() - 2] <= '3') {
+            text = text.substr(0, text.length() - 3) + '/' + text.substr(text.length() - 3);
+        }
+        else {
+            text = text.substr(0, text.length() - 2) + '/' + text.substr(text.length() - 2);
+        }
+    }
 
     json::value sanity_info = basic_info_with_what("SanityBeforeStage");
     sanity_info["details"]["sanity"] = text;
