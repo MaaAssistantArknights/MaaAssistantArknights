@@ -2,11 +2,11 @@
 
 #include <regex>
 
+#include "Config/TaskData.h"
+#include "Controller/Controller.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "Vision/OCRer.h"
-#include "Controller/Controller.h"
-#include "Config/TaskData.h"
+#include "Vision/RegionOCRer.h"
 
 bool asst::SanityBeforeStagePlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -24,7 +24,8 @@ bool asst::SanityBeforeStagePlugin::verify(AsstMsg msg, const json::value& detai
     }
 }
 
-bool asst::SanityBeforeStagePlugin::_run() {
+bool asst::SanityBeforeStagePlugin::_run()
+{
     LogTraceFunction;
 
     get_sanity();
@@ -39,16 +40,24 @@ void asst::SanityBeforeStagePlugin::get_sanity()
 {
     LogTraceFunction;
 
-    // 直接摘抄博朗台部分，DrGrandetTaskPlugin
-    OCRer analyzer(ctrler()->get_image());
+    RegionOCRer analyzer(ctrler()->get_image());
     analyzer.set_task_info("SanityMatch");
 
     if (!analyzer.analyze()) {
+        Log.info(__FUNCTION__, "Current Sanity analyze failed");
         return;
     }
-    auto text = analyzer.get_result().front().text;
+    std::string text = analyzer.get_result().text;
 
-    Log.info("Current Sanity:" + text);
+    if (!text.find('/') && text.length() > 2) {
+        if (text[text.length() - 3] == '1' && text[text.length() - 2] >= '0' && text[text.length() - 2] <= '3') {
+            text = text.substr(0, text.length() - 3) + '/' + text.substr(text.length() - 3);
+        }
+        else {
+            text = text.substr(0, text.length() - 2) + '/' + text.substr(text.length() - 2);
+        }
+    }
+    Log.info(__FUNCTION__, "Current Sanity:" + text);
 
     json::value sanity_info = basic_info_with_what("SanityBeforeStage");
     sanity_info["details"]["sanity"] = text;
