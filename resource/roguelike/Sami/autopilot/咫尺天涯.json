@@ -101,17 +101,7 @@
                 6
             ],
             "direction": "left"
-        },
-        {
-            "groups": [
-                "奶"
-            ],
-            "location": [
-                9,
-                5
-            ],
-            "direction": "right"
-        },        
+        },                
         {
             "groups": [
                 "地面阻挡",
@@ -133,6 +123,16 @@
             "location": [
                 3,
                 6
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "奶"
+            ],
+            "location": [
+                9,
+                5
             ],
             "direction": "left"
         }
