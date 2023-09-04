@@ -48,13 +48,14 @@ void asst::SanityBeforeStagePlugin::get_sanity()
         Log.info("__FUNCTION__", "Current Sanity analyze failed");
         return;
     }
-    auto text = analyzer.get_result().front().text;
+    auto result = analyzer.get_result();
+    auto text = std::string("");
+    for (auto it = result.begin(); it != result.end(); it++) {
+        text = text + it->text;
+    }
 
     Log.info("__FUNCTION__", "Current Sanity:" + text);
-    if (!text.find('/')) {
-        if (text.ends_with(' ')) {
-            text = text.substr(0, text.find_last_not_of(' ') + 1);
-        }
+    if (!text.find('/') && text.length() > 3) {
         if (text[text.length() - 3] == '1' && text[text.length() - 2] <= '3') {
             text = text.substr(0, text.length() - 3) + '/' + text.substr(text.length() - 3);
         }
