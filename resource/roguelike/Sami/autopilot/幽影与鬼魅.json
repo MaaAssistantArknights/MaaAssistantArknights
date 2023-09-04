@@ -100,6 +100,17 @@
         },
         {
             "groups": [
+                "地面远程",
+                "地刺"
+            ],
+            "location": [
+                2,
+                5
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
                 "地面阻挡",
                 "处决者",
                 "回费",
@@ -138,17 +149,7 @@
                 4
             ],
             "direction": "right"
-        },
-        {
-            "groups": [
-                "地面远程"
-            ],
-            "location": [
-                2,
-                5
-            ],
-            "direction": "right"
-        },
+        },        
         {
             "groups": [
                 "地面阻挡"
