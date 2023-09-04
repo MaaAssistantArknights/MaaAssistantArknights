@@ -12,7 +12,8 @@
     "deploy_plan": [
         {
             "groups": [
-                "回费"
+                "情报官",
+                "挡人先锋"
             ],
             "location": [
                 4,
@@ -69,35 +70,15 @@
         },
         {
             "groups": [
-                "玛恩纳"
+                "玛恩纳",
+                "地刺",
+                "地面阻挡"
             ],
             "location": [
                 3,
                 4
             ],
-            "direction": "up"
-        },
-        {
-            "groups": [
-                "地面阻挡",
-                "其他地面"
-            ],
-            "location": [
-                3,
-                4
-            ],
-            "direction": "up"
-        },
-        {
-            "groups": [
-                "地面阻挡",
-                "其他地面"
-            ],
-            "location": [
-                5,
-                4
-            ],
-            "direction": "up"
+            "direction": "right"
         },
         {
             "groups": [
@@ -138,6 +119,7 @@
         },
         {
             "groups": [
+                "地面阻挡",
                 "炮灰",
                 "其他地面"
             ],
@@ -149,17 +131,52 @@
         },
         {
             "groups": [
-                "处决者",
+                "地面远程",
+                "地面阻挡",
+                "其他地面"
+            ],
+            "location": [
+                4,
+                6
+            ],
+            "direction": "up"
+        },
+        {
+            "groups": [
+                "地面阻挡",
                 "其他地面"
             ],
             "location": [
                 5,
                 4
             ],
-            "direction": "left",
+            "direction": "up"
+        },
+        {
+            "groups": [
+                "补给站"
+            ],
+            "location": [
+                3,
+                3
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "处决者",
+                "情报官",
+                "地面阻挡",
+                "其他地面"
+            ],
+            "location": [
+                4,
+                3
+            ],
+            "direction": "down",
             "condition": [
-                22,
-                37
+                14,
+                25
             ]
         }
     ]
