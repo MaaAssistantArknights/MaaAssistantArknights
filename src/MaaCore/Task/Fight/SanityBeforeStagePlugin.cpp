@@ -7,6 +7,7 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/OCRer.h"
+#include <Vision/RegionOCRer.h>
 
 bool asst::SanityBeforeStagePlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -40,22 +41,17 @@ void asst::SanityBeforeStagePlugin::get_sanity()
 {
     LogTraceFunction;
 
-    // 直接摘抄博朗台部分，DrGrandetTaskPlugin
-    OCRer analyzer(ctrler()->get_image());
+    RegionOCRer analyzer(ctrler()->get_image());
     analyzer.set_task_info("SanityMatch");
 
     if (!analyzer.analyze()) {
-        Log.info("__FUNCTION__", "Current Sanity analyze failed");
+        Log.info(__FUNCTION__, "Current Sanity analyze failed");
         return;
     }
-    auto result = analyzer.get_result();
-    auto text = std::string("");
-    for (auto it = result.begin(); it != result.end(); it++) {
-        text = text + it->text;
-    }
+    std::string text = analyzer.get_result().text;
 
-    Log.info("__FUNCTION__", "Current Sanity:" + text);
-    if (!text.find('/') && text.length() > 3) {
+    Log.info(__FUNCTION__, "Current Sanity:" + text);
+    if (!text.find('/') && text.length() > 2) {
         if (text[text.length() - 3] == '1' && text[text.length() - 2] <= '3') {
             text = text.substr(0, text.length() - 3) + '/' + text.substr(text.length() - 3);
         }
