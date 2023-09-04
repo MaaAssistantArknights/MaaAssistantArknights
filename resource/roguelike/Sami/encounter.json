@@ -161,7 +161,7 @@
         {
             "name": "不见群山",
             "option_num": 4,
-            "choose": 2,
+            "choose": 3,
             "choice_require": [
                 {
                     "name": "选择她弃在手边的塔罗牌",
@@ -281,7 +281,7 @@
         {
             "name": "北风女巫",
             "option_num": 3,
-            "choose": 1,
+            "choose": 2,
             "choice_require": [
                 {
                     "name": "乖乖照做",
@@ -295,7 +295,7 @@
         {
             "name": "时刻警惕",
             "option_num": 2,
-            "choose": 1
+            "choose": 2
         },
         {
             "name": "猜疑链",
