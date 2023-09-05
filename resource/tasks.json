@@ -871,6 +871,83 @@
             ]
         ]
     },
+    "SideStoryReopen": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+		    "复刻"
+		],
+		"roi": [
+		    0,
+		    500,
+		    500,
+		    150
+		],
+		"postDelay": 3000
+    },
+    "StageQueue@CheckPrts": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "maxTimes": 3,
+        "next": [
+            "StageQueue@UsePrtsSuccess",
+            "StageQueue@UsePrts"
+        ]
+    },
+    "StageQueue@UsePrts": {
+        "Doc": "执行Prts激活",
+        "template": "UsePrts.png",
+        "roi": [
+            1000,
+            550,
+            280,
+            90
+        ],
+        "next": ["StageQueue@CheckPrts"]
+    },
+    "StageQueue@UsePrtsSuccess": {
+        "Doc": "检查代理激活没有，roi引用UnableToAgent2",
+        "template": "UsePrtsSuccess.png",
+        "action": "DoNothing",
+        "roi": [
+            1000,
+            550,
+            280,
+            90
+        ]
+    },
+	"StageQueue": {
+		"baseTask": "Fight",
+		"template": "Terminal.png",
+        "maxTimes": 3,
+        "exceededNext": ["Stop"],
+        "next": [
+            "StageQueue@GoLastBattle",
+		    "StageQueue"
+        ],
+        "postDelay": 3000
+    },
+    "StageQueue@GoLastBattle": {
+        "next": ["StageQueue@StartButton1"]
+    },
+	"StageQueue@CloseStonePage": {
+        "next": []
+    },
+	"StageQueue@StartButton1":{
+        "Doc": "开始战斗1",
+        "action": "DoNothing",
+        "maxTimes": 1,
+        "exceededNext": [],
+        "next": [
+            "StageQueue@StartButton2",
+            "StageQueue@StartButton2Adverse",
+            "StageQueue@UseMedicine",
+            "StageQueue@UseStone",
+            "StageQueue@NoStone",
+            "StageQueue@OfflineConfirm",
+            "StageQueue@StartButton1TryAgain" 
+        ]
+    },
     "SL-8": {
         "algorithm": "JustReturn",
         "sub": [
@@ -3556,6 +3633,7 @@
     "SanityMatch": {
         "algorithm": "OcrDetect",
         "text": [],
+        "isAscii": true,
         "roi": [
             1120,
             20,
