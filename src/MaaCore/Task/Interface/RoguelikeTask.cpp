@@ -8,7 +8,9 @@
 #include "Task/Roguelike/RoguelikeControlTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeCustomStartTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeDebugTaskPlugin.h"
+#include "Task/Roguelike/RoguelikeDifficultySelectionTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeFormationTaskPlugin.h"
+#include "Task/Roguelike/RoguelikeLastRewardTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeRecruitTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeResetTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeShoppingTaskPlugin.h"
@@ -26,6 +28,7 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
     m_roguelike_task_ptr->register_plugin<RoguelikeFormationTaskPlugin>();
     m_roguelike_task_ptr->register_plugin<RoguelikeControlTaskPlugin>();
     m_roguelike_task_ptr->register_plugin<RoguelikeResetTaskPlugin>();
+
     m_debug_task_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeDebugTaskPlugin>();
     m_roguelike_task_ptr->register_plugin<RoguelikeShoppingTaskPlugin>()->set_retry_times(0);
 
@@ -37,6 +40,9 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
     m_skill_task_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeSkillSelectionTaskPlugin>();
     m_skill_task_ptr->set_retry_times(2).set_ignore_error(true);
     m_roguelike_task_ptr->register_plugin<RoguelikeStageEncounterTaskPlugin>()->set_retry_times(0);
+
+    m_roguelike_task_ptr->register_plugin<RoguelikeLastRewardTaskPlugin>();
+    m_roguelike_task_ptr->register_plugin<RoguelikeDifficultySelectionTaskPlugin>();
 
     // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加一点。先这样凑合用
     for (int i = 0; i != 100; ++i) {
@@ -69,6 +75,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     // 4 - 刷开局藏品，以获得热水壶或者演讲稿开局，不期而遇采用保守策略
     int mode = params.get("mode", 0);
     status()->set_properties(Status::RoguelikeMode, std::to_string(mode));
+    status()->set_properties(Status::RoguelikeNeedChangeDifficulty, "0");
     switch (mode) {
     case 0:
         m_debug_task_ptr->set_enable(true);
@@ -90,22 +97,44 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     }
 
     if (mode == 4) {
+        // 设置ocr第三层层名，设置识别到退出重进
         Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName")->text =
             Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName_mode4")->text;
         Task.get(theme + "@Roguelike@LevelName")->next = Task.get(theme + "@Roguelike@LevelName_mode4")->next;
+        // 获得热水壶和演讲时长延时
         Task.get(theme + "@Roguelike@LastReward")->post_delay =
             Task.get(theme + "@Roguelike@LastReward_mode4")->post_delay;
         Task.get(theme + "@Roguelike@LastReward4")->post_delay =
             Task.get(theme + "@Roguelike@LastReward_mode4")->post_delay;
+        // 获得其他奖励时重开
+        Task.get(theme + "@Roguelike@LastReward2")->next = Task.get(theme + "@Roguelike@LastReward_mode4")->next;
+        Task.get(theme + "@Roguelike@LastReward3")->next = Task.get(theme + "@Roguelike@LastReward_mode4")->next;
+        Task.get(theme + "@Roguelike@LastRewardRand")->next = Task.get(theme + "@Roguelike@LastReward_mode4")->next;
     }
     else {
+        // 重置需要ocr的层名和next任务
         Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName")->text =
             Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName_normal_mode")->text;
         Task.get(theme + "@Roguelike@LevelName")->next = Task.get(theme + "@Roguelike@LevelName_normal_mode")->next;
+        // 重置获得热水壶和演讲延时
         Task.get(theme + "@Roguelike@LastReward")->post_delay =
             Task.get(theme + "@Roguelike@LastReward_normal_mode")->post_delay;
         Task.get(theme + "@Roguelike@LastReward4")->post_delay =
             Task.get(theme + "@Roguelike@LastReward_normal_mode")->post_delay;
+        // 重置其他奖励next
+        Task.get(theme + "@Roguelike@LastReward2")->next = Task.get(theme + "@Roguelike@LastReward_normal_mode")->next;
+        Task.get(theme + "@Roguelike@LastReward3")->next = Task.get(theme + "@Roguelike@LastReward_normal_mode")->next;
+        Task.get(theme + "@Roguelike@LastRewardRand")->next =
+            Task.get(theme + "@Roguelike@LastReward_normal_mode")->next;
+    }
+
+    if (mode == 1) {
+        // 战斗后奖励只拿钱
+        Task.get(theme + "@Roguelike@DropsFlag")->next = Task.get(theme + "@Roguelike@DropsFlag_mode1")->next;
+    }
+    else {
+        // 重置战斗后奖励next
+        Task.get(theme + "@Roguelike@DropsFlag")->next = Task.get(theme + "@Roguelike@DropsFlag_normal_mode")->next;
     }
     int number_of_starts = params.get("starts_count", INT_MAX);
     m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StartExplore", number_of_starts);

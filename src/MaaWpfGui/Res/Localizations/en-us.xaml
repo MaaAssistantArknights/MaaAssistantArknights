@@ -2,6 +2,10 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <!--  .Net 8  -->
+    <system:String x:Key="Dotnet8">Dear user,\n\nWe are about to upgrade our software, and upcoming versions will be built on the .NET 8.0 platform.\n\nThe next update will bring you more features and performance optimizations.\n\nHowever, after the upgrade, computers without the .NET 8.0 runtime installed will no longer be supported. You will need to manually proceed to download it. Additionally, we will no longer provide support for the Windows 7 operating system.\n\nIf you click 'Yes', we will open a new runtime download link for you. If you click 'No', we will disable your automatic download feature to prevent unnecessary software updates. If you choose to disable automatic downloads, you can still manually re-enable this feature in the software settings.\n\nWe strongly recommend upgrading to .NET 8.0 to continue enjoying the latest features of the software. Thank you for your continued support!</system:String>
+    <system:String x:Key="Dotnet8Caption">Software Version Upgrade and Support Changes</system:String>
+    <!--  .Net 8  -->
     <!--  Settings  -->
     <system:String x:Key="Settings">Settings</system:String>
     <system:String x:Key="GeneralSettings">General</system:String>
@@ -286,6 +290,8 @@ At the end of the level, enter 「Normal/Hard」 to switch between Standard and 
     <system:String x:Key="Shutdown">Shutdown</system:String>
     <system:String x:Key="HibernateWithoutPersist">Hibernate (only once)</system:String>
     <system:String x:Key="ShutdownWithoutPersist">Shutdown (only once)</system:String>
+    <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">Exit MAA and Emulator, then Hibernate if no other running MAA</system:String>
+    <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">Exit MAA and Emulator, then Shutdown if no other running MAA</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">Stop</system:String>
     <!--  FightSettings  -->
@@ -498,6 +504,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="DropRecognitionError">Drops recognition error</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">Abort upload to Penguin Statistics</system:String>
     <system:String x:Key="TheEX">No bonus stage, stopped</system:String>
+    <system:String x:Key="CurrentSanity">Current Sanity: </system:String>
     <system:String x:Key="MissionStart">Mission started</system:String>
     <system:String x:Key="UnitTime">times</system:String>
     <system:String x:Key="MedicineUsed">Medicine used</system:String>

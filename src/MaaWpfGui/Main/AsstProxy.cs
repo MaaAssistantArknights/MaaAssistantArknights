@@ -15,6 +15,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +30,7 @@ using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Serilog;
 using Stylet;
 
 namespace MaaWpfGui.Main
@@ -49,6 +52,7 @@ namespace MaaWpfGui.Main
     public class AsstProxy
     {
         private readonly RunningState runningState;
+        private static readonly ILogger _logger = Log.ForContext<AsstProxy>();
 
         private delegate void CallbackDelegate(int msg, IntPtr json_buffer, IntPtr custom_arg);
 
@@ -77,7 +81,10 @@ namespace MaaWpfGui.Main
         {
             fixed (byte* ptr = EncodeNullTerminatedUTF8(dirname))
             {
-                return AsstLoadResource(ptr);
+                _logger.Information($"AsstLoadResource dirname: {dirname}");
+                var ret = AsstLoadResource(ptr);
+                _logger.Information($"AsstLoadResource ret: {ret}");
+                return ret;
             }
         }
 
@@ -102,15 +109,19 @@ namespace MaaWpfGui.Main
         }
 
         [DllImport("MaaCore.dll")]
-        private static extern unsafe bool AsstConnect(AsstHandle handle, byte* adb_path, byte* address, byte* config);
+        private static extern unsafe bool AsstConnect(AsstHandle handle, byte* adbPath, byte* address, byte* config);
 
-        private static unsafe bool AsstConnect(AsstHandle handle, string adb_path, string address, string config)
+        private static unsafe bool AsstConnect(AsstHandle handle, string adbPath, string address, string config)
         {
-            fixed (byte* ptr1 = EncodeNullTerminatedUTF8(adb_path),
+            _logger.Information($"handle: {(long)handle}, adbPath: {adbPath}, address: {address}, config: {config}");
+
+            fixed (byte* ptr1 = EncodeNullTerminatedUTF8(adbPath),
                 ptr2 = EncodeNullTerminatedUTF8(address),
                 ptr3 = EncodeNullTerminatedUTF8(config))
             {
-                return AsstConnect(handle, ptr1, ptr2, ptr3);
+                bool ret = AsstConnect(handle, ptr1, ptr2, ptr3);
+                _logger.Information($"handle: {((long)handle).ToString()}, adbPath: {adbPath}, address: {address}, config: {config}, return: {ret}");
+                return ret;
             }
         }
 
@@ -230,16 +241,7 @@ namespace MaaWpfGui.Main
         /// <returns>是否成功。</returns>
         public bool LoadResource()
         {
-            static bool LoadResIfExists(string path)
-            {
-                string resource = "\\resource";
-                if (!Directory.Exists(path + resource))
-                {
-                    return true;
-                }
-
-                return AsstLoadResource(path);
-            }
+            _logger.Information("Load Resource");
 
             string clientType = Instances.SettingsViewModel.ClientType;
             string mainRes = Directory.GetCurrentDirectory();
@@ -265,6 +267,19 @@ namespace MaaWpfGui.Main
             }
 
             return loaded;
+
+            static bool LoadResIfExists(string path)
+            {
+                const string Resource = "\\resource";
+                if (!Directory.Exists(path + Resource))
+                {
+                    _logger.Warning($"Resource not found: {path + Resource}");
+                    return true;
+                }
+
+                _logger.Information($"Load resource: {path + Resource}");
+                return AsstLoadResource(path);
+            }
         }
 
         /// <summary>
@@ -1086,12 +1101,16 @@ namespace MaaWpfGui.Main
                 case "ReclamationSmeltGold":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AlgorithmDoneSmeltGold") + $" {(int)subTaskDetails["times"]} " + LocalizationHelper.GetString("UnitTime"));
                     break;
+
+                case "SanityBeforeStage":
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CurrentSanity") + $" {subTaskDetails["sanity"]} ");
+                    break;
             }
         }
 
         private void ProcRecruitCalcMsg(JObject details)
         {
-            Instances.RecognizerViewModel.procRecruitMsg(details);
+            Instances.RecognizerViewModel.ProcRecruitMsg(details);
         }
 
         private void ProcVideoRecMsg(JObject details)
@@ -1124,6 +1143,50 @@ namespace MaaWpfGui.Main
 
         private static readonly bool ForcedReloadResource = File.Exists("DEBUG") || File.Exists("DEBUG.txt");
 
+
+        /// <summary>
+        /// 检查端口是否有效。
+        /// </summary>
+        /// <param name="address">连接地址。</param>
+        /// <returns>是否有效。</returns>
+        public bool IfPortEstablished(string address)
+        {
+            if (string.IsNullOrEmpty(address))
+            {
+                return false;
+            }
+
+            // normal -> [host]:[port]
+            // LDPlayer -> emulator-[port]
+            string[] address_ = address.Contains(":") ? address.Split(':') : address.Split('-');
+            string host = address_[0].Equals("emulator") ? "127.0.0.1" : address_[0];
+            int port = int.Parse(address_[1]);
+
+            using (var client = new TcpClient())
+            {
+                try
+                {
+                    IAsyncResult result = client.BeginConnect(host, port, null, null);
+                    bool success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(.5));
+
+                    if (success)
+                    {
+                        client.EndConnect(result);
+                        return true;
+                    }
+                    else
+                    {
+                        client.Close();
+                        return false;
+                    }
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+
         /// <summary>
         /// 连接模拟器。
         /// </summary>
@@ -1134,24 +1197,51 @@ namespace MaaWpfGui.Main
             if (Instances.SettingsViewModel.AutoDetectConnection)
             {
                 string bsHvAddress = Instances.SettingsViewModel.TryToSetBlueStacksHyperVAddress();
-                if (bsHvAddress != null)
+                bool adbConfResult = Instances.SettingsViewModel.DetectAdbConfig(ref error);
+
+                if (String.Equals(Instances.SettingsViewModel.ConnectAddress, bsHvAddress))
                 {
-                    Instances.SettingsViewModel.ConnectAddress = bsHvAddress;
+                    // 防止bsHvAddress和connectAddress重合
+                    bsHvAddress = String.Empty;
                 }
-                else if (!Instances.SettingsViewModel.DetectAdbConfig(ref error))
+
+                // tcp连接测试端口是否有效，超时时间500ms
+                bool adbResult = IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
+                bool bsResult = IfPortEstablished(bsHvAddress);
+
+                // 枚举所有情况
+                if (adbResult && bsResult)
                 {
+                    // 2 connections(s)
+                    error = LocalizationHelper.GetString("EmulatorTooMany");
                     return false;
+                }
+                else if (adbResult || bsResult)
+                {
+                    // 1 connections(s)
+                    Instances.SettingsViewModel.ConnectAddress = adbResult ? Instances.SettingsViewModel.ConnectAddress : bsHvAddress;
+                    error = string.Empty;
+                }
+                else
+                {
+                    // 0 connections(s)
+                    if (!adbConfResult)
+                    {
+                        return false;
+                    }
                 }
             }
 
             if (connected && connectedAdb == Instances.SettingsViewModel.AdbPath &&
                 connectedAddress == Instances.SettingsViewModel.ConnectAddress)
             {
+                _logger.Information($"Already connected to {connectedAdb} {connectedAddress}");
                 if (!ForcedReloadResource)
                 {
                     return true;
                 }
 
+                _logger.Information("Forced reload resource");
                 if (!LoadResource())
                 {
                     error = "Load Resource Failed";
@@ -1165,12 +1255,6 @@ namespace MaaWpfGui.Main
                 });
 
                 return true;
-            }
-
-            if (!LoadResource())
-            {
-                error = "Load Resource Failed";
-                return false;
             }
 
             bool ret = AsstConnect(_handle, Instances.SettingsViewModel.AdbPath, Instances.SettingsViewModel.ConnectAddress, Instances.SettingsViewModel.ConnectConfig);
@@ -1537,7 +1621,7 @@ namespace MaaWpfGui.Main
         /// <list type="bullet">
         ///     <item>
         ///         <term><c>0</c></term>
-        ///         <description>刷蜡烛，尽可能稳定的打更多层数。</description>
+        ///         <description>刷蜡烛，尽可能稳定地打更多层数。</description>
         ///     </item>
         ///     <item>
         ///         <term><c>1</c></term>

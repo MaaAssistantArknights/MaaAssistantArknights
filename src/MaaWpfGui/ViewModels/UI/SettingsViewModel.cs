@@ -21,6 +21,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Management;
+using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
@@ -43,6 +44,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
+using Windows.Devices.Geolocation;
 using ComboBox = System.Windows.Controls.ComboBox;
 using Timer = System.Timers.Timer;
 
@@ -121,8 +123,7 @@ namespace MaaWpfGui.ViewModels.UI
                     MessageBoxButton.OK,
                     iconKey: "HangoverGeometry",
                     iconBrushKey: "PallasBrush");
-                Application.Current.Shutdown();
-                Bootstrapper.RestartApplication();
+                Bootstrapper.ShutdownAndRestartWithOutArgs();
             }
 
             runningState = RunningState.Instance;
@@ -975,8 +976,7 @@ namespace MaaWpfGui.ViewModels.UI
                 SetAndNotify(ref _currentConfiguration, value);
                 ConfigurationHelper.SwitchConfiguration(value);
 
-                Application.Current.Shutdown();
-                Bootstrapper.RestartApplication();
+                Bootstrapper.ShutdownAndRestartWithOutArgs();
             }
         }
 
@@ -2462,6 +2462,13 @@ namespace MaaWpfGui.ViewModels.UI
         };
 
         /// <summary>
+        /// RegisterKey of Bluestacks_Nxt
+        /// </summary>
+        public static string BluestacksNxtRegistryKey = @"SOFTWARE\BlueStacks_nxt";
+        public static string BluestacksNxtValueName = "UserDefinedDir";
+
+
+        /// <summary>
         /// Refreshes ADB config.
         /// </summary>
         /// <param name="error">Errors when doing this operation.</param>
@@ -2526,6 +2533,33 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Get the path of bluestacks.conf
+        /// </summary>
+        /// <returns>path</returns>
+        public static string GetBluestacksConfig()
+        {
+            var conf = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigPath, string.Empty);
+            if (!string.IsNullOrEmpty(conf))
+            {
+                return conf;
+            }
+
+            using (RegistryKey key = Registry.LocalMachine.OpenSubKey(BluestacksNxtRegistryKey))
+            {
+                if (key != null)
+                {
+                    object value = key.GetValue(BluestacksNxtValueName);
+                    if (value != null)
+                    {
+                        return (string)value + "\\bluestacks.conf";
+                    }
+                }
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -2607,7 +2641,7 @@ namespace MaaWpfGui.ViewModels.UI
             rvm.WindowTitle = $"{prefix}MAA ({CurrentConfiguration}) - {VersionId}{poolString} - {connectConfigName} ({ConnectAddress}) - {ClientName}";
         }
 
-        private readonly string _bluestacksConfig = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigPath, string.Empty);
+        private readonly string _bluestacksConfig = GetBluestacksConfig();
         private string _bluestacksKeyWord = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigKeyword, string.Empty);
 
         /// <summary>
@@ -3003,8 +3037,7 @@ namespace MaaWpfGui.ViewModels.UI
                     MessageBoxImage.Question);
                 if (result == MessageBoxResult.OK)
                 {
-                    Application.Current.Shutdown();
-                    Bootstrapper.RestartApplication();
+                    Bootstrapper.ShutdownAndRestartWithOutArgs();
                 }
                 */
             }
@@ -3138,8 +3171,7 @@ namespace MaaWpfGui.ViewModels.UI
                     cancel: FormatText("{0}({1})", "ManualRestart"));
                 if (result == MessageBoxResult.OK)
                 {
-                    Application.Current.Shutdown();
-                    Bootstrapper.RestartApplication();
+                    Bootstrapper.ShutdownAndRestartWithOutArgs();
                 }
 
                 SetAndNotify(ref _language, value);
@@ -3208,8 +3240,7 @@ namespace MaaWpfGui.ViewModels.UI
                 iconBrushKey: "PallasBrush");
             if (result == MessageBoxResult.OK)
             {
-                Application.Current.Shutdown();
-                Bootstrapper.RestartApplication();
+                Bootstrapper.ShutdownAndRestartWithOutArgs();
             }
         }
 

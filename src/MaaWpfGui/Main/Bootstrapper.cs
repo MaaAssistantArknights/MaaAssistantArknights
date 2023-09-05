@@ -12,8 +12,10 @@
 // </copyright>
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Security.Principal;
 using System.Windows;
 using System.Windows.Threading;
 using GlobalHotKey;
@@ -105,6 +107,10 @@ namespace MaaWpfGui.Main
             _logger.Information("MaaAssistantArknights GUI started");
             _logger.Information("Maa ENV: {MaaEnv}", maaEnv);
             _logger.Information("User Dir {CurrentDirectory}", Directory.GetCurrentDirectory());
+            if (IsUserAdministrator())
+            {
+                _logger.Information("Run as Administrator");
+            }
             _logger.Information("===================================");
 
             try
@@ -131,6 +137,15 @@ namespace MaaWpfGui.Main
             base.OnStart();
             ConfigurationHelper.Load();
             LocalizationHelper.Load();
+        }
+
+        private static bool IsUserAdministrator()
+        {
+            WindowsIdentity identity = WindowsIdentity.GetCurrent();
+            WindowsPrincipal principal = new WindowsPrincipal(identity);
+            SecurityIdentifier adminSid = new SecurityIdentifier(WellKnownSidType.BuiltinAdministratorsSid, null);
+
+            return principal.IsInRole(adminSid);
         }
 
         /// <inheritdoc/>
@@ -205,6 +220,9 @@ namespace MaaWpfGui.Main
             base.OnExit(e);
         }
 
+        /// <summary>
+        /// 会带参数重启，切换配置等操作会切换回去
+        /// </summary>
         public static void RestartApplication()
         {
             //// 释放互斥量
@@ -219,6 +237,21 @@ namespace MaaWpfGui.Main
             // 有时候软件自重启时 gui.log 会无法正常写入
             Log.CloseAndFlush();
             System.Windows.Forms.Application.Restart();
+        }
+
+        /// <summary>
+        /// 重启，不带参数
+        /// </summary>
+        public static void ShutdownAndRestartWithOutArgs()
+        {
+            Application.Current.Shutdown();
+            Log.CloseAndFlush();
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                FileName = System.Windows.Forms.Application.ExecutablePath,
+            };
+
+            Process.Start(startInfo);
         }
 
         /// <inheritdoc/>

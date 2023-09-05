@@ -373,6 +373,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         // ReSharper disable once IdentifierTypo
+        // ReSharper disable once UnusedMember.Global
         public enum Downloader
         {
             /// <summary>
@@ -390,6 +391,23 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 IsFirstBootAfterUpdate = false;
                 Instances.WindowManager.ShowWindow(this);
+                if (false) // _curVersion == "v4.23.0"
+                {
+                    var result = MessageBoxHelper.Show(
+                    LocalizationHelper.GetString("Dotnet8"),
+                    LocalizationHelper.GetString("Dotnet8Caption"),
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Information);
+                    switch (result)
+                    {
+                        case MessageBoxResult.No:
+                            Instances.SettingsViewModel.AutoDownloadUpdatePackage = false;
+                            break;
+                        case MessageBoxResult.Yes:
+                            Process.Start("https://dotnet.microsoft.com/download/dotnet/8.0/runtime");
+                            break;
+                    }
+                }
             }
             else
             {
@@ -614,11 +632,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 await _runningState.UntilIdleAsync(60000);
 
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    Application.Current.Shutdown();
-                    Bootstrapper.RestartApplication();
-                });
+                Application.Current.Dispatcher.Invoke(Bootstrapper.ShutdownAndRestartWithOutArgs);
                 return;
             }
 
@@ -629,8 +643,7 @@ namespace MaaWpfGui.ViewModels.UI
                 MessageBoxImage.Question);
             if (result == MessageBoxResult.OK)
             {
-                Application.Current.Shutdown();
-                Bootstrapper.RestartApplication();
+                Bootstrapper.ShutdownAndRestartWithOutArgs();
             }
         }
 

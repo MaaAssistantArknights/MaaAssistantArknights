@@ -49,7 +49,8 @@ namespace MaaWpfGui.ViewModels.UI
             ActiveItem = Instances.TaskQueueViewModel;
         }
 
-        private bool CheckAndUpdateNow()
+        // ReSharper disable once UnusedMethodReturnValue.Local
+        private static bool CheckAndUpdateNow()
         {
             return Instances.VersionUpdateViewModel.CheckAndUpdateNow();
         }
@@ -74,11 +75,6 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get => _showCloseButton;
             set => SetAndNotify(ref _showCloseButton, value);
-        }
-
-        protected override void OnInitialActivate()
-        {
-            base.OnInitialActivate();
         }
 
         /// <inheritdoc/>

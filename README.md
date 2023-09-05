@@ -78,6 +78,10 @@ MAA 的意思是 MAA Assistant Arknights
 目前国际服（美服）、日服、韩服、繁中服的绝大部分功能均已支持。但由于外服用户较少及项目人手不足，很多功能并没有进行全面的测试，所以请自行体验。  
 若您遇到了 Bug，或对某个功能有强需求，欢迎在 [Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) 和 [讨论区](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更；或加入我们一起建设 MAA！请参考 [外服适配教程](#外服适配)
 
+### CLI支持
+
+MAA 支持命令行界面（CLI）操作，支持 Linux 和 macOS，可用于自动化脚本或在无图形界面的服务器上使用。请参考 [CLI 使用指南](https://maa.plus/docs/1.6-CLI使用指南.html)
+
 ## 加入我们
 
 ### 主要关联项目
@@ -127,6 +131,7 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 - [Java HTTP 接口](src/Java/Readme.md)
 - [Rust 接口](src/Rust/src/maa_sys/)：[HTTP 接口](src/Rust)
 - [TypeScript 接口](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
+- [Woolang 接口](src/Woolang/maa.wo)：[集成示例](src/Woolang/main.wo)
 - [集成文档](https://maa.plus/docs/3.1-集成文档.html)
 - [回调消息协议](https://maa.plus/docs/3.2-回调消息协议.html)
 - [任务流程协议](https://maa.plus/docs/3.4-任务流程协议.html)
