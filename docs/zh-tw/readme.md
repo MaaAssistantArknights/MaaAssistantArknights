@@ -61,7 +61,7 @@ MAA 的意思是 MAA Assistant Arknights
 ### 基本說明
 
 1. 請根據 [模擬器支援情況](./1.3-模擬器支援.md)，進行對應的操作。
-2. 修改模擬器分辨率為 `16:9` 比例，最低 `1280 * 720`，更高不限。
+2. 修改模擬器解析度為 `16:9` 比例，最低 `1280 * 720`，更高不限。
 3. 開始使用吧！
 
 更多使用說明請參考 [詳細介紹](./1.1-詳細介紹.md)
@@ -143,7 +143,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 2. 使用 Visual Studio 2022 打開 `MAA.sln`，右鍵 `MaaWpfGui`，設為啟動項目
 3. VS 上方配置選擇 `RelWithDebInfo`, `x64` （如果編譯 Release 包 或 ARM 平台，請忽略這步）
-4. 右鍵 `MaaWpfGui` - 屬性 - 調試 - 啟用本地調試（這樣就能把斷點掛到 C++ Core 那邊了）
+4. 右鍵 `MaaWpfGui` - 屬性 - 偵錯 - 啟用本地偵錯（這樣就能把斷點掛到 C++ Core 那邊了）
 5. （可選）若準備提交 PR，建議啟用 [clang-format 支援](./2.2-開發相關.md#在-visual-studio-中啟用-clang-format)
 
 ### Linux | macOS
@@ -161,7 +161,7 @@ MAA 的意思是 MAA Assistant Arknights
 - [Rust 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust/src/maa_sys) ： [HTTP 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust)
 - [TypeScript 接口](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
 - [集成文件](./3.1-集成文件.md)
-- [回調訊息協議](./3.2-回調訊息協議.md)
+- [回呼訊息協議](./3.2-回呼訊息協議.md)
 - [任務流程協議](./3.4-任務流程協議.md)
 - [自動抄作業協議](./3.3-戰鬥流程協議.md)
 
