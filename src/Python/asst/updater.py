@@ -12,6 +12,8 @@ from urllib.request import Request
 from .asst import Asst
 from .utils import Version
 
+from . import downloader
+
 
 class Updater:
     headers = {
@@ -103,7 +105,7 @@ class Updater:
         pre[0] = pre[0][1:]
         if sub:
             sub = sub.split('.')
-            #舍弃版本类型后的字符，避免使用内测版本而出现字母无法转换成数字的情况 XD
+            # 舍弃版本类型后的字符，避免使用内测版本而出现字母无法转换成数字的情况 XD
             for i in range(len(sub)):
                 if sub[i].startswith('alpha') or sub[i].startswith('beta') or sub[i].startswith('rc'):
                     sub = sub[:2]
@@ -181,7 +183,7 @@ class Updater:
 
         for cur_assets in release_assets:
             name = cur_assets['name'].lower()
-            if 'ota' in name and 'win' in name and f'{self.cur_version}_{self.latest_version}' in name:
+            if all(substring in name for substring in ['ota', 'win', f'{self.cur_version}_{self.latest_version}']):
                 self.assets_object = cur_assets
                 break
         return True
@@ -223,21 +225,15 @@ class Updater:
             return False
 
         # 下载
-        replace_list = [
-            ('github.com', 'ota.maa.plus'),
-            ('github.com', 'download.fastgit.org')
-        ]
-        for i in range(max_retry):
-            url = self.assets_object['browser_download_url']
-            file = os.path.join(self.path, url.split('/')[-1])
-
-            replace_attempt = replace_list[i % len(replace_list)]
-            url = url.replace(replace_attempt[0], replace_attempt[1])
+        mirror_list = ['github.com', 'ota.maa.plus', 'download.fastgit.org']
+        url = self.assets_object['browser_download_url']
+        file = os.path.join(self.path, url.split('/')[-1])
+        url_list = [url.replace('github.com', replace_mirror) for replace_mirror in mirror_list]
+        for retry_frequency in range(max_retry):
             try:
-                Updater.custom_print(f'开始下载更新包，URL：{url}')
-                request.urlretrieve(url, file)
-                break
-            except (HTTPError, URLError) as e:
+                Updater.custom_print("开始下载" + (f"，第{retry_frequency}次尝试" if retry_frequency > 1 else ""))
+                downloader.file_download(download_url_list=url_list, download_path=file)
+            except(HTTPError, URLError) as e:
                 Updater.custom_print(e)
 
         # 解压
