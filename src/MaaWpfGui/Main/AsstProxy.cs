@@ -15,7 +15,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -1104,6 +1103,13 @@ namespace MaaWpfGui.Main
 
                 case "SanityBeforeStage":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CurrentSanity") + $" {subTaskDetails["sanity"]} ");
+                    break;
+
+                case "StageQueueUnableToAgent":
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails["stage_code"]} " + LocalizationHelper.GetString("UnableToAgent"), UiLogColor.Info);
+                    break;
+                case "StageQueueMissionCompleted":
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails["stage_code"]}   {subTaskDetails["stars"]}★", UiLogColor.Info);
                     break;
             }
         }
