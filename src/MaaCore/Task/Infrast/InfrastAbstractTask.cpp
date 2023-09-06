@@ -136,6 +136,7 @@ bool asst::InfrastAbstractTask::is_use_custom_opers()
 }
 
 /// @brief 按技能排序->清空干员->选择定制干员->按指定顺序排序
+/// @param is_dorm_order 当前房间是不是宿舍
 bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order)
 {
     LogTraceFunction;
@@ -168,14 +169,17 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
     bool retried = false;
     bool pre_result_no_changes = false;
     int swipe_times = 0;
+
     while (true) {
         if (need_exit()) {
             return false;
         }
         std::vector<std::string> partial_result;
+        // 选择自定义干员，同时输出每一页的干员列表
         if (!select_custom_opers(partial_result)) {
             return false;
         }
+        // 选完人 / 名单已空
         if (static_cast<size_t>(room_config.selected) >= max_num_of_opers() ||
             (room_config.names.empty() && room_config.candidates.empty())) {
             break;
@@ -347,8 +351,8 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
         if (auto iter = ranges::find(room_config.names, name); iter != room_config.names.end()) {
             room_config.names.erase(iter);
         }
-        else if (max_num_of_opers() - room_config.selected >
-                 room_config.names.size()) { // names中的数量，比剩余的空位多，就可以选备选的
+        else if (max_num_of_opers() - room_config.selected > room_config.names.size()) {
+            // names中的数量，比剩余的空位多，就可以选备选的
             if (auto candd_iter = ranges::find(room_config.candidates, name);
                 candd_iter != room_config.candidates.end()) {
                 room_config.candidates.erase(candd_iter);
@@ -365,6 +369,36 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
         }
         if (static_cast<size_t>(++room_config.selected) >= max_num_of_opers()) {
             break;
+        }
+    }
+    return true;
+}
+
+bool asst::InfrastAbstractTask::get_opers(std::vector<std::string>& result, double mood)
+{
+    LogTraceFunction;
+
+    const auto image = ctrler()->get_image();
+    InfrastOperImageAnalyzer oper_analyzer(image);
+    oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Mood);
+    if (!oper_analyzer.analyze()) {
+        Log.warn(__FUNCTION__, "No oper");
+        return false;
+    }
+    oper_analyzer.sort_by_loc();
+
+    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
+    for (const auto& oper : oper_analyzer.get_result()) {
+        RegionOCRer name_analyzer;
+        name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
+        name_analyzer.set_image(oper.name_img);
+        name_analyzer.set_bin_expansion(0);
+        if (!name_analyzer.analyze()) {
+            continue;
+        }
+        std::string name = name_analyzer.get_result().text;
+        if (oper.mood_ratio >= mood) {
+            result.emplace_back(std::move(name));
         }
     }
     return true;

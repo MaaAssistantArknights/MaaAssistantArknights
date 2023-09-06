@@ -170,6 +170,18 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
     }
     auto& cur_plan = all_plans.at(index);
 
+    // 录入干员编组
+    std::unordered_map<std::string, std::vector<std::string>> ori_operator_groups;
+    if (auto opt = cur_plan.find<json::array>("groups")) {
+        for (const auto& group_info : opt.value()) {
+            std::vector<std::string> oper_group;
+            for (const auto& oper_info : group_info.at("operators").as_array()) {
+                oper_group.emplace_back(oper_info.as_string());
+            }
+            ori_operator_groups.emplace(group_info.at("name").as_string(), std::move(oper_group));
+        }
+    }
+
     for (const auto& [facility, facility_info] : cur_plan.at("rooms").as_object()) {
         infrast::CustomFacilityConfig facility_config;
 
@@ -178,6 +190,8 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
             room_config.skip = room_info.get("skip", false);
             room_config.autofill = room_info.get("autofill", false);
             room_config.sort = room_info.get("sort", false);
+            room_config.use_operator_groups = room_info.get("use_operator_groups", false);
+
             static std::unordered_map<std::string, infrast::CustomRoomConfig::Product> ProductNames = {
                 { "Battle Record", infrast::CustomRoomConfig::Product::BattleRecord },
                 { "Pure Gold", infrast::CustomRoomConfig::Product::PureGold },
@@ -197,6 +211,7 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
                 }
             }
 
+            // 设置干员
             if (auto opers_opt = room_info.find<json::array>("operators")) {
                 for (const auto& oper_name : opers_opt.value()) {
                     std::string name = oper_name.as_string();
@@ -206,7 +221,21 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
                     }
                     room_config.names.emplace_back(std::move(name));
                 }
+                if (room_config.use_operator_groups) {
+                    // 将引用了的干员编组，装载到对应房间配置
+                    // name数组此后可以作废
+                    std::set<std::string> name_set;
+                    name_set.insert(room_config.names.begin(), room_config.names.end());
+                    ranges::for_each(ori_operator_groups,
+                                     [name_set, &room_config](std::pair<std::string, std::vector<std::string>> pair) {
+                                         if (name_set.contains(pair.first)) {
+                                             room_config.operator_groups.emplace_back(pair.second);
+                                         }
+                                     });
+                }
             }
+
+            // 备选干员
             if (auto candidates_opt = room_info.find<json::array>("candidates")) {
                 for (const auto& candidate_name : candidates_opt.value()) {
                     std::string name = candidate_name.as_string();
@@ -220,6 +249,7 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
             facility_config.emplace_back(std::move(room_config));
         }
 
+        // 不同类型建筑配置
         if (facility == "control") {
             m_control_task_ptr->set_custom_config(facility_config);
         }
@@ -247,6 +277,7 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         }
     }
 
+    // 菲亚梅塔
     bool Fia_is_pre = false;
     do {
         auto Fia_opt = cur_plan.find<json::object>("Fiammetta");
@@ -292,6 +323,7 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         }
     } while (false);
 
+    // 无人机
     do {
         auto drones_opt = cur_plan.find<json::object>("drones");
         if (!drones_opt) {

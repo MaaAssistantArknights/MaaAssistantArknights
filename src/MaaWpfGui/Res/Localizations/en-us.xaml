@@ -80,7 +80,7 @@
     <system:String x:Key="SecondResolution">2nd Resolution</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">General Mode (Blocked exception output)</system:String>
     <system:String x:Key="DormThreshold">Morale Threshold</system:String>
-    <system:String x:Key="InfrastThresholdTip">If custom shift is enabled, this field is only valid for autofilled rooms</system:String>
+    <system:String x:Key="InfrastThresholdTip">If custom shifts are enabled, this field is only valid for rooms with autofill and operator groups</system:String>
     <system:String x:Key="RoguelikeStrategyExp">Gains Experience Points, clears as many nodes as possible</system:String>
     <system:String x:Key="RoguelikeStrategyGold">Invests coins, exits after arriving at the second floor</system:String>
     <!-- system:String x:Key="RoguelikeLastReward">Fight to obtain starting rewards, reach the third floor then exit</system:String -->
