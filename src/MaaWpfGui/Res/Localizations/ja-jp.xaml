@@ -73,7 +73,7 @@
     <system:String x:Key="SecondResolution">2番目の決議</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">一般モード（ブロックされた例外出力）</system:String>
     <system:String x:Key="DormThreshold">体力が設定した%以下になれば宿舎へ移動する</system:String>
-    <system:String x:Key="InfrastThresholdTip">カスタムシフトが有効な場合、この項目は自動入力された部屋に対してのみ有効です</system:String>
+    <system:String x:Key="InfrastThresholdTip">カスタム シフトが有効な場合、このフィールドは自動入力とオペレーター グループのあるルームに対してのみ有効です</system:String>
     <system:String x:Key="RoguelikeStrategyExp">経験値を取得し、できるだけクリア</system:String>
     <system:String x:Key="RoguelikeStrategyGold">源石錐の収集、2階到着後終了</system:String>
     <!-- system:String x:Key="RoguelikeLastReward">序盤の報酬を得るために戦い、3階到着後終了</system:String -->
