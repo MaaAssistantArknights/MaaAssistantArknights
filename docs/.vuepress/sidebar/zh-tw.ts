@@ -52,7 +52,7 @@ export const zhtwSidebar = sidebar({
       ],
     },
     {
-      text: "開發文檔",
+      text: "開發文件",
       icon: "ph:code-bold",
       collapsible: true,
       children: [
