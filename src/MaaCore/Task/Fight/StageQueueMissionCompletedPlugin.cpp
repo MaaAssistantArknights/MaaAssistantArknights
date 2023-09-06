@@ -25,9 +25,14 @@ bool asst::StageQueueMissionCompletedPlugin::verify(AsstMsg msg, const json::val
     }
 }
 
-void asst::StageQueueMissionCompletedPlugin::set_drop_stats(std::unordered_map<std::string, int>* drop_stats)
+void asst::StageQueueMissionCompletedPlugin::set_drop_stats(std::unordered_map<std::string, int> drop_stats)
 {
-    m_drop_stats = drop_stats;
+    m_drop_stats = std::move(drop_stats);
+}
+
+std::unordered_map<std::string, int> asst::StageQueueMissionCompletedPlugin::get_drop_stats()
+{
+    return m_drop_stats;
 }
 
 bool asst::StageQueueMissionCompletedPlugin::_run()
@@ -76,15 +81,10 @@ void asst::StageQueueMissionCompletedPlugin::drop_info_callback(std::string stag
 {
     LogTraceFunction;
 
-    if (m_drop_stats == nullptr) {
-        Log.error(__FUNCTION__, "drop stats is not initialized");
-        return;
-    }
-
     std::unordered_map<std::string, int> cur_drops_count;
     std::vector<json::value> drops_vec;
     for (const auto& drop : analyzer.get_drops()) {
-        (*m_drop_stats)[drop.item_id] += drop.quantity;
+        m_drop_stats[drop.item_id] += drop.quantity;
         cur_drops_count.emplace(drop.item_id, drop.quantity);
         json::value info;
         info["itemId"] = drop.item_id;
@@ -95,7 +95,7 @@ void asst::StageQueueMissionCompletedPlugin::drop_info_callback(std::string stag
     }
 
     std::vector<json::value> stats_vec;
-    for (auto&& [id, count] : *m_drop_stats) {
+    for (auto&& [id, count] : m_drop_stats) {
         json::value info;
         info["itemId"] = id;
         const std::string& name = ItemData.get_item_name(id);
