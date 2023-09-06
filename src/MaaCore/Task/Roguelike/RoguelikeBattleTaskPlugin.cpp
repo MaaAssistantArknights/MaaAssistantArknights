@@ -380,12 +380,10 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
                 return true;
             }
             deploy_oper(deploy_plan.oper_name, deploy_plan.placed, deploy_plan.direction);
+            const auto& oper_info = RoguelikeRecruit.get_oper_info(rogue_theme, deploy_plan.oper_name);
+            m_skill_usage[deploy_plan.oper_name] = oper_info.skill_usage;
+            m_skill_times[deploy_plan.oper_name] = oper_info.skill_times;
             Log.trace("    best deploy is", deploy_plan.oper_name, "with rank", deploy_plan.rank);
-            auto skill_usage_opt = status()->get_number(Status::RoguelikeSkillUsagePrefix + deploy_plan.oper_name);
-            m_skill_usage[deploy_plan.oper_name] =
-                skill_usage_opt ? static_cast<SkillUsage>(*skill_usage_opt) : SkillUsage::Possibly;
-            auto skill_times_opt = status()->get_number(Status::RoguelikeSkillTimesPrefix + deploy_plan.oper_name);
-            m_skill_times[deploy_plan.oper_name] = skill_times_opt ? static_cast<int>(*skill_times_opt) : 1;
             return true;
         }
     }
@@ -484,11 +482,10 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
 
         m_first_deploy = false;
 
-        auto skill_usage_opt = status()->get_number(Status::RoguelikeSkillUsagePrefix + best_oper.name);
-        m_skill_usage[best_oper.name] =
-            skill_usage_opt ? static_cast<SkillUsage>(*skill_usage_opt) : SkillUsage::Possibly;
-        auto skill_times_opt = status()->get_number(Status::RoguelikeSkillTimesPrefix + best_oper.name);
-        m_skill_times[best_oper.name] = skill_times_opt ? static_cast<int>(*skill_times_opt) : 1;
+        const auto& oper_info = RoguelikeRecruit.get_oper_info(
+            status()->get_properties(Status::RoguelikeTheme).value(), best_oper.name);
+        m_skill_usage[best_oper.name] = oper_info.skill_usage;
+        m_skill_times[best_oper.name] = oper_info.skill_times;
 
         if (urgent_home_opt) {
             m_urgent_home_index.pop_front();
