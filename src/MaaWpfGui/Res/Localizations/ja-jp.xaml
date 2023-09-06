@@ -88,7 +88,7 @@
     <system:String x:Key="KillAdbOnExit">終了時にADBを終了する</system:String>
     <system:String x:Key="DefaultSquad">デフォルト</system:String>
     <system:String x:Key="IS2NewSquad1">ものより心分隊</system:String>
-    <system:String x:Key="IS2NewSquad2">物最大限に活用分隊</system:String>
+    <system:String x:Key="IS2NewSquad2">最大活用分隊</system:String>
     <system:String x:Key="IS2NewSquad3">人間本位分隊</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集団分隊</system:String>
