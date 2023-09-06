@@ -159,7 +159,6 @@
                     "recruit_priority": 720,
                     "promote_priority": 400,
                     "is_start": true,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -169,7 +168,7 @@
                                 "重装"
                             ],
                             "threshold": 1,
-                            "offset": -400
+                            "offset": -300
                         }
                     ]
                 },
@@ -1025,7 +1024,6 @@
                     "skill": 1,
                     "recruit_priority": 699,
                     "promote_priority": 590,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -1448,11 +1446,12 @@
         },
         {
             "name": "浊心斯卡蒂",
-            "is_key": true,
             "opers": [
                 {
                     "name": "浊心斯卡蒂",
                     "skill": 2,
+
+                    "is_key": true,
                     "recruit_priority": 727,
                     "promote_priority": 710,
                     "recruit_priority_offsets": [
