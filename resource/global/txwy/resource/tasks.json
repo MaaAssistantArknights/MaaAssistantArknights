@@ -1325,11 +1325,6 @@
         ]
     },
     "ExpiringMedicineCheck": {
-        "text": [
-            "分鐘",
-            "小時",
-            "1天"
-        ],
         "ocrReplace": [
             [
                 ".+小時",
@@ -1347,6 +1342,11 @@
                 "^\\d+分$",
                 "分鐘"
             ]
+        ],
+        "text": [
+            "分鐘",
+            "小時",
+            "1天"
         ]
     },
     "FightMissionFailed": {
@@ -1361,8 +1361,8 @@
     },
     "GoLastBattle": {
         "text": [
-			"前往上一次作戰",
-			"作戰"
+            "前往上一次作戰",
+            "作戰"
         ]
     },
     "StartRecruit": {
@@ -1423,9 +1423,9 @@
     },
     "Mall": {
         "text": [
-			"採",
-			"採購",
-			"中心"
+            "採",
+            "採購",
+            "中心"
         ]
     },
     "VisitLimited": {
@@ -2155,9 +2155,9 @@
         ]
     },
     "Roguelike@ChooseDifficultyConfirm": {
-        "text": [ 
-			"選擇"
-		]
+        "text": [
+            "選擇"
+        ]
     },
     "Roguelike@FromIntegratedStrategies": {
         "text": [
@@ -2592,8 +2592,8 @@
     },
     "Mizuki@Roguelike@ChooseDifficultyConfirm": {
         "text": [
-			"選擇"
-		]
+            "選擇"
+        ]
     },
     "Mizuki@Roguelike@LevelName_mode4": {
         "text": [

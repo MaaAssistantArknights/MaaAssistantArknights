@@ -284,6 +284,17 @@
                 "香槟炸弹"
             ]
         },
+        "char_1034_jesca2": {
+            "name": "涤火杰西卡",
+            "position": "MELEE",
+            "profession": "TANK",
+            "rangeId": [
+                "2-2",
+                "2-2",
+                "2-2"
+            ],
+            "rarity": 6
+        },
         "char_103_angel": {
             "name": "能天使",
             "position": "RANGED",
@@ -2732,6 +2743,28 @@
             ],
             "rarity": 5
         },
+        "char_4104_coldst": {
+            "name": "冰酿",
+            "position": "RANGED",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-12",
+                "4-9",
+                "4-9"
+            ],
+            "rarity": 5
+        },
+        "char_4105_almond": {
+            "name": "杏仁",
+            "position": "MELEE",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "2-2",
+                "3-2",
+                "3-2"
+            ],
+            "rarity": 5
+        },
         "char_4106_bryota": {
             "name": "苍苔",
             "position": "MELEE",
@@ -3801,6 +3834,17 @@
         },
         "token_10031_swire2_gdtrap": {
             "name": "香槟炸弹",
+            "position": "MELEE",
+            "profession": "TOKEN",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 6
+        },
+        "token_10032_jesca2_jckshd": {
+            "name": "机动盾牌",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -5127,6 +5171,17 @@
                 "x-5",
                 "x-5",
                 "x-5"
+            ],
+            "rarity": 1
+        },
+        "trap_124_eradio": {
+            "name": "废热喷口",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "5-1",
+                "5-1",
+                "5-1"
             ],
             "rarity": 1
         },
@@ -7434,6 +7489,44 @@
             [
                 3,
                 -3
+            ]
+        ],
+        "4-9": [
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                4,
+                0
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
             ]
         ],
         "5-1": [

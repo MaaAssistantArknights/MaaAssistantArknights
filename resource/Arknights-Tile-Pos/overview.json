@@ -7316,6 +7316,87 @@
         "stageId": "act27side_tr02",
         "width": 9
     },
+    "act28side_01-activities/act28side/level_act28side_01": {
+        "code": "CV-1",
+        "filename": "act28side_01-activities-act28side-level_act28side_01.json",
+        "height": 7,
+        "levelId": "activities/act28side/level_act28side_01",
+        "name": "孤独之地",
+        "stageId": "act28side_01",
+        "width": 9
+    },
+    "act28side_02-activities/act28side/level_act28side_02": {
+        "code": "CV-2",
+        "filename": "act28side_02-activities-act28side-level_act28side_02.json",
+        "height": 7,
+        "levelId": "activities/act28side/level_act28side_02",
+        "name": "双重保险",
+        "stageId": "act28side_02",
+        "width": 10
+    },
+    "act28side_03-activities/act28side/level_act28side_03": {
+        "code": "CV-3",
+        "filename": "act28side_03-activities-act28side-level_act28side_03.json",
+        "height": 8,
+        "levelId": "activities/act28side/level_act28side_03",
+        "name": "圈套",
+        "stageId": "act28side_03",
+        "width": 10
+    },
+    "act28side_04-activities/act28side/level_act28side_04": {
+        "code": "CV-4",
+        "filename": "act28side_04-activities-act28side-level_act28side_04.json",
+        "height": 7,
+        "levelId": "activities/act28side/level_act28side_04",
+        "name": "缺席的人",
+        "stageId": "act28side_04",
+        "width": 11
+    },
+    "act28side_05-activities/act28side/level_act28side_05": {
+        "code": "CV-5",
+        "filename": "act28side_05-activities-act28side-level_act28side_05.json",
+        "height": 7,
+        "levelId": "activities/act28side/level_act28side_05",
+        "name": "疑惑之影",
+        "stageId": "act28side_05",
+        "width": 10
+    },
+    "act28side_06-activities/act28side/level_act28side_06": {
+        "code": "CV-6",
+        "filename": "act28side_06-activities-act28side-level_act28side_06.json",
+        "height": 8,
+        "levelId": "activities/act28side/level_act28side_06",
+        "name": "猎人之夜",
+        "stageId": "act28side_06",
+        "width": 11
+    },
+    "act28side_07-activities/act28side/level_act28side_07": {
+        "code": "CV-7",
+        "filename": "act28side_07-activities-act28side-level_act28side_07.json",
+        "height": 8,
+        "levelId": "activities/act28side/level_act28side_07",
+        "name": "白热",
+        "stageId": "act28side_07",
+        "width": 12
+    },
+    "act28side_08-activities/act28side/level_act28side_08": {
+        "code": "CV-8",
+        "filename": "act28side_08-activities-act28side-level_act28side_08.json",
+        "height": 9,
+        "levelId": "activities/act28side/level_act28side_08",
+        "name": "告别往昔",
+        "stageId": "act28side_08",
+        "width": 13
+    },
+    "act28side_tr01-activities/act28side/level_act28side_tr01": {
+        "code": "CV-TR-1",
+        "filename": "act28side_tr01-activities-act28side-level_act28side_tr01.json",
+        "height": 7,
+        "levelId": "activities/act28side/level_act28side_tr01",
+        "name": "城市热战",
+        "stageId": "act28side_tr01",
+        "width": 9
+    },
     "act2bossrush_01-activities/act2bossrush/level_bossrush2_01": {
         "code": "TN-1",
         "filename": "act2bossrush_01-activities-act2bossrush-level_bossrush2_01.json",
@@ -12941,6 +13022,15 @@
         "stageId": "mem_chnut_1",
         "width": 11
     },
+    "mem_crow_1-obt/memory/level_memory_crow_1": {
+        "code": "mem_crow_1",
+        "filename": "mem_crow_1-obt-memory-level_memory_crow_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_crow_1",
+        "name": "风中之羽",
+        "stageId": "mem_crow_1",
+        "width": 11
+    },
     "mem_ctable_1-obt/memory/level_memory_ctable_1": {
         "code": "mem_ctable_1",
         "filename": "mem_ctable_1-obt-memory-level_memory_ctable_1.json",
@@ -13049,6 +13139,15 @@
         "stageId": "mem_ethan_1",
         "width": 11
     },
+    "mem_excu2_1-obt/memory/level_memory_excu2_1": {
+        "code": "mem_excu2_1",
+        "filename": "mem_excu2_1-obt-memory-level_memory_excu2_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_excu2_1",
+        "name": "安全框架",
+        "stageId": "mem_excu2_1",
+        "width": 10
+    },
     "mem_excu_1-obt/memory/level_memory_excu_1": {
         "code": "mem_excu_1",
         "filename": "mem_excu_1-obt-memory-level_memory_excu_1.json",
@@ -13084,6 +13183,15 @@
         "name": "愉快合作",
         "stageId": "mem_fang_1",
         "width": 12
+    },
+    "mem_finlpp_1-obt/memory/level_memory_finlpp_1": {
+        "code": "mem_finlpp_1",
+        "filename": "mem_finlpp_1-obt-memory-level_memory_finlpp_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_finlpp_1",
+        "name": "涤净",
+        "stageId": "mem_finlpp_1",
+        "width": 9
     },
     "mem_firwhl_1-obt/memory/level_memory_firwhl_1": {
         "code": "mem_firwhl_1",

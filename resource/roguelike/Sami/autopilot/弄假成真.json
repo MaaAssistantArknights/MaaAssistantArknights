@@ -171,14 +171,14 @@
         {
             "groups": [
                 "处决者",
-                "地面阻挡",
+                "地刺",
                 "其他地面"
             ],
             "location": [
-                7,
-                6
+                3,
+                2
             ],
-            "direction": "right"
+            "direction": "left"
         }
     ]
 }

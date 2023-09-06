@@ -185,7 +185,6 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="150" />
                 </Grid.RowDefinitions>
-
                 <StackPanel>
                     <controls:TextBlock
                         Height="36"
@@ -197,7 +196,6 @@
                         Style="{StaticResource TextBlockDefaultBold}"
                         Text="{Binding DepotInfo}"
                         TextWrapping="Wrap" />
-
                 </StackPanel>
                 <DataGrid
                     Grid.Row="1"

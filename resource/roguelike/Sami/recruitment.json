@@ -12,7 +12,7 @@
                     "is_start": true,
                     "doc": "相比凯尔希，焰苇的前期费用压力更小，更适合开局，属于下限高上限低的那种",
                     "recruit_priority": 880,
-                    "promote_priority": 880
+                    "promote_priority": 980
                 }
             ]
         },
@@ -159,7 +159,6 @@
                     "recruit_priority": 720,
                     "promote_priority": 400,
                     "is_start": true,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -353,7 +352,7 @@
                 {
                     "name": "棘刺",
                     "skill": 3,
-                    "alternate_skill": 1,
+                    "alternate_skill": 2,
                     "recruit_priority": 605,
                     "promote_priority": 980,
                     "is_start": true,
@@ -468,11 +467,10 @@
                         {
                             "groups": [
                                 "重装",
-                                "凯尔希",
-                                "近卫"
+                                "凯尔希"
                             ],
                             "threshold": 2,
-                            "offset": -200
+                            "offset": -300
                         }
                     ]
                 },
@@ -529,6 +527,7 @@
                     "recruit_priority_offsets": [
                         {
                             "groups": [
+                                "凯尔希",
                                 "重装"
                             ],
                             "threshold": 2,
@@ -544,6 +543,7 @@
                     "recruit_priority_offsets": [
                         {
                             "groups": [
+                                "凯尔希",
                                 "重装"
                             ],
                             "threshold": 2,
@@ -683,7 +683,7 @@
                 {
                     "name": "涤火杰西卡",
                     "skill": 2,
-                    "recruit_priority": 563,
+                    "recruit_priority": 614,
                     "promote_priority": 650,
                     "recruit_priority_offsets": [
                         {
@@ -1024,7 +1024,6 @@
                     "skill": 1,
                     "recruit_priority": 699,
                     "promote_priority": 590,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -1447,11 +1446,12 @@
         },
         {
             "name": "浊心斯卡蒂",
-            "is_key": true,
             "opers": [
                 {
                     "name": "浊心斯卡蒂",
                     "skill": 2,
+
+                    "is_key": true,
                     "recruit_priority": 727,
                     "promote_priority": 710,
                     "recruit_priority_offsets": [
