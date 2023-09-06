@@ -177,11 +177,12 @@ bool asst::SideStoryReopenTask::fight(bool use_medicine, bool use_stone)
         .set_times_limit("StageQueue@StartButton2", 1);
 
     auto plugin = fight_task.register_plugin<StageQueueMissionCompletedPlugin>();
-    plugin->set_drop_stats(&m_drop_stats);
+    plugin->set_drop_stats(std::move(m_drop_stats));
     plugin->set_enable_penguid(m_enable_penguid);
     plugin->set_server(m_server);
     plugin->set_penguin_id(m_penguin_id);
     auto result = fight_task.run();
+    m_drop_stats = plugin->get_drop_stats();
     if (!result) {
         return false;
     }
