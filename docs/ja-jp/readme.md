@@ -1,4 +1,4 @@
-//Not Chinese Base font use Japanese(Better readability)
+<!-- 中華フォント優先のため、日本語フォント指定 / Not Chinese Base font use Japanese(Better readability) -->
 <font face="Helvetica Neue,Arial,Hiragino Kaku Gothic ProN,Hiragino Sans,Meiryo,sans-serif">
     
 <div align="center">
