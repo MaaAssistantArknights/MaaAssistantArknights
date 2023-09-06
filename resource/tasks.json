@@ -875,15 +875,15 @@
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": [
-		    "复刻"
-		],
-		"roi": [
-		    0,
-		    500,
-		    500,
-		    150
-		],
-		"postDelay": 3000
+            "复刻"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "postDelay": 3000
     },
     "StageQueue@CheckPrts": {
         "algorithm": "JustReturn",
@@ -916,24 +916,24 @@
             90
         ]
     },
-	"StageQueue": {
-		"baseTask": "Fight",
-		"template": "Terminal.png",
+    "StageQueue": {
+        "baseTask": "Fight",
+        "template": "Terminal.png",
         "maxTimes": 3,
         "exceededNext": ["Stop"],
         "next": [
             "StageQueue@GoLastBattle",
-		    "StageQueue"
+            "StageQueue"
         ],
         "postDelay": 3000
     },
     "StageQueue@GoLastBattle": {
         "next": ["StageQueue@StartButton1"]
     },
-	"StageQueue@CloseStonePage": {
+    "StageQueue@CloseStonePage": {
         "next": []
     },
-	"StageQueue@StartButton1":{
+    "StageQueue@StartButton1":{
         "Doc": "开始战斗1",
         "action": "DoNothing",
         "maxTimes": 1,
