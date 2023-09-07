@@ -32,16 +32,16 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 亮點功能
 
-- 刷理智，掉落辨識及上傳 [企鵝物流](https://penguin-stats.cn/)；
+- 刷理智，掉落辨識及上傳 [企鵝物流數據統計](https://penguin-stats.io/)；
 - 智能基建換班，自動計算幹員效率，單設施內最優解；同時也支援 [自定義排班](./3.6-基建排班協議.md)；
-- 自動公招，可選使用加急許可，一次全部刷完！公招數據上傳 [企鵝物流](https://penguin-stats.cn/result/stage/recruit/recruit) ， [一圖流](https://yituliu.site/maarecruitdata) ；
+- 自動公招，可選使用加急許可，一次全部刷完！公招數據上傳 [企鵝物流數據統計](https://penguin-stats.io/result/stage/recruit/recruit) ， [一圖流](https://yituliu.site/maarecruitdata) ；
 - 支援手動辨識公招介面，方便對高星公招做出選擇 ~~（你的這個高資回費出的是推王呢還是推王呢）~~
 - 支援辨識幹員列表，統計已有和未有幹員（還能為手動辨識公招介面提供已有潛能數據提示）；
-- 支援辨識養成材料，並可匯出至 [企鵝物流刷圖規劃](https://penguin-stats.cn/planner) 和 [明日方舟工具箱](https://arkn.lolicon.app/#/material) 計算缺少的養成材料；
+- 支援辨識養成材料，並可匯出至 [企鵝物流刷圖規劃器](https://penguin-stats.io/planner) 和 [明日方舟工具箱](https://arkn.lolicon.app/#/material) 計算缺少的養成材料；
 - 訪問好友、收取信用及購物、領取日常獎勵等，一鍵全日常自動長草；
 - 肉鴿全自動刷源石錠和蠟燭，自動辨識幹員及練度；
 - 選擇作業 JSON 文件，自動抄作業， [影片範例](https://www.bilibili.com/video/BV1H841177Fk/) ；
-- 倉庫辨識並支援匯出至 [企鵝物流刷圖規劃器](https://penguin-stats.cn/planner) ， [明日方舟工具箱](https://arkn.lolicon.app/#/material) ， [ARK-NIGHTS 幹員培養表](https://ark-nights.com/settings) ；
+- 倉庫辨識並支援匯出至 [企鵝物流刷圖規劃器](https://penguin-stats.io/planner) ， [明日方舟工具箱](https://arkn.lolicon.app/#/material) ， [ARK-NIGHTS 幹員培養表](https://ark-nights.com/settings) ；
 - 支援 C, Python, Java, Rust, Golang, Java HTTP, Rust HTTP 等多種接口，方便集成調用，自定義你的 MAA！
 
 話不多說，看圖！<br>
@@ -121,8 +121,8 @@ MAA 的意思是 MAA Assistant Arknights
 
 - ~~公開招募數據：[明日方舟工具箱](https://www.bigfun.cn/tools/aktools/hr)~~
 - ~~幹員及基建數據：[PRTS明日方舟中文WIKI](http://prts.wiki/)~~
-- 關卡數據：[企鵝物流數據統計](https://penguin-stats.cn/)
-- 遊戲數據及資源：[明日方舟客戶端素材](https://github.com/yuanyan3060/ArknightsGameResource)
+- 關卡數據：[企鵝物流數據統計](https://penguin-stats.io/)
+- 遊戲數據及資源：[明日方舟用戶端素材](https://github.com/yuanyan3060/ArknightsGameResource)
 - ~~遊戲數據：[《明日方舟》遊戲數據](https://github.com/Kengxxiao/ArknightsGameData)~~
 
 ### 貢獻 / 參與者
