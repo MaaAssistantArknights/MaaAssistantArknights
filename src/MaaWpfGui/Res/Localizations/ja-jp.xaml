@@ -531,6 +531,9 @@
     <system:String x:Key="Drop" xml:space="preserve">ドロップ: </system:String>
     <system:String x:Key="TotalDrop" xml:space="preserve">ドロップ統計: </system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">現在の施設: </system:String>
+    <system:String x:Key="RoomGroupsMatch" xml:space="preserve">グループに合わせる: </system:String>
+    <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">オペレータ グループ、グループ リストの一致に失敗しました: </system:String>
+    <system:String x:Key="RoomOperators" xml:space="preserve">優先しています: </system:String>
     <system:String x:Key="ProductIncorrect">製品が構成と一致しません。</system:String>
     <system:String x:Key="ProductUnknown">Unknown Product</system:String>
     <system:String x:Key="ProductChanged">Product has changed</system:String>

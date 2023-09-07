@@ -41,6 +41,7 @@ namespace asst
         void swipe_of_operlist();
         bool is_use_custom_opers();
         infrast::CustomRoomConfig& current_room_config();
+        bool match_operator_groups();
         bool swipe_and_select_custom_opers(bool is_dorm_order = false);
         bool select_custom_opers(std::vector<std::string>& partial_result);
         // 扫描满足心情条件的所有干员
