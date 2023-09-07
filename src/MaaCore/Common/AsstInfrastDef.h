@@ -129,7 +129,7 @@ namespace asst::infrast
         // 是否使用干员编组
         bool use_operator_groups = false;
         // 干员编组列表
-        std::vector<std::vector<std::string>> operator_groups;
+        std::unordered_map<std::string, std::vector<std::string>> operator_groups;
         // 自定干员
         std::vector<std::string> names;
         bool autofill = false;

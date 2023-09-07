@@ -85,6 +85,73 @@ asst::infrast::CustomRoomConfig& asst::InfrastAbstractTask::current_room_config(
     }
 }
 
+bool asst::InfrastAbstractTask::match_operator_groups()
+{
+    current_room_config().names.clear();
+    int swipe_times = 0;
+    bool pre_result_no_changes = false, retried = false;
+
+    std::set<std::string> oper_list;
+    std::vector<std::string> temp, pre_temp;
+    while (true) {
+        if (need_exit()) {
+            return false;
+        }
+        temp.clear();
+        if (!get_opers(temp, m_mood_threshold)) {
+            return false;
+        }
+        if (pre_temp == temp) {
+            if (pre_result_no_changes) {
+                Log.warn("partial result is not changed, reset the page");
+                if (retried) {
+                    Log.error("already retring");
+                    break;
+                }
+                swipe_to_the_left_of_operlist(swipe_times + 1);
+                swipe_times = 0;
+                retried = true;
+            }
+            else {
+                pre_result_no_changes = true;
+            }
+        }
+        else {
+            pre_result_no_changes = false;
+        }
+        oper_list.insert(temp.begin(), temp.end());
+        pre_temp = temp;
+        swipe_of_operlist();
+        swipe_times++;
+    }
+    swipe_to_the_left_of_operlist(swipe_times + 1);
+    swipe_times = 0;
+    // 筛选第一个满足要求的干员组
+    for (auto it = current_room_config().operator_groups.begin(); it != current_room_config().operator_groups.end();
+         ++it) {
+        if (ranges::all_of(it->second, [oper_list](std::string& oper) { return oper_list.contains(oper); })) {
+            current_room_config().names.insert(current_room_config().names.end(), it->second.begin(), it->second.end());
+
+            json::value sanity_info = basic_info_with_what("CustomInfrastRoomGroupsMatch");
+            sanity_info["details"]["group"] = it->first;
+            callback(AsstMsg::SubTaskExtraInfo, sanity_info);
+            break;
+        }
+    }
+    // 匹配失败，无分组可用
+    if (current_room_config().names.empty() && !current_room_config().operator_groups.empty()) {
+        json::value info = basic_info_with_what("CustomInfrastRoomGroupsMatchFailed");
+        std::vector<std::string> names;
+        ranges::for_each(
+            current_room_config().operator_groups,
+            [&names](std::pair<const std::string, std::vector<std::string>>& pair) { names.emplace_back(pair.first); });
+        info["details"]["groups"] = json::array(std::move(names));
+        callback(AsstMsg::SubTaskExtraInfo, info);
+        return false;
+    }
+    return true;
+}
+
 bool asst::InfrastAbstractTask::on_run_fails()
 {
     LogTraceFunction;

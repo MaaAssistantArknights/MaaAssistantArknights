@@ -229,7 +229,7 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
                     ranges::for_each(ori_operator_groups,
                                      [name_set, &room_config](std::pair<std::string, std::vector<std::string>> pair) {
                                          if (name_set.contains(pair.first)) {
-                                             room_config.operator_groups.emplace_back(pair.second);
+                                             room_config.operator_groups[pair.first] = std::move(pair.second);
                                          }
                                      });
                 }
