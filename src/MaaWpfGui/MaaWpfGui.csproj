@@ -66,6 +66,12 @@
       <Version>5.7.0</Version>
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="FluentEmail.Liquid">
+      <Version>3.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="FluentEmail.MailKit">
+      <Version>3.0.2</Version>
+    </PackageReference>
     <PackageReference Include="GlobalHotKey">
       <Version>1.1.0</Version>
     </PackageReference>

@@ -613,4 +613,11 @@
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">关卡数据获取成功</system:String>
     <!--  Api  -->
+    <!--  External Notification -->
+    <system:String x:Key="ExternalNotificationEmailTemplateHello">博士，有新的通知哦！</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">您会收到此邮件，是因为您在 MAA 中设置了 SMTP 服务器并开启了邮件通知服务。</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateFooterLineTwo">此邮件为系统自动发送，请勿回复。</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateLinkOfficialSite">官网</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateLinkCopilotSite">作业站</system:String>
+    <!--  External Notification -->
 </ResourceDictionary>

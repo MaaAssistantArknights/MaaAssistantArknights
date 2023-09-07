@@ -163,6 +163,17 @@ namespace MaaWpfGui.Constants
         public const string DropsItemName = "MainFunction.Drops.ItemName";
         public const string DropsQuantity = "MainFunction.Drops.Quantity";
 
+        public const string ExternalNotificationEnabled = "ExternalNotification.Enabled";
+        public const string ExternalNotificationSmtpServer = "ExternalNotification.Smtp.Server";
+        public const string ExternalNotificationSmtpPort = "ExternalNotification.Smtp.Port";
+        public const string ExternalNotificationSmtpUser = "ExternalNotification.Smtp.User";
+        public const string ExternalNotificationSmtpPassword = "ExternalNotification.Smtp.Password";
+        public const string ExternalNotificationSmtpUseSsl = "ExternalNotification.Smtp.UseSsl";
+        public const string ExternalNotificationSmtpRequiresAuthentication = "ExternalNotification.Smtp.RequiresAuthentication";
+        public const string ExternalNotificationSmtpFrom = "ExternalNotification.Smtp.From";
+        public const string ExternalNotificationSmtpTo = "ExternalNotification.Smtp.To";
+        public const string ExternalNotificationServerChanSendKey = "ExternalNotification.ServerChan.SendKey";
+
         // The following should not be modified manually
         public const string VersionName = "VersionUpdate.name";
 
