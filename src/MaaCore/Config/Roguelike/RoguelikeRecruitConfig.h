@@ -41,7 +41,7 @@ namespace asst
         int skill_times = 1; // 技能使用次数
         battle::SkillUsage alternate_skill_usage = battle::SkillUsage::Possibly; // 备选技能使用模式
         int alternate_skill_times = 1; // 备选技能使用次数
-        time_t auto_retreat = 0; // 部署几秒后自动撤退
+        int auto_retreat = 0; // 部署几秒后自动撤退
     };
 
     class RoguelikeRecruitConfig final : public SingletonHolder<RoguelikeRecruitConfig>, public AbstractConfig

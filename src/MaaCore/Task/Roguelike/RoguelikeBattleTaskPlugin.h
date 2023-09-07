@@ -140,6 +140,6 @@ namespace asst
         std::priority_queue<DroneTile> m_need_clear_tiles;
         std::unordered_map<std::string, std::vector<battle::roguelike::DeployInfoWithRank>> m_deploy_plan;
         std::vector<battle::roguelike::DeployInfoWithRank> m_retreat_plan;
-        std::unordered_map<std::string, time_t> m_deployed_time;
+        std::unordered_map<std::string, std::chrono::steady_clock::time_point> m_deployed_time;
     };
 } // namespace asst

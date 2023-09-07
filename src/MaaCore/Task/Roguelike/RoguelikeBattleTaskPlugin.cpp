@@ -381,7 +381,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
             }
             deploy_oper(deploy_plan.oper_name, deploy_plan.placed, deploy_plan.direction);
             // 开始计时
-            auto deployed_time = std::time(0);
+            auto deployed_time = std::chrono::steady_clock::now();
             m_deployed_time.insert_or_assign(deploy_plan.oper_name, deployed_time);
             // 获取技能用法和使用次数
             const auto& oper_info = RoguelikeRecruit.get_oper_info(rogue_theme, deploy_plan.oper_name);
@@ -416,8 +416,8 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
         const auto& oper_info = RoguelikeRecruit.get_oper_info(rogue_theme, name);
         auto iter = m_deployed_time.find(name);
         if (iter != m_deployed_time.end() && oper_info.auto_retreat > 0) {
-            time_t duration = std::time(0) - m_deployed_time.at(name);
-            if (duration >= oper_info.auto_retreat) {
+            if (std::chrono::steady_clock::now() - m_deployed_time.at(name) >=
+                oper_info.auto_retreat * std::chrono::seconds(1)) {
                 // 时间到了就撤退
                 asst::BattleHelper::retreat_oper(name);
                 m_deployed_time.erase(name);
@@ -506,7 +506,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
 
         m_first_deploy = false;
         // 开始计时
-        auto deployed_time = std::time(0);
+        auto deployed_time = std::chrono::steady_clock::now();
         m_deployed_time.insert_or_assign(best_oper.name, deployed_time);
         // 获取技能用法和使用次数
         const auto& oper_info = RoguelikeRecruit.get_oper_info(rogue_theme, best_oper.name);
