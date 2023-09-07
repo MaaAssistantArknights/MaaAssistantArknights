@@ -87,12 +87,13 @@
                         {
                             "groups": [
                                 "凯尔希",
-                                "地面阻挡"
+                                "地面阻挡",
+                                "召唤"
                             ],
                             "threshold": 1,
                             "is_less": true,
-                            "offset": -500,
-                            "Doc": "地面阻挡≤1时，玛恩纳的招募优先级-500"
+                            "offset": -350,
+                            "Doc": "地面阻挡≤1时，玛恩纳的招募优先级-350"
                         }
                     ]
                 }
@@ -1581,7 +1582,7 @@
                 {
                     "name": "琴柳",
                     "skill": 1, 
-                    "auto_retreat": 120,
+                    "auto_retreat": 90,
                     "recruit_priority": 520,
                     "promote_priority": 359,
                     "recruit_priority_offsets": [
@@ -1599,7 +1600,7 @@
                 {
                     "name": "极境",
                     "skill": 1, 
-                    "auto_retreat": 120,
+                    "auto_retreat": 90,
                     "recruit_priority": 570,
                     "promote_priority": 350,
                     "recruit_priority_offsets": [
@@ -1617,7 +1618,7 @@
                 {
                     "name": "桃金娘",
                     "skill": 1, 
-                    "auto_retreat": 120,
+                    "auto_retreat": 90,
                     "recruit_priority": 680,
                     "promote_priority": 310,
                     "is_key": true,
@@ -2986,7 +2987,6 @@
                 {
                     "name": "伊桑",
                     "skill": 2,
-                    "is_key": true,
                     "recruit_priority": 405,
                     "promote_priority": 405,
                     "recruit_priority_offsets": [
@@ -3164,6 +3164,17 @@
             ]
         },
         {
+            "name": "支援陷阱",
+            "opers": [
+                {
+                    "name": "“轰隆隆先生”"
+                },
+                {
+                    "name": "失修舞台雾机"
+                }
+            ]
+        },
+        {
             "name": "其他地面",
             "Doc": "未出现的地面干员、特殊地面干员将默认分到该组,主要是挡1干员",
             "opers": [
@@ -3192,20 +3203,7 @@
                     "promote_priority": 210
                 },
                 {
-                    "name": "黑角",
-                    "skill": 0,
-                    "recruit_priority": 361,
-                    "promote_priority": 0,
-                    "is_key": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "重装"
-                            ],
-                            "threshold": 1,
-                            "offset": -300
-                        }
-                    ]
+                    "name": "黑角"                    
                 },
                 {
                     "name": "芳汀",
