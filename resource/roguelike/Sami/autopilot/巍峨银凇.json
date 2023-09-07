@@ -1,13 +1,6 @@
 {
     "stage_name": "巍峨银凇",
-    "replacement_home": [
-        {
-            "location": [
-                4,
-                5
-            ],
-            "direction": "up"
-        },
+    "replacement_home": [        
         {
             "location": [
                 10,
@@ -68,10 +61,10 @@
                 3,
                 6
             ],
-            "direction": "up",
+            "direction": "right",
             "condition": [
                 1,
-                60
+                9
             ]
         },
         {
@@ -94,7 +87,9 @@
                 "速狙",
                 "盾法",
                 "术师",
-                "召唤"
+                "召唤",
+                "高台输出",
+                "其他高台"
             ],
             "location": [
                 10,
@@ -206,6 +201,21 @@
         {
             "groups": [
                 "地面阻挡",
+                "其他地面"
+            ],
+            "location": [
+                3,
+                6
+            ],
+            "direction": "right",
+            "condition": [
+                1,
+                60
+            ]
+        },
+        {
+            "groups": [
+                "地面阻挡",
                 "处决者",
                 "地刺",
                 "其他地面"
@@ -216,7 +226,7 @@
             ],
             "direction": "right",
             "condition": [
-                1,
+                10,
                 60
             ]
         },
@@ -242,7 +252,7 @@
                 "补给站"
             ],
             "location": [
-                3,
+                10,
                 4
             ],
             "direction": "down",
@@ -256,10 +266,10 @@
                 "支援陷阱"
             ],
             "location": [
-                10,
-                4
+                11,
+                5
             ],
-            "direction": "up",
+            "direction": "left",
             "condition": [
                 20,
                 60
@@ -275,7 +285,7 @@
             ],
             "direction": "up",
             "condition": [
-                20,
+                13,
                 60
             ]
         }
