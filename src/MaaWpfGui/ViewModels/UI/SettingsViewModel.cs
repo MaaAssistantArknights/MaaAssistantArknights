@@ -107,6 +107,7 @@ namespace MaaWpfGui.ViewModels.UI
             _listTitle.Add(LocalizationHelper.GetString("ConnectionSettings"));
             _listTitle.Add(LocalizationHelper.GetString("StartupSettings"));
             _listTitle.Add(LocalizationHelper.GetString("UISettings"));
+            _listTitle.Add(LocalizationHelper.GetString("ExternalNotificationSettings"));
             _listTitle.Add(LocalizationHelper.GetString("HotKeySettings"));
             _listTitle.Add(LocalizationHelper.GetString("UpdateSettings"));
             _listTitle.Add(LocalizationHelper.GetString("AboutUs"));
@@ -149,6 +150,46 @@ namespace MaaWpfGui.ViewModels.UI
                 ConnectAddressHistory = JsonConvert.DeserializeObject<ObservableCollection<string>>(addressListJson);
             }
         }
+
+        #region External Notifications
+
+        public List<CombinedData> ExternalNotificationProviders => new List<CombinedData>
+        {
+            new CombinedData { Display = LocalizationHelper.GetString("Off"), Value = "Off" },
+            new CombinedData { Display = "Server Chan", Value = "ServerChan" },
+            new CombinedData { Display = "SMTP", Value = "SMTP" },
+        };
+
+        public bool IsServerChanProvider => _enabledExternalNotificationProvider == "ServerChan";
+
+        public bool IsSmtpProvider => _enabledExternalNotificationProvider == "SMTP";
+
+        private string _enabledExternalNotificationProvider = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ExternalNotificationEnabled, "Off");
+
+        public string EnabledExternalNotificationProvider
+        {
+            get => _enabledExternalNotificationProvider;
+            set
+            {
+                SetAndNotify(ref _enabledExternalNotificationProvider, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationEnabled, value);
+            }
+        }
+
+        private string _serverChanSendKey = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, string.Empty);
+
+        public string ServerChanSendKey
+        {
+            get => _serverChanSendKey;
+            set
+            {
+                SetAndNotify(ref _serverChanSendKey, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, value);
+            }
+        }
+
+        #endregion
+
 
         private List<string> _listTitle = new List<string>();
 
