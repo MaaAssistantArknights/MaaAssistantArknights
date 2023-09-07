@@ -2008,7 +2008,7 @@
                 {
                     "name": "提丰",
                     "skill": 2,
-                    "recruit_priority": 729,
+                    "recruit_priority": 829,
                     "promote_priority": 890,
                     "is_key": true,
                     "is_start": true
