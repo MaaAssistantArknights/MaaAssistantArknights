@@ -3,17 +3,17 @@
     "replacement_home": [
         {
             "location": [
-                3,
-                6
+                4,
+                5
             ],
-            "direction": "right"
+            "direction": "up"
         },
         {
             "location": [
                 10,
                 6
             ],
-            "direction": "right"
+            "direction": "up"
         }
     ],
     "deploy_plan": [
@@ -90,7 +90,11 @@
         },
         {
             "groups": [
-                "焰苇"
+                "焰苇",
+                "速狙",
+                "盾法",
+                "术师",
+                "召唤"
             ],
             "location": [
                 10,
@@ -134,13 +138,17 @@
         },
         {
             "groups": [
-                "狙击"                
+                "狙击",
+                "盾法",
+                "高台输出",
+                "辅助",
+                "其他高台"                
             ],
             "location": [
-                10,
-                4
+                9,
+                5
             ],
-            "direction": "right",
+            "direction": "up",
             "condition": [
                 1,
                 60
@@ -162,7 +170,11 @@
         },
         {
             "groups": [
-                "高台输出"                
+                "高台输出",
+                "狙击",
+                "盾法",
+                "辅助",
+                "其他高台"               
             ],
             "location": [
                 5,
@@ -238,6 +250,34 @@
                 1,
                 60
             ]
+        },
+        {
+            "groups": [
+                "支援陷阱"
+            ],
+            "location": [
+                10,
+                4
+            ],
+            "direction": "up",
+            "condition": [
+                20,
+                60
+            ]
+        },
+        {
+            "groups": [
+                "无人机"
+            ],
+            "location": [
+                10,
+                4
+            ],
+            "direction": "up",
+            "condition": [
+                20,
+                60
+            ]
         }
     ],
     "retreat_plan":[
@@ -248,7 +288,7 @@
             ],
             "condition": [
                 1,
-                3
+                1
             ]
         },
         {
