@@ -16,7 +16,7 @@ export default defineUserConfig({
     },
     '/zh-tw/': {
       lang: 'zh-TW',
-      description: '開發者文檔',
+      description: '開發者文件',
     },
     '/en-us/': {
       lang: 'en-US',
