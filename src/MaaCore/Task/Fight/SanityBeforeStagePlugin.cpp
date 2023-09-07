@@ -16,7 +16,7 @@ bool asst::SanityBeforeStagePlugin::verify(AsstMsg msg, const json::value& detai
     }
 
     const std::string task = details.at("details").at("task").as_string();
-    if (task == "StartButton1" || task == "Fight@StartButton1") {
+    if (task.ends_with("StartButton1")) {
         return true;
     }
     else {

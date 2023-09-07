@@ -18,6 +18,7 @@ namespace asst
         bool chapter_wayfinding();
         bool swipe_and_find_stage();
 
+        // 是否有定义任务名的Task
         bool m_is_directly = false;
         std::string m_directly_task;
         // Not directly
