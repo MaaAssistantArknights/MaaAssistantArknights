@@ -959,6 +959,83 @@
             "CV-6"
         ]
     },
+    "SideStoryReopen": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "复刻"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "postDelay": 3000
+    },
+    "StageQueue@CheckPrts": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "maxTimes": 3,
+        "next": [
+            "StageQueue@UsePrtsSuccess",
+            "StageQueue@UsePrts"
+        ]
+    },
+    "StageQueue@UsePrts": {
+        "Doc": "执行Prts激活",
+        "template": "UsePrts.png",
+        "roi": [
+            1000,
+            550,
+            280,
+            90
+        ],
+        "next": ["StageQueue@CheckPrts"]
+    },
+    "StageQueue@UsePrtsSuccess": {
+        "Doc": "检查代理激活没有，roi引用UnableToAgent2",
+        "template": "UsePrtsSuccess.png",
+        "action": "DoNothing",
+        "roi": [
+            1000,
+            550,
+            280,
+            90
+        ]
+    },
+    "StageQueue": {
+        "baseTask": "Fight",
+        "template": "Terminal.png",
+        "maxTimes": 3,
+        "exceededNext": ["Stop"],
+        "next": [
+            "StageQueue@GoLastBattle",
+            "StageQueue"
+        ],
+        "postDelay": 3000
+    },
+    "StageQueue@GoLastBattle": {
+        "next": ["StageQueue@StartButton1"]
+    },
+    "StageQueue@CloseStonePage": {
+        "next": []
+    },
+    "StageQueue@StartButton1":{
+        "Doc": "开始战斗1",
+        "action": "DoNothing",
+        "maxTimes": 1,
+        "exceededNext": [],
+        "next": [
+            "StageQueue@StartButton2",
+            "StageQueue@StartButton2Adverse",
+            "StageQueue@UseMedicine",
+            "StageQueue@UseStone",
+            "StageQueue@NoStone",
+            "StageQueue@OfflineConfirm",
+            "StageQueue@StartButton1TryAgain" 
+        ]
+    },
     "SL-8": {
         "algorithm": "JustReturn",
         "sub": [
@@ -3608,6 +3685,7 @@
     "SanityMatch": {
         "algorithm": "OcrDetect",
         "text": [],
+        "isAscii": true,
         "roi": [
             1120,
             20,
@@ -3776,8 +3854,17 @@
         "next": [
             "StartButton1",
             "OfflineConfirm",
-            "StoneConfirm@LoadingText"
+            "StoneConfirmAgain@LoadingText"
         ]
+    },
+    "StoneConfirmAgain": {
+        "Doc": "StoneConfirm 波动进入 LoadingText 之后，加载完成后碎石界面可能不会立即消失，这时候需要防止重复计数",
+        "Doc2": "如果在碎石界面还没消失的期间再点碎石，应该不会碎掉第二颗吧 :)",
+        "Doc3": "另外，应该不会又卡好几分钟吧，这个 task 就不用注册博朗台插件了",
+        "maxTimes": 2147483647,
+        "baseTask": "StoneConfirm",
+        "template": "MedicineConfirm.png",
+        "reduceOtherTimes": []
     },
     "NoStone": {
         "action": "DoNothing",
