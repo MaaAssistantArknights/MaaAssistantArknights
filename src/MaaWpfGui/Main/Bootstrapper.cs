@@ -19,10 +19,12 @@ using System.Security.Principal;
 using System.Windows;
 using System.Windows.Threading;
 using GlobalHotKey;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Managers;
+using MaaWpfGui.Services.Notification;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.Views.UI;
@@ -169,6 +171,17 @@ namespace MaaWpfGui.Main
 
             builder.Bind<IHttpService>().To<HttpService>().InSingletonScope();
             builder.Bind<IMaaApiService>().To<MaaApiService>().InSingletonScope();
+
+            builder.Bind<IExternalNotificationProvider>().ToFactory<IExternalNotificationProvider>(c =>
+            {
+                var enabledProvider = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ExternalNotificationEnabled, string.Empty);
+                return enabledProvider switch
+                {
+                    "SMTP" => new SmtpNotificationProvider(),
+                    "ServerChan" => new ServerChanNotificationProvider(c.Get<IHttpService>()),
+                    _ => new DummyNotificationProvider(),
+                };
+            });
         }
 
         protected override void Configure()
