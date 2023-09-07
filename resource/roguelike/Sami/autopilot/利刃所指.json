@@ -4,15 +4,23 @@
         {
             "location": [
                 2,
-                1
+                4
             ],
             "direction": "down"
         }
     ],
     "blacklist_location": [
         [
-            4,
-            1
+            1,
+            2
+        ],
+        [
+            1,
+            3
+        ],
+        [
+            1,
+            4
         ],
         [
             4,
@@ -24,11 +32,12 @@
             "groups": [
                 "情报官",
                 "挡人先锋",
-                "投锋"
+                "投锋",
+                "地面远程"
             ],
             "location": [
                 2,
-                1
+                2
             ],
             "direction": "down"
         },
@@ -51,7 +60,7 @@
             ],
             "location": [
                 2,
-                2
+                3
             ],
             "direction": "down"
         },
@@ -61,16 +70,18 @@
             ],
             "location": [
                 2,
-                3
+                4
             ],
             "direction": "up"
         },
         {
             "groups": [
                 "焰苇",
+                "狙击",
                 "高台输出",
                 "辅助",
-                "其他高台"
+                "其他高台",
+                "奶"
             ],
             "location": [
                 3,
@@ -80,6 +91,7 @@
         },
         {
             "groups": [
+                "地面远程",
                 "地面阻挡",
                 "其他地面"
             ],
@@ -104,6 +116,7 @@
                 "水陈",
                 "狙击",
                 "高台输出",
+                "盾法",
                 "辅助",
                 "其他高台"
             ],
@@ -112,6 +125,16 @@
                 3
             ],
             "direction": "down"
+        },
+        {
+            "groups": [
+                "奶"
+            ],
+            "location": [
+                1,
+                1
+            ],
+            "direction": "right"
         },
         {
             "groups": [
@@ -131,44 +154,28 @@
             ],
             "location": [
                 2,
-                3
+                4
             ],
             "direction": "down"
         },
         {
             "groups": [
-                "处决者"
+                "领主",
+                "地面阻挡",
+                "地面远程",
+                "处决者",
+                "地刺"                
             ],
             "location": [
-                9,
-                2
-            ],
-            "direction": "down"
-        },
-        {
-            "groups": [
-                "处决者"
-            ],
-            "location": [
-                7,
+                2,
                 1
             ],
             "direction": "down"
         },
         {
             "groups": [
-                "补给站"
-            ],
-            "location": [
-                3,
-                4
-            ],
-            "direction": "up"
-        },
-        {
-            "groups": [
                 "补给站",
-                "无人机"
+                "无人机"                              
             ],
             "location": [
                 4,
