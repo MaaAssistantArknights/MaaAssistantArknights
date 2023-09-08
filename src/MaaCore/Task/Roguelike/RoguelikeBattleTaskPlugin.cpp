@@ -92,7 +92,8 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
 
 void asst::RoguelikeBattleTaskPlugin::wait_until_start_button_clicked()
 {
-    ProcessTask(*this, { "RoguelikeWaitForStartButtonClicked" }).set_task_delay(0).set_retry_times(0).run();
+    std::string theme = status()->get_properties(Status::RoguelikeTheme).value();
+    ProcessTask(*this, { theme + "@Roguelike@WaitForStartButtonClicked" }).set_task_delay(0).set_retry_times(0).run();
 }
 
 std::string asst::RoguelikeBattleTaskPlugin::oper_name_in_config(const battle::DeploymentOper& oper) const
@@ -379,12 +380,14 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
                 return true;
             }
             deploy_oper(deploy_plan.oper_name, deploy_plan.placed, deploy_plan.direction);
+            // 开始计时
+            auto deployed_time = std::chrono::steady_clock::now();
+            m_deployed_time.insert_or_assign(deploy_plan.oper_name, deployed_time);
+            // 获取技能用法和使用次数
+            const auto& oper_info = RoguelikeRecruit.get_oper_info(rogue_theme, deploy_plan.oper_name);
+            m_skill_usage[deploy_plan.oper_name] = oper_info.skill_usage;
+            m_skill_times[deploy_plan.oper_name] = oper_info.skill_times;
             Log.trace("    best deploy is", deploy_plan.oper_name, "with rank", deploy_plan.rank);
-            auto skill_usage_opt = status()->get_number(Status::RoguelikeSkillUsagePrefix + deploy_plan.oper_name);
-            m_skill_usage[deploy_plan.oper_name] =
-                skill_usage_opt ? static_cast<SkillUsage>(*skill_usage_opt) : SkillUsage::Possibly;
-            auto skill_times_opt = status()->get_number(Status::RoguelikeSkillTimesPrefix + deploy_plan.oper_name);
-            m_skill_times[deploy_plan.oper_name] = skill_times_opt ? static_cast<int>(*skill_times_opt) : 1;
             return true;
         }
     }
@@ -400,9 +403,26 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
         return true;
     }
 
+    std::string rogue_theme = status()->get_properties(Status::RoguelikeTheme).value();
+
     std::unordered_set<std::string> pre_cooling;
     for (const auto& [name, oper] : m_cur_deployment_opers) {
-        if (oper.cooling) pre_cooling.emplace(name);
+        if (oper.cooling) {
+            pre_cooling.emplace(name);
+            m_deployed_time.erase(name);
+        }
+    }
+    for (const auto& [name, loc] : m_battlefield_opers) {
+        const auto& oper_info = RoguelikeRecruit.get_oper_info(rogue_theme, name);
+        auto iter = m_deployed_time.find(name);
+        if (iter != m_deployed_time.end() && oper_info.auto_retreat > 0) {
+            if (std::chrono::steady_clock::now() - m_deployed_time.at(name) >=
+                oper_info.auto_retreat * std::chrono::seconds(1)) {
+                // 时间到了就撤退
+                asst::BattleHelper::retreat_oper(name);
+                m_deployed_time.erase(name);
+            }
+        }
     }
     auto pre_battlefield = m_battlefield_opers;
 
@@ -419,7 +439,10 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
         if (oper.role == Role::Drone) continue;
 
         ++cur_deployments_count;
-        if (oper.cooling) cur_cooling.emplace(name);
+        if (oper.cooling) {
+            cur_cooling.emplace(name);
+            m_deployed_time.erase(name);
+        }
         if (oper.available) ++cur_available_count;
     }
 
@@ -482,12 +505,13 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
         postproc_of_deployment_conditions(best_oper, placed_loc, direction);
 
         m_first_deploy = false;
-
-        auto skill_usage_opt = status()->get_number(Status::RoguelikeSkillUsagePrefix + best_oper.name);
-        m_skill_usage[best_oper.name] =
-            skill_usage_opt ? static_cast<SkillUsage>(*skill_usage_opt) : SkillUsage::Possibly;
-        auto skill_times_opt = status()->get_number(Status::RoguelikeSkillTimesPrefix + best_oper.name);
-        m_skill_times[best_oper.name] = skill_times_opt ? static_cast<int>(*skill_times_opt) : 1;
+        // 开始计时
+        auto deployed_time = std::chrono::steady_clock::now();
+        m_deployed_time.insert_or_assign(best_oper.name, deployed_time);
+        // 获取技能用法和使用次数
+        const auto& oper_info = RoguelikeRecruit.get_oper_info(rogue_theme, best_oper.name);
+        m_skill_usage[best_oper.name] = oper_info.skill_usage;
+        m_skill_times[best_oper.name] = oper_info.skill_times;
 
         if (urgent_home_opt) {
             m_urgent_home_index.pop_front();
@@ -743,6 +767,7 @@ void asst::RoguelikeBattleTaskPlugin::clear()
     m_need_clear_tiles = decltype(m_need_clear_tiles)();
     m_deploy_plan.clear();
     m_retreat_plan.clear();
+    m_deployed_time.clear();
 }
 
 std::vector<asst::Point> asst::RoguelikeBattleTaskPlugin::available_locations(const DeploymentOper& oper) const
