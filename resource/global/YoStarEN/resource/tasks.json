@@ -3041,6 +3041,45 @@
     "StageDrops-DropType-Reward": {
         "templThreshold": 0.7
     },
+    "Reclamation@EmptyInitUnits": {
+        "roi": [
+            349,
+            598,
+            563,
+            120
+        ],
+        "text": [
+            "Choose the Operators",
+            "you wish to begin",
+            "the Algorithm with"
+        ]
+    },
+    "Reclamation@ConfirmStart": {
+        "text": [
+            "COMMENCE",
+            "START"
+        ]
+    },
+    "Reclamation@SkipAnnounce": {
+        "text": [
+            "SKIP"
+        ]
+    },
+    "Reclamation@SkipDailyReport": {
+        "text": [
+            "Today's News"
+        ]
+    },
+    "Reclamation@StartActionEnter": {
+        "text": [
+            "Start"
+        ]
+    },
+    "Reclamation@PrepareAction": {
+        "text": [
+            "Prepare for Battle"
+        ]
+    },
     "Roguelike@FromIntegratedStrategies": {
         "text": [
             "ENTER"
