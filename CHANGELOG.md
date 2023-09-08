@@ -2,164 +2,66 @@
 
 ### 新增
 
-- 新增肉鸽干员自动撤退字段 (#6241) @AnnoyingFlowers
 - 新增复刻活动时，连续刷普通1-9关 (异形UI暂不支持，例如愚人号)，支持上报至企鹅物流 (#6230) @status102
-   - 移除SSReopen中掉落物品集的指针 @status102
-   - 在悬浮提示中追加SSReopen说明 @status102
-   - 在中日英文档中追加SSReopen的说明 @status102
-   - 新增复刻活动时，连续刷普通1-9关 (异形UI暂不支持，例如愚人号)，支持上报至企鹅物流 @status102
-- 支持 SideStory「不义之财」活动导航 & 添加 "SideStoryStage" 模板 roi @ABA2396
-- 添加CLI支持 (#6144) @MistEO @wangl-cc
-   - add spaces @MistEO
-   - add space @MistEO
-   - fix install dir and less line break @wangl-cc
-   - revert remove trailing whitespace @wangl-cc
-   - format @wangl-cc
-   - remove unrelevant changes @wangl-cc
-   - fix download cli @wangl-cc
-   - space between ZH and EN @wangl-cc
-   - more details about CLI installation @wangl-cc
-   - ship CLI in Linux release @wangl-cc
-   - add CLI doc @wangl-cc
-- shutdown/hibernate after all other MAAs have exited, or just ex… (#6147) @Neptsun
-   - 日文localization写反了 @Neptsun
-   - shutdown/hibernate after all other MAAs have exited, or just exit itself @Neptsun
-- 支持woolang绑定 (#6142) @mrcino
-   - * docs: 补充Woolang-api的说明 @mrcino
-   - * feat: 支持woolang绑定，嘻嘻嘻 @mrcino
-- 注册表查询bluestacks hyper-v的conf位置 (#6083) @Gliese129
-   - optimized the way of testing adb port @Gliese129
-   - update @Gliese129
-   - use register key to detect bs config @Gliese129
-   - add default bluestacks.conf @Gliese129
-   - 多个模拟器可能导致连接不上 @Gliese129
 - 增加刷理智每次打关卡之前时的理智剩余量输出 (#6146) @status102
-   - 修复在部分情况下只会输出一次当前理智情况 @status102
-   - 补上丢失的空格 @status102
-   - 移除无用内容 @status102
-   - 增加刷理智每次打关卡之前时理智剩余量输出 @status102
+- 支持 SideStory「不义之财」活动导航 & 添加 "SideStoryStage" 模板 roi @ABA2396
+- shutdown/hibernate after all other MAAs have exited, or just exit itself (#6147) @Neptsun
+- 添加CLI支持 (#6144) @wangl-cc
+- 新增肉鸽干员自动撤退字段 (#6241) @AnnoyingFlowers
+- 注册表查询bluestacks hyper-v的conf位置 (#6083) @Gliese129
+- 支持woolang绑定 (#6142) @mrcino
 
 ### 改进
 
 - 优化萨米肉鸽策略 (#6266) @Lancarus
-   - 优化萨米肉鸽策略 @Lancarus
-- 优化萨米肉鸽部分作战逻辑 (#6263) @Lancarus
-   - 优化萨米肉鸽部分作战逻辑 @Lancarus
-- 繁中文件大更新 (#6226) @momomochi987
-   - 更新連結、再微調一些小地方 @momomochi987
-   - 移除不再需要的檔案、微調一些小東西 (? @momomochi987
-   - 修正 '抄作业.com' 的超連結 @momomochi987
-   - 穩定的→穩定地，字段→欄位 @momomochi987
-   - 再檢查一遍，補上漏改的地方 @momomochi987
-   - 微調 3.1~3.7 的內容 @momomochi987
-   - 微調 2.2~2.5 的內容 @momomochi987
-   - 微調 1.4~1.6 的內容 @momomochi987
-   - 整理檔案 @momomochi987
-   - 微調 1.3-模擬器支援的內容 @momomochi987
-   - 微調 1.2-常見問題的內容 @momomochi987
-   - 微調 1.1-詳細介紹的內容 @momomochi987
-   - 更新繁中相關內容 @momomochi987
-   - 更進陸服內容先 @momomochi987
-- 优化萨米肉鸽部分关卡逻辑，优化招募逻辑 (#6240) @Lancarus
-   - 优化萨米肉鸽部分关卡逻辑，优化招募逻辑 @Lancarus
-- 优化萨米肉鸽部分逻辑 (#6222) @Lancarus
-   - 优化部分萨米肉鸽关卡逻辑 @Lancarus
-   - 修复咫尺天涯朝向错误 @Lancarus
-   - 优化萨米肉鸽不期而遇选项 @Lancarus
-   - 优化萨米肉鸽部分关卡逻辑 @Lancarus
-- 更新萨米肉鸽作战策略 (#6213) @Lancarus
-   - 更新萨米肉鸽作战策略 @Lancarus
-- 优化萨米肉鸽部分关卡逻辑 (#6198) @Lancarus
-   - 修复关卡名跳出错误 @Lancarus
-   - 优化萨米肉鸽部分关卡逻辑 @Lancarus
 - 优化刷源石锭模式的逻辑，跳过战斗后招募，增加进入纵向节点的逻辑 (#6140) @Lancarus
-   - 更改焰影苇草优先度 @Lancarus
-   - 调整部分干员的招募优先度 @Lancarus
-   - 修复一些不期而遇的选项 @Lancarus
-   - 萨米肉鸽boss关名称错误 @Lancarus
-   - #6183 @Lancarus
-   - 更新纵向节点截图 @Lancarus
-   - 适配纵向节点 @Lancarus
-   - 适配纵向进点 @Lancarus
-   - 更新纵向节点截图 @Lancarus
-   - 适配纵向进点 @Lancarus
-   - 增加进入纵向节点,适配麒麟R夜刀 @Lancarus
-   - 更新部分纵向节点截图 @Lancarus
-   - 优化刷源石锭模式的逻辑,跳过战斗后招募 @Lancarus
-- 什么时候更新 .net8 什么时候加.jpg @ABA2396
-- 更新提醒 @ABA2396
 
 ### 修复
 
 - 修复萨米肉鸽关卡json“生人勿进”->"生人勿近" (#6262) @Lancarus
-   - 修复萨米肉鸽关卡json“生人勿进”->"生人勿近" @Lancarus
 - 尝试修复网络波动造成的碎石不用问题 (#6220) @zzyyyl
-   - 修复网络波动造成的碎石不用问题 @zzyyyl
-- fix：修复萨米肉鸽作战关卡逻辑错误 (#6235) @mole828
-   - fix：修复萨米肉鸽作战关卡逻辑错误 @mole828
+- 修复萨米肉鸽作战关卡逻辑错误 (#6235) @mole828
 - 萨米商店不识别第二排商品 (#6232) @Lancarus
-   - 萨米商店不识别第二排商品 @Lancarus
 - 修复肉鸽道中抓取干员 山 或 林 后重复开启技能的问题 (#6221) @AnnoyingFlowers
-   - 修复肉鸽道中抓取干员 山 或 林 后重复开启技能的问题 @AnnoyingFlowers
-- 修复在部分情况下，刷理智的当前理智识别结果丢失分隔符 (#6208) @status102
-   - 增加倒数第二位>='0'判断，移除OCRer引用 @status102
-   - 从OCRer改为RegionOCRer @status102
-   - 修复可能存在的下标越界以及识别结果分块情况 @status102
-   - 修复在部分情况下，识别结果丢失分隔符 @status102
 - regex for trader shopping in I.S. @Constrat
 - 萨米boss关正则替换错误 (#6211) @Lancarus
-   - 萨米boss关正则替换错误 @Lancarus
-- Kirin X Yato => Kirin R Yato fix #6195 @Constrat
+- 麒麟X夜刀->麒麟R夜刀 (#6195) (#6199) @Constrat @SherkeyXD
 - fix failing to choose rewards from the last run @178619
-- 规避crt死锁问题 @MistEO
-- 尝试修复LoadResource卡死的问题 @MistEO
-- 修复理智识别在部分情况下会"/"识别为"|" (#6170) @status102
-   - remove test code @status102
-   - 修复理智识别在部分情况下会"/"识别为"|" @status102
+- 修复仓库识别无法在表格框内滚动 @ABA2396
 
 ### 其他
 
 - A Flurry to the Flame event navigation @Constrat
 - corrected a44dc12 time and event naming @Constrat
-- Auto Update Game Resources - 2023-09-07 @MistEO
-- (JP) Fix autoupdate change typo @wallsman
-- Auto Update Game Resources - 2023-09-07 @MistEO
-- （JP）紅炎遣らう落葉 Update @wallsman
-- Auto Update Game Resources - 2023-09-07 @MistEO
-- [JP] readme Update test / Japanese font readability (#6228) @wallsman
-   - Fix Comment typo @wallsman
-   - Use Japanese font readability @wallsman
 - 修正格式 @ABA2396
-- Auto Update Game Resources - 2023-09-05 @MistEO
-- Auto Update Game Resources - 2023-09-05 @MistEO
-- 麒麟X夜刀->麒麟R夜刀，以及对CLI文档的侧边栏支持 (#6199) @SherkeyXD
-   - 为cli文档添加侧边栏及图标配置 @SherkeyXD
-   - 修正文档中的麒麟X夜刀为R @SherkeyXD
-   - 将自带作业中的麒麟X夜刀也替换为麒麟R夜刀 @SherkeyXD
-- 對照陸服，整理與補充繁中服的 template 跟 tasks  (#6196) @momomochi987
-   - 更進陸服文件內容、微調部分用詞 @momomochi987
-   - 對照陸服，補充繁中服缺少的 tasks @momomochi987
-   - 整理、更新繁中服部分截圖 @momomochi987
+- 对CLI文档的侧边栏支持 (#6199) @SherkeyXD
 - 尽可能稳定的打更多层数 -> 尽可能稳定地打更多层数 (#6200) @govizlora
-   - fix typo @govizlora
 - Untrastrated fix @wallsman
-- Merge branch 'dev' of https://github.com/MaaAssistantArknights/MaaAssistantArknights into dev @ABA2396
-   - 修复仓库识别无法在表格框内滚动 @ABA2396
-- updated templates for EN (#6094) @Constrat
-- update resources for YoStarKR @178619
-- Merge tag 'v4.23.3' into dev @MistEO
-- Merge tag 'v4.23.2' into dev @MistEO
-- Update CHANGELOG.md @MistEO
-- Update localization for YoStarKR @178619
-- Update ocrReplaces for YoStarKR @178619
-- 跟进蓝叠Hyper-V的连接指导 (#6083) (#6137) @MistEO @SherkeyXD
-   - add space @MistEO
-   - 跟进蓝叠Hyper-V的连接指导 @SherkeyXD
+- 跟进蓝叠Hyper-V的连接指导 (#6083) (#6137) @SherkeyXD
 - 取消连接时加载资源 @ABA2396
 - 加点加载资源和连接模拟器的日志 @ABA2396
-- Merge tag 'v4.23.1' into dev @ABA2396
-- Auto Update Game Resources - 2023-08-31 @MistEO
 - i18n: Translations update from MAA Weblate (#6151) @weblate
-   - Translated using Weblate (Japanese) @weblate
 - add log @AnnAngela
-- Auto Update Game Resources - 2023-08-31 @MistEO
+
+### For overseas
+
+#### YostarKR
+
+- update resources for YoStarKR @178619
+- Update localization for YoStarKR @178619
+- Update ocrReplaces for YoStarKR @178619
+
+#### YostarEN
+
+- updated templates for EN (#6094) @Constrat
+
+#### txwy
+
+- 繁中文件大更新 (#6226) @momomochi987
+- 對照陸服，整理與補充繁中服的 template 跟 tasks  (#6196) @momomochi987
+
+#### YostarJP
+
+- (JP) Fix autoupdate change typo @wallsman
+- （JP）紅炎遣らう落葉 Update @wallsman
+- [JP] readme Update test / Japanese font readability (#6228) @wallsman
