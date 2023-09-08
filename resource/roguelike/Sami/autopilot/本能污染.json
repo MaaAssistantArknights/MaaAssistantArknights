@@ -12,15 +12,17 @@
     "deploy_plan": [
         {
             "groups": [
-                "情报官",
-                "挡人先锋",
-                "投锋"
+                "回费"
             ],
             "location": [
-                5,
-                3
+                7,
+                2
             ],
-            "direction": "left"
+            "direction": "down",
+            "condition": [
+                0,
+                12
+            ]
         },
         {
             "groups": [
