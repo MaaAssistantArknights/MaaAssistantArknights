@@ -3728,6 +3728,11 @@
             "Storage full"
         ]
     },
+    "Phantom@Roguelike@LevelName_mode4": {
+        "text": [
+            "Homeland Remnants"
+        ]
+    },
     "Phantom@Roguelike@NextLevel": {
         "text": [
             "Mist-stricken Missteps",
@@ -3741,6 +3746,22 @@
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
     },
+    "Mizuki@Roguelike@ChooseDifficultyConfirm": {
+        "text": [
+            "Select"
+        ]
+    },
+    "Roguelike@ChooseDifficultyConfirm": {
+        "text": [
+            "Select"
+        ]
+    },
+    "Mizuki@Roguelike@LevelName_mode4": {
+        "text": [
+            "Raging Billows",
+            "Indigo Cradle"
+        ]
+    },
     "Mizuki@Roguelike@GetDropBoxOpen": {
         "templThreshold": 0.95
     },
@@ -3752,13 +3773,13 @@
     },
     "Mizuki@Roguelike@NextLevel": {
         "text": [
-            "Celeste and Seashore",
-            "Isolated Isle",
-            "Billowy Land",
-            "Mysterious Hotbed",
-            "Ashless Cave",
-            "Forest Undersea",
-            "Sweet Dream"
+            "Sunshine Coast",
+            "Offshore Island",
+            "Raging Billows",
+            "Secret Hotbed",
+            "Sacrosant Cave",
+            "Deep Sea Woodland",
+            "Indigo Cradle"
         ]
     },
     "Mizuki@Roguelike@StageSafeHouseReuse": {
