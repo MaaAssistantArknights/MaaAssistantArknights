@@ -73,9 +73,9 @@ try:
 except IndexError:
     json_name = "tasks.json"
 
-zh_json_file = os.path.join(proj_dir, "resource/", json_name)
-gl_json_file = os.path.join(proj_dir, "resource/global/",
-                            server_name, "resource/", json_name)
+zh_json_file = os.path.join(proj_dir, "resource", json_name)
+gl_json_file = os.path.join(proj_dir, "resource", "global",
+                            server_name, "resource", json_name)
 
 # For test purpose
 # gl_json_file = os.path.join(cur_dir, "test.json")
@@ -94,9 +94,8 @@ gl_json_new = OrderedDict(
     sorted(gl_json.items(), key=lambda i: key_order.get(i[0], LAST_POSITIONS)))
 
 with open(gl_json_file, 'wb') as gl_fh:
-    t = json.dumps(gl_json_new, indent=4, separators=(
-        ',', ': '), ensure_ascii=False)
-    gl_fh.write(bytes(t+'\n', "utf-8"))
-    # print(t)
-    print("successfully sorted the", server_name,
-          "json file (", json_name, ") by the order in ZH json file")
+    t = json.dumps(gl_json_new, indent=4, ensure_ascii=False)
+    gl_fh.write(bytes(t, "utf-8"))
+    print("successfully sorted",
+          os.path.join("resource", "global", server_name, "resource", json_name),
+          "by the order in ZH json file")

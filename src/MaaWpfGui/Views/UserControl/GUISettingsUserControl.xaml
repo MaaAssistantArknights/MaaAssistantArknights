@@ -26,96 +26,110 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <CheckBox
+        <UniformGrid
             Grid.Row="0"
             Grid.Column="0"
-            Margin="10"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            Content="{DynamicResource MinimizeToTray}"
-            IsChecked="{Binding MinimizeToTray}" />
-        <CheckBox
-            Grid.Row="1"
-            Grid.Column="0"
-            Margin="10"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            Content="{DynamicResource SystemNotification}"
-            IsChecked="{Binding UseNotify}" />
-        <CheckBox
-            Grid.Row="2"
-            Grid.Column="0"
-            Margin="10"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            Content="{DynamicResource HideCloseButton}"
-            IsChecked="{Binding HideCloseButton}" />
-        <controls:TextBlock
+            Rows="4">
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="{DynamicResource MinimizeToTray}"
+                IsChecked="{Binding MinimizeToTray}" />
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="{DynamicResource SystemNotification}"
+                IsChecked="{Binding UseNotify}" />
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="{DynamicResource HideCloseButton}"
+                IsChecked="{Binding HideCloseButton}" />
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="{DynamicResource UseLogItemDateFormat}"
+                IsChecked="{Binding UseLogItemDateFormat}" />
+        </UniformGrid>
+        <UniformGrid
             Grid.Row="0"
             Grid.Column="1"
-            Margin="10"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Center"
-            Block.TextAlignment="Center"
-            Text="{Binding LanguageInfo, Mode=OneTime}"
-            TextWrapping="Wrap" />
-        <ComboBox
-            x:Name="LanguageSelector"
+            Rows="4">
+            <controls:TextBlock
+                Margin="10"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Block.TextAlignment="Center"
+                Text="{Binding LanguageInfo, Mode=OneTime}"
+                TextWrapping="Wrap" />
+            <controls:TextBlock
+                Margin="10"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Block.TextAlignment="Center"
+                Text="UI Theme"
+                TextWrapping="Wrap" />
+            <controls:TextBlock
+                Margin="10"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Block.TextAlignment="Center"
+                Text="{DynamicResource MainViewButtonFeature}"
+                TextWrapping="Wrap" />
+            <controls:TextBlock
+                Margin="10"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Block.TextAlignment="Center"
+                Text="{DynamicResource LogItemDateFormatString}"
+                TextWrapping="Wrap"
+                Visibility="{c:Binding UseLogItemDateFormat}" />
+        </UniformGrid>
+        <UniformGrid
             Grid.Row="0"
             Grid.Column="2"
-            Width="120"
-            Margin="10"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            DisplayMemberPath="Display"
-            ItemsSource="{Binding LanguageList}"
-            SelectedValue="{Binding Language}"
-            SelectedValuePath="Value" />
-        <controls:TextBlock
-            Grid.Row="1"
-            Grid.Column="1"
-            Margin="10"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Center"
-            Block.TextAlignment="Center"
-            Text="UI Theme"
-            TextWrapping="Wrap" />
-        <ComboBox
-            Grid.Row="1"
-            Grid.Column="2"
-            Width="120"
-            Margin="10"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            DisplayMemberPath="Display"
-            ItemsSource="{Binding DarkModeList}"
-            SelectedValue="{Binding DarkMode}"
-            SelectedValuePath="Value" />
-        <controls:TextBlock
-            Grid.Row="2"
-            Grid.Column="1"
-            Margin="10"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Center"
-            Block.TextAlignment="Center"
-            Text="{DynamicResource MainViewButtonFeature}"
-            TextWrapping="Wrap" />
-        <ComboBox
-            Grid.Row="2"
-            Grid.Column="2"
-            Width="120"
-            Margin="10"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            DisplayMemberPath="Display"
-            IsHitTestVisible="{Binding Idle}"
-            ItemsSource="{Binding InverseClearModeList}"
-            SelectedValue="{Binding InverseClearMode}"
-            SelectedValuePath="Value" />
+            Rows="4">
+            <ComboBox
+                x:Name="LanguageSelector"
+                Width="120"
+                Margin="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                DisplayMemberPath="Display"
+                ItemsSource="{Binding LanguageList}"
+                SelectedValue="{Binding Language}"
+                SelectedValuePath="Value" />
+            <ComboBox
+                Width="120"
+                Margin="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                DisplayMemberPath="Display"
+                ItemsSource="{Binding DarkModeList}"
+                SelectedValue="{Binding DarkMode}"
+                SelectedValuePath="Value" />
+            <ComboBox
+                Width="120"
+                Margin="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                DisplayMemberPath="Display"
+                IsHitTestVisible="{Binding Idle}"
+                ItemsSource="{Binding InverseClearModeList}"
+                SelectedValue="{Binding InverseClearMode}"
+                SelectedValuePath="Value" />
+            <ComboBox
+                Width="120"
+                Margin="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                ItemsSource="{Binding LogItemDateFormatStringList}"
+                SelectedValue="{Binding LogItemDateFormatString}"
+                Visibility="{c:Binding UseLogItemDateFormat}" />
+        </UniformGrid>
     </Grid>
 </UserControl>

@@ -16,6 +16,14 @@ BattleOperRoleSupport.png
 BattleOperRoleTank.png
 BattleOperRoleWarrior.png
 BattleOpersFlag.png
+BattleQuickFormation-OperNameFlag0.png
+BattleQuickFormation-OperNameFlag1.png
+BattleQuickFormation-OperNameFlag2.png
+BattleQuickFormation-OperNameFlag3.png
+BattleQuickFormation-OperNameFlag4.png
+BattleQuickFormation-OperNameFlag5.png
+BattleQuickFormation-OperNameFlag6.png
+BattleQuickFormation-OperNameFlag7.png
 BattleQuickFormation-OperNameFlag-SpecialFocus.png
 BattleQuickFormation-OperNameFlag.png
 BattleQuickFormation-OperNameFlag0.png
@@ -181,6 +189,7 @@ Roguelike@AbandonConfirm.png
 Roguelike@DialogSkip.png
 Roguelike@DialogSkipConfirm.png
 Roguelike@ExitThenAbandon.png
+Roguelike@ExitThenAbandon_mode4.png
 Roguelike@GamePassSkip2.png
 Roguelike@GamePassTheEndConfirm.png
 Roguelike@GetDropLeaveConfirm.png
