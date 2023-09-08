@@ -332,7 +332,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         private void InitializeItems()
         {
-            string[] taskList =
+            List<string> taskList = new List<string>
             {
                 "WakeUp",
                 "Recruiting",
@@ -344,6 +344,12 @@ namespace MaaWpfGui.ViewModels.UI
 
                 // "ReclamationAlgorithm",
             };
+            var clientType = Instances.SettingsViewModel.ClientType;
+            if (clientType != string.Empty && clientType != "Official" && clientType != "Bilibili")
+            {
+                taskList.Add("ReclamationAlgorithm");
+            }
+
             ActionAfterCompletedList = new List<GenericCombinedData<ActionType>>
             {
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("DoNothing"), Value = ActionType.DoNothing },
@@ -364,9 +370,9 @@ namespace MaaWpfGui.ViewModels.UI
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate"), Value = ActionType.ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate },
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitSelfIfOtherMaaElseShutdown"), Value = ActionType.ExitSelfIfOtherMaaElseShutdown },
             };
-            var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[taskList.Length]);
+            var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[taskList.Count]);
             var nonOrderList = new List<DragItemViewModel>();
-            for (int i = 0; i != taskList.Length; ++i)
+            for (int i = 0; i != taskList.Count; ++i)
             {
                 var task = taskList[i];
                 bool parsed = int.TryParse(ConfigurationHelper.GetTaskOrder(task, "-1"), out var order);
