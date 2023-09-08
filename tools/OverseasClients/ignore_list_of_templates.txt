@@ -18,6 +18,14 @@ BattleOperRoleWarrior.png
 BattleOpersFlag.png
 BattleQuickFormation-OperNameFlag-SpecialFocus.png
 BattleQuickFormation-OperNameFlag.png
+BattleQuickFormation-OperNameFlag0.png
+BattleQuickFormation-OperNameFlag1.png
+BattleQuickFormation-OperNameFlag2.png
+BattleQuickFormation-OperNameFlag3.png
+BattleQuickFormation-OperNameFlag4.png
+BattleQuickFormation-OperNameFlag5.png
+BattleQuickFormation-OperNameFlag6.png
+BattleQuickFormation-OperNameFlag7.png
 BattleQuickFormation.png
 BattleQuickFormationFilter
 BattleQuickFormationFilter.png
