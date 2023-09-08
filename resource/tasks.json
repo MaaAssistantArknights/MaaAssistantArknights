@@ -991,7 +991,9 @@
             280,
             90
         ],
-        "next": ["StageQueue@CheckPrts"]
+        "next": [
+            "StageQueue@CheckPrts"
+        ]
     },
     "StageQueue@UsePrtsSuccess": {
         "Doc": "检查代理激活没有，roi引用UnableToAgent2",
@@ -1008,7 +1010,9 @@
         "baseTask": "Fight",
         "template": "Terminal.png",
         "maxTimes": 3,
-        "exceededNext": ["Stop"],
+        "exceededNext": [
+            "Stop"
+        ],
         "next": [
             "StageQueue@GoLastBattle",
             "StageQueue"
@@ -1016,12 +1020,14 @@
         "postDelay": 3000
     },
     "StageQueue@GoLastBattle": {
-        "next": ["StageQueue@StartButton1"]
+        "next": [
+            "StageQueue@StartButton1"
+        ]
     },
     "StageQueue@CloseStonePage": {
         "next": []
     },
-    "StageQueue@StartButton1":{
+    "StageQueue@StartButton1": {
         "Doc": "开始战斗1",
         "action": "DoNothing",
         "maxTimes": 1,
@@ -1033,7 +1039,7 @@
             "StageQueue@UseStone",
             "StageQueue@NoStone",
             "StageQueue@OfflineConfirm",
-            "StageQueue@StartButton1TryAgain" 
+            "StageQueue@StartButton1TryAgain"
         ]
     },
     "SL-8": {
