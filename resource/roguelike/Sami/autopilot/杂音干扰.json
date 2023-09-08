@@ -123,18 +123,40 @@
                 8,
                 4
             ],
-            "direction": "left"
-        }
-    ],
-    "retreat_plan":[
+            "direction": "down"
+        },
         {
+            "groups": [
+                "补给站"
+            ],
             "location": [
-                8,
+                6,
                 1
             ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "无人机"
+            ],
+            "location": [
+                8,
+                3
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "支援陷阱"
+            ],
+            "location": [
+                4,
+                3
+            ],
+            "direction": "down",
             "condition": [
                 18,
-                28
+                30
             ]
         }
     ]

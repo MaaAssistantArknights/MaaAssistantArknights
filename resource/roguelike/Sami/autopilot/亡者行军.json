@@ -38,6 +38,22 @@
         },
         {
             "groups": [
+                "回费",
+                "挡人先锋"
+            ],
+            "location": [
+                5,
+                2
+            ],
+            "direction": "right",
+            "condition": [
+                0,
+                10
+            ]
+            
+        },
+        {
+            "groups": [
                 "情报官",
                 "挡人先锋",
                 "地面阻挡",
@@ -73,6 +89,16 @@
         },
         {
             "groups": [
+                "处决者"
+            ],
+            "location": [
+                3,
+                5
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
                 "凯尔希",
                 "单奶"                  
             ],
@@ -94,17 +120,7 @@
                 4
             ],
             "direction": "up"
-        },
-        {
-            "groups": [
-                "处决者"
-            ],
-            "location": [
-                3,
-                5
-            ],
-            "direction": "left"
-        },
+        },        
         {
             "groups": [
                 "玛恩纳",
@@ -153,7 +169,8 @@
         },        
         {
             "groups": [
-                "无人机"
+                "无人机",
+                "支援陷阱"
             ],
             "location": [
                 7,
