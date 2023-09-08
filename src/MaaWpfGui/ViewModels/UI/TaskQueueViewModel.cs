@@ -928,7 +928,8 @@ namespace MaaWpfGui.ViewModels.UI
         {
             var mode = Instances.SettingsViewModel.ClientType;
             var enable = mode.Length != 0;
-            return Instances.AsstProxy.AsstAppendStartUp(mode, enable);
+            var accountName = Instances.SettingsViewModel.AccountName;
+            return Instances.AsstProxy.AsstAppendStartUp(mode, enable, accountName);
         }
 
         private bool AppendFight()
