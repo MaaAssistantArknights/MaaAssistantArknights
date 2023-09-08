@@ -1,173 +1,165 @@
-## v4.23.2
-
-### 修复
-
-- 修复连接前卡住的问题 @MistEO @ABA2396
-
-## v4.23.1
+## v4.24.0-beta.1
 
 ### 新增
 
-- 活动资源更新 @MistEO @ABA2396
+- 新增肉鸽干员自动撤退字段 (#6241) @AnnoyingFlowers
+- 新增复刻活动时，连续刷普通1-9关 (异形UI暂不支持，例如愚人号)，支持上报至企鹅物流 (#6230) @status102
+   - 移除SSReopen中掉落物品集的指针 @status102
+   - 在悬浮提示中追加SSReopen说明 @status102
+   - 在中日英文档中追加SSReopen的说明 @status102
+   - 新增复刻活动时，连续刷普通1-9关 (异形UI暂不支持，例如愚人号)，支持上报至企鹅物流 @status102
+- 支持 SideStory「不义之财」活动导航 & 添加 "SideStoryStage" 模板 roi @ABA2396
+- 添加CLI支持 (#6144) @MistEO @wangl-cc
+   - add spaces @MistEO
+   - add space @MistEO
+   - fix install dir and less line break @wangl-cc
+   - revert remove trailing whitespace @wangl-cc
+   - format @wangl-cc
+   - remove unrelevant changes @wangl-cc
+   - fix download cli @wangl-cc
+   - space between ZH and EN @wangl-cc
+   - more details about CLI installation @wangl-cc
+   - ship CLI in Linux release @wangl-cc
+   - add CLI doc @wangl-cc
+- shutdown/hibernate after all other MAAs have exited, or just ex… (#6147) @Neptsun
+   - 日文localization写反了 @Neptsun
+   - shutdown/hibernate after all other MAAs have exited, or just exit itself @Neptsun
 - 支持woolang绑定 (#6142) @mrcino
-
-## v4.23.0
-
-### 新增
-
-- 支持带参数启动切换配置 @ABA2396
-- 新增新保全关卡内置作业 @AnnoyingFlowers @junyihan233
-- 增加烧开水功能，优化萨米肉鸽策略 (#6053) @Lancarus
-- 抄作业新增 "skill_times" 字段 (#6007) @AnnoyingFlowers
-- 肉鸽开局干员支持点选 is_start 中的干员 @ABA2396
-- 增加关卡数据获取成功提示 @ABA2396
-- add config `CompatPOSIXShell` (#5945) @wangl-cc
-- 关卡导航 - SideStory「理想城：长夏狂欢季」复刻 @ABA2396
-- 繁中服風雪過境復刻導航 (#6130) @momomochi987
+   - * docs: 补充Woolang-api的说明 @mrcino
+   - * feat: 支持woolang绑定，嘻嘻嘻 @mrcino
+- 注册表查询bluestacks hyper-v的conf位置 (#6083) @Gliese129
+   - optimized the way of testing adb port @Gliese129
+   - update @Gliese129
+   - use register key to detect bs config @Gliese129
+   - add default bluestacks.conf @Gliese129
+   - 多个模拟器可能导致连接不上 @Gliese129
+- 增加刷理智每次打关卡之前时的理智剩余量输出 (#6146) @status102
+   - 修复在部分情况下只会输出一次当前理智情况 @status102
+   - 补上丢失的空格 @status102
+   - 移除无用内容 @status102
+   - 增加刷理智每次打关卡之前时理智剩余量输出 @status102
 
 ### 改进
 
-- 修复 PlayCover 下识别差异问题 @MistEO @hguandl
-- 修复肉鸽中干员 山 2 技能反复释放的问题 (#6033) @AnnoyingFlowers
-- 尝试修复日志被占用的问题 @MistEO
-- 修复干员识别错误 (#6022) @Black1312
-- 尝试修复mac上阈值差异 @MistEO
-- 修复自动编队部分干员文字识别错误 (#6020) @cenfusheng
-- 重写自动战斗编队干员检测 @MistEO
-- all operators are marked as new for overseas clients (Toolbox-Recruitment) (#6009) @178619
-- 修复SSS技能用法判断错误的问题 @MistEO
-- 修复编队时“全部”识别错误 @MistEO
-- 仓库识别界面未在最左侧时，识别不全的问题 (#6000) @H1MSK
-- Prevents possible forced retreat (Amiya S3) @178619
-- 修复一些文字识别问题（txwy） (#5993) @cenfusheng
-- 紧急修复 dlx 算法工具类的越界问题 @lhhxxxxx
-- Mizuki IS DropBox recog. and Shopping regex @Constrat
-- SL event navigation @Constrat
-- 定时执行逻辑错误 @ABA2396
-- "Gummy" with skin undetected with new ROI @Constrat
-- increased ROI in fight task @Constrat
-- changed award ROI and template  EN @Constrat
-- 修复关卡“干酪封锁”与装置““甜蜜狂搅””的识别 (#5975) @cenfusheng
-- link in mac-runtime release (#5954) @wangl-cc
-- 肉鸽在招募逻辑内可以将同一干员纳入多个群组,修复由于拆分文件造成的bug (#5946) @Lancarus
-- 新版萨米肉鸽商店文件&水月肉鸽商店文件提交 (#5936) @Yumi0606
-- 错误的类型转换 @ABA2396
-- 修复模拟器关闭逻辑错误，增加模拟器退出错误日志 @ABA2396
-- `CloseDown` not works on macOS (#5920) @wangl-cc
-- 关闭模拟器时索引超出了数组界限 @ABA2396
-- 添加繁中服对于鸿雪的OCR等价规则 #5931 #5933 @Constrat
-- 肉鸽打折商品识别错误 @ABA2396
-- 修复特别关注干员的识别问题 (#5924) @cenfusheng
-- wrong template for reception room detection @Constrat
-- 修复添加了具有相同键的项 @MistEO
-- 添加刷理智任务报错提示 @ABA2396
-- [Roguelike] 优化刷源石锭模式的逻辑 (#5987) @lassnuttun
-- 优化萨米肉鸽策略 (#5990) @Lancarus
-- 优化了萨米肉鸽第三层的部分关卡打法,更新了肉鸽文档 (#5986) @Lancarus @ABA2396
-- 优化萨米肉鸽招募逻辑，优化前两层作战逻辑 (#5966) @Lancarus
-- optimized ROI for EPISODE navigation @Constrat
-- 更新简中OCR识别模型 | Re-training OCR rec model of CN client (#5895) @Plumess
-- 更新游戏资源 @yuanyan3060 @MistEO
-- 拆分所有肉鸽资源文件 (#5856) @MistEO @Lancarus
-- 优化萨米肉鸽不期而遇 (#5890) @cenfusheng
-- 傀影肉鸽适配更多干员 (#5817) @cenfusheng
-- 适配萨米肉鸽关卡“豪华车队” (#5798) @cenfusheng
-- 肉鸽开局助战or自选干员后不再要求选用start属性干员 (#5824) @LingXii
-- 增加强制替换adb的信息提示，增加异常处理 (#5838) @ABA2396
-- 优化烧开水逻辑，现在能在低难度烧水，高难度开始 (#6094) @Lancarus
-- 更新3.4任务流程协议文档 @ABA2396
+- 优化萨米肉鸽策略 (#6266) @Lancarus
+   - 优化萨米肉鸽策略 @Lancarus
+- 优化萨米肉鸽部分作战逻辑 (#6263) @Lancarus
+   - 优化萨米肉鸽部分作战逻辑 @Lancarus
+- 繁中文件大更新 (#6226) @momomochi987
+   - 更新連結、再微調一些小地方 @momomochi987
+   - 移除不再需要的檔案、微調一些小東西 (? @momomochi987
+   - 修正 '抄作业.com' 的超連結 @momomochi987
+   - 穩定的→穩定地，字段→欄位 @momomochi987
+   - 再檢查一遍，補上漏改的地方 @momomochi987
+   - 微調 3.1~3.7 的內容 @momomochi987
+   - 微調 2.2~2.5 的內容 @momomochi987
+   - 微調 1.4~1.6 的內容 @momomochi987
+   - 整理檔案 @momomochi987
+   - 微調 1.3-模擬器支援的內容 @momomochi987
+   - 微調 1.2-常見問題的內容 @momomochi987
+   - 微調 1.1-詳細介紹的內容 @momomochi987
+   - 更新繁中相關內容 @momomochi987
+   - 更進陸服內容先 @momomochi987
+- 优化萨米肉鸽部分关卡逻辑，优化招募逻辑 (#6240) @Lancarus
+   - 优化萨米肉鸽部分关卡逻辑，优化招募逻辑 @Lancarus
+- 优化萨米肉鸽部分逻辑 (#6222) @Lancarus
+   - 优化部分萨米肉鸽关卡逻辑 @Lancarus
+   - 修复咫尺天涯朝向错误 @Lancarus
+   - 优化萨米肉鸽不期而遇选项 @Lancarus
+   - 优化萨米肉鸽部分关卡逻辑 @Lancarus
+- 更新萨米肉鸽作战策略 (#6213) @Lancarus
+   - 更新萨米肉鸽作战策略 @Lancarus
+- 优化萨米肉鸽部分关卡逻辑 (#6198) @Lancarus
+   - 修复关卡名跳出错误 @Lancarus
+   - 优化萨米肉鸽部分关卡逻辑 @Lancarus
+- 优化刷源石锭模式的逻辑，跳过战斗后招募，增加进入纵向节点的逻辑 (#6140) @Lancarus
+   - 更改焰影苇草优先度 @Lancarus
+   - 调整部分干员的招募优先度 @Lancarus
+   - 修复一些不期而遇的选项 @Lancarus
+   - 萨米肉鸽boss关名称错误 @Lancarus
+   - #6183 @Lancarus
+   - 更新纵向节点截图 @Lancarus
+   - 适配纵向节点 @Lancarus
+   - 适配纵向进点 @Lancarus
+   - 更新纵向节点截图 @Lancarus
+   - 适配纵向进点 @Lancarus
+   - 增加进入纵向节点,适配麒麟R夜刀 @Lancarus
+   - 更新部分纵向节点截图 @Lancarus
+   - 优化刷源石锭模式的逻辑,跳过战斗后招募 @Lancarus
+- 什么时候更新 .net8 什么时候加.jpg @ABA2396
+- 更新提醒 @ABA2396
 
 ### 修复
 
-- 强制替换adb报错 @ABA2396
-- 修复纯烬艾雅法拉识别 (#5791) @Black1312
-- 修复了傀影肉鸽的一些错误 (#5859) @Lancarus
-- 修正 zh-cn.xaml 文本错误 (#5861) @javilak
-- 尝试修复TN-4地图view错误 (#6097) @status102
-- txwy stage navigation, similar to 4c2c644 @Constrat
+- 修复萨米肉鸽关卡json“生人勿进”->"生人勿近" (#6262) @Lancarus
+   - 修复萨米肉鸽关卡json“生人勿进”->"生人勿近" @Lancarus
+- 尝试修复网络波动造成的碎石不用问题 (#6220) @zzyyyl
+   - 修复网络波动造成的碎石不用问题 @zzyyyl
+- fix：修复萨米肉鸽作战关卡逻辑错误 (#6235) @mole828
+   - fix：修复萨米肉鸽作战关卡逻辑错误 @mole828
+- 萨米商店不识别第二排商品 (#6232) @Lancarus
+   - 萨米商店不识别第二排商品 @Lancarus
+- 修复肉鸽道中抓取干员 山 或 林 后重复开启技能的问题 (#6221) @AnnoyingFlowers
+   - 修复肉鸽道中抓取干员 山 或 林 后重复开启技能的问题 @AnnoyingFlowers
+- 修复在部分情况下，刷理智的当前理智识别结果丢失分隔符 (#6208) @status102
+   - 增加倒数第二位>='0'判断，移除OCRer引用 @status102
+   - 从OCRer改为RegionOCRer @status102
+   - 修复可能存在的下标越界以及识别结果分块情况 @status102
+   - 修复在部分情况下，识别结果丢失分隔符 @status102
+- regex for trader shopping in I.S. @Constrat
+- 萨米boss关正则替换错误 (#6211) @Lancarus
+   - 萨米boss关正则替换错误 @Lancarus
+- Kirin X Yato => Kirin R Yato fix #6195 @Constrat
+- fix failing to choose rewards from the last run @178619
+- 规避crt死锁问题 @MistEO
+- 尝试修复LoadResource卡死的问题 @MistEO
+- 修复理智识别在部分情况下会"/"识别为"|" (#6170) @status102
+   - remove test code @status102
+   - 修复理智识别在部分情况下会"/"识别为"|" @status102
 
 ### 其他
 
-- 更新文档内容 (#5901) (#5885) @SherkeyXD @AnnAngela
-- Events and Banners displayed according to timetable (#6050) @Constrat
-- 添加用户词典，减少拼写错误提示 @ABA2396
-- merge and re-structure stage.json (#5944) @MistEO
-- golang 接口从io/ioutil包更新为os包 (#5988) @javilak
-- 重构 TaskQueueViewModel (#5753) @ABA2396
-- 重构 CopilotViewModel.cs (#6003) @ABA2396
-- 重构 RecognizerViewModel.cs @ABA2396
-- 重构 CopilotViewModel.cs @ABA2396
-- tweaked english tasks json schema @Constrat
-- 3.1-Integration.md (#6039) @NtskwK
-- Update 3.1-集成文档.md (#6036) @hzxjy1
-- 修正偶尔OCR错误造成的吃48小时理智药失效问题 (#6004) @bigqiao
-- gui.log 启动时记录目录 @ABA2396
-- ML translation @Constrat
-- tools: global content update @Constrat
-- ormatting + output log cleanup / clearup @Constrat
-- Feat: Auto Update now orders Global tasks.json like Official @Constrat
-- localization update @178619
-- 调整肉鸽商品识别roi范围 @ABA2396
-- Useless png in roguelike JP @Constrat
-- tools: added impossible to translate task @Constrat
-- 为文档添加docsearch和sitemap支持 (#5785) @SherkeyXD
-- CI-在静态分析中增加基线 (#5757)(#5867) @hxdnshx
-- 修改了部分肉鸽文档 (#5873) @Lancarus
-- typo of 1.3-模拟器支持.md (#5802) @BlueandwhiteXD
-- fix rpath for macos @horror-proton
-- add log for #6006 @MistEO
-- roguelike: 适配刷源石锭模式不期而遇选择策略 (#6102) @Yumi0606
-- 启动时检测是否为管理员启动 @ABA2396
-- 添加报错信息 #6089 @ABA2396
-- 修改格式为适配更多启动参数 @ABA2396
-- 合并关闭+重启方法 @ABA2396
-
-### For overseas
-
-#### txwy
-
-- 更新繁中服肉鴿不期而遇 ocrReplace (#5882) @momomochi987
-- 修正繁中服水月肉鴿會卡在 "緊急運輸" 的問題 (#5790) @momomochi987
-- 繁中服 快捷編隊 部署費用 (#6131) @vonnoq
-- 適配繁中服保全派駐 (#5926) @momomochi987
-- remake StageSK & StagePR-C picture for txwy (#5999) (#6018) @momomochi987
-- 添加繁中服对于鸿雪的OCR等价规则 #5931 (#5933) @Roland125 @Constrat @MistEO
-
-#### YostarEN
-
-- d0dc294 auto update version issue @Constrat
-- more long names regex for OperBox @Constrat
-- ROI for BattleStartOCR, new IMG+ROI for Oper @Constrat
-- OperBox regex, BattleMatcher regex, longname and IS @Constrat
-- modified text for EX stages (WB event) @Constrat
-- SSS Identification issue with NON-1080 emulators @Constrat
-- DepotAllTab for EN from 1126db9 @Constrat
-- Adapted EN regex for new AutoSquad algorithm (#6028) @Constrat
-- tweaked SSS copilot descriptions for EN @Constrat
-- PRTS3 and LevelOFDifficulty i18n EN @Constrat
-- Senior Operator tag EN @Constrat
-- Infrast Task stuck Max Trust notification EN @Constrat
-- Reception sends clue when full in YostarEN @Constrat
-- battlequickformationocr modified roi for EN @Constrat
-- optimized: regex for I.S. trader shopping in EN @Constrat
-- Invitation to Wine rerun implementation for EN @Constrat
-- Oper Regex Tweaked for EN (BattleMatcher) @Constrat
-- Adapted EndOfActionAnnihilation for EN @Constrat
-- Paradox Simulation for YostarEN + BattleMatcher regex @Constrat
-
-#### YostarKR
-
-- add templates for YoStarKR @178619
-- SSS copilot support for YostarKR @178619
-- make the option to not recruit selectable in SSS for YoStarKR @178619
-- Goldenglow(澄闪) & Surtr(史尔特尔) ocrReplace (#5852) @Large-Japchae
-- nbsp character from OCR (YoStarKR) @178619
-- ocr replace for YostarJP (#6093) @jie17
-
-#### YostarJP
-
-- Invitation to Wine rerun implemen. for JP @Constrat
-- add roguelike encounter ocrReplace for JP and EN (#5903) @momomochi987
-- [JP] Docs Update (#6070) @wallsman
-- add ocr replace for YostarJP (#5977) @jie17
-- Removed useless .png from JP I.S. @Constrat
+- A Flurry to the Flame event navigation @Constrat
+- corrected a44dc12 time and event naming @Constrat
+- Auto Update Game Resources - 2023-09-07 @MistEO
+- (JP) Fix autoupdate change typo @wallsman
+- Auto Update Game Resources - 2023-09-07 @MistEO
+- （JP）紅炎遣らう落葉 Update @wallsman
+- Auto Update Game Resources - 2023-09-07 @MistEO
+- [JP] readme Update test / Japanese font readability (#6228) @wallsman
+   - Fix Comment typo @wallsman
+   - Use Japanese font readability @wallsman
+- 修正格式 @ABA2396
+- Auto Update Game Resources - 2023-09-05 @MistEO
+- Auto Update Game Resources - 2023-09-05 @MistEO
+- 麒麟X夜刀->麒麟R夜刀，以及对CLI文档的侧边栏支持 (#6199) @SherkeyXD
+   - 为cli文档添加侧边栏及图标配置 @SherkeyXD
+   - 修正文档中的麒麟X夜刀为R @SherkeyXD
+   - 将自带作业中的麒麟X夜刀也替换为麒麟R夜刀 @SherkeyXD
+- 對照陸服，整理與補充繁中服的 template 跟 tasks  (#6196) @momomochi987
+   - 更進陸服文件內容、微調部分用詞 @momomochi987
+   - 對照陸服，補充繁中服缺少的 tasks @momomochi987
+   - 整理、更新繁中服部分截圖 @momomochi987
+- 尽可能稳定的打更多层数 -> 尽可能稳定地打更多层数 (#6200) @govizlora
+   - fix typo @govizlora
+- Untrastrated fix @wallsman
+- Merge branch 'dev' of https://github.com/MaaAssistantArknights/MaaAssistantArknights into dev @ABA2396
+   - 修复仓库识别无法在表格框内滚动 @ABA2396
+- updated templates for EN (#6094) @Constrat
+- update resources for YoStarKR @178619
+- Merge tag 'v4.23.3' into dev @MistEO
+- Merge tag 'v4.23.2' into dev @MistEO
+- Update CHANGELOG.md @MistEO
+- Update localization for YoStarKR @178619
+- Update ocrReplaces for YoStarKR @178619
+- 跟进蓝叠Hyper-V的连接指导 (#6083) (#6137) @MistEO @SherkeyXD
+   - add space @MistEO
+   - 跟进蓝叠Hyper-V的连接指导 @SherkeyXD
+- 取消连接时加载资源 @ABA2396
+- 加点加载资源和连接模拟器的日志 @ABA2396
+- Merge tag 'v4.23.1' into dev @ABA2396
+- Auto Update Game Resources - 2023-08-31 @MistEO
+- i18n: Translations update from MAA Weblate (#6151) @weblate
+   - Translated using Weblate (Japanese) @weblate
+- add log @AnnAngela
+- Auto Update Game Resources - 2023-08-31 @MistEO
