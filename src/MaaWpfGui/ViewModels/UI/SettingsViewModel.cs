@@ -398,6 +398,18 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private string _accountName = ConfigurationHelper.GetValue(ConfigurationKeys.AccountName, string.Empty);
+
+        public string AccountName
+        {
+            get => _accountName;
+            set
+            {
+                SetAndNotify(ref _accountName, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.AccountName, value);
+            }
+        }
+
         private bool _minimizingStartup = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizingStartup, bool.FalseString));
 
         /// <summary>
