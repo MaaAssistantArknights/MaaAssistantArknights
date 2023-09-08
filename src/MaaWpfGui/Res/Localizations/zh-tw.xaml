@@ -252,8 +252,8 @@
     <system:String x:Key="MainViewButtonFeature">主介面可選擇按鈕功能</system:String>
     <system:String x:Key="CustomStageCode">手動輸入關卡代名</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">支持大部分主線關卡名與原列表的關卡名（如:4-10、AP-5、H10-1-Hard）
-可在關卡結尾輸入「Normal/Hard」表示需要切換標準與磨難難度
-可輸入「SSReopen-XX」一次性代理SS的普通關</system:String>
+可在關卡結尾輸入「Normal/Hard」表示需要切換標準與磨難難度</system:String>
+<!--可輸入「SSReopen-XX」一次性代理SS的普通關</system:String>-->
     <system:String x:Key="AutoDetectConnection">自動檢測連接</system:String>
     <system:String x:Key="AutoDetectConnectionTip">每次檢測完成後會自動取消勾選，若需要重新檢測可再次勾選</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">每次重新檢測</system:String>
@@ -508,9 +508,9 @@
     <system:String x:Key="DropRecognitionError">掉落辨識錯誤</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">放棄上傳企鵝物流</system:String>
     <system:String x:Key="TheEX">無獎勵關卡，已停止</system:String>
-    <system:String x:Key="StageQueue">關卡隊列: </system:String>
+    <system:String x:Key="StageQueue">關卡隊列:</system:String>
     <system:String x:Key="UnableToAgent">無法使用代理指揮</system:String>
-    <system:String x:Key="CurrentSanity">當前理智: </system:String>
+    <system:String x:Key="CurrentSanity">當前理智:</system:String>
     <system:String x:Key="MissionStart">已開始行動</system:String>
     <system:String x:Key="UnitTime">次</system:String>
     <system:String x:Key="MedicineUsed">已使用理智藥</system:String>
