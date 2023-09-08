@@ -3246,6 +3246,12 @@
             "the Algorithm with"
         ]
     },
+    "Reclamation@GiveupCheckRemainItems": {
+        "text": [
+            "Check",
+            "Supplies"
+        ]
+    },
     "Reclamation@ConfirmStart": {
         "text": [
             "COMMENCE",
