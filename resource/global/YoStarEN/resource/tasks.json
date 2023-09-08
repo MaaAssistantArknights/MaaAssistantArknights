@@ -3293,6 +3293,16 @@
             "ENTER"
         ]
     },
+    "BattleQuickFormationRole-All-OCR": {
+        "text": [
+            "All"
+        ]
+    },
+    "Reclamation@LevelComplete": {
+        "text": [
+            "Results"
+        ]
+    },
     "Phantom@Roguelike@SelectTheme": {
         "text": [
             "Phantom"
