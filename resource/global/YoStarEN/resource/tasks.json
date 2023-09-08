@@ -3273,11 +3273,6 @@
             "want to leave?"
         ]
     },
-    "StartActionEnter@Reclamation@StartActionEnter": {
-        "next": [
-            "Stop"
-        ]
-    },
     "Reclamation@PrepareAction": {
         "text": [
             "Prepare for Battle"
@@ -3286,6 +3281,121 @@
     "Reclamation@GiveupAlgorithm": {
         "text": [
             "ABANDON"
+        ]
+    },
+    "Reclamation@Liaison": {
+        "text": [
+            "Liaison"
+        ]
+    },
+    "Reclamation@BuyWaterProcedure": {
+        "text": [
+            "Skip",
+            "Building materials",
+            "Fresh Water",
+            "Skip"
+        ]
+    },
+    "Reclamation@ManufactureStatus": {
+        "Doc": "base_task",
+        "algorithm": "OcrDetect",
+        "roi": [
+            1023,
+            336,
+            259,
+            109
+        ],
+        "text": []
+    },
+    "Reclamation@ManufactureIncrease": {
+        "baseTask": "Reclamation@ManufactureStatus",
+        "action": "ClickRect",
+        "specificRect": [
+            1120,
+            86,
+            111,
+            26
+        ],
+        "text": [
+            "Craft"
+        ]
+    },
+    "Reclamation@TodoEnter": {
+        "text": [
+            "FIRE",
+            "WITHIN",
+            "THE",
+            "SAND"
+        ]
+    },
+    "Reclamation@ManufactureDecrease": {
+        "baseTask": "Reclamation@ManufactureStatus",
+        "action": "ClickRect",
+        "specificRect": [
+            1096,
+            288,
+            139,
+            28
+        ],
+        "text": [
+            "Insufficient",
+            "materials"
+        ]
+    },
+    "Reclamation@DoManufacture": {
+        "baseTask": "Reclamation@ManufactureStatus",
+        "action": "ClickSelf",
+        "text": [
+            "Craft"
+        ],
+        "postDelay": 1000
+    },
+    "Reclamation@ManufactureInsufficientMaterial": {
+        "baseTask": "Reclamation@ManufactureStatus",
+        "text": [
+            "Insufficient",
+            "materials"
+        ]
+    },
+    "Reclamation@ManufactureSufficientMaterial": {
+        "baseTask": "Reclamation@ManufactureStatus",
+        "text": [
+            "Craft"
+        ]
+    },
+    "Reclamation@LabClickDetailView": {
+        "text": [
+            "View",
+            "Details"
+        ]
+    },
+    "Reclamation@LabClickAssembleable": {
+        "text": [
+            "Craftable"
+        ]
+    },
+    "Reclamation@EnterResearchLab": {
+        "text": [
+            "Research",
+            "Development"
+        ]
+    },
+    "Reclamation@EnterSmeltGoldPage": {
+        "roi": [
+            0,
+            31,
+            1280,
+            175
+        ],
+        "text": [
+            "Crude",
+            "Gold"
+        ]
+    },
+    "Reclamation@GiveupClickEmergencyExit": {
+        "text": [
+            "Confirm",
+            "Evacuation"
         ]
     },
     "Roguelike@FromIntegratedStrategies": {

@@ -13090,7 +13090,9 @@
         "algorithm": "OcrDetect",
         "text": [
             "演算",
-            "开始"
+            "开始",
+            "COMMENCE",
+            "ALGORITHM"
         ],
         "roi": [
             790,
@@ -13223,7 +13225,8 @@
         ],
         "text": [
             "开始行动",
-            "决断"
+            "决断",
+            "Start"
         ],
         "action": "ClickSelf",
         "next": [
