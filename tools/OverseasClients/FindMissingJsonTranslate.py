@@ -7,7 +7,6 @@ import re
 # You may customize here
 regex_ignore_list = [
     "Sami",
-    "Reclamation",
     "SSSBuffChoose"
 ]
 
