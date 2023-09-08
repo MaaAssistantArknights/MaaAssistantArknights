@@ -34,7 +34,8 @@ namespace MaaWpfGui.States
         }
 
         // values
-        private bool _idle = true;
+        // 由初始化设置为 true
+        private bool _idle;
 
         public bool Idle
         {

@@ -12,9 +12,7 @@
     "deploy_plan": [
         {
             "groups": [
-                "情报官",
-                "挡人先锋",
-                "投锋"
+                "回费"
             ],
             "location": [
                 9,
@@ -24,7 +22,19 @@
         },
         {
             "groups": [
+                "玛恩纳"
+            ],
+            "location": [
+                7,
+                3
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "史尔特尔",
                 "地面阻挡",
+                "地面远程",
                 "其他地面"
             ],
             "location": [
@@ -35,24 +45,25 @@
         },
         {
             "groups": [
-                "焰苇"
+                "浊心斯卡蒂"
+            ],
+            "location": [
+                7,
+                4
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "焰苇",
+                "凯尔希",
+                "奶"
             ],
             "location": [
                 5,
                 4
             ],
             "direction": "right"
-        },
-        {
-            "groups": [
-                "凯尔希",
-                "奶"
-            ],
-            "location": [
-                10,
-                4
-            ],
-            "direction": "left"
         },
         {
             "groups": [
@@ -66,8 +77,10 @@
             "direction": "left"
         },
         {
-            "groups": [                
+            "groups": [
                 "高台输出",
+                "狙击",
+                "盾法",
                 "辅助",
                 "其他高台"
             ],
@@ -75,17 +88,7 @@
                 7,
                 4
             ],
-            "direction": "up"
-        },
-        {
-            "groups": [
-                "玛恩纳"
-            ],
-            "location": [
-                6,
-                4
-            ],
-            "direction": "right"
+            "direction": "left"
         },
         {
             "groups": [
@@ -100,27 +103,62 @@
         {
             "groups": [
                 "高台输出",
-                "狙击",                
+                "狙击",
                 "辅助",
                 "其他高台"
             ],
             "location": [
-                3,
+                5,
+                2
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
+                "处决者",
+                "地面远程",
+                "地刺",
+                "地面阻挡",
+                "其他地面"
+            ],
+            "location": [
+                4,
+                4
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
+                "处决者",
+                "地刺",
+                "地面阻挡",
+                "其他地面"
+            ],
+            "location": [
+                6,
                 4
             ],
             "direction": "down"
         },
         {
             "groups": [
-                "地面阻挡",
-                "处决者",
-                "其他地面"
+                "奶"
             ],
             "location": [
-                10,
-                1
+                4,
+                2
             ],
-            "direction": "left"
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "补给站"
+            ],
+            "location": [
+                5,
+                3
+            ],
+            "direction": "down"
         }
     ]
 }

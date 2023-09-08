@@ -1290,6 +1290,14 @@
             ]
         ]
     },
+    "StartToWakeUpOCR": {
+        "text": [
+            "開始喚醒",
+            "登錄",
+            "登",
+            "錄"
+        ]
+    },
     "TodaysSupplies": {
         "text": [
             "今日配給"
@@ -1316,6 +1324,31 @@
             "行動結束"
         ]
     },
+    "ExpiringMedicineCheck": {
+        "ocrReplace": [
+            [
+                ".+小時",
+                "小時"
+            ],
+            [
+                ".+分鐘",
+                "分鐘"
+            ],
+            [
+                "^\\d+小$",
+                "小時"
+            ],
+            [
+                "^\\d+分$",
+                "分鐘"
+            ]
+        ],
+        "text": [
+            "分鐘",
+            "小時",
+            "1天"
+        ]
+    },
     "FightMissionFailed": {
         "text": [
             "任務失敗"
@@ -1328,7 +1361,8 @@
     },
     "GoLastBattle": {
         "text": [
-            "前往上一次作戰"
+            "前往上一次作戰",
+            "作戰"
         ]
     },
     "StartRecruit": {
@@ -1346,9 +1380,52 @@
             "立即招"
         ]
     },
+    "MiningActivities": {
+        "text": [
+            "限時開採",
+            "開採"
+        ]
+    },
+    "RecruitingActivities": {
+        "text": [
+            "贈送",
+            "次"
+        ]
+    },
+    "RecruitingActivitiesConfirm": {
+        "text": [
+            "贈送",
+            "次",
+            "小時"
+        ]
+    },
+    "RecruitingActivitiesRecruit": {
+        "text": [
+            "尋訪一次",
+            "尋訪"
+        ]
+    },
+    "RecruitingActivitiesRecruitEnd": {
+        "text": [
+            "尋訪一次",
+            "尋訪"
+        ]
+    },
+    "NoFriends": {
+        "text": [
+            "暫無好友"
+        ]
+    },
+    "VisitNextOcr": {
+        "text": [
+            "訪問下位"
+        ]
+    },
     "Mall": {
         "text": [
-            "採"
+            "採",
+            "採購",
+            "中心"
         ]
     },
     "VisitLimited": {
@@ -1532,10 +1609,24 @@
             "進駐"
         ]
     },
+    "InfrastConfirmButtonWait": {
+        "text": [
+            "正在提交",
+            "反饋至神經"
+        ]
+    },
     "InfrastDormConfirmButtonWait": {
         "text": [
             "正在提交",
             "反饋至神經"
+        ]
+    },
+    "InfrastClueSelfFull": {
+        "text": [
+            "已達線索上限",
+            "無法獲取新的線索",
+            "上限",
+            "無法"
         ]
     },
     "BattleStageName": {
@@ -2053,13 +2144,19 @@
             "開始行動",
             "開始突襲",
             "開始試煉",
-            "開始試束"
+            "開始試束",
+            "開始測試"
         ]
     },
     "BattleStartOCR": {
         "text": [
             "行動",
             "開始"
+        ]
+    },
+    "Roguelike@ChooseDifficultyConfirm": {
+        "text": [
+            "選擇"
         ]
     },
     "Roguelike@FromIntegratedStrategies": {
@@ -2455,11 +2552,29 @@
             ]
         ]
     },
+    "Roguelike@StageTraderSpecialShoppingAfterRefresh": {
+        "text": [
+            "指路",
+            "指路鱗"
+        ]
+    },
+    "Roguelike@StageTraderRefreshWithDiceNotAvaiable": {
+        "text": [
+            "本商店",
+            "刷新次數",
+            "已用完"
+        ]
+    },
     "Roguelike@StageTraderInvestSystemFull": {
         "text": [
             "當前儲備餘額已達上限",
             "當前",
             "上限"
+        ]
+    },
+    "Phantom@Roguelike@LevelName_mode4": {
+        "text": [
+            "故土殘軀"
         ]
     },
     "Phantom@Roguelike@NextLevel": {
@@ -2474,6 +2589,17 @@
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
+    },
+    "Mizuki@Roguelike@ChooseDifficultyConfirm": {
+        "text": [
+            "選擇"
+        ]
+    },
+    "Mizuki@Roguelike@LevelName_mode4": {
+        "text": [
+            "波濤略地",
+            "紺碧搖籃"
+        ]
     },
     "Mizuki@Roguelike@NextLevel": {
         "text": [
@@ -3978,7 +4104,7 @@
                 "聚火源石虫"
             ],
             [
-                "指路鱗",
+                "指路.*",
                 "指路鳞"
             ],
             [
@@ -4173,6 +4299,18 @@
             "確認調用",
             "放棄調用",
             "確認選擇"
+        ]
+    },
+    "GachaLastOnceResult": {
+        "text": [
+            "憑證",
+            "信物",
+            "獲得"
+        ]
+    },
+    "GachaLastTenTimesResult2": {
+        "text": [
+            "獲得物資"
         ]
     },
     "GachaOncePrefix@DoGacha": {
