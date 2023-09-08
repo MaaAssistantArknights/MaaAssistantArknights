@@ -34,10 +34,10 @@ bool asst::TilePack::parse(const json::value& json)
             .name = summary.get("name", "UnknownLevelName"),
         };
         auto filepath = dir / utils::path(summary.at("filename").as_string());
-        if (!std::filesystem::exists(filepath)) {
-            Log.error("file not exists", filepath);
-            return false;
-        }
+        // if (!std::filesystem::exists(filepath)) {
+        //     Log.error("file not exists", filepath);
+        //     return false;
+        // }
         m_summarize.emplace_back(std::move(level_key), std::move(filepath));
     }
     return true;

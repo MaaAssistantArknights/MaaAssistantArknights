@@ -15,7 +15,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -81,7 +80,10 @@ namespace MaaWpfGui.Main
         {
             fixed (byte* ptr = EncodeNullTerminatedUTF8(dirname))
             {
-                return AsstLoadResource(ptr);
+                _logger.Information($"AsstLoadResource dirname: {dirname}");
+                var ret = AsstLoadResource(ptr);
+                _logger.Information($"AsstLoadResource ret: {ret}");
+                return ret;
             }
         }
 
@@ -238,16 +240,7 @@ namespace MaaWpfGui.Main
         /// <returns>是否成功。</returns>
         public bool LoadResource()
         {
-            static bool LoadResIfExists(string path)
-            {
-                string resource = "\\resource";
-                if (!Directory.Exists(path + resource))
-                {
-                    return true;
-                }
-
-                return AsstLoadResource(path);
-            }
+            _logger.Information("Load Resource");
 
             string clientType = Instances.SettingsViewModel.ClientType;
             string mainRes = Directory.GetCurrentDirectory();
@@ -273,6 +266,19 @@ namespace MaaWpfGui.Main
             }
 
             return loaded;
+
+            static bool LoadResIfExists(string path)
+            {
+                const string Resource = "\\resource";
+                if (!Directory.Exists(path + Resource))
+                {
+                    _logger.Warning($"Resource not found: {path + Resource}");
+                    return true;
+                }
+
+                _logger.Information($"Load resource: {path + Resource}");
+                return AsstLoadResource(path);
+            }
         }
 
         /// <summary>
@@ -1098,6 +1104,13 @@ namespace MaaWpfGui.Main
                 case "SanityBeforeStage":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CurrentSanity") + $" {subTaskDetails["sanity"]} ");
                     break;
+
+                case "StageQueueUnableToAgent":
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails["stage_code"]} " + LocalizationHelper.GetString("UnableToAgent"), UiLogColor.Info);
+                    break;
+                case "StageQueueMissionCompleted":
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails["stage_code"]}   {subTaskDetails["stars"]}★", UiLogColor.Info);
+                    break;
             }
         }
 
@@ -1228,11 +1241,13 @@ namespace MaaWpfGui.Main
             if (connected && connectedAdb == Instances.SettingsViewModel.AdbPath &&
                 connectedAddress == Instances.SettingsViewModel.ConnectAddress)
             {
+                _logger.Information($"Already connected to {connectedAdb} {connectedAddress}");
                 if (!ForcedReloadResource)
                 {
                     return true;
                 }
 
+                _logger.Information("Forced reload resource");
                 if (!LoadResource())
                 {
                     error = "Load Resource Failed";
@@ -1246,12 +1261,6 @@ namespace MaaWpfGui.Main
                 });
 
                 return true;
-            }
-
-            if (!LoadResource())
-            {
-                error = "Load Resource Failed";
-                return false;
             }
 
             bool ret = AsstConnect(_handle, Instances.SettingsViewModel.AdbPath, Instances.SettingsViewModel.ConnectAddress, Instances.SettingsViewModel.ConnectConfig);
@@ -1618,7 +1627,7 @@ namespace MaaWpfGui.Main
         /// <list type="bullet">
         ///     <item>
         ///         <term><c>0</c></term>
-        ///         <description>刷蜡烛，尽可能稳定的打更多层数。</description>
+        ///         <description>刷蜡烛，尽可能稳定地打更多层数。</description>
         ///     </item>
         ///     <item>
         ///         <term><c>1</c></term>

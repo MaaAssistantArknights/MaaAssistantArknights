@@ -2902,6 +2902,41 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _useLogItemDateFormat = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseLogItemDateFormat, bool.FalseString));
+
+        public bool UseLogItemDateFormat
+        {
+            get => _useLogItemDateFormat;
+            set
+            {
+                SetAndNotify(ref _useLogItemDateFormat, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.UseLogItemDateFormat, value.ToString());
+            }
+        }
+
+        public List<string> LogItemDateFormatStringList { get; } = new List<string>
+        {
+            "HH:mm:ss",
+            "MM-dd  HH:mm:ss",
+            "MM/dd  HH:mm:ss",
+            "MM.dd  HH:mm:ss",
+            "dd-MM  HH:mm:ss",
+            "dd/MM  HH:mm:ss",
+            "dd.MM  HH:mm:ss",
+        };
+
+        private string _logItemDateFormatString = ConfigurationHelper.GetValue(ConfigurationKeys.LogItemDateFormat, "HH:mm:ss");
+
+        public string LogItemDateFormatString
+        {
+            get => _logItemDateFormatString;
+            set
+            {
+                SetAndNotify(ref _logItemDateFormatString, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.LogItemDateFormat, value);
+            }
+        }
+
         private bool _useAlternateStage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseAlternateStage, bool.FalseString));
 
         /// <summary>
