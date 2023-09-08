@@ -10087,7 +10087,7 @@
             248
         ],
         "next": [
-            "(SwipeToTheUp*5)"
+            "(SwipeToTheUp*10)"
         ]
     },
     "Mizuki@Roguelike@ChooseDifficulty_Hardest": {
@@ -10107,7 +10107,7 @@
             248
         ],
         "next": [
-            "(SwipeToTheDown*5)"
+            "(SwipeToTheDown*10)"
         ]
     },
     "Mizuki@Roguelike@ChooseOper": {
@@ -10684,7 +10684,7 @@
             189
         ],
         "next": [
-            "(SwipeToTheUp*5)"
+            "(SwipeToTheUp*10)"
         ]
     },
     "Sami@Roguelike@ChooseDifficulty_Hardest": {
@@ -10704,7 +10704,7 @@
             189
         ],
         "next": [
-            "(SwipeToTheDown*5)"
+            "(SwipeToTheDown*10)"
         ]
     },
     "Sami@Roguelike@ChooseOper": {
@@ -11054,14 +11054,10 @@
             "Sami@Roguelike@StageEncounterAI6",
             "Sami@Roguelike@StageTrader",
             "Sami@Roguelike@StageTraderAI6",
-            "Sami@Roguelike@StageVerticalWindAndRain",
-            "Sami@Roguelike@StageVerticalWindAndRainAI6",
             "Sami@Roguelike@StageVerticalProphecy",
             "Sami@Roguelike@StageVerticalProphecyAI6",
             "Sami@Roguelike@StageVerticalEmergencyTransportation",
             "Sami@Roguelike@StageVerticalEmergencyTransportationAI6",
-            "Sami@Roguelike@StageVerticalGambling",
-            "Sami@Roguelike@StageVerticalGamblingAI6",
             "Sami@Roguelike@StageWindAndRain",
             "Sami@Roguelike@StageWindAndRainAI6",
             "Sami@Roguelike@StageProphecy",
@@ -11070,6 +11066,10 @@
             "Sami@Roguelike@StageEmergencyTransportationAI6",
             "Sami@Roguelike@StageGambling",
             "Sami@Roguelike@StageGamblingAI6",
+            "Sami@Roguelike@StageVerticalWindAndRain",
+            "Sami@Roguelike@StageVerticalWindAndRainAI6",
+            "Sami@Roguelike@StageVerticalGambling",
+            "Sami@Roguelike@StageVerticalGamblingAI6",
             "Sami@Roguelike@StageVerticalEmergencyDps",
             "Sami@Roguelike@StageVerticalEmergencyDpsAI6",
             "Sami@Roguelike@StageEmergencyDps",
