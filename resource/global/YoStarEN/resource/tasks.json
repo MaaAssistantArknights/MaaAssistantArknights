@@ -3249,7 +3249,7 @@
     "Reclamation@ConfirmStart": {
         "text": [
             "COMMENCE",
-            "START"
+            "ALGORITHM"
         ]
     },
     "Reclamation@SkipAnnounce": {
@@ -3267,9 +3267,25 @@
             "Start"
         ]
     },
+    "Reclamation@ExitLevelConfirm": {
+        "text": [
+            "Are you sure you",
+            "want to leave?"
+        ]
+    },
+    "StartActionEnter@Reclamation@StartActionEnter": {
+        "next": [
+            "Stop"
+        ]
+    },
     "Reclamation@PrepareAction": {
         "text": [
             "Prepare for Battle"
+        ]
+    },
+    "Reclamation@GiveupAlgorithm": {
+        "text": [
+            "ABANDON"
         ]
     },
     "Roguelike@FromIntegratedStrategies": {
