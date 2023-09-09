@@ -33,7 +33,7 @@ namespace MaaWpfGui.Models
             "resource/global/YoStarKR/resource/version.json",
         };
 
-        private static readonly string MaaDynamicFilesIndex = "resource/dynamic_list.json";
+        private static readonly string MaaDynamicFilesIndex = "resource/dynamic_list.txt";
 
         public enum UpdateResult
         {
