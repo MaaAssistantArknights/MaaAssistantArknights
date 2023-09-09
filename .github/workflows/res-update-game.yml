@@ -14,6 +14,8 @@ jobs:
   update-game-resources:
     if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: windows-latest
+    env:
+      GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -100,6 +102,10 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.MISTEOWORKFLOW }}
+
+      - name: Update OTA resource
+        run: |
+          gh workflow --repo MaaAssistantArknights/MaaRelease run update-resource.yml
 
     #   - name: Release # ref: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
     #     if: steps.add_files.outputs.have_commits == 'True'
