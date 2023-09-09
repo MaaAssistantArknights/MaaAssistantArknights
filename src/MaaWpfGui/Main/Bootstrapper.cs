@@ -190,7 +190,6 @@ namespace MaaWpfGui.Main
         protected override void OnLaunch()
         {
             Instances.VersionUpdateViewModel.ShowUpdateOrDownload();
-            ResourceUpdater.UpdateAndShow();
         }
 
         /// <inheritdoc/>

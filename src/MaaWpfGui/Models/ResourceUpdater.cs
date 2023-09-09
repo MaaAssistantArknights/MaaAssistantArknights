@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using MaaWpfGui.Helper;
+using Stylet;
 
 namespace MaaWpfGui.Models
 {
@@ -44,13 +45,26 @@ namespace MaaWpfGui.Models
             NotModified,
         }
 
-        public static async void UpdateAndShow()
+        public static async void UpdateAndToast()
         {
-            await Update();
-            // TODO 弹窗提示、重启 balabala
+            var ret = await Update();
+
+            if (ret == UpdateResult.Success)
+            {
+                Toast();
+            }
         }
 
-        private static async Task<UpdateResult> Update()
+        public static void Toast()
+        {
+            _ = Execute.OnUIThreadAsync(() =>
+            {
+                using var toast = new ToastNotification(LocalizationHelper.GetString("GameResourceUpdated"));
+                toast.Show();
+            });
+        }
+
+        public static async Task<UpdateResult> Update()
         {
             var ret1 = await updateSingleFiles();
             var ret2 = await updateFilesWithIndex();
@@ -140,19 +154,16 @@ namespace MaaWpfGui.Models
             // 不存在的文件，不考虑etag，直接下载
             var etag = File.Exists(saveTo) ? ETagCache.Get(url) : string.Empty;
 
-            HttpResponseMessage response;
-            if (string.IsNullOrEmpty(etag))
+            Dictionary<string, string> header = null;
+            if (!string.IsNullOrEmpty(etag))
             {
-                response = await Instances.HttpService.GetAsync(new Uri(url)).ConfigureAwait(false);
-            }
-            else
-            {
-                response = await Instances.HttpService.GetAsync(new Uri(url), new Dictionary<string, string>
+                header = new Dictionary<string, string>
                 {
                     { "If-None-Match", etag },
-                }).ConfigureAwait(false);
+                };
             }
 
+            var response = await Instances.HttpService.GetAsync(new Uri(url), header).ConfigureAwait(false);
             if (response == null)
             {
                 return UpdateResult.Failed;
