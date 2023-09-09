@@ -360,12 +360,14 @@ bool cvt_single_item_template(const std::filesystem::path& input, const std::fil
     dst_resized = dst_resized(cv::boundingRect(dst_gray));
 
     if (std::filesystem::exists(output)) {
-        cv::matchTemplate(dst, cv::imread(output.string()), dst, cv::TM_CCOEFF_NORMED);
+        cv::Mat pre = cv::imread(output.string());
+        cv::Mat matched;
+        cv::matchTemplate(dst_resized, pre, matched, cv::TM_CCORR_NORMED);
         double max_val = 0, min_val = 0;
         cv::Point max_loc {}, min_loc {};
-        cv::minMaxLoc(dst_resized, &min_val, &max_val, &min_loc, &max_loc);
+        cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
 
-        if (max_val > 0.99) {
+        if (max_val > 0.95) {
             std::cout << "Same infrast templ, Skip: " << output << ", score: " << max_val << std::endl;
             return true;
         }
@@ -637,12 +639,14 @@ bool update_infrast_templates(const std::filesystem::path& input_dir, const std:
         std::string out_file = (output_dir / filename).string();
 
         if (std::filesystem::exists(out_file)) {
-            cv::matchTemplate(dst, cv::imread(out_file), dst, cv::TM_CCOEFF_NORMED);
+            cv::Mat pre = cv::imread(out_file);
+            cv::Mat matched;
+            cv::matchTemplate(dst, pre, matched, cv::TM_CCORR_NORMED);
             double max_val = 0, min_val = 0;
             cv::Point max_loc {}, min_loc {};
-            cv::minMaxLoc(dst, &min_val, &max_val, &min_loc, &max_loc);
+            cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
 
-            if (max_val > 0.99) {
+            if (max_val > 0.95) {
                 std::cout << "Same infrast templ, Skip: " << out_file << ", score: " << max_val << std::endl;
                 continue;
             }
