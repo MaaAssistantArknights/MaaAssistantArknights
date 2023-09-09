@@ -462,6 +462,17 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _form, value);
         }
 
+        private bool _addTrust;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use auto-formation.
+        /// </summary>
+        public bool AddTrust
+        {
+            get => _addTrust;
+            set => SetAndNotify(ref _addTrust, value);
+        }
+
         public bool Loop { get; set; }
 
         private int _loopTimes = int.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.CopilotLoopTimes, "1"));
@@ -517,7 +528,7 @@ namespace MaaWpfGui.ViewModels.UI
                 AddLog(errMsg, UiLogColor.Error);
             }
 
-            bool ret = Instances.AsstProxy.AsstStartCopilot(IsDataFromWeb ? TempCopilotFile : Filename, Form, _taskType,
+            bool ret = Instances.AsstProxy.AsstStartCopilot(IsDataFromWeb ? TempCopilotFile : Filename, Form, AddTrust, _taskType,
                 Loop ? LoopTimes : 1);
             if (ret)
             {

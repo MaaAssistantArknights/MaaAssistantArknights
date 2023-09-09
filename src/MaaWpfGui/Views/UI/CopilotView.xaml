@@ -70,15 +70,30 @@
                 Content="{DynamicResource SelectTheFile}"
                 IsEnabled="{Binding Idle}"
                 ToolTip="{DynamicResource SelectTheFileTip}" />
-            <CheckBox
-                Height="50"
-                Margin="0,0,0,30"
-                HorizontalAlignment="Center"
-                Content="{DynamicResource AutoSquad}"
-                IsChecked="{Binding Form}"
-                IsEnabled="{Binding Idle}"
-                IsHitTestVisible="{Binding Idle}"
-                ToolTip="{DynamicResource AutoSquadTip}" />
+            <Grid
+                Margin="0,15,00,40"
+                HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="100" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <CheckBox
+                    HorizontalAlignment="Center"
+                    Content="{DynamicResource AutoSquad}"
+                    IsChecked="{Binding Form}"
+                    IsEnabled="{Binding Idle}"
+                    IsHitTestVisible="{Binding Idle}"
+                    ToolTip="{DynamicResource AutoSquadTip}" Padding="4,-1,10,0" />
+                <CheckBox
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    Content="{DynamicResource AddTrust}"
+                    IsChecked="{Binding AddTrust}"
+                    IsEnabled="{c:Binding '(Form) and (Idle)'}"
+                    IsHitTestVisible="{Binding Idle}"/>
+            </Grid>
+
             <StackPanel
                 Margin="10"
                 HorizontalAlignment="Center"

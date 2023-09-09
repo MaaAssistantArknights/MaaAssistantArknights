@@ -10,6 +10,7 @@
 #include "Task/ProcessTask.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
+#include "Vision/MultiMatcher.h"
 #include "Vision/TemplDetOCRer.h"
 
 void asst::BattleFormationTask::append_additional_formation(AdditionalFormation formation)
@@ -20,6 +21,11 @@ void asst::BattleFormationTask::append_additional_formation(AdditionalFormation 
 void asst::BattleFormationTask::set_support_unit_name(std::string name)
 {
     m_support_unit_name = std::move(name);
+}
+
+void asst::BattleFormationTask::set_add_trust(bool add_trust)
+{
+    m_add_trust = add_trust;
 }
 
 void asst::BattleFormationTask::set_data_resource(DataResource resource)
@@ -70,7 +76,9 @@ bool asst::BattleFormationTask::_run()
     }
 
     add_additional();
-
+    if (m_add_trust) {
+        add_trust_operators();
+    }
     confirm_selection();
 
     // 借一个随机助战
@@ -85,6 +93,7 @@ bool asst::BattleFormationTask::_run()
 
 bool asst::BattleFormationTask::add_additional()
 {
+    // （但是干员名在除开获取时间的情况下都会被遮挡，so ?
     LogTraceFunction;
 
     if (m_additional.empty()) {
@@ -126,6 +135,46 @@ bool asst::BattleFormationTask::add_additional()
     }
 
     return true;
+}
+
+bool asst::BattleFormationTask::add_trust_operators()
+{
+    LogTraceFunction;
+
+    if (need_exit()) {
+        return false;
+    }
+
+    ProcessTask(*this, { "BattleQuickFormationFilter" }).run();
+    // 双击信赖
+    ProcessTask(*this, { "BattleQuickFormationFilter-Trust" }).run();
+    ProcessTask(*this, { "BattleQuickFormationFilterClose" }).run();
+
+    // 重置职能，保证处于最左
+    click_role_table(battle::Role::Caster);
+    click_role_table(battle::Role::Unknown);
+    int append_count = 12 - m_operators_in_formation;
+    int failed_count = 0;
+    while (!need_exit() && append_count > 0 && failed_count < 3) {
+        MultiMatcher matcher(ctrler()->get_image());
+        matcher.set_task_info("BattleQuickFormationTrustIcon");
+        if (!matcher.analyze() || matcher.get_result().size() == 0) {
+            failed_count++;
+        }
+        else {
+            failed_count = 0;
+            for (const auto& trust_icon : matcher.get_result()) {
+                // 匹配完干员左下角信赖表，将roi偏移到整个干员标
+                ctrler()->click(trust_icon.rect.move({ 20, -225, 110, 250 }));
+                if (--append_count <= 0 || need_exit()) {
+                    break;
+                }
+            }
+        }
+        swipe_page();
+    }
+
+    return append_count == 0;
 }
 
 bool asst::BattleFormationTask::select_random_support_unit()
@@ -289,6 +338,7 @@ bool asst::BattleFormationTask::parse_formation()
         groups = &SSSCopilot.get_data().groups;
     }
 
+    m_operators_in_formation = 0;
     for (const auto& [name, opers_vec] : *groups) {
         if (opers_vec.empty()) {
             continue;
@@ -303,6 +353,7 @@ bool asst::BattleFormationTask::parse_formation()
 
         // for unknown, will use { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }
         m_formation[same_role ? role : battle::Role::Unknown].emplace_back(opers_vec);
+        m_operators_in_formation++;
     }
 
     callback(AsstMsg::SubTaskExtraInfo, info);
