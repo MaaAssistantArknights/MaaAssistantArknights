@@ -22,7 +22,7 @@ if __name__ == "__main__":
     path = pathlib.Path(__file__).parent.parent
 
     # 设置更新器的路径和目标版本并更新
-    Updater(path, "stable").update()
+    Updater(path, Version.Stable).update()
 
     # 外服需要再额外传入增量资源路径，例如
     # incremental_path=path / 'resource' / 'global' / 'YoStarEN'

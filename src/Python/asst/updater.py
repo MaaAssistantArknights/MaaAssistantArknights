@@ -17,6 +17,7 @@ class Updater:
     # API的地址
     Mirrors = ["https://ota.maa.plus"]
     Summary_json = "/MaaAssistantArknights/api/version/summary.json"
+    version_type_list = ["alpha", "beta", "stable"]
 
     @staticmethod
     def custom_print(s):
@@ -34,9 +35,9 @@ class Updater:
         Asst.load(path=path)
         q.put(Asst().get_version())
 
-    def __init__(self, path, version_type):
+    def __init__(self, path, version):
         self.path = path
-        self.version_type = version_type
+        self.version_type = self.version_type_list[version.value-1]
         self.latest_json = None
         self.latest_version = None
         self.assets_object = None
