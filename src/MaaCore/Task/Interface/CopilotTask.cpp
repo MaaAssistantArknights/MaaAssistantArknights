@@ -70,6 +70,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
 
     bool with_formation = params.get("formation", false);
     m_formation_task_ptr->set_enable(with_formation);
+    m_formation_task_ptr->set_add_trust(params.get("add_trust", false));
     std::string support_unit_name = params.get("support_unit_name", std::string());
     m_formation_task_ptr->set_support_unit_name(std::move(support_unit_name));
 
