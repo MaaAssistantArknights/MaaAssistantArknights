@@ -362,8 +362,8 @@ bool cvt_single_item_template(const std::filesystem::path& input, const std::fil
     if (std::filesystem::exists(output)) {
         cv::matchTemplate(dst, cv::imread(output.string()), dst, cv::TM_CCOEFF_NORMED);
         double max_val = 0, min_val = 0;
-        cv::Point max_loc, min_loc;
-        cv::minMaxLoc(dst, &min_val, &max_val, &min_loc, &max_loc);
+        cv::Point max_loc {}, min_loc {};
+        cv::minMaxLoc(dst_resized, &min_val, &max_val, &min_loc, &max_loc);
 
         if (max_val > 0.99) {
             std::cout << "Same infrast templ, Skip: " << output << ", score: " << max_val << std::endl;
@@ -639,7 +639,7 @@ bool update_infrast_templates(const std::filesystem::path& input_dir, const std:
         if (std::filesystem::exists(out_file)) {
             cv::matchTemplate(dst, cv::imread(out_file), dst, cv::TM_CCOEFF_NORMED);
             double max_val = 0, min_val = 0;
-            cv::Point max_loc, min_loc;
+            cv::Point max_loc {}, min_loc {};
             cv::minMaxLoc(dst, &min_val, &max_val, &min_loc, &max_loc);
 
             if (max_val > 0.99) {
