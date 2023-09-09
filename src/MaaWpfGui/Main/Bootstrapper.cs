@@ -20,6 +20,7 @@ using System.Windows;
 using System.Windows.Threading;
 using GlobalHotKey;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Models;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Managers;
@@ -137,6 +138,7 @@ namespace MaaWpfGui.Main
             base.OnStart();
             ConfigurationHelper.Load();
             LocalizationHelper.Load();
+            ETagCache.Load();
         }
 
         private static bool IsUserAdministrator()

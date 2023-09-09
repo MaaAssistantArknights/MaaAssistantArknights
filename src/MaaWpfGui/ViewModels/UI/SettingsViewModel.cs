@@ -2229,6 +2229,10 @@ namespace MaaWpfGui.ViewModels.UI
                 case VersionUpdateViewModel.CheckUpdateRetT.NewVersionIsBeingBuilt:
                     toastMessage = LocalizationHelper.GetString("NewVersionIsBeingBuilt");
                     break;
+
+                case VersionUpdateViewModel.CheckUpdateRetT.OnlyGameReourceUpdated:
+                    toastMessage = LocalizationHelper.GetString("GameResourceUpdated");
+                    break;
             }
 
             if (toastMessage != null)
@@ -2465,8 +2469,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// RegisterKey of Bluestacks_Nxt
         /// </summary>
         public static string BluestacksNxtRegistryKey = @"SOFTWARE\BlueStacks_nxt";
-        public static string BluestacksNxtValueName = "UserDefinedDir";
 
+        public static string BluestacksNxtValueName = "UserDefinedDir";
 
         /// <summary>
         /// Refreshes ADB config.
