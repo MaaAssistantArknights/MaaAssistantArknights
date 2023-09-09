@@ -167,7 +167,7 @@ class Updater:
         """
         current_version = self.cur_version
         # latest_version：版本号; version_detail：对应的json地址
-        latest_version, version_detail = Updater.get_latest_version()
+        latest_version, version_detail = self.get_latest_version()
         if not latest_version:
             self.custom_print("获取版本信息失败")
         elif current_version == latest_version:
