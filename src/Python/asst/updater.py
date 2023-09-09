@@ -10,6 +10,7 @@ from urllib import request
 from urllib.error import HTTPError, URLError
 
 from .asst import Asst
+from .utils import Version
 from . import downloader
 
 
@@ -17,7 +18,6 @@ class Updater:
     # API的地址
     Mirrors = ["https://ota.maa.plus"]
     Summary_json = "/MaaAssistantArknights/api/version/summary.json"
-    version_type_list = ["alpha", "beta", "stable"]
 
     @staticmethod
     def custom_print(s):
@@ -37,7 +37,7 @@ class Updater:
 
     def __init__(self, path, version):
         self.path = path
-        self.version_type = self.version_type_list[version.value-1]
+        self.version = version
         self.latest_json = None
         self.latest_version = None
         self.assets_object = None
@@ -49,6 +49,15 @@ class Updater:
         p.join()
         # MAA当前版本 self.cur_version
         self.cur_version = q.get()
+
+    @staticmethod
+    def map_version_type(version):
+        type_map = {
+            Version.Nightly: 'alpha',
+            Version.Beta: 'beta',
+            Version.Stable: 'stable'
+        }
+        return type_map.get(version, 'stable')
 
     def get_latest_version(self):
         """
@@ -82,7 +91,7 @@ class Updater:
                   }
                 }
                 """
-                version_type = self.version_type
+                version_type = self.map_version_type(self.version)
                 latest_version = response_data[version_type]['version']
                 version_detail = response_data[version_type]['detail']
                 return latest_version, version_detail
