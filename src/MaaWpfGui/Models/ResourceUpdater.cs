@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using MaaWpfGui.Helper;
 
@@ -10,6 +11,7 @@ namespace MaaWpfGui.Models
     public class ResourceUpdater
     {
         private const string MaaResourceApi = "https://ota.maa.plus/MaaAssistantArknights/MaaAssistantArknights/";
+
         private static readonly List<string> MaaSingleFiles = new List<string>
         {
             "resource/Arknights-Tile-Pos/overview.json",
@@ -42,10 +44,17 @@ namespace MaaWpfGui.Models
             NotModified,
         }
 
-        public async Task<UpdateResult> Update()
+        public static async void UpdateAndShow()
+        {
+            await Update();
+            // TODO 弹窗提示、重启 balabala
+        }
+
+        private static async Task<UpdateResult> Update()
         {
             var ret1 = await updateSingleFiles();
             var ret2 = await updateFilesWithIndex();
+            ETagCache.Save();
 
             if (ret1 == UpdateResult.Failed || ret2 == UpdateResult.Failed)
             {
@@ -59,7 +68,7 @@ namespace MaaWpfGui.Models
             return UpdateResult.NotModified;
         }
 
-        private async Task<UpdateResult> updateSingleFiles()
+        private static async Task<UpdateResult> updateSingleFiles()
         {
             UpdateResult ret = UpdateResult.NotModified;
 
@@ -83,7 +92,7 @@ namespace MaaWpfGui.Models
 
         // 地图文件、掉落材料的图片、基建技能图片
         // 这些文件数量不固定，需要先获取索引文件，再根据索引文件下载
-        private async Task<UpdateResult> updateFilesWithIndex()
+        private static async Task<UpdateResult> updateFilesWithIndex()
         {
             var sRet = await UpdateFileWithETage(MaaResourceApi, MaaDynamicFilesIndex, MaaDynamicFilesIndex);
             if (sRet == UpdateResult.Failed || sRet == UpdateResult.NotModified)
@@ -131,10 +140,23 @@ namespace MaaWpfGui.Models
             // 不存在的文件，不考虑etag，直接下载
             var etag = File.Exists(saveTo) ? ETagCache.Get(url) : string.Empty;
 
-            var response = await Instances.HttpService.GetAsync(new Uri(url), new Dictionary<string, string>
+            HttpResponseMessage response;
+            if (string.IsNullOrEmpty(etag))
+            {
+                response = await Instances.HttpService.GetAsync(new Uri(url)).ConfigureAwait(false);
+            }
+            else
+            {
+                response = await Instances.HttpService.GetAsync(new Uri(url), new Dictionary<string, string>
                 {
                     { "If-None-Match", etag },
                 }).ConfigureAwait(false);
+            }
+
+            if (response == null)
+            {
+                return UpdateResult.Failed;
+            }
 
             if (response.StatusCode == System.Net.HttpStatusCode.NotModified)
             {
@@ -147,10 +169,10 @@ namespace MaaWpfGui.Models
                 return UpdateResult.Failed;
             }
 
-            var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var content = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
             ETagCache.Set(url, response.Headers.ETag.Tag);
 
-            File.WriteAllText(Path.Combine(Environment.CurrentDirectory, saveTo), content);
+            File.WriteAllBytes(saveTo, content);
 
             return UpdateResult.Success;
         }

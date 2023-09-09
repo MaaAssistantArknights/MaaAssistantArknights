@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace MaaWpfGui.Helper
 {
@@ -9,11 +10,7 @@ namespace MaaWpfGui.Helper
         private static readonly string _cacheFile = Path.Combine(Environment.CurrentDirectory, "cache/etag.json");
         private static Dictionary<string, string> _cache;
 
-        public ETagCache() {
-            Load();
-        }
-
-        private static void Load()
+        public static void Load()
         {
             if (File.Exists(_cacheFile) is false)
             {
@@ -27,7 +24,7 @@ namespace MaaWpfGui.Helper
 
         public static void Save()
         {
-            var jsonStr = System.Text.Json.JsonSerializer.Serialize(_cache);
+            var jsonStr = JsonConvert.SerializeObject(_cache);
             File.WriteAllText(_cacheFile, jsonStr);
         }
 
@@ -44,7 +41,6 @@ namespace MaaWpfGui.Helper
         public static void Set(string url, string etag)
         {
             _cache[url] = etag;
-            Save();
         }
     }
 }
