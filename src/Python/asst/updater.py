@@ -10,7 +10,6 @@ from urllib import request
 from urllib.error import HTTPError, URLError
 
 from .asst import Asst
-
 from . import downloader
 
 
@@ -29,7 +28,8 @@ class Updater:
     @staticmethod
     def _get_cur_version(path, q):
         """
-        从DLL中获取当前版本号
+        从MaaCore.dll获取当前版本号
+        这里是复用原来的方法
         """
         Asst.load(path=path)
         q.put(Asst().get_version())
@@ -121,14 +121,14 @@ class Updater:
             else:
                 # Windows ARM64
                 system_platform = "win-arm64"
-        # https://ota.maa.plus/MaaAssistantArknights/api/version/stable.json 或其他版本类型
+        # 请求的是https://ota.maa.plus/MaaAssistantArknights/api/version/stable.json，或其他版本类型对应的url
         detail_json = request.urlopen(detail)
         detail_data = json.loads(detail_json.read().decode("utf-8"))
         assets_list = detail_data["details"]["assets"]     # 列表，子元素为字典
-        version_name = detail_data["version"]
         # 找到对应系统和架构的版本
         for assets in assets_list:
             """
+            结构示例
             assets:
             {
                 "name": "MAA-v4.24.0-beta.1.d006.g27dee653d-win-x64.zip",
@@ -207,6 +207,7 @@ class Updater:
                 zfile.extractall(self.path)
                 zfile.close()
                 unzip = True
+            # .tar.gz拓展名的情况（按照这个方式得到的拓展名是.gz，但是解压的是tar.gz
             elif file_extension == '.gz':
                 tfile = tarfile.open(file, 'r:gz')
                 tfile.extractall(self.path)
