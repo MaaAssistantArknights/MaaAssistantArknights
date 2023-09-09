@@ -15,13 +15,7 @@ from . import downloader
 
 
 class Updater:
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
-                      'AppleWebKit/537.36 (KHTML, like Gecko) '
-                      'Chrome/97.0.4692.99 '
-                      'Safari/537.36 '
-                      'Edg/97.0.1072.76'
-    }
+    # API的地址
     Mirrors = ["https://ota.maa.plus"]
     Summary_json = "/MaaAssistantArknights/api/version/summary.json"
 
@@ -165,22 +159,32 @@ class Updater:
         """
         主函数
         """
+        # 从dll获取MAA的版本
         current_version = self.cur_version
+        # 从API获取最新版本
         # latest_version：版本号; version_detail：对应的json地址
         latest_version, version_detail = self.get_latest_version()
-        if not latest_version:
+        if not latest_version:                      # latest_version为False代表获取失败
             self.custom_print("获取版本信息失败")
-        elif current_version == latest_version:
+        elif current_version == latest_version:     # 通过比较二者是否一致判断是否需要更新（摆烂
             self.custom_print("当前为最新版本，无需更新")
         else:
             self.custom_print(f"检测到最新版本:{latest_version}，正在更新")
+            # 开始更新逻辑
             # 解析version_detail的JSON信息
+            # 通过API获取下载地址列表和对应文件名
             url_list, filename = self.get_download_url(version_detail)
             if not url_list:
+                # 如果请求失败则返回False
+                # （此返回值可能会在非Windows-x86_64的程序更新alpha版时出现）
                 self.custom_print("未找到适用于当前系统的更新包")
+                # 直接结束
                 return
+            # 将路径和文件名拼合成绝对路径
+            # 默认在maa主程序/MaaCore.dll所在路径下
             file = os.path.join(self.path, filename)
-            # 下载，调用Downloader下载器，Proxy参数没加，因为可能有问题（也可能没问题反正我晚上Clash连不上）
+            # 下载，调用Downloader下载器，使用url_list（镜像url列表）和file（文件保存路径）两个参数
+            # Proxy参数没加，因为可能有问题（也可能没问题反正我晚上Clash连不上）
             # 重试3次
             max_retry = 3
             for retry_frequency in range(max_retry):
@@ -192,7 +196,7 @@ class Updater:
                 except(HTTPError, URLError) as e:
                     Updater.custom_print(e)
 
-            # 解压
+            # 解压下载的文件，
             Updater.custom_print('开始安装更新，请不要关闭')
             file_extension = os.path.splitext(filename)[1]
             unzip = False
@@ -208,7 +212,7 @@ class Updater:
                 tfile.extractall(self.path)
                 tfile.close()
                 unzip = True
-            # 移除下载的压缩包
+            # 删除压缩包
             os.remove(file)
             if unzip:
                 Updater.custom_print('更新完成')
