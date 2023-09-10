@@ -1108,6 +1108,7 @@ namespace MaaWpfGui.Main
                 case "StageQueueUnableToAgent":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails["stage_code"]} " + LocalizationHelper.GetString("UnableToAgent"), UiLogColor.Info);
                     break;
+
                 case "StageQueueMissionCompleted":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails["stage_code"]} - {subTaskDetails["stars"]} ★", UiLogColor.Info);
                     break;
@@ -1149,7 +1150,6 @@ namespace MaaWpfGui.Main
 
         private static readonly bool ForcedReloadResource = File.Exists("DEBUG") || File.Exists("DEBUG.txt");
 
-
         /// <summary>
         /// 检查端口是否有效。
         /// </summary>
@@ -1165,6 +1165,11 @@ namespace MaaWpfGui.Main
             // normal -> [host]:[port]
             // LDPlayer -> emulator-[port]
             string[] address_ = address.Contains(":") ? address.Split(':') : address.Split('-');
+            if (address_.Length != 2)
+            {
+                return false;
+            }
+
             string host = address_[0].Equals("emulator") ? "127.0.0.1" : address_[0];
             int port = int.Parse(address_[1]);
 
