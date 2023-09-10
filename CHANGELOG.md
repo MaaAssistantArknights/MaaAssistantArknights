@@ -14,6 +14,7 @@
 
 - 简单修复一下异步Load导致的错误 @MistEO
 - Missing templates in EN @Constrat
+- 修复连接安卓手机，及多开模拟器时，adb 端口判断异常
 
 ### 其他
 
