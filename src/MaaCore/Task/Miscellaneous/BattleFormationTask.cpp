@@ -23,6 +23,16 @@ void asst::BattleFormationTask::set_support_unit_name(std::string name)
     m_support_unit_name = std::move(name);
 }
 
+void asst::BattleFormationTask::set_add_user_additional(bool add_user_additional)
+{
+    m_add_user_additional = add_user_additional;
+}
+
+void asst::BattleFormationTask::set_user_additional(std::vector<std::pair<std::string, int>> user_additional)
+{
+    m_user_additional = std::move(user_additional);
+}
+
 void asst::BattleFormationTask::set_add_trust(bool add_trust)
 {
     m_add_trust = add_trust;
@@ -46,33 +56,26 @@ bool asst::BattleFormationTask::_run()
     }
 
     for (auto& [role, oper_groups] : m_formation) {
-        click_role_table(role);
-        bool has_error = false;
-        int swipe_times = 0;
-        while (!need_exit()) {
-            if (select_opers_in_cur_page(oper_groups)) {
-                has_error = false;
-                if (oper_groups.empty()) {
-                    break;
-                }
-                swipe_page();
-                ++swipe_times;
+        add_formation(role, oper_groups);
+    }
+    if (m_add_user_additional) {
+
+        for (auto& [name, skill] : m_user_additional) {
+            if (m_operators_in_formation.contains(name)) {
+                continue;
             }
-            else if (has_error) {
-                swipe_to_the_left(swipe_times);
-                // reset page
-                click_role_table(role == battle::Role::Unknown ? battle::Role::Pioneer : battle::Role::Unknown);
-                click_role_table(role);
-                swipe_to_the_left(swipe_times);
-                swipe_times = 0;
-                has_error = false;
+            if (m_size_of_operators_in_formation >= 12) {
+                break;
             }
-            else {
-                has_error = true;
-                swipe_to_the_left(swipe_times);
-                swipe_times = 0;
-            }
+            asst::battle::OperUsage oper;
+            oper.name = name;
+            oper.skill = skill;
+            std::vector<asst::battle::OperUsage> usage { std::move(oper) };
+            m_user_formation.emplace_back(std::move(usage));
+            ++m_size_of_operators_in_formation;
         }
+        m_size_of_operators_in_formation -= (int)m_user_formation.size();
+        add_formation(battle::Role::Unknown, m_user_formation);
     }
 
     add_additional();
@@ -88,6 +91,40 @@ bool asst::BattleFormationTask::_run()
         }
     }
 
+    return true;
+}
+
+bool asst::BattleFormationTask::add_formation(battle::Role role, std::vector<OperGroup> oper_group)
+{
+    LogTraceFunction;
+
+    click_role_table(role);
+    bool has_error = false;
+    int swipe_times = 0;
+    while (!need_exit()) {
+        if (select_opers_in_cur_page(oper_group)) {
+            has_error = false;
+            if (oper_group.empty()) {
+                break;
+            }
+            swipe_page();
+            ++swipe_times;
+        }
+        else if (has_error) {
+            swipe_to_the_left(swipe_times);
+            // reset page
+            click_role_table(role == battle::Role::Unknown ? battle::Role::Pioneer : battle::Role::Unknown);
+            click_role_table(role);
+            swipe_to_the_left(swipe_times);
+            swipe_times = 0;
+            has_error = false;
+        }
+        else {
+            has_error = true;
+            swipe_to_the_left(swipe_times);
+            swipe_times = 0;
+        }
+    }
     return true;
 }
 
@@ -145,15 +182,20 @@ bool asst::BattleFormationTask::add_trust_operators()
         return false;
     }
 
+    // 需要追加的信赖干员数量
+    int append_count = 12 - m_size_of_operators_in_formation;
+    if (append_count == 0) {
+        return true;
+    }
+
     ProcessTask(*this, { "BattleQuickFormationFilter" }).run();
     // 双击信赖
     ProcessTask(*this, { "BattleQuickFormationFilter-Trust" }).run();
     ProcessTask(*this, { "BattleQuickFormationFilterClose" }).run();
 
-    // 重置职能，保证处于最左
+    // 重置职业选择，保证处于最左
     click_role_table(battle::Role::Caster);
     click_role_table(battle::Role::Unknown);
-    int append_count = 12 - m_operators_in_formation;
     int failed_count = 0;
     while (!need_exit() && append_count > 0 && failed_count < 3) {
         MultiMatcher matcher(ctrler()->get_image());
@@ -250,17 +292,19 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
     }
 
     int delay = Task.get("BattleQuickFormationOCR")->post_delay;
-
-    int skill = 1;
+    int skill = 0;
     for (const auto& res : opers_result) {
         const std::string& name = res.text;
-        auto iter = groups.begin();
         bool found = false;
+        auto iter = groups.begin();
         for (; iter != groups.end(); ++iter) {
             for (const auto& oper : *iter) {
                 if (oper.name == name) {
                     found = true;
                     skill = oper.skill;
+
+                    m_operators_in_formation.emplace(name);
+                    ++m_size_of_operators_in_formation;
                     break;
                 }
             }
@@ -272,6 +316,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
         if (iter == groups.end()) {
             continue;
         }
+
         ctrler()->click(res.rect);
         sleep(delay);
         if (1 <= skill && skill <= 3) {
@@ -338,13 +383,13 @@ bool asst::BattleFormationTask::parse_formation()
         groups = &SSSCopilot.get_data().groups;
     }
 
-    m_operators_in_formation = 0;
     for (const auto& [name, opers_vec] : *groups) {
         if (opers_vec.empty()) {
             continue;
         }
         formation.array_emplace(name);
 
+        // 判断干员/干员组的职业，放进对应的分组
         bool same_role = true;
         battle::Role role = BattleData.get_role(opers_vec.front().name);
         for (const auto& oper : opers_vec) {
@@ -353,7 +398,6 @@ bool asst::BattleFormationTask::parse_formation()
 
         // for unknown, will use { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }
         m_formation[same_role ? role : battle::Role::Unknown].emplace_back(opers_vec);
-        m_operators_in_formation++;
     }
 
     callback(AsstMsg::SubTaskExtraInfo, info);
