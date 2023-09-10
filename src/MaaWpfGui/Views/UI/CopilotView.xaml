@@ -84,14 +84,14 @@
                     IsChecked="{Binding Form}"
                     IsEnabled="{Binding Idle}"
                     IsHitTestVisible="{Binding Idle}"
-                    ToolTip="{DynamicResource AutoSquadTip}" Padding="4,-1,10,0" />
+                    ToolTip="{DynamicResource AutoSquadTip}"/>
                 <CheckBox
                     Grid.Column="1"
                     HorizontalAlignment="Center"
                     Content="{DynamicResource AddTrust}"
                     IsChecked="{Binding AddTrust}"
                     Visibility="{c:Binding '(Form) and (Idle)'}"
-                    IsHitTestVisible="{Binding Idle}"/>
+                    IsHitTestVisible="{Binding Idle}" Margin="10,0,0,0"/>
             </Grid>
 
             <StackPanel
