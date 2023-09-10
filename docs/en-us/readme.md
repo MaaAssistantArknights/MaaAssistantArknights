@@ -56,7 +56,7 @@ Talk is cheap. Show me the pictures!<br>
 ### Basic Settings
 
 1. Please refer to [Emulator Supports](./1.3-EMULATOR_SUPPORTS.md) to configure your emulator.
-2. Change your emulator resolution to `1280 * 720` or higher with `16:9` aspect ratio.
+2. Change your emulator resolution to `1280 * 720` or higher with `16:9` aspect ratio. For YostarEN `1920 * 1080` is highly recommended. Other resolutions have issues.
 3. Enjoy it!
 
 See also: [User Manual](./1.1-USER_MANUAL.md)
