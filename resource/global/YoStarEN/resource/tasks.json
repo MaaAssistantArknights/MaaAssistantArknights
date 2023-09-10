@@ -3402,11 +3402,11 @@
         "text": [
             "Confirm",
             "Evacuation"
-
+        ]
+    },
     "Roguelike@ChooseDifficultyConfirm": {
         "text": [
             "Select"
-
         ]
     },
     "Roguelike@FromIntegratedStrategies": {
