@@ -1157,14 +1157,13 @@ namespace MaaWpfGui.Main
         /// <returns>是否有效。</returns>
         public bool IfPortEstablished(string address)
         {
-            if (string.IsNullOrEmpty(address))
+            if (string.IsNullOrEmpty(address) || !address.Contains(":"))
             {
                 return false;
             }
 
             // normal -> [host]:[port]
-            // LDPlayer -> emulator-[port]
-            string[] address_ = address.Contains(":") ? address.Split(':') : address.Split('-');
+            string[] address_ = address.Split(':');
             if (address_.Length != 2)
             {
                 return false;
@@ -1217,7 +1216,9 @@ namespace MaaWpfGui.Main
                 }
 
                 // tcp连接测试端口是否有效，超时时间500ms
-                bool adbResult = IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
+                // 如果是本地设备，没有冒号
+                bool adbResult = !Instances.SettingsViewModel.ConnectAddress.Contains(":") ||
+                    IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
                 bool bsResult = IfPortEstablished(bsHvAddress);
 
                 // 枚举所有情况
