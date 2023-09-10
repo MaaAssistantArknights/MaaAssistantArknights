@@ -90,7 +90,7 @@
                     HorizontalAlignment="Center"
                     Content="{DynamicResource AddTrust}"
                     IsChecked="{Binding AddTrust}"
-                    IsEnabled="{c:Binding '(Form) and (Idle)'}"
+                    Visibility="{c:Binding '(Form) and (Idle)'}"
                     IsHitTestVisible="{Binding Idle}"/>
             </Grid>
 
