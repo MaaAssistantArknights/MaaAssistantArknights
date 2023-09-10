@@ -1221,26 +1221,23 @@ namespace MaaWpfGui.Main
                     IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
                 bool bsResult = IfPortEstablished(bsHvAddress);
 
-                // 枚举所有情况
-                if (adbResult && bsResult)
+                if (adbResult)
                 {
-                    // 2 connections(s)
-                    error = LocalizationHelper.GetString("EmulatorTooMany");
-                    return false;
+                    error = string.Empty;
                 }
-                else if (adbResult || bsResult)
+                else if (bsResult)
                 {
-                    // 1 connections(s)
-                    Instances.SettingsViewModel.ConnectAddress = adbResult ? Instances.SettingsViewModel.ConnectAddress : bsHvAddress;
+                    Instances.SettingsViewModel.ConnectAddress = bsHvAddress;
+                    error = string.Empty;
+                }
+                else if (adbConfResult)
+                {
+                    // 用户填了这个，虽然端口没检测到，但是凑合用吧
                     error = string.Empty;
                 }
                 else
                 {
-                    // 0 connections(s)
-                    if (!adbConfResult)
-                    {
-                        return false;
-                    }
+                    return false;
                 }
             }
 
