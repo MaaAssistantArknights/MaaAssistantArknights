@@ -991,7 +991,9 @@
             280,
             90
         ],
-        "next": [ "StageQueue@CheckPrts" ]
+        "next": [
+            "StageQueue@CheckPrts"
+        ]
     },
     "StageQueue@UsePrtsSuccess": {
         "Doc": "检查代理激活没有，roi引用UnableToAgent2",
@@ -1008,7 +1010,9 @@
         "baseTask": "Fight",
         "template": "Terminal.png",
         "maxTimes": 3,
-        "exceededNext": [ "Stop" ],
+        "exceededNext": [
+            "Stop"
+        ],
         "next": [
             "StageQueue@GoLastBattle",
             "StageQueue"
@@ -1016,7 +1020,9 @@
         "postDelay": 3000
     },
     "StageQueue@GoLastBattle": {
-        "next": [ "StageQueue@StartButton1" ]
+        "next": [
+            "StageQueue@StartButton1"
+        ]
     },
     "StageQueue@CloseStonePage": {
         "next": []
@@ -13342,7 +13348,7 @@
         "postDelay": 1000,
         "text": [
             "结束",
-            "MISSON",
+            "MISSION",
             "RESULTS"
         ],
         "next": [
