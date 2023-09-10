@@ -2,11 +2,11 @@ name: res-update-game
 
 on:
   schedule:
-   - cron: "*/20 * * * *"
+    - cron: "*/20 * * * *"
   workflow_dispatch:
     inputs:
       commit_message:
-        description: 'Commit Message'
+        description: "Commit Message"
         type: string
         required: false
 
@@ -14,6 +14,8 @@ jobs:
   update-game-resources:
     if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: windows-latest
+    env:
+      GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -37,33 +39,33 @@ jobs:
       - name: Check if only sorted
         id: check_only_sorted
         run: |
-            git status
+          git status
 
-            $diff = $(git diff --numstat HEAD | findstr -i resource)
-            if ($LASTEXITCODE -ne 0) {
-              echo "no diff"
-              exit 0
-            }
-            
-            echo "diff: "$diff
-            $sp = $($diff -split "\s+")
-            $numbers = $($sp | Where-Object { $_ -match "^\d+$" })
-            echo "numbers: "$numbers
+          $diff = $(git diff --numstat HEAD | findstr -i resource)
+          if ($LASTEXITCODE -ne 0) {
+            echo "no diff"
+            exit 0
+          }
 
-            $length = $numbers.Length
-            $isAllEqual = $true
-            for ($i = 0; $i -lt $length; $i += 2) {
-                $firstNumber = $numbers[$i]
-                $secondNumber = $numbers[$i+1]
-            
-                if ($firstNumber -ne $secondNumber) {
-                    $isAllEqual = $false
-                    break
-                }
-            }
-            echo "isAllEqual: "$isAllEqual
-            echo "only_sorted=$isAllEqual" >> $env:GITHUB_OUTPUT
-        
+          echo "diff: "$diff
+          $sp = $($diff -split "\s+")
+          $numbers = $($sp | Where-Object { $_ -match "^\d+$" })
+          echo "numbers: "$numbers
+
+          $length = $numbers.Length
+          $isAllEqual = $true
+          for ($i = 0; $i -lt $length; $i += 2) {
+              $firstNumber = $numbers[$i]
+              $secondNumber = $numbers[$i+1]
+
+              if ($firstNumber -ne $secondNumber) {
+                  $isAllEqual = $false
+                  break
+              }
+          }
+          echo "isAllEqual: "$isAllEqual
+          echo "only_sorted=$isAllEqual" >> $env:GITHUB_OUTPUT
+
       - name: Cancelling
         if: steps.check_only_sorted.outputs.only_sorted == 'True'
         uses: andymckay/cancel-action@0.3
@@ -73,7 +75,7 @@ jobs:
         id: add_files
         run: |
           git status
-          
+
           git config user.name "$env:GITHUB_ACTOR"
           git config user.email "$env:GITHUB_ACTOR@users.noreply.github.com"
           git add .
@@ -101,9 +103,13 @@ jobs:
         with:
           github_token: ${{ secrets.MISTEOWORKFLOW }}
 
-      - name: Release # ref: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
-        if: steps.add_files.outputs.have_commits == 'True'
+      - name: Update OTA resource
         run: |
-          gh workflow run release-nightly-ota -f release_body="Auto Release of Resource Updates"
-        env:
-          GH_TOKEN: ${{ github.token }}
+          gh workflow --repo MaaAssistantArknights/MaaRelease run update-resource.yml
+
+    #   - name: Release # ref: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
+    #     if: steps.add_files.outputs.have_commits == 'True'
+    #     run: |
+    #       gh workflow run release-nightly-ota -f release_body="Auto Release of Resource Updates"
+    #     env:
+    #       GH_TOKEN: ${{ github.token }}

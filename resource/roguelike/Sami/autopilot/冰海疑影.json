@@ -21,7 +21,7 @@
         [
             2,
             6
-        ]             
+        ]
     ],
     "deploy_plan": [
         {
@@ -124,7 +124,11 @@
                 9,
                 3
             ],
-            "direction": "right"
+            "direction": "right",
+            "condition": [
+                0,
+                26
+            ]
         },
         {
             "groups": [
@@ -149,7 +153,11 @@
                 9,
                 4
             ],
-            "direction": "right"
+            "direction": "right",
+            "condition": [
+                0,
+                26
+            ]
         },
         {
             "groups": [

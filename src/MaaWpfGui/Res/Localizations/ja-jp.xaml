@@ -231,6 +231,8 @@
     <system:String x:Key="MinimizeToTray">最小化した際にトレイに表示</system:String>
     <system:String x:Key="SystemNotification">重要な通知をポップアップする</system:String>
     <system:String x:Key="HideCloseButton">「閉じる」ボタンを隠す</system:String>
+    <system:String x:Key="UseLogItemDateFormat">カスタムログ日付形式</system:String>
+    <system:String x:Key="LogItemDateFormatString">日付書式文字列</system:String>
     <system:String x:Key="DarkModeSetColorsTip">変更を適用するためにすぐに再起動しますか？</system:String>
     <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String>
     <system:String x:Key="UseRemainingSanityStage">余剰理性の使用</system:String>
@@ -241,8 +243,8 @@
     <system:String x:Key="MainViewButtonFeature">スタート画面に表示する便利ボタン</system:String>
     <system:String x:Key="CustomStageCode">ステージ名を入力する</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">(テスト機能)ステージ名と番号（例: 4-10、AP-5、H10-1-Hardなど）
-の両方がサポートされています。レベルの最後に「Normal/Hard」を入力することで、標準から強襲/厄難に難易度を切り替えることができます
-ワンタイム代理SS一般パスとして「SSReopen-XX」を入力できます</system:String>
+の両方がサポートされています。レベルの最後に「Normal/Hard」を入力することで、標準から強襲/厄難に難易度を切り替えることができます</system:String>
+<!--ワンタイム代理SS一般パスとして「SSReopen-XX」を入力できます</system:String>-->
     <system:String x:Key="AutoDetectConnection">接続自動認識</system:String>
     <system:String x:Key="AutoDetectConnectionTip">このチェックボックスは、検出が完了するたびに自動的にチェックが外れますが、再検出が必要な場合は再度チェックを入れることができます</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">毎回再検出する</system:String>
@@ -496,9 +498,9 @@
     <system:String x:Key="DropRecognitionError">ドロップ認識エラー</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">Penguin-Statsへのアップロードをあきらめました</system:String>
     <system:String x:Key="TheEX">ステージ報酬がないため停止します</system:String>
-    <system:String x:Key="StageQueue">レベルキュー: </system:String>
+    <system:String x:Key="StageQueue">レベルキュー:</system:String>
     <system:String x:Key="UnableToAgent">自動指揮利用不可</system:String>
-    <system:String x:Key="CurrentSanity">現在理性: </system:String>
+    <system:String x:Key="CurrentSanity">現在理性:</system:String>
     <system:String x:Key="MissionStart">行動開始しました</system:String>
     <system:String x:Key="UnitTime">回</system:String>
     <system:String x:Key="MedicineUsed">回復剤を使った</system:String>
