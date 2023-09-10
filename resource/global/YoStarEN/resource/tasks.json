@@ -48,6 +48,18 @@
         ],
         "reduceOtherTimes": []
     },
+    "CF-Open": {
+        "text": [
+            "Event <A Flurry to the Flame> is now",
+            "open"
+        ]
+    },
+    "CFChapterToCF": {
+        "text": [
+            "SOUBO",
+            "MOUNTAINS"
+        ]
+    },
     "WB-Open": {
         "text": [
             "Event <Where Vernal Winds Will Never",
@@ -2220,18 +2232,6 @@
             "Unable to"
         ]
     },
-    "CF-Open": {
-        "text": [
-            "Event <A Flurry to the Flame> is now",
-            "open"
-        ]
-    },
-    "CFChapterToCF": {
-        "text": [
-            "SOUBO",
-            "MOUNTAINS"
-        ]
-    },
     "RecruitTags": {
         "ocrReplace": [
             [
@@ -3233,6 +3233,11 @@
     "StageDrops-DropType-Reward": {
         "templThreshold": 0.7
     },
+    "Roguelike@ChooseDifficultyConfirm": {
+        "text": [
+            "Select"
+        ]
+    },
     "Roguelike@FromIntegratedStrategies": {
         "text": [
             "ENTER"
@@ -3663,6 +3668,11 @@
             "Storage full"
         ]
     },
+    "Phantom@Roguelike@LevelName_mode4": {
+        "text": [
+            "Homeland Remnants"
+        ]
+    },
     "Phantom@Roguelike@NextLevel": {
         "text": [
             "Mist-stricken Missteps",
@@ -3676,6 +3686,11 @@
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
     },
+    "Mizuki@Roguelike@ChooseDifficultyConfirm": {
+        "text": [
+            "Select"
+        ]
+    },
     "Mizuki@Roguelike@GetDropBoxOpen": {
         "templThreshold": 0.95
     },
@@ -3685,15 +3700,21 @@
     "Mizuki@Roguelike@GetDropSelectRecruit": {
         "templThreshold": 0.75
     },
+    "Mizuki@Roguelike@LevelName_mode4": {
+        "text": [
+            "Raging Billows",
+            "Indigo Cradle"
+        ]
+    },
     "Mizuki@Roguelike@NextLevel": {
         "text": [
-            "Celeste and Seashore",
-            "Isolated Isle",
-            "Billowy Land",
-            "Mysterious Hotbed",
-            "Ashless Cave",
-            "Forest Undersea",
-            "Sweet Dream"
+            "Sunshine Coast",
+            "Offshore Island",
+            "Raging Billows",
+            "Secret Hotbed",
+            "Sacrosant Cave",
+            "Deep Sea Woodland",
+            "Indigo Cradle"
         ]
     },
     "Mizuki@Roguelike@StageSafeHouseReuse": {

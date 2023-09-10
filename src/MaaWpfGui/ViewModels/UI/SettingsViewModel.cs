@@ -2229,6 +2229,10 @@ namespace MaaWpfGui.ViewModels.UI
                 case VersionUpdateViewModel.CheckUpdateRetT.NewVersionIsBeingBuilt:
                     toastMessage = LocalizationHelper.GetString("NewVersionIsBeingBuilt");
                     break;
+
+                case VersionUpdateViewModel.CheckUpdateRetT.OnlyGameReourceUpdated:
+                    toastMessage = LocalizationHelper.GetString("GameResourceUpdated");
+                    break;
             }
 
             if (toastMessage != null)
@@ -2465,8 +2469,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// RegisterKey of Bluestacks_Nxt
         /// </summary>
         public static string BluestacksNxtRegistryKey = @"SOFTWARE\BlueStacks_nxt";
-        public static string BluestacksNxtValueName = "UserDefinedDir";
 
+        public static string BluestacksNxtValueName = "UserDefinedDir";
 
         /// <summary>
         /// Refreshes ADB config.
@@ -2899,6 +2903,41 @@ namespace MaaWpfGui.ViewModels.UI
                         toast.Show();
                     });
                 }
+            }
+        }
+
+        private bool _useLogItemDateFormat = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseLogItemDateFormat, bool.FalseString));
+
+        public bool UseLogItemDateFormat
+        {
+            get => _useLogItemDateFormat;
+            set
+            {
+                SetAndNotify(ref _useLogItemDateFormat, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.UseLogItemDateFormat, value.ToString());
+            }
+        }
+
+        public List<string> LogItemDateFormatStringList { get; } = new List<string>
+        {
+            "HH:mm:ss",
+            "MM-dd  HH:mm:ss",
+            "MM/dd  HH:mm:ss",
+            "MM.dd  HH:mm:ss",
+            "dd-MM  HH:mm:ss",
+            "dd/MM  HH:mm:ss",
+            "dd.MM  HH:mm:ss",
+        };
+
+        private string _logItemDateFormatString = ConfigurationHelper.GetValue(ConfigurationKeys.LogItemDateFormat, "HH:mm:ss");
+
+        public string LogItemDateFormatString
+        {
+            get => _logItemDateFormatString;
+            set
+            {
+                SetAndNotify(ref _logItemDateFormatString, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.LogItemDateFormat, value);
             }
         }
 

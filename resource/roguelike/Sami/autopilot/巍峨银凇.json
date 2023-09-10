@@ -1,6 +1,6 @@
 {
     "stage_name": "巍峨银凇",
-    "replacement_home": [        
+    "replacement_home": [
         {
             "location": [
                 10,
@@ -25,7 +25,7 @@
                 0,
                 1
             ]
-        },        
+        },
         {
             "groups": [
                 "奶",
@@ -103,23 +103,8 @@
         },        
         {
             "groups": [
-                "浊心斯卡蒂",
-                "群奶"
-            ],
-            "location": [
-                5,
-                5
-            ],
-            "direction": "left",
-            "condition": [
-                1,
-                60
-            ]
-        },
-        {
-            "groups": [
                 "凯尔希",
-                "单奶"                
+                "单奶"
             ],
             "location": [
                 6,
@@ -137,7 +122,7 @@
                 "盾法",
                 "高台输出",
                 "辅助",
-                "其他高台"                
+                "其他高台"
             ],
             "location": [
                 9,
@@ -151,7 +136,22 @@
         },
         {
             "groups": [
-                "水陈"                
+                "浊心斯卡蒂",
+                "群奶"
+            ],
+            "location": [
+                5,
+                5
+            ],
+            "direction": "left",
+            "condition": [
+                1,
+                60
+            ]
+        },
+        {
+            "groups": [
+                "水陈"
             ],
             "location": [
                 6,
@@ -169,7 +169,7 @@
                 "狙击",
                 "盾法",
                 "辅助",
-                "其他高台"               
+                "其他高台"
             ],
             "location": [
                 5,
@@ -186,7 +186,8 @@
                 "地面阻挡",
                 "处决者",
                 "地刺",
-                "其他地面"
+                "其他地面",
+                "炮灰"
             ],
             "location": [
                 9,
@@ -210,23 +211,6 @@
             "direction": "right",
             "condition": [
                 1,
-                60
-            ]
-        },
-        {
-            "groups": [
-                "地面阻挡",
-                "处决者",
-                "地刺",
-                "其他地面"
-            ],
-            "location": [
-                4,
-                5
-            ],
-            "direction": "right",
-            "condition": [
-                10,
                 60
             ]
         },
@@ -290,7 +274,7 @@
             ]
         }
     ],
-    "retreat_plan":[
+    "retreat_plan": [
         {
             "location": [
                 3,

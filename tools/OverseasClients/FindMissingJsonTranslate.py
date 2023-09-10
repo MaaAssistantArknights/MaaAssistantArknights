@@ -8,7 +8,8 @@ import re
 regex_ignore_list = [
     "Sami",
     "Reclamation",
-    "SSSBuffChoose"
+    "SSSBuffChoose",
+    "Roguelike@LevelName_normal_mode"
 ]
 
 server_list = [
