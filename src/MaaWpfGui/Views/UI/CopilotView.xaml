@@ -71,7 +71,7 @@
                 IsEnabled="{Binding Idle}"
                 ToolTip="{DynamicResource SelectTheFileTip}" />
             <Grid
-                Margin="0,15,00,40"
+                Margin="0,10,0,0"
                 HorizontalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" MinWidth="100" />
@@ -90,8 +90,36 @@
                     HorizontalAlignment="Center"
                     Content="{DynamicResource AddTrust}"
                     IsChecked="{Binding AddTrust}"
-                    Visibility="{c:Binding '(Form) and (Idle)'}"
+                    Visibility="{c:Binding Form}"
+                    IsEnabled="{Binding Idle}"
                     IsHitTestVisible="{Binding Idle}" Margin="10,0,0,0"/>
+            </Grid>
+            <Grid
+                Margin="0,10,0,25" Height="30">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="100" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <CheckBox
+                    HorizontalAlignment="Center"
+                    Content="{DynamicResource AddUserAdditional}"
+                    IsChecked="{Binding AddUserAdditional}"
+                    IsEnabled="{Binding Idle}"
+                    IsHitTestVisible="{Binding Idle}"
+                    Visibility="{c:Binding Form}"
+                    ToolTip="{DynamicResource AddUserAdditionalTip}"/>
+                
+                <TextBox
+                    Grid.Column="1"
+                    IsEnabled="{c:Binding '(Form) and (Idle)'}"
+                    IsHitTestVisible="{Binding AddUserAdditional}" 
+                    TextWrapping="Wrap"
+                    Text="{Binding UserAdditional, UpdateSourceTrigger=LostFocus}"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{c:Binding Form}"
+                    ToolTip="{DynamicResource AddUserAdditionalTip}"/>
             </Grid>
 
             <StackPanel

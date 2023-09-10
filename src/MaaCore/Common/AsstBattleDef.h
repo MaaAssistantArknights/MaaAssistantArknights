@@ -17,15 +17,15 @@ namespace asst::battle
     {
         NotUse = 0,   // 不自动使用
         Possibly = 1, // 有就用，例如干员 棘刺 3 技能
-        Times = 2,    // 用 X 次，例如干员 山 2 技能用 1 次、重岳 3 技能用 5 次，由 "skill_times" 字段控制
-        InTime = 3,   // 自动判断使用时机，画饼.jpg
-        TimesUsed     // 已经使用了 X 次
+        Times = 2, // 用 X 次，例如干员 山 2 技能用 1 次、重岳 3 技能用 5 次，由 "skill_times" 字段控制
+        InTime = 3, // 自动判断使用时机，画饼.jpg
+        TimesUsed   // 已经使用了 X 次
     };
 
     struct OperUsage // 干员用法
     {
         std::string name;
-        int skill = 1; // 技能序号，取值范围 [1, 3]
+        int skill = 0; // 技能序号，取值范围 [0, 3]，0时使用默认技能 或 上次编队时使用的技能
         SkillUsage skill_usage = SkillUsage::NotUse;
         int skill_times = 1; // 使用技能的次数，默认为 1，兼容曾经的作业
     };
@@ -80,7 +80,7 @@ namespace asst::battle
             { "法师", Role::Caster },
 
             { "support", Role::Support },    { "SUPPORT", Role::Support },    { "Support", Role::Support },
-            { "supporter", Role::Support },    { "SUPPORTER", Role::Support },    { "Supporter", Role::Support },
+            { "supporter", Role::Support },  { "SUPPORTER", Role::Support },  { "Supporter", Role::Support },
             { "辅助", Role::Support },       { "支援", Role::Support },
 
             { "special", Role::Special },    { "SPECIAL", Role::Special },    { "Special", Role::Special },

@@ -443,6 +443,8 @@
     <system:String x:Key="AutoSquad">自動編隊</system:String>
     <system:String x:Key="AutoSquadTip">自動編隊暫時無法辨識「特別關注」的幹員</system:String>
     <system:String x:Key="AddTrust">補充低信賴幹員</system:String>
+    <system:String x:Key="AddUserAdditional">追加自定幹員</system:String>
+    <system:String x:Key="AddUserAdditionalTip">使用";"作為分隔符，用","分隔操作員姓名和技能，例：史尔特尔,3;艾雅法拉,1</system:String>
     <system:String x:Key="LoopTimes">循環次數</system:String>
     <system:String x:Key="Start">開始</system:String>
     <system:String x:Key="VideoLink">影片連結</system:String>
