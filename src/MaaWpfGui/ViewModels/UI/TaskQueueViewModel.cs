@@ -223,6 +223,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     await Task.Delay(delayTime);
                     await _stageManager.UpdateStageWeb();
+                    ResourceUpdater.UpdateAndToast();
                     UpdateDatePrompt();
                     UpdateStageList(false);
                 });
@@ -843,27 +844,35 @@ namespace MaaWpfGui.ViewModels.UI
                     case "Base":
                         taskRet &= AppendInfrast();
                         break;
+
                     case "WakeUp":
                         taskRet &= AppendStart();
                         break;
+
                     case "Combat":
                         taskRet &= AppendFight();
                         break;
+
                     case "Recruiting":
                         taskRet &= AppendRecruit();
                         break;
+
                     case "Mall":
                         taskRet &= AppendMall();
                         break;
+
                     case "Mission":
                         taskRet &= Instances.AsstProxy.AsstAppendAward();
                         break;
+
                     case "AutoRoguelike":
                         taskRet &= AppendRoguelike();
                         break;
+
                     case "ReclamationAlgorithm":
                         taskRet &= AppendReclamation();
                         break;
+
                     default:
                         --count;
                         _logger.Error("Unknown task: " + item.OriginalName);
@@ -2310,6 +2319,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             // ReSharper disable InconsistentNaming
             public int Index;
+
             public string Name;
             public string Description;
             public string DescriptionPost;

@@ -27,6 +27,7 @@ using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using MaaWpfGui.Models;
 using MaaWpfGui.States;
 using Markdig;
 using Markdig.Wpf;
@@ -370,6 +371,9 @@ namespace MaaWpfGui.ViewModels.UI
             /// 新版正在构建中
             /// </summary>
             NewVersionIsBeingBuilt,
+
+            // 只更新了游戏资源
+            OnlyGameReourceUpdated,
         }
 
         // ReSharper disable once IdentifierTypo
@@ -403,6 +407,7 @@ namespace MaaWpfGui.ViewModels.UI
                         case MessageBoxResult.No:
                             Instances.SettingsViewModel.AutoDownloadUpdatePackage = false;
                             break;
+
                         case MessageBoxResult.Yes:
                             Process.Start("https://dotnet.microsoft.com/download/dotnet/8.0/runtime");
                             break;
@@ -419,11 +424,28 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        public async Task<CheckUpdateRetT> CheckAndDownloadUpdate()
+        {
+            var ret = await CheckAndDownloadVersionUpdate();
+            if (ret == CheckUpdateRetT.OK)
+            {
+                return ret;
+            }
+
+            var resRet = await ResourceUpdater.Update();
+            if (resRet == ResourceUpdater.UpdateResult.Success)
+            {
+                return CheckUpdateRetT.OK;
+            }
+
+            return ret;
+        }
+
         /// <summary>
         /// 检查更新，并下载更新包。
         /// </summary>
         /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
-        public async Task<CheckUpdateRetT> CheckAndDownloadUpdate()
+        public async Task<CheckUpdateRetT> CheckAndDownloadVersionUpdate()
         {
             Instances.SettingsViewModel.IsCheckingForUpdates = true;
 
