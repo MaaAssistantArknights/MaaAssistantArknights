@@ -86,8 +86,10 @@
                         {
                             "groups": [
                                 "凯尔希",
-                                "地面阻挡",
-                                "召唤"
+                                "重装",
+                                "召唤",
+                                "近卫",
+                                "其他地面"
                             ],
                             "threshold": 1,
                             "is_less": true,
@@ -506,16 +508,16 @@
                     "alternate_skill": 1,
                     "is_key": true,
                     "is_start": true,
-                    "recruit_priority": 710,
-                    "promote_priority": 880,
+                    "recruit_priority": 619,
+                    "promote_priority": 700,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
                                 "凯尔希",
-                                "近卫"
+                                "重装"
                             ],
                             "threshold": 2,
-                            "offset": -200
+                            "offset": -250
                         }
                     ]
                 },
@@ -683,7 +685,7 @@
                 {
                     "name": "涤火杰西卡",
                     "skill": 2,
-                    "recruit_priority": 614,
+                    "recruit_priority": 622,
                     "promote_priority": 650,
                     "recruit_priority_offsets": [
                         {
