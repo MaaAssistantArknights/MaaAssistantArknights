@@ -44,7 +44,7 @@ namespace asst
         bool match_operator_groups();
         bool swipe_and_select_custom_opers(bool is_dorm_order = false);
         bool select_custom_opers(std::vector<std::string>& partial_result);
-        // 扫描满足心情条件的所有干员
+        // 扫描当前页满足心情条件的所有干员名
         bool get_opers(std::vector<std::string>& result, double mood = 1);
         // 复核干员选择是否符合期望
         bool select_opers_review(infrast::CustomRoomConfig const& origin_room_config, size_t num_of_opers_expect = 0);
