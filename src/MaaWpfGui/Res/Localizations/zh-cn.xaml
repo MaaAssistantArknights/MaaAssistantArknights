@@ -37,6 +37,7 @@
     <system:String x:Key="LinkStartGuide">← 开始任务</system:String>
     <system:String x:Key="Dorm">宿舍</system:String>
     <system:String x:Key="Mfg">制造站</system:String>
+    <system:String x:Key="Processing">加工站</system:String>
     <system:String x:Key="Trade">贸易站</system:String>
     <system:String x:Key="Power">发电站</system:String>
     <system:String x:Key="Reception">会客室</system:String>

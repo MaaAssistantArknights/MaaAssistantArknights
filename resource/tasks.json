@@ -5540,6 +5540,46 @@
         ],
         "templThreshold": 0.95
     },
+    "InfrastProcessing": {
+        "template": "InfrastProcessing.png",
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            880,
+            200,
+            400,
+            200
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastProcessingMini": {
+        "template": "InfrastProcessingMini.png",
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            980,
+            240,
+            300,
+            160
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastProcessingEnterOperList": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            45,
+            180,
+            160,
+            334
+        ],
+        "preDelay": 500,
+        "postDelay": 500
+    },
     "InfrastReception": {
         "template": "Reception.png",
         "maskRange": [

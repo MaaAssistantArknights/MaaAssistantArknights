@@ -173,6 +173,7 @@ namespace MaaWpfGui.ViewModels.UI
                 "Reception",
                 "Office",
                 "Dorm",
+                "Processing",
             };
 
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[facility_list.Length]);

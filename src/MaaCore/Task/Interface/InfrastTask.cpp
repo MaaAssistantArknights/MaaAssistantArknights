@@ -11,6 +11,7 @@
 #include "Task/Infrast/InfrastPowerTask.h"
 #include "Task/Infrast/InfrastReceptionTask.h"
 #include "Task/Infrast/InfrastTradeTask.h"
+#include "Task/Infrast/InfrastProcessingTask.h"
 #include "Task/Infrast/ReplenishOriginiumShardTaskPlugin.h"
 #include "Task/ProcessTask.h"
 
@@ -24,6 +25,7 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst)
       m_control_task_ptr(std::make_shared<InfrastControlTask>(callback, inst, TaskType)),
       m_reception_task_ptr(std::make_shared<InfrastReceptionTask>(callback, inst, TaskType)),
       m_office_task_ptr(std::make_shared<InfrastOfficeTask>(callback, inst, TaskType)),
+      m_processing_task_ptr(std::make_shared<InfrastProcessingTask>(callback, inst, TaskType)),
       m_dorm_task_ptr(std::make_shared<InfrastDormTask>(callback, inst, TaskType))
 {
     LogTraceFunction;
@@ -37,6 +39,7 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst)
     m_control_task_ptr->set_ignore_error(true);
     m_reception_task_ptr->set_ignore_error(true);
     m_office_task_ptr->set_ignore_error(true);
+    m_processing_task_ptr->set_ignore_error(true);
     m_dorm_task_ptr->set_ignore_error(true);
 
     m_subtasks.emplace_back(m_infrast_begin_task_ptr);
@@ -90,6 +93,9 @@ bool asst::InfrastTask::set_params(const json::value& params)
             else if (facility == "Control") {
                 m_subtasks.emplace_back(m_control_task_ptr);
             }
+            else if (facility == "Processing") {
+                m_subtasks.emplace_back(m_processing_task_ptr);
+            }
             else {
                 Log.error(__FUNCTION__, "| Unknown facility", facility);
                 m_subtasks.clear();
@@ -115,6 +121,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
     m_control_task_ptr->set_mood_threshold(threshold);
     m_reception_task_ptr->set_mood_threshold(threshold);
     m_office_task_ptr->set_mood_threshold(threshold);
+    m_processing_task_ptr->set_mood_threshold(threshold);
     m_dorm_task_ptr->set_mood_threshold(threshold);
 
     bool dorm_notstationed_enabled = params.get("dorm_notstationed_enabled", true);
@@ -237,6 +244,9 @@ bool asst::InfrastTask::parse_and_set_custom_config(const std::filesystem::path&
         }
         else if (facility == "hire") {
             m_office_task_ptr->set_custom_config(facility_config);
+        }
+        else if (facility == "processing") {
+            m_processing_task_ptr->set_custom_config(facility_config);
         }
         else if (facility == "dormitory") {
             m_dorm_task_ptr->set_custom_config(facility_config);
