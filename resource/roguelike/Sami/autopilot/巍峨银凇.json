@@ -3,13 +3,6 @@
     "replacement_home": [
         {
             "location": [
-                4,
-                5
-            ],
-            "direction": "up"
-        },
-        {
-            "location": [
                 10,
                 6
             ],
@@ -32,7 +25,7 @@
                 0,
                 1
             ]
-        },        
+        },
         {
             "groups": [
                 "奶",
@@ -68,10 +61,10 @@
                 3,
                 6
             ],
-            "direction": "up",
+            "direction": "right",
             "condition": [
                 1,
-                60
+                9
             ]
         },
         {
@@ -94,7 +87,9 @@
                 "速狙",
                 "盾法",
                 "术师",
-                "召唤"
+                "召唤",
+                "高台输出",
+                "其他高台"
             ],
             "location": [
                 10,
@@ -106,6 +101,39 @@
                 60
             ]
         },        
+        {
+            "groups": [
+                "凯尔希",
+                "单奶"
+            ],
+            "location": [
+                6,
+                6
+            ],
+            "direction": "right",
+            "condition": [
+                1,
+                60
+            ]
+        },
+        {
+            "groups": [
+                "狙击",
+                "盾法",
+                "高台输出",
+                "辅助",
+                "其他高台"
+            ],
+            "location": [
+                9,
+                5
+            ],
+            "direction": "up",
+            "condition": [
+                1,
+                60
+            ]
+        },
         {
             "groups": [
                 "浊心斯卡蒂",
@@ -123,40 +151,7 @@
         },
         {
             "groups": [
-                "凯尔希",
-                "单奶"                
-            ],
-            "location": [
-                6,
-                6
-            ],
-            "direction": "right",
-            "condition": [
-                1,
-                60
-            ]
-        },
-        {
-            "groups": [
-                "狙击",
-                "盾法",
-                "高台输出",
-                "辅助",
-                "其他高台"                
-            ],
-            "location": [
-                9,
-                5
-            ],
-            "direction": "up",
-            "condition": [
-                1,
-                60
-            ]
-        },
-        {
-            "groups": [
-                "水陈"                
+                "水陈"
             ],
             "location": [
                 6,
@@ -174,7 +169,7 @@
                 "狙击",
                 "盾法",
                 "辅助",
-                "其他高台"               
+                "其他高台"
             ],
             "location": [
                 5,
@@ -191,7 +186,8 @@
                 "地面阻挡",
                 "处决者",
                 "地刺",
-                "其他地面"
+                "其他地面",
+                "炮灰"
             ],
             "location": [
                 9,
@@ -206,13 +202,11 @@
         {
             "groups": [
                 "地面阻挡",
-                "处决者",
-                "地刺",
                 "其他地面"
             ],
             "location": [
-                4,
-                5
+                3,
+                6
             ],
             "direction": "right",
             "condition": [
@@ -242,7 +236,7 @@
                 "补给站"
             ],
             "location": [
-                3,
+                10,
                 4
             ],
             "direction": "down",
@@ -256,10 +250,10 @@
                 "支援陷阱"
             ],
             "location": [
-                10,
-                4
+                11,
+                5
             ],
-            "direction": "up",
+            "direction": "left",
             "condition": [
                 20,
                 60
@@ -275,12 +269,12 @@
             ],
             "direction": "up",
             "condition": [
-                20,
+                13,
                 60
             ]
         }
     ],
-    "retreat_plan":[
+    "retreat_plan": [
         {
             "location": [
                 3,
