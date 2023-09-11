@@ -443,8 +443,11 @@
     <system:String x:Key="FailedToLikeWebJson">出现错误，评价失败 : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">感谢评价！\n网页已经开放评论区，欢迎前往留下你的评论！</system:String>
     <system:String x:Key="AutoSquad">自动编队</system:String>
-    <system:String x:Key="LoopTimes">循环次数</system:String>
     <system:String x:Key="AutoSquadTip">自动编队暂时无法识别「特别关注」的干员</system:String>
+    <system:String x:Key="AddTrust">补充低信赖干员</system:String>
+    <system:String x:Key="AddUserAdditional">追加自定干员</system:String>
+    <system:String x:Key="AddUserAdditionalTip">以英文";"为分隔符，英文","分隔干员名与技能，例: 史尔特尔,3;艾雅法拉,1</system:String>
+    <system:String x:Key="LoopTimes">循环次数</system:String>
     <system:String x:Key="Start">开始</system:String>
     <system:String x:Key="VideoLink">视频链接</system:String>
     <!--  日志  -->

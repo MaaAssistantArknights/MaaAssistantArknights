@@ -18,10 +18,12 @@ using System.IO;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using HandyControl.Data;
+using HandyControl.Tools.Extension;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -1795,15 +1797,33 @@ namespace MaaWpfGui.Main
         /// </summary>
         /// <param name="filename">作业 JSON 的文件路径，绝对、相对路径均可。</param>
         /// <param name="formation">是否进行 “快捷编队”。</param>
+        /// <param name="add_trust">是否追加信赖干员</param>
+        /// <param name="add_user_additional">是否追加自定干员</param>
+        /// <param name="user_additional">自定干员列表</param>
         /// <param name="type">任务类型</param>
         /// <param name="loop_times">任务重复执行次数</param>
         /// <returns>是否成功。</returns>
-        public bool AsstStartCopilot(string filename, bool formation, string type, int loop_times)
+        public bool AsstStartCopilot(string filename, bool formation, bool add_trust, bool add_user_additional, string user_additional, string type, int loop_times)
         {
+            JArray m_user_additional = new JArray();
+            Regex regex = new Regex(@"(?<=;)(?<name>[^,;]+)(?:, *(?<skill>\d))? *", RegexOptions.Compiled);
+            MatchCollection matches = regex.Matches(";" + user_additional);
+            foreach (Match match in matches)
+            {
+                m_user_additional.Add(new JObject
+                {
+                    ["name"] = match.Groups[1].Value.Trim(),
+                    ["skill"] = match.Groups[2].Value.IsNullOrEmpty() ? 0 : int.Parse(match.Groups[2].Value),
+                });
+            }
+
             var task_params = new JObject
             {
                 ["filename"] = filename,
                 ["formation"] = formation,
+                ["add_trust"] = add_trust,
+                ["add_user_additional"] = add_user_additional,
+                ["user_additional"] = m_user_additional,
                 ["loop_times"] = loop_times,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding(type, task_params);

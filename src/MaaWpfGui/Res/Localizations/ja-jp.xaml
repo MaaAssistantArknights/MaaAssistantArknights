@@ -429,8 +429,11 @@
     <system:String x:Key="FailedToLikeWebJson">エラーが発生しました、いいねに失敗しました。 : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">感謝と評価！\nウェブページには既にコメント欄が開放されており、あなたのコメントを心待ちにしています！</system:String>
     <system:String x:Key="AutoSquad">自動編成</system:String>
-    <system:String x:Key="LoopTimes">ループ回数</system:String>
     <system:String x:Key="AutoSquadTip">自動編成では、一時的に「戦術要員」オペレーターを認識できません</system:String>
+    <system:String x:Key="AddTrust">信頼性の低いオペレーターを追加する</system:String>
+    <system:String x:Key="AddUserAdditional">カスタム戦術要員の追加</system:String>
+    <system:String x:Key="AddUserAdditionalTip">使用「;」オペレータ名とスキルを区切るには、区切り文字として「,」を使用します。例: W, 3; Ash, 2</system:String>
+    <system:String x:Key="LoopTimes">ループ回数</system:String>
     <system:String x:Key="Start">開始</system:String>
     <system:String x:Key="VideoLink">映像へのハイパーリンク</system:String>
     <!--  Export to Lolicon  -->

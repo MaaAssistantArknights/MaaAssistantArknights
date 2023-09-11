@@ -6846,6 +6846,29 @@
         ],
         "postDelay": 500
     },
+	"BattleQuickFormationFilter-Trust": {
+		"action": "ClickSelf",
+		"roi": [
+			1010,
+			70,
+			35,
+			580
+		],
+		"postDelay": 500,
+		"next": [
+			"BattleQuickFormationFilter-Click2"
+		]
+	},
+	"BattleQuickFormationFilter-Click2": {
+		"action": "ClickSelf",
+		"roi": [
+			1125,
+			60,
+			150,
+			600
+		],
+		"postDelay": 500
+	},
     "BattleQuickFormationFilterClose": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
@@ -6856,6 +6879,15 @@
             185
         ],
         "postDelay": 500
+    },
+    "BattleQuickFormationTrustIcon": {
+        "templThreshold": 0.9,
+        "roi": [
+            360,
+            280,
+            735,
+            360
+        ]
     },
     "BattleQuickFormationRole-All": {
         "baseTask": "BattleQuickFormationRole",
