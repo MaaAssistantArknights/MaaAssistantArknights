@@ -1114,6 +1114,9 @@ namespace MaaWpfGui.Main
                 case "StageQueueMissionCompleted":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails["stage_code"]} - {subTaskDetails["stars"]} ★", UiLogColor.Info);
                     break;
+                case "AccountSwitch":
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AccountSwitch") + $" {subTaskDetails["current_account"]} -->> {subTaskDetails["account_name"]}", UiLogColor.Info);
+                    break;
             }
         }
 
@@ -1440,13 +1443,15 @@ namespace MaaWpfGui.Main
         /// </summary>
         /// <param name="client_type">客户端版本。</param>
         /// <param name="enable">是否自动启动客户端。</param>
+        /// <param name="accountName">需要切换到的登录名，留空以禁用</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendStartUp(string client_type, bool enable)
+        public bool AsstAppendStartUp(string client_type, bool enable, string accountName)
         {
             var task_params = new JObject
             {
                 ["client_type"] = client_type,
                 ["start_game_enabled"] = enable,
+                ["account_name"] = accountName,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding("StartUp", task_params);
             _latestTaskId[TaskType.StartUp] = id;
