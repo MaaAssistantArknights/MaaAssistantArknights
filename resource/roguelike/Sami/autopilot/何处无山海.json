@@ -12,9 +12,9 @@
     "deploy_plan": [
         {
             "groups": [
-                "情报官",
-                "挡人先锋",
-                "投锋"
+                "回费",
+                "处决者",
+                "炮灰"
             ],
             "location": [
                 3,
@@ -58,14 +58,23 @@
         {
             "groups": [
                 "凯尔希",
-                "单奶",
-                "群奶"
+                "单奶"
             ],
             "location": [
                 5,
                 4
             ],
             "direction": "right"
+        },        
+        {
+            "groups": [
+                "浊心斯卡蒂"
+            ],
+            "location": [
+                7,
+                3
+            ],
+            "direction": "left"
         },
         {
             "groups": [
@@ -93,7 +102,8 @@
         {
             "groups": [
                 "处决者",
-                "其他地面"
+                "炮灰",
+                "地刺"
             ],
             "location": [
                 8,
@@ -140,6 +150,36 @@
                 3
             ],
             "direction": "up"
+        },
+        {
+            "groups": [
+                "无人机"
+            ],
+            "location": [
+                9,
+                2
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "补给站"
+            ],
+            "location": [
+                8,
+                2
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "支援陷阱"
+            ],
+            "location": [
+                9,
+                2
+            ],
+            "direction": "left"
         }
     ]
 }

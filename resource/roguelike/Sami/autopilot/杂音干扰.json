@@ -12,7 +12,7 @@
     "deploy_plan": [
         {
             "groups": [
-                "投锋",                
+                "投锋",
                 "挡人先锋",
                 "情报官"
             ],
@@ -35,14 +35,23 @@
         {
             "groups": [
                 "凯尔希",
-                "浊心斯卡蒂",
-                "奶"
+                "浊心斯卡蒂"
             ],
             "location": [
                 7,
                 2
             ],
             "direction": "left"
+        },
+        {
+            "groups": [
+                "奶"
+            ],
+            "location": [
+                7,
+                4
+            ],
+            "direction": "up"
         },
         {
             "groups": [
@@ -94,16 +103,6 @@
         },
         {
             "groups": [
-                "奶"
-            ],
-            "location": [
-                7,
-                4
-            ],
-            "direction": "up"
-        },
-        {
-            "groups": [
                 "高台输出",
                 "盾法",
                 "辅助",
@@ -124,18 +123,40 @@
                 8,
                 4
             ],
-            "direction": "left"
-        }
-    ],
-    "retreat_plan":[
+            "direction": "down"
+        },
         {
+            "groups": [
+                "补给站"
+            ],
             "location": [
-                8,
+                6,
                 1
             ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "无人机"
+            ],
+            "location": [
+                8,
+                3
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "支援陷阱"
+            ],
+            "location": [
+                4,
+                3
+            ],
+            "direction": "down",
             "condition": [
                 18,
-                28
+                30
             ]
         }
     ]

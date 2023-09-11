@@ -359,6 +359,26 @@ bool cvt_single_item_template(const std::filesystem::path& input, const std::fil
     cv::cvtColor(dst_resized, dst_gray, cv::COLOR_BGR2GRAY);
     dst_resized = dst_resized(cv::boundingRect(dst_gray));
 
+    if (std::filesystem::exists(output)) {
+        cv::Mat pre = cv::imread(output.string());
+        cv::Mat matched;
+        cv::matchTemplate(dst_resized, pre, matched, cv::TM_CCORR_NORMED);
+        double max_val = 0, min_val = 0;
+        cv::Point max_loc {}, min_loc {};
+        cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
+
+        if (max_val > 0.95) {
+            std::cout << "Same infrast templ, Skip: " << output << ", score: " << max_val << std::endl;
+            return true;
+        }
+        else {
+            std::cout << "Update item templ: " << output << ", score: " << max_val << std::endl;
+        }
+    }
+    else {
+        std::cout << "New item templ: " << output << std::endl;
+    }
+
     cv::imwrite(output.string(), dst_resized);
     return true;
 }
@@ -601,13 +621,13 @@ bool update_infrast_templates(const std::filesystem::path& input_dir, const std:
         }
 
         cv::Mat image = cv::imread(entry.path().string(), -1);
-        cv::Mat cvt;
-        cv::cvtColor(image, cvt, cv::COLOR_BGRA2BGR);
+        cv::Mat dst;
+        cv::cvtColor(image, dst, cv::COLOR_BGRA2BGR);
         for (int c = 0; c != image.cols; ++c) {
             for (int r = 0; r != image.rows; ++r) {
                 auto p = image.at<cv::Vec4b>(c, r);
                 if (p[3] != 255) {
-                    cvt.at<cv::Vec3b>(c, r) = cv::Vec3b(0, 0, 0);
+                    dst.at<cv::Vec3b>(c, r) = cv::Vec3b(0, 0, 0);
                 }
             }
         }
@@ -618,10 +638,26 @@ bool update_infrast_templates(const std::filesystem::path& input_dir, const std:
         filename[0] -= 32;
         std::string out_file = (output_dir / filename).string();
 
-        if (!std::filesystem::exists(out_file)) {
+        if (std::filesystem::exists(out_file)) {
+            cv::Mat pre = cv::imread(out_file);
+            cv::Mat matched;
+            cv::matchTemplate(dst, pre, matched, cv::TM_CCORR_NORMED);
+            double max_val = 0, min_val = 0;
+            cv::Point max_loc {}, min_loc {};
+            cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
+
+            if (max_val > 0.95) {
+                std::cout << "Same infrast templ, Skip: " << out_file << ", score: " << max_val << std::endl;
+                continue;
+            }
+            else {
+                std::cout << "Update infrast templ: " << out_file << ", score: " << max_val << std::endl;
+            }
+        }
+        else {
             std::cout << "New infrast templ: " << out_file << std::endl;
         }
-        cv::imwrite(out_file, cvt);
+        cv::imwrite(out_file, dst);
     }
     return true;
 }

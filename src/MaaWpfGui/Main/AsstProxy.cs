@@ -15,7 +15,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -1105,6 +1104,14 @@ namespace MaaWpfGui.Main
                 case "SanityBeforeStage":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CurrentSanity") + $" {subTaskDetails["sanity"]} ");
                     break;
+
+                case "StageQueueUnableToAgent":
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails["stage_code"]} " + LocalizationHelper.GetString("UnableToAgent"), UiLogColor.Info);
+                    break;
+
+                case "StageQueueMissionCompleted":
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails["stage_code"]} - {subTaskDetails["stars"]} ★", UiLogColor.Info);
+                    break;
             }
         }
 
@@ -1143,7 +1150,6 @@ namespace MaaWpfGui.Main
 
         private static readonly bool ForcedReloadResource = File.Exists("DEBUG") || File.Exists("DEBUG.txt");
 
-
         /// <summary>
         /// 检查端口是否有效。
         /// </summary>
@@ -1151,14 +1157,18 @@ namespace MaaWpfGui.Main
         /// <returns>是否有效。</returns>
         public bool IfPortEstablished(string address)
         {
-            if (string.IsNullOrEmpty(address))
+            if (string.IsNullOrEmpty(address) || !address.Contains(":"))
             {
                 return false;
             }
 
             // normal -> [host]:[port]
-            // LDPlayer -> emulator-[port]
-            string[] address_ = address.Contains(":") ? address.Split(':') : address.Split('-');
+            string[] address_ = address.Split(':');
+            if (address_.Length != 2)
+            {
+                return false;
+            }
+
             string host = address_[0].Equals("emulator") ? "127.0.0.1" : address_[0];
             int port = int.Parse(address_[1]);
 
@@ -1206,29 +1216,28 @@ namespace MaaWpfGui.Main
                 }
 
                 // tcp连接测试端口是否有效，超时时间500ms
-                bool adbResult = IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
+                // 如果是本地设备，没有冒号
+                bool adbResult = !Instances.SettingsViewModel.ConnectAddress.Contains(":") ||
+                    IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
                 bool bsResult = IfPortEstablished(bsHvAddress);
 
-                // 枚举所有情况
-                if (adbResult && bsResult)
+                if (adbResult)
                 {
-                    // 2 connections(s)
-                    error = LocalizationHelper.GetString("EmulatorTooMany");
-                    return false;
+                    error = string.Empty;
                 }
-                else if (adbResult || bsResult)
+                else if (bsResult)
                 {
-                    // 1 connections(s)
-                    Instances.SettingsViewModel.ConnectAddress = adbResult ? Instances.SettingsViewModel.ConnectAddress : bsHvAddress;
+                    Instances.SettingsViewModel.ConnectAddress = bsHvAddress;
+                    error = string.Empty;
+                }
+                else if (adbConfResult)
+                {
+                    // 用户填了这个，虽然端口没检测到，但是凑合用吧
                     error = string.Empty;
                 }
                 else
                 {
-                    // 0 connections(s)
-                    if (!adbConfResult)
-                    {
-                        return false;
-                    }
+                    return false;
                 }
             }
 
