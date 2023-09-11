@@ -257,6 +257,11 @@ At the end of the level, enter 「Normal/Hard」 to switch between Standard and 
     <system:String x:Key="AutoDetectConnection">Auto detect connection</system:String>
     <system:String x:Key="AutoDetectConnectionTip">This checkbox will be automatically unchecked after each detect is completed, and can be checked again if you need to re-detect</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">Re-detect every times</system:String>
+    <system:String x:Key="AccountSwitch">Account Switch</system:String>
+    <system:String x:Key="AccountSwitchTip" xml:space="preserve">Fill in the account that needs to be switched to, leave blank to close the account switching
+Official(CN): Enter the mobile phone number displayed on the login interface, such as 123****4567
+Bilibili: Enter the account name displayed on the login interface, such as Zhang San
+Other client types are not supported</system:String>
     <system:String x:Key="ADBPath">ADB path (rel/abs)</system:String>
     <system:String x:Key="ConnectionAddress">Connection address</system:String>
     <system:String x:Key="ConnectionAddressTip">It will be filled in automatically when you use it for the first time. If you encounter any problems, you can try to manually modify it</system:String>

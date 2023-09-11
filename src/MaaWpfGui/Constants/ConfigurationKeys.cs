@@ -66,6 +66,7 @@ namespace MaaWpfGui.Constants
         public const string AdbReplaced = "Connect.AdbReplaced";
 
         public const string ClientType = "Start.ClientType";
+        public const string AccountName = "Start.AccountName";
         public const string RunDirectly = "Start.RunDirectly";
         public const string MinimizeDirectly = "Start.MinimizeDirectly";
         public const string StartEmulator = "Start.StartEmulator";
