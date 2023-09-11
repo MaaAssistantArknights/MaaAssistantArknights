@@ -441,8 +441,11 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="FailedToLikeWebJson">오류로 인해 평가에 실패했습니다 : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">감사합니다!\n웹사이트에 댓글을 남길 수도 있으니 의견을 남겨 주세요!</system:String>
     <system:String x:Key="AutoSquad">자동 편성</system:String>
-    <system:String x:Key="LoopTimes">반복 횟수</system:String>
     <system:String x:Key="AutoSquadTip">자동 편성은 '선호' 오퍼레이터를 인식할 수 없습니다</system:String>
+    <system:String x:Key="AddTrust">신뢰도가 낮은 운영자 추가</system:String>
+    <system:String x:Key="AddUserAdditional">맞춤 연산자 추가</system:String>
+    <system:String x:Key="AddUserAdditionalTip">사용 ";" 운영자 이름과 기술을 구분하기 위해 구분 기호 ","를 사용합니다. 예: W, 3; Ash, 2</system:String>
+    <system:String x:Key="LoopTimes">반복 횟수</system:String>
     <system:String x:Key="Start">시작</system:String>
     <system:String x:Key="VideoLink">영상 링크</system:String>
     <!--  Start  -->
