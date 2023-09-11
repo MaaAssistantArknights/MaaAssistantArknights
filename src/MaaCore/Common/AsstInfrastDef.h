@@ -126,6 +126,11 @@ namespace asst::infrast
         };
 
         bool skip = false;
+        // 是否使用干员编组
+        bool use_operator_groups = false;
+        // 干员编组列表
+        std::unordered_map<std::string, std::vector<std::string>> operator_groups;
+        // 自定干员
         std::vector<std::string> names;
         bool autofill = false;
         Product product = Product::Unknown;

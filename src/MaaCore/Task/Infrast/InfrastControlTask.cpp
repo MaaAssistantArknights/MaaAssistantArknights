@@ -19,6 +19,11 @@ bool asst::InfrastControlTask::_run()
         return false;
     }
 
+    // 如果是使用了编队组来排班
+    if (current_room_config().use_operator_groups) {
+        match_operator_groups();
+    }
+
     for (int i = 0; i <= OperSelectRetryTimes; ++i) {
         if (need_exit()) {
             return false;
