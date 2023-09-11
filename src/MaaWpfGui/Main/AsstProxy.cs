@@ -1073,6 +1073,15 @@ namespace MaaWpfGui.Main
                     Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("UnsupportedLevel"), UiLogColor.Error);
                     break;
 
+                case "CustomInfrastRoomGroupsMatch":
+                    // 选用xxx组编组
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomGroupsMatch") + subTaskDetails["group"]);
+                    break;
+                case "CustomInfrastRoomGroupsMatchFailed":
+                    // 干员编组匹配失败
+                    JArray groups = (JArray)subTaskDetails["groups"];
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomGroupsMatchFailed") + string.Join(", ", groups));
+                    break;
                 case "CustomInfrastRoomOperators":
                     string nameStr = string.Empty;
                     foreach (var name in subTaskDetails["names"])
@@ -1085,7 +1094,7 @@ namespace MaaWpfGui.Main
                         nameStr = nameStr.Remove(nameStr.Length - 2);
                     }
 
-                    Instances.TaskQueueViewModel.AddLog(nameStr.ToString());
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomOperators") + nameStr.ToString());
                     break;
 
                 /* 生息演算 */

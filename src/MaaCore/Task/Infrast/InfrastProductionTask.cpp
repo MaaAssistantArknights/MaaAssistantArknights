@@ -213,6 +213,11 @@ bool asst::InfrastProductionTask::shift_facility_list()
         ctrler()->click(add_button);
         sleep(add_task_ptr->post_delay);
 
+        // 如果是使用了编队组来排班
+        if (current_room_config().use_operator_groups) {
+            match_operator_groups();
+        }
+
         for (int i = 0; i <= OperSelectRetryTimes; ++i) {
             if (need_exit()) {
                 return false;
