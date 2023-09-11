@@ -58,9 +58,8 @@
     "deploy_plan": [
         {
             "groups": [
-                "强攻手",
-                "回费",
-                "地面阻挡"
+                "地面阻挡",
+                "回费"
             ],
             "location": [
                 5,
@@ -86,7 +85,7 @@
             ],
             "location": [
                 2,
-                2
+                3
             ],
             "direction": "right"
         },
@@ -122,7 +121,7 @@
             ],
             "location": [
                 2,
-                3
+                2
             ],
             "direction": "right"
         },        
@@ -133,8 +132,8 @@
                 "其他地面"
             ],
             "location": [
-                3,
-                2
+                5,
+                4
             ],
             "direction": "right"
         },
