@@ -32,24 +32,23 @@
                     "recruit_priority_offsets": [
                         {
                             "groups": [
-                                "近卫",
-                                "重装",
+                                "地面阻挡",
                                 "召唤"
                             ],
                             "threshold": 2,
                             "is_less": true,
-                            "offset": 220,
-                            "Doc": "地面阻挡输出位≤2时，凯尔希的招募优先级+220"
+                            "offset": 200,
+                            "Doc": "地面阻挡输出位≤2时，凯尔希的招募优先级+200"
                         },
                         {
                             "groups": [
                                 "单奶",
                                 "群奶"
                             ],
-                            "threshold": 2,
+                            "threshold": 1,
                             "is_less": true,
-                            "offset": 220,
-                            "Doc": "治疗位≤2时，凯尔希的招募优先级+220"
+                            "offset": 175,
+                            "Doc": "治疗位≤1时，凯尔希的招募优先级+175"
                         },
                         {
                             "groups": [
@@ -87,8 +86,10 @@
                         {
                             "groups": [
                                 "凯尔希",
-                                "地面阻挡",
-                                "召唤"
+                                "重装",
+                                "召唤",
+                                "近卫",
+                                "其他地面"
                             ],
                             "threshold": 1,
                             "is_less": true,
@@ -507,16 +508,16 @@
                     "alternate_skill": 1,
                     "is_key": true,
                     "is_start": true,
-                    "recruit_priority": 710,
-                    "promote_priority": 880,
+                    "recruit_priority": 619,
+                    "promote_priority": 700,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
                                 "凯尔希",
-                                "近卫"
+                                "重装"
                             ],
                             "threshold": 2,
-                            "offset": -200
+                            "offset": -250
                         }
                     ]
                 },
@@ -684,7 +685,7 @@
                 {
                     "name": "涤火杰西卡",
                     "skill": 2,
-                    "recruit_priority": 614,
+                    "recruit_priority": 622,
                     "promote_priority": 650,
                     "recruit_priority_offsets": [
                         {
@@ -1582,7 +1583,7 @@
                 {
                     "name": "琴柳",
                     "skill": 1, 
-                    "auto_retreat": 90,
+                    "auto_retreat": 80,
                     "recruit_priority": 520,
                     "promote_priority": 359,
                     "recruit_priority_offsets": [
@@ -1600,7 +1601,7 @@
                 {
                     "name": "极境",
                     "skill": 1, 
-                    "auto_retreat": 90,
+                    "auto_retreat": 80,
                     "recruit_priority": 570,
                     "promote_priority": 350,
                     "recruit_priority_offsets": [
@@ -1618,7 +1619,7 @@
                 {
                     "name": "桃金娘",
                     "skill": 1, 
-                    "auto_retreat": 90,
+                    "auto_retreat": 80,
                     "recruit_priority": 680,
                     "promote_priority": 310,
                     "is_key": true,
@@ -2219,12 +2220,6 @@
                     "name": "休谟斯"
                 },
                 {
-                    "name": "泥岩"
-                },
-                {
-                    "name": "斥罪"
-                },
-                {
                     "name": "风丸"
                 },
                 {
@@ -2323,6 +2318,12 @@
                 },
                 {
                     "name": "艾丽妮"
+                },
+                {
+                    "name": "泥岩"
+                },
+                {
+                    "name": "斥罪"
                 },
                 {
                     "name": "陈",
@@ -3129,6 +3130,9 @@
             "opers": [
                 {
                     "name": "“弦惊”"
+                },
+                {
+                    "name": "机动盾牌"
                 }
             ]
         },

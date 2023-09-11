@@ -37,6 +37,7 @@
     <system:String x:Key="LinkStartGuide">← Start Tasks</system:String>
     <system:String x:Key="Dorm">Dormitory</system:String>
     <system:String x:Key="Mfg">Factory</system:String>
+    <system:String x:Key="Processing">Processing</system:String>
     <system:String x:Key="Trade">Trading Post</system:String>
     <system:String x:Key="Power">Power Plant</system:String>
     <system:String x:Key="Reception">Reception Room</system:String>
@@ -239,6 +240,8 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="MinimizeToTray">Hide to tray when minimized</system:String>
     <system:String x:Key="SystemNotification">System Notification</system:String>
     <system:String x:Key="HideCloseButton">Hide close button</system:String>
+    <system:String x:Key="UseLogItemDateFormat">Custom log date format</system:String>
+    <system:String x:Key="LogItemDateFormatString">Date format string</system:String>
     <system:String x:Key="DarkModeSetColorsTip">Whether to restart immediately to apply changes?</system:String>
     <system:String x:Key="UseAlternateStage">Use alternative stage</system:String>
     <system:String x:Key="UseRemainingSanityStage">Use remaining sanity stage</system:String>
@@ -249,8 +252,8 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="MainViewButtonFeature">Variable function button</system:String>
     <system:String x:Key="CustomStageCode">Manual entry of stage names</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">Support most main stage names + stage names from the original list (e.g. 4-10, AP-5, H10-1-Hard, etc.)
-At the end of the level, enter 「Normal/Hard」 to switch between Standard and Adverse environment
-Enter 「SSReopen-XX」to pass SS normal difficulty level at one time</system:String>
+At the end of the level, enter 「Normal/Hard」 to switch between Standard and Adverse environment</system:String>
+    <!--Enter 「SSReopen-XX」to pass SS normal difficulty level at one time</system:String>-->
     <system:String x:Key="AutoDetectConnection">Auto detect connection</system:String>
     <system:String x:Key="AutoDetectConnectionTip">This checkbox will be automatically unchecked after each detect is completed, and can be checked again if you need to re-detect</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">Re-detect every times</system:String>
@@ -441,8 +444,11 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="FailedToLikeWebJson">An error occurred, the like failed. : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">Thanks for the likes!\nThe comment section is already open on the web page, please feel free to leave your comment!</system:String>
     <system:String x:Key="AutoSquad">Auto Squad</system:String>
-    <system:String x:Key="LoopTimes">Loop Times</system:String>
     <system:String x:Key="AutoSquadTip">「Favourite」 marked operators cannot be recognized at this time</system:String>
+    <system:String x:Key="AddTrust">Add low-trust operators</system:String>
+    <system:String x:Key="AddUserAdditional">Add custom operators</system:String>
+    <system:String x:Key="AddUserAdditionalTip">Use ";" as the separator, "," to separate the operator name and skills, for example: W, 3; Ash, 2</system:String>
+    <system:String x:Key="LoopTimes">Loop Times</system:String>
     <system:String x:Key="Start">Start</system:String>
     <system:String x:Key="VideoLink">Video Link</system:String>
     <!--  Logs  -->
@@ -510,9 +516,9 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="DropRecognitionError">Drops recognition error</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">Abort upload to Penguin Statistics</system:String>
     <system:String x:Key="TheEX">No bonus stage, stopped</system:String>
-    <system:String x:Key="StageQueue">Stage Queue: </system:String>
+    <system:String x:Key="StageQueue">Stage Queue:</system:String>
     <system:String x:Key="UnableToAgent">Unable to use PRTS</system:String>
-    <system:String x:Key="CurrentSanity">Current Sanity: </system:String>
+    <system:String x:Key="CurrentSanity">Current Sanity:</system:String>
     <system:String x:Key="MissionStart">Mission started</system:String>
     <system:String x:Key="UnitTime">times</system:String>
     <system:String x:Key="MedicineUsed">Medicine used</system:String>
@@ -613,5 +619,6 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  RootViewModel  -->
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">Stage data retrieval successful</system:String>
+    <system:String x:Key="GameResourceUpdated">Game resource updated, please restart MAA.</system:String>
     <!--  Api  -->
 </ResourceDictionary>

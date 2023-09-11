@@ -991,7 +991,9 @@
             280,
             90
         ],
-        "next": ["StageQueue@CheckPrts"]
+        "next": [
+            "StageQueue@CheckPrts"
+        ]
     },
     "StageQueue@UsePrtsSuccess": {
         "Doc": "检查代理激活没有，roi引用UnableToAgent2",
@@ -1008,7 +1010,9 @@
         "baseTask": "Fight",
         "template": "Terminal.png",
         "maxTimes": 3,
-        "exceededNext": ["Stop"],
+        "exceededNext": [
+            "Stop"
+        ],
         "next": [
             "StageQueue@GoLastBattle",
             "StageQueue"
@@ -1016,12 +1020,14 @@
         "postDelay": 3000
     },
     "StageQueue@GoLastBattle": {
-        "next": ["StageQueue@StartButton1"]
+        "next": [
+            "StageQueue@StartButton1"
+        ]
     },
     "StageQueue@CloseStonePage": {
         "next": []
     },
-    "StageQueue@StartButton1":{
+    "StageQueue@StartButton1": {
         "Doc": "开始战斗1",
         "action": "DoNothing",
         "maxTimes": 1,
@@ -1033,7 +1039,7 @@
             "StageQueue@UseStone",
             "StageQueue@NoStone",
             "StageQueue@OfflineConfirm",
-            "StageQueue@StartButton1TryAgain" 
+            "StageQueue@StartButton1TryAgain"
         ]
     },
     "SL-8": {
@@ -5788,6 +5794,46 @@
         ],
         "templThreshold": 0.95
     },
+    "InfrastProcessing": {
+        "template": "InfrastProcessing.png",
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            880,
+            200,
+            400,
+            200
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastProcessingMini": {
+        "template": "InfrastProcessingMini.png",
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            980,
+            240,
+            300,
+            160
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastProcessingEnterOperList": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            45,
+            180,
+            160,
+            334
+        ],
+        "preDelay": 500,
+        "postDelay": 500
+    },
     "InfrastReception": {
         "template": "Reception.png",
         "maskRange": [
@@ -7054,6 +7100,29 @@
         ],
         "postDelay": 500
     },
+	"BattleQuickFormationFilter-Trust": {
+		"action": "ClickSelf",
+		"roi": [
+			1010,
+			70,
+			35,
+			580
+		],
+		"postDelay": 500,
+		"next": [
+			"BattleQuickFormationFilter-Click2"
+		]
+	},
+	"BattleQuickFormationFilter-Click2": {
+		"action": "ClickSelf",
+		"roi": [
+			1125,
+			60,
+			150,
+			600
+		],
+		"postDelay": 500
+	},
     "BattleQuickFormationFilterClose": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
@@ -7064,6 +7133,15 @@
             185
         ],
         "postDelay": 500
+    },
+    "BattleQuickFormationTrustIcon": {
+        "templThreshold": 0.9,
+        "roi": [
+            360,
+            280,
+            735,
+            360
+        ]
     },
     "BattleQuickFormationRole-All": {
         "baseTask": "BattleQuickFormationRole",
@@ -8007,7 +8085,7 @@
             220
         ],
         "specialParams": [
-            500
+            100
         ],
         "specialParams_Doc": "red count threshold"
     },
@@ -10335,7 +10413,7 @@
             248
         ],
         "next": [
-            "(SwipeToTheUp*5)"
+            "(SwipeToTheUp*10)"
         ]
     },
     "Mizuki@Roguelike@ChooseDifficulty_Hardest": {
@@ -10355,7 +10433,7 @@
             248
         ],
         "next": [
-            "(SwipeToTheDown*5)"
+            "(SwipeToTheDown*10)"
         ]
     },
     "Mizuki@Roguelike@ChooseOper": {
@@ -10932,7 +11010,7 @@
             189
         ],
         "next": [
-            "(SwipeToTheUp*5)"
+            "(SwipeToTheUp*10)"
         ]
     },
     "Sami@Roguelike@ChooseDifficulty_Hardest": {
@@ -10952,7 +11030,7 @@
             189
         ],
         "next": [
-            "(SwipeToTheDown*5)"
+            "(SwipeToTheDown*10)"
         ]
     },
     "Sami@Roguelike@ChooseOper": {
@@ -11302,14 +11380,10 @@
             "Sami@Roguelike@StageEncounterAI6",
             "Sami@Roguelike@StageTrader",
             "Sami@Roguelike@StageTraderAI6",
-            "Sami@Roguelike@StageVerticalWindAndRain",
-            "Sami@Roguelike@StageVerticalWindAndRainAI6",
             "Sami@Roguelike@StageVerticalProphecy",
             "Sami@Roguelike@StageVerticalProphecyAI6",
             "Sami@Roguelike@StageVerticalEmergencyTransportation",
             "Sami@Roguelike@StageVerticalEmergencyTransportationAI6",
-            "Sami@Roguelike@StageVerticalGambling",
-            "Sami@Roguelike@StageVerticalGamblingAI6",
             "Sami@Roguelike@StageWindAndRain",
             "Sami@Roguelike@StageWindAndRainAI6",
             "Sami@Roguelike@StageProphecy",
@@ -11318,6 +11392,10 @@
             "Sami@Roguelike@StageEmergencyTransportationAI6",
             "Sami@Roguelike@StageGambling",
             "Sami@Roguelike@StageGamblingAI6",
+            "Sami@Roguelike@StageVerticalWindAndRain",
+            "Sami@Roguelike@StageVerticalWindAndRainAI6",
+            "Sami@Roguelike@StageVerticalGambling",
+            "Sami@Roguelike@StageVerticalGamblingAI6",
             "Sami@Roguelike@StageVerticalEmergencyDps",
             "Sami@Roguelike@StageVerticalEmergencyDpsAI6",
             "Sami@Roguelike@StageEmergencyDps",
@@ -13596,7 +13674,7 @@
         "postDelay": 1000,
         "text": [
             "结束",
-            "MISSON",
+            "MISSION",
             "RESULTS"
         ],
         "next": [

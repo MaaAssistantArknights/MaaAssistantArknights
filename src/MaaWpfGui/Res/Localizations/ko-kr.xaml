@@ -243,6 +243,8 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="MinimizeToTray">트레이로 최소화</system:String>
     <system:String x:Key="SystemNotification">중요 알림 팝업</system:String>
     <system:String x:Key="HideCloseButton">닫기 버튼 숨기기</system:String>
+    <system:String x:Key="UseLogItemDateFormat">사용자 정의 로그 날짜 형식</system:String>
+    <system:String x:Key="LogItemDateFormatString">날짜 형식 문자열</system:String>
     <system:String x:Key="DarkModeSetColorsTip">변경 사항을 적용하려면 즉시 다시 시작하시겠습니까?</system:String>
     <system:String x:Key="UseAlternateStage">대체 스테이지 사용</system:String>
     <system:String x:Key="UseRemainingSanityStage">남은 이성 활용</system:String>
@@ -444,8 +446,11 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: Zhang San
     <system:String x:Key="FailedToLikeWebJson">오류로 인해 평가에 실패했습니다 : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">감사합니다!\n웹사이트에 댓글을 남길 수도 있으니 의견을 남겨 주세요!</system:String>
     <system:String x:Key="AutoSquad">자동 편성</system:String>
-    <system:String x:Key="LoopTimes">반복 횟수</system:String>
     <system:String x:Key="AutoSquadTip">자동 편성은 '선호' 오퍼레이터를 인식할 수 없습니다</system:String>
+    <system:String x:Key="AddTrust">신뢰도가 낮은 운영자 추가</system:String>
+    <system:String x:Key="AddUserAdditional">맞춤 연산자 추가</system:String>
+    <system:String x:Key="AddUserAdditionalTip">사용 ";" 운영자 이름과 기술을 구분하기 위해 구분 기호 ","를 사용합니다. 예: W, 3; Ash, 2</system:String>
+    <system:String x:Key="LoopTimes">반복 횟수</system:String>
     <system:String x:Key="Start">시작</system:String>
     <system:String x:Key="VideoLink">영상 링크</system:String>
     <!--  Start  -->
@@ -513,9 +518,9 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: Zhang San
     <system:String x:Key="DropRecognitionError">드롭 인식 오류</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">펭귄 물류에 업로드 불가</system:String>
     <system:String x:Key="TheEX">EX 스테이지가 없어 중단되었습니다</system:String>
-    <system:String x:Key="StageQueue">레벨 대기열: </system:String>
+    <system:String x:Key="StageQueue">레벨 대기열:</system:String>
     <system:String x:Key="UnableToAgent">프록시 명령을 사용할 수 없습니다</system:String>
-    <system:String x:Key="CurrentSanity">현재 이성: </system:String>
+    <system:String x:Key="CurrentSanity">현재 이성:</system:String>
     <system:String x:Key="MissionStart">행동 개시</system:String>
     <system:String x:Key="UnitTime">회</system:String>
     <system:String x:Key="MedicineUsed">이성 회복 아이템을 사용했습니다</system:String>

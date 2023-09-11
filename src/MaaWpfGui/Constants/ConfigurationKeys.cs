@@ -29,6 +29,8 @@ namespace MaaWpfGui.Constants
         public const string MinimizeToTray = "GUI.MinimizeToTray";
         public const string HideCloseButton = "GUI.HideCloseButton";
         public const string UseNotify = "GUI.UseNotify";
+        public const string UseLogItemDateFormat = "GUI.UseLogItemDateFormat";
+        public const string LogItemDateFormat = "GUI.LogItemDateFormatString";
         public const string WindowPlacement = "GUI.Placement";
         public const string LoadWindowPlacement = "GUI.Placement.Load";
         public const string SaveWindowPlacement = "GUI.Placement.SaveOnClosing";
@@ -132,6 +134,8 @@ namespace MaaWpfGui.Constants
         public const string CreditBlackListNew = "Mall.CreditBlackListNew";
         public const string CreditForceShoppingIfCreditFull = "Mall.CreditForceShoppingIfCreditFull";
 
+        public const string CopilotAddUserAdditional = "Copilot.AddUserAdditional";
+        public const string CopilotUserAdditional = "Copilot.UserAdditional";
         public const string CopilotLoopTimes = "Copilot.LoopTimes";
 
         public const string UpdateProxy = "VersionUpdate.Proxy";
