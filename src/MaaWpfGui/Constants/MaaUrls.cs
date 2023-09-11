@@ -32,7 +32,7 @@ namespace MaaWpfGui.Constants
 
         public const string MapPrts = "https://map.ark-nights.com/areas?coord_override=maa";
 
-        public const string CustomInfrastGenerator = "https://yituliu.site/riicCal/";
+        public const string CustomInfrastGenerator = "https://yituliu.site/tools/maa";
 
         public const string QqGroups = "https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html";
 
