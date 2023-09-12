@@ -7388,6 +7388,150 @@
         "stageId": "act28side_08",
         "width": 13
     },
+    "act28side_ex01#f#-activities/act28side/level_act28side_ex01": {
+        "code": "CV-EX-1",
+        "filename": "act28side_ex01#f#-activities-act28side-level_act28side_ex01.json",
+        "height": 7,
+        "levelId": "activities/act28side/level_act28side_ex01",
+        "name": "紧握铳柄",
+        "stageId": "act28side_ex01#f#",
+        "width": 11
+    },
+    "act28side_ex01-activities/act28side/level_act28side_ex01": {
+        "code": "CV-EX-1",
+        "filename": "act28side_ex01-activities-act28side-level_act28side_ex01.json",
+        "height": 7,
+        "levelId": "activities/act28side/level_act28side_ex01",
+        "name": "紧握铳柄",
+        "stageId": "act28side_ex01",
+        "width": 11
+    },
+    "act28side_ex02#f#-activities/act28side/level_act28side_ex02": {
+        "code": "CV-EX-2",
+        "filename": "act28side_ex02#f#-activities-act28side-level_act28side_ex02.json",
+        "height": 8,
+        "levelId": "activities/act28side/level_act28side_ex02",
+        "name": "打开保险",
+        "stageId": "act28side_ex02#f#",
+        "width": 12
+    },
+    "act28side_ex02-activities/act28side/level_act28side_ex02": {
+        "code": "CV-EX-2",
+        "filename": "act28side_ex02-activities-act28side-level_act28side_ex02.json",
+        "height": 8,
+        "levelId": "activities/act28side/level_act28side_ex02",
+        "name": "打开保险",
+        "stageId": "act28side_ex02",
+        "width": 12
+    },
+    "act28side_ex03#f#-activities/act28side/level_act28side_ex03": {
+        "code": "CV-EX-3",
+        "filename": "act28side_ex03#f#-activities-act28side-level_act28side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act28side/level_act28side_ex03",
+        "name": "扳起击锤",
+        "stageId": "act28side_ex03#f#",
+        "width": 11
+    },
+    "act28side_ex03-activities/act28side/level_act28side_ex03": {
+        "code": "CV-EX-3",
+        "filename": "act28side_ex03-activities-act28side-level_act28side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act28side/level_act28side_ex03",
+        "name": "扳起击锤",
+        "stageId": "act28side_ex03",
+        "width": 11
+    },
+    "act28side_ex04#f#-activities/act28side/level_act28side_ex04": {
+        "code": "CV-EX-4",
+        "filename": "act28side_ex04#f#-activities-act28side-level_act28side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act28side/level_act28side_ex04",
+        "name": "平正准星",
+        "stageId": "act28side_ex04#f#",
+        "width": 11
+    },
+    "act28side_ex04-activities/act28side/level_act28side_ex04": {
+        "code": "CV-EX-4",
+        "filename": "act28side_ex04-activities-act28side-level_act28side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act28side/level_act28side_ex04",
+        "name": "平正准星",
+        "stageId": "act28side_ex04",
+        "width": 11
+    },
+    "act28side_ex05#f#-activities/act28side/level_act28side_ex05": {
+        "code": "CV-EX-5",
+        "filename": "act28side_ex05#f#-activities-act28side-level_act28side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act28side/level_act28side_ex05",
+        "name": "扣下扳机",
+        "stageId": "act28side_ex05#f#",
+        "width": 12
+    },
+    "act28side_ex05-activities/act28side/level_act28side_ex05": {
+        "code": "CV-EX-5",
+        "filename": "act28side_ex05-activities-act28side-level_act28side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act28side/level_act28side_ex05",
+        "name": "扣下扳机",
+        "stageId": "act28side_ex05",
+        "width": 12
+    },
+    "act28side_ex06#f#-activities/act28side/level_act28side_ex06": {
+        "code": "CV-EX-6",
+        "filename": "act28side_ex06#f#-activities-act28side-level_act28side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act28side/level_act28side_ex06",
+        "name": "套筒后坐",
+        "stageId": "act28side_ex06#f#",
+        "width": 12
+    },
+    "act28side_ex06-activities/act28side/level_act28side_ex06": {
+        "code": "CV-EX-6",
+        "filename": "act28side_ex06-activities-act28side-level_act28side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act28side/level_act28side_ex06",
+        "name": "套筒后坐",
+        "stageId": "act28side_ex06",
+        "width": 12
+    },
+    "act28side_ex07#f#-activities/act28side/level_act28side_ex07": {
+        "code": "CV-EX-7",
+        "filename": "act28side_ex07#f#-activities-act28side-level_act28side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act28side/level_act28side_ex07",
+        "name": "子弹出膛",
+        "stageId": "act28side_ex07#f#",
+        "width": 12
+    },
+    "act28side_ex07-activities/act28side/level_act28side_ex07": {
+        "code": "CV-EX-7",
+        "filename": "act28side_ex07-activities-act28side-level_act28side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act28side/level_act28side_ex07",
+        "name": "子弹出膛",
+        "stageId": "act28side_ex07",
+        "width": 12
+    },
+    "act28side_ex08#f#-activities/act28side/level_act28side_ex08": {
+        "code": "CV-EX-8",
+        "filename": "act28side_ex08#f#-activities-act28side-level_act28side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act28side/level_act28side_ex08",
+        "name": "正中目标",
+        "stageId": "act28side_ex08#f#",
+        "width": 13
+    },
+    "act28side_ex08-activities/act28side/level_act28side_ex08": {
+        "code": "CV-EX-8",
+        "filename": "act28side_ex08-activities-act28side-level_act28side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act28side/level_act28side_ex08",
+        "name": "正中目标",
+        "stageId": "act28side_ex08",
+        "width": 13
+    },
     "act28side_tr01-activities/act28side/level_act28side_tr01": {
         "code": "CV-TR-1",
         "filename": "act28side_tr01-activities-act28side-level_act28side_tr01.json",
