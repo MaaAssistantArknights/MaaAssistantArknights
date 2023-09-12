@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using FluentEmail.Core;
 using FluentEmail.Liquid;
 using FluentEmail.MailKitSmtp;
@@ -15,12 +15,12 @@ namespace MaaWpfGui.Services.Notification
 
         public async Task<bool> SendAsync(string title, string content)
         {
-            var smtpServer = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ExternalNotificationSmtpServer, string.Empty);
-            var smtpPortValid = int.TryParse(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ExternalNotificationSmtpPort, "25"), out var smtpPort);
-            var smtpUser = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ExternalNotificationSmtpUser, string.Empty);
-            var smtpPassword = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ExternalNotificationSmtpPassword, string.Empty);
-            var smtpUseSslValid = bool.TryParse(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ExternalNotificationSmtpUser, "false"), out var smtpUseSsl);
-            var smtpRequiresAuthenticationValid = bool.TryParse(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ExternalNotificationSmtpRequiresAuthentication, "false"), out var smtpRequiresAuthentication);
+            var smtpServer = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpServer, string.Empty);
+            var smtpPortValid = int.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpPort, "25"), out var smtpPort);
+            var smtpUser = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpUser, string.Empty);
+            var smtpPassword = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpPassword, string.Empty);
+            var smtpUseSslValid = bool.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpUseSsl, "false"), out var smtpUseSsl);
+            var smtpRequiresAuthenticationValid = bool.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpRequiresAuthentication, "false"), out var smtpRequiresAuthentication);
 
             if (string.IsNullOrEmpty(smtpServer) || smtpPortValid is false || smtpUseSslValid is false || smtpRequiresAuthenticationValid is false)
             {
@@ -41,8 +41,8 @@ namespace MaaWpfGui.Services.Notification
 
             Email.DefaultRenderer = new LiquidRenderer(new OptionsWrapper<LiquidRendererOptions>(new LiquidRendererOptions()));
 
-            var emailFrom = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ExternalNotificationSmtpFrom, string.Empty);
-            var emailTo = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ExternalNotificationSmtpTo, string.Empty);
+            var emailFrom = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpFrom, string.Empty);
+            var emailTo = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpTo, string.Empty);
 
             var email = Email
                 .From(emailFrom)
