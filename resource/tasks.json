@@ -9731,7 +9731,8 @@
             "Roguelike@StageTraderRefreshWithDice",
             "Roguelike@StageTraderInvestSystem",
             "Roguelike@TraderRandomShopping",
-            "Roguelike@StageTraderLeave"
+            "Roguelike@StageTraderLeave",
+            "Roguelike@StageTraderLeaveConfirm"
         ]
     },
     "Roguelike@StageVerticalConfirmTrader": {
