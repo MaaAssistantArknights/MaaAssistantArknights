@@ -37,7 +37,7 @@
     <system:String x:Key="LinkStartGuide">← Start Tasks</system:String>
     <system:String x:Key="Dorm">Dormitory</system:String>
     <system:String x:Key="Mfg">Factory</system:String>
-    <system:String x:Key="Processing">Processing</system:String>
+    <system:String x:Key="Processing">Workshop</system:String>
     <system:String x:Key="Trade">Trading Post</system:String>
     <system:String x:Key="Power">Power Plant</system:String>
     <system:String x:Key="Reception">Reception Room</system:String>
