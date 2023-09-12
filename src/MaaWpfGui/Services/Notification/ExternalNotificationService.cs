@@ -14,7 +14,6 @@
 using System.Threading.Tasks;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using Vanara.PInvoke;
 
 namespace MaaWpfGui.Services.Notification
 {

@@ -1088,11 +1088,17 @@ namespace MaaWpfGui.Main
                     // 选用xxx组编组
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomGroupsMatch") + subTaskDetails["group"]);
                     break;
+
                 case "CustomInfrastRoomGroupsMatchFailed":
                     // 干员编组匹配失败
                     JArray groups = (JArray)subTaskDetails["groups"];
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomGroupsMatchFailed") + string.Join(", ", groups));
+                    if (groups != null)
+                    {
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomGroupsMatchFailed") + string.Join(", ", groups));
+                    }
+
                     break;
+
                 case "CustomInfrastRoomOperators":
                     string nameStr = string.Empty;
                     foreach (var name in subTaskDetails["names"])
@@ -1134,6 +1140,7 @@ namespace MaaWpfGui.Main
                 case "StageQueueMissionCompleted":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails["stage_code"]} - {subTaskDetails["stars"]} ★", UiLogColor.Info);
                     break;
+
                 case "AccountSwitch":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AccountSwitch") + $" {subTaskDetails["current_account"]} -->> {subTaskDetails["account_name"]}", UiLogColor.Info);
                     break;
