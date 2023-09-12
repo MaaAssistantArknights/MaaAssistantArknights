@@ -48,6 +48,18 @@
         ],
         "reduceOtherTimes": []
     },
+    "CF-Open": {
+        "text": [
+            "Event <A Flurry to the Flame> is now",
+            "open"
+        ]
+    },
+    "CFChapterToCF": {
+        "text": [
+            "SOUBO",
+            "MOUNTAINS"
+        ]
+    },
     "WB-Open": {
         "text": [
             "Event <Where Vernal Winds Will Never",
@@ -3150,6 +3162,11 @@
         ],
         "text": "Deployment Cost"
     },
+    "BattleQuickFormationRole-All-OCR": {
+        "text": [
+            "All"
+        ]
+    },
     "BattleQuickFormationOCR": {
         "roi": [
             0,
@@ -3220,6 +3237,11 @@
     },
     "StageDrops-DropType-Reward": {
         "templThreshold": 0.7
+    },
+    "Roguelike@ChooseDifficultyConfirm": {
+        "text": [
+            "Select"
+        ]
     },
     "Roguelike@FromIntegratedStrategies": {
         "text": [
@@ -3651,6 +3673,11 @@
             "Storage full"
         ]
     },
+    "Phantom@Roguelike@LevelName_mode4": {
+        "text": [
+            "Homeland Remnants"
+        ]
+    },
     "Phantom@Roguelike@NextLevel": {
         "text": [
             "Mist-stricken Missteps",
@@ -3664,6 +3691,11 @@
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
     },
+    "Mizuki@Roguelike@ChooseDifficultyConfirm": {
+        "text": [
+            "Select"
+        ]
+    },
     "Mizuki@Roguelike@GetDropBoxOpen": {
         "templThreshold": 0.95
     },
@@ -3673,15 +3705,21 @@
     "Mizuki@Roguelike@GetDropSelectRecruit": {
         "templThreshold": 0.75
     },
+    "Mizuki@Roguelike@LevelName_mode4": {
+        "text": [
+            "Raging Billows",
+            "Indigo Cradle"
+        ]
+    },
     "Mizuki@Roguelike@NextLevel": {
         "text": [
-            "Celeste and Seashore",
-            "Isolated Isle",
-            "Billowy Land",
-            "Mysterious Hotbed",
-            "Ashless Cave",
-            "Forest Undersea",
-            "Sweet Dream"
+            "Sunshine Coast",
+            "Offshore Island",
+            "Raging Billows",
+            "Secret Hotbed",
+            "Sacrosant Cave",
+            "Deep Sea Woodland",
+            "Indigo Cradle"
         ]
     },
     "Mizuki@Roguelike@StageSafeHouseReuse": {
@@ -5704,6 +5742,211 @@
         "text": [
             "Confirm assignment",
             "Confirm Selection"
+        ]
+    },
+    "Reclamation@TodoEnter": {
+        "text": [
+            "FIRE",
+            "WITHIN",
+            "THE",
+            "SAND"
+        ]
+    },
+    "Reclamation@EmptyInitUnits": {
+        "roi": [
+            349,
+            598,
+            563,
+            120
+        ],
+        "text": [
+            "Choose the Operators",
+            "you wish to begin",
+            "the Algorithm with"
+        ]
+    },
+    "Reclamation@ConfirmStart": {
+        "text": [
+            "COMMENCE",
+            "ALGORITHM"
+        ]
+    },
+    "Reclamation@SkipAnnounce": {
+        "text": [
+            "SKIP"
+        ]
+    },
+    "Reclamation@SkipDailyReport": {
+        "text": [
+            "Today's News"
+        ]
+    },
+    "Reclamation@StartActionEnter": {
+        "text": [
+            "Start"
+        ]
+    },
+    "Reclamation@PrepareAction": {
+        "text": [
+            "Prepare for Battle"
+        ]
+    },
+    "Reclamation@ExitLevelConfirm": {
+        "text": [
+            "Are you sure you",
+            "want to leave?"
+        ]
+    },
+    "Reclamation@LevelComplete": {
+        "text": [
+            "Results"
+        ]
+    },
+    "Reclamation@GiveupAlgorithm": {
+        "text": [
+            "ABANDON"
+        ]
+    },
+    "Reclamation@GiveupCrossdomainPageFlag": {
+        "text": [
+            "Select supplies",
+            "to keep",
+            "and manually tap",
+            "Emergency",
+            "Evacua"
+        ]
+    },
+    "Reclamation@GiveupClickEmergencyExit": {
+        "text": [
+            "Confirm",
+            "Evacuation"
+        ]
+    },
+    "Reclamation@GiveupCheckRemainItems": {
+        "text": [
+            "Check",
+            "Supplies"
+        ]
+    },
+    "Reclamation@GiveupTakeNothing": {
+        "text": [
+            "Confirm",
+            "Evacuation"
+        ]
+    },
+    "Reclamation@EnterSmeltGoldPage": {
+        "roi": [
+            0,
+            31,
+            1280,
+            175
+        ],
+        "text": [
+            "Crude",
+            "Gold"
+        ]
+    },
+    "Reclamation@EnterResearchLab": {
+        "text": [
+            "Research",
+            "Development"
+        ]
+    },
+    "Reclamation@LabClickDetailView": {
+        "text": [
+            "View",
+            "Details"
+        ]
+    },
+    "Reclamation@LabClickAssembleable": {
+        "text": [
+            "Craftable"
+        ]
+    },
+    "Reclamation@ManufactureStatus": {
+        "Doc": "base_task",
+        "algorithm": "OcrDetect",
+        "roi": [
+            1023,
+            336,
+            259,
+            109
+        ],
+        "text": []
+    },
+    "Reclamation@ManufactureIncrease": {
+        "action": "ClickRect",
+        "baseTask": "Reclamation@ManufactureStatus",
+        "specificRect": [
+            1120,
+            86,
+            111,
+            26
+        ],
+        "text": [
+            "Craft"
+        ]
+    },
+    "Reclamation@ManufactureDecrease": {
+        "action": "ClickRect",
+        "baseTask": "Reclamation@ManufactureStatus",
+        "specificRect": [
+            1096,
+            288,
+            139,
+            28
+        ],
+        "text": [
+            "Insufficient",
+            "materials"
+        ]
+    },
+    "Reclamation@DoManufacture": {
+        "action": "ClickSelf",
+        "baseTask": "Reclamation@ManufactureStatus",
+        "postDelay": 1000,
+        "text": [
+            "Craft"
+        ]
+    },
+    "Reclamation@ManufactureInsufficientMaterial": {
+        "baseTask": "Reclamation@ManufactureStatus",
+        "text": [
+            "Insufficient",
+            "materials"
+        ]
+    },
+    "Reclamation@ManufactureSufficientMaterial": {
+        "baseTask": "Reclamation@ManufactureStatus",
+        "text": [
+            "Craft"
+        ]
+    },
+    "Reclamation@Liaison": {
+        "text": [
+            "Liaison"
+        ]
+    },
+    "Reclamation@BuyWaterProcedure": {
+        "text": [
+            "Skip",
+            "Building materials",
+            "Fresh Water",
+            "Skip"
+        ]
+    },
+    "StartWithDefaultFormation@Reclamation@ConfirmStart": {
+        "baseTask": "Reclamation@ConfirmStart",
+        "next": [],
+        "next_Old": [
+            "Stop"
+        ],
+        "next_Old_Doc": "这里原先有个stop，但是会导致StartWithDefaultFormation@Reclamation@Begin中间多出一个Stop，姑且当成是不小心加的删了。"
+    },
+    "StartActionEnter@Reclamation@StartActionEnter": {
+        "baseTask": "Reclamation@StartActionEnter",
+        "next": [
+            "Stop"
         ]
     },
     "GachaLastOnceResult": {

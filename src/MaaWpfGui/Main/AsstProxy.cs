@@ -18,10 +18,12 @@ using System.IO;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using HandyControl.Data;
+using HandyControl.Tools.Extension;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -1071,6 +1073,15 @@ namespace MaaWpfGui.Main
                     Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("UnsupportedLevel"), UiLogColor.Error);
                     break;
 
+                case "CustomInfrastRoomGroupsMatch":
+                    // 选用xxx组编组
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomGroupsMatch") + subTaskDetails["group"]);
+                    break;
+                case "CustomInfrastRoomGroupsMatchFailed":
+                    // 干员编组匹配失败
+                    JArray groups = (JArray)subTaskDetails["groups"];
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomGroupsMatchFailed") + string.Join(", ", groups));
+                    break;
                 case "CustomInfrastRoomOperators":
                     string nameStr = string.Empty;
                     foreach (var name in subTaskDetails["names"])
@@ -1083,7 +1094,7 @@ namespace MaaWpfGui.Main
                         nameStr = nameStr.Remove(nameStr.Length - 2);
                     }
 
-                    Instances.TaskQueueViewModel.AddLog(nameStr.ToString());
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomOperators") + nameStr.ToString());
                     break;
 
                 /* 生息演算 */
@@ -1108,8 +1119,12 @@ namespace MaaWpfGui.Main
                 case "StageQueueUnableToAgent":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails["stage_code"]} " + LocalizationHelper.GetString("UnableToAgent"), UiLogColor.Info);
                     break;
+
                 case "StageQueueMissionCompleted":
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails["stage_code"]}   {subTaskDetails["stars"]}★", UiLogColor.Info);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails["stage_code"]} - {subTaskDetails["stars"]} ★", UiLogColor.Info);
+                    break;
+                case "AccountSwitch":
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AccountSwitch") + $" {subTaskDetails["current_account"]} -->> {subTaskDetails["account_name"]}", UiLogColor.Info);
                     break;
             }
         }
@@ -1149,7 +1164,6 @@ namespace MaaWpfGui.Main
 
         private static readonly bool ForcedReloadResource = File.Exists("DEBUG") || File.Exists("DEBUG.txt");
 
-
         /// <summary>
         /// 检查端口是否有效。
         /// </summary>
@@ -1157,14 +1171,18 @@ namespace MaaWpfGui.Main
         /// <returns>是否有效。</returns>
         public bool IfPortEstablished(string address)
         {
-            if (string.IsNullOrEmpty(address))
+            if (string.IsNullOrEmpty(address) || !address.Contains(":"))
             {
                 return false;
             }
 
             // normal -> [host]:[port]
-            // LDPlayer -> emulator-[port]
-            string[] address_ = address.Contains(":") ? address.Split(':') : address.Split('-');
+            string[] address_ = address.Split(':');
+            if (address_.Length != 2)
+            {
+                return false;
+            }
+
             string host = address_[0].Equals("emulator") ? "127.0.0.1" : address_[0];
             int port = int.Parse(address_[1]);
 
@@ -1212,29 +1230,28 @@ namespace MaaWpfGui.Main
                 }
 
                 // tcp连接测试端口是否有效，超时时间500ms
-                bool adbResult = IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
+                // 如果是本地设备，没有冒号
+                bool adbResult = !Instances.SettingsViewModel.ConnectAddress.Contains(":") ||
+                    IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
                 bool bsResult = IfPortEstablished(bsHvAddress);
 
-                // 枚举所有情况
-                if (adbResult && bsResult)
+                if (adbResult)
                 {
-                    // 2 connections(s)
-                    error = LocalizationHelper.GetString("EmulatorTooMany");
-                    return false;
+                    error = string.Empty;
                 }
-                else if (adbResult || bsResult)
+                else if (bsResult)
                 {
-                    // 1 connections(s)
-                    Instances.SettingsViewModel.ConnectAddress = adbResult ? Instances.SettingsViewModel.ConnectAddress : bsHvAddress;
+                    Instances.SettingsViewModel.ConnectAddress = bsHvAddress;
+                    error = string.Empty;
+                }
+                else if (adbConfResult)
+                {
+                    // 用户填了这个，虽然端口没检测到，但是凑合用吧
                     error = string.Empty;
                 }
                 else
                 {
-                    // 0 connections(s)
-                    if (!adbConfResult)
-                    {
-                        return false;
-                    }
+                    return false;
                 }
             }
 
@@ -1435,13 +1452,15 @@ namespace MaaWpfGui.Main
         /// </summary>
         /// <param name="client_type">客户端版本。</param>
         /// <param name="enable">是否自动启动客户端。</param>
+        /// <param name="accountName">需要切换到的登录名，留空以禁用</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendStartUp(string client_type, bool enable)
+        public bool AsstAppendStartUp(string client_type, bool enable, string accountName)
         {
             var task_params = new JObject
             {
                 ["client_type"] = client_type,
                 ["start_game_enabled"] = enable,
+                ["account_name"] = accountName,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding("StartUp", task_params);
             _latestTaskId[TaskType.StartUp] = id;
@@ -1792,15 +1811,33 @@ namespace MaaWpfGui.Main
         /// </summary>
         /// <param name="filename">作业 JSON 的文件路径，绝对、相对路径均可。</param>
         /// <param name="formation">是否进行 “快捷编队”。</param>
+        /// <param name="add_trust">是否追加信赖干员</param>
+        /// <param name="add_user_additional">是否追加自定干员</param>
+        /// <param name="user_additional">自定干员列表</param>
         /// <param name="type">任务类型</param>
         /// <param name="loop_times">任务重复执行次数</param>
         /// <returns>是否成功。</returns>
-        public bool AsstStartCopilot(string filename, bool formation, string type, int loop_times)
+        public bool AsstStartCopilot(string filename, bool formation, bool add_trust, bool add_user_additional, string user_additional, string type, int loop_times)
         {
+            JArray m_user_additional = new JArray();
+            Regex regex = new Regex(@"(?<=;)(?<name>[^,;]+)(?:, *(?<skill>\d))? *", RegexOptions.Compiled);
+            MatchCollection matches = regex.Matches(";" + user_additional);
+            foreach (Match match in matches)
+            {
+                m_user_additional.Add(new JObject
+                {
+                    ["name"] = match.Groups[1].Value.Trim(),
+                    ["skill"] = match.Groups[2].Value.IsNullOrEmpty() ? 0 : int.Parse(match.Groups[2].Value),
+                });
+            }
+
             var task_params = new JObject
             {
                 ["filename"] = filename,
                 ["formation"] = formation,
+                ["add_trust"] = add_trust,
+                ["add_user_additional"] = add_user_additional,
+                ["user_additional"] = m_user_additional,
                 ["loop_times"] = loop_times,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding(type, task_params);
