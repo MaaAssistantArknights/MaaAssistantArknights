@@ -568,7 +568,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: Zhang San
     <system:String x:Key="BattleFormation">편성 시작</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">오퍼레이터를 선택: </system:String>
     <system:String x:Key="CurrentSteps">현재 단계: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">지원하지 않는 스테이지입니다. MAA 소프트웨어 버전을 업데이트하세요!\n지원하지 않는 스테이지입니다. MAA 소프트웨어 버전을 업데이트하세요!\n지원하지 않는 스테이지입니다. MAA 소프트웨어 버전을 업데이트하세요!\n\n최신 버전이 이미 설치되어 있다는 메시지가 나올 경우, 개발 버전이나 베타 버전을 확인해보세요.</system:String>
+    <!--<system:String x:Key="UnsupportedLevel">지원하지 않는 스테이지입니다. MAA 소프트웨어 버전을 업데이트하세요!\n지원하지 않는 스테이지입니다. MAA 소프트웨어 버전을 업데이트하세요!\n지원하지 않는 스테이지입니다. MAA 소프트웨어 버전을 업데이트하세요!\n\n최신 버전이 이미 설치되어 있다는 메시지가 나올 경우, 개발 버전이나 베타 버전을 확인해보세요.</system:String>-->
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">인식 결과: </system:String>
     <system:String x:Key="ConnectFailed">연결 실패</system:String>
     <system:String x:Key="TryToStartEmulator">에뮬레이터를 시작하는 중입니다</system:String>

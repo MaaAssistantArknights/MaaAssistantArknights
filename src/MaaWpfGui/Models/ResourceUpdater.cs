@@ -154,16 +154,17 @@ namespace MaaWpfGui.Models
             // 不存在的文件，不考虑etag，直接下载
             var etag = File.Exists(saveTo) ? ETagCache.Get(url) : string.Empty;
 
-            Dictionary<string, string> header = null;
+            Dictionary<string, string> header = new Dictionary<string, string>
+            {
+                { "Accept", "application/octet-stream" },
+            };
+
             if (!string.IsNullOrEmpty(etag))
             {
-                header = new Dictionary<string, string>
-                {
-                    { "If-None-Match", etag },
-                };
+                header["If-None-Match"] = etag;
             }
 
-            var response = await Instances.HttpService.GetAsync(new Uri(url), header).ConfigureAwait(false);
+            var response = await Instances.HttpService.GetAsync(new Uri(url), header, httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
             if (response == null)
             {
                 return UpdateResult.Failed;
@@ -180,11 +181,11 @@ namespace MaaWpfGui.Models
                 return UpdateResult.Failed;
             }
 
-            var content = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+            var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+            using var fileStream = new FileStream(saveTo, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true);
+            await stream.CopyToAsync(fileStream).ConfigureAwait(false);
+
             ETagCache.Set(url, response.Headers.ETag.Tag);
-
-            File.WriteAllBytes(saveTo, content);
-
             return UpdateResult.Success;
         }
     }

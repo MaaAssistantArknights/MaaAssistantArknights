@@ -1,4 +1,7 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  .Net 8  -->
     <system:String x:Key="Dotnet8">MAA is about to be upgraded, and the upgraded version does not support PCs that do not have the .NET 8.0 runtime installed, so you need to manually download and install it. \n\nAt the same time, we will no longer support Windows 7. \n\nIf you click 'Yes', we will open the .NET 8 runtime download link for you. If you click 'No', we will disable your automatic download feature to prevent unwanted software updates. If you choose to disable automatic downloads, you can still manually re-enable this feature in the software settings.</system:String>
     <system:String x:Key="Dotnet8Caption">Software Version Upgrade and Support Changes</system:String>
@@ -564,7 +567,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="BattleFormation">Start formation</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selection of operator: </system:String>
     <system:String x:Key="CurrentSteps">Current step: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">Unsupported stage. Please update the MAA software version!\nUnsupported stage. Please update the MAA software version!\nUnsupported stage. Please update the MAA software version!\n\nIf you receive a prompt that the latest version is already installed, please try checking the developer version or beta version.</system:String>
+    <system:String x:Key="UnsupportedLevel">Unsupported stage. Please check the stage name.</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identification results: </system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
     <system:String x:Key="TryToStartEmulator">Trying to start the emulator</system:String>
