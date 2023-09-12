@@ -646,6 +646,7 @@
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">关卡数据获取成功</system:String>
     <system:String x:Key="GameResourceUpdated">游戏资源已更新，请重启 MAA</system:String>
+    <system:String x:Key="GameResourceUpdating">正在更新游戏资源，请耐心等待</system:String>
     <!--  Api  -->
     <!--  External Notification -->
     <system:String x:Key="ExternalNotificationEmailTemplateHello">博士，有新的通知哦！</system:String>

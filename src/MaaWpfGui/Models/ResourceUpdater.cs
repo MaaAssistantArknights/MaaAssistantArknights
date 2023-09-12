@@ -51,21 +51,18 @@ namespace MaaWpfGui.Models
 
             if (ret == UpdateResult.Success)
             {
-                Toast();
+                _ = Execute.OnUIThreadAsync(() =>
+                {
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("GameResourceUpdated"));
+                    toast.Show();
+                });
             }
-        }
-
-        public static void Toast()
-        {
-            _ = Execute.OnUIThreadAsync(() =>
-            {
-                using var toast = new ToastNotification(LocalizationHelper.GetString("GameResourceUpdated"));
-                toast.Show();
-            });
         }
 
         public static async Task<UpdateResult> Update()
         {
+            updating = false;
+
             var ret1 = await updateSingleFiles();
             var ret2 = await updateFilesWithIndex();
             ETagCache.Save();
@@ -146,6 +143,8 @@ namespace MaaWpfGui.Models
             return ret;
         }
 
+        private static bool updating = false;
+
         public static async Task<UpdateResult> UpdateFileWithETage(string baseUrl, string file, string saveTo)
         {
             saveTo = Path.Combine(Environment.CurrentDirectory, saveTo);
@@ -179,6 +178,16 @@ namespace MaaWpfGui.Models
             {
                 // TODO: log
                 return UpdateResult.Failed;
+            }
+
+            if (!updating)
+            {
+                updating = true;
+                _ = Execute.OnUIThreadAsync(() =>
+                {
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("GameResourceUpdated"));
+                    toast.Show();
+                });
             }
 
             var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
