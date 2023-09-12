@@ -426,18 +426,22 @@ namespace MaaWpfGui.ViewModels.UI
 
         public async Task<CheckUpdateRetT> CheckAndDownloadUpdate()
         {
+            Instances.SettingsViewModel.IsCheckingForUpdates = true;
             var ret = await CheckAndDownloadVersionUpdate();
             if (ret == CheckUpdateRetT.OK)
             {
+                Instances.SettingsViewModel.IsCheckingForUpdates = false;
                 return ret;
             }
 
             var resRet = await ResourceUpdater.Update();
             if (resRet == ResourceUpdater.UpdateResult.Success)
             {
+                Instances.SettingsViewModel.IsCheckingForUpdates = false;
                 return CheckUpdateRetT.OK;
             }
 
+            Instances.SettingsViewModel.IsCheckingForUpdates = false;
             return ret;
         }
 
@@ -447,11 +451,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
         public async Task<CheckUpdateRetT> CheckAndDownloadVersionUpdate()
         {
-            Instances.SettingsViewModel.IsCheckingForUpdates = true;
-
             var checkResult = await CheckUpdateInner();
 
-            Instances.SettingsViewModel.IsCheckingForUpdates = false;
             return checkResult;
 
             async Task<CheckUpdateRetT> CheckUpdateInner()
