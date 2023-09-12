@@ -185,6 +185,7 @@ namespace MaaWpfGui.ViewModels.UI
                 SetAndNotify(ref _enabledExternalNotificationProvider, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationEnabled, value);
 
+                NotifyOfPropertyChange(nameof(IsEnabled));
                 NotifyOfPropertyChange(nameof(IsSmtp));
                 NotifyOfPropertyChange(nameof(IsServerChan));
             }
