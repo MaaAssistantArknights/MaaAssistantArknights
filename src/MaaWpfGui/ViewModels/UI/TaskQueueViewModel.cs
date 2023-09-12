@@ -223,6 +223,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     await Task.Delay(delayTime);
                     await _stageManager.UpdateStageWeb();
+                    ResourceUpdater.UpdateAndToast();
                     UpdateDatePrompt();
                     UpdateStageList(false);
                 });
@@ -332,7 +333,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         private void InitializeItems()
         {
-            string[] taskList =
+            List<string> taskList = new List<string>
             {
                 "WakeUp",
                 "Recruiting",
@@ -344,6 +345,13 @@ namespace MaaWpfGui.ViewModels.UI
 
                 // "ReclamationAlgorithm",
             };
+            var clientType = Instances.SettingsViewModel.ClientType;
+            if (clientType != string.Empty && clientType != "Official" && clientType != "Bilibili"
+                && DateTime.Now < new DateTime(2023, 10, 12))
+            {
+                taskList.Add("ReclamationAlgorithm");
+            }
+
             ActionAfterCompletedList = new List<GenericCombinedData<ActionType>>
             {
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("DoNothing"), Value = ActionType.DoNothing },
@@ -364,9 +372,9 @@ namespace MaaWpfGui.ViewModels.UI
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate"), Value = ActionType.ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate },
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitSelfIfOtherMaaElseShutdown"), Value = ActionType.ExitSelfIfOtherMaaElseShutdown },
             };
-            var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[taskList.Length]);
+            var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[taskList.Count]);
             var nonOrderList = new List<DragItemViewModel>();
-            for (int i = 0; i != taskList.Length; ++i)
+            for (int i = 0; i != taskList.Count; ++i)
             {
                 var task = taskList[i];
                 bool parsed = int.TryParse(ConfigurationHelper.GetTaskOrder(task, "-1"), out var order);
@@ -836,27 +844,35 @@ namespace MaaWpfGui.ViewModels.UI
                     case "Base":
                         taskRet &= AppendInfrast();
                         break;
+
                     case "WakeUp":
                         taskRet &= AppendStart();
                         break;
+
                     case "Combat":
                         taskRet &= AppendFight();
                         break;
+
                     case "Recruiting":
                         taskRet &= AppendRecruit();
                         break;
+
                     case "Mall":
                         taskRet &= AppendMall();
                         break;
+
                     case "Mission":
                         taskRet &= Instances.AsstProxy.AsstAppendAward();
                         break;
+
                     case "AutoRoguelike":
                         taskRet &= AppendRoguelike();
                         break;
+
                     case "ReclamationAlgorithm":
                         taskRet &= AppendReclamation();
                         break;
+
                     default:
                         --count;
                         _logger.Error("Unknown task: " + item.OriginalName);
@@ -928,7 +944,8 @@ namespace MaaWpfGui.ViewModels.UI
         {
             var mode = Instances.SettingsViewModel.ClientType;
             var enable = mode.Length != 0;
-            return Instances.AsstProxy.AsstAppendStartUp(mode, enable);
+            var accountName = Instances.SettingsViewModel.AccountName;
+            return Instances.AsstProxy.AsstAppendStartUp(mode, enable, accountName);
         }
 
         private bool AppendFight()
@@ -2303,6 +2320,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             // ReSharper disable InconsistentNaming
             public int Index;
+
             public string Name;
             public string Description;
             public string DescriptionPost;

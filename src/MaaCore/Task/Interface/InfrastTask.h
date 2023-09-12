@@ -15,6 +15,7 @@ namespace asst
     class InfrastOfficeTask;
     class InfrastDormTask;
     class ReplenishOriginiumShardTaskPlugin;
+    class InfrastProcessingTask;
 
     class InfrastTask final : public InterfaceTask
     {
@@ -43,6 +44,7 @@ namespace asst
         std::shared_ptr<InfrastControlTask> m_control_task_ptr = nullptr;
         std::shared_ptr<InfrastReceptionTask> m_reception_task_ptr = nullptr;
         std::shared_ptr<InfrastOfficeTask> m_office_task_ptr = nullptr;
+        std::shared_ptr<InfrastProcessingTask> m_processing_task_ptr = nullptr;
         std::shared_ptr<InfrastDormTask> m_dorm_task_ptr = nullptr;
         std::shared_ptr<ReplenishOriginiumShardTaskPlugin> m_replenish_task_ptr = nullptr;
     };

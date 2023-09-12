@@ -21,12 +21,11 @@
         [
             2,
             6
-        ]             
+        ]
     ],
     "deploy_plan": [
         {
             "groups": [
-                "情报官",
                 "回费"
             ],
             "location": [
@@ -38,7 +37,9 @@
         {
             "groups": [
                 "地面阻挡",
-                "其他地面"
+                "处决者",
+                "其他地面",
+                "炮灰"
             ],
             "location": [
                 5,
@@ -123,13 +124,20 @@
                 9,
                 3
             ],
-            "direction": "right"
+            "direction": "right",
+            "condition": [
+                0,
+                26
+            ]
         },
         {
             "groups": [
                 "地面远程",
                 "地面阻挡",
-                "其他地面"
+                "处决者",
+                "其他地面",
+                "炮灰",
+                "地刺"
             ],
             "location": [
                 3,
@@ -139,15 +147,30 @@
         },
         {
             "groups": [
-                "投锋",
-                "处决者",
-                "其他地面"
+                "处决者"
             ],
             "location": [
                 9,
                 4
             ],
-            "direction": "right"
+            "direction": "right",
+            "condition": [
+                0,
+                26
+            ]
+        },
+        {
+            "groups": [
+                "补给站",
+                "支援陷阱",
+                "无人机",
+                "障碍物"
+            ],
+            "location": [
+                6,
+                5
+            ],
+            "direction": "left"
         }
     ]
 }
