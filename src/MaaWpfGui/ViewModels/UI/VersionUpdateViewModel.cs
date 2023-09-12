@@ -395,24 +395,24 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 IsFirstBootAfterUpdate = false;
                 Instances.WindowManager.ShowWindow(this);
-                if (false) // _curVersion == "v4.23.0"
-                {
-                    var result = MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("Dotnet8"),
-                    LocalizationHelper.GetString("Dotnet8Caption"),
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Information);
-                    switch (result)
-                    {
-                        case MessageBoxResult.No:
-                            Instances.SettingsViewModel.AutoDownloadUpdatePackage = false;
-                            break;
+                //if (false) // _curVersion == "v4.24.0"
+                //{
+                //    var result = MessageBoxHelper.Show(
+                //    LocalizationHelper.GetString("Dotnet8"),
+                //    LocalizationHelper.GetString("Dotnet8Caption"),
+                //    MessageBoxButton.YesNo,
+                //    MessageBoxImage.Information);
+                //    switch (result)
+                //    {
+                //        case MessageBoxResult.No:
+                //            Instances.SettingsViewModel.AutoDownloadUpdatePackage = false;
+                //            break;
 
-                        case MessageBoxResult.Yes:
-                            Process.Start("https://dotnet.microsoft.com/download/dotnet/8.0/runtime");
-                            break;
-                    }
-                }
+                //        case MessageBoxResult.Yes:
+                //            Process.Start("https://dotnet.microsoft.com/download/dotnet/8.0/runtime");
+                //            break;
+                //    }
+                //}
             }
             else
             {
@@ -426,18 +426,22 @@ namespace MaaWpfGui.ViewModels.UI
 
         public async Task<CheckUpdateRetT> CheckAndDownloadUpdate()
         {
+            Instances.SettingsViewModel.IsCheckingForUpdates = true;
             var ret = await CheckAndDownloadVersionUpdate();
             if (ret == CheckUpdateRetT.OK)
             {
+                Instances.SettingsViewModel.IsCheckingForUpdates = false;
                 return ret;
             }
 
             var resRet = await ResourceUpdater.Update();
             if (resRet == ResourceUpdater.UpdateResult.Success)
             {
+                Instances.SettingsViewModel.IsCheckingForUpdates = false;
                 return CheckUpdateRetT.OK;
             }
 
+            Instances.SettingsViewModel.IsCheckingForUpdates = false;
             return ret;
         }
 
@@ -447,11 +451,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
         public async Task<CheckUpdateRetT> CheckAndDownloadVersionUpdate()
         {
-            Instances.SettingsViewModel.IsCheckingForUpdates = true;
-
             var checkResult = await CheckUpdateInner();
 
-            Instances.SettingsViewModel.IsCheckingForUpdates = false;
             return checkResult;
 
             async Task<CheckUpdateRetT> CheckUpdateInner()

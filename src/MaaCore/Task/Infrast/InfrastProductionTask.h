@@ -22,7 +22,8 @@ namespace asst
         bool shift_facility_list();
         bool facility_list_detect();
         bool opers_detect_with_swipe();
-        size_t opers_detect(); // 返回当前页面的干员数
+        // 返回当前页面的干员数 (可用?
+        size_t opers_detect();
         bool optimal_calc();
         bool opers_choose();
         bool use_drone();

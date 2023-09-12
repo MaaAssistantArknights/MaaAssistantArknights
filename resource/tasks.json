@@ -991,7 +991,9 @@
             280,
             90
         ],
-        "next": [ "StageQueue@CheckPrts" ]
+        "next": [
+            "StageQueue@CheckPrts"
+        ]
     },
     "StageQueue@UsePrtsSuccess": {
         "Doc": "检查代理激活没有，roi引用UnableToAgent2",
@@ -1008,7 +1010,9 @@
         "baseTask": "Fight",
         "template": "Terminal.png",
         "maxTimes": 3,
-        "exceededNext": [ "Stop" ],
+        "exceededNext": [
+            "Stop"
+        ],
         "next": [
             "StageQueue@GoLastBattle",
             "StageQueue"
@@ -1016,7 +1020,9 @@
         "postDelay": 3000
     },
     "StageQueue@GoLastBattle": {
-        "next": [ "StageQueue@StartButton1" ]
+        "next": [
+            "StageQueue@StartButton1"
+        ]
     },
     "StageQueue@CloseStonePage": {
         "next": []
@@ -2908,6 +2914,260 @@
                 "^w$",
                 "W"
             ]
+        ]
+    },
+    "SwitchAccount@StartUpBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "SwitchAccount@StartUpThemes#next",
+            "SwitchAccount@LoadingIcon",
+            "SwitchAccount@ReturnTo",
+            "Settings",
+            "LoginOther"
+        ]
+    },
+    "SwitchAccount": {
+        "template": "Terminal.png",
+        "baseTask": "StartUp",
+        "next": [
+            "Settings"
+        ]
+    },
+    "Settings": {
+        "action": "ClickSelf",
+        "roi": [
+            20,
+            15,
+            55,
+            50
+        ],
+        "maxTimes": 1,
+        "next": [
+            "UserCenter",
+            "ExitOld"
+        ]
+    },
+    "UserCenter": {
+        "action": "ClickSelf",
+        "roi": [
+            50,
+            470,
+            50,
+            75
+        ],
+        "next": [
+            "Logout",
+            "LogoutOCR"
+        ]
+    },
+    "Logout": {
+        "action": "ClickSelf",
+        "roi": [
+            660,
+            460,
+            140,
+            50
+        ],
+        "next": [
+            "LogoutConfirm"
+        ]
+    },
+    "LogoutOCR": {
+        "baseTask": "Logout",
+        "algorithm": "OcrDetect",
+        "text": [
+            "退出登录",
+            "登出",
+            "账号",
+            "出"
+        ],
+        "roi": [
+            702,
+            470,
+            390,
+            30
+        ]
+    },
+    "LogoutConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            650,
+            450,
+            280,
+            60
+        ],
+        "next": [
+            "AccountManager",
+            "AccountManager@LoadingText"
+        ],
+        "postDelay": 3000
+    },
+    "ExitOld": {
+        "action": "ClickSelf",
+        "roi": [
+            770,
+            350,
+            190,
+            60
+        ],
+        "next": [
+            "ExitOldConfirm"
+        ]
+    },
+    "ExitOldConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            660,
+            450,
+            600,
+            90
+        ],
+        "next": [
+            "LoginOther"
+        ]
+    },
+    "SwitchAccount@StartToWakeUp": {
+        "Doc": "干掉点击登录",
+        "template": "StartToWakeUp.png",
+        "action": "DoNothing",
+        "next": [
+            "AccountManager"
+        ]
+    },
+    "AccountManager": {
+        "action": "ClickSelf",
+        "roi": [
+            855,
+            660,
+            150,
+            40
+        ],
+        "next": [
+            "LoginOther"
+        ]
+    },
+    "LoginOther": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "preDelay": 3000,
+        "next": [
+            "AccountManagerOfficial",
+            "AccountManagerBili"
+        ]
+    },
+    "AccountManagerOfficial": {
+        "action": "DoNothing",
+        "roi": [
+            570,
+            165,
+            140,
+            80
+        ]
+    },
+    "AccountManagerBili": {
+        "action": "DoNothing",
+        "roi": [
+            565,
+            160,
+            145,
+            50
+        ]
+    },
+    "AccountCurrentOCR": {
+        "algorithm": "OcrDetect",
+        "isAscii": true,
+        "roi": [
+            495,
+            335,
+            126,
+            23
+        ]
+    },
+    "AccountCurrentOCRBili": {
+        "algorithm": "OcrDetect",
+        "roi": [
+            525,
+            280,
+            150,
+            25
+        ]
+    },
+    "AccountManagerLoginButton": {
+        "action": "ClickSelf",
+        "roi": [
+            430,
+            410,
+            430,
+            60
+        ]
+    },
+    "AccountManagerLoginButtonBili": {
+        "baseTask": "AccountManagerLoginButton",
+        "template": "AccountManagerLoginButtonBili.png",
+        "roi": [
+            440,
+            360,
+            400,
+            80
+        ]
+    },
+    "AccountManagerListAccount": {
+        "action": "ClickSelf",
+        "roi": [
+            770,
+            315,
+            85,
+            65
+        ]
+    },
+    "AccountManagerListAccountBili": {
+        "baseTask": "AccountManagerListAccount",
+        "template": "AccountManagerListAccountBili.png",
+        "roi": [
+            770,
+            270,
+            60,
+            70
+        ]
+    },
+    "AccountManagerTrashButton": {
+        "roi": [
+            790,
+            375,
+            50,
+            175
+        ]
+    },
+    "AccountManagerTrashButtonBili": {
+        "roi": [
+            770,
+            270,
+            50,
+            280
+        ]
+    },
+    "AccountListOcr": {
+        "algorithm": "OcrDetect",
+        "isAscii": true
+    },
+    "AccountListSwipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [
+            700,
+            380,
+            20,
+            20
+        ],
+        "rectMove": [
+            700,
+            330,
+            20,
+            20
+        ],
+        "specialParams": [
+            150
         ]
     },
     "StartUpThemes": {
@@ -5534,6 +5794,46 @@
         ],
         "templThreshold": 0.95
     },
+    "InfrastProcessing": {
+        "template": "InfrastProcessing.png",
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            880,
+            200,
+            400,
+            200
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastProcessingMini": {
+        "template": "InfrastProcessingMini.png",
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            980,
+            240,
+            300,
+            160
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastProcessingEnterOperList": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            45,
+            180,
+            160,
+            334
+        ],
+        "preDelay": 500,
+        "postDelay": 500
+    },
     "InfrastReception": {
         "template": "Reception.png",
         "maskRange": [
@@ -6800,6 +7100,29 @@
         ],
         "postDelay": 500
     },
+	"BattleQuickFormationFilter-Trust": {
+		"action": "ClickSelf",
+		"roi": [
+			1010,
+			70,
+			35,
+			580
+		],
+		"postDelay": 500,
+		"next": [
+			"BattleQuickFormationFilter-Click2"
+		]
+	},
+	"BattleQuickFormationFilter-Click2": {
+		"action": "ClickSelf",
+		"roi": [
+			1125,
+			60,
+			150,
+			600
+		],
+		"postDelay": 500
+	},
     "BattleQuickFormationFilterClose": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
@@ -6810,6 +7133,15 @@
             185
         ],
         "postDelay": 500
+    },
+    "BattleQuickFormationTrustIcon": {
+        "templThreshold": 0.9,
+        "roi": [
+            360,
+            280,
+            735,
+            360
+        ]
     },
     "BattleQuickFormationRole-All": {
         "baseTask": "BattleQuickFormationRole",
@@ -7753,7 +8085,7 @@
             220
         ],
         "specialParams": [
-            500
+            100
         ],
         "specialParams_Doc": "red count threshold"
     },
@@ -9399,7 +9731,8 @@
             "Roguelike@StageTraderRefreshWithDice",
             "Roguelike@StageTraderInvestSystem",
             "Roguelike@TraderRandomShopping",
-            "Roguelike@StageTraderLeave"
+            "Roguelike@StageTraderLeave",
+            "Roguelike@StageTraderLeaveConfirm"
         ]
     },
     "Roguelike@StageVerticalConfirmTrader": {
@@ -12203,7 +12536,7 @@
         ],
         "specificRect_Doc": "x拿来当文字灰度二值化下限用",
         "specificRect": [
-            100,
+            170,
             0,
             0,
             0
@@ -13342,7 +13675,7 @@
         "postDelay": 1000,
         "text": [
             "结束",
-            "MISSON",
+            "MISSION",
             "RESULTS"
         ],
         "next": [
