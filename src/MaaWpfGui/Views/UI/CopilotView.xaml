@@ -70,15 +70,62 @@
                 Content="{DynamicResource SelectTheFile}"
                 IsEnabled="{Binding Idle}"
                 ToolTip="{DynamicResource SelectTheFileTip}" />
-            <CheckBox
-                Height="50"
-                Margin="0,0,0,30"
-                HorizontalAlignment="Center"
-                Content="{DynamicResource AutoSquad}"
-                IsChecked="{Binding Form}"
-                IsEnabled="{Binding Idle}"
-                IsHitTestVisible="{Binding Idle}"
-                ToolTip="{DynamicResource AutoSquadTip}" />
+            <Grid
+                Margin="0,10,0,0"
+                HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="100" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <CheckBox
+                    HorizontalAlignment="Center"
+                    Content="{DynamicResource AutoSquad}"
+                    IsChecked="{Binding Form}"
+                    IsEnabled="{Binding Idle}"
+                    IsHitTestVisible="{Binding Idle}"
+                    ToolTip="{DynamicResource AutoSquadTip}"/>
+                <CheckBox
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    Content="{DynamicResource AddTrust}"
+                    IsChecked="{Binding AddTrust}"
+                    Visibility="{c:Binding Form}"
+                    IsEnabled="{Binding Idle}"
+                    IsHitTestVisible="{Binding Idle}" Margin="10,0,0,0"/>
+            </Grid>
+            <Grid
+                Margin="0,10,0,25"
+                Height="30"
+                HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="100" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <CheckBox
+                    HorizontalAlignment="Center"
+                    Content="{DynamicResource AddUserAdditional}"
+                    IsChecked="{Binding AddUserAdditional}"
+                    IsEnabled="{Binding Idle}"
+                    IsHitTestVisible="{Binding Idle}"
+                    Visibility="{c:Binding Form}"
+                    ToolTip="{DynamicResource AddUserAdditionalTip}"/>
+                
+                <TextBox
+                    Grid.Column="1"
+                    IsEnabled="{c:Binding '(Form) and (Idle)'}"
+                    IsHitTestVisible="{Binding AddUserAdditional}"
+                    Text="{Binding UserAdditional, UpdateSourceTrigger=LostFocus}"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Visibility="{c:Binding '(Form) and (AddUserAdditional)'}"
+                    ToolTip="{DynamicResource AddUserAdditionalTip}"
+                    MinWidth="150"
+                    MaxLines="1"
+                    Margin="5,0,0,0"/>
+            </Grid>
+
             <StackPanel
                 Margin="10"
                 HorizontalAlignment="Center"

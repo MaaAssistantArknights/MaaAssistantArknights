@@ -145,9 +145,9 @@ bool asst::StageDropsImageAnalyzer::analyze_difficulty()
     cv::cvtColor(image_roi, hsv, cv::COLOR_BGR2HSV);
 
     cv::Mat bin1;
-    cv::inRange(hsv, cv::Scalar(0, 150, 0), cv::Scalar(2, 255, 255), bin1);
+    cv::inRange(hsv, cv::Scalar(0, 150, 100), cv::Scalar(2, 255, 255), bin1);
     cv::Mat bin2;
-    cv::inRange(hsv, cv::Scalar(177, 150, 0), cv::Scalar(179, 255, 255), bin2);
+    cv::inRange(hsv, cv::Scalar(177, 150, 100), cv::Scalar(179, 255, 255), bin2);
     cv::Mat bin = bin1 + bin2;
     int count = cv::countNonZero(bin);
 

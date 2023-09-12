@@ -69,10 +69,12 @@
     <ClInclude Include="Task\Fight\SanityBeforeStagePlugin.h" />
     <ClInclude Include="Task\Fight\SideStoryReopenTask.h" />
     <ClInclude Include="Task\Fight\StageQueueMissionCompletedPlugin.h" />
+    <ClInclude Include="Task\Infrast\InfrastProcessingTask.h" />
     <ClInclude Include="Task\Interface\CustomTask.h" />
     <ClInclude Include="Task\Interface\VideoRecognitionTask.h" />
     <ClInclude Include="Task\Interface\OperBoxTask.h" />
     <ClInclude Include="Task\Miscellaneous\OperBoxRecognitionTask.h" />
+    <ClInclude Include="Task\Miscellaneous\AccountSwitchTask.h" />
     <ClInclude Include="Task\Reclamation\ReclamationControlTask.h" />
     <ClInclude Include="Task\Reclamation\ReclamationConclusionReportPlugin.h" />
     <ClInclude Include="Task\Reclamation\ReclamationBattlePlugin.h" />
@@ -229,9 +231,11 @@
     <ClCompile Include="Task\Fight\SanityBeforeStagePlugin.cpp" />
     <ClCompile Include="Task\Fight\SideStoryReopenTask.cpp" />
     <ClCompile Include="Task\Fight\StageQueueMissionCompletedPlugin.cpp" />
+    <ClCompile Include="Task\Infrast\InfrastProcessingTask.cpp" />
     <ClCompile Include="Task\Interface\VideoRecognitionTask.cpp" />
     <ClCompile Include="Task\Interface\OperBoxTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\OperBoxRecognitionTask.cpp" />
+    <ClCompile Include="Task\Miscellaneous\AccountSwitchTask.cpp" />
     <ClCompile Include="Task\Reclamation\ReclamationControlTask.cpp" />
     <ClCompile Include="Task\Reclamation\ReclamationConclusionReportPlugin.cpp" />
     <ClCompile Include="Task\Reclamation\ReclamationBattlePlugin.cpp" />
