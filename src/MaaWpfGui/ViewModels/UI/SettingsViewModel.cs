@@ -173,6 +173,7 @@ namespace MaaWpfGui.ViewModels.UI
                 "Reception",
                 "Office",
                 "Dorm",
+                "Processing",
             };
 
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[facility_list.Length]);
@@ -395,6 +396,18 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     ClientType = "Official";
                 }
+            }
+        }
+
+        private string _accountName = ConfigurationHelper.GetValue(ConfigurationKeys.AccountName, string.Empty);
+
+        public string AccountName
+        {
+            get => _accountName;
+            set
+            {
+                SetAndNotify(ref _accountName, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.AccountName, value);
             }
         }
 

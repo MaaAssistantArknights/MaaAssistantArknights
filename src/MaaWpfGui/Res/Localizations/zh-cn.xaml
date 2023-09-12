@@ -37,6 +37,7 @@
     <system:String x:Key="LinkStartGuide">← 开始任务</system:String>
     <system:String x:Key="Dorm">宿舍</system:String>
     <system:String x:Key="Mfg">制造站</system:String>
+    <system:String x:Key="Processing">加工站</system:String>
     <system:String x:Key="Trade">贸易站</system:String>
     <system:String x:Key="Power">发电站</system:String>
     <system:String x:Key="Reception">会客室</system:String>
@@ -80,7 +81,7 @@
     <system:String x:Key="SecondResolution">第二分辨率</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">通用模式（屏蔽异常输出）</system:String>
     <system:String x:Key="DormThreshold">基建工作心情阈值</system:String>
-    <system:String x:Key="InfrastThresholdTip">若启用自定义换班，该字段仅针对 autofill 的房间有效</system:String>
+    <system:String x:Key="InfrastThresholdTip">若启用自定义换班，该字段仅针对 autofill 和使用干员编组的房间有效</system:String>
     <system:String x:Key="RoguelikeStrategyExp">刷等级，尽可能稳定地打更多层数</system:String>
     <system:String x:Key="RoguelikeStrategyGold">刷源石锭，到达第二层后直接退出</system:String>
     <system:String x:Key="RoguelikeLastReward">烧开水，到达第三层后直接退出</system:String>
@@ -260,6 +261,11 @@
     <system:String x:Key="AutoDetectConnection">自动检测连接</system:String>
     <system:String x:Key="AutoDetectConnectionTip">每次检测完成后会自动取消勾选，若需要重新检测可再次勾选，若反复连接失败可勾选始终自动检测连接</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">每次重新检测</system:String>
+    <system:String x:Key="AccountSwitch">账号切换</system:String>
+    <system:String x:Key="AccountSwitchTip" xml:space="preserve">填写需要切换至的账号，留空以关闭账号切换
+官服输入登录界面显示的手机号，如 123****4567
+ B服输入登录界面显示的账号名，如 张三
+暂不支持其他服</system:String>
     <system:String x:Key="ADBPath">ADB 路径 (相对/绝对)</system:String>
     <system:String x:Key="ConnectionAddress">连接地址</system:String>
     <system:String x:Key="ConnectionAddressTip">若遇到问题可尝试手动修改</system:String>
@@ -442,8 +448,11 @@
     <system:String x:Key="FailedToLikeWebJson">出现错误，评价失败 : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">感谢评价！\n网页已经开放评论区，欢迎前往留下你的评论！</system:String>
     <system:String x:Key="AutoSquad">自动编队</system:String>
-    <system:String x:Key="LoopTimes">循环次数</system:String>
     <system:String x:Key="AutoSquadTip">自动编队暂时无法识别「特别关注」的干员</system:String>
+    <system:String x:Key="AddTrust">补充低信赖干员</system:String>
+    <system:String x:Key="AddUserAdditional">追加自定干员</system:String>
+    <system:String x:Key="AddUserAdditionalTip">以英文";"为分隔符，英文","分隔干员名与技能，例: 史尔特尔,3;艾雅法拉,1</system:String>
+    <system:String x:Key="LoopTimes">循环次数</system:String>
     <system:String x:Key="Start">开始</system:String>
     <system:String x:Key="VideoLink">视频链接</system:String>
     <!--  日志  -->
@@ -544,6 +553,9 @@
     <system:String x:Key="Drop" xml:space="preserve">本次掉落: </system:String>
     <system:String x:Key="TotalDrop" xml:space="preserve">掉落统计: </system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">当前设施: </system:String>
+    <system:String x:Key="RoomGroupsMatch" xml:space="preserve">匹配到编组: </system:String>
+    <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">匹配干员编组失败，编组列表: </system:String>
+    <system:String x:Key="RoomOperators" xml:space="preserve">首选干员: </system:String>
     <system:String x:Key="ProductIncorrect">产物与配置不相符。</system:String>
     <system:String x:Key="ProductUnknown">无法识别的产物</system:String>
     <system:String x:Key="ProductChanged">产物已切换</system:String>

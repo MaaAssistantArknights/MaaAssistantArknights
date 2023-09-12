@@ -80,7 +80,7 @@
     <system:String x:Key="SecondResolution">第二分辨率</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">通用模式（阻擋異常輸出）</system:String>
     <system:String x:Key="DormThreshold">基建工作心情閾值</system:String>
-    <system:String x:Key="InfrastThresholdTip">若啟用自定義換班，該欄位僅針對 autofill 的房間有效</system:String>
+    <system:String x:Key="InfrastThresholdTip">若啟用自定義換班，該欄位僅針對 autofill 和 幹員編組 的房間有效</system:String>
     <system:String x:Key="RoguelikeStrategyExp">刷等級，盡可能穩定地打更多層數</system:String>
     <system:String x:Key="RoguelikeStrategyGold">刷源石錠，到達第二層後直接退出</system:String>
     <system:String x:Key="RoguelikeLastReward">燒開水，到達第三層後直接退出</system:String>
@@ -259,6 +259,11 @@
     <system:String x:Key="AutoDetectConnection">自動檢測連接</system:String>
     <system:String x:Key="AutoDetectConnectionTip">每次檢測完成後會自動取消勾選，若需要重新檢測可再次勾選</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">每次重新檢測</system:String>
+    <system:String x:Key="AccountSwitch">賬號切換</system:String>
+    <system:String x:Key="AccountSwitchTip" xml:space="preserve">填寫需要切換至的賬號，留空以關閉賬號切換
+官服輸入登錄界面顯示的手機號，如 123****4567
+ B服輸入登錄界面顯示的賬號名，如 張三
+暫不支持其他類型</system:String>
     <system:String x:Key="ADBPath">ADB 路徑（相對/絕對）</system:String>
     <system:String x:Key="ConnectionAddress">連接地址</system:String>
     <system:String x:Key="ConnectionAddressTip">若遇到問題可嘗試手動修改</system:String>
@@ -441,8 +446,11 @@
     <system:String x:Key="FailedToLikeWebJson">出現錯誤，評價失敗 : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">感謝評價！\n網頁已經開放評論區，歡迎前往留下你的評論！</system:String>
     <system:String x:Key="AutoSquad">自動編隊</system:String>
-    <system:String x:Key="LoopTimes">循環次數</system:String>
     <system:String x:Key="AutoSquadTip">自動編隊暫時無法辨識「特別關注」的幹員</system:String>
+    <system:String x:Key="AddTrust">補充低信賴幹員</system:String>
+    <system:String x:Key="AddUserAdditional">追加自定幹員</system:String>
+    <system:String x:Key="AddUserAdditionalTip">使用";"作為分隔符，用","分隔操作員姓名和技能，例：史尔特尔,3;艾雅法拉,1</system:String>
+    <system:String x:Key="LoopTimes">循環次數</system:String>
     <system:String x:Key="Start">開始</system:String>
     <system:String x:Key="VideoLink">影片連結</system:String>
     <!--  影片連結  -->
@@ -543,6 +551,9 @@
     <system:String x:Key="Drop" xml:space="preserve">本次掉落: </system:String>
     <system:String x:Key="TotalDrop" xml:space="preserve">掉落統計: </system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">當前設施: </system:String>
+    <system:String x:Key="RoomGroupsMatch" xml:space="preserve">匹配到編組: </system:String>
+    <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">匹配幹員編組失敗，編組列表: </system:String>
+    <system:String x:Key="RoomOperators" xml:space="preserve">首選幹員: </system:String>
     <system:String x:Key="ProductIncorrect">產物與配置不相符。</system:String>
     <system:String x:Key="ProductUnknown">無法辨識的產物</system:String>
     <system:String x:Key="ProductChanged">產物已切換</system:String>
