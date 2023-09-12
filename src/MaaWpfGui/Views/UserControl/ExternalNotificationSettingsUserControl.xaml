@@ -26,10 +26,30 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
         <StackPanel
             Grid.Row="0"
+            Grid.Column="0"
+            Orientation="Horizontal">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="65"/>
+                    <ColumnDefinition Width="420"/>
+                    <ColumnDefinition Width="65"/>
+                </Grid.ColumnDefinitions>
+            <controls:TextBlock
+                    Grid.Column="1"
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource ExternalNotificationTips}"
+                    TextWrapping="Wrap" />
+            </Grid>
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="1"
             Grid.Column="0"
             Orientation="Horizontal">
             <Grid>
@@ -68,7 +88,7 @@
         </StackPanel>
 
         <StackPanel
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.Column="0"
             IsEnabled="{c:Binding IsServerChan}"
             Orientation="Horizontal">
@@ -98,7 +118,7 @@
         </StackPanel>
 
         <StackPanel
-            Grid.Row="2"
+            Grid.Row="3"
             Grid.Column="0"
             IsEnabled="{c:Binding IsSmtp}"
             Orientation="Horizontal">
