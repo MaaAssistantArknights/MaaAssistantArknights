@@ -27,6 +27,7 @@ using HandyControl.Tools.Extension;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
@@ -613,7 +614,17 @@ namespace MaaWpfGui.Main
                     if (isMainTaskQueueAllCompleted)
                     {
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AllTasksComplete"));
-                        using (var toast = new ToastNotification(LocalizationHelper.GetString("AllTasksComplete")))
+                        var allTaskCompleteTitle = LocalizationHelper.GetString("AllTasksComplete");
+                        var allTaskCompleteMessage = LocalizationHelper.GetString("AllTaskCompleteContent");
+
+                        var configurationPreset = ConfigurationHelper.GetValue(ConfigurationKeys.CurrentConfiguration, "Default");
+
+                        allTaskCompleteMessage = allTaskCompleteMessage
+                            .Replace("{Datetime}", DateTime.Now.ToString("U"))
+                            .Replace("{Preset}", configurationPreset);
+
+                        ExternalNotificationService.SendAsync(allTaskCompleteTitle, allTaskCompleteMessage).Wait();
+                        using (var toast = new ToastNotification(allTaskCompleteTitle))
                         {
                             toast.Show();
                         }
