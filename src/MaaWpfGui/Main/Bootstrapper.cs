@@ -173,17 +173,6 @@ namespace MaaWpfGui.Main
 
             builder.Bind<IHttpService>().To<HttpService>().InSingletonScope();
             builder.Bind<IMaaApiService>().To<MaaApiService>().InSingletonScope();
-
-            builder.Bind<IExternalNotificationProvider>().ToFactory<IExternalNotificationProvider>(c =>
-            {
-                var enabledProvider = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ExternalNotificationEnabled, string.Empty);
-                return enabledProvider switch
-                {
-                    "SMTP" => new SmtpNotificationProvider(),
-                    "ServerChan" => new ServerChanNotificationProvider(c.Get<IHttpService>()),
-                    _ => new DummyNotificationProvider(),
-                };
-            });
         }
 
         protected override void Configure()

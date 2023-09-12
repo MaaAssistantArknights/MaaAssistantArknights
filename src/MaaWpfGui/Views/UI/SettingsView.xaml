@@ -69,7 +69,7 @@
                 <userControl:GUISettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
 
                 <hc:Divider Content="{Binding ListTitle[6]}" />
-                <userControl:HotKeySettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
+                <userControl:ExternalNotificationSettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
 
                 <hc:Divider Content="{Binding ListTitle[7]}" />
                 <userControl:HotKeySettingsUserControl Margin="0,20" HorizontalAlignment="Center" />

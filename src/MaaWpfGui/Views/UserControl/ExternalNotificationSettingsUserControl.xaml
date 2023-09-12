@@ -25,22 +25,21 @@
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
+
         <StackPanel
             Grid.Row="0"
             Grid.Column="0"
             Orientation="Horizontal">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="65"/>
-                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="130"/>
                     <ColumnDefinition Width="270"/>
-                    <ColumnDefinition Width="65"/>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="35"/>
                 </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
                 <controls:TextBlock
                     Grid.Row="0"
                     Grid.Column="1"
@@ -58,27 +57,179 @@
                     ItemsSource="{Binding ExternalNotificationProviders}"
                     SelectedValue="{Binding EnabledExternalNotificationProvider}"
                     SelectedValuePath="Value" />
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    Margin="5"
+                    IsEnabled="{c:Binding IsEnabled}"
+                    Command="{s:Action ExternalNotificationSendTest}"
+                    Content="{DynamicResource ExternalNotificationSendTest}"/>
+            </Grid>
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            IsEnabled="{c:Binding IsServerChan}"
+            Orientation="Horizontal">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="65"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="270"/>
+                    <ColumnDefinition Width="65"/>
+                </Grid.ColumnDefinitions>
                 <controls:TextBlock
-                    Grid.Row="1"
+                    Grid.Row="0"
                     Grid.Column="1"
                     Margin="10"
                     Block.TextAlignment="Center"
                     Text="{DynamicResource ExternalNotificationServerChanSendKey}"
                     TextWrapping="Wrap" />
-                <hc:PasswordBox
+                <TextBox
                     x:Name="ServerChanSendKey"
-                    Grid.Row="1"
+                    Grid.Row="0"
                     Grid.Column="2"
                     Width="250"
                     Height="30"
                     Margin="10"
-                    PasswordChar="*"
-                    ShowEyeButton="True"
-                    IsEnabled="{c:Binding IsServerChanProvider}"
-                    u:PasswordBoxAssistant.Attach="True"
-                    u:PasswordBoxAssistant.Password="{c:Binding ServerChanSendKey}" />
+                    Text="{c:Binding ServerChanSendKey}" />
             </Grid>
+        </StackPanel>
 
+        <StackPanel
+            Grid.Row="2"
+            Grid.Column="0"
+            IsEnabled="{c:Binding IsSmtp}"
+            Orientation="Horizontal">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="70"/>
+                    <ColumnDefinition Width="170"/>
+                    <ColumnDefinition Width="70"/>
+                    <ColumnDefinition Width="170"/>
+                    <ColumnDefinition Width="35"/>
+                </Grid.ColumnDefinitions>
+
+                <CheckBox
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="{DynamicResource ExternalNotificationSmtpSsl}"
+                    IsChecked="{c:Binding SmtpUseSsl}"/>
+                <CheckBox
+                    Grid.Row="0"
+                    Grid.Column="4"
+                    Margin="10"
+                    VerticalAlignment="Center"
+                    Content="{DynamicResource ExternalNotificationSmtpAuth}"
+                    IsChecked="{c:Binding SmtpRequireAuthentication}"/>
+
+            <controls:TextBlock
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="10"
+                Block.TextAlignment="Center"
+                Text="{DynamicResource ExternalNotificationSmtpServer}"
+                TextWrapping="Wrap" />
+            <TextBox
+                x:Name="SmtpServer"
+                Grid.Row="1"
+                Grid.Column="2"
+                Width="150"
+                Height="30"
+                Margin="10"
+                Text="{c:Binding SmtpServer}" />
+            <controls:TextBlock
+                Grid.Row="1"
+                Grid.Column="3"
+                Margin="10"
+                Block.TextAlignment="Center"
+                Text="{DynamicResource ExternalNotificationSmtpPort}"
+                TextWrapping="Wrap" />
+            <TextBox
+                x:Name="SmtpPort"
+                Grid.Row="1"
+                Grid.Column="4"
+                Width="150"
+                Height="30"
+                Margin="10"
+                Text="{c:Binding SmtpPort}" />
+
+            <controls:TextBlock
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="10"
+                Block.TextAlignment="Center"
+                Text="{DynamicResource ExternalNotificationSmtpUser}"
+                TextWrapping="Wrap" />
+            <TextBox
+                x:Name="SmtpUser"
+                Grid.Row="2"
+                Grid.Column="2"
+                Width="150"
+                Height="30"
+                Margin="10"
+                IsEnabled="{c:Binding SmtpRequireAuthentication}"
+                Text="{c:Binding SmtpUser}" />
+            <controls:TextBlock
+                Grid.Row="2"
+                Grid.Column="3"
+                Margin="10"
+                Block.TextAlignment="Center"
+                Text="{DynamicResource ExternalNotificationSmtpPassword}"
+                TextWrapping="Wrap" />
+            <TextBox
+                x:Name="SmtpPassword"
+                Grid.Row="2"
+                Grid.Column="4"
+                Width="150"
+                Height="30"
+                Margin="10"
+                IsEnabled="{c:Binding SmtpRequireAuthentication}"
+                Text="{c:Binding SmtpPassword}" />
+
+            <controls:TextBlock
+                Grid.Row="3"
+                Grid.Column="1"
+                Margin="10"
+                Block.TextAlignment="Center"
+                Text="{DynamicResource ExternalNotificationSmtpFrom}"
+                TextWrapping="Wrap" />
+            <TextBox
+                x:Name="SmtpFrom"
+                Grid.Row="3"
+                Grid.Column="2"
+                Width="150"
+                Height="30"
+                Margin="10"
+                Text="{c:Binding SmtpFrom}" />
+            <controls:TextBlock
+                Grid.Row="3"
+                Grid.Column="3"
+                Margin="10"
+                Block.TextAlignment="Center"
+                Text="{DynamicResource ExternalNotificationSmtpTo}"
+                TextWrapping="Wrap" />
+            <TextBox
+                x:Name="SmtpTo"
+                Grid.Row="3"
+                Grid.Column="4"
+                Width="150"
+                Height="30"
+                Margin="10"
+                Text="{c:Binding SmtpTo}" />
+
+            </Grid>
         </StackPanel>
     </Grid>
 </UserControl>

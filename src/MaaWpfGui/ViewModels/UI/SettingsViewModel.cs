@@ -45,6 +45,7 @@ using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using Windows.Devices.Geolocation;
+using MaaWpfGui.Services.Notification;
 using ComboBox = System.Windows.Controls.ComboBox;
 using Timer = System.Timers.Timer;
 
@@ -153,6 +154,14 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region External Notifications
 
+        public async Task ExternalNotificationSendTest()
+        {
+            await ExternalNotificationService.SendAsync(
+                LocalizationHelper.GetString("ExternalNotificationSendTestTitle"),
+                LocalizationHelper.GetString("ExternalNotificationSendTestContent"),
+                true);
+        }
+
         public List<CombinedData> ExternalNotificationProviders => new List<CombinedData>
         {
             new CombinedData { Display = LocalizationHelper.GetString("Off"), Value = "Off" },
@@ -160,11 +169,13 @@ namespace MaaWpfGui.ViewModels.UI
             new CombinedData { Display = "SMTP", Value = "SMTP" },
         };
 
-        public bool IsServerChanProvider => _enabledExternalNotificationProvider == "ServerChan";
+        private string _enabledExternalNotificationProvider = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnabled, "Off");
 
-        public bool IsSmtpProvider => _enabledExternalNotificationProvider == "SMTP";
+        public bool IsEnabled => _enabledExternalNotificationProvider != "Off";
 
-        private string _enabledExternalNotificationProvider = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ExternalNotificationEnabled, "Off");
+        public bool IsServerChan => _enabledExternalNotificationProvider == "ServerChan";
+
+        public bool IsSmtp => _enabledExternalNotificationProvider == "SMTP";
 
         public string EnabledExternalNotificationProvider
         {
@@ -173,10 +184,13 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _enabledExternalNotificationProvider, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationEnabled, value);
+
+                NotifyOfPropertyChange(nameof(IsSmtp));
+                NotifyOfPropertyChange(nameof(IsServerChan));
             }
         }
 
-        private string _serverChanSendKey = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, string.Empty);
+        private string _serverChanSendKey = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, string.Empty);
 
         public string ServerChanSendKey
         {
@@ -185,6 +199,102 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _serverChanSendKey, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, value);
+            }
+        }
+
+        private string _smtpServer = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpServer, string.Empty);
+
+        public string SmtpServer
+        {
+            get => _smtpServer;
+            set
+            {
+                SetAndNotify(ref _smtpServer, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpServer, value);
+            }
+        }
+
+        private string _smtpPort = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpPort, string.Empty);
+
+        public string SmtpPort
+        {
+            get => _smtpPort;
+            set
+            {
+                SetAndNotify(ref _smtpPort, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpPort, value);
+            }
+        }
+
+        private string _smtpUser = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpUser, string.Empty);
+
+        public string SmtpUser
+        {
+            get => _smtpUser;
+            set
+            {
+                SetAndNotify(ref _smtpUser, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpUser, value);
+            }
+        }
+
+        private string _smtpPassword = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpPassword, string.Empty);
+
+        public string SmtpPassword
+        {
+            get => _smtpPassword;
+            set
+            {
+                SetAndNotify(ref _smtpPassword, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpPassword, value);
+            }
+        }
+
+        private string _smtpFrom = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpFrom, string.Empty);
+
+        public string SmtpFrom
+        {
+            get => _smtpFrom;
+            set
+            {
+                SetAndNotify(ref _smtpFrom, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpFrom, value);
+            }
+        }
+
+        private string _smtpTo = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpTo, string.Empty);
+
+        public string SmtpTo
+        {
+            get => _smtpTo;
+            set
+            {
+                SetAndNotify(ref _smtpTo, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpTo, value);
+            }
+        }
+
+        private bool _smtpUseSsl = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpUseSsl, "false"));
+
+        public bool SmtpUseSsl
+        {
+            get => _smtpUseSsl;
+            set
+            {
+                SetAndNotify(ref _smtpUseSsl, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpUseSsl, value.ToString());
+            }
+        }
+
+        private bool _smtpRequireAuthentication = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpRequiresAuthentication, "false"));
+
+        public bool SmtpRequireAuthentication
+        {
+            get => _smtpRequireAuthentication;
+            set
+            {
+                SetAndNotify(ref _smtpRequireAuthentication, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpRequiresAuthentication, value.ToString());
             }
         }
 

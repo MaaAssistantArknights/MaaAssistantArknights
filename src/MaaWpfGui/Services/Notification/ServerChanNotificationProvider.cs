@@ -35,7 +35,7 @@ namespace MaaWpfGui.Services.Notification
 
         public async Task<bool> SendAsync(string title, string content)
         {
-            var sendKey = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, string.Empty);
+            var sendKey = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, string.Empty);
             var url = $"https://sctapi.ftqq.com/{sendKey}.send";
 
             var response = await _httpService.PostAsJsonAsync(
