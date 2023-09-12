@@ -462,6 +462,47 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _form, value);
         }
 
+        private bool _addTrust;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use auto-formation.
+        /// </summary>
+        public bool AddTrust
+        {
+            get => _addTrust;
+            set => SetAndNotify(ref _addTrust, value);
+        }
+
+        private bool _addUserAdditional = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.CopilotAddUserAdditional, false.ToString()));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use auto-formation.
+        /// </summary>
+        public bool AddUserAdditional
+        {
+            get => _addUserAdditional;
+            set
+            {
+                SetAndNotify(ref _addUserAdditional, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.CopilotAddUserAdditional, value.ToString());
+            }
+        }
+
+        private string _userAdditional = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotUserAdditional, "W,2;Friston-3,1");
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use auto-formation.
+        /// </summary>
+        public string UserAdditional
+        {
+            get => _userAdditional;
+            set
+            {
+                SetAndNotify(ref _userAdditional, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.CopilotUserAdditional, value);
+            }
+        }
+
         public bool Loop { get; set; }
 
         private int _loopTimes = int.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.CopilotLoopTimes, "1"));
@@ -517,7 +558,7 @@ namespace MaaWpfGui.ViewModels.UI
                 AddLog(errMsg, UiLogColor.Error);
             }
 
-            bool ret = Instances.AsstProxy.AsstStartCopilot(IsDataFromWeb ? TempCopilotFile : Filename, Form, _taskType,
+            bool ret = Instances.AsstProxy.AsstStartCopilot(IsDataFromWeb ? TempCopilotFile : Filename, Form, AddTrust, AddUserAdditional, UserAdditional, _taskType,
                 Loop ? LoopTimes : 1);
             if (ret)
             {
