@@ -12,7 +12,6 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using Stylet;

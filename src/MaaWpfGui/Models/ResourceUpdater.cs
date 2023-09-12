@@ -108,10 +108,10 @@ namespace MaaWpfGui.Models
         // 这些文件数量不固定，需要先获取索引文件，再根据索引文件下载
         private static async Task<UpdateResult> updateFilesWithIndex()
         {
-            var sRet = await UpdateFileWithETage(MaaResourceApi, MaaDynamicFilesIndex, MaaDynamicFilesIndex);
-            if (sRet == UpdateResult.Failed || sRet == UpdateResult.NotModified)
+            var indexSRet = await UpdateFileWithETage(MaaResourceApi, MaaDynamicFilesIndex, MaaDynamicFilesIndex);
+            if (indexSRet == UpdateResult.Failed || indexSRet == UpdateResult.NotModified)
             {
-                return sRet;
+                return indexSRet;
             }
 
             var ret = UpdateResult.NotModified;
