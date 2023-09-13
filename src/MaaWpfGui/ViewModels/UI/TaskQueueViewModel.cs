@@ -483,6 +483,7 @@ namespace MaaWpfGui.ViewModels.UI
                 rss = IsStageOpen(rss) ? rss : string.Empty;
             }
 
+            _stage1Fallback = stage1;
             Stage1 = stage1;
             Stage2 = stage2;
             Stage3 = stage3;
@@ -2056,6 +2057,8 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get
             {
+                Stage1 ??= _stage1Fallback;
+
                 if (!Instances.SettingsViewModel.UseAlternateStage)
                 {
                     return Stage1;
@@ -2121,6 +2124,9 @@ namespace MaaWpfGui.ViewModels.UI
 
             return value;
         }
+
+        /// <remarks>Try to fix: issues#5742. 关卡选择为 null 时的一个补丁，可能是 StageList 改变后，wpf binding 延迟更新的问题。</remarks>
+        private string _stage1Fallback = ConfigurationHelper.GetValue(ConfigurationKeys.Stage1, string.Empty) ?? string.Empty;
 
         private string _stage1 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage1, string.Empty) ?? string.Empty;
 
