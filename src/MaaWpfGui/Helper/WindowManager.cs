@@ -12,8 +12,6 @@
 // </copyright>
 
 using System;
-using System.Globalization;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using MaaWpfGui.Constants;
@@ -61,7 +59,7 @@ namespace MaaWpfGui.Helper
             Window window = base.CreateWindow(viewModel, isDialog, ownerViewModel);
             if (window is RootView)
             {
-                if (_loadWindowPlacement && GetConfiguration(out WindowPlacement wp, window))
+                if (_loadWindowPlacement && GetConfiguration(out WindowPlacement wp))
                 {
                     window.SourceInitialized += (s, e) =>
                     {
@@ -117,14 +115,12 @@ namespace MaaWpfGui.Helper
             return false;
         }
 
-        private bool GetConfiguration(out WindowPlacement wp, Window window)
+        private bool GetConfiguration(out WindowPlacement wp)
         {
             wp = default;
             var jsonStr = ConfigurationHelper.GetValue(ConfigurationKeys.WindowPlacement, string.Empty);
             if (string.IsNullOrEmpty(jsonStr))
             {
-                SetOldConfiguration(window);
-                DeleteOldConfiguration();
                 return false;
             }
 
@@ -216,60 +212,5 @@ namespace MaaWpfGui.Helper
         private const int SwShowminimized = 2;
 
         #endregion
-
-        /// <summary>
-        /// TODO: Delete this
-        /// 兼容旧配置，过几个版本删（请直接revert）
-        /// </summary>
-        private void SetOldConfiguration(Window window)
-        {
-            // 初始化
-            string screenName = ConfigurationHelper.GetValue(ConfigurationKeys.MonitorNumber, string.Empty);
-            int screenWidth = int.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.MonitorWidth, "-1"));
-            int screenHeight = int.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.MonitorHeight, "-1"));
-
-            double defaultDouble = -114514;
-            double left = double.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.PositionLeft, defaultDouble.ToString(CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);
-            double top = double.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.PositionTop, defaultDouble.ToString(CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);
-            double width = double.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.WindowWidth, defaultDouble.ToString(CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);
-            double height = double.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.WindowHeight, defaultDouble.ToString(CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);
-
-            // Move MaaWpfGui.RootView
-            if (Math.Abs(left - defaultDouble) < 0.01f || Math.Abs(top - defaultDouble) < 0.01f)
-            {
-                return;
-            }
-
-            var screen = System.Windows.Forms.Screen.AllScreens.FirstOrDefault(x => x.DeviceName == screenName);
-            if (screen != null)
-            {
-                var screenRect = screen.Bounds;
-                if (screenRect.Height == screenHeight && screenRect.Width == screenWidth)
-                {
-                    window.WindowStartupLocation = WindowStartupLocation.Manual;
-                    window.Left = (int)(screenRect.Left + left);
-                    window.Top = (int)(screenRect.Top + top);
-                    window.Width = width;
-                    window.Height = height;
-                }
-            }
-        }
-
-        /// <summary>
-        /// TODO: Delete this
-        /// 兼容旧配置，过几个版本删（请直接revert）
-        /// </summary>
-        private void DeleteOldConfiguration()
-        {
-            ConfigurationHelper.DeleteValue(ConfigurationKeys.MonitorNumber);
-            ConfigurationHelper.DeleteValue(ConfigurationKeys.MonitorWidth);
-            ConfigurationHelper.DeleteValue(ConfigurationKeys.MonitorHeight);
-            ConfigurationHelper.DeleteValue(ConfigurationKeys.PositionLeft);
-            ConfigurationHelper.DeleteValue(ConfigurationKeys.PositionTop);
-            ConfigurationHelper.DeleteValue(ConfigurationKeys.WindowWidth);
-            ConfigurationHelper.DeleteValue(ConfigurationKeys.WindowHeight);
-            ConfigurationHelper.DeleteValue(ConfigurationKeys.LoadPositionAndSize);
-            ConfigurationHelper.DeleteValue(ConfigurationKeys.SavePositionAndSize);
-        }
     }
 }
