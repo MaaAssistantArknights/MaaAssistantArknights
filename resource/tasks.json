@@ -610,6 +610,27 @@
             50
         ]
     },
+    "ChangeToAdverseDifficulty": {
+        "template": "AdverseDifficulty.png",
+        "action": "ClickSelf",
+        "roi": [
+            625,
+            640,
+            80,
+            65
+        ],
+        "maxTimes": 3,
+        "next": [
+            "AdverseConfirm",
+            "#self"
+        ]
+    },
+    "AdverseConfirm": {
+        "baseTask": "ChangeToAdverseDifficulty",
+        "action": "DoNothing",
+        "template": "NormalDifficulty.png",
+        "next": []
+    },
     "Episode": {
         "Doc": "base_task",
         "algorithm": "JustReturn",
@@ -7021,6 +7042,12 @@
             "Stop"
         ]
     },
+    "BattleQuickFormationCheck": {
+        "baseTask": "BattleQuickFormation",
+        "template": "BattleQuickFormation.png",
+        "action": "DoNothing",
+        "next": []
+    },
     "BattleQuickFormation": {
         "action": "ClickSelf",
         "roi": [
@@ -13096,6 +13123,16 @@
     "BattleStartPreFlag": {
         "baseTask": "BattleStartPre",
         "action": "DoNothing"
+    },
+    "Copilot@BattleStartPreFlag": {
+        "baseTask": "BattleStartPre",
+        "action": "DoNothing",
+        "roi":[
+            0,
+            0,
+            1280,
+            720
+        ]
     },
     "BattleFormationOCRNameFlag": {
         "templThreshold": 0.6,
