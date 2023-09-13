@@ -25,8 +25,11 @@ namespace asst
         void append_additional_formation(AdditionalFormation formation);
 
         void set_support_unit_name(std::string name);
+        // 是否追加自定干员
         void set_add_user_additional(bool add_user_additional);
+        // 设置追加自定干员列表
         void set_user_additional(std::vector<std::pair<std::string, int>> user_additional);
+        // 是否追加低信赖干员
         void set_add_trust(bool add_trust);
 
         enum class DataResource
@@ -45,7 +48,6 @@ namespace asst
         bool add_additional();
         // 补充刷信赖的干员，从最小的开始
         bool add_trust_operators();
-
         bool enter_selection_page();
         bool select_opers_in_cur_page(std::vector<OperGroup>& groups);
         void swipe_page();

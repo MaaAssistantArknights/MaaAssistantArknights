@@ -5,8 +5,10 @@
 
 namespace asst
 {
+    class TaskFileReloadTask;
     class BattleProcessTask;
     class BattleFormationTask;
+    class CopilotListNotificationPlugin;
     class ProcessTask;
 
     // 抄作业任务
@@ -22,8 +24,13 @@ namespace asst
         std::string get_stage_name() const { return m_stage_name; }
 
     private:
+        std::shared_ptr<TaskFileReloadTask> m_task_file_reload_task_ptr = nullptr;
+        std::shared_ptr<ProcessTask> m_navigate_task_ptr = nullptr;
+        std::shared_ptr<ProcessTask> m_not_use_prts_task_ptr = nullptr;
+        std::shared_ptr<ProcessTask> m_adverse_select_task_ptr = nullptr;
         std::shared_ptr<BattleFormationTask> m_formation_task_ptr = nullptr;
         std::shared_ptr<BattleProcessTask> m_battle_task_ptr = nullptr;
+        std::shared_ptr<CopilotListNotificationPlugin> m_copilot_list_notification_ptr = nullptr;
         std::shared_ptr<ProcessTask> m_stop_task_ptr = nullptr;
         std::string m_stage_name;
     };
