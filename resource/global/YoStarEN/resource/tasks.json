@@ -5788,7 +5788,8 @@
     },
     "Reclamation@PrepareAction": {
         "text": [
-            "Prepare for Battle"
+            "Prepare for",
+            "Battle"
         ]
     },
     "Reclamation@ExitLevelConfirm": {
