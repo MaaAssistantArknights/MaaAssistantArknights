@@ -5360,35 +5360,21 @@
             "召集"
         ]
     },
-    "GachaOncePrefix@DoGacha": {
-        "text": [
-            "1回スカウト",
-            "1回",
-            "スカウ"
-        ]
-    },
-    "GachaTenTimesPrefix@DoGacha": {
-        "text": [
-            "10回スカウト",
-            "10回",
-            "スカウ"
-        ]
-    },
     "Reclamation@TodoEnter": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
+        "roi": [
+            686,
+            164,
+            207,
+            133
+        ],
         "text": [
             "WITHIN",
             "砂",
             "中",
             "の",
             "火"
-        ],
-        "roi": [
-            686,
-            164,
-            207,
-            133
         ]
     },
     "Reclamation@EmptyInitUnits": {
@@ -5402,6 +5388,12 @@
             "演算",
             "参加",
             "オペレーター"
+        ]
+    },
+    "Reclamation@ConfirmStart": {
+        "text": [
+            "演算",
+            "開始"
         ]
     },
     "Reclamation@SkipAnnounce": {
@@ -5451,19 +5443,8 @@
             130
         ],
         "text": [
-            "行動","凖備"
-        ]
-    },
-    "Reclamation@GiveupAlgorithm": {
-        "text": [
-            "撤",
-            "退"
-        ]
-    },
-    "Reclamation@ConfirmStart": {
-        "text": [
-            "演算",
-            "開始"
+            "行動",
+            "凖備"
         ]
     },
     "Reclamation@ExitLevelConfirm": {
@@ -5476,6 +5457,36 @@
             "終了",
             "MISSION",
             "RESULTS"
+        ]
+    },
+    "Reclamation@GiveupAlgorithm": {
+        "text": [
+            "撤",
+            "退"
+        ]
+    },
+    "Reclamation@GiveupClickEmergencyExit": {
+        "text": [
+            "緊急",
+            "撤退"
+        ]
+    },
+    "Reclamation@GiveupCheckRemainItems": {
+        "text": [
+            "物資",
+            "確認"
+        ]
+    },
+    "Reclamation@GiveupTakeNothing": {
+        "text": [
+            "確認",
+            "撤退"
+        ]
+    },
+    "Reclamation@EnterSmeltGoldPage": {
+        "text": [
+            "地金",
+            "粗悪"
         ]
     },
     "Reclamation@EnterResearchLab": {
@@ -5514,28 +5525,18 @@
             "聯絡員"
         ]
     },
-    "Reclamation@EnterSmeltGoldPage": {
-        "text": [
-            "地金",
-            "粗悪"
-        ]
+    "StartWithDefaultFormation@Reclamation@ConfirmStart": {
+        "baseTask": "Reclamation@ConfirmStart",
+        "next": [],
+        "next_Old": [
+            "Stop"
+        ],
+        "next_Old_Doc": "这里原先有个stop，但是会导致StartWithDefaultFormation@Reclamation@Begin中间多出一个Stop，姑且当成是不小心加的删了。"
     },
-    "Reclamation@GiveupClickEmergencyExit": {
-        "text": [
-            "緊急",
-            "撤退"
-        ]
-    },
-    "Reclamation@GiveupCheckRemainItems": {
-        "text": [
-            "物資",
-            "確認"
-        ]
-    },
-    "Reclamation@GiveupTakeNothing": {
-        "text": [
-            "確認",
-            "撤退"
+    "StartActionEnter@Reclamation@StartActionEnter": {
+        "baseTask": "Reclamation@StartActionEnter",
+        "next": [
+            "Stop"
         ]
     },
     "ClickAnyZone@Reclamation@Begin": {
@@ -5544,18 +5545,18 @@
             "Stop"
         ]
     },
-    "StartWithDefaultFormation@Reclamation@ConfirmStart": {
-        "baseTask": "Reclamation@ConfirmStart",
-        "next": [],
-        "next_Old_Doc": "这里原先有个stop，但是会导致StartWithDefaultFormation@Reclamation@Begin中间多出一个Stop，姑且当成是不小心加的删了。",
-        "next_Old": [
-            "Stop"
+    "GachaOncePrefix@DoGacha": {
+        "text": [
+            "1回スカウト",
+            "1回",
+            "スカウ"
         ]
     },
-    "StartActionEnter@Reclamation@StartActionEnter": {
-        "baseTask": "Reclamation@StartActionEnter",
-        "next": [
-            "Stop"
+    "GachaTenTimesPrefix@DoGacha": {
+        "text": [
+            "10回スカウト",
+            "10回",
+            "スカウ"
         ]
     }
 }
