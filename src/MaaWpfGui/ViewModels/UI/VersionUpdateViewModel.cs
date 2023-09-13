@@ -450,7 +450,7 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         if (!string.IsNullOrWhiteSpace(UpdateUrl))
                         {
-                            Process.Start(UpdateUrl);
+                            Process.Start(new ProcessStartInfo(UpdateUrl) { UseShellExecute = true });
                         }
                     }
                 );
@@ -954,7 +954,7 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public void OpenHyperlink(object sender, ExecutedRoutedEventArgs e)
         {
-            Process.Start(e.Parameter.ToString());
+            Process.Start(new ProcessStartInfo(e.Parameter.ToString()) { UseShellExecute = true });
         }
     }
 }
