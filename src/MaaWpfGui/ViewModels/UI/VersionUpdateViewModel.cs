@@ -471,7 +471,7 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         if (!string.IsNullOrWhiteSpace(UpdateUrl))
                         {
-                            Process.Start(UpdateUrl);
+                            Process.Start(new ProcessStartInfo(UpdateUrl) { UseShellExecute = true });
                         }
                     });
                 _ = Execute.OnUIThreadAsync(() =>
