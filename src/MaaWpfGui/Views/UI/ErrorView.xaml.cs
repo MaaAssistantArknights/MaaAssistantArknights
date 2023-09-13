@@ -109,7 +109,7 @@ namespace MaaWpfGui.Views.UI
 
         private void Hyperlink_OnClick(object sender, RoutedEventArgs e)
         {
-            Process.Start(((Hyperlink)sender).NavigateUri.AbsoluteUri);
+            Process.Start(new ProcessStartInfo(((Hyperlink)sender).NavigateUri.AbsoluteUri) { UseShellExecute = true });
         }
 
         private void CopyToClipboard()
