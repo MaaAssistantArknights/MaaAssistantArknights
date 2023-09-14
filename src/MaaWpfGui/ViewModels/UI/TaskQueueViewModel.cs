@@ -136,6 +136,7 @@ namespace MaaWpfGui.ViewModels.UI
         private void RunningState_IdleChanged(object sender, bool e)
         {
             Idle = e;
+            TaskSettingDataContext.Idle = e;
         }
 
         protected override void OnInitialActivate()
