@@ -41,7 +41,6 @@ namespace asst
         bool add_additional();
 
         bool enter_selection_page();
-        bool enter_support_page();
         bool select_opers_in_cur_page(std::vector<OperGroup>& groups);
         void swipe_page();
         void swipe_to_the_left(int times = 2);
@@ -58,7 +57,5 @@ namespace asst
         DataResource m_data_resource = DataResource::Copilot;
         std::vector<AdditionalFormation> m_additional;
         std::string m_last_oper_name;
-
-        bool use_support = true;
     };
 }

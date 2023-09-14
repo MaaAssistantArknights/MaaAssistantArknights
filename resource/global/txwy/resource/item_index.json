@@ -943,14 +943,6 @@
         "sortId": 10018,
         "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
     },
-    "LMTGS_COIN_3301": {
-        "classifyType": "NORMAL",
-        "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
-        "icon": "LMTGS_COIN_3301.png",
-        "name": "尋訪數據契約",
-        "sortId": 10019,
-        "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
-    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
@@ -1319,14 +1311,6 @@
         "sortId": -10000,
         "usage": "花哨的雜誌影本，內容荒誕不經，卻廣受杜林人歡迎。可以用來在跳跳鉗獸大市集與杜林人換取物資。"
     },
-    "act21side_token_permesso": {
-        "classifyType": "NONE",
-        "description": "令人滿意的肉排、時蔬、鮮果，或者是一些別的東西。聰明人知道什麼是家族想要的，並且會提前準備好它們，在合適的時間將其提供給家族。",
-        "icon": "act21side_token_permesso.png",
-        "name": "進貨通行證",
-        "sortId": -10000,
-        "usage": "食品安全部面向家族發行的通行證。家族成員可以憑此進入食品安全部並獲取一些物資，儘管它們並不在“食品”的範疇。"
-    },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
         "description": "無論是任務回饋、戰利品收集、材料研究、論文交流還是戰場清掃，羅德島那高效的情報系統會不斷地運作，從種種行動中收集龐雜的資訊，並分別計算歸納以得出各類結論；作為情報黑箱外的人，看看已經量化的數值就好。",
@@ -1447,38 +1431,6 @@
         "sortId": 30001,
         "usage": "用於臨時維持理智的大劑量濃縮緊急合劑，配方中新增活性成分，效果立竿見影，可能會造成生理時鐘紊亂，服用前請仔細閱讀說明。"
     },
-    "ap_supply_lt_120_2022_1": {
-        "classifyType": "CONSUME",
-        "description": "口口鬆脆的酥皮月餅，顏色焦黃，讓人食指大動。",
-        "icon": "ap_supply_lt_120_2022_1.png",
-        "name": "滿顏色",
-        "sortId": 30001,
-        "usage": "一份鮮甜肉餡的酥皮月餅，可用於恢復理智。"
-    },
-    "ap_supply_lt_120_2022_2": {
-        "classifyType": "CONSUME",
-        "description": "口口鬆脆的酥皮月餅，顏色焦黃，讓人食指大動。",
-        "icon": "ap_supply_lt_120_2022_2.png",
-        "name": "正圓月",
-        "sortId": 30001,
-        "usage": "一份乳香雲腿的酥皮月餅，可用於恢復理智。"
-    },
-    "ap_supply_lt_120_2022_3": {
-        "classifyType": "CONSUME",
-        "description": "口口綿潤的糖皮月餅，色澤油亮，引人口水四溢。",
-        "icon": "ap_supply_lt_120_2022_3.png",
-        "name": "笑靨開",
-        "sortId": 30001,
-        "usage": "一份玫瑰豆沙的糖皮月餅，可用於恢復理智。"
-    },
-    "ap_supply_lt_120_2022_4": {
-        "classifyType": "CONSUME",
-        "description": "口口綿潤的糖皮月餅，色澤油亮，引人口水四溢。",
-        "icon": "ap_supply_lt_120_2022_4.png",
-        "name": "桂子落",
-        "sortId": 30001,
-        "usage": "一份椒鹽果仁的糖皮月餅，可用於恢復理智。"
-    },
     "ap_supply_lt_60": {
         "classifyType": "CONSUME",
         "description": "雖然暴飲暴食可以緩解戰場帶來的焦慮與壓力，但總歸不利於博士的身體健康。本品含有一定糖分，故而外包裝採取特製結構，較難拆解，請借此消耗掉多餘的卡路里。",
@@ -1581,14 +1533,6 @@
         "icon": "randomMaterialRune_10.png",
         "name": "塵環行動物資補給",
         "sortId": 60021,
-        "usage": "裝有各種物資補給，包含多種隨機材料。"
-    },
-    "randomMaterialRune_11": {
-        "classifyType": "CONSUME",
-        "description": "來自危機合約的材料補給箱。給予努力治療著這片大地的人們的微小回報。----危機合約",
-        "icon": "randomMaterialRune_11.png",
-        "name": "贗波行動物資補給",
-        "sortId": 60022,
         "usage": "裝有各種物資補給，包含多種隨機材料。"
     },
     "randomMaterialRune_2": {

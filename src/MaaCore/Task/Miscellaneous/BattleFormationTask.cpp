@@ -39,12 +39,10 @@ bool asst::BattleFormationTask::_run()
         return false;
     }
 
-    std::unordered_map<battle::Role, std::vector<OperGroup>> unselected_opers;
-
     for (auto& [role, oper_groups] : m_formation) {
         click_role_table(role);
         bool has_error = false;
-        int swipe_times = 0, error_times = 0;
+        int swipe_times = 0;
         while (!need_exit()) {
             if (select_opers_in_cur_page(oper_groups)) {
                 has_error = false;
@@ -62,21 +60,12 @@ bool asst::BattleFormationTask::_run()
                 swipe_to_the_left(swipe_times);
                 swipe_times = 0;
                 has_error = false;
-                error_times = 0;
             }
             else {
                 has_error = true;
                 swipe_to_the_left(swipe_times);
                 swipe_times = 0;
-                error_times++;
             }
-            // TODO change back
-            if (error_times >= 1) { 
-                // for a operator, if he/she's not found in 3 rows, he/she should be not in the box
-                unselected_opers[role] = oper_groups;
-                break;
-            }
-
         }
     }
 
@@ -84,28 +73,8 @@ bool asst::BattleFormationTask::_run()
 
     confirm_selection();
 
-    // 查找需要助战的干员
-    std::pair<battle::Role, OperGroup> support = {};
-    size_t cnt = 0;
-    for (auto& [role, oper_groups] : unselected_opers) {
-        cnt += oper_groups.size();
-        if (cnt > 1) {
-            break;
-        }
-        if (oper_groups.size()) {
-            support = { role, oper_groups[0] };
-        }
-    }
-
-    if (cnt + !use_support > 1) {
-        while (true) {
-            std::this_thread::sleep_for(std::chrono::seconds(1));
-        }
-    }
-
-    
     // 借一个随机助战
-    else if (m_support_unit_name == "_RANDOM_") {
+    if (m_support_unit_name == "_RANDOM_") {
         if (!select_random_support_unit()) {
             return false;
         }
@@ -210,11 +179,7 @@ std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_opers()
 
 bool asst::BattleFormationTask::enter_selection_page()
 {
-    return ProcessTask(*this, { "BattleSupportUnitFormation" }).run();
-}
-
-bool asst::BattleFormationTask::enter_support_page() {
-    return ProcessTask(*this, { "BattleSupportUnitFormation" }).run();
+    return ProcessTask(*this, { "BattleQuickFormation" }).run();
 }
 
 bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>& groups)
