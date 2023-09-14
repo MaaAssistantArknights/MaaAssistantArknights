@@ -638,6 +638,16 @@ namespace MaaWpfGui.ViewModels.UI
             CopilotItemIndexChanged();
         }
 
+        public void CleanUnableCopilotTask()
+        {
+            foreach (var item in CopilotItemViewModels.Where(model => !model.IsChecked).ToList())
+            {
+                CopilotItemViewModels.Remove(item);
+            }
+
+            CopilotItemIndexChanged();
+        }
+
         public void ClearCopilotTask()
         {
             CopilotItemViewModels.Clear();

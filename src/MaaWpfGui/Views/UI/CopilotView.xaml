@@ -246,8 +246,9 @@
                                 Margin="2,0,0,0"
                                 hc:IconElement.Geometry="{StaticResource ErrorGeometry}"
                                 Command="{s:Action ClearCopilotTask}"
+                                MouseRightButtonUp="{s:Action CleanUnableCopilotTask}"
                                 IsEnabled="{c:Binding '(Idle) and (StartEnabled)'}"
-                                ToolTip="{DynamicResource Clear}" />
+                                ToolTip="{DynamicResource CopilotClearTask}" />
                         </Grid>
                     </Grid>
                 </Border>
