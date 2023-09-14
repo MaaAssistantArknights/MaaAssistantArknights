@@ -259,6 +259,11 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="AutoDetectConnection">연결 자동 감지</system:String>
     <system:String x:Key="AutoDetectConnectionTip">이 체크박스는 감지가 끝나면 자동으로 체크가 해제됩니다. 다시 감지하려면 다시 체크해주세요</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">매번 재감지</system:String>
+    <system:String x:Key="AccountSwitch">계정 전환</system:String>
+    <system:String x:Key="AccountSwitchTip" xml:space="preserve">전환할 계좌를 입력하고, 계좌 전환을 종료하려면 공백으로 남겨두세요.
+공식(CN): 로그인 인터페이스에 표시된 휴대폰 번호(예: 123****4567)를 입력하세요.
+Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: Zhang San)을 입력하세요.
+다른 클라이언트 유형은 지원되지 않습니다.</system:String>
     <system:String x:Key="ADBPath">ADB 경로 (상대/절대)</system:String>
     <system:String x:Key="ConnectionAddress">연결 주소</system:String>
     <system:String x:Key="ConnectionAddressTip">문제 발생 시 직접 수정해 주세요</system:String>
@@ -441,8 +446,11 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="FailedToLikeWebJson">오류로 인해 평가에 실패했습니다 : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">감사합니다!\n웹사이트에 댓글을 남길 수도 있으니 의견을 남겨 주세요!</system:String>
     <system:String x:Key="AutoSquad">자동 편성</system:String>
-    <system:String x:Key="LoopTimes">반복 횟수</system:String>
     <system:String x:Key="AutoSquadTip">자동 편성은 '선호' 오퍼레이터를 인식할 수 없습니다</system:String>
+    <system:String x:Key="AddTrust">신뢰도가 낮은 운영자 추가</system:String>
+    <system:String x:Key="AddUserAdditional">맞춤 연산자 추가</system:String>
+    <system:String x:Key="AddUserAdditionalTip">사용 ";" 운영자 이름과 기술을 구분하기 위해 구분 기호 ","를 사용합니다. 예: W, 3; Ash, 2</system:String>
+    <system:String x:Key="LoopTimes">반복 횟수</system:String>
     <system:String x:Key="Start">시작</system:String>
     <system:String x:Key="VideoLink">영상 링크</system:String>
     <!--  Start  -->
@@ -543,6 +551,9 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="Drop" xml:space="preserve">드롭: </system:String>
     <system:String x:Key="TotalDrop" xml:space="preserve">드롭 통계: </system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">현재 시설: </system:String>
+    <system:String x:Key="RoomGroupsMatch" xml:space="preserve">그룹에 일치: </system:String>
+    <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">운영자 그룹, 그룹 목록을 일치시키지 못했습니다: </system:String>
+    <system:String x:Key="RoomOperators" xml:space="preserve">선호하는 연산자: </system:String>
     <system:String x:Key="ProductIncorrect">생산품이 구성과 맞지 않습니다.</system:String>
     <system:String x:Key="ProductUnknown">식별할 수 없는 결과물</system:String>
     <system:String x:Key="ProductChanged">결과물이 변경됨</system:String>
@@ -557,7 +568,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="BattleFormation">편성 시작</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">오퍼레이터를 선택: </system:String>
     <system:String x:Key="CurrentSteps">현재 단계: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">지원하지 않는 스테이지입니다. MAA 소프트웨어 버전을 업데이트하세요!\n지원하지 않는 스테이지입니다. MAA 소프트웨어 버전을 업데이트하세요!\n지원하지 않는 스테이지입니다. MAA 소프트웨어 버전을 업데이트하세요!\n\n최신 버전이 이미 설치되어 있다는 메시지가 나올 경우, 개발 버전이나 베타 버전을 확인해보세요.</system:String>
+    <!--<system:String x:Key="UnsupportedLevel">지원하지 않는 스테이지입니다. MAA 소프트웨어 버전을 업데이트하세요!\n지원하지 않는 스테이지입니다. MAA 소프트웨어 버전을 업데이트하세요!\n지원하지 않는 스테이지입니다. MAA 소프트웨어 버전을 업데이트하세요!\n\n최신 버전이 이미 설치되어 있다는 메시지가 나올 경우, 개발 버전이나 베타 버전을 확인해보세요.</system:String>-->
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">인식 결과: </system:String>
     <system:String x:Key="ConnectFailed">연결 실패</system:String>
     <system:String x:Key="TryToStartEmulator">에뮬레이터를 시작하는 중입니다</system:String>

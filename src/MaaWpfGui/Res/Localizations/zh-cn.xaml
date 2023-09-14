@@ -1,7 +1,4 @@
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  .Net 8  -->
     <system:String x:Key="Dotnet8">MAA 即将升级，升级后的版本不支持未安装 .NET 8.0 运行时 的电脑，需要您手动前往下载。\n\n同时，我们将不再支持 Windows 7 操作系统。\n\n如果您点击 '是'，我们将为您打开新的运行时下载链接。如果您点击 '否'，我们将禁用您的自动下载功能，以防止不必要的软件更新。如果您选择禁用自动下载，您仍然可以在软件设置中手动重新启用此功能。</system:String>
     <system:String x:Key="Dotnet8Caption">软件版本升级及支持变更</system:String>
@@ -24,6 +21,24 @@
     <system:String x:Key="UpdateSettings">软件更新</system:String>
     <system:String x:Key="AboutUs">关于我们</system:String>
     <system:String x:Key="Version">版本号</system:String>
+    <system:String x:Key="Off">关闭</system:String>
+    <system:String x:Key="ExternalNotificationTips">请注意：外部通知功能目前仅会发送“所有任务完成”的通知。</system:String>
+    <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
+    <system:String x:Key="ExternalNotificationEnabled">启用的通知配置</system:String>
+    <system:String x:Key="ExternalNotificationSendSuccess">发送成功</system:String>
+    <system:String x:Key="ExternalNotificationSendFail">发送失败</system:String>
+    <system:String x:Key="ExternalNotificationSendTest">发送测试</system:String>
+    <system:String x:Key="ExternalNotificationSendTestTitle">MAA 外部通知测试</system:String>
+    <system:String x:Key="ExternalNotificationSendTestContent">这是 MAA 外部通知测试信息。如果你看到了这段内容，就说明通知发送成功了！</system:String>
+    <system:String x:Key="ExternalNotificationServerChanSendKey">[Server Chan] 发送密钥</system:String>
+    <system:String x:Key="ExternalNotificationSmtpServer">[SMTP] 服务器</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPort">[SMTP] 端口</system:String>
+    <system:String x:Key="ExternalNotificationSmtpSsl">[SMTP] 使用 SSL</system:String>
+    <system:String x:Key="ExternalNotificationSmtpAuth">[SMTP] 需要登录</system:String>
+    <system:String x:Key="ExternalNotificationSmtpUser">[SMTP] 用户名</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPassword">[SMTP] 密码</system:String>
+    <system:String x:Key="ExternalNotificationSmtpFrom">[SMTP] 发件人</system:String>
+    <system:String x:Key="ExternalNotificationSmtpTo">[SMTP] 收件人</system:String>
     <!--  设置指引  -->
     <system:String x:Key="TaskSettings">任务设置</system:String>
     <system:String x:Key="SettingsGuide">设置指引</system:String>
@@ -37,6 +52,7 @@
     <system:String x:Key="LinkStartGuide">← 开始任务</system:String>
     <system:String x:Key="Dorm">宿舍</system:String>
     <system:String x:Key="Mfg">制造站</system:String>
+    <system:String x:Key="Processing">加工站</system:String>
     <system:String x:Key="Trade">贸易站</system:String>
     <system:String x:Key="Power">发电站</system:String>
     <system:String x:Key="Reception">会客室</system:String>
@@ -80,7 +96,7 @@
     <system:String x:Key="SecondResolution">第二分辨率</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">通用模式（屏蔽异常输出）</system:String>
     <system:String x:Key="DormThreshold">基建工作心情阈值</system:String>
-    <system:String x:Key="InfrastThresholdTip">若启用自定义换班，该字段仅针对 autofill 的房间有效</system:String>
+    <system:String x:Key="InfrastThresholdTip">若启用自定义换班，该字段仅针对 autofill 和使用干员编组的房间有效</system:String>
     <system:String x:Key="RoguelikeStrategyExp">刷等级，尽可能稳定地打更多层数</system:String>
     <system:String x:Key="RoguelikeStrategyGold">刷源石锭，到达第二层后直接退出</system:String>
     <system:String x:Key="RoguelikeLastReward">烧开水，到达第三层后直接退出</system:String>
@@ -260,6 +276,11 @@
     <system:String x:Key="AutoDetectConnection">自动检测连接</system:String>
     <system:String x:Key="AutoDetectConnectionTip">每次检测完成后会自动取消勾选，若需要重新检测可再次勾选，若反复连接失败可勾选始终自动检测连接</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">每次重新检测</system:String>
+    <system:String x:Key="AccountSwitch">账号切换</system:String>
+    <system:String x:Key="AccountSwitchTip" xml:space="preserve">填写需要切换至的账号，留空以关闭账号切换
+官服输入登录界面显示的手机号，如 123****4567
+ B服输入登录界面显示的账号名，如 张三
+暂不支持其他服</system:String>
     <system:String x:Key="ADBPath">ADB 路径 (相对/绝对)</system:String>
     <system:String x:Key="ConnectionAddress">连接地址</system:String>
     <system:String x:Key="ConnectionAddressTip">若遇到问题可尝试手动修改</system:String>
@@ -442,8 +463,11 @@
     <system:String x:Key="FailedToLikeWebJson">出现错误，评价失败 : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">感谢评价！\n网页已经开放评论区，欢迎前往留下你的评论！</system:String>
     <system:String x:Key="AutoSquad">自动编队</system:String>
-    <system:String x:Key="LoopTimes">循环次数</system:String>
     <system:String x:Key="AutoSquadTip">自动编队暂时无法识别「特别关注」的干员</system:String>
+    <system:String x:Key="AddTrust">补充低信赖干员</system:String>
+    <system:String x:Key="AddUserAdditional">追加自定干员</system:String>
+    <system:String x:Key="AddUserAdditionalTip">以英文";"为分隔符，英文","分隔干员名与技能，例: 史尔特尔,3;艾雅法拉,1</system:String>
+    <system:String x:Key="LoopTimes">循环次数</system:String>
     <system:String x:Key="Start">开始</system:String>
     <system:String x:Key="VideoLink">视频链接</system:String>
     <!--  日志  -->
@@ -503,6 +527,7 @@
     <system:String x:Key="StartCombat" xml:space="preserve">开始战斗: </system:String>
     <system:String x:Key="CompleteCombat">完成战斗</system:String>
     <system:String x:Key="AllTasksComplete">任务已全部完成！</system:String>
+    <system:String x:Key="AllTaskCompleteContent">MAA 已在 {Datetime} 完成了 {Preset} 配置下所有预设的任务。</system:String>
     <system:String x:Key="BackgroundLinkStarted">开始执行任务</system:String>
     <system:String x:Key="BackgroundLinkStopped">任务终止</system:String>
     <system:String x:Key="FailedToOpenClient">打开客户端失败，请检查配置文件</system:String>
@@ -544,6 +569,9 @@
     <system:String x:Key="Drop" xml:space="preserve">本次掉落: </system:String>
     <system:String x:Key="TotalDrop" xml:space="preserve">掉落统计: </system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">当前设施: </system:String>
+    <system:String x:Key="RoomGroupsMatch" xml:space="preserve">匹配到编组: </system:String>
+    <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">匹配干员编组失败，编组列表: </system:String>
+    <system:String x:Key="RoomOperators" xml:space="preserve">首选干员: </system:String>
     <system:String x:Key="ProductIncorrect">产物与配置不相符。</system:String>
     <system:String x:Key="ProductUnknown">无法识别的产物</system:String>
     <system:String x:Key="ProductChanged">产物已切换</system:String>
@@ -558,7 +586,7 @@
     <system:String x:Key="BattleFormation">开始编队</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">选择干员: </system:String>
     <system:String x:Key="CurrentSteps">当前步骤: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">不支持的关卡，请更新 MAA 软件版本！\n不支持的关卡，请更新 MAA 软件版本！\n不支持的关卡，请更新 MAA 软件版本！\n\n若提示已是最新版本，请尝试检查公测版或内测版。</system:String>
+    <system:String x:Key="UnsupportedLevel">不支持的关卡，请检查关卡名！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">识别结果: </system:String>
     <system:String x:Key="ConnectFailed">连接失败</system:String>
     <system:String x:Key="TryToStartEmulator">正在尝试启动模拟器</system:String>
@@ -615,5 +643,13 @@
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">关卡数据获取成功</system:String>
     <system:String x:Key="GameResourceUpdated">游戏资源已更新，请重启 MAA</system:String>
+    <system:String x:Key="GameResourceUpdating">正在更新游戏资源，请耐心等待</system:String>
     <!--  Api  -->
+    <!--  External Notification -->
+    <system:String x:Key="ExternalNotificationEmailTemplateHello">博士，有新的通知哦！</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">您会收到此邮件，是因为您在 MAA 中设置了 SMTP 服务器并开启了邮件通知服务。</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateFooterLineTwo">此邮件为系统自动发送，请勿回复。</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateLinkOfficialSite">官网</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateLinkCopilotSite">作业站</system:String>
+    <!--  External Notification -->
 </ResourceDictionary>

@@ -51,21 +51,18 @@ namespace MaaWpfGui.Models
 
             if (ret == UpdateResult.Success)
             {
-                Toast();
+                _ = Execute.OnUIThreadAsync(() =>
+                {
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("GameResourceUpdated"));
+                    toast.Show();
+                });
             }
-        }
-
-        public static void Toast()
-        {
-            _ = Execute.OnUIThreadAsync(() =>
-            {
-                using var toast = new ToastNotification(LocalizationHelper.GetString("GameResourceUpdated"));
-                toast.Show();
-            });
         }
 
         public static async Task<UpdateResult> Update()
         {
+            updating = false;
+
             var ret1 = await updateSingleFiles();
             var ret2 = await updateFilesWithIndex();
             ETagCache.Save();
@@ -108,10 +105,10 @@ namespace MaaWpfGui.Models
         // 这些文件数量不固定，需要先获取索引文件，再根据索引文件下载
         private static async Task<UpdateResult> updateFilesWithIndex()
         {
-            var sRet = await UpdateFileWithETage(MaaResourceApi, MaaDynamicFilesIndex, MaaDynamicFilesIndex);
-            if (sRet == UpdateResult.Failed || sRet == UpdateResult.NotModified)
+            var indexSRet = await UpdateFileWithETage(MaaResourceApi, MaaDynamicFilesIndex, MaaDynamicFilesIndex);
+            if (indexSRet == UpdateResult.Failed || indexSRet == UpdateResult.NotModified)
             {
-                return sRet;
+                return indexSRet;
             }
 
             var ret = UpdateResult.NotModified;
@@ -146,6 +143,8 @@ namespace MaaWpfGui.Models
             return ret;
         }
 
+        private static bool updating = false;
+
         public static async Task<UpdateResult> UpdateFileWithETage(string baseUrl, string file, string saveTo)
         {
             saveTo = Path.Combine(Environment.CurrentDirectory, saveTo);
@@ -154,16 +153,17 @@ namespace MaaWpfGui.Models
             // 不存在的文件，不考虑etag，直接下载
             var etag = File.Exists(saveTo) ? ETagCache.Get(url) : string.Empty;
 
-            Dictionary<string, string> header = null;
+            Dictionary<string, string> header = new Dictionary<string, string>
+            {
+                { "Accept", "application/octet-stream" },
+            };
+
             if (!string.IsNullOrEmpty(etag))
             {
-                header = new Dictionary<string, string>
-                {
-                    { "If-None-Match", etag },
-                };
+                header["If-None-Match"] = etag;
             }
 
-            var response = await Instances.HttpService.GetAsync(new Uri(url), header).ConfigureAwait(false);
+            var response = await Instances.HttpService.GetAsync(new Uri(url), header, httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
             if (response == null)
             {
                 return UpdateResult.Failed;
@@ -180,11 +180,21 @@ namespace MaaWpfGui.Models
                 return UpdateResult.Failed;
             }
 
-            var content = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+            if (!updating)
+            {
+                updating = true;
+                _ = Execute.OnUIThreadAsync(() =>
+                {
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("GameResourceUpdated"));
+                    toast.Show();
+                });
+            }
+
+            var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+            using var fileStream = new FileStream(saveTo, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true);
+            await stream.CopyToAsync(fileStream).ConfigureAwait(false);
+
             ETagCache.Set(url, response.Headers.ETag.Tag);
-
-            File.WriteAllBytes(saveTo, content);
-
             return UpdateResult.Success;
         }
     }

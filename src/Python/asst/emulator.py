@@ -1,6 +1,7 @@
 import time
 import subprocess
 
+
 class Bluestacks:
     @staticmethod
     def get_hyperv_port(conf_path=r"C:\ProgramData\BlueStacks_nxt\bluestacks.conf", instance_name="Pie64", read_imageinfo_from_config=False) -> int:
@@ -19,7 +20,7 @@ class Bluestacks:
                 instances = [i.strip('"') for i in configs['bst.installed_images'].split(',')]
                 instance_name = instances[0]
         return int(configs[f'bst.instance.{instance_name}.status.adb_port'].replace('"', ""))
-    
+
     @staticmethod
     def launch_emulator_win(emulator_path=r'C:\Program Files\BlueStacks_nxt\HD-Player.exe', post_delay=30, arg_instance=None):
         """ 启动模拟器
@@ -36,4 +37,3 @@ class Bluestacks:
         emulator_proc = subprocess.Popen(args)
         time.sleep(post_delay)
         return emulator_proc
-        

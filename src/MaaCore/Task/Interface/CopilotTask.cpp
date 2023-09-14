@@ -70,6 +70,24 @@ bool asst::CopilotTask::set_params(const json::value& params)
 
     bool with_formation = params.get("formation", false);
     m_formation_task_ptr->set_enable(with_formation);
+    m_formation_task_ptr->set_add_trust(params.get("add_trust", false));
+    m_formation_task_ptr->set_add_user_additional(params.get("add_user_additional", false));
+    auto user_additional_opt = params.find<json::array>("user_additional");
+    if (!user_additional_opt) {
+        Log.error("add_user_additional not found");
+    }
+    else {
+        std::vector<std::pair<std::string, int>> user_additional;
+        for (const auto& op : user_additional_opt.value()) {
+            std::string name = op.get("name", std::string());
+            if (name.empty()) {
+                continue;
+            }
+            user_additional.emplace_back(std::pair<std::string, int> { std::move(name), op.get("skill", 1) });
+        }
+        m_formation_task_ptr->set_user_additional(std::move(user_additional));
+    }
+
     std::string support_unit_name = params.get("support_unit_name", std::string());
     m_formation_task_ptr->set_support_unit_name(std::move(support_unit_name));
 

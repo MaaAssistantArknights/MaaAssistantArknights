@@ -10,6 +10,7 @@
 #include "Task/ProcessTask.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
+#include "Vision/MultiMatcher.h"
 #include "Vision/TemplDetOCRer.h"
 
 void asst::BattleFormationTask::append_additional_formation(AdditionalFormation formation)
@@ -20,6 +21,21 @@ void asst::BattleFormationTask::append_additional_formation(AdditionalFormation 
 void asst::BattleFormationTask::set_support_unit_name(std::string name)
 {
     m_support_unit_name = std::move(name);
+}
+
+void asst::BattleFormationTask::set_add_user_additional(bool add_user_additional)
+{
+    m_add_user_additional = add_user_additional;
+}
+
+void asst::BattleFormationTask::set_user_additional(std::vector<std::pair<std::string, int>> user_additional)
+{
+    m_user_additional = std::move(user_additional);
+}
+
+void asst::BattleFormationTask::set_add_trust(bool add_trust)
+{
+    m_add_trust = add_trust;
 }
 
 void asst::BattleFormationTask::set_data_resource(DataResource resource)
@@ -68,7 +84,7 @@ bool asst::BattleFormationTask::_run()
                 has_error = true;
                 swipe_to_the_left(swipe_times);
                 swipe_times = 0;
-                error_times++;
+                error_times = 0;
             }
             // TODO change back
             if (error_times >= 1) { 
@@ -76,12 +92,36 @@ bool asst::BattleFormationTask::_run()
                 unselected_opers[role] = oper_groups;
                 break;
             }
-
         }
     }
+        
 
     add_additional();
 
+    if (m_add_user_additional) {
+
+        for (auto& [name, skill] : m_user_additional) {
+            if (m_operators_in_formation.contains(name)) {
+                continue;
+            }
+            if (m_size_of_operators_in_formation >= 12) {
+                break;
+            }
+            asst::battle::OperUsage oper;
+            oper.name = name;
+            oper.skill = skill;
+            std::vector<asst::battle::OperUsage> usage { std::move(oper) };
+            m_user_formation.emplace_back(std::move(usage));
+            ++m_size_of_operators_in_formation;
+        }
+        m_size_of_operators_in_formation -= (int)m_user_formation.size();
+        add_formation(battle::Role::Unknown, m_user_formation);
+    }
+
+    add_additional();
+    if (m_add_trust) {
+        add_trust_operators();
+    }
     confirm_selection();
 
     // 查找需要助战的干员
@@ -120,6 +160,7 @@ bool asst::BattleFormationTask::_run()
 
 bool asst::BattleFormationTask::add_additional()
 {
+    // （但是干员名在除开获取时间的情况下都会被遮挡，so ?
     LogTraceFunction;
 
     if (m_additional.empty()) {
@@ -161,6 +202,51 @@ bool asst::BattleFormationTask::add_additional()
     }
 
     return true;
+}
+
+bool asst::BattleFormationTask::add_trust_operators()
+{
+    LogTraceFunction;
+
+    if (need_exit()) {
+        return false;
+    }
+
+    // 需要追加的信赖干员数量
+    int append_count = 12 - m_size_of_operators_in_formation;
+    if (append_count == 0) {
+        return true;
+    }
+
+    ProcessTask(*this, { "BattleQuickFormationFilter" }).run();
+    // 双击信赖
+    ProcessTask(*this, { "BattleQuickFormationFilter-Trust" }).run();
+    ProcessTask(*this, { "BattleQuickFormationFilterClose" }).run();
+
+    // 重置职业选择，保证处于最左
+    click_role_table(battle::Role::Caster);
+    click_role_table(battle::Role::Unknown);
+    int failed_count = 0;
+    while (!need_exit() && append_count > 0 && failed_count < 3) {
+        MultiMatcher matcher(ctrler()->get_image());
+        matcher.set_task_info("BattleQuickFormationTrustIcon");
+        if (!matcher.analyze() || matcher.get_result().size() == 0) {
+            failed_count++;
+        }
+        else {
+            failed_count = 0;
+            for (const auto& trust_icon : matcher.get_result()) {
+                // 匹配完干员左下角信赖表，将roi偏移到整个干员标
+                ctrler()->click(trust_icon.rect.move({ 20, -225, 110, 250 }));
+                if (--append_count <= 0 || need_exit()) {
+                    break;
+                }
+            }
+        }
+        swipe_page();
+    }
+
+    return append_count == 0;
 }
 
 bool asst::BattleFormationTask::select_random_support_unit()
@@ -250,17 +336,19 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
     }
 
     int delay = Task.get("BattleQuickFormationOCR")->post_delay;
-
-    int skill = 1;
+    int skill = 0;
     for (const auto& res : opers_result) {
         const std::string& name = res.text;
-        auto iter = groups.begin();
         bool found = false;
+        auto iter = groups.begin();
         for (; iter != groups.end(); ++iter) {
             for (const auto& oper : *iter) {
                 if (oper.name == name) {
                     found = true;
                     skill = oper.skill;
+
+                    m_operators_in_formation.emplace(name);
+                    ++m_size_of_operators_in_formation;
                     break;
                 }
             }
@@ -272,6 +360,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
         if (iter == groups.end()) {
             continue;
         }
+
         ctrler()->click(res.rect);
         sleep(delay);
         if (1 <= skill && skill <= 3) {
@@ -368,6 +457,7 @@ bool asst::BattleFormationTask::parse_formation()
         }
         formation.array_emplace(name);
 
+        // 判断干员/干员组的职业，放进对应的分组
         bool same_role = true;
         battle::Role role = BattleData.get_role(opers_vec.front().name);
         for (const auto& oper : opers_vec) {

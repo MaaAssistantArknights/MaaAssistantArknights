@@ -41,16 +41,6 @@ namespace MaaWpfGui.Constants
         public const string WindowTitlePrefix = "GUI.WindowTitlePrefix";
         public const string DarkMode = "GUI.DarkMode";
 
-        public const string MonitorNumber = "GUI.Monitor.Number";
-        public const string MonitorWidth = "GUI.Monitor.Width";
-        public const string MonitorHeight = "GUI.Monitor.Height";
-        public const string PositionLeft = "GUI.Position.Left";
-        public const string PositionTop = "GUI.Position.Top";
-        public const string WindowWidth = "GUI.Size.Width";
-        public const string WindowHeight = "GUI.Size.Height";
-        public const string LoadPositionAndSize = "GUI.PositionAndSize.Load";
-        public const string SavePositionAndSize = "GUI.PositionAndSize.SaveOnClosing";
-
         public const string AddressHistory = "Connect.AddressHistory";
         public const string AutoDetect = "Connect.AutoDetect";
         public const string AlwaysAutoDetect = "Connect.AlwaysAutoDetect";
@@ -66,6 +56,7 @@ namespace MaaWpfGui.Constants
         public const string AdbReplaced = "Connect.AdbReplaced";
 
         public const string ClientType = "Start.ClientType";
+        public const string AccountName = "Start.AccountName";
         public const string RunDirectly = "Start.RunDirectly";
         public const string MinimizeDirectly = "Start.MinimizeDirectly";
         public const string StartEmulator = "Start.StartEmulator";
@@ -133,6 +124,8 @@ namespace MaaWpfGui.Constants
         public const string CreditBlackListNew = "Mall.CreditBlackListNew";
         public const string CreditForceShoppingIfCreditFull = "Mall.CreditForceShoppingIfCreditFull";
 
+        public const string CopilotAddUserAdditional = "Copilot.AddUserAdditional";
+        public const string CopilotUserAdditional = "Copilot.UserAdditional";
         public const string CopilotLoopTimes = "Copilot.LoopTimes";
 
         public const string UpdateProxy = "VersionUpdate.Proxy";
@@ -164,6 +157,17 @@ namespace MaaWpfGui.Constants
         public const string DropsItemId = "MainFunction.Drops.ItemId";
         public const string DropsItemName = "MainFunction.Drops.ItemName";
         public const string DropsQuantity = "MainFunction.Drops.Quantity";
+
+        public const string ExternalNotificationEnabled = "ExternalNotification.Enabled";
+        public const string ExternalNotificationSmtpServer = "ExternalNotification.Smtp.Server";
+        public const string ExternalNotificationSmtpPort = "ExternalNotification.Smtp.Port";
+        public const string ExternalNotificationSmtpUser = "ExternalNotification.Smtp.User";
+        public const string ExternalNotificationSmtpPassword = "ExternalNotification.Smtp.Password";
+        public const string ExternalNotificationSmtpUseSsl = "ExternalNotification.Smtp.UseSsl";
+        public const string ExternalNotificationSmtpRequiresAuthentication = "ExternalNotification.Smtp.RequiresAuthentication";
+        public const string ExternalNotificationSmtpFrom = "ExternalNotification.Smtp.From";
+        public const string ExternalNotificationSmtpTo = "ExternalNotification.Smtp.To";
+        public const string ExternalNotificationServerChanSendKey = "ExternalNotification.ServerChan.SendKey";
 
         // The following should not be modified manually
         public const string VersionName = "VersionUpdate.name";

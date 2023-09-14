@@ -25,6 +25,9 @@ namespace asst
         void append_additional_formation(AdditionalFormation formation);
 
         void set_support_unit_name(std::string name);
+        void set_add_user_additional(bool add_user_additional);
+        void set_user_additional(std::vector<std::pair<std::string, int>> user_additional);
+        void set_add_trust(bool add_trust);
 
         enum class DataResource
         {
@@ -37,8 +40,11 @@ namespace asst
         using OperGroup = std::vector<battle::OperUsage>;
 
         virtual bool _run() override;
-
+        bool add_formation(battle::Role role, std::vector<OperGroup> oper_group);
+        // 追加附加干员（按部署费用等小分类）
         bool add_additional();
+        // 补充刷信赖的干员，从最小的开始
+        bool add_trust_operators();
 
         bool enter_selection_page();
         bool enter_support_page();
@@ -58,6 +64,16 @@ namespace asst
 
         std::string m_stage_name;
         std::unordered_map<battle::Role, std::vector<OperGroup>> m_formation;
+        std::vector<OperGroup> m_user_formation;
+        // 编队中干员个数
+        int m_size_of_operators_in_formation = 0;
+        // 编队中的干员名称，用来判断能不能追加某个干员
+        std::set<std::string> m_operators_in_formation;
+        bool m_add_user_additional = false;
+        // 追加干员表，从头往后加
+        std::vector<std::pair<std::string, int>> m_user_additional;
+        // 是否需要追加信赖干员
+        bool m_add_trust = false;
         std::string m_support_unit_name;
         DataResource m_data_resource = DataResource::Copilot;
         std::vector<AdditionalFormation> m_additional;
@@ -65,4 +81,4 @@ namespace asst
 
         bool use_support = true;
     };
-}
+} // namespace asst

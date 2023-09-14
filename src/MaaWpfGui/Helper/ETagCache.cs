@@ -30,12 +30,7 @@ namespace MaaWpfGui.Helper
 
         public static string Get(string url)
         {
-            if (_cache.ContainsKey(url))
-            {
-                return _cache[url];
-            }
-
-            return string.Empty;
+            return _cache.TryGetValue(url, out string ret) ? ret : string.Empty;
         }
 
         public static void Set(string url, string etag)

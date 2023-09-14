@@ -73,7 +73,7 @@
     <system:String x:Key="SecondResolution">2番目の決議</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">一般モード（ブロックされた例外出力）</system:String>
     <system:String x:Key="DormThreshold">体力が設定した%以下になれば宿舎へ移動する</system:String>
-    <system:String x:Key="InfrastThresholdTip">カスタムシフトが有効な場合、この項目は自動入力された部屋に対してのみ有効です</system:String>
+    <system:String x:Key="InfrastThresholdTip">カスタム シフトが有効な場合、このフィールドは自動入力とオペレーター グループのあるルームに対してのみ有効です</system:String>
     <system:String x:Key="RoguelikeStrategyExp">経験値を取得し、できるだけクリア</system:String>
     <system:String x:Key="RoguelikeStrategyGold">源石錐の収集、2階到着後終了</system:String>
     <!-- system:String x:Key="RoguelikeLastReward">序盤の報酬を得るために戦い、3階到着後終了</system:String -->
@@ -244,10 +244,15 @@
     <system:String x:Key="CustomStageCode">ステージ名を入力する</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">(テスト機能)ステージ名と番号（例: 4-10、AP-5、H10-1-Hardなど）
 の両方がサポートされています。レベルの最後に「Normal/Hard」を入力することで、標準から強襲/厄難に難易度を切り替えることができます</system:String>
-<!--ワンタイム代理SS一般パスとして「SSReopen-XX」を入力できます</system:String>-->
+    <!--ワンタイム代理SS一般パスとして「SSReopen-XX」を入力できます</system:String>-->
     <system:String x:Key="AutoDetectConnection">接続自動認識</system:String>
     <system:String x:Key="AutoDetectConnectionTip">このチェックボックスは、検出が完了するたびに自動的にチェックが外れますが、再検出が必要な場合は再度チェックを入れることができます</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">毎回再検出する</system:String>
+    <system:String x:Key="AccountSwitch">アカウントの切り替え</system:String>
+    <system:String x:Key="AccountSwitchTip" xml:space="preserve">切り替える必要があるアカウントを入力し、空白のままにしてアカウントの切り替えを完了します
+公式(CN): ログイン インターフェイスに表示される携帯電話番号を入力します (例: 123****4567)
+Bilibili: ログイン インターフェイスに表示されるアカウント名 (Zhang San など) を入力します。
+他の種類のクライアントはサポートされていません</system:String>
     <system:String x:Key="ADBPath">ADBパス（相対/絶対）</system:String>
     <system:String x:Key="ConnectionAddress">接続先アドレス</system:String>
     <system:String x:Key="ConnectionAddressTip">問題があれば手動で修正してください</system:String>
@@ -429,8 +434,11 @@
     <system:String x:Key="FailedToLikeWebJson">エラーが発生しました、いいねに失敗しました。 : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">感謝と評価！\nウェブページには既にコメント欄が開放されており、あなたのコメントを心待ちにしています！</system:String>
     <system:String x:Key="AutoSquad">自動編成</system:String>
-    <system:String x:Key="LoopTimes">ループ回数</system:String>
     <system:String x:Key="AutoSquadTip">自動編成では、一時的に「戦術要員」オペレーターを認識できません</system:String>
+    <system:String x:Key="AddTrust">信頼性の低いオペレーターを追加する</system:String>
+    <system:String x:Key="AddUserAdditional">カスタム戦術要員の追加</system:String>
+    <system:String x:Key="AddUserAdditionalTip">使用「;」オペレータ名とスキルを区切るには、区切り文字として「,」を使用します。例: W, 3; Ash, 2</system:String>
+    <system:String x:Key="LoopTimes">ループ回数</system:String>
     <system:String x:Key="Start">開始</system:String>
     <system:String x:Key="VideoLink">映像へのハイパーリンク</system:String>
     <!--  Export to Lolicon  -->
@@ -531,6 +539,9 @@
     <system:String x:Key="Drop" xml:space="preserve">ドロップ: </system:String>
     <system:String x:Key="TotalDrop" xml:space="preserve">ドロップ統計: </system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">現在の施設: </system:String>
+    <system:String x:Key="RoomGroupsMatch" xml:space="preserve">グループに合わせる: </system:String>
+    <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">オペレータ グループ、グループ リストの一致に失敗しました: </system:String>
+    <system:String x:Key="RoomOperators" xml:space="preserve">優先しています: </system:String>
     <system:String x:Key="ProductIncorrect">製品が構成と一致しません。</system:String>
     <system:String x:Key="ProductUnknown">Unknown Product</system:String>
     <system:String x:Key="ProductChanged">Product has changed</system:String>
@@ -545,7 +556,7 @@
     <system:String x:Key="BattleFormation">編成開始</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">オペレーターを選択: </system:String>
     <system:String x:Key="CurrentSteps">現在の手順: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">サポートされていないレベルです。MAAソフトウェアのバージョンを更新してください！\nサポートされていないレベルです。MAAソフトウェアのバージョンを更新してください！\nサポートされていないレベルです。MAAソフトウェアのバージョンを更新してください！\n\n最新バージョンがすでにインストールされているとプロンプトが表示された場合は、開発版またはベータ版を確認してみてください。</system:String>
+    <!--<system:String x:Key="UnsupportedLevel">サポートされていないレベルです。MAAソフトウェアのバージョンを更新してください！\nサポートされていないレベルです。MAAソフトウェアのバージョンを更新してください！\nサポートされていないレベルです。MAAソフトウェアのバージョンを更新してください！\n\n最新バージョンがすでにインストールされているとプロンプトが表示された場合は、開発版またはベータ版を確認してみてください。</system:String>-->
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">認識結果: </system:String>
     <system:String x:Key="ConnectFailed">接続失敗</system:String>
     <system:String x:Key="TryToStartEmulator">エミュレータを起動しようとしています</system:String>
@@ -605,4 +616,32 @@
     <system:String x:Key="IS3NewSquad3">科学主義分隊</system:String>
     <system:String x:Key="IS3NewSquad4">特訓分隊</system:String>
     <system:String x:Key="IS3NewSquad2">生活至上分隊</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateLinkOfficialSite">公式サイト</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateLinkCopilotSite">Copilot（中国語）</system:String>
+    <system:String x:Key="AllTaskCompleteContent">MAA は、{Datetime} の {Preset} 構成の下にあるすべてのプリセット タスクを完了しました。</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateFooterLineTwo">このメールは自動的に送信されますので、返信しないでください。</system:String>
+    <system:String x:Key="Dotnet8">アップグレード版は、.NET 8.0ランタイムがインストールされていないコンピュータをサポートしないため、手動でダウンロードする必要があります。 \n\nその間に、Windows 7オペレーティングシステムはサポートされなくなります。 \n\n「はい」をクリックすると、新しいランタイムのダウンロード・リンクを開きます。 「いいえ」をクリックすると、不要なソフトウェア更新を防ぐために自動ダウンロードを無効にします。 自動ダウンロードを無効にした場合でも、ソフトウェア設定でこの機能を手動で再度有効にすることができます。</system:String>
+    <system:String x:Key="Dotnet8Caption">ソフトウェアバージョンのアップグレードとサポートの変更</system:String>
+    <system:String x:Key="ExternalNotificationEnabled">通知構成の有効化</system:String>
+    <system:String x:Key="ExternalNotificationSendSuccess">正常に送信</system:String>
+    <system:String x:Key="ExternalNotificationSendFail">送信に失敗しました</system:String>
+    <system:String x:Key="ExternalNotificationSendTest">テストを送信する</system:String>
+    <system:String x:Key="ExternalNotificationSendTestTitle">MAA 外部通知テスト</system:String>
+    <system:String x:Key="ExternalNotificationSendTestContent">これは MAA 外部通知テスト情報です。 このコンテンツが表示された場合、通知は正常に送信されました。</system:String>
+    <system:String x:Key="ExternalNotificationServerChanSendKey">[ServerChan] Send Key</system:String>
+    <system:String x:Key="ExternalNotificationSmtpServer">[SMTP] サーバ</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPort">[SMTP] ポート</system:String>
+    <system:String x:Key="ExternalNotificationTips">注:外部通知機能は現在、「すべてのタスクが完了しました」という通知のみを送信します。</system:String>
+    <system:String x:Key="Off">シャットダウン</system:String>
+    <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
+    <system:String x:Key="ExternalNotificationSmtpSsl">[SMTP] は SSL を使用します</system:String>
+    <system:String x:Key="ExternalNotificationSmtpAuth">[SMTP] にはログインが必要です</system:String>
+    <system:String x:Key="ExternalNotificationSmtpUser">[SMTP] ユーザー名</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPassword">[SMTP] パスワード</system:String>
+    <system:String x:Key="ExternalNotificationSmtpFrom">[SMTP] 送信者</system:String>
+    <system:String x:Key="ExternalNotificationSmtpTo">[SMTP] 受信者</system:String>
+    <system:String x:Key="UnsupportedLevel">サポートされていないレベルは、レベル名を確認してください!</system:String>
+    <system:String x:Key="GameResourceUpdated">ゲームリソースが更新されました。MAAを再起動してください</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateHello">ドクター、新しいお知らせがあります!</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">このメッセージが表示されるのは、MAA で SMTP サーバーをセットアップし、メール通知サービスを有効にしているためです。</system:String>
 </ResourceDictionary>

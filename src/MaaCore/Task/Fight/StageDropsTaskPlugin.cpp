@@ -92,7 +92,9 @@ bool asst::StageDropsTaskPlugin::_run()
     }
 
     if (m_enable_penguid && !m_is_annihilation) {
-        upload_to_penguin();
+        if (!upload_to_penguin()) {
+            save_img(utils::path("debug") / utils::path("drops"));
+        }
     }
 
     return true;
@@ -212,12 +214,12 @@ void asst::StageDropsTaskPlugin::set_start_button_delay()
     m_cast_ptr->set_post_delay("StartButton2WaitTime", static_cast<int>(delay));
 }
 
-void asst::StageDropsTaskPlugin::upload_to_penguin()
+bool asst::StageDropsTaskPlugin::upload_to_penguin()
 {
     LogTraceFunction;
 
     if (m_server != "CN" && m_server != "US" && m_server != "JP" && m_server != "KR") {
-        return;
+        return true;
     }
 
     json::value cb_info = basic_info();
@@ -227,14 +229,15 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
     std::string stage_id = m_cur_info_json.get("stage", "stageId", std::string());
     if (stage_id.empty()) {
         cb_info["why"] = "UnknownStage";
-        cb_info["details"] = json::object { { "stage_code", m_stage_code } };
+        cb_info["details"] =
+            json::object { { "stage_code", m_stage_code }, { "stage_difficulty", enum_to_string(m_stage_difficulty) } };
         callback(AsstMsg::SubTaskError, cb_info);
-        return;
+        return false;
     }
     if (m_stars != 3) {
         cb_info["why"] = "NotThreeStars";
         callback(AsstMsg::SubTaskError, cb_info);
-        return;
+        return false;
     }
     json::value body;
     body["server"] = m_server;
@@ -251,7 +254,7 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
         if (drop_type == "UNKNOWN_DROP") {
             cb_info["why"] = "UnknownDropType";
             callback(AsstMsg::SubTaskError, cb_info);
-            return;
+            return false;
         }
         if (ranges::find(filter, drop_type) == filter.cend()) {
             continue;
@@ -259,7 +262,7 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
         if (drop.at("itemId").as_string().empty()) {
             cb_info["why"] = "UnknownDrops";
             callback(AsstMsg::SubTaskError, cb_info);
-            return;
+            return false;
         }
         json::value format_drop = drop;
         format_drop.as_object().erase("itemName");
@@ -282,6 +285,7 @@ void asst::StageDropsTaskPlugin::upload_to_penguin()
         .set_extra_headers(extra_headers)
         .set_retry_times(5)
         .run();
+    return true;
 }
 
 void asst::StageDropsTaskPlugin::report_penguin_callback(AsstMsg msg, const json::value& detail, AbstractTask* task_ptr)
