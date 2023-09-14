@@ -905,7 +905,8 @@
                 },
                 {
                     "name": "四月",
-                    "skill": 2
+                    "skill": 2,
+                    "auto_retreat": 13
                 },
                 {
                     "name": "灰喉",
@@ -1465,7 +1466,6 @@
                 {
                     "name": "浊心斯卡蒂",
                     "skill": 2,
-
                     "is_key": true,
                     "recruit_priority": 727,
                     "promote_priority": 710,
@@ -1581,11 +1581,11 @@
         },
         {
             "name": "投锋",
-            "doc":"本次肉鸽开局压力较大,投锋优先度不高",
+            "doc": "本次肉鸽开局压力较大,投锋优先度不高",
             "opers": [
                 {
                     "name": "琴柳",
-                    "skill": 1, 
+                    "skill": 1,
                     "auto_retreat": 80,
                     "recruit_priority": 520,
                     "promote_priority": 400,
@@ -1612,7 +1612,7 @@
                 },
                 {
                     "name": "极境",
-                    "skill": 1, 
+                    "skill": 1,
                     "auto_retreat": 80,
                     "recruit_priority": 570,
                     "promote_priority": 390,
@@ -1639,7 +1639,7 @@
                 },
                 {
                     "name": "桃金娘",
-                    "skill": 1, 
+                    "skill": 1,
                     "auto_retreat": 80,
                     "recruit_priority": 580,
                     "promote_priority": 380,
@@ -1904,7 +1904,6 @@
                         }
                     ]
                 }
-
             ]
         },
         {
@@ -2231,7 +2230,7 @@
                 },
                 {
                     "name": "年"
-                },                
+                },
                 {
                     "name": "星熊"
                 },
@@ -2258,7 +2257,7 @@
                 },
                 {
                     "name": "石棉"
-                },                
+                },
                 {
                     "name": "雷蛇"
                 },
@@ -2646,7 +2645,6 @@
                 {
                     "name": "月见夜"
                 }
-
             ]
         },
         {
@@ -2767,7 +2765,7 @@
                 },
                 {
                     "name": "谜图"
-                },                
+                },
                 {
                     "name": "郁金香"
                 },
@@ -2884,7 +2882,7 @@
                 },
                 {
                     "name": "多萝西"
-                },                
+                },
                 {
                     "name": "白金",
                     "skill": 2,
@@ -3076,7 +3074,6 @@
                 {
                     "name": "U-Official"
                 }
-
             ]
         },
         {
@@ -3241,7 +3238,7 @@
                     "promote_priority": 210
                 },
                 {
-                    "name": "黑角"                    
+                    "name": "黑角"
                 },
                 {
                     "name": "芳汀",
@@ -3258,7 +3255,6 @@
                     "skill": 1,
                     "recruit_priority": 405
                 },
-
                 {
                     "name": "柏喙",
                     "skill": 2,
@@ -3338,7 +3334,7 @@
                 {
                     "name": "槐琥",
                     "skill": 2,
-                    "auto_retreat": 2,                    
+                    "auto_retreat": 2,
                     "promote_priority": 200
                 },
                 {
