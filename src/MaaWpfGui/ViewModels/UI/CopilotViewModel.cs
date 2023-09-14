@@ -73,7 +73,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     if ((item as JObject).TryGetValue("file_path", out var token) && File.Exists(token.ToString()))
                     {
-                        CopilotItemViewModels.Add(new CopilotItemViewModel((string)item["name"], (string)item["file_path"]) { IsChecked = (bool)item["is_checked"] });
+                        CopilotItemViewModels.Add(new CopilotItemViewModel((string)item["name"], (string)item["file_path"], (bool)item["is_checked"]));
                     }
                 }
 
@@ -544,6 +544,11 @@ namespace MaaWpfGui.ViewModels.UI
             get => _useCopilotList;
             set
             {
+                if (value)
+                {
+                    _taskType = "Copilot";
+                }
+
                 SetAndNotify(ref _useCopilotList, value);
             }
         }
