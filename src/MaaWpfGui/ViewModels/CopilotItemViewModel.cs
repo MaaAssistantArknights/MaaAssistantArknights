@@ -1,4 +1,5 @@
 using System.Security.RightsManagement;
+using MaaWpfGui.Helper;
 using Stylet;
 using Vanara.PInvoke;
 
@@ -11,11 +12,12 @@ namespace MaaWpfGui.ViewModels
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="filePath">The original Name of file</param>
-        public CopilotItemViewModel(string name, string filePath)
+        /// <param name="isChecked">isChecked</param>
+        public CopilotItemViewModel(string name, string filePath, bool isChecked = true)
         {
-            Name = name;
-            FilePath = filePath;
-            IsChecked = true;
+            _name = name;
+            _filePath = filePath;
+            _isChecked = isChecked;
         }
 
         private string _filePath;
@@ -51,6 +53,7 @@ namespace MaaWpfGui.ViewModels
             set
             {
                 SetAndNotify(ref _isChecked, value);
+                Instances.CopilotViewModel.SaveCopilotTask();
             }
         }
 
