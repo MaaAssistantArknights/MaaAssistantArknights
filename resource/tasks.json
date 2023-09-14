@@ -6709,12 +6709,21 @@
             167
         ],
         "next": [
-            "BattleSupportUnitFormationSelect",
-            "BattleSupportUnitFormation"
+            "BattleSupportFormationRole-Pioneer",
+            "BattleSupportUnitPioneerRoleSelected"
         ],
         "postDelay": 2000
     },
-    "BattleSupportUnitFormationSelect": {
+    "BattleSupportUnitPioneerRoleSelected": {
+        "action": "DoNothing",
+        "roi": [
+            0,
+            44,
+            182,
+            179
+        ]
+    },
+    "BattleSupportUnitFormationSelectRandom": {
         "action": "ClickSelf",
         "roi": [
             115,
@@ -6723,7 +6732,7 @@
             75
         ],
         "next": [
-            "BattleSupportUnitFormationSelect",
+            "BattleSupportUnitFormationSelectRandom",
             "Stop"
         ]
     },
@@ -6781,6 +6790,23 @@
             255
         ],
         "postDelay": 500
+    },
+    "BattleSupportFormationRole": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [
+            0,
+            45,
+            180,
+            675
+        ],
+        "templThreshold": 0.7,
+        "maskRange": [
+            100,
+            255
+        ],
+        "postDelay": 2000
     },
     "BattleQuickFormationFilter": {
         "action": "ClickSelf",
@@ -6941,6 +6967,30 @@
             112
         ],
         "postDelay": 1000
+    },
+    "BattleSupportFormationRole-Pioneer": {
+        "baseTask": "BattleSupportFormationRole"
+    },
+    "BattleSupportFormationRole-Warrior": {
+        "baseTask": "BattleSupportFormationRole"
+    },
+    "BattleSupportFormationRole-Tank": {
+        "baseTask": "BattleSupportFormationRole"
+    },
+    "BattleSupportFormationRole-Caster": {
+        "baseTask": "BattleSupportFormationRole"
+    },
+    "BattleSupportFormationRole-Medic": {
+        "baseTask": "BattleSupportFormationRole"
+    },
+    "BattleSupportFormationRole-Sniper": {
+        "baseTask": "BattleSupportFormationRole"
+    },
+    "BattleSupportFormationRole-Special": {
+        "baseTask": "BattleSupportFormationRole"
+    },
+    "BattleSupportFormationRole-Support": {
+        "baseTask": "BattleSupportFormationRole"
     },
     "BattleStartPre": {
         "algorithm": "OcrDetect",

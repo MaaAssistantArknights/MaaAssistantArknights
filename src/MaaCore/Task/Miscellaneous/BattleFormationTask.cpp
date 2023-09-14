@@ -39,10 +39,12 @@ bool asst::BattleFormationTask::_run()
         return false;
     }
 
+    std::unordered_map<battle::Role, std::vector<OperGroup>> unselected_opers;
+
     for (auto& [role, oper_groups] : m_formation) {
         click_role_table(role);
         bool has_error = false;
-        int swipe_times = 0;
+        int swipe_times = 0, error_times = 0;
         while (!need_exit()) {
             if (select_opers_in_cur_page(oper_groups)) {
                 has_error = false;
@@ -60,12 +62,21 @@ bool asst::BattleFormationTask::_run()
                 swipe_to_the_left(swipe_times);
                 swipe_times = 0;
                 has_error = false;
+                error_times = 0;
             }
             else {
                 has_error = true;
                 swipe_to_the_left(swipe_times);
                 swipe_times = 0;
+                error_times++;
             }
+            // TODO change back
+            if (error_times >= 1) { 
+                // for a operator, if he/she's not found in 3 rows, he/she should be not in the box
+                unselected_opers[role] = oper_groups;
+                break;
+            }
+
         }
     }
 
@@ -73,11 +84,35 @@ bool asst::BattleFormationTask::_run()
 
     confirm_selection();
 
-    // 借一个随机助战
-    if (m_support_unit_name == "_RANDOM_") {
-        if (!select_random_support_unit()) {
+    // 查找需要助战的干员
+    std::pair<battle::Role, OperGroup> support = {};
+    size_t cnt = 0;
+    for (auto& [role, oper_groups] : unselected_opers) {
+        cnt += oper_groups.size();
+        if (cnt > 1) {
+            break;
+        }
+        if (oper_groups.size()) {
+            support = { role, oper_groups[0] };
+        }
+    }
+
+    if (cnt + !use_support > 1) {
+        Log.error("BattleSupportTask: too many support operators");
+        sleep_forever();
+    }
+
+    // 使用助战
+    if (use_support && cnt == 1) {
+        if (!enter_support_page()) {
             return false;
         }
+        click_support_role_table(support.first);
+        return select_support_oper(support.second);
+    } 
+    // 借一个随机助战
+    else if (m_support_unit_name == "_RANDOM_") {
+        return select_random_support_unit();
     }
 
     return true;
@@ -130,7 +165,8 @@ bool asst::BattleFormationTask::add_additional()
 
 bool asst::BattleFormationTask::select_random_support_unit()
 {
-    return ProcessTask(*this, { "BattleSupportUnitFormation" }).run();
+    return ProcessTask(*this, { "BattleSupportUnitFormation" }).run() &&
+           ProcessTask(*this, { "BattleSupportUnitFormationSelectRandom" }).run();
 }
 
 std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_opers()
@@ -180,6 +216,19 @@ std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_opers()
 bool asst::BattleFormationTask::enter_selection_page()
 {
     return ProcessTask(*this, { "BattleQuickFormation" }).run();
+}
+
+bool asst::BattleFormationTask::enter_support_page() 
+{
+    return ProcessTask(*this, { "BattleSupportUnitFormation" }).run();
+}
+
+bool asst::BattleFormationTask::select_support_oper(OperGroup& group)
+{
+    for (auto iter : group) {
+
+    }
+    return false;
 }
 
 bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>& groups)
@@ -278,6 +327,30 @@ bool asst::BattleFormationTask::click_role_table(battle::Role role)
     return ProcessTask(*this, tasks).set_retry_times(0).run();
 }
 
+bool asst::BattleFormationTask::click_support_role_table(battle::Role role)
+{
+    static const std::unordered_map<battle::Role, std::string> RoleNameType = {
+        { battle::Role::Caster, "Caster" }, { battle::Role::Medic, "Medic" },     { battle::Role::Pioneer, "Pioneer" },
+        { battle::Role::Sniper, "Sniper" }, { battle::Role::Special, "Special" }, { battle::Role::Support, "Support" },
+        { battle::Role::Tank, "Tank" },     { battle::Role::Warrior, "Warrior" },
+    };
+    m_last_oper_name.clear();
+    auto role_iter = RoleNameType.find(role);
+
+    std::vector<std::string> tasks;
+    if (role_iter == RoleNameType.cend()) {
+        sleep_forever();
+    }
+    else if (role == battle::Role::Pioneer) {
+        // support page should start with Pioneer selected
+        return true;
+    }
+    else {
+        tasks = { "BattleSupportFormationRole-" + role_iter->second };
+    }
+    return ProcessTask(*this, tasks).set_retry_times(0).run();
+}
+
 bool asst::BattleFormationTask::parse_formation()
 {
     json::value info = basic_info_with_what("BattleFormation");
@@ -307,4 +380,11 @@ bool asst::BattleFormationTask::parse_formation()
 
     callback(AsstMsg::SubTaskExtraInfo, info);
     return true;
+}
+
+void asst::BattleFormationTask::sleep_forever()
+{
+    while (true) {
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
 }

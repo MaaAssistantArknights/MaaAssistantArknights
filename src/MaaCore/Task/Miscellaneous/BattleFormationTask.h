@@ -41,13 +41,18 @@ namespace asst
         bool add_additional();
 
         bool enter_selection_page();
+        bool enter_support_page();
         bool select_opers_in_cur_page(std::vector<OperGroup>& groups);
         void swipe_page();
         void swipe_to_the_left(int times = 2);
         bool confirm_selection();
         bool click_role_table(battle::Role role);
+        bool click_support_role_table(battle::Role role);
         bool parse_formation();
         bool select_random_support_unit();
+        bool select_support_oper(OperGroup& group);
+
+        void sleep_forever();
 
         std::vector<TextRect> analyzer_opers();
 
@@ -57,5 +62,7 @@ namespace asst
         DataResource m_data_resource = DataResource::Copilot;
         std::vector<AdditionalFormation> m_additional;
         std::string m_last_oper_name;
+
+        bool use_support = true;
     };
 }
