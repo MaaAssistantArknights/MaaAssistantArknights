@@ -448,7 +448,8 @@
     <system:String x:Key="AddTrust">補充低信賴幹員</system:String>
     <system:String x:Key="AddUserAdditional">追加自定幹員</system:String>
     <system:String x:Key="AddUserAdditionalTip">使用";"作為分隔符，用","分隔操作員姓名和技能，例：史尔特尔,3;艾雅法拉,1</system:String>
-    <system:String x:Key="UseCopilotList">戰鬥列表 (開始前請切換至關卡選擇頁面)</system:String>
+    <system:String x:Key="UseCopilotList">戰鬥列表</system:String>
+    <system:String x:Key="UseCopilotListTip">開始前請切換至關卡選擇頁面</system:String>
     <system:String x:Key="CopilotAddTask">右鍵添加突襲難度</system:String>
     <system:String x:Key="CopilotClearTask">右鍵清除未激活任務</system:String>
     <system:String x:Key="LoopTimes">循環次數</system:String>
