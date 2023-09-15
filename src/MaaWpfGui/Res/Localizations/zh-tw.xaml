@@ -549,7 +549,7 @@
     <system:String x:Key="Drop" xml:space="preserve">本次掉落: </system:String>
     <system:String x:Key="TotalDrop" xml:space="preserve">掉落統計: </system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">當前設施: </system:String>
-    <system:String x:Key="RoomGroupsMatch" xml:space="preserve">匹配到編組: </system:String>
+    <system:String x:Key="RoomGroupsMatch" xml:space="preserve">匹配編組: </system:String>
     <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">匹配幹員編組失敗，編組列表: </system:String>
     <system:String x:Key="RoomOperators" xml:space="preserve">首選幹員: </system:String>
     <system:String x:Key="ProductIncorrect">產物與配置不相符。</system:String>
