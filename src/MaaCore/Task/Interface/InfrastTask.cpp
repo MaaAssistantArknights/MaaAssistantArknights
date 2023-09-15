@@ -29,7 +29,7 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst)
       m_dorm_task_ptr(std::make_shared<InfrastDormTask>(callback, inst, TaskType))
 {
     LogTraceFunction;
-    InfrastAbstractTask::clear_opers_for_group();
+    clear_opers_for_group();
 
     m_infrast_begin_task_ptr->set_tasks({ "InfrastBegin" }).set_ignore_error(true);
     m_replenish_task_ptr = m_mfg_task_ptr->register_plugin<ReplenishOriginiumShardTaskPlugin>();
