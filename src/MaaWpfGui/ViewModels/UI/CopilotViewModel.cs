@@ -767,13 +767,14 @@ namespace MaaWpfGui.ViewModels.UI
                     }
                 }
 
-                // 一个都没启动，怎会有如此无聊之人
+                ret &= Instances.AsstProxy.AsstStart();
                 if (!startAny)
                 {
+                    // 一个都没启动，怎会有如此无聊之人
+                    Instances.AsstProxy.AsstStop();
+                    _runningState.SetIdle(true);
                     return;
                 }
-
-                ret &= Instances.AsstProxy.AsstStart();
             }
             else
             {

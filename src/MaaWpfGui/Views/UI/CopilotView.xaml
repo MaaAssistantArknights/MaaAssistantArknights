@@ -44,6 +44,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <ComboBox
                     Height="30"
@@ -55,6 +56,16 @@
                 <Button
                     Grid.Column="1"
                     Height="30"
+                    hc:BorderElement.CornerRadius="0,0,0,0"
+                    hc:IconElement.Geometry="{StaticResource SearchGeometry}"
+                    BorderThickness="0,1,1,1"
+                    Command="{s:Action SelectFile}"
+                    IsEnabled="{Binding Idle}"
+                    Style="{StaticResource ButtonDefault}"
+                    ToolTip="{DynamicResource SelectTheFileTip}" />
+                <Button
+                    Grid.Column="2"
+                    Height="30"
                     hc:BorderElement.CornerRadius="0,4,4,0"
                     hc:IconElement.Geometry="{StaticResource PasteGeometry}"
                     BorderThickness="0,1,1,1"
@@ -64,36 +75,7 @@
                     ToolTip="{DynamicResource PasteClipboardTip}" />
             </Grid>
 
-            <Grid Margin="0,20,0,0" HorizontalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Button
-                    Width="120"
-                    Height="50"
-                    Margin="0,0,20,0"
-                    Command="{s:Action SelectFile}"
-                    Content="{DynamicResource SelectTheFile}"
-                    IsEnabled="{Binding Idle}"
-                    ToolTip="{DynamicResource SelectTheFileTip}" />
-                <Button
-                    Grid.Column="1"
-                    Width="120"
-                    Height="50"
-                    Command="{s:Action Start}"
-                    Content="{DynamicResource Start}"
-                    IsEnabled="{c:Binding StartEnabled}"
-                    Visibility="{c:Binding Idle}" />
-                <Button
-                    Grid.Column="1"
-                    Width="120"
-                    Height="50"
-                    Command="{s:Action Stop}"
-                    Content="{DynamicResource Stop}"
-                    Visibility="{c:Binding !Idle}" />
-            </Grid>
-            <Grid Height="300" Margin="0,15,0,0">
+            <Grid Height="280" Margin="0,5,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -104,10 +86,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <Grid
-                    Grid.Row="0"
-                    Margin="0,5,0,0"
-                    HorizontalAlignment="Center">
+                <Grid Grid.Row="0" HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" MinWidth="100" />
                         <ColumnDefinition Width="Auto" />
@@ -132,7 +111,7 @@
                 </Grid>
                 <Grid
                     Grid.Row="1"
-                    Margin="0,8,0,0"
+                    Margin="0,10,0,-2"
                     HorizontalAlignment="Center"
                     Visibility="{c:Binding Form}">
                     <Grid.ColumnDefinitions>
@@ -141,7 +120,6 @@
                     </Grid.ColumnDefinitions>
 
                     <CheckBox
-                        Height="30"
                         HorizontalAlignment="Center"
                         VerticalContentAlignment="Center"
                         Content="{DynamicResource AddUserAdditional}"
@@ -166,16 +144,17 @@
                 </Grid>
                 <CheckBox
                     Grid.Row="2"
-                    Margin="0,8,0,0"
+                    Margin="0,12,0,0"
                     HorizontalAlignment="Center"
                     Content="{DynamicResource UseCopilotList}"
                     IsChecked="{Binding UseCopilotList}"
                     IsEnabled="{Binding Idle}"
-                    IsHitTestVisible="{Binding Idle}" />
+                    IsHitTestVisible="{Binding Idle}"
+                    ToolTip="{DynamicResource UseCopilotListTip}" />
                 <Border
                     Grid.Row="3"
                     Width="200"
-                    Margin="0,15,0,0"
+                    Margin="0,10,0,0"
                     BorderBrush="{DynamicResource BorderBrush}"
                     BorderThickness="1"
                     CornerRadius="4"
@@ -246,20 +225,21 @@
                                 Margin="2,0,0,0"
                                 hc:IconElement.Geometry="{StaticResource ErrorGeometry}"
                                 Command="{s:Action ClearCopilotTask}"
-                                MouseRightButtonUp="{s:Action CleanUnableCopilotTask}"
                                 IsEnabled="{c:Binding '(Idle) and (StartEnabled)'}"
+                                MouseRightButtonUp="{s:Action CleanUnableCopilotTask}"
                                 ToolTip="{DynamicResource CopilotClearTask}" />
                         </Grid>
                     </Grid>
                 </Border>
                 <StackPanel
                     Grid.Row="4"
-                    Margin="5"
+                    Margin="0,5,0,0"
                     HorizontalAlignment="Center"
                     IsEnabled="{Binding Idle}"
                     Orientation="Horizontal"
                     Visibility="{c:Binding !UseCopilotList}">
                     <CheckBox
+                        Margin="0,0,10,0"
                         VerticalContentAlignment="Center"
                         Content="{DynamicResource LoopTimes}"
                         IsChecked="{Binding Loop}" />
@@ -271,9 +251,10 @@
                         InputMethod.IsInputMethodEnabled="False"
                         Text="{Binding LoopTimes}" />
                 </StackPanel>
+
                 <controls:TextBlock
                     Grid.Row="5"
-                    Margin="5,20,5,5"
+                    Margin="5,15,5,5"
                     Block.TextAlignment="Center"
                     Visibility="{c:Binding !UseCopilotList}">
                     <Hyperlink
@@ -285,7 +266,7 @@
                 </controls:TextBlock>
                 <controls:TextBlock
                     Grid.Row="6"
-                    Margin="5,5,5,50"
+                    Margin="5,5,5,30"
                     Block.TextAlignment="Center"
                     Visibility="{c:Binding !UseCopilotList}">
                     <Hyperlink
@@ -296,6 +277,27 @@
                     </Hyperlink>
                 </controls:TextBlock>
 
+            </Grid>
+            <Grid Margin="0,10,0,0" HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Button
+                    Grid.Column="1"
+                    Width="120"
+                    Height="50"
+                    Command="{s:Action Start}"
+                    Content="{DynamicResource Start}"
+                    IsEnabled="{c:Binding StartEnabled}"
+                    Visibility="{c:Binding Idle}" />
+                <Button
+                    Grid.Column="1"
+                    Width="120"
+                    Height="50"
+                    Command="{s:Action Stop}"
+                    Content="{DynamicResource Stop}"
+                    Visibility="{c:Binding !Idle}" />
             </Grid>
         </StackPanel>
 

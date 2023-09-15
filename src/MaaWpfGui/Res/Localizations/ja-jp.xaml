@@ -438,7 +438,8 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="AddTrust">信頼性の低いオペレーターを追加する</system:String>
     <system:String x:Key="AddUserAdditional">カスタム戦術要員の追加</system:String>
     <system:String x:Key="AddUserAdditionalTip">使用「;」オペレータ名とスキルを区切るには、区切り文字として「,」を使用します。例: W, 3; Ash, 2</system:String>
-    <system:String x:Key="UseCopilotList">バトルリスト（開始前にレベル選択ページに切り替えてください）</system:String>
+    <system:String x:Key="UseCopilotList">バトルリスト</system:String>
+    <system:String x:Key="UseCopilotListTip">開始前にレベル選択ページに切り替えてください</system:String>
     <system:String x:Key="CopilotAddTask">右クリックしてレイドの難易度を追加します</system:String>
     <system:String x:Key="CopilotClearTask">右クリックして非アクティブなタスクをクリアします</system:String>
     <system:String x:Key="LoopTimes">ループ回数</system:String>
