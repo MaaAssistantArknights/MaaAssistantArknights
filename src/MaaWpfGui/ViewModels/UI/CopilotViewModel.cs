@@ -266,7 +266,7 @@ namespace MaaWpfGui.ViewModels.UI
                     AddLog(details, detailsColor);
                     {
                         Url = CopilotUiUrl;
-                        var linkParser = new Regex("(BV.*?).{10}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                        var linkParser = new Regex(@"AV\d+|(BV.*?).{10}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                         foreach (Match match in linkParser.Matches(details))
                         {
                             Url = "https://www.bilibili.com/video/" + match.Value;
