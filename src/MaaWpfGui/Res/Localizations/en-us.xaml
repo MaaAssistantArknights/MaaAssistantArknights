@@ -547,7 +547,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="Drop" xml:space="preserve">Drops: </system:String>
     <system:String x:Key="TotalDrop" xml:space="preserve">Total Drops: </system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">Current Facility: </system:String>
-    <system:String x:Key="RoomGroupsMatch" xml:space="preserve">Match to Group: </system:String>
+    <system:String x:Key="RoomGroupsMatch" xml:space="preserve">Match Group: </system:String>
     <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">Failed to match operator groups, group list: </system:String>
     <system:String x:Key="RoomOperators" xml:space="preserve">preferred operators: </system:String>
     <system:String x:Key="ProductIncorrect">Product does NOT match the configuration.</system:String>
@@ -564,7 +564,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="BattleFormation">Start formation</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selection of operator: </system:String>
     <system:String x:Key="CurrentSteps">Current step: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">Unsupported stage. Please check the stage name.</system:String>
+    <system:String x:Key="UnsupportedLevel">Unsupported stage. Please check the stage name!</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identification results: </system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
     <system:String x:Key="TryToStartEmulator">Trying to start the emulator</system:String>
