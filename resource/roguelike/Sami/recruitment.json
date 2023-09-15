@@ -10,7 +10,7 @@
                     "alternate_skill": 2,
                     "is_key": true,
                     "is_start": true,
-                    "doc": "相比凯尔希，焰苇的前期费用压力更小，更适合开局，属于下限高上限低的那种",
+                    "doc": "本次肉鸽强力开局干员",
                     "recruit_priority": 880,
                     "promote_priority": 980
                 }
@@ -139,6 +139,25 @@
                     ]
                 },
                 {
+                    "name": "百炼嘉维尔",
+                    "skill": 2,
+                    "recruit_priority": 820,
+                    "promote_priority": 801,
+                    "is_start": true,
+                    "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "近卫",
+                                "召唤"
+                            ],
+                            "threshold": 1,
+                            "offset": -400
+                        }
+                    ]
+                },
+                {
                     "name": "海沫",
                     "skill": 1,
                     "recruit_priority": 650,
@@ -173,25 +192,6 @@
                             ],
                             "threshold": 1,
                             "offset": -300
-                        }
-                    ]
-                },
-                {
-                    "name": "百炼嘉维尔",
-                    "skill": 2,
-                    "recruit_priority": 820,
-                    "promote_priority": 801,
-                    "is_start": true,
-                    "is_key": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "凯尔希",
-                                "近卫",
-                                "召唤"
-                            ],
-                            "threshold": 1,
-                            "offset": -400
                         }
                     ]
                 },
@@ -231,105 +231,6 @@
                             ],
                             "threshold": 1,
                             "offset": -500
-                        }
-                    ]
-                },
-                {
-                    "name": "风丸",
-                    "skill": 2,
-                    "recruit_priority": 670,
-                    "promote_priority": 400,
-                    "is_start": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "凯尔希",
-                                "近卫",
-                                "召唤",
-                                "重装"
-                            ],
-                            "threshold": 1,
-                            "offset": -400
-                        }
-                    ]
-                },
-                {
-                    "name": "帕拉斯",
-                    "skill": 1,
-                    "recruit_priority": 610,
-                    "promote_priority": 350,
-                    "is_start": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "凯尔希",
-                                "近卫",
-                                "召唤",
-                                "重装"
-                            ],
-                            "threshold": 1,
-                            "offset": -400
-                        }
-                    ]
-                },
-                {
-                    "name": "幽灵鲨",
-                    "skill": 2,
-                    "recruit_priority": 620,
-                    "promote_priority": 350,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "凯尔希",
-                                "近卫",
-                                "召唤"
-                            ],
-                            "threshold": 2,
-                            "offset": -180
-                        },
-                        {
-                            "groups": [
-                                "凯尔希",
-                                "近卫",
-                                "重装",
-                                "情报官",
-                                "挡人先锋"
-                            ],
-                            "threshold": 1,
-                            "is_less": true,
-                            "offset": -300,
-                            "Doc": "地面阻挡≤1时，幽灵鲨的招募优先级-300"
-                        }
-                    ]
-                },
-                {
-                    "name": "归溟幽灵鲨",
-                    "skill": 2,
-                    "recruit_priority": 570,
-                    "promote_priority": 600,
-                    "is_key": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "凯尔希",
-                                "近卫",
-                                "召唤"
-                            ],
-                            "threshold": 2,
-                            "offset": -150
-                        },
-                        {
-                            "groups": [
-                                "凯尔希",
-                                "近卫",
-                                "重装",
-                                "情报官",
-                                "挡人先锋"
-                            ],
-                            "threshold": 1,
-                            "is_less": true,
-                            "offset": -300,
-                            "Doc": "地面阻挡≤1时，玛恩纳的招募优先级-500"
                         }
                     ]
                 },
@@ -427,6 +328,105 @@
                             ],
                             "threshold": 1,
                             "offset": -400
+                        }
+                    ]
+                },
+                {
+                    "name": "帕拉斯",
+                    "skill": 1,
+                    "recruit_priority": 610,
+                    "promote_priority": 350,
+                    "is_start": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "近卫",
+                                "召唤",
+                                "重装"
+                            ],
+                            "threshold": 1,
+                            "offset": -400
+                        }
+                    ]
+                },
+                {
+                    "name": "风丸",
+                    "skill": 2,
+                    "recruit_priority": 670,
+                    "promote_priority": 400,
+                    "is_start": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "近卫",
+                                "召唤",
+                                "重装"
+                            ],
+                            "threshold": 1,
+                            "offset": -400
+                        }
+                    ]
+                },
+                {
+                    "name": "幽灵鲨",
+                    "skill": 2,
+                    "recruit_priority": 620,
+                    "promote_priority": 350,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "近卫",
+                                "召唤"
+                            ],
+                            "threshold": 2,
+                            "offset": -180
+                        },
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "近卫",
+                                "重装",
+                                "情报官",
+                                "挡人先锋"
+                            ],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -300,
+                            "Doc": "地面阻挡≤1时，幽灵鲨的招募优先级-300"
+                        }
+                    ]
+                },
+                {
+                    "name": "归溟幽灵鲨",
+                    "skill": 2,
+                    "recruit_priority": 570,
+                    "promote_priority": 600,
+                    "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "近卫",
+                                "召唤"
+                            ],
+                            "threshold": 2,
+                            "offset": -150
+                        },
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "近卫",
+                                "重装",
+                                "情报官",
+                                "挡人先锋"
+                            ],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -300,
+                            "Doc": "地面阻挡≤1时，玛恩纳的招募优先级-500"
                         }
                     ]
                 }
@@ -556,6 +556,68 @@
                     ]
                 },
                 {
+                    "name": "涤火杰西卡",
+                    "skill": 2,
+                    "recruit_priority": 622,
+                    "promote_priority": 650,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "重装"
+                            ],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "雷蛇",
+                    "skill": 1,
+                    "recruit_priority": 613,
+                    "promote_priority": 350,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "重装"
+                            ],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "瑕光",
+                    "skill": 1,
+                    "recruit_priority": 607,
+                    "promote_priority": 570,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "重装"
+                            ],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "泡泡",
+                    "skill": 2,
+                    "recruit_priority": 597,
+                    "promote_priority": 270,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "重装"
+                            ],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
                     "name": "古米",
                     "skill": 1,
                     "recruit_priority": 614,
@@ -681,68 +743,6 @@
                             ],
                             "threshold": 2,
                             "offset": -200
-                        }
-                    ]
-                },
-                {
-                    "name": "涤火杰西卡",
-                    "skill": 2,
-                    "recruit_priority": 622,
-                    "promote_priority": 650,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "凯尔希",
-                                "重装"
-                            ],
-                            "threshold": 2,
-                            "offset": -300
-                        }
-                    ]
-                },
-                {
-                    "name": "雷蛇",
-                    "skill": 1,
-                    "recruit_priority": 613,
-                    "promote_priority": 350,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "凯尔希",
-                                "重装"
-                            ],
-                            "threshold": 2,
-                            "offset": -300
-                        }
-                    ]
-                },
-                {
-                    "name": "瑕光",
-                    "skill": 1,
-                    "recruit_priority": 607,
-                    "promote_priority": 570,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "重装"
-                            ],
-                            "threshold": 2,
-                            "offset": -300
-                        }
-                    ]
-                },
-                {
-                    "name": "泡泡",
-                    "skill": 2,
-                    "recruit_priority": 597,
-                    "promote_priority": 270,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "重装"
-                            ],
-                            "threshold": 2,
-                            "offset": -300
                         }
                     ]
                 },
@@ -951,7 +951,7 @@
                     "skill": 3,
                     "alternate_skill": 1,
                     "recruit_priority": 620,
-                    "promote_priority": 800,
+                    "promote_priority": 801,
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
@@ -2238,6 +2238,18 @@
                     "name": "涤火杰西卡"
                 },
                 {
+                    "name": "瑕光"
+                },
+                {
+                    "name": "石棉"
+                },
+                {
+                    "name": "雷蛇"
+                },
+                {
+                    "name": "蛇屠箱"
+                },
+                {
                     "name": "号角"
                 },
                 {
@@ -2251,18 +2263,6 @@
                 },
                 {
                     "name": "风丸"
-                },
-                {
-                    "name": "瑕光"
-                },
-                {
-                    "name": "石棉"
-                },
-                {
-                    "name": "雷蛇"
-                },
-                {
-                    "name": "蛇屠箱"
                 },
                 {
                     "name": "帕拉斯"
@@ -2317,9 +2317,6 @@
                     "name": "棘刺"
                 },
                 {
-                    "name": "银灰"
-                },
-                {
                     "name": "推进之王"
                 },
                 {
@@ -2362,6 +2359,9 @@
                 {
                     "name": "白铁",
                     "skill": 2
+                },
+                {
+                    "name": "银灰"
                 },
                 {
                     "name": "幽灵鲨"
