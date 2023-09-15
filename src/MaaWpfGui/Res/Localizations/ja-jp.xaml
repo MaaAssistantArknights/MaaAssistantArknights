@@ -634,8 +634,8 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="ExternalNotificationTips">注:外部通知機能は現在、「すべてのタスクが完了しました」という通知のみを送信します。</system:String>
     <system:String x:Key="Off">シャットダウン</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
-    <system:String x:Key="ExternalNotificationSmtpSsl">[SMTP] は SSL を使用します</system:String>
-    <system:String x:Key="ExternalNotificationSmtpAuth">[SMTP] にはログインが必要です</system:String>
+    <system:String x:Key="ExternalNotificationSmtpSsl">[SMTP] SSL を使用します</system:String>
+    <system:String x:Key="ExternalNotificationSmtpAuth">[SMTP] ログインが必要です</system:String>
     <system:String x:Key="ExternalNotificationSmtpUser">[SMTP] ユーザー名</system:String>
     <system:String x:Key="ExternalNotificationSmtpPassword">[SMTP] パスワード</system:String>
     <system:String x:Key="ExternalNotificationSmtpFrom">[SMTP] 送信者</system:String>
@@ -644,4 +644,6 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="GameResourceUpdated">ゲームリソースが更新されました。MAAを再起動してください</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateHello">ドクター、新しいお知らせがあります!</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">このメッセージが表示されるのは、MAA で SMTP サーバーをセットアップし、メール通知サービスを有効にしているためです。</system:String>
+    <system:String x:Key="GameResourceUpdating">ゲームリソースは更新されていますので、しばらくお待ちください</system:String>
+    <system:String x:Key="Processing">処理ステーション</system:String>
 </ResourceDictionary>
