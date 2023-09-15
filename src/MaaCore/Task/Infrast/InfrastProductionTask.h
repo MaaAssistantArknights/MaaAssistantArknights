@@ -6,7 +6,7 @@
 
 namespace asst
 {
-    // 生产类设施的任务，适用于制造站/贸易站
+    // 生产类设施的任务，适用于制造站、贸易站、控制中枢
     class InfrastProductionTask : public InfrastAbstractTask
     {
     public:
