@@ -190,11 +190,15 @@ namespace MaaWpfGui.Models
                 });
             }
 
-            var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
             var tempFile = saveTo + ".tmp";
-            using var fileStream = new FileStream(tempFile, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true);
-            await stream.CopyToAsync(fileStream).ConfigureAwait(false);
-            fileStream.Close();
+            using (var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+            {
+                using (var fileStream = new FileStream(tempFile, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true))
+                {
+                    await stream.CopyToAsync(fileStream).ConfigureAwait(false);
+                }
+            }
+
             File.Copy(tempFile, saveTo, true);
             File.Delete(tempFile);
 
