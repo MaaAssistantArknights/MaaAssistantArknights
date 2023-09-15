@@ -221,6 +221,7 @@ Sami@Roguelike@CloseEvent.png
 Sami@Roguelike@GamePassSkip1Confirm.png
 Sami@Roguelike@GamePassSkip2.png
 Sami@Roguelike@GamePassTheEndConfirm.png
+Sami@Roguelike@GetCiphertextBoard.png
 Sami@Roguelike@GetDropCompleted.png
 Sami@Roguelike@InitalDrop.png
 Sami@Roguelike@LastRewardRand.png
