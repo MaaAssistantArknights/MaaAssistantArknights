@@ -20,6 +20,8 @@ namespace asst
 
         void set_custom_config(infrast::CustomFacilityConfig config) noexcept;
         void clear_custom_config() noexcept;
+        // 清空编组匹配用的可用干员列表
+        static void clear_opers_for_group();
 
         static constexpr int OperSelectRetryTimes = 3;
         static constexpr int TaskRetryTimes = 3;
@@ -41,6 +43,7 @@ namespace asst
         void swipe_of_operlist();
         bool is_use_custom_opers();
         infrast::CustomRoomConfig& current_room_config();
+        // 将定义的干员编组解释为具体干员，每次基建换班任务的第一次调用时缓存可用干员列表
         bool match_operator_groups();
         bool swipe_and_select_custom_opers(bool is_dorm_order = false);
         bool select_custom_opers(std::vector<std::string>& partial_result);
@@ -72,5 +75,7 @@ namespace asst
         int m_cur_facility_index = 0;
         bool m_is_custom = false;
         infrast::CustomFacilityConfig m_custom_config;
+        // 编组匹配用的可用干员列表，每次基建换班前清空。按照第一次调用match_operator_groups()时设置的心情阈值进行缓存
+        inline static std::set<std::string> m_opers_for_groups;
     };
 } // namespace asst
