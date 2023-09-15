@@ -20,6 +20,7 @@ namespace asst
 
         void set_custom_config(infrast::CustomFacilityConfig config) noexcept;
         void clear_custom_config() noexcept;
+        static void clear_opers_for_group();
 
         static constexpr int OperSelectRetryTimes = 3;
         static constexpr int TaskRetryTimes = 3;
@@ -72,5 +73,6 @@ namespace asst
         int m_cur_facility_index = 0;
         bool m_is_custom = false;
         infrast::CustomFacilityConfig m_custom_config;
+        inline static std::set<std::string> m_opers_for_groups;
     };
 } // namespace asst
