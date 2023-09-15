@@ -4653,6 +4653,7 @@
     },
     "Award": {
         "template": "Task.png",
+        "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [
             700,
@@ -7100,29 +7101,29 @@
         ],
         "postDelay": 500
     },
-	"BattleQuickFormationFilter-Trust": {
-		"action": "ClickSelf",
-		"roi": [
-			1010,
-			70,
-			35,
-			580
-		],
-		"postDelay": 500,
-		"next": [
-			"BattleQuickFormationFilter-Click2"
-		]
-	},
-	"BattleQuickFormationFilter-Click2": {
-		"action": "ClickSelf",
-		"roi": [
-			1125,
-			60,
-			150,
-			600
-		],
-		"postDelay": 500
-	},
+    "BattleQuickFormationFilter-Trust": {
+        "action": "ClickSelf",
+        "roi": [
+            1010,
+            70,
+            35,
+            580
+        ],
+        "postDelay": 500,
+        "next": [
+            "BattleQuickFormationFilter-Click2"
+        ]
+    },
+    "BattleQuickFormationFilter-Click2": {
+        "action": "ClickSelf",
+        "roi": [
+            1125,
+            60,
+            150,
+            600
+        ],
+        "postDelay": 500
+    },
     "BattleQuickFormationFilterClose": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
