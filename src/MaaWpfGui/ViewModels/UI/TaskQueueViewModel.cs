@@ -272,26 +272,27 @@ namespace MaaWpfGui.ViewModels.UI
                     restartDateTime = restartDateTime.AddDays(1);
                 }
 
-                if (currentTime == restartDateTime)
+                if (currentTime == restartDateTime &&
+                    Instances.SettingsViewModel.CurrentConfiguration != Instances.SettingsViewModel.TimerModels.Timers[i].TimerConfig)
                 {
                     timeToChangeConfig = true;
                     configIndex = i;
                     break;
                 }
 
-                if (currentTime != startTime)
+                // ReSharper disable once InvertIf
+                if (currentTime == startTime)
                 {
-                    continue;
+                    timeToStart = true;
+                    configIndex = i;
+                    break;
                 }
-
-                timeToStart = true;
-                configIndex = i;
-                break;
             }
 
             if (timeToChangeConfig)
             {
-                if (Instances.SettingsViewModel.CustomConfig && (_runningState.GetIdle() || Instances.SettingsViewModel.ForceScheduledStart))
+                if (Instances.SettingsViewModel.CustomConfig &&
+                    (_runningState.GetIdle() || Instances.SettingsViewModel.ForceScheduledStart))
                 {
                     // CurrentConfiguration设置后会重启
                     Instances.SettingsViewModel.CurrentConfiguration = Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig;
@@ -306,6 +307,13 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (Instances.SettingsViewModel.ForceScheduledStart)
             {
+                // 什么时候会遇到这种情况？
+                if (Instances.SettingsViewModel.CustomConfig &&
+                    Instances.SettingsViewModel.CurrentConfiguration != Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig)
+                {
+                    return;
+                }
+
                 if (!_runningState.GetIdle())
                 {
                     await Stop();
@@ -314,12 +322,6 @@ namespace MaaWpfGui.ViewModels.UI
                 if (!Instances.AsstProxy.AsstAppendCloseDown())
                 {
                     AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
-                }
-
-                if (Instances.SettingsViewModel.CustomConfig &&
-                    Instances.SettingsViewModel.CurrentConfiguration != Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig)
-                {
-                    return;
                 }
 
                 ResetFightVariables();
