@@ -438,6 +438,10 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="AddTrust">信頼性の低いオペレーターを追加する</system:String>
     <system:String x:Key="AddUserAdditional">カスタム戦術要員の追加</system:String>
     <system:String x:Key="AddUserAdditionalTip">使用「;」オペレータ名とスキルを区切るには、区切り文字として「,」を使用します。例: W, 3; Ash, 2</system:String>
+    <system:String x:Key="UseCopilotList">バトルリスト</system:String>
+    <system:String x:Key="UseCopilotListTip">開始前にレベル選択ページに切り替えてください</system:String>
+    <system:String x:Key="CopilotAddTask">右クリックしてレイドの難易度を追加します</system:String>
+    <system:String x:Key="CopilotClearTask">右クリックして非アクティブなタスクをクリアします</system:String>
     <system:String x:Key="LoopTimes">ループ回数</system:String>
     <system:String x:Key="Start">開始</system:String>
     <system:String x:Key="VideoLink">映像へのハイパーリンク</system:String>
@@ -451,6 +455,12 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
         手動形成後、「開始デプロイメント」画面から開始してください（「ループ回数」で使用可能）。\n\n
         5. ビデオ認識もサポートされており、ガイドビデオをドラッグして使用できます。\n
         ビデオ解像度は16:9必須。黒枠、エミュレーター枠、特殊な形状、画面効果などが無いことを確認してください。\n\n
+        6. バトルリスト:\n
+        ジョブを選択した後、リストの下のレベル名が正しいことを確認してください (例: CV-EX-1)。 \n
+        追加: 左クリックしてノーマル難易度を追加し、右クリックしてレイド難易度を追加します。\n
+        クリア: 左クリックするとリストがクリアされ、右クリックすると非アクティブなタスクのみが削除されます。\n
+        開始する前に、レベル選択インターフェースに切り替える必要があります。章間のナビゲーションはサポートされていません。\n
+        正気度が不十分な場合、戦闘が失敗した場合、または 3 つ星を解決できない場合、アクションは終了します。 \n\n
     </system:String>
     <system:String x:Key="CopilotFileReadError">ファイルの読み取りに失敗しました！</system:String>
     <system:String x:Key="CopilotNoFound">対応する攻略ファイルが見つかりません！</system:String>
