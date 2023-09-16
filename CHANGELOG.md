@@ -1,40 +1,40 @@
-## v4.24.0-beta.3
+## v4.24.0-beta.4
 
 ### 新增
 
-- 基建 制造站、贸易站、控制中枢 新增支持干员编组配置 (#6249) @status102
-- 基建支持加工站 @MistEO
-- 新增开始唤醒时账号切换功能 (官服、B服 only) (#6268) @status102
-- 自动战斗-自动编队，新增自动补充低信赖干员、追加自定干员选项 (#6282) @status102
+- 自动战斗新增战斗列表选项（异形UI不支持） (#6350) @status102
+- WPF自动战斗对于作业描述的视频自动跳转增加av号支持 (#6363) @status102
 
 ### 改进
 
-- 增加未通过企鹅检查的掉落截图，增加 UnknownStage 时的难度回调 (#6308) @zzyyyl
-- 优化自动战斗-自动编队-追加自定干员选项UI，当选项禁用时，居中CheckBox (#6322) @status102
-- 优化萨米肉鸽策略 (#6321) @Lancarus
+- 适配萨米肉鸽生活至上分队，优化部分逻辑 (#6385) @Lancarus
+- 基建换班-干员编组增加可用干员缓存，同时在单次换班任务中避免重复匹配已匹配的干员 (#6376) @status102
+- 下载更新资源先使用临时文件缓存 @MistEO
+- 优化定时任务 @ABA2396
+- 更新游戏资源时弹窗提示 @MistEO
 
 ### 修复
 
-- 修复因部分皮肤造成的关卡难度识别问题 (#6309) @zzyyyl
-- 修复肉鸽某些开局干员精二后首次进入关卡时不选三技能的问题 @AnnoyingFlowers
-- 修复更新资源下载异常，及检查更新按钮过早亮起的问题 @MistEO
+- 修复task.png阈值 @MistEO
+- 修复SettingsView的Idle不生效，将开始唤醒-账号切换在非Idle情况下锁定 (#6364) @status102
+- etag 解析报错 @ABA2396
+- 将账号切换输出文本中的目标账号由输入文本改为OCR结果，尝试修复账号切换出错 (#6353) @status102
+- 给关卡选择为 null 时打个补丁 @moomiji
 
 ### 其他
 
-- 更新文档 @Rbqwow @Black1312 @HisAtri
+- i18n: Translations update from MAA Weblate @LiamSho
+- Revert "chore: 兼容旧配置" @moomiji
+- EN infrast workshop and i18n @Constrat
+- tools: ignore templates @Constrat
 
-### For overseas
+#### For overseas
+
+#### YostarJP
+
+- 添加日服生息演算翻译 | Reclamation Algorithm JP (#6340) @THSLP13
 
 #### YostarEN
 
-- new EN Roguelike@ChooseOperConfirm.png @Constrat
-- YostarEN Reclamation Algorithm implementation (#6267) @ABA2396
-
-#### txwy
-
-- 繁中服「敘拉古人」活動導航 @momomochi987
-
-
-### For develops
-
-- 把多镜像下载器应用于Python接口 (#6247) @HisAtri
+- Gadget long name reduction for EN @Constrat
+- docs: YostarEN recommended resolution (#6303) @Constrat
