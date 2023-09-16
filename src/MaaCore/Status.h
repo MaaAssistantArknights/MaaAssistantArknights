@@ -37,6 +37,8 @@ namespace asst
         Status& operator=(Status&& rhs) noexcept = delete;
 
     public:
+        static inline const std::string InfrastAvailableOpersForGroup = "InfrastAvailableOpersForGroup";
+
         static inline const std::string RoguelikeCharElitePrefix = "RoguelikeElite-";
         static inline const std::string RoguelikeCharLevelPrefix = "RoguelikeLevel-";
         static inline const std::string RoguelikeCharRarityPrefix = "RoguelikeRarity-";

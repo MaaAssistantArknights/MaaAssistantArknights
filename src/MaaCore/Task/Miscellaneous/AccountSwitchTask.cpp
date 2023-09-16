@@ -48,28 +48,28 @@ bool asst::AccountSwitchTask::_run()
         current_account = get_current_account_b();
     }
 
-    json::value info = basic_info_with_what("AccountSwitch");
-    info["details"]["current_account"] = current_account;
-    info["details"]["account_name"] = m_account;
-    callback(AsstMsg::SubTaskExtraInfo, info);
-
     if (current_account == m_account) {
         return click_manager_login_button();
     }
     // 展开列表
     show_account_list();
 
-    if (swipe_and_select()) {
+    if (swipe_and_select() || swipe_and_select(true)) {
+        json::value info = basic_info_with_what("AccountSwitch");
+        info["details"]["current_account"] = current_account;
+        info["details"]["account_name"] = m_target_account;
+        callback(AsstMsg::SubTaskExtraInfo, info);
+
         return true;
     }
     else {
-        return swipe_and_select(true);
+        return false;
     }
 }
 
 bool asst::AccountSwitchTask::navigate_to_start_page()
 {
-    auto task = ProcessTask(*this, { "AccountManagerOfficial", "AccountManagerBili", "SwitchAccount@StartUpBegin" });
+    auto task = ProcessTask(*this, { "SwitchAccount@StartUpBegin" });
     task.set_retry_times(30);
     task.run();
     std::string last_name = task.get_last_task_name();
@@ -198,6 +198,7 @@ bool asst::AccountSwitchTask::select_account(std::vector<std::string>& account_l
         }
         std::string text = ocr.get_result().text;
         if (text.find(m_account) != std::string::npos) {
+            m_target_account = std::move(text);
             ctrler()->click(roi);
             return true;
         }
@@ -227,6 +228,7 @@ bool asst::AccountSwitchTask::select_account_b(std::vector<std::string>& account
         }
         std::string text = ocr.get_result().text;
         if (text.find(m_account) != std::string::npos) {
+            m_target_account = std::move(text);
             ctrler()->click(roi);
             return true;
         }

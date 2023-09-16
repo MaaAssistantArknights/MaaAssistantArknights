@@ -51,21 +51,18 @@ namespace MaaWpfGui.Models
 
             if (ret == UpdateResult.Success)
             {
-                Toast();
+                _ = Execute.OnUIThreadAsync(() =>
+                {
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("GameResourceUpdated"));
+                    toast.Show();
+                });
             }
-        }
-
-        public static void Toast()
-        {
-            _ = Execute.OnUIThreadAsync(() =>
-            {
-                using var toast = new ToastNotification(LocalizationHelper.GetString("GameResourceUpdated"));
-                toast.Show();
-            });
         }
 
         public static async Task<UpdateResult> Update()
         {
+            updating = false;
+
             var ret1 = await updateSingleFiles();
             var ret2 = await updateFilesWithIndex();
             ETagCache.Save();
@@ -146,6 +143,8 @@ namespace MaaWpfGui.Models
             return ret;
         }
 
+        private static bool updating = false;
+
         public static async Task<UpdateResult> UpdateFileWithETage(string baseUrl, string file, string saveTo)
         {
             saveTo = Path.Combine(Environment.CurrentDirectory, saveTo);
@@ -181,9 +180,25 @@ namespace MaaWpfGui.Models
                 return UpdateResult.Failed;
             }
 
-            var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-            using var fileStream = new FileStream(saveTo, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true);
-            await stream.CopyToAsync(fileStream).ConfigureAwait(false);
+            if (!updating)
+            {
+                updating = true;
+                _ = Execute.OnUIThreadAsync(() =>
+                {
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("GameResourceUpdated"));
+                    toast.Show();
+                });
+            }
+
+            var tempFile = saveTo + ".tmp";
+            using (var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+            {
+                using var fileStream = new FileStream(tempFile, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true);
+                await stream.CopyToAsync(fileStream).ConfigureAwait(false);
+            }
+
+            File.Copy(tempFile, saveTo, true);
+            File.Delete(tempFile);
 
             ETagCache.Set(url, response.Headers.ETag.Tag);
             return UpdateResult.Success;

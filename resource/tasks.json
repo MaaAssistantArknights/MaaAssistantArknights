@@ -610,6 +610,27 @@
             50
         ]
     },
+    "ChangeToAdverseDifficulty": {
+        "template": "AdverseDifficulty.png",
+        "action": "ClickSelf",
+        "roi": [
+            625,
+            640,
+            80,
+            65
+        ],
+        "maxTimes": 3,
+        "next": [
+            "AdverseConfirm",
+            "#self"
+        ]
+    },
+    "AdverseConfirm": {
+        "baseTask": "ChangeToAdverseDifficulty",
+        "action": "DoNothing",
+        "template": "NormalDifficulty.png",
+        "next": []
+    },
     "Episode": {
         "Doc": "base_task",
         "algorithm": "JustReturn",
@@ -2920,11 +2941,11 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
+            "LoginOther#next",
             "SwitchAccount@StartUpThemes#next",
             "SwitchAccount@LoadingIcon",
             "SwitchAccount@ReturnTo",
-            "Settings",
-            "LoginOther"
+            "Settings"
         ]
     },
     "SwitchAccount": {
@@ -4653,6 +4674,7 @@
     },
     "Award": {
         "template": "Task.png",
+        "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [
             700,
@@ -7021,6 +7043,12 @@
             "Stop"
         ]
     },
+    "BattleQuickFormationCheck": {
+        "baseTask": "BattleQuickFormation",
+        "template": "BattleQuickFormation.png",
+        "action": "DoNothing",
+        "next": []
+    },
     "BattleQuickFormation": {
         "action": "ClickSelf",
         "roi": [
@@ -7100,29 +7128,29 @@
         ],
         "postDelay": 500
     },
-	"BattleQuickFormationFilter-Trust": {
-		"action": "ClickSelf",
-		"roi": [
-			1010,
-			70,
-			35,
-			580
-		],
-		"postDelay": 500,
-		"next": [
-			"BattleQuickFormationFilter-Click2"
-		]
-	},
-	"BattleQuickFormationFilter-Click2": {
-		"action": "ClickSelf",
-		"roi": [
-			1125,
-			60,
-			150,
-			600
-		],
-		"postDelay": 500
-	},
+    "BattleQuickFormationFilter-Trust": {
+        "action": "ClickSelf",
+        "roi": [
+            1010,
+            70,
+            35,
+            580
+        ],
+        "postDelay": 500,
+        "next": [
+            "BattleQuickFormationFilter-Click2"
+        ]
+    },
+    "BattleQuickFormationFilter-Click2": {
+        "action": "ClickSelf",
+        "roi": [
+            1125,
+            60,
+            150,
+            600
+        ],
+        "postDelay": 500
+    },
     "BattleQuickFormationFilterClose": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
@@ -11197,6 +11225,28 @@
     },
     "Sami@Roguelike@GamePassSkip2": {},
     "Sami@Roguelike@GamePassTheEndConfirm": {},
+    "Sami@Roguelike@GetCiphertextBoard": {
+        "template": "Sami@Roguelike@GetCiphertextBoard",
+        "action": "ClickRect",
+        "specificRect": [
+            611,
+            496,
+            60,
+            51
+        ],
+        "postDelay": 500,
+        "roi": [
+            333,
+            201,
+            676,
+            307
+        ],
+        "maskRange": [ 1, 255 ],
+        "next": [
+            "Sami@Roguelike@GetCiphertextBoard",
+            "Sami@Roguelike@SquadConfirm#next"
+        ]
+    },
     "Sami@Roguelike@GetDrop1": {},
     "Sami@Roguelike@GetDrop2": {},
     "Sami@Roguelike@GetDrop3": {},
@@ -11442,7 +11492,8 @@
             "Sami@Roguelike@CloseCollection",
             "Sami@Roguelike@DialogSkip",
             "Sami@Roguelike@NextLevel#next",
-            "Sami@Roguelike@MapObject"
+            "Sami@Roguelike@MapObject",
+            "Sami@Roguelike@GetCiphertextBoard"
         ]
     },
     "Sami@Roguelike@SquadDefault": {},
@@ -13077,6 +13128,45 @@
             410,
             254,
             163
+        ]
+    },
+    "Copilot@ClickCornerUntilFailedOrStartButton": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "Copilot@MissionFailed",
+            "Copilot@BattleStartPreFlag",
+            "Copilot@ClickCornerUntilStartButton"
+        ]
+    },
+    "Copilot@ClickCornerUntilStartButton": {
+        "next": [
+            "Copilot@ClickCornerUntilFailedOrStartButton"
+        ]
+    },
+    "Copilot@MissionFailed": {
+        "Doc": "如果没有三星就终止",
+        "template": "MissionFailed.png",
+        "action": "DoNothing",
+        "roi": [
+            210,
+            290,
+            70,
+            70
+        ],
+        "next_Doc": "主动抛错",
+        "next": [
+            "Copilot@BattleStartPreFlag"
+        ]
+    },
+    "Copilot@BattleStartPreFlag": {
+        "baseTask": "BattleStartPre",
+        "action": "DoNothing",
+        "roi":[
+            0,
+            0,
+            1280,
+            720
         ]
     },
     "ClickCornerUntilStartButton": {
