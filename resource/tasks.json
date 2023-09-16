@@ -11225,6 +11225,28 @@
     },
     "Sami@Roguelike@GamePassSkip2": {},
     "Sami@Roguelike@GamePassTheEndConfirm": {},
+    "Sami@Roguelike@GetCiphertextBoard": {
+        "template": "Sami@Roguelike@GetCiphertextBoard",
+        "action": "ClickRect",
+        "specificRect": [
+            611,
+            496,
+            60,
+            51
+        ],
+        "postDelay": 500,
+        "roi": [
+            333,
+            201,
+            676,
+            307
+        ],
+        "maskRange": [ 1, 255 ],
+        "next": [
+            "Sami@Roguelike@GetCiphertextBoard",
+            "Sami@Roguelike@SquadConfirm#next"
+        ]
+    },
     "Sami@Roguelike@GetDrop1": {},
     "Sami@Roguelike@GetDrop2": {},
     "Sami@Roguelike@GetDrop3": {},
@@ -11470,7 +11492,8 @@
             "Sami@Roguelike@CloseCollection",
             "Sami@Roguelike@DialogSkip",
             "Sami@Roguelike@NextLevel#next",
-            "Sami@Roguelike@MapObject"
+            "Sami@Roguelike@MapObject",
+            "Sami@Roguelike@GetCiphertextBoard"
         ]
     },
     "Sami@Roguelike@SquadDefault": {},
