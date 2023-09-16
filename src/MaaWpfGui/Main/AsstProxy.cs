@@ -530,6 +530,7 @@ namespace MaaWpfGui.Main
                         toast.Show();
                         if (isCoplitTaskChain)
                         {
+                            AsstStop();
                             runningState.SetIdle(true);
                             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
                         }
