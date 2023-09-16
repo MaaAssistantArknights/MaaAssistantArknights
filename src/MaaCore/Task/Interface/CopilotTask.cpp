@@ -115,7 +115,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     m_task_file_reload_task_ptr->set_enable(need_navigate);
 
     // 不使用代理指挥
-    m_not_use_prts_task_ptr->set_enable(need_navigate && with_formation);
+    m_not_use_prts_task_ptr->set_enable(need_navigate);
     m_not_use_prts_task_ptr->set_tasks({ "NotUsePrts", "Stop" });
 
     bool is_adverse = params.get("is_adverse", false);
