@@ -69,12 +69,15 @@
                 <userControl:GUISettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
 
                 <hc:Divider Content="{Binding ListTitle[6]}" />
-                <userControl:HotKeySettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
+                <userControl:ExternalNotificationSettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
 
                 <hc:Divider Content="{Binding ListTitle[7]}" />
-                <userControl:VersionUpdateSettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
+                <userControl:HotKeySettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
 
                 <hc:Divider Content="{Binding ListTitle[8]}" />
+                <userControl:VersionUpdateSettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
+
+                <hc:Divider Content="{Binding ListTitle[9]}" />
                 <userControl:AboutUserControl Margin="0,20" HorizontalAlignment="Center" />
                 <!--<Rectangle HorizontalAlignment="Stretch" Fill="{DynamicResource BorderBrush}" Height="1" />-->
             </StackPanel>

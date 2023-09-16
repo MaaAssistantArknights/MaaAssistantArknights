@@ -2920,11 +2920,11 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
+            "LoginOther#next",
             "SwitchAccount@StartUpThemes#next",
             "SwitchAccount@LoadingIcon",
             "SwitchAccount@ReturnTo",
-            "Settings",
-            "LoginOther"
+            "Settings"
         ]
     },
     "SwitchAccount": {
@@ -4653,6 +4653,7 @@
     },
     "Award": {
         "template": "Task.png",
+        "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [
             700,
@@ -12559,7 +12560,7 @@
         ],
         "specificRect_Doc": "x拿来当文字灰度二值化下限用",
         "specificRect": [
-            100,
+            170,
             0,
             0,
             0

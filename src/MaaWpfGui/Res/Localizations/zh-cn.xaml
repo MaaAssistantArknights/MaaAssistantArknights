@@ -21,6 +21,24 @@
     <system:String x:Key="UpdateSettings">软件更新</system:String>
     <system:String x:Key="AboutUs">关于我们</system:String>
     <system:String x:Key="Version">版本号</system:String>
+    <system:String x:Key="Off">关闭</system:String>
+    <system:String x:Key="ExternalNotificationTips">请注意：外部通知功能目前仅会发送“所有任务完成”的通知。</system:String>
+    <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
+    <system:String x:Key="ExternalNotificationEnabled">启用的通知配置</system:String>
+    <system:String x:Key="ExternalNotificationSendSuccess">发送成功</system:String>
+    <system:String x:Key="ExternalNotificationSendFail">发送失败</system:String>
+    <system:String x:Key="ExternalNotificationSendTest">发送测试</system:String>
+    <system:String x:Key="ExternalNotificationSendTestTitle">MAA 外部通知测试</system:String>
+    <system:String x:Key="ExternalNotificationSendTestContent">这是 MAA 外部通知测试信息。如果你看到了这段内容，就说明通知发送成功了！</system:String>
+    <system:String x:Key="ExternalNotificationServerChanSendKey">[Server Chan] 发送密钥</system:String>
+    <system:String x:Key="ExternalNotificationSmtpServer">[SMTP] 服务器</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPort">[SMTP] 端口</system:String>
+    <system:String x:Key="ExternalNotificationSmtpSsl">[SMTP] 使用 SSL</system:String>
+    <system:String x:Key="ExternalNotificationSmtpAuth">[SMTP] 需要登录</system:String>
+    <system:String x:Key="ExternalNotificationSmtpUser">[SMTP] 用户名</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPassword">[SMTP] 密码</system:String>
+    <system:String x:Key="ExternalNotificationSmtpFrom">[SMTP] 发件人</system:String>
+    <system:String x:Key="ExternalNotificationSmtpTo">[SMTP] 收件人</system:String>
     <!--  设置指引  -->
     <system:String x:Key="TaskSettings">任务设置</system:String>
     <system:String x:Key="SettingsGuide">设置指引</system:String>
@@ -509,6 +527,7 @@
     <system:String x:Key="StartCombat" xml:space="preserve">开始战斗: </system:String>
     <system:String x:Key="CompleteCombat">完成战斗</system:String>
     <system:String x:Key="AllTasksComplete">任务已全部完成！</system:String>
+    <system:String x:Key="AllTaskCompleteContent">MAA 已在 {Datetime} 完成了 {Preset} 配置下所有预设的任务。</system:String>
     <system:String x:Key="BackgroundLinkStarted">开始执行任务</system:String>
     <system:String x:Key="BackgroundLinkStopped">任务终止</system:String>
     <system:String x:Key="FailedToOpenClient">打开客户端失败，请检查配置文件</system:String>
@@ -550,7 +569,7 @@
     <system:String x:Key="Drop" xml:space="preserve">本次掉落: </system:String>
     <system:String x:Key="TotalDrop" xml:space="preserve">掉落统计: </system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">当前设施: </system:String>
-    <system:String x:Key="RoomGroupsMatch" xml:space="preserve">匹配到编组: </system:String>
+    <system:String x:Key="RoomGroupsMatch" xml:space="preserve">匹配编组: </system:String>
     <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">匹配干员编组失败，编组列表: </system:String>
     <system:String x:Key="RoomOperators" xml:space="preserve">首选干员: </system:String>
     <system:String x:Key="ProductIncorrect">产物与配置不相符。</system:String>
@@ -567,7 +586,7 @@
     <system:String x:Key="BattleFormation">开始编队</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">选择干员: </system:String>
     <system:String x:Key="CurrentSteps">当前步骤: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">不支持的关卡，请更新 MAA 软件版本！\n不支持的关卡，请更新 MAA 软件版本！\n不支持的关卡，请更新 MAA 软件版本！\n\n若提示已是最新版本，请尝试检查公测版或内测版。</system:String>
+    <system:String x:Key="UnsupportedLevel">不支持的关卡，请检查关卡名！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">识别结果: </system:String>
     <system:String x:Key="ConnectFailed">连接失败</system:String>
     <system:String x:Key="TryToStartEmulator">正在尝试启动模拟器</system:String>
@@ -624,5 +643,13 @@
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">关卡数据获取成功</system:String>
     <system:String x:Key="GameResourceUpdated">游戏资源已更新，请重启 MAA</system:String>
+    <system:String x:Key="GameResourceUpdating">正在更新游戏资源，请耐心等待</system:String>
     <!--  Api  -->
+    <!--  External Notification -->
+    <system:String x:Key="ExternalNotificationEmailTemplateHello">博士，有新的通知哦！</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">您会收到此邮件，是因为您在 MAA 中设置了 SMTP 服务器并开启了邮件通知服务。</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateFooterLineTwo">此邮件为系统自动发送，请勿回复。</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateLinkOfficialSite">官网</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateLinkCopilotSite">作业站</system:String>
+    <!--  External Notification -->
 </ResourceDictionary>

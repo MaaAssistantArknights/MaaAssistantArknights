@@ -17,10 +17,11 @@
         <TextBox
             Margin="0,5"
             hc:TitleElement.Title="{DynamicResource AccountSwitch}"
+            IsReadOnly="{c:Binding !Idle}"
+            Style="{StaticResource TextBoxExtend}"
             Text="{Binding AccountName, UpdateSourceTrigger=PropertyChanged}"
             ToolTip="{DynamicResource AccountSwitchTip}"
-            Style="{StaticResource TextBoxExtend}"
-            Visibility="{c:Binding '(ClientType == &quot;Official&quot;) or (ClientType == &quot;Bilibili&quot;) or (ClientType == &quot;&quot;)'}"/>
+            Visibility="{c:Binding '(ClientType == &quot;Official&quot;) or (ClientType == &quot;Bilibili&quot;) or (ClientType == &quot;&quot;)'}" />
 
         <CheckBox
             Margin="0,10"

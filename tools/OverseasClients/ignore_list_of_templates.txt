@@ -1,3 +1,12 @@
+AccountManager.png
+AccountManagerBili.png
+AccountManagerListAccount.png
+AccountManagerListAccountBili.png
+AccountManagerLoginButton.png
+AccountManagerLoginButtonBili.png
+AccountManagerOfficial.png
+AccountManagerTrashButton.png
+AccountManagerTrashButtonBili.png
 AddOperatorMfgGentle.png
 AddOperatorTradeGentle.png
 BattleFormationOCRNameFlag.png
@@ -45,6 +54,9 @@ BattleQuickFormationRole-Special.png
 BattleQuickFormationRole-Support.png
 BattleQuickFormationRole-Tank.png
 BattleQuickFormationRole-Warrior.png
+BattleQuickFormationFilter-Click2.png
+BattleQuickFormationFilter-Trust.png
+BattleQuickFormationTrustIcon.png
 BattleSkillReady.png
 BattleSkillReadyOnClick-SquareMap.png
 BattleSkillReadyOnClick.png
@@ -84,6 +96,8 @@ EnterEpisode0.png
 EnterEpisode4.png
 EnterEpisode9.png
 EnterStageIS.png
+ExitOld.png
+ExitOldConfirm.png
 FacilityListTabMfg.png
 FacilityListTabTrade.png
 GachaLastTenTimesResult1.png
@@ -96,6 +110,8 @@ InfrastFilterMenuConfirmButton.png
 InfrastNotification.png
 Loading2.png
 LoadingIcon.png
+Logout.png
+LogoutConfirm.png
 MedicineConfirm.png
 MiningActivityDiggingEnd.png
 Mizuki@Roguelike@Abandon.png
@@ -283,6 +299,7 @@ Sami@Roguelike@TraderCheck.png
 SelectClue.png
 SendClueConfirm.png
 SendClues.png
+Settings.png
 SkipThePreBattlePlotConfirm.png
 SmileyOnDistract.png
 SmileyOnRest.png
@@ -318,4 +335,5 @@ UnableToAgent.png
 UnableToAgent2.png
 UseMedicine.png
 UsePrtsSuccess.png
+UserCenter.png
 UseStone.png

@@ -27,6 +27,7 @@ using HandyControl.Tools.Extension;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
@@ -613,7 +614,17 @@ namespace MaaWpfGui.Main
                     if (isMainTaskQueueAllCompleted)
                     {
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AllTasksComplete"));
-                        using (var toast = new ToastNotification(LocalizationHelper.GetString("AllTasksComplete")))
+                        var allTaskCompleteTitle = LocalizationHelper.GetString("AllTasksComplete");
+                        var allTaskCompleteMessage = LocalizationHelper.GetString("AllTaskCompleteContent");
+
+                        var configurationPreset = ConfigurationHelper.GetValue(ConfigurationKeys.CurrentConfiguration, "Default");
+
+                        allTaskCompleteMessage = allTaskCompleteMessage
+                            .Replace("{Datetime}", DateTime.Now.ToString("U"))
+                            .Replace("{Preset}", configurationPreset);
+
+                        ExternalNotificationService.SendAsync(allTaskCompleteTitle, allTaskCompleteMessage).Wait();
+                        using (var toast = new ToastNotification(allTaskCompleteTitle))
                         {
                             toast.Show();
                         }
@@ -1077,11 +1088,17 @@ namespace MaaWpfGui.Main
                     // 选用xxx组编组
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomGroupsMatch") + subTaskDetails["group"]);
                     break;
+
                 case "CustomInfrastRoomGroupsMatchFailed":
                     // 干员编组匹配失败
                     JArray groups = (JArray)subTaskDetails["groups"];
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomGroupsMatchFailed") + string.Join(", ", groups));
+                    if (groups != null)
+                    {
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomGroupsMatchFailed") + string.Join(", ", groups));
+                    }
+
                     break;
+
                 case "CustomInfrastRoomOperators":
                     string nameStr = string.Empty;
                     foreach (var name in subTaskDetails["names"])
@@ -1123,6 +1140,7 @@ namespace MaaWpfGui.Main
                 case "StageQueueMissionCompleted":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails["stage_code"]} - {subTaskDetails["stars"]} ★", UiLogColor.Info);
                     break;
+
                 case "AccountSwitch":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AccountSwitch") + $" {subTaskDetails["current_account"]} -->> {subTaskDetails["account_name"]}", UiLogColor.Info);
                     break;
