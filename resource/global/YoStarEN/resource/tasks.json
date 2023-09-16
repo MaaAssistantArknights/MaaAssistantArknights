@@ -1182,6 +1182,10 @@
                 "碎石"
             ],
             [
+                "High-Energy Originium Barrel.*",
+                "High-Energy Originium Barrel Bomb"
+            ],
+            [
                 "High-Energy Originium Bomb",
                 "高能源石炸弹"
             ],
@@ -5788,7 +5792,8 @@
     },
     "Reclamation@PrepareAction": {
         "text": [
-            "Prepare for Battle"
+            "Prepare for",
+            "Battle"
         ]
     },
     "Reclamation@ExitLevelConfirm": {

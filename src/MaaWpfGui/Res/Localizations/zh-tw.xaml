@@ -549,7 +549,7 @@
     <system:String x:Key="Drop" xml:space="preserve">本次掉落: </system:String>
     <system:String x:Key="TotalDrop" xml:space="preserve">掉落統計: </system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">當前設施: </system:String>
-    <system:String x:Key="RoomGroupsMatch" xml:space="preserve">匹配到編組: </system:String>
+    <system:String x:Key="RoomGroupsMatch" xml:space="preserve">匹配編組: </system:String>
     <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">匹配幹員編組失敗，編組列表: </system:String>
     <system:String x:Key="RoomOperators" xml:space="preserve">首選幹員: </system:String>
     <system:String x:Key="ProductIncorrect">產物與配置不相符。</system:String>
@@ -566,7 +566,7 @@
     <system:String x:Key="BattleFormation">開始編隊</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">選擇幹員: </system:String>
     <system:String x:Key="CurrentSteps">當前步驟: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">不支援的關卡，請更新 MAA 軟體版本！\n不支援的關卡，請更新 MAA 軟體版本！\n不支援的關卡，請更新 MAA 軟體版本！\n\n若提示已是最新版本，請嘗試檢查開發版或內測版。</system:String>
+    <!--<system:String x:Key="UnsupportedLevel">不支援的關卡，請更新 MAA 軟體版本！\n不支援的關卡，請更新 MAA 軟體版本！\n不支援的關卡，請更新 MAA 軟體版本！\n\n若提示已是最新版本，請嘗試檢查開發版或內測版。</system:String>-->
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">辨識結果: </system:String>
     <system:String x:Key="ConnectFailed">連接失敗</system:String>
     <system:String x:Key="TryToStartEmulator">正在嘗試啟動模擬器</system:String>
@@ -626,4 +626,30 @@
     <system:String x:Key="GameResourceUpdated">遊戲資源已更新，請重啟 MAA</system:String>
     <system:String x:Key="IS3NewSquad4">特訓分隊</system:String>
     <system:String x:Key="Processing">加工站</system:String>
+    <system:String x:Key="AllTaskCompleteContent">MAA 已在 {Datetime} 完成了 {Preset} 配置下所有預設的任務。</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateLinkOfficialSite">官網</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateLinkCopilotSite">作業站</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateHello">博士，有新的通知哦！</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateFooterLineTwo">此郵件為系統自動發送，請勿回復。</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">您會收到此郵件，是因為您在 MAA 中設置了 SMTP 伺服器並開啟了郵件通知服務。</system:String>
+    <system:String x:Key="ExternalNotificationEnabled">啟用的通知配置</system:String>
+    <system:String x:Key="ExternalNotificationSendSuccess">發送成功</system:String>
+    <system:String x:Key="ExternalNotificationSendFail">發送失敗</system:String>
+    <system:String x:Key="ExternalNotificationSendTest">發送測試</system:String>
+    <system:String x:Key="ExternalNotificationSendTestTitle">MAA 外部通知測試</system:String>
+    <system:String x:Key="ExternalNotificationSendTestContent">這是 MAA 外部通知測試資訊。 如果你看到了這段內容，就說明通知發送成功了！</system:String>
+    <system:String x:Key="ExternalNotificationServerChanSendKey">[Server Chan] 發送金鑰</system:String>
+    <system:String x:Key="ExternalNotificationSmtpServer">[SMTP] 伺服器</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPort">[SMTP] 埠</system:String>
+    <system:String x:Key="ExternalNotificationSmtpSsl">[SMTP] 使用 SSL</system:String>
+    <system:String x:Key="ExternalNotificationSmtpAuth">[SMTP] 需要登錄</system:String>
+    <system:String x:Key="ExternalNotificationSmtpUser">[SMTP] 使用者名</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPassword">[SMTP] 密碼</system:String>
+    <system:String x:Key="ExternalNotificationSmtpFrom">[SMTP] 發件者</system:String>
+    <system:String x:Key="Off">關閉</system:String>
+    <system:String x:Key="ExternalNotificationTips">請注意：外部通知功能目前僅會發送「所有任務完成」 的通知。</system:String>
+    <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
+    <system:String x:Key="ExternalNotificationSmtpTo">[SMTP] 收件者</system:String>
+    <system:String x:Key="GameResourceUpdating">正在更新遊戲資源，請耐心等待</system:String>
+    <system:String x:Key="UnsupportedLevel">不支持的關卡，請檢查關卡名！</system:String>
 </ResourceDictionary>

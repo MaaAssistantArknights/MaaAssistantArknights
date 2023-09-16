@@ -20,7 +20,6 @@ using System.Windows;
 using System.Windows.Threading;
 using GlobalHotKey;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Models;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Managers;
@@ -203,6 +202,7 @@ namespace MaaWpfGui.Main
             */
 
             // MessageBox.Show("O(∩_∩)O 拜拜");
+            ETagCache.Save();
             Instances.SettingsViewModel.Sober();
 
             // 关闭程序时清理操作中心中的通知
