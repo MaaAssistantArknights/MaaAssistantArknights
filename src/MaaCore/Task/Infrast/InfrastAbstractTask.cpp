@@ -7,6 +7,7 @@
 #include "Common/AsstMsg.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
+#include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/Ranges.hpp"
@@ -68,11 +69,6 @@ void asst::InfrastAbstractTask::clear_custom_config() noexcept
     m_custom_config.clear();
 }
 
-void asst::InfrastAbstractTask::clear_opers_for_group()
-{
-    m_opers_for_groups.clear();
-}
-
 asst::infrast::CustomRoomConfig& asst::InfrastAbstractTask::current_room_config()
 {
     static infrast::CustomRoomConfig empty;
@@ -96,7 +92,8 @@ bool asst::InfrastAbstractTask::match_operator_groups()
     int swipe_times = 0;
     bool pre_result_no_changes = false, retried = false;
 
-    if (m_opers_for_groups.size() == 0) {
+    auto opers = get_available_oper_for_group();
+    if (opers.size() == 0) {
         std::vector<std::string> temp, pre_temp;
         while (true) {
             if (need_exit()) {
@@ -124,7 +121,7 @@ bool asst::InfrastAbstractTask::match_operator_groups()
             else {
                 pre_result_no_changes = false;
             }
-            m_opers_for_groups.insert(temp.begin(), temp.end());
+            opers.insert(temp.begin(), temp.end());
             pre_temp = temp;
             swipe_of_operlist();
             swipe_times++;
@@ -134,10 +131,9 @@ bool asst::InfrastAbstractTask::match_operator_groups()
     swipe_times = 0;
     // 筛选第一个满足要求的干员组
     for (const auto& oper_group_pair : current_room_config().operator_groups) {
-        if (ranges::all_of(oper_group_pair.second,
-                           [](const std::string& oper) { return m_opers_for_groups.contains(oper); })) {
+        if (ranges::all_of(oper_group_pair.second, [opers](const std::string& oper) { return opers.contains(oper); })) {
 
-            ranges::for_each(oper_group_pair.second, [](const std::string& oper) { m_opers_for_groups.erase(oper); });
+            ranges::for_each(oper_group_pair.second, [&opers](const std::string& oper) { opers.erase(oper); });
             current_room_config().names.insert(current_room_config().names.end(), oper_group_pair.second.begin(),
                                                oper_group_pair.second.end());
 
@@ -147,6 +143,7 @@ bool asst::InfrastAbstractTask::match_operator_groups()
             break;
         }
     }
+    set_available_oper_for_group(std::move(opers));
     // 匹配失败，无分组可用
     if (current_room_config().names.empty() && !current_room_config().operator_groups.empty()) {
         json::value info = basic_info_with_what("CustomInfrastRoomGroupsMatchFailed");
@@ -159,6 +156,33 @@ bool asst::InfrastAbstractTask::match_operator_groups()
         return false;
     }
     return true;
+}
+
+std::set<std::string> asst::InfrastAbstractTask::get_available_oper_for_group()
+{
+    std::set<std::string> opers;
+    const auto& str = status()->get_str(Status::InfrastAvailableOpersForGroup);
+    if (!str) {
+        return opers;
+    }
+    auto ret = json::parse((*str).empty() ? "[]" : *str);
+    if (!ret) {
+        return opers;
+    }
+    auto json_array = json::array(*ret);
+    for (const auto& token : json_array) {
+        opers.emplace(token.as_string());
+    }
+    return opers;
+}
+
+void asst::InfrastAbstractTask::set_available_oper_for_group(std::set<std::string> opers)
+{
+    json::array value;
+    for (const auto& oper : opers) {
+        value.emplace_back(oper);
+    }
+    status()->set_str(Status::InfrastAvailableOpersForGroup, value.dumps());
 }
 
 bool asst::InfrastAbstractTask::on_run_fails()
