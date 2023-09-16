@@ -136,6 +136,7 @@ namespace MaaWpfGui.ViewModels.UI
         private void RunningState_IdleChanged(object sender, bool e)
         {
             Idle = e;
+            TaskSettingDataContext.Idle = e;
         }
 
         protected override void OnInitialActivate()
@@ -272,26 +273,27 @@ namespace MaaWpfGui.ViewModels.UI
                     restartDateTime = restartDateTime.AddDays(1);
                 }
 
-                if (currentTime == restartDateTime)
+                if (currentTime == restartDateTime &&
+                    Instances.SettingsViewModel.CurrentConfiguration != Instances.SettingsViewModel.TimerModels.Timers[i].TimerConfig)
                 {
                     timeToChangeConfig = true;
                     configIndex = i;
                     break;
                 }
 
-                if (currentTime != startTime)
+                // ReSharper disable once InvertIf
+                if (currentTime == startTime)
                 {
-                    continue;
+                    timeToStart = true;
+                    configIndex = i;
+                    break;
                 }
-
-                timeToStart = true;
-                configIndex = i;
-                break;
             }
 
             if (timeToChangeConfig)
             {
-                if (Instances.SettingsViewModel.CustomConfig && (_runningState.GetIdle() || Instances.SettingsViewModel.ForceScheduledStart))
+                if (Instances.SettingsViewModel.CustomConfig &&
+                    (_runningState.GetIdle() || Instances.SettingsViewModel.ForceScheduledStart))
                 {
                     // CurrentConfiguration设置后会重启
                     Instances.SettingsViewModel.CurrentConfiguration = Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig;
@@ -306,6 +308,13 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (Instances.SettingsViewModel.ForceScheduledStart)
             {
+                // 什么时候会遇到这种情况？
+                if (Instances.SettingsViewModel.CustomConfig &&
+                    Instances.SettingsViewModel.CurrentConfiguration != Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig)
+                {
+                    return;
+                }
+
                 if (!_runningState.GetIdle())
                 {
                     await Stop();
@@ -314,12 +323,6 @@ namespace MaaWpfGui.ViewModels.UI
                 if (!Instances.AsstProxy.AsstAppendCloseDown())
                 {
                     AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
-                }
-
-                if (Instances.SettingsViewModel.CustomConfig &&
-                    Instances.SettingsViewModel.CurrentConfiguration != Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig)
-                {
-                    return;
                 }
 
                 ResetFightVariables();
@@ -483,6 +486,7 @@ namespace MaaWpfGui.ViewModels.UI
                 rss = IsStageOpen(rss) ? rss : string.Empty;
             }
 
+            _stage1Fallback = stage1;
             Stage1 = stage1;
             Stage2 = stage2;
             Stage3 = stage3;
@@ -944,6 +948,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             var mode = Instances.SettingsViewModel.ClientType;
             var enable = mode.Length != 0;
+            Instances.SettingsViewModel.AccountName = Instances.SettingsViewModel.AccountName.Trim();
             var accountName = Instances.SettingsViewModel.AccountName;
             return Instances.AsstProxy.AsstAppendStartUp(mode, enable, accountName);
         }
@@ -2056,6 +2061,8 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get
             {
+                Stage1 ??= _stage1Fallback;
+
                 if (!Instances.SettingsViewModel.UseAlternateStage)
                 {
                     return Stage1;
@@ -2121,6 +2128,9 @@ namespace MaaWpfGui.ViewModels.UI
 
             return value;
         }
+
+        /// <remarks>Try to fix: issues#5742. 关卡选择为 null 时的一个补丁，可能是 StageList 改变后，wpf binding 延迟更新的问题。</remarks>
+        private string _stage1Fallback = ConfigurationHelper.GetValue(ConfigurationKeys.Stage1, string.Empty) ?? string.Empty;
 
         private string _stage1 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage1, string.Empty) ?? string.Empty;
 

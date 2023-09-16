@@ -7,6 +7,7 @@
 #include "Common/AsstMsg.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
+#include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/Ranges.hpp"
@@ -91,53 +92,58 @@ bool asst::InfrastAbstractTask::match_operator_groups()
     int swipe_times = 0;
     bool pre_result_no_changes = false, retried = false;
 
-    std::set<std::string> oper_list;
-    std::vector<std::string> temp, pre_temp;
-    while (true) {
-        if (need_exit()) {
-            return false;
-        }
-        temp.clear();
-        if (!get_opers(temp, m_mood_threshold)) {
-            return false;
-        }
-        if (pre_temp == temp) {
-            if (pre_result_no_changes) {
-                Log.warn("partial result is not changed, reset the page");
-                if (retried) {
-                    Log.error("already retring");
-                    break;
+    auto opers = get_available_oper_for_group();
+    if (opers.size() == 0) {
+        std::vector<std::string> temp, pre_temp;
+        while (true) {
+            if (need_exit()) {
+                return false;
+            }
+            temp.clear();
+            if (!get_opers(temp, m_mood_threshold)) {
+                return false;
+            }
+            if (pre_temp == temp) {
+                if (pre_result_no_changes) {
+                    Log.warn("partial result is not changed, reset the page");
+                    if (retried) {
+                        Log.error("already retring");
+                        break;
+                    }
+                    swipe_to_the_left_of_operlist(swipe_times + 1);
+                    swipe_times = 0;
+                    retried = true;
                 }
-                swipe_to_the_left_of_operlist(swipe_times + 1);
-                swipe_times = 0;
-                retried = true;
+                else {
+                    pre_result_no_changes = true;
+                }
             }
             else {
-                pre_result_no_changes = true;
+                pre_result_no_changes = false;
             }
+            opers.insert(temp.begin(), temp.end());
+            pre_temp = temp;
+            swipe_of_operlist();
+            swipe_times++;
         }
-        else {
-            pre_result_no_changes = false;
-        }
-        oper_list.insert(temp.begin(), temp.end());
-        pre_temp = temp;
-        swipe_of_operlist();
-        swipe_times++;
     }
     swipe_to_the_left_of_operlist(swipe_times + 1);
     swipe_times = 0;
     // 筛选第一个满足要求的干员组
-    for (auto it = current_room_config().operator_groups.begin(); it != current_room_config().operator_groups.end();
-         ++it) {
-        if (ranges::all_of(it->second, [oper_list](std::string& oper) { return oper_list.contains(oper); })) {
-            current_room_config().names.insert(current_room_config().names.end(), it->second.begin(), it->second.end());
+    for (const auto& oper_group_pair : current_room_config().operator_groups) {
+        if (ranges::all_of(oper_group_pair.second, [opers](const std::string& oper) { return opers.contains(oper); })) {
+
+            ranges::for_each(oper_group_pair.second, [&opers](const std::string& oper) { opers.erase(oper); });
+            current_room_config().names.insert(current_room_config().names.end(), oper_group_pair.second.begin(),
+                                               oper_group_pair.second.end());
 
             json::value sanity_info = basic_info_with_what("CustomInfrastRoomGroupsMatch");
-            sanity_info["details"]["group"] = it->first;
+            sanity_info["details"]["group"] = oper_group_pair.first;
             callback(AsstMsg::SubTaskExtraInfo, sanity_info);
             break;
         }
     }
+    set_available_oper_for_group(std::move(opers));
     // 匹配失败，无分组可用
     if (current_room_config().names.empty() && !current_room_config().operator_groups.empty()) {
         json::value info = basic_info_with_what("CustomInfrastRoomGroupsMatchFailed");
@@ -150,6 +156,33 @@ bool asst::InfrastAbstractTask::match_operator_groups()
         return false;
     }
     return true;
+}
+
+std::set<std::string> asst::InfrastAbstractTask::get_available_oper_for_group()
+{
+    std::set<std::string> opers;
+    const auto& str = status()->get_str(Status::InfrastAvailableOpersForGroup);
+    if (!str) {
+        return opers;
+    }
+    auto ret = json::parse((*str).empty() ? "[]" : *str);
+    if (!ret) {
+        return opers;
+    }
+    auto json_array = json::array(*ret);
+    for (const auto& token : json_array) {
+        opers.emplace(token.as_string());
+    }
+    return opers;
+}
+
+void asst::InfrastAbstractTask::set_available_oper_for_group(std::set<std::string> opers)
+{
+    json::array value;
+    for (const auto& oper : opers) {
+        value.emplace_back(oper);
+    }
+    status()->set_str(Status::InfrastAvailableOpersForGroup, value.dumps());
 }
 
 bool asst::InfrastAbstractTask::on_run_fails()
