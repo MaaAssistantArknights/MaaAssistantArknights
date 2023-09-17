@@ -165,11 +165,7 @@ std::set<std::string> asst::InfrastAbstractTask::get_available_oper_for_group()
     if (!str) {
         return opers;
     }
-    auto ret = json::parse((*str).empty() ? "[]" : *str);
-    if (!ret) {
-        return opers;
-    }
-    auto json_array = json::array(*ret);
+    auto json_array = json::array(json::parse(*str).value_or(json::value(json::array())));
     for (const auto& token : json_array) {
         opers.emplace(token.as_string());
     }
