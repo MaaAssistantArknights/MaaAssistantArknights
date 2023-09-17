@@ -15,11 +15,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace MaaWpfGui.Helper
 {
     public class ETagCache
     {
+        private static readonly ILogger _logger = Log.ForContext<ETagCache>();
+
         private static readonly string _cacheFile = Path.Combine(Environment.CurrentDirectory, "cache/etag.json");
         private static Dictionary<string, string> _cache;
 
@@ -36,9 +39,13 @@ namespace MaaWpfGui.Helper
                 var jsonStr = File.ReadAllText(_cacheFile);
                 _cache = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonStr);
             }
-            catch
+            catch (Exception e)
             {
-                _cache = new Dictionary<string, string>();
+                _logger.Error(e.Message);
+            }
+            finally
+            {
+                _cache ??= new Dictionary<string, string>();
             }
         }
 
