@@ -109,9 +109,10 @@
                     "name": "假日威龙陈",
                     "skill": 3,
                     "alternate_skill": 1,
-                    "recruit_priority": 830,
+                    "recruit_priority": 829,
                     "promote_priority": 990,
-                    "is_key": true
+                    "is_key": true,
+                    "is_start": true
                 }
             ]
         },
@@ -2010,6 +2011,7 @@
                     "skill_usage": 2,
                     "skill_times": 1,
                     "is_key": true,
+                    "is_start": true,
                     "recruit_priority": 626,
                     "promote_priority": 750
                 },
@@ -2035,8 +2037,8 @@
                 {
                     "name": "提丰",
                     "skill": 2,
-                    "recruit_priority": 829,
-                    "promote_priority": 890,
+                    "recruit_priority": 830,
+                    "promote_priority": 910,
                     "is_key": true,
                     "is_start": true
                 }
