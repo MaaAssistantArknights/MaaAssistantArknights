@@ -1,4 +1,7 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
     <system:String x:Key="GeneralSettings">一般設定</system:String>
@@ -651,6 +654,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="ExternalNotificationSmtpFrom">[SMTP] 送信者</system:String>
     <system:String x:Key="ExternalNotificationSmtpTo">[SMTP] 受信者</system:String>
     <system:String x:Key="UnsupportedLevel">サポートされていないレベルは、レベル名を確認してください!</system:String>
+    <system:String x:Key="GameResourceUpdating">ゲームリソースが更新中です。MAAを閉じないでください。</system:String>
     <system:String x:Key="GameResourceUpdated">ゲームリソースが更新されました。MAAを再起動してください</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateHello">ドクター、新しいお知らせがあります!</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">このメッセージが表示されるのは、MAA で SMTP サーバーをセットアップし、メール通知サービスを有効にしているためです。</system:String>

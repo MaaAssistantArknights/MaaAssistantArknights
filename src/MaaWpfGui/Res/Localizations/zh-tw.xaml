@@ -1,4 +1,7 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  .Net 8  -->
     <system:String x:Key="Dotnet8">MAA 即將升級，升級後的版本不支援未安裝 .NET 8.0 執行時 的電腦，需要您手動前往下載。\n\n同時，我們將不再支援 Windows 7 作業系統。\n\n如果您點擊 '是'，我們將為您打開新的執行時下載連結。如果您點擊 '否'，我們將停用您的自動下載功能，以防止不必要的軟體更新。如果您選擇停用自動下載，您仍然可以在軟體設定中手動重新開啟此功能。</system:String>
     <system:String x:Key="Dotnet8Caption">軟體版本升級及支援變更</system:String>
@@ -660,6 +663,6 @@
     <system:String x:Key="ExternalNotificationTips">請注意：外部通知功能目前僅會發送「所有任務完成」 的通知。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
     <system:String x:Key="ExternalNotificationSmtpTo">[SMTP] 收件者</system:String>
-    <system:String x:Key="GameResourceUpdating">正在更新遊戲資源，請耐心等待</system:String>
+    <system:String x:Key="GameResourceUpdating">遊戲資源正在更新，請勿關閉 MAA</system:String>
     <system:String x:Key="UnsupportedLevel">不支持的關卡，請檢查關卡名！</system:String>
 </ResourceDictionary>
