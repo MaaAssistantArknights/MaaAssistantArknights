@@ -627,7 +627,7 @@ namespace MaaWpfGui.Main
                             .Replace("{Datetime}", DateTime.Now.ToString("U"))
                             .Replace("{Preset}", configurationPreset);
 
-                        ExternalNotificationService.SendAsync(allTaskCompleteTitle, allTaskCompleteMessage).Wait();
+                        ExternalNotificationService.Send(allTaskCompleteTitle, allTaskCompleteMessage);
                         using (var toast = new ToastNotification(allTaskCompleteTitle))
                         {
                             toast.Show();

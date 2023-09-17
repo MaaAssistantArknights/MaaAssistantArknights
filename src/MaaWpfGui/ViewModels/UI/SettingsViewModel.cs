@@ -152,9 +152,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region External Notifications
 
-        public async Task ExternalNotificationSendTest()
+        public void ExternalNotificationSendTest()
         {
-            await ExternalNotificationService.SendAsync(
+            ExternalNotificationService.Send(
                 LocalizationHelper.GetString("ExternalNotificationSendTestTitle"),
                 LocalizationHelper.GetString("ExternalNotificationSendTestContent"),
                 true);
