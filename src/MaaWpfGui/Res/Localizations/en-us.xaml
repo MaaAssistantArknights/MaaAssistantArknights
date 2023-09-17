@@ -446,6 +446,10 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="AddTrust">Add low-trust operators</system:String>
     <system:String x:Key="AddUserAdditional">Add custom operators</system:String>
     <system:String x:Key="AddUserAdditionalTip">Use ";" as the separator, "," to separate the operator name and skills, for example: W, 3; Ash, 2</system:String>
+    <system:String x:Key="UseCopilotList">Battle list</system:String>
+    <system:String x:Key="UseCopilotListTip">Please switch to the level selection page before starting</system:String>
+    <system:String x:Key="CopilotAddTask">Right click to add raid difficulty</system:String>
+    <system:String x:Key="CopilotClearTask">Right click to clear inactive tasks</system:String>
     <system:String x:Key="LoopTimes">Loop Times</system:String>
     <system:String x:Key="Start">Start</system:String>
     <system:String x:Key="VideoLink">Video Link</system:String>
@@ -459,6 +463,12 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
         Please start on the 「Start Deployment」 screen after manual formation (can be used with 「Loop Times」)\n\n
         5. Video recognition is now supported, please drag the strategy video to use.\n
         The video aspect ratio needs to be 16:9 without interference factors such as black borders, emulator borders special shapes and screen corrections.\n\n
+        6. Battle list:\n
+        After selecting the job, check that the level name below the list is correct (eg: CV-EX-1). \n
+        Add: Left click to add normal difficulty, right click to add raid difficulty. \n
+        Clear: Left click to clear the list, right click to remove only inactive tasks. \n
+        Before starting, you need to switch to the level selection interface. Cross-chapter navigation is not supported. \n
+        The operation will be terminated when encountering insufficient sanity, losing the battle, or failing to settle with three stars. \n\n
     </system:String>
     <system:String x:Key="CopilotFileReadError">Failed to read file!</system:String>
     <system:String x:Key="CopilotNoFound">No corresponding file found!</system:String>
