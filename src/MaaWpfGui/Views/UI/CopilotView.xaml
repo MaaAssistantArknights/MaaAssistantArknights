@@ -154,7 +154,7 @@
                 <Border
                     Grid.Row="3"
                     Width="200"
-                    Margin="0,10,0,0"
+                    Margin="0,10,0,2"
                     BorderBrush="{DynamicResource BorderBrush}"
                     BorderThickness="1"
                     CornerRadius="4"
