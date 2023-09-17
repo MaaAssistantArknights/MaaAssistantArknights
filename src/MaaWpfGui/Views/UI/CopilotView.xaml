@@ -30,63 +30,66 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <StackPanel
-            Grid.Row="0"
-            Margin="0,10,0,0"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top"
-            Orientation="Vertical">
-            <controls:TextBlock
-                Margin="10"
-                Block.TextAlignment="Center"
-                Text="{DynamicResource CopilotLocation}" />
-            <Grid Width="300" Margin="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <ComboBox
-                    Height="30"
-                    hc:BorderElement.CornerRadius="4,0,0,4"
-                    DropDownOpened="{s:Action OnDropDownOpened}"
-                    IsEditable="True"
-                    IsReadOnly="{c:Binding Path=!Idle}"
-                    Text="{Binding Filename}" />
-                <Button
-                    Grid.Column="1"
-                    Height="30"
-                    hc:BorderElement.CornerRadius="0,0,0,0"
-                    hc:IconElement.Geometry="{StaticResource SearchGeometry}"
-                    BorderThickness="0,1,1,1"
-                    Command="{s:Action SelectFile}"
-                    IsEnabled="{Binding Idle}"
-                    Style="{StaticResource ButtonDefault}"
-                    ToolTip="{DynamicResource SelectTheFileTip}" />
-                <Button
-                    Grid.Column="2"
-                    Height="30"
-                    hc:BorderElement.CornerRadius="0,4,4,0"
-                    hc:IconElement.Geometry="{StaticResource PasteGeometry}"
-                    BorderThickness="0,1,1,1"
-                    Command="{s:Action PasteClipboard}"
-                    IsEnabled="{Binding Idle}"
-                    Style="{StaticResource ButtonDefault}"
-                    ToolTip="{DynamicResource PasteClipboardTip}" />
-            </Grid>
+        <Grid Margin="0,20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackPanel
+                Grid.Row="0"
+                HorizontalAlignment="Center"
+                Orientation="Vertical">
+                <controls:TextBlock
+                    Margin="10,0"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource CopilotLocation}" />
+                <Grid Width="300" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ComboBox
+                        Height="30"
+                        hc:BorderElement.CornerRadius="4,0,0,4"
+                        DropDownOpened="{s:Action OnDropDownOpened}"
+                        IsEditable="True"
+                        IsReadOnly="{c:Binding Path=!Idle}"
+                        Text="{Binding Filename}" />
+                    <Button
+                        Grid.Column="1"
+                        Height="30"
+                        hc:BorderElement.CornerRadius="0,0,0,0"
+                        hc:IconElement.Geometry="{StaticResource SearchGeometry}"
+                        BorderThickness="0,1,1,1"
+                        Command="{s:Action SelectFile}"
+                        IsEnabled="{Binding Idle}"
+                        Style="{StaticResource ButtonDefault}"
+                        ToolTip="{DynamicResource SelectTheFileTip}" />
+                    <Button
+                        Grid.Column="2"
+                        Height="30"
+                        hc:BorderElement.CornerRadius="0,4,4,0"
+                        hc:IconElement.Geometry="{StaticResource PasteGeometry}"
+                        BorderThickness="0,1,1,1"
+                        Command="{s:Action PasteClipboard}"
+                        IsEnabled="{Binding Idle}"
+                        Style="{StaticResource ButtonDefault}"
+                        ToolTip="{DynamicResource PasteClipboardTip}" />
+                </Grid>
+            </StackPanel>
 
-            <Grid Height="280" Margin="0,5,0,0">
+            <Grid Grid.Row="1" Margin="0,5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0" HorizontalAlignment="Center">
+                <Grid Grid.Row="0" HorizontalAlignment="Center" Margin="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" MinWidth="100" />
                         <ColumnDefinition Width="Auto" />
@@ -111,7 +114,7 @@
                 </Grid>
                 <Grid
                     Grid.Row="1"
-                    Margin="0,10,0,-2"
+                    Margin="0,5"
                     HorizontalAlignment="Center"
                     Visibility="{c:Binding Form}">
                     <Grid.ColumnDefinitions>
@@ -128,7 +131,6 @@
                         IsHitTestVisible="{Binding Idle}"
                         ToolTip="{DynamicResource AddUserAdditionalTip}"
                         Visibility="{c:Binding Form}" />
-
                     <TextBox
                         Grid.Column="1"
                         MinWidth="150"
@@ -144,17 +146,35 @@
                 </Grid>
                 <CheckBox
                     Grid.Row="2"
-                    Margin="0,12,0,0"
+                    Margin="0,5"
                     HorizontalAlignment="Center"
                     Content="{DynamicResource UseCopilotList}"
                     IsChecked="{Binding UseCopilotList}"
                     IsEnabled="{Binding Idle}"
                     IsHitTestVisible="{Binding Idle}"
                     ToolTip="{DynamicResource UseCopilotListTip}" />
-                <Border
+                <StackPanel
                     Grid.Row="3"
+                    HorizontalAlignment="Center"
+                    IsEnabled="{Binding Idle}"
+                    Orientation="Horizontal"
+                    Visibility="{c:Binding !UseCopilotList}">
+                    <CheckBox
+                        Margin="0,0,10,0"
+                        VerticalContentAlignment="Center"
+                        Content="{DynamicResource LoopTimes}"
+                        IsChecked="{Binding Loop}" />
+                    <TextBox
+                        Width="60"
+                        Height="30"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        InputMethod.IsInputMethodEnabled="False"
+                        Text="{Binding LoopTimes}" />
+                </StackPanel>
+                <Border
+                    Grid.Row="4"
                     Width="200"
-                    Margin="0,10,0,2"
                     BorderBrush="{DynamicResource BorderBrush}"
                     BorderThickness="1"
                     CornerRadius="4"
@@ -182,7 +202,7 @@
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
                                         <!--<maa:TextBlock  Text="{Binding ID}" />
-                                        <maa:TextBlock  Text=". " />-->
+                            <maa:TextBlock  Text=". " />-->
                                         <CheckBox
                                             Grid.Column="0"
                                             Content="{c:Binding Name}"
@@ -231,30 +251,27 @@
                         </Grid>
                     </Grid>
                 </Border>
-                <StackPanel
-                    Grid.Row="4"
-                    Margin="0,5,0,0"
-                    HorizontalAlignment="Center"
-                    IsEnabled="{Binding Idle}"
-                    Orientation="Horizontal"
-                    Visibility="{c:Binding !UseCopilotList}">
-                    <CheckBox
-                        Margin="0,0,10,0"
-                        VerticalContentAlignment="Center"
-                        Content="{DynamicResource LoopTimes}"
-                        IsChecked="{Binding Loop}" />
-                    <TextBox
-                        Width="60"
-                        Height="30"
-                        HorizontalContentAlignment="Center"
-                        VerticalContentAlignment="Center"
-                        InputMethod.IsInputMethodEnabled="False"
-                        Text="{Binding LoopTimes}" />
-                </StackPanel>
 
+            </Grid>
+
+            <StackPanel Grid.Row="2" VerticalAlignment="Bottom">
+                <Grid HorizontalAlignment="Center">
+                    <Button
+                        Width="120"
+                        Height="50"
+                        Command="{s:Action Start}"
+                        Content="{DynamicResource Start}"
+                        IsEnabled="{c:Binding StartEnabled}"
+                        Visibility="{c:Binding Idle}" />
+                    <Button
+                        Width="120"
+                        Height="50"
+                        Command="{s:Action Stop}"
+                        Content="{DynamicResource Stop}"
+                        Visibility="{c:Binding !Idle}" />
+                </Grid>
                 <controls:TextBlock
-                    Grid.Row="5"
-                    Margin="5,15,5,5"
+                    Margin="0,10,0,0"
                     Block.TextAlignment="Center"
                     Visibility="{c:Binding !UseCopilotList}">
                     <Hyperlink
@@ -264,11 +281,7 @@
                         <TextBlock Text="{Binding UrlText}" />
                     </Hyperlink>
                 </controls:TextBlock>
-                <controls:TextBlock
-                    Grid.Row="6"
-                    Margin="5,5,5,30"
-                    Block.TextAlignment="Center"
-                    Visibility="{c:Binding !UseCopilotList}">
+                <controls:TextBlock Margin="0,5,0,0" Block.TextAlignment="Center">
                     <Hyperlink
                         Cursor="Hand"
                         NavigateUri="{Binding Source={x:Static constants:MaaUrls.MapPrts}}"
@@ -276,30 +289,8 @@
                         <TextBlock Text="{DynamicResource MapPrts}" />
                     </Hyperlink>
                 </controls:TextBlock>
-
-            </Grid>
-            <Grid Margin="0,10,0,0" HorizontalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Button
-                    Grid.Column="1"
-                    Width="120"
-                    Height="50"
-                    Command="{s:Action Start}"
-                    Content="{DynamicResource Start}"
-                    IsEnabled="{c:Binding StartEnabled}"
-                    Visibility="{c:Binding Idle}" />
-                <Button
-                    Grid.Column="1"
-                    Width="120"
-                    Height="50"
-                    Command="{s:Action Stop}"
-                    Content="{DynamicResource Stop}"
-                    Visibility="{c:Binding !Idle}" />
-            </Grid>
-        </StackPanel>
+            </StackPanel>
+        </Grid>
 
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
