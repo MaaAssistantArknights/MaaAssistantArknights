@@ -33,5 +33,6 @@ namespace asst
 
         bool is_official = false, is_bili = false;
         std::string m_account;
+        std::string m_target_account;
     };
 }
