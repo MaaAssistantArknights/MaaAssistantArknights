@@ -16,6 +16,8 @@
 ### 修复
 
 - 修复因部分皮肤造成的关卡难度识别问题 (#6309) @zzyyyl
+- 修复肉鸽某些开局干员精二后首次进入关卡时不选三技能的问题 @AnnoyingFlowers
+- 修复更新资源下载异常，及检查更新按钮过早亮起的问题 @MistEO
 
 ### 其他
 
@@ -27,6 +29,11 @@
 
 - new EN Roguelike@ChooseOperConfirm.png @Constrat
 - YostarEN Reclamation Algorithm implementation (#6267) @ABA2396
+
+#### txwy
+
+- 繁中服「敘拉古人」活動導航 @momomochi987
+
 
 ### For develops
 

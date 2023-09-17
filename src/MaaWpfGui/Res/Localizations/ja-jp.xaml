@@ -244,7 +244,7 @@
     <system:String x:Key="CustomStageCode">ステージ名を入力する</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">(テスト機能)ステージ名と番号（例: 4-10、AP-5、H10-1-Hardなど）
 の両方がサポートされています。レベルの最後に「Normal/Hard」を入力することで、標準から強襲/厄難に難易度を切り替えることができます</system:String>
-<!--ワンタイム代理SS一般パスとして「SSReopen-XX」を入力できます</system:String>-->
+    <!--ワンタイム代理SS一般パスとして「SSReopen-XX」を入力できます</system:String>-->
     <system:String x:Key="AutoDetectConnection">接続自動認識</system:String>
     <system:String x:Key="AutoDetectConnectionTip">このチェックボックスは、検出が完了するたびに自動的にチェックが外れますが、再検出が必要な場合は再度チェックを入れることができます</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">毎回再検出する</system:String>
@@ -438,6 +438,10 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="AddTrust">信頼性の低いオペレーターを追加する</system:String>
     <system:String x:Key="AddUserAdditional">カスタム戦術要員の追加</system:String>
     <system:String x:Key="AddUserAdditionalTip">使用「;」オペレータ名とスキルを区切るには、区切り文字として「,」を使用します。例: W, 3; Ash, 2</system:String>
+    <system:String x:Key="UseCopilotList">バトルリスト</system:String>
+    <system:String x:Key="UseCopilotListTip">開始前にレベル選択ページに切り替えてください</system:String>
+    <system:String x:Key="CopilotAddTask">右クリックしてレイドの難易度を追加します</system:String>
+    <system:String x:Key="CopilotClearTask">右クリックして非アクティブなタスクをクリアします</system:String>
     <system:String x:Key="LoopTimes">ループ回数</system:String>
     <system:String x:Key="Start">開始</system:String>
     <system:String x:Key="VideoLink">映像へのハイパーリンク</system:String>
@@ -451,6 +455,12 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
         手動形成後、「開始デプロイメント」画面から開始してください（「ループ回数」で使用可能）。\n\n
         5. ビデオ認識もサポートされており、ガイドビデオをドラッグして使用できます。\n
         ビデオ解像度は16:9必須。黒枠、エミュレーター枠、特殊な形状、画面効果などが無いことを確認してください。\n\n
+        6. バトルリスト:\n
+        ジョブを選択した後、リストの下のレベル名が正しいことを確認してください (例: CV-EX-1)。 \n
+        追加: 左クリックしてノーマル難易度を追加し、右クリックしてレイド難易度を追加します。\n
+        クリア: 左クリックするとリストがクリアされ、右クリックすると非アクティブなタスクのみが削除されます。\n
+        開始する前に、レベル選択インターフェースに切り替える必要があります。章間のナビゲーションはサポートされていません。\n
+        正気度が不十分な場合、戦闘が失敗した場合、または 3 つ星を解決できない場合、アクションは終了します。 \n\n
     </system:String>
     <system:String x:Key="CopilotFileReadError">ファイルの読み取りに失敗しました！</system:String>
     <system:String x:Key="CopilotNoFound">対応する攻略ファイルが見つかりません！</system:String>
@@ -556,7 +566,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="BattleFormation">編成開始</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">オペレーターを選択: </system:String>
     <system:String x:Key="CurrentSteps">現在の手順: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">サポートされていないレベルです。MAAソフトウェアのバージョンを更新してください！\nサポートされていないレベルです。MAAソフトウェアのバージョンを更新してください！\nサポートされていないレベルです。MAAソフトウェアのバージョンを更新してください！\n\n最新バージョンがすでにインストールされているとプロンプトが表示された場合は、開発版またはベータ版を確認してみてください。</system:String>
+    <!--<system:String x:Key="UnsupportedLevel">サポートされていないレベルです。MAAソフトウェアのバージョンを更新してください！\nサポートされていないレベルです。MAAソフトウェアのバージョンを更新してください！\nサポートされていないレベルです。MAAソフトウェアのバージョンを更新してください！\n\n最新バージョンがすでにインストールされているとプロンプトが表示された場合は、開発版またはベータ版を確認してみてください。</system:String>-->
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">認識結果: </system:String>
     <system:String x:Key="ConnectFailed">接続失敗</system:String>
     <system:String x:Key="TryToStartEmulator">エミュレータを起動しようとしています</system:String>
@@ -616,4 +626,34 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="IS3NewSquad3">科学主義分隊</system:String>
     <system:String x:Key="IS3NewSquad4">特訓分隊</system:String>
     <system:String x:Key="IS3NewSquad2">生活至上分隊</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateLinkOfficialSite">公式サイト</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateLinkCopilotSite">Copilot（中国語）</system:String>
+    <system:String x:Key="AllTaskCompleteContent">MAA は、{Datetime} の {Preset} 構成の下にあるすべてのプリセット タスクを完了しました。</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateFooterLineTwo">このメールは自動的に送信されますので、返信しないでください。</system:String>
+    <system:String x:Key="Dotnet8">アップグレード版は、.NET 8.0ランタイムがインストールされていないコンピュータをサポートしないため、手動でダウンロードする必要があります。 \n\nその間に、Windows 7オペレーティングシステムはサポートされなくなります。 \n\n「はい」をクリックすると、新しいランタイムのダウンロード・リンクを開きます。 「いいえ」をクリックすると、不要なソフトウェア更新を防ぐために自動ダウンロードを無効にします。 自動ダウンロードを無効にした場合でも、ソフトウェア設定でこの機能を手動で再度有効にすることができます。</system:String>
+    <system:String x:Key="Dotnet8Caption">ソフトウェアバージョンのアップグレードとサポートの変更</system:String>
+    <system:String x:Key="ExternalNotificationEnabled">通知構成の有効化</system:String>
+    <system:String x:Key="ExternalNotificationSendSuccess">正常に送信</system:String>
+    <system:String x:Key="ExternalNotificationSendFail">送信に失敗しました</system:String>
+    <system:String x:Key="ExternalNotificationSendTest">テストを送信する</system:String>
+    <system:String x:Key="ExternalNotificationSendTestTitle">MAA 外部通知テスト</system:String>
+    <system:String x:Key="ExternalNotificationSendTestContent">これは MAA 外部通知テスト情報です。 このコンテンツが表示された場合、通知は正常に送信されました。</system:String>
+    <system:String x:Key="ExternalNotificationServerChanSendKey">[ServerChan] Send Key</system:String>
+    <system:String x:Key="ExternalNotificationSmtpServer">[SMTP] サーバ</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPort">[SMTP] ポート</system:String>
+    <system:String x:Key="ExternalNotificationTips">注:外部通知機能は現在、「すべてのタスクが完了しました」という通知のみを送信します。</system:String>
+    <system:String x:Key="Off">シャットダウン</system:String>
+    <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
+    <system:String x:Key="ExternalNotificationSmtpSsl">[SMTP] SSL を使用します</system:String>
+    <system:String x:Key="ExternalNotificationSmtpAuth">[SMTP] ログインが必要です</system:String>
+    <system:String x:Key="ExternalNotificationSmtpUser">[SMTP] ユーザー名</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPassword">[SMTP] パスワード</system:String>
+    <system:String x:Key="ExternalNotificationSmtpFrom">[SMTP] 送信者</system:String>
+    <system:String x:Key="ExternalNotificationSmtpTo">[SMTP] 受信者</system:String>
+    <system:String x:Key="UnsupportedLevel">サポートされていないレベルは、レベル名を確認してください!</system:String>
+    <system:String x:Key="GameResourceUpdated">ゲームリソースが更新されました。MAAを再起動してください</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateHello">ドクター、新しいお知らせがあります!</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">このメッセージが表示されるのは、MAA で SMTP サーバーをセットアップし、メール通知サービスを有効にしているためです。</system:String>
+    <system:String x:Key="GameResourceUpdating">ゲームリソースは更新されていますので、しばらくお待ちください</system:String>
+    <system:String x:Key="Processing">処理ステーション</system:String>
 </ResourceDictionary>

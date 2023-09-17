@@ -1,3 +1,16 @@
+// <copyright file="ETagCache.cs" company="MaaAssistantArknights">
+// MaaWpfGui - A part of the MaaCoreArknights project
+// Copyright (C) 2021 MistEO and Contributors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY
+// </copyright>
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,8 +31,15 @@ namespace MaaWpfGui.Helper
                 return;
             }
 
-            var jsonStr = File.ReadAllText(_cacheFile);
-            _cache = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(jsonStr);
+            try
+            {
+                var jsonStr = File.ReadAllText(_cacheFile);
+                _cache = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonStr);
+            }
+            catch
+            {
+                _cache = new Dictionary<string, string>();
+            }
         }
 
         public static void Save()
@@ -30,12 +50,12 @@ namespace MaaWpfGui.Helper
 
         public static string Get(string url)
         {
-            if (_cache.ContainsKey(url))
+            if (url is null)
             {
-                return _cache[url];
+                return string.Empty;
             }
 
-            return string.Empty;
+            return _cache.TryGetValue(url, out string ret) ? ret : string.Empty;
         }
 
         public static void Set(string url, string etag)
