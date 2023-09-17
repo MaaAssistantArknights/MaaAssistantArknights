@@ -185,7 +185,7 @@ namespace MaaWpfGui.Models
                 updating = true;
                 _ = Execute.OnUIThreadAsync(() =>
                 {
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("GameResourceUpdated"));
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("GameResourceUpdating"));
                     toast.Show();
                 });
             }
