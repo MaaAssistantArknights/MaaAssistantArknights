@@ -3994,7 +3994,8 @@
                 "l",
                 "1"
             ]
-        ]
+        ],
+        "preDelay": 300
     },
     "UseMedicine": {
         "action": "DoNothing",

@@ -40,11 +40,18 @@ void asst::SanityBeforeStagePlugin::get_sanity()
 {
     LogTraceFunction;
 
-    RegionOCRer analyzer(ctrler()->get_image());
+    sleep(Task.get("SanityMatch")->pre_delay);
+
+    auto img = ctrler()->get_image();
+    RegionOCRer analyzer(img);
     analyzer.set_task_info("SanityMatch");
 
     if (!analyzer.analyze()) {
         Log.info(__FUNCTION__, "Current Sanity analyze failed");
+
+        cv::rectangle(img, make_rect<cv::Rect>(Task.get("SanityMatch")->roi), cv::Scalar(0, 0, 255), 2);
+        std::string stem = utils::get_time_filestem();
+        imwrite(utils::path("debug") / utils::path("sanity") / (stem + "_failed_img.png"), img);
         return;
     }
     std::string text = analyzer.get_result().text;
