@@ -54,9 +54,14 @@ namespace MaaWpfGui.Helper
 
             _logger.Debug("Read configuration key {Key} with default value {DefaultValue}, configuration hit: {HasValue}, configuration value {Value}", key, defaultValue, hasValue, value);
 
-            return hasValue
-                ? value
-                : defaultValue;
+            if (hasValue)
+            {
+                return value;
+            }
+
+            // return hasValue ? value : defaultValue;
+            SetValue(key, defaultValue);
+            return defaultValue;
         }
 
         public static string GetGlobalValue(string key, string defaultValue)
