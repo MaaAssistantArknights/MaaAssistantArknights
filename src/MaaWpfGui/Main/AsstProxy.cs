@@ -1063,7 +1063,7 @@ namespace MaaWpfGui.Main
 
                     break;
                 case "CopilotListLoadTaskFileSuccess":
-                    Instances.CopilotViewModel.AddLog("Parse " + subTaskDetails["stage_name"].ToString() + " Success");
+                    Instances.CopilotViewModel.AddLog($"Parse {subTaskDetails["file_name"]}[{subTaskDetails["stage_name"]}] Success");
                     break;
                 case "CopilotListEnterSuccess":
                     Instances.CopilotViewModel.EnterCopilotTask();
