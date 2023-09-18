@@ -202,7 +202,7 @@
                 "铸铁"
             ],
             [
-                "Swire",
+                "^Swire$",
                 "诗怀雅"
             ],
             [
@@ -586,7 +586,7 @@
                 "芬"
             ],
             [
-                "Yato",
+                "^Yato$",
                 "夜刀"
             ],
             [
@@ -666,7 +666,7 @@
                 "梅"
             ],
             [
-                "Executor",
+                "^Executor$",
                 "送葬人"
             ],
             [
@@ -722,7 +722,7 @@
                 "流星"
             ],
             [
-                "Jessica",
+                "^Jessica$",
                 "杰西卡"
             ],
             [
@@ -858,7 +858,7 @@
                 "卡缇"
             ],
             [
-                "Noir Corne",
+                "^Noir Corne$",
                 "黑角"
             ],
             [
@@ -954,7 +954,7 @@
                 "夜魔"
             ],
             [
-                "Eyjafjalla",
+                "^Eyjafjalla$",
                 "艾雅法拉"
             ],
             [
@@ -1928,6 +1928,10 @@
             [
                 "Combat Readiness Station",
                 "备勤激活站"
+            ],
+            [
+                "Terra Research.*",
+                "Terra Research Commission"
             ],
             [
                 "Terra Research Commission",
