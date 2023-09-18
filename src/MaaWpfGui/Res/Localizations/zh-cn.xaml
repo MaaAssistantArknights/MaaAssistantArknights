@@ -336,8 +336,8 @@
     <system:String x:Key="RemainingSanityStage">剩余理智</system:String>
     <system:String x:Key="NoUse">不选择</system:String>
     <!--<system:String x:Key="Amend">修改</system:String>-->
-    <!--<system:String x:Key="CurrentStage">当前关卡</system:String>
-    <system:String x:Key="LastBattle">上次作战</system:String>-->
+    <!--<system:String x:Key="CurrentStage">当前关卡</system:String> -->
+    <!--<system:String x:Key="LastBattle">上次作战</system:String>-->
     <system:String x:Key="DefaultStage">当前/上次</system:String>
     <system:String x:Key="ClosedStage">活动未开放</system:String>
     <system:String x:Key="UnsupportedStages">不支持的关卡</system:String>
