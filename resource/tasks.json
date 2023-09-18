@@ -9146,9 +9146,9 @@
         "templThreshold": 0.6,
         "cache": false,
         "roi": [
-            190,
+            80,
             470,
-            300,
+            410,
             154
         ],
         "next": [
@@ -9162,9 +9162,9 @@
         "template": "empty.png",
         "baseTask": "Roguelike@RecruitMain",
         "roi": [
-            190,
+            80,
             470,
-            900,
+            1120,
             154
         ]
     },
