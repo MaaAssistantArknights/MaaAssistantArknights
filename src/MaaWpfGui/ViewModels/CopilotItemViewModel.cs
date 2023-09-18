@@ -1,7 +1,5 @@
-using System.Security.RightsManagement;
 using MaaWpfGui.Helper;
 using Stylet;
-using Vanara.PInvoke;
 
 namespace MaaWpfGui.ViewModels
 {
