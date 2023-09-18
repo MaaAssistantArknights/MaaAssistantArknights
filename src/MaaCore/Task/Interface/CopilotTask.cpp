@@ -133,7 +133,13 @@ bool asst::CopilotTask::set_params(const json::value& params)
     m_formation_task_ptr->set_support_unit_name(std::move(support_unit_name));
 
     size_t loop_times = params.get("loop_times", 1);
-    if (loop_times > 1) {
+    if (need_navigate) {
+        // 如果没三星就中止
+        Task.get<OcrTaskInfo>("Copilot@BattleStartPreFlag")->text.emplace_back(m_navigate_name);
+        m_stop_task_ptr->set_tasks({ "Copilot@ClickCornerUntilEndOfAction" });
+        m_stop_task_ptr->set_enable(true);
+    }
+    else if (loop_times > 1) {
         m_stop_task_ptr->set_tasks({ "ClickCornerUntilStartButton" });
         m_stop_task_ptr->set_enable(true);
 
@@ -144,12 +150,6 @@ bool asst::CopilotTask::set_params(const json::value& params)
             // FIXME: 如果多次调用 set_params，这里复制的会有问题
             m_subtasks.insert(m_subtasks.end(), m_subtasks.begin(), raw_end);
         }
-    }
-    else if (need_navigate) {
-        // 如果没三星就中止
-        Task.get<OcrTaskInfo>("Copilot@BattleStartPreFlag")->text.emplace_back(m_navigate_name);
-        m_stop_task_ptr->set_tasks({ "Copilot@ClickCornerUntilFailedOrThreeStars" });
-        m_stop_task_ptr->set_enable(true);
     }
 
     return true;
