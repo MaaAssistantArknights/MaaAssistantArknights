@@ -13131,44 +13131,54 @@
             163
         ]
     },
-    "Copilot@ClickCornerUntilFailedOrStartButton": {
+    "Copilot@ClickCornerUntilFailedOrThreeStars": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "Copilot@MissionFailed",
+            "Copilot@EndOfAction",
+            "Copilot@ClickCornerBeforeThreeStars"
+        ]
+    },
+    "Copilot@EndOfAction": {
+        "template": "EndOfAction.png",
+        "action": "DoNothing",
+        "reduceOtherTimes": [],
+        "next": [
+            "Copilot@StageDrops-Stars-3"
+        ]
+    },
+    "Copilot@StageDrops-Stars-3": {
+        "Doc": "如果没有三星就终止",
+        "template": "StageDrops-Stars-3.png",
+        "action": "DoNothing",
+        "next": [
+            "Copilot@ClickCornerUntilStartButton"
+        ]
+    },
+    "Copilot@ClickCornerBeforeThreeStars": {
+        "Doc": "三星之前",
+        "baseTask": "Copilot@ClickCornerUntilStartButton",
+        "next": [
+            "Copilot@ClickCornerUntilFailedOrThreeStars"
+        ]
+    },
+    "Copilot@ClickCornerUntilStartButton": {
+        "Doc": "三星之后",
+        "next": [
             "Copilot@BattleStartPreFlag",
             "Copilot@ClickCornerUntilStartButton"
         ]
     },
-    "Copilot@ClickCornerUntilStartButton": {
-        "next": [
-            "Copilot@ClickCornerUntilFailedOrStartButton"
-        ]
-    },
-    "Copilot@MissionFailed": {
-        "Doc": "如果没有三星就终止",
-        "template": "MissionFailed.png",
+    "Copilot@BattleStartPreFlag": {
+        "baseTask": "BattleStartPreFlag",
         "action": "DoNothing",
         "roi": [
-            210,
-            290,
-            70,
-            70
-        ],
-        "next_Doc": "主动抛错",
-        "next": [
-            "Copilot@BattleStartPreFlag"
-        ]
-    },
-    "Copilot@BattleStartPreFlag": {
-        "baseTask": "BattleStartPre",
-        "action": "DoNothing",
-        "roi":[
             0,
             0,
             1280,
             720
-        ]
+        ],
+        "next": []
     },
     "ClickCornerUntilStartButton": {
         "algorithm": "JustReturn",

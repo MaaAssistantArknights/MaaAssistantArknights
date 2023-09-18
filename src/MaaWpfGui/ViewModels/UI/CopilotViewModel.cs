@@ -52,7 +52,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or private sets the view models of Copilot items.
         /// </summary>
-        public ObservableCollection<CopilotItemViewModel> CopilotItemViewModels { get; private set; } = new ObservableCollection<CopilotItemViewModel>();
+        public ObservableCollection<CopilotItemViewModel> CopilotItemViewModels { get; } = new ObservableCollection<CopilotItemViewModel>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CopilotViewModel"/> class.
@@ -567,7 +567,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private static string copilotJsonDir = "cache/copilot";
+        private const string CopilotJsonDir = "cache/copilot";
 
         public void AddCopilotTask()
         {
@@ -594,13 +594,13 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void AddCopilotTaskToList(string stage_name)
         {
-            var jsonPath = $"{copilotJsonDir}/{stage_name}.json";
+            var jsonPath = $"{CopilotJsonDir}/{stage_name}.json";
 
             try
             {
-                Directory.CreateDirectory(copilotJsonDir);
+                Directory.CreateDirectory(CopilotJsonDir);
             }
-            catch
+            catch (Exception)
             {
             }
 
@@ -628,7 +628,7 @@ namespace MaaWpfGui.ViewModels.UI
                 ["name"] = item.Name,
                 ["file_path"] = item.FilePath,
                 ["is_checked"] = item.IsChecked,
-            }).ToArray());
+            }).ToList());
             ConfigurationHelper.SetValue(ConfigurationKeys.CopilotTaskList, JsonConvert.SerializeObject(jArray));
         }
 
@@ -744,7 +744,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             JArray mUserAdditional = new JArray();
             Regex regex = new Regex(@"(?<=;)(?<name>[^,;]+)(?:, *(?<skill>\d))? *", RegexOptions.Compiled);
-            MatchCollection matches = regex.Matches(";" + UserAdditional);
+            MatchCollection matches = regex.Matches(";" + UserAdditional.Replace("，", ",").Replace("；", ";"));
             foreach (Match match in matches)
             {
                 mUserAdditional.Add(new JObject

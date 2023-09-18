@@ -148,7 +148,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     else if (need_navigate) {
         // 如果没三星就中止
         Task.get<OcrTaskInfo>("Copilot@BattleStartPreFlag")->text.emplace_back(m_navigate_name);
-        m_stop_task_ptr->set_tasks({ "Copilot@ClickCornerUntilFailedOrStartButton" });
+        m_stop_task_ptr->set_tasks({ "Copilot@ClickCornerUntilFailedOrThreeStars" });
         m_stop_task_ptr->set_enable(true);
     }
 

@@ -447,7 +447,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: Zhang San
     <system:String x:Key="AutoSquadTip">자동 편성은 '선호' 오퍼레이터를 인식할 수 없습니다</system:String>
     <system:String x:Key="AddTrust">신뢰도가 낮은 운영자 추가</system:String>
     <system:String x:Key="AddUserAdditional">맞춤 연산자 추가</system:String>
-    <system:String x:Key="AddUserAdditionalTip">사용 ";" 운영자 이름과 기술을 구분하기 위해 구분 기호 ","를 사용합니다. 예: W, 3; Ash, 2</system:String>
+    <system:String x:Key="AddUserAdditionalTip">사용「;」운영자 이름과 기술을 구분하기 위해 구분 기호「,」를 사용합니다. 예: W, 3; Ash, 2</system:String>
     <system:String x:Key="UseCopilotList">전투 목록</system:String>
     <system:String x:Key="UseCopilotListTip">시작하기 전에 레벨 선택 페이지로 전환하세요</system:String>
     <system:String x:Key="CopilotAddTask">공격대 난이도를 추가하려면 마우스 오른쪽 버튼을 클릭하세요.</system:String>
