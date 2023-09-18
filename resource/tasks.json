@@ -13131,12 +13131,23 @@
             163
         ]
     },
-    "Copilot@ClickCornerUntilFailedOrThreeStars": {
+    "Copilot@ClickCornerUntilEndOfAction": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
+        "maxTimes": 30,
+        "exceededNext": [
+            "Copilot@EndOfAction"
+        ],
         "next": [
+            "Copilot@SkipThePreBattlePlot",
             "Copilot@EndOfAction",
             "Copilot@ClickCornerBeforeThreeStars"
+        ]
+    },
+    "Copilot@SkipThePreBattlePlotConfirm": {
+        "template": "SkipThePreBattlePlotConfirm.png",
+        "next": [
+            "Copilot@ClickCornerUntilEndOfAction"
         ]
     },
     "Copilot@EndOfAction": {
@@ -13159,7 +13170,7 @@
         "Doc": "三星之前",
         "baseTask": "Copilot@ClickCornerUntilStartButton",
         "next": [
-            "Copilot@ClickCornerUntilFailedOrThreeStars"
+            "Copilot@ClickCornerUntilEndOfAction"
         ]
     },
     "Copilot@ClickCornerUntilStartButton": {
