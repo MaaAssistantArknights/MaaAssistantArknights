@@ -35,6 +35,7 @@ bool asst::TaskFileReloadTask::_run()
 
     json::value info = basic_info_with_what("CopilotListLoadTaskFileSuccess");
     info["details"]["stage_name"] = Copilot.get_stage_name();
+    info["details"]["file_name"] = std::move(m_file);
     callback(AsstMsg::SubTaskExtraInfo, info);
     return true;
 }
