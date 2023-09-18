@@ -4029,8 +4029,15 @@
         "next": [
             "StartButton1",
             "OfflineConfirm",
-            "MedicineConfirm@LoadingText"
+            "MedicineConfirmAgain@LoadingText"
         ]
+    },
+    "MedicineConfirmAgain": {
+        "Doc": "Refer to Task `StoneConfirmAgain`",
+        "baseTask": "MedicineConfirm",
+        "template": "MedicineConfirm.png",
+        "maxTimes": 2147483647,
+        "reduceOtherTimes": []
     },
     "UseStone": {
         "action": "DoNothing",
