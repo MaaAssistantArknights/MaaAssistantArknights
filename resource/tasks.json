@@ -2920,11 +2920,11 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "LoginOther#next",
             "SwitchAccount@StartUpThemes#next",
             "SwitchAccount@LoadingIcon",
             "SwitchAccount@ReturnTo",
-            "Settings"
+            "Settings",
+            "LoginOther"
         ]
     },
     "SwitchAccount": {
@@ -7004,18 +7004,9 @@
         ],
         "next": [
             "BattleSupportFormationRole-Pioneer",
-            "BattleSupportUnitPioneerRoleSelected"
+            "BattleSupportUnitFormation"
         ],
         "postDelay": 2000
-    },
-    "BattleSupportUnitPioneerRoleSelected": {
-        "action": "DoNothing",
-        "roi": [
-            0,
-            44,
-            182,
-            179
-        ]
     },
     "BattleSupportUnitFormationSelectRandom": {
         "action": "ClickSelf",
@@ -7126,7 +7117,7 @@
         ],
         "postDelay": 500
     },
-	"BattleQuickFormationFilter-Trust": {
+    "BattleQuickFormationFilter-Trust": {
 		"action": "ClickSelf",
 		"roi": [
 			1010,
@@ -7209,6 +7200,30 @@
     "BattleQuickFormationRole-Support": {
         "baseTask": "BattleQuickFormationRole"
     },
+    "BattleSupportFormationRole-Pioneer": {
+        "baseTask": "BattleSupportFormationRole"
+    },
+    "BattleSupportFormationRole-Warrior": {
+        "baseTask": "BattleSupportFormationRole"
+    },
+    "BattleSupportFormationRole-Tank": {
+        "baseTask": "BattleSupportFormationRole"
+    },
+    "BattleSupportFormationRole-Caster": {
+        "baseTask": "BattleSupportFormationRole"
+    },
+    "BattleSupportFormationRole-Medic": {
+        "baseTask": "BattleSupportFormationRole"
+    },
+    "BattleSupportFormationRole-Sniper": {
+        "baseTask": "BattleSupportFormationRole"
+    },
+    "BattleSupportFormationRole-Special": {
+        "baseTask": "BattleSupportFormationRole"
+    },
+    "BattleSupportFormationRole-Support": {
+        "baseTask": "BattleSupportFormationRole"
+    },
     "BattleQuickFormation-OperNameFlagBase": {
         "template": "empty.png",
         "roi": [
@@ -7254,6 +7269,36 @@
         ],
         "postDelay": 200
     },
+    "BattleSupportFormation-DetailedInfoBase": {
+        "roi": [
+            78,
+            231,
+            1199,
+            476
+        ]
+    },
+    "BattleSupportFormationOCR": {
+        "algorithm": "OcrDetect",
+        "fullMatch": true,
+        "text": [],
+        "roi": [
+            -91,
+            283,
+            120,
+            30
+        ],
+        "postDelay": 200
+    },
+    "BattleSupportFormationConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            491,
+            518,
+            321,
+            163
+        ]
+
+    },
     "BattleQuickFormationSkill1": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
@@ -7293,30 +7338,6 @@
             112
         ],
         "postDelay": 1000
-    },
-    "BattleSupportFormationRole-Pioneer": {
-        "baseTask": "BattleSupportFormationRole"
-    },
-    "BattleSupportFormationRole-Warrior": {
-        "baseTask": "BattleSupportFormationRole"
-    },
-    "BattleSupportFormationRole-Tank": {
-        "baseTask": "BattleSupportFormationRole"
-    },
-    "BattleSupportFormationRole-Caster": {
-        "baseTask": "BattleSupportFormationRole"
-    },
-    "BattleSupportFormationRole-Medic": {
-        "baseTask": "BattleSupportFormationRole"
-    },
-    "BattleSupportFormationRole-Sniper": {
-        "baseTask": "BattleSupportFormationRole"
-    },
-    "BattleSupportFormationRole-Special": {
-        "baseTask": "BattleSupportFormationRole"
-    },
-    "BattleSupportFormationRole-Support": {
-        "baseTask": "BattleSupportFormationRole"
     },
     "BattleStartPre": {
         "algorithm": "OcrDetect",

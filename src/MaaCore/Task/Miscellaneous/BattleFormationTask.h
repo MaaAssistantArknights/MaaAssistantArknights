@@ -24,10 +24,11 @@ namespace asst
         };
         void append_additional_formation(AdditionalFormation formation);
 
-        void set_support_unit_name(std::string name);
+        void set_support_unit(std::pair<battle::Role, std::vector<battle::OperUsage>> support_unit);
         void set_add_user_additional(bool add_user_additional);
         void set_user_additional(std::vector<std::pair<std::string, int>> user_additional);
         void set_add_trust(bool add_trust);
+        void set_support_unit_name(std::string upport_unit_name);
 
         enum class DataResource
         {
@@ -40,7 +41,8 @@ namespace asst
         using OperGroup = std::vector<battle::OperUsage>;
 
         virtual bool _run() override;
-        bool add_formation(battle::Role role, std::vector<OperGroup> oper_group);
+        // 根据Role和OperGroup选择干员，并返回不在box里的干员
+        std::vector<OperGroup> add_formation(battle::Role role, std::vector<OperGroup> oper_groups);
         // 追加附加干员（按部署费用等小分类）
         bool add_additional();
         // 补充刷信赖的干员，从最小的开始
@@ -53,14 +55,15 @@ namespace asst
         void swipe_to_the_left(int times = 2);
         bool confirm_selection();
         bool click_role_table(battle::Role role);
-        bool click_support_role_table(battle::Role role);
+        bool click_support_role_table();
         bool parse_formation();
         bool select_random_support_unit();
-        bool select_support_oper(OperGroup& group);
+        bool select_support_oper();
 
-        void sleep_forever();
+        void quit(std::string msg = "");
 
         std::vector<TextRect> analyzer_opers();
+        std::vector<TextRect> analyzer_support_opers();
 
         std::string m_stage_name;
         std::unordered_map<battle::Role, std::vector<OperGroup>> m_formation;
@@ -74,11 +77,15 @@ namespace asst
         std::vector<std::pair<std::string, int>> m_user_additional;
         // 是否需要追加信赖干员
         bool m_add_trust = false;
-        std::string m_support_unit_name;
+        // 是否使用自动助战
+        bool m_use_support = true;
+
         DataResource m_data_resource = DataResource::Copilot;
         std::vector<AdditionalFormation> m_additional;
         std::string m_last_oper_name;
+        std::pair<battle::Role, OperGroup> m_support_unit;
+        size_t m_unselected_cnt = 0;
 
-        bool use_support = true;
+        std::string m_support_unit_name;
     };
 } // namespace asst
