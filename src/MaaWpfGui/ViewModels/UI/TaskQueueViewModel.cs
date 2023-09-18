@@ -732,6 +732,70 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private async Task<bool> ConnectToSimulator()
+        {
+            string errMsg = string.Empty;
+            bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+
+            // 尝试启动模拟器
+            if (!connected && Instances.SettingsViewModel.RetryOnDisconnected)
+            {
+                AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToStartEmulator"));
+
+                await Task.Run(() => Instances.SettingsViewModel.TryToStartEmulator(true));
+
+                if (Stopping)
+                {
+                    SetStopped();
+                    return false;
+                }
+
+                connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            }
+
+            // 尝试重启adb
+            if (!connected && Instances.SettingsViewModel.AllowADBRestart)
+            {
+                AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("RestartADB"));
+
+                await Task.Run(() => Instances.SettingsViewModel.RestartADB());
+
+                if (Stopping)
+                {
+                    SetStopped();
+                    return false;
+                }
+
+                connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            }
+
+            // 尝试杀掉adb进程
+            if (!connected && Instances.SettingsViewModel.AllowADBHardRestart)
+            {
+                AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("HardRestartADB"));
+
+                await Task.Run(() => Instances.SettingsViewModel.HardRestartADB());
+
+                if (Stopping)
+                {
+                    SetStopped();
+                    return false;
+                }
+
+                connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            }
+
+            if (!connected)
+            {
+                AddLog(errMsg, UiLogColor.Error);
+                _runningState.SetIdle(true);
+                SetStopped();
+                return false;
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// Starts.
         /// </summary>
@@ -758,9 +822,6 @@ namespace MaaWpfGui.ViewModels.UI
                 AddLog(LocalizationHelper.GetString("AdbReplacementTips"), UiLogColor.Info);
             }
 
-            string errMsg = string.Empty;
-            bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
-
             // 一般是点了“停止”按钮了
             if (Stopping)
             {
@@ -768,59 +829,8 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            // 尝试启动模拟器
-            if (!connected && Instances.SettingsViewModel.RetryOnDisconnected)
+            if (!await ConnectToSimulator())
             {
-                AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToStartEmulator"));
-
-                await Task.Run(() => Instances.SettingsViewModel.TryToStartEmulator(true));
-
-                if (Stopping)
-                {
-                    SetStopped();
-                    return;
-                }
-
-                connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
-            }
-
-            // 尝试重启adb
-            if (!connected && Instances.SettingsViewModel.AllowADBRestart)
-            {
-                AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("RestartADB"));
-
-                await Task.Run(() => Instances.SettingsViewModel.RestartADB());
-
-                if (Stopping)
-                {
-                    SetStopped();
-                    return;
-                }
-
-                connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
-            }
-
-            // 尝试杀掉adb进程
-            if (!connected && Instances.SettingsViewModel.AllowADBHardRestart)
-            {
-                AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("HardRestartADB"));
-
-                await Task.Run(() => Instances.SettingsViewModel.HardRestartADB());
-
-                if (Stopping)
-                {
-                    SetStopped();
-                    return;
-                }
-
-                connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
-            }
-
-            if (!connected)
-            {
-                AddLog(errMsg, UiLogColor.Error);
-                _runningState.SetIdle(true);
-                SetStopped();
                 return;
             }
 
@@ -942,6 +952,68 @@ namespace MaaWpfGui.ViewModels.UI
 
             Stopping = false;
             _runningState.SetIdle(true);
+        }
+
+        public async void QuickSwitchAccount()
+        {
+            if (!_runningState.GetIdle())
+            {
+                return;
+            }
+
+            _runningState.SetIdle(false);
+
+            // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次任务及基建列表
+            TaskItemSelectionChanged();
+            Instances.SettingsViewModel.InfrastOrderSelectionChanged();
+
+            ClearLog();
+
+            await Task.Run(() => Instances.SettingsViewModel.RunScript("StartsWithScript"));
+
+            AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
+            if (!Instances.SettingsViewModel.AdbReplaced && !Instances.SettingsViewModel.IsAdbTouchMode())
+            {
+                AddLog(LocalizationHelper.GetString("AdbReplacementTips"), UiLogColor.Info);
+            }
+
+            string errMsg = string.Empty;
+            bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+
+            // 一般是点了“停止”按钮了
+            if (Stopping)
+            {
+                SetStopped();
+                return;
+            }
+
+            if (!await ConnectToSimulator())
+            {
+                return;
+            }
+
+            // 一般是点了“停止”按钮了
+            if (Stopping)
+            {
+                SetStopped();
+                return;
+            }
+
+            bool taskRet = true;
+            taskRet &= AppendStart();
+
+            taskRet &= Instances.AsstProxy.AsstStart();
+
+            if (taskRet)
+            {
+                AddLog(LocalizationHelper.GetString("Running"));
+            }
+            else
+            {
+                AddLog(LocalizationHelper.GetString("UnknownErrorOccurs"));
+                await Stop();
+                SetStopped();
+            }
         }
 
         private static bool AppendStart()
