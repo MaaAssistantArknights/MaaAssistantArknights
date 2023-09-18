@@ -4678,6 +4678,8 @@
             "ReceiveAward",
             "DailyTask",
             "WeeklyTask",
+            "Mail@ReturnTo",
+            "Mail",
             "Award@CloseAnnos#next",
             "Award@FromStageSN",
             "Award@TodaysSupplies"
@@ -4783,6 +4785,32 @@
         "next": [
             "ReceiveAward",
             "Stop"
+        ]
+    },
+    "Mail": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            160,
+            15,
+            100,
+            60
+        ],
+        "next": [
+            "RecieveMail",
+            "Stop"
+        ]
+    },
+    "RecieveMail": {
+        "action": "ClickSelf",
+        "roi": [
+            1020,
+            625,
+            250,
+            100
+        ],
+        "next": [
+            "CloseTaskAward"
         ]
     },
     "VisitBegin": {
