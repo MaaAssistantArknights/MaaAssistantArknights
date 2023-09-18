@@ -19,7 +19,11 @@
                 2,
                 1
             ],
-            "direction": "down"
+            "direction": "down",
+            "condition": [
+                0,
+                5
+            ]
         },
         {
             "groups": [
@@ -29,7 +33,11 @@
                 2,
                 5
             ],
-            "direction": "up"
+            "direction": "up",
+            "condition": [
+                0,
+                5
+            ]
         },
         {
             "groups": [
@@ -156,7 +164,9 @@
             "groups": [
                 "情报官",
                 "处决者",
-                "其他地面"
+                "其他地面",
+                "支援陷阱",
+                "无人机"
             ],
             "location": [
                 7,
