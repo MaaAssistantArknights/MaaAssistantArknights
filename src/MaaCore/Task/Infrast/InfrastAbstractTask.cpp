@@ -94,6 +94,7 @@ bool asst::InfrastAbstractTask::match_operator_groups()
 
     auto opers = get_available_oper_for_group();
     if (opers.size() == 0) {
+        Log.info(__FUNCTION__, "availvable operator for gourp is empty");
         std::vector<std::string> temp, pre_temp;
         while (true) {
             if (need_exit()) {
@@ -129,6 +130,7 @@ bool asst::InfrastAbstractTask::match_operator_groups()
     }
     swipe_to_the_left_of_operlist(swipe_times + 1);
     swipe_times = 0;
+    Log.info(__FUNCTION__, "availvable operators for gourp size:", opers.size());
     // 筛选第一个满足要求的干员组
     for (const auto& oper_group_pair : current_room_config().operator_groups) {
         if (ranges::all_of(oper_group_pair.second, [opers](const std::string& oper) { return opers.contains(oper); })) {
