@@ -17,7 +17,7 @@
     d:DesignWidth="220"
     mc:Ignorable="d">
     <StackPanel>
-        <StackPanel Visibility="{c:Binding !TaskSettingVisibilities.EnableAdvancedSettings}">
+        <StackPanel IsEnabled="{Binding Idle}" Visibility="{c:Binding !TaskSettingVisibilities.EnableAdvancedSettings}">
             <ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource RoguelikeTheme}"
