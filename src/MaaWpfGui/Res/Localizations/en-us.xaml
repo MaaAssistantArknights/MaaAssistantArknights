@@ -24,6 +24,24 @@
     <system:String x:Key="UpdateSettings">Update</system:String>
     <system:String x:Key="AboutUs">About us</system:String>
     <system:String x:Key="Version">Version</system:String>
+    <system:String x:Key="Off">Off</system:String>
+    <system:String x:Key="ExternalNotificationTips">Please note: The external notification feature currently only sends "All tasks completed" notifications.</system:String>
+    <system:String x:Key="ExternalNotificationSettings">External notifications</system:String>
+    <system:String x:Key="ExternalNotificationEnabled">Enabled configuration</system:String>
+    <system:String x:Key="ExternalNotificationSendSuccess">Send successfully</system:String>
+    <system:String x:Key="ExternalNotificationSendFail">Send failed</system:String>
+    <system:String x:Key="ExternalNotificationSendTest">Send Test</system:String>
+    <system:String x:Key="ExternalNotificationSendTestTitle">MAA external notification test</system:String>
+    <system:String x:Key="ExternalNotificationSendTestContent">This is MAA external notification test information. If you see this content, the notification was sent successfully!</system:String>
+    <system:String x:Key="ExternalNotificationServerChanSendKey">[Server Chan] Send Key</system:String>
+    <system:String x:Key="ExternalNotificationSmtpTo">[SMTP] Recipient</system:String>
+    <system:String x:Key="ExternalNotificationSmtpServer">[SMTP] Server</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPort">[SMTP] Port</system:String>
+    <system:String x:Key="ExternalNotificationSmtpSsl">[SMTP] Use SSL</system:String>
+    <system:String x:Key="ExternalNotificationSmtpAuth">[SMTP] Authentication Required</system:String>
+    <system:String x:Key="ExternalNotificationSmtpUser">[SMTP] Username</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPassword">[SMTP] Password</system:String>
+    <system:String x:Key="ExternalNotificationSmtpFrom">[SMTP] Sender</system:String>
     <!--  Settings Guide  -->
     <system:String x:Key="TaskSettings">Task Settings</system:String>
     <system:String x:Key="SettingsGuide">Settings Guide</system:String>
@@ -98,6 +116,10 @@
     <system:String x:Key="IS2NewSquad1">Mind Over Matter Squad</system:String>
     <system:String x:Key="IS2NewSquad2">Resourceful Squad</system:String>
     <system:String x:Key="IS2NewSquad3">People-Oriented Squad</system:String>
+    <!-- <system:String x:Key="IS3NewSquad1">NEED TRANSLATION</system:String> -->
+    <!-- <system:String x:Key="IS3NewSquad2">NEED TRANSLATION</system:String> -->
+    <!-- <system:String x:Key="IS3NewSquad3">NEED TRANSLATION</system:String> -->
+    <!-- <system:String x:Key="IS3NewSquad4">特训分队</system:String> -->
     <system:String x:Key="LeaderSquad">Leader Squad</system:String>
     <system:String x:Key="GatheringSquad">Gathering Squad</system:String>
     <system:String x:Key="SupportSquad">Support Squad</system:String>
@@ -254,7 +276,6 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">Support most main stage names + stage names from the original list (e.g. 4-10, AP-5, H10-1-Hard, etc.)
 At the end of the level, enter 「Normal/Hard」 to switch between Standard and Adverse environment
 Enter 「SSReopen-XX」to pass SS normal difficulty level at one time</system:String>
-    <!--Enter 「SSReopen-XX」to pass SS normal difficulty level at one time</system:String>-->
     <system:String x:Key="AutoDetectConnection">Auto detect connection</system:String>
     <system:String x:Key="AutoDetectConnectionTip">This checkbox will be automatically unchecked after each detect is completed, and can be checked again if you need to re-detect</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">Re-detect every times</system:String>
@@ -315,8 +336,8 @@ Other client types are not supported</system:String>
     <system:String x:Key="RemainingSanityStage">Remaining Sanity</system:String>
     <system:String x:Key="NoUse">No Use</system:String>
     <!--<system:String x:Key="Amend">Amend</system:String>-->
-    <!--<system:String x:Key="CurrentStage">Current Stage</system:String>
-    <system:String x:Key="LastBattle">Last Battle</system:String>-->
+    <!--<system:String x:Key="CurrentStage">Current Stage</system:String>-->
+    <!--<system:String x:Key="LastBattle">Last Battle</system:String>-->
     <system:String x:Key="DefaultStage">Cur/Last</system:String>
     <system:String x:Key="ClosedStage">The event is not open</system:String>
     <system:String x:Key="UnsupportedStages">Unsupported stages</system:String>
@@ -422,19 +443,19 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="GachaTip10">Tremble, in the face of true bravery.</system:String>
     <system:String x:Key="GachaTip11">Weep, for that worthless faith of yours.</system:String>
     <system:String x:Key="GachaTip12">You shall kneel here.</system:String>
-    <system:String x:Key="GachaTip13">Have we done it...? I feel only the greatest honor and joy.</system:String>
+    <system:String x:Key="GachaTip13">Have we done it……? I feel only the greatest honor and joy.</system:String>
     <system:String x:Key="GachaTip14">Turn about, o heroes. We have achieved a perfect victory, and it is now time to return and enjoy the fruits of our labors.</system:String>
     <system:String x:Key="GachaTip15">Listen well, the laments have ceased. This calm heralds the arrival of peace and joy.</system:String>
-    <system:String x:Key="GachaTip16">Even though the wars of humanity have no end in sight... At this moment, we have protected our dignity. Leave. Keep your heads held high.</system:String>
+    <system:String x:Key="GachaTip16">Even though the wars of humanity have no end in sight…… At this moment, we have protected our dignity. Leave. Keep your heads held high.</system:String>
     <system:String x:Key="GachaTip17">My horns are a danger to furniture. I shall be vigilant.</system:String>
     <system:String x:Key="GachaDisclaimerHead">Note that this is a</system:String>
     <system:String x:Key="GachaDisclaimerEmphasize">REAL GACHA!</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">Got it</system:String>
     <system:String x:Key="GachaShowDisclaimerNoMore">Don't show again</system:String>
-    <!--  再转身回头的时候，我们将带着胜利归来。  -->
+    <!--  Logs  -->
     <system:String x:Key="Identifying">Identifying……</system:String>
     <system:String x:Key="IdentificationCompleted">Identification completed</system:String>
-    <!--  再转身回头的时候，我们将带着胜利归来。  -->
+    <!--  Logs  -->
     <!--  Copilot  -->
     <system:String x:Key="Copilot">Copilot</system:String>
     <system:String x:Key="CopilotLocation">Task file / URL</system:String>
@@ -519,6 +540,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="StartCombat" xml:space="preserve">Start combat: </system:String>
     <system:String x:Key="CompleteCombat">Complete combat</system:String>
     <system:String x:Key="AllTasksComplete">All task(s) completed!</system:String>
+    <system:String x:Key="AllTaskCompleteContent">MAA has completed all tasks under the {Preset} configuration in {Datetime}.</system:String>
     <system:String x:Key="BackgroundLinkStarted">Tasks started</system:String>
     <system:String x:Key="BackgroundLinkStopped">Tasks stopped</system:String>
     <system:String x:Key="FailedToOpenClient">Failed to open the client. Please check the configuration file</system:String>
@@ -617,7 +639,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  AutoRecruitSettings  -->
     <!--  EasterEggs  -->
     <system:String x:Key="BuyWineOnAprilFoolsDay">Dear Doctor, ever heard of the new listings of 「isopropyl alcohol」 in Ms. Closure's store? Let's check it out?</system:String>
-    <system:String x:Key="Burping">Ugh... Ehem</system:String>
+    <system:String x:Key="Burping">Ugh…… Ehem</system:String>
     <system:String x:Key="DrunkAndStaggering">Ah, doctor, why do you sway so much in your movement today?</system:String>
     <system:String x:Key="Hangover">I won't drink so much next time……</system:String>
     <system:String x:Key="HelloWorld">Hello World!</system:String>
@@ -636,28 +658,11 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="GameResourceUpdated">Game resource updated, please restart MAA</system:String>
     <system:String x:Key="GameResourceUpdating">Game resources are being updated. Please do not close MAA.</system:String>
     <!--  Api  -->
-    <system:String x:Key="Off">Off</system:String>
-    <system:String x:Key="ExternalNotificationTips">Please note: The external notification feature currently only sends "All tasks completed" notifications.</system:String>
-    <system:String x:Key="ExternalNotificationSettings">External notifications</system:String>
-    <system:String x:Key="ExternalNotificationEnabled">Enabled configuration</system:String>
-    <system:String x:Key="ExternalNotificationSendSuccess">Send successfully</system:String>
-    <system:String x:Key="ExternalNotificationSendFail">Send failed</system:String>
-    <system:String x:Key="ExternalNotificationSendTest">Send Test</system:String>
-    <system:String x:Key="ExternalNotificationSendTestTitle">MAA external notification test</system:String>
-    <system:String x:Key="ExternalNotificationSendTestContent">This is MAA external notification test information. If you see this content, the notification was sent successfully!</system:String>
-    <system:String x:Key="ExternalNotificationServerChanSendKey">[Server Chan] Send Key</system:String>
-    <system:String x:Key="ExternalNotificationSmtpTo">[SMTP] Recipient</system:String>
-    <system:String x:Key="ExternalNotificationSmtpServer">[SMTP] Server</system:String>
-    <system:String x:Key="ExternalNotificationSmtpPort">[SMTP] Port</system:String>
-    <system:String x:Key="ExternalNotificationSmtpSsl">[SMTP] Use SSL</system:String>
-    <system:String x:Key="ExternalNotificationSmtpAuth">[SMTP] Authentication Required</system:String>
-    <system:String x:Key="ExternalNotificationSmtpUser">[SMTP] Username</system:String>
-    <system:String x:Key="ExternalNotificationSmtpPassword">[SMTP] Password</system:String>
-    <system:String x:Key="ExternalNotificationSmtpFrom">[SMTP] Sender</system:String>
-    <system:String x:Key="AllTaskCompleteContent">MAA has completed all tasks under the {Preset} configuration in {Datetime}.</system:String>
+    <!-- External Notification -->
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">You receive this message because you have set up an SMTP server in MAA and have the email notification service turned on.</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineTwo">This email is sent automatically, please do not reply.</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateLinkOfficialSite">Official website</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateLinkCopilotSite">MAA Copilot (Chinese)</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateHello">Doctor, there's a new notification!</system:String>
+    <!-- External Notification -->
 </ResourceDictionary>
