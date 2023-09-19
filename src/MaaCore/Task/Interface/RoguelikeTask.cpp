@@ -74,8 +74,11 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     // 3 - 尝试通关，激进策略（TODO）
     // 4 - 刷开局藏品，以获得热水壶或者演讲稿开局，不期而遇采用保守策略
     int mode = params.get("mode", 0);
+    // 是否凹指定干员开局直升
+    bool start_with_elite_two = params.get("start_with_elite_two", false);
     status()->set_properties(Status::RoguelikeMode, std::to_string(mode));
     status()->set_properties(Status::RoguelikeNeedChangeDifficulty, "0");
+    status()->set_properties(Status::RoguelikeStartWithEliteTwo, std::to_string(start_with_elite_two));
     switch (mode) {
     case 0:
         m_debug_task_ptr->set_enable(true);
@@ -101,11 +104,13 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName")->text =
             Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName_mode4")->text;
         Task.get(theme + "@Roguelike@LevelName")->next = Task.get(theme + "@Roguelike@LevelName_mode4")->next;
-        // 获得热水壶和演讲时长延时
-        Task.get(theme + "@Roguelike@LastReward")->post_delay =
-            Task.get(theme + "@Roguelike@LastReward_mode4")->post_delay;
-        Task.get(theme + "@Roguelike@LastReward4")->post_delay =
-            Task.get(theme + "@Roguelike@LastReward_mode4")->post_delay;
+        if (!start_with_elite_two) {
+            // 获得热水壶和演讲时长延时
+            Task.get(theme + "@Roguelike@LastReward")->post_delay =
+                Task.get(theme + "@Roguelike@LastReward_mode4")->post_delay;
+            Task.get(theme + "@Roguelike@LastReward4")->post_delay =
+                Task.get(theme + "@Roguelike@LastReward_mode4")->post_delay;
+        }
         // 获得其他奖励时重开
         Task.get(theme + "@Roguelike@LastReward2")->next = Task.get(theme + "@Roguelike@LastReward_mode4")->next;
         Task.get(theme + "@Roguelike@LastReward3")->next = Task.get(theme + "@Roguelike@LastReward_mode4")->next;
