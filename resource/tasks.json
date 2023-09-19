@@ -4782,7 +4782,7 @@
             "Stop"
         ]
     },
-    "MailBegin":{
+    "MailBegin": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
@@ -4805,16 +4805,33 @@
             "Stop"
         ]
     },
-    "RecieveMail": {
+    "ReceiveMail": {
         "action": "ClickSelf",
         "roi": [
             1020,
             625,
             250,
-            100
+            80
         ],
         "next": [
-            "CloseTaskAward"
+            "CloseTaskMail"
+        ]
+    },
+    "CloseTaskMail": {
+        "baseTask": "CloseTaskAward",
+        "next": [
+            "MailFinished",
+            "CloseTaskMail"
+        ],
+        "maxTimes": 10
+    },
+    "MailFinished": {
+        "action": "stop",
+        "roi": [
+            200,
+            20,
+            150,
+            60
         ]
     },
     "VisitBegin": {
