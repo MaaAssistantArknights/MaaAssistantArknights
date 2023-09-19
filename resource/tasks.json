@@ -4678,8 +4678,6 @@
             "ReceiveAward",
             "DailyTask",
             "WeeklyTask",
-            "Mail@ReturnTo",
-            "Mail",
             "Award@CloseAnnos#next",
             "Award@FromStageSN",
             "Award@TodaysSupplies"
@@ -4785,6 +4783,15 @@
         "next": [
             "ReceiveAward",
             "Stop"
+        ]
+    },
+    "MailBegin":{
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "Mail@ReturnTo",
+            "Mail",
+            "ReceiveMail"
         ]
     },
     "Mail": {
