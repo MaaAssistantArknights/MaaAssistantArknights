@@ -4798,13 +4798,13 @@
         "action": "ClickSelf",
         "cache": false,
         "roi": [
-            160,
-            15,
+            150,
+            10,
             100,
-            60
+            70
         ],
         "next": [
-            "RecieveMail",
+            "ReceiveMail",
             "Stop"
         ]
     },
@@ -4828,12 +4828,12 @@
         ]
     },
     "MailFinished": {
-        "action": "stop",
+        "action": "ClickSelf",
         "roi": [
+            15,
+            15,
             200,
-            20,
-            150,
-            60
+            100
         ]
     },
     "VisitBegin": {
