@@ -32,6 +32,8 @@ namespace asst
         void set_user_additional(std::vector<std::pair<std::string, int>> user_additional);
         // 是否追加低信赖干员
         void set_add_trust(bool add_trust);
+        // 是否允许使用助战
+        void set_use_support(bool use_support);
 
         enum class DataResource
         {
@@ -59,6 +61,7 @@ namespace asst
         bool click_role_table(battle::Role role);
         bool click_support_role_table();
         bool parse_formation();
+        bool on_run_fails();
         bool select_random_support_unit();
         bool select_support_oper();
 
@@ -80,7 +83,9 @@ namespace asst
         // 是否需要追加信赖干员
         bool m_add_trust = false;
         // 是否使用自动助战
-        bool m_use_support = true;
+        bool m_use_support = false;
+
+        bool _permanent_failed = false;
 
         DataResource m_data_resource = DataResource::Copilot;
         std::vector<AdditionalFormation> m_additional;

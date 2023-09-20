@@ -92,6 +92,8 @@ bool asst::CopilotTask::set_params(const json::value& params)
 
     // 自动补信赖
     m_formation_task_ptr->set_add_trust(params.get("add_trust", false));
+    // 是否允许使用助战
+    m_formation_task_ptr->set_use_support(params.get("use_support", false));
     m_formation_task_ptr->set_add_user_additional(params.get("add_user_additional", false));
     auto user_additional_opt = params.find<json::array>("user_additional");
     if (!user_additional_opt) {

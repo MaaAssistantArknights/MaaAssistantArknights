@@ -46,6 +46,10 @@ void asst::BattleFormationTask::set_add_trust(bool add_trust)
     m_add_trust = add_trust;
 }
 
+void asst::BattleFormationTask::set_use_support(bool use_support) {
+    m_use_support = use_support;
+}
+
 
 void asst::BattleFormationTask::set_data_resource(DataResource resource)
 {
@@ -71,7 +75,6 @@ bool asst::BattleFormationTask::_run()
         unselected_opers[role] = add_formation(role, oper_groups);
     }
         
-
     add_additional();
 
     if (m_add_user_additional) {
@@ -132,8 +135,8 @@ bool asst::BattleFormationTask::_run()
         details["unselected_num"] = cnt;
         details["unselected"] = unselected_groups;
         callback(AsstMsg::SubTaskExtraInfo, info);
-
-        quit();
+        _permanent_failed = true;
+        return false;
     }
 
     // 使用助战
@@ -575,7 +578,7 @@ bool asst::BattleFormationTask::parse_formation()
     return true;
 }
 
-void asst::BattleFormationTask::quit(std::string msg)
+bool asst::BattleFormationTask::on_run_fails()
 {
-    std::this_thread::yield();
+    return !_permanent_failed;
 }

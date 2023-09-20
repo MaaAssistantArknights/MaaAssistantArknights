@@ -1852,6 +1852,7 @@ namespace MaaWpfGui.Main
         /// <param name="filename">作业 JSON 的文件路径，绝对、相对路径均可。</param>
         /// <param name="formation">是否进行 “快捷编队”。</param>
         /// <param name="add_trust">是否追加信赖干员</param>
+        /// <param name="use_support">是否允许在干员未拥有时使用助战</param>
         /// <param name="add_user_additional">是否追加自定干员</param>
         /// <param name="user_additional">自定干员列表</param>
         /// <param name="need_navigate">是否导航至关卡（启用自动战斗序列）</param>
@@ -1861,13 +1862,14 @@ namespace MaaWpfGui.Main
         /// <param name="loop_times">任务重复执行次数</param>
         /// <param name="asst_start">是否启动战斗</param>
         /// <returns>是否成功。</returns>
-        public bool AsstStartCopilot(string filename, bool formation, bool add_trust, bool add_user_additional, JArray user_additional, bool need_navigate, string navigate_name, bool is_adverse, string type, int loop_times, bool asst_start = true)
+        public bool AsstStartCopilot(string filename, bool formation, bool add_trust, bool use_support, bool add_user_additional, JArray user_additional, bool need_navigate, string navigate_name, bool is_adverse, string type, int loop_times, bool asst_start = true)
         {
             var task_params = new JObject
             {
                 ["filename"] = filename,
                 ["formation"] = formation,
                 ["add_trust"] = add_trust,
+                ["use_support"] = use_support,
                 ["add_user_additional"] = add_user_additional,
                 ["user_additional"] = user_additional,
                 ["need_navigate"] = need_navigate,

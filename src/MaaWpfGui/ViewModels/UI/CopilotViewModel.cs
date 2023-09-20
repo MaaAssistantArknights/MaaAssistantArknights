@@ -504,6 +504,17 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _addTrust, value);
         }
 
+        private bool _useSupport;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use auto-formation.
+        /// </summary>
+        public bool UseSupport
+        {
+            get => _useSupport;
+            set => SetAndNotify(ref _useSupport, value);
+        }
+
         private bool _addUserAdditional = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.CopilotAddUserAdditional, false.ToString()));
 
         /// <summary>
@@ -763,7 +774,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     if (model.IsChecked)
                     {
-                        ret &= Instances.AsstProxy.AsstStartCopilot(model.FilePath, Form, AddTrust, AddUserAdditional, mUserAdditional, UseCopilotList, model.Name.Replace("-Adverse", string.Empty), model.Name.Contains("-Adverse"), _taskType, Loop ? LoopTimes : 1, false);
+                        ret &= Instances.AsstProxy.AsstStartCopilot(model.FilePath, Form, AddTrust, UseSupport, AddUserAdditional, mUserAdditional, UseCopilotList, model.Name.Replace("-Adverse", string.Empty), model.Name.Contains("-Adverse"), _taskType, Loop ? LoopTimes : 1, false);
                         startAny = true;
                     }
                 }
@@ -779,7 +790,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else
             {
-                ret &= Instances.AsstProxy.AsstStartCopilot(IsDataFromWeb ? TempCopilotFile : Filename, Form, AddTrust, AddUserAdditional, mUserAdditional, UseCopilotList, string.Empty, false, _taskType, Loop ? LoopTimes : 1);
+                ret &= Instances.AsstProxy.AsstStartCopilot(IsDataFromWeb ? TempCopilotFile : Filename, Form, AddTrust, UseSupport, AddUserAdditional, mUserAdditional, UseCopilotList, string.Empty, false, _taskType, Loop ? LoopTimes : 1);
             }
 
             if (ret)

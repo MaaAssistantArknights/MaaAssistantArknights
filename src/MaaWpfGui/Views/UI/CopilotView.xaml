@@ -104,6 +104,21 @@
                         IsHitTestVisible="{Binding Idle}"
                         ToolTip="{DynamicResource UseCopilotListTip}" />
                 </StackPanel>
+
+                <StackPanel
+                    Height="30"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal"
+                    Visibility="{c:Binding Form}">
+                    <CheckBox
+                        Margin="0,0,10,0"
+                        Content="{DynamicResource UseSupport}"
+                        IsChecked="{Binding UseSupport}"
+                        IsEnabled="{Binding Idle}"
+                        IsHitTestVisible="{Binding Idle}"
+                        ToolTip="{DynamicResource UseSupport}" />
+                </StackPanel>
+
                 <StackPanel
                     Height="30"
                     HorizontalAlignment="Center"
