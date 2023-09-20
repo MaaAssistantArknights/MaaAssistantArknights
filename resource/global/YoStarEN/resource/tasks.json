@@ -48,6 +48,18 @@
         ],
         "reduceOtherTimes": []
     },
+    "CF-Open": {
+        "text": [
+            "Event <A Flurry to the Flame> is now",
+            "open"
+        ]
+    },
+    "CFChapterToCF": {
+        "text": [
+            "SOUBO",
+            "MOUNTAINS"
+        ]
+    },
     "WB-Open": {
         "text": [
             "Event <Where Vernal Winds Will Never",
@@ -190,7 +202,7 @@
                 "铸铁"
             ],
             [
-                "Swire",
+                "^Swire$",
                 "诗怀雅"
             ],
             [
@@ -574,7 +586,7 @@
                 "芬"
             ],
             [
-                "Yato",
+                "^Yato$",
                 "夜刀"
             ],
             [
@@ -654,7 +666,7 @@
                 "梅"
             ],
             [
-                "Executor",
+                "^Executor$",
                 "送葬人"
             ],
             [
@@ -710,7 +722,7 @@
                 "流星"
             ],
             [
-                "Jessica",
+                "^Jessica$",
                 "杰西卡"
             ],
             [
@@ -846,7 +858,7 @@
                 "卡缇"
             ],
             [
-                "Noir Corne",
+                "^Noir Corne$",
                 "黑角"
             ],
             [
@@ -876,10 +888,6 @@
             [
                 "^Dusk$",
                 "夕"
-            ],
-            [
-                "Lava the Purgatory",
-                "炎狱炎熔"
             ],
             [
                 "Lava the Purgatory",
@@ -942,7 +950,7 @@
                 "夜魔"
             ],
             [
-                "Eyjafjalla",
+                "^Eyjafjalla$",
                 "艾雅法拉"
             ],
             [
@@ -1168,6 +1176,10 @@
             [
                 "Rubble",
                 "碎石"
+            ],
+            [
+                "High-Energy Originium Barrel.*",
+                "High-Energy Originium Barrel Bomb"
             ],
             [
                 "High-Energy Originium Bomb",
@@ -1876,6 +1888,190 @@
             [
                 "Wind Chimes",
                 "铎铃"
+            ],
+            [
+                "Rathalos S Noir Corne",
+                "火龙S黑角"
+            ],
+            [
+                "Remote Shield Generator",
+                "护盾遥控器"
+            ],
+            [
+                "Basic Gathering Hub",
+                "采集实习站"
+            ],
+            [
+                "Kirin R Yato",
+                "麒麟R夜刀"
+            ],
+            [
+                "Resource Planning Station",
+                "资源规划站"
+            ],
+            [
+                "Transregional Communication Station",
+                "跨地块通讯站"
+            ],
+            [
+                "Manticore Killer",
+                "曼提柯杀手"
+            ],
+            [
+                "Veteran Hunter",
+                "老练猎手"
+            ],
+            [
+                "Combat Readiness Station",
+                "备勤激活站"
+            ],
+            [
+                "Terra Research.*",
+                "Terra Research Commission"
+            ],
+            [
+                "Terra Research Commission",
+                "泰拉大陆调查团"
+            ],
+            [
+                "Wiredrone",
+                "滞空牵引无人机"
+            ],
+            [
+                "Hypnotic Censer",
+                "安眠迷香"
+            ],
+            [
+                "Modular Computing Station",
+                "模块演算设施"
+            ],
+            [
+                "Refreshing Potion",
+                "醒神秘药"
+            ],
+            [
+                "Bush",
+                "灌木丛"
+            ],
+            [
+                "Base",
+                "基地"
+            ],
+            [
+                "Old Isin",
+                "老伊辛"
+            ],
+            [
+                "High-Energy Originium Barrel Bomb",
+                "高能源石爆桶"
+            ],
+            [
+                "Fortification",
+                "防御工事"
+            ],
+            [
+                "Trap Net Launcher",
+                "缚网发射台"
+            ],
+            [
+                "Escape Route",
+                "逃脱点"
+            ],
+            [
+                "Executive Gathering Hub",
+                "采集主任站"
+            ],
+            [
+                "Thorned Treasure Chest",
+                "宝刺金属箱"
+            ],
+            [
+                "Camouflage Device",
+                "反侦察藏匿机"
+            ],
+            [
+                "Crabbie Pumpie",
+                "蟹蟹抽水泵"
+            ],
+            [
+                "Strange Ore Vein",
+                "奇异矿脉"
+            ],
+            [
+                "Monitoring Tower",
+                "监控塔"
+            ],
+            [
+                "Flash Grenade",
+                "眩光手雷"
+            ],
+            [
+                "High-Voltage Shock Trap",
+                "高压脉冲诡雷"
+            ],
+            [
+                "Wiredrone",
+                "滞空牵引无人机"
+            ],
+            [
+                "Firm Platform",
+                "坚固筑台"
+            ],
+            [
+                "Thickets",
+                "杂木林"
+            ],
+            [
+                "Portable Planting Trough",
+                "便携式种植槽"
+            ],
+            [
+                "Urban Style Barrier",
+                "都市风壁障"
+            ],
+            [
+                "Monoliths",
+                "巨大岩石"
+            ],
+            [
+                "Mobile Battle Tower",
+                "移动战塔"
+            ],
+            [
+                "Historical Remains",
+                "遗迹残骸"
+            ],
+            [
+                "Liaison",
+                "联络员"
+            ],
+            [
+                "Advanced Gathering Hub",
+                "采集专员站"
+            ],
+            [
+                "Buried Metal Chest",
+                "埋没金属箱"
+            ],
+            [
+                "Emergency Repair Vehicle",
+                "应急修理车"
+            ],
+            [
+                "Gas Jet Thrower",
+                "喷拒器"
+            ],
+            [
+                "Mint",
+                "冶铸台"
+            ],
+            [
+                "'Sand Soldier'",
+                "“沙卒”"
+            ],
+            [
+                "Treasure Hunter",
+                "寻宝人"
             ]
         ]
     },
@@ -2970,6 +3166,11 @@
         ],
         "text": "Deployment Cost"
     },
+    "BattleQuickFormationRole-All-OCR": {
+        "text": [
+            "All"
+        ]
+    },
     "BattleQuickFormationOCR": {
         "roi": [
             0,
@@ -3040,6 +3241,11 @@
     },
     "StageDrops-DropType-Reward": {
         "templThreshold": 0.7
+    },
+    "Roguelike@ChooseDifficultyConfirm": {
+        "text": [
+            "Select"
+        ]
     },
     "Roguelike@FromIntegratedStrategies": {
         "text": [
@@ -3471,6 +3677,11 @@
             "Storage full"
         ]
     },
+    "Phantom@Roguelike@LevelName_mode4": {
+        "text": [
+            "Homeland Remnants"
+        ]
+    },
     "Phantom@Roguelike@NextLevel": {
         "text": [
             "Mist-stricken Missteps",
@@ -3484,6 +3695,11 @@
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
     },
+    "Mizuki@Roguelike@ChooseDifficultyConfirm": {
+        "text": [
+            "Select"
+        ]
+    },
     "Mizuki@Roguelike@GetDropBoxOpen": {
         "templThreshold": 0.95
     },
@@ -3493,15 +3709,21 @@
     "Mizuki@Roguelike@GetDropSelectRecruit": {
         "templThreshold": 0.75
     },
+    "Mizuki@Roguelike@LevelName_mode4": {
+        "text": [
+            "Raging Billows",
+            "Indigo Cradle"
+        ]
+    },
     "Mizuki@Roguelike@NextLevel": {
         "text": [
-            "Celeste and Seashore",
-            "Isolated Isle",
-            "Billowy Land",
-            "Mysterious Hotbed",
-            "Ashless Cave",
-            "Forest Undersea",
-            "Sweet Dream"
+            "Sunshine Coast",
+            "Offshore Island",
+            "Raging Billows",
+            "Secret Hotbed",
+            "Sacrosant Cave",
+            "Deep Sea Woodland",
+            "Indigo Cradle"
         ]
     },
     "Mizuki@Roguelike@StageSafeHouseReuse": {
@@ -5524,6 +5746,212 @@
         "text": [
             "Confirm assignment",
             "Confirm Selection"
+        ]
+    },
+    "Reclamation@TodoEnter": {
+        "text": [
+            "FIRE",
+            "WITHIN",
+            "THE",
+            "SAND"
+        ]
+    },
+    "Reclamation@EmptyInitUnits": {
+        "roi": [
+            349,
+            598,
+            563,
+            120
+        ],
+        "text": [
+            "Choose the Operators",
+            "you wish to begin",
+            "the Algorithm with"
+        ]
+    },
+    "Reclamation@ConfirmStart": {
+        "text": [
+            "COMMENCE",
+            "ALGORITHM"
+        ]
+    },
+    "Reclamation@SkipAnnounce": {
+        "text": [
+            "SKIP"
+        ]
+    },
+    "Reclamation@SkipDailyReport": {
+        "text": [
+            "Today's News"
+        ]
+    },
+    "Reclamation@StartActionEnter": {
+        "text": [
+            "Start"
+        ]
+    },
+    "Reclamation@PrepareAction": {
+        "text": [
+            "Prepare for",
+            "Battle"
+        ]
+    },
+    "Reclamation@ExitLevelConfirm": {
+        "text": [
+            "Are you sure you",
+            "want to leave?"
+        ]
+    },
+    "Reclamation@LevelComplete": {
+        "text": [
+            "Results"
+        ]
+    },
+    "Reclamation@GiveupAlgorithm": {
+        "text": [
+            "ABANDON"
+        ]
+    },
+    "Reclamation@GiveupCrossdomainPageFlag": {
+        "text": [
+            "Select supplies",
+            "to keep",
+            "and manually tap",
+            "Emergency",
+            "Evacua"
+        ]
+    },
+    "Reclamation@GiveupClickEmergencyExit": {
+        "text": [
+            "Confirm",
+            "Evacuation"
+        ]
+    },
+    "Reclamation@GiveupCheckRemainItems": {
+        "text": [
+            "Check",
+            "Supplies"
+        ]
+    },
+    "Reclamation@GiveupTakeNothing": {
+        "text": [
+            "Confirm",
+            "Evacuation"
+        ]
+    },
+    "Reclamation@EnterSmeltGoldPage": {
+        "roi": [
+            0,
+            31,
+            1280,
+            175
+        ],
+        "text": [
+            "Crude",
+            "Gold"
+        ]
+    },
+    "Reclamation@EnterResearchLab": {
+        "text": [
+            "Research",
+            "Development"
+        ]
+    },
+    "Reclamation@LabClickDetailView": {
+        "text": [
+            "View",
+            "Details"
+        ]
+    },
+    "Reclamation@LabClickAssembleable": {
+        "text": [
+            "Craftable"
+        ]
+    },
+    "Reclamation@ManufactureStatus": {
+        "Doc": "base_task",
+        "algorithm": "OcrDetect",
+        "roi": [
+            1023,
+            336,
+            259,
+            109
+        ],
+        "text": []
+    },
+    "Reclamation@ManufactureIncrease": {
+        "action": "ClickRect",
+        "baseTask": "Reclamation@ManufactureStatus",
+        "specificRect": [
+            1120,
+            86,
+            111,
+            26
+        ],
+        "text": [
+            "Craft"
+        ]
+    },
+    "Reclamation@ManufactureDecrease": {
+        "action": "ClickRect",
+        "baseTask": "Reclamation@ManufactureStatus",
+        "specificRect": [
+            1096,
+            288,
+            139,
+            28
+        ],
+        "text": [
+            "Insufficient",
+            "materials"
+        ]
+    },
+    "Reclamation@DoManufacture": {
+        "action": "ClickSelf",
+        "baseTask": "Reclamation@ManufactureStatus",
+        "postDelay": 1000,
+        "text": [
+            "Craft"
+        ]
+    },
+    "Reclamation@ManufactureInsufficientMaterial": {
+        "baseTask": "Reclamation@ManufactureStatus",
+        "text": [
+            "Insufficient",
+            "materials"
+        ]
+    },
+    "Reclamation@ManufactureSufficientMaterial": {
+        "baseTask": "Reclamation@ManufactureStatus",
+        "text": [
+            "Craft"
+        ]
+    },
+    "Reclamation@Liaison": {
+        "text": [
+            "Liaison"
+        ]
+    },
+    "Reclamation@BuyWaterProcedure": {
+        "text": [
+            "Skip",
+            "Building materials",
+            "Fresh Water",
+            "Skip"
+        ]
+    },
+    "StartWithDefaultFormation@Reclamation@ConfirmStart": {
+        "baseTask": "Reclamation@ConfirmStart",
+        "next": [],
+        "next_Old": [
+            "Stop"
+        ],
+        "next_Old_Doc": "这里原先有个stop，但是会导致StartWithDefaultFormation@Reclamation@Begin中间多出一个Stop，姑且当成是不小心加的删了。"
+    },
+    "StartActionEnter@Reclamation@StartActionEnter": {
+        "baseTask": "Reclamation@StartActionEnter",
+        "next": [
+            "Stop"
         ]
     },
     "GachaLastOnceResult": {

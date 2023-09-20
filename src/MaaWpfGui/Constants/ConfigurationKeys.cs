@@ -29,6 +29,8 @@ namespace MaaWpfGui.Constants
         public const string MinimizeToTray = "GUI.MinimizeToTray";
         public const string HideCloseButton = "GUI.HideCloseButton";
         public const string UseNotify = "GUI.UseNotify";
+        public const string UseLogItemDateFormat = "GUI.UseLogItemDateFormat";
+        public const string LogItemDateFormat = "GUI.LogItemDateFormatString";
         public const string WindowPlacement = "GUI.Placement";
         public const string LoadWindowPlacement = "GUI.Placement.Load";
         public const string SaveWindowPlacement = "GUI.Placement.SaveOnClosing";
@@ -38,16 +40,6 @@ namespace MaaWpfGui.Constants
         public const string InverseClearMode = "GUI.InverseClearMode";
         public const string WindowTitlePrefix = "GUI.WindowTitlePrefix";
         public const string DarkMode = "GUI.DarkMode";
-
-        public const string MonitorNumber = "GUI.Monitor.Number";
-        public const string MonitorWidth = "GUI.Monitor.Width";
-        public const string MonitorHeight = "GUI.Monitor.Height";
-        public const string PositionLeft = "GUI.Position.Left";
-        public const string PositionTop = "GUI.Position.Top";
-        public const string WindowWidth = "GUI.Size.Width";
-        public const string WindowHeight = "GUI.Size.Height";
-        public const string LoadPositionAndSize = "GUI.PositionAndSize.Load";
-        public const string SavePositionAndSize = "GUI.PositionAndSize.SaveOnClosing";
 
         public const string AddressHistory = "Connect.AddressHistory";
         public const string AutoDetect = "Connect.AutoDetect";
@@ -64,6 +56,7 @@ namespace MaaWpfGui.Constants
         public const string AdbReplaced = "Connect.AdbReplaced";
 
         public const string ClientType = "Start.ClientType";
+        public const string AccountName = "Start.AccountName";
         public const string RunDirectly = "Start.RunDirectly";
         public const string MinimizeDirectly = "Start.MinimizeDirectly";
         public const string StartEmulator = "Start.StartEmulator";
@@ -105,6 +98,7 @@ namespace MaaWpfGui.Constants
         public const string RoguelikeSquad = "Roguelike.Squad";
         public const string RoguelikeRoles = "Roguelike.Roles";
         public const string RoguelikeCoreChar = "Roguelike.CoreChar";
+        public const string RoguelikeStartWithEliteTwo = "Roguelike.RoguelikeStartWithEliteTwo";
         public const string RoguelikeUseSupportUnit = "Roguelike.RoguelikeUseSupportUnit";
         public const string RoguelikeEnableNonfriendSupport = "Roguelike.RoguelikeEnableNonfriendSupport";
         public const string RoguelikeStartsCount = "Roguelike.StartsCount";
@@ -131,7 +125,10 @@ namespace MaaWpfGui.Constants
         public const string CreditBlackListNew = "Mall.CreditBlackListNew";
         public const string CreditForceShoppingIfCreditFull = "Mall.CreditForceShoppingIfCreditFull";
 
+        public const string CopilotAddUserAdditional = "Copilot.AddUserAdditional";
+        public const string CopilotUserAdditional = "Copilot.UserAdditional";
         public const string CopilotLoopTimes = "Copilot.LoopTimes";
+        public const string CopilotTaskList = "Copilot.CopilotTaskList";
 
         public const string UpdateProxy = "VersionUpdate.Proxy";
         public const string VersionType = "VersionUpdate.VersionType";
@@ -162,6 +159,17 @@ namespace MaaWpfGui.Constants
         public const string DropsItemId = "MainFunction.Drops.ItemId";
         public const string DropsItemName = "MainFunction.Drops.ItemName";
         public const string DropsQuantity = "MainFunction.Drops.Quantity";
+
+        public const string ExternalNotificationEnabled = "ExternalNotification.Enabled";
+        public const string ExternalNotificationSmtpServer = "ExternalNotification.Smtp.Server";
+        public const string ExternalNotificationSmtpPort = "ExternalNotification.Smtp.Port";
+        public const string ExternalNotificationSmtpUser = "ExternalNotification.Smtp.User";
+        public const string ExternalNotificationSmtpPassword = "ExternalNotification.Smtp.Password";
+        public const string ExternalNotificationSmtpUseSsl = "ExternalNotification.Smtp.UseSsl";
+        public const string ExternalNotificationSmtpRequiresAuthentication = "ExternalNotification.Smtp.RequiresAuthentication";
+        public const string ExternalNotificationSmtpFrom = "ExternalNotification.Smtp.From";
+        public const string ExternalNotificationSmtpTo = "ExternalNotification.Smtp.To";
+        public const string ExternalNotificationServerChanSendKey = "ExternalNotification.ServerChan.SendKey";
 
         // The following should not be modified manually
         public const string VersionName = "VersionUpdate.name";

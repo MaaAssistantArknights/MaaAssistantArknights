@@ -21,7 +21,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Management;
-using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
@@ -36,6 +35,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Services.HotKeys;
+using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
@@ -44,7 +44,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
-using Windows.Devices.Geolocation;
 using ComboBox = System.Windows.Controls.ComboBox;
 using Timer = System.Timers.Timer;
 
@@ -107,6 +106,7 @@ namespace MaaWpfGui.ViewModels.UI
             _listTitle.Add(LocalizationHelper.GetString("ConnectionSettings"));
             _listTitle.Add(LocalizationHelper.GetString("StartupSettings"));
             _listTitle.Add(LocalizationHelper.GetString("UISettings"));
+            _listTitle.Add(LocalizationHelper.GetString("ExternalNotificationSettings"));
             _listTitle.Add(LocalizationHelper.GetString("HotKeySettings"));
             _listTitle.Add(LocalizationHelper.GetString("UpdateSettings"));
             _listTitle.Add(LocalizationHelper.GetString("AboutUs"));
@@ -150,6 +150,155 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        #region External Notifications
+
+        public void ExternalNotificationSendTest()
+        {
+            ExternalNotificationService.Send(
+                LocalizationHelper.GetString("ExternalNotificationSendTestTitle"),
+                LocalizationHelper.GetString("ExternalNotificationSendTestContent"),
+                true);
+        }
+
+        public List<CombinedData> ExternalNotificationProviders => new List<CombinedData>
+        {
+            new CombinedData { Display = LocalizationHelper.GetString("Off"), Value = "Off" },
+            new CombinedData { Display = "Server Chan", Value = "ServerChan" },
+            new CombinedData { Display = "SMTP", Value = "SMTP" },
+        };
+
+        private string _enabledExternalNotificationProvider = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnabled, "Off");
+
+        public bool IsEnabled => _enabledExternalNotificationProvider != "Off";
+
+        public bool IsServerChan => _enabledExternalNotificationProvider == "ServerChan";
+
+        public bool IsSmtp => _enabledExternalNotificationProvider == "SMTP";
+
+        public string EnabledExternalNotificationProvider
+        {
+            get => _enabledExternalNotificationProvider;
+            set
+            {
+                SetAndNotify(ref _enabledExternalNotificationProvider, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationEnabled, value);
+
+                NotifyOfPropertyChange(nameof(IsEnabled));
+                NotifyOfPropertyChange(nameof(IsSmtp));
+                NotifyOfPropertyChange(nameof(IsServerChan));
+            }
+        }
+
+        private string _serverChanSendKey = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, string.Empty);
+
+        public string ServerChanSendKey
+        {
+            get => _serverChanSendKey;
+            set
+            {
+                SetAndNotify(ref _serverChanSendKey, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, value);
+            }
+        }
+
+        private string _smtpServer = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpServer, string.Empty);
+
+        public string SmtpServer
+        {
+            get => _smtpServer;
+            set
+            {
+                SetAndNotify(ref _smtpServer, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpServer, value);
+            }
+        }
+
+        private string _smtpPort = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpPort, string.Empty);
+
+        public string SmtpPort
+        {
+            get => _smtpPort;
+            set
+            {
+                SetAndNotify(ref _smtpPort, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpPort, value);
+            }
+        }
+
+        private string _smtpUser = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpUser, string.Empty);
+
+        public string SmtpUser
+        {
+            get => _smtpUser;
+            set
+            {
+                SetAndNotify(ref _smtpUser, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpUser, value);
+            }
+        }
+
+        private string _smtpPassword = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpPassword, string.Empty);
+
+        public string SmtpPassword
+        {
+            get => _smtpPassword;
+            set
+            {
+                SetAndNotify(ref _smtpPassword, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpPassword, value);
+            }
+        }
+
+        private string _smtpFrom = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpFrom, string.Empty);
+
+        public string SmtpFrom
+        {
+            get => _smtpFrom;
+            set
+            {
+                SetAndNotify(ref _smtpFrom, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpFrom, value);
+            }
+        }
+
+        private string _smtpTo = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpTo, string.Empty);
+
+        public string SmtpTo
+        {
+            get => _smtpTo;
+            set
+            {
+                SetAndNotify(ref _smtpTo, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpTo, value);
+            }
+        }
+
+        private bool _smtpUseSsl = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpUseSsl, "false"));
+
+        public bool SmtpUseSsl
+        {
+            get => _smtpUseSsl;
+            set
+            {
+                SetAndNotify(ref _smtpUseSsl, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpUseSsl, value.ToString());
+            }
+        }
+
+        private bool _smtpRequireAuthentication = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpRequiresAuthentication, "false"));
+
+        public bool SmtpRequireAuthentication
+        {
+            get => _smtpRequireAuthentication;
+            set
+            {
+                SetAndNotify(ref _smtpRequireAuthentication, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpRequiresAuthentication, value.ToString());
+            }
+        }
+
+        #endregion External Notifications
+
         private List<string> _listTitle = new List<string>();
 
         /// <summary>
@@ -173,6 +322,7 @@ namespace MaaWpfGui.ViewModels.UI
                 "Reception",
                 "Office",
                 "Dorm",
+                "Processing",
             };
 
             var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[facility_list.Length]);
@@ -395,6 +545,18 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     ClientType = "Official";
                 }
+            }
+        }
+
+        private string _accountName = ConfigurationHelper.GetValue(ConfigurationKeys.AccountName, string.Empty);
+
+        public string AccountName
+        {
+            get => _accountName;
+            set
+            {
+                SetAndNotify(ref _accountName, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.AccountName, value);
             }
         }
 
@@ -1494,6 +1656,21 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _roguelikeCoreCharList, value);
         }
 
+        private string _roguelikeStartWithEliteTwo = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, false.ToString());
+
+        /// <summary>
+        /// Gets or sets a value indicating whether use support unit.
+        /// </summary>
+        public bool RoguelikeStartWithEliteTwo
+        {
+            get => bool.Parse(_roguelikeStartWithEliteTwo);
+            set
+            {
+                SetAndNotify(ref _roguelikeStartWithEliteTwo, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, value.ToString());
+            }
+        }
+
         private string _roguelikeUseSupportUnit = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeUseSupportUnit, false.ToString());
 
         /// <summary>
@@ -2229,6 +2406,10 @@ namespace MaaWpfGui.ViewModels.UI
                 case VersionUpdateViewModel.CheckUpdateRetT.NewVersionIsBeingBuilt:
                     toastMessage = LocalizationHelper.GetString("NewVersionIsBeingBuilt");
                     break;
+
+                case VersionUpdateViewModel.CheckUpdateRetT.OnlyGameReourceUpdated:
+                    toastMessage = LocalizationHelper.GetString("GameResourceUpdated");
+                    break;
             }
 
             if (toastMessage != null)
@@ -2465,8 +2646,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// RegisterKey of Bluestacks_Nxt
         /// </summary>
         public static string BluestacksNxtRegistryKey = @"SOFTWARE\BlueStacks_nxt";
-        public static string BluestacksNxtValueName = "UserDefinedDir";
 
+        public static string BluestacksNxtValueName = "UserDefinedDir";
 
         /// <summary>
         /// Refreshes ADB config.
@@ -2899,6 +3080,41 @@ namespace MaaWpfGui.ViewModels.UI
                         toast.Show();
                     });
                 }
+            }
+        }
+
+        private bool _useLogItemDateFormat = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseLogItemDateFormat, bool.FalseString));
+
+        public bool UseLogItemDateFormat
+        {
+            get => _useLogItemDateFormat;
+            set
+            {
+                SetAndNotify(ref _useLogItemDateFormat, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.UseLogItemDateFormat, value.ToString());
+            }
+        }
+
+        public List<string> LogItemDateFormatStringList { get; } = new List<string>
+        {
+            "HH:mm:ss",
+            "MM-dd  HH:mm:ss",
+            "MM/dd  HH:mm:ss",
+            "MM.dd  HH:mm:ss",
+            "dd-MM  HH:mm:ss",
+            "dd/MM  HH:mm:ss",
+            "dd.MM  HH:mm:ss",
+        };
+
+        private string _logItemDateFormatString = ConfigurationHelper.GetValue(ConfigurationKeys.LogItemDateFormat, "HH:mm:ss");
+
+        public string LogItemDateFormatString
+        {
+            get => _logItemDateFormatString;
+            set
+            {
+                SetAndNotify(ref _logItemDateFormatString, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.LogItemDateFormat, value);
             }
         }
 

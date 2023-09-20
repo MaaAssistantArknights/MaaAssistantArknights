@@ -10,7 +10,7 @@
                     "alternate_skill": 2,
                     "is_key": true,
                     "is_start": true,
-                    "doc": "相比凯尔希，焰苇的前期费用压力更小，更适合开局，属于下限高上限低的那种",
+                    "doc": "本次肉鸽强力开局干员",
                     "recruit_priority": 880,
                     "promote_priority": 980
                 }
@@ -32,24 +32,23 @@
                     "recruit_priority_offsets": [
                         {
                             "groups": [
-                                "近卫",
-                                "重装",
+                                "地面阻挡",
                                 "召唤"
                             ],
                             "threshold": 2,
                             "is_less": true,
-                            "offset": 220,
-                            "Doc": "地面阻挡输出位≤2时，凯尔希的招募优先级+220"
+                            "offset": 200,
+                            "Doc": "地面阻挡输出位≤2时，凯尔希的招募优先级+200"
                         },
                         {
                             "groups": [
                                 "单奶",
                                 "群奶"
                             ],
-                            "threshold": 2,
+                            "threshold": 1,
                             "is_less": true,
-                            "offset": 220,
-                            "Doc": "治疗位≤2时，凯尔希的招募优先级+220"
+                            "offset": 175,
+                            "Doc": "治疗位≤1时，凯尔希的招募优先级+175"
                         },
                         {
                             "groups": [
@@ -87,12 +86,17 @@
                         {
                             "groups": [
                                 "凯尔希",
-                                "地面阻挡"
+                                "重装",
+                                "召唤",
+                                "近卫",
+                                "情报官",
+                                "挡人先锋",
+                                "其他地面"
                             ],
                             "threshold": 1,
                             "is_less": true,
-                            "offset": -500,
-                            "Doc": "地面阻挡≤1时，玛恩纳的招募优先级-500"
+                            "offset": -350,
+                            "Doc": "地面阻挡≤1时，玛恩纳的招募优先级-350"
                         }
                     ]
                 }
@@ -105,9 +109,10 @@
                     "name": "假日威龙陈",
                     "skill": 3,
                     "alternate_skill": 1,
-                    "recruit_priority": 830,
+                    "recruit_priority": 829,
                     "promote_priority": 990,
-                    "is_key": true
+                    "is_key": true,
+                    "is_start": true
                 }
             ]
         },
@@ -120,7 +125,7 @@
                     "alternate_skill": 2,
                     "is_start": true,
                     "recruit_priority": 630,
-                    "promote_priority": 600,
+                    "promote_priority": 700,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -135,10 +140,29 @@
                     ]
                 },
                 {
+                    "name": "百炼嘉维尔",
+                    "skill": 2,
+                    "recruit_priority": 820,
+                    "promote_priority": 801,
+                    "is_start": true,
+                    "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "近卫",
+                                "召唤"
+                            ],
+                            "threshold": 1,
+                            "offset": -400
+                        }
+                    ]
+                },
+                {
                     "name": "海沫",
                     "skill": 1,
                     "recruit_priority": 650,
-                    "promote_priority": 400,
+                    "promote_priority": 500,
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
@@ -157,7 +181,7 @@
                     "name": "羽毛笔",
                     "skill": 1,
                     "recruit_priority": 720,
-                    "promote_priority": 400,
+                    "promote_priority": 500,
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
@@ -169,25 +193,6 @@
                             ],
                             "threshold": 1,
                             "offset": -300
-                        }
-                    ]
-                },
-                {
-                    "name": "百炼嘉维尔",
-                    "skill": 2,
-                    "recruit_priority": 820,
-                    "promote_priority": 800,
-                    "is_start": true,
-                    "is_key": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "凯尔希",
-                                "近卫",
-                                "召唤"
-                            ],
-                            "threshold": 1,
-                            "offset": -400
                         }
                     ]
                 },
@@ -231,10 +236,107 @@
                     ]
                 },
                 {
-                    "name": "风丸",
+                    "name": "仇白",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "recruit_priority": 705,
+                    "promote_priority": 899,
+                    "is_start": true,
+                    "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "近卫",
+                                "召唤"
+                            ],
+                            "threshold": 3,
+                            "offset": -150
+                        }
+                    ]
+                },
+                {
+                    "name": "棘刺",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "recruit_priority": 605,
+                    "promote_priority": 980,
+                    "is_start": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "近卫",
+                                "召唤",
+                                "重装"
+                            ],
+                            "threshold": 1,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "煌",
                     "skill": 2,
-                    "recruit_priority": 670,
-                    "promote_priority": 400,
+                    "recruit_priority": 610,
+                    "promote_priority": 790,
+                    "is_start": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "近卫",
+                                "召唤",
+                                "重装"
+                            ],
+                            "threshold": 1,
+                            "offset": -200
+                        }
+                    ]
+                },
+                {
+                    "name": "银灰",
+                    "skill": 3,
+                    "alternate_skill": 1,
+                    "recruit_priority": 610,
+                    "promote_priority": 870,
+                    "is_start": true,
+                    "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "近卫"
+                            ],
+                            "threshold": 2,
+                            "offset": -200
+                        }
+                    ]
+                },
+                {
+                    "name": "艾丽妮",
+                    "skill": 3,
+                    "alternate_skill": 1,
+                    "recruit_priority": 520,
+                    "promote_priority": 655,
+                    "is_start": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "近卫",
+                                "召唤"
+                            ],
+                            "threshold": 1,
+                            "offset": -400
+                        }
+                    ]
+                },
+                {
+                    "name": "帕拉斯",
+                    "skill": 1,
+                    "recruit_priority": 610,
+                    "promote_priority": 350,
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
@@ -250,10 +352,10 @@
                     ]
                 },
                 {
-                    "name": "帕拉斯",
-                    "skill": 1,
-                    "recruit_priority": 610,
-                    "promote_priority": 350,
+                    "name": "风丸",
+                    "skill": 2,
+                    "recruit_priority": 670,
+                    "promote_priority": 400,
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
@@ -326,103 +428,6 @@
                             "is_less": true,
                             "offset": -300,
                             "Doc": "地面阻挡≤1时，玛恩纳的招募优先级-500"
-                        }
-                    ]
-                },
-                {
-                    "name": "仇白",
-                    "skill": 3,
-                    "alternate_skill": 2,
-                    "recruit_priority": 705,
-                    "promote_priority": 899,
-                    "is_start": true,
-                    "is_key": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "凯尔希",
-                                "近卫",
-                                "召唤"
-                            ],
-                            "threshold": 3,
-                            "offset": -150
-                        }
-                    ]
-                },
-                {
-                    "name": "棘刺",
-                    "skill": 3,
-                    "alternate_skill": 2,
-                    "recruit_priority": 605,
-                    "promote_priority": 980,
-                    "is_start": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "凯尔希",
-                                "近卫",
-                                "召唤",
-                                "重装"
-                            ],
-                            "threshold": 1,
-                            "offset": -300
-                        }
-                    ]
-                },
-                {
-                    "name": "煌",
-                    "skill": 2,
-                    "recruit_priority": 610,
-                    "promote_priority": 800,
-                    "is_start": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "凯尔希",
-                                "近卫",
-                                "召唤",
-                                "重装"
-                            ],
-                            "threshold": 1,
-                            "offset": -200
-                        }
-                    ]
-                },
-                {
-                    "name": "银灰",
-                    "skill": 3,
-                    "alternate_skill": 1,
-                    "recruit_priority": 610,
-                    "promote_priority": 870,
-                    "is_start": true,
-                    "is_key": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "凯尔希",
-                                "近卫"
-                            ],
-                            "threshold": 2,
-                            "offset": -200
-                        }
-                    ]
-                },
-                {
-                    "name": "艾丽妮",
-                    "skill": 3,
-                    "alternate_skill": 1,
-                    "recruit_priority": 520,
-                    "promote_priority": 655,
-                    "is_start": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "凯尔希",
-                                "近卫",
-                                "召唤"
-                            ],
-                            "threshold": 1,
-                            "offset": -400
                         }
                     ]
                 }
@@ -506,16 +511,16 @@
                     "alternate_skill": 1,
                     "is_key": true,
                     "is_start": true,
-                    "recruit_priority": 710,
-                    "promote_priority": 880,
+                    "recruit_priority": 619,
+                    "promote_priority": 700,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
                                 "凯尔希",
-                                "近卫"
+                                "重装"
                             ],
                             "threshold": 2,
-                            "offset": -200
+                            "offset": -250
                         }
                     ]
                 },
@@ -548,6 +553,68 @@
                             ],
                             "threshold": 2,
                             "offset": -200
+                        }
+                    ]
+                },
+                {
+                    "name": "涤火杰西卡",
+                    "skill": 2,
+                    "recruit_priority": 622,
+                    "promote_priority": 650,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "重装"
+                            ],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "雷蛇",
+                    "skill": 1,
+                    "recruit_priority": 613,
+                    "promote_priority": 350,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "重装"
+                            ],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "瑕光",
+                    "skill": 1,
+                    "recruit_priority": 607,
+                    "promote_priority": 570,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "重装"
+                            ],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "泡泡",
+                    "skill": 2,
+                    "recruit_priority": 597,
+                    "promote_priority": 270,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "重装"
+                            ],
+                            "threshold": 2,
+                            "offset": -300
                         }
                     ]
                 },
@@ -677,68 +744,6 @@
                             ],
                             "threshold": 2,
                             "offset": -200
-                        }
-                    ]
-                },
-                {
-                    "name": "涤火杰西卡",
-                    "skill": 2,
-                    "recruit_priority": 614,
-                    "promote_priority": 650,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "凯尔希",
-                                "重装"
-                            ],
-                            "threshold": 2,
-                            "offset": -300
-                        }
-                    ]
-                },
-                {
-                    "name": "雷蛇",
-                    "skill": 1,
-                    "recruit_priority": 613,
-                    "promote_priority": 350,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "凯尔希",
-                                "重装"
-                            ],
-                            "threshold": 2,
-                            "offset": -300
-                        }
-                    ]
-                },
-                {
-                    "name": "瑕光",
-                    "skill": 1,
-                    "recruit_priority": 607,
-                    "promote_priority": 570,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "重装"
-                            ],
-                            "threshold": 2,
-                            "offset": -300
-                        }
-                    ]
-                },
-                {
-                    "name": "泡泡",
-                    "skill": 2,
-                    "recruit_priority": 597,
-                    "promote_priority": 270,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "重装"
-                            ],
-                            "threshold": 2,
-                            "offset": -300
                         }
                     ]
                 },
@@ -901,7 +906,8 @@
                 },
                 {
                     "name": "四月",
-                    "skill": 2
+                    "skill": 2,
+                    "auto_retreat": 13
                 },
                 {
                     "name": "灰喉",
@@ -946,7 +952,7 @@
                     "skill": 3,
                     "alternate_skill": 1,
                     "recruit_priority": 620,
-                    "promote_priority": 800,
+                    "promote_priority": 801,
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
@@ -1334,6 +1340,7 @@
                     "skill": 3,
                     "is_key": true,
                     "alternate_skill": 2,
+                    "auto_retreat": 8,
                     "recruit_priority": 750,
                     "promote_priority": 861,
                     "recruit_priority_offsets": [
@@ -1351,6 +1358,7 @@
                     "name": "麒麟R夜刀",
                     "skill": 2,
                     "is_key": true,
+                    "auto_retreat": 6,
                     "recruit_priority": 701,
                     "promote_priority": 855,
                     "recruit_priority_offsets": [
@@ -1371,8 +1379,9 @@
                     "name": "耀骑士临光",
                     "skill": 2,
                     "recruit_priority": 631,
-                    "promote_priority": 610,
+                    "promote_priority": 620,
                     "is_start": true,
+                    "auto_retreat": 14,
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
@@ -1388,6 +1397,7 @@
                 {
                     "name": "傀影",
                     "skill": 2,
+                    "auto_retreat": 15,
                     "recruit_priority": 601,
                     "promote_priority": 555,
                     "recruit_priority_offsets": [
@@ -1404,6 +1414,7 @@
                 {
                     "name": "红",
                     "skill": 1,
+                    "auto_retreat": 7,
                     "recruit_priority": 500,
                     "promote_priority": 302,
                     "recruit_priority_offsets": [
@@ -1419,28 +1430,34 @@
                 },
                 {
                     "name": "斯卡蒂",
-                    "skill": 2
+                    "skill": 2,
+                    "auto_retreat": 15
                 },
                 {
                     "name": "宴",
-                    "skill": 2
+                    "skill": 2,
+                    "auto_retreat": 8
                 },
                 {
-                    "name": "慕斯"
+                    "name": "慕斯",
+                    "auto_retreat": 15
                 },
                 {
                     "name": "摩根",
-                    "skill": 2
+                    "skill": 2,
+                    "auto_retreat": 9
                 },
                 {
                     "name": "风笛"
                 },
                 {
-                    "name": "镜中虚影"
+                    "name": "镜中虚影",
+                    "auto_retreat": 8
                 },
                 {
                     "name": "芙兰卡",
-                    "skill": 2
+                    "skill": 2,
+                    "auto_retreat": 20
                 }
             ]
         },
@@ -1450,7 +1467,6 @@
                 {
                     "name": "浊心斯卡蒂",
                     "skill": 2,
-
                     "is_key": true,
                     "recruit_priority": 727,
                     "promote_priority": 710,
@@ -1566,13 +1582,24 @@
         },
         {
             "name": "投锋",
+            "doc": "本次肉鸽开局压力较大,投锋优先度不高",
             "opers": [
                 {
                     "name": "琴柳",
                     "skill": 1,
+                    "auto_retreat": 80,
                     "recruit_priority": 520,
-                    "promote_priority": 359,
+                    "promote_priority": 400,
                     "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "挡人先锋",
+                                "情报官"
+                            ],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -400
+                        },
                         {
                             "groups": [
                                 "投锋",
@@ -1580,16 +1607,26 @@
                                 "情报官"
                             ],
                             "threshold": 2,
-                            "offset": -400
+                            "offset": -200
                         }
                     ]
                 },
                 {
                     "name": "极境",
                     "skill": 1,
+                    "auto_retreat": 80,
                     "recruit_priority": 570,
-                    "promote_priority": 350,
+                    "promote_priority": 390,
                     "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "挡人先锋",
+                                "情报官"
+                            ],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -400
+                        },
                         {
                             "groups": [
                                 "投锋",
@@ -1597,25 +1634,35 @@
                                 "情报官"
                             ],
                             "threshold": 2,
-                            "offset": -400
+                            "offset": -200
                         }
                     ]
                 },
                 {
                     "name": "桃金娘",
                     "skill": 1,
-                    "recruit_priority": 680,
-                    "promote_priority": 310,
+                    "auto_retreat": 80,
+                    "recruit_priority": 580,
+                    "promote_priority": 380,
                     "is_key": true,
                     "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "挡人先锋",
+                                "情报官"
+                            ],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -400
+                        },
                         {
                             "groups": [
                                 "投锋",
                                 "挡人先锋",
                                 "情报官"
                             ],
-                            "threshold": 3,
-                            "offset": -400
+                            "threshold": 2,
+                            "offset": -200
                         }
                     ]
                 }
@@ -1628,7 +1675,7 @@
                     "name": "郁金香",
                     "skill": 1,
                     "recruit_priority": 807,
-                    "promote_priority": 456,
+                    "promote_priority": 550,
                     "is_key": true
                 },
                 {
@@ -1733,7 +1780,6 @@
                     "name": "芬",
                     "skill": 1,
                     "recruit_priority": 611,
-                    "promote_priority": 0,
                     "is_key": true,
                     "is_start": true,
                     "recruit_priority_offsets": [
@@ -1751,8 +1797,7 @@
                 {
                     "name": "香草",
                     "skill": 1,
-                    "recruit_priority": 511,
-                    "promote_priority": 0,
+                    "recruit_priority": 610,
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
@@ -1845,8 +1890,8 @@
                 {
                     "name": "谜图",
                     "skill": 2,
-                    "recruit_priority": 530,
-                    "promote_priority": 300,
+                    "recruit_priority": 551,
+                    "promote_priority": 400,
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
@@ -1860,7 +1905,6 @@
                         }
                     ]
                 }
-
             ]
         },
         {
@@ -1888,7 +1932,7 @@
                     "skill": 2,
                     "is_key": true,
                     "recruit_priority": 640,
-                    "promote_priority": 800,
+                    "promote_priority": 801,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -1928,7 +1972,7 @@
                     "skill": 3,
                     "alternate_skill": 2,
                     "recruit_priority": 359,
-                    "promote_priority": 580
+                    "promote_priority": 780
                 },
                 {
                     "name": "黑键",
@@ -1954,8 +1998,7 @@
                     "name": "史都华德",
                     "skill": 1,
                     "is_key": true,
-                    "recruit_priority": 562,
-                    "promote_priority": 0
+                    "recruit_priority": 562
                 }
             ]
         },
@@ -1968,6 +2011,7 @@
                     "skill_usage": 2,
                     "skill_times": 1,
                     "is_key": true,
+                    "is_start": true,
                     "recruit_priority": 626,
                     "promote_priority": 750
                 },
@@ -1993,8 +2037,8 @@
                 {
                     "name": "提丰",
                     "skill": 2,
-                    "recruit_priority": 729,
-                    "promote_priority": 890,
+                    "recruit_priority": 830,
+                    "promote_priority": 910,
                     "is_key": true,
                     "is_start": true
                 }
@@ -2009,7 +2053,8 @@
                 },
                 {
                     "name": "早露",
-                    "skill": 2,
+                    "skill": 3,
+                    "alternate_skill": 2,
                     "recruit_priority": 503,
                     "promote_priority": 600
                 },
@@ -2189,10 +2234,25 @@
                     "name": "年"
                 },
                 {
-                    "name": "号角"
+                    "name": "星熊"
                 },
                 {
-                    "name": "星熊"
+                    "name": "涤火杰西卡"
+                },
+                {
+                    "name": "瑕光"
+                },
+                {
+                    "name": "石棉"
+                },
+                {
+                    "name": "雷蛇"
+                },
+                {
+                    "name": "蛇屠箱"
+                },
+                {
+                    "name": "号角"
                 },
                 {
                     "name": "海沫"
@@ -2204,28 +2264,10 @@
                     "name": "休谟斯"
                 },
                 {
-                    "name": "泥岩"
-                },
-                {
-                    "name": "斥罪"
-                },
-                {
                     "name": "风丸"
                 },
                 {
-                    "name": "瑕光"
-                },
-                {
-                    "name": "石棉"
-                },
-                {
                     "name": "帕拉斯"
-                },
-                {
-                    "name": "雷蛇"
-                },
-                {
-                    "name": "蛇屠箱"
                 },
                 {
                     "name": "临光"
@@ -2277,9 +2319,6 @@
                     "name": "棘刺"
                 },
                 {
-                    "name": "银灰"
-                },
-                {
                     "name": "推进之王"
                 },
                 {
@@ -2310,12 +2349,21 @@
                     "name": "艾丽妮"
                 },
                 {
+                    "name": "泥岩"
+                },
+                {
+                    "name": "斥罪"
+                },
+                {
                     "name": "陈",
                     "skill": 2
                 },
                 {
                     "name": "白铁",
                     "skill": 2
+                },
+                {
+                    "name": "银灰"
                 },
                 {
                     "name": "幽灵鲨"
@@ -2371,7 +2419,7 @@
                     "skill": 3,
                     "skill_usage": 2,
                     "skill_times": 5,
-                    "promote_priority": 600,
+                    "promote_priority": 700,
                     "alternate_skill": 2
                 },
                 {
@@ -2544,6 +2592,9 @@
                     "name": "罗小黑"
                 },
                 {
+                    "name": "涤火杰西卡"
+                },
+                {
                     "name": "雷蛇"
                 },
                 {
@@ -2596,7 +2647,6 @@
                 {
                     "name": "月见夜"
                 }
-
             ]
         },
         {
@@ -2719,15 +2769,6 @@
                     "name": "谜图"
                 },
                 {
-                    "name": "琴柳"
-                },
-                {
-                    "name": "极境"
-                },
-                {
-                    "name": "桃金娘"
-                },
-                {
                     "name": "郁金香"
                 },
                 {
@@ -2762,6 +2803,15 @@
                 },
                 {
                     "name": "香草"
+                },
+                {
+                    "name": "琴柳"
+                },
+                {
+                    "name": "极境"
+                },
+                {
+                    "name": "桃金娘"
                 }
             ]
         },
@@ -2788,10 +2838,7 @@
                 },
                 {
                     "name": "灰烬"
-                },
-                {
-                    "name": "焰影苇草"
-                },
+                },                
                 {
                     "name": "林"
                 },
@@ -2838,7 +2885,7 @@
                 {
                     "name": "白金",
                     "skill": 2,
-                    "promote_priority": 350
+                    "promote_priority": 550
                 },
                 {
                     "name": "梅"
@@ -2882,7 +2929,7 @@
                     "name": "夜魔"
                 },
                 {
-                    "name": "多萝西"
+                    "name": "阿"
                 },
                 {
                     "name": "麦哲伦"
@@ -2972,7 +3019,6 @@
                 {
                     "name": "伊桑",
                     "skill": 2,
-                    "is_key": true,
                     "recruit_priority": 405,
                     "promote_priority": 405,
                     "recruit_priority_offsets": [
@@ -3027,7 +3073,6 @@
                 {
                     "name": "U-Official"
                 }
-
             ]
         },
         {
@@ -3039,7 +3084,8 @@
                 },
                 {
                     "name": "砾",
-                    "skill": 2
+                    "skill": 2,
+                    "auto_retreat": 15
                 },
                 {
                     "name": "镜中虚影"
@@ -3114,25 +3160,32 @@
             "opers": [
                 {
                     "name": "“弦惊”"
+                },
+                {
+                    "name": "机动盾牌"
                 }
             ]
         },
         {
             "name": "障碍物",
+            "doc": "部署位地面,无朝向的召唤物",
             "opers": [
                 {
                     "name": "障碍物"
                 },
                 {
-                    "name": "掩体"
+                    "name": "掩体",
+                    "doc": "即 防爆桩"
                 },
                 {
-                    "name": "幻影"
+                    "name": "幻影",
+                    "doc": "即 鸟笼"
                 }
             ]
         },
         {
             "name": "补给站",
+            "doc": "部署位任意,有朝向的召唤物",
             "opers": [
                 {
                     "name": "便携式补给站"
@@ -3145,6 +3198,25 @@
                 },
                 {
                     "name": "可靠电池"
+                }
+            ]
+        },
+        {
+            "name": "支援陷阱",
+            "opers": [
+                {
+                    "name": "“轰隆隆先生”"
+                },
+                {
+                    "name": "失修舞台雾机"
+                }
+            ]
+        },
+        {
+            "name": "起重机",
+            "opers": [
+                {
+                    "name": "雪雉的安全起重机"
                 }
             ]
         },
@@ -3177,20 +3249,7 @@
                     "promote_priority": 210
                 },
                 {
-                    "name": "黑角",
-                    "skill": 0,
-                    "recruit_priority": 361,
-                    "promote_priority": 0,
-                    "is_key": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "重装"
-                            ],
-                            "threshold": 1,
-                            "offset": -300
-                        }
-                    ]
+                    "name": "黑角"
                 },
                 {
                     "name": "芳汀",
@@ -3207,7 +3266,6 @@
                     "skill": 1,
                     "recruit_priority": 405
                 },
-
                 {
                     "name": "柏喙",
                     "skill": 2,
@@ -3287,10 +3345,12 @@
                 {
                     "name": "槐琥",
                     "skill": 2,
+                    "auto_retreat": 2,
                     "promote_priority": 200
                 },
                 {
-                    "name": "卡夫卡"
+                    "name": "卡夫卡",
+                    "auto_retreat": 3
                 },
                 {
                     "name": "达格达",
@@ -3570,7 +3630,19 @@
                 },
                 {
                     "name": "阿",
-                    "skill": 1
+                    "skill": 1,
+                    "recruit_priority": 256,
+                    "promote_priority": 400,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "奶"
+                            ],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -300
+                        }
+                    ]
                 },
                 {
                     "name": "空构",
@@ -3586,7 +3658,9 @@
                     "recruit_priority": 206
                 },
                 {
-                    "name": "空爆"
+                    "name": "空爆",
+                    "is_key": true,
+                    "recruit_priority": 206
                 },
                 {
                     "name": "预备干员-术师",

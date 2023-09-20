@@ -21,14 +21,17 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using HandyControl.Tools.Extension;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.States;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Serilog;
 using Stylet;
 using DataFormats = System.Windows.Forms.DataFormats;
+using Task = System.Threading.Tasks.Task;
 
 namespace MaaWpfGui.ViewModels.UI
 {
@@ -47,6 +50,11 @@ namespace MaaWpfGui.ViewModels.UI
         public ObservableCollection<LogItemViewModel> LogItemViewModels { get; }
 
         /// <summary>
+        /// Gets or private sets the view models of Copilot items.
+        /// </summary>
+        public ObservableCollection<CopilotItemViewModel> CopilotItemViewModels { get; } = new ObservableCollection<CopilotItemViewModel>();
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="CopilotViewModel"/> class.
         /// </summary>
         public CopilotViewModel()
@@ -56,6 +64,21 @@ namespace MaaWpfGui.ViewModels.UI
             AddLog(LocalizationHelper.GetString("CopilotTip"));
             _runningState = RunningState.Instance;
             _runningState.IdleChanged += RunningState_IdleChanged;
+
+            var copilotTaskList = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotTaskList, string.Empty);
+            if (!string.IsNullOrEmpty(copilotTaskList))
+            {
+                JArray jArray = JArray.Parse(copilotTaskList);
+                foreach (var item in jArray)
+                {
+                    if ((item as JObject).TryGetValue("file_path", out var token) && File.Exists(token.ToString()))
+                    {
+                        CopilotItemViewModels.Add(new CopilotItemViewModel((string)item["name"], (string)item["file_path"], (bool)item["is_checked"]));
+                    }
+                }
+
+                CopilotItemIndexChanged();
+            }
         }
 
         private void RunningState_IdleChanged(object sender, bool e)
@@ -236,6 +259,14 @@ namespace MaaWpfGui.ViewModels.UI
                 if (doc != null && doc.TryGetValue("title", out var titleValue))
                 {
                     title = titleValue.ToString();
+
+                    // 为自动作战列表匹配名字
+                    var linkParser = new Regex(@"([a-z]{0,3})(\d{0,2})-(EX-)?(\d{1,2})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                    foreach (Match match in linkParser.Matches(title))
+                    {
+                        CopilotTaskName = match.Value;
+                        break;
+                    }
                 }
 
                 if (title.Length != 0)
@@ -266,7 +297,7 @@ namespace MaaWpfGui.ViewModels.UI
                     AddLog(details, detailsColor);
                     {
                         Url = CopilotUiUrl;
-                        var linkParser = new Regex("(BV.*?).{10}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                        var linkParser = new Regex(@"AV\d+|(BV.*?).{10}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                         foreach (Match match in linkParser.Matches(details))
                         {
                             Url = "https://www.bilibili.com/video/" + match.Value;
@@ -462,6 +493,201 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _form, value);
         }
 
+        private bool _addTrust;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use auto-formation.
+        /// </summary>
+        public bool AddTrust
+        {
+            get => _addTrust;
+            set => SetAndNotify(ref _addTrust, value);
+        }
+
+        private bool _addUserAdditional = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.CopilotAddUserAdditional, false.ToString()));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use auto-formation.
+        /// </summary>
+        public bool AddUserAdditional
+        {
+            get => _addUserAdditional;
+            set
+            {
+                SetAndNotify(ref _addUserAdditional, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.CopilotAddUserAdditional, value.ToString());
+            }
+        }
+
+        private string _userAdditional = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotUserAdditional, "W,2;Friston-3,1");
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use auto-formation.
+        /// </summary>
+        public string UserAdditional
+        {
+            get => _userAdditional;
+            set
+            {
+                SetAndNotify(ref _userAdditional, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.CopilotUserAdditional, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use auto-formation.
+        /// </summary>
+        private bool _useCopilotList = false;
+
+        public bool UseCopilotList
+        {
+            get => _useCopilotList;
+            set
+            {
+                if (value)
+                {
+                    _taskType = "Copilot";
+                    Form = true;
+                }
+
+                SetAndNotify(ref _useCopilotList, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use auto-formation.
+        /// </summary>
+        private string _copilotTaskName = string.Empty;
+
+        public string CopilotTaskName
+        {
+            get => _copilotTaskName;
+            set
+            {
+                SetAndNotify(ref _copilotTaskName, value);
+            }
+        }
+
+        private const string CopilotJsonDir = "cache/copilot";
+
+        public void AddCopilotTask()
+        {
+            var stage_name = CopilotTaskName.Trim().Replace("突袭", "-Adverse");
+            if (!stage_name.IsNullOrEmpty())
+            {
+                AddCopilotTaskToList(stage_name);
+            }
+        }
+
+        public void AddCopilotTask_Adverse()
+        {
+            var stage_name = CopilotTaskName.Trim().Replace("突袭", "-Adverse");
+            if (!stage_name.EndsWith("-Adverse"))
+            {
+                stage_name += "-Adverse";
+            }
+
+            if (!stage_name.IsNullOrEmpty())
+            {
+                AddCopilotTaskToList(stage_name);
+            }
+        }
+
+        public void AddCopilotTaskToList(string stage_name)
+        {
+            var jsonPath = $"{CopilotJsonDir}/{stage_name}.json";
+
+            try
+            {
+                Directory.CreateDirectory(CopilotJsonDir);
+            }
+            catch (Exception)
+            {
+            }
+
+            try
+            {
+                File.Copy(IsDataFromWeb ? TempCopilotFile : Filename, jsonPath, true);
+                var item = new CopilotItemViewModel(stage_name, jsonPath)
+                {
+                    Index = CopilotItemViewModels.Count,
+                };
+                CopilotItemViewModels.Add(item);
+                SaveCopilotTask();
+            }
+            catch (Exception ex)
+            {
+                AddLog(LocalizationHelper.GetString("CopilotJsonError"), UiLogColor.Error);
+                Log.Error(ex.ToString());
+            }
+        }
+
+        public void SaveCopilotTask()
+        {
+            JArray jArray = new JArray(CopilotItemViewModels.Select(item => new JObject
+            {
+                ["name"] = item.Name,
+                ["file_path"] = item.FilePath,
+                ["is_checked"] = item.IsChecked,
+            }).ToList());
+            ConfigurationHelper.SetValue(ConfigurationKeys.CopilotTaskList, JsonConvert.SerializeObject(jArray));
+        }
+
+        public void DeleteCopilotTask(int index)
+        {
+            CopilotItemViewModels.RemoveAt(index);
+            CopilotItemIndexChanged();
+        }
+
+        public void CleanUnableCopilotTask()
+        {
+            foreach (var item in CopilotItemViewModels.Where(model => !model.IsChecked).ToList())
+            {
+                CopilotItemViewModels.Remove(item);
+            }
+
+            CopilotItemIndexChanged();
+        }
+
+        public void ClearCopilotTask()
+        {
+            CopilotItemViewModels.Clear();
+            SaveCopilotTask();
+        }
+
+        public void EnterCopilotTask()
+        {
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                for (int i = 0; i < CopilotItemViewModels.Count; i++)
+                {
+                    if (CopilotItemViewModels[i].IsChecked)
+                    {
+                        CopilotItemViewModels[i].IsChecked = false;
+                        break;
+                    }
+                }
+
+                SaveCopilotTask();
+            });
+        }
+
+        /// <summary>
+        /// 更新任务顺序
+        /// </summary>
+        public void CopilotItemIndexChanged()
+        {
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                for (int i = 0; i < CopilotItemViewModels.Count; i++)
+                {
+                    CopilotItemViewModels[i].Index = i;
+                }
+
+                SaveCopilotTask();
+            });
+        }
+
         public bool Loop { get; set; }
 
         private int _loopTimes = int.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.CopilotLoopTimes, "1"));
@@ -517,14 +743,52 @@ namespace MaaWpfGui.ViewModels.UI
                 AddLog(errMsg, UiLogColor.Error);
             }
 
-            bool ret = Instances.AsstProxy.AsstStartCopilot(IsDataFromWeb ? TempCopilotFile : Filename, Form, _taskType,
-                Loop ? LoopTimes : 1);
+            JArray mUserAdditional = new JArray();
+            Regex regex = new Regex(@"(?<=;)(?<name>[^,;]+)(?:, *(?<skill>\d))? *", RegexOptions.Compiled);
+            MatchCollection matches = regex.Matches(";" + UserAdditional.Replace("，", ",").Replace("；", ";"));
+            foreach (Match match in matches)
+            {
+                mUserAdditional.Add(new JObject
+                {
+                    ["name"] = match.Groups[1].Value.Trim(),
+                    ["skill"] = match.Groups[2].Value.IsNullOrEmpty() ? 0 : int.Parse(match.Groups[2].Value),
+                });
+            }
+
+            bool ret = true;
+            if (UseCopilotList)
+            {
+                bool startAny = false;
+                foreach (var model in CopilotItemViewModels)
+                {
+                    if (model.IsChecked)
+                    {
+                        ret &= Instances.AsstProxy.AsstStartCopilot(model.FilePath, Form, AddTrust, AddUserAdditional, mUserAdditional, UseCopilotList, model.Name.Replace("-Adverse", string.Empty), model.Name.Contains("-Adverse"), _taskType, Loop ? LoopTimes : 1, false);
+                        startAny = true;
+                    }
+                }
+
+                ret &= Instances.AsstProxy.AsstStart();
+                if (!startAny)
+                {
+                    // 一个都没启动，怎会有如此无聊之人
+                    Instances.AsstProxy.AsstStop();
+                    _runningState.SetIdle(true);
+                    return;
+                }
+            }
+            else
+            {
+                ret &= Instances.AsstProxy.AsstStartCopilot(IsDataFromWeb ? TempCopilotFile : Filename, Form, AddTrust, AddUserAdditional, mUserAdditional, UseCopilotList, string.Empty, false, _taskType, Loop ? LoopTimes : 1);
+            }
+
             if (ret)
             {
                 AddLog(LocalizationHelper.GetString("Running"));
             }
             else
             {
+                Instances.AsstProxy.AsstStop();
                 _runningState.SetIdle(true);
                 AddLog(LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error);
             }

@@ -34,7 +34,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 - 刷理智，掉落识别及上传 [企鹅物流](https://penguin-stats.cn/)
 - 智能基建换班，自动计算干员效率，单设施内最优解；同时也支持 [自定义排班](https://maa.plus/docs/3.6-基建排班协议.html)
-- 自动公招，可选使用加急许可，一次全部刷完！公招数据上传 [企鹅物流](https://penguin-stats.cn/result/stage/recruit/recruit)，[一图流](https://yituliu.site/maarecruitdata)
+- 自动公招，可选使用加急许可，一次全部刷完！公招数据上传 [企鹅物流](https://penguin-stats.cn/result/stage/recruit/recruit)，[一图流](https://yituliu.site/survey/maarecruitdata)
 - 访问好友、收取信用及购物、领取日常奖励等。一键全日常自动长草！
 - 肉鸽全自动刷源石锭和蜡烛，自动识别干员及练度
 - 选择作业 JSON 文件，自动抄作业！ [视频演示](https://www.bilibili.com/video/BV1H841177Fk/)

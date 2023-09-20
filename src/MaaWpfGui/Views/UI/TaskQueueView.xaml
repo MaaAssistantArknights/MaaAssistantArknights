@@ -242,7 +242,6 @@
                     <userControl:RoguelikeSettingsUserControl
                         s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
                         DataContext="{Binding TaskSettingDataContext}"
-                        IsEnabled="{Binding Idle}"
                         Visibility="{c:Binding TaskSettingVisibilities.AutoRoguelike}" />
                 </hc:SimpleStackPanel>
             </hc:ScrollViewer>
@@ -288,23 +287,30 @@
                 ItemsSource="{Binding Path=LogItemViewModels}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
+                        <Grid MaxWidth="400">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
                             <controls:TextBlock
-                                Width="95"
-                                Margin="0,5"
-                                VerticalAlignment="Top"
+                                Grid.Column="0"
+                                Margin="0,5,20,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Stretch"
                                 Foreground="{DynamicResource TraceLogBrush}"
                                 Text="{Binding Time}"
                                 TextWrapping="Wrap" />
                             <controls:TextBlock
-                                Width="135"
+                                Grid.Column="1"
                                 Margin="0,5"
-                                VerticalAlignment="Top"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Stretch"
                                 FontWeight="{Binding Weight}"
                                 ForegroundKey="{Binding Color}"
                                 Text="{Binding Content}"
                                 TextWrapping="Wrap" />
-                        </StackPanel>
+                        </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

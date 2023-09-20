@@ -83,6 +83,8 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         return false;
     }
 
+    std::unique_lock<std::mutex> lock(m_entry_mutex);
+
 #define LoadResourceAndCheckRet(Config, Filename)                 \
     {                                                             \
         auto full_path = path / Filename;                         \

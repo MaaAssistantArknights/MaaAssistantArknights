@@ -627,6 +627,18 @@
     <ClInclude Include="Task\Fight\StageQueueMissionCompletedPlugin.h">
       <Filter>源文件\Task\Fight</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Miscellaneous\AccountSwitchTask.h">
+      <Filter>源文件\Task\Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Infrast\InfrastProcessingTask.h">
+      <Filter>源文件\Task\Infrast</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Miscellaneous\CopilotListNotificationPlugin.h">
+      <Filter>源文件\Task\Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Miscellaneous\TaskFileReloadTask.h">
+      <Filter>源文件\Task\Miscellaneous</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -1036,6 +1048,18 @@
     </ClCompile>
     <ClCompile Include="Task\Fight\StageQueueMissionCompletedPlugin.cpp">
       <Filter>源文件\Task\Fight</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Miscellaneous\AccountSwitchTask.cpp">
+      <Filter>源文件\Task\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Infrast\InfrastProcessingTask.cpp">
+      <Filter>源文件\Task\Infrast</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Miscellaneous\CopilotListNotificationPlugin.cpp">
+      <Filter>源文件\Task\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Miscellaneous\TaskFileReloadTask.cpp">
+      <Filter>源文件\Task\Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

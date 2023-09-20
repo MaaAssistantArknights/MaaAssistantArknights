@@ -136,6 +136,7 @@ namespace MaaWpfGui.ViewModels.UI
         private void RunningState_IdleChanged(object sender, bool e)
         {
             Idle = e;
+            TaskSettingDataContext.Idle = e;
         }
 
         protected override void OnInitialActivate()
@@ -223,6 +224,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     await Task.Delay(delayTime);
                     await _stageManager.UpdateStageWeb();
+                    ResourceUpdater.UpdateAndToast();
                     UpdateDatePrompt();
                     UpdateStageList(false);
                 });
@@ -271,26 +273,27 @@ namespace MaaWpfGui.ViewModels.UI
                     restartDateTime = restartDateTime.AddDays(1);
                 }
 
-                if (currentTime == restartDateTime)
+                if (currentTime == restartDateTime &&
+                    Instances.SettingsViewModel.CurrentConfiguration != Instances.SettingsViewModel.TimerModels.Timers[i].TimerConfig)
                 {
                     timeToChangeConfig = true;
                     configIndex = i;
                     break;
                 }
 
-                if (currentTime != startTime)
+                // ReSharper disable once InvertIf
+                if (currentTime == startTime)
                 {
-                    continue;
+                    timeToStart = true;
+                    configIndex = i;
+                    break;
                 }
-
-                timeToStart = true;
-                configIndex = i;
-                break;
             }
 
             if (timeToChangeConfig)
             {
-                if (Instances.SettingsViewModel.CustomConfig && (_runningState.GetIdle() || Instances.SettingsViewModel.ForceScheduledStart))
+                if (Instances.SettingsViewModel.CustomConfig &&
+                    (_runningState.GetIdle() || Instances.SettingsViewModel.ForceScheduledStart))
                 {
                     // CurrentConfiguration设置后会重启
                     Instances.SettingsViewModel.CurrentConfiguration = Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig;
@@ -305,6 +308,13 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (Instances.SettingsViewModel.ForceScheduledStart)
             {
+                // 什么时候会遇到这种情况？
+                if (Instances.SettingsViewModel.CustomConfig &&
+                    Instances.SettingsViewModel.CurrentConfiguration != Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig)
+                {
+                    return;
+                }
+
                 if (!_runningState.GetIdle())
                 {
                     await Stop();
@@ -313,12 +323,6 @@ namespace MaaWpfGui.ViewModels.UI
                 if (!Instances.AsstProxy.AsstAppendCloseDown())
                 {
                     AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
-                }
-
-                if (Instances.SettingsViewModel.CustomConfig &&
-                    Instances.SettingsViewModel.CurrentConfiguration != Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig)
-                {
-                    return;
                 }
 
                 ResetFightVariables();
@@ -332,7 +336,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         private void InitializeItems()
         {
-            string[] taskList =
+            List<string> taskList = new List<string>
             {
                 "WakeUp",
                 "Recruiting",
@@ -344,6 +348,13 @@ namespace MaaWpfGui.ViewModels.UI
 
                 // "ReclamationAlgorithm",
             };
+            var clientType = Instances.SettingsViewModel.ClientType;
+            if (clientType != string.Empty && clientType != "Official" && clientType != "Bilibili"
+                && DateTime.Now < new DateTime(2023, 10, 12))
+            {
+                taskList.Add("ReclamationAlgorithm");
+            }
+
             ActionAfterCompletedList = new List<GenericCombinedData<ActionType>>
             {
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("DoNothing"), Value = ActionType.DoNothing },
@@ -364,9 +375,9 @@ namespace MaaWpfGui.ViewModels.UI
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate"), Value = ActionType.ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate },
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitSelfIfOtherMaaElseShutdown"), Value = ActionType.ExitSelfIfOtherMaaElseShutdown },
             };
-            var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[taskList.Length]);
+            var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[taskList.Count]);
             var nonOrderList = new List<DragItemViewModel>();
-            for (int i = 0; i != taskList.Length; ++i)
+            for (int i = 0; i != taskList.Count; ++i)
             {
                 var task = taskList[i];
                 bool parsed = int.TryParse(ConfigurationHelper.GetTaskOrder(task, "-1"), out var order);
@@ -475,6 +486,7 @@ namespace MaaWpfGui.ViewModels.UI
                 rss = IsStageOpen(rss) ? rss : string.Empty;
             }
 
+            _stage1Fallback = stage1;
             Stage1 = stage1;
             Stage2 = stage2;
             Stage3 = stage3;
@@ -836,27 +848,35 @@ namespace MaaWpfGui.ViewModels.UI
                     case "Base":
                         taskRet &= AppendInfrast();
                         break;
+
                     case "WakeUp":
                         taskRet &= AppendStart();
                         break;
+
                     case "Combat":
                         taskRet &= AppendFight();
                         break;
+
                     case "Recruiting":
                         taskRet &= AppendRecruit();
                         break;
+
                     case "Mall":
                         taskRet &= AppendMall();
                         break;
+
                     case "Mission":
                         taskRet &= Instances.AsstProxy.AsstAppendAward();
                         break;
+
                     case "AutoRoguelike":
                         taskRet &= AppendRoguelike();
                         break;
+
                     case "ReclamationAlgorithm":
                         taskRet &= AppendReclamation();
                         break;
+
                     default:
                         --count;
                         _logger.Error("Unknown task: " + item.OriginalName);
@@ -928,7 +948,9 @@ namespace MaaWpfGui.ViewModels.UI
         {
             var mode = Instances.SettingsViewModel.ClientType;
             var enable = mode.Length != 0;
-            return Instances.AsstProxy.AsstAppendStartUp(mode, enable);
+            Instances.SettingsViewModel.AccountName = Instances.SettingsViewModel.AccountName.Trim();
+            var accountName = Instances.SettingsViewModel.AccountName;
+            return Instances.AsstProxy.AsstAppendStartUp(mode, enable, accountName);
         }
 
         private bool AppendFight()
@@ -1137,7 +1159,8 @@ namespace MaaWpfGui.ViewModels.UI
             return Instances.AsstProxy.AsstAppendRoguelike(
                 mode, Instances.SettingsViewModel.RoguelikeStartsCount,
                 Instances.SettingsViewModel.RoguelikeInvestmentEnabled, Instances.SettingsViewModel.RoguelikeInvestsCount, Instances.SettingsViewModel.RoguelikeStopWhenInvestmentFull,
-                Instances.SettingsViewModel.RoguelikeSquad, Instances.SettingsViewModel.RoguelikeRoles, Instances.SettingsViewModel.RoguelikeCoreChar, Instances.SettingsViewModel.RoguelikeUseSupportUnit,
+                Instances.SettingsViewModel.RoguelikeSquad, Instances.SettingsViewModel.RoguelikeRoles, Instances.SettingsViewModel.RoguelikeCoreChar,
+                Instances.SettingsViewModel.RoguelikeStartWithEliteTwo, Instances.SettingsViewModel.RoguelikeUseSupportUnit,
                 Instances.SettingsViewModel.RoguelikeEnableNonfriendSupport, Instances.SettingsViewModel.RoguelikeTheme, Instances.SettingsViewModel.RoguelikeRefreshTraderWithDice);
         }
 
@@ -1519,9 +1542,16 @@ namespace MaaWpfGui.ViewModels.UI
                 return true;
             }
 
+            _logger.Information("Info: Failed to kill emulator by the port, try to kill emulator process with PID.");
+
+            if (processes.Length > 1)
+            {
+                _logger.Warning("Warning: The number of elements in processes exceeds one, abort closing the emulator");
+                return false;
+            }
+
             try
             {
-                _logger.Information("Info: Failed to kill emulator by the port, try to kill emulator process with PID.");
                 processes[0].Kill();
                 return processes[0].WaitForExit(20000);
             }
@@ -2039,6 +2069,8 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get
             {
+                Stage1 ??= _stage1Fallback;
+
                 if (!Instances.SettingsViewModel.UseAlternateStage)
                 {
                     return Stage1;
@@ -2104,6 +2136,9 @@ namespace MaaWpfGui.ViewModels.UI
 
             return value;
         }
+
+        /// <remarks>Try to fix: issues#5742. 关卡选择为 null 时的一个补丁，可能是 StageList 改变后，wpf binding 延迟更新的问题。</remarks>
+        private string _stage1Fallback = ConfigurationHelper.GetValue(ConfigurationKeys.Stage1, string.Empty) ?? string.Empty;
 
         private string _stage1 = ConfigurationHelper.GetValue(ConfigurationKeys.Stage1, string.Empty) ?? string.Empty;
 
@@ -2303,6 +2338,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             // ReSharper disable InconsistentNaming
             public int Index;
+
             public string Name;
             public string Description;
             public string DescriptionPost;

@@ -21,6 +21,8 @@ namespace asst
 
     private:
         virtual bool _run() override;
+        // 判断如果处于普通关页面，直接短路导航
+        bool at_normal_page();
         bool navigate_to_normal_page();
         bool select_stage(int stage_index);
         bool activate_prts();

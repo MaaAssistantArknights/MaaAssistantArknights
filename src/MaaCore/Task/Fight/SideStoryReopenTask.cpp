@@ -65,10 +65,9 @@ bool asst::SideStoryReopenTask::_run()
         callback(AsstMsg::SubTaskExtraInfo, task_not_exists);
         return false;
     }
-
     Task.get("SideStoryReopen")->next = { m_sidestory_name + "ChapterTo" + m_sidestory_name };
 
-    if (!navigate_to_normal_page()) {
+    if (!at_normal_page() && !navigate_to_normal_page()) {
         Log.error(__FUNCTION__, "cound not navigate to normal page");
         return false;
     }
@@ -124,6 +123,19 @@ bool asst::SideStoryReopenTask::_run()
         }
     }
     return true;
+}
+bool asst::SideStoryReopenTask::at_normal_page()
+{
+    std::vector<std::string> stage_name;
+    for (int stage_index = 1; stage_index < 10; stage_index++) {
+        stage_name.emplace_back(m_sidestory_name + "-" + std::to_string(stage_index));
+    }
+    Task.get<OcrTaskInfo>(m_sidestory_name + "@ClickStageName")->text = stage_name;
+    Task.get<OcrTaskInfo>(m_sidestory_name + "@ClickedCorrectStage")->text = std::move(stage_name);
+    Task.get<OcrTaskInfo>(m_sidestory_name + "@ClickedCorrectStageOrSwipe")->next = { m_sidestory_name +
+                                                                                      "@ClickedCorrectStage" };
+
+    return ProcessTask(*this, { m_sidestory_name + "@ClickStageName" }).set_retry_times(0).run();
 }
 /// <summary>
 /// 从首页导航至普通关页面

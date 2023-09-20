@@ -9,6 +9,16 @@
             "direction": "down"
         }
     ],
+    "blacklist_location": [
+        [
+            5,
+            6
+        ],
+        [
+            7,
+            5
+        ]
+    ],
     "deploy_plan": [
         {
             "groups": [
@@ -26,7 +36,7 @@
             ],
             "location": [
                 5,
-                1
+                4
             ],
             "direction": "down"
         },
@@ -66,21 +76,13 @@
         {
             "groups": [
                 "地面阻挡",
-                "其他地面"
+                "处决者",
+                "其他地面",
+                "炮灰"
             ],
             "location": [
                 5,
                 4
-            ],
-            "direction": "down"
-        },
-        {
-            "groups": [
-                "地面远程"
-            ],
-            "location": [
-                5,
-                3
             ],
             "direction": "down"
         },
@@ -96,6 +98,16 @@
         },
         {
             "groups": [
+                "地面远程"
+            ],
+            "location": [
+                5,
+                1
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
                 "水陈",
                 "狙击",
                 "高台输出",
@@ -103,8 +115,8 @@
                 "其他高台"
             ],
             "location": [
-                7,
-                4
+                4,
+                5
             ],
             "direction": "up"
         },
@@ -127,10 +139,28 @@
                 "其他高台"
             ],
             "location": [
-                4,
-                5
+                6,
+                3
             ],
-            "direction": "up"
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "炮灰",
+                "处决者",
+                "地面阻挡",
+                "地刺",
+                "其他地面"
+            ],
+            "location": [
+                4,
+                4
+            ],
+            "direction": "down",
+            "condition": [
+                16,
+                36
+            ]
         },
         {
             "groups": [
@@ -141,7 +171,41 @@
                 5,
                 5
             ],
+            "direction": "up"
+        },
+        {
+            "groups": [
+                "补给站"
+            ],
+            "location": [
+                3,
+                3
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
+                "无人机"
+            ],
+            "location": [
+                6,
+                3
+            ],
             "direction": "down"
+        },
+        {
+            "groups": [
+                "支援陷阱"
+            ],
+            "location": [
+                5,
+                4
+            ],
+            "direction": "down",
+            "condition": [
+                17,
+                40
+            ]
         }
     ]
 }

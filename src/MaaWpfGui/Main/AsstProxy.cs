@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -25,6 +26,7 @@ using HandyControl.Data;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Services.Notification;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
@@ -528,6 +530,7 @@ namespace MaaWpfGui.Main
                         toast.Show();
                         if (isCoplitTaskChain)
                         {
+                            AsstStop();
                             runningState.SetIdle(true);
                             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
                         }
@@ -570,7 +573,11 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + taskChain);
                     if (isCoplitTaskChain)
                     {
-                        runningState.SetIdle(true);
+                        if (!Instances.CopilotViewModel.UseCopilotList || Instances.CopilotViewModel.CopilotItemViewModels.All(model => !model.IsChecked))
+                        {
+                            runningState.SetIdle(true);
+                        }
+
                         Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CompleteCombat"), UiLogColor.Info);
                     }
 
@@ -611,7 +618,17 @@ namespace MaaWpfGui.Main
                     if (isMainTaskQueueAllCompleted)
                     {
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AllTasksComplete"));
-                        using (var toast = new ToastNotification(LocalizationHelper.GetString("AllTasksComplete")))
+                        var allTaskCompleteTitle = LocalizationHelper.GetString("AllTasksComplete");
+                        var allTaskCompleteMessage = LocalizationHelper.GetString("AllTaskCompleteContent");
+
+                        var configurationPreset = ConfigurationHelper.GetValue(ConfigurationKeys.CurrentConfiguration, "Default");
+
+                        allTaskCompleteMessage = allTaskCompleteMessage
+                            .Replace("{Datetime}", DateTime.Now.ToString("U"))
+                            .Replace("{Preset}", configurationPreset);
+
+                        ExternalNotificationService.Send(allTaskCompleteTitle, allTaskCompleteMessage);
+                        using (var toast = new ToastNotification(allTaskCompleteTitle))
                         {
                             toast.Show();
                         }
@@ -1045,6 +1062,12 @@ namespace MaaWpfGui.Main
                     }
 
                     break;
+                case "CopilotListLoadTaskFileSuccess":
+                    Instances.CopilotViewModel.AddLog($"Parse {subTaskDetails["file_name"]}[{subTaskDetails["stage_name"]}] Success");
+                    break;
+                case "CopilotListEnterSuccess":
+                    Instances.CopilotViewModel.EnterCopilotTask();
+                    break;
 
                 case "SSSStage":
                     {
@@ -1071,6 +1094,21 @@ namespace MaaWpfGui.Main
                     Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("UnsupportedLevel"), UiLogColor.Error);
                     break;
 
+                case "CustomInfrastRoomGroupsMatch":
+                    // 选用xxx组编组
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomGroupsMatch") + subTaskDetails["group"]);
+                    break;
+
+                case "CustomInfrastRoomGroupsMatchFailed":
+                    // 干员编组匹配失败
+                    JArray groups = (JArray)subTaskDetails["groups"];
+                    if (groups != null)
+                    {
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomGroupsMatchFailed") + string.Join(", ", groups));
+                    }
+
+                    break;
+
                 case "CustomInfrastRoomOperators":
                     string nameStr = string.Empty;
                     foreach (var name in subTaskDetails["names"])
@@ -1083,7 +1121,7 @@ namespace MaaWpfGui.Main
                         nameStr = nameStr.Remove(nameStr.Length - 2);
                     }
 
-                    Instances.TaskQueueViewModel.AddLog(nameStr.ToString());
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomOperators") + nameStr.ToString());
                     break;
 
                 /* 生息演算 */
@@ -1108,8 +1146,13 @@ namespace MaaWpfGui.Main
                 case "StageQueueUnableToAgent":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails["stage_code"]} " + LocalizationHelper.GetString("UnableToAgent"), UiLogColor.Info);
                     break;
+
                 case "StageQueueMissionCompleted":
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails["stage_code"]}   {subTaskDetails["stars"]}★", UiLogColor.Info);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageQueue") + $" {subTaskDetails["stage_code"]} - {subTaskDetails["stars"]} ★", UiLogColor.Info);
+                    break;
+
+                case "AccountSwitch":
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AccountSwitch") + $" {subTaskDetails["current_account"]} -->> {subTaskDetails["account_name"]}", UiLogColor.Info);
                     break;
             }
         }
@@ -1149,7 +1192,6 @@ namespace MaaWpfGui.Main
 
         private static readonly bool ForcedReloadResource = File.Exists("DEBUG") || File.Exists("DEBUG.txt");
 
-
         /// <summary>
         /// 检查端口是否有效。
         /// </summary>
@@ -1157,14 +1199,18 @@ namespace MaaWpfGui.Main
         /// <returns>是否有效。</returns>
         public bool IfPortEstablished(string address)
         {
-            if (string.IsNullOrEmpty(address))
+            if (string.IsNullOrEmpty(address) || !address.Contains(":"))
             {
                 return false;
             }
 
             // normal -> [host]:[port]
-            // LDPlayer -> emulator-[port]
-            string[] address_ = address.Contains(":") ? address.Split(':') : address.Split('-');
+            string[] address_ = address.Split(':');
+            if (address_.Length != 2)
+            {
+                return false;
+            }
+
             string host = address_[0].Equals("emulator") ? "127.0.0.1" : address_[0];
             int port = int.Parse(address_[1]);
 
@@ -1212,29 +1258,28 @@ namespace MaaWpfGui.Main
                 }
 
                 // tcp连接测试端口是否有效，超时时间500ms
-                bool adbResult = IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
+                // 如果是本地设备，没有冒号
+                bool adbResult = !Instances.SettingsViewModel.ConnectAddress.Contains(":") ||
+                    IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
                 bool bsResult = IfPortEstablished(bsHvAddress);
 
-                // 枚举所有情况
-                if (adbResult && bsResult)
+                if (adbResult)
                 {
-                    // 2 connections(s)
-                    error = LocalizationHelper.GetString("EmulatorTooMany");
-                    return false;
+                    error = string.Empty;
                 }
-                else if (adbResult || bsResult)
+                else if (bsResult)
                 {
-                    // 1 connections(s)
-                    Instances.SettingsViewModel.ConnectAddress = adbResult ? Instances.SettingsViewModel.ConnectAddress : bsHvAddress;
+                    Instances.SettingsViewModel.ConnectAddress = bsHvAddress;
+                    error = string.Empty;
+                }
+                else if (adbConfResult)
+                {
+                    // 用户填了这个，虽然端口没检测到，但是凑合用吧
                     error = string.Empty;
                 }
                 else
                 {
-                    // 0 connections(s)
-                    if (!adbConfResult)
-                    {
-                        return false;
-                    }
+                    return false;
                 }
             }
 
@@ -1435,13 +1480,15 @@ namespace MaaWpfGui.Main
         /// </summary>
         /// <param name="client_type">客户端版本。</param>
         /// <param name="enable">是否自动启动客户端。</param>
+        /// <param name="accountName">需要切换到的登录名，留空以禁用</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendStartUp(string client_type, bool enable)
+        public bool AsstAppendStartUp(string client_type, bool enable, string accountName)
         {
             var task_params = new JObject
             {
                 ["client_type"] = client_type,
                 ["start_game_enabled"] = enable,
+                ["account_name"] = accountName,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding("StartUp", task_params);
             _latestTaskId[TaskType.StartUp] = id;
@@ -1650,13 +1697,14 @@ namespace MaaWpfGui.Main
         /// <param name="squad"><paramref name="squad"/> TODO.</param>
         /// <param name="roles"><paramref name="roles"/> TODO.</param>
         /// <param name="core_char"><paramref name="core_char"/> TODO.</param>
+        /// <param name="start_with_elite_two">是否凹开局直升</param>
         /// <param name="use_support">是否core_char使用好友助战</param>
         /// <param name="enable_nonfriend_support">是否允许使用非好友助战</param>
         /// <param name="theme">肉鸽名字。["Phantom", "Mizuki", "Sami"]</param>
         /// <param name="refresh_trader_with_dice">是否用骰子刷新商店购买特殊商品，目前支持水月肉鸽的指路鳞</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRoguelike(int mode, int starts, bool investment_enabled, int invests, bool stop_when_full,
-            string squad, string roles, string core_char, bool use_support, bool enable_nonfriend_support, string theme, bool refresh_trader_with_dice)
+            string squad, string roles, string core_char, bool start_with_elite_two, bool use_support, bool enable_nonfriend_support, string theme, bool refresh_trader_with_dice)
         {
             var task_params = new JObject
             {
@@ -1688,6 +1736,7 @@ namespace MaaWpfGui.Main
                 task_params["core_char"] = core_char;
             }
 
+            task_params["start_with_elite_two"] = start_with_elite_two;
             task_params["use_support"] = use_support;
             task_params["use_nonfriend_support"] = enable_nonfriend_support;
             task_params["refresh_trader_with_dice"] = refresh_trader_with_dice;
@@ -1792,20 +1841,40 @@ namespace MaaWpfGui.Main
         /// </summary>
         /// <param name="filename">作业 JSON 的文件路径，绝对、相对路径均可。</param>
         /// <param name="formation">是否进行 “快捷编队”。</param>
+        /// <param name="add_trust">是否追加信赖干员</param>
+        /// <param name="add_user_additional">是否追加自定干员</param>
+        /// <param name="user_additional">自定干员列表</param>
+        /// <param name="need_navigate">是否导航至关卡（启用自动战斗序列）</param>
+        /// <param name="navigate_name">关卡名</param>
+        /// <param name="is_adverse">是不是突袭</param>
         /// <param name="type">任务类型</param>
         /// <param name="loop_times">任务重复执行次数</param>
+        /// <param name="asst_start">是否启动战斗</param>
         /// <returns>是否成功。</returns>
-        public bool AsstStartCopilot(string filename, bool formation, string type, int loop_times)
+        public bool AsstStartCopilot(string filename, bool formation, bool add_trust, bool add_user_additional, JArray user_additional, bool need_navigate, string navigate_name, bool is_adverse, string type, int loop_times, bool asst_start = true)
         {
             var task_params = new JObject
             {
                 ["filename"] = filename,
                 ["formation"] = formation,
+                ["add_trust"] = add_trust,
+                ["add_user_additional"] = add_user_additional,
+                ["user_additional"] = user_additional,
+                ["need_navigate"] = need_navigate,
+                ["navigate_name"] = navigate_name,
+                ["is_adverse"] = is_adverse,
                 ["loop_times"] = loop_times,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding(type, task_params);
             _latestTaskId[TaskType.Copilot] = id;
-            return id != 0 && AsstStart();
+            if (asst_start)
+            {
+                return id != 0 && AsstStart();
+            }
+            else
+            {
+                return id != 0;
+            }
         }
 
         public bool AsstStartVideoRec(string filename)

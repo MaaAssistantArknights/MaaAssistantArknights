@@ -14,5 +14,9 @@ namespace asst
 
     protected:
         virtual bool _run() override;
+        void exit_and_abandon();
+
+    private:
+        mutable bool m_need_exit_and_abandon = false;
     };
 }

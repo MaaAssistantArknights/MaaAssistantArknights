@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  .Net 8  -->
-    <system:String x:Key="Dotnet8">Dear user,\n\nWe are about to upgrade our software, and upcoming versions will be built on the .NET 8.0 platform.\n\nThe next update will bring you more features and performance optimizations.\n\nHowever, after the upgrade, computers without the .NET 8.0 runtime installed will no longer be supported. You will need to manually proceed to download it. Additionally, we will no longer provide support for the Windows 7 operating system.\n\nIf you click 'Yes', we will open a new runtime download link for you. If you click 'No', we will disable your automatic download feature to prevent unnecessary software updates. If you choose to disable automatic downloads, you can still manually re-enable this feature in the software settings.\n\nWe strongly recommend upgrading to .NET 8.0 to continue enjoying the latest features of the software. Thank you for your continued support!</system:String>
+    <system:String x:Key="Dotnet8">MAA is about to be upgraded, and the upgraded version does not support PCs that do not have the .NET 8.0 runtime installed, so you need to manually download and install it. \n\nAt the same time, we will no longer support Windows 7. \n\nIf you click 'Yes', we will open the .NET 8 runtime download link for you. If you click 'No', we will disable your automatic download feature to prevent unwanted software updates. If you choose to disable automatic downloads, you can still manually re-enable this feature in the software settings.</system:String>
     <system:String x:Key="Dotnet8Caption">Software Version Upgrade and Support Changes</system:String>
     <!--  .Net 8  -->
     <!--  Settings  -->
@@ -24,6 +24,24 @@
     <system:String x:Key="UpdateSettings">Update</system:String>
     <system:String x:Key="AboutUs">About us</system:String>
     <system:String x:Key="Version">Version</system:String>
+    <system:String x:Key="Off">Off</system:String>
+    <system:String x:Key="ExternalNotificationTips">Please note: The external notification feature currently only sends "All tasks completed" notifications.</system:String>
+    <system:String x:Key="ExternalNotificationSettings">External notifications</system:String>
+    <system:String x:Key="ExternalNotificationEnabled">Enabled configuration</system:String>
+    <system:String x:Key="ExternalNotificationSendSuccess">Send successfully</system:String>
+    <system:String x:Key="ExternalNotificationSendFail">Send failed</system:String>
+    <system:String x:Key="ExternalNotificationSendTest">Send Test</system:String>
+    <system:String x:Key="ExternalNotificationSendTestTitle">MAA external notification test</system:String>
+    <system:String x:Key="ExternalNotificationSendTestContent">This is MAA external notification test information. If you see this content, the notification was sent successfully!</system:String>
+    <system:String x:Key="ExternalNotificationServerChanSendKey">[Server Chan] Send Key</system:String>
+    <system:String x:Key="ExternalNotificationSmtpTo">[SMTP] Recipient</system:String>
+    <system:String x:Key="ExternalNotificationSmtpServer">[SMTP] Server</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPort">[SMTP] Port</system:String>
+    <system:String x:Key="ExternalNotificationSmtpSsl">[SMTP] Use SSL</system:String>
+    <system:String x:Key="ExternalNotificationSmtpAuth">[SMTP] Authentication Required</system:String>
+    <system:String x:Key="ExternalNotificationSmtpUser">[SMTP] Username</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPassword">[SMTP] Password</system:String>
+    <system:String x:Key="ExternalNotificationSmtpFrom">[SMTP] Sender</system:String>
     <!--  Settings Guide  -->
     <system:String x:Key="TaskSettings">Task Settings</system:String>
     <system:String x:Key="SettingsGuide">Settings Guide</system:String>
@@ -37,6 +55,7 @@
     <system:String x:Key="LinkStartGuide">← Start Tasks</system:String>
     <system:String x:Key="Dorm">Dormitory</system:String>
     <system:String x:Key="Mfg">Factory</system:String>
+    <system:String x:Key="Processing">Workshop</system:String>
     <system:String x:Key="Trade">Trading Post</system:String>
     <system:String x:Key="Power">Power Plant</system:String>
     <system:String x:Key="Reception">Reception Room</system:String>
@@ -80,14 +99,15 @@
     <system:String x:Key="SecondResolution">2nd Resolution</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">General Mode (Blocked exception output)</system:String>
     <system:String x:Key="DormThreshold">Morale Threshold</system:String>
-    <system:String x:Key="InfrastThresholdTip">If custom shift is enabled, this field is only valid for autofilled rooms</system:String>
-    <system:String x:Key="RoguelikeStrategyExp">Gains Experience Points, clears as many nodes as possible</system:String>
+    <system:String x:Key="InfrastThresholdTip">If custom shifts are enabled, this field is only valid for rooms with autofill and operator groups</system:String>
+    <system:String x:Key="RoguelikeStrategyExp">Gain Experience Points, clear as many nodes as possible</system:String>
     <system:String x:Key="RoguelikeStrategyGold">Invests coins, exits after arriving at the second floor</system:String>
-    <!-- system:String x:Key="RoguelikeLastReward">Fight to obtain starting rewards, reach the third floor then exit</system:String -->
+    <system:String x:Key="RoguelikeLastReward">Fight to obtain starting rewards, reach the third floor then exit</system:String>
     <system:String x:Key="StartingSquad">Starting Squad</system:String>
     <system:String x:Key="StartingRoles">Starting Roles</system:String>
     <system:String x:Key="StartingCoreChar">Starting Operator (CN name only)</system:String>
     <system:String x:Key="StartingCoreCharTip">Only supports the CN name of a single operator, default if not filled.</system:String>
+    <system:String x:Key="RoguelikeStartWithEliteTwo">Repeat for「Starting Operator」Elite 2</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">Select 「Starting Operator」 from support unit list</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">Enable non-friend support</system:String>
     <system:String x:Key="DeploymentWithPause" xml:space="preserve">Deployment with Pause (Pause-Trick) (Works for IS, Copilot and SSS) (Beta function, Not recommended yet)</system:String>
@@ -97,6 +117,10 @@
     <system:String x:Key="IS2NewSquad1">Mind Over Matter Squad</system:String>
     <system:String x:Key="IS2NewSquad2">Resourceful Squad</system:String>
     <system:String x:Key="IS2NewSquad3">People-Oriented Squad</system:String>
+    <!-- <system:String x:Key="IS3NewSquad1">NEED TRANSLATION</system:String> -->
+    <!-- <system:String x:Key="IS3NewSquad2">NEED TRANSLATION</system:String> -->
+    <!-- <system:String x:Key="IS3NewSquad3">NEED TRANSLATION</system:String> -->
+    <!-- <system:String x:Key="IS3NewSquad4">特训分队</system:String> -->
     <system:String x:Key="LeaderSquad">Leader Squad</system:String>
     <system:String x:Key="GatheringSquad">Gathering Squad</system:String>
     <system:String x:Key="SupportSquad">Support Squad</system:String>
@@ -239,6 +263,8 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="MinimizeToTray">Hide to tray when minimized</system:String>
     <system:String x:Key="SystemNotification">System Notification</system:String>
     <system:String x:Key="HideCloseButton">Hide close button</system:String>
+    <system:String x:Key="UseLogItemDateFormat">Custom log date format</system:String>
+    <system:String x:Key="LogItemDateFormatString">Date format string</system:String>
     <system:String x:Key="DarkModeSetColorsTip">Whether to restart immediately to apply changes?</system:String>
     <system:String x:Key="UseAlternateStage">Use alternative stage</system:String>
     <system:String x:Key="UseRemainingSanityStage">Use remaining sanity stage</system:String>
@@ -254,6 +280,11 @@ Enter 「SSReopen-XX」to pass SS normal difficulty level at one time</system:St
     <system:String x:Key="AutoDetectConnection">Auto detect connection</system:String>
     <system:String x:Key="AutoDetectConnectionTip">This checkbox will be automatically unchecked after each detect is completed, and can be checked again if you need to re-detect</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">Re-detect every times</system:String>
+    <system:String x:Key="AccountSwitch">Account Switch</system:String>
+    <system:String x:Key="AccountSwitchTip" xml:space="preserve">Fill in the account that needs to be switched to, leave blank to close the account switching
+Official(CN): Enter the mobile phone number displayed on the login interface, such as 123****4567
+Bilibili: Enter the account name displayed on the login interface, such as Zhang San
+Other client types are not supported</system:String>
     <system:String x:Key="ADBPath">ADB path (rel/abs)</system:String>
     <system:String x:Key="ConnectionAddress">Connection address</system:String>
     <system:String x:Key="ConnectionAddressTip">It will be filled in automatically when you use it for the first time. If you encounter any problems, you can try to manually modify it</system:String>
@@ -306,8 +337,8 @@ Enter 「SSReopen-XX」to pass SS normal difficulty level at one time</system:St
     <system:String x:Key="RemainingSanityStage">Remaining Sanity</system:String>
     <system:String x:Key="NoUse">No Use</system:String>
     <!--<system:String x:Key="Amend">Amend</system:String>-->
-    <!--<system:String x:Key="CurrentStage">Current Stage</system:String>
-    <system:String x:Key="LastBattle">Last Battle</system:String>-->
+    <!--<system:String x:Key="CurrentStage">Current Stage</system:String>-->
+    <!--<system:String x:Key="LastBattle">Last Battle</system:String>-->
     <system:String x:Key="DefaultStage">Cur/Last</system:String>
     <system:String x:Key="ClosedStage">The event is not open</system:String>
     <system:String x:Key="UnsupportedStages">Unsupported stages</system:String>
@@ -394,7 +425,7 @@ Enter 「SSReopen-XX」to pass SS normal difficulty level at one time</system:St
     <system:String x:Key="VideoRecognition">Video</system:String>
     <system:String x:Key="StartToVideoRecognition">Start to identify</system:String>
     <system:String x:Key="OpenVideoRecognitionResult">Open Directory</system:String>
-    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">For video recognition, please open the 「Copilot」 tab and drag the strategy video into it.\n
+    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">For video recognition, please open the 「Copilot」 tab and drag the strategy video into it.
 The video aspect ratio needs to be 16:9 without interference factors such as black borders, emulator borders, special shapes and screen corrections.</system:String>
     <!--  Video Recognition  -->
     <system:String x:Key="Gacha">Gacha</system:String>
@@ -413,19 +444,19 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="GachaTip10">Tremble, in the face of true bravery.</system:String>
     <system:String x:Key="GachaTip11">Weep, for that worthless faith of yours.</system:String>
     <system:String x:Key="GachaTip12">You shall kneel here.</system:String>
-    <system:String x:Key="GachaTip13">Have we done it...? I feel only the greatest honor and joy.</system:String>
+    <system:String x:Key="GachaTip13">Have we done it……? I feel only the greatest honor and joy.</system:String>
     <system:String x:Key="GachaTip14">Turn about, o heroes. We have achieved a perfect victory, and it is now time to return and enjoy the fruits of our labors.</system:String>
     <system:String x:Key="GachaTip15">Listen well, the laments have ceased. This calm heralds the arrival of peace and joy.</system:String>
-    <system:String x:Key="GachaTip16">Even though the wars of humanity have no end in sight... At this moment, we have protected our dignity. Leave. Keep your heads held high.</system:String>
+    <system:String x:Key="GachaTip16">Even though the wars of humanity have no end in sight…… At this moment, we have protected our dignity. Leave. Keep your heads held high.</system:String>
     <system:String x:Key="GachaTip17">My horns are a danger to furniture. I shall be vigilant.</system:String>
     <system:String x:Key="GachaDisclaimerHead">Note that this is a</system:String>
     <system:String x:Key="GachaDisclaimerEmphasize">REAL GACHA!</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">Got it</system:String>
     <system:String x:Key="GachaShowDisclaimerNoMore">Don't show again</system:String>
-    <!--  再转身回头的时候，我们将带着胜利归来。  -->
+    <!--  Logs  -->
     <system:String x:Key="Identifying">Identifying……</system:String>
     <system:String x:Key="IdentificationCompleted">Identification completed</system:String>
-    <!--  再转身回头的时候，我们将带着胜利归来。  -->
+    <!--  Logs  -->
     <!--  Copilot  -->
     <system:String x:Key="Copilot">Copilot</system:String>
     <system:String x:Key="CopilotLocation">Task file / URL</system:String>
@@ -436,8 +467,15 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="FailedToLikeWebJson">An error occurred, the like failed. : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">Thanks for the likes!\nThe comment section is already open on the web page, please feel free to leave your comment!</system:String>
     <system:String x:Key="AutoSquad">Auto Squad</system:String>
-    <system:String x:Key="LoopTimes">Loop Times</system:String>
     <system:String x:Key="AutoSquadTip">「Favourite」 marked operators cannot be recognized at this time</system:String>
+    <system:String x:Key="AddTrust">Add low-trust operators</system:String>
+    <system:String x:Key="AddUserAdditional">Add custom operators</system:String>
+    <system:String x:Key="AddUserAdditionalTip">Use「;」as the separator,「,」to separate the operator name and skills, for example: W, 3; Ash, 2</system:String>
+    <system:String x:Key="UseCopilotList">Battle list</system:String>
+    <system:String x:Key="UseCopilotListTip">Please switch to the level selection page before starting</system:String>
+    <system:String x:Key="CopilotAddTask">Right click to add raid difficulty</system:String>
+    <system:String x:Key="CopilotClearTask">Right click to clear inactive tasks</system:String>
+    <system:String x:Key="LoopTimes">Loop Times</system:String>
     <system:String x:Key="Start">Start</system:String>
     <system:String x:Key="VideoLink">Video Link</system:String>
     <!--  Logs  -->
@@ -450,6 +488,12 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
         Please start on the 「Start Deployment」 screen after manual formation (can be used with 「Loop Times」)\n\n
         5. Video recognition is now supported, please drag the strategy video to use.\n
         The video aspect ratio needs to be 16:9 without interference factors such as black borders, emulator borders special shapes and screen corrections.\n\n
+        6. Battle list:\n
+        After selecting the job, check that the level name below the list is correct (eg: CV-EX-1). \n
+        Add: Left click to add normal difficulty, right click to add raid difficulty. \n
+        Clear: Left click to clear the list, right click to remove only inactive tasks. \n
+        Before starting, you need to switch to the level selection interface. Cross-chapter navigation is not supported. \n
+        The operation will be terminated when encountering insufficient sanity, losing the battle, or failing to settle with three stars. \n\n
     </system:String>
     <system:String x:Key="CopilotFileReadError">Failed to read file!</system:String>
     <system:String x:Key="CopilotNoFound">No corresponding file found!</system:String>
@@ -497,6 +541,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="StartCombat" xml:space="preserve">Start combat: </system:String>
     <system:String x:Key="CompleteCombat">Complete combat</system:String>
     <system:String x:Key="AllTasksComplete">All task(s) completed!</system:String>
+    <system:String x:Key="AllTaskCompleteContent">MAA has completed all tasks under the {Preset} configuration in {Datetime}.</system:String>
     <system:String x:Key="BackgroundLinkStarted">Tasks started</system:String>
     <system:String x:Key="BackgroundLinkStopped">Tasks stopped</system:String>
     <system:String x:Key="FailedToOpenClient">Failed to open the client. Please check the configuration file</system:String>
@@ -505,9 +550,9 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="DropRecognitionError">Drops recognition error</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">Abort upload to Penguin Statistics</system:String>
     <system:String x:Key="TheEX">No bonus stage, stopped</system:String>
-    <system:String x:Key="StageQueue">Stage Queue: </system:String>
+    <system:String x:Key="StageQueue">Stage Queue:</system:String>
     <system:String x:Key="UnableToAgent">Unable to use PRTS</system:String>
-    <system:String x:Key="CurrentSanity">Current Sanity: </system:String>
+    <system:String x:Key="CurrentSanity">Current Sanity:</system:String>
     <system:String x:Key="MissionStart">Mission started</system:String>
     <system:String x:Key="UnitTime">times</system:String>
     <system:String x:Key="MedicineUsed">Medicine used</system:String>
@@ -538,6 +583,9 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="Drop" xml:space="preserve">Drops: </system:String>
     <system:String x:Key="TotalDrop" xml:space="preserve">Total Drops: </system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">Current Facility: </system:String>
+    <system:String x:Key="RoomGroupsMatch" xml:space="preserve">Match Group: </system:String>
+    <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">Failed to match operator groups, group list: </system:String>
+    <system:String x:Key="RoomOperators" xml:space="preserve">preferred operators: </system:String>
     <system:String x:Key="ProductIncorrect">Product does NOT match the configuration.</system:String>
     <system:String x:Key="ProductUnknown">Unknown Product</system:String>
     <system:String x:Key="ProductChanged">Product has changed</system:String>
@@ -552,7 +600,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="BattleFormation">Start formation</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selection of operator: </system:String>
     <system:String x:Key="CurrentSteps">Current step: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">Unsupported stage. Please update the MAA software version!\nUnsupported stage. Please update the MAA software version!\nUnsupported stage. Please update the MAA software version!\n\nIf you receive a prompt that the latest version is already installed, please try checking the developer version or beta version.</system:String>
+    <system:String x:Key="UnsupportedLevel">Unsupported stage. Please check the stage name!</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identification results: </system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
     <system:String x:Key="TryToStartEmulator">Trying to start the emulator</system:String>
@@ -592,7 +640,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  AutoRecruitSettings  -->
     <!--  EasterEggs  -->
     <system:String x:Key="BuyWineOnAprilFoolsDay">Dear Doctor, ever heard of the new listings of 「isopropyl alcohol」 in Ms. Closure's store? Let's check it out?</system:String>
-    <system:String x:Key="Burping">Ugh... Ehem</system:String>
+    <system:String x:Key="Burping">Ugh…… Ehem</system:String>
     <system:String x:Key="DrunkAndStaggering">Ah, doctor, why do you sway so much in your movement today?</system:String>
     <system:String x:Key="Hangover">I won't drink so much next time……</system:String>
     <system:String x:Key="HelloWorld">Hello World!</system:String>
@@ -608,5 +656,14 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  RootViewModel  -->
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">Stage data retrieval successful</system:String>
+    <system:String x:Key="GameResourceUpdated">Game resource updated, please restart MAA</system:String>
+    <system:String x:Key="GameResourceUpdating">Game resources are being updated. Please do not close MAA.</system:String>
     <!--  Api  -->
+    <!-- External Notification -->
+    <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">You receive this message because you have set up an SMTP server in MAA and have the email notification service turned on.</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateFooterLineTwo">This email is sent automatically, please do not reply.</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateLinkOfficialSite">Official website</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateLinkCopilotSite">MAA Copilot (Chinese)</system:String>
+    <system:String x:Key="ExternalNotificationEmailTemplateHello">Doctor, there's a new notification!</system:String>
+    <!-- External Notification -->
 </ResourceDictionary>

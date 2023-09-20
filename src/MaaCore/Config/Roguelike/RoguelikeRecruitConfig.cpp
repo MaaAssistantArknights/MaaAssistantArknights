@@ -90,6 +90,7 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
             info.alternate_skill_times = oper_info.get("alternate_skill_times", info.alternate_skill_times);
             info.is_key = oper_info.get("is_key", info.is_key);
             info.is_start = oper_info.get("is_start", info.is_start);
+            info.auto_retreat = oper_info.get("auto_retreat", info.auto_retreat);
 
             // __________________will-be-removed-begin__________________
             info.recruit_priority_when_team_full =
