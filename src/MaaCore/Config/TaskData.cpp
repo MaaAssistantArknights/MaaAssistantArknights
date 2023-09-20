@@ -58,7 +58,7 @@ const bool forcedReloadResource = std::ifstream("DEBUG").good() || std::ifstream
 bool asst::TaskData::parse(const json::value& json)
 {
     LogTraceFunction;
-    
+
 #ifndef ASST_DEBUG
     if (forcedReloadResource) {
         m_all_tasks_info.clear();

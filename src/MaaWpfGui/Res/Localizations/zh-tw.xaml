@@ -107,6 +107,7 @@
     <system:String x:Key="StartingRoles">開局職業組</system:String>
     <system:String x:Key="StartingCoreChar">開局幹員（單個）</system:String>
     <system:String x:Key="StartingCoreCharTip">僅支持單個幹員中文名，不填寫則預設選擇。</system:String>
+    <system:String x:Key="RoguelikeStartWithEliteTwo">凹「開局幹員」直升精二</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「開局幹員」使用助戰</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助戰</system:String>
     <system:String x:Key="DeploymentWithPause">暫停下幹員（同時影響肉鴿、自動戰鬥、保全）（不穩定，暫不推薦開啟）</system:String>

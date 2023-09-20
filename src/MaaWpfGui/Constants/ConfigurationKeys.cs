@@ -98,6 +98,7 @@ namespace MaaWpfGui.Constants
         public const string RoguelikeSquad = "Roguelike.Squad";
         public const string RoguelikeRoles = "Roguelike.Roles";
         public const string RoguelikeCoreChar = "Roguelike.CoreChar";
+        public const string RoguelikeStartWithEliteTwo = "Roguelike.RoguelikeStartWithEliteTwo";
         public const string RoguelikeUseSupportUnit = "Roguelike.RoguelikeUseSupportUnit";
         public const string RoguelikeEnableNonfriendSupport = "Roguelike.RoguelikeEnableNonfriendSupport";
         public const string RoguelikeStartsCount = "Roguelike.StartsCount";

@@ -1656,6 +1656,21 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _roguelikeCoreCharList, value);
         }
 
+        private string _roguelikeStartWithEliteTwo = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, false.ToString());
+
+        /// <summary>
+        /// Gets or sets a value indicating whether use support unit.
+        /// </summary>
+        public bool RoguelikeStartWithEliteTwo
+        {
+            get => bool.Parse(_roguelikeStartWithEliteTwo);
+            set
+            {
+                SetAndNotify(ref _roguelikeStartWithEliteTwo, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, value.ToString());
+            }
+        }
+
         private string _roguelikeUseSupportUnit = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeUseSupportUnit, false.ToString());
 
         /// <summary>
