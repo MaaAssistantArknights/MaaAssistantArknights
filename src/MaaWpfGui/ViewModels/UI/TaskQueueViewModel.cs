@@ -1542,9 +1542,16 @@ namespace MaaWpfGui.ViewModels.UI
                 return true;
             }
 
+            _logger.Information("Info: Failed to kill emulator by the port, try to kill emulator process with PID.");
+
+            if (processes.Length > 1)
+            {
+                _logger.Warning("Warning: The number of elements in processes exceeds one, abort closing the emulator");
+                return false;
+            }
+
             try
             {
-                _logger.Information("Info: Failed to kill emulator by the port, try to kill emulator process with PID.");
                 processes[0].Kill();
                 return processes[0].WaitForExit(20000);
             }
