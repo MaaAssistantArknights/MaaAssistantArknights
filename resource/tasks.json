@@ -3216,7 +3216,8 @@
             "StartUpBegin@LoadingIcon",
             "StartUp@ReturnTo",
             "StartUp@EndOfAction",
-            "StartUp@FromStageSN"
+            "StartUp@FromStageSN",
+            "StartUp@MailFinished"
         ]
     },
     "GameStart": {
@@ -3443,7 +3444,8 @@
             "ReturnTo@LoadingIcon",
             "CloseAnnos#next",
             "FromStageSN",
-            "TodaysSupplies"
+            "TodaysSupplies",
+            "ReturnTo@MailFinished"
         ]
     },
     "ReturnToConfirm": {
@@ -4719,13 +4721,14 @@
         "action": "ClickRect",
         "specificRect": [
             600,
-            600,
+            630,
             60,
             60
         ],
         "next": [
             "CloseTaskAwardDouble"
-        ]
+        ],
+        "postDelay": 500
     },
     "CloseTaskAwardDouble": {
         "Doc": "有时候奖励出的太慢了，所以这里多点一次",
@@ -4733,7 +4736,7 @@
         "action": "ClickRect",
         "specificRect": [
             600,
-            600,
+            630,
             60,
             60
         ],
@@ -4798,23 +4801,25 @@
         "action": "ClickSelf",
         "cache": false,
         "roi": [
+            120,
+            0,
             150,
-            10,
-            100,
-            70
+            135
         ],
         "next": [
             "ReceiveMail",
+            "Mail",
             "Stop"
-        ]
+        ],
+        "postDelay": 2000
     },
     "ReceiveMail": {
         "action": "ClickSelf",
         "roi": [
-            1020,
-            625,
-            250,
-            80
+            980,
+            580,
+            300,
+            140
         ],
         "next": [
             "CloseTaskMail"
@@ -4823,17 +4828,26 @@
     "CloseTaskMail": {
         "baseTask": "CloseTaskAward",
         "next": [
+            "CloseTaskMailDouble"
+        ]
+    },
+    "CloseTaskMailDouble": {
+        "baseTask": "CloseTaskAwardDouble",
+        "next": [
             "MailFinished",
-            "CloseTaskMail"
+            "CloseTaskMailDouble"
         ]
     },
     "MailFinished": {
         "action": "ClickSelf",
         "roi": [
-            15,
-            15,
-            200,
-            100
+            0,
+            0,
+            220,
+            150
+        ],
+        "next": [
+            "#back"
         ]
     },
     "VisitBegin": {
