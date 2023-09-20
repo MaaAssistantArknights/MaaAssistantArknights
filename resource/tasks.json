@@ -10151,7 +10151,8 @@
         ],
         "next": [
             "Phantom@Roguelike@ChooseOperConfirm",
-            "Phantom@Roguelike@RecruitSkip"
+            "Phantom@Roguelike@RecruitSkip",
+            "Phantom@Roguelike@Begin"
         ]
     },
     "Phantom@Roguelike@CloseCollection": {
@@ -10481,7 +10482,8 @@
             "Mizuki@Roguelike@CloseCollectionContinue",
             "Mizuki@Roguelike@CloseCollectionClose",
             "Mizuki@Roguelike@ChooseOperConfirm",
-            "Mizuki@Roguelike@RecruitSkip"
+            "Mizuki@Roguelike@RecruitSkip",
+            "Mizuki@Roguelike@Begin"
         ]
     },
     "Mizuki@Roguelike@CloseCollection": {
@@ -11077,7 +11079,8 @@
         "next": [
             "Sami@Roguelike@CloseCollectionClose",
             "Sami@Roguelike@ChooseOperConfirm",
-            "Sami@Roguelike@RecruitSkip"
+            "Sami@Roguelike@RecruitSkip",
+            "Sami@Roguelike@Begin"
         ]
     },
     "Sami@Roguelike@CloseCollection": {

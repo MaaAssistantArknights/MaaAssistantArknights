@@ -1697,13 +1697,14 @@ namespace MaaWpfGui.Main
         /// <param name="squad"><paramref name="squad"/> TODO.</param>
         /// <param name="roles"><paramref name="roles"/> TODO.</param>
         /// <param name="core_char"><paramref name="core_char"/> TODO.</param>
+        /// <param name="start_with_elite_two">是否凹开局直升</param>
         /// <param name="use_support">是否core_char使用好友助战</param>
         /// <param name="enable_nonfriend_support">是否允许使用非好友助战</param>
         /// <param name="theme">肉鸽名字。["Phantom", "Mizuki", "Sami"]</param>
         /// <param name="refresh_trader_with_dice">是否用骰子刷新商店购买特殊商品，目前支持水月肉鸽的指路鳞</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRoguelike(int mode, int starts, bool investment_enabled, int invests, bool stop_when_full,
-            string squad, string roles, string core_char, bool use_support, bool enable_nonfriend_support, string theme, bool refresh_trader_with_dice)
+            string squad, string roles, string core_char, bool start_with_elite_two, bool use_support, bool enable_nonfriend_support, string theme, bool refresh_trader_with_dice)
         {
             var task_params = new JObject
             {
@@ -1735,6 +1736,7 @@ namespace MaaWpfGui.Main
                 task_params["core_char"] = core_char;
             }
 
+            task_params["start_with_elite_two"] = start_with_elite_two;
             task_params["use_support"] = use_support;
             task_params["use_nonfriend_support"] = enable_nonfriend_support;
             task_params["refresh_trader_with_dice"] = refresh_trader_with_dice;
