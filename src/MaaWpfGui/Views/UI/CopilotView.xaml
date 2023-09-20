@@ -104,14 +104,6 @@
                         IsHitTestVisible="{Binding Idle}"
                         ToolTip="{DynamicResource UseCopilotListTip}" />
                 </StackPanel>
-                <CheckBox
-                    Height="30"
-                    HorizontalAlignment="Center"
-                    Content="{DynamicResource AddTrust}"
-                    IsChecked="{Binding AddTrust}"
-                    IsEnabled="{Binding Idle}"
-                    IsHitTestVisible="{Binding Idle}"
-                    Visibility="{c:Binding Form}" />
                 <StackPanel
                     Height="30"
                     HorizontalAlignment="Center"
@@ -126,6 +118,7 @@
                         ToolTip="{DynamicResource AddUserAdditionalTip}" />
                     <TextBox
                         MinWidth="100"
+                        MaxWidth="200"
                         VerticalContentAlignment="Center"
                         IsEnabled="{c:Binding '(Form) and (Idle)'}"
                         IsHitTestVisible="{Binding AddUserAdditional}"
@@ -134,6 +127,15 @@
                         ToolTip="{DynamicResource AddUserAdditionalTip}"
                         Visibility="{c:Binding AddUserAdditional}" />
                 </StackPanel>
+
+                <CheckBox
+                    Height="30"
+                    HorizontalAlignment="Center"
+                    Content="{DynamicResource AddTrust}"
+                    IsChecked="{Binding AddTrust}"
+                    IsEnabled="{Binding Idle}"
+                    IsHitTestVisible="{Binding Idle}"
+                    Visibility="{c:Binding Form}" />
                 <StackPanel
                     Height="30"
                     Margin="0,7"
@@ -221,11 +223,11 @@
                     Text="{Binding CopilotTaskName, UpdateSourceTrigger=LostFocus}" />
                 <Button
                     Grid.Row="1"
-                    Grid.Column="0"
+                    Grid.Column="3"
                     Height="30"
-                    hc:BorderElement.CornerRadius="0,0,0,4"
+                    hc:BorderElement.CornerRadius="0,0,4,0"
                     hc:IconElement.Geometry="{StaticResource DismissSquareMultiple20Regular}"
-                    BorderThickness="1,1,0,1"
+                    BorderThickness="1"
                     Command="{s:Action ClearCopilotTask}"
                     Foreground="{DynamicResource DangerBrush}"
                     IsEnabled="{c:Binding '(Idle) and (StartEnabled)'}"
@@ -244,11 +246,11 @@
                     ToolTip="{DynamicResource CopilotAddTask}" />
                 <Button
                     Grid.Row="1"
-                    Grid.Column="3"
+                    Grid.Column="0"
                     Height="30"
-                    hc:BorderElement.CornerRadius="0,0,4,0"
+                    hc:BorderElement.CornerRadius="0,0,0,4"
                     hc:IconElement.Geometry="{StaticResource ClipboardLink20Regular}"
-                    BorderThickness="1"
+                    BorderThickness="1,1,0,1"
                     Command="{s:Action PasteClipboard}"
                     IsEnabled="{c:Binding '(Idle) and (StartEnabled)'}"
                     ToolTip="{DynamicResource PasteClipboardTip}" />

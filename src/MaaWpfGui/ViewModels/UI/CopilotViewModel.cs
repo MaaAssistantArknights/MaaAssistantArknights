@@ -547,6 +547,7 @@ namespace MaaWpfGui.ViewModels.UI
                 if (value)
                 {
                     _taskType = "Copilot";
+                    Form = true;
                 }
 
                 SetAndNotify(ref _useCopilotList, value);
