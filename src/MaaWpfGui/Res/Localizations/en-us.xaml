@@ -563,6 +563,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="StageInfoError">Stage recognition error</system:String>
     <system:String x:Key="BattleFormation">Start formation</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selection of operator: </system:String>
+    <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selection of support unit: </system:String>
     <system:String x:Key="CurrentSteps">Current step: {0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">Unsupported stage. Please check the stage name.</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identification results: </system:String>

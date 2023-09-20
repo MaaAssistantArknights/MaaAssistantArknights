@@ -13,6 +13,8 @@
 #include "Vision/MultiMatcher.h"
 #include "Vision/TemplDetOCRer.h"
 
+#include <numeric>
+
 void asst::BattleFormationTask::append_additional_formation(AdditionalFormation formation)
 {
     m_additional.emplace_back(std::move(formation));
@@ -66,8 +68,7 @@ bool asst::BattleFormationTask::_run()
     unselected_opers.clear();
 
     for (auto& [role, oper_groups] : m_formation) {
-        //unselected_opers[role] = add_formation(role, oper_groups);  // TODO
-        unselected_opers[role] = oper_groups;
+        unselected_opers[role] = add_formation(role, oper_groups);
     }
         
 
@@ -102,18 +103,36 @@ bool asst::BattleFormationTask::_run()
     // 查找需要助战的干员
     std::pair<battle::Role, OperGroup> support = {};
     size_t cnt = 0;
+
+    std::string unselected_groups = "";
+
     for (auto& [role, oper_groups] : unselected_opers) {
         cnt += oper_groups.size();
-        if (cnt > 1) {
-            break;
-        }
         if (oper_groups.size()) {
             set_support_unit({ role, oper_groups[0] });
         }
+        for (auto& oper_group : oper_groups) {
+            std::string name_list = "[";
+            for (auto& oper_usage : oper_group) {
+                name_list += oper_usage.name + ", ";
+            }
+            name_list = name_list.substr(0, name_list.length() - 2) + "]";
+            unselected_groups += name_list + ", " + (oper_group.size() > 1 ? "\n" : "");
+        }
+    }
+    if (unselected_groups.length()) {
+        unselected_groups = unselected_groups.substr(0, unselected_groups.length() - 2);
     }
 
     if (cnt + !m_use_support > 1) {
         Log.error("BattleSupportTask: too many support operators");
+
+        json::value info = basic_info_with_what("BattleTooManyUnselected");
+        auto& details = info["details"];
+        details["unselected_num"] = cnt;
+        details["unselected"] = unselected_groups;
+        callback(AsstMsg::SubTaskExtraInfo, info);
+
         quit();
     }
 
@@ -128,6 +147,8 @@ bool asst::BattleFormationTask::_run()
                 ProcessTask(*this, { "BattleSupportFormationConfirm" }).run();
                 break;
             }
+            // 刷新到助战出现
+            while (!ProcessTask(*this, { "BattleSupportUnitRefresh" }).run()) {}
         }
     }
 
@@ -165,8 +186,7 @@ std::vector<asst::BattleFormationTask::OperGroup> asst::BattleFormationTask::add
             swipe_times = 0;
             error_times++;
         }
-        // TODO change back
-        if (error_times >= 1) {
+        if (error_times >= 2) {
             // for a operator, if he/she's not found in 2 rows, he/she should be not in the box
             break;
         }
@@ -386,7 +406,7 @@ bool asst::BattleFormationTask::select_support_oper()
             ctrler()->click(res.rect);
             sleep(delay);
 
-            json::value info = basic_info_with_what("BattleFormationSelected");
+            json::value info = basic_info_with_what("BattleSupportSelected");
             auto& details = info["details"];
             details["selected"] = name;
             callback(AsstMsg::SubTaskExtraInfo, info);
@@ -511,7 +531,7 @@ bool asst::BattleFormationTask::click_support_role_table()
 
     std::vector<std::string> tasks;
     if (role_iter == RoleNameType.cend()) {
-        quit();
+        return false;
     }
     else if (role == battle::Role::Pioneer) {
         // support page should start with Pioneer selected
@@ -557,6 +577,5 @@ bool asst::BattleFormationTask::parse_formation()
 
 void asst::BattleFormationTask::quit(std::string msg)
 {
-    // TODO msg
     std::this_thread::yield();
 }

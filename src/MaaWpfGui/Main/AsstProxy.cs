@@ -1042,6 +1042,16 @@ namespace MaaWpfGui.Main
                     Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("BattleFormationSelected") + subTaskDetails["selected"]);
                     break;
 
+                case "BattleSupportSelected":
+                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("BattleSupportSelected") + subTaskDetails["selected"]);
+                    break;
+                
+                case "BattleTooManyUnselected":
+                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("BattleTooManyUnselected") + 
+                                                      "(" + subTaskDetails["unselected_num"] + ")\n" + 
+                                                      subTaskDetails["unselected"], UiLogColor.Error);
+                    break;
+
                 case "CopilotAction":
                     {
                         string doc = subTaskDetails["doc"].ToString();

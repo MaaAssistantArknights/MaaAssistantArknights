@@ -7021,6 +7021,16 @@
             "Stop"
         ]
     },
+    "BattleSupportUnitRefresh": {
+        "action": "ClickSelf",
+        "roi": [
+            1045,
+            0,
+            235,
+            144
+        ],
+        "postDelay": 2000
+    },
     "BattleQuickFormation": {
         "action": "ClickSelf",
         "roi": [
