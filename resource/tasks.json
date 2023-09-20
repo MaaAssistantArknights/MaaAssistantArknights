@@ -3098,6 +3098,7 @@
     "AccountCurrentOCR": {
         "algorithm": "OcrDetect",
         "isAscii": true,
+        "text": [],
         "roi": [
             495,
             335,
@@ -3107,6 +3108,7 @@
     },
     "AccountCurrentOCRBili": {
         "algorithm": "OcrDetect",
+        "text": [],
         "roi": [
             525,
             280,
@@ -3170,7 +3172,8 @@
     },
     "AccountListOcr": {
         "algorithm": "OcrDetect",
-        "isAscii": true
+        "isAscii": true,
+        "text": []
     },
     "AccountListSwipe": {
         "algorithm": "JustReturn",
@@ -11252,7 +11255,10 @@
             676,
             307
         ],
-        "maskRange": [ 1, 255 ],
+        "maskRange": [
+            1,
+            255
+        ],
         "next": [
             "Sami@Roguelike@GetCiphertextBoard",
             "Sami@Roguelike@SquadConfirm#next"
