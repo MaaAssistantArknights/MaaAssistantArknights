@@ -61,7 +61,7 @@ namespace MaaWpfGui.Models
 
         public static async Task<UpdateResult> Update()
         {
-            updating = false;
+            _updating = false;
 
             var ret1 = await updateSingleFiles();
             var ret2 = await updateFilesWithIndex();
@@ -85,7 +85,7 @@ namespace MaaWpfGui.Models
 
             foreach (var file in MaaSingleFiles)
             {
-                var sRet = await UpdateFileWithETage(MaaResourceApi, file, file);
+                var sRet = await UpdateFileWithETag(MaaResourceApi, file, file);
 
                 if (sRet == UpdateResult.Failed)
                 {
@@ -105,7 +105,7 @@ namespace MaaWpfGui.Models
         // 这些文件数量不固定，需要先获取索引文件，再根据索引文件下载
         private static async Task<UpdateResult> updateFilesWithIndex()
         {
-            var indexSRet = await UpdateFileWithETage(MaaResourceApi, MaaDynamicFilesIndex, MaaDynamicFilesIndex);
+            var indexSRet = await UpdateFileWithETag(MaaResourceApi, MaaDynamicFilesIndex, MaaDynamicFilesIndex);
             if (indexSRet == UpdateResult.Failed || indexSRet == UpdateResult.NotModified)
             {
                 return indexSRet;
@@ -128,7 +128,7 @@ namespace MaaWpfGui.Models
                     return;
                 }
 
-                var sRet = await UpdateFileWithETage(MaaResourceApi, file, file);
+                var sRet = await UpdateFileWithETag(MaaResourceApi, file, file);
                 if (sRet == UpdateResult.Failed)
                 {
                     ret = UpdateResult.Failed;
@@ -143,9 +143,9 @@ namespace MaaWpfGui.Models
             return ret;
         }
 
-        private static bool updating = false;
+        private static bool _updating;
 
-        public static async Task<UpdateResult> UpdateFileWithETage(string baseUrl, string file, string saveTo)
+        public static async Task<UpdateResult> UpdateFileWithETag(string baseUrl, string file, string saveTo)
         {
             saveTo = Path.Combine(Environment.CurrentDirectory, saveTo);
             var url = baseUrl + file;
@@ -180,19 +180,25 @@ namespace MaaWpfGui.Models
                 return UpdateResult.Failed;
             }
 
-            if (!updating)
+            if (!_updating)
             {
-                updating = true;
+                _updating = true;
                 _ = Execute.OnUIThreadAsync(() =>
                 {
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("GameResourceUpdated"));
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("GameResourceUpdating"));
                     toast.Show();
                 });
             }
 
-            var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-            using var fileStream = new FileStream(saveTo, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true);
-            await stream.CopyToAsync(fileStream).ConfigureAwait(false);
+            var tempFile = saveTo + ".tmp";
+            using (var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+            {
+                using var fileStream = new FileStream(tempFile, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true);
+                await stream.CopyToAsync(fileStream).ConfigureAwait(false);
+            }
+
+            File.Copy(tempFile, saveTo, true);
+            File.Delete(tempFile);
 
             ETagCache.Set(url, response.Headers.ETag.Tag);
             return UpdateResult.Success;

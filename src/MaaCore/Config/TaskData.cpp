@@ -58,7 +58,7 @@ const bool forcedReloadResource = std::ifstream("DEBUG").good() || std::ifstream
 bool asst::TaskData::parse(const json::value& json)
 {
     LogTraceFunction;
-    
+
 #ifndef ASST_DEBUG
     if (forcedReloadResource) {
         m_all_tasks_info.clear();
@@ -187,6 +187,11 @@ bool asst::TaskData::parse(const json::value& json)
             std::string_view name = task_queue.front();
             task_queue.pop();
             auto task = get(name); // 这里会提前展开任务
+            if (task == nullptr) [[unlikely]] {
+                Log.error("Task", name, "not successfully generated");
+                validity = false;
+                continue;
+            }
             auto check_tasklist = [&](const tasklist_t& task_list, std::string_view list_type,
                                       bool enable_justreturn_check = false) {
                 std::unordered_set<std::string_view> tasks_set {};
@@ -194,10 +199,6 @@ bool asst::TaskData::parse(const json::value& json)
                 for (const std::string& task_name : task_list) {
                     if (tasks_set.contains(task_name)) [[unlikely]] {
                         continue;
-                    }
-                    if (!checking_task_set.contains(task_name)) {
-                        task_queue.emplace(task_name_view(task_name));
-                        checking_task_set.emplace(task_name_view(task_name));
                     }
                     // 检查是否有 JustReturn 任务不是最后一个任务
                     if (enable_justreturn_check && !justreturn_task_name.empty()) [[unlikely]] {
@@ -210,11 +211,16 @@ bool asst::TaskData::parse(const json::value& json)
                     if (auto ptr = get_raw(task_name); ptr == nullptr) [[unlikely]] {
                         Log.error(task_name, "in", (std::string(name) += "->") += list_type, "is null");
                         validity = false;
+                        continue;
                     }
                     else if (ptr->algorithm == AlgorithmType::JustReturn) {
                         justreturn_task_name = ptr->name;
                     }
 
+                    if (!checking_task_set.contains(task_name)) {
+                        task_queue.emplace(task_name_view(task_name));
+                        checking_task_set.emplace(task_name_view(task_name));
+                    }
                     tasks_set.emplace(task_name_view(task_name));
                 }
 

@@ -1,4 +1,7 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  .Net 8  -->
     <system:String x:Key="Dotnet8">MAA 即将升级，升级后的版本不支持未安装 .NET 8.0 运行时 的电脑，需要您手动前往下载。\n\n同时，我们将不再支持 Windows 7 操作系统。\n\n如果您点击 '是'，我们将为您打开新的运行时下载链接。如果您点击 '否'，我们将禁用您的自动下载功能，以防止不必要的软件更新。如果您选择禁用自动下载，您仍然可以在软件设置中手动重新启用此功能。</system:String>
     <system:String x:Key="Dotnet8Caption">软件版本升级及支持变更</system:String>
@@ -104,6 +107,7 @@
     <system:String x:Key="StartingRoles">开局职业组</system:String>
     <system:String x:Key="StartingCoreChar">开局干员 (单个)</system:String>
     <system:String x:Key="StartingCoreCharTip">仅支持单个干员中文名，不填写则默认选择。</system:String>
+    <system:String x:Key="RoguelikeStartWithEliteTwo">凹「开局干员」直升精二</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「开局干员」使用助战</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助战</system:String>
     <system:String x:Key="DeploymentWithPause">暂停下干员（同时影响肉鸽、自动战斗、保全）（不稳定，暂不推荐开启）</system:String>
@@ -333,8 +337,8 @@
     <system:String x:Key="RemainingSanityStage">剩余理智</system:String>
     <system:String x:Key="NoUse">不选择</system:String>
     <!--<system:String x:Key="Amend">修改</system:String>-->
-    <!--<system:String x:Key="CurrentStage">当前关卡</system:String>
-    <system:String x:Key="LastBattle">上次作战</system:String>-->
+    <!--<system:String x:Key="CurrentStage">当前关卡</system:String> -->
+    <!--<system:String x:Key="LastBattle">上次作战</system:String>-->
     <system:String x:Key="DefaultStage">当前/上次</system:String>
     <system:String x:Key="ClosedStage">活动未开放</system:String>
     <system:String x:Key="UnsupportedStages">不支持的关卡</system:String>
@@ -466,8 +470,12 @@
     <system:String x:Key="AutoSquadTip">自动编队暂时无法识别「特别关注」的干员</system:String>
     <system:String x:Key="AddTrust">补充低信赖干员</system:String>
     <system:String x:Key="AddUserAdditional">追加自定干员</system:String>
-    <system:String x:Key="AddUserAdditionalTip">以英文";"为分隔符，英文","分隔干员名与技能，例: 史尔特尔,3;艾雅法拉,1</system:String>
+    <system:String x:Key="AddUserAdditionalTip">以英文「;」为分隔符，英文「,」分隔干员名与技能，例: 史尔特尔,3;艾雅法拉,1</system:String>
     <system:String x:Key="LoopTimes">循环次数</system:String>
+    <system:String x:Key="UseCopilotList">战斗列表</system:String>
+    <system:String x:Key="UseCopilotListTip">开始前请切换至关卡选择页面</system:String>
+    <system:String x:Key="CopilotAddTask">右键添加突袭难度</system:String>
+    <system:String x:Key="CopilotClearTask">右键清除未激活任务</system:String>
     <system:String x:Key="Start">开始</system:String>
     <system:String x:Key="VideoLink">视频链接</system:String>
     <!--  日志  -->
@@ -480,6 +488,12 @@
         请手动编队后在「开始部署」界面开始（可配合「循环次数」使用）\n\n
         5. 现已支持视频识别，请将攻略视频文件拖入后开始。\n
         需要视频分辨率为 16:9，无黑边、模拟器边框、异形屏矫正等干扰元素\n\n
+        6. 战斗列表:\n
+        选择作业后，检查列表下方的关卡名是否正确（如: CV-EX-1）。\n
+        添加: 左键添加正常难度，右键添加突袭难度。\n
+        清除: 左键清空列表，右键仅移除未激活的任务。\n
+        开始前，需要切换至对应关卡的选择界面，不支持跨章节导航。\n
+        遇到 理智不足、战斗失败、未能以三星结算 时将会中止运行。\n\n
     </system:String>
     <system:String x:Key="CopilotFileReadError">读取文件失败！</system:String>
     <system:String x:Key="CopilotNoFound">未找到对应作业！</system:String>
@@ -569,7 +583,7 @@
     <system:String x:Key="Drop" xml:space="preserve">本次掉落: </system:String>
     <system:String x:Key="TotalDrop" xml:space="preserve">掉落统计: </system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">当前设施: </system:String>
-    <system:String x:Key="RoomGroupsMatch" xml:space="preserve">匹配到编组: </system:String>
+    <system:String x:Key="RoomGroupsMatch" xml:space="preserve">匹配编组: </system:String>
     <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">匹配干员编组失败，编组列表: </system:String>
     <system:String x:Key="RoomOperators" xml:space="preserve">首选干员: </system:String>
     <system:String x:Key="ProductIncorrect">产物与配置不相符。</system:String>
@@ -645,13 +659,13 @@
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">关卡数据获取成功</system:String>
     <system:String x:Key="GameResourceUpdated">游戏资源已更新，请重启 MAA</system:String>
-    <system:String x:Key="GameResourceUpdating">正在更新游戏资源，请耐心等待</system:String>
+    <system:String x:Key="GameResourceUpdating">游戏资源正在更新，请勿关闭 MAA</system:String>
     <!--  Api  -->
-    <!--  External Notification -->
+    <!--  External Notification  -->
     <system:String x:Key="ExternalNotificationEmailTemplateHello">博士，有新的通知哦！</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">您会收到此邮件，是因为您在 MAA 中设置了 SMTP 服务器并开启了邮件通知服务。</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineTwo">此邮件为系统自动发送，请勿回复。</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateLinkOfficialSite">官网</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateLinkCopilotSite">作业站</system:String>
-    <!--  External Notification -->
+    <!--  External Notification  -->
 </ResourceDictionary>

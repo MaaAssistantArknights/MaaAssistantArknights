@@ -136,6 +136,7 @@ namespace MaaWpfGui.ViewModels.UI
         private void RunningState_IdleChanged(object sender, bool e)
         {
             Idle = e;
+            TaskSettingDataContext.Idle = e;
         }
 
         protected override void OnInitialActivate()
@@ -272,26 +273,27 @@ namespace MaaWpfGui.ViewModels.UI
                     restartDateTime = restartDateTime.AddDays(1);
                 }
 
-                if (currentTime == restartDateTime)
+                if (currentTime == restartDateTime &&
+                    Instances.SettingsViewModel.CurrentConfiguration != Instances.SettingsViewModel.TimerModels.Timers[i].TimerConfig)
                 {
                     timeToChangeConfig = true;
                     configIndex = i;
                     break;
                 }
 
-                if (currentTime != startTime)
+                // ReSharper disable once InvertIf
+                if (currentTime == startTime)
                 {
-                    continue;
+                    timeToStart = true;
+                    configIndex = i;
+                    break;
                 }
-
-                timeToStart = true;
-                configIndex = i;
-                break;
             }
 
             if (timeToChangeConfig)
             {
-                if (Instances.SettingsViewModel.CustomConfig && (_runningState.GetIdle() || Instances.SettingsViewModel.ForceScheduledStart))
+                if (Instances.SettingsViewModel.CustomConfig &&
+                    (_runningState.GetIdle() || Instances.SettingsViewModel.ForceScheduledStart))
                 {
                     // CurrentConfiguration设置后会重启
                     Instances.SettingsViewModel.CurrentConfiguration = Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig;
@@ -306,6 +308,13 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (Instances.SettingsViewModel.ForceScheduledStart)
             {
+                // 什么时候会遇到这种情况？
+                if (Instances.SettingsViewModel.CustomConfig &&
+                    Instances.SettingsViewModel.CurrentConfiguration != Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig)
+                {
+                    return;
+                }
+
                 if (!_runningState.GetIdle())
                 {
                     await Stop();
@@ -314,12 +323,6 @@ namespace MaaWpfGui.ViewModels.UI
                 if (!Instances.AsstProxy.AsstAppendCloseDown())
                 {
                     AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
-                }
-
-                if (Instances.SettingsViewModel.CustomConfig &&
-                    Instances.SettingsViewModel.CurrentConfiguration != Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig)
-                {
-                    return;
                 }
 
                 ResetFightVariables();
@@ -945,6 +948,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             var mode = Instances.SettingsViewModel.ClientType;
             var enable = mode.Length != 0;
+            Instances.SettingsViewModel.AccountName = Instances.SettingsViewModel.AccountName.Trim();
             var accountName = Instances.SettingsViewModel.AccountName;
             return Instances.AsstProxy.AsstAppendStartUp(mode, enable, accountName);
         }
@@ -1155,7 +1159,8 @@ namespace MaaWpfGui.ViewModels.UI
             return Instances.AsstProxy.AsstAppendRoguelike(
                 mode, Instances.SettingsViewModel.RoguelikeStartsCount,
                 Instances.SettingsViewModel.RoguelikeInvestmentEnabled, Instances.SettingsViewModel.RoguelikeInvestsCount, Instances.SettingsViewModel.RoguelikeStopWhenInvestmentFull,
-                Instances.SettingsViewModel.RoguelikeSquad, Instances.SettingsViewModel.RoguelikeRoles, Instances.SettingsViewModel.RoguelikeCoreChar, Instances.SettingsViewModel.RoguelikeUseSupportUnit,
+                Instances.SettingsViewModel.RoguelikeSquad, Instances.SettingsViewModel.RoguelikeRoles, Instances.SettingsViewModel.RoguelikeCoreChar,
+                Instances.SettingsViewModel.RoguelikeStartWithEliteTwo, Instances.SettingsViewModel.RoguelikeUseSupportUnit,
                 Instances.SettingsViewModel.RoguelikeEnableNonfriendSupport, Instances.SettingsViewModel.RoguelikeTheme, Instances.SettingsViewModel.RoguelikeRefreshTraderWithDice);
         }
 
@@ -1537,9 +1542,16 @@ namespace MaaWpfGui.ViewModels.UI
                 return true;
             }
 
+            _logger.Information("Info: Failed to kill emulator by the port, try to kill emulator process with PID.");
+
+            if (processes.Length > 1)
+            {
+                _logger.Warning("Warning: The number of elements in processes exceeds one, abort closing the emulator");
+                return false;
+            }
+
             try
             {
-                _logger.Information("Info: Failed to kill emulator by the port, try to kill emulator process with PID.");
                 processes[0].Kill();
                 return processes[0].WaitForExit(20000);
             }

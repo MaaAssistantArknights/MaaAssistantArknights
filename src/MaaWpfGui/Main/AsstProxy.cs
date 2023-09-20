@@ -15,15 +15,14 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using HandyControl.Data;
-using HandyControl.Tools.Extension;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -531,6 +530,7 @@ namespace MaaWpfGui.Main
                         toast.Show();
                         if (isCoplitTaskChain)
                         {
+                            AsstStop();
                             runningState.SetIdle(true);
                             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
                         }
@@ -573,7 +573,11 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + taskChain);
                     if (isCoplitTaskChain)
                     {
-                        runningState.SetIdle(true);
+                        if (!Instances.CopilotViewModel.UseCopilotList || Instances.CopilotViewModel.CopilotItemViewModels.All(model => !model.IsChecked))
+                        {
+                            runningState.SetIdle(true);
+                        }
+
                         Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CompleteCombat"), UiLogColor.Info);
                     }
 
@@ -623,7 +627,7 @@ namespace MaaWpfGui.Main
                             .Replace("{Datetime}", DateTime.Now.ToString("U"))
                             .Replace("{Preset}", configurationPreset);
 
-                        ExternalNotificationService.SendAsync(allTaskCompleteTitle, allTaskCompleteMessage).Wait();
+                        ExternalNotificationService.Send(allTaskCompleteTitle, allTaskCompleteMessage);
                         using (var toast = new ToastNotification(allTaskCompleteTitle))
                         {
                             toast.Show();
@@ -1067,6 +1071,12 @@ namespace MaaWpfGui.Main
                                 subTaskDetails["target"].ToString()));
                     }
 
+                    break;
+                case "CopilotListLoadTaskFileSuccess":
+                    Instances.CopilotViewModel.AddLog($"Parse {subTaskDetails["file_name"]}[{subTaskDetails["stage_name"]}] Success");
+                    break;
+                case "CopilotListEnterSuccess":
+                    Instances.CopilotViewModel.EnterCopilotTask();
                     break;
 
                 case "SSSStage":
@@ -1697,13 +1707,14 @@ namespace MaaWpfGui.Main
         /// <param name="squad"><paramref name="squad"/> TODO.</param>
         /// <param name="roles"><paramref name="roles"/> TODO.</param>
         /// <param name="core_char"><paramref name="core_char"/> TODO.</param>
+        /// <param name="start_with_elite_two">是否凹开局直升</param>
         /// <param name="use_support">是否core_char使用好友助战</param>
         /// <param name="enable_nonfriend_support">是否允许使用非好友助战</param>
         /// <param name="theme">肉鸽名字。["Phantom", "Mizuki", "Sami"]</param>
         /// <param name="refresh_trader_with_dice">是否用骰子刷新商店购买特殊商品，目前支持水月肉鸽的指路鳞</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRoguelike(int mode, int starts, bool investment_enabled, int invests, bool stop_when_full,
-            string squad, string roles, string core_char, bool use_support, bool enable_nonfriend_support, string theme, bool refresh_trader_with_dice)
+            string squad, string roles, string core_char, bool start_with_elite_two, bool use_support, bool enable_nonfriend_support, string theme, bool refresh_trader_with_dice)
         {
             var task_params = new JObject
             {
@@ -1735,6 +1746,7 @@ namespace MaaWpfGui.Main
                 task_params["core_char"] = core_char;
             }
 
+            task_params["start_with_elite_two"] = start_with_elite_two;
             task_params["use_support"] = use_support;
             task_params["use_nonfriend_support"] = enable_nonfriend_support;
             task_params["refresh_trader_with_dice"] = refresh_trader_with_dice;
@@ -1842,35 +1854,37 @@ namespace MaaWpfGui.Main
         /// <param name="add_trust">是否追加信赖干员</param>
         /// <param name="add_user_additional">是否追加自定干员</param>
         /// <param name="user_additional">自定干员列表</param>
+        /// <param name="need_navigate">是否导航至关卡（启用自动战斗序列）</param>
+        /// <param name="navigate_name">关卡名</param>
+        /// <param name="is_adverse">是不是突袭</param>
         /// <param name="type">任务类型</param>
         /// <param name="loop_times">任务重复执行次数</param>
+        /// <param name="asst_start">是否启动战斗</param>
         /// <returns>是否成功。</returns>
-        public bool AsstStartCopilot(string filename, bool formation, bool add_trust, bool add_user_additional, string user_additional, string type, int loop_times)
+        public bool AsstStartCopilot(string filename, bool formation, bool add_trust, bool add_user_additional, JArray user_additional, bool need_navigate, string navigate_name, bool is_adverse, string type, int loop_times, bool asst_start = true)
         {
-            JArray m_user_additional = new JArray();
-            Regex regex = new Regex(@"(?<=;)(?<name>[^,;]+)(?:, *(?<skill>\d))? *", RegexOptions.Compiled);
-            MatchCollection matches = regex.Matches(";" + user_additional);
-            foreach (Match match in matches)
-            {
-                m_user_additional.Add(new JObject
-                {
-                    ["name"] = match.Groups[1].Value.Trim(),
-                    ["skill"] = match.Groups[2].Value.IsNullOrEmpty() ? 0 : int.Parse(match.Groups[2].Value),
-                });
-            }
-
             var task_params = new JObject
             {
                 ["filename"] = filename,
                 ["formation"] = formation,
                 ["add_trust"] = add_trust,
                 ["add_user_additional"] = add_user_additional,
-                ["user_additional"] = m_user_additional,
+                ["user_additional"] = user_additional,
+                ["need_navigate"] = need_navigate,
+                ["navigate_name"] = navigate_name,
+                ["is_adverse"] = is_adverse,
                 ["loop_times"] = loop_times,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding(type, task_params);
             _latestTaskId[TaskType.Copilot] = id;
-            return id != 0 && AsstStart();
+            if (asst_start)
+            {
+                return id != 0 && AsstStart();
+            }
+            else
+            {
+                return id != 0;
+            }
         }
 
         public bool AsstStartVideoRec(string filename)

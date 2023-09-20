@@ -1375,6 +1375,14 @@
         "sortId": -10000,
         "usage": "一枚金属制的小型奖牌。获取一定数量的奖章将得到相应的赛事奖励。"
     },
+    "act1mainlinebp_token_star": {
+        "classifyType": "NONE",
+        "description": "闪烁辉光的碎片，点亮了您无畏黑暗、步履不停的荆棘之路。",
+        "icon": "act1mainlinebp_token_star.png",
+        "name": "里程碑碎片",
+        "sortId": -10000,
+        "usage": "可用于兑换里程碑奖励。"
+    },
     "act1sandbox_milestone_point": {
         "classifyType": "NONE",
         "description": "生息繁荣，代代相传，以此为证。",
@@ -2045,6 +2053,14 @@
         "icon": "randomMaterial_8.png",
         "name": "罗德岛物资补给V",
         "sortId": 60108,
+        "usage": "装有各种物资补给，包含多种随机材料。"
+    },
+    "randomMaterial_9": {
+        "classifyType": "CONSUME",
+        "description": "罗德岛从各地采购、储备的材料补给箱。不过因为缺乏系统性的整理收纳，每一个箱子里都装着截然不同的材料。",
+        "icon": "randomMaterial_9.png",
+        "name": "罗德岛物资补给VI",
+        "sortId": 60109,
         "usage": "装有各种物资补给，包含多种随机材料。"
     },
     "randomMaterial_rhine2": {
