@@ -24,7 +24,10 @@ bool asst::AwardTask::set_params(const json::value& params)
 {
     LogTraceFunction;
 
-    bool mail = params.get("mail", true);
+    bool award = params.get("award", true);
+    bool mail = params.get("mail", false);
+
+    award_task_ptr->set_enable(award);
     mail_task_ptr->set_enable(mail);
 
     return true;
