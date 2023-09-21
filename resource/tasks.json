@@ -10539,7 +10539,16 @@
             "Mizuki@Roguelike@ChooseOperFlag"
         ]
     },
-    "Mizuki@Roguelike@CloseEvent": {},
+    "Mizuki@Roguelike@CloseEvent": {
+        "action": "ClickRect",
+        "specificRect": [
+            619,
+            615,
+            41,
+            17
+        ],
+        "postDelay": 1000
+    },
     "Mizuki@Roguelike@CommissionedMissionCompleted": {
         "action": "ClickRect",
         "specificRect": [
