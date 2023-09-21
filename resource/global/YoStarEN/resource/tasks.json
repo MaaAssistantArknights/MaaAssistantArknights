@@ -5954,6 +5954,24 @@
             "Stop"
         ]
     },
+    "GA-Open": {
+        "text": [
+            "Event <Guide Ahead",
+            "Rerun> is now",
+            "open"
+        ]
+    },
+    "SideStoryReopen": {
+        "text": [
+            "Rerun"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ]
+    },
     "GachaLastOnceResult": {
         "text": [
             "Certificate",
