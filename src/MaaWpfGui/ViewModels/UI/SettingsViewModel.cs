@@ -1905,6 +1905,38 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        /* 领取奖励设置 */
+
+        private bool _receiveAward = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveAward, true.ToString()));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether receive award is enabled.
+        /// </summary>
+        public bool ReceiveAward
+        {
+            get => _receiveAward;
+            set
+            {
+                SetAndNotify(ref _receiveAward, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveAward, value.ToString());
+            }
+        }
+
+        private bool _receiveMail = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveMail, false.ToString()));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether receive mail is enabled.
+        /// </summary>
+        public bool ReceiveMail
+        {
+            get => _receiveMail;
+            set
+            {
+                SetAndNotify(ref _receiveMail, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveMail, value.ToString());
+            }
+        }
+
         /* 定时设置 */
 
         public class TimerModel

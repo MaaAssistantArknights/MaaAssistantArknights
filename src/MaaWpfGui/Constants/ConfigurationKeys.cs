@@ -125,6 +125,9 @@ namespace MaaWpfGui.Constants
         public const string CreditBlackListNew = "Mall.CreditBlackListNew";
         public const string CreditForceShoppingIfCreditFull = "Mall.CreditForceShoppingIfCreditFull";
 
+        public const string ReceiveAward = "Mission.ReceiveAward";
+        public const string ReceiveMail = "Mission.ReceiveMail";
+
         public const string CopilotAddUserAdditional = "Copilot.AddUserAdditional";
         public const string CopilotUserAdditional = "Copilot.UserAdditional";
         public const string CopilotLoopTimes = "Copilot.LoopTimes";
