@@ -21,11 +21,11 @@
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource ReceiveDailyAndWeeklyAward}"
-                IsChecked="True" />
+                IsChecked="{Binding ReceiveAward}" />
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource ReceiveMail}"
-                IsChecked="False" />
+                IsChecked="{Binding ReceiveMail}" />
         </StackPanel>
     </StackPanel>
 </UserControl>
