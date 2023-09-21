@@ -1465,12 +1465,19 @@ namespace MaaWpfGui.Main
         }
 
         /// <summary>
-        /// 领取日常奖励。
+        /// 领取奖励。
         /// </summary>
+        /// <param name="award">是否领取每日/每周任务奖励</param>
+        /// <param name="mail">是否领取所有邮件奖励</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendAward()
+        public bool AsstAppendAward(bool award, bool mail)
         {
-            AsstTaskId id = AsstAppendTaskWithEncoding("Award");
+            var task_params = new JObject
+            {
+                ["award"] = award,
+                ["mail"] = mail
+            };
+            AsstTaskId id = AsstAppendTaskWithEncoding("Award", task_params);
             _latestTaskId[TaskType.Award] = id;
             return id != 0;
         }

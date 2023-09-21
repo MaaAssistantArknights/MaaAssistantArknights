@@ -866,7 +866,7 @@ namespace MaaWpfGui.ViewModels.UI
                         break;
 
                     case "Mission":
-                        taskRet &= Instances.AsstProxy.AsstAppendAward();
+                        taskRet &= Instances.AsstProxy.AsstAppendAward(true, true);
                         break;
 
                     case "AutoRoguelike":
