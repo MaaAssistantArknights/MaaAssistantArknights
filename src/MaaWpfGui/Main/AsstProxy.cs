@@ -620,13 +620,15 @@ namespace MaaWpfGui.Main
                     {
                         bool isSanityForecastSucc = true;
                         DateTimeOffset? reportTime = null;
+                        TimeSpan timeDiff = TimeSpan.Zero;
                         if (isSanityForecastSucc &= sanity_report.Count == 2 && ((string)sanity_report[0]).Contains("/"))
                         {
                             int[] sanity = ((string)sanity_report[0]).Split('/').Select(i => Convert.ToInt32(i)).ToArray();
                             reportTime = DateTimeOffset.Parse((string)sanity_report[1]);
                             if (isSanityForecastSucc &= sanity.Length == 2 && sanity[1] > 1)
                             {
-                                reportTime = reportTime?.AddMinutes(sanity[0] < sanity[1] ? (sanity[1] - sanity[0]) * 6 : 0);
+                                timeDiff = new TimeSpan(0, sanity[0] < sanity[1] ? (sanity[1] - sanity[0]) * 6 : 0, 0);
+                                reportTime = reportTime?.AddMinutes(timeDiff.TotalMinutes);
                             }
                         }
 
@@ -641,7 +643,7 @@ namespace MaaWpfGui.Main
                             .Replace("{Preset}", configurationPreset);
                         if (isSanityForecastSucc)
                         {
-                            sanityReport = sanityReport.Replace("{DateTime}", reportTime?.ToString("T"));
+                            sanityReport = sanityReport.Replace("{DateTime}", reportTime?.ToString("T")).Replace("{TimeDiff}", timeDiff.ToString(@"hh\:mm"));
 
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AllTasksComplete") + Environment.NewLine + sanityReport);
                             ExternalNotificationService.Send(allTaskCompleteTitle, allTaskCompleteMessage + Environment.NewLine + sanityReport);
