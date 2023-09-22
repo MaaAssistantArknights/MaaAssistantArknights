@@ -732,7 +732,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private async Task<bool> ConnectToSimulator()
+        private async Task<bool> ConnectToEmulator()
         {
             string errMsg = string.Empty;
             bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
@@ -829,7 +829,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            if (!await ConnectToSimulator())
+            if (!await ConnectToEmulator())
             {
                 return;
             }
@@ -987,7 +987,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            if (!await ConnectToSimulator())
+            if (!await ConnectToEmulator())
             {
                 return;
             }
