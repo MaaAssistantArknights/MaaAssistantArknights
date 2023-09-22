@@ -280,7 +280,7 @@
                     ]
                 },
                 {
-                    "name": "棘刺"                    
+                    "name": "棘刺"
                 },
                 {
                     "name": "煌",
@@ -302,7 +302,7 @@
                     ]
                 },
                 {
-                    "name": "银灰"                    
+                    "name": "银灰"
                 },
                 {
                     "name": "艾丽妮",
@@ -1012,7 +1012,7 @@
                 {
                     "name": "纯烬艾雅法拉",
                     "skill": 1,
-                    "is_key":true,
+                    "is_key": true,
                     "recruit_priority": 799,
                     "promote_priority": 590,
                     "recruit_priority_offsets": [
@@ -1029,7 +1029,7 @@
                 {
                     "name": "蜜莓",
                     "skill": 1,
-                    "is_key":true,
+                    "is_key": true,
                     "recruit_priority": 641,
                     "promote_priority": 300,
                     "recruit_priority_offsets": [
@@ -1046,7 +1046,7 @@
                 {
                     "name": "桑葚",
                     "skill": 2,
-                    "is_key":true,
+                    "is_key": true,
                     "recruit_priority": 640,
                     "promote_priority": 290,
                     "recruit_priority_offsets": [
@@ -1569,7 +1569,7 @@
                     "name": "预备干员-后勤"
                 }
             ]
-        },        
+        },
         {
             "name": "地面单切",
             "opers": [
@@ -2395,7 +2395,7 @@
                     "is_key": true
                 }
             ]
-        },        
+        },
         {
             "name": "地面阻挡",
             "opers": [
@@ -2504,9 +2504,6 @@
                 },
                 {
                     "name": "仇白"
-                },
-                {
-                    "name": "棘刺"
                 },
                 {
                     "name": "推进之王"
@@ -2740,9 +2737,6 @@
             "doc": "打三及以上",
             "opers": [
                 {
-                    "name": "棘刺"
-                },
-                {
                     "name": "号角"
                 },
                 {
@@ -2810,9 +2804,6 @@
         {
             "name": "领主",
             "opers": [
-                {
-                    "name": "棘刺"
-                },
                 {
                     "name": "仇白"
                 },
@@ -2900,7 +2891,7 @@
         },
         {
             "name": "高台输出",
-            "opers": [                
+            "opers": [
                 {
                     "name": "空弦"
                 },
@@ -3747,7 +3738,7 @@
             "threshold": 1
         },
         {
-            "groups": [                
+            "groups": [
                 "地面阻挡",
                 "地面单切"
             ],
