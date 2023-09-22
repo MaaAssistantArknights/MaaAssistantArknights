@@ -541,7 +541,8 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="StartCombat" xml:space="preserve">戦闘開始: </system:String>
     <system:String x:Key="CompleteCombat">戦闘完了</system:String>
     <system:String x:Key="AllTasksComplete">すべてのタスクが完了しました！</system:String>
-    <system:String x:Key="AllTaskCompleteContent">MAA は、{Datetime} の {Preset} 構成の下にあるすべてのプリセット タスクを完了しました。</system:String>
+    <system:String x:Key="SanityReport">理性は {DateTime} に満杯になります ({TimeDiff} 後)。</system:String>
+    <system:String x:Key="AllTaskCompleteContent">MAA は、{DateTime} の {Preset} 構成の下にあるすべてのプリセット タスクを完了しました。</system:String>
     <system:String x:Key="BackgroundLinkStarted">Tasks started</system:String>
     <system:String x:Key="BackgroundLinkStopped">Tasks stopped</system:String>
     <system:String x:Key="FailedToOpenClient">クライアントを開くのに失敗しました。構成ファイルを確認してください</system:String>

@@ -589,6 +589,7 @@ namespace MaaWpfGui.Main
                 case AsstMsg.AllTasksCompleted:
                     bool isMainTaskQueueAllCompleted = true;
                     var finished_tasks = details["finished_tasks"] as JArray;
+                    var sanity_report = details["sanity"] as JArray;
                     if (finished_tasks.Count == 1)
                     {
                         var unique_finished_task = (AsstTaskId)finished_tasks[0];
@@ -617,19 +618,49 @@ namespace MaaWpfGui.Main
 
                     if (isMainTaskQueueAllCompleted)
                     {
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AllTasksComplete"));
+                        bool isSanityForecastSucc = true;
+                        DateTimeOffset? reportTime = null;
+                        TimeSpan timeDiff = TimeSpan.Zero;
+                        if (isSanityForecastSucc &= sanity_report.Count == 2 && ((string)sanity_report[0]).Contains("/"))
+                        {
+                            int[] sanity = ((string)sanity_report[0]).Split('/').Select(i => Convert.ToInt32(i)).ToArray();
+                            reportTime = DateTimeOffset.Parse((string)sanity_report[1]);
+                            if (isSanityForecastSucc &= sanity.Length == 2 && sanity[1] > 1)
+                            {
+                                timeDiff = new TimeSpan(0, sanity[0] < sanity[1] ? (sanity[1] - sanity[0]) * 6 : 0, 0);
+                                reportTime = reportTime?.AddMinutes(timeDiff.TotalMinutes);
+                            }
+                        }
+
                         var allTaskCompleteTitle = LocalizationHelper.GetString("AllTasksComplete");
                         var allTaskCompleteMessage = LocalizationHelper.GetString("AllTaskCompleteContent");
+                        var sanityReport = LocalizationHelper.GetString("SanityReport");
 
-                        var configurationPreset = ConfigurationHelper.GetValue(ConfigurationKeys.CurrentConfiguration, "Default");
+                        var configurationPreset = ConfigurationHelper.GetCurrentConfiguration();
 
                         allTaskCompleteMessage = allTaskCompleteMessage
-                            .Replace("{Datetime}", DateTime.Now.ToString("U"))
+                            .Replace("{DateTime}", DateTime.Now.ToString("U"))
                             .Replace("{Preset}", configurationPreset);
+                        if (isSanityForecastSucc)
+                        {
+                            sanityReport = sanityReport.Replace("{DateTime}", reportTime?.ToString("T")).Replace("{TimeDiff}", timeDiff.ToString(@"hh\:mm"));
 
-                        ExternalNotificationService.Send(allTaskCompleteTitle, allTaskCompleteMessage);
+                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AllTasksComplete") + Environment.NewLine + sanityReport);
+                            ExternalNotificationService.Send(allTaskCompleteTitle, allTaskCompleteMessage + Environment.NewLine + sanityReport);
+                        }
+                        else
+                        {
+                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AllTasksComplete"));
+                            ExternalNotificationService.Send(allTaskCompleteTitle, allTaskCompleteMessage);
+                        }
+
                         using (var toast = new ToastNotification(allTaskCompleteTitle))
                         {
+                            if (isSanityForecastSucc)
+                            {
+                                toast.AppendContentText(sanityReport);
+                            }
+
                             toast.Show();
                         }
 
