@@ -10270,8 +10270,6 @@
         ]
     },
     "Phantom@Roguelike@InitalDrop": {},
-    "Phantom@Roguelike@LastReward_normal_mode": {},
-    "Phantom@Roguelike@LastReward_mode4": {},
     "Phantom@Roguelike@LastReward": {},
     "Phantom@Roguelike@LastReward2": {},
     "Phantom@Roguelike@LastReward3": {},
@@ -10280,8 +10278,6 @@
     "Phantom@Roguelike@LastRewardRand": {},
     "Phantom@Roguelike@MissionFailedFlag": {},
     "Phantom@Roguelike@MissionFailedFlag2": {},
-    "Phantom@Roguelike@LevelName": {},
-    "Phantom@Roguelike@LevelName_normal_mode": {},
     "Phantom@Roguelike@LevelName_mode4": {
         "text": [
             "故土残躯"
@@ -10366,19 +10362,6 @@
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.85
     },
-    "Phantom@Roguelike@StageEncounterJudgeOption": {},
-    "Phantom@Roguelike@StageEncounterJudgeClick": {},
-    "Phantom@Roguelike@StageEncounterJudgeClick2": {},
-    "Phantom@Roguelike@OptionChoose1-1": {},
-    "Phantom@Roguelike@OptionChoose2-1": {},
-    "Phantom@Roguelike@OptionChoose2-2": {},
-    "Phantom@Roguelike@OptionChoose3-1": {},
-    "Phantom@Roguelike@OptionChoose3-2": {},
-    "Phantom@Roguelike@OptionChoose3-3": {},
-    "Phantom@Roguelike@OptionChoose4-1": {},
-    "Phantom@Roguelike@OptionChoose4-2": {},
-    "Phantom@Roguelike@OptionChoose4-3": {},
-    "Phantom@Roguelike@OptionChoose4-4": {},
     "Phantom@Roguelike@StageEncounterOptions": {
         "next": [
             "Phantom@Roguelike@StageEncounterOptionFree",
@@ -10773,8 +10756,6 @@
         ]
     },
     "Mizuki@Roguelike@InitalDrop": {},
-    "Mizuki@Roguelike@LastReward_normal_mode": {},
-    "Mizuki@Roguelike@LastReward_mode4": {},
     "Mizuki@Roguelike@LastReward": {},
     "Mizuki@Roguelike@LastReward2": {},
     "Mizuki@Roguelike@LastReward3": {},
@@ -10796,8 +10777,6 @@
     },
     "Mizuki@Roguelike@MissionFailedFlag": {},
     "Mizuki@Roguelike@MissionFailedFlag2": {},
-    "Mizuki@Roguelike@LevelName": {},
-    "Mizuki@Roguelike@LevelName_normal_mode": {},
     "Mizuki@Roguelike@LevelName_mode4": {
         "text": [
             "波涛略地",
@@ -10971,19 +10950,6 @@
             "Mizuki@Roguelike@CloseEvent"
         ]
     },
-    "Mizuki@Roguelike@StageEncounterJudgeOption": {},
-    "Mizuki@Roguelike@StageEncounterJudgeClick": {},
-    "Mizuki@Roguelike@StageEncounterJudgeClick2": {},
-    "Mizuki@Roguelike@OptionChoose1-1": {},
-    "Mizuki@Roguelike@OptionChoose2-1": {},
-    "Mizuki@Roguelike@OptionChoose2-2": {},
-    "Mizuki@Roguelike@OptionChoose3-1": {},
-    "Mizuki@Roguelike@OptionChoose3-2": {},
-    "Mizuki@Roguelike@OptionChoose3-3": {},
-    "Mizuki@Roguelike@OptionChoose4-1": {},
-    "Mizuki@Roguelike@OptionChoose4-2": {},
-    "Mizuki@Roguelike@OptionChoose4-3": {},
-    "Mizuki@Roguelike@OptionChoose4-4": {},
     "Mizuki@Roguelike@StageEncounterSpecialClose": {},
     "Mizuki@Roguelike@StageGambling": {
         "Doc": "骰子关卡",
@@ -11332,8 +11298,6 @@
         ]
     },
     "Sami@Roguelike@InitalDrop": {},
-    "Sami@Roguelike@LastReward_normal_mode": {},
-    "Sami@Roguelike@LastReward_mode4": {},
     "Sami@Roguelike@LastReward": {},
     "Sami@Roguelike@LastReward2": {},
     "Sami@Roguelike@LastReward3": {},
@@ -11355,8 +11319,6 @@
     },
     "Sami@Roguelike@MissionFailedFlag": {},
     "Sami@Roguelike@MissionFailedFlag2": {},
-    "Sami@Roguelike@LevelName": {},
-    "Sami@Roguelike@LevelName_normal_mode": {},
     "Sami@Roguelike@LevelName_mode4": {
         "text": [
             "昧明冻土",
@@ -11848,19 +11810,6 @@
             "Sami@Roguelike@CloseEvent"
         ]
     },
-    "Sami@Roguelike@StageEncounterJudgeOption": {},
-    "Sami@Roguelike@StageEncounterJudgeClick": {},
-    "Sami@Roguelike@StageEncounterJudgeClick2": {},
-    "Sami@Roguelike@OptionChoose1-1": {},
-    "Sami@Roguelike@OptionChoose2-1": {},
-    "Sami@Roguelike@OptionChoose2-2": {},
-    "Sami@Roguelike@OptionChoose3-1": {},
-    "Sami@Roguelike@OptionChoose3-2": {},
-    "Sami@Roguelike@OptionChoose3-3": {},
-    "Sami@Roguelike@OptionChoose4-1": {},
-    "Sami@Roguelike@OptionChoose4-2": {},
-    "Sami@Roguelike@OptionChoose4-3": {},
-    "Sami@Roguelike@OptionChoose4-4": {},
     "Sami@Roguelike@StageEncounterSpecialClose": {},
     "Sami@Roguelike@StageEncounterClickToLeave": {
         "next": [
