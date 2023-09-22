@@ -79,13 +79,19 @@ bool asst::TaskData::parse(const json::value& json)
         std::unordered_map<std::string_view, TaskStatus> task_status;
 
         for (const auto& [name, task_json] : json.as_object()) {
+            std::string_view name_view = task_name_view(name);
             if (task_json.get("baseTask", "") == "#none") {
                 // 不继承同名任务参数
-                m_json_all_tasks_info[name] = task_json.as_object();
+                m_json_all_tasks_info[name_view] = task_json.as_object();
+                m_json_all_tasks_info[name_view].erase("baseTask");
+                continue;
+            }
+            if (m_json_all_tasks_info.find(name_view) == m_json_all_tasks_info.cend()) {
+                m_json_all_tasks_info.emplace(name_view, task_json.as_object());
                 continue;
             }
             for (const auto& [key, value] : task_json.as_object()) {
-                m_json_all_tasks_info[task_name_view(name)][key] = value;
+                m_json_all_tasks_info[name_view][key] = value;
             }
         }
 
