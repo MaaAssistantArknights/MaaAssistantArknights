@@ -4762,7 +4762,7 @@
     },
     "DailyTask": {
         "action": "ClickSelf",
-        "cache": false,
+        "templThreshold": 0.7,
         "roi": [
             400,
             0,
