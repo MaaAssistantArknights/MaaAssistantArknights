@@ -3196,7 +3196,9 @@
             222,
             125
         ],
-        "text": "Deployment Cost"
+        "text": [
+            "Deployment Cost"
+        ]
     },
     "BattleQuickFormationRole-All-OCR": {
         "text": [
