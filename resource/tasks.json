@@ -3217,7 +3217,7 @@
             "StartUp@ReturnTo",
             "StartUp@EndOfAction",
             "StartUp@FromStageSN",
-            "StartUp@MailFinished"
+            "StartUp@Return-White"
         ]
     },
     "GameStart": {
@@ -3426,6 +3426,16 @@
             "#back"
         ]
     },
+    "Return-White": {
+        "templThreshold": 0.8,
+        "baseTask": "ReturnTo",
+        "roi": [
+            0,
+            0,
+            220,
+            150
+        ]
+    },
     "ReturnTo": {
         "template": "Return.png",
         "templThreshold": 0.7,
@@ -3445,7 +3455,7 @@
             "CloseAnnos#next",
             "FromStageSN",
             "TodaysSupplies",
-            "ReturnTo@MailFinished"
+            "Return-White"
         ]
     },
     "ReturnToConfirm": {
@@ -4834,20 +4844,8 @@
     "CloseTaskMailDouble": {
         "baseTask": "CloseTaskAwardDouble",
         "next": [
-            "MailFinished",
+            "Return-White",
             "CloseTaskMailDouble"
-        ]
-    },
-    "MailFinished": {
-        "action": "ClickSelf",
-        "roi": [
-            0,
-            0,
-            220,
-            150
-        ],
-        "next": [
-            "#back"
         ]
     },
     "VisitBegin": {
