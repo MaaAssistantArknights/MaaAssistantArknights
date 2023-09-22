@@ -1,4 +1,7 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  .Net 8  -->
     <system:String x:Key="Dotnet8">MAA 即将升级，升级后的版本不支持未安装 .NET 8.0 运行时 的电脑，需要您手动前往下载。\n\n同时，我们将不再支持 Windows 7 操作系统。\n\n如果您点击 '是'，我们将为您打开新的运行时下载链接。如果您点击 '否'，我们将禁用您的自动下载功能，以防止不必要的软件更新。如果您选择禁用自动下载，您仍然可以在软件设置中手动重新启用此功能。</system:String>
     <system:String x:Key="Dotnet8Caption">软件版本升级及支持变更</system:String>
@@ -104,6 +107,7 @@
     <system:String x:Key="StartingRoles">开局职业组</system:String>
     <system:String x:Key="StartingCoreChar">开局干员 (单个)</system:String>
     <system:String x:Key="StartingCoreCharTip">仅支持单个干员中文名，不填写则默认选择。</system:String>
+    <system:String x:Key="RoguelikeStartWithEliteTwo">凹「开局干员」直升精二</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「开局干员」使用助战</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助战</system:String>
     <system:String x:Key="DeploymentWithPause">暂停下干员（同时影响肉鸽、自动战斗、保全）（不稳定，暂不推荐开启）</system:String>
@@ -277,9 +281,10 @@
     <system:String x:Key="AutoDetectConnectionTip">每次检测完成后会自动取消勾选，若需要重新检测可再次勾选，若反复连接失败可勾选始终自动检测连接</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">每次重新检测</system:String>
     <system:String x:Key="AccountSwitch">账号切换</system:String>
-    <system:String x:Key="AccountSwitchTip" xml:space="preserve">填写需要切换至的账号，留空以关闭账号切换
-官服输入登录界面显示的手机号，如 123****4567
- B服输入登录界面显示的账号名，如 张三
+    <system:String x:Key="AccountSwitchManualRun">手动切换</system:String>
+    <system:String x:Key="AccountSwitchTip" xml:space="preserve">需要切换至的账号，留空以禁用
+官服输入登录界面显示的手机号，如「123****4567」，可输入「123****4567」或「4567」或「23****45」
+ B服输入登录界面显示的账号名，如「张三」，可输入「张」或「三」
 暂不支持其他服</system:String>
     <system:String x:Key="ADBPath">ADB 路径 (相对/绝对)</system:String>
     <system:String x:Key="ConnectionAddress">连接地址</system:String>
@@ -333,8 +338,8 @@
     <system:String x:Key="RemainingSanityStage">剩余理智</system:String>
     <system:String x:Key="NoUse">不选择</system:String>
     <!--<system:String x:Key="Amend">修改</system:String>-->
-    <!--<system:String x:Key="CurrentStage">当前关卡</system:String>
-    <system:String x:Key="LastBattle">上次作战</system:String>-->
+    <!--<system:String x:Key="CurrentStage">当前关卡</system:String> -->
+    <!--<system:String x:Key="LastBattle">上次作战</system:String>-->
     <system:String x:Key="DefaultStage">当前/上次</system:String>
     <system:String x:Key="ClosedStage">活动未开放</system:String>
     <system:String x:Key="UnsupportedStages">不支持的关卡</system:String>
@@ -466,7 +471,7 @@
     <system:String x:Key="AutoSquadTip">自动编队暂时无法识别「特别关注」的干员</system:String>
     <system:String x:Key="AddTrust">补充低信赖干员</system:String>
     <system:String x:Key="AddUserAdditional">追加自定干员</system:String>
-    <system:String x:Key="AddUserAdditionalTip">以英文";"为分隔符，英文","分隔干员名与技能，例: 史尔特尔,3;艾雅法拉,1</system:String>
+    <system:String x:Key="AddUserAdditionalTip">以英文「;」为分隔符，英文「,」分隔干员名与技能，例: 史尔特尔,3;艾雅法拉,1</system:String>
     <system:String x:Key="LoopTimes">循环次数</system:String>
     <system:String x:Key="UseCopilotList">战斗列表</system:String>
     <system:String x:Key="UseCopilotListTip">开始前请切换至关卡选择页面</system:String>
@@ -537,7 +542,8 @@
     <system:String x:Key="StartCombat" xml:space="preserve">开始战斗: </system:String>
     <system:String x:Key="CompleteCombat">完成战斗</system:String>
     <system:String x:Key="AllTasksComplete">任务已全部完成！</system:String>
-    <system:String x:Key="AllTaskCompleteContent">MAA 已在 {Datetime} 完成了 {Preset} 配置下所有预设的任务。</system:String>
+    <system:String x:Key="SanityReport">理智将在 {DateTime} ({TimeDiff} 后) 回满。</system:String>
+    <system:String x:Key="AllTaskCompleteContent">MAA 已在 {DateTime} 完成了 {Preset} 配置下所有预设的任务。</system:String>
     <system:String x:Key="BackgroundLinkStarted">开始执行任务</system:String>
     <system:String x:Key="BackgroundLinkStopped">任务终止</system:String>
     <system:String x:Key="FailedToOpenClient">打开客户端失败，请检查配置文件</system:String>
@@ -653,7 +659,7 @@
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">关卡数据获取成功</system:String>
     <system:String x:Key="GameResourceUpdated">游戏资源已更新，请重启 MAA</system:String>
-    <system:String x:Key="GameResourceUpdating">正在更新游戏资源，请耐心等待</system:String>
+    <system:String x:Key="GameResourceUpdating">游戏资源正在更新，请勿关闭 MAA</system:String>
     <!--  Api  -->
     <!--  External Notification  -->
     <system:String x:Key="ExternalNotificationEmailTemplateHello">博士，有新的通知哦！</system:String>
