@@ -1698,10 +1698,10 @@ namespace MaaWpfGui.ViewModels.UI
         {
             if (mode == "4")
             {
-                return "Collapsed";
+                return "Visible";
             }
 
-            return "Visible";
+            return "Collapsed";
         }
 
         private string _roguelikeUseSupportUnit = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeUseSupportUnit, false.ToString());
