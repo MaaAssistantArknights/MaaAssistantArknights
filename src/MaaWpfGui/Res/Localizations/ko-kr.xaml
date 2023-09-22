@@ -541,7 +541,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: Zhang San
     <system:String x:Key="StartCombat" xml:space="preserve">작전 시작: </system:String>
     <system:String x:Key="CompleteCombat">작전 완료</system:String>
     <system:String x:Key="AllTasksComplete">모든 작업이 완료되었습니다!</system:String>
-    <system:String x:Key="SanityReport">{DateTime}에 정신력이 가득 차게 됩니다.</system:String>
+    <system:String x:Key="SanityReport">{DateTime}({TimeDiff} 이후)에 정신 상태가 가득 차게 됩니다.</system:String>
     <system:String x:Key="AllTaskCompleteContent">MAA는 {DateTime}의 {Preset} 구성에서 모든 사전 설정 작업을 완료했습니다.</system:String>
     <system:String x:Key="BackgroundLinkStarted">작업 시작됨</system:String>
     <system:String x:Key="BackgroundLinkStopped">작업 중지됨</system:String>
