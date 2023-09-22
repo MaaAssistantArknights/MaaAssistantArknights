@@ -621,7 +621,7 @@ namespace MaaWpfGui.Main
                         bool isSanityForecastSucc = true;
                         DateTimeOffset? reportTime = null;
                         TimeSpan timeDiff = TimeSpan.Zero;
-                        if (isSanityForecastSucc &= sanity_report.Count == 2 && ((string)sanity_report[0]).Contains("/"))
+                        if (isSanityForecastSucc &= sanity_report != null && sanity_report.Count == 2 && ((string)sanity_report[0]).Contains("/"))
                         {
                             int[] sanity = ((string)sanity_report[0]).Split('/').Select(i => Convert.ToInt32(i)).ToArray();
                             reportTime = DateTimeOffset.Parse((string)sanity_report[1]);
