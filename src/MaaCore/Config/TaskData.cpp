@@ -65,7 +65,8 @@ bool asst::TaskData::parse(const json::value& json)
     }
 #endif // !ASST_DEBUG
 
-    const auto& json_obj = json.as_object();
+    m_all_tasks_info.clear();
+    const auto& json_obj = m_json_all_tasks_info;
 
     {
         enum TaskStatus
@@ -76,8 +77,20 @@ bool asst::TaskData::parse(const json::value& json)
             NotExists,           // 不存在的资源
         };
         std::unordered_map<std::string_view, TaskStatus> task_status;
-        for (const std::string& name : json_obj | views::keys) {
-            task_status[task_name_view(name)] = ToBeGenerate;
+
+        for (const auto& [name, task_json] : json.as_object()) {
+            if (task_json.get("baseTask", "") == "#none") {
+                // 不继承同名任务参数
+                m_json_all_tasks_info[name] = task_json.as_object();
+                continue;
+            }
+            for (const auto& [key, value] : task_json.as_object()) {
+                m_json_all_tasks_info[task_name_view(name)][key] = value;
+            }
+        }
+
+        for (const std::string_view& name : m_json_all_tasks_info | views::keys) {
+            task_status[name] = ToBeGenerate;
         }
 
         auto generate_task_and_its_base = [&](const std::string& name) -> bool {
@@ -95,7 +108,7 @@ bool asst::TaskData::parse(const json::value& json)
             generate_fun = [&](const std::string& name, bool must_true) -> bool {
                 switch (task_status[task_name_view(name)]) {
                 case NotToBeGenerate:
-                    // 已经显式生成 或 曾经显式生成（外服隐式引用国服资源）
+                    // 已经显式生成
                     if (m_raw_all_tasks_info.contains(name)) {
                         return true;
                     }
@@ -116,24 +129,12 @@ bool asst::TaskData::parse(const json::value& json)
                     return false;
                 case ToBeGenerate: {
                     task_status[name] = Generating;
-                    const json::value& task_json = json_obj.at(name);
+                    const json::value& task_json = m_json_all_tasks_info.at(name);
 
+                    // BaseTask
                     if (auto opt = task_json.find<std::string>("baseTask")) {
-                        // BaseTask
                         std::string base = opt.value();
-                        if (base == "#none") {
-                            // `"baseTask": "#none"` 表示不使用已生成的同名任务
-                        }
-                        else if (base.empty()) {
-                            Log.warn("Use `\"baseTask\": \"#none\"` instead of `\"baseTask\": \"\"` in Task", name);
-                        }
-                        else {
-                            return generate_fun(base, must_true) && generate_task(name, "", get_raw(base), task_json);
-                        }
-                    }
-                    else if (m_raw_all_tasks_info.contains(name)) {
-                        // 已生成（外服覆写国服资源）
-                        return generate_task(name, "", get_raw(name), task_json);
+                        return generate_fun(base, must_true) && generate_task(name, "", get_raw(base), task_json);
                     }
 
                     // TemplateTask
@@ -161,8 +162,8 @@ bool asst::TaskData::parse(const json::value& json)
             return generate_fun(name, true);
         };
 
-        for (const std::string& name : json_obj | views::keys) {
-            generate_task_and_its_base(name);
+        for (const std::string_view& name : json_obj | views::keys) {
+            generate_task_and_its_base(std::string(name));
         }
 
         // 延迟展开，等到一个任务被第一次 get 的时候才展开
@@ -954,7 +955,7 @@ asst::TaskData::taskptr_t asst::TaskData::_default_task_info()
 #ifdef ASST_DEBUG
 // 为了解决类似 beddc7c828126c678391e0b4da288db6d2c2d58a 导致的问题，加载的时候做一个语法检查
 // 主要是处理是否包含未知键值的问题
-bool asst::TaskData::syntax_check(const std::string& task_name, const json::value& task_json)
+bool asst::TaskData::syntax_check(const std::string_view& task_name, const json::value& task_json)
 {
     // clang-format off
     // 以下按字典序排序
