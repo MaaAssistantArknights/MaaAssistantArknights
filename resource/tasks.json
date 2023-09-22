@@ -4799,7 +4799,7 @@
     },
     "Mail": {
         "action": "ClickSelf",
-        "cache": false,
+        "templThreshold": 0.7,
         "roi": [
             120,
             0,
