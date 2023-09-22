@@ -4762,7 +4762,7 @@
     },
     "DailyTask": {
         "action": "ClickSelf",
-        "templThreshold": 0.7,
+        "cache": false,
         "roi": [
             400,
             0,
@@ -4836,8 +4836,7 @@
         "next": [
             "MailFinished",
             "CloseTaskMailDouble"
-        ],
-        "maxTimes": 10
+        ]
     },
     "MailFinished": {
         "action": "ClickSelf",
