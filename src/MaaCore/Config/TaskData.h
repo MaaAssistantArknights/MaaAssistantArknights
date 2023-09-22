@@ -146,7 +146,7 @@ namespace asst
                            bool& task_changed, bool multi);
         std::optional<taskptr_t> expand_task(std::string_view name, taskptr_t old_task);
 #ifdef ASST_DEBUG
-        bool syntax_check(const std::string& task_name, const json::value& task_json);
+        bool syntax_check(const std::string_view& task_name, const json::value& task_json);
 #endif
         std::shared_ptr<TaskInfo> get_raw(std::string_view name) const;
         template <typename TargetTaskInfoType>
@@ -176,6 +176,7 @@ namespace asst
         std::unordered_set<std::string> m_task_names;
         std::unordered_map<std::string_view, taskptr_t> m_raw_all_tasks_info;
         std::unordered_map<std::string_view, taskptr_t> m_all_tasks_info;
+        std::unordered_map<std::string_view, json::object> m_json_all_tasks_info;
         std::unordered_set<std::string> m_templ_required;
     };
 
