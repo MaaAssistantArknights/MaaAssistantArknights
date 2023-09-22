@@ -281,6 +281,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="AutoDetectConnectionTip">이 체크박스는 감지가 끝나면 자동으로 체크가 해제됩니다. 다시 감지하려면 다시 체크해주세요</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">매번 재감지</system:String>
     <system:String x:Key="AccountSwitch">계정 전환</system:String>
+    <system:String x:Key="AccountSwitchManualRun">수동 스위치</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">전환할 계좌를 입력하고, 계좌 전환을 종료하려면 공백으로 남겨두세요.
 공식(CN): 로그인 인터페이스에 표시된 휴대폰 번호(예: 123****4567)를 입력하세요.
 Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: Zhang San)을 입력하세요.

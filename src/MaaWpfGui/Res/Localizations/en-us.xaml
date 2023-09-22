@@ -281,6 +281,7 @@ Enter 「SSReopen-XX」to pass SS normal difficulty level at one time</system:St
     <system:String x:Key="AutoDetectConnectionTip">This checkbox will be automatically unchecked after each detect is completed, and can be checked again if you need to re-detect</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">Re-detect every times</system:String>
     <system:String x:Key="AccountSwitch">Account Switch</system:String>
+    <system:String x:Key="AccountSwitchManualRun">Manual switch</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">Fill in the account that needs to be switched to, leave blank to close the account switching
 Official(CN): Enter the mobile phone number displayed on the login interface, such as 123****4567
 Bilibili: Enter the account name displayed on the login interface, such as Zhang San

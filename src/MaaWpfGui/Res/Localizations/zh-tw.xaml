@@ -281,10 +281,11 @@
     <system:String x:Key="AutoDetectConnectionTip">每次檢測完成後會自動取消勾選，若需要重新檢測可再次勾選</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">每次重新檢測</system:String>
     <system:String x:Key="AccountSwitch">賬號切換</system:String>
-    <system:String x:Key="AccountSwitchTip" xml:space="preserve">填寫需要切換至的賬號，留空以關閉賬號切換
-官服輸入登錄界面顯示的手機號，如 123****4567
- B服輸入登錄界面顯示的賬號名，如 張三
-暫不支持其他類型</system:String>
+    <system:String x:Key="AccountSwitchManualRun">手動切换</system:String>
+    <system:String x:Key="AccountSwitchTip" xml:space="preserve">需要切換至的賬號，留空以禁用
+官服輸入登錄界面顯示的手機號，如「123****4567」，可輸入「123****4567」或「4567」或「23****45」
+ B服輸入登錄界面顯示的賬號名，如「張三」，可輸入「張」或「三」
+暫不支持其他服</system:String>
     <system:String x:Key="ADBPath">ADB 路徑（相對/絕對）</system:String>
     <system:String x:Key="ConnectionAddress">連接地址</system:String>
     <system:String x:Key="ConnectionAddressTip">若遇到問題可嘗試手動修改</system:String>
