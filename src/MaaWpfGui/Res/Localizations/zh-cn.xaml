@@ -304,7 +304,7 @@
     <system:String x:Key="Combat">刷理智</system:String>
     <system:String x:Key="Visiting">访问好友</system:String>
     <system:String x:Key="Mall">获取信用及购物</system:String>
-    <system:String x:Key="Mission">领取日常奖励</system:String>
+    <system:String x:Key="Mission">领取奖励</system:String>
     <system:String x:Key="AutoRoguelike">自动肉鸽</system:String>
     <system:String x:Key="ReclamationAlgorithm">生息演算</system:String>
     <system:String x:Key="Light">亮色</system:String>
