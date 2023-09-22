@@ -5874,8 +5874,6 @@
         ]
     },
     "Reclamation@ManufactureStatus": {
-        "Doc": "base_task",
-        "algorithm": "OcrDetect",
         "roi": [
             1021,
             336,
@@ -5885,49 +5883,28 @@
         "text": []
     },
     "Reclamation@ManufactureIncrease": {
-        "action": "ClickRect",
-        "baseTask": "Reclamation@ManufactureStatus",
-        "specificRect": [
-            1120,
-            86,
-            111,
-            26
-        ],
         "text": [
             "Craft"
         ]
     },
     "Reclamation@ManufactureDecrease": {
-        "action": "ClickRect",
-        "baseTask": "Reclamation@ManufactureStatus",
-        "specificRect": [
-            1096,
-            288,
-            139,
-            28
-        ],
         "text": [
             "Insufficient",
             "materials"
         ]
     },
     "Reclamation@DoManufacture": {
-        "action": "ClickSelf",
-        "baseTask": "Reclamation@ManufactureStatus",
-        "postDelay": 1000,
         "text": [
             "Craft"
         ]
     },
     "Reclamation@ManufactureInsufficientMaterial": {
-        "baseTask": "Reclamation@ManufactureStatus",
         "text": [
             "Insufficient",
             "materials"
         ]
     },
     "Reclamation@ManufactureSufficientMaterial": {
-        "baseTask": "Reclamation@ManufactureStatus",
         "text": [
             "Craft"
         ]
