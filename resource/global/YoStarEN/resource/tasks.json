@@ -5904,7 +5904,7 @@
         "Doc": "base_task",
         "algorithm": "OcrDetect",
         "roi": [
-            1023,
+            1021,
             336,
             259,
             109
