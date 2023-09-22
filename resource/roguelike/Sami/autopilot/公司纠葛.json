@@ -20,7 +20,11 @@
                 7,
                 2
             ],
-            "direction": "left"
+            "direction": "left",
+            "condition": [
+                0,
+                5
+            ]
         },
         {
             "groups": [
@@ -78,9 +82,24 @@
         },
         {
             "groups": [
+                "处决者",
+                "情报官"
+            ],
+            "location": [
+                3,
+                2
+            ],
+            "direction": "left",
+            "condition": [
+                12,
+                16
+            ]
+        },
+        {
+            "groups": [
                 "奶",
                 "高台输出",
-                "狙击", 
+                "狙击",
                 "辅助",
                 "其他高台"
             ],
@@ -103,6 +122,16 @@
         },
         {
             "groups": [
+                "补给站"
+            ],
+            "location": [
+                6,
+                1
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
                 "处决者",
                 "情报官"
             ],
@@ -110,7 +139,50 @@
                 3,
                 2
             ],
-            "direction": "left"
+            "direction": "left",
+            "condition": [
+                21,
+                25
+            ]
+        },
+        {
+            "groups": [
+                "无人机"
+            ],
+            "location": [
+                5,
+                3
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "支援陷阱"
+            ],
+            "location": [
+                5,
+                3
+            ],
+            "direction": "down",
+            "condition": [
+                21,
+                30
+            ]
+        },
+        {
+            "groups": [
+                "处决者",
+                "情报官"
+            ],
+            "location": [
+                3,
+                2
+            ],
+            "direction": "left",
+            "condition": [
+                31,
+                35
+            ]
         }
     ]
 }

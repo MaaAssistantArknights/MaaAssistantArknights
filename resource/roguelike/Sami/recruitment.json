@@ -109,9 +109,10 @@
                     "name": "假日威龙陈",
                     "skill": 3,
                     "alternate_skill": 1,
-                    "recruit_priority": 830,
+                    "recruit_priority": 829,
                     "promote_priority": 990,
-                    "is_key": true
+                    "is_key": true,
+                    "is_start": true
                 }
             ]
         },
@@ -2010,6 +2011,7 @@
                     "skill_usage": 2,
                     "skill_times": 1,
                     "is_key": true,
+                    "is_start": true,
                     "recruit_priority": 626,
                     "promote_priority": 750
                 },
@@ -2035,8 +2037,8 @@
                 {
                     "name": "提丰",
                     "skill": 2,
-                    "recruit_priority": 829,
-                    "promote_priority": 890,
+                    "recruit_priority": 830,
+                    "promote_priority": 910,
                     "is_key": true,
                     "is_start": true
                 }
@@ -2836,10 +2838,7 @@
                 },
                 {
                     "name": "灰烬"
-                },
-                {
-                    "name": "焰影苇草"
-                },
+                },                
                 {
                     "name": "林"
                 },
@@ -3169,20 +3168,24 @@
         },
         {
             "name": "障碍物",
+            "doc": "部署位地面,无朝向的召唤物",
             "opers": [
                 {
                     "name": "障碍物"
                 },
                 {
-                    "name": "掩体"
+                    "name": "掩体",
+                    "doc": "即 防爆桩"
                 },
                 {
-                    "name": "幻影"
+                    "name": "幻影",
+                    "doc": "即 鸟笼"
                 }
             ]
         },
         {
             "name": "补给站",
+            "doc": "部署位任意,有朝向的召唤物",
             "opers": [
                 {
                     "name": "便携式补给站"
@@ -3206,6 +3209,14 @@
                 },
                 {
                     "name": "失修舞台雾机"
+                }
+            ]
+        },
+        {
+            "name": "起重机",
+            "opers": [
+                {
+                    "name": "雪雉的安全起重机"
                 }
             ]
         },

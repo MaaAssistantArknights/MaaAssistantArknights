@@ -152,9 +152,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region External Notifications
 
-        public async Task ExternalNotificationSendTest()
+        public void ExternalNotificationSendTest()
         {
-            await ExternalNotificationService.SendAsync(
+            ExternalNotificationService.Send(
                 LocalizationHelper.GetString("ExternalNotificationSendTestTitle"),
                 LocalizationHelper.GetString("ExternalNotificationSendTestContent"),
                 true);
@@ -558,6 +558,11 @@ namespace MaaWpfGui.ViewModels.UI
                 SetAndNotify(ref _accountName, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.AccountName, value);
             }
+        }
+
+        public void AccountSwitchMannualRun()
+        {
+            Instances.TaskQueueViewModel.QuickSwitchAccount();
         }
 
         private bool _minimizingStartup = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizingStartup, bool.FalseString));
@@ -1654,6 +1659,21 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get => _roguelikeCoreCharList;
             set => SetAndNotify(ref _roguelikeCoreCharList, value);
+        }
+
+        private string _roguelikeStartWithEliteTwo = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, false.ToString());
+
+        /// <summary>
+        /// Gets or sets a value indicating whether use support unit.
+        /// </summary>
+        public bool RoguelikeStartWithEliteTwo
+        {
+            get => bool.Parse(_roguelikeStartWithEliteTwo);
+            set
+            {
+                SetAndNotify(ref _roguelikeStartWithEliteTwo, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, value.ToString());
+            }
         }
 
         private string _roguelikeUseSupportUnit = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeUseSupportUnit, false.ToString());

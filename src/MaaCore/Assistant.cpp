@@ -340,7 +340,6 @@ bool asst::Assistant::start(bool block)
     if (block) { // 外部调用
         lock = std::unique_lock<std::mutex>(m_mutex);
     }
-
     m_thread_idle = false;
     m_running = true;
     m_condvar.notify_one();
@@ -362,7 +361,6 @@ bool Assistant::stop(bool block)
     m_tasks_list.clear();
 
     clear_cache();
-
     return true;
 }
 
@@ -423,8 +421,17 @@ void Assistant::working_proc()
 
         if (m_tasks_list.empty()) {
             callback_json["finished_tasks"] = json::array(finished_tasks);
+
+            const auto& sanity_str = status()->get_str(Status::FightSanityReport);
+            if (sanity_str) {
+                auto sanity_array = json::array(json::parse(*sanity_str).value_or(json::value(json::array())));
+                // ["100/135", "2023-09-01 09:31:53.527"]
+                callback_json["sanity"] = sanity_array;
+            }
+
             append_callback(AsstMsg::AllTasksCompleted, callback_json);
             finished_tasks.clear();
+            clear_cache();
         }
 
         const int delay = Config.get_options().task_delay;
