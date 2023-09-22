@@ -5945,20 +5945,6 @@
             "Skip"
         ]
     },
-    "StartWithDefaultFormation@Reclamation@ConfirmStart": {
-        "baseTask": "Reclamation@ConfirmStart",
-        "next": [],
-        "next_Old": [
-            "Stop"
-        ],
-        "next_Old_Doc": "这里原先有个stop，但是会导致StartWithDefaultFormation@Reclamation@Begin中间多出一个Stop，姑且当成是不小心加的删了。"
-    },
-    "StartActionEnter@Reclamation@StartActionEnter": {
-        "baseTask": "Reclamation@StartActionEnter",
-        "next": [
-            "Stop"
-        ]
-    },
     "GachaLastOnceResult": {
         "text": [
             "Certificate",
