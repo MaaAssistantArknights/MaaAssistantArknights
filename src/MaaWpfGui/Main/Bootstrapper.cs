@@ -20,7 +20,6 @@ using System.Windows;
 using System.Windows.Threading;
 using GlobalHotKey;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Models;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Managers;
@@ -41,6 +40,9 @@ namespace MaaWpfGui.Main
     public class Bootstrapper : Bootstrapper<RootViewModel>
     {
         private static ILogger _logger = Logger.None;
+
+        [DllImport("MaaCore.dll")]
+        private static extern IntPtr AsstGetVersion();
 
         // private static Mutex _mutex;
 
@@ -95,6 +97,7 @@ namespace MaaWpfGui.Main
                 .Enrich.WithThreadId()
                 .Enrich.WithThreadName();
 
+            var maaVersion = Marshal.PtrToStringAnsi(AsstGetVersion());
             var maaEnv = Environment.GetEnvironmentVariable("MAA_ENVIRONMENT") == "Debug"
                 ? "Debug"
                 : "Production";
@@ -106,6 +109,7 @@ namespace MaaWpfGui.Main
             _logger = Log.Logger.ForContext<Bootstrapper>();
             _logger.Information("===================================");
             _logger.Information("MaaAssistantArknights GUI started");
+            _logger.Information("Version {MaaVersion}", maaVersion);
             _logger.Information("Maa ENV: {MaaEnv}", maaEnv);
             _logger.Information("User Dir {CurrentDirectory}", Directory.GetCurrentDirectory());
             if (IsUserAdministrator())
@@ -203,6 +207,7 @@ namespace MaaWpfGui.Main
             */
 
             // MessageBox.Show("O(∩_∩)O 拜拜");
+            ETagCache.Save();
             Instances.SettingsViewModel.Sober();
 
             // 关闭程序时清理操作中心中的通知

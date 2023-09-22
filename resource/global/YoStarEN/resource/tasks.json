@@ -48,6 +48,38 @@
         ],
         "reduceOtherTimes": []
     },
+    "StageQueue@StartButton1": {
+        "baseTask": "StartButton1",
+        "Doc": "StartButton1",
+        "action": "DoNothing",
+        "maxTimes": 1,
+        "exceededNext": [],
+        "next": [
+            "StageQueue@StartButton2",
+            "StageQueue@StartButton2Adverse",
+            "StageQueue@UseMedicine",
+            "StageQueue@UseStone",
+            "StageQueue@NoStone",
+            "StageQueue@OfflineConfirm",
+            "StageQueue@StartButton1TryAgain"
+        ]
+    },
+    "StartButton1TryAgain": {
+        "baseTask": "StartButton1",
+        "exceededNext": [],
+        "reduceOtherTimes": [],
+        "preDelay": 0,
+        "rectMoveDoc": "Click on 'Actions' to avoid clicking on StartButton2 the second time.",
+        "rectMove": [
+            38,
+            0,
+            35,
+            17
+        ],
+        "next": [
+            "StartButton1#next"
+        ]
+    },
     "CF-Open": {
         "text": [
             "Event <A Flurry to the Flame> is now",
@@ -202,7 +234,7 @@
                 "铸铁"
             ],
             [
-                "Swire",
+                "^Swire$",
                 "诗怀雅"
             ],
             [
@@ -586,7 +618,7 @@
                 "芬"
             ],
             [
-                "Yato",
+                "^Yato$",
                 "夜刀"
             ],
             [
@@ -666,7 +698,7 @@
                 "梅"
             ],
             [
-                "Executor",
+                "^Executor$",
                 "送葬人"
             ],
             [
@@ -722,7 +754,7 @@
                 "流星"
             ],
             [
-                "Jessica",
+                "^Jessica$",
                 "杰西卡"
             ],
             [
@@ -858,7 +890,7 @@
                 "卡缇"
             ],
             [
-                "Noir Corne",
+                "^Noir Corne$",
                 "黑角"
             ],
             [
@@ -888,10 +920,6 @@
             [
                 "^Dusk$",
                 "夕"
-            ],
-            [
-                "Lava the Purgatory",
-                "炎狱炎熔"
             ],
             [
                 "Lava the Purgatory",
@@ -954,7 +982,7 @@
                 "夜魔"
             ],
             [
-                "Eyjafjalla",
+                "^Eyjafjalla$",
                 "艾雅法拉"
             ],
             [
@@ -1180,6 +1208,10 @@
             [
                 "Rubble",
                 "碎石"
+            ],
+            [
+                "High-Energy Originium Barrel.*",
+                "High-Energy Originium Barrel Bomb"
             ],
             [
                 "High-Energy Originium Bomb",
@@ -1924,6 +1956,10 @@
             [
                 "Combat Readiness Station",
                 "备勤激活站"
+            ],
+            [
+                "Terra Research.*",
+                "Terra Research Commission"
             ],
             [
                 "Terra Research Commission",
@@ -3160,7 +3196,14 @@
             222,
             125
         ],
-        "text": "Deployment Cost"
+        "text": [
+            "Deployment Cost"
+        ]
+    },
+    "BattleQuickFormationRole-All-OCR": {
+        "text": [
+            "All"
+        ]
     },
     "BattleQuickFormationOCR": {
         "roi": [
@@ -3233,206 +3276,6 @@
     "StageDrops-DropType-Reward": {
         "templThreshold": 0.7
     },
-    "Reclamation@EmptyInitUnits": {
-        "roi": [
-            349,
-            598,
-            563,
-            120
-        ],
-        "text": [
-            "Choose the Operators",
-            "you wish to begin",
-            "the Algorithm with"
-        ]
-    },
-    "Reclamation@GiveupCheckRemainItems": {
-        "text": [
-            "Check",
-            "Supplies"
-        ]
-    },
-    "StartWithDefaultFormation@Reclamation@ConfirmStart": {
-        "baseTask": "Reclamation@ConfirmStart",
-        "next": [],
-        "next_Old_Doc": "这里原先有个stop，但是会导致StartWithDefaultFormation@Reclamation@Begin中间多出一个Stop，姑且当成是不小心加的删了。",
-        "next_Old": [
-            "Stop"
-        ]
-    },
-    "Reclamation@ConfirmStart": {
-        "text": [
-            "COMMENCE",
-            "ALGORITHM"
-        ]
-    },
-    "Reclamation@GiveupCrossdomainPageFlag": {
-        "text": [
-            "Select supplies",
-            "to keep",
-            "and manually tap",
-            "Emergency",
-            "Evacua"
-        ]
-    },
-    "Reclamation@SkipAnnounce": {
-        "text": [
-            "SKIP"
-        ]
-    },
-    "Reclamation@SkipDailyReport": {
-        "text": [
-            "Today's News"
-        ]
-    },
-    "StartActionEnter@Reclamation@StartActionEnter": {
-        "baseTask": "Reclamation@StartActionEnter",
-        "next": [
-            "Stop"
-        ]
-    },
-    "Reclamation@StartActionEnter": {
-        "text": [
-            "Start"
-        ]
-    },
-    "Reclamation@ExitLevelConfirm": {
-        "text": [
-            "Are you sure you",
-            "want to leave?"
-        ]
-    },
-    "Reclamation@PrepareAction": {
-        "text": [
-            "Prepare for Battle"
-        ]
-    },
-    "Reclamation@GiveupAlgorithm": {
-        "text": [
-            "ABANDON"
-        ]
-    },
-    "Reclamation@Liaison": {
-        "text": [
-            "Liaison"
-        ]
-    },
-    "Reclamation@BuyWaterProcedure": {
-        "text": [
-            "Skip",
-            "Building materials",
-            "Fresh Water",
-            "Skip"
-        ]
-    },
-    "Reclamation@ManufactureStatus": {
-        "Doc": "base_task",
-        "algorithm": "OcrDetect",
-        "roi": [
-            1023,
-            336,
-            259,
-            109
-        ],
-        "text": []
-    },
-    "Reclamation@ManufactureIncrease": {
-        "baseTask": "Reclamation@ManufactureStatus",
-        "action": "ClickRect",
-        "specificRect": [
-            1120,
-            86,
-            111,
-            26
-        ],
-        "text": [
-            "Craft"
-        ]
-    },
-    "Reclamation@TodoEnter": {
-        "text": [
-            "FIRE",
-            "WITHIN",
-            "THE",
-            "SAND"
-        ]
-    },
-    "Reclamation@ManufactureDecrease": {
-        "baseTask": "Reclamation@ManufactureStatus",
-        "action": "ClickRect",
-        "specificRect": [
-            1096,
-            288,
-            139,
-            28
-        ],
-        "text": [
-            "Insufficient",
-            "materials"
-        ]
-    },
-    "Reclamation@DoManufacture": {
-        "baseTask": "Reclamation@ManufactureStatus",
-        "action": "ClickSelf",
-        "text": [
-            "Craft"
-        ],
-        "postDelay": 1000
-    },
-    "Reclamation@ManufactureInsufficientMaterial": {
-        "baseTask": "Reclamation@ManufactureStatus",
-        "text": [
-            "Insufficient",
-            "materials"
-        ]
-    },
-    "Reclamation@ManufactureSufficientMaterial": {
-        "baseTask": "Reclamation@ManufactureStatus",
-        "text": [
-            "Craft"
-        ]
-    },
-    "Reclamation@LabClickDetailView": {
-        "text": [
-            "View",
-            "Details"
-        ]
-    },
-    "Reclamation@LabClickAssembleable": {
-        "text": [
-            "Craftable"
-        ]
-    },
-    "Reclamation@EnterResearchLab": {
-        "text": [
-            "Research",
-            "Development"
-        ]
-    },
-    "Reclamation@EnterSmeltGoldPage": {
-        "roi": [
-            0,
-            31,
-            1280,
-            175
-        ],
-        "text": [
-            "Crude",
-            "Gold"
-        ]
-    },
-    "Reclamation@GiveupClickEmergencyExit": {
-        "text": [
-            "Confirm",
-            "Evacuation"
-        ]
-    },
-    "Reclamation@GiveupTakeNothing": {
-        "text": [
-            "Confirm",
-            "Evacuation"
-        ]
-    },
     "Roguelike@ChooseDifficultyConfirm": {
         "text": [
             "Select"
@@ -3441,16 +3284,6 @@
     "Roguelike@FromIntegratedStrategies": {
         "text": [
             "ENTER"
-        ]
-    },
-    "BattleQuickFormationRole-All-OCR": {
-        "text": [
-            "All"
-        ]
-    },
-    "Reclamation@LevelComplete": {
-        "text": [
-            "Results"
         ]
     },
     "Phantom@Roguelike@SelectTheme": {
@@ -5947,6 +5780,230 @@
         "text": [
             "Confirm assignment",
             "Confirm Selection"
+        ]
+    },
+    "Reclamation@TodoEnter": {
+        "text": [
+            "FIRE",
+            "WITHIN",
+            "THE",
+            "SAND"
+        ]
+    },
+    "Reclamation@EmptyInitUnits": {
+        "roi": [
+            349,
+            598,
+            563,
+            120
+        ],
+        "text": [
+            "Choose the Operators",
+            "you wish to begin",
+            "the Algorithm with"
+        ]
+    },
+    "Reclamation@ConfirmStart": {
+        "text": [
+            "COMMENCE",
+            "ALGORITHM"
+        ]
+    },
+    "Reclamation@SkipAnnounce": {
+        "text": [
+            "SKIP"
+        ]
+    },
+    "Reclamation@SkipDailyReport": {
+        "text": [
+            "Today's News"
+        ]
+    },
+    "Reclamation@StartActionEnter": {
+        "text": [
+            "Start"
+        ]
+    },
+    "Reclamation@PrepareAction": {
+        "text": [
+            "Prepare for",
+            "Battle"
+        ]
+    },
+    "Reclamation@ExitLevelConfirm": {
+        "text": [
+            "Are you sure you",
+            "want to leave?"
+        ]
+    },
+    "Reclamation@LevelComplete": {
+        "text": [
+            "Results"
+        ]
+    },
+    "Reclamation@GiveupAlgorithm": {
+        "text": [
+            "ABANDON"
+        ]
+    },
+    "Reclamation@GiveupCrossdomainPageFlag": {
+        "text": [
+            "Select supplies",
+            "to keep",
+            "and manually tap",
+            "Emergency",
+            "Evacua"
+        ]
+    },
+    "Reclamation@GiveupClickEmergencyExit": {
+        "text": [
+            "Confirm",
+            "Evacuation"
+        ]
+    },
+    "Reclamation@GiveupCheckRemainItems": {
+        "text": [
+            "Check",
+            "Supplies"
+        ]
+    },
+    "Reclamation@GiveupTakeNothing": {
+        "text": [
+            "Confirm",
+            "Evacuation"
+        ]
+    },
+    "Reclamation@EnterSmeltGoldPage": {
+        "roi": [
+            0,
+            31,
+            1280,
+            175
+        ],
+        "text": [
+            "Crude",
+            "Gold"
+        ]
+    },
+    "Reclamation@EnterResearchLab": {
+        "text": [
+            "Research",
+            "Development"
+        ]
+    },
+    "Reclamation@LabClickDetailView": {
+        "text": [
+            "View",
+            "Details"
+        ]
+    },
+    "Reclamation@LabClickAssembleable": {
+        "text": [
+            "Craftable"
+        ]
+    },
+    "Reclamation@ManufactureStatus": {
+        "Doc": "base_task",
+        "algorithm": "OcrDetect",
+        "roi": [
+            1021,
+            336,
+            259,
+            109
+        ],
+        "text": []
+    },
+    "Reclamation@ManufactureIncrease": {
+        "action": "ClickRect",
+        "baseTask": "Reclamation@ManufactureStatus",
+        "specificRect": [
+            1120,
+            86,
+            111,
+            26
+        ],
+        "text": [
+            "Craft"
+        ]
+    },
+    "Reclamation@ManufactureDecrease": {
+        "action": "ClickRect",
+        "baseTask": "Reclamation@ManufactureStatus",
+        "specificRect": [
+            1096,
+            288,
+            139,
+            28
+        ],
+        "text": [
+            "Insufficient",
+            "materials"
+        ]
+    },
+    "Reclamation@DoManufacture": {
+        "action": "ClickSelf",
+        "baseTask": "Reclamation@ManufactureStatus",
+        "postDelay": 1000,
+        "text": [
+            "Craft"
+        ]
+    },
+    "Reclamation@ManufactureInsufficientMaterial": {
+        "baseTask": "Reclamation@ManufactureStatus",
+        "text": [
+            "Insufficient",
+            "materials"
+        ]
+    },
+    "Reclamation@ManufactureSufficientMaterial": {
+        "baseTask": "Reclamation@ManufactureStatus",
+        "text": [
+            "Craft"
+        ]
+    },
+    "Reclamation@Liaison": {
+        "text": [
+            "Liaison"
+        ]
+    },
+    "Reclamation@BuyWaterProcedure": {
+        "text": [
+            "Skip",
+            "Building materials",
+            "Fresh Water",
+            "Skip"
+        ]
+    },
+    "StartWithDefaultFormation@Reclamation@ConfirmStart": {
+        "baseTask": "Reclamation@ConfirmStart",
+        "next": [],
+        "next_Old": [
+            "Stop"
+        ],
+        "next_Old_Doc": "这里原先有个stop，但是会导致StartWithDefaultFormation@Reclamation@Begin中间多出一个Stop，姑且当成是不小心加的删了。"
+    },
+    "StartActionEnter@Reclamation@StartActionEnter": {
+        "baseTask": "Reclamation@StartActionEnter",
+        "next": [
+            "Stop"
+        ]
+    },
+    "GA-Open": {
+        "text": [
+            "Event <Guide Ahead",
+            "Rerun> is now",
+            "open"
+        ]
+    },
+    "SideStoryReopen": {
+        "text": [
+            "Rerun"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
         ]
     },
     "GachaLastOnceResult": {

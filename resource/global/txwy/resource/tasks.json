@@ -129,6 +129,35 @@
         ],
         "reduceOtherTimes": []
     },
+    "SideStoryReopen": {
+        "text": [
+            "復刻"
+        ]
+    },
+    "IS-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "next": [
+            "EnterChapterIS"
+        ],
+        "postDelay": 2000,
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "text": [
+            "敘拉古人",
+            "活動",
+            "已開放"
+        ]
+    },
+    "EnterChapterIS": {
+        "text": [
+            "沃爾西尼"
+        ]
+    },
     "NL-Open": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
@@ -1287,6 +1316,18 @@
             [
                 "鞭刀",
                 "鞭刃"
+            ],
+            [
+                "復仇黑手",
+                "复仇黑手"
+            ],
+            [
+                "緘默德克薩斯",
+                "缄默德克萨斯"
+            ],
+            [
+                "雪絨",
+                "雪绒"
             ]
         ]
     },

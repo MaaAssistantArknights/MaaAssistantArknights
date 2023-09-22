@@ -1,23 +1,40 @@
-## v4.24.0-beta.2
+## v4.24.0-beta.4
 
 ### 新增
 
-- 自动更新游戏资源而不用更新软件版本 (#6283) @MistEO
-- 可自选日志日期显示格式 @ABA2396
+- 自动战斗新增战斗列表选项（异形UI不支持） (#6350) @status102
+- WPF自动战斗对于作业描述的视频自动跳转增加av号支持 (#6363) @status102
 
 ### 改进
 
-- 优化萨米肉鸽策略 (#6288) @Lancarus
-- 优化刷理智的SSReopen导航逻辑，允许从普通关页面启动时短路开始于主页的导航逻辑 (#6287) @status102
+- 适配萨米肉鸽生活至上分队，优化部分逻辑 (#6385) @Lancarus
+- 基建换班-干员编组增加可用干员缓存，同时在单次换班任务中避免重复匹配已匹配的干员 (#6376) @status102
+- 下载更新资源先使用临时文件缓存 @MistEO
+- 优化定时任务 @ABA2396
+- 更新游戏资源时弹窗提示 @MistEO
 
 ### 修复
 
-- 简单修复一下异步Load导致的错误 @MistEO
-- Missing templates in EN @Constrat
-- 修复连接安卓手机，及多开模拟器时，adb 端口判断异常
+- 修复task.png阈值 @MistEO
+- 修复SettingsView的Idle不生效，将开始唤醒-账号切换在非Idle情况下锁定 (#6364) @status102
+- etag 解析报错 @ABA2396
+- 将账号切换输出文本中的目标账号由输入文本改为OCR结果，尝试修复账号切换出错 (#6353) @status102
+- 给关卡选择为 null 时打个补丁 @moomiji
 
 ### 其他
 
-- revert: 1095f9cf00162f30eae8666b4f63e87cad1d9857 Auto update has wrong time and event [skip ci] @Constrat
-- 将其他语言的SSReopen说明修改为注释，目前仅支持国服/B服 (#6271) @status102
-- I.S. missing EN translations. @Constrat
+- i18n: Translations update from MAA Weblate @LiamSho
+- Revert "chore: 兼容旧配置" @moomiji
+- EN infrast workshop and i18n @Constrat
+- tools: ignore templates @Constrat
+
+#### For overseas
+
+#### YostarJP
+
+- 添加日服生息演算翻译 | Reclamation Algorithm JP (#6340) @THSLP13
+
+#### YostarEN
+
+- Gadget long name reduction for EN @Constrat
+- docs: YostarEN recommended resolution (#6303) @Constrat
