@@ -283,9 +283,10 @@
     <system:String x:Key="AutoDetectConnectionTip">每次检测完成后会自动取消勾选，若需要重新检测可再次勾选，若反复连接失败可勾选始终自动检测连接</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">每次重新检测</system:String>
     <system:String x:Key="AccountSwitch">账号切换</system:String>
-    <system:String x:Key="AccountSwitchTip" xml:space="preserve">填写需要切换至的账号，留空以关闭账号切换
-官服输入登录界面显示的手机号，如 123****4567
- B服输入登录界面显示的账号名，如 张三
+    <system:String x:Key="AccountSwitchManualRun">手动切换</system:String>
+    <system:String x:Key="AccountSwitchTip" xml:space="preserve">需要切换至的账号，留空以禁用
+官服输入登录界面显示的手机号，如「123****4567」，可输入「123****4567」或「4567」或「23****45」
+ B服输入登录界面显示的账号名，如「张三」，可输入「张」或「三」
 暂不支持其他服</system:String>
     <system:String x:Key="ADBPath">ADB 路径 (相对/绝对)</system:String>
     <system:String x:Key="ConnectionAddress">连接地址</system:String>

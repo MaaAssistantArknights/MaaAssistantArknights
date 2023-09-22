@@ -283,6 +283,7 @@
     <system:String x:Key="AutoDetectConnectionTip">このチェックボックスは、検出が完了するたびに自動的にチェックが外れますが、再検出が必要な場合は再度チェックを入れることができます</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">毎回再検出する</system:String>
     <system:String x:Key="AccountSwitch">アカウントの切り替え</system:String>
+    <system:String x:Key="AccountSwitchManualRun">手動スイッチ</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">切り替える必要があるアカウントを入力し、空白のままにしてアカウントの切り替えを完了します
 公式(CN): ログイン インターフェイスに表示される携帯電話番号を入力します (例: 123****4567)
 Bilibili: ログイン インターフェイスに表示されるアカウント名 (Zhang San など) を入力します。

@@ -560,6 +560,11 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        public void AccountSwitchMannualRun()
+        {
+            Instances.TaskQueueViewModel.QuickSwitchAccount();
+        }
+
         private bool _minimizingStartup = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizingStartup, bool.FalseString));
 
         /// <summary>
