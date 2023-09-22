@@ -139,6 +139,12 @@ bool asst::TaskData::parse(const json::value& json)
                     // TemplateTask
                     if (size_t p = name.find('@'); p != std::string::npos) {
                         if (std::string base = name.substr(p + 1); generate_fun(base, false)) {
+#ifdef ASST_DEBUG
+                            if (task_json.as_object().empty() && get_raw(base)->algorithm != AlgorithmType::MatchTemplate) {
+                                // 多余的空任务
+                                Log.warn("Task", name, "is a redundant empty task because it is not MatchTemplate");
+                            }
+#endif
                             return generate_task(name, name.substr(0, p), get_raw(base), task_json);
                         }
                     }

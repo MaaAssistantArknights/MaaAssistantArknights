@@ -48,6 +48,38 @@
         ],
         "reduceOtherTimes": []
     },
+    "StageQueue@StartButton1": {
+        "baseTask": "StartButton1",
+        "Doc": "StartButton1",
+        "action": "DoNothing",
+        "maxTimes": 1,
+        "exceededNext": [],
+        "next": [
+            "StageQueue@StartButton2",
+            "StageQueue@StartButton2Adverse",
+            "StageQueue@UseMedicine",
+            "StageQueue@UseStone",
+            "StageQueue@NoStone",
+            "StageQueue@OfflineConfirm",
+            "StageQueue@StartButton1TryAgain"
+        ]
+    },
+    "StartButton1TryAgain": {
+        "baseTask": "StartButton1",
+        "exceededNext": [],
+        "reduceOtherTimes": [],
+        "preDelay": 0,
+        "rectMoveDoc": "Click on 'Actions' to avoid clicking on StartButton2 the second time.",
+        "rectMove": [
+            38,
+            0,
+            35,
+            17
+        ],
+        "next": [
+            "StartButton1#next"
+        ]
+    },
     "CF-Open": {
         "text": [
             "Event <A Flurry to the Flame> is now",
@@ -3164,7 +3196,9 @@
             222,
             125
         ],
-        "text": "Deployment Cost"
+        "text": [
+            "Deployment Cost"
+        ]
     },
     "BattleQuickFormationRole-All-OCR": {
         "text": [
@@ -5872,7 +5906,7 @@
         "Doc": "base_task",
         "algorithm": "OcrDetect",
         "roi": [
-            1023,
+            1021,
             336,
             259,
             109
@@ -5952,6 +5986,24 @@
         "baseTask": "Reclamation@StartActionEnter",
         "next": [
             "Stop"
+        ]
+    },
+    "GA-Open": {
+        "text": [
+            "Event <Guide Ahead",
+            "Rerun> is now",
+            "open"
+        ]
+    },
+    "SideStoryReopen": {
+        "text": [
+            "Rerun"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
         ]
     },
     "GachaLastOnceResult": {

@@ -259,8 +259,8 @@
     <system:String x:Key="BlacklistDefault">碳;傢俱;加急許可</system:String>
     <system:String x:Key="Drink">要來一杯美酒嗎🍷？博士</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">信用溢出時無視黑名單</system:String>
-    <system:String x:Key="ReceiveDailyAndWeeklyAward">领取每日/每周任务奖励</system:String>
-    <system:String x:Key="ReceiveMail">领取所有邮件奖励</system:String>    
+    <system:String x:Key="ReceiveDailyAndWeeklyAward">收集每日/每週任務獎勵</system:String>
+    <system:String x:Key="ReceiveMail">收集所有郵件獎勵</system:String>
     <system:String x:Key="DroneUsage">無人機用途</system:String>
     <system:String x:Key="MinimizeToTray">最小化時隱藏至工作列</system:String>
     <system:String x:Key="SystemNotification">重要訊息彈出系統通知</system:String>
@@ -283,10 +283,11 @@
     <system:String x:Key="AutoDetectConnectionTip">每次檢測完成後會自動取消勾選，若需要重新檢測可再次勾選</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">每次重新檢測</system:String>
     <system:String x:Key="AccountSwitch">賬號切換</system:String>
-    <system:String x:Key="AccountSwitchTip" xml:space="preserve">填寫需要切換至的賬號，留空以關閉賬號切換
-官服輸入登錄界面顯示的手機號，如 123****4567
- B服輸入登錄界面顯示的賬號名，如 張三
-暫不支持其他類型</system:String>
+    <system:String x:Key="AccountSwitchManualRun">手動切换</system:String>
+    <system:String x:Key="AccountSwitchTip" xml:space="preserve">需要切換至的賬號，留空以禁用
+官服輸入登錄界面顯示的手機號，如「123****4567」，可輸入「123****4567」或「4567」或「23****45」
+ B服輸入登錄界面顯示的賬號名，如「張三」，可輸入「張」或「三」
+暫不支持其他服</system:String>
     <system:String x:Key="ADBPath">ADB 路徑（相對/絕對）</system:String>
     <system:String x:Key="ConnectionAddress">連接地址</system:String>
     <system:String x:Key="ConnectionAddressTip">若遇到問題可嘗試手動修改</system:String>
@@ -543,7 +544,8 @@
     <system:String x:Key="StartCombat" xml:space="preserve">開始戰鬥: </system:String>
     <system:String x:Key="CompleteCombat">完成戰鬥</system:String>
     <system:String x:Key="AllTasksComplete">任務已全部完成！</system:String>
-    <system:String x:Key="AllTaskCompleteContent">MAA 已在 {Datetime} 完成了 {Preset} 配置下所有預設的任務。</system:String>
+    <system:String x:Key="SanityReport">理智會在 {DateTime} ({TimeDiff} 後) 回滿。</system:String>
+    <system:String x:Key="AllTaskCompleteContent">MAA 已在 {DateTime} 完成了 {Preset} 配置下所有預設的任務。</system:String>
     <system:String x:Key="BackgroundLinkStarted">開始執行任務</system:String>
     <system:String x:Key="BackgroundLinkStopped">任務終止</system:String>
     <system:String x:Key="FailedToOpenClient">打開用戶端失敗，請檢查設定檔</system:String>
