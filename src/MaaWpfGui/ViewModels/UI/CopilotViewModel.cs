@@ -607,7 +607,11 @@ namespace MaaWpfGui.ViewModels.UI
 
             try
             {
-                File.Copy(IsDataFromWeb ? TempCopilotFile : Filename, jsonPath, true);
+                if (jsonPath != (IsDataFromWeb ? TempCopilotFile : Filename))
+                {// 相同路径跳拷贝
+                    File.Copy(IsDataFromWeb ? TempCopilotFile : Filename, jsonPath, true);
+                }
+
                 var item = new CopilotItemViewModel(stage_name, jsonPath)
                 {
                     Index = CopilotItemViewModels.Count,
