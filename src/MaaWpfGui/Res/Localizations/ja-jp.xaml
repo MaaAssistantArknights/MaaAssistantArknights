@@ -259,6 +259,8 @@
     <system:String x:Key="BlacklistDefault">炭素材;家具;緊急招集票</system:String>
     <system:String x:Key="Drink">飲み物はいかがですか🍷？ドクター</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">クレジットがあふれた際はブラックリストを無視する</system:String>
+    <system:String x:Key="ReceiveDailyAndWeeklyAward">毎日/毎週任務報酬を受取</system:String>
+    <system:String x:Key="ReceiveMail">すべてのメール報酬を受取</system:String>
     <system:String x:Key="DroneUsage">ドローンの使用</system:String>
     <system:String x:Key="MinimizeToTray">最小化した際にトレイに表示</system:String>
     <system:String x:Key="SystemNotification">重要な通知をポップアップする</system:String>

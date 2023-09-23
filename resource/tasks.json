@@ -3216,7 +3216,8 @@
             "StartUpBegin@LoadingIcon",
             "StartUp@ReturnTo",
             "StartUp@EndOfAction",
-            "StartUp@FromStageSN"
+            "StartUp@FromStageSN",
+            "StartUp@Return-White"
         ]
     },
     "GameStart": {
@@ -3425,6 +3426,16 @@
             "#back"
         ]
     },
+    "Return-White": {
+        "templThreshold": 0.8,
+        "baseTask": "ReturnTo",
+        "roi": [
+            0,
+            0,
+            220,
+            150
+        ]
+    },
     "ReturnTo": {
         "template": "Return.png",
         "templThreshold": 0.7,
@@ -3443,7 +3454,8 @@
             "ReturnTo@LoadingIcon",
             "CloseAnnos#next",
             "FromStageSN",
-            "TodaysSupplies"
+            "TodaysSupplies",
+            "Return-White"
         ]
     },
     "ReturnToConfirm": {
@@ -4719,13 +4731,14 @@
         "action": "ClickRect",
         "specificRect": [
             600,
-            600,
+            630,
             60,
             60
         ],
         "next": [
             "CloseTaskAwardDouble"
-        ]
+        ],
+        "postDelay": 500
     },
     "CloseTaskAwardDouble": {
         "Doc": "有时候奖励出的太慢了，所以这里多点一次",
@@ -4733,7 +4746,7 @@
         "action": "ClickRect",
         "specificRect": [
             600,
-            600,
+            630,
             60,
             60
         ],
@@ -4783,6 +4796,80 @@
         "next": [
             "ReceiveAward",
             "Stop"
+        ]
+    },
+    "MailBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "MailReturnToHome@ReturnTo",
+            "MailReturnToHome",
+            "ReceiveMail"
+        ]
+    },
+    "MailReturnToHome": {
+        "baseTask": "Home",
+        "template": "Terminal.png",
+        "action": "DoNothing",
+        "next": [
+            "Mail",
+            "MailWithoutAward"
+        ]
+    },
+    "Mail": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            120,
+            0,
+            150,
+            135
+        ],
+        "next": [
+            "ReceiveMail",
+            "Mail",
+            "Stop"
+        ],
+        "postDelay": 2000
+    },
+    "MailWithoutAward": {
+        "action": "DoNothing",
+        "cache": false,
+        "roi": [
+            120,
+            0,
+            150,
+            135
+        ],
+        "postDelay": 500,
+        "next": [
+            "Mail",
+            "Stop"
+        ]
+    },
+    "ReceiveMail": {
+        "action": "ClickSelf",
+        "roi": [
+            980,
+            580,
+            300,
+            140
+        ],
+        "next": [
+            "CloseTaskMail"
+        ]
+    },
+    "CloseTaskMail": {
+        "baseTask": "CloseTaskAward",
+        "next": [
+            "CloseTaskMailDouble"
+        ]
+    },
+    "CloseTaskMailDouble": {
+        "baseTask": "CloseTaskAwardDouble",
+        "next": [
+            "Return-White",
+            "CloseTaskMailDouble"
         ]
     },
     "VisitBegin": {

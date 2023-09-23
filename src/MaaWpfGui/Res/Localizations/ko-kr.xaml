@@ -259,6 +259,8 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="BlacklistDefault">카본;가구 부품;즉시 완료 허가증</system:String>
     <system:String x:Key="Drink">술 한잔은 어떻습니까🍷? 박사님</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">크레딧이 넘치면 무시 항목도 구매</system:String>
+    <system:String x:Key="ReceiveDailyAndWeeklyAward">일일/주간 미션 보상 받기</system:String>
+    <system:String x:Key="ReceiveMail">모든 메일 보상 받기</system:String>
     <system:String x:Key="DroneUsage">드론 사용처</system:String>
     <system:String x:Key="MinimizeToTray">트레이로 최소화</system:String>
     <system:String x:Key="SystemNotification">중요 알림 팝업</system:String>
@@ -303,7 +305,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: Zhang San
     <system:String x:Key="Combat">이성 사용</system:String>
     <system:String x:Key="Visiting">친구 방문</system:String>
     <system:String x:Key="Mall">크레딧 수급 및 상점</system:String>
-    <system:String x:Key="Mission">임무 보상 수령</system:String>
+    <system:String x:Key="Mission">보상 수령</system:String>
     <system:String x:Key="AutoRoguelike">통합전략</system:String>
     <system:String x:Key="ReclamationAlgorithm">생명연산</system:String>
     <system:String x:Key="Light">라이트</system:String>

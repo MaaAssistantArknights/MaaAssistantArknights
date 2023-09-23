@@ -259,6 +259,8 @@
     <system:String x:Key="BlacklistDefault">碳;家具;加急许可</system:String>
     <system:String x:Key="Drink">要来一杯美酒吗🍷？博士</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">信用溢出时无视黑名单</system:String>
+    <system:String x:Key="ReceiveDailyAndWeeklyAward">领取每日/每周任务奖励</system:String>
+    <system:String x:Key="ReceiveMail">领取所有邮件奖励</system:String>
     <system:String x:Key="DroneUsage">无人机用途</system:String>
     <system:String x:Key="MinimizeToTray">最小化时隐藏至托盘</system:String>
     <system:String x:Key="SystemNotification">重要信息弹出系统通知</system:String>
@@ -303,7 +305,7 @@
     <system:String x:Key="Combat">刷理智</system:String>
     <system:String x:Key="Visiting">访问好友</system:String>
     <system:String x:Key="Mall">获取信用及购物</system:String>
-    <system:String x:Key="Mission">领取日常奖励</system:String>
+    <system:String x:Key="Mission">领取奖励</system:String>
     <system:String x:Key="AutoRoguelike">自动肉鸽</system:String>
     <system:String x:Key="ReclamationAlgorithm">生息演算</system:String>
     <system:String x:Key="Light">亮色</system:String>

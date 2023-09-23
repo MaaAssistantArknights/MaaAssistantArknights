@@ -876,7 +876,7 @@ namespace MaaWpfGui.ViewModels.UI
                         break;
 
                     case "Mission":
-                        taskRet &= Instances.AsstProxy.AsstAppendAward();
+                        taskRet &= AppendAward();
                         break;
 
                     case "AutoRoguelike":
@@ -1188,6 +1188,14 @@ namespace MaaWpfGui.ViewModels.UI
                 buyFirst,
                 blackList,
                 Instances.SettingsViewModel.CreditForceShoppingIfCreditFull);
+        }
+
+        private bool AppendAward()
+        {
+            var receiveAward = Instances.SettingsViewModel.ReceiveAward;
+            var receiveMail = Instances.SettingsViewModel.ReceiveMail;
+
+            return Instances.AsstProxy.AsstAppendAward(receiveAward, receiveMail);
         }
 
         private static bool AppendRecruit()
