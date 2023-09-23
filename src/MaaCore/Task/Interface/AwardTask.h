@@ -12,5 +12,11 @@ namespace asst
 
         AwardTask(const AsstCallback& callback, Assistant* inst);
         virtual ~AwardTask() override = default;
+
+        virtual bool set_params(const json::value& params) override;
+
+    private:
+        std::shared_ptr<ProcessTask> award_task_ptr = nullptr;
+        std::shared_ptr<ProcessTask> mail_task_ptr = nullptr;
     };
 }

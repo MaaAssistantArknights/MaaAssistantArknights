@@ -259,6 +259,8 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="BlacklistDefault">Carbon;Furniture Part;Expedited Plan</system:String>
     <system:String x:Key="Drink">Would you like a drink🍷? doctor</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">Ignore blacklist if credits overflow</system:String>
+    <system:String x:Key="ReceiveDailyAndWeeklyAward">Collect daily/weekly mission rewards</system:String>
+    <system:String x:Key="ReceiveMail">Collect all mail rewards</system:String>
     <system:String x:Key="DroneUsage">Drone Usage</system:String>
     <system:String x:Key="MinimizeToTray">Hide to tray when minimized</system:String>
     <system:String x:Key="SystemNotification">System Notification</system:String>
@@ -303,7 +305,7 @@ Other client types are not supported</system:String>
     <system:String x:Key="Combat">Combat</system:String>
     <system:String x:Key="Visiting">Visit Friends</system:String>
     <system:String x:Key="Mall">Credit Store</system:String>
-    <system:String x:Key="Mission">Daily &amp; Weekly</system:String>
+    <system:String x:Key="Mission">Collect Rewards</system:String>
     <system:String x:Key="AutoRoguelike">Auto I.S.</system:String>
     <system:String x:Key="ReclamationAlgorithm">Reclamation Algorithm</system:String>
     <system:String x:Key="Light">Light</system:String>
