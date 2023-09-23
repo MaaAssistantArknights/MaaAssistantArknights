@@ -8242,6 +8242,15 @@
             100
         ]
     },
+    "StageDrops-Stars-Adverse": {
+        "templThreshold": 0.8,
+        "roi": [
+            70,
+            285,
+            90,
+            95
+        ]
+    },
     "DepotMatchData": {
         "template": "empty.png",
         "templThreshold": 0.6,
@@ -13249,12 +13258,21 @@
         "action": "DoNothing",
         "reduceOtherTimes": [],
         "next": [
-            "Copilot@StageDrops-Stars-3"
+            "Copilot@StageDrops-Stars-3",
+            "Copilot@StageDrops-Stars-Adverse"
         ]
     },
     "Copilot@StageDrops-Stars-3": {
         "Doc": "如果没有三星就终止",
         "template": "StageDrops-Stars-3.png",
+        "action": "DoNothing",
+        "next": [
+            "Copilot@ClickCornerUntilStartButton"
+        ]
+    },
+    "Copilot@StageDrops-Stars-Adverse": {
+        "Doc": "如果没有三星就终止",
+        "template": "StageDrops-Stars-Adverse.png",
         "action": "DoNothing",
         "next": [
             "Copilot@ClickCornerUntilStartButton"
