@@ -71,7 +71,7 @@ namespace MaaWpfGui.ViewModels.UI
                 JArray jArray = JArray.Parse(copilotTaskList);
                 foreach (var item in jArray)
                 {
-                    if ((item as JObject).TryGetValue("file_path", out var token) && File.Exists(token.ToString()))
+                    if (((item as JObject)?.TryGetValue("file_path", out var token) ?? false) && File.Exists(token.ToString()))
                     {
                         CopilotItemViewModels.Add(new CopilotItemViewModel((string)item["name"], (string)item["file_path"], (bool)item["is_checked"]));
                     }
@@ -593,7 +593,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public void AddCopilotTaskToList(string stage_name)
+        private void AddCopilotTaskToList(string stage_name)
         {
             var jsonPath = $"{CopilotJsonDir}/{stage_name}.json";
 
@@ -603,6 +603,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
             catch (Exception)
             {
+                Log.Warning("Failed to create directory {0}", CopilotJsonDir);
             }
 
             try
@@ -663,13 +664,10 @@ namespace MaaWpfGui.ViewModels.UI
         {
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                for (int i = 0; i < CopilotItemViewModels.Count; i++)
+                foreach (var item in CopilotItemViewModels.Where(item => item.IsChecked))
                 {
-                    if (CopilotItemViewModels[i].IsChecked)
-                    {
-                        CopilotItemViewModels[i].IsChecked = false;
-                        break;
-                    }
+                    item.IsChecked = false;
+                    break;
                 }
 
                 SaveCopilotTask();
@@ -679,7 +677,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// 更新任务顺序
         /// </summary>
-        public void CopilotItemIndexChanged()
+        private void CopilotItemIndexChanged()
         {
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
