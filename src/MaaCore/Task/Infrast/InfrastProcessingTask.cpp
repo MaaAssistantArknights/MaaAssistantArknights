@@ -10,7 +10,7 @@ bool asst::InfrastProcessingTask::_run()
     m_all_available_opers.clear();
 
     // 不是自定义的也换不了加工站
-    if (!m_is_custom) {
+    if (!is_use_custom_opers()) {
         return false;
     }
     // 加工站，啥也造不了，随便写一个

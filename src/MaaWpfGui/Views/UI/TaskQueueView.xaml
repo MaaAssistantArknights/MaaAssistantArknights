@@ -238,7 +238,11 @@
                         DataContext="{Binding TaskSettingDataContext}"
                         IsEnabled="{Binding Idle}"
                         Visibility="{c:Binding TaskSettingVisibilities.Mall}" />
-                    <Image Source="../../newlogo.ico" Visibility="{c:Binding TaskSettingVisibilities.Mission}" />
+                    <userControl:AwardSettingsUserControl
+                        s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+                        DataContext="{Binding TaskSettingDataContext}"
+                        IsEnabled="{Binding Idle}"
+                        Visibility="{c:Binding TaskSettingVisibilities.Mission}" />
                     <userControl:RoguelikeSettingsUserControl
                         s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
                         DataContext="{Binding TaskSettingDataContext}"

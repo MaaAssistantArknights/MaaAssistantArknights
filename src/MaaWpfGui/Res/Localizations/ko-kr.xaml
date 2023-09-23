@@ -259,6 +259,8 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="BlacklistDefault">카본;가구 부품;즉시 완료 허가증</system:String>
     <system:String x:Key="Drink">술 한잔은 어떻습니까🍷? 박사님</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">크레딧이 넘치면 무시 항목도 구매</system:String>
+    <system:String x:Key="ReceiveDailyAndWeeklyAward">일일/주간 미션 보상 받기</system:String>
+    <system:String x:Key="ReceiveMail">모든 메일 보상 받기</system:String>
     <system:String x:Key="DroneUsage">드론 사용처</system:String>
     <system:String x:Key="MinimizeToTray">트레이로 최소화</system:String>
     <system:String x:Key="SystemNotification">중요 알림 팝업</system:String>
@@ -281,6 +283,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="AutoDetectConnectionTip">이 체크박스는 감지가 끝나면 자동으로 체크가 해제됩니다. 다시 감지하려면 다시 체크해주세요</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">매번 재감지</system:String>
     <system:String x:Key="AccountSwitch">계정 전환</system:String>
+    <system:String x:Key="AccountSwitchManualRun">수동 스위치</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">전환할 계좌를 입력하고, 계좌 전환을 종료하려면 공백으로 남겨두세요.
 공식(CN): 로그인 인터페이스에 표시된 휴대폰 번호(예: 123****4567)를 입력하세요.
 Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: Zhang San)을 입력하세요.
@@ -302,7 +305,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: Zhang San
     <system:String x:Key="Combat">이성 사용</system:String>
     <system:String x:Key="Visiting">친구 방문</system:String>
     <system:String x:Key="Mall">크레딧 수급 및 상점</system:String>
-    <system:String x:Key="Mission">임무 보상 수령</system:String>
+    <system:String x:Key="Mission">보상 수령</system:String>
     <system:String x:Key="AutoRoguelike">통합전략</system:String>
     <system:String x:Key="ReclamationAlgorithm">생명연산</system:String>
     <system:String x:Key="Light">라이트</system:String>
@@ -541,7 +544,8 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: Zhang San
     <system:String x:Key="StartCombat" xml:space="preserve">작전 시작: </system:String>
     <system:String x:Key="CompleteCombat">작전 완료</system:String>
     <system:String x:Key="AllTasksComplete">모든 작업이 완료되었습니다!</system:String>
-    <system:String x:Key="AllTaskCompleteContent">MAA는 {Datetime}의 {Preset} 구성에서 모든 사전 설정 작업을 완료했습니다.</system:String>
+    <system:String x:Key="SanityReport">{DateTime}({TimeDiff} 이후)에 정신 상태가 가득 차게 됩니다.</system:String>
+    <system:String x:Key="AllTaskCompleteContent">MAA는 {DateTime}의 {Preset} 구성에서 모든 사전 설정 작업을 완료했습니다.</system:String>
     <system:String x:Key="BackgroundLinkStarted">작업 시작됨</system:String>
     <system:String x:Key="BackgroundLinkStopped">작업 중지됨</system:String>
     <system:String x:Key="FailedToOpenClient">클라이언트를 시작하지 못했습니다. 설정 파일을 확인하세요</system:String>
