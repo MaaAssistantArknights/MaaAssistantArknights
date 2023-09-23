@@ -36,7 +36,7 @@ namespace MaaWpfGui.Models
             "resource/global/YoStarKR/resource/version.json",
         };
 
-        private static readonly string MaaDynamicFilesIndex = "resource/dynamic_list.txt";
+        private const string MaaDynamicFilesIndex = "resource/dynamic_list.txt";
 
         public enum UpdateResult
         {
@@ -71,7 +71,8 @@ namespace MaaWpfGui.Models
             {
                 return UpdateResult.Failed;
             }
-            else if (ret1 == UpdateResult.Success || ret2 == UpdateResult.Success)
+
+            if (ret1 == UpdateResult.Success || ret2 == UpdateResult.Success)
             {
                 return UpdateResult.Success;
             }
@@ -145,7 +146,7 @@ namespace MaaWpfGui.Models
 
         private static bool _updating;
 
-        public static async Task<UpdateResult> UpdateFileWithETag(string baseUrl, string file, string saveTo)
+        private static async Task<UpdateResult> UpdateFileWithETag(string baseUrl, string file, string saveTo)
         {
             saveTo = Path.Combine(Environment.CurrentDirectory, saveTo);
             var url = baseUrl + file;
