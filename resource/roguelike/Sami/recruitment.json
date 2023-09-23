@@ -261,7 +261,6 @@
                     "alternate_skill": 2,
                     "recruit_priority": 605,
                     "promote_priority": 980,
-                    "is_start": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -1328,7 +1327,24 @@
                     "is_key": true,
                     "alternate_skill": 1,
                     "recruit_priority": 770,
-                    "promote_priority": 910
+                    "promote_priority": 910,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "重装",
+                                "召唤",
+                                "近卫",
+                                "情报官",
+                                "挡人先锋",
+                                "其他地面"
+                            ],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -350,
+                            "Doc": "地面阻挡≤1时，史尔特尔的招募优先级-350"
+                        }
+                    ]
                 }
             ]
         },
@@ -1378,10 +1394,8 @@
                 {
                     "name": "耀骑士临光",
                     "skill": 2,
-                    "recruit_priority": 631,
-                    "promote_priority": 620,
-                    "is_start": true,
-                    "auto_retreat": 14,
+                    "recruit_priority": 770,
+                    "promote_priority": 720,
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
@@ -1391,6 +1405,21 @@
                             ],
                             "threshold": 2,
                             "offset": -200
+                        },
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "重装",
+                                "召唤",
+                                "近卫",
+                                "情报官",
+                                "挡人先锋",
+                                "其他地面"
+                            ],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -350,
+                            "Doc": "地面阻挡≤1时，临光的招募优先级-350"
                         }
                     ]
                 },
@@ -2838,7 +2867,7 @@
                 },
                 {
                     "name": "灰烬"
-                },                
+                },
                 {
                     "name": "林"
                 },

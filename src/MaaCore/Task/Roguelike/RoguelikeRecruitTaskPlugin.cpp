@@ -464,8 +464,10 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string&
             if (it != chars.cend()) {
                 // 需要凹直升且当前为max难度时
                 if (start_with_elite_two == "1" && recent_difficulty == "max") {
+
                     if (it->elite == 2) {
                         m_task_ptr->set_enable(false);
+                        ProcessTask(*this, { "Roguelike@Exit" }).set_times_limit("Roguelike@StartExplore", 0).run();
                     }
                     else {
                         std::string theme = status()->get_properties(Status::RoguelikeTheme).value();

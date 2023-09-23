@@ -1666,6 +1666,11 @@ namespace MaaWpfGui.ViewModels.UI
             get => bool.Parse(_roguelikeStartWithEliteTwo);
             set
             {
+                if (value == true && RoguelikeUseSupportUnit == true)
+                {
+                    RoguelikeUseSupportUnit = false;
+                }
+
                 SetAndNotify(ref _roguelikeStartWithEliteTwo, value.ToString());
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, value.ToString());
             }
@@ -1681,6 +1686,11 @@ namespace MaaWpfGui.ViewModels.UI
             get => bool.Parse(_roguelikeUseSupportUnit);
             set
             {
+                if (value == true && RoguelikeStartWithEliteTwo == true)
+                {
+                    RoguelikeStartWithEliteTwo = false;
+                }
+
                 SetAndNotify(ref _roguelikeUseSupportUnit, value.ToString());
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeUseSupportUnit, value.ToString());
             }
