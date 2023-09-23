@@ -107,7 +107,8 @@
                 ToolTip="{DynamicResource StartingCoreCharTip}" />
             <CheckBox
                 Margin="0,10"
-                IsChecked="{Binding RoguelikeStartWithEliteTwo}">
+                IsChecked="{Binding RoguelikeStartWithEliteTwo}"
+                Visibility="{Binding RoguelikeStartWithEliteTwoEnable}">
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource RoguelikeStartWithEliteTwo}"
