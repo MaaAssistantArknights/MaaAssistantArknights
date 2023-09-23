@@ -36,7 +36,10 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::_run()
     std::string theme = status()->get_properties(Status::RoguelikeTheme).value();
     std::string mode = status()->get_properties(Status::RoguelikeMode).value();
     // todo:以后可以根据传入的难度值选择难度?
+
+    // 当前难度
     std::string recent_difficulty = status()->get_properties(Status::RoguelikeNeedChangeDifficulty).value();
+    // 需要开局凹直升
     std::string start_with_elite_two = status()->get_properties(Status::RoguelikeStartWithEliteTwo).value();
     if (theme != "Phantom" && mode == "4") {
         if (recent_difficulty == "max") {

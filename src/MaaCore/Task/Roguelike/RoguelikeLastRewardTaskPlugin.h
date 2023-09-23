@@ -14,5 +14,8 @@ namespace asst
 
     protected:
         virtual bool _run() override;
+
+    private:
+        mutable bool m_need_change_difficulty_higher = false;
     };
 }

@@ -105,13 +105,17 @@
                 Loaded="{s:Action MakeComboBoxSearchable}"
                 Text="{Binding RoguelikeCoreChar}"
                 ToolTip="{DynamicResource StartingCoreCharTip}" />
-            <CheckBox Margin="0,10" IsChecked="{Binding RoguelikeStartWithEliteTwo}" Visibility="{Binding RoguelikeStartWithEliteTwoEnable}">
+            <CheckBox
+                Margin="0,10"
+                IsChecked="{Binding RoguelikeStartWithEliteTwo}"
+                Visibility="{Binding RoguelikeStartWithEliteTwoEnable}">
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource RoguelikeStartWithEliteTwo}"
                     TextWrapping="Wrap" />
             </CheckBox>
-            <CheckBox Margin="0,10"
+            <CheckBox
+                Margin="0,10"
                 IsChecked="{Binding RoguelikeUseSupportUnit}">
                 <TextBlock
                     Block.TextAlignment="Left"
