@@ -739,6 +739,11 @@ asst::TaskData::taskptr_t asst::TaskData::generate_match_task_info(const std::st
         default_ptr = default_match_task_info_ptr;
     }
     auto match_task_info_ptr = std::make_shared<MatchTaskInfo>();
+#ifdef ASST_DEBUG
+    if (task_json.get("template", "") == name + ".png") {
+        Log.warn("template name of task", name, "could be omitted.");
+    }
+#endif
     // template 留空时不从模板任务继承
     match_task_info_ptr->templ_name = task_json.get("template", name + ".png");
     m_templ_required.emplace(match_task_info_ptr->templ_name);
@@ -772,7 +777,6 @@ asst::TaskData::taskptr_t asst::TaskData::generate_ocr_task_info([[maybe_unused]
         Log.warn("Ocr task", name, "has implicit empty text.");
     }
 #endif
-
     ocr_task_info_ptr->full_match = task_json.get("fullMatch", default_ptr->full_match);
     ocr_task_info_ptr->is_ascii = task_json.get("isAscii", default_ptr->is_ascii);
     ocr_task_info_ptr->without_det = task_json.get("withoutDet", default_ptr->without_det);
