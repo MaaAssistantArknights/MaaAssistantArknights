@@ -4802,9 +4802,18 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "Mail@ReturnTo",
-            "Mail",
+            "MailReturnToHome@ReturnTo",
+            "MailReturnToHome",
             "ReceiveMail"
+        ]
+    },
+    "MailReturnToHome": {
+        "baseTask": "Home",
+        "template": "Terminal.png",
+        "action": "DoNothing",
+        "next": [
+            "Mail",
+            "MailWithoutAward"
         ]
     },
     "Mail": {
@@ -4822,6 +4831,21 @@
             "Stop"
         ],
         "postDelay": 2000
+    },
+    "MailWithoutAward": {
+        "action": "DoNothing",
+        "cache": false,
+        "roi": [
+            120,
+            0,
+            150,
+            135
+        ],
+        "postDelay": 500,
+        "next": [
+            "Mail",
+            "Stop"
+        ]
     },
     "ReceiveMail": {
         "action": "ClickSelf",
