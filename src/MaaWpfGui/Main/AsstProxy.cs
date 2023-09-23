@@ -604,12 +604,7 @@ namespace MaaWpfGui.Main
                         }
                     }
 
-                    bool buy_wine = false;
-                    if (_latestTaskId.ContainsKey(TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine())
-                    {
-                        buy_wine = true;
-                    }
-
+                    bool buy_wine = _latestTaskId.ContainsKey(TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
                     _latestTaskId.Clear();
 
                     Instances.TaskQueueViewModel.ResetFightVariables();
@@ -1253,28 +1248,26 @@ namespace MaaWpfGui.Main
             string host = address_[0].Equals("emulator") ? "127.0.0.1" : address_[0];
             int port = int.Parse(address_[1]);
 
-            using (var client = new TcpClient())
+            using var client = new TcpClient();
+            try
             {
-                try
-                {
-                    IAsyncResult result = client.BeginConnect(host, port, null, null);
-                    bool success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(.5));
+                IAsyncResult result = client.BeginConnect(host, port, null, null);
+                bool success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(.5));
 
-                    if (success)
-                    {
-                        client.EndConnect(result);
-                        return true;
-                    }
-                    else
-                    {
-                        client.Close();
-                        return false;
-                    }
-                }
-                catch (Exception)
+                if (success)
                 {
+                    client.EndConnect(result);
+                    return true;
+                }
+                else
+                {
+                    client.Close();
                     return false;
                 }
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 
