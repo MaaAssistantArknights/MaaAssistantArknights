@@ -3196,7 +3196,9 @@
             222,
             125
         ],
-        "text": "Deployment Cost"
+        "text": [
+            "Deployment Cost"
+        ]
     },
     "BattleQuickFormationRole-All-OCR": {
         "text": [
@@ -5904,7 +5906,7 @@
         "Doc": "base_task",
         "algorithm": "OcrDetect",
         "roi": [
-            1023,
+            1021,
             336,
             259,
             109

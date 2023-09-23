@@ -560,6 +560,11 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        public void AccountSwitchMannualRun()
+        {
+            Instances.TaskQueueViewModel.QuickSwitchAccount();
+        }
+
         private bool _minimizingStartup = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizingStartup, bool.FalseString));
 
         /// <summary>
@@ -1582,7 +1587,7 @@ namespace MaaWpfGui.ViewModels.UI
         private string _roguelikeMode = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeMode, "0");
 
         /// <summary>
-        /// 策略，往后打 / 刷一层就退
+        /// 策略，往后打 / 刷一层就退 / 烧开水
         /// </summary>
         public string RoguelikeMode
         {
@@ -1591,6 +1596,9 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _roguelikeMode, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeMode, value);
+
+                // 烧开水模式可选项
+                this.RoguelikeStartWithEliteTwoEnable = mapRoguelikeStartWithEliteTwoEnable(value);
             }
         }
 
@@ -1674,6 +1682,31 @@ namespace MaaWpfGui.ViewModels.UI
                 SetAndNotify(ref _roguelikeStartWithEliteTwo, value.ToString());
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, value.ToString());
             }
+        }
+
+        private string _roguelikeStartWithEliteTwoEnable = mapRoguelikeStartWithEliteTwoEnable(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeMode, "0"));
+
+        public string RoguelikeStartWithEliteTwoEnable
+        {
+            get
+            {
+                return _roguelikeStartWithEliteTwoEnable;
+            }
+
+            set
+            {
+                SetAndNotify(ref _roguelikeStartWithEliteTwoEnable, value);
+            }
+        }
+
+        private static string mapRoguelikeStartWithEliteTwoEnable(string mode)
+        {
+            if (mode == "4")
+            {
+                return "Visible";
+            }
+
+            return "Collapsed";
         }
 
         private string _roguelikeUseSupportUnit = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeUseSupportUnit, false.ToString());
@@ -1912,6 +1945,38 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _creditForceShoppingIfCreditFull, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.CreditForceShoppingIfCreditFull, value.ToString());
+            }
+        }
+
+        /* 领取奖励设置 */
+
+        private bool _receiveAward = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveAward, true.ToString()));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether receive award is enabled.
+        /// </summary>
+        public bool ReceiveAward
+        {
+            get => _receiveAward;
+            set
+            {
+                SetAndNotify(ref _receiveAward, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveAward, value.ToString());
+            }
+        }
+
+        private bool _receiveMail = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveMail, false.ToString()));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether receive mail is enabled.
+        /// </summary>
+        public bool ReceiveMail
+        {
+            get => _receiveMail;
+            set
+            {
+                SetAndNotify(ref _receiveMail, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveMail, value.ToString());
             }
         }
 

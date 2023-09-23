@@ -3216,7 +3216,8 @@
             "StartUpBegin@LoadingIcon",
             "StartUp@ReturnTo",
             "StartUp@EndOfAction",
-            "StartUp@FromStageSN"
+            "StartUp@FromStageSN",
+            "StartUp@Return-White"
         ]
     },
     "GameStart": {
@@ -3425,6 +3426,16 @@
             "#back"
         ]
     },
+    "Return-White": {
+        "templThreshold": 0.8,
+        "baseTask": "ReturnTo",
+        "roi": [
+            0,
+            0,
+            220,
+            150
+        ]
+    },
     "ReturnTo": {
         "template": "Return.png",
         "templThreshold": 0.7,
@@ -3443,7 +3454,8 @@
             "ReturnTo@LoadingIcon",
             "CloseAnnos#next",
             "FromStageSN",
-            "TodaysSupplies"
+            "TodaysSupplies",
+            "Return-White"
         ]
     },
     "ReturnToConfirm": {
@@ -3973,7 +3985,7 @@
         "roi": [
             1120,
             20,
-            150,
+            160,
             40
         ],
         "ocrReplace": [
@@ -4719,13 +4731,14 @@
         "action": "ClickRect",
         "specificRect": [
             600,
-            600,
+            630,
             60,
             60
         ],
         "next": [
             "CloseTaskAwardDouble"
-        ]
+        ],
+        "postDelay": 500
     },
     "CloseTaskAwardDouble": {
         "Doc": "有时候奖励出的太慢了，所以这里多点一次",
@@ -4733,7 +4746,7 @@
         "action": "ClickRect",
         "specificRect": [
             600,
-            600,
+            630,
             60,
             60
         ],
@@ -4783,6 +4796,80 @@
         "next": [
             "ReceiveAward",
             "Stop"
+        ]
+    },
+    "MailBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "MailReturnToHome@ReturnTo",
+            "MailReturnToHome",
+            "ReceiveMail"
+        ]
+    },
+    "MailReturnToHome": {
+        "baseTask": "Home",
+        "template": "Terminal.png",
+        "action": "DoNothing",
+        "next": [
+            "Mail",
+            "MailWithoutAward"
+        ]
+    },
+    "Mail": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            120,
+            0,
+            150,
+            135
+        ],
+        "next": [
+            "ReceiveMail",
+            "Mail",
+            "Stop"
+        ],
+        "postDelay": 2000
+    },
+    "MailWithoutAward": {
+        "action": "DoNothing",
+        "cache": false,
+        "roi": [
+            120,
+            0,
+            150,
+            135
+        ],
+        "postDelay": 500,
+        "next": [
+            "Mail",
+            "Stop"
+        ]
+    },
+    "ReceiveMail": {
+        "action": "ClickSelf",
+        "roi": [
+            980,
+            580,
+            300,
+            140
+        ],
+        "next": [
+            "CloseTaskMail"
+        ]
+    },
+    "CloseTaskMail": {
+        "baseTask": "CloseTaskAward",
+        "next": [
+            "CloseTaskMailDouble"
+        ]
+    },
+    "CloseTaskMailDouble": {
+        "baseTask": "CloseTaskAwardDouble",
+        "next": [
+            "Return-White",
+            "CloseTaskMailDouble"
         ]
     },
     "VisitBegin": {
@@ -7370,6 +7457,15 @@
         "maskRange": [
             100,
             255
+        ]
+    },
+    "SkipForbiddenOperConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            640,
+            554,
+            632,
+            76
         ]
     },
     "BattleStartAll": {
@@ -10291,8 +10387,6 @@
         ]
     },
     "Phantom@Roguelike@InitalDrop": {},
-    "Phantom@Roguelike@LastReward_normal_mode": {},
-    "Phantom@Roguelike@LastReward_mode4": {},
     "Phantom@Roguelike@LastReward": {},
     "Phantom@Roguelike@LastReward2": {},
     "Phantom@Roguelike@LastReward3": {},
@@ -10301,8 +10395,6 @@
     "Phantom@Roguelike@LastRewardRand": {},
     "Phantom@Roguelike@MissionFailedFlag": {},
     "Phantom@Roguelike@MissionFailedFlag2": {},
-    "Phantom@Roguelike@LevelName": {},
-    "Phantom@Roguelike@LevelName_normal_mode": {},
     "Phantom@Roguelike@LevelName_mode4": {
         "text": [
             "故土残躯"
@@ -10388,19 +10480,6 @@
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.85
     },
-    "Phantom@Roguelike@StageEncounterJudgeOption": {},
-    "Phantom@Roguelike@StageEncounterJudgeClick": {},
-    "Phantom@Roguelike@StageEncounterJudgeClick2": {},
-    "Phantom@Roguelike@OptionChoose1-1": {},
-    "Phantom@Roguelike@OptionChoose2-1": {},
-    "Phantom@Roguelike@OptionChoose2-2": {},
-    "Phantom@Roguelike@OptionChoose3-1": {},
-    "Phantom@Roguelike@OptionChoose3-2": {},
-    "Phantom@Roguelike@OptionChoose3-3": {},
-    "Phantom@Roguelike@OptionChoose4-1": {},
-    "Phantom@Roguelike@OptionChoose4-2": {},
-    "Phantom@Roguelike@OptionChoose4-3": {},
-    "Phantom@Roguelike@OptionChoose4-4": {},
     "Phantom@Roguelike@StageEncounterOptions": {
         "next": [
             "Phantom@Roguelike@StageEncounterOptionFree",
@@ -10795,8 +10874,6 @@
         ]
     },
     "Mizuki@Roguelike@InitalDrop": {},
-    "Mizuki@Roguelike@LastReward_normal_mode": {},
-    "Mizuki@Roguelike@LastReward_mode4": {},
     "Mizuki@Roguelike@LastReward": {},
     "Mizuki@Roguelike@LastReward2": {},
     "Mizuki@Roguelike@LastReward3": {},
@@ -10818,8 +10895,6 @@
     },
     "Mizuki@Roguelike@MissionFailedFlag": {},
     "Mizuki@Roguelike@MissionFailedFlag2": {},
-    "Mizuki@Roguelike@LevelName": {},
-    "Mizuki@Roguelike@LevelName_normal_mode": {},
     "Mizuki@Roguelike@LevelName_mode4": {
         "text": [
             "波涛略地",
@@ -10994,19 +11069,6 @@
             "Mizuki@Roguelike@CloseEvent"
         ]
     },
-    "Mizuki@Roguelike@StageEncounterJudgeOption": {},
-    "Mizuki@Roguelike@StageEncounterJudgeClick": {},
-    "Mizuki@Roguelike@StageEncounterJudgeClick2": {},
-    "Mizuki@Roguelike@OptionChoose1-1": {},
-    "Mizuki@Roguelike@OptionChoose2-1": {},
-    "Mizuki@Roguelike@OptionChoose2-2": {},
-    "Mizuki@Roguelike@OptionChoose3-1": {},
-    "Mizuki@Roguelike@OptionChoose3-2": {},
-    "Mizuki@Roguelike@OptionChoose3-3": {},
-    "Mizuki@Roguelike@OptionChoose4-1": {},
-    "Mizuki@Roguelike@OptionChoose4-2": {},
-    "Mizuki@Roguelike@OptionChoose4-3": {},
-    "Mizuki@Roguelike@OptionChoose4-4": {},
     "Mizuki@Roguelike@StageEncounterSpecialClose": {},
     "Mizuki@Roguelike@StageGambling": {
         "Doc": "骰子关卡",
@@ -11355,8 +11417,6 @@
         ]
     },
     "Sami@Roguelike@InitalDrop": {},
-    "Sami@Roguelike@LastReward_normal_mode": {},
-    "Sami@Roguelike@LastReward_mode4": {},
     "Sami@Roguelike@LastReward": {},
     "Sami@Roguelike@LastReward2": {},
     "Sami@Roguelike@LastReward3": {},
@@ -11378,8 +11438,6 @@
     },
     "Sami@Roguelike@MissionFailedFlag": {},
     "Sami@Roguelike@MissionFailedFlag2": {},
-    "Sami@Roguelike@LevelName": {},
-    "Sami@Roguelike@LevelName_normal_mode": {},
     "Sami@Roguelike@LevelName_mode4": {
         "text": [
             "昧明冻土",
@@ -11872,19 +11930,6 @@
             "Sami@Roguelike@CloseEvent"
         ]
     },
-    "Sami@Roguelike@StageEncounterJudgeOption": {},
-    "Sami@Roguelike@StageEncounterJudgeClick": {},
-    "Sami@Roguelike@StageEncounterJudgeClick2": {},
-    "Sami@Roguelike@OptionChoose1-1": {},
-    "Sami@Roguelike@OptionChoose2-1": {},
-    "Sami@Roguelike@OptionChoose2-2": {},
-    "Sami@Roguelike@OptionChoose3-1": {},
-    "Sami@Roguelike@OptionChoose3-2": {},
-    "Sami@Roguelike@OptionChoose3-3": {},
-    "Sami@Roguelike@OptionChoose4-1": {},
-    "Sami@Roguelike@OptionChoose4-2": {},
-    "Sami@Roguelike@OptionChoose4-3": {},
-    "Sami@Roguelike@OptionChoose4-4": {},
     "Sami@Roguelike@StageEncounterSpecialClose": {},
     "Sami@Roguelike@StageEncounterClickToLeave": {
         "next": [

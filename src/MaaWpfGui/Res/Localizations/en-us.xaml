@@ -259,6 +259,8 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="BlacklistDefault">Carbon;Furniture Part;Expedited Plan</system:String>
     <system:String x:Key="Drink">Would you like a drink🍷? doctor</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">Ignore blacklist if credits overflow</system:String>
+    <system:String x:Key="ReceiveDailyAndWeeklyAward">Collect daily/weekly mission rewards</system:String>
+    <system:String x:Key="ReceiveMail">Collect all mail rewards</system:String>
     <system:String x:Key="DroneUsage">Drone Usage</system:String>
     <system:String x:Key="MinimizeToTray">Hide to tray when minimized</system:String>
     <system:String x:Key="SystemNotification">System Notification</system:String>
@@ -281,6 +283,7 @@ Enter 「SSReopen-XX」to pass SS normal difficulty level at one time</system:St
     <system:String x:Key="AutoDetectConnectionTip">This checkbox will be automatically unchecked after each detect is completed, and can be checked again if you need to re-detect</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">Re-detect every times</system:String>
     <system:String x:Key="AccountSwitch">Account Switch</system:String>
+    <system:String x:Key="AccountSwitchManualRun">Manual switch</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">Fill in the account that needs to be switched to, leave blank to close the account switching
 Official(CN): Enter the mobile phone number displayed on the login interface, such as 123****4567
 Bilibili: Enter the account name displayed on the login interface, such as Zhang San
@@ -302,7 +305,7 @@ Other client types are not supported</system:String>
     <system:String x:Key="Combat">Combat</system:String>
     <system:String x:Key="Visiting">Visit Friends</system:String>
     <system:String x:Key="Mall">Credit Store</system:String>
-    <system:String x:Key="Mission">Daily &amp; Weekly</system:String>
+    <system:String x:Key="Mission">Collect Rewards</system:String>
     <system:String x:Key="AutoRoguelike">Auto I.S.</system:String>
     <system:String x:Key="ReclamationAlgorithm">Reclamation Algorithm</system:String>
     <system:String x:Key="Light">Light</system:String>
@@ -541,7 +544,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="StartCombat" xml:space="preserve">Start combat: </system:String>
     <system:String x:Key="CompleteCombat">Complete combat</system:String>
     <system:String x:Key="AllTasksComplete">All task(s) completed!</system:String>
-    <system:String x:Key="AllTaskCompleteContent">MAA has completed all tasks under the {Preset} configuration in {Datetime}.</system:String>
+    <system:String x:Key="SanityReport">Sanity will be full on {DateTime} ({TimeDiff} later).</system:String>
+    <system:String x:Key="AllTaskCompleteContent">MAA has completed all tasks under the {Preset} configuration in {DateTime}.</system:String>
     <system:String x:Key="BackgroundLinkStarted">Tasks started</system:String>
     <system:String x:Key="BackgroundLinkStopped">Tasks stopped</system:String>
     <system:String x:Key="FailedToOpenClient">Failed to open the client. Please check the configuration file</system:String>
