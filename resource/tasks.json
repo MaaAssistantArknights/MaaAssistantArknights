@@ -7372,6 +7372,15 @@
             255
         ]
     },
+    "SkipForbiddenOperConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            640,
+            554,
+            632,
+            76
+        ]
+    },
     "BattleStartAll": {
         "action": "DoNothing",
         "algorithm": "JustReturn",
