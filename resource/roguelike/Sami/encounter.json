@@ -14,7 +14,7 @@
         {
             "name": "随到随取",
             "option_num": 2,
-            "choose": 1,
+            "choose": 2,
             "choice_require": [
                 {
                     "name": "使用热像仪",
@@ -27,8 +27,8 @@
         },
         {
             "name": "定期维护",
-            "option_num": 2,
-            "choose": 2,
+            "option_num": 3,
+            "choose": 3,
             "note": "拥有【安玛的爱】时出现第三选项",
             "choice_require": [
                 {
@@ -175,7 +175,7 @@
         {
             "name": "远见所向",
             "option_num": 4,
-            "choose": 1,
+            "choose": 2,
             "choice_require": [
                 {
                     "name": "我们或许能协作互助",

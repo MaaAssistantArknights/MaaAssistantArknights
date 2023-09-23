@@ -118,7 +118,7 @@
     "SwipeToTheUp": {
         "algorithm": "JustReturn",
         "action": "Swipe",
-        "postDelay": 300,
+        "postDelay": 350,
         "specificRect": [
             600,
             510,
@@ -145,7 +145,7 @@
     "SwipeToTheDown": {
         "algorithm": "JustReturn",
         "action": "Swipe",
-        "postDelay": 300,
+        "postDelay": 350,
         "specificRect": [
             600,
             145,
@@ -8532,6 +8532,20 @@
             "Roguelike@NextLevel#next"
         ]
     },
+    "Roguelike@Exit": {
+        "template": "Roguelike@ExitThenAbandon.png",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            0,
+            320,
+            160
+        ],
+        "next": [
+            "Stop"
+        ]
+    },
     "Roguelike@ExitThenAbandon": {
         "action": "ClickSelf",
         "cache": false,
@@ -9191,8 +9205,15 @@
         ]
     },
     "Roguelike@RecruitWithoutButton": {
-        "algorithm": "JustReturn",
+        "template": "Roguelike@RecruitWithoutButton.png",
         "action": "ClickRect",
+        "roi": [
+            292,
+            379,
+            956,
+            146
+        ],
+        "maskRange": [ 1, 255 ],
         "specificRect": [
             1180,
             15,
@@ -9690,6 +9711,7 @@
             145,
             136
         ],
+        "postDelay": 1000,
         "next": [
             "Roguelike@StageEncounterEnter",
             "Roguelike@NextLevel#next",
@@ -10154,8 +10176,7 @@
         ],
         "next": [
             "Phantom@Roguelike@ChooseOperConfirm",
-            "Phantom@Roguelike@RecruitSkip",
-            "Phantom@Roguelike@Begin"
+            "Phantom@Roguelike@RecruitSkip"
         ]
     },
     "Phantom@Roguelike@CloseCollection": {
@@ -10317,6 +10338,7 @@
         "template": "Phantom@Roguelike@Recruit.png"
     },
     "Phantom@Roguelike@RecruitWithoutButton": {
+        "template": "Roguelike@RecruitWithoutButton.png",
         "next": [
             "Phantom@Roguelike@RecruitOther",
             "Phantom@Roguelike@EnterAfterRecruit",
@@ -10445,7 +10467,7 @@
             78,
             24
         ],
-        "postDelay": 500,
+        "postDelay": 800,
         "template": "Mizuki@Roguelike@StartExplore.png",
         "roi": [
             1026,
@@ -10454,7 +10476,7 @@
             248
         ],
         "next": [
-            "(SwipeToTheUp*10)"
+            "(SwipeToTheUp*12)"
         ]
     },
     "Mizuki@Roguelike@ChooseDifficulty_Hardest": {
@@ -10465,7 +10487,7 @@
             78,
             24
         ],
-        "postDelay": 500,
+        "postDelay": 800,
         "template": "Mizuki@Roguelike@StartExplore.png",
         "roi": [
             1026,
@@ -10474,19 +10496,19 @@
             248
         ],
         "next": [
-            "(SwipeToTheDown*10)"
+            "(SwipeToTheDown*12)"
         ]
     },
     "Mizuki@Roguelike@ChooseOper": {
         "onErrorNext": [
-            "Mizuki@Roguelike@RecruitWithoutButton"
+            "Mizuki@Roguelike@Begin"
         ],
         "next": [
             "Mizuki@Roguelike@CloseCollectionContinue",
             "Mizuki@Roguelike@CloseCollectionClose",
             "Mizuki@Roguelike@ChooseOperConfirm",
             "Mizuki@Roguelike@RecruitSkip",
-            "Mizuki@Roguelike@Begin"
+            "Mizuki@Roguelike@RecruitWithoutButton"
         ]
     },
     "Mizuki@Roguelike@CloseCollection": {
@@ -10844,6 +10866,7 @@
         "template": "Mizuki@Roguelike@Recruit.png"
     },
     "Mizuki@Roguelike@RecruitWithoutButton": {
+        "template": "Roguelike@RecruitWithoutButton.png",
         "next": [
             "Mizuki@Roguelike@RecruitOther",
             "Mizuki@Roguelike@EnterAfterRecruit",
@@ -11052,7 +11075,7 @@
             80,
             22
         ],
-        "postDelay": 500,
+        "postDelay": 800,
         "template": "Sami@Roguelike@StartExplore.png",
         "roi": [
             958,
@@ -11061,7 +11084,7 @@
             189
         ],
         "next": [
-            "(SwipeToTheUp*10)"
+            "(SwipeToTheUp*12)"
         ]
     },
     "Sami@Roguelike@ChooseDifficulty_Hardest": {
@@ -11072,7 +11095,7 @@
             80,
             22
         ],
-        "postDelay": 500,
+        "postDelay": 800,
         "template": "Sami@Roguelike@StartExplore.png",
         "roi": [
             958,
@@ -11081,18 +11104,18 @@
             189
         ],
         "next": [
-            "(SwipeToTheDown*10)"
+            "(SwipeToTheDown*12)"
         ]
     },
     "Sami@Roguelike@ChooseOper": {
         "onErrorNext": [
-            "Sami@Roguelike@RecruitWithoutButton"
+            "Sami@Roguelike@Begin"
         ],
         "next": [
             "Sami@Roguelike@CloseCollectionClose",
             "Sami@Roguelike@ChooseOperConfirm",
             "Sami@Roguelike@RecruitSkip",
-            "Sami@Roguelike@Begin"
+            "Sami@Roguelike@RecruitWithoutButton"
         ]
     },
     "Sami@Roguelike@CloseCollection": {
@@ -11491,6 +11514,7 @@
         "templThreshold": 0.8
     },
     "Sami@Roguelike@RecruitWithoutButton": {
+        "template": "Roguelike@RecruitWithoutButton.png",
         "next": [
             "Sami@Roguelike@RecruitOther",
             "Sami@Roguelike@EnterAfterRecruit",
@@ -11637,7 +11661,7 @@
         ]
     },
     "Sami@Roguelike@StageVerticalCambatDps": {
-        "templThreshold": 0.95,
+        "templThreshold": 0.9,
         "baseTask": "Roguelike@StageVertical",
         "next": [
             "Sami@Roguelike@StageCambatDpsEnter",
@@ -11646,7 +11670,7 @@
         ]
     },
     "Sami@Roguelike@StageVerticalCambatDpsAI6": {
-        "templThreshold": 0.95,
+        "templThreshold": 0.9,
         "baseTask": "Roguelike@StageVertical",
         "next": [
             "Sami@Roguelike@StageCambatDpsEnter",
@@ -11686,7 +11710,7 @@
         ]
     },
     "Sami@Roguelike@StageVerticalEmergencyDps": {
-        "templThreshold": 0.95,
+        "templThreshold": 0.9,
         "baseTask": "Roguelike@StageVertical",
         "next": [
             "Sami@Roguelike@StageEmergencyDpsEnter",
@@ -11695,7 +11719,7 @@
         ]
     },
     "Sami@Roguelike@StageVerticalEmergencyDpsAI6": {
-        "templThreshold": 0.95,
+        "templThreshold": 0.9,
         "baseTask": "Roguelike@StageVertical",
         "next": [
             "Sami@Roguelike@StageEmergencyDpsEnter",
@@ -11724,7 +11748,7 @@
     "Sami@Roguelike@StageVerticalEmergencyTransportation": {
         "Doc": "先行一步，拒绝可以获取2希望",
         "baseTask": "Roguelike@StageVertical",
-        "templThreshold": 0.95,
+        "templThreshold": 0.9,
         "next": [
             "Sami@Roguelike@StageEncounterEnter",
             "Sami@Roguelike@NextLevel#next"
@@ -11732,7 +11756,7 @@
     },
     "Sami@Roguelike@StageVerticalEmergencyTransportationAI6": {
         "baseTask": "Roguelike@StageVertical",
-        "templThreshold": 0.95,
+        "templThreshold": 0.9,
         "next": [
             "Sami@Roguelike@StageEncounterEnter",
             "Sami@Roguelike@NextLevel#next"
@@ -11751,14 +11775,14 @@
     },
     "Sami@Roguelike@StageVerticalEncounter": {
         "baseTask": "Roguelike@StageVertical",
-        "templThreshold": 0.96,
+        "templThreshold": 0.9,
         "next": [
             "Sami@Roguelike@StageEncounterEnter",
             "Sami@Roguelike@NextLevel#next"
         ]
     },
     "Sami@Roguelike@StageVerticalEncounterAI6": {
-        "templThreshold": 0.96,
+        "templThreshold": 0.9,
         "baseTask": "Roguelike@StageVertical",
         "next": [
             "Sami@Roguelike@StageEncounterEnter",
@@ -11889,7 +11913,7 @@
     "Sami@Roguelike@StageVerticalGambling": {
         "Doc": "骰子关卡",
         "baseTask": "Roguelike@StageVertical",
-        "templThreshold": 0.95,
+        "templThreshold": 0.9,
         "next": [
             "Sami@Roguelike@StageEncounterEnter",
             "Sami@Roguelike@NextLevel#next"
@@ -11897,7 +11921,7 @@
     },
     "Sami@Roguelike@StageVerticalGamblingAI6": {
         "baseTask": "Roguelike@StageVertical",
-        "templThreshold": 0.95,
+        "templThreshold": 0.9,
         "next": [
             "Sami@Roguelike@StageEncounterEnter",
             "Sami@Roguelike@NextLevel#next"
@@ -11923,7 +11947,7 @@
     "Sami@Roguelike@StageVerticalProphecy": {
         "Doc": "结局选择关卡",
         "baseTask": "Sami@Roguelike@StageVertical",
-        "templThreshold": 0.95,
+        "templThreshold": 0.9,
         "next": [
             "Sami@Roguelike@StageEncounterEnter",
             "Sami@Roguelike@NextLevel#next"
@@ -11931,7 +11955,7 @@
     },
     "Sami@Roguelike@StageVerticalProphecyAI6": {
         "baseTask": "Sami@Roguelike@StageVertical",
-        "templThreshold": 0.95,
+        "templThreshold": 0.9,
         "next": [
             "Sami@Roguelike@StageEncounterEnter",
             "Sami@Roguelike@NextLevel#next"
@@ -11950,14 +11974,14 @@
     },
     "Sami@Roguelike@StageVerticalSafeHouse": {
         "baseTask": "Roguelike@StageVertical",
-        "templThreshold": 0.95,
+        "templThreshold": 0.9,
         "next": [
             "Sami@Roguelike@StageSafeHouseEnter",
             "Sami@Roguelike@NextLevel#next"
         ]
     },
     "Sami@Roguelike@StageVerticalSafeHouseAI6": {
-        "templThreshold": 0.95,
+        "templThreshold": 0.9,
         "baseTask": "Roguelike@StageVertical",
         "next": [
             "Sami@Roguelike@StageSafeHouseEnter",
@@ -11993,7 +12017,7 @@
     },
     "Sami@Roguelike@StageVerticalTrader": {
         "baseTask": "Roguelike@StageVertical",
-        "templThreshold": 0.95,
+        "templThreshold": 0.9,
         "next": [
             "Sami@Roguelike@StageTraderEnter",
             "Sami@Roguelike@NextLevel#next"
@@ -12001,7 +12025,7 @@
     },
     "Sami@Roguelike@StageVerticalTraderAI6": {
         "baseTask": "Roguelike@StageVertical",
-        "templThreshold": 0.95,
+        "templThreshold": 0.9,
         "next": [
             "Sami@Roguelike@StageTraderEnter",
             "Sami@Roguelike@NextLevel#next"
@@ -12060,7 +12084,7 @@
     "Sami@Roguelike@StageVerticalWindAndRain": {
         "Doc": "失与得",
         "baseTask": "Roguelike@StageVertical",
-        "templThreshold": 0.95,
+        "templThreshold": 0.9,
         "next": [
             "Sami@Roguelike@StageEncounterEnter",
             "Sami@Roguelike@NextLevel#next"
@@ -12068,7 +12092,7 @@
     },
     "Sami@Roguelike@StageVerticalWindAndRainAI6": {
         "baseTask": "Roguelike@StageVertical",
-        "templThreshold": 0.95,
+        "templThreshold": 0.9,
         "next": [
             "Sami@Roguelike@StageEncounterEnter",
             "Sami@Roguelike@NextLevel#next"
