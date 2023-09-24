@@ -9302,6 +9302,7 @@
     },
     "Roguelike@RecruitWithoutButton": {
         "template": "Roguelike@RecruitWithoutButton.png",
+        "templThreshold": 0.85,
         "action": "ClickRect",
         "roi": [
             292,
