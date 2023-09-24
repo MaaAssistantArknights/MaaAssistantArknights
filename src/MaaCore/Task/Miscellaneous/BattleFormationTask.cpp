@@ -205,15 +205,21 @@ bool asst::BattleFormationTask::add_trust_operators()
         }
         else {
             failed_count = 0;
-            for (const auto& trust_icon : matcher.get_result()) {
+            std::vector<MatchRect> result = matcher.get_result();
+            // 按先上下后左右排个序
+            sort_by_vertical_(result);
+            for (const auto& trust_icon : result) {
                 // 匹配完干员左下角信赖表，将roi偏移到整个干员标
                 ctrler()->click(trust_icon.rect.move({ 20, -225, 110, 250 }));
-                if (--append_count <= 0 || need_exit()) {
+                --append_count;
+                if (append_count <= 0 || need_exit()) {
                     break;
                 }
             }
         }
-        swipe_page();
+        if (!need_exit() && append_count > 0) {
+            swipe_page();
+        }
     }
 
     return append_count == 0;

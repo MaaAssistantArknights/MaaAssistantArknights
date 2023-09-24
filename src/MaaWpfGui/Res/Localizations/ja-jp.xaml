@@ -259,6 +259,8 @@
     <system:String x:Key="BlacklistDefault">炭素材;家具;緊急招集票</system:String>
     <system:String x:Key="Drink">飲み物はいかがですか🍷？ドクター</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">クレジットがあふれた際はブラックリストを無視する</system:String>
+    <system:String x:Key="ReceiveDailyAndWeeklyAward">毎日/毎週任務報酬を受取</system:String>
+    <system:String x:Key="ReceiveMail">すべてのメール報酬を受取</system:String>
     <system:String x:Key="DroneUsage">ドローンの使用</system:String>
     <system:String x:Key="MinimizeToTray">最小化した際にトレイに表示</system:String>
     <system:String x:Key="SystemNotification">重要な通知をポップアップする</system:String>
@@ -542,7 +544,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="StartCombat" xml:space="preserve">戦闘開始: </system:String>
     <system:String x:Key="CompleteCombat">戦闘完了</system:String>
     <system:String x:Key="AllTasksComplete">すべてのタスクが完了しました！</system:String>
-    <system:String x:Key="SanityReport">理性は {DateTime} に満杯になります ({TimeDiff} 後)。</system:String>
+    <system:String x:Key="SanityReport">理性は {DateTime} に満杯になります ({TimeDiffH}時間{TimeDiffM}分後)。</system:String>
     <system:String x:Key="AllTaskCompleteContent">MAA は、{DateTime} の {Preset} 構成の下にあるすべてのプリセット タスクを完了しました。</system:String>
     <system:String x:Key="BackgroundLinkStarted">Tasks started</system:String>
     <system:String x:Key="BackgroundLinkStopped">Tasks stopped</system:String>

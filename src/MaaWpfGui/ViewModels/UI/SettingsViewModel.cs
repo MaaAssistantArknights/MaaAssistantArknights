@@ -152,6 +152,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region External Notifications
 
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public void ExternalNotificationSendTest()
         {
             ExternalNotificationService.Send(
@@ -160,7 +162,7 @@ namespace MaaWpfGui.ViewModels.UI
                 true);
         }
 
-        public List<CombinedData> ExternalNotificationProviders => new List<CombinedData>
+        public static List<CombinedData> ExternalNotificationProviders => new List<CombinedData>
         {
             new CombinedData { Display = LocalizationHelper.GetString("Off"), Value = "Off" },
             new CombinedData { Display = "Server Chan", Value = "ServerChan" },
@@ -560,7 +562,9 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public void AccountSwitchMannualRun()
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
+        public void AccountSwitchManualRun()
         {
             Instances.TaskQueueViewModel.QuickSwitchAccount();
         }
@@ -968,33 +972,34 @@ namespace MaaWpfGui.ViewModels.UI
             // This allows for SQL injection, but since it is not on a real database nothing horrible would happen.
             // The following query string does what I want, but WMI does not accept it.
             // var wmiQueryString = string.Format("SELECT ProcessId, CommandLine FROM Win32_Process WHERE ExecutablePath='{0}'", adbPath);
-            var wmiQueryString = "SELECT ProcessId, ExecutablePath, CommandLine FROM Win32_Process";
-            using (var searcher = new ManagementObjectSearcher(wmiQueryString))
-            using (var results = searcher.Get())
-            {
-                var query = from p in Process.GetProcesses()
-                            join mo in results.Cast<ManagementObject>()
+            const string WmiQueryString = "SELECT ProcessId, ExecutablePath, CommandLine FROM Win32_Process";
+            using var searcher = new ManagementObjectSearcher(WmiQueryString);
+            using var results = searcher.Get();
+            var query = from p in Process.GetProcesses()
+                        join mo in results.Cast<ManagementObject>()
                             on p.Id equals (int)(uint)mo["ProcessId"]
-                            select new
-                            {
-                                Process = p,
-                                Path = (string)mo["ExecutablePath"],
-                            };
-                foreach (var item in query)
+                        select new
+                        {
+                            Process = p,
+                            Path = (string)mo["ExecutablePath"],
+                        };
+            foreach (var item in query)
+            {
+                if (item.Path != adbPath)
                 {
-                    if (item.Path == adbPath)
-                    {
-                        // Some emulators start their adb with administrator privilege.
-                        // Not sure if this is necessary
-                        try
-                        {
-                            item.Process.Kill();
-                            item.Process.WaitForExit();
-                        }
-                        catch
-                        {
-                        }
-                    }
+                    continue;
+                }
+
+                // Some emulators start their adb with administrator privilege.
+                // Not sure if this is necessary
+                try
+                {
+                    item.Process.Kill();
+                    item.Process.WaitForExit();
+                }
+                catch
+                {
+                    // ignored
                 }
             }
         }
@@ -1587,7 +1592,7 @@ namespace MaaWpfGui.ViewModels.UI
         private string _roguelikeMode = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeMode, "0");
 
         /// <summary>
-        /// 策略，往后打 / 刷一层就退
+        /// 策略，往后打 / 刷一层就退 / 烧开水
         /// </summary>
         public string RoguelikeMode
         {
@@ -1596,6 +1601,9 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _roguelikeMode, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeMode, value);
+
+                // 烧开水模式可选项
+                this.RoguelikeStartWithEliteTwoEnable = MapRoguelikeStartWithEliteTwoEnable(value);
             }
         }
 
@@ -1658,7 +1666,7 @@ namespace MaaWpfGui.ViewModels.UI
         public ObservableCollection<string> RoguelikeCoreCharList
         {
             get => _roguelikeCoreCharList;
-            set => SetAndNotify(ref _roguelikeCoreCharList, value);
+            private set => SetAndNotify(ref _roguelikeCoreCharList, value);
         }
 
         private string _roguelikeStartWithEliteTwo = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, false.ToString());
@@ -1671,9 +1679,34 @@ namespace MaaWpfGui.ViewModels.UI
             get => bool.Parse(_roguelikeStartWithEliteTwo);
             set
             {
+                if (value && RoguelikeUseSupportUnit)
+                {
+                    RoguelikeUseSupportUnit = false;
+                }
+
                 SetAndNotify(ref _roguelikeStartWithEliteTwo, value.ToString());
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, value.ToString());
             }
+        }
+
+        private string _roguelikeStartWithEliteTwoEnable = MapRoguelikeStartWithEliteTwoEnable(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeMode, "0"));
+
+        public string RoguelikeStartWithEliteTwoEnable
+        {
+            get
+            {
+                return _roguelikeStartWithEliteTwoEnable;
+            }
+
+            set
+            {
+                SetAndNotify(ref _roguelikeStartWithEliteTwoEnable, value);
+            }
+        }
+
+        private static string MapRoguelikeStartWithEliteTwoEnable(string mode)
+        {
+            return mode == "4" ? "Visible" : "Collapsed";
         }
 
         private string _roguelikeUseSupportUnit = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeUseSupportUnit, false.ToString());
@@ -1686,6 +1719,11 @@ namespace MaaWpfGui.ViewModels.UI
             get => bool.Parse(_roguelikeUseSupportUnit);
             set
             {
+                if (value && RoguelikeStartWithEliteTwo)
+                {
+                    RoguelikeStartWithEliteTwo = false;
+                }
+
                 SetAndNotify(ref _roguelikeUseSupportUnit, value.ToString());
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeUseSupportUnit, value.ToString());
             }
@@ -1907,6 +1945,38 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _creditForceShoppingIfCreditFull, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.CreditForceShoppingIfCreditFull, value.ToString());
+            }
+        }
+
+        /* 领取奖励设置 */
+
+        private bool _receiveAward = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveAward, true.ToString()));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether receive award is enabled.
+        /// </summary>
+        public bool ReceiveAward
+        {
+            get => _receiveAward;
+            set
+            {
+                SetAndNotify(ref _receiveAward, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveAward, value.ToString());
+            }
+        }
+
+        private bool _receiveMail = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveMail, false.ToString()));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether receive mail is enabled.
+        /// </summary>
+        public bool ReceiveMail
+        {
+            get => _receiveMail;
+            set
+            {
+                SetAndNotify(ref _receiveMail, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveMail, value.ToString());
             }
         }
 
@@ -2650,9 +2720,9 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// RegisterKey of Bluestacks_Nxt
         /// </summary>
-        public static string BluestacksNxtRegistryKey = @"SOFTWARE\BlueStacks_nxt";
+        private const string BluestacksNxtRegistryKey = @"SOFTWARE\BlueStacks_nxt";
 
-        public static string BluestacksNxtValueName = "UserDefinedDir";
+        private const string BluestacksNxtValueName = "UserDefinedDir";
 
         /// <summary>
         /// Refreshes ADB config.
@@ -2725,7 +2795,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// Get the path of bluestacks.conf
         /// </summary>
         /// <returns>path</returns>
-        public static string GetBluestacksConfig()
+        private static string GetBluestacksConfig()
         {
             var conf = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigPath, string.Empty);
             if (!string.IsNullOrEmpty(conf))
@@ -2733,16 +2803,11 @@ namespace MaaWpfGui.ViewModels.UI
                 return conf;
             }
 
-            using (RegistryKey key = Registry.LocalMachine.OpenSubKey(BluestacksNxtRegistryKey))
+            using RegistryKey key = Registry.LocalMachine.OpenSubKey(BluestacksNxtRegistryKey);
+            object value = key?.GetValue(BluestacksNxtValueName);
+            if (value != null)
             {
-                if (key != null)
-                {
-                    object value = key.GetValue(BluestacksNxtValueName);
-                    if (value != null)
-                    {
-                        return (string)value + "\\bluestacks.conf";
-                    }
-                }
+                return (string)value + "\\bluestacks.conf";
             }
 
             return null;
@@ -3506,19 +3571,11 @@ namespace MaaWpfGui.ViewModels.UI
                 return true;
             }
 
-            var wine_list = new[] { "酒", "drink", "wine", "beer", "술", "🍷", "🍸", "🍺", "🍻", "🥃", "🍶" };
-            foreach (var wine in wine_list)
-            {
-                if (CreditFirstList.Contains(wine))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            var wineList = new[] { "酒", "drink", "wine", "beer", "술", "🍷", "🍸", "🍺", "🍻", "🥃", "🍶" };
+            return wineList.Any(wine => CreditFirstList.Contains(wine));
         }
 
-        public void UpdateRoguelikeSquadList()
+        private void UpdateRoguelikeSquadList()
         {
             var roguelikeSquad = RoguelikeSquad;
 
@@ -3595,7 +3652,7 @@ namespace MaaWpfGui.ViewModels.UI
             _roguelikeSquad = RoguelikeSquadList.Any(x => x.Value == roguelikeSquad) ? roguelikeSquad : string.Empty;
         }
 
-        public void UpdateRoguelikeCoreCharList()
+        private void UpdateRoguelikeCoreCharList()
         {
             var filePath = $"resource/roguelike/{RoguelikeTheme}/recruitment.json";
             if (File.Exists(filePath) is false)

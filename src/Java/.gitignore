@@ -1,7 +1,6 @@
 HELP.md
 .gradle
 build/
-!gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
 
@@ -40,4 +39,7 @@ out/
 gradle.properties
 
 /cache/
-/gradle/
+
+/gradle/*
+!/gradle/wrapper/
+!/gradle/wrapper/gradle-wrapper.jar

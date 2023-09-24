@@ -228,25 +228,6 @@ namespace MaaWpfGui.Main
         }
 
         /// <summary>
-        /// 会带参数重启，切换配置等操作会切换回去
-        /// </summary>
-        public static void RestartApplication()
-        {
-            //// 释放互斥量
-            /*
-            _mutex?.ReleaseMutex();
-            _mutex?.Dispose();
-
-            // 避免 OnExit 时再次释放
-            _mutex = null;
-            */
-
-            // 有时候软件自重启时 gui.log 会无法正常写入
-            Log.CloseAndFlush();
-            System.Windows.Forms.Application.Restart();
-        }
-
-        /// <summary>
         /// 重启，不带参数
         /// </summary>
         public static void ShutdownAndRestartWithOutArgs()

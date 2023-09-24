@@ -11,8 +11,9 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
 using System.Diagnostics;
-using Microsoft.Win32;
+using System.IO;
 
 namespace MaaWpfGui.Utilities
 {
@@ -21,7 +22,17 @@ namespace MaaWpfGui.Utilities
     /// </summary>
     public static class AutoStart
     {
-        private static readonly string fileValue = Process.GetCurrentProcess().MainModule?.FileName;
+        private static readonly string _fileValue = Process.GetCurrentProcess().MainModule?.FileName;
+        private static readonly string _uniqueIdentifier = GetUniqueIdentifierFromPath(_fileValue);
+
+        private static readonly string _startupFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
+        private static readonly string _startupShortcutPath = Path.Combine(_startupFolderPath, $"MAA_{_uniqueIdentifier}.lnk");
+
+        static string GetUniqueIdentifierFromPath(string path)
+        {
+            int hash = path.GetHashCode();
+            return hash.ToString("X");
+        }
 
         /// <summary>
         /// Checks whether this program starts up with OS.
@@ -31,8 +42,7 @@ namespace MaaWpfGui.Utilities
         {
             try
             {
-                using var key = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run", false);
-                return key.GetValue("MeoAsst") != null;
+                return File.Exists(_startupShortcutPath);
             }
             catch
             {
@@ -49,14 +59,22 @@ namespace MaaWpfGui.Utilities
         {
             try
             {
-                using var key = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run", true);
                 if (set)
                 {
-                    key.SetValue("MeoAsst", "\"" + fileValue + "\"");
+                    // 创建启动文件夹的快捷方式
+                    var shell = new IWshRuntimeLibrary.WshShell();
+                    var shortcut = shell.CreateShortcut(_startupShortcutPath);
+                    shortcut.TargetPath = _fileValue;
+                    shortcut.WorkingDirectory = Path.GetDirectoryName(_fileValue);
+                    shortcut.Save();
                 }
                 else
                 {
-                    key.DeleteValue("MeoAsst");
+                    // 删除启动文件夹的快捷方式
+                    if (File.Exists(_startupShortcutPath))
+                    {
+                        File.Delete(_startupShortcutPath);
+                    }
                 }
 
                 return set == CheckStart();
