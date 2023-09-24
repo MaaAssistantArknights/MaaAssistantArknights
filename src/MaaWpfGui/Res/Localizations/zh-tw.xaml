@@ -259,6 +259,8 @@
     <system:String x:Key="BlacklistDefault">碳;傢俱;加急許可</system:String>
     <system:String x:Key="Drink">要來一杯美酒嗎🍷？博士</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">信用溢出時無視黑名單</system:String>
+    <system:String x:Key="ReceiveDailyAndWeeklyAward">收集每日/每週任務獎勵</system:String>
+    <system:String x:Key="ReceiveMail">收集所有郵件獎勵</system:String>
     <system:String x:Key="DroneUsage">無人機用途</system:String>
     <system:String x:Key="MinimizeToTray">最小化時隱藏至工作列</system:String>
     <system:String x:Key="SystemNotification">重要訊息彈出系統通知</system:String>
@@ -303,7 +305,7 @@
     <system:String x:Key="Combat">刷理智</system:String>
     <system:String x:Key="Visiting">訪問好友</system:String>
     <system:String x:Key="Mall">獲取信用及購物</system:String>
-    <system:String x:Key="Mission">領取日常獎勵</system:String>
+    <system:String x:Key="Mission">領取獎勵</system:String>
     <system:String x:Key="AutoRoguelike">自動肉鴿</system:String>
     <system:String x:Key="ReclamationAlgorithm">生息演算</system:String>
     <system:String x:Key="Light">亮色</system:String>
@@ -542,7 +544,7 @@
     <system:String x:Key="StartCombat" xml:space="preserve">開始戰鬥: </system:String>
     <system:String x:Key="CompleteCombat">完成戰鬥</system:String>
     <system:String x:Key="AllTasksComplete">任務已全部完成！</system:String>
-    <system:String x:Key="SanityReport">理智會在 {DateTime} ({TimeDiff} 後) 回滿。</system:String>
+    <system:String x:Key="SanityReport">理智會在 {DateTime} ({TimeDiffH}时{TimeDiffM}分後) 回滿。</system:String>
     <system:String x:Key="AllTaskCompleteContent">MAA 已在 {DateTime} 完成了 {Preset} 配置下所有預設的任務。</system:String>
     <system:String x:Key="BackgroundLinkStarted">開始執行任務</system:String>
     <system:String x:Key="BackgroundLinkStopped">任務終止</system:String>

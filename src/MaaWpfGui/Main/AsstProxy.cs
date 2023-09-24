@@ -589,8 +589,8 @@ namespace MaaWpfGui.Main
                 case AsstMsg.AllTasksCompleted:
                     bool isMainTaskQueueAllCompleted = true;
                     var finished_tasks = details["finished_tasks"] as JArray;
-                    var sanity_report = details["sanity"] as JArray;
-                    if (finished_tasks.Count == 1)
+                    var sanity_report = details["sanity"]?.ToObject<string[]>();
+                    if (finished_tasks?.Count == 1)
                     {
                         var unique_finished_task = (AsstTaskId)finished_tasks[0];
                         if (unique_finished_task == (_latestTaskId.TryGetValue(TaskType.Copilot, out var copilotTaskId) ? copilotTaskId : 0)
@@ -604,12 +604,7 @@ namespace MaaWpfGui.Main
                         }
                     }
 
-                    bool buy_wine = false;
-                    if (_latestTaskId.ContainsKey(TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine())
-                    {
-                        buy_wine = true;
-                    }
-
+                    bool buy_wine = _latestTaskId.ContainsKey(TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
                     _latestTaskId.Clear();
 
                     Instances.TaskQueueViewModel.ResetFightVariables();
@@ -618,19 +613,27 @@ namespace MaaWpfGui.Main
 
                     if (isMainTaskQueueAllCompleted)
                     {
-                        bool isSanityForecastSucc = true;
-                        DateTimeOffset? reportTime = null;
+                        bool isSanityForecastSucc = false;
+                        DateTimeOffset reportTime = default;
                         TimeSpan timeDiff = TimeSpan.Zero;
-                        if (isSanityForecastSucc &= sanity_report != null && sanity_report.Count == 2 && ((string)sanity_report[0]).Contains("/"))
+                        do
                         {
-                            int[] sanity = ((string)sanity_report[0]).Split('/').Select(i => Convert.ToInt32(i)).ToArray();
-                            reportTime = DateTimeOffset.Parse((string)sanity_report[1]);
-                            if (isSanityForecastSucc &= sanity.Length == 2 && sanity[1] > 1)
+                            if (sanity_report?.Length != 2 || !sanity_report[0].Contains("/"))
                             {
-                                timeDiff = new TimeSpan(0, sanity[0] < sanity[1] ? (sanity[1] - sanity[0]) * 6 : 0, 0);
-                                reportTime = reportTime?.AddMinutes(timeDiff.TotalMinutes);
+                                break;
                             }
+
+                            int[] sanity = sanity_report[0].Split('/').Select(i => Convert.ToInt32(i)).ToArray();
+                            if (sanity.Length != 2 || sanity[1] <= 1)
+                            {
+                                break;
+                            }
+
+                            timeDiff = new TimeSpan(0, sanity[0] < sanity[1] ? (sanity[1] - sanity[0]) * 6 : 0, 0);
+                            reportTime = DateTimeOffset.Parse(sanity_report[1]).AddMinutes(timeDiff.TotalMinutes);
+                            isSanityForecastSucc = true;
                         }
+                        while (false);
 
                         var allTaskCompleteTitle = LocalizationHelper.GetString("AllTasksComplete");
                         var allTaskCompleteMessage = LocalizationHelper.GetString("AllTaskCompleteContent");
@@ -643,7 +646,7 @@ namespace MaaWpfGui.Main
                             .Replace("{Preset}", configurationPreset);
                         if (isSanityForecastSucc)
                         {
-                            sanityReport = sanityReport.Replace("{DateTime}", reportTime?.ToString("T")).Replace("{TimeDiff}", timeDiff.ToString(@"hh\:mm"));
+                            sanityReport = sanityReport.Replace("{DateTime}", reportTime.ToString("T")).Replace("{TimeDiffH}", timeDiff.Hours.ToString()).Replace("{TimeDiffM}", timeDiff.Minutes.ToString());
 
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AllTasksComplete") + Environment.NewLine + sanityReport);
                             ExternalNotificationService.Send(allTaskCompleteTitle, allTaskCompleteMessage + Environment.NewLine + sanityReport);
@@ -1228,7 +1231,7 @@ namespace MaaWpfGui.Main
         /// </summary>
         /// <param name="address">连接地址。</param>
         /// <returns>是否有效。</returns>
-        public bool IfPortEstablished(string address)
+        private static bool IfPortEstablished(string address)
         {
             if (string.IsNullOrEmpty(address) || !address.Contains(":"))
             {
@@ -1245,28 +1248,24 @@ namespace MaaWpfGui.Main
             string host = address_[0].Equals("emulator") ? "127.0.0.1" : address_[0];
             int port = int.Parse(address_[1]);
 
-            using (var client = new TcpClient())
+            using var client = new TcpClient();
+            try
             {
-                try
-                {
-                    IAsyncResult result = client.BeginConnect(host, port, null, null);
-                    bool success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(.5));
+                IAsyncResult result = client.BeginConnect(host, port, null, null);
+                bool success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(.5));
 
-                    if (success)
-                    {
-                        client.EndConnect(result);
-                        return true;
-                    }
-                    else
-                    {
-                        client.Close();
-                        return false;
-                    }
-                }
-                catch (Exception)
+                if (success)
                 {
-                    return false;
+                    client.EndConnect(result);
+                    return true;
                 }
+
+                client.Close();
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 
@@ -1496,12 +1495,19 @@ namespace MaaWpfGui.Main
         }
 
         /// <summary>
-        /// 领取日常奖励。
+        /// 领取奖励。
         /// </summary>
+        /// <param name="award">是否领取每日/每周任务奖励</param>
+        /// <param name="mail">是否领取所有邮件奖励</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendAward()
+        public bool AsstAppendAward(bool award, bool mail)
         {
-            AsstTaskId id = AsstAppendTaskWithEncoding("Award");
+            var task_params = new JObject
+            {
+                ["award"] = award,
+                ["mail"] = mail,
+            };
+            AsstTaskId id = AsstAppendTaskWithEncoding("Award", task_params);
             _latestTaskId[TaskType.Award] = id;
             return id != 0;
         }
@@ -1898,23 +1904,16 @@ namespace MaaWpfGui.Main
             };
             AsstTaskId id = AsstAppendTaskWithEncoding(type, task_params);
             _latestTaskId[TaskType.Copilot] = id;
-            if (asst_start)
-            {
-                return id != 0 && AsstStart();
-            }
-            else
-            {
-                return id != 0;
-            }
+            return id != 0 && (!asst_start || AsstStart());
         }
 
         public bool AsstStartVideoRec(string filename)
         {
-            var task_params = new JObject
+            var taskParams = new JObject
             {
                 ["filename"] = filename,
             };
-            AsstTaskId id = AsstAppendTaskWithEncoding("VideoRecognition", task_params);
+            AsstTaskId id = AsstAppendTaskWithEncoding("VideoRecognition", taskParams);
             _latestTaskId[TaskType.Copilot] = id;
             return id != 0 && AsstStart();
         }
