@@ -34,7 +34,7 @@
                 VerticalAlignment="Bottom"
                 hc:BorderElement.CornerRadius="0,4,4,0"
                 BorderThickness="0,1,1,1"
-                Command="{s:Action AccountSwitchMannualRun}"
+                Command="{s:Action AccountSwitchManualRun}"
                 Content="{DynamicResource AccountSwitchManualRun}" />
         </Grid>
 

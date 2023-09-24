@@ -1909,11 +1909,11 @@ namespace MaaWpfGui.Main
 
         public bool AsstStartVideoRec(string filename)
         {
-            var task_params = new JObject
+            var taskParams = new JObject
             {
                 ["filename"] = filename,
             };
-            AsstTaskId id = AsstAppendTaskWithEncoding("VideoRecognition", task_params);
+            AsstTaskId id = AsstAppendTaskWithEncoding("VideoRecognition", taskParams);
             _latestTaskId[TaskType.Copilot] = id;
             return id != 0 && AsstStart();
         }
