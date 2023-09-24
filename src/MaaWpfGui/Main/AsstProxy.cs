@@ -618,13 +618,13 @@ namespace MaaWpfGui.Main
                         TimeSpan timeDiff = TimeSpan.Zero;
                         do
                         {
-                            if (sanity_report?.Count() != 2 || !sanity_report[0].Contains("/"))
+                            if (sanity_report?.Length != 2 || !sanity_report[0].Contains("/"))
                             {
                                 break;
                             }
 
                             int[] sanity = sanity_report[0].Split('/').Select(i => Convert.ToInt32(i)).ToArray();
-                            if (sanity?.Length != 2 || sanity[1] <= 1)
+                            if (sanity.Length != 2 || sanity[1] <= 1)
                             {
                                 break;
                             }
@@ -1231,7 +1231,7 @@ namespace MaaWpfGui.Main
         /// </summary>
         /// <param name="address">连接地址。</param>
         /// <returns>是否有效。</returns>
-        public bool IfPortEstablished(string address)
+        private static bool IfPortEstablished(string address)
         {
             if (string.IsNullOrEmpty(address) || !address.Contains(":"))
             {
@@ -1259,11 +1259,9 @@ namespace MaaWpfGui.Main
                     client.EndConnect(result);
                     return true;
                 }
-                else
-                {
-                    client.Close();
-                    return false;
-                }
+
+                client.Close();
+                return false;
             }
             catch (Exception)
             {
@@ -1906,23 +1904,16 @@ namespace MaaWpfGui.Main
             };
             AsstTaskId id = AsstAppendTaskWithEncoding(type, task_params);
             _latestTaskId[TaskType.Copilot] = id;
-            if (asst_start)
-            {
-                return id != 0 && AsstStart();
-            }
-            else
-            {
-                return id != 0;
-            }
+            return id != 0 && (!asst_start || AsstStart());
         }
 
         public bool AsstStartVideoRec(string filename)
         {
-            var task_params = new JObject
+            var taskParams = new JObject
             {
                 ["filename"] = filename,
             };
-            AsstTaskId id = AsstAppendTaskWithEncoding("VideoRecognition", task_params);
+            AsstTaskId id = AsstAppendTaskWithEncoding("VideoRecognition", taskParams);
             _latestTaskId[TaskType.Copilot] = id;
             return id != 0 && AsstStart();
         }

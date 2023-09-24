@@ -115,7 +115,7 @@ namespace MaaWpfGui.Helper
             return false;
         }
 
-        private bool GetConfiguration(out WindowPlacement wp)
+        private static bool GetConfiguration(out WindowPlacement wp)
         {
             wp = default;
             var jsonStr = ConfigurationHelper.GetValue(ConfigurationKeys.WindowPlacement, string.Empty);
