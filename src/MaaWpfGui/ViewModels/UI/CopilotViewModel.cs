@@ -66,19 +66,21 @@ namespace MaaWpfGui.ViewModels.UI
             _runningState.IdleChanged += RunningState_IdleChanged;
 
             var copilotTaskList = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotTaskList, string.Empty);
-            if (!string.IsNullOrEmpty(copilotTaskList))
+            if (string.IsNullOrEmpty(copilotTaskList))
             {
-                JArray jArray = JArray.Parse(copilotTaskList);
-                foreach (var item in jArray)
-                {
-                    if ((item as JObject).TryGetValue("file_path", out var token) && File.Exists(token.ToString()))
-                    {
-                        CopilotItemViewModels.Add(new CopilotItemViewModel((string)item["name"], (string)item["file_path"], (bool)item["is_checked"]));
-                    }
-                }
-
-                CopilotItemIndexChanged();
+                return;
             }
+
+            JArray jArray = JArray.Parse(copilotTaskList);
+            foreach (var item in jArray)
+            {
+                if (((JObject)item).TryGetValue("file_path", out var token) && File.Exists(token.ToString()))
+                {
+                    CopilotItemViewModels.Add(new CopilotItemViewModel((string)item["name"], (string)item["file_path"], (bool)item["is_checked"]));
+                }
+            }
+
+            CopilotItemIndexChanged();
         }
 
         private void RunningState_IdleChanged(object sender, bool e)
@@ -570,32 +572,36 @@ namespace MaaWpfGui.ViewModels.UI
 
         private const string CopilotJsonDir = "cache/copilot";
 
+        //UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public void AddCopilotTask()
         {
-            var stage_name = CopilotTaskName.Trim().Replace("突袭", "-Adverse");
-            if (!stage_name.IsNullOrEmpty())
+            var stageName = CopilotTaskName.Trim().Replace("突袭", "-Adverse");
+            if (!stageName.IsNullOrEmpty())
             {
-                AddCopilotTaskToList(stage_name);
+                AddCopilotTaskToList(stageName);
             }
         }
 
+        //UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public void AddCopilotTask_Adverse()
         {
-            var stage_name = CopilotTaskName.Trim().Replace("突袭", "-Adverse");
-            if (!stage_name.EndsWith("-Adverse"))
+            var stageName = CopilotTaskName.Trim().Replace("突袭", "-Adverse");
+            if (!stageName.EndsWith("-Adverse"))
             {
-                stage_name += "-Adverse";
+                stageName += "-Adverse";
             }
 
-            if (!stage_name.IsNullOrEmpty())
+            if (!stageName.IsNullOrEmpty())
             {
-                AddCopilotTaskToList(stage_name);
+                AddCopilotTaskToList(stageName);
             }
         }
 
-        public void AddCopilotTaskToList(string stage_name)
+        private void AddCopilotTaskToList(string stageName)
         {
-            var jsonPath = $"{CopilotJsonDir}/{stage_name}.json";
+            var jsonPath = $"{CopilotJsonDir}/{stageName}.json";
 
             try
             {
@@ -603,16 +609,18 @@ namespace MaaWpfGui.ViewModels.UI
             }
             catch (Exception)
             {
+                // ignored
             }
 
             try
             {
                 if (jsonPath != (IsDataFromWeb ? TempCopilotFile : Filename))
-                {// 相同路径跳拷贝
+                {
+                    // 相同路径跳拷贝
                     File.Copy(IsDataFromWeb ? TempCopilotFile : Filename, jsonPath, true);
                 }
 
-                var item = new CopilotItemViewModel(stage_name, jsonPath)
+                var item = new CopilotItemViewModel(stageName, jsonPath)
                 {
                     Index = CopilotItemViewModels.Count,
                 };
@@ -637,12 +645,16 @@ namespace MaaWpfGui.ViewModels.UI
             ConfigurationHelper.SetValue(ConfigurationKeys.CopilotTaskList, JsonConvert.SerializeObject(jArray));
         }
 
+        //UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public void DeleteCopilotTask(int index)
         {
             CopilotItemViewModels.RemoveAt(index);
             CopilotItemIndexChanged();
         }
 
+        //UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public void CleanUnableCopilotTask()
         {
             foreach (var item in CopilotItemViewModels.Where(model => !model.IsChecked).ToList())
@@ -653,6 +665,8 @@ namespace MaaWpfGui.ViewModels.UI
             CopilotItemIndexChanged();
         }
 
+        //UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public void ClearCopilotTask()
         {
             CopilotItemViewModels.Clear();
@@ -663,13 +677,15 @@ namespace MaaWpfGui.ViewModels.UI
         {
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                for (int i = 0; i < CopilotItemViewModels.Count; i++)
+                foreach (var model in CopilotItemViewModels)
                 {
-                    if (CopilotItemViewModels[i].IsChecked)
+                    if (!model.IsChecked)
                     {
-                        CopilotItemViewModels[i].IsChecked = false;
-                        break;
+                        continue;
                     }
+
+                    model.IsChecked = false;
+                    break;
                 }
 
                 SaveCopilotTask();
@@ -679,7 +695,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// 更新任务顺序
         /// </summary>
-        public void CopilotItemIndexChanged()
+        private void CopilotItemIndexChanged()
         {
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
