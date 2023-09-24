@@ -623,8 +623,19 @@ namespace MaaWpfGui.Main
                                 break;
                             }
 
-                            int[] sanity = sanity_report[0].Split('/').Select(i => Convert.ToInt32(i)).ToArray();
-                            if (sanity.Length != 2 || sanity[1] <= 1)
+                            // 被污染了直接抛弃
+                            int[] sanity = sanity_report[0].Split('/').Select(i =>
+                            {
+                                try
+                                {
+                                    return Convert.ToInt32(i);
+                                }
+                                catch (FormatException)
+                                {
+                                    return -1;
+                                }
+                            }).ToArray();
+                            if (sanity.Length != 2 || sanity[0] < 0 || sanity[1] <= 1)
                             {
                                 break;
                             }
