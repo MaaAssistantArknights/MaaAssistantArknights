@@ -63,7 +63,7 @@ namespace MaaWpfGui.Views.UserControl
             string isEnabled = System.Convert.ToString(values[0]);
             string RoguelikeMode = System.Convert.ToString(values[1]);
 
-            if (RoguelikeMode == "1")
+            if (RoguelikeMode == "1" or RoguelikeMode == "4")
                 return true;
 
             if (isEnabled == "True")
