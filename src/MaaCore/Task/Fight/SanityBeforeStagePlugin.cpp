@@ -1,5 +1,6 @@
 #include "SanityBeforeStagePlugin.h"
 
+#include <charconv>
 #include <regex>
 
 #include "Config/TaskData.h"
@@ -33,7 +34,7 @@ bool asst::SanityBeforeStagePlugin::_run()
 {
     LogTraceFunction;
 
-    get_sanity();
+    get_sanity_before_stage();
 
     return true;
 }
@@ -41,7 +42,7 @@ bool asst::SanityBeforeStagePlugin::_run()
 /// <summary>
 /// 获取 当前理智/最大理智
 /// </summary>
-void asst::SanityBeforeStagePlugin::get_sanity()
+void asst::SanityBeforeStagePlugin::get_sanity_before_stage()
 {
     LogTraceFunction;
 
@@ -75,8 +76,26 @@ void asst::SanityBeforeStagePlugin::get_sanity()
     sanity_info["details"]["sanity"] = text;
     callback(AsstMsg::SubTaskExtraInfo, sanity_info);
 
-    json::array value;
-    value.emplace_back(std::move(text));
-    value.emplace_back(utils::get_format_time());
-    status()->set_str(Status::FightSanityReport, value.dumps());
+    std::string sanity_report_str = std::string();
+    do {
+        auto slash_pos = text.find('/');
+        if (slash_pos == std::string::npos) {
+            break;
+        }
+        if (ranges::any_of(text, [](const char& c) { return c != '/' && !isdigit(c); })) {
+            break;
+        }
+
+        int sanity_cur = 0, sanity_max = 0;
+        if (std::from_chars(text.data(), text.data() + slash_pos, sanity_cur).ec != std::errc()) {
+            break;
+        }
+        if (std::from_chars(text.data() + slash_pos + 1, text.data() + text.length(), sanity_max).ec != std::errc()) {
+            break;
+        }
+        sanity_report_str = json::object {
+            { "current_sanity", sanity_cur }, { "max_sanity", sanity_cur }, { "report_time", utils::get_format_time() }
+        }.dumps();
+    } while (false);
+    status()->set_str(Status::FightSanityReport, sanity_report_str);
 }
