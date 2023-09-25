@@ -623,6 +623,11 @@ namespace MaaWpfGui.Main
                                 break;
                             }
 
+                            if (!sanity_report.Select(i => i.Type).SequenceEqual(new[] { JTokenType.Integer, JTokenType.Integer, JTokenType.String }))
+                            {
+                                break;
+                            }
+
                             int[] sanity = sanity_report.Take(2).Select(i => (int)i).ToArray();
                             if (sanity[0] < 0 || sanity[1] <= 1)
                             {
