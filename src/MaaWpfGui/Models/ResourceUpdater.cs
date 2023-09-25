@@ -9,11 +9,11 @@ using Stylet;
 
 namespace MaaWpfGui.Models
 {
-    public class ResourceUpdater
+    public static class ResourceUpdater
     {
         private const string MaaResourceApi = "https://ota.maa.plus/MaaAssistantArknights/MaaAssistantArknights/";
 
-        private static readonly List<string> MaaSingleFiles = new List<string>
+        private static readonly List<string> _maaSingleFiles = new List<string>
         {
             "resource/Arknights-Tile-Pos/overview.json",
             "resource/battle_data.json",
@@ -36,7 +36,7 @@ namespace MaaWpfGui.Models
             "resource/global/YoStarKR/resource/version.json",
         };
 
-        private static readonly string MaaDynamicFilesIndex = "resource/dynamic_list.txt";
+        private const string MaaDynamicFilesIndex = "resource/dynamic_list.txt";
 
         public enum UpdateResult
         {
@@ -63,15 +63,16 @@ namespace MaaWpfGui.Models
         {
             _updating = false;
 
-            var ret1 = await updateSingleFiles();
-            var ret2 = await updateFilesWithIndex();
+            var ret1 = await UpdateSingleFiles();
+            var ret2 = await UpdateFilesWithIndex();
             ETagCache.Save();
 
             if (ret1 == UpdateResult.Failed || ret2 == UpdateResult.Failed)
             {
                 return UpdateResult.Failed;
             }
-            else if (ret1 == UpdateResult.Success || ret2 == UpdateResult.Success)
+
+            if (ret1 == UpdateResult.Success || ret2 == UpdateResult.Success)
             {
                 return UpdateResult.Success;
             }
@@ -79,11 +80,11 @@ namespace MaaWpfGui.Models
             return UpdateResult.NotModified;
         }
 
-        private static async Task<UpdateResult> updateSingleFiles()
+        private static async Task<UpdateResult> UpdateSingleFiles()
         {
             UpdateResult ret = UpdateResult.NotModified;
 
-            foreach (var file in MaaSingleFiles)
+            foreach (var file in _maaSingleFiles)
             {
                 var sRet = await UpdateFileWithETag(MaaResourceApi, file, file);
 
@@ -103,7 +104,7 @@ namespace MaaWpfGui.Models
 
         // 地图文件、掉落材料的图片、基建技能图片
         // 这些文件数量不固定，需要先获取索引文件，再根据索引文件下载
-        private static async Task<UpdateResult> updateFilesWithIndex()
+        private static async Task<UpdateResult> UpdateFilesWithIndex()
         {
             var indexSRet = await UpdateFileWithETag(MaaResourceApi, MaaDynamicFilesIndex, MaaDynamicFilesIndex);
             if (indexSRet == UpdateResult.Failed || indexSRet == UpdateResult.NotModified)
@@ -114,7 +115,12 @@ namespace MaaWpfGui.Models
             var ret = UpdateResult.NotModified;
             var context = File.ReadAllText(Path.Combine(Environment.CurrentDirectory, MaaDynamicFilesIndex));
 
-            context.Split('\n').ToList().ForEach(async file =>
+            context.Split('\n').ToList().ForEach(Action);
+
+            return ret;
+
+            // lambda 避免使用异步，任何未被 lambda 处理的异常都可能导致进程崩溃
+            async void Action(string file)
             {
                 if (string.IsNullOrEmpty(file))
                 {
@@ -138,14 +144,12 @@ namespace MaaWpfGui.Models
                 {
                     ret = UpdateResult.Success;
                 }
-            });
-
-            return ret;
+            }
         }
 
         private static bool _updating;
 
-        public static async Task<UpdateResult> UpdateFileWithETag(string baseUrl, string file, string saveTo)
+        private static async Task<UpdateResult> UpdateFileWithETag(string baseUrl, string file, string saveTo)
         {
             saveTo = Path.Combine(Environment.CurrentDirectory, saveTo);
             var url = baseUrl + file;

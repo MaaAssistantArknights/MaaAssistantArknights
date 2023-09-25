@@ -422,11 +422,12 @@ void Assistant::working_proc()
         if (m_tasks_list.empty()) {
             callback_json["finished_tasks"] = json::array(finished_tasks);
 
-            const auto& sanity_str = status()->get_str(Status::FightSanityReport);
-            if (sanity_str) {
-                auto sanity_array = json::array(json::parse(*sanity_str).value_or(json::value(json::array())));
-                // ["100/135", "2023-09-01 09:31:53.527"]
-                callback_json["sanity"] = sanity_array;
+            if (auto sanity_report = status()->get_str(Status::FightSanityReport);
+                sanity_report && !sanity_report.value().empty()) {
+                if (auto report_json = json::parse(sanity_report.value()); report_json) {
+                    // { "current_sanity": 100, "max_sanity": 135, "report_time": "2023-09-01 09:31:53.527" }
+                    callback_json["sanity_report"] = report_json.value();
+                }
             }
 
             append_callback(AsstMsg::AllTasksCompleted, callback_json);
