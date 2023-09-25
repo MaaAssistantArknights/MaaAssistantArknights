@@ -1,5 +1,6 @@
 #include "SanityBeforeStagePlugin.h"
 
+#include <charconv>
 #include <regex>
 
 #include "Config/TaskData.h"
@@ -92,8 +93,9 @@ void asst::SanityBeforeStagePlugin::get_sanity_before_stage()
         if (std::from_chars(text.data() + slash_pos + 1, text.data() + text.length(), sanity_max).ec != std::errc()) {
             break;
         }
-        // [100, 135, "2023-09-01 09:31:53.527"]
-        sanity_report_str = json::array { sanity_cur, sanity_max, utils::get_format_time() }.dumps();
+        sanity_report_str = json::object {
+            { "current_sanity", sanity_cur }, { "max_sanity", sanity_cur }, { "report_time", utils::get_format_time() }
+        }.dumps();
     } while (false);
     status()->set_str(Status::FightSanityReport, sanity_report_str);
 }

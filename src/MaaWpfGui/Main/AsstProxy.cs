@@ -589,7 +589,7 @@ namespace MaaWpfGui.Main
                 case AsstMsg.AllTasksCompleted:
                     bool isMainTaskQueueAllCompleted = true;
                     var finished_tasks = details["finished_tasks"] as JArray;
-                    var sanity_report = details["sanity"] as JArray;
+                    var sanity_report = details["sanity_report"] as JObject;
                     if (finished_tasks?.Count == 1)
                     {
                         var unique_finished_task = (AsstTaskId)finished_tasks[0];
@@ -616,29 +616,22 @@ namespace MaaWpfGui.Main
                         bool isSanityForecastSucc = false;
                         DateTimeOffset reportTime = default;
                         TimeSpan timeDiff = TimeSpan.Zero;
-                        do
+                        try
                         {
-                            if (sanity_report?.Count != 3 || sanity_report.Any(i => i == null))
+                            int current_sanity = (int)sanity_report["current_sanity"];
+                            int max_sanity = (int)sanity_report["max_sanity"];
+                            string report_time = sanity_report["report_time"].ToString();
+                            if (current_sanity >= 0 && max_sanity > 1)
                             {
-                                break;
+                                timeDiff = new TimeSpan(0, current_sanity < max_sanity ? (max_sanity - current_sanity) * 6 : 0, 0);
+                                reportTime = DateTimeOffset.Parse(report_time).AddMinutes(timeDiff.TotalMinutes);
+                                isSanityForecastSucc = true;
                             }
-
-                            if (!sanity_report.Select(i => i.Type).SequenceEqual(new[] { JTokenType.Integer, JTokenType.Integer, JTokenType.String }))
-                            {
-                                break;
-                            }
-
-                            int[] sanity = sanity_report.Take(2).Select(i => (int)i).ToArray();
-                            if (sanity[0] < 0 || sanity[1] <= 1)
-                            {
-                                break;
-                            }
-
-                            timeDiff = new TimeSpan(0, sanity[0] < sanity[1] ? (sanity[1] - sanity[0]) * 6 : 0, 0);
-                            reportTime = DateTimeOffset.Parse((string)sanity_report[2]).AddMinutes(timeDiff.TotalMinutes);
-                            isSanityForecastSucc = true;
                         }
-                        while (false);
+                        catch
+                        {
+                            _logger.Information($"Failed to parse sanity report {sanity_report}");
+                        }
 
                         var allTaskCompleteTitle = LocalizationHelper.GetString("AllTasksComplete");
                         var allTaskCompleteMessage = LocalizationHelper.GetString("AllTaskCompleteContent");
