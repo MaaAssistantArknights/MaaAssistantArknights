@@ -157,6 +157,7 @@ namespace MaaWpfGui.Helper
         /// </summary>
         /// <param name="key">The configuration key.</param>
         /// <returns>The return value of <see cref="Save"/>.</returns>
+        // ReSharper disable once UnusedMember.Global
         public static bool DeleteValue(string key)
         {
             lock (_lock)
