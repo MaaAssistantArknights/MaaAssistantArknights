@@ -75,24 +75,25 @@ void asst::SanityBeforeStagePlugin::get_sanity_before_stage()
     sanity_info["details"]["sanity"] = text;
     callback(AsstMsg::SubTaskExtraInfo, sanity_info);
 
-    if (text.find('/') &&
-        ranges::all_of(text.cbegin(), text.cend(), [](const char& c) { return c == '/' || (c >= '0' && c <= '9'); })) {
-        std::string sanity_cur = text.substr(0, text.find('/'));
-        std::string sanity_max = text.substr(text.find('/') + 1);
+    std::string sanity_report_str = std::string();
+    do {
+        auto slash_pos = text.find('/');
+        if (slash_pos == std::string::npos) {
+            break;
+        }
+        if (ranges::any_of(text, [](const char& c) { return c != '/' && !isdigit(c); })) {
+            break;
+        }
 
-        if (!sanity_cur.empty() && !sanity_max.empty()) {
-            // [100, 135, "2023-09-01 09:31:53.527"]
-            auto value = json::array();
-            value.emplace_back(std::stoi(sanity_cur));
-            value.emplace_back(std::stoi(sanity_max));
-            value.emplace_back(utils::get_format_time());
-            status()->set_str(Status::FightSanityReport, value.dumps());
+        int sanity_cur = 0, sanity_max = 0;
+        if (std::from_chars(text.data(), text.data() + slash_pos, sanity_cur).ec != std::errc()) {
+            break;
         }
-        else {
-            status()->set_str(Status::FightSanityReport, std::string());
+        if (std::from_chars(text.data() + slash_pos + 1, text.data() + text.length(), sanity_max).ec != std::errc()) {
+            break;
         }
-    }
-    else {
-        status()->set_str(Status::FightSanityReport, std::string());
-    }
+        // [100, 135, "2023-09-01 09:31:53.527"]
+        sanity_report_str = json::array { sanity_cur, sanity_max, utils::get_format_time() }.dumps();
+    } while (false);
+    status()->set_str(Status::FightSanityReport, sanity_report_str);
 }
