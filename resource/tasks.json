@@ -9301,16 +9301,8 @@
         ]
     },
     "Roguelike@RecruitWithoutButton": {
-        "template": "Roguelike@RecruitWithoutButton.png",
-        "templThreshold": 0.5,
-        "action": "ClickRect",
-        "roi": [
-            215,
-            338,
-            1035,
-            231
-        ],
-        "maskRange": [ 1, 255 ],
+        "algorithm": "JustReturn",
+        "action": "ClickRect",        
         "specificRect": [
             1180,
             15,
@@ -10430,8 +10422,7 @@
     "Phantom@Roguelike@RecruitOther": {
         "template": "Phantom@Roguelike@Recruit.png"
     },
-    "Phantom@Roguelike@RecruitWithoutButton": {
-        "template": "Roguelike@RecruitWithoutButton.png",
+    "Phantom@Roguelike@RecruitWithoutButton": {        
         "next": [
             "Phantom@Roguelike@RecruitOther",
             "Phantom@Roguelike@EnterAfterRecruit",
@@ -10581,14 +10572,14 @@
     },
     "Mizuki@Roguelike@ChooseOper": {
         "onErrorNext": [
-            "Mizuki@Roguelike@Begin"
+            "Mizuki@Roguelike@RecruitWithoutButton"
         ],
         "next": [
             "Mizuki@Roguelike@CloseCollectionContinue",
             "Mizuki@Roguelike@CloseCollectionClose",
             "Mizuki@Roguelike@ChooseOperConfirm",
             "Mizuki@Roguelike@RecruitSkip",
-            "Mizuki@Roguelike@RecruitWithoutButton"
+            "Mizuki@Roguelike@ReturnTo"
         ]
     },
     "Mizuki@Roguelike@CloseCollection": {
@@ -10942,7 +10933,6 @@
         "template": "Mizuki@Roguelike@Recruit.png"
     },
     "Mizuki@Roguelike@RecruitWithoutButton": {
-        "template": "Roguelike@RecruitWithoutButton.png",
         "next": [
             "Mizuki@Roguelike@RecruitOther",
             "Mizuki@Roguelike@EnterAfterRecruit",
@@ -11172,13 +11162,13 @@
     },
     "Sami@Roguelike@ChooseOper": {
         "onErrorNext": [
-            "Sami@Roguelike@Begin"
+            "Sami@Roguelike@RecruitWithoutButton"
         ],
         "next": [
             "Sami@Roguelike@CloseCollectionClose",
             "Sami@Roguelike@ChooseOperConfirm",
             "Sami@Roguelike@RecruitSkip",
-            "Sami@Roguelike@RecruitWithoutButton"
+            "Sami@Roguelike@ReturnTo"
         ]
     },
     "Sami@Roguelike@CloseCollection": {
@@ -11573,7 +11563,6 @@
         "templThreshold": 0.8
     },
     "Sami@Roguelike@RecruitWithoutButton": {
-        "template": "Roguelike@RecruitWithoutButton.png",
         "next": [
             "Sami@Roguelike@RecruitOther",
             "Sami@Roguelike@EnterAfterRecruit",
