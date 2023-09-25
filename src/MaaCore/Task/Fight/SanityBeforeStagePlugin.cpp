@@ -33,7 +33,7 @@ bool asst::SanityBeforeStagePlugin::_run()
 {
     LogTraceFunction;
 
-    get_sanity();
+    get_sanity_before_stage();
 
     return true;
 }
@@ -41,7 +41,7 @@ bool asst::SanityBeforeStagePlugin::_run()
 /// <summary>
 /// 获取 当前理智/最大理智
 /// </summary>
-void asst::SanityBeforeStagePlugin::get_sanity()
+void asst::SanityBeforeStagePlugin::get_sanity_before_stage()
 {
     LogTraceFunction;
 
@@ -75,8 +75,24 @@ void asst::SanityBeforeStagePlugin::get_sanity()
     sanity_info["details"]["sanity"] = text;
     callback(AsstMsg::SubTaskExtraInfo, sanity_info);
 
-    json::array value;
-    value.emplace_back(std::move(text));
-    value.emplace_back(utils::get_format_time());
-    status()->set_str(Status::FightSanityReport, value.dumps());
+    if (text.find('/') &&
+        ranges::all_of(text.cbegin(), text.cend(), [](const char& c) { return c == '/' || (c >= '0' && c <= '9'); })) {
+        std::string sanity_cur = text.substr(0, text.find('/'));
+        std::string sanity_max = text.substr(text.find('/') + 1);
+
+        if (!sanity_cur.empty() && !sanity_max.empty()) {
+            // [100, 135, "2023-09-01 09:31:53.527"]
+            auto value = json::array();
+            value.emplace_back(std::stoi(sanity_cur));
+            value.emplace_back(std::stoi(sanity_max));
+            value.emplace_back(utils::get_format_time());
+            status()->set_str(Status::FightSanityReport, value.dumps());
+        }
+        else {
+            status()->set_str(Status::FightSanityReport, std::string());
+        }
+    }
+    else {
+        status()->set_str(Status::FightSanityReport, std::string());
+    }
 }
