@@ -589,7 +589,7 @@ namespace MaaWpfGui.Main
                 case AsstMsg.AllTasksCompleted:
                     bool isMainTaskQueueAllCompleted = true;
                     var finished_tasks = details["finished_tasks"] as JArray;
-                    var sanity_report = details["sanity"]?.ToObject<string[]>();
+                    var sanity_report = details["sanity_report"] as JObject;
                     if (finished_tasks?.Count == 1)
                     {
                         var unique_finished_task = (AsstTaskId)finished_tasks[0];
@@ -616,35 +616,22 @@ namespace MaaWpfGui.Main
                         bool isSanityForecastSucc = false;
                         DateTimeOffset reportTime = default;
                         TimeSpan timeDiff = TimeSpan.Zero;
-                        do
+                        try
                         {
-                            if (sanity_report?.Length != 2 || !sanity_report[0].Contains("/"))
+                            int current_sanity = (int)sanity_report["current_sanity"];
+                            int max_sanity = (int)sanity_report["max_sanity"];
+                            string report_time = sanity_report["report_time"].ToString();
+                            if (current_sanity >= 0 && max_sanity > 1)
                             {
-                                break;
+                                timeDiff = new TimeSpan(0, current_sanity < max_sanity ? (max_sanity - current_sanity) * 6 : 0, 0);
+                                reportTime = DateTimeOffset.Parse(report_time).AddMinutes(timeDiff.TotalMinutes);
+                                isSanityForecastSucc = true;
                             }
-
-                            // 被污染了直接抛弃
-                            int[] sanity = sanity_report[0].Split('/').Select(i =>
-                            {
-                                try
-                                {
-                                    return Convert.ToInt32(i);
-                                }
-                                catch (FormatException)
-                                {
-                                    return -1;
-                                }
-                            }).ToArray();
-                            if (sanity.Length != 2 || sanity[0] < 0 || sanity[1] <= 1)
-                            {
-                                break;
-                            }
-
-                            timeDiff = new TimeSpan(0, sanity[0] < sanity[1] ? (sanity[1] - sanity[0]) * 6 : 0, 0);
-                            reportTime = DateTimeOffset.Parse(sanity_report[1]).AddMinutes(timeDiff.TotalMinutes);
-                            isSanityForecastSucc = true;
                         }
-                        while (false);
+                        catch
+                        {
+                            _logger.Information($"Failed to parse sanity report {sanity_report}");
+                        }
 
                         var allTaskCompleteTitle = LocalizationHelper.GetString("AllTasksComplete");
                         var allTaskCompleteMessage = LocalizationHelper.GetString("AllTaskCompleteContent");
