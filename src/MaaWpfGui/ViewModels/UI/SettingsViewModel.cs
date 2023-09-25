@@ -1786,18 +1786,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _roguelikeRefreshTraderWithDiceEnabled = false;
-
-        public bool RoguelikeRefreshTraderWithDiceEnabled
-        {
-            get => _roguelikeRefreshTraderWithDiceEnabled;
-            set
-            {
-                SetAndNotify(ref _roguelikeRefreshTraderWithDiceEnabled, value);
-                RoguelikeRefreshTraderWithDice = false;
-            }
-        }
-
         private string _roguelikeInvestsCount = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeInvestsCount, "9999999");
 
         /// <summary>
@@ -3587,7 +3575,6 @@ namespace MaaWpfGui.ViewModels.UI
             switch (RoguelikeTheme)
             {
                 case "Phantom":
-                    RoguelikeRefreshTraderWithDiceEnabled = false;
 
                     foreach (var item in new ObservableCollection<CombinedData>
                     {
@@ -3600,7 +3587,6 @@ namespace MaaWpfGui.ViewModels.UI
                     break;
 
                 case "Mizuki":
-                    RoguelikeRefreshTraderWithDiceEnabled = true;
 
                     foreach (var item in new ObservableCollection<CombinedData>
                     {
@@ -3616,7 +3602,6 @@ namespace MaaWpfGui.ViewModels.UI
                     break;
 
                 case "Sami":
-                    RoguelikeRefreshTraderWithDiceEnabled = false;
 
                     foreach (var item in new ObservableCollection<CombinedData>
                     {

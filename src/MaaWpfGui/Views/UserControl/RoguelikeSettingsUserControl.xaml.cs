@@ -13,6 +13,7 @@
 using System;
 using System.Globalization;
 using System.Reflection;
+using System.Windows;
 using System.Windows.Data;
 
 namespace MaaWpfGui.Views.UserControl
@@ -76,6 +77,22 @@ namespace MaaWpfGui.Views.UserControl
         {
             bool isEnabled = (bool)value;
             return new object[] { isEnabled, isEnabled };
+        }
+    }
+
+    public class RefreshTraderWithDiceVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string RoguelikeTheme = System.Convert.ToString(value);
+            if (RoguelikeTheme == "Mizuki")
+                return System.Windows.Visibility.Visible;
+            return System.Windows.Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotSupportedException();
         }
     }
 
