@@ -657,7 +657,7 @@ namespace MaaWpfGui.Main
                             .Replace("{Preset}", configurationPreset);
                         if (isSanityForecastSucc)
                         {
-                            sanityReport = sanityReport.Replace("{DateTime}", reportTime.ToString("T")).Replace("{TimeDiffH}", timeDiff.Hours.ToString()).Replace("{TimeDiffM}", timeDiff.Minutes.ToString());
+                            sanityReport = sanityReport.Replace("{DateTime}", reportTime.ToString("yyyy-MM-dd HH:mm")).Replace("{TimeDiff}", timeDiff.ToString(@"h\h\ m\m"));
 
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AllTasksComplete") + Environment.NewLine + sanityReport);
                             ExternalNotificationService.Send(allTaskCompleteTitle, allTaskCompleteMessage + Environment.NewLine + sanityReport);
