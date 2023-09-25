@@ -589,7 +589,7 @@ namespace MaaWpfGui.Main
                 case AsstMsg.AllTasksCompleted:
                     bool isMainTaskQueueAllCompleted = true;
                     var finished_tasks = details["finished_tasks"] as JArray;
-                    var sanity_report = details["sanity"]?.ToObject<string[]>();
+                    var sanity_report = details["sanity"] as JArray;
                     if (finished_tasks?.Count == 1)
                     {
                         var unique_finished_task = (AsstTaskId)finished_tasks[0];
@@ -618,30 +618,19 @@ namespace MaaWpfGui.Main
                         TimeSpan timeDiff = TimeSpan.Zero;
                         do
                         {
-                            if (sanity_report?.Length != 2 || !sanity_report[0].Contains("/"))
+                            if (sanity_report?.Count != 3 || sanity_report.Any(i => i == null))
                             {
                                 break;
                             }
 
-                            // 被污染了直接抛弃
-                            int[] sanity = sanity_report[0].Split('/').Select(i =>
-                            {
-                                try
-                                {
-                                    return Convert.ToInt32(i);
-                                }
-                                catch (FormatException)
-                                {
-                                    return -1;
-                                }
-                            }).ToArray();
-                            if (sanity.Length != 2 || sanity[0] < 0 || sanity[1] <= 1)
+                            int[] sanity = sanity_report.Take(2).Select(i => (int)i).ToArray();
+                            if (sanity[0] < 0 || sanity[1] <= 1)
                             {
                                 break;
                             }
 
                             timeDiff = new TimeSpan(0, sanity[0] < sanity[1] ? (sanity[1] - sanity[0]) * 6 : 0, 0);
-                            reportTime = DateTimeOffset.Parse(sanity_report[1]).AddMinutes(timeDiff.TotalMinutes);
+                            reportTime = DateTimeOffset.Parse((string)sanity_report[2]).AddMinutes(timeDiff.TotalMinutes);
                             isSanityForecastSucc = true;
                         }
                         while (false);
