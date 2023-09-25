@@ -9290,7 +9290,6 @@
             180,
             150
         ],
-        "postDelay": 1000,
         "next": [
             "Roguelike@RecruitSkip",
             "Roguelike@RecruitOther",
