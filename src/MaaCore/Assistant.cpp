@@ -423,7 +423,7 @@ void Assistant::working_proc()
             callback_json["finished_tasks"] = json::array(finished_tasks);
 
             const auto& sanity_report = status()->get_str(Status::FightSanityReport);
-            if (sanity_report) {
+            if (sanity_report && !sanity_report.value().empty()) {
                 // [100, 135, "2023-09-01 09:31:53.527"]
                 auto sanity_array = json::array(json::parse(*sanity_report).value_or(json::value(json::array())));
                 callback_json["sanity"] = sanity_array;
