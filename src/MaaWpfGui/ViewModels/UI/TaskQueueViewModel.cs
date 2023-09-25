@@ -977,9 +977,6 @@ namespace MaaWpfGui.ViewModels.UI
                 AddLog(LocalizationHelper.GetString("AdbReplacementTips"), UiLogColor.Info);
             }
 
-            string errMsg = string.Empty;
-            bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
-
             // 一般是点了“停止”按钮了
             if (Stopping)
             {
@@ -1190,7 +1187,7 @@ namespace MaaWpfGui.ViewModels.UI
                 Instances.SettingsViewModel.CreditForceShoppingIfCreditFull);
         }
 
-        private bool AppendAward()
+        private static bool AppendAward()
         {
             var receiveAward = Instances.SettingsViewModel.ReceiveAward;
             var receiveMail = Instances.SettingsViewModel.ReceiveMail;
