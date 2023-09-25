@@ -9290,6 +9290,7 @@
             180,
             150
         ],
+        "postDelay": 1000,
         "next": [
             "Roguelike@RecruitSkip",
             "Roguelike@RecruitOther",
@@ -9302,7 +9303,7 @@
     },
     "Roguelike@RecruitWithoutButton": {
         "template": "Roguelike@RecruitWithoutButton.png",
-        "templThreshold": 0.55,
+        "templThreshold": 0.5,
         "action": "ClickRect",
         "roi": [
             215,
