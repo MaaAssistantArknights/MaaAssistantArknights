@@ -449,7 +449,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// 检查更新，并下载更新包。
         /// </summary>
         /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
-        public async Task<CheckUpdateRetT> CheckAndDownloadVersionUpdate()
+        private async Task<CheckUpdateRetT> CheckAndDownloadVersionUpdate()
         {
             var checkResult = await CheckUpdateInner();
 
