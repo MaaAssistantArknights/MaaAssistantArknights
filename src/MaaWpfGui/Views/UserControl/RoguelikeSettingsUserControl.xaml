@@ -63,7 +63,7 @@
                 Name="InvestmentEnabled"
                 Margin="0,10"
                 Content="{DynamicResource InvestmentEnabled}"
-                IsEnabled="{c:Binding '!(RoguelikeMode == &quot;1&quot; or RoguelikeMode == &quot;4&quot;)'}">
+                IsEnabled="{c:Binding 'RoguelikeMode != &quot;1&quot;'}">
                 <CheckBox.IsChecked>
                     <MultiBinding Converter="{StaticResource InvestmentButtonCheckedConverter}">
                         <Binding Path="RoguelikeInvestmentEnabled"/>
@@ -75,7 +75,7 @@
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding RoguelikeStopWhenInvestmentFull}"
-                IsEnabled="{Binding ElementName=InvestmentEnabled, Path=IsChecked}">
+                Visibility="{c:Binding ElementName=InvestmentEnabled, Path=IsChecked}">
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource StopOnGoldLimit}"
@@ -84,7 +84,7 @@
             <hc:NumericUpDown
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource GoldTimesLimit}"
-                IsEnabled="{Binding ElementName=InvestmentEnabled, Path=IsChecked}"
+                Visibility="{c:Binding ElementName=InvestmentEnabled, Path=IsChecked}"
                 Style="{StaticResource NumericUpDownExtend}"
                 ValueChanged="NumericUpDown_ValueChanged"
                 Value="{Binding RoguelikeInvestsCount}" />
