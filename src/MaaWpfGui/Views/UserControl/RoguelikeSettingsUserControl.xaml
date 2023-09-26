@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:local="clr-namespace:MaaWpfGui.Views.UserControl"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:styles="clr-namespace:MaaWpfGui.Styles"
@@ -16,6 +17,9 @@
     d:DataContext="{d:DesignInstance {x:Type ui:SettingsViewModel}}"
     d:DesignWidth="220"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <local:InvestmentButtonCheckedConverter x:Key="InvestmentButtonCheckedConverter" />
+    </UserControl.Resources>
     <StackPanel>
         <StackPanel IsEnabled="{Binding Idle}" Visibility="{c:Binding !TaskSettingVisibilities.EnableAdvancedSettings}">
             <ComboBox
@@ -56,14 +60,22 @@
                 ValueChanged="NumericUpDown_ValueChanged"
                 Value="{Binding RoguelikeStartsCount}" />
             <CheckBox
+                Name="InvestmentEnabled"
                 Margin="0,10"
                 Content="{DynamicResource InvestmentEnabled}"
-                Visibility="{c:Binding 'RoguelikeMode != &quot;1&quot;'}"
-                IsChecked="{Binding RoguelikeInvestmentEnabled}"/>
+                IsEnabled="{c:Binding '!(RoguelikeMode == &quot;1&quot; or RoguelikeMode == &quot;4&quot;)'}">
+                <CheckBox.IsChecked>
+                    <MultiBinding Converter="{StaticResource InvestmentButtonCheckedConverter}">
+                        <Binding Path="RoguelikeInvestmentEnabled"/>
+                        <Binding Path="RoguelikeMode"/>
+                    </MultiBinding>
+                </CheckBox.IsChecked>
+            </CheckBox> 
+
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding RoguelikeStopWhenInvestmentFull}"
-                IsEnabled="{c:Binding 'RoguelikeInvestmentEnabled or RoguelikeMode == &quot;1&quot;'}">
+                IsEnabled="{Binding ElementName=InvestmentEnabled, Path=IsChecked}">
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource StopOnGoldLimit}"
@@ -72,7 +84,7 @@
             <hc:NumericUpDown
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource GoldTimesLimit}"
-                IsEnabled="{c:Binding 'RoguelikeInvestmentEnabled or RoguelikeMode == &quot;1&quot;'}"
+                IsEnabled="{Binding ElementName=InvestmentEnabled, Path=IsChecked}"
                 Style="{StaticResource NumericUpDownExtend}"
                 ValueChanged="NumericUpDown_ValueChanged"
                 Value="{Binding RoguelikeInvestsCount}" />
