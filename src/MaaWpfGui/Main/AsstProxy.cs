@@ -616,21 +616,22 @@ namespace MaaWpfGui.Main
                         bool isSanityForecastSucc = false;
                         DateTimeOffset reportTime = default;
                         TimeSpan timeDiff = TimeSpan.Zero;
-                        try
+
+                        if (sanity_report != null)
                         {
-                            int current_sanity = (int)sanity_report["current_sanity"];
-                            int max_sanity = (int)sanity_report["max_sanity"];
-                            string report_time = sanity_report["report_time"].ToString();
-                            if (current_sanity >= 0 && max_sanity > 1)
+                            int current_sanity = sanity_report["current_sanity"]?.ToObject<int>() ?? -1;
+                            int max_sanity = sanity_report["max_sanity"]?.ToObject<int>() ?? -1;
+                            string report_time = sanity_report["report_time"]?.ToString();
+                            if (current_sanity >= 0 && max_sanity > 1 && DateTimeOffset.TryParse(report_time, out var reportTimeParsed))
                             {
                                 timeDiff = new TimeSpan(0, current_sanity < max_sanity ? (max_sanity - current_sanity) * 6 : 0, 0);
-                                reportTime = DateTimeOffset.Parse(report_time).AddMinutes(timeDiff.TotalMinutes);
+                                reportTime = reportTimeParsed.AddMinutes(timeDiff.TotalMinutes);
                                 isSanityForecastSucc = true;
                             }
-                        }
-                        catch
-                        {
-                            _logger.Information($"Failed to parse sanity report {sanity_report}");
+                            else
+                            {
+                                _logger.Information($"Failed to parse sanity report {sanity_report}");
+                            }
                         }
 
                         var allTaskCompleteTitle = LocalizationHelper.GetString("AllTasksComplete");
