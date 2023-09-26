@@ -30,8 +30,7 @@
                 SelectedValue="{Binding RoguelikeTheme}"
                 SelectedValuePath="Value"
                 Style="{StaticResource ComboBoxExtend}" />
-            <ComboBox 
-                Name="RoguelikeStrategy"
+            <ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource Strategy}"
                 DisplayMemberPath="Display"
