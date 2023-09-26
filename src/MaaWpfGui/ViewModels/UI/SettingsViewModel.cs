@@ -1743,10 +1743,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public bool RoguelikeInvestmentEnabled
         {
-            get
-            {
-                return bool.Parse(_roguelikeInvestmentEnabled) || _roguelikeMode == "1";
-            }
+            get => bool.Parse(_roguelikeInvestmentEnabled);
             set
             {
                 SetAndNotify(ref _roguelikeInvestmentEnabled, value.ToString());
@@ -1758,10 +1755,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public bool RoguelikeRefreshTraderWithDice
         {
-            get
-            {
-                return bool.Parse(_roguelikeRefreshTraderWithDice) && _roguelikeTheme == "Mizuki";
-            }
+            get => bool.Parse(_roguelikeRefreshTraderWithDice);
             set
             {
                 SetAndNotify(ref _roguelikeRefreshTraderWithDice, value.ToString());
