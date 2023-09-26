@@ -1074,10 +1074,13 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 foreach (var stage in new[] { Stage1, Stage2, Stage3 })
                 {
-                    if (IsStageOpen(stage) && (stage != curStage))
+                    if (!IsStageOpen(stage) || (stage == curStage))
                     {
-                        mainFightRet = Instances.AsstProxy.AsstAppendFight(stage, medicine, 0, int.MaxValue, string.Empty, 0);
+                        continue;
                     }
+
+                    mainFightRet = Instances.AsstProxy.AsstAppendFight(stage, medicine, 0, int.MaxValue, string.Empty, 0);
+                    break;
                 }
             }
 
