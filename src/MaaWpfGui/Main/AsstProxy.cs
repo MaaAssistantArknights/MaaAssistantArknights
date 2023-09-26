@@ -649,7 +649,7 @@ namespace MaaWpfGui.Main
                         {
                             if (SanityReport.HasSanityReport)
                             {
-                                toast.AppendContentText(sanityReportStr);
+                                toast.AppendContentText(sanityReport);
                             }
 
                             toast.Show();
