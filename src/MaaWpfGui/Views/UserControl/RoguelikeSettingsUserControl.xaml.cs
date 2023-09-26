@@ -13,7 +13,6 @@
 using System;
 using System.Globalization;
 using System.Reflection;
-using System.Windows;
 using System.Windows.Data;
 
 namespace MaaWpfGui.Views.UserControl
