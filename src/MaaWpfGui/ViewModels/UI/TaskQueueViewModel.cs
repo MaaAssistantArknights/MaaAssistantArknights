@@ -137,6 +137,10 @@ namespace MaaWpfGui.ViewModels.UI
         {
             Idle = e;
             TaskSettingDataContext.Idle = e;
+            if (!e)
+            {
+                Instances.Data.ClearCache();
+            }
         }
 
         protected override void OnInitialActivate()
