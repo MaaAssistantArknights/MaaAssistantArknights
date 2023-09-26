@@ -641,7 +641,7 @@ namespace MaaWpfGui.Main
                         var configurationPreset = ConfigurationHelper.GetCurrentConfiguration();
 
                         allTaskCompleteMessage = allTaskCompleteMessage
-                            .Replace("{DateTime}", DateTime.Now.ToString("U"))
+                            .Replace("{DateTime}", DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss"))
                             .Replace("{Preset}", configurationPreset);
                         if (isSanityForecastSucc)
                         {
