@@ -21,7 +21,7 @@ namespace MaaWpfGui.Extensions
 {
     public static class DateTimeExtension
     {
-        private static readonly int _yjDayStartHour = 4;
+        private const int YjDayStartHour = 4;
 
         private static string ClientType => ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty);
 
@@ -38,7 +38,7 @@ namespace MaaWpfGui.Extensions
 
         public static DateTime ToYjDateTime(this DateTime dt)
         {
-            return dt.AddHours(_clientTypeTimezone[ClientType] - _yjDayStartHour);
+            return dt.AddHours(_clientTypeTimezone[ClientType] - YjDayStartHour);
         }
 
         public static DateTime ToYjDate(this DateTime dt)
