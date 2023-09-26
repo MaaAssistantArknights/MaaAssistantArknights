@@ -1441,12 +1441,12 @@ namespace MaaWpfGui.Main
         /// 刷理智。
         /// </summary>
         /// <param name="stage">关卡名。</param>
-        /// <param name="max_medicine">最大使用理智药数量。</param>
-        /// <param name="max_stone">最大吃石头数量。</param>
-        /// <param name="max_times">指定次数。</param>
-        /// <param name="drops_item_id">指定掉落 ID。</param>
-        /// <param name="drops_item_quantity">指定掉落数量。</param>
-        /// <param name="is_main_fight">是否是主任务，决定c#侧是否记录任务id</param>
+        /// <param name="maxMedicine">最大使用理智药数量。</param>
+        /// <param name="maxStone">最大吃石头数量。</param>
+        /// <param name="maxTimes">指定次数。</param>
+        /// <param name="dropsItemId">指定掉落 ID。</param>
+        /// <param name="dropsItemQuantity">指定掉落数量。</param>
+        /// <param name="isMainFight">是否是主任务，决定c#侧是否记录任务id</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendFight(string stage, int maxMedicine, int maxStone, int maxTimes, string dropsItemId, int dropsItemQuantity, bool isMainFight = true)
         {
@@ -1468,12 +1468,12 @@ namespace MaaWpfGui.Main
         /// 设置刷理智任务参数。
         /// </summary>
         /// <param name="stage">关卡名。</param>
-        /// <param name="max_medicine">最大使用理智药数量。</param>
-        /// <param name="max_stone">最大吃石头数量。</param>
-        /// <param name="max_times">指定次数。</param>
-        /// <param name="drops_item_id">指定掉落 ID。</param>
-        /// <param name="drops_item_quantity">指定掉落数量。</param>
-        /// <param name="is_main_fight">是否是主任务，决定c#侧是否记录任务id</param>
+        /// <param name="maxMedicine">最大使用理智药数量。</param>
+        /// <param name="maxStone">最大吃石头数量。</param>
+        /// <param name="maxTimes">指定次数。</param>
+        /// <param name="dropsItemId">指定掉落 ID。</param>
+        /// <param name="dropsItemQuantity">指定掉落数量。</param>
+        /// <param name="isMainFight">是否是主任务，决定c#侧是否记录任务id</param>
         /// <returns>是否成功。</returns>
         public bool AsstSetFightTaskParams(string stage, int maxMedicine, int maxStone, int maxTimes, string dropsItemId, int dropsItemQuantity, bool isMainFight = true)
         {
@@ -1514,7 +1514,7 @@ namespace MaaWpfGui.Main
         /// <summary>
         /// 开始唤醒。
         /// </summary>
-        /// <param name="client_type">客户端版本。</param>
+        /// <param name="clientType">客户端版本。</param>
         /// <param name="enable">是否自动启动客户端。</param>
         /// <param name="accountName">需要切换到的登录名，留空以禁用</param>
         /// <returns>是否成功。</returns>
@@ -1551,11 +1551,11 @@ namespace MaaWpfGui.Main
         /// <summary>
         /// 领取信用及商店购物。
         /// </summary>
-        /// <param name="credit_fight">是否信用战斗。</param>
-        /// <param name="with_shopping">是否购物。</param>
-        /// <param name="first_list">优先购买列表。</param>
+        /// <param name="creditFight">是否信用战斗。</param>
+        /// <param name="withShopping">是否购物。</param>
+        /// <param name="firstList">优先购买列表。</param>
         /// <param name="blacklist">黑名单列表。</param>
-        /// <param name="force_shopping_if_credit_full">是否在信用溢出时无视黑名单</param>
+        /// <param name="forceShoppingIfCreditFull">是否在信用溢出时无视黑名单</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendMall(bool creditFight, bool withShopping, string[] firstList, string[] blacklist, bool forceShoppingIfCreditFull)
         {
@@ -1575,14 +1575,14 @@ namespace MaaWpfGui.Main
         /// <summary>
         /// 公开招募。
         /// </summary>
-        /// <param name="max_times">加急次数，仅在 <paramref name="use_expedited"/> 为 <see langword="true"/> 时有效。</param>
-        /// <param name="select_level">会去点击标签的 Tag 等级。</param>
-        /// <param name="confirm_level">会去点击确认的 Tag 等级。若仅公招计算，可设置为空数组。</param>
-        /// <param name="need_refresh">是否刷新三星 Tags。</param>
-        /// <param name="use_expedited">是否使用加急许可。</param>
-        /// <param name="skip_robot">是否在识别到小车词条时跳过。</param>
-        /// <param name="is_level3_use_short_time">三星Tag是否使用短时间（7:40）</param>
-        /// <param name="is_level3_use_short_time2">三星Tag是否使用短时间（1:00）</param>
+        /// <param name="maxTimes">加急次数，仅在 <paramref name="useExpedited"/> 为 <see langword="true"/> 时有效。</param>
+        /// <param name="selectLevel">会去点击标签的 Tag 等级。</param>
+        /// <param name="confirmLevel">会去点击确认的 Tag 等级。若仅公招计算，可设置为空数组。</param>
+        /// <param name="needRefresh">是否刷新三星 Tags。</param>
+        /// <param name="useExpedited">是否使用加急许可。</param>
+        /// <param name="skipRobot">是否在识别到小车词条时跳过。</param>
+        /// <param name="isLevel3UseShortTime">三星Tag是否使用短时间（7:40）</param>
+        /// <param name="isLevel3UseShortTime2">三星Tag是否使用短时间（1:00）</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRecruit(int maxTimes, int[] selectLevel, int[] confirmLevel, bool needRefresh, bool useExpedited,
             bool skipRobot, bool isLevel3UseShortTime, bool isLevel3UseShortTime2 = false)
@@ -1646,7 +1646,7 @@ namespace MaaWpfGui.Main
         /// 基建换班。
         /// </summary>
         /// <param name="order">要换班的设施（有序）。</param>
-        /// <param name="uses_of_drones">
+        /// <param name="usesOfDrones">
         /// 无人机用途。可用值包括：
         /// <list type="bullet">
         /// <item><c>_NotUse</c></item>
@@ -1658,13 +1658,13 @@ namespace MaaWpfGui.Main
         /// <item><c>Chip</c></item>
         /// </list>
         /// </param>
-        /// <param name="dorm_threshold">宿舍进驻心情阈值。</param>
-        /// <param name="dorm_filter_not_stationed_enabled">宿舍是否使用未进驻筛选标签</param>
-        /// <param name="dorm_dorm_trust_enabled">宿舍是否使用蹭信赖功能</param>
-        /// <param name="originium_shard_auto_replenishment">制造站搓玉是否补货</param>
-        /// <param name="is_custom">是否开启自定义配置</param>
+        /// <param name="dormThreshold">宿舍进驻心情阈值。</param>
+        /// <param name="dormFilterNotStationedEnabled">宿舍是否使用未进驻筛选标签</param>
+        /// <param name="dormDormTrustEnabled">宿舍是否使用蹭信赖功能</param>
+        /// <param name="originiumShardAutoReplenishment">制造站搓玉是否补货</param>
+        /// <param name="isCustom">是否开启自定义配置</param>
         /// <param name="filename">自定义配置文件路径</param>
-        /// <param name="plan_index">自定义配置计划编号</param>
+        /// <param name="planIndex">自定义配置计划编号</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendInfrast(string[] order, string usesOfDrones, double dormThreshold,
             bool dormFilterNotStationedEnabled, bool dormDormTrustEnabled, bool originiumShardAutoReplenishment,
@@ -1727,20 +1727,20 @@ namespace MaaWpfGui.Main
         /// </list>
         /// </param>
         /// <param name="starts">开始探索次数。</param>
-        /// <param name="investment_enabled">是否投资源石锭</param>
+        /// <param name="investmentEnabled">是否投资源石锭</param>
         /// <param name="invests">投资源石锭次数。</param>
-        /// <param name="stop_when_full">投资满了自动停止任务。</param>
+        /// <param name="stopWhenFull">投资满了自动停止任务。</param>
         /// <param name="squad"><paramref name="squad"/> TODO.</param>
         /// <param name="roles"><paramref name="roles"/> TODO.</param>
-        /// <param name="core_char"><paramref name="core_char"/> TODO.</param>
-        /// <param name="start_with_elite_two">是否凹开局直升</param>
-        /// <param name="use_support">是否core_char使用好友助战</param>
-        /// <param name="enable_nonfriend_support">是否允许使用非好友助战</param>
+        /// <param name="coreChar"><paramref name="coreChar"/> TODO.</param>
+        /// <param name="startWithEliteTwo">是否凹开局直升</param>
+        /// <param name="useSupport">是否core_char使用好友助战</param>
+        /// <param name="enableNonFriendSupport">是否允许使用非好友助战</param>
         /// <param name="theme">肉鸽名字。["Phantom", "Mizuki", "Sami"]</param>
-        /// <param name="refresh_trader_with_dice">是否用骰子刷新商店购买特殊商品，目前支持水月肉鸽的指路鳞</param>
+        /// <param name="refreshTraderWithDice">是否用骰子刷新商店购买特殊商品，目前支持水月肉鸽的指路鳞</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRoguelike(int mode, int starts, bool investmentEnabled, int invests, bool stopWhenFull,
-            string squad, string roles, string coreChar, bool startWithEliteTwo, bool useSupport, bool enableNonfriendSupport, string theme, bool refreshTraderWithDice)
+            string squad, string roles, string coreChar, bool startWithEliteTwo, bool useSupport, bool enableNonFriendSupport, string theme, bool refreshTraderWithDice)
         {
             var taskParams = new JObject
             {
@@ -1774,7 +1774,7 @@ namespace MaaWpfGui.Main
 
             taskParams["start_with_elite_two"] = startWithEliteTwo;
             taskParams["use_support"] = useSupport;
-            taskParams["use_nonfriend_support"] = enableNonfriendSupport;
+            taskParams["use_nonfriend_support"] = enableNonFriendSupport;
             taskParams["refresh_trader_with_dice"] = refreshTraderWithDice;
 
             AsstTaskId id = AsstAppendTaskWithEncoding("Roguelike", taskParams);
@@ -1796,8 +1796,8 @@ namespace MaaWpfGui.Main
         /// <summary>
         /// 公招识别。
         /// </summary>
-        /// <param name="select_level">会去点击标签的 Tag 等级。</param>
-        /// <param name="set_time">是否设置 9 小时。</param>
+        /// <param name="selectLevel">会去点击标签的 Tag 等级。</param>
+        /// <param name="setTime">是否设置 9 小时。</param>
         /// <returns>是否成功。</returns>
         public bool AsstStartRecruitCalc(int[] selectLevel, bool setTime)
         {
@@ -1877,15 +1877,15 @@ namespace MaaWpfGui.Main
         /// </summary>
         /// <param name="filename">作业 JSON 的文件路径，绝对、相对路径均可。</param>
         /// <param name="formation">是否进行 “快捷编队”。</param>
-        /// <param name="add_trust">是否追加信赖干员</param>
-        /// <param name="add_user_additional">是否追加自定干员</param>
-        /// <param name="user_additional">自定干员列表</param>
-        /// <param name="need_navigate">是否导航至关卡（启用自动战斗序列）</param>
-        /// <param name="navigate_name">关卡名</param>
-        /// <param name="is_adverse">是不是突袭</param>
+        /// <param name="addTrust">是否追加信赖干员</param>
+        /// <param name="addUserAdditional">是否追加自定干员</param>
+        /// <param name="userAdditional">自定干员列表</param>
+        /// <param name="needNavigate">是否导航至关卡（启用自动战斗序列）</param>
+        /// <param name="navigateName">关卡名</param>
+        /// <param name="isAdverse">是不是突袭</param>
         /// <param name="type">任务类型</param>
-        /// <param name="loop_times">任务重复执行次数</param>
-        /// <param name="asst_start">是否启动战斗</param>
+        /// <param name="loopTimes">任务重复执行次数</param>
+        /// <param name="asstStart">是否启动战斗</param>
         /// <returns>是否成功。</returns>
         public bool AsstStartCopilot(string filename, bool formation, bool addTrust, bool addUserAdditional, JArray userAdditional, bool needNavigate, string navigateName, bool isAdverse, string type, int loopTimes, bool asstStart = true)
         {
