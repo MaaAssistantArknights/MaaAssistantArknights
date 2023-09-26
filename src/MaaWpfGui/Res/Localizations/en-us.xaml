@@ -286,7 +286,7 @@ Enter 「SSReopen-XX」to pass SS normal difficulty level at one time</system:St
     <system:String x:Key="AccountSwitchManualRun">Manual switch</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">Fill in the account that needs to be switched to, leave blank to close the account switching
 Official(CN): Enter the mobile phone number displayed on the login interface, such as 123****4567
-Bilibili: Enter the account name displayed on the login interface, such as Zhang San
+Bilibili: Enter the account name displayed on the login interface, such as John
 Other client types are not supported</system:String>
     <system:String x:Key="AdbPath">ADB path (rel/abs)</system:String>
     <system:String x:Key="ConnectionAddress">Connection address</system:String>
@@ -411,7 +411,7 @@ Other client types are not supported</system:String>
     <!--  Recruitment Recognition  -->
     <!--  Depot Recognition  -->
     <system:String x:Key="DepotRecognition">Depot</system:String>
-    <system:String x:Key="DepotRecognitionTip">This function is still in testing. If you encouter any unexpected results, please zip the 「debug/depot」 folder in the installation path and submit an issue on GitHub</system:String>
+    <system:String x:Key="DepotRecognitionTip">This function is still in testing. If you encounter any unexpected results, please zip the 「debug/depot」 folder in the installation path and submit an issue on GitHub</system:String>
     <system:String x:Key="StartToDepotRecognition">Start to Identify</system:String>
     <system:String x:Key="ExportToArkplanner">Export to Arkplanner</system:String>
     <system:String x:Key="ExportToLolicon">Export to Lolicon</system:String>
@@ -419,7 +419,7 @@ Other client types are not supported</system:String>
     <!--  Depot Recognition  -->
     <!--  Operator Recognition  -->
     <system:String x:Key="OperBoxRecognition">Operator</system:String>
-    <system:String x:Key="OperBoxRecognitionTip">This function is still in testing. If you encouter any unexpected results, please zip the 「debug/oper」 folder in the installation path and submit an issue on GitHub</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">This function is still in testing. If you encounter any unexpected results, please zip the 「debug/oper」 folder in the installation path and submit an issue on GitHub</system:String>
     <system:String x:Key="OperBoxRecognitionResult">Not owned: {0}\n\n{1}\n\nOwned: {2}\n\n{3}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">Start to Identify</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">Copy to Clipboard</system:String>
@@ -643,7 +643,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="Level1Tip">If checked when 1★ tags are identified, will skip the recruitment. If not checked when 1★ tags are identified, they will be ignored.</system:String>
     <!--  AutoRecruitSettings  -->
     <!--  EasterEggs  -->
-    <system:String x:Key="BuyWineOnAprilFoolsDay">Dear Doctor, ever heard of the new listings of 「isopropyl alcohol」 in Ms. Closure's store? Let's check it out?</system:String>
+    <system:String x:Key="BuyWineOnAprilFoolsDay">Dear Doctor, ever heard of the new listings of 「liquor」 in Ms. Closure's store? Let's check it out?</system:String>
     <system:String x:Key="Burping">Ugh…… Ehem</system:String>
     <system:String x:Key="DrunkAndStaggering">Ah, doctor, why do you sway so much in your movement today?</system:String>
     <system:String x:Key="Hangover">I won't drink so much next time……</system:String>
