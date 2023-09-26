@@ -286,7 +286,7 @@
     <system:String x:Key="AccountSwitchManualRun">手動スイッチ</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">切り替える必要があるアカウントを入力し、空白のままにしてアカウントの切り替えを完了します
 公式(CN): ログイン インターフェイスに表示される携帯電話番号を入力します (例: 123****4567)
-Bilibili: ログイン インターフェイスに表示されるアカウント名 (Zhang San など) を入力します。
+Bilibili: ログイン インターフェイスに表示されるアカウント名 (張三 など) を入力します。
 他の種類のクライアントはサポートされていません</system:String>
     <system:String x:Key="AdbPath">ADBパス（相対/絶対）</system:String>
     <system:String x:Key="ConnectionAddress">接続先アドレス</system:String>
@@ -643,7 +643,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="Level1Tip">チェックの際に星1タグが特定された場合、募集はスキップされ、チェックされていない場合、星1タグは無視されます。</system:String>
     <!--  自動募集設定  -->
     <!--  EasterEggs  -->
-    <system:String x:Key="BuyWineOnAprilFoolsDay">尊敬なるドクター、クロージャ様のお店で「イソプロピルアルコール」の新しいリストがあると聞いたことがありませんか？一緒に確認しませんか？</system:String>
+    <system:String x:Key="BuyWineOnAprilFoolsDay">尊敬なるドクター、クロージャ様のお店で「酒」の新しいリストがあると聞いたことがありませんか？一緒に確認しませんか？</system:String>
     <system:String x:Key="Burping">うぅ……オエッ</system:String>
     <system:String x:Key="DrunkAndStaggering">あれ、ドクター。どうしてそんなフラフラと歩いておられるのですか？</system:String>
     <system:String x:Key="Hangover">つ、次は飲みすぎないようにしないと……</system:String>

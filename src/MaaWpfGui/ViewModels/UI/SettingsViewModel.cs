@@ -3571,7 +3571,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return true;
             }
 
-            var wineList = new[] { "酒", "drink", "wine", "beer", "술", "🍷", "🍸", "🍺", "🍻", "🥃", "🍶" };
+            var wineList = new[] { "酒", "liquor", "drink", "wine", "beer", "술", "🍷", "🍸", "🍺", "🍻", "🥃", "🍶" };
             return wineList.Any(wine => CreditFirstList.Contains(wine));
         }
 

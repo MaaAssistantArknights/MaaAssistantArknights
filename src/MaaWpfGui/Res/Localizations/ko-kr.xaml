@@ -286,7 +286,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="AccountSwitchManualRun">수동 스위치</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">전환할 계좌를 입력하고, 계좌 전환을 종료하려면 공백으로 남겨두세요.
 공식(CN): 로그인 인터페이스에 표시된 휴대폰 번호(예: 123****4567)를 입력하세요.
-Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: Zhang San)을 입력하세요.
+Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)을 입력하세요.
 다른 클라이언트 유형은 지원되지 않습니다.</system:String>
     <system:String x:Key="AdbPath">ADB 경로 (상대/절대)</system:String>
     <system:String x:Key="ConnectionAddress">연결 주소</system:String>
@@ -643,7 +643,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: Zhang San
     <system:String x:Key="Level1Tip">체크 시, ★1 태그를 인식할 때 이번 모집을 건너뜁니다. 체크하지 않으면 ★1 태그를 무시합니다.</system:String>
     <!--  AutoRecruitSettings  -->
     <!--  EasterEggs  -->
-    <system:String x:Key="BuyWineOnAprilFoolsDay">의사님, Ms. Closure의 가게에서 '이소프로필 알코올'의 새로운 상품 목록을 들어보셨나요? 함께 확인해 볼까요?</system:String>
+    <system:String x:Key="BuyWineOnAprilFoolsDay">의사님, Ms. Closure의 가게에서 「술」의 새로운 상품 목록을 들어보셨나요? 함께 확인해 볼까요?</system:String>
     <system:String x:Key="Burping">으…… 우웁</system:String>
     <system:String x:Key="DrunkAndStaggering">어머, 박사님. 왜 그렇게 비틀비틀 걷고 계시나요?</system:String>
     <system:String x:Key="Hangover">다, 다음엔 적당히 마셔야지……</system:String>
