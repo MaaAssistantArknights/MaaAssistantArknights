@@ -5,7 +5,6 @@
 
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
-#include "Status.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/RegionOCRer.h"
@@ -73,10 +72,6 @@ void asst::SanityBeforeStagePlugin::get_sanity_before_stage()
     Log.info(__FUNCTION__, "Current Sanity:" + text);
 
     json::value sanity_info = basic_info_with_what("SanityBeforeStage");
-    sanity_info["details"]["sanity"] = text;
-    callback(AsstMsg::SubTaskExtraInfo, sanity_info);
-
-    std::string sanity_report_str = std::string();
     do {
         auto slash_pos = text.find('/');
         if (slash_pos == std::string::npos) {
@@ -93,9 +88,10 @@ void asst::SanityBeforeStagePlugin::get_sanity_before_stage()
         if (std::from_chars(text.data() + slash_pos + 1, text.data() + text.length(), sanity_max).ec != std::errc()) {
             break;
         }
-        sanity_report_str = json::object {
-            { "current_sanity", sanity_cur }, { "max_sanity", sanity_cur }, { "report_time", utils::get_format_time() }
-        }.dumps();
+        // {"current_sanity": 100, "max_sanity": 135, "report_time": "2023-09-01 09:31:53.527"}
+        sanity_info["details"]["current_sanity"] = sanity_cur;
+        sanity_info["details"]["max_sanity"] = sanity_max;
+        sanity_info["details"]["report_time"] = utils::get_format_time();
     } while (false);
-    status()->set_str(Status::FightSanityReport, sanity_report_str);
+    callback(AsstMsg::SubTaskExtraInfo, sanity_info);
 }
