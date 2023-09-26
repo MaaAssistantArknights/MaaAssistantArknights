@@ -59,7 +59,7 @@
             Grid.Column="0"
             Margin="10"
             Block.TextAlignment="Center"
-            Text="{DynamicResource ADBPath}"
+            Text="{DynamicResource AdbPath}"
             TextWrapping="Wrap" />
         <TextBox
             Grid.Row="1"
@@ -153,12 +153,12 @@
                 ToolTip="{DynamicResource RetryOnDisconnectedTip}" />
             <CheckBox
                 Margin="20,10"
-                Content="{DynamicResource AllowADBRestart}"
-                IsChecked="{Binding AllowADBRestart}" />
+                Content="{DynamicResource AllowAdbRestart}"
+                IsChecked="{Binding AllowAdbRestart}" />
             <CheckBox
                 Margin="20,10"
-                Content="{DynamicResource AllowADBHardRestart}"
-                IsChecked="{Binding AllowADBHardRestart}" />
+                Content="{DynamicResource AllowAdbHardRestart}"
+                IsChecked="{Binding AllowAdbHardRestart}" />
             <CheckBox
                 Margin="20,10"
                 Content="{DynamicResource AutoRestartOption}"
@@ -186,8 +186,8 @@
             Height="30"
             Margin="10"
             HorizontalAlignment="Left"
-            Command="{s:Action ReplaceADB}"
-            Content="{DynamicResource ForcedReplaceADB}" />
+            Command="{s:Action ReplaceAdb}"
+            Content="{DynamicResource ForcedReplaceAdb}" />
         <CheckBox
             Grid.Row="6"
             Grid.Column="0"

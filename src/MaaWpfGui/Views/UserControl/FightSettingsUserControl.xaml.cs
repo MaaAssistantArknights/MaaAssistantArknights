@@ -31,22 +31,24 @@ namespace MaaWpfGui.Views.UserControl
             InitializeComponent();
         }
 
-        private static readonly MethodInfo SetText = typeof(HandyControl.Controls.NumericUpDown).GetMethod("SetText", BindingFlags.NonPublic | BindingFlags.Instance);
+        private static readonly MethodInfo _setText = typeof(HandyControl.Controls.NumericUpDown).GetMethod("SetText", BindingFlags.NonPublic | BindingFlags.Instance);
 
-        private static readonly object[] paras = new object[] { true };
+        private static readonly object[] _paras = { true };
 
         private void NumericUpDown_ValueChanged(object sender, HandyControl.Data.FunctionEventArgs<double> e)
         {
-            SetText?.Invoke(sender, paras);
+            _setText?.Invoke(sender, _paras);
         }
 
         private void ToggleCheckBoxNullOnRightClick(object sender, MouseButtonEventArgs e)
         {
-            if (e.ChangedButton == MouseButton.Right)
+            if (e.ChangedButton != MouseButton.Right)
             {
-                CheckBox checkBox = (CheckBox)sender;
-                checkBox.IsChecked = checkBox.IsChecked == null ? (bool?)false : null;
+                return;
             }
+
+            CheckBox checkBox = (CheckBox)sender;
+            checkBox.IsChecked = checkBox.IsChecked == null ? (bool?)false : null;
         }
 
         private void ToggleCheckBoxNullOnLeftClick(object sender, RoutedEventArgs e)

@@ -194,7 +194,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Starts calculation.
         /// </summary>
-        // xaml 中绑定了 action
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public async void RecruitStartCalc()
         {

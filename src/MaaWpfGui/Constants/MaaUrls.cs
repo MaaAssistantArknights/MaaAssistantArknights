@@ -36,15 +36,15 @@ namespace MaaWpfGui.Constants
 
         public const string QqGroups = "https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html";
 
-        public const string QQchannel = "https://pd.qq.com/s/4j1ju9z47";
+        public const string QqChannel = "https://pd.qq.com/s/4j1ju9z47";
 
-        private static string language => ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
+        private static string Language => ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
 
-        public static string HelpUri => $"https://maa.plus/docs/{_helpUrl[language]}";
+        public static string HelpUri => $"https://maa.plus/docs/{_helpUrl[Language]}";
 
-        public static string OverseasAdaptation => $"https://maa.plus/docs/{_overseasAdaptation[language]}";
+        public static string OverseasAdaptation => $"https://maa.plus/docs/{_overseasAdaptation[Language]}";
 
-        public static string NewIssueUri => language switch
+        public static string NewIssueUri => Language switch
         {
             "zh-cn" => "https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/new?assignees=&labels=bug&template=cn-bug-report.yaml",
             _ => "https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/new?assignees=&labels=bug&template=en-bug-report.yaml",
