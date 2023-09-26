@@ -1601,9 +1601,6 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _roguelikeMode, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeMode, value);
-
-                // 烧开水模式可选项
-                this.RoguelikeStartWithEliteTwoEnable = MapRoguelikeStartWithEliteTwoEnable(value);
             }
         }
 
@@ -1687,26 +1684,6 @@ namespace MaaWpfGui.ViewModels.UI
                 SetAndNotify(ref _roguelikeStartWithEliteTwo, value.ToString());
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, value.ToString());
             }
-        }
-
-        private string _roguelikeStartWithEliteTwoEnable = MapRoguelikeStartWithEliteTwoEnable(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeMode, "0"));
-
-        public string RoguelikeStartWithEliteTwoEnable
-        {
-            get
-            {
-                return _roguelikeStartWithEliteTwoEnable;
-            }
-
-            set
-            {
-                SetAndNotify(ref _roguelikeStartWithEliteTwoEnable, value);
-            }
-        }
-
-        private static string MapRoguelikeStartWithEliteTwoEnable(string mode)
-        {
-            return mode == "4" ? "Visible" : "Collapsed";
         }
 
         private string _roguelikeUseSupportUnit = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeUseSupportUnit, false.ToString());
