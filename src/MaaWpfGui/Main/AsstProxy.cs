@@ -36,6 +36,7 @@ using Stylet;
 
 namespace MaaWpfGui.Main
 {
+    using static MaaWpfGui.Helper.Instances.Data;
 #pragma warning disable SA1135 // Using directives should be qualified
 
     using AsstHandle = IntPtr;
@@ -570,7 +571,16 @@ namespace MaaWpfGui.Main
                         }
                     }
 
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + taskChain);
+                    if (taskChain == "Fight" && SanityReport.HasSanityReport)
+                    {
+                        var sanityLog = "\n" + LocalizationHelper.GetString("CurrentSanity") + $" {SanityReport.Sanity[0]}/{SanityReport.Sanity[1]}";
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + taskChain + sanityLog);
+                    }
+                    else
+                    {
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + taskChain);
+                    }
+
                     if (isCoplitTaskChain)
                     {
                         if (!Instances.CopilotViewModel.UseCopilotList || Instances.CopilotViewModel.CopilotItemViewModels.All(model => !model.IsChecked))
@@ -589,7 +599,6 @@ namespace MaaWpfGui.Main
                 case AsstMsg.AllTasksCompleted:
                     bool isMainTaskQueueAllCompleted = true;
                     var finished_tasks = details["finished_tasks"] as JArray;
-                    var sanity_report = details["sanity_report"] as JObject;
                     if (finished_tasks?.Count == 1)
                     {
                         var unique_finished_task = (AsstTaskId)finished_tasks[0];
@@ -613,27 +622,6 @@ namespace MaaWpfGui.Main
 
                     if (isMainTaskQueueAllCompleted)
                     {
-                        bool isSanityForecastSucc = false;
-                        DateTimeOffset reportTime = default;
-                        TimeSpan timeDiff = TimeSpan.Zero;
-
-                        if (sanity_report != null)
-                        {
-                            int current_sanity = sanity_report["current_sanity"]?.ToObject<int>() ?? -1;
-                            int max_sanity = sanity_report["max_sanity"]?.ToObject<int>() ?? -1;
-                            string report_time = sanity_report["report_time"]?.ToString();
-                            if (current_sanity >= 0 && max_sanity > 1 && DateTimeOffset.TryParse(report_time, out var reportTimeParsed))
-                            {
-                                timeDiff = new TimeSpan(0, current_sanity < max_sanity ? (max_sanity - current_sanity) * 6 : 0, 0);
-                                reportTime = reportTimeParsed.AddMinutes(timeDiff.TotalMinutes);
-                                isSanityForecastSucc = true;
-                            }
-                            else
-                            {
-                                _logger.Information($"Failed to parse sanity report {sanity_report}");
-                            }
-                        }
-
                         var allTaskCompleteTitle = LocalizationHelper.GetString("AllTasksComplete");
                         var allTaskCompleteMessage = LocalizationHelper.GetString("AllTaskCompleteContent");
                         var sanityReport = LocalizationHelper.GetString("SanityReport");
@@ -641,11 +629,12 @@ namespace MaaWpfGui.Main
                         var configurationPreset = ConfigurationHelper.GetCurrentConfiguration();
 
                         allTaskCompleteMessage = allTaskCompleteMessage
-                            .Replace("{DateTime}", DateTime.Now.ToString("U"))
+                            .Replace("{DateTime}", DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss"))
                             .Replace("{Preset}", configurationPreset);
-                        if (isSanityForecastSucc)
+                        if (SanityReport.HasSanityReport)
                         {
-                            sanityReport = sanityReport.Replace("{DateTime}", reportTime.ToString("yyyy-MM-dd HH:mm")).Replace("{TimeDiff}", timeDiff.ToString(@"h\h\ m\m"));
+                            var recoveryTime = SanityReport.ReportTime.AddMinutes(SanityReport.Sanity[0] < SanityReport.Sanity[1] ? (SanityReport.Sanity[1] - SanityReport.Sanity[0]) * 6 : 0);
+                            sanityReport = sanityReport.Replace("{DateTime}", recoveryTime.ToString("yyyy-MM-dd HH:mm")).Replace("{TimeDiff}", (recoveryTime - DateTimeOffset.Now).ToString(@"h\h\ m\m"));
 
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AllTasksComplete") + Environment.NewLine + sanityReport);
                             ExternalNotificationService.Send(allTaskCompleteTitle, allTaskCompleteMessage + Environment.NewLine + sanityReport);
@@ -658,7 +647,7 @@ namespace MaaWpfGui.Main
 
                         using (var toast = new ToastNotification(allTaskCompleteTitle))
                         {
-                            if (isSanityForecastSucc)
+                            if (SanityReport.HasSanityReport)
                             {
                                 toast.AppendContentText(sanityReport);
                             }
@@ -751,7 +740,13 @@ namespace MaaWpfGui.Main
                 {
                     case "StartButton2":
                     case "AnnihilationConfirm":
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MissionStart") + $" {execTimes} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info);
+                        var log = LocalizationHelper.GetString("MissionStart") + $" {execTimes} " + LocalizationHelper.GetString("UnitTime");
+                        if (SanityReport.HasSanityReport)
+                        {
+                            log += "\n" + LocalizationHelper.GetString("CurrentSanity") + $" {SanityReport.Sanity[0]}/{SanityReport.Sanity[1]}";
+                        }
+
+                        Instances.TaskQueueViewModel.AddLog(log, UiLogColor.Info);
                         break;
 
                     case "MedicineConfirm":
@@ -1173,7 +1168,34 @@ namespace MaaWpfGui.Main
                     break;
 
                 case "SanityBeforeStage":
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CurrentSanity") + $" {subTaskDetails["sanity"]} ");
+                    SanityReport.HasSanityReport = false;
+                    var sanityReport = (JObject)subTaskDetails;
+                    if (sanityReport is null || !sanityReport.ContainsKey("current_sanity") || !sanityReport.ContainsKey("max_sanity") || !sanityReport.ContainsKey("report_time"))
+                    {
+                        break;
+                    }
+
+                    var sanityCur = sanityReport.TryGetValue("current_sanity", out var sanityCurToken) ? (int)sanityCurToken : -1;
+                    var sanityMax = sanityReport.TryGetValue("max_sanity", out var sanityMaxToken) ? (int)sanityMaxToken : -1;
+                    var reportTime = sanityReport.TryGetValue("report_time", out var reportTimeToken) ? (string)reportTimeToken : string.Empty;
+                    if (sanityCur < 0 || sanityMax < 1 || reportTime?.Length < 12)
+                    {
+                        break;
+                    }
+
+                    SanityReport.Sanity[0] = sanityCur;
+                    SanityReport.Sanity[1] = sanityMax;
+                    try
+                    {
+                        SanityReport.ReportTime = DateTimeOffset.Parse(reportTime);
+                    }
+                    catch (FormatException)
+                    {
+                        _logger.Error("SanityReport analyze failed: report time format is invalid, {time}.", reportTime);
+                        break;
+                    }
+
+                    SanityReport.HasSanityReport = true;
                     break;
 
                 case "StageQueueUnableToAgent":
