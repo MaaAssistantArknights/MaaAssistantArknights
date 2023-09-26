@@ -572,7 +572,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private const string CopilotJsonDir = "cache/copilot";
 
-        //UI 绑定的方法
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void AddCopilotTask()
         {
@@ -583,7 +583,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        //UI 绑定的方法
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void AddCopilotTask_Adverse()
         {
@@ -645,7 +645,7 @@ namespace MaaWpfGui.ViewModels.UI
             ConfigurationHelper.SetValue(ConfigurationKeys.CopilotTaskList, JsonConvert.SerializeObject(jArray));
         }
 
-        //UI 绑定的方法
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void DeleteCopilotTask(int index)
         {
@@ -653,7 +653,7 @@ namespace MaaWpfGui.ViewModels.UI
             CopilotItemIndexChanged();
         }
 
-        //UI 绑定的方法
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void CleanUnableCopilotTask()
         {
@@ -665,7 +665,7 @@ namespace MaaWpfGui.ViewModels.UI
             CopilotItemIndexChanged();
         }
 
-        //UI 绑定的方法
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void ClearCopilotTask()
         {
@@ -727,7 +727,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Starts copilot.
         /// </summary>
-        // xaml 中绑定了 action
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public async void Start()
         {
@@ -822,7 +822,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Stops copilot.
         /// </summary>
-        // xaml 中绑定了 action
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void Stop()
         {

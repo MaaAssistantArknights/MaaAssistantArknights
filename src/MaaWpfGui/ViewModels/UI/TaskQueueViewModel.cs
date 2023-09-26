@@ -44,7 +44,7 @@ namespace MaaWpfGui.ViewModels.UI
     /// <summary>
     /// The view model of task queue.
     /// </summary>
-    // 通过 container.Get<TaskQueueViewModel>(); 实例化或获取实例，需要添加 qodana ignore rule
+    // 通过 container.Get<TaskQueueViewModel>(); 实例化或获取实例
     // ReSharper disable once ClassNeverInstantiated.Global
     public class TaskQueueViewModel : Screen
     {
@@ -69,7 +69,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// 实时更新任务顺序
         /// </summary>
-        // 这个不能设置为 private，xaml 中绑定了Action，需要添加 qodana ignore rule
+        // UI 绑定的方法
         // ReSharper disable once MemberCanBePrivate.Global
         public void TaskItemSelectionChanged()
         {
@@ -601,7 +601,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Selects all.
         /// </summary>
-        // xaml 中的按钮绑定的 Action 是这个函数，需要添加 qodana ignore rule
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void SelectedAll()
         {
@@ -692,7 +692,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Changes inversion mode.
         /// </summary>
-        // xaml 中的按钮绑定的 Action 是这个函数，需要添加 qodana ignore rule
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void ChangeInverseMode()
         {
@@ -702,7 +702,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Selects inversely.
         /// </summary>
-        // xaml 中的按钮绑定的 Action 是这个函数，需要添加 qodana ignore rule
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void InverseSelected()
         {
@@ -2903,7 +2903,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        // xaml 中绑定了 DropDownClosed 事件，需要添加 qodana ignore rule
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void DropsListDropDownClosed()
         {
@@ -2948,7 +2948,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event args</param>
-        // xaml 中绑定了 Loaded 事件，需要添加 qodana ignore rule
+        // UI 绑定的方法
         // EventArgs 不能省略，否则会报错
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable once UnusedParameter.Global
