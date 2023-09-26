@@ -41,21 +41,6 @@ namespace MaaWpfGui.Views.UserControl
         }
     }
 
-    public class InvestmentButtonEnabledConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            string RoguelikeMode = System.Convert.ToString(value);
-            if (RoguelikeMode == "1" || RoguelikeMode == "4")
-                return false;
-            return true;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotSupportedException();
-        }
-    }
 
     public class InvestmentButtonCheckedConverter : IMultiValueConverter
     {
@@ -77,22 +62,6 @@ namespace MaaWpfGui.Views.UserControl
         {
             bool isEnabled = (bool)value;
             return new object[] { isEnabled, isEnabled };
-        }
-    }
-
-    public class RefreshTraderWithDiceVisibilityConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            string RoguelikeTheme = System.Convert.ToString(value);
-            if (RoguelikeTheme == "Mizuki")
-                return System.Windows.Visibility.Visible;
-            return System.Windows.Visibility.Collapsed;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotSupportedException();
         }
     }
 
