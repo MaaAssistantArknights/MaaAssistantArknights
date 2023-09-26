@@ -19,7 +19,7 @@
     <system:String x:Key="ConnectionSettings">Connection</system:String>
     <system:String x:Key="StartupSettings">Startup</system:String>
     <system:String x:Key="ScheduleSettings">Schedule</system:String>
-    <system:String x:Key="UISettings">GUI</system:String>
+    <system:String x:Key="UiSettings">GUI</system:String>
     <system:String x:Key="HotKeySettings">HotKeys</system:String>
     <system:String x:Key="UpdateSettings">Update</system:String>
     <system:String x:Key="AboutUs">About us</system:String>
@@ -75,11 +75,11 @@
     <system:String x:Key="CustomInfrastEnabled">Enable Custom Base (beta)</system:String>
     <system:String x:Key="DefaultInfrast">Default Base infrastructure</system:String>
     <system:String x:Key="UserDefined">User defined</system:String>
-    <system:String x:Key="153_3">153 3 times a day</system:String>
-    <system:String x:Key="243_3">243 3 times a day</system:String>
-    <system:String x:Key="243_4">243 4 times a day</system:String>
-    <system:String x:Key="252_3">252 3 times a day</system:String>
-    <system:String x:Key="333_3">333 3 times a day</system:String>
+    <system:String x:Key="153Time3">153 3 times a day</system:String>
+    <system:String x:Key="243Time3">243 3 times a day</system:String>
+    <system:String x:Key="243Time4">243 4 times a day</system:String>
+    <system:String x:Key="252Time3">252 3 times a day</system:String>
+    <system:String x:Key="333Time3">333 3 times a day</system:String>
     <system:String x:Key="CustomInfrastFile">Base Configuration</system:String>
     <system:String x:Key="CustomInfrastFileParseFailed">Base Configuration Parsing Error!</system:String>
     <system:String x:Key="CustomInfrastTitle" xml:space="preserve">Base Configuration: </system:String>
@@ -146,10 +146,10 @@
     <system:String x:Key="YoStarEN">YoStarEN</system:String>
     <system:String x:Key="YoStarJP">YoStarJP</system:String>
     <system:String x:Key="YoStarKR">YoStarKR</system:String>
-    <system:String x:Key="txwy">txwy</system:String>
+    <system:String x:Key="Txwy">txwy</system:String>
     <system:String x:Key="Switchable">Switchable</system:String>
     <system:String x:Key="Executable">Executable</system:String>
-    <system:String x:Key="ADBProgram">ADB Program</system:String>
+    <system:String x:Key="AdbProgram">ADB Program</system:String>
     <system:String x:Key="EmulatorException">Error in emulator detection\nPlease use administrator privileges to open this software\nor set connection manually</system:String>
     <system:String x:Key="AdbException">Error in ADB detection\nPlease use administrator privileges to open this software\nor set connection manually</system:String>
     <system:String x:Key="EmulatorNotFound">No emulator detected\nPlease use administrator privileges to open this software\nor set connection manually</system:String>
@@ -171,7 +171,7 @@
     <system:String x:Key="CheckBoxesNotSavedAsNull">This option only takes effect once when right-clicked</system:String>
     <system:String x:Key="NoAutoNavigation">This feature does not automatically navigate to the stage</system:String>
     <system:String x:Key="StartupUpdateCheck">Startup Update Check</system:String>
-    <system:String x:Key="UpdatAutoCheck">Scheduled Update Check</system:String>
+    <system:String x:Key="UpdateAutoCheck">Scheduled Update Check</system:String>
     <system:String x:Key="UpdateAutoDownload">Auto Download Update</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">Auto Install Update</system:String>
     <system:String x:Key="UpdateCheckStable">Stable Release</system:String>
@@ -226,7 +226,7 @@
     <system:String x:Key="WaitForEmulatorFinish">End of wait</system:String>
     <system:String x:Key="EmulatorPath">Emulator exec path</system:String>
     <system:String x:Key="Select">Select</system:String>
-    <system:String x:Key="ForcedReplaceADB">Replace ADB</system:String>
+    <system:String x:Key="ForcedReplaceAdb">Replace ADB</system:String>
     <system:String x:Key="TouchMode">Touch Mode</system:String>
     <system:String x:Key="MiniTouchMode">Minitouch (Default)</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch (Experimental)</system:String>
@@ -244,7 +244,7 @@
     <system:String x:Key="StopOnGoldLimit">Stops when invested coins reach limit</system:String>
     <system:String x:Key="InvestmentEnabled">Invest coins</system:String>
     <system:String x:Key="RefreshTraderWithDice">Refresh Rogue Trader with Dice</system:String>
-    <system:String x:Key="PenguinID">Penguin Report ID (Number part only)</system:String>
+    <system:String x:Key="PenguinId">Penguin Report ID (Number part only)</system:String>
     <system:String x:Key="DrGrandet">Dr. Grandet Mode</system:String>
     <system:String x:Key="DrGrandetTip">Wait on the sanity confirmation screen until the current sanity recovers to 1 point, then confirm immediately.</system:String>
     <system:String x:Key="SocialPtShop">Credit shopping</system:String>
@@ -286,16 +286,16 @@ Enter 「SSReopen-XX」to pass SS normal difficulty level at one time</system:St
     <system:String x:Key="AccountSwitchManualRun">Manual switch</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">Fill in the account that needs to be switched to, leave blank to close the account switching
 Official(CN): Enter the mobile phone number displayed on the login interface, such as 123****4567
-Bilibili: Enter the account name displayed on the login interface, such as Zhang San
+Bilibili: Enter the account name displayed on the login interface, such as John
 Other client types are not supported</system:String>
-    <system:String x:Key="ADBPath">ADB path (rel/abs)</system:String>
+    <system:String x:Key="AdbPath">ADB path (rel/abs)</system:String>
     <system:String x:Key="ConnectionAddress">Connection address</system:String>
     <system:String x:Key="ConnectionAddressTip">It will be filled in automatically when you use it for the first time. If you encounter any problems, you can try to manually modify it</system:String>
     <system:String x:Key="ConnectionPreset">Connection Preset</system:String>
     <system:String x:Key="RetryOnDisconnected">Auto restart emulator when ADB reconnection fails</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">Try restarting the emulator after 20 failed reconnect attempts, must be checked when using a background timed task and setting the task to close the emulator when finished</system:String>
-    <system:String x:Key="AllowADBRestart">Attempt to restart ADB Server after connection failure</system:String>
-    <system:String x:Key="AllowADBHardRestart">Attempt to kill and restart ADB process after connection failure</system:String>
+    <system:String x:Key="AllowAdbRestart">Attempt to restart ADB Server after connection failure</system:String>
+    <system:String x:Key="AllowAdbHardRestart">Attempt to kill and restart ADB process after connection failure</system:String>
     <!--  Settings  -->
     <!--  Farming  -->
     <system:String x:Key="Farming">Farming</system:String>
@@ -310,7 +310,7 @@ Other client types are not supported</system:String>
     <system:String x:Key="ReclamationAlgorithm">Reclamation Algorithm</system:String>
     <system:String x:Key="Light">Light</system:String>
     <system:String x:Key="Dark">Dark</system:String>
-    <system:String x:Key="SyncWithOS">Sync with OS</system:String>
+    <system:String x:Key="SyncWithOs">Sync with OS</system:String>
     <system:String x:Key="SelectAll">Select All</system:String>
     <system:String x:Key="Inverse">Inverse</system:String>
     <system:String x:Key="Clear">Clear</system:String>
@@ -347,7 +347,7 @@ Other client types are not supported</system:String>
     <system:String x:Key="UnsupportedStages">Unsupported stages</system:String>
     <system:String x:Key="LowVersion">Old Version, Update required</system:String>
     <system:String x:Key="MinimumRequirements" xml:space="preserve">Minimum Requirements: </system:String>
-    <system:String x:Key="Daysleftopen" xml:space="preserve">Days left open: </system:String>
+    <system:String x:Key="DaysLeftOpen" xml:space="preserve">Days left open: </system:String>
     <system:String x:Key="LessThanOneDay">Less than 1 day</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">CE-6</system:String>
@@ -411,7 +411,7 @@ Other client types are not supported</system:String>
     <!--  Recruitment Recognition  -->
     <!--  Depot Recognition  -->
     <system:String x:Key="DepotRecognition">Depot</system:String>
-    <system:String x:Key="DepotRecognitionTip">This function is still in testing. If you encouter any unexpected results, please zip the 「debug/depot」 folder in the installation path and submit an issue on GitHub</system:String>
+    <system:String x:Key="DepotRecognitionTip">This function is still in testing. If you encounter any unexpected results, please zip the 「debug/depot」 folder in the installation path and submit an issue on GitHub</system:String>
     <system:String x:Key="StartToDepotRecognition">Start to Identify</system:String>
     <system:String x:Key="ExportToArkplanner">Export to Arkplanner</system:String>
     <system:String x:Key="ExportToLolicon">Export to Lolicon</system:String>
@@ -419,7 +419,7 @@ Other client types are not supported</system:String>
     <!--  Depot Recognition  -->
     <!--  Operator Recognition  -->
     <system:String x:Key="OperBoxRecognition">Operator</system:String>
-    <system:String x:Key="OperBoxRecognitionTip">This function is still in testing. If you encouter any unexpected results, please zip the 「debug/oper」 folder in the installation path and submit an issue on GitHub</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">This function is still in testing. If you encounter any unexpected results, please zip the 「debug/oper」 folder in the installation path and submit an issue on GitHub</system:String>
     <system:String x:Key="OperBoxRecognitionResult">Not owned: {0}\n\n{1}\n\nOwned: {2}\n\n{3}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">Start to Identify</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">Copy to Clipboard</system:String>
@@ -512,21 +512,21 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="ErrorDetails">Details</system:String>
     <system:String x:Key="ErrorSolution">Solution</system:String>
     <system:String x:Key="ErrorSolutionCrash">Please refer to the documentation: 「FAQ - Crashes」 to solve.</system:String>
-    <system:String x:Key="ErrorSolutionReplaceADB">Please close the emulator and ADB or restart your computer, then open MAA with administrator privileges to proceed.</system:String>
+    <system:String x:Key="ErrorSolutionReplaceAdb">Please close the emulator and ADB or restart your computer, then open MAA with administrator privileges to proceed.</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">The file is occupied, please restart the computer and try again</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>
     <system:String x:Key="CopyErrorMessage">Copy error message</system:String>
     <!--  AsstProxy  -->
     <system:String x:Key="ResourceBroken">The resource is damaged, please download the full package again</system:String>
-    <system:String x:Key="ReplaceADBNotExists">ADB File NOT existing</system:String>
+    <system:String x:Key="ReplaceAdbNotExists">ADB File NOT existing</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB Download Failed</system:String>
     <system:String x:Key="AdbDeletionFailedMessage">Unable to delete directory, it may have been replaced or encountered other issues. Please check the logs for more information.</system:String>
     <system:String x:Key="UnzipFailedMessage">Unable to unzip the file, an unexpected error occurred. Please check the logs for more information.</system:String>
-    <system:String x:Key="NoAdbPathSpecifiedMessage">No adb path specified</system:String>
+    <system:String x:Key="NoAdbPathSpecifiedMessage">No ADB path specified</system:String>
     <system:String x:Key="AdbDownloadFailedDesc">Please do it manually (rename adb.exe and replace the ADB file in the emulator)</system:String>
-    <system:String x:Key="SuccessfullyReplacedADB">Successfully replaced ADB File</system:String>
-    <system:String x:Key="FailedToReplaceAdbAndUseLocal">Falied to replace ADB file</system:String>
+    <system:String x:Key="SuccessfullyReplacedAdb">Successfully replaced ADB File</system:String>
+    <system:String x:Key="FailedToReplaceAdbAndUseLocal">Failed to replace ADB file</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">Temporarily connected using local ADB.</system:String>
     <system:String x:Key="InitializationError">Initialization error!</system:String>
     <system:String x:Key="ResolutionNotSupported">Emulator resolution not supported, please set a resolution of at least 1280x720 with a 16:9 aspect ratio</system:String>
@@ -553,7 +553,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="HasReturned">Has returned</system:String>
     <system:String x:Key="DropRecognitionError">Drops recognition error</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">Abort upload to Penguin Statistics</system:String>
-    <system:String x:Key="TheEX">No bonus stage, stopped</system:String>
+    <system:String x:Key="TheEx">No bonus stage, stopped</system:String>
     <system:String x:Key="StageQueue">Stage Queue:</system:String>
     <system:String x:Key="UnableToAgent">Unable to use PRTS</system:String>
     <system:String x:Key="CurrentSanity">Current Sanity:</system:String>
@@ -580,7 +580,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="Trader">Node: Rogue Trader</system:String>
     <system:String x:Key="SafeHouse">Node: Safe House</system:String>
     <system:String x:Key="Encounter">Node: Encounter</system:String>
-    <system:String x:Key="CambatDps">Node: Combat Operation</system:String>
+    <system:String x:Key="CombatDps">Node: Combat Operation</system:String>
     <system:String x:Key="EmergencyDps">Node: Emergency Operation</system:String>
     <system:String x:Key="DreadfulFoe">Node: Dreadful Foe</system:String>
     <system:String x:Key="NoDrop">Nothing</system:String>
@@ -608,8 +608,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identification results: </system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
     <system:String x:Key="TryToStartEmulator">Trying to start the emulator</system:String>
-    <system:String x:Key="RestartADB">Trying to restart the ADB Server</system:String>
-    <system:String x:Key="HardRestartADB">Trying to kill and restart the ADB process</system:String>
+    <system:String x:Key="RestartAdb">Trying to restart the ADB Server</system:String>
+    <system:String x:Key="HardRestartAdb">Trying to kill and restart the ADB process</system:String>
     <system:String x:Key="CheckSettings">Please check your connection settings or try restarting the emulator and ADB, or restart your computer</system:String>
     <!--  AsstProxy  -->
     <!--  TrayIcon  -->
@@ -622,8 +622,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="PrtsPlus">Copilot Json sharing site</system:String>
     <system:String x:Key="MapPrts">Copilot Map and Coordinate</system:String>
     <system:String x:Key="CustomInfrastGenerator">Custom Base Json Generator</system:String>
-    <system:String x:Key="QQgroup">QQ group</system:String>
-    <system:String x:Key="QQchannel">QQ channel</system:String>
+    <system:String x:Key="QqGroup">QQ group</system:String>
+    <system:String x:Key="QqChannel">QQ channel</system:String>
     <system:String x:Key="Telegram">Telegram</system:String>
     <system:String x:Key="Help">FAQ</system:String>
     <system:String x:Key="Issue">Issue</system:String>
@@ -643,14 +643,14 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="Level1Tip">If checked when 1★ tags are identified, will skip the recruitment. If not checked when 1★ tags are identified, they will be ignored.</system:String>
     <!--  AutoRecruitSettings  -->
     <!--  EasterEggs  -->
-    <system:String x:Key="BuyWineOnAprilFoolsDay">Dear Doctor, ever heard of the new listings of 「isopropyl alcohol」 in Ms. Closure's store? Let's check it out?</system:String>
+    <system:String x:Key="BuyWineOnAprilFoolsDay">Dear Doctor, ever heard of the new listings of 「liquor」 in Ms. Closure's store? Let's check it out?</system:String>
     <system:String x:Key="Burping">Ugh…… Ehem</system:String>
     <system:String x:Key="DrunkAndStaggering">Ah, doctor, why do you sway so much in your movement today?</system:String>
     <system:String x:Key="Hangover">I won't drink so much next time……</system:String>
     <system:String x:Key="HelloWorld">Hello World!</system:String>
     <!--  EasterEggs  -->
     <!--  VersionUpdatePopup  -->
-    <system:String x:Key="UpdateNotificationOK">OK!</system:String>
+    <system:String x:Key="UpdateNotificationOk">OK!</system:String>
     <system:String x:Key="VersionUpdated">Version Updated</system:String>
     <system:String x:Key="VersionUpdatedTo" xml:space="preserve">Version: </system:String>
     <!--  VersionUpdatePopup  -->
@@ -663,11 +663,11 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="GameResourceUpdated">Game resource updated, please restart MAA</system:String>
     <system:String x:Key="GameResourceUpdating">Game resources are being updated. Please do not close MAA.</system:String>
     <!--  Api  -->
-    <!-- External Notification -->
+    <!--  External Notification  -->
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">You receive this message because you have set up an SMTP server in MAA and have the email notification service turned on.</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineTwo">This email is sent automatically, please do not reply.</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateLinkOfficialSite">Official website</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateLinkCopilotSite">MAA Copilot (Chinese)</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateHello">Doctor, there's a new notification!</system:String>
-    <!-- External Notification -->
+    <!--  External Notification  -->
 </ResourceDictionary>

@@ -20,14 +20,14 @@ namespace MaaWpfGui.Services.HotKeys
 {
     public class MaaHotKeyActionHandler : IMaaHotKeyActionHandler
     {
-        private readonly RunningState runningState;
+        private readonly RunningState _runningState;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MaaHotKeyActionHandler"/> class.
         /// </summary>
         public MaaHotKeyActionHandler()
         {
-            runningState = RunningState.Instance;
+            _runningState = RunningState.Instance;
         }
 
         /// <inheritdoc/>
@@ -57,7 +57,7 @@ namespace MaaWpfGui.Services.HotKeys
                 return;
             }
 
-            if (runningState.GetIdle())
+            if (_runningState.GetIdle())
             {
                 Instances.TaskQueueViewModel.LinkStart();
 
