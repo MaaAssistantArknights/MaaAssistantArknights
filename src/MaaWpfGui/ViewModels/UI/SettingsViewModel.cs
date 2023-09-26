@@ -2965,10 +2965,12 @@ namespace MaaWpfGui.ViewModels.UI
             Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.KillAdbOnExit, KillAdbOnExit ? "1" : "0");
         }
 
-        private static readonly string _googleAdbDownloadUrl = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip";
-        private static readonly string _adbMaaMirrorDownloadUrl = "https://ota.maa.plus/MaaAssistantArknights/api/binaries/adb-windows.zip";
-        private static readonly string _googleAdbFilename = "adb-windows.zip";
+        private const string GoogleAdbDownloadUrl = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip";
+        private const string AdbMaaMirrorDownloadUrl = "https://ota.maa.plus/MaaAssistantArknights/api/binaries/adb-windows.zip";
+        private const string GoogleAdbFilename = "adb-windows.zip";
 
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public async void ReplaceAdb()
         {
             if (string.IsNullOrEmpty(AdbPath))
@@ -2981,13 +2983,13 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            if (!File.Exists(_googleAdbFilename))
+            if (!File.Exists(GoogleAdbFilename))
             {
-                var downloadResult = await Instances.HttpService.DownloadFileAsync(new Uri(_googleAdbDownloadUrl), _googleAdbFilename);
+                var downloadResult = await Instances.HttpService.DownloadFileAsync(new Uri(GoogleAdbDownloadUrl), GoogleAdbFilename);
 
                 if (!downloadResult)
                 {
-                    downloadResult = await Instances.HttpService.DownloadFileAsync(new Uri(_adbMaaMirrorDownloadUrl), _googleAdbFilename);
+                    downloadResult = await Instances.HttpService.DownloadFileAsync(new Uri(AdbMaaMirrorDownloadUrl), GoogleAdbFilename);
                 }
 
                 if (!downloadResult)
@@ -3024,7 +3026,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             try
             {
-                ZipFile.ExtractToDirectory(_googleAdbFilename, UnzipDir);
+                ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
             }
             catch (Exception ex)
             {
@@ -3748,7 +3750,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event args</param>
-        // xaml 中绑定了 Loaded 事件，需要添加 qodana ignore rule
+        // UI 绑定的方法
         // EventArgs 不能省略，否则会报错
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable once UnusedParameter.Global
