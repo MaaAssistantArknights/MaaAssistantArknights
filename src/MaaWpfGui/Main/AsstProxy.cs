@@ -1787,12 +1787,7 @@ namespace MaaWpfGui.Main
             task_params["start_with_elite_two"] = start_with_elite_two;
             task_params["use_support"] = use_support;
             task_params["use_nonfriend_support"] = enable_nonfriend_support;
-            task_params["refresh_trader_with_dice"] = refresh_trader_with_dice;
-
-            if (theme != "Mizuki")
-            {
-                task_params["refresh_trader_with_dice"] = false;
-            }
+            task_params["refresh_trader_with_dice"] = (theme == "Mizuki" ? refresh_trader_with_dice : false);
 
             AsstTaskId id = AsstAppendTaskWithEncoding("Roguelike", task_params);
             _latestTaskId[TaskType.Roguelike] = id;
