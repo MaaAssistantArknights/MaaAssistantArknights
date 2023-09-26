@@ -232,7 +232,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (NeedToCheckForUpdates())
             {
-                if (Instances.SettingsViewModel.UpdatAutoCheck)
+                if (Instances.SettingsViewModel.UpdateAutoCheck)
                 {
                     // 随机延迟，防止同时更新
                     var delayTime = new Random().Next(0, 60 * 60 * 1000);
@@ -418,7 +418,7 @@ namespace MaaWpfGui.ViewModels.UI
             UpdateStageList(true);
             RefreshCustomInfrastPlan();
 
-            if (DateTime.UtcNow.ToYJDate().IsAprilFoolsDay())
+            if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())
             {
                 AddLog(LocalizationHelper.GetString("BuyWineOnAprilFoolsDay"), UiLogColor.Info);
             }
@@ -497,7 +497,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private bool NeedToUpdateDatePrompt()
         {
-            var now = DateTime.UtcNow.ToYJDateTime();
+            var now = DateTime.UtcNow.ToYjDateTime();
             var hour = now.Hour;
             var min = now.Minute;
 
@@ -518,7 +518,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static bool NeedToCheckForUpdates()
         {
-            var now = DateTime.UtcNow.ToYJDateTime();
+            var now = DateTime.UtcNow.ToYjDateTime();
             var hour = now.Hour;
             var min = now.Minute;
 
@@ -753,12 +753,12 @@ namespace MaaWpfGui.ViewModels.UI
                 connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
             }
 
-            // 尝试重启adb
-            if (!connected && Instances.SettingsViewModel.AllowADBRestart)
+            // 尝试重启 ADB
+            if (!connected && Instances.SettingsViewModel.AllowAdbRestart)
             {
-                AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("RestartADB"));
+                AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("RestartAdb"));
 
-                await Task.Run(() => Instances.SettingsViewModel.RestartADB());
+                await Task.Run(() => Instances.SettingsViewModel.RestartAdb());
 
                 if (Stopping)
                 {
@@ -769,12 +769,12 @@ namespace MaaWpfGui.ViewModels.UI
                 connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
             }
 
-            // 尝试杀掉adb进程
-            if (!connected && Instances.SettingsViewModel.AllowADBHardRestart)
+            // 尝试杀掉 ADB 进程
+            if (!connected && Instances.SettingsViewModel.AllowAdbHardRestart)
             {
-                AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("HardRestartADB"));
+                AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("HardRestartAdb"));
 
-                await Task.Run(() => Instances.SettingsViewModel.HardRestartADB());
+                await Task.Run(() => Instances.SettingsViewModel.HardRestartAdb());
 
                 if (Stopping)
                 {

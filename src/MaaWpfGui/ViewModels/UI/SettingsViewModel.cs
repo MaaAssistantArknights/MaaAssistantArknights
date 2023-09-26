@@ -54,7 +54,7 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class SettingsViewModel : Screen
     {
-        private readonly RunningState runningState;
+        private readonly RunningState _runningState;
 
         private static readonly ILogger _logger = Log.ForContext<SettingsViewModel>();
 
@@ -69,19 +69,19 @@ namespace MaaWpfGui.ViewModels.UI
         [DllImport("user32.dll")]
         private static extern bool IsIconic(IntPtr hWnd);
 
-        private static readonly string s_versionId = Marshal.PtrToStringAnsi(AsstGetVersion());
+        private static readonly string _versionId = Marshal.PtrToStringAnsi(AsstGetVersion());
 
         /// <summary>
         /// Gets the version id.
         /// </summary>
-        public string VersionId => s_versionId;
+        public string VersionId => _versionId;
 
-        private static readonly string s_versionInfo = LocalizationHelper.GetString("Version") + ": " + s_versionId;
+        private static readonly string _versionInfo = LocalizationHelper.GetString("Version") + ": " + _versionId;
 
         /// <summary>
         /// Gets the version info.
         /// </summary>
-        public string VersionInfo => s_versionInfo;
+        public string VersionInfo => _versionInfo;
 
         /// <summary>
         /// The Pallas language key.
@@ -105,7 +105,7 @@ namespace MaaWpfGui.ViewModels.UI
             _listTitle.Add(LocalizationHelper.GetString("GameSettings"));
             _listTitle.Add(LocalizationHelper.GetString("ConnectionSettings"));
             _listTitle.Add(LocalizationHelper.GetString("StartupSettings"));
-            _listTitle.Add(LocalizationHelper.GetString("UISettings"));
+            _listTitle.Add(LocalizationHelper.GetString("UiSettings"));
             _listTitle.Add(LocalizationHelper.GetString("ExternalNotificationSettings"));
             _listTitle.Add(LocalizationHelper.GetString("HotKeySettings"));
             _listTitle.Add(LocalizationHelper.GetString("UpdateSettings"));
@@ -126,7 +126,7 @@ namespace MaaWpfGui.ViewModels.UI
                 Bootstrapper.ShutdownAndRestartWithOutArgs();
             }
 
-            runningState = RunningState.Instance;
+            _runningState = RunningState.Instance;
         }
 
         public void Sober()
@@ -315,7 +315,7 @@ namespace MaaWpfGui.ViewModels.UI
         private void InfrastInit()
         {
             /* 基建设置 */
-            var facility_list = new string[]
+            var facilityList = new string[]
             {
                 "Mfg",
                 "Trade",
@@ -327,32 +327,32 @@ namespace MaaWpfGui.ViewModels.UI
                 "Processing",
             };
 
-            var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[facility_list.Length]);
-            for (int i = 0; i != facility_list.Length; ++i)
+            var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[facilityList.Length]);
+            for (int i = 0; i != facilityList.Length; ++i)
             {
-                var facility = facility_list[i];
+                var facility = facilityList[i];
                 bool parsed = int.TryParse(ConfigurationHelper.GetFacilityOrder(facility, "-1"), out int order);
 
                 if (!parsed || order < 0)
                 {
-                    temp_order_list[i] = new DragItemViewModel(LocalizationHelper.GetString(facility), facility, "Infrast.");
+                    tempOrderList[i] = new DragItemViewModel(LocalizationHelper.GetString(facility), facility, "Infrast.");
                 }
                 else
                 {
-                    temp_order_list[order] = new DragItemViewModel(LocalizationHelper.GetString(facility), facility, "Infrast.");
+                    tempOrderList[order] = new DragItemViewModel(LocalizationHelper.GetString(facility), facility, "Infrast.");
                 }
             }
 
-            InfrastItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
+            InfrastItemViewModels = new ObservableCollection<DragItemViewModel>(tempOrderList);
 
             DefaultInfrastList = new List<CombinedData>
             {
                 new CombinedData { Display = LocalizationHelper.GetString("UserDefined"), Value = _userDefined },
-                new CombinedData { Display = LocalizationHelper.GetString("153_3"), Value = "153_layout_3_times_a_day.json" },
-                new CombinedData { Display = LocalizationHelper.GetString("243_3"), Value = "243_layout_3_times_a_day.json" },
-                new CombinedData { Display = LocalizationHelper.GetString("243_4"), Value = "243_layout_4_times_a_day.json" },
-                new CombinedData { Display = LocalizationHelper.GetString("252_3"), Value = "252_layout_3_times_a_day.json" },
-                new CombinedData { Display = LocalizationHelper.GetString("333_3"), Value = "333_layout_for_Orundum_3_times_a_day.json" },
+                new CombinedData { Display = LocalizationHelper.GetString("153Time3"), Value = "153_layout_3_times_a_day.json" },
+                new CombinedData { Display = LocalizationHelper.GetString("243Time3"), Value = "243_layout_3_times_a_day.json" },
+                new CombinedData { Display = LocalizationHelper.GetString("243Time4"), Value = "243_layout_4_times_a_day.json" },
+                new CombinedData { Display = LocalizationHelper.GetString("252Time3"), Value = "252_layout_3_times_a_day.json" },
+                new CombinedData { Display = LocalizationHelper.GetString("333Time3"), Value = "333_layout_for_Orundum_3_times_a_day.json" },
             };
 
             UsesOfDronesList = new List<CombinedData>
@@ -428,7 +428,7 @@ namespace MaaWpfGui.ViewModels.UI
                 new CombinedData { Display = LocalizationHelper.GetString("YoStarEN"), Value = "YoStarEN" },
                 new CombinedData { Display = LocalizationHelper.GetString("YoStarJP"), Value = "YoStarJP" },
                 new CombinedData { Display = LocalizationHelper.GetString("YoStarKR"), Value = "YoStarKR" },
-                new CombinedData { Display = LocalizationHelper.GetString("txwy"), Value = "txwy" },
+                new CombinedData { Display = LocalizationHelper.GetString("Txwy"), Value = "txwy" },
             };
 
             var configurations = new ObservableCollection<CombinedData>();
@@ -443,7 +443,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 new CombinedData { Display = LocalizationHelper.GetString("Light"), Value = "Light" },
                 new CombinedData { Display = LocalizationHelper.GetString("Dark"), Value = "Dark" },
-                new CombinedData { Display = LocalizationHelper.GetString("SyncWithOS"), Value = "SyncWithOS" },
+                new CombinedData { Display = LocalizationHelper.GetString("SyncWithOs"), Value = "SyncWithOs" },
             };
 
             InverseClearModeList = new List<CombinedData>
@@ -543,7 +543,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _startEmulator, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.StartEmulator, value.ToString());
-                if (ClientType == string.Empty && runningState.GetIdle())
+                if (ClientType == string.Empty && _runningState.GetIdle())
                 {
                     ClientType = "Official";
                 }
@@ -884,10 +884,10 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             // 储存按钮状态，以便后续重置
-            bool idle = runningState.GetIdle();
+            bool idle = _runningState.GetIdle();
 
             // 让按钮变成停止按钮，可手动停止等待
-            runningState.SetIdle(false);
+            _runningState.SetIdle(false);
             for (var i = 0; i < delay; ++i)
             {
                 if (Instances.TaskQueueViewModel.Stopping)
@@ -911,15 +911,15 @@ namespace MaaWpfGui.ViewModels.UI
             _logger.Information("The wait is over");
 
             // 重置按钮状态，不影响后续判断
-            runningState.SetIdle(idle);
+            _runningState.SetIdle(idle);
         }
 
         /// <summary>
         /// Restarts the ADB (Android Debug Bridge).
         /// </summary>
-        public void RestartADB()
+        public void RestartAdb()
         {
-            if (!AllowADBRestart)
+            if (!AllowAdbRestart)
             {
                 return;
             }
@@ -955,9 +955,9 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Kill and restart the ADB (Android Debug Bridge) process.
         /// </summary>
-        public void HardRestartADB()
+        public void HardRestartAdb()
         {
-            if (!AllowADBHardRestart)
+            if (!AllowAdbHardRestart)
             {
                 return;
             }
@@ -990,7 +990,7 @@ namespace MaaWpfGui.ViewModels.UI
                     continue;
                 }
 
-                // Some emulators start their adb with administrator privilege.
+                // Some emulators start their ADB with administrator privilege.
                 // Not sure if this is necessary
                 try
                 {
@@ -1829,7 +1829,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         /* 访问好友设置 */
-        private string _lastCreditFightTaskTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditFightTaskTime, DateTime.UtcNow.ToYJDate().AddDays(-1).ToString("yyyy/MM/dd HH:mm:ss"));
+        private string _lastCreditFightTaskTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditFightTaskTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToString("yyyy/MM/dd HH:mm:ss"));
 
         public string LastCreditFightTaskTime
         {
@@ -1852,7 +1852,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 try
                 {
-                    if (DateTime.UtcNow.ToYJDate() > DateTime.ParseExact(_lastCreditFightTaskTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
+                    if (DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(_lastCreditFightTaskTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
                     {
                         return _creditFightTaskEnabled;
                     }
@@ -2370,18 +2370,18 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _updateAutoCheck = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UpdatAutoCheck, bool.FalseString));
+        private bool _updateAutoCheck = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UpdateAutoCheck, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to check update.
         /// </summary>
-        public bool UpdatAutoCheck
+        public bool UpdateAutoCheck
         {
             get => _updateAutoCheck;
             set
             {
                 SetAndNotify(ref _updateAutoCheck, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.UpdatAutoCheck, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.UpdateAutoCheck, value.ToString());
             }
         }
 
@@ -2571,10 +2571,10 @@ namespace MaaWpfGui.ViewModels.UI
             else
             {
                 history.Insert(0, address);
-                const int maxHistoryCount = 5;
-                if (history.Count > maxHistoryCount)
+                const int MaxHistoryCount = 5;
+                if (history.Count > MaxHistoryCount)
                 {
-                    history.RemoveRange(maxHistoryCount, history.Count - maxHistoryCount);
+                    history.RemoveRange(MaxHistoryCount, history.Count - MaxHistoryCount);
                 }
             }
 
@@ -2621,7 +2621,7 @@ namespace MaaWpfGui.ViewModels.UI
         private bool _retryOnDisconnected = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RetryOnAdbDisconnected, bool.FalseString));
 
         /// <summary>
-        /// Gets or sets a value indicating whether to retry task after adb disconnected.
+        /// Gets or sets a value indicating whether to retry task after ADB disconnected.
         /// </summary>
         public bool RetryOnDisconnected
         {
@@ -2633,33 +2633,33 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _allowADBRestart = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AllowADBRestart, bool.TrueString));
+        private bool _allowAdbRestart = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AllowAdbRestart, bool.TrueString));
 
         /// <summary>
-        /// Gets or sets a value indicating whether to retry task after adb disconnected.
+        /// Gets or sets a value indicating whether to retry task after ADB disconnected.
         /// </summary>
-        public bool AllowADBRestart
+        public bool AllowAdbRestart
         {
-            get => _allowADBRestart;
+            get => _allowAdbRestart;
             set
             {
-                SetAndNotify(ref _allowADBRestart, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AllowADBRestart, value.ToString());
+                SetAndNotify(ref _allowAdbRestart, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.AllowAdbRestart, value.ToString());
             }
         }
 
-        private bool _allowADBHardRestart = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AllowADBHardRestart, bool.TrueString));
+        private bool _allowAdbHardRestart = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AllowAdbHardRestart, bool.TrueString));
 
         /// <summary>
-        /// Gets or sets a value indicating whether to allow for killing adb process.
+        /// Gets or sets a value indicating whether to allow for killing ADB process.
         /// </summary>
-        public bool AllowADBHardRestart
+        public bool AllowAdbHardRestart
         {
-            get => _allowADBHardRestart;
+            get => _allowAdbHardRestart;
             set
             {
-                SetAndNotify(ref _allowADBHardRestart, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AllowADBHardRestart, value.ToString());
+                SetAndNotify(ref _allowAdbHardRestart, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.AllowAdbHardRestart, value.ToString());
             }
         }
 
@@ -2820,7 +2820,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             var dialog = new OpenFileDialog
             {
-                Filter = LocalizationHelper.GetString("ADBProgram") + "|*.exe",
+                Filter = LocalizationHelper.GetString("AdbProgram") + "|*.exe",
             };
 
             if (dialog.ShowDialog() == true)
@@ -2912,11 +2912,11 @@ namespace MaaWpfGui.ViewModels.UI
                 return null;
             }
 
-            var all_lines = File.ReadAllLines(_bluestacksConfig);
+            var allLines = File.ReadAllLines(_bluestacksConfig);
 
             if (string.IsNullOrEmpty(_bluestacksKeyWord))
             {
-                foreach (var line in all_lines)
+                foreach (var line in allLines)
                 {
                     if (line.StartsWith("bst.installed_images"))
                     {
@@ -2927,7 +2927,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            foreach (var line in all_lines)
+            foreach (var line in allLines)
             {
                 if (line.StartsWith(_bluestacksKeyWord))
                 {
@@ -2965,11 +2965,11 @@ namespace MaaWpfGui.ViewModels.UI
             Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.KillAdbOnExit, KillAdbOnExit ? "1" : "0");
         }
 
-        private static readonly string GoogleAdbDownloadUrl = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip";
-        private static readonly string AdbMaaMirrorDownloadUrl = "https://ota.maa.plus/MaaAssistantArknights/api/binaries/adb-windows.zip";
-        private static readonly string GoogleAdbFilename = "adb-windows.zip";
+        private static readonly string _googleAdbDownloadUrl = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip";
+        private static readonly string _adbMaaMirrorDownloadUrl = "https://ota.maa.plus/MaaAssistantArknights/api/binaries/adb-windows.zip";
+        private static readonly string _googleAdbFilename = "adb-windows.zip";
 
-        public async void ReplaceADB()
+        public async void ReplaceAdb()
         {
             if (string.IsNullOrEmpty(AdbPath))
             {
@@ -2981,13 +2981,13 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            if (!File.Exists(GoogleAdbFilename))
+            if (!File.Exists(_googleAdbFilename))
             {
-                var downloadResult = await Instances.HttpService.DownloadFileAsync(new Uri(GoogleAdbDownloadUrl), GoogleAdbFilename);
+                var downloadResult = await Instances.HttpService.DownloadFileAsync(new Uri(_googleAdbDownloadUrl), _googleAdbFilename);
 
                 if (!downloadResult)
                 {
-                    downloadResult = await Instances.HttpService.DownloadFileAsync(new Uri(AdbMaaMirrorDownloadUrl), GoogleAdbFilename);
+                    downloadResult = await Instances.HttpService.DownloadFileAsync(new Uri(_adbMaaMirrorDownloadUrl), _googleAdbFilename);
                 }
 
                 if (!downloadResult)
@@ -3024,7 +3024,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             try
             {
-                ZipFile.ExtractToDirectory(GoogleAdbFilename, UnzipDir);
+                ZipFile.ExtractToDirectory(_googleAdbFilename, UnzipDir);
             }
             catch (Exception ex)
             {
@@ -3072,7 +3072,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 _ = Execute.OnUIThreadAsync(() =>
                 {
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("SuccessfullyReplacedADB"));
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("SuccessfullyReplacedAdb"));
                     toast.Show();
                 });
             }
@@ -3289,7 +3289,7 @@ namespace MaaWpfGui.ViewModels.UI
             /// <summary>
             /// 与操作系统的深色模式同步。
             /// </summary>
-            SyncWithOS,
+            SyncWithOs,
         }
 
         private DarkModeType _darkModeType =
@@ -3345,8 +3345,8 @@ namespace MaaWpfGui.ViewModels.UI
                     ThemeHelper.SwitchToDarkMode();
                     break;
 
-                case DarkModeType.SyncWithOS:
-                    ThemeHelper.SwitchToSyncWithOSMode();
+                case DarkModeType.SyncWithOs:
+                    ThemeHelper.SwitchToSyncWithOsMode();
                     break;
             }
         }
@@ -3566,7 +3566,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>The answer.</returns>
         public bool DidYouBuyWine()
         {
-            if (DateTime.UtcNow.ToYJDate().IsAprilFoolsDay())
+            if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())
             {
                 return true;
             }
