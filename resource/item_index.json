@@ -1679,6 +1679,38 @@
         "sortId": 30001,
         "usage": "一份椒盐果仁的糖皮月饼，可用于恢复理智。"
     },
+    "ap_supply_lt_120_2023_1": {
+        "classifyType": "CONSUME",
+        "description": "可口凉爽的冰皮月饼，记得冷藏保存哦！",
+        "icon": "ap_supply_lt_120_2023_1.png",
+        "name": "“满庭光”",
+        "sortId": 30001,
+        "usage": "一份芒果椰蓉馅的冰皮月饼，可用于恢复理智。"
+    },
+    "ap_supply_lt_120_2023_2": {
+        "classifyType": "CONSUME",
+        "description": "可口凉爽的冰皮月饼，记得冷藏保存哦！",
+        "icon": "ap_supply_lt_120_2023_2.png",
+        "name": "“良宵晴”",
+        "sortId": 30001,
+        "usage": "一份肉松馅的冰皮月饼，可用于恢复理智。"
+    },
+    "ap_supply_lt_120_2023_3": {
+        "classifyType": "CONSUME",
+        "description": "香甜脆爽的糖皮月饼，食用前记得加热哦！",
+        "icon": "ap_supply_lt_120_2023_3.png",
+        "name": "“飘桂香”",
+        "sortId": 30001,
+        "usage": "一份豆沙桂花馅的糖皮月饼，可用于恢复理智。"
+    },
+    "ap_supply_lt_120_2023_4": {
+        "classifyType": "CONSUME",
+        "description": "香甜脆爽的糖皮月饼，食用前记得加热哦！",
+        "icon": "ap_supply_lt_120_2023_4.png",
+        "name": "“藏金波“",
+        "sortId": 30001,
+        "usage": "一份咸蛋黄馅的糖皮月饼，可用于恢复理智。"
+    },
     "ap_supply_lt_60": {
         "classifyType": "CONSUME",
         "description": "虽然暴饮暴食可以缓解战场带来的焦虑与压力，但总归不利于博士的身体健康。本品含有一定糖分，故而外包装采取特制结构，较难拆解，请借此消耗掉多余的卡路里。",
