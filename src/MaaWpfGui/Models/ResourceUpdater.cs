@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using Stylet;
 
@@ -11,7 +12,6 @@ namespace MaaWpfGui.Models
 {
     public static class ResourceUpdater
     {
-        private const string MaaResourceApi = "https://ota.maa.plus/MaaAssistantArknights/MaaAssistantArknights/";
 
         private static readonly List<string> _maaSingleFiles = new List<string>
         {
@@ -86,7 +86,7 @@ namespace MaaWpfGui.Models
 
             foreach (var file in _maaSingleFiles)
             {
-                var sRet = await UpdateFileWithETag(MaaResourceApi, file, file);
+                var sRet = await UpdateFileWithETag(MaaUrls.MaaResourceApi, file, file);
 
                 if (sRet == UpdateResult.Failed)
                 {
@@ -106,7 +106,7 @@ namespace MaaWpfGui.Models
         // 这些文件数量不固定，需要先获取索引文件，再根据索引文件下载
         private static async Task<UpdateResult> UpdateFilesWithIndex()
         {
-            var indexSRet = await UpdateFileWithETag(MaaResourceApi, MaaDynamicFilesIndex, MaaDynamicFilesIndex);
+            var indexSRet = await UpdateFileWithETag(MaaUrls.MaaResourceApi, MaaDynamicFilesIndex, MaaDynamicFilesIndex);
             if (indexSRet == UpdateResult.Failed || indexSRet == UpdateResult.NotModified)
             {
                 return indexSRet;
@@ -134,7 +134,7 @@ namespace MaaWpfGui.Models
                     return;
                 }
 
-                var sRet = await UpdateFileWithETag(MaaResourceApi, file, file);
+                var sRet = await UpdateFileWithETag(MaaUrls.MaaResourceApi, file, file);
                 if (sRet == UpdateResult.Failed)
                 {
                     ret = UpdateResult.Failed;

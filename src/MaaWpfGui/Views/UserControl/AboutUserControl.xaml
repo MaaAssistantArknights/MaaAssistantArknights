@@ -62,7 +62,7 @@
                 Cursor="Hand"
                 NavigateUri="{Binding Source={x:Static constants:MaaUrls.QqGroups}}"
                 TextDecorations="None">
-                <TextBlock Text="{DynamicResource QQgroup}" />
+                <TextBlock Text="{DynamicResource QqGroup}" />
             </Hyperlink>
         </controls:TextBlock>
 
@@ -72,9 +72,9 @@
             VerticalAlignment="Center">
             <Hyperlink
                 Cursor="Hand"
-                NavigateUri="{Binding Source={x:Static constants:MaaUrls.QQchannel}}"
+                NavigateUri="{Binding Source={x:Static constants:MaaUrls.QqChannel}}"
                 TextDecorations="None">
-                <TextBlock Text="{DynamicResource QQchannel}" />
+                <TextBlock Text="{DynamicResource QqChannel}" />
             </Hyperlink>
         </controls:TextBlock>
 

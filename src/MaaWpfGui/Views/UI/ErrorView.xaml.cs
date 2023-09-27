@@ -77,8 +77,9 @@ namespace MaaWpfGui.Views.UI
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private string GetSolution(string error, string details)
+        private static string GetSolution(string error, string details)
         {
+            _ = error; // To avoid warning
             if (details.Contains("AsstGetVersion()") ||
                 details.Contains("DllNotFoundException") ||
                 details.Contains("lambda_method") ||
@@ -87,6 +88,7 @@ namespace MaaWpfGui.Views.UI
                 return LocalizationHelper.GetString("ErrorSolutionCrash");
             }
 
+            // ReSharper disable once ConvertIfStatementToReturnStatement
             if (details.Contains("System.IO.File.InternalMove"))
             {
                 return LocalizationHelper.GetString("ErrorSolutionFailedToMove");
