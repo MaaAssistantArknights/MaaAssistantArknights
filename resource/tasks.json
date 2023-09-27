@@ -8695,8 +8695,8 @@
             180,
             80
         ],
-        "preDelay": 200,
-        "postDelay": 500,
+        "preDelay": 500,
+        "postDelay": 1000,
         "next": [
             "Roguelike@StageCambatEnterAgain"
         ]
