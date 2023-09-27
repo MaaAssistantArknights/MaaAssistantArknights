@@ -1,16 +1,18 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Text.Json.Serialization;
 using ObservableCollections;
 
 namespace MaaWpfGui.Configuration
 {
-    public class RootConfig : INotifyPropertyChanged
+    public class Root : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ObservableDictionary<string, SpecificConfig> Configurations { get; set; } = new ObservableDictionary<string, SpecificConfig>();
+        [JsonInclude]
+        public ObservableDictionary<string, SpecificConfig> Configurations { get; private set; } = new ObservableDictionary<string, SpecificConfig>();
+
+        [JsonInclude]
+        public ObservableDictionary<int, Timer> Timers { get; private set; } = new ObservableDictionary<int, Timer>();
 
         public string Current { get; set; } = "Default";
 
@@ -19,8 +21,7 @@ namespace MaaWpfGui.Configuration
         {
             get
             {
-                SpecificConfig result = null;
-                Configurations.TryGetValue(Current, out result);
+                Configurations.TryGetValue(Current, out var result);
                 return result;
             }
 

@@ -23,6 +23,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -78,7 +79,7 @@ namespace MaaWpfGui.ViewModels.UI
                 int index = 0;
                 foreach (var item in TaskItemViewModels)
                 {
-                    ConfigurationHelper.SetTaskOrder(item.OriginalName, index.ToString());
+                    ConfigFactory.CurrentConfig.TaskQueueOrder[item.OriginalName] = index;
                     ++index;
                 }
             });
@@ -384,7 +385,7 @@ namespace MaaWpfGui.ViewModels.UI
             for (int i = 0; i != taskList.Count; ++i)
             {
                 var task = taskList[i];
-                bool parsed = int.TryParse(ConfigurationHelper.GetTaskOrder(task, "-1"), out var order);
+                bool parsed = ConfigFactory.CurrentConfig.InfrastOrder.TryGetValue(task, out var order);
 
                 var vm = new DragItemViewModel(LocalizationHelper.GetString(task), task, "TaskQueue.");
 
@@ -645,7 +646,7 @@ namespace MaaWpfGui.ViewModels.UI
         public const int SelectedAllWidthWhenBoth = 80;
 
         private int _selectedAllWidth =
-            ConfigurationHelper.GetValue(ConfigurationKeys.InverseClearMode, "Clear") == "ClearInverse" ? SelectedAllWidthWhenBoth : 85;
+            ConfigFactory.CurrentConfig.GUI.InverseClearMode == InverseClearType.Clear ? SelectedAllWidthWhenBoth : 85;
 
         /// <summary>
         /// Gets or sets the width of "Select All".
@@ -656,7 +657,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _selectedAllWidth, value);
         }
 
-        private bool _showInverse = ConfigurationHelper.GetValue(ConfigurationKeys.InverseClearMode, "Clear") == "ClearInverse";
+        private bool _showInverse = ConfigFactory.CurrentConfig.GUI.InverseClearMode == InverseClearType.ClearInverse;
 
         /// <summary>
         /// Gets or sets a value indicating whether "Select inversely" is visible.
@@ -2318,7 +2319,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _useAlternateStage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseAlternateStage, bool.FalseString));
+        private bool _useAlternateStage = ConfigFactory.CurrentConfig.GUI.UseAlternateStage;
 
         /// <summary>
         /// Gets or sets a value indicating whether to use alternate stage.
@@ -2337,7 +2338,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _useRemainingSanityStage, value);
         }
 
-        private bool _customStageCode = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CustomStageCode, bool.FalseString));
+        private bool _customStageCode = ConfigFactory.CurrentConfig.GUI.CustomStageCode;
 
         /// <summary>
         /// Gets or sets a value indicating whether to use custom stage code.
