@@ -29,17 +29,20 @@ namespace MaaWpfGui.ViewModels.UI
     /// <summary>
     /// The view model of version update.
     /// </summary>
+    // 通过 container.Get<TaskQueueViewModel>(); 实例化或获取实例
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class AnnouncementViewModel : Screen
     {
         private string _announcementInfo = ConfigurationHelper.GetValue(ConfigurationKeys.AnnouncementInfo, string.Empty);
 
         /// <summary>
-        /// Gets or sets the announcement info.
+        /// Gets the announcement info.
         /// </summary>
+        // ReSharper disable once MemberCanBePrivate.Global
         public string AnnouncementInfo
         {
             get => _announcementInfo;
-            set
+            private set
             {
                 SetAndNotify(ref _announcementInfo, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.AnnouncementInfo, value);
@@ -106,6 +109,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="e">The event arguments.</param>
         // xaml 里用到了
         // ReSharper disable once UnusedMember.Global
+        // ReSharper disable once UnusedParameter.Global
         public void OpenHyperlink(object sender, ExecutedRoutedEventArgs e)
         {
             Process.Start(e.Parameter.ToString());
