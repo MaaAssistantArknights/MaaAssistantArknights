@@ -29,6 +29,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using HandyControl.Controls;
 using HandyControl.Data;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -3132,18 +3133,16 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _useNotify = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseNotify, bool.TrueString));
-
         /// <summary>
         /// Gets or sets a value indicating whether to use notification.
         /// </summary>
         public bool UseNotify
         {
-            get => _useNotify;
+            get => ConfigFactory.CurrentConfig.GuiConfig.UseNotify;
             set
             {
-                SetAndNotify(ref _useNotify, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.UseNotify, value.ToString());
+                ConfigFactory.CurrentConfig.GuiConfig.UseNotify = value;
+                NotifyOfPropertyChange();
                 if (value)
                 {
                     Execute.OnUIThread(() =>
@@ -3274,38 +3273,11 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         /// <summary>
-        /// 表示深色模式的类型。
-        /// </summary>
-        public enum DarkModeType
-        {
-            /// <summary>
-            /// 明亮的主题。
-            /// </summary>
-            Light,
-
-            /// <summary>
-            /// 暗黑的主题。
-            /// </summary>
-            Dark,
-
-            /// <summary>
-            /// 与操作系统的深色模式同步。
-            /// </summary>
-            SyncWithOs,
-        }
-
-        private DarkModeType _darkModeType =
-            Enum.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.DarkMode, DarkModeType.Light.ToString()),
-                out DarkModeType temp)
-                ? temp
-                : DarkModeType.Light;
-
-        /// <summary>
         /// Gets or sets the dark mode.
         /// </summary>
         public string DarkMode
         {
-            get => _darkModeType.ToString();
+            get => ConfigFactory.CurrentConfig.GuiConfig.DarkMode.ToString();
             set
             {
                 if (!Enum.TryParse(value, out DarkModeType tempEnumValue))
@@ -3313,8 +3285,8 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
-                SetAndNotify(ref _darkModeType, tempEnumValue);
-                ConfigurationHelper.SetValue(ConfigurationKeys.DarkMode, value);
+                ConfigFactory.CurrentConfig.GuiConfig.DarkMode = tempEnumValue;
+                NotifyOfPropertyChange();
                 SwitchDarkMode();
 
                 /*
@@ -3333,10 +3305,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void SwitchDarkMode()
         {
-            DarkModeType darkModeType =
-                Enum.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.DarkMode, DarkModeType.Light.ToString()),
-                    out DarkModeType temp)
-                    ? temp : DarkModeType.Light;
+            DarkModeType darkModeType = ConfigFactory.CurrentConfig.GuiConfig.DarkMode;
             switch (darkModeType)
             {
                 case DarkModeType.Light:
@@ -3347,7 +3316,7 @@ namespace MaaWpfGui.ViewModels.UI
                     ThemeHelper.SwitchToDarkMode();
                     break;
 
-                case DarkModeType.SyncWithOs:
+                case DarkModeType.SyncWithOS:
                     ThemeHelper.SwitchToSyncWithOsMode();
                     break;
             }
