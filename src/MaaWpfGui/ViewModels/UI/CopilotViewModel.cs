@@ -695,7 +695,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// 更新任务顺序
         /// </summary>
-        private void CopilotItemIndexChanged()
+        // UI会使用此方法
+        public void CopilotItemIndexChanged()
         {
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
