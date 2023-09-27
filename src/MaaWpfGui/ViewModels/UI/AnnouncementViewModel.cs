@@ -91,11 +91,18 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            var body = await response.Content.ReadAsStringAsync();
-            if (!string.IsNullOrEmpty(body))
+            try
             {
-                AnnouncementInfo = body;
-                IsFirstShowAnnouncement = true;
+                var body = await response.Content.ReadAsStringAsync();
+                if (!string.IsNullOrEmpty(body))
+                {
+                    AnnouncementInfo = body;
+                    IsFirstShowAnnouncement = true;
+                }
+            }
+            catch
+            {
+                return;
             }
 
             ETagCache.Set(Url, response.Headers.ETag.Tag);
