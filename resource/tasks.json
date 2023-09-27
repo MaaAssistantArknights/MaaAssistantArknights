@@ -5321,8 +5321,8 @@
         "action": "DoNothing",
         "next": [
             "Infrast",
-            "InfrastEnteredFlag",
             "InfrastNotification",
+            "InfrastEnteredFlag",
             "Infrast@ReturnButtons#next",
             "Infrast@CloseAnnos#next",
             "Infrast@OfflineConfirm"
@@ -5337,45 +5337,27 @@
     "Infrast@BlackReturn": {
         "template": "Return.png",
         "next": [
-            "Infrast",
-            "InfrastNotification",
-            "InfrastEnteredFlag",
-            "Infrast@(BlackReturn#next)",
-            "Infrast@OfflineConfirm"
+            "InfrastBegin#next",
+            "Infrast@(BlackReturn#next)"
         ]
     },
     "Infrast@ReturnConfirm": {
         "template": "PopupConfirm.png",
         "next": [
-            "Infrast",
-            "InfrastNotification",
-            "InfrastEnteredFlag",
-            "Infrast@ReturnButtons#next",
-            "Infrast@CloseAnnos#next",
-            "Infrast@ReturnConfirm",
-            "Infrast@OfflineConfirm"
+            "InfrastBegin#next",
+            "Infrast@ReturnConfirm"
         ]
     },
     "Infrast@CloseAnno": {
         "template": "CloseAnno.png",
         "next": [
-            "Infrast",
-            "InfrastNotification",
-            "InfrastEnteredFlag",
-            "Infrast@ReturnButtons#next",
-            "Infrast@CloseAnnos#next",
-            "Infrast@OfflineConfirm"
+            "InfrastBegin#next"
         ]
     },
     "Infrast@CloseAnnoTexas": {
         "template": "CloseAnnoTexas.png",
         "next": [
-            "Infrast",
-            "InfrastNotification",
-            "InfrastEnteredFlag",
-            "Infrast@ReturnButtons#next",
-            "Infrast@CloseAnnos#next",
-            "Infrast@OfflineConfirm"
+            "InfrastBegin#next"
         ]
     },
     "Return": {
