@@ -22,6 +22,8 @@ namespace MaaWpfGui.Constants
 
         public const string Bilibili = "https://space.bilibili.com/3493274731940507";
 
+        public const string BilibiliVideo = "https://www.bilibili.com/video/";
+
         public const string GitHub = "https://github.com/MaaAssistantArknights/MaaAssistantArknights";
 
         public const string GitHubIssues = "https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues";
@@ -30,9 +32,17 @@ namespace MaaWpfGui.Constants
 
         public const string PrtsPlus = "https://prts.plus";
 
+        public const string PrtsPlusCopilotGet = "https://www.maa.plus/copilot/get/";
+
+        public const string PrtsPlusCopilotRating = "https://prts.maa.plus/copilot/rating";
+
         public const string MapPrts = "https://map.ark-nights.com/areas?coord_override=maa";
 
         public const string CustomInfrastGenerator = "https://yituliu.site/tools/maa";
+
+        public const string MaaApi = "https://ota.maa.plus/MaaAssistantArknights/api/";
+
+        public const string MaaResourceApi = "https://ota.maa.plus/MaaAssistantArknights/MaaAssistantArknights/";
 
         public const string QqGroups = "https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html";
 
