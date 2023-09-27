@@ -672,6 +672,6 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  External Notification  -->
     <!--  Announcement  -->
     <system:String x:Key="Announcement">Announcement</system:String>
-    <system:String x:Key="CheckAndDownloadAnnouncement">Announcement</system:String>
+    <system:String x:Key="CheckAndDownloadAnnouncement">View Announcement</system:String>
     <!--  Announcement  -->
 </ResourceDictionary>
