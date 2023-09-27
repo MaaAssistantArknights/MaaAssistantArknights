@@ -23,12 +23,6 @@
             "PRTS"
         ]
     },
-    "ChapterDifficultyHard": {
-        "baseTask": "LevelOfDifficulty"
-    },
-    "ChapterDifficultyNormal": {
-        "baseTask": "LevelOfDifficulty"
-    },
     "EnterChapterDifficultyHard": {
         "text": [
             "Start Operation"
@@ -39,15 +33,6 @@
             "Start Operation"
         ]
     },
-    "ClickedCorrectStageOrSwipe": {
-        "action": "DoNothing",
-        "baseTask": "StartButton1",
-        "next": [
-            "ClickedCorrectStage",
-            "FullStageNavigation"
-        ],
-        "reduceOtherTimes": []
-    },
     "SideStoryReopen": {
         "roi": [
             0,
@@ -57,22 +42,6 @@
         ],
         "text": [
             "Rerun"
-        ]
-    },
-    "StageQueue@StartButton1": {
-        "Doc": "StartButton1",
-        "action": "DoNothing",
-        "baseTask": "StartButton1",
-        "exceededNext": [],
-        "maxTimes": 1,
-        "next": [
-            "StageQueue@StartButton2",
-            "StageQueue@StartButton2Adverse",
-            "StageQueue@UseMedicine",
-            "StageQueue@UseStone",
-            "StageQueue@NoStone",
-            "StageQueue@OfflineConfirm",
-            "StageQueue@StartButton1TryAgain"
         ]
     },
     "CF-Open": {
@@ -2134,22 +2103,6 @@
         "text": [
             "Start"
         ]
-    },
-    "StartButton1TryAgain": {
-        "baseTask": "StartButton1",
-        "exceededNext": [],
-        "next": [
-            "StartButton1#next"
-        ],
-        "preDelay": 0,
-        "rectMove": [
-            38,
-            0,
-            35,
-            17
-        ],
-        "rectMoveDoc": "Click on 'Actions' to avoid clicking on StartButton2 the second time.",
-        "reduceOtherTimes": []
     },
     "PRTS2": {
         "text": [
