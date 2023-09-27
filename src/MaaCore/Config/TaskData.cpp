@@ -51,19 +51,9 @@ std::shared_ptr<asst::TaskInfo> asst::TaskData::get(std::string_view name)
     return expand_task(name, get_raw(name)).value_or(nullptr);
 }
 
-#ifndef ASST_DEBUG
-const bool forcedReloadResource = std::ifstream("DEBUG").good() || std::ifstream("DEBUG.txt").good();
-#endif // !ASST_DEBUG
-
 bool asst::TaskData::parse(const json::value& json)
 {
     LogTraceFunction;
-
-#ifndef ASST_DEBUG
-    if (forcedReloadResource) {
-        m_all_tasks_info.clear();
-    }
-#endif // !ASST_DEBUG
 
     m_all_tasks_info.clear();
     const auto& json_obj = m_json_all_tasks_info;
@@ -171,15 +161,6 @@ bool asst::TaskData::parse(const json::value& json)
         for (const std::string_view& name : json_obj | views::keys) {
             generate_task_and_its_base(std::string(name));
         }
-
-        // 延迟展开，等到一个任务被第一次 get 的时候才展开
-        // debug 时为了做语法检查，会 *提前* 展开
-        /*
-        // 展开 # 型任务
-        for (const auto& [name, old_task] : m_raw_all_tasks_info) {
-            expand_task(name, old_task);
-        }
-        */
     }
 
 #ifdef ASST_DEBUG
