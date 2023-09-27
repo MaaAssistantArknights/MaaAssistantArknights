@@ -670,4 +670,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="ExternalNotificationEmailTemplateLinkCopilotSite">MAA Copilot (Chinese)</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateHello">Doctor, there's a new notification!</system:String>
     <!--  External Notification  -->
+    <!--  Announcement  -->
+    <system:String x:Key="Announcement">Announcement</system:String>
+    <system:String x:Key="CheckAndDownloadAnnouncement">Announcement</system:String>
+    <!--  Announcement  -->
 </ResourceDictionary>

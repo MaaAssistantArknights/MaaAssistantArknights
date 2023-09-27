@@ -3758,5 +3758,13 @@ namespace MaaWpfGui.ViewModels.UI
         {
             (sender as ComboBox)?.MakeComboBoxSearchable();
         }
+
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
+        public async Task CheckAndDownloadAnnouncement()
+        {
+            await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
+            _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
+        }
     }
 }

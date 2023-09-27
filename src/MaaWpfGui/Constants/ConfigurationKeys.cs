@@ -189,5 +189,8 @@ namespace MaaWpfGui.Constants
 
         public const string ForceScheduledStart = "Timer.ForceScheduledStart";
         public const string CustomConfig = "Timer.CustomConfig";
+
+        public const string AnnouncementInfo = "Announcement.AnnouncementInfo";
+        public const string IsFirstShowAnnouncement = "Announcement.IsFirstShowAnnouncement";
     }
 }
