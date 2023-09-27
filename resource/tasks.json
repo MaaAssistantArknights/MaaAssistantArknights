@@ -3325,8 +3325,7 @@
             "CloseAnno",
             "CloseAnnoTexas",
             "TodaysSupplies",
-            "NotDownloadVoice",
-            "StartUp"
+            "NotDownloadVoice"
         ]
     },
     "CloseAnno": {
@@ -3340,9 +3339,7 @@
         ],
         "next": [
             "#back",
-            "CloseAnnos#next",
-            "TodaysSupplies",
-            "StartUp"
+            "CloseAnnos#next"
         ]
     },
     "CloseAnnoTexas": {
@@ -3352,9 +3349,6 @@
             24,
             138,
             139
-        ],
-        "next": [
-            "CloseAnnos#next"
         ]
     },
     "NotDownloadVoice": {
@@ -3367,6 +3361,7 @@
             62
         ],
         "next": [
+            "#back",
             "CloseAnnos#next"
         ]
     },
