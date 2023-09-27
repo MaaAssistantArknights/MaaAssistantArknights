@@ -224,7 +224,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             try
             {
-                var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri($"https://prts.maa.plus/copilot/get/{copilotId}"));
+                var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri(MaaUrls.PrtsPlusCopilotGet + copilotId));
                 var json = (JObject)JsonConvert.DeserializeObject(jsonResponse);
                 if (json != null && json.ContainsKey("status_code") && json["status_code"]?.ToString() == "200")
                 {
@@ -302,7 +302,7 @@ namespace MaaWpfGui.ViewModels.UI
                         var linkParser = new Regex(@"AV\d+|(BV.*?).{10}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                         foreach (Match match in linkParser.Matches(details))
                         {
-                            Url = "https://www.bilibili.com/video/" + match.Value;
+                            Url = MaaUrls.BilibiliVideo + match.Value;
                             break;
                         }
 
@@ -572,7 +572,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private const string CopilotJsonDir = "cache/copilot";
 
-        //UI 绑定的方法
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void AddCopilotTask()
         {
@@ -583,7 +583,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        //UI 绑定的方法
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void AddCopilotTask_Adverse()
         {
@@ -645,7 +645,7 @@ namespace MaaWpfGui.ViewModels.UI
             ConfigurationHelper.SetValue(ConfigurationKeys.CopilotTaskList, JsonConvert.SerializeObject(jArray));
         }
 
-        //UI 绑定的方法
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void DeleteCopilotTask(int index)
         {
@@ -653,7 +653,7 @@ namespace MaaWpfGui.ViewModels.UI
             CopilotItemIndexChanged();
         }
 
-        //UI 绑定的方法
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void CleanUnableCopilotTask()
         {
@@ -665,7 +665,7 @@ namespace MaaWpfGui.ViewModels.UI
             CopilotItemIndexChanged();
         }
 
-        //UI 绑定的方法
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void ClearCopilotTask()
         {
@@ -727,7 +727,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Starts copilot.
         /// </summary>
-        // xaml 中绑定了 action
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public async void Start()
         {
@@ -822,7 +822,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Stops copilot.
         /// </summary>
-        // xaml 中绑定了 action
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void Stop()
         {
@@ -832,7 +832,6 @@ namespace MaaWpfGui.ViewModels.UI
 
         private bool _isVideoTask;
 
-        private const string CopilotRatingUrl = "https://prts.maa.plus/copilot/rating";
         private readonly List<int> _recentlyRatedCopilotId = new List<int>(); // TODO: 可能考虑加个持久化
 
         private bool _couldLikeWebJson;
@@ -903,7 +902,7 @@ namespace MaaWpfGui.ViewModels.UI
                 rating,
             });
             */
-            var response = await Instances.HttpService.PostAsJsonAsync(new Uri(CopilotRatingUrl), new { id = CopilotId, rating });
+            var response = await Instances.HttpService.PostAsJsonAsync(new Uri(MaaUrls.PrtsPlusCopilotRating), new { id = CopilotId, rating });
             if (response == null)
             {
                 AddLog(LocalizationHelper.GetString("FailedToLikeWebJson"), UiLogColor.Error);

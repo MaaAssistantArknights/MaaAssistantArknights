@@ -46,8 +46,8 @@ namespace MaaWpfGui.Constants
         public const string AdbPath = "Connect.AdbPath";
         public const string ConnectConfig = "Connect.ConnectConfig";
         public const string RetryOnAdbDisconnected = "Connect.RetryOnDisconnected";
-        public const string AllowADBRestart = "Connect.AllowADBRestart";
-        public const string AllowADBHardRestart = "Connect.AllowADBHardRestart";
+        public const string AllowAdbRestart = "Connect.AllowADBRestart";
+        public const string AllowAdbHardRestart = "Connect.AllowADBHardRestart";
         public const string AdbLiteEnabled = "Connect.AdbLiteEnabled";
         public const string KillAdbOnExit = "Connect.KillAdbOnExit";
         public const string TouchMode = "Connect.TouchMode";
@@ -134,7 +134,7 @@ namespace MaaWpfGui.Constants
         public const string UpdateProxy = "VersionUpdate.Proxy";
         public const string VersionType = "VersionUpdate.VersionType";
         public const string UpdateCheck = "VersionUpdate.UpdateCheck";
-        public const string UpdatAutoCheck = "VersionUpdate.ScheduledUpdateCheck";
+        public const string UpdateAutoCheck = "VersionUpdate.ScheduledUpdateCheck";
         public const string UseAria2 = "VersionUpdate.UseAria2";
         public const string AutoDownloadUpdatePackage = "VersionUpdate.AutoDownloadUpdatePackage";
         public const string AutoInstallUpdatePackage = "VersionUpdate.AutoInstallUpdatePackage";
