@@ -12,7 +12,6 @@ namespace MaaWpfGui.Models
 {
     public static class ResourceUpdater
     {
-
         private static readonly List<string> _maaSingleFiles = new List<string>
         {
             "resource/Arknights-Tile-Pos/overview.json",
@@ -195,10 +194,18 @@ namespace MaaWpfGui.Models
             }
 
             var tempFile = saveTo + ".tmp";
-            using (var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+            try
             {
-                using var fileStream = new FileStream(tempFile, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true);
-                await stream.CopyToAsync(fileStream).ConfigureAwait(false);
+                using (var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                {
+                    using var fileStream = new FileStream(tempFile, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true);
+                    await stream.CopyToAsync(fileStream).ConfigureAwait(false);
+                }
+            }
+            catch (Exception)
+            {
+                // TODO: log
+                return UpdateResult.Failed;
             }
 
             File.Copy(tempFile, saveTo, true);
