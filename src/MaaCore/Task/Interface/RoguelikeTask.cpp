@@ -99,50 +99,45 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         return false;
     }
 
+    json::value patch {};
     if (mode == 4) {
         // 设置ocr第三层层名，设置识别到退出重进
-        Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName")->text =
-            Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName_mode4")->text;
-        Task.get(theme + "@Roguelike@LevelName")->next = Task.get(theme + "@Roguelike@LevelName_mode4")->next;
+        Task.set_task_base(theme + "@Roguelike@LevelName", theme + "@Roguelike@LevelName_mode4");
         if (!start_with_elite_two) {
+            // TODO: 烧水有更好的解决方案，用插件 set_enable(false)
             // 获得热水壶和演讲时长延时
-            Task.get(theme + "@Roguelike@LastReward")->post_delay =
-                Task.get(theme + "@Roguelike@LastReward_mode4")->post_delay;
-            Task.get(theme + "@Roguelike@LastReward4")->post_delay =
-                Task.get(theme + "@Roguelike@LastReward_mode4")->post_delay;
+            patch["Roguelike@LastReward"] = patch["Roguelike@LastReward4"] =
+                json::object { { "postDelay", 2147483647 } };
         }
         // 获得其他奖励时重开
-        Task.get(theme + "@Roguelike@LastReward2")->next = Task.get(theme + "@Roguelike@LastReward_mode4")->next;
-        Task.get(theme + "@Roguelike@LastReward3")->next = Task.get(theme + "@Roguelike@LastReward_mode4")->next;
-        Task.get(theme + "@Roguelike@LastRewardRand")->next = Task.get(theme + "@Roguelike@LastReward_mode4")->next;
+        Task.set_task_base("Roguelike@LastReward2", "Roguelike@LastReward_stop");
+        Task.set_task_base("Roguelike@LastReward3", "Roguelike@LastReward_stop");
+        Task.set_task_base("Roguelike@LastRewardRand", "Roguelike@LastReward_stop");
     }
     else {
         // 重置需要ocr的层名和next任务
-        Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName")->text =
-            Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName_normal_mode")->text;
-        Task.get(theme + "@Roguelike@LevelName")->next = Task.get(theme + "@Roguelike@LevelName_normal_mode")->next;
+        Task.set_task_base(theme + "@Roguelike@LevelName", theme + "@Roguelike@LevelName_default");
         // 重置获得热水壶和演讲延时
-        Task.get(theme + "@Roguelike@LastReward")->post_delay =
-            Task.get(theme + "@Roguelike@LastReward_normal_mode")->post_delay;
-        Task.get(theme + "@Roguelike@LastReward4")->post_delay =
-            Task.get(theme + "@Roguelike@LastReward_normal_mode")->post_delay;
+        patch["Roguelike@LastReward"] = patch["Roguelike@LastReward4"] =
+            json::object { { "postDelay", 0 } };
         // 重置其他奖励next
-        Task.get(theme + "@Roguelike@LastReward2")->next = Task.get(theme + "@Roguelike@LastReward_normal_mode")->next;
-        Task.get(theme + "@Roguelike@LastReward3")->next = Task.get(theme + "@Roguelike@LastReward_normal_mode")->next;
-        Task.get(theme + "@Roguelike@LastRewardRand")->next =
-            Task.get(theme + "@Roguelike@LastReward_normal_mode")->next;
+        Task.set_task_base("Roguelike@LastReward2", "Roguelike@LastReward_default");
+        Task.set_task_base("Roguelike@LastReward3", "Roguelike@LastReward_default");
+        Task.set_task_base("Roguelike@LastRewardRand", "Roguelike@LastReward_default");
     }
+    Task.lazy_parse(patch);
 
     if (mode == 1) {
         // 战斗后奖励只拿钱
-        Task.get(theme + "@Roguelike@DropsFlag")->next = Task.get(theme + "@Roguelike@DropsFlag_mode1")->next;
+        Task.set_task_base(theme + "@Roguelike@DropsFlag", theme + "@Roguelike@DropsFlag_mode1");
     }
     else {
         // 重置战斗后奖励next
-        Task.get(theme + "@Roguelike@DropsFlag")->next = Task.get(theme + "@Roguelike@DropsFlag_normal_mode")->next;
+        Task.set_task_base(theme + "@Roguelike@DropsFlag", theme + "@Roguelike@DropsFlag_default");
     }
+
     int number_of_starts = params.get("starts_count", INT_MAX);
-    m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StartExplore", number_of_starts);
+    m_roguelike_task_ptr->set_times_limit("Roguelike@StartExplore", number_of_starts);
 
     bool investment_enabled = params.get("investment_enabled", true);
     if (!investment_enabled) {
