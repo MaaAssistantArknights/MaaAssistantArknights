@@ -18,6 +18,11 @@ namespace MaaWpfGui.Constants
     /// </summary>
     public static class ConfigurationKeys
     {
+        public const string CurrentConfiguration = "Current";
+        public const string DefaultConfiguration = "Default";
+        public const string GlobalConfiguration = "Global";
+        public const string ConfigurationMap = "Configurations";
+
         public const string AddressHistory = "Connect.AddressHistory";
         public const string AutoDetect = "Connect.AutoDetect";
         public const string AlwaysAutoDetect = "Connect.AlwaysAutoDetect";
