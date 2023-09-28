@@ -670,4 +670,8 @@
     <system:String x:Key="ExternalNotificationEmailTemplateLinkOfficialSite">官網</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateLinkCopilotSite">作業站</system:String>
     <!--  External Notification  -->
+    <!--  Announcement  -->
+    <system:String x:Key="Announcement">公告</system:String>
+    <system:String x:Key="CheckAndDownloadAnnouncement">查看公告</system:String>
+    <!--  Announcement  -->
 </ResourceDictionary>
