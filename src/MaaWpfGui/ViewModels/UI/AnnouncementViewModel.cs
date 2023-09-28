@@ -72,18 +72,8 @@ namespace MaaWpfGui.ViewModels.UI
             const string Path = "announcements/wpf.md";
             const string Url = MaaUrls.MaaApi + Path;
 
-            var etag = !string.IsNullOrEmpty(AnnouncementInfo) ? ETagCache.Get(Url) : string.Empty;
-            Dictionary<string, string> header = new Dictionary<string, string>
-            {
-                { "Accept", "application/octet-stream" },
-            };
+            var response = await ETagCache.FetchResponseWithEtag(Url, string.IsNullOrEmpty(AnnouncementInfo));
 
-            if (!string.IsNullOrEmpty(etag))
-            {
-                header["If-None-Match"] = etag;
-            }
-
-            var response = await Instances.HttpService.GetAsync(new Uri(Url), header, httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
             if (response == null ||
                 response.StatusCode == System.Net.HttpStatusCode.NotModified ||
                 response.StatusCode != System.Net.HttpStatusCode.OK)
@@ -105,7 +95,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            ETagCache.Set(Url, response.Headers.ETag.Tag);
+            ETagCache.Set(response);
             ETagCache.Save();
         }
 
