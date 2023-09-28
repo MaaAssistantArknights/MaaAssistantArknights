@@ -28,7 +28,7 @@ namespace MaaWpfGui.Utilities
         private static readonly string _startupFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
         private static readonly string _startupShortcutPath = Path.Combine(_startupFolderPath, $"MAA_{_uniqueIdentifier}.lnk");
 
-        static string GetUniqueIdentifierFromPath(string path)
+        private static string GetUniqueIdentifierFromPath(string path)
         {
             int hash = path.GetHashCode();
             return hash.ToString("X");

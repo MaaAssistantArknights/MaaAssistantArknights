@@ -70,10 +70,12 @@ namespace MaaWpfGui.Services.Notification
         {
             // 这两个没用过，不知道有没有用，之后再看看
             [JsonPropertyName("title")]
+
             // ReSharper disable once UnusedAutoPropertyAccessor.Local
             public string Title { get; set; }
 
             [JsonPropertyName("desp")]
+
             // ReSharper disable once UnusedAutoPropertyAccessor.Local
             public string Content { get; set; }
         }

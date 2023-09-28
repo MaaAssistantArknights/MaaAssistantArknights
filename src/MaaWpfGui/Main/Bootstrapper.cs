@@ -117,6 +117,7 @@ namespace MaaWpfGui.Main
             {
                 _logger.Information("Run as Administrator");
             }
+
             _logger.Information("===================================");
 
             try

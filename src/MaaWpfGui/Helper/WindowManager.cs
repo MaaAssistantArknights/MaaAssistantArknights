@@ -130,8 +130,6 @@ namespace MaaWpfGui.Helper
                 wp = value.Value;
                 return true;
             }
-
-            return false;
         }
 
         public bool ForceShow(Window window)

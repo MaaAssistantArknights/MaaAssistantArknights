@@ -36,8 +36,8 @@ using Stylet;
 
 namespace MaaWpfGui.Main
 {
-    using static Instances.Data;
 #pragma warning disable SA1135 // Using directives should be qualified
+    using static Instances.Data;
 
     using AsstHandle = IntPtr;
     using AsstInstanceOptionKey = Int32;
