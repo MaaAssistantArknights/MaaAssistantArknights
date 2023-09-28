@@ -24,6 +24,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -73,22 +74,20 @@ namespace MaaWpfGui.ViewModels.UI
         private readonly string _curVersion = Marshal.PtrToStringAnsi(AsstGetVersion());
         private string _latestVersion;
 
-        private string _updateTag = ConfigurationHelper.GetValue(ConfigurationKeys.VersionName, string.Empty);
-
         /// <summary>
         /// Gets or sets the update tag.
         /// </summary>
         public string UpdateTag
         {
-            get => _updateTag;
+            get => ConfigFactory.Root.VersionUpdate.Name;
             set
             {
-                SetAndNotify(ref _updateTag, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.VersionName, value);
+                NotifyOfPropertyChange();
+                ConfigFactory.Root.VersionUpdate.Name = value;
             }
         }
 
-        private string _updateInfo = ConfigurationHelper.GetValue(ConfigurationKeys.VersionUpdateBody, string.Empty);
+        private string _updateInfo = ConfigFactory.Root.VersionUpdate.Body;
 
         // private static readonly MarkdownPipeline s_markdownPipeline = new MarkdownPipelineBuilder().UseXamlSupportedExtensions().Build();
 
@@ -112,7 +111,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _updateInfo, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.VersionUpdateBody, value);
+                ConfigFactory.Root.VersionUpdate.Body = value;
             }
         }
 
@@ -130,33 +129,29 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _updateUrl, value);
         }
 
-        private bool _isFirstBootAfterUpdate = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.VersionUpdateIsFirstBoot, bool.FalseString));
-
         /// <summary>
         /// Gets or sets a value indicating whether it is the first boot after updating.
         /// </summary>
         public bool IsFirstBootAfterUpdate
         {
-            get => _isFirstBootAfterUpdate;
+            get => ConfigFactory.Root.VersionUpdate.IsFirstBoot;
             set
             {
-                SetAndNotify(ref _isFirstBootAfterUpdate, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.VersionUpdateIsFirstBoot, value.ToString());
+                NotifyOfPropertyChange();
+                ConfigFactory.Root.VersionUpdate.IsFirstBoot = value;
             }
         }
-
-        private string _updatePackageName = ConfigurationHelper.GetValue(ConfigurationKeys.VersionUpdatePackage, string.Empty);
 
         /// <summary>
         /// Gets or sets the name of the update package.
         /// </summary>
         public string UpdatePackageName
         {
-            get => _updatePackageName;
+            get => ConfigFactory.Root.VersionUpdate.Package;
             set
             {
-                SetAndNotify(ref _updatePackageName, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.VersionUpdatePackage, value);
+                NotifyOfPropertyChange();
+                ConfigFactory.Root.VersionUpdate.Package = value;
             }
         }
 
@@ -545,7 +540,7 @@ namespace MaaWpfGui.ViewModels.UI
                 var tasks = urls.ConvertAll(url => Instances.HttpService.HeadAsync(new Uri(url)));
                 var latencies = await Task.WhenAll(tasks);
 
-                var proxy = ConfigurationHelper.GetValue(ConfigurationKeys.UpdateProxy, string.Empty);
+                var proxy = ConfigFactory.Root.VersionUpdate.Proxy;
                 var hasProxy = string.IsNullOrEmpty(proxy);
 
                 // select the fastest mirror

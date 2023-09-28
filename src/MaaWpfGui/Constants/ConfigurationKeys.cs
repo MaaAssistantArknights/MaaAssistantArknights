@@ -115,14 +115,6 @@ namespace MaaWpfGui.Constants
         public const string CopilotLoopTimes = "Copilot.LoopTimes";
         public const string CopilotTaskList = "Copilot.CopilotTaskList";
 
-        public const string UpdateProxy = "VersionUpdate.Proxy";
-        public const string VersionType = "VersionUpdate.VersionType";
-        public const string UpdateCheck = "VersionUpdate.UpdateCheck";
-        public const string UpdateAutoCheck = "VersionUpdate.ScheduledUpdateCheck";
-        public const string UseAria2 = "VersionUpdate.UseAria2";
-        public const string AutoDownloadUpdatePackage = "VersionUpdate.AutoDownloadUpdatePackage";
-        public const string AutoInstallUpdatePackage = "VersionUpdate.AutoInstallUpdatePackage";
-
         public const string PenguinId = "Penguin.Id";
         public const string IsDrGrandet = "Penguin.IsDrGrandet";
 
@@ -156,13 +148,6 @@ namespace MaaWpfGui.Constants
         public const string ExternalNotificationSmtpTo = "ExternalNotification.Smtp.To";
         public const string ExternalNotificationServerChanSendKey = "ExternalNotification.ServerChan.SendKey";
 
-        // The following should not be modified manually
-        public const string VersionName = "VersionUpdate.name";
-
-        public const string VersionUpdateBody = "VersionUpdate.body";
-        public const string VersionUpdateIsFirstBoot = "VersionUpdate.isfirstboot";
-        public const string VersionUpdatePackage = "VersionUpdate.package";
-
         public const string OperBoxData = "OperBox.Data";
 
         public const string GachaShowDisclaimerNoMore = "Gacha.ShowDisclaimerNoMore";
@@ -171,8 +156,5 @@ namespace MaaWpfGui.Constants
 
         public const string ForceScheduledStart = "Timer.ForceScheduledStart";
         public const string CustomConfig = "Timer.CustomConfig";
-
-        public const string AnnouncementInfo = "Announcement.AnnouncementInfo";
-        public const string IsFirstShowAnnouncement = "Announcement.IsFirstShowAnnouncement";
     }
 }

@@ -46,7 +46,10 @@ using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using ComboBox = System.Windows.Controls.ComboBox;
+using DarkModeType = MaaWpfGui.Configuration.GUI.DarkModeType;
+using InverseClearType = MaaWpfGui.Configuration.GUI.InverseClearType;
 using Timer = System.Timers.Timer;
+using UpdateVersionType = MaaWpfGui.Configuration.VersionUpdate.UpdateVersionType;
 
 namespace MaaWpfGui.ViewModels.UI
 {
@@ -2310,28 +2313,9 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public enum UpdateVersionType
-        {
-            /// <summary>
-            /// 测试版
-            /// </summary>
-            Nightly,
-
-            /// <summary>
-            /// 开发版
-            /// </summary>
-            Beta,
-
-            /// <summary>
-            /// 稳定版
-            /// </summary>
-            Stable,
-        }
-
         /* 软件更新设置 */
 
-        private UpdateVersionType _versionType = (UpdateVersionType)Enum.Parse(typeof(UpdateVersionType),
-                ConfigurationHelper.GetValue(ConfigurationKeys.VersionType, UpdateVersionType.Stable.ToString()));
+        private UpdateVersionType _versionType = ConfigFactory.Root.VersionUpdate.VersionType;
 
         /// <summary>
         /// Gets or sets the type of version to update.
@@ -2342,7 +2326,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _versionType, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.VersionType, value.ToString());
+                ConfigFactory.Root.VersionUpdate.VersionType = value;
             }
         }
 
@@ -2362,48 +2346,42 @@ namespace MaaWpfGui.ViewModels.UI
             get => _versionType == UpdateVersionType.Beta;
         }
 
-        private bool _updateCheck = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UpdateCheck, bool.TrueString));
-
         /// <summary>
         /// Gets or sets a value indicating whether to check update.
         /// </summary>
         public bool UpdateCheck
         {
-            get => _updateCheck;
+            get => ConfigFactory.Root.VersionUpdate.UpdateCheck;
             set
             {
-                SetAndNotify(ref _updateCheck, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.UpdateCheck, value.ToString());
+                NotifyOfPropertyChange();
+                ConfigFactory.Root.VersionUpdate.UpdateCheck = value;
             }
         }
-
-        private bool _updateAutoCheck = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UpdateAutoCheck, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to check update.
         /// </summary>
         public bool UpdateAutoCheck
         {
-            get => _updateAutoCheck;
+            get => ConfigFactory.Root.VersionUpdate.UpdateAutoCheck;
             set
             {
-                SetAndNotify(ref _updateAutoCheck, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.UpdateAutoCheck, value.ToString());
+                NotifyOfPropertyChange();
+                ConfigFactory.Root.VersionUpdate.UpdateAutoCheck = value;
             }
         }
-
-        private string _proxy = ConfigurationHelper.GetValue(ConfigurationKeys.UpdateProxy, string.Empty);
 
         /// <summary>
         /// Gets or sets the proxy settings.
         /// </summary>
         public string Proxy
         {
-            get => _proxy;
+            get => ConfigFactory.Root.VersionUpdate.Proxy;
             set
             {
-                SetAndNotify(ref _proxy, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.UpdateProxy, value);
+                NotifyOfPropertyChange();
+                ConfigFactory.Root.VersionUpdate.Proxy = value;
             }
         }
 
@@ -2421,33 +2399,29 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _autoDownloadUpdatePackage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoDownloadUpdatePackage, bool.TrueString));
-
         /// <summary>
         /// Gets or sets a value indicating whether to auto download update package.
         /// </summary>
         public bool AutoDownloadUpdatePackage
         {
-            get => _autoDownloadUpdatePackage;
+            get => ConfigFactory.Root.VersionUpdate.AutoDownloadUpdatePackage;
             set
             {
-                SetAndNotify(ref _autoDownloadUpdatePackage, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AutoDownloadUpdatePackage, value.ToString());
+                NotifyOfPropertyChange();
+                AutoDownloadUpdatePackage = value;
             }
         }
-
-        private bool _autoInstallUpdatePackage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoInstallUpdatePackage, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to auto install update package.
         /// </summary>
         public bool AutoInstallUpdatePackage
         {
-            get => _autoInstallUpdatePackage;
+            get => ConfigFactory.Root.VersionUpdate.AutoInstallUpdatePackage;
             set
             {
-                SetAndNotify(ref _autoInstallUpdatePackage, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AutoInstallUpdatePackage, value.ToString());
+                NotifyOfPropertyChange();
+                ConfigFactory.Root.VersionUpdate.AutoInstallUpdatePackage = value;
             }
         }
 

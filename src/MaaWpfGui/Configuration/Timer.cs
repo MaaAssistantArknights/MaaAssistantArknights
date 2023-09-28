@@ -26,16 +26,12 @@ namespace MaaWpfGui.Configuration
             Minute = minute;
         }
 
-        [JsonInclude]
-        public bool Enable { get; }
+        [JsonInclude] public bool Enable { get; }
 
-        [JsonInclude]
-        public string Config { get; }
+        [JsonInclude] public string Config { get; }
 
-        [JsonInclude]
-        public int Hour { get; }
+        [JsonInclude] public int Hour { get; }
 
-        [JsonInclude]
-        public int Minute { get; }
+        [JsonInclude] public int Minute { get; }
     }
 }

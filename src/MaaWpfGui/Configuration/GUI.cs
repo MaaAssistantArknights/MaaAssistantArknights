@@ -55,33 +55,33 @@ namespace MaaWpfGui.Configuration
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventDetailArgs(propertyName, before, after));
         }
-    }
-
-    /// <summary>
-    /// 表示深色模式的类型。
-    /// </summary>
-    public enum DarkModeType
-    {
-        /// <summary>
-        /// 明亮的主题。
-        /// </summary>
-        Light,
 
         /// <summary>
-        /// 暗黑的主题。
+        /// 表示深色模式的类型。
         /// </summary>
-        Dark,
+        public enum DarkModeType
+        {
+            /// <summary>
+            /// 与操作系统的深色模式同步。
+            /// </summary>
+            SyncWithOs = 0,
 
-        /// <summary>
-        /// 与操作系统的深色模式同步。
-        /// </summary>
-        SyncWithOs,
-    }
+            /// <summary>
+            /// 明亮的主题。
+            /// </summary>
+            Light,
 
-    public enum InverseClearType
-    {
-        Clear,
-        Inverse,
-        ClearInverse,
+            /// <summary>
+            /// 暗黑的主题。
+            /// </summary>
+            Dark
+        }
+
+        public enum InverseClearType
+        {
+            Clear = 0,
+            Inverse,
+            ClearInverse
+        }
     }
 }

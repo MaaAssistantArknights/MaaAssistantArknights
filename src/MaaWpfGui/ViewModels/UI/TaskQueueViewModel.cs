@@ -38,6 +38,7 @@ using Stylet;
 using StyletIoC;
 using Application = System.Windows.Application;
 using ComboBox = System.Windows.Controls.ComboBox;
+using InverseClearType = MaaWpfGui.Configuration.GUI.InverseClearType;
 using Screen = Stylet.Screen;
 
 namespace MaaWpfGui.ViewModels.UI

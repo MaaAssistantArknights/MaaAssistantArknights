@@ -18,6 +18,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Documents;
 using System.Windows.Input;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using Markdig;
@@ -33,31 +34,27 @@ namespace MaaWpfGui.ViewModels.UI
     // ReSharper disable once ClassNeverInstantiated.Global
     public class AnnouncementViewModel : Screen
     {
-        private string _announcementInfo = ConfigurationHelper.GetValue(ConfigurationKeys.AnnouncementInfo, string.Empty);
-
-        /// <summary>
+       /// <summary>
         /// Gets the announcement info.
         /// </summary>
         // ReSharper disable once MemberCanBePrivate.Global
         public string AnnouncementInfo
         {
-            get => _announcementInfo;
+            get => ConfigFactory.Root.AnnouncementInfo.Info;
             private set
             {
-                SetAndNotify(ref _announcementInfo, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AnnouncementInfo, value);
+                NotifyOfPropertyChange();
+                ConfigFactory.Root.AnnouncementInfo.Info = value;
             }
         }
 
-        private bool _isFirstShowAnnouncement = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.IsFirstShowAnnouncement, true.ToString()));
-
         public bool IsFirstShowAnnouncement
         {
-            get => _isFirstShowAnnouncement;
+            get => ConfigFactory.Root.AnnouncementInfo.IsFirstShow;
             set
             {
-                SetAndNotify(ref _isFirstShowAnnouncement, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.IsFirstShowAnnouncement, value.ToString());
+                NotifyOfPropertyChange();
+                ConfigFactory.Root.AnnouncementInfo.IsFirstShow = value;
             }
         }
 
