@@ -85,6 +85,11 @@ bool asst::TaskData::parse(const json::value& json)
         m_task_status[name] = ToBeGenerate;
     }
 
+    // 本来重构之后完全支持惰性加载，但是发现模板图片不支持（
+    for (std::string_view name : json_obj | views::keys) {
+        generate_task_and_its_base(name, true);
+    }
+
 #ifdef ASST_DEBUG
     {
         bool validity = true;
