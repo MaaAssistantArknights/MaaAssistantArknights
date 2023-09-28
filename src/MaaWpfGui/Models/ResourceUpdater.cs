@@ -12,7 +12,6 @@ namespace MaaWpfGui.Models
 {
     public static class ResourceUpdater
     {
-
         private static readonly List<string> _maaSingleFiles = new List<string>
         {
             "resource/Arknights-Tile-Pos/overview.json",
@@ -154,20 +153,8 @@ namespace MaaWpfGui.Models
             saveTo = Path.Combine(Environment.CurrentDirectory, saveTo);
             var url = baseUrl + file;
 
-            // 不存在的文件，不考虑etag，直接下载
-            var etag = File.Exists(saveTo) ? ETagCache.Get(url) : string.Empty;
+            var response = await ETagCache.FetchResponseWithEtag(url, !File.Exists(saveTo));
 
-            Dictionary<string, string> header = new Dictionary<string, string>
-            {
-                { "Accept", "application/octet-stream" },
-            };
-
-            if (!string.IsNullOrEmpty(etag))
-            {
-                header["If-None-Match"] = etag;
-            }
-
-            var response = await Instances.HttpService.GetAsync(new Uri(url), header, httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
             if (response == null)
             {
                 return UpdateResult.Failed;
@@ -195,16 +182,22 @@ namespace MaaWpfGui.Models
             }
 
             var tempFile = saveTo + ".tmp";
-            using (var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+            try
             {
+                using var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
                 using var fileStream = new FileStream(tempFile, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true);
                 await stream.CopyToAsync(fileStream).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                // TODO: log
+                return UpdateResult.Failed;
             }
 
             File.Copy(tempFile, saveTo, true);
             File.Delete(tempFile);
 
-            ETagCache.Set(url, response.Headers.ETag.Tag);
+            ETagCache.Set(response);
             return UpdateResult.Success;
         }
     }

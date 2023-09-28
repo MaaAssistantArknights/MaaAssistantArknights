@@ -16,6 +16,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using GlobalHotKey;
@@ -193,6 +194,17 @@ namespace MaaWpfGui.Main
         /// <inheritdoc/>
         protected override void OnLaunch()
         {
+            Task.Run(async () =>
+            {
+                if (!Instances.AnnouncementViewModel.IsFirstShowAnnouncement)
+                {
+                    return;
+                }
+
+                await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
+                _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
+                Instances.AnnouncementViewModel.IsFirstShowAnnouncement = false;
+            });
             Instances.VersionUpdateViewModel.ShowUpdateOrDownload();
         }
 
