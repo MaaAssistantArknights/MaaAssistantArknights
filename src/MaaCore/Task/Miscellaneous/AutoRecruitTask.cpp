@@ -152,6 +152,12 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_set_time(bool set_time) noexce
     return *this;
 }
 
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_force_refresh(bool force_refresh) noexcept
+{
+    m_force_refresh = force_refresh;
+    return *this;
+}
+
 asst::AutoRecruitTask& asst::AutoRecruitTask::set_recruitment_time(std::unordered_map<int, int> time_map) noexcept
 {
     m_desired_time_map = std::move(time_map);
@@ -323,9 +329,10 @@ bool asst::AutoRecruitTask::recruit_one(const Rect& button)
 
     if (!confirm()) { // ran out of recruit permit?
         Log.info("Failed to confirm current recruit config.");
-        m_force_discard_flag = true;
+        if (!m_force_refresh) m_force_discard_flag = true;
+        m_force_skipped.emplace(slot_index_from_rect(button));
         click_return_button();
-        return false;
+        if (!m_force_refresh) return false;
     }
 
     return true;
