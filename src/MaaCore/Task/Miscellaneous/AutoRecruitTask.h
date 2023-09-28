@@ -25,6 +25,7 @@ namespace asst
         AutoRecruitTask& set_use_expedited(bool use_or_not) noexcept;
         AutoRecruitTask& set_skip_robot(bool skip_robot) noexcept;
         AutoRecruitTask& set_set_time(bool set_time) noexcept;
+        AutoRecruitTask& set_force_refresh(bool force_refrest) noexcept;
         AutoRecruitTask& set_recruitment_time(std::unordered_map<int, int>) noexcept;
 
         AutoRecruitTask& set_penguin_enabled(bool enable, std::string penguin_id = std::string()) noexcept;
@@ -78,6 +79,7 @@ namespace asst
         int m_max_times = 0;
         bool m_skip_robot = true;
         bool m_set_time = true;
+        bool m_force_refresh = true;
         std::unordered_map<int /*level*/, int /*minutes*/> m_desired_time_map;
 
         int m_slot_fail = 0;
