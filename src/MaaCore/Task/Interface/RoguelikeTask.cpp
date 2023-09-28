@@ -141,14 +141,15 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         // 刷源石锭模式是否进入第二层
         bool investment_enter_second_floor = params.get("investment_enter_second_floor", true);
         if (!investment_enter_second_floor) {
-            Task.get(theme + "@Roguelike@StageTraderInvestSystemError")->next = { theme + "@Roguelike@ExitThenAbandon" };
+            Task.get(theme + "@Roguelike@StageTraderInvestSystemError")->next = { theme +
+                                                                                  "@Roguelike@ExitThenAbandon" };
         }
     }
     else {
         // 重置战斗后奖励next
         Task.get(theme + "@Roguelike@DropsFlag")->next = Task.get(theme + "@Roguelike@DropsFlag_normal_mode")->next;
         Task.get(theme + "@Roguelike@StageTraderInvestSystemError")->next = { theme +
-                                                                             "@Roguelike@StageTraderInvestCancel" };
+                                                                              "@Roguelike@StageTraderInvestCancel" };
     }
     int number_of_starts = params.get("starts_count", INT_MAX);
     m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StartExplore", number_of_starts);
