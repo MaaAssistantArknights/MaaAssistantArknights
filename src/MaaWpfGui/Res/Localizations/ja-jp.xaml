@@ -670,4 +670,8 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="ExternalNotificationEmailTemplateLinkOfficialSite">公式サイト</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateLinkCopilotSite">Copilot（中国語）</system:String>
     <!--  External Notification  -->
+    <!--  Announcement  -->
+    <system:String x:Key="Announcement">公告</system:String>
+    <system:String x:Key="CheckAndDownloadAnnouncement">公告を見ます</system:String>
+    <!--  Announcement  -->
 </ResourceDictionary>

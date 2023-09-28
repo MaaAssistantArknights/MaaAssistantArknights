@@ -670,4 +670,8 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="ExternalNotificationEmailTemplateLinkOfficialSite">공식 홈페이지</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateLinkCopilotSite">워크 스테이션</system:String>
     <!--  External Notification  -->
+    <!--  Announcement  -->
+    <system:String x:Key="Announcement">공고패</system:String>
+    <system:String x:Key="CheckAndDownloadAnnouncement">공고패</system:String>
+    <!--  Announcement  -->
 </ResourceDictionary>
