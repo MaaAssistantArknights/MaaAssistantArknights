@@ -61,6 +61,11 @@
                 IsChecked="{Binding RoguelikeInvestmentEnabled}" />
             <CheckBox
                 Margin="0,10"
+                Content="{DynamicResource InvestmentEnterSecondFloor}"
+                IsChecked="{Binding RoguelikeInvestmentEnterSecondFloor}"
+                IsEnabled="{Binding RoguelikeInvestmentEnabled}"/>
+            <CheckBox
+                Margin="0,10"
                 IsChecked="{Binding RoguelikeStopWhenInvestmentFull}"
                 IsEnabled="{Binding RoguelikeInvestmentEnabled}">
                 <TextBlock
@@ -75,7 +80,6 @@
                 Style="{StaticResource NumericUpDownExtend}"
                 ValueChanged="NumericUpDown_ValueChanged"
                 Value="{Binding RoguelikeInvestsCount}" />
-
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource RefreshTraderWithDice}"

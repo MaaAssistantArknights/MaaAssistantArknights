@@ -101,6 +101,7 @@ namespace MaaWpfGui.Constants
         public const string RoguelikeEnableNonfriendSupport = "Roguelike.RoguelikeEnableNonfriendSupport";
         public const string RoguelikeStartsCount = "Roguelike.StartsCount";
         public const string RoguelikeInvestmentEnabled = "Roguelike.InvestmentEnabled";
+        public const string RoguelikeInvestmentEnterSecondFloor = "Roguelike.InvestmentEnterSecondFloor";
         public const string RoguelikeRefreshTraderWithDice = "Roguelike.RefreshTraderWithDice";
         public const string RoguelikeInvestsCount = "Roguelike.InvestsCount";
         public const string RoguelikeStopWhenInvestmentFull = "Roguelike.StopWhenInvestmentFull";
