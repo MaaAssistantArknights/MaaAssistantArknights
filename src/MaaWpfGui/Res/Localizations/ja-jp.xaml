@@ -243,7 +243,7 @@
     <system:String x:Key="GoldTimesLimit">N回投資した後に停止する</system:String>
     <system:String x:Key="StopOnGoldLimit">源石錐が上限に達した後に停止する</system:String>
     <system:String x:Key="InvestmentEnabled">源石錐を投資する</system:String>
-    <system:String x:Key="InvestmentEnterSecondFloor">投资后进入第二层</system:String>
+    <system:String x:Key="InvestmentEnterSecondFloor">投資後に階層2へ</system:String>
     <system:String x:Key="RefreshTraderWithDice">ダイスで品揃えを更新する</system:String>
     <system:String x:Key="PenguinId">Penguin-StatsのレポートのID（デジタル部分のみ）</system:String>
     <system:String x:Key="DrGrandet">Dr.グランデモード</system:String>
