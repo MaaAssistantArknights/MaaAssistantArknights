@@ -673,5 +673,6 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <!--  Announcement  -->
     <system:String x:Key="Announcement">공고패</system:String>
     <system:String x:Key="CheckAndDownloadAnnouncement">공고패</system:String>
+    <system:String x:Key="DoNotRemindThisAnnouncementAgain">이 공지를 더 이상 표시하지 않음</system:String>
     <!--  Announcement  -->
 </ResourceDictionary>

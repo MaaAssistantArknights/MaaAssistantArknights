@@ -49,15 +49,15 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _isFirstShowAnnouncement = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.IsFirstShowAnnouncement, true.ToString()));
+        private bool _doNotRemindThisAnnouncementAgain = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.DoNotRemindThisAnnouncementAgain, false.ToString()));
 
-        public bool IsFirstShowAnnouncement
+        public bool DoNotRemindThisAnnouncementAgain
         {
-            get => _isFirstShowAnnouncement;
+            get => _doNotRemindThisAnnouncementAgain;
             set
             {
-                SetAndNotify(ref _isFirstShowAnnouncement, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.IsFirstShowAnnouncement, value.ToString());
+                SetAndNotify(ref _doNotRemindThisAnnouncementAgain, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.DoNotRemindThisAnnouncementAgain, value.ToString());
             }
         }
 
@@ -87,7 +87,7 @@ namespace MaaWpfGui.ViewModels.UI
                 if (!string.IsNullOrEmpty(body))
                 {
                     AnnouncementInfo = body;
-                    IsFirstShowAnnouncement = true;
+                    DoNotRemindThisAnnouncementAgain = false;
                 }
             }
             catch

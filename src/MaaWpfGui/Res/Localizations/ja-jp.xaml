@@ -673,5 +673,6 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <!--  Announcement  -->
     <system:String x:Key="Announcement">公告</system:String>
     <system:String x:Key="CheckAndDownloadAnnouncement">公告を見ます</system:String>
+    <system:String x:Key="DoNotRemindThisAnnouncementAgain">このお知らせをもう表示しない</system:String>
     <!--  Announcement  -->
 </ResourceDictionary>

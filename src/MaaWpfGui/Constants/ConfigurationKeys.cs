@@ -189,6 +189,6 @@ namespace MaaWpfGui.Constants
         public const string CustomConfig = "Timer.CustomConfig";
 
         public const string AnnouncementInfo = "Announcement.AnnouncementInfo";
-        public const string IsFirstShowAnnouncement = "Announcement.IsFirstShowAnnouncement";
+        public const string DoNotRemindThisAnnouncementAgain = "Announcement.DoNotRemindThisAnnouncementAgain";
     }
 }

@@ -16,15 +16,13 @@
     <Grid Background="{DynamicResource VersionUpdateViewBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="20" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <FlowDocumentScrollViewer
             x:Name="UpdateInfoMarkdownDocument"
             Grid.Row="0"
-            Margin="16,0"
             Document="{Binding AnnouncementInfoDoc}"
-            IsSelectionEnabled="False"
             Zoom="90">
 
             <FlowDocumentScrollViewer.Template>
@@ -50,5 +48,13 @@
                 <CommandBinding Command="{x:Static markdig:Commands.Hyperlink}" Executed="{s:Action OpenHyperlink}" />
             </FlowDocumentScrollViewer.CommandBindings>
         </FlowDocumentScrollViewer>
+        <CheckBox
+            Grid.Row="1"
+            Height="30"
+            Margin="6"
+            HorizontalAlignment="Center"
+            VerticalContentAlignment="Center"
+            Content="{DynamicResource GachaShowDisclaimerNoMore}"
+            IsChecked="{Binding DoNotRemindThisAnnouncementAgain}" />
     </Grid>
 </hc:Window>

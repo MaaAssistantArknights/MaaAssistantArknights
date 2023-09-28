@@ -196,14 +196,13 @@ namespace MaaWpfGui.Main
         {
             Task.Run(async () =>
             {
-                if (!Instances.AnnouncementViewModel.IsFirstShowAnnouncement)
+                if (Instances.AnnouncementViewModel.DoNotRemindThisAnnouncementAgain)
                 {
                     return;
                 }
 
                 await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
                 _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
-                Instances.AnnouncementViewModel.IsFirstShowAnnouncement = false;
             });
             Instances.VersionUpdateViewModel.ShowUpdateOrDownload();
         }
