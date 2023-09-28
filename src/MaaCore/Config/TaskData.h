@@ -140,15 +140,16 @@ namespace asst
         }
         bool explain_tasks(tasklist_t& new_tasks, const tasklist_t& raw_tasks, std::string_view name,
                            bool& task_changed, bool multi);
+        bool generate_task_and_its_base(std::string_view name, bool must_true);
         std::optional<taskptr_t> expand_task(std::string_view name, taskptr_t old_task);
 #ifdef ASST_DEBUG
         bool syntax_check(std::string_view task_name, const json::value& task_json);
 #endif
-        std::shared_ptr<TaskInfo> get_raw(std::string_view name) const;
+        std::shared_ptr<TaskInfo> get_raw(std::string_view name);
         template <typename TargetTaskInfoType>
         requires(std::derived_from<TargetTaskInfoType, TaskInfo> &&
                  !std::same_as<TargetTaskInfoType, TaskInfo>) // Parameter must be a TaskInfo
-        std::shared_ptr<TargetTaskInfoType> get_raw(std::string_view name) const
+        std::shared_ptr<TargetTaskInfoType> get_raw(std::string_view name)
         {
             return std::dynamic_pointer_cast<TargetTaskInfoType>(get_raw(name));
         }
@@ -174,6 +175,14 @@ namespace asst
         }
 
     protected:
+        enum TaskStatus
+        {
+            NotToBeGenerate = 0, // 已经显式生成 或 不是待显式生成 的资源
+            ToBeGenerate,        // 待生成 的资源
+            Generating,          // 正在生成 的资源
+            NotExists,           // 不存在的资源
+        };
+
         virtual bool parse(const json::value& json) override;
 
         std::unordered_set<std::string> m_task_names;
@@ -181,6 +190,7 @@ namespace asst
         std::unordered_map<std::string_view, taskptr_t> m_all_tasks_info;
         std::unordered_map<std::string_view, json::object> m_json_all_tasks_info;
         std::unordered_set<std::string> m_templ_required;
+        std::unordered_map<std::string_view, TaskStatus> m_task_status;
     };
 
     inline static auto& Task = TaskData::get_instance();
