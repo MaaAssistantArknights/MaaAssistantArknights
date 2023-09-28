@@ -3178,26 +3178,6 @@
             "미즈키"
         ]
     },
-    "Roguelike@LevelName": {
-        "ocrReplace": [
-            [
-                "\\s",
-                ""
-            ],
-            [
-                " ",
-                ""
-            ],
-            [
-                ":",
-                ""
-            ],
-            [
-                "\\.",
-                ""
-            ]
-        ]
-    },
     "Roguelike@StageEncounterOcr": {
         "ocrReplace": [
             [
