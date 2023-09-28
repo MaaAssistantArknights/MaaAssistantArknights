@@ -31,7 +31,7 @@ namespace MaaWpfGui.Configuration
 
         private static readonly JsonSerializerOptions _options = new JsonSerializerOptions {WriteIndented = true, Converters = {new JsonStringEnumConverter()}};
 
-        private static readonly Lazy<RootConfig> _rootConfig = new Lazy<RootConfig>(() =>
+        private static readonly Lazy<Root> _rootConfig = new Lazy<Root>(() =>
         {
             lock (_lock)
             {
@@ -40,12 +40,12 @@ namespace MaaWpfGui.Configuration
                     Directory.CreateDirectory("config");
                 }
 
-                RootConfig parsed = null;
+                Root parsed = null;
                 if (File.Exists(_configurationFile))
                 {
                     try
                     {
-                        parsed = JsonSerializer.Deserialize<RootConfig>(File.ReadAllText(_configurationFile), _options);
+                        parsed = JsonSerializer.Deserialize<Root>(File.ReadAllText(_configurationFile), _options);
                     }
                     catch (Exception e)
                     {
@@ -56,7 +56,7 @@ namespace MaaWpfGui.Configuration
                 if (parsed is null)
                 {
                     _logger.Information("Failed to load configuration file, creating a new one");
-                    parsed = new RootConfig();
+                    parsed = new Root();
                 }
 
                 if (parsed.CurrentConfig is null)
@@ -73,13 +73,13 @@ namespace MaaWpfGui.Configuration
                         case NotifyCollectionChangedAction.Replace:
                             if (args.IsSingleItem)
                             {
-                                args.NewItem.Value.GuiConfig.PropertyChanged += OnPropertyChangedFactory("Configurations." + args.NewItem.Key, JsonSerializer.Serialize(args.NewItem.Value, _options), null);
+                                args.NewItem.Value.GUI.PropertyChanged += OnPropertyChangedFactory("Configurations." + args.NewItem.Key, JsonSerializer.Serialize(args.NewItem.Value, _options), null);
                             }
                             else
                             {
                                 foreach (var value in args.NewItems)
                                 {
-                                    value.Value.GuiConfig.PropertyChanged += OnPropertyChangedFactory("Configurations." + value.Key, JsonSerializer.Serialize(value.Value, _options), null);
+                                    value.Value.GUI.PropertyChanged += OnPropertyChangedFactory("Configurations." + value.Key, JsonSerializer.Serialize(value.Value, _options), null);
                                 }
                             }
 
@@ -91,7 +91,7 @@ namespace MaaWpfGui.Configuration
 
                 foreach (var keyValue in parsed.Configurations)
                 {
-                    keyValue.Value.GuiConfig.PropertyChanged += OnPropertyChangedFactory("Configurations." + keyValue.Key + ".GUIConfig.");
+                    keyValue.Value.GUI.PropertyChanged += OnPropertyChangedFactory("Configurations." + keyValue.Key + ".GUIConfig.");
                 }
 
                 return parsed;
@@ -126,9 +126,9 @@ namespace MaaWpfGui.Configuration
             };
         }
 
-        public static RootConfig RootConfig => _rootConfig.Value;
+        public static Root Root => _rootConfig.Value;
 
-        public static readonly SpecificConfig CurrentConfig = RootConfig.CurrentConfig;
+        public static readonly SpecificConfig CurrentConfig = Root.CurrentConfig;
 
         public static async void OnPropertyChanged(string key, object oldValue, object newValue)
         {
@@ -152,7 +152,7 @@ namespace MaaWpfGui.Configuration
                 {
                     try
                     {
-                        File.WriteAllText(file ?? _configurationFile, JsonSerializer.Serialize(RootConfig, _options));
+                        File.WriteAllText(file ?? _configurationFile, JsonSerializer.Serialize(Root, _options));
                     }
                     catch (Exception e)
                     {

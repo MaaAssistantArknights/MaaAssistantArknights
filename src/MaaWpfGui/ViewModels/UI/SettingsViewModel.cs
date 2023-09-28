@@ -46,6 +46,7 @@ using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using ComboBox = System.Windows.Controls.ComboBox;
+using DarkModeType = MaaWpfGui.Configuration.GUI.DarkModeType;
 using Timer = System.Timers.Timer;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -444,7 +445,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 new GenericCombinedData<DarkModeType> { Display = LocalizationHelper.GetString("Light"), Value = DarkModeType.Light },
                 new GenericCombinedData<DarkModeType> { Display = LocalizationHelper.GetString("Dark"), Value = DarkModeType.Dark },
-                new GenericCombinedData<DarkModeType> { Display = LocalizationHelper.GetString("SyncWithOs"), Value = DarkModeType.SyncWithOS },
+                new GenericCombinedData<DarkModeType> { Display = LocalizationHelper.GetString("SyncWithOs"), Value = DarkModeType.SyncWithOs },
             };
 
             InverseClearModeList = new List<CombinedData>
@@ -3118,10 +3119,10 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public bool UseNotify
         {
-            get => ConfigFactory.CurrentConfig.GuiConfig.UseNotify;
+            get => ConfigFactory.CurrentConfig.GUI.UseNotify;
             set
             {
-                ConfigFactory.CurrentConfig.GuiConfig.UseNotify = value;
+                ConfigFactory.CurrentConfig.GUI.UseNotify = value;
                 NotifyOfPropertyChange();
                 if (value)
                 {
@@ -3257,10 +3258,10 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public DarkModeType DarkMode
         {
-            get => ConfigFactory.CurrentConfig.GuiConfig.DarkMode;
+            get => ConfigFactory.CurrentConfig.GUI.DarkMode;
             set
             {
-                ConfigFactory.CurrentConfig.GuiConfig.DarkMode = value;
+                ConfigFactory.CurrentConfig.GUI.DarkMode = value;
                 NotifyOfPropertyChange();
                 SwitchDarkMode();
 
@@ -3280,7 +3281,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void SwitchDarkMode()
         {
-            DarkModeType darkModeType = ConfigFactory.CurrentConfig.GuiConfig.DarkMode;
+            DarkModeType darkModeType = ConfigFactory.CurrentConfig.GUI.DarkMode;
             switch (darkModeType)
             {
                 case DarkModeType.Light:
@@ -3291,7 +3292,7 @@ namespace MaaWpfGui.ViewModels.UI
                     ThemeHelper.SwitchToDarkMode();
                     break;
 
-                case DarkModeType.SyncWithOS:
+                case DarkModeType.SyncWithOs:
                     ThemeHelper.SwitchToSyncWithOsMode();
                     break;
             }
