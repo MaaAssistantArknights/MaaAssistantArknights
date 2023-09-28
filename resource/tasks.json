@@ -11378,6 +11378,42 @@
             "深埋迷境"
         ]
     },
+    "Level0@Sami@Roguelike@NextLevel": {
+        "next": [
+            "Level0@Sami@Roguelike@NextLevel",
+            "Level1@(Sami@Roguelike@NextLevel#next ^ Sami@Roguelike@NextLevel)"
+        ]
+    },
+    "Level1@Sami@Roguelike@NextLevel": {
+        "next": [
+            "Level1@Sami@Roguelike@NextLevel",
+            "Level2@(Sami@Roguelike@NextLevel#next ^ Sami@Roguelike@NextLevel)"
+        ]
+    },
+    "Level2@Sami@Roguelike@NextLevel": {
+        "next": [
+            "Level2@Sami@Roguelike@NextLevel",
+            "Level3@(Sami@Roguelike@NextLevel#next ^ Sami@Roguelike@NextLevel)"
+        ]
+    },
+    "Level3@Sami@Roguelike@NextLevel": {
+        "next": [
+            "Level3@Sami@Roguelike@NextLevel",
+            "Level4@(Sami@Roguelike@NextLevel#next ^ Sami@Roguelike@NextLevel)"
+        ]
+    },
+    "Level4@Sami@Roguelike@NextLevel": {
+        "next": [
+            "Level4@Sami@Roguelike@NextLevel",
+            "Level5@(Sami@Roguelike@NextLevel#next ^ Sami@Roguelike@NextLevel)"
+        ]
+    },
+    "Level5@Sami@Roguelike@NextLevel": {
+        "next": [
+            "Level5@Sami@Roguelike@NextLevel",
+            "Level6@(Sami@Roguelike@NextLevel#next ^ Sami@Roguelike@NextLevel)"
+        ]
+    },
     "Sami@Roguelike@Stages": {
         "next": [
             "Sami@Roguelike@NextLevel",
@@ -12071,6 +12107,9 @@
             530,
             322,
             189
+        ],
+        "next": [
+            "#none + Level0@Sami@(Roguelike@StartExplore#next)"
         ]
     },
     "Sami@Roguelike@TodoEnter": {},
