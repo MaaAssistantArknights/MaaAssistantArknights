@@ -597,21 +597,27 @@ namespace MaaWpfGui.Main
                     break;
 
                 case AsstMsg.AllTasksCompleted:
-                    bool isMainTaskQueueAllCompleted = true;
+                    bool isMainTaskQueueAllCompleted = false;
                     var finishedTasks = details["finished_tasks"] as JArray;
 
-                    // 只要有非主界面任务时，就不执行任务链结束后操作
-                    foreach (AsstTaskId taskId in finishedTasks?.Select(i => (AsstTaskId)i) ?? new List<AsstTaskId>())
+                    var taskList = finishedTasks?.Select(i => (AsstTaskId)i).ToList();
+                    if (taskList?.Count > 0)
                     {
-                        if (taskId == (_latestTaskId.TryGetValue(TaskType.Copilot, out var copilotTaskId) ? copilotTaskId : 0)
-                            || taskId == (_latestTaskId.TryGetValue(TaskType.RecruitCalc, out var recruitCalcTaskId) ? recruitCalcTaskId : 0)
-                            || taskId == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0)
-                            || taskId == (_latestTaskId.TryGetValue(TaskType.Depot, out var depotTaskId) ? depotTaskId : 0)
-                            || taskId == (_latestTaskId.TryGetValue(TaskType.OperBox, out var operBoxTaskId) ? operBoxTaskId : 0)
-                            || taskId == (_latestTaskId.TryGetValue(TaskType.Gacha, out var gachaTaskId) ? gachaTaskId : 0))
+                        isMainTaskQueueAllCompleted = true;
+
+                        // 只要有非主界面任务时，就不执行任务链结束后操作
+                        foreach (AsstTaskId taskId in taskList)
                         {
-                            isMainTaskQueueAllCompleted = false;
-                            break;
+                            if (taskId == (_latestTaskId.TryGetValue(TaskType.Copilot, out var copilotTaskId) ? copilotTaskId : 0)
+                                || taskId == (_latestTaskId.TryGetValue(TaskType.RecruitCalc, out var recruitCalcTaskId) ? recruitCalcTaskId : 0)
+                                || taskId == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0)
+                                || taskId == (_latestTaskId.TryGetValue(TaskType.Depot, out var depotTaskId) ? depotTaskId : 0)
+                                || taskId == (_latestTaskId.TryGetValue(TaskType.OperBox, out var operBoxTaskId) ? operBoxTaskId : 0)
+                                || taskId == (_latestTaskId.TryGetValue(TaskType.Gacha, out var gachaTaskId) ? gachaTaskId : 0))
+                            {
+                                isMainTaskQueueAllCompleted = false;
+                                break;
+                            }
                         }
                     }
 
