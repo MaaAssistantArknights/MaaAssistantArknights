@@ -8675,10 +8675,10 @@
             119
         ],
         "next": [
-            "Roguelike@ReturnToMap"
+            "Roguelike@Back"
         ]
     },
-    "Roguelike@ReturnToMap": {
+    "Roguelike@Back": {
         "Doc": "这两步专门用来消除技能框出现白边闪烁，导致识别干员名出错的问题",
         "template": "Return.png",
         "templThreshold": 0.7,
@@ -8690,23 +8690,24 @@
             180,
             80
         ],
+        "preDelay": 500,
+        "postDelay": 1000,
         "next": [
-            "Roguelike@StageEnterBattleAgain"
+            "Roguelike@StageCambatEnterAgain"
         ]
     },
-    "Roguelike@StageEnterBattleAgain": {
+    "Roguelike@StageCambatEnterAgain": {
         "Doc": "这两步专门用来消除技能框出现白边闪烁，导致识别干员名出错的问题",
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [
-            1208,
-            442,
-            45,
-            62
+            1100,
+            504,
+            133,
+            94
         ],
         "next": [
-            "Roguelike@StartAction",
-            "Roguelike@StageEnterBattleAgain"
+            "Roguelike@StartAction"
         ]
     },
     "Roguelike@FromIntegratedStrategies": {
@@ -9337,7 +9338,7 @@
     },
     "Roguelike@RecruitWithoutButton": {
         "algorithm": "JustReturn",
-        "action": "ClickRect",
+        "action": "ClickRect",        
         "specificRect": [
             1180,
             15,
@@ -10457,7 +10458,7 @@
     "Phantom@Roguelike@RecruitOther": {
         "template": "Phantom@Roguelike@Recruit.png"
     },
-    "Phantom@Roguelike@RecruitWithoutButton": {
+    "Phantom@Roguelike@RecruitWithoutButton": {        
         "next": [
             "Phantom@Roguelike@RecruitOther",
             "Phantom@Roguelike@EnterAfterRecruit",
