@@ -165,6 +165,13 @@ namespace asst
         {
             return std::dynamic_pointer_cast<TargetTaskInfoType>(get(name));
         }
+        std::optional<json::object> get_json(std::string_view name) const
+        {
+            if (m_json_all_tasks_info.find(name) != m_json_all_tasks_info.cend())
+                return m_json_all_tasks_info.at(name);
+            else
+                return std::nullopt;
+        }
 
     protected:
         virtual bool parse(const json::value& json) override;
