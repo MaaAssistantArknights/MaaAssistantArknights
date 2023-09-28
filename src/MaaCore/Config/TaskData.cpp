@@ -188,8 +188,8 @@ bool asst::TaskData::parse(const json::value& json)
             checking_task_set.insert(name);
         }
 
-        const size_t MAX_CHECKING_SIZE = 3000;
-        while (!task_queue.empty() || checking_task_set.size() > MAX_CHECKING_SIZE) {
+        const size_t MAX_CHECKING_SIZE = 10000;
+        while (!task_queue.empty() && checking_task_set.size() <= MAX_CHECKING_SIZE) {
             std::string_view name = task_queue.front();
             task_queue.pop();
             auto task = get(name); // 这里会提前展开任务
