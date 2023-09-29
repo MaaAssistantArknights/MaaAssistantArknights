@@ -9078,6 +9078,7 @@
         "Doc": "base_task",
         "Doc2": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援——热水壶",
         "template": "empty.png",
+        "templThreshold": 0.7,
         "action": "ClickSelf",
         "cache": false,
         "roi": [
@@ -9094,6 +9095,7 @@
         "Doc": "base_task",
         "Doc2": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 5 源石锭",
         "template": "empty.png",
+        "templThreshold": 0.7,
         "action": "ClickSelf",
         "cache": false,
         "roi": [
