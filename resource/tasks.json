@@ -8699,10 +8699,10 @@
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [
-            1208,
-            442,
-            45,
-            62
+            1180, 
+            495, 
+            30, 
+            20
         ],
         "next": [
             "Roguelike@StartAction",
