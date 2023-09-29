@@ -531,7 +531,12 @@ namespace MaaWpfGui.Main
                         toast.Show();
                         if (isCoplitTaskChain)
                         {
-                            AsstStop();
+                            // 如果启用战斗列表，需要中止掉剩余的任务
+                            if (Instances.CopilotViewModel.UseCopilotList)
+                            {
+                                AsstStop();
+                            }
+
                             _runningState.SetIdle(true);
                             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
                         }
