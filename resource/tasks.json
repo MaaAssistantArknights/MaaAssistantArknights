@@ -3325,8 +3325,7 @@
             "CloseAnno",
             "CloseAnnoTexas",
             "TodaysSupplies",
-            "NotDownloadVoice",
-            "StartUp"
+            "NotDownloadVoice"
         ]
     },
     "CloseAnno": {
@@ -3340,9 +3339,7 @@
         ],
         "next": [
             "#back",
-            "CloseAnnos#next",
-            "TodaysSupplies",
-            "StartUp"
+            "CloseAnnos#next"
         ]
     },
     "CloseAnnoTexas": {
@@ -3352,9 +3349,6 @@
             24,
             138,
             139
-        ],
-        "next": [
-            "CloseAnnos#next"
         ]
     },
     "NotDownloadVoice": {
@@ -3367,6 +3361,7 @@
             62
         ],
         "next": [
+            "#back",
             "CloseAnnos#next"
         ]
     },
@@ -7109,6 +7104,10 @@
                 "“命运的宠儿”"
             ],
             [
+                ".*骑士对决.*",
+                "“骑士对决”"
+            ],
+            [
                 "巍峨银.*",
                 "巍峨银凇"
             ]
@@ -8680,7 +8679,38 @@
             119
         ],
         "next": [
-            "Roguelike@StartAction"
+            "Roguelike@ReturnToMap"
+        ]
+    },
+    "Roguelike@ReturnToMap": {
+        "Doc": "这两步专门用来消除技能框出现白边闪烁，导致识别干员名出错的问题",
+        "template": "Return.png",
+        "templThreshold": 0.7,
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            0,
+            180,
+            80
+        ],
+        "next": [
+            "Roguelike@StageEnterBattleAgain"
+        ]
+    },
+    "Roguelike@StageEnterBattleAgain": {
+        "Doc": "这两步专门用来消除技能框出现白边闪烁，导致识别干员名出错的问题",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1180, 
+            495, 
+            30, 
+            20
+        ],
+        "next": [
+            "Roguelike@StartAction",
+            "Roguelike@StageEnterBattleAgain"
         ]
     },
     "Roguelike@FromIntegratedStrategies": {
@@ -9048,6 +9078,7 @@
         "Doc": "base_task",
         "Doc2": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援——热水壶",
         "template": "empty.png",
+        "templThreshold": 0.7,
         "action": "ClickSelf",
         "cache": false,
         "roi": [
@@ -9064,6 +9095,7 @@
         "Doc": "base_task",
         "Doc2": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 5 源石锭",
         "template": "empty.png",
+        "templThreshold": 0.7,
         "action": "ClickSelf",
         "cache": false,
         "roi": [
@@ -9310,16 +9342,8 @@
         ]
     },
     "Roguelike@RecruitWithoutButton": {
-        "template": "Roguelike@RecruitWithoutButton.png",
-        "templThreshold": 0.75,
+        "algorithm": "JustReturn",
         "action": "ClickRect",
-        "roi": [
-            215,
-            338,
-            1035,
-            231
-        ],
-        "maskRange": [ 1, 255 ],
         "specificRect": [
             1180,
             15,
@@ -9599,19 +9623,19 @@
             "Roguelike@NextLevel#next"
         ]
     },
-    "Roguelike@StageCambatDps": {
+    "Roguelike@StageCombatDps": {
         "Doc": "base_task",
         "template": "empty.png",
         "baseTask": "Roguelike@Stage",
         "Doc2": "普通作战",
         "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错",
         "next": [
-            "Roguelike@StageCambatDpsEnter",
+            "Roguelike@StageCombatDpsEnter",
             "Roguelike@StageEmergencyDpsEnter",
             "Roguelike@NextLevel#next"
         ]
     },
-    "Roguelike@StageCambatDpsEnter": {
+    "Roguelike@StageCombatDpsEnter": {
         "Doc": "base_task",
         "template": "empty.png",
         "baseTask": "Roguelike@StageEnterBattle"
@@ -9625,7 +9649,7 @@
         "next": [
             "Roguelike@StageDreadfulFoeEnter",
             "Roguelike@StageEmergencyDpsEnter",
-            "Roguelike@StageCambatDpsEnter",
+            "Roguelike@StageCombatDpsEnter",
             "Roguelike@NextLevel#next"
         ]
     },
@@ -9642,7 +9666,7 @@
         "next_Doc": "普通作战和紧急作战的图比较像，有时候会识别错，这里的next把两个开始的按钮都放进来，提高容错",
         "next": [
             "Roguelike@StageEmergencyDpsEnter",
-            "Roguelike@StageCambatDpsEnter",
+            "Roguelike@StageCombatDpsEnter",
             "Roguelike@NextLevel#next"
         ]
     },
@@ -9724,7 +9748,7 @@
         "next": [
             "Roguelike@StageEncounterOptions#next",
             "Roguelike@StageEncounterSpecialClose",
-            "Roguelike@StageCambatDpsEnter",
+            "Roguelike@StageCombatDpsEnter",
             "Roguelike@StageEmergencyDpsEnter",
             "Roguelike@ClickToDrops"
         ]
@@ -10428,7 +10452,7 @@
             "Phantom@Roguelike@StageSafeHouse",
             "Phantom@Roguelike@StageEncounter",
             "Phantom@Roguelike@StageBoons",
-            "Phantom@Roguelike@StageCambatDps",
+            "Phantom@Roguelike@StageCombatDps",
             "Phantom@Roguelike@StageEmergencyDps",
             "Phantom@Roguelike@StageDreadfulFoe"
         ]
@@ -10440,7 +10464,6 @@
         "template": "Phantom@Roguelike@Recruit.png"
     },
     "Phantom@Roguelike@RecruitWithoutButton": {
-        "template": "Roguelike@RecruitWithoutButton.png",
         "next": [
             "Phantom@Roguelike@RecruitOther",
             "Phantom@Roguelike@EnterAfterRecruit",
@@ -10474,8 +10497,8 @@
     "Phantom@Roguelike@StageBoons": {
         "templThreshold": 0.85
     },
-    "Phantom@Roguelike@StageCambatDps": {},
-    "Phantom@Roguelike@StageCambatDpsEnter": {},
+    "Phantom@Roguelike@StageCombatDps": {},
+    "Phantom@Roguelike@StageCombatDpsEnter": {},
     "Phantom@Roguelike@StageDreadfulFoe": {},
     "Phantom@Roguelike@StageDreadfulFoeEnter": {},
     "Phantom@Roguelike@StageEmergencyDps": {},
@@ -10497,7 +10520,7 @@
             "Phantom@Roguelike@StageEncounterOptionUnknown",
             "Phantom@Roguelike@ChooseOperFlag",
             "Phantom@Roguelike@StageEmergencyDpsEnter",
-            "Phantom@Roguelike@StageCambatDpsEnter",
+            "Phantom@Roguelike@StageCombatDpsEnter",
             "Phantom@Roguelike@CloseEvent"
         ]
     },
@@ -10590,14 +10613,14 @@
     },
     "Mizuki@Roguelike@ChooseOper": {
         "onErrorNext": [
-            "Mizuki@Roguelike@Begin"
+            "Mizuki@Roguelike@RecruitWithoutButton"
         ],
         "next": [
             "Mizuki@Roguelike@CloseCollectionContinue",
             "Mizuki@Roguelike@CloseCollectionClose",
             "Mizuki@Roguelike@ChooseOperConfirm",
             "Mizuki@Roguelike@RecruitSkip",
-            "Mizuki@Roguelike@RecruitWithoutButton"
+            "Mizuki@Roguelike@ReturnTo"
         ]
     },
     "Mizuki@Roguelike@CloseCollection": {
@@ -10932,7 +10955,7 @@
             "Mizuki@Roguelike@StageEmergencyTransportation",
             "Mizuki@Roguelike@StageEncounter",
             "Mizuki@Roguelike@StageBoons",
-            "Mizuki@Roguelike@StageCambatDps",
+            "Mizuki@Roguelike@StageCombatDps",
             "Mizuki@Roguelike@StageEmergencyDps",
             "Mizuki@Roguelike@StageDreadfulFoe",
             "Mizuki@Roguelike@StageDreadfulFoe-5",
@@ -10951,7 +10974,6 @@
         "template": "Mizuki@Roguelike@Recruit.png"
     },
     "Mizuki@Roguelike@RecruitWithoutButton": {
-        "template": "Roguelike@RecruitWithoutButton.png",
         "next": [
             "Mizuki@Roguelike@RecruitOther",
             "Mizuki@Roguelike@EnterAfterRecruit",
@@ -10992,10 +11014,10 @@
     "Mizuki@Roguelike@StageBoons": {
         "templThreshold": 0.95
     },
-    "Mizuki@Roguelike@StageCambatDps": {
+    "Mizuki@Roguelike@StageCombatDps": {
         "templThreshold": 0.95
     },
-    "Mizuki@Roguelike@StageCambatDpsEnter": {},
+    "Mizuki@Roguelike@StageCombatDpsEnter": {},
     "Mizuki@Roguelike@StageDreadfulFoe": {},
     "Mizuki@Roguelike@StageDreadfulFoe-5": {
         "Doc": "第五层的boss关卡",
@@ -11005,7 +11027,7 @@
             "Mizuki@Roguelike@StageDreadfulFoe-5Enter",
             "Mizuki@Roguelike@StageDreadfulFoeEnter",
             "Mizuki@Roguelike@StageEmergencyDpsEnter",
-            "Mizuki@Roguelike@StageCambatDpsEnter",
+            "Mizuki@Roguelike@StageCombatDpsEnter",
             "Mizuki@Roguelike@NextLevel#next"
         ]
     },
@@ -11075,7 +11097,7 @@
             "Mizuki@Roguelike@StageEncounterOptionWonderland",
             "Mizuki@Roguelike@ChooseOperFlag",
             "Mizuki@Roguelike@StageEmergencyDpsEnter",
-            "Mizuki@Roguelike@StageCambatDpsEnter",
+            "Mizuki@Roguelike@StageCombatDpsEnter",
             "Mizuki@Roguelike@CloseEvent"
         ]
     },
@@ -11181,13 +11203,13 @@
     },
     "Sami@Roguelike@ChooseOper": {
         "onErrorNext": [
-            "Sami@Roguelike@Begin"
+            "Sami@Roguelike@RecruitWithoutButton"
         ],
         "next": [
             "Sami@Roguelike@CloseCollectionClose",
             "Sami@Roguelike@ChooseOperConfirm",
             "Sami@Roguelike@RecruitSkip",
-            "Sami@Roguelike@RecruitWithoutButton"
+            "Sami@Roguelike@ReturnTo"
         ]
     },
     "Sami@Roguelike@CloseCollection": {
@@ -11508,8 +11530,8 @@
             "Sami@Roguelike@StageVerticalEmergencyTransportationAI6",
             "Sami@Roguelike@StageVerticalGambling",
             "Sami@Roguelike@StageVerticalGamblingAI6",
-            "Sami@Roguelike@StageCambatDps",
-            "Sami@Roguelike@StageCambatDpsAI6",
+            "Sami@Roguelike@StageCombatDps",
+            "Sami@Roguelike@StageCombatDpsAI6",
             "Sami@Roguelike@StageEmergencyDps",
             "Sami@Roguelike@StageEmergencyDpsAI6",
             "Sami@Roguelike@StageDreadfulFoe",
@@ -11527,10 +11549,10 @@
             "Sami@Roguelike@StageVerticalBoskyPassageAI6",
             "Sami@Roguelike@StageBoskyPassage",
             "Sami@Roguelike@StageBoskyPassageAI6",
-            "Sami@Roguelike@StageVerticalCambatDps",
-            "Sami@Roguelike@StageVerticalCambatDpsAI6",
-            "Sami@Roguelike@StageCambatDps",
-            "Sami@Roguelike@StageCambatDpsAI6",
+            "Sami@Roguelike@StageVerticalCombatDps",
+            "Sami@Roguelike@StageVerticalCombatDpsAI6",
+            "Sami@Roguelike@StageCombatDps",
+            "Sami@Roguelike@StageCombatDpsAI6",
             "Sami@Roguelike@StageFerociousPresage",
             "Sami@Roguelike@StageVerticalSafeHouse",
             "Sami@Roguelike@StageVerticalSafeHouseAI6",
@@ -11582,7 +11604,6 @@
         "templThreshold": 0.8
     },
     "Sami@Roguelike@RecruitWithoutButton": {
-        "template": "Roguelike@RecruitWithoutButton.png",
         "next": [
             "Sami@Roguelike@RecruitOther",
             "Sami@Roguelike@EnterAfterRecruit",
@@ -11716,37 +11737,37 @@
             "Sami@Roguelike@StageEncounterJudgeClick"
         ]
     },
-    "Sami@Roguelike@StageCambatDps": {
+    "Sami@Roguelike@StageCombatDps": {
         "templThreshold": 0.95
     },
-    "Sami@Roguelike@StageCambatDpsAI6": {
+    "Sami@Roguelike@StageCombatDpsAI6": {
         "templThreshold": 0.95,
         "baseTask": "Roguelike@Stage",
         "next": [
-            "Sami@Roguelike@StageCambatDpsEnter",
+            "Sami@Roguelike@StageCombatDpsEnter",
             "Sami@Roguelike@StageEmergencyDpsEnter",
             "Sami@Roguelike@NextLevel#next"
         ]
     },
-    "Sami@Roguelike@StageVerticalCambatDps": {
+    "Sami@Roguelike@StageVerticalCombatDps": {
         "templThreshold": 0.9,
         "baseTask": "Roguelike@StageVertical",
         "next": [
-            "Sami@Roguelike@StageCambatDpsEnter",
+            "Sami@Roguelike@StageCombatDpsEnter",
             "Sami@Roguelike@StageEmergencyDpsEnter",
             "Sami@Roguelike@NextLevel#next"
         ]
     },
-    "Sami@Roguelike@StageVerticalCambatDpsAI6": {
+    "Sami@Roguelike@StageVerticalCombatDpsAI6": {
         "templThreshold": 0.9,
         "baseTask": "Roguelike@StageVertical",
         "next": [
-            "Sami@Roguelike@StageCambatDpsEnter",
+            "Sami@Roguelike@StageCombatDpsEnter",
             "Sami@Roguelike@StageEmergencyDpsEnter",
             "Sami@Roguelike@NextLevel#next"
         ]
     },
-    "Sami@Roguelike@StageCambatDpsEnter": {},
+    "Sami@Roguelike@StageCombatDpsEnter": {},
     "Sami@Roguelike@StageDreadfulFoe": {},
     "Sami@Roguelike@StageDreadfulFoe-5": {
         "Doc": "第五层的boss关卡",
@@ -11756,7 +11777,7 @@
             "Sami@Roguelike@StageDreadfulFoe-5Enter",
             "Sami@Roguelike@StageDreadfulFoeEnter",
             "Sami@Roguelike@StageEmergencyDpsEnter",
-            "Sami@Roguelike@StageCambatDpsEnter",
+            "Sami@Roguelike@StageCombatDpsEnter",
             "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@NextLevel#next"
         ]
@@ -11773,7 +11794,7 @@
         "baseTask": "Roguelike@Stage",
         "next": [
             "Sami@Roguelike@StageEmergencyDpsEnter",
-            "Sami@Roguelike@StageCambatDpsEnter",
+            "Sami@Roguelike@StageCombatDpsEnter",
             "Sami@Roguelike@NextLevel#next"
         ]
     },
@@ -11782,7 +11803,7 @@
         "baseTask": "Roguelike@StageVertical",
         "next": [
             "Sami@Roguelike@StageEmergencyDpsEnter",
-            "Sami@Roguelike@StageCambatDpsEnter",
+            "Sami@Roguelike@StageCombatDpsEnter",
             "Sami@Roguelike@NextLevel#next"
         ]
     },
@@ -11791,7 +11812,7 @@
         "baseTask": "Roguelike@StageVertical",
         "next": [
             "Sami@Roguelike@StageEmergencyDpsEnter",
-            "Sami@Roguelike@StageCambatDpsEnter",
+            "Sami@Roguelike@StageCombatDpsEnter",
             "Sami@Roguelike@NextLevel#next"
         ]
     },
@@ -11936,7 +11957,7 @@
             "Sami@Roguelike@StageEncounterOptionWonderland",
             "Sami@Roguelike@ChooseOperFlag",
             "Sami@Roguelike@StageEmergencyDpsEnter",
-            "Sami@Roguelike@StageCambatDpsEnter",
+            "Sami@Roguelike@StageCombatDpsEnter",
             "Sami@Roguelike@CloseEvent"
         ]
     },
@@ -12419,7 +12440,7 @@
         ],
         "specificRect_Doc": "x拿来当文字灰度二值化下限用",
         "specificRect": [
-            100,
+            170,
             0,
             0,
             0
@@ -12692,7 +12713,7 @@
         ],
         "specificRect_Doc": "x拿来当文字灰度二值化下限用",
         "specificRect": [
-            170,
+            95,
             0,
             0,
             0

@@ -1,10 +1,10 @@
 #include "SanityBeforeStagePlugin.h"
 
+#include <charconv>
 #include <regex>
 
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
-#include "Status.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/RegionOCRer.h"
@@ -33,7 +33,7 @@ bool asst::SanityBeforeStagePlugin::_run()
 {
     LogTraceFunction;
 
-    get_sanity();
+    get_sanity_before_stage();
 
     return true;
 }
@@ -41,7 +41,7 @@ bool asst::SanityBeforeStagePlugin::_run()
 /// <summary>
 /// 获取 当前理智/最大理智
 /// </summary>
-void asst::SanityBeforeStagePlugin::get_sanity()
+void asst::SanityBeforeStagePlugin::get_sanity_before_stage()
 {
     LogTraceFunction;
 
@@ -72,11 +72,27 @@ void asst::SanityBeforeStagePlugin::get_sanity()
     Log.info(__FUNCTION__, "Current Sanity:" + text);
 
     json::value sanity_info = basic_info_with_what("SanityBeforeStage");
-    sanity_info["details"]["sanity"] = text;
-    callback(AsstMsg::SubTaskExtraInfo, sanity_info);
+    do {
+        auto slash_pos = text.find('/');
+        if (slash_pos == std::string::npos) {
+            break;
+        }
+        if (ranges::any_of(text, [](const char& c) { return c != '/' && !isdigit(c); })) {
+            break;
+        }
 
-    json::array value;
-    value.emplace_back(std::move(text));
-    value.emplace_back(utils::get_format_time());
-    status()->set_str(Status::FightSanityReport, value.dumps());
+        int sanity_cur = 0, sanity_max = 0;
+        if (std::from_chars(text.data(), text.data() + slash_pos, sanity_cur).ec != std::errc()) {
+            break;
+        }
+        if (std::from_chars(text.data() + slash_pos + 1, text.data() + text.length(), sanity_max).ec != std::errc()) {
+            break;
+        }
+        // {"current_sanity": 100, "max_sanity": 135, "report_time": "2023-09-01 09:31:53.527"}
+        sanity_info["details"]["current_sanity"] = sanity_cur;
+        sanity_info["details"]["max_sanity"] = sanity_max;
+        sanity_info["details"]["report_time"] = utils::get_format_time();
+    } while (false);
+    // 如果识别失败，返回空json。缓存数据需要作废
+    callback(AsstMsg::SubTaskExtraInfo, sanity_info);
 }

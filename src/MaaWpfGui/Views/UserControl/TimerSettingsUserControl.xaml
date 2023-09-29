@@ -100,14 +100,14 @@
                     Width="150"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
+                    Focusable="False"
                     IsEditable="True"
                     IsHitTestVisible="{Binding Idle}"
-                    Focusable="False"
-                    ToolTip="{Binding TimerModels.Timers[0].TimerConfig}"
                     IsReadOnly="True"
                     ItemsSource="{Binding ConfigurationList}"
                     SelectedValue="{Binding TimerModels.Timers[0].TimerConfig}"
                     SelectedValuePath="Value"
+                    ToolTip="{Binding TimerModels.Timers[0].TimerConfig}"
                     Visibility="{c:Binding CustomConfig}" />
             </StackPanel>
 
@@ -149,14 +149,14 @@
                     Width="150"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
+                    Focusable="False"
                     IsEditable="True"
                     IsHitTestVisible="{Binding Idle}"
-                    Focusable="False"
-                    ToolTip="{Binding TimerModels.Timers[1].TimerConfig}"
                     IsReadOnly="True"
                     ItemsSource="{Binding ConfigurationList}"
                     SelectedValue="{Binding TimerModels.Timers[1].TimerConfig}"
                     SelectedValuePath="Value"
+                    ToolTip="{Binding TimerModels.Timers[1].TimerConfig}"
                     Visibility="{c:Binding CustomConfig}" />
             </StackPanel>
 
@@ -198,14 +198,14 @@
                     Width="150"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
+                    Focusable="False"
                     IsEditable="True"
                     IsHitTestVisible="{Binding Idle}"
-                    Focusable="False"
-                    ToolTip="{Binding TimerModels.Timers[2].TimerConfig}"
                     IsReadOnly="True"
                     ItemsSource="{Binding ConfigurationList}"
                     SelectedValue="{Binding TimerModels.Timers[2].TimerConfig}"
                     SelectedValuePath="Value"
+                    ToolTip="{Binding TimerModels.Timers[2].TimerConfig}"
                     Visibility="{c:Binding CustomConfig}" />
             </StackPanel>
 
@@ -247,14 +247,14 @@
                     Width="150"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
+                    Focusable="False"
                     IsEditable="True"
                     IsHitTestVisible="{Binding Idle}"
-                    Focusable="False"
-                    ToolTip="{Binding TimerModels.Timers[3].TimerConfig}"
                     IsReadOnly="True"
                     ItemsSource="{Binding ConfigurationList}"
                     SelectedValue="{Binding TimerModels.Timers[3].TimerConfig}"
                     SelectedValuePath="Value"
+                    ToolTip="{Binding TimerModels.Timers[3].TimerConfig}"
                     Visibility="{c:Binding CustomConfig}" />
             </StackPanel>
 
@@ -296,14 +296,14 @@
                     Width="150"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
+                    Focusable="False"
                     IsEditable="True"
                     IsHitTestVisible="{Binding Idle}"
-                    Focusable="False"
-                    ToolTip="{Binding TimerModels.Timers[4].TimerConfig}"
                     IsReadOnly="True"
                     ItemsSource="{Binding ConfigurationList}"
                     SelectedValue="{Binding TimerModels.Timers[4].TimerConfig}"
                     SelectedValuePath="Value"
+                    ToolTip="{Binding TimerModels.Timers[4].TimerConfig}"
                     Visibility="{c:Binding CustomConfig}" />
             </StackPanel>
 
@@ -345,14 +345,14 @@
                     Width="150"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
+                    Focusable="False"
                     IsEditable="True"
                     IsHitTestVisible="{Binding Idle}"
-                    Focusable="False"
-                    ToolTip="{Binding TimerModels.Timers[5].TimerConfig}"
                     IsReadOnly="True"
                     ItemsSource="{Binding ConfigurationList}"
                     SelectedValue="{Binding TimerModels.Timers[5].TimerConfig}"
                     SelectedValuePath="Value"
+                    ToolTip="{Binding TimerModels.Timers[5].TimerConfig}"
                     Visibility="{c:Binding CustomConfig}" />
             </StackPanel>
 
@@ -394,14 +394,14 @@
                     Width="150"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
+                    Focusable="False"
                     IsEditable="True"
                     IsHitTestVisible="{Binding Idle}"
-                    Focusable="False"
-                    ToolTip="{Binding TimerModels.Timers[6].TimerConfig}"
                     IsReadOnly="True"
                     ItemsSource="{Binding ConfigurationList}"
                     SelectedValue="{Binding TimerModels.Timers[6].TimerConfig}"
                     SelectedValuePath="Value"
+                    ToolTip="{Binding TimerModels.Timers[6].TimerConfig}"
                     Visibility="{c:Binding CustomConfig}" />
             </StackPanel>
 
@@ -443,14 +443,14 @@
                     Width="150"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
+                    Focusable="False"
                     IsEditable="True"
                     IsHitTestVisible="{Binding Idle}"
-                    Focusable="False"
-                    ToolTip="{Binding TimerModels.Timers[7].TimerConfig}"
                     IsReadOnly="True"
                     ItemsSource="{Binding ConfigurationList}"
                     SelectedValue="{Binding TimerModels.Timers[7].TimerConfig}"
                     SelectedValuePath="Value"
+                    ToolTip="{Binding TimerModels.Timers[7].TimerConfig}"
                     Visibility="{c:Binding CustomConfig}" />
             </StackPanel>
         </Grid>

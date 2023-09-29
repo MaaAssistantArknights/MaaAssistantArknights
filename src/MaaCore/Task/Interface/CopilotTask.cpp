@@ -118,6 +118,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     // 启用队列的话，这项为true
     bool need_navigate = params.get("need_navigate", false);
     m_task_file_reload_task_ptr->set_enable(need_navigate);
+    m_battle_task_ptr->set_wait_until_end(need_navigate);
 
     // 不使用代理指挥
     m_not_use_prts_task_ptr->set_enable(need_navigate);
