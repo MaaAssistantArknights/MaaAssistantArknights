@@ -937,7 +937,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             Stopping = true;
             AddLog(LocalizationHelper.GetString("Stopping"));
-            await Task.Run(Instances.AsstProxy.AsstStop);
+            await Task.Run(() => { Instances.AsstProxy.AsstStop(); });
 
             int count = 0;
             while (Instances.AsstProxy.AsstRunning() && count <= 600)
