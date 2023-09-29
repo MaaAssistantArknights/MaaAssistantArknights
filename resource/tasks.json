@@ -8703,10 +8703,10 @@
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [
-            1208,
-            442,
-            45,
-            62
+            1180, 
+            495, 
+            30, 
+            20
         ],
         "next": [
             "Roguelike@StartAction",
@@ -12438,7 +12438,7 @@
         ],
         "specificRect_Doc": "x拿来当文字灰度二值化下限用",
         "specificRect": [
-            95,
+            170,
             0,
             0,
             0
@@ -12711,7 +12711,7 @@
         ],
         "specificRect_Doc": "x拿来当文字灰度二值化下限用",
         "specificRect": [
-            170,
+            95,
             0,
             0,
             0
