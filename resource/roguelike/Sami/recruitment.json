@@ -792,7 +792,17 @@
                 {
                     "name": "预备干员-重装",
                     "recruit_priority": 460,
-                    "is_alternate": true
+                    "is_alternate": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "重装"
+                            ],
+                            "threshold": 2,
+                            "offset": -140
+                        }
+                    ]
                 }
             ]
         },
