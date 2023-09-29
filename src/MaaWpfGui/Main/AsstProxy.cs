@@ -534,7 +534,7 @@ namespace MaaWpfGui.Main
                             // 如果启用战斗列表，需要中止掉剩余的任务
                             if (Instances.CopilotViewModel.UseCopilotList)
                             {
-                                AsstStop();
+                                AsstStop(false);
                             }
 
                             _runningState.SetIdle(true);
@@ -1973,11 +1973,16 @@ namespace MaaWpfGui.Main
         /// <summary>
         /// 停止。
         /// </summary>
+        /// <param name="clearTask">是否清理_latestTaskId</param>
         /// <returns>是否成功。</returns>
-        public bool AsstStop()
+        public bool AsstStop(bool clearTask = true)
         {
             bool ret = AsstStop(_handle);
-            _latestTaskId.Clear();
+            if (clearTask)
+            {
+                _latestTaskId.Clear();
+            }
+
             return ret;
         }
 
