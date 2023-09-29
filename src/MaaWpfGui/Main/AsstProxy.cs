@@ -1793,7 +1793,7 @@ namespace MaaWpfGui.Main
             {
                 taskParams["core_char"] = coreChar;
             }
-          
+
             taskParams["start_with_elite_two"] = startWithEliteTwo;
             taskParams["use_support"] = useSupport;
             taskParams["use_nonfriend_support"] = enableNonFriendSupport;
