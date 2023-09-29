@@ -36,7 +36,7 @@
                     "skill": 3,
                     "alternate_skill": 2,
                     "recruit_priority": 650,
-                    "promote_priority": 932,
+                    "promote_priority": 982,
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
@@ -410,15 +410,13 @@
                         {
                             "groups": [
                                 "凯尔希",
-                                "近卫",
-                                "重装",
-                                "情报官",
-                                "挡人先锋"
+                                "棘刺",
+                                "地面阻挡"
                             ],
                             "threshold": 1,
                             "is_less": true,
                             "offset": -300,
-                            "Doc": "地面阻挡≤1时，玛恩纳的招募优先级-500"
+                            "Doc": "地面阻挡≤1时，的招募优先级-500"
                         }
                     ]
                 }
@@ -449,7 +447,7 @@
                                 "重装"
                             ],
                             "threshold": 2,
-                            "offset": -300
+                            "offset": -120
                         }
                     ]
                 },
@@ -492,7 +490,7 @@
                                 "近卫"
                             ],
                             "threshold": 2,
-                            "offset": -300
+                            "offset": -200
                         }
                     ]
                 },
@@ -511,7 +509,7 @@
                                 "重装"
                             ],
                             "threshold": 2,
-                            "offset": -250
+                            "offset": -120
                         }
                     ]
                 },
@@ -527,7 +525,7 @@
                                 "重装"
                             ],
                             "threshold": 2,
-                            "offset": -300
+                            "offset": -120
                         }
                     ]
                 },
@@ -587,6 +585,7 @@
                     "recruit_priority_offsets": [
                         {
                             "groups": [
+                                "凯尔希",
                                 "重装"
                             ],
                             "threshold": 2,
@@ -598,10 +597,11 @@
                     "name": "泡泡",
                     "skill": 2,
                     "recruit_priority": 597,
-                    "promote_priority": 270,
+                    "promote_priority": 400,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
+                                "凯尔希",
                                 "重装"
                             ],
                             "threshold": 2,
@@ -639,7 +639,6 @@
                     "name": "斑点",
                     "skill": 1,
                     "recruit_priority": 625,
-                    "promote_priority": 0,
                     "is_key": true,
                     "is_start": true,
                     "recruit_priority_offsets": [
@@ -663,10 +662,11 @@
                     "recruit_priority_offsets": [
                         {
                             "groups": [
+                                "凯尔希",
                                 "重装"
                             ],
                             "threshold": 1,
-                            "offset": -200
+                            "offset": -300
                         }
                     ]
                 },
@@ -724,7 +724,7 @@
                     "name": "石棉",
                     "skill": 2,
                     "recruit_priority": 615,
-                    "promote_priority": 300,
+                    "promote_priority": 400,
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
@@ -740,45 +740,52 @@
                 },
                 {
                     "name": "暮落",
-                    "skill": 2
+                    "skill": 2,
+                    "promote_priority": 350
                 },
                 {
                     "name": "车尔尼",
-                    "skill": 2
+                    "skill": 2,
+                    "promote_priority": 350
                 },
                 {
                     "name": "可颂",
-                    "skill": 2
+                    "skill": 2,
+                    "promote_priority": 350
                 },
                 {
                     "name": "拜松",
-                    "skill": 2
+                    "skill": 2,
+                    "promote_priority": 350
                 },
                 {
                     "name": "闪击",
-                    "skill": 2
+                    "skill": 2,
+                    "promote_priority": 350
                 },
                 {
                     "name": "吽",
-                    "skill": 2
+                    "skill": 2,
+                    "promote_priority": 350
                 },
                 {
                     "name": "暴雨",
-                    "skill": 2
+                    "skill": 2,
+                    "promote_priority": 350
                 },
                 {
                     "name": "角峰",
-                    "skill": 2
+                    "skill": 2,
+                    "promote_priority": 350
                 },
                 {
                     "name": "坚雷",
-                    "skill": 2
+                    "skill": 2,
+                    "promote_priority": 350
                 },
                 {
                     "name": "预备干员-重装",
-                    "skill": 0,
                     "recruit_priority": 460,
-                    "promote_priority": 0,
                     "is_alternate": true
                 }
             ]
@@ -1013,7 +1020,7 @@
                     "name": "纯烬艾雅法拉",
                     "skill": 1,
                     "is_key": true,
-                    "recruit_priority": 799,
+                    "recruit_priority": 801,
                     "promote_priority": 590,
                     "recruit_priority_offsets": [
                         {
@@ -2030,37 +2037,10 @@
             "name": "术师",
             "opers": [
                 {
-                    "name": "澄闪",
-                    "skill": 3,
-                    "alternate_skill": 2,
-                    "is_key": true,
-                    "recruit_priority": 635,
-                    "promote_priority": 810,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "术师"
-                            ],
-                            "threshold": 1,
-                            "offset": -120
-                        }
-                    ]
+                    "name": "澄闪"
                 },
                 {
-                    "name": "艾雅法拉",
-                    "skill": 2,
-                    "is_key": true,
-                    "recruit_priority": 640,
-                    "promote_priority": 801,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "术师"
-                            ],
-                            "threshold": 1,
-                            "offset": -120
-                        }
-                    ]
+                    "name": "艾雅法拉"
                 },
                 {
                     "name": "莫斯提马",
@@ -2332,9 +2312,23 @@
                     "name": "史尔特尔",
                     "skill": 3,
                     "alternate_skill": 1,
-                    "recruit_priority": 980,
+                    "recruit_priority": 950,
                     "promote_priority": 990,
-                    "is_key": true
+                    "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "棘刺",
+                                "召唤",
+                                "地面阻挡"
+                            ],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -350,
+                            "Doc": "地面阻挡≤1时，史尔特尔的招募优先级-350"
+                        }
+                    ]
                 }
             ]
         },
@@ -2353,10 +2347,12 @@
                         {
                             "groups": [
                                 "凯尔希",
-                                "地面阻挡",
-                                "银灰"
+                                "棘刺",
+                                "召唤",
+                                "地面阻挡"
                             ],
-                            "threshold": 2,
+                            "threshold": 1,
+                            "is_less": true,
                             "offset": -300
                         }
                     ]
@@ -2368,8 +2364,7 @@
                     "is_start": true,
                     "alternate_skill": 1,
                     "recruit_priority": 710,
-                    "promote_priority": 900,
-                    "promote_priority_when_team_full": 1000,
+                    "promote_priority": 950,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -3069,8 +3064,9 @@
                         {
                             "groups": [
                                 "凯尔希",
-                                "近卫",
-                                "重装"
+                                "棘刺",
+                                "召唤",
+                                "地面阻挡"
                             ],
                             "threshold": 1,
                             "is_less": true,
@@ -3090,8 +3086,9 @@
                         {
                             "groups": [
                                 "凯尔希",
-                                "近卫",
-                                "重装"
+                                "棘刺",
+                                "召唤",
+                                "地面阻挡"
                             ],
                             "threshold": 1,
                             "is_less": true,
@@ -3108,8 +3105,9 @@
                         {
                             "groups": [
                                 "凯尔希",
-                                "近卫",
-                                "重装"
+                                "棘刺",
+                                "召唤",
+                                "地面阻挡"
                             ],
                             "threshold": 1,
                             "is_less": true,
@@ -3739,7 +3737,9 @@
         },
         {
             "groups": [
-                "地面阻挡",
+                "近卫",
+                "重装",
+                "召唤",
                 "地面单切"
             ],
             "threshold": 2
