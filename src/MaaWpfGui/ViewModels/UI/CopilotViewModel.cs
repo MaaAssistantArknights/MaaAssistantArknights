@@ -695,7 +695,9 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// 更新任务顺序
         /// </summary>
-        private void CopilotItemIndexChanged()
+        // UI 绑定的方法
+        // ReSharper disable once MemberCanBePrivate.Global
+        public void CopilotItemIndexChanged()
         {
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
