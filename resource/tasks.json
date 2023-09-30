@@ -565,7 +565,7 @@
             "FullStageNavigation"
         ],
         "exceededNext": [
-            "Home@ReturnTo"
+            "Home@ReturnButtons#next"
         ],
         "maxTimes": 20
     },
@@ -2944,7 +2944,7 @@
             "LoginOther#next",
             "SwitchAccount@StartUpThemes#next",
             "SwitchAccount@LoadingIcon",
-            "SwitchAccount@ReturnTo",
+            "SwitchAccount@ReturnButtons#next",
             "Settings"
         ]
     },
@@ -3204,7 +3204,6 @@
             "StartUpConnectingFlag",
             "#back",
             "CloseAnnos#next",
-            "TodaysSupplies",
             "OfflineConfirm"
         ]
     },
@@ -3214,10 +3213,8 @@
         "next": [
             "StartUp@StartUpThemes#next",
             "StartUpBegin@LoadingIcon",
-            "StartUp@ReturnTo",
-            "StartUp@EndOfAction",
-            "StartUp@FromStageSN",
-            "StartUp@Return-White"
+            "StartUp@ReturnButtons#next",
+            "StartUp@EndOfAction"
         ]
     },
     "GameStart": {
@@ -3316,7 +3313,7 @@
         "next": [
             "StartUp",
             "StartUp@LoadingText",
-            "CloseAnnos#next"
+            "StartUp@CloseAnnos#next"
         ]
     },
     "CloseAnnos": {
@@ -3421,9 +3418,18 @@
             "#back"
         ]
     },
-    "Return-White": {
+    "ReturnButtons": {
+        "algorithm": "JustReturn",
+        "next": [
+            "BlackReturn",
+            "WhiteReturn",
+            "FromStageSN"
+        ]
+    },
+    "WhiteReturn": {
+        "template": "Return-White.png",
         "templThreshold": 0.8,
-        "baseTask": "ReturnTo",
+        "baseTask": "BlackReturn",
         "roi": [
             0,
             0,
@@ -3431,7 +3437,7 @@
             150
         ]
     },
-    "ReturnTo": {
+    "BlackReturn": {
         "template": "Return.png",
         "templThreshold": 0.7,
         "action": "ClickSelf",
@@ -3444,16 +3450,34 @@
         ],
         "next": [
             "#back",
-            "ReturnTo",
-            "ReturnToConfirm",
-            "ReturnTo@LoadingIcon",
-            "CloseAnnos#next",
-            "FromStageSN",
-            "TodaysSupplies",
-            "Return-White"
+            "ReturnButtons#next",
+            "ReturnConfirm",
+            "ReturnButtons@LoadingIcon",
+            "ReturnButtons@LoadingText",
+            "CloseAnnos#next"
         ]
     },
-    "ReturnToConfirm": {
+    "FromStageSN": {
+        "template": "StageSNReturnFlag.png",
+        "action": "ClickRect",
+        "cache": false,
+        "roi": [
+            284,
+            509,
+            242,
+            141
+        ],
+        "specificRect": [
+            20,
+            20,
+            135,
+            35
+        ],
+        "next": [
+            "BlackReturn"
+        ]
+    },
+    "ReturnConfirm": {
         "template": "PopupConfirm.png",
         "action": "ClickSelf",
         "roi": [
@@ -3463,13 +3487,11 @@
             160
         ],
         "next": [
-            "ReturnTo",
+            "ReturnButtons#next",
             "#back",
-            "ReturnToConfirm@LoadingIcon",
+            "ReturnConfirm@LoadingIcon",
             "CloseAnnos#next",
-            "FromStageSN",
-            "TodaysSupplies",
-            "ReturnToConfirm"
+            "ReturnConfirm"
         ]
     },
     "OfflineConfirm": {
@@ -3502,38 +3524,15 @@
         "next": [
             "CloseAnnos#next",
             "OfflineConfirmImpl",
-            "StartUpThemes#next",
-            "TodaysSupplies"
+            "StartUpThemes#next"
         ]
     },
     "StartUp@ClickCorner": {
         "next": [
-            "StartUp@ReturnTo",
+            "StartUp@ReturnButtons#next",
             "StartUp",
             "StartUp@CloseAnnos#next",
-            "StartUp@FromStageSN",
-            "StartUp@TodaysSupplies",
             "StartUp@OfflineConfirm"
-        ]
-    },
-    "FromStageSN": {
-        "template": "StageSNReturnFlag.png",
-        "action": "ClickRect",
-        "cache": false,
-        "roi": [
-            284,
-            509,
-            242,
-            141
-        ],
-        "specificRect": [
-            20,
-            20,
-            135,
-            35
-        ],
-        "next": [
-            "ReturnTo"
         ]
     },
     "Annihilation": {
@@ -3557,11 +3556,9 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "Fight@ReturnTo",
+            "Fight@ReturnButtons#next",
             "Fight",
-            "Fight@CloseAnnos#next",
-            "Fight@FromStageSN",
-            "Fight@TodaysSupplies"
+            "Fight@CloseAnnos#next"
         ]
     },
     "FightBegin": {
@@ -3585,11 +3582,9 @@
             "Fight@StartButton1",
             "Fight@UsePrts",
             "Fight@UsePrts-StageSN",
-            "Fight@ReturnTo",
+            "Fight@ReturnButtons#next",
             "Fight",
             "Fight@CloseAnnos#next",
-            "Fight@FromStageSN",
-            "Fight@TodaysSupplies",
             "Fight@PRTS#next",
             "Fight@EndOfAction"
         ]
@@ -4291,8 +4286,7 @@
         "next": [
             "StartUpThemes#next",
             "RestartGameAndContinue@LoadingIcon",
-            "ReturnTo",
-            "FromStageSN"
+            "ReturnButtons#next"
         ]
     },
     "Fight": {
@@ -4313,7 +4307,6 @@
             "Fight@GoLastBattle",
             "Fight",
             "Fight@CloseAnnos#next",
-            "Fight@TodaysSupplies",
             "Stop"
         ],
         "postDelay": 3000
@@ -4344,10 +4337,8 @@
         "next": [
             "RecruitFlag",
             "Recruit",
-            "Recruit@ReturnTo",
+            "Recruit@ReturnButtons#next",
             "Recruit@CloseAnnos#next",
-            "Recruit@FromStageSN",
-            "Recruit@TodaysSupplies",
             "Recruit@OfflineConfirm"
         ]
     },
@@ -4680,14 +4671,12 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "Award@ReturnTo",
+            "Award@ReturnButtons#next",
             "Award",
             "ReceiveAward",
             "DailyTask",
             "WeeklyTask",
-            "Award@CloseAnnos#next",
-            "Award@FromStageSN",
-            "Award@TodaysSupplies"
+            "Award@CloseAnnos#next"
         ]
     },
     "Award": {
@@ -4705,8 +4694,7 @@
             "DailyTask",
             "WeeklyTask",
             "Award",
-            "Award@CloseAnnos#next",
-            "Award@TodaysSupplies"
+            "Award@CloseAnnos#next"
         ]
     },
     "ReceiveAward": {
@@ -4797,7 +4785,7 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "MailReturnToHome@ReturnTo",
+            "MailReturnToHome@ReturnButtons#next",
             "MailReturnToHome",
             "ReceiveMail"
         ]
@@ -4863,7 +4851,7 @@
     "CloseTaskMailDouble": {
         "baseTask": "CloseTaskAwardDouble",
         "next": [
-            "Return-White",
+            "WhiteReturn",
             "CloseTaskMailDouble"
         ]
     },
@@ -4876,10 +4864,8 @@
             "StartToVisit",
             "VisitNext",
             "VisitNextBlack",
-            "Visit@ReturnTo",
-            "Visit@CloseAnnos#next",
-            "Visit@FromStageSN",
-            "Visit@TodaysSupplies"
+            "Visit@ReturnButtons#next",
+            "Visit@CloseAnnos#next"
         ]
     },
     "Visit": {
@@ -4895,8 +4881,7 @@
         "next": [
             "FriendsList",
             "Visit",
-            "Visit@CloseAnnos#next",
-            "Visit@TodaysSupplies"
+            "Visit@CloseAnnos#next"
         ]
     },
     "FriendsList": {
@@ -4925,7 +4910,7 @@
         ],
         "action": "DoNothing",
         "next": [
-            "Home@ReturnTo"
+            "Home@ReturnButtons#next"
         ]
     },
     "StartToVisit": {
@@ -4984,11 +4969,9 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "Mall@ReturnTo",
+            "Mall@ReturnButtons#next",
             "Mall",
-            "Mall@CloseAnnos#next",
-            "Mall@FromStageSN",
-            "Mall@TodaysSupplies"
+            "Mall@CloseAnnos#next"
         ]
     },
     "Mall": {
@@ -5007,8 +4990,7 @@
         "next": [
             "CreditStoreOcr",
             "Mall",
-            "Mall@CloseAnnos#next",
-            "Mall@TodaysSupplies"
+            "Mall@CloseAnnos#next"
         ]
     },
     "CreditStoreOcr": {
@@ -5098,7 +5080,7 @@
             140
         ],
         "next": [
-            "Home@ReturnTo"
+            "Home@ReturnButtons#next"
         ]
     },
     "VisitNextBlack": {
@@ -5110,7 +5092,7 @@
             130
         ],
         "next": [
-            "Home@ReturnTo"
+            "Home@ReturnButtons#next"
         ]
     },
     "Home": {
@@ -5339,67 +5321,43 @@
         "action": "DoNothing",
         "next": [
             "Infrast",
-            "InfrastEnteredFlag",
             "InfrastNotification",
-            "Infrast@ReturnTo",
+            "InfrastEnteredFlag",
+            "Infrast@ReturnButtons#next",
             "Infrast@CloseAnnos#next",
-            "Infrast@FromStageSN",
-            "Infrast@TodaysSupplies",
             "Infrast@OfflineConfirm"
         ]
     },
-    "Infrast@ReturnTo": {
+    "Infrast@WhiteReturn": {
+        "template": "Return-White.png",
+        "next": [
+            "Infrast@BlackReturn#next"
+        ]
+    },
+    "Infrast@BlackReturn": {
         "template": "Return.png",
         "next": [
-            "Infrast",
-            "InfrastNotification",
-            "InfrastEnteredFlag",
-            "Infrast@ReturnTo",
-            "Infrast@ReturnToConfirm",
-            "Infrast@CloseAnnos#next",
-            "Infrast@FromStageSN",
-            "Infrast@TodaysSupplies",
-            "Infrast@OfflineConfirm"
+            "InfrastBegin#next",
+            "Infrast@(BlackReturn#next)"
         ]
     },
-    "Infrast@ReturnToConfirm": {
+    "Infrast@ReturnConfirm": {
         "template": "PopupConfirm.png",
         "next": [
-            "Infrast",
-            "InfrastNotification",
-            "InfrastEnteredFlag",
-            "Infrast@ReturnTo",
-            "Infrast@CloseAnnos#next",
-            "Infrast@FromStageSN",
-            "Infrast@TodaysSupplies",
-            "Infrast@ReturnToConfirm",
-            "Infrast@OfflineConfirm"
+            "InfrastBegin#next",
+            "Infrast@ReturnConfirm"
         ]
     },
     "Infrast@CloseAnno": {
         "template": "CloseAnno.png",
         "next": [
-            "Infrast",
-            "InfrastNotification",
-            "InfrastEnteredFlag",
-            "Infrast@ReturnTo",
-            "Infrast@CloseAnnos#next",
-            "Infrast@FromStageSN",
-            "Infrast@TodaysSupplies",
-            "Infrast@OfflineConfirm"
+            "InfrastBegin#next"
         ]
     },
     "Infrast@CloseAnnoTexas": {
         "template": "CloseAnnoTexas.png",
         "next": [
-            "Infrast",
-            "InfrastNotification",
-            "InfrastEnteredFlag",
-            "Infrast@ReturnTo",
-            "Infrast@CloseAnnos#next",
-            "Infrast@FromStageSN",
-            "Infrast@TodaysSupplies",
-            "Infrast@OfflineConfirm"
+            "InfrastBegin#next"
         ]
     },
     "Return": {
@@ -5427,7 +5385,6 @@
             "InfrastEnteredFlag",
             "Infrast",
             "Infrast@CloseAnnos#next",
-            "Infrast@TodaysSupplies",
             "Infrast@OfflineConfirm"
         ],
         "postDelay": 5000
@@ -7104,6 +7061,10 @@
                 "“命运的宠儿”"
             ],
             [
+                ".*骑士对决.*",
+                "“骑士对决”"
+            ],
+            [
                 "巍峨银.*",
                 "巍峨银凇"
             ]
@@ -8286,7 +8247,7 @@
             "DepotMaterialTab",
             "DepotAllTab",
             "DepotMaterialTabClicked",
-            "DepotEnter@ReturnTo"
+            "DepotEnter@ReturnButtons#next"
         ]
     },
     "DepotEnter": {
@@ -8434,10 +8395,9 @@
             "Roguelike@Abandon",
             "Roguelike@TodoEnter",
             "Roguelike@Continue",
-            "Roguelike@ReturnTo",
-            "Roguelike@ReturnToConfirm",
-            "Roguelike@StartUpThemes#next",
-            "Roguelike@FromStageSN"
+            "Roguelike@ReturnButtons#next",
+            "Roguelike@ReturnConfirm",
+            "Roguelike@StartUpThemes#next"
         ]
     },
     "Roguelike@ChooseDifficulty": {
@@ -8551,8 +8511,8 @@
             "Roguelike@GamePass",
             "Roguelike@TodoEnter",
             "Roguelike@Continue",
-            "Roguelike@ReturnTo",
-            "Roguelike@ReturnToConfirm",
+            "Roguelike@ReturnButtons#next",
+            "Roguelike@ReturnConfirm",
             "Roguelike@StartUpThemes#next",
             "Roguelike@ClickToStartPoint"
         ]
@@ -8675,10 +8635,10 @@
             119
         ],
         "next": [
-            "Roguelike@Back"
+            "Roguelike@ReturnToMap"
         ]
     },
-    "Roguelike@Back": {
+    "Roguelike@ReturnToMap": {
         "Doc": "这两步专门用来消除技能框出现白边闪烁，导致识别干员名出错的问题",
         "template": "Return.png",
         "templThreshold": 0.7,
@@ -8690,24 +8650,23 @@
             180,
             80
         ],
-        "preDelay": 500,
-        "postDelay": 1000,
         "next": [
-            "Roguelike@StageCambatEnterAgain"
+            "Roguelike@StageEnterBattleAgain"
         ]
     },
-    "Roguelike@StageCambatEnterAgain": {
+    "Roguelike@StageEnterBattleAgain": {
         "Doc": "这两步专门用来消除技能框出现白边闪烁，导致识别干员名出错的问题",
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [
-            1100,
-            504,
-            133,
-            94
+            1180, 
+            495, 
+            30, 
+            20
         ],
         "next": [
-            "Roguelike@StartAction"
+            "Roguelike@StartAction",
+            "Roguelike@StageEnterBattleAgain"
         ]
     },
     "Roguelike@FromIntegratedStrategies": {
@@ -9075,6 +9034,7 @@
         "Doc": "base_task",
         "Doc2": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援——热水壶",
         "template": "empty.png",
+        "templThreshold": 0.7,
         "action": "ClickSelf",
         "cache": false,
         "roi": [
@@ -9091,6 +9051,7 @@
         "Doc": "base_task",
         "Doc2": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 5 源石锭",
         "template": "empty.png",
+        "templThreshold": 0.7,
         "action": "ClickSelf",
         "cache": false,
         "roi": [
@@ -9338,7 +9299,7 @@
     },
     "Roguelike@RecruitWithoutButton": {
         "algorithm": "JustReturn",
-        "action": "ClickRect",        
+        "action": "ClickRect",
         "specificRect": [
             1180,
             15,
@@ -9346,18 +9307,20 @@
             60
         ]
     },
-    "Roguelike@ReturnTo": {
+    "Roguelike@WhiteReturn": {
+        "template": "Return-White.png",
+        "next": [
+            "Roguelike@BlackReturn#next"
+        ]
+    },
+    "Roguelike@BlackReturn": {
         "template": "Return.png",
         "next": [
             "Roguelike@ChooseDifficulty",
             "Roguelike@StartExplore",
             "Roguelike@ExitThenAbandon",
             "Roguelike@Abandon",
-            "Roguelike",
-            "Roguelike@ReturnTo",
-            "Roguelike@ReturnToConfirm",
-            "Roguelike@CloseAnnos#next",
-            "Roguelike@FromStageSN"
+            "Roguelike@(BlackReturn#next)"
         ]
     },
     "Roguelike@RolesConfirm": {
@@ -10458,7 +10421,7 @@
     "Phantom@Roguelike@RecruitOther": {
         "template": "Phantom@Roguelike@Recruit.png"
     },
-    "Phantom@Roguelike@RecruitWithoutButton": {        
+    "Phantom@Roguelike@RecruitWithoutButton": {
         "next": [
             "Phantom@Roguelike@RecruitOther",
             "Phantom@Roguelike@EnterAfterRecruit",
@@ -10615,7 +10578,7 @@
             "Mizuki@Roguelike@CloseCollectionClose",
             "Mizuki@Roguelike@ChooseOperConfirm",
             "Mizuki@Roguelike@RecruitSkip",
-            "Mizuki@Roguelike@ReturnTo"
+            "Mizuki@Roguelike@ReturnButtons#next"
         ]
     },
     "Mizuki@Roguelike@CloseCollection": {
@@ -11204,7 +11167,7 @@
             "Sami@Roguelike@CloseCollectionClose",
             "Sami@Roguelike@ChooseOperConfirm",
             "Sami@Roguelike@RecruitSkip",
-            "Sami@Roguelike@ReturnTo"
+            "Sami@Roguelike@ReturnButtons#next"
         ]
     },
     "Sami@Roguelike@CloseCollection": {
@@ -12435,7 +12398,7 @@
         ],
         "specificRect_Doc": "x拿来当文字灰度二值化下限用",
         "specificRect": [
-            95,
+            170,
             0,
             0,
             0
@@ -12511,7 +12474,7 @@
             "OperBoxEnter",
             "OperBoxRoleTabSelect",
             "OperBoxRoleTab",
-            "OperBoxEnter@ReturnTo"
+            "OperBoxEnter@ReturnButtons#next"
         ]
     },
     "OperBoxEnter": {
@@ -12708,7 +12671,7 @@
         ],
         "specificRect_Doc": "x拿来当文字灰度二值化下限用",
         "specificRect": [
-            170,
+            95,
             0,
             0,
             0
@@ -13404,20 +13367,16 @@
             160
         ]
     },
-    "Reclamation@PopupConfirm": {
+    "Reclamation@ReturnConfirm": {
         "Doc": "base_task",
         "template": "PopupConfirm.png",
         "templThreshold": 0.7,
-        "action": "ClickSelf",
-        "roi": [
-            630,
-            400,
-            650,
-            160
-        ],
         "next": [
-            "Reclamation@ReturnTo#next",
-            "Reclamation@ReturnToConfirm#next"
+            "Reclamation",
+            "Reclamation@ReturnButtons#next",
+            "Reclamation@ReturnConfirm",
+            "Reclamation@ReturnConfirm@LoadingIcon",
+            "Reclamation@ReturnConfirm@LoadingText"
         ]
     },
     "Reclamation@AtMapFlag": {
@@ -13498,10 +13457,16 @@
         "templThreshold": 0.7,
         "action": "ClickSelf",
         "next": [
-            "Reclamation@ReturnTo#next"
+            "Reclamation@BlackReturn#next"
         ]
     },
-    "Reclamation@ReturnTo": {
+    "Reclamation@WhiteReturn": {
+        "template": "Return-White.png",
+        "next": [
+            "Reclamation@BlackReturn#next"
+        ]
+    },
+    "Reclamation@BlackReturn": {
         "template": "Return.png",
         "next": [
             "Reclamation@AtHomePageFlag",
@@ -13511,10 +13476,7 @@
             "Reclamation@ExitAlgorithm",
             "Reclamation@SmallReturn",
             "Reclamation@ReturnInFocus",
-            "Reclamation",
-            "Reclamation@ReturnTo",
-            "Reclamation@PopupConfirm",
-            "Reclamation@CloseAnnos#next"
+            "Reclamation@(BlackReturn#next)"
         ]
     },
     "Reclamation@ReturnInFocus": {
@@ -13527,7 +13489,7 @@
         "templThreshold": 0.7,
         "action": "ClickSelf",
         "next": [
-            "Reclamation@ReturnTo#next"
+            "Reclamation@BlackReturn#next"
         ]
     },
     "Reclamation@Begin": {
@@ -13536,7 +13498,7 @@
             "Reclamation@GiveupAlgorithm",
             "Reclamation@StartAlgorithm",
             "Reclamation@ConfirmStart#next",
-            "Reclamation@ReturnTo#next",
+            "Reclamation@BlackReturn#next",
             "Reclamation@BattleStart#next",
             "Reclamation@LevelComplete",
             "Reclamation@GiveupReportSkip",
@@ -13573,7 +13535,7 @@
             "Reclamation@EmptyInitUnits",
             "Reclamation@InitSupplyAll",
             "Reclamation@ClickChooseInitUnits",
-            "Reclamation@ReturnTo"
+            "Reclamation@ReturnButtons#next"
         ]
     },
     "Reclamation@EmptyInitUnits": {
@@ -13834,7 +13796,7 @@
     },
     "Reclamation@StartActionPopupConfirm": {
         "template": "PopupConfirm.png",
-        "baseTask": "Reclamation@PopupConfirm",
+        "baseTask": "Reclamation@ReturnConfirm",
         "postDelay": 4000,
         "next": [
             "Reclamation@BattleStart",
@@ -13894,13 +13856,13 @@
         "next": [
             "Reclamation@LevelForceExitConfirm",
             "Reclamation@LevelForceExit",
-            "Reclamation@ReturnTo#next"
+            "Reclamation@BlackReturn#next"
         ]
     },
     "Reclamation@LevelForceExitConfirm": {
         "baseTask": "Reclamation@ExitLevelConfirm",
         "next": [
-            "Reclamation@ReturnTo#next"
+            "Reclamation@BlackReturn#next"
         ]
     },
     "Reclamation@LevelComplete": {
@@ -14001,7 +13963,7 @@
     },
     "Reclamation@GiveupAlgorithmConfirm": {
         "template": "PopupConfirm.png",
-        "baseTask": "Reclamation@PopupConfirm",
+        "baseTask": "Reclamation@ReturnConfirm",
         "next": [
             "Reclamation@GiveupReportSkip",
             "Reclamation@GiveupCrossdomainPageFlag",
@@ -14162,7 +14124,7 @@
     },
     "Reclamation@GiveupTakeNothingConfirm": {
         "template": "PopupConfirm.png",
-        "baseTask": "Reclamation@PopupConfirm",
+        "baseTask": "Reclamation@ReturnConfirm",
         "next": [
             "Reclamation@GiveupTakeNothingConfirm",
             "Reclamation@GiveupReportSkip",
@@ -14394,7 +14356,7 @@
         "algorithm": "JustReturn",
         "next": [
             "NavigateHome@Reclamation@AtHomePageFlag",
-            "NavigateHome@Reclamation@ReturnTo#next",
+            "NavigateHome@Reclamation@BlackReturn#next",
             "NavigateHome@Reclamation@SkipAnnounce",
             "NavigateHome@Reclamation@SkipDailyReport",
             "NavigateHome@Reclamation@LevelComplete",
@@ -14839,7 +14801,7 @@
         "next": [
             "DoGacha",
             "GachaEnter",
-            "GachaEnter@ReturnTo",
+            "GachaEnter@ReturnButtons#next",
             "GachaLastOnceResult",
             "GachaLastTenTimesResult1",
             "GachaLastTenTimesResult2"
