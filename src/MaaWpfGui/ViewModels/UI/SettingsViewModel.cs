@@ -1775,6 +1775,21 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private string _roguelikeInvestmentEnterSecondFloor = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeInvestmentEnterSecondFloor, true.ToString());
+
+        /// <summary>
+        /// Gets or sets a value indicating whether investment is enabled.
+        /// </summary>
+        public bool RoguelikeInvestmentEnterSecondFloor
+        {
+            get => bool.Parse(_roguelikeInvestmentEnterSecondFloor);
+            set
+            {
+                SetAndNotify(ref _roguelikeInvestmentEnterSecondFloor, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeInvestmentEnterSecondFloor, value.ToString());
+            }
+        }
+
         private string _roguelikeRefreshTraderWithDice = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeRefreshTraderWithDice, false.ToString());
 
         public bool RoguelikeRefreshTraderWithDice
