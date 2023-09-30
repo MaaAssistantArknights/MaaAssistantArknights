@@ -85,6 +85,7 @@ namespace asst
         int x = 0;
         int y = 0;
 
+        // clang-format off
 #define DEFINE_ASST_POINT_BINARY_OP_AND_ARG_ASSIGN(Op)                    \
     friend Point operator Op(const Point& lhs, const Point& rhs) noexcept \
     {                                                                     \
@@ -96,6 +97,7 @@ namespace asst
         val.y Op## = opd.y;                                               \
         return val;                                                       \
     }
+        // clang-format on
 
         DEFINE_ASST_POINT_BINARY_OP_AND_ARG_ASSIGN(+)
         DEFINE_ASST_POINT_BINARY_OP_AND_ARG_ASSIGN(-)

@@ -191,8 +191,7 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
 
     case ActionType::SkillUsage:
         m_skill_usage[action.name] = action.modify_usage;
-        if (action.modify_usage == SkillUsage::Times) 
-            m_skill_times[action.name] = action.modify_times;
+        if (action.modify_usage == SkillUsage::Times) m_skill_times[action.name] = action.modify_times;
         ret = true;
         break;
 
