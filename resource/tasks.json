@@ -8504,7 +8504,7 @@
             50,
             50
         ],
-        "postDelay": 1000,
+        "postDelay": 800,
         "next": [
             "Roguelike@StartExplore",
             "Roguelike@Stages#next",
@@ -8515,6 +8515,22 @@
             "Roguelike@ReturnConfirm",
             "Roguelike@StartUpThemes#next",
             "Roguelike@ClickToStartPoint"
+        ]
+    },
+    "Roguelike@ClickToStartPointAfterFailed": {
+        "doc": "因为是从肉鸽失败界面进入，删除了对下个stage的判断",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            615,
+            607,
+            45,
+            31
+        ],
+        "next": [
+            "Roguelike@StartExplore",
+            "Roguelike@StartUpThemes#next",
+            "Roguelike@ClickToStartPointAfterFailed"
         ]
     },
     "Roguelike@CloseCollection": {
@@ -8659,9 +8675,9 @@
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [
-            1180, 
-            495, 
-            30, 
+            1180,
+            495,
+            30,
             20
         ],
         "next": [
@@ -9164,7 +9180,7 @@
             194
         ],
         "next": [
-            "Roguelike@ClickToStartPoint"
+            "Roguelike@ClickToStartPointAfterFailed"
         ]
     },
     "Roguelike@LevelName": {
@@ -10195,7 +10211,8 @@
             "Roguelike@SquadDefault",
             "Roguelike@InitalDrop",
             "Roguelike@ChooseDifficulty",
-            "Roguelike@StartExplore"
+            "Roguelike@StartExplore",
+            "Roguelike@ClickToStartPointAfterFailed"
         ]
     },
     "Roguelike@TodoEnter": {
