@@ -87,7 +87,6 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         break;
     case 1:
         m_debug_task_ptr->set_enable(false);
-        m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", 0, ProcessTask::TimesLimitType::Post);
         break;
     [[unlikely]] case 2:
         m_debug_task_ptr->set_enable(true);
@@ -140,17 +139,22 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         Task.get(theme + "@Roguelike@DropsFlag")->next = Task.get(theme + "@Roguelike@DropsFlag_mode1")->next;
         // 刷源石锭模式是否进入第二层
         bool investment_enter_second_floor = params.get("investment_enter_second_floor", true);
-        if (!investment_enter_second_floor) {
-            Task.get(theme + "@Roguelike@StageTraderInvestSystemError")->next = { theme +
-                                                                                  "@Roguelike@ExitThenAbandon" };
+        if (investment_enter_second_floor) {
+            m_roguelike_task_ptr->set_times_limit("StageTraderLeave", INT_MAX);
+            m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", 0, ProcessTask::TimesLimitType::Post);
+        }
+        else {
+            m_roguelike_task_ptr->set_times_limit("StageTraderLeave", 0);
+            m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", INT_MAX);
         }
     }
     else {
         // 重置战斗后奖励next
         Task.get(theme + "@Roguelike@DropsFlag")->next = Task.get(theme + "@Roguelike@DropsFlag_normal_mode")->next;
-        Task.get(theme + "@Roguelike@StageTraderInvestSystemError")->next = { theme +
-                                                                              "@Roguelike@StageTraderInvestCancel" };
+        m_roguelike_task_ptr->set_times_limit("StageTraderLeave", 0);
+        m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", 0);
     }
+
     int number_of_starts = params.get("starts_count", INT_MAX);
     m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StartExplore", number_of_starts);
 
