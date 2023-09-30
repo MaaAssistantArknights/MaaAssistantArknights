@@ -157,6 +157,9 @@ namespace asst
     public:
         virtual ~TaskData() override = default;
         virtual const std::unordered_set<std::string>& get_templ_required() const noexcept override;
+        void clear_tasks();
+        void set_task_base(const std::string_view task_name, std::string base_task_name);
+        bool lazy_parse(const json::value& json);
 
         std::shared_ptr<TaskInfo> get(std::string_view name);
         template <typename TargetTaskInfoType>
