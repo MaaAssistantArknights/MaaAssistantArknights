@@ -1602,9 +1602,6 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _roguelikeMode, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeMode, value);
-
-                // 烧开水模式可选项
-                this.RoguelikeStartWithEliteTwoEnable = MapRoguelikeStartWithEliteTwoEnable(value);
             }
         }
 
@@ -1688,26 +1685,6 @@ namespace MaaWpfGui.ViewModels.UI
                 SetAndNotify(ref _roguelikeStartWithEliteTwo, value.ToString());
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, value.ToString());
             }
-        }
-
-        private string _roguelikeStartWithEliteTwoEnable = MapRoguelikeStartWithEliteTwoEnable(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeMode, "0"));
-
-        public string RoguelikeStartWithEliteTwoEnable
-        {
-            get
-            {
-                return _roguelikeStartWithEliteTwoEnable;
-            }
-
-            set
-            {
-                SetAndNotify(ref _roguelikeStartWithEliteTwoEnable, value);
-            }
-        }
-
-        private static string MapRoguelikeStartWithEliteTwoEnable(string mode)
-        {
-            return mode == "4" ? "Visible" : "Collapsed";
         }
 
         private string _roguelikeUseSupportUnit = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeUseSupportUnit, false.ToString());
@@ -1799,18 +1776,6 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _roguelikeRefreshTraderWithDice, value.ToString());
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeRefreshTraderWithDice, value.ToString());
-            }
-        }
-
-        private bool _roguelikeRefreshTraderWithDiceEnabled = false;
-
-        public bool RoguelikeRefreshTraderWithDiceEnabled
-        {
-            get => _roguelikeRefreshTraderWithDiceEnabled;
-            set
-            {
-                SetAndNotify(ref _roguelikeRefreshTraderWithDiceEnabled, value);
-                RoguelikeRefreshTraderWithDice = false;
             }
         }
 
@@ -3573,7 +3538,6 @@ namespace MaaWpfGui.ViewModels.UI
             switch (RoguelikeTheme)
             {
                 case "Phantom":
-                    RoguelikeRefreshTraderWithDiceEnabled = false;
 
                     foreach (var item in new ObservableCollection<CombinedData>
                     {
@@ -3586,7 +3550,6 @@ namespace MaaWpfGui.ViewModels.UI
                     break;
 
                 case "Mizuki":
-                    RoguelikeRefreshTraderWithDiceEnabled = true;
 
                     foreach (var item in new ObservableCollection<CombinedData>
                     {
@@ -3602,7 +3565,6 @@ namespace MaaWpfGui.ViewModels.UI
                     break;
 
                 case "Sami":
-                    RoguelikeRefreshTraderWithDiceEnabled = false;
 
                     foreach (var item in new ObservableCollection<CombinedData>
                     {
