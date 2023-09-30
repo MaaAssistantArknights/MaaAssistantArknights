@@ -6,11 +6,7 @@
 
 bool asst::RoguelikeControlTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
-    if (msg != AsstMsg::SubTaskExtraInfo || details.get("subtask", std::string()) != "ProcessTask") {
-        return false;
-    }
-    const std::string what = details.get("what", std::string());
-    if (what != "ExceededLimit") {
+    if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
 
@@ -25,11 +21,11 @@ bool asst::RoguelikeControlTaskPlugin::verify(AsstMsg msg, const json::value& de
     if (task_view.starts_with(roguelike_name)) {
         task_view.remove_prefix(roguelike_name.length());
     }
-    if (task_view == "Roguelike@StartExplore") {
+    if (task_view == "Roguelik@ControlTaskPlugin-Stop") {
         m_need_exit_and_abandon = false;
         return true;
     }
-    if (task_view == "Roguelike@StageTraderInvestConfirm" || task_view == "Roguelike@StageTraderInvestSystemFull") {
+    if (task_view == "RoguelikeControlTaskPlugin-ExitThenAbandon") {
         m_need_exit_and_abandon = true;
         return true;
     }
