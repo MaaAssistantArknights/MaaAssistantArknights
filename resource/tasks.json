@@ -9149,6 +9149,9 @@
             "Roguelike@ClickToStartPointAfterFailed"
         ]
     },
+    "Roguelike@LevelName": {
+        "baseTask": "Roguelike@LevelName_default"
+    },
     "Roguelike@LevelName_default": {
         "algorithm": "OcrDetect",
         "cache": false,
@@ -9198,6 +9201,7 @@
             144
         ],
         "next": [
+            "Roguelike@LevelName",
             "Roguelike@Stages#next"
         ]
     },
@@ -10376,7 +10380,6 @@
     },
     "Phantom@Roguelike@Stages": {
         "next": [
-            "Phantom@Roguelike@LevelName",
             "Phantom@Roguelike@StageTrader",
             "Phantom@Roguelike@StageSafeHouse",
             "Phantom@Roguelike@StageEncounter",
@@ -10866,7 +10869,6 @@
     },
     "Mizuki@Roguelike@Stages": {
         "next": [
-            "Mizuki@Roguelike@LevelName",
             "Mizuki@Roguelike@StageTrader",
             "Mizuki@Roguelike@StageSafeHouse",
             "Mizuki@Roguelike@StageWindAndRain",
@@ -11395,7 +11397,6 @@
     },
     "Sami@Roguelike@Stages": {
         "next": [
-            "Sami@Roguelike@LevelName",
             "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@StageBoskyPassage",
             "Sami@Roguelike@StageBoskyPassageAI6",
@@ -11459,7 +11460,6 @@
     "Sami@Roguelike@NextLevelAggressive": {
         "baseTask": "Sami@Roguelike@NextLevel",
         "next": [
-            "Sami@Roguelike@LevelName",
             "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@StageVerticalBoskyPassage",
             "Sami@Roguelike@StageVerticalBoskyPassageAI6",
