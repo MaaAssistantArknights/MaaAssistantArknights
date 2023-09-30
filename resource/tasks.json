@@ -10107,6 +10107,9 @@
             234,
             204
         ],
+        "exceededNext": [
+            "Roguelike@StageTraderLeaveConfirm#exceeded_next"
+        ],
         "next": [
             "Roguelike@StageTraderLeaveConfirm",
             "Roguelike@StageTraderLeave"

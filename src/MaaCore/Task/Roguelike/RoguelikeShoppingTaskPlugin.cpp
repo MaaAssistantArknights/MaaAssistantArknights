@@ -38,9 +38,6 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    
-
-
     OCRer analyzer;
     analyzer.set_task_info("RoguelikeTraderShoppingOcr");
     auto image = ctrler()->get_image();
