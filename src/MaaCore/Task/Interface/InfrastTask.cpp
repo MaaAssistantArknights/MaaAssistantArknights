@@ -9,9 +9,9 @@
 #include "Task/Infrast/InfrastMfgTask.h"
 #include "Task/Infrast/InfrastOfficeTask.h"
 #include "Task/Infrast/InfrastPowerTask.h"
+#include "Task/Infrast/InfrastProcessingTask.h"
 #include "Task/Infrast/InfrastReceptionTask.h"
 #include "Task/Infrast/InfrastTradeTask.h"
-#include "Task/Infrast/InfrastProcessingTask.h"
 #include "Task/Infrast/ReplenishOriginiumShardTaskPlugin.h"
 #include "Task/ProcessTask.h"
 

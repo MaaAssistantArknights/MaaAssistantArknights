@@ -22,7 +22,7 @@
             "direction": "left"
         },
         {
-            "groups": [                
+            "groups": [
                 "回费"
             ],
             "location": [
@@ -112,7 +112,6 @@
             ],
             "direction": "left"
         },
-        
         {
             "groups": [
                 "水陈",

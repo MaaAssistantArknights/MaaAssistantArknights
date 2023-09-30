@@ -717,8 +717,7 @@ asst::TaskData::taskptr_t asst::TaskData::generate_task_info(std::string_view na
     return task_info_ptr;
 }
 
-asst::TaskData::taskptr_t asst::TaskData::generate_match_task_info(std::string_view name,
-                                                                   const json::value& task_json,
+asst::TaskData::taskptr_t asst::TaskData::generate_match_task_info(std::string_view name, const json::value& task_json,
                                                                    std::shared_ptr<MatchTaskInfo> default_ptr)
 {
     if (default_ptr == nullptr) {
@@ -809,9 +808,8 @@ asst::TaskData::taskptr_t asst::TaskData::generate_hash_task_info([[maybe_unused
     return hash_task_info_ptr;
 }
 
-bool asst::TaskData::append_base_task_info(taskptr_t task_info_ptr, std::string_view name,
-                                           const json::value& task_json, taskptr_t default_ptr,
-                                           std::string_view task_prefix)
+bool asst::TaskData::append_base_task_info(taskptr_t task_info_ptr, std::string_view name, const json::value& task_json,
+                                           taskptr_t default_ptr, std::string_view task_prefix)
 {
     if (default_ptr == nullptr) {
         default_ptr = default_task_info_ptr;
