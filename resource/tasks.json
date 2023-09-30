@@ -9928,6 +9928,9 @@
             144
         ],
         "postDelay": 500,
+        "exceededNext": [
+            "RoguelikeControlTaskPlugin-ExitThenStop"
+        ],
         "next": [
             "Roguelike@StageTraderInvestSystemError",
             "Roguelike@StageTraderInvestSystemFull",
@@ -10089,6 +10092,9 @@
             298,
             289
         ],
+        "exceededNext": [
+            "RoguelikeControlTaskPlugin-ExitThenStop"
+        ],
         "next": [
             "Roguelike@StageTraderInvestCancel"
         ]
@@ -10182,6 +10188,9 @@
             248
         ],
         "postDelay": 2000,
+        "exceededNext": [
+            "RoguelikeControlTaskPlugin-Stop"
+        ],
         "next": [
             "Roguelike@SquadDefault",
             "Roguelike@InitalDrop",
@@ -12178,6 +12187,14 @@
         "next": [
             "Sami@Roguelike@WaitForStartButtonClicked"
         ]
+    },
+    "RoguelikeControlTaskPlugin-Stop": {
+        "Doc": "本任务注册了插件 RoguelikeControlTaskPlugin",
+        "algorithm": "JustReturn"
+    },
+    "RoguelikeControlTaskPlugin-ExitThenStop": {
+        "Doc": "本任务注册了插件 RoguelikeControlTaskPlugin",
+        "algorithm": "JustReturn"
     },
     "RoguelikeBattleAbandon": {
         "action": "ClickSelf",
