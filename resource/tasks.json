@@ -12097,19 +12097,7 @@
     },
     "Sami@Roguelike@NextLevelThenExit": {
         "Doc": "点进下一层后执行退出",
-        "text": [
-            "完成本层",
-            "下一层级"
-        ],
-        "roi": [
-            268,
-            600,
-            197,
-            78
-        ],
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
+        "baseTask": "Sami@Roguelike@NextLevel",
         "next": [
             "Sami@Roguelike@NextLevelThenExit",
             "Sami@Roguelike@ExitThenAbandon"
