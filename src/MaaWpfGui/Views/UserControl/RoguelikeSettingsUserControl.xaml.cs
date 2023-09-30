@@ -10,8 +10,10 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-
+using System;
+using System.Globalization;
 using System.Reflection;
+using System.Windows.Data;
 
 namespace MaaWpfGui.Views.UserControl
 {
@@ -37,4 +39,29 @@ namespace MaaWpfGui.Views.UserControl
             _setText?.Invoke(sender, _paras);
         }
     }
+
+
+    public class InvestmentButtonCheckedConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            string isEnabled = System.Convert.ToString(values[0]);
+            string RoguelikeMode = System.Convert.ToString(values[1]);
+
+            if (RoguelikeMode == "1" || RoguelikeMode == "4")
+                return true;
+
+            if (isEnabled == "True")
+                return true;
+                
+            return false;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            bool isEnabled = (bool)value;
+            return new object[] { isEnabled, isEnabled };
+        }
+    }
+
 }
