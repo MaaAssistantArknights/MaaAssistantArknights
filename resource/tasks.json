@@ -8659,9 +8659,9 @@
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [
-            1180, 
-            495, 
-            30, 
+            1180,
+            495,
+            30,
             20
         ],
         "next": [

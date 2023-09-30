@@ -46,21 +46,20 @@
                 2
             ],
             "direction": "down"
-        },        
+        },
         {
             "groups": [
                 "召唤",
                 "高台输出",
                 "盾法",
                 "辅助"
-                
             ],
             "location": [
                 3,
                 3
             ],
             "direction": "down"
-        },        
+        },
         {
             "groups": [
                 "地面阻挡",
@@ -116,5 +115,5 @@
             ],
             "direction": "down"
         }
-    ]    
+    ]
 }

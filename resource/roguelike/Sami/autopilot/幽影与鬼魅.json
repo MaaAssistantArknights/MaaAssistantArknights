@@ -86,7 +86,7 @@
             "direction": "right"
         },
         {
-            "groups": [                
+            "groups": [
                 "高台输出",
                 "盾法",
                 "辅助",
@@ -149,7 +149,7 @@
                 4
             ],
             "direction": "right"
-        },        
+        },
         {
             "groups": [
                 "地面阻挡"
@@ -169,6 +169,6 @@
                 3
             ],
             "direction": "left"
-        }            
+        }
     ]
 }
