@@ -70,35 +70,24 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
 
     // 0 - 刷经验，尽可能稳定地打更多层数，不期而遇采用激进策略
     // 1 - 刷源石锭，第一层投资完就退出，不期而遇采用保守策略
-    // 2 - 【弃用】两者兼顾，投资过后再退出，没有投资就继续往后打
+    // 2 - 【已移除】两者兼顾，投资过后再退出，没有投资就继续往后打
     // 3 - 尝试通关，激进策略（TODO）
     // 4 - 刷开局藏品，以获得热水壶或者演讲稿开局，不期而遇采用保守策略
     int mode = params.get("mode", 0);
+    if (mode != 0 && mode != 1 && mode != 4) {
+        m_roguelike_task_ptr->set_tasks({ "Stop" });
+        Log.error(__FUNCTION__, "| Unknown mode", mode);
+        return false;
+    }
+
+    m_debug_task_ptr->set_enable(mode != 1);
+
     // 是否凹指定干员开局直升
     bool start_with_elite_two = params.get("start_with_elite_two", false);
 
     status()->set_properties(Status::RoguelikeMode, std::to_string(mode));
     status()->set_properties(Status::RoguelikeNeedChangeDifficulty, "0");
     status()->set_properties(Status::RoguelikeStartWithEliteTwo, std::to_string(start_with_elite_two));
-
-    switch (mode) {
-    case 0:
-        m_debug_task_ptr->set_enable(true);
-        break;
-    case 1:
-        m_debug_task_ptr->set_enable(false);
-        break;
-    [[unlikely]] case 2:
-        m_debug_task_ptr->set_enable(true);
-        m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", 0, ProcessTask ::TimesLimitType::Post);
-        break;
-    case 4:
-        m_debug_task_ptr->set_enable(true);
-        break;
-    default:
-        Log.error(__FUNCTION__, "| Unknown mode", mode);
-        return false;
-    }
 
     if (mode == 4) {
         // 设置ocr第三层层名，设置识别到退出重进
