@@ -11280,7 +11280,6 @@
             "Sami@Roguelike@GetDrops#next",
             "Sami@Roguelike@GetDropCompleted",
             "Sami@Roguelike@GetDropLeave",
-            "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@Stages#next",
             "Sami@Roguelike@StageEncounterOptions#next",
             "Sami@Roguelike@StageEncounterSpecialClose",
@@ -11297,7 +11296,6 @@
             "Sami@Roguelike@GetDropLeave",
             "Sami@Roguelike@GetDrops#next",
             "Sami@Roguelike@GetDropCompleted",
-            "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@Stages#next",
             "Sami@Roguelike@StageEncounterOptions#next",
             "Sami@Roguelike@StageEncounterSpecialClose",
@@ -11753,7 +11751,6 @@
             "Sami@Roguelike@StageDreadfulFoeEnter",
             "Sami@Roguelike@StageEmergencyDpsEnter",
             "Sami@Roguelike@StageCombatDpsEnter",
-            "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@Stages#next"
         ]
     },
@@ -12086,10 +12083,6 @@
     "Sami@Roguelike@StageTraderLeaveConfirm": {
         "template": "Roguelike@StageTraderLeaveConfirm.png",
         "postDelay": 1000,
-        "next": [
-            "Sami@Roguelike@NextLevel",
-            "Sami@Roguelike@Stages#next"
-        ],
         "exceededNext": [
             "Sami@Roguelike@ExitThenAbandon",
             "Sami@Roguelike@NextLevelThenExit"
