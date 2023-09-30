@@ -25,7 +25,7 @@
     <system:String x:Key="AboutUs">About us</system:String>
     <system:String x:Key="Version">Version</system:String>
     <system:String x:Key="Off">Off</system:String>
-    <system:String x:Key="ExternalNotificationTips">Please note: The external notification feature currently only sends "All tasks completed" notifications.</system:String>
+    <system:String x:Key="ExternalNotificationTips">Please note: The external notification feature currently only sends 「All tasks completed」 notifications.</system:String>
     <system:String x:Key="ExternalNotificationSettings">External notifications</system:String>
     <system:String x:Key="ExternalNotificationEnabled">Enabled configuration</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">Send successfully</system:String>
@@ -485,11 +485,11 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  Logs  -->
     <system:String x:Key="CopilotTip">
         Tips: \n\n
-        1. Please use this function only when the 「Mission Start」 button is visible in game.\n\n
-        2. You need turn off the 「Auto Squad」 when using a friendly support unit, then start with your support unit selected.\n\n
-        3. For Paradox Simulation, you need to turn off 「Auto Squad」 and select the skill before, then start in game 「Start」 screen.\n\n
-        4. For SSS, there are multiple built-in files under the 「resource/copilot」 folder.\n
+        1. Please use this function only when the 「Mission Start」 button is visible in the main stage, story collection, or SideStory.\n\n
+        2. For Paradox Simulation, you need to turn off 「Auto Squad」 and select the skill before, then start in game 「Start」 screen.\n\n
+        3. For SSS, there are multiple built-in files under the 「resource/copilot」 folder.\n
         Please start on the 「Start Deployment」 screen after manual formation (can be used with 「Loop Times」)\n\n
+        4. You need turn off the 「Auto Squad」 when using a friendly support unit, then start with your support unit selected.\n\n
         5. Video recognition is now supported, please drag the strategy video to use.\n
         The video aspect ratio needs to be 16:9 without interference factors such as black borders, emulator borders special shapes and screen corrections.\n\n
         6. Battle list:\n
