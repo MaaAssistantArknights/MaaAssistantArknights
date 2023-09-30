@@ -75,7 +75,7 @@
                 Margin="0,10"
                 Content="{DynamicResource InvestmentEnterSecondFloor}"
                 IsChecked="{Binding RoguelikeInvestmentEnterSecondFloor}"
-                IsEnabled="{Binding RoguelikeInvestmentEnabled}"/>
+                Visibility="{c:Binding ElementName=InvestmentEnabled, Path=IsChecked}"/>
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding RoguelikeStopWhenInvestmentFull}"
