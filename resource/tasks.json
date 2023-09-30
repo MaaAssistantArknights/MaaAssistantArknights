@@ -9019,113 +9019,79 @@
             "Sami@Roguelike@FromIntegratedStrategies"
         ]
     },
-    "Roguelike@LastReward_normal_mode": {
-        "algorithm": "JustReturn",
-        "postDelay": 0,
+    "Roguelike@LastReward_default": {
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            171,
+            151,
+            935,
+            533
+        ],
         "next": [
             "Roguelike@LastRewardConfirm"
         ]
     },
-    "Roguelike@LastReward_mode4": {
-        "algorithm": "JustReturn",
-        "postDelay": 2147483647
+    "Roguelike@LastReward_restart": {
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            171,
+            151,
+            935,
+            533
+        ],
+        "next": []
+    },
+    "Roguelike@LastReward_stop": {
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            171,
+            151,
+            935,
+            533
+        ],
+        "next": [
+            "RoguelikeControlTaskPlugin-Stop"
+        ]
     },
     "Roguelike@LastReward": {
-        "Doc": "base_task",
-        "Doc2": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援——热水壶",
-        "template": "empty.png",
+        "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援——热水壶",
+        "baseTask": "Roguelike@LastReward_default",
         "templThreshold": 0.7,
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            171,
-            151,
-            935,
-            533
-        ],
-        "next": [
-            "Roguelike@LastRewardConfirm"
-        ]
+        "template": "empty.png"
     },
     "Roguelike@LastReward2": {
-        "Doc": "base_task",
-        "Doc2": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 5 源石锭",
-        "template": "empty.png",
+        "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 5 源石锭",
+        "baseTask": "Roguelike@LastReward_default",
         "templThreshold": 0.7,
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            171,
-            151,
-            935,
-            533
-        ],
-        "next": [
-            "Roguelike@LastRewardConfirm"
-        ]
+        "template": "empty.png"
     },
     "Roguelike@LastReward3": {
-        "Doc": "base_task",
-        "Doc2": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 3 目标生命",
-        "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            171,
-            151,
-            935,
-            533
-        ],
-        "next": [
-            "Roguelike@LastRewardConfirm"
-        ]
+        "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 3 目标生命",
+        "baseTask": "Roguelike@LastReward_default",
+        "template": "empty.png"
     },
     "Roguelike@LastReward4": {
-        "Doc": "base_task",
-        "Doc2": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 2 希望",
-        "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            171,
-            151,
-            935,
-            533
-        ],
-        "next": [
-            "Roguelike@LastRewardConfirm"
-        ]
+        "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 2 希望",
+        "baseTask": "Roguelike@LastReward_default",
+        "template": "empty.png"
+    },
+    "Roguelike@LastRewardRand": {
+        "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 问号",
+        "baseTask": "Roguelike@LastReward_default",
+        "template": "empty.png"
     },
     "Roguelike@LastRewardConfirm": {
-        "Doc": "base_task",
+        "baseTask": "Roguelike@LastReward_default",
         "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            171,
-            151,
-            935,
-            533
-        ],
         "next": [
             "Roguelike@RolesDefault",
             "Roguelike@CloseCollection"
-        ]
-    },
-    "Roguelike@LastRewardRand": {
-        "Doc": "base_task",
-        "Doc2": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 问号",
-        "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            171,
-            151,
-            935,
-            533
-        ],
-        "next": [
-            "Roguelike@LastRewardConfirm"
         ]
     },
     "Roguelike@MissionCompletedFlag": {
@@ -9167,25 +9133,11 @@
             "Roguelike@ClickToStartPoint"
         ]
     },
-    "Roguelike@LevelName": {
-        "algorithm": "OcrDetect",
-        "cache": false,
-        "text": [],
-        "roi": [
-            593,
-            0,
-            186,
-            129
-        ],
-        "next": [
-            "Roguelike@NextLevel"
-        ]
-    },
-    "Roguelike@LevelName_normal_mode": {
+    "Roguelike@LevelName_default": {
         "algorithm": "OcrDetect",
         "cache": false,
         "text": [
-            "随便写点什么防止卡住,Leave some words here to avoid stucking"
+            "_SKIP_"
         ],
         "roi": [
             593,
@@ -9200,7 +9152,9 @@
     "Roguelike@LevelName_mode4": {
         "algorithm": "OcrDetect",
         "cache": false,
-        "text": [],
+        "text": [
+            "_SKIP_"
+        ],
         "roi": [
             593,
             0,
@@ -9208,7 +9162,7 @@
             129
         ],
         "next": [
-            "Roguelike@NextLevel"
+            "Roguelike@ExitThenAbandon_mode4"
         ]
     },
     "Roguelike@Stages": {
@@ -10308,21 +10262,9 @@
     },
     "Phantom@Roguelike@DropsFlag": {
         "template": "Roguelike@DropsFlag.png",
-        "next": [
-            "Phantom@Roguelike@GetDrops#next",
-            "Phantom@Roguelike@GetDropCompleted",
-            "Phantom@Roguelike@GetDropLeave",
-            "Phantom@Roguelike@Stages#next",
-            "Phantom@Roguelike@StageEncounterOptions#next",
-            "Phantom@Roguelike@StageEncounterSpecialClose",
-            "Phantom@Roguelike@EnterAfterRecruit",
-            "Phantom@Roguelike@StageTraderLeave",
-            "Phantom@Roguelike@CloseEvent",
-            "Phantom@Roguelike@DialogSkip",
-            "Phantom@Roguelike@RecruitOther"
-        ]
+        "baseTask": "Phantom@Roguelike@DropsFlag_default"
     },
-    "Phantom@Roguelike@DropsFlag_normal_mode": {
+    "Phantom@Roguelike@DropsFlag_default": {
         "template": "Roguelike@DropsFlag.png",
         "next": [
             "Phantom@Roguelike@GetDrops#next",
@@ -10403,16 +10345,16 @@
     "Phantom@Roguelike@LastReward2": {},
     "Phantom@Roguelike@LastReward3": {},
     "Phantom@Roguelike@LastReward4": {},
-    "Phantom@Roguelike@LastRewardConfirm": {},
     "Phantom@Roguelike@LastRewardRand": {},
+    "Phantom@Roguelike@LastRewardConfirm": {},
     "Phantom@Roguelike@MissionFailedFlag": {},
     "Phantom@Roguelike@MissionFailedFlag2": {},
+    "Phantom@Roguelike@LevelName": {
+        "baseTask": "Phantom@Roguelike@LevelName_default"
+    },
     "Phantom@Roguelike@LevelName_mode4": {
         "text": [
             "故土残躯"
-        ],
-        "next": [
-            "Phantom@Roguelike@ExitThenAbandon_mode4"
         ]
     },
     "Phantom@Roguelike@Stages": {
@@ -10741,21 +10683,9 @@
     },
     "Mizuki@Roguelike@DropsFlag": {
         "template": "Roguelike@DropsFlag.png",
-        "next": [
-            "Mizuki@Roguelike@GetDrops#next",
-            "Mizuki@Roguelike@GetDropCompleted",
-            "Mizuki@Roguelike@GetDropLeave",
-            "Mizuki@Roguelike@Stages#next",
-            "Mizuki@Roguelike@StageEncounterOptions#next",
-            "Mizuki@Roguelike@StageEncounterSpecialClose",
-            "Mizuki@Roguelike@EnterAfterRecruit",
-            "Mizuki@Roguelike@StageTraderLeave",
-            "Mizuki@Roguelike@CloseEvent",
-            "Mizuki@Roguelike@DialogSkip",
-            "Mizuki@Roguelike@RecruitOther"
-        ]
+        "baseTask": "Mizuki@Roguelike@DropsFlag_default"
     },
-    "Mizuki@Roguelike@DropsFlag_normal_mode": {
+    "Mizuki@Roguelike@DropsFlag_default": {
         "template": "Roguelike@DropsFlag.png",
         "next": [
             "Mizuki@Roguelike@GetDrops#next",
@@ -10891,8 +10821,8 @@
     "Mizuki@Roguelike@LastReward2": {},
     "Mizuki@Roguelike@LastReward3": {},
     "Mizuki@Roguelike@LastReward4": {},
-    "Mizuki@Roguelike@LastRewardConfirm": {},
     "Mizuki@Roguelike@LastRewardRand": {},
+    "Mizuki@Roguelike@LastRewardConfirm": {},
     "Mizuki@Roguelike@MapObject": {
         "action": "DoNothing",
         "cache": false,
@@ -10908,13 +10838,13 @@
     },
     "Mizuki@Roguelike@MissionFailedFlag": {},
     "Mizuki@Roguelike@MissionFailedFlag2": {},
+    "Mizuki@Roguelike@LevelName": {
+        "baseTask": "Mizuki@Roguelike@LevelName_default"
+    },
     "Mizuki@Roguelike@LevelName_mode4": {
         "text": [
             "波涛略地",
             "绀碧摇篮"
-        ],
-        "next": [
-            "Mizuki@Roguelike@ExitThenAbandon_mode4"
         ]
     },
     "Mizuki@Roguelike@Stages": {
@@ -11268,22 +11198,9 @@
     },
     "Sami@Roguelike@DropsFlag": {
         "template": "Roguelike@DropsFlag.png",
-        "next": [
-            "Sami@Roguelike@GetDrops#next",
-            "Sami@Roguelike@GetDropCompleted",
-            "Sami@Roguelike@GetDropLeave",
-            "Sami@Roguelike@NextLevel",
-            "Sami@Roguelike@Stages#next",
-            "Sami@Roguelike@StageEncounterOptions#next",
-            "Sami@Roguelike@StageEncounterSpecialClose",
-            "Sami@Roguelike@EnterAfterRecruit",
-            "Sami@Roguelike@StageTraderLeave",
-            "Sami@Roguelike@CloseEvent",
-            "Sami@Roguelike@DialogSkip",
-            "Sami@Roguelike@RecruitOther"
-        ]
+        "baseTask": "Sami@Roguelike@DropsFlag_default"
     },
-    "Sami@Roguelike@DropsFlag_normal_mode": {
+    "Sami@Roguelike@DropsFlag_default": {
         "template": "Roguelike@DropsFlag.png",
         "next": [
             "Sami@Roguelike@GetDrops#next",
@@ -11433,8 +11350,8 @@
     "Sami@Roguelike@LastReward2": {},
     "Sami@Roguelike@LastReward3": {},
     "Sami@Roguelike@LastReward4": {},
-    "Sami@Roguelike@LastRewardConfirm": {},
     "Sami@Roguelike@LastRewardRand": {},
+    "Sami@Roguelike@LastRewardConfirm": {},
     "Sami@Roguelike@MapObject": {
         "action": "DoNothing",
         "cache": false,
@@ -11450,13 +11367,13 @@
     },
     "Sami@Roguelike@MissionFailedFlag": {},
     "Sami@Roguelike@MissionFailedFlag2": {},
+    "Sami@Roguelike@LevelName": {
+        "baseTask": "Sami@Roguelike@LevelName_default"
+    },
     "Sami@Roguelike@LevelName_mode4": {
         "text": [
             "昧明冻土",
             "深埋迷境"
-        ],
-        "next": [
-            "Sami@Roguelike@ExitThenAbandon_mode4"
         ]
     },
     "Sami@Roguelike@Stages": {
