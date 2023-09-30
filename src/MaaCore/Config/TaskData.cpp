@@ -54,15 +54,14 @@ std::shared_ptr<asst::TaskInfo> asst::TaskData::get(std::string_view name)
     return expand_task(name, get_raw(name)).value_or(nullptr);
 }
 
-bool asst::TaskData::parse(const json::value& json)
+bool asst::TaskData::lazy_parse(const json::value& json)
 {
     LogTraceFunction;
 
-    // 注意：这里的 clear 会导致已经通过 get 获取的任务指针内容不会更新
-    // 即运行期修改对已经获取的任务指针无效，但是不会导致崩溃；要想更新，需要重新获取任务指针
-    m_all_tasks_info.clear();
-    m_raw_all_tasks_info.clear();
-    const auto& json_obj = m_json_all_tasks_info;
+    if (!json.is_object()) {
+        Log.error("parameter json is not a json::object");
+        return false;
+    }
 
     for (const auto& [name, task_json] : json.as_object()) {
         std::string_view name_view = task_name_view(name);
@@ -81,14 +80,7 @@ bool asst::TaskData::parse(const json::value& json)
         }
     }
 
-    for (std::string_view name : m_json_all_tasks_info | views::keys) {
-        m_task_status[name] = ToBeGenerate;
-    }
-
-    // 本来重构之后完全支持惰性加载，但是发现模板图片不支持（
-    for (std::string_view name : json_obj | views::keys) {
-        generate_task_and_its_base(name, true);
-    }
+    clear_tasks();
 
 #ifdef ASST_DEBUG
     {
@@ -110,7 +102,7 @@ bool asst::TaskData::parse(const json::value& json)
         while (!task_queue.empty() && checking_task_set.size() <= MAX_CHECKING_SIZE) {
             std::string_view name = task_queue.front();
             task_queue.pop();
-            auto task = get(name); // 这里会提前展开任务
+            auto task = get(name);
             if (task == nullptr) [[unlikely]] {
                 Log.error("Task", name, "not successfully generated");
                 validity = false;
@@ -168,15 +160,43 @@ bool asst::TaskData::parse(const json::value& json)
         else {
             Log.trace(checking_task_set.size(), "tasks checked.");
         }
+        clear_tasks();
         if (!validity) return false;
     }
+#endif
+
+    return true;
+}
+
+bool asst::TaskData::parse(const json::value& json)
+{
+    LogTraceFunction;
+
+    if (!lazy_parse(json)) return false;
+
+    // 本来重构之后完全支持惰性加载，但是发现模板图片不支持（
     for (std::string_view name : m_json_all_tasks_info | views::keys) {
-        m_task_status[name] = ToBeGenerate;
+        generate_task_and_its_base(name, true);
     }
+
+    return true;
+}
+
+void asst::TaskData::clear_tasks()
+{
+    // 注意：这会导致已经通过 get 获取的任务指针内容不会更新
+    // 即运行期修改对已经获取的任务指针无效，但是不会导致崩溃；要想更新，需要重新获取任务指针
     m_all_tasks_info.clear();
     m_raw_all_tasks_info.clear();
-#endif
-    return true;
+    for (std::string_view name : m_json_all_tasks_info | views::keys) {
+        m_task_status[task_name_view(name)] = ToBeGenerate;
+    }
+}
+
+void asst::TaskData::set_task_base(const std::string_view task_name, std::string base_task_name)
+{
+    m_json_all_tasks_info[task_name]["baseTask"] = std::move(base_task_name);
+    clear_tasks();
 }
 
 // new_tasks 是目的任务列表
