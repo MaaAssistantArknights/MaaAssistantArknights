@@ -76,9 +76,11 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     int mode = params.get("mode", 0);
     // 是否凹指定干员开局直升
     bool start_with_elite_two = params.get("start_with_elite_two", false);
+
     status()->set_properties(Status::RoguelikeMode, std::to_string(mode));
     status()->set_properties(Status::RoguelikeNeedChangeDifficulty, "0");
     status()->set_properties(Status::RoguelikeStartWithEliteTwo, std::to_string(start_with_elite_two));
+
     switch (mode) {
     case 0:
         m_debug_task_ptr->set_enable(true);
@@ -136,10 +138,18 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     if (mode == 1) {
         // 战斗后奖励只拿钱
         Task.get(theme + "@Roguelike@DropsFlag")->next = Task.get(theme + "@Roguelike@DropsFlag_mode1")->next;
+        // 刷源石锭模式是否进入第二层
+        bool investment_enter_second_floor = params.get("investment_enter_second_floor", true);
+        if (!investment_enter_second_floor) {
+            Task.get(theme + "@Roguelike@StageTraderInvestSystemError")->next = { theme +
+                                                                                  "@Roguelike@ExitThenAbandon" };
+        }
     }
     else {
         // 重置战斗后奖励next
         Task.get(theme + "@Roguelike@DropsFlag")->next = Task.get(theme + "@Roguelike@DropsFlag_normal_mode")->next;
+        Task.get(theme + "@Roguelike@StageTraderInvestSystemError")->next = { theme +
+                                                                              "@Roguelike@StageTraderInvestCancel" };
     }
     int number_of_starts = params.get("starts_count", INT_MAX);
     m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StartExplore", number_of_starts);
