@@ -243,6 +243,7 @@
     <system:String x:Key="GoldTimesLimit">投资 N 个源石锭后停止任务</system:String>
     <system:String x:Key="StopOnGoldLimit">储备源石锭达到上限时停止</system:String>
     <system:String x:Key="InvestmentEnabled">投资源石锭</system:String>
+    <system:String x:Key="InvestmentEnterSecondFloor">投资后进入第二层</system:String>
     <system:String x:Key="RefreshTraderWithDice">刷新商店（指路鳞）</system:String>
     <system:String x:Key="PenguinId">企鹅物流汇报ID（仅数字部分）</system:String>
     <system:String x:Key="DrGrandet">博朗台模式</system:String>
@@ -484,11 +485,11 @@
     <!--  日志  -->
     <system:String x:Key="CopilotTip">
         小提示: \n\n
-        1. 请在有「开始行动」按钮的界面再使用本功能；\n\n
-        2. 使用好友助战可以关闭「自动编队」，手动选择干员后开始；\n\n
-        3. 模拟悖论需要关闭「自动编队」，并选好技能后处于「开始模拟」按钮的界面再开始；\n\n
-        4. 保全派驻 在 resource/copilot 文件夹下内置了多份作业。\n
+        1. 主线、故事集、SideStory 请在有「开始行动」按钮的界面再使用本功能；\n\n
+        2. 模拟悖论需要关闭「自动编队」，并选好技能后处于「开始模拟」按钮的界面再开始；\n\n
+        3. 保全派驻 在 resource/copilot 文件夹下内置了多份作业。\n
         请手动编队后在「开始部署」界面开始（可配合「循环次数」使用）\n\n
+        4. 使用好友助战可以关闭「自动编队」，手动选择干员后开始；\n\n
         5. 现已支持视频识别，请将攻略视频文件拖入后开始。\n
         需要视频分辨率为 16:9，无黑边、模拟器边框、异形屏矫正等干扰元素\n\n
         6. 战斗列表:\n
