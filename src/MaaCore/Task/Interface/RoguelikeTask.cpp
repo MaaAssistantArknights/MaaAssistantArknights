@@ -99,7 +99,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         return false;
     }
 
-    json::value patch {};
+    json::object patch {};
     if (mode == 4) {
         // 设置ocr第三层层名，设置识别到退出重进
         Task.set_task_base(theme + "@Roguelike@LevelName", theme + "@Roguelike@LevelName_mode4");
@@ -125,7 +125,9 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         Task.set_task_base("Roguelike@LastReward3", "Roguelike@LastReward_default");
         Task.set_task_base("Roguelike@LastRewardRand", "Roguelike@LastReward_default");
     }
-    Task.lazy_parse(patch);
+    if (!patch.empty()) {
+        Task.lazy_parse(patch);
+    }
 
     if (mode == 1) {
         // 战斗后奖励只拿钱
