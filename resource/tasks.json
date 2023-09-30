@@ -9929,7 +9929,7 @@
         ],
         "postDelay": 500,
         "exceededNext": [
-            "RoguelikeControlTaskPlugin-ExitThenAbandon"
+            "RoguelikeControlTaskPlugin-ExitThenStop"
         ],
         "next": [
             "Roguelike@StageTraderInvestSystemError",
@@ -10093,7 +10093,7 @@
             289
         ],
         "exceededNext": [
-            "RoguelikeControlTaskPlugin-ExitThenAbandon"
+            "RoguelikeControlTaskPlugin-ExitThenStop"
         ],
         "next": [
             "Roguelike@StageTraderInvestCancel"
@@ -12192,7 +12192,7 @@
         "Doc": "本任务注册了插件 RoguelikeControlTaskPlugin",
         "algorithm": "JustReturn"
     },
-    "RoguelikeControlTaskPlugin-ExitThenAbandon": {
+    "RoguelikeControlTaskPlugin-ExitThenStop": {
         "Doc": "本任务注册了插件 RoguelikeControlTaskPlugin",
         "algorithm": "JustReturn"
     },

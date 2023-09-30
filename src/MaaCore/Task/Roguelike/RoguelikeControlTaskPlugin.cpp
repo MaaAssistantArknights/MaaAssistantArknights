@@ -22,30 +22,31 @@ bool asst::RoguelikeControlTaskPlugin::verify(AsstMsg msg, const json::value& de
         task_view.remove_prefix(roguelike_name.length());
     }
     if (task_view == "Roguelik@ControlTaskPlugin-Stop") {
-        m_need_exit_and_abandon = false;
+        m_need_exit_then_stop = false;
         return true;
     }
-    if (task_view == "RoguelikeControlTaskPlugin-ExitThenAbandon") {
-        m_need_exit_and_abandon = true;
+    if (task_view == "RoguelikeControlTaskPlugin-ExitThenStop") {
+        m_need_exit_then_stop = true;
         return true;
     }
 
     return false;
 }
 
-void asst::RoguelikeControlTaskPlugin::exit_and_abandon()
+void asst::RoguelikeControlTaskPlugin::exit_then_stop()
 {
     std::string theme = status()->get_properties(Status::RoguelikeTheme).value();
     ProcessTask(*this, { theme + "@Roguelike@ExitThenAbandon" })
         .set_times_limit("Roguelike@StartExplore", 0)
+        .set_times_limit("Roguelike@Abandon", 0)
         .run();
 }
 
 bool asst::RoguelikeControlTaskPlugin::_run()
 {
-    if (m_need_exit_and_abandon) {
-        exit_and_abandon();
-        m_need_exit_and_abandon = false;
+    if (m_need_exit_then_stop) {
+        exit_then_stop();
+        m_need_exit_then_stop = false;
     }
     m_task_ptr->set_enable(false);
     return true;
