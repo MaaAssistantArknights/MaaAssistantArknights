@@ -103,11 +103,11 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     if (mode == 4) {
         // 设置ocr第三层层名，设置识别到退出重进
         Task.set_task_base(theme + "@Roguelike@LevelName", theme + "@Roguelike@LevelName_mode4");
-        if (!start_with_elite_two) {
-            // 获得热水壶和演讲时停止肉鸽
-            Task.set_task_base("Roguelike@LastReward", "Roguelike@LastReward_stop");
-            Task.set_task_base("Roguelike@LastReward4", "Roguelike@LastReward_stop");
-        }
+        // 获得热水壶和演讲时停止肉鸽
+        std::string last_reward_stop_or_continue =
+            start_with_elite_two ? "Roguelike@LastReward_default" : "Roguelike@LastReward_stop";
+        Task.set_task_base("Roguelike@LastReward", last_reward_stop_or_continue);
+        Task.set_task_base("Roguelike@LastReward4", last_reward_stop_or_continue);
         // 获得其他奖励时重开
         Task.set_task_base("Roguelike@LastReward2", "Roguelike@LastReward_restart");
         Task.set_task_base("Roguelike@LastReward3", "Roguelike@LastReward_restart");
