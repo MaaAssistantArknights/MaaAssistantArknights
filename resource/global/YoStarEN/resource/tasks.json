@@ -23,12 +23,6 @@
             "PRTS"
         ]
     },
-    "ChapterDifficultyHard": {
-        "baseTask": "LevelOfDifficulty"
-    },
-    "ChapterDifficultyNormal": {
-        "baseTask": "LevelOfDifficulty"
-    },
     "EnterChapterDifficultyHard": {
         "text": [
             "Start Operation"
@@ -39,15 +33,6 @@
             "Start Operation"
         ]
     },
-    "ClickedCorrectStageOrSwipe": {
-        "action": "DoNothing",
-        "baseTask": "StartButton1",
-        "next": [
-            "ClickedCorrectStage",
-            "FullStageNavigation"
-        ],
-        "reduceOtherTimes": []
-    },
     "SideStoryReopen": {
         "roi": [
             0,
@@ -57,22 +42,6 @@
         ],
         "text": [
             "Rerun"
-        ]
-    },
-    "StageQueue@StartButton1": {
-        "Doc": "StartButton1",
-        "action": "DoNothing",
-        "baseTask": "StartButton1",
-        "exceededNext": [],
-        "maxTimes": 1,
-        "next": [
-            "StageQueue@StartButton2",
-            "StageQueue@StartButton2Adverse",
-            "StageQueue@UseMedicine",
-            "StageQueue@UseStone",
-            "StageQueue@NoStone",
-            "StageQueue@OfflineConfirm",
-            "StageQueue@StartButton1TryAgain"
         ]
     },
     "CF-Open": {
@@ -2134,22 +2103,6 @@
         "text": [
             "Start"
         ]
-    },
-    "StartButton1TryAgain": {
-        "baseTask": "StartButton1",
-        "exceededNext": [],
-        "next": [
-            "StartButton1#next"
-        ],
-        "preDelay": 0,
-        "rectMove": [
-            38,
-            0,
-            35,
-            17
-        ],
-        "rectMoveDoc": "Click on 'Actions' to avoid clicking on StartButton2 the second time.",
-        "reduceOtherTimes": []
     },
     "PRTS2": {
         "text": [
@@ -5921,8 +5874,6 @@
         ]
     },
     "Reclamation@ManufactureStatus": {
-        "Doc": "base_task",
-        "algorithm": "OcrDetect",
         "roi": [
             1021,
             336,
@@ -5932,49 +5883,28 @@
         "text": []
     },
     "Reclamation@ManufactureIncrease": {
-        "action": "ClickRect",
-        "baseTask": "Reclamation@ManufactureStatus",
-        "specificRect": [
-            1120,
-            86,
-            111,
-            26
-        ],
         "text": [
             "Craft"
         ]
     },
     "Reclamation@ManufactureDecrease": {
-        "action": "ClickRect",
-        "baseTask": "Reclamation@ManufactureStatus",
-        "specificRect": [
-            1096,
-            288,
-            139,
-            28
-        ],
         "text": [
             "Insufficient",
             "materials"
         ]
     },
     "Reclamation@DoManufacture": {
-        "action": "ClickSelf",
-        "baseTask": "Reclamation@ManufactureStatus",
-        "postDelay": 1000,
         "text": [
             "Craft"
         ]
     },
     "Reclamation@ManufactureInsufficientMaterial": {
-        "baseTask": "Reclamation@ManufactureStatus",
         "text": [
             "Insufficient",
             "materials"
         ]
     },
     "Reclamation@ManufactureSufficientMaterial": {
-        "baseTask": "Reclamation@ManufactureStatus",
         "text": [
             "Craft"
         ]
@@ -5990,20 +5920,6 @@
             "Building materials",
             "Fresh Water",
             "Skip"
-        ]
-    },
-    "StartWithDefaultFormation@Reclamation@ConfirmStart": {
-        "baseTask": "Reclamation@ConfirmStart",
-        "next": [],
-        "next_Old": [
-            "Stop"
-        ],
-        "next_Old_Doc": "这里原先有个stop，但是会导致StartWithDefaultFormation@Reclamation@Begin中间多出一个Stop，姑且当成是不小心加的删了。"
-    },
-    "StartActionEnter@Reclamation@StartActionEnter": {
-        "baseTask": "Reclamation@StartActionEnter",
-        "next": [
-            "Stop"
         ]
     },
     "GachaLastOnceResult": {
