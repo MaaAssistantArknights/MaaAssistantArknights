@@ -9,7 +9,7 @@
             "direction": "down"
         }
     ],
-    "blacklist_location": [        
+    "blacklist_location": [
         [
             6,
             2
@@ -25,7 +25,7 @@
         [
             5,
             4
-        ]        
+        ]
     ],
     "deploy_plan": [
         {
@@ -73,7 +73,7 @@
                 1
             ],
             "direction": "left"
-        }, 
+        },
         {
             "groups": [
                 "提丰",
@@ -97,7 +97,7 @@
                 1
             ],
             "direction": "left"
-        },     
+        },
         {
             "groups": [
                 "大龙"
@@ -143,7 +143,7 @@
                 3
             ],
             "direction": "up"
-        },  
+        },
         {
             "groups": [
                 "高台输出",
@@ -156,7 +156,7 @@
                 1
             ],
             "direction": "down"
-        },        
+        },
         {
             "groups": [
                 "地面阻挡",

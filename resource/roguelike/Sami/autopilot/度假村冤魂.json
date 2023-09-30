@@ -39,10 +39,10 @@
                 3
             ],
             "direction": "right"
-        }, 
+        },
         {
             "groups": [
-                "凯尔希",                
+                "凯尔希",
                 "单奶"
             ],
             "location": [
@@ -50,7 +50,7 @@
                 4
             ],
             "direction": "right"
-        },       
+        },
         {
             "groups": [
                 "高台输出",
@@ -138,7 +138,7 @@
             ]
         }
     ],
-    "retreat_plan":[
+    "retreat_plan": [
         {
             "location": [
                 7,

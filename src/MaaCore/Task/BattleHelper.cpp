@@ -465,7 +465,7 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
         }
         used = true;
         retry = 0;
-        
+
         if (usage == SkillUsage::Times) {
             times--;
             if (times == 0) usage = SkillUsage::TimesUsed;

@@ -10,7 +10,8 @@
     },
     "buff": "战地援护无人机",
     "equipment": [
-        "A", "A", "A", "A", "A", "B", "A", "A"
+        "A", "A", "A", "A",
+        "A", "B", "A", "A"
     ],
     "strategy": "优选策略",
     "opers": [
@@ -103,7 +104,7 @@
                 },
                 {
                     "core": "纯烬艾雅法拉",
-                    "tool_men":{
+                    "tool_men": {
                         "medic": 0
                     },
                     "location": [
@@ -199,7 +200,7 @@
                         5
                     ],
                     "direction": "Up"
-                }, 
+                },
                 {
                     "core": "纯烬艾雅法拉",
                     "tool_men": {
