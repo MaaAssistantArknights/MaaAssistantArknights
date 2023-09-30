@@ -104,25 +104,23 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         // 设置ocr第三层层名，设置识别到退出重进
         Task.set_task_base(theme + "@Roguelike@LevelName", theme + "@Roguelike@LevelName_mode4");
         if (!start_with_elite_two) {
-            // TODO: 烧水有更好的解决方案，用插件 set_enable(false)
-            // 获得热水壶和演讲时长延时
-            patch["Roguelike@LastReward"] = patch["Roguelike@LastReward4"] =
-                json::object { { "postDelay", 2147483647 } };
+            // 获得热水壶和演讲时停止肉鸽
+            Task.set_task_base("Roguelike@LastReward", "Roguelike@LastReward_stop");
+            Task.set_task_base("Roguelike@LastReward4", "Roguelike@LastReward_stop");
         }
         // 获得其他奖励时重开
-        Task.set_task_base("Roguelike@LastReward2", "Roguelike@LastReward_stop");
-        Task.set_task_base("Roguelike@LastReward3", "Roguelike@LastReward_stop");
-        Task.set_task_base("Roguelike@LastRewardRand", "Roguelike@LastReward_stop");
+        Task.set_task_base("Roguelike@LastReward2", "Roguelike@LastReward_restart");
+        Task.set_task_base("Roguelike@LastReward3", "Roguelike@LastReward_restart");
+        Task.set_task_base("Roguelike@LastRewardRand", "Roguelike@LastReward_restart");
     }
     else {
         // 重置需要ocr的层名和next任务
         Task.set_task_base(theme + "@Roguelike@LevelName", theme + "@Roguelike@LevelName_default");
-        // 重置获得热水壶和演讲延时
-        patch["Roguelike@LastReward"] = patch["Roguelike@LastReward4"] =
-            json::object { { "postDelay", 0 } };
-        // 重置其他奖励next
+        // 重置开局奖励next
+        Task.set_task_base("Roguelike@LastReward", "Roguelike@LastReward_default");
         Task.set_task_base("Roguelike@LastReward2", "Roguelike@LastReward_default");
         Task.set_task_base("Roguelike@LastReward3", "Roguelike@LastReward_default");
+        Task.set_task_base("Roguelike@LastReward4", "Roguelike@LastReward_default");
         Task.set_task_base("Roguelike@LastRewardRand", "Roguelike@LastReward_default");
     }
     if (!patch.empty()) {

@@ -9033,7 +9033,7 @@
             "Roguelike@LastRewardConfirm"
         ]
     },
-    "Roguelike@LastReward_stop": {
+    "Roguelike@LastReward_restart": {
         "template": "empty.png",
         "action": "ClickSelf",
         "cache": false,
@@ -9044,6 +9044,20 @@
             533
         ],
         "next": []
+    },
+    "Roguelike@LastReward_stop": {
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            171,
+            151,
+            935,
+            533
+        ],
+        "next": [
+            "RoguelikeControlTaskPlugin-Stop"
+        ]
     },
     "Roguelike@LastReward": {
         "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援——热水壶",
