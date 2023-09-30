@@ -151,8 +151,8 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     else {
         // 重置战斗后奖励next
         Task.get(theme + "@Roguelike@DropsFlag")->next = Task.get(theme + "@Roguelike@DropsFlag_normal_mode")->next;
-        m_roguelike_task_ptr->set_times_limit("StageTraderLeave", 0);
-        m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", 0);
+        m_roguelike_task_ptr->set_times_limit("StageTraderLeave", INT_MAX);
+        m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", INT_MAX);
     }
 
     int number_of_starts = params.get("starts_count", INT_MAX);
