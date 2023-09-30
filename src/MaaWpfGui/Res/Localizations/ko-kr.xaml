@@ -25,7 +25,7 @@
     <system:String x:Key="AboutUs">정보</system:String>
     <system:String x:Key="Version">버전</system:String>
     <system:String x:Key="Off">끄세요</system:String>
-    <system:String x:Key="ExternalNotificationTips">참고: 외부 알림 기능은 현재 "모든 작업 완료" 알림만 보냅니다.</system:String>
+    <system:String x:Key="ExternalNotificationTips">참고: 외부 알림 기능은 현재 「모든 작업 완료」 알림만 보냅니다.</system:String>
     <system:String x:Key="ExternalNotificationSettings">외부 알림</system:String>
     <system:String x:Key="ExternalNotificationEnabled">알림 구성 사용</system:String>
     <system:String x:Key="ExternalNotificationSendSuccess">성공적으로 보내기</system:String>
@@ -278,8 +278,8 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="MainViewButtonFeature">메인 화면 버튼의 기능</system:String>
     <system:String x:Key="CustomStageCode">스테이지 코드 수동 입력</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">대부분의 기본 레벨 이름과 원래 레벨 이름 목록 지원(예: 4-10, AP-5, H10-1-Hard)
-레벨 끝에 "Normal/Hard"를 입력하여 표준 난이도와 환난 난이도 사이를 전환해야 함을 나타낼 수 있습니다
-"SSReopen-XX" 일회성 프록시 SS 포크의 일반 수준을 입력할 수 있습니다</system:String>
+레벨 끝에 「Normal/Hard」를 입력하여 표준 난이도와 환난 난이도 사이를 전환해야 함을 나타낼 수 있습니다
+「SSReopen-XX」 일회성 프록시 SS 포크의 일반 수준을 입력할 수 있습니다</system:String>
     <system:String x:Key="AutoDetectConnection">연결 자동 감지</system:String>
     <system:String x:Key="AutoDetectConnectionTip">이 체크박스는 감지가 끝나면 자동으로 체크가 해제됩니다. 다시 감지하려면 다시 체크해주세요</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">매번 재감지</system:String>
@@ -485,11 +485,11 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <!--  Start  -->
     <system:String x:Key="CopilotTip">
         팁:\n\n
-        1. '작전 개시' 버튼이 있는 화면에서 이 기능을 사용하세요.\n\n
-        2. 친구의 오퍼레이터를 사용하는 경우에는 '자동 편성'을 선택하지 말고 수동으로 오퍼레이터를 선택하고 시작하세요.\n\n
-        3. 패러독스 시뮬레이션의 경우에는 '자동 편성'을 선택하지 말고, 스킬을 선택하고 '시뮬레이션 시작' 버튼이 있는 화면에 시작하세요.\n\n
-        4. 보안 파견은 resource/copilot 폴더에 여러 내장 파일이 있습니다.\n
+        1. '작전 개시' 버튼이 본선, 스토리 모음 또는 사이드 스토리에서 표시될 때만이 기능을 사용하십시오.\n\n
+        2. 패러독스 시뮬레이션의 경우에는 '자동 편성'을 선택하지 말고, 스킬을 선택하고 '시뮬레이션 시작' 버튼이 있는 화면에 시작하세요.\n\n
+        3. 보안 파견은 resource/copilot 폴더에 여러 내장 파일이 있습니다.\n
         수동 편성 후 '작전 개시' 버튼이 있는 화면에서 시작하세요. ('반복 횟수'와 함께 사용 가능)\n\n
+        4. 친구의 오퍼레이터를 사용하는 경우에는 '자동 편성'을 선택하지 말고 수동으로 오퍼레이터를 선택하고 시작하세요.\n\n
         5. 동영상 인식이 지원되며, 가이드 동영상를 드래그하여 사용할 수 있습니다.\n
         동영상의 해상도는 16:9여야 하며, 검은색 테두리, 에뮬레이터 테두리, 특수한 모양의 화면 보정 등의 방해 요소가 없어야 합니다.\n\n
         6. 전투 목록:\n
