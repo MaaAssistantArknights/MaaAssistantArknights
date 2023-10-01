@@ -472,7 +472,7 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string&
                         // 重置难度并放弃
                         status()->set_properties(Status::RoguelikeNeedChangeDifficulty, "0");
                         ProcessTask(*this, { theme + "@Roguelike@ExitThenAbandon" })
-                            .set_times_limit("Roguelike@StartExplore", 0)
+                            .set_times_limit("Roguelike@Abandon", 0)
                             .run();
                     }
                 }

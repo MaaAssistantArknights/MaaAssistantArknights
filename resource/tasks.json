@@ -10256,6 +10256,7 @@
     "Phantom@Roguelike@ChooseOper": {
         "next": [
             "Phantom@Roguelike@ChooseOperConfirm",
+            "Phantom@Roguelike@Abandon",
             "Phantom@Roguelike@ChooseOperConfirm#next"
         ]
     },
@@ -10555,6 +10556,7 @@
             "Mizuki@Roguelike@CloseCollectionContinue",
             "Mizuki@Roguelike@CloseCollectionClose",
             "Mizuki@Roguelike@ChooseOperConfirm",
+            "Mizuki@Roguelike@Abandon",
             "Mizuki@Roguelike@ChooseOperConfirm#next"
         ]
     },
@@ -11129,6 +11131,7 @@
         "next": [
             "Sami@Roguelike@CloseCollectionClose",
             "Sami@Roguelike@ChooseOperConfirm",
+            "Sami@Roguelike@Abandon",
             "Sami@Roguelike@ChooseOperConfirm#next"
         ]
     },
