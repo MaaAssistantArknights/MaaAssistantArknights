@@ -724,17 +724,46 @@ asst::TaskData::taskptr_t asst::TaskData::generate_match_task_info(std::string_v
         default_ptr = default_match_task_info_ptr;
     }
     auto match_task_info_ptr = std::make_shared<MatchTaskInfo>();
-#ifdef ASST_DEBUG
-    if (task_json.get("template", "") == std::string(name) + ".png") {
-        Log.warn("template name of task", name, "could be omitted.");
+    auto templ_opt = task_json.find("template");
+    if (!templ_opt) {
+        match_task_info_ptr->templ_names = { std::string(name) + ".png" };
     }
-#endif
-    // template 留空时不从模板任务继承
-    match_task_info_ptr->templ_name = task_json.get("template", std::string(name) + ".png");
-    m_templ_required.emplace(match_task_info_ptr->templ_name);
+    else if (templ_opt->is_string()) {
+        match_task_info_ptr->templ_names = { templ_opt->as_string() + ".png" };
+    }
+    else if (templ_opt->is_array()) {
+        match_task_info_ptr->templ_names = to_string_list(templ_opt->as_array());
+    }
+    else {
+        Log.error("Invalid template type in task", name);
+        return nullptr;
+    }
+
+    m_templ_required.insert(match_task_info_ptr->templ_names.begin(), match_task_info_ptr->templ_names.end());
 
     // 其余若留空则继承模板任务
-    match_task_info_ptr->templ_threshold = task_json.get("templThreshold", default_ptr->templ_threshold);
+
+    auto threshold_opt = task_json.find("threshold");
+    if (!threshold_opt) {
+        match_task_info_ptr->templ_thresholds = default_ptr->templ_thresholds;
+    }
+    else if (threshold_opt->is_number()) {
+        match_task_info_ptr->templ_thresholds = { threshold_opt->as_double() };
+    }
+    else if (threshold_opt->is_array()) {
+        ranges::copy(threshold_opt->as_array() | views::transform(&ranges::range_value_t<json::array>::as_double),
+                     std::back_inserter(match_task_info_ptr->templ_thresholds));
+    }
+    else {
+        Log.error("Invalid threshold type in task", name);
+        return nullptr;
+    }
+
+    if (match_task_info_ptr->templ_names.size() != match_task_info_ptr->templ_thresholds.size()) {
+        Log.error("Template count and threshold count not match in task", name);
+        return nullptr;
+    }
+
     if (auto opt = task_json.find<json::array>("maskRange")) {
         auto& mask_range = *opt;
         match_task_info_ptr->mask_range =
@@ -892,8 +921,8 @@ bool asst::TaskData::append_base_task_info(taskptr_t task_info_ptr, std::string_
 std::shared_ptr<asst::MatchTaskInfo> asst::TaskData::_default_match_task_info()
 {
     auto match_task_info_ptr = std::make_shared<MatchTaskInfo>();
-    match_task_info_ptr->templ_name = "__INVALID__";
-    match_task_info_ptr->templ_threshold = TemplThresholdDefault;
+    match_task_info_ptr->templ_names = { "__INVALID__" };
+    match_task_info_ptr->templ_thresholds = { TemplThresholdDefault };
 
     return match_task_info_ptr;
 }

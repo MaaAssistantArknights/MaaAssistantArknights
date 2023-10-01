@@ -397,9 +397,9 @@ namespace asst
         MatchTaskInfo(MatchTaskInfo&&) noexcept = default;
         MatchTaskInfo& operator=(const MatchTaskInfo&) = default;
         MatchTaskInfo& operator=(MatchTaskInfo&&) noexcept = default;
-        std::string templ_name;         // 匹配模板图片文件名
-        double templ_threshold = 0;     // 模板匹配阈值
-        std::pair<int, int> mask_range; // 掩码的二值化范围
+        std::vector<std::string> templ_names; // 匹配模板图片文件名
+        std::vector<double> templ_thresholds; // 模板匹配阈值
+        std::pair<int, int> mask_range;       // 掩码的二值化范围
     };
 
     // hash 计算任务的信息
