@@ -12968,15 +12968,6 @@
         "stageId": "mem_beewax_1",
         "width": 11
     },
-    "mem_bena_1-obt/memory/level_memory_bena_1": {
-        "code": "mem_bena_1",
-        "filename": "mem_bena_1-obt-memory-level_memory_bena_1.json",
-        "height": 6,
-        "levelId": "obt/memory/level_memory_bena_1",
-        "name": "死缠烂打",
-        "stageId": "mem_bena_1",
-        "width": 10
-    },
     "mem_bgsnow_1-obt/memory/level_memory_bgsnow_1": {
         "code": "mem_bgsnow_1",
         "filename": "mem_bgsnow_1-obt-memory-level_memory_bgsnow_1.json",
@@ -13175,15 +13166,6 @@
         "stageId": "mem_chnut_1",
         "width": 11
     },
-    "mem_clour_1-obt/memory/level_memory_clour_1": {
-        "code": "mem_clour_1",
-        "filename": "mem_clour_1-obt-memory-level_memory_clour_1.json",
-        "height": 7,
-        "levelId": "obt/memory/level_memory_clour_1",
-        "name": "离雨之箭",
-        "stageId": "mem_clour_1",
-        "width": 11
-    },
     "mem_crow_1-obt/memory/level_memory_crow_1": {
         "code": "mem_crow_1",
         "filename": "mem_crow_1-obt-memory-level_memory_crow_1.json",
@@ -13209,15 +13191,6 @@
         "levelId": "obt/memory/level_memory_cutter_1",
         "name": "\t持节之刃",
         "stageId": "mem_cutter_1",
-        "width": 11
-    },
-    "mem_dagda_1-obt/memory/level_memory_dagda_1": {
-        "code": "mem_dagda_1",
-        "filename": "mem_dagda_1-obt-memory-level_memory_dagda_1.json",
-        "height": 7,
-        "levelId": "obt/memory/level_memory_dagda_1",
-        "name": "患难与共",
-        "stageId": "mem_dagda_1",
         "width": 11
     },
     "mem_deepcl_1-obt/memory/level_memory_deepcl_1": {
@@ -13597,15 +13570,6 @@
         "name": "浑金一块",
         "stageId": "mem_hmau_1",
         "width": 9
-    },
-    "mem_horn_1-obt/memory/level_memory_horn_1": {
-        "code": "mem_horn_1",
-        "filename": "mem_horn_1-obt-memory-level_memory_horn_1.json",
-        "height": 7,
-        "levelId": "obt/memory/level_memory_horn_1",
-        "name": "号声响起",
-        "stageId": "mem_horn_1",
-        "width": 12
     },
     "mem_hpsts_1-obt/memory/level_memory_hpsts_1": {
         "code": "mem_hpsts_1",
@@ -14443,15 +14407,6 @@
         "name": "双人快打",
         "stageId": "mem_tomimi_1",
         "width": 11
-    },
-    "mem_totter_1-obt/memory/level_memory_totter_1": {
-        "code": "mem_totter_1",
-        "filename": "mem_totter_1-obt-memory-level_memory_totter_1.json",
-        "height": 7,
-        "levelId": "obt/memory/level_memory_totter_1",
-        "name": "裂空之镞",
-        "stageId": "mem_totter_1",
-        "width": 9
     },
     "mem_tuye_1-obt/memory/level_memory_tuye_1": {
         "code": "mem_tuye_1",

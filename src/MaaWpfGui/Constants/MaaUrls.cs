@@ -22,8 +22,6 @@ namespace MaaWpfGui.Constants
 
         public const string Bilibili = "https://space.bilibili.com/3493274731940507";
 
-        public const string BilibiliVideo = "https://www.bilibili.com/video/";
-
         public const string GitHub = "https://github.com/MaaAssistantArknights/MaaAssistantArknights";
 
         public const string GitHubIssues = "https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues";
@@ -32,29 +30,21 @@ namespace MaaWpfGui.Constants
 
         public const string PrtsPlus = "https://prts.plus";
 
-        public const string PrtsPlusCopilotGet = "https://www.maa.plus/copilot/get/";
-
-        public const string PrtsPlusCopilotRating = "https://prts.maa.plus/copilot/rating";
-
         public const string MapPrts = "https://map.ark-nights.com/areas?coord_override=maa";
 
         public const string CustomInfrastGenerator = "https://yituliu.site/tools/maa";
 
-        public const string MaaApi = "https://ota.maa.plus/MaaAssistantArknights/api/";
-
-        public const string MaaResourceApi = "https://ota.maa.plus/MaaAssistantArknights/MaaAssistantArknights/";
-
         public const string QqGroups = "https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html";
 
-        public const string QqChannel = "https://pd.qq.com/s/4j1ju9z47";
+        public const string QQchannel = "https://pd.qq.com/s/4j1ju9z47";
 
-        private static string Language => ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
+        private static string language => ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
 
-        public static string HelpUri => $"https://maa.plus/docs/{_helpUrl[Language]}";
+        public static string HelpUri => $"https://maa.plus/docs/{_helpUrl[language]}";
 
-        public static string OverseasAdaptation => $"https://maa.plus/docs/{_overseasAdaptation[Language]}";
+        public static string OverseasAdaptation => $"https://maa.plus/docs/{_overseasAdaptation[language]}";
 
-        public static string NewIssueUri => Language switch
+        public static string NewIssueUri => language switch
         {
             "zh-cn" => "https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/new?assignees=&labels=bug&template=cn-bug-report.yaml",
             _ => "https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/new?assignees=&labels=bug&template=en-bug-report.yaml",

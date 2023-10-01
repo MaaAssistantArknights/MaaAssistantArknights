@@ -14,7 +14,7 @@
 namespace MaaWpfGui.Views.UserControl
 {
     /// <summary>
-    /// GUISettingsUserControl.xaml 的交互逻辑
+    /// TraySettingsUserControl.xaml 的交互逻辑
     /// </summary>
     public partial class GUISettingsUserControl : System.Windows.Controls.UserControl
     {

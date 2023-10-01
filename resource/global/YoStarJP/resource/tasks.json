@@ -2681,7 +2681,7 @@
                 "大盗当头"
             ],
             [
-                "天翔ける怪盗・劇団.*",
+                "天翔ける怪盗・劇団簾",
                 "大盗当头"
             ],
             [
@@ -3110,26 +3110,6 @@
         "text": [
             "行動",
             "開始"
-        ]
-    },
-    "Roguelike@ChooseDifficultyConfirm": {
-        "text": [
-            "選択"
-        ]
-    },
-    "Roguelike@FromIntegratedStrategies": {
-        "text": [
-            "テーマへ"
-        ]
-    },
-    "Phantom@Roguelike@SelectTheme": {
-        "text": [
-            "ファントム"
-        ]
-    },
-    "Mizuki@Roguelike@SelectTheme": {
-        "text": [
-            "ミヅキ"
         ]
     },
     "Roguelike@StageEncounterOcr": {

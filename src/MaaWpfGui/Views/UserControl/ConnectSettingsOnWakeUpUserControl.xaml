@@ -57,7 +57,7 @@
             <hc:TextBox
                 Grid.Column="0"
                 hc:BorderElement.CornerRadius="4,0,0,4"
-                hc:InfoElement.Title="{DynamicResource AdbPath}"
+                hc:InfoElement.Title="{DynamicResource ADBPath}"
                 Text="{Binding AdbPath}" />
             <Button
                 Grid.Column="1"

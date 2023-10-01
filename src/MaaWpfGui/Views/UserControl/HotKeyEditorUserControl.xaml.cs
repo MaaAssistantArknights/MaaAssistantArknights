@@ -39,7 +39,7 @@ namespace MaaWpfGui.Views.UserControl
         private void HotKeyTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             // Don't let the event pass further
-            // because we don't want standard textBox shortcuts working
+            // because we don't want standard textbox shortcuts working
             e.Handled = true;
 
             // Get modifiers and key data
@@ -52,7 +52,7 @@ namespace MaaWpfGui.Views.UserControl
                 key = e.SystemKey;
             }
 
-            // Remove hotKey if no modifiers
+            // Remove hotkey if no modifiers
             if (modifiers == ModifierKeys.None)
             {
                 HotKey = null;

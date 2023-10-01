@@ -364,11 +364,11 @@ namespace MaaWpfGui.Services
                         && !sideStoryFlags.ContainsKey(item.Value.Activity.StageName))
                     {
                         DateTime dateTime = DateTime.UtcNow;
-                        var daysLeftOpen = (item.Value.Activity.UtcExpireTime - dateTime).Days;
+                        var daysleftopen = (item.Value.Activity.UtcExpireTime - dateTime).Days;
                         builder.AppendLine(item.Value.Activity.StageName
                             + " "
-                            + LocalizationHelper.GetString("DaysLeftOpen")
-                            + (daysLeftOpen > 0 ? daysLeftOpen.ToString() : LocalizationHelper.GetString("LessThanOneDay")));
+                            + LocalizationHelper.GetString("Daysleftopen")
+                            + (daysleftopen > 0 ? daysleftopen.ToString() : LocalizationHelper.GetString("LessThanOneDay")));
                         sideStoryFlags[item.Value.Activity.StageName] = true;
                     }
 

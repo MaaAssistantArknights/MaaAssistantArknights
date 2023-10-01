@@ -47,7 +47,7 @@ namespace MaaWpfGui.Helper
             Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
         }
 
-        public static void SwitchToSyncWithOsMode()
+        public static void SwitchToSyncWithOSMode()
         {
             ThemeManager.Current.UsingWindowsAppTheme = true;
             Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
@@ -59,13 +59,13 @@ namespace MaaWpfGui.Helper
         #region Check UiLogColor
 
         // In official version, using ResourceHelper.GetSkin
-        private static readonly Color _lightBackground = ((SolidColorBrush)ThemeResources.Current.GetThemeDictionary("Light")["RegionBrush"]).Color;
+        private static readonly Color LightBackground = ((SolidColorBrush)ThemeResources.Current.GetThemeDictionary("Light")["RegionBrush"]).Color;
 
-        private static readonly Color _darkBackground = ((SolidColorBrush)ThemeResources.Current.GetThemeDictionary("Dark")["RegionBrush"]).Color;
+        private static readonly Color DarkBackground = ((SolidColorBrush)ThemeResources.Current.GetThemeDictionary("Dark")["RegionBrush"]).Color;
 
         public static bool SimilarToBackground(Color color)
         {
-            return ColorDistance(color, _lightBackground) == 0 || ColorDistance(color, _darkBackground) == 0;
+            return ColorDistance(color, LightBackground) == 0 || ColorDistance(color, DarkBackground) == 0;
         }
 
         /// <summary>

@@ -11,8 +11,8 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
-#include "Vision/RegionOCRer.h"
 #include "Vision/TemplDetOCRer.h"
+#include "Vision/RegionOCRer.h"
 
 #include <numbers>
 

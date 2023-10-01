@@ -31,8 +31,8 @@ namespace asst
         bool do_once();
         struct DeployPlanInfo
         {
-            // int oper_priority;                         // 干员招募优先级
             std::string oper_name;                        // 干员名称
+            // int oper_priority;                         // 干员招募优先级
             int oper_order_in_group;                      // 干员在干员组中排名
             int rank;                                     // 干员组在部署指令扁平化后的排名
             Point placed;                                 // 指令坐标

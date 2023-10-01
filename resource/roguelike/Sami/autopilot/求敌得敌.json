@@ -35,7 +35,7 @@
             "direction": "up"
         },
         {
-            "groups": [
+            "groups": [                
                 "地面阻挡",
                 "重装",
                 "其他地面"
@@ -106,7 +106,7 @@
             "direction": "right"
         },
         {
-            "groups": [
+            "groups": [                
                 "高台输出",
                 "盾法",
                 "辅助",

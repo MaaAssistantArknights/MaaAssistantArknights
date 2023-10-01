@@ -36,8 +36,8 @@ namespace MaaWpfGui.Styles.Properties
         /// <summary>
         /// Just a flag that the binding has been applied.
         /// </summary>
-        private static readonly DependencyProperty _verticalOffsetBindingProperty =
-            DependencyProperty.RegisterAttached("_verticalOffsetBinding", typeof(bool?), typeof(ScrollViewerBinding));
+        private static readonly DependencyProperty VerticalOffsetBindingProperty =
+            DependencyProperty.RegisterAttached("VerticalOffsetBinding", typeof(bool?), typeof(ScrollViewerBinding));
 
         /// <summary>
         /// Gets vertical offset property.
@@ -82,12 +82,12 @@ namespace MaaWpfGui.Styles.Properties
 
         private static void BindVerticalOffset(ScrollViewer scrollViewer)
         {
-            if (scrollViewer.GetValue(_verticalOffsetBindingProperty) != null)
+            if (scrollViewer.GetValue(VerticalOffsetBindingProperty) != null)
             {
                 return;
             }
 
-            scrollViewer.SetValue(_verticalOffsetBindingProperty, true);
+            scrollViewer.SetValue(VerticalOffsetBindingProperty, true);
             scrollViewer.ScrollChanged += (s, se) =>
             {
                 if (se.VerticalChange == 0)
@@ -112,8 +112,8 @@ namespace MaaWpfGui.Styles.Properties
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnViewportHeightPropertyChanged));
 
-        private static readonly DependencyProperty _viewportHeightBindingProperty =
-            DependencyProperty.RegisterAttached("_viewportHeightBinding", typeof(bool?), typeof(ScrollViewerBinding));
+        private static readonly DependencyProperty ViewportHeightBindingProperty =
+            DependencyProperty.RegisterAttached("ViewportHeightBinding", typeof(bool?), typeof(ScrollViewerBinding));
 
         /// <summary>
         /// Gets viewport height property.
@@ -157,12 +157,12 @@ namespace MaaWpfGui.Styles.Properties
 
         private static void BindViewportHeight(ScrollViewer scrollViewer)
         {
-            if (scrollViewer.GetValue(_viewportHeightBindingProperty) != null)
+            if (scrollViewer.GetValue(ViewportHeightBindingProperty) != null)
             {
                 return;
             }
 
-            scrollViewer.SetValue(_viewportHeightBindingProperty, true);
+            scrollViewer.SetValue(ViewportHeightBindingProperty, true);
 
             scrollViewer.Loaded += (s, se) =>
             {
@@ -188,8 +188,8 @@ namespace MaaWpfGui.Styles.Properties
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnExtentHeightPropertyChanged));
 
-        private static readonly DependencyProperty _extentHeightBindingProperty =
-            DependencyProperty.RegisterAttached("_extentHeightBinding", typeof(bool?), typeof(ScrollViewerBinding));
+        private static readonly DependencyProperty ExtentHeightBindingProperty =
+            DependencyProperty.RegisterAttached("ExtentHeightBinding", typeof(bool?), typeof(ScrollViewerBinding));
 
         /// <summary>
         /// Gets extent height property.
@@ -233,12 +233,12 @@ namespace MaaWpfGui.Styles.Properties
 
         private static void BindExtentHeight(ScrollViewer scrollViewer)
         {
-            if (scrollViewer.GetValue(_extentHeightBindingProperty) != null)
+            if (scrollViewer.GetValue(ExtentHeightBindingProperty) != null)
             {
                 return;
             }
 
-            scrollViewer.SetValue(_extentHeightBindingProperty, true);
+            scrollViewer.SetValue(ExtentHeightBindingProperty, true);
 
             scrollViewer.Loaded += (s, se) =>
             {
@@ -265,8 +265,8 @@ namespace MaaWpfGui.Styles.Properties
         /// <summary>
         /// Just a flag that the binding has been applied.
         /// </summary>
-        private static readonly DependencyProperty _dividerVerticalOffsetListBindingProperty =
-            DependencyProperty.RegisterAttached("_dividerVerticalOffsetListBinding", typeof(bool?), typeof(ScrollViewerBinding));
+        private static readonly DependencyProperty DividerVerticalOffsetListBindingProperty =
+            DependencyProperty.RegisterAttached("DividerVerticalOffsetListBinding", typeof(bool?), typeof(ScrollViewerBinding));
 
         /// <summary>
         /// Gets divider vertical offset property.
@@ -305,12 +305,12 @@ namespace MaaWpfGui.Styles.Properties
 
         private static void BindDividerVerticalOffsetList(ScrollViewer scrollViewer)
         {
-            if (scrollViewer.GetValue(_dividerVerticalOffsetListBindingProperty) != null)
+            if (scrollViewer.GetValue(DividerVerticalOffsetListBindingProperty) != null)
             {
                 return;
             }
 
-            scrollViewer.SetValue(_dividerVerticalOffsetListBindingProperty, true);
+            scrollViewer.SetValue(DividerVerticalOffsetListBindingProperty, true);
 
             // 当滚动条载入时，遍历 StackPanel 中的所有 Divider 子元素对应位置
             scrollViewer.Loaded += (s, se) =>

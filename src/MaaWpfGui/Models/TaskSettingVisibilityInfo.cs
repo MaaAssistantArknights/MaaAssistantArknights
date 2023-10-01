@@ -54,7 +54,7 @@ namespace MaaWpfGui.Models
         {
             if (Guide && enable)
             {
-                _currentEnableSetting = taskName;
+                currentEnableSetting = taskName;
                 enable = false;
             }
 
@@ -110,7 +110,7 @@ namespace MaaWpfGui.Models
             set => SetAndNotify(ref _advancedSettingsVisibility, value);
         }
 
-        private string _currentEnableSetting;
+        private string currentEnableSetting;
 
         private bool _guide = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.GuideStepIndex, "0")) < SettingsViewModel.GuideMaxStep;
 
@@ -120,7 +120,7 @@ namespace MaaWpfGui.Models
             set
             {
                 SetAndNotify(ref _guide, value);
-                Set(_currentEnableSetting, !value);
+                Set(currentEnableSetting, !value);
             }
         }
 

@@ -23,9 +23,9 @@
             "direction": "left"
         }
     ],
-    "deploy_plan": [
+    "deploy_plan": [ 
         {
-            "groups": [
+            "groups": [ 
                 "回费"
             ],
             "location": [
@@ -34,6 +34,7 @@
             ],
             "direction": "up"
         },
+        
         {
             "groups": [
                 "地面阻挡",
@@ -68,7 +69,7 @@
                 4
             ],
             "direction": "right"
-        },
+        },        
         {
             "groups": [
                 "地面阻挡",
@@ -80,7 +81,7 @@
                 3
             ],
             "direction": "up"
-        },
+        },        
         {
             "groups": [
                 "地面阻挡",
@@ -95,7 +96,7 @@
             "direction": "up"
         },
         {
-            "groups": [
+            "groups": [                
                 "狙击",
                 "高台输出",
                 "盾法",
@@ -108,7 +109,7 @@
             "direction": "right"
         },
         {
-            "groups": [
+            "groups": [                
                 "狙击",
                 "高台输出"
             ],
@@ -176,6 +177,6 @@
                 3
             ],
             "direction": "left"
-        }
+        }         
     ]
 }

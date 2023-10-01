@@ -10,15 +10,13 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-using System;
-using System.Globalization;
+
 using System.Reflection;
-using System.Windows.Data;
 
 namespace MaaWpfGui.Views.UserControl
 {
     /// <summary>
-    /// RoguelikeSettingsUserControl.xaml 的交互逻辑
+    /// InfrastSettingsUserContril.xaml 的交互逻辑
     /// </summary>
     public partial class RoguelikeSettingsUserControl : System.Windows.Controls.UserControl
     {
@@ -30,38 +28,13 @@ namespace MaaWpfGui.Views.UserControl
             InitializeComponent();
         }
 
-        private static readonly MethodInfo _setText = typeof(HandyControl.Controls.NumericUpDown).GetMethod("SetText", BindingFlags.NonPublic | BindingFlags.Instance);
+        private static readonly MethodInfo SetText = typeof(HandyControl.Controls.NumericUpDown).GetMethod("SetText", BindingFlags.NonPublic | BindingFlags.Instance);
 
-        private static readonly object[] _paras = { true };
+        private static readonly object[] paras = new object[] { true };
 
         private void NumericUpDown_ValueChanged(object sender, HandyControl.Data.FunctionEventArgs<double> e)
         {
-            _setText?.Invoke(sender, _paras);
+            SetText?.Invoke(sender, paras);
         }
     }
-
-
-    public class InvestmentButtonCheckedConverter : IMultiValueConverter
-    {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-            string isEnabled = System.Convert.ToString(values[0]);
-            string RoguelikeMode = System.Convert.ToString(values[1]);
-
-            if (RoguelikeMode == "1" || RoguelikeMode == "4")
-                return true;
-
-            if (isEnabled == "True")
-                return true;
-                
-            return false;
-        }
-
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            bool isEnabled = (bool)value;
-            return new object[] { isEnabled, isEnabled };
-        }
-    }
-
 }

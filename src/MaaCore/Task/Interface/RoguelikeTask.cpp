@@ -70,70 +70,77 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
 
     // 0 - 刷经验，尽可能稳定地打更多层数，不期而遇采用激进策略
     // 1 - 刷源石锭，第一层投资完就退出，不期而遇采用保守策略
-    // 2 - 【已移除】两者兼顾，投资过后再退出，没有投资就继续往后打
+    // 2 - 【弃用】两者兼顾，投资过后再退出，没有投资就继续往后打
     // 3 - 尝试通关，激进策略（TODO）
     // 4 - 刷开局藏品，以获得热水壶或者演讲稿开局，不期而遇采用保守策略
     int mode = params.get("mode", 0);
-    if (mode != 0 && mode != 1 && mode != 4) {
-        m_roguelike_task_ptr->set_tasks({ "Stop" });
+    // 是否凹指定干员开局直升
+    bool start_with_elite_two = params.get("start_with_elite_two", false);
+    status()->set_properties(Status::RoguelikeMode, std::to_string(mode));
+    status()->set_properties(Status::RoguelikeNeedChangeDifficulty, "0");
+    status()->set_properties(Status::RoguelikeStartWithEliteTwo, std::to_string(start_with_elite_two));
+    switch (mode) {
+    case 0:
+        m_debug_task_ptr->set_enable(true);
+        break;
+    case 1:
+        m_debug_task_ptr->set_enable(false);
+        m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", 0, ProcessTask::TimesLimitType::Post);
+        break;
+    [[unlikely]] case 2:
+        m_debug_task_ptr->set_enable(true);
+        m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", 0, ProcessTask ::TimesLimitType::Post);
+        break;
+    case 4:
+        m_debug_task_ptr->set_enable(true);
+        break;
+    default:
         Log.error(__FUNCTION__, "| Unknown mode", mode);
         return false;
     }
 
-    m_debug_task_ptr->set_enable(mode != 1);
-
-    // 是否凹指定干员开局直升
-    bool start_with_elite_two = params.get("start_with_elite_two", false);
-
-    status()->set_properties(Status::RoguelikeMode, std::to_string(mode));
-    status()->set_properties(Status::RoguelikeNeedChangeDifficulty, "0");
-    status()->set_properties(Status::RoguelikeStartWithEliteTwo, std::to_string(start_with_elite_two));
-
     if (mode == 4) {
         // 设置ocr第三层层名，设置识别到退出重进
-        Task.set_task_base(theme + "@Roguelike@LevelName", theme + "@Roguelike@LevelName_mode4");
-        // 获得热水壶和演讲时停止肉鸽
-        std::string last_reward_stop_or_continue =
-            start_with_elite_two ? "Roguelike@LastReward_default" : "Roguelike@LastReward_stop";
-        Task.set_task_base("Roguelike@LastReward", last_reward_stop_or_continue);
-        Task.set_task_base("Roguelike@LastReward4", last_reward_stop_or_continue);
+        Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName")->text =
+            Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName_mode4")->text;
+        Task.get(theme + "@Roguelike@LevelName")->next = Task.get(theme + "@Roguelike@LevelName_mode4")->next;
+        if (!start_with_elite_two) {
+            // 获得热水壶和演讲时长延时
+            Task.get(theme + "@Roguelike@LastReward")->post_delay =
+                Task.get(theme + "@Roguelike@LastReward_mode4")->post_delay;
+            Task.get(theme + "@Roguelike@LastReward4")->post_delay =
+                Task.get(theme + "@Roguelike@LastReward_mode4")->post_delay;
+        }
         // 获得其他奖励时重开
-        Task.set_task_base("Roguelike@LastReward2", "Roguelike@LastReward_restart");
-        Task.set_task_base("Roguelike@LastReward3", "Roguelike@LastReward_restart");
-        Task.set_task_base("Roguelike@LastRewardRand", "Roguelike@LastReward_restart");
+        Task.get(theme + "@Roguelike@LastReward2")->next = Task.get(theme + "@Roguelike@LastReward_mode4")->next;
+        Task.get(theme + "@Roguelike@LastReward3")->next = Task.get(theme + "@Roguelike@LastReward_mode4")->next;
+        Task.get(theme + "@Roguelike@LastRewardRand")->next = Task.get(theme + "@Roguelike@LastReward_mode4")->next;
     }
     else {
         // 重置需要ocr的层名和next任务
-        Task.set_task_base(theme + "@Roguelike@LevelName", theme + "@Roguelike@LevelName_default");
-        // 重置开局奖励next
-        Task.set_task_base("Roguelike@LastReward", "Roguelike@LastReward_default");
-        Task.set_task_base("Roguelike@LastReward2", "Roguelike@LastReward_default");
-        Task.set_task_base("Roguelike@LastReward3", "Roguelike@LastReward_default");
-        Task.set_task_base("Roguelike@LastReward4", "Roguelike@LastReward_default");
-        Task.set_task_base("Roguelike@LastRewardRand", "Roguelike@LastReward_default");
+        Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName")->text =
+            Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName_normal_mode")->text;
+        Task.get(theme + "@Roguelike@LevelName")->next = Task.get(theme + "@Roguelike@LevelName_normal_mode")->next;
+        // 重置获得热水壶和演讲延时
+        Task.get(theme + "@Roguelike@LastReward")->post_delay =
+            Task.get(theme + "@Roguelike@LastReward_normal_mode")->post_delay;
+        Task.get(theme + "@Roguelike@LastReward4")->post_delay =
+            Task.get(theme + "@Roguelike@LastReward_normal_mode")->post_delay;
+        // 重置其他奖励next
+        Task.get(theme + "@Roguelike@LastReward2")->next = Task.get(theme + "@Roguelike@LastReward_normal_mode")->next;
+        Task.get(theme + "@Roguelike@LastReward3")->next = Task.get(theme + "@Roguelike@LastReward_normal_mode")->next;
+        Task.get(theme + "@Roguelike@LastRewardRand")->next =
+            Task.get(theme + "@Roguelike@LastReward_normal_mode")->next;
     }
 
     if (mode == 1) {
         // 战斗后奖励只拿钱
-        Task.set_task_base(theme + "@Roguelike@DropsFlag", theme + "@Roguelike@DropsFlag_mode1");
-        // 刷源石锭模式是否进入第二层
-        bool investment_enter_second_floor = params.get("investment_enter_second_floor", true);
-        if (investment_enter_second_floor) {
-            m_roguelike_task_ptr->set_times_limit("StageTraderLeave", INT_MAX);
-            m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", 0, ProcessTask::TimesLimitType::Post);
-        }
-        else {
-            m_roguelike_task_ptr->set_times_limit("StageTraderLeave", 0);
-            m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", INT_MAX);
-        }
+        Task.get(theme + "@Roguelike@DropsFlag")->next = Task.get(theme + "@Roguelike@DropsFlag_mode1")->next;
     }
     else {
         // 重置战斗后奖励next
-        Task.set_task_base(theme + "@Roguelike@DropsFlag", theme + "@Roguelike@DropsFlag_default");
-        m_roguelike_task_ptr->set_times_limit("StageTraderLeave", INT_MAX);
-        m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", INT_MAX);
+        Task.get(theme + "@Roguelike@DropsFlag")->next = Task.get(theme + "@Roguelike@DropsFlag_normal_mode")->next;
     }
-
     int number_of_starts = params.get("starts_count", INT_MAX);
     m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StartExplore", number_of_starts);
 

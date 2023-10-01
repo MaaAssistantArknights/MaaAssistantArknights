@@ -21,7 +21,7 @@ namespace MaaWpfGui.Extensions
 {
     public static class DateTimeExtension
     {
-        private const int YjDayStartHour = 4;
+        private static readonly int YJDayStartHour = 4;
 
         private static string ClientType => ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty);
 
@@ -36,14 +36,14 @@ namespace MaaWpfGui.Extensions
             { "YoStarKR", 9 },
         };
 
-        public static DateTime ToYjDateTime(this DateTime dt)
+        public static DateTime ToYJDateTime(this DateTime dt)
         {
-            return dt.AddHours(_clientTypeTimezone[ClientType] - YjDayStartHour);
+            return dt.AddHours(_clientTypeTimezone[ClientType] - YJDayStartHour);
         }
 
-        public static DateTime ToYjDate(this DateTime dt)
+        public static DateTime ToYJDate(this DateTime dt)
         {
-            return dt.ToYjDateTime().Date;
+            return dt.ToYJDateTime().Date;
         }
 
         public static string ToFormattedString(this DateTime dt)

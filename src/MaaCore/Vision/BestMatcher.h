@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Vision/Config/MatcherConfig.h"
 #include "VisionHelper.h"
+#include "Vision/Config/MatcherConfig.h"
 
 namespace asst
 {

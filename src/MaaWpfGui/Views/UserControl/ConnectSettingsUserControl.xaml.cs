@@ -31,26 +31,22 @@ namespace MaaWpfGui.Views.UserControl
 
         private void StartsWithScript_Drop(object sender, DragEventArgs e)
         {
-            if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                return;
+                // Note that you can have more than one file.
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                Instances.SettingsViewModel.StartsWithScript = files[0];
             }
-
-            // Note that you can have more than one file.
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            Instances.SettingsViewModel.StartsWithScript = files?[0] ?? string.Empty;
         }
 
         private void EndsWithScript_Drop(object sender, DragEventArgs e)
         {
-            if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                return;
+                // Note that you can have more than one file.
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                Instances.SettingsViewModel.EndsWithScript = files[0];
             }
-
-            // Note that you can have more than one file.
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            Instances.SettingsViewModel.EndsWithScript = files?[0] ?? string.Empty;
         }
 
         private void TextBox_PreviewDragOver(object sender, DragEventArgs e)

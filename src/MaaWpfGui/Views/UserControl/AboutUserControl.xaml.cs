@@ -14,7 +14,7 @@
 namespace MaaWpfGui.Views.UserControl
 {
     /// <summary>
-    /// AboutUserControl.xaml 的交互逻辑
+    /// OtherCombatSettingsUserControl.xaml 的交互逻辑
     /// </summary>
     public partial class AboutUserControl : System.Windows.Controls.UserControl
     {

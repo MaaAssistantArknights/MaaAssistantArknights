@@ -43,7 +43,7 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst)
     m_copilot_list_notification_ptr = start_2_tp->register_plugin<CopilotListNotificationPlugin>();
     m_subtasks.emplace_back(start_2_tp);
 
-    // 跳过“以下干员出战后将被禁用，是否继续？”对话框
+    //跳过“以下干员出战后将被禁用，是否继续？”对话框
     auto start_3_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
     start_3_tp->set_tasks({ "SkipForbiddenOperConfirm", "Stop" }).set_ignore_error(false);
     m_subtasks.emplace_back(start_3_tp);

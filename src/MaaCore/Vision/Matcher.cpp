@@ -39,7 +39,8 @@ Matcher::ResultOpt Matcher::analyze() const
     return m_result;
 }
 
-Matcher::RawResult Matcher::preproc_and_match(const cv::Mat& image, const MatcherConfig::Params& params)
+Matcher::RawResult Matcher::preproc_and_match(const cv::Mat& image,
+                                                                    const MatcherConfig::Params& params)
 {
     cv::Mat templ;
     std::string templ_name;

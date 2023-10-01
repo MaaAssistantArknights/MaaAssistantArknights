@@ -10,11 +10,12 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+using System.Reflection;
 
 namespace MaaWpfGui.Views.UserControl
 {
     /// <summary>
-    /// AwardSettingsUserControl.xaml 的交互逻辑
+    /// InfrastSettingsUserContril.xaml 的交互逻辑
     /// </summary>
     public partial class AwardSettingsUserControl : System.Windows.Controls.UserControl
     {

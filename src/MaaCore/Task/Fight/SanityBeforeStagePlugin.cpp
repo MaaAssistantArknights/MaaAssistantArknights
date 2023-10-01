@@ -93,6 +93,5 @@ void asst::SanityBeforeStagePlugin::get_sanity_before_stage()
         sanity_info["details"]["max_sanity"] = sanity_max;
         sanity_info["details"]["report_time"] = utils::get_format_time();
     } while (false);
-    // 如果识别失败，返回空json。缓存数据需要作废
     callback(AsstMsg::SubTaskExtraInfo, sanity_info);
 }

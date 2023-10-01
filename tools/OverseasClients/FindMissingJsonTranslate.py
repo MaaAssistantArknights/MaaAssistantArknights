@@ -9,9 +9,7 @@ regex_ignore_list = [
     "Sami",
     "SSSBuffChoose",
     "Roguelike@LevelName_normal_mode",
-    "Reclamation@ClickAnyZoneOcr",
-    "MiningActivities",
-    "RecruitingActivities"
+    "Reclamation@ClickAnyZoneOcr"
 ]
 
 server_list = [

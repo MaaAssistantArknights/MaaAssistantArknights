@@ -46,7 +46,7 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::_run()
             // 到第三层退出，选最高难度开水壶
             ProcessTask(*this, { theme + "@Roguelike@ChooseDifficulty_Hardest" }).run();
             // 重置为最低难度，需要凹开局直升时，保证在难度max下寻找直升干员，延后到找不到精二重置
-            if (start_with_elite_two == "0") {
+            if (start_with_elite_two == "false") {
                 status()->set_properties(Status::RoguelikeNeedChangeDifficulty, "0");
             }
         }
