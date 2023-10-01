@@ -10254,12 +10254,10 @@
     "Phantom@Roguelike@Abandon": {},
     "Phantom@Roguelike@ChooseDifficulty": {},
     "Phantom@Roguelike@ChooseOper": {
-        "onErrorNext": [
-            "Phantom@Roguelike@RecruitWithoutButton"
-        ],
         "next": [
             "Phantom@Roguelike@ChooseOperConfirm",
-            "Phantom@Roguelike@RecruitSkip"
+            "Phantom@Roguelike@Abandon",
+            "Phantom@Roguelike@ChooseOperConfirm#next"
         ]
     },
     "Phantom@Roguelike@CloseCollection": {
@@ -10554,15 +10552,12 @@
         ]
     },
     "Mizuki@Roguelike@ChooseOper": {
-        "onErrorNext": [
-            "Mizuki@Roguelike@RecruitWithoutButton"
-        ],
         "next": [
             "Mizuki@Roguelike@CloseCollectionContinue",
             "Mizuki@Roguelike@CloseCollectionClose",
             "Mizuki@Roguelike@ChooseOperConfirm",
-            "Mizuki@Roguelike@RecruitSkip",
-            "Mizuki@Roguelike@ReturnButtons#next"
+            "Mizuki@Roguelike@Abandon",
+            "Mizuki@Roguelike@ChooseOperConfirm#next"
         ]
     },
     "Mizuki@Roguelike@CloseCollection": {
@@ -11133,14 +11128,11 @@
         ]
     },
     "Sami@Roguelike@ChooseOper": {
-        "onErrorNext": [
-            "Sami@Roguelike@RecruitWithoutButton"
-        ],
         "next": [
             "Sami@Roguelike@CloseCollectionClose",
             "Sami@Roguelike@ChooseOperConfirm",
-            "Sami@Roguelike@RecruitSkip",
-            "Sami@Roguelike@ReturnButtons#next"
+            "Sami@Roguelike@Abandon",
+            "Sami@Roguelike@ChooseOperConfirm#next"
         ]
     },
     "Sami@Roguelike@CloseCollection": {
