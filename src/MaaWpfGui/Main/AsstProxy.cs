@@ -33,10 +33,10 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
+using static MaaWpfGui.Helper.Instances.Data;
 
 namespace MaaWpfGui.Main
 {
-    using static Instances.Data;
 #pragma warning disable SA1135 // Using directives should be qualified
 
     using AsstHandle = IntPtr;
@@ -531,7 +531,12 @@ namespace MaaWpfGui.Main
                         toast.Show();
                         if (isCoplitTaskChain)
                         {
-                            AsstStop();
+                            // 如果启用战斗列表，需要中止掉剩余的任务
+                            if (Instances.CopilotViewModel.UseCopilotList)
+                            {
+                                AsstStop(false);
+                            }
+
                             _runningState.SetIdle(true);
                             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
                         }
@@ -597,19 +602,27 @@ namespace MaaWpfGui.Main
                     break;
 
                 case AsstMsg.AllTasksCompleted:
-                    bool isMainTaskQueueAllCompleted = true;
+                    bool isMainTaskQueueAllCompleted = false;
                     var finishedTasks = details["finished_tasks"] as JArray;
-                    if (finishedTasks?.Count == 1)
+
+                    var taskList = finishedTasks?.Select(i => (AsstTaskId)i).ToList();
+                    if (taskList?.Count > 0)
                     {
-                        var uniqueFinishedTask = (AsstTaskId)finishedTasks[0];
-                        if (uniqueFinishedTask == (_latestTaskId.TryGetValue(TaskType.Copilot, out var copilotTaskId) ? copilotTaskId : 0)
-                            || uniqueFinishedTask == (_latestTaskId.TryGetValue(TaskType.RecruitCalc, out var recruitCalcTaskId) ? recruitCalcTaskId : 0)
-                            || uniqueFinishedTask == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0)
-                            || uniqueFinishedTask == (_latestTaskId.TryGetValue(TaskType.Depot, out var depotTaskId) ? depotTaskId : 0)
-                            || uniqueFinishedTask == (_latestTaskId.TryGetValue(TaskType.OperBox, out var operBoxTaskId) ? operBoxTaskId : 0)
-                            || uniqueFinishedTask == (_latestTaskId.TryGetValue(TaskType.Gacha, out var gachaTaskId) ? gachaTaskId : 0))
+                        isMainTaskQueueAllCompleted = true;
+
+                        // 只要有非主界面任务时，就不执行任务链结束后操作
+                        foreach (AsstTaskId taskId in taskList)
                         {
-                            isMainTaskQueueAllCompleted = false;
+                            if (taskId == (_latestTaskId.TryGetValue(TaskType.Copilot, out var copilotTaskId) ? copilotTaskId : 0)
+                                || taskId == (_latestTaskId.TryGetValue(TaskType.RecruitCalc, out var recruitCalcTaskId) ? recruitCalcTaskId : 0)
+                                || taskId == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0)
+                                || taskId == (_latestTaskId.TryGetValue(TaskType.Depot, out var depotTaskId) ? depotTaskId : 0)
+                                || taskId == (_latestTaskId.TryGetValue(TaskType.OperBox, out var operBoxTaskId) ? operBoxTaskId : 0)
+                                || taskId == (_latestTaskId.TryGetValue(TaskType.Gacha, out var gachaTaskId) ? gachaTaskId : 0))
+                            {
+                                isMainTaskQueueAllCompleted = false;
+                                break;
+                            }
                         }
                     }
 
@@ -1962,11 +1975,16 @@ namespace MaaWpfGui.Main
         /// <summary>
         /// 停止。
         /// </summary>
+        /// <param name="clearTask">是否清理_latestTaskId</param>
         /// <returns>是否成功。</returns>
-        public bool AsstStop()
+        public bool AsstStop(bool clearTask = true)
         {
             bool ret = AsstStop(_handle);
-            _latestTaskId.Clear();
+            if (clearTask)
+            {
+                _latestTaskId.Clear();
+            }
+
             return ret;
         }
 
