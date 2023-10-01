@@ -729,7 +729,7 @@ asst::TaskData::taskptr_t asst::TaskData::generate_match_task_info(std::string_v
         match_task_info_ptr->templ_names = { std::string(name) + ".png" };
     }
     else if (templ_opt->is_string()) {
-        match_task_info_ptr->templ_names = { templ_opt->as_string() + ".png" };
+        match_task_info_ptr->templ_names = { templ_opt->as_string() };
     }
     else if (templ_opt->is_array()) {
         match_task_info_ptr->templ_names = to_string_list(templ_opt->as_array());
