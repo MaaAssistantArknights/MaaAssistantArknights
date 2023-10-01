@@ -28,6 +28,7 @@ namespace MaaWpfGui.Constants
         public const string Localization = "GUI.Localization";
         public const string MinimizeToTray = "GUI.MinimizeToTray";
         public const string HideCloseButton = "GUI.HideCloseButton";
+        public const string UseNotify = "GUI.UseNotify";
         public const string UseLogItemDateFormat = "GUI.UseLogItemDateFormat";
         public const string LogItemDateFormat = "GUI.LogItemDateFormatString";
         public const string WindowPlacement = "GUI.Placement";
@@ -38,6 +39,7 @@ namespace MaaWpfGui.Constants
         public const string CustomStageCode = "GUI.CustomStageCode";
         public const string InverseClearMode = "GUI.InverseClearMode";
         public const string WindowTitlePrefix = "GUI.WindowTitlePrefix";
+        public const string DarkMode = "GUI.DarkMode";
 
         public const string AddressHistory = "Connect.AddressHistory";
         public const string AutoDetect = "Connect.AutoDetect";
@@ -101,7 +103,6 @@ namespace MaaWpfGui.Constants
         public const string RoguelikeEnableNonfriendSupport = "Roguelike.RoguelikeEnableNonfriendSupport";
         public const string RoguelikeStartsCount = "Roguelike.StartsCount";
         public const string RoguelikeInvestmentEnabled = "Roguelike.InvestmentEnabled";
-        public const string RoguelikeInvestmentEnterSecondFloor = "Roguelike.InvestmentEnterSecondFloor";
         public const string RoguelikeRefreshTraderWithDice = "Roguelike.RefreshTraderWithDice";
         public const string RoguelikeInvestsCount = "Roguelike.InvestsCount";
         public const string RoguelikeStopWhenInvestmentFull = "Roguelike.StopWhenInvestmentFull";

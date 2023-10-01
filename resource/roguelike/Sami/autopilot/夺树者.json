@@ -135,9 +135,9 @@
                 5
             ],
             "direction": "right"
-        },
+        }, 
         {
-            "groups": [
+            "groups": [                
                 "速狙",
                 "术师",
                 "盾法",
@@ -149,7 +149,7 @@
                 5
             ],
             "direction": "up"
-        },
+        },        
         {
             "groups": [
                 "玛恩纳"
@@ -161,7 +161,7 @@
             "direction": "up"
         },
         {
-            "groups": [
+            "groups": [                
                 "群奶",
                 "高台输出"
             ],
@@ -172,7 +172,7 @@
             "direction": "right"
         },
         {
-            "groups": [
+            "groups": [                
                 "单奶"
             ],
             "location": [
@@ -182,7 +182,7 @@
             "direction": "left"
         },
         {
-            "groups": [
+            "groups": [                
                 "单奶"
             ],
             "location": [
@@ -192,7 +192,7 @@
             "direction": "left"
         },
         {
-            "groups": [
+            "groups": [   
                 "高台输出"
             ],
             "location": [
@@ -202,7 +202,7 @@
             "direction": "right"
         },
         {
-            "groups": [
+            "groups": [   
                 "处决者",
                 "情报官",
                 "炮灰",
@@ -219,7 +219,7 @@
             ]
         },
         {
-            "groups": [
+            "groups": [                   
                 "地面远程"
             ],
             "location": [

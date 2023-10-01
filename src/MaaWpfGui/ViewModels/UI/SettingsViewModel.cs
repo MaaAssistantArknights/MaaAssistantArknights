@@ -29,7 +29,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using HandyControl.Controls;
 using HandyControl.Data;
-using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -1602,6 +1601,9 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _roguelikeMode, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeMode, value);
+
+                // 烧开水模式可选项
+                this.RoguelikeStartWithEliteTwoEnable = MapRoguelikeStartWithEliteTwoEnable(value);
             }
         }
 
@@ -1687,6 +1689,26 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private string _roguelikeStartWithEliteTwoEnable = MapRoguelikeStartWithEliteTwoEnable(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeMode, "0"));
+
+        public string RoguelikeStartWithEliteTwoEnable
+        {
+            get
+            {
+                return _roguelikeStartWithEliteTwoEnable;
+            }
+
+            set
+            {
+                SetAndNotify(ref _roguelikeStartWithEliteTwoEnable, value);
+            }
+        }
+
+        private static string MapRoguelikeStartWithEliteTwoEnable(string mode)
+        {
+            return mode == "4" ? "Visible" : "Collapsed";
+        }
+
         private string _roguelikeUseSupportUnit = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeUseSupportUnit, false.ToString());
 
         /// <summary>
@@ -1752,21 +1774,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _roguelikeInvestmentEnterSecondFloor = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeInvestmentEnterSecondFloor, true.ToString());
-
-        /// <summary>
-        /// Gets or sets a value indicating whether investment is enabled.
-        /// </summary>
-        public bool RoguelikeInvestmentEnterSecondFloor
-        {
-            get => bool.Parse(_roguelikeInvestmentEnterSecondFloor);
-            set
-            {
-                SetAndNotify(ref _roguelikeInvestmentEnterSecondFloor, value.ToString());
-                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeInvestmentEnterSecondFloor, value.ToString());
-            }
-        }
-
         private string _roguelikeRefreshTraderWithDice = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeRefreshTraderWithDice, false.ToString());
 
         public bool RoguelikeRefreshTraderWithDice
@@ -1776,6 +1783,18 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _roguelikeRefreshTraderWithDice, value.ToString());
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeRefreshTraderWithDice, value.ToString());
+            }
+        }
+
+        private bool _roguelikeRefreshTraderWithDiceEnabled = false;
+
+        public bool RoguelikeRefreshTraderWithDiceEnabled
+        {
+            get => _roguelikeRefreshTraderWithDiceEnabled;
+            set
+            {
+                SetAndNotify(ref _roguelikeRefreshTraderWithDiceEnabled, value);
+                RoguelikeRefreshTraderWithDice = false;
             }
         }
 
@@ -3113,16 +3132,18 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _useNotify = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseNotify, bool.TrueString));
+
         /// <summary>
         /// Gets or sets a value indicating whether to use notification.
         /// </summary>
         public bool UseNotify
         {
-            get => ConfigFactory.CurrentConfig.GuiConfig.UseNotify;
+            get => _useNotify;
             set
             {
-                ConfigFactory.CurrentConfig.GuiConfig.UseNotify = value;
-                NotifyOfPropertyChange();
+                SetAndNotify(ref _useNotify, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.UseNotify, value.ToString());
                 if (value)
                 {
                     Execute.OnUIThread(() =>
@@ -3253,11 +3274,38 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         /// <summary>
+        /// 表示深色模式的类型。
+        /// </summary>
+        public enum DarkModeType
+        {
+            /// <summary>
+            /// 明亮的主题。
+            /// </summary>
+            Light,
+
+            /// <summary>
+            /// 暗黑的主题。
+            /// </summary>
+            Dark,
+
+            /// <summary>
+            /// 与操作系统的深色模式同步。
+            /// </summary>
+            SyncWithOs,
+        }
+
+        private DarkModeType _darkModeType =
+            Enum.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.DarkMode, DarkModeType.Light.ToString()),
+                out DarkModeType temp)
+                ? temp
+                : DarkModeType.Light;
+
+        /// <summary>
         /// Gets or sets the dark mode.
         /// </summary>
         public string DarkMode
         {
-            get => ConfigFactory.CurrentConfig.GuiConfig.DarkMode.ToString();
+            get => _darkModeType.ToString();
             set
             {
                 if (!Enum.TryParse(value, out DarkModeType tempEnumValue))
@@ -3265,8 +3313,8 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
-                ConfigFactory.CurrentConfig.GuiConfig.DarkMode = tempEnumValue;
-                NotifyOfPropertyChange();
+                SetAndNotify(ref _darkModeType, tempEnumValue);
+                ConfigurationHelper.SetValue(ConfigurationKeys.DarkMode, value);
                 SwitchDarkMode();
 
                 /*
@@ -3285,7 +3333,10 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void SwitchDarkMode()
         {
-            DarkModeType darkModeType = ConfigFactory.CurrentConfig.GuiConfig.DarkMode;
+            DarkModeType darkModeType =
+                Enum.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.DarkMode, DarkModeType.Light.ToString()),
+                    out DarkModeType temp)
+                    ? temp : DarkModeType.Light;
             switch (darkModeType)
             {
                 case DarkModeType.Light:
@@ -3296,7 +3347,7 @@ namespace MaaWpfGui.ViewModels.UI
                     ThemeHelper.SwitchToDarkMode();
                     break;
 
-                case DarkModeType.SyncWithOS:
+                case DarkModeType.SyncWithOs:
                     ThemeHelper.SwitchToSyncWithOsMode();
                     break;
             }
@@ -3538,6 +3589,7 @@ namespace MaaWpfGui.ViewModels.UI
             switch (RoguelikeTheme)
             {
                 case "Phantom":
+                    RoguelikeRefreshTraderWithDiceEnabled = false;
 
                     foreach (var item in new ObservableCollection<CombinedData>
                     {
@@ -3550,6 +3602,7 @@ namespace MaaWpfGui.ViewModels.UI
                     break;
 
                 case "Mizuki":
+                    RoguelikeRefreshTraderWithDiceEnabled = true;
 
                     foreach (var item in new ObservableCollection<CombinedData>
                     {
@@ -3565,6 +3618,7 @@ namespace MaaWpfGui.ViewModels.UI
                     break;
 
                 case "Sami":
+                    RoguelikeRefreshTraderWithDiceEnabled = false;
 
                     foreach (var item in new ObservableCollection<CombinedData>
                     {

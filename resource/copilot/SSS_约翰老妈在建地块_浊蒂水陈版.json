@@ -229,7 +229,7 @@
                 {
                     "type": "SkillUsage",
                     "name": "斥罪",
-                    "skill_usage": 1
+                    "skill_usage":  1
                 },
                 {
                     "type": "Deploy",
@@ -373,7 +373,7 @@
                 {
                     "type": "SkillUsage",
                     "name": "斥罪",
-                    "skill_usage": 1
+                    "skill_usage":  1
                 },
                 {
                     "type": "Deploy",
@@ -552,7 +552,7 @@
                 {
                     "type": "SkillUsage",
                     "name": "斥罪",
-                    "skill_usage": 1
+                    "skill_usage":  1
                 },
                 {
                     "type": "Deploy",
@@ -748,7 +748,7 @@
                 {
                     "type": "SkillUsage",
                     "name": "斥罪",
-                    "skill_usage": 1
+                    "skill_usage":  1
                 },
                 {
                     "type": "Deploy",
@@ -931,7 +931,7 @@
                 {
                     "type": "SkillUsage",
                     "name": "斥罪",
-                    "skill_usage": 1
+                    "skill_usage":  1
                 },
                 {
                     "type": "Deploy",
@@ -1180,7 +1180,7 @@
                 {
                     "type": "SkillUsage",
                     "name": "斥罪",
-                    "skill_usage": 1
+                    "skill_usage":  1
                 },
                 {
                     "type": "Deploy",

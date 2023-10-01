@@ -1766,7 +1766,6 @@ namespace MaaWpfGui.Main
         /// </param>
         /// <param name="starts">开始探索次数。</param>
         /// <param name="investmentEnabled">是否投资源石锭</param>
-        /// <param name="investmentEnterSecondFloor">是否进入第二层</param>
         /// <param name="invests">投资源石锭次数。</param>
         /// <param name="stopWhenFull">投资满了自动停止任务。</param>
         /// <param name="squad"><paramref name="squad"/> TODO.</param>
@@ -1778,7 +1777,7 @@ namespace MaaWpfGui.Main
         /// <param name="theme">肉鸽名字。["Phantom", "Mizuki", "Sami"]</param>
         /// <param name="refreshTraderWithDice">是否用骰子刷新商店购买特殊商品，目前支持水月肉鸽的指路鳞</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendRoguelike(int mode, int starts, bool investmentEnabled, bool investmentEnterSecondFloor, int invests, bool stopWhenFull,
+        public bool AsstAppendRoguelike(int mode, int starts, bool investmentEnabled, int invests, bool stopWhenFull,
             string squad, string roles, string coreChar, bool startWithEliteTwo, bool useSupport, bool enableNonFriendSupport, string theme, bool refreshTraderWithDice)
         {
             var taskParams = new JObject
@@ -1786,7 +1785,6 @@ namespace MaaWpfGui.Main
                 ["mode"] = mode,
                 ["starts_count"] = starts,
                 ["investment_enabled"] = investmentEnabled,
-                ["investment_enter_second_floor"] = investmentEnterSecondFloor,
                 ["investments_count"] = invests,
                 ["stop_when_investment_full"] = stopWhenFull,
                 ["theme"] = theme,
@@ -1815,7 +1813,7 @@ namespace MaaWpfGui.Main
             taskParams["start_with_elite_two"] = startWithEliteTwo;
             taskParams["use_support"] = useSupport;
             taskParams["use_nonfriend_support"] = enableNonFriendSupport;
-            taskParams["refresh_trader_with_dice"] = theme == "Mizuki" && refreshTraderWithDice;
+            taskParams["refresh_trader_with_dice"] = refreshTraderWithDice;
 
             AsstTaskId id = AsstAppendTaskWithEncoding("Roguelike", taskParams);
             _latestTaskId[TaskType.Roguelike] = id;

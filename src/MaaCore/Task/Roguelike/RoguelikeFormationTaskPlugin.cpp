@@ -112,15 +112,15 @@ void asst::RoguelikeFormationTaskPlugin::clear_and_reselect()
         int require = condition.threshold;
         for (const std::string& group_name : condition.groups) {
             for (const auto& oper : oper_list) {
-                std::vector<int> group_ids = RoguelikeRecruit.get_group_id(rogue_theme, oper.name);
+                std::vector <int> group_ids = RoguelikeRecruit.get_group_id(rogue_theme, oper.name);
                 for (const auto& group_id : group_ids) {
                     std::string oper_group = group_list[group_id];
                     if (oper_group == group_name) {
                         sorted_oper_list.emplace_back(oper);
                         count++;
-                        break; // 每个干员只能选一次
+                        break;//每个干员只能选一次
                     }
-                }
+                }                
                 if (count == require) break;
             }
             if (count == require) break;

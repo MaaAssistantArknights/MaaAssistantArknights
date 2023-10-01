@@ -35,10 +35,10 @@
                                 "地面阻挡",
                                 "召唤"
                             ],
-                            "threshold": 1,
+                            "threshold": 2,
                             "is_less": true,
                             "offset": 200,
-                            "Doc": "地面阻挡输出位≤1时，凯尔希的招募优先级+200"
+                            "Doc": "地面阻挡输出位≤2时，凯尔希的招募优先级+200"
                         },
                         {
                             "groups": [
@@ -52,7 +52,7 @@
                         },
                         {
                             "groups": [
-                                "地面阻挡",
+                                "重装",
                                 "水陈",
                                 "玛恩纳"
                             ],
@@ -95,14 +95,6 @@
                             "Doc": "地面阻挡<1时，玛恩纳的招募优先级-350"
                         }
                     ]
-                },
-                {
-                    "name": "银灰"
-                },
-                {
-                    "name": "龙舌兰",
-                    "skill": 2,
-                    "promote_priority": 350
                 }
             ]
         },
@@ -430,7 +422,7 @@
                             "threshold": 1,
                             "is_less": true,
                             "offset": -300,
-                            "Doc": "地面阻挡≤1时，招募优先级-500"
+                            "Doc": "地面阻挡≤1时，玛恩纳的招募优先级-500"
                         }
                     ]
                 }
@@ -531,7 +523,7 @@
                     "name": "星熊",
                     "skill": 2,
                     "recruit_priority": 611,
-                    "promote_priority": 650,
+                    "promote_priority": 610,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -3494,11 +3486,11 @@
                     "skill": 2
                 },
                 {
-                    "name": "玫兰莎"
-                },
-                {
                     "name": "龙舌兰",
                     "skill": 2
+                },
+                {
+                    "name": "玫兰莎"
                 },
                 {
                     "name": "预备干员-近战",

@@ -1242,7 +1242,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             return Instances.AsstProxy.AsstAppendRoguelike(
                 mode, Instances.SettingsViewModel.RoguelikeStartsCount,
-                Instances.SettingsViewModel.RoguelikeInvestmentEnabled, Instances.SettingsViewModel.RoguelikeInvestmentEnterSecondFloor, Instances.SettingsViewModel.RoguelikeInvestsCount, Instances.SettingsViewModel.RoguelikeStopWhenInvestmentFull,
+                Instances.SettingsViewModel.RoguelikeInvestmentEnabled, Instances.SettingsViewModel.RoguelikeInvestsCount, Instances.SettingsViewModel.RoguelikeStopWhenInvestmentFull,
                 Instances.SettingsViewModel.RoguelikeSquad, Instances.SettingsViewModel.RoguelikeRoles, Instances.SettingsViewModel.RoguelikeCoreChar,
                 Instances.SettingsViewModel.RoguelikeStartWithEliteTwo, Instances.SettingsViewModel.RoguelikeUseSupportUnit,
                 Instances.SettingsViewModel.RoguelikeEnableNonfriendSupport, Instances.SettingsViewModel.RoguelikeTheme, Instances.SettingsViewModel.RoguelikeRefreshTraderWithDice);
