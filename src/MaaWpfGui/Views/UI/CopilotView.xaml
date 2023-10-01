@@ -154,6 +154,8 @@
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
+                        Maximum="9999"
+                        Minimum="0"
                         Value="{Binding LoopTimes}" />
                 </StackPanel>
             </StackPanel>
