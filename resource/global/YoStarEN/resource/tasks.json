@@ -96,36 +96,6 @@
             "now open"
         ]
     },
-    "DH-Open": {
-        "text": [
-            "Dossoles",
-            "Holiday",
-            "Rerun",
-            "open"
-        ]
-    },
-    "DV-Open": {
-        "text": [
-            "Event",
-            "Dorothy's",
-            "Vision",
-            "open"
-        ]
-    },
-    "IC-Open": {
-        "text": [
-            "Event",
-            "Ideal",
-            "City",
-            "open"
-        ]
-    },
-    "LE-Open": {
-        "text": [
-            "Rerun",
-            "open"
-        ]
-    },
     "IWChapterToIW": {
         "algorithm": "OcrDetect",
         "roi": [
@@ -172,6 +142,55 @@
         "text": [
             "Enter",
             "Event"
+        ]
+    },
+    "IC-Open": {
+        "text": [
+            "Event",
+            "Ideal",
+            "City",
+            "open"
+        ]
+    },
+    "DV-Open": {
+        "text": [
+            "Event",
+            "Dorothy's",
+            "Vision",
+            "open"
+        ]
+    },
+    "LE-Open": {
+        "text": [
+            "Rerun",
+            "open"
+        ]
+    },
+    "SN-Open": {
+        "text": [
+            "open"
+        ]
+    },
+    "SN-Chapter2": {
+        "text": [
+            "Lost Flagship",
+            "Lost",
+            "Flagship"
+        ]
+    },
+    "SN-Chapter3": {
+        "text": [
+            "Nameless Ocean",
+            "Nameless",
+            "Ocean"
+        ]
+    },
+    "DH-Open": {
+        "text": [
+            "Dossoles",
+            "Holiday",
+            "Rerun",
+            "open"
         ]
     },
     "CharsNameOcrReplace": {
@@ -5600,25 +5619,6 @@
     "Roguelike@RecruitSupportConfirm": {
         "text": [
             "Recruit support"
-        ]
-    },
-    "SN-Open": {
-        "text": [
-            "open"
-        ]
-    },
-    "SN-Chapter2": {
-        "text": [
-            "Lost Flagship",
-            "Lost",
-            "Flagship"
-        ]
-    },
-    "SN-Chapter3": {
-        "text": [
-            "Nameless Ocean",
-            "Nameless",
-            "Ocean"
         ]
     },
     "SSSBegin": {
