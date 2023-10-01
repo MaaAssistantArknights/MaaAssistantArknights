@@ -147,7 +147,13 @@
                     "pattern": "MatchTemplate"
                 },
                 "template": {
-                    "type": "string",
+                    "type": [
+                        "array",
+                        "string"
+                    ],
+                    "items": {
+                        "type": "string"
+                    },
                     "default": "",
                     "description": "Optional, the file name of the image to be matched\nDefauts to \"task name.png\", If not filled"
                 },
