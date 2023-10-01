@@ -1267,7 +1267,10 @@ namespace MaaWpfGui.Main
             }
 
             string host = addresses[0].Equals("emulator") ? "127.0.0.1" : addresses[0];
-            int port = int.Parse(addresses[1]);
+            if (!int.TryParse(addresses[1], out int port))
+            {
+                return false;
+            }
 
             using var client = new TcpClient();
             try
