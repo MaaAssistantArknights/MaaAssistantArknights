@@ -746,6 +746,8 @@ asst::TaskData::taskptr_t asst::TaskData::generate_match_task_info(std::string_v
     auto threshold_opt = task_json.find("threshold");
     if (!threshold_opt) {
         match_task_info_ptr->templ_thresholds = default_ptr->templ_thresholds;
+        match_task_info_ptr->templ_thresholds.resize(match_task_info_ptr->templ_names.size(),
+                                                     default_ptr->templ_thresholds.back());
     }
     else if (threshold_opt->is_number()) {
         match_task_info_ptr->templ_thresholds = { threshold_opt->as_double() };
