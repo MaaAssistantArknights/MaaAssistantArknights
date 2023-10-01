@@ -151,7 +151,7 @@ int asst::RoguelikeRecruitSupportAnalyzer::match_elite(const Rect& roi, const in
         auto task_ptr = Task.get(task_name);
         analyzer.set_task_info(task_ptr);
         analyzer.set_roi(roi);
-        analyzer.set_threshold(Task.get<MatchTaskInfo>(task_name)->templ_threshold);
+        analyzer.set_threshold(Task.get<MatchTaskInfo>(task_name)->templ_thresholds.front());
 
         if (!analyzer.analyze()) {
             continue;
