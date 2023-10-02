@@ -9,7 +9,7 @@
             "direction": "down"
         }
     ],
-    "deploy_plan": [        
+    "deploy_plan": [
         {
             "groups": [
                 "投锋",
