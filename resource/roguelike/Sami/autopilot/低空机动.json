@@ -18,10 +18,6 @@
     ],
     "blacklist_location": [
         [
-            5,
-            2
-        ],
-        [
             9,
             1
         ],
@@ -70,6 +66,8 @@
         },
         {
             "groups": [
+                "伊内丝",
+                "地面远程",
                 "地面阻挡",
                 "处决者",
                 "回费",
@@ -84,70 +82,20 @@
         {
             "groups": [
                 "焰苇",
-                "单奶",
+                "单奶"
+            ],
+            "location": [
+                4,
+                3
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
                 "盾法"
             ],
             "location": [
                 4,
-                3
-            ],
-            "direction": "right"
-        },
-        {
-            "groups": [
-                "回费"
-            ],
-            "location": [
-                7,
-                1
-            ],
-            "direction": "down"
-        },
-        {
-            "groups": [
-                "地面阻挡",
-                "处决者",
-                "其他地面"
-            ],
-            "location": [
-                4,
-                2
-            ],
-            "direction": "right"
-        },
-        {
-            "groups": [
-                "狙击",
-                "高台输出",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                7,
-                3
-            ],
-            "direction": "left"
-        },
-        {
-            "groups": [
-                "奶",
-                "高台输出",
-                "狙击",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                6,
-                1
-            ],
-            "direction": "down"
-        },
-        {
-            "groups": [
-                "领主"
-            ],
-            "location": [
-                3,
                 3
             ],
             "direction": "up"
@@ -166,7 +114,90 @@
         },
         {
             "groups": [
+                "回费"
+            ],
+            "location": [
+                7,
+                1
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "玛恩纳",
+                "处决者",
+                "地刺",
+                "其他地面"
+            ],
+            "location": [
+                4,
+                2
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
+                "单奶",
+                "高台输出",
+                "辅助",
+                "其他高台"
+            ],
+            "location": [
+                7,
+                3
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "狙击",
+                "奶"
+            ],
+            "location": [
+                8,
+                2
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "群奶",
+                "高台输出",
+                "狙击",
+                "辅助",
+                "其他高台"
+            ],
+            "location": [
+                6,
+                1
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "领主"
+            ],
+            "location": [
+                3,
+                3
+            ],
+            "direction": "up"
+        },
+        {
+            "groups": [
                 "地面阻挡",
+                "处决者",
+                "其他地面"
+            ],
+            "location": [
+                5,
+                2
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "炮灰",
                 "处决者",
                 "其他地面"
             ],
@@ -186,19 +217,29 @@
                 5,
                 1
             ],
-            "direction": "down"
+            "direction": "left"
         },
         {
             "groups": [
-                "处决者",
-                "地面阻挡",
-                "其他地面"
+                "辅助",
+                "高台输出",
+                "奶"
             ],
             "location": [
-                2,
-                6
+                4,
+                1
             ],
             "direction": "left"
+        },
+        {
+            "groups": [
+                "补给站"
+            ],
+            "location": [
+                4,
+                4
+            ],
+            "direction": "up"
         }
     ]
 }

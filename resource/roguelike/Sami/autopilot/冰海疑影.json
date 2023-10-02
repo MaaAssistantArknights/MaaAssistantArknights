@@ -7,32 +7,49 @@
                 6
             ],
             "direction": "right"
+        },
+        {
+            "location": [
+                1,
+                4
+            ],
+            "direction": "right"
         }
     ],
     "blacklist_location": [
         [
-            1,
-            4
-        ],
-        [
-            1,
-            6
-        ],
-        [
-            2,
+            5,
             6
         ]
     ],
     "deploy_plan": [
         {
             "groups": [
-                "回费"
+                "伊内丝"
             ],
             "location": [
                 3,
                 5
             ],
-            "direction": "right"
+            "direction": "right",
+            "condition": [
+                0,
+                28
+            ]
+        },
+        {
+            "groups": [
+                "回费"
+            ],
+            "location": [
+                3,
+                6
+            ],
+            "direction": "up",
+            "condition": [
+                0,
+                28
+            ]
         },
         {
             "groups": [
@@ -45,7 +62,11 @@
                 5,
                 5
             ],
-            "direction": "right"
+            "direction": "right",
+            "condition": [
+                0,
+                28
+            ]
         },
         {
             "groups": [
@@ -57,7 +78,11 @@
                 3,
                 4
             ],
-            "direction": "right"
+            "direction": "right",
+            "condition": [
+                0,
+                28
+            ]
         },
         {
             "groups": [
@@ -72,7 +97,11 @@
                 4,
                 4
             ],
-            "direction": "right"
+            "direction": "right",
+            "condition": [
+                0,
+                28
+            ]
         },
         {
             "groups": [
@@ -82,7 +111,11 @@
                 1,
                 5
             ],
-            "direction": "right"
+            "direction": "right",
+            "condition": [
+                0,
+                28
+            ]
         },
         {
             "groups": [
@@ -97,7 +130,11 @@
                 4,
                 6
             ],
-            "direction": "right"
+            "direction": "right",
+            "condition": [
+                0,
+                28
+            ]
         },
         {
             "groups": [
@@ -112,7 +149,11 @@
                 10,
                 2
             ],
-            "direction": "down"
+            "direction": "down",
+            "condition": [
+                0,
+                28
+            ]
         },
         {
             "groups": [
@@ -127,7 +168,7 @@
             "direction": "right",
             "condition": [
                 0,
-                26
+                27
             ]
         },
         {
@@ -143,7 +184,11 @@
                 3,
                 5
             ],
-            "direction": "right"
+            "direction": "right",
+            "condition": [
+                0,
+                28
+            ]
         },
         {
             "groups": [
@@ -156,7 +201,7 @@
             "direction": "right",
             "condition": [
                 0,
-                26
+                27
             ]
         },
         {

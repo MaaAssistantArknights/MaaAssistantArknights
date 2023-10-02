@@ -9,7 +9,35 @@
             "direction": "left"
         }
     ],
+    "blacklist_location": [
+        [
+            7,
+            1
+        ],
+        [
+            8,
+            1
+        ],
+        [
+            7,
+            5
+        ],
+        [
+            8,
+            5
+        ]
+    ],
     "deploy_plan": [
+        {
+            "groups": [
+                "伊内丝"
+            ],
+            "location": [
+                8,
+                3
+            ],
+            "direction": "left"
+        },
         {
             "groups": [
                 "回费"
@@ -18,7 +46,11 @@
                 9,
                 3
             ],
-            "direction": "left"
+            "direction": "left",
+            "condition": [
+                0,
+                10
+            ]
         },
         {
             "groups": [
@@ -35,6 +67,20 @@
         },
         {
             "groups": [
+                "处决者"
+            ],
+            "location": [
+                1,
+                1
+            ],
+            "direction": "left",
+            "condition": [
+                0,
+                5
+            ]
+        },
+        {
+            "groups": [
                 "召唤",
                 "高台输出",
                 "盾法",
@@ -48,8 +94,35 @@
         },
         {
             "groups": [
-                "地面阻挡",
+                "提丰",
+                "奶",
+                "高台输出",
+                "辅助"
+            ],
+            "location": [
+                9,
+                4
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
                 "处决者"
+            ],
+            "location": [
+                1,
+                5
+            ],
+            "direction": "left",
+            "condition": [
+                0,
+                15
+            ]
+        },
+        {
+            "groups": [
+                "玛恩纳",
+                "地面阻挡"
             ],
             "location": [
                 7,
@@ -79,13 +152,21 @@
         },
         {
             "groups": [
-                "奶",
-                "高台输出",
-                "辅助"
+                "处决者"
             ],
             "location": [
-                7,
-                2
+                5,
+                3
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "处决者"
+            ],
+            "location": [
+                6,
+                3
             ],
             "direction": "left"
         }
