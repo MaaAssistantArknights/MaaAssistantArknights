@@ -1316,7 +1316,6 @@ namespace MaaWpfGui.Main
             if (Instances.SettingsViewModel.AutoDetectConnection)
             {
                 string bsHvAddress = Instances.SettingsViewModel.TryToSetBlueStacksHyperVAddress();
-                bool adbConfResult = Instances.SettingsViewModel.DetectAdbConfig(ref error);
 
                 if (String.Equals(Instances.SettingsViewModel.ConnectAddress, bsHvAddress))
                 {
@@ -1326,9 +1325,12 @@ namespace MaaWpfGui.Main
 
                 // tcp连接测试端口是否有效，超时时间500ms
                 // 如果是本地设备，没有冒号
-                bool adbResult = !Instances.SettingsViewModel.ConnectAddress.Contains(":") ||
+                bool adbResult =
+                    !Instances.SettingsViewModel.ConnectAddress.Contains(":") &&
+                    !string.IsNullOrEmpty(Instances.SettingsViewModel.ConnectAddress) ||
                     IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
                 bool bsResult = IfPortEstablished(bsHvAddress);
+                bool adbConfResult = Instances.SettingsViewModel.DetectAdbConfig(ref error);
 
                 if (adbResult)
                 {
