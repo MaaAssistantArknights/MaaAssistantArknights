@@ -2135,7 +2135,9 @@
         ]
     },
     "StartToWakeUpOCR": {
-        "text": "START"
+        "text": [
+            "START"
+        ]
     },
     "TodaysSupplies": {
         "algorithm": "OcrDetect",
