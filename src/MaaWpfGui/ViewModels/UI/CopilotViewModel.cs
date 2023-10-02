@@ -255,8 +255,9 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
-                var doc = (JObject)json["doc"];
+                AddLog(LocalizationHelper.GetString("CopilotTip"));
 
+                var doc = (JObject)json["doc"];
                 string title = string.Empty;
                 if (doc != null && doc.TryGetValue("title", out var titleValue))
                 {
@@ -374,8 +375,6 @@ namespace MaaWpfGui.ViewModels.UI
                     File.Delete(TempCopilotFile);
                     File.WriteAllText(TempCopilotFile, json.ToString());
                 }
-
-                AddLog(LocalizationHelper.GetString("CopilotTip"));
             }
             catch (Exception)
             {
