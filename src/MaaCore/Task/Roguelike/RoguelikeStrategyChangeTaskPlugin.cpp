@@ -38,38 +38,28 @@ bool asst::RoguelikeStrategyChangeTaskPlugin::_run()
     std::string theme = m_roguelike_theme;
     std::string mode = status()->get_properties(Status::RoguelikeMode).value();
 
-    if (mode == "0") {
-        auto image = ctrler()->get_image();
-        OCRer analyzer(image);
-        analyzer.set_task_info(theme + "@Roguelike@LevelName_mode0");
-        if (!analyzer.analyze()) {
-            return false;
-        }
-        const auto& reached_level = analyzer.get_result().front().text;
-        auto& levelname_list = Task.get<OcrTaskInfo>(theme + "@Roguelike@LevelName_mode0")->text;
-        for (int i = 0; i < levelname_list.size(); i++) {
-            if (levelname_list[i] == reached_level) {
-                switch (i) {
-                case 0:
-                    // 第一层
-                    Task.set_task_base(theme + "@Roguelike@Stages", theme + "@Roguelike@Stages_aggressive");
-                    break;
-                case 1:
-                    // 中间层，发育
-                    Task.set_task_base(theme + "@Roguelike@Stages", theme + "@Roguelike@Stages_pragmatic");
-                    break;
-                case 2:
-                    // 高层，避战
-                    Task.set_task_base(theme + "@Roguelike@Stages", theme + "@Roguelike@Stages_default");
-                    break;
-                default:
-                    Task.set_task_base(theme + "@Roguelike@Stages", theme + "@Roguelike@Stages_default");
-                    break;
-                }
-                break;
-            }
-        }
+    std::string task_name = theme + "@Roguelike@LevelName_mode" + mode;
+    if (Task.get(task_name) == nullptr) {
+        Log.info("Task", task_name, "doesn't exist.");
+        return false;
     }
+
+    OCRer analyzer(ctrler()->get_image());
+    analyzer.set_task_info(task_name);
+    if (!analyzer.analyze()) {
+        return false;
+    }
+
+    std::string stages_task_name = theme + "@Roguelike@Stages";
+    std::string current_strategy = analyzer.get_result().front().text;
+    std::string strategy_task_name = stages_task_name + current_strategy;
+
+    if (Task.get(strategy_task_name) == nullptr) {
+        Log.error("Strategy task", strategy_task_name, "doesn't exist!");
+        return false;
+    }
+
+    Task.set_task_base(stages_task_name, strategy_task_name);
 
     return true;
 }

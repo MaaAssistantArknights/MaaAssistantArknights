@@ -10435,9 +10435,35 @@
     },
     "Phantom@Roguelike@LevelName_mode0": {
         "text": [
-            "迷雾歧途",
-            "噩梦之始",
-            "渴欲大厅"
+            "_aggressive",
+            "_pragmatic",
+            "_default"
+        ],
+        "ocrReplace": [
+            [
+                "迷雾歧途",
+                "_aggressive"
+            ],
+            [
+                "落阳庭院",
+                "_aggressive"
+            ],
+            [
+                "故土残躯",
+                "_aggressive"
+            ],
+            [
+                "噩梦之始",
+                "_pragmatic"
+            ],
+            [
+                "血月长廊",
+                "_pragmatic"
+            ],
+            [
+                "渴欲大厅",
+                "_default"
+            ]
         ]
     },
     "Phantom@Roguelike@LevelName_mode4": {
@@ -10958,9 +10984,39 @@
     },
     "Mizuki@Roguelike@LevelName_mode0": {
         "text": [
-            "天光海岸",
-            "波涛略地",
-            "失尘岩洞"
+            "_aggressive",
+            "_pragmatic",
+            "_default"
+        ],
+        "ocrReplace": [
+            [
+                "天光海岸",
+                "_aggressive"
+            ],
+            [
+                "离岸孤岛",
+                "_aggressive"
+            ],
+            [
+                "波涛略地",
+                "_pragmatic"
+            ],
+            [
+                "隐秘温床",
+                "_pragmatic"
+            ],
+            [
+                "失尘岩洞",
+                "_default"
+            ],
+            [
+                "幽海丛林",
+                "_default"
+            ],
+            [
+                "绀碧摇篮",
+                "_SKIP_"
+            ]
         ]
     },
     "Mizuki@Roguelike@LevelName_mode4": {
@@ -11537,9 +11593,39 @@
     },
     "Sami@Roguelike@LevelName_mode0": {
         "text": [
-            "初霜湖泽",
-            "昧明冻土",
-            "无瑕花园"
+            "_aggressive",
+            "_pragmatic",
+            "_default"
+        ],
+        "ocrReplace": [
+            [
+                "初霜湖泽",
+                "_aggressive"
+            ],
+            [
+                "密静林地",
+                "_aggressive"
+            ],
+            [
+                "昧明冻土",
+                "_pragmatic"
+            ],
+            [
+                "积冰岩骸",
+                "_pragmatic"
+            ],
+            [
+                "无暇花园",
+                "_default"
+            ],
+            [
+                "远见之构",
+                "_default"
+            ],
+            [
+                "深埋迷境",
+                "_SKIP_"
+            ]
         ]
     },
     "Sami@Roguelike@LevelName_mode4": {
