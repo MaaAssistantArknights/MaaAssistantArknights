@@ -3,10 +3,10 @@
     "replacement_home": [
         {
             "location": [
-                5,
-                3
+                1,
+                5
             ],
-            "direction": "none"
+            "direction": "right"
         }
     ],
     "blacklist_location": [
@@ -62,8 +62,21 @@
     "deploy_plan": [
         {
             "groups": [
-                "投锋",
-                "挡人先锋"
+                "伊内丝"
+            ],
+            "location": [
+                3,
+                2
+            ],
+            "direction": "right",
+            "condition": [
+                0,
+                16
+            ]
+        },
+        {
+            "groups": [
+                "回费"
             ],
             "location": [
                 5,
@@ -77,20 +90,6 @@
         },
         {
             "groups": [
-                "情报官"
-            ],
-            "location": [
-                3,
-                2
-            ],
-            "direction": "right",
-            "condition": [
-                0,
-                2
-            ]
-        },
-        {
-            "groups": [
                 "地面阻挡",
                 "地面远程",
                 "处决者",
@@ -100,7 +99,11 @@
                 4,
                 4
             ],
-            "direction": "up"
+            "direction": "up",
+            "condition": [
+                0,
+                16
+            ]
         },
         {
             "groups": [
@@ -110,7 +113,11 @@
                 2,
                 3
             ],
-            "direction": "right"
+            "direction": "right",
+            "condition": [
+                0,
+                16
+            ]
         },
         {
             "groups": [
@@ -123,7 +130,11 @@
                 3,
                 3
             ],
-            "direction": "right"
+            "direction": "right",
+            "condition": [
+                0,
+                16
+            ]
         },
         {
             "groups": [
@@ -133,7 +144,11 @@
                 7,
                 4
             ],
-            "direction": "up"
+            "direction": "up",
+            "condition": [
+                0,
+                16
+            ]
         },
         {
             "groups": [
@@ -144,7 +159,11 @@
                 1,
                 3
             ],
-            "direction": "right"
+            "direction": "right",
+            "condition": [
+                0,
+                16
+            ]
         },
         {
             "groups": [
@@ -157,7 +176,11 @@
                 3,
                 2
             ],
-            "direction": "right"
+            "direction": "right",
+            "condition": [
+                0,
+                16
+            ]
         },
         {
             "groups": [
@@ -170,7 +193,11 @@
                 2,
                 3
             ],
-            "direction": "right"
+            "direction": "right",
+            "condition": [
+                0,
+                16
+            ]
         },
         {
             "groups": [
@@ -185,7 +212,11 @@
                 2,
                 2
             ],
-            "direction": "right"
+            "direction": "right",
+            "condition": [
+                0,
+                16
+            ]
         },
         {
             "groups": [
@@ -197,7 +228,11 @@
                 4,
                 2
             ],
-            "direction": "right"
+            "direction": "right",
+            "condition": [
+                0,
+                16
+            ]
         },
         {
             "groups": [
@@ -208,7 +243,11 @@
                 8,
                 2
             ],
-            "direction": "right"
+            "direction": "right",
+            "condition": [
+                0,
+                16
+            ]
         },
         {
             "groups": [
@@ -221,7 +260,11 @@
                 1,
                 3
             ],
-            "direction": "right"
+            "direction": "right",
+            "condition": [
+                0,
+                16
+            ]
         },
         {
             "groups": [
@@ -233,10 +276,15 @@
                 7,
                 4
             ],
-            "direction": "up"
+            "direction": "up",
+            "condition": [
+                0,
+                16
+            ]
         },
         {
             "groups": [
+                "玛恩纳",
                 "补给站",
                 "支援陷阱",
                 "无人机"
@@ -246,6 +294,31 @@
                 3
             ],
             "direction": "left"
+        },
+        {
+            "groups": [
+                "地面阻挡",
+                "处决者",
+                "炮灰",
+                "其他地面"
+            ],
+            "location": [
+                1,
+                5
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
+                "高台输出",
+                "其他高台",
+                "奶"
+            ],
+            "location": [
+                2,
+                3
+            ],
+            "direction": "down"
         }
     ]
 }

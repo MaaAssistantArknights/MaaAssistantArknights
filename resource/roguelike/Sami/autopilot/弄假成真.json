@@ -30,14 +30,31 @@
     "deploy_plan": [
         {
             "groups": [
-                "情报官",
+                "情报官"
+            ],
+            "location": [
+                5,
+                2
+            ],
+            "direction": "down",
+            "condition": [
+                0,
+                18
+            ]
+        },
+        {
+            "groups": [
                 "回费"
             ],
             "location": [
                 5,
                 1
             ],
-            "direction": "down"
+            "direction": "down",
+            "condition": [
+                0,
+                18
+            ]
         },
         {
             "groups": [
@@ -76,7 +93,6 @@
         },
         {
             "groups": [
-                "提丰",
                 "水陈",
                 "盾法",
                 "高台输出"
@@ -110,6 +126,7 @@
         },
         {
             "groups": [
+                "玛恩纳",
                 "地面阻挡",
                 "处决者",
                 "其他地面"
@@ -118,7 +135,7 @@
                 5,
                 2
             ],
-            "direction": "right"
+            "direction": "left"
         },
         {
             "groups": [
@@ -130,7 +147,17 @@
                 4,
                 2
             ],
-            "direction": "right"
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "提丰"
+            ],
+            "location": [
+                7,
+                3
+            ],
+            "direction": "left"
         },
         {
             "groups": [
@@ -179,6 +206,31 @@
                 2
             ],
             "direction": "left"
+        },
+        {
+            "groups": [
+                "补给站"
+            ],
+            "location": [
+                7,
+                1
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
+                "支援陷阱",
+                "无人机"
+            ],
+            "location": [
+                6,
+                4
+            ],
+            "direction": "right",
+            "condition": [
+                23,
+                28
+            ]
         }
     ]
 }

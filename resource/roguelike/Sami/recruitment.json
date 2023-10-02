@@ -97,12 +97,51 @@
                     ]
                 },
                 {
-                    "name": "银灰"
+                    "name": "银灰",
+                    "skill": 3,
+                    "alternate_skill": 1,
+                    "recruit_priority": 610,
+                    "promote_priority": 870,
+                    "is_start": true,
+                    "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "近卫"
+                            ],
+                            "threshold": 2,
+                            "offset": -200
+                        }
+                    ]
                 },
                 {
                     "name": "龙舌兰",
                     "skill": 2,
                     "promote_priority": 350
+                }
+            ]
+        },
+        {
+            "name": "伊内丝",
+            "opers": [
+                {
+                    "name": "伊内丝",
+                    "skill": 2,
+                    "recruit_priority": 849,
+                    "promote_priority": 830,
+                    "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "挡人先锋",
+                                "情报官",
+                                "投锋"
+                            ],
+                            "threshold": 3,
+                            "offset": -100
+                        }
+                    ]
                 }
             ]
         },
@@ -296,26 +335,7 @@
                             "offset": -200
                         }
                     ]
-                },
-                {
-                    "name": "银灰",
-                    "skill": 3,
-                    "alternate_skill": 1,
-                    "recruit_priority": 610,
-                    "promote_priority": 870,
-                    "is_start": true,
-                    "is_key": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "凯尔希",
-                                "近卫"
-                            ],
-                            "threshold": 2,
-                            "offset": -200
-                        }
-                    ]
-                },
+                },                
                 {
                     "name": "艾丽妮",
                     "skill": 3,
@@ -1900,26 +1920,12 @@
                 }
             ]
         },
+
         {
             "name": "情报官",
             "opers": [
                 {
-                    "name": "伊内丝",
-                    "skill": 2,
-                    "recruit_priority": 849,
-                    "promote_priority": 830,
-                    "is_key": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "挡人先锋",
-                                "情报官",
-                                "投锋"
-                            ],
-                            "threshold": 3,
-                            "offset": -100
-                        }
-                    ]
+                    "name": "伊内丝"                    
                 },
                 {
                     "name": "晓歌",
@@ -2642,6 +2648,9 @@
                 },
                 {
                     "name": "罗小黑"
+                },
+                {
+                    "name": "煌"
                 },
                 {
                     "name": "涤火杰西卡"
