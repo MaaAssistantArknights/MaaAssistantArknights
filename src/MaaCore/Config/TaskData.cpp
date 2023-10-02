@@ -776,7 +776,9 @@ asst::TaskData::taskptr_t asst::TaskData::generate_match_task_info(std::string_v
                                                      default_ptr->templ_thresholds.back());
     }
     else if (threshold_opt->is_number()) {
-        match_task_info_ptr->templ_thresholds = { threshold_opt->as_double() };
+        // 单个数值时，所有模板都使用这个阈值
+        match_task_info_ptr->templ_thresholds.resize(match_task_info_ptr->templ_names.size(),
+                                                     threshold_opt->as_double());
     }
     else if (threshold_opt->is_array()) {
         ranges::copy(threshold_opt->as_array() | views::transform(&ranges::range_value_t<json::array>::as_double),

@@ -4706,11 +4706,7 @@
             "TaskSami.png"
         ],
         "cache": false,
-        "templThreshold": [
-            0.7,
-            0.7,
-            0.7
-        ],
+        "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [
             700,
@@ -4909,11 +4905,7 @@
             "FriendsSami.png"
         ],
         "cache": false,
-        "templThreshold": [
-            0.7,
-            0.7,
-            0.7
-        ],
+        "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [
             250,
