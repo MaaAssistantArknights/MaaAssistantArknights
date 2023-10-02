@@ -26,6 +26,20 @@
     "deploy_plan": [
         {
             "groups": [
+                "伊内丝"
+            ],
+            "location": [
+                6,
+                3
+            ],
+            "direction": "left",
+            "condition": [
+                0,
+                26
+            ]
+        },
+        {
+            "groups": [
                 "回费"
             ],
             "location": [
@@ -39,10 +53,19 @@
                 "地面阻挡",
                 "处决者",
                 "其他地面"
-
             ],
             "location": [
                 10,
+                3
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "焰苇"
+            ],
+            "location": [
+                7,
                 3
             ],
             "direction": "left"
@@ -54,7 +77,7 @@
             ],
             "location": [
                 7,
-                2
+                3
             ],
             "direction": "right"
         },
@@ -86,7 +109,6 @@
                 "地面阻挡",
                 "处决者",
                 "其他地面"
-
             ],
             "location": [
                 8,
@@ -176,6 +198,18 @@
                 3
             ],
             "direction": "left"
+        }
+    ],
+    "retreat_plan": [
+        {
+            "location": [
+                6,
+                3
+            ],
+            "condition": [
+                26,
+                36
+            ]
         }
     ]
 }

@@ -32,6 +32,16 @@
         },
         {
             "groups": [
+                "玛恩纳"
+            ],
+            "location": [
+                7,
+                4
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
                 "回费"
             ],
             "location": [
@@ -85,16 +95,6 @@
                 4
             ],
             "direction": "down"
-        },
-        {
-            "groups": [
-                "玛恩纳"
-            ],
-            "location": [
-                7,
-                4
-            ],
-            "direction": "left"
         },
         {
             "groups": [
