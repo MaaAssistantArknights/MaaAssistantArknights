@@ -9226,7 +9226,8 @@
             129
         ],
         "next": [
-            "Roguelike@NextLevel"
+            "Roguelike@NextLevel",
+            "Roguelike@Stages#next"
         ]
     },
     "Roguelike@LevelName_mode4": {
