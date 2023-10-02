@@ -37,8 +37,6 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::_run()
 
     // 当前难度
     std::string difficulty = status()->get_properties(Status::RoguelikeDifficulty).value();
-    // 需要开局凹直升
-    std::string start_with_elite_two = status()->get_properties(Status::RoguelikeStartWithEliteTwo).value();
     if (m_roguelike_theme != "Phantom" && mode == "4") {
         if (difficulty == "max") {
             ProcessTask(*this, { m_roguelike_theme + "@Roguelike@ChooseDifficulty_Hardest" }).run();
