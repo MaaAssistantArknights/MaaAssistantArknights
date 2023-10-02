@@ -93,11 +93,22 @@
         },
         {
             "groups": [
-                "玛恩纳"
+                "玛恩纳",
+                "史尔特尔"
             ],
             "location": [
-                7,
-                4
+                5,
+                6
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "伊内丝"
+            ],
+            "location": [
+                5,
+                3
             ],
             "direction": "left"
         },
@@ -123,7 +134,19 @@
                 5,
                 3
             ],
-            "direction": "down"
+            "direction": "left"
+        }
+    ],
+    "retreat_plan": [
+        {
+            "location": [
+                10,
+                3
+            ],
+            "condition": [
+                22,
+                26
+            ]
         }
     ]
 }

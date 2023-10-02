@@ -29,7 +29,11 @@
                 2,
                 5
             ],
-            "direction": "left"
+            "direction": "left",
+            "condition": [
+                0,
+                22
+            ]
         },
         {
             "groups": [
@@ -97,6 +101,18 @@
                 3
             ],
             "direction": "down"
+        },
+        {
+            "groups": [
+                "玛恩纳",
+                "领主",
+                "地刺"
+            ],
+            "location": [
+                4,
+                4
+            ],
+            "direction": "right"
         },
         {
             "groups": [
