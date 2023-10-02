@@ -9195,23 +9195,7 @@
         ]
     },
     "Roguelike@LevelName": {
-        "baseTask": "Roguelike@LevelName_default"
-    },
-    "Roguelike@LevelName_default": {
-        "algorithm": "OcrDetect",
-        "cache": false,
-        "text": [
-            "_SKIP_"
-        ],
-        "roi": [
-            593,
-            0,
-            186,
-            129
-        ],
-        "next": [
-            "Roguelike@NextLevel"
-        ]
+        "baseTask": "Roguelike@LevelName_mode1"
     },
     "Roguelike@LevelName_mode0": {
         "algorithm": "OcrDetect",
@@ -9228,6 +9212,22 @@
         "next": [
             "Roguelike@NextLevel",
             "Roguelike@Stages#next"
+        ]
+    },
+    "Roguelike@LevelName_mode1": {
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "text": [
+            "_SKIP_"
+        ],
+        "roi": [
+            593,
+            0,
+            186,
+            129
+        ],
+        "next": [
+            "Roguelike@NextLevel"
         ]
     },
     "Roguelike@LevelName_mode4": {
@@ -10431,7 +10431,7 @@
     "Phantom@Roguelike@MissionFailedFlag": {},
     "Phantom@Roguelike@MissionFailedFlag2": {},
     "Phantom@Roguelike@LevelName": {
-        "baseTask": "Phantom@Roguelike@LevelName_default"
+        "baseTask": "Phantom@Roguelike@LevelName_mode1"
     },
     "Phantom@Roguelike@LevelName_mode0": {
         "text": [
@@ -10980,7 +10980,7 @@
     "Mizuki@Roguelike@MissionFailedFlag": {},
     "Mizuki@Roguelike@MissionFailedFlag2": {},
     "Mizuki@Roguelike@LevelName": {
-        "baseTask": "Mizuki@Roguelike@LevelName_default"
+        "baseTask": "Mizuki@Roguelike@LevelName_mode1"
     },
     "Mizuki@Roguelike@LevelName_mode0": {
         "text": [
@@ -11589,7 +11589,7 @@
     "Sami@Roguelike@MissionFailedFlag": {},
     "Sami@Roguelike@MissionFailedFlag2": {},
     "Sami@Roguelike@LevelName": {
-        "baseTask": "Sami@Roguelike@LevelName_default"
+        "baseTask": "Sami@Roguelike@LevelName_mode1"
     },
     "Sami@Roguelike@LevelName_mode0": {
         "text": [

@@ -106,33 +106,20 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     status()->set_properties(Status::RoguelikeNeedChangeDifficulty, "0");
     status()->set_properties(Status::RoguelikeStartWithEliteTwo, std::to_string(start_with_elite_two));
 
-    if (mode == 0) {
-        // 选点策略为激进
-        Task.set_task_base(theme + "@Roguelike@Stages", theme + "@Roguelike@Stages_aggressive");
-    }
-    else {
-        // 重置选点策略为避战
-        Task.set_task_base(theme + "@Roguelike@Stages", theme + "@Roguelike@Stages_default");
-    }
+    // 设置需要ocr的层名，相关逻辑在RoguelikeStrategyChangeTaskPlugin中
+    Task.set_task_base(theme + "@Roguelike@LevelName", theme + "@Roguelike@LevelName_mode" + std::to_string(mode));
 
     if (mode == 4) {
-        // 设置ocr第三层层名，设置识别到退出重进
-        Task.set_task_base(theme + "@Roguelike@LevelName", theme + "@Roguelike@LevelName_mode4");
-        // 获得热水壶和演讲时停止肉鸽
+        // 获得热水壶和演讲时停止肉鸽，获得其他奖励时重开
         std::string last_reward_stop_or_continue =
             start_with_elite_two ? "Roguelike@LastReward_default" : "Roguelike@LastReward_stop";
         Task.set_task_base("Roguelike@LastReward", last_reward_stop_or_continue);
-        Task.set_task_base("Roguelike@LastReward4", last_reward_stop_or_continue);
-        // 获得其他奖励时重开
         Task.set_task_base("Roguelike@LastReward2", "Roguelike@LastReward_restart");
         Task.set_task_base("Roguelike@LastReward3", "Roguelike@LastReward_restart");
+        Task.set_task_base("Roguelike@LastReward4", last_reward_stop_or_continue);
         Task.set_task_base("Roguelike@LastRewardRand", "Roguelike@LastReward_restart");
     }
     else {
-        // 重置需要ocr的层名和next任务
-        (mode == 0)
-            ? Task.set_task_base(theme + "@Roguelike@LevelName", theme + "@Roguelike@LevelName_mode0")
-            : Task.set_task_base(theme + "@Roguelike@LevelName", theme + "@Roguelike@LevelName_default");
         // 重置开局奖励next
         Task.set_task_base("Roguelike@LastReward", "Roguelike@LastReward_default");
         Task.set_task_base("Roguelike@LastReward2", "Roguelike@LastReward_default");
