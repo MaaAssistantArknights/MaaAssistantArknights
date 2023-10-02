@@ -2140,7 +2140,6 @@
         ]
     },
     "TodaysSupplies": {
-        "algorithm": "OcrDetect",
         "text": [
             "Resource Today"
         ]
