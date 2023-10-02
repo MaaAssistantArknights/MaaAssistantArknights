@@ -5272,6 +5272,15 @@
             "RecruitRefreshConfirm"
         ]
     },
+    "RecruitNoPermit": {
+        "action": "DoNothing",
+        "roi": [
+            450,
+            600,
+            190,
+            110
+        ]
+    },
     "RecruitNoRefresh": {
         "action": "DoNothing",
         "roi": [
