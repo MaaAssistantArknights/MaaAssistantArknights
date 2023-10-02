@@ -86,7 +86,9 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
             break;
         }
     }
-
+    // 通知战斗结束，无论成功与否
+    auto info = basic_info_with_what("RoguelikeCombatEnd");
+    callback(AsstMsg::SubTaskExtraInfo, info);
     return true;
 }
 
@@ -812,7 +814,6 @@ asst::battle::AttackRange asst::RoguelikeBattleTaskPlugin::get_attack_range(cons
     if (m_oper_elite.contains(oper.name)) {
         elite = m_oper_elite.at(oper.name);
     }
-    // int64_t elite = status()->get_number(Status::RoguelikeCharElitePrefix + oper.name).value_or(0);
     battle::AttackRange right_attack_range = BattleData.get_range(oper_name_in_config(oper), elite);
 
     if (right_attack_range == BattleDataConfig::EmptyRange) {

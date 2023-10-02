@@ -1060,6 +1060,10 @@ namespace MaaWpfGui.Main
                 case "StageInfo":
                     {
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartCombat") + subTaskDetails["name"]);
+                        if (Instances.SettingsViewModel.RoguelikeDelayAbortUntilCombatComplete)
+                        {
+                            Instances.TaskQueueViewModel.RoguelikeInCombatAndShowWait = true;
+                        }
                     }
 
                     break;
@@ -1069,6 +1073,10 @@ namespace MaaWpfGui.Main
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageInfoError"), UiLogColor.Error);
                     }
 
+                    break;
+                case "RoguelikeCombatEnd":
+                    // 肉鸽战斗结束，无论成功与否
+                    Instances.TaskQueueViewModel.RoguelikeInCombatAndShowWait = false;
                     break;
 
                 case "PenguinId":

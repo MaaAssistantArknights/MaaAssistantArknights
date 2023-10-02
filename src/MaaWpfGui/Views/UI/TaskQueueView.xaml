@@ -181,6 +181,14 @@
                     Content="{DynamicResource Stop}"
                     IsEnabled="{c:Binding Path='!Stopping'}"
                     Visibility="{c:Binding Path='(!Idle or Stopping) and Inited'}" />
+                <Button
+                    Width="100"
+                    Height="50"
+                    Margin="5"
+                    Command="{s:Action WaitAndStop}"
+                    Content="{DynamicResource WaitAndStop}"
+                    Visibility="{c:Binding Path='RoguelikeInCombatAndShowWait and !Waiting and Inited and !Idle'}"
+                     />
             </Grid>
 
             <!--<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment ="Center" >-->
