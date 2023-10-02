@@ -10,12 +10,11 @@ bool asst::RoguelikeLastRewardTaskPlugin::verify(AsstMsg msg, const json::value&
         return false;
     }
 
-    auto roguelike_name_opt = status()->get_properties(Status::RoguelikeTheme);
-    if (!roguelike_name_opt) {
+    if (m_roguelike_theme.empty()) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
-    const std::string roguelike_name = std::move(roguelike_name_opt.value()) + "@";
+    const std::string roguelike_name = m_roguelike_theme + "@";
     const std::string& task = details.get("details", "task", "");
     std::string_view task_view = task;
     if (task_view.starts_with(roguelike_name)) {
@@ -38,10 +37,9 @@ bool asst::RoguelikeLastRewardTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    std::string theme = status()->get_properties(Status::RoguelikeTheme).value();
     std::string mode = status()->get_properties(Status::RoguelikeMode).value();
 
-    if (theme != "Phantom" && mode == "4") {
+    if (m_roguelike_theme != "Phantom" && mode == "4") {
         if (m_need_change_difficulty_higher) {
             status()->set_properties(Status::RoguelikeNeedChangeDifficulty, "max");
         }

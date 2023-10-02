@@ -1,9 +1,10 @@
 #pragma once
 #include "Task/AbstractTaskPlugin.h"
+#include "Task/Roguelike/RoguelikeConfig.h"
 
 namespace asst
 {
-    class RoguelikeLastRewardTaskPlugin : public AbstractTaskPlugin
+    class RoguelikeLastRewardTaskPlugin : public AbstractTaskPlugin, public RoguelikeConfig
     {
     public:
         using AbstractTaskPlugin::AbstractTaskPlugin;
