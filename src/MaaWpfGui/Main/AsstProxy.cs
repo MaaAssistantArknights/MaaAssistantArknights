@@ -1273,14 +1273,14 @@ namespace MaaWpfGui.Main
             }
 
             // normal -> [host]:[port]
-            string[] addresses = address.Split(':');
-            if (addresses.Length != 2)
+            string[] host_and_port = address.Split(':');
+            if (host_and_port.Length != 2)
             {
                 return false;
             }
 
-            string host = addresses[0].Equals("emulator") ? "127.0.0.1" : addresses[0];
-            if (!int.TryParse(addresses[1], out int port))
+            string host = host_and_port[0].Equals("emulator") ? "127.0.0.1" : host_and_port[0];
+            if (!int.TryParse(host_and_port[1], out int port))
             {
                 return false;
             }
