@@ -1,9 +1,10 @@
 #pragma once
 #include "Task/AbstractTaskPlugin.h"
+#include "Task/Roguelike/RoguelikeConfig.h"
 
 namespace asst
 {
-    class RoguelikeShoppingTaskPlugin : public AbstractTaskPlugin
+    class RoguelikeShoppingTaskPlugin : public AbstractTaskPlugin, public RoguelikeConfig
     {
     public:
         using AbstractTaskPlugin::AbstractTaskPlugin;
@@ -13,7 +14,5 @@ namespace asst
 
     protected:
         virtual bool _run() override;
-
-    private:
     };
 }
