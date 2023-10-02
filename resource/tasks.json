@@ -7183,6 +7183,7 @@
         "postDelay": 500
     },
     "BattleQuickFormationFilter-Trust": {
+        "template": "Fight/BattleQuickFormationFilter-Trust.png",
         "action": "ClickSelf",
         "roi": [
             1010,
@@ -7196,6 +7197,7 @@
         ]
     },
     "BattleQuickFormationFilter-Click2": {
+        "template": "Fight/BattleQuickFormationFilter-Click2.png",
         "action": "ClickSelf",
         "roi": [
             1125,
@@ -7217,6 +7219,7 @@
         "postDelay": 500
     },
     "BattleQuickFormationTrustIcon": {
+        "template": "Fight/BattleQuickFormationTrustIcon.png",
         "templThreshold": 0.9,
         "roi": [
             360,
