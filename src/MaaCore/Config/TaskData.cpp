@@ -765,7 +765,7 @@ asst::TaskData::taskptr_t asst::TaskData::generate_match_task_info(std::string_v
 
     // 其余若留空则继承模板任务
 
-    auto threshold_opt = task_json.find("threshold");
+    auto threshold_opt = task_json.find("templThreshold");
     if (!threshold_opt) {
         match_task_info_ptr->templ_thresholds = default_ptr->templ_thresholds;
         match_task_info_ptr->templ_thresholds.resize(match_task_info_ptr->templ_names.size(),
@@ -779,12 +779,17 @@ asst::TaskData::taskptr_t asst::TaskData::generate_match_task_info(std::string_v
                      std::back_inserter(match_task_info_ptr->templ_thresholds));
     }
     else {
-        Log.error("Invalid threshold type in task", name);
+        Log.error("Invalid templThreshold type in task", name);
         return nullptr;
     }
 
     if (match_task_info_ptr->templ_names.size() != match_task_info_ptr->templ_thresholds.size()) {
-        Log.error("Template count and threshold count not match in task", name);
+        Log.error("Template count and templThreshold count not match in task", name);
+        return nullptr;
+    }
+
+    if (match_task_info_ptr->templ_names.size() == 0 || match_task_info_ptr->templ_thresholds.size() == 0) {
+        Log.error("Template or templThreshold is empty in task", name);
         return nullptr;
     }
 
