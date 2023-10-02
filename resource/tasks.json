@@ -1029,7 +1029,11 @@
     },
     "StageQueue": {
         "baseTask": "Fight",
-        "template": "Terminal.png",
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png"
+        ],
         "maxTimes": 3,
         "exceededNext": [
             "Stop"
@@ -2949,7 +2953,11 @@
         ]
     },
     "SwitchAccount": {
-        "template": "Terminal.png",
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png"
+        ],
         "baseTask": "StartUp",
         "next": [
             "Settings"
@@ -3299,7 +3307,11 @@
         ]
     },
     "StartUp": {
-        "template": "Terminal.png",
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png"
+        ],
         "action": "DoNothing",
         "roi": [
             880,
@@ -4290,7 +4302,11 @@
         ]
     },
     "Fight": {
-        "template": "Terminal.png",
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png"
+        ],
         "action": "ClickSelf",
         "roi": [
             880,
@@ -4680,7 +4696,11 @@
         ]
     },
     "Award": {
-        "template": "Task.png",
+        "template": [
+            "Task.png",
+            "TaskDark.png",
+            "TaskSami.png"
+        ],
         "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [
@@ -4792,7 +4812,11 @@
     },
     "MailReturnToHome": {
         "baseTask": "Home",
-        "template": "Terminal.png",
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png"
+        ],
         "action": "DoNothing",
         "next": [
             "Mail",
@@ -4869,7 +4893,11 @@
         ]
     },
     "Visit": {
-        "template": "Friends.png",
+        "template": [
+            "Friends.png",
+            "FriendsDark.png",
+            "FriendsSami.png"
+        ],
         "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [
@@ -5096,7 +5124,11 @@
         ]
     },
     "Home": {
-        "template": "Terminal.png",
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png"
+        ],
         "action": "Stop",
         "roi": [
             880,
@@ -5373,7 +5405,11 @@
         ]
     },
     "Infrast": {
-        "template": "EnterInfrast.png",
+        "template": [
+            "EnterInfrast.png",
+            "EnterInfrastDark.png",
+            "EnterInfrastSami.png"
+        ],
         "roi": [
             900,
             540,
@@ -12084,7 +12120,11 @@
     },
     "Sami@Roguelike@TodoEnter": {},
     "Roguelike": {
-        "template": "Terminal.png",
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png"
+        ],
         "action": "ClickSelf",
         "roi": [
             880,
@@ -12419,6 +12459,11 @@
         ]
     },
     "OperBoxEnter": {
+        "template": [
+            "OperBoxEnter.png",
+            "OperBoxEnterDark.png",
+            "OperBoxEnterSami.png"
+        ],
         "action": "ClickSelf",
         "roi": [
             935,
@@ -13352,7 +13397,11 @@
         ]
     },
     "Reclamation": {
-        "template": "Terminal.png",
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png"
+        ],
         "action": "ClickSelf",
         "roi": [
             880,
@@ -14750,6 +14799,11 @@
     },
     "GachaEnter": {
         "action": "ClickSelf",
+        "template": [
+            "GachaEnter.png",
+            "GachaEnterDark.png",
+            "GachaEnterSami.png"
+        ],
         "cache": false,
         "roi": [
             1052,

@@ -337,7 +337,7 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
     int y_offset = task_ptr->roi.y + bounding_rect.y;
 
     const int min_width = task_ptr->special_params.front();
-    const int max_spacing = static_cast<int>(task_ptr->templ_threshold);
+    const int max_spacing = static_cast<int>(task_ptr->templ_thresholds.front());
 
     int i_start = 0, i_end = bounding.cols - 1;
     bool in = true; // 是否正处在白线中
@@ -542,7 +542,7 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     cv::inRange(gray, task_ptr->mask_range.first, task_ptr->mask_range.second, bin);
 
     // split
-    const int max_spacing = static_cast<int>(task_ptr->templ_threshold);
+    const int max_spacing = static_cast<int>(task_ptr->templ_thresholds.front());
     std::vector<cv::Range> contours;
     int i_right = bin.cols - 1, i_left = 0;
     bool in = false;
