@@ -458,7 +458,8 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
     if (do_best_deploy()) { // 这是新的部署逻辑，更加精确
         m_first_deploy = false;
         return true;
-    } else { // 这是旧的、通用部署逻辑
+    }
+    else { // 这是旧的、通用部署逻辑
         auto urgent_home_opt = check_urgent(pre_cooling, cur_cooling, pre_battlefield);
 
         battle::DeploymentOper best_oper;
