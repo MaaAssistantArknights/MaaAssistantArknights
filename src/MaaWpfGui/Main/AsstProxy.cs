@@ -1273,14 +1273,14 @@ namespace MaaWpfGui.Main
             }
 
             // normal -> [host]:[port]
-            string[] addresses = address.Split(':');
-            if (address.Length != 2)
+            string[] host_and_port = address.Split(':');
+            if (host_and_port.Length != 2)
             {
                 return false;
             }
 
-            string host = addresses[0].Equals("emulator") ? "127.0.0.1" : addresses[0];
-            if (!int.TryParse(addresses[1], out int port))
+            string host = host_and_port[0].Equals("emulator") ? "127.0.0.1" : host_and_port[0];
+            if (!int.TryParse(host_and_port[1], out int port))
             {
                 return false;
             }
@@ -1316,7 +1316,6 @@ namespace MaaWpfGui.Main
             if (Instances.SettingsViewModel.AutoDetectConnection)
             {
                 string bsHvAddress = Instances.SettingsViewModel.TryToSetBlueStacksHyperVAddress();
-                bool adbConfResult = Instances.SettingsViewModel.DetectAdbConfig(ref error);
 
                 if (String.Equals(Instances.SettingsViewModel.ConnectAddress, bsHvAddress))
                 {
@@ -1326,9 +1325,12 @@ namespace MaaWpfGui.Main
 
                 // tcp连接测试端口是否有效，超时时间500ms
                 // 如果是本地设备，没有冒号
-                bool adbResult = !Instances.SettingsViewModel.ConnectAddress.Contains(":") ||
+                bool adbResult =
+                    !Instances.SettingsViewModel.ConnectAddress.Contains(":") &&
+                    !string.IsNullOrEmpty(Instances.SettingsViewModel.ConnectAddress) ||
                     IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
                 bool bsResult = IfPortEstablished(bsHvAddress);
+                bool adbConfResult = Instances.SettingsViewModel.DetectAdbConfig(ref error);
 
                 if (adbResult)
                 {
