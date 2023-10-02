@@ -38,12 +38,8 @@ bool asst::RoguelikeStrategyChangeTaskPlugin::_run()
     std::string theme = m_roguelike_theme;
     std::string mode = status()->get_properties(Status::RoguelikeMode).value();
 
-    std::string task_name = theme + "@Roguelike@LevelName_mode" + mode;
-    if (Task.get(task_name) == nullptr) {
-        Log.info("Task", task_name, "doesn't exist.");
-        return false;
-    }
-
+    // TODO: 这段识别有点冗余，要是 plugin 能获取识别结果就好了
+    std::string task_name = theme + "@Roguelike@LevelName";
     OCRer analyzer(ctrler()->get_image());
     analyzer.set_task_info(task_name);
     if (!analyzer.analyze()) {
