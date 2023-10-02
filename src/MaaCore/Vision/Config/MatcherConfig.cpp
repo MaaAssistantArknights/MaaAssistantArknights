@@ -48,6 +48,7 @@ void MatcherConfig::set_mask_range(int lower, int upper, bool mask_with_src, boo
 
 void MatcherConfig::_set_task_info(MatchTaskInfo task_info)
 {
+    m_params.templs.clear();
     ranges::copy(task_info.templ_names, std::back_inserter(m_params.templs));
     m_params.templ_thres = std::move(task_info.templ_thresholds);
     m_params.mask_range = std::move(task_info.mask_range);
