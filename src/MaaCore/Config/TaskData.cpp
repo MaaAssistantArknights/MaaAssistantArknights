@@ -730,6 +730,10 @@ asst::TaskData::taskptr_t asst::TaskData::generate_task_info(std::string_view na
         return nullptr;
     }
 
+    if (task_info_ptr == nullptr) {
+        return nullptr;
+    }
+
     // 不管什么algorithm，都有基础成员（next, roi, 等等）
     if (!append_base_task_info(task_info_ptr, name, task_json, default_ptr, task_prefix)) {
         return nullptr;
