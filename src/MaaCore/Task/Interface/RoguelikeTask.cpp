@@ -118,24 +118,12 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         Task.set_task_base(strategy_task, strategy_task_with_mode);
     }
 
-    if (mode == 4) {
-        // 获得热水壶和演讲时停止肉鸽（凹直升则继续），获得其他奖励时重开
-        std::string last_reward_stop_or_continue =
-            start_with_elite_two ? "Roguelike@LastReward_default" : "Roguelike@LastReward_stop";
-        Task.set_task_base("Roguelike@LastReward", last_reward_stop_or_continue);
-        Task.set_task_base("Roguelike@LastReward2", "Roguelike@LastReward_restart");
-        Task.set_task_base("Roguelike@LastReward3", "Roguelike@LastReward_restart");
-        Task.set_task_base("Roguelike@LastReward4", last_reward_stop_or_continue);
-        Task.set_task_base("Roguelike@LastRewardRand", "Roguelike@LastReward_restart");
-    }
-    else {
-        // 重置开局奖励 next，获得任意奖励均继续
-        Task.set_task_base("Roguelike@LastReward", "Roguelike@LastReward_default");
-        Task.set_task_base("Roguelike@LastReward2", "Roguelike@LastReward_default");
-        Task.set_task_base("Roguelike@LastReward3", "Roguelike@LastReward_default");
-        Task.set_task_base("Roguelike@LastReward4", "Roguelike@LastReward_default");
-        Task.set_task_base("Roguelike@LastRewardRand", "Roguelike@LastReward_default");
-    }
+    // 重置开局奖励 next，获得任意奖励均继续；烧水相关逻辑在 RoguelikeLastRewardTaskPlugin
+    Task.set_task_base("Roguelike@LastReward", "Roguelike@LastReward_default");
+    Task.set_task_base("Roguelike@LastReward2", "Roguelike@LastReward_default");
+    Task.set_task_base("Roguelike@LastReward3", "Roguelike@LastReward_default");
+    Task.set_task_base("Roguelike@LastReward4", "Roguelike@LastReward_default");
+    Task.set_task_base("Roguelike@LastRewardRand", "Roguelike@LastReward_default");
 
     if (mode == 1) {
         // 战斗后奖励只拿钱
