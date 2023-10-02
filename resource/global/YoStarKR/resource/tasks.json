@@ -3636,15 +3636,68 @@
             "예치금잔액최대달성"
         ]
     },
-    "Phantom@Roguelike@LevelName_mode4": {
+    "Phantom@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [
+            [
+                "안개의기로",
+                "_aggressive"
+            ],
+            [
+                "석양의정원",
+                "_aggressive"
+            ],
             [
                 "고향의잔.+$",
                 "고향의잔해"
+            ],
+            [
+                "고향의잔해",
+                "_aggressive"
+            ],
+            [
+                "악몽의시작",
+                "_pragmatic"
+            ],
+            [
+                "붉은달회랑",
+                "_pragmatic"
+            ],
+            [
+                "욕망의로비",
+                "_default"
             ]
-        ],
-        "text": [
-            "고향의잔해"
+        ]
+    },
+    "Phantom@Roguelike@StrategyChange_mode4": {
+        "ocrReplace": [
+            [
+                "안개의기로",
+                "_default"
+            ],
+            [
+                "석양의정원",
+                "_default"
+            ],
+            [
+                "고향의잔.+$",
+                "고향의잔해"
+            ],
+            [
+                "고향의잔해",
+                "_exit"
+            ],
+            [
+                "악몽의시작",
+                "_exit"
+            ],
+            [
+                "붉은달회랑",
+                "_exit"
+            ],
+            [
+                "욕망의로비",
+                "_exit"
+            ]
         ]
     },
     "Phantom@Roguelike@NextLevel": {
@@ -3660,10 +3713,77 @@
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
     },
-    "Mizuki@Roguelike@LevelName_mode4": {
+    "Mizuki@Roguelike@StrategyChange_mode0": {
         "text": [
-            "맹렬한파도",
-            "짙푸른요람"
+            "_aggressive",
+            "_pragmatic",
+            "_default"
+        ],
+        "ocrReplace": [
+            [
+                "하늘빛해안",
+                "_aggressive"
+            ],
+            [
+                "연안외딴섬",
+                "_aggressive"
+            ],
+            [
+                "맹렬한파도",
+                "_pragmatic"
+            ],
+            [
+                "은밀한온상",
+                "_pragmatic"
+            ],
+            [
+                "신성한동굴",
+                "_default"
+            ],
+            [
+                "심해의숲",
+                "_default"
+            ],
+            [
+                "짙푸른요람",
+                "_SKIP_"
+            ]
+        ]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode4": {
+        "text": [
+            "_default",
+            "_exit"
+        ],
+        "ocrReplace": [
+            [
+                "하늘빛해안",
+                "_default"
+            ],
+            [
+                "연안외딴섬",
+                "_default"
+            ],
+            [
+                "맹렬한파도",
+                "_exit"
+            ],
+            [
+                "은밀한온상",
+                "_exit"
+            ],
+            [
+                "신성한동굴",
+                "_exit"
+            ],
+            [
+                "심해의숲",
+                "_exit"
+            ],
+            [
+                "짙푸른요람",
+                "_exit"
+            ]
         ]
     },
     "Mizuki@Roguelike@NextLevel": {

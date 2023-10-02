@@ -23,7 +23,7 @@ bool asst::RoguelikeStrategyChangeTaskPlugin::verify(AsstMsg msg, const json::va
     if (task_view.starts_with(roguelike_name)) {
         task_view.remove_prefix(roguelike_name.length());
     }
-    if (task_view == "Roguelike@LevelName") {
+    if (task_view == "Roguelike@StrategyChange") {
         return true;
     }
     else {
@@ -39,7 +39,7 @@ bool asst::RoguelikeStrategyChangeTaskPlugin::_run()
     std::string mode = status()->get_properties(Status::RoguelikeMode).value();
 
     // TODO: 这段识别有点冗余，要是 plugin 能获取识别结果就好了
-    std::string task_name = theme + "@Roguelike@LevelName";
+    std::string task_name = theme + "@Roguelike@StrategyChange";
     OCRer analyzer(ctrler()->get_image());
     analyzer.set_task_info(task_name);
     if (!analyzer.analyze()) {

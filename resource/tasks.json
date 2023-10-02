@@ -8677,7 +8677,8 @@
             160
         ]
     },
-    "Roguelike@ExitThenAbandon_mode4": {
+    "Roguelike@ExitThenAbandon_ToHardest": {
+        "template": "Roguelike@ExitThenAbandon.png",
         "action": "ClickSelf",
         "cache": false,
         "roi": [
@@ -9194,10 +9195,7 @@
             "Roguelike@ClickToStartPointAfterFailed"
         ]
     },
-    "Roguelike@LevelName": {
-        "baseTask": "Roguelike@LevelName_mode1"
-    },
-    "Roguelike@LevelName_mode0": {
+    "Roguelike@StrategyChange_default": {
         "algorithm": "OcrDetect",
         "cache": false,
         "text": [
@@ -9214,42 +9212,29 @@
             "Roguelike@Stages#next"
         ]
     },
-    "Roguelike@LevelName_mode1": {
-        "algorithm": "OcrDetect",
-        "cache": false,
-        "text": [
-            "_SKIP_"
-        ],
-        "roi": [
-            593,
-            0,
-            186,
-            129
-        ],
-        "next": [
-            "Roguelike@NextLevel"
-        ]
+    "Roguelike@StrategyChange": {
+        "baseTask": "Roguelike@StrategyChange_default"
     },
-    "Roguelike@LevelName_mode4": {
-        "algorithm": "OcrDetect",
-        "cache": false,
-        "text": [
-            "_SKIP_"
-        ],
-        "roi": [
-            593,
-            0,
-            186,
-            129
-        ],
-        "next": [
-            "Roguelike@ExitThenAbandon_mode4"
-        ]
+    "Roguelike@StrategyChange_mode0": {
+        "baseTask": "Roguelike@StrategyChange_default"
+    },
+    "Roguelike@StrategyChange_mode1": {
+        "baseTask": "Roguelike@StrategyChange_default"
+    },
+    "Roguelike@StrategyChange_mode4": {
+        "baseTask": "Roguelike@StrategyChange_default"
     },
     "Roguelike@Stages": {
         "Doc": "base_task",
         "algorithm": "JustReturn",
         "next": []
+    },
+    "Roguelike@Stages_exit": {
+        "Doc": "烧水和直升，在进入第三层之后直接退出",
+        "algorithm": "JustReturn",
+        "next": [
+            "Roguelike@ExitThenAbandon_ToHardest"
+        ]
     },
     "Roguelike@NextLevel": {
         "algorithm": "OcrDetect",
@@ -9263,7 +9248,7 @@
             144
         ],
         "next": [
-            "Roguelike@LevelName",
+            "Roguelike@StrategyChange",
             "Roguelike@Stages#next"
         ]
     },
@@ -10385,10 +10370,10 @@
             "Phantom@Roguelike@Abandon"
         ]
     },
-    "Phantom@Roguelike@ExitThenAbandon_mode4": {
-        "template": "Roguelike@ExitThenAbandon_mode4.png",
+    "Phantom@Roguelike@ExitThenAbandon_ToHardest": {
+        "template": "Roguelike@ExitThenAbandon.png",
         "next": [
-            "Phantom@Roguelike@ExitThenAbandon",
+            "Phantom@Roguelike@ExitThenAbandon_ToHardest",
             "Phantom@Roguelike@Abandon"
         ]
     },
@@ -10430,10 +10415,7 @@
     "Phantom@Roguelike@LastRewardConfirm": {},
     "Phantom@Roguelike@MissionFailedFlag": {},
     "Phantom@Roguelike@MissionFailedFlag2": {},
-    "Phantom@Roguelike@LevelName": {
-        "baseTask": "Phantom@Roguelike@LevelName_mode1"
-    },
-    "Phantom@Roguelike@LevelName_mode0": {
+    "Phantom@Roguelike@StrategyChange_mode0": {
         "text": [
             "_aggressive",
             "_pragmatic",
@@ -10466,9 +10448,36 @@
             ]
         ]
     },
-    "Phantom@Roguelike@LevelName_mode4": {
+    "Phantom@Roguelike@StrategyChange_mode4": {
         "text": [
-            "故土残躯"
+            "_default",
+            "_exit"
+        ],
+        "ocrReplace": [
+            [
+                "迷雾歧途",
+                "_default"
+            ],
+            [
+                "落阳庭院",
+                "_default"
+            ],
+            [
+                "故土残躯",
+                "_exit"
+            ],
+            [
+                "噩梦之始",
+                "_exit"
+            ],
+            [
+                "血月长廊",
+                "_exit"
+            ],
+            [
+                "渴欲大厅",
+                "_exit"
+            ]
         ]
     },
     "Phantom@Roguelike@Stages": {
@@ -10868,10 +10877,10 @@
             "Mizuki@Roguelike@DataTraceback"
         ]
     },
-    "Mizuki@Roguelike@ExitThenAbandon_mode4": {
+    "Mizuki@Roguelike@ExitThenAbandon_ToHardest": {
         "template": "Roguelike@ExitThenAbandon.png",
         "next": [
-            "Mizuki@Roguelike@ExitThenAbandon",
+            "Mizuki@Roguelike@ExitThenAbandon_ToHardest",
             "Mizuki@Roguelike@Abandon",
             "Mizuki@Roguelike@DiceConfirmThenAbandon",
             "Mizuki@Roguelike@DataTraceback"
@@ -10979,10 +10988,7 @@
     },
     "Mizuki@Roguelike@MissionFailedFlag": {},
     "Mizuki@Roguelike@MissionFailedFlag2": {},
-    "Mizuki@Roguelike@LevelName": {
-        "baseTask": "Mizuki@Roguelike@LevelName_mode1"
-    },
-    "Mizuki@Roguelike@LevelName_mode0": {
+    "Mizuki@Roguelike@StrategyChange_mode0": {
         "text": [
             "_aggressive",
             "_pragmatic",
@@ -11019,10 +11025,40 @@
             ]
         ]
     },
-    "Mizuki@Roguelike@LevelName_mode4": {
+    "Mizuki@Roguelike@StrategyChange_mode4": {
         "text": [
-            "波涛略地",
-            "绀碧摇篮"
+            "_default",
+            "_exit"
+        ],
+        "ocrReplace": [
+            [
+                "天光海岸",
+                "_default"
+            ],
+            [
+                "离岸孤岛",
+                "_default"
+            ],
+            [
+                "波涛略地",
+                "_exit"
+            ],
+            [
+                "隐秘温床",
+                "_exit"
+            ],
+            [
+                "失尘岩洞",
+                "_exit"
+            ],
+            [
+                "幽海丛林",
+                "_exit"
+            ],
+            [
+                "绀碧摇篮",
+                "_exit"
+            ]
         ]
     },
     "Mizuki@Roguelike@Stages": {
@@ -11465,10 +11501,10 @@
             "Sami@Roguelike@Abandon"
         ]
     },
-    "Sami@Roguelike@ExitThenAbandon_mode4": {
-        "template": "Roguelike@ExitThenAbandon_mode4.png",
+    "Sami@Roguelike@ExitThenAbandon_ToHardest": {
+        "template": "Roguelike@ExitThenAbandon.png",
         "next": [
-            "Sami@Roguelike@ExitThenAbandon",
+            "Sami@Roguelike@ExitThenAbandon_ToHardest",
             "Sami@Roguelike@Abandon"
         ]
     },
@@ -11588,10 +11624,7 @@
     },
     "Sami@Roguelike@MissionFailedFlag": {},
     "Sami@Roguelike@MissionFailedFlag2": {},
-    "Sami@Roguelike@LevelName": {
-        "baseTask": "Sami@Roguelike@LevelName_mode1"
-    },
-    "Sami@Roguelike@LevelName_mode0": {
+    "Sami@Roguelike@StrategyChange_mode0": {
         "text": [
             "_aggressive",
             "_pragmatic",
@@ -11628,10 +11661,40 @@
             ]
         ]
     },
-    "Sami@Roguelike@LevelName_mode4": {
+    "Sami@Roguelike@StrategyChange_mode4": {
         "text": [
-            "昧明冻土",
-            "深埋迷境"
+            "_default",
+            "_exit"
+        ],
+        "ocrReplace": [
+            [
+                "初霜湖泽",
+                "_default"
+            ],
+            [
+                "密静林地",
+                "_default"
+            ],
+            [
+                "昧明冻土",
+                "_exit"
+            ],
+            [
+                "积冰岩骸",
+                "_exit"
+            ],
+            [
+                "无暇花园",
+                "_exit"
+            ],
+            [
+                "远见之构",
+                "_exit"
+            ],
+            [
+                "深埋迷境",
+                "_exit"
+            ]
         ]
     },
     "Sami@Roguelike@Stages": {

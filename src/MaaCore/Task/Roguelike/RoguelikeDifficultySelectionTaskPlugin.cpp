@@ -36,22 +36,15 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::_run()
     // todo:以后可以根据传入的难度值选择难度?
 
     // 当前难度
-    std::string recent_difficulty = status()->get_properties(Status::RoguelikeNeedChangeDifficulty).value();
+    std::string difficulty = status()->get_properties(Status::RoguelikeDifficulty).value();
     // 需要开局凹直升
     std::string start_with_elite_two = status()->get_properties(Status::RoguelikeStartWithEliteTwo).value();
     if (m_roguelike_theme != "Phantom" && mode == "4") {
-        if (recent_difficulty == "max") {
-            // 到第三层退出，选最高难度开水壶
+        if (difficulty == "max") {
             ProcessTask(*this, { m_roguelike_theme + "@Roguelike@ChooseDifficulty_Hardest" }).run();
-            // 重置为最低难度，需要凹开局直升时，保证在难度max下寻找直升干员，延后到找不到精二重置
-            if (start_with_elite_two == "0") {
-                status()->set_properties(Status::RoguelikeNeedChangeDifficulty, "0");
-            }
         }
-        // 其他情况下开始，选最低难度
         else {
             ProcessTask(*this, { m_roguelike_theme + "@Roguelike@ChooseDifficulty_Easiest" }).run();
-            status()->set_properties(Status::RoguelikeNeedChangeDifficulty, "0");
         }
         ProcessTask(*this, { m_roguelike_theme + "@Roguelike@ChooseDifficultyConfirm" }).run();
         ProcessTask(*this, { m_roguelike_theme + "@Roguelike@StartExploreConfirm" }).run();

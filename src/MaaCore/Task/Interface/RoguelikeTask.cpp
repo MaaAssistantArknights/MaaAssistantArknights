@@ -103,14 +103,23 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     bool start_with_elite_two = params.get("start_with_elite_two", false);
 
     status()->set_properties(Status::RoguelikeMode, std::to_string(mode));
-    status()->set_properties(Status::RoguelikeNeedChangeDifficulty, "0");
+    status()->set_properties(Status::RoguelikeDifficulty, "0");
     status()->set_properties(Status::RoguelikeStartWithEliteTwo, std::to_string(start_with_elite_two));
 
-    // 设置需要ocr的层名，相关逻辑在RoguelikeStrategyChangeTaskPlugin中
-    Task.set_task_base(theme + "@Roguelike@LevelName", theme + "@Roguelike@LevelName_mode" + std::to_string(mode));
+    // 设置层数选点策略，相关逻辑在 RoguelikeStrategyChangeTaskPlugin
+    {
+        Task.set_task_base(theme + "@Roguelike@Stages", theme + "@Roguelike@Stages_default");
+        std::string strategy_task = theme + "@Roguelike@StrategyChange";
+        std::string strategy_task_with_mode = strategy_task + "_mode" + std::to_string(mode);
+        if (Task.get(strategy_task_with_mode) == nullptr) {
+            strategy_task_with_mode = "#none"; // 没有对应的层数选点策略，使用默认策略（避战）
+            Log.warn(__FUNCTION__, "No strategy for mode", mode);
+        }
+        Task.set_task_base(strategy_task, strategy_task_with_mode);
+    }
 
     if (mode == 4) {
-        // 获得热水壶和演讲时停止肉鸽，获得其他奖励时重开
+        // 获得热水壶和演讲时停止肉鸽（凹直升则继续），获得其他奖励时重开
         std::string last_reward_stop_or_continue =
             start_with_elite_two ? "Roguelike@LastReward_default" : "Roguelike@LastReward_stop";
         Task.set_task_base("Roguelike@LastReward", last_reward_stop_or_continue);
@@ -120,7 +129,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         Task.set_task_base("Roguelike@LastRewardRand", "Roguelike@LastReward_restart");
     }
     else {
-        // 重置开局奖励next
+        // 重置开局奖励 next，获得任意奖励均继续
         Task.set_task_base("Roguelike@LastReward", "Roguelike@LastReward_default");
         Task.set_task_base("Roguelike@LastReward2", "Roguelike@LastReward_default");
         Task.set_task_base("Roguelike@LastReward3", "Roguelike@LastReward_default");
