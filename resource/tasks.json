@@ -9213,6 +9213,22 @@
             "Roguelike@NextLevel"
         ]
     },
+    "Roguelike@LevelName_mode0": {
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "text": [
+            "_SKIP_"
+        ],
+        "roi": [
+            593,
+            0,
+            186,
+            129
+        ],
+        "next": [
+            "Roguelike@NextLevel"
+        ]
+    },
     "Roguelike@LevelName_mode4": {
         "algorithm": "OcrDetect",
         "cache": false,
@@ -10416,6 +10432,13 @@
     "Phantom@Roguelike@LevelName": {
         "baseTask": "Phantom@Roguelike@LevelName_default"
     },
+    "Phantom@Roguelike@LevelName_mode0": {
+        "text": [
+            "迷雾歧途",
+            "噩梦之始",
+            "渴欲大厅"
+        ]
+    },
     "Phantom@Roguelike@LevelName_mode4": {
         "text": [
             "故土残躯"
@@ -10931,6 +10954,13 @@
     "Mizuki@Roguelike@MissionFailedFlag2": {},
     "Mizuki@Roguelike@LevelName": {
         "baseTask": "Mizuki@Roguelike@LevelName_default"
+    },
+    "Mizuki@Roguelike@LevelName_mode0": {
+        "text": [
+            "天光海岸",
+            "波涛略地",
+            "失尘岩洞"
+        ]
     },
     "Mizuki@Roguelike@LevelName_mode4": {
         "text": [
@@ -11504,6 +11534,13 @@
     "Sami@Roguelike@LevelName": {
         "baseTask": "Sami@Roguelike@LevelName_default"
     },
+    "Sami@Roguelike@LevelName_mode0": {
+        "text": [
+            "初霜湖泽",
+            "昧明冻土",
+            "无瑕花园"
+        ]
+    },
     "Sami@Roguelike@LevelName_mode4": {
         "text": [
             "昧明冻土",
@@ -11676,7 +11713,7 @@
             197,
             78
         ]
-    },    
+    },
     "Sami@Roguelike@RecruitMain": {
         "template": "Sami@Roguelike@Recruit.png"
     },

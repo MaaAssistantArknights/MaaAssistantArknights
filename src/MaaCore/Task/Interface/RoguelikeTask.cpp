@@ -11,6 +11,7 @@
 #include "Task/Roguelike/RoguelikeDifficultySelectionTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeFormationTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeLastRewardTaskPlugin.h"
+#include "Task/Roguelike/RoguelikeStrategyChangeTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeRecruitTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeResetTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeShoppingTaskPlugin.h"
@@ -44,6 +45,7 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
 
     m_last_reward_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeLastRewardTaskPlugin>();
     m_difficulty_selection_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeDifficultySelectionTaskPlugin>();
+    m_strategy_change_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeStrategyChangeTaskPlugin>();
 
     // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加一点。先这样凑合用
     for (int i = 0; i != 100; ++i) {
@@ -102,6 +104,15 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     status()->set_properties(Status::RoguelikeNeedChangeDifficulty, "0");
     status()->set_properties(Status::RoguelikeStartWithEliteTwo, std::to_string(start_with_elite_two));
 
+    if (mode == 0) {
+        // 选点策略为激进
+        Task.set_task_base(theme + "@Roguelike@Stages", theme + "@Roguelike@Stages_aggressive");
+    }
+    else {
+        // 重置选点策略为避战
+        Task.set_task_base(theme + "@Roguelike@Stages", theme + "@Roguelike@Stages_default");
+    }
+
     if (mode == 4) {
         // 设置ocr第三层层名，设置识别到退出重进
         Task.set_task_base(theme + "@Roguelike@LevelName", theme + "@Roguelike@LevelName_mode4");
@@ -117,7 +128,9 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     }
     else {
         // 重置需要ocr的层名和next任务
-        Task.set_task_base(theme + "@Roguelike@LevelName", theme + "@Roguelike@LevelName_default");
+        (mode == 0)
+            ? Task.set_task_base(theme + "@Roguelike@LevelName", theme + "@Roguelike@LevelName_mode0")
+            : Task.set_task_base(theme + "@Roguelike@LevelName", theme + "@Roguelike@LevelName_default");
         // 重置开局奖励next
         Task.set_task_base("Roguelike@LastReward", "Roguelike@LastReward_default");
         Task.set_task_base("Roguelike@LastReward2", "Roguelike@LastReward_default");
