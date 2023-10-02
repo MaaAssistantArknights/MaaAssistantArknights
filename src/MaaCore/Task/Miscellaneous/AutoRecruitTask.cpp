@@ -225,6 +225,7 @@ bool asst::AutoRecruitTask::_run()
             if (m_slot_fail >= slot_retry_limit) {
                 return false;
             }
+            if (!m_has_permit && (!m_force_refresh || !m_has_refresh)) return true;
         }
         else {
             if (!check_recruit_home_page()) return false;
@@ -327,12 +328,11 @@ bool asst::AutoRecruitTask::recruit_one(const Rect& button)
 
     if (need_exit()) return false;
 
-    if (!confirm()) { // ran out of recruit permit?
+    if (m_has_permit&&!confirm()) { // ran out of recruit permit?
         Log.info("Failed to confirm current recruit config.");
-        if (!m_force_refresh) m_force_discard_flag = true;
-        m_force_skipped.emplace(slot_index_from_rect(button));
+        m_force_discard_flag = true;
         click_return_button();
-        if (!m_force_refresh) return false;
+        return false;
     }
 
     return true;
@@ -355,7 +355,8 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         if (image_analyzer.get_tags_result().size() != RecruitConfig::CorrectNumberOfTags) continue;
 
         const std::vector<TextRect>& tags = image_analyzer.get_tags_result();
-        bool has_refresh = !image_analyzer.get_refresh_rect().empty();
+        m_has_refresh = !image_analyzer.get_refresh_rect().empty();
+        m_has_permit = image_analyzer.get_permit_rect().empty();
 
         std::vector<RecruitConfig::TagId> tag_ids;
         ranges::transform(tags, std::back_inserter(tag_ids), std::mem_fn(&TextRect::text));
@@ -482,7 +483,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         if (need_exit()) return {};
 
         // refresh
-        if (m_need_refresh && has_refresh && !has_special_tag && final_combination.min_level == 3 &&
+        if (m_need_refresh && m_has_refresh && !has_special_tag && final_combination.min_level == 3 &&
             !(m_skip_robot && has_robot_tag)) {
             if (refresh_count > refresh_limit) [[unlikely]] {
                 json::value cb_info = basic_info();
@@ -517,6 +518,13 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         }
 
         if (need_exit()) return {};
+
+        if (!m_has_permit) {
+            calc_task_result_type result;
+            result.success = true;
+            result.force_skip = true;
+            return result;
+        }
 
         if (!is_calc_only_task()) {
             // do not confirm, force skip

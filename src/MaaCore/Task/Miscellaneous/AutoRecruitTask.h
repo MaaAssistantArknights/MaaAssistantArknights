@@ -77,6 +77,8 @@ namespace asst
         bool m_need_refresh = false;
         bool m_use_expedited = false;
         int m_max_times = 0;
+        bool m_has_permit = true;
+        bool m_has_refresh = true;
         bool m_skip_robot = true;
         bool m_set_time = true;
         bool m_force_refresh = true;

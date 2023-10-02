@@ -634,6 +634,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  About  -->
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">Auto refresh 3★ Tags</system:String>
+    <system:String x:Key="ForceRefresh">无招募许可时继续尝试刷新 Tags</system:String>
     <system:String x:Key="AutoUseExpedited">Auto use Expedited Plan*</system:String>
     <system:String x:Key="Level3UseShortTime">Set 7:40 instead of 9:00 for 3★ Tags</system:String>
     <system:String x:Key="Level3UseShortTime2">Set 1:00 instead of 9:00 for 3★ Tags</system:String>
