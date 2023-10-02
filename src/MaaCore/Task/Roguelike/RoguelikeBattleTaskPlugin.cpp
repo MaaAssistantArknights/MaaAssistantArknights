@@ -419,7 +419,9 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
             m_deployed_time.erase(name);
         }
     }
-    for (const auto& [name, loc] : m_battlefield_opers) {
+
+    auto pre_battlefield = m_battlefield_opers;
+    for (const auto& [name, loc] : pre_battlefield) {
         const auto& oper_info = RoguelikeRecruit.get_oper_info(m_roguelike_theme, name);
         auto iter = m_deployed_time.find(name);
         if (iter != m_deployed_time.end() && oper_info.auto_retreat > 0) {
@@ -431,7 +433,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
             }
         }
     }
-    auto pre_battlefield = m_battlefield_opers;
+    pre_battlefield = m_battlefield_opers;
 
     if (!update_deployment(false, image)) {
         return false;
@@ -456,8 +458,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
     if (do_best_deploy()) { // 这是新的部署逻辑，更加精确
         m_first_deploy = false;
         return true;
-    }
-    else { // 这是旧的、通用部署逻辑
+    } else { // 这是旧的、通用部署逻辑
         auto urgent_home_opt = check_urgent(pre_cooling, cur_cooling, pre_battlefield);
 
         battle::DeploymentOper best_oper;
