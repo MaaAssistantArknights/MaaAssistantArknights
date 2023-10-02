@@ -8,10 +8,11 @@
 #include "Config/Miscellaneous/TilePack.h"
 #include "Task/AbstractTaskPlugin.h"
 #include "Task/BattleHelper.h"
+#include "Task/Roguelike/RoguelikeConfig.h"
 
 namespace asst
 {
-    class RoguelikeBattleTaskPlugin : public AbstractTaskPlugin, private BattleHelper
+    class RoguelikeBattleTaskPlugin : public AbstractTaskPlugin, private BattleHelper, public RoguelikeConfig
     {
         using Time_Point = std::chrono::time_point<std::chrono::system_clock>;
 
@@ -141,5 +142,10 @@ namespace asst
         std::unordered_map<std::string, std::vector<battle::roguelike::DeployInfoWithRank>> m_deploy_plan;
         std::vector<battle::roguelike::DeployInfoWithRank> m_retreat_plan;
         std::unordered_map<std::string, std::chrono::steady_clock::time_point> m_deployed_time;
+
+        // 缓存干员精英
+        std::unordered_map<std::string, int64_t> m_oper_elite;
+        // 缓存干员精英情况
+        void cache_oper_elite_status();
     };
 } // namespace asst
