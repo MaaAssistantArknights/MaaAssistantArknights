@@ -1034,6 +1034,7 @@
             "TerminalDark.png",
             "TerminalSami.png"
         ],
+        "cache": false,
         "maxTimes": 3,
         "exceededNext": [
             "Stop"
@@ -2958,6 +2959,7 @@
             "TerminalDark.png",
             "TerminalSami.png"
         ],
+        "cache": false,
         "baseTask": "StartUp",
         "next": [
             "Settings"
@@ -3312,6 +3314,7 @@
             "TerminalDark.png",
             "TerminalSami.png"
         ],
+        "cache": false,
         "action": "DoNothing",
         "roi": [
             880,
@@ -4307,6 +4310,7 @@
             "TerminalDark.png",
             "TerminalSami.png"
         ],
+        "cache": false,
         "action": "ClickSelf",
         "roi": [
             880,
@@ -4701,6 +4705,7 @@
             "TaskDark.png",
             "TaskSami.png"
         ],
+        "cache": false,
         "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [
@@ -4817,6 +4822,7 @@
             "TerminalDark.png",
             "TerminalSami.png"
         ],
+        "cache": false,
         "action": "DoNothing",
         "next": [
             "Mail",
@@ -4898,6 +4904,7 @@
             "FriendsDark.png",
             "FriendsSami.png"
         ],
+        "cache": false,
         "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [
@@ -5129,6 +5136,7 @@
             "TerminalDark.png",
             "TerminalSami.png"
         ],
+        "cache": false,
         "action": "Stop",
         "roi": [
             880,
@@ -5410,6 +5418,7 @@
             "EnterInfrastDark.png",
             "EnterInfrastSami.png"
         ],
+        "cache": false,
         "roi": [
             900,
             540,
@@ -12125,6 +12134,7 @@
             "TerminalDark.png",
             "TerminalSami.png"
         ],
+        "cache": false,
         "action": "ClickSelf",
         "roi": [
             880,
@@ -12464,6 +12474,7 @@
             "OperBoxEnterDark.png",
             "OperBoxEnterSami.png"
         ],
+        "cache": false,
         "action": "ClickSelf",
         "roi": [
             935,
@@ -13402,6 +13413,7 @@
             "TerminalDark.png",
             "TerminalSami.png"
         ],
+        "cache": false,
         "action": "ClickSelf",
         "roi": [
             880,
