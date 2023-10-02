@@ -639,6 +639,9 @@
     <ClInclude Include="Task\Miscellaneous\TaskFileReloadTask.h">
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeConfig.h">
+      <Filter>源文件\Task\Roguelike</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -1060,6 +1063,9 @@
     </ClCompile>
     <ClCompile Include="Task\Miscellaneous\TaskFileReloadTask.cpp">
       <Filter>Source\Task\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeConfig.cpp">
+      <Filter>源文件\Task\Roguelike</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
