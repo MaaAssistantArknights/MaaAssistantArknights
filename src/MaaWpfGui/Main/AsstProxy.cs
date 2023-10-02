@@ -1274,7 +1274,7 @@ namespace MaaWpfGui.Main
 
             // normal -> [host]:[port]
             string[] addresses = address.Split(':');
-            if (address.Length != 2)
+            if (addresses.Length != 2)
             {
                 return false;
             }
