@@ -113,6 +113,7 @@ namespace MaaWpfGui.Constants
 
         public const string RecruitMaxTimes = "AutoRecruit.MaxTimes";
         public const string RefreshLevel3 = "AutoRecruit.RefreshLevel3";
+        public const string ForceRefresh = "AutoRecruit.ForceRefresh";
         public const string IsLevel3UseShortTime = "AutoRecruit.IsLevel3UseShortTime";
         public const string IsLevel3UseShortTime2 = "AutoRecruit.IsLevel3UseShortTime2";
         public const string NotChooseLevel1 = "AutoRecruit.NotChooseLevel1";

@@ -2189,6 +2189,21 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _forceRefresh = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ForceRefresh, bool.TrueString));
+
+        /// <summary>
+        /// Gets or Sets a value indicating whether to refresh when recruit permit ran out.
+        /// </summary>
+        public bool ForceRefresh
+        {
+            get => _forceRefresh;
+            set
+            {
+                SetAndNotify(ref _forceRefresh, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ForceRefresh, value.ToString());
+            }
+        }
+
         private bool _useExpedited = false;
 
         /// <summary>

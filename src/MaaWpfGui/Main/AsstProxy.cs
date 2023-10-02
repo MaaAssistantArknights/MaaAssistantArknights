@@ -1627,17 +1627,19 @@ namespace MaaWpfGui.Main
         /// <param name="selectLevel">会去点击标签的 Tag 等级。</param>
         /// <param name="confirmLevel">会去点击确认的 Tag 等级。若仅公招计算，可设置为空数组。</param>
         /// <param name="needRefresh">是否刷新三星 Tags。</param>
+        /// <param name="needForceRefresh">无招募许可时是否继续尝试刷新 Tags。</param>
         /// <param name="useExpedited">是否使用加急许可。</param>
         /// <param name="skipRobot">是否在识别到小车词条时跳过。</param>
         /// <param name="isLevel3UseShortTime">三星Tag是否使用短时间（7:40）</param>
         /// <param name="isLevel3UseShortTime2">三星Tag是否使用短时间（1:00）</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendRecruit(int maxTimes, int[] selectLevel, int[] confirmLevel, bool needRefresh, bool useExpedited,
+        public bool AsstAppendRecruit(int maxTimes, int[] selectLevel, int[] confirmLevel, bool needRefresh, bool needForceRefresh, bool useExpedited,
             bool skipRobot, bool isLevel3UseShortTime, bool isLevel3UseShortTime2 = false)
         {
             var taskParams = new JObject
             {
                 ["refresh"] = needRefresh,
+                ["force_refresh"] = needForceRefresh,
                 ["select"] = new JArray(selectLevel),
                 ["confirm"] = new JArray(confirmLevel),
                 ["times"] = maxTimes,
