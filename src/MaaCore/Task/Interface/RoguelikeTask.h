@@ -16,6 +16,7 @@ namespace asst
     class RoguelikeSkillSelectionTaskPlugin;
     class RoguelikeShoppingTaskPlugin;
     class RoguelikeStageEncounterTaskPlugin;
+    class RoguelikeStrategyChangeTaskPlugin;
 
     class RoguelikeTask : public InterfaceTask
     {
@@ -41,5 +42,6 @@ namespace asst
         std::shared_ptr<RoguelikeResetTaskPlugin> m_reset_plugin_ptr = nullptr;
         std::shared_ptr<RoguelikeShoppingTaskPlugin> m_shopping_plugin_ptr = nullptr;
         std::shared_ptr<RoguelikeStageEncounterTaskPlugin> m_stage_encounter_plugin_ptr = nullptr;
+        std::shared_ptr<RoguelikeStrategyChangeTaskPlugin> m_strategy_change_plugin_ptr = nullptr;
     };
 }

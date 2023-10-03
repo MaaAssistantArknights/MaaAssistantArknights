@@ -2613,9 +2613,60 @@
             "上限"
         ]
     },
-    "Phantom@Roguelike@LevelName_mode4": {
-        "text": [
-            "故土殘軀"
+    "Phantom@Roguelike@StrategyChange_mode0": {
+        "ocrReplace": [
+            [
+                "迷霧歧途",
+                "_aggressive"
+            ],
+            [
+                "落陽庭院",
+                "_aggressive"
+            ],
+            [
+                "故土殘軀",
+                "_aggressive"
+            ],
+            [
+                "噩夢之始",
+                "_pragmatic"
+            ],
+            [
+                "血月長廊",
+                "_pragmatic"
+            ],
+            [
+                "渴欲大廳",
+                "_default"
+            ]
+        ]
+    },
+    "Phantom@Roguelike@StrategyChange_mode4": {
+        "ocrReplace": [
+            [
+                "迷霧歧途",
+                "_default"
+            ],
+            [
+                "落陽庭院",
+                "_default"
+            ],
+            [
+                "故土殘軀",
+                "_exit"
+            ],
+            [
+                "噩夢之始",
+                "_exit"
+            ],
+            [
+                "血月長廊",
+                "_exit"
+            ],
+            [
+                "渴欲大廳",
+                "_exit"
+            ]
         ]
     },
     "Phantom@Roguelike@NextLevel": {
@@ -2636,10 +2687,68 @@
             "選擇"
         ]
     },
-    "Mizuki@Roguelike@LevelName_mode4": {
-        "text": [
-            "波濤略地",
-            "紺碧搖籃"
+    "Mizuki@Roguelike@StrategyChange_mode0": {
+        "ocrReplace": [
+            [
+                "天光海岸",
+                "_aggressive"
+            ],
+            [
+                "離岸孤島",
+                "_aggressive"
+            ],
+            [
+                "波濤略地",
+                "_pragmatic"
+            ],
+            [
+                "隱秘溫床",
+                "_pragmatic"
+            ],
+            [
+                "失塵岩洞",
+                "_default"
+            ],
+            [
+                "幽海叢林",
+                "_default"
+            ],
+            [
+                "紺碧搖籃",
+                "_SKIP_"
+            ]
+        ]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode4": {
+        "ocrReplace": [
+            [
+                "天光海岸",
+                "_default"
+            ],
+            [
+                "離岸孤島",
+                "_default"
+            ],
+            [
+                "波濤略地",
+                "_exit"
+            ],
+            [
+                "隱秘溫床",
+                "_exit"
+            ],
+            [
+                "失塵岩洞",
+                "_exit"
+            ],
+            [
+                "幽海叢林",
+                "_exit"
+            ],
+            [
+                "紺碧搖籃",
+                "_exit"
+            ]
         ]
     },
     "Mizuki@Roguelike@NextLevel": {
