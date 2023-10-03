@@ -1,5 +1,5 @@
 version: "1.0"
-linter: jetbrains/qodana-dotnet:2023.2-eap
+linter: jetbrains/qodana-dotnet:2023.2
 bootstrap: echo 123
 plugins:
   - id: com.intellij.grazie.pro
