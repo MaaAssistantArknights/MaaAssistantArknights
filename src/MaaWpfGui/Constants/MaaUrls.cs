@@ -32,7 +32,7 @@ namespace MaaWpfGui.Constants
 
         public const string PrtsPlus = "https://prts.plus";
 
-        public const string PrtsPlusCopilotGet = "https://www.maa.plus/copilot/get/";
+        public const string PrtsPlusCopilotGet = "https://prts.maa.plus/copilot/get/";
 
         public const string PrtsPlusCopilotRating = "https://prts.maa.plus/copilot/rating";
 
