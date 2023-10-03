@@ -1593,7 +1593,7 @@ namespace MaaWpfGui.ViewModels.UI
         private string _roguelikeMode = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeMode, "0");
 
         /// <summary>
-        /// 策略，往后打 / 刷一层就退 / 烧开水
+        /// 策略，往后打 / 刷一层就退 / 烧热水
         /// </summary>
         public string RoguelikeMode
         {
