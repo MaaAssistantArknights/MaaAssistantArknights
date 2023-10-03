@@ -16,11 +16,10 @@ namespace MaaWpfGui.Configuration
 {
     public class ConfigFactory
     {
-        // TODO: delete test in main branch
-        private static readonly string _configurationFile = Path.Combine(Environment.CurrentDirectory, "config/gui.test.json");
+        private static readonly string _configurationFile = Path.Combine(Environment.CurrentDirectory, "config/gui.new.json");
 
-        // TODO: write backup method
-        private static readonly string _configurationBakFile = Path.Combine(Environment.CurrentDirectory, "config/gui.test.json.bak");
+        // TODO: write backup method. WIP: https://github.com/Cryolitia/MaaAssistantArknights/tree/config
+        private static readonly string _configurationBakFile = Path.Combine(Environment.CurrentDirectory, "config/gui.new.json.bak");
 
         private static readonly ILogger _logger = Log.ForContext<ConfigurationHelper>();
 

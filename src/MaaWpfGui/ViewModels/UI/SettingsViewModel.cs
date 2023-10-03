@@ -440,11 +440,11 @@ namespace MaaWpfGui.ViewModels.UI
 
             ConfigurationList = configurations;
 
-            DarkModeList = new List<CombinedData>
+            DarkModeList = new List<GenericCombinedData<DarkModeType>>
             {
-                new CombinedData { Display = LocalizationHelper.GetString("Light"), Value = "Light" },
-                new CombinedData { Display = LocalizationHelper.GetString("Dark"), Value = "Dark" },
-                new CombinedData { Display = LocalizationHelper.GetString("SyncWithOs"), Value = "SyncWithOs" },
+                new GenericCombinedData<DarkModeType> { Display = LocalizationHelper.GetString("Light"), Value = DarkModeType.Light },
+                new GenericCombinedData<DarkModeType> { Display = LocalizationHelper.GetString("Dark"), Value = DarkModeType.Dark },
+                new GenericCombinedData<DarkModeType> { Display = LocalizationHelper.GetString("SyncWithOs"), Value = DarkModeType.SyncWithOS },
             };
 
             InverseClearModeList = new List<CombinedData>
@@ -1215,7 +1215,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets the list of dark mode.
         /// </summary>
-        public List<CombinedData> DarkModeList { get; set; }
+        public List<GenericCombinedData<DarkModeType>> DarkModeList { get; set; }
 
         /// <summary>
         /// Gets or sets the list of inverse clear modes.
@@ -3255,17 +3255,12 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets the dark mode.
         /// </summary>
-        public string DarkMode
+        public DarkModeType DarkMode
         {
-            get => ConfigFactory.CurrentConfig.GuiConfig.DarkMode.ToString();
+            get => ConfigFactory.CurrentConfig.GuiConfig.DarkMode;
             set
             {
-                if (!Enum.TryParse(value, out DarkModeType tempEnumValue))
-                {
-                    return;
-                }
-
-                ConfigFactory.CurrentConfig.GuiConfig.DarkMode = tempEnumValue;
+                ConfigFactory.CurrentConfig.GuiConfig.DarkMode = value;
                 NotifyOfPropertyChange();
                 SwitchDarkMode();
 
