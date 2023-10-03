@@ -11640,6 +11640,10 @@
                 "_aggressive"
             ],
             [
+                ".*明冻土",
+                "昧明冻土"
+            ],
+            [
                 "昧明冻土",
                 "_pragmatic"
             ],
@@ -11756,6 +11760,7 @@
         "Doc": "避紧急作战,3-4层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@StageVerticalBoskyPassage",
             "Sami@Roguelike@StageVerticalBoskyPassageAI6",
             "Sami@Roguelike@StageBoskyPassage",
@@ -11809,6 +11814,7 @@
         "Doc": "优先紧急作战,1-2层，删掉了boss点的判断",
         "algorithm": "JustReturn",
         "next": [
+            "Sami@Roguelike@NextLevel",
             "Sami@Roguelike@StageVerticalBoskyPassage",
             "Sami@Roguelike@StageVerticalBoskyPassageAI6",
             "Sami@Roguelike@StageBoskyPassage",
