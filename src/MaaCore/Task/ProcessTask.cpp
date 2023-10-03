@@ -109,12 +109,14 @@ bool ProcessTask::_run()
         };
         Log.info(info.to_string());
 
+        Log.trace("ready to get task", m_cur_task_name_list.front());
         auto front_task_ptr = Task.get(m_cur_task_name_list.front());
         // 可能有配置错误，导致不存在对应的任务
         if (front_task_ptr == nullptr) {
             Log.error("Invalid task", m_cur_task_name_list.front());
             return false;
         }
+        Log.trace("successfully get task", m_cur_task_name_list.front());
 
         Rect rect;
         // 如果第一个任务是JustReturn的，那就没必要再截图并计算了

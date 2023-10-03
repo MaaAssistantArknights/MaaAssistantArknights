@@ -625,6 +625,13 @@ bool asst::TaskData::generate_task_and_its_base(std::string_view name, bool must
         return false;
     case ToBeGenerate: {
         m_task_status[name] = Generating;
+
+        // 下面这段按理来说是不可能的
+        if (!m_json_all_tasks_info.contains(name)) {
+            Log.error("Unexcepted ToBeGenerate task:", name);
+            return false;
+        }
+
         const json::value& task_json = m_json_all_tasks_info.at(name);
 
         // BaseTask
