@@ -11,6 +11,7 @@
 #include "Task/Roguelike/RoguelikeDifficultySelectionTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeFormationTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeLastRewardTaskPlugin.h"
+#include "Task/Roguelike/RoguelikeStrategyChangeTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeRecruitTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeResetTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeShoppingTaskPlugin.h"
@@ -44,6 +45,7 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
 
     m_last_reward_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeLastRewardTaskPlugin>();
     m_difficulty_selection_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeDifficultySelectionTaskPlugin>();
+    m_strategy_change_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeStrategyChangeTaskPlugin>();
 
     // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加一点。先这样凑合用
     for (int i = 0; i != 100; ++i) {
@@ -79,6 +81,8 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     m_shopping_plugin_ptr->set_roguelike_theme(theme);
     m_skill_plugin_ptr->set_roguelike_theme(theme);
     m_stage_encounter_plugin_ptr->set_roguelike_theme(theme);
+    m_strategy_change_plugin_ptr->set_roguelike_theme(theme);
+
     m_roguelike_task_ptr->set_tasks({ theme + "@Roguelike@Begin" });
 
     // 0 - 刷经验，尽可能稳定地打更多层数，不期而遇采用激进策略
@@ -99,32 +103,27 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     bool start_with_elite_two = params.get("start_with_elite_two", false);
 
     status()->set_properties(Status::RoguelikeMode, std::to_string(mode));
-    status()->set_properties(Status::RoguelikeNeedChangeDifficulty, "0");
+    status()->set_properties(Status::RoguelikeDifficulty, "0");
     status()->set_properties(Status::RoguelikeStartWithEliteTwo, std::to_string(start_with_elite_two));
 
-    if (mode == 4) {
-        // 设置ocr第三层层名，设置识别到退出重进
-        Task.set_task_base(theme + "@Roguelike@LevelName", theme + "@Roguelike@LevelName_mode4");
-        // 获得热水壶和演讲时停止肉鸽
-        std::string last_reward_stop_or_continue =
-            start_with_elite_two ? "Roguelike@LastReward_default" : "Roguelike@LastReward_stop";
-        Task.set_task_base("Roguelike@LastReward", last_reward_stop_or_continue);
-        Task.set_task_base("Roguelike@LastReward4", last_reward_stop_or_continue);
-        // 获得其他奖励时重开
-        Task.set_task_base("Roguelike@LastReward2", "Roguelike@LastReward_restart");
-        Task.set_task_base("Roguelike@LastReward3", "Roguelike@LastReward_restart");
-        Task.set_task_base("Roguelike@LastRewardRand", "Roguelike@LastReward_restart");
+    // 设置层数选点策略，相关逻辑在 RoguelikeStrategyChangeTaskPlugin
+    {
+        Task.set_task_base(theme + "@Roguelike@Stages", theme + "@Roguelike@Stages_default");
+        std::string strategy_task = theme + "@Roguelike@StrategyChange";
+        std::string strategy_task_with_mode = strategy_task + "_mode" + std::to_string(mode);
+        if (Task.get(strategy_task_with_mode) == nullptr) {
+            strategy_task_with_mode = "#none"; // 没有对应的层数选点策略，使用默认策略（避战）
+            Log.warn(__FUNCTION__, "No strategy for mode", mode);
+        }
+        Task.set_task_base(strategy_task, strategy_task_with_mode);
     }
-    else {
-        // 重置需要ocr的层名和next任务
-        Task.set_task_base(theme + "@Roguelike@LevelName", theme + "@Roguelike@LevelName_default");
-        // 重置开局奖励next
-        Task.set_task_base("Roguelike@LastReward", "Roguelike@LastReward_default");
-        Task.set_task_base("Roguelike@LastReward2", "Roguelike@LastReward_default");
-        Task.set_task_base("Roguelike@LastReward3", "Roguelike@LastReward_default");
-        Task.set_task_base("Roguelike@LastReward4", "Roguelike@LastReward_default");
-        Task.set_task_base("Roguelike@LastRewardRand", "Roguelike@LastReward_default");
-    }
+
+    // 重置开局奖励 next，获得任意奖励均继续；烧水相关逻辑在 RoguelikeLastRewardTaskPlugin
+    Task.set_task_base("Roguelike@LastReward", "Roguelike@LastReward_default");
+    Task.set_task_base("Roguelike@LastReward2", "Roguelike@LastReward_default");
+    Task.set_task_base("Roguelike@LastReward3", "Roguelike@LastReward_default");
+    Task.set_task_base("Roguelike@LastReward4", "Roguelike@LastReward_default");
+    Task.set_task_base("Roguelike@LastRewardRand", "Roguelike@LastReward_default");
 
     if (mode == 1) {
         // 战斗后奖励只拿钱

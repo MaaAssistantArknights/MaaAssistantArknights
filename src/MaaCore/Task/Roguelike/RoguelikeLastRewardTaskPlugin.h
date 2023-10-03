@@ -17,6 +17,6 @@ namespace asst
         virtual bool _run() override;
 
     private:
-        mutable bool m_need_change_difficulty_higher = false;
+        mutable bool m_is_next_hardest = false; // 下一局是否是高难烧水局
     };
 }
