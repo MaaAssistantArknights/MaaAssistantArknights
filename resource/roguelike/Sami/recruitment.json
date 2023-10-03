@@ -1070,7 +1070,8 @@
                 {
                     "name": "纯烬艾雅法拉",
                     "skill": 1,
-                    "recruit_priority": 699,
+                    "is_key": true,
+                    "recruit_priority": 799,
                     "promote_priority": 590,
                     "recruit_priority_offsets": [
                         {
@@ -1562,7 +1563,7 @@
                     "name": "夜莺",
                     "skill": 3,
                     "alternate_skill": 2,
-                    "recruit_priority": 808,
+                    "recruit_priority": 708,
                     "promote_priority": 677,
                     "recruit_priority_offsets": [
                         {
@@ -1578,7 +1579,7 @@
                 {
                     "name": "白面鸮",
                     "skill": 2,
-                    "recruit_priority": 810,
+                    "recruit_priority": 710,
                     "promote_priority": 406,
                     "recruit_priority_offsets": [
                         {
@@ -1920,7 +1921,6 @@
                 }
             ]
         },
-
         {
             "name": "情报官",
             "opers": [
@@ -1932,7 +1932,6 @@
                     "skill": 2,
                     "recruit_priority": 677,
                     "promote_priority": 430,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -1950,7 +1949,6 @@
                     "skill": 2,
                     "recruit_priority": 551,
                     "promote_priority": 400,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
