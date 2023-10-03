@@ -3467,8 +3467,8 @@
             "#back",
             "ReturnButtons#next",
             "ReturnConfirm",
-            "ReturnButtons@LoadingIcon",
-            "ReturnButtons@LoadingText",
+            "BlackReturn@LoadingIcon",
+            "BlackReturn@LoadingText",
             "CloseAnnos#next"
         ]
     },
