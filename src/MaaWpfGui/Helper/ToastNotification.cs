@@ -395,7 +395,7 @@ namespace MaaWpfGui.Helper
             NotificationSounds sound = NotificationSounds.Notification,
             NotificationContent notificationContent = null)
         {
-            if (!ConfigFactory.CurrentConfig.GuiConfig.UseNotify)
+            if (!ConfigFactory.CurrentConfig.GUI.UseNotify)
             {
                 return;
             }
