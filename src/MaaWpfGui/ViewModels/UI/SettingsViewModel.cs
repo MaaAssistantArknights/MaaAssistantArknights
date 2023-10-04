@@ -1723,6 +1723,21 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _roguelikeDelayAbortUntilCombatComplete = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, false.ToString()));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether delay abort until battle complete
+        /// </summary>
+        public bool RoguelikeDelayAbortUntilCombatComplete
+        {
+            get => _roguelikeDelayAbortUntilCombatComplete;
+            set
+            {
+                SetAndNotify(ref _roguelikeDelayAbortUntilCombatComplete, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, value.ToString());
+            }
+        }
+
         private string _roguelikeStartsCount = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartsCount, "9999999");
 
         /// <summary>
