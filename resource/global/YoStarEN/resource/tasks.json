@@ -3242,6 +3242,12 @@
             231,
             116,
             22
+        ],
+        "specialParams": [
+            160,
+            4,
+            7,
+            0
         ]
     },
     "BattleStartPre": {

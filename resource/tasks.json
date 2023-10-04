@@ -7353,7 +7353,14 @@
             107,
             20
         ],
-        "postDelay": 200
+        "postDelay": 200,
+        "specialParams_Doc": "Used in BattleFormationTask.cpp for OCR manipulation",
+        "specialParams": [
+            160,
+            4,
+            4,
+            0
+        ]
     },
     "BattleQuickFormationSkill1": {
         "algorithm": "JustReturn",
