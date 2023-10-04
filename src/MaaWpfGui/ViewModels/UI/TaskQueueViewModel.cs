@@ -947,6 +947,44 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
+        public async void WaitAndStop()
+        {
+            Waiting = true;
+            AddLog(LocalizationHelper.GetString("Waiting"));
+            if (Instances.SettingsViewModel.RoguelikeDelayAbortUntilCombatComplete)
+            {
+                await WaitUntilRoguelikeCombatComplete();
+            }
+
+            if (!Stopping)
+            {
+                await Stop();
+            }
+        }
+
+        /// <summary>
+        /// 等待肉鸽战斗结束，10分钟强制退出
+        /// </summary>
+        private async Task WaitUntilRoguelikeCombatComplete()
+        {
+            int time = 0;
+            while (Instances.SettingsViewModel.RoguelikeDelayAbortUntilCombatComplete && RoguelikeInCombatAndShowWait && time < 600 && !Stopping)
+            {
+                await Task.Delay(1000);
+                ++time;
+            }
+        }
+
+        private bool _roguelikeInCombatAndShowWait = false;
+
+        public bool RoguelikeInCombatAndShowWait
+        {
+            get => _roguelikeInCombatAndShowWait;
+            set => SetAndNotify(ref _roguelikeInCombatAndShowWait, value);
+        }
+
         public void SetStopped()
         {
             if (!_runningState.GetIdle() || Stopping)
@@ -954,6 +992,7 @@ namespace MaaWpfGui.ViewModels.UI
                 AddLog(LocalizationHelper.GetString("Stopped"));
             }
 
+            Waiting = false;
             Stopping = false;
             _runningState.SetIdle(true);
         }
@@ -2057,6 +2096,17 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get => _stopping;
             private set => SetAndNotify(ref _stopping, value);
+        }
+
+        private bool _waiting;
+
+        /// <summary>
+        /// Gets a value indicating whether waiting for roguelike combat complete.
+        /// </summary>
+        public bool Waiting
+        {
+            get => _waiting;
+            private set => SetAndNotify(ref _waiting, value);
         }
 
         private bool _fightTaskRunning;
