@@ -153,6 +153,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
 
     // 重要的资源，实时加载（图片还是惰性的）
     LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
+    // 基建技能路径，无法变更（基于热更屎山）
     LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
     LoadResourceWithTemplAndCheckRet(ItemConfig, "item_index.json"_p, "template"_p / "items"_p);
 
