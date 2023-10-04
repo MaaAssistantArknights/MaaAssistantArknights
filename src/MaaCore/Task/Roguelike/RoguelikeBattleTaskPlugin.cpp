@@ -407,13 +407,11 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
 {
     check_drone_tiles();
 
-    cv::Mat image = ctrler()->get_image(false);
+    cv::Mat image = ctrler()->get_image();
     if (!m_first_deploy && use_all_ready_skill(image)) {
         return true;
     }
-    if (need_exit()) {
-        Log.info("exit");
-    }
+
     std::unordered_set<std::string> pre_cooling;
     for (const auto& [name, oper] : m_cur_deployment_opers) {
         if (oper.cooling) {
