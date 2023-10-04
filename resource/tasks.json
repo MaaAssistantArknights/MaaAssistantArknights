@@ -11519,8 +11519,9 @@
     },
     "Sami@Roguelike@GamePassSkip2": {},
     "Sami@Roguelike@GamePassTheEndConfirm": {},
-    "Sami@Roguelike@GetCiphertextBoard": {
-        "template": "Sami@Roguelike@GetCiphertextBoard",
+    "Sami@Roguelike@CiphertextBoardGain": {
+        "doc": "本任务注册插件RoguelikeCiphertextBoardGain",
+        "template": "Sami@Roguelike@CiphertextBoardGain",
         "action": "ClickRect",
         "specificRect": [
             611,
@@ -11540,8 +11541,58 @@
             255
         ],
         "next": [
-            "Sami@Roguelike@GetCiphertextBoard",
+            "Sami@Roguelike@CiphertextBoardGain",
             "Sami@Roguelike@SquadConfirm#next"
+        ]
+    },
+    "Sami@Roguelike@CiphertextBoardGainOcr": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "roi": [
+            584,
+            261,
+            315,
+            46
+        ],
+        "text": [
+            "黜人",
+            "猎手",
+            "战士",
+            "萨满",
+            "雪祀",
+            "英雄",
+            "树冠",
+            "水面",
+            "眼睛",
+            "拱门",
+            "光芒",
+            "大地",
+            "源石",
+            "乔木",
+            "砂石",
+            "灌木",
+            "兽类",
+            "人类",
+            "伤痕",
+            "歌唱",
+            "沉默",
+            "朗诵",
+            "辩论",
+            "慰藉",
+            "告解",
+            "喜悦",
+            "惊讶",
+            "愤怒",
+            "疑惑",
+            "憧憬",
+            "爱恋",
+            "巡视",
+            "筑巢",
+            "捕猎",
+            "繁衍",
+            "掠夺",
+            "迁徙",
+            "空无"
         ]
     },
     "Sami@Roguelike@GetDrop1": {},
@@ -11906,7 +11957,7 @@
             "Sami@Roguelike@DialogSkip",
             "Sami@Roguelike@Stages#next",
             "Sami@Roguelike@MapObject",
-            "Sami@Roguelike@GetCiphertextBoard"
+            "Sami@Roguelike@CiphertextBoardGain"
         ]
     },
     "Sami@Roguelike@SquadDefault": {},

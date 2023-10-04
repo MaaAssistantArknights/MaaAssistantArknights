@@ -645,6 +645,12 @@
     <ClInclude Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeCiphertextBoardGainTaskPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeCiphertextBoardUseTaskPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -1071,6 +1077,12 @@
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeCiphertextBoardGainTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeCiphertextBoardUseTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
   </ItemGroup>

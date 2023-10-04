@@ -84,6 +84,8 @@
     <ClInclude Include="Task\BattleHelper.h" />
     <ClInclude Include="Task\Interface\SingleStepTask.h" />
     <ClInclude Include="Task\Interface\SSSCopilotTask.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeCiphertextBoardGainTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeCiphertextBoardUseTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeConfig.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeDifficultySelectionTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeLastRewardTaskPlugin.h" />
@@ -249,6 +251,8 @@
     <ClCompile Include="Task\BattleHelper.cpp" />
     <ClCompile Include="Task\Interface\SingleStepTask.cpp" />
     <ClCompile Include="Task\Interface\SSSCopilotTask.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeCiphertextBoardGainTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeCiphertextBoardUseTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeConfig.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeDifficultySelectionTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeLastRewardTaskPlugin.cpp" />

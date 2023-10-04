@@ -2,6 +2,7 @@
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Roguelike/RoguelikeShoppingConfig.h"
+#include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Status.h"
 #include "Task/ProcessTask.h"
@@ -104,6 +105,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
 
     bool bought = false;
     auto& all_goods = RoguelikeShopping.get_goods(m_roguelike_theme);
+    // auto& all_ciphertext_board = Task.get<OcrTaskInfo>("Sami@Roguelike@CiphertextBoardGain")->text;
     for (const auto& goods : all_goods) {
         if (need_exit()) {
             return false;
@@ -166,6 +168,19 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         Log.info("Ready to buy", goods.name);
         ctrler()->click(find_it->rect);
         bought = true;
+        if (m_roguelike_theme == "Sami") {
+            
+            /* auto iter = all_ciphertext_board["text"].find(goods.name);
+            if (iter != all_ciphertext_board.end()) {
+                std::string overview_str =
+                    status()->get_str(Status::RoguelikeCiphertextBoardOverview).value_or(json::value().to_string());
+
+                auto& overview = json::parse(overview_str).value_or(json::value()).as_array();
+                // 把ciphertext_board存到overview里
+                overview.push_back(goods.name);
+                status()->set_str(Status::RoguelikeCiphertextBoardOverview, overview.to_string());
+            }*/
+        }
         if (goods.no_longer_buy) {
             status()->set_number(Status::RoguelikeTraderNoLongerBuy, 1);
         }
