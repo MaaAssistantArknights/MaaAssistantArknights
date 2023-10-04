@@ -240,8 +240,13 @@ std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_opers()
     for (int i = 0; i < 8; ++i) {
         std::string task_name = "BattleQuickFormation-OperNameFlag" + std::to_string(i);
 
+        const auto& params = Task.get("BattleQuickFormationOCR")->special_params;
         TemplDetOCRer name_analyzer(image);
+
         name_analyzer.set_task_info(task_name, "BattleQuickFormationOCR");
+        name_analyzer.set_bin_threshold(params[0]);
+        name_analyzer.set_bin_expansion(params[1]);
+        name_analyzer.set_bin_trim_threshold(params[2], params[3]);
         name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
         auto cur_opt = name_analyzer.analyze();
         if (!cur_opt) {
