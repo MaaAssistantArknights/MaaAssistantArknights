@@ -263,13 +263,27 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     title = titleValue.ToString();
 
-                    // 为自动作战列表匹配名字
-                    var linkParser = new Regex(@"([a-z]{0,3})(\d{0,2})-(EX-)?(\d{1,2})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-                    foreach (Match match in linkParser.Matches(title))
+
+                    do
                     {
-                        CopilotTaskName = match.Value;
-                        break;
+                        // 为自动作战列表匹配名字
+                        var stageNameParser = new Regex(@"([a-z]{0,3})(\d{0,2})-(EX-)?(\d{1,2})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                        var stageNameResult = stageNameParser.Matches(title);
+                        if (stageNameResult.Count > 0)
+                        {
+                            CopilotTaskName = stageNameResult[0].Value;
+                            break;
+                        }
+
+                        if (!IsDataFromWeb && (stageNameResult = stageNameParser.Matches(_filename)).Count > 0)
+                        {
+                            CopilotTaskName = stageNameResult[0].Value;
+                            break;
+                        }
+
+                        CopilotTaskName = string.Empty;
                     }
+                    while (false);
                 }
 
                 if (title.Length != 0)
