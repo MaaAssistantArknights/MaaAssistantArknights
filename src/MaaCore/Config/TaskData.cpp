@@ -195,7 +195,7 @@ void asst::TaskData::clear_tasks()
 
 void asst::TaskData::set_task_base(const std::string_view task_name, std::string base_task_name)
 {
-    m_json_all_tasks_info[task_name]["baseTask"] = std::move(base_task_name);
+    m_json_all_tasks_info[task_name_view(task_name)]["baseTask"] = std::move(base_task_name);
     clear_tasks();
 }
 
