@@ -4363,7 +4363,11 @@
         ]
     },
     "Recruit": {
-        "template": "Recruit.png",
+        "template": [
+            "Recruit.png",
+            "RecruitDark.png",
+            "RecruitSami.png"
+        ],
         "action": "ClickSelf",
         "roi": [
             900,
