@@ -59,7 +59,7 @@
                         Margin="10"
                         Dock="Right"
                         StepIndex="{Binding GuideStepIndex}">
-                        <hc:StepBarItem Content="{DynamicResource UISettings}" />
+                        <hc:StepBarItem Content="{DynamicResource UiSettings}" />
                         <hc:StepBarItem Content="{DynamicResource GameSettings}" />
                         <hc:StepBarItem Content="{DynamicResource ConnectionSettings}" />
                         <hc:StepBarItem Content="{DynamicResource TaskSettings}" />

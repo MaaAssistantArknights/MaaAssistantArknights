@@ -1,9 +1,10 @@
 #pragma once
 #include "Task/AbstractTaskPlugin.h"
+#include "Task/Roguelike/RoguelikeConfig.h"
 
 namespace asst
 {
-    class RoguelikeLastRewardTaskPlugin : public AbstractTaskPlugin
+    class RoguelikeLastRewardTaskPlugin : public AbstractTaskPlugin, public RoguelikeConfig
     {
     public:
         using AbstractTaskPlugin::AbstractTaskPlugin;
@@ -14,5 +15,8 @@ namespace asst
 
     protected:
         virtual bool _run() override;
+
+    private:
+        mutable bool m_is_next_hardest = false; // 下一局是否是高难烧水局
     };
 }

@@ -93,6 +93,10 @@ bool ProcessTask::_run()
         if (need_exit()) {
             return false;
         }
+        if (!m_enable) {
+            Log.info("task disabled, pass", basic_info().to_string());
+            return true;
+        }
         if (m_cur_task_ptr && m_pre_task_name != m_cur_task_ptr->name) {
             m_pre_task_name = m_cur_task_ptr->name;
         }

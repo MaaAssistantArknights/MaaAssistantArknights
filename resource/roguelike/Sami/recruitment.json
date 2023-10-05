@@ -35,10 +35,10 @@
                                 "地面阻挡",
                                 "召唤"
                             ],
-                            "threshold": 2,
+                            "threshold": 1,
                             "is_less": true,
                             "offset": 200,
-                            "Doc": "地面阻挡输出位≤2时，凯尔希的招募优先级+200"
+                            "Doc": "地面阻挡输出位≤1时，凯尔希的招募优先级+200"
                         },
                         {
                             "groups": [
@@ -52,7 +52,7 @@
                         },
                         {
                             "groups": [
-                                "重装",
+                                "地面阻挡",
                                 "水陈",
                                 "玛恩纳"
                             ],
@@ -86,17 +86,60 @@
                         {
                             "groups": [
                                 "凯尔希",
-                                "重装",
                                 "召唤",
-                                "近卫",
-                                "情报官",
-                                "挡人先锋",
-                                "其他地面"
+                                "地面阻挡"
                             ],
-                            "threshold": 1,
+                            "threshold": 0,
                             "is_less": true,
                             "offset": -350,
-                            "Doc": "地面阻挡≤1时，玛恩纳的招募优先级-350"
+                            "Doc": "地面阻挡<1时，玛恩纳的招募优先级-350"
+                        }
+                    ]
+                },
+                {
+                    "name": "银灰",
+                    "skill": 3,
+                    "alternate_skill": 1,
+                    "recruit_priority": 610,
+                    "promote_priority": 870,
+                    "is_start": true,
+                    "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "近卫"
+                            ],
+                            "threshold": 2,
+                            "offset": -200
+                        }
+                    ]
+                },
+                {
+                    "name": "龙舌兰",
+                    "skill": 2,
+                    "promote_priority": 350
+                }
+            ]
+        },
+        {
+            "name": "伊内丝",
+            "opers": [
+                {
+                    "name": "伊内丝",
+                    "skill": 2,
+                    "recruit_priority": 849,
+                    "promote_priority": 830,
+                    "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "挡人先锋",
+                                "情报官",
+                                "投锋"
+                            ],
+                            "threshold": 3,
+                            "offset": -100
                         }
                     ]
                 }
@@ -261,7 +304,6 @@
                     "alternate_skill": 2,
                     "recruit_priority": 605,
                     "promote_priority": 980,
-                    "is_start": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -290,25 +332,6 @@
                                 "重装"
                             ],
                             "threshold": 1,
-                            "offset": -200
-                        }
-                    ]
-                },
-                {
-                    "name": "银灰",
-                    "skill": 3,
-                    "alternate_skill": 1,
-                    "recruit_priority": 610,
-                    "promote_priority": 870,
-                    "is_start": true,
-                    "is_key": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "凯尔希",
-                                "近卫"
-                            ],
-                            "threshold": 2,
                             "offset": -200
                         }
                     ]
@@ -427,7 +450,7 @@
                             "threshold": 1,
                             "is_less": true,
                             "offset": -300,
-                            "Doc": "地面阻挡≤1时，玛恩纳的招募优先级-500"
+                            "Doc": "地面阻挡≤1时，招募优先级-500"
                         }
                     ]
                 }
@@ -458,7 +481,7 @@
                                 "重装"
                             ],
                             "threshold": 2,
-                            "offset": -300
+                            "offset": -120
                         }
                     ]
                 },
@@ -501,7 +524,7 @@
                                 "近卫"
                             ],
                             "threshold": 2,
-                            "offset": -300
+                            "offset": -200
                         }
                     ]
                 },
@@ -520,7 +543,7 @@
                                 "重装"
                             ],
                             "threshold": 2,
-                            "offset": -250
+                            "offset": -120
                         }
                     ]
                 },
@@ -528,7 +551,7 @@
                     "name": "星熊",
                     "skill": 2,
                     "recruit_priority": 611,
-                    "promote_priority": 610,
+                    "promote_priority": 650,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -536,7 +559,7 @@
                                 "重装"
                             ],
                             "threshold": 2,
-                            "offset": -300
+                            "offset": -120
                         }
                     ]
                 },
@@ -596,6 +619,7 @@
                     "recruit_priority_offsets": [
                         {
                             "groups": [
+                                "凯尔希",
                                 "重装"
                             ],
                             "threshold": 2,
@@ -607,10 +631,11 @@
                     "name": "泡泡",
                     "skill": 2,
                     "recruit_priority": 597,
-                    "promote_priority": 270,
+                    "promote_priority": 400,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
+                                "凯尔希",
                                 "重装"
                             ],
                             "threshold": 2,
@@ -648,7 +673,6 @@
                     "name": "斑点",
                     "skill": 1,
                     "recruit_priority": 625,
-                    "promote_priority": 0,
                     "is_key": true,
                     "is_start": true,
                     "recruit_priority_offsets": [
@@ -672,10 +696,11 @@
                     "recruit_priority_offsets": [
                         {
                             "groups": [
+                                "凯尔希",
                                 "重装"
                             ],
                             "threshold": 1,
-                            "offset": -200
+                            "offset": -300
                         }
                     ]
                 },
@@ -733,7 +758,7 @@
                     "name": "石棉",
                     "skill": 2,
                     "recruit_priority": 615,
-                    "promote_priority": 300,
+                    "promote_priority": 400,
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
@@ -749,46 +774,63 @@
                 },
                 {
                     "name": "暮落",
-                    "skill": 2
+                    "skill": 2,
+                    "promote_priority": 350
                 },
                 {
                     "name": "车尔尼",
-                    "skill": 2
+                    "skill": 2,
+                    "promote_priority": 350
                 },
                 {
                     "name": "可颂",
-                    "skill": 2
+                    "skill": 2,
+                    "promote_priority": 350
                 },
                 {
                     "name": "拜松",
-                    "skill": 2
+                    "skill": 2,
+                    "promote_priority": 350
                 },
                 {
                     "name": "闪击",
-                    "skill": 2
+                    "skill": 2,
+                    "promote_priority": 350
                 },
                 {
                     "name": "吽",
-                    "skill": 2
+                    "skill": 2,
+                    "promote_priority": 350
                 },
                 {
                     "name": "暴雨",
-                    "skill": 2
+                    "skill": 2,
+                    "promote_priority": 350
                 },
                 {
                     "name": "角峰",
-                    "skill": 2
+                    "skill": 2,
+                    "promote_priority": 350
                 },
                 {
                     "name": "坚雷",
-                    "skill": 2
+                    "skill": 2,
+                    "promote_priority": 350
                 },
                 {
                     "name": "预备干员-重装",
-                    "skill": 0,
                     "recruit_priority": 460,
-                    "promote_priority": 0,
-                    "is_alternate": true
+                    "is_alternate": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "重装"
+                            ],
+                            "threshold": 2,
+                            "offset": -140
+                        }
+                    ]
                 }
             ]
         },
@@ -1028,7 +1070,8 @@
                 {
                     "name": "纯烬艾雅法拉",
                     "skill": 1,
-                    "recruit_priority": 699,
+                    "is_key": true,
+                    "recruit_priority": 799,
                     "promote_priority": 590,
                     "recruit_priority_offsets": [
                         {
@@ -1328,7 +1371,24 @@
                     "is_key": true,
                     "alternate_skill": 1,
                     "recruit_priority": 770,
-                    "promote_priority": 910
+                    "promote_priority": 910,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "重装",
+                                "召唤",
+                                "近卫",
+                                "情报官",
+                                "挡人先锋",
+                                "其他地面"
+                            ],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -350,
+                            "Doc": "地面阻挡≤1时，史尔特尔的招募优先级-350"
+                        }
+                    ]
                 }
             ]
         },
@@ -1378,10 +1438,8 @@
                 {
                     "name": "耀骑士临光",
                     "skill": 2,
-                    "recruit_priority": 631,
-                    "promote_priority": 620,
-                    "is_start": true,
-                    "auto_retreat": 14,
+                    "recruit_priority": 770,
+                    "promote_priority": 720,
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
@@ -1391,6 +1449,21 @@
                             ],
                             "threshold": 2,
                             "offset": -200
+                        },
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "重装",
+                                "召唤",
+                                "近卫",
+                                "情报官",
+                                "挡人先锋",
+                                "其他地面"
+                            ],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -350,
+                            "Doc": "地面阻挡≤1时，临光的招募优先级-350"
                         }
                     ]
                 },
@@ -1490,7 +1563,7 @@
                     "name": "夜莺",
                     "skill": 3,
                     "alternate_skill": 2,
-                    "recruit_priority": 808,
+                    "recruit_priority": 708,
                     "promote_priority": 677,
                     "recruit_priority_offsets": [
                         {
@@ -1506,7 +1579,7 @@
                 {
                     "name": "白面鸮",
                     "skill": 2,
-                    "recruit_priority": 810,
+                    "recruit_priority": 710,
                     "promote_priority": 406,
                     "recruit_priority_offsets": [
                         {
@@ -1852,29 +1925,13 @@
             "name": "情报官",
             "opers": [
                 {
-                    "name": "伊内丝",
-                    "skill": 2,
-                    "recruit_priority": 849,
-                    "promote_priority": 830,
-                    "is_key": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "挡人先锋",
-                                "情报官",
-                                "投锋"
-                            ],
-                            "threshold": 3,
-                            "offset": -100
-                        }
-                    ]
+                    "name": "伊内丝"
                 },
                 {
                     "name": "晓歌",
                     "skill": 2,
                     "recruit_priority": 677,
                     "promote_priority": 430,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -1892,7 +1949,6 @@
                     "skill": 2,
                     "recruit_priority": 551,
                     "promote_priority": 400,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -2592,6 +2648,9 @@
                     "name": "罗小黑"
                 },
                 {
+                    "name": "煌"
+                },
+                {
                     "name": "涤火杰西卡"
                 },
                 {
@@ -2838,7 +2897,7 @@
                 },
                 {
                     "name": "灰烬"
-                },                
+                },
                 {
                     "name": "林"
                 },
@@ -3442,11 +3501,11 @@
                     "skill": 2
                 },
                 {
-                    "name": "龙舌兰",
-                    "skill": 2
+                    "name": "玫兰莎"
                 },
                 {
-                    "name": "玫兰莎"
+                    "name": "龙舌兰",
+                    "skill": 2
                 },
                 {
                     "name": "预备干员-近战",
