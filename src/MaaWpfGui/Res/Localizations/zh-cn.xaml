@@ -234,6 +234,13 @@
     <system:String x:Key="AdditionCommand">附加命令</system:String>
     <system:String x:Key="StartsWithScript">开始前脚本</system:String>
     <system:String x:Key="EndsWithScript">结束后脚本</system:String>
+    <system:String x:Key="RemoteControlSettings">远程控制</system:String>
+    <system:String x:Key="RemoteControlDeviceIdentityLabel">设备标识符（只读）</system:String>
+    <system:String x:Key="RemoteControlConnectionTest">测试连接</system:String>
+    <system:String x:Key="RemoteControlRegenerateDeviceIdentity">重新生成</system:String>
+    <system:String x:Key="RemoteControlUserIdentityLabel">用户标识符</system:String>
+    <system:String x:Key="RemoteControlGetTaskEndpointLabel">获取任务端点</system:String>
+    <system:String x:Key="RemoteControlReportStatusEndpointLabel">汇报任务端点</system:String>
     <system:String x:Key="RoguelikeTheme">肉鸽主题</system:String>
     <system:String x:Key="RoguelikeThemePhantom">傀影</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
@@ -663,6 +670,12 @@
     <system:String x:Key="GameResourceUpdated">游戏资源已更新，请重启 MAA</system:String>
     <system:String x:Key="GameResourceUpdating">游戏资源正在更新，请勿关闭 MAA</system:String>
     <!--  Api  -->
+    <!--  Remote Control  -->
+    <system:String x:Key="RemoteControlConnectionTestSuccess">连接测试成功！</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFail">连接测试失败。</system:String>
+    <system:String x:Key="RemoteControlReceivedTask">收到远端任务{0}，任务Id:{1}。</system:String>
+    <system:String x:Key="RemoteControlCompletedTask">完成远端任务{0}，任务Id:{1}。</system:String>
+    <!--  Remote Control  -->
     <!--  External Notification  -->
     <system:String x:Key="ExternalNotificationEmailTemplateHello">博士，有新的通知哦！</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">您会收到此邮件，是因为您在 MAA 中设置了 SMTP 服务器并开启了邮件通知服务。</system:String>
