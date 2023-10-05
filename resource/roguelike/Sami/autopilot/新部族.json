@@ -95,7 +95,7 @@
             "direction": "left"
         },
         {
-            "groups": [                
+            "groups": [
                 "狙击"
             ],
             "location": [
@@ -105,7 +105,7 @@
             "direction": "left"
         },
         {
-            "groups": [                
+            "groups": [
                 "水陈"
             ],
             "location": [
@@ -115,7 +115,7 @@
             "direction": "left"
         },
         {
-            "groups": [                
+            "groups": [
                 "术师",
                 "召唤",
                 "速狙",
@@ -127,7 +127,7 @@
                 1
             ],
             "direction": "down"
-        },        
+        },
         {
             "groups": [
                 "地面阻挡",

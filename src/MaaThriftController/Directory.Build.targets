@@ -1,0 +1,14 @@
+<Project>
+  <PropertyGroup>
+    <MaaDepsTargetsFile>$(MSBuildThisFileDirectory)..\..\MaaDeps\msbuild\maadeps.targets</MaaDepsTargetsFile>
+    <MaaDepsDisableFlagFile>$(MSBuildThisFileDirectory)..\..\MSBUILD_DISABLE_MAADEPS</MaaDepsDisableFlagFile>
+    <MaaDepsExists Condition="Exists('$(MaaDepsTargetsFile)')">true</MaaDepsExists>
+    <MaaDepsDisableFlagExists Condition="Exists('$(MaaDepsDisableFlagFile)')">true</MaaDepsDisableFlagExists>
+    <MaaDepsMissingMessage>Missing third-party dependencies, run `python maadeps-download.py`. / 缺少第三方依赖，请运行 `python maadeps-download.py`。
+Alternatively, run `python maadeps-build.py` to build third-party dependencies from source, or create a file named `MSBUILD_DISABLE_MAADEPS` next to MAA.sln file and bring your own libraries to MSBuild.</MaaDepsMissingMessage>
+  </PropertyGroup>
+  <Target Name="MessageMaaDepsNotExists" BeforeTargets="ClCompile" Condition="$(MaaDepsExists) != 'true' and '$(MaaDepsDisableFlagExists)' != true">
+    <Error Text="$(MaaDepsMissingMessage)" />
+  </Target>
+  <Import Condition="$(MaaDepsExists) == 'true'" Project="$(MaaDepsTargetsFile)" />
+</Project>

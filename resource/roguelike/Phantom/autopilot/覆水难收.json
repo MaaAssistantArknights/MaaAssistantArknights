@@ -14,7 +14,7 @@
                 4
             ],
             "direction": "up"
-        }        
+        }
     ],
     "blacklist_location": [
         [
@@ -271,10 +271,10 @@
                 "其他地面"
             ],
             "location": [
-                4,
+                3,
                 1
             ],
-            "direction": "left",
+            "direction": "right",
             "condition": [
                 43,
                 50
@@ -291,10 +291,10 @@
                 "其他地面"
             ],
             "location": [
-                3,
+                4,
                 1
             ],
-            "direction": "right",
+            "direction": "left",
             "condition": [
                 43,
                 50

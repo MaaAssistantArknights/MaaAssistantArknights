@@ -13,14 +13,23 @@
         {
             "groups": [
                 "投锋",
-                "挡人先锋",
-                "情报官"
+                "挡人先锋"
             ],
             "location": [
                 8,
                 2
             ],
             "direction": "down"
+        },
+        {
+            "groups": [
+                "伊内丝"
+            ],
+            "location": [
+                6,
+                3
+            ],
+            "direction": "left"
         },
         {
             "groups": [
@@ -79,6 +88,7 @@
         },
         {
             "groups": [
+                "地面远程",
                 "地面阻挡",
                 "处决者",
                 "其他地面"
@@ -87,7 +97,7 @@
                 5,
                 2
             ],
-            "direction": "left"
+            "direction": "down"
         },
         {
             "groups": [

@@ -15,6 +15,6 @@ namespace asst
     private:
         virtual bool _run() override;
 
-        void get_sanity();
+        void get_sanity_before_stage();
     };
 }

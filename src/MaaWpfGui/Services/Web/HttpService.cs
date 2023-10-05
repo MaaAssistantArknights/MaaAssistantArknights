@@ -108,7 +108,7 @@ namespace MaaWpfGui.Services.Web
         {
             var response = await GetAsync(uri, extraHeader);
 
-            if (response == null || response.StatusCode != HttpStatusCode.OK)
+            if (response?.StatusCode != HttpStatusCode.OK)
             {
                 return null;
             }
@@ -120,7 +120,7 @@ namespace MaaWpfGui.Services.Web
         {
             var response = await GetAsync(uri, extraHeader);
 
-            if (response == null || response.StatusCode != HttpStatusCode.OK)
+            if (response?.StatusCode != HttpStatusCode.OK)
             {
                 return null;
             }
@@ -183,7 +183,7 @@ namespace MaaWpfGui.Services.Web
 
             var response = await GetAsync(uri, extraHeader: new Dictionary<string, string> { { "Accept", contentType } }, httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
 
-            if (response == null || response.StatusCode != HttpStatusCode.OK)
+            if (response?.StatusCode != HttpStatusCode.OK)
             {
                 return false;
             }
@@ -264,7 +264,6 @@ namespace MaaWpfGui.Services.Web
             }
 
             HttpClient client = new HttpClient(handler);
-            client = new HttpClient(handler);
             client.DefaultRequestHeaders.Add("User-Agent", UserAgent);
             client.Timeout = TimeSpan.FromSeconds(15);
             return client;

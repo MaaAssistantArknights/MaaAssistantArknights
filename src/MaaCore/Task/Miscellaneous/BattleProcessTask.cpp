@@ -78,6 +78,11 @@ bool asst::BattleProcessTask::set_stage_name(const std::string& stage_name)
     return true;
 }
 
+void asst::BattleProcessTask::set_wait_until_end(bool wait_until_end)
+{
+    m_need_to_wait_until_end = wait_until_end;
+}
+
 bool asst::BattleProcessTask::to_group()
 {
     std::unordered_map<std::string, std::vector<std::string>> groups;
@@ -186,8 +191,7 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
 
     case ActionType::SkillUsage:
         m_skill_usage[action.name] = action.modify_usage;
-        if (action.modify_usage == SkillUsage::Times) 
-            m_skill_times[action.name] = action.modify_times;
+        if (action.modify_usage == SkillUsage::Times) m_skill_times[action.name] = action.modify_times;
         ret = true;
         break;
 

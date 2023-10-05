@@ -16,6 +16,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using GlobalHotKey;
@@ -196,6 +197,16 @@ namespace MaaWpfGui.Main
         /// <inheritdoc/>
         protected override void OnLaunch()
         {
+            Task.Run(async () =>
+            {
+                if (Instances.AnnouncementViewModel.DoNotRemindThisAnnouncementAgain)
+                {
+                    return;
+                }
+
+                await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
+                _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
+            });
             Instances.VersionUpdateViewModel.ShowUpdateOrDownload();
         }
 
@@ -228,25 +239,6 @@ namespace MaaWpfGui.Main
             _logger.Information(string.Empty);
             Log.CloseAndFlush();
             base.OnExit(e);
-        }
-
-        /// <summary>
-        /// 会带参数重启，切换配置等操作会切换回去
-        /// </summary>
-        public static void RestartApplication()
-        {
-            //// 释放互斥量
-            /*
-            _mutex?.ReleaseMutex();
-            _mutex?.Dispose();
-
-            // 避免 OnExit 时再次释放
-            _mutex = null;
-            */
-
-            // 有时候软件自重启时 gui.log 会无法正常写入
-            Log.CloseAndFlush();
-            System.Windows.Forms.Application.Restart();
         }
 
         /// <summary>

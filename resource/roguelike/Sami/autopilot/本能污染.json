@@ -12,6 +12,20 @@
     "deploy_plan": [
         {
             "groups": [
+                "伊内丝"
+            ],
+            "location": [
+                2,
+                4
+            ],
+            "direction": "right",
+            "condition": [
+                0,
+                12
+            ]
+        },
+        {
+            "groups": [
                 "回费"
             ],
             "location": [

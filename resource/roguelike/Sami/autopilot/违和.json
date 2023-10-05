@@ -40,7 +40,7 @@
                 3
             ],
             "direction": "right"
-        },        
+        },
         {
             "groups": [
                 "提丰"
@@ -50,14 +50,14 @@
                 4
             ],
             "direction": "right"
-        },        
+        },
         {
             "groups": [
                 "焰苇",
                 "凯尔希",
                 "召唤",
                 "速狙",
-                "狙击",                
+                "狙击",
                 "单奶"
             ],
             "location": [
@@ -65,9 +65,10 @@
                 1
             ],
             "direction": "down"
-        },        
+        },
         {
             "groups": [
+                "重装",
                 "地面阻挡"
             ],
             "location": [
@@ -126,7 +127,7 @@
                 3
             ],
             "direction": "right"
-        },        
+        },
         {
             "groups": [
                 "地刺"
@@ -143,7 +144,7 @@
                 "处决者"
             ],
             "location": [
-                2,
+                3,
                 5
             ],
             "direction": "left"
@@ -179,7 +180,7 @@
         {
             "groups": [
                 "重装",
-                "地面阻挡",
+                "地面远程",
                 "处决者",
                 "其他地面",
                 "障碍物"
@@ -189,6 +190,16 @@
                 3
             ],
             "direction": "right"
+        },
+        {
+            "groups": [
+                "领主"
+            ],
+            "location": [
+                6,
+                2
+            ],
+            "direction": "down"
         },
         {
             "groups": [
@@ -223,7 +234,7 @@
                 1
             ],
             "direction": "right"
-        } ,
+        },
         {
             "groups": [
                 "支援陷阱",
@@ -234,6 +245,6 @@
                 4
             ],
             "direction": "right"
-        }       
+        }
     ]
 }

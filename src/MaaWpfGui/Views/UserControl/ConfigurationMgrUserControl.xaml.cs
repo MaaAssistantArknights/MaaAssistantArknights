@@ -14,7 +14,7 @@
 namespace MaaWpfGui.Views.UserControl
 {
     /// <summary>
-    /// GameClientUserControl.xaml 的交互逻辑
+    /// ConfigurationMgrUserControl.xaml 的交互逻辑
     /// </summary>
     public partial class ConfigurationMgrUserControl : System.Windows.Controls.UserControl
     {

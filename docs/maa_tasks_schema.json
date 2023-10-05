@@ -147,7 +147,13 @@
                     "pattern": "MatchTemplate"
                 },
                 "template": {
-                    "type": "string",
+                    "type": [
+                        "array",
+                        "string"
+                    ],
+                    "items": {
+                        "type": "string"
+                    },
                     "default": "",
                     "description": "可选项，要匹配的图片文件名\n不填时写默认 \"任务名.png\""
                 },
