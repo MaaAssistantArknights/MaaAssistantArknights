@@ -520,6 +520,16 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         if (need_exit()) return {};
 
         if (!m_has_permit) {
+            bool continue_refresh = m_force_refresh && m_has_refresh;
+
+            json::value cb_info = basic_info();
+            cb_info["what"] = "RecruitNoPermit";
+            cb_info["details"] = json::object { 
+                { "continue", continue_refresh },
+            };
+            callback(AsstMsg::SubTaskExtraInfo, cb_info);
+            Log.trace("No recruit permit");
+
             calc_task_result_type result;
             result.success = true;
             result.force_skip = true;

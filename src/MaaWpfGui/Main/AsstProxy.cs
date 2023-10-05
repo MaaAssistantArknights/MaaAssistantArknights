@@ -1049,6 +1049,21 @@ namespace MaaWpfGui.Main
                         break;
                     }
 
+                case "RecruitNoPermit":
+                    {
+                        bool continueRefresh = (bool)subTaskDetails["continue"];
+                        if (continueRefresh)
+                        {
+                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("continueRefresh"));
+                        }
+                        else
+                        {
+                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("noRecruitPermit"));
+                        }
+
+                        break;
+                    }
+
                 case "NotEnoughStaff":
                     {
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("NotEnoughStaff"), UiLogColor.Error);
