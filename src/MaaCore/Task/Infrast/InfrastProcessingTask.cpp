@@ -1,9 +1,9 @@
 #include "InfrastProcessingTask.h"
 
 #include "Controller/Controller.h"
+#include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/Ranges.hpp"
-#include "Task/ProcessTask.h"
 
 bool asst::InfrastProcessingTask::_run()
 {
@@ -25,7 +25,7 @@ bool asst::InfrastProcessingTask::_run()
     enter_facility();
     click_bottom_left_tab();
 
-    ProcessTask(*this, {"InfrastProcessingEnterOperList"}).run();
+    ProcessTask(*this, { "InfrastProcessingEnterOperList" }).run();
 
     for (int i = 0; i <= OperSelectRetryTimes; ++i) {
         if (need_exit()) {

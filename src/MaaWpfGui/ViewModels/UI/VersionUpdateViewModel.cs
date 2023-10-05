@@ -395,24 +395,6 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 IsFirstBootAfterUpdate = false;
                 Instances.WindowManager.ShowWindow(this);
-                //if (false) // _curVersion == "v4.24.0"
-                //{
-                //    var result = MessageBoxHelper.Show(
-                //    LocalizationHelper.GetString("Dotnet8"),
-                //    LocalizationHelper.GetString("Dotnet8Caption"),
-                //    MessageBoxButton.YesNo,
-                //    MessageBoxImage.Information);
-                //    switch (result)
-                //    {
-                //        case MessageBoxResult.No:
-                //            Instances.SettingsViewModel.AutoDownloadUpdatePackage = false;
-                //            break;
-
-                //        case MessageBoxResult.Yes:
-                //            Process.Start("https://dotnet.microsoft.com/download/dotnet/8.0/runtime");
-                //            break;
-                //    }
-                //}
             }
             else
             {
@@ -449,7 +431,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// 检查更新，并下载更新包。
         /// </summary>
         /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
-        public async Task<CheckUpdateRetT> CheckAndDownloadVersionUpdate()
+        private async Task<CheckUpdateRetT> CheckAndDownloadVersionUpdate()
         {
             var checkResult = await CheckUpdateInner();
 
@@ -992,6 +974,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="e">The event arguments.</param>
         // xaml 里用到了
         // ReSharper disable once UnusedMember.Global
+        // ReSharper disable once UnusedParameter.Global
         public void OpenHyperlink(object sender, ExecutedRoutedEventArgs e)
         {
             Process.Start(e.Parameter.ToString());

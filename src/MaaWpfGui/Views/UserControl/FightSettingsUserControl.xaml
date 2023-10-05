@@ -349,7 +349,7 @@
                 HorizontalAlignment="Left"
                 Block.TextAlignment="Center"
                 Foreground="{DynamicResource PrimaryTextBrush}"
-                Text="{DynamicResource PenguinID}"
+                Text="{DynamicResource PenguinId}"
                 TextWrapping="Wrap" />
             <TextBox
                 Margin="0,5"

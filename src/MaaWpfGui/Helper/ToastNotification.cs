@@ -22,6 +22,7 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Win32;
@@ -394,7 +395,7 @@ namespace MaaWpfGui.Helper
             NotificationSounds sound = NotificationSounds.Notification,
             NotificationContent notificationContent = null)
         {
-            if (!Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseNotify, bool.TrueString)))
+            if (!ConfigFactory.CurrentConfig.GUI.UseNotify)
             {
                 return;
             }

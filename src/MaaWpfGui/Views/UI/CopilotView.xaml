@@ -57,7 +57,7 @@
                         hc:BorderElement.CornerRadius="4,0,0,4"
                         DropDownOpened="{s:Action OnDropDownOpened}"
                         IsEditable="True"
-                        IsEnabled="{c:Binding '(Idle) and (StartEnabled)'}"
+                        IsReadOnly="{c:Binding Path=!Idle}"
                         Text="{Binding Filename}" />
                     <Button
                         Grid.Column="1"
@@ -154,6 +154,8 @@
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
+                        Maximum="9999"
+                        Minimum="0"
                         Value="{Binding LoopTimes}" />
                 </StackPanel>
             </StackPanel>
