@@ -23,6 +23,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Managers;
+using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.Views.UI;
@@ -170,6 +171,8 @@ namespace MaaWpfGui.Main
 
             builder.Bind<IMaaHotKeyManager>().To<MaaHotKeyManager>().InSingletonScope();
             builder.Bind<IMaaHotKeyActionHandler>().To<MaaHotKeyActionHandler>().InSingletonScope();
+
+            builder.Bind<RemoteControlService>().To<RemoteControlService>().InSingletonScope();
 
             builder.Bind<IMainWindowManager>().To<MainWindowManager>().InSingletonScope();
 
