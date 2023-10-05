@@ -7354,11 +7354,11 @@
             20
         ],
         "postDelay": 200,
-        "specialParams_Doc": "Used in BattleFormationTask.cpp for OCR manipulation",
+        "specialParams_Doc": "USED FOR YOSTAREN. Used in BattleFormationTask.cpp for OCR manipulation. For CN: OCRerConfig.h default values are used.",
         "specialParams": [
-            160,
-            4,
-            4,
+            140,
+            2,
+            0,
             0
         ]
     },
