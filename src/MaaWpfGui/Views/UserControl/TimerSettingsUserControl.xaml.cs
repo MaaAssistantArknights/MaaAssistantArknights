@@ -14,7 +14,7 @@
 namespace MaaWpfGui.Views.UserControl
 {
     /// <summary>
-    /// ParamSettingUserControl.xaml 的交互逻辑
+    /// TimerSettingsUserControl.xaml 的交互逻辑
     /// </summary>
     public partial class TimerSettingsUserControl : System.Windows.Controls.UserControl
     {

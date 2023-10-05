@@ -14,7 +14,9 @@
     d:DesignWidth="220"
     mc:Ignorable="d">
     <StackPanel>
-        <Grid Margin="0,5">
+        <Grid
+            Margin="0,5"
+            Visibility="{c:Binding '(ClientType == &quot;Official&quot;) or (ClientType == &quot;Bilibili&quot;) or (ClientType == &quot;&quot;)'}" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
@@ -24,9 +26,7 @@
                 IsReadOnly="{c:Binding !Idle}"
                 Style="{StaticResource TextBoxExtend}"
                 Text="{Binding AccountName, UpdateSourceTrigger=PropertyChanged}"
-                ToolTip="{DynamicResource AccountSwitchTip}"
-                Visibility="{c:Binding '(ClientType == &quot;Official&quot;) or (ClientType == &quot;Bilibili&quot;) or (ClientType == &quot;&quot;)'}" />
-
+                ToolTip="{DynamicResource AccountSwitchTip}"/>
             <Button
                 Grid.Column="1"
                 Padding="12,1,12,1"
@@ -34,8 +34,8 @@
                 VerticalAlignment="Bottom"
                 hc:BorderElement.CornerRadius="0,4,4,0"
                 BorderThickness="0,1,1,1"
-                Command="{s:Action AccountSwitchMannualRun}"
-                Content="{DynamicResource AccountSwitchManualRun}" />
+                Command="{s:Action AccountSwitchManualRun}"
+                Content="{DynamicResource AccountSwitchManualRun}"/>
         </Grid>
 
         <CheckBox
@@ -57,7 +57,7 @@
             <hc:TextBox
                 Grid.Column="0"
                 hc:BorderElement.CornerRadius="4,0,0,4"
-                hc:InfoElement.Title="{DynamicResource ADBPath}"
+                hc:InfoElement.Title="{DynamicResource AdbPath}"
                 Text="{Binding AdbPath}" />
             <Button
                 Grid.Column="1"

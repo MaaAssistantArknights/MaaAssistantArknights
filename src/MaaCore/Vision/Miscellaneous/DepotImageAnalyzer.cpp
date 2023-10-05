@@ -246,8 +246,8 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
     const auto mid_x = mask.cols / 2; // center of image
     if (mask_rect.br().x - mid_x < 30) mask_rect.width = mid_x + 30 - mask_rect.x;
 
-    // minus 1 to trim white pixels
-    Rect ocr_roi { item.rect.x + mask_rect.x, item.rect.y + mask_rect.y, mask_rect.width - 1, mask_rect.height - 1 };
+    // minus 2 to trim white pixels
+    Rect ocr_roi { item.rect.x + mask_rect.x, item.rect.y + mask_rect.y, mask_rect.width - 2, mask_rect.height - 2 };
 
     cv::Mat ocr_img = m_image_resized.clone();
     cv::subtract(m_image_resized(make_rect<cv::Rect>(item.rect)), item_templ * 0.41,

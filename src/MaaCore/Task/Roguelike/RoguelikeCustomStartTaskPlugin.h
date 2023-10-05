@@ -1,5 +1,6 @@
 #pragma once
 #include "Task/AbstractTaskPlugin.h"
+#include "Task/Roguelike/RoguelikeConfig.h"
 
 namespace asst
 {
@@ -14,7 +15,7 @@ namespace asst
         // CoCoreChar,  // 次选干员， 干员名
     };
 
-    class RoguelikeCustomStartTaskPlugin : public AbstractTaskPlugin
+    class RoguelikeCustomStartTaskPlugin : public AbstractTaskPlugin, public RoguelikeConfig
     {
     public:
         using AbstractTaskPlugin::AbstractTaskPlugin;
@@ -22,7 +23,6 @@ namespace asst
 
     public:
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
-
         void set_custom(RoguelikeCustomType type, std::string custom);
 
     protected:

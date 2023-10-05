@@ -132,14 +132,16 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         BestMatcher avatar_analyzer(oper.avatar);
         if (oper.cooling) {
             Log.trace("start matching cooling", oper.index);
-            static const double cooling_threshold = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_threshold;
+            static const double cooling_threshold =
+                Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_thresholds.front();
             static const auto cooling_mask_range = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->mask_range;
             avatar_analyzer.set_threshold(cooling_threshold);
             avatar_analyzer.set_mask_range(cooling_mask_range.first, cooling_mask_range.second, true, true);
         }
         else {
-            static const double threshold = Task.get<MatchTaskInfo>("BattleAvatarData")->templ_threshold;
-            static const double drone_threshold = Task.get<MatchTaskInfo>("BattleDroneAvatarData")->templ_threshold;
+            static const double threshold = Task.get<MatchTaskInfo>("BattleAvatarData")->templ_thresholds.front();
+            static const double drone_threshold =
+                Task.get<MatchTaskInfo>("BattleDroneAvatarData")->templ_thresholds.front();
             avatar_analyzer.set_threshold(oper.role == Role::Drone ? drone_threshold : threshold);
         }
 
@@ -465,7 +467,7 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
         }
         used = true;
         retry = 0;
-        
+
         if (usage == SkillUsage::Times) {
             times--;
             if (times == 0) usage = SkillUsage::TimesUsed;
