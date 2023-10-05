@@ -1052,15 +1052,7 @@ namespace MaaWpfGui.Main
                 case "RecruitNoPermit":
                     {
                         bool continueRefresh = (bool)subTaskDetails["continue"];
-                        if (continueRefresh)
-                        {
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("continueRefresh"));
-                        }
-                        else
-                        {
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("noRecruitPermit"));
-                        }
-
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString(continueRefresh ? "continueRefresh" : "noRecruitPermit"));
                         break;
                     }
 
