@@ -21,6 +21,11 @@ bool asst::RoguelikeCiphertextBoardGainTaskPlugin::verify(AsstMsg msg, const jso
     std::string_view task_view = task;
     // 暂时只有萨米有密文板，下个肉鸽没有密文板的话考虑在roguelike中建个子文件夹
     if (task_view == "Sami@Roguelike@CiphertextBoardGain") {
+        m_ocr_after_combat = false;
+        return true;
+    }
+    if (task_view == "Sami@Roguelike@CiphertextBoardGain") {
+        m_ocr_after_combat = false;
         return true;
     }
     else {

@@ -15,5 +15,8 @@ namespace asst
 
     protected:
         virtual bool _run() override;
+
+    private:
+        mutable bool m_ocr_after_combat = false;
     };
 }
