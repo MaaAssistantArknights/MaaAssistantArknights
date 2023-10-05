@@ -603,6 +603,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="RecruitmentOfBot">Robot! Robot! More Robot!</system:String>
     <system:String x:Key="Choose">Choose</system:String>
     <system:String x:Key="Refreshed">Refreshed</system:String>
+    <system:String x:Key="continueRefresh">No recruitment permit, trying to refresh Tags</system:String>
+    <system:String x:Key="noRecruitPermit">No recruitment permit, returned</system:String>
     <system:String x:Key="NotEnoughStaff">Insufficient operators</system:String>
     <system:String x:Key="StageInfoError">Stage recognition error</system:String>
     <system:String x:Key="BattleFormation">Start formation</system:String>
@@ -634,7 +636,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  About  -->
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">Auto refresh 3★ Tags</system:String>
-    <system:String x:Key="ForceRefresh">无招募许可时继续尝试刷新 Tags</system:String>
+    <system:String x:Key="ForceRefresh">Continue trying to refresh Tags without recruitment permit</system:String>
     <system:String x:Key="AutoUseExpedited">Auto use Expedited Plan*</system:String>
     <system:String x:Key="Level3UseShortTime">Set 7:40 instead of 9:00 for 3★ Tags</system:String>
     <system:String x:Key="Level3UseShortTime2">Set 1:00 instead of 9:00 for 3★ Tags</system:String>

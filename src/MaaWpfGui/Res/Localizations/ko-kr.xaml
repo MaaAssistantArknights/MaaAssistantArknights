@@ -603,6 +603,8 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="RecruitmentOfBot">로봇을 모집했습니다!</system:String>
     <system:String x:Key="Choose">선택</system:String>
     <system:String x:Key="Refreshed">새로고침됨</system:String>
+    <system:String x:Key="continueRefresh">채용 허가 없음, 새로 고치려고 태그</system:String>
+    <system:String x:Key="noRecruitPermit">채용허가증이 없어 반환함</system:String>
     <system:String x:Key="NotEnoughStaff">오퍼레이터 부족</system:String>
     <system:String x:Key="StageInfoError">스테이지 인식 오류</system:String>
     <system:String x:Key="BattleFormation">편성 시작</system:String>
@@ -634,7 +636,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <!--  About  -->
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">★3 태그를 자동 새로고침하기</system:String>
-    <system:String x:Key="ForceRefresh">无招募许可时继续尝试刷新 Tags</system:String>
+    <system:String x:Key="ForceRefresh">채용 허가 없이 계속 태그 새로고침 시도</system:String>
     <system:String x:Key="AutoUseExpedited">즉시 완료 허가증을 자동 사용*</system:String>
     <system:String x:Key="Level3UseShortTime">★3 태그 9:00 대신 7:40 설정</system:String>
     <system:String x:Key="Level3UseShortTime2">★3 태그 9:00 대신 1:00 설정</system:String>
