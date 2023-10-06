@@ -556,6 +556,7 @@
         "text": [],
         "next": [
             "ClickedCorrectStageOrSwipe",
+            "BattleStartPlot",
             "#self"
         ]
     },
@@ -7447,6 +7448,15 @@
             255
         ]
     },
+    "SkipBattlePlot": {
+        "baseTask": "SkipThePreBattlePlot",
+        "template": "SkipThePreBattlePlot.png",
+        "next": [
+            "SkipBattlePlotConfirm",
+            "SkipBattlePlot"
+        ]
+
+    },
     "SkipThePreBattlePlotConfirm": {
         "action": "ClickSelf",
         "roi": [
@@ -7458,6 +7468,35 @@
         "maskRange": [
             100,
             255
+        ]
+    },
+    "SkipBattlePlotConfirm": {
+        "baseTask": "SkipThePreBattlePlotConfirm",
+        "template": "SkipThePreBattlePlotConfirm.png",
+        "onErrorNext": [
+            "Stop"
+        ],
+        "next": [
+            "EndOfPlot"
+        ]
+    },
+    "EndOfPlot": {
+        "template": "EndOfPlot.png",
+        "roi": [
+            520,
+            0,
+            243,
+            206
+        ],
+        "action": "ClickRect",
+        "specificRect": [
+            1000,
+            120,
+            270,
+            10
+        ],
+        "next": [
+            "Stop"
         ]
     },
     "SkipForbiddenOperConfirm": {
@@ -7524,6 +7563,22 @@
             153
         ],
         "postDelay": 2000
+    },
+    "BattleStartPlot": {
+        "roi": [
+            872,
+            250,
+            212,
+            255
+        ],
+        "postDelay": 2000,
+        "template": "BattleStartPlot.png",
+        "action": "ClickSelf",
+        "next": [
+            "SkipBattlePlot",
+            "Stop"
+        ]
+
     },
     "BattleOperName": {
         "algorithm": "OcrDetect",

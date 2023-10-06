@@ -88,30 +88,34 @@ bool asst::CopilotTask::set_params(const json::value& params)
 
     m_stage_name = Copilot.get_stage_name();
     if (!m_battle_task_ptr->set_stage_name(m_stage_name)) {
-        Log.error("Not support stage");
-        return false;
-    }
-
-    bool with_formation = params.get("formation", false);
-    m_formation_task_ptr->set_enable(with_formation);
-
-    // 自动补信赖
-    m_formation_task_ptr->set_add_trust(params.get("add_trust", false));
-    m_formation_task_ptr->set_add_user_additional(params.get("add_user_additional", false));
-    auto user_additional_opt = params.find<json::array>("user_additional");
-    if (!user_additional_opt) {
-        Log.error("add_user_additional not found");
+        Log.error("Not support stage, please cheek if it is a plot stage");
+        // 跳过作战任务
+        m_subtasks.erase(m_subtasks.end() - 8, m_subtasks.end());
+        Log.debug(m_subtasks);
+        // return true;
     }
     else {
-        std::vector<std::pair<std::string, int>> user_additional;
-        for (const auto& op : user_additional_opt.value()) {
-            std::string name = op.get("name", std::string());
-            if (name.empty()) {
-                continue;
-            }
-            user_additional.emplace_back(std::pair<std::string, int> { std::move(name), op.get("skill", 1) });
+        bool with_formation = params.get("formation", false);
+        m_formation_task_ptr->set_enable(with_formation);
+
+        // 自动补信赖
+        m_formation_task_ptr->set_add_trust(params.get("add_trust", false));
+        m_formation_task_ptr->set_add_user_additional(params.get("add_user_additional", false));
+        auto user_additional_opt = params.find<json::array>("user_additional");
+        if (!user_additional_opt) {
+            Log.error("add_user_additional not found");
         }
-        m_formation_task_ptr->set_user_additional(std::move(user_additional));
+        else {
+            std::vector<std::pair<std::string, int>> user_additional;
+            for (const auto& op : user_additional_opt.value()) {
+                std::string name = op.get("name", std::string());
+                if (name.empty()) {
+                    continue;
+                }
+                user_additional.emplace_back(std::pair<std::string, int> { std::move(name), op.get("skill", 1) });
+            }
+            m_formation_task_ptr->set_user_additional(std::move(user_additional));
+        }
     }
 
     // 是否在当前页面左右滑动寻找关卡
@@ -132,6 +136,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     Task.get<OcrTaskInfo>(m_navigate_name + "@Copilot@ClickStageName")->text = { m_navigate_name };
     Task.get<OcrTaskInfo>(m_navigate_name + "@Copilot@ClickedCorrectStage")->text = { m_navigate_name };
     Task.get(m_navigate_name + "@Copilot@FullStageNavigation")->specific_rect = Rect(600, 100, 20, 20);
+
     m_navigate_task_ptr->set_tasks({ m_navigate_name + "@Copilot@StageNavigationBegin" });
     m_navigate_task_ptr->set_enable(need_navigate);
 
@@ -142,6 +147,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     if (need_navigate) {
         // 如果没三星就中止
         Task.get<OcrTaskInfo>("Copilot@BattleStartPreFlag")->text.emplace_back(m_navigate_name);
+        Log.debug(m_subtasks);
         m_stop_task_ptr->set_tasks({ "Copilot@ClickCornerUntilEndOfAction" });
         m_stop_task_ptr->set_enable(true);
     }

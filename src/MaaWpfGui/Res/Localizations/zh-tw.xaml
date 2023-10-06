@@ -605,7 +605,7 @@
     <system:String x:Key="BattleFormation">開始編隊</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">選擇幹員: </system:String>
     <system:String x:Key="CurrentSteps">當前步驟: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">不支持的關卡，請檢查關卡名！</system:String>
+    <system:String x:Key="UnsupportedLevel">不支持的關卡，請檢查關卡名或者為劇情關！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">辨識結果: </system:String>
     <system:String x:Key="ConnectFailed">連接失敗</system:String>
     <system:String x:Key="TryToStartEmulator">正在嘗試啟動模擬器</system:String>

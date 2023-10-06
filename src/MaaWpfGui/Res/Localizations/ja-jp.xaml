@@ -605,7 +605,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="BattleFormation">編成開始</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">オペレーターを選択: </system:String>
     <system:String x:Key="CurrentSteps">現在の手順: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">サポートされていないレベルは、レベル名を確認してください!</system:String>
+    <system:String x:Key="UnsupportedLevel">サポートされていないレベルは、ステージ名をチェックするか、ストーリー関数をチェックしてください!</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">認識結果: </system:String>
     <system:String x:Key="ConnectFailed">接続失敗</system:String>
     <system:String x:Key="TryToStartEmulator">エミュレータを起動しようとしています</system:String>
