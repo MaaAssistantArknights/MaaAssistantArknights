@@ -92,7 +92,8 @@ bool asst::CopilotTask::set_params(const json::value& params)
         return false;
     }
 
-    bool with_formation = params.get("formation", false);
+    // 关卡名含有"tr"的为教学关,不需要编队
+    bool with_formation = (m_stage_name.find("tr") == std::string::npos) && params.get("formation", false);
     m_formation_task_ptr->set_enable(with_formation);
 
     // 自动补信赖
