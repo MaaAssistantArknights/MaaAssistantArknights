@@ -66,10 +66,10 @@
                 <userControl:StartSettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
 
                 <hc:Divider Content="{Binding ListTitle[5]}" />
-                <userControl:GUISettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
+                <userControl:RemoteControlUserControl Margin="0,20" HorizontalAlignment="Center" />
 
                 <hc:Divider Content="{Binding ListTitle[6]}" />
-                <userControl:RemoteControlUserControl Margin="0,20" HorizontalAlignment="Center" />
+                <userControl:GUISettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
 
                 <hc:Divider Content="{Binding ListTitle[7]}" />
                 <userControl:ExternalNotificationSettingsUserControl Margin="0,20" HorizontalAlignment="Center" />

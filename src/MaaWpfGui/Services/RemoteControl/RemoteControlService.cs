@@ -164,6 +164,12 @@ namespace MaaWpfGui.Services.RemoteControl
         private async Task PollJobTaskLoop()
         {
             var endpoint = Instances.SettingsViewModel.RemoteControlGetTaskEndpointUri;
+
+            if (endpoint == null || !endpoint.ToLower().StartsWith("https://"))
+            {
+                return;
+            }
+
             var uid = Instances.SettingsViewModel.RemoteControlUserIdentity;
             var did = Instances.SettingsViewModel.RemoteControlDeviceIdentity;
             var response = await Instances.HttpService.PostAsJsonAsync(new Uri(endpoint), new { user=uid, device = did});
@@ -314,20 +320,24 @@ namespace MaaWpfGui.Services.RemoteControl
                 }
 
                 var endpoint = Instances.SettingsViewModel.RemoteControlReportStatusUri;
-                var uid = Instances.SettingsViewModel.RemoteControlUserIdentity;
-                var did = Instances.SettingsViewModel.RemoteControlDeviceIdentity;
-                var response = await Instances.HttpService.PostAsJsonAsync(new Uri(endpoint), new
+                if (endpoint != null && !endpoint.ToLower().StartsWith("https://"))
                 {
-                    user = uid,
-                    device = did,
-                    status = status,
-                    task = id,
-                    payload = payload,
-                });
-                if (response == null)
-                {
-                    Log.Logger.Error("RemoteControlService report task failed.");
+                    var uid = Instances.SettingsViewModel.RemoteControlUserIdentity;
+                    var did = Instances.SettingsViewModel.RemoteControlDeviceIdentity;
+                    var response = await Instances.HttpService.PostAsJsonAsync(new Uri(endpoint), new
+                    {
+                        user = uid,
+                        device = did,
+                        status = status,
+                        task = id,
+                        payload = payload,
+                    });
+                    if (response == null)
+                    {
+                        Log.Logger.Error("RemoteControlService report task failed.");
+                    }
                 }
+                
             }
         }
 
@@ -472,18 +482,33 @@ namespace MaaWpfGui.Services.RemoteControl
         public static async Task ConnectionTest()
         {
             var endpoint = Instances.SettingsViewModel.RemoteControlGetTaskEndpointUri;
+
+            if (endpoint == null)
+            {
+                using var toastEmpty = new ToastNotification(
+                    LocalizationHelper.GetString("RemoteControlConnectionTestFailEmpty"));
+                toastEmpty.Show();
+                return;
+            }
+
+            if (!endpoint.ToLower().StartsWith("https://"))
+            {
+                using var toastEmpty = new ToastNotification(
+                    LocalizationHelper.GetString("RemoteControlConnectionTestFailNotHttps"));
+                toastEmpty.Show();
+                return;
+            }
+
             var uid = Instances.SettingsViewModel.RemoteControlUserIdentity;
             var did = Instances.SettingsViewModel.RemoteControlDeviceIdentity;
             var response = await Instances.HttpService.PostAsJsonAsync(new Uri(endpoint), new { user = uid, device = did });
 
-            using var toast = new ToastNotification(
-                LocalizationHelper.GetString(
-                    response != null ? "RemoteControlConnectionTestSuccess" : "RemoteControlConnectionTestFail"));
+            var error = string.Format(LocalizationHelper.GetString("RemoteControlConnectionTestFail"), "网络错误");
 
-            // if (response != null)
-            // {
-            //    toast.AppendContentText(response);
-            // }
+            using var toast = new ToastNotification(
+                response != null ? LocalizationHelper.GetString(
+                    "RemoteControlConnectionTestSuccess") : error);
+
             toast.Show();
 
         }
