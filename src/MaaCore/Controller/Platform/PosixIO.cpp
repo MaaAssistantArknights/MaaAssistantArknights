@@ -101,6 +101,17 @@ std::optional<int> asst::PosixIO::call_command(const std::string& cmd, const boo
             }
             ::shutdown(client_socket, SHUT_RDWR);
             ::close(client_socket);
+
+            // wait until the child has died or time is out
+            do {
+                if (::waitpid(m_child, &exit_ret, WNOHANG) != 0) {
+                    child_exited = true;
+                    break;
+                }
+                if (check_timeout()) {
+                    break;
+                }
+            } while (true);
         }
         else {
             do {
