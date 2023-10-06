@@ -20,7 +20,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using MdXaml;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UI
