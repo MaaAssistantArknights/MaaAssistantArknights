@@ -667,6 +667,21 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="GameResourceUpdated">게임 리소스가 업데이트되었으니 MAA를 다시 시작해주세요.</system:String>
     <system:String x:Key="GameResourceUpdating">게임 자원이 업데이트 중입니다. MAA를 닫지 마십시오.</system:String>
     <!--  Api  -->
+    <!--  Remote Control  -->
+    <system:String x:Key="RemoteControlSettings">원격 제어</system:String>
+    <system:String x:Key="RemoteControlDeviceIdentityLabel">장치 식별자(읽기 전용)</system:String>
+    <system:String x:Key="RemoteControlConnectionTest">연결 테스트</system:String>
+    <system:String x:Key="RemoteControlRegenerateDeviceIdentity">재생성</system:String>
+    <system:String x:Key="RemoteControlUserIdentityLabel">사용자 식별자</system:String>
+    <system:String x:Key="RemoteControlGetTaskEndpointLabel">작업 엔드포인트 가져오기</system:String>
+    <system:String x:Key="RemoteControlReportStatusEndpointLabel">작업 상태 보고 엔드포인트</system:String>
+    <system:String x:Key="RemoteControlConnectionTestSuccess">연결 테스트 성공!</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFail">연결 테스트 실패.</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFailEmpty">연결 테스트 실패, 엔드포인트가 비어 있습니다.</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFailNotHttps">연결 테스트 실패. 엔드포인트가 https 주소가 아닙니다.</system:String>
+    <system:String x:Key="RemoteControlReceivedTask">원격 작업 {0} 받음, 작업 Id:{1}.</system:String>
+    <system:String x:Key="RemoteControlCompletedTask">원격 작업 {0} 완료, 작업 Id:{1}.</system:String>
+    <!--  Remote Control  -->
     <!--  External Notification  -->
     <system:String x:Key="ExternalNotificationEmailTemplateHello">박사님, 새로운 발표가 있습니다!</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">MAA에서 SMTP 서버를 설정하고 메일 알림 서비스가 켜져 있기 때문에 이 메시지가 표시됩니다.</system:String>

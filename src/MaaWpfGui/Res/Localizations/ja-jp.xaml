@@ -667,6 +667,21 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="GameResourceUpdating">ゲームリソースが更新中です。MAAを閉じないでください。</system:String>
     <system:String x:Key="GameResourceUpdated">ゲームリソースが更新されました。MAAを再起動してください</system:String>
     <!--  Api  -->
+    <!--  Remote Control  -->
+    <system:String x:Key="RemoteControlSettings">リモートコントロール</system:String>
+    <system:String x:Key="RemoteControlDeviceIdentityLabel">デバイス識別子（読み取り専用）</system:String>
+    <system:String x:Key="RemoteControlConnectionTest">接続テスト</system:String>
+    <system:String x:Key="RemoteControlRegenerateDeviceIdentity">再生成</system:String>
+    <system:String x:Key="RemoteControlUserIdentityLabel">ユーザー識別子</system:String>
+    <system:String x:Key="RemoteControlGetTaskEndpointLabel">タスクエンドポイントの取得</system:String>
+    <system:String x:Key="RemoteControlReportStatusEndpointLabel">タスクステータスの報告エンドポイント</system:String>
+    <system:String x:Key="RemoteControlConnectionTestSuccess">接続テスト成功！</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFail">接続テスト失敗。</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFailEmpty">接続テスト失敗、エンドポイントが空です。</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFailNotHttps">接続テスト失敗。エンドポイントはhttpsアドレスではありません。</system:String>
+    <system:String x:Key="RemoteControlReceivedTask">リモートタスク{0}を受信、タスクId:{1}。</system:String>
+    <system:String x:Key="RemoteControlCompletedTask">リモートタスク{0}を完了、タスクId:{1}。</system:String>
+    <!--  Remote Control  -->
     <!--  External Notification  -->
     <system:String x:Key="ExternalNotificationEmailTemplateHello">ドクター、新しいお知らせがあります!</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">このメッセージが表示されるのは、MAA で SMTP サーバーをセットアップし、メール通知サービスを有効にしているためです。</system:String>
