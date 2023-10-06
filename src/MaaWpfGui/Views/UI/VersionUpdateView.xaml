@@ -7,8 +7,6 @@
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mdxam="clr-namespace:MdXaml;assembly=MdXaml"
-    xmlns:mdplug="clr-namespace:MdXaml.Plugins;assembly=MdXaml.Plugins"
-    xmlns:mdhtml="clr-namespace:MdXaml.Html;assembly=MdXaml.Html"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
     xmlns:vm="clr-namespace:MaaWpfGui"
@@ -29,14 +27,14 @@
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <controls:TextBlock
-                Margin="0,10,0,5"
+                Margin="0,10,0,10"
                 VerticalAlignment="Bottom"
                 FontSize="20"
                 Style="{StaticResource TextBlockDefaultBold}"
                 Text="{DynamicResource VersionUpdatedTo}"
                 TextWrapping="Wrap" />
             <controls:TextBlock
-                Margin="0,10,0,5"
+                Margin="0,10,0,10"
                 VerticalAlignment="Bottom"
                 FontSize="20"
                 Style="{StaticResource TextBlockDefaultBold}"
@@ -46,19 +44,16 @@
 
         <mdxam:MarkdownScrollViewer
             ClickAction="SafetyOpenBrowser"
+            Grid.Row="1"
             Markdown="{Binding UpdateInfo}"
-            Margin="10,0,10,0"
+            Margin="10,10,10,0"
             Zoom="120">
             <mdxam:MarkdownScrollViewer.MarkdownStyle>
                 <Style TargetType="FlowDocument" BasedOn="{x:Static mdxam:MarkdownStyle.Sasabune}">
                     <Setter Property="FontFamily" Value="Microsoft YaHei" />
+                    <Setter Property="PagePadding" Value="10"/>
                 </Style>
             </mdxam:MarkdownScrollViewer.MarkdownStyle>
-            <mdxam:MarkdownScrollViewer.Plugins>
-                <mdplug:MdXamlPlugins>
-                    <mdhtml:HtmlPluginSetup />
-                </mdplug:MdXamlPlugins>
-            </mdxam:MarkdownScrollViewer.Plugins>
         </mdxam:MarkdownScrollViewer>
 
     </Grid>
