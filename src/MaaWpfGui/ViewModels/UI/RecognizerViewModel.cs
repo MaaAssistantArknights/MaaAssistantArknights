@@ -1831,7 +1831,7 @@ namespace MaaWpfGui.ViewModels.UI
                     }
                 }
 
-                operNotHaveNames += PadRightEx(localized_name, 12) + "\t";
+                operNotHaveNames += PadRightEx(name, 12) + "\t";
                 if (newlineFlag++ != 3)
                 {
                     continue;
