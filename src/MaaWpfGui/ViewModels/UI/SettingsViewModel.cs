@@ -474,15 +474,7 @@ namespace MaaWpfGui.ViewModels.UI
                 new CombinedData { Display = LocalizationHelper.GetString("RoguelikeThemeMizuki"), Value = "Mizuki" },
                 new CombinedData { Display = LocalizationHelper.GetString("RoguelikeThemeSami"), Value = "Sami" },
             };
-
-            RemoteControlList = new List<CombinedData>
-            {
-                new CombinedData { Display = LocalizationHelper.GetString("RemoteControlHandshakeUri"), Value = "Phantom" },
-                new CombinedData { Display = LocalizationHelper.GetString("RemoteControlEndpointUri"), Value = "Mizuki" },
-                new CombinedData { Display = LocalizationHelper.GetString("RemoteControlUserIdentity"), Value = "Sami" },
-                new CombinedData { Display = LocalizationHelper.GetString("RemoteControlUserIdentity"), Value = "Sami" },
-            };
-
+            
             UpdateRoguelikeSquadList();
             UpdateRoguelikeCoreCharList();
 
