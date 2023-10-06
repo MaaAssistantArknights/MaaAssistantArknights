@@ -61,6 +61,7 @@ std::optional<int> asst::PosixIO::call_command(const std::string& cmd, const boo
     };
 
     int exit_ret = 0;
+    bool child_exited = false;
     m_child = ::fork();
     if (m_child == 0) {
         // child process
@@ -108,7 +109,20 @@ std::optional<int> asst::PosixIO::call_command(const std::string& cmd, const boo
                     pipe_data.insert(pipe_data.end(), pipe_buffer.get(), pipe_buffer.get() + read_num);
                     read_num = ::read(m_pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
                 }
-            } while (::waitpid(m_child, &exit_ret, WNOHANG) == 0 && !check_timeout());
+
+                // exit loop if the child has died or time is out
+                if (::waitpid(m_child, &exit_ret, WNOHANG) != 0) {
+                    child_exited = true;
+                    break;
+                }
+                if (check_timeout()) {
+                    break;
+                }
+            } while (true);
+        }
+        if (!child_exited && ::waitpid(m_child, &exit_ret, WNOHANG) == 0) {
+            // if the child is still alive and we do not need it anymore, kill it
+            ::kill(m_child, SIGKILL);
         }
         ::waitpid(m_child, &exit_ret, 0); // if ::waitpid(m_child, &exit_ret, WNOHANG) == 0, repeat it will cause
         // ECHILD, so not check the return value
