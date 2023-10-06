@@ -534,6 +534,9 @@
     <ClInclude Include="Controller\ControlScaleProxy.h">
       <Filter>Source\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="Controller\MaaThriftController.h">
+      <Filter>Source\Controller</Filter>
+    </ClInclude>
     <ClInclude Include="Controller\MaatouchController.h">
       <Filter>Source\Controller</Filter>
     </ClInclude>
@@ -640,6 +643,9 @@
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeConfig.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
   </ItemGroup>
@@ -968,6 +974,9 @@
     <ClCompile Include="Controller\adb-lite\protocol.cpp">
       <Filter>Source\Controller\adb-lite</Filter>
     </ClCompile>
+    <ClCompile Include="Controller\MaaThriftController.cpp">
+      <Filter>Source\Controller</Filter>
+    </ClCompile>
     <ClCompile Include="Controller\MinitouchController.cpp">
       <Filter>Source\Controller</Filter>
     </ClCompile>
@@ -1065,6 +1074,9 @@
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeConfig.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
   </ItemGroup>

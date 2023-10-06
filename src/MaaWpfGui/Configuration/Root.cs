@@ -6,7 +6,7 @@ using ObservableCollections;
 
 namespace MaaWpfGui.Configuration
 {
-    public class RootConfig : INotifyPropertyChanged
+    public class Root : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

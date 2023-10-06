@@ -81,6 +81,11 @@ export const zhcnSidebar = sidebar({
           icon: "ri:earth-fill",
           link: "/2.5-外服适配教程",
         },
+        {
+          text: "文档编写指南",
+          icon: "jam:write-f",
+          link: "/2.6-文档编写指南",
+        }
       ],
     },
     {

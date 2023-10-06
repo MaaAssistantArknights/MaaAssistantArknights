@@ -195,7 +195,7 @@ void asst::TaskData::clear_tasks()
 
 void asst::TaskData::set_task_base(const std::string_view task_name, std::string base_task_name)
 {
-    m_json_all_tasks_info[task_name]["baseTask"] = std::move(base_task_name);
+    m_json_all_tasks_info[task_name_view(task_name)]["baseTask"] = std::move(base_task_name);
     clear_tasks();
 }
 
@@ -624,7 +624,14 @@ bool asst::TaskData::generate_task_and_its_base(std::string_view name, bool must
         // 不一定必须有名字为 name 的资源，例如 Roguelike@Abandon 不必有 Abandon.
         return false;
     case ToBeGenerate: {
+        if (!m_json_all_tasks_info.contains(name)) [[unlikely]] {
+            // 这段正常情况来说是不可能的，除非有 string_view 引用失效
+            Log.error("Unexcepted ToBeGenerate task:", name);
+            return false;
+        }
+
         m_task_status[name] = Generating;
+
         const json::value& task_json = m_json_all_tasks_info.at(name);
 
         // BaseTask

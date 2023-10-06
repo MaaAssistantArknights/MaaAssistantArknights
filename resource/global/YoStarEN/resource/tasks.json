@@ -1985,7 +1985,7 @@
                 "备勤激活站"
             ],
             [
-                "Terra Research.*",
+                "Terra .ese.rch.*",
                 "Terra Research Commission"
             ],
             [
@@ -3742,9 +3742,69 @@
             "Storage full"
         ]
     },
-    "Phantom@Roguelike@LevelName_mode4": {
+    "Phantom@Roguelike@StrategyChange_mode0": {
         "text": [
-            "Homeland Remnants"
+            "_aggressive",
+            "_pragmatic",
+            "_default"
+        ],
+        "ocrReplace": [
+            [
+                "Mist-stricken Missteps",
+                "_aggressive"
+            ],
+            [
+                "Sunset Courtyard",
+                "_aggressive"
+            ],
+            [
+                "Homeland Remnants",
+                "_aggressive"
+            ],
+            [
+                "Nightmare's Prelude",
+                "_pragmatic"
+            ],
+            [
+                "Blood-soaked Corridor",
+                "_pragmatic"
+            ],
+            [
+                "Hall of Desires",
+                "_default"
+            ]
+        ]
+    },
+    "Phantom@Roguelike@StrategyChange_mode4": {
+        "text": [
+            "_default",
+            "_exit"
+        ],
+        "ocrReplace": [
+            [
+                "Mist-stricken Missteps",
+                "_default"
+            ],
+            [
+                "Sunset Courtyard",
+                "_default"
+            ],
+            [
+                "Homeland Remnants",
+                "_exit"
+            ],
+            [
+                "Nightmare's Prelude",
+                "_exit"
+            ],
+            [
+                "Blood-soaked Corridor",
+                "_exit"
+            ],
+            [
+                "Hall of Desires",
+                "_exit"
+            ]
         ]
     },
     "Phantom@Roguelike@NextLevel": {
@@ -3774,10 +3834,77 @@
     "Mizuki@Roguelike@GetDropSelectRecruit": {
         "templThreshold": 0.75
     },
-    "Mizuki@Roguelike@LevelName_mode4": {
+    "Mizuki@Roguelike@StrategyChange_mode0": {
         "text": [
-            "Raging Billows",
-            "Indigo Cradle"
+            "_aggressive",
+            "_pragmatic",
+            "_default"
+        ],
+        "ocrReplace": [
+            [
+                "Sunshine Coast",
+                "_aggressive"
+            ],
+            [
+                "Offshore Island",
+                "_aggressive"
+            ],
+            [
+                "Raging Billows",
+                "_pragmatic"
+            ],
+            [
+                "Secret Hotbed",
+                "_pragmatic"
+            ],
+            [
+                "Sacrosant Cave",
+                "_default"
+            ],
+            [
+                "Deep Sea Woodland",
+                "_default"
+            ],
+            [
+                "Indigo Cradle",
+                "_SKIP_"
+            ]
+        ]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode4": {
+        "text": [
+            "_default",
+            "_exit"
+        ],
+        "ocrReplace": [
+            [
+                "Sunshine Coast",
+                "_default"
+            ],
+            [
+                "Offshore Island",
+                "_default"
+            ],
+            [
+                "Raging Billows",
+                "_exit"
+            ],
+            [
+                "Secret Hotbed",
+                "_exit"
+            ],
+            [
+                "Sacrosant Cave",
+                "_exit"
+            ],
+            [
+                "Deep Sea Woodland",
+                "_exit"
+            ],
+            [
+                "Indigo Cradle",
+                "_exit"
+            ]
         ]
     },
     "Mizuki@Roguelike@NextLevel": {

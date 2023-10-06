@@ -102,7 +102,7 @@
     <system:String x:Key="InfrastThresholdTip">若啟用自定義換班，該欄位僅針對 autofill 和 幹員編組 的房間有效</system:String>
     <system:String x:Key="RoguelikeStrategyExp">刷等級，盡可能穩定地打更多層數</system:String>
     <system:String x:Key="RoguelikeStrategyGold">刷源石錠，到達第二層後直接退出</system:String>
-    <system:String x:Key="RoguelikeLastReward">燒開水，到達第三層後直接退出</system:String>
+    <system:String x:Key="RoguelikeLastReward">燒熱水，到達第三層後直接退出</system:String>
     <system:String x:Key="StartingSquad">開局分隊</system:String>
     <system:String x:Key="StartingRoles">開局職業組</system:String>
     <system:String x:Key="StartingCoreChar">開局幹員（單個）</system:String>
@@ -110,6 +110,7 @@
     <system:String x:Key="RoguelikeStartWithEliteTwo">凹「開局幹員」直升精二</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「開局幹員」使用助戰</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助戰</system:String>
+    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">中止行為等待至當前戰鬥結束後</system:String>
     <system:String x:Key="DeploymentWithPause">暫停下幹員（同時影響肉鴿、自動戰鬥、保全）（不穩定，暫不推薦開啟）</system:String>
     <system:String x:Key="AdbLiteEnabled">使用 ADB Lite（實驗性功能）</system:String>
     <system:String x:Key="KillAdbOnExit">退出時釋放 ADB</system:String>
@@ -330,6 +331,7 @@
     <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">退出 MAA，如無其他 MAA 程式則關機</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
+    <system:String x:Key="WaitAndStop">等待 &amp; 停止</system:String>
     <!--  戰鬥設定  -->
     <system:String x:Key="UseSanityPotion">吃理智藥</system:String>
     <system:String x:Key="UseOriginitePrime">吃源石*</system:String>
@@ -383,6 +385,7 @@
     <system:String x:Key="UnselectedTask">未選擇任務</system:String>
     <system:String x:Key="Running">正在運行中……</system:String>
     <system:String x:Key="AdbReplacementTips">如果任務完全沒有反應，請使用 設定 - 連接設定 - 強制替換 ADB，或觸控模式選擇 ADB Input（不推薦）。</system:String>
+    <system:String x:Key="Waiting">正在等待戰鬥結束……</system:String>
     <system:String x:Key="Stopping">正在停止……</system:String>
     <system:String x:Key="Stopped">已停止</system:String>
     <system:String x:Key="UnknownErrorOccurs">出現未知錯誤</system:String>
