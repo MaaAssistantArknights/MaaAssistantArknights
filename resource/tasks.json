@@ -7450,7 +7450,7 @@
             100,
             255
         ]
-    },    
+    },
     "SkipThePreBattlePlotConfirm": {
         "action": "ClickSelf",
         "roi": [
@@ -7463,7 +7463,7 @@
             100,
             255
         ]
-    },    
+    },
     "SkipForbiddenOperConfirm": {
         "action": "ClickSelf",
         "roi": [
