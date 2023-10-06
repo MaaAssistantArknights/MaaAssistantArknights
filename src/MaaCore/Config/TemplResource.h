@@ -24,7 +24,5 @@ namespace asst
         std::unordered_set<std::string> m_load_required;
         std::unordered_map<std::string, cv::Mat> m_templs;
         std::unordered_map<std::string, std::filesystem::path> m_templ_paths;
-
-        bool m_loaded = false;
     };
 }
