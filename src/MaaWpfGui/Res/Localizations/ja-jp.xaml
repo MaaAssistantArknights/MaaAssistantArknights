@@ -676,7 +676,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="RemoteControlGetTaskEndpointLabel">タスクエンドポイントの取得</system:String>
     <system:String x:Key="RemoteControlReportStatusEndpointLabel">タスクステータスの報告エンドポイント</system:String>
     <system:String x:Key="RemoteControlConnectionTestSuccess">接続テスト成功！</system:String>
-    <system:String x:Key="RemoteControlConnectionTestFail">接続テスト失敗。</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFail">接続テスト失敗、理由: {0}。</system:String>
     <system:String x:Key="RemoteControlConnectionTestFailEmpty">接続テスト失敗、エンドポイントが空です。</system:String>
     <system:String x:Key="RemoteControlConnectionTestFailNotHttps">接続テスト失敗。エンドポイントはhttpsアドレスではありません。</system:String>
     <system:String x:Key="RemoteControlReceivedTask">リモートタスク{0}を受信、タスクId:{1}。</system:String>

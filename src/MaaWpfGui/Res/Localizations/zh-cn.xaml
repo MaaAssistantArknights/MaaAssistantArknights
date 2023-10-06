@@ -676,7 +676,7 @@
     <system:String x:Key="RemoteControlGetTaskEndpointLabel">获取任务端点</system:String>
     <system:String x:Key="RemoteControlReportStatusEndpointLabel">汇报任务端点</system:String>
     <system:String x:Key="RemoteControlConnectionTestSuccess">连接测试成功！</system:String>
-    <system:String x:Key="RemoteControlConnectionTestFail">连接测试失败。</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFail">连接测试失败，原因: {0}。</system:String>
     <system:String x:Key="RemoteControlConnectionTestFailEmpty">连接测试失败，连接端点为空。</system:String>
     <system:String x:Key="RemoteControlConnectionTestFailNotHttps">连接测试失败。端点不是https地址。</system:String>
     <system:String x:Key="RemoteControlReceivedTask">收到远端任务{0}，任务Id:{1}。</system:String>
