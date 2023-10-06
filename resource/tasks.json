@@ -7497,9 +7497,6 @@
             120,
             270,
             10
-        ],
-        "next": [
-            "Stop"
         ]
     },
     "SkipForbiddenOperConfirm": {
