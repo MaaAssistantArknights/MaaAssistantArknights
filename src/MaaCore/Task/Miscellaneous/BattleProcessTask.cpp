@@ -336,7 +336,10 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
         const std::string& name = get_name_from_group(action.name);
         update_image_if_empty();
         while (!need_exit()) {
-            if (!update_deployment(false, image)) {
+            if (check_skip_plot_button(image)) {
+                speed_up();
+            }
+            else if (!update_deployment(false, image)) {
                 return false;
             }
             if (auto iter = m_cur_deployment_opers.find(name);
@@ -374,4 +377,26 @@ void asst::BattleProcessTask::sleep_and_do_strategy(unsigned millisecond)
         do_strategic_action();
         std::this_thread::yield();
     }
+}
+
+bool asst::BattleProcessTask::check_in_battle(const cv::Mat& reusable, bool weak)
+{
+    LogTraceFunction;
+
+    cv::Mat image = reusable;
+    return check_skip_plot_button(image) ? speed_up() && false : BattleHelper::check_in_battle(image, weak);
+}
+
+bool asst::BattleProcessTask::wait_until_end(bool weak)
+{
+    LogTraceFunction;
+
+    cv::Mat image = ctrler()->get_image();
+    while (!need_exit() && check_in_battle(image, weak)) {
+        do_strategic_action(image);
+        std::this_thread::yield();
+
+        image = ctrler()->get_image();
+    }
+    return true;
 }

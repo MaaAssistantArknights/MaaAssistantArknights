@@ -408,7 +408,6 @@ bool asst::BattleHelper::check_skip_plot_button(const cv::Mat& reusable)
 bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
-    check_skip_plot_button(image);
     if (weak) {
         BattlefieldMatcher analyzer(image);
         m_in_battle = analyzer.analyze().has_value();
