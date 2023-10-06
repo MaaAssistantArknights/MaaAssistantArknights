@@ -7484,7 +7484,6 @@
         ]
     },
     "EndOfPlot": {
-        "template": "EndOfPlot.png",
         "roi": [
             520,
             0,
@@ -7568,6 +7567,7 @@
         "postDelay": 2000
     },
     "BattleStartPlot": {
+        "doc": "剧情关开始剧情",
         "roi": [
             872,
             250,
@@ -7575,7 +7575,6 @@
             255
         ],
         "postDelay": 2000,
-        "template": "BattleStartPlot.png",
         "action": "ClickSelf",
         "next": [
             "SkipBattlePlot",
