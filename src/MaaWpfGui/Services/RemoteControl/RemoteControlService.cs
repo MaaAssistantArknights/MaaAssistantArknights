@@ -3,18 +3,22 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Services.Web;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
+using Windows.Media.Protection.PlayReady;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace MaaWpfGui.Services.RemoteControl
@@ -69,6 +73,34 @@ namespace MaaWpfGui.Services.RemoteControl
         }
 
         #region Private Method Invoker
+
+        private static T GetPrivateFieldValue<T>(object instance, string fieldName)
+        {
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
+            if (string.IsNullOrEmpty(fieldName))
+            {
+                throw new ArgumentNullException(nameof(fieldName));
+            }
+
+            Type type = instance.GetType();
+            FieldInfo fieldInfo = type.GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance);
+
+            if (fieldInfo == null)
+            {
+                throw new ArgumentException($"Field '{fieldName}' not found in type '{type.FullName}'.");
+            }
+
+            if (!typeof(T).IsAssignableFrom(fieldInfo.FieldType))
+            {
+                throw new ArgumentException($"Field '{fieldName}' is not of type {typeof(T)}.");
+            }
+
+            return (T)fieldInfo.GetValue(instance);
+        }
 
         private static void InvokeInstanceMethod(object instance, string methodName)
         {
@@ -500,14 +532,52 @@ namespace MaaWpfGui.Services.RemoteControl
 
             var uid = Instances.SettingsViewModel.RemoteControlUserIdentity;
             var did = Instances.SettingsViewModel.RemoteControlDeviceIdentity;
-            var response = await Instances.HttpService.PostAsJsonAsync(new Uri(endpoint), new { user = uid, device = did });
 
-            using var toast = new ToastNotification(
-                LocalizationHelper.GetString(
-                    response != null ? "RemoteControlConnectionTestSuccess" : "RemoteControlConnectionTestFail"));
+            try
+            {
+                var body = System.Text.Json.JsonSerializer.Serialize(new { user = uid, device = did });
+                var message = new HttpRequestMessage(HttpMethod.Post, endpoint);
+                message.Headers.Accept.ParseAdd("application/json");
+                message.Content = new StringContent(body, Encoding.UTF8, "application/json");
 
-            toast.Show();
+                var client = GetPrivateFieldValue<HttpClient>(Instances.HttpService, "_client");
+                var response = await client.SendAsync(message);
 
+                if (response != null)
+                {
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        var errorMsg = string.Format(LocalizationHelper.GetString("RemoteControlConnectionTestFail"), response.StatusCode);
+                        using var toastFail = new ToastNotification(errorMsg);
+                        toastFail.Show();
+                        return;
+                    }
+                }
+                else
+                {
+                    // 一般来说不会走到这里，因为null response一定会报错
+                    var errorMsg = string.Format(LocalizationHelper.GetString("RemoteControlConnectionTestFail"), "Unknown");
+                    using var toastFail = new ToastNotification(errorMsg);
+                    toastFail.Show();
+                    return;
+                }
+
+                using var toastSuccess = new ToastNotification(
+                    LocalizationHelper.GetString("RemoteControlConnectionTestSuccess"));
+                toastSuccess.Show();
+            }
+            catch (Exception e)
+            {
+                var error = e.Message;
+                if (e.InnerException != null)
+                {
+                    error = e.InnerException.Message;
+                }
+                var errorMsg = string.Format(LocalizationHelper.GetString("RemoteControlConnectionTestFail"), error);
+                using var toastErr = new ToastNotification(errorMsg);
+
+                toastErr.Show();
+            }
         }
 
         public static void RegenerateDeviceIdentity()

@@ -676,7 +676,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="RemoteControlGetTaskEndpointLabel">Get Task Endpoint</system:String>
     <system:String x:Key="RemoteControlReportStatusEndpointLabel">Report Task Endpoint</system:String>
     <system:String x:Key="RemoteControlConnectionTestSuccess">Connection Test Successful!</system:String>
-    <system:String x:Key="RemoteControlConnectionTestFail">Connection Test Failed.</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFail">Connection Test Failed, reason: {0}.</system:String>
     <system:String x:Key="RemoteControlConnectionTestFailEmpty">Connection Test Failed, Endpoint is empty.</system:String>
     <system:String x:Key="RemoteControlConnectionTestFailNotHttps">Connection Test Failed. Endpoint is not an https address.</system:String>
     <system:String x:Key="RemoteControlReceivedTask">Received remote task {0}, Task Id:{1}.</system:String>
