@@ -88,7 +88,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
 
     m_stage_name = Copilot.get_stage_name();
     if (!m_battle_task_ptr->set_stage_name(m_stage_name)) {
-        Log.error("Not support stage, please cheek if it is a plot stage");
+        Log.error("Not support stage, please check if it is a plot stage");
         // 跳过作战任务
         m_subtasks.erase(m_subtasks.end() - 8, m_subtasks.end());
         Log.debug(m_subtasks);
@@ -136,7 +136,6 @@ bool asst::CopilotTask::set_params(const json::value& params)
     Task.get<OcrTaskInfo>(m_navigate_name + "@Copilot@ClickStageName")->text = { m_navigate_name };
     Task.get<OcrTaskInfo>(m_navigate_name + "@Copilot@ClickedCorrectStage")->text = { m_navigate_name };
     Task.get(m_navigate_name + "@Copilot@FullStageNavigation")->specific_rect = Rect(600, 100, 20, 20);
-
     m_navigate_task_ptr->set_tasks({ m_navigate_name + "@Copilot@StageNavigationBegin" });
     m_navigate_task_ptr->set_enable(need_navigate);
 
@@ -147,7 +146,6 @@ bool asst::CopilotTask::set_params(const json::value& params)
     if (need_navigate) {
         // 如果没三星就中止
         Task.get<OcrTaskInfo>("Copilot@BattleStartPreFlag")->text.emplace_back(m_navigate_name);
-        Log.debug(m_subtasks);
         m_stop_task_ptr->set_tasks({ "Copilot@ClickCornerUntilEndOfAction" });
         m_stop_task_ptr->set_enable(true);
     }
