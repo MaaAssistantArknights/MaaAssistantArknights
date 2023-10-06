@@ -128,6 +128,11 @@ export const zhcnSidebar = sidebar({
           icon: "game-icons:prisoner",
           link: "/3.7-保全派驻协议",
         },
+        {
+          text: "远程控制协议",
+          icon: "mdi:remote-desktop",
+          link: "/3.8-远程控制协议"
+        },
       ],
     },
   ],
