@@ -234,6 +234,7 @@ char_4078_bdhkgt|截云|Jieyun|ジエユン|지에윈
 char_4083_chimes|铎铃|Wind Chimes|ウィンドチャイム|윈드차임스
 char_4102_threye|凛视|Valarqvin||
 char_4106_bryota|苍苔|Bryophyta||
+char_4104_coldst|冰酿|Coldshot||
 
 ID|中文|English|日本語|한국어
 ---|---|---|---|---
@@ -298,6 +299,7 @@ char_1029_yato2|麒麟R夜刀|Kirin R Yato|キリンRヤトウ|
 char_1031_slent2|淬羽赫默|Silence the Paradigmatic||
 char_1032_excu2|圣约送葬人|Executor the Ex Foedere||
 char_1033_swire2|琳琅诗怀雅|Swire the Elegant Wit||
+char_1034_jesca2|涤火杰西卡|Jessica the Liberated||
 char_2012_typhon|提丰|Typhon||
 char_2013_cerber|刻俄柏|Ceobe|ケオベ|케오베
 char_2014_nian|年|Nian|ニェン|니엔
@@ -317,4 +319,3 @@ char_4072_ironmn|白铁|Stainless|ステインレス|스테인리스
 char_4080_lin|林|Lin|リン|린
 char_4082_qiubai|仇白|Qiubai|チューバイ|치우바이
 char_4087_ines|伊内丝|Ines||
-
