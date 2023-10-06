@@ -7459,7 +7459,6 @@
             "SkipBattlePlotConfirm",
             "SkipBattlePlot"
         ]
-
     },
     "SkipThePreBattlePlotConfirm": {
         "action": "ClickSelf",
@@ -7582,7 +7581,6 @@
             "SkipBattlePlot",
             "Stop"
         ]
-
     },
     "BattleOperName": {
         "algorithm": "OcrDetect",
