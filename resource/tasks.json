@@ -7450,20 +7450,20 @@
             100,
             255
         ]
-    },
+    },    
     "SkipThePreBattlePlotConfirm": {
         "action": "ClickSelf",
         "roi": [
             721,
-            390,
+            290,
             149,
-            144
+            244
         ],
         "maskRange": [
             100,
             255
         ]
-    },
+    },    
     "SkipForbiddenOperConfirm": {
         "action": "ClickSelf",
         "roi": [
