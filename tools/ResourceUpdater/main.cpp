@@ -58,7 +58,8 @@ bool update_levels_json(const std::filesystem::path& input_file, const std::file
 bool update_infrast_templates(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 bool generate_english_roguelike_stage_name_replacement(const std::filesystem::path& ch_file,
                                                        const std::filesystem::path& en_file);
-bool update_battle_chars_info(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
+bool update_battle_chars_info(const std::filesystem::path& input_dir, const std::filesystem::path& overseas_dir,
+                              const std::filesystem::path& output_dir);
 bool update_recruitment_data(const std::filesystem::path& input_dir, const std::filesystem::path& output, bool is_base);
 
 bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir,
@@ -103,6 +104,7 @@ int main([[maybe_unused]] int argc, char** argv)
     const auto resource_dir = solution_dir / "resource";
 
     /* Update levels.json from ArknightsGameResource*/
+
     std::cout << "------------Update levels.json------------" << std::endl;
     if (!update_levels_json(arkbot_res_dir / "levels.json", resource_dir / "Arknights-Tile-Pos")) {
         std::cerr << "update levels.json failed" << std::endl;
@@ -134,19 +136,14 @@ int main([[maybe_unused]] int argc, char** argv)
     // }
 
     /* Update base_name.json from Penguin Stats*/
+
     std::cout << "------------Update stage.json------------" << std::endl;
     if (!update_stages_data(cur_path, resource_dir)) {
         std::cerr << "Update stages data failed" << std::endl;
         return -1;
     }
 
-    /* Update battle chars info from ArknightsGameResource*/
-    std::cout << "------------Update battle chars info------------" << std::endl;
-    if (!update_battle_chars_info(arkbot_res_dir, resource_dir)) {
-        std::cerr << "Update battle chars info failed" << std::endl;
-        return -1;
-    }
-
+    
     /* Update overseas data */
     std::cout << "------------Update overseas data------------" << std::endl;
     const std::filesystem::path overseas_data_dir = cur_path;
@@ -166,6 +163,13 @@ int main([[maybe_unused]] int argc, char** argv)
     int zhtw_ret = system(("cd " + cur_path.string() + " && " + data_exec).c_str());
     if (zhtw_ret != 0) {
         std::cerr << "overseas update failed" << std::endl;
+        return -1;
+    }
+
+    /* Update battle chars info from ArknightsGameResource*/
+    std::cout << "------------Update battle chars info------------" << std::endl;
+    if (!update_battle_chars_info(arkbot_res_dir, overseas_data_dir, resource_dir)) {
+        std::cerr << "Update battle chars info failed" << std::endl;
         return -1;
     }
 
@@ -763,17 +767,31 @@ bool generate_english_roguelike_stage_name_replacement(const std::filesystem::pa
     return true;
 }
 
-bool update_battle_chars_info(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir)
+bool update_battle_chars_info(const std::filesystem::path& input_dir, const std::filesystem::path& overseas_dir, const std::filesystem::path& output_dir)
 {
-    const auto& input_chars_file = input_dir / "gamedata" / "excel" / "character_table.json";
+    const auto& input_chars_cn_file = input_dir / "gamedata" / "excel" / "character_table.json";
+    const auto& input_chars_en_file = overseas_dir / "en" / "gamedata" / "excel" / "character_table.json";
+    const auto& input_chars_jp_file = overseas_dir / "jp" / "gamedata" / "excel" / "character_table.json";
+    const auto& input_chars_kr_file = overseas_dir / "kr" / "gamedata" / "excel" / "character_table.json";
+    const auto& input_chars_tw_file = overseas_dir / "tw" / "gamedata" / "excel" / "character_table.json";
     const auto& input_range_file = input_dir / "gamedata" / "excel" / "range_table.json";
 
-    auto chars_opt = json::open(input_chars_file);
+    auto chars_cn_opt = json::open(input_chars_cn_file);
+    auto chars_en_opt = json::open(input_chars_en_file);
+    auto chars_jp_opt = json::open(input_chars_jp_file);
+    auto chars_kr_opt = json::open(input_chars_kr_file);
+    auto chars_tw_opt = json::open(input_chars_tw_file);
+
     auto range_opt = json::open(input_range_file);
-    if (!chars_opt || !range_opt) {
+    if (!chars_cn_opt || !range_opt || !chars_en_opt || !chars_jp_opt || !chars_kr_opt || !chars_tw_opt) {
         return false;
     }
-    auto& chars_json = chars_opt.value();
+    auto& chars_cn_json = chars_cn_opt.value();
+    auto& chars_en_json = chars_en_opt.value();
+    auto& chars_jp_json = chars_jp_opt.value();
+    auto& chars_kr_json = chars_kr_opt.value();
+    auto& chars_tw_json = chars_tw_opt.value();
+
     auto& range_json = range_opt.value();
 
     json::value result;
@@ -795,11 +813,29 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
 
     auto& chars = result["chars"];
     std::map<std::string, std::vector<std::string>> tokens;
-    for (auto& [id, char_data] : chars_json.as_object()) {
+    for (auto& [id, char_data] : chars_cn_json.as_object()) {
         json::value char_new_data;
         std::string name = char_data["name"].as_string();
-
         char_new_data["name"] = name;
+
+        if (chars_en_json.find(id)) {
+            std::string name_en = chars_en_json.as_object()[id]["name"].as_string();
+            char_new_data["name_en"] = name_en;
+        }
+
+        if (chars_jp_json.find(id)) {
+            std::string name_jp = chars_jp_json.as_object()[id]["name"].as_string();
+            char_new_data["name_jp"] = name_jp;
+        }
+        if (chars_kr_json.find(id)) {
+            std::string name_kr = chars_kr_json.as_object()[id]["name"].as_string();
+            char_new_data["name_kr"] = name_kr;
+        }
+        if (chars_tw_json.find(id)) {
+            std::string name_tw = chars_tw_json.as_object()[id]["name"].as_string();
+            char_new_data["name_tw"] = name_tw;
+        }
+
         char_new_data["profession"] = char_data["profession"];
         const std::string& default_range = char_data.get("phases", 0, "rangeId", "0-1");
         char_new_data["rangeId"] = json::array {
