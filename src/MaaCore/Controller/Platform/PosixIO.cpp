@@ -95,23 +95,21 @@ std::optional<int> asst::PosixIO::call_command(const std::string& cmd, const boo
             }
 
             ssize_t read_num = ::read(client_socket, sock_buffer.get(), sock_buffer.size());
+            ssize_t read_tot = 0;
             while (read_num > 0) {
+                read_tot += read_num;
                 sock_data.insert(sock_data.end(), sock_buffer.get(), sock_buffer.get() + read_num);
                 read_num = ::read(client_socket, sock_buffer.get(), sock_buffer.size());
             }
             ::shutdown(client_socket, SHUT_RDWR);
             ::close(client_socket);
 
-            // wait until the child has died or time is out
-            do {
-                if (::waitpid(m_child, &exit_ret, WNOHANG) != 0) {
-                    child_exited = true;
-                    break;
-                }
-                if (check_timeout()) {
-                    break;
-                }
-            } while (true);
+            if (read_tot == 0) {
+                Log.error("socket returnd empty data and closed");
+                ::kill(m_child, SIGKILL);
+                ::waitpid(m_child, &exit_ret, 0);
+                return std::nullopt;
+            }
         }
         else {
             do {
@@ -135,8 +133,15 @@ std::optional<int> asst::PosixIO::call_command(const std::string& cmd, const boo
             // if the child is still alive and we do not need it anymore, kill it
             ::kill(m_child, SIGKILL);
         }
-        ::waitpid(m_child, &exit_ret, 0); // if ::waitpid(m_child, &exit_ret, WNOHANG) == 0, repeat it will cause
-        // ECHILD, so not check the return value
+
+        // FIXME: when recv_by_socket, sometimes the child hangs up but actually has sent correct data already.
+        // In this case, it is seen as a successful invocation thus the return value is not checked, i.e. keep it as 0.
+        // See Issue #6688 for more information.
+        if (!recv_by_socket) {
+            ::waitpid(m_child, &exit_ret, 0); // if ::waitpid(m_child, &exit_ret, WNOHANG) == 0, repeat it will cause
+            // ECHILD, so not check the return value
+        }
+        
     }
     else {
         // failed to create child process
