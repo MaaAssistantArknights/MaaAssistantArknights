@@ -474,7 +474,7 @@ namespace MaaWpfGui.ViewModels.UI
                 new CombinedData { Display = LocalizationHelper.GetString("RoguelikeThemeMizuki"), Value = "Mizuki" },
                 new CombinedData { Display = LocalizationHelper.GetString("RoguelikeThemeSami"), Value = "Sami" },
             };
-            
+
             UpdateRoguelikeSquadList();
             UpdateRoguelikeCoreCharList();
 
@@ -1277,11 +1277,6 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets or sets the list of touch modes
         /// </summary>
         public List<CombinedData> TouchModeList { get; set; }
-
-        /// <summary>
-        /// Gets or sets the list of touch modes
-        /// </summary>
-        public List<CombinedData> RemoteControlList { get; set; }
 
         /// <summary>
         /// Gets or sets the list of dark mode.
