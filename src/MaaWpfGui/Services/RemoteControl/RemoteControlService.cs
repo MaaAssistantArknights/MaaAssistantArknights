@@ -337,7 +337,6 @@ namespace MaaWpfGui.Services.RemoteControl
                         Log.Logger.Error("RemoteControlService report task failed.");
                     }
                 }
-                
             }
         }
 
