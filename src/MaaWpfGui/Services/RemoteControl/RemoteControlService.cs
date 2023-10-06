@@ -165,7 +165,7 @@ namespace MaaWpfGui.Services.RemoteControl
         {
             var endpoint = Instances.SettingsViewModel.RemoteControlGetTaskEndpointUri;
 
-            if (endpoint == null || !endpoint.ToLower().StartsWith("https://"))
+            if (string.IsNullOrWhiteSpace(endpoint) || !endpoint.ToLower().StartsWith("https://"))
             {
                 return;
             }
@@ -320,7 +320,7 @@ namespace MaaWpfGui.Services.RemoteControl
                 }
 
                 var endpoint = Instances.SettingsViewModel.RemoteControlReportStatusUri;
-                if (endpoint != null && !endpoint.ToLower().StartsWith("https://"))
+                if (!string.IsNullOrWhiteSpace(endpoint) && !endpoint.ToLower().StartsWith("https://"))
                 {
                     var uid = Instances.SettingsViewModel.RemoteControlUserIdentity;
                     var did = Instances.SettingsViewModel.RemoteControlDeviceIdentity;
@@ -482,7 +482,7 @@ namespace MaaWpfGui.Services.RemoteControl
         {
             var endpoint = Instances.SettingsViewModel.RemoteControlGetTaskEndpointUri;
 
-            if (endpoint == null)
+            if (string.IsNullOrWhiteSpace(endpoint))
             {
                 using var toastEmpty = new ToastNotification(
                     LocalizationHelper.GetString("RemoteControlConnectionTestFailEmpty"));
@@ -502,11 +502,9 @@ namespace MaaWpfGui.Services.RemoteControl
             var did = Instances.SettingsViewModel.RemoteControlDeviceIdentity;
             var response = await Instances.HttpService.PostAsJsonAsync(new Uri(endpoint), new { user = uid, device = did });
 
-            var error = string.Format(LocalizationHelper.GetString("RemoteControlConnectionTestFail"), "网络错误");
-
             using var toast = new ToastNotification(
-                response != null ? LocalizationHelper.GetString(
-                    "RemoteControlConnectionTestSuccess") : error);
+                LocalizationHelper.GetString(
+                    response != null ? "RemoteControlConnectionTestSuccess" : "RemoteControlConnectionTestFail"));
 
             toast.Show();
 

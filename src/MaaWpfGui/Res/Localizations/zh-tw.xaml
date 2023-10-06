@@ -667,6 +667,21 @@
     <system:String x:Key="GameResourceUpdated">遊戲資源已更新，請重啟 MAA</system:String>
     <system:String x:Key="GameResourceUpdating">遊戲資源正在更新，請勿關閉 MAA</system:String>
     <!--  Api  -->
+    <!--  Remote Control  -->
+    <system:String x:Key="RemoteControlSettings">遠程控制</system:String>
+    <system:String x:Key="RemoteControlDeviceIdentityLabel">設備標識符（唯讀）</system:String>
+    <system:String x:Key="RemoteControlConnectionTest">測試連接</system:String>
+    <system:String x:Key="RemoteControlRegenerateDeviceIdentity">重新生成</system:String>
+    <system:String x:Key="RemoteControlUserIdentityLabel">使用者標識符</system:String>
+    <system:String x:Key="RemoteControlGetTaskEndpointLabel">獲取任務端點</system:String>
+    <system:String x:Key="RemoteControlReportStatusEndpointLabel">匯報任務端點</system:String>
+    <system:String x:Key="RemoteControlConnectionTestSuccess">連接測試成功！</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFail">連接測試失敗。</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFailEmpty">連接測試失敗，連接端點為空。</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFailNotHttps">連接測試失敗。端點非https地址。</system:String>
+    <system:String x:Key="RemoteControlReceivedTask">收到遠端任務{0}，任務Id:{1}。</system:String>
+    <system:String x:Key="RemoteControlCompletedTask">完成遠端任務{0}，任務Id:{1}。</system:String>
+    <!--  Remote Control  -->
     <!--  External Notification  -->
     <system:String x:Key="ExternalNotificationEmailTemplateHello">博士，有新的通知哦！</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">您會收到此郵件，是因為您在 MAA 中設置了 SMTP 伺服器並開啟了郵件通知服務。</system:String>
