@@ -1,180 +1,242 @@
-## v4.24.0
+## v4.25.0-beta.1
 
 ### 新增
 
-- 新增领取邮件功能 (#6438) @broken-paint
-- 肉鸽烧开水模式增加凹开局直升 (#6443) @Lancarus
-- 肉鸽适配高规格分队开局 (#6436) @Lancarus
-- 开始唤醒-账号切换新增手动切换，可单独执行开始唤醒流程 (#6433) @status102
-- 如果任务流程中勾选了刷理智，则在任务链结束时提供一个理智回满的预测时间 (#6456) @status102
-- macOS 国际服允许添加生息演算任务 @hguandl
-- 自动战斗新增战斗列表选项（异形UI不支持） (#6350) @status102
-- WPF自动战斗对于作业描述的视频自动跳转增加av号支持 (#6363) @status102
-- 基建 制造站、贸易站、控制中枢 新增支持干员编组配置 (#6249) @status102
-- 基建支持加工站 @MistEO
-- 新增开始唤醒时账号切换功能 (官服、B服 only) (#6268) @status102
-- 自动战斗-自动编队，新增自动补充低信赖干员、追加自定干员选项 (#6282) @status102
-- 自动更新游戏资源而不用更新软件版本 (#6283) @MistEO
-- 可自选日志日期显示格式 @ABA2396
-- 新增复刻活动时，连续刷普通1-9关 (异形UI暂不支持，例如愚人号)，支持上报至企鹅物流 (#6230) @status102
-- 增加刷理智每次打关卡之前时的理智剩余量输出 (#6146) @status102
-- 支持 SideStory「不义之财」活动导航 & 添加 "SideStoryStage" 模板 roi @ABA2396
-- shutdown/hibernate after all other MAAs have exited, or just exit itself (#6147) @Neptsun
-- 添加CLI支持 (#6144) @wangl-cc
-- 新增肉鸽干员自动撤退字段 (#6241) @AnnoyingFlowers
-- 注册表查询bluestacks hyper-v的conf位置 (#6083) @Gliese129
-- 支持woolang绑定 (#6142) @mrcino
+- OCR manipulation params for QuickFormation (#6697) @Constrat
+   - chroe: cn default values @Constrat
+   - specialParams implementation @Constrat
+   - OCR manipulation for QuickFormation @Constrat
+- 支持不同界面公招 @zzyyyl
+- 新增av号、bv号对分p的支持 (#6670) @AnnoyingFlowers
+   - 优化正则 @AnnoyingFlowers
+   - 新增匹配av号、bv号以及分p的支持 @AnnoyingFlowers
+- Add ThriftController (#6573) @aa889788
+   - Add ThriftController @aa889788
+- WpfGui新增 肉鸽设置-中止行为等待至本次战斗结束后 (#6591) @status102
+   - remove test code @status102
+   - 肉鸽新增 WpfGui选项-中止行为等待至本次战斗结束后 @status102
+- 自动战斗-战斗列表-关卡名允许在作业标题未匹配到关卡名时，对文件名进行匹配。若还无法匹配到，则置空 (#6694) @status102
+   - 自动战斗-战斗列表-关卡名允许在作业标题未匹配到关卡名时，对文件名进行匹配。若还无法匹配到，则置空 @status102
+- 肉鸽不同层数逻辑 (#6508) @zzyyyl @Lancarus
+   - 修复肉鸽层数逻辑的小问题 @zzyyyl
+   - 肉鸽烧水时低难度有热水无效，高难度烧到水才停止 @zzyyyl
+   - 重写烧水 @zzyyyl
+   - 一些简单的代码优化&重写 @zzyyyl
+   - 使用 ocrReplace 重写肉鸽选点策略 @zzyyyl
+   - 按照 review 意见修改 @zzyyyl
+   - 增加刷经验模式根据层数改变选点策略 @zzyyyl
+   - 增加不同层数的stages策略 [skip ci] @Lancarus
+- 支持多图单阈值的写法 @zzyyyl
+- 支持多模板匹配，任一达到阈值即视为命中 (#6608) @Constrat @MistEO
+   - support of multi_template in schema @Constrat
+   - support of new GUIs (multi template experimental) @Constrat
+   - new template for default GUI @Constrat
+   - templates for new GUI (dark | sami) @Constrat
+   - removed useless template @Constrat
+   - template filepath error @MistEO
+   - 模板匹配任务，父类与子类模板数不相同时，使用最后一个阈值填充子类 @MistEO
+   - 支持多模板匹配，任一达到阈值即视为命中 @MistEO
+- 运行期修改任务内容 (#6583) @zzyyyl
+   - 将`LevelName`从`Stages`里面移出来，仅在进入新一层时触发 @zzyyyl
+   - 移除韩服的 "Roguelike@LevelName" @zzyyyl
+   - 重写 肉鸽运行时修改任务内容 的代码 @zzyyyl
+   - 关于运行时修改任务的一点解释 @zzyyyl
+   - 新增三个函数 @zzyyyl
+   - 本来重构之后完全支持惰性加载，但是发现模板图片不支持 @zzyyyl
+   - 延迟生成 raw_task (提升加载速度，不影响逻辑) @zzyyyl
+- 在UI中隐藏不可用的选项 (#6536) @SherkeyXD @ABA2396
+   - 是否进入第二层也在不启用投资时隐藏 @SherkeyXD
+   - 删除多余空格 @ABA2396
+   - 删除不必要的name属性 @SherkeyXD
+   - 源石锭达到上限结束选项现在在不可用时隐藏 @SherkeyXD
+   - Revert "feat: 烧开水模式不再默认启用投资，同时源石锭模式隐藏投资选项" @SherkeyXD
+   - Revert "refactor: 迁移部分设置判断到SettingsViewModel" @SherkeyXD
+   - 傀影肉鸽也不显示精二直升选项 @SherkeyXD
+   - 是否显示精二干员开局由binding判断 @SherkeyXD
+   - 迁移部分设置判断到SettingsViewModel @SherkeyXD
+   - 烧开水模式不再默认启用投资，同时源石锭模式隐藏投资选项 @SherkeyXD
+   - 移除无用的using @SherkeyXD
+   - 根据review做出修改 @SherkeyXD
+   - 非水月肉鸽不显示刷新商店获取指路鳞选项 @SherkeyXD
+   - 加上遗漏的设置 @SherkeyXD
+   - 烧开水模式也禁止修改投资源石锭选项 @SherkeyXD
+   - 刷源石锭模式禁止更改投资源石锭选项 @SherkeyXD
+- 增加接口 get_json(), 运行时可以使用 Task.get_json() 获取任务配置的原生 json 内容 @zzyyyl
+- 移除之前弃用的肉鸽模式 "2" @zzyyyl
+- 肉鸽刷源石锭增加不去第二层的选项 (#6578) @Lancarus
+   - 外服ui适配 @Lancarus
+   - 格式化代码 @Lancarus
+   - feat：肉鸽刷源石锭模式添加是否去第二层的选项 @Lancarus
+   - Revert "feat: 肉鸽刷源石锭增加不去第二层的选项" @Lancarus
+   - 肉鸽刷源石锭增加不去第二层的选项 @Lancarus
+- 多文件任务从 json 层面合并后再重新解析 (#6478) @zzyyyl @Constrat
+   - use std::string_view @zzyyyl
+   - 每次 parse 都先清空已生成的任务信息 @zzyyyl
+   - remove useless fields @zzyyyl
+   - 修复 "baseTask": "#none"，以及相关文档 @zzyyyl
+   - useless objects 2 @Constrat
+   - removing useless objects @zzyyyl
+   - 多文件任务从 json 层面合并后再重新解析 @zzyyyl
+- 公告弹窗 (#6557) @Constrat @ABA2396
+   - i18n: small en adjustment [skip ci] @Constrat
+   - 避免响应数据流意外关闭或为空 @ABA2396
+   - 消除 Notice @ABA2396
+   - 公告弹窗 @ABA2396
 
 ### 改进
 
-- 在非烧水模式，取消刷直升按钮 (#6484) @mole828
-- optimize time diff format in sanity report (#6512) @KevinT3Hu
-- 投资达到上限后退出到肉鸽主界面 (#6435) @zzyyyl
-- 优化傀影招募策略 (#6476) @Lancarus
-- 激活自动战斗-战斗列表时将同时激活自动编队，调整自动战斗UI (#6448) @status102
-- 优化傀影肉鸽招募和商店逻辑 (#6447) @Lancarus
-- 稍微优化下自动战斗界面 ui @moomiji
-- 优化 自动战斗-战斗列表 跳过战斗后剧情的逻辑 (#6430) @status102
-- 优化萨米招募逻辑 (#6422) @Lancarus
-- 稍微优化下自动战斗界面 ui @ABA2396
-- 水月肉鸽：增加支援道具，新干员分组，优化大君遗脉策略 (#6372) @Yumi0606
-- 适配萨米肉鸽生活至上分队，优化部分逻辑 (#6385) @Lancarus
-- 基建换班-干员编组增加可用干员缓存，同时在单次换班任务中避免重复匹配已匹配的干员 (#6376) @status102
-- 下载更新资源先使用临时文件缓存 @MistEO
-- 优化定时任务 @ABA2396
-- 更新游戏资源时弹窗提示 @MistEO
-- 增加未通过企鹅检查的掉落截图，增加 UnknownStage 时的难度回调 (#6308) @zzyyyl
-- 优化自动战斗-自动编队-追加自定干员选项UI，当选项禁用时，居中CheckBox (#6322) @status102
-- 优化萨米肉鸽策略 (#6288) (#6321) @Lancarus
-- 优化刷理智的SSReopen导航逻辑，允许从普通关页面启动时短路开始于主页的导航逻辑 (#6287) @status102
-- 优化萨米肉鸽策略 (#6266) @Lancarus
-- 优化刷源石锭模式的逻辑，跳过战斗后招募，增加进入纵向节点的逻辑 (#6140) @Lancarus
+- 优化文档视觉效果，添加文档编写指南 (#6611) @SherkeyXD
+   - 添加文档编写指南 @SherkeyXD
+   - 修正多语言字体配置 @SherkeyXD
+   - 增加文章内容的宽度 @SherkeyXD
+- 优化萨米肉鸽逻辑 (#6679) @Lancarus
+   - 优化萨米肉鸽逻辑 @Lancarus
+- 优化萨米肉鸽部关卡策略 (#6656) @Lancarus
+   - 优化萨米肉鸽部关卡策略 @Lancarus
+- 肉鸽主题从Status分离 (#6646) @status102
+   - 肉鸽主题从Status分离 @status102
+- WpfGui自动战斗解析作业后，提示文本移动至最顶端 (#6625) @status102
+   - 自动战斗解析作业后，提示文本移动至最顶端 @status102
+- BattleQuickFormationRole cleared templates [skip ci] @Constrat
+- 优化肉鸽失败后，开始下一次探索的速度 (#6602) @Lancarus
+   - 优化肉鸽失败后，开始下一次探索的速度 @Lancarus
+- 优化部分肉鸽关卡策略 (#6590) @Lancarus
+   - 优化萨米肉鸽部分策略 @Lancarus
+   - 优化部分策略 @Lancarus
+- 肉鸽相关 tasks.json 优化 (#6596) @zzyyyl
+   - 删除冗余的 "Sami@Roguelike@NextLevel" @zzyyyl
+   - 优化 Sami@Roguelike@NextLevelThenExit @zzyyyl
+   - 将 `Roguelike@NextLevel` 的 next 抽出为 `Roguelike@Stages` @zzyyyl
+- 优化 刷源石锭模式是否进入第二层 的实现方式 (#6593) @zzyyyl
+   - 优化 刷源石锭模式是否进入第二层 的实现方式 @zzyyyl
+- tasks.json 大修改 (#6563) @zzyyyl
+   - 代码中修改 ReturnTo -> BlackReturn @zzyyyl
+   - 简化 Infrast 相关任务 @zzyyyl
+   - tasks.json 大修改 @zzyyyl
+- 优化肉鸽招募策略 (#6579) @Lancarus
+   - 降低热水壶和演讲稿template阈值 @Lancarus
+   - 傀影肉鸽骑士对决ocr替换 @Lancarus
+   - 加了个控制条件 @Lancarus
+   - 优化肉鸽招募策略 fix #6068 @Lancarus
+- 重构：WPF 配置部分 (#6549) @Cryolitia
+   - Merge remote-tracking branch 'upstream/dev' into config-refector @Cryolitia
+   -  refactor: config @Cryolitia
+- 根据 qodana 优化代码 (#6542) @ABA2396
+   - 修复错误变量名 @ABA2396
+   - merge: 合并 dev 分支修改 @ABA2396
+   - 修复外服错误文件名 @ABA2396
+   - 修复模板文件名错误 @ABA2396
+   - Convert into constant @ABA2396
+   - Convert into constant，统一注释 @ABA2396
+   - 修复错误的 XML comment @ABA2396
+   - 修正错误单词，修改示例 @ABA2396
+   - 规范变量命名，修正错误变量名，修正错误注释 @ABA2396
 
 ### 修复
 
-- 自动战斗跳过“以下干员出战后将被禁用，是否继续？”对话框 #4917 #4694 #5351 (#6492) @Hydrogina
-- 自动战斗-自动编队-补充低信赖干员: 修正补充顺序，避免在极端情况下补充错误 (#6499) @status102
-- 尝试修复肉鸽卡在招募界面 (#6516) @Lancarus
-- 自动战斗-战斗列表，补充突袭结算图，修复从缓存文件夹添加作业时报错 (#6497) @status102
-- 修复凹直升功能造成的卡在招募立绘等bug (#6502) @Lancarus
-- 删掉多余的模板图片 @zzyyyl
-- 增加延迟以提高刷理智-当前理智识别成功率 (#6402) @status102
-- 修复 sanity_report == null 的问题 @zzyyyl
-- 加工站不设置干员时，直接报错并返回 @MistEO
-- 修复水月肉鸽卡在藏品 (#6464) @mole828
-- 修复 debug 模式下 tasks.json 检查未通过时的访问越界问题 @zzyyyl
-- 修复网络波动造成的使用理智药不清理智问题 @zzyyyl
-- 修复自动战斗-战斗列表的导航失效问题 (#6413) @status102
-- 修复Status缓存跨任务清理在任务链正常完成情况下失效的错误 (#6428) @status102
-- 修复外部通知错误 (#6414) @LiamSho
-- 修复资源读取错误，修复错误的界面提示 @ABA2396
-- 修复资源更新toast笔误 @MistEO
-- 通过进程名关闭蓝叠时如果模拟器个数超过1个则放弃关闭 @ABA2396
-- 修复task.png阈值 @MistEO
-- 修复SettingsView的Idle不生效，将开始唤醒-账号切换在非Idle情况下锁定 (#6364) @status102
-- etag 解析报错 @ABA2396
-- 将账号切换输出文本中的目标账号由输入文本改为OCR结果，尝试修复账号切换出错 (#6353) @status102
-- 给关卡选择为 null 时打个补丁 @moomiji
-- 更新文档 @Rbqwow @Black1312 @HisAtri
-- 修复因部分皮肤造成的关卡难度识别问题 (#6309) @zzyyyl
-- 修复肉鸽某些开局干员精二后首次进入关卡时不选三技能的问题 @AnnoyingFlowers
-- 修复更新资源下载异常，及检查更新按钮过早亮起的问题 @MistEO
-- 简单修复一下异步Load导致的错误 @MistEO
-- Missing templates in EN @Constrat
-- 修复连接安卓手机，及多开模拟器时，adb 端口判断异常 @MistEO
-- 修复肉鸽招募卡住的问题 (#6528) @Lancarus
-- 自动战斗-战斗列表启用时，对所有作业追加摆完挂机选项操作 (#6533) @status102
-- 修复ProcessTask停不掉的问题 @MistEO
-- 修改理智数据格式 (#6525) @zzyyyl @status102
-- 继续尝试修复肉鸽卡在招募界面 (#6521) @Lancarus
-- 修复萨米肉鸽关卡json“生人勿进”->"生人勿近" (#6262) @Lancarus
-- 尝试修复网络波动造成的碎石不用问题 (#6220) @zzyyyl
-- 修复萨米肉鸽作战关卡逻辑错误 (#6235) @mole828
-- 萨米商店不识别第二排商品 (#6232) @Lancarus
-- 修复肉鸽道中抓取干员 山 或 林 后重复开启技能的问题 (#6221) @AnnoyingFlowers
-- regex for trader shopping in I.S. @Constrat
-- 萨米boss关正则替换错误 (#6211) @Lancarus
-- 麒麟X夜刀->麒麟R夜刀 (#6195) (#6199) @Constrat @SherkeyXD
-- fix failing to choose rewards from the last run @178619
-- 修复仓库识别无法在表格框内滚动 @ABA2396
+- 修复无法对后续加载的图片资源进行存在检测的错误，跳过宿舍技能检查 (#6686) @MistEO @status102
+   - 改改注释 @MistEO
+   - 移除m_loaded @status102
+   - 修复无法对后续加载的图片资源进行存在检测的错误，跳过宿舍技能检查 @status102
+- fix host executable suffix error @aa889788
+- 泰拉大陆调查团 EN regex [skip ci] @Constrat
+- 修复肉鸽获取 Sami@Roguelike@StrategyChange 等任务时的闪退问题 @zzyyyl
+- Sync with OS not working  (#6672) @Cryolitia
+- Combat with Support templ error fix lazy load template error Fight with Support #6584 [skip ci] @Constrat
+- 修复错误条件下UI显示"投资后进入第二层"按钮的问题 (#6676) @SherkeyXD
+- 修复抄作业网络连接失败的问题 @zzyyyl
+- 修复基建换班后刷理智失败的问题 @zzyyyl
+- 修复模拟器连接错误的问题 (#6661) @SherkeyXD
+   - 修改变量名使其更直观 @SherkeyXD
+   - 修正在连接地址为空时蓝叠模拟器HyperV版本无法连接的问题 @SherkeyXD
+   - 修正tcp连接检测部分的错误变量名 @SherkeyXD
+- fix crash caused by `Matcher::set_task_info` @horror-proton
+- 尝试修复掉落识别闪退的问题 @zzyyyl
+- 修复肉鸽自动撤退字段引发闪退的问题 (#6650) @AnnoyingFlowers
+   - 修复肉鸽自动撤退字段引发闪退的问题 @AnnoyingFlowers
+- templThreshold @zzyyyl
+- smoking test @zzyyyl
+- 修复模板匹配阈值解析错误的问题 @zzyyyl
+- 尝试修复基建的模板匹配错误 @MistEO
+- disabled cache for multi template recognition ref: https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/6608#issuecomment-1742462512 @Constrat
+- 修复 `templ size is too large` 时闪退的问题 @zzyyyl
+- typo in StartToWakeUpOCR EN @Constrat
+- 修复Costura未正常启用的问题 (#6632) @SherkeyXD
+   - 修复Costura未正常启用的问题 @SherkeyXD
+- LoopTimes no longer negative fix #6634 @Constrat
+- 修复肉鸽助战招募卡住放弃的问题 (#6630) @zzyyyl
+   - 修改凹直升时放弃当前肉鸽的实现方式 @zzyyyl
+   - 修复肉鸽助战招募卡住放弃的问题 @zzyyyl
+- improve ocr roi in DepotImageAnalyzer @horror-proton
+- 修复连接错误 (#6607) @zzyyyl
+   - 修复连接错误 @zzyyyl
+- 修复任务链结束后操作会在错误情况下被触发的错误 (#6574) @status102
+   - 在自动战斗-战斗列表错误中断时，不再清理_latestTaskId @status102
+   - 修复自动战斗单一战斗错误结束时触发 任务链结束后操作 的错误 @status102
+   - 修复任务链结束finished_tasks为空时，错误触发任务链结束后操作 @status102
+   - 修复 自动战斗-战斗列表 在结束时会触发主界面完成后操作的问题 @status102
+- 修复需要凹直升开局的值判断错误 @Lancarus
+- 修复非刷源石锭时遇到商店直接退出的问题 @zzyyyl
+- 修复日服傀影肉鸽大盗当头识别错误 (#6592) @MejiroSilence
+   - 修复日服傀影肉鸽大盗当头识别错误 @MejiroSilence
+- 修复自动战斗-战斗列表拖拽导致崩溃 (#6555) @status102
+   - qodana @status102
+   - 加一点注释 @status102
+   - 修复自动战斗-战斗列表拖拽导致崩溃 #6550 @status102
+- 修改肉鸽模式一些ocr参数 (#6580) @AnnoyingFlowers
+   - 修改肉鸽选技能时识别干员名的二值化下限值 @AnnoyingFlowers
+   - 优化肉鸽再进入关卡的点击范围 @AnnoyingFlowers
+- 尝试修复#6552导致的死循环 (#6577) @Lancarus
+   - fix：尝试修复#6552导致的死循环 @Lancarus
+- 修复超出生成任务上限时访问越界的问题，增加生成任务上限至 10000 @zzyyyl
+- i18n: 修复日服肉鸽导航问题 (#6559) @MejiroSilence
+   - i18n: 修复日服肉鸽导航问题 @MejiroSilence
+- 修复资源更新时的崩溃问题 @MistEO
+- 修复肉鸽编队时识别不到最下面一个干员名以及不能正确选技能的问题 (#6552) @AnnoyingFlowers
+   - 增大前后延迟，适配低端电脑配置 @AnnoyingFlowers
+   - 修复肉鸽编队时不选技能的问题 @AnnoyingFlowers
+   - 修复肉鸽编队时识别不到最下面一个干员名的问题 @AnnoyingFlowers
+- 修复跳过领取日常奖励的问题 @zzyyyl
 
 ### 其他
 
-- 优化部分 WPF 代码 (#6510) @ABA2396 @zzyyyl
-- 优化 wpf 代码 (#6504) @zzyyyl
-- i18n: at on in date time @Constrat
-- debug: debug 模式下增加一项可省略模板任务名的检查 @zzyyyl
-- 文档杂项修改 (#6485) @Rbqwow
+- add ability to download specific maadeps (#6700) @aa889788
+- debug: 删除一些日志 @zzyyyl
+- 移除 qodana 的插件来恢复工作流 (#6675) @hxdnshx
+- debug: 增加一项检查和一些日志 @zzyyyl
+- hidden "Manual switch" button (#6665) @Constrat
+   - hidden "Manual switch" button @Constrat
+- format @zzyyyl
+- `源文件` -> `Source` @zzyyyl
+- updated event schedule @Constrat
+- added new ignored templates [skip ci] @Constrat
+- Auto Update Game Resources - 2023-10-01 @MistEO
 - Update 3.5-肉鸽辅助协议.md @Lancarus
-- 基建换班-编组缓存 使用value_or替代empty检查 (#6404) @status102
-- 更新qodana配置 (#6465) @hxdnshx
-- gui.log 在启动时记录当前版本 @ABA2396
-- 在Python脚本中添加活动关导航下载与加载的示例 (#3916) (#6451) @ZhaoZuohong
-- 删除多余的空任务 @zzyyyl
-- debug: 增加一项多余空任务的检查 @zzyyyl
-- fix algorithm error warning @Constrat
-- reordered objects, following zh-cn @Constrat
-- removed duplicate operator @Constrat
-- Alter Operators ^$ regex fix Yato alter, Noir alter, Terra Research ident. @Constrat
-- 无配置字段时储存默认值 @ABA2396
-- 全局选项设置减少嵌套，增加日志 @ABA2396
-- i18n: Translations update from MAA Weblate @LiamSho
-- Revert "chore: 兼容旧配置" @moomiji
-- EN infrast workshop and i18n @Constrat
-- tools: ignore templates @Constrat
-- revert: 1095f9cf00162f30eae8666b4f63e87cad1d9857 Auto update has wrong time and event [skip ci] @Constrat
-- 将其他语言的SSReopen说明修改为注释，目前仅支持国服/B服 (#6271) @status102
-- I.S. missing EN translations. @Constrat
-- 添加对账号切换的说明 (#6500) @A-JiuA
-- 减少不必要的 try-catch @ABA2396
-- A Flurry to the Flame event navigation @Constrat
-- corrected a44dc12 time and event naming @Constrat
-- 修正格式 @ABA2396
-- 对CLI文档的侧边栏支持 (#6199) @SherkeyXD
-- 尽可能稳定的打更多层数 -> 尽可能稳定地打更多层数 (#6200) @govizlora
-- Untrastrated fix @wallsman
-- 跟进蓝叠Hyper-V的连接指导 (#6083) (#6137) @SherkeyXD
-- 取消连接时加载资源 @ABA2396
-- 加点加载资源和连接模拟器的日志 @ABA2396
-- i18n: Translations update from MAA Weblate (#6151) @weblate
-- add log @AnnAngela
-
-
-### For overseas
-
-#### YostarKR
-
-- update resources for YoStarKR @178619
-- Update localization for YoStarKR @178619
-- Update ocrReplaces for YoStarKR @178619
-
-#### YostarEN
-
-- EN SSReopen-XX adaptation @Constrat
-- EN Guide Ahead navigation @Constrat
-- 修复 EN 任务 `BattleQuickFormationFilter-Cost` @zzyyyl
-- 修复 EN 生息演算任务 `Reclamation@ManufactureStatus` roi 越界的问题 @zzyyyl
-- Gadget long name reduction for EN @Constrat
-- docs: YostarEN recommended resolution (#6303) @Constrat
-- new EN Roguelike@ChooseOperConfirm.png @Constrat
-- YostarEN Reclamation Algorithm implementation (#6267) @ABA2396
-- updated templates for EN (#6094) @Constrat
-
-#### txwy
-
-- 繁中服「敘拉古人」活動導航 @momomochi987
-- 繁中文件大更新 (#6226) @momomochi987
-- 對照陸服，整理與補充繁中服的 template 跟 tasks  (#6196) @momomochi987
-
-#### YostarJP
-
-- 添加日服生息演算翻译 | Reclamation Algorithm JP (#6340) @THSLP13
-- (JP) Fix autoupdate change typo @wallsman
-- （JP）紅炎遣らう落葉 Update @wallsman
-- [JP] readme Update test / Japanese font readability (#6228) @wallsman
-
-### For develops
-
-- 支持woolang绑定 (#6142) @mrcino
-- 把多镜像下载器应用于Python接口 (#6247) @HisAtri
-- 🐞 fix(Java-HTTP): 修复Java-HTTP api的编译问题 (#6490) @gylove1994
+- VS22 Solution Explorer name change (#6599) @Constrat
+   - translation for VS22 Solution Explorer @Constrat
+- Update 1.2-常见问题.md @Lancarus
+- missing texts EN @Constrat
+- missing GA navigation in local @Constrat
+- clang-formatter.py 支持忽略指定路径 @zzyyyl
+- format (#6601) @zzyyyl
+   - update .git-blame-ignore-revs @zzyyyl
+   - code format @zzyyyl
+   - resource format @zzyyyl
+   - update clang-format @zzyyyl
+- 修改肉鸽开始行动和商店投资达到上限时退出的实现方式 (#6597) @zzyyyl
+   - 肉鸽商店达到上限后退出不放弃肉鸽 @zzyyyl
+   - 修改肉鸽开始行动和商店投资达到上限时退出的实现方式 @zzyyyl
+- i18n: small correction in en-us @Constrat
+- 调整 copilot 小提示内容 @ABA2396
+- 补充 Hyper-V 说明 (#6572) @Rbqwow
+   - update docs/1.3-模拟器支持.md @Rbqwow
+- 格式化 xaml @ABA2396
+- 修改公告页面格式，允许复制，修改弹出逻辑 @ABA2396
+- 提取 FetchResponseWithEtag 函数 @ABA2396
+- Linux编译教程中增加NUR (#6566) @Cryolitia
+   - Linux编译教程中增加NUR @Cryolitia
+- sytle: 简化 using @ABA2396
+- Auto Update Game Resources - 2023-09-27 @MistEO
+- Auto Update Game Resources - 2023-09-27 @MistEO
+- 统一 URL 存放位置 @ABA2396
+- en SanityReport formatting [skip ci] @Constrat
