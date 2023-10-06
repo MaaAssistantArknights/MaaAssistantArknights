@@ -22,12 +22,14 @@
 
         <mdxam:MarkdownScrollViewer
             ClickAction="SafetyOpenBrowser"
+            Grid.Row="0"
             Markdown="{Binding AnnouncementInfo}"
             Margin="10,0,10,0"
             Zoom="120">
             <mdxam:MarkdownScrollViewer.MarkdownStyle>
                 <Style TargetType="FlowDocument" BasedOn="{x:Static mdxam:MarkdownStyle.Sasabune}">
                     <Setter Property="FontFamily" Value="Microsoft YaHei"/>
+                    <Setter Property="PagePadding" Value="10"/>
                 </Style>
             </mdxam:MarkdownScrollViewer.MarkdownStyle>
             <mdxam:MarkdownScrollViewer.Plugins>
