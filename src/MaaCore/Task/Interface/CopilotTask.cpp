@@ -89,10 +89,9 @@ bool asst::CopilotTask::set_params(const json::value& params)
     m_stage_name = Copilot.get_stage_name();
     if (!m_battle_task_ptr->set_stage_name(m_stage_name)) {
         Log.error("Not support stage, please check if it is a plot stage");
-        // 跳过作战任务
-        m_subtasks.erase(m_subtasks.end() - 8, m_subtasks.end());
-        Log.debug(m_subtasks);
-        // return true;
+        // 跳过找关卡之后的作战任务
+        auto it = std::find(m_subtasks.begin(), m_subtasks.end(), m_navigate_task_ptr);
+        m_subtasks.erase(it + 1, m_subtasks.end());
     }
     else {
         bool with_formation = params.get("formation", false);
