@@ -46,7 +46,7 @@ namespace asst
         bool use_skill(const Point& loc, bool keep_waiting = true);
         bool check_pause_button(const cv::Mat& reusable = cv::Mat());
         bool check_skip_plot_button(const cv::Mat& reusable = cv::Mat());
-        bool check_in_battle(const cv::Mat& reusable = cv::Mat(), bool weak = true);
+        virtual bool check_in_battle(const cv::Mat& reusable = cv::Mat(), bool weak = true);
         virtual bool wait_until_start(bool weak = true);
         bool wait_until_end(bool weak = true);
         bool use_all_ready_skill(const cv::Mat& reusable = cv::Mat());

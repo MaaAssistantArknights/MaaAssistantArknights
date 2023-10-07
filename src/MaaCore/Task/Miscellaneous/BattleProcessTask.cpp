@@ -384,19 +384,10 @@ bool asst::BattleProcessTask::check_in_battle(const cv::Mat& reusable, bool weak
     LogTraceFunction;
 
     cv::Mat image = reusable;
-    return check_skip_plot_button(image) ? speed_up() && false : BattleHelper::check_in_battle(image, weak);
-}
-
-bool asst::BattleProcessTask::wait_until_end(bool weak)
-{
-    LogTraceFunction;
-
-    cv::Mat image = ctrler()->get_image();
-    while (!need_exit() && check_in_battle(image, weak)) {
-        do_strategic_action(image);
-        std::this_thread::yield();
-
-        image = ctrler()->get_image();
+    if (check_skip_plot_button(image)) {
+        speed_up();
+        return false;
     }
-    return true;
+
+    return BattleHelper::check_in_battle(image, weak);
 }
