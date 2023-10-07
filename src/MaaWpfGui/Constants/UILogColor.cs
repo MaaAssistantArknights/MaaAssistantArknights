@@ -51,6 +51,7 @@ namespace MaaWpfGui.Constants
         /// <summary>
         /// The recommended color for robot operator logs.
         /// </summary>
+        // ReSharper disable once UnusedMember.Global
         public const string RobotOperator = "RobotOperatorLogBrush";
 
         /// <summary>
