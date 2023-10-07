@@ -761,7 +761,6 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 string fileName = string.Empty;
                 string arguments = string.Empty;
-                ProcessStartInfo startInfo;
 
                 if (Path.GetExtension(EmulatorPath).ToLower() == ".lnk")
                 {
@@ -796,14 +795,7 @@ namespace MaaWpfGui.ViewModels.UI
                     arguments = EmulatorAddCommand;
                 }
 
-                if (arguments.Length != 0)
-                {
-                    startInfo = new ProcessStartInfo(fileName, arguments);
-                }
-                else
-                {
-                    startInfo = new ProcessStartInfo(fileName);
-                }
+                var startInfo = arguments.Length != 0 ? new ProcessStartInfo(fileName, arguments) : new ProcessStartInfo(fileName);
 
                 startInfo.UseShellExecute = false;
                 Process process = new Process
@@ -2479,14 +2471,14 @@ namespace MaaWpfGui.ViewModels.UI
                     toastMessage = LocalizationHelper.GetString("NewVersionIsBeingBuilt");
                     break;
 
-                case VersionUpdateViewModel.CheckUpdateRetT.OnlyGameReourceUpdated:
+                case VersionUpdateViewModel.CheckUpdateRetT.OnlyGameResourceUpdated:
                     toastMessage = LocalizationHelper.GetString("GameResourceUpdated");
                     break;
             }
 
             if (toastMessage != null)
             {
-                Execute.OnUIThread(() =>
+                _ = Execute.OnUIThreadAsync(() =>
                 {
                     using var toast = new ToastNotification(toastMessage);
                     toast.Show();
@@ -3108,7 +3100,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _minimizeToTray, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.MinimizeToTray, value.ToString());
-                Instances.MainWindowManager.SetMinimizeToTaskbar(value);
+                Instances.MainWindowManager.SetMinimizeToTaskBar(value);
             }
         }
 
@@ -3141,7 +3133,7 @@ namespace MaaWpfGui.ViewModels.UI
                 NotifyOfPropertyChange();
                 if (value)
                 {
-                    Execute.OnUIThread(() =>
+                    Execute.OnUIThreadAsync(() =>
                     {
                         using var toast = new ToastNotification("Test test");
                         toast.Show();
@@ -3510,7 +3502,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetHotKey(MaaHotKeyAction.LinkStart, value);
         }
 
-        private void SetHotKey(MaaHotKeyAction action, MaaHotKey value)
+        private static void SetHotKey(MaaHotKeyAction action, MaaHotKey value)
         {
             if (value != null)
             {
@@ -3518,7 +3510,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else
             {
-                Instances.MaaHotKeyManager.Unregister(action);
+                Instances.MaaHotKeyManager.UnRegister(action);
             }
         }
 

@@ -535,7 +535,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _userAdditional = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotUserAdditional, "W,2;Friston-3,1");
+        private string _userAdditional = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotUserAdditional, string.Empty);
 
         /// <summary>
         /// Gets or sets a value indicating whether to use auto-formation.
@@ -553,7 +553,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets a value indicating whether to use auto-formation.
         /// </summary>
-        private bool _useCopilotList = false;
+        private bool _useCopilotList;
 
         public bool UseCopilotList
         {

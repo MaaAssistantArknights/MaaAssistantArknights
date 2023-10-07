@@ -78,8 +78,8 @@ namespace MaaWpfGui.Helper
 
         public static string GetItemName(string itemId)
         {
-            return ArkItems.ContainsKey(itemId)
-                ? ArkItems[itemId].Name
+            return ArkItems.TryGetValue(itemId, out var item)
+                ? item.Name
                 : itemId;
         }
     }

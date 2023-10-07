@@ -59,6 +59,6 @@ namespace MaaWpfGui.Constants
         public const string Download = "DownloadLogBrush";
 
         // 颜色在MaaWpfGui\Res\Themes中定义
-        // Brushs are defined in MaaWpfGui\Res\Themes
+        // Brush are defined in MaaWpfGui\Res\Themes
     }
 }

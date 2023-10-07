@@ -18,6 +18,7 @@ namespace MaaWpfGui.Models
     public class ArkItem
     {
         [JsonPropertyName("classifyType")]
+        // ReSharper disable once UnusedMember.Global
         public string ClassifyType { get; set; }
 
         [JsonPropertyName("description")]
