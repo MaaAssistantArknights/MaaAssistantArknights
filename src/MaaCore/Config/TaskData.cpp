@@ -111,7 +111,7 @@ namespace asst
         if (parse_json_as(*opt, output)) {
             return true;
         }
-        asst::Log.error("Invalid type of", key, "in", input);
+        Log.error("Invalid type of", key, "in", input.to_string());
         return false;
     }
 } // namespace asst
