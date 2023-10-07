@@ -16,7 +16,8 @@ asst::StartUpTask::StartUpTask(const AsstCallback& callback, Assistant* inst)
 {
     LogTraceFunction;
 
-    m_start_up_task_ptr->set_tasks({ "StartUpBegin" })
+    // 前两项认为用户已手动启动至首页
+    m_start_up_task_ptr->set_tasks({ "Home", "StartWithSanity", "StartUpBegin" })
         .set_times_limit("BlackReturn", 0)
         .set_task_delay(Config.get_options().task_delay * 2)
         .set_retry_times(30);
