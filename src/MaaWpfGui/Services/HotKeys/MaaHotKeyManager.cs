@@ -84,7 +84,7 @@ namespace MaaWpfGui.Services.HotKeys
             }
         }
 
-        protected void InternalUnRegister(MaaHotKeyAction action)
+        private void InternalUnRegister(MaaHotKeyAction action)
         {
             if (!_actionHotKeyMapping.ContainsKey(action) || _actionHotKeyMapping[action] == null)
             {

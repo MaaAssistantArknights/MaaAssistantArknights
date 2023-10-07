@@ -110,11 +110,6 @@ namespace MaaWpfGui.Services
             System.Windows.Application.Current.MainWindow?.Close();
         }
 
-        private void AppShow(object sender, EventArgs e)
-        {
-            Instances.MainWindowManager.Show();
-        }
-
         private static void OnNotifyIconDoubleClick(object sender, EventArgs e)
         {
             Instances.MainWindowManager.Show();

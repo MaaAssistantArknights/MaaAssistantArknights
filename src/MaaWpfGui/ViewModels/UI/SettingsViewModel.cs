@@ -78,13 +78,6 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public string VersionId => _versionId;
 
-        private static readonly string _versionInfo = LocalizationHelper.GetString("Version") + ": " + _versionId;
-
-        /// <summary>
-        /// Gets the version info.
-        /// </summary>
-        public string VersionInfo => _versionInfo;
-
         /// <summary>
         /// The Pallas language key.
         /// </summary>
@@ -122,7 +115,6 @@ namespace MaaWpfGui.ViewModels.UI
                 MessageBoxHelper.Show(
                     LocalizationHelper.GetString("Hangover"),
                     LocalizationHelper.GetString("Burping"),
-                    MessageBoxButton.OK,
                     iconKey: "HangoverGeometry",
                     iconBrushKey: "PallasBrush");
                 Bootstrapper.ShutdownAndRestartWithOutArgs();
@@ -317,7 +309,7 @@ namespace MaaWpfGui.ViewModels.UI
         private void InfrastInit()
         {
             /* 基建设置 */
-            var facilityList = new string[]
+            var facilityList = new[]
             {
                 "Mfg",
                 "Trade",
@@ -764,7 +756,9 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (Path.GetExtension(EmulatorPath).ToLower() == ".lnk")
                 {
+                    // ReSharper disable once SuspiciousTypeConversion.Global
                     var link = (IShellLink)new ShellLink();
+                    // ReSharper disable once SuspiciousTypeConversion.Global
                     var file = (IPersistFile)link;
                     file.Load(EmulatorPath, 0); // STGM_READ
                     link.Resolve(IntPtr.Zero, 1); // SLR_NO_UI
@@ -892,8 +886,10 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (i % 10 == 0)
                 {
+                    // 避免捕获的变量在闭包中被修改
+                    var i1 = i;
                     Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
-                        LocalizationHelper.GetString("WaitForEmulator") + ": " + (delay - i) + "s"));
+                        LocalizationHelper.GetString("WaitForEmulator") + ": " + (delay - i1) + "s"));
                     _logger.Information("Waiting for the emulator to start: " + (delay - i) + "s");
                 }
 
@@ -1001,6 +997,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Selects the emulator to execute.
         /// </summary>
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public void SelectEmulatorExec()
         {
             var dialog = new OpenFileDialog
@@ -1154,6 +1152,8 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _newConfigurationName, value);
         }
 
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public void AddConfiguration()
         {
             if (string.IsNullOrEmpty(NewConfigurationName))
@@ -1165,28 +1165,30 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 ConfigurationList.Add(new CombinedData { Display = NewConfigurationName, Value = NewConfigurationName });
 
-                var growinfo = new GrowlInfo
+                var growlInfo = new GrowlInfo
                 {
                     IsCustom = true,
                     Message = string.Format(LocalizationHelper.GetString("AddConfigSuccess"), NewConfigurationName),
                     IconKey = "HangoverGeometry",
                     IconBrushKey = "PallasBrush",
                 };
-                Growl.Info(growinfo);
+                Growl.Info(growlInfo);
             }
             else
             {
-                var growinfo = new GrowlInfo
+                var growlInfo = new GrowlInfo
                 {
                     IsCustom = true,
                     Message = string.Format(LocalizationHelper.GetString("ConfigExists"), NewConfigurationName),
                     IconKey = "HangoverGeometry",
                     IconBrushKey = "PallasBrush",
                 };
-                Growl.Info(growinfo);
+                Growl.Info(growlInfo);
             }
         }
 
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public void DeleteConfiguration(CombinedData delete)
         {
             if (ConfigurationHelper.DeleteConfiguration(delete.Display))
@@ -1405,6 +1407,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Selects infrast config file.
         /// </summary>
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public void SelectCustomInfrastFile()
         {
             var dialog = new OpenFileDialog
@@ -1479,7 +1483,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public List<double> DividerVerticalOffsetList { get; set; }
 
-        private int _selectedIndex = 0;
+        private int _selectedIndex;
 
         /// <summary>
         /// Gets or sets the index selected.
@@ -1514,7 +1518,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private double _scrollOffset = 0;
+        private double _scrollOffset;
 
         /// <summary>
         /// Gets or sets the scroll offset.
@@ -1826,7 +1830,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _lastCreditFightTaskTime, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.LastCreditFightTaskTime, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.LastCreditFightTaskTime, value);
             }
         }
 
@@ -2060,7 +2064,7 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         _timerConfig = value ?? ConfigurationHelper.GetCurrentConfiguration();
                         OnPropertyChanged();
-                        ConfigurationHelper.SetTimerConfig(TimerId, _timerConfig.ToString());
+                        ConfigurationHelper.SetTimerConfig(TimerId, _timerConfig);
                     }
                 }
 
@@ -2181,7 +2185,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _useExpedited = false;
+        private bool _useExpedited;
 
         /// <summary>
         /// Gets or sets a value indicating whether to use expedited.
@@ -2389,7 +2393,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _isCheckingForUpdates = false;
+        private bool _isCheckingForUpdates;
 
         /// <summary>
         /// Gets or sets a value indicating whether the update is being checked.
@@ -2486,6 +2490,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public void ShowChangelog()
         {
             Instances.WindowManager.ShowWindow(Instances.VersionUpdateViewModel);
@@ -2570,7 +2576,9 @@ namespace MaaWpfGui.ViewModels.UI
             ConnectAddressHistory = new ObservableCollection<string>(history);
         }
 
-        public void RemoveAddress_Click(string address)
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
+        public void RemoveAddressClick(string address)
         {
             ConnectAddressHistory.Remove(address);
             ConfigurationHelper.SetValue(ConfigurationKeys.AddressHistory, JsonConvert.SerializeObject(ConnectAddressHistory));
@@ -2805,6 +2813,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Selects ADB program file.
         /// </summary>
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public void SelectFile()
         {
             var dialog = new OpenFileDialog
@@ -2885,7 +2895,7 @@ namespace MaaWpfGui.ViewModels.UI
         private string _bluestacksKeyWord = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigKeyword, string.Empty);
 
         /// <summary>
-        /// Tries to set Bluestack Hyper V address.
+        /// Tries to set BlueStack Hyper V address.
         /// </summary>
         /// <returns>success</returns>
         public string TryToSetBlueStacksHyperVAddress()
@@ -3083,10 +3093,12 @@ namespace MaaWpfGui.ViewModels.UI
 
         /* 界面设置 */
 
+        /*
         /// <summary>
         /// Gets a value indicating whether to use tray icon.
         /// </summary>
         public bool UseTray => true;
+        */
 
         private bool _minimizeToTray = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
 
@@ -3395,13 +3407,15 @@ namespace MaaWpfGui.ViewModels.UI
                 // var backup = _language;
                 ConfigurationHelper.SetValue(ConfigurationKeys.Localization, value);
 
-                string FormatText(string text, string key)
-                    => string.Format(text, LocalizationHelper.GetString(key, value), LocalizationHelper.GetString(key, _language));
-
                 var mainWindow = Application.Current.MainWindow;
-                mainWindow.Show();
-                mainWindow.WindowState = mainWindow.WindowState = WindowState.Normal;
-                mainWindow.Activate();
+
+                if (mainWindow != null)
+                {
+                    mainWindow.Show();
+                    mainWindow.WindowState = mainWindow.WindowState = WindowState.Normal;
+                    mainWindow.Activate();
+                }
+
                 var result = MessageBoxHelper.Show(
                     FormatText("{0}\n{1}", "LanguageChangedTip"),
                     FormatText("{0}({1})", "Tip"),
@@ -3415,6 +3429,10 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 SetAndNotify(ref _language, value);
+                return;
+
+                string FormatText(string text, string key)
+                    => string.Format(text, LocalizationHelper.GetString(key, value), LocalizationHelper.GetString(key, _language));
             }
         }
 
@@ -3469,13 +3487,12 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private void SetPallasLanguage()
+        private static void SetPallasLanguage()
         {
             ConfigurationHelper.SetValue(ConfigurationKeys.Localization, PallasLangKey);
             var result = MessageBoxHelper.Show(
                 LocalizationHelper.GetString("DrunkAndStaggering"),
                 LocalizationHelper.GetString("Burping"),
-                MessageBoxButton.OK,
                 iconKey: "DrunkAndStaggeringGeometry",
                 iconBrushKey: "PallasBrush");
             if (result == MessageBoxResult.OK)
@@ -3487,7 +3504,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets the hotkey: ShowGui.
         /// </summary>
-        public MaaHotKey HotKeyShowGui
+        public static MaaHotKey HotKeyShowGui
         {
             get => Instances.MaaHotKeyManager.GetOrNull(MaaHotKeyAction.ShowGui);
             set => SetHotKey(MaaHotKeyAction.ShowGui, value);
@@ -3496,7 +3513,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets the hotkey: LinkStart.
         /// </summary>
-        public MaaHotKey HotKeyLinkStart
+        public static MaaHotKey HotKeyLinkStart
         {
             get => Instances.MaaHotKeyManager.GetOrNull(MaaHotKeyAction.LinkStart);
             set => SetHotKey(MaaHotKeyAction.LinkStart, value);
@@ -3674,18 +3691,24 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _guideTransitionMode, value);
         }
 
-        public void NextGuide(HandyControl.Controls.StepBar stepBar)
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
+        public void NextGuide(StepBar stepBar)
         {
             GuideTransitionMode = "Bottom2Top";
             stepBar.Next();
         }
 
-        public void PrevGuide(HandyControl.Controls.StepBar stepBar)
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
+        public void PrevGuide(StepBar stepBar)
         {
             GuideTransitionMode = "Top2Bottom";
             stepBar.Prev();
         }
 
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public void DoneGuide()
         {
             TaskSettingVisibilities.Guide = false;
