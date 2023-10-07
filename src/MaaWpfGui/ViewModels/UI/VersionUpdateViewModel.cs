@@ -195,7 +195,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            Execute.OnUIThread(() =>
+            Execute.OnUIThreadAsync(() =>
             {
                 using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionZipFileFoundTitle"));
                 toast.AppendContentText(LocalizationHelper.GetString("NewVersionZipFileFoundDescDecompressing"))
@@ -220,7 +220,7 @@ namespace MaaWpfGui.ViewModels.UI
             catch (InvalidDataException)
             {
                 File.Delete(UpdatePackageName);
-                Execute.OnUIThread(() =>
+                Execute.OnUIThreadAsync(() =>
                 {
                     using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionZipFileBrokenTitle"));
                     toast.AppendContentText(LocalizationHelper.GetString("NewVersionZipFileBrokenDescFilename") + UpdatePackageName)
@@ -372,8 +372,10 @@ namespace MaaWpfGui.ViewModels.UI
             /// </summary>
             NewVersionIsBeingBuilt,
 
-            // 只更新了游戏资源
-            OnlyGameReourceUpdated,
+            /// <summary>
+            /// 只更新了游戏资源
+            /// </summary>
+            OnlyGameResourceUpdated,
         }
 
         // ReSharper disable once IdentifierTypo
@@ -476,7 +478,7 @@ namespace MaaWpfGui.ViewModels.UI
                         }
                     }
                 );
-                await Execute.OnUIThreadAsync(() =>
+                _ = Execute.OnUIThreadAsync(() =>
                 {
                     using var toast = new ToastNotification((otaFound ? LocalizationHelper.GetString("NewVersionFoundTitle") : LocalizationHelper.GetString("NewVersionFoundButNoPackageTitle")) + " : " + UpdateTag);
                     if (goDownload)
@@ -593,7 +595,7 @@ namespace MaaWpfGui.ViewModels.UI
                 else
                 {
                     OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
-                    await Execute.OnUIThreadAsync(() =>
+                    _ = Execute.OnUIThreadAsync(() =>
                     {
                         using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
                         toast.ButtonSystemUrl = UpdateUrl;
