@@ -33,6 +33,7 @@ namespace MaaWpfGui.Helper
         /// <summary>
         /// OK text
         /// </summary>
+        // ReSharper disable once InconsistentNaming
         public static string OK = "OK";
 
         /// <summary>
@@ -200,9 +201,9 @@ namespace MaaWpfGui.Helper
                     config.mainIcon = (IntPtr)ComCtl32.TaskDialogIcon.TD_WARNING_ICON;
                     break;
                 case MessageBoxImage.Question:
-                    var iconinfo = new Shell32.SHSTOCKICONINFO() { cbSize = (uint)Marshal.SizeOf<Shell32.SHSTOCKICONINFO>() };
-                    Shell32.SHGetStockIconInfo(Shell32.SHSTOCKICONID.SIID_HELP, Shell32.SHGSI.SHGSI_ICON, ref iconinfo).ThrowIfFailed();
-                    config.mainIcon = iconinfo.hIcon.DangerousGetHandle();
+                    var iconInfo = new Shell32.SHSTOCKICONINFO { cbSize = (uint)Marshal.SizeOf<Shell32.SHSTOCKICONINFO>() };
+                    Shell32.SHGetStockIconInfo(Shell32.SHSTOCKICONID.SIID_HELP, Shell32.SHGSI.SHGSI_ICON, ref iconInfo).ThrowIfFailed();
+                    config.mainIcon = iconInfo.hIcon.DangerousGetHandle();
                     config.dwFlags |= ComCtl32.TASKDIALOG_FLAGS.TDF_USE_HICON_MAIN;
                     break;
             }
@@ -228,6 +229,8 @@ namespace MaaWpfGui.Helper
                     hasYes = true;
                     hasNo = true;
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(buttons), buttons, null);
             }
 
             if (hasOk)

@@ -47,15 +47,15 @@ namespace MaaWpfGui.Services.Managers
         WindowState GetWindowState();
 
         /// <summary>
-        /// Sets whether to minimize to taskbar.
+        /// Sets whether to minimize to taskBar.
         /// </summary>
-        /// <param name="shouldMinimizeToTaskbar">Whether to minimize to taskbar.</param>
-        void SetMinimizeToTaskbar(bool shouldMinimizeToTaskbar);
+        /// <param name="shouldMinimizeToTaskBar">Whether to minimize to taskBar.</param>
+        void SetMinimizeToTaskBar(bool shouldMinimizeToTaskBar);
 
         /// <summary>
         /// Get the main window if it is visible.
         /// </summary>
-        /// <returns>The <see cref="Window"/> if it is visible, or <see cref="null"/>. </returns>
+        /// <returns>The <see cref="Window"/> if it is visible, or null. </returns>
         Window GetWindowIfVisible();
     }
 }

@@ -25,10 +25,6 @@ namespace MaaWpfGui.Services.Web
     {
         private const string CacheDir = "cache/";
 
-        public MaaApiService()
-        {
-        }
-
         public async Task<JObject> RequestMaaApiWithCache(string api)
         {
             var url = MaaUrls.MaaApi + api;
@@ -44,9 +40,10 @@ namespace MaaWpfGui.Services.Web
                 var json = (JObject)JsonConvert.DeserializeObject(response);
                 var cache = CacheDir + api;
                 string directoryPath = Path.GetDirectoryName(cache);
+
                 if (!Directory.Exists(directoryPath))
                 {
-                    Directory.CreateDirectory(directoryPath);
+                    Directory.CreateDirectory(directoryPath!);
                 }
 
                 File.WriteAllText(cache, response);

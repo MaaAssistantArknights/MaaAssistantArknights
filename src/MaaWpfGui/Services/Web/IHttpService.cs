@@ -43,6 +43,7 @@ namespace MaaWpfGui.Services.Web
         /// <param name="uri">Target Uri</param>
         /// <param name="extraHeader">Extra HTTP Request Headers</param>
         /// <returns>Response stream, null when failed</returns>
+        // ReSharper disable once UnusedMember.Global
         Task<Stream> GetStreamAsync(Uri uri, Dictionary<string, string> extraHeader = null);
 
         /// <summary>
@@ -55,7 +56,7 @@ namespace MaaWpfGui.Services.Web
         Task<HttpResponseMessage> GetAsync(Uri uri, Dictionary<string, string> extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseContentRead);
 
         /// <summary>
-        /// Send HTTP POST request and a string reponse
+        /// Send HTTP POST request and a string response
         /// </summary>
         /// <param name="uri">Target Uri</param>
         /// <param name="content">The POST body content, will be serialized by <see cref="System.Text.Json.JsonSerializer"/></param>
