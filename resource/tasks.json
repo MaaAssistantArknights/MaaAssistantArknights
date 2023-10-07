@@ -7458,6 +7458,13 @@
             255
         ]
     },
+    "SkipBattlePlot": {
+        "baseTask": "SkipThePreBattlePlot",
+        "template": "SkipThePreBattlePlot.png",
+        "next": [
+            "SkipBattlePlotConfirm"
+        ]
+    },
     "SkipThePreBattlePlotConfirm": {
         "action": "ClickSelf",
         "roi": [
@@ -7469,6 +7476,31 @@
         "maskRange": [
             100,
             255
+        ]
+    },
+    "SkipBattlePlotConfirm": {
+        "baseTask": "SkipThePreBattlePlotConfirm",
+        "template": "SkipThePreBattlePlotConfirm.png",
+        "next": [
+            "EndOfPlot"
+        ]
+    },
+    "EndOfPlot": {
+        "roi": [
+            520,
+            0,
+            243,
+            206
+        ],
+        "action": "ClickRect",
+        "specificRect": [
+            1000,
+            120,
+            270,
+            10
+        ],
+        "next": [
+            "ClickedCorrectStage"
         ]
     },
     "SkipForbiddenOperConfirm": {
@@ -7535,6 +7567,19 @@
             153
         ],
         "postDelay": 2000
+    },
+    "BattleStartPlot": {
+        "roi": [
+            872,
+            250,
+            212,
+            255
+        ],
+        "postDelay": 2000,
+        "action": "ClickSelf",
+        "next": [
+            "SkipBattlePlot"
+        ]
     },
     "BattleOperName": {
         "algorithm": "OcrDetect",
@@ -13542,6 +13587,26 @@
             254,
             163
         ]
+    },
+    "Copilot@StageNavigationSlowlySwipeLeft": {
+        "doc": "禁掉copilot的找不到关卡返回",
+        "exceededNext": [
+            "Copilot@ChapterSwipeToTheRightAndPlot"
+        ]
+    },
+    "Copilot@ChapterSwipeToTheRightAndPlot": {
+        "doc": "划五次到最右，然后扫有无初见剧情",
+        "baseTask": "ChapterSwipeToTheRight",
+        "exceededNext": [
+            "Copilot@ClickPlotStage"
+        ]
+    },
+    "ClickPlotStage": {
+        "action": "ClickSelf",
+        "next": [
+            "BattleStartPlot"
+        ],
+        "maxTimes": 1
     },
     "Copilot@ClickCornerUntilEndOfAction": {
         "algorithm": "JustReturn",
