@@ -983,7 +983,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _roguelikeInCombatAndShowWait = false;
+        private bool _roguelikeInCombatAndShowWait;
 
         public bool RoguelikeInCombatAndShowWait
         {

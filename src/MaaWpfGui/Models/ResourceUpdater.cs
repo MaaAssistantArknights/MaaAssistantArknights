@@ -113,36 +113,41 @@ namespace MaaWpfGui.Models
             var ret = UpdateResult.NotModified;
             var context = File.ReadAllText(Path.Combine(Environment.CurrentDirectory, MaaDynamicFilesIndex));
 
-            context.Split('\n').ToList().ForEach(Action);
+            // ReSharper disable once AsyncVoidLambda
+            context.Split('\n').ToList().ForEach(async (file) =>
+            {
+                try
+                {
+                    if (string.IsNullOrEmpty(file))
+                    {
+                        return;
+                    }
+
+                    // 这里有几千个文件，请求量太大了，且这些文件一般只新增，不修改。
+                    // 所以如果本地已经存在这些文件，就不再请求了。
+                    if (File.Exists(Path.Combine(Environment.CurrentDirectory, file)))
+                    {
+                        return;
+                    }
+
+                    var sRet = await UpdateFileWithETag(MaaUrls.MaaResourceApi, file, file);
+                    if (sRet == UpdateResult.Failed)
+                    {
+                        ret = UpdateResult.Failed;
+                    }
+
+                    if (ret == UpdateResult.NotModified && sRet == UpdateResult.Success)
+                    {
+                        ret = UpdateResult.Success;
+                    }
+                }
+                catch (Exception)
+                {
+                    // ignore
+                }
+            });
 
             return ret;
-
-            // lambda 避免使用异步，任何未被 lambda 处理的异常都可能导致进程崩溃
-            async void Action(string file)
-            {
-                if (string.IsNullOrEmpty(file))
-                {
-                    return;
-                }
-
-                // 这里有几千个文件，请求量太大了，且这些文件一般只新增，不修改。
-                // 所以如果本地已经存在这些文件，就不再请求了。
-                if (File.Exists(Path.Combine(Environment.CurrentDirectory, file)))
-                {
-                    return;
-                }
-
-                var sRet = await UpdateFileWithETag(MaaUrls.MaaResourceApi, file, file);
-                if (sRet == UpdateResult.Failed)
-                {
-                    ret = UpdateResult.Failed;
-                }
-
-                if (ret == UpdateResult.NotModified && sRet == UpdateResult.Success)
-                {
-                    ret = UpdateResult.Success;
-                }
-            }
         }
 
         private static bool _updating;
