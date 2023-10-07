@@ -16,6 +16,7 @@
 #include "Utils/Algorithm.hpp"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
+#include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/Matcher.h"
 #include "Vision/RegionOCRer.h"
 
@@ -384,10 +385,19 @@ bool asst::BattleProcessTask::check_in_battle(const cv::Mat& reusable, bool weak
     LogTraceFunction;
 
     cv::Mat image = reusable;
-    if (check_skip_plot_button(image)) {
-        speed_up();
-        return false;
-    }
 
-    return BattleHelper::check_in_battle(image, weak);
+    if (weak) {
+        BattlefieldMatcher analyzer(image);
+        auto result = analyzer.analyze();
+        m_in_battle = result.has_value();
+        if (m_in_battle && !(*result).pause_button) {
+            if (check_skip_plot_button(image)) {
+                speed_up();
+            }
+        }
+    }
+    else {
+        m_in_battle = check_pause_button(image);
+    }
+    return m_in_battle;
 }

@@ -91,9 +91,6 @@ bool asst::CopilotTask::set_params(const json::value& params)
         Log.error("Not support stage");
         return false;
     }
-    
-    bool with_formation = params.get("formation", false);
-    m_formation_task_ptr->set_enable(with_formation);
 
     // 自动补信赖
     m_formation_task_ptr->set_add_trust(params.get("add_trust", false));
@@ -135,8 +132,9 @@ bool asst::CopilotTask::set_params(const json::value& params)
     m_navigate_task_ptr->set_tasks({ m_navigate_name + "@Copilot@StageNavigationBegin" });
     m_navigate_task_ptr->set_enable(need_navigate);
 
+    bool with_formation = params.get("formation", false);
     // 关卡名含有"TR"的为教学关,不需要编队
-    m_formation_task_ptr->set_enable(m_navigate_name.find("TR") == std::string::npos);
+    m_formation_task_ptr->set_enable(with_formation && m_navigate_name.find("TR") == std::string::npos);
 
     std::string support_unit_name = params.get("support_unit_name", std::string());
     m_formation_task_ptr->set_support_unit_name(std::move(support_unit_name));
