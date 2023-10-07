@@ -75,6 +75,10 @@ void asst::OperBoxRecognitionTask::callback_analyze_result(bool done)
         all_opers.emplace_back(json::object {
             { "id", BattleData.get_id(name) },
             { "name", name },
+            { "name_en",  BattleData.get_en(name)},
+            { "name_jp", BattleData.get_jp(name) },
+            { "name_kr", BattleData.get_kr(name) },
+            { "name_tw", BattleData.get_tw(name) },
             { "rarity", BattleData.get_rarity(name) },
             { "own", own },
         });
