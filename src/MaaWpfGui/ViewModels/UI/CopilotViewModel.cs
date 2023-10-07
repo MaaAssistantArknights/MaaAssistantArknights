@@ -43,6 +43,7 @@ namespace MaaWpfGui.ViewModels.UI
     public class CopilotViewModel : Screen
     {
         private readonly RunningState _runningState;
+        private static readonly ILogger _logger = Log.ForContext<CopilotViewModel>();
 
         /// <summary>
         /// Gets the view models of log items.
@@ -807,7 +808,11 @@ namespace MaaWpfGui.ViewModels.UI
                 if (!startAny)
                 {
                     // 一个都没启动，怎会有如此无聊之人
-                    Instances.AsstProxy.AsstStop();
+                    if (!Instances.AsstProxy.AsstStop())
+                    {
+                        _logger.Warning("Failed to stop Asst");
+                    }
+
                     _runningState.SetIdle(true);
                     return;
                 }
@@ -823,7 +828,11 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else
             {
-                Instances.AsstProxy.AsstStop();
+                if (!Instances.AsstProxy.AsstStop())
+                {
+                    _logger.Warning("Failed to stop Asst");
+                }
+
                 _runningState.SetIdle(true);
                 AddLog(LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error);
             }
@@ -841,7 +850,11 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public void Stop()
         {
-            Instances.AsstProxy.AsstStop();
+            if (!Instances.AsstProxy.AsstStop())
+            {
+                _logger.Warning("Failed to stop Asst");
+            }
+
             _runningState.SetIdle(true);
         }
 

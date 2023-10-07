@@ -2860,8 +2860,8 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 JObject versionJson = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
                 var currentTime = (ulong)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-                var poolTime = (ulong)versionJson?["gacha"]["time"];
-                var activityTime = (ulong)versionJson?["activity"]["time"];
+                var poolTime = (ulong)versionJson?["gacha"]?["time"];
+                var activityTime = (ulong)versionJson?["activity"]?["time"];
 
                 if ((currentTime < poolTime) && (currentTime < activityTime))
                 {
