@@ -1742,7 +1742,7 @@ namespace MaaWpfGui.Main
         /// <param name="filename">自定义配置文件路径</param>
         /// <param name="planIndex">自定义配置计划编号</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendInfrast(string[] order, string usesOfDrones, double dormThreshold,
+        public bool AsstAppendInfrast(IEnumerable<string> order, string usesOfDrones, double dormThreshold,
             bool dormFilterNotStationedEnabled, bool dormDormTrustEnabled, bool originiumShardAutoReplenishment,
             bool isCustom, string filename, int planIndex)
         {
@@ -1755,7 +1755,7 @@ namespace MaaWpfGui.Main
             return id != 0;
         }
 
-        public bool AsstSetInfrastTaskParams(string[] order, string usesOfDrones, double dormThreshold,
+        public bool AsstSetInfrastTaskParams(IEnumerable<string> order, string usesOfDrones, double dormThreshold,
             bool dormFilterNotStationedEnabled, bool dormDormTrustEnabled, bool originiumShardAutoReplenishment,
             bool isCustom, string filename, int planIndex)
         {

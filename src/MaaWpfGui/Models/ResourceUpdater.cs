@@ -114,7 +114,7 @@ namespace MaaWpfGui.Models
             var context = File.ReadAllText(Path.Combine(Environment.CurrentDirectory, MaaDynamicFilesIndex));
 
             // ReSharper disable once AsyncVoidLambda
-            context.Split('\n').ToList().ForEach(async (file) =>
+            context.Split('\n').ToList().ForEach(async file =>
             {
                 try
                 {
