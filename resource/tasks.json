@@ -3317,20 +3317,11 @@
             "TerminalSami.png"
         ],
 		"next": [
-			"StartAtHome2",
+			"Home",
 			"StartUpBegin"
 		],
 		"postDelay_Doc": "等待以防万一（StartUp还有双倍的任务延迟等待，默认0.5s x2",
 		"postDelay": 2000
-	},
-	"StartAtHome2": {
-		"baseTask": "Home",
-		"action": "Stop",
-        "template": [
-            "Terminal.png",
-            "TerminalDark.png",
-            "TerminalSami.png"
-        ]
 	},
     "StartWithSanity": {
         "roi": [
