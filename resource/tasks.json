@@ -4885,7 +4885,7 @@
     "CloseTaskMailDouble": {
         "baseTask": "CloseTaskAwardDouble",
         "next": [
-            "WhiteReturn",
+            "Home@ReturnButtons#next",
             "CloseTaskMailDouble"
         ]
     },
