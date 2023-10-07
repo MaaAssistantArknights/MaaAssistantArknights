@@ -67,7 +67,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 更多使用说明请参考 [详细介绍](./1.1-详细介绍.md)
 
-## 常见问题
+### 常见问题
 
 - 软件一打开就闪退；
 - 连接错误、不知道 adb 路径怎么填写；
@@ -79,21 +79,80 @@ MAA 的意思是 MAA Assistant Arknights
 
 请参考 [常见问题](./1.2-常见问题.md)
 
-## 外服支持
+### 外服支持
 
 目前国际服（美服）、日服、韩服、繁中服的绝大部分功能均已支持。但由于外服用户较少及项目人手不足，很多功能并没有进行全面的测试，所以请自行体验。<br>
 若您遇到了 Bug，或对某个功能有强需求，欢迎在 [Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) 和 [讨论区](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更；或加入我们一起建设 MAA！请参考 [外服适配教程](#外服适配)
 
-## 主要关联项目
+### CLI支持
+
+MAA 支持命令行界面（CLI）操作，支持 Linux 和 macOS，可用于自动化脚本或在无图形界面的服务器上使用。请参考 [CLI 使用指南](./1.6-CLI使用指南.md)
+
+## 加入我们
+
+### 主要关联项目
 
 **目前项目组非常缺前端大佬，若您有相关经验，欢迎加入我们！**
 
 - 全新框架：[MaaFramework](https://github.com/MaaAssistantArknights/MaaFramework)
-- 全新 GUI：[MaaAsstElectronUI](https://github.com/MaaAssistantArknights/MaaAsstElectronUI)
+- 全新 GUI：[MaaX](https://github.com/MaaAssistantArknights/MaaX)
 - [作业站](https://prts.plus) 前端：[maa-copilot-frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
 - [作业站](https://prts.plus) 后端：[MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter)
 - [官网](https://maa.plus)：[前端](https://github.com/MaaAssistantArknights/maa-website)
 - 深度学习：[MaaAI](https://github.com/MaaAssistantArknights/MaaAI)
+
+### 多语言 (i18n)
+
+MAA 支持多国语言，并使用 Weblate 进行本地化管理。如果您通晓多门语言，欢迎前往 [MAA Weblate](https://weblate.maa-org.net) 帮助我们进行翻译。
+
+MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）为准。
+
+[![Weblate](https://weblate.maa-org.net/widgets/maa-assistant-arknights/zh_Hans/maa-wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa-assistant-arknights/zh_Hans/)
+
+### Windows
+
+1. 下载预构建的第三方库
+
+    ```cmd
+    python maadeps-download.py
+    ```
+
+2. 使用 Visual Studio 2022 打开 `MAA.sln`，右键 `MaaWpfGui`，设为启动项目
+3. VS 上方配置选择 `RelWithDebInfo` `x64` （如果编译 Release 包 或 ARM 平台，请忽略这步）
+4. 右键 `MaaWpfGui` - 属性 - 调试 - 启用本地调试（这样就能把断点挂到 C++ Core 那边了）
+5. （可选）若准备提交 PR，建议启用 [clang-format 支持](https://maa.plus/docs/2.2-开发相关.html#在-visual-studio-中启用-clang-format)
+
+### Linux | macOS
+
+请参考 [Linux 编译教程](https://maa.plus/docs/2.1-Linux编译教程.html)
+
+### API
+
+- [C 接口](include/AsstCaller.h)：[集成示例](src/Cpp/main.cpp)
+- [Python 接口](src/Python/asst/asst.py)：[集成示例](src/Python/sample.py)
+- [Golang 接口](src/Golang/)：[集成示例](src/Golang/maa/maa.go)
+- [Dart 接口](src/Dart/)
+- [Java 接口](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaCore.java)：[集成示例](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
+- [Java HTTP 接口](src/Java/Readme.md)
+- [Rust 接口](src/Rust/src/maa_sys/)：[HTTP 接口](src/Rust)
+- [TypeScript 接口](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
+- [Woolang 接口](src/Woolang/maa.wo)：[集成示例](src/Woolang/main.wo)
+- [集成文档](https://maa.plus/docs/3.1-集成文档.html)
+- [回调消息协议](https://maa.plus/docs/3.2-回调消息协议.html)
+- [任务流程协议](https://maa.plus/docs/3.4-任务流程协议.html)
+- [自动抄作业协议](https://maa.plus/docs/3.3-战斗流程协议.html)
+
+### 外服适配
+
+请参考 [外服适配教程](https://maa.plus/docs/2.5-外服适配教程.html)，对于国服已支持的功能，绝大部分的外服适配工作仅需要截图 + 简单的 JSON 修改即可。
+
+### 想参与开发，但不太会用 GitHub?
+
+[GitHub Pull Request 流程简述](https://maa.plus/docs/2.2-开发相关.html#github-pull-request-流程简述)
+
+### Issue bot
+
+请参考 [Issue bot 使用方法](https://maa.plus/docs/2.3-IssueBot使用方法.html)
 
 ## 致谢
 
@@ -114,9 +173,10 @@ MAA 的意思是 MAA Assistant Arknights
 - 安卓触控事件器：[minitouch](https://github.com/openstf/minitouch)
 - 安卓触控事件器：[MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)
 - WPF MVVM框架：[Stylet](https://github.com/canton7/Stylet)
-- WPF控件库：[HandyControl](https://github.com/HandyOrg/HandyControl)
-- C# JSON库：[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
-- 下载器：[aria2](https://github.com/aria2/aria2)
+- WPF控件库：[HandyControl](https://github.com/HandyOrg/HandyControl) -> [HandyControls](https://github.com/ghost1372/HandyControls)
+- C# 日志：[Serilog](https://github.com/serilog/serilog)
+- C# JSON库：[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json) & [System.Text.Json](https://github.com/dotnet/runtime)
+- ~~下载器：[aria2](https://github.com/aria2/aria2)~~
 
 ### 数据源
 
@@ -131,52 +191,6 @@ MAA 的意思是 MAA Assistant Arknights
 感谢所有参与到开发/测试中的朋友们，是大家的帮助让 MAA 越来越好！ (\*´▽｀)ノノ
 
 [![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
-
-## 开发相关
-
-### Windows
-
-1. 下载预构建的第三方库
-
-    ```cmd
-    python maadeps-download.py
-    ```
-
-2. 使用 Visual Studio 2022 打开 `MAA.sln`，右键 `MaaWpfGui`，设为启动项目；
-3. VS 上方配置选择 `RelWithDebInfo`, `x64` （如果编译 Release 包 或 ARM 平台，请忽略这步）；
-4. 右键 `MaaWpfGui` - 属性 - 调试 - 启用本地调试（这样就能把断点挂到 C++ Core 那边了）；
-5. （可选）若准备提交 PR，建议启用 [clang-format 支持](./2.2-开发相关.md#在-visual-studio-中启用-clang-format)。
-
-### Linux | macOS
-
-请参考 [Linux 编译教程](./2.1-Linux编译教程.md)
-
-### API
-
-- [C 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/include/AsstCaller.h)：[集成示例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Cpp/main.cpp)
-- [Python 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Python/asst/asst.py)：[集成示例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Python/sample.py)
-- [Golang 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Golang/)：[集成示例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Golang/maa/maa.go)
-- [Dart 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Dart)
-- [Java 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Java/src/main/java/com/iguigui/maaj/easySample/MaaCore.java)：[集成示例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Java/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
-- [Java HTTP 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Java/Readme.md)
-- [Rust 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust/src/maa_sys)：[HTTP 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust)
-- [TypeScript 接口](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
-- [集成文档](./3.1-集成文档.md)
-- [回调消息协议](./3.2-回调消息协议.md)
-- [任务流程协议](./3.4-任务流程协议.md)
-- [自动抄作业协议](./3.3-战斗流程协议.md)
-
-### 外服适配
-
-请参考 [外服适配教程](./2.5-外服适配教程.md)，对于国服已支持的功能，绝大部分的外服适配工作仅需要截图 + 简单的 JSON 修改即可。
-
-### 想参与开发，但不太会用 Github?
-
-[Github Pull Request 流程简述](./2.2-开发相关.md#github-pull-request-流程简述)
-
-### Issue bot
-
-请参考 [Issue bot 使用方法](./2.3-IssueBot使用方法.md)
 
 ## 声明
 
