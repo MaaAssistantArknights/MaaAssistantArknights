@@ -3216,7 +3216,7 @@
             "StartToWakeUpOCR",
             "StartLoginBServer",
             "StartUpConnectingFlag",
-            "#back",
+            "MainThemes#next",
             "CloseAnnos#next",
             "OfflineConfirm"
         ]
@@ -3386,22 +3386,34 @@
             "NotDownloadVoice"
         ]
     },
-    "CloseAnno": {
+    "MainThemes": {
+        "Doc": "使用本任务时带上 #next",
+        "algorithm": "JustReturn",
+        "next_Doc": "用于标记一个任务链的所有入口，一般是 #back 或者 XXXBegin#next",
+        "next": [
+            "#back"
+        ]
+    },
+    "CloseAnnoBase": {
+        "template": "empty.png",
         "action": "ClickSelf",
         "cache": false,
+        "next": [
+            "MainThemes#next",
+            "CloseAnnos#next"
+        ]
+    },
+    "CloseAnno": {
+        "baseTask": "CloseAnnoBase",
         "roi": [
             1100,
             0,
             180,
             200
-        ],
-        "next": [
-            "#back",
-            "CloseAnnos#next"
         ]
     },
     "CloseAnnoTexas": {
-        "baseTask": "CloseAnno",
+        "baseTask": "CloseAnnoBase",
         "roi": [
             1125,
             24,
@@ -3410,17 +3422,12 @@
         ]
     },
     "NotDownloadVoice": {
-        "action": "ClickSelf",
-        "cache": false,
+        "baseTask": "CloseAnnoBase",
         "roi": [
             369,
             462,
             152,
             62
-        ],
-        "next": [
-            "#back",
-            "CloseAnnos#next"
         ]
     },
     "TodaysSupplies": {
@@ -3443,7 +3450,7 @@
         ],
         "next": [
             "CloseAnnos#next",
-            "#back"
+            "MainThemes#next"
         ]
     },
     "LoadingText": {
@@ -3504,7 +3511,7 @@
             80
         ],
         "next": [
-            "#back",
+            "MainThemes#next",
             "ReturnButtons#next",
             "ReturnConfirm",
             "ReturnButton@LoadingIcon",
@@ -3543,7 +3550,7 @@
         ],
         "next": [
             "ReturnButtons#next",
-            "#back",
+            "MainThemes#next",
             "ReturnConfirm@LoadingIcon",
             "CloseAnnos#next",
             "ReturnConfirm"
@@ -5418,31 +5425,7 @@
             "Infrast@OfflineConfirm"
         ]
     },
-    "Infrast@ReturnButton": {
-        "template": [
-            "Return.png",
-            "Return-White.png"
-        ],
-        "next": [
-            "InfrastBegin#next",
-            "Infrast@(ReturnButton#next)"
-        ]
-    },
-    "Infrast@ReturnConfirm": {
-        "template": "PopupConfirm.png",
-        "next": [
-            "InfrastBegin#next",
-            "Infrast@ReturnConfirm"
-        ]
-    },
-    "Infrast@CloseAnno": {
-        "template": "CloseAnno.png",
-        "next": [
-            "InfrastBegin#next"
-        ]
-    },
-    "Infrast@CloseAnnoTexas": {
-        "template": "CloseAnnoTexas.png",
+    "Infrast@MainThemes": {
         "next": [
             "InfrastBegin#next"
         ]
@@ -9435,17 +9418,13 @@
             60
         ]
     },
-    "Roguelike@ReturnButton": {
-        "template": [
-            "Return.png",
-            "Return-White.png"
-        ],
+    "Roguelike@MainThemes": {
         "next": [
+            "Roguelike",
             "Roguelike@ChooseDifficulty",
             "Roguelike@StartExplore",
             "Roguelike@ExitThenAbandon",
-            "Roguelike@Abandon",
-            "Roguelike@(ReturnButton#next)"
+            "Roguelike@Abandon"
         ]
     },
     "Roguelike@RolesConfirm": {
@@ -13899,20 +13878,16 @@
             "Reclamation@ReturnButton#next"
         ]
     },
-    "Reclamation@ReturnButton": {
-        "template": [
-            "Return.png",
-            "Return-White.png"
-        ],
+    "Reclamation@MainThemes": {
         "next": [
+            "Reclamation",
             "Reclamation@AtHomePageFlag",
             "Reclamation@LevelForceExitConfirm",
             "Reclamation@LevelForceExit",
             "Reclamation@LevelComplete",
             "Reclamation@ExitAlgorithm",
             "Reclamation@SmallReturn",
-            "Reclamation@ReturnInFocus",
-            "Reclamation@(ReturnButton#next)"
+            "Reclamation@ReturnInFocus"
         ]
     },
     "Reclamation@ReturnInFocus": {
