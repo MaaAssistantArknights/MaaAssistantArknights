@@ -550,33 +550,33 @@ namespace MaaWpfGui.ViewModels.UI
             List<Tuple<string, int>> operHave = new List<Tuple<string, int>>();
             List<Tuple<string, int>> operNotHave = new List<Tuple<string, int>>();
 
-            string localized_name;
+            string localizedName;
             switch (ConfigurationHelper.GetValue(ConfigurationKeys.Localization, string.Empty))
             {
                 case "zh-cn":
-                    localized_name = "name";
+                    localizedName = "name";
                     break;
 
                 case "ja-jp":
-                    localized_name = "name_jp";
+                    localizedName = "name_jp";
                     break;
 
                 case "ko-kr":
-                    localized_name = "name_kr";
+                    localizedName = "name_kr";
                     break;
 
                 case "zh-tw":
-                    localized_name = "name_tw";
+                    localizedName = "name_tw";
                     break;
 
                 default:
-                    localized_name = "name_en";
+                    localizedName = "name_en";
                     break;
             }
 
             foreach (JObject operBox in operBoxes.Cast<JObject>())
             {
-                var tuple = new Tuple<string, int>((string)operBox[localized_name], (int)operBox["rarity"]);
+                var tuple = new Tuple<string, int>((string)operBox[localizedName], (int)operBox["rarity"]);
 
                 if (_virtuallyOpers.Contains((string)operBox["id"]))
                 {
@@ -647,8 +647,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// 开始识别干员
         /// </summary>
-        /// xaml 中用到了
-        /// ReSharper disable once UnusedMember.Global
+        // xaml 中用到了
+        // ReSharper disable once UnusedMember.Global
         public async void StartOperBox()
         {
             OperBoxExportData = string.Empty;
