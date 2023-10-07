@@ -77,6 +77,10 @@
         },
         "char_1001_amiya2": {
             "name": "阿米娅-WARRIOR",
+            "name_en": "Amiya-WARRIOR",
+            "name_jp": "アーミヤ-WARRIOR",
+            "name_kr": "아미야-WARRIOR",
+            "name_tw": "阿米婭-WARRIOR",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -151,6 +155,10 @@
         },
         "char_1016_agoat2": {
             "name": "纯烬艾雅法拉",
+            "name_en": "纯烬艾雅法拉",
+            "name_jp": "纯烬艾雅法拉",
+            "name_kr": "纯烬艾雅法拉",
+            "name_tw": "纯烬艾雅法拉",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -180,6 +188,7 @@
             "name_en": "Reed the Flame Shadow",
             "name_jp": "焔影リード",
             "name_kr": "리드 더 플레임 섀도우",
+            "name_tw": "焰影苇草",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -284,6 +293,7 @@
             "name_en": "Kirin R Yato",
             "name_jp": "キリンRヤトウ",
             "name_kr": "키린R 야토",
+            "name_tw": "麒麟R夜刀",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -313,6 +323,7 @@
             "name_en": "Rathalos S Noir Corne",
             "name_jp": "レウスSノイルホーン",
             "name_kr": "레우스S 느와르 코르네",
+            "name_tw": "火龙S黑角",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -324,6 +335,10 @@
         },
         "char_1031_slent2": {
             "name": "淬羽赫默",
+            "name_en": "淬羽赫默",
+            "name_jp": "淬羽赫默",
+            "name_kr": "淬羽赫默",
+            "name_tw": "淬羽赫默",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -338,6 +353,10 @@
         },
         "char_1032_excu2": {
             "name": "圣约送葬人",
+            "name_en": "圣约送葬人",
+            "name_jp": "圣约送葬人",
+            "name_kr": "圣约送葬人",
+            "name_tw": "圣约送葬人",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -349,6 +368,10 @@
         },
         "char_1033_swire2": {
             "name": "琳琅诗怀雅",
+            "name_en": "琳琅诗怀雅",
+            "name_jp": "琳琅诗怀雅",
+            "name_kr": "琳琅诗怀雅",
+            "name_tw": "琳琅诗怀雅",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -363,6 +386,10 @@
         },
         "char_1034_jesca2": {
             "name": "涤火杰西卡",
+            "name_en": "涤火杰西卡",
+            "name_jp": "涤火杰西卡",
+            "name_kr": "涤火杰西卡",
+            "name_tw": "涤火杰西卡",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -935,6 +962,10 @@
         },
         "char_154_morgan": {
             "name": "摩根",
+            "name_en": "摩根",
+            "name_jp": "摩根",
+            "name_kr": "摩根",
+            "name_tw": "摩根",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -1336,6 +1367,10 @@
         },
         "char_2012_typhon": {
             "name": "提丰",
+            "name_en": "提丰",
+            "name_jp": "提丰",
+            "name_kr": "提丰",
+            "name_tw": "提丰",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -1433,6 +1468,7 @@
             "name_en": "Chongyue",
             "name_jp": "チョンユエ",
             "name_kr": "총웨",
+            "name_tw": "重岳",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -1839,6 +1875,10 @@
         },
         "char_249_mlyss": {
             "name": "缪尔赛思",
+            "name_en": "缪尔赛思",
+            "name_jp": "缪尔赛思",
+            "name_kr": "缪尔赛思",
+            "name_tw": "缪尔赛思",
             "position": "RANGED",
             "profession": "PIONEER",
             "rangeId": [
@@ -2276,6 +2316,7 @@
             "name_en": "Harmonie",
             "name_jp": "ハーモニー",
             "name_kr": "아르모니",
+            "name_tw": "和弦",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -2557,6 +2598,10 @@
         },
         "char_341_sntlla": {
             "name": "寒檀",
+            "name_en": "寒檀",
+            "name_jp": "寒檀",
+            "name_kr": "寒檀",
+            "name_tw": "寒檀",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -3009,6 +3054,10 @@
         },
         "char_4006_melnte": {
             "name": "玫拉",
+            "name_en": "玫拉",
+            "name_jp": "玫拉",
+            "name_kr": "玫拉",
+            "name_tw": "玫拉",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -3080,6 +3129,10 @@
         },
         "char_4015_spuria": {
             "name": "空构",
+            "name_en": "空构",
+            "name_jp": "空构",
+            "name_kr": "空构",
+            "name_tw": "空构",
             "position": "RANGED",
             "profession": "SPECIAL",
             "rangeId": [
@@ -3112,6 +3165,7 @@
             "name_en": "Puzzle",
             "name_jp": "パズル",
             "name_kr": "퍼즐",
+            "name_tw": "谜图",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -3168,6 +3222,10 @@
         },
         "char_4027_heyak": {
             "name": "霍尔海雅",
+            "name_en": "霍尔海雅",
+            "name_jp": "霍尔海雅",
+            "name_kr": "霍尔海雅",
+            "name_tw": "霍尔海雅",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -3535,6 +3593,7 @@
             "name_en": "Terra Research Commission",
             "name_jp": "テラ大陸調査団",
             "name_kr": "테라 대륙 조사단",
+            "name_tw": "泰拉大陆调查团",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -3549,6 +3608,7 @@
             "name_en": "Jieyun",
             "name_jp": "ジエユン",
             "name_kr": "지에윈",
+            "name_tw": "截云",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -3563,6 +3623,7 @@
             "name_en": "Lin",
             "name_jp": "リン",
             "name_kr": "린",
+            "name_tw": "林",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -3577,6 +3638,7 @@
             "name_en": "Qiubai",
             "name_jp": "チューバイ",
             "name_kr": "치우바이",
+            "name_tw": "仇白",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -3591,6 +3653,7 @@
             "name_en": "Wind Chimes",
             "name_jp": "ウィンドチャイム",
             "name_kr": "윈드차임스",
+            "name_tw": "铎铃",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -3602,6 +3665,10 @@
         },
         "char_4087_ines": {
             "name": "伊内丝",
+            "name_en": "伊内丝",
+            "name_jp": "伊内丝",
+            "name_kr": "伊内丝",
+            "name_tw": "伊内丝",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -3613,6 +3680,10 @@
         },
         "char_4091_ulika": {
             "name": "U-Official",
+            "name_en": "U-Official",
+            "name_jp": "U-Official",
+            "name_kr": "U-Official",
+            "name_tw": "U-Official",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -3624,6 +3695,10 @@
         },
         "char_4093_frston": {
             "name": "Friston-3",
+            "name_en": "Friston-3",
+            "name_jp": "Friston-3",
+            "name_kr": "Friston-3",
+            "name_tw": "Friston-3",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -3635,6 +3710,10 @@
         },
         "char_4102_threye": {
             "name": "凛视",
+            "name_en": "凛视",
+            "name_jp": "凛视",
+            "name_kr": "凛视",
+            "name_tw": "凛视",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -3646,6 +3725,10 @@
         },
         "char_4104_coldst": {
             "name": "冰酿",
+            "name_en": "冰酿",
+            "name_jp": "冰酿",
+            "name_kr": "冰酿",
+            "name_tw": "冰酿",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -3657,6 +3740,10 @@
         },
         "char_4105_almond": {
             "name": "杏仁",
+            "name_en": "杏仁",
+            "name_jp": "杏仁",
+            "name_kr": "杏仁",
+            "name_tw": "杏仁",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -3668,6 +3755,10 @@
         },
         "char_4106_bryota": {
             "name": "苍苔",
+            "name_en": "苍苔",
+            "name_jp": "苍苔",
+            "name_kr": "苍苔",
+            "name_tw": "苍苔",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -4024,6 +4115,10 @@
         },
         "char_464_cement": {
             "name": "洋灰",
+            "name_en": "洋灰",
+            "name_jp": "洋灰",
+            "name_kr": "洋灰",
+            "name_tw": "洋灰",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -4215,6 +4310,10 @@
         },
         "char_488_buildr": {
             "name": "青枳",
+            "name_en": "青枳",
+            "name_jp": "青枳",
+            "name_kr": "青枳",
+            "name_tw": "青枳",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -4241,6 +4340,10 @@
         },
         "char_491_humus": {
             "name": "休谟斯",
+            "name_en": "休谟斯",
+            "name_jp": "休谟斯",
+            "name_kr": "休谟斯",
+            "name_tw": "休谟斯",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -4270,6 +4373,7 @@
             "name_en": "Firewhistle",
             "name_jp": "ファイヤーホイッスル",
             "name_kr": "파이어휘슬",
+            "name_tw": "火哨",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -4311,6 +4415,10 @@
         },
         "char_498_inside": {
             "name": "隐现",
+            "name_en": "隐现",
+            "name_jp": "隐现",
+            "name_kr": "隐现",
+            "name_tw": "隐现",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -5072,6 +5180,10 @@
         },
         "token_10029_slent2_protrb": {
             "name": "夜灯",
+            "name_en": "夜灯",
+            "name_jp": "夜灯",
+            "name_kr": "夜灯",
+            "name_tw": "夜灯",
             "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
@@ -5083,6 +5195,10 @@
         },
         "token_10030_mlyss_wtrman": {
             "name": "流形",
+            "name_en": "流形",
+            "name_jp": "流形",
+            "name_kr": "流形",
+            "name_tw": "流形",
             "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
@@ -5094,6 +5210,10 @@
         },
         "token_10031_swire2_gdtrap": {
             "name": "香槟炸弹",
+            "name_en": "香槟炸弹",
+            "name_jp": "香槟炸弹",
+            "name_kr": "香槟炸弹",
+            "name_tw": "香槟炸弹",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -5105,6 +5225,10 @@
         },
         "token_10032_jesca2_jckshd": {
             "name": "机动盾牌",
+            "name_en": "机动盾牌",
+            "name_jp": "机动盾牌",
+            "name_kr": "机动盾牌",
+            "name_tw": "机动盾牌",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -6499,6 +6623,7 @@
             "name_en": "Shanhaizhong Cipher Machine",
             "name_jp": "山海密令柱",
             "name_kr": "산해중 송신기",
+            "name_tw": "山海密语仪",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6513,6 +6638,7 @@
             "name_en": "Roadblocks",
             "name_jp": "都市防衛柵",
             "name_kr": "방호벽 바리케이드",
+            "name_tw": "城防路障",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6527,6 +6653,7 @@
             "name_en": "Mire Control",
             "name_jp": "沼地制御",
             "name_kr": "늪지대 제어",
+            "name_tw": "沼泽控制",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6541,6 +6668,7 @@
             "name_en": "Flash Grenade",
             "name_jp": "閃光爆弾",
             "name_kr": "섬광 폭탄",
+            "name_tw": "眩光手雷",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6555,6 +6683,7 @@
             "name_en": "High-Energy Originium Barrel Bomb",
             "name_jp": "源石タル爆弾",
             "name_kr": "오리지늄 폭약통",
+            "name_tw": "高能源石爆桶",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6569,6 +6698,7 @@
             "name_en": "High-Voltage Shock Trap",
             "name_jp": "高電圧シビレ罠",
             "name_kr": "고압 펄스 트랩",
+            "name_tw": "高压脉冲诡雷",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6583,6 +6713,7 @@
             "name_en": "Wiredrone",
             "name_jp": "滞空牽引ドローン",
             "name_kr": "공중 견인 드론",
+            "name_tw": "滞空牵引无人机",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6597,6 +6728,7 @@
             "name_en": "Mire Controller",
             "name_jp": "地形ダメージ制御",
             "name_kr": "지형 대미지 제어",
+            "name_tw": "地形增伤控制",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6611,6 +6743,7 @@
             "name_en": "Modified Phytohormone",
             "name_jp": "改良型植物ホルモン",
             "name_kr": "개질 식물호르몬",
+            "name_tw": "改性植物激素",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6625,6 +6758,7 @@
             "name_en": "Wiredrone",
             "name_jp": "滞空牽引ドローン",
             "name_kr": "공중 견인 드론",
+            "name_tw": "滞空牵引无人机",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6636,6 +6770,10 @@
         },
         "trap_106_smtree": {
             "name": "积雪银凇 ",
+            "name_en": "积雪银凇 ",
+            "name_jp": "积雪银凇 ",
+            "name_kr": "积雪银凇 ",
+            "name_tw": "积雪银凇 ",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6647,6 +6785,10 @@
         },
         "trap_107_smpow": {
             "name": "空间稳定设施",
+            "name_en": "空间稳定设施",
+            "name_jp": "空间稳定设施",
+            "name_kr": "空间稳定设施",
+            "name_tw": "空间稳定设施",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6658,6 +6800,10 @@
         },
         "trap_108_smbox": {
             "name": "宝箱",
+            "name_en": "宝箱",
+            "name_jp": "宝箱",
+            "name_kr": "宝箱",
+            "name_tw": "宝箱",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6669,6 +6815,10 @@
         },
         "trap_109_smrbox": {
             "name": "尖刺宝箱",
+            "name_en": "尖刺宝箱",
+            "name_jp": "尖刺宝箱",
+            "name_kr": "尖刺宝箱",
+            "name_tw": "尖刺宝箱",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6680,6 +6830,10 @@
         },
         "trap_110_smbbox": {
             "name": "巨壳藤蔓",
+            "name_en": "巨壳藤蔓",
+            "name_jp": "巨壳藤蔓",
+            "name_kr": "巨壳藤蔓",
+            "name_tw": "巨壳藤蔓",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6691,6 +6845,10 @@
         },
         "trap_111_wdfarm": {
             "name": "街头应急储备",
+            "name_en": "街头应急储备",
+            "name_jp": "街头应急储备",
+            "name_kr": "街头应急储备",
+            "name_tw": "街头应急储备",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6702,6 +6860,10 @@
         },
         "trap_112_crsbow": {
             "name": "解雇者清债程序",
+            "name_en": "解雇者清债程序",
+            "name_jp": "解雇者清债程序",
+            "name_kr": "解雇者清债程序",
+            "name_tw": "解雇者清债程序",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6713,6 +6875,10 @@
         },
         "trap_113_snflwr": {
             "name": "全自动划账器",
+            "name_en": "全自动划账器",
+            "name_jp": "全自动划账器",
+            "name_kr": "全自动划账器",
+            "name_tw": "全自动划账器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6724,6 +6890,10 @@
         },
         "trap_114_smkbmb": {
             "name": "爆裂毒气罐",
+            "name_en": "爆裂毒气罐",
+            "name_jp": "爆裂毒气罐",
+            "name_kr": "爆裂毒气罐",
+            "name_tw": "爆裂毒气罐",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6735,6 +6905,10 @@
         },
         "trap_115_gasctrl": {
             "name": "毒雾塔控制",
+            "name_en": "毒雾塔控制",
+            "name_jp": "毒雾塔控制",
+            "name_kr": "毒雾塔控制",
+            "name_tw": "毒雾塔控制",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6746,6 +6920,10 @@
         },
         "trap_116_stdurk": {
             "name": "“过去的我”",
+            "name_en": "“过去的我”",
+            "name_jp": "“过去的我”",
+            "name_kr": "“过去的我”",
+            "name_tw": "“过去的我”",
             "position": "RANGED",
             "profession": "TRAP",
             "rangeId": [
@@ -6757,6 +6935,10 @@
         },
         "trap_117_ltstat": {
             "name": "圣像",
+            "name_en": "圣像",
+            "name_jp": "圣像",
+            "name_kr": "圣像",
+            "name_tw": "圣像",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6768,6 +6950,10 @@
         },
         "trap_118_rockfl": {
             "name": "塌落的墙垣",
+            "name_en": "塌落的墙垣",
+            "name_jp": "塌落的墙垣",
+            "name_kr": "塌落的墙垣",
+            "name_tw": "塌落的墙垣",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6779,6 +6965,10 @@
         },
         "trap_119_rdrepair": {
             "name": "备用木材",
+            "name_en": "备用木材",
+            "name_jp": "备用木材",
+            "name_kr": "备用木材",
+            "name_tw": "备用木材",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6790,6 +6980,10 @@
         },
         "trap_120_rdblock": {
             "name": "破旧的木篱",
+            "name_en": "破旧的木篱",
+            "name_jp": "破旧的木篱",
+            "name_kr": "破旧的木篱",
+            "name_tw": "破旧的木篱",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6801,6 +6995,10 @@
         },
         "trap_121_gractrl": {
             "name": "重力",
+            "name_en": "重力",
+            "name_jp": "重力",
+            "name_kr": "重力",
+            "name_tw": "重力",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6812,6 +7010,10 @@
         },
         "trap_122_stmpq": {
             "name": "景观喷泉",
+            "name_en": "景观喷泉",
+            "name_jp": "景观喷泉",
+            "name_kr": "景观喷泉",
+            "name_tw": "景观喷泉",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6823,6 +7025,10 @@
         },
         "trap_123_stmbot": {
             "name": "水汽汽水瓶",
+            "name_en": "水汽汽水瓶",
+            "name_jp": "水汽汽水瓶",
+            "name_kr": "水汽汽水瓶",
+            "name_tw": "水汽汽水瓶",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6834,6 +7040,10 @@
         },
         "trap_124_eradio": {
             "name": "废热喷口",
+            "name_en": "废热喷口",
+            "name_jp": "废热喷口",
+            "name_kr": "废热喷口",
+            "name_tw": "废热喷口",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6848,6 +7058,7 @@
             "name_en": "Portable Planting Trough",
             "name_jp": "栽培ポット",
             "name_kr": "간이 재배용기",
+            "name_tw": "便携式种植槽",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6862,6 +7073,7 @@
             "name_en": "Basic Gathering Hub",
             "name_jp": "採取ロボ用基地",
             "name_kr": "초보자용 채집 허브",
+            "name_tw": "采集实习站",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6876,6 +7088,7 @@
             "name_en": "Crabbie Pumpie",
             "name_jp": "カニカニポンプ",
             "name_kr": "메탈 크랩 펌프",
+            "name_tw": "蟹蟹抽水泵",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6890,6 +7103,7 @@
             "name_en": "Firm Platform",
             "name_jp": "堅牢な台",
             "name_kr": "견고한 플랫폼",
+            "name_tw": "坚固筑台",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6904,6 +7118,7 @@
             "name_en": "Urban Style Barrier",
             "name_jp": "都市様式障壁",
             "name_kr": "도시용 방벽",
+            "name_tw": "都市风壁障",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6918,6 +7133,7 @@
             "name_en": "Monitoring Tower",
             "name_jp": "監視塔",
             "name_kr": "감시탑",
+            "name_tw": "监控塔",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6932,6 +7148,7 @@
             "name_en": "Base",
             "name_jp": "基地",
             "name_kr": "기지",
+            "name_tw": "基地",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6946,6 +7163,7 @@
             "name_en": "Thickets",
             "name_jp": "雑木林",
             "name_kr": "잡목림",
+            "name_tw": "杂木林",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6960,6 +7178,7 @@
             "name_en": "Monoliths",
             "name_jp": "巨大な岩",
             "name_kr": "거대한 암석",
+            "name_tw": "巨大岩石",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6974,6 +7193,7 @@
             "name_en": "Strange Ore Vein",
             "name_jp": "レアな鉱脈",
             "name_kr": "기이한 광맥",
+            "name_tw": "奇异矿脉",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6988,6 +7208,7 @@
             "name_en": "Mobile Battle Tower",
             "name_jp": "可動式戦術塔",
             "name_kr": "이동식 전투 탑",
+            "name_tw": "移动战塔",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7002,6 +7223,7 @@
             "name_en": "Historical Remains",
             "name_jp": "遺跡の残骸",
             "name_kr": "유적지 잔해",
+            "name_tw": "遗迹残骸",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7016,6 +7238,7 @@
             "name_en": "Bush",
             "name_jp": "茂み",
             "name_kr": "관목림",
+            "name_tw": "灌木丛",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7030,6 +7253,7 @@
             "name_en": "Liaison",
             "name_jp": "連絡員",
             "name_kr": "연락원",
+            "name_tw": "联络员",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7044,6 +7268,7 @@
             "name_en": "Buried Metal Chest",
             "name_jp": "埋もれた金属の箱",
             "name_kr": "파묻힌 금속 상자",
+            "name_tw": "埋没金属箱",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7058,6 +7283,7 @@
             "name_en": "Remote Shield Generator",
             "name_jp": "シールドリモコン",
             "name_kr": "실드 컨트롤러",
+            "name_tw": "护盾遥控器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7072,6 +7298,7 @@
             "name_en": "Hypnotic Censer",
             "name_jp": "安眠のお香",
             "name_kr": "수면용 향",
+            "name_tw": "安眠迷香",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7086,6 +7313,7 @@
             "name_en": "Refreshing Potion",
             "name_jp": "覚醒の秘薬",
             "name_kr": "각성 비약",
+            "name_tw": "醒神秘药",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7100,6 +7328,7 @@
             "name_en": "Camouflage Device",
             "name_jp": "隠密支援用マシン",
             "name_kr": "대 정찰 위장 장치",
+            "name_tw": "反侦察藏匿机",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7114,6 +7343,7 @@
             "name_en": "Emergency Repair Vehicle",
             "name_jp": "緊急修理車両",
             "name_kr": "비상 수리 차량",
+            "name_tw": "应急修理车",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7128,6 +7358,7 @@
             "name_en": "Thorned Treasure Chest",
             "name_jp": "棘の生えた金属の箱",
             "name_kr": "가시 돋은 보물 상자",
+            "name_tw": "宝刺金属箱",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7142,6 +7373,7 @@
             "name_en": "Trap Net Launcher",
             "name_jp": "捕縛網発射台",
             "name_kr": "그물 발사대",
+            "name_tw": "缚网发射台",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7156,6 +7388,7 @@
             "name_en": "Gas Jet Thrower",
             "name_jp": "噴射式強制移動機",
             "name_kr": "가스 분사기",
+            "name_tw": "喷拒器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7170,6 +7403,7 @@
             "name_en": "Fortification",
             "name_jp": "防御施設",
             "name_kr": "방어 공사",
+            "name_tw": "防御工事",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7184,6 +7418,7 @@
             "name_en": "Modular Computing Station",
             "name_jp": "モジュラー演算所",
             "name_kr": "모듈 연산 시설",
+            "name_tw": "模块演算设施",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7198,6 +7433,7 @@
             "name_en": "Resource Planning Station",
             "name_jp": "資源計画所",
             "name_kr": "자원 계획 스테이션",
+            "name_tw": "资源规划站",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7212,6 +7448,7 @@
             "name_en": "Combat Readiness Station",
             "name_jp": "戦闘計画所",
             "name_kr": "전투 준비 스테이션",
+            "name_tw": "备勤激活站",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7226,6 +7463,7 @@
             "name_en": "Transregional Communication Station",
             "name_jp": "越境通信所",
             "name_kr": "지역 간 통신기지",
+            "name_tw": "跨地块通讯站",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7240,6 +7478,7 @@
             "name_en": "Escape Route",
             "name_jp": "脱出地点",
             "name_kr": "철수 포인트",
+            "name_tw": "逃脱点",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7254,6 +7493,7 @@
             "name_en": "Mint",
             "name_jp": "金床",
             "name_kr": "작업대",
+            "name_tw": "冶铸台",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7268,6 +7508,7 @@
             "name_en": "Old Isin",
             "name_jp": "イシン",
             "name_kr": "이신",
+            "name_tw": "老伊辛",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7282,6 +7523,7 @@
             "name_en": "'Sand Soldier'",
             "name_jp": "「サンドソルジャー」",
             "name_kr": "'샌드솔저'",
+            "name_tw": "“沙卒”",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7296,6 +7538,7 @@
             "name_en": "Manticore Killer",
             "name_jp": "殺し屋のマンティコア",
             "name_kr": "맨티코어 킬러",
+            "name_tw": "曼提柯杀手",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7310,6 +7553,7 @@
             "name_en": "Treasure Hunter",
             "name_jp": "トレジャーハンター",
             "name_kr": "트레져헌터",
+            "name_tw": "寻宝人",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7324,6 +7568,7 @@
             "name_en": "Veteran Hunter",
             "name_jp": "手練れのハンター",
             "name_kr": "노련한 사냥꾼",
+            "name_tw": "老练猎手",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7338,6 +7583,7 @@
             "name_en": "Advanced Gathering Hub",
             "name_jp": "スーパー採取ロボ用基地",
             "name_kr": "숙련자용 채집 허브",
+            "name_tw": "采集专员站",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7352,6 +7598,7 @@
             "name_en": "Executive Gathering Hub",
             "name_jp": "ハイパー採取ロボ用基地",
             "name_kr": "전문가용 채집 허브",
+            "name_tw": "采集主任站",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7366,6 +7613,7 @@
             "name_en": "Ægirian Oscilloscope",
             "name_jp": "エーギル式振波計",
             "name_kr": "에기르 오실로스코프",
+            "name_tw": "阿戈尔示波器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7380,6 +7628,7 @@
             "name_en": "Ægirian Oscilloscope",
             "name_jp": "エーギル式振波計",
             "name_kr": "에기르 오실로스코프",
+            "name_tw": "阿戈尔示波器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7394,6 +7643,7 @@
             "name_en": "Ægirian Oscilloscope",
             "name_jp": "エーギル式振波計",
             "name_kr": "에기르 오실로스코프",
+            "name_tw": "阿戈尔示波器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7408,6 +7658,7 @@
             "name_en": "Adaptive Supply Component",
             "name_jp": "多機能補給デバイス",
             "name_kr": "다목적 공급장치",
+            "name_tw": "自适应补给元件",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7422,6 +7673,7 @@
             "name_en": "Adaptive Supply Component",
             "name_jp": "多機能補給デバイス",
             "name_kr": "다목적 공급장치",
+            "name_tw": "自适应补给元件",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7436,6 +7688,7 @@
             "name_en": "Adaptive Supply Component",
             "name_jp": "多機能補給デバイス",
             "name_kr": "다목적 공급장치",
+            "name_tw": "自适应补给元件",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7450,6 +7703,7 @@
             "name_en": "Coating Device Conduction Valve",
             "name_jp": "コーティングデバイス",
             "name_kr": "코팅 장치 전도 밸브",
+            "name_tw": "镀膜装置导能阀",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7464,6 +7718,7 @@
             "name_en": "Redeployment Conduction Component",
             "name_jp": "再稼働コンポーネント",
             "name_kr": "에너지 재정비 유닛",
+            "name_tw": "重整导能组件",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7478,6 +7733,7 @@
             "name_en": "Coating Device Conduction Valve",
             "name_jp": "コーティングデバイス",
             "name_kr": "코팅 장치 전도 밸브",
+            "name_tw": "镀膜装置导能阀",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7492,6 +7748,7 @@
             "name_en": "Eunectes' Beacon",
             "name_jp": "ジャングル用追跡ビーコン",
             "name_kr": "정글용 추적 비콘",
+            "name_tw": "丛林用示踪信标",
             "position": "MELEE",
             "profession": "TRAP",
             "rangeId": [
@@ -7506,6 +7763,7 @@
             "name_en": "Block Wavelength",
             "name_jp": "遮断電波",
             "name_kr": "차단 파장",
+            "name_tw": "阻断波长",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7520,6 +7778,7 @@
             "name_en": "Jam Wavelength",
             "name_jp": "妨害電波",
             "name_kr": "간섭 파장",
+            "name_tw": "干扰波长",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7534,6 +7793,7 @@
             "name_en": "Heavy Insulated Concrete",
             "name_jp": "超過重絶縁セメント",
             "name_kr": "과중 단열 시멘트",
+            "name_tw": "超重绝缘水泥",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7548,6 +7808,7 @@
             "name_en": "Shoddy Flashbang",
             "name_jp": "粗悪なスタングレネード",
             "name_kr": "불량 섬광탄",
+            "name_tw": "劣质闪光弹",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7559,6 +7820,10 @@
         },
         "trap_714_cdaltar": {
             "name": "能量扰动放大器",
+            "name_en": "能量扰动放大器",
+            "name_jp": "能量扰动放大器",
+            "name_kr": "能量扰动放大器",
+            "name_tw": "能量扰动放大器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7570,6 +7835,10 @@
         },
         "trap_715_cdaltara": {
             "name": "能量扰动放大器",
+            "name_en": "能量扰动放大器",
+            "name_jp": "能量扰动放大器",
+            "name_kr": "能量扰动放大器",
+            "name_tw": "能量扰动放大器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7581,6 +7850,10 @@
         },
         "trap_716_cdaltarb": {
             "name": "能量扰动放大器",
+            "name_en": "能量扰动放大器",
+            "name_jp": "能量扰动放大器",
+            "name_kr": "能量扰动放大器",
+            "name_tw": "能量扰动放大器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7592,6 +7865,10 @@
         },
         "trap_717_cddiff": {
             "name": "战术装备整理箱",
+            "name_en": "战术装备整理箱",
+            "name_jp": "战术装备整理箱",
+            "name_kr": "战术装备整理箱",
+            "name_tw": "战术装备整理箱",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7603,6 +7880,10 @@
         },
         "trap_718_cddiffa": {
             "name": "战术装备整理箱",
+            "name_en": "战术装备整理箱",
+            "name_jp": "战术装备整理箱",
+            "name_kr": "战术装备整理箱",
+            "name_tw": "战术装备整理箱",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7614,6 +7895,10 @@
         },
         "trap_719_cddiffb": {
             "name": "战术装备整理箱",
+            "name_en": "战术装备整理箱",
+            "name_jp": "战术装备整理箱",
+            "name_kr": "战术装备整理箱",
+            "name_tw": "战术装备整理箱",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7625,6 +7910,10 @@
         },
         "trap_720_cdheal": {
             "name": "便携式医疗设备",
+            "name_en": "便携式医疗设备",
+            "name_jp": "便携式医疗设备",
+            "name_kr": "便携式医疗设备",
+            "name_tw": "便携式医疗设备",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7636,6 +7925,10 @@
         },
         "trap_721_cdheala": {
             "name": "便携式医疗设备",
+            "name_en": "便携式医疗设备",
+            "name_jp": "便携式医疗设备",
+            "name_kr": "便携式医疗设备",
+            "name_tw": "便携式医疗设备",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7647,6 +7940,10 @@
         },
         "trap_722_cdhealb": {
             "name": "便携式医疗设备",
+            "name_en": "便携式医疗设备",
+            "name_jp": "便携式医疗设备",
+            "name_kr": "便携式医疗设备",
+            "name_tw": "便携式医疗设备",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7658,6 +7955,10 @@
         },
         "trap_723_cdcvrt": {
             "name": "溢能回收转化器",
+            "name_en": "溢能回收转化器",
+            "name_jp": "溢能回收转化器",
+            "name_kr": "溢能回收转化器",
+            "name_tw": "溢能回收转化器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7669,6 +7970,10 @@
         },
         "trap_724_cdcvrta": {
             "name": "溢能回收转化器",
+            "name_en": "溢能回收转化器",
+            "name_jp": "溢能回收转化器",
+            "name_kr": "溢能回收转化器",
+            "name_tw": "溢能回收转化器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7680,6 +7985,10 @@
         },
         "trap_725_cdcvrtb": {
             "name": "溢能回收转化器",
+            "name_en": "溢能回收转化器",
+            "name_jp": "溢能回收转化器",
+            "name_kr": "溢能回收转化器",
+            "name_tw": "溢能回收转化器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7691,6 +8000,10 @@
         },
         "trap_726_cdrone": {
             "name": "战地援护无人机",
+            "name_en": "战地援护无人机",
+            "name_jp": "战地援护无人机",
+            "name_kr": "战地援护无人机",
+            "name_tw": "战地援护无人机",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7702,6 +8015,10 @@
         },
         "trap_727_cdronea": {
             "name": "战地援护无人机",
+            "name_en": "战地援护无人机",
+            "name_jp": "战地援护无人机",
+            "name_kr": "战地援护无人机",
+            "name_tw": "战地援护无人机",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7713,6 +8030,10 @@
         },
         "trap_728_cdroneb": {
             "name": "战地援护无人机",
+            "name_en": "战地援护无人机",
+            "name_jp": "战地援护无人机",
+            "name_kr": "战地援护无人机",
+            "name_tw": "战地援护无人机",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7724,6 +8045,10 @@
         },
         "trap_729_cdkzmr": {
             "name": "竞技记录分析仪",
+            "name_en": "竞技记录分析仪",
+            "name_jp": "竞技记录分析仪",
+            "name_kr": "竞技记录分析仪",
+            "name_tw": "竞技记录分析仪",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7735,6 +8060,10 @@
         },
         "trap_730_truamr": {
             "name": "“甜蜜狂搅”",
+            "name_en": "“甜蜜狂搅”",
+            "name_jp": "“甜蜜狂搅”",
+            "name_kr": "“甜蜜狂搅”",
+            "name_tw": "“甜蜜狂搅”",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7746,6 +8075,10 @@
         },
         "trap_732_ltnova": {
             "name": "神经再生",
+            "name_en": "神经再生",
+            "name_jp": "神经再生",
+            "name_kr": "神经再生",
+            "name_tw": "神经再生",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7757,6 +8090,10 @@
         },
         "trap_733_cdkzmra": {
             "name": "竞技记录分析仪",
+            "name_en": "竞技记录分析仪",
+            "name_jp": "竞技记录分析仪",
+            "name_kr": "竞技记录分析仪",
+            "name_tw": "竞技记录分析仪",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7768,6 +8105,10 @@
         },
         "trap_734_cdkzmrb": {
             "name": "竞技记录分析仪",
+            "name_en": "竞技记录分析仪",
+            "name_jp": "竞技记录分析仪",
+            "name_kr": "竞技记录分析仪",
+            "name_tw": "竞技记录分析仪",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7779,6 +8120,10 @@
         },
         "trap_735_platre": {
             "name": "汲取体",
+            "name_en": "汲取体",
+            "name_jp": "汲取体",
+            "name_kr": "汲取体",
+            "name_tw": "汲取体",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
