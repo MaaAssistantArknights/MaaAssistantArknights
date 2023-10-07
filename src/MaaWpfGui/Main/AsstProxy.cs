@@ -465,7 +465,10 @@ namespace MaaWpfGui.Main
                         break;
                     }
 
-                    AsstStop();
+                    if (!AsstStop())
+                    {
+                        _logger.Warning("Failed to stop Asst");
+                    }
 
                     Execute.OnUIThread(async () =>
                     {
@@ -534,7 +537,10 @@ namespace MaaWpfGui.Main
                             // 如果启用战斗列表，需要中止掉剩余的任务
                             if (Instances.CopilotViewModel.UseCopilotList)
                             {
-                                AsstStop(false);
+                                if (!AsstStop(false))
+                                {
+                                    _logger.Warning("Failed to stop Asst");
+                                }
                             }
 
                             _runningState.SetIdle(true);
@@ -1581,7 +1587,11 @@ namespace MaaWpfGui.Main
 
         public bool AsstAppendCloseDown()
         {
-            AsstStop();
+            if (!AsstStop())
+            {
+                _logger.Warning("Failed to stop Asst");
+            }
+
             AsstTaskId id = AsstAppendTaskWithEncoding("CloseDown");
             _latestTaskId[TaskType.CloseDown] = id;
             return id != 0;
