@@ -887,6 +887,10 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
 
     json::value Amiya_data;
     Amiya_data["name"] = "阿米娅-WARRIOR";
+    Amiya_data["name_en"] = "Amiya-WARRIOR";
+    Amiya_data["name_jp"] = "アーミヤ-WARRIOR";
+    Amiya_data["name_kr"] = "아미야-WARRIOR";
+    Amiya_data["name_tw"] = "阿米婭-WARRIOR";
     Amiya_data["profession"] = "WARRIOR";
     Amiya_data["rangeId"] = json::array { "1-1", "1-1", "1-1" };
     Amiya_data["rarity"] = 5;
