@@ -94,8 +94,7 @@ namespace asst
     }
 
     template <typename OutT, typename DefaultT>
-    requires(std::constructible_from<OutT, DefaultT> ||
-             std::constructible_from<OutT, decltype(std::declval<DefaultT>()())>)
+    requires(std::constructible_from<OutT, DefaultT> || std::constructible_from<OutT, std::invoke_result_t<DefaultT>>)
     bool get_and_check_value(const json::value& input, const std::string& key, OutT& output, DefaultT&& default_val)
     {
         auto opt = input.find(key);
