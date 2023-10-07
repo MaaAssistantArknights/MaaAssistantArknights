@@ -384,7 +384,7 @@ bool asst::BattleProcessTask::check_in_battle(const cv::Mat& reusable, bool weak
 {
     LogTraceFunction;
 
-    cv::Mat image = reusable;
+    cv::Mat image = reusable.empty() ? ctrler()->get_image() : reusable;
 
     if (weak) {
         BattlefieldMatcher analyzer(image);
