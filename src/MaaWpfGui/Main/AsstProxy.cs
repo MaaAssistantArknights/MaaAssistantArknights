@@ -295,7 +295,7 @@ namespace MaaWpfGui.Main
 
             if (loaded == false || _handle == IntPtr.Zero)
             {
-                Execute.OnUIThread(() =>
+                Execute.OnUIThreadAsync(() =>
                 {
                     MessageBoxHelper.Show(LocalizationHelper.GetString("ResourceBroken"), LocalizationHelper.GetString("Error"), iconKey: ResourceToken.FatalGeometry, iconBrushKey: ResourceToken.DangerBrush);
                     Application.Current.Shutdown();
@@ -307,6 +307,7 @@ namespace MaaWpfGui.Main
             this.AsstSetInstanceOption(InstanceOptionKey.TouchMode, Instances.SettingsViewModel.TouchMode);
             this.AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, Instances.SettingsViewModel.DeploymentWithPause ? "1" : "0");
             this.AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, Instances.SettingsViewModel.AdbLiteEnabled ? "1" : "0");
+            // TODO: 之后把这个 OnUIThread 拆出来
             Execute.OnUIThread(async () =>
             {
                 if (Instances.SettingsViewModel.RunDirectly)
@@ -324,6 +325,7 @@ namespace MaaWpfGui.Main
                     return;
                 }
 
+                // ReSharper disable once InvertIf
                 if (Instances.SettingsViewModel.RunDirectly)
                 {
                     // 重置按钮状态，不影响LinkStart判断
@@ -470,17 +472,20 @@ namespace MaaWpfGui.Main
                         _logger.Warning("Failed to stop Asst");
                     }
 
+                    // TODO: 之后把这个 OnUIThread 拆出来
                     Execute.OnUIThread(async () =>
                     {
-                        if (Instances.SettingsViewModel.RetryOnDisconnected)
+                        if (!Instances.SettingsViewModel.RetryOnDisconnected)
                         {
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TryToStartEmulator"), UiLogColor.Error);
-                            TaskQueueViewModel.KillEmulator();
-                            await Task.Delay(3000);
-                            await Instances.TaskQueueViewModel.Stop();
-                            Instances.TaskQueueViewModel.SetStopped();
-                            Instances.TaskQueueViewModel.LinkStart();
+                            return;
                         }
+
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TryToStartEmulator"), UiLogColor.Error);
+                        TaskQueueViewModel.KillEmulator();
+                        await Task.Delay(3000);
+                        await Instances.TaskQueueViewModel.Stop();
+                        Instances.TaskQueueViewModel.SetStopped();
+                        Instances.TaskQueueViewModel.LinkStart();
                     });
 
                     break;
@@ -1382,7 +1387,7 @@ namespace MaaWpfGui.Main
                     return false;
                 }
 
-                Execute.OnUIThread(() =>
+                Execute.OnUIThreadAsync(() =>
                 {
                     using var toast = new ToastNotification("Auto Reload");
                     toast.Show();

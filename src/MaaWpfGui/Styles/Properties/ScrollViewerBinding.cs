@@ -44,6 +44,7 @@ namespace MaaWpfGui.Styles.Properties
         /// </summary>
         /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
         /// <returns>The property value.</returns>
+        // ReSharper disable once UnusedMember.Global
         public static double GetVerticalOffset(DependencyObject depObj)
         {
             if (!(depObj is ScrollViewer))
@@ -120,6 +121,7 @@ namespace MaaWpfGui.Styles.Properties
         /// </summary>
         /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
         /// <returns>The property value.</returns>
+        // ReSharper disable once UnusedMember.Global
         public static double GetViewportHeight(DependencyObject depObj)
         {
             if (!(depObj is ScrollViewer scrollViewer))
@@ -196,6 +198,7 @@ namespace MaaWpfGui.Styles.Properties
         /// </summary>
         /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
         /// <returns>The property value.</returns>
+        // ReSharper disable once UnusedMember.Global
         public static double GetExtentHeight(DependencyObject depObj)
         {
             if (!(depObj is ScrollViewer scrollViewer))
@@ -273,6 +276,7 @@ namespace MaaWpfGui.Styles.Properties
         /// </summary>
         /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
         /// <returns>The property value.</returns>
+        // ReSharper disable once UnusedMember.Global
         public static List<double> GetDividerVerticalOffsetList(DependencyObject depObj)
         {
             return (List<double>)depObj.GetValue(DividerVerticalOffsetListProperty);
