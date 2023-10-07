@@ -14,6 +14,8 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices.ComTypes;
+using Microsoft.Win32;
 
 namespace MaaWpfGui.Utilities
 {
@@ -40,14 +42,24 @@ namespace MaaWpfGui.Utilities
         /// <returns>The value.</returns>
         public static bool CheckStart()
         {
+            // 弃用注册表检查，迁移到启动文件夹
             try
             {
-                return File.Exists(_startupShortcutPath);
+                using var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
+                if (key?.GetValue("MeoAsst") != null)
+                {
+                    key.DeleteValue("MeoAsst");
+                    SetStart(true);
+                    return true;
+                }
             }
             catch
             {
-                return false;
+                // ignored
             }
+
+            return File.Exists(_startupShortcutPath);
+
         }
 
         /// <summary>
@@ -62,11 +74,15 @@ namespace MaaWpfGui.Utilities
                 if (set)
                 {
                     // 创建启动文件夹的快捷方式
-                    var shell = new IWshRuntimeLibrary.WshShell();
-                    var shortcut = shell.CreateShortcut(_startupShortcutPath);
-                    shortcut.TargetPath = _fileValue;
-                    shortcut.WorkingDirectory = Path.GetDirectoryName(_fileValue);
-                    shortcut.Save();
+                    // ReSharper disable once SuspiciousTypeConversion.Global
+                    var shellLink = (IShellLink)new ShellLink();
+                    shellLink.SetPath(_fileValue);
+                    shellLink.SetWorkingDirectory(Path.GetDirectoryName(_fileValue));
+                    shellLink.Resolve(IntPtr.Zero, 1);
+
+                    // ReSharper disable once SuspiciousTypeConversion.Global
+                    var file = (IPersistFile)shellLink;
+                    file.Save(_startupShortcutPath, false);
                 }
                 else
                 {
