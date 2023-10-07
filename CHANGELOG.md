@@ -58,6 +58,9 @@
 - 修复资源更新时的崩溃问题 @MistEO
 - 修复肉鸽编队时识别不到最下面一个干员名以及不能正确选技能的问题 (#6552) @AnnoyingFlowers
 - 修复跳过领取日常奖励的问题 @zzyyyl
+- remove duplicate of std::move @status102
+- 子进程异常挂起 @w568w
+- 修复 Award 任务无法正常结束的问题 @zzyyyl
 
 ### 其他
 
@@ -98,6 +101,10 @@
 - sytle: 简化 using @ABA2396
 - 统一 URL 存放位置 @ABA2396
 - en SanityReport formatting [skip ci] @Constrat
+- 新增外服干员名对照 @Constrat
+- 更新 readme.md @AnnAngela
+- 使用 IShellLink 和 IPersistFile 接口创建快捷方式 @ABA2396
+- 根据 qodana 优化代码 @ABA2396
 
 ### For develops
 
