@@ -12,8 +12,11 @@
 // </copyright>
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using HandyControl.Controls;
+using ScrollViewer = System.Windows.Controls.ScrollViewer;
 
 namespace MaaWpfGui.Styles.Properties
 {
@@ -44,6 +47,7 @@ namespace MaaWpfGui.Styles.Properties
         /// </summary>
         /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
         /// <returns>The property value.</returns>
+        // ReSharper disable once UnusedMember.Global
         public static double GetVerticalOffset(DependencyObject depObj)
         {
             if (!(depObj is ScrollViewer))
@@ -120,6 +124,7 @@ namespace MaaWpfGui.Styles.Properties
         /// </summary>
         /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
         /// <returns>The property value.</returns>
+        // ReSharper disable once UnusedMember.Global
         public static double GetViewportHeight(DependencyObject depObj)
         {
             if (!(depObj is ScrollViewer scrollViewer))
@@ -196,6 +201,7 @@ namespace MaaWpfGui.Styles.Properties
         /// </summary>
         /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
         /// <returns>The property value.</returns>
+        // ReSharper disable once UnusedMember.Global
         public static double GetExtentHeight(DependencyObject depObj)
         {
             if (!(depObj is ScrollViewer scrollViewer))
@@ -273,6 +279,7 @@ namespace MaaWpfGui.Styles.Properties
         /// </summary>
         /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
         /// <returns>The property value.</returns>
+        // ReSharper disable once UnusedMember.Global
         public static List<double> GetDividerVerticalOffsetList(DependencyObject depObj)
         {
             return (List<double>)depObj.GetValue(DividerVerticalOffsetListProperty);
@@ -315,27 +322,18 @@ namespace MaaWpfGui.Styles.Properties
             // 当滚动条载入时，遍历 StackPanel 中的所有 Divider 子元素对应位置
             scrollViewer.Loaded += (s, se) =>
             {
-                if (!scrollViewer.HasContent || !(scrollViewer.Content is StackPanel))
+                if (!scrollViewer.HasContent || !(scrollViewer.Content is StackPanel stackPanel))
                 {
                     return;
                 }
 
-                var dividerOffsetList = new List<double>();
-                var stackPanel = (StackPanel)scrollViewer.Content;
                 var point = new Point(10, scrollViewer.VerticalOffset);
 
-                foreach (var child in stackPanel.Children)
-                {
-                    // 以 Divider 为定位元素
-                    if (!(child is HandyControl.Controls.Divider))
-                    {
-                        continue;
-                    }
-
-                    // 转换计算并保存 Divider 在滚动面板中的垂直位置
-                    var targetPosition = ((FrameworkElement)child).TransformToVisual(scrollViewer).Transform(point);
-                    dividerOffsetList.Add(targetPosition.Y);
-                }
+                var dividerOffsetList = stackPanel.Children.OfType<Divider>()
+                    .Select(child => child.TransformToVisual(scrollViewer)
+                        .Transform(point))
+                    .Select(targetPosition => targetPosition.Y)
+                    .ToList();
 
                 if (dividerOffsetList.Count > 0)
                 {

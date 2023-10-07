@@ -11,7 +11,6 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Media.Imaging;
@@ -32,24 +31,25 @@ namespace MaaWpfGui.Helper
 
         public static byte[] ToBytes(this BitmapImage image)
         {
-            byte[] data = new byte[] { };
-            if (image != null)
+            byte[] data = { };
+            if (image == null)
             {
-                try
-                {
-                    var encoder = new BmpBitmapEncoder();
-                    encoder.Frames.Add(BitmapFrame.Create(image));
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        encoder.Save(ms);
-                        data = ms.ToArray();
-                    }
+                return data;
+            }
 
-                    return data;
-                }
-                catch (Exception)
-                {
-                }
+            try
+            {
+                var encoder = new BmpBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(image));
+                using MemoryStream ms = new MemoryStream();
+                encoder.Save(ms);
+                data = ms.ToArray();
+
+                return data;
+            }
+            catch
+            {
+                // ignored
             }
 
             return data;

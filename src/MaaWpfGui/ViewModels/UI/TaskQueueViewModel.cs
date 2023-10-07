@@ -937,7 +937,13 @@ namespace MaaWpfGui.ViewModels.UI
         {
             Stopping = true;
             AddLog(LocalizationHelper.GetString("Stopping"));
-            await Task.Run(() => { Instances.AsstProxy.AsstStop(); });
+            await Task.Run(() =>
+            {
+                if (!Instances.AsstProxy.AsstStop())
+                {
+                    _logger.Warning("Failed to stop Asst");
+                }
+            });
 
             int count = 0;
             while (Instances.AsstProxy.AsstRunning() && count <= 600)
@@ -977,7 +983,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _roguelikeInCombatAndShowWait = false;
+        private bool _roguelikeInCombatAndShowWait;
 
         public bool RoguelikeInCombatAndShowWait
         {
@@ -2105,6 +2111,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public bool Waiting
         {
+            // UI 会根据这个值来改变 Visibility
+            // ReSharper disable once UnusedMember.Global
             get => _waiting;
             private set => SetAndNotify(ref _waiting, value);
         }

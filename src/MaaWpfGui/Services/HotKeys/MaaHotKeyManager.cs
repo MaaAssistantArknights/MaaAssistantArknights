@@ -39,7 +39,7 @@ namespace MaaWpfGui.Services.HotKeys
 
         public bool TryRegister(MaaHotKeyAction action, MaaHotKey hotKey)
         {
-            InternalUnregister(action);
+            InternalUnRegister(action);
 
             var hotKeyOwner = _actionHotKeyMapping.FirstOrDefault(x => x.Value != null && x.Value.Equals(hotKey));
 
@@ -70,9 +70,9 @@ namespace MaaWpfGui.Services.HotKeys
             return true;
         }
 
-        public void Unregister(MaaHotKeyAction action)
+        public void UnRegister(MaaHotKeyAction action)
         {
-            InternalUnregister(action);
+            InternalUnRegister(action);
 
             try
             {
@@ -84,7 +84,7 @@ namespace MaaWpfGui.Services.HotKeys
             }
         }
 
-        protected void InternalUnregister(MaaHotKeyAction action)
+        private void InternalUnRegister(MaaHotKeyAction action)
         {
             if (!_actionHotKeyMapping.ContainsKey(action) || _actionHotKeyMapping[action] == null)
             {
@@ -97,7 +97,7 @@ namespace MaaWpfGui.Services.HotKeys
 
         public MaaHotKey GetOrNull(MaaHotKeyAction action)
         {
-            return _actionHotKeyMapping.ContainsKey(action) ? _actionHotKeyMapping[action] : null;
+            return _actionHotKeyMapping.TryGetValue(action, out var value) ? value : null;
         }
 
         private void HotKeyManagerPressed(object sender, KeyPressedEventArgs e)
@@ -108,11 +108,11 @@ namespace MaaWpfGui.Services.HotKeys
 
         private Dictionary<MaaHotKeyAction, MaaHotKey> GetPersistentHotKeys()
         {
-            var hotkeysString = ConfigurationHelper.GetValue(HotKeyConfigName, null);
+            var hotKeysString = ConfigurationHelper.GetValue(HotKeyConfigName, null);
 
-            return hotkeysString is null
+            return hotKeysString is null
                 ? CreateInitialHotKeys()
-                : JsonConvert.DeserializeObject<Dictionary<MaaHotKeyAction, MaaHotKey>>(hotkeysString);
+                : JsonConvert.DeserializeObject<Dictionary<MaaHotKeyAction, MaaHotKey>>(hotKeysString);
         }
 
         private Dictionary<MaaHotKeyAction, MaaHotKey> CreateInitialHotKeys()
