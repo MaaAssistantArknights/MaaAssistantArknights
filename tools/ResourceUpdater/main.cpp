@@ -104,7 +104,6 @@ int main([[maybe_unused]] int argc, char** argv)
     const auto resource_dir = solution_dir / "resource";
 
     /* Update levels.json from ArknightsGameResource*/
-    
     std::cout << "------------Update levels.json------------" << std::endl;
     if (!update_levels_json(arkbot_res_dir / "levels.json", resource_dir / "Arknights-Tile-Pos")) {
         std::cerr << "update levels.json failed" << std::endl;
@@ -120,7 +119,7 @@ int main([[maybe_unused]] int argc, char** argv)
         std::cerr << "Update infrast data failed" << std::endl;
         return -1;
     }
-    
+
     /* Update infrast templates from ArknightsGameResource*/
     std::cout << "------------Update infrast templates------------" << std::endl;
     if (!update_infrast_templates(arkbot_res_dir / "building_skill", resource_dir / "template" / "infrast")) {
@@ -136,7 +135,6 @@ int main([[maybe_unused]] int argc, char** argv)
     // }
 
     /* Update base_name.json from Penguin Stats*/
-
     std::cout << "------------Update stage.json------------" << std::endl;
     if (!update_stages_data(cur_path, resource_dir)) {
         std::cerr << "Update stages data failed" << std::endl;
@@ -149,7 +147,6 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
 
-    
     /* Update overseas data */
     std::cout << "------------Update overseas data------------" << std::endl;
     const std::filesystem::path overseas_data_dir = cur_path;
@@ -178,7 +175,7 @@ int main([[maybe_unused]] int argc, char** argv)
         std::cerr << "Update battle chars info failed" << std::endl;
         return -1;
     }
-    
+
     /* Update recruitment data from overseas data*/
     std::cout << "------------Update recruitment data------------" << std::endl;
     if (!update_recruitment_data(arkbot_res_dir / "gamedata" / "excel", resource_dir / "recruitment.json", true)) {
@@ -207,6 +204,7 @@ int main([[maybe_unused]] int argc, char** argv)
         std::cerr << "Update items data failed" << std::endl;
         return -1;
     }
+
     /* Update items global json from overseas data*/
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update items json for " << out << "------------" << std::endl;
@@ -226,7 +224,6 @@ int main([[maybe_unused]] int argc, char** argv)
     }
 
     std::cout << "------------Update version info------------" << std::endl;
-
     if (!update_version_info(arkbot_res_dir / "gamedata" / "excel", resource_dir)) {
         std::cerr << "Update version info failed" << std::endl;
         return -1;
@@ -773,7 +770,8 @@ bool generate_english_roguelike_stage_name_replacement(const std::filesystem::pa
     return true;
 }
 
-bool update_battle_chars_info(const std::filesystem::path& input_dir, const std::filesystem::path& overseas_dir, const std::filesystem::path& output_dir)
+bool update_battle_chars_info(const std::filesystem::path& input_dir, const std::filesystem::path& overseas_dir,
+                              const std::filesystem::path& output_dir)
 {
     auto chars_cn_opt = json::open(input_dir / "gamedata" / "excel" / "character_table.json");
     auto chars_en_opt = json::open(overseas_dir / "en" / "gamedata" / "excel" / "character_table.json");
@@ -782,16 +780,10 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
     auto chars_tw_opt = json::open(overseas_dir / "tw" / "gamedata" / "excel" / "character_table.json");
 
     auto range_opt = json::open(input_dir / "gamedata" / "excel" / "range_table.json");
-
+    
     if (!chars_cn_opt || !chars_en_opt || !chars_jp_opt || !chars_kr_opt || !chars_tw_opt || !range_opt) {
-        return false;
-    }
-
-    // auto& chars_cn_json = chars_cn_opt.value();
-    // auto& chars_en_json = chars_en_opt.value();
-    // auto& chars_jp_json = chars_jp_opt.value();
-    // auto& chars_kr_json = chars_kr_opt.value();
-    // auto& chars_tw_json = chars_tw_opt.value();
+            return false;
+        }
 
     std::vector<std::pair<json::value, std::string>> chars_json = { { chars_cn_opt.value(), "name" },
                                                                     { chars_en_opt.value(), "name_en" },
@@ -823,7 +815,7 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
     for (auto& [id, char_data] : chars_json[0].first.as_object()) {
         json::value char_new_data;
         char_new_data["name"] = char_data["name"].as_string();
-        
+
         for (int i = 1; i < chars_json.size(); i++) {
             if (auto char_opt = chars_json[i].first.find(id)) {
                 char_new_data[chars_json[i].second] = char_opt->at("name");
@@ -832,25 +824,6 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
                 char_new_data[chars_json[i].second] = char_data["name"].as_string();
             }
         }
-
-        //if (auto char_opt = chars_en_json.find(id)) {
-        //    char_new_data["name_en"] = char_opt->at("name");
-        //}
-        //else {
-        //    char_new_data["name_en"].empty();
-        //}
-        //
-        //if (auto char_opt = chars_jp_json.find(id)) {
-        //    char_new_data["name_jp"] = char_opt->at("name");
-        //}
-
-        //if (auto char_opt = chars_kr_json.find(id)) {
-        //    char_new_data["name_kr"] = char_opt->at("name");
-        //}
-
-        //if (auto char_opt = chars_tw_json.find(id)) {
-        //    char_new_data["name_tw"] = char_opt->at("name");
-        //}
 
         char_new_data["profession"] = char_data["profession"];
         const std::string& default_range = char_data.get("phases", 0, "rangeId", "0-1");
