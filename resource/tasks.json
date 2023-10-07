@@ -3818,7 +3818,8 @@
         "next": [
             "PRTS1",
             "PRTS2",
-            "PRTS3"
+            "PRTS3",
+            "FightMissionFailed"
         ]
     },
     "PRTS1": {
