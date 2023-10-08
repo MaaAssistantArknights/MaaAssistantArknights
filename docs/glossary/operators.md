@@ -4,7 +4,7 @@ char_285_medic2|Lancet-2|Lancet-2|Lancet-2|Lancet-2
 char_286_cast3|Castle-3|Castle-3|Castle-3|Castle-3
 char_376_therex|THRM-EX|THRM-EX|THRM-EX|THRM-EX
 char_4000_jnight|正义骑士号|'Justice Knight'|ジャスティスナイト|저스티스 나이트
-char_4077_palico|泰拉大陆调查团|Terra Research Commission|テラ大陸調査団|
+char_4077_palico|泰拉大陆调查团|Terra Research Commission|テラ大陸調査団|테라 대륙 조사단
 char_4091_ulika|U-Official|U-Official||
 char_4093_frston|Friston-3|Friston-3||
 
@@ -212,7 +212,7 @@ char_1011_lava2|炎狱炎熔|Lava the Purgatory|炎獄ラヴァ|라바 더 퍼�
 char_1021_kroos2|寒芒克洛丝|Kroos the Keen Glint|寒芒クルース|크루스 더 킨 글린트
 char_1024_hbisc2|濯尘芙蓉|Hibiscus the Purifier|濯塵ハイビスカス|히비스커스 더 퓨리파이어
 char_1027_greyy2|承曦格雷伊|Greyy the Lightningbearer|承曦グレイ|그레이 더 라이트닝베어러
-char_1030_noirc2|火龙S黑角|Rathalos S Noir Corne|レウスSノイルホーン|
+char_1030_noirc2|火龙S黑角|Rathalos S Noir Corne|レウスSノイルホーン|레우스S 느와르 코르네
 char_4006_melnte|玫拉|Melanite||
 char_4013_kjera|耶拉|Kjera|イェラ|쉐라
 char_4014_lunacu|子月|Lunacub|ルナカブ|루나컵
@@ -295,7 +295,7 @@ char_1020_reed2|焰影苇草|Reed the Flame Shadow|焔影リード|리드 더 �
 char_1023_ghost2|归溟幽灵鲨|Specter the Unchained|帰溟スペクター|스펙터 디 언체인드
 char_1026_gvial2|百炼嘉维尔|Gavial the Invincible|百錬ガヴィル|가비알 디 인빈서블
 char_1028_texas2|缄默德克萨斯|Texas the Omertosa|血掟テキサス|텍사스 디 오메르토사
-char_1029_yato2|麒麟R夜刀|Kirin R Yato|キリンRヤトウ|
+char_1029_yato2|麒麟R夜刀|Kirin R Yato|キリンRヤトウ|키린R 야토
 char_1031_slent2|淬羽赫默|Silence the Paradigmatic||
 char_1032_excu2|圣约送葬人|Executor the Ex Foedere||
 char_1033_swire2|琳琅诗怀雅|Swire the Elegant Wit||
