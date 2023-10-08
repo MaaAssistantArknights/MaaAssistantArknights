@@ -603,6 +603,8 @@
     <system:String x:Key="RecruitmentOfBot">公招出小车了哦！</system:String>
     <system:String x:Key="Choose">选择</system:String>
     <system:String x:Key="Refreshed">当前槽位已刷新</system:String>
+    <system:String x:Key="continueRefresh">无招聘许可，继续尝试刷新 Tags</system:String>
+    <system:String x:Key="noRecruitPermit">无招聘许可，已返回</system:String>
     <system:String x:Key="NotEnoughStaff">可用干员不足</system:String>
     <system:String x:Key="StageInfoError">关卡识别错误</system:String>
     <system:String x:Key="BattleFormation">开始编队</system:String>
@@ -634,6 +636,7 @@
     <!--  About  -->
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">自动刷新 3 星 Tags</system:String>
+    <system:String x:Key="ForceRefresh">无招聘许可时继续尝试刷新 Tags</system:String>
     <system:String x:Key="AutoUseExpedited">自动使用加急许可*</system:String>
     <system:String x:Key="Level3UseShortTime">3 星设置 7:40 而非 9:00</system:String>
     <system:String x:Key="Level3UseShortTime2">3 星设置 1:00 而非 9:00</system:String>

@@ -53,7 +53,7 @@ namespace MaaWpfGui.Extensions
 
         public static bool IsAprilFoolsDay(this DateTime dt)
         {
-            return dt.Month == 4 && dt.Day == 1;
+            return dt is { Month: 4, Day: 1 };
         }
     }
 }

@@ -149,6 +149,10 @@ namespace asst::battle
     {
         std::string id;
         std::string name;
+        std::string name_en;
+        std::string name_jp;
+        std::string name_kr;
+        std::string name_tw;
         Role role = Role::Unknown;
         std::array<std::string, 3> ranges;
         int rarity = 0;

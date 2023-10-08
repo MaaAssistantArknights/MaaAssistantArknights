@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -14,11 +14,12 @@ using Serilog;
 
 namespace MaaWpfGui.Configuration
 {
-    public class ConfigFactory
+    public static class ConfigFactory
     {
         private static readonly string _configurationFile = Path.Combine(Environment.CurrentDirectory, "config/gui.new.json");
 
         // TODO: write backup method. WIP: https://github.com/Cryolitia/MaaAssistantArknights/tree/config
+        // ReSharper disable once UnusedMember.Local
         private static readonly string _configurationBakFile = Path.Combine(Environment.CurrentDirectory, "config/gui.new.json.bak");
 
         private static readonly ILogger _logger = Log.ForContext<ConfigurationHelper>();
@@ -27,6 +28,7 @@ namespace MaaWpfGui.Configuration
 
         public delegate void ConfigurationUpdateEventHandler(string key, object oldValue, object newValue);
 
+        // ReSharper disable once EventNeverSubscribedTo.Global
         public static event ConfigurationUpdateEventHandler ConfigurationUpdateEvent;
 
         private static readonly JsonSerializerOptions _options = new JsonSerializerOptions {WriteIndented = true, Converters = {new JsonStringEnumConverter()}};
@@ -59,10 +61,7 @@ namespace MaaWpfGui.Configuration
                     parsed = new Root();
                 }
 
-                if (parsed.CurrentConfig is null)
-                {
-                    parsed.CurrentConfig = new SpecificConfig();
-                }
+                parsed.CurrentConfig ??= new SpecificConfig();
 
                 parsed.PropertyChanged += OnPropertyChangedFactory("Configurations.");
                 parsed.Configurations.CollectionChanged += (in NotifyCollectionChangedEventArgs<KeyValuePair<string, SpecificConfig>> args) =>
@@ -84,6 +83,12 @@ namespace MaaWpfGui.Configuration
                             }
 
                             break;
+                        case NotifyCollectionChangedAction.Remove:
+                        case NotifyCollectionChangedAction.Move:
+                        case NotifyCollectionChangedAction.Reset:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
                     }
 
                     OnPropertyChangedFactory("Configurations");
@@ -103,9 +108,9 @@ namespace MaaWpfGui.Configuration
             return (o, args) =>
             {
                 var after = newValue;
-                if (after == null && args is PropertyChangedEventDetailArgs)
+                if (after == null && args is PropertyChangedEventDetailArgs detailArgs)
                 {
-                    after = (args as PropertyChangedEventDetailArgs).NewValue;
+                    after = detailArgs.NewValue;
                 }
 
                 OnPropertyChanged(key + args.PropertyName, oldValue, after);
@@ -117,9 +122,9 @@ namespace MaaWpfGui.Configuration
             return (o, args) =>
             {
                 object after = null;
-                if (args is PropertyChangedEventDetailArgs)
+                if (args is PropertyChangedEventDetailArgs detailArgs)
                 {
-                    after = (args as PropertyChangedEventDetailArgs).NewValue;
+                    after = detailArgs.NewValue;
                 }
 
                 OnPropertyChanged(key + args.PropertyName, null, after);
@@ -130,7 +135,7 @@ namespace MaaWpfGui.Configuration
 
         public static readonly SpecificConfig CurrentConfig = Root.CurrentConfig;
 
-        public static async void OnPropertyChanged(string key, object oldValue, object newValue)
+        private static async void OnPropertyChanged(string key, object oldValue, object newValue)
         {
             var result = await Save();
             if (result)
