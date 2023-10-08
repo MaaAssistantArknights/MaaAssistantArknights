@@ -44,7 +44,7 @@ namespace MaaWpfGui.ViewModels.UI
     /// <summary>
     /// The view model of task queue.
     /// </summary>
-    // 通过 container.Get<TaskQueueViewModel>(); 实例化或获取实例，需要添加 qodana ignore rule
+    // 通过 container.Get<TaskQueueViewModel>(); 实例化或获取实例
     // ReSharper disable once ClassNeverInstantiated.Global
     public class TaskQueueViewModel : Screen
     {
@@ -69,7 +69,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// 实时更新任务顺序
         /// </summary>
-        // 这个不能设置为 private，xaml 中绑定了Action，需要添加 qodana ignore rule
+        // UI 绑定的方法
         // ReSharper disable once MemberCanBePrivate.Global
         public void TaskItemSelectionChanged()
         {
@@ -236,7 +236,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (NeedToCheckForUpdates())
             {
-                if (Instances.SettingsViewModel.UpdatAutoCheck)
+                if (Instances.SettingsViewModel.UpdateAutoCheck)
                 {
                     // 随机延迟，防止同时更新
                     var delayTime = new Random().Next(0, 60 * 60 * 1000);
@@ -422,7 +422,7 @@ namespace MaaWpfGui.ViewModels.UI
             UpdateStageList(true);
             RefreshCustomInfrastPlan();
 
-            if (DateTime.UtcNow.ToYJDate().IsAprilFoolsDay())
+            if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())
             {
                 AddLog(LocalizationHelper.GetString("BuyWineOnAprilFoolsDay"), UiLogColor.Info);
             }
@@ -501,7 +501,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private bool NeedToUpdateDatePrompt()
         {
-            var now = DateTime.UtcNow.ToYJDateTime();
+            var now = DateTime.UtcNow.ToYjDateTime();
             var hour = now.Hour;
             var min = now.Minute;
 
@@ -522,7 +522,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static bool NeedToCheckForUpdates()
         {
-            var now = DateTime.UtcNow.ToYJDateTime();
+            var now = DateTime.UtcNow.ToYjDateTime();
             var hour = now.Hour;
             var min = now.Minute;
 
@@ -605,7 +605,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Selects all.
         /// </summary>
-        // xaml 中的按钮绑定的 Action 是这个函数，需要添加 qodana ignore rule
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void SelectedAll()
         {
@@ -696,7 +696,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Changes inversion mode.
         /// </summary>
-        // xaml 中的按钮绑定的 Action 是这个函数，需要添加 qodana ignore rule
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void ChangeInverseMode()
         {
@@ -706,7 +706,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Selects inversely.
         /// </summary>
-        // xaml 中的按钮绑定的 Action 是这个函数，需要添加 qodana ignore rule
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void InverseSelected()
         {
@@ -757,12 +757,12 @@ namespace MaaWpfGui.ViewModels.UI
                 connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
             }
 
-            // 尝试重启adb
-            if (!connected && Instances.SettingsViewModel.AllowADBRestart)
+            // 尝试重启 ADB
+            if (!connected && Instances.SettingsViewModel.AllowAdbRestart)
             {
-                AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("RestartADB"));
+                AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("RestartAdb"));
 
-                await Task.Run(() => Instances.SettingsViewModel.RestartADB());
+                await Task.Run(() => Instances.SettingsViewModel.RestartAdb());
 
                 if (Stopping)
                 {
@@ -773,12 +773,12 @@ namespace MaaWpfGui.ViewModels.UI
                 connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
             }
 
-            // 尝试杀掉adb进程
-            if (!connected && Instances.SettingsViewModel.AllowADBHardRestart)
+            // 尝试杀掉 ADB 进程
+            if (!connected && Instances.SettingsViewModel.AllowAdbHardRestart)
             {
-                AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("HardRestartADB"));
+                AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("HardRestartAdb"));
 
-                await Task.Run(() => Instances.SettingsViewModel.HardRestartADB());
+                await Task.Run(() => Instances.SettingsViewModel.HardRestartAdb());
 
                 if (Stopping)
                 {
@@ -937,7 +937,13 @@ namespace MaaWpfGui.ViewModels.UI
         {
             Stopping = true;
             AddLog(LocalizationHelper.GetString("Stopping"));
-            await Task.Run(Instances.AsstProxy.AsstStop);
+            await Task.Run(() =>
+            {
+                if (!Instances.AsstProxy.AsstStop())
+                {
+                    _logger.Warning("Failed to stop Asst");
+                }
+            });
 
             int count = 0;
             while (Instances.AsstProxy.AsstRunning() && count <= 600)
@@ -947,6 +953,44 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
+        public async void WaitAndStop()
+        {
+            Waiting = true;
+            AddLog(LocalizationHelper.GetString("Waiting"));
+            if (Instances.SettingsViewModel.RoguelikeDelayAbortUntilCombatComplete)
+            {
+                await WaitUntilRoguelikeCombatComplete();
+            }
+
+            if (!Stopping)
+            {
+                await Stop();
+            }
+        }
+
+        /// <summary>
+        /// 等待肉鸽战斗结束，10分钟强制退出
+        /// </summary>
+        private async Task WaitUntilRoguelikeCombatComplete()
+        {
+            int time = 0;
+            while (Instances.SettingsViewModel.RoguelikeDelayAbortUntilCombatComplete && RoguelikeInCombatAndShowWait && time < 600 && !Stopping)
+            {
+                await Task.Delay(1000);
+                ++time;
+            }
+        }
+
+        private bool _roguelikeInCombatAndShowWait;
+
+        public bool RoguelikeInCombatAndShowWait
+        {
+            get => _roguelikeInCombatAndShowWait;
+            set => SetAndNotify(ref _roguelikeInCombatAndShowWait, value);
+        }
+
         public void SetStopped()
         {
             if (!_runningState.GetIdle() || Stopping)
@@ -954,6 +998,7 @@ namespace MaaWpfGui.ViewModels.UI
                 AddLog(LocalizationHelper.GetString("Stopped"));
             }
 
+            Waiting = false;
             Stopping = false;
             _runningState.SetIdle(true);
         }
@@ -1242,7 +1287,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             return Instances.AsstProxy.AsstAppendRoguelike(
                 mode, Instances.SettingsViewModel.RoguelikeStartsCount,
-                Instances.SettingsViewModel.RoguelikeInvestmentEnabled, Instances.SettingsViewModel.RoguelikeInvestsCount, Instances.SettingsViewModel.RoguelikeStopWhenInvestmentFull,
+                Instances.SettingsViewModel.RoguelikeInvestmentEnabled, Instances.SettingsViewModel.RoguelikeInvestmentEnterSecondFloor, Instances.SettingsViewModel.RoguelikeInvestsCount, Instances.SettingsViewModel.RoguelikeStopWhenInvestmentFull,
                 Instances.SettingsViewModel.RoguelikeSquad, Instances.SettingsViewModel.RoguelikeRoles, Instances.SettingsViewModel.RoguelikeCoreChar,
                 Instances.SettingsViewModel.RoguelikeStartWithEliteTwo, Instances.SettingsViewModel.RoguelikeUseSupportUnit,
                 Instances.SettingsViewModel.RoguelikeEnableNonfriendSupport, Instances.SettingsViewModel.RoguelikeTheme, Instances.SettingsViewModel.RoguelikeRefreshTraderWithDice);
@@ -2027,7 +2072,7 @@ namespace MaaWpfGui.ViewModels.UI
             NotifyOfPropertyChange(nameof(Inited));
         }
 
-        private bool _idle = true;
+        private bool _idle;
 
         /// <summary>
         /// Gets or sets a value indicating whether it is idle.
@@ -2057,6 +2102,19 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get => _stopping;
             private set => SetAndNotify(ref _stopping, value);
+        }
+
+        private bool _waiting;
+
+        /// <summary>
+        /// Gets a value indicating whether waiting for roguelike combat complete.
+        /// </summary>
+        public bool Waiting
+        {
+            // UI 会根据这个值来改变 Visibility
+            // ReSharper disable once UnusedMember.Global
+            get => _waiting;
+            private set => SetAndNotify(ref _waiting, value);
         }
 
         private bool _fightTaskRunning;
@@ -2910,7 +2968,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        // xaml 中绑定了 DropDownClosed 事件，需要添加 qodana ignore rule
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void DropsListDropDownClosed()
         {
@@ -2955,7 +3013,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event args</param>
-        // xaml 中绑定了 Loaded 事件，需要添加 qodana ignore rule
+        // UI 绑定的方法
         // EventArgs 不能省略，否则会报错
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable once UnusedParameter.Global

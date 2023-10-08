@@ -22,6 +22,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.States;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stylet;
@@ -33,12 +34,45 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class RecognizerViewModel : Screen
     {
+        private readonly RunningState _runningState;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RecognizerViewModel"/> class.
         /// </summary>
         public RecognizerViewModel()
         {
             DisplayName = LocalizationHelper.GetString("Toolbox");
+            _runningState = RunningState.Instance;
+            _runningState.IdleChanged += RunningState_IdleChanged;
+        }
+
+        private void RunningState_IdleChanged(object sender, bool e)
+        {
+            Idle = e;
+        }
+
+        private bool _idle;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether it is idle.
+        /// </summary>
+        public bool Idle
+        {
+            get => _idle;
+            set
+            {
+                SetAndNotify(ref _idle, value);
+
+                if (!value)
+                {
+                    return;
+                }
+
+                // 识别完成、主界面暂停或者连接出错时
+                GachaDone = true;
+                DepotDone = true;
+                OperBoxDone = true;
+            }
         }
 
         private static string PadRightEx(string str, int totalByteCount)
@@ -194,7 +228,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Starts calculation.
         /// </summary>
-        // xaml 中绑定了 action
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public async void RecruitStartCalc()
         {
@@ -393,7 +427,14 @@ namespace MaaWpfGui.ViewModels.UI
         public bool DepotDone
         {
             get => _depotDone;
-            set => SetAndNotify(ref _depotDone, value);
+            set
+            {
+                SetAndNotify(ref _depotDone, value);
+                if (value)
+                {
+                    _runningState.SetIdle(true);
+                }
+            }
         }
 
         /// <summary>
@@ -433,12 +474,14 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public async void StartDepot()
         {
+            _runningState.SetIdle(false);
             string errMsg = string.Empty;
             DepotInfo = LocalizationHelper.GetString("ConnectingToEmulator");
             bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
             if (!caught)
             {
                 DepotInfo = errMsg;
+                _runningState.SetIdle(true);
                 return;
             }
 
@@ -494,7 +537,14 @@ namespace MaaWpfGui.ViewModels.UI
         public bool OperBoxDone
         {
             get => _operBoxDone;
-            set => SetAndNotify(ref _operBoxDone, value);
+            set
+            {
+                SetAndNotify(ref _operBoxDone, value);
+                if (value)
+                {
+                    _runningState.SetIdle(true);
+                }
+            }
         }
 
         public string OperBoxExportData { get; set; } = string.Empty;
@@ -629,6 +679,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             OperBoxExportData = string.Empty;
             OperBoxDone = false;
+            _runningState.SetIdle(false);
 
             string errMsg = string.Empty;
             OperBoxInfo = LocalizationHelper.GetString("ConnectingToEmulator");
@@ -636,6 +687,7 @@ namespace MaaWpfGui.ViewModels.UI
             if (!caught)
             {
                 OperBoxInfo = errMsg;
+                _runningState.SetIdle(true);
                 return;
             }
 
@@ -671,6 +723,10 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 bool stop = value && !_gachaDone;
                 SetAndNotify(ref _gachaDone, value);
+                if (value)
+                {
+                    _runningState.SetIdle(true);
+                }
 
                 if (!stop)
                 {
@@ -710,6 +766,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             GachaDone = false;
             GachaImage = null;
+            _runningState.SetIdle(false);
 
             string errMsg = string.Empty;
             GachaInfo = LocalizationHelper.GetString("ConnectingToEmulator");
@@ -717,6 +774,7 @@ namespace MaaWpfGui.ViewModels.UI
             if (!caught)
             {
                 GachaInfo = errMsg;
+                _runningState.SetIdle(true);
                 return;
             }
 

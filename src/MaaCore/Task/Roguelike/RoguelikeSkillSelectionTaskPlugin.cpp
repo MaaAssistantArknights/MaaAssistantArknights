@@ -4,9 +4,8 @@
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Status.h"
-#include "Vision/Roguelike/RoguelikeSkillSelectionImageAnalyzer.h"
-
 #include "Utils/Logger.hpp"
+#include "Vision/Roguelike/RoguelikeSkillSelectionImageAnalyzer.h"
 
 bool asst::RoguelikeSkillSelectionTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -14,12 +13,11 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::verify(AsstMsg msg, const json::va
         return false;
     }
 
-    auto roguelike_name_opt = status()->get_properties(Status::RoguelikeTheme);
-    if (!roguelike_name_opt) {
+    if (m_roguelike_theme.empty()) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
-    const std::string roguelike_name = std::move(roguelike_name_opt.value()) + "@";
+    const std::string roguelike_name = m_roguelike_theme + "@";
     const std::string& task = details.get("details", "task", "");
     std::string_view task_view = task;
     if (task_view.starts_with(roguelike_name)) {
@@ -47,8 +45,7 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
     int delay = Task.get("RoguelikeSkillSelectionMove1")->post_delay;
     bool has_rookie = false;
     for (const auto& [name, skill_vec] : analyzer.get_result()) {
-        const auto& oper_info =
-            RoguelikeRecruit.get_oper_info(status()->get_properties(Status::RoguelikeTheme).value(), name);
+        const auto& oper_info = RoguelikeRecruit.get_oper_info(m_roguelike_theme, name);
         if (oper_info.name.empty()) {
             Log.warn("Unknown oper", name);
             continue;

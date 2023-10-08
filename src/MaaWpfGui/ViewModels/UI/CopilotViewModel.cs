@@ -43,6 +43,7 @@ namespace MaaWpfGui.ViewModels.UI
     public class CopilotViewModel : Screen
     {
         private readonly RunningState _runningState;
+        private static readonly ILogger _logger = Log.ForContext<CopilotViewModel>();
 
         /// <summary>
         /// Gets the view models of log items.
@@ -101,7 +102,7 @@ namespace MaaWpfGui.ViewModels.UI
             // LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
         }
 
-        private bool _idle = true;
+        private bool _idle;
 
         /// <summary>
         /// Gets or sets a value indicating whether it is idle.
@@ -224,7 +225,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             try
             {
-                var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri($"https://prts.maa.plus/copilot/get/{copilotId}"));
+                var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri(MaaUrls.PrtsPlusCopilotGet + copilotId));
                 var json = (JObject)JsonConvert.DeserializeObject(jsonResponse);
                 if (json != null && json.ContainsKey("status_code") && json["status_code"]?.ToString() == "200")
                 {
@@ -255,20 +256,35 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
-                var doc = (JObject)json["doc"];
+                AddLog(LocalizationHelper.GetString("CopilotTip"));
 
+                var doc = (JObject)json["doc"];
                 string title = string.Empty;
                 if (doc != null && doc.TryGetValue("title", out var titleValue))
                 {
                     title = titleValue.ToString();
 
-                    // 为自动作战列表匹配名字
-                    var linkParser = new Regex(@"([a-z]{0,3})(\d{0,2})-(EX-)?(\d{1,2})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-                    foreach (Match match in linkParser.Matches(title))
+
+                    do
                     {
-                        CopilotTaskName = match.Value;
-                        break;
+                        // 为自动作战列表匹配名字
+                        var stageNameParser = new Regex(@"([a-z]{0,3})(\d{0,2})-(EX-)?(\d{1,2})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                        var stageNameResult = stageNameParser.Matches(title);
+                        if (stageNameResult.Count > 0)
+                        {
+                            CopilotTaskName = stageNameResult[0].Value;
+                            break;
+                        }
+
+                        if (!IsDataFromWeb && (stageNameResult = stageNameParser.Matches(_filename)).Count > 0)
+                        {
+                            CopilotTaskName = stageNameResult[0].Value;
+                            break;
+                        }
+
+                        CopilotTaskName = string.Empty;
                     }
+                    while (false);
                 }
 
                 if (title.Length != 0)
@@ -299,10 +315,10 @@ namespace MaaWpfGui.ViewModels.UI
                     AddLog(details, detailsColor);
                     {
                         Url = CopilotUiUrl;
-                        var linkParser = new Regex(@"AV\d+|(BV.*?).{10}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                        var linkParser = new Regex(@"(?:av\d+|bv[a-z0-9]{10})(?:\/\?p=\d+)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                         foreach (Match match in linkParser.Matches(details))
                         {
-                            Url = "https://www.bilibili.com/video/" + match.Value;
+                            Url = MaaUrls.BilibiliVideo + match.Value;
                             break;
                         }
 
@@ -374,8 +390,6 @@ namespace MaaWpfGui.ViewModels.UI
                     File.Delete(TempCopilotFile);
                     File.WriteAllText(TempCopilotFile, json.ToString());
                 }
-
-                AddLog(LocalizationHelper.GetString("CopilotTip"));
             }
             catch (Exception)
             {
@@ -521,7 +535,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _userAdditional = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotUserAdditional, "W,2;Friston-3,1");
+        private string _userAdditional = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotUserAdditional, string.Empty);
 
         /// <summary>
         /// Gets or sets a value indicating whether to use auto-formation.
@@ -539,7 +553,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets a value indicating whether to use auto-formation.
         /// </summary>
-        private bool _useCopilotList = false;
+        private bool _useCopilotList;
 
         public bool UseCopilotList
         {
@@ -572,7 +586,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private const string CopilotJsonDir = "cache/copilot";
 
-        //UI 绑定的方法
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void AddCopilotTask()
         {
@@ -583,7 +597,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        //UI 绑定的方法
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void AddCopilotTask_Adverse()
         {
@@ -645,7 +659,7 @@ namespace MaaWpfGui.ViewModels.UI
             ConfigurationHelper.SetValue(ConfigurationKeys.CopilotTaskList, JsonConvert.SerializeObject(jArray));
         }
 
-        //UI 绑定的方法
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void DeleteCopilotTask(int index)
         {
@@ -653,7 +667,7 @@ namespace MaaWpfGui.ViewModels.UI
             CopilotItemIndexChanged();
         }
 
-        //UI 绑定的方法
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void CleanUnableCopilotTask()
         {
@@ -665,7 +679,7 @@ namespace MaaWpfGui.ViewModels.UI
             CopilotItemIndexChanged();
         }
 
-        //UI 绑定的方法
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void ClearCopilotTask()
         {
@@ -695,7 +709,9 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// 更新任务顺序
         /// </summary>
-        private void CopilotItemIndexChanged()
+        // UI 绑定的方法
+        // ReSharper disable once MemberCanBePrivate.Global
+        public void CopilotItemIndexChanged()
         {
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
@@ -727,7 +743,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Starts copilot.
         /// </summary>
-        // xaml 中绑定了 action
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public async void Start()
         {
@@ -792,7 +808,11 @@ namespace MaaWpfGui.ViewModels.UI
                 if (!startAny)
                 {
                     // 一个都没启动，怎会有如此无聊之人
-                    Instances.AsstProxy.AsstStop();
+                    if (!Instances.AsstProxy.AsstStop())
+                    {
+                        _logger.Warning("Failed to stop Asst");
+                    }
+
                     _runningState.SetIdle(true);
                     return;
                 }
@@ -808,7 +828,11 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else
             {
-                Instances.AsstProxy.AsstStop();
+                if (!Instances.AsstProxy.AsstStop())
+                {
+                    _logger.Warning("Failed to stop Asst");
+                }
+
                 _runningState.SetIdle(true);
                 AddLog(LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error);
             }
@@ -822,17 +846,20 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Stops copilot.
         /// </summary>
-        // xaml 中绑定了 action
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void Stop()
         {
-            Instances.AsstProxy.AsstStop();
+            if (!Instances.AsstProxy.AsstStop())
+            {
+                _logger.Warning("Failed to stop Asst");
+            }
+
             _runningState.SetIdle(true);
         }
 
         private bool _isVideoTask;
 
-        private const string CopilotRatingUrl = "https://prts.maa.plus/copilot/rating";
         private readonly List<int> _recentlyRatedCopilotId = new List<int>(); // TODO: 可能考虑加个持久化
 
         private bool _couldLikeWebJson;
@@ -903,7 +930,7 @@ namespace MaaWpfGui.ViewModels.UI
                 rating,
             });
             */
-            var response = await Instances.HttpService.PostAsJsonAsync(new Uri(CopilotRatingUrl), new { id = CopilotId, rating });
+            var response = await Instances.HttpService.PostAsJsonAsync(new Uri(MaaUrls.PrtsPlusCopilotRating), new { id = CopilotId, rating });
             if (response == null)
             {
                 AddLog(LocalizationHelper.GetString("FailedToLikeWebJson"), UiLogColor.Error);

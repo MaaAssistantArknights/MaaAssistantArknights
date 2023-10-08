@@ -3,8 +3,8 @@
 #include <utility>
 
 #include "Config/GeneralConfig.h"
-#include "Task/Miscellaneous/StartGameTaskPlugin.h"
 #include "Task/Miscellaneous/AccountSwitchTask.h"
+#include "Task/Miscellaneous/StartGameTaskPlugin.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 
@@ -17,7 +17,7 @@ asst::StartUpTask::StartUpTask(const AsstCallback& callback, Assistant* inst)
     LogTraceFunction;
 
     m_start_up_task_ptr->set_tasks({ "StartUpBegin" })
-        .set_times_limit("ReturnTo", 0)
+        .set_times_limit("BlackReturn", 0)
         .set_task_delay(Config.get_options().task_delay * 2)
         .set_retry_times(30);
     m_account_switch_task_ptr->set_retry_times(0);

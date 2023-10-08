@@ -9,6 +9,7 @@ AccountManagerTrashButton.png
 AccountManagerTrashButtonBili.png
 AddOperatorMfgGentle.png
 AddOperatorTradeGentle.png
+AdverseDifficulty.png
 BattleFormationOCRNameFlag.png
 BattleHpFlag.png
 BattleHpFlag2.png
@@ -112,6 +113,8 @@ Loading2.png
 LoadingIcon.png
 Logout.png
 LogoutConfirm.png
+Mail.png
+MailWithoutAward.png
 MedicineConfirm.png
 MiningActivityDiggingEnd.png
 Mizuki@Roguelike@Abandon.png
@@ -125,7 +128,7 @@ Mizuki@Roguelike@GetDropCompleted.png
 Mizuki@Roguelike@InitalDrop.png
 Mizuki@Roguelike@LastRewardRand.png
 Mizuki@Roguelike@StageBoons.png
-Mizuki@Roguelike@StageCambatDps.png
+Mizuki@Roguelike@StageCombatDps.png
 Mizuki@Roguelike@StageDreadfulFoe-5.png
 Mizuki@Roguelike@StageDreadfulFoe.png
 Mizuki@Roguelike@StageEmergencyDps.png
@@ -141,6 +144,7 @@ Mizuki@Roguelike@StageSafeHouse.png
 Mizuki@Roguelike@StageTrader.png
 Mizuki@Roguelike@StageVerticalConfirm.png
 Mizuki@Roguelike@StageWindAndRain.png
+NormalDifficulty.png
 OF-Chapter2.png
 OfflineConfirm.png
 OperBoxFlagElite1.png
@@ -169,7 +173,7 @@ Phantom@Roguelike@InitalDrop.png
 Phantom@Roguelike@LastRewardRand.png
 Phantom@Roguelike@MissionFailedFlag.png
 Phantom@Roguelike@StageBoons.png
-Phantom@Roguelike@StageCambatDps.png
+Phantom@Roguelike@StageCombatDps.png
 Phantom@Roguelike@StageDreadfulFoe.png
 Phantom@Roguelike@StageEmergencyDps.png
 Phantom@Roguelike@StageEncounter.png
@@ -202,6 +206,7 @@ RecruitSkip.png
 RecruitTimerDecrement.png
 ReplenishToMaxConfirm.png
 Return.png
+Return-White.png
 Roguelike@AbandonConfirm.png
 Roguelike@DialogSkip.png
 Roguelike@DialogSkipConfirm.png
@@ -245,8 +250,8 @@ Sami@Roguelike@StageBoons.png
 Sami@Roguelike@StageBoonsAI6.png
 Sami@Roguelike@StageBoskyPassage.png
 Sami@Roguelike@StageBoskyPassageAI6.png
-Sami@Roguelike@StageCambatDps.png
-Sami@Roguelike@StageCambatDpsAI6.png
+Sami@Roguelike@StageCombatDps.png
+Sami@Roguelike@StageCombatDpsAI6.png
 Sami@Roguelike@StageDreadfulFoe.png
 Sami@Roguelike@StageDreadfulFoe-5.png
 Sami@Roguelike@StageEmergencyDps.png
@@ -274,8 +279,8 @@ Sami@Roguelike@StageVerticalBoons.png
 Sami@Roguelike@StageVerticalBoonsAI6.png
 Sami@Roguelike@StageVerticalBoskyPassage.png
 Sami@Roguelike@StageVerticalBoskyPassageAI6.png
-Sami@Roguelike@StageVerticalCambatDps.png
-Sami@Roguelike@StageVerticalCambatDpsAI6.png
+Sami@Roguelike@StageVerticalCombatDps.png
+Sami@Roguelike@StageVerticalCombatDpsAI6.png
 Sami@Roguelike@StageVerticalEmergencyDps.png
 Sami@Roguelike@StageVerticalEmergencyDpsAI6.png
 Sami@Roguelike@StageVerticalEmergencyTransportation.png
@@ -300,6 +305,7 @@ SelectClue.png
 SendClueConfirm.png
 SendClues.png
 Settings.png
+SkipForbiddenOperConfirm.png
 SkipThePreBattlePlotConfirm.png
 SmileyOnDistract.png
 SmileyOnRest.png
@@ -322,6 +328,7 @@ StageCE6.png
 StageDrops-Difficulty-Normal.png
 StageDrops-Difficulty-Normal2.png
 StageDrops-Difficulty-Tough.png
+StageDrops-Stars-Adverse.png
 StageDrops-Stars-2.png
 StageDrops-Stars-3.png
 StageDrops-Tough.png
