@@ -61,8 +61,8 @@ namespace MaaWpfGui.Models
         {
             _updating = false;
 
-            var ret1 = await UpdateSingleFiles();
             var ret2 = await UpdateFilesWithIndex();
+            var ret1 = await UpdateSingleFiles();
             ETagCache.Save();
 
             if (ret1 == UpdateResult.Failed || ret2 == UpdateResult.Failed)
