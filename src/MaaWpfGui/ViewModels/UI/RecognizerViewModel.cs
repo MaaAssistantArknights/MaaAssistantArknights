@@ -362,7 +362,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>Success or not</returns>
         public bool DepotParse(JObject details)
         {
-            if (details == null) { return false; }
+            if (details == null)
+            {
+                return false;
+            }
+
             DepotResult.Clear();
             foreach (var item in details["arkplanner"]?["object"]?["items"]?.Cast<JObject>()!)
             {

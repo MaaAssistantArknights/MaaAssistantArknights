@@ -773,25 +773,24 @@ bool generate_english_roguelike_stage_name_replacement(const std::filesystem::pa
 bool update_battle_chars_info(const std::filesystem::path& input_dir, const std::filesystem::path& overseas_dir,
                               const std::filesystem::path& output_dir)
 {
+    auto range_opt = json::open(input_dir / "gamedata" / "excel" / "range_table.json");
     auto chars_cn_opt = json::open(input_dir / "gamedata" / "excel" / "character_table.json");
     auto chars_en_opt = json::open(overseas_dir / "en" / "gamedata" / "excel" / "character_table.json");
     auto chars_jp_opt = json::open(overseas_dir / "jp" / "gamedata" / "excel" / "character_table.json");
     auto chars_kr_opt = json::open(overseas_dir / "kr" / "gamedata" / "excel" / "character_table.json");
     auto chars_tw_opt = json::open(overseas_dir / "tw" / "gamedata" / "excel" / "character_table.json");
 
-    auto range_opt = json::open(input_dir / "gamedata" / "excel" / "range_table.json");
-    
     if (!chars_cn_opt || !chars_en_opt || !chars_jp_opt || !chars_kr_opt || !chars_tw_opt || !range_opt) {
-            return false;
-        }
+        return false;
+    }
+
+    auto& range_json = range_opt.value();
 
     std::vector<std::pair<json::value, std::string>> chars_json = { { chars_cn_opt.value(), "name" },
                                                                     { chars_en_opt.value(), "name_en" },
                                                                     { chars_jp_opt.value(), "name_jp" },
                                                                     { chars_kr_opt.value(), "name_kr" },
                                                                     { chars_tw_opt.value(), "name_tw" } };
-
-    auto& range_json = range_opt.value();
 
     json::value result;
     auto& range = result["ranges"].as_object();

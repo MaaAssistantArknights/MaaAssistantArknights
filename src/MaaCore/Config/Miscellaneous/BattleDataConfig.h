@@ -24,41 +24,13 @@ namespace asst
             return iter->second.id;
         }
 
-        const std::string get_en(const std::string& name) const
-        { 
-            auto iter = m_chars.find(name);
-            if (iter == m_chars.cend()) {
-                return "";
-            }
-            return iter->second.name_en;
-        }
+        const std::string get_en(const std::string& name) const { return m_chars.find(name)->second.name_en; }
 
-        const std::string get_jp(const std::string& name) const
-        {
-            auto iter = m_chars.find(name);
-            if (iter == m_chars.cend()) {
-                return "";
-            }
-            return iter->second.name_jp;
-        }
+        const std::string get_jp(const std::string& name) const { return m_chars.find(name)->second.name_jp; }
 
-        const std::string get_kr(const std::string& name) const
-        {
-            auto iter = m_chars.find(name);
-            if (iter == m_chars.cend()) {
-                return "";
-            }
-            return iter->second.name_kr;
-        }
+        const std::string get_kr(const std::string& name) const { return m_chars.find(name)->second.name_kr; }
 
-        const std::string get_tw(const std::string& name) const
-        {
-            auto iter = m_chars.find(name);
-            if (iter == m_chars.cend()) {
-                return "";
-            }
-            return iter->second.name_tw;
-        }
+        const std::string get_tw(const std::string& name) const { return m_chars.find(name)->second.name_tw; }
 
         battle::Role get_role(const std::string& name) const
         {
