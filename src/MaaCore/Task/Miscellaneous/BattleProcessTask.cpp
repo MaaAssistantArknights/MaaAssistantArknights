@@ -390,7 +390,7 @@ bool asst::BattleProcessTask::check_in_battle(const cv::Mat& reusable, bool weak
         BattlefieldMatcher analyzer(image);
         auto result = analyzer.analyze();
         m_in_battle = result.has_value();
-        if (m_in_battle && !(*result).pause_button) {
+        if (m_in_battle && !result->pause_button) {
             if (check_skip_plot_button(image)) {
                 speed_up();
             }
