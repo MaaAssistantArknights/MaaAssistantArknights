@@ -2497,6 +2497,9 @@
             "Unable to receive new Clues"
         ]
     },
+    "UnlockClues": {
+        "templThreshold": 0.85
+    },
     "BattleStageName": {
         "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
         "ocrReplace": [
