@@ -623,13 +623,18 @@ namespace MaaWpfGui.Main
                         {
                             if (taskId == (_latestTaskId.TryGetValue(TaskType.Copilot, out var copilotTaskId) ? copilotTaskId : 0)
                                 || taskId == (_latestTaskId.TryGetValue(TaskType.RecruitCalc, out var recruitCalcTaskId) ? recruitCalcTaskId : 0)
-                                || taskId == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0)
                                 || taskId == (_latestTaskId.TryGetValue(TaskType.Depot, out var depotTaskId) ? depotTaskId : 0)
                                 || taskId == (_latestTaskId.TryGetValue(TaskType.OperBox, out var operBoxTaskId) ? operBoxTaskId : 0)
                                 || taskId == (_latestTaskId.TryGetValue(TaskType.Gacha, out var gachaTaskId) ? gachaTaskId : 0))
                             {
                                 isMainTaskQueueAllCompleted = false;
                                 break;
+                            }
+
+                            if (taskList.Count == 1 && taskId == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0))
+                            {
+                                // 仅有一个CloseDown任务时，不执行完成后
+                                isMainTaskQueueAllCompleted = false;
                             }
                         }
                     }
