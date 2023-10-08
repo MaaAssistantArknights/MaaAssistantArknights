@@ -3312,6 +3312,48 @@
             "StartUpConnectingFlag@LoadingIcon"
         ]
     },
+	"StartAtHome": {
+		"baseTask": "Home",
+		"action": "DoNothing",
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png"
+        ],
+		"next": [
+			"Home",
+			"StartUpBegin"
+		],
+		"postDelay_Doc": "等待以防万一（StartUp还有双倍的任务延迟等待，默认0.5s x2",
+		"postDelay": 1000
+	},
+    "StartWithSanity": {
+        "roi": [
+            700,
+            130,
+            140,
+            120
+        ],
+        "maskRange": [
+            100,
+            255
+        ],
+        "next": [
+            "CloseHomeSanity"
+        ]
+    },
+    "CloseHomeSanity": {
+        "action": "ClickSelf",
+        "roi": [
+            750,
+            610,
+            140,
+            70
+        ],
+        "next": [
+            "Home"
+        ]
+    },
     "StartUp": {
         "template": [
             "Terminal.png",
