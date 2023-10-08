@@ -38,6 +38,11 @@
                 IsChecked="{Binding RefreshLevel3}" />
             <CheckBox
                 Margin="0,10"
+                Content="{DynamicResource ForceRefresh}"
+                IsChecked="{Binding ForceRefresh}"
+                IsEnabled="{c:Binding RefreshLevel3}" />
+            <CheckBox
+                Margin="0,10"
                 HorizontalAlignment="Left"
                 IsChecked="{Binding IsLevel3UseShortTime}"
                 ToolTip="{DynamicResource Level3UseShortTimeTip}">
