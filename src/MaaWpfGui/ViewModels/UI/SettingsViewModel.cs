@@ -37,6 +37,7 @@ using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Notification;
+using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
@@ -100,6 +101,7 @@ namespace MaaWpfGui.ViewModels.UI
             _listTitle.Add(LocalizationHelper.GetString("GameSettings"));
             _listTitle.Add(LocalizationHelper.GetString("ConnectionSettings"));
             _listTitle.Add(LocalizationHelper.GetString("StartupSettings"));
+            _listTitle.Add(LocalizationHelper.GetString("RemoteControlSettings"));
             _listTitle.Add(LocalizationHelper.GetString("UiSettings"));
             _listTitle.Add(LocalizationHelper.GetString("ExternalNotificationSettings"));
             _listTitle.Add(LocalizationHelper.GetString("HotKeySettings"));
@@ -143,6 +145,69 @@ namespace MaaWpfGui.ViewModels.UI
                 ConnectAddressHistory = JsonConvert.DeserializeObject<ObservableCollection<string>>(addressListJson);
             }
         }
+
+        #region Remote Control
+
+        public async void RemoteControlConnectionTest()
+        {
+            await RemoteControlService.ConnectionTest();
+        }
+
+        public void RemoteControlRegenerateDeviceIdentity()
+        {
+            RemoteControlService.RegenerateDeviceIdentity();
+        }
+
+        private string _remoteControlGetTaskEndpointUri = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlGetTaskEndpointUri, string.Empty);
+
+        public string RemoteControlGetTaskEndpointUri
+        {
+            get => _remoteControlGetTaskEndpointUri;
+            set
+            {
+                SetAndNotify(ref _remoteControlGetTaskEndpointUri, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlGetTaskEndpointUri, value);
+            }
+        }
+
+        private string _remoteControlReportStatusUri = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlReportStatusUri, string.Empty);
+
+        public string RemoteControlReportStatusUri
+        {
+            get => _remoteControlReportStatusUri;
+            set
+            {
+                SetAndNotify(ref _remoteControlReportStatusUri, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlReportStatusUri, value);
+            }
+        }
+
+        private string _remoteControlUserIdentity = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlUserIdentity, string.Empty);
+
+        public string RemoteControlUserIdentity
+        {
+            get => _remoteControlUserIdentity;
+            set
+            {
+                SetAndNotify(ref _remoteControlUserIdentity, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlUserIdentity, value);
+            }
+        }
+
+
+        private string _remoteControlDeviceIdentity = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlDeviceIdentity, string.Empty);
+
+        public string RemoteControlDeviceIdentity
+        {
+            get => _remoteControlDeviceIdentity;
+            set
+            {
+                SetAndNotify(ref _remoteControlDeviceIdentity, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlDeviceIdentity, value);
+            }
+        }
+
+        #endregion
 
         #region External Notifications
 
