@@ -392,6 +392,18 @@ bool asst::BattleHelper::check_pause_button(const cv::Mat& reusable)
     ret &= battle_result_opt && battle_result_opt->pause_button;
     return ret;
 }
+bool asst::BattleHelper::check_skip_plot_button(const cv::Mat& reusable)
+{
+    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+
+    Matcher battle_plot_analyzer(image);
+    battle_plot_analyzer.set_task_info("SkipThePreBattlePlot");
+    bool ret = battle_plot_analyzer.analyze().has_value();
+    if (ret) {
+        ProcessTask(this_task(), { "SkipThePreBattlePlot" }).run();
+    }
+    return ret;
+}
 
 bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)
 {
