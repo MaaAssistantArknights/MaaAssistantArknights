@@ -603,6 +603,8 @@
     <system:String x:Key="RecruitmentOfBot">公招出小車了喔！</system:String>
     <system:String x:Key="Choose">選擇</system:String>
     <system:String x:Key="Refreshed">當前欄位已刷新</system:String>
+    <system:String x:Key="continueRefresh">無招聘許可，繼續嘗試刷新 Tags</system:String>
+    <system:String x:Key="noRecruitPermit">無招聘許可，已返回</system:String>
     <system:String x:Key="NotEnoughStaff">可用幹員不足</system:String>
     <system:String x:Key="StageInfoError">關卡辨識錯誤</system:String>
     <system:String x:Key="BattleFormation">開始編隊</system:String>
@@ -634,6 +636,7 @@
     <!--  EasterEggs  -->
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">自動刷新 3 星 Tags</system:String>
+    <system:String x:Key="ForceRefresh">無招募許可時繼續嘗試刷新 Tags</system:String>
     <system:String x:Key="AutoUseExpedited">自動使用加急許可*</system:String>
     <system:String x:Key="Level3UseShortTime">3 星設定 7:40 而非 9:00</system:String>
     <system:String x:Key="Level3UseShortTime2">3 星設定 1:00 而非 9:00</system:String>
