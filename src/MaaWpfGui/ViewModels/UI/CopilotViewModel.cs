@@ -43,6 +43,7 @@ namespace MaaWpfGui.ViewModels.UI
     public class CopilotViewModel : Screen
     {
         private readonly RunningState _runningState;
+        private static readonly ILogger _logger = Log.ForContext<CopilotViewModel>();
 
         /// <summary>
         /// Gets the view models of log items.
@@ -101,7 +102,7 @@ namespace MaaWpfGui.ViewModels.UI
             // LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
         }
 
-        private bool _idle = true;
+        private bool _idle;
 
         /// <summary>
         /// Gets or sets a value indicating whether it is idle.
@@ -534,7 +535,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _userAdditional = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotUserAdditional, "W,2;Friston-3,1");
+        private string _userAdditional = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotUserAdditional, string.Empty);
 
         /// <summary>
         /// Gets or sets a value indicating whether to use auto-formation.
@@ -552,7 +553,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets a value indicating whether to use auto-formation.
         /// </summary>
-        private bool _useCopilotList = false;
+        private bool _useCopilotList;
 
         public bool UseCopilotList
         {
@@ -807,7 +808,11 @@ namespace MaaWpfGui.ViewModels.UI
                 if (!startAny)
                 {
                     // 一个都没启动，怎会有如此无聊之人
-                    Instances.AsstProxy.AsstStop();
+                    if (!Instances.AsstProxy.AsstStop())
+                    {
+                        _logger.Warning("Failed to stop Asst");
+                    }
+
                     _runningState.SetIdle(true);
                     return;
                 }
@@ -823,7 +828,11 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else
             {
-                Instances.AsstProxy.AsstStop();
+                if (!Instances.AsstProxy.AsstStop())
+                {
+                    _logger.Warning("Failed to stop Asst");
+                }
+
                 _runningState.SetIdle(true);
                 AddLog(LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error);
             }
@@ -841,7 +850,11 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public void Stop()
         {
-            Instances.AsstProxy.AsstStop();
+            if (!Instances.AsstProxy.AsstStop())
+            {
+                _logger.Warning("Failed to stop Asst");
+            }
+
             _runningState.SetIdle(true);
         }
 

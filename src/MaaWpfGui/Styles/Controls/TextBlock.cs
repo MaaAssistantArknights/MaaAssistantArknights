@@ -24,7 +24,7 @@ namespace MaaWpfGui.Styles.Controls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(TextBlock), new FrameworkPropertyMetadata(typeof(TextBlock)));
         }
 
-        public static readonly DependencyProperty CustomForegroundProperty = DependencyProperty.Register("CustomForeground", typeof(Brush), typeof(TextBlock), new PropertyMetadata(ThemeHelper.DefaultBrush));
+        public static readonly DependencyProperty CustomForegroundProperty = DependencyProperty.Register(nameof(CustomForeground), typeof(Brush), typeof(TextBlock), new PropertyMetadata(ThemeHelper.DefaultBrush));
 
         public Brush CustomForeground
         {
@@ -32,7 +32,7 @@ namespace MaaWpfGui.Styles.Controls
             set { SetValue(CustomForegroundProperty, value); }
         }
 
-        public static readonly DependencyProperty ForegroundKeyProperty = DependencyProperty.Register("ForegroundKey", typeof(string), typeof(TextBlock), new PropertyMetadata(ThemeHelper.DefaultKey, OnForegroundKeyChanged));
+        public static readonly DependencyProperty ForegroundKeyProperty = DependencyProperty.Register(nameof(ForegroundKey), typeof(string), typeof(TextBlock), new PropertyMetadata(ThemeHelper.DefaultKey, OnForegroundKeyChanged));
 
         private static void OnForegroundKeyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

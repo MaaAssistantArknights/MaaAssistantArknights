@@ -70,12 +70,12 @@ namespace MaaWpfGui.Services
             forceShowMenu.Click += ForceShow;
 
             MenuItem exitMenu = new MenuItem(LocalizationHelper.GetString("Exit"));
-            exitMenu.Click += App_exit;
-            MenuItem[] menuItems = new MenuItem[] { startMenu, stopMenu, switchLangMenu, forceShowMenu, exitMenu };
+            exitMenu.Click += AppExit;
+            MenuItem[] menuItems = { startMenu, stopMenu, switchLangMenu, forceShowMenu, exitMenu };
             this._notifyIcon.ContextMenu = new ContextMenu(menuItems);
         }
 
-        private void NotifyIcon_MouseClick(object sender, MouseEventArgs e)
+        private static void NotifyIcon_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left)
             {
@@ -85,7 +85,7 @@ namespace MaaWpfGui.Services
             Instances.MainWindowManager.SwitchWindowState();
         }
 
-        private void StartTask(object sender, EventArgs e)
+        private static void StartTask(object sender, EventArgs e)
         {
             // taskQueueViewModel意外为null了是不是也可以考虑Log一下
             // 先放个log点方便跟踪
@@ -93,29 +93,24 @@ namespace MaaWpfGui.Services
             _logger.Information("Tray service task started.");
         }
 
-        private void StopTask(object sender, EventArgs e)
+        private static void StopTask(object sender, EventArgs e)
         {
             Instances.TaskQueueViewModel?.Stop();
             _logger.Information("Tray service task stop.");
         }
 
-        private void ForceShow(object sender, EventArgs e)
+        private static void ForceShow(object sender, EventArgs e)
         {
             Instances.MainWindowManager.ForceShow();
-            _logger.Information("WindowManager Forceshow.");
+            _logger.Information("WindowManager ForceShow.");
         }
 
-        private void App_exit(object sender, EventArgs e)
+        private static void AppExit(object sender, EventArgs e)
         {
-            System.Windows.Application.Current.MainWindow.Close();
+            System.Windows.Application.Current.MainWindow?.Close();
         }
 
-        private void App_show(object sender, EventArgs e)
-        {
-            Instances.MainWindowManager.Show();
-        }
-
-        private void OnNotifyIconDoubleClick(object sender, EventArgs e)
+        private static void OnNotifyIconDoubleClick(object sender, EventArgs e)
         {
             Instances.MainWindowManager.Show();
         }

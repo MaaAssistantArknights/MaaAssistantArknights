@@ -22,7 +22,11 @@ namespace MaaWpfGui.Constants
         public const string DefaultConfiguration = "Default";
         public const string GlobalConfiguration = "Global";
         public const string ConfigurationMap = "Configurations";
+
+        // ReSharper disable once UnusedMember.Global
         public const string ConfigurationData = "Data";
+
+        // ReSharper disable once UnusedMember.Global
         public const string ConfigurationCron = "Cron";
 
         public const string Localization = "GUI.Localization";
@@ -113,6 +117,7 @@ namespace MaaWpfGui.Constants
 
         public const string RecruitMaxTimes = "AutoRecruit.MaxTimes";
         public const string RefreshLevel3 = "AutoRecruit.RefreshLevel3";
+        public const string ForceRefresh = "AutoRecruit.ForceRefresh";
         public const string IsLevel3UseShortTime = "AutoRecruit.IsLevel3UseShortTime";
         public const string IsLevel3UseShortTime2 = "AutoRecruit.IsLevel3UseShortTime2";
         public const string NotChooseLevel1 = "AutoRecruit.NotChooseLevel1";
@@ -137,7 +142,11 @@ namespace MaaWpfGui.Constants
         public const string VersionType = "VersionUpdate.VersionType";
         public const string UpdateCheck = "VersionUpdate.UpdateCheck";
         public const string UpdateAutoCheck = "VersionUpdate.ScheduledUpdateCheck";
+
+        // 这个已经废弃了，还要留着吗？
+        // ReSharper disable once UnusedMember.Global
         public const string UseAria2 = "VersionUpdate.UseAria2";
+
         public const string AutoDownloadUpdatePackage = "VersionUpdate.AutoDownloadUpdatePackage";
         public const string AutoInstallUpdatePackage = "VersionUpdate.AutoInstallUpdatePackage";
 

@@ -13,6 +13,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Media;
 using System.Runtime.InteropServices;
@@ -23,7 +24,6 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using MaaWpfGui.Configuration;
-using MaaWpfGui.Constants;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Win32;
 using Notification.Wpf;
@@ -43,6 +43,8 @@ namespace MaaWpfGui.Helper
     /// </summary>
     public class ToastNotification : IDisposable
     {
+        // 这玩意有用吗？
+        // ReSharper disable once UnusedMember.Local
         private ToastNotification()
         {
             if (!CheckToastSystem())
@@ -51,8 +53,8 @@ namespace MaaWpfGui.Helper
             }
         }
 
-        private static bool _systemToastChecked = false;
-        private static bool _systemToastCheckInited = false;
+        private static bool _systemToastChecked;
+        private static bool _systemToastCheckInited;
 
         private static readonly ILogger _logger = Log.ForContext<ToastNotification>();
 
@@ -101,13 +103,13 @@ namespace MaaWpfGui.Helper
         /// <summary>
         /// 应用图标资源
         /// </summary>
-        private ImageSource GetAppIcon()
+        private static ImageSource GetAppIcon()
         {
             try
             {
                 var icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
                 var imageSource = Imaging.CreateBitmapSourceFromHIcon(
-                    icon.Handle,
+                    icon!.Handle,
                     Int32Rect.Empty,
                     BitmapSizeOptions.FromEmptyOptions());
 
@@ -124,7 +126,7 @@ namespace MaaWpfGui.Helper
         /// </summary>
         /// <param name="title">通知标题</param>
         /// <remarks>
-        /// <para>Toast通知，基于 <see cref="Notification.Wpf"/> 实现，方便管理通知样式。</para>
+        /// <para>Toast通知，基于 <see cref="NotificationConstants"/> 实现，方便管理通知样式。</para>
         /// <para>建议使用 <see langword="using"/> 调用，如果不使用 <see langword="using"/> 调用，建议手动调用 <see cref="Dispose()"/> 方法释放。</para>
         /// <para>在线程中必须使用 <c>Dispatcher.Invoke</c> 相关方法调用。</para>
         /// </remarks>
@@ -267,24 +269,24 @@ namespace MaaWpfGui.Helper
         #region 通知按钮变量
 
         // 左边按钮
-        private string _buttonLeftText = null;
+        private string _buttonLeftText;
 
-        private Action _buttonLeftAction = null;
+        private Action _buttonLeftAction;
 
         // 右边按钮
-        private string _buttonRightText = null;
+        private string _buttonRightText;
 
-        private Action _buttonRightAction = null;
+        private Action _buttonRightAction;
 
         // 系统按钮
-        private string _buttonSystemText = null;
+        private string _buttonSystemText;
 
         /// <summary>
         /// Gets or sets the button system URL.
         /// </summary>
         public string ButtonSystemUrl { get; set; } = string.Empty;
 
-        private bool _buttonSystemEnabled = false;
+        private bool _buttonSystemEnabled;
 
         #endregion 通知按钮变量
 
@@ -309,6 +311,7 @@ namespace MaaWpfGui.Helper
         /// <param name="text">按钮标题</param>
         /// <param name="action">按钮执行方法</param>
         /// <returns>返回类本身，可继续调用其它方法</returns>
+        // ReSharper disable once UnusedMember.Global
         public ToastNotification AddButtonRight(string text, Action action)
         {
             _buttonRightText = text;
@@ -404,7 +407,7 @@ namespace MaaWpfGui.Helper
             {
                 if (CheckToastSystem())
                 {
-                    Execute.OnUIThread(() =>
+                    Execute.OnUIThreadAsync(() =>
                     {
                         if (_buttonSystemEnabled)
                         {
@@ -540,6 +543,9 @@ namespace MaaWpfGui.Helper
         /// <summary>
         /// 闪烁信息
         /// </summary>
+        // ReSharper disable once InconsistentNaming
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
+        [SuppressMessage("ReSharper", "NotAccessedField.Local")]
         private struct FLASHWINFO
         {
             /// <summary>
@@ -573,6 +579,9 @@ namespace MaaWpfGui.Helper
         /// <summary>
         /// 闪烁类型。
         /// </summary>
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
+        [SuppressMessage("ReSharper", "IdentifierTypo")]
+        [SuppressMessage("ReSharper", "UnusedMember.Global")]
         public enum FlashType : uint
         {
             /// <summary>

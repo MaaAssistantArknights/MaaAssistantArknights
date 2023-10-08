@@ -57,6 +57,7 @@ namespace MaaWpfGui.Helper
             File.WriteAllText(_cacheFile, jsonStr);
         }
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public static string Get(string url)
         {
             if (url is null)
@@ -67,6 +68,7 @@ namespace MaaWpfGui.Helper
             return _cache.TryGetValue(url, out string ret) ? ret : string.Empty;
         }
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public static void Set(string url, string etag)
         {
             _cache[url] = etag;
