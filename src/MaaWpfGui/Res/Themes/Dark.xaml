@@ -4,7 +4,6 @@
     <SolidColorBrush x:Key="PallasBrush" Color="#CDD1FF" />
     <SolidColorBrush x:Key="ErrorViewBackgroundBrush" Color="#2d2d30" />
     <SolidColorBrush x:Key="VersionUpdateViewBackgroundBrush" Color="#2d2d30" />
-    <SolidColorBrush x:Key="MarkdigCodeBrush" Color="#555" />
 
     <!--  HandyControl Brush  -->
     <!--  See https://github.com/ghost1372/HandyControls/blob/v3.4.5/src/Shared/HandyControl_Shared/Themes/Basic/Colors/Dark.xaml  -->
