@@ -3752,43 +3752,39 @@
         ]
     },
     "Phantom@Roguelike@StrategyChange_mode0": {
+        "ocrReplace": [
+            [
+                "Mist-stricken Missteps",
+                "_aggressive"
+            ],
+            [
+                "Sunset Courtyard",
+                "_aggressive"
+            ],
+            [
+                "Homeland Remnants",
+                "_aggressive"
+            ],
+            [
+                "Nightmare's Prelude",
+                "_pragmatic"
+            ],
+            [
+                "Blood-soaked Corridor",
+                "_pragmatic"
+            ],
+            [
+                "Hall of Desires",
+                "_default"
+            ]
+        ],
         "text": [
             "_aggressive",
             "_pragmatic",
             "_default"
-        ],
-        "ocrReplace": [
-            [
-                "Mist-stricken Missteps",
-                "_aggressive"
-            ],
-            [
-                "Sunset Courtyard",
-                "_aggressive"
-            ],
-            [
-                "Homeland Remnants",
-                "_aggressive"
-            ],
-            [
-                "Nightmare's Prelude",
-                "_pragmatic"
-            ],
-            [
-                "Blood-soaked Corridor",
-                "_pragmatic"
-            ],
-            [
-                "Hall of Desires",
-                "_default"
-            ]
         ]
     },
     "Phantom@Roguelike@StrategyChange_mode4": {
-        "text": [
-            "_default",
-            "_exit"
-        ],
         "ocrReplace": [
             [
                 "Mist-stricken Missteps",
@@ -3814,6 +3810,10 @@
                 "Hall of Desires",
                 "_exit"
             ]
+        ],
+        "text": [
+            "_default",
+            "_exit"
         ]
     },
     "Phantom@Roguelike@NextLevel": {
@@ -3844,11 +3844,6 @@
         "templThreshold": 0.75
     },
     "Mizuki@Roguelike@StrategyChange_mode0": {
-        "text": [
-            "_aggressive",
-            "_pragmatic",
-            "_default"
-        ],
         "ocrReplace": [
             [
                 "Sunshine Coast",
@@ -3878,13 +3873,14 @@
                 "Indigo Cradle",
                 "_SKIP_"
             ]
+        ],
+        "text": [
+            "_aggressive",
+            "_pragmatic",
+            "_default"
         ]
     },
     "Mizuki@Roguelike@StrategyChange_mode4": {
-        "text": [
-            "_default",
-            "_exit"
-        ],
         "ocrReplace": [
             [
                 "Sunshine Coast",
@@ -3914,6 +3910,10 @@
                 "Indigo Cradle",
                 "_exit"
             ]
+        ],
+        "text": [
+            "_default",
+            "_exit"
         ]
     },
     "Mizuki@Roguelike@NextLevel": {
