@@ -3440,25 +3440,19 @@
     "ReturnButtons": {
         "algorithm": "JustReturn",
         "next": [
-            "BlackReturn",
-            "WhiteReturn",
+            "ReturnButton",
             "FromStageSN"
         ]
     },
-    "WhiteReturn": {
-        "template": "Return-White.png",
-        "templThreshold": 0.8,
-        "baseTask": "BlackReturn",
-        "roi": [
-            0,
-            0,
-            220,
-            150
-        ]
-    },
-    "BlackReturn": {
-        "template": "Return.png",
-        "templThreshold": 0.7,
+    "ReturnButton": {
+        "template": [
+            "Return.png",
+            "Return-White.png"
+        ],
+        "templThreshold": [
+            0.7,
+            0.8
+        ],
         "action": "ClickSelf",
         "cache": false,
         "roi": [
@@ -3471,8 +3465,8 @@
             "#back",
             "ReturnButtons#next",
             "ReturnConfirm",
-            "BlackReturn@LoadingIcon",
-            "BlackReturn@LoadingText",
+            "ReturnButton@LoadingIcon",
+            "ReturnButton@LoadingText",
             "CloseAnnos#next"
         ]
     },
@@ -3493,7 +3487,7 @@
             35
         ],
         "next": [
-            "BlackReturn"
+            "ReturnButton"
         ]
     },
     "ReturnConfirm": {
@@ -4855,7 +4849,6 @@
         "postDelay": 2000
     },
     "MailWithoutAward": {
-        "action": "DoNothing",
         "cache": false,
         "roi": [
             120,
@@ -4863,11 +4856,8 @@
             150,
             135
         ],
-        "postDelay": 500,
-        "next": [
-            "Mail",
-            "Stop"
-        ]
+        "templThreshold": 0.9,
+        "postDelay": 500
     },
     "ReceiveMail": {
         "action": "ClickSelf",
@@ -5386,17 +5376,14 @@
             "Infrast@OfflineConfirm"
         ]
     },
-    "Infrast@WhiteReturn": {
-        "template": "Return-White.png",
-        "next": [
-            "Infrast@BlackReturn#next"
-        ]
-    },
-    "Infrast@BlackReturn": {
-        "template": "Return.png",
+    "Infrast@ReturnButton": {
+        "template": [
+            "Return.png",
+            "Return-White.png"
+        ],
         "next": [
             "InfrastBegin#next",
-            "Infrast@(BlackReturn#next)"
+            "Infrast@(ReturnButton#next)"
         ]
     },
     "Infrast@ReturnConfirm": {
@@ -9406,20 +9393,17 @@
             60
         ]
     },
-    "Roguelike@WhiteReturn": {
-        "template": "Return-White.png",
-        "next": [
-            "Roguelike@BlackReturn#next"
-        ]
-    },
-    "Roguelike@BlackReturn": {
-        "template": "Return.png",
+    "Roguelike@ReturnButton": {
+        "template": [
+            "Return.png",
+            "Return-White.png"
+        ],
         "next": [
             "Roguelike@ChooseDifficulty",
             "Roguelike@StartExplore",
             "Roguelike@ExitThenAbandon",
             "Roguelike@Abandon",
-            "Roguelike@(BlackReturn#next)"
+            "Roguelike@(ReturnButton#next)"
         ]
     },
     "Roguelike@RolesConfirm": {
@@ -13870,17 +13854,14 @@
         "templThreshold": 0.7,
         "action": "ClickSelf",
         "next": [
-            "Reclamation@BlackReturn#next"
+            "Reclamation@ReturnButton#next"
         ]
     },
-    "Reclamation@WhiteReturn": {
-        "template": "Return-White.png",
-        "next": [
-            "Reclamation@BlackReturn#next"
-        ]
-    },
-    "Reclamation@BlackReturn": {
-        "template": "Return.png",
+    "Reclamation@ReturnButton": {
+        "template": [
+            "Return.png",
+            "Return-White.png"
+        ],
         "next": [
             "Reclamation@AtHomePageFlag",
             "Reclamation@LevelForceExitConfirm",
@@ -13889,7 +13870,7 @@
             "Reclamation@ExitAlgorithm",
             "Reclamation@SmallReturn",
             "Reclamation@ReturnInFocus",
-            "Reclamation@(BlackReturn#next)"
+            "Reclamation@(ReturnButton#next)"
         ]
     },
     "Reclamation@ReturnInFocus": {
@@ -13902,7 +13883,7 @@
         "templThreshold": 0.7,
         "action": "ClickSelf",
         "next": [
-            "Reclamation@BlackReturn#next"
+            "Reclamation@ReturnButton#next"
         ]
     },
     "Reclamation@Begin": {
@@ -13911,7 +13892,7 @@
             "Reclamation@GiveupAlgorithm",
             "Reclamation@StartAlgorithm",
             "Reclamation@ConfirmStart#next",
-            "Reclamation@BlackReturn#next",
+            "Reclamation@ReturnButton#next",
             "Reclamation@BattleStart#next",
             "Reclamation@LevelComplete",
             "Reclamation@GiveupReportSkip",
@@ -14269,13 +14250,13 @@
         "next": [
             "Reclamation@LevelForceExitConfirm",
             "Reclamation@LevelForceExit",
-            "Reclamation@BlackReturn#next"
+            "Reclamation@ReturnButton#next"
         ]
     },
     "Reclamation@LevelForceExitConfirm": {
         "baseTask": "Reclamation@ExitLevelConfirm",
         "next": [
-            "Reclamation@BlackReturn#next"
+            "Reclamation@ReturnButton#next"
         ]
     },
     "Reclamation@LevelComplete": {
@@ -14769,7 +14750,7 @@
         "algorithm": "JustReturn",
         "next": [
             "NavigateHome@Reclamation@AtHomePageFlag",
-            "NavigateHome@Reclamation@BlackReturn#next",
+            "NavigateHome@Reclamation@ReturnButton#next",
             "NavigateHome@Reclamation@SkipAnnounce",
             "NavigateHome@Reclamation@SkipDailyReport",
             "NavigateHome@Reclamation@LevelComplete",
