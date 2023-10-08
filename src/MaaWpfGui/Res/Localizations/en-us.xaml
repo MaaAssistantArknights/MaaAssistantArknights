@@ -684,7 +684,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="RemoteControlConnectionTestFailNotHttps">Connection Test Failed. Endpoint is not an https address.</system:String>
     <system:String x:Key="RemoteControlReceivedTask">Received remote task {0}, Task Id:{1}.</system:String>
     <system:String x:Key="RemoteControlCompletedTask">Completed remote task {0}, Task Id:{1}.</system:String>
-    <system:String x:Key="RemoteControlTooltips">Caution: Entering addresses from unknown sources may result in loss of your Arknights account.</system:String>
+    <system:String x:Key="RemoteControlTooltips">Caution: Entering addresses from unknown sources may result in the loss of your Arknights account.</system:String>
     <system:String x:Key="RemoteControlDeveloperTooltips">To learn more about how to develop these features, visit</system:String>
     <system:String x:Key="RemoteControlDeveloperDocLink">Remote Control Feature Developer Documentation</system:String>
 
