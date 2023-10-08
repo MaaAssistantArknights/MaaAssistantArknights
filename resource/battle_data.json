@@ -3678,6 +3678,21 @@
             ],
             "rarity": 6
         },
+        "char_4088_hodrer": {
+            "name": "赫德雷",
+            "name_en": "赫德雷",
+            "name_jp": "赫德雷",
+            "name_kr": "赫德雷",
+            "name_tw": "赫德雷",
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 6
+        },
         "char_4091_ulika": {
             "name": "U-Official",
             "name_en": "U-Official",
@@ -3765,6 +3780,36 @@
                 "2-2",
                 "2-2",
                 "2-2"
+            ],
+            "rarity": 5
+        },
+        "char_4107_vrdant": {
+            "name": "维荻",
+            "name_en": "维荻",
+            "name_jp": "维荻",
+            "name_kr": "维荻",
+            "name_tw": "维荻",
+            "position": "MELEE",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 4
+        },
+        "char_4110_delphn": {
+            "name": "戴菲恩",
+            "name_en": "戴菲恩",
+            "name_jp": "戴菲恩",
+            "name_kr": "戴菲恩",
+            "name_tw": "戴菲恩",
+            "position": "RANGED",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-13",
+                "3-14",
+                "3-14"
             ],
             "rarity": 5
         },
@@ -4380,6 +4425,21 @@
                 "4-5",
                 "4-5",
                 "4-6"
+            ],
+            "rarity": 5
+        },
+        "char_494_vendla": {
+            "name": "刺玫",
+            "name_en": "刺玫",
+            "name_jp": "刺玫",
+            "name_kr": "刺玫",
+            "name_tw": "刺玫",
+            "position": "RANGED",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
             ],
             "rarity": 5
         },
@@ -7050,6 +7110,51 @@
                 "5-1",
                 "5-1",
                 "5-1"
+            ],
+            "rarity": 1
+        },
+        "trap_125_bonore": {
+            "name": "唤血祭坛",
+            "name_en": "唤血祭坛",
+            "name_jp": "唤血祭坛",
+            "name_kr": "唤血祭坛",
+            "name_tw": "唤血祭坛",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_126_outset": {
+            "name": "炸弹载荷点",
+            "name_en": "炸弹载荷点",
+            "name_jp": "炸弹载荷点",
+            "name_kr": "炸弹载荷点",
+            "name_tw": "炸弹载荷点",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_127_bldore": {
+            "name": "沥血王座",
+            "name_en": "沥血王座",
+            "name_jp": "沥血王座",
+            "name_kr": "沥血王座",
+            "name_tw": "沥血王座",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
             ],
             "rarity": 1
         },

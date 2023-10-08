@@ -3714,11 +3714,6 @@
         "templThreshold": 0.95
     },
     "Mizuki@Roguelike@StrategyChange_mode0": {
-        "text": [
-            "_aggressive",
-            "_pragmatic",
-            "_default"
-        ],
         "ocrReplace": [
             [
                 "하늘빛해안",
@@ -3748,13 +3743,14 @@
                 "짙푸른요람",
                 "_SKIP_"
             ]
+        ],
+        "text": [
+            "_aggressive",
+            "_pragmatic",
+            "_default"
         ]
     },
     "Mizuki@Roguelike@StrategyChange_mode4": {
-        "text": [
-            "_default",
-            "_exit"
-        ],
         "ocrReplace": [
             [
                 "하늘빛해안",
@@ -3784,6 +3780,10 @@
                 "짙푸른요람",
                 "_exit"
             ]
+        ],
+        "text": [
+            "_default",
+            "_exit"
         ]
     },
     "Mizuki@Roguelike@NextLevel": {
