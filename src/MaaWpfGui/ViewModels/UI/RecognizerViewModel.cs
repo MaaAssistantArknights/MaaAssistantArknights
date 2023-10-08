@@ -396,7 +396,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>Success or not</returns>
         public bool DepotParse(JObject details)
         {
-            if (details == null) { return false; }
+            if (details == null)
+            {
+                return false;
+            }
+
             DepotResult.Clear();
             foreach (var item in details["arkplanner"]?["object"]?["items"]?.Cast<JObject>()!)
             {
@@ -600,9 +604,33 @@ namespace MaaWpfGui.ViewModels.UI
             List<Tuple<string, int>> operHave = new List<Tuple<string, int>>();
             List<Tuple<string, int>> operNotHave = new List<Tuple<string, int>>();
 
+            string localizedName;
+            switch (ConfigurationHelper.GetValue(ConfigurationKeys.Localization, string.Empty))
+            {
+                case "zh-cn":
+                    localizedName = "name";
+                    break;
+
+                case "ja-jp":
+                    localizedName = "name_jp";
+                    break;
+
+                case "ko-kr":
+                    localizedName = "name_kr";
+                    break;
+
+                case "zh-tw":
+                    localizedName = "name_tw";
+                    break;
+
+                default:
+                    localizedName = "name_en";
+                    break;
+            }
+
             foreach (JObject operBox in operBoxes.Cast<JObject>())
             {
-                var tuple = new Tuple<string, int>((string)operBox["name"], (int)operBox["rarity"]);
+                var tuple = new Tuple<string, int>((string)operBox[localizedName], (int)operBox["rarity"]);
 
                 if (_virtuallyOpers.Contains((string)operBox["id"]))
                 {
