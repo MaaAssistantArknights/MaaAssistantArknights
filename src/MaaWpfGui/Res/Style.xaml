@@ -7,7 +7,6 @@
 
         <ResourceDictionary Source="Styles/Divider.xaml" />
         <ResourceDictionary Source="Styles/ListBox.xaml" />
-        <ResourceDictionary Source="Styles/Markdig.xaml" />
         <ResourceDictionary Source="Styles/MessageBox.xaml" />
         <ResourceDictionary Source="Styles/TextBlock.xaml" />
     </ResourceDictionary.MergedDictionaries>
