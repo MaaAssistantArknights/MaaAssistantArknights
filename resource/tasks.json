@@ -7543,7 +7543,7 @@
             10
         ],
         "next": [
-            "ClickedCorrectStage"
+            "ClickStageName"
         ]
     },
     "SkipForbiddenOperConfirm": {
