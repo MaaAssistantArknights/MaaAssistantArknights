@@ -7,7 +7,7 @@ namespace asst
     {
     public:
         using AbstractTask::AbstractTask;
-        //SideStoryReopenTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain);
+        // SideStoryReopenTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain);
         virtual ~SideStoryReopenTask() noexcept override = default;
 
         void set_sidestory_name(std::string sidestory_name);

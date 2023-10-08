@@ -23,12 +23,6 @@
             "PRTS"
         ]
     },
-    "ChapterDifficultyHard": {
-        "baseTask": "LevelOfDifficulty"
-    },
-    "ChapterDifficultyNormal": {
-        "baseTask": "LevelOfDifficulty"
-    },
     "EnterChapterDifficultyHard": {
         "text": [
             "Start Operation"
@@ -39,45 +33,15 @@
             "Start Operation"
         ]
     },
-    "ClickedCorrectStageOrSwipe": {
-        "action": "DoNothing",
-        "baseTask": "StartButton1",
-        "next": [
-            "ClickedCorrectStage",
-            "FullStageNavigation"
-        ],
-        "reduceOtherTimes": []
-    },
-    "StageQueue@StartButton1": {
-        "baseTask": "StartButton1",
-        "Doc": "StartButton1",
-        "action": "DoNothing",
-        "maxTimes": 1,
-        "exceededNext": [],
-        "next": [
-            "StageQueue@StartButton2",
-            "StageQueue@StartButton2Adverse",
-            "StageQueue@UseMedicine",
-            "StageQueue@UseStone",
-            "StageQueue@NoStone",
-            "StageQueue@OfflineConfirm",
-            "StageQueue@StartButton1TryAgain"
-        ]
-    },
-    "StartButton1TryAgain": {
-        "baseTask": "StartButton1",
-        "exceededNext": [],
-        "reduceOtherTimes": [],
-        "preDelay": 0,
-        "rectMoveDoc": "Click on 'Actions' to avoid clicking on StartButton2 the second time.",
-        "rectMove": [
-            38,
+    "SideStoryReopen": {
+        "roi": [
             0,
-            35,
-            17
+            500,
+            500,
+            150
         ],
-        "next": [
-            "StartButton1#next"
+        "text": [
+            "Rerun"
         ]
     },
     "CF-Open": {
@@ -90,6 +54,20 @@
         "text": [
             "SOUBO",
             "MOUNTAINS"
+        ]
+    },
+    "GA-Open": {
+        "text": [
+            "Event <Guide Ahead",
+            "Rerun> is now",
+            "open"
+        ]
+    },
+    "GAChapterToGA": {
+        "text": [
+            "SUMMIT",
+            "OF",
+            "NATIONS"
         ]
     },
     "WB-Open": {
@@ -164,6 +142,55 @@
         "text": [
             "Enter",
             "Event"
+        ]
+    },
+    "IC-Open": {
+        "text": [
+            "Event",
+            "Ideal",
+            "City",
+            "open"
+        ]
+    },
+    "DV-Open": {
+        "text": [
+            "Event",
+            "Dorothy's",
+            "Vision",
+            "open"
+        ]
+    },
+    "LE-Open": {
+        "text": [
+            "Rerun",
+            "open"
+        ]
+    },
+    "SN-Open": {
+        "text": [
+            "open"
+        ]
+    },
+    "SN-Chapter2": {
+        "text": [
+            "Lost Flagship",
+            "Lost",
+            "Flagship"
+        ]
+    },
+    "SN-Chapter3": {
+        "text": [
+            "Nameless Ocean",
+            "Nameless",
+            "Ocean"
+        ]
+    },
+    "DH-Open": {
+        "text": [
+            "Dossoles",
+            "Holiday",
+            "Rerun",
+            "open"
         ]
     },
     "CharsNameOcrReplace": {
@@ -362,7 +389,7 @@
                 "空"
             ],
             [
-                "Ss?k?ad?i ?the ?Co?r*m?u?pt?i?ng.*",
+                "Ss?k?ad?i ?the ?C[Oo]?r*m?u?pt?i?ng.*",
                 "Skadi the Corrupting Heart"
             ],
             [
@@ -1958,7 +1985,7 @@
                 "备勤激活站"
             ],
             [
-                "Terra Research.*",
+                "Terra .ese.rch.*",
                 "Terra Research Commission"
             ],
             [
@@ -2107,8 +2134,12 @@
             ]
         ]
     },
+    "StartToWakeUpOCR": {
+        "text": [
+            "START"
+        ]
+    },
     "TodaysSupplies": {
-        "algorithm": "OcrDetect",
         "text": [
             "Resource Today"
         ]
@@ -3211,6 +3242,12 @@
             231,
             116,
             22
+        ],
+        "specialParams": [
+            160,
+            4,
+            7,
+            0
         ]
     },
     "BattleStartPre": {
@@ -3711,9 +3748,69 @@
             "Storage full"
         ]
     },
-    "Phantom@Roguelike@LevelName_mode4": {
+    "Phantom@Roguelike@StrategyChange_mode0": {
         "text": [
-            "Homeland Remnants"
+            "_aggressive",
+            "_pragmatic",
+            "_default"
+        ],
+        "ocrReplace": [
+            [
+                "Mist-stricken Missteps",
+                "_aggressive"
+            ],
+            [
+                "Sunset Courtyard",
+                "_aggressive"
+            ],
+            [
+                "Homeland Remnants",
+                "_aggressive"
+            ],
+            [
+                "Nightmare's Prelude",
+                "_pragmatic"
+            ],
+            [
+                "Blood-soaked Corridor",
+                "_pragmatic"
+            ],
+            [
+                "Hall of Desires",
+                "_default"
+            ]
+        ]
+    },
+    "Phantom@Roguelike@StrategyChange_mode4": {
+        "text": [
+            "_default",
+            "_exit"
+        ],
+        "ocrReplace": [
+            [
+                "Mist-stricken Missteps",
+                "_default"
+            ],
+            [
+                "Sunset Courtyard",
+                "_default"
+            ],
+            [
+                "Homeland Remnants",
+                "_exit"
+            ],
+            [
+                "Nightmare's Prelude",
+                "_exit"
+            ],
+            [
+                "Blood-soaked Corridor",
+                "_exit"
+            ],
+            [
+                "Hall of Desires",
+                "_exit"
+            ]
         ]
     },
     "Phantom@Roguelike@NextLevel": {
@@ -3743,10 +3840,77 @@
     "Mizuki@Roguelike@GetDropSelectRecruit": {
         "templThreshold": 0.75
     },
-    "Mizuki@Roguelike@LevelName_mode4": {
+    "Mizuki@Roguelike@StrategyChange_mode0": {
         "text": [
-            "Raging Billows",
-            "Indigo Cradle"
+            "_aggressive",
+            "_pragmatic",
+            "_default"
+        ],
+        "ocrReplace": [
+            [
+                "Sunshine Coast",
+                "_aggressive"
+            ],
+            [
+                "Offshore Island",
+                "_aggressive"
+            ],
+            [
+                "Raging Billows",
+                "_pragmatic"
+            ],
+            [
+                "Secret Hotbed",
+                "_pragmatic"
+            ],
+            [
+                "Sacrosant Cave",
+                "_default"
+            ],
+            [
+                "Deep Sea Woodland",
+                "_default"
+            ],
+            [
+                "Indigo Cradle",
+                "_SKIP_"
+            ]
+        ]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode4": {
+        "text": [
+            "_default",
+            "_exit"
+        ],
+        "ocrReplace": [
+            [
+                "Sunshine Coast",
+                "_default"
+            ],
+            [
+                "Offshore Island",
+                "_default"
+            ],
+            [
+                "Raging Billows",
+                "_exit"
+            ],
+            [
+                "Secret Hotbed",
+                "_exit"
+            ],
+            [
+                "Sacrosant Cave",
+                "_exit"
+            ],
+            [
+                "Deep Sea Woodland",
+                "_exit"
+            ],
+            [
+                "Indigo Cradle",
+                "_exit"
+            ]
         ]
     },
     "Mizuki@Roguelike@NextLevel": {
@@ -5903,8 +6067,6 @@
         ]
     },
     "Reclamation@ManufactureStatus": {
-        "Doc": "base_task",
-        "algorithm": "OcrDetect",
         "roi": [
             1021,
             336,
@@ -5914,49 +6076,28 @@
         "text": []
     },
     "Reclamation@ManufactureIncrease": {
-        "action": "ClickRect",
-        "baseTask": "Reclamation@ManufactureStatus",
-        "specificRect": [
-            1120,
-            86,
-            111,
-            26
-        ],
         "text": [
             "Craft"
         ]
     },
     "Reclamation@ManufactureDecrease": {
-        "action": "ClickRect",
-        "baseTask": "Reclamation@ManufactureStatus",
-        "specificRect": [
-            1096,
-            288,
-            139,
-            28
-        ],
         "text": [
             "Insufficient",
             "materials"
         ]
     },
     "Reclamation@DoManufacture": {
-        "action": "ClickSelf",
-        "baseTask": "Reclamation@ManufactureStatus",
-        "postDelay": 1000,
         "text": [
             "Craft"
         ]
     },
     "Reclamation@ManufactureInsufficientMaterial": {
-        "baseTask": "Reclamation@ManufactureStatus",
         "text": [
             "Insufficient",
             "materials"
         ]
     },
     "Reclamation@ManufactureSufficientMaterial": {
-        "baseTask": "Reclamation@ManufactureStatus",
         "text": [
             "Craft"
         ]
@@ -5972,38 +6113,6 @@
             "Building materials",
             "Fresh Water",
             "Skip"
-        ]
-    },
-    "StartWithDefaultFormation@Reclamation@ConfirmStart": {
-        "baseTask": "Reclamation@ConfirmStart",
-        "next": [],
-        "next_Old": [
-            "Stop"
-        ],
-        "next_Old_Doc": "这里原先有个stop，但是会导致StartWithDefaultFormation@Reclamation@Begin中间多出一个Stop，姑且当成是不小心加的删了。"
-    },
-    "StartActionEnter@Reclamation@StartActionEnter": {
-        "baseTask": "Reclamation@StartActionEnter",
-        "next": [
-            "Stop"
-        ]
-    },
-    "GA-Open": {
-        "text": [
-            "Event <Guide Ahead",
-            "Rerun> is now",
-            "open"
-        ]
-    },
-    "SideStoryReopen": {
-        "text": [
-            "Rerun"
-        ],
-        "roi": [
-            0,
-            500,
-            500,
-            150
         ]
     },
     "GachaLastOnceResult": {

@@ -21,7 +21,7 @@
         BorderThickness="0"
         Style="{StaticResource TabControlSliding}">
         <TabItem Header="{DynamicResource RecruitmentRecognition}">
-            <Grid Margin="20,0,20,20">
+            <Grid Margin="20,0,20,20" IsEnabled="{Binding Idle}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="150" />
@@ -125,7 +125,7 @@
             </Grid>
         </TabItem>
         <TabItem Header="{DynamicResource OperBoxRecognition}">
-            <Grid Margin="20,0,20,20">
+            <Grid Margin="20,0,20,20" IsEnabled="{Binding Idle}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="150" />
@@ -179,7 +179,7 @@
             </Grid>
         </TabItem>
         <TabItem Header="{DynamicResource DepotRecognition}">
-            <Grid Margin="20,0,20,20">
+            <Grid Margin="20,0,20,20" IsEnabled="{Binding Idle}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="*" />
@@ -257,9 +257,8 @@
                 Text="{DynamicResource VideoRecognitionTips}"
                 TextWrapping="Wrap" />
         </TabItem>
-
         <TabItem Header="{DynamicResource Gacha}">
-            <Grid Margin="20,0,20,20">
+            <Grid Margin="20,0,20,20" IsEnabled="{Binding Idle}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="80" />
                     <RowDefinition Height="*" />

@@ -4,8 +4,8 @@
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
 #include "Vision/Matcher.h"
-#include "Vision/TemplDetOCRer.h"
 #include "Vision/RegionOCRer.h"
+#include "Vision/TemplDetOCRer.h"
 
 bool asst::RoguelikeRecruitImageAnalyzer::analyze()
 {

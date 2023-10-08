@@ -62,6 +62,8 @@ namespace MaaWpfGui.Helper
 
         public static VersionUpdateViewModel VersionUpdateViewModel { get; private set; }
 
+        public static AnnouncementViewModel AnnouncementViewModel { get; private set; }
+
         public static AsstProxy AsstProxy { get; private set; }
 
         public static TrayIcon TrayIcon { get; private set; }
@@ -88,6 +90,7 @@ namespace MaaWpfGui.Helper
             SettingsViewModel = container.Get<SettingsViewModel>();
             CopilotViewModel = container.Get<CopilotViewModel>();
             VersionUpdateViewModel = container.Get<VersionUpdateViewModel>();
+            AnnouncementViewModel = container.Get<AnnouncementViewModel>();
 
             // 这仨实例化时存在依赖顺序
             HttpService = container.Get<HttpService>();

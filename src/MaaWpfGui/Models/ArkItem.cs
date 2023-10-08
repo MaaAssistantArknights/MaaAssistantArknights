@@ -11,10 +11,12 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 namespace MaaWpfGui.Models
 {
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public class ArkItem
     {
         [JsonPropertyName("classifyType")]

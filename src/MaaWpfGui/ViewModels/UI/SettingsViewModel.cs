@@ -29,6 +29,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using HandyControl.Controls;
 using HandyControl.Data;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -45,6 +46,7 @@ using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using ComboBox = System.Windows.Controls.ComboBox;
+using DarkModeType = MaaWpfGui.Configuration.GUI.DarkModeType;
 using Timer = System.Timers.Timer;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -54,7 +56,7 @@ namespace MaaWpfGui.ViewModels.UI
     /// </summary>
     public class SettingsViewModel : Screen
     {
-        private readonly RunningState runningState;
+        private readonly RunningState _runningState;
 
         private static readonly ILogger _logger = Log.ForContext<SettingsViewModel>();
 
@@ -69,19 +71,12 @@ namespace MaaWpfGui.ViewModels.UI
         [DllImport("user32.dll")]
         private static extern bool IsIconic(IntPtr hWnd);
 
-        private static readonly string s_versionId = Marshal.PtrToStringAnsi(AsstGetVersion());
+        private static readonly string _versionId = Marshal.PtrToStringAnsi(AsstGetVersion());
 
         /// <summary>
         /// Gets the version id.
         /// </summary>
-        public string VersionId => s_versionId;
-
-        private static readonly string s_versionInfo = LocalizationHelper.GetString("Version") + ": " + s_versionId;
-
-        /// <summary>
-        /// Gets the version info.
-        /// </summary>
-        public string VersionInfo => s_versionInfo;
+        public string VersionId => _versionId;
 
         /// <summary>
         /// The Pallas language key.
@@ -105,7 +100,7 @@ namespace MaaWpfGui.ViewModels.UI
             _listTitle.Add(LocalizationHelper.GetString("GameSettings"));
             _listTitle.Add(LocalizationHelper.GetString("ConnectionSettings"));
             _listTitle.Add(LocalizationHelper.GetString("StartupSettings"));
-            _listTitle.Add(LocalizationHelper.GetString("UISettings"));
+            _listTitle.Add(LocalizationHelper.GetString("UiSettings"));
             _listTitle.Add(LocalizationHelper.GetString("ExternalNotificationSettings"));
             _listTitle.Add(LocalizationHelper.GetString("HotKeySettings"));
             _listTitle.Add(LocalizationHelper.GetString("UpdateSettings"));
@@ -120,13 +115,12 @@ namespace MaaWpfGui.ViewModels.UI
                 MessageBoxHelper.Show(
                     LocalizationHelper.GetString("Hangover"),
                     LocalizationHelper.GetString("Burping"),
-                    MessageBoxButton.OK,
                     iconKey: "HangoverGeometry",
                     iconBrushKey: "PallasBrush");
                 Bootstrapper.ShutdownAndRestartWithOutArgs();
             }
 
-            runningState = RunningState.Instance;
+            _runningState = RunningState.Instance;
         }
 
         public void Sober()
@@ -315,7 +309,7 @@ namespace MaaWpfGui.ViewModels.UI
         private void InfrastInit()
         {
             /* 基建设置 */
-            var facility_list = new string[]
+            var facilityList = new[]
             {
                 "Mfg",
                 "Trade",
@@ -327,32 +321,32 @@ namespace MaaWpfGui.ViewModels.UI
                 "Processing",
             };
 
-            var temp_order_list = new List<DragItemViewModel>(new DragItemViewModel[facility_list.Length]);
-            for (int i = 0; i != facility_list.Length; ++i)
+            var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[facilityList.Length]);
+            for (int i = 0; i != facilityList.Length; ++i)
             {
-                var facility = facility_list[i];
+                var facility = facilityList[i];
                 bool parsed = int.TryParse(ConfigurationHelper.GetFacilityOrder(facility, "-1"), out int order);
 
                 if (!parsed || order < 0)
                 {
-                    temp_order_list[i] = new DragItemViewModel(LocalizationHelper.GetString(facility), facility, "Infrast.");
+                    tempOrderList[i] = new DragItemViewModel(LocalizationHelper.GetString(facility), facility, "Infrast.");
                 }
                 else
                 {
-                    temp_order_list[order] = new DragItemViewModel(LocalizationHelper.GetString(facility), facility, "Infrast.");
+                    tempOrderList[order] = new DragItemViewModel(LocalizationHelper.GetString(facility), facility, "Infrast.");
                 }
             }
 
-            InfrastItemViewModels = new ObservableCollection<DragItemViewModel>(temp_order_list);
+            InfrastItemViewModels = new ObservableCollection<DragItemViewModel>(tempOrderList);
 
             DefaultInfrastList = new List<CombinedData>
             {
                 new CombinedData { Display = LocalizationHelper.GetString("UserDefined"), Value = _userDefined },
-                new CombinedData { Display = LocalizationHelper.GetString("153_3"), Value = "153_layout_3_times_a_day.json" },
-                new CombinedData { Display = LocalizationHelper.GetString("243_3"), Value = "243_layout_3_times_a_day.json" },
-                new CombinedData { Display = LocalizationHelper.GetString("243_4"), Value = "243_layout_4_times_a_day.json" },
-                new CombinedData { Display = LocalizationHelper.GetString("252_3"), Value = "252_layout_3_times_a_day.json" },
-                new CombinedData { Display = LocalizationHelper.GetString("333_3"), Value = "333_layout_for_Orundum_3_times_a_day.json" },
+                new CombinedData { Display = LocalizationHelper.GetString("153Time3"), Value = "153_layout_3_times_a_day.json" },
+                new CombinedData { Display = LocalizationHelper.GetString("243Time3"), Value = "243_layout_3_times_a_day.json" },
+                new CombinedData { Display = LocalizationHelper.GetString("243Time4"), Value = "243_layout_4_times_a_day.json" },
+                new CombinedData { Display = LocalizationHelper.GetString("252Time3"), Value = "252_layout_3_times_a_day.json" },
+                new CombinedData { Display = LocalizationHelper.GetString("333Time3"), Value = "333_layout_for_Orundum_3_times_a_day.json" },
             };
 
             UsesOfDronesList = new List<CombinedData>
@@ -428,7 +422,7 @@ namespace MaaWpfGui.ViewModels.UI
                 new CombinedData { Display = LocalizationHelper.GetString("YoStarEN"), Value = "YoStarEN" },
                 new CombinedData { Display = LocalizationHelper.GetString("YoStarJP"), Value = "YoStarJP" },
                 new CombinedData { Display = LocalizationHelper.GetString("YoStarKR"), Value = "YoStarKR" },
-                new CombinedData { Display = LocalizationHelper.GetString("txwy"), Value = "txwy" },
+                new CombinedData { Display = LocalizationHelper.GetString("Txwy"), Value = "txwy" },
             };
 
             var configurations = new ObservableCollection<CombinedData>();
@@ -439,11 +433,11 @@ namespace MaaWpfGui.ViewModels.UI
 
             ConfigurationList = configurations;
 
-            DarkModeList = new List<CombinedData>
+            DarkModeList = new List<GenericCombinedData<DarkModeType>>
             {
-                new CombinedData { Display = LocalizationHelper.GetString("Light"), Value = "Light" },
-                new CombinedData { Display = LocalizationHelper.GetString("Dark"), Value = "Dark" },
-                new CombinedData { Display = LocalizationHelper.GetString("SyncWithOS"), Value = "SyncWithOS" },
+                new GenericCombinedData<DarkModeType> { Display = LocalizationHelper.GetString("Light"), Value = DarkModeType.Light },
+                new GenericCombinedData<DarkModeType> { Display = LocalizationHelper.GetString("Dark"), Value = DarkModeType.Dark },
+                new GenericCombinedData<DarkModeType> { Display = LocalizationHelper.GetString("SyncWithOs"), Value = DarkModeType.SyncWithOs },
             };
 
             InverseClearModeList = new List<CombinedData>
@@ -474,7 +468,7 @@ namespace MaaWpfGui.ViewModels.UI
             LanguageList = languageList;
         }
 
-        private bool _idle = true;
+        private bool _idle;
 
         /// <summary>
         /// Gets or sets a value indicating whether it is idle.
@@ -543,7 +537,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _startEmulator, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.StartEmulator, value.ToString());
-                if (ClientType == string.Empty && runningState.GetIdle())
+                if (ClientType == string.Empty && _runningState.GetIdle())
                 {
                     ClientType = "Official";
                 }
@@ -759,11 +753,12 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 string fileName = string.Empty;
                 string arguments = string.Empty;
-                ProcessStartInfo startInfo;
 
                 if (Path.GetExtension(EmulatorPath).ToLower() == ".lnk")
                 {
+                    // ReSharper disable once SuspiciousTypeConversion.Global
                     var link = (IShellLink)new ShellLink();
+                    // ReSharper disable once SuspiciousTypeConversion.Global
                     var file = (IPersistFile)link;
                     file.Load(EmulatorPath, 0); // STGM_READ
                     link.Resolve(IntPtr.Zero, 1); // SLR_NO_UI
@@ -794,14 +789,7 @@ namespace MaaWpfGui.ViewModels.UI
                     arguments = EmulatorAddCommand;
                 }
 
-                if (arguments.Length != 0)
-                {
-                    startInfo = new ProcessStartInfo(fileName, arguments);
-                }
-                else
-                {
-                    startInfo = new ProcessStartInfo(fileName);
-                }
+                var startInfo = arguments.Length != 0 ? new ProcessStartInfo(fileName, arguments) : new ProcessStartInfo(fileName);
 
                 startInfo.UseShellExecute = false;
                 Process process = new Process
@@ -884,10 +872,10 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             // 储存按钮状态，以便后续重置
-            bool idle = runningState.GetIdle();
+            bool idle = _runningState.GetIdle();
 
             // 让按钮变成停止按钮，可手动停止等待
-            runningState.SetIdle(false);
+            _runningState.SetIdle(false);
             for (var i = 0; i < delay; ++i)
             {
                 if (Instances.TaskQueueViewModel.Stopping)
@@ -898,8 +886,10 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (i % 10 == 0)
                 {
+                    // 避免捕获的变量在闭包中被修改
+                    var i1 = i;
                     Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
-                        LocalizationHelper.GetString("WaitForEmulator") + ": " + (delay - i) + "s"));
+                        LocalizationHelper.GetString("WaitForEmulator") + ": " + (delay - i1) + "s"));
                     _logger.Information("Waiting for the emulator to start: " + (delay - i) + "s");
                 }
 
@@ -911,15 +901,15 @@ namespace MaaWpfGui.ViewModels.UI
             _logger.Information("The wait is over");
 
             // 重置按钮状态，不影响后续判断
-            runningState.SetIdle(idle);
+            _runningState.SetIdle(idle);
         }
 
         /// <summary>
         /// Restarts the ADB (Android Debug Bridge).
         /// </summary>
-        public void RestartADB()
+        public void RestartAdb()
         {
-            if (!AllowADBRestart)
+            if (!AllowAdbRestart)
             {
                 return;
             }
@@ -955,9 +945,9 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Kill and restart the ADB (Android Debug Bridge) process.
         /// </summary>
-        public void HardRestartADB()
+        public void HardRestartAdb()
         {
-            if (!AllowADBHardRestart)
+            if (!AllowAdbHardRestart)
             {
                 return;
             }
@@ -990,7 +980,7 @@ namespace MaaWpfGui.ViewModels.UI
                     continue;
                 }
 
-                // Some emulators start their adb with administrator privilege.
+                // Some emulators start their ADB with administrator privilege.
                 // Not sure if this is necessary
                 try
                 {
@@ -1007,6 +997,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Selects the emulator to execute.
         /// </summary>
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public void SelectEmulatorExec()
         {
             var dialog = new OpenFileDialog
@@ -1160,6 +1152,8 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _newConfigurationName, value);
         }
 
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public void AddConfiguration()
         {
             if (string.IsNullOrEmpty(NewConfigurationName))
@@ -1171,28 +1165,30 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 ConfigurationList.Add(new CombinedData { Display = NewConfigurationName, Value = NewConfigurationName });
 
-                var growinfo = new GrowlInfo
+                var growlInfo = new GrowlInfo
                 {
                     IsCustom = true,
                     Message = string.Format(LocalizationHelper.GetString("AddConfigSuccess"), NewConfigurationName),
                     IconKey = "HangoverGeometry",
                     IconBrushKey = "PallasBrush",
                 };
-                Growl.Info(growinfo);
+                Growl.Info(growlInfo);
             }
             else
             {
-                var growinfo = new GrowlInfo
+                var growlInfo = new GrowlInfo
                 {
                     IsCustom = true,
                     Message = string.Format(LocalizationHelper.GetString("ConfigExists"), NewConfigurationName),
                     IconKey = "HangoverGeometry",
                     IconBrushKey = "PallasBrush",
                 };
-                Growl.Info(growinfo);
+                Growl.Info(growlInfo);
             }
         }
 
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public void DeleteConfiguration(CombinedData delete)
         {
             if (ConfigurationHelper.DeleteConfiguration(delete.Display))
@@ -1214,7 +1210,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets the list of dark mode.
         /// </summary>
-        public List<CombinedData> DarkModeList { get; set; }
+        public List<GenericCombinedData<DarkModeType>> DarkModeList { get; set; }
 
         /// <summary>
         /// Gets or sets the list of inverse clear modes.
@@ -1411,6 +1407,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Selects infrast config file.
         /// </summary>
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public void SelectCustomInfrastFile()
         {
             var dialog = new OpenFileDialog
@@ -1485,7 +1483,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public List<double> DividerVerticalOffsetList { get; set; }
 
-        private int _selectedIndex = 0;
+        private int _selectedIndex;
 
         /// <summary>
         /// Gets or sets the index selected.
@@ -1520,7 +1518,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private double _scrollOffset = 0;
+        private double _scrollOffset;
 
         /// <summary>
         /// Gets or sets the scroll offset.
@@ -1592,7 +1590,7 @@ namespace MaaWpfGui.ViewModels.UI
         private string _roguelikeMode = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeMode, "0");
 
         /// <summary>
-        /// 策略，往后打 / 刷一层就退 / 烧开水
+        /// 策略，往后打 / 刷一层就退 / 烧热水
         /// </summary>
         public string RoguelikeMode
         {
@@ -1601,9 +1599,6 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _roguelikeMode, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeMode, value);
-
-                // 烧开水模式可选项
-                this.RoguelikeStartWithEliteTwoEnable = MapRoguelikeStartWithEliteTwoEnable(value);
             }
         }
 
@@ -1689,26 +1684,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _roguelikeStartWithEliteTwoEnable = MapRoguelikeStartWithEliteTwoEnable(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeMode, "0"));
-
-        public string RoguelikeStartWithEliteTwoEnable
-        {
-            get
-            {
-                return _roguelikeStartWithEliteTwoEnable;
-            }
-
-            set
-            {
-                SetAndNotify(ref _roguelikeStartWithEliteTwoEnable, value);
-            }
-        }
-
-        private static string MapRoguelikeStartWithEliteTwoEnable(string mode)
-        {
-            return mode == "4" ? "Visible" : "Collapsed";
-        }
-
         private string _roguelikeUseSupportUnit = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeUseSupportUnit, false.ToString());
 
         /// <summary>
@@ -1744,6 +1719,21 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _roguelikeDelayAbortUntilCombatComplete = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, false.ToString()));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether delay abort until battle complete
+        /// </summary>
+        public bool RoguelikeDelayAbortUntilCombatComplete
+        {
+            get => _roguelikeDelayAbortUntilCombatComplete;
+            set
+            {
+                SetAndNotify(ref _roguelikeDelayAbortUntilCombatComplete, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, value.ToString());
+            }
+        }
+
         private string _roguelikeStartsCount = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartsCount, "9999999");
 
         /// <summary>
@@ -1774,6 +1764,21 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private string _roguelikeInvestmentEnterSecondFloor = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeInvestmentEnterSecondFloor, true.ToString());
+
+        /// <summary>
+        /// Gets or sets a value indicating whether investment is enabled.
+        /// </summary>
+        public bool RoguelikeInvestmentEnterSecondFloor
+        {
+            get => bool.Parse(_roguelikeInvestmentEnterSecondFloor);
+            set
+            {
+                SetAndNotify(ref _roguelikeInvestmentEnterSecondFloor, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeInvestmentEnterSecondFloor, value.ToString());
+            }
+        }
+
         private string _roguelikeRefreshTraderWithDice = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeRefreshTraderWithDice, false.ToString());
 
         public bool RoguelikeRefreshTraderWithDice
@@ -1783,18 +1788,6 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _roguelikeRefreshTraderWithDice, value.ToString());
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeRefreshTraderWithDice, value.ToString());
-            }
-        }
-
-        private bool _roguelikeRefreshTraderWithDiceEnabled = false;
-
-        public bool RoguelikeRefreshTraderWithDiceEnabled
-        {
-            get => _roguelikeRefreshTraderWithDiceEnabled;
-            set
-            {
-                SetAndNotify(ref _roguelikeRefreshTraderWithDiceEnabled, value);
-                RoguelikeRefreshTraderWithDice = false;
             }
         }
 
@@ -1829,7 +1822,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         /* 访问好友设置 */
-        private string _lastCreditFightTaskTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditFightTaskTime, DateTime.UtcNow.ToYJDate().AddDays(-1).ToString("yyyy/MM/dd HH:mm:ss"));
+        private string _lastCreditFightTaskTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditFightTaskTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToString("yyyy/MM/dd HH:mm:ss"));
 
         public string LastCreditFightTaskTime
         {
@@ -1837,7 +1830,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _lastCreditFightTaskTime, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.LastCreditFightTaskTime, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.LastCreditFightTaskTime, value);
             }
         }
 
@@ -1852,7 +1845,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 try
                 {
-                    if (DateTime.UtcNow.ToYJDate() > DateTime.ParseExact(_lastCreditFightTaskTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
+                    if (DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(_lastCreditFightTaskTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
                     {
                         return _creditFightTaskEnabled;
                     }
@@ -2071,7 +2064,7 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         _timerConfig = value ?? ConfigurationHelper.GetCurrentConfiguration();
                         OnPropertyChanged();
-                        ConfigurationHelper.SetTimerConfig(TimerId, _timerConfig.ToString());
+                        ConfigurationHelper.SetTimerConfig(TimerId, _timerConfig);
                     }
                 }
 
@@ -2192,7 +2185,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _useExpedited = false;
+        private bool _useExpedited;
 
         /// <summary>
         /// Gets or sets a value indicating whether to use expedited.
@@ -2370,18 +2363,18 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _updateAutoCheck = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UpdatAutoCheck, bool.FalseString));
+        private bool _updateAutoCheck = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UpdateAutoCheck, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to check update.
         /// </summary>
-        public bool UpdatAutoCheck
+        public bool UpdateAutoCheck
         {
             get => _updateAutoCheck;
             set
             {
                 SetAndNotify(ref _updateAutoCheck, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.UpdatAutoCheck, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.UpdateAutoCheck, value.ToString());
             }
         }
 
@@ -2400,7 +2393,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _isCheckingForUpdates = false;
+        private bool _isCheckingForUpdates;
 
         /// <summary>
         /// Gets or sets a value indicating whether the update is being checked.
@@ -2482,14 +2475,14 @@ namespace MaaWpfGui.ViewModels.UI
                     toastMessage = LocalizationHelper.GetString("NewVersionIsBeingBuilt");
                     break;
 
-                case VersionUpdateViewModel.CheckUpdateRetT.OnlyGameReourceUpdated:
+                case VersionUpdateViewModel.CheckUpdateRetT.OnlyGameResourceUpdated:
                     toastMessage = LocalizationHelper.GetString("GameResourceUpdated");
                     break;
             }
 
             if (toastMessage != null)
             {
-                Execute.OnUIThread(() =>
+                _ = Execute.OnUIThreadAsync(() =>
                 {
                     using var toast = new ToastNotification(toastMessage);
                     toast.Show();
@@ -2497,6 +2490,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public void ShowChangelog()
         {
             Instances.WindowManager.ShowWindow(Instances.VersionUpdateViewModel);
@@ -2571,17 +2566,19 @@ namespace MaaWpfGui.ViewModels.UI
             else
             {
                 history.Insert(0, address);
-                const int maxHistoryCount = 5;
-                if (history.Count > maxHistoryCount)
+                const int MaxHistoryCount = 5;
+                if (history.Count > MaxHistoryCount)
                 {
-                    history.RemoveRange(maxHistoryCount, history.Count - maxHistoryCount);
+                    history.RemoveRange(MaxHistoryCount, history.Count - MaxHistoryCount);
                 }
             }
 
             ConnectAddressHistory = new ObservableCollection<string>(history);
         }
 
-        public void RemoveAddress_Click(string address)
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
+        public void RemoveAddressClick(string address)
         {
             ConnectAddressHistory.Remove(address);
             ConfigurationHelper.SetValue(ConfigurationKeys.AddressHistory, JsonConvert.SerializeObject(ConnectAddressHistory));
@@ -2621,7 +2618,7 @@ namespace MaaWpfGui.ViewModels.UI
         private bool _retryOnDisconnected = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RetryOnAdbDisconnected, bool.FalseString));
 
         /// <summary>
-        /// Gets or sets a value indicating whether to retry task after adb disconnected.
+        /// Gets or sets a value indicating whether to retry task after ADB disconnected.
         /// </summary>
         public bool RetryOnDisconnected
         {
@@ -2633,33 +2630,33 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _allowADBRestart = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AllowADBRestart, bool.TrueString));
+        private bool _allowAdbRestart = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AllowAdbRestart, bool.TrueString));
 
         /// <summary>
-        /// Gets or sets a value indicating whether to retry task after adb disconnected.
+        /// Gets or sets a value indicating whether to retry task after ADB disconnected.
         /// </summary>
-        public bool AllowADBRestart
+        public bool AllowAdbRestart
         {
-            get => _allowADBRestart;
+            get => _allowAdbRestart;
             set
             {
-                SetAndNotify(ref _allowADBRestart, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AllowADBRestart, value.ToString());
+                SetAndNotify(ref _allowAdbRestart, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.AllowAdbRestart, value.ToString());
             }
         }
 
-        private bool _allowADBHardRestart = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AllowADBHardRestart, bool.TrueString));
+        private bool _allowAdbHardRestart = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AllowAdbHardRestart, bool.TrueString));
 
         /// <summary>
-        /// Gets or sets a value indicating whether to allow for killing adb process.
+        /// Gets or sets a value indicating whether to allow for killing ADB process.
         /// </summary>
-        public bool AllowADBHardRestart
+        public bool AllowAdbHardRestart
         {
-            get => _allowADBHardRestart;
+            get => _allowAdbHardRestart;
             set
             {
-                SetAndNotify(ref _allowADBHardRestart, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AllowADBHardRestart, value.ToString());
+                SetAndNotify(ref _allowAdbHardRestart, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.AllowAdbHardRestart, value.ToString());
             }
         }
 
@@ -2816,11 +2813,13 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Selects ADB program file.
         /// </summary>
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public void SelectFile()
         {
             var dialog = new OpenFileDialog
             {
-                Filter = LocalizationHelper.GetString("ADBProgram") + "|*.exe",
+                Filter = LocalizationHelper.GetString("AdbProgram") + "|*.exe",
             };
 
             if (dialog.ShowDialog() == true)
@@ -2863,8 +2862,8 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 JObject versionJson = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
                 var currentTime = (ulong)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-                var poolTime = (ulong)versionJson?["gacha"]["time"];
-                var activityTime = (ulong)versionJson?["activity"]["time"];
+                var poolTime = (ulong)versionJson?["gacha"]?["time"];
+                var activityTime = (ulong)versionJson?["activity"]?["time"];
 
                 if ((currentTime < poolTime) && (currentTime < activityTime))
                 {
@@ -2896,7 +2895,7 @@ namespace MaaWpfGui.ViewModels.UI
         private string _bluestacksKeyWord = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigKeyword, string.Empty);
 
         /// <summary>
-        /// Tries to set Bluestack Hyper V address.
+        /// Tries to set BlueStack Hyper V address.
         /// </summary>
         /// <returns>success</returns>
         public string TryToSetBlueStacksHyperVAddress()
@@ -2912,11 +2911,11 @@ namespace MaaWpfGui.ViewModels.UI
                 return null;
             }
 
-            var all_lines = File.ReadAllLines(_bluestacksConfig);
+            var allLines = File.ReadAllLines(_bluestacksConfig);
 
             if (string.IsNullOrEmpty(_bluestacksKeyWord))
             {
-                foreach (var line in all_lines)
+                foreach (var line in allLines)
                 {
                     if (line.StartsWith("bst.installed_images"))
                     {
@@ -2927,7 +2926,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            foreach (var line in all_lines)
+            foreach (var line in allLines)
             {
                 if (line.StartsWith(_bluestacksKeyWord))
                 {
@@ -2965,11 +2964,13 @@ namespace MaaWpfGui.ViewModels.UI
             Instances.AsstProxy.AsstSetInstanceOption(InstanceOptionKey.KillAdbOnExit, KillAdbOnExit ? "1" : "0");
         }
 
-        private static readonly string GoogleAdbDownloadUrl = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip";
-        private static readonly string AdbMaaMirrorDownloadUrl = "https://ota.maa.plus/MaaAssistantArknights/api/binaries/adb-windows.zip";
-        private static readonly string GoogleAdbFilename = "adb-windows.zip";
+        private const string GoogleAdbDownloadUrl = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip";
+        private const string AdbMaaMirrorDownloadUrl = "https://ota.maa.plus/MaaAssistantArknights/api/binaries/adb-windows.zip";
+        private const string GoogleAdbFilename = "adb-windows.zip";
 
-        public async void ReplaceADB()
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
+        public async void ReplaceAdb()
         {
             if (string.IsNullOrEmpty(AdbPath))
             {
@@ -3072,7 +3073,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 _ = Execute.OnUIThreadAsync(() =>
                 {
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("SuccessfullyReplacedADB"));
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("SuccessfullyReplacedAdb"));
                     toast.Show();
                 });
             }
@@ -3092,10 +3093,12 @@ namespace MaaWpfGui.ViewModels.UI
 
         /* 界面设置 */
 
+        /*
         /// <summary>
         /// Gets a value indicating whether to use tray icon.
         /// </summary>
         public bool UseTray => true;
+        */
 
         private bool _minimizeToTray = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
 
@@ -3109,7 +3112,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _minimizeToTray, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.MinimizeToTray, value.ToString());
-                Instances.MainWindowManager.SetMinimizeToTaskbar(value);
+                Instances.MainWindowManager.SetMinimizeToTaskBar(value);
             }
         }
 
@@ -3130,21 +3133,19 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _useNotify = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseNotify, bool.TrueString));
-
         /// <summary>
         /// Gets or sets a value indicating whether to use notification.
         /// </summary>
         public bool UseNotify
         {
-            get => _useNotify;
+            get => ConfigFactory.CurrentConfig.GUI.UseNotify;
             set
             {
-                SetAndNotify(ref _useNotify, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.UseNotify, value.ToString());
+                ConfigFactory.CurrentConfig.GUI.UseNotify = value;
+                NotifyOfPropertyChange();
                 if (value)
                 {
-                    Execute.OnUIThread(() =>
+                    Execute.OnUIThreadAsync(() =>
                     {
                         using var toast = new ToastNotification("Test test");
                         toast.Show();
@@ -3272,47 +3273,15 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         /// <summary>
-        /// 表示深色模式的类型。
-        /// </summary>
-        public enum DarkModeType
-        {
-            /// <summary>
-            /// 明亮的主题。
-            /// </summary>
-            Light,
-
-            /// <summary>
-            /// 暗黑的主题。
-            /// </summary>
-            Dark,
-
-            /// <summary>
-            /// 与操作系统的深色模式同步。
-            /// </summary>
-            SyncWithOS,
-        }
-
-        private DarkModeType _darkModeType =
-            Enum.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.DarkMode, DarkModeType.Light.ToString()),
-                out DarkModeType temp)
-                ? temp
-                : DarkModeType.Light;
-
-        /// <summary>
         /// Gets or sets the dark mode.
         /// </summary>
-        public string DarkMode
+        public DarkModeType DarkMode
         {
-            get => _darkModeType.ToString();
+            get => ConfigFactory.CurrentConfig.GUI.DarkMode;
             set
             {
-                if (!Enum.TryParse(value, out DarkModeType tempEnumValue))
-                {
-                    return;
-                }
-
-                SetAndNotify(ref _darkModeType, tempEnumValue);
-                ConfigurationHelper.SetValue(ConfigurationKeys.DarkMode, value);
+                ConfigFactory.CurrentConfig.GUI.DarkMode = value;
+                NotifyOfPropertyChange();
                 SwitchDarkMode();
 
                 /*
@@ -3331,10 +3300,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void SwitchDarkMode()
         {
-            DarkModeType darkModeType =
-                Enum.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.DarkMode, DarkModeType.Light.ToString()),
-                    out DarkModeType temp)
-                    ? temp : DarkModeType.Light;
+            DarkModeType darkModeType = ConfigFactory.CurrentConfig.GUI.DarkMode;
             switch (darkModeType)
             {
                 case DarkModeType.Light:
@@ -3345,8 +3311,8 @@ namespace MaaWpfGui.ViewModels.UI
                     ThemeHelper.SwitchToDarkMode();
                     break;
 
-                case DarkModeType.SyncWithOS:
-                    ThemeHelper.SwitchToSyncWithOSMode();
+                case DarkModeType.SyncWithOs:
+                    ThemeHelper.SwitchToSyncWithOsMode();
                     break;
             }
         }
@@ -3441,13 +3407,15 @@ namespace MaaWpfGui.ViewModels.UI
                 // var backup = _language;
                 ConfigurationHelper.SetValue(ConfigurationKeys.Localization, value);
 
-                string FormatText(string text, string key)
-                    => string.Format(text, LocalizationHelper.GetString(key, value), LocalizationHelper.GetString(key, _language));
-
                 var mainWindow = Application.Current.MainWindow;
-                mainWindow.Show();
-                mainWindow.WindowState = mainWindow.WindowState = WindowState.Normal;
-                mainWindow.Activate();
+
+                if (mainWindow != null)
+                {
+                    mainWindow.Show();
+                    mainWindow.WindowState = mainWindow.WindowState = WindowState.Normal;
+                    mainWindow.Activate();
+                }
+
                 var result = MessageBoxHelper.Show(
                     FormatText("{0}\n{1}", "LanguageChangedTip"),
                     FormatText("{0}({1})", "Tip"),
@@ -3461,6 +3429,10 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 SetAndNotify(ref _language, value);
+                return;
+
+                string FormatText(string text, string key)
+                    => string.Format(text, LocalizationHelper.GetString(key, value), LocalizationHelper.GetString(key, _language));
             }
         }
 
@@ -3515,13 +3487,12 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private void SetPallasLanguage()
+        private static void SetPallasLanguage()
         {
             ConfigurationHelper.SetValue(ConfigurationKeys.Localization, PallasLangKey);
             var result = MessageBoxHelper.Show(
                 LocalizationHelper.GetString("DrunkAndStaggering"),
                 LocalizationHelper.GetString("Burping"),
-                MessageBoxButton.OK,
                 iconKey: "DrunkAndStaggeringGeometry",
                 iconBrushKey: "PallasBrush");
             if (result == MessageBoxResult.OK)
@@ -3533,7 +3504,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets the hotkey: ShowGui.
         /// </summary>
-        public MaaHotKey HotKeyShowGui
+        public static MaaHotKey HotKeyShowGui
         {
             get => Instances.MaaHotKeyManager.GetOrNull(MaaHotKeyAction.ShowGui);
             set => SetHotKey(MaaHotKeyAction.ShowGui, value);
@@ -3542,13 +3513,13 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets the hotkey: LinkStart.
         /// </summary>
-        public MaaHotKey HotKeyLinkStart
+        public static MaaHotKey HotKeyLinkStart
         {
             get => Instances.MaaHotKeyManager.GetOrNull(MaaHotKeyAction.LinkStart);
             set => SetHotKey(MaaHotKeyAction.LinkStart, value);
         }
 
-        private void SetHotKey(MaaHotKeyAction action, MaaHotKey value)
+        private static void SetHotKey(MaaHotKeyAction action, MaaHotKey value)
         {
             if (value != null)
             {
@@ -3556,7 +3527,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else
             {
-                Instances.MaaHotKeyManager.Unregister(action);
+                Instances.MaaHotKeyManager.UnRegister(action);
             }
         }
 
@@ -3566,12 +3537,12 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>The answer.</returns>
         public bool DidYouBuyWine()
         {
-            if (DateTime.UtcNow.ToYJDate().IsAprilFoolsDay())
+            if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())
             {
                 return true;
             }
 
-            var wineList = new[] { "酒", "drink", "wine", "beer", "술", "🍷", "🍸", "🍺", "🍻", "🥃", "🍶" };
+            var wineList = new[] { "酒", "liquor", "drink", "wine", "beer", "술", "🍷", "🍸", "🍺", "🍻", "🥃", "🍶" };
             return wineList.Any(wine => CreditFirstList.Contains(wine));
         }
 
@@ -3587,7 +3558,6 @@ namespace MaaWpfGui.ViewModels.UI
             switch (RoguelikeTheme)
             {
                 case "Phantom":
-                    RoguelikeRefreshTraderWithDiceEnabled = false;
 
                     foreach (var item in new ObservableCollection<CombinedData>
                     {
@@ -3600,7 +3570,6 @@ namespace MaaWpfGui.ViewModels.UI
                     break;
 
                 case "Mizuki":
-                    RoguelikeRefreshTraderWithDiceEnabled = true;
 
                     foreach (var item in new ObservableCollection<CombinedData>
                     {
@@ -3616,7 +3585,6 @@ namespace MaaWpfGui.ViewModels.UI
                     break;
 
                 case "Sami":
-                    RoguelikeRefreshTraderWithDiceEnabled = false;
 
                     foreach (var item in new ObservableCollection<CombinedData>
                     {
@@ -3723,18 +3691,24 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _guideTransitionMode, value);
         }
 
-        public void NextGuide(HandyControl.Controls.StepBar stepBar)
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
+        public void NextGuide(StepBar stepBar)
         {
             GuideTransitionMode = "Bottom2Top";
             stepBar.Next();
         }
 
-        public void PrevGuide(HandyControl.Controls.StepBar stepBar)
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
+        public void PrevGuide(StepBar stepBar)
         {
             GuideTransitionMode = "Top2Bottom";
             stepBar.Prev();
         }
 
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public void DoneGuide()
         {
             TaskSettingVisibilities.Guide = false;
@@ -3748,13 +3722,21 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event args</param>
-        // xaml 中绑定了 Loaded 事件，需要添加 qodana ignore rule
+        // UI 绑定的方法
         // EventArgs 不能省略，否则会报错
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable once UnusedParameter.Global
         public void MakeComboBoxSearchable(object sender, EventArgs e)
         {
             (sender as ComboBox)?.MakeComboBoxSearchable();
+        }
+
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
+        public async Task CheckAndDownloadAnnouncement()
+        {
+            await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
+            _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
         }
     }
 }

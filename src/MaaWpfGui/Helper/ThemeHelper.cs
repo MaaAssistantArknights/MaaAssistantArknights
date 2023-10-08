@@ -47,7 +47,7 @@ namespace MaaWpfGui.Helper
             Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
         }
 
-        public static void SwitchToSyncWithOSMode()
+        public static void SwitchToSyncWithOsMode()
         {
             ThemeManager.Current.UsingWindowsAppTheme = true;
             Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
@@ -59,13 +59,13 @@ namespace MaaWpfGui.Helper
         #region Check UiLogColor
 
         // In official version, using ResourceHelper.GetSkin
-        private static readonly Color LightBackground = ((SolidColorBrush)ThemeResources.Current.GetThemeDictionary("Light")["RegionBrush"]).Color;
+        private static readonly Color _lightBackground = ((SolidColorBrush)ThemeResources.Current.GetThemeDictionary("Light")["RegionBrush"]).Color;
 
-        private static readonly Color DarkBackground = ((SolidColorBrush)ThemeResources.Current.GetThemeDictionary("Dark")["RegionBrush"]).Color;
+        private static readonly Color _darkBackground = ((SolidColorBrush)ThemeResources.Current.GetThemeDictionary("Dark")["RegionBrush"]).Color;
 
         public static bool SimilarToBackground(Color color)
         {
-            return ColorDistance(color, LightBackground) == 0 || ColorDistance(color, DarkBackground) == 0;
+            return ColorDistance(color, _lightBackground) == 0 || ColorDistance(color, _darkBackground) == 0;
         }
 
         /// <summary>
@@ -106,32 +106,32 @@ namespace MaaWpfGui.Helper
             return $"#FF{color.R:X2}{color.G:X2}{color.B:X2}";
         }
 
+        // ReSharper disable once UnusedMember.Global
         public static string Brush2HexString(SolidColorBrush brush, bool keepAlpha = false)
         {
-            if (brush != null)
-            {
-                return Color2HexString(brush.Color, keepAlpha);
-            }
-
-            return DefaultHexString;
+            return brush != null
+                ? Color2HexString(brush.Color, keepAlpha)
+                : DefaultHexString;
         }
 
         public static Color String2Color(string str)
         {
-            if (!string.IsNullOrWhiteSpace(str))
+            if (string.IsNullOrWhiteSpace(str))
             {
-                try
+                return DefaultColor;
+            }
+
+            try
+            {
+                object obj = ColorConverter.ConvertFromString(str);
+                if (obj is Color color)
                 {
-                    object obj = ColorConverter.ConvertFromString(str);
-                    if (obj is Color color)
-                    {
-                        return color;
-                    }
+                    return color;
                 }
-                catch
-                {
-                    return DefaultColor;
-                }
+            }
+            catch
+            {
+                return DefaultColor;
             }
 
             return DefaultColor;

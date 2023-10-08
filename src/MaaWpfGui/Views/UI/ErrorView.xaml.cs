@@ -46,14 +46,14 @@ namespace MaaWpfGui.Views.UI
         {
             InitializeComponent();
             var exc0 = exc;
-            var errorb = new StringBuilder();
+            var errorStr = new StringBuilder();
             while (true)
             {
-                errorb.Append(exc.Message);
+                errorStr.Append(exc.Message);
                 exc = exc.InnerException;
                 if (exc != null)
                 {
-                    errorb.AppendLine();
+                    errorStr.AppendLine();
                 }
                 else
                 {
@@ -61,7 +61,7 @@ namespace MaaWpfGui.Views.UI
                 }
             }
 
-            var error = errorb.ToString();
+            var error = errorStr.ToString();
             var details = exc0.ToString();
             ExceptionMessage = error;
             ExceptionDetails = details;
@@ -77,8 +77,9 @@ namespace MaaWpfGui.Views.UI
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private string GetSolution(string error, string details)
+        private static string GetSolution(string error, string details)
         {
+            _ = error; // To avoid warning
             if (details.Contains("AsstGetVersion()") ||
                 details.Contains("DllNotFoundException") ||
                 details.Contains("lambda_method") ||
@@ -87,6 +88,7 @@ namespace MaaWpfGui.Views.UI
                 return LocalizationHelper.GetString("ErrorSolutionCrash");
             }
 
+            // ReSharper disable once ConvertIfStatementToReturnStatement
             if (details.Contains("System.IO.File.InternalMove"))
             {
                 return LocalizationHelper.GetString("ErrorSolutionFailedToMove");

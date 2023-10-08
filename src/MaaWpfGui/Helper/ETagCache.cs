@@ -14,6 +14,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Serilog;
 
@@ -55,6 +57,7 @@ namespace MaaWpfGui.Helper
             File.WriteAllText(_cacheFile, jsonStr);
         }
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public static string Get(string url)
         {
             if (url is null)
@@ -65,9 +68,38 @@ namespace MaaWpfGui.Helper
             return _cache.TryGetValue(url, out string ret) ? ret : string.Empty;
         }
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public static void Set(string url, string etag)
         {
             _cache[url] = etag;
+        }
+
+        public static void Set(HttpResponseMessage response)
+        {
+            var res = response?.Headers?.ETag?.Tag;
+            if (string.IsNullOrEmpty(res))
+            {
+                return;
+            }
+
+            Set(response.RequestMessage.RequestUri.ToString(), res);
+        }
+
+        public static async Task<HttpResponseMessage> FetchResponseWithEtag(string url, bool force = false)
+        {
+            var etag = !force ? Get(url) : string.Empty;
+            Dictionary<string, string> headers = new Dictionary<string, string>
+            {
+                { "Accept", "application/octet-stream" },
+            };
+
+            if (!string.IsNullOrEmpty(etag))
+            {
+                headers["If-None-Match"] = etag;
+            }
+
+            var response = await Instances.HttpService.GetAsync(new Uri(url), headers, httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
+            return response;
         }
     }
 }

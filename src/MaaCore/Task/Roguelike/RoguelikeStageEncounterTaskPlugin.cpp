@@ -15,12 +15,11 @@ bool asst::RoguelikeStageEncounterTaskPlugin::verify(AsstMsg msg, const json::va
         return false;
     }
 
-    auto roguelike_name_opt = status()->get_properties(Status::RoguelikeTheme);
-    if (!roguelike_name_opt) {
+    if (m_roguelike_theme.empty()) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
-    const std::string roguelike_name = std::move(roguelike_name_opt.value()) + "@";
+    const std::string roguelike_name = m_roguelike_theme + "@";
     const std::string& task = details.get("details", "task", "");
     std::string_view task_view = task;
     if (task_view.starts_with(roguelike_name)) {
@@ -38,12 +37,11 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    std::string rogue_theme = status()->get_properties(Status::RoguelikeTheme).value();
     std::string rogue_mode = status()->get_properties(Status::RoguelikeMode).value();
-    std::vector<RoguelikeEvent> events = RoguelikeStageEncounter.get_events(rogue_theme);
+    std::vector<RoguelikeEvent> events = RoguelikeStageEncounter.get_events(m_roguelike_theme);
     // 刷源石锭模式和烧水模式
     if (rogue_mode == "1" || rogue_mode == "4") {
-        events = RoguelikeStageEncounter.get_events(rogue_theme + "_deposit");
+        events = RoguelikeStageEncounter.get_events(m_roguelike_theme + "_deposit");
     }
     std::vector<std::string> event_names;
     std::unordered_map<std::string, RoguelikeEvent> event_map;
@@ -75,7 +73,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     RoguelikeEvent event = event_map.at(text);
     Log.info("Event:", event.name, "choose option", event.default_choose);
     for (int j = 0; j < 2; ++j) {
-        ProcessTask(*this, { rogue_theme + "@Roguelike@OptionChoose" + std::to_string(event.option_num) + "-" +
+        ProcessTask(*this, { m_roguelike_theme + "@Roguelike@OptionChoose" + std::to_string(event.option_num) + "-" +
                              std::to_string(event.default_choose) })
             .run();
         sleep(300);

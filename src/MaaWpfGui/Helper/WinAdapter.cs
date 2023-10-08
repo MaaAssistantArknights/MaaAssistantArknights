@@ -78,19 +78,19 @@ namespace MaaWpfGui.Helper
             var emulators = new List<string>();
             foreach (var process in allProcess)
             {
-                if (_emulatorIdDict.Keys.Contains(process.ProcessName))
+                if (!_emulatorIdDict.Keys.Contains(process.ProcessName))
                 {
-                    var emulatorId = _emulatorIdDict[process.ProcessName];
-                    emulators.Add(emulatorId);
-                    var processPath = process.MainModule.FileName;
-                    foreach (var path in _adbRelativePathDict[emulatorId])
-                    {
-                        var adbPath = Path.GetDirectoryName(processPath) + "\\" + path;
-                        if (File.Exists(adbPath))
-                        {
-                            _adbAbsolutePathDict[emulatorId] = adbPath;
-                        }
-                    }
+                    continue;
+                }
+
+                var emulatorId = _emulatorIdDict[process.ProcessName];
+                emulators.Add(emulatorId);
+                var processPath = process.MainModule?.FileName;
+                foreach (string adbPath in _adbRelativePathDict[emulatorId]
+                             .Select(path => Path.GetDirectoryName(processPath) + "\\" + path)
+                             .Where(File.Exists))
+                {
+                    _adbAbsolutePathDict[emulatorId] = adbPath;
                 }
             }
 
@@ -119,35 +119,26 @@ namespace MaaWpfGui.Helper
         /// <returns>The list of ADB addresses.</returns>
         public List<string> GetAdbAddresses(string adbPath)
         {
-            var addresses = new List<string>();
-            using (Process process = new Process())
-            {
-                process.StartInfo.FileName = adbPath;
-                process.StartInfo.Arguments = "devices";
+            using Process process = new Process();
+            process.StartInfo.FileName = adbPath;
+            process.StartInfo.Arguments = "devices";
 
-                // 禁用操作系统外壳程序
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.CreateNoWindow = true;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.Start();
-                var output = process.StandardOutput.ReadToEnd();
-                _logger.Information(adbPath + " devices | output:\n" + output);
-                var outLines = output.Split(new[] { '\r', '\n' });
-                foreach (var line in outLines)
-                {
-                    if (line.StartsWith("List of devices attached") ||
-                        line.Length == 0 ||
-                        !line.Contains("device"))
-                    {
-                        continue;
-                    }
+            // 禁用操作系统外壳程序
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.CreateNoWindow = true;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.Start();
+            var output = process.StandardOutput.ReadToEnd();
+            _logger.Information(adbPath + " devices | output:\n" + output);
+            var outLines = output.Split('\r', '\n');
 
-                    var address = line.Split('\t')[0];
-                    addresses.Add(address);
-                }
-            }
-
-            return addresses;
+            return
+                (from line in outLines
+                where !line.StartsWith("List of devices attached")
+                    && line.Length != 0
+                    && line.Contains("device")
+                select line.Split('\t')[0])
+                .ToList();
         }
     }
 }

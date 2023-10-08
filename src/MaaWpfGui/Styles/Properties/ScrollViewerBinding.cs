@@ -12,8 +12,11 @@
 // </copyright>
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using HandyControl.Controls;
+using ScrollViewer = System.Windows.Controls.ScrollViewer;
 
 namespace MaaWpfGui.Styles.Properties
 {
@@ -36,14 +39,15 @@ namespace MaaWpfGui.Styles.Properties
         /// <summary>
         /// Just a flag that the binding has been applied.
         /// </summary>
-        private static readonly DependencyProperty VerticalOffsetBindingProperty =
-            DependencyProperty.RegisterAttached("VerticalOffsetBinding", typeof(bool?), typeof(ScrollViewerBinding));
+        private static readonly DependencyProperty _verticalOffsetBindingProperty =
+            DependencyProperty.RegisterAttached("_verticalOffsetBinding", typeof(bool?), typeof(ScrollViewerBinding));
 
         /// <summary>
         /// Gets vertical offset property.
         /// </summary>
         /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
         /// <returns>The property value.</returns>
+        // ReSharper disable once UnusedMember.Global
         public static double GetVerticalOffset(DependencyObject depObj)
         {
             if (!(depObj is ScrollViewer))
@@ -82,12 +86,12 @@ namespace MaaWpfGui.Styles.Properties
 
         private static void BindVerticalOffset(ScrollViewer scrollViewer)
         {
-            if (scrollViewer.GetValue(VerticalOffsetBindingProperty) != null)
+            if (scrollViewer.GetValue(_verticalOffsetBindingProperty) != null)
             {
                 return;
             }
 
-            scrollViewer.SetValue(VerticalOffsetBindingProperty, true);
+            scrollViewer.SetValue(_verticalOffsetBindingProperty, true);
             scrollViewer.ScrollChanged += (s, se) =>
             {
                 if (se.VerticalChange == 0)
@@ -112,14 +116,15 @@ namespace MaaWpfGui.Styles.Properties
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnViewportHeightPropertyChanged));
 
-        private static readonly DependencyProperty ViewportHeightBindingProperty =
-            DependencyProperty.RegisterAttached("ViewportHeightBinding", typeof(bool?), typeof(ScrollViewerBinding));
+        private static readonly DependencyProperty _viewportHeightBindingProperty =
+            DependencyProperty.RegisterAttached("_viewportHeightBinding", typeof(bool?), typeof(ScrollViewerBinding));
 
         /// <summary>
         /// Gets viewport height property.
         /// </summary>
         /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
         /// <returns>The property value.</returns>
+        // ReSharper disable once UnusedMember.Global
         public static double GetViewportHeight(DependencyObject depObj)
         {
             if (!(depObj is ScrollViewer scrollViewer))
@@ -157,12 +162,12 @@ namespace MaaWpfGui.Styles.Properties
 
         private static void BindViewportHeight(ScrollViewer scrollViewer)
         {
-            if (scrollViewer.GetValue(ViewportHeightBindingProperty) != null)
+            if (scrollViewer.GetValue(_viewportHeightBindingProperty) != null)
             {
                 return;
             }
 
-            scrollViewer.SetValue(ViewportHeightBindingProperty, true);
+            scrollViewer.SetValue(_viewportHeightBindingProperty, true);
 
             scrollViewer.Loaded += (s, se) =>
             {
@@ -188,14 +193,15 @@ namespace MaaWpfGui.Styles.Properties
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                 OnExtentHeightPropertyChanged));
 
-        private static readonly DependencyProperty ExtentHeightBindingProperty =
-            DependencyProperty.RegisterAttached("ExtentHeightBinding", typeof(bool?), typeof(ScrollViewerBinding));
+        private static readonly DependencyProperty _extentHeightBindingProperty =
+            DependencyProperty.RegisterAttached("_extentHeightBinding", typeof(bool?), typeof(ScrollViewerBinding));
 
         /// <summary>
         /// Gets extent height property.
         /// </summary>
         /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
         /// <returns>The property value.</returns>
+        // ReSharper disable once UnusedMember.Global
         public static double GetExtentHeight(DependencyObject depObj)
         {
             if (!(depObj is ScrollViewer scrollViewer))
@@ -233,12 +239,12 @@ namespace MaaWpfGui.Styles.Properties
 
         private static void BindExtentHeight(ScrollViewer scrollViewer)
         {
-            if (scrollViewer.GetValue(ExtentHeightBindingProperty) != null)
+            if (scrollViewer.GetValue(_extentHeightBindingProperty) != null)
             {
                 return;
             }
 
-            scrollViewer.SetValue(ExtentHeightBindingProperty, true);
+            scrollViewer.SetValue(_extentHeightBindingProperty, true);
 
             scrollViewer.Loaded += (s, se) =>
             {
@@ -265,14 +271,15 @@ namespace MaaWpfGui.Styles.Properties
         /// <summary>
         /// Just a flag that the binding has been applied.
         /// </summary>
-        private static readonly DependencyProperty DividerVerticalOffsetListBindingProperty =
-            DependencyProperty.RegisterAttached("DividerVerticalOffsetListBinding", typeof(bool?), typeof(ScrollViewerBinding));
+        private static readonly DependencyProperty _dividerVerticalOffsetListBindingProperty =
+            DependencyProperty.RegisterAttached("_dividerVerticalOffsetListBinding", typeof(bool?), typeof(ScrollViewerBinding));
 
         /// <summary>
         /// Gets divider vertical offset property.
         /// </summary>
         /// <param name="depObj">The <see cref="DependencyObject"/> instance.</param>
         /// <returns>The property value.</returns>
+        // ReSharper disable once UnusedMember.Global
         public static List<double> GetDividerVerticalOffsetList(DependencyObject depObj)
         {
             return (List<double>)depObj.GetValue(DividerVerticalOffsetListProperty);
@@ -305,37 +312,28 @@ namespace MaaWpfGui.Styles.Properties
 
         private static void BindDividerVerticalOffsetList(ScrollViewer scrollViewer)
         {
-            if (scrollViewer.GetValue(DividerVerticalOffsetListBindingProperty) != null)
+            if (scrollViewer.GetValue(_dividerVerticalOffsetListBindingProperty) != null)
             {
                 return;
             }
 
-            scrollViewer.SetValue(DividerVerticalOffsetListBindingProperty, true);
+            scrollViewer.SetValue(_dividerVerticalOffsetListBindingProperty, true);
 
             // 当滚动条载入时，遍历 StackPanel 中的所有 Divider 子元素对应位置
             scrollViewer.Loaded += (s, se) =>
             {
-                if (!scrollViewer.HasContent || !(scrollViewer.Content is StackPanel))
+                if (!scrollViewer.HasContent || !(scrollViewer.Content is StackPanel stackPanel))
                 {
                     return;
                 }
 
-                var dividerOffsetList = new List<double>();
-                var stackPanel = (StackPanel)scrollViewer.Content;
                 var point = new Point(10, scrollViewer.VerticalOffset);
 
-                foreach (var child in stackPanel.Children)
-                {
-                    // 以 Divider 为定位元素
-                    if (!(child is HandyControl.Controls.Divider))
-                    {
-                        continue;
-                    }
-
-                    // 转换计算并保存 Divider 在滚动面板中的垂直位置
-                    var targetPosition = ((FrameworkElement)child).TransformToVisual(scrollViewer).Transform(point);
-                    dividerOffsetList.Add(targetPosition.Y);
-                }
+                var dividerOffsetList = stackPanel.Children.OfType<Divider>()
+                    .Select(child => child.TransformToVisual(scrollViewer)
+                        .Transform(point))
+                    .Select(targetPosition => targetPosition.Y)
+                    .ToList();
 
                 if (dividerOffsetList.Count > 0)
                 {

@@ -19,7 +19,7 @@
     <system:String x:Key="ConnectionSettings">连接设置</system:String>
     <system:String x:Key="StartupSettings">启动设置</system:String>
     <system:String x:Key="ScheduleSettings">定时执行</system:String>
-    <system:String x:Key="UISettings">界面设置</system:String>
+    <system:String x:Key="UiSettings">界面设置</system:String>
     <system:String x:Key="HotKeySettings">热键设置</system:String>
     <system:String x:Key="UpdateSettings">软件更新</system:String>
     <system:String x:Key="AboutUs">关于我们</system:String>
@@ -75,11 +75,11 @@
     <system:String x:Key="CustomInfrastEnabled">启用自定义基建配置（beta）</system:String>
     <system:String x:Key="DefaultInfrast">内置配置</system:String>
     <system:String x:Key="UserDefined">自定义</system:String>
-    <system:String x:Key="153_3">153 一天3换</system:String>
-    <system:String x:Key="243_3">243 一天3换</system:String>
-    <system:String x:Key="243_4">243 一天4换</system:String>
-    <system:String x:Key="252_3">252 一天3换</system:String>
-    <system:String x:Key="333_3">333 一天3换</system:String>
+    <system:String x:Key="153Time3">153 一天3换</system:String>
+    <system:String x:Key="243Time3">243 一天3换</system:String>
+    <system:String x:Key="243Time4">243 一天4换</system:String>
+    <system:String x:Key="252Time3">252 一天3换</system:String>
+    <system:String x:Key="333Time3">333 一天3换</system:String>
     <system:String x:Key="CustomInfrastFile">自定义基建配置文件</system:String>
     <system:String x:Key="CustomInfrastFileParseFailed">自定义基建配置文件解析错误！</system:String>
     <system:String x:Key="CustomInfrastTitle" xml:space="preserve">自定义基建配置: </system:String>
@@ -102,7 +102,7 @@
     <system:String x:Key="InfrastThresholdTip">若启用自定义换班，该字段仅针对 autofill 和使用干员编组的房间有效</system:String>
     <system:String x:Key="RoguelikeStrategyExp">刷等级，尽可能稳定地打更多层数</system:String>
     <system:String x:Key="RoguelikeStrategyGold">刷源石锭，到达第二层后直接退出</system:String>
-    <system:String x:Key="RoguelikeLastReward">烧开水，到达第三层后直接退出</system:String>
+    <system:String x:Key="RoguelikeLastReward">烧热水，到达第三层后直接退出</system:String>
     <system:String x:Key="StartingSquad">开局分队</system:String>
     <system:String x:Key="StartingRoles">开局职业组</system:String>
     <system:String x:Key="StartingCoreChar">开局干员 (单个)</system:String>
@@ -110,6 +110,7 @@
     <system:String x:Key="RoguelikeStartWithEliteTwo">凹「开局干员」直升精二</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「开局干员」使用助战</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助战</system:String>
+    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">中止行为等待至当前战斗结束后</system:String>
     <system:String x:Key="DeploymentWithPause">暂停下干员（同时影响肉鸽、自动战斗、保全）（不稳定，暂不推荐开启）</system:String>
     <system:String x:Key="AdbLiteEnabled">使用 ADB Lite（实验性功能）</system:String>
     <system:String x:Key="KillAdbOnExit">退出时释放 ADB</system:String>
@@ -146,10 +147,10 @@
     <system:String x:Key="YoStarEN">国际服 (YoStarEN)</system:String>
     <system:String x:Key="YoStarJP">日服 (YoStarJP)</system:String>
     <system:String x:Key="YoStarKR">韩服 (YoStarKR)</system:String>
-    <system:String x:Key="txwy">繁中服 (txwy)</system:String>
+    <system:String x:Key="Txwy">繁中服 (txwy)</system:String>
     <system:String x:Key="Switchable">可切换</system:String>
     <system:String x:Key="Executable">可执行文件</system:String>
-    <system:String x:Key="ADBProgram">ADB程序</system:String>
+    <system:String x:Key="AdbProgram">ADB程序</system:String>
     <system:String x:Key="EmulatorException">检测模拟器出错\n请使用管理员权限打开本软件\n或手动设置连接</system:String>
     <system:String x:Key="AdbException">检测ADB出错\n请使用管理员权限打开本软件\n或手动设置连接</system:String>
     <system:String x:Key="EmulatorNotFound">未检测到任何模拟器\n请使用管理员权限打开本软件\n或手动设置连接</system:String>
@@ -171,7 +172,7 @@
     <system:String x:Key="CheckBoxesNotSavedAsNull">该选项右键选中时仅生效一次</system:String>
     <system:String x:Key="NoAutoNavigation">该选项不会自动导航至对应关卡</system:String>
     <system:String x:Key="StartupUpdateCheck">自动检查更新</system:String>
-    <system:String x:Key="UpdatAutoCheck">定时检查更新</system:String>
+    <system:String x:Key="UpdateAutoCheck">定时检查更新</system:String>
     <system:String x:Key="UpdateAutoDownload">自动下载更新包</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">自动安装更新包</system:String>
     <system:String x:Key="UpdateCheckStable">稳定版</system:String>
@@ -226,7 +227,7 @@
     <system:String x:Key="WaitForEmulatorFinish">等待结束</system:String>
     <system:String x:Key="EmulatorPath">模拟器路径</system:String>
     <system:String x:Key="Select">选择</system:String>
-    <system:String x:Key="ForcedReplaceADB">强制替换 ADB</system:String>
+    <system:String x:Key="ForcedReplaceAdb">强制替换 ADB</system:String>
     <system:String x:Key="TouchMode">触控模式</system:String>
     <system:String x:Key="MiniTouchMode">Minitouch（默认）</system:String>
     <system:String x:Key="MaaTouchMode">MaaTouch（实验功能）</system:String>
@@ -243,8 +244,9 @@
     <system:String x:Key="GoldTimesLimit">投资 N 个源石锭后停止任务</system:String>
     <system:String x:Key="StopOnGoldLimit">储备源石锭达到上限时停止</system:String>
     <system:String x:Key="InvestmentEnabled">投资源石锭</system:String>
+    <system:String x:Key="InvestmentEnterSecondFloor">投资后进入第二层</system:String>
     <system:String x:Key="RefreshTraderWithDice">刷新商店（指路鳞）</system:String>
-    <system:String x:Key="PenguinID">企鹅物流汇报ID（仅数字部分）</system:String>
+    <system:String x:Key="PenguinId">企鹅物流汇报ID（仅数字部分）</system:String>
     <system:String x:Key="DrGrandet">博朗台模式</system:String>
     <system:String x:Key="DrGrandetTip">在恢复理智确认界面等待，直到当前的 1 点理智恢复完成再立即确认。</system:String>
     <system:String x:Key="SocialPtShop">信用交易所自动购物</system:String>
@@ -288,14 +290,14 @@
 官服输入登录界面显示的手机号，如「123****4567」，可输入「123****4567」或「4567」或「23****45」
  B服输入登录界面显示的账号名，如「张三」，可输入「张」或「三」
 暂不支持其他服</system:String>
-    <system:String x:Key="ADBPath">ADB 路径 (相对/绝对)</system:String>
+    <system:String x:Key="AdbPath">ADB 路径 (相对/绝对)</system:String>
     <system:String x:Key="ConnectionAddress">连接地址</system:String>
     <system:String x:Key="ConnectionAddressTip">若遇到问题可尝试手动修改</system:String>
     <system:String x:Key="ConnectionPreset">连接配置</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB 重连失败时自动重启模拟器</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">重连失败 20 次后尝试重启模拟器，使用后台定时任务且设置任务完成关闭模拟器时请勾选</system:String>
-    <system:String x:Key="AllowADBRestart">连接失败后尝试重启 ADB Server</system:String>
-    <system:String x:Key="AllowADBHardRestart">连接失败后尝试关闭并重启 ADB 进程</system:String>
+    <system:String x:Key="AllowAdbRestart">连接失败后尝试重启 ADB Server</system:String>
+    <system:String x:Key="AllowAdbHardRestart">连接失败后尝试关闭并重启 ADB 进程</system:String>
     <!--  设置  -->
     <!--  一键长草  -->
     <system:String x:Key="Farming">一键长草</system:String>
@@ -310,7 +312,7 @@
     <system:String x:Key="ReclamationAlgorithm">生息演算</system:String>
     <system:String x:Key="Light">亮色</system:String>
     <system:String x:Key="Dark">暗色</system:String>
-    <system:String x:Key="SyncWithOS">与系统同步</system:String>
+    <system:String x:Key="SyncWithOs">与系统同步</system:String>
     <system:String x:Key="SelectAll">全选</system:String>
     <system:String x:Key="Inverse">反选</system:String>
     <system:String x:Key="Clear">清空</system:String>
@@ -329,6 +331,7 @@
     <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">退出 MAA，如无其他 MAA 进程则关机</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
+    <system:String x:Key="WaitAndStop">等待 &amp; 停止</system:String>
     <!--  战斗设置  -->
     <system:String x:Key="UseSanityPotion">吃理智药</system:String>
     <system:String x:Key="UseOriginitePrime">吃源石*</system:String>
@@ -347,7 +350,7 @@
     <system:String x:Key="UnsupportedStages">不支持的关卡</system:String>
     <system:String x:Key="LowVersion">版本过低</system:String>
     <system:String x:Key="MinimumRequirements" xml:space="preserve">最低需求: </system:String>
-    <system:String x:Key="Daysleftopen" xml:space="preserve">剩余开放天数: </system:String>
+    <system:String x:Key="DaysLeftOpen" xml:space="preserve">剩余开放天数: </system:String>
     <system:String x:Key="LessThanOneDay">不到 1 天</system:String>
     <system:String x:Key="1-7">1-7</system:String>
     <system:String x:Key="CE-6">龙门币-6/5</system:String>
@@ -382,6 +385,7 @@
     <system:String x:Key="UnselectedTask">未选择任务</system:String>
     <system:String x:Key="Running">正在运行中……</system:String>
     <system:String x:Key="AdbReplacementTips">如果任务完全没有反应，请使用 设置 - 连接设置 - 强制替换 ADB，或触控模式选择 ADB Input（不推荐）。</system:String>
+    <system:String x:Key="Waiting">正在等待战斗结束……</system:String>
     <system:String x:Key="Stopping">正在停止……</system:String>
     <system:String x:Key="Stopped">已停止</system:String>
     <system:String x:Key="UnknownErrorOccurs">出现未知错误</system:String>
@@ -484,11 +488,11 @@
     <!--  日志  -->
     <system:String x:Key="CopilotTip">
         小提示: \n\n
-        1. 请在有「开始行动」按钮的界面再使用本功能；\n\n
-        2. 使用好友助战可以关闭「自动编队」，手动选择干员后开始；\n\n
-        3. 模拟悖论需要关闭「自动编队」，并选好技能后处于「开始模拟」按钮的界面再开始；\n\n
-        4. 保全派驻 在 resource/copilot 文件夹下内置了多份作业。\n
+        1. 主线、故事集、SideStory 请在有「开始行动」按钮的界面再使用本功能；\n\n
+        2. 模拟悖论需要关闭「自动编队」，并选好技能后处于「开始模拟」按钮的界面再开始；\n\n
+        3. 保全派驻 在 resource/copilot 文件夹下内置了多份作业。\n
         请手动编队后在「开始部署」界面开始（可配合「循环次数」使用）\n\n
+        4. 使用好友助战可以关闭「自动编队」，手动选择干员后开始；\n\n
         5. 现已支持视频识别，请将攻略视频文件拖入后开始。\n
         需要视频分辨率为 16:9，无黑边、模拟器边框、异形屏矫正等干扰元素\n\n
         6. 战斗列表:\n
@@ -512,20 +516,20 @@
     <system:String x:Key="ErrorDetails">详细信息</system:String>
     <system:String x:Key="ErrorSolution">解决方案</system:String>
     <system:String x:Key="ErrorSolutionCrash">请参考文档: 常见问题 - 闪退 进行操作。</system:String>
-    <system:String x:Key="ErrorSolutionReplaceADB">请关闭模拟器与 ADB 或重启电脑后使用管理员权限打开 MAA 进行操作。</system:String>
+    <system:String x:Key="ErrorSolutionReplaceAdb">请关闭模拟器与 ADB 或重启电脑后使用管理员权限打开 MAA 进行操作。</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">文件被占用，请重启电脑后重试</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">创建 GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">加入QQ群反馈问题</system:String>
     <system:String x:Key="CopyErrorMessage">复制错误信息</system:String>
     <!--  AsstProxy  -->
     <system:String x:Key="ResourceBroken">资源损坏，请重新下载完整安装包</system:String>
-    <system:String x:Key="ReplaceADBNotExists">ADB 路径不存在</system:String>
+    <system:String x:Key="ReplaceAdbNotExists">ADB 路径不存在</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB 下载失败</system:String>
     <system:String x:Key="AdbDeletionFailedMessage">无法删除目录，可能已被替换或发生了其他问题。请检查日志获取更多信息。</system:String>
     <system:String x:Key="UnzipFailedMessage">无法解压文件，可能发生了意外错误。请检查日志获取更多信息。</system:String>
-    <system:String x:Key="NoAdbPathSpecifiedMessage">未指定 adb 路径</system:String>
+    <system:String x:Key="NoAdbPathSpecifiedMessage">未指定 ADB 路径</system:String>
     <system:String x:Key="AdbDownloadFailedDesc">请手动进行操作（将 adb.exe 重命名后替换上方模拟器自带 ADB 即可）</system:String>
-    <system:String x:Key="SuccessfullyReplacedADB">成功替换 ADB 文件</system:String>
+    <system:String x:Key="SuccessfullyReplacedAdb">成功替换 ADB 文件</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocal">替换 ADB 失败</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">已临时使用本地 ADB 进行连接。</system:String>
     <system:String x:Key="InitializationError">初始化错误！</system:String>
@@ -553,7 +557,7 @@
     <system:String x:Key="HasReturned">已返回</system:String>
     <system:String x:Key="DropRecognitionError">掉落识别错误</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">放弃上传企鹅物流</system:String>
-    <system:String x:Key="TheEX">无奖励关卡，已停止</system:String>
+    <system:String x:Key="TheEx">无奖励关卡，已停止</system:String>
     <system:String x:Key="StageQueue">关卡队列:</system:String>
     <system:String x:Key="UnableToAgent">无法使用代理指挥</system:String>
     <system:String x:Key="CurrentSanity">当前理智:</system:String>
@@ -580,7 +584,7 @@
     <system:String x:Key="Trader">关卡: 诡意行商</system:String>
     <system:String x:Key="SafeHouse">关卡: 安全的角落</system:String>
     <system:String x:Key="Encounter">关卡: 不期而遇</system:String>
-    <system:String x:Key="CambatDps">关卡: 普通作战</system:String>
+    <system:String x:Key="CombatDps">关卡: 普通作战</system:String>
     <system:String x:Key="EmergencyDps">关卡: 紧急作战</system:String>
     <system:String x:Key="DreadfulFoe">关卡: 险路恶敌</system:String>
     <system:String x:Key="NoDrop">无</system:String>
@@ -608,8 +612,8 @@
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">识别结果: </system:String>
     <system:String x:Key="ConnectFailed">连接失败</system:String>
     <system:String x:Key="TryToStartEmulator">正在尝试启动模拟器</system:String>
-    <system:String x:Key="RestartADB">正在尝试重启 ADB Server</system:String>
-    <system:String x:Key="HardRestartADB">正在尝试关闭并重启 ADB 进程</system:String>
+    <system:String x:Key="RestartAdb">正在尝试重启 ADB Server</system:String>
+    <system:String x:Key="HardRestartAdb">正在尝试关闭并重启 ADB 进程</system:String>
     <system:String x:Key="CheckSettings">请检查连接设置或尝试重启模拟器与 ADB 或重启电脑</system:String>
     <!--  AsstProxy  -->
     <!--  TrayIcon  -->
@@ -622,8 +626,8 @@
     <system:String x:Key="PrtsPlus">自动战斗作业分享</system:String>
     <system:String x:Key="MapPrts">自动战斗地图坐标</system:String>
     <system:String x:Key="CustomInfrastGenerator">自定义基建排班制作器</system:String>
-    <system:String x:Key="QQgroup">QQ 群</system:String>
-    <system:String x:Key="QQchannel">QQ 频道</system:String>
+    <system:String x:Key="QqGroup">QQ 群</system:String>
+    <system:String x:Key="QqChannel">QQ 频道</system:String>
     <system:String x:Key="Telegram">Telegram</system:String>
     <system:String x:Key="Help">常见问题</system:String>
     <system:String x:Key="Issue">问题反馈</system:String>
@@ -650,7 +654,7 @@
     <system:String x:Key="HelloWorld">Hello World!</system:String>
     <!--  EasterEggs  -->
     <!--  VersionUpdatePopup  -->
-    <system:String x:Key="UpdateNotificationOK">好的！</system:String>
+    <system:String x:Key="UpdateNotificationOk">好的！</system:String>
     <system:String x:Key="VersionUpdated">版本已更新</system:String>
     <system:String x:Key="VersionUpdatedTo" xml:space="preserve">已更新: </system:String>
     <!--  VersionUpdatePopup  -->
@@ -670,4 +674,9 @@
     <system:String x:Key="ExternalNotificationEmailTemplateLinkOfficialSite">官网</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateLinkCopilotSite">作业站</system:String>
     <!--  External Notification  -->
+    <!--  Announcement  -->
+    <system:String x:Key="Announcement">公告</system:String>
+    <system:String x:Key="CheckAndDownloadAnnouncement">查看公告</system:String>
+    <system:String x:Key="DoNotRemindThisAnnouncementAgain">不再提示此公告</system:String>
+    <!--  Announcement  -->
 </ResourceDictionary>
