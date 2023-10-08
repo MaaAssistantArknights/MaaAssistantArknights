@@ -17,6 +17,8 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using Markdig;
+using Markdig.Wpf;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -55,6 +57,9 @@ namespace MaaWpfGui.ViewModels.UI
                 ConfigurationHelper.SetValue(ConfigurationKeys.DoNotRemindThisAnnouncementAgain, value.ToString());
             }
         }
+
+        public FlowDocument AnnouncementInfoDoc => Markdig.Wpf.Markdown.ToFlowDocument(AnnouncementInfo,
+            new MarkdownPipelineBuilder().UseSupportedExtensions().Build());
 
         /// <summary>
         /// 检查更新
