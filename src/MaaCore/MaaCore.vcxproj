@@ -196,6 +196,7 @@
     <ClInclude Include="Utils\Demangle.hpp" />
     <ClInclude Include="Utils\Http.hpp" />
     <ClInclude Include="Utils\ImageIo.hpp" />
+    <ClInclude Include="Utils\JsonMisc.hpp" />
     <ClInclude Include="Utils\Locale.hpp" />
     <ClInclude Include="Utils\Logger.hpp" />
     <ClInclude Include="Utils\Meta.hpp" />

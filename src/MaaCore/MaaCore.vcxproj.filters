@@ -309,6 +309,9 @@
     <ClInclude Include="Utils\ImageIo.hpp">
       <Filter>Source\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\JsonMisc.hpp">
+      <Filter>Source\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="Utils\Locale.hpp">
       <Filter>Source\Utils</Filter>
     </ClInclude>

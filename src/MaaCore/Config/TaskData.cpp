@@ -10,142 +10,10 @@
 #include "Common/AsstTypes.h"
 #include "GeneralConfig.h"
 #include "TemplResource.h"
+#include "Utils/JsonMisc.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/Ranges.hpp"
 #include "Utils/StringMisc.hpp"
-
-namespace asst
-{
-    // base types
-    template <typename OutT>
-    requires(std::constructible_from<json::value, OutT>)
-    bool parse_json_as(const json::value& input, OutT& output)
-    {
-        if (input.is<OutT>()) {
-            output = input.as<OutT>();
-            return true;
-        }
-        return false;
-    }
-
-    bool parse_json_as(const json::value& input, AlgorithmType& output)
-    {
-        if (input.is_string()) {
-            output = get_algorithm_type(input.as_string());
-            return output != AlgorithmType::Invalid;
-        }
-        return false;
-    }
-
-    bool parse_json_as(const json::value& input, ProcessTaskAction& output)
-    {
-        if (input.is_string()) {
-            output = get_action_type(input.as_string());
-            return output != ProcessTaskAction::Invalid;
-        }
-        return false;
-    }
-
-    // std::pair<FirstT, SecondT> <- [first, second]
-    template <typename FirstT, typename SecondT>
-    requires(requires(const json::value& input, FirstT x, SecondT y) {
-        parse_json_as(input, x) && parse_json_as(input, y);
-    })
-    bool parse_json_as(const json::value& input, std::pair<FirstT, SecondT>& output)
-    {
-        if (!input.is_array()) {
-            return false;
-        }
-        const auto& items = input.as_array();
-        if (items.size() != 2) {
-            return false;
-        }
-        return parse_json_as(items[0], output.first) && parse_json_as(items[1], output.second);
-    }
-
-    // std::vector<ValT> <- val | [val, ...]
-    template <typename ValT>
-    requires(requires(const json::value& input, ValT x) { parse_json_as(input, x); })
-    bool parse_json_as(const json::value& input, std::vector<ValT>& output)
-    {
-        if (!input.is_array()) {
-            if constexpr (std::constructible_from<json::value, ValT>) {
-                if (input.is<ValT>()) {
-                    output = { input.as<ValT>() };
-                    return true;
-                }
-            }
-            return false;
-        }
-        const auto& items = input.as_array();
-        output.clear();
-        for (const auto& item : items) {
-            ValT val;
-            if (!parse_json_as(item, val)) {
-                output.clear();
-                return false;
-            }
-            output.emplace_back(std::move(val));
-        }
-        return true;
-    }
-
-    // asst::Rect <- [int, int, int, int]
-    bool parse_json_as(const json::value& input, asst::Rect& output)
-    {
-        if (!input.is_array()) {
-            return false;
-        }
-        const auto& items = input.as_array();
-        if (items.size() != 4) {
-            return false;
-        }
-        return parse_json_as(items[0], output.x) && parse_json_as(items[1], output.y) &&
-               parse_json_as(items[2], output.width) && parse_json_as(items[3], output.height);
-    }
-
-    template <typename OutT>
-    std::optional<OutT> parse_json_as(const json::value& input)
-    {
-        OutT output;
-        return parse_json_as(input, output) ? output : std::nullopt;
-    }
-
-    template <typename OutT, typename DefaultT>
-    requires(std::constructible_from<OutT, DefaultT> || std::constructible_from<OutT, std::invoke_result_t<DefaultT>>)
-    bool get_value_or(std::string_view repr, const json::value& input, const std::string& key, OutT& output,
-                      DefaultT&& default_val)
-    {
-        auto opt = input.find(key);
-        if (!opt) {
-            if constexpr (std::constructible_from<OutT, DefaultT>) {
-                output = std::forward<DefaultT>(default_val);
-            }
-            else {
-                output = default_val();
-            }
-            return true;
-        }
-        if (parse_json_as(*opt, output)) {
-#ifdef ASST_DEBUG
-            // 如果有默认值，检查是否与默认值相同
-            if constexpr (std::constructible_from<OutT, DefaultT>) {
-                if (output == default_val) {
-                    Log.warn("Value of", key, "in", repr, "is same as default value");
-                }
-            }
-            else {
-                if (output == default_val()) {
-                    Log.warn("Value of", key, "in", repr, "is same as default value");
-                }
-            }
-#endif
-            return true;
-        }
-        Log.error("Invalid type of", key, "in", repr);
-        return false;
-    }
-} // namespace asst
 
 const std::unordered_set<std::string>& asst::TaskData::get_templ_required() const noexcept
 {
@@ -443,7 +311,7 @@ asst::TaskData::taskptr_t asst::TaskData::generate_task_info(std::string_view na
 
     // 获取 algorithm 并按照 algorithm 生成 TaskInfo
     AlgorithmType algorithm;
-    get_value_or(name, task_json, "algorithm", algorithm, default_ptr->algorithm);
+    utils::get_value_or(name, task_json, "algorithm", algorithm, default_ptr->algorithm);
 
     taskptr_t task_ptr = nullptr;
     switch (algorithm) {
@@ -484,8 +352,8 @@ asst::TaskData::taskptr_t asst::TaskData::generate_match_task_info(std::string_v
         default_ptr = default_match_task_info_ptr;
     }
     auto match_task_info_ptr = std::make_shared<MatchTaskInfo>();
-    if (!get_value_or(name, task_json, "template", match_task_info_ptr->templ_names,
-                      [&]() { return std::vector { std::string(name) + ".png" }; })) {
+    if (!utils::get_value_or(name, task_json, "template", match_task_info_ptr->templ_names,
+                             [&]() { return std::vector { std::string(name) + ".png" }; })) {
         return nullptr;
     }
 
@@ -523,7 +391,7 @@ asst::TaskData::taskptr_t asst::TaskData::generate_match_task_info(std::string_v
         return nullptr;
     }
 
-    get_value_or(name, task_json, "maskRange", match_task_info_ptr->mask_range, default_ptr->mask_range);
+    utils::get_value_or(name, task_json, "maskRange", match_task_info_ptr->mask_range, default_ptr->mask_range);
     return match_task_info_ptr;
 }
 
@@ -535,7 +403,7 @@ asst::TaskData::taskptr_t asst::TaskData::generate_ocr_task_info(std::string_vie
     }
     auto ocr_task_info_ptr = std::make_shared<OcrTaskInfo>();
 
-    // text 不允许为字符串，必须是字符串数组，不能用 get_value_or
+    // text 不允许为字符串，必须是字符串数组，不能用 utils::get_value_or
     auto array_opt = task_json.find<json::array>("text");
     ocr_task_info_ptr->text = array_opt ? to_string_list(array_opt.value()) : default_ptr->text;
 #ifdef ASST_DEBUG
@@ -543,11 +411,11 @@ asst::TaskData::taskptr_t asst::TaskData::generate_ocr_task_info(std::string_vie
         Log.warn("Ocr task", name, "has implicit empty text.");
     }
 #endif
-    get_value_or(name, task_json, "fullMatch", ocr_task_info_ptr->full_match, default_ptr->full_match);
-    get_value_or(name, task_json, "isAscii", ocr_task_info_ptr->is_ascii, default_ptr->is_ascii);
-    get_value_or(name, task_json, "withoutDet", ocr_task_info_ptr->without_det, default_ptr->without_det);
-    get_value_or(name, task_json, "replaceFull", ocr_task_info_ptr->replace_full, default_ptr->replace_full);
-    get_value_or(name, task_json, "ocrReplace", ocr_task_info_ptr->replace_map, default_ptr->replace_map);
+    utils::get_value_or(name, task_json, "fullMatch", ocr_task_info_ptr->full_match, default_ptr->full_match);
+    utils::get_value_or(name, task_json, "isAscii", ocr_task_info_ptr->is_ascii, default_ptr->is_ascii);
+    utils::get_value_or(name, task_json, "withoutDet", ocr_task_info_ptr->without_det, default_ptr->without_det);
+    utils::get_value_or(name, task_json, "replaceFull", ocr_task_info_ptr->replace_full, default_ptr->replace_full);
+    utils::get_value_or(name, task_json, "ocrReplace", ocr_task_info_ptr->replace_map, default_ptr->replace_map);
     return ocr_task_info_ptr;
 }
 
@@ -558,7 +426,7 @@ asst::TaskData::taskptr_t asst::TaskData::generate_hash_task_info(std::string_vi
         default_ptr = default_hash_task_info_ptr;
     }
     auto hash_task_info_ptr = std::make_shared<HashTaskInfo>();
-    // hash 不允许为字符串，必须是字符串数组，不能用 get_value_or
+    // hash 不允许为字符串，必须是字符串数组，不能用 utils::get_value_or
     auto array_opt = task_json.find<json::array>("hash");
     hash_task_info_ptr->hashes = array_opt ? to_string_list(array_opt.value()) : default_ptr->hashes;
 #ifdef ASST_DEBUG
@@ -566,9 +434,9 @@ asst::TaskData::taskptr_t asst::TaskData::generate_hash_task_info(std::string_vi
         Log.warn("Hash task", name, "has implicit empty hashes.");
     }
 #endif
-    get_value_or(name, task_json, "threshold", hash_task_info_ptr->dist_threshold, default_ptr->dist_threshold);
-    get_value_or(name, task_json, "maskRange", hash_task_info_ptr->mask_range, default_ptr->mask_range);
-    get_value_or(name, task_json, "bound", hash_task_info_ptr->bound, default_ptr->bound);
+    utils::get_value_or(name, task_json, "threshold", hash_task_info_ptr->dist_threshold, default_ptr->dist_threshold);
+    utils::get_value_or(name, task_json, "maskRange", hash_task_info_ptr->mask_range, default_ptr->mask_range);
+    utils::get_value_or(name, task_json, "bound", hash_task_info_ptr->bound, default_ptr->bound);
     return hash_task_info_ptr;
 }
 
@@ -579,26 +447,27 @@ bool asst::TaskData::append_base_task_info(taskptr_t task_info_ptr, std::string_
         default_ptr = default_task_info_ptr;
     }
 
-    get_value_or(name, task_json, "action", task_info_ptr->action, default_ptr->action);
-    get_value_or(name, task_json, "cache", task_info_ptr->cache, default_ptr->cache);
-    get_value_or(name, task_json, "maxTimes", task_info_ptr->max_times, default_ptr->max_times);
-    get_value_or(name, task_json, "exceededNext", task_info_ptr->exceeded_next,
-                 [&]() { return append_prefix(default_ptr->exceeded_next, task_prefix); });
-    get_value_or(name, task_json, "onErrorNext", task_info_ptr->on_error_next,
-                 [&]() { return append_prefix(default_ptr->on_error_next, task_prefix); });
-    get_value_or(name, task_json, "preDelay", task_info_ptr->pre_delay, default_ptr->pre_delay);
-    get_value_or(name, task_json, "postDelay", task_info_ptr->post_delay, default_ptr->post_delay);
-    get_value_or(name, task_json, "reduceOtherTimes", task_info_ptr->reduce_other_times,
-                 [&]() { return append_prefix(default_ptr->reduce_other_times, task_prefix); });
-    get_value_or(name, task_json, "roi", task_info_ptr->roi, default_ptr->roi);
-    get_value_or(name, task_json, "sub", task_info_ptr->sub,
-                 [&]() { return append_prefix(default_ptr->sub, task_prefix); });
-    get_value_or(name, task_json, "subErrorIgnored", task_info_ptr->sub_error_ignored, default_ptr->sub_error_ignored);
-    get_value_or(name, task_json, "next", task_info_ptr->next,
-                 [&]() { return append_prefix(default_ptr->next, task_prefix); });
-    get_value_or(name, task_json, "rectMove", task_info_ptr->rect_move, default_ptr->rect_move);
-    get_value_or(name, task_json, "specificRect", task_info_ptr->specific_rect, default_ptr->specific_rect);
-    get_value_or(name, task_json, "specialParams", task_info_ptr->special_params, default_ptr->special_params);
+    utils::get_value_or(name, task_json, "action", task_info_ptr->action, default_ptr->action);
+    utils::get_value_or(name, task_json, "cache", task_info_ptr->cache, default_ptr->cache);
+    utils::get_value_or(name, task_json, "maxTimes", task_info_ptr->max_times, default_ptr->max_times);
+    utils::get_value_or(name, task_json, "exceededNext", task_info_ptr->exceeded_next,
+                        [&]() { return append_prefix(default_ptr->exceeded_next, task_prefix); });
+    utils::get_value_or(name, task_json, "onErrorNext", task_info_ptr->on_error_next,
+                        [&]() { return append_prefix(default_ptr->on_error_next, task_prefix); });
+    utils::get_value_or(name, task_json, "preDelay", task_info_ptr->pre_delay, default_ptr->pre_delay);
+    utils::get_value_or(name, task_json, "postDelay", task_info_ptr->post_delay, default_ptr->post_delay);
+    utils::get_value_or(name, task_json, "reduceOtherTimes", task_info_ptr->reduce_other_times,
+                        [&]() { return append_prefix(default_ptr->reduce_other_times, task_prefix); });
+    utils::get_value_or(name, task_json, "roi", task_info_ptr->roi, default_ptr->roi);
+    utils::get_value_or(name, task_json, "sub", task_info_ptr->sub,
+                        [&]() { return append_prefix(default_ptr->sub, task_prefix); });
+    utils::get_value_or(name, task_json, "subErrorIgnored", task_info_ptr->sub_error_ignored,
+                        default_ptr->sub_error_ignored);
+    utils::get_value_or(name, task_json, "next", task_info_ptr->next,
+                        [&]() { return append_prefix(default_ptr->next, task_prefix); });
+    utils::get_value_or(name, task_json, "rectMove", task_info_ptr->rect_move, default_ptr->rect_move);
+    utils::get_value_or(name, task_json, "specificRect", task_info_ptr->specific_rect, default_ptr->specific_rect);
+    utils::get_value_or(name, task_json, "specialParams", task_info_ptr->special_params, default_ptr->special_params);
 #ifdef ASST_DEBUG
     // Debug 模式下检查 roi 是否超出边界
     if (auto [x, y, w, h] = task_info_ptr->roi; x + w > WindowWidthDefault || y + h > WindowHeightDefault) {
