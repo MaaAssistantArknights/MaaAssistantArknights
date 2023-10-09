@@ -206,6 +206,10 @@ namespace MaaWpfGui.Helper
                     config.mainIcon = iconInfo.hIcon.DangerousGetHandle();
                     config.dwFlags |= ComCtl32.TASKDIALOG_FLAGS.TDF_USE_HICON_MAIN;
                     break;
+                case MessageBoxImage.None:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(icon), icon, null);
             }
 
             bool hasOk = false, hasCancel = false, hasYes = false, hasNo = false;

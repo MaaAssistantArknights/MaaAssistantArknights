@@ -98,12 +98,9 @@ namespace MaaWpfGui.Helper
 
         public static string Color2HexString(Color color, bool keepAlpha = false)
         {
-            if (keepAlpha)
-            {
-                return $"#{color.A:X2}{color.R:X2}{color.G:X2}{color.B:X2}";
-            }
-
-            return $"#FF{color.R:X2}{color.G:X2}{color.B:X2}";
+            return keepAlpha
+                ? $"#{color.A:X2}{color.R:X2}{color.G:X2}{color.B:X2}"
+                : $"#FF{color.R:X2}{color.G:X2}{color.B:X2}";
         }
 
         // ReSharper disable once UnusedMember.Global
