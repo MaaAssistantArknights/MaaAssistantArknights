@@ -564,6 +564,7 @@
     <system:String x:Key="MissionStart">已開始行動</system:String>
     <system:String x:Key="UnitTime">次</system:String>
     <system:String x:Key="MedicineUsed">已使用理智藥</system:String>
+    <system:String x:Key="ExpiringMedicineUsed">已使用 48 小時內過期的理智藥</system:String>
     <system:String x:Key="StoneUsed">已使用源石</system:String>
     <system:String x:Key="ActingCommandError">代理指揮失誤</system:String>
     <system:String x:Key="LabelsRefreshed">已刷新標籤</system:String>
@@ -603,6 +604,8 @@
     <system:String x:Key="RecruitmentOfBot">公招出小車了喔！</system:String>
     <system:String x:Key="Choose">選擇</system:String>
     <system:String x:Key="Refreshed">當前欄位已刷新</system:String>
+    <system:String x:Key="continueRefresh">無招聘許可，繼續嘗試刷新 Tags</system:String>
+    <system:String x:Key="noRecruitPermit">無招聘許可，已返回</system:String>
     <system:String x:Key="NotEnoughStaff">可用幹員不足</system:String>
     <system:String x:Key="StageInfoError">關卡辨識錯誤</system:String>
     <system:String x:Key="BattleFormation">開始編隊</system:String>
@@ -634,6 +637,7 @@
     <!--  EasterEggs  -->
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">自動刷新 3 星 Tags</system:String>
+    <system:String x:Key="ForceRefresh">無招募許可時繼續嘗試刷新 Tags</system:String>
     <system:String x:Key="AutoUseExpedited">自動使用加急許可*</system:String>
     <system:String x:Key="Level3UseShortTime">3 星設定 7:40 而非 9:00</system:String>
     <system:String x:Key="Level3UseShortTime2">3 星設定 1:00 而非 9:00</system:String>
@@ -667,6 +671,24 @@
     <system:String x:Key="GameResourceUpdated">遊戲資源已更新，請重啟 MAA</system:String>
     <system:String x:Key="GameResourceUpdating">遊戲資源正在更新，請勿關閉 MAA</system:String>
     <!--  Api  -->
+    <!--  Remote Control  -->
+    <system:String x:Key="RemoteControlSettings">遠程控制</system:String>
+    <system:String x:Key="RemoteControlDeviceIdentityLabel">設備標識符（唯讀）</system:String>
+    <system:String x:Key="RemoteControlConnectionTest">測試連接</system:String>
+    <system:String x:Key="RemoteControlRegenerateDeviceIdentity">重新生成</system:String>
+    <system:String x:Key="RemoteControlUserIdentityLabel">使用者標識符</system:String>
+    <system:String x:Key="RemoteControlGetTaskEndpointLabel">獲取任務端點</system:String>
+    <system:String x:Key="RemoteControlReportStatusEndpointLabel">匯報任務端點</system:String>
+    <system:String x:Key="RemoteControlConnectionTestSuccess">連接測試成功！</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFail">連接測試失敗，原因: {0}。</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFailEmpty">連接測試失敗，連接端點為空。</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFailNotHttps">連接測試失敗。端點非https地址。</system:String>
+    <system:String x:Key="RemoteControlReceivedTask">收到遠端任務{0}，任務Id:{1}。</system:String>
+    <system:String x:Key="RemoteControlCompletedTask">完成遠端任務{0}，任務Id:{1}。</system:String>
+    <system:String x:Key="RemoteControlTooltips">注意：隨意輸入未知來源的地址可能會導致您的明日方舟帳戶受到損失。</system:String>
+    <system:String x:Key="RemoteControlDeveloperTooltips">了解如何開發相關功能，可以訪問</system:String>
+    <system:String x:Key="RemoteControlDeveloperDocLink">遠程控制功能開發者文檔</system:String>
+    <!--  Remote Control  -->
     <!--  External Notification  -->
     <system:String x:Key="ExternalNotificationEmailTemplateHello">博士，有新的通知哦！</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">您會收到此郵件，是因為您在 MAA 中設置了 SMTP 伺服器並開啟了郵件通知服務。</system:String>

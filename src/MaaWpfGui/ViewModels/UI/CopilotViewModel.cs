@@ -38,7 +38,7 @@ namespace MaaWpfGui.ViewModels.UI
     /// <summary>
     /// The view model of copilot.
     /// </summary>
-    // 通过 container.Get<CopilotViewModel>(); 实例化或获取实例，需要添加 qodana ignore rule
+    // 通过 container.Get<CopilotViewModel>(); 实例化或获取实例
     // ReSharper disable once ClassNeverInstantiated.Global
     public class CopilotViewModel : Screen
     {
@@ -385,11 +385,13 @@ namespace MaaWpfGui.ViewModels.UI
                     _taskType = "Copilot";
                 }
 
-                if (IsDataFromWeb)
+                if (!IsDataFromWeb)
                 {
-                    File.Delete(TempCopilotFile);
-                    File.WriteAllText(TempCopilotFile, json.ToString());
+                    return;
                 }
+
+                File.Delete(TempCopilotFile);
+                File.WriteAllText(TempCopilotFile, json.ToString());
             }
             catch (Exception)
             {
@@ -797,11 +799,13 @@ namespace MaaWpfGui.ViewModels.UI
                 bool startAny = false;
                 foreach (var model in CopilotItemViewModels)
                 {
-                    if (model.IsChecked)
+                    if (!model.IsChecked)
                     {
-                        ret &= Instances.AsstProxy.AsstStartCopilot(model.FilePath, Form, AddTrust, AddUserAdditional, mUserAdditional, UseCopilotList, model.Name.Replace("-Adverse", string.Empty), model.Name.Contains("-Adverse"), _taskType, Loop ? LoopTimes : 1, false);
-                        startAny = true;
+                        continue;
                     }
+
+                    ret &= Instances.AsstProxy.AsstStartCopilot(model.FilePath, Form, AddTrust, AddUserAdditional, mUserAdditional, UseCopilotList, model.Name.Replace("-Adverse", string.Empty), model.Name.Contains("-Adverse"), _taskType, Loop ? LoopTimes : 1, false);
+                    startAny = true;
                 }
 
                 ret &= Instances.AsstProxy.AsstStart();

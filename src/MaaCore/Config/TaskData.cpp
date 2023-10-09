@@ -14,6 +14,107 @@
 #include "Utils/Ranges.hpp"
 #include "Utils/StringMisc.hpp"
 
+namespace asst
+{
+    // base types
+    template <typename OutT>
+    requires(std::constructible_from<json::value, OutT>)
+    bool parse_json_as(const json::value& input, OutT& output)
+    {
+        if (input.is<OutT>()) {
+            output = input.as<OutT>();
+            return true;
+        }
+        return false;
+    }
+
+    // std::pair<FirstT, SecondT> <- [first, second]
+    template <typename FirstT, typename SecondT>
+    requires(requires(const json::value& input, FirstT x, SecondT y) {
+        parse_json_as(input, x) && parse_json_as(input, y);
+    })
+    bool parse_json_as(const json::value& input, std::pair<FirstT, SecondT>& output)
+    {
+        if (!input.is_array()) {
+            return false;
+        }
+        const auto& items = input.as_array();
+        if (items.size() != 2) {
+            return false;
+        }
+        return parse_json_as(items[0], output.first) && parse_json_as(items[1], output.second);
+    }
+
+    // std::vector<ValT> <- val | [val, ...]
+    template <typename ValT>
+    requires(requires(const json::value& input, ValT x) { parse_json_as(input, x); })
+    bool parse_json_as(const json::value& input, std::vector<ValT>& output)
+    {
+        if (!input.is_array()) {
+            if constexpr (std::constructible_from<json::value, ValT>) {
+                if (input.is<ValT>()) {
+                    output = { input.as<ValT>() };
+                    return true;
+                }
+            }
+            return false;
+        }
+        const auto& items = input.as_array();
+        output.clear();
+        for (const auto& item : items) {
+            ValT val;
+            if (!parse_json_as(item, val)) {
+                output.clear();
+                return false;
+            }
+            output.emplace_back(std::move(val));
+        }
+        return true;
+    }
+
+    // asst::Rect <- [int, int, int, int]
+    bool parse_json_as(const json::value& input, asst::Rect& output)
+    {
+        if (!input.is_array()) {
+            return false;
+        }
+        const auto& items = input.as_array();
+        if (items.size() != 4) {
+            return false;
+        }
+        return parse_json_as(items[0], output.x) && parse_json_as(items[1], output.y) &&
+               parse_json_as(items[2], output.width) && parse_json_as(items[3], output.height);
+    }
+
+    template <typename OutT>
+    std::optional<OutT> parse_json_as(const json::value& input)
+    {
+        OutT output;
+        return parse_json_as(input, output) ? output : std::nullopt;
+    }
+
+    template <typename OutT, typename DefaultT>
+    requires(std::constructible_from<OutT, DefaultT> || std::constructible_from<OutT, std::invoke_result_t<DefaultT>>)
+    bool get_and_check_value(const json::value& input, const std::string& key, OutT& output, DefaultT&& default_val)
+    {
+        auto opt = input.find(key);
+        if (!opt) {
+            if constexpr (std::constructible_from<OutT, DefaultT>) {
+                output = std::forward<DefaultT>(default_val);
+            }
+            else {
+                output = default_val();
+            }
+            return true;
+        }
+        if (parse_json_as(*opt, output)) {
+            return true;
+        }
+        Log.error("Invalid type of", key, "in", input.to_string());
+        return false;
+    }
+} // namespace asst
+
 const std::unordered_set<std::string>& asst::TaskData::get_templ_required() const noexcept
 {
     return m_templ_required;
@@ -757,18 +858,8 @@ asst::TaskData::taskptr_t asst::TaskData::generate_match_task_info(std::string_v
         default_ptr = default_match_task_info_ptr;
     }
     auto match_task_info_ptr = std::make_shared<MatchTaskInfo>();
-    auto templ_opt = task_json.find("template");
-    if (!templ_opt) {
-        match_task_info_ptr->templ_names = { std::string(name) + ".png" };
-    }
-    else if (templ_opt->is_string()) {
-        match_task_info_ptr->templ_names = { templ_opt->as_string() };
-    }
-    else if (templ_opt->is_array()) {
-        match_task_info_ptr->templ_names = to_string_list(templ_opt->as_array());
-    }
-    else {
-        Log.error("Invalid template type in task", name);
+    if (!get_and_check_value(task_json, "template", match_task_info_ptr->templ_names,
+                             [&]() { return std::vector { std::string(name) + ".png" }; })) {
         return nullptr;
     }
 
@@ -806,14 +897,7 @@ asst::TaskData::taskptr_t asst::TaskData::generate_match_task_info(std::string_v
         return nullptr;
     }
 
-    if (auto opt = task_json.find<json::array>("maskRange")) {
-        auto& mask_range = *opt;
-        match_task_info_ptr->mask_range =
-            std::make_pair(static_cast<int>(mask_range[0]), static_cast<int>(mask_range[1]));
-    }
-    else {
-        match_task_info_ptr->mask_range = default_ptr->mask_range;
-    }
+    get_and_check_value(task_json, "maskRange", match_task_info_ptr->mask_range, default_ptr->mask_range);
     return match_task_info_ptr;
 }
 
@@ -826,6 +910,7 @@ asst::TaskData::taskptr_t asst::TaskData::generate_ocr_task_info([[maybe_unused]
     }
     auto ocr_task_info_ptr = std::make_shared<OcrTaskInfo>();
 
+    // text 不允许为字符串，必须是字符串数组，不能用 get_and_check_value
     auto array_opt = task_json.find<json::array>("text");
     ocr_task_info_ptr->text = array_opt ? to_string_list(array_opt.value()) : default_ptr->text;
 #ifdef ASST_DEBUG
@@ -833,18 +918,11 @@ asst::TaskData::taskptr_t asst::TaskData::generate_ocr_task_info([[maybe_unused]
         Log.warn("Ocr task", name, "has implicit empty text.");
     }
 #endif
-    ocr_task_info_ptr->full_match = task_json.get("fullMatch", default_ptr->full_match);
-    ocr_task_info_ptr->is_ascii = task_json.get("isAscii", default_ptr->is_ascii);
-    ocr_task_info_ptr->without_det = task_json.get("withoutDet", default_ptr->without_det);
-    ocr_task_info_ptr->replace_full = task_json.get("replaceFull", default_ptr->replace_full);
-    if (auto opt = task_json.find<json::array>("ocrReplace")) {
-        for (const json::value& rep : opt.value()) {
-            ocr_task_info_ptr->replace_map.emplace_back(std::make_pair(rep[0].as_string(), rep[1].as_string()));
-        }
-    }
-    else {
-        ocr_task_info_ptr->replace_map = default_ptr->replace_map;
-    }
+    get_and_check_value(task_json, "fullMatch", ocr_task_info_ptr->full_match, default_ptr->full_match);
+    get_and_check_value(task_json, "isAscii", ocr_task_info_ptr->is_ascii, default_ptr->is_ascii);
+    get_and_check_value(task_json, "withoutDet", ocr_task_info_ptr->without_det, default_ptr->without_det);
+    get_and_check_value(task_json, "replaceFull", ocr_task_info_ptr->replace_full, default_ptr->replace_full);
+    get_and_check_value(task_json, "ocrReplace", ocr_task_info_ptr->replace_map, default_ptr->replace_map);
     return ocr_task_info_ptr;
 }
 
@@ -856,6 +934,7 @@ asst::TaskData::taskptr_t asst::TaskData::generate_hash_task_info([[maybe_unused
         default_ptr = default_hash_task_info_ptr;
     }
     auto hash_task_info_ptr = std::make_shared<HashTaskInfo>();
+    // hash 不允许为字符串，必须是字符串数组，不能用 get_and_check_value
     auto array_opt = task_json.find<json::array>("hash");
     hash_task_info_ptr->hashes = array_opt ? to_string_list(array_opt.value()) : default_ptr->hashes;
 #ifdef ASST_DEBUG
@@ -863,19 +942,9 @@ asst::TaskData::taskptr_t asst::TaskData::generate_hash_task_info([[maybe_unused
         Log.warn("Hash task", name, "has implicit empty hashes.");
     }
 #endif
-
-    hash_task_info_ptr->dist_threshold = task_json.get("threshold", default_ptr->dist_threshold);
-
-    if (auto opt = task_json.find<json::array>("maskRange")) {
-        auto& mask_range = *opt;
-        hash_task_info_ptr->mask_range =
-            std::make_pair(static_cast<int>(mask_range[0]), static_cast<int>(mask_range[1]));
-    }
-    else {
-        hash_task_info_ptr->mask_range = default_ptr->mask_range;
-    }
-    hash_task_info_ptr->bound = task_json.get("bound", default_ptr->bound);
-
+    get_and_check_value(task_json, "threshold", hash_task_info_ptr->dist_threshold, default_ptr->dist_threshold);
+    get_and_check_value(task_json, "maskRange", hash_task_info_ptr->mask_range, default_ptr->mask_range);
+    get_and_check_value(task_json, "bound", hash_task_info_ptr->bound, default_ptr->bound);
     return hash_task_info_ptr;
 }
 
@@ -896,67 +965,30 @@ bool asst::TaskData::append_base_task_info(taskptr_t task_info_ptr, std::string_
     else {
         task_info_ptr->action = default_ptr->action;
     }
-    task_info_ptr->cache = task_json.get("cache", default_ptr->cache);
-    task_info_ptr->max_times = task_json.get("maxTimes", default_ptr->max_times);
-    auto array_opt = task_json.find<json::array>("exceededNext");
-    task_info_ptr->exceeded_next =
-        array_opt ? to_string_list(array_opt.value()) : append_prefix(default_ptr->exceeded_next, task_prefix);
-    array_opt = task_json.find<json::array>("onErrorNext");
-    task_info_ptr->on_error_next =
-        array_opt ? to_string_list(array_opt.value()) : append_prefix(default_ptr->on_error_next, task_prefix);
-    task_info_ptr->pre_delay = task_json.get("preDelay", default_ptr->pre_delay);
-    task_info_ptr->post_delay = task_json.get("postDelay", default_ptr->post_delay);
-    array_opt = task_json.find<json::array>("reduceOtherTimes");
-    task_info_ptr->reduce_other_times =
-        array_opt ? to_string_list(array_opt.value()) : append_prefix(default_ptr->reduce_other_times, task_prefix);
-    if (auto opt = task_json.find<json::array>("roi")) {
-        auto& roi_arr = *opt;
-        int x = static_cast<int>(roi_arr[0]);
-        int y = static_cast<int>(roi_arr[1]);
-        int width = static_cast<int>(roi_arr[2]);
-        int height = static_cast<int>(roi_arr[3]);
+    get_and_check_value(task_json, "cache", task_info_ptr->cache, default_ptr->cache);
+    get_and_check_value(task_json, "maxTimes", task_info_ptr->max_times, default_ptr->max_times);
+    get_and_check_value(task_json, "exceededNext", task_info_ptr->exceeded_next,
+                        [&]() { return append_prefix(default_ptr->exceeded_next, task_prefix); });
+    get_and_check_value(task_json, "onErrorNext", task_info_ptr->on_error_next,
+                        [&]() { return append_prefix(default_ptr->on_error_next, task_prefix); });
+    get_and_check_value(task_json, "preDelay", task_info_ptr->pre_delay, default_ptr->pre_delay);
+    get_and_check_value(task_json, "postDelay", task_info_ptr->post_delay, default_ptr->post_delay);
+    get_and_check_value(task_json, "reduceOtherTimes", task_info_ptr->reduce_other_times,
+                        [&]() { return append_prefix(default_ptr->reduce_other_times, task_prefix); });
+    get_and_check_value(task_json, "roi", task_info_ptr->roi, default_ptr->roi);
 #ifdef ASST_DEBUG
-        if (x + width > WindowWidthDefault || y + height > WindowHeightDefault) {
-            Log.error(name, "roi is out of bounds");
-            return false;
-        }
+    if (auto [x, y, w, h] = task_info_ptr->roi; x + w > WindowWidthDefault || y + h > WindowHeightDefault) {
+        Log.warn(name, "roi is out of bounds");
+    }
 #endif
-        task_info_ptr->roi = Rect(x, y, width, height);
-    }
-    else {
-        task_info_ptr->roi = default_ptr->roi;
-    }
-    array_opt = task_json.find<json::array>("sub");
-    task_info_ptr->sub = array_opt ? to_string_list(array_opt.value()) : append_prefix(default_ptr->sub, task_prefix);
-    task_info_ptr->sub_error_ignored = task_json.get("subErrorIgnored", default_ptr->sub_error_ignored);
-    array_opt = task_json.find<json::array>("next");
-    task_info_ptr->next = array_opt ? to_string_list(array_opt.value()) : append_prefix(default_ptr->next, task_prefix);
-    if (auto opt = task_json.find<json::array>("rectMove")) {
-        auto& move_arr = opt.value();
-        task_info_ptr->rect_move = Rect(move_arr[0].as_integer(), move_arr[1].as_integer(), move_arr[2].as_integer(),
-                                        move_arr[3].as_integer());
-    }
-    else {
-        task_info_ptr->rect_move = default_ptr->rect_move;
-    }
-
-    if (auto opt = task_json.find<json::array>("specificRect")) {
-        auto& rect_arr = opt.value();
-        task_info_ptr->specific_rect = Rect(rect_arr[0].as_integer(), rect_arr[1].as_integer(),
-                                            rect_arr[2].as_integer(), rect_arr[3].as_integer());
-    }
-    else {
-        task_info_ptr->specific_rect = default_ptr->specific_rect;
-    }
-    if (auto opt = task_json.find<json::array>("specialParams")) {
-        auto& special_params = opt.value();
-        for (auto& param : special_params) {
-            task_info_ptr->special_params.emplace_back(param.as_integer());
-        }
-    }
-    else {
-        task_info_ptr->special_params = default_ptr->special_params;
-    }
+    get_and_check_value(task_json, "sub", task_info_ptr->sub,
+                        [&]() { return append_prefix(default_ptr->sub, task_prefix); });
+    get_and_check_value(task_json, "subErrorIgnored", task_info_ptr->sub_error_ignored, default_ptr->sub_error_ignored);
+    get_and_check_value(task_json, "next", task_info_ptr->next,
+                        [&]() { return append_prefix(default_ptr->next, task_prefix); });
+    get_and_check_value(task_json, "rectMove", task_info_ptr->rect_move, default_ptr->rect_move);
+    get_and_check_value(task_json, "specificRect", task_info_ptr->specific_rect, default_ptr->specific_rect);
+    get_and_check_value(task_json, "specialParams", task_info_ptr->special_params, default_ptr->special_params);
     return true;
 }
 

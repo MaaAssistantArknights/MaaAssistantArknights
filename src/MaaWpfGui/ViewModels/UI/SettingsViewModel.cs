@@ -37,6 +37,7 @@ using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Notification;
+using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
@@ -100,6 +101,7 @@ namespace MaaWpfGui.ViewModels.UI
             _listTitle.Add(LocalizationHelper.GetString("GameSettings"));
             _listTitle.Add(LocalizationHelper.GetString("ConnectionSettings"));
             _listTitle.Add(LocalizationHelper.GetString("StartupSettings"));
+            _listTitle.Add(LocalizationHelper.GetString("RemoteControlSettings"));
             _listTitle.Add(LocalizationHelper.GetString("UiSettings"));
             _listTitle.Add(LocalizationHelper.GetString("ExternalNotificationSettings"));
             _listTitle.Add(LocalizationHelper.GetString("HotKeySettings"));
@@ -125,12 +127,14 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void Sober()
         {
-            if (Cheers && Language == PallasLangKey)
+            if (!Cheers || Language != PallasLangKey)
             {
-                ConfigurationHelper.SetValue(ConfigurationKeys.Localization, SoberLanguage);
-                Hangover = true;
-                Cheers = false;
+                return;
             }
+
+            ConfigurationHelper.SetValue(ConfigurationKeys.Localization, SoberLanguage);
+            Hangover = true;
+            Cheers = false;
         }
 
         protected override void OnInitialActivate()
@@ -143,6 +147,73 @@ namespace MaaWpfGui.ViewModels.UI
                 ConnectAddressHistory = JsonConvert.DeserializeObject<ObservableCollection<string>>(addressListJson);
             }
         }
+
+        #region Remote Control
+
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
+        public async void RemoteControlConnectionTest()
+        {
+            await RemoteControlService.ConnectionTest();
+        }
+
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
+        public void RemoteControlRegenerateDeviceIdentity()
+        {
+            RemoteControlService.RegenerateDeviceIdentity();
+        }
+
+        private string _remoteControlGetTaskEndpointUri = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlGetTaskEndpointUri, string.Empty);
+
+        public string RemoteControlGetTaskEndpointUri
+        {
+            get => _remoteControlGetTaskEndpointUri;
+            set
+            {
+                SetAndNotify(ref _remoteControlGetTaskEndpointUri, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlGetTaskEndpointUri, value);
+            }
+        }
+
+        private string _remoteControlReportStatusUri = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlReportStatusUri, string.Empty);
+
+        public string RemoteControlReportStatusUri
+        {
+            get => _remoteControlReportStatusUri;
+            set
+            {
+                SetAndNotify(ref _remoteControlReportStatusUri, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlReportStatusUri, value);
+            }
+        }
+
+        private string _remoteControlUserIdentity = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlUserIdentity, string.Empty);
+
+        public string RemoteControlUserIdentity
+        {
+            get => _remoteControlUserIdentity;
+            set
+            {
+                SetAndNotify(ref _remoteControlUserIdentity, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlUserIdentity, value);
+            }
+        }
+
+
+        private string _remoteControlDeviceIdentity = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlDeviceIdentity, string.Empty);
+
+        public string RemoteControlDeviceIdentity
+        {
+            get => _remoteControlDeviceIdentity;
+            set
+            {
+                SetAndNotify(ref _remoteControlDeviceIdentity, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlDeviceIdentity, value);
+            }
+        }
+
+        #endregion
 
         #region External Notifications
 
@@ -341,7 +412,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             DefaultInfrastList = new List<CombinedData>
             {
-                new CombinedData { Display = LocalizationHelper.GetString("UserDefined"), Value = _userDefined },
+                new CombinedData { Display = LocalizationHelper.GetString("UserDefined"), Value = UserDefined },
                 new CombinedData { Display = LocalizationHelper.GetString("153Time3"), Value = "153_layout_3_times_a_day.json" },
                 new CombinedData { Display = LocalizationHelper.GetString("243Time3"), Value = "243_layout_3_times_a_day.json" },
                 new CombinedData { Display = LocalizationHelper.GetString("243Time4"), Value = "243_layout_4_times_a_day.json" },
@@ -454,16 +525,10 @@ namespace MaaWpfGui.ViewModels.UI
                 new GenericCombinedData<UpdateVersionType> { Display = LocalizationHelper.GetString("UpdateCheckStable"), Value = UpdateVersionType.Stable },
             };
 
-            var languageList = new List<CombinedData>();
-            foreach (var pair in LocalizationHelper.SupportedLanguages)
-            {
-                if (pair.Key == PallasLangKey && !Cheers)
-                {
-                    continue;
-                }
-
-                languageList.Add(new CombinedData { Display = pair.Value, Value = pair.Key });
-            }
+            var languageList = (from pair in LocalizationHelper.SupportedLanguages
+                                where pair.Key != PallasLangKey || Cheers
+                                select new CombinedData { Display = pair.Value, Value = pair.Key })
+                .ToList();
 
             LanguageList = languageList;
         }
@@ -656,28 +721,30 @@ namespace MaaWpfGui.ViewModels.UI
                 _ => false,
             };
 
-            if (enable)
+            if (!enable)
             {
-                Func<bool> func = str switch
-                {
-                    "StartsWithScript" => RunStartCommand,
-                    "EndsWithScript" => RunEndCommand,
-                    _ => () => false,
-                };
+                return;
+            }
 
+            Func<bool> func = str switch
+            {
+                "StartsWithScript" => RunStartCommand,
+                "EndsWithScript" => RunEndCommand,
+                _ => () => false,
+            };
+
+            Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
+                LocalizationHelper.GetString("StartTask") + LocalizationHelper.GetString(str)));
+            if (func())
+            {
                 Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
-                    LocalizationHelper.GetString("StartTask") + LocalizationHelper.GetString(str)));
-                if (func())
-                {
-                    Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
-                        LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(str)));
-                }
-                else
-                {
-                    Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
-                        LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(str),
-                        UiLogColor.Warning));
-                }
+                    LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(str)));
+            }
+            else
+            {
+                Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(str),
+                    UiLogColor.Warning));
             }
         }
 
@@ -1038,12 +1105,9 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get
             {
-                foreach (var item in ClientTypeList)
+                foreach (var item in ClientTypeList.Where(item => item.Value == ClientType))
                 {
-                    if (item.Value == ClientType)
-                    {
-                        return item.Display;
-                    }
+                    return item.Display;
                 }
 
                 return "Unknown Client";
@@ -1304,9 +1368,9 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _defaultInfrast = ConfigurationHelper.GetValue(ConfigurationKeys.DefaultInfrast, _userDefined);
+        private string _defaultInfrast = ConfigurationHelper.GetValue(ConfigurationKeys.DefaultInfrast, UserDefined);
 
-        private static readonly string _userDefined = "user_defined";
+        private const string UserDefined = "user_defined";
 
         /// <summary>
         /// Gets or sets the uses of drones.
@@ -1317,9 +1381,9 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _defaultInfrast, value);
-                if (_defaultInfrast != _userDefined)
+                if (_defaultInfrast != UserDefined)
                 {
-                    CustomInfrastFile = "resource\\custom_infrast\\" + value;
+                    CustomInfrastFile = @"resource\custom_infrast\" + value;
                     IsCustomInfrastFileReadOnly = true;
                 }
                 else
@@ -1421,7 +1485,7 @@ namespace MaaWpfGui.ViewModels.UI
                 CustomInfrastFile = dialog.FileName;
             }
 
-            DefaultInfrast = _userDefined;
+            DefaultInfrast = UserDefined;
         }
 
         private string _customInfrastFile = ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastFile, string.Empty);
@@ -2185,6 +2249,21 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _forceRefresh = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ForceRefresh, bool.TrueString));
+
+        /// <summary>
+        /// Gets or Sets a value indicating whether to refresh when recruit permit ran out.
+        /// </summary>
+        public bool ForceRefresh
+        {
+            get => _forceRefresh;
+            set
+            {
+                SetAndNotify(ref _forceRefresh, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ForceRefresh, value.ToString());
+            }
+        }
+
         private bool _useExpedited;
 
         /// <summary>
@@ -2478,6 +2557,8 @@ namespace MaaWpfGui.ViewModels.UI
                 case VersionUpdateViewModel.CheckUpdateRetT.OnlyGameResourceUpdated:
                     toastMessage = LocalizationHelper.GetString("GameResourceUpdated");
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             if (toastMessage != null)
@@ -2768,13 +2849,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else if (addresses.Count > 1)
             {
-                foreach (var address in addresses)
+                foreach (var address in addresses.Where(address => address != "emulator-5554"))
                 {
-                    if (address == "emulator-5554")
-                    {
-                        continue;
-                    }
-
                     ConnectAddress = address;
                     break;
                 }
@@ -2804,7 +2880,7 @@ namespace MaaWpfGui.ViewModels.UI
             object value = key?.GetValue(BluestacksNxtValueName);
             if (value != null)
             {
-                return (string)value + "\\bluestacks.conf";
+                return (string)value + @"\bluestacks.conf";
             }
 
             return null;
@@ -2835,12 +2911,9 @@ namespace MaaWpfGui.ViewModels.UI
         {
             var rvm = (RootViewModel)this.Parent;
             var connectConfigName = string.Empty;
-            foreach (var data in ConnectConfigList)
+            foreach (var data in ConnectConfigList.Where(data => data.Value == ConnectConfig))
             {
-                if (data.Value == ConnectConfig)
-                {
-                    connectConfigName = data.Display;
-                }
+                connectConfigName = data.Display;
             }
 
             string prefix = ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitlePrefix, string.Empty);
@@ -2849,10 +2922,10 @@ namespace MaaWpfGui.ViewModels.UI
                 prefix += " - ";
             }
 
-            string officialClientType = "Official";
-            string bilibiliClientType = "Bilibili";
+            const string OfficialClientType = "Official";
+            const string BilibiliClientType = "Bilibili";
             string jsonPath = "resource/version.json";
-            if (!(ClientType == string.Empty || ClientType == officialClientType || ClientType == bilibiliClientType))
+            if (!(ClientType == string.Empty || ClientType == OfficialClientType || ClientType == BilibiliClientType))
             {
                 jsonPath = $"resource/global/{ClientType}/resource/version.json";
             }
@@ -2913,29 +2986,27 @@ namespace MaaWpfGui.ViewModels.UI
 
             var allLines = File.ReadAllLines(_bluestacksConfig);
 
+            // ReSharper disable once InvertIf
             if (string.IsNullOrEmpty(_bluestacksKeyWord))
             {
                 foreach (var line in allLines)
                 {
-                    if (line.StartsWith("bst.installed_images"))
+                    if (!line.StartsWith("bst.installed_images"))
                     {
-                        var images = line.Split('"')[1].Split(',');
-                        _bluestacksKeyWord = "bst.instance." + images[0] + ".status.adb_port";
-                        break;
+                        continue;
                     }
+
+                    var images = line.Split('"')[1].Split(',');
+                    _bluestacksKeyWord = "bst.instance." + images[0] + ".status.adb_port";
+                    break;
                 }
             }
 
-            foreach (var line in allLines)
-            {
-                if (line.StartsWith(_bluestacksKeyWord))
-                {
-                    var sp = line.Split('"');
-                    return "127.0.0.1:" + sp[1];
-                }
-            }
-
-            return null;
+            return (from line in allLines
+                    where line.StartsWith(_bluestacksKeyWord)
+                    select line.Split('"') into sp
+                    select "127.0.0.1:" + sp[1])
+                .FirstOrDefault();
         }
 
         public bool IsAdbTouchMode()
@@ -3314,6 +3385,8 @@ namespace MaaWpfGui.ViewModels.UI
                 case DarkModeType.SyncWithOs:
                     ThemeHelper.SwitchToSyncWithOsMode();
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -3351,17 +3424,17 @@ namespace MaaWpfGui.ViewModels.UI
                         Instances.TaskQueueViewModel.ShowInverse = false;
                         Instances.TaskQueueViewModel.SelectedAllWidth = 90;
                         break;
-
                     case InverseClearType.Inverse:
                         Instances.TaskQueueViewModel.InverseMode = true;
                         Instances.TaskQueueViewModel.ShowInverse = false;
                         Instances.TaskQueueViewModel.SelectedAllWidth = 90;
                         break;
-
                     case InverseClearType.ClearInverse:
                         Instances.TaskQueueViewModel.ShowInverse = true;
                         Instances.TaskQueueViewModel.SelectedAllWidth = TaskQueueViewModel.SelectedAllWidthWhenBoth;
                         break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
         }

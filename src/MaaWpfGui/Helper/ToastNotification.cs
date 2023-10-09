@@ -64,26 +64,28 @@ namespace MaaWpfGui.Helper
         /// <returns>The toast system is initialized.</returns>
         public bool CheckToastSystem()
         {
-            if (!_systemToastCheckInited)
+            if (_systemToastCheckInited)
             {
-                _systemToastCheckInited = true;
-
-                // like "Microsoft Windows 10.0.10240 "
-                var osDesc = RuntimeInformation.OSDescription;
-                Regex versionRegex = new Regex(@"\d+\.\d+\.\d+");
-                var matched = versionRegex.Match(osDesc);
-                if (!matched.Success)
-                {
-                    _systemToastChecked = false;
-                    return _systemToastChecked;
-                }
-
-                var osVersion = matched.Groups[0].Value;
-                bool verParsed = SemVersion.TryParse(osVersion, SemVersionStyles.Strict, out var curVersionObj);
-
-                var minimumVersionObj = new SemVersion(10, 0, 10240);
-                _systemToastChecked = verParsed && curVersionObj.CompareSortOrderTo(minimumVersionObj) >= 0;
+                return _systemToastChecked;
             }
+
+            _systemToastCheckInited = true;
+
+            // like "Microsoft Windows 10.0.10240 "
+            var osDesc = RuntimeInformation.OSDescription;
+            Regex versionRegex = new Regex(@"\d+\.\d+\.\d+");
+            var matched = versionRegex.Match(osDesc);
+            if (!matched.Success)
+            {
+                _systemToastChecked = false;
+                return _systemToastChecked;
+            }
+
+            var osVersion = matched.Groups[0].Value;
+            bool verParsed = SemVersion.TryParse(osVersion, SemVersionStyles.Strict, out var curVersionObj);
+
+            var minimumVersionObj = new SemVersion(10, 0, 10240);
+            _systemToastChecked = verParsed && curVersionObj.CompareSortOrderTo(minimumVersionObj) >= 0;
 
             return _systemToastChecked;
         }
@@ -543,7 +545,6 @@ namespace MaaWpfGui.Helper
         /// <summary>
         /// 闪烁信息
         /// </summary>
-        // ReSharper disable once InconsistentNaming
         [SuppressMessage("ReSharper", "InconsistentNaming")]
         [SuppressMessage("ReSharper", "NotAccessedField.Local")]
         private struct FLASHWINFO

@@ -12,6 +12,7 @@ bool asst::RecruitImageAnalyzer::analyze()
 
     time_analyze();
     refresh_analyze();
+    permit_analyze();
     bool ret = tags_analyze();
 
     return ret;
@@ -63,6 +64,20 @@ bool asst::RecruitImageAnalyzer::refresh_analyze()
 
     if (refresh_analyzer.analyze()) {
         m_refresh_rect = refresh_analyzer.get_result().rect;
+        return true;
+    }
+
+    return false;
+}
+
+bool asst::RecruitImageAnalyzer::permit_analyze()
+{
+    Matcher permit_analyzer(m_image);
+
+    permit_analyzer.set_task_info("RecruitNoPermit");
+
+    if (permit_analyzer.analyze()) {
+        m_permit_rect = permit_analyzer.get_result().rect;
         return true;
     }
 

@@ -564,6 +564,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="MissionStart">행동 개시</system:String>
     <system:String x:Key="UnitTime">회</system:String>
     <system:String x:Key="MedicineUsed">이성 회복 아이템을 사용했습니다</system:String>
+    <system:String x:Key="ExpiringMedicineUsed">만료가 임박한 이성 회복 아이템을 사용했습니다</system:String>
     <system:String x:Key="StoneUsed">순오리지늄을 사용했습니다</system:String>
     <system:String x:Key="ActingCommandError">PRTS 오류</system:String>
     <system:String x:Key="LabelsRefreshed">태그를 새로 고쳤습니다</system:String>
@@ -603,6 +604,8 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="RecruitmentOfBot">로봇을 모집했습니다!</system:String>
     <system:String x:Key="Choose">선택</system:String>
     <system:String x:Key="Refreshed">새로고침됨</system:String>
+    <system:String x:Key="continueRefresh">채용 허가 없음, 새로 고치려고 태그</system:String>
+    <system:String x:Key="noRecruitPermit">채용허가증이 없어 반환함</system:String>
     <system:String x:Key="NotEnoughStaff">오퍼레이터 부족</system:String>
     <system:String x:Key="StageInfoError">스테이지 인식 오류</system:String>
     <system:String x:Key="BattleFormation">편성 시작</system:String>
@@ -634,6 +637,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <!--  About  -->
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">★3 태그를 자동 새로고침하기</system:String>
+    <system:String x:Key="ForceRefresh">채용 허가 없이 계속 태그 새로고침 시도</system:String>
     <system:String x:Key="AutoUseExpedited">즉시 완료 허가증을 자동 사용*</system:String>
     <system:String x:Key="Level3UseShortTime">★3 태그 9:00 대신 7:40 설정</system:String>
     <system:String x:Key="Level3UseShortTime2">★3 태그 9:00 대신 1:00 설정</system:String>
@@ -667,6 +671,24 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="GameResourceUpdated">게임 리소스가 업데이트되었으니 MAA를 다시 시작해주세요.</system:String>
     <system:String x:Key="GameResourceUpdating">게임 자원이 업데이트 중입니다. MAA를 닫지 마십시오.</system:String>
     <!--  Api  -->
+    <!--  Remote Control  -->
+    <system:String x:Key="RemoteControlSettings">원격 제어</system:String>
+    <system:String x:Key="RemoteControlDeviceIdentityLabel">장치 식별자(읽기 전용)</system:String>
+    <system:String x:Key="RemoteControlConnectionTest">연결 테스트</system:String>
+    <system:String x:Key="RemoteControlRegenerateDeviceIdentity">재생성</system:String>
+    <system:String x:Key="RemoteControlUserIdentityLabel">사용자 식별자</system:String>
+    <system:String x:Key="RemoteControlGetTaskEndpointLabel">작업 엔드포인트 가져오기</system:String>
+    <system:String x:Key="RemoteControlReportStatusEndpointLabel">작업 상태 보고 엔드포인트</system:String>
+    <system:String x:Key="RemoteControlConnectionTestSuccess">연결 테스트 성공!</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFail">연결 테스트 실패, 이유: {0}.</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFailEmpty">연결 테스트 실패, 엔드포인트가 비어 있습니다.</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFailNotHttps">연결 테스트 실패. 엔드포인트가 https 주소가 아닙니다.</system:String>
+    <system:String x:Key="RemoteControlReceivedTask">원격 작업 {0} 받음, 작업 Id:{1}.</system:String>
+    <system:String x:Key="RemoteControlCompletedTask">원격 작업 {0} 완료, 작업 Id:{1}.</system:String>
+    <system:String x:Key="RemoteControlTooltips">주의: 알려지지 않은 출처의 주소를 입력하면 당신의 아크나이츠 계정에 손실이 발생할 수 있습니다.</system:String>
+    <system:String x:Key="RemoteControlDeveloperTooltips">관련 기능을 개발하는 방법을 알고 싶다면, 방문하세요</system:String>
+    <system:String x:Key="RemoteControlDeveloperDocLink">원격 제어 기능 개발자 문서</system:String>
+    <!--  Remote Control  -->
     <!--  External Notification  -->
     <system:String x:Key="ExternalNotificationEmailTemplateHello">박사님, 새로운 발표가 있습니다!</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">MAA에서 SMTP 서버를 설정하고 메일 알림 서비스가 켜져 있기 때문에 이 메시지가 표시됩니다.</system:String>

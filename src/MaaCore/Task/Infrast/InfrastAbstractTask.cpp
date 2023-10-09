@@ -550,7 +550,7 @@ void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::str
 void asst::InfrastAbstractTask::click_return_button()
 {
     LogTraceFunction;
-    ProcessTask(*this, { "Infrast@BlackReturn" }).run();
+    ProcessTask(*this, { "Infrast@ReturnButton" }).run();
 }
 
 bool asst::InfrastAbstractTask::click_bottom_left_tab()

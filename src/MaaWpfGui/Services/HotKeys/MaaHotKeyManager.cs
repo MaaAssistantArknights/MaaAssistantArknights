@@ -106,7 +106,7 @@ namespace MaaWpfGui.Services.HotKeys
             Instances.MaaHotKeyActionHandler.HandleKeyPressed(action);
         }
 
-        private Dictionary<MaaHotKeyAction, MaaHotKey> GetPersistentHotKeys()
+        private static Dictionary<MaaHotKeyAction, MaaHotKey> GetPersistentHotKeys()
         {
             var hotKeysString = ConfigurationHelper.GetValue(HotKeyConfigName, null);
 
@@ -115,7 +115,7 @@ namespace MaaWpfGui.Services.HotKeys
                 : JsonConvert.DeserializeObject<Dictionary<MaaHotKeyAction, MaaHotKey>>(hotKeysString);
         }
 
-        private Dictionary<MaaHotKeyAction, MaaHotKey> CreateInitialHotKeys()
+        private static Dictionary<MaaHotKeyAction, MaaHotKey> CreateInitialHotKeys()
         {
             var hotKeys = new Dictionary<MaaHotKeyAction, MaaHotKey>
             {

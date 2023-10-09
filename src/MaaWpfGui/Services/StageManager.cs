@@ -103,7 +103,7 @@ namespace MaaWpfGui.Services
             }
         }
 
-        private string GetClientType()
+        private static string GetClientType()
         {
             var clientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty);
 
@@ -116,7 +116,7 @@ namespace MaaWpfGui.Services
             return clientType;
         }
 
-        private JObject LoadLocalStages()
+        private static JObject LoadLocalStages()
         {
             JObject activity = Instances.MaaApiService.LoadApiCache(StageApi);
             return activity;
@@ -142,7 +142,7 @@ namespace MaaWpfGui.Services
             return webTimestamp > localTimestamp || !allFileDownloadComplete;
         }
 
-        private async Task<JObject> LoadWebStages()
+        private static async Task<JObject> LoadWebStages()
         {
             var clientType = GetClientType();
 
@@ -355,31 +355,28 @@ namespace MaaWpfGui.Services
         {
             var builder = new StringBuilder();
             var sideStoryFlags = new Dictionary<string, bool>();
-            foreach (var item in _stages)
+            foreach (var item in _stages.Where(item => item.Value.IsStageOpen(dayOfWeek)))
             {
-                if (item.Value.IsStageOpen(dayOfWeek))
+                if (!string.IsNullOrEmpty(item.Value.Activity?.StageName)
+                    && !sideStoryFlags.ContainsKey(item.Value.Activity.StageName))
                 {
-                    if (!string.IsNullOrEmpty(item.Value.Activity?.StageName)
-                        && !sideStoryFlags.ContainsKey(item.Value.Activity.StageName))
-                    {
-                        DateTime dateTime = DateTime.UtcNow;
-                        var daysLeftOpen = (item.Value.Activity.UtcExpireTime - dateTime).Days;
-                        builder.AppendLine(item.Value.Activity.StageName
-                            + " "
-                            + LocalizationHelper.GetString("DaysLeftOpen")
-                            + (daysLeftOpen > 0 ? daysLeftOpen.ToString() : LocalizationHelper.GetString("LessThanOneDay")));
-                        sideStoryFlags[item.Value.Activity.StageName] = true;
-                    }
+                    DateTime dateTime = DateTime.UtcNow;
+                    var daysLeftOpen = (item.Value.Activity.UtcExpireTime - dateTime).Days;
+                    builder.AppendLine(item.Value.Activity.StageName
+                        + " "
+                        + LocalizationHelper.GetString("DaysLeftOpen")
+                        + (daysLeftOpen > 0 ? daysLeftOpen.ToString() : LocalizationHelper.GetString("LessThanOneDay")));
+                    sideStoryFlags[item.Value.Activity.StageName] = true;
+                }
 
-                    if (!string.IsNullOrEmpty(item.Value.Tip))
-                    {
-                        builder.AppendLine(item.Value.Tip);
-                    }
+                if (!string.IsNullOrEmpty(item.Value.Tip))
+                {
+                    builder.AppendLine(item.Value.Tip);
+                }
 
-                    if (!string.IsNullOrEmpty(item.Value.Drop))
-                    {
-                        builder.AppendLine(item.Value.Display + ": " + ItemListHelper.GetItemName(item.Value.Drop));
-                    }
+                if (!string.IsNullOrEmpty(item.Value.Drop))
+                {
+                    builder.AppendLine(item.Value.Display + ": " + ItemListHelper.GetItemName(item.Value.Drop));
                 }
             }
 

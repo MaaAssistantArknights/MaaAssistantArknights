@@ -19,13 +19,11 @@ namespace MaaWpfGui.Helper
 {
     public struct WindowHandle
     {
-        private IntPtr _handle;
+        public IntPtr Handle { get; private set; }
 
-        public IntPtr Handle => _handle;
+        public static WindowHandle None => new WindowHandle() { Handle = IntPtr.Zero };
 
-        public static WindowHandle None => new WindowHandle() { _handle = IntPtr.Zero };
-
-        public static implicit operator WindowHandle(IntPtr h) => new WindowHandle() { _handle = h };
+        public static implicit operator WindowHandle(IntPtr h) => new WindowHandle() { Handle = h };
 
         public static implicit operator WindowHandle(Window w)
         {
@@ -35,7 +33,7 @@ namespace MaaWpfGui.Helper
             }
 
             var interop = new WindowInteropHelper(w);
-            return new WindowHandle { _handle = interop.Handle };
+            return new WindowHandle { Handle = interop.Handle };
         }
     }
 }
