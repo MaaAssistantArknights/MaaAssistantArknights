@@ -791,15 +791,16 @@ namespace MaaWpfGui.ViewModels.UI
                 connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
             }
 
-            if (!connected)
+            if (connected)
             {
-                AddLog(errMsg, UiLogColor.Error);
-                _runningState.SetIdle(true);
-                SetStopped();
-                return false;
+                return true;
             }
 
-            return true;
+            AddLog(errMsg, UiLogColor.Error);
+            _runningState.SetIdle(true);
+            SetStopped();
+            return false;
+
         }
 
         /// <summary>

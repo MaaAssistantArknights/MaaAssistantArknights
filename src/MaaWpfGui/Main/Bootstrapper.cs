@@ -76,16 +76,16 @@ namespace MaaWpfGui.Main
                 Directory.CreateDirectory("debug");
             }
 
-            string logFilename = "debug/gui.log";
-            string logBakFilename = "debug/gui.bak.log";
-            if (File.Exists(logFilename) && new FileInfo(logFilename).Length > 4 * 1024 * 1024)
+            const string LogFilename = "debug/gui.log";
+            const string LogBakFilename = "debug/gui.bak.log";
+            if (File.Exists(LogFilename) && new FileInfo(LogFilename).Length > 4 * 1024 * 1024)
             {
-                if (File.Exists(logBakFilename))
+                if (File.Exists(LogBakFilename))
                 {
-                    File.Delete(logBakFilename);
+                    File.Delete(LogBakFilename);
                 }
 
-                File.Move(logFilename, logBakFilename);
+                File.Move(LogFilename, LogBakFilename);
             }
 
             // Bootstrap serilog
@@ -93,7 +93,7 @@ namespace MaaWpfGui.Main
                 .WriteTo.Debug(
                     outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
                 .WriteTo.File(
-                    logFilename,
+                    LogFilename,
                     outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
                 .Enrich.FromLogContext()
                 .Enrich.WithThreadId()

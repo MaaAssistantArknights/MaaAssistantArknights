@@ -131,7 +131,8 @@ namespace MaaWpfGui.Configuration
             };
         }
 
-        private static Root Root => _rootConfig.Value;
+        // ReSharper disable once MemberCanBePrivate.Global
+        public static Root Root => _rootConfig.Value;
 
         public static readonly SpecificConfig CurrentConfig = Root.CurrentConfig;
 

@@ -124,30 +124,14 @@ namespace MaaWpfGui.Models
         /// <returns>Whether stage is open</returns>
         public bool IsStageOpenOrWillOpen()
         {
-            if (Activity != null)
-            {
-                if (!Activity.IsExpired)
-                {
-                    return true;
-                }
-
-                // expired activity
-                if (!Activity.IsResourceCollection)
-                {
-                    return false;
-                }
-
-                // expired resource activity, check open days
-            }
-
-            // resource stage
-            if (OpenDays != null && OpenDays.Any())
+            // 只有活动会过期且不开放
+            if (Activity == null)
             {
                 return true;
             }
 
-            // regular stage, always open
-            return true;
+            return !Activity.IsExpired ||
+                Activity.IsResourceCollection;
         }
     }
 }

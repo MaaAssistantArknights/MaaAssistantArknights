@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -41,29 +42,29 @@ namespace MaaWpfGui.Helper
             {
                 "BlueStacks", new List<string>
                 {
-                    ".\\HD-Adb.exe",
-                    ".\\Engine\\ProgramFiles\\HD-Adb.exe",
+                    @".\HD-Adb.exe",
+                    @".\Engine\ProgramFiles\HD-Adb.exe",
                 }
             },
-            { "LDPlayer",  new List<string> { ".\\adb.exe" } },
-            { "Nox",  new List<string> { ".\\nox_adb.exe" } },
+            { "LDPlayer",  new List<string> {@".\adb.exe"} },
+            { "Nox",  new List<string> {@".\nox_adb.exe"} },
             {
                 "MuMuEmulator",  new List<string>
                 {
-                    "..\\vmonitor\\bin\\adb_server.exe",
-                    "..\\..\\MuMu\\emulator\\nemu\\vmonitor\\bin\\adb_server.exe",
-                    ".\\adb.exe",
+                    @"..\vmonitor\bin\adb_server.exe",
+                    @"..\..\MuMu\emulator\nemu\vmonitor\bin\adb_server.exe",
+                    @".\adb.exe",
                 }
             },
             {
                 "MuMuEmulator12",  new List<string>
                 {
-                    "..\\vmonitor\\bin\\adb_server.exe",
-                    "..\\..\\MuMu\\emulator\\nemu\\vmonitor\\bin\\adb_server.exe",
-                    ".\\adb.exe",
+                    @"..\vmonitor\bin\adb_server.exe",
+                    @"..\..\MuMu\emulator\nemu\vmonitor\bin\adb_server.exe",
+                    @".\adb.exe",
                 }
             },
-            { "XYAZ",  new List<string> { ".\\adb.exe" } },
+            { "XYAZ",  new List<string> { @".\adb.exe" } },
         };
 
         private readonly Dictionary<string, string> _adbAbsolutePathDict = new Dictionary<string, string>();
@@ -104,12 +105,9 @@ namespace MaaWpfGui.Helper
         /// <returns>The ADB path of the emulator.</returns>
         public string GetAdbPathByEmulatorName(string emulatorName)
         {
-            if (_adbAbsolutePathDict.Keys.Contains(emulatorName))
-            {
-                return _adbAbsolutePathDict[emulatorName];
-            }
-
-            return null;
+            return _adbAbsolutePathDict.Keys.Contains(emulatorName)
+                ? _adbAbsolutePathDict[emulatorName]
+                : null;
         }
 
         /// <summary>
@@ -119,26 +117,27 @@ namespace MaaWpfGui.Helper
         /// <returns>The list of ADB addresses.</returns>
         public List<string> GetAdbAddresses(string adbPath)
         {
-            using Process process = new Process();
-            process.StartInfo.FileName = adbPath;
-            process.StartInfo.Arguments = "devices";
+            try {
+                using Process process = new Process();
+                process.StartInfo.FileName = adbPath;
+                process.StartInfo.Arguments = "devices";
 
-            // 禁用操作系统外壳程序
-            process.StartInfo.UseShellExecute = false;
-            process.StartInfo.CreateNoWindow = true;
-            process.StartInfo.RedirectStandardOutput = true;
-            process.Start();
-            var output = process.StandardOutput.ReadToEnd();
-            _logger.Information(adbPath + " devices | output:\n" + output);
-            var outLines = output.Split('\r', '\n');
+                // 禁用操作系统外壳程序
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.Start();
+                var output = process.StandardOutput.ReadToEnd();
+                _logger.Information(adbPath + " devices | output:\n" + output);
+                var outLines = output.Split('\r', '\n');
 
-            return
-                (from line in outLines
-                where !line.StartsWith("List of devices attached")
-                    && line.Length != 0
-                    && line.Contains("device")
-                select line.Split('\t')[0])
-                .ToList();
+                return (from line in outLines where !line.StartsWith("List of devices attached") && line.Length != 0 && line.Contains("device") select line.Split('\t')[0]).ToList();
+            }
+            catch(Exception e)
+            {
+                _logger.Error(e.Message);
+                return new List<string>();
+            }
         }
     }
 }
