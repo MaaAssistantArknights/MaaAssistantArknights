@@ -14,27 +14,27 @@ namespace MaaWpfGui.Models
         private static readonly List<string> _MaaSingleFiles = new List<string>
         {
             "resource/Arknights-Tile-Pos/overview.json",
+            "resource/stages.json",
+            "resource/recruitment.json",
+            "resource/item_index.json",
             "resource/battle_data.json",
             "resource/infrast.json",
-            "resource/item_index.json",
-            "resource/recruitment.json",
-            "resource/stages.json",
             "resource/version.json",
-            "resource/global/txwy/resource/item_index.json",
-            "resource/global/txwy/resource/recruitment.json",
-            "resource/global/txwy/resource/version.json",
-            "resource/global/YoStarEN/resource/item_index.json",
-            "resource/global/YoStarEN/resource/recruitment.json",
-            "resource/global/YoStarEN/resource/version.json",
-            "resource/global/YoStarJP/resource/item_index.json",
             "resource/global/YoStarJP/resource/recruitment.json",
+            "resource/global/YoStarJP/resource/item_index.json",
             "resource/global/YoStarJP/resource/version.json",
-            "resource/global/YoStarKR/resource/item_index.json",
+            "resource/global/YoStarEN/resource/recruitment.json",
+            "resource/global/YoStarEN/resource/item_index.json",
+            "resource/global/YoStarEN/resource/version.json",
             "resource/global/YoStarKR/resource/recruitment.json",
+            "resource/global/YoStarKR/resource/item_index.json",
             "resource/global/YoStarKR/resource/version.json",
+            "resource/global/txwy/resource/recruitment.json",
+            "resource/global/txwy/resource/item_index.json",
+            "resource/global/txwy/resource/version.json",
         };
 
-        private static readonly string _MaaDynamicFilesIndex = "resource/dynamic_list.txt";
+        private const string _MaaDynamicFilesIndex = "resource/dynamic_list.txt";
 
         public enum UpdateResult
         {
