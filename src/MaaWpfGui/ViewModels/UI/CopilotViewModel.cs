@@ -38,7 +38,7 @@ namespace MaaWpfGui.ViewModels.UI
     /// <summary>
     /// The view model of copilot.
     /// </summary>
-    // 通过 container.Get<CopilotViewModel>(); 实例化或获取实例，需要添加 qodana ignore rule
+    // 通过 container.Get<CopilotViewModel>(); 实例化或获取实例
     // ReSharper disable once ClassNeverInstantiated.Global
     public class CopilotViewModel : Screen
     {

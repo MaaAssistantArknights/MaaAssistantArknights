@@ -43,6 +43,8 @@ namespace MaaWpfGui.Models
             NotModified,
         }
 
+        // 只有 Release 版本才会检查更新
+        // ReSharper disable once UnusedMember.Global
         public static async void UpdateAndToast()
         {
             var ret = await Update();
@@ -86,13 +88,18 @@ namespace MaaWpfGui.Models
             {
                 var sRet = await UpdateFileWithETag(MaaUrls.MaaResourceApi, file, file);
 
-                if (sRet == UpdateResult.Failed)
+                switch (sRet)
                 {
-                    ret = UpdateResult.Failed;
-                }
-                else if (sRet == UpdateResult.Success)
-                {
-                    ETagCache.Save();
+                    case UpdateResult.Failed:
+                        ret = UpdateResult.Failed;
+                        break;
+                    case UpdateResult.Success:
+                        ETagCache.Save();
+                        break;
+                    case UpdateResult.NotModified:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
 
                 if (ret == UpdateResult.NotModified && sRet == UpdateResult.Success)
@@ -109,13 +116,17 @@ namespace MaaWpfGui.Models
         private static async Task<UpdateResult> UpdateFilesWithIndex()
         {
             var indexSRet = await UpdateFileWithETag(MaaUrls.MaaResourceApi, MaaDynamicFilesIndex, MaaDynamicFilesIndex);
-            if (indexSRet == UpdateResult.Failed)
+            switch (indexSRet)
             {
-                return UpdateResult.Failed;
-            }
-            else if (indexSRet == UpdateResult.Success)
-            {
-                ETagCache.Save();
+                case UpdateResult.Failed:
+                    return UpdateResult.Failed;
+                case UpdateResult.Success:
+                    ETagCache.Save();
+                    break;
+                case UpdateResult.NotModified:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             var indexPath = Path.Combine(Environment.CurrentDirectory, MaaDynamicFilesIndex);

@@ -9,20 +9,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Services.Web;
 using MaaWpfGui.States;
-using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
-using Windows.Media.Protection.PlayReady;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace MaaWpfGui.Services.RemoteControl
 {
+    /// <summary>
+    /// The view model of remote control.
+    /// </summary>
+    // 通过 container.Get<RemoteControlService>(); 实例化或获取实例
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class RemoteControlService
     {
         private readonly Task _pollJobTask = Task.CompletedTask;
@@ -33,7 +33,7 @@ namespace MaaWpfGui.Services.RemoteControl
 
         public RemoteControlService()
         {
-            _pollJobTask = _pollJobTask.ContinueWith(async (_) =>
+            _pollJobTask = _pollJobTask.ContinueWith(async _ =>
             {
                 while (true)
                 {
@@ -51,7 +51,7 @@ namespace MaaWpfGui.Services.RemoteControl
                 // ReSharper disable once FunctionNeverReturns
             });
 
-            _executeJobTask = _executeJobTask.ContinueWith(async (_) =>
+            _executeJobTask = _executeJobTask.ContinueWith(async _ =>
             {
                 while (true)
                 {
@@ -204,7 +204,7 @@ namespace MaaWpfGui.Services.RemoteControl
 
             var uid = Instances.SettingsViewModel.RemoteControlUserIdentity;
             var did = Instances.SettingsViewModel.RemoteControlDeviceIdentity;
-            var response = await Instances.HttpService.PostAsJsonAsync(new Uri(endpoint), new { user=uid, device = did});
+            var response = await Instances.HttpService.PostAsJsonAsync(new Uri(endpoint), new { user = uid, device = did });
             if (response == null)
             {
                 Log.Logger.Error("RemoteControlService endpoint failed.");
@@ -219,17 +219,20 @@ namespace MaaWpfGui.Services.RemoteControl
                 foreach (var task in tasks.OfType<JObject>())
                 {
                     var type = task.GetValue("type")?.Value<string>();
-                    if (!string.IsNullOrWhiteSpace(type))
+                    if (string.IsNullOrWhiteSpace(type))
                     {
-                        // It is a valid task
-                        var id = task.GetValue("id")?.Value<string>();
-                        if (!_executedTaskIds.Contains(id))
-                        {
-                            _executedTaskIds.Add(id);
-
-                            _taskQueue.Enqueue(task);
-                        }
+                        continue;
                     }
+
+                    // It is a valid task
+                    var id = task.GetValue("id")?.Value<string>();
+                    if (_executedTaskIds.Contains(id))
+                    {
+                        continue;
+                    }
+
+                    _executedTaskIds.Add(id);
+                    _taskQueue.Enqueue(task);
                 }
             }
         }
@@ -247,25 +250,25 @@ namespace MaaWpfGui.Services.RemoteControl
                 switch (type)
                 {
                     case "LinkStart":
-                    {
-                        // 一键长草特殊任务
-                        await _runningState.UntilIdleAsync();
-                        var startLogStr = string.Format(LocalizationHelper.GetString("RemoteControlReceivedTask"), type, id);
-
-                        Application.Current.Dispatcher.Invoke(() =>
                         {
-                            Instances.TaskQueueViewModel.AddLog(startLogStr);
-                            Instances.TaskQueueViewModel.LinkStart();
-                        });
-                        await _runningState.UntilIdleAsync();
+                            // 一键长草特殊任务
+                            await _runningState.UntilIdleAsync();
+                            var startLogStr = string.Format(LocalizationHelper.GetString("RemoteControlReceivedTask"), type, id);
 
-                        var stopLogStr = string.Format(LocalizationHelper.GetString("RemoteControlCompletedTask"), type, id);
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            Instances.TaskQueueViewModel.AddLog(stopLogStr);
-                        });
-                        break;
-                    }
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                Instances.TaskQueueViewModel.AddLog(startLogStr);
+                                Instances.TaskQueueViewModel.LinkStart();
+                            });
+                            await _runningState.UntilIdleAsync();
+
+                            var stopLogStr = string.Format(LocalizationHelper.GetString("RemoteControlCompletedTask"), type, id);
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                Instances.TaskQueueViewModel.AddLog(stopLogStr);
+                            });
+                            break;
+                        }
 
                     case "LinkStart-Base":
                     case "LinkStart-WakeUp":
@@ -275,66 +278,64 @@ namespace MaaWpfGui.Services.RemoteControl
                     case "LinkStart-Mission":
                     case "LinkStart-AutoRoguelike":
                     case "LinkStart-ReclamationAlgorithm":
-                    {
-                        await LinkStart(new[] { type.Split('-')[1] });
-                        break;
-                    }
+                        {
+                            await LinkStart(new[] { type.Split('-')[1] });
+                            break;
+                        }
 
                     case "Toolbox-GachaOnce":
-                    {
-                        await _runningState.UntilIdleAsync();
-                        Instances.RecognizerViewModel.GachaOnce();
-                        while (!Instances.RecognizerViewModel.GachaDone)
                         {
-                            await Task.Delay(100); // 暂停100毫秒以避免密集循环
-                        }
+                            await _runningState.UntilIdleAsync();
+                            Instances.RecognizerViewModel.GachaOnce();
+                            while (!Instances.RecognizerViewModel.GachaDone)
+                            {
+                                await Task.Delay(100); // 暂停100毫秒以避免密集循环
+                            }
 
-                        break;
-                    }
+                            break;
+                        }
 
                     case "Toolbox-GachaTenTimes":
-                    {
-                        await _runningState.UntilIdleAsync();
-                        Instances.RecognizerViewModel.GachaTenTimes();
-                        while (!Instances.RecognizerViewModel.GachaDone)
                         {
-                            await Task.Delay(100); // 暂停100毫秒以避免密集循环
+                            await _runningState.UntilIdleAsync();
+                            Instances.RecognizerViewModel.GachaTenTimes();
+                            while (!Instances.RecognizerViewModel.GachaDone)
+                            {
+                                await Task.Delay(100); // 暂停100毫秒以避免密集循环
+                            }
+
+                            break;
                         }
 
-                        break;
-                    }
-
                     case "CaptureImage":
-                    {
-                        string errMsg = string.Empty;
-                        bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
-                        if (connected)
                         {
-                            var image = Instances.AsstProxy.AsstGetImage();
-                            if (image == null)
+                            string errMsg = string.Empty;
+                            bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+                            if (connected)
                             {
-                                status = "FAILED";
+                                var image = Instances.AsstProxy.AsstGetImage();
+                                if (image == null)
+                                {
+                                    status = "FAILED";
+                                    break;
+                                }
+
+                                byte[] bytes;
+                                using (MemoryStream stream = new MemoryStream())
+                                {
+                                    PngBitmapEncoder encoder = new PngBitmapEncoder();
+                                    encoder.Frames.Add(BitmapFrame.Create(image));
+                                    encoder.Save(stream);
+                                    bytes = stream.ToArray();
+                                }
+
+                                payload = Convert.ToBase64String(bytes);
                                 break;
                             }
 
-                            byte[] bytes;
-                            using (MemoryStream stream = new MemoryStream())
-                            {
-                                PngBitmapEncoder encoder = new PngBitmapEncoder();
-                                encoder.Frames.Add(BitmapFrame.Create(image));
-                                encoder.Save(stream);
-                                bytes = stream.ToArray();
-                            }
-
-                            payload = Convert.ToBase64String(bytes);
-                            break;
-                        }
-                        else
-                        {
                             status = "FAILED";
                             break;
                         }
-                    }
 
                     case "Settings-ConnectAddress":
                         // ConfigurationHelper.SetValue(type.Split('-')[1], data);
@@ -345,6 +346,7 @@ namespace MaaWpfGui.Services.RemoteControl
 
                         break;
 
+                    // ReSharper disable once RedundantEmptySwitchSection
                     default:
                         // 未知的Type统一直接发给MAACore
                         // No! 未知的任务一概不处理
@@ -360,9 +362,9 @@ namespace MaaWpfGui.Services.RemoteControl
                     {
                         user = uid,
                         device = did,
-                        status = status,
+                        status,
                         task = id,
-                        payload = payload,
+                        payload,
                     });
                     if (response == null)
                     {
@@ -385,7 +387,8 @@ namespace MaaWpfGui.Services.RemoteControl
         /// </remarks>
         /// <param name="originalNames">指定的任务列表。</param>
         /// <returns>异步任务，无返回结果。</returns>
-        public async Task LinkStart(IEnumerable<string> originalNames)
+        // 这个是不是可以直接做到 TaskQueueViewModel 里面去？
+        private async Task LinkStart(IEnumerable<string> originalNames)
         {
             await _runningState.UntilIdleAsync();
 

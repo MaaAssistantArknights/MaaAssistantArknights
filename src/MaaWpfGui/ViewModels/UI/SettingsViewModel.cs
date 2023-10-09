@@ -127,12 +127,14 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void Sober()
         {
-            if (Cheers && Language == PallasLangKey)
+            if (!Cheers || Language != PallasLangKey)
             {
-                ConfigurationHelper.SetValue(ConfigurationKeys.Localization, SoberLanguage);
-                Hangover = true;
-                Cheers = false;
+                return;
             }
+
+            ConfigurationHelper.SetValue(ConfigurationKeys.Localization, SoberLanguage);
+            Hangover = true;
+            Cheers = false;
         }
 
         protected override void OnInitialActivate()
@@ -148,11 +150,15 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region Remote Control
 
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public async void RemoteControlConnectionTest()
         {
             await RemoteControlService.ConnectionTest();
         }
 
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public void RemoteControlRegenerateDeviceIdentity()
         {
             RemoteControlService.RegenerateDeviceIdentity();
@@ -3394,6 +3400,8 @@ namespace MaaWpfGui.ViewModels.UI
                 case DarkModeType.SyncWithOs:
                     ThemeHelper.SwitchToSyncWithOsMode();
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
