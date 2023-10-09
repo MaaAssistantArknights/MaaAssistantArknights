@@ -5,9 +5,7 @@
 
 bool asst::GeneralConfig::parse(const json::value& json)
 {
-#ifdef ASST_DEBUG
     LogTraceFunction;
-#endif
 
     m_version = json.at("version").as_string();
 

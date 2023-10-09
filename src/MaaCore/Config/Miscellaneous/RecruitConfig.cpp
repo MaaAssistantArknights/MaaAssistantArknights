@@ -46,9 +46,7 @@ bool asst::RecruitConfig::parse(const json::value& json)
 
 void asst::RecruitConfig::clear()
 {
-#ifdef ASST_DEBUG
     LogTraceFunction;
-#endif
 
     m_all_opers.clear();
     m_all_tags.clear();

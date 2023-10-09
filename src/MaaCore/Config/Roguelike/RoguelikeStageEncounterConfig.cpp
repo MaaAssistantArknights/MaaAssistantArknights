@@ -6,9 +6,7 @@
 
 bool asst::RoguelikeStageEncounterConfig::parse(const json::value& json)
 {
-#ifdef ASST_DEBUG
     LogTraceFunction;
-#endif
 
     const std::string theme = json.at("theme").as_string();
     m_events.erase(theme);
