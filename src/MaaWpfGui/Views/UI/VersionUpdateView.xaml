@@ -5,10 +5,8 @@
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
-    xmlns:markdig="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
+    xmlns:mdxam="clr-namespace:MdXaml;assembly=MdXaml"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
     xmlns:vm="clr-namespace:MaaWpfGui"
@@ -29,14 +27,14 @@
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <controls:TextBlock
-                Margin="0,10,0,5"
+                Margin="0,10,0,10"
                 VerticalAlignment="Bottom"
                 FontSize="20"
                 Style="{StaticResource TextBlockDefaultBold}"
                 Text="{DynamicResource VersionUpdatedTo}"
                 TextWrapping="Wrap" />
             <controls:TextBlock
-                Margin="0,10,0,5"
+                Margin="0,10,0,10"
                 VerticalAlignment="Bottom"
                 FontSize="20"
                 Style="{StaticResource TextBlockDefaultBold}"
@@ -44,36 +42,19 @@
                 TextWrapping="Wrap" />
         </StackPanel>
 
-        <FlowDocumentScrollViewer
-            x:Name="UpdateInfoMarkdownDocument"
+        <mdxam:MarkdownScrollViewer
+            ClickAction="SafetyOpenBrowser"
             Grid.Row="1"
-            Margin="16,0"
-            Document="{Binding UpdateInfoDoc}"
-            IsSelectionEnabled="False"
-            Zoom="90">
+            Markdown="{Binding UpdateInfo}"
+            Margin="10,10,10,0"
+            Zoom="120">
+            <mdxam:MarkdownScrollViewer.MarkdownStyle>
+                <Style TargetType="FlowDocument" BasedOn="{x:Static mdxam:MarkdownStyle.Sasabune}">
+                    <Setter Property="FontFamily" Value="Microsoft YaHei" />
+                    <Setter Property="PagePadding" Value="10"/>
+                </Style>
+            </mdxam:MarkdownScrollViewer.MarkdownStyle>
+        </mdxam:MarkdownScrollViewer>
 
-            <FlowDocumentScrollViewer.Template>
-                <ControlTemplate TargetType="FlowDocumentScrollViewer">
-                    <Border
-                        Margin="{TemplateBinding Padding}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
-                        Focusable="False">
-
-                        <hc:ScrollViewer
-                            x:Name="PART_ContentHost"
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                            CanContentScroll="True"
-                            IsInertiaEnabled="True" />
-                    </Border>
-                </ControlTemplate>
-            </FlowDocumentScrollViewer.Template>
-
-            <FlowDocumentScrollViewer.CommandBindings>
-                <CommandBinding Command="{x:Static markdig:Commands.Hyperlink}" Executed="{s:Action OpenHyperlink}" />
-            </FlowDocumentScrollViewer.CommandBindings>
-        </FlowDocumentScrollViewer>
     </Grid>
 </hc:Window>
