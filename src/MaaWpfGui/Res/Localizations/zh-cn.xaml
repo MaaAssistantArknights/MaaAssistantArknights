@@ -564,6 +564,7 @@
     <system:String x:Key="MissionStart">已开始行动</system:String>
     <system:String x:Key="UnitTime">次</system:String>
     <system:String x:Key="MedicineUsed">已使用理智药</system:String>
+    <system:String x:Key="ExpiringMedicineUsed">已使用 48 小时内过期的理智药</system:String>
     <system:String x:Key="StoneUsed">已使用源石</system:String>
     <system:String x:Key="ActingCommandError">代理指挥失误</system:String>
     <system:String x:Key="LabelsRefreshed">已刷新标签</system:String>

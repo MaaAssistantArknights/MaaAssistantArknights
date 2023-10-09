@@ -564,6 +564,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="MissionStart">Mission started</system:String>
     <system:String x:Key="UnitTime">times</system:String>
     <system:String x:Key="MedicineUsed">Medicine used</system:String>
+    <system:String x:Key="ExpiringMedicineUsed">Expiring medicine used</system:String>
     <system:String x:Key="StoneUsed">Originite Prime used</system:String>
     <system:String x:Key="ActingCommandError">PRTS error</system:String>
     <system:String x:Key="LabelsRefreshed">Labels refreshed</system:String>
