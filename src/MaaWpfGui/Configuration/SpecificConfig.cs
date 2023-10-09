@@ -15,7 +15,7 @@ namespace MaaWpfGui.Configuration
 {
     public class SpecificConfig
     {
-        // ReSharper disable once UnusedAutoPropertyAccessor.Global
+        // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
         public GUI GUI { get; set; } = new GUI();
     }
 }

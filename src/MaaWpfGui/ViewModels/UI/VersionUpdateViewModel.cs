@@ -406,6 +406,9 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     AskToRestart();
                 }
+#else
+                // 跑个空任务避免 async warning
+                await Task.Run(() => {});
 #endif
             }
         }

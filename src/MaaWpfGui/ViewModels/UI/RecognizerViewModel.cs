@@ -604,29 +604,14 @@ namespace MaaWpfGui.ViewModels.UI
             List<Tuple<string, int>> operHave = new List<Tuple<string, int>>();
             List<Tuple<string, int>> operNotHave = new List<Tuple<string, int>>();
 
-            string localizedName;
-            switch (ConfigurationHelper.GetValue(ConfigurationKeys.Localization, string.Empty))
+            string localizedName = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, string.Empty) switch
             {
-                case "zh-cn":
-                    localizedName = "name";
-                    break;
-
-                case "ja-jp":
-                    localizedName = "name_jp";
-                    break;
-
-                case "ko-kr":
-                    localizedName = "name_kr";
-                    break;
-
-                case "zh-tw":
-                    localizedName = "name_tw";
-                    break;
-
-                default:
-                    localizedName = "name_en";
-                    break;
-            }
+                "zh-cn" => "name",
+                "ja-jp" => "name_jp",
+                "ko-kr" => "name_kr",
+                "zh-tw" => "name_tw",
+                _ => "name_en"
+            };
 
             foreach (JObject operBox in operBoxes.Cast<JObject>())
             {
