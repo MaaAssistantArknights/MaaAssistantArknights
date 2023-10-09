@@ -962,10 +962,10 @@ namespace MaaWpfGui.Main
                             string itemName = item["itemName"]?.ToString();
                             int totalQuantity = (int)item["quantity"];
                             int addQuantity = (int)item["addQuantity"];
-                            allDrops += $"{itemName} : {totalQuantity}";
+                            allDrops += $"{itemName} : {totalQuantity:#,#}";
                             if (addQuantity > 0)
                             {
-                                allDrops += $" (+{addQuantity})";
+                                allDrops += $" (+{addQuantity:#,#})";
                             }
 
                             allDrops += "\n";
