@@ -684,6 +684,9 @@
     <system:String x:Key="RemoteControlConnectionTestFailNotHttps">连接测试失败。端点不是https地址。</system:String>
     <system:String x:Key="RemoteControlReceivedTask">收到远端任务{0}，任务Id:{1}。</system:String>
     <system:String x:Key="RemoteControlCompletedTask">完成远端任务{0}，任务Id:{1}。</system:String>
+    <system:String x:Key="RemoteControlTooltips">注意：随意填入未知来源的地址可能会导致您的明日方舟账户受到损失。</system:String>
+    <system:String x:Key="RemoteControlDeveloperTooltips">了解如何开发相关功能，可以访问</system:String>
+    <system:String x:Key="RemoteControlDeveloperDocLink">远程控制功能开发者文档</system:String>
     <!--  Remote Control  -->
     <!--  External Notification  -->
     <system:String x:Key="ExternalNotificationEmailTemplateHello">博士，有新的通知哦！</system:String>
