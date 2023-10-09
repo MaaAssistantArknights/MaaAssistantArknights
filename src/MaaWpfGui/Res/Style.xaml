@@ -4,9 +4,9 @@
     xmlns:hc="https://handyorg.github.io/handycontrol">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Styles/Basic/Geometries.xaml" />
-
         <ResourceDictionary Source="Styles/Divider.xaml" />
         <ResourceDictionary Source="Styles/ListBox.xaml" />
+        <ResourceDictionary Source="Styles/MdXaml.xaml" />
         <ResourceDictionary Source="Styles/MessageBox.xaml" />
         <ResourceDictionary Source="Styles/TextBlock.xaml" />
     </ResourceDictionary.MergedDictionaries>
