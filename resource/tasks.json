@@ -7510,6 +7510,7 @@
     },
     "SkipThePreBattlePlotConfirm": {
         "action": "ClickSelf",
+        "cache": false,
         "roi": [
             721,
             290,
