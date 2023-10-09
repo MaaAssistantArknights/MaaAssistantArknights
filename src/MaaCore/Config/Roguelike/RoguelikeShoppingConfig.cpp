@@ -6,7 +6,9 @@
 
 bool asst::RoguelikeShoppingConfig::parse(const json::value& json)
 {
+#ifdef ASST_DEBUG
     LogTraceFunction;
+#endif
 
     const std::string theme = json.at("theme").as_string();
     m_goods.erase(theme);

@@ -6,7 +6,9 @@
 
 bool asst::StageDropsConfig::parse(const json::value& json)
 {
+#ifdef ASST_DEBUG
     LogTraceFunction;
+#endif
 
     for (const json::value& stage_json : json.as_array()) {
         auto drop_infos_opt = stage_json.find<json::array>("dropInfos");

@@ -52,7 +52,9 @@ std::vector<int> asst::RoguelikeRecruitConfig::get_group_id(const std::string& t
 
 bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
 {
+#ifdef ASST_DEBUG
     LogTraceFunction;
+#endif
 
     // 肉鸽名字
     const std::string theme = json.at("theme").as_string();

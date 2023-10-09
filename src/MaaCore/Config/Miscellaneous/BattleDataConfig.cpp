@@ -6,7 +6,9 @@
 
 bool asst::BattleDataConfig::parse(const json::value& json)
 {
+#ifdef ASST_DEBUG
     LogTraceFunction;
+#endif
 
     for (const auto& [id, char_data_json] : json.at("chars").as_object()) {
         battle::OperProps data;
