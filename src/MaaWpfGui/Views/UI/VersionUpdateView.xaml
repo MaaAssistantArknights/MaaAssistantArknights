@@ -7,6 +7,7 @@
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mdxam="clr-namespace:MdXaml;assembly=MdXaml"
+    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
     xmlns:vm="clr-namespace:MaaWpfGui"
@@ -46,14 +47,13 @@
             ClickAction="SafetyOpenBrowser"
             Grid.Row="1"
             Markdown="{Binding UpdateInfo}"
-            Margin="10,10,10,0"
-            Zoom="120">
+            Margin="10,10,10,0">
             <mdxam:MarkdownScrollViewer.MarkdownStyle>
-                <Style TargetType="FlowDocument" BasedOn="{x:Static mdxam:MarkdownStyle.Sasabune}">
-                    <Setter Property="FontFamily" Value="Microsoft YaHei" />
-                    <Setter Property="PagePadding" Value="10"/>
-                </Style>
+                <StaticResource ResourceKey="MdXamlStyle"/>
             </mdxam:MarkdownScrollViewer.MarkdownStyle>
+            <mdxam:MarkdownScrollViewer.Plugins>
+                <StaticResource ResourceKey="MdXamlPlugin"/>
+            </mdxam:MarkdownScrollViewer.Plugins>
         </mdxam:MarkdownScrollViewer>
 
     </Grid>

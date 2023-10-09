@@ -99,9 +99,5 @@ namespace MaaWpfGui.ViewModels.UI
         // xaml 里用到了
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable once UnusedParameter.Global
-        public void OpenHyperlink(object sender, ExecutedRoutedEventArgs e)
-        {
-            Process.Start(e.Parameter.ToString());
-        }
     }
 }

@@ -6,8 +6,7 @@
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mdxam="clr-namespace:MdXaml;assembly=MdXaml"
-    xmlns:mdplug="clr-namespace:MdXaml.Plugins;assembly=MdXaml.Plugins"
-    xmlns:mdhtml="clr-namespace:MdXaml.Html;assembly=MdXaml.Html"
+    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     Title="{DynamicResource Announcement}"
     Width="600"
@@ -24,18 +23,12 @@
             ClickAction="SafetyOpenBrowser"
             Grid.Row="0"
             Markdown="{Binding AnnouncementInfo}"
-            Margin="10,0,10,0"
-            Zoom="120">
+            Margin="10,0,10,0">
             <mdxam:MarkdownScrollViewer.MarkdownStyle>
-                <Style TargetType="FlowDocument" BasedOn="{x:Static mdxam:MarkdownStyle.Sasabune}">
-                    <Setter Property="FontFamily" Value="Microsoft YaHei"/>
-                    <Setter Property="PagePadding" Value="10"/>
-                </Style>
+                <StaticResource ResourceKey="MdXamlStyle"/>
             </mdxam:MarkdownScrollViewer.MarkdownStyle>
             <mdxam:MarkdownScrollViewer.Plugins>
-                <mdplug:MdXamlPlugins>
-                    <mdhtml:HtmlPluginSetup/>
-                </mdplug:MdXamlPlugins>
+                <StaticResource ResourceKey="MdXamlPlugin"/>
             </mdxam:MarkdownScrollViewer.Plugins>
         </mdxam:MarkdownScrollViewer>
 
