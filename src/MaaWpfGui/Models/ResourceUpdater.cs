@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
@@ -59,11 +60,22 @@ namespace MaaWpfGui.Models
             }
         }
 
+        private static async Task<string> GetResourceAPI()
+        {
+            var response = await Instances.HttpService.GetAsync(new Uri(MaaUrls.AnnMirrorResourceApi), httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return MaaUrls.AnnMirrorResourceApi;
+            }
+
+            return MaaUrls.MaaResourceApi;
+        }
+
         public static async Task<UpdateResult> Update()
         {
             _updating = false;
 
-            var baseUrl = new Random().Next(5) == 0 ? MaaUrls.MaaResourceApi : MaaUrls.AnnMirrorResourceApi;
+            var baseUrl = await GetResourceAPI();
             var ret2 = await UpdateFilesWithIndex(baseUrl);
             var ret1 = await UpdateSingleFiles(baseUrl);
             ETagCache.Save();
