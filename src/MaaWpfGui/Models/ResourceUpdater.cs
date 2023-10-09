@@ -63,7 +63,7 @@ namespace MaaWpfGui.Models
         private static async Task<string> GetResourceAPI()
         {
             var response = await Instances.HttpService.GetAsync(new Uri(MaaUrls.AnnMirrorResourceApi), httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 return MaaUrls.AnnMirrorResourceApi;
             }
