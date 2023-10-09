@@ -58,7 +58,8 @@ bool update_levels_json(const std::filesystem::path& input_file, const std::file
 bool update_infrast_templates(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 bool generate_english_roguelike_stage_name_replacement(const std::filesystem::path& ch_file,
                                                        const std::filesystem::path& en_file);
-bool update_battle_chars_info(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
+bool update_battle_chars_info(const std::filesystem::path& input_dir, const std::filesystem::path& overseas_dir,
+                              const std::filesystem::path& output_dir);
 bool update_recruitment_data(const std::filesystem::path& input_dir, const std::filesystem::path& output, bool is_base);
 
 bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir,
@@ -140,10 +141,9 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
 
-    /* Update battle chars info from ArknightsGameResource*/
-    std::cout << "------------Update battle chars info------------" << std::endl;
-    if (!update_battle_chars_info(arkbot_res_dir, resource_dir)) {
-        std::cerr << "Update battle chars info failed" << std::endl;
+    std::cout << "------------Update stage.json------------" << std::endl;
+    if (!update_stages_data(cur_path, resource_dir)) {
+        std::cerr << "Update stages data failed" << std::endl;
         return -1;
     }
 
@@ -166,6 +166,13 @@ int main([[maybe_unused]] int argc, char** argv)
     int zhtw_ret = system(("cd " + cur_path.string() + " && " + data_exec).c_str());
     if (zhtw_ret != 0) {
         std::cerr << "overseas update failed" << std::endl;
+        return -1;
+    }
+
+    /* Update battle chars info from ArknightsGameResource*/
+    std::cout << "------------Update battle chars info------------" << std::endl;
+    if (!update_battle_chars_info(arkbot_res_dir, overseas_data_dir, resource_dir)) {
+        std::cerr << "Update battle chars info failed" << std::endl;
         return -1;
     }
 
@@ -197,6 +204,7 @@ int main([[maybe_unused]] int argc, char** argv)
         std::cerr << "Update items data failed" << std::endl;
         return -1;
     }
+
     /* Update items global json from overseas data*/
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update items json for " << out << "------------" << std::endl;
@@ -216,7 +224,6 @@ int main([[maybe_unused]] int argc, char** argv)
     }
 
     std::cout << "------------Update version info------------" << std::endl;
-
     if (!update_version_info(arkbot_res_dir / "gamedata" / "excel", resource_dir)) {
         std::cerr << "Update version info failed" << std::endl;
         return -1;
@@ -361,18 +368,23 @@ bool cvt_single_item_template(const std::filesystem::path& input, const std::fil
 
     if (std::filesystem::exists(output)) {
         cv::Mat pre = cv::imread(output.string());
-        cv::Mat matched;
-        cv::matchTemplate(dst_resized, pre, matched, cv::TM_CCORR_NORMED);
-        double max_val = 0, min_val = 0;
-        cv::Point max_loc {}, min_loc {};
-        cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
+        if (pre.size() == dst_resized.size()) {
+            cv::Mat matched;
+            cv::matchTemplate(dst_resized, pre, matched, cv::TM_CCORR_NORMED);
+            double max_val = 0, min_val = 0;
+            cv::Point max_loc {}, min_loc {};
+            cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
 
-        if (max_val > 0.95) {
-            std::cout << "Same infrast templ, Skip: " << output << ", score: " << max_val << std::endl;
-            return true;
+            if (max_val > 0.95) {
+                std::cout << "Same infrast templ, Skip: " << output << ", score: " << max_val << std::endl;
+                return true;
+            }
+            else {
+                std::cout << "Update item templ: " << output << ", score: " << max_val << std::endl;
+            }
         }
         else {
-            std::cout << "Update item templ: " << output << ", score: " << max_val << std::endl;
+            std::cout << "Update item templ: " << output << " because sizes are different." << std::endl;
         }
     }
     else {
@@ -640,18 +652,23 @@ bool update_infrast_templates(const std::filesystem::path& input_dir, const std:
 
         if (std::filesystem::exists(out_file)) {
             cv::Mat pre = cv::imread(out_file);
-            cv::Mat matched;
-            cv::matchTemplate(dst, pre, matched, cv::TM_CCORR_NORMED);
-            double max_val = 0, min_val = 0;
-            cv::Point max_loc {}, min_loc {};
-            cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
+            if (pre.size() == dst.size()) {
+                cv::Mat matched;
+                cv::matchTemplate(dst, pre, matched, cv::TM_CCORR_NORMED);
+                double max_val = 0, min_val = 0;
+                cv::Point max_loc {}, min_loc {};
+                cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
 
-            if (max_val > 0.95) {
-                std::cout << "Same infrast templ, Skip: " << out_file << ", score: " << max_val << std::endl;
-                continue;
+                if (max_val > 0.95) {
+                    std::cout << "Same infrast templ, Skip: " << out_file << ", score: " << max_val << std::endl;
+                    continue;
+                }
+                else {
+                    std::cout << "Update infrast templ: " << out_file << ", score: " << max_val << std::endl;
+                }
             }
             else {
-                std::cout << "Update infrast templ: " << out_file << ", score: " << max_val << std::endl;
+                std::cout << "Update item templ: " << out_file << " because sizes are different." << std::endl;
             }
         }
         else {
@@ -763,18 +780,27 @@ bool generate_english_roguelike_stage_name_replacement(const std::filesystem::pa
     return true;
 }
 
-bool update_battle_chars_info(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir)
+bool update_battle_chars_info(const std::filesystem::path& input_dir, const std::filesystem::path& overseas_dir,
+                              const std::filesystem::path& output_dir)
 {
-    const auto& input_chars_file = input_dir / "gamedata" / "excel" / "character_table.json";
-    const auto& input_range_file = input_dir / "gamedata" / "excel" / "range_table.json";
+    auto range_opt = json::open(input_dir / "gamedata" / "excel" / "range_table.json");
+    auto chars_cn_opt = json::open(input_dir / "gamedata" / "excel" / "character_table.json");
+    auto chars_en_opt = json::open(overseas_dir / "en" / "gamedata" / "excel" / "character_table.json");
+    auto chars_jp_opt = json::open(overseas_dir / "jp" / "gamedata" / "excel" / "character_table.json");
+    auto chars_kr_opt = json::open(overseas_dir / "kr" / "gamedata" / "excel" / "character_table.json");
+    auto chars_tw_opt = json::open(overseas_dir / "tw" / "gamedata" / "excel" / "character_table.json");
 
-    auto chars_opt = json::open(input_chars_file);
-    auto range_opt = json::open(input_range_file);
-    if (!chars_opt || !range_opt) {
+    if (!chars_cn_opt || !chars_en_opt || !chars_jp_opt || !chars_kr_opt || !chars_tw_opt || !range_opt) {
         return false;
     }
-    auto& chars_json = chars_opt.value();
+
     auto& range_json = range_opt.value();
+
+    std::vector<std::pair<json::value, std::string>> chars_json = { { chars_cn_opt.value(), "name" },
+                                                                    { chars_en_opt.value(), "name_en" },
+                                                                    { chars_jp_opt.value(), "name_jp" },
+                                                                    { chars_kr_opt.value(), "name_kr" },
+                                                                    { chars_tw_opt.value(), "name_tw" } };
 
     json::value result;
     auto& range = result["ranges"].as_object();
@@ -795,11 +821,19 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
 
     auto& chars = result["chars"];
     std::map<std::string, std::vector<std::string>> tokens;
-    for (auto& [id, char_data] : chars_json.as_object()) {
+    for (auto& [id, char_data] : chars_json[0].first.as_object()) {
         json::value char_new_data;
-        std::string name = char_data["name"].as_string();
+        char_new_data["name"] = char_data["name"].as_string();
 
-        char_new_data["name"] = name;
+        for (int i = 1; i < chars_json.size(); i++) {
+            if (auto char_opt = chars_json[i].first.find(id)) {
+                char_new_data[chars_json[i].second] = char_opt->at("name");
+            }
+            else {
+                char_new_data[chars_json[i].second] = char_data["name"].as_string();
+            }
+        }
+
         char_new_data["profession"] = char_data["profession"];
         const std::string& default_range = char_data.get("phases", 0, "rangeId", "0-1");
         char_new_data["rangeId"] = json::array {
@@ -835,6 +869,10 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
 
     json::value Amiya_data;
     Amiya_data["name"] = "阿米娅-WARRIOR";
+    Amiya_data["name_en"] = "Amiya-WARRIOR";
+    Amiya_data["name_jp"] = "アーミヤ-WARRIOR";
+    Amiya_data["name_kr"] = "아미야-WARRIOR";
+    Amiya_data["name_tw"] = "阿米婭-WARRIOR";
     Amiya_data["profession"] = "WARRIOR";
     Amiya_data["rangeId"] = json::array { "1-1", "1-1", "1-1" };
     Amiya_data["rarity"] = 5;

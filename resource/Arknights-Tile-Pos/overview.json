@@ -8882,6 +8882,177 @@
         "stageId": "easy_12-18",
         "width": 12
     },
+    "easy_13-01-obt/main/level_easy_13-01": {
+        "code": "13-2",
+        "filename": "easy_13-01-obt-main-level_easy_13-01.json",
+        "height": 7,
+        "levelId": "obt/main/level_easy_13-01",
+        "name": "眼前的伤",
+        "stageId": "easy_13-01",
+        "width": 9
+    },
+    "easy_13-02-obt/main/level_easy_13-02": {
+        "code": "13-3",
+        "filename": "easy_13-02-obt-main-level_easy_13-02.json",
+        "height": 8,
+        "levelId": "obt/main/level_easy_13-02",
+        "name": "不得暂歇",
+        "stageId": "easy_13-02",
+        "width": 11
+    },
+    "easy_13-03-obt/main/level_easy_13-03": {
+        "code": "13-4",
+        "filename": "easy_13-03-obt-main-level_easy_13-03.json",
+        "height": 8,
+        "levelId": "obt/main/level_easy_13-03",
+        "name": "佣兵一日",
+        "stageId": "easy_13-03",
+        "width": 11
+    },
+    "easy_13-04-obt/main/level_easy_13-04": {
+        "code": "13-5",
+        "filename": "easy_13-04-obt-main-level_easy_13-04.json",
+        "height": 8,
+        "levelId": "obt/main/level_easy_13-04",
+        "name": "苦厄盘桓",
+        "stageId": "easy_13-04",
+        "width": 12
+    },
+    "easy_13-05-obt/main/level_easy_13-05": {
+        "code": "13-6",
+        "filename": "easy_13-05-obt-main-level_easy_13-05.json",
+        "height": 7,
+        "levelId": "obt/main/level_easy_13-05",
+        "name": "典范之名",
+        "stageId": "easy_13-05",
+        "width": 10
+    },
+    "easy_13-06-obt/main/level_easy_13-06": {
+        "code": "13-7",
+        "filename": "easy_13-06-obt-main-level_easy_13-06.json",
+        "height": 7,
+        "levelId": "obt/main/level_easy_13-06",
+        "name": "唤血祭坛",
+        "stageId": "easy_13-06",
+        "width": 10
+    },
+    "easy_13-07-obt/main/level_easy_13-07": {
+        "code": "13-8",
+        "filename": "easy_13-07-obt-main-level_easy_13-07.json",
+        "height": 8,
+        "levelId": "obt/main/level_easy_13-07",
+        "name": "不虞之会",
+        "stageId": "easy_13-07",
+        "width": 13
+    },
+    "easy_13-08-obt/main/level_easy_13-08": {
+        "code": "13-10",
+        "filename": "easy_13-08-obt-main-level_easy_13-08.json",
+        "height": 8,
+        "levelId": "obt/main/level_easy_13-08",
+        "name": "幻境迁流",
+        "stageId": "easy_13-08",
+        "width": 11
+    },
+    "easy_13-09-obt/main/level_easy_13-09": {
+        "code": "13-11",
+        "filename": "easy_13-09-obt-main-level_easy_13-09.json",
+        "height": 8,
+        "levelId": "obt/main/level_easy_13-09",
+        "name": "小镇翳云",
+        "stageId": "easy_13-09",
+        "width": 11
+    },
+    "easy_13-10-obt/main/level_easy_13-10": {
+        "code": "13-12",
+        "filename": "easy_13-10-obt-main-level_easy_13-10.json",
+        "height": 7,
+        "levelId": "obt/main/level_easy_13-10",
+        "name": "破碎温室",
+        "stageId": "easy_13-10",
+        "width": 10
+    },
+    "easy_13-11-obt/main/level_easy_13-11": {
+        "code": "13-13",
+        "filename": "easy_13-11-obt-main-level_easy_13-11.json",
+        "height": 7,
+        "levelId": "obt/main/level_easy_13-11",
+        "name": "骸骨之中",
+        "stageId": "easy_13-11",
+        "width": 11
+    },
+    "easy_13-12-obt/main/level_easy_13-12": {
+        "code": "13-14",
+        "filename": "easy_13-12-obt-main-level_easy_13-12.json",
+        "height": 8,
+        "levelId": "obt/main/level_easy_13-12",
+        "name": "猩红烟火",
+        "stageId": "easy_13-12",
+        "width": 11
+    },
+    "easy_13-13-obt/main/level_easy_13-13": {
+        "code": "13-15",
+        "filename": "easy_13-13-obt-main-level_easy_13-13.json",
+        "height": 9,
+        "levelId": "obt/main/level_easy_13-13",
+        "name": "短暂齐聚",
+        "stageId": "easy_13-13",
+        "width": 12
+    },
+    "easy_13-14-obt/main/level_easy_13-14": {
+        "code": "13-16",
+        "filename": "easy_13-14-obt-main-level_easy_13-14.json",
+        "height": 8,
+        "levelId": "obt/main/level_easy_13-14",
+        "name": "“我们”",
+        "stageId": "easy_13-14",
+        "width": 11
+    },
+    "easy_13-15-obt/main/level_easy_13-15": {
+        "code": "13-17",
+        "filename": "easy_13-15-obt-main-level_easy_13-15.json",
+        "height": 8,
+        "levelId": "obt/main/level_easy_13-15",
+        "name": "谁来倾诉",
+        "stageId": "easy_13-15",
+        "width": 12
+    },
+    "easy_13-16-obt/main/level_easy_13-16": {
+        "code": "13-18",
+        "filename": "easy_13-16-obt-main-level_easy_13-16.json",
+        "height": 8,
+        "levelId": "obt/main/level_easy_13-16",
+        "name": "挺起胸膛",
+        "stageId": "easy_13-16",
+        "width": 12
+    },
+    "easy_13-17-obt/main/level_easy_13-17": {
+        "code": "13-19",
+        "filename": "easy_13-17-obt-main-level_easy_13-17.json",
+        "height": 8,
+        "levelId": "obt/main/level_easy_13-17",
+        "name": "骸骨走廊",
+        "stageId": "easy_13-17",
+        "width": 12
+    },
+    "easy_13-18-obt/main/level_easy_13-18": {
+        "code": "13-20",
+        "filename": "easy_13-18-obt-main-level_easy_13-18.json",
+        "height": 8,
+        "levelId": "obt/main/level_easy_13-18",
+        "name": "血潮翻涌",
+        "stageId": "easy_13-18",
+        "width": 12
+    },
+    "easy_13-19-obt/main/level_easy_13-19": {
+        "code": "13-21",
+        "filename": "easy_13-19-obt-main-level_easy_13-19.json",
+        "height": 9,
+        "levelId": "obt/main/level_easy_13-19",
+        "name": "殷红君主",
+        "stageId": "easy_13-19",
+        "width": 12
+    },
     "easy_sub_09-1-1-obt/main/level_easy_sub_09-1-1": {
         "code": "S9-1",
         "filename": "easy_sub_09-1-1-obt-main-level_easy_sub_09-1-1.json",
@@ -9205,6 +9376,42 @@
         "name": "惊霆行动-4",
         "stageId": "hard_12-04",
         "width": 13
+    },
+    "hard_13-01-obt/hard/level_hard_13-01": {
+        "code": "H13-1",
+        "filename": "hard_13-01-obt-hard-level_hard_13-01.json",
+        "height": 8,
+        "levelId": "obt/hard/level_hard_13-01",
+        "name": "湍流行动-1",
+        "stageId": "hard_13-01",
+        "width": 12
+    },
+    "hard_13-02-obt/hard/level_hard_13-02": {
+        "code": "H13-2",
+        "filename": "hard_13-02-obt-hard-level_hard_13-02.json",
+        "height": 8,
+        "levelId": "obt/hard/level_hard_13-02",
+        "name": "湍流行动-2",
+        "stageId": "hard_13-02",
+        "width": 12
+    },
+    "hard_13-03-obt/hard/level_hard_13-03": {
+        "code": "H13-3",
+        "filename": "hard_13-03-obt-hard-level_hard_13-03.json",
+        "height": 9,
+        "levelId": "obt/hard/level_hard_13-03",
+        "name": "湍流行动-3",
+        "stageId": "hard_13-03",
+        "width": 12
+    },
+    "hard_13-04-obt/hard/level_hard_13-04": {
+        "code": "H13-4",
+        "filename": "hard_13-04-obt-hard-level_hard_13-04.json",
+        "height": 9,
+        "levelId": "obt/hard/level_hard_13-04",
+        "name": "湍流行动-4",
+        "stageId": "hard_13-04",
+        "width": 12
     },
     "level_act38rune_01-01-activities/act38rune/level_act38rune_01-01": {
         "code": "哥伦比亚",
@@ -12833,6 +13040,177 @@
         "stageId": "main_12-18",
         "width": 12
     },
+    "main_13-01-obt/main/level_main_13-01": {
+        "code": "13-2",
+        "filename": "main_13-01-obt-main-level_main_13-01.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_13-01",
+        "name": "眼前的伤",
+        "stageId": "main_13-01",
+        "width": 9
+    },
+    "main_13-02-obt/main/level_main_13-02": {
+        "code": "13-3",
+        "filename": "main_13-02-obt-main-level_main_13-02.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_13-02",
+        "name": "不得暂歇",
+        "stageId": "main_13-02",
+        "width": 11
+    },
+    "main_13-03-obt/main/level_main_13-03": {
+        "code": "13-4",
+        "filename": "main_13-03-obt-main-level_main_13-03.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_13-03",
+        "name": "佣兵一日",
+        "stageId": "main_13-03",
+        "width": 11
+    },
+    "main_13-04-obt/main/level_main_13-04": {
+        "code": "13-5",
+        "filename": "main_13-04-obt-main-level_main_13-04.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_13-04",
+        "name": "苦厄盘桓",
+        "stageId": "main_13-04",
+        "width": 12
+    },
+    "main_13-05-obt/main/level_main_13-05": {
+        "code": "13-6",
+        "filename": "main_13-05-obt-main-level_main_13-05.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_13-05",
+        "name": "典范之名",
+        "stageId": "main_13-05",
+        "width": 10
+    },
+    "main_13-06-obt/main/level_main_13-06": {
+        "code": "13-7",
+        "filename": "main_13-06-obt-main-level_main_13-06.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_13-06",
+        "name": "唤血祭坛",
+        "stageId": "main_13-06",
+        "width": 10
+    },
+    "main_13-07-obt/main/level_main_13-07": {
+        "code": "13-8",
+        "filename": "main_13-07-obt-main-level_main_13-07.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_13-07",
+        "name": "不虞之会",
+        "stageId": "main_13-07",
+        "width": 13
+    },
+    "main_13-08-obt/main/level_main_13-08": {
+        "code": "13-10",
+        "filename": "main_13-08-obt-main-level_main_13-08.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_13-08",
+        "name": "幻境迁流",
+        "stageId": "main_13-08",
+        "width": 11
+    },
+    "main_13-09-obt/main/level_main_13-09": {
+        "code": "13-11",
+        "filename": "main_13-09-obt-main-level_main_13-09.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_13-09",
+        "name": "小镇翳云",
+        "stageId": "main_13-09",
+        "width": 11
+    },
+    "main_13-10-obt/main/level_main_13-10": {
+        "code": "13-12",
+        "filename": "main_13-10-obt-main-level_main_13-10.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_13-10",
+        "name": "破碎温室",
+        "stageId": "main_13-10",
+        "width": 10
+    },
+    "main_13-11-obt/main/level_main_13-11": {
+        "code": "13-13",
+        "filename": "main_13-11-obt-main-level_main_13-11.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_13-11",
+        "name": "骸骨之中",
+        "stageId": "main_13-11",
+        "width": 11
+    },
+    "main_13-12-obt/main/level_main_13-12": {
+        "code": "13-14",
+        "filename": "main_13-12-obt-main-level_main_13-12.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_13-12",
+        "name": "猩红烟火",
+        "stageId": "main_13-12",
+        "width": 11
+    },
+    "main_13-13-obt/main/level_main_13-13": {
+        "code": "13-15",
+        "filename": "main_13-13-obt-main-level_main_13-13.json",
+        "height": 9,
+        "levelId": "obt/main/level_main_13-13",
+        "name": "短暂齐聚",
+        "stageId": "main_13-13",
+        "width": 12
+    },
+    "main_13-14-obt/main/level_main_13-14": {
+        "code": "13-16",
+        "filename": "main_13-14-obt-main-level_main_13-14.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_13-14",
+        "name": "“我们”",
+        "stageId": "main_13-14",
+        "width": 11
+    },
+    "main_13-15-obt/main/level_main_13-15": {
+        "code": "13-17",
+        "filename": "main_13-15-obt-main-level_main_13-15.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_13-15",
+        "name": "谁来倾诉",
+        "stageId": "main_13-15",
+        "width": 12
+    },
+    "main_13-16-obt/main/level_main_13-16": {
+        "code": "13-18",
+        "filename": "main_13-16-obt-main-level_main_13-16.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_13-16",
+        "name": "挺起胸膛",
+        "stageId": "main_13-16",
+        "width": 12
+    },
+    "main_13-17-obt/main/level_main_13-17": {
+        "code": "13-19",
+        "filename": "main_13-17-obt-main-level_main_13-17.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_13-17",
+        "name": "骸骨走廊",
+        "stageId": "main_13-17",
+        "width": 12
+    },
+    "main_13-18-obt/main/level_main_13-18": {
+        "code": "13-20",
+        "filename": "main_13-18-obt-main-level_main_13-18.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_13-18",
+        "name": "血潮翻涌",
+        "stageId": "main_13-18",
+        "width": 12
+    },
+    "main_13-19-obt/main/level_main_13-19": {
+        "code": "13-21",
+        "filename": "main_13-19-obt-main-level_main_13-19.json",
+        "height": 9,
+        "levelId": "obt/main/level_main_13-19",
+        "name": "殷红君主",
+        "stageId": "main_13-19",
+        "width": 12
+    },
     "mem_12fce_1-obt/memory/level_memory_12fce_1": {
         "code": "mem_12fce_1",
         "filename": "mem_12fce_1-obt-memory-level_memory_12fce_1.json",
@@ -12868,6 +13246,15 @@
         "name": "抱剑独行",
         "stageId": "mem_akafyu_1",
         "width": 11
+    },
+    "mem_almond_1-obt/memory/level_memory_almond_1": {
+        "code": "mem_almond_1",
+        "filename": "mem_almond_1-obt-memory-level_memory_almond_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_almond_1",
+        "name": "见缝插针",
+        "stageId": "mem_almond_1",
+        "width": 17
     },
     "mem_amgoat_1-obt/memory/level_memory_amgoat_1": {
         "code": "mem_amgoat_1",
@@ -13571,6 +13958,15 @@
         "stageId": "mem_headbr_1",
         "width": 11
     },
+    "mem_heidi_1-obt/memory/level_memory_heidi_1": {
+        "code": "mem_heidi_1",
+        "filename": "mem_heidi_1-obt-memory-level_memory_heidi_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_heidi_1",
+        "name": "滴水不漏",
+        "stageId": "mem_heidi_1",
+        "width": 10
+    },
     "mem_helage_1-obt/memory/level_memory_helage_1": {
         "code": "mem_helage_1",
         "filename": "mem_helage_1-obt-memory-level_memory_helage_1.json",
@@ -14173,6 +14569,15 @@
         "name": "独行者的合谋",
         "stageId": "mem_scave_1",
         "width": 9
+    },
+    "mem_sddrag_1-obt/memory/level_memory_sddrag_1": {
+        "code": "mem_sddrag_1",
+        "filename": "mem_sddrag_1-obt-memory-level_memory_sddrag_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_sddrag_1",
+        "name": "生命的重量",
+        "stageId": "mem_sddrag_1",
+        "width": 11
     },
     "mem_serum_1-obt/memory/level_memory_serum_1": {
         "code": "mem_serum_1",
@@ -17909,6 +18314,177 @@
         "stageId": "tough_12-18",
         "width": 13
     },
+    "tough_13-01-obt/main/level_tough_13-01": {
+        "code": "13-2",
+        "filename": "tough_13-01-obt-main-level_tough_13-01.json",
+        "height": 7,
+        "levelId": "obt/main/level_tough_13-01",
+        "name": "眼前的伤",
+        "stageId": "tough_13-01",
+        "width": 9
+    },
+    "tough_13-02-obt/main/level_tough_13-02": {
+        "code": "13-3",
+        "filename": "tough_13-02-obt-main-level_tough_13-02.json",
+        "height": 8,
+        "levelId": "obt/main/level_tough_13-02",
+        "name": "不得暂歇",
+        "stageId": "tough_13-02",
+        "width": 11
+    },
+    "tough_13-03-obt/main/level_tough_13-03": {
+        "code": "13-4",
+        "filename": "tough_13-03-obt-main-level_tough_13-03.json",
+        "height": 8,
+        "levelId": "obt/main/level_tough_13-03",
+        "name": "佣兵一日",
+        "stageId": "tough_13-03",
+        "width": 11
+    },
+    "tough_13-04-obt/main/level_tough_13-04": {
+        "code": "13-5",
+        "filename": "tough_13-04-obt-main-level_tough_13-04.json",
+        "height": 8,
+        "levelId": "obt/main/level_tough_13-04",
+        "name": "苦厄盘桓",
+        "stageId": "tough_13-04",
+        "width": 12
+    },
+    "tough_13-05-obt/main/level_tough_13-05": {
+        "code": "13-6",
+        "filename": "tough_13-05-obt-main-level_tough_13-05.json",
+        "height": 7,
+        "levelId": "obt/main/level_tough_13-05",
+        "name": "典范之名",
+        "stageId": "tough_13-05",
+        "width": 10
+    },
+    "tough_13-06-obt/main/level_tough_13-06": {
+        "code": "13-7",
+        "filename": "tough_13-06-obt-main-level_tough_13-06.json",
+        "height": 7,
+        "levelId": "obt/main/level_tough_13-06",
+        "name": "唤血祭坛",
+        "stageId": "tough_13-06",
+        "width": 10
+    },
+    "tough_13-07-obt/main/level_tough_13-07": {
+        "code": "13-8",
+        "filename": "tough_13-07-obt-main-level_tough_13-07.json",
+        "height": 8,
+        "levelId": "obt/main/level_tough_13-07",
+        "name": "不虞之会",
+        "stageId": "tough_13-07",
+        "width": 13
+    },
+    "tough_13-08-obt/main/level_tough_13-08": {
+        "code": "13-10",
+        "filename": "tough_13-08-obt-main-level_tough_13-08.json",
+        "height": 8,
+        "levelId": "obt/main/level_tough_13-08",
+        "name": "幻境迁流",
+        "stageId": "tough_13-08",
+        "width": 11
+    },
+    "tough_13-09-obt/main/level_tough_13-09": {
+        "code": "13-11",
+        "filename": "tough_13-09-obt-main-level_tough_13-09.json",
+        "height": 8,
+        "levelId": "obt/main/level_tough_13-09",
+        "name": "小镇翳云",
+        "stageId": "tough_13-09",
+        "width": 11
+    },
+    "tough_13-10-obt/main/level_tough_13-10": {
+        "code": "13-12",
+        "filename": "tough_13-10-obt-main-level_tough_13-10.json",
+        "height": 7,
+        "levelId": "obt/main/level_tough_13-10",
+        "name": "破碎温室",
+        "stageId": "tough_13-10",
+        "width": 10
+    },
+    "tough_13-11-obt/main/level_tough_13-11": {
+        "code": "13-13",
+        "filename": "tough_13-11-obt-main-level_tough_13-11.json",
+        "height": 7,
+        "levelId": "obt/main/level_tough_13-11",
+        "name": "骸骨之中",
+        "stageId": "tough_13-11",
+        "width": 11
+    },
+    "tough_13-12-obt/main/level_tough_13-12": {
+        "code": "13-14",
+        "filename": "tough_13-12-obt-main-level_tough_13-12.json",
+        "height": 8,
+        "levelId": "obt/main/level_tough_13-12",
+        "name": "猩红烟火",
+        "stageId": "tough_13-12",
+        "width": 11
+    },
+    "tough_13-13-obt/main/level_tough_13-13": {
+        "code": "13-15",
+        "filename": "tough_13-13-obt-main-level_tough_13-13.json",
+        "height": 9,
+        "levelId": "obt/main/level_tough_13-13",
+        "name": "短暂齐聚",
+        "stageId": "tough_13-13",
+        "width": 12
+    },
+    "tough_13-14-obt/main/level_tough_13-14": {
+        "code": "13-16",
+        "filename": "tough_13-14-obt-main-level_tough_13-14.json",
+        "height": 8,
+        "levelId": "obt/main/level_tough_13-14",
+        "name": "“我们”",
+        "stageId": "tough_13-14",
+        "width": 11
+    },
+    "tough_13-15-obt/main/level_tough_13-15": {
+        "code": "13-17",
+        "filename": "tough_13-15-obt-main-level_tough_13-15.json",
+        "height": 8,
+        "levelId": "obt/main/level_tough_13-15",
+        "name": "谁来倾诉",
+        "stageId": "tough_13-15",
+        "width": 12
+    },
+    "tough_13-16-obt/main/level_tough_13-16": {
+        "code": "13-18",
+        "filename": "tough_13-16-obt-main-level_tough_13-16.json",
+        "height": 8,
+        "levelId": "obt/main/level_tough_13-16",
+        "name": "挺起胸膛",
+        "stageId": "tough_13-16",
+        "width": 12
+    },
+    "tough_13-17-obt/main/level_tough_13-17": {
+        "code": "13-19",
+        "filename": "tough_13-17-obt-main-level_tough_13-17.json",
+        "height": 8,
+        "levelId": "obt/main/level_tough_13-17",
+        "name": "骸骨走廊",
+        "stageId": "tough_13-17",
+        "width": 12
+    },
+    "tough_13-18-obt/main/level_tough_13-18": {
+        "code": "13-20",
+        "filename": "tough_13-18-obt-main-level_tough_13-18.json",
+        "height": 8,
+        "levelId": "obt/main/level_tough_13-18",
+        "name": "血潮翻涌",
+        "stageId": "tough_13-18",
+        "width": 12
+    },
+    "tough_13-19-obt/main/level_tough_13-19": {
+        "code": "13-21",
+        "filename": "tough_13-19-obt-main-level_tough_13-19.json",
+        "height": 9,
+        "levelId": "obt/main/level_tough_13-19",
+        "name": "殷红君主",
+        "stageId": "tough_13-19",
+        "width": 12
+    },
     "tr_01-obt/training/level_training_1": {
         "code": "TR-1",
         "filename": "tr_01-obt-training-level_training_1.json",
@@ -18115,6 +18691,15 @@
         "name": "恶魔诱惑",
         "stageId": "tr_23",
         "width": 9
+    },
+    "tr_24-obt/training/level_training_24": {
+        "code": "TR-24",
+        "filename": "tr_24-obt-training-level_training_24.json",
+        "height": 7,
+        "levelId": "obt/training/level_training_24",
+        "name": "寻迹而行",
+        "stageId": "tr_24",
+        "width": 11
     },
     "wk_armor_1-obt/weekly/level_weekly_armor_1": {
         "code": "SK-1",

@@ -43,6 +43,8 @@ namespace MaaWpfGui.Models
             NotModified,
         }
 
+        // 只有 Release 版本才会检查更新
+        // ReSharper disable once UnusedMember.Global
         public static async void UpdateAndToast()
         {
             var ret = await Update();
@@ -61,8 +63,8 @@ namespace MaaWpfGui.Models
         {
             _updating = false;
 
-            var ret1 = await UpdateSingleFiles();
             var ret2 = await UpdateFilesWithIndex();
+            var ret1 = await UpdateSingleFiles();
             ETagCache.Save();
 
             if (ret1 == UpdateResult.Failed || ret2 == UpdateResult.Failed)
@@ -86,9 +88,18 @@ namespace MaaWpfGui.Models
             {
                 var sRet = await UpdateFileWithETag(MaaUrls.MaaResourceApi, file, file);
 
-                if (sRet == UpdateResult.Failed)
+                switch (sRet)
                 {
-                    ret = UpdateResult.Failed;
+                    case UpdateResult.Failed:
+                        ret = UpdateResult.Failed;
+                        break;
+                    case UpdateResult.Success:
+                        ETagCache.Save();
+                        break;
+                    case UpdateResult.NotModified:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
 
                 if (ret == UpdateResult.NotModified && sRet == UpdateResult.Success)
@@ -105,13 +116,26 @@ namespace MaaWpfGui.Models
         private static async Task<UpdateResult> UpdateFilesWithIndex()
         {
             var indexSRet = await UpdateFileWithETag(MaaUrls.MaaResourceApi, MaaDynamicFilesIndex, MaaDynamicFilesIndex);
-            if (indexSRet == UpdateResult.Failed || indexSRet == UpdateResult.NotModified)
+            switch (indexSRet)
             {
-                return indexSRet;
+                case UpdateResult.Failed:
+                    return UpdateResult.Failed;
+                case UpdateResult.Success:
+                    ETagCache.Save();
+                    break;
+                case UpdateResult.NotModified:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            var indexPath = Path.Combine(Environment.CurrentDirectory, MaaDynamicFilesIndex);
+            if (!File.Exists(indexPath)) {
+                return UpdateResult.Failed;
             }
 
             var ret = UpdateResult.NotModified;
-            var context = File.ReadAllText(Path.Combine(Environment.CurrentDirectory, MaaDynamicFilesIndex));
+            var context = File.ReadAllText(indexPath);
 
             // ReSharper disable once AsyncVoidLambda
             context.Split('\n').ToList().ForEach(async file =>

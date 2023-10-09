@@ -47,7 +47,7 @@ namespace MaaWpfGui.Configuration
             /// <summary>
             /// 暗黑的主题。
             /// </summary>
-            Dark
+            Dark,
         }
     }
 }

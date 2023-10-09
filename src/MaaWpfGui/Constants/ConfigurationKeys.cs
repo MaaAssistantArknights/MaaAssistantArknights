@@ -117,6 +117,7 @@ namespace MaaWpfGui.Constants
 
         public const string RecruitMaxTimes = "AutoRecruit.MaxTimes";
         public const string RefreshLevel3 = "AutoRecruit.RefreshLevel3";
+        public const string ForceRefresh = "AutoRecruit.ForceRefresh";
         public const string IsLevel3UseShortTime = "AutoRecruit.IsLevel3UseShortTime";
         public const string IsLevel3UseShortTime2 = "AutoRecruit.IsLevel3UseShortTime2";
         public const string NotChooseLevel1 = "AutoRecruit.NotChooseLevel1";
@@ -170,6 +171,11 @@ namespace MaaWpfGui.Constants
         public const string DropsItemId = "MainFunction.Drops.ItemId";
         public const string DropsItemName = "MainFunction.Drops.ItemName";
         public const string DropsQuantity = "MainFunction.Drops.Quantity";
+
+        public const string RemoteControlGetTaskEndpointUri = "RemoteControl.RemoteControlGetTaskEndpointUri";
+        public const string RemoteControlReportStatusUri = "RemoteControl.RemoteControlReportStatusUri";
+        public const string RemoteControlUserIdentity = "RemoteControl.RemoteControlUserIdentity";
+        public const string RemoteControlDeviceIdentity = "RemoteControl.RemoteControlDeviceIdentity";
 
         public const string ExternalNotificationEnabled = "ExternalNotification.Enabled";
         public const string ExternalNotificationSmtpServer = "ExternalNotification.Smtp.Server";
