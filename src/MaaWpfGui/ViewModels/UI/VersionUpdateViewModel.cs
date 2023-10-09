@@ -400,11 +400,13 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else
             {
+#if RELEASE
                 var ret = await CheckAndDownloadUpdate();
                 if (ret == CheckUpdateRetT.OK)
                 {
                     AskToRestart();
                 }
+#endif
             }
         }
 

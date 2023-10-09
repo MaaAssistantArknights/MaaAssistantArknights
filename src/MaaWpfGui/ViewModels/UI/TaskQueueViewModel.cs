@@ -228,7 +228,9 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     await Task.Delay(delayTime);
                     await _stageManager.UpdateStageWeb();
+#if RELEASE
                     ResourceUpdater.UpdateAndToast();
+#endif
                     UpdateDatePrompt();
                     UpdateStageList(false);
                 });
@@ -1277,7 +1279,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             return Instances.AsstProxy.AsstAppendRecruit(
-                maxTimes, reqList.ToArray(), cfmList.ToArray(), Instances.SettingsViewModel.RefreshLevel3, Instances.SettingsViewModel.UseExpedited,
+                maxTimes, reqList.ToArray(), cfmList.ToArray(), Instances.SettingsViewModel.RefreshLevel3, Instances.SettingsViewModel.ForceRefresh, Instances.SettingsViewModel.UseExpedited,
                 Instances.SettingsViewModel.NotChooseLevel1, Instances.SettingsViewModel.IsLevel3UseShortTime, Instances.SettingsViewModel.IsLevel3UseShortTime2);
         }
 
@@ -2072,7 +2074,7 @@ namespace MaaWpfGui.ViewModels.UI
             NotifyOfPropertyChange(nameof(Inited));
         }
 
-        private bool _idle = true;
+        private bool _idle;
 
         /// <summary>
         /// Gets or sets a value indicating whether it is idle.

@@ -17,6 +17,7 @@ using MaaWpfGui.Main;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Managers;
+using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.ViewModels.UI;
 using Stylet;
@@ -74,6 +75,8 @@ namespace MaaWpfGui.Helper
 
         public static IMaaHotKeyActionHandler MaaHotKeyActionHandler { get; private set; }
 
+        public static RemoteControlService RemoteControlService { get; private set; }
+
         public static IMainWindowManager MainWindowManager { get; private set; }
 
         public static IHttpService HttpService { get; private set; }
@@ -95,6 +98,8 @@ namespace MaaWpfGui.Helper
             // 这仨实例化时存在依赖顺序
             HttpService = container.Get<HttpService>();
             MaaApiService = container.Get<MaaApiService>();
+
+            RemoteControlService = container.Get<RemoteControlService>();
 
             HotKeyManager = container.Get<HotKeyManager>();
             MaaHotKeyManager = container.Get<MaaHotKeyManager>();

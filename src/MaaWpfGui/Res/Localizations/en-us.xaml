@@ -603,6 +603,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="RecruitmentOfBot">Robot! Robot! More Robot!</system:String>
     <system:String x:Key="Choose">Choose</system:String>
     <system:String x:Key="Refreshed">Refreshed</system:String>
+    <system:String x:Key="continueRefresh">No recruitment permit, trying to refresh Tags</system:String>
+    <system:String x:Key="noRecruitPermit">No recruitment permit, returned</system:String>
     <system:String x:Key="NotEnoughStaff">Insufficient operators</system:String>
     <system:String x:Key="StageInfoError">Stage recognition error</system:String>
     <system:String x:Key="BattleFormation">Start formation</system:String>
@@ -634,6 +636,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  About  -->
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">Auto refresh 3★ Tags</system:String>
+    <system:String x:Key="ForceRefresh">Continue trying to refresh Tags without recruitment permit</system:String>
     <system:String x:Key="AutoUseExpedited">Auto use Expedited Plan*</system:String>
     <system:String x:Key="Level3UseShortTime">Set 7:40 instead of 9:00 for 3★ Tags</system:String>
     <system:String x:Key="Level3UseShortTime2">Set 1:00 instead of 9:00 for 3★ Tags</system:String>
@@ -667,6 +670,25 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="GameResourceUpdated">Game resource updated, please restart MAA</system:String>
     <system:String x:Key="GameResourceUpdating">Game resources are being updated. Please do not close MAA.</system:String>
     <!--  Api  -->
+    <!--  Remote Control  -->
+    <system:String x:Key="RemoteControlSettings">Remote Control</system:String>
+    <system:String x:Key="RemoteControlDeviceIdentityLabel">Device Identifier (Read-only)</system:String>
+    <system:String x:Key="RemoteControlConnectionTest">Test Connection</system:String>
+    <system:String x:Key="RemoteControlRegenerateDeviceIdentity">Regenerate</system:String>
+    <system:String x:Key="RemoteControlUserIdentityLabel">User Identifier</system:String>
+    <system:String x:Key="RemoteControlGetTaskEndpointLabel">Get Task Endpoint</system:String>
+    <system:String x:Key="RemoteControlReportStatusEndpointLabel">Report Task Endpoint</system:String>
+    <system:String x:Key="RemoteControlConnectionTestSuccess">Connection Test Successful!</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFail">Connection Test Failed, reason: {0}.</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFailEmpty">Connection Test Failed, Endpoint is empty.</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFailNotHttps">Connection Test Failed. Endpoint is not an https address.</system:String>
+    <system:String x:Key="RemoteControlReceivedTask">Received remote task {0}, Task Id:{1}.</system:String>
+    <system:String x:Key="RemoteControlCompletedTask">Completed remote task {0}, Task Id:{1}.</system:String>
+    <system:String x:Key="RemoteControlTooltips">Caution: Entering addresses from unknown sources may result in the loss of your Arknights account.</system:String>
+    <system:String x:Key="RemoteControlDeveloperTooltips">To learn more about how to develop these features, visit</system:String>
+    <system:String x:Key="RemoteControlDeveloperDocLink">Remote Control Feature Developer Documentation</system:String>
+
+    <!--  Remote Control  -->
     <!--  External Notification  -->
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">You receive this message because you have set up an SMTP server in MAA and have the email notification service turned on.</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineTwo">This email is sent automatically, please do not reply.</system:String>

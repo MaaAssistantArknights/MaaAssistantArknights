@@ -8,6 +8,8 @@
 - 支持运行期修改部分任务设置 (#6583) @zzyyyl
 - 抄作业新增av号、bv号对分p的支持 (#6670) @AnnoyingFlowers
 - 公告弹窗 (#6557) @Constrat @ABA2396
+- 战斗连续失败三次后 Fight 任务报错 @zzyyyl
+- 识别工具添加 idle 绑定 @ABA2396
 
 ### 改进
 
@@ -61,6 +63,7 @@
 - remove duplicate of std::move @status102
 - 子进程异常挂起 @w568w
 - 修复 Award 任务无法正常结束的问题 @zzyyyl
+- 修复CloseDown任务导致的不执行完成后操作 @status102
 
 ### 其他
 

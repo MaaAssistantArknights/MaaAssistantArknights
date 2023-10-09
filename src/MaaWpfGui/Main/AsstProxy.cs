@@ -623,13 +623,18 @@ namespace MaaWpfGui.Main
                         {
                             if (taskId == (_latestTaskId.TryGetValue(TaskType.Copilot, out var copilotTaskId) ? copilotTaskId : 0)
                                 || taskId == (_latestTaskId.TryGetValue(TaskType.RecruitCalc, out var recruitCalcTaskId) ? recruitCalcTaskId : 0)
-                                || taskId == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0)
                                 || taskId == (_latestTaskId.TryGetValue(TaskType.Depot, out var depotTaskId) ? depotTaskId : 0)
                                 || taskId == (_latestTaskId.TryGetValue(TaskType.OperBox, out var operBoxTaskId) ? operBoxTaskId : 0)
                                 || taskId == (_latestTaskId.TryGetValue(TaskType.Gacha, out var gachaTaskId) ? gachaTaskId : 0))
                             {
                                 isMainTaskQueueAllCompleted = false;
                                 break;
+                            }
+
+                            if (taskList.Count == 1 && taskId == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0))
+                            {
+                                // 仅有一个CloseDown任务时，不执行完成后
+                                isMainTaskQueueAllCompleted = false;
                             }
                         }
                     }
@@ -957,10 +962,10 @@ namespace MaaWpfGui.Main
                             string itemName = item["itemName"]?.ToString();
                             int totalQuantity = (int)item["quantity"];
                             int addQuantity = (int)item["addQuantity"];
-                            allDrops += $"{itemName} : {totalQuantity}";
+                            allDrops += $"{itemName} : {totalQuantity:#,#}";
                             if (addQuantity > 0)
                             {
-                                allDrops += $" (+{addQuantity})";
+                                allDrops += $" (+{addQuantity:#,#})";
                             }
 
                             allDrops += "\n";
@@ -1072,6 +1077,13 @@ namespace MaaWpfGui.Main
                     {
                         int refreshCount = (int)subTaskDetails["count"];
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Refreshed") + refreshCount + LocalizationHelper.GetString("UnitTime"));
+                        break;
+                    }
+
+                case "RecruitNoPermit":
+                    {
+                        bool continueRefresh = (bool)subTaskDetails["continue"];
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString(continueRefresh ? "continueRefresh" : "noRecruitPermit"));
                         break;
                     }
 
@@ -1655,17 +1667,19 @@ namespace MaaWpfGui.Main
         /// <param name="selectLevel">会去点击标签的 Tag 等级。</param>
         /// <param name="confirmLevel">会去点击确认的 Tag 等级。若仅公招计算，可设置为空数组。</param>
         /// <param name="needRefresh">是否刷新三星 Tags。</param>
+        /// <param name="needForceRefresh">无招募许可时是否继续尝试刷新 Tags。</param>
         /// <param name="useExpedited">是否使用加急许可。</param>
         /// <param name="skipRobot">是否在识别到小车词条时跳过。</param>
         /// <param name="isLevel3UseShortTime">三星Tag是否使用短时间（7:40）</param>
         /// <param name="isLevel3UseShortTime2">三星Tag是否使用短时间（1:00）</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendRecruit(int maxTimes, int[] selectLevel, int[] confirmLevel, bool needRefresh, bool useExpedited,
+        public bool AsstAppendRecruit(int maxTimes, int[] selectLevel, int[] confirmLevel, bool needRefresh, bool needForceRefresh, bool useExpedited,
             bool skipRobot, bool isLevel3UseShortTime, bool isLevel3UseShortTime2 = false)
         {
             var taskParams = new JObject
             {
                 ["refresh"] = needRefresh,
+                ["force_refresh"] = needForceRefresh,
                 ["select"] = new JArray(selectLevel),
                 ["confirm"] = new JArray(confirmLevel),
                 ["times"] = maxTimes,

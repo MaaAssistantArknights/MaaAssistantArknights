@@ -601,6 +601,10 @@
             [
                 ":",
                 ""
+            ],
+            [
+                "-2O",
+                "-20"
             ]
         ],
         "roi": [
@@ -3308,6 +3312,48 @@
             "StartUpConnectingFlag@LoadingIcon"
         ]
     },
+	"StartAtHome": {
+		"baseTask": "Home",
+		"action": "DoNothing",
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png"
+        ],
+		"next": [
+			"Home",
+			"StartUpBegin"
+		],
+		"postDelay_Doc": "等待以防万一（StartUp还有双倍的任务延迟等待，默认0.5s x2",
+		"postDelay": 1000
+	},
+    "StartWithSanity": {
+        "roi": [
+            700,
+            130,
+            140,
+            120
+        ],
+        "maskRange": [
+            100,
+            255
+        ],
+        "next": [
+            "CloseHomeSanity"
+        ]
+    },
+    "CloseHomeSanity": {
+        "action": "ClickSelf",
+        "roi": [
+            750,
+            610,
+            140,
+            70
+        ],
+        "next": [
+            "Home"
+        ]
+    },
     "StartUp": {
         "template": [
             "Terminal.png",
@@ -3812,7 +3858,8 @@
         "next": [
             "PRTS1",
             "PRTS2",
-            "PRTS3"
+            "PRTS3",
+            "FightMissionFailed"
         ]
     },
     "PRTS1": {
@@ -5260,6 +5307,15 @@
         ],
         "next": [
             "RecruitRefreshConfirm"
+        ]
+    },
+    "RecruitNoPermit": {
+        "action": "DoNothing",
+        "roi": [
+            450,
+            600,
+            190,
+            110
         ]
     },
     "RecruitNoRefresh": {
@@ -7445,17 +7501,49 @@
             255
         ]
     },
+    "SkipBattlePlot": {
+        "baseTask": "SkipThePreBattlePlot",
+        "template": "SkipThePreBattlePlot.png",
+        "next": [
+            "SkipBattlePlotConfirm"
+        ]
+    },
     "SkipThePreBattlePlotConfirm": {
         "action": "ClickSelf",
         "roi": [
             721,
-            390,
+            290,
             149,
-            144
+            244
         ],
         "maskRange": [
             100,
             255
+        ]
+    },
+    "SkipBattlePlotConfirm": {
+        "baseTask": "SkipThePreBattlePlotConfirm",
+        "template": "SkipThePreBattlePlotConfirm.png",
+        "next": [
+            "EndOfPlot"
+        ]
+    },
+    "EndOfPlot": {
+        "roi": [
+            520,
+            0,
+            243,
+            206
+        ],
+        "action": "ClickRect",
+        "specificRect": [
+            1000,
+            120,
+            270,
+            10
+        ],
+        "next": [
+            "ClickStageName"
         ]
     },
     "SkipForbiddenOperConfirm": {
@@ -7522,6 +7610,19 @@
             153
         ],
         "postDelay": 2000
+    },
+    "BattleStartPlot": {
+        "roi": [
+            872,
+            250,
+            212,
+            255
+        ],
+        "postDelay": 2000,
+        "action": "ClickSelf",
+        "next": [
+            "SkipBattlePlot"
+        ]
     },
     "BattleOperName": {
         "algorithm": "OcrDetect",
@@ -13526,6 +13627,26 @@
             254,
             163
         ]
+    },
+    "Copilot@StageNavigationSlowlySwipeLeft": {
+        "doc": "禁掉copilot的找不到关卡返回",
+        "exceededNext": [
+            "Copilot@ChapterSwipeToTheRightAndPlot"
+        ]
+    },
+    "Copilot@ChapterSwipeToTheRightAndPlot": {
+        "doc": "划五次到最右，然后扫有无初见剧情",
+        "baseTask": "ChapterSwipeToTheRight",
+        "exceededNext": [
+            "Copilot@ClickPlotStage"
+        ]
+    },
+    "ClickPlotStage": {
+        "action": "ClickSelf",
+        "next": [
+            "BattleStartPlot"
+        ],
+        "maxTimes": 1
     },
     "Copilot@ClickCornerUntilEndOfAction": {
         "algorithm": "JustReturn",
