@@ -90,6 +90,10 @@ namespace MaaWpfGui.Models
                 {
                     ret = UpdateResult.Failed;
                 }
+                else if (sRet == UpdateResult.Success)
+                {
+                    ETagCache.Save();
+                }
 
                 if (ret == UpdateResult.NotModified && sRet == UpdateResult.Success)
                 {
@@ -105,13 +109,22 @@ namespace MaaWpfGui.Models
         private static async Task<UpdateResult> UpdateFilesWithIndex()
         {
             var indexSRet = await UpdateFileWithETag(MaaUrls.MaaResourceApi, MaaDynamicFilesIndex, MaaDynamicFilesIndex);
-            if (indexSRet == UpdateResult.Failed || indexSRet == UpdateResult.NotModified)
+            if (indexSRet == UpdateResult.Failed)
             {
-                return indexSRet;
+                return UpdateResult.Failed;
+            }
+            else if (indexSRet == UpdateResult.Success)
+            {
+                ETagCache.Save();
+            }
+
+            var indexPath = Path.Combine(Environment.CurrentDirectory, MaaDynamicFilesIndex);
+            if (!File.Exists(indexPath)) {
+                return UpdateResult.Failed;
             }
 
             var ret = UpdateResult.NotModified;
-            var context = File.ReadAllText(Path.Combine(Environment.CurrentDirectory, MaaDynamicFilesIndex));
+            var context = File.ReadAllText(indexPath);
 
             // ReSharper disable once AsyncVoidLambda
             context.Split('\n').ToList().ForEach(async file =>
