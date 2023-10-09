@@ -969,18 +969,5 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
         */
-
-        /// <summary>
-        /// The event handler of opening hyperlink.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The event arguments.</param>
-        // xaml 里用到了
-        // ReSharper disable once UnusedMember.Global
-        // ReSharper disable once UnusedParameter.Global
-        public void OpenHyperlink(object sender, ExecutedRoutedEventArgs e)
-        {
-            Process.Start(e.Parameter.ToString());
-        }
     }
 }
