@@ -58,7 +58,7 @@
   <PropertyGroup>
     <WeaverConfiguration Condition="'$(Configuration)' == 'Release'">
       <Weavers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="FodyWeavers.xsd">
-        <Costura />
+        <Costura IncludeDebugSymbols='false' DisableCompression='true' />
         <PropertyChanged />
       </Weavers>
     </WeaverConfiguration>
