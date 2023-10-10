@@ -52,7 +52,8 @@ bool asst::BattleFormationTask::_run()
     }
 
     if (!enter_selection_page()) {
-        return false;
+        if (!enter_selection_page()) 
+            return false;
     }
 
     for (auto& [role, oper_groups] : m_formation) {
