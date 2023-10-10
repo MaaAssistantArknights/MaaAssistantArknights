@@ -615,32 +615,27 @@ namespace MaaWpfGui.Main
 
                 case AsstMsg.AllTasksCompleted:
                     bool isMainTaskQueueAllCompleted = false;
-                    var finishedTasks = details["finished_tasks"] as JArray;
-
-                    var taskList = finishedTasks?.Select(i => (AsstTaskId)i).ToList();
-                    if (taskList?.Count > 0)
+                    var taskList = details["finished_tasks"]?.ToObject<AsstTaskId[]>();
+                    if (taskList?.Length > 0)
                     {
-                        isMainTaskQueueAllCompleted = true;
-
-                        // 只要有非主界面任务时，就不执行任务链结束后操作
-                        foreach (AsstTaskId taskId in taskList)
+                        // 有非主界面任务时，不执行任务链结束后操作
+                        var minorTaskTypes = new HashSet<TaskType>
                         {
-                            if (taskId == (_latestTaskId.TryGetValue(TaskType.Copilot, out var copilotTaskId) ? copilotTaskId : 0)
-                                || taskId == (_latestTaskId.TryGetValue(TaskType.RecruitCalc, out var recruitCalcTaskId) ? recruitCalcTaskId : 0)
-                                || taskId == (_latestTaskId.TryGetValue(TaskType.Depot, out var depotTaskId) ? depotTaskId : 0)
-                                || taskId == (_latestTaskId.TryGetValue(TaskType.OperBox, out var operBoxTaskId) ? operBoxTaskId : 0)
-                                || taskId == (_latestTaskId.TryGetValue(TaskType.Gacha, out var gachaTaskId) ? gachaTaskId : 0))
-                            {
-                                isMainTaskQueueAllCompleted = false;
-                                break;
-                            }
+                            TaskType.Copilot,
+                            TaskType.RecruitCalc,
+                            TaskType.Depot,
+                            TaskType.OperBox,
+                            TaskType.Gacha,
+                        };
 
-                            if (taskList.Count == 1 && taskId == (_latestTaskId.TryGetValue(TaskType.CloseDown, out var closeDownTaskId) ? closeDownTaskId : 0))
-                            {
-                                // 仅有一个CloseDown任务时，不执行完成后
-                                isMainTaskQueueAllCompleted = false;
-                            }
+                        // 仅有一个任务且为 CloseDown 时，不执行任务链结束后操作
+                        if (taskList.Length == 1)
+                        {
+                            minorTaskTypes.Add(TaskType.CloseDown);
                         }
+
+                        var latestMinorTaskIds = _latestTaskId.Where(i => minorTaskTypes.Contains(i.Key)).Select(i => i.Value);
+                        isMainTaskQueueAllCompleted = taskList.All(i => !latestMinorTaskIds.Contains(i));
                     }
 
                     bool buyWine = _latestTaskId.ContainsKey(TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
