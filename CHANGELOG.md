@@ -3,13 +3,13 @@
 ### 新增
 
 - 支持夜间界面主题（支持多模板匹配，任一达到阈值即视为命中） (#6608) @MistEO @Constrat @zzyyyl
+- 公告弹窗 (#6557) @ABA2396 @Constrat
+- 输出“使用 48 小时内过期的理智药”消息 (#6800) @broken-paint
+- 为 WpfGui 加入一个远程控制功能。 (#6717) @hsyhhssyy @SherkeyXD
 - 肉鸽设置-中止行为 可设置等待至本次战斗结束后 (#6591) @status102
 - 肉鸽刷源石锭增加不去第二层的选项 (#6578) (#6593) @Lancarus
 - 支持运行期修改部分任务设置 (#6583) @zzyyyl
 - 抄作业新增av号、bv号对分p的支持 (#6670) @AnnoyingFlowers
-- 公告弹窗 (#6557) @ABA2396 @Constrat
-- 输出“使用 48 小时内过期的理智药”消息 (#6800) @broken-paint
-- 为 WpfGui 加入一个远程控制功能。 (#6717) @hsyhhssyy @SherkeyXD
 - 添加一个资源更新镜像服务器 @AnnAngela @MistEO
 - 添加了淬羽赫墨与多萝西的基建技能联动 (#6820) @xyxyx718
 
