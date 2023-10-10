@@ -34,6 +34,8 @@
 - 优化StartUp速度，首页展开理智窗口时StartUp会关上 (#6730) @status102
 - 使用多模板匹配重构 ReturnButtons (#6741) @zzyyyl
 - 对DEBUG VERSION禁用版本更新及资源更新检查 (#6751) @status102
+- 优化文档视觉效果，防止出现横向显示不全的情况 (#6839) @SherkeyXD
+- update action on recruit confirm failure @horror-proton
 
 ### 修复
 
@@ -87,6 +89,7 @@
 - 修复模板尺寸不同时的崩溃问题 @MistEO
 - update UnlockClues for EN (#6749) @Enochen
 - 修复战斗列表中跳过剧情确认识别问题 (#6827) @Lancarus
+- 修复干员维荻的识别问题 @zzyyyl
 
 ### 其他
 
@@ -138,6 +141,7 @@
 - Fix #6752 & Fix #6776 (#6783) @Cryolitia
 - added KR operators up to Kirin R Yato @zewoosJ
 - 调整部分log输出为仅供ASST_DEBUG (#6824) @status102
+- VS22 solution explorer i18n @Constrat
 
 ### For develops
 
