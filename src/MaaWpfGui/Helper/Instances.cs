@@ -45,9 +45,15 @@ namespace MaaWpfGui.Helper
                 public static DateTimeOffset ReportTime { get; set; }
             }
 
+            public static int MedicineUsedTimes = 0;
+
+            public static int StoneUsedTimes = 0;
+
             public static void ClearCache()
             {
                 SanityReport.HasSanityReport = false;
+                MedicineUsedTimes = 0;
+                StoneUsedTimes = 0;
             }
         }
 
