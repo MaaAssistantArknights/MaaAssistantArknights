@@ -285,7 +285,7 @@
                 Block.TextAlignment="Center">
                 <Hyperlink
                     Cursor="Hand"
-                    NavigateUri="{Binding Url}"
+                    NavigateUri="{Binding CopilotUrl}"
                     TextDecorations="None">
                     <TextBlock Text="{Binding UrlText}" />
                 </Hyperlink>
@@ -351,7 +351,7 @@
                 Block.TextAlignment="Center">
                 <Hyperlink
                     Cursor="Hand"
-                    NavigateUri="{Binding Source={x:Static constants:MaaUrls.MapPrts}}"
+                    NavigateUri="{Binding MapUrl}"
                     TextDecorations="None">
                     <TextBlock Text="{DynamicResource MapPrts}" />
                 </Hyperlink>
