@@ -573,8 +573,13 @@ namespace MaaWpfGui.Main
                 case AsstMsg.TaskChainCompleted:
                     switch (taskChain)
                     {
+                        case "Fight":
+                            Instances.TaskQueueViewModel.FightTaskRunning = false;
+                            break;
                         case "Infrast":
+                            Instances.TaskQueueViewModel.InfrastTaskRunning = false;
                             Instances.TaskQueueViewModel.IncreaseCustomInfrastPlanIndex();
+                            Instances.TaskQueueViewModel.RefreshCustomInfrastPlanIndexByPeriod();
                             break;
                         case "Mall":
                         {

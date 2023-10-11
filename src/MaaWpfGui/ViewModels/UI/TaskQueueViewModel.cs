@@ -818,6 +818,7 @@ namespace MaaWpfGui.ViewModels.UI
             // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次任务及基建列表
             TaskItemSelectionChanged();
             Instances.SettingsViewModel.InfrastOrderSelectionChanged();
+            RefreshCustomInfrastPlanIndexByPeriod();
 
             ClearLog();
 
@@ -2623,7 +2624,7 @@ namespace MaaWpfGui.ViewModels.UI
             RefreshCustomInfrastPlanIndexByPeriod();
         }
 
-        private void RefreshCustomInfrastPlanIndexByPeriod()
+        public void RefreshCustomInfrastPlanIndexByPeriod()
         {
             if (!CustomInfrastEnabled || !_customInfrastPlanHasPeriod || InfrastTaskRunning)
             {
