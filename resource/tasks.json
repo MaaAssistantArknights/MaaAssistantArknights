@@ -10525,7 +10525,14 @@
     "Phantom@Roguelike@LastReward4": {},
     "Phantom@Roguelike@LastRewardRand": {},
     "Phantom@Roguelike@LastRewardConfirm": {},
-    "Phantom@Roguelike@MissionFailedFlag": {},
+    "Phantom@Roguelike@MissionFailedFlag": {
+        "roi": [
+            450,
+            163,
+            540,
+            267
+        ]
+    },
     "Phantom@Roguelike@MissionFailedFlag2": {},
     "Phantom@Roguelike@StrategyChange_mode0": {
         "text": [
