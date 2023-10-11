@@ -282,7 +282,7 @@ std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_opers()
 
 bool asst::BattleFormationTask::enter_selection_page()
 {
-    return ProcessTask(*this, { "BattleQuickFormation" }).run();
+    return ProcessTask(*this, { "BattleQuickFormation" }).set_retry_times(3).run();
 }
 
 bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>& groups)
