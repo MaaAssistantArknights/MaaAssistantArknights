@@ -52,6 +52,7 @@ bool asst::BattleFormationTask::_run()
     }
 
     if (!enter_selection_page()) {
+        save_img(utils::path("debug") / utils::path("other"));
         return false;
     }
 
