@@ -33,7 +33,6 @@ namespace asst
     protected:
         void postproc_rect_(Result& res) const;
         void postproc_trim_(Result& res) const;
-        void postproc_equivalence_(Result& res) const;
         void postproc_replace_(Result& res) const;
 
         bool filter_and_replace_by_required_(Result& res) const;
