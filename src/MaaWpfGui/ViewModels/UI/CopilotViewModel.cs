@@ -160,7 +160,8 @@ namespace MaaWpfGui.ViewModels.UI
         private async Task UpdateFileDoc(string filename)
         {
             ClearLog();
-            Url = CopilotUiUrl;
+            CopilotUrl = CopilotUiUrl;
+            MapUrl = MapUiUrl;
             _isVideoTask = false;
 
             string jsonStr;
@@ -256,6 +257,11 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
+                if (json.TryGetValue("stage_name", out var stageNameValue))
+                {
+                    MapUrl = MapUiUrl.Replace("areas", "map/" + stageNameValue);
+                }
+
                 AddLog(LocalizationHelper.GetString("CopilotTip"));
 
                 var doc = (JObject)json["doc"];
@@ -263,7 +269,6 @@ namespace MaaWpfGui.ViewModels.UI
                 if (doc != null && doc.TryGetValue("title", out var titleValue))
                 {
                     title = titleValue.ToString();
-
 
                     do
                     {
@@ -314,21 +319,21 @@ namespace MaaWpfGui.ViewModels.UI
 
                     AddLog(details, detailsColor);
                     {
-                        Url = CopilotUiUrl;
+                        CopilotUrl = CopilotUiUrl;
                         var linkParser = new Regex(@"(?:av\d+|bv[a-z0-9]{10})(?:\/\?p=\d+)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                         foreach (Match match in linkParser.Matches(details))
                         {
-                            Url = MaaUrls.BilibiliVideo + match.Value;
+                            CopilotUrl = MaaUrls.BilibiliVideo + match.Value;
                             break;
                         }
 
-                        if (string.IsNullOrEmpty(Url))
+                        if (string.IsNullOrEmpty(CopilotUrl))
                         {
                             linkParser = new Regex(@"(?:https?://)\S+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
                             foreach (Match m in linkParser.Matches(details))
                             {
-                                Url = m.Value;
+                                CopilotUrl = m.Value;
                                 break;
                             }
                         }
@@ -945,8 +950,6 @@ namespace MaaWpfGui.ViewModels.UI
             AddLog(LocalizationHelper.GetString("ThanksForLikeWebJson"), UiLogColor.Info);
         }
 
-        private const string CopilotUiUrl = MaaUrls.PrtsPlus;
-        private string _url = MaaUrls.PrtsPlus;
         private string _urlText = LocalizationHelper.GetString("PrtsPlus");
 
         /// <summary>
@@ -958,17 +961,31 @@ namespace MaaWpfGui.ViewModels.UI
             private set => SetAndNotify(ref _urlText, value);
         }
 
+        private const string CopilotUiUrl = MaaUrls.PrtsPlus;
+
+        private string _copilotUrl = CopilotUiUrl;
+
         /// <summary>
         /// Gets or private sets the copilot URL.
         /// </summary>
-        public string Url
+        public string CopilotUrl
         {
-            get => _url;
+            get => _copilotUrl;
             private set
             {
                 UrlText = value == CopilotUiUrl ? LocalizationHelper.GetString("PrtsPlus") : LocalizationHelper.GetString("VideoLink");
-                SetAndNotify(ref _url, value);
+                SetAndNotify(ref _copilotUrl, value);
             }
+        }
+
+        private const string MapUiUrl = MaaUrls.MapPrts;
+
+        private string _mapUrl = MapUiUrl;
+
+        public string MapUrl
+        {
+            get => _mapUrl;
+            private set => SetAndNotify(ref _mapUrl, value);
         }
 
         /// <summary>
