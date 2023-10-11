@@ -12,6 +12,7 @@
 // </copyright>
 
 using System;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using HandyControl.Controls;
@@ -37,13 +38,22 @@ namespace MaaWpfGui.Views.UserControl
             };
         }
 
-        private readonly DispatcherTimer _timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 1500), };
+        private readonly DispatcherTimer _timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 6000), };
 
         private void EasterEggs(object sender, MouseButtonEventArgs e)
         {
             if (_timer.IsEnabled)
             {
                 return;
+            }
+
+            try
+            {
+                Clipboard.SetText(Instances.SettingsViewModel.VersionId);
+            }
+            catch
+            {
+                // ignore
             }
 
             _timer.IsEnabled = true;
