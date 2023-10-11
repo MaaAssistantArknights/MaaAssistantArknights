@@ -12,7 +12,7 @@ namespace asst
     public:
         struct Params
         {
-            std::vector<std::string> required;
+            std::vector<std::pair<std::string, std::string>> required; // raw, equivalent
             bool full_match = false;
             std::vector<std::pair<std::string, std::string>> replace;
             bool replace_full = false;

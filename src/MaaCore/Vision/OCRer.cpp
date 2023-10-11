@@ -31,7 +31,6 @@ OCRer::ResultsVecOpt OCRer::analyze() const
 
         postproc_rect_(res);
         postproc_trim_(res);
-        postproc_equivalence_(res);
         postproc_replace_(res);
 
         if (!filter_and_replace_by_required_(res)) {
@@ -67,12 +66,6 @@ void OCRer::postproc_trim_(Result& res) const
     utils::string_trim(res.text);
 }
 
-void OCRer::postproc_equivalence_(Result& res) const
-{
-    auto& ocr_config = OcrConfig::get_instance();
-    res.text = ocr_config.process_equivalence_class(res.text);
-}
-
 void OCRer::postproc_replace_(Result& res) const
 {
     if (m_params.replace.empty()) {
@@ -96,16 +89,19 @@ bool OCRer::filter_and_replace_by_required_(Result& res) const
     if (m_params.required.empty()) {
         return true;
     }
+    auto& ocr_config = OcrConfig::get_instance();
+    auto equ_text = ocr_config.process_equivalence_class(res.text);
 
     if (m_params.full_match) {
-        return ranges::find(m_params.required, res.text) != m_params.required.cend();
+        auto required = m_params.required | views::transform([&](const auto& str) { return str.second; });
+        return ranges::find(required, equ_text) != required.end();
     }
     else {
-        auto is_sub = [&res](const std::string& str) -> bool {
-            if (res.text.find(str) == std::string::npos) {
+        auto is_sub = [&](const auto& p) -> bool {
+            if (equ_text.find(p.second) == std::string::npos) {
                 return false;
             }
-            res.text = str;
+            res.text = p.first;
             return true;
         };
         return ranges::find_if(m_params.required, is_sub) != m_params.required.cend();

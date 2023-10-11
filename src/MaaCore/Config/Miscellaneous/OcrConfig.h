@@ -19,6 +19,7 @@ namespace asst
         virtual ~OcrConfig() override = default;
 
         std::string process_equivalence_class(const std::string& str) const;
+        auto get_eq_classes() const noexcept { return m_eq_classes; }
 
     protected:
         virtual bool parse(const json::value& json) override;
