@@ -36,6 +36,9 @@ jobs:
       - name: Overseas Tasks Ordering
         run: |
           python3 tools/ResourceUpdater/Tasks_Sorter.py
+      - name: Generate hash list
+        run: |
+          python3 tools/ResourceUpdater/hash.py
       - name: Check if only sorted
         id: check_only_sorted
         run: |
