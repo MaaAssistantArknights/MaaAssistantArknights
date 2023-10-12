@@ -343,6 +343,7 @@ StageLS6.png
 StageResource.png
 StageTheme.png
 StartLoginBServer.png
+StartWithSanity.png
 UnableToAgent.png
 UnableToAgent2.png
 UseMedicine.png
