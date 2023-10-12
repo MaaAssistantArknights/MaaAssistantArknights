@@ -78,18 +78,11 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            try
+            var body = await HttpResponseHelper.GetStringAsync(response);
+            if (!string.IsNullOrEmpty(body))
             {
-                var body = await response.Content.ReadAsStringAsync();
-                if (!string.IsNullOrEmpty(body))
-                {
-                    AnnouncementInfo = body;
-                    DoNotRemindThisAnnouncementAgain = false;
-                }
-            }
-            catch
-            {
-                return;
+                AnnouncementInfo = body;
+                DoNotRemindThisAnnouncementAgain = false;
             }
 
             ETagCache.Set(response);
