@@ -197,7 +197,7 @@ namespace MaaWpfGui.Services.RemoteControl
         {
             var endpoint = Instances.SettingsViewModel.RemoteControlGetTaskEndpointUri;
 
-            if (string.IsNullOrWhiteSpace(endpoint) || !endpoint.ToLower().StartsWith("https://"))
+            if (string.IsNullOrWhiteSpace(endpoint))
             {
                 return;
             }
@@ -342,6 +342,14 @@ namespace MaaWpfGui.Services.RemoteControl
                         Application.Current.Dispatcher.Invoke(() =>
                         {
                             Instances.SettingsViewModel.ConnectAddress = data;
+                        });
+
+                        break;
+
+                    case "Settings-CombatStage":
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            Instances.TaskQueueViewModel.Stage1 = data;
                         });
 
                         break;
