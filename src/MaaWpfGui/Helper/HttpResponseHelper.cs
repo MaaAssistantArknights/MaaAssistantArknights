@@ -37,6 +37,7 @@ namespace MaaWpfGui.Helper
             return true;
         }
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public static async Task<Stream> GetStreamAsync(HttpResponseMessage response)
         {
             if (response == null)
