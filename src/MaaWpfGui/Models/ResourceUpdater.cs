@@ -74,9 +74,21 @@ namespace MaaWpfGui.Models
 
             var baseUrl = await GetResourceApi();
 
-            return await UpdateFilesWithIndex(baseUrl) != UpdateResult.Failed
-                ? await UpdateSingleFiles(baseUrl)
-                : UpdateResult.Failed;
+            var ret = await UpdateFilesWithIndex(baseUrl);
+            if (ret == UpdateResult.Failed)
+            {
+                return UpdateResult.Failed;
+            }
+
+            var ret2 = await UpdateSingleFiles(baseUrl);
+            if(ret2 == UpdateResult.Failed)
+            {
+                return UpdateResult.Failed;
+            }
+
+            return ret == UpdateResult.NotModified && ret2 == UpdateResult.NotModified
+                ? UpdateResult.NotModified
+                : UpdateResult.Success;
         }
 
         private static async Task<UpdateResult> UpdateSingleFiles(string baseUrl)
