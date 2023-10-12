@@ -67,6 +67,10 @@
         <PropertyChanged />
       </Weavers>
     </WeaverConfiguration>
+    <AssemblyVersion>4.25.1</AssemblyVersion>
+    <FileVersion>4.25.1</FileVersion>
+    <InformationalVersion>v4.25.1-alpha.1.d009.ga3f04669d</InformationalVersion>
+    <Version>$(AssemblyVersion)</Version>
   </PropertyGroup> 
 
   <ItemGroup>
