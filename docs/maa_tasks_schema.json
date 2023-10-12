@@ -158,7 +158,13 @@
                     "description": "可选项，要匹配的图片文件名\n不填时写默认 \"任务名.png\""
                 },
                 "templThreshold": {
-                    "type": "number",
+                    "type": [
+                        "array",
+                        "number"
+                    ],
+                    "items": {
+                        "type": "number"
+                    },
                     "default": 0.8,
                     "description": "可选项，图片模板匹配得分的阈值，超过阈值才认为识别到了。\n默认 0.8, 可根据日志查看实际得分是多少"
                 },

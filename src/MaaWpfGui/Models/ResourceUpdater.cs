@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
@@ -11,30 +12,30 @@ namespace MaaWpfGui.Models
 {
     public static class ResourceUpdater
     {
-        private static readonly List<string> _maaSingleFiles = new List<string>
+        private static readonly List<string> _MaaSingleFiles = new List<string>
         {
             "resource/Arknights-Tile-Pos/overview.json",
+            "resource/stages.json",
+            "resource/recruitment.json",
+            "resource/item_index.json",
             "resource/battle_data.json",
             "resource/infrast.json",
-            "resource/item_index.json",
-            "resource/recruitment.json",
-            "resource/stages.json",
             "resource/version.json",
-            "resource/global/txwy/resource/item_index.json",
-            "resource/global/txwy/resource/recruitment.json",
-            "resource/global/txwy/resource/version.json",
-            "resource/global/YoStarEN/resource/item_index.json",
-            "resource/global/YoStarEN/resource/recruitment.json",
-            "resource/global/YoStarEN/resource/version.json",
-            "resource/global/YoStarJP/resource/item_index.json",
             "resource/global/YoStarJP/resource/recruitment.json",
+            "resource/global/YoStarJP/resource/item_index.json",
             "resource/global/YoStarJP/resource/version.json",
-            "resource/global/YoStarKR/resource/item_index.json",
+            "resource/global/YoStarEN/resource/recruitment.json",
+            "resource/global/YoStarEN/resource/item_index.json",
+            "resource/global/YoStarEN/resource/version.json",
             "resource/global/YoStarKR/resource/recruitment.json",
+            "resource/global/YoStarKR/resource/item_index.json",
             "resource/global/YoStarKR/resource/version.json",
+            "resource/global/txwy/resource/recruitment.json",
+            "resource/global/txwy/resource/item_index.json",
+            "resource/global/txwy/resource/version.json",
         };
 
-        private const string MaaDynamicFilesIndex = "resource/dynamic_list.txt";
+        private const string _MaaDynamicFilesIndex = "resource/dynamic_list.txt";
 
         public enum UpdateResult
         {
@@ -43,6 +44,8 @@ namespace MaaWpfGui.Models
             NotModified,
         }
 
+        // 只有 Release 版本才会检查更新
+        // ReSharper disable once UnusedMember.Global
         public static async void UpdateAndToast()
         {
             var ret = await Update();
@@ -57,12 +60,24 @@ namespace MaaWpfGui.Models
             }
         }
 
+        private static async Task<string> GetResourceAPI()
+        {
+            var response = await Instances.HttpService.GetAsync(new Uri(MaaUrls.AnnMirrorResourceApi), httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
+            if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return MaaUrls.AnnMirrorResourceApi;
+            }
+
+            return MaaUrls.MaaResourceApi;
+        }
+
         public static async Task<UpdateResult> Update()
         {
             _updating = false;
 
-            var ret2 = await UpdateFilesWithIndex();
-            var ret1 = await UpdateSingleFiles();
+            var baseUrl = await GetResourceAPI();
+            var ret2 = await UpdateFilesWithIndex(baseUrl);
+            var ret1 = await UpdateSingleFiles(baseUrl);
             ETagCache.Save();
 
             if (ret1 == UpdateResult.Failed || ret2 == UpdateResult.Failed)
@@ -78,17 +93,29 @@ namespace MaaWpfGui.Models
             return UpdateResult.NotModified;
         }
 
-        private static async Task<UpdateResult> UpdateSingleFiles()
+        private static async Task<UpdateResult> UpdateSingleFiles(string baseUrl)
         {
             UpdateResult ret = UpdateResult.NotModified;
 
-            foreach (var file in _maaSingleFiles)
+            foreach (var file in _MaaSingleFiles)
             {
-                var sRet = await UpdateFileWithETag(MaaUrls.MaaResourceApi, file, file);
+                var sRet = await UpdateFileWithETag(baseUrl, file, file);
 
-                if (sRet == UpdateResult.Failed)
+                switch (sRet)
                 {
-                    ret = UpdateResult.Failed;
+                    case UpdateResult.Failed:
+                        ret = UpdateResult.Failed;
+                        break;
+
+                    case UpdateResult.Success:
+                        ETagCache.Save();
+                        break;
+
+                    case UpdateResult.NotModified:
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
 
                 if (ret == UpdateResult.NotModified && sRet == UpdateResult.Success)
@@ -102,16 +129,33 @@ namespace MaaWpfGui.Models
 
         // 地图文件、掉落材料的图片、基建技能图片
         // 这些文件数量不固定，需要先获取索引文件，再根据索引文件下载
-        private static async Task<UpdateResult> UpdateFilesWithIndex()
+        private static async Task<UpdateResult> UpdateFilesWithIndex(string baseUrl)
         {
-            var indexSRet = await UpdateFileWithETag(MaaUrls.MaaResourceApi, MaaDynamicFilesIndex, MaaDynamicFilesIndex);
-            if (indexSRet == UpdateResult.Failed || indexSRet == UpdateResult.NotModified)
+            var indexSRet = await UpdateFileWithETag(baseUrl, _MaaDynamicFilesIndex, _MaaDynamicFilesIndex);
+            switch (indexSRet)
             {
-                return indexSRet;
+                case UpdateResult.Failed:
+                    return UpdateResult.Failed;
+
+                case UpdateResult.Success:
+                    ETagCache.Save();
+                    break;
+
+                case UpdateResult.NotModified:
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            var indexPath = Path.Combine(Environment.CurrentDirectory, _MaaDynamicFilesIndex);
+            if (!File.Exists(indexPath))
+            {
+                return UpdateResult.Failed;
             }
 
             var ret = UpdateResult.NotModified;
-            var context = File.ReadAllText(Path.Combine(Environment.CurrentDirectory, MaaDynamicFilesIndex));
+            var context = File.ReadAllText(indexPath);
 
             // ReSharper disable once AsyncVoidLambda
             context.Split('\n').ToList().ForEach(async file =>
@@ -130,7 +174,7 @@ namespace MaaWpfGui.Models
                         return;
                     }
 
-                    var sRet = await UpdateFileWithETag(MaaUrls.MaaResourceApi, file, file);
+                    var sRet = await UpdateFileWithETag(baseUrl, file, file);
                     if (sRet == UpdateResult.Failed)
                     {
                         ret = UpdateResult.Failed;

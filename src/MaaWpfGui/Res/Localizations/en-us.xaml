@@ -564,6 +564,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="MissionStart">Mission started</system:String>
     <system:String x:Key="UnitTime">times</system:String>
     <system:String x:Key="MedicineUsed">Medicine used</system:String>
+    <system:String x:Key="ExpiringMedicineUsed">Expiring medicine used</system:String>
     <system:String x:Key="StoneUsed">Originite Prime used</system:String>
     <system:String x:Key="ActingCommandError">PRTS error</system:String>
     <system:String x:Key="LabelsRefreshed">Labels refreshed</system:String>
@@ -603,8 +604,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="RecruitmentOfBot">Robot! Robot! More Robot!</system:String>
     <system:String x:Key="Choose">Choose</system:String>
     <system:String x:Key="Refreshed">Refreshed</system:String>
-    <system:String x:Key="continueRefresh">No recruitment permit, trying to refresh Tags</system:String>
-    <system:String x:Key="noRecruitPermit">No recruitment permit, returned</system:String>
+    <system:String x:Key="ContinueRefresh">No recruitment permit, trying to refresh Tags</system:String>
+    <system:String x:Key="NoRecruitmentPermit">No recruitment permit, returned</system:String>
     <system:String x:Key="NotEnoughStaff">Insufficient operators</system:String>
     <system:String x:Key="StageInfoError">Stage recognition error</system:String>
     <system:String x:Key="BattleFormation">Start formation</system:String>

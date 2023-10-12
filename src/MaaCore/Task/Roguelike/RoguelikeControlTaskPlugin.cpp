@@ -20,7 +20,7 @@ bool asst::RoguelikeControlTaskPlugin::verify(AsstMsg msg, const json::value& de
     if (task_view.starts_with(roguelike_name)) {
         task_view.remove_prefix(roguelike_name.length());
     }
-    if (task_view == "Roguelik@ControlTaskPlugin-Stop") {
+    if (task_view == "RoguelikeControlTaskPlugin-Stop") {
         m_need_exit_then_stop = false;
         return true;
     }

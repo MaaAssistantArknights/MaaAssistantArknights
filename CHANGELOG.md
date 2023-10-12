@@ -1,15 +1,17 @@
-## v4.25.0-beta.1
+## v4.25.0
 
 ### 新增
 
-- 支持夜间界面主体（支持多模板匹配，任一达到阈值即视为命中） (#6608) @MistEO @Constrat @zzyyyl
+- 支持夜间界面主题（支持多模板匹配，任一达到阈值即视为命中） (#6608) @MistEO @Constrat @zzyyyl
+- 公告弹窗 (#6557) @ABA2396 @Constrat
+- 输出“使用 48 小时内过期的理智药”消息 (#6800) @broken-paint
+- 为 WpfGui 加入一个远程控制功能。 (#6717) @hsyhhssyy @SherkeyXD
 - 肉鸽设置-中止行为 可设置等待至本次战斗结束后 (#6591) @status102
 - 肉鸽刷源石锭增加不去第二层的选项 (#6578) (#6593) @Lancarus
 - 支持运行期修改部分任务设置 (#6583) @zzyyyl
 - 抄作业新增av号、bv号对分p的支持 (#6670) @AnnoyingFlowers
-- 公告弹窗 (#6557) @Constrat @ABA2396
-- 战斗连续失败三次后 Fight 任务报错 @zzyyyl
-- 识别工具添加 idle 绑定 @ABA2396
+- 添加一个资源更新镜像服务器 @AnnAngela @MistEO
+- 添加了淬羽赫墨与多萝西的基建技能联动 (#6820) @xyxyx718
 
 ### 改进
 
@@ -19,6 +21,21 @@
 - BattleQuickFormationRole cleared templates [skip ci] @Constrat
 - 优化肉鸽失败后，开始下一次探索的速度 (#6602) @Lancarus
 - 优化肉鸽招募策略 (#6579) @Lancarus
+- 战斗连续失败三次后 Fight 任务报错 @zzyyyl
+- 识别工具添加 idle 绑定 @ABA2396
+- operbox operator names localization (#6726) @Constrat
+- 抄作业自动跳过战斗中剧情 (#6721) @MistEO @Lancarus @status102
+- 关卡导航在未找到设定关卡时，移动至最右侧、自动通关未通过的剧情关，再尝试查找关卡 (#6729) @status102
+- 公招无招聘许可时继续尝试刷新 (#6569) @broken-paint
+- 优化资源动态更新 @MistEO
+- WpfGui关卡掉落输出增加千分位分隔符 (#6793) @status102
+- OTA时先更新动态文件，再更新其他的 @MistEO
+- 优化 TaskData 的 json 解析 (#6739) @zzyyyl
+- 优化StartUp速度，首页展开理智窗口时StartUp会关上 (#6730) @status102
+- 使用多模板匹配重构 ReturnButtons (#6741) @zzyyyl
+- 对DEBUG VERSION禁用版本更新及资源更新检查 (#6751) @status102
+- 优化文档视觉效果，防止出现横向显示不全的情况 (#6839) @SherkeyXD
+- update action on recruit confirm failure @horror-proton
 
 ### 修复
 
@@ -64,6 +81,15 @@
 - 子进程异常挂起 @w568w
 - 修复 Award 任务无法正常结束的问题 @zzyyyl
 - 修复CloseDown任务导致的不执行完成后操作 @status102
+- BlackReturn -> ReturnButton [skip ci] (#6806) @zzyyyl
+- 修复在无法导航至指定关卡并通过初见剧情关后，无法进入指定关卡的错误 (#6792) @status102
+- 修复当"远程控制"没有填入任何内容时的界面问题 (#6787) @hsyhhssyy
+- trying to fix fight with support ref: 1f9f48128fc020ac191e427ff7d53dd8036a6f73 [skip ci] @Constrat
+- 修复作战列表跳过剧情关后不重新寻找关卡 (#6772) @Lancarus
+- 修复模板尺寸不同时的崩溃问题 @MistEO
+- update UnlockClues for EN (#6749) @Enochen
+- 修复战斗列表中跳过剧情确认识别问题 (#6827) @Lancarus
+- 修复干员维荻的识别问题 @zzyyyl
 
 ### 其他
 
@@ -108,7 +134,16 @@
 - 更新 readme.md @AnnAngela
 - 使用 IShellLink 和 IPersistFile 接口创建快捷方式 @ABA2396
 - 根据 qodana 优化代码 @ABA2396
+- strategies -> strategy @Constrat
+- tools: more adaptation ignored templates @Constrat
+- Revert EN's Version.json @Constrat
+- schema for templThreshold array or number @Constrat
+- Fix #6752 & Fix #6776 (#6783) @Cryolitia
+- added KR operators up to Kirin R Yato @zewoosJ
+- 调整部分log输出为仅供ASST_DEBUG (#6824) @status102
+- VS22 solution explorer i18n @Constrat
 
 ### For develops
 
 - Add ThriftController (#6573) @aa889788
+

@@ -43,6 +43,7 @@ namespace MaaWpfGui.Constants
         public const string MaaApi = "https://ota.maa.plus/MaaAssistantArknights/api/";
 
         public const string MaaResourceApi = "https://ota.maa.plus/MaaAssistantArknights/MaaAssistantArknights/";
+        public const string AnnMirrorResourceApi = "https://maa-ota.annangela.cn/MaaAssistantArknights/MaaAssistantArknights/";
 
         public const string QqGroups = "https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html";
 

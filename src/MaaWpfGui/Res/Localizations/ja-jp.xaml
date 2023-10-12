@@ -273,7 +273,7 @@
     <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String>
     <system:String x:Key="UseRemainingSanityStage">余剰理性の使用</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">メインタスク終了後に指定されたレベルを選択しても、自動的に理性を回復しません</system:String>
-    <system:String x:Key="UseExpiringMedicine">48時間以内に期限が切れる理性剤を無制限に使用</system:String>
+    <system:String x:Key="UseExpiringMedicine">48時間以内に期限が切れる回復剤を無制限に使用</system:String>
     <system:String x:Key="HideUnavailableStage">当日開放されないステージを隠す</system:String>
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">基地計画を表示する</system:String>
     <system:String x:Key="MainViewButtonFeature">スタート画面に表示する便利ボタン</system:String>
@@ -564,6 +564,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="MissionStart">行動開始しました</system:String>
     <system:String x:Key="UnitTime">回</system:String>
     <system:String x:Key="MedicineUsed">回復剤を使った</system:String>
+    <system:String x:Key="ExpiringMedicineUsed">48時間以内に期限が切れる回復剤を使った</system:String>
     <system:String x:Key="StoneUsed">源石を使った</system:String>
     <system:String x:Key="ActingCommandError">自動指揮のミスが生じました</system:String>
     <system:String x:Key="LabelsRefreshed">タグが更新されました</system:String>
@@ -603,8 +604,8 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="RecruitmentOfBot">公開求人でロボットが出ました！</system:String>
     <system:String x:Key="Choose">選択</system:String>
     <system:String x:Key="Refreshed">現在のタグが更新されました</system:String>
-    <system:String x:Key="continueRefresh">採用許可がないため、タグを更新しようとしています</system:String>
-    <system:String x:Key="noRecruitPermit">採用許可がないため返却されました</system:String>
+    <system:String x:Key="ContinueRefresh">採用許可がないため、タグを更新しようとしています</system:String>
+    <system:String x:Key="NoRecruitmentPermit">採用許可がないため返却されました</system:String>
     <system:String x:Key="NotEnoughStaff">利用可能なオペレーターが不足しています</system:String>
     <system:String x:Key="StageInfoError">ステージ認識エラー</system:String>
     <system:String x:Key="BattleFormation">編成開始</system:String>
