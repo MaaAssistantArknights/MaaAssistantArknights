@@ -525,7 +525,7 @@ namespace MaaWpfGui.Services.RemoteControl
         {
             var endpoint = Instances.SettingsViewModel.RemoteControlGetTaskEndpointUri;
 
-            if (string.IsNullOrWhiteSpace(endpoint) || !endpoint.ToLower().StartsWith("https://"))
+            if (string.IsNullOrWhiteSpace(endpoint))
             {
                 using var toastEmpty = new ToastNotification(
                     LocalizationHelper.GetString("RemoteControlConnectionTestFailEmpty"));
