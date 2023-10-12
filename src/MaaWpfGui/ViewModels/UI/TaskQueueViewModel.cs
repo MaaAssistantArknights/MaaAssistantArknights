@@ -934,10 +934,15 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         /// <summary>
-        /// Stops.
+        /// <para>通常要和 <see cref="SetStopped()"/> 一起使用，除非能保证回调消息能收到 `AsstMsg.TaskChainStopped`</para>
+        /// <para>This is usually done with <see cref="SetStopped()"/> Unless you are guaranteed to receive the callback message `AsstMsg.TaskChainStopped`</para>
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task Stop()
+        /// <param name="timeout">Timeout millisecond</param>
+        /// <returns>A <see cref="Task"/>
+        /// <para>尝试等待 core 成功停止运行，默认超时时间一分钟</para>
+        /// <para>Try to wait for the core to stop running, the default timeout is one minute</para>
+        /// </returns>
+        public async Task<bool> Stop(int timeout = 60 * 1000)
         {
             Stopping = true;
             AddLog(LocalizationHelper.GetString("Stopping"));
@@ -950,11 +955,13 @@ namespace MaaWpfGui.ViewModels.UI
             });
 
             int count = 0;
-            while (Instances.AsstProxy.AsstRunning() && count <= 600)
+            while (Instances.AsstProxy.AsstRunning() && count <= timeout / 100)
             {
                 await Task.Delay(100);
                 count++;
             }
+
+            return !Instances.AsstProxy.AsstRunning();
         }
 
         // UI 绑定的方法
