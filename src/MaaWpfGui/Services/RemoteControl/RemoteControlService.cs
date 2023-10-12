@@ -85,6 +85,8 @@ namespace MaaWpfGui.Services.RemoteControl
                         Log.Logger.Error(ex, "RemoteControl service raises unknown error.");
                     }
                 }
+
+                // ReSharper disable once FunctionNeverReturns
             });
 
             _runningState = RunningState.Instance;
@@ -251,14 +253,14 @@ namespace MaaWpfGui.Services.RemoteControl
 
                     if (type == "Stop")
                     {
-                        await Instances.TaskQueueViewModel.Stop(30 * 1000); // 这里等待关闭 用更短的时间
+                        await Instances.TaskQueueViewModel.Stop(30 * 1000); // 这里等待关闭 应该没问题
                         Instances.TaskQueueViewModel.SetStopped();
                         continue; // 直接跳过这个任务
                     }
 
                     _executedTaskIds.Add(id);
 
-                    if (type == "CaptureImage") // 做一个特判来让截屏任务实时执行
+                    if (type == "CaptureImageNow") // 做一个特判来让实时截屏任务在另一个队列里执行
                     {
                         _captureImageQueue.Enqueue(task);
                         continue;
@@ -278,9 +280,9 @@ namespace MaaWpfGui.Services.RemoteControl
                 var payload = string.Empty;
                 var status = "SUCCESS";
 
-                if (type == "CaptureImage")
+                if (type == "CaptureImageNow")
                 {
-                    string errMsg = string.Empty;
+                    string errMsg = string.Empty; // 这段已经用了两次了 考虑单独拉出来
                     bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
                     if (connected)
                     {
@@ -396,6 +398,36 @@ namespace MaaWpfGui.Services.RemoteControl
                                 await Task.Delay(100); // 暂停100毫秒以避免密集循环
                             }
 
+                            break;
+                        }
+
+                    case "CaptureImage":
+                        {
+                            string errMsg = string.Empty;
+                            bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+                            if (connected)
+                            {
+                                var image = Instances.AsstProxy.AsstGetImage();
+                                if (image == null)
+                                {
+                                    status = "FAILED";
+                                    break;
+                                }
+
+                                byte[] bytes;
+                                using (MemoryStream stream = new MemoryStream())
+                                {
+                                    PngBitmapEncoder encoder = new PngBitmapEncoder();
+                                    encoder.Frames.Add(BitmapFrame.Create(image));
+                                    encoder.Save(stream);
+                                    bytes = stream.ToArray();
+                                }
+
+                                payload = Convert.ToBase64String(bytes);
+                                break;
+                            }
+
+                            status = "FAILED";
                             break;
                         }
 
