@@ -249,6 +249,13 @@ namespace MaaWpfGui.Services.RemoteControl
                         continue;
                     }
 
+                    if (type == "Stop")
+                    {
+                        await Instances.TaskQueueViewModel.Stop(30 * 1000); // 这里等待关闭 用更短的时间
+                        Instances.TaskQueueViewModel.SetStopped();
+                        continue; // 直接跳过这个任务
+                    }
+
                     _executedTaskIds.Add(id);
 
                     if (type == "CaptureImage") // 做一个特判来让截屏任务实时执行
