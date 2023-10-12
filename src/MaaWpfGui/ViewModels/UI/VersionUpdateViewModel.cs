@@ -400,15 +400,15 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else
             {
-#if RELEASE
+#if DEBUG
+                // 跑个空任务避免 async warning
+                await Task.Run(() => {});
+#else
                 var ret = await CheckAndDownloadUpdate();
                 if (ret == CheckUpdateRetT.OK)
                 {
                     AskToRestart();
                 }
-#else
-                // 跑个空任务避免 async warning
-                await Task.Run(() => {});
 #endif
             }
         }
