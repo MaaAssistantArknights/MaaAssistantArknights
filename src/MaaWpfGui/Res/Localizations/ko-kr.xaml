@@ -604,8 +604,8 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="RecruitmentOfBot">로봇을 모집했습니다!</system:String>
     <system:String x:Key="Choose">선택</system:String>
     <system:String x:Key="Refreshed">새로고침됨</system:String>
-    <system:String x:Key="continueRefresh">채용 허가 없음, 새로 고치려고 태그</system:String>
-    <system:String x:Key="noRecruitPermit">채용허가증이 없어 반환함</system:String>
+    <system:String x:Key="ContinueRefresh">채용 허가 없음, 새로 고치려고 태그</system:String>
+    <system:String x:Key="NoRecruitmentPermit">채용허가증이 없어 반환함</system:String>
     <system:String x:Key="NotEnoughStaff">오퍼레이터 부족</system:String>
     <system:String x:Key="StageInfoError">스테이지 인식 오류</system:String>
     <system:String x:Key="BattleFormation">편성 시작</system:String>
