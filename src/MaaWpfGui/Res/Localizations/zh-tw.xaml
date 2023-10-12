@@ -605,7 +605,7 @@
     <system:String x:Key="Choose">選擇</system:String>
     <system:String x:Key="Refreshed">當前欄位已刷新</system:String>
     <system:String x:Key="ContinueRefresh">無招聘許可，繼續嘗試刷新 Tags</system:String>
-    <system:String x:Key="NoRecruitPermit">無招聘許可，已返回</system:String>
+    <system:String x:Key="NoRecruitmentPermit">無招聘許可，已返回</system:String>
     <system:String x:Key="NotEnoughStaff">可用幹員不足</system:String>
     <system:String x:Key="StageInfoError">關卡辨識錯誤</system:String>
     <system:String x:Key="BattleFormation">開始編隊</system:String>
