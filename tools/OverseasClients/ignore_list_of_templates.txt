@@ -64,6 +64,7 @@ BattleSkillReadyOnClick.png
 BattleSkillStopOnClick-SquareMap.png
 BattleSkillStopOnClick.png
 BattleSpeedUp.png
+BattleStartPlot.png
 BattleSupportUnitFormationSelect.png
 BuyIt.png
 ChooseBattleRecord.png
@@ -72,9 +73,11 @@ ChooseOriginiumShardTab.png
 ChooseProductList.png
 ChoosePureGold.png
 ChoosePureGoldTab.png
+ClickPlotStage.png
 CloseAnno.png
 CloseAnnoTexas.png
 CloseCluePage.png
+CloseHomeSanity.png
 CloseSendClue.png
 ClueGiveToNextPage.png
 ClueNew.png
@@ -91,6 +94,7 @@ CreditShop-Bought.png
 DroneAssistMfg.png
 empty.png
 EndOfAction.png
+EndOfPlot.png
 EnterChapterIS2.png
 EnterChooseLevelOfDifficulty.png
 EnterEpisode0.png
@@ -200,6 +204,7 @@ Reclamation@ResetScope.png
 Reclamation@ReturnInFocus.png
 Reclamation@SmallReturn.png
 RecruitConfirm.png
+RecruitNoPermit.png
 RecruitNoRefresh.png
 RecruitNowConfirm.png
 RecruitSkip.png

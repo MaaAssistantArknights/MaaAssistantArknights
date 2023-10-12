@@ -11,12 +11,12 @@
 #include "Task/Roguelike/RoguelikeDifficultySelectionTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeFormationTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeLastRewardTaskPlugin.h"
-#include "Task/Roguelike/RoguelikeStrategyChangeTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeRecruitTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeResetTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeShoppingTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeSkillSelectionTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeStageEncounterTaskPlugin.h"
+#include "Task/Roguelike/RoguelikeStrategyChangeTaskPlugin.h"
 #include "Utils/Logger.hpp"
 
 asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst)

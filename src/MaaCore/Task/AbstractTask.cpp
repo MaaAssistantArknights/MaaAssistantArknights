@@ -151,9 +151,9 @@ void asst::AbstractTask::click_return_button()
     ProcessTask(*this, { "Return" }).run();
 }
 
-bool asst::AbstractTask::save_img(const std::filesystem::path& relative_dir, bool auto_clean)
+bool asst::AbstractTask::save_img(const std::filesystem::path& relative_dir, bool use_cache, bool auto_clean)
 {
-    auto image = ctrler()->get_image();
+    auto image = use_cache ? ctrler()->get_image_cache() : ctrler()->get_image();
     if (image.empty()) {
         return false;
     }

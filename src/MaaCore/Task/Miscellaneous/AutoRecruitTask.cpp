@@ -190,8 +190,6 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_server(std::string server) noe
 
 bool asst::AutoRecruitTask::_run()
 {
-    if (m_force_discard_flag) return false;
-
     if (is_calc_only_task()) {
         return recruit_calc_task().success;
     }
@@ -211,9 +209,6 @@ bool asst::AutoRecruitTask::_run()
 
     // m_cur_times means how many times has the confirm button been pressed, NOT expedited plans used
     while (m_cur_times != m_max_times) {
-        if (m_force_discard_flag) {
-            return false;
-        }
 
         auto start_rect = try_get_start_button(ctrler()->get_image());
         if (start_rect) {
@@ -328,9 +323,8 @@ bool asst::AutoRecruitTask::recruit_one(const Rect& button)
 
     if (need_exit()) return false;
 
-    if (m_has_permit&&!confirm()) { // ran out of recruit permit?
+    if (!confirm()) {
         Log.info("Failed to confirm current recruit config.");
-        m_force_discard_flag = true;
         click_return_button();
         return false;
     }
@@ -524,7 +518,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
             json::value cb_info = basic_info();
             cb_info["what"] = "RecruitNoPermit";
-            cb_info["details"] = json::object { 
+            cb_info["details"] = json::object {
                 { "continue", continue_refresh },
             };
             callback(AsstMsg::SubTaskExtraInfo, cb_info);
