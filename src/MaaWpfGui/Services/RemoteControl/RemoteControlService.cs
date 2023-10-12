@@ -27,8 +27,10 @@ namespace MaaWpfGui.Services.RemoteControl
     {
         private readonly Task _pollJobTask = Task.CompletedTask;
         private readonly Task _executeJobTask = Task.CompletedTask;
+        private readonly Task _captureImageTask = Task.CompletedTask;
         private readonly List<string> _executedTaskIds = new List<string>();
         private readonly ConcurrentQueue<JObject> _taskQueue = new ConcurrentQueue<JObject>();
+        private readonly ConcurrentQueue<JObject> _captureImageQueue = new ConcurrentQueue<JObject>();
         private readonly RunningState _runningState;
 
         public RemoteControlService()
@@ -67,6 +69,22 @@ namespace MaaWpfGui.Services.RemoteControl
                 }
 
                 // ReSharper disable once FunctionNeverReturns
+            });
+
+            _captureImageTask = _captureImageTask.ContinueWith(async _ =>
+            {
+                while (true)
+                {
+                    await Task.Delay(1000);
+                    try
+                    {
+                        await CaptureImageLoop();
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Logger.Error(ex, "RemoteControl service raises unknown error.");
+                    }
+                }
             });
 
             _runningState = RunningState.Instance;
@@ -232,7 +250,74 @@ namespace MaaWpfGui.Services.RemoteControl
                     }
 
                     _executedTaskIds.Add(id);
+
+                    if (type == "CaptureImage") // 做一个特判来让截屏任务实时执行
+                    {
+                        _captureImageQueue.Enqueue(task);
+                        continue;
+                    }
+
                     _taskQueue.Enqueue(task);
+                }
+            }
+        }
+
+        private async Task CaptureImageLoop()
+        {
+            if (_captureImageQueue.TryDequeue(out var task))
+            {
+                var type = task.GetValue("type")?.Value<string>();
+                var id = task.GetValue("id")?.Value<string>();
+                var payload = string.Empty;
+                var status = "SUCCESS";
+
+                if (type == "CaptureImage")
+                {
+                    string errMsg = string.Empty;
+                    bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+                    if (connected)
+                    {
+                        var image = Instances.AsstProxy.AsstGetImage();
+                        if (image == null)
+                        {
+                            status = "FAILED";
+                            goto EndCapture;
+                        }
+
+                        byte[] bytes;
+                        using (MemoryStream stream = new MemoryStream())
+                        {
+                            PngBitmapEncoder encoder = new PngBitmapEncoder();
+                            encoder.Frames.Add(BitmapFrame.Create(image));
+                            encoder.Save(stream);
+                            bytes = stream.ToArray();
+                        }
+
+                        payload = Convert.ToBase64String(bytes);
+                        goto EndCapture;
+                    }
+                }
+
+                status = "FAILED";
+
+                EndCapture:
+                var endpoint = Instances.SettingsViewModel.RemoteControlReportStatusUri;
+                if (!string.IsNullOrWhiteSpace(endpoint) && endpoint.ToLower().StartsWith("https://"))
+                {
+                    var uid = Instances.SettingsViewModel.RemoteControlUserIdentity;
+                    var did = Instances.SettingsViewModel.RemoteControlDeviceIdentity;
+                    var response = await Instances.HttpService.PostAsJsonAsync(new Uri(endpoint), new
+                    {
+                        user = uid,
+                        device = did,
+                        status,
+                        task = id,
+                        payload,
+                    });
+                    if (response == null)
+                    {
+                        Log.Logger.Error("RemoteControlService report task failed.");
+                    }
                 }
             }
         }
@@ -304,36 +389,6 @@ namespace MaaWpfGui.Services.RemoteControl
                                 await Task.Delay(100); // 暂停100毫秒以避免密集循环
                             }
 
-                            break;
-                        }
-
-                    case "CaptureImage":
-                        {
-                            string errMsg = string.Empty;
-                            bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
-                            if (connected)
-                            {
-                                var image = Instances.AsstProxy.AsstGetImage();
-                                if (image == null)
-                                {
-                                    status = "FAILED";
-                                    break;
-                                }
-
-                                byte[] bytes;
-                                using (MemoryStream stream = new MemoryStream())
-                                {
-                                    PngBitmapEncoder encoder = new PngBitmapEncoder();
-                                    encoder.Frames.Add(BitmapFrame.Create(image));
-                                    encoder.Save(stream);
-                                    bytes = stream.ToArray();
-                                }
-
-                                payload = Convert.ToBase64String(bytes);
-                                break;
-                            }
-
-                            status = "FAILED";
                             break;
                         }
 
