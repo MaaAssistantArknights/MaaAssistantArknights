@@ -408,7 +408,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 #else
                 // 跑个空任务避免 async warning
-                await Task.Run(() => {});
+                await Task.Run(() => { });
 #endif
             }
         }
@@ -427,7 +427,7 @@ namespace MaaWpfGui.ViewModels.UI
             if (resRet == ResourceUpdater.UpdateResult.Success)
             {
                 Instances.SettingsViewModel.IsCheckingForUpdates = false;
-                return CheckUpdateRetT.OK;
+                return CheckUpdateRetT.OnlyGameResourceUpdated;
             }
 
             Instances.SettingsViewModel.IsCheckingForUpdates = false;
