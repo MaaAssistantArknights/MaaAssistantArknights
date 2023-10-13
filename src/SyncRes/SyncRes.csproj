@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Configurations>RelWithDebInfo;Release;Debug</Configurations>
     <Platforms>x64;ARM64</Platforms>
@@ -19,9 +19,5 @@
     <Message Text="Copying resource files" Importance="High" />
     <Copy SourceFiles="@(MaaResourceFiles)" DestinationFiles="$(MSBuildProjectDirectory)\..\..\$(Platform)\$(Configuration)\resource\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="true" UseHardlinksIfPossible="true" />
     <Copy SourceFiles="@(MaaPythonBinding)" DestinationFiles="$(MSBuildProjectDirectory)\..\..\$(Platform)\$(Configuration)\Python\%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="true" UseHardlinksIfPossible="true" />
-  </Target>
-  <Target Name="TaggifyVersion" BeforeTargets="Build">
-    <Exec Command="powershell ./TaggifyVersion.ps1" />
-    <Message Text="Taggify Version" Importance="High" />
   </Target>
 </Project>
