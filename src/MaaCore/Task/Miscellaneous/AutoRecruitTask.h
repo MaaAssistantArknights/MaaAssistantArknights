@@ -48,6 +48,7 @@ namespace asst
         bool hire_all();
         bool initialize_dirty_slot_info(const cv::Mat&);
         std::vector<std::string> get_tag_names(const std::vector<RecruitConfig::TagId>& ids) const;
+        std::vector<std::string> get_select_tags(const std::vector<RecruitCombs>& combinations);
         static std::vector<TextRect> start_recruit_analyze(const cv::Mat& image);
 
         template <typename Rng>
