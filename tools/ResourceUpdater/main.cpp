@@ -4,6 +4,7 @@
 
 #include "Utils/Ranges.hpp"
 #include "Utils/StringMisc.hpp"
+#include "Utils/Time.hpp"
 
 #ifdef _MSC_VER
 #pragma warning(push)
@@ -1204,6 +1205,8 @@ bool update_version_info(const std::filesystem::path& input_dir, const std::file
         result["activity"]["time"] = time;
         result["activity"]["name"] = name;
     }
+    static auto time = asst::utils::get_format_time();
+    result["last_updated"] = time;
 
     std::ofstream ofs(output_dir / "version.json", std::ios::out);
     ofs << result.format() << std::endl;

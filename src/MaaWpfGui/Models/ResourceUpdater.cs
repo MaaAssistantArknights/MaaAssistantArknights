@@ -12,6 +12,8 @@ namespace MaaWpfGui.Models
 {
     public static class ResourceUpdater
     {
+        private const string _MaaResourceVersion = "resource/version.json";
+
         private static readonly List<string> _MaaSingleFiles = new List<string>
         {
             "resource/Arknights-Tile-Pos/overview.json",
@@ -20,19 +22,19 @@ namespace MaaWpfGui.Models
             "resource/item_index.json",
             "resource/battle_data.json",
             "resource/infrast.json",
-            "resource/version.json",
             "resource/global/YoStarJP/resource/recruitment.json",
             "resource/global/YoStarJP/resource/item_index.json",
-            "resource/global/YoStarJP/resource/version.json",
             "resource/global/YoStarEN/resource/recruitment.json",
             "resource/global/YoStarEN/resource/item_index.json",
-            "resource/global/YoStarEN/resource/version.json",
             "resource/global/YoStarKR/resource/recruitment.json",
             "resource/global/YoStarKR/resource/item_index.json",
-            "resource/global/YoStarKR/resource/version.json",
             "resource/global/txwy/resource/recruitment.json",
             "resource/global/txwy/resource/item_index.json",
+            "resource/global/YoStarJP/resource/version.json",
+            "resource/global/YoStarEN/resource/version.json",
+            "resource/global/YoStarKR/resource/version.json",
             "resource/global/txwy/resource/version.json",
+            "resource/version.json",
         };
 
         private const string _MaaDynamicFilesIndex = "resource/dynamic_list.txt";
@@ -63,7 +65,7 @@ namespace MaaWpfGui.Models
         private static async Task<string> GetResourceAPI()
         {
             var response = await Instances.HttpService.GetAsync(new Uri(MaaUrls.AnnMirrorResourceApi), httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
-            if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
+            if (response?.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 return MaaUrls.AnnMirrorResourceApi;
             }
@@ -71,13 +73,47 @@ namespace MaaWpfGui.Models
             return MaaUrls.MaaResourceApi;
         }
 
+        private static async Task<bool> CheckUpdate(string baseUrl)
+        {
+            var url = baseUrl + _MaaResourceVersion;
+
+            var response = await ETagCache.FetchResponseWithEtag(url);
+            if (response == null || response.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                return false;
+            }
+
+            _ = Execute.OnUIThreadAsync(() =>
+            {
+                using var toast = new ToastNotification(LocalizationHelper.GetString("GameResourceUpdating"));
+                toast.Show();
+            });
+
+            return true;
+        }
+
         public static async Task<UpdateResult> Update()
         {
-            _updating = false;
-
             var baseUrl = await GetResourceAPI();
-            var ret2 = await UpdateFilesWithIndex(baseUrl);
-            var ret1 = await UpdateSingleFiles(baseUrl);
+            bool need_update = await CheckUpdate(baseUrl);
+            if (!need_update)
+            {
+                return UpdateResult.NotModified;
+            }
+
+            var ret1 = await UpdateFilesWithIndex(baseUrl);
+            ETagCache.Save();
+
+            if (ret1 == UpdateResult.Failed)
+            {
+                // 模板图片如果没更新成功，但是item_index.json更新成功了，这种情况会导致
+                // 下次启动时检查item_index发现对应的文件不存在，则会弹窗报错
+                // 所以如果模板图片没更新成功，干脆就不更新item_index.json了
+                // 地图数据等也是同理
+                return UpdateResult.Failed;
+            }
+
+            var ret2 = await UpdateSingleFiles(baseUrl);
             ETagCache.Save();
 
             if (ret1 == UpdateResult.Failed || ret2 == UpdateResult.Failed)
@@ -194,8 +230,6 @@ namespace MaaWpfGui.Models
             return ret;
         }
 
-        private static bool _updating;
-
         private static async Task<UpdateResult> UpdateFileWithETag(string baseUrl, string file, string saveTo)
         {
             saveTo = Path.Combine(Environment.CurrentDirectory, saveTo);
@@ -217,16 +251,6 @@ namespace MaaWpfGui.Models
             {
                 // TODO: log
                 return UpdateResult.Failed;
-            }
-
-            if (!_updating)
-            {
-                _updating = true;
-                _ = Execute.OnUIThreadAsync(() =>
-                {
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("GameResourceUpdating"));
-                    toast.Show();
-                });
             }
 
             var tempFile = saveTo + ".tmp";
