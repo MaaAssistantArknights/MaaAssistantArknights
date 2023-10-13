@@ -1065,7 +1065,6 @@
         "exceededNext": [],
         "next": [
             "StageQueue@StartButton2",
-            "StageQueue@StartButton2Adverse",
             "StageQueue@UseMedicine",
             "StageQueue@UseStone",
             "StageQueue@NoStone",
@@ -3254,8 +3253,7 @@
         ],
         "reduceOtherTimes": [
             "StartButton1",
-            "StartButton2",
-            "StartButton2Adverse"
+            "StartButton2"
         ],
         "next": [
             "StartUpThemes#next",
@@ -3567,8 +3565,7 @@
         ],
         "reduceOtherTimes": [
             "StartButton1",
-            "StartButton2",
-            "StartButton2Adverse"
+            "StartButton2"
         ],
         "next": [
             "OfflineConfirmImpl"
@@ -3633,8 +3630,7 @@
             "Fight@UsePrts",
             "Fight@UsePrts-StageSN",
             "Fight@StartButton1",
-            "Fight@PRTS#next",
-            "Fight@EndOfAction"
+            "Fight@PRTS#next"
         ]
     },
     "LastOrCurBattleBegin": {
@@ -3648,8 +3644,7 @@
             "Fight@ReturnButtons#next",
             "Fight",
             "Fight@CloseAnnos#next",
-            "Fight@PRTS#next",
-            "Fight@EndOfAction"
+            "Fight@PRTS#next"
         ]
     },
     "UsePrts": {
@@ -3727,7 +3722,6 @@
         ],
         "next": [
             "StartButton2",
-            "StartButton2Adverse",
             "UseMedicine",
             "UseStone",
             "NoStone",
@@ -3796,6 +3790,10 @@
         ]
     },
     "StartButton2": {
+        "template": [
+            "StartButton2.png",
+            "StartButton2Adverse.png"
+        ],
         "action": "ClickSelf",
         "preDelay": 1000,
         "roi": [
@@ -3810,51 +3808,19 @@
         ]
     },
     "StartButton2TryAgain": {
-        "action": "ClickSelf",
-        "template": "StartButton2.png",
-        "roi": [
-            1000,
-            350,
-            220,
-            340
+        "baseTask": "StartButton2",
+        "template": [
+            "StartButton2.png",
+            "StartButton2Adverse.png"
         ],
-        "next": [
-            "StartButton2#next"
-        ]
+        "preDelay": 0
     },
     "StartButton2WaitTime": {
         "algorithm": "JustReturn",
         "postDelay": 40000,
         "next": [
             "PRTS#next",
-            "EndOfAction",
             "StartButton2TryAgain",
-            "PrtsErrorConfirm",
-            "OfflineConfirm",
-            "WaitAfterPRTS"
-        ]
-    },
-    "StartButton2Adverse": {
-        "baseTask": "StartButton2",
-        "next": [
-            "StartButton2AdverseTryAgain",
-            "StartButton2AdverseWaitTime"
-        ]
-    },
-    "StartButton2AdverseTryAgain": {
-        "baseTask": "StartButton2TryAgain",
-        "template": "StartButton2Adverse.png",
-        "next": [
-            "StartButton2Adverse#next"
-        ]
-    },
-    "StartButton2AdverseWaitTime": {
-        "baseTask": "StartButton2WaitTime",
-        "next": [
-            "PRTS#next",
-            "EndOfAction",
-            "StartButton2AdverseTryAgain",
-            "PrtsErrorConfirm",
             "OfflineConfirm",
             "WaitAfterPRTS"
         ]
@@ -3866,6 +3832,8 @@
             "PRTS1",
             "PRTS2",
             "PRTS3",
+            "EndOfAction",
+            "PrtsErrorConfirm",
             "FightMissionFailed"
         ]
     },
@@ -3885,8 +3853,6 @@
         "postDelay": 5000,
         "next": [
             "PRTS#next",
-            "EndOfAction",
-            "PrtsErrorConfirm",
             "OfflineConfirm",
             "WaitAfterPRTS"
         ]
@@ -3922,7 +3888,6 @@
         "action": "DoNothing",
         "next": [
             "PRTS#next",
-            "EndOfAction",
             "WaitAfterPRTS@LoadingText",
             "WaitAfterPRTS@LoadingIcon",
             "ClickCornerAfterPRTS"
@@ -4016,7 +3981,6 @@
         "next": [
             "StartButton1",
             "StartButton2",
-            "StartButton2Adverse",
             "UseMedicine",
             "UseStone",
             "NoStone",
@@ -4274,7 +4238,6 @@
         ],
         "next": [
             "PRTS#next",
-            "PrtsErrorConfirm",
             "OfflineConfirm",
             "StartUpThemes#next",
             "OfflineConfirmAfterBattle"
@@ -4284,8 +4247,7 @@
         "action": "ClickSelf",
         "reduceOtherTimes": [
             "StartButton1",
-            "StartButton2",
-            "StartButton2Adverse"
+            "StartButton2"
         ],
         "roi": [
             0,
