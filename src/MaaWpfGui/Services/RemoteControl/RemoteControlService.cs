@@ -437,7 +437,9 @@ namespace MaaWpfGui.Services.RemoteControl
             {
                 var type = task.GetValue("type")?.Value<string>();
                 var id = task.GetValue("id")?.Value<string>();
-                var data = task.GetValue("params")?.Value<string>();
+
+                // 当前没有任务需要读取params,未来需要时可以取消注释
+                // var data = task.GetValue("params")?.Value<string>();
                 var payload = string.Empty;
                 var status = "SUCCESS";
 
