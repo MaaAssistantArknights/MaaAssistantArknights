@@ -27,15 +27,13 @@ jobs:
   smoke-testing:
     runs-on: windows-latest
     steps:
-      - name: Setup .NET SDK 8.0
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 8.0.100-rc.2
-          
       - uses: actions/checkout@v3
       
-      - name: Restore dependencies
-        run: dotnet restore
+      - uses: NuGet/setup-nuget@v1.2.0
+      - run: |
+          nuget restore MAA.sln
+          if ($LASTEXITCODE) { nuget restore MAA.sln }
+          if ($LASTEXITCODE) { nuget restore MAA.sln }
       
       - name: Bootstrap MaaDeps
         env:
