@@ -15,6 +15,11 @@ namespace MaaWpfGui.Helper
             saveTo = Path.Combine(Environment.CurrentDirectory, saveTo);
 
             var tempFile = saveTo + ".tmp";
+            if (File.Exists(tempFile))
+            {
+                File.Delete(tempFile);
+            }
+
             try
             {
                 using var stream = await GetStreamAsync(response);
