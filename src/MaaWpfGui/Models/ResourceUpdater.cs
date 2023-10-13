@@ -99,7 +99,7 @@ namespace MaaWpfGui.Models
             var url = baseUrl + MaaResourceVersion;
 
             var response = await ETagCache.FetchResponseWithEtag(url);
-            if (response == null || response.StatusCode != System.Net.HttpStatusCode.OK)
+            if (!(response is { StatusCode: System.Net.HttpStatusCode.OK }))
             {
                 return false;
             }
