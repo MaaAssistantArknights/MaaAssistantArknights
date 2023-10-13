@@ -574,20 +574,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             return result;
         }
 
-        std::unordered_set<std::string> final_select;
-        while (final_select.size() < 3) {
-            bool flag = false;
-            for (const asst::RecruitCombs& comb : result_vec) {
-                for (const std::string& tag : comb.tags) {
-                    final_select.insert(tag);
-                    if (final_select.size() == 3) {
-                        flag = true;
-                        break;
-                    }
-                }
-                if (flag) break;
-            }
-        }
+        auto final_select = get_select_tags(result_vec);
 
         // select tags
         for (const std::string& final_tag_name : final_select) {
@@ -600,7 +587,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         {
             json::value cb_info = basic_info();
             cb_info["what"] = "RecruitTagsSelected";
-            cb_info["details"] = json::object { { "tags", json::array(get_tag_names(final_combination.tags)) } };
+            cb_info["details"] = json::object { { "tags", json::array(get_tag_names(final_select)) } };
             callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
@@ -714,6 +701,25 @@ std::vector<std::string> asst::AutoRecruitTask::get_tag_names(const std::vector<
         names.emplace_back(RecruitData.get_tag_name(id));
     }
     return names;
+}
+
+std::vector<std::string> asst::AutoRecruitTask::get_select_tags(const std::vector<RecruitCombs>& conbinations)
+{
+    LogTraceFunction;
+    std::unordered_set<std::string> unique_tags;
+    std::vector<std::string> select;
+
+    while (select.size() < 3) {
+        for (const asst::RecruitCombs& comb : conbinations)
+            for (const std::string& tag : comb.tags) {
+                if (unique_tags.find(tag) == unique_tags.cend()) {
+                    unique_tags.insert(tag);
+                    select.emplace_back(tag);
+                    if (select.size() == 3) return select;
+                }
+            }
+    }
+    return select;
 }
 
 template <typename Rng>
