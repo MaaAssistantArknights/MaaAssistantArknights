@@ -47,7 +47,7 @@ namespace MaaWpfGui.Models
             "resource/global/YoStarEN/resource/version.json",
             "resource/global/YoStarKR/resource/version.json",
             "resource/global/txwy/resource/version.json",
-            "resource/version.json",
+            "resource/version.json",    // 这个要放在最后，因为依赖 version.json 检查整体是否需要更新
         };
 
         private const string MaaDynamicFilesIndex = "resource/dynamic_list.txt";
@@ -189,18 +189,31 @@ namespace MaaWpfGui.Models
         // 这些文件数量不固定，需要先获取索引文件，再根据索引文件下载
         private static async Task<UpdateResult> UpdateFilesWithIndex(string baseUrl)
         {
-            var response = await ETagCache.FetchResponseWithEtag(baseUrl + MaaDynamicFilesIndex);
-
-            // 等所有文件都下载成功再保存 dynamic_list 的 etag，否则可能会导致索引文件和实际文件不一致
-            var indexSRet = ResponseToUpdateResult(response);
-
-            if (indexSRet != UpdateResult.Success)
+            var indexSRet = await UpdateFileWithETag(baseUrl, MaaDynamicFilesIndex, MaaDynamicFilesIndex);
+            switch (indexSRet)
             {
-                return indexSRet;
+                case UpdateResult.Failed:
+                    return UpdateResult.Failed;
+
+                case UpdateResult.Success:
+                    ETagCache.Save();
+                    break;
+
+                case UpdateResult.NotModified:
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            var indexPath = Path.Combine(Environment.CurrentDirectory, MaaDynamicFilesIndex);
+            if (!File.Exists(indexPath))
+            {
+                return UpdateResult.Failed;
             }
 
             var ret = UpdateResult.NotModified;
-            var context = await HttpResponseHelper.GetStringAsync(response);
+            var context = File.ReadAllText(indexPath);
 
             // ReSharper disable once AsyncVoidLambda
             context.Split('\n').ToList().ForEach(async file =>
@@ -235,13 +248,6 @@ namespace MaaWpfGui.Models
                     // ignore
                 }
             });
-
-            if (ret == UpdateResult.Success)
-            {
-                var indexPath = Path.Combine(Environment.CurrentDirectory, MaaDynamicFilesIndex);
-                await HttpResponseHelper.SaveResponseToFileAsync(response, indexPath);
-                ETagCache.Set(response);
-            }
 
             ETagCache.Save();
 
