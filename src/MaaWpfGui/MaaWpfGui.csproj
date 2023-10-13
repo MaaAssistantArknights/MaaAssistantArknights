@@ -1,5 +1,5 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <Target Name="TaggifyVersion" BeforeTargets="Build">
+<Project Sdk="Microsoft.NET.Sdk" InitialTargets="TaggifyVersion">
+  <Target Name="TaggifyVersion">
     <Exec Command="powershell ./TaggifyVersion.ps1" />
     <Message Text="Taggify Version" Importance="High" />
   </Target>
@@ -71,10 +71,6 @@
         <PropertyChanged />
       </Weavers>
     </WeaverConfiguration>
-    <AssemblyVersion>4.25.1</AssemblyVersion>
-    <FileVersion>4.25.1</FileVersion>
-    <InformationalVersion>v4.25.1-alpha.1.d009.ga3f04669d</InformationalVersion>
-    <Version>$(AssemblyVersion)</Version>
   </PropertyGroup> 
 
   <ItemGroup>
