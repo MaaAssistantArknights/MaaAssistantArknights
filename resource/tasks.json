@@ -3741,15 +3741,14 @@
         "exceededNext": [],
         "reduceOtherTimes": [],
         "preDelay": 0,
-        "rectMoveDoc": "点击“行动”避免第二次点击时点到StartButton2",
+        "postDelay_Doc": "理智不足时弹出吃药界面约需两秒，理智足够则不到一秒就能进入StartButton2",
+        "postDelay": 3000,
+        "rectMove_Doc": "点击“行动”避免第二次点击时点到StartButton2",
         "rectMove": [
             38,
             0,
             35,
             17
-        ],
-        "next": [
-            "StartButton1#next"
         ]
     },
     "AnnihilationConfirm": {
