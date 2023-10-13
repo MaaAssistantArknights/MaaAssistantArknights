@@ -374,7 +374,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
                 }
             }
             else {
-                Log.error(m_stage_name, "operator", oper.name, "is not in the deploy plan.");
+                Log.trace(m_stage_name, "operator", oper.name, "is not in the deploy plan.");
             }
         }
     }
