@@ -102,7 +102,6 @@ std::optional<int> asst::PosixIO::call_command(const std::string& cmd, const boo
             ::close(client_socket);
         }
 
-
         // has the child exited in the loop?
         bool child_exited = false;
 

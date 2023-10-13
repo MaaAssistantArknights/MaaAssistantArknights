@@ -12,6 +12,8 @@ namespace MaaWpfGui.Models
 {
     public static class ResourceUpdater
     {
+        private const string MaaResourceVersion = "resource/version.json";
+
         private static readonly List<string> _maaSingleFiles = new List<string>
         {
             "resource/Arknights-Tile-Pos/overview.json",
@@ -20,19 +22,19 @@ namespace MaaWpfGui.Models
             "resource/item_index.json",
             "resource/battle_data.json",
             "resource/infrast.json",
-            "resource/version.json",
             "resource/global/YoStarJP/resource/recruitment.json",
             "resource/global/YoStarJP/resource/item_index.json",
-            "resource/global/YoStarJP/resource/version.json",
             "resource/global/YoStarEN/resource/recruitment.json",
             "resource/global/YoStarEN/resource/item_index.json",
-            "resource/global/YoStarEN/resource/version.json",
             "resource/global/YoStarKR/resource/recruitment.json",
             "resource/global/YoStarKR/resource/item_index.json",
-            "resource/global/YoStarKR/resource/version.json",
             "resource/global/txwy/resource/recruitment.json",
             "resource/global/txwy/resource/item_index.json",
+            "resource/global/YoStarJP/resource/version.json",
+            "resource/global/YoStarEN/resource/version.json",
+            "resource/global/YoStarKR/resource/version.json",
             "resource/global/txwy/resource/version.json",
+            "resource/version.json",
         };
 
         private const string MaaDynamicFilesIndex = "resource/dynamic_list.txt";
@@ -68,27 +70,60 @@ namespace MaaWpfGui.Models
                 : MaaUrls.MaaResourceApi;
         }
 
+        private static async Task<bool> CheckUpdate(string baseUrl)
+        {
+            var url = baseUrl + MaaResourceVersion;
+
+            var response = await ETagCache.FetchResponseWithEtag(url);
+            if (response == null || response.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                return false;
+            }
+
+            _ = Execute.OnUIThreadAsync(() =>
+            {
+                using var toast = new ToastNotification(LocalizationHelper.GetString("GameResourceUpdating"));
+                toast.Show();
+            });
+
+            return true;
+        }
+
         public static async Task<UpdateResult> Update()
         {
-            _updating = false;
-
             var baseUrl = await GetResourceApi();
-
-            var ret = await UpdateFilesWithIndex(baseUrl);
-            if (ret == UpdateResult.Failed)
+            bool needUpdate = await CheckUpdate(baseUrl);
+            if (!needUpdate)
             {
+                return UpdateResult.NotModified;
+            }
+
+            var ret1 = await UpdateFilesWithIndex(baseUrl);
+            ETagCache.Save();
+
+            if (ret1 == UpdateResult.Failed)
+            {
+                // 模板图片如果没更新成功，但是item_index.json更新成功了，这种情况会导致
+                // 下次启动时检查item_index发现对应的文件不存在，则会弹窗报错
+                // 所以如果模板图片没更新成功，干脆就不更新item_index.json了
+                // 地图数据等也是同理
                 return UpdateResult.Failed;
             }
 
             var ret2 = await UpdateSingleFiles(baseUrl);
-            if(ret2 == UpdateResult.Failed)
+            ETagCache.Save();
+
+            if (ret2 == UpdateResult.Failed)
             {
                 return UpdateResult.Failed;
             }
 
-            return ret == UpdateResult.NotModified && ret2 == UpdateResult.NotModified
-                ? UpdateResult.NotModified
-                : UpdateResult.Success;
+            if (ret1 == UpdateResult.Success || ret2 == UpdateResult.Success)
+            {
+                return UpdateResult.Success;
+            }
+
+            return UpdateResult.NotModified;
         }
 
         private static async Task<UpdateResult> UpdateSingleFiles(string baseUrl)
@@ -206,8 +241,6 @@ namespace MaaWpfGui.Models
                 : UpdateResult.Failed;
         }
 
-        private static bool _updating;
-
         private static async Task<UpdateResult> UpdateFileWithETag(string baseUrl, string file, string saveTo)
         {
             saveTo = Path.Combine(Environment.CurrentDirectory, saveTo);
@@ -219,16 +252,6 @@ namespace MaaWpfGui.Models
             if (updateResult != UpdateResult.Success)
             {
                 return updateResult;
-            }
-
-            if (!_updating)
-            {
-                _updating = true;
-                _ = Execute.OnUIThreadAsync(() =>
-                {
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("GameResourceUpdating"));
-                    toast.Show();
-                });
             }
 
             if (!await HttpResponseHelper.SaveResponseToFileAsync(response, saveTo))

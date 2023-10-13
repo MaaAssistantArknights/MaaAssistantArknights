@@ -560,9 +560,11 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="TheEx">EX 스테이지가 없어 중단되었습니다</system:String>
     <system:String x:Key="StageQueue">레벨 대기열:</system:String>
     <system:String x:Key="UnableToAgent">프록시 명령을 사용할 수 없습니다</system:String>
-    <system:String x:Key="CurrentSanity">현재 이성:</system:String>
     <system:String x:Key="MissionStart">행동 개시</system:String>
     <system:String x:Key="UnitTime">회</system:String>
+    <system:String x:Key="CurrentSanity">제정신:</system:String>
+    <system:String x:Key="MedicineUsedTimes">약:</system:String>
+    <system:String x:Key="StoneUsedTimes">결석:</system:String>
     <system:String x:Key="MedicineUsed">이성 회복 아이템을 사용했습니다</system:String>
     <system:String x:Key="ExpiringMedicineUsed">만료가 임박한 이성 회복 아이템을 사용했습니다</system:String>
     <system:String x:Key="StoneUsed">순오리지늄을 사용했습니다</system:String>
