@@ -87,7 +87,7 @@ namespace MaaWpfGui.Helper
 
         public static async Task<HttpResponseMessage> FetchResponseWithEtag(string url, bool force = false)
         {
-            var etag = !force ? Get(url) : string.Empty;
+            var etag = force ? string.Empty : Get(url);
             Dictionary<string, string> headers = new Dictionary<string, string>
             {
                 { "Accept", "application/octet-stream" },
