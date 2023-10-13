@@ -116,7 +116,7 @@ bool asst::FightTask::set_params(const json::value& params)
         .set_times_limit("StartButton2", times);
     m_dr_grandet_task_plugin_ptr->set_enable(is_dr_grandet);
     m_stage_drops_plugin_ptr->set_enable_penguid(enable_penguid);
-    m_stage_drops_plugin_ptr->set_penguin_id(std::move(penguin_id));
+    m_stage_drops_plugin_ptr->set_penguin_id(penguin_id);
 
     m_sidestory_reopen_task_ptr->set_medicine(medicine);
     m_sidestory_reopen_task_ptr->set_expiring_medicine(expiring_medicine);

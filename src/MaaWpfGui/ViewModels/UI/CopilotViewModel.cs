@@ -38,11 +38,12 @@ namespace MaaWpfGui.ViewModels.UI
     /// <summary>
     /// The view model of copilot.
     /// </summary>
-    // 通过 container.Get<CopilotViewModel>(); 实例化或获取实例，需要添加 qodana ignore rule
+    // 通过 container.Get<CopilotViewModel>(); 实例化或获取实例
     // ReSharper disable once ClassNeverInstantiated.Global
     public class CopilotViewModel : Screen
     {
         private readonly RunningState _runningState;
+        private static readonly ILogger _logger = Log.ForContext<CopilotViewModel>();
 
         /// <summary>
         /// Gets the view models of log items.
@@ -101,7 +102,7 @@ namespace MaaWpfGui.ViewModels.UI
             // LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
         }
 
-        private bool _idle = true;
+        private bool _idle;
 
         /// <summary>
         /// Gets or sets a value indicating whether it is idle.
@@ -159,7 +160,8 @@ namespace MaaWpfGui.ViewModels.UI
         private async Task UpdateFileDoc(string filename)
         {
             ClearLog();
-            Url = CopilotUiUrl;
+            CopilotUrl = CopilotUiUrl;
+            MapUrl = MapUiUrl;
             _isVideoTask = false;
 
             string jsonStr;
@@ -255,6 +257,11 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
+                if (json.TryGetValue("stage_name", out var stageNameValue))
+                {
+                    MapUrl = MapUiUrl.Replace("areas", "map/" + stageNameValue);
+                }
+
                 AddLog(LocalizationHelper.GetString("CopilotTip"));
 
                 var doc = (JObject)json["doc"];
@@ -263,13 +270,26 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     title = titleValue.ToString();
 
-                    // 为自动作战列表匹配名字
-                    var linkParser = new Regex(@"([a-z]{0,3})(\d{0,2})-(EX-)?(\d{1,2})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-                    foreach (Match match in linkParser.Matches(title))
+                    do
                     {
-                        CopilotTaskName = match.Value;
-                        break;
+                        // 为自动作战列表匹配名字
+                        var stageNameParser = new Regex(@"([a-z]{0,3})(\d{0,2})-(EX-)?(\d{1,2})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                        var stageNameResult = stageNameParser.Matches(title);
+                        if (stageNameResult.Count > 0)
+                        {
+                            CopilotTaskName = stageNameResult[0].Value;
+                            break;
+                        }
+
+                        if (!IsDataFromWeb && (stageNameResult = stageNameParser.Matches(_filename)).Count > 0)
+                        {
+                            CopilotTaskName = stageNameResult[0].Value;
+                            break;
+                        }
+
+                        CopilotTaskName = string.Empty;
                     }
+                    while (false);
                 }
 
                 if (title.Length != 0)
@@ -299,21 +319,21 @@ namespace MaaWpfGui.ViewModels.UI
 
                     AddLog(details, detailsColor);
                     {
-                        Url = CopilotUiUrl;
-                        var linkParser = new Regex(@"AV\d+|(BV.*?).{10}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                        CopilotUrl = CopilotUiUrl;
+                        var linkParser = new Regex(@"(?:av\d+|bv[a-z0-9]{10})(?:\/\?p=\d+)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                         foreach (Match match in linkParser.Matches(details))
                         {
-                            Url = MaaUrls.BilibiliVideo + match.Value;
+                            CopilotUrl = MaaUrls.BilibiliVideo + match.Value;
                             break;
                         }
 
-                        if (string.IsNullOrEmpty(Url))
+                        if (string.IsNullOrEmpty(CopilotUrl))
                         {
                             linkParser = new Regex(@"(?:https?://)\S+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
                             foreach (Match m in linkParser.Matches(details))
                             {
-                                Url = m.Value;
+                                CopilotUrl = m.Value;
                                 break;
                             }
                         }
@@ -370,11 +390,13 @@ namespace MaaWpfGui.ViewModels.UI
                     _taskType = "Copilot";
                 }
 
-                if (IsDataFromWeb)
+                if (!IsDataFromWeb)
                 {
-                    File.Delete(TempCopilotFile);
-                    File.WriteAllText(TempCopilotFile, json.ToString());
+                    return;
                 }
+
+                File.Delete(TempCopilotFile);
+                File.WriteAllText(TempCopilotFile, json.ToString());
             }
             catch (Exception)
             {
@@ -520,7 +542,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _userAdditional = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotUserAdditional, "W,2;Friston-3,1");
+        private string _userAdditional = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotUserAdditional, string.Empty);
 
         /// <summary>
         /// Gets or sets a value indicating whether to use auto-formation.
@@ -538,7 +560,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets a value indicating whether to use auto-formation.
         /// </summary>
-        private bool _useCopilotList = false;
+        private bool _useCopilotList;
 
         public bool UseCopilotList
         {
@@ -782,18 +804,24 @@ namespace MaaWpfGui.ViewModels.UI
                 bool startAny = false;
                 foreach (var model in CopilotItemViewModels)
                 {
-                    if (model.IsChecked)
+                    if (!model.IsChecked)
                     {
-                        ret &= Instances.AsstProxy.AsstStartCopilot(model.FilePath, Form, AddTrust, AddUserAdditional, mUserAdditional, UseCopilotList, model.Name.Replace("-Adverse", string.Empty), model.Name.Contains("-Adverse"), _taskType, Loop ? LoopTimes : 1, false);
-                        startAny = true;
+                        continue;
                     }
+
+                    ret &= Instances.AsstProxy.AsstStartCopilot(model.FilePath, Form, AddTrust, AddUserAdditional, mUserAdditional, UseCopilotList, model.Name.Replace("-Adverse", string.Empty), model.Name.Contains("-Adverse"), _taskType, Loop ? LoopTimes : 1, false);
+                    startAny = true;
                 }
 
                 ret &= Instances.AsstProxy.AsstStart();
                 if (!startAny)
                 {
                     // 一个都没启动，怎会有如此无聊之人
-                    Instances.AsstProxy.AsstStop();
+                    if (!Instances.AsstProxy.AsstStop())
+                    {
+                        _logger.Warning("Failed to stop Asst");
+                    }
+
                     _runningState.SetIdle(true);
                     return;
                 }
@@ -809,7 +837,11 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else
             {
-                Instances.AsstProxy.AsstStop();
+                if (!Instances.AsstProxy.AsstStop())
+                {
+                    _logger.Warning("Failed to stop Asst");
+                }
+
                 _runningState.SetIdle(true);
                 AddLog(LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error);
             }
@@ -827,7 +859,11 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public void Stop()
         {
-            Instances.AsstProxy.AsstStop();
+            if (!Instances.AsstProxy.AsstStop())
+            {
+                _logger.Warning("Failed to stop Asst");
+            }
+
             _runningState.SetIdle(true);
         }
 
@@ -914,8 +950,6 @@ namespace MaaWpfGui.ViewModels.UI
             AddLog(LocalizationHelper.GetString("ThanksForLikeWebJson"), UiLogColor.Info);
         }
 
-        private const string CopilotUiUrl = MaaUrls.PrtsPlus;
-        private string _url = MaaUrls.PrtsPlus;
         private string _urlText = LocalizationHelper.GetString("PrtsPlus");
 
         /// <summary>
@@ -927,17 +961,31 @@ namespace MaaWpfGui.ViewModels.UI
             private set => SetAndNotify(ref _urlText, value);
         }
 
+        private const string CopilotUiUrl = MaaUrls.PrtsPlus;
+
+        private string _copilotUrl = CopilotUiUrl;
+
         /// <summary>
         /// Gets or private sets the copilot URL.
         /// </summary>
-        public string Url
+        public string CopilotUrl
         {
-            get => _url;
+            get => _copilotUrl;
             private set
             {
                 UrlText = value == CopilotUiUrl ? LocalizationHelper.GetString("PrtsPlus") : LocalizationHelper.GetString("VideoLink");
-                SetAndNotify(ref _url, value);
+                SetAndNotify(ref _copilotUrl, value);
             }
+        }
+
+        private const string MapUiUrl = MaaUrls.MapPrts;
+
+        private string _mapUrl = MapUiUrl;
+
+        public string MapUrl
+        {
+            get => _mapUrl;
+            private set => SetAndNotify(ref _mapUrl, value);
         }
 
         /// <summary>

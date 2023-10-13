@@ -152,6 +152,12 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_set_time(bool set_time) noexce
     return *this;
 }
 
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_force_refresh(bool force_refresh) noexcept
+{
+    m_force_refresh = force_refresh;
+    return *this;
+}
+
 asst::AutoRecruitTask& asst::AutoRecruitTask::set_recruitment_time(std::unordered_map<int, int> time_map) noexcept
 {
     m_desired_time_map = std::move(time_map);
@@ -184,8 +190,6 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_server(std::string server) noe
 
 bool asst::AutoRecruitTask::_run()
 {
-    if (m_force_discard_flag) return false;
-
     if (is_calc_only_task()) {
         return recruit_calc_task().success;
     }
@@ -205,9 +209,6 @@ bool asst::AutoRecruitTask::_run()
 
     // m_cur_times means how many times has the confirm button been pressed, NOT expedited plans used
     while (m_cur_times != m_max_times) {
-        if (m_force_discard_flag) {
-            return false;
-        }
 
         auto start_rect = try_get_start_button(ctrler()->get_image());
         if (start_rect) {
@@ -219,6 +220,7 @@ bool asst::AutoRecruitTask::_run()
             if (m_slot_fail >= slot_retry_limit) {
                 return false;
             }
+            if (!m_has_permit && (!m_force_refresh || !m_has_refresh)) return true;
         }
         else {
             if (!check_recruit_home_page()) return false;
@@ -321,9 +323,8 @@ bool asst::AutoRecruitTask::recruit_one(const Rect& button)
 
     if (need_exit()) return false;
 
-    if (!confirm()) { // ran out of recruit permit?
+    if (!confirm()) {
         Log.info("Failed to confirm current recruit config.");
-        m_force_discard_flag = true;
         click_return_button();
         return false;
     }
@@ -348,7 +349,8 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         if (image_analyzer.get_tags_result().size() != RecruitConfig::CorrectNumberOfTags) continue;
 
         const std::vector<TextRect>& tags = image_analyzer.get_tags_result();
-        bool has_refresh = !image_analyzer.get_refresh_rect().empty();
+        m_has_refresh = !image_analyzer.get_refresh_rect().empty();
+        m_has_permit = image_analyzer.get_permit_rect().empty();
 
         std::vector<RecruitConfig::TagId> tag_ids;
         ranges::transform(tags, std::back_inserter(tag_ids), std::mem_fn(&TextRect::text));
@@ -475,7 +477,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         if (need_exit()) return {};
 
         // refresh
-        if (m_need_refresh && has_refresh && !has_special_tag && final_combination.min_level == 3 &&
+        if (m_need_refresh && m_has_refresh && !has_special_tag && final_combination.min_level == 3 &&
             !(m_skip_robot && has_robot_tag)) {
             if (refresh_count > refresh_limit) [[unlikely]] {
                 json::value cb_info = basic_info();
@@ -510,6 +512,23 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         }
 
         if (need_exit()) return {};
+
+        if (!m_has_permit) {
+            bool continue_refresh = m_force_refresh && m_has_refresh;
+
+            json::value cb_info = basic_info();
+            cb_info["what"] = "RecruitNoPermit";
+            cb_info["details"] = json::object {
+                { "continue", continue_refresh },
+            };
+            callback(AsstMsg::SubTaskExtraInfo, cb_info);
+            Log.trace("No recruit permit");
+
+            calc_task_result_type result;
+            result.success = true;
+            result.force_skip = true;
+            return result;
+        }
 
         if (!is_calc_only_task()) {
             // do not confirm, force skip

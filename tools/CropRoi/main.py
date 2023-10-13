@@ -1,5 +1,5 @@
 import cv2
-import os
+from pathlib import Path
 
 
 print("Usage:\n"
@@ -44,12 +44,12 @@ std_ratio = std_width / std_height
 cv2.namedWindow("image")
 cv2.setMouseCallback("image", click_and_crop)
 
-for filename in os.listdir("./src"):
-    if not filename.endswith(".png"):
-        continue
+src_path = Path("./src")
+dst_path = Path("./dst")
 
+for filename in src_path.glob("*.png"):
     print("src:", filename)
-    image = cv2.imread("./src/" + filename)
+    image = cv2.imread(str(filename))
 
     cur_ratio = image.shape[1] / image.shape[0]
 
@@ -98,13 +98,12 @@ for filename in os.listdir("./src"):
         if filename_y + filename_h > dsize_height:
             filename_h = dsize_height - filename_y
 
-        dst_filename: str = f'{filename}_{filename_x},{filename_y},{filename_w},{filename_h}.png'
+        dst_filename: str = f'{filename.stem}_{filename_x},{filename_y},{filename_w},{filename_h}.png'
         print('dst:', dst_filename)
 
         print(f"original roi: {left}, {top}, {right - left}, {bottom - top}, \n"
               f"amplified roi: {filename_x}, {filename_y}, {filename_w}, {filename_h}\n\n")
-
-        cv2.imwrite('./dst/' + dst_filename, roi)
+        cv2.imwrite(str(dst_path / dst_filename), roi)
 
     refPt = []
     cropping = False

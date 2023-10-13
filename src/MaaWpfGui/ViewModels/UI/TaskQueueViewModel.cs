@@ -228,7 +228,9 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     await Task.Delay(delayTime);
                     await _stageManager.UpdateStageWeb();
+#if RELEASE
                     ResourceUpdater.UpdateAndToast();
+#endif
                     UpdateDatePrompt();
                     UpdateStageList(false);
                 });
@@ -789,15 +791,16 @@ namespace MaaWpfGui.ViewModels.UI
                 connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
             }
 
-            if (!connected)
+            if (connected)
             {
-                AddLog(errMsg, UiLogColor.Error);
-                _runningState.SetIdle(true);
-                SetStopped();
-                return false;
+                return true;
             }
 
-            return true;
+            AddLog(errMsg, UiLogColor.Error);
+            _runningState.SetIdle(true);
+            SetStopped();
+            return false;
+
         }
 
         /// <summary>
@@ -815,6 +818,7 @@ namespace MaaWpfGui.ViewModels.UI
             // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次任务及基建列表
             TaskItemSelectionChanged();
             Instances.SettingsViewModel.InfrastOrderSelectionChanged();
+            RefreshCustomInfrastPlanIndexByPeriod();
 
             ClearLog();
 
@@ -930,21 +934,72 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         /// <summary>
-        /// Stops.
+        /// <para>通常要和 <see cref="SetStopped()"/> 一起使用，除非能保证回调消息能收到 `AsstMsg.TaskChainStopped`</para>
+        /// <para>This is usually done with <see cref="SetStopped()"/> Unless you are guaranteed to receive the callback message `AsstMsg.TaskChainStopped`</para>
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task Stop()
+        /// <param name="timeout">Timeout millisecond</param>
+        /// <returns>A <see cref="Task"/>
+        /// <para>尝试等待 core 成功停止运行，默认超时时间一分钟</para>
+        /// <para>Try to wait for the core to stop running, the default timeout is one minute</para>
+        /// </returns>
+        public async Task<bool> Stop(int timeout = 60 * 1000)
         {
             Stopping = true;
             AddLog(LocalizationHelper.GetString("Stopping"));
-            await Task.Run(() => { Instances.AsstProxy.AsstStop(); });
+            await Task.Run(() =>
+            {
+                if (!Instances.AsstProxy.AsstStop())
+                {
+                    _logger.Warning("Failed to stop Asst");
+                }
+            });
 
             int count = 0;
-            while (Instances.AsstProxy.AsstRunning() && count <= 600)
+            while (Instances.AsstProxy.AsstRunning() && count <= timeout / 100)
             {
                 await Task.Delay(100);
                 count++;
             }
+
+            return !Instances.AsstProxy.AsstRunning();
+        }
+
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
+        public async void WaitAndStop()
+        {
+            Waiting = true;
+            AddLog(LocalizationHelper.GetString("Waiting"));
+            if (Instances.SettingsViewModel.RoguelikeDelayAbortUntilCombatComplete)
+            {
+                await WaitUntilRoguelikeCombatComplete();
+
+                if (Instances.AsstProxy.AsstRunning() && !Stopping)
+                {
+                    await Stop();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 等待肉鸽战斗结束，10分钟强制退出
+        /// </summary>
+        private async Task WaitUntilRoguelikeCombatComplete()
+        {
+            int time = 0;
+            while (Instances.SettingsViewModel.RoguelikeDelayAbortUntilCombatComplete && RoguelikeInCombatAndShowWait && time < 600 && !Stopping)
+            {
+                await Task.Delay(1000);
+                ++time;
+            }
+        }
+
+        private bool _roguelikeInCombatAndShowWait;
+
+        public bool RoguelikeInCombatAndShowWait
+        {
+            get => _roguelikeInCombatAndShowWait;
+            set => SetAndNotify(ref _roguelikeInCombatAndShowWait, value);
         }
 
         public void SetStopped()
@@ -954,6 +1009,7 @@ namespace MaaWpfGui.ViewModels.UI
                 AddLog(LocalizationHelper.GetString("Stopped"));
             }
 
+            Waiting = false;
             Stopping = false;
             _runningState.SetIdle(true);
         }
@@ -1232,7 +1288,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             return Instances.AsstProxy.AsstAppendRecruit(
-                maxTimes, reqList.ToArray(), cfmList.ToArray(), Instances.SettingsViewModel.RefreshLevel3, Instances.SettingsViewModel.UseExpedited,
+                maxTimes, reqList.ToArray(), cfmList.ToArray(), Instances.SettingsViewModel.RefreshLevel3, Instances.SettingsViewModel.ForceRefresh, Instances.SettingsViewModel.UseExpedited,
                 Instances.SettingsViewModel.NotChooseLevel1, Instances.SettingsViewModel.IsLevel3UseShortTime, Instances.SettingsViewModel.IsLevel3UseShortTime2);
         }
 
@@ -2027,7 +2083,7 @@ namespace MaaWpfGui.ViewModels.UI
             NotifyOfPropertyChange(nameof(Inited));
         }
 
-        private bool _idle = true;
+        private bool _idle;
 
         /// <summary>
         /// Gets or sets a value indicating whether it is idle.
@@ -2057,6 +2113,19 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get => _stopping;
             private set => SetAndNotify(ref _stopping, value);
+        }
+
+        private bool _waiting;
+
+        /// <summary>
+        /// Gets a value indicating whether waiting for roguelike combat complete.
+        /// </summary>
+        public bool Waiting
+        {
+            // UI 会根据这个值来改变 Visibility
+            // ReSharper disable once UnusedMember.Global
+            get => _waiting;
+            private set => SetAndNotify(ref _waiting, value);
         }
 
         private bool _fightTaskRunning;
@@ -2562,7 +2631,7 @@ namespace MaaWpfGui.ViewModels.UI
             RefreshCustomInfrastPlanIndexByPeriod();
         }
 
-        private void RefreshCustomInfrastPlanIndexByPeriod()
+        public void RefreshCustomInfrastPlanIndexByPeriod()
         {
             if (!CustomInfrastEnabled || !_customInfrastPlanHasPeriod || InfrastTaskRunning)
             {

@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 
 namespace MaaWpfGui.Configuration
 {
@@ -12,6 +12,7 @@ namespace MaaWpfGui.Configuration
             NewValue = newValue;
         }
 
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public object OldValue { get; private set; }
 
         public object NewValue { get; private set; }

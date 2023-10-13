@@ -158,7 +158,13 @@
                     "description": "Optional, the file name of the image to be matched\nDefauts to \"task name.png\", If not filled"
                 },
                 "templThreshold": {
-                    "type": "number",
+                    "type": [
+                        "array",
+                        "number"
+                    ],
+                    "items": {
+                        "type": "number"
+                    },
                     "default": 0.8,
                     "description": "Optional, the threshold of the matching score of the template image, it is considered recognised if it exceeds the threshold\nDefaults to 0.8, you can check what the actual score is based on the log"
                 },

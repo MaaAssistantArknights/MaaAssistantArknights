@@ -110,6 +110,7 @@
     <system:String x:Key="RoguelikeStartWithEliteTwo">Repeat for「Starting Operator」Elite 2</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">Select 「Starting Operator」 from support unit list</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">Enable non-friend support</system:String>
+    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">Stops after clearing the combat</system:String>
     <system:String x:Key="DeploymentWithPause" xml:space="preserve">Deployment with Pause (Pause-Trick) (Works for IS, Copilot and SSS) (Beta function, Not recommended yet)</system:String>
     <system:String x:Key="AdbLiteEnabled">Use ADB Lite (Experimental)</system:String>
     <system:String x:Key="KillAdbOnExit">Kill ADB On Exit</system:String>
@@ -330,6 +331,7 @@ Other client types are not supported</system:String>
     <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">Exit MAA and Emulator, then Shutdown if no other running MAA</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">Stop</system:String>
+    <system:String x:Key="WaitAndStop">Wait &amp; Stop</system:String>
     <!--  FightSettings  -->
     <system:String x:Key="UseSanityPotion">Use Sanity Potion</system:String>
     <system:String x:Key="UseOriginitePrime">Use Originium*</system:String>
@@ -383,6 +385,7 @@ Other client types are not supported</system:String>
     <system:String x:Key="UnselectedTask">Unselected task</system:String>
     <system:String x:Key="Running">Running……</system:String>
     <system:String x:Key="AdbReplacementTips">If nothing happens or it gets stuck, please go to Settings → Connection → ADB path and change the ADB.exe, or turn on ADB Input (Deprecated).</system:String>
+    <system:String x:Key="Waiting">Waiting for the combat to end……</system:String>
     <system:String x:Key="Stopping">Stopping……</system:String>
     <system:String x:Key="Stopped">Has stopped</system:String>
     <system:String x:Key="UnknownErrorOccurs">Unknown error occurred</system:String>
@@ -557,10 +560,13 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="TheEx">No bonus stage, stopped</system:String>
     <system:String x:Key="StageQueue">Stage Queue:</system:String>
     <system:String x:Key="UnableToAgent">Unable to use PRTS</system:String>
-    <system:String x:Key="CurrentSanity">Current Sanity:</system:String>
     <system:String x:Key="MissionStart">Mission started</system:String>
     <system:String x:Key="UnitTime">times</system:String>
+    <system:String x:Key="CurrentSanity">Sanity:</system:String>
+    <system:String x:Key="MedicineUsedTimes">Medicine:</system:String>
+    <system:String x:Key="StoneUsedTimes">Stone:</system:String>
     <system:String x:Key="MedicineUsed">Medicine used</system:String>
+    <system:String x:Key="ExpiringMedicineUsed">Expiring medicine used</system:String>
     <system:String x:Key="StoneUsed">Originite Prime used</system:String>
     <system:String x:Key="ActingCommandError">PRTS error</system:String>
     <system:String x:Key="LabelsRefreshed">Labels refreshed</system:String>
@@ -600,6 +606,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="RecruitmentOfBot">Robot! Robot! More Robot!</system:String>
     <system:String x:Key="Choose">Choose</system:String>
     <system:String x:Key="Refreshed">Refreshed</system:String>
+    <system:String x:Key="ContinueRefresh">No recruitment permit, trying to refresh Tags</system:String>
+    <system:String x:Key="NoRecruitmentPermit">No recruitment permit, returned</system:String>
     <system:String x:Key="NotEnoughStaff">Insufficient operators</system:String>
     <system:String x:Key="StageInfoError">Stage recognition error</system:String>
     <system:String x:Key="BattleFormation">Start formation</system:String>
@@ -631,6 +639,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  About  -->
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">Auto refresh 3★ Tags</system:String>
+    <system:String x:Key="ForceRefresh">Continue trying to refresh Tags without recruitment permit</system:String>
     <system:String x:Key="AutoUseExpedited">Auto use Expedited Plan*</system:String>
     <system:String x:Key="Level3UseShortTime">Set 7:40 instead of 9:00 for 3★ Tags</system:String>
     <system:String x:Key="Level3UseShortTime2">Set 1:00 instead of 9:00 for 3★ Tags</system:String>
@@ -664,6 +673,25 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="GameResourceUpdated">Game resource updated, please restart MAA</system:String>
     <system:String x:Key="GameResourceUpdating">Game resources are being updated. Please do not close MAA.</system:String>
     <!--  Api  -->
+    <!--  Remote Control  -->
+    <system:String x:Key="RemoteControlSettings">Remote Control</system:String>
+    <system:String x:Key="RemoteControlDeviceIdentityLabel">Device Identifier (Read-only)</system:String>
+    <system:String x:Key="RemoteControlConnectionTest">Test Connection</system:String>
+    <system:String x:Key="RemoteControlRegenerateDeviceIdentity">Regenerate</system:String>
+    <system:String x:Key="RemoteControlUserIdentityLabel">User Identifier</system:String>
+    <system:String x:Key="RemoteControlGetTaskEndpointLabel">Get Task Endpoint</system:String>
+    <system:String x:Key="RemoteControlReportStatusEndpointLabel">Report Task Endpoint</system:String>
+    <system:String x:Key="RemoteControlConnectionTestSuccess">Connection Test Successful!</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFail">Connection Test Failed, reason: {0}.</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFailEmpty">Connection Test Failed, Endpoint is empty.</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFailNotHttps">Connection Test Failed. Endpoint is not an https address.</system:String>
+    <system:String x:Key="RemoteControlReceivedTask">Received remote task {0}, Task Id:{1}.</system:String>
+    <system:String x:Key="RemoteControlCompletedTask">Completed remote task {0}, Task Id:{1}.</system:String>
+    <system:String x:Key="RemoteControlTooltips">Caution: Entering addresses from unknown sources may result in the loss of your Arknights account.</system:String>
+    <system:String x:Key="RemoteControlDeveloperTooltips">To learn more about how to develop these features, visit</system:String>
+    <system:String x:Key="RemoteControlDeveloperDocLink">Remote Control Feature Developer Documentation</system:String>
+
+    <!--  Remote Control  -->
     <!--  External Notification  -->
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">You receive this message because you have set up an SMTP server in MAA and have the email notification service turned on.</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineTwo">This email is sent automatically, please do not reply.</system:String>

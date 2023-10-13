@@ -102,7 +102,7 @@
     <system:String x:Key="InfrastThresholdTip">若啟用自定義換班，該欄位僅針對 autofill 和 幹員編組 的房間有效</system:String>
     <system:String x:Key="RoguelikeStrategyExp">刷等級，盡可能穩定地打更多層數</system:String>
     <system:String x:Key="RoguelikeStrategyGold">刷源石錠，到達第二層後直接退出</system:String>
-    <system:String x:Key="RoguelikeLastReward">燒開水，到達第三層後直接退出</system:String>
+    <system:String x:Key="RoguelikeLastReward">燒熱水，到達第三層後直接退出</system:String>
     <system:String x:Key="StartingSquad">開局分隊</system:String>
     <system:String x:Key="StartingRoles">開局職業組</system:String>
     <system:String x:Key="StartingCoreChar">開局幹員（單個）</system:String>
@@ -110,6 +110,7 @@
     <system:String x:Key="RoguelikeStartWithEliteTwo">凹「開局幹員」直升精二</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「開局幹員」使用助戰</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助戰</system:String>
+    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">中止行為等待至當前戰鬥結束後</system:String>
     <system:String x:Key="DeploymentWithPause">暫停下幹員（同時影響肉鴿、自動戰鬥、保全）（不穩定，暫不推薦開啟）</system:String>
     <system:String x:Key="AdbLiteEnabled">使用 ADB Lite（實驗性功能）</system:String>
     <system:String x:Key="KillAdbOnExit">退出時釋放 ADB</system:String>
@@ -330,6 +331,7 @@
     <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">退出 MAA，如無其他 MAA 程式則關機</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
+    <system:String x:Key="WaitAndStop">等待 &amp; 停止</system:String>
     <!--  戰鬥設定  -->
     <system:String x:Key="UseSanityPotion">吃理智藥</system:String>
     <system:String x:Key="UseOriginitePrime">吃源石*</system:String>
@@ -383,6 +385,7 @@
     <system:String x:Key="UnselectedTask">未選擇任務</system:String>
     <system:String x:Key="Running">正在運行中……</system:String>
     <system:String x:Key="AdbReplacementTips">如果任務完全沒有反應，請使用 設定 - 連接設定 - 強制替換 ADB，或觸控模式選擇 ADB Input（不推薦）。</system:String>
+    <system:String x:Key="Waiting">正在等待戰鬥結束……</system:String>
     <system:String x:Key="Stopping">正在停止……</system:String>
     <system:String x:Key="Stopped">已停止</system:String>
     <system:String x:Key="UnknownErrorOccurs">出現未知錯誤</system:String>
@@ -557,10 +560,13 @@
     <system:String x:Key="TheEx">無獎勵關卡，已停止</system:String>
     <system:String x:Key="StageQueue">關卡隊列:</system:String>
     <system:String x:Key="UnableToAgent">無法使用代理指揮</system:String>
-    <system:String x:Key="CurrentSanity">當前理智:</system:String>
     <system:String x:Key="MissionStart">已開始行動</system:String>
     <system:String x:Key="UnitTime">次</system:String>
+    <system:String x:Key="CurrentSanity">理智:</system:String>
+    <system:String x:Key="MedicineUsedTimes">藥:</system:String>
+    <system:String x:Key="StoneUsedTimes">石:</system:String>
     <system:String x:Key="MedicineUsed">已使用理智藥</system:String>
+    <system:String x:Key="ExpiringMedicineUsed">已使用 48 小時內過期的理智藥</system:String>
     <system:String x:Key="StoneUsed">已使用源石</system:String>
     <system:String x:Key="ActingCommandError">代理指揮失誤</system:String>
     <system:String x:Key="LabelsRefreshed">已刷新標籤</system:String>
@@ -600,6 +606,8 @@
     <system:String x:Key="RecruitmentOfBot">公招出小車了喔！</system:String>
     <system:String x:Key="Choose">選擇</system:String>
     <system:String x:Key="Refreshed">當前欄位已刷新</system:String>
+    <system:String x:Key="ContinueRefresh">無招聘許可，繼續嘗試刷新 Tags</system:String>
+    <system:String x:Key="NoRecruitmentPermit">無招聘許可，已返回</system:String>
     <system:String x:Key="NotEnoughStaff">可用幹員不足</system:String>
     <system:String x:Key="StageInfoError">關卡辨識錯誤</system:String>
     <system:String x:Key="BattleFormation">開始編隊</system:String>
@@ -631,6 +639,7 @@
     <!--  EasterEggs  -->
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">自動刷新 3 星 Tags</system:String>
+    <system:String x:Key="ForceRefresh">無招募許可時繼續嘗試刷新 Tags</system:String>
     <system:String x:Key="AutoUseExpedited">自動使用加急許可*</system:String>
     <system:String x:Key="Level3UseShortTime">3 星設定 7:40 而非 9:00</system:String>
     <system:String x:Key="Level3UseShortTime2">3 星設定 1:00 而非 9:00</system:String>
@@ -664,6 +673,24 @@
     <system:String x:Key="GameResourceUpdated">遊戲資源已更新，請重啟 MAA</system:String>
     <system:String x:Key="GameResourceUpdating">遊戲資源正在更新，請勿關閉 MAA</system:String>
     <!--  Api  -->
+    <!--  Remote Control  -->
+    <system:String x:Key="RemoteControlSettings">遠程控制</system:String>
+    <system:String x:Key="RemoteControlDeviceIdentityLabel">設備標識符（唯讀）</system:String>
+    <system:String x:Key="RemoteControlConnectionTest">測試連接</system:String>
+    <system:String x:Key="RemoteControlRegenerateDeviceIdentity">重新生成</system:String>
+    <system:String x:Key="RemoteControlUserIdentityLabel">使用者標識符</system:String>
+    <system:String x:Key="RemoteControlGetTaskEndpointLabel">獲取任務端點</system:String>
+    <system:String x:Key="RemoteControlReportStatusEndpointLabel">匯報任務端點</system:String>
+    <system:String x:Key="RemoteControlConnectionTestSuccess">連接測試成功！</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFail">連接測試失敗，原因: {0}。</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFailEmpty">連接測試失敗，連接端點為空。</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFailNotHttps">連接測試失敗。端點非https地址。</system:String>
+    <system:String x:Key="RemoteControlReceivedTask">收到遠端任務{0}，任務Id:{1}。</system:String>
+    <system:String x:Key="RemoteControlCompletedTask">完成遠端任務{0}，任務Id:{1}。</system:String>
+    <system:String x:Key="RemoteControlTooltips">注意：隨意輸入未知來源的地址可能會導致您的明日方舟帳戶受到損失。</system:String>
+    <system:String x:Key="RemoteControlDeveloperTooltips">了解如何開發相關功能，可以訪問</system:String>
+    <system:String x:Key="RemoteControlDeveloperDocLink">遠程控制功能開發者文檔</system:String>
+    <!--  Remote Control  -->
     <!--  External Notification  -->
     <system:String x:Key="ExternalNotificationEmailTemplateHello">博士，有新的通知哦！</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">您會收到此郵件，是因為您在 MAA 中設置了 SMTP 伺服器並開啟了郵件通知服務。</system:String>

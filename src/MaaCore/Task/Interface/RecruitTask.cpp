@@ -41,6 +41,7 @@ bool asst::RecruitTask::set_params(const json::value& params)
 
     bool refresh = params.get("refresh", false);
     bool set_time = params.get("set_time", true);
+    bool force_refresh = params.get("force_refresh", true);
     int times = params.get("times", 0);
     bool expedite = params.get("expedite", false);
     [[maybe_unused]] int expedite_times = params.get("expedite_times", 0);
@@ -71,6 +72,7 @@ bool asst::RecruitTask::set_params(const json::value& params)
         .set_yituliu_enabled(yituliu_enabled)
         .set_server(server)
         .set_set_time(set_time)
+        .set_force_refresh(force_refresh)
         .set_retry_times(3);
 
     return true;

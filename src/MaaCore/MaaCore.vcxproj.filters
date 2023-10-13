@@ -534,6 +534,9 @@
     <ClInclude Include="Controller\ControlScaleProxy.h">
       <Filter>Source\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="Controller\MaaThriftController.h">
+      <Filter>Source\Controller</Filter>
+    </ClInclude>
     <ClInclude Include="Controller\MaatouchController.h">
       <Filter>Source\Controller</Filter>
     </ClInclude>
@@ -976,6 +979,9 @@
     </ClCompile>
     <ClCompile Include="Controller\adb-lite\protocol.cpp">
       <Filter>Source\Controller\adb-lite</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\MaaThriftController.cpp">
+      <Filter>Source\Controller</Filter>
     </ClCompile>
     <ClCompile Include="Controller\MinitouchController.cpp">
       <Filter>Source\Controller</Filter>
