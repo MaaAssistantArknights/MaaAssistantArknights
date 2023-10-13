@@ -1,3 +1,16 @@
+// <copyright file="ResourceUpdater.cs" company="MaaAssistantArknights">
+// MaaWpfGui - A part of the MaaCoreArknights project
+// Copyright (C) 2021 MistEO and Contributors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY
+// </copyright>
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,9 +25,9 @@ namespace MaaWpfGui.Models
 {
     public static class ResourceUpdater
     {
-        private const string _MaaResourceVersion = "resource/version.json";
+        private const string MaaResourceVersion = "resource/version.json";
 
-        private static readonly List<string> _MaaSingleFiles = new List<string>
+        private static readonly List<string> _maaSingleFiles = new List<string>
         {
             "resource/Arknights-Tile-Pos/overview.json",
             "resource/stages.json",
@@ -37,12 +50,23 @@ namespace MaaWpfGui.Models
             "resource/version.json",
         };
 
-        private const string _MaaDynamicFilesIndex = "resource/dynamic_list.txt";
+        private const string MaaDynamicFilesIndex = "resource/dynamic_list.txt";
 
         public enum UpdateResult
         {
+            /// <summary>
+            /// update resource success
+            /// </summary>
             Success,
+
+            /// <summary>
+            /// update resource failed
+            /// </summary>
             Failed,
+
+            /// <summary>
+            /// resource not modified
+            /// </summary>
             NotModified,
         }
 
@@ -62,23 +86,20 @@ namespace MaaWpfGui.Models
             }
         }
 
-        private static async Task<string> GetResourceAPI()
+        private static async Task<string> GetResourceApi()
         {
             var response = await Instances.HttpService.GetAsync(new Uri(MaaUrls.AnnMirrorResourceApi), httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
-            if (response?.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                return MaaUrls.AnnMirrorResourceApi;
-            }
-
-            return MaaUrls.MaaResourceApi;
+            return response is { StatusCode: System.Net.HttpStatusCode.OK }
+                ? MaaUrls.AnnMirrorResourceApi
+                : MaaUrls.MaaResourceApi;
         }
 
         private static async Task<bool> CheckUpdate(string baseUrl)
         {
-            var url = baseUrl + _MaaResourceVersion;
+            var url = baseUrl + MaaResourceVersion;
 
             var response = await ETagCache.FetchResponseWithEtag(url);
-            if (response == null || response.StatusCode != System.Net.HttpStatusCode.OK)
+            if (!(response is { StatusCode: System.Net.HttpStatusCode.OK }))
             {
                 return false;
             }
@@ -94,9 +115,9 @@ namespace MaaWpfGui.Models
 
         public static async Task<UpdateResult> Update()
         {
-            var baseUrl = await GetResourceAPI();
-            bool need_update = await CheckUpdate(baseUrl);
-            if (!need_update)
+            var baseUrl = await GetResourceApi();
+            bool needUpdate = await CheckUpdate(baseUrl);
+            if (!needUpdate)
             {
                 return UpdateResult.NotModified;
             }
@@ -116,7 +137,7 @@ namespace MaaWpfGui.Models
             var ret2 = await UpdateSingleFiles(baseUrl);
             ETagCache.Save();
 
-            if (ret1 == UpdateResult.Failed || ret2 == UpdateResult.Failed)
+            if (ret2 == UpdateResult.Failed)
             {
                 return UpdateResult.Failed;
             }
@@ -133,7 +154,8 @@ namespace MaaWpfGui.Models
         {
             UpdateResult ret = UpdateResult.NotModified;
 
-            foreach (var file in _MaaSingleFiles)
+            // TODO: 加个文件存这些文件的 hash，如果 hash 没变就不下载了，只需要请求一次
+            foreach (var file in _maaSingleFiles)
             {
                 var sRet = await UpdateFileWithETag(baseUrl, file, file);
 
@@ -167,31 +189,18 @@ namespace MaaWpfGui.Models
         // 这些文件数量不固定，需要先获取索引文件，再根据索引文件下载
         private static async Task<UpdateResult> UpdateFilesWithIndex(string baseUrl)
         {
-            var indexSRet = await UpdateFileWithETag(baseUrl, _MaaDynamicFilesIndex, _MaaDynamicFilesIndex);
-            switch (indexSRet)
+            var response = await ETagCache.FetchResponseWithEtag(baseUrl + MaaDynamicFilesIndex);
+
+            // 等所有文件都下载成功再保存 dynamic_list 的 etag，否则可能会导致索引文件和实际文件不一致
+            var indexSRet = ResponseToUpdateResult(response);
+
+            if (indexSRet != UpdateResult.Success)
             {
-                case UpdateResult.Failed:
-                    return UpdateResult.Failed;
-
-                case UpdateResult.Success:
-                    ETagCache.Save();
-                    break;
-
-                case UpdateResult.NotModified:
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            var indexPath = Path.Combine(Environment.CurrentDirectory, _MaaDynamicFilesIndex);
-            if (!File.Exists(indexPath))
-            {
-                return UpdateResult.Failed;
+                return indexSRet;
             }
 
             var ret = UpdateResult.NotModified;
-            var context = File.ReadAllText(indexPath);
+            var context = await HttpResponseHelper.GetStringAsync(response);
 
             // ReSharper disable once AsyncVoidLambda
             context.Split('\n').ToList().ForEach(async file =>
@@ -227,16 +236,20 @@ namespace MaaWpfGui.Models
                 }
             });
 
+            if (ret == UpdateResult.Success)
+            {
+                var indexPath = Path.Combine(Environment.CurrentDirectory, MaaDynamicFilesIndex);
+                await HttpResponseHelper.SaveResponseToFileAsync(response, indexPath);
+                ETagCache.Set(response);
+            }
+
+            ETagCache.Save();
+
             return ret;
         }
 
-        private static async Task<UpdateResult> UpdateFileWithETag(string baseUrl, string file, string saveTo)
+        private static UpdateResult ResponseToUpdateResult(HttpResponseMessage response)
         {
-            saveTo = Path.Combine(Environment.CurrentDirectory, saveTo);
-            var url = baseUrl + file;
-
-            var response = await ETagCache.FetchResponseWithEtag(url, !File.Exists(saveTo));
-
             if (response == null)
             {
                 return UpdateResult.Failed;
@@ -247,27 +260,28 @@ namespace MaaWpfGui.Models
                 return UpdateResult.NotModified;
             }
 
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            return response.StatusCode == System.Net.HttpStatusCode.OK
+                ? UpdateResult.Success
+                : UpdateResult.Failed;
+        }
+
+        private static async Task<UpdateResult> UpdateFileWithETag(string baseUrl, string file, string saveTo)
+        {
+            saveTo = Path.Combine(Environment.CurrentDirectory, saveTo);
+            var url = baseUrl + file;
+
+            var response = await ETagCache.FetchResponseWithEtag(url, !File.Exists(saveTo));
+
+            var updateResult = ResponseToUpdateResult(response);
+            if (updateResult != UpdateResult.Success)
             {
-                // TODO: log
-                return UpdateResult.Failed;
+                return updateResult;
             }
 
-            var tempFile = saveTo + ".tmp";
-            try
+            if (!await HttpResponseHelper.SaveResponseToFileAsync(response, saveTo))
             {
-                using var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                using var fileStream = new FileStream(tempFile, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true);
-                await stream.CopyToAsync(fileStream).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-                // TODO: log
                 return UpdateResult.Failed;
             }
-
-            File.Copy(tempFile, saveTo, true);
-            File.Delete(tempFile);
 
             ETagCache.Set(response);
             return UpdateResult.Success;
