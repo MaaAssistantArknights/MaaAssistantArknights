@@ -560,9 +560,11 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="TheEx">ステージ報酬がないため停止します</system:String>
     <system:String x:Key="StageQueue">レベルキュー:</system:String>
     <system:String x:Key="UnableToAgent">自動指揮利用不可</system:String>
-    <system:String x:Key="CurrentSanity">現在理性:</system:String>
     <system:String x:Key="MissionStart">行動開始しました</system:String>
     <system:String x:Key="UnitTime">回</system:String>
+    <system:String x:Key="CurrentSanity">理性:</system:String>
+    <system:String x:Key="MedicineUsedTimes">薬:</system:String>
+    <system:String x:Key="StoneUsedTimes">石:</system:String>
     <system:String x:Key="MedicineUsed">回復剤を使った</system:String>
     <system:String x:Key="ExpiringMedicineUsed">48時間以内に期限が切れる回復剤を使った</system:String>
     <system:String x:Key="StoneUsed">源石を使った</system:String>

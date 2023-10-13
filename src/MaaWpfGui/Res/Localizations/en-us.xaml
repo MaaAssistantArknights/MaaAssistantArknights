@@ -560,9 +560,11 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="TheEx">No bonus stage, stopped</system:String>
     <system:String x:Key="StageQueue">Stage Queue:</system:String>
     <system:String x:Key="UnableToAgent">Unable to use PRTS</system:String>
-    <system:String x:Key="CurrentSanity">Current Sanity:</system:String>
     <system:String x:Key="MissionStart">Mission started</system:String>
     <system:String x:Key="UnitTime">times</system:String>
+    <system:String x:Key="CurrentSanity">Sanity:</system:String>
+    <system:String x:Key="MedicineUsedTimes">Medicine:</system:String>
+    <system:String x:Key="StoneUsedTimes">Stone:</system:String>
     <system:String x:Key="MedicineUsed">Medicine used</system:String>
     <system:String x:Key="ExpiringMedicineUsed">Expiring medicine used</system:String>
     <system:String x:Key="StoneUsed">Originite Prime used</system:String>
