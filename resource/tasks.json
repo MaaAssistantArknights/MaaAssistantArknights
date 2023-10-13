@@ -4426,6 +4426,12 @@
             200,
             150
         ],
+        "roi_crop_doc": [
+            935,
+            480,
+            145,
+            61
+        ],
         "maskRange": [
             1,
             255
@@ -4770,6 +4776,12 @@
             130,
             130
         ],
+        "roi_crop_doc": [
+            720,
+            553,
+            75,
+            70
+        ],
         "next": [
             "ReceiveAward",
             "DailyTask",
@@ -4966,6 +4978,12 @@
             500,
             200,
             150
+        ],
+        "roi_crop_doc": [
+            300,
+            550,
+            128,
+            41
         ],
         "next": [
             "FriendsList",
@@ -5198,6 +5216,12 @@
             100,
             180,
             120
+        ],
+        "roi_crop_doc": [
+            903,
+            120,
+            97,
+            58
         ]
     },
     "CreditShop-Commodities": {
@@ -5486,6 +5510,12 @@
             540,
             160,
             160
+        ],
+        "roi_crop_doc": [
+            935,
+            570,
+            85,
+            75
         ],
         "action": "ClickSelf",
         "next": [
@@ -12924,6 +12954,12 @@
             265,
             110
         ],
+        "roi_crop_doc": [
+            945,
+            301,
+            85,
+            78
+        ],
         "next": [
             "OperBoxRoleTabSelect",
             "Stop"
@@ -15283,6 +15319,12 @@
             443,
             228,
             156
+        ],
+        "roi_crop_doc": [
+            1095,
+            497,
+            167,
+            56
         ],
         "next": [
             "GachaEnter",
