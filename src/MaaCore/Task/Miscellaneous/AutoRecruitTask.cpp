@@ -574,8 +574,23 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             return result;
         }
 
+        std::unordered_set<std::string> final_select;
+        while (final_select.size() < 3) {
+            bool flag = false;
+            for (const asst::RecruitCombs& comb : result_vec) {
+                for (const std::string& tag : comb.tags) {
+                    final_select.insert(tag);
+                    if (final_select.size() == 3) {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag) break;
+            }
+        }
+
         // select tags
-        for (const std::string& final_tag_name : final_combination.tags) {
+        for (const std::string& final_tag_name : final_select) {
             auto tag_rect_iter = ranges::find_if(tags, [&](const TextRect& r) { return r.text == final_tag_name; });
             if (tag_rect_iter != tags.cend()) {
                 ctrler()->click(tag_rect_iter->rect);
