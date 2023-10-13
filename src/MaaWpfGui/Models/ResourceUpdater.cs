@@ -89,6 +89,8 @@ namespace MaaWpfGui.Models
         private static async Task<string> GetResourceApi()
         {
 #if DEBUG
+            // 跑个空任务避免 async 警告
+            await Task.Run(() => { });
             return MaaUrls.MaaResourceApi;
 
 #else
@@ -171,13 +173,14 @@ namespace MaaWpfGui.Models
                 return UpdateResult.Failed;
             }
 
-            if (ret1 == UpdateResult.Success || ret2 == UpdateResult.Success)
+            if (ret1 != UpdateResult.Success && ret2 != UpdateResult.Success)
             {
-                PostProcVersionChecks();
-                return UpdateResult.Success;
+                return UpdateResult.NotModified;
             }
 
-            return UpdateResult.NotModified;
+            PostProcVersionChecks();
+            return UpdateResult.Success;
+
         }
 
         private static async Task<UpdateResult> UpdateSingleFiles(string baseUrl)
@@ -222,20 +225,10 @@ namespace MaaWpfGui.Models
             var ret = UpdateResult.NotModified;
             var context = File.ReadAllText(indexPath);
 
-            foreach (var file in context.Split('\n').ToList())
+            foreach (var file in context.Split('\n').ToList()
+                         .Where(file => !string.IsNullOrEmpty(file))
+                         .Where(file => !File.Exists(Path.Combine(Environment.CurrentDirectory, file))))
             {
-                if (string.IsNullOrEmpty(file))
-                {
-                    continue;
-                }
-
-                // 这里有几千个文件，请求量太大了，且这些文件一般只新增，不修改。
-                // 所以如果本地已经存在这些文件，就不再请求了。
-                if (File.Exists(Path.Combine(Environment.CurrentDirectory, file)))
-                {
-                    continue;
-                }
-
                 try
                 {
                     var sRet = await UpdateFileWithETag(baseUrl, file, file);
