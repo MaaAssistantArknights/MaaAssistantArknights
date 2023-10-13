@@ -33,6 +33,7 @@
             Grid.Column="0"
             Grid.ColumnSpan="3"
             Margin="10"
+            HorizontalAlignment="Center"
             Block.TextAlignment="Center"
             Text="{DynamicResource RemoteControlTooltips}"
             TextWrapping="Wrap" />
