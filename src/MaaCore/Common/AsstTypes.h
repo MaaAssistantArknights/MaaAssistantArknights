@@ -85,6 +85,7 @@ namespace asst
         int x = 0;
         int y = 0;
 
+        // clang-format off
 #define DEFINE_ASST_POINT_BINARY_OP_AND_ARG_ASSIGN(Op)                    \
     friend Point operator Op(const Point& lhs, const Point& rhs) noexcept \
     {                                                                     \
@@ -96,6 +97,7 @@ namespace asst
         val.y Op## = opd.y;                                               \
         return val;                                                       \
     }
+        // clang-format on
 
         DEFINE_ASST_POINT_BINARY_OP_AND_ARG_ASSIGN(+)
         DEFINE_ASST_POINT_BINARY_OP_AND_ARG_ASSIGN(-)
@@ -395,9 +397,9 @@ namespace asst
         MatchTaskInfo(MatchTaskInfo&&) noexcept = default;
         MatchTaskInfo& operator=(const MatchTaskInfo&) = default;
         MatchTaskInfo& operator=(MatchTaskInfo&&) noexcept = default;
-        std::string templ_name;         // 匹配模板图片文件名
-        double templ_threshold = 0;     // 模板匹配阈值
-        std::pair<int, int> mask_range; // 掩码的二值化范围
+        std::vector<std::string> templ_names; // 匹配模板图片文件名
+        std::vector<double> templ_thresholds; // 模板匹配阈值
+        std::pair<int, int> mask_range;       // 掩码的二值化范围
     };
 
     // hash 计算任务的信息

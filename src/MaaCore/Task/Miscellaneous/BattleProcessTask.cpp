@@ -16,6 +16,7 @@
 #include "Utils/Algorithm.hpp"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
+#include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/Matcher.h"
 #include "Vision/RegionOCRer.h"
 
@@ -76,6 +77,11 @@ bool asst::BattleProcessTask::set_stage_name(const std::string& stage_name)
     m_combat_data = Copilot.get_data();
 
     return true;
+}
+
+void asst::BattleProcessTask::set_wait_until_end(bool wait_until_end)
+{
+    m_need_to_wait_until_end = wait_until_end;
 }
 
 bool asst::BattleProcessTask::to_group()
@@ -186,8 +192,7 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
 
     case ActionType::SkillUsage:
         m_skill_usage[action.name] = action.modify_usage;
-        if (action.modify_usage == SkillUsage::Times) 
-            m_skill_times[action.name] = action.modify_times;
+        if (action.modify_usage == SkillUsage::Times) m_skill_times[action.name] = action.modify_times;
         ret = true;
         break;
 
@@ -332,7 +337,10 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
         const std::string& name = get_name_from_group(action.name);
         update_image_if_empty();
         while (!need_exit()) {
-            if (!update_deployment(false, image)) {
+            if (check_skip_plot_button(image)) {
+                speed_up();
+            }
+            else if (!update_deployment(false, image)) {
                 return false;
             }
             if (auto iter = m_cur_deployment_opers.find(name);
@@ -370,4 +378,26 @@ void asst::BattleProcessTask::sleep_and_do_strategy(unsigned millisecond)
         do_strategic_action();
         std::this_thread::yield();
     }
+}
+
+bool asst::BattleProcessTask::check_in_battle(const cv::Mat& reusable, bool weak)
+{
+    LogTraceFunction;
+
+    cv::Mat image = reusable.empty() ? ctrler()->get_image() : reusable;
+
+    if (weak) {
+        BattlefieldMatcher analyzer(image);
+        auto result = analyzer.analyze();
+        m_in_battle = result.has_value();
+        if (m_in_battle && !result->pause_button) {
+            if (check_skip_plot_button(image)) {
+                speed_up();
+            }
+        }
+    }
+    else {
+        m_in_battle = check_pause_button(image);
+    }
+    return m_in_battle;
 }

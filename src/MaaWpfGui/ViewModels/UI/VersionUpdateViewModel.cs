@@ -27,6 +27,7 @@ using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using MaaWpfGui.Models;
 using MaaWpfGui.States;
 using Markdig;
 using Markdig.Wpf;
@@ -194,7 +195,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            Execute.OnUIThread(() =>
+            Execute.OnUIThreadAsync(() =>
             {
                 using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionZipFileFoundTitle"));
                 toast.AppendContentText(LocalizationHelper.GetString("NewVersionZipFileFoundDescDecompressing"))
@@ -219,7 +220,7 @@ namespace MaaWpfGui.ViewModels.UI
             catch (InvalidDataException)
             {
                 File.Delete(UpdatePackageName);
-                Execute.OnUIThread(() =>
+                Execute.OnUIThreadAsync(() =>
                 {
                     using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionZipFileBrokenTitle"));
                     toast.AppendContentText(LocalizationHelper.GetString("NewVersionZipFileBrokenDescFilename") + UpdatePackageName)
@@ -370,6 +371,11 @@ namespace MaaWpfGui.ViewModels.UI
             /// 新版正在构建中
             /// </summary>
             NewVersionIsBeingBuilt,
+
+            /// <summary>
+            /// 只更新了游戏资源
+            /// </summary>
+            OnlyGameResourceUpdated,
         }
 
         // ReSharper disable once IdentifierTypo
@@ -394,25 +400,48 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else
             {
+#if RELEASE
                 var ret = await CheckAndDownloadUpdate();
                 if (ret == CheckUpdateRetT.OK)
                 {
                     AskToRestart();
                 }
+#else
+                // 跑个空任务避免 async warning
+                await Task.Run(() => {});
+#endif
             }
+        }
+
+        public async Task<CheckUpdateRetT> CheckAndDownloadUpdate()
+        {
+            Instances.SettingsViewModel.IsCheckingForUpdates = true;
+            var ret = await CheckAndDownloadVersionUpdate();
+            if (ret == CheckUpdateRetT.OK)
+            {
+                Instances.SettingsViewModel.IsCheckingForUpdates = false;
+                return ret;
+            }
+
+            var resRet = await ResourceUpdater.Update();
+            if (resRet == ResourceUpdater.UpdateResult.Success)
+            {
+                Instances.SettingsViewModel.IsCheckingForUpdates = false;
+                return CheckUpdateRetT.OK;
+            }
+
+            Instances.SettingsViewModel.IsCheckingForUpdates = false;
+            return ret;
         }
 
         /// <summary>
         /// 检查更新，并下载更新包。
         /// </summary>
         /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
-        public async Task<CheckUpdateRetT> CheckAndDownloadUpdate()
+        private async Task<CheckUpdateRetT> CheckAndDownloadVersionUpdate()
         {
-            Instances.SettingsViewModel.IsCheckingForUpdates = true;
-
             var checkResult = await CheckUpdateInner();
 
-            Instances.SettingsViewModel.IsCheckingForUpdates = false;
             return checkResult;
 
             async Task<CheckUpdateRetT> CheckUpdateInner()
@@ -454,7 +483,7 @@ namespace MaaWpfGui.ViewModels.UI
                         }
                     }
                 );
-                await Execute.OnUIThreadAsync(() =>
+                _ = Execute.OnUIThreadAsync(() =>
                 {
                     using var toast = new ToastNotification((otaFound ? LocalizationHelper.GetString("NewVersionFoundTitle") : LocalizationHelper.GetString("NewVersionFoundButNoPackageTitle")) + " : " + UpdateTag);
                     if (goDownload)
@@ -571,7 +600,7 @@ namespace MaaWpfGui.ViewModels.UI
                 else
                 {
                     OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
-                    await Execute.OnUIThreadAsync(() =>
+                    _ = Execute.OnUIThreadAsync(() =>
                     {
                         using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
                         toast.ButtonSystemUrl = UpdateUrl;
@@ -952,6 +981,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="e">The event arguments.</param>
         // xaml 里用到了
         // ReSharper disable once UnusedMember.Global
+        // ReSharper disable once UnusedParameter.Global
         public void OpenHyperlink(object sender, ExecutedRoutedEventArgs e)
         {
             Process.Start(new ProcessStartInfo(e.Parameter.ToString()) { UseShellExecute = true });

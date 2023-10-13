@@ -20,10 +20,15 @@
                 7,
                 2
             ],
-            "direction": "left"
+            "direction": "left",
+            "condition": [
+                0,
+                5
+            ]
         },
         {
             "groups": [
+                "重装",
                 "地面阻挡",
                 "其他地面"
             ],
@@ -47,7 +52,8 @@
         },
         {
             "groups": [
-                "凯尔希"
+                "凯尔希",
+                "单奶"
             ],
             "location": [
                 9,
@@ -58,11 +64,12 @@
         {
             "groups": [
                 "地面阻挡",
+                "玛恩纳",
                 "其他地面"
             ],
             "location": [
-                5,
-                2
+                6,
+                3
             ],
             "direction": "left"
         },
@@ -78,9 +85,38 @@
         },
         {
             "groups": [
+                "处决者",
+                "情报官"
+            ],
+            "location": [
+                2,
+                2
+            ],
+            "direction": "left",
+            "condition": [
+                12,
+                16
+            ]
+        },
+        {
+            "groups": [
                 "奶",
                 "高台输出",
-                "狙击", 
+                "狙击",
+                "辅助",
+                "其他高台"
+            ],
+            "location": [
+                7,
+                4
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "奶",
+                "高台输出",
+                "狙击",
                 "辅助",
                 "其他高台"
             ],
@@ -96,10 +132,20 @@
                 "其他地面"
             ],
             "location": [
-                4,
+                5,
                 2
             ],
             "direction": "left"
+        },
+        {
+            "groups": [
+                "补给站"
+            ],
+            "location": [
+                6,
+                1
+            ],
+            "direction": "down"
         },
         {
             "groups": [
@@ -110,7 +156,63 @@
                 3,
                 2
             ],
+            "direction": "left",
+            "condition": [
+                21,
+                25
+            ]
+        },
+        {
+            "groups": [
+                "无人机"
+            ],
+            "location": [
+                5,
+                3
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "高台输出",
+                "狙击",
+                "辅助",
+                "其他高台"
+            ],
+            "location": [
+                6,
+                5
+            ],
             "direction": "left"
+        },
+        {
+            "groups": [
+                "支援陷阱"
+            ],
+            "location": [
+                5,
+                3
+            ],
+            "direction": "down",
+            "condition": [
+                21,
+                30
+            ]
+        },
+        {
+            "groups": [
+                "处决者",
+                "情报官"
+            ],
+            "location": [
+                3,
+                2
+            ],
+            "direction": "left",
+            "condition": [
+                31,
+                35
+            ]
         }
     ]
 }

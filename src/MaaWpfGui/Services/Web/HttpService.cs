@@ -108,24 +108,24 @@ namespace MaaWpfGui.Services.Web
         {
             var response = await GetAsync(uri, extraHeader);
 
-            if (response != null)
+            if (response?.StatusCode != HttpStatusCode.OK)
             {
-                return await response.Content.ReadAsStringAsync();
+                return null;
             }
 
-            return null;
+            return await response.Content.ReadAsStringAsync();
         }
 
         public async Task<Stream> GetStreamAsync(Uri uri, Dictionary<string, string> extraHeader = null)
         {
             var response = await GetAsync(uri, extraHeader);
 
-            if (response != null)
+            if (response?.StatusCode != HttpStatusCode.OK)
             {
-                return await response.Content.ReadAsStreamAsync();
+                return null;
             }
 
-            return null;
+            return await response.Content.ReadAsStreamAsync();
         }
 
         public async Task<HttpResponseMessage> GetAsync(Uri uri, Dictionary<string, string> extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseContentRead)
@@ -145,7 +145,7 @@ namespace MaaWpfGui.Services.Web
                 var response = await _client.SendAsync(request, httpCompletionOption);
                 response.Log();
 
-                return response.IsSuccessStatusCode is false ? null : response;
+                return response;
             }
             catch (Exception e)
             {
@@ -183,7 +183,7 @@ namespace MaaWpfGui.Services.Web
 
             var response = await GetAsync(uri, extraHeader: new Dictionary<string, string> { { "Accept", contentType } }, httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
 
-            if (response is null)
+            if (response?.StatusCode != HttpStatusCode.OK)
             {
                 return false;
             }
@@ -264,7 +264,6 @@ namespace MaaWpfGui.Services.Web
             }
 
             HttpClient client = new HttpClient(handler);
-            client = new HttpClient(handler);
             client.DefaultRequestHeaders.Add("User-Agent", UserAgent);
             client.Timeout = TimeSpan.FromSeconds(15);
             return client;

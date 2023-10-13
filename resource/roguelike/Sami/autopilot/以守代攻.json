@@ -3,24 +3,52 @@
     "replacement_home": [
         {
             "location": [
-                9,
-                3
+                5,
+                4
             ],
-            "direction": "left"
+            "direction": "down"
         }
+    ],
+    "blacklist_location": [
+        [
+            5,
+            6
+        ],
+        [
+            7,
+            5
+        ]
     ],
     "deploy_plan": [
         {
             "groups": [
-                "情报官",
-                "挡人先锋",
-                "投锋"
+                "回费"
             ],
             "location": [
                 7,
                 3
             ],
             "direction": "left"
+        },
+        {
+            "groups": [
+                "玛恩纳"
+            ],
+            "location": [
+                7,
+                4
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "回费"
+            ],
+            "location": [
+                5,
+                4
+            ],
+            "direction": "down"
         },
         {
             "groups": [
@@ -58,7 +86,9 @@
         {
             "groups": [
                 "地面阻挡",
-                "其他地面"
+                "处决者",
+                "其他地面",
+                "炮灰"
             ],
             "location": [
                 5,
@@ -68,13 +98,13 @@
         },
         {
             "groups": [
-                "玛恩纳"
+                "地面远程"
             ],
             "location": [
-                7,
-                4
+                5,
+                1
             ],
-            "direction": "left"
+            "direction": "down"
         },
         {
             "groups": [
@@ -85,8 +115,8 @@
                 "其他高台"
             ],
             "location": [
-                7,
-                4
+                4,
+                5
             ],
             "direction": "up"
         },
@@ -109,10 +139,28 @@
                 "其他高台"
             ],
             "location": [
-                4,
-                5
+                6,
+                3
             ],
-            "direction": "up"
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "炮灰",
+                "处决者",
+                "地面阻挡",
+                "地刺",
+                "其他地面"
+            ],
+            "location": [
+                4,
+                4
+            ],
+            "direction": "down",
+            "condition": [
+                16,
+                36
+            ]
         },
         {
             "groups": [
@@ -123,7 +171,41 @@
                 5,
                 5
             ],
+            "direction": "up"
+        },
+        {
+            "groups": [
+                "补给站"
+            ],
+            "location": [
+                3,
+                3
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
+                "无人机"
+            ],
+            "location": [
+                6,
+                3
+            ],
             "direction": "down"
+        },
+        {
+            "groups": [
+                "支援陷阱"
+            ],
+            "location": [
+                5,
+                4
+            ],
+            "direction": "down",
+            "condition": [
+                17,
+                40
+            ]
         }
     ]
 }

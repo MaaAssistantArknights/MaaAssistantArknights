@@ -145,7 +145,7 @@
         "U-Official",
         "傀影",
         "缄默德克萨斯",
-        "麒麟X夜刀",
+        "麒麟R夜刀",
         "老鲤",
         "多萝西",
         "阿",
@@ -229,7 +229,7 @@
                 {
                     "type": "SkillUsage",
                     "name": "斥罪",
-                    "skill_usage":  1
+                    "skill_usage": 1
                 },
                 {
                     "type": "Deploy",
@@ -373,7 +373,7 @@
                 {
                     "type": "SkillUsage",
                     "name": "斥罪",
-                    "skill_usage":  1
+                    "skill_usage": 1
                 },
                 {
                     "type": "Deploy",
@@ -552,7 +552,7 @@
                 {
                     "type": "SkillUsage",
                     "name": "斥罪",
-                    "skill_usage":  1
+                    "skill_usage": 1
                 },
                 {
                     "type": "Deploy",
@@ -748,7 +748,7 @@
                 {
                     "type": "SkillUsage",
                     "name": "斥罪",
-                    "skill_usage":  1
+                    "skill_usage": 1
                 },
                 {
                     "type": "Deploy",
@@ -931,7 +931,7 @@
                 {
                     "type": "SkillUsage",
                     "name": "斥罪",
-                    "skill_usage":  1
+                    "skill_usage": 1
                 },
                 {
                     "type": "Deploy",
@@ -1180,7 +1180,7 @@
                 {
                     "type": "SkillUsage",
                     "name": "斥罪",
-                    "skill_usage":  1
+                    "skill_usage": 1
                 },
                 {
                     "type": "Deploy",

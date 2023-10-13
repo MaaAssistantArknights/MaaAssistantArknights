@@ -12,6 +12,7 @@
 // </copyright>
 
 using System;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using HandyControl.Controls;
@@ -31,29 +32,40 @@ namespace MaaWpfGui.Views.UserControl
         public VersionUpdateSettingsUserControl()
         {
             InitializeComponent();
-            timer.Tick += (s, e1) =>
+            _timer.Tick += (s, e1) =>
             {
-                timer.IsEnabled = false;
+                _timer.IsEnabled = false;
             };
         }
 
-        private readonly DispatcherTimer timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 1500), };
+        private readonly DispatcherTimer _timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 6000), };
 
         private void EasterEggs(object sender, MouseButtonEventArgs e)
         {
-            if (!timer.IsEnabled)
+            if (_timer.IsEnabled)
             {
-                timer.IsEnabled = true;
-                var growinfo = new GrowlInfo
-                {
-                    IsCustom = true,
-                    Message = LocalizationHelper.GetString("BuyWineOnAprilFoolsDay"),
-                    IconKey = "HangoverGeometry",
-                    IconBrushKey = "PallasBrush",
-                };
-
-                Growl.Info(growinfo);
+                return;
             }
+
+            try
+            {
+                Clipboard.SetText(Instances.SettingsViewModel.VersionId);
+            }
+            catch
+            {
+                // ignore
+            }
+
+            _timer.IsEnabled = true;
+            var growlInfo = new GrowlInfo
+            {
+                IsCustom = true,
+                Message = LocalizationHelper.GetString("BuyWineOnAprilFoolsDay"),
+                IconKey = "HangoverGeometry",
+                IconBrushKey = "PallasBrush",
+            };
+
+            Growl.Info(growlInfo);
         }
     }
 }

@@ -8,10 +8,11 @@
 #include "Config/Miscellaneous/TilePack.h"
 #include "Task/AbstractTaskPlugin.h"
 #include "Task/BattleHelper.h"
+#include "Task/Roguelike/RoguelikeConfig.h"
 
 namespace asst
 {
-    class RoguelikeBattleTaskPlugin : public AbstractTaskPlugin, private BattleHelper
+    class RoguelikeBattleTaskPlugin : public AbstractTaskPlugin, private BattleHelper, public RoguelikeConfig
     {
         using Time_Point = std::chrono::time_point<std::chrono::system_clock>;
 
@@ -31,8 +32,8 @@ namespace asst
         bool do_once();
         struct DeployPlanInfo
         {
-            std::string oper_name;                        // 干员名称
             // int oper_priority;                         // 干员招募优先级
+            std::string oper_name;                        // 干员名称
             int oper_order_in_group;                      // 干员在干员组中排名
             int rank;                                     // 干员组在部署指令扁平化后的排名
             Point placed;                                 // 指令坐标
@@ -140,5 +141,11 @@ namespace asst
         std::priority_queue<DroneTile> m_need_clear_tiles;
         std::unordered_map<std::string, std::vector<battle::roguelike::DeployInfoWithRank>> m_deploy_plan;
         std::vector<battle::roguelike::DeployInfoWithRank> m_retreat_plan;
+        std::unordered_map<std::string, std::chrono::steady_clock::time_point> m_deployed_time;
+
+        // 缓存干员精英
+        std::unordered_map<std::string, int64_t> m_oper_elite;
+        // 缓存干员精英情况
+        void cache_oper_elite_status();
     };
 } // namespace asst

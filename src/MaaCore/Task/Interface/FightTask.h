@@ -9,6 +9,7 @@ namespace asst
     class StageDropsTaskPlugin;
     class StageNavigationTask;
     class DrGrandetTaskPlugin;
+    class SideStoryReopenTask;
 
     class FightTask final : public InterfaceTask
     {
@@ -26,5 +27,6 @@ namespace asst
         std::shared_ptr<ProcessTask> m_fight_task_ptr = nullptr;
         std::shared_ptr<StageDropsTaskPlugin> m_stage_drops_plugin_ptr = nullptr;
         std::shared_ptr<DrGrandetTaskPlugin> m_dr_grandet_task_plugin_ptr = nullptr;
+        std::shared_ptr<SideStoryReopenTask> m_sidestory_reopen_task_ptr = nullptr;
     };
 }

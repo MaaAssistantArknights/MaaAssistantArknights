@@ -1,4 +1,89 @@
 {
+    "BI-6": {
+        "algorithm": "JustReturn",
+        "next": [
+            "BI-6@SideStoryStage",
+            "BI-6@SwipeToStage"
+        ],
+        "sub": [
+            "BI-Open"
+        ]
+    },
+    "BI-6@SideStoryStage": {
+        "text": [
+            "BI-6"
+        ]
+    },
+    "BI-7": {
+        "algorithm": "JustReturn",
+        "next": [
+            "BI-7@SideStoryStage",
+            "BI-7@SwipeToStage"
+        ],
+        "sub": [
+            "BI-Open"
+        ]
+    },
+    "BI-7@SideStoryStage": {
+        "text": [
+            "BI-7"
+        ]
+    },
+    "BI-8": {
+        "algorithm": "JustReturn",
+        "next": [
+            "BI-8@SideStoryStage",
+            "BI-8@SwipeToStage"
+        ],
+        "sub": [
+            "BI-Open"
+        ]
+    },
+    "BI-8@SideStoryStage": {
+        "text": [
+            "BI-8"
+        ]
+    },
+    "BI-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "next": [
+            "BIChapterToBI"
+        ],
+        "postDelay": 2000,
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "text": [
+            "風雪",
+            "復刻",
+            "活動",
+            "開放"
+        ]
+    },
+    "BIChapterToBI": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "next": [
+            "ChapterSwipeToTheRight"
+        ],
+        "preDelay": 1000,
+        "roi": [
+            999,
+            243,
+            281,
+            176
+        ],
+        "text": [
+            "雪山大典",
+            "雪山",
+            "大典"
+        ]
+    },
     "ClickChapter1": {
         "baseTask": "ClickChapter",
         "text": [
@@ -33,6 +118,44 @@
         "text": [
             "進入",
             "作戰"
+        ]
+    },
+    "ClickedCorrectStageOrSwipe": {
+        "action": "DoNothing",
+        "baseTask": "StartButton1",
+        "next": [
+            "ClickedCorrectStage",
+            "FullStageNavigation"
+        ],
+        "reduceOtherTimes": []
+    },
+    "SideStoryReopen": {
+        "text": [
+            "復刻"
+        ]
+    },
+    "IS-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "next": [
+            "EnterChapterIS"
+        ],
+        "postDelay": 2000,
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "text": [
+            "敘拉古人",
+            "活動",
+            "已開放"
+        ]
+    },
+    "EnterChapterIS": {
+        "text": [
+            "沃爾西尼"
         ]
     },
     "NL-Open": {
@@ -1193,7 +1316,27 @@
             [
                 "鞭刀",
                 "鞭刃"
+            ],
+            [
+                "復仇黑手",
+                "复仇黑手"
+            ],
+            [
+                "緘默德克薩斯",
+                "缄默德克萨斯"
+            ],
+            [
+                "雪絨",
+                "雪绒"
             ]
+        ]
+    },
+    "StartToWakeUpOCR": {
+        "text": [
+            "開始喚醒",
+            "登錄",
+            "登",
+            "錄"
         ]
     },
     "TodaysSupplies": {
@@ -1206,15 +1349,6 @@
             "正在提交",
             "反饋至神經"
         ]
-    },
-    "ClickedCorrectStageOrSwipe": {
-        "action": "DoNothing",
-        "baseTask": "StartButton1",
-        "next": [
-            "ClickedCorrectStage",
-            "FullStageNavigation"
-        ],
-        "reduceOtherTimes": []
     },
     "StartButton1": {
         "text": [
@@ -1231,6 +1365,31 @@
             "行動結束"
         ]
     },
+    "ExpiringMedicineCheck": {
+        "ocrReplace": [
+            [
+                ".+小時",
+                "小時"
+            ],
+            [
+                ".+分鐘",
+                "分鐘"
+            ],
+            [
+                "^\\d+小$",
+                "小時"
+            ],
+            [
+                "^\\d+分$",
+                "分鐘"
+            ]
+        ],
+        "text": [
+            "分鐘",
+            "小時",
+            "1天"
+        ]
+    },
     "FightMissionFailed": {
         "text": [
             "任務失敗"
@@ -1243,7 +1402,8 @@
     },
     "GoLastBattle": {
         "text": [
-            "前往上一次作戰"
+            "前往上一次作戰",
+            "作戰"
         ]
     },
     "StartRecruit": {
@@ -1261,9 +1421,52 @@
             "立即招"
         ]
     },
+    "MiningActivities": {
+        "text": [
+            "限時開採",
+            "開採"
+        ]
+    },
+    "RecruitingActivities": {
+        "text": [
+            "贈送",
+            "次"
+        ]
+    },
+    "RecruitingActivitiesConfirm": {
+        "text": [
+            "贈送",
+            "次",
+            "小時"
+        ]
+    },
+    "RecruitingActivitiesRecruit": {
+        "text": [
+            "尋訪一次",
+            "尋訪"
+        ]
+    },
+    "RecruitingActivitiesRecruitEnd": {
+        "text": [
+            "尋訪一次",
+            "尋訪"
+        ]
+    },
+    "NoFriends": {
+        "text": [
+            "暫無好友"
+        ]
+    },
+    "VisitNextOcr": {
+        "text": [
+            "訪問下位"
+        ]
+    },
     "Mall": {
         "text": [
-            "採"
+            "採",
+            "採購",
+            "中心"
         ]
     },
     "VisitLimited": {
@@ -1447,10 +1650,24 @@
             "進駐"
         ]
     },
+    "InfrastConfirmButtonWait": {
+        "text": [
+            "正在提交",
+            "反饋至神經"
+        ]
+    },
     "InfrastDormConfirmButtonWait": {
         "text": [
             "正在提交",
             "反饋至神經"
+        ]
+    },
+    "InfrastClueSelfFull": {
+        "text": [
+            "已達線索上限",
+            "無法獲取新的線索",
+            "上限",
+            "無法"
         ]
     },
     "BattleStageName": {
@@ -1958,18 +2175,29 @@
             ]
         ]
     },
+    "BattleQuickFormationFilter-Cost": {
+        "text": [
+            "部署費用"
+        ]
+    },
     "BattleStartPre": {
         "text": [
             "開始行動",
             "開始突襲",
             "開始試煉",
-            "開始試束"
+            "開始試束",
+            "開始測試"
         ]
     },
     "BattleStartOCR": {
         "text": [
             "行動",
             "開始"
+        ]
+    },
+    "Roguelike@ChooseDifficultyConfirm": {
+        "text": [
+            "選擇"
         ]
     },
     "Roguelike@FromIntegratedStrategies": {
@@ -2365,11 +2593,80 @@
             ]
         ]
     },
+    "Roguelike@StageTraderSpecialShoppingAfterRefresh": {
+        "text": [
+            "指路",
+            "指路鱗"
+        ]
+    },
+    "Roguelike@StageTraderRefreshWithDiceNotAvaiable": {
+        "text": [
+            "本商店",
+            "刷新次數",
+            "已用完"
+        ]
+    },
     "Roguelike@StageTraderInvestSystemFull": {
         "text": [
             "當前儲備餘額已達上限",
             "當前",
             "上限"
+        ]
+    },
+    "Phantom@Roguelike@StrategyChange_mode0": {
+        "ocrReplace": [
+            [
+                "迷霧歧途",
+                "_aggressive"
+            ],
+            [
+                "落陽庭院",
+                "_aggressive"
+            ],
+            [
+                "故土殘軀",
+                "_aggressive"
+            ],
+            [
+                "噩夢之始",
+                "_pragmatic"
+            ],
+            [
+                "血月長廊",
+                "_pragmatic"
+            ],
+            [
+                "渴欲大廳",
+                "_default"
+            ]
+        ]
+    },
+    "Phantom@Roguelike@StrategyChange_mode4": {
+        "ocrReplace": [
+            [
+                "迷霧歧途",
+                "_default"
+            ],
+            [
+                "落陽庭院",
+                "_default"
+            ],
+            [
+                "故土殘軀",
+                "_exit"
+            ],
+            [
+                "噩夢之始",
+                "_exit"
+            ],
+            [
+                "血月長廊",
+                "_exit"
+            ],
+            [
+                "渴欲大廳",
+                "_exit"
+            ]
         ]
     },
     "Phantom@Roguelike@NextLevel": {
@@ -2384,6 +2681,75 @@
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
+    },
+    "Mizuki@Roguelike@ChooseDifficultyConfirm": {
+        "text": [
+            "選擇"
+        ]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode0": {
+        "ocrReplace": [
+            [
+                "天光海岸",
+                "_aggressive"
+            ],
+            [
+                "離岸孤島",
+                "_aggressive"
+            ],
+            [
+                "波濤略地",
+                "_pragmatic"
+            ],
+            [
+                "隱秘溫床",
+                "_pragmatic"
+            ],
+            [
+                "失塵岩洞",
+                "_default"
+            ],
+            [
+                "幽海叢林",
+                "_default"
+            ],
+            [
+                "紺碧搖籃",
+                "_SKIP_"
+            ]
+        ]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode4": {
+        "ocrReplace": [
+            [
+                "天光海岸",
+                "_default"
+            ],
+            [
+                "離岸孤島",
+                "_default"
+            ],
+            [
+                "波濤略地",
+                "_exit"
+            ],
+            [
+                "隱秘溫床",
+                "_exit"
+            ],
+            [
+                "失塵岩洞",
+                "_exit"
+            ],
+            [
+                "幽海叢林",
+                "_exit"
+            ],
+            [
+                "紺碧搖籃",
+                "_exit"
+            ]
+        ]
     },
     "Mizuki@Roguelike@NextLevel": {
         "text": [
@@ -3888,7 +4254,7 @@
                 "聚火源石虫"
             ],
             [
-                "指路鱗",
+                "指路.*",
                 "指路鳞"
             ],
             [
@@ -4083,6 +4449,18 @@
             "確認調用",
             "放棄調用",
             "確認選擇"
+        ]
+    },
+    "GachaLastOnceResult": {
+        "text": [
+            "憑證",
+            "信物",
+            "獲得"
+        ]
+    },
+    "GachaLastTenTimesResult2": {
+        "text": [
+            "獲得物資"
         ]
     },
     "GachaOncePrefix@DoGacha": {

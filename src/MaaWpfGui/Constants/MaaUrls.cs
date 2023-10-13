@@ -22,6 +22,8 @@ namespace MaaWpfGui.Constants
 
         public const string Bilibili = "https://space.bilibili.com/3493274731940507";
 
+        public const string BilibiliVideo = "https://www.bilibili.com/video/";
+
         public const string GitHub = "https://github.com/MaaAssistantArknights/MaaAssistantArknights";
 
         public const string GitHubIssues = "https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues";
@@ -30,21 +32,30 @@ namespace MaaWpfGui.Constants
 
         public const string PrtsPlus = "https://prts.plus";
 
+        public const string PrtsPlusCopilotGet = "https://prts.maa.plus/copilot/get/";
+
+        public const string PrtsPlusCopilotRating = "https://prts.maa.plus/copilot/rating";
+
         public const string MapPrts = "https://map.ark-nights.com/areas?coord_override=maa";
 
-        public const string CustomInfrastGenerator = "https://yituliu.site/riicCal/";
+        public const string CustomInfrastGenerator = "https://yituliu.site/tools/maa";
+
+        public const string MaaApi = "https://ota.maa.plus/MaaAssistantArknights/api/";
+
+        public const string MaaResourceApi = "https://ota.maa.plus/MaaAssistantArknights/MaaAssistantArknights/";
+        public const string AnnMirrorResourceApi = "https://maa-ota.annangela.cn/MaaAssistantArknights/MaaAssistantArknights/";
 
         public const string QqGroups = "https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html";
 
-        public const string QQchannel = "https://pd.qq.com/s/4j1ju9z47";
+        public const string QqChannel = "https://pd.qq.com/s/4j1ju9z47";
 
-        private static string language => ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
+        private static string Language => ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
 
-        public static string HelpUri => $"https://maa.plus/docs/{_helpUrl[language]}";
+        public static string HelpUri => $"https://maa.plus/docs/{_helpUrl[Language]}";
 
-        public static string OverseasAdaptation => $"https://maa.plus/docs/{_overseasAdaptation[language]}";
+        public static string OverseasAdaptation => $"https://maa.plus/docs/{_overseasAdaptation[Language]}";
 
-        public static string NewIssueUri => language switch
+        public static string NewIssueUri => Language switch
         {
             "zh-cn" => "https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/new?assignees=&labels=bug&template=cn-bug-report.yaml",
             _ => "https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/new?assignees=&labels=bug&template=en-bug-report.yaml",
@@ -69,5 +80,7 @@ namespace MaaWpfGui.Constants
             { "zh-tw", "zh-tw/1.2-常見問題.html" },
             { "pallas", "KeepDrinking" },
         };
+
+        public const string RemoteControlDocument = "https://maa.plus/docs/3.8-%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%8D%8F%E8%AE%AE.html";
     }
 }

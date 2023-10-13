@@ -1,6 +1,6 @@
 {
     "stage_name": "饥渴祭坛",
-    "replacement_home": [        
+    "replacement_home": [
         {
             "location": [
                 8,
@@ -13,16 +13,37 @@
         [
             7,
             5
-        ],
-        [
-            9,
-            5
-        ]        
+        ]
     ],
     "deploy_plan": [
         {
             "groups": [
+                "伊内丝"
+            ],
+            "location": [
+                8,
+                5
+            ],
+            "direction": "up"
+        },
+        {
+            "groups": [
+                "投锋"
+            ],
+            "location": [
+                9,
+                5
+            ],
+            "direction": "left",
+            "condition": [
+                0,
+                15
+            ]
+        },
+        {
+            "groups": [
                 "情报官",
+                "挡人先锋",
                 "地面远程"
             ],
             "location": [
@@ -33,8 +54,19 @@
         },
         {
             "groups": [
+                "焰苇"
+            ],
+            "location": [
+                8,
+                3
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
                 "凯尔希",
-                "单奶"
+                "单奶",
+                "浊心斯卡蒂"
             ],
             "location": [
                 8,
@@ -45,7 +77,9 @@
         {
             "groups": [
                 "地面阻挡",
-                "其他地面"
+                "处决者",
+                "其他地面",
+                "炮灰"
             ],
             "location": [
                 8,
@@ -56,7 +90,8 @@
         {
             "groups": [
                 "焰苇",
-                "水陈"
+                "高台输出",
+                "辅助"
             ],
             "location": [
                 8,
@@ -66,8 +101,20 @@
         },
         {
             "groups": [
+                "玛恩纳"
+            ],
+            "location": [
+                7,
+                4
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
                 "群奶",
-                "高台输出"
+                "盾法",
+                "高台输出",
+                "其他高台"
             ],
             "location": [
                 8,
@@ -88,23 +135,54 @@
         {
             "groups": [
                 "领主",
-                "地面远程"
+                "地面远程",
+                "处决者"
             ],
             "location": [
-                8,
-                5
+                9,
+                4
             ],
             "direction": "left"
         },
         {
             "groups": [
-                "玛恩纳"
+                "地面阻挡",
+                "处决者",
+                "地刺"
             ],
             "location": [
                 7,
                 4
             ],
             "direction": "up"
+        },
+        {
+            "groups": [
+                "处决者"
+            ],
+            "location": [
+                1,
+                2
+            ],
+            "direction": "down",
+            "condition": [
+                15,
+                17
+            ]
+        },
+        {
+            "groups": [
+                "处决者"
+            ],
+            "location": [
+                1,
+                2
+            ],
+            "direction": "down",
+            "condition": [
+                20,
+                23
+            ]
         },
         {
             "groups": [
@@ -119,8 +197,9 @@
             "direction": "left"
         },
         {
-            "groups": [                
-                "狙击"
+            "groups": [
+                "狙击",
+                "浊心斯卡蒂"
             ],
             "location": [
                 9,
@@ -129,7 +208,7 @@
             "direction": "left"
         },
         {
-            "groups": [                
+            "groups": [
                 "盾法",
                 "水陈"
             ],
@@ -138,6 +217,29 @@
                 3
             ],
             "direction": "left"
+        },
+        {
+            "groups": [
+                "领主",
+                "地面远程",
+                "补给站"
+            ],
+            "location": [
+                8,
+                5
+            ],
+            "direction": "up"
+        },
+        {
+            "groups": [
+                "无人机",
+                "支援陷阱"
+            ],
+            "location": [
+                6,
+                4
+            ],
+            "direction": "up"
         }
     ]
 }

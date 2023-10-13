@@ -194,13 +194,15 @@ jobs:
           tar -xzf ${{ runner.temp }}/new.tar.gz -C ${{ runner.temp }}/new
           tar -xzf ${{ runner.temp }}/old.tar.gz -C ${{ runner.temp }}/old
           export NEW_PATH="${{ runner.temp }}/new/$(ls ${{ runner.temp }}/new)/docs"
+          echo "NEW_PATH: $NEW_PATH"
           export OLD_PATH="${{ runner.temp }}/old/$(ls ${{ runner.temp }}/old)/docs"
+          echo "OLD_PATH: $OLD_PATH"
           export DOCS_DIFF=$(diff -aqr $NEW_PATH $OLD_PATH)
           if [ -n "$DOCS_DIFF" ]; then
-            echo "DOCS_DIFF:"
+            echo "Found changes, start to deploy the docs:"
             echo "$DOCS_DIFF"
             gh workflow --repo MaaAssistantArknights/maa-website run azure-deploy.yaml
             echo "Deploying the docs."
           else
-            echo "DOCS_DIFF: $DOCS_DIFF"
+            echo "Nothing changed, exit."
           fi

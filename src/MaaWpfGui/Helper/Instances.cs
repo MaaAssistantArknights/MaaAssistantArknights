@@ -11,10 +11,12 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
 using GlobalHotKey;
 using MaaWpfGui.Main;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Managers;
+using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.ViewModels.UI;
 using Stylet;
@@ -27,6 +29,27 @@ namespace MaaWpfGui.Helper
     /// </summary>
     public static class Instances
     {
+        public static class Data
+        {
+            // 理智数据缓存，HasSanityReport判定数据是否可用
+            public static class SanityReport
+            {
+                public static bool HasSanityReport { get; set; }
+
+                /// <summary>
+                /// Gets 当前理智 / 最大理智
+                /// </summary>
+                public static int[] Sanity { get; } = { -1, -1 };
+
+                public static DateTimeOffset ReportTime { get; set; }
+            }
+
+            public static void ClearCache()
+            {
+                SanityReport.HasSanityReport = false;
+            }
+        }
+
         public static IWindowManager WindowManager { get; private set; }
 
         public static TaskQueueViewModel TaskQueueViewModel { get; private set; }
@@ -39,6 +62,8 @@ namespace MaaWpfGui.Helper
 
         public static VersionUpdateViewModel VersionUpdateViewModel { get; private set; }
 
+        public static AnnouncementViewModel AnnouncementViewModel { get; private set; }
+
         public static AsstProxy AsstProxy { get; private set; }
 
         public static HotKeyManager HotKeyManager { get; private set; }
@@ -46,6 +71,10 @@ namespace MaaWpfGui.Helper
         public static IMaaHotKeyManager MaaHotKeyManager { get; private set; }
 
         public static IMaaHotKeyActionHandler MaaHotKeyActionHandler { get; private set; }
+
+        // 别的地方有用到这个吗？
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
+        public static RemoteControlService RemoteControlService { get; private set; }
 
         public static IMainWindowManager MainWindowManager { get; private set; }
 
@@ -63,10 +92,13 @@ namespace MaaWpfGui.Helper
             SettingsViewModel = container.Get<SettingsViewModel>();
             CopilotViewModel = container.Get<CopilotViewModel>();
             VersionUpdateViewModel = container.Get<VersionUpdateViewModel>();
+            AnnouncementViewModel = container.Get<AnnouncementViewModel>();
 
             // 这两实例化时存在依赖顺序
             HttpService = container.Get<HttpService>();
             MaaApiService = container.Get<MaaApiService>();
+
+            RemoteControlService = container.Get<RemoteControlService>();
 
             HotKeyManager = container.Get<HotKeyManager>();
             MaaHotKeyManager = container.Get<MaaHotKeyManager>();

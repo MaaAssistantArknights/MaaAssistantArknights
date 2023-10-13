@@ -36,7 +36,7 @@
                 "凯尔希"
             ],
             "location": [
-                6,
+                4,
                 2
             ],
             "direction": "down"
@@ -47,10 +47,11 @@
                 "速狙",
                 "召唤",
                 "辅助",
+                "奶",
                 "其他高台"
             ],
             "location": [
-                6,
+                5,
                 2
             ],
             "direction": "right"
@@ -67,7 +68,7 @@
                 "其他高台"
             ],
             "location": [
-                5,
+                6,
                 2
             ],
             "direction": "right"
@@ -76,7 +77,7 @@
             "groups": [
                 "水陈",
                 "速狙",
-                "盾法",             
+                "盾法",
                 "术师",
                 "召唤",
                 "辅助",
@@ -91,29 +92,8 @@
         {
             "groups": [
                 "地面远程",
+                "玛恩纳",
                 "地面阻挡",
-                "其他地面"
-            ],
-            "location": [
-                6,
-                6
-            ],
-            "direction": "left"
-        },
-        {
-            "groups": [
-                "奶"
-            ],
-            "location": [
-                4,
-                2
-            ],
-            "direction": "right"
-        },
-        {
-            "groups": [
-                "地面阻挡",
-                "处决者",
                 "其他地面"
             ],
             "location": [
@@ -137,13 +117,22 @@
         {
             "groups": [
                 "玛恩纳",
-                "地面阻挡",
                 "处决者",
-                "其他地面"
+                "地刺"
             ],
             "location": [
-                4,
+                3,
                 6
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "奶"
+            ],
+            "location": [
+                9,
+                5
             ],
             "direction": "left"
         }

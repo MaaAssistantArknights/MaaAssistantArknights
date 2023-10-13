@@ -12,15 +12,31 @@
     "deploy_plan": [
         {
             "groups": [
-                "情报官",
-                "挡人先锋",
-                "投锋"
+                "伊内丝"
             ],
             "location": [
-                5,
-                3
+                2,
+                4
             ],
-            "direction": "right"
+            "direction": "right",
+            "condition": [
+                0,
+                12
+            ]
+        },
+        {
+            "groups": [
+                "回费"
+            ],
+            "location": [
+                7,
+                2
+            ],
+            "direction": "down",
+            "condition": [
+                0,
+                12
+            ]
         },
         {
             "groups": [
@@ -65,19 +81,6 @@
                 1
             ],
             "direction": "down"
-        },
-        {
-            "groups": [
-                "情报官",
-                "挡人先锋",
-                "地面阻挡",
-                "其他地面"
-            ],
-            "location": [
-                5,
-                3
-            ],
-            "direction": "right"
         },
         {
             "groups": [
@@ -126,13 +129,39 @@
             "groups": [
                 "处决者",
                 "情报官",
-                "其他地面"
+                "炮灰",
+                "其他地面",
+                "地刺"
             ],
             "location": [
                 7,
                 2
             ],
             "direction": "left"
+        },
+        {
+            "groups": [
+                "盾法",
+                "高台输出",
+                "其他高台"
+            ],
+            "location": [
+                7,
+                3
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
+                "补给站",
+                "支援陷阱",
+                "无人机"
+            ],
+            "location": [
+                7,
+                1
+            ],
+            "direction": "right"
         }
     ]
 }

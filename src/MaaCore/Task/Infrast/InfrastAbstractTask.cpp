@@ -7,6 +7,7 @@
 #include "Common/AsstMsg.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
+#include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/Ranges.hpp"
@@ -85,6 +86,103 @@ asst::infrast::CustomRoomConfig& asst::InfrastAbstractTask::current_room_config(
     }
 }
 
+bool asst::InfrastAbstractTask::match_operator_groups()
+{
+    current_room_config().names.clear();
+    int swipe_times = 0;
+    bool pre_result_no_changes = false, retried = false;
+
+    auto opers = get_available_oper_for_group();
+    if (opers.size() == 0) {
+        Log.info(__FUNCTION__, "availvable operator for gourp is empty");
+        std::vector<std::string> temp, pre_temp;
+        while (true) {
+            if (need_exit()) {
+                return false;
+            }
+            temp.clear();
+            if (!get_opers(temp, m_mood_threshold)) {
+                return false;
+            }
+            if (pre_temp == temp) {
+                if (pre_result_no_changes) {
+                    Log.warn("partial result is not changed, reset the page");
+                    if (retried) {
+                        Log.error("already retring");
+                        break;
+                    }
+                    swipe_to_the_left_of_operlist(swipe_times + 1);
+                    swipe_times = 0;
+                    retried = true;
+                }
+                else {
+                    pre_result_no_changes = true;
+                }
+            }
+            else {
+                pre_result_no_changes = false;
+            }
+            opers.insert(temp.begin(), temp.end());
+            pre_temp = temp;
+            swipe_of_operlist();
+            swipe_times++;
+        }
+    }
+    swipe_to_the_left_of_operlist(swipe_times + 1);
+    swipe_times = 0;
+    Log.info(__FUNCTION__, "availvable operators for gourp size:", opers.size());
+    // 筛选第一个满足要求的干员组
+    for (const auto& oper_group_pair : current_room_config().operator_groups) {
+        if (ranges::all_of(oper_group_pair.second, [opers](const std::string& oper) { return opers.contains(oper); })) {
+
+            ranges::for_each(oper_group_pair.second, [&opers](const std::string& oper) { opers.erase(oper); });
+            current_room_config().names.insert(current_room_config().names.end(), oper_group_pair.second.begin(),
+                                               oper_group_pair.second.end());
+
+            json::value sanity_info = basic_info_with_what("CustomInfrastRoomGroupsMatch");
+            sanity_info["details"]["group"] = oper_group_pair.first;
+            callback(AsstMsg::SubTaskExtraInfo, sanity_info);
+            break;
+        }
+    }
+    set_available_oper_for_group(std::move(opers));
+    // 匹配失败，无分组可用
+    if (current_room_config().names.empty() && !current_room_config().operator_groups.empty()) {
+        json::value info = basic_info_with_what("CustomInfrastRoomGroupsMatchFailed");
+        std::vector<std::string> names;
+        ranges::for_each(
+            current_room_config().operator_groups,
+            [&names](std::pair<const std::string, std::vector<std::string>>& pair) { names.emplace_back(pair.first); });
+        info["details"]["groups"] = json::array(std::move(names));
+        callback(AsstMsg::SubTaskExtraInfo, info);
+        return false;
+    }
+    return true;
+}
+
+std::set<std::string> asst::InfrastAbstractTask::get_available_oper_for_group()
+{
+    std::set<std::string> opers;
+    const auto& str = status()->get_str(Status::InfrastAvailableOpersForGroup);
+    if (!str) {
+        return opers;
+    }
+    auto json_array = json::array(json::parse(*str).value_or(json::value(json::array())));
+    for (const auto& token : json_array) {
+        opers.emplace(token.as_string());
+    }
+    return opers;
+}
+
+void asst::InfrastAbstractTask::set_available_oper_for_group(std::set<std::string> opers)
+{
+    json::array value;
+    for (const auto& oper : opers) {
+        value.emplace_back(oper);
+    }
+    status()->set_str(Status::InfrastAvailableOpersForGroup, value.dumps());
+}
+
 bool asst::InfrastAbstractTask::on_run_fails()
 {
     LogTraceFunction;
@@ -136,6 +234,7 @@ bool asst::InfrastAbstractTask::is_use_custom_opers()
 }
 
 /// @brief 按技能排序->清空干员->选择定制干员->按指定顺序排序
+/// @param is_dorm_order 当前房间是不是宿舍
 bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order)
 {
     LogTraceFunction;
@@ -168,14 +267,17 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
     bool retried = false;
     bool pre_result_no_changes = false;
     int swipe_times = 0;
+
     while (true) {
         if (need_exit()) {
             return false;
         }
         std::vector<std::string> partial_result;
+        // 选择自定义干员，同时输出每一页的干员列表
         if (!select_custom_opers(partial_result)) {
             return false;
         }
+        // 选完人 / 名单已空
         if (static_cast<size_t>(room_config.selected) >= max_num_of_opers() ||
             (room_config.names.empty() && room_config.candidates.empty())) {
             break;
@@ -347,8 +449,8 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
         if (auto iter = ranges::find(room_config.names, name); iter != room_config.names.end()) {
             room_config.names.erase(iter);
         }
-        else if (max_num_of_opers() - room_config.selected >
-                 room_config.names.size()) { // names中的数量，比剩余的空位多，就可以选备选的
+        else if (max_num_of_opers() - room_config.selected > room_config.names.size()) {
+            // names中的数量，比剩余的空位多，就可以选备选的
             if (auto candd_iter = ranges::find(room_config.candidates, name);
                 candd_iter != room_config.candidates.end()) {
                 room_config.candidates.erase(candd_iter);
@@ -365,6 +467,36 @@ bool asst::InfrastAbstractTask::select_custom_opers(std::vector<std::string>& pa
         }
         if (static_cast<size_t>(++room_config.selected) >= max_num_of_opers()) {
             break;
+        }
+    }
+    return true;
+}
+
+bool asst::InfrastAbstractTask::get_opers(std::vector<std::string>& result, double mood)
+{
+    LogTraceFunction;
+
+    const auto image = ctrler()->get_image();
+    InfrastOperImageAnalyzer oper_analyzer(image);
+    oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Mood);
+    if (!oper_analyzer.analyze()) {
+        Log.warn(__FUNCTION__, "No oper");
+        return false;
+    }
+    oper_analyzer.sort_by_loc();
+
+    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
+    for (const auto& oper : oper_analyzer.get_result()) {
+        RegionOCRer name_analyzer;
+        name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
+        name_analyzer.set_image(oper.name_img);
+        name_analyzer.set_bin_expansion(0);
+        if (!name_analyzer.analyze()) {
+            continue;
+        }
+        std::string name = name_analyzer.get_result().text;
+        if (oper.mood_ratio >= mood) {
+            result.emplace_back(std::move(name));
         }
     }
     return true;
@@ -418,7 +550,7 @@ void asst::InfrastAbstractTask::order_opers_selection(const std::vector<std::str
 void asst::InfrastAbstractTask::click_return_button()
 {
     LogTraceFunction;
-    ProcessTask(*this, { "Infrast@ReturnTo" }).run();
+    ProcessTask(*this, { "Infrast@ReturnButton" }).run();
 }
 
 bool asst::InfrastAbstractTask::click_bottom_left_tab()

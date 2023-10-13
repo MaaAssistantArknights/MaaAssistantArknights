@@ -56,6 +56,7 @@ namespace asst
 
     private:
         bool m_loaded = false;
+        std::mutex m_entry_mutex;
 
         // only for async load
         bool m_load_thread_exit = false;

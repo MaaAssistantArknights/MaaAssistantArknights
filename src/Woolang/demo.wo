@@ -1,0 +1,101 @@
+import maa;
+import pkg::filesystem;
+
+let ASST_DEBUG = true;
+
+func main()
+{
+    let cur_path = filesys::normalize(std::exepath());
+
+    if (AsstLoadResource(cur_path->tostring) == AsstTrue)
+    {
+        if (ASST_DEBUG)
+        {
+            let overseas_dir = cur_path / "resource" / "global";
+            for (let _, client: ["YoStarJP", "YoStarEN", "YoStarKR", "txwy"])
+            {
+                let overseas_path = overseas_dir / client;
+                let loaded = AsstLoadResource(cur_path->tostring);
+
+                if (AsstLoadResource(overseas_path->tostring) != AsstTrue || loaded != AsstTrue)
+                    return result::err("Load resource failed.");
+            }
+        }
+
+        let ptr = AsstCreate();
+        if (ptr == nullptr: AsstHandle)
+            return result::err("AsstCreate() failed.");
+
+        if (ASST_DEBUG)
+            do AsstAsyncConnect(ptr, "adb", "127.0.0.1:5555", "DEBUG", AsstTrue);
+        else
+            do AsstAsyncConnect(ptr, "adb", "127.0.0.1:5555", "", AsstTrue);
+
+        if (AsstConnected(ptr) == AsstFalse)
+        {
+            AsstDestroy(ptr);
+            return result::err("Connect failed.");
+        }
+
+        if (ASST_DEBUG)
+        {
+            do AsstAppendTask(ptr, "Debug", "");
+        }
+        else
+        {
+            do AsstAppendTask(ptr, "StartUp", "");
+            do AsstAppendTask(ptr, "Fight", @"
+            {
+                "stage": "1-7"
+            }
+            "@);
+            do AsstAppendTask(ptr, "Recruit", @"
+            {
+                "select":[4],
+                "confirm":[3,4],
+                "times":4
+            }
+            "@);
+            do AsstAppendTask(ptr, "Infrast", @"
+            {
+                "facility": ["Mfg", "Trade", "Power", "Control", "Reception", "Office", "Dorm"],
+                "drones": "Money"
+            }
+            "@);
+            do AsstAppendTask(ptr, "Mall", @"
+            {
+                "shopping": true,
+                "buy_first": [
+                    "许可"
+                ],
+                "black_list": [
+                    "家具",
+                    "碳"
+                ]
+            }
+            "@);
+            do AsstAppendTask(ptr, "Award", "");
+            do AsstAppendTask(ptr, "Roguelike", @"
+            {
+                "squad": "突击战术分队",
+                "roles": "先手必胜",
+                "core_char": "棘刺"
+            }            
+            "@);
+        }
+
+        do AsstStart(ptr);
+        while (AsstRunning(ptr) == AsstTrue) 
+        {
+            std::sleep(0.1);
+        }
+        do AsstStop(ptr);
+        do AsstDestroy(ptr);
+
+        return result::ok(do nil);
+    }
+    else
+        return result::err("Load resource failed.");
+}
+
+main()->unwarp();

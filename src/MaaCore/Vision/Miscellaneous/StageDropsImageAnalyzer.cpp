@@ -11,8 +11,8 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
-#include "Vision/TemplDetOCRer.h"
 #include "Vision/RegionOCRer.h"
+#include "Vision/TemplDetOCRer.h"
 
 #include <numbers>
 
@@ -145,9 +145,9 @@ bool asst::StageDropsImageAnalyzer::analyze_difficulty()
     cv::cvtColor(image_roi, hsv, cv::COLOR_BGR2HSV);
 
     cv::Mat bin1;
-    cv::inRange(hsv, cv::Scalar(0, 150, 0), cv::Scalar(2, 255, 255), bin1);
+    cv::inRange(hsv, cv::Scalar(0, 150, 100), cv::Scalar(2, 255, 255), bin1);
     cv::Mat bin2;
-    cv::inRange(hsv, cv::Scalar(177, 150, 0), cv::Scalar(179, 255, 255), bin2);
+    cv::inRange(hsv, cv::Scalar(177, 150, 100), cv::Scalar(179, 255, 255), bin2);
     cv::Mat bin = bin1 + bin2;
     int count = cv::countNonZero(bin);
 
@@ -337,7 +337,7 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
     int y_offset = task_ptr->roi.y + bounding_rect.y;
 
     const int min_width = task_ptr->special_params.front();
-    const int max_spacing = static_cast<int>(task_ptr->templ_threshold);
+    const int max_spacing = static_cast<int>(task_ptr->templ_thresholds.front());
 
     int i_start = 0, i_end = bounding.cols - 1;
     bool in = true; // 是否正处在白线中
@@ -542,7 +542,7 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     cv::inRange(gray, task_ptr->mask_range.first, task_ptr->mask_range.second, bin);
 
     // split
-    const int max_spacing = static_cast<int>(task_ptr->templ_threshold);
+    const int max_spacing = static_cast<int>(task_ptr->templ_thresholds.front());
     std::vector<cv::Range> contours;
     int i_right = bin.cols - 1, i_left = 0;
     bool in = false;
@@ -609,6 +609,7 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     }
 
     Matcher analyzer(m_image);
+    analyzer.set_threshold(0.8);
     analyzer.set_templ(templ);
     analyzer.set_mask_range(1, 255, false, true);
     analyzer.set_roi(roi);

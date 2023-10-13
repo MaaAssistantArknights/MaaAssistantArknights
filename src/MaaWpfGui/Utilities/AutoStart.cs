@@ -11,7 +11,10 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
 using System.Diagnostics;
+using System.IO;
+using System.Runtime.InteropServices.ComTypes;
 using Microsoft.Win32;
 
 namespace MaaWpfGui.Utilities
@@ -21,7 +24,17 @@ namespace MaaWpfGui.Utilities
     /// </summary>
     public static class AutoStart
     {
-        private static readonly string fileValue = Process.GetCurrentProcess().MainModule?.FileName;
+        private static readonly string _fileValue = Process.GetCurrentProcess().MainModule?.FileName;
+        private static readonly string _uniqueIdentifier = GetUniqueIdentifierFromPath(_fileValue);
+
+        private static readonly string _startupFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
+        private static readonly string _startupShortcutPath = Path.Combine(_startupFolderPath, $"MAA_{_uniqueIdentifier}.lnk");
+
+        static string GetUniqueIdentifierFromPath(string path)
+        {
+            int hash = path.GetHashCode();
+            return hash.ToString("X");
+        }
 
         /// <summary>
         /// Checks whether this program starts up with OS.
@@ -29,15 +42,24 @@ namespace MaaWpfGui.Utilities
         /// <returns>The value.</returns>
         public static bool CheckStart()
         {
+            // 弃用注册表检查，迁移到启动文件夹
             try
             {
-                using var key = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run", false);
-                return key.GetValue("MeoAsst") != null;
+                using var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
+                if (key?.GetValue("MeoAsst") != null)
+                {
+                    key.DeleteValue("MeoAsst");
+                    SetStart(true);
+                    return true;
+                }
             }
             catch
             {
-                return false;
+                // ignored
             }
+
+            return File.Exists(_startupShortcutPath);
+
         }
 
         /// <summary>
@@ -49,14 +71,26 @@ namespace MaaWpfGui.Utilities
         {
             try
             {
-                using var key = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run", true);
                 if (set)
                 {
-                    key.SetValue("MeoAsst", "\"" + fileValue + "\"");
+                    // 创建启动文件夹的快捷方式
+                    // ReSharper disable once SuspiciousTypeConversion.Global
+                    var shellLink = (IShellLink)new ShellLink();
+                    shellLink.SetPath(_fileValue);
+                    shellLink.SetWorkingDirectory(Path.GetDirectoryName(_fileValue));
+                    shellLink.Resolve(IntPtr.Zero, 1);
+
+                    // ReSharper disable once SuspiciousTypeConversion.Global
+                    var file = (IPersistFile)shellLink;
+                    file.Save(_startupShortcutPath, false);
                 }
                 else
                 {
-                    key.DeleteValue("MeoAsst");
+                    // 删除启动文件夹的快捷方式
+                    if (File.Exists(_startupShortcutPath))
+                    {
+                        File.Delete(_startupShortcutPath);
+                    }
                 }
 
                 return set == CheckStart();

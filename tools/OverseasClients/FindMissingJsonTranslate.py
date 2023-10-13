@@ -7,8 +7,11 @@ import re
 # You may customize here
 regex_ignore_list = [
     "Sami",
-    "Reclamation",
-    "SSSBuffChoose"
+    "SSSBuffChoose",
+    "Roguelike@LevelName_normal_mode",
+    "Reclamation@ClickAnyZoneOcr",
+    "MiningActivities",
+    "RecruitingActivities"
 ]
 
 server_list = [

@@ -2098,6 +2098,182 @@
             [
                 "ウィンドチャイム",
                 "铎铃"
+            ],
+            [
+                "レウスSノイルホーン",
+                "火龙S黑角"
+            ],
+            [
+                "シールドリモコン",
+                "护盾遥控器"
+            ],
+            [
+                "採取ロボ用基地",
+                "采集实习站"
+            ],
+            [
+                "キリンRヤトウ",
+                "麒麟R夜刀"
+            ],
+            [
+                "資源計画所",
+                "资源规划站"
+            ],
+            [
+                "越境通信所",
+                "跨地块通讯站"
+            ],
+            [
+                "殺し屋のマンティコア",
+                "曼提柯杀手"
+            ],
+            [
+                "手練れのハンター",
+                "老练猎手"
+            ],
+            [
+                "戦闘計画所",
+                "备勤激活站"
+            ],
+            [
+                "テラ大陸調査団",
+                "泰拉大陆调查团"
+            ],
+            [
+                "滞空牽引ドローン",
+                "滞空牵引无人机"
+            ],
+            [
+                "安眠のお香",
+                "安眠迷香"
+            ],
+            [
+                "モジュラー演算所",
+                "模块演算设施"
+            ],
+            [
+                "覚醒の秘薬",
+                "醒神秘药"
+            ],
+            [
+                "茂み",
+                "灌木丛"
+            ],
+            [
+                "イシン",
+                "老伊辛"
+            ],
+            [
+                "源石タル爆弾",
+                "高能源石爆桶"
+            ],
+            [
+                "防御施設",
+                "防御工事"
+            ],
+            [
+                "捕縛網発射台",
+                "缚网发射台"
+            ],
+            [
+                "脱出地点",
+                "逃脱点"
+            ],
+            [
+                "ハイパー採取ロボ用基地",
+                "采集主任站"
+            ],
+            [
+                "棘の生えた金属の箱",
+                "宝刺金属箱"
+            ],
+            [
+                "隠密支援用マシン",
+                "反侦察藏匿机"
+            ],
+            [
+                "カニカニポンプ",
+                "蟹蟹抽水泵"
+            ],
+            [
+                "レアな鉱脈",
+                "奇异矿脉"
+            ],
+            [
+                "監視塔",
+                "监控塔"
+            ],
+            [
+                "閃光爆弾",
+                "眩光手雷"
+            ],
+            [
+                "高電圧シビレ罠",
+                "高压脉冲诡雷"
+            ],
+            [
+                "滞空牽引ドローン",
+                "滞空牵引无人机"
+            ],
+            [
+                "堅牢な台",
+                "坚固筑台"
+            ],
+            [
+                "雑木林",
+                "杂木林"
+            ],
+            [
+                "栽培ポット",
+                "便携式种植槽"
+            ],
+            [
+                "都市様式障壁",
+                "都市风壁障"
+            ],
+            [
+                "巨大な岩",
+                "巨大岩石"
+            ],
+            [
+                "可動式戦術塔",
+                "移动战塔"
+            ],
+            [
+                "遺跡の残骸",
+                "遗迹残骸"
+            ],
+            [
+                "連絡員",
+                "联络员"
+            ],
+            [
+                "スーパー採取ロボ用基地",
+                "采集专员站"
+            ],
+            [
+                "埋もれた金属の箱",
+                "埋没金属箱"
+            ],
+            [
+                "緊急修理車両",
+                "应急修理车"
+            ],
+            [
+                "噴射式強制移動機",
+                "喷拒器"
+            ],
+            [
+                "金床",
+                "冶铸台"
+            ],
+            [
+                "「サンドソルジャー」",
+                "“沙卒”"
+            ],
+            [
+                "トレジャーハンター",
+                "寻宝人"
             ]
         ],
         "replaceFull": true
@@ -2214,14 +2390,8 @@
         ]
     },
     "Mall": {
-        "ocrReplace": [
-            [
-                "買瑠",
-                "買部"
-            ]
-        ],
         "text": [
-            "買部"
+            "購買"
         ]
     },
     "CreditStoreOcr": {
@@ -2511,7 +2681,7 @@
                 "大盗当头"
             ],
             [
-                "天翔ける怪盗・劇団簾",
+                "天翔ける怪盗・劇団.*",
                 "大盗当头"
             ],
             [
@@ -2940,6 +3110,26 @@
         "text": [
             "行動",
             "開始"
+        ]
+    },
+    "Roguelike@ChooseDifficultyConfirm": {
+        "text": [
+            "選択"
+        ]
+    },
+    "Roguelike@FromIntegratedStrategies": {
+        "text": [
+            "テーマへ"
+        ]
+    },
+    "Phantom@Roguelike@SelectTheme": {
+        "text": [
+            "ファントム"
+        ]
+    },
+    "Mizuki@Roguelike@SelectTheme": {
+        "text": [
+            "ミヅキ"
         ]
     },
     "Roguelike@StageEncounterOcr": {
@@ -5188,6 +5378,191 @@
             "サ.*ート",
             "招集",
             "召集"
+        ]
+    },
+    "Reclamation@TodoEnter": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "roi": [
+            686,
+            164,
+            207,
+            133
+        ],
+        "text": [
+            "WITHIN",
+            "砂",
+            "中",
+            "の",
+            "火"
+        ]
+    },
+    "Reclamation@EmptyInitUnits": {
+        "roi": [
+            592,
+            595,
+            336,
+            125
+        ],
+        "text": [
+            "演算",
+            "参加",
+            "オペレーター"
+        ]
+    },
+    "Reclamation@ConfirmStart": {
+        "text": [
+            "演算",
+            "開始"
+        ]
+    },
+    "Reclamation@SkipAnnounce": {
+        "text": [
+            "SKIP"
+        ]
+    },
+    "Reclamation@SkipDailyReport": {
+        "text": [
+            "本日",
+            "日報"
+        ]
+    },
+    "Reclamation@ClickAnyZoneOcr": {
+        "roi": [
+            308,
+            73,
+            739,
+            567
+        ],
+        "text": [
+            "Zone",
+            "狩猟エリア",
+            "エリア",
+            "資源エリア",
+            "資源",
+            "狩猟"
+        ]
+    },
+    "Reclamation@StartActionEnter": {
+        "roi": [
+            1100,
+            550,
+            150,
+            130
+        ],
+        "text": [
+            "行動開始",
+            "決断"
+        ]
+    },
+    "Reclamation@PrepareAction": {
+        "roi": [
+            1014,
+            590,
+            234,
+            130
+        ],
+        "text": [
+            "行動",
+            "凖備"
+        ]
+    },
+    "Reclamation@ExitLevelConfirm": {
+        "text": [
+            "離れる"
+        ]
+    },
+    "Reclamation@LevelComplete": {
+        "text": [
+            "終了",
+            "MISSION",
+            "RESULTS"
+        ]
+    },
+    "Reclamation@GiveupAlgorithm": {
+        "text": [
+            "撤",
+            "退"
+        ]
+    },
+    "Reclamation@GiveupClickEmergencyExit": {
+        "text": [
+            "緊急",
+            "撤退"
+        ]
+    },
+    "Reclamation@GiveupCheckRemainItems": {
+        "text": [
+            "物資",
+            "確認"
+        ]
+    },
+    "Reclamation@GiveupTakeNothing": {
+        "text": [
+            "確認",
+            "撤退"
+        ]
+    },
+    "Reclamation@EnterSmeltGoldPage": {
+        "text": [
+            "地金",
+            "粗悪"
+        ]
+    },
+    "Reclamation@EnterResearchLab": {
+        "text": [
+            "研",
+            "究",
+            "所"
+        ]
+    },
+    "Reclamation@LabClickDetailView": {
+        "text": [
+            "詳細",
+            "ビュー"
+        ]
+    },
+    "Reclamation@LabClickAssembleable": {
+        "text": [
+            "組立",
+            "可"
+        ]
+    },
+    "Reclamation@ManufactureIncrease": {
+        "text": [
+            "開始",
+            "立開"
+        ]
+    },
+    "Reclamation@ManufactureDecrease": {
+        "text": [
+            "材料",
+            "足り"
+        ]
+    },
+    "Reclamation@Liaison": {
+        "text": [
+            "聯絡員"
+        ]
+    },
+    "StartWithDefaultFormation@Reclamation@ConfirmStart": {
+        "baseTask": "Reclamation@ConfirmStart",
+        "next": [],
+        "next_Old": [
+            "Stop"
+        ],
+        "next_Old_Doc": "这里原先有个stop，但是会导致StartWithDefaultFormation@Reclamation@Begin中间多出一个Stop，姑且当成是不小心加的删了。"
+    },
+    "StartActionEnter@Reclamation@StartActionEnter": {
+        "baseTask": "Reclamation@StartActionEnter",
+        "next": [
+            "Stop"
+        ]
+    },
+    "ClickAnyZone@Reclamation@Begin": {
+        "baseTask": "Reclamation@ClickAnyZoneOcr",
+        "next": [
+            "Stop"
         ]
     },
     "GachaOncePrefix@DoGacha": {

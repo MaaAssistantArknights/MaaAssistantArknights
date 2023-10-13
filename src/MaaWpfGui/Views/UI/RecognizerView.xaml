@@ -21,7 +21,7 @@
         BorderThickness="0"
         Style="{StaticResource TabControlSliding}">
         <TabItem Header="{DynamicResource RecruitmentRecognition}">
-            <Grid Margin="20,0,20,20">
+            <Grid Margin="20,0,20,20" IsEnabled="{Binding Idle}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="150" />
@@ -125,7 +125,7 @@
             </Grid>
         </TabItem>
         <TabItem Header="{DynamicResource OperBoxRecognition}">
-            <Grid Margin="20,0,20,20">
+            <Grid Margin="20,0,20,20" IsEnabled="{Binding Idle}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="150" />
@@ -179,42 +179,38 @@
             </Grid>
         </TabItem>
         <TabItem Header="{DynamicResource DepotRecognition}">
-            <Grid Margin="20,0,20,20">
+            <Grid Margin="20,0,20,20" IsEnabled="{Binding Idle}">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="150" />
                 </Grid.RowDefinitions>
-                <hc:ScrollViewer
-                    Grid.Row="0"
-                    Margin="10,0"
-                    VerticalAlignment="Top"
-                    IsInertiaEnabled="True">
-                    <StackPanel>
-                        <controls:TextBlock
-                            Height="36"
-                            Margin="10"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Focusable="True"
-                            FontSize="14"
-                            Style="{StaticResource TextBlockDefaultBold}"
-                            Text="{Binding DepotInfo}"
-                            TextWrapping="Wrap" />
-                        <DataGrid
-                            Width="600"
-                            HorizontalAlignment="Center"
-                            IsReadOnly="True"
-                            ItemsSource="{Binding DepotResult}">
-                            <DataGrid.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <UniformGrid Columns="3" />
-                                </ItemsPanelTemplate>
-                            </DataGrid.ItemsPanel>
-                        </DataGrid>
-                    </StackPanel>
-                </hc:ScrollViewer>
-                <StackPanel
+                <StackPanel>
+                    <controls:TextBlock
+                        Height="36"
+                        Margin="10"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Focusable="True"
+                        FontSize="14"
+                        Style="{StaticResource TextBlockDefaultBold}"
+                        Text="{Binding DepotInfo}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+                <DataGrid
                     Grid.Row="1"
+                    Width="600"
+                    HorizontalAlignment="Center"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding DepotResult}">
+                    <DataGrid.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="3" />
+                        </ItemsPanelTemplate>
+                    </DataGrid.ItemsPanel>
+                </DataGrid>
+                <StackPanel
+                    Grid.Row="2"
                     Margin="27,0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
@@ -261,9 +257,8 @@
                 Text="{DynamicResource VideoRecognitionTips}"
                 TextWrapping="Wrap" />
         </TabItem>
-
         <TabItem Header="{DynamicResource Gacha}">
-            <Grid Margin="20,0,20,20">
+            <Grid Margin="20,0,20,20" IsEnabled="{Binding Idle}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="80" />
                     <RowDefinition Height="*" />
@@ -291,9 +286,7 @@
                     VerticalAlignment="Center"
                     Orientation="Vertical"
                     Visibility="{c:Binding GachaShowDisclaimer}">
-                    <StackPanel
-                    HorizontalAlignment="Center"
-                    Orientation="Horizontal">
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                         <controls:TextBlock
                             Margin="50,50,0,50"
                             FontSize="24"
@@ -326,18 +319,24 @@
                                 <EventTrigger RoutedEvent="TextBlock.Loaded">
                                     <BeginStoryboard>
                                         <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="LinearGradientBrushTranslate" Storyboard.TargetProperty="X" From="0" To="420" Duration="0:0:2" RepeatBehavior="Forever" />
+                                            <DoubleAnimation
+                                                RepeatBehavior="Forever"
+                                                Storyboard.TargetName="LinearGradientBrushTranslate"
+                                                Storyboard.TargetProperty="X"
+                                                From="0"
+                                                To="420"
+                                                Duration="0:0:2" />
                                         </Storyboard>
                                     </BeginStoryboard>
                                 </EventTrigger>
                             </controls:TextBlock.Triggers>
                             <controls:TextBlock.Effect>
-                                <DropShadowEffect 
-                                ShadowDepth="5" 
-                                BlurRadius="8" 
-                                Color="Black" 
-                                Direction="90"
-                                Opacity="0.6" />
+                                <DropShadowEffect
+                                    BlurRadius="8"
+                                    Direction="90"
+                                    Opacity="0.6"
+                                    ShadowDepth="5"
+                                    Color="Black" />
                             </controls:TextBlock.Effect>
                         </controls:TextBlock>
                     </StackPanel>

@@ -14,7 +14,7 @@
         {
             "name": "随到随取",
             "option_num": 2,
-            "choose": 1,
+            "choose": 2,
             "choice_require": [
                 {
                     "name": "使用热像仪",
@@ -27,8 +27,8 @@
         },
         {
             "name": "定期维护",
-            "option_num": 2,
-            "choose": 2,
+            "option_num": 3,
+            "choose": 3,
             "note": "拥有【安玛的爱】时出现第三选项",
             "choice_require": [
                 {
@@ -161,7 +161,7 @@
         {
             "name": "不见群山",
             "option_num": 4,
-            "choose": 2,
+            "choose": 3,
             "choice_require": [
                 {
                     "name": "选择她弃在手边的塔罗牌",
@@ -175,7 +175,7 @@
         {
             "name": "远见所向",
             "option_num": 4,
-            "choose": 1,
+            "choose": 2,
             "choice_require": [
                 {
                     "name": "我们或许能协作互助",
@@ -241,7 +241,7 @@
         {
             "name": "邪恶计划鸭",
             "option_num": 2,
-            "choose": 1,
+            "choose": 2,
             "choice_require": [
                 {
                     "name": "你在做什么?",
@@ -281,7 +281,7 @@
         {
             "name": "北风女巫",
             "option_num": 3,
-            "choose": 1,
+            "choose": 2,
             "choice_require": [
                 {
                     "name": "乖乖照做",
@@ -295,7 +295,7 @@
         {
             "name": "时刻警惕",
             "option_num": 2,
-            "choose": 1
+            "choose": 2
         },
         {
             "name": "猜疑链",
@@ -418,7 +418,7 @@
                     }
                 }
             ]
-        },         
+        },
         {
             "name": "深渊入口",
             "option_num": 2,
@@ -527,7 +527,7 @@
         {
             "name": "探寻前路",
             "option_num": 3,
-            "choose": 3
+            "choose": 2
         },
         {
             "name": "前行的林地",

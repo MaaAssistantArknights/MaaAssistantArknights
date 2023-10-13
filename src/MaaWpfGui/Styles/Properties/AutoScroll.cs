@@ -29,6 +29,7 @@ namespace MaaWpfGui.Styles.Properties
         /// </summary>
         /// <param name="obj">The <see cref="DependencyObject"/> instance.</param>
         /// <returns>The property value.</returns>
+        // ReSharper disable once UnusedMember.Global
         public static bool GetAutoScroll(DependencyObject obj)
         {
             return (bool)obj.GetValue(AutoScrollProperty);
