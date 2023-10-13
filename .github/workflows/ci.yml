@@ -107,13 +107,24 @@ jobs:
         with:
           show-progress: false
 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+          dotnet-quality: 'preview'
+          
       - name: Cache .nuke/temp, ~/.nuget/packages
+        id: cache-nuget
         uses: actions/cache@v3
         with:
           path: |
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ matrix.msbuild_target }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
+
+      - name: Restore dependencies
+        if: steps.cache-nuget.outputs.cache-hit != 'true'
+        run: dotnet restore
 
       - name: Bootstrap MaaDeps
         env:
