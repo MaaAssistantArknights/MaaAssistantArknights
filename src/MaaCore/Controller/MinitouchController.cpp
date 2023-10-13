@@ -112,7 +112,7 @@ std::optional<std::string> asst::MinitouchController::reconnect(const std::strin
 bool asst::MinitouchController::input_to_minitouch(const std::string& cmd)
 {
     if (!m_minitouch_handler->write(cmd)) {
-        Log.error("Failed to write to minitouch, try again");
+        Log.error("Failed to write to minitouch, try restart minitouch and re-write");
         call_and_hup_minitouch();
         return m_minitouch_handler->write(cmd);
     }
