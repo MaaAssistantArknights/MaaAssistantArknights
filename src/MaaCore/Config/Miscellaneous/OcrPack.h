@@ -4,6 +4,7 @@
 #include "Config/AbstractResource.h"
 
 #include <vector>
+#include <optional>
 
 namespace cv
 {
@@ -38,6 +39,8 @@ namespace asst
         virtual ~OcrPack() override;
 
         virtual bool load(const std::filesystem::path& path) override;
+        void use_cpu() { m_gpu_id = std::nullopt; }
+        void use_gpu(int gpu_id) { m_gpu_id = gpu_id; }
 
         ResultsVec recognize(const cv::Mat& image, bool without_det = false);
 
@@ -53,6 +56,8 @@ namespace asst
         std::filesystem::path m_det_model_path;
         std::filesystem::path m_rec_model_path;
         std::filesystem::path m_rec_label_path;
+
+        std::optional<int> m_gpu_id = std::nullopt;
     };
 
     class WordOcr final : public SingletonHolder<WordOcr>, public OcrPack
