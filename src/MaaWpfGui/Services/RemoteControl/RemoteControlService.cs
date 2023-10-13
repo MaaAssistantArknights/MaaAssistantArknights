@@ -26,10 +26,14 @@ namespace MaaWpfGui.Services.RemoteControl
     public class RemoteControlService
     {
         private readonly Task _pollJobTask = Task.CompletedTask;
-        private readonly Task _executeJobTask = Task.CompletedTask;
-        private readonly List<string> _executedTaskIds = new List<string>();
-        private readonly ConcurrentQueue<JObject> _taskQueue = new ConcurrentQueue<JObject>();
+        private readonly List<string> _enqueueTaskIds = new List<string>();
+        private readonly ConcurrentQueue<JObject> _sequentialTaskQueue = new ConcurrentQueue<JObject>();
+        private readonly ConcurrentQueue<JObject> _instantTaskQueue = new ConcurrentQueue<JObject>();
+        private readonly Task _executeSequentialJobTask = Task.CompletedTask;
+        private readonly Task _executeInstantJobTask = Task.CompletedTask;
         private readonly RunningState _runningState;
+
+        private string _currentSequentialTaskId = string.Empty;
 
         public RemoteControlService()
         {
@@ -51,14 +55,32 @@ namespace MaaWpfGui.Services.RemoteControl
                 // ReSharper disable once FunctionNeverReturns
             });
 
-            _executeJobTask = _executeJobTask.ContinueWith(async _ =>
+            _executeSequentialJobTask = _executeSequentialJobTask.ContinueWith(async _ =>
             {
                 while (true)
                 {
                     await Task.Delay(1000);
                     try
                     {
-                        await ExecuteJobLoop();
+                        await ExecuteSequentialJobLoop();
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Logger.Error(ex, "RemoteControl service raises unknown error.");
+                    }
+                }
+
+                // ReSharper disable once FunctionNeverReturns
+            });
+
+            _executeInstantJobTask = _executeInstantJobTask.ContinueWith(async _ =>
+            {
+                while (true)
+                {
+                    await Task.Delay(1000);
+                    try
+                    {
+                        await ExecuteInstantJobLoop();
                     }
                     catch (Exception ex)
                     {
@@ -193,6 +215,8 @@ namespace MaaWpfGui.Services.RemoteControl
 
         #endregion
 
+        #region JobLoops
+
         private async Task PollJobTaskLoop()
         {
             var endpoint = Instances.SettingsViewModel.RemoteControlGetTaskEndpointUri;
@@ -226,26 +250,52 @@ namespace MaaWpfGui.Services.RemoteControl
 
                     // It is a valid task
                     var id = task.GetValue("id")?.Value<string>();
-                    if (_executedTaskIds.Contains(id))
+                    if (_enqueueTaskIds.Contains(id))
                     {
                         continue;
                     }
 
-                    _executedTaskIds.Add(id);
-                    _taskQueue.Enqueue(task);
+                    _enqueueTaskIds.Add(id);
+
+                    switch (type)
+                    {
+                        case "LinkStart":
+                        case "LinkStart-Base":
+                        case "LinkStart-WakeUp":
+                        case "LinkStart-Combat":
+                        case "LinkStart-Recruiting":
+                        case "LinkStart-Mall":
+                        case "LinkStart-Mission":
+                        case "LinkStart-AutoRoguelike":
+                        case "LinkStart-ReclamationAlgorithm":
+                        case "Toolbox-GachaOnce":
+                        case "Toolbox-GachaTenTimes":
+                        case "CaptureImage":
+                        case "Settings-ConnectAddress":
+                        case "Settings-Stage1":
+                            _sequentialTaskQueue.Enqueue(task);
+                            break;
+                        case "CaptureImageNow":
+                        case "HeartBeat":
+                        case "StopTask":
+                            _instantTaskQueue.Enqueue(task);
+                            break;
+                    }
                 }
             }
         }
 
-        private async Task ExecuteJobLoop()
+        private async Task ExecuteSequentialJobLoop()
         {
-            if (_taskQueue.TryDequeue(out var task))
+            if (_sequentialTaskQueue.TryDequeue(out var task))
             {
                 var type = task.GetValue("type")?.Value<string>();
                 var id = task.GetValue("id")?.Value<string>();
                 var data = task.GetValue("params")?.Value<string>();
                 var payload = string.Empty;
                 var status = "SUCCESS";
+
+                _currentSequentialTaskId = id;
 
                 switch (type)
                 {
@@ -343,8 +393,106 @@ namespace MaaWpfGui.Services.RemoteControl
                         {
                             Instances.SettingsViewModel.ConnectAddress = data;
                         });
-
                         break;
+                    case "Settings-Stage1":
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            Instances.TaskQueueViewModel.Stage1 = data;
+                        });
+                        break;
+
+                    // ReSharper disable once RedundantEmptySwitchSection
+                    default:
+                        // 未知的Type统一直接发给MAACore
+                        // No! 未知的任务一概不处理
+                        break;
+                }
+
+                var endpoint = Instances.SettingsViewModel.RemoteControlReportStatusUri;
+                if (!string.IsNullOrWhiteSpace(endpoint) && endpoint.ToLower().StartsWith("https://"))
+                {
+                    var uid = Instances.SettingsViewModel.RemoteControlUserIdentity;
+                    var did = Instances.SettingsViewModel.RemoteControlDeviceIdentity;
+                    var response = await Instances.HttpService.PostAsJsonAsync(new Uri(endpoint), new
+                    {
+                        user = uid,
+                        device = did,
+                        status,
+                        task = id,
+                        payload,
+                    });
+                    if (response == null)
+                    {
+                        Log.Logger.Error("RemoteControlService report task failed.");
+                    }
+                }
+
+                _currentSequentialTaskId = string.Empty;
+            }
+        }
+
+        private async Task ExecuteInstantJobLoop()
+        {
+            if (_instantTaskQueue.TryDequeue(out var task))
+            {
+                var type = task.GetValue("type")?.Value<string>();
+                var id = task.GetValue("id")?.Value<string>();
+                var data = task.GetValue("params")?.Value<string>();
+                var payload = string.Empty;
+                var status = "SUCCESS";
+
+                switch (type)
+                {
+                    case "HeartBeat":
+                    {
+                        payload = _currentSequentialTaskId;
+                        break;
+                    }
+
+                    case "StopTask":
+                    {
+                        await Task.Run(() =>
+                        {
+                            if (!Instances.AsstProxy.AsstStop())
+                            {
+                                // 无法确定当前的界面，找不到借用的UI位置，因此只能Log
+                                Log.Logger.Error("Failed to stop Asst.");
+                            }
+                        });
+
+                        // 无需等待，甩出任务即可返回，远端应该用心跳来确认界面卡死和取消是否成功。
+                        break;
+                    }
+
+                    case "CaptureImageNow":
+                    {
+                        string errMsg = string.Empty;
+                        bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+                        if (connected)
+                        {
+                            var image = Instances.AsstProxy.AsstGetImage();
+                            if (image == null)
+                            {
+                                status = "FAILED";
+                                break;
+                            }
+
+                            byte[] bytes;
+                            using (MemoryStream stream = new MemoryStream())
+                            {
+                                PngBitmapEncoder encoder = new PngBitmapEncoder();
+                                encoder.Frames.Add(BitmapFrame.Create(image));
+                                encoder.Save(stream);
+                                bytes = stream.ToArray();
+                            }
+
+                            payload = Convert.ToBase64String(bytes);
+                            break;
+                        }
+
+                        status = "FAILED";
+                        break;
+                    }
 
                     // ReSharper disable once RedundantEmptySwitchSection
                     default:
@@ -373,6 +521,8 @@ namespace MaaWpfGui.Services.RemoteControl
                 }
             }
         }
+
+        #endregion
 
         /// <summary>
         /// 根据"一键长草"功能进行修改的方法。
