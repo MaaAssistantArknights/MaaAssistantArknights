@@ -45,11 +45,19 @@ jobs:
           #ref: ${{ inputs.ref }}
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+          dotnet-quality: 'preview'
+
       - name: Checkout ref
         run: |
           if ("${{ inputs.ref }}" -ne "") {
             git checkout --progress --recurse-submodules ${{ inputs.ref || 'dev' }}
           }
+
       - run: |
           npm install --global --progress semver
 
@@ -87,17 +95,24 @@ jobs:
           echo "main_tag_name=$main_tag_name" >> $env:GITHUB_OUTPUT
 
       - name: Cache .nuke/temp, ~/.nuget/packages
+        id: cache-nuget
         uses: actions/cache@v3
         with:
           path: |
             .nuke/temp
             ~/.nuget/packages
-          key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
+            key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
+  
+      - name: Restore dependencies
+        if: steps.cache-nuget.outputs.cache-hit != 'true'
+        run: dotnet restore
+
       - name: Bootstrap MaaDeps
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 maadeps-download.py ${{ matrix.lowercase_target }}-windows
+
       - name: Run './build.cmd DevBuild'
         run: |
           $env:GITHUB_WORKFLOW = 'dev-build-win' # pretend this is a dev-build-win workflow
@@ -108,6 +123,7 @@ jobs:
         env:
           Reason: 'Build nightly version'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - uses: actions/upload-artifact@v3
         with:
           name: MAA-win-${{ matrix.lowercase_target }}
@@ -124,6 +140,7 @@ jobs:
           repository: ${{ format('{0}/{1}', github.repository_owner, 'MaaRelease') }}
           fetch-depth: 0
           token: ${{ secrets.MAARELEASE_RELEASE }}
+
       - name: Commit and setup tag
         run: |
           git config user.name 'github-actions[bot]'
@@ -142,14 +159,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo ${{ needs.build-win-nightly.outputs.tag }}
+
       - uses: actions/checkout@v3
         with:
           path: MaaAssistantArknights
           token: ${{ secrets.MAARELEASE_RELEASE }}
+
       - uses: actions/download-artifact@v3
         with:
           name: MAA-win-${{ matrix.target }}
           path: ${{ format('{0}/{1}', 'build-ota', needs.build-win-nightly.outputs.tag) }}
+
       - name: Fetch release info
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -170,6 +190,7 @@ jobs:
           cat ./config
 
           echo "release_tag=$(head -n 1 ./config)" >> $GITHUB_ENV
+          
       - name: Build OTA
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

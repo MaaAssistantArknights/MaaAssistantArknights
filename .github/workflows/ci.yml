@@ -93,13 +93,24 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+          dotnet-quality: 'preview'
+          
       - name: Cache .nuke/temp, ~/.nuget/packages
+        id: cache-nuget
         uses: actions/cache@v3
         with:
           path: |
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ matrix.msbuild_target }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
+
+      - name: Restore dependencies
+        if: steps.cache-nuget.outputs.cache-hit != 'true'
+        run: dotnet restore
 
       - name: Bootstrap MaaDeps
         env:
@@ -110,10 +121,12 @@ jobs:
       - name: Create fake event file
         shell: bash
         run: cp -v "$GITHUB_EVENT_PATH" ./event.json
+
       - if: startsWith(github.ref, 'refs/tags/v')
         shell: bash
         run: |
           cat "$GITHUB_EVENT_PATH" | jq '. + { "inputs": {"ReleaseSimulation": "${{ needs.meta.outputs.tag }}"} }' | tee ./event.json
+
       - name: Build
         run: |
           $env:GITHUB_WORKFLOW = 'dev-build-win' # pretend this is a dev-build-win workflow
@@ -123,9 +136,11 @@ jobs:
           ./build.cmd DevBuild
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - run: |
           rm -vf ./artifacts/checksum.json
         shell: bash
+
       - uses: actions/upload-artifact@v3
         with:
           name: MAA-win-${{ matrix.lowercase_target }}
