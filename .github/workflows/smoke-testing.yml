@@ -29,11 +29,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - uses: NuGet/setup-nuget@v1.2.0
-      - run: |
-          nuget restore MAA.sln
-          if ($LASTEXITCODE) { nuget restore MAA.sln }
-          if ($LASTEXITCODE) { nuget restore MAA.sln }
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+          
+      - name: Restore dependencies
+        run: dotnet restore
       
       - name: Bootstrap MaaDeps
         env:
