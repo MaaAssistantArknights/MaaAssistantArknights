@@ -973,11 +973,11 @@ namespace MaaWpfGui.ViewModels.UI
             if (Instances.SettingsViewModel.RoguelikeDelayAbortUntilCombatComplete)
             {
                 await WaitUntilRoguelikeCombatComplete();
-            }
 
-            if (!Stopping)
-            {
-                await Stop();
+                if (Instances.AsstProxy.AsstRunning() && !Stopping)
+                {
+                    await Stop();
+                }
             }
         }
 
