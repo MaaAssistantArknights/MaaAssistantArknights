@@ -483,11 +483,11 @@ namespace MaaWpfGui.ViewModels.UI
                         return;
                     }
 
-                    taskPairs.Add(fileInfo.Name.Substring(0, fileInfo.Name.Length - fileInfo.Extension.Length), filename);
+                    taskPairs.Add(fileInfo.Name.Substring(0, fileInfo.Name.Length - fileInfo.Extension.Length).Replace("突袭", "-Adverse"), filename);
                 }
                 catch (Exception)
                 {
-                    AddLog($"{filename} " + LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error);
+                    AddLog($"{filename}: " + LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error);
                     return;
                 }
             }
@@ -506,6 +506,7 @@ namespace MaaWpfGui.ViewModels.UI
                     Index = CopilotItemViewModels.Count,
                 };
                 CopilotItemViewModels.Add(item);
+                AddLog("append task: " + pair.Key);
             }
 
             SaveCopilotTask();
