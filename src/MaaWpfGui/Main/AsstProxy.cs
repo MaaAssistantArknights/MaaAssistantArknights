@@ -40,6 +40,7 @@ namespace MaaWpfGui.Main
 {
     using AsstHandle = IntPtr;
     using AsstInstanceOptionKey = Int32;
+
     using AsstTaskId = Int32;
 
     /// <summary>
@@ -410,8 +411,10 @@ namespace MaaWpfGui.Main
                 case AsstMsg.SubTaskExtraInfo:
                     ProcSubTaskMsg(msg, details);
                     break;
+
                 case AsstMsg.SubTaskStopped:
                     break;
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(msg), msg, null);
             }
@@ -502,6 +505,7 @@ namespace MaaWpfGui.Main
             {
                 case "CloseDown":
                     return;
+
                 case "Recruit":
                     {
                         if (msg == AsstMsg.TaskChainError)
@@ -562,6 +566,7 @@ namespace MaaWpfGui.Main
                         case "Fight":
                             Instances.TaskQueueViewModel.FightTaskRunning = true;
                             break;
+
                         case "Infrast":
                             Instances.TaskQueueViewModel.InfrastTaskRunning = true;
                             break;
@@ -576,11 +581,13 @@ namespace MaaWpfGui.Main
                         case "Fight":
                             Instances.TaskQueueViewModel.FightTaskRunning = false;
                             break;
+
                         case "Infrast":
                             Instances.TaskQueueViewModel.InfrastTaskRunning = false;
                             Instances.TaskQueueViewModel.IncreaseCustomInfrastPlanIndex();
                             Instances.TaskQueueViewModel.RefreshCustomInfrastPlanIndexByPeriod();
                             break;
+
                         case "Mall":
                             {
                                 if (Instances.TaskQueueViewModel.Stage != string.Empty && Instances.SettingsViewModel.CreditFightTaskEnabled)
@@ -695,22 +702,31 @@ namespace MaaWpfGui.Main
                     }
 
                     break;
+
                 case AsstMsg.InternalError:
                     break;
+
                 case AsstMsg.InitFailed:
                     break;
+
                 case AsstMsg.ConnectionInfo:
                     break;
+
                 case AsstMsg.SubTaskError:
                     break;
+
                 case AsstMsg.SubTaskStart:
                     break;
+
                 case AsstMsg.SubTaskCompleted:
                     break;
+
                 case AsstMsg.SubTaskExtraInfo:
                     break;
+
                 case AsstMsg.SubTaskStopped:
                     break;
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(msg), msg, null);
             }
@@ -738,26 +754,37 @@ namespace MaaWpfGui.Main
                 case AsstMsg.SubTaskExtraInfo:
                     ProcSubTaskExtraInfo(details);
                     break;
+
                 case AsstMsg.InternalError:
                     break;
+
                 case AsstMsg.InitFailed:
                     break;
+
                 case AsstMsg.ConnectionInfo:
                     break;
+
                 case AsstMsg.AllTasksCompleted:
                     break;
+
                 case AsstMsg.TaskChainError:
                     break;
+
                 case AsstMsg.TaskChainStart:
                     break;
+
                 case AsstMsg.TaskChainCompleted:
                     break;
+
                 case AsstMsg.TaskChainExtraInfo:
                     break;
+
                 case AsstMsg.TaskChainStopped:
                     break;
+
                 case AsstMsg.SubTaskStopped:
                     break;
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(msg), msg, null);
             }
@@ -966,7 +993,7 @@ namespace MaaWpfGui.Main
             _ = details;
         }
 
-        private void ProcSubTaskExtraInfo(JObject details)
+        private static void ProcSubTaskExtraInfo(JObject details)
         {
             string taskChain = details["taskchain"].ToString();
 
@@ -975,6 +1002,7 @@ namespace MaaWpfGui.Main
                 case "Recruit":
                     ProcRecruitCalcMsg(details);
                     break;
+
                 case "VideoRecognition":
                     ProcVideoRecMsg(details);
                     break;
@@ -986,6 +1014,7 @@ namespace MaaWpfGui.Main
                 case "Depot":
                     Instances.RecognizerViewModel.DepotParse((JObject)subTaskDetails);
                     break;
+
                 case "OperBox":
                     Instances.RecognizerViewModel.OperBoxParse((JObject)subTaskDetails);
                     break;
@@ -1154,6 +1183,7 @@ namespace MaaWpfGui.Main
                     }
 
                     break;
+
                 case "RoguelikeCombatEnd":
                     // 肉鸽战斗结束，无论成功与否
                     Instances.TaskQueueViewModel.RoguelikeInCombatAndShowWait = false;
@@ -1191,9 +1221,11 @@ namespace MaaWpfGui.Main
                     }
 
                     break;
+
                 case "CopilotListLoadTaskFileSuccess":
                     Instances.CopilotViewModel.AddLog($"Parse {subTaskDetails["file_name"]}[{subTaskDetails["stage_name"]}] Success");
                     break;
+
                 case "CopilotListEnterSuccess":
                     Instances.CopilotViewModel.EnterCopilotTask();
                     break;

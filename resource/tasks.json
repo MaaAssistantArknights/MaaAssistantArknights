@@ -346,6 +346,11 @@
             "EPISODE12"
         ]
     },
+    "13@EnterEpisode": {
+        "text": [
+            "EPISODE13"
+        ]
+    },
     "LevelOfDifficulty": {
         "Doc": "base_task",
         "algorithm": "OcrDetect",
@@ -451,22 +456,39 @@
         ],
         "postDelay": 500
     },
+    "14@SwipeLeftToEpisode": {
+        "text": [
+            "EPISODE15"
+        ]
+    },
+    "13@SwipeLeftToEpisode": {
+        "text": [
+            "EPISODE14",
+            "EPISODE15"
+        ]
+    },
     "12@SwipeLeftToEpisode": {
         "text": [
-            "EPISODE13"
+            "EPISODE13",
+            "EPISODE14",
+            "EPISODE15"
         ]
     },
     "11@SwipeLeftToEpisode": {
         "text": [
             "EPISODE12",
-            "EPISODE13"
+            "EPISODE13",
+            "EPISODE14",
+            "EPISODE15"
         ]
     },
     "10@SwipeLeftToEpisode": {
         "text": [
             "EPISODE11",
             "EPISODE12",
-            "EPISODE13"
+            "EPISODE13",
+            "EPISODE14",
+            "EPISODE15"
         ]
     },
     "09@SwipeLeftToEpisode": {
@@ -474,7 +496,9 @@
             "EPISODE10",
             "EPISODE11",
             "EPISODE12",
-            "EPISODE13"
+            "EPISODE13",
+            "EPISODE14",
+            "EPISODE15"
         ]
     },
     "08@SwipeLeftToEpisode": {
@@ -717,6 +741,19 @@
     },
     "Episode12": {
         "baseTask": "12@Episode",
+        "sub": [
+            "ToChapter3@StageTheme"
+        ]
+    },
+    "Episode13": {
+        "baseTask": "13@Episode",
+        "sub": [
+            "ToChapter3@StageTheme"
+        ]
+    },
+    "Episode14": {
+        "doc": "待出",
+        "baseTask": "14@Episode",
         "sub": [
             "ToChapter3@StageTheme"
         ]
@@ -8319,6 +8356,10 @@
             [
                 "억",
                 "亿"
+            ],
+            [
+                "^\\.",
+                ""
             ]
         ]
     },
@@ -8549,7 +8590,6 @@
             "Roguelike@ExitThenAbandon",
             "Roguelike@Abandon",
             "Roguelike@TodoEnter",
-            "Roguelike@Continue",
             "Roguelike@ReturnButtons#next",
             "Roguelike@ReturnConfirm",
             "Roguelike@StartUpThemes#next"
@@ -8665,7 +8705,6 @@
             "Roguelike@Stages#next",
             "Roguelike@GamePass",
             "Roguelike@TodoEnter",
-            "Roguelike@Continue",
             "Roguelike@ReturnButtons#next",
             "Roguelike@ReturnConfirm",
             "Roguelike@StartUpThemes#next",
@@ -8698,23 +8737,6 @@
             400,
             140,
             139
-        ]
-    },
-    "Roguelike@Continue": {
-        "Doc": "base_task",
-        "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            1032,
-            487,
-            248,
-            215
-        ],
-        "postDelay": 500,
-        "next": [
-            "Roguelike@MissionFailedFlag2",
-            "Roguelike@ExitThenAbandon"
         ]
     },
     "Roguelike@DialogSkip": {
@@ -9288,6 +9310,7 @@
         ],
         "next": [
             "Roguelike@Stages#next",
+            "Roguelike@MissionFailedFlag2",
             "Roguelike@ClickToStartPoint"
         ]
     },
@@ -10323,8 +10346,7 @@
             "Roguelike@SquadDefault",
             "Roguelike@InitalDrop",
             "Roguelike@ChooseDifficulty",
-            "Roguelike@StartExplore",
-            "Roguelike@ClickToStartPointAfterFailed"
+            "Roguelike@StartExplore"
         ]
     },
     "Roguelike@TodoEnter": {
@@ -10425,7 +10447,6 @@
         ]
     },
     "Phantom@Roguelike@CloseEvent": {},
-    "Phantom@Roguelike@Continue": {},
     "Phantom@Roguelike@DialogSkipConfirm": {
         "template": "Roguelike@DialogSkipConfirm.png",
         "next": [
@@ -10890,7 +10911,6 @@
             "Mizuki@Roguelike@Stages#next"
         ]
     },
-    "Mizuki@Roguelike@Continue": {},
     "Mizuki@Roguelike@DataTraceback": {
         "action": "DoNothing",
         "cache": false,
@@ -11524,42 +11544,6 @@
         ]
     },
     "Sami@Roguelike@CloseEvent": {},
-    "Sami@Roguelike@Continue": {
-        "roi": [
-            967,
-            536,
-            313,
-            177
-        ],
-        "next": [
-            "Sami@Roguelike@MissionFailedFlag2",
-            "Sami@Roguelike@ExitThenAbandon",
-            "Sami@Roguelike@ContinueClick"
-        ]
-    },
-    "Sami@Roguelike@ContinueClick": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "text": [
-            "初霜湖泽",
-            "密静林地",
-            "昧明冻土",
-            "积冰岩骸",
-            "无瑕花园",
-            "远见之构",
-            "深埋迷境"
-        ],
-        "roi": [
-            522,
-            431,
-            245,
-            144
-        ],
-        "next": [
-            "Sami@Roguelike@Continue"
-        ]
-    },
     "Sami@Roguelike@DialogSkipConfirm": {
         "template": "Roguelike@DialogSkipConfirm.png",
         "next": [
