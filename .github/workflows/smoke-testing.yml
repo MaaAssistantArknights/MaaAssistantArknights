@@ -28,7 +28,21 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
-      
+
+      - name: Taggify Version
+        run: |
+          $csprojPath = "src/MaaWpfGui/MaaWpfGui.csproj"
+          $csprojPath = Resolve-Path -Path $csprojPath
+          [xml]$csproj = Get-Content -Path $csprojPath
+          $node = $csproj.Project.PropertyGroup | where {$_.AssemblyName -ne $null}
+          $node.InformationalVersion = '${{ needs.meta.outputs.tag }}'
+          $node.Version = '${{ needs.meta.outputs.tag }}'
+          $node.FileVersion = '${{ needs.meta.outputs.tag }}'
+          $node.AssemblyVersion = '${{ needs.meta.outputs.tag }}'
+          $csproj.Save($csprojPath)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - uses: NuGet/setup-nuget@v1.2.0
       - run: |
           nuget restore MAA.sln
