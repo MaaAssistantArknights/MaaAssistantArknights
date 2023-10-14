@@ -9288,6 +9288,7 @@
         ],
         "next": [
             "Roguelike@Stages#next",
+            "Roguelike@MissionFailedFlag2",
             "Roguelike@ClickToStartPoint"
         ]
     },
@@ -10323,8 +10324,7 @@
             "Roguelike@SquadDefault",
             "Roguelike@InitalDrop",
             "Roguelike@ChooseDifficulty",
-            "Roguelike@StartExplore",
-            "Roguelike@ClickToStartPointAfterFailed"
+            "Roguelike@StartExplore"
         ]
     },
     "Roguelike@TodoEnter": {
