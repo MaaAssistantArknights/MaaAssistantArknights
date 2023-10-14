@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Version>DEBUG VERSION</Version>
-    <FileVersion>DEBUG VERSION</FileVersion>
-    <AssemblyVersion>DEBUG VERSION</AssemblyVersion>
-    <InformationalVersion>DEBUG VERSION</InformationalVersion>
+    <Version>0.0.1</Version>
+    <FileVersion>0.0.1</FileVersion>
+    <AssemblyVersion>0.0.1</AssemblyVersion>
+    <InformationalVersion>0.0.1</InformationalVersion>
     <OutputType>WinExe</OutputType>
     <RootNamespace>MaaWpfGui</RootNamespace>
     <AssemblyName>MAA</AssemblyName>
