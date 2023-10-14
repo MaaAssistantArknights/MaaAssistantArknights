@@ -113,7 +113,20 @@ jobs:
       - if: startsWith(github.ref, 'refs/tags/v')
         shell: bash
         run: |
-          cat "$GITHUB_EVENT_PATH" | jq '. + { "inputs": {"ReleaseSimulation": "${{ needs.meta.outputs.tag }}"} }' | tee ./event.json
+          cat "$GITHUB_EVENT_PATH" | jq '. + { "inputs": {"ReleaseSimulation": "${{ needs.meta.outputs.tag }}"} }' | tee ./event.json	
+
+      - name: Taggify Version
+        run: |
+          $csprojPath = "MaaWpfGui.csproj"
+          [xml]$csproj = Get-Content -Path $csprojPath
+          $csproj.Project.PropertyGroup.InformationalVersion = ${{ needs.meta.outputs.tag }}
+          $csproj.Project.PropertyGroup.Version = ${{ needs.meta.outputs.tag }}
+          $csproj.Project.PropertyGroup.FileVersion = ${{ needs.meta.outputs.tag }}
+          $csproj.Project.PropertyGroup.AssemblyVersion = ${{ needs.meta.outputs.tag }}
+          $csproj.Save($csprojPath)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build
         run: |
           $env:GITHUB_WORKFLOW = 'dev-build-win' # pretend this is a dev-build-win workflow

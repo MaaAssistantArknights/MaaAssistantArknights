@@ -72,12 +72,21 @@ namespace MaaWpfGui.ViewModels.UI
         [DllImport("user32.dll")]
         private static extern bool IsIconic(IntPtr hWnd);
 
-        private static readonly string _versionId = Marshal.PtrToStringAnsi(AsstGetVersion());
+        private static readonly string _coreVersion = Marshal.PtrToStringAnsi(AsstGetVersion());
 
         /// <summary>
-        /// Gets the version id.
+        /// Gets the core version.
         /// </summary>
-        public string VersionId => _versionId;
+        public string CoreVersion => _coreVersion;
+
+        private static readonly string _uiVersion = FileVersionInfo
+            .GetVersionInfo(Application.ResourceAssembly.Location)
+            .ProductVersion.Split('+')[0];
+
+        /// <summary>
+        /// Gets the UI version.
+        /// </summary>
+        public string UiVersion => _uiVersion;
 
         /// <summary>
         /// The Pallas language key.
@@ -2961,7 +2970,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             string poolString = !string.IsNullOrEmpty(versionName) ? $" - {versionName}" : string.Empty;
-            rvm.WindowTitle = $"{prefix}MAA ({CurrentConfiguration}) - {VersionId}{poolString} - {connectConfigName} ({ConnectAddress}) - {ClientName}";
+            rvm.WindowTitle = $"{prefix}MAA ({CurrentConfiguration}) - {CoreVersion}{poolString} - {connectConfigName} ({ConnectAddress}) - {ClientName}";
         }
 
         private readonly string _bluestacksConfig = GetBluestacksConfig();

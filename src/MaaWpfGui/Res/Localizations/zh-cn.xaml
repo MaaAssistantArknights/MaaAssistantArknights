@@ -23,7 +23,8 @@
     <system:String x:Key="HotKeySettings">热键设置</system:String>
     <system:String x:Key="UpdateSettings">软件更新</system:String>
     <system:String x:Key="AboutUs">关于我们</system:String>
-    <system:String x:Key="Version">版本号</system:String>
+    <system:String x:Key="CoreVersion">Core 版本号</system:String>
+    <system:String x:Key="UiVersion">UI 版本号</system:String>
     <system:String x:Key="Off">关闭</system:String>
     <system:String x:Key="ExternalNotificationTips">请注意：外部通知功能目前仅会发送“所有任务完成”的通知。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
