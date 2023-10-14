@@ -86,7 +86,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets the UI version.
         /// </summary>
-        public string UiVersion => _uiVersion;
+        public string UiVersion => _uiVersion == "0.0.1" ? "DEBUG VERSION" : _uiVersion;
 
         /// <summary>
         /// The Pallas language key.
