@@ -454,7 +454,6 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            AddLog(string.Join("\n", dialog.FileNames));
             Dictionary<string, string> taskPairs = new Dictionary<string, string>();
             foreach (var filename in dialog.FileNames)
             {
@@ -478,7 +477,7 @@ namespace MaaWpfGui.ViewModels.UI
                     var jsonStr = await reader.ReadToEndAsync();
 
                     var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
-                    if (!json.ContainsKey("stage_name") || !json.ContainsKey("actions"))
+                    if (json is null || !json.ContainsKey("stage_name") || !json.ContainsKey("actions"))
                     {
                         AddLog($"{filename} corrupted", UiLogColor.Error);
                         return;
