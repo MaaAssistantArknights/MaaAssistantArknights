@@ -105,7 +105,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
 
     bool bought = false;
     auto& all_goods = RoguelikeShopping.get_goods(m_roguelike_theme);
-    // auto& all_ciphertext_board = Task.get<OcrTaskInfo>("Sami@Roguelike@CiphertextBoardGain")->text;
+    auto& all_ciphertext_board = Task.get<OcrTaskInfo>("Sami@Roguelike@CiphertextBoardGainOcr")->text;
     for (const auto& goods : all_goods) {
         if (need_exit()) {
             return false;
@@ -170,7 +170,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         bought = true;
         if (m_roguelike_theme == "Sami") {
             
-            /* auto iter = all_ciphertext_board["text"].find(goods.name);
+            auto iter = std::find(all_ciphertext_board.begin(), all_ciphertext_board.end(), goods.name);
             if (iter != all_ciphertext_board.end()) {
                 std::string overview_str =
                     status()->get_str(Status::RoguelikeCiphertextBoardOverview).value_or(json::value().to_string());
@@ -179,7 +179,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
                 // 把ciphertext_board存到overview里
                 overview.push_back(goods.name);
                 status()->set_str(Status::RoguelikeCiphertextBoardOverview, overview.to_string());
-            }*/
+            }
         }
         if (goods.no_longer_buy) {
             status()->set_number(Status::RoguelikeTraderNoLongerBuy, 1);

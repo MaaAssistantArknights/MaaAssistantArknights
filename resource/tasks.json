@@ -11662,6 +11662,7 @@
     "Sami@Roguelike@CiphertextBoardGainOcr": {
         "algorithm": "OcrDetect",
         "action": "DoNothing",
+        "cache": false,
         "roi": [
             584,
             261,
@@ -11707,6 +11708,21 @@
             "掠夺",
             "迁徙",
             "空无"
+        ],
+        "ocrReplace": [
+            [
+                "黜",
+                "黜人"
+            ]
+        ]
+    },
+    "Sami@Roguelike@CiphertextBoardGainOcrAfterCombat": {
+        "baseTask": "Sami@Roguelike@CiphertextBoardGainOcr",
+        "roi": [
+            44,
+            309,
+            1195,
+            124
         ]
     },
     "Sami@Roguelike@GetDrop1": {},
@@ -11742,14 +11758,14 @@
         "Doc": "密文板三选一",
         "template": "Sami@Roguelike@GetDropSelectReward2.png",
         "cache": false,
-        "action": "ClickSelf",
+        "action": "DoNothing",
         "roi": [
             0,
             420,
             1280,
             175
         ],
-        "postDelay": 1000,
+        "postDelay": 800,
         "next": [
             "Sami@Roguelike@GetDropSelectReward2",
             "Sami@Roguelike@ChooseOperFlag",

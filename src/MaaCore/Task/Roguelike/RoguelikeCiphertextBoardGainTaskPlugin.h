@@ -17,6 +17,7 @@ namespace asst
         virtual bool _run() override;
 
     private:
+        // 战斗后识别密文板
         mutable bool m_ocr_after_combat = false;
     };
 }
