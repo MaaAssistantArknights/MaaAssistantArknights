@@ -12,6 +12,7 @@
 // </copyright>
 
 using System;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -40,20 +41,55 @@ namespace MaaWpfGui.Views.UserControl
 
         private readonly DispatcherTimer _timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 6000), };
 
+        private void CoreVersionClick(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                CopyToClipboardAsync(Instances.SettingsViewModel.CoreVersion);
+            }
+            catch
+            {
+                // ignore
+            }
+
+            EasterEggs(sender, e);
+        }
+
+        private void UiVersionClick(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                CopyToClipboardAsync(Instances.SettingsViewModel.UiVersion);
+            }
+            catch
+            {
+                // ignore
+            }
+        }
+
+        private static void CopyToClipboardAsync(string text)
+        {
+            Thread clipboardThread = new Thread(() =>
+            {
+                try
+                {
+                    Clipboard.SetText(text);
+                }
+                catch
+                {
+                    // ignore
+                }
+            });
+
+            clipboardThread.SetApartmentState(ApartmentState.STA);
+            clipboardThread.Start();
+        }
+
         private void EasterEggs(object sender, MouseButtonEventArgs e)
         {
             if (_timer.IsEnabled)
             {
                 return;
-            }
-
-            try
-            {
-                Clipboard.SetText(Instances.SettingsViewModel.VersionId);
-            }
-            catch
-            {
-                // ignore
             }
 
             _timer.IsEnabled = true;

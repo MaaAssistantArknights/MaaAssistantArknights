@@ -1,9 +1,6 @@
-<Project Sdk="Microsoft.NET.Sdk" InitialTargets="TaggifyVersion">
-  <Target Name="TaggifyVersion">
-    <Exec Command="powershell ./TaggifyVersion.ps1" />
-    <Message Text="Taggify Version" Importance="High" />
-  </Target>
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <InformationalVersion>DEBUG VERSION</InformationalVersion>
     <OutputType>WinExe</OutputType>
     <RootNamespace>MaaWpfGui</RootNamespace>
     <AssemblyName>MAA</AssemblyName>

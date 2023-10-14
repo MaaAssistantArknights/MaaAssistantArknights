@@ -96,16 +96,26 @@
                     VerticalAlignment="Center"
                     InputMethod.IsInputMethodEnabled="False"
                     Text="{Binding Proxy}" />
-                <hc:Shield
-                    Grid.Row="2"
-                    Margin="0,10"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    hc:FloatingBlock.Content="{Binding VersionId}"
-                    PreviewMouseDown="EasterEggs"
-                    Status="{Binding VersionId, Mode=OneWay}"
-                    Subject="{DynamicResource Version}"
-                    Color="#6969AA" />
+                <StackPanel Grid.Row="2">
+                    <hc:Shield
+                        Margin="0,10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        hc:FloatingBlock.Content="{Binding UiVersion}"
+                        PreviewMouseDown="UiVersionClick"
+                        Status="{Binding UiVersion, Mode=OneWay}"
+                        Subject="{DynamicResource UiVersion}"
+                        Color="#6969AA" />
+                    <hc:Shield
+                        Margin="0,10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        hc:FloatingBlock.Content="{Binding CoreVersion}"
+                        PreviewMouseDown="CoreVersionClick"
+                        Status="{Binding CoreVersion, Mode=OneWay}"
+                        Subject="{DynamicResource CoreVersion}"
+                        Color="#6969AA" />
+                </StackPanel>
                 <StackPanel
                     Grid.Row="3"
                     Margin="5"
