@@ -1,5 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <Version>DEBUG VERSION</Version>
+    <FileVersion>DEBUG VERSION</FileVersion>
+    <AssemblyVersion>DEBUG VERSION</AssemblyVersion>
     <InformationalVersion>DEBUG VERSION</InformationalVersion>
     <OutputType>WinExe</OutputType>
     <RootNamespace>MaaWpfGui</RootNamespace>
@@ -25,7 +28,6 @@
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <OutputPath>..\..\$(Platform)\$(Configuration)\</OutputPath>
   </PropertyGroup>
-
   <!-- StyleCop -->
   <PropertyGroup>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
@@ -38,11 +40,9 @@
     <IncludeSymbols>False</IncludeSymbols>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
-
   <ItemGroup>
     <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
-
   <ItemGroup>
     <COMReference Include="IWshRuntimeLibrary">
       <WrapperTool>tlbimp</WrapperTool>
@@ -55,7 +55,6 @@
     </COMReference>
   </ItemGroup>
   <!-- StyleCop -->
-
   <PropertyGroup>
     <WeaverConfiguration Condition="'$(Configuration)' == 'Release'">
       <Weavers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="FodyWeavers.xsd">
@@ -68,8 +67,7 @@
         <PropertyChanged />
       </Weavers>
     </WeaverConfiguration>
-  </PropertyGroup> 
-
+  </PropertyGroup>
   <ItemGroup>
     <Page Include="Properties\DesignTimeResources.xaml" Condition="'$(DesignTime)'=='true' OR ('$(SolutionPath)'!='' AND Exists('$(SolutionPath)') AND '$(BuildingInsideVisualStudio)'!='true' AND '$(BuildingInsideExpressionBlend)'!='true')">
       <Generator>MSBuild:Compile</Generator>
@@ -77,7 +75,6 @@
       <ContainsDesignTimeResources>true</ContainsDesignTimeResources>
     </Page>
   </ItemGroup>
-
   <ItemGroup>
     <None Include="..\..\README.md">
       <Pack>True</Pack>
