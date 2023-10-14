@@ -482,6 +482,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="UseCopilotListTip">시작하기 전에 레벨 선택 페이지로 전환하세요</system:String>
     <system:String x:Key="CopilotAddTask">공격대 난이도를 추가하려면 마우스 오른쪽 버튼을 클릭하세요.</system:String>
     <system:String x:Key="CopilotClearTask">비활성 작업을 지우려면 마우스 오른쪽 버튼을 클릭하세요.</system:String>
+    <system:String x:Key="ClearAvatarCache">아바타 캐시 지우기</system:String>
     <system:String x:Key="LoopTimes">반복 횟수</system:String>
     <system:String x:Key="Start">시작</system:String>
     <system:String x:Key="VideoLink">영상 링크</system:String>
@@ -497,10 +498,10 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
         동영상의 해상도는 16:9여야 하며, 검은색 테두리, 에뮬레이터 테두리, 특수한 모양의 화면 보정 등의 방해 요소가 없어야 합니다.\n\n
         6. 전투 목록:\n
         작업을 선택한 후 목록 아래의 레벨 이름이 올바른지 확인하세요(예: CV-EX-1). \n
-        추가: 일반 난이도를 추가하려면 마우스 왼쪽 버튼을 클릭하고, 레이드 난이도를 추가하려면 마우스 오른쪽 버튼을 클릭하세요. \n
-        지우기: 목록을 지우려면 마우스 왼쪽 버튼을 클릭하고, 비활성 작업만 제거하려면 마우스 오른쪽 버튼을 클릭합니다. \n
         시작하기 전에 레벨 선택 인터페이스로 전환해야 합니다. 크로스 챕터 탐색은 지원되지 않습니다. \n
-        정신력이 부족하거나, 전투가 실패하거나, 별 3개를 해결할 수 없는 경우 액션이 종료됩니다. \n\n
+        정신력이 부족하거나, 전투가 실패하거나, 별 3개를 해결할 수 없는 경우 액션이 종료됩니다. \n
+        추가: 일반 난이도를 추가하려면 마우스 왼쪽 버튼을 클릭하고, 레이드 난이도를 추가하려면 마우스 오른쪽 버튼을 클릭하세요. \n
+        지우기: 목록을 지우려면 마우스 왼쪽 버튼을 클릭하고, 비활성 작업만 제거하려면 마우스 오른쪽 버튼을 클릭합니다. \n\n
     </system:String>
     <system:String x:Key="CopilotFileReadError">파일을 읽지 못했습니다!</system:String>
     <system:String x:Key="CopilotNoFound">해당 파일을 찾을 수 없습니다!</system:String>

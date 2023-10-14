@@ -482,6 +482,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="UseCopilotListTip">Please switch to the level selection page before starting</system:String>
     <system:String x:Key="CopilotAddTask">Right click to add raid difficulty</system:String>
     <system:String x:Key="CopilotClearTask">Right click to clear inactive tasks</system:String>
+    <system:String x:Key="ClearAvatarCache">Clear avatar cache</system:String>
     <system:String x:Key="LoopTimes">Loop Times</system:String>
     <system:String x:Key="Start">Start</system:String>
     <system:String x:Key="VideoLink">Video Link</system:String>
@@ -497,10 +498,10 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
         The video aspect ratio needs to be 16:9 without interference factors such as black borders, emulator borders special shapes and screen corrections.\n\n
         6. Battle list:\n
         After selecting the job, check that the level name below the list is correct (eg: CV-EX-1). \n
-        Add: Left click to add normal difficulty, right click to add raid difficulty. \n
-        Clear: Left click to clear the list, right click to remove only inactive tasks. \n
         Before starting, you need to switch to the level selection interface. Cross-chapter navigation is not supported. \n
-        The operation will be terminated when encountering insufficient sanity, losing the battle, or failing to settle with three stars. \n\n
+        The operation will be terminated when encountering insufficient sanity, losing the battle, or failing to settle with three stars. \n
+        Add: Left click to add normal difficulty, right click to add raid difficulty. \n
+        Clear: Left click to clear the list, right click to remove only inactive tasks. \n\n
     </system:String>
     <system:String x:Key="CopilotFileReadError">Failed to read file!</system:String>
     <system:String x:Key="CopilotNoFound">No corresponding file found!</system:String>

@@ -12,6 +12,7 @@
 #include "Config/ResourceLoader.h"
 #include "Utils/Logger.hpp"
 #include "Utils/WorkingDir.hpp"
+#include "Config/Miscellaneous/AvatarCacheManager.h"
 
 static constexpr AsstSize NullSize = static_cast<AsstSize>(-1);
 static constexpr AsstId InvalidId = 0;
@@ -256,4 +257,9 @@ void AsstLog(const char* level, const char* message)
         return;
     }
     asst::Log.log(asst::Logger::level(level), message);
+}
+
+void AsstClearAvatarCache()
+{
+    asst::AvatarCacheManager::get_instance().clear_cache();
 }

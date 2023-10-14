@@ -1,6 +1,5 @@
 #pragma once
 
-#pragma once
 #include "Config/AbstractResource.h"
 
 #include <future>
@@ -26,6 +25,7 @@ namespace asst
 
         const AvatarsMap& get_avatars(battle::Role role);
         void set_avatar(const std::string& name, battle::Role role, const cv::Mat& avatar, bool overlay = true);
+        void clear_cache() { m_avatars.clear(); }
 
     private:
         using LoadItem = std::unordered_map<battle::Role, std::unordered_map<std::string, std::filesystem::path>>;

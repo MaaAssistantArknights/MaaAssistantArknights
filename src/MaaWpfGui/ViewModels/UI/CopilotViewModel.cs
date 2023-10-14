@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
@@ -42,6 +43,9 @@ namespace MaaWpfGui.ViewModels.UI
     // ReSharper disable once ClassNeverInstantiated.Global
     public class CopilotViewModel : Screen
     {
+        [DllImport("MaaCore.dll")]
+        private static extern void AsstClearAvatarCache();
+
         private readonly RunningState _runningState;
         private static readonly ILogger _logger = Log.ForContext<CopilotViewModel>();
 
@@ -434,6 +438,21 @@ namespace MaaWpfGui.ViewModels.UI
             else if (Clipboard.ContainsFileDropList())
             {
                 DropFile(Clipboard.GetFileDropList()[0]);
+            }
+        }
+
+        /// <summary>
+        /// clear avatar cache
+        /// </summary>
+        // ReSharper disable once UnusedMember.Global
+        public void ClearAvatarCache()
+        {
+            AsstClearAvatarCache();
+            var cacheDir = new DirectoryInfo("cache/avatars/");
+            if (cacheDir.Exists)
+            {
+                cacheDir.Delete(true);
+                AddLog("delete " + cacheDir.FullName);
             }
         }
 

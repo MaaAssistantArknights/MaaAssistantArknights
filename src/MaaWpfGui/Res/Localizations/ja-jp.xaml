@@ -482,6 +482,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="UseCopilotListTip">開始前にレベル選択ページに切り替えてください</system:String>
     <system:String x:Key="CopilotAddTask">右クリックしてレイドの難易度を追加します</system:String>
     <system:String x:Key="CopilotClearTask">右クリックして非アクティブなタスクをクリアします</system:String>
+    <system:String x:Key="ClearAvatarCache">アバターのキャッシュをクリアする</system:String>
     <system:String x:Key="LoopTimes">ループ回数</system:String>
     <system:String x:Key="Start">開始</system:String>
     <system:String x:Key="VideoLink">映像へのハイパーリンク</system:String>
@@ -497,10 +498,10 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
         ビデオ解像度は16:9必須。黒枠、エミュレーター枠、特殊な形状、画面効果などが無いことを確認してください。\n\n
         6. バトルリスト:\n
         ジョブを選択した後、リストの下のレベル名が正しいことを確認してください (例: CV-EX-1)。 \n
-        追加: 左クリックしてノーマル難易度を追加し、右クリックしてレイド難易度を追加します。\n
-        クリア: 左クリックするとリストがクリアされ、右クリックすると非アクティブなタスクのみが削除されます。\n
         開始する前に、レベル選択インターフェースに切り替える必要があります。章間のナビゲーションはサポートされていません。\n
-        正気度が不十分な場合、戦闘が失敗した場合、または 3 つ星を解決できない場合、アクションは終了します。 \n\n
+        正気度が不十分な場合、戦闘が失敗した場合、または 3 つ星を解決できない場合、アクションは終了します。 \n
+        追加: 左クリックしてノーマル難易度を追加し、右クリックしてレイド難易度を追加します。\n
+        クリア: 左クリックするとリストがクリアされ、右クリックすると非アクティブなタスクのみが削除されます。\n\n
     </system:String>
     <system:String x:Key="CopilotFileReadError">ファイルの読み取りに失敗しました！</system:String>
     <system:String x:Key="CopilotNoFound">対応する攻略ファイルが見つかりません！</system:String>
