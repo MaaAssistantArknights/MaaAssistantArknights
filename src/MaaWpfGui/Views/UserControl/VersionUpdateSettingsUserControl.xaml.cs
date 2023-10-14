@@ -52,7 +52,7 @@ namespace MaaWpfGui.Views.UserControl
                 // ignore
             }
 
-            EasterEggs(sender, e);
+            EasterEggs();
         }
 
         private void UiVersionClick(object sender, MouseButtonEventArgs e)
@@ -85,8 +85,7 @@ namespace MaaWpfGui.Views.UserControl
             clipboardThread.Start();
         }
 
-        // ReSharper disable once UnusedParameter.Local
-        private void EasterEggs(object sender, MouseButtonEventArgs e)
+        private void EasterEggs()
         {
             if (_timer.IsEnabled)
             {
