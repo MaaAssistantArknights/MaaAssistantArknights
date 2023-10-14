@@ -438,8 +438,8 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
     if (!update_deployment(false, image)) {
         return false;
     }
-    update_cost();
-    update_kills();
+    update_cost(image);
+    update_kills(image);
 
     std::unordered_set<std::string> cur_cooling;
     size_t cur_available_count = 0;   // without drones
