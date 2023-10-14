@@ -119,10 +119,10 @@ jobs:
         run: |
           $csprojPath = "src/MaaWpfGui/MaaWpfGui.csproj"
           [xml]$csproj = Get-Content -Path $csprojPath
-          $csproj.Project.PropertyGroup.InformationalVersion = ${{ needs.meta.outputs.tag }}
-          $csproj.Project.PropertyGroup.Version = ${{ needs.meta.outputs.tag }}
-          $csproj.Project.PropertyGroup.FileVersion = ${{ needs.meta.outputs.tag }}
-          $csproj.Project.PropertyGroup.AssemblyVersion = ${{ needs.meta.outputs.tag }}
+          $csproj.Project.PropertyGroup.InformationalVersion = '${{ needs.meta.outputs.tag }}'
+          $csproj.Project.PropertyGroup.Version = '${{ needs.meta.outputs.tag }}'
+          $csproj.Project.PropertyGroup.FileVersion = '${{ needs.meta.outputs.tag }}'
+          $csproj.Project.PropertyGroup.AssemblyVersion = '${{ needs.meta.outputs.tag }}'
           $csproj.Save($csprojPath)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
