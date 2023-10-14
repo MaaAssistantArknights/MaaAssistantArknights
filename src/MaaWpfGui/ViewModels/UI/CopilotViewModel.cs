@@ -437,6 +437,81 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        /// <summary>
+        /// Import copilot json files from dictionary
+        /// </summary>
+        // ReSharper disable once UnusedMember.Global
+        public async void ImportFiles()
+        {
+            var dialog = new OpenFileDialog
+            {
+                Filter = "JSON|*.json",
+                Multiselect = true,
+            };
+
+            if (dialog.ShowDialog() != true)
+            {
+                return;
+            }
+
+            AddLog(string.Join("\n", dialog.FileNames));
+            Dictionary<string, string> taskPairs = new Dictionary<string, string>();
+            foreach (var filename in dialog.FileNames)
+            {
+                var fileInfo = new FileInfo(filename);
+                if (!fileInfo.Exists)
+                {
+                    AddLog($"{filename} not exists");
+                    return;
+                }
+
+                bool isJsonFile = filename.ToLower().EndsWith(".json") || fileInfo.Length < 4 * 1024 * 1024;
+                if (!isJsonFile)
+                {
+                    _isVideoTask = true;
+                    return;
+                }
+
+                try
+                {
+                    using var reader = new StreamReader(File.OpenRead(filename));
+                    var jsonStr = await reader.ReadToEndAsync();
+
+                    var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
+                    if (!json.ContainsKey("stage_name") || !json.ContainsKey("actions"))
+                    {
+                        AddLog($"{filename} corrupted", UiLogColor.Error);
+                        return;
+                    }
+
+                    taskPairs.Add(fileInfo.Name.Substring(0, fileInfo.Name.Length - fileInfo.Extension.Length), filename);
+                }
+                catch (Exception)
+                {
+                    AddLog($"{filename} " + LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error);
+                    return;
+                }
+            }
+
+            foreach (var pair in taskPairs)
+            {
+                var jsonPath = $"{CopilotJsonDir}/{pair.Key}.json";
+                if (new FileInfo(jsonPath).FullName != pair.Value)
+                {
+                    // 相同路径跳拷贝
+                    File.Copy(pair.Value, jsonPath, true);
+                }
+
+                var item = new CopilotItemViewModel(pair.Key, jsonPath)
+                {
+                    Index = CopilotItemViewModels.Count,
+                };
+                CopilotItemViewModels.Add(item);
+            }
+
+            SaveCopilotTask();
+        }
+
         private static readonly string[] _supportExt = { ".json", ".mp4", ".m4s", ".mkv", ".flv", ".avi" };
 
         /// <summary>
