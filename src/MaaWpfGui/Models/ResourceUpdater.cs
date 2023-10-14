@@ -88,17 +88,10 @@ namespace MaaWpfGui.Models
 
         private static async Task<string> GetResourceApi()
         {
-#if DEBUG
-            // 跑个空任务避免 async 警告
-            await Task.Run(() => { });
-            return MaaUrls.MaaResourceApi;
-
-#else
             var response = await Instances.HttpService.GetAsync(new Uri(MaaUrls.AnnMirrorResourceApi), httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
             return response is { StatusCode: System.Net.HttpStatusCode.OK }
                 ? MaaUrls.AnnMirrorResourceApi
                 : MaaUrls.MaaResourceApi;
-#endif
         }
 
         private static async Task<bool> CheckUpdate(string baseUrl)
@@ -180,7 +173,6 @@ namespace MaaWpfGui.Models
 
             PostProcVersionChecks();
             return UpdateResult.Success;
-
         }
 
         private static async Task<UpdateResult> UpdateSingleFiles(string baseUrl)
