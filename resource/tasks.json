@@ -346,6 +346,11 @@
             "EPISODE12"
         ]
     },
+    "13@EnterEpisode": {
+        "text": [
+            "EPISODE13"
+        ]
+    },
     "LevelOfDifficulty": {
         "Doc": "base_task",
         "algorithm": "OcrDetect",
@@ -451,22 +456,39 @@
         ],
         "postDelay": 500
     },
+    "14@SwipeLeftToEpisode": {
+        "text": [
+            "EPISODE15"
+        ]
+    },
+    "13@SwipeLeftToEpisode": {
+        "text": [
+            "EPISODE14",
+            "EPISODE15"
+        ]
+    },
     "12@SwipeLeftToEpisode": {
         "text": [
-            "EPISODE13"
+            "EPISODE13",
+            "EPISODE14",
+            "EPISODE15"
         ]
     },
     "11@SwipeLeftToEpisode": {
         "text": [
             "EPISODE12",
-            "EPISODE13"
+            "EPISODE13",
+            "EPISODE14",
+            "EPISODE15"
         ]
     },
     "10@SwipeLeftToEpisode": {
         "text": [
             "EPISODE11",
             "EPISODE12",
-            "EPISODE13"
+            "EPISODE13",
+            "EPISODE14",
+            "EPISODE15"
         ]
     },
     "09@SwipeLeftToEpisode": {
@@ -474,7 +496,9 @@
             "EPISODE10",
             "EPISODE11",
             "EPISODE12",
-            "EPISODE13"
+            "EPISODE13",
+            "EPISODE14",
+            "EPISODE15"
         ]
     },
     "08@SwipeLeftToEpisode": {
@@ -717,6 +741,19 @@
     },
     "Episode12": {
         "baseTask": "12@Episode",
+        "sub": [
+            "ToChapter3@StageTheme"
+        ]
+    },
+    "Episode13": {
+        "baseTask": "13@Episode",
+        "sub": [
+            "ToChapter3@StageTheme"
+        ]
+    },
+    "Episode14": {
+        "doc": "待出",
+        "baseTask": "14@Episode",
         "sub": [
             "ToChapter3@StageTheme"
         ]

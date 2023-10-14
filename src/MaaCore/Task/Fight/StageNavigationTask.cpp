@@ -23,9 +23,9 @@ bool asst::StageNavigationTask::set_stage_name(const std::string& stage_name)
     }
     m_is_directly = false;
 
-    static const std::regex StageRegex(R"(^([A-Za-z]{0,3})(\d{1,2})-(\d{1,2})(?:-?(\w+))*$)");
+    static const std::regex stage_regex(R"(^([A-Za-z]{0,3})(\d{1,2})-(\d{1,2})(?:-?(\w+))*$)");
     std::smatch stage_sm;
-    if (!std::regex_match(stage_name, stage_sm, StageRegex)) {
+    if (!std::regex_match(stage_name, stage_sm, stage_regex)) {
         Log.error("The stage name is not in invalid, or is not main line stage", stage_name);
         return false;
     }
@@ -38,8 +38,8 @@ bool asst::StageNavigationTask::set_stage_name(const std::string& stage_name)
     const std::string& stage_index = stage_sm[3].str();
     const std::string& difficulty = stage_sm[4].str();
 
-    static const std::string EpisodeTaskPrefix = "Episode";
-    m_chapter_task = EpisodeTaskPrefix + chapter;
+    static const std::string episode_task_prefix = "Episode";
+    m_chapter_task = episode_task_prefix + chapter;
     Log.info("chapter task", m_chapter_task);
     if (!Task.get(m_chapter_task)) {
         Log.error("chapter task not exists", m_chapter_task);
@@ -52,8 +52,8 @@ bool asst::StageNavigationTask::set_stage_name(const std::string& stage_name)
         for (size_t i = 1; i < upper_difficulty.size(); ++i) {
             upper_difficulty[i] = static_cast<char>(::tolower(upper_difficulty[i]));
         }
-        static const std::string DifficultyTaskPrefix = "ChapterDifficulty";
-        m_difficulty_task = DifficultyTaskPrefix + upper_difficulty;
+        static const std::string difficulty_task_prefix = "ChapterDifficulty";
+        m_difficulty_task = difficulty_task_prefix + upper_difficulty;
         Log.info("difficulty task", m_difficulty_task);
         if (!Task.get(m_difficulty_task)) {
             Log.error("difficulty task not exists", m_difficulty_task);
@@ -63,7 +63,7 @@ bool asst::StageNavigationTask::set_stage_name(const std::string& stage_name)
 
     std::string upper_prefix = stage_prefix;
     ranges::transform(upper_prefix, upper_prefix.begin(),
-                      [](char ch) -> char { return static_cast<char>(::toupper(ch)); });
+                      [](const char ch) -> char { return static_cast<char>(::toupper(ch)); });
     m_stage_code = upper_prefix + chapter + "-" + stage_index;
     Log.info("stage code", m_stage_code);
 
