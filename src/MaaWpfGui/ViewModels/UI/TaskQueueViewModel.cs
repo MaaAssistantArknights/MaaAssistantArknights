@@ -228,9 +228,6 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     await Task.Delay(delayTime);
                     await _stageManager.UpdateStageWeb();
-#if RELEASE
-                    ResourceUpdater.UpdateAndToast();
-#endif
                     UpdateDatePrompt();
                     UpdateStageList(false);
                 });
