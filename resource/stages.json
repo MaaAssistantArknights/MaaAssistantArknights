@@ -9165,6 +9165,10 @@
                 "itemId": "31043"
             },
             {
+                "dropType": "EXTRA_DROP",
+                "itemId": "31073"
+            },
+            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
             }
