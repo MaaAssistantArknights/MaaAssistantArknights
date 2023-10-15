@@ -35,6 +35,7 @@ using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
+using MaaWpfGui.Services;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.Services.RemoteControl;
@@ -61,9 +62,6 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static readonly ILogger _logger = Log.ForContext<SettingsViewModel>();
 
-        [DllImport("MaaCore.dll")]
-        private static extern IntPtr AsstGetVersion();
-
         [DllImport("user32.dll")]
         private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
@@ -75,7 +73,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets the core version.
         /// </summary>
-        public static string CoreVersion { get; } = Marshal.PtrToStringAnsi(AsstGetVersion());
+        public static string CoreVersion { get; } = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion());
 
         private static readonly string _uiVersion = FileVersionInfo.GetVersionInfo(Application.ResourceAssembly.Location).ProductVersion.Split('+')[0];
 
@@ -257,7 +255,6 @@ namespace MaaWpfGui.ViewModels.UI
                 ConfigurationHelper.SetValue(ConfigurationKeys.RemoteControlUserIdentity, value);
             }
         }
-
 
         private string _remoteControlDeviceIdentity = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlDeviceIdentity, string.Empty);
 
@@ -520,7 +517,6 @@ namespace MaaWpfGui.ViewModels.UI
 
                 // new CombData { Display = "两者兼顾，投资过后退出", Value = "2" } // 弃用
                 // new CombData { Display = Localization.GetString("3"), Value = "3" },  // 开发中
-
                 new CombinedData { Display = LocalizationHelper.GetString("RoguelikeLastReward"), Value = "4" },
             };
 
@@ -883,6 +879,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     // ReSharper disable once SuspiciousTypeConversion.Global
                     var link = (IShellLink)new ShellLink();
+
                     // ReSharper disable once SuspiciousTypeConversion.Global
                     var file = (IPersistFile)link;
                     file.Load(EmulatorPath, 0); // STGM_READ
@@ -1713,7 +1710,7 @@ namespace MaaWpfGui.ViewModels.UI
         private string _roguelikeMode = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeMode, "0");
 
         /// <summary>
-        /// 策略，往后打 / 刷一层就退 / 烧热水
+        /// Gets or sets 策略，往后打 / 刷一层就退 / 烧热水
         /// </summary>
         public string RoguelikeMode
         {
@@ -1779,7 +1776,7 @@ namespace MaaWpfGui.ViewModels.UI
         private ObservableCollection<string> _roguelikeCoreCharList = new ObservableCollection<string>();
 
         /// <summary>
-        /// Gets or sets the roguelike core character.
+        /// Gets the roguelike core character.
         /// </summary>
         public ObservableCollection<string> RoguelikeCoreCharList
         {
