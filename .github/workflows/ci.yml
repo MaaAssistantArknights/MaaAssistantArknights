@@ -119,7 +119,7 @@ jobs:
         run: |
           $csprojPath = "src/MaaWpfGui/MaaWpfGui.csproj"
           $csprojPath = Resolve-Path -Path $csprojPath
-          $tag = ${{ needs.meta.outputs.tag }} -replace '.*?/', ''
+          $tag = '${{ needs.meta.outputs.tag }}' -replace '.*?/', ''
           $tag -match '\d+(\.\d+){0,3}'
           $match = $Matches[0]
           [xml]$csproj = Get-Content -Path $csprojPath
