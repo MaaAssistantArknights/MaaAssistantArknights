@@ -223,7 +223,7 @@ namespace MaaWpfGui.ViewModels.UI
                 UpdateStageList(false);
 
                 // 随机延迟，防止同时更新
-                var delayTime = new Random().Next(0, 10 * 60 * 1000);
+                var delayTime = new Random().Next(0, 60 * 60 * 1000);
                 _ = Task.Run(async () =>
                 {
                     await Task.Delay(delayTime);
@@ -667,8 +667,8 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         private string _inverseShowText = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, bool.FalseString))
-                                            ? LocalizationHelper.GetString("Inverse")
-                                            : LocalizationHelper.GetString("Clear");
+            ? LocalizationHelper.GetString("Inverse")
+            : LocalizationHelper.GetString("Clear");
 
         /// <summary>
         /// Gets or private Sets the text to be displayed for "Select inversely".
@@ -680,8 +680,8 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         private string _inverseMenuText = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, bool.FalseString))
-                                            ? LocalizationHelper.GetString("Clear")
-                                            : LocalizationHelper.GetString("Inverse");
+            ? LocalizationHelper.GetString("Clear")
+            : LocalizationHelper.GetString("Inverse");
 
         /// <summary>
         /// Gets or private sets the text of inversion menu.
@@ -2639,7 +2639,7 @@ namespace MaaWpfGui.ViewModels.UI
             foreach (var plan in CustomInfrastPlanInfoList.Where(
                 plan => plan.PeriodList.Any(
                     period => TimeLess(period.BeginHour, period.BeginMinute, now.Hour, now.Minute)
-                              && TimeLess(now.Hour, now.Minute, period.EndHour, period.EndMinute))))
+                        && TimeLess(now.Hour, now.Minute, period.EndHour, period.EndMinute))))
             {
                 CustomInfrastPlanIndex = plan.Index;
                 return;
