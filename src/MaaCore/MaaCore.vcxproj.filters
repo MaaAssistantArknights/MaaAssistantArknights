@@ -534,9 +534,6 @@
     <ClInclude Include="Controller\ControlScaleProxy.h">
       <Filter>Source\Controller</Filter>
     </ClInclude>
-    <ClInclude Include="Controller\MaaThriftController.h">
-      <Filter>Source\Controller</Filter>
-    </ClInclude>
     <ClInclude Include="Controller\MaatouchController.h">
       <Filter>Source\Controller</Filter>
     </ClInclude>
@@ -653,6 +650,9 @@
     </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeCiphertextBoardUseTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Roguelike\RoguelikeCiphertextBoardConfig.h">
+      <Filter>Source\Resource\Roguelike</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1090,6 +1090,10 @@
     </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeCiphertextBoardUseTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\MaaThriftController.h" />
+    <ClCompile Include="Config\Roguelike\RoguelikeCiphertextBoardConfig.cpp">
+      <Filter>Source\Resource\Roguelike</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

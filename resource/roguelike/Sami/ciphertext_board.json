@@ -2,7 +2,7 @@
     "theme": "Sami",
     "groups": [
         {
-            "stage": "SkipBattle",
+            "usage": "SkipBattle",
             "doc": "跳过战斗,刷钱和烧开水模式",
             "pairs": [
                 {
@@ -37,7 +37,7 @@
             ]
         },
         {
-            "stage": "Boss",
+            "usage": "Boss",
             "doc": "有的用全用了",
             "pairs": [
                 {
@@ -78,7 +78,7 @@
             ]
         },
         {
-            "stage": "Battle",
+            "usage": "Battle",
             "pairs": [
                 {
                     "up": [
@@ -110,7 +110,7 @@
             ]
         },
         {
-            "stage": "Trader",
+            "usage": "Trader",
             "pairs": [
                 {
                     "up": [
@@ -149,7 +149,7 @@
             ]
         },
         {
-            "stage": "Encounter",
+            "usage": "Encounter",
             "pairs": [
                 {
                     "up": [
@@ -183,7 +183,7 @@
             ]
         },
         {
-            "stage": "Gambling",
+            "usage": "Gambling",
             "doc": "其他不期而遇节点",
             "pairs": [
                 {
