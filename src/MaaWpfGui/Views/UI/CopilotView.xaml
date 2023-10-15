@@ -266,12 +266,18 @@
                 d:Grid.Row="3"
                 Orientation="Horizontal">
                 <Button
-                    MinWidth="120"
                     Height="50"
+                    MinWidth="120"
                     Margin="10,0"
                     Command="{s:Action ClearAvatarCache}"
-                    Content="{DynamicResource ClearAvatarCache}" 
-                    IsEnabled="{c:Binding Idle}" />
+                    IsEnabled="{c:Binding Idle}">
+                    <TextBlock
+                        MaxWidth="100"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="{DynamicResource ClearAvatarCache}"
+                        TextWrapping="Wrap" />
+                </Button>
                 <Grid Margin="10,0">
                     <Button
                         Width="120"
