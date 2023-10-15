@@ -19,6 +19,7 @@ using System.Windows.Threading;
 using HandyControl.Controls;
 using HandyControl.Data;
 using MaaWpfGui.Helper;
+using MaaWpfGui.ViewModels.UI;
 
 namespace MaaWpfGui.Views.UserControl
 {
@@ -45,7 +46,7 @@ namespace MaaWpfGui.Views.UserControl
         {
             try
             {
-                CopyToClipboardAsync(Instances.SettingsViewModel.CoreVersion);
+                CopyToClipboardAsync(SettingsViewModel.CoreVersion);
             }
             catch
             {
@@ -59,7 +60,7 @@ namespace MaaWpfGui.Views.UserControl
         {
             try
             {
-                CopyToClipboardAsync(Instances.SettingsViewModel.UiVersion);
+                CopyToClipboardAsync(SettingsViewModel.UiVersion);
             }
             catch
             {

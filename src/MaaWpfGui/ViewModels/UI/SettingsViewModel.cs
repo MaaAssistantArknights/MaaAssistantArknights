@@ -72,24 +72,22 @@ namespace MaaWpfGui.ViewModels.UI
         [DllImport("user32.dll")]
         private static extern bool IsIconic(IntPtr hWnd);
 
-        private static readonly string _coreVersion = Marshal.PtrToStringAnsi(AsstGetVersion());
-
         /// <summary>
         /// Gets the core version.
         /// </summary>
-        public string CoreVersion => _coreVersion;
+        public static string CoreVersion { get => Marshal.PtrToStringAnsi(AsstGetVersion()); }
 
         private static readonly string _uiVersion = FileVersionInfo.GetVersionInfo(Application.ResourceAssembly.Location).ProductVersion.Split('+')[0];
 
         /// <summary>
         /// Gets the UI version.
         /// </summary>
-        public string UiVersion => _uiVersion == "0.0.1" ? "DEBUG VERSION" : _uiVersion;
+        public static string UiVersion { get => _uiVersion == "0.0.1" ? "DEBUG VERSION" : _uiVersion; }
 
         /// <summary>
         /// The Pallas language key.
         /// </summary>
-        public static readonly string PallasLangKey = "pallas";
+        public const string PallasLangKey = "pallas";
 
         /// <summary>
         /// Gets the visibility of task setting views.
@@ -841,7 +839,7 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         fixed (char* ptr = buf)
                         {
-                            link.GetPath(ptr, 260, IntPtr.Zero, 0);  // MAX_PATH
+                            link.GetPath(ptr, 260, IntPtr.Zero, 0); // MAX_PATH
                             var len = Array.IndexOf(buf, '\0');
                             if (len != -1)
                             {
@@ -1620,8 +1618,8 @@ namespace MaaWpfGui.ViewModels.UI
 
                             // 根据出当前 ScrollOffset 选出最后一个在可视范围的 Divider 索引
                             var dividerSelect = DividerVerticalOffsetList.Select((n, i) => (
-                            dividerAppeared: value >= n,
-                            index: i));
+                                dividerAppeared: value >= n,
+                                index: i));
 
                             var index = dividerSelect.LastOrDefault(n => n.dividerAppeared).index;
                             SelectedIndex = index;
@@ -2403,7 +2401,7 @@ namespace MaaWpfGui.ViewModels.UI
         /* 软件更新设置 */
 
         private UpdateVersionType _versionType = (UpdateVersionType)Enum.Parse(typeof(UpdateVersionType),
-                ConfigurationHelper.GetValue(ConfigurationKeys.VersionType, UpdateVersionType.Stable.ToString()));
+            ConfigurationHelper.GetValue(ConfigurationKeys.VersionType, UpdateVersionType.Stable.ToString()));
 
         /// <summary>
         /// Gets or sets the type of version to update.
@@ -3407,7 +3405,8 @@ namespace MaaWpfGui.ViewModels.UI
         private InverseClearType _inverseClearMode =
             Enum.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.InverseClearMode, InverseClearType.Clear.ToString()),
                 out InverseClearType temp)
-            ? temp : InverseClearType.Clear;
+                ? temp
+                : InverseClearType.Clear;
 
         /// <summary>
         /// Gets or sets the inverse clear mode.
