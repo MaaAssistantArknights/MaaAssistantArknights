@@ -80,15 +80,15 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::_run()
     std::string overview_str =
         status()->get_str(Status::RoguelikeCiphertextBoardOverview).value_or(json::value().to_string());
     json::value overview_json = json::parse(overview_str).value_or(json::value());
-    auto& all_boards = overview_json.as_array();
-    Log.debug(all_boards);
+    m_all_boards = overview_json.as_array();
+    Log.debug(m_all_boards);
     for (const auto& usage : combination) {
         if (need_exit()) {
             return false;
         }
         if (m_stage == usage.usage) {
             // 用到没得用为止
-            while (search_enable_pair(all_boards, usage)) {
+            while (search_enable_pair(m_all_boards, usage)) {
                 Log.debug("Use board pairs");
             }
             break;
@@ -102,20 +102,17 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::search_enable_pair(const json:
 {
     LogTraceFunction;
 
-    // bool found_up = false;
-    // bool found_down = false;
-
     for (auto& pair : usage.pairs) {
-        // Log.debug(pair);
         // 遍历上板子
         for (auto& up_board : pair.up_board) {
             // 遍历下板子
             for (auto& down_board : pair.down_board) {
                 // 两个板子同时存在all_boards中
-                // Log.debug("上板子", up_board, "下板子", down_board);
                 if (std::find(all_boards.begin(), all_boards.end(), up_board) != all_boards.end() &&
                     std::find(all_boards.begin(), all_boards.end(), down_board) != all_boards.end()) {
                     use_board(up_board, down_board);
+                    // 删除上板子和下板子
+                    status()->set_str(Status::RoguelikeCiphertextBoardOverview, m_all_boards.to_string());
                     return true;
                 }
             }

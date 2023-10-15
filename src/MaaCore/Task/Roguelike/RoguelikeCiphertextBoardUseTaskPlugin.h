@@ -27,5 +27,6 @@ namespace asst
         void slowly_swipe(bool to_down, int swipe_dist = 300);
         // 节点类型
         mutable std::string m_stage;
+        mutable json::array m_all_boards;
     };
 }
