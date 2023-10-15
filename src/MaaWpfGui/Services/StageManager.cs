@@ -36,9 +36,6 @@ namespace MaaWpfGui.Services
     /// </summary>
     public class StageManager
     {
-        [DllImport("MaaCore.dll")]
-        private static extern IntPtr AsstGetVersion();
-
         private const string StageApi = "gui/StageActivity.json";
         private const string TasksApi = "resource/tasks.json";
 
@@ -179,8 +176,8 @@ namespace MaaWpfGui.Services
 
             var clientType = GetClientType();
 
-            bool isDebugVersion = Marshal.PtrToStringAnsi(AsstGetVersion())!.Contains("DEBUG");
-            bool curVerParsed = SemVersion.TryParse(Marshal.PtrToStringAnsi(AsstGetVersion()), SemVersionStyles.AllowLowerV, out var curVersionObj);
+            bool isDebugVersion = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion())!.Contains("DEBUG");
+            bool curVerParsed = SemVersion.TryParse(Marshal.PtrToStringAnsi(MaaService.AsstGetVersion()), SemVersionStyles.AllowLowerV, out var curVersionObj);
 
             // bool curResourceVerParsed = SemVersion.TryParse(
             //    tasksJsonClient?["ResourceVersion"]?.ToString() ?? tasksJson?["ResourceVersion"]?.ToString() ?? string.Empty,
