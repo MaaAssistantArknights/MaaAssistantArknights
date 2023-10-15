@@ -43,6 +43,7 @@ namespace MaaWpfGui.Constants
         public const string MaaApi = "https://ota.maa.plus/MaaAssistantArknights/api/";
 
         public const string MaaResourceApi = "https://ota.maa.plus/MaaAssistantArknights/MaaAssistantArknights/";
+        public const string AnnMirrorResourceApi = "https://maa-ota.annangela.cn/MaaAssistantArknights/MaaAssistantArknights/";
 
         public const string QqGroups = "https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html";
 
@@ -79,5 +80,7 @@ namespace MaaWpfGui.Constants
             { "zh-tw", "zh-tw/1.2-常見問題.html" },
             { "pallas", "KeepDrinking" },
         };
+
+        public const string RemoteControlDocument = "https://maa.plus/docs/3.8-%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%8D%8F%E8%AE%AE.html";
     }
 }

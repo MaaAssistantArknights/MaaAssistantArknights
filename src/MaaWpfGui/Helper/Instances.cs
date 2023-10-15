@@ -45,9 +45,15 @@ namespace MaaWpfGui.Helper
                 public static DateTimeOffset ReportTime { get; set; }
             }
 
+            public static int MedicineUsedTimes;
+
+            public static int StoneUsedTimes;
+
             public static void ClearCache()
             {
                 SanityReport.HasSanityReport = false;
+                MedicineUsedTimes = 0;
+                StoneUsedTimes = 0;
             }
         }
 
@@ -75,6 +81,8 @@ namespace MaaWpfGui.Helper
 
         public static IMaaHotKeyActionHandler MaaHotKeyActionHandler { get; private set; }
 
+        // 别的地方有用到这个吗？
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public static RemoteControlService RemoteControlService { get; private set; }
 
         public static IMainWindowManager MainWindowManager { get; private set; }

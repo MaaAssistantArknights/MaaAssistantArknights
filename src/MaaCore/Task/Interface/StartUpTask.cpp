@@ -18,9 +18,9 @@ asst::StartUpTask::StartUpTask(const AsstCallback& callback, Assistant* inst)
 
     // 前两项认为用户已手动启动至首页
     m_start_up_task_ptr->set_tasks({ "StartAtHome", "StartWithSanity", "StartUpBegin" })
-        .set_times_limit("BlackReturn", 0)
+        .set_times_limit("ReturnButton", 0)
         .set_task_delay(Config.get_options().task_delay * 2)
-        .set_retry_times(30);
+        .set_retry_times(50);
     m_account_switch_task_ptr->set_retry_times(0);
     m_subtasks.emplace_back(m_start_game_task_ptr)->set_ignore_error(true);
     m_subtasks.emplace_back(m_account_switch_task_ptr);

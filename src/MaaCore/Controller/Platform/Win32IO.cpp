@@ -394,7 +394,7 @@ bool asst::IOHandlerWin32::write(std::string_view data)
     if (!WriteFile(m_write, data.data(), static_cast<DWORD>(data.size() * sizeof(std::string::value_type)), &written,
                    NULL)) {
         auto err = GetLastError();
-        Log.error("Failed to write to minitouch, err", err);
+        Log.error("Failed to write to IOHandlerWin32, err", err);
         return false;
     }
 

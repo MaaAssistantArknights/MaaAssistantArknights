@@ -374,7 +374,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
                 }
             }
             else {
-                Log.error(m_stage_name, "operator", oper.name, "is not in the deploy plan.");
+                Log.trace(m_stage_name, "operator", oper.name, "is not in the deploy plan.");
             }
         }
     }
@@ -438,8 +438,8 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
     if (!update_deployment(false, image)) {
         return false;
     }
-    update_cost();
-    update_kills();
+    update_cost(image);
+    update_kills(image);
 
     std::unordered_set<std::string> cur_cooling;
     size_t cur_available_count = 0;   // without drones

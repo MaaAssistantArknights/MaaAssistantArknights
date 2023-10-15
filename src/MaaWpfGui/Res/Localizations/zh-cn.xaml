@@ -560,10 +560,13 @@
     <system:String x:Key="TheEx">无奖励关卡，已停止</system:String>
     <system:String x:Key="StageQueue">关卡队列:</system:String>
     <system:String x:Key="UnableToAgent">无法使用代理指挥</system:String>
-    <system:String x:Key="CurrentSanity">当前理智:</system:String>
     <system:String x:Key="MissionStart">已开始行动</system:String>
     <system:String x:Key="UnitTime">次</system:String>
+    <system:String x:Key="CurrentSanity">理智:</system:String>
+    <system:String x:Key="MedicineUsedTimes">药:</system:String>
+    <system:String x:Key="StoneUsedTimes">石:</system:String>
     <system:String x:Key="MedicineUsed">已使用理智药</system:String>
+    <system:String x:Key="ExpiringMedicineUsed">已使用 48 小时内过期的理智药</system:String>
     <system:String x:Key="StoneUsed">已使用源石</system:String>
     <system:String x:Key="ActingCommandError">代理指挥失误</system:String>
     <system:String x:Key="LabelsRefreshed">已刷新标签</system:String>
@@ -603,8 +606,8 @@
     <system:String x:Key="RecruitmentOfBot">公招出小车了哦！</system:String>
     <system:String x:Key="Choose">选择</system:String>
     <system:String x:Key="Refreshed">当前槽位已刷新</system:String>
-    <system:String x:Key="continueRefresh">无招聘许可，继续尝试刷新 Tags</system:String>
-    <system:String x:Key="noRecruitPermit">无招聘许可，已返回</system:String>
+    <system:String x:Key="ContinueRefresh">无招聘许可，继续尝试刷新 Tags</system:String>
+    <system:String x:Key="NoRecruitmentPermit">无招聘许可，已返回</system:String>
     <system:String x:Key="NotEnoughStaff">可用干员不足</system:String>
     <system:String x:Key="StageInfoError">关卡识别错误</system:String>
     <system:String x:Key="BattleFormation">开始编队</system:String>
@@ -684,6 +687,9 @@
     <system:String x:Key="RemoteControlConnectionTestFailNotHttps">连接测试失败。端点不是https地址。</system:String>
     <system:String x:Key="RemoteControlReceivedTask">收到远端任务{0}，任务Id:{1}。</system:String>
     <system:String x:Key="RemoteControlCompletedTask">完成远端任务{0}，任务Id:{1}。</system:String>
+    <system:String x:Key="RemoteControlTooltips">注意：随意填入未知来源的地址可能会导致您的明日方舟账户受到损失。</system:String>
+    <system:String x:Key="RemoteControlDeveloperTooltips">了解如何开发相关功能，可以访问</system:String>
+    <system:String x:Key="RemoteControlDeveloperDocLink">远程控制功能开发者文档</system:String>
     <!--  Remote Control  -->
     <!--  External Notification  -->
     <system:String x:Key="ExternalNotificationEmailTemplateHello">博士，有新的通知哦！</system:String>

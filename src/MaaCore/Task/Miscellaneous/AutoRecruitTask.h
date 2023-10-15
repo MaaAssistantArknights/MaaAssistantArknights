@@ -70,8 +70,6 @@ namespace asst
 
         calc_task_result_type recruit_calc_task(slot_index = 0);
 
-        bool m_force_discard_flag = false;
-
         std::vector<int> m_select_level;
         std::vector<int> m_confirm_level;
         bool m_need_refresh = false;

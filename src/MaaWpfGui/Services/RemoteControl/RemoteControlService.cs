@@ -9,31 +9,35 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Services.Web;
 using MaaWpfGui.States;
-using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
-using Windows.Media.Protection.PlayReady;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace MaaWpfGui.Services.RemoteControl
 {
+    /// <summary>
+    /// The view model of remote control.
+    /// </summary>
+    // 通过 container.Get<RemoteControlService>(); 实例化或获取实例
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class RemoteControlService
     {
         private readonly Task _pollJobTask = Task.CompletedTask;
-        private readonly Task _executeJobTask = Task.CompletedTask;
-        private readonly List<string> _executedTaskIds = new List<string>();
-        private readonly ConcurrentQueue<JObject> _taskQueue = new ConcurrentQueue<JObject>();
+        private readonly List<string> _enqueueTaskIds = new List<string>();
+        private readonly ConcurrentQueue<JObject> _sequentialTaskQueue = new ConcurrentQueue<JObject>();
+        private readonly ConcurrentQueue<JObject> _instantTaskQueue = new ConcurrentQueue<JObject>();
+        private readonly Task _executeSequentialJobTask = Task.CompletedTask;
+        private readonly Task _executeInstantJobTask = Task.CompletedTask;
         private readonly RunningState _runningState;
+
+        private string _currentSequentialTaskId = string.Empty;
 
         public RemoteControlService()
         {
-            _pollJobTask = _pollJobTask.ContinueWith(async (_) =>
+            _pollJobTask = _pollJobTask.ContinueWith(async _ =>
             {
                 while (true)
                 {
@@ -51,14 +55,32 @@ namespace MaaWpfGui.Services.RemoteControl
                 // ReSharper disable once FunctionNeverReturns
             });
 
-            _executeJobTask = _executeJobTask.ContinueWith(async (_) =>
+            _executeSequentialJobTask = _executeSequentialJobTask.ContinueWith(async _ =>
             {
                 while (true)
                 {
                     await Task.Delay(1000);
                     try
                     {
-                        await ExecuteJobLoop();
+                        await ExecuteSequentialJobLoop();
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Logger.Error(ex, "RemoteControl service raises unknown error.");
+                    }
+                }
+
+                // ReSharper disable once FunctionNeverReturns
+            });
+
+            _executeInstantJobTask = _executeInstantJobTask.ContinueWith(async _ =>
+            {
+                while (true)
+                {
+                    await Task.Delay(1000);
+                    try
+                    {
+                        await ExecuteInstantJobLoop();
                     }
                     catch (Exception ex)
                     {
@@ -193,6 +215,8 @@ namespace MaaWpfGui.Services.RemoteControl
 
         #endregion
 
+        #region JobLoops
+
         private async Task PollJobTaskLoop()
         {
             var endpoint = Instances.SettingsViewModel.RemoteControlGetTaskEndpointUri;
@@ -204,7 +228,7 @@ namespace MaaWpfGui.Services.RemoteControl
 
             var uid = Instances.SettingsViewModel.RemoteControlUserIdentity;
             var did = Instances.SettingsViewModel.RemoteControlDeviceIdentity;
-            var response = await Instances.HttpService.PostAsJsonAsync(new Uri(endpoint), new { user=uid, device = did});
+            var response = await Instances.HttpService.PostAsJsonAsync(new Uri(endpoint), new { user = uid, device = did });
             if (response == null)
             {
                 Log.Logger.Error("RemoteControlService endpoint failed.");
@@ -219,24 +243,51 @@ namespace MaaWpfGui.Services.RemoteControl
                 foreach (var task in tasks.OfType<JObject>())
                 {
                     var type = task.GetValue("type")?.Value<string>();
-                    if (!string.IsNullOrWhiteSpace(type))
+                    if (string.IsNullOrWhiteSpace(type))
                     {
-                        // It is a valid task
-                        var id = task.GetValue("id")?.Value<string>();
-                        if (!_executedTaskIds.Contains(id))
-                        {
-                            _executedTaskIds.Add(id);
+                        continue;
+                    }
 
-                            _taskQueue.Enqueue(task);
-                        }
+                    // It is a valid task
+                    var id = task.GetValue("id")?.Value<string>();
+                    if (_enqueueTaskIds.Contains(id))
+                    {
+                        continue;
+                    }
+
+                    _enqueueTaskIds.Add(id);
+
+                    switch (type)
+                    {
+                        case "LinkStart":
+                        case "LinkStart-Base":
+                        case "LinkStart-WakeUp":
+                        case "LinkStart-Combat":
+                        case "LinkStart-Recruiting":
+                        case "LinkStart-Mall":
+                        case "LinkStart-Mission":
+                        case "LinkStart-AutoRoguelike":
+                        case "LinkStart-ReclamationAlgorithm":
+                        case "Toolbox-GachaOnce":
+                        case "Toolbox-GachaTenTimes":
+                        case "CaptureImage":
+                        case "Settings-ConnectAddress":
+                        case "Settings-Stage1":
+                            _sequentialTaskQueue.Enqueue(task);
+                            break;
+                        case "CaptureImageNow":
+                        case "HeartBeat":
+                        case "StopTask":
+                            _instantTaskQueue.Enqueue(task);
+                            break;
                     }
                 }
             }
         }
 
-        private async Task ExecuteJobLoop()
+        private async Task ExecuteSequentialJobLoop()
         {
-            if (_taskQueue.TryDequeue(out var task))
+            if (_sequentialTaskQueue.TryDequeue(out var task))
             {
                 var type = task.GetValue("type")?.Value<string>();
                 var id = task.GetValue("id")?.Value<string>();
@@ -244,28 +295,30 @@ namespace MaaWpfGui.Services.RemoteControl
                 var payload = string.Empty;
                 var status = "SUCCESS";
 
+                _currentSequentialTaskId = id;
+
                 switch (type)
                 {
                     case "LinkStart":
-                    {
-                        // 一键长草特殊任务
-                        await _runningState.UntilIdleAsync();
-                        var startLogStr = string.Format(LocalizationHelper.GetString("RemoteControlReceivedTask"), type, id);
-
-                        Application.Current.Dispatcher.Invoke(() =>
                         {
-                            Instances.TaskQueueViewModel.AddLog(startLogStr);
-                            Instances.TaskQueueViewModel.LinkStart();
-                        });
-                        await _runningState.UntilIdleAsync();
+                            // 一键长草特殊任务
+                            await _runningState.UntilIdleAsync();
+                            var startLogStr = string.Format(LocalizationHelper.GetString("RemoteControlReceivedTask"), type, id);
 
-                        var stopLogStr = string.Format(LocalizationHelper.GetString("RemoteControlCompletedTask"), type, id);
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            Instances.TaskQueueViewModel.AddLog(stopLogStr);
-                        });
-                        break;
-                    }
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                Instances.TaskQueueViewModel.AddLog(startLogStr);
+                                Instances.TaskQueueViewModel.LinkStart();
+                            });
+                            await _runningState.UntilIdleAsync();
+
+                            var stopLogStr = string.Format(LocalizationHelper.GetString("RemoteControlCompletedTask"), type, id);
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                Instances.TaskQueueViewModel.AddLog(stopLogStr);
+                            });
+                            break;
+                        }
 
                     case "LinkStart-Base":
                     case "LinkStart-WakeUp":
@@ -275,36 +328,145 @@ namespace MaaWpfGui.Services.RemoteControl
                     case "LinkStart-Mission":
                     case "LinkStart-AutoRoguelike":
                     case "LinkStart-ReclamationAlgorithm":
-                    {
-                        await LinkStart(new[] { type.Split('-')[1] });
-                        break;
-                    }
+                        {
+                            await LinkStart(new[] { type.Split('-')[1] });
+                            break;
+                        }
 
                     case "Toolbox-GachaOnce":
-                    {
-                        await _runningState.UntilIdleAsync();
-                        Instances.RecognizerViewModel.GachaOnce();
-                        while (!Instances.RecognizerViewModel.GachaDone)
                         {
-                            await Task.Delay(100); // 暂停100毫秒以避免密集循环
-                        }
+                            await _runningState.UntilIdleAsync();
+                            Instances.RecognizerViewModel.GachaOnce();
+                            while (!Instances.RecognizerViewModel.GachaDone)
+                            {
+                                await Task.Delay(100); // 暂停100毫秒以避免密集循环
+                            }
 
-                        break;
-                    }
+                            break;
+                        }
 
                     case "Toolbox-GachaTenTimes":
-                    {
-                        await _runningState.UntilIdleAsync();
-                        Instances.RecognizerViewModel.GachaTenTimes();
-                        while (!Instances.RecognizerViewModel.GachaDone)
                         {
-                            await Task.Delay(100); // 暂停100毫秒以避免密集循环
+                            await _runningState.UntilIdleAsync();
+                            Instances.RecognizerViewModel.GachaTenTimes();
+                            while (!Instances.RecognizerViewModel.GachaDone)
+                            {
+                                await Task.Delay(100); // 暂停100毫秒以避免密集循环
+                            }
+
+                            break;
                         }
 
+                    case "CaptureImage":
+                        {
+                            string errMsg = string.Empty;
+                            bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+                            if (connected)
+                            {
+                                var image = Instances.AsstProxy.AsstGetImage();
+                                if (image == null)
+                                {
+                                    status = "FAILED";
+                                    break;
+                                }
+
+                                byte[] bytes;
+                                using (MemoryStream stream = new MemoryStream())
+                                {
+                                    PngBitmapEncoder encoder = new PngBitmapEncoder();
+                                    encoder.Frames.Add(BitmapFrame.Create(image));
+                                    encoder.Save(stream);
+                                    bytes = stream.ToArray();
+                                }
+
+                                payload = Convert.ToBase64String(bytes);
+                                break;
+                            }
+
+                            status = "FAILED";
+                            break;
+                        }
+
+                    case "Settings-ConnectAddress":
+                        // ConfigurationHelper.SetValue(type.Split('-')[1], data);
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            Instances.SettingsViewModel.ConnectAddress = data;
+                        });
+                        break;
+                    case "Settings-Stage1":
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            Instances.TaskQueueViewModel.Stage1 = data;
+                        });
+                        break;
+
+                    // ReSharper disable once RedundantEmptySwitchSection
+                    default:
+                        // 未知的Type统一直接发给MAACore
+                        // No! 未知的任务一概不处理
+                        break;
+                }
+
+                var endpoint = Instances.SettingsViewModel.RemoteControlReportStatusUri;
+                if (!string.IsNullOrWhiteSpace(endpoint) && endpoint.ToLower().StartsWith("https://"))
+                {
+                    var uid = Instances.SettingsViewModel.RemoteControlUserIdentity;
+                    var did = Instances.SettingsViewModel.RemoteControlDeviceIdentity;
+                    var response = await Instances.HttpService.PostAsJsonAsync(new Uri(endpoint), new
+                    {
+                        user = uid,
+                        device = did,
+                        status,
+                        task = id,
+                        payload,
+                    });
+                    if (response == null)
+                    {
+                        Log.Logger.Error("RemoteControlService report task failed.");
+                    }
+                }
+
+                _currentSequentialTaskId = string.Empty;
+            }
+        }
+
+        private async Task ExecuteInstantJobLoop()
+        {
+            if (_instantTaskQueue.TryDequeue(out var task))
+            {
+                var type = task.GetValue("type")?.Value<string>();
+                var id = task.GetValue("id")?.Value<string>();
+
+                // 当前没有任务需要读取params,未来需要时可以取消注释
+                // var data = task.GetValue("params")?.Value<string>();
+                var payload = string.Empty;
+                var status = "SUCCESS";
+
+                switch (type)
+                {
+                    case "HeartBeat":
+                    {
+                        payload = _currentSequentialTaskId;
                         break;
                     }
 
-                    case "CaptureImage":
+                    case "StopTask":
+                    {
+                        await Task.Run(() =>
+                        {
+                            if (!Instances.AsstProxy.AsstStop())
+                            {
+                                // 无法确定当前的界面，找不到借用的UI位置，因此只能Log
+                                Log.Logger.Error("Failed to stop Asst.");
+                            }
+                        });
+
+                        // 无需等待，甩出任务即可返回，远端应该用心跳来确认界面卡死和取消是否成功。
+                        break;
+                    }
+
+                    case "CaptureImageNow":
                     {
                         string errMsg = string.Empty;
                         bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
@@ -329,22 +491,12 @@ namespace MaaWpfGui.Services.RemoteControl
                             payload = Convert.ToBase64String(bytes);
                             break;
                         }
-                        else
-                        {
-                            status = "FAILED";
-                            break;
-                        }
+
+                        status = "FAILED";
+                        break;
                     }
 
-                    case "Settings-ConnectAddress":
-                        // ConfigurationHelper.SetValue(type.Split('-')[1], data);
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            Instances.SettingsViewModel.ConnectAddress = data;
-                        });
-
-                        break;
-
+                    // ReSharper disable once RedundantEmptySwitchSection
                     default:
                         // 未知的Type统一直接发给MAACore
                         // No! 未知的任务一概不处理
@@ -360,9 +512,9 @@ namespace MaaWpfGui.Services.RemoteControl
                     {
                         user = uid,
                         device = did,
-                        status = status,
+                        status,
                         task = id,
-                        payload = payload,
+                        payload,
                     });
                     if (response == null)
                     {
@@ -371,6 +523,8 @@ namespace MaaWpfGui.Services.RemoteControl
                 }
             }
         }
+
+        #endregion
 
         /// <summary>
         /// 根据"一键长草"功能进行修改的方法。
@@ -385,7 +539,8 @@ namespace MaaWpfGui.Services.RemoteControl
         /// </remarks>
         /// <param name="originalNames">指定的任务列表。</param>
         /// <returns>异步任务，无返回结果。</returns>
-        public async Task LinkStart(IEnumerable<string> originalNames)
+        // 这个是不是可以直接做到 TaskQueueViewModel 里面去？
+        private async Task LinkStart(IEnumerable<string> originalNames)
         {
             await _runningState.UntilIdleAsync();
 

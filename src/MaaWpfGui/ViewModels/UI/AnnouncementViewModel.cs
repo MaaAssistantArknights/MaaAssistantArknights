@@ -17,6 +17,8 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using Markdig;
+using Markdig.Wpf;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -24,7 +26,7 @@ namespace MaaWpfGui.ViewModels.UI
     /// <summary>
     /// The view model of version update.
     /// </summary>
-    // 通过 container.Get<TaskQueueViewModel>(); 实例化或获取实例
+    // 通过 container.Get<AnnouncementViewModel>(); 实例化或获取实例
     // ReSharper disable once ClassNeverInstantiated.Global
     public class AnnouncementViewModel : Screen
     {
@@ -56,6 +58,9 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        public FlowDocument AnnouncementInfoDoc => Markdig.Wpf.Markdown.ToFlowDocument(AnnouncementInfo,
+            new MarkdownPipelineBuilder().UseSupportedExtensions().Build());
+
         /// <summary>
         /// 检查更新
         /// </summary>
@@ -73,18 +78,11 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            try
+            var body = await HttpResponseHelper.GetStringAsync(response);
+            if (!string.IsNullOrEmpty(body))
             {
-                var body = await response.Content.ReadAsStringAsync();
-                if (!string.IsNullOrEmpty(body))
-                {
-                    AnnouncementInfo = body;
-                    DoNotRemindThisAnnouncementAgain = false;
-                }
-            }
-            catch
-            {
-                return;
+                AnnouncementInfo = body;
+                DoNotRemindThisAnnouncementAgain = false;
             }
 
             ETagCache.Set(response);
