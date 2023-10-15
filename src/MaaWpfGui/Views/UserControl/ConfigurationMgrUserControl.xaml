@@ -35,7 +35,7 @@
             SelectedValuePath="Value">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Width="{c:Binding ActualWidth - 20, RelativeSource={RelativeSource AncestorType=ComboBox}}">
+                    <Grid Width="{c:Binding 'ActualWidth - 20', RelativeSource={RelativeSource AncestorType=ComboBox}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />

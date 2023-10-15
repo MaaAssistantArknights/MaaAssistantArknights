@@ -14,7 +14,7 @@
     d:DesignWidth="220"
     mc:Ignorable="d">
     <StackPanel>
-        <Grid Margin="0,5" Visibility="{c:Binding '(ClientType == &quot;Official&quot;) or (ClientType == &quot;Bilibili&quot;) or (ClientType == &quot;&quot;)'}">
+        <Grid Margin="0,5" Visibility="{c:Binding 'ClientType == &quot;Official&quot; or ClientType == &quot;Bilibili&quot; or ClientType == &quot;&quot;'}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
@@ -78,7 +78,7 @@
             Visibility="{c:Binding !AutoDetectConnection}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Width="{c:Binding ActualWidth - 20, RelativeSource={RelativeSource AncestorType=ComboBox}}">
+                    <Grid Width="{c:Binding 'ActualWidth - 20', RelativeSource={RelativeSource AncestorType=ComboBox}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />

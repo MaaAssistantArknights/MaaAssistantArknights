@@ -172,7 +172,7 @@
                     Command="{s:Action LinkStart}"
                     Content="{DynamicResource LinkStart}"
                     IsEnabled="{Binding Inited}"
-                    Visibility="{c:Binding Path='(Idle and !Stopping) or !Inited'}" />
+                    Visibility="{c:Binding Path='Idle and !Stopping or !Inited'}" />
                 <Button
                     Width="100"
                     Height="50"
@@ -180,7 +180,7 @@
                     Command="{s:Action Stop}"
                     Content="{DynamicResource Stop}"
                     IsEnabled="{c:Binding Path='!Stopping'}"
-                    Visibility="{c:Binding Path='(!Idle or Stopping) and Inited'}" />
+                    Visibility="{c:Binding Path='!Idle or Stopping and Inited'}" />
                 <Button
                     Width="100"
                     Height="50"

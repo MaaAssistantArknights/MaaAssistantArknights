@@ -40,7 +40,7 @@
         <controls:TextBlock
             Margin="10"
             HorizontalAlignment="Center"
-            Visibility="{c:Binding '(ClientType != &quot;Official&quot;) and (ClientType != &quot;Bilibili&quot;) and (ClientType != &quot;&quot;)'}">
+            Visibility="{c:Binding 'ClientType != &quot;Official&quot; and ClientType != &quot;Bilibili&quot; and ClientType != &quot;&quot;'}">
             <Hyperlink
                 Cursor="Hand"
                 NavigateUri="{Binding Source={x:Static constants:MaaUrls.OverseasAdaptation}}"
