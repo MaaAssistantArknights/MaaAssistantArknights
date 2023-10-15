@@ -15,5 +15,17 @@ namespace asst
 
     protected:
         virtual bool _run() override;
+
+    private:
+        // 查询是否有能使用的板子对
+        bool search_enable_pair(const json::array& all_boards, const auto& usage);
+        // 使用板子对
+        bool use_board(const std::string& up_board, const std::string& down_board);
+        // 找到并点击指定板子
+        bool search_and_click_board(const std::string& board);
+        // 往下滑
+        void slowly_swipe(bool to_down, int swipe_dist = 300);
+        // 节点类型
+        mutable std::string m_stage;
     };
 }

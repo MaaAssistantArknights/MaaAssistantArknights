@@ -16,7 +16,7 @@ namespace asst
     };
     struct RoguelikeCiphertextBoardCombination
     {
-        std::string usage;                     // 适用的节点类型和用法
+        std::string usage;                      // 适用的节点类型和用法
         std::vector<CiphertextBoardPair> pairs; // 适用的板子组合
     };
 

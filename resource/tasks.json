@@ -61,6 +61,60 @@
         ],
         "maxTimes": 50
     },
+    "SlowlySwipeToTheUp": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 200,
+        "specificRect": [
+            600,
+            510,
+            100,
+            100
+        ],
+        "rectMove": [
+            600,
+            0,
+            100,
+            100
+        ],
+        "specialParams": [
+            200,
+            1,
+            2,
+            0
+        ],
+        "next": [
+            "#next"
+        ],
+        "maxTimes": 50
+    },
+    "SlowlySwipeToTheDown": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 200,
+        "specificRect": [
+            600,
+            145,
+            100,
+            100
+        ],
+        "rectMove": [
+            600,
+            610,
+            100,
+            100
+        ],
+        "specialParams": [
+            200,
+            1,
+            2,
+            0
+        ],
+        "next": [
+            "#next"
+        ],
+        "maxTimes": 50
+    },
     "SwipeToTheLeft": {
         "algorithm": "JustReturn",
         "action": "Swipe",
@@ -11633,6 +11687,17 @@
     },
     "Sami@Roguelike@GamePassSkip2": {},
     "Sami@Roguelike@GamePassTheEndConfirm": {},
+    "Sami@Roguelike@CiphertextBoard": {
+        "cache": false,
+        "action": "ClickSelf",
+        "roi": [
+            639,
+            599,
+            299,
+            121
+        ],
+        "postDelay": 1000
+    },
     "Sami@Roguelike@CiphertextBoardGain": {
         "doc": "本任务注册插件RoguelikeCiphertextBoardGain",
         "template": "Sami@Roguelike@CiphertextBoardGain",
@@ -11714,6 +11779,60 @@
                 "黜",
                 "黜人"
             ]
+        ]
+    },
+    "Sami@Roguelike@CiphertextBoardUseOcr": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "cache": false,
+        "text": [],
+        "roi": [
+            38,
+            64,
+            85,
+            518
+        ],
+        "specificRect_Doc": "x拿来当文字灰度二值化下限用",
+        "specificRect": [
+            170,
+            0,
+            0,
+            0
+        ]
+    },
+    "Sami@Roguelike@CiphertextBoardUseConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "开始宣告"
+        ],
+        "roi": [
+            953,
+            597,
+            302,
+            113
+        ]
+    },
+    "Sami@Roguelike@CiphertextBoardUseOnStage": {
+        "cache": false,
+        "doc": "缺紧急战斗和先行一步",
+        "action": "ClickSelf",
+        "template": [
+            "Sami@Roguelike@CiphertextBoardUseOnCombatDps.png",
+            "Sami@Roguelike@CiphertextBoardUseOnMysteriousPresage.png",
+            "Sami@Roguelike@CiphertextBoardUseOnWindAndRain.png",
+            "Sami@Roguelike@CiphertextBoardUseOnGambling.png",
+            "Sami@Roguelike@CiphertextBoardUseOnEmergencyDps.png",
+            "Sami@Roguelike@CiphertextBoardUseOnDreadfulFoe-5.png",
+            "Sami@Roguelike@CiphertextBoardUseOnFerociousPresage.png",
+            "Sami@Roguelike@CiphertextBoardUseOnEncounter.png",
+            "Sami@Roguelike@CiphertextBoardUseOnTrader.png"
+        ],
+        "roi": [
+            451,
+            110,
+            795,
+            469
         ]
     },
     "Sami@Roguelike@CiphertextBoardGainOcrAfterCombat": {
@@ -12934,6 +13053,36 @@
         "rectMove": [
             670,
             340,
+            20,
+            20
+        ]
+    },
+    "RoguelikeCiphertextBoardSlowlySwipeToTheUp": {
+        "baseTask": "SlowlySwipeToTheUp",
+        "specificRect": [
+            180,
+            580,
+            20,
+            20
+        ],
+        "rectMove": [
+            180,
+            110,
+            20,
+            20
+        ]
+    },
+    "RoguelikeCiphertextBoardSlowlySwipeToTheDown": {
+        "baseTask": "SlowlySwipeToTheDown",
+        "specificRect": [
+            180,
+            110,
+            20,
+            20
+        ],
+        "rectMove": [
+            180,
+            580,
             20,
             20
         ]

@@ -1,11 +1,8 @@
 #include "RoguelikeCiphertextBoardGainTaskPlugin.h"
 
-#include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Status.h"
-#include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Vision/Matcher.h"
 #include "Vision/OCRer.h"
 
 bool asst::RoguelikeCiphertextBoardGainTaskPlugin::verify(AsstMsg msg, const json::value& details) const
@@ -14,8 +11,11 @@ bool asst::RoguelikeCiphertextBoardGainTaskPlugin::verify(AsstMsg msg, const jso
         return false;
     }
 
-    if (m_roguelike_theme.empty() || m_roguelike_theme != "Sami") {
+    if (m_roguelike_theme.empty()) {
         Log.error("Roguelike name doesn't exist!");
+        return false;
+    }
+    if (m_roguelike_theme != "Sami") {
         return false;
     }
     const std::string roguelike_name = m_roguelike_theme + "@";
@@ -37,7 +37,7 @@ bool asst::RoguelikeCiphertextBoardGainTaskPlugin::verify(AsstMsg msg, const jso
         m_ocr_after_combat = true;
         return true;
     }
-    /* 可能是没点科技树会单独掉一个密文板，很快能做出来，暂时不做识别
+    /* 可能是没点科技树会单独掉一个密文板，很快能点出来，暂时不做识别
     if (task_view == "Roguelike@GetDrop2") {
         m_ocr_after_combat = true;
         return true;
@@ -68,7 +68,6 @@ bool asst::RoguelikeCiphertextBoardGainTaskPlugin::_run()
 
     std::string overview_str =
         status()->get_str(Status::RoguelikeCiphertextBoardOverview).value_or(json::value().to_string());
-
     json::value overview_json = json::parse(overview_str).value_or(json::value());
     auto& overview = overview_json.as_array();
     // 把ciphertext_board存到overview里
