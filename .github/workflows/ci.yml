@@ -178,6 +178,7 @@ jobs:
         uses: robinraju/release-downloader@v1.8
         with:
           repository: MaaAssistantArknights/maa-cli
+          token: ${{ secrets.MISTEOWORKFLOW }}
           latest: true
           fileName: maa_cli-v*-${{ matrix.arch }}-unknown-linux-gnu.tar.gz
 
