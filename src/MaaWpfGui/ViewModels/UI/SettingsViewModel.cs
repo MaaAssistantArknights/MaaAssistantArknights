@@ -79,7 +79,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public string CoreVersion => _coreVersion;
 
-        private static readonly string _uiVersion = FileVersionInfo.GetVersionInfo(Application.ResourceAssembly.Location)
+        private static readonly string _uiVersion = FileVersionInfo
+            .GetVersionInfo(Application.ResourceAssembly.Location)
             .ProductVersion.Split('+')[0];
 
         /// <summary>
