@@ -125,8 +125,7 @@ bool asst::AccountSwitchTask::verify_client_type()
 
 bool asst::AccountSwitchTask::click_manager_login_button()
 {
-    auto task = ProcessTask(*this, { "AccountManagerLoginButton", "AccountManagerLoginButtonBili" });
-    return task.run();
+    return ProcessTask(*this, { "AccountManagerLoginButton", "AccountManagerLoginButtonBili" }).run();
 }
 
 bool asst::AccountSwitchTask::show_account_list()
