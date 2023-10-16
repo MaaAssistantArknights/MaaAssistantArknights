@@ -470,6 +470,7 @@
     <system:String x:Key="SelectTheFile">選擇作業</system:String>
     <system:String x:Key="SelectTheFileTip">作業檔可以直接用滑鼠拖進來喔 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="PasteClipboardTip">從剪貼簿貼上</system:String>
+    <system:String x:Key="ImportFilesTip">批次導入</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">作業怎麼樣？評價一下吧！</system:String>
     <system:String x:Key="FailedToLikeWebJson">出現錯誤，評價失敗 : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">感謝評價！\n網頁已經開放評論區，歡迎前往留下你的評論！</system:String>

@@ -470,6 +470,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="SelectTheFile">Select task file</system:String>
     <system:String x:Key="SelectTheFileTip">Task files can be imported by dragging the mouse</system:String>
     <system:String x:Key="PasteClipboardTip">Paste Clipboard</system:String>
+    <system:String x:Key="ImportFilesTip">Import task fils</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">Do you like this task file? Rate it!</system:String>
     <system:String x:Key="FailedToLikeWebJson">An error occurred, the like failed. : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">Thanks for the likes!\nThe comment section is already open on the web page, please feel free to leave your comment!</system:String>
