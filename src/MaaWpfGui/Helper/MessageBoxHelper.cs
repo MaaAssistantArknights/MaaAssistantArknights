@@ -14,6 +14,7 @@
 #pragma warning disable SA1401
 
 using System;
+using System.Security;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
@@ -21,7 +22,8 @@ using System.Windows;
 using HandyControl.Data;
 using Vanara.PInvoke;
 
-[assembly: SecurityPermission(SecurityAction.RequestMinimum, UnmanagedCode = true)]
+[assembly: SecurityCritical]
+[assembly: SecurityTreatAsSafe]
 
 namespace MaaWpfGui.Helper
 {
