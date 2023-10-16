@@ -120,8 +120,11 @@ jobs:
           $csprojPath = "src/MaaWpfGui/MaaWpfGui.csproj"
           $csprojPath = Resolve-Path -Path $csprojPath
           $tag = '${{ needs.meta.outputs.tag }}' -replace '.*?/', ''
-          $tag -match '\d+(\.\d+){0,3}'
-          $match = $Matches[0]
+          if ($tag -match '\d+(\.\d+){1,3}') {
+              $match = $Matches[0]
+          } else {
+              $match = "0.0.1"
+          }
           [xml]$csproj = Get-Content -Path $csprojPath
           $node = $csproj.Project.PropertyGroup | where {$_.AssemblyName -ne $null}
           $node.InformationalVersion = $tag
