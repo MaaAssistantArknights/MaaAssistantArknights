@@ -3841,6 +3841,7 @@
         "templThreshold": 0.7
     },
     "Mizuki@Roguelike@GetDropSelectRecruit": {
+        "template": "Mizuki@Roguelike@GetDropSelectRecruit.png",
         "templThreshold": 0.75
     },
     "Mizuki@Roguelike@StrategyChange_mode0": {
