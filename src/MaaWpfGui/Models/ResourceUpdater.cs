@@ -26,6 +26,7 @@ namespace MaaWpfGui.Models
     public static class ResourceUpdater
     {
         private const string MaaResourceVersion = "resource/version.json";
+        private const string VersionChecksTemp = MaaResourceVersion + ".checks.tmp";
 
         private static readonly List<string> _maaSingleFiles = new List<string>
         {
@@ -37,17 +38,16 @@ namespace MaaWpfGui.Models
             "resource/infrast.json",
             "resource/global/YoStarJP/resource/recruitment.json",
             "resource/global/YoStarJP/resource/item_index.json",
+            "resource/global/YoStarJP/resource/version.json",
             "resource/global/YoStarEN/resource/recruitment.json",
             "resource/global/YoStarEN/resource/item_index.json",
-            "resource/global/YoStarKR/resource/recruitment.json",
-            "resource/global/YoStarKR/resource/item_index.json",
+            "resource/global/YoStarEN/resource/version.json",
             "resource/global/txwy/resource/recruitment.json",
             "resource/global/txwy/resource/item_index.json",
-            "resource/global/YoStarJP/resource/version.json",
-            "resource/global/YoStarEN/resource/version.json",
-            "resource/global/YoStarKR/resource/version.json",
             "resource/global/txwy/resource/version.json",
-            "resource/version.json",    // 这个要放在最后，因为依赖 version.json 检查整体是否需要更新
+            "resource/global/YoStarKR/resource/recruitment.json",
+            "resource/global/YoStarKR/resource/item_index.json",
+            "resource/global/YoStarKR/resource/version.json",
         };
 
         private const string MaaDynamicFilesIndex = "resource/dynamic_list.txt";
@@ -104,6 +104,15 @@ namespace MaaWpfGui.Models
                 return false;
             }
 
+            var tmp = Path.Combine(Environment.CurrentDirectory, VersionChecksTemp);
+
+            if (!await HttpResponseHelper.SaveResponseToFileAsync(response, tmp))
+            {
+                return false;
+            }
+
+            _versionUrl = url;
+            _versionEtag = response.Headers.ETag.Tag;
             _ = Execute.OnUIThreadAsync(() =>
             {
                 using var toast = new ToastNotification(LocalizationHelper.GetString("GameResourceUpdating"));
@@ -111,6 +120,23 @@ namespace MaaWpfGui.Models
             });
 
             return true;
+        }
+
+        private static string _versionUrl = string.Empty;
+        private static string _versionEtag = string.Empty;
+
+        private static void PostProcVersionChecks()
+        {
+            var tmp = Path.Combine(Environment.CurrentDirectory, VersionChecksTemp);
+            var version = Path.Combine(Environment.CurrentDirectory, MaaResourceVersion);
+
+            if (File.Exists(tmp))
+            {
+                File.Copy(tmp, version, true);
+                File.Delete(tmp);
+            }
+
+            ETagCache.Set(_versionUrl, _versionEtag);
         }
 
         public static async Task<UpdateResult> Update()
@@ -123,7 +149,6 @@ namespace MaaWpfGui.Models
             }
 
             var ret1 = await UpdateFilesWithIndex(baseUrl);
-            ETagCache.Save();
 
             if (ret1 == UpdateResult.Failed)
             {
@@ -135,19 +160,19 @@ namespace MaaWpfGui.Models
             }
 
             var ret2 = await UpdateSingleFiles(baseUrl);
-            ETagCache.Save();
 
             if (ret2 == UpdateResult.Failed)
             {
                 return UpdateResult.Failed;
             }
 
-            if (ret1 == UpdateResult.Success || ret2 == UpdateResult.Success)
+            if (ret1 != UpdateResult.Success && ret2 != UpdateResult.Success)
             {
-                return UpdateResult.Success;
+                return UpdateResult.NotModified;
             }
 
-            return UpdateResult.NotModified;
+            PostProcVersionChecks();
+            return UpdateResult.Success;
         }
 
         private static async Task<UpdateResult> UpdateSingleFiles(string baseUrl)
@@ -159,21 +184,9 @@ namespace MaaWpfGui.Models
             {
                 var sRet = await UpdateFileWithETag(baseUrl, file, file);
 
-                switch (sRet)
+                if (sRet == UpdateResult.Failed)
                 {
-                    case UpdateResult.Failed:
-                        ret = UpdateResult.Failed;
-                        break;
-
-                    case UpdateResult.Success:
-                        ETagCache.Save();
-                        break;
-
-                    case UpdateResult.NotModified:
-                        break;
-
-                    default:
-                        throw new ArgumentOutOfRangeException();
+                    ret = UpdateResult.Failed;
                 }
 
                 if (ret == UpdateResult.NotModified && sRet == UpdateResult.Success)
@@ -190,20 +203,9 @@ namespace MaaWpfGui.Models
         private static async Task<UpdateResult> UpdateFilesWithIndex(string baseUrl)
         {
             var indexSRet = await UpdateFileWithETag(baseUrl, MaaDynamicFilesIndex, MaaDynamicFilesIndex);
-            switch (indexSRet)
+            if (indexSRet == UpdateResult.Failed)
             {
-                case UpdateResult.Failed:
-                    return UpdateResult.Failed;
-
-                case UpdateResult.Success:
-                    ETagCache.Save();
-                    break;
-
-                case UpdateResult.NotModified:
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException();
+                return UpdateResult.Failed;
             }
 
             var indexPath = Path.Combine(Environment.CurrentDirectory, MaaDynamicFilesIndex);
@@ -215,27 +217,16 @@ namespace MaaWpfGui.Models
             var ret = UpdateResult.NotModified;
             var context = File.ReadAllText(indexPath);
 
-            // ReSharper disable once AsyncVoidLambda
-            context.Split('\n').ToList().ForEach(async file =>
+            foreach (var file in context.Split('\n').ToList()
+                         .Where(file => !string.IsNullOrEmpty(file))
+                         .Where(file => !File.Exists(Path.Combine(Environment.CurrentDirectory, file))))
             {
                 try
                 {
-                    if (string.IsNullOrEmpty(file))
-                    {
-                        return;
-                    }
-
-                    // 这里有几千个文件，请求量太大了，且这些文件一般只新增，不修改。
-                    // 所以如果本地已经存在这些文件，就不再请求了。
-                    if (File.Exists(Path.Combine(Environment.CurrentDirectory, file)))
-                    {
-                        return;
-                    }
-
                     var sRet = await UpdateFileWithETag(baseUrl, file, file);
                     if (sRet == UpdateResult.Failed)
                     {
-                        ret = UpdateResult.Failed;
+                        return UpdateResult.Failed;
                     }
 
                     if (ret == UpdateResult.NotModified && sRet == UpdateResult.Success)
@@ -247,9 +238,7 @@ namespace MaaWpfGui.Models
                 {
                     // ignore
                 }
-            });
-
-            ETagCache.Save();
+            }
 
             return ret;
         }
@@ -290,6 +279,7 @@ namespace MaaWpfGui.Models
             }
 
             ETagCache.Set(response);
+
             return UpdateResult.Success;
         }
     }
