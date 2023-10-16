@@ -4,5 +4,14 @@
     },
     "SSSDrawCard": {
         "templThreshold": 0.97
+    },
+    "InfrastSmileyOnRest": {
+        "templThreshold": 0.7
+    },
+    "InfrastSmileyOnWork": {
+        "templThreshold": 0.7
+    },
+    "InfrastSmileyOnDistract": {
+        "templThreshold": 0.7
     }
 }
