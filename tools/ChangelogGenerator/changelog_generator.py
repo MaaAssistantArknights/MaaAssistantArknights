@@ -17,7 +17,24 @@ ignore_merge_author = False
 contributors = {}
 raw_commits_info = {}
 
-def print_commits(commits: dict, indent: str = "") -> (str, list):
+translations = {
+        '修复': 'fix', 
+        '新增': 'feat',
+        '更新': 'perf', 
+        '改进': 'perf', 
+        '优化': 'perf', 
+        '重构': 'perf',
+        '其他': 'other'
+    }
+
+translations_resort = {
+        '新增': 'feat',
+        '改进': 'perf',
+        '修复': 'fix', 
+        '其他': 'other'
+    }
+
+def individual_commits(commits: dict, indent: str = "") -> (str, list):
     if not commits: return ("", [])
     ret_message = ""
     ret_contributor = []
@@ -31,7 +48,7 @@ def print_commits(commits: dict, indent: str = "") -> (str, list):
     
         ret_message += indent + "- " + commit_message
     
-        mes, ctrs = print_commits(commit_info["branch"], indent + "   ")
+        mes, ctrs = individual_commits(commit_info["branch"], indent + "   ")
     
         if not ignore_merge_author or not commit_info["branch"]:
             author = commit_info["author"]
@@ -54,40 +71,30 @@ def print_commits(commits: dict, indent: str = "") -> (str, list):
     return ret_message, ret_contributor
 
 def updateCommits(commit_message, sorted_commits, update_dict):
-    translations = {
-                '修复': 'fix', 
-                '新增': 'feat',
-                '改进': 'perf', 
-                '更新': 'perf', 
-                '优化': 'perf', 
-                '重构': 'perf',
-                '其他': 'other'
-            }
     oper = 'other'
     for key, trans in translations.items():
-        if key in commit_message or commit_message.startswith(trans):
+        if key in commit_message:
             oper = trans
             break
+    else:
+        for key in set(translations.values()):
+            if commit_message.startswith(key):
+                oper = key
+                break
     sorted_commits[oper].update(update_dict)
             
 def updateMessage(sorted_commits, ret_message, ret_contributor):
-    translations_resort = {
-                '新增': 'feat',
-                '改进': 'perf',
-                '修复': 'fix', 
-                '其他': 'other'
-            }
     for key, trans in translations_resort.items():
         if sorted_commits[trans]:
             ret_message += f"\n### {key}\n\n"
-            mes, ctrs = print_commits(sorted_commits[trans], "")
+            mes, ctrs = individual_commits(sorted_commits[trans], "")
             ret_message += mes
             for ctr in ctrs:
                 if ret_contributor.count(ctr) == 0:
                     ret_contributor.append(ctr)
     return (ret_message, )
     
-def individual_commits(commits: dict):
+def print_commits(commits: dict):
     sorted_commits = {
         "perf": {},
         "feat": {},
