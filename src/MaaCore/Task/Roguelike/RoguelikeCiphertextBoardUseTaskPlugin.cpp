@@ -108,10 +108,15 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::search_enable_pair(const json:
             // 遍历下板子
             for (auto& down_board : pair.down_board) {
                 // 两个板子同时存在all_boards中
-                if (std::find(all_boards.begin(), all_boards.end(), up_board) != all_boards.end() &&
-                    std::find(all_boards.begin(), all_boards.end(), down_board) != all_boards.end()) {
+                auto iter_up = std::find(all_boards.begin(), all_boards.end(), up_board);
+                auto iter_down = std::find(all_boards.begin(), all_boards.end(), down_board);
+                if (iter_up != all_boards.end() && iter_down != all_boards.end()) {
                     use_board(up_board, down_board);
-                    // 删除上板子和下板子
+
+                    // 用完删除上板子和下板子
+                    m_all_boards.erase(iter_up);
+                    iter_down = std::find(all_boards.begin(), all_boards.end(), down_board);
+                    m_all_boards.erase(iter_down);
                     status()->set_str(Status::RoguelikeCiphertextBoardOverview, m_all_boards.to_string());
                     return true;
                 }
