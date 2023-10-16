@@ -140,6 +140,8 @@ jobs:
         arch: [aarch64, x86_64]
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
       - name: Install cross compile toolchains
         if: ${{ matrix.arch != 'x86_64' }}
@@ -175,18 +177,20 @@ jobs:
           mkdir -p install
           cmake --install build --prefix install
 
-      - name: Download CLI Release
-        uses: robinraju/release-downloader@v1.8
+      - name: Install cross compile tool (CLI)
+        if: ${{ matrix.arch != 'x86_64' }}
+        uses: taiki-e/install-action@v2
         with:
-          repository: MaaAssistantArknights/maa-cli
-          token: ${{ secrets.MISTEOWORKFLOW }}
-          latest: true
-          fileName: maa_cli-v*-${{ matrix.arch }}-unknown-linux-gnu.tar.gz
+          tool: cross
 
-      - name: Extract CLI
+      - name: Build CLI
+        working-directory: src/maa-cli
+        env:
+          CARGO_CMD: ${{ matrix.arch == 'x86_64' && 'cargo' || 'cross' }}
+          CARGO_BUILD_TARGET: ${{ matrix.arch }}-unknown-linux-gnu
         run: |
-          maa=$(tar xzvf maa_cli-v*-${{ matrix.arch }}-unknown-linux-gnu.tar.gz)
-          cp -v $maa install/maa
+          $CARGO_CMD build --release --locked --package maa-cli
+          cp -v target/$CARGO_BUILD_TARGET/release/maa $GITHUB_WORKSPACE/install/maa
 
       - name: tar files
         run: |
