@@ -79,9 +79,7 @@ def print_commits(commits: dict, indent: str = "", need_sort: bool = True) -> (s
     if need_sort and indent == "":
         for commit_hash, commit_info in commits.items():
             commit_message = commit_info["message"]
-            # XXX 
-            # 重复性高，可重构为factory结构
-            # Done at 2023.10.16
+            
             CNtoEN_Factory = {
                 ('修复'): 'fix', 
                 ('新增'): 'feat',
