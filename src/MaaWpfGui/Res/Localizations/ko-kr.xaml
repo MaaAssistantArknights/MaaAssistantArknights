@@ -23,7 +23,9 @@
     <system:String x:Key="HotKeySettings">단축키 설정</system:String>
     <system:String x:Key="UpdateSettings">업데이트</system:String>
     <system:String x:Key="AboutUs">정보</system:String>
-    <system:String x:Key="Version">버전</system:String>
+    <system:String x:Key="CoreVersion">Core 버전</system:String>
+    <system:String x:Key="UiVersion">UI 버전</system:String>
+    <system:String x:Key="ResourceVersion">Resource</system:String>
     <system:String x:Key="Off">끄세요</system:String>
     <system:String x:Key="ExternalNotificationTips">참고: 외부 알림 기능은 현재 「모든 작업 완료」 알림만 보냅니다.</system:String>
     <system:String x:Key="ExternalNotificationSettings">외부 알림</system:String>
