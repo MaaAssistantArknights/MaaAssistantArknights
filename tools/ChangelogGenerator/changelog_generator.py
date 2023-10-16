@@ -79,53 +79,37 @@ def print_commits(commits: dict, indent: str = "", need_sort: bool = True) -> (s
     if need_sort and indent == "":
         for commit_hash, commit_info in commits.items():
             commit_message = commit_info["message"]
-            if False:
-                pass
-            elif commit_message.find("修复") != -1:
-                sorted_commits["fix"].update({commit_hash: commit_info})
-            elif commit_message.find("新增") != -1:
-                sorted_commits["feat"].update({commit_hash: commit_info})
-            elif commit_message.find("改进") != -1 or commit_message.find("更新") != -1 or commit_message.find("优化") != -1 or commit_message.find("重构") != -1:
-                sorted_commits["perf"].update({commit_hash: commit_info})
-            elif commit_message.startswith("feat"):
-                sorted_commits["feat"].update({commit_hash: commit_info})
-            elif commit_message.startswith("perf"):
-                sorted_commits["perf"].update({commit_hash: commit_info})
-            elif commit_message.startswith("fix"):
-                sorted_commits["fix"].update({commit_hash: commit_info})
-            else:
-                sorted_commits["other"].update({commit_hash: commit_info})
-
-        if sorted_commits["feat"]:
-            ret_message += "\n### 新增\n\n"
-            mes, ctrs = print_commits(sorted_commits["feat"], "", False)
-            ret_message += mes
-            for ctr in ctrs:
-                if ret_contributor.count(ctr) == 0:
-                    ret_contributor.append(ctr)
-
-        if sorted_commits["perf"]:
-            ret_message += "\n### 改进\n\n"
-            mes, ctrs = print_commits(sorted_commits["perf"], "", False)
-            ret_message += mes
-            for ctr in ctrs:
-                if ret_contributor.count(ctr) == 0:
-                    ret_contributor.append(ctr)
-        if sorted_commits["fix"]:
-            ret_message += "\n### 修复\n\n"
-            mes, ctrs = print_commits(sorted_commits["fix"], "", False)
-            ret_message += mes
-            for ctr in ctrs:
-                if ret_contributor.count(ctr) == 0:
-                    ret_contributor.append(ctr)
-        if sorted_commits["other"]:
-            ret_message += "\n### 其他\n\n"
-            mes, ctrs = print_commits(sorted_commits["other"], "", False)
-            ret_message += mes
-            for ctr in ctrs:
-                if ret_contributor.count(ctr) == 0:
-                    ret_contributor.append(ctr)
-
+            # XXX 
+            # 重复性高，可重构为factory结构
+            # Done at 2023.10.16
+            CNtoEN_Factory = {
+                ('修复'): 'fix', 
+                ('新增'): 'feat',
+                ('改进', '更新', '优化', '重构'): 'perf',
+                ('其他'): 'other'
+            }
+            def updateCommits():
+                # 中文operation
+                push = [trans for keys, trans in CNtoEN_Factory.items() if any(key in commit_message for key in keys)]
+                if not push:  # 英文operation
+                    push = [key for key in CNtoEN_Factory.values() if commit_message.startswith(key)]
+                oper = push[0] if push else 'other'
+                
+                sorted_commits[oper].update({commit_hash: commit_info})
+            
+            def updateMessages():
+                for keys, trans in CNtoEN_Factory.items():
+                    if sorted_commits[trans]:
+                        ret_message += f"\n### {keys[0]}\n\n"
+                        mes, ctrs = print_commits(sorted_commits[trans], "", False)
+                        ret_message += mes
+                        for ctr in ctrs:
+                            if ret_contributor.count(ctr) == 0:
+                                ret_contributor.append(ctr)
+             
+            updateCommits()
+            updateMessages()
+        
     else:
         for commit_hash, commit_info in commits.items():
             commit_message = commit_info["message"]
