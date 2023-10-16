@@ -3563,6 +3563,11 @@
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
     },
+    "Mizuki@Roguelike@ChooseDifficultyConfirm": {
+        "text": [
+            "選択"
+        ]
+    },
     "Mizuki@Roguelike@MissionFailedFlag2": {
         "roi": [
             400,
