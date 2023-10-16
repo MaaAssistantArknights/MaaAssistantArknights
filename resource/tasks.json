@@ -11700,7 +11700,17 @@
             299,
             121
         ],
-        "postDelay": 1000
+        "postDelay": 2000
+    },
+    "Sami@Roguelike@CiphertextBoardBack": {
+        "action": "ClickSelf",
+        "roi": [
+            0,
+            0,
+            146,
+            144
+        ],
+        "postDelay": 2000
     },
     "Sami@Roguelike@CiphertextBoardGain": {
         "doc": "本任务注册插件RoguelikeCiphertextBoardGain",
@@ -11789,7 +11799,9 @@
         "algorithm": "OcrDetect",
         "action": "DoNothing",
         "cache": false,
-        "text": [],
+        "text": [
+            "布局"
+        ],
         "roi": [
             38,
             64,
@@ -11823,21 +11835,34 @@
         "doc": "缺紧急战斗和先行一步",
         "action": "ClickSelf",
         "template": [
+            "Sami@Roguelike@CiphertextBoardUseOnGambling.png",
+            "Sami@Roguelike@CiphertextBoardUseOnWindAndRain.png",
+            "Sami@Roguelike@CiphertextBoardUseOnEmergencyTransportation.png",
             "Sami@Roguelike@CiphertextBoardUseOnCombatDps.png",
             "Sami@Roguelike@CiphertextBoardUseOnMysteriousPresage.png",
-            "Sami@Roguelike@CiphertextBoardUseOnWindAndRain.png",
-            "Sami@Roguelike@CiphertextBoardUseOnGambling.png",
             "Sami@Roguelike@CiphertextBoardUseOnEmergencyDps.png",
             "Sami@Roguelike@CiphertextBoardUseOnDreadfulFoe-5.png",
             "Sami@Roguelike@CiphertextBoardUseOnFerociousPresage.png",
             "Sami@Roguelike@CiphertextBoardUseOnEncounter.png",
             "Sami@Roguelike@CiphertextBoardUseOnTrader.png"
         ],
+        "templThreshold": [
+            0.7,
+            0.7,
+            0.7,
+            0.7,
+            0.7,
+            0.7,
+            0.7,
+            0.7,
+            0.7,
+            0.7
+        ],
         "roi": [
-            451,
-            110,
-            795,
-            469
+            429,
+            111,
+            844,
+            477
         ]
     },
     "Sami@Roguelike@CiphertextBoardGainOcrAfterCombat": {
@@ -12137,18 +12162,18 @@
             "Sami@Roguelike@StageVerticalSafeHouseAI6",
             "Sami@Roguelike@StageVerticalBoons",
             "Sami@Roguelike@StageVerticalBoonsAI6",
-            "Sami@Roguelike@StageVerticalEncounter",
-            "Sami@Roguelike@StageVerticalEncounterAI6",
             "Sami@Roguelike@StageVerticalTrader",
             "Sami@Roguelike@StageVerticalTraderAI6",
             "Sami@Roguelike@StageSafeHouse",
             "Sami@Roguelike@StageSafeHouseAI6",
             "Sami@Roguelike@StageBoons",
             "Sami@Roguelike@StageBoonsAI6",
-            "Sami@Roguelike@StageEncounter",
-            "Sami@Roguelike@StageEncounterAI6",
             "Sami@Roguelike@StageTrader",
             "Sami@Roguelike@StageTraderAI6",
+            "Sami@Roguelike@StageEncounter",
+            "Sami@Roguelike@StageEncounterAI6",
+            "Sami@Roguelike@StageVerticalEncounter",
+            "Sami@Roguelike@StageVerticalEncounterAI6",
             "Sami@Roguelike@StageVerticalProphecy",
             "Sami@Roguelike@StageVerticalProphecyAI6",
             "Sami@Roguelike@StageWindAndRain",
@@ -13075,10 +13100,17 @@
             110,
             20,
             20
-        ]
+        ],
+        "specialParams": [
+            200,
+            1,
+            2,
+            0
+        ],
+        "postDelay": 500
     },
-    "RoguelikeCiphertextBoardSlowlySwipeToTheDown": {
-        "baseTask": "SlowlySwipeToTheDown",
+    "RoguelikeCiphertextBoardSwipeToTheDown": {
+        "baseTask": "SwipeToTheDown",
         "specificRect": [
             180,
             110,
@@ -13087,7 +13119,7 @@
         ],
         "rectMove": [
             180,
-            580,
+            570,
             20,
             20
         ]
