@@ -72,6 +72,7 @@ namespace MaaWpfGui.Helper
         public static void Set(string url, string etag)
         {
             _cache[url] = etag;
+            Save();
         }
 
         public static void Set(HttpResponseMessage response)
