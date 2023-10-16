@@ -97,6 +97,7 @@
     </PackageReference>
     <PackageReference Include="GlobalHotKey">
       <Version>1.1.0</Version>
+      <NoWarn>NU1701</NoWarn>
     </PackageReference>
     <PackageReference Include="gong-wpf-dragdrop">
       <Version>3.2.1</Version>
