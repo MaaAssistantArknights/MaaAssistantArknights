@@ -9,6 +9,7 @@
 #include "Controller/Controller.h"
 #include "Status.h"
 #include "Task/ProcessTask.h"
+#include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/Ranges.hpp"
 #include "Vision/Infrast/InfrastFacilityImageAnalyzer.h"
@@ -267,15 +268,21 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
     bool retried = false;
     bool pre_result_no_changes = false;
     int swipe_times = 0;
+    std::vector<cv::Mat> selecting_imgs; // 截图缓存，在复核失败的时候保存以供分析
 
     while (true) {
         if (need_exit()) {
             return false;
         }
+
+        const int selected_count = room_config.selected;
         std::vector<std::string> partial_result;
         // 选择自定义干员，同时输出每一页的干员列表
         if (!select_custom_opers(partial_result)) {
             return false;
+        }
+        if (selected_count != room_config.selected) {
+            selecting_imgs.emplace_back(ctrler()->get_image_cache());
         }
         // 选完人 / 名单已空
         if (static_cast<size_t>(room_config.selected) >= max_num_of_opers() ||
@@ -331,7 +338,18 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
     }
 
     if (!is_dorm_order && !select_opers_review(origin_room_config)) {
-        // 复核失败，说明current_room_config与OCR识别是不符的，current_room_config是无效信息，还原到用户原来的配置，重选
+        // 复核失败，保存截图
+        Log.trace(__FUNCTION__, "| Save selecting images");
+        std::string stem = utils::get_time_filestem();
+        auto relative_dir = utils::path("debug") / utils::path("infrast");
+        for (size_t i = 0; i != selecting_imgs.size(); ++i) {
+            auto relative_path = relative_dir / (stem + "_" + std::to_string(i) + "_raw.png");
+            Log.trace("Save image", relative_path);
+            asst::imwrite(relative_path, selecting_imgs[i]);
+        }
+        save_img(relative_dir); // 保存 review 时的截图
+
+        // 还原到用户原来的配置，准备下一次重选
         current_room_config() = std::move(origin_room_config);
         return false;
     }
