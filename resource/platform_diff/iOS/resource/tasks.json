@@ -13,5 +13,8 @@
     },
     "InfrastSmileyOnDistract": {
         "templThreshold": 0.7
+    },
+    "BattleQuickFormationRole": {
+        "templThreshold": 0.65
     }
 }
