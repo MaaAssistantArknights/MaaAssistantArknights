@@ -18,7 +18,7 @@ namespace asst
 
     private:
         // 查询是否有能使用的板子对
-        bool search_enable_pair(const json::array& all_boards, const auto& usage);
+        bool search_enable_pair(const auto& usage);
         // 使用板子对
         bool use_board(const std::string& up_board, const std::string& down_board);
         // 找到并点击指定板子

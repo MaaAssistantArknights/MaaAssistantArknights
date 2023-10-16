@@ -11815,7 +11815,8 @@
             597,
             302,
             113
-        ]
+        ],
+        "postDelay": 2000
     },
     "Sami@Roguelike@CiphertextBoardUseOnStage": {
         "cache": false,

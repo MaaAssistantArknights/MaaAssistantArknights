@@ -88,7 +88,7 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::_run()
         }
         if (m_stage == usage.usage) {
             // 用到没得用为止
-            while (search_enable_pair(m_all_boards, usage)) {
+            while (search_enable_pair(usage)) {
                 Log.debug("Use board pairs");
             }
             break;
@@ -98,7 +98,7 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::_run()
     return true;
 }
 
-bool asst::RoguelikeCiphertextBoardUseTaskPlugin::search_enable_pair(const json::array& all_boards, const auto& usage)
+bool asst::RoguelikeCiphertextBoardUseTaskPlugin::search_enable_pair(const auto& usage)
 {
     LogTraceFunction;
 
@@ -107,15 +107,15 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::search_enable_pair(const json:
         for (auto& up_board : pair.up_board) {
             // 遍历下板子
             for (auto& down_board : pair.down_board) {
-                // 两个板子同时存在all_boards中
-                auto iter_up = std::find(all_boards.begin(), all_boards.end(), up_board);
-                auto iter_down = std::find(all_boards.begin(), all_boards.end(), down_board);
-                if (iter_up != all_boards.end() && iter_down != all_boards.end()) {
+                // 两个板子同时存在m_all_boards中
+                auto iter_up = std::find(m_all_boards.begin(), m_all_boards.end(), up_board);
+                auto iter_down = std::find(m_all_boards.begin(), m_all_boards.end(), down_board);
+                if (iter_up != m_all_boards.end() && iter_down != m_all_boards.end()) {
                     use_board(up_board, down_board);
 
                     // 用完删除上板子和下板子
                     m_all_boards.erase(iter_up);
-                    iter_down = std::find(all_boards.begin(), all_boards.end(), down_board);
+                    iter_down = std::find(m_all_boards.begin(), m_all_boards.end(), down_board);
                     m_all_boards.erase(iter_down);
                     status()->set_str(Status::RoguelikeCiphertextBoardOverview, m_all_boards.to_string());
                     return true;
