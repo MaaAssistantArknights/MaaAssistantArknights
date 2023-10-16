@@ -72,16 +72,16 @@ void asst::InfrastAbstractTask::clear_custom_config() noexcept
 asst::infrast::CustomRoomConfig& asst::InfrastAbstractTask::current_room_config()
 {
     static infrast::CustomRoomConfig empty;
-    if (!m_is_custom) {
-        Log.info(__FUNCTION__, "custom is not enabled");
+    if (!m_is_custom) [[unlikely]] {
+        Log.warn(__FUNCTION__, "custom is not enabled");
         return empty;
     }
 
-    if (static_cast<size_t>(m_cur_facility_index) < m_custom_config.size()) {
-        return m_custom_config[m_cur_facility_index];
+    if (static_cast<size_t>(m_cur_facility_index) < m_custom_config.size()) [[likely]] {
+        return m_custom_config.at(m_cur_facility_index);
     }
     else {
-        Log.error(__FUNCTION__, "tab size is lager than config size", m_cur_facility_index, m_custom_config.size());
+        Log.warn(__FUNCTION__, "index out of range:", m_cur_facility_index, m_custom_config.size());
         return empty;
     }
 }
@@ -94,7 +94,7 @@ bool asst::InfrastAbstractTask::match_operator_groups()
 
     auto opers = get_available_oper_for_group();
     if (opers.size() == 0) {
-        Log.info(__FUNCTION__, "availvable operator for gourp is empty");
+        Log.info(__FUNCTION__, "available operator for group is empty");
         std::vector<std::string> temp, pre_temp;
         while (true) {
             if (need_exit()) {
@@ -108,7 +108,7 @@ bool asst::InfrastAbstractTask::match_operator_groups()
                 if (pre_result_no_changes) {
                     Log.warn("partial result is not changed, reset the page");
                     if (retried) {
-                        Log.error("already retring");
+                        Log.error("already retried");
                         break;
                     }
                     swipe_to_the_left_of_operlist(swipe_times + 1);
@@ -130,7 +130,7 @@ bool asst::InfrastAbstractTask::match_operator_groups()
     }
     swipe_to_the_left_of_operlist(swipe_times + 1);
     swipe_times = 0;
-    Log.info(__FUNCTION__, "availvable operators for gourp size:", opers.size());
+    Log.info(__FUNCTION__, "available operators for group size:", opers.size());
     // 筛选第一个满足要求的干员组
     for (const auto& oper_group_pair : current_room_config().operator_groups) {
         if (ranges::all_of(oper_group_pair.second, [opers](const std::string& oper) { return opers.contains(oper); })) {
@@ -196,7 +196,7 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
     LogTraceFunction;
 
     if (m_is_custom && static_cast<size_t>(m_cur_facility_index) >= m_custom_config.size()) {
-        Log.warn("index is lager than config size", index, m_custom_config.size());
+        Log.warn("index out of range:", index, m_custom_config.size());
         return false;
     }
 
