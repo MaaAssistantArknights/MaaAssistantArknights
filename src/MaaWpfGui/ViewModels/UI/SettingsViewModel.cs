@@ -75,14 +75,67 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets the core version.
         /// </summary>
-        public static string CoreVersion { get => Marshal.PtrToStringAnsi(AsstGetVersion()); }
+        public static string CoreVersion { get; } = Marshal.PtrToStringAnsi(AsstGetVersion());
 
         private static readonly string _uiVersion = FileVersionInfo.GetVersionInfo(Application.ResourceAssembly.Location).ProductVersion.Split('+')[0];
 
         /// <summary>
         /// Gets the UI version.
         /// </summary>
-        public static string UiVersion { get => _uiVersion == "0.0.1" ? "DEBUG VERSION" : _uiVersion; }
+        public static string UiVersion { get; } = _uiVersion == "0.0.1" ? "DEBUG VERSION" : _uiVersion;
+
+        private static string _resourceVersion = GetResourceVersionByClientType(ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, "Official"));
+
+        public string ResourceVersion
+        {
+            get => _resourceVersion;
+            set => SetAndNotify(ref _resourceVersion, value);
+        }
+
+        private static string GetResourceVersionByClientType(string clientType)
+        {
+            const string OfficialClientType = "Official";
+            const string BilibiliClientType = "Bilibili";
+            string jsonPath = "resource/version.json";
+            if (!(clientType == string.Empty || clientType == OfficialClientType || clientType == BilibiliClientType))
+            {
+                jsonPath = $"resource/global/{clientType}/resource/version.json";
+            }
+
+            string versionName = string.Empty;
+            if (!File.Exists(jsonPath))
+            {
+                return versionName;
+            }
+
+            JObject versionJson = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
+            var currentTime = (ulong)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            var poolTime = (ulong)versionJson?["gacha"]?["time"];
+            var activityTime = (ulong)versionJson?["activity"]?["time"];
+
+            if ((currentTime < poolTime) && (currentTime < activityTime))
+            {
+                versionName = string.Empty;
+            }
+            else if ((currentTime >= poolTime) && (currentTime < activityTime))
+            {
+                versionName = versionJson?["gacha"]?["pool"]?.ToString() ?? string.Empty;
+            }
+            else if ((currentTime < poolTime) && (currentTime >= activityTime))
+            {
+                versionName = versionJson?["activity"]?["name"]?.ToString() ?? string.Empty;
+            }
+            else if (poolTime > activityTime)
+            {
+                versionName = versionJson?["gacha"]?["pool"]?.ToString() ?? string.Empty;
+            }
+            else
+            {
+                versionName = versionJson?["activity"]?["name"]?.ToString() ?? string.Empty;
+            }
+
+            return versionName;
+        }
 
         /// <summary>
         /// The Pallas language key.
@@ -1096,6 +1149,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _clientType, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ClientType, value);
+                ResourceVersion = GetResourceVersionByClientType(_clientType);
                 UpdateWindowTitle(); /* 每次修改客户端时更新WindowTitle */
                 Instances.TaskQueueViewModel.UpdateStageList(true);
                 Instances.TaskQueueViewModel.UpdateDatePrompt();
@@ -2927,46 +2981,8 @@ namespace MaaWpfGui.ViewModels.UI
                 prefix += " - ";
             }
 
-            const string OfficialClientType = "Official";
-            const string BilibiliClientType = "Bilibili";
-            string jsonPath = "resource/version.json";
-            if (!(ClientType == string.Empty || ClientType == OfficialClientType || ClientType == BilibiliClientType))
-            {
-                jsonPath = $"resource/global/{ClientType}/resource/version.json";
-            }
-
-            string versionName = string.Empty;
-            if (File.Exists(jsonPath))
-            {
-                JObject versionJson = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
-                var currentTime = (ulong)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-                var poolTime = (ulong)versionJson?["gacha"]?["time"];
-                var activityTime = (ulong)versionJson?["activity"]?["time"];
-
-                if ((currentTime < poolTime) && (currentTime < activityTime))
-                {
-                    versionName = string.Empty;
-                }
-                else if ((currentTime >= poolTime) && (currentTime < activityTime))
-                {
-                    versionName = versionJson?["gacha"]?["pool"]?.ToString() ?? string.Empty;
-                }
-                else if ((currentTime < poolTime) && (currentTime >= activityTime))
-                {
-                    versionName = versionJson?["activity"]?["name"]?.ToString() ?? string.Empty;
-                }
-                else if (poolTime > activityTime)
-                {
-                    versionName = versionJson?["gacha"]?["pool"]?.ToString() ?? string.Empty;
-                }
-                else
-                {
-                    versionName = versionJson?["activity"]?["name"]?.ToString() ?? string.Empty;
-                }
-            }
-
-            string poolString = !string.IsNullOrEmpty(versionName) ? $" - {versionName}" : string.Empty;
-            rvm.WindowTitle = $"{prefix}MAA ({CurrentConfiguration}) - {CoreVersion}{poolString} - {connectConfigName} ({ConnectAddress}) - {ClientName}";
+            string resourceVersion = !string.IsNullOrEmpty(ResourceVersion) ? $" - {ResourceVersion}" : string.Empty;
+            rvm.WindowTitle = $"{prefix}MAA ({CurrentConfiguration}) - {CoreVersion}{resourceVersion} - {connectConfigName} ({ConnectAddress}) - {ClientName}";
         }
 
         private readonly string _bluestacksConfig = GetBluestacksConfig();

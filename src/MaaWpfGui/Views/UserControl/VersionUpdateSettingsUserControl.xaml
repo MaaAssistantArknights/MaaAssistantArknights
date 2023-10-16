@@ -98,7 +98,16 @@
                     Text="{Binding Proxy}" />
                 <StackPanel Grid.Row="2">
                     <hc:Shield
-                        Margin="0,10"
+                        Margin="0,5"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        hc:FloatingBlock.Content="{Binding ResourceVersion}"
+                        PreviewMouseDown="ResourceVersionClick"
+                        Status="{Binding ResourceVersion, Mode=OneWay}"
+                        Subject="{DynamicResource ResourceVersion}"
+                        Color="#6969AA" />
+                    <hc:Shield
+                        Margin="0,5"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         hc:FloatingBlock.Content="{Binding UiVersion}"
@@ -107,7 +116,7 @@
                         Subject="{DynamicResource UiVersion}"
                         Color="#6969AA" />
                     <hc:Shield
-                        Margin="0,10"
+                        Margin="0,5"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         hc:FloatingBlock.Content="{Binding CoreVersion}"

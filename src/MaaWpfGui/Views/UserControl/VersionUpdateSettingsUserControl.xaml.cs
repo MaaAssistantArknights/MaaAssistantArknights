@@ -44,46 +44,41 @@ namespace MaaWpfGui.Views.UserControl
 
         private void CoreVersionClick(object sender, MouseButtonEventArgs e)
         {
-            try
-            {
-                CopyToClipboardAsync(SettingsViewModel.CoreVersion);
-            }
-            catch
-            {
-                // ignore
-            }
-
+            CopyToClipboardAsync("Core Version: " + SettingsViewModel.CoreVersion);
             EasterEggs();
         }
 
         private void UiVersionClick(object sender, MouseButtonEventArgs e)
         {
-            try
-            {
-                CopyToClipboardAsync(SettingsViewModel.UiVersion);
-            }
-            catch
-            {
-                // ignore
-            }
+            CopyToClipboardAsync("UI Version: " + SettingsViewModel.UiVersion);
+        }
+
+        private void ResourceVersionClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboardAsync("Resource Version: " + Instances.SettingsViewModel.ResourceVersion);
         }
 
         private static void CopyToClipboardAsync(string text)
         {
-            Thread clipboardThread = new Thread(() =>
+            if (string.IsNullOrEmpty(text))
             {
-                try
+                return;
+            }
+
+            try
+            {
+                Thread clipboardThread = new Thread(() =>
                 {
                     Clipboard.SetText(text);
-                }
-                catch
-                {
-                    // ignore
-                }
-            });
+                });
 
-            clipboardThread.SetApartmentState(ApartmentState.STA);
-            clipboardThread.Start();
+                clipboardThread.SetApartmentState(ApartmentState.STA);
+                clipboardThread.Start();
+            }
+            catch
+            {
+                // ignored
+            }
         }
 
         private void EasterEggs()
