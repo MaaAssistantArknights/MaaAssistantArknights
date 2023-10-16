@@ -13474,6 +13474,12 @@
             576,
             288,
             144
+        ],
+        "preDelay": 1000,
+        "maxTimes": 5,
+        "next": [
+            "#self",
+            "Stop"
         ]
     },
     "SSSFightDirectly": {
