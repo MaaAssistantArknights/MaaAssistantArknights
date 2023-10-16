@@ -3258,6 +3258,25 @@
             150
         ]
     },
+    "AccountListSwipeToTop": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [
+            700,
+            330,
+            20,
+            20
+        ],
+        "rectMove": [
+            700,
+            380,
+            20,
+            20
+        ],
+        "specialParams": [
+            150
+        ]
+    },
     "StartUpThemes": {
         "algorithm": "JustReturn",
         "next": [
