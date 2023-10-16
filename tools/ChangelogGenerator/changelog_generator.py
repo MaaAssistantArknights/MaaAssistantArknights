@@ -79,7 +79,9 @@ def print_commits(commits: dict, indent: str = "", need_sort: bool = True) -> (s
     if need_sort and indent == "":
         for commit_hash, commit_info in commits.items():
             commit_message = commit_info["message"]
-            
+            # XXX 
+            # 重复性高，可重构为factory结构
+            # Done at 2023.10.16
             CNtoEN_Factory = {
                 ('修复'): 'fix', 
                 ('新增'): 'feat',
@@ -95,18 +97,19 @@ def print_commits(commits: dict, indent: str = "", need_sort: bool = True) -> (s
                 
                 sorted_commits[oper].update({commit_hash: commit_info})
             
-            def updateMessages():
+            def updateMessages(return_message):
                 for keys, trans in CNtoEN_Factory.items():
                     if sorted_commits[trans]:
-                        ret_message += f"\n### {keys[0]}\n\n"
+                        return_message += f"\n### {keys[0]}\n\n"
                         mes, ctrs = print_commits(sorted_commits[trans], "", False)
-                        ret_message += mes
+                        return_message += mes
                         for ctr in ctrs:
                             if ret_contributor.count(ctr) == 0:
                                 ret_contributor.append(ctr)
-             
+            
             updateCommits()
-            updateMessages()
+            ret_message = updateMessages(ret_message)
+           
         
     else:
         for commit_hash, commit_info in commits.items():
