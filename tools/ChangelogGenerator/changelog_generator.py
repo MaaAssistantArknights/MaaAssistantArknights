@@ -17,6 +17,89 @@ ignore_merge_author = False
 contributors = {}
 raw_commits_info = {}
 
+def print_commits(commits: dict, indent: str = "") -> (str, list):
+    if not commits: return ("", [])
+    ret_message = ""
+    ret_contributor = []
+
+    for commit_hash, commit_info in commits.items():
+        commit_message = commit_info["message"]
+
+        if not with_commitizen:
+            commitizens = r"(?:build|chore|ci|docs?|feat|fix|perf|refactor|rft|style|test)"
+            commit_message = re.sub(rf"^(?:{commitizens}, *)*{commitizens} *(?:\([^\)]*\))*: *", "", commit_message)
+    
+        ret_message += indent + "- " + commit_message
+    
+        mes, ctrs = print_commits(commit_info["branch"], indent + "   ")
+    
+        if not ignore_merge_author or not commit_info["branch"]:
+            author = commit_info["author"]
+            if author not in ctrs: ctrs.append(author)
+            if committer_is_author:
+                committer = commit_info["committer"]
+                if committer not in ctrs: ctrs.append(committer)
+    
+        for ctr in ctrs:
+            if ctr == "web-flow": continue # 这个账号是 GitHub 在 Merge PR 时的 committer
+            if ret_contributor.count(ctr) == 0:
+                ret_contributor.append(ctr)
+            ret_message += " @" + ctr
+    
+        if with_hash:
+            ret_message += f" ({commit_hash})"
+    
+        ret_message += "\n" + mes
+        
+    return ret_message, ret_contributor
+
+def updateCommits(commit_message, sorted_commits, update_dict):
+    translations = {
+                '修复': 'fix', 
+                '新增': 'feat',
+                '改进': 'perf', 
+                '更新': 'perf', 
+                '优化': 'perf', 
+                '重构': 'perf',
+                '其他': 'other'
+            }
+    oper = 'other'
+    for key, trans in translations.items():
+        if key in commit_message or commit_message.startswith(trans):
+            oper = trans
+            break
+    sorted_commits[oper].update(update_dict)
+            
+def updateMessage(sorted_commits, ret_message, ret_contributor):
+    translations_resort = {
+                '新增': 'feat',
+                '改进': 'perf',
+                '修复': 'fix', 
+                '其他': 'other'
+            }
+    for key, trans in translations_resort.items():
+        if sorted_commits[trans]:
+            ret_message += f"\n### {key}\n\n"
+            mes, ctrs = print_commits(sorted_commits[trans], "")
+            ret_message += mes
+            for ctr in ctrs:
+                if ret_contributor.count(ctr) == 0:
+                    ret_contributor.append(ctr)
+    return (ret_message, )
+    
+def individual_commits(commits: dict):
+    sorted_commits = {
+        "perf": {},
+        "feat": {},
+        "fix": {},
+        "other": {},
+    }
+    for commit_hash, commit_info in commits.items():
+        commit_message = commit_info["message"]
+        updateCommits(commit_message, sorted_commits, {commit_hash: commit_info})
+        
+    return updateMessage(sorted_commits, '', [])
+
 def build_commits_tree(commit_hash: str):
     '''
     返回值为当前 commit 与其 parents 的信息。
@@ -64,83 +147,6 @@ def build_commits_tree(commit_hash: str):
         if raw_commit_info["message"].startswith("Merge branch") and not res[commit_hash]["branch"]:
             res.pop(commit_hash)
     return res
-
-def print_commits(commits: dict, indent: str = "", need_sort: bool = True) -> (str, list):
-    if not commits: return ("", [])
-    ret_message = ""
-    ret_contributor = []
-
-    sorted_commits = {
-        "perf": {},
-        "feat": {},
-        "fix": {},
-        "other": {},
-    }
-    if need_sort and indent == "":
-        for commit_hash, commit_info in commits.items():
-            commit_message = commit_info["message"]
-            
-            CNtoEN_Factory = {
-                ('修复'): 'fix', 
-                ('新增'): 'feat',
-                ('改进', '更新', '优化', '重构'): 'perf',
-                ('其他'): 'other'
-            }
-            def updateCommits():
-                # 中文operation
-                push = [trans for keys, trans in CNtoEN_Factory.items() if any(key in commit_message for key in keys)]
-                if not push:  # 英文operation
-                    push = [key for key in CNtoEN_Factory.values() if commit_message.startswith(key)]
-                oper = push[0] if push else 'other'
-                
-                sorted_commits[oper].update({commit_hash: commit_info})
-            
-            def updateMessages(return_message):
-                for keys, trans in CNtoEN_Factory.items():
-                    if sorted_commits[trans]:
-                        return_message += f"\n### {keys[0]}\n\n"
-                        mes, ctrs = print_commits(sorted_commits[trans], "", False)
-                        return_message += mes
-                        for ctr in ctrs:
-                            if ret_contributor.count(ctr) == 0:
-                                ret_contributor.append(ctr)
-            
-            updateCommits()
-            ret_message = updateMessages(ret_message)
-           
-        
-    else:
-        for commit_hash, commit_info in commits.items():
-            commit_message = commit_info["message"]
-
-            if not with_commitizen:
-                commitizens = r"(?:build|chore|ci|docs?|feat|fix|perf|refactor|rft|style|test)"
-                commit_message = re.sub(rf"^(?:{commitizens}, *)*{commitizens} *(?:\([^\)]*\))*: *", "", commit_message)
-
-            ret_message += indent + "- " + commit_message
-
-            mes, ctrs = print_commits(commit_info["branch"], indent + "   ", False)
-
-            if not ignore_merge_author or not commit_info["branch"]:
-                author = commit_info["author"]
-                if author not in ctrs: ctrs.append(author)
-                if committer_is_author:
-                    committer = commit_info["committer"]
-                    if committer not in ctrs: ctrs.append(committer)
-
-            for ctr in ctrs:
-                if ctr == "web-flow": continue # 这个账号是 GitHub 在 Merge PR 时的 committer
-                if ret_contributor.count(ctr) == 0:
-                    ret_contributor.append(ctr)
-                ret_message += " @" + ctr
-
-            if with_hash:
-                ret_message += f" ({commit_hash})"
-
-            ret_message += "\n" + mes
-
-    return ret_message, ret_contributor
-
 
 def retry_urlopen(*args, **kwargs):
     import time
