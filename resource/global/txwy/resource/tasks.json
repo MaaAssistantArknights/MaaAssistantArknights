@@ -4323,7 +4323,9 @@
     },
     "Roguelike@RecruitSupportConfirm": {
         "text": [
-            "招募助戰"
+            "招募助戰",
+            "控募助戰",
+            "招蔓訪戰"
         ]
     },
     "SSSBegin": {
