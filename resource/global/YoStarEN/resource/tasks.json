@@ -389,7 +389,7 @@
                 "空"
             ],
             [
-                "Ss?k?ad?i ?the ?C[Oo]?r*m?u?pt?i?ng.*",
+                "Ss?kad?i? the Corru?pt?ing.*",
                 "Skadi the Corrupting Heart"
             ],
             [
@@ -1985,7 +1985,7 @@
                 "备勤激活站"
             ],
             [
-                "Terra .ese.rch.*",
+                "Ter*a .esear.*",
                 "Terra Research Commission"
             ],
             [
@@ -3248,7 +3248,7 @@
         ],
         "specialParams": [
             160,
-            4,
+            2,
             7,
             0
         ]
@@ -3841,6 +3841,7 @@
         "templThreshold": 0.7
     },
     "Mizuki@Roguelike@GetDropSelectRecruit": {
+        "template": "Mizuki@Roguelike@GetDropSelectRecruit.png",
         "templThreshold": 0.75
     },
     "Mizuki@Roguelike@StrategyChange_mode0": {
