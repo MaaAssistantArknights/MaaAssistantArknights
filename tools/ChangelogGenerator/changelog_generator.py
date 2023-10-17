@@ -45,11 +45,11 @@ def individual_commits(commits: dict, indent: str = "") -> (str, list):
         if not with_commitizen:
             commitizens = r"(?:build|chore|ci|docs?|feat|fix|perf|refactor|rft|style|test|debug|i18n)"
             commit_message = re.sub(rf"^(?:{commitizens}, *)*{commitizens} *(?:\([^\)]*\))*: *", "", commit_message)
-    
+
         ret_message += indent + "- " + commit_message
-    
+
         mes, ctrs = individual_commits(commit_info["branch"], indent + "   ")
-    
+
         if not ignore_merge_author or not commit_info["branch"]:
             author = commit_info["author"]
             if author not in ctrs: ctrs.append(author)
@@ -58,18 +58,21 @@ def individual_commits(commits: dict, indent: str = "") -> (str, list):
             if committer_is_author:
                 committer = commit_info["committer"]
                 if committer not in ctrs: ctrs.append(committer)
-    
+
         for ctr in ctrs:
             if ctr == "web-flow": continue # 这个账号是 GitHub 在 Merge PR 时的 committer
             if ret_contributor.count(ctr) == 0:
                 ret_contributor.append(ctr)
             ret_message += " @" + ctr
-    
+
         if with_hash:
             ret_message += f" ({commit_hash})"
-    
-        ret_message += "\n" + mes
-        
+
+        ret_message += "\n"
+
+        if with_merge:
+            ret_message += mes
+
     return ret_message, ret_contributor
 
 def update_commits(commit_message, sorted_commits, update_dict):
@@ -84,7 +87,7 @@ def update_commits(commit_message, sorted_commits, update_dict):
                 oper = key
                 break
     sorted_commits[oper].update(update_dict)
-            
+
 def update_message(sorted_commits, ret_message, ret_contributor):
     for key, trans in translations_resort.items():
         if sorted_commits[trans]:
@@ -95,7 +98,7 @@ def update_message(sorted_commits, ret_message, ret_contributor):
                 if ret_contributor.count(ctr) == 0:
                     ret_contributor.append(ctr)
     return (ret_message, )
-    
+
 def print_commits(commits: dict):
     sorted_commits = {
         "perf": {},
@@ -106,7 +109,7 @@ def print_commits(commits: dict):
     for commit_hash, commit_info in commits.items():
         commit_message = commit_info["message"]
         update_commits(commit_message, sorted_commits, {commit_hash: commit_info})
-        
+
     return update_message(sorted_commits, '', [])
 
 def build_commits_tree(commit_hash: str):
@@ -280,12 +283,14 @@ def ArgParser():
     parser.add_argument("-wc", "--with-commitizen", help="print commit message with commitizen", action="store_true", dest="with_commitizen")
     parser.add_argument("-im", "--ignore-merge-author", help="ignore merge author", action="store_true", dest="ignore_merge_author", default=True)
     parser.add_argument("-ca", "--committer-is-author", help="treat committer the same as author", action="store_true", dest="committer_is_author")
+    parser.add_argument("-wm", "--with-merge", help="print merge commits tree", action="store_true", dest="with_merge")
     return parser
 
 if __name__ == "__main__":
     args = ArgParser().parse_args()
     with_hash = args.with_hash
     with_commitizen = args.with_commitizen
+    with_merge = args.with_merge
     latest = args.latest
     tag_name = args.tag_name
     ignore_merge_author = args.ignore_merge_author
