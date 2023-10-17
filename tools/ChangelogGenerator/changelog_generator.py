@@ -43,7 +43,7 @@ def individual_commits(commits: dict, indent: str = "") -> (str, list):
         commit_message = commit_info["message"]
 
         if not with_commitizen:
-            commitizens = r"(?:build|chore|ci|docs?|feat|fix|perf|refactor|rft|style|test)"
+            commitizens = r"(?:build|chore|ci|docs?|feat|fix|perf|refactor|rft|style|test|debug|i18n)"
             commit_message = re.sub(rf"^(?:{commitizens}, *)*{commitizens} *(?:\([^\)]*\))*: *", "", commit_message)
     
         ret_message += indent + "- " + commit_message
@@ -53,6 +53,8 @@ def individual_commits(commits: dict, indent: str = "") -> (str, list):
         if not ignore_merge_author or not commit_info["branch"]:
             author = commit_info["author"]
             if author not in ctrs: ctrs.append(author)
+            for coauthor in commit_info.get("coauthors", []):
+                if coauthor not in ctrs: ctrs.append(coauthor)
             if committer_is_author:
                 committer = commit_info["committer"]
                 if committer not in ctrs: ctrs.append(committer)
@@ -116,6 +118,7 @@ def build_commits_tree(commit_hash: str):
             "hash": str,
             "author": str,
             "committer": str,
+            "coauthors": [str, ...],
             "message": str,
             "branch": {} # 当当前为 merge commit 时非空，为被合并分支对应的 commits 信息
         },
@@ -129,12 +132,12 @@ def build_commits_tree(commit_hash: str):
         return {}
     raw_commit_info.update({"visited": True}) # 防止一个 commit 被多个分支遍历
 
-    commit_hash = raw_commit_info["hash"]
     res = {
         commit_hash: {
-            "hash": commit_hash,
+            "hash": raw_commit_info["hash"],
             "author": raw_commit_info["author"],
             "committer": raw_commit_info["committer"],
+            "coauthors": raw_commit_info.get("coauthors", []),
             "message": raw_commit_info["message"],
             "branch": {}
         }
@@ -144,14 +147,13 @@ def build_commits_tree(commit_hash: str):
 
     # 第二个 parent 为 Merge commit 的被合并分支
     if len(raw_commit_info["parent"]) == 2:
-        if (raw_commit_info["message"].startswith("Release") or
-            re.match(r"Merge pull request #\d+ from MaaAssistantArknights/dev", raw_commit_info["message"])):
+        if (raw_commit_info["message"].startswith("Release") or raw_commit_info["message"].startswith("Merge")):
             # 避免合并之后只有一个 Release 主 commit
-            # 忽略从 dev 合并的 Merge commit
+            # 忽略不带信息的 Merge commit (eg. Merge remote-tracking branch; Merge branch 'dev' of xxx into dev)
             res.update(build_commits_tree(raw_commit_info["parent"][1]))
         else:
             res[commit_hash]["branch"].update(build_commits_tree(raw_commit_info["parent"][1]))
-        if raw_commit_info["message"].startswith("Merge branch") and not res[commit_hash]["branch"]:
+        if raw_commit_info["message"].startswith("Merge") and not res[commit_hash]["branch"]:
             res.pop(commit_hash)
     return res
 
@@ -197,6 +199,12 @@ def convert_contributors_name(name: str, commit_hash: str, name_type: str):
     else:
         return contributors[name]
 
+def call_command(command: str):
+    with os.popen(command) as fp: bf = fp._stream.buffer.read()
+    try: command_ret = bf.decode().strip()
+    except: command_ret = bf.decode("gbk").strip()
+    return command_ret
+
 def main(tag_name=None, latest=None):
     global contributors, raw_commits_info
     try:
@@ -219,10 +227,7 @@ def main(tag_name=None, latest=None):
     # 获取详细的 git log 信息
     # git_command = rf'git log {latest}..HEAD --pretty=format:"\"%H\":{{\"hash\":\"%h\",\"author\":\"%aN\",\"committer\":\"%cN\",\"message\":\"%s\",\"parent\":\"%P\"}},"'
     git_command = rf'git log {latest}..HEAD --pretty=format:"%H%n%aN%n%cN%n%s%n%P%n"'
-
-    with os.popen(git_command) as fp: bf = fp._stream.buffer.read()
-    try: raw_gitlogs = bf.decode().strip()
-    except: raw_gitlogs = bf.decode("gbk").strip()
+    raw_gitlogs = call_command(git_command)
 
     raw_commits_info = {}
     for raw_commit_info in raw_gitlogs.split('\n\n'):
@@ -238,6 +243,23 @@ def main(tag_name=None, latest=None):
             "message": message,
             "parent": parent.split()
         }
+
+    git_coauthor_command = rf'git log {latest}..HEAD --pretty=format:"%H%n" --grep="Co-authored-by"'
+    raw_gitlogs = call_command(git_coauthor_command)
+
+    for commit_hash in raw_gitlogs.split('\n'):
+        if commit_hash not in raw_commits_info:
+            continue
+        git_addition_command = rf'git log {commit_hash} --no-walk --pretty=format:"%b"'
+        addition = call_command(git_addition_command)
+        coauthors = []
+        for coauthor in re.findall(r"Co-authored-by: (.*) <(?:.*)>", addition):
+            if coauthor in contributors:
+                coauthors.append(contributors[coauthor])
+            else:
+                print(f"Cannot get coauthor: {coauthor}.")
+        raw_commits_info[commit_hash]["coauthors"] = coauthors
+
     # print(json.dumps(raw_commits_info, ensure_ascii=False, indent=2))
 
     res = print_commits(build_commits_tree([x for x in raw_commits_info.keys()][0]))
