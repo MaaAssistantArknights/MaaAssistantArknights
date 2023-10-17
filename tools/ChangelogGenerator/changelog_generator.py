@@ -18,21 +18,21 @@ contributors = {}
 raw_commits_info = {}
 
 translations = {
-        '修复': 'fix', 
-        '新增': 'feat',
-        '更新': 'perf', 
-        '改进': 'perf', 
-        '优化': 'perf', 
-        '重构': 'perf',
-        '其他': 'other'
-    }
+    '修复': 'fix', 
+    '新增': 'feat',
+    '更新': 'perf', 
+    '改进': 'perf', 
+    '优化': 'perf', 
+    '重构': 'perf',
+    '其他': 'other'
+}
 
 translations_resort = {
-        '新增': 'feat',
-        '改进': 'perf',
-        '修复': 'fix', 
-        '其他': 'other'
-    }
+    '新增': 'feat',
+    '改进': 'perf',
+    '修复': 'fix', 
+    '其他': 'other'
+}
 
 def individual_commits(commits: dict, indent: str = "") -> (str, list):
     if not commits: return ("", [])
