@@ -194,6 +194,11 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             click_oper_on_deployment(oper.rect);
 
             cv::Mat name_image = m_inst_helper.ctrler()->get_image();
+
+            // 点开干员后会有个放大的效果，其他干员的位置很可能和之前也不一样了
+            // 恢复一下初始状态再点下一个
+            cancel_oper_selection();
+
             if (!check_in_battle(name_image)) {
                 return false;
             }
