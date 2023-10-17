@@ -24,7 +24,6 @@ using System.Windows.Input;
 using HandyControl.Tools.Extension;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Services;
 using MaaWpfGui.States;
 using Microsoft.Win32;
 using Newtonsoft.Json;

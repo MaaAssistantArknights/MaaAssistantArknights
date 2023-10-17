@@ -1,3 +1,16 @@
+// <copyright file="MaaService.cs" company="MaaAssistantArknights">
+// MaaWpfGui - A part of the MaaCoreArknights project
+// Copyright (C) 2021 MistEO and Contributors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY
+// </copyright>
+
 using System;
 using System.Runtime.InteropServices;
 using MaaWpfGui.Main;
@@ -8,7 +21,7 @@ using AsstTaskId = System.Int32;
 
 namespace MaaWpfGui.Services
 {
-    public class MaaService
+    public static class MaaService
     {
         public delegate void CallbackDelegate(int msg, IntPtr jsonBuffer, IntPtr customArg);
 
@@ -25,9 +38,6 @@ namespace MaaWpfGui.Services
 
         [DllImport("MaaCore.dll")]
         public static extern unsafe bool AsstLoadResource(byte* dirname);
-
-        [DllImport("MaaCore.dll")]
-        public static extern void AsstClearAvatarCache();
 
         [DllImport("MaaCore.dll")]
         public static extern unsafe bool AsstConnect(AsstHandle handle, byte* adbPath, byte* address, byte* config);
