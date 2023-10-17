@@ -7949,6 +7949,16 @@
             255
         ]
     },
+    "BattleAvatarReMatch": {
+        "template": "empty.png",
+        "templThreshold": 0.8,
+        "roi": [
+            0,
+            580,
+            1280,
+            140
+        ]
+    },
     "BattleOperClickRange": {
         "template": "empty.png",
         "rectMove": [

@@ -183,6 +183,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             return false;
         }
 
+        cv::Mat name_image;
         for (auto& oper : unknown_opers) {
             LogTraceScope("rec unknown oper: " + std::to_string(oper.index));
             if (oper.cooling) {
@@ -191,14 +192,23 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
                 continue;
             }
 
-            click_oper_on_deployment(oper.rect);
+            Rect oper_rect = oper.rect;
+            // 点完部署区的一个干员之后，他的头像会放大；其他干员的位置都被挤开了，不在原来的位置了
+            // 所以只有第一个干员可以直接点，后面干员都要重新识别一下位置
+            if (!name_image.empty()) {
+                Matcher re_matcher;
+                re_matcher.set_task_info("BattleAvatarReMatch");
+                re_matcher.set_image(name_image);
+                re_matcher.set_templ(oper.avatar);
+                auto rematched = re_matcher.analyze();
+                if (rematched) {
+                    oper_rect = rematched->rect;
+                }
+            }
 
-            cv::Mat name_image = m_inst_helper.ctrler()->get_image();
+            click_oper_on_deployment(oper_rect);
 
-            // 点开干员后会有个放大的效果，其他干员的位置很可能和之前也不一样了
-            // 恢复一下初始状态再点下一个
-            cancel_oper_selection();
-
+            name_image = m_inst_helper.ctrler()->get_image();
             if (!check_in_battle(name_image)) {
                 return false;
             }
