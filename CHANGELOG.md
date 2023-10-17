@@ -1,149 +1,180 @@
-## v4.25.0
+## v4.26.0-beta.1
 
 ### 新增
 
-- 支持夜间界面主题（支持多模板匹配，任一达到阈值即视为命中） (#6608) @MistEO @Constrat @zzyyyl
-- 公告弹窗 (#6557) @ABA2396 @Constrat
-- 输出“使用 48 小时内过期的理智药”消息 (#6800) @broken-paint
-- 为 WpfGui 加入一个远程控制功能。 (#6717) @hsyhhssyy @SherkeyXD
-- 肉鸽设置-中止行为 可设置等待至本次战斗结束后 (#6591) @status102
-- 肉鸽刷源石锭增加不去第二层的选项 (#6578) (#6593) @Lancarus
-- 支持运行期修改部分任务设置 (#6583) @zzyyyl
-- 抄作业新增av号、bv号对分p的支持 (#6670) @AnnoyingFlowers
-- 添加一个资源更新镜像服务器 @AnnAngela @MistEO
-- 添加了淬羽赫墨与多萝西的基建技能联动 (#6820) @xyxyx718
+- 显示 ui 版本号 (#6944) @ABA2396
+   - ci @ABA2396
+   - 显示资源版本 @ABA2396
+   - 格式化代码 @ABA2396
+   - test ci @ABA2396
+   - test ci @ABA2396
+   - test ci @ABA2396
+   - 输出内容 @ABA2396
+   - test ci @ABA2396
+   - 删除多余的.gitignore @ABA2396
+   - 修复错误的Version格式 @ABA2396
+   - 版本号为0.0.1时显示DEBUG VERSION @ABA2396
+   - 修复错误版本号 @ABA2396
+   - smoke testing同步修改 @ABA2396
+   - fix 元素修改 @ABA2396
+   - 移除多余参数 @ABA2396
+   - 修改错误类型 @ABA2396
+   - 修改注释 @ABA2396
+   - 修改错误路径名 @ABA2396
+   - 修改错误的路径名 @ABA2396
+   - 显示 ui 版本号 @ABA2396
+- update meojson to v3.1.1 (#6956) @MistEO
+- 使用MdXaml来提升Markdown渲染表现 (#6828) @SherkeyXD
+   - 移除无用的OpenHyperlink函数 @SherkeyXD
+   - MdXaml自定义样式迁移至单独文件内 @SherkeyXD
+   - 完全移除Markdig残留 @SherkeyXD
+   - Recover "feat: 使用MdXaml来提升Markdown渲染表现" @SherkeyXD
+- 新增 WpfGui选项-自动战斗-战斗列表-批量导入 (#6917) @status102
+- 肉鸽适配新干员默认技能 (#6948) @Lancarus
+- 肉鸽投资不进入第二层则不买东西 (#6946) @zzyyyl
+   - 删除用不到的配置 @zzyyyl
+   - 投资不进入第二层则不买东西 @zzyyyl
+- 支持13章关卡导航 @ABA2396
+- 修改日文 OCR 等价集 @zzyyyl
+- 删除无用的 Roguelike@Continue 相关任务 @zzyyyl
+- support GPU OCR (#6872) @MistEO
+   - support GPU OCR @MistEO
+- Only check version.json for Resource OTA (#6901) @MistEO @ABA2396
+   - 回滚资源更新多文件逻辑 @MistEO
+   - 重构 ResourceUpdater (#6884) @ABA2396
+      - Merge into pattern @ABA2396
+      - 添加枚举注释 @ABA2396
+      - Merge remote-tracking branch 'origin/perf/resource_ota' into rft/ResourceUpdater @ABA2396
+      - 消除警告 @ABA2396
+      - 修改错误的返回值 @ABA2396
+      - 重构 ResourceUpdater @ABA2396
+   - 修复资源更新返回值 @MistEO
+   - Only check version.json for Resource OTA @MistEO
+- 用于快速适配新页面主题的小工具 (#6846) @SherkeyXD
+   - tasks.json中新增roi_crop_doc作为自动裁切的依据 @SherkeyXD
+   - 添加用于快速适配新主界面主题的小工具 @SherkeyXD
+   - CropRoi小工具用pathlib处理路径 @SherkeyXD
+- WpfGui 刷理智开始行动输出新增 每次开始行动时输出理智药和碎石次数（不记录临期药品使用次数） (#6857) @status102
+   - qodana @status102
+   - 刷理智开始行动输出新增 每次开始行动时输出理智药和碎石次数（不记录临期药品使用次数） @status102
+- 远程控制更多功能 (#6896) @hsyhhssyy
+   - 提交新的改动 @hsyhhssyy
+- 点击版本号后复制到剪贴板 @ABA2396
+- 自动战斗地图链接指向PRTS.Map对应的地图 @ABA2396
+- 适配"迷城"界面主题 (#6847) @SherkeyXD
+   - 适配"迷城"界面主题 @SherkeyXD
 
 ### 改进
 
-- 在UI中隐藏不可用的选项 (#6536) @SherkeyXD @ABA2396
-- 优化部分肉鸽关卡策略 (#6508) (#6679) (#6656) (#6590) @Lancarus @zzyyyl
-- WpfGui自动战斗解析作业后，提示文本移动至最顶端 (#6625) @status102
-- BattleQuickFormationRole cleared templates [skip ci] @Constrat
-- 优化肉鸽失败后，开始下一次探索的速度 (#6602) @Lancarus
-- 优化肉鸽招募策略 (#6579) @Lancarus
-- 战斗连续失败三次后 Fight 任务报错 @zzyyyl
-- 识别工具添加 idle 绑定 @ABA2396
-- operbox operator names localization (#6726) @Constrat
-- 抄作业自动跳过战斗中剧情 (#6721) @MistEO @Lancarus @status102
-- 关卡导航在未找到设定关卡时，移动至最右侧、自动通关未通过的剧情关，再尝试查找关卡 (#6729) @status102
-- 公招无招聘许可时继续尝试刷新 (#6569) @broken-paint
-- 优化资源动态更新 @MistEO
-- WpfGui关卡掉落输出增加千分位分隔符 (#6793) @status102
-- OTA时先更新动态文件，再更新其他的 @MistEO
-- 优化 TaskData 的 json 解析 (#6739) @zzyyyl
-- 优化StartUp速度，首页展开理智窗口时StartUp会关上 (#6730) @status102
-- 使用多模板匹配重构 ReturnButtons (#6741) @zzyyyl
-- 对DEBUG VERSION禁用版本更新及资源更新检查 (#6751) @status102
-- 优化文档视觉效果，防止出现横向显示不全的情况 (#6839) @SherkeyXD
-- update action on recruit confirm failure @horror-proton
+- 修改刷理智每次开始战斗时输出：不再显示理智药、碎石的设定上限值，增加临期理智药使用次数 (#6962) @status102
+- 重构 changelog_generator.py 部分内容 (#6957) @quyansiyuanwang
+   - deleted extra indent @quyansiyuanwang
+   - renamed functions @quyansiyuanwang
+   - Update changelog_generator.py @quyansiyuanwang
+   - fix and correct @quyansiyuanwang
+   - restructed the func print_commits @quyansiyuanwang
+   - Update changelog_generator.py @quyansiyuanwang
+   - fixed err @quyansiyuanwang
+   - Update changelog_generator.py @quyansiyuanwang
+   - restructed some code @quyansiyuanwang
+- 优化部分基建日志输出 @zzyyyl
+- 更新延迟延长到60分钟 @ABA2396
+- 优化资源更新相关代码 @ABA2396
+- 更新内置243一天四换极限效率 (#6883) @Black1312
+- 使用多模板重写 StartButton2；优化 PRTS#next @zzyyyl
+- 重写理智识别 (#6885) @zzyyyl
+   - 重写理智识别 @zzyyyl
+   - 在 StringMisc 中增加 chars_to_number @zzyyyl
+- 优化 OperBox 相关代码 @zzyyyl
+- 优化 AllTasksCompleted 相关 WPF 代码 (#6845) @zzyyyl
+   - 优化 AllTasksCompleted 相关 WPF 代码 @zzyyyl
 
 ### 修复
 
-- 修复无法对后续加载的图片资源进行存在检测的错误，跳过宿舍技能检查 (#6686) @MistEO @status102
-- OCR manipulation params for QuickFormation (#6697) @Constrat
-- fix host executable suffix error @aa889788
-- 泰拉大陆调查团 EN regex [skip ci] @Constrat
-- 修复肉鸽获取 Sami@Roguelike@StrategyChange 等任务时的闪退问题 @zzyyyl
-- Sync with OS not working  (#6672) @Cryolitia
-- Combat with Support templ error fix lazy load template error Fight with Support #6584 [skip ci] @Constrat
-- 修复错误条件下UI显示"投资后进入第二层"按钮的问题 (#6676) @SherkeyXD
-- 修复抄作业网络连接失败的问题 @zzyyyl
-- 修复基建换班后刷理智失败的问题 @zzyyyl
-- 修复模拟器连接错误的问题 (#6661) @SherkeyXD
-- fix crash caused by `Matcher::set_task_info` @horror-proton
-- 尝试修复掉落识别闪退的问题 @zzyyyl
-- 修复肉鸽自动撤退字段引发闪退的问题 (#6650) @AnnoyingFlowers
-- templThreshold @zzyyyl
-- smoking test @zzyyyl
-- 修复模板匹配阈值解析错误的问题 @zzyyyl
-- 尝试修复基建的模板匹配错误 @MistEO
-- disabled cache for multi template recognition ref: https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/6608#issuecomment-1742462512 @Constrat
-- 修复 `templ size is too large` 时闪退的问题 @zzyyyl
-- typo in StartToWakeUpOCR EN @Constrat
-- 修复Costura未正常启用的问题 (#6632) @SherkeyXD
-- LoopTimes no longer negative fix #6634 @Constrat
-- 修复肉鸽助战招募卡住放弃的问题 (#6630) @zzyyyl
-- improve ocr roi in DepotImageAnalyzer @horror-proton
-- 修复连接错误 (#6607) @zzyyyl
-- 修复任务链结束后操作会在错误情况下被触发的错误 (#6574) @status102
-- 修复需要凹直升开局的值判断错误 @Lancarus
-- 修复非刷源石锭时遇到商店直接退出的问题 @zzyyyl
-- 修复日服傀影肉鸽大盗当头识别错误 (#6592) @MejiroSilence
-- 修复自动战斗-战斗列表拖拽导致崩溃 (#6555) @status102
-- 修改肉鸽模式一些ocr参数 (#6580) @AnnoyingFlowers
-- 尝试修复#6552导致的死循环 (#6577) @Lancarus
-- 修复超出生成任务上限时访问越界的问题，增加生成任务上限至 10000 @zzyyyl
-- i18n: 修复日服肉鸽导航问题 (#6559) @MejiroSilence
-- 修复资源更新时的崩溃问题 @MistEO
-- 修复肉鸽编队时识别不到最下面一个干员名以及不能正确选技能的问题 (#6552) @AnnoyingFlowers
-- 修复跳过领取日常奖励的问题 @zzyyyl
-- remove duplicate of std::move @status102
-- 子进程异常挂起 @w568w
-- 修复 Award 任务无法正常结束的问题 @zzyyyl
-- 修复CloseDown任务导致的不执行完成后操作 @status102
-- BlackReturn -> ReturnButton [skip ci] (#6806) @zzyyyl
-- 修复在无法导航至指定关卡并通过初见剧情关后，无法进入指定关卡的错误 (#6792) @status102
-- 修复当"远程控制"没有填入任何内容时的界面问题 (#6787) @hsyhhssyy
-- trying to fix fight with support ref: 1f9f48128fc020ac191e427ff7d53dd8036a6f73 [skip ci] @Constrat
-- 修复作战列表跳过剧情关后不重新寻找关卡 (#6772) @Lancarus
-- 修复模板尺寸不同时的崩溃问题 @MistEO
-- update UnlockClues for EN (#6749) @Enochen
-- 修复战斗列表中跳过剧情确认识别问题 (#6827) @Lancarus
-- 修复干员维荻的识别问题 @zzyyyl
+- 修复待选干员在列表末尾时点击错位的问题 (#6960) @zzyyyl
+- 降低iOS平台中部分模板匹配的阈值 (#6963) @lanhao34
+- 修复干员头像保存错误 (#6967) @MistEO
+- 台服肉鸽模式无法招募某些好友干员 (#6965) @lirao
+   - 台服肉鸽模式无法招募某些好友 @lirao
+- YostarEN Mizuki I.S. get recruit selection @Constrat
+- 修复自动战斗-保全ver在开始行动时第二次点击可能过早导致无法正常开始的bug (#6934) @status102
+- 修复账号切换时可能卡在选择账号之后的错误 (#6933) @status102
+   - 移除无用变量 @status102
+   - 补充丢失的任务 @status102
+   - 账号切换时登录按钮调整为允许重试识别 @status102
+- 日服水月Rogue选择难度功能 (#6950) @Manicsteiner
+   - 日服水月Rogue选择难度功能 @Manicsteiner
+- 修正日服“选择难度”按钮图片 @Manicsteiner
+   - issues #6889 JP part @Manicsteiner
+- 修改错误的绑定逻辑 && 格式化代码 @ABA2396
+- 修复干员 Lancet-2 的识别问题 @zzyyyl
+- 修复手滑导致的日服资源加载失败的问题 @zzyyyl
+- 修复战斗中费用识别错误的问题 @zzyyyl
+- 修复日服肉鸽部分不期而遇的识别 @zzyyyl
+- 修复日服傀影肉鸽部分不期而遇的识别 @zzyyyl
+- 修复日服傀影肉鸽卡在不期而遇 「血には血を」（以血还血）的问题 @zzyyyl
+- 修复肉鸽卡在招募券界面的问题 @zzyyyl
+- 台服无法识别缄默德克萨斯 @ABA2396
+- 进一步优化资源更新逻辑，修复一些问题 @MistEO
+- 在CharsNameOcrReplace添加一条规则，将“^一”替换为空 (#6908) @lanhao34
+   - 只匹配开头的字符串“^一” @lanhao34
+   - 在CharsNameOcrReplace添加一条规则，将“^一”替换为空 @lanhao34
+- 注释掉一行代码，消除一个Warning (#6904) @hsyhhssyy
+- 当minitouch断开时自动重连 @MistEO
+- 修复理智不足时反复点击开始行动而不吃药的问题 @zzyyyl
+- 修复WpfGui肉鸽 等待&停止 重复调用AsstStop的错误 (#6878) @status102
+   - 修复肉鸽等待&停止重复调用AsstStop的错误 fix #6870 @status102
+- EN InfrastDormDoubleConfirmButton  not recognized [no ci] @Constrat
+- 修复因 ocr_replace 与 m_eq_classes 冲突导致的 ocr 识别失效的问题 (#6867) @zzyyyl
+   - 修复因 ocr_replace 与 m_eq_classes 冲突导致的 ocr 识别失效的问题 @zzyyyl
+- 修复部分模板图片名错误的问题；删除多余模板图 @zzyyyl
+- 修复台服获取信用及购物出错的问题 @zzyyyl
+- zh-tw 变量名错误 (#6882) @broken-paint
+   - zh-tw 变量名错误 @broken-paint
+- 修复傀影肉鸽卡在战斗失败界面的问题 @zzyyyl
+- 修复肉鸽烧到水不停的问题 @zzyyyl
+- Allow `BattleQuickFormation` to retry 3 times @zzyyyl
+- 定时执行强制启动无法切换基建计划 @ABA2396
+- changed EN OCR formation parameter [skip ci] @Constrat
 
 ### 其他
 
-- 根据 qodana 优化代码 (#6542) @ABA2396
-- 重构：WPF 配置部分 (#6549) @Cryolitia
-- tasks.json 大修改 (#6563) @zzyyyl
-- 肉鸽相关 tasks.json 优化 (#6596) @zzyyyl
-- 肉鸽主题从Status分离 (#6646) @status102
-- 优化文档视觉效果，添加文档编写指南 (#6611) @SherkeyXD
-- 多文件任务从 json 层面合并后再重新解析 (#6478) @zzyyyl @Constrat
-- 移除之前弃用的肉鸽模式 "2" @zzyyyl
-- 增加接口 get_json(), 运行时可以使用 Task.get_json() 获取任务配置的原生 json 内容 @zzyyyl
-- add ability to download specific maadeps (#6700) @aa889788
-- debug: 删除一些日志 @zzyyyl
-- 移除 qodana 的插件来恢复工作流 (#6675) @hxdnshx
-- debug: 增加一项检查和一些日志 @zzyyyl
-- hidden "Manual switch" button (#6665) @Constrat
+- ClangFormatter 的 ignore 参数也忽略所有子文件夹内容 @zzyyyl
+- use submodule for maa-cli and build it from source @wangl-cc
+- Merge branch 'dev' of https://github.com/MaaAssistantArknights/MaaAssistantArknights into dev @wangl-cc
+   - 使用 token 下载 CLI (#6941) @wangl-cc
+      - trigger CI on changes to the CI workflow @wangl-cc
+      - download CLI with token @wangl-cc
+- removed UnexpectedType error @Constrat
+- 删除多余检查 @ABA2396
+- Merge remote-tracking branch 'origin/dev' into dev @zzyyyl @MistEO @Rbqwow
+   - 修复美服肉鸽卡在放弃行动弹窗界面的问题 @zzyyyl
+   - Auto Update Game Resources - 2023-10-15 @MistEO
+   - Auto Update Game Resources - 2023-10-15 @MistEO
+   - Auto Update Game Resources - 2023-10-15 @MistEO
+   - 添加 Google Play 游戏 支持说明 (#6920) @Rbqwow
+   - fix c# warnings @MistEO
+   - 减少肉鸽单次操作截图次数 @zzyyyl
+- 减少点rider的报错 @ABA2396
+- Merge branch 'dev' of https://github.com/MaaAssistantArknights/MaaAssistantArknights into dev @zzyyyl
+   - 延长 StartUp 失败判定时长 @zzyyyl
+- wpfGui: Taggify Version (#6894) @Cryolitia
+   - update @Cryolitia
+   - update @Cryolitia
+   - update @Cryolitia
+   - Tagged Version @Cryolitia
+- Fix README.md (#6928) @martinwang2002
+   - Fix README.md @martinwang2002
+- Auto Update Game Resources - 2023-10-13 @MistEO
+- 改改log @MistEO
+- 调整日志 @MistEO
+- Revert "ci: Update smoke-testing.yml -> .NET8" @ABA2396
+- Update smoke-testing.yml -> .NET8 @ABA2396
+- Auto Update Game Resources - 2023-10-12 @MistEO
+- tools: overseas duplicates + new themes @Constrat
 - format @zzyyyl
-- `源文件` -> `Source` @zzyyyl
-- updated event schedule @Constrat
-- added new ignored templates [skip ci] @Constrat
-- Auto Update Game Resources - 2023-10-01 @MistEO
-- Update 3.5-肉鸽辅助协议.md @Lancarus
-- VS22 Solution Explorer name change (#6599) @Constrat
-- Update 1.2-常见问题.md @Lancarus
-- missing texts EN @Constrat
-- missing GA navigation in local @Constrat
-- clang-formatter.py 支持忽略指定路径 @zzyyyl
-- format (#6601) @zzyyyl
-- 修改肉鸽开始行动和商店投资达到上限时退出的实现方式 (#6597) @zzyyyl
-- i18n: small correction in en-us @Constrat
-- 调整 copilot 小提示内容 @ABA2396
-- 补充 Hyper-V 说明 (#6572) @Rbqwow
-- 格式化 xaml @ABA2396
-- 修改公告页面格式，允许复制，修改弹出逻辑 @ABA2396
-- 提取 FetchResponseWithEtag 函数 @ABA2396
-- Linux编译教程中增加NUR (#6566) @Cryolitia
-- sytle: 简化 using @ABA2396
-- 统一 URL 存放位置 @ABA2396
-- en SanityReport formatting [skip ci] @Constrat
-- 新增外服干员名对照 @Constrat
-- 更新 readme.md @AnnAngela
-- 使用 IShellLink 和 IPersistFile 接口创建快捷方式 @ABA2396
-- 根据 qodana 优化代码 @ABA2396
-- strategies -> strategy @Constrat
-- tools: more adaptation ignored templates @Constrat
-- Revert EN's Version.json @Constrat
-- schema for templThreshold array or number @Constrat
-- Fix #6752 & Fix #6776 (#6783) @Cryolitia
-- added KR operators up to Kirin R Yato @zewoosJ
-- 调整部分log输出为仅供ASST_DEBUG (#6824) @status102
-- VS22 solution explorer i18n @Constrat
-
-### For develops
-
-- Add ThriftController (#6573) @aa889788
-
+- 修改 Stop 返回值，增加文档注释 @ABA2396
+- 更正变量名 (#6880) @broken-paint
+   - 更正变量名 @broken-paint
+- debug: save_img 默认使用缓存的图片 @zzyyyl
+- debug: 增加一些非法情况的截图 @zzyyyl
