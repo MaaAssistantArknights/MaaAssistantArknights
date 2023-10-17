@@ -40,6 +40,9 @@ def individual_commits(commits: dict, indent: str = "") -> (str, list):
     ret_contributor = []
 
     for commit_hash, commit_info in commits.items():
+        if commit_info["skip"]:
+            continue
+
         commit_message = commit_info["message"]
 
         if not with_commitizen:
@@ -142,7 +145,8 @@ def build_commits_tree(commit_hash: str):
             "committer": raw_commit_info["committer"],
             "coauthors": raw_commit_info.get("coauthors", []),
             "message": raw_commit_info["message"],
-            "branch": {}
+            "branch": {},
+            "skip": raw_commit_info.get("skip", False),
         }
     }
 
@@ -262,6 +266,14 @@ def main(tag_name=None, latest=None):
             else:
                 print(f"Cannot get coauthor: {coauthor}.")
         raw_commits_info[commit_hash]["coauthors"] = coauthors
+
+    git_skip_command = rf'git log {latest}..HEAD --pretty=format:"%H%n" --grep="\[skip changelog\]"'
+    raw_gitlogs = call_command(git_skip_command)
+
+    for commit_hash in raw_gitlogs.split('\n'):
+        if commit_hash not in raw_commits_info:
+            continue
+        raw_commits_info[commit_hash]["skip"] = True
 
     # print(json.dumps(raw_commits_info, ensure_ascii=False, indent=2))
 
