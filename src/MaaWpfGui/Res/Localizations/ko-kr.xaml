@@ -23,7 +23,9 @@
     <system:String x:Key="HotKeySettings">단축키 설정</system:String>
     <system:String x:Key="UpdateSettings">업데이트</system:String>
     <system:String x:Key="AboutUs">정보</system:String>
-    <system:String x:Key="Version">버전</system:String>
+    <system:String x:Key="CoreVersion">Core 버전</system:String>
+    <system:String x:Key="UiVersion">UI 버전</system:String>
+    <system:String x:Key="ResourceVersion">Resource</system:String>
     <system:String x:Key="Off">끄세요</system:String>
     <system:String x:Key="ExternalNotificationTips">참고: 외부 알림 기능은 현재 「모든 작업 완료」 알림만 보냅니다.</system:String>
     <system:String x:Key="ExternalNotificationSettings">외부 알림</system:String>
@@ -470,6 +472,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="SelectTheFile">작업 선택</system:String>
     <system:String x:Key="SelectTheFileTip">마우스로 작업 파일을 드래그해 선택할 수 있어요 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="PasteClipboardTip">클립보드 붙여넣기</system:String>
+    <system:String x:Key="ImportFilesTip">일괄 가져오기</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">마음에 드셨나요? 평가해 주세요!</system:String>
     <system:String x:Key="FailedToLikeWebJson">오류로 인해 평가에 실패했습니다 : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">감사합니다!\n웹사이트에 댓글을 남길 수도 있으니 의견을 남겨 주세요!</system:String>
@@ -560,9 +563,11 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="TheEx">EX 스테이지가 없어 중단되었습니다</system:String>
     <system:String x:Key="StageQueue">레벨 대기열:</system:String>
     <system:String x:Key="UnableToAgent">프록시 명령을 사용할 수 없습니다</system:String>
-    <system:String x:Key="CurrentSanity">현재 이성:</system:String>
     <system:String x:Key="MissionStart">행동 개시</system:String>
     <system:String x:Key="UnitTime">회</system:String>
+    <system:String x:Key="CurrentSanity">제정신:</system:String>
+    <system:String x:Key="MedicineUsedTimes">약:</system:String>
+    <system:String x:Key="StoneUsedTimes">결석:</system:String>
     <system:String x:Key="MedicineUsed">이성 회복 아이템을 사용했습니다</system:String>
     <system:String x:Key="ExpiringMedicineUsed">만료가 임박한 이성 회복 아이템을 사용했습니다</system:String>
     <system:String x:Key="StoneUsed">순오리지늄을 사용했습니다</system:String>

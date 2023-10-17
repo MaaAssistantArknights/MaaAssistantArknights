@@ -23,7 +23,9 @@
     <system:String x:Key="HotKeySettings">ホットキー設定</system:String>
     <system:String x:Key="UpdateSettings">アップデート設定</system:String>
     <system:String x:Key="AboutUs">About</system:String>
-    <system:String x:Key="Version">バージョン</system:String>
+    <system:String x:Key="CoreVersion">Core バージョン</system:String>
+    <system:String x:Key="UiVersion">UI バージョン</system:String>
+    <system:String x:Key="ResourceVersion">Resource</system:String>
     <system:String x:Key="Off">シャットダウン</system:String>
     <system:String x:Key="ExternalNotificationTips">注:外部通知機能は現在、「すべてのタスクが完了しました」という通知のみを送信します。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
@@ -470,6 +472,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="SelectTheFile">ファイル選択</system:String>
     <system:String x:Key="SelectTheFileTip">攻略ファイルはマウスで直接ドラッグして取り込むことがきます(oﾟvﾟ)ノ</system:String>
     <system:String x:Key="PasteClipboardTip">クリップボードの貼り付け</system:String>
+    <system:String x:Key="ImportFilesTip">バッチインポート</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">この攻略ファイルは好きですか？評価してください！</system:String>
     <system:String x:Key="FailedToLikeWebJson">エラーが発生しました、いいねに失敗しました。 : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">感謝と評価！\nウェブページには既にコメント欄が開放されており、あなたのコメントを心待ちにしています！</system:String>
@@ -560,9 +563,11 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="TheEx">ステージ報酬がないため停止します</system:String>
     <system:String x:Key="StageQueue">レベルキュー:</system:String>
     <system:String x:Key="UnableToAgent">自動指揮利用不可</system:String>
-    <system:String x:Key="CurrentSanity">現在理性:</system:String>
     <system:String x:Key="MissionStart">行動開始しました</system:String>
     <system:String x:Key="UnitTime">回</system:String>
+    <system:String x:Key="CurrentSanity">理性:</system:String>
+    <system:String x:Key="MedicineUsedTimes">薬:</system:String>
+    <system:String x:Key="StoneUsedTimes">石:</system:String>
     <system:String x:Key="MedicineUsed">回復剤を使った</system:String>
     <system:String x:Key="ExpiringMedicineUsed">48時間以内に期限が切れる回復剤を使った</system:String>
     <system:String x:Key="StoneUsed">源石を使った</system:String>

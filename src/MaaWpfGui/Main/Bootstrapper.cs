@@ -44,9 +44,6 @@ namespace MaaWpfGui.Main
     {
         private static ILogger _logger = Logger.None;
 
-        [DllImport("MaaCore.dll")]
-        private static extern IntPtr AsstGetVersion();
-
         // private static Mutex _mutex;
 
         /// <inheritdoc/>
@@ -123,7 +120,8 @@ namespace MaaWpfGui.Main
                 .Enrich.WithThreadId()
                 .Enrich.WithThreadName();
 
-            var maaVersion = Marshal.PtrToStringAnsi(AsstGetVersion());
+            var uiVersion = FileVersionInfo.GetVersionInfo(Application.ResourceAssembly.Location).ProductVersion.Split('+')[0];
+            uiVersion = uiVersion == "0.0.1" ? "DEBUG VERSION" : uiVersion;
             var maaEnv = Environment.GetEnvironmentVariable("MAA_ENVIRONMENT") == "Debug"
                 ? "Debug"
                 : "Production";
@@ -135,13 +133,14 @@ namespace MaaWpfGui.Main
             _logger = Log.Logger.ForContext<Bootstrapper>();
             _logger.Information("===================================");
             _logger.Information("MaaAssistantArknights GUI started");
-            _logger.Information("Version {MaaVersion}", maaVersion);
+            _logger.Information("Version {UiVersion}", uiVersion);
             _logger.Information("Maa ENV: {MaaEnv}", maaEnv);
             _logger.Information("User Dir {CurrentDirectory}", Directory.GetCurrentDirectory());
             if (IsUserAdministrator())
             {
                 _logger.Information("Run as Administrator");
             }
+
             _logger.Information("===================================");
 
             try
