@@ -11,12 +11,12 @@
 #include "Task/Roguelike/RoguelikeDifficultySelectionTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeFormationTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeLastRewardTaskPlugin.h"
-#include "Task/Roguelike/RoguelikeStrategyChangeTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeRecruitTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeResetTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeShoppingTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeSkillSelectionTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeStageEncounterTaskPlugin.h"
+#include "Task/Roguelike/RoguelikeStrategyChangeTaskPlugin.h"
 #include "Utils/Logger.hpp"
 
 asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst)
@@ -131,18 +131,18 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         // 刷源石锭模式是否进入第二层
         bool investment_enter_second_floor = params.get("investment_enter_second_floor", true);
         if (investment_enter_second_floor) {
-            m_roguelike_task_ptr->set_times_limit("StageTraderLeave", INT_MAX);
+            m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", INT_MAX);
             m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", 0, ProcessTask::TimesLimitType::Post);
         }
         else {
-            m_roguelike_task_ptr->set_times_limit("StageTraderLeave", 0);
+            m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", 0);
             m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", INT_MAX);
         }
     }
     else {
         // 重置战斗后奖励next
         Task.set_task_base(theme + "@Roguelike@DropsFlag", theme + "@Roguelike@DropsFlag_default");
-        m_roguelike_task_ptr->set_times_limit("StageTraderLeave", INT_MAX);
+        m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", INT_MAX);
         m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", INT_MAX);
     }
 

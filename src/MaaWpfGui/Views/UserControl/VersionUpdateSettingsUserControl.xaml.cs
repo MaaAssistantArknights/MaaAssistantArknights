@@ -12,16 +12,19 @@
 // </copyright>
 
 using System;
+using System.Threading;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using HandyControl.Controls;
 using HandyControl.Data;
 using MaaWpfGui.Helper;
+using MaaWpfGui.ViewModels.UI;
 
 namespace MaaWpfGui.Views.UserControl
 {
     /// <summary>
-    /// OtherCombatSettingsUserControl.xaml 的交互逻辑
+    /// VersionUpdateSettingsUserControl.xaml 的交互逻辑
     /// </summary>
     public partial class VersionUpdateSettingsUserControl : System.Windows.Controls.UserControl
     {
@@ -37,9 +40,48 @@ namespace MaaWpfGui.Views.UserControl
             };
         }
 
-        private readonly DispatcherTimer _timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 1500), };
+        private readonly DispatcherTimer _timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 6000), };
 
-        private void EasterEggs(object sender, MouseButtonEventArgs e)
+        private void CoreVersionClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboardAsync("Core Version: " + SettingsViewModel.CoreVersion);
+            EasterEggs();
+        }
+
+        private void UiVersionClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboardAsync("UI Version: " + SettingsViewModel.UiVersion);
+        }
+
+        private void ResourceVersionClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboardAsync("Resource Version: " + Instances.SettingsViewModel.ResourceVersion);
+        }
+
+        private static void CopyToClipboardAsync(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return;
+            }
+
+            try
+            {
+                Thread clipboardThread = new Thread(() =>
+                {
+                    Clipboard.SetText(text);
+                });
+
+                clipboardThread.SetApartmentState(ApartmentState.STA);
+                clipboardThread.Start();
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
+        private void EasterEggs()
         {
             if (_timer.IsEnabled)
             {

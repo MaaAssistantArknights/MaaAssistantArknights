@@ -72,6 +72,7 @@ namespace MaaWpfGui.Helper
         public static void Set(string url, string etag)
         {
             _cache[url] = etag;
+            Save();
         }
 
         public static void Set(HttpResponseMessage response)
@@ -87,7 +88,7 @@ namespace MaaWpfGui.Helper
 
         public static async Task<HttpResponseMessage> FetchResponseWithEtag(string url, bool force = false)
         {
-            var etag = !force ? Get(url) : string.Empty;
+            var etag = force ? string.Empty : Get(url);
             Dictionary<string, string> headers = new Dictionary<string, string>
             {
                 { "Accept", "application/octet-stream" },

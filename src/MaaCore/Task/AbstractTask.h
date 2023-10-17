@@ -62,7 +62,8 @@ namespace asst
         virtual bool on_run_fails() { return true; }
         virtual void callback(AsstMsg msg, const json::value& detail);
         virtual void click_return_button();
-        bool save_img(const std::filesystem::path& relative_dir = utils::path("debug"), bool auto_clean = true);
+        bool save_img(const std::filesystem::path& relative_dir = utils::path("debug"), bool use_cache = true,
+                      bool auto_clean = true);
         size_t filenum_ctrl(const std::filesystem::path& relative_dir, size_t max_files = 1000);
 
         json::value basic_info_with_what(std::string what) const;

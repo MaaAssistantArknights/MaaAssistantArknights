@@ -23,7 +23,9 @@
     <system:String x:Key="HotKeySettings">HotKeys</system:String>
     <system:String x:Key="UpdateSettings">Update</system:String>
     <system:String x:Key="AboutUs">About us</system:String>
-    <system:String x:Key="Version">Version</system:String>
+    <system:String x:Key="CoreVersion">Core Version</system:String>
+    <system:String x:Key="UiVersion">UI Version</system:String>
+    <system:String x:Key="ResourceVersion">Resource</system:String>
     <system:String x:Key="Off">Off</system:String>
     <system:String x:Key="ExternalNotificationTips">Please note: The external notification feature currently only sends 「All tasks completed」 notifications.</system:String>
     <system:String x:Key="ExternalNotificationSettings">External notifications</system:String>
@@ -470,6 +472,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="SelectTheFile">Select task file</system:String>
     <system:String x:Key="SelectTheFileTip">Task files can be imported by dragging the mouse</system:String>
     <system:String x:Key="PasteClipboardTip">Paste Clipboard</system:String>
+    <system:String x:Key="ImportFilesTip">Import task fils</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">Do you like this task file? Rate it!</system:String>
     <system:String x:Key="FailedToLikeWebJson">An error occurred, the like failed. : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">Thanks for the likes!\nThe comment section is already open on the web page, please feel free to leave your comment!</system:String>
@@ -560,9 +563,11 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="TheEx">No bonus stage, stopped</system:String>
     <system:String x:Key="StageQueue">Stage Queue:</system:String>
     <system:String x:Key="UnableToAgent">Unable to use PRTS</system:String>
-    <system:String x:Key="CurrentSanity">Current Sanity:</system:String>
     <system:String x:Key="MissionStart">Mission started</system:String>
     <system:String x:Key="UnitTime">times</system:String>
+    <system:String x:Key="CurrentSanity">Sanity:</system:String>
+    <system:String x:Key="MedicineUsedTimes">Medicine:</system:String>
+    <system:String x:Key="StoneUsedTimes">Stone:</system:String>
     <system:String x:Key="MedicineUsed">Medicine used</system:String>
     <system:String x:Key="ExpiringMedicineUsed">Expiring medicine used</system:String>
     <system:String x:Key="StoneUsed">Originite Prime used</system:String>
@@ -604,8 +609,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="RecruitmentOfBot">Robot! Robot! More Robot!</system:String>
     <system:String x:Key="Choose">Choose</system:String>
     <system:String x:Key="Refreshed">Refreshed</system:String>
-    <system:String x:Key="continueRefresh">No recruitment permit, trying to refresh Tags</system:String>
-    <system:String x:Key="noRecruitPermit">No recruitment permit, returned</system:String>
+    <system:String x:Key="ContinueRefresh">No recruitment permit, trying to refresh Tags</system:String>
+    <system:String x:Key="NoRecruitmentPermit">No recruitment permit, returned</system:String>
     <system:String x:Key="NotEnoughStaff">Insufficient operators</system:String>
     <system:String x:Key="StageInfoError">Stage recognition error</system:String>
     <system:String x:Key="BattleFormation">Start formation</system:String>

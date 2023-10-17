@@ -1,6 +1,7 @@
 #pragma once
 
 #include <algorithm>
+#include <charconv>
 #include <functional>
 #include <initializer_list>
 #include <iterator>
@@ -29,8 +30,7 @@ namespace asst::utils
     template <typename StringT, typename CharT = ranges::range_value_t<StringT>>
     concept IsSomeKindOfString = std::same_as<CharT, char> || std::same_as<CharT, wchar_t>;
 
-    template <typename StringT>
-    requires IsSomeKindOfString<StringT>
+    template <IsSomeKindOfString StringT>
     inline constexpr void string_replace_all_in_place(StringT& str, detail::sv_type<StringT> from,
                                                       detail::sv_type<StringT> to)
     {
@@ -40,15 +40,13 @@ namespace asst::utils
         }
     }
 
-    template <typename StringT>
-    requires IsSomeKindOfString<StringT>
+    template <IsSomeKindOfString StringT>
     inline constexpr void string_replace_all_in_place(StringT& str, const detail::sv_pair<StringT>& replace_pair)
     {
         string_replace_all_in_place(str, replace_pair.first, replace_pair.second);
     }
 
-    template <typename StringT>
-    requires IsSomeKindOfString<StringT>
+    template <IsSomeKindOfString StringT>
     inline constexpr void string_replace_all_in_place(StringT& str,
                                                       std::initializer_list<detail::sv_pair<StringT>> replace_pairs)
     {
@@ -61,7 +59,7 @@ namespace asst::utils
     // workaround for P2210R2
     template <ranges::forward_range Rng>
     requires(requires(Rng rng) { std::basic_string_view(std::addressof(*rng.begin()), ranges::distance(rng)); })
-    inline auto make_string_view(Rng rng)
+    inline auto make_string_view(Rng&& rng)
     {
         return std::basic_string_view(std::addressof(*rng.begin()), ranges::distance(rng));
     }
@@ -73,8 +71,7 @@ namespace asst::utils
         return std::basic_string_view(std::addressof(*beg), std::distance(beg, end));
     }
 #else
-    template <ranges::contiguous_range Rng>
-    inline auto make_string_view(Rng rng)
+    inline auto make_string_view(ranges::contiguous_range auto&& rng)
     {
         return std::basic_string_view(rng.begin(), rng.end());
     }
@@ -87,8 +84,7 @@ namespace asst::utils
     }
 #endif
 
-    template <typename StringT>
-    requires IsSomeKindOfString<StringT>
+    template <IsSomeKindOfString StringT>
     [[nodiscard]] inline constexpr auto string_replace_all(StringT&& src, detail::sv_type<StringT> from,
                                                            detail::sv_type<StringT> to)
     {
@@ -97,8 +93,7 @@ namespace asst::utils
         return result;
     }
 
-    template <typename StringT>
-    requires IsSomeKindOfString<StringT>
+    template <IsSomeKindOfString StringT>
     [[nodiscard]] inline constexpr auto string_replace_all(StringT&& src, const detail::sv_pair<StringT>& replace_pair)
     {
         std::decay_t<StringT> result = std::forward<StringT>(src);
@@ -106,8 +101,7 @@ namespace asst::utils
         return result;
     }
 
-    template <typename StringT>
-    requires IsSomeKindOfString<StringT>
+    template <IsSomeKindOfString StringT>
     [[nodiscard]] inline constexpr auto string_replace_all(
         StringT&& str, std::initializer_list<detail::sv_pair<StringT>> replace_pairs)
     {
@@ -118,26 +112,41 @@ namespace asst::utils
         return result;
     }
 
-    template <typename StringT, typename CharT = ranges::range_value_t<StringT>,
+    template <IsSomeKindOfString StringT, typename CharT = ranges::range_value_t<StringT>,
               typename Pred = decltype([](CharT c) -> bool { return c != ' '; })>
-    requires IsSomeKindOfString<StringT>
     inline void string_trim(StringT& str, Pred not_space = Pred {})
     {
         str.erase(ranges::find_if(str | views::reverse, not_space).base(), str.end());
         str.erase(str.begin(), ranges::find_if(str, not_space));
     }
 
-    template <typename StringT, typename CharT = ranges::range_value_t<StringT>>
-    requires IsSomeKindOfString<StringT>
-    inline void tolowers(StringT& str)
+    inline void tolowers(IsSomeKindOfString auto& str)
     {
+        using CharT = ranges::range_value_t<decltype(str)>;
         ranges::for_each(str, [](CharT& ch) -> void { ch = static_cast<CharT>(std::tolower(ch)); });
     }
 
-    template <typename StringT, typename CharT = ranges::range_value_t<StringT>>
-    requires IsSomeKindOfString<StringT>
-    inline void touppers(StringT& str)
+    inline void touppers(IsSomeKindOfString auto& str)
     {
+        using CharT = ranges::range_value_t<decltype(str)>;
         ranges::for_each(str, [](CharT& ch) -> void { ch = static_cast<CharT>(std::toupper(ch)); });
+    }
+
+    template <typename NumberT = int, bool FullMatch = false>
+    requires(std::is_arithmetic_v<NumberT>)
+    inline bool chars_to_number(std::string_view integer, NumberT& result) noexcept
+    {
+        const char* first = integer.data();
+        const char* last = first + integer.size();
+        auto&& [p, ec] = std::from_chars(first, last, result);
+        if (ec != std::errc {}) {
+            return false;
+        }
+        if constexpr (FullMatch) {
+            if (p != last) {
+                return false;
+            }
+        }
+        return true;
     }
 } // namespace asst::utils

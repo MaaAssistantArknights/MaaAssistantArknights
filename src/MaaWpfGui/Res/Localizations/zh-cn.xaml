@@ -23,7 +23,9 @@
     <system:String x:Key="HotKeySettings">热键设置</system:String>
     <system:String x:Key="UpdateSettings">软件更新</system:String>
     <system:String x:Key="AboutUs">关于我们</system:String>
-    <system:String x:Key="Version">版本号</system:String>
+    <system:String x:Key="CoreVersion">Core 版本号</system:String>
+    <system:String x:Key="UiVersion">UI 版本号</system:String>
+    <system:String x:Key="ResourceVersion">Resource</system:String>
     <system:String x:Key="Off">关闭</system:String>
     <system:String x:Key="ExternalNotificationTips">请注意：外部通知功能目前仅会发送“所有任务完成”的通知。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
@@ -470,6 +472,7 @@
     <system:String x:Key="SelectTheFile">选择作业</system:String>
     <system:String x:Key="SelectTheFileTip">作业文件可以直接用鼠标拖进来哦 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="PasteClipboardTip">粘贴剪贴板</system:String>
+    <system:String x:Key="ImportFilesTip">批量导入</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">作业怎么样？评价下吧！</system:String>
     <system:String x:Key="FailedToLikeWebJson">出现错误，评价失败 : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">感谢评价！\n网页已经开放评论区，欢迎前往留下你的评论！</system:String>
@@ -560,9 +563,11 @@
     <system:String x:Key="TheEx">无奖励关卡，已停止</system:String>
     <system:String x:Key="StageQueue">关卡队列:</system:String>
     <system:String x:Key="UnableToAgent">无法使用代理指挥</system:String>
-    <system:String x:Key="CurrentSanity">当前理智:</system:String>
     <system:String x:Key="MissionStart">已开始行动</system:String>
     <system:String x:Key="UnitTime">次</system:String>
+    <system:String x:Key="CurrentSanity">理智:</system:String>
+    <system:String x:Key="MedicineUsedTimes">药:</system:String>
+    <system:String x:Key="StoneUsedTimes">石:</system:String>
     <system:String x:Key="MedicineUsed">已使用理智药</system:String>
     <system:String x:Key="ExpiringMedicineUsed">已使用 48 小时内过期的理智药</system:String>
     <system:String x:Key="StoneUsed">已使用源石</system:String>
@@ -604,8 +609,8 @@
     <system:String x:Key="RecruitmentOfBot">公招出小车了哦！</system:String>
     <system:String x:Key="Choose">选择</system:String>
     <system:String x:Key="Refreshed">当前槽位已刷新</system:String>
-    <system:String x:Key="continueRefresh">无招聘许可，继续尝试刷新 Tags</system:String>
-    <system:String x:Key="noRecruitPermit">无招聘许可，已返回</system:String>
+    <system:String x:Key="ContinueRefresh">无招聘许可，继续尝试刷新 Tags</system:String>
+    <system:String x:Key="NoRecruitmentPermit">无招聘许可，已返回</system:String>
     <system:String x:Key="NotEnoughStaff">可用干员不足</system:String>
     <system:String x:Key="StageInfoError">关卡识别错误</system:String>
     <system:String x:Key="BattleFormation">开始编队</system:String>

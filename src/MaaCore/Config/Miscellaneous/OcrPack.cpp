@@ -131,6 +131,9 @@ bool asst::OcrPack::check_and_load()
 
     fastdeploy::RuntimeOption option;
     option.UseOrtBackend();
+    if (m_gpu_id) {
+        option.UseGpu(*m_gpu_id);
+    }
 
     auto det_model = asst::utils::read_file<std::string>(m_det_model_path);
     option.SetModelBuffer(det_model.data(), det_model.size(), nullptr, 0, fastdeploy::ModelFormat::ONNX);

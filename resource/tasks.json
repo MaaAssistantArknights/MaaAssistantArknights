@@ -346,6 +346,11 @@
             "EPISODE12"
         ]
     },
+    "13@EnterEpisode": {
+        "text": [
+            "EPISODE13"
+        ]
+    },
     "LevelOfDifficulty": {
         "Doc": "base_task",
         "algorithm": "OcrDetect",
@@ -451,22 +456,39 @@
         ],
         "postDelay": 500
     },
+    "14@SwipeLeftToEpisode": {
+        "text": [
+            "EPISODE15"
+        ]
+    },
+    "13@SwipeLeftToEpisode": {
+        "text": [
+            "EPISODE14",
+            "EPISODE15"
+        ]
+    },
     "12@SwipeLeftToEpisode": {
         "text": [
-            "EPISODE13"
+            "EPISODE13",
+            "EPISODE14",
+            "EPISODE15"
         ]
     },
     "11@SwipeLeftToEpisode": {
         "text": [
             "EPISODE12",
-            "EPISODE13"
+            "EPISODE13",
+            "EPISODE14",
+            "EPISODE15"
         ]
     },
     "10@SwipeLeftToEpisode": {
         "text": [
             "EPISODE11",
             "EPISODE12",
-            "EPISODE13"
+            "EPISODE13",
+            "EPISODE14",
+            "EPISODE15"
         ]
     },
     "09@SwipeLeftToEpisode": {
@@ -474,7 +496,9 @@
             "EPISODE10",
             "EPISODE11",
             "EPISODE12",
-            "EPISODE13"
+            "EPISODE13",
+            "EPISODE14",
+            "EPISODE15"
         ]
     },
     "08@SwipeLeftToEpisode": {
@@ -717,6 +741,19 @@
     },
     "Episode12": {
         "baseTask": "12@Episode",
+        "sub": [
+            "ToChapter3@StageTheme"
+        ]
+    },
+    "Episode13": {
+        "baseTask": "13@Episode",
+        "sub": [
+            "ToChapter3@StageTheme"
+        ]
+    },
+    "Episode14": {
+        "doc": "待出",
+        "baseTask": "14@Episode",
         "sub": [
             "ToChapter3@StageTheme"
         ]
@@ -1036,7 +1073,8 @@
         "template": [
             "Terminal.png",
             "TerminalDark.png",
-            "TerminalSami.png"
+            "TerminalSami.png",
+            "TerminalMistCity.png"
         ],
         "cache": false,
         "maxTimes": 3,
@@ -1064,7 +1102,6 @@
         "exceededNext": [],
         "next": [
             "StageQueue@StartButton2",
-            "StageQueue@StartButton2Adverse",
             "StageQueue@UseMedicine",
             "StageQueue@UseStone",
             "StageQueue@NoStone",
@@ -2837,6 +2874,10 @@
                 ""
             ],
             [
+                "^\\^一",
+                ""
+            ],
+            [
                 "^令.+",
                 "令"
             ],
@@ -2947,6 +2988,10 @@
             [
                 "维获",
                 "维荻"
+            ],
+            [
+                "_ancet-2",
+                "Lancet-2"
             ]
         ]
     },
@@ -2965,7 +3010,8 @@
         "template": [
             "Terminal.png",
             "TerminalDark.png",
-            "TerminalSami.png"
+            "TerminalSami.png",
+            "TerminalMistCity.png"
         ],
         "cache": false,
         "baseTask": "StartUp",
@@ -3212,6 +3258,25 @@
             150
         ]
     },
+    "AccountListSwipeToTop": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [
+            700,
+            330,
+            20,
+            20
+        ],
+        "rectMove": [
+            700,
+            380,
+            20,
+            20
+        ],
+        "specialParams": [
+            150
+        ]
+    },
     "StartUpThemes": {
         "algorithm": "JustReturn",
         "next": [
@@ -3252,8 +3317,7 @@
         ],
         "reduceOtherTimes": [
             "StartButton1",
-            "StartButton2",
-            "StartButton2Adverse"
+            "StartButton2"
         ],
         "next": [
             "StartUpThemes#next",
@@ -3316,21 +3380,22 @@
             "StartUpConnectingFlag@LoadingIcon"
         ]
     },
-	"StartAtHome": {
-		"baseTask": "Home",
-		"action": "DoNothing",
+    "StartAtHome": {
+        "baseTask": "Home",
+        "action": "DoNothing",
         "template": [
             "Terminal.png",
             "TerminalDark.png",
-            "TerminalSami.png"
+            "TerminalSami.png",
+            "TerminalMistCity.png"
         ],
-		"next": [
-			"Home",
-			"StartUpBegin"
-		],
-		"postDelay_Doc": "等待以防万一（StartUp还有双倍的任务延迟等待，默认0.5s x2",
-		"postDelay": 1000
-	},
+        "next": [
+            "Home",
+            "StartUpBegin"
+        ],
+        "postDelay_Doc": "等待以防万一（StartUp还有双倍的任务延迟等待，默认0.5s x2",
+        "postDelay": 1000
+    },
     "StartWithSanity": {
         "roi": [
             700,
@@ -3362,7 +3427,8 @@
         "template": [
             "Terminal.png",
             "TerminalDark.png",
-            "TerminalSami.png"
+            "TerminalSami.png",
+            "TerminalMistCity.png"
         ],
         "cache": false,
         "action": "DoNothing",
@@ -3563,8 +3629,7 @@
         ],
         "reduceOtherTimes": [
             "StartButton1",
-            "StartButton2",
-            "StartButton2Adverse"
+            "StartButton2"
         ],
         "next": [
             "OfflineConfirmImpl"
@@ -3629,8 +3694,7 @@
             "Fight@UsePrts",
             "Fight@UsePrts-StageSN",
             "Fight@StartButton1",
-            "Fight@PRTS#next",
-            "Fight@EndOfAction"
+            "Fight@PRTS#next"
         ]
     },
     "LastOrCurBattleBegin": {
@@ -3644,8 +3708,7 @@
             "Fight@ReturnButtons#next",
             "Fight",
             "Fight@CloseAnnos#next",
-            "Fight@PRTS#next",
-            "Fight@EndOfAction"
+            "Fight@PRTS#next"
         ]
     },
     "UsePrts": {
@@ -3723,7 +3786,6 @@
         ],
         "next": [
             "StartButton2",
-            "StartButton2Adverse",
             "UseMedicine",
             "UseStone",
             "NoStone",
@@ -3737,15 +3799,14 @@
         "exceededNext": [],
         "reduceOtherTimes": [],
         "preDelay": 0,
-        "rectMoveDoc": "点击“行动”避免第二次点击时点到StartButton2",
+        "postDelay_Doc": "理智不足时弹出吃药界面约需两秒，理智足够则不到一秒就能进入StartButton2",
+        "postDelay": 3000,
+        "rectMove_Doc": "点击“行动”避免第二次点击时点到StartButton2",
         "rectMove": [
             38,
             0,
             35,
             17
-        ],
-        "next": [
-            "StartButton1#next"
         ]
     },
     "AnnihilationConfirm": {
@@ -3793,6 +3854,10 @@
         ]
     },
     "StartButton2": {
+        "template": [
+            "StartButton2.png",
+            "StartButton2Adverse.png"
+        ],
         "action": "ClickSelf",
         "preDelay": 1000,
         "roi": [
@@ -3807,51 +3872,19 @@
         ]
     },
     "StartButton2TryAgain": {
-        "action": "ClickSelf",
-        "template": "StartButton2.png",
-        "roi": [
-            1000,
-            350,
-            220,
-            340
+        "baseTask": "StartButton2",
+        "template": [
+            "StartButton2.png",
+            "StartButton2Adverse.png"
         ],
-        "next": [
-            "StartButton2#next"
-        ]
+        "preDelay": 0
     },
     "StartButton2WaitTime": {
         "algorithm": "JustReturn",
         "postDelay": 40000,
         "next": [
             "PRTS#next",
-            "EndOfAction",
             "StartButton2TryAgain",
-            "PrtsErrorConfirm",
-            "OfflineConfirm",
-            "WaitAfterPRTS"
-        ]
-    },
-    "StartButton2Adverse": {
-        "baseTask": "StartButton2",
-        "next": [
-            "StartButton2AdverseTryAgain",
-            "StartButton2AdverseWaitTime"
-        ]
-    },
-    "StartButton2AdverseTryAgain": {
-        "baseTask": "StartButton2TryAgain",
-        "template": "StartButton2Adverse.png",
-        "next": [
-            "StartButton2Adverse#next"
-        ]
-    },
-    "StartButton2AdverseWaitTime": {
-        "baseTask": "StartButton2WaitTime",
-        "next": [
-            "PRTS#next",
-            "EndOfAction",
-            "StartButton2AdverseTryAgain",
-            "PrtsErrorConfirm",
             "OfflineConfirm",
             "WaitAfterPRTS"
         ]
@@ -3863,6 +3896,8 @@
             "PRTS1",
             "PRTS2",
             "PRTS3",
+            "EndOfAction",
+            "PrtsErrorConfirm",
             "FightMissionFailed"
         ]
     },
@@ -3882,8 +3917,6 @@
         "postDelay": 5000,
         "next": [
             "PRTS#next",
-            "EndOfAction",
-            "PrtsErrorConfirm",
             "OfflineConfirm",
             "WaitAfterPRTS"
         ]
@@ -3919,7 +3952,6 @@
         "action": "DoNothing",
         "next": [
             "PRTS#next",
-            "EndOfAction",
             "WaitAfterPRTS@LoadingText",
             "WaitAfterPRTS@LoadingIcon",
             "ClickCornerAfterPRTS"
@@ -4013,7 +4045,6 @@
         "next": [
             "StartButton1",
             "StartButton2",
-            "StartButton2Adverse",
             "UseMedicine",
             "UseStone",
             "NoStone",
@@ -4271,7 +4302,6 @@
         ],
         "next": [
             "PRTS#next",
-            "PrtsErrorConfirm",
             "OfflineConfirm",
             "StartUpThemes#next",
             "OfflineConfirmAfterBattle"
@@ -4281,8 +4311,7 @@
         "action": "ClickSelf",
         "reduceOtherTimes": [
             "StartButton1",
-            "StartButton2",
-            "StartButton2Adverse"
+            "StartButton2"
         ],
         "roi": [
             0,
@@ -4353,7 +4382,8 @@
         "template": [
             "Terminal.png",
             "TerminalDark.png",
-            "TerminalSami.png"
+            "TerminalSami.png",
+            "TerminalMistCity.png"
         ],
         "cache": false,
         "action": "ClickSelf",
@@ -4411,7 +4441,8 @@
         "template": [
             "Recruit.png",
             "RecruitDark.png",
-            "RecruitSami.png"
+            "RecruitSami.png",
+            "RecruitMistCity.png"
         ],
         "action": "ClickSelf",
         "roi": [
@@ -4419,6 +4450,12 @@
             450,
             200,
             150
+        ],
+        "roi_crop_doc": [
+            935,
+            480,
+            145,
+            61
         ],
         "maskRange": [
             1,
@@ -4752,7 +4789,8 @@
         "template": [
             "Task.png",
             "TaskDark.png",
-            "TaskSami.png"
+            "TaskSami.png",
+            "TaskMistCity.png"
         ],
         "cache": false,
         "templThreshold": 0.7,
@@ -4762,6 +4800,12 @@
             530,
             130,
             130
+        ],
+        "roi_crop_doc": [
+            720,
+            553,
+            75,
+            70
         ],
         "next": [
             "ReceiveAward",
@@ -4869,7 +4913,8 @@
         "template": [
             "Terminal.png",
             "TerminalDark.png",
-            "TerminalSami.png"
+            "TerminalSami.png",
+            "TerminalMistCity.png"
         ],
         "cache": false,
         "action": "DoNothing",
@@ -4947,7 +4992,8 @@
         "template": [
             "Friends.png",
             "FriendsDark.png",
-            "FriendsSami.png"
+            "FriendsSami.png",
+            "FriendsMistCity.png"
         ],
         "cache": false,
         "templThreshold": 0.7,
@@ -4957,6 +5003,12 @@
             500,
             200,
             150
+        ],
+        "roi_crop_doc": [
+            300,
+            550,
+            128,
+            41
         ],
         "next": [
             "FriendsList",
@@ -5179,7 +5231,8 @@
         "template": [
             "Terminal.png",
             "TerminalDark.png",
-            "TerminalSami.png"
+            "TerminalSami.png",
+            "TerminalMistCity.png"
         ],
         "cache": false,
         "action": "Stop",
@@ -5188,6 +5241,12 @@
             100,
             180,
             120
+        ],
+        "roi_crop_doc": [
+            903,
+            120,
+            97,
+            58
         ]
     },
     "CreditShop-Commodities": {
@@ -5467,7 +5526,8 @@
         "template": [
             "EnterInfrast.png",
             "EnterInfrastDark.png",
-            "EnterInfrastSami.png"
+            "EnterInfrastSami.png",
+            "EnterInfrastMistCity.png"
         ],
         "cache": false,
         "roi": [
@@ -5475,6 +5535,12 @@
             540,
             160,
             160
+        ],
+        "roi_crop_doc": [
+            935,
+            570,
+            85,
+            75
         ],
         "action": "ClickSelf",
         "next": [
@@ -7883,6 +7949,16 @@
             255
         ]
     },
+    "BattleAvatarReMatch": {
+        "template": "empty.png",
+        "templThreshold": 0.8,
+        "roi": [
+            0,
+            580,
+            1280,
+            140
+        ]
+    },
     "BattleOperClickRange": {
         "template": "empty.png",
         "rectMove": [
@@ -8313,6 +8389,10 @@
             [
                 "억",
                 "亿"
+            ],
+            [
+                "^\\.",
+                ""
             ]
         ]
     },
@@ -8446,6 +8526,8 @@
     },
     "InfrastOperListSlowlySwipeToTheRight": {
         "baseTask": "SlowlySwipeToTheRight",
+        "postDelay_Doc": "滑动到右边列表末尾后会有一个反弹动画，这个动画持续约 300ms，设定延时需要比这个数字长",
+        "postDelay": 300,
         "specificRect": [
             1000,
             350,
@@ -8543,7 +8625,6 @@
             "Roguelike@ExitThenAbandon",
             "Roguelike@Abandon",
             "Roguelike@TodoEnter",
-            "Roguelike@Continue",
             "Roguelike@ReturnButtons#next",
             "Roguelike@ReturnConfirm",
             "Roguelike@StartUpThemes#next"
@@ -8659,7 +8740,6 @@
             "Roguelike@Stages#next",
             "Roguelike@GamePass",
             "Roguelike@TodoEnter",
-            "Roguelike@Continue",
             "Roguelike@ReturnButtons#next",
             "Roguelike@ReturnConfirm",
             "Roguelike@StartUpThemes#next",
@@ -8692,23 +8772,6 @@
             400,
             140,
             139
-        ]
-    },
-    "Roguelike@Continue": {
-        "Doc": "base_task",
-        "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            1032,
-            487,
-            248,
-            215
-        ],
-        "postDelay": 500,
-        "next": [
-            "Roguelike@MissionFailedFlag2",
-            "Roguelike@ExitThenAbandon"
         ]
     },
     "Roguelike@DialogSkip": {
@@ -9282,6 +9345,7 @@
         ],
         "next": [
             "Roguelike@Stages#next",
+            "Roguelike@MissionFailedFlag2",
             "Roguelike@ClickToStartPoint"
         ]
     },
@@ -10243,9 +10307,6 @@
             234,
             204
         ],
-        "exceededNext": [
-            "Roguelike@StageTraderLeaveConfirm#exceeded_next"
-        ],
         "next": [
             "Roguelike@StageTraderLeaveConfirm",
             "Roguelike@StageTraderLeave"
@@ -10317,8 +10378,7 @@
             "Roguelike@SquadDefault",
             "Roguelike@InitalDrop",
             "Roguelike@ChooseDifficulty",
-            "Roguelike@StartExplore",
-            "Roguelike@ClickToStartPointAfterFailed"
+            "Roguelike@StartExplore"
         ]
     },
     "Roguelike@TodoEnter": {
@@ -10419,7 +10479,6 @@
         ]
     },
     "Phantom@Roguelike@CloseEvent": {},
-    "Phantom@Roguelike@Continue": {},
     "Phantom@Roguelike@DialogSkipConfirm": {
         "template": "Roguelike@DialogSkipConfirm.png",
         "next": [
@@ -10514,7 +10573,14 @@
     "Phantom@Roguelike@LastReward4": {},
     "Phantom@Roguelike@LastRewardRand": {},
     "Phantom@Roguelike@LastRewardConfirm": {},
-    "Phantom@Roguelike@MissionFailedFlag": {},
+    "Phantom@Roguelike@MissionFailedFlag": {
+        "roi": [
+            450,
+            163,
+            540,
+            267
+        ]
+    },
     "Phantom@Roguelike@MissionFailedFlag2": {},
     "Phantom@Roguelike@StrategyChange_mode0": {
         "text": [
@@ -10877,7 +10943,6 @@
             "Mizuki@Roguelike@Stages#next"
         ]
     },
-    "Mizuki@Roguelike@Continue": {},
     "Mizuki@Roguelike@DataTraceback": {
         "action": "DoNothing",
         "cache": false,
@@ -11511,42 +11576,6 @@
         ]
     },
     "Sami@Roguelike@CloseEvent": {},
-    "Sami@Roguelike@Continue": {
-        "roi": [
-            967,
-            536,
-            313,
-            177
-        ],
-        "next": [
-            "Sami@Roguelike@MissionFailedFlag2",
-            "Sami@Roguelike@ExitThenAbandon",
-            "Sami@Roguelike@ContinueClick"
-        ]
-    },
-    "Sami@Roguelike@ContinueClick": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "text": [
-            "初霜湖泽",
-            "密静林地",
-            "昧明冻土",
-            "积冰岩骸",
-            "无瑕花园",
-            "远见之构",
-            "深埋迷境"
-        ],
-        "roi": [
-            522,
-            431,
-            245,
-            144
-        ],
-        "next": [
-            "Sami@Roguelike@Continue"
-        ]
-    },
     "Sami@Roguelike@DialogSkipConfirm": {
         "template": "Roguelike@DialogSkipConfirm.png",
         "next": [
@@ -12554,7 +12583,8 @@
         "template": [
             "Terminal.png",
             "TerminalDark.png",
-            "TerminalSami.png"
+            "TerminalSami.png",
+            "TerminalMistCity.png"
         ],
         "cache": false,
         "action": "ClickSelf",
@@ -12894,7 +12924,8 @@
         "template": [
             "OperBoxEnter.png",
             "OperBoxEnterDark.png",
-            "OperBoxEnterSami.png"
+            "OperBoxEnterSami.png",
+            "OperBoxEnterMistCity.png"
         ],
         "cache": false,
         "action": "ClickSelf",
@@ -12903,6 +12934,12 @@
             300,
             265,
             110
+        ],
+        "roi_crop_doc": [
+            945,
+            301,
+            85,
+            78
         ],
         "next": [
             "OperBoxRoleTabSelect",
@@ -13449,6 +13486,12 @@
             576,
             288,
             144
+        ],
+        "preDelay": 1000,
+        "maxTimes": 5,
+        "next": [
+            "#self",
+            "Stop"
         ]
     },
     "SSSFightDirectly": {
@@ -13853,7 +13896,8 @@
         "template": [
             "Terminal.png",
             "TerminalDark.png",
-            "TerminalSami.png"
+            "TerminalSami.png",
+            "TerminalMistCity.png"
         ],
         "cache": false,
         "action": "ClickSelf",
@@ -15253,7 +15297,8 @@
         "template": [
             "GachaEnter.png",
             "GachaEnterDark.png",
-            "GachaEnterSami.png"
+            "GachaEnterSami.png",
+            "GachaEnterMistCity.png"
         ],
         "cache": false,
         "roi": [
@@ -15261,6 +15306,12 @@
             443,
             228,
             156
+        ],
+        "roi_crop_doc": [
+            1095,
+            497,
+            167,
+            56
         ],
         "next": [
             "GachaEnter",

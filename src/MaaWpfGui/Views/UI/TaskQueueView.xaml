@@ -7,16 +7,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
-    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
-    xmlns:local="clr-namespace:MaaWpfGui"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:userControl="clr-namespace:MaaWpfGui.Views.UserControl"
-    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
-    xmlns:vm="clr-namespace:MaaWpfGui"
     MinWidth="720"
     d:DataContext="{d:DesignInstance {x:Type ui:TaskQueueViewModel}}"
     d:DesignHeight="495"
@@ -42,7 +37,6 @@
                 BorderThickness="1"
                 CornerRadius="4">
                 <Grid
-                    Grid.Row="0"
                     Width="190"
                     Margin="0">
                     <Grid.RowDefinitions>
@@ -61,7 +55,7 @@
                         BorderThickness="0"
                         DragDrop.Drop="{s:Action TaskItemSelectionChanged}"
                         ItemContainerStyle="{StaticResource CustomListBoxItemStyle}"
-                        ItemsSource="{Binding Path=TaskItemViewModels}"
+                        ItemsSource="{Binding TaskItemViewModels}"
                         ToolTip="{DynamicResource LabelSequenceTip}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -79,6 +73,7 @@
                                         IsChecked="{Binding IsChecked}"
                                         IsHitTestVisible="{Binding ElementName=TaskList, Path=DataContext.Idle}" />
                                     <hc:ButtonGroup Grid.Column="1" HorizontalAlignment="Left">
+                                        <!-- ReSharper disable once Xaml.StaticResourceNotResolved -->
                                         <RadioButton
                                             Margin="0"
                                             Padding="45,0,0,0"
@@ -136,7 +131,7 @@
                             Command="{s:Action InverseSelected}"
                             Content="{Binding InverseShowText}"
                             IsEnabled="{Binding Idle}"
-                            Visibility="{c:Binding Path=!ShowInverse}" />
+                            Visibility="{c:Binding !ShowInverse}" />
                     </Grid>
                 </Grid>
             </Border>
@@ -172,23 +167,22 @@
                     Command="{s:Action LinkStart}"
                     Content="{DynamicResource LinkStart}"
                     IsEnabled="{Binding Inited}"
-                    Visibility="{c:Binding Path='(Idle and !Stopping) or !Inited'}" />
+                    Visibility="{c:Binding '!Inited or (Idle and !Stopping)'}" />
                 <Button
                     Width="100"
                     Height="50"
                     Margin="5"
                     Command="{s:Action Stop}"
                     Content="{DynamicResource Stop}"
-                    IsEnabled="{c:Binding Path='!Stopping'}"
-                    Visibility="{c:Binding Path='(!Idle or Stopping) and Inited'}" />
+                    IsEnabled="{c:Binding '!Stopping'}"
+                    Visibility="{c:Binding 'Inited and (!Idle or Stopping)'}" />
                 <Button
                     Width="100"
                     Height="50"
                     Margin="5"
                     Command="{s:Action WaitAndStop}"
                     Content="{DynamicResource WaitAndStop}"
-                    Visibility="{c:Binding Path='RoguelikeInCombatAndShowWait and !Waiting and Inited and !Idle'}"
-                     />
+                    Visibility="{c:Binding 'RoguelikeInCombatAndShowWait and !Waiting and Inited and !Idle'}" />
             </Grid>
 
             <!--<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment ="Center" >-->
@@ -296,7 +290,7 @@
             <ItemsControl
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                ItemsSource="{Binding Path=LogItemViewModels}">
+                ItemsSource="{Binding LogItemViewModels}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid MaxWidth="400">

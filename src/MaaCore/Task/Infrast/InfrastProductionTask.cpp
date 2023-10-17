@@ -142,7 +142,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
                     current_room_config() = m_custom_config.at(m_cur_facility_index);
                 }
                 else {
-                    Log.warn("tab size is lager than config size", m_cur_facility_index, m_custom_config.size());
+                    Log.warn("index out of range:", m_cur_facility_index, m_custom_config.size());
                     break;
                 }
             }
