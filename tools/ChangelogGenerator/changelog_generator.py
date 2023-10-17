@@ -70,15 +70,20 @@ def individual_commits(commits: dict, indent: str = "") -> (str, list):
         
     return ret_message, ret_contributor
 
-def updateCommits(commit_message, sorted_commits, update_dict):
+def update_commits(commit_message, sorted_commits, update_dict):
     oper = 'other'
     for key, trans in translations.items():
-        if key in commit_message or commit_message.startswith(trans):
+        if key in commit_message:
             oper = trans
             break
+    else:
+        for key in set(translations.values()):
+            if commit_message.startswith(key):
+                oper = key
+                break
     sorted_commits[oper].update(update_dict)
             
-def updateMessage(sorted_commits, ret_message, ret_contributor):
+def update_message(sorted_commits, ret_message, ret_contributor):
     for key, trans in translations_resort.items():
         if sorted_commits[trans]:
             ret_message += f"\n### {key}\n\n"
@@ -98,9 +103,9 @@ def print_commits(commits: dict):
     }
     for commit_hash, commit_info in commits.items():
         commit_message = commit_info["message"]
-        updateCommits(commit_message, sorted_commits, {commit_hash: commit_info})
+        update_commits(commit_message, sorted_commits, {commit_hash: commit_info})
         
-    return updateMessage(sorted_commits, '', [])
+    return update_message(sorted_commits, '', [])
 
 def build_commits_tree(commit_hash: str):
     '''
