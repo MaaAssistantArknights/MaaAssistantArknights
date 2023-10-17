@@ -105,9 +105,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
 
     bool bought = false;
     auto& all_goods = RoguelikeShopping.get_goods(m_roguelike_theme);
-    std::vector<std::string> all_ciphertext_board =
-        m_roguelike_theme == "Sami" ? Task.get<OcrTaskInfo>("Sami@Roguelike@CiphertextBoardGainOcr")->text
-                                    : std::vector<std::string>();
+    auto& all_ciphertext_board = Task.get<OcrTaskInfo>("Sami@Roguelike@CiphertextBoardGainOcr")->text;
     for (const auto& goods : all_goods) {
         if (need_exit()) {
             return false;
@@ -171,7 +169,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         ctrler()->click(find_it->rect);
         bought = true;
         if (m_roguelike_theme == "Sami") {
-
+            
             auto iter = std::find(all_ciphertext_board.begin(), all_ciphertext_board.end(), goods.name);
             if (iter != all_ciphertext_board.end()) {
                 std::string overview_str =

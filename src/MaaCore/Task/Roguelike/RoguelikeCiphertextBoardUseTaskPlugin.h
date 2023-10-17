@@ -23,10 +23,8 @@ namespace asst
         bool use_board(const std::string& up_board, const std::string& down_board);
         // 找到并点击指定板子
         bool search_and_click_board(const std::string& board);
-        // 滑到最上面
-        void swipe_to_top();
         // 往下滑
-        void slowly_swipe(bool to_down, int swipe_dist = 200);
+        void slowly_swipe(bool to_down, int swipe_dist = 300);
         // 节点类型
         mutable std::string m_stage;
         mutable json::array m_all_boards;
