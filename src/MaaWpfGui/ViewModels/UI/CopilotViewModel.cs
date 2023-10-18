@@ -466,11 +466,17 @@ namespace MaaWpfGui.ViewModels.UI
                     var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
                     if (json is null || !json.ContainsKey("stage_name") || !json.ContainsKey("actions"))
                     {
-                        AddLog($"{filename} corrupted", UiLogColor.Error);
+                        AddLog($"{filename} is broken", UiLogColor.Error);
                         return;
                     }
 
-                    taskPairs.Add(fileInfo.Name.Substring(0, fileInfo.Name.Length - fileInfo.Extension.Length).Replace("突袭", "-Adverse"), filename);
+                    var stageName = FindStageName(fileInfo.Name.Substring(0, fileInfo.Name.Length - fileInfo.Extension.Length));
+                    if (fileInfo.Name.Contains("突袭") || fileInfo.Name.Contains("-Adverse"))
+                    {
+                        stageName += "-Adverse";
+                    }
+
+                    taskPairs.Add(stageName, filename);
                 }
                 catch (Exception)
                 {
