@@ -245,18 +245,29 @@ namespace MaaWpfGui.ViewModels.UI
 
         private const string TempCopilotFile = "cache/_temp_copilot.json";
         private string _taskType = "General";
-        private const string StageNameRegex = @"([a-z]{0,3})(\d{0,2})-(EX-)?(\d{1,2})";
+        private const string StageNameRegex = @"(?:[a-z]{0,3})(?:\d{0,2})-(?:(?:A|B|C|D|EX)-)?(?:\d{1,2})";
 
-        // 为自动战斗列表匹配名字
-        private static string FindStageName(params string[] name)
+        /// <summary>
+        /// 为自动战斗列表匹配名字
+        /// </summary>
+        /// <param name="names">用于匹配的名字</param>
+        /// <returns>关卡名 or string.Empty</returns>
+        private static string FindStageName(params string[] names)
         {
-            if (name.Length == 0)
+            if (names.Length == 0)
             {
                 return string.Empty;
             }
 
+            // 一旦有由小写字母、数字、'-'组成的name则视为关卡名直接使用
+            var directName = names.FirstOrDefault(name => name.ToLower().All(c => (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-'));
+            if (!directName.IsNullOrEmpty())
+            {
+                return directName;
+            }
+
             var regex = new Regex(StageNameRegex, RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            return name.Select(str => regex.Match(str)).FirstOrDefault(result => result.Success)?.Value ?? string.Empty;
+            return names.Select(str => regex.Match(str)).FirstOrDefault(result => result.Success)?.Value ?? string.Empty;
         }
 
         private void ParseJsonAndShowInfo(string jsonStr)
@@ -283,7 +294,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     title = titleValue.ToString();
 
-                    CopilotTaskName = FindStageName(title, _filename);
+                    CopilotTaskName = FindStageName(title, _filename.Split(Path.DirectorySeparatorChar).LastOrDefault()?.Split('.').FirstOrDefault() ?? string.Empty);
                 }
 
                 if (title.Length != 0)
@@ -449,38 +460,45 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             Dictionary<string, string> taskPairs = new Dictionary<string, string>();
-            foreach (var filename in dialog.FileNames)
+            foreach (var file in dialog.FileNames)
             {
-                var fileInfo = new FileInfo(filename);
+                var fileInfo = new FileInfo(file);
                 if (!fileInfo.Exists)
                 {
-                    AddLog($"{filename} not exists");
+                    AddLog($"{file} not exists");
                     return;
                 }
 
                 try
                 {
-                    using var reader = new StreamReader(File.OpenRead(filename));
+                    using var reader = new StreamReader(File.OpenRead(file));
                     var jsonStr = await reader.ReadToEndAsync();
 
                     var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
                     if (json is null || !json.ContainsKey("stage_name") || !json.ContainsKey("actions"))
                     {
-                        AddLog($"{filename} is broken", UiLogColor.Error);
+                        AddLog($"{file} is broken", UiLogColor.Error);
                         return;
                     }
 
-                    var stageName = FindStageName(fileInfo.Name.Substring(0, fileInfo.Name.Length - fileInfo.Extension.Length));
+                    var fileName = fileInfo.Name.Substring(0, fileInfo.Name.Length - fileInfo.Extension.Length);
+                    var stageName = FindStageName(fileName);
                     if (fileInfo.Name.Contains("突袭") || fileInfo.Name.Contains("-Adverse"))
                     {
                         stageName += "-Adverse";
                     }
 
-                    taskPairs.Add(stageName, filename);
+                    if (stageName.IsNullOrEmpty())
+                    {
+                        AddLog($"invalid name to navigate: {fileName}[{fileInfo.FullName}]", UiLogColor.Error);
+                        return;
+                    }
+
+                    taskPairs.Add(stageName, file);
                 }
                 catch (Exception)
                 {
-                    AddLog($"{filename}: " + LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error);
+                    AddLog($"{file}: " + LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error);
                     return;
                 }
             }
