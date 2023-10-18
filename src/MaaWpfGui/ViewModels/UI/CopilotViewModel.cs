@@ -254,7 +254,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>关卡名 or string.Empty</returns>
         private static string FindStageName(params string[] names)
         {
-            if ((names = names.Where(str => !str.IsNullOrEmpty()).ToArray()).Length == 0)
+            names = names.Where(str => !str.IsNullOrEmpty()).ToArray();
+            if (names.Length == 0)
             {
                 return string.Empty;
             }
