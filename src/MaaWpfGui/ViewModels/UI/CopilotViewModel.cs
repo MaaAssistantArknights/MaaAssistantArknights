@@ -492,21 +492,30 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            foreach (var pair in taskPairs)
+            try
             {
-                var jsonPath = $"{CopilotJsonDir}/{pair.Key}.json";
-                if (new FileInfo(jsonPath).FullName != pair.Value)
+                Directory.CreateDirectory(CopilotJsonDir);
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+
+            foreach (var taskPair in taskPairs)
+            {
+                var jsonPath = $"{CopilotJsonDir}/{taskPair.Key}.json";
+                if (new FileInfo(jsonPath).FullName != taskPair.Value)
                 {
                     // 相同路径跳拷贝
-                    File.Copy(pair.Value, jsonPath, true);
+                    File.Copy(taskPair.Value, jsonPath, true);
                 }
 
-                var item = new CopilotItemViewModel(pair.Key, jsonPath)
+                var item = new CopilotItemViewModel(taskPair.Key, jsonPath)
                 {
                     Index = CopilotItemViewModels.Count,
                 };
                 CopilotItemViewModels.Add(item);
-                AddLog("append task: " + pair.Key);
+                AddLog("append task: " + taskPair.Key);
             }
 
             SaveCopilotTask();
@@ -703,7 +712,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 Directory.CreateDirectory(CopilotJsonDir);
             }
-            catch (Exception)
+            catch
             {
                 // ignored
             }
