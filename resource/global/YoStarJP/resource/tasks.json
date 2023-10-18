@@ -3574,8 +3574,7 @@
             7,
             485,
             203
-        ],
-        "template": "Mizuki@Roguelike@MissionFailedFlag2.png"
+        ]
     },
     "Mizuki@Roguelike@StageEncounterLeaveConfirm": {
         "roi": [
@@ -3583,8 +3582,7 @@
             0,
             217,
             700
-        ],
-        "template": "Mizuki@Roguelike@StageEncounterLeaveConfirm.png"
+        ]
     },
     "RoguelikeCustom-HijackCoChar": {
         "ocrReplace": [

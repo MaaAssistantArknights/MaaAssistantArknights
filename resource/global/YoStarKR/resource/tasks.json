@@ -3159,8 +3159,7 @@
             22
         ],
         "templThreshold": 3,
-        "templThreshold_Doc": "这里用来作为字间距阈值",
-        "template": "empty.png"
+        "templThreshold_Doc": "这里用来作为字间距阈值"
     },
     "Roguelike@FromIntegratedStrategies": {
         "text": [

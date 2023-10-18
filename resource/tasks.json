@@ -3191,7 +3191,6 @@
     },
     "AccountManagerLoginButtonBili": {
         "baseTask": "AccountManagerLoginButton",
-        "template": "AccountManagerLoginButtonBili.png",
         "roi": [
             440,
             360,
@@ -3210,7 +3209,6 @@
     },
     "AccountManagerListAccountBili": {
         "baseTask": "AccountManagerListAccount",
-        "template": "AccountManagerListAccountBili.png",
         "roi": [
             770,
             270,
@@ -6029,7 +6027,6 @@
         "templThreshold": 0.95
     },
     "InfrastProcessing": {
-        "template": "InfrastProcessing.png",
         "maskRange": [
             1,
             255
@@ -6043,7 +6040,6 @@
         "templThreshold": 0.95
     },
     "InfrastProcessingMini": {
-        "template": "InfrastProcessingMini.png",
         "maskRange": [
             1,
             255
@@ -6825,7 +6821,6 @@
         ]
     },
     "CloseCluePage": {
-        "template": "CloseCluePage.png",
         "action": "ClickSelf",
         "roi": [
             930,
@@ -6855,7 +6850,6 @@
         "template": "ClueNew.png"
     },
     "UnlockClues": {
-        "template": "UnlockClues.png",
         "action": "ClickSelf",
         "cache": false,
         "templThreshold": 0.9,
@@ -7901,16 +7895,13 @@
         ]
     },
     "BattleSkillReadyOnClick-SquareMap": {
-        "baseTask": "BattleSkillReadyOnClick",
-        "template": "BattleSkillReadyOnClick-SquareMap"
+        "baseTask": "BattleSkillReadyOnClick"
     },
     "BattleSkillStopOnClick": {
-        "baseTask": "BattleSkillReadyOnClick",
-        "template": "BattleSkillStopOnClick"
+        "baseTask": "BattleSkillReadyOnClick"
     },
     "BattleSkillStopOnClick-SquareMap": {
-        "baseTask": "BattleSkillReadyOnClick",
-        "template": "BattleSkillStopOnClick-SquareMap"
+        "baseTask": "BattleSkillReadyOnClick"
     },
     "BattleUseOper": {
         "algorithm": "JustReturn",
@@ -8588,7 +8579,7 @@
     },
     "ScreenshotTaskPlugin-Config": {
         "Doc": "本任务是插件 ScreenshotTaskPlugin 的配置",
-        "Doc_2": "需要在任务 Task 开始时截图时，将 Task 加入到此任务的 next 列表。", 
+        "Doc_2": "需要在任务 Task 开始时截图时，将 Task 加入到此任务的 next 列表。",
         "algorithm": "JustReturn",
         "next": [
             "Roguelike@StageEncounterOptionUnknown"
@@ -8596,7 +8587,7 @@
     },
     "ScreenshotTaskPlugin-Config-Debug": {
         "Doc": "本任务是插件 ScreenshotTaskPlugin 的配置",
-        "Doc_2": "存在 DEBUG 或 DEBUG.txt 时的额外截图", 
+        "Doc_2": "存在 DEBUG 或 DEBUG.txt 时的额外截图",
         "algorithm": "JustReturn",
         "next": []
     },
@@ -8695,7 +8686,7 @@
         ]
     },
     "Roguelike@ChooseOperFlag": {
-        "template": "Roguelike@ChooseOperConfirm.png",
+        "template": "Roguelike/ChooseOperConfirm.png",
         "action": "DoNothing",
         "roi": [
             1016,
@@ -8835,7 +8826,7 @@
         ]
     },
     "Roguelike@Exit": {
-        "template": "Roguelike@ExitThenAbandon.png",
+        "template": "Roguelike/ExitThenAbandon.png",
         "action": "ClickSelf",
         "cache": false,
         "roi": [
@@ -8859,7 +8850,7 @@
         ]
     },
     "Roguelike@ExitThenAbandon_ToHardest": {
-        "template": "Roguelike@ExitThenAbandon.png",
+        "template": "Roguelike/ExitThenAbandon.png",
         "action": "ClickSelf",
         "cache": false,
         "roi": [
@@ -9878,7 +9869,7 @@
     },
     "Roguelike@StageVerticalConfirmEncounter": {
         "baseTask": "Roguelike@StageVerticalConfirm",
-        "template": "Roguelike@StageVerticalConfirm.png",
+        "template": "Roguelike/StageVerticalConfirm.png",
         "next": [
             "Roguelike@StageEncounterEnter",
             "Roguelike@StageEncounterJudgeClick"
@@ -10059,7 +10050,7 @@
     },
     "Roguelike@StageVerticalConfirmSafeHouse": {
         "baseTask": "Roguelike@StageVerticalConfirm",
-        "template": "Roguelike@StageVerticalConfirm.png",
+        "template": "Roguelike/StageVerticalConfirm.png",
         "next": [
             "Roguelike@StageSafeHouseEnter",
             "Roguelike@StageSafeHouseEnter",
@@ -10093,7 +10084,7 @@
         ]
     },
     "Roguelike@StageVerticalConfirmTrader": {
-        "template": "Roguelike@StageVerticalConfirm.png",
+        "template": "Roguelike/StageVerticalConfirm.png",
         "baseTask": "Roguelike@StageVerticalConfirm",
         "next": [
             "Roguelike@StageTraderEnter",
@@ -10445,7 +10436,7 @@
         ]
     },
     "Roguelike@TraderRandomShoppingCancel": {
-        "template": "Roguelike@StageTraderInvestCancel.png",
+        "template": "Roguelike/StageTraderInvestCancel.png",
         "action": "ClickSelf",
         "cache": false,
         "roi": [
@@ -10494,18 +10485,18 @@
     },
     "Phantom@Roguelike@CloseEvent": {},
     "Phantom@Roguelike@DialogSkipConfirm": {
-        "template": "Roguelike@DialogSkipConfirm.png",
+        "template": "Roguelike/DialogSkipConfirm.png",
         "next": [
             "Phantom@Roguelike@DialogSkip",
             "Phantom@Roguelike@Stages#next"
         ]
     },
     "Phantom@Roguelike@DropsFlag": {
-        "template": "Roguelike@DropsFlag.png",
+        "template": "Roguelike/DropsFlag.png",
         "baseTask": "Phantom@Roguelike@DropsFlag_default"
     },
     "Phantom@Roguelike@DropsFlag_default": {
-        "template": "Roguelike@DropsFlag.png",
+        "template": "Roguelike/DropsFlag.png",
         "next": [
             "Phantom@Roguelike@GetDrops#next",
             "Phantom@Roguelike@GetDropCompleted",
@@ -10521,7 +10512,7 @@
         ]
     },
     "Phantom@Roguelike@DropsFlag_mode1": {
-        "template": "Roguelike@DropsFlag.png",
+        "template": "Roguelike/DropsFlag.png",
         "next": [
             "Phantom@Roguelike@GetDropLeave",
             "Phantom@Roguelike@GetDrops#next",
@@ -10538,14 +10529,14 @@
     },
     "Phantom@Roguelike@EnterAfterRecruit": {},
     "Phantom@Roguelike@ExitThenAbandon": {
-        "template": "Roguelike@ExitThenAbandon.png",
+        "template": "Roguelike/ExitThenAbandon.png",
         "next": [
             "Phantom@Roguelike@ExitThenAbandon",
             "Phantom@Roguelike@Abandon"
         ]
     },
     "Phantom@Roguelike@ExitThenAbandon_ToHardest": {
-        "template": "Roguelike@ExitThenAbandon.png",
+        "template": "Roguelike/ExitThenAbandon.png",
         "next": [
             "Phantom@Roguelike@ExitThenAbandon_ToHardest",
             "Phantom@Roguelike@Abandon"
@@ -10568,7 +10559,7 @@
     "Phantom@Roguelike@GetDropRecruit": {},
     "Phantom@Roguelike@GetDropSelect": {},
     "Phantom@Roguelike@GetDropSelectRecruit": {
-        "template": "Phantom@Roguelike@GetDropRecruit.png"
+        "template": "Roguelike/Phantom/GetDropRecruit.png"
     },
     "Phantom@Roguelike@GetDropSelectReward": {},
     "Phantom@Roguelike@GetDrops": {
@@ -10714,10 +10705,10 @@
         ]
     },
     "Phantom@Roguelike@RecruitMain": {
-        "template": "Phantom@Roguelike@Recruit.png"
+        "template": "Roguelike/Phantom/Recruit.png"
     },
     "Phantom@Roguelike@RecruitOther": {
-        "template": "Phantom@Roguelike@Recruit.png"
+        "template": "Roguelike/Phantom/Recruit.png"
     },
     "Phantom@Roguelike@RecruitWithoutButton": {
         "next": [
@@ -10732,11 +10723,11 @@
         ]
     },
     "Phantom@Roguelike@RolesConfirm": {
-        "template": "Phantom@Roguelike@LastRewardConfirm"
+        "template": "Roguelike/Phantom/LastRewardConfirm"
     },
     "Phantom@Roguelike@RolesDefault": {},
     "Phantom@Roguelike@SquadConfirm": {
-        "template": "Phantom@Roguelike@LastRewardConfirm.png",
+        "template": "Roguelike/Phantom/LastRewardConfirm.png",
         "next": [
             "Phantom@Roguelike@LastReward",
             "Phantom@Roguelike@LastReward4",
@@ -10790,7 +10781,7 @@
     },
     "Phantom@Roguelike@StageTraderEnter": {},
     "Phantom@Roguelike@StageTraderLeaveConfirm": {
-        "template": "Roguelike@StageTraderLeaveConfirm.png",
+        "template": "Roguelike/StageTraderLeaveConfirm.png",
         "exceededNext": [
             "Phantom@Roguelike@ExitThenAbandon"
         ]
@@ -10798,7 +10789,7 @@
     "Phantom@Roguelike@StartExplore": {},
     "Phantom@Roguelike@TodoEnter": {},
     "Phantom@Roguelike@WaitForStartButtonClicked": {
-        "template": "Roguelike@QuickFormation.png"
+        "template": "Roguelike/QuickFormation.png"
     },
     "Mizuki@Roguelike@Abandon": {},
     "Mizuki@Roguelike@ChooseDifficulty": {},
@@ -10836,7 +10827,7 @@
             24
         ],
         "postDelay": 800,
-        "template": "Mizuki@Roguelike@StartExplore.png",
+        "template": "Roguelike/Mizuki/StartExplore.png",
         "roi": [
             1026,
             470,
@@ -10856,7 +10847,7 @@
             24
         ],
         "postDelay": 800,
-        "template": "Mizuki@Roguelike@StartExplore.png",
+        "template": "Roguelike/Mizuki/StartExplore.png",
         "roi": [
             1026,
             470,
@@ -10971,7 +10962,7 @@
         ]
     },
     "Mizuki@Roguelike@DialogSkipConfirm": {
-        "template": "Roguelike@DialogSkipConfirm.png",
+        "template": "Roguelike/DialogSkipConfirm.png",
         "next": [
             "Mizuki@Roguelike@DialogSkip",
             "Mizuki@Roguelike@Stages#next"
@@ -10998,7 +10989,7 @@
     "Mizuki@Roguelike@DiceConfirmThenAbandon": {
         "Doc": "骰子的确认按钮",
         "action": "ClickSelf",
-        "template": "Mizuki@Roguelike@DiceConfirm.png",
+        "template": "Roguelike/Mizuki/DiceConfirm.png",
         "cache": false,
         "roi": [
             551,
@@ -11012,11 +11003,11 @@
         ]
     },
     "Mizuki@Roguelike@DropsFlag": {
-        "template": "Roguelike@DropsFlag.png",
+        "template": "Roguelike/DropsFlag.png",
         "baseTask": "Mizuki@Roguelike@DropsFlag_default"
     },
     "Mizuki@Roguelike@DropsFlag_default": {
-        "template": "Roguelike@DropsFlag.png",
+        "template": "Roguelike/DropsFlag.png",
         "next": [
             "Mizuki@Roguelike@GetDrops#next",
             "Mizuki@Roguelike@GetDropCompleted",
@@ -11032,7 +11023,7 @@
         ]
     },
     "Mizuki@Roguelike@DropsFlag_mode1": {
-        "template": "Roguelike@DropsFlag.png",
+        "template": "Roguelike/DropsFlag.png",
         "next": [
             "Mizuki@Roguelike@GetDropLeave",
             "Mizuki@Roguelike@GetDrops#next",
@@ -11049,7 +11040,7 @@
     },
     "Mizuki@Roguelike@EnterAfterRecruit": {},
     "Mizuki@Roguelike@ExitThenAbandon": {
-        "template": "Roguelike@ExitThenAbandon.png",
+        "template": "Roguelike/ExitThenAbandon.png",
         "next": [
             "Mizuki@Roguelike@ExitThenAbandon",
             "Mizuki@Roguelike@Abandon",
@@ -11058,7 +11049,7 @@
         ]
     },
     "Mizuki@Roguelike@ExitThenAbandon_ToHardest": {
-        "template": "Roguelike@ExitThenAbandon.png",
+        "template": "Roguelike/ExitThenAbandon.png",
         "next": [
             "Mizuki@Roguelike@ExitThenAbandon_ToHardest",
             "Mizuki@Roguelike@Abandon",
@@ -11131,7 +11122,7 @@
     "Mizuki@Roguelike@GetDropRecruit": {},
     "Mizuki@Roguelike@GetDropSelect": {},
     "Mizuki@Roguelike@GetDropSelectRecruit": {
-        "template": "Mizuki@Roguelike@GetDropRecruit.png"
+        "template": "Roguelike/Mizuki/GetDropRecruit.png"
     },
     "Mizuki@Roguelike@GetDropSelectReward": {},
     "Mizuki@Roguelike@GetDrops": {
@@ -11320,10 +11311,10 @@
         ]
     },
     "Mizuki@Roguelike@RecruitMain": {
-        "template": "Mizuki@Roguelike@Recruit.png"
+        "template": "Roguelike/Mizuki/Recruit.png"
     },
     "Mizuki@Roguelike@RecruitOther": {
-        "template": "Mizuki@Roguelike@Recruit.png"
+        "template": "Roguelike/Mizuki/Recruit.png"
     },
     "Mizuki@Roguelike@RecruitWithoutButton": {
         "next": [
@@ -11339,11 +11330,11 @@
         ]
     },
     "Mizuki@Roguelike@RolesConfirm": {
-        "template": "Mizuki@Roguelike@LastRewardConfirm"
+        "template": "Roguelike/Mizuki/LastRewardConfirm"
     },
     "Mizuki@Roguelike@RolesDefault": {},
     "Mizuki@Roguelike@SquadConfirm": {
-        "template": "Mizuki@Roguelike@LastRewardConfirm.png",
+        "template": "Roguelike/Mizuki/LastRewardConfirm.png",
         "next": [
             "Mizuki@Roguelike@LastReward",
             "Mizuki@Roguelike@LastReward4",
@@ -11481,7 +11472,7 @@
     },
     "Mizuki@Roguelike@StageTraderEnter": {},
     "Mizuki@Roguelike@StageTraderLeaveConfirm": {
-        "template": "Roguelike@StageTraderLeaveConfirm.png",
+        "template": "Roguelike/StageTraderLeaveConfirm.png",
         "exceededNext": [
             "Mizuki@Roguelike@DiceConfirmThenAbandon",
             "Mizuki@Roguelike@ExitThenAbandon"
@@ -11498,11 +11489,11 @@
     },
     "Mizuki@Roguelike@StartExplore": {},
     "Mizuki@Roguelike@StartExploreConfirm": {
-        "template": "Mizuki@Roguelike@StartExplore.png"
+        "template": "Roguelike/Mizuki/StartExplore.png"
     },
     "Mizuki@Roguelike@TodoEnter": {},
     "Mizuki@Roguelike@WaitForStartButtonClicked": {
-        "template": "Roguelike@QuickFormation.png"
+        "template": "Roguelike/QuickFormation.png"
     },
     "Sami@Roguelike@Abandon": {},
     "Sami@Roguelike@ChooseDifficulty": {
@@ -11522,7 +11513,7 @@
             22
         ],
         "postDelay": 800,
-        "template": "Sami@Roguelike@StartExplore.png",
+        "template": "Roguelike/Sami/StartExplore.png",
         "roi": [
             958,
             530,
@@ -11542,7 +11533,7 @@
             22
         ],
         "postDelay": 800,
-        "template": "Sami@Roguelike@StartExplore.png",
+        "template": "Roguelike/Sami/StartExplore.png",
         "roi": [
             958,
             530,
@@ -11591,18 +11582,18 @@
     },
     "Sami@Roguelike@CloseEvent": {},
     "Sami@Roguelike@DialogSkipConfirm": {
-        "template": "Roguelike@DialogSkipConfirm.png",
+        "template": "Roguelike/DialogSkipConfirm.png",
         "next": [
             "Sami@Roguelike@DialogSkip",
             "Sami@Roguelike@Stages#next"
         ]
     },
     "Sami@Roguelike@DropsFlag": {
-        "template": "Roguelike@DropsFlag.png",
+        "template": "Roguelike/DropsFlag.png",
         "baseTask": "Sami@Roguelike@DropsFlag_default"
     },
     "Sami@Roguelike@DropsFlag_default": {
-        "template": "Roguelike@DropsFlag.png",
+        "template": "Roguelike/DropsFlag.png",
         "next": [
             "Sami@Roguelike@GetDrops#next",
             "Sami@Roguelike@GetDropCompleted",
@@ -11618,7 +11609,7 @@
         ]
     },
     "Sami@Roguelike@DropsFlag_mode1": {
-        "template": "Roguelike@DropsFlag.png",
+        "template": "Roguelike/DropsFlag.png",
         "next": [
             "Sami@Roguelike@GetDropLeave",
             "Sami@Roguelike@GetDrops#next",
@@ -11639,14 +11630,14 @@
         ]
     },
     "Sami@Roguelike@ExitThenAbandon": {
-        "template": "Roguelike@ExitThenAbandon.png",
+        "template": "Roguelike/ExitThenAbandon.png",
         "next": [
             "Sami@Roguelike@ExitThenAbandon",
             "Sami@Roguelike@Abandon"
         ]
     },
     "Sami@Roguelike@ExitThenAbandon_ToHardest": {
-        "template": "Roguelike@ExitThenAbandon.png",
+        "template": "Roguelike/ExitThenAbandon.png",
         "next": [
             "Sami@Roguelike@ExitThenAbandon_ToHardest",
             "Sami@Roguelike@Abandon"
@@ -11664,7 +11655,7 @@
     "Sami@Roguelike@GamePassSkip2": {},
     "Sami@Roguelike@GamePassTheEndConfirm": {},
     "Sami@Roguelike@GetCiphertextBoard": {
-        "template": "Sami@Roguelike@GetCiphertextBoard",
+        "template": "Roguelike/Sami/GetCiphertextBoard",
         "action": "ClickRect",
         "specificRect": [
             611,
@@ -11692,7 +11683,6 @@
     "Sami@Roguelike@GetDrop2": {},
     "Sami@Roguelike@GetDrop3": {},
     "Sami@Roguelike@GetDrop4": {
-        "template": "Sami@Roguelike@GetDrop4.png",
         "baseTask": "Roguelike@GetDrop",
         "next": [
             "Sami@Roguelike@DropsFlag",
@@ -11714,12 +11704,11 @@
         ]
     },
     "Sami@Roguelike@GetDropSelectRecruit": {
-        "template": "Sami@Roguelike@Recruit.png"
+        "template": "Roguelike/Sami/Recruit.png"
     },
     "Sami@Roguelike@GetDropSelectReward": {},
     "Sami@Roguelike@GetDropSelectReward2": {
         "Doc": "密文板三选一",
-        "template": "Sami@Roguelike@GetDropSelectReward2.png",
         "cache": false,
         "action": "ClickSelf",
         "roi": [
@@ -12015,10 +12004,10 @@
         ]
     },
     "Sami@Roguelike@RecruitMain": {
-        "template": "Sami@Roguelike@Recruit.png"
+        "template": "Roguelike/Sami/Recruit.png"
     },
     "Sami@Roguelike@RecruitOther": {
-        "template": "Sami@Roguelike@Recruit.png",
+        "template": "Roguelike/Sami/Recruit.png",
         "templThreshold": 0.8
     },
     "Sami@Roguelike@RecruitWithoutButton": {
@@ -12034,11 +12023,11 @@
         ]
     },
     "Sami@Roguelike@RolesConfirm": {
-        "template": "Sami@Roguelike@LastRewardConfirm"
+        "template": "Roguelike/Sami/LastRewardConfirm"
     },
     "Sami@Roguelike@RolesDefault": {},
     "Sami@Roguelike@SquadConfirm": {
-        "template": "Sami@Roguelike@LastRewardConfirm.png",
+        "template": "Roguelike/Sami/LastRewardConfirm.png",
         "next": [
             "Sami@Roguelike@LastReward",
             "Sami@Roguelike@LastReward4",
@@ -12091,7 +12080,7 @@
         ]
     },
     "Sami@Roguelike@StageBoonsEnter": {
-        "template": "Sami@Roguelike@StageTraderEnter.png",
+        "template": "Roguelike/Sami/StageTraderEnter.png",
         "baseTask": "Sami@Roguelike@StageEnter",
         "next": [
             "Sami@Roguelike@StageVerticalConfirmBoons",
@@ -12100,7 +12089,7 @@
         ]
     },
     "Sami@Roguelike@StageVerticalConfirmBoons": {
-        "template": "Sami@Roguelike@StageVerticalConfirm.png",
+        "template": "Roguelike/Sami/StageVerticalConfirm.png",
         "baseTask": "Sami@Roguelike@StageVerticalConfirm",
         "next": [
             "Sami@Roguelike@StageBoonsEnter",
@@ -12148,7 +12137,7 @@
         ]
     },
     "Sami@Roguelike@StageVerticalConfirmBoskyPassage": {
-        "template": "Sami@Roguelike@StageVerticalConfirm.png",
+        "template": "Roguelike/Sami/StageVerticalConfirm.png",
         "baseTask": "Sami@Roguelike@StageVerticalConfirm",
         "next": [
             "Sami@Roguelike@StageBoskyPassageEnter",
@@ -12335,7 +12324,6 @@
     },
     "Sami@Roguelike@TraderCheck": {
         "algorithm": "MatchTemplate",
-        "template": "Sami@Roguelike@TraderCheck.png",
         "roi": [
             96,
             210,
@@ -12489,7 +12477,7 @@
         ]
     },
     "Sami@Roguelike@StageVerticalConfirmSafeHouse": {
-        "template": "Sami@Roguelike@StageVerticalConfirm.png",
+        "template": "Roguelike/Sami/StageVerticalConfirm.png",
         "baseTask": "Sami@Roguelike@StageVerticalConfirm",
         "next": [
             "Sami@Roguelike@StageSafeHouseEnter",
@@ -12526,7 +12514,7 @@
     },
     "Sami@Roguelike@StageTraderEnter": {},
     "Sami@Roguelike@StageTraderLeaveConfirm": {
-        "template": "Roguelike@StageTraderLeaveConfirm.png",
+        "template": "Roguelike/StageTraderLeaveConfirm.png",
         "postDelay": 1000,
         "exceededNext": [
             "Sami@Roguelike@ExitThenAbandon",
@@ -12576,7 +12564,7 @@
         ]
     },
     "Sami@Roguelike@StartExploreConfirm": {
-        "template": "Sami@Roguelike@StartExplore.png",
+        "template": "Roguelike/Sami/StartExplore.png",
         "roi": [
             958,
             530,
@@ -12617,7 +12605,7 @@
         "postDelay": 1000
     },
     "Sami@Roguelike@WaitForStartButtonClicked": {
-        "template": "Roguelike@QuickFormation.png",
+        "template": "Roguelike/QuickFormation.png",
         "next": [
             "Sami@Roguelike@StageVerticalConfirmStartButtonClicked",
             "Sami@Roguelike@WaitForStartButtonClicked"
@@ -12625,7 +12613,7 @@
     },
     "Sami@Roguelike@StageVerticalConfirmStartButtonClicked": {
         "baseTask": "Sami@Roguelike@StageVerticalConfirm",
-        "template": "Sami@Roguelike@StageVerticalConfirm.png",
+        "template": "Roguelike/Sami/StageVerticalConfirm.png",
         "next": [
             "Sami@Roguelike@WaitForStartButtonClicked"
         ]
@@ -12781,7 +12769,7 @@
         ]
     },
     "RoguelikeQuickFormationClearAndReselect-Confirm": {
-        "template": "Roguelike@FormationConfirm.png",
+        "template": "Roguelike/FormationConfirm.png",
         "action": "ClickSelf",
         "roi": [
             1015,
@@ -12795,7 +12783,7 @@
         ]
     },
     "RoguelikeQuickFormationClearAndReselect-Formation": {
-        "template": "Roguelike@QuickFormation.png",
+        "template": "Roguelike/QuickFormation.png",
         "action": "ClickSelf",
         "roi": [
             817,
@@ -13161,7 +13149,7 @@
         ]
     },
     "RoguelikeTraderShopping": {
-        "template": "Roguelike@TraderRandomShopping.png",
+        "template": "Roguelike/TraderRandomShopping.png",
         "templThreshold": 0.7,
         "roi": [
             480,
@@ -13191,7 +13179,7 @@
         ]
     },
     "RoguelikeTraderShoppingOver": {
-        "template": "Roguelike@StageTraderLeave.png",
+        "template": "Roguelike/StageTraderLeave.png",
         "action": "ClickSelf",
         "cache": false,
         "roi": [
@@ -13203,7 +13191,7 @@
     },
     "Roguelike@WaitForStartButtonClicked": {
         "Doc": "点了开始行动之后，可能会网络不好一直loading，用这个任务等一会",
-        "template": "Roguelike@QuickFormation.png",
+        "template": "Roguelike/QuickFormation.png",
         "action": "DoNothing",
         "roi": [
             817,
@@ -13876,7 +13864,7 @@
         ]
     },
     "Reclamation@AtMapFlag": {
-        "template": "Reclamation@ResetScope.png",
+        "template": "Reclamation/ResetScope.png",
         "Doc": "base_task",
         "roi": [
             0,
@@ -13887,7 +13875,6 @@
     },
     "Reclamation@AtHomePageFlag": {
         "Doc": "base_task",
-        "template": "Reclamation@AtHomePageFlag.png",
         "roi": [
             801,
             98,
@@ -14069,7 +14056,7 @@
         ]
     },
     "Reclamation@FormationConfirmBase": {
-        "template": "Reclamation@FormationConfirm.png",
+        "template": "Reclamation/FormationConfirm.png",
         "roi": [
             862,
             604,
@@ -14079,7 +14066,7 @@
     },
     "Reclamation@QuickFormationSelectOneUnit": {
         "baseTask": "Reclamation@FormationConfirmBase",
-        "template": "Reclamation@FormationConfirm.png",
+        "template": "Reclamation/FormationConfirm.png",
         "action": "ClickRect",
         "specificRect": [
             506,
@@ -14093,7 +14080,7 @@
     },
     "Reclamation@QuickFormationConfirm": {
         "baseTask": "Reclamation@FormationConfirmBase",
-        "template": "Reclamation@FormationConfirm.png",
+        "template": "Reclamation/FormationConfirm.png",
         "action": "ClickSelf",
         "next": [
             "Reclamation@EmptyInitUnits",
@@ -14303,7 +14290,7 @@
         ]
     },
     "Reclamation@BattlePackIconTemplate": {
-        "template": "Reclamation@ClickExitLevel.png",
+        "template": "Reclamation/ClickExitLevel.png",
         "roi": [
             100,
             0,
@@ -14313,7 +14300,7 @@
     },
     "Reclamation@BattleStart": {
         "baseTask": "Reclamation@BattlePackIconTemplate",
-        "template": "Reclamation@ClickExitLevel.png",
+        "template": "Reclamation/ClickExitLevel.png",
         "next": [
             "Reclamation@LevelComplete"
         ],
@@ -14326,7 +14313,6 @@
     "Reclamation@ClickExitLevel": {
         "action": "ClickRect",
         "baseTask": "Reclamation@BattlePackIconTemplate",
-        "template": "Reclamation@ClickExitLevel.png",
         "specificRect": [
             49,
             30,
@@ -14350,7 +14336,7 @@
     },
     "Reclamation@LevelForceExit": {
         "baseTask": "Reclamation@ClickExitLevel",
-        "template": "Reclamation@ClickExitLevel.png",
+        "template": "Reclamation/ClickExitLevel.png",
         "postDelay": 3000,
         "next": [
             "Reclamation@LevelForceExitConfirm",
@@ -14498,7 +14484,7 @@
         ]
     },
     "Reclamation@ConclusionReportBadgeIcon": {
-        "template": "Reclamation@Badge.png",
+        "template": "Reclamation/Badge.png",
         "roi": [
             560,
             345,
@@ -14867,19 +14853,19 @@
         ]
     },
     "NavigateHome@Reclamation@AtHomePageFlag": {
-        "template": "Reclamation@AtHomePageFlag.png",
+        "template": "Reclamation/AtHomePageFlag.png",
         "next": [
             "Stop"
         ]
     },
     "NavigateHome@Reclamation@ResetScope": {
-        "template": "Reclamation@ResetScope.png",
+        "template": "Reclamation/ResetScope.png",
         "next": [
             "NavigateHome@Reclamation@Begin"
         ]
     },
     "NavigateHome@Reclamation@AtMapFlag": {
-        "template": "Reclamation@ResetScope.png",
+        "template": "Reclamation/ResetScope.png",
         "next": [
             "NavigateHome@Reclamation@Begin"
         ]
@@ -14893,7 +14879,7 @@
         ]
     },
     "GiveupAlgorithm@Reclamation@AtHomePageFlag": {
-        "template": "Reclamation@AtHomePageFlag.png",
+        "template": "Reclamation/AtHomePageFlag.png",
         "next": [
             "GiveupAlgorithm@Reclamation@GiveupAlgorithmConfirm",
             "GiveupAlgorithm@Reclamation@GiveupAlgorithm",
@@ -14901,7 +14887,7 @@
         ]
     },
     "StartWithDefaultFormation@Reclamation@StartAlgorithm": {
-        "template": "Reclamation@StartAlgorithm.png",
+        "template": "Reclamation/StartAlgorithm.png",
         "next": [
             "StartWithDefaultFormation@Reclamation@ClickChooseInitUnits",
             "StartWithDefaultFormation@Reclamation@StartAlgorithm"
@@ -14923,7 +14909,7 @@
         ]
     },
     "SkipAnnounceReport@Reclamation@AtMapFlag": {
-        "template": "Reclamation@ResetScope.png",
+        "template": "Reclamation/ResetScope.png",
         "next": [
             "Stop"
         ]
@@ -14940,7 +14926,7 @@
         ]
     },
     "BattleDefaultFormationStart@Reclamation@BattleStart": {
-        "template": "Reclamation@ClickExitLevel.png",
+        "template": "Reclamation/ClickExitLevel.png",
         "next": [
             "Stop"
         ]
@@ -14952,13 +14938,13 @@
         ]
     },
     "LevelCompleteConfirm@Reclamation@AtMapFlag": {
-        "template": "Reclamation@ResetScope.png",
+        "template": "Reclamation/ResetScope.png",
         "next": [
             "Stop"
         ]
     },
     "CheckNextDay@Reclamation@NextDay": {
-        "template": "Reclamation@NextDay.png",
+        "template": "Reclamation/NextDay.png",
         "postDelay": 0,
         "next": [
             "Stop"
@@ -14966,27 +14952,27 @@
     },
     "EnterNextDay@Reclamation@Begin": {
         "baseTask": "Reclamation@NextDay",
-        "template": "Reclamation@NextDay.png",
+        "template": "Reclamation/NextDay.png",
         "next": [
             "Stop"
         ]
     },
     "WaitNextDayFlag@Reclamation@BetweenDayFlag": {
-        "template": "Reclamation@BetweenDayFlag.png",
+        "template": "Reclamation/BetweenDayFlag.png",
         "postDelay": 500,
         "next": [
             "Stop"
         ]
     },
     "CheckEmergency@Reclamation@Emergency": {
-        "template": "Reclamation@Emergency.png",
+        "template": "Reclamation/Emergency.png",
         "next": [
             "Stop"
         ]
     },
     "ClickCenterBase@Reclamation@Begin": {
         "baseTask": "Reclamation@ClickCenterBase",
-        "template": "Reclamation@ClickCenterBase.png",
+        "template": "Reclamation/ClickCenterBase.png",
         "next": [
             "Stop"
         ]
@@ -14999,7 +14985,7 @@
     },
     "ResetScope@Reclamation@Begin": {
         "baseTask": "Reclamation@ResetScope",
-        "template": "Reclamation@ResetScope.png",
+        "template": "Reclamation/ResetScope.png",
         "next": [
             "Stop"
         ]
@@ -15022,7 +15008,6 @@
     "ChooseMoneyOrder": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "template": "ChooseMoneyOrder.png",
         "cache": true,
         "roi": [
             395,
@@ -15066,7 +15051,6 @@
     "ChooseSyntheticJadeOrder": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "template": "ChooseSyntheticJadeOrder.png",
         "cache": true,
         "roi": [
             635,
@@ -15081,7 +15065,6 @@
     "ChooseProductList": {
         "algorithm": "MatchTemplate",
         "action": "ClickRect",
-        "template": "ChooseProductList.png",
         "cache": true,
         "roi": [
             1000,
@@ -15114,7 +15097,6 @@
     "ClickProductMax": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "template": "ClickProductMax.png",
         "cache": true,
         "roi": [
             920,
@@ -15129,7 +15111,6 @@
     "ChooseBattleRecord": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "template": "ChooseBattleRecord.png",
         "cache": true,
         "roi": [
             240,
@@ -15160,7 +15141,6 @@
     "ChoosePureGoldTab": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "template": "ChoosePureGoldTab.png",
         "cache": true,
         "roi": [
             10,
@@ -15175,7 +15155,6 @@
     "ChoosePureGold": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "template": "ChoosePureGold.png",
         "cache": true,
         "roi": [
             240,
@@ -15190,7 +15169,6 @@
     "ChooseOriginiumShardTab": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "template": "ChooseOriginiumShardTab.png",
         "cache": true,
         "roi": [
             10,
@@ -15205,7 +15183,6 @@
     "ChooseOriginiumShard": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "template": "ChooseOriginiumShard.png",
         "cache": true,
         "roi": [
             240,
@@ -15479,7 +15456,6 @@
         "postDelay": 3000
     },
     "GachaSkip": {
-        "template": "GachaSkip.png",
         "action": "ClickSelf",
         "roi": [
             1144,
