@@ -139,7 +139,7 @@ jobs:
               $match = "0.0.1"
           }
           [xml]$csproj = Get-Content -Path $csprojPath
-          $node = $csproj.Project.PropertyGroup | where {$_.AssemblyName -ne $null}
+          $node = $csproj.Project.PropertyGroup | where {$_.ApplicationVersion -ne $null}
           $node.InformationalVersion = $tag
           $node.Version = $match
           $node.FileVersion = $match
