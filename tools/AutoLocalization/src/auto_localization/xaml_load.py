@@ -79,6 +79,17 @@ class XamlParser:
             self.__cp_merged_node = None
         self.__gen_cp_tree_by_traverse(element=self.__root, current_cp_node=self.__cp_root)
 
+    def __getattr__(self, prop):
+        properties_map = {
+            'encoding': self.__encoding, 
+            'cp_tree': self.__cp_root, 
+            'tree': self.__root, 
+            'x_uid_ns': self.__x_uid_ns, 
+            'x_key_ns': self.__x_key_ns, 
+            'language': self.__language
+        }
+        return properties_map.get(prop, None)
+
     @staticmethod
     def __from_file(file):
         assert os.path.exists(file), f'{file}file not exists'
@@ -188,18 +199,16 @@ class XamlParser:
             'ratio_mode': 'accurate',
             'uniqueattrs': uniqueattrs,
             'ignored_attrs': ignored_attrs, })
-        for i in res:
-            if type(i).__name__ == 'UpdateTextIn' and pt.search(i.node):
-                continue
+        if any((isinstance(i, UpdateTextIn) and pt.search(i.node)) for i in res):
             return False
         return True
 
     def xpath(self, xpath_str, only_one=True, accept_empty=False):
         ns = self.nsmap
-        if None in ns:
-            del ns[None]
-        if "" in ns:
-            del ns[""]
+        del_arr = (None, '')
+        for remove_elem in del_arr:
+            if remove_elem in ns:
+                del ns[remove_elem]
         search_result = self.tree.xpath(xpath_str, namespaces=ns)
         if not len(search_result):
             assert accept_empty, f"xpath: {xpath_str} 搜索结果为空"
@@ -273,7 +282,7 @@ class XamlParser:
             'uniqueattrs': uniqueattrs,
             'ignored_attrs': ignored_attrs, })
         new_action = []
-        logging.info(f"all movements contains {len([i for i in res if type(i).__name__ == 'UpdateTextIn'])} steps")
+        logging.info(f"all movements contains {len([i for i in res if isinstance(i, UpdateTextIn)])} steps")
         for i in res:
             if type(i).__name__ == 'MoveNode' and 'comment()' in i.node:
                 try:
@@ -294,7 +303,8 @@ class XamlParser:
                 except Exception as _:
                     logging.warning(f"{type(_)}: {_}")
                     new_action.append(i)
-            elif type(i).__name__ == 'UpdateTextIn':
+            
+            elif isinstance(i, UpdateTextIn):
                 if 'comment()' in i.node:
                     continue
                 str_node = next(compare_parser.xpath(i.node))
@@ -305,8 +315,8 @@ class XamlParser:
                     text = str_node.text
                 self.counter(messages=f"translate {str_node.text[0:20]}")
                 new_action.append(UpdateTextIn(i.node, text))
-            elif type(i).__name__ == 'InsertComment':
-
+            
+            elif isinstance(i, InsertComment):
                 str_node = next(compare_parser.xpath(i.target))[i.position]
                 if str_node.tag == etree.Comment:
                     node_position = "{}/comment()[{}]".format(i.target,
@@ -336,13 +346,10 @@ class XamlParser:
         else:
             target_tree = self.cp_tree
         compare_new_tree = compare_new_parser.merged_root_tree
-        assert compare_old_parser.nsmap == compare_new_parser.nsmap, \
-            f"old {compare_old_parser.language}和 new {compare_new_parser.language}命名空间不一致"
-        assert compare_old_parser.x_key_ns == compare_new_parser.x_key_ns, \
-            f"old {compare_old_parser.language}和 new {compare_new_parser.language}x:Key命名空间不一致"
-        assert compare_old_parser.x_uid_ns == compare_new_parser.x_uid_ns, \
-            f"old {compare_old_parser.language}和 new {compare_new_parser.language}x:Uid命名空间不一致"
-
+        namespace_ununit_string = "old %s和 new %s{}命名空间不一致" % (compare_old_parser.language, compare_new_parser.language)
+        for prop, err in {'nsmap': '', 'x_key_ns': 'x:Key', 'x_uid_ns': 'x:Uid'}:
+            assert getattr(compare_old_parser, prop) == getattr(compare_new_parser, prop), namespace_ununit_string.format(err)
+        
         chat = None if skip_translate else ChatTranslator(language=self.language,
                                                           base_language=compare_new_parser.language)
         self.counter(start=True,
@@ -357,9 +364,9 @@ class XamlParser:
             'ignored_attrs': ignored_attrs
         })
         new_actions = []
-        logging.info(f"all movements contains {len([i for i in res if type(i).__name__ == 'UpdateTextIn'])} steps")
+        logging.info(f"all movements contains {len([i for i in res if isinstance(i, UpdateTextIn)])} steps")
         for i in res:
-            if type(i).__name__ == 'UpdateTextIn':
+            if isinstance(i, UpdateTextIn):
                 if i.node.endswith('comment()[1]') and i.text[0] == '$':
                     continue
                 elif 's:String' in i.node:
@@ -367,39 +374,17 @@ class XamlParser:
                     text = i.text if text is None else text
                     self.counter(messages=f"translate {i.text[0:20]}")
                     new_actions.append(UpdateTextIn(i.node, text))
-                else:
-                    new_actions.append(i)
-            else:
-                new_actions.append(i)
+                    continue
+            new_actions.append(i)
 
         final_tree = main.patch_tree(new_actions, target_tree)
         compare_new_parser.write_xaml()
         self.write_xaml(final_tree)
         return final_tree
-
-    @property
-    def encoding(self):
-        return self.__encoding
-
-    @property
-    def cp_tree(self):
-        return self.__cp_root
-
-    @property
-    def tree(self):
-        return self.__root
-
+    
     @property
     def nsmap(self):
         return deepcopy(self.__nsmap)
-
-    @property
-    def x_uid_ns(self):
-        return self.__x_uid_ns
-
-    @property
-    def x_key_ns(self):
-        return self.__x_key_ns
 
     @property
     def merged_root_tree(self):
@@ -409,10 +394,6 @@ class XamlParser:
         else:
             root = deepcopy(self.__root)
         return root
-
-    @property
-    def language(self):
-        return self.__language
 
     @property
     def tostring(self):
