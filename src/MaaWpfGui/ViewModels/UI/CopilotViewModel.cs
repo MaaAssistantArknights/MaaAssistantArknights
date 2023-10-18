@@ -245,6 +245,19 @@ namespace MaaWpfGui.ViewModels.UI
 
         private const string TempCopilotFile = "cache/_temp_copilot.json";
         private string _taskType = "General";
+        private const string StageNameRegex = @"([a-z]{0,3})(\d{0,2})-(EX-)?(\d{1,2})";
+
+        // 为自动战斗列表匹配名字
+        private static string FindStageName(params string[] name)
+        {
+            if (name.Length == 0)
+            {
+                return string.Empty;
+            }
+
+            var regex = new Regex(StageNameRegex, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            return name.Select(str => regex.Match(str)).FirstOrDefault(result => result.Success)?.Value ?? string.Empty;
+        }
 
         private void ParseJsonAndShowInfo(string jsonStr)
         {
@@ -270,26 +283,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     title = titleValue.ToString();
 
-                    do
-                    {
-                        // 为自动作战列表匹配名字
-                        var stageNameParser = new Regex(@"([a-z]{0,3})(\d{0,2})-(EX-)?(\d{1,2})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-                        var stageNameResult = stageNameParser.Matches(title);
-                        if (stageNameResult.Count > 0)
-                        {
-                            CopilotTaskName = stageNameResult[0].Value;
-                            break;
-                        }
-
-                        if (!IsDataFromWeb && (stageNameResult = stageNameParser.Matches(_filename)).Count > 0)
-                        {
-                            CopilotTaskName = stageNameResult[0].Value;
-                            break;
-                        }
-
-                        CopilotTaskName = string.Empty;
-                    }
-                    while (false);
+                    CopilotTaskName = FindStageName(title, _filename);
                 }
 
                 if (title.Length != 0)
