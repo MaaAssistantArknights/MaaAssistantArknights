@@ -138,6 +138,10 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::use_board(const std::string& u
         if (search_and_click_board(up_board)) {
             search_and_click_board(down_board);
             // 点击节点位置,todo:根据坐标换算位置
+            if (m_stage == "Boss") {
+                // 滑到最右边，可能这里的逻辑需要扩充为找不到点就往右划，暂时先这么糊着，出现这种情况再写
+                ProcessTask(*this, { "SwipeToTheLeft" }).run();
+            }
             ProcessTask(*this, { m_roguelike_theme + "@Roguelike@CiphertextBoardUseOnStage" }).run();
             if (ProcessTask(*this, { m_roguelike_theme + "@Roguelike@CiphertextBoardUseConfirm" }).run()) {
                 return true;
