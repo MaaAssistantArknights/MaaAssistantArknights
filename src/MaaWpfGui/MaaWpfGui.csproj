@@ -3,11 +3,11 @@
     <TargetFramework>net8.0-windows</TargetFramework>
     <Platforms>x64;ARM64</Platforms>
     <RuntimeIdentifier Condition="$(Platform)=='x64'">win-x64</RuntimeIdentifier>
-    <RuntimeIdentifier Condition="$(Platform)=='ARM64'">win-ARM64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="$(Platform)=='ARM64'">win-arm64</RuntimeIdentifier>
     <Configurations>Release;RelWithDebInfo;Debug</Configurations>
     <OutputType>WinExe</OutputType>
     <StartupObject>MaaWpfGui.App</StartupObject>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>12.0</LangVersion>
     <OutputPath>..\..\$(Platform)\$(Configuration)\</OutputPath>
   </PropertyGroup>
 
