@@ -81,14 +81,9 @@ def individual_commits(commits: dict, indent: str = "") -> (str, list):
 def update_commits(commit_message, sorted_commits, update_dict):
     oper = 'other'
     for key, trans in translations.items():
-        if key in commit_message:
+        if key in commit_message or commit_message.startswith(trans):
             oper = trans
             break
-    else:
-        for key in set(translations.values()):
-            if commit_message.startswith(key):
-                oper = key
-                break
     sorted_commits[oper].update(update_dict)
 
 def update_message(sorted_commits, ret_message, ret_contributor):
