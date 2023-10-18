@@ -167,10 +167,9 @@ def cli_ui(test=None):
     parser_update.add_argument("-l", "--language", help="指定语言，可选参数：en-us, zh-tw, ja-jp, ko-kr")
     if test:
         args = parser.parse_args(test)
-        args.func(args)
     else:
         args = parser.parse_args()
-        args.func(args)
+    args.func(args)
 
 
 def main():
