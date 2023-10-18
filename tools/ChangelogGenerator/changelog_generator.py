@@ -85,7 +85,7 @@ def update_commits(commit_message, sorted_commits, update_dict):
             oper = trans
             break
     sorted_commits[oper].update(update_dict)
-            
+
 def update_message(sorted_commits, ret_message, ret_contributor):
     for key, trans in translations_resort.items():
         if sorted_commits[trans]:
