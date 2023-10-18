@@ -89,28 +89,50 @@ namespace asst
             bool commit() { return m_input_func(commit_cmd()); }
             bool down(int x, int y, int wait_ms = DefaultClickDelay, bool with_commit = true, int contact = 0)
             {
-                return m_input_func(down_cmd(x, y, wait_ms, with_commit, contact));
+                if (m_input_func(down_cmd(x, y, 0, with_commit, contact))) {
+                    sleep(wait_ms);
+                    return true;
+                }
+                return false;
             }
             bool move(int x, int y, int wait_ms = DefaultSwipeDelay, bool with_commit = true, int contact = 0)
             {
-                return m_input_func(move_cmd(x, y, wait_ms, with_commit, contact));
+                if (m_input_func(move_cmd(x, y, 0, with_commit, contact))) {
+                    sleep(wait_ms);
+                    return true;
+                }
+                return false;
             }
             bool up(int wait_ms = DefaultClickDelay, bool with_commit = true, int contact = 0)
             {
-                return m_input_func(up_cmd(wait_ms, with_commit, contact));
+                if (m_input_func(up_cmd(0, with_commit, contact))) {
+                    sleep(wait_ms);
+                    return true;
+                }
+                return false;
             }
             bool key_down(int key_code, int wait_ms = DefaultClickDelay, bool with_commit = true)
             {
-                return m_input_func(key_down_cmd(key_code, wait_ms, with_commit));
+                if (m_input_func(key_down_cmd(key_code, 0, with_commit))) {
+                    sleep(wait_ms);
+                    return true;
+                }
+                return false;
             }
             bool key_up(int key_code, int wait_ms = DefaultClickDelay, bool with_commit = true)
             {
-                return m_input_func(key_up_cmd(key_code, wait_ms, with_commit));
+                if (m_input_func(key_up_cmd(key_code, 0, with_commit))) {
+                    sleep(wait_ms);
+                    return true;
+                }
+                return false;
+            }
+            void sleep(int ms)
+            {
+                using namespace std::chrono_literals;
+                std::this_thread::sleep_for(ms * 1ms);
             }
             bool wait(int ms) { return m_input_func(wait_cmd(ms)); }
-            void clear() noexcept { m_wait_ms_count = 0; }
-
-            void extra_sleep() { sleep(); }
 
         private:
             [[nodiscard]] std::string reset_cmd() const noexcept { return "r\n"; }
@@ -184,7 +206,6 @@ namespace asst
 
             [[nodiscard]] std::string wait_cmd(int ms)
             {
-                m_wait_ms_count += ms;
                 char buff[16] = { 0 };
                 sprintf(buff, "w %d\n", ms);
                 return buff;
@@ -192,12 +213,6 @@ namespace asst
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
-            void sleep()
-            {
-                using namespace std::chrono_literals;
-                std::this_thread::sleep_for(m_wait_ms_count * 1ms);
-                m_wait_ms_count = 0;
-            }
 
         private:
             Point scale(int x, int y) const noexcept
@@ -229,7 +244,6 @@ namespace asst
 
             const std::function<bool(const std::string&)> m_input_func = nullptr;
             const MinitouchProps& m_props;
-            int m_wait_ms_count = ExtraDelay;
         };
     };
 } // namespace asst
