@@ -3432,11 +3432,11 @@
                 "鸭爵主演"
             ],
             [
-                "Duck Lord's Party",
+                "Duck Lord.*s Party",
                 "鸭爵的宴会"
             ],
             [
-                "Duck Lord's Improv",
+                "Duck Lord.*s Improv",
                 "即兴鸭子演出"
             ],
             [
@@ -3484,7 +3484,7 @@
                 "追随者集会"
             ],
             [
-                "Don't disturb them",
+                "Don.*t disturb them",
                 "别打扰他们"
             ],
             [
@@ -3624,7 +3624,7 @@
                 "是非黑白"
             ],
             [
-                "Ocean's Legacy",
+                "Ocean.*s Legacy",
                 "大海的遗产"
             ],
             [
@@ -3632,7 +3632,7 @@
                 "诸王不再"
             ],
             [
-                "Medic's Will",
+                "Medic.*s Will",
                 "医者之志"
             ],
             [
@@ -3652,7 +3652,7 @@
                 "宝箱之舞"
             ],
             [
-                "Puppy Dog-Eyes",
+                "Puppy.*Dog Eyes",
                 "狗眼婆娑"
             ],
             [
@@ -3724,7 +3724,7 @@
                 "瞥视"
             ],
             [
-                "Tulip's Commission",
+                "Tulip.*s Commission",
                 "郁金香的委托"
             ]
         ]
@@ -5111,6 +5111,10 @@
                 "锈蚀的铁锤"
             ],
             [
+                "Four-Leaf Clover Foss.*",
+                "Four-Leaf Clover Fossil"
+            ],
+            [
                 "Four-Leaf Clover Fossil",
                 "四叶草化石"
             ],
@@ -5511,7 +5515,7 @@
                 "黑色郁金香"
             ],
             [
-                "'Glorious Kazimierz'",
+                ".*Glorious Kazimierz.*",
                 "《光耀卡西米尔》"
             ],
             [
@@ -5745,6 +5749,26 @@
             [
                 "Drifting Cache",
                 "漂流秘匣"
+            ],
+            [
+                "Assault Co-op - Sharp Blade",
+                "突击协议-利刃"
+            ],
+            [
+                "Fortification Co-op - Phalanx",
+                "堡垒协议-方阵"
+            ],
+            [
+                "Ranged Co-op - Remote Strike",
+                "远程协议-遥击"
+            ],
+            [
+                "Sabotage Co-op.*",
+                "Sabotage Co-op - Suppression"
+            ],
+            [
+                "Sabotage Co-op - Suppression",
+                "破坏协议-压制"
             ]
         ]
     },
