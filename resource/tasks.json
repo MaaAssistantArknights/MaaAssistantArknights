@@ -11808,6 +11808,12 @@
             85,
             518
         ],
+        "rectMove": [
+            150,
+            -50,
+            50,
+            5
+        ],
         "specificRect_Doc": "x拿来当文字灰度二值化下限用",
         "specificRect": [
             170,

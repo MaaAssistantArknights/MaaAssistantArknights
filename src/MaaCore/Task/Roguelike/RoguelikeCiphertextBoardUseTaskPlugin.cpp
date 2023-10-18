@@ -89,8 +89,8 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::_run()
         }
         if (m_stage == usage.usage) {
             // 用到没得用为止
-            while (search_enable_pair(usage)) {
-                Log.debug("Use board pairs");
+            while (search_enable_pair(usage) && !need_exit()) {
+                Log.info("Use board pairs");
             }
             break;
         }
@@ -103,28 +103,37 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::search_enable_pair(const auto&
 {
     LogTraceFunction;
 
-    for (auto& pair : usage.pairs) {
+    for (const auto& pair : usage.pairs) {
         // 遍历上板子
-        for (auto& up_board : pair.up_board) {
+        for (const auto& up_board : pair.up_board) {
             // 遍历下板子
-            for (auto& down_board : pair.down_board) {
-                // 两个板子同时存在m_all_boards中
-                auto iter_up = std::find(m_all_boards.begin(), m_all_boards.end(), up_board);
-                auto iter_down = std::find(m_all_boards.begin(), m_all_boards.end(), down_board);
-                if (iter_up != m_all_boards.end() && iter_down != m_all_boards.end()) {
-                    if (use_board(up_board, down_board)) {
-                        // 用完删除上板子和下板子
-                        m_all_boards.erase(iter_up);
-                        iter_down = std::find(m_all_boards.begin(), m_all_boards.end(), down_board);
-                        m_all_boards.erase(iter_down);
-                        status()->set_str(Status::RoguelikeCiphertextBoardOverview, m_all_boards.to_string());
-                    }
-                    return true;
-                }
+            for (const auto& down_board : pair.down_board) {
+                if (board_pair(up_board, down_board)) return true;
             }
         }
     }
 
+    return false;
+}
+
+bool asst::RoguelikeCiphertextBoardUseTaskPlugin::board_pair(const std::string& up_board, const std::string& down_board)
+{
+    LogTraceFunction;
+
+    auto iter_up = std::find(m_all_boards.begin(), m_all_boards.end(), up_board);
+    auto iter_down = std::find(m_all_boards.begin(), m_all_boards.end(), down_board);
+    // 如果两个板子同时存在m_all_boards中
+    if (iter_up != m_all_boards.end() && iter_down != m_all_boards.end()) {
+        if (use_board(up_board, down_board)) {
+            // 用完删除上板子和下板子
+            m_all_boards.erase(iter_up);
+            iter_down = std::find(m_all_boards.begin(), m_all_boards.end(), down_board);
+            m_all_boards.erase(iter_down);
+            status()->set_str(Status::RoguelikeCiphertextBoardOverview, m_all_boards.to_string());
+            Log.debug("Use board pairs");
+        }
+        return true;
+    }
     return false;
 }
 
@@ -158,14 +167,15 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::search_and_click_board(const s
 
     while (!need_exit()) {
         OCRer analyzer(ctrler()->get_image());
-        analyzer.set_task_info(m_roguelike_theme + "@Roguelike@CiphertextBoardUseOcr");
+        std::string task_name = m_roguelike_theme + "@Roguelike@CiphertextBoardUseOcr";
+        analyzer.set_task_info(task_name);
         analyzer.set_required({ board });
         if (!analyzer.analyze()) {
             // 往上滑
             slowly_swipe(true);
         }
         else {
-            ctrler()->click(analyzer.get_result().front().rect.move({ 150, -50, 50, 5 }));
+            ctrler()->click(analyzer.get_result().front().rect.move(Task.get(task_name)->rect_move));
             return true;
         }
     }
