@@ -3316,6 +3316,11 @@
     "StageDrops-DropType-Reward": {
         "templThreshold": 0.7
     },
+    "ScreenshotTaskPlugin-Config-Debug": {
+        "next": [
+            "Roguelike@TraderRandomShopping"
+        ]
+    },
     "Roguelike@ChooseDifficultyConfirm": {
         "text": [
             "Select"
