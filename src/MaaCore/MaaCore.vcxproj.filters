@@ -309,6 +309,9 @@
     <ClInclude Include="Utils\ImageIo.hpp">
       <Filter>Source\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\JsonMisc.hpp">
+      <Filter>Source\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="Utils\Locale.hpp">
       <Filter>Source\Utils</Filter>
     </ClInclude>
@@ -647,6 +650,9 @@
     </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Miscellaneous\ScreenshotTaskPlugin.h">
+      <Filter>Source\Task\Miscellaneous</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1078,6 +1084,9 @@
     </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Miscellaneous\ScreenshotTaskPlugin.cpp">
+      <Filter>Source\Task\Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

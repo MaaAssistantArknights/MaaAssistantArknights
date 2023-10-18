@@ -3285,7 +3285,7 @@
             "StartToWakeUpOCR",
             "StartLoginBServer",
             "StartUpConnectingFlag",
-            "#back",
+            "MainThemes#next",
             "CloseAnnos#next",
             "OfflineConfirm"
         ]
@@ -3456,22 +3456,34 @@
             "NotDownloadVoice"
         ]
     },
-    "CloseAnno": {
+    "MainThemes": {
+        "Doc": "使用本任务时带上 #next",
+        "algorithm": "JustReturn",
+        "next_Doc": "用于标记一个任务链的所有入口，一般是 #back 或者 XXXBegin#next",
+        "next": [
+            "#back"
+        ]
+    },
+    "CloseAnnoBase": {
+        "template": "empty.png",
         "action": "ClickSelf",
         "cache": false,
+        "next": [
+            "MainThemes#next",
+            "CloseAnnos#next"
+        ]
+    },
+    "CloseAnno": {
+        "baseTask": "CloseAnnoBase",
         "roi": [
             1100,
             0,
             180,
             200
-        ],
-        "next": [
-            "#back",
-            "CloseAnnos#next"
         ]
     },
     "CloseAnnoTexas": {
-        "baseTask": "CloseAnno",
+        "baseTask": "CloseAnnoBase",
         "roi": [
             1125,
             24,
@@ -3480,17 +3492,12 @@
         ]
     },
     "NotDownloadVoice": {
-        "action": "ClickSelf",
-        "cache": false,
+        "baseTask": "CloseAnnoBase",
         "roi": [
             369,
             462,
             152,
             62
-        ],
-        "next": [
-            "#back",
-            "CloseAnnos#next"
         ]
     },
     "TodaysSupplies": {
@@ -3513,7 +3520,7 @@
         ],
         "next": [
             "CloseAnnos#next",
-            "#back"
+            "MainThemes#next"
         ]
     },
     "LoadingText": {
@@ -3574,7 +3581,7 @@
             80
         ],
         "next": [
-            "#back",
+            "MainThemes#next",
             "ReturnButtons#next",
             "ReturnConfirm",
             "ReturnButton@LoadingIcon",
@@ -3613,7 +3620,7 @@
         ],
         "next": [
             "ReturnButtons#next",
-            "#back",
+            "MainThemes#next",
             "ReturnConfirm@LoadingIcon",
             "CloseAnnos#next",
             "ReturnConfirm"
@@ -5481,31 +5488,7 @@
             "Infrast@OfflineConfirm"
         ]
     },
-    "Infrast@ReturnButton": {
-        "template": [
-            "Return.png",
-            "Return-White.png"
-        ],
-        "next": [
-            "InfrastBegin#next",
-            "Infrast@(ReturnButton#next)"
-        ]
-    },
-    "Infrast@ReturnConfirm": {
-        "template": "PopupConfirm.png",
-        "next": [
-            "InfrastBegin#next",
-            "Infrast@ReturnConfirm"
-        ]
-    },
-    "Infrast@CloseAnno": {
-        "template": "CloseAnno.png",
-        "next": [
-            "InfrastBegin#next"
-        ]
-    },
-    "Infrast@CloseAnnoTexas": {
-        "template": "CloseAnnoTexas.png",
+    "Infrast@MainThemes": {
         "next": [
             "InfrastBegin#next"
         ]
@@ -8586,6 +8569,20 @@
             20
         ]
     },
+    "ScreenshotTaskPlugin-Config": {
+        "Doc": "本任务是插件 ScreenshotTaskPlugin 的配置",
+        "Doc_2": "需要在任务 Task 开始时截图时，将 Task 加入到此任务的 next 列表。", 
+        "algorithm": "JustReturn",
+        "next": [
+            "Roguelike@StageEncounterOptionUnknown"
+        ]
+    },
+    "ScreenshotTaskPlugin-Config-Debug": {
+        "Doc": "本任务是插件 ScreenshotTaskPlugin 的配置",
+        "Doc_2": "存在 DEBUG 或 DEBUG.txt 时的额外截图", 
+        "algorithm": "JustReturn",
+        "next": []
+    },
     "Roguelike@Abandon": {
         "Doc": "base_task",
         "template": "empty.png",
@@ -9504,17 +9501,13 @@
             60
         ]
     },
-    "Roguelike@ReturnButton": {
-        "template": [
-            "Return.png",
-            "Return-White.png"
-        ],
+    "Roguelike@MainThemes": {
         "next": [
+            "Roguelike",
             "Roguelike@ChooseDifficulty",
             "Roguelike@StartExplore",
             "Roguelike@ExitThenAbandon",
-            "Roguelike@Abandon",
-            "Roguelike@(ReturnButton#next)"
+            "Roguelike@Abandon"
         ]
     },
     "Roguelike@RolesConfirm": {
@@ -13948,20 +13941,16 @@
             "Reclamation@ReturnButton#next"
         ]
     },
-    "Reclamation@ReturnButton": {
-        "template": [
-            "Return.png",
-            "Return-White.png"
-        ],
+    "Reclamation@MainThemes": {
         "next": [
+            "Reclamation",
             "Reclamation@AtHomePageFlag",
             "Reclamation@LevelForceExitConfirm",
             "Reclamation@LevelForceExit",
             "Reclamation@LevelComplete",
             "Reclamation@ExitAlgorithm",
             "Reclamation@SmallReturn",
-            "Reclamation@ReturnInFocus",
-            "Reclamation@(ReturnButton#next)"
+            "Reclamation@ReturnInFocus"
         ]
     },
     "Reclamation@ReturnInFocus": {
