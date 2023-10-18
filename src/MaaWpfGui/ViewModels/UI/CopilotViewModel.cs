@@ -464,13 +464,6 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
-                bool isJsonFile = filename.ToLower().EndsWith(".json") || fileInfo.Length < 4 * 1024 * 1024;
-                if (!isJsonFile)
-                {
-                    _isVideoTask = true;
-                    return;
-                }
-
                 try
                 {
                     using var reader = new StreamReader(File.OpenRead(filename));
