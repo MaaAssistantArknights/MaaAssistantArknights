@@ -15,12 +15,10 @@ logging.basicConfig(level=logging.INFO, format='MODULE:%(module)s - %(asctime)s 
 
 class ChatTranslator:
     def __init__(self, language: str = "english", base_language: str = "chinese"):
-        if os.path.exists('.env'):
-            load_dotenv(dotenv_path='.env')
-        elif os.path.exists('../.env'):
-            load_dotenv(dotenv_path='../.env')
-        elif os.path.exists('../../.env'):
-            load_dotenv(dotenv_path='../../.env')
+        for t in range(3):
+            env_path = t * '../' + '.env'
+            if os.path.exists(env_path):
+                load_dotenv(dotenv_path=env_path)               
         else:
             logging.error("未找到.env文件")
             exit(1)
@@ -79,8 +77,7 @@ class ChatTranslator:
             temperature = self._temperature
         if self._language == "Chinese (Traditional)" and self._base_language == "Chinese (Simplified)":
             # 初始化转换器，s2t表示从简体转繁体
-            cc = OpenCC('s2tw')
-            return cc.convert(sentence)
+            return OpenCC('s2tw').convert(sentence)
         new_sentence = sentence.replace(r'\n', r' \n ').replace('\n', ' \n ')
         new_sentence = new_sentence.replace('&#x0a;', ' &#x0a; ')
         message = [
@@ -94,6 +91,14 @@ class ChatTranslator:
             {"role": "user", "content": new_sentence},
 
         ]
+        
+        def continue_communicate(i_):
+            if i_ < 9:
+                message.append({"role": "assistant", "content": msg})
+                message.append({"role": "user", "content": new_sentence})
+                return True
+            return False
+            
         for i in range(10):
             try:
                 completion = openai.ChatCompletion.create(
@@ -111,51 +116,36 @@ class ChatTranslator:
                 time.sleep(2)
                 continue
             except JSONDecodeError as _:
-                if i < 9:
-                    message.append({"role": "assistant", "content": msg})
-                    message.append({"role": "user", "content": new_sentence})
-                    continue
+                if continue_communicate(i): continue
                 pt = re.compile(r"{[^{].*?:.*?,.*?:[^}]*}")
                 if pt.search(msg):
                     msg = pt.search(msg).group()
                     try:
                         msg_json = json.loads(msg)
                     except Exception as _:
-                        logging.error(f"{type(_).__name__}: {_} msg:{msg}")
-                        return None
-                else:
-                    logging.error(f"{type(_).__name__}: {_} msg:{msg}")
-                    return None
+                        pass
+                logging.error(f"{type(_).__name__}: {_} msg:{msg}")
+                
             except AuthenticationError as _:
                 logging.error(f"{type(_).__name__}: {_} msg:{msg},maybe key not set correctly")
-                return None
+                
             except Exception as _:
-                if i < 9:
-                    message.append({"role": "assistant", "content": msg})
-                    message.append({"role": "user", "content": new_sentence})
-                    continue
+                if continue_communicate(i): continue
                 logging.error(f"{type(_).__name__}: {_} msg:{msg}")
-                return None
-            match msg_json['message']:
-                case 200:
+            
+            else:
+                msg_resp = msg_json['message']
+                if msg_resp == 200:
                     # logging.info(f"translate success")
                     content = msg_json['content']
                     # .replace(r'$\\n$', '\\n').replace(r'$\n$', '\\n').replace('$\n$', '\\n')
                     return content
-                case 404:
-                    if i < 9:
-                        message.append({"role": "assistant", "content": msg})
-                        message.append({"role": "user", "content": new_sentence})
-                        continue
-                    logging.error(f"translate error:{new_sentence}| {msg_json['content']}")
-                    return None
-                case _:
-                    if i < 9:
-                        message.append({"role": "assistant", "content": msg})
-                        message.append({"role": "user", "content": new_sentence})
-                        continue
-                    logging.error(f"translate error: {msg_json}")
-                    return None
+                if continue_communicate(i): continue
+                match msg_resp:
+                    case 404:
+                        logging.error(f"translate error:{new_sentence}| {msg_json['content']}")
+                    case _:
+                        logging.error(f"translate error: {msg_json}")
 
     def set_language(self, target_language, base_language):
         self._language = target_language if target_language is not None else self._language
