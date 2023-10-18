@@ -8003,6 +8003,16 @@
             255
         ]
     },
+    "BattleAvatarReMatch": {
+        "template": "empty.png",
+        "templThreshold": 0.8,
+        "roi": [
+            0,
+            580,
+            1280,
+            140
+        ]
+    },
     "BattleOperClickRange": {
         "template": "empty.png",
         "rectMove": [
@@ -8570,6 +8580,8 @@
     },
     "InfrastOperListSlowlySwipeToTheRight": {
         "baseTask": "SlowlySwipeToTheRight",
+        "postDelay_Doc": "滑动到右边列表末尾后会有一个反弹动画，这个动画持续约 300ms，设定延时需要比这个数字长",
+        "postDelay": 300,
         "specificRect": [
             1000,
             350,
@@ -8627,6 +8639,20 @@
             20,
             20
         ]
+    },
+    "ScreenshotTaskPlugin-Config": {
+        "Doc": "本任务是插件 ScreenshotTaskPlugin 的配置",
+        "Doc_2": "需要在任务 Task 开始时截图时，将 Task 加入到此任务的 next 列表。", 
+        "algorithm": "JustReturn",
+        "next": [
+            "Roguelike@StageEncounterOptionUnknown"
+        ]
+    },
+    "ScreenshotTaskPlugin-Config-Debug": {
+        "Doc": "本任务是插件 ScreenshotTaskPlugin 的配置",
+        "Doc_2": "存在 DEBUG 或 DEBUG.txt 时的额外截图", 
+        "algorithm": "JustReturn",
+        "next": []
     },
     "Roguelike@Abandon": {
         "Doc": "base_task",

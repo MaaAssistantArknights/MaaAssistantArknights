@@ -2808,7 +2808,7 @@
                 "悦耳杀机"
             ],
             [
-                "A Cold Seperation",
+                "A Cold Separation",
                 "寒渊惜别"
             ],
             [
@@ -3315,6 +3315,11 @@
     },
     "StageDrops-DropType-Reward": {
         "templThreshold": 0.7
+    },
+    "ScreenshotTaskPlugin-Config-Debug": {
+        "next": [
+            "Roguelike@TraderRandomShopping"
+        ]
     },
     "Roguelike@ChooseDifficultyConfirm": {
         "text": [
@@ -3841,6 +3846,7 @@
         "templThreshold": 0.7
     },
     "Mizuki@Roguelike@GetDropSelectRecruit": {
+        "template": "Mizuki@Roguelike@GetDropSelectRecruit.png",
         "templThreshold": 0.75
     },
     "Mizuki@Roguelike@StrategyChange_mode0": {
