@@ -767,6 +767,15 @@ namespace MaaWpfGui.ViewModels.UI
         {
             CopilotItemViewModels.Clear();
             SaveCopilotTask();
+
+            try
+            {
+                Directory.Delete(CopilotJsonDir, true);
+            }
+            catch
+            {
+                // ignored
+            }
         }
 
         public void EnterCopilotTask()
