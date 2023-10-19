@@ -8676,6 +8676,7 @@
             "Roguelike@ExitThenAbandon",
             "Roguelike@Abandon",
             "Roguelike@TodoEnter",
+            "Roguelike@Continue",
             "Roguelike@ReturnButtons#next",
             "Roguelike@ReturnConfirm",
             "Roguelike@StartUpThemes#next"
@@ -8791,6 +8792,7 @@
             "Roguelike@Stages#next",
             "Roguelike@GamePass",
             "Roguelike@TodoEnter",
+            "Roguelike@Continue",
             "Roguelike@ReturnButtons#next",
             "Roguelike@ReturnConfirm",
             "Roguelike@StartUpThemes#next",
@@ -8823,6 +8825,23 @@
             400,
             140,
             139
+        ]
+    },
+    "Roguelike@Continue": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            1032,
+            487,
+            248,
+            215
+        ],
+        "postDelay": 500,
+        "next": [
+            "Roguelike@MissionFailedFlag2",
+            "Roguelike@ExitThenAbandon"
         ]
     },
     "Roguelike@DialogSkip": {
@@ -10526,6 +10545,7 @@
         ]
     },
     "Phantom@Roguelike@CloseEvent": {},
+    "Phantom@Roguelike@Continue": {},
     "Phantom@Roguelike@DialogSkipConfirm": {
         "template": "Roguelike@DialogSkipConfirm.png",
         "next": [
@@ -10990,6 +11010,7 @@
             "Mizuki@Roguelike@Stages#next"
         ]
     },
+    "Mizuki@Roguelike@Continue": {},
     "Mizuki@Roguelike@DataTraceback": {
         "action": "DoNothing",
         "cache": false,
@@ -11623,6 +11644,42 @@
         ]
     },
     "Sami@Roguelike@CloseEvent": {},
+    "Sami@Roguelike@Continue": {
+        "roi": [
+            967,
+            536,
+            313,
+            177
+        ],
+        "next": [
+            "Sami@Roguelike@MissionFailedFlag2",
+            "Sami@Roguelike@ExitThenAbandon",
+            "Sami@Roguelike@ContinueClick"
+        ]
+    },
+    "Sami@Roguelike@ContinueClick": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "初霜湖泽",
+            "密静林地",
+            "昧明冻土",
+            "积冰岩骸",
+            "无瑕花园",
+            "远见之构",
+            "深埋迷境"
+        ],
+        "roi": [
+            522,
+            431,
+            245,
+            144
+        ],
+        "next": [
+            "Sami@Roguelike@Continue"
+        ]
+    },
     "Sami@Roguelike@DialogSkipConfirm": {
         "template": "Roguelike@DialogSkipConfirm.png",
         "next": [
