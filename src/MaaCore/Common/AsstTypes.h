@@ -27,8 +27,9 @@ namespace asst
     enum class StaticOptionKey
     {
         Invalid = 0,
-        CpuOCR = 1,             // use CPU to OCR, no value. It does not support switching after the resource is loaded.
-        GpuOCR = 2,             // use GPU to OCR, value is gpu_id int to string. It does not support switching after the resource is loaded.
+        CpuOCR = 1, // use CPU to OCR, no value. It does not support switching after the resource is loaded.
+        GpuOCR = 2, // use GPU to OCR, value is gpu_id int to string. It does not support switching after the resource
+                    // is loaded.
     };
 
     enum class InstanceOptionKey
