@@ -4557,14 +4557,14 @@
             "訪十次"
         ]
     },
-	"FC-Open": {
-		"algorithm": "MatchTemplate",
-		"template": "FC-Open.png",
+    "FC-Open": {
+        "algorithm": "MatchTemplate",
+        "template": "FC-Open.png",
         "next": [
             "FCChapterToFC"
         ],
         "postDelay": 2000,
-		"roi": [
+        "roi": [
             592,
             56,
             316,
