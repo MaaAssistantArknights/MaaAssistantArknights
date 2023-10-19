@@ -9579,7 +9579,6 @@
             "Roguelike",
             "Roguelike@ChooseDifficulty",
             "Roguelike@StartExplore",
-            "Roguelike@ExitThenAbandon",
             "Roguelike@Abandon"
         ]
     },
