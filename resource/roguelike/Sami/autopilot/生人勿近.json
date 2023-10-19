@@ -83,10 +83,30 @@
         {
             "groups": [
                 "提丰",
+                "狙击"
+            ],
+            "location": [
+                3,
+                3
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
+                "水陈",
+                "盾法"
+            ],
+            "location": [
+                5,
+                3
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
                 "高台输出",
-                "狙击",
-                "盾法",
                 "辅助",
+                "奶",
                 "其他高台"
             ],
             "location": [
@@ -148,7 +168,6 @@
             "groups": [
                 "处决者",
                 "情报官"
-
             ],
             "location": [
                 2,
