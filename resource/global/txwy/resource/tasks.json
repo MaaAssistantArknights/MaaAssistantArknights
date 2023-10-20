@@ -4559,6 +4559,7 @@
     },
     "FC-Open": {
         "baseTask": "#none",
+        "action": "ClickSelf",
         "postDelay": 2000,
         "roi": [
             592,
