@@ -4322,65 +4322,6 @@
         "postDelay": 355000,
         "postDelay_Doc": "大于多少毫秒才碎石，否则等待，单位毫秒"
     },
-    "ExpiringMedicineCheck": {
-        "action": "DoNothing",
-        "algorithm": "OcrDetect",
-        "text": [
-            "分钟",
-            "小时",
-            "1天"
-        ],
-        "ocrReplace": [
-            [
-                ".+小时",
-                "小时"
-            ],
-            [
-                ".+分钟",
-                "分钟"
-            ],
-            [
-                "^\\d+小$",
-                "小时"
-            ],
-            [
-                "^\\d+分$",
-                "分钟"
-            ]
-        ],
-        "roi": [
-            675,
-            345,
-            125,
-            30
-        ],
-        "fullMatch": true,
-        "next": [
-            "ExpiringMedicineConfirm"
-        ]
-    },
-    "ExpiringMedicineConfirm": {
-        "action": "ClickSelf",
-        "template": "MedicineConfirm.png",
-        "roi": [
-            1000,
-            500,
-            200,
-            150
-        ],
-        "reduceOtherTimes": [
-            "StartButton1"
-        ],
-        "maxTimes": 0,
-        "exceededNext": [
-            "CloseStonePage"
-        ],
-        "next": [
-            "StartButton1",
-            "OfflineConfirm",
-            "ExpiringMedicineConfirm@LoadingText"
-        ]
-    },
     "UseStone": {
         "action": "DoNothing",
         "roi": [
