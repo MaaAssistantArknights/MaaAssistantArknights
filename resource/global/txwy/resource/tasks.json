@@ -4556,5 +4556,20 @@
             "尋訪十次",
             "訪十次"
         ]
+    },
+    "FC-Open": {
+        "baseTask": "#none",
+        "postDelay": 2000,
+        "roi": [
+            592,
+            56,
+            316,
+            265
+        ]
+    },
+    "FCChapterToFC": {
+        "text": [
+            "荒煙林沼"
+        ]
     }
 }
