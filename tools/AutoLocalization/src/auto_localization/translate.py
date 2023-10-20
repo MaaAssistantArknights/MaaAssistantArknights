@@ -3,9 +3,9 @@ import logging
 import os
 import re
 import time
-from json import JSONDecodeError
-
 import openai
+
+from json import JSONDecodeError
 from dotenv import load_dotenv
 from openai.error import RateLimitError, AuthenticationError
 from opencc import OpenCC
@@ -15,13 +15,18 @@ logging.basicConfig(level=logging.INFO, format='MODULE:%(module)s - %(asctime)s 
 
 class ChatTranslator:
     def __init__(self, language: str = "english", base_language: str = "chinese"):
+        self.base_language = base_language
+        self.language = language
+
         for t in range(3):
             env_path = t * '../' + '.env'
             if os.path.exists(env_path):
-                load_dotenv(dotenv_path=env_path)               
+                load_dotenv(dotenv_path=env_path)
+                break
         else:
             logging.error("未找到.env文件")
             exit(1)
+
         self._api_key = os.environ.get('OPENAI_API_KEY')
         assert self._api_key, "OPENAI_API_KEY is not set"
         openai.api_key = self._api_key
@@ -66,18 +71,18 @@ class ChatTranslator:
     def translate(self, sentence: str = None, target_language: str = None, base_language: str = None, model=None,
                   temperature: float = None):
         # TODO 添加对话长度限制 添加代理
-        msg = ""
-        if sentence is None:
-            sentence = self._test_sentence
-        if target_language is not None or base_language is not None:
+
+        if None not in (target_language, base_language):
             self.set_language(target_language, base_language)
-        if model is None:
-            model = self._model
-        if temperature is None:
-            temperature = self._temperature
+
         if self._language == "Chinese (Traditional)" and self._base_language == "Chinese (Simplified)":
-            # 初始化转换器，s2t表示从简体转繁体
-            return OpenCC('s2tw').convert(sentence)
+            return OpenCC('s2tw').convert(sentence)  # 初始化转换器，s2t表示从简体转繁体
+
+        if sentence is None: sentence = self._test_sentence
+        if model is None: model = self._model
+        if temperature is None: temperature = self._temperature
+
+        msg = ""
         new_sentence = sentence.replace(r'\n', r' \n ').replace('\n', ' \n ')
         new_sentence = new_sentence.replace('&#x0a;', ' &#x0a; ')
         message = [
@@ -91,14 +96,18 @@ class ChatTranslator:
             {"role": "user", "content": new_sentence},
 
         ]
-        
-        def continue_communicate(i_):
+
+        def append_new_msg(i_: int, msg_) -> bool:
             if i_ < 9:
-                message.append({"role": "assistant", "content": msg})
+                message.append({"role": "assistant", "content": msg_})
                 message.append({"role": "user", "content": new_sentence})
                 return True
             return False
-            
+
+        def log_err(e_=None, info: str = '', append_switch: bool = True) -> None:  # return it runResult equal to return None
+            if append_switch: info = f"{type(e_).__name__}: {e_} msg:{msg}" + info
+            logging.error(info)
+
         for i in range(10):
             try:
                 completion = openai.ChatCompletion.create(
@@ -107,49 +116,50 @@ class ChatTranslator:
                     messages=message
                 )
                 msg = completion['choices'][0]['message']['content'].strip()
-                msg = '{' + msg[2:] if msg.startswith("{{") else msg
-                msg = msg[:-2] + '}' if msg.endswith("}}") else msg
+
+                msg = msg[1:] if msg.startswith("{{") else msg
+                msg = msg[:-1] if msg.endswith("}}") else msg
                 msg = msg.replace('\n', '\\n') if '\n' in msg else msg
+
                 msg_json = json.loads(msg)
                 time.sleep(0.1)
-            except RateLimitError as _:
+
+            except RateLimitError:
                 time.sleep(2)
                 continue
-            except JSONDecodeError as _:
-                if continue_communicate(i): continue
-                pt = re.compile(r"{[^{].*?:.*?,.*?:[^}]*}")
-                if pt.search(msg):
-                    msg = pt.search(msg).group()
+
+            except JSONDecodeError as e:
+                if append_new_msg(i, msg): continue
+                search_msg = re.search(r"{[^{].*?:.*?,.*?:[^}]*}", msg)
+                if search_msg is not None:
+                    msg = search_msg.group()
                     try:
                         msg_json = json.loads(msg)
-                    except Exception as _:
-                        pass
-                logging.error(f"{type(_).__name__}: {_} msg:{msg}")
-                
-            except AuthenticationError as _:
-                logging.error(f"{type(_).__name__}: {_} msg:{msg},maybe key not set correctly")
-                
-            except Exception as _:
-                if continue_communicate(i): continue
-                logging.error(f"{type(_).__name__}: {_} msg:{msg}")
-            
-            else:
-                msg_resp = msg_json['message']
-                if msg_resp == 200:
-                    # logging.info(f"translate success")
-                    content = msg_json['content']
-                    # .replace(r'$\\n$', '\\n').replace(r'$\n$', '\\n').replace('$\n$', '\\n')
-                    return content
-                if continue_communicate(i): continue
-                match msg_resp:
-                    case 404:
-                        logging.error(f"translate error:{new_sentence}| {msg_json['content']}")
-                    case _:
-                        logging.error(f"translate error: {msg_json}")
+                    except Exception as e:
+                        return log_err(e)
+                else:
+                    return log_err(e)
 
-    def set_language(self, target_language, base_language):
-        self._language = target_language if target_language is not None else self._language
-        self._base_language = base_language if base_language is not None else self._base_language
+            except AuthenticationError as e:
+                return log_err(e, info=',maybe key not set correctly')
+
+            except Exception as e:
+                if append_new_msg(i, msg): continue
+                return log_err(e)
+
+            if msg_json['message'] == 200:  # case 200
+                return msg_json['content']
+            if append_new_msg(i, msg): continue
+            match msg_json['message']:
+                case 404:
+                    log_err(info=f"translate error:{new_sentence}| {msg_json['content']}", append_switch=False)
+
+                case _:
+                    log_err(info=f"translate error: {msg_json}", append_switch=False)
+
+    def set_language(self, target_language=None, base_language=None):
+        if target_language is not None: self._language = target_language
+        if base_language is not None: self._base_language = base_language
         self._instruction = self.generate_instruction(self, self._language, self._base_language)
 
     def add_rules(self, rules: str):
@@ -157,7 +167,8 @@ class ChatTranslator:
                 - """ + rules.strip()
         self._instruction = self.generate_instruction(self, self._language, self._base_language)
 
-# if __name__ == '__main__':
-#     a = ChatTranslator()
-#     a.translate()
-#     print()
+
+if __name__ == '__main__':
+    a = ChatTranslator()
+    a.translate()
+    print()
