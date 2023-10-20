@@ -134,6 +134,22 @@
             "復刻"
         ]
     },
+    "FC-Open": {
+        "baseTask": "#none",
+        "action": "ClickSelf",
+        "postDelay": 2000,
+        "roi": [
+            592,
+            56,
+            316,
+            265
+        ]
+    },
+    "FCChapterToFC": {
+        "text": [
+            "荒煙林沼"
+        ]
+    },
     "IS-Open": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
@@ -4555,22 +4571,6 @@
         "text": [
             "尋訪十次",
             "訪十次"
-        ]
-    },
-    "FC-Open": {
-        "baseTask": "#none",
-        "action": "ClickSelf",
-        "postDelay": 2000,
-        "roi": [
-            592,
-            56,
-            316,
-            265
-        ]
-    },
-    "FCChapterToFC": {
-        "text": [
-            "荒煙林沼"
         ]
     }
 }
