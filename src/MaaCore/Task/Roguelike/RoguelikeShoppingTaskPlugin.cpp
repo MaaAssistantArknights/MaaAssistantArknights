@@ -124,14 +124,14 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         }
 
         if (!goods.roles.empty()) {
-            bool role_mathced = false;
+            bool role_matched = false;
             for (const auto& role : goods.roles) {
                 if (map_roles_count[role] != 0) {
-                    role_mathced = true;
+                    role_matched = true;
                     break;
                 }
             }
-            if (!role_mathced) {
+            if (!role_matched) {
                 Log.trace("Ready to buy", goods.name, ", but there is no such professional operator, skip");
                 continue;
             }
@@ -143,14 +143,14 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
                 continue;
             }
             if (!goods.roles.empty()) {
-                bool role_mathced = false;
+                bool role_matched = false;
                 for (const auto& role : goods.roles) {
                     if (map_wait_promotion[role] != 0) {
-                        role_mathced = true;
+                        role_matched = true;
                         break;
                     }
                 }
-                if (!role_mathced) {
+                if (!role_matched) {
                     Log.trace("Ready to buy", goods.name, ", but there is no one waiting for promotion, skip");
                     continue;
                 }
