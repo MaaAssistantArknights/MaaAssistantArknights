@@ -10,11 +10,13 @@ from .xaml_load import XamlParser
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logging.debug(os.path.abspath('.env'))
-load_dotenv(dotenv_path='.env')
-if os.path.exists('../.env'):
-    load_dotenv(dotenv_path='../.env')
-if os.path.exists('../../.env'):
-    load_dotenv(dotenv_path='../../.env')
+
+for t in range(3):
+    env_path = t * '../' + '.env'
+    if os.path.exists(env_path):
+        load_dotenv(dotenv_path=env_path)
+        break
+
 root_path = os.getenv("LOCALIZATION_PATH")
 assert root_path, "LOCALIZATION_PATH is not set"
 zh_cn_path = os.path.join(root_path, "zh-cn.xaml")
