@@ -794,10 +794,10 @@ std::vector<asst::Point> asst::RoguelikeBattleTaskPlugin::available_locations(ba
 {
     std::vector<Point> result;
     for (const auto& [loc, tile] : m_normal_tile_info) {
-        bool position_mathced = tile.buildable == type || tile.buildable == battle::LocationType::All;
-        position_mathced |= (type == battle::LocationType::All) && (tile.buildable == battle::LocationType::Melee ||
+        bool position_matched = tile.buildable == type || tile.buildable == battle::LocationType::All;
+        position_matched |= (type == battle::LocationType::All) && (tile.buildable == battle::LocationType::Melee ||
                                                                     tile.buildable == battle::LocationType::Ranged);
-        if (position_mathced &&
+        if (position_matched &&
             tile.key != TilePack::TileKey::DeepSea && // 水上要先放板子才能放人，肉鸽里也没板子，那就当作不可放置
             !m_used_tiles.contains(loc) && !m_blacklist_location.contains(loc)) {
             result.emplace_back(loc);
