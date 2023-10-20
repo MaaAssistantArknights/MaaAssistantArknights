@@ -93,10 +93,18 @@ bool asst::TaskData::lazy_parse(const json::value& json)
 
     for (const auto& [name, task_json] : json.as_object()) {
         std::string_view name_view = task_name_view(name);
-        if (task_json.get("baseTask", "") == "#none") {
-            // 不继承同名任务参数
+        if (task_json.contains("baseTask")) {
+            // 直接声明 baseTask 的任务不继承同名任务参数而是直接覆盖
             m_json_all_tasks_info[name_view] = task_json.as_object();
-            m_json_all_tasks_info[name_view].erase("baseTask");
+            std::string base_task = task_json.get("baseTask", "");
+#ifdef ASST_DEBUG
+            if (base_task.empty()) {
+                Log.error("Task", name, "has empty baseTask");
+            }
+#endif
+            if (base_task == "#none") {
+                m_json_all_tasks_info[name_view].erase("baseTask");
+            }
             continue;
         }
         if (m_json_all_tasks_info.find(name_view) == m_json_all_tasks_info.cend()) {
