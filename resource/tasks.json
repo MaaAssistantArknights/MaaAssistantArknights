@@ -4109,51 +4109,205 @@
             400,
             100
         ],
+        "reduceOtherTimes": [
+            "StartButton1"
+        ],
         "next": [
-            "MedicineConfirm"
+            "StartButton1",
+            "OfflineConfirm",
+            "CloseStonePage"
         ]
     },
     "MedicineConfirm": {
         "action": "ClickSelf",
-        "maxTimes": 0,
         "roi": [
             1000,
             500,
             200,
             150
         ],
-        "reduceOtherTimes": [
-            "StartButton1"
-        ],
-        "exceededNext": [
-            "ExpiringMedicineCheck",
-            "CloseStonePage"
-        ],
         "next": [
-            "StartButton1",
-            "OfflineConfirm",
-            "MedicineConfirmAgain@LoadingText"
+			"#self",
+			"Stop"
         ]
     },
-    "MedicineConfirmAgain": {
-        "Doc": "Refer to Task `StoneConfirmAgain`",
-        "baseTask": "MedicineConfirm",
-        "template": "MedicineConfirm.png",
-        "maxTimes": 2147483647,
-        "reduceOtherTimes": []
-    },
-    "UseStone": {
-        "action": "DoNothing",
-        "roi": [
-            600,
-            130,
-            420,
-            420
-        ],
-        "next": [
-            "StoneConfirm"
+	"MedicineReduceIcon":{
+		"preDelay": 500,
+		"roi": [
+			750,
+			200,
+			500,
+			50
+		],
+		"maskRange": [
+			1,
+			255
+		]
+	},
+	"MedicineUsingCount":{
+		"algorithm": "OcrDetect",
+		"text": [],
+		"isAscii": true,
+		"rectMove": [
+			-90,
+			28,
+			100,
+			60
+		],
+        "ocrReplace": [
+            [
+                "\\|",
+                "/"
+            ],
+            [
+                "o",
+                "0"
+            ],
+            [
+                "O",
+                "0"
+            ],
+            [
+                "I",
+                "1"
+            ],
+            [
+                "l",
+                "1"
+            ]
         ]
-    },
+	},
+	"MedicineInventory":{
+		"algorithm": "OcrDetect",
+		"text": [],
+		"isAscii": true,
+		"rectMove": [
+			-29,
+			87,
+			40,
+			33
+		],
+        "ocrReplace": [
+            [
+                "\\|",
+                "/"
+            ],
+            [
+                "o",
+                "0"
+            ],
+            [
+                "O",
+                "0"
+            ],
+            [
+                "I",
+                "1"
+            ],
+            [
+                "l",
+                "1"
+            ]
+        ]
+	},
+	"MedicineExpiringTime":{
+		"algorithm": "OcrDetect",
+        "text": [
+            "分钟",
+            "小时",
+            "1天"
+        ],
+		"rectMove": [
+			-60,
+			128,
+			75,
+			30
+		],
+        "ocrReplace": [
+            [
+                ".+小时",
+                "小时"
+            ],
+            [
+                ".+分钟",
+                "分钟"
+            ],
+            [
+                "^\\d+小$",
+                "小时"
+            ],
+            [
+                "^\\d+分$",
+                "分钟"
+            ]
+        ]
+	},
+	"UsingMedicine-Target":{
+		"algorithm": "OcrDetect",
+		"roi": [
+			255,
+			390,
+			315,
+			140
+		],
+        "text": [],
+		"isAscii": true,
+        "ocrReplace": [
+            [
+                "\\|",
+                "/"
+            ],
+            [
+                "o",
+                "0"
+            ],
+            [
+                "O",
+                "0"
+            ],
+            [
+                "I",
+                "1"
+            ],
+            [
+                "l",
+                "1"
+            ]
+        ]
+	},
+	"UsingMedicine-SanityMax":{
+		"algorithm": "OcrDetect",
+		"roi": [
+			440,
+			330,
+			150,
+			55
+		],
+        "text": [],
+		"isAscii": true,
+        "ocrReplace": [
+            [
+                "\\|",
+                "/"
+            ],
+            [
+                "o",
+                "0"
+            ],
+            [
+                "O",
+                "0"
+            ],
+            [
+                "I",
+                "1"
+            ],
+            [
+                "l",
+                "1"
+            ]
+        ]
+	},
     "DrGrandetUseOriginiums": {
         "algorithm": "OcrDetect",
         "text": [],
@@ -4225,6 +4379,18 @@
             "StartButton1",
             "OfflineConfirm",
             "ExpiringMedicineConfirm@LoadingText"
+        ]
+    },
+    "UseStone": {
+        "action": "DoNothing",
+        "roi": [
+            600,
+            130,
+            420,
+            420
+        ],
+        "next": [
+            "StoneConfirm"
         ]
     },
     "StoneConfirm": {
