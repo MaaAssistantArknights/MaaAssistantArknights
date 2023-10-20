@@ -2297,7 +2297,7 @@
             "인원"
         ]
     },
-    "ExpiringMedicineCheck": {
+    "MedicineExpiringTime": {
         "text": [
             "1일",
             "시간",

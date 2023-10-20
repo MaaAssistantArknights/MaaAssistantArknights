@@ -816,16 +816,6 @@ namespace MaaWpfGui.Main
                                 Instances.TaskQueueViewModel.AddLog(log.TrimEnd('\n').TrimEnd(' '), UiLogColor.Info);
                                 break;
 
-                            case "MedicineConfirm":
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MedicineUsed") + $" {execTimes} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info);
-                                MedicineUsedTimes++;
-                                break;
-
-                            case "ExpiringMedicineConfirm":
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ExpiringMedicineUsed") + $" {execTimes} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info);
-                                ExpiringMedicineUsedTimes++;
-                                break;
-
                             case "StoneConfirm":
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StoneUsed") + $" {execTimes} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info);
                                 StoneUsedTimes++;
@@ -1265,8 +1255,8 @@ namespace MaaWpfGui.Main
                         break;
                     }
 
-                    var sanityCur = sanityReport.TryGetValue("current_sanity", out var sanityCurToken) ? (int)sanityCurToken : -1;
-                    var sanityMax = sanityReport.TryGetValue("max_sanity", out var sanityMaxToken) ? (int)sanityMaxToken : -1;
+                    int sanityCur = sanityReport.TryGetValue("current_sanity", out var sanityCurToken) ? (int)sanityCurToken : -1;
+                    int sanityMax = sanityReport.TryGetValue("max_sanity", out var sanityMaxToken) ? (int)sanityMaxToken : -1;
                     var reportTime = sanityReport.TryGetValue("report_time", out var reportTimeToken) ? (string)reportTimeToken : string.Empty;
                     if (sanityCur < 0 || sanityMax < 1 || reportTime?.Length < 12)
                     {
@@ -1286,6 +1276,38 @@ namespace MaaWpfGui.Main
                     }
 
                     SanityReport.HasSanityReport = true;
+                    break;
+
+                case "UseMedicine":
+                    var medicineReport = (JObject)subTaskDetails;
+                    if (medicineReport is null || !medicineReport.ContainsKey("is_expiring") || !medicineReport.ContainsKey("count"))
+                    {
+                        // todo addlog
+                        break;
+                    }
+
+                    bool isExpiringMedicine = medicineReport.TryGetValue("is_expiring", out var isExpiringMedicineToken) ? (bool)isExpiringMedicineToken : false;
+                    int medicineCount = medicineReport.TryGetValue("count", out var medicineCountToken) ? (int)medicineCountToken : -1;
+
+                    if (medicineCount == -1)
+                    {
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MedicineUsed") + $" Unknown times", UiLogColor.Error);
+                        break;
+                    }
+
+                    var medicineLog = string.Empty;
+                    if (!isExpiringMedicine)
+                    {
+                        MedicineUsedTimes += medicineCount;
+                        medicineLog = LocalizationHelper.GetString("MedicineUsed") + $" {MedicineUsedTimes}(+{medicineCount})";
+                    }
+                    else
+                    {
+                        ExpiringMedicineUsedTimes += medicineCount;
+                        medicineLog = LocalizationHelper.GetString("ExpiringMedicineUsed") + $" {ExpiringMedicineUsedTimes}(+{medicineCount})";
+                    }
+
+                    Instances.TaskQueueViewModel.AddLog(medicineLog, UiLogColor.Info);
                     break;
 
                 case "StageQueueUnableToAgent":

@@ -14,11 +14,11 @@ namespace asst
 
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
 
-    private:
-        virtual bool _run() override;
-
         // 识别“理智将在x:xx后恢复”，返回 x:xx 对应的 毫秒 数
         // 若识别失败返回 < 0
-        int analyze_time_left();
+        static int analyze_time_left(const cv::Mat& img);
+
+    private:
+        virtual bool _run() override;
     };
 }

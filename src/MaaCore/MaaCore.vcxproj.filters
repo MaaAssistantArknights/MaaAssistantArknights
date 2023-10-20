@@ -657,6 +657,9 @@
     <ClInclude Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Fight\MedicineCounterPlugin.h">
+      <Filter>Source\Task\Fight</Filter>
+    </ClInclude>
     <ClInclude Include="Task\Miscellaneous\ScreenshotTaskPlugin.h">
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClInclude>
@@ -1093,6 +1096,9 @@
     </ClCompile>
     <ClCompile Include="Task\Miscellaneous\ScreenshotTaskPlugin.cpp">
       <Filter>Source\Task\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Fight\MedicineCounterPlugin.cpp">
+      <Filter>Source\Task\Fight</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
