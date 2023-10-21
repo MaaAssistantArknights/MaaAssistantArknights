@@ -2,7 +2,7 @@ import argparse
 import logging
 import os
 from shutil import copy
-
+from pathlib import Path
 from dotenv import load_dotenv
 
 from .git import get_latest_file_content
@@ -11,21 +11,28 @@ from .xaml_load import XamlParser
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logging.debug(os.path.abspath('.env'))
 
-for t in range(3):
-    env_path = t * '../' + '.env'
-    if os.path.exists(env_path):
-        load_dotenv(dotenv_path=env_path)
-        break
-else:
-    env_path = 'tools\AutoLocalization\.env'
-    if os.path.exists(env_path):
-        load_dotenv(dotenv_path=env_path)
-    elif os.path.exists(env_path.replace('tools\\', '')):
-        load_dotenv(dotenv_path=env_path)
-    elif os.path.exists(env_path.replace('AutoLocalization\\', '')):
-        load_dotenv(dotenv_path=env_path)
+solution_dir = Path.cwd()
+for i in range(10):
+    cases = (
+        (solution_dir / "docs").exists(),
+        solution_dir / ".env" in solution_dir.iterdir()
+    )
+    match cases:
+        case(_, True):  # find .env by find itself
+            load_dotenv(dotenv_path=solution_dir / ".env")
+            break
+        case (True, _):  # find .env by finding resource dir
+            env_path = solution_dir / "tools/AutoLocalization/.env"
+            if env_path.exists():
+                load_dotenv(dotenv_path=env_path)
+                break
+        case _:  # if not found go up one level
+            solution_dir = solution_dir.parent
+else: 
+    logging.error("未找到.env文件")
+    exit(1)
 
-root_path = os.getenv("LOCALIZATION_PATH")
+root_path = solution_dir / os.getenv("LOCALIZATION_PATH")
 assert root_path, "LOCALIZATION_PATH is not set"
 zh_cn_path = os.path.join(root_path, "zh-cn.xaml")
 en_us_path = os.path.join(root_path, "en-us.xaml")
