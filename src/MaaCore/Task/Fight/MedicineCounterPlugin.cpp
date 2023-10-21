@@ -40,11 +40,7 @@ bool asst::MedicineCounterPlugin::_run()
         return false;
     }
 
-    if (m_using_count < m_max_count) {
-        if (initialCount->using_count + m_using_count > m_max_count) {
-            reduce_excess(*initialCount);
-        }
-
+    auto refresh_medicine_count = [&]() {
         image = ctrler()->get_image();
         auto count = initial_count(image);
         if (!count || count->using_count + m_using_count > m_max_count) [[unlikely]] {
@@ -52,23 +48,26 @@ bool asst::MedicineCounterPlugin::_run()
             return false;
         }
         initialCount = count;
+        return true;
+    };
+    if (m_using_count < m_max_count && initialCount->using_count + m_using_count > m_max_count) {
+        reduce_excess(*initialCount);
+        if (!refresh_medicine_count()) {
+            return false;
+        }
     }
-    else if (m_use_expiring) {
+    else if (m_using_count >= m_max_count && m_use_expiring) {
         for (auto& [use, inventory, rect, is_expiring] : initialCount->medicines | std::ranges::views::reverse) {
-            while (use > 0 && !is_expiring) {
+            while (use > 0 && is_expiring == ExpiringStatus::Expiring) {
                 ctrler()->click(rect);
                 sleep(Config.get_options().task_delay);
                 use--;
             }
         }
 
-        image = ctrler()->get_image();
-        auto count = initial_count(image);
-        if (!count || count->using_count + m_using_count > m_max_count) [[unlikely]] {
-            Log.error(__FUNCTION__, "use medicine over limit:", count ? count->using_count : -1);
+        if (!refresh_medicine_count()) {
             return false;
         }
-        initialCount = count;
     }
     m_using_count += initialCount->using_count;
 
@@ -89,8 +88,8 @@ bool asst::MedicineCounterPlugin::_run()
     ProcessTask(*this, { "MedicineConfirm" }).run();
 
     auto info = basic_info_with_what("UseMedicine");
-    info["detail"]["is_expiring"] = m_using_count > m_max_count;
-    info["detail"]["count"] = initialCount->using_count;
+    info["details"]["is_expiring"] = m_using_count > m_max_count;
+    info["details"]["count"] = initialCount->using_count;
     callback(AsstMsg::SubTaskExtraInfo, info);
     return true;
 }
@@ -111,9 +110,6 @@ std::optional<asst::MedicineCounterPlugin::InitialMedicineResult> asst::Medicine
         auto using_rect = result.rect.move(Task.get("MedicineUsingCount")->rect_move);
         auto inventory_rect = result.rect.move(Task.get("MedicineInventory")->rect_move);
         auto expiring_rect = result.rect.move(Task.get("MedicineExpiringTime")->rect_move);
-        cv::rectangle(image, make_rect<cv::Rect>(using_rect), cv::Scalar(0, 0, 255), 1);
-        cv::rectangle(image, make_rect<cv::Rect>(inventory_rect), cv::Scalar(0, 0, 255), 1);
-        cv::rectangle(image, make_rect<cv::Rect>(expiring_rect), cv::Scalar(0, 0, 255), 1);
 
         RegionOCRer using_ocr(image);
         using_ocr.set_task_info("MedicineUsingCount");
@@ -133,17 +129,18 @@ std::optional<asst::MedicineCounterPlugin::InitialMedicineResult> asst::Medicine
             return std::nullopt;
         }
 
-        RegionOCRer expiring_ocr(image);
-        expiring_ocr.set_task_info("MedicineExpiringTime");
-        expiring_ocr.set_bin_threshold(100, 255);
-        expiring_ocr.set_roi(expiring_rect);
-        if (!expiring_ocr.analyze()) {
-            Log.error(__FUNCTION__, "medicine expiring time analyze failed");
-            return std::nullopt;
+        auto is_expiring = ExpiringStatus::UnSure;
+        if (m_using_count >= m_max_count) {
+            RegionOCRer expiring_ocr(image);
+            expiring_ocr.set_task_info("MedicineExpiringTime");
+            expiring_ocr.set_roi(expiring_rect);
+            if (expiring_ocr.analyze()) {
+                is_expiring = ExpiringStatus::Expiring;
+            }
+            else {
+                is_expiring = ExpiringStatus::NotExpiring;
+            }
         }
-        bool is_expiring =
-            ranges::any_of(Task.get<OcrTaskInfo>("MedicineExpiringTime")->text,
-                           [&](const std::string_view& sv) { return sv == expiring_ocr.get_result().text; });
 
         int using_count = 0, inventory_count = 0;
         if (!utils::chars_to_number(using_ocr.get_result().text, using_count) ||
