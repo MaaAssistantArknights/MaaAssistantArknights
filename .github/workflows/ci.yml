@@ -213,16 +213,37 @@ jobs:
           $CARGO_CMD build --release --locked --package maa-cli
           cp -v target/$CARGO_BUILD_TARGET/release/maa $GITHUB_WORKSPACE/install/maa
 
-      - name: tar files
+      - name: Build Appimage
         run: |
-          mkdir -p release
-          cd install
-          tar czvf $GITHUB_WORKSPACE/release/MAA-${{ needs.meta.outputs.tag }}-linux-${{ matrix.arch }}.tar.gz .
+          mkdir -pv release
+          mkdir -pv Maa.AppDir/usr/share/maa
+          cp install/* Maa.AppDir/usr/share/maa/
+          wget -c https://raw.githubusercontent.com/MaaAssistantArknights/design/main/logo/maa-logo_512x512.png -O Maa.AppDir/maa.png
+          
+          cat > Maa.AppDir/maa.desktop <<EOF
+          [Desktop Entry]
+          Type=Application
+          Name=MaaAssistantArknights
+          Icon=maa.png
+          Exec=AppRun
+          Categories=Game;StrategyGame;
+          Comment=An Arknights assistant
+          EOF
+
+          cat > Maa.AppDir/AppRun <<EOF
+          #! /usr/bin/env bash -e
+          exec "./usr/share/maa/maa"  "$@"
+          EOF
+          
+          wget "https://github.com/probonopd/AppImageKit/releases/download/continuous/appimagetool-${{ matrix.arch }}.AppImage"
+          chmod a+x appimagetool-${{ matrix.arch }}.AppImage
+          ./appimagetool-${{ matrix.arch }}.AppImage Maa.AppDir
+          mv Maa-${{ matrix.arch }}.AppImage $GITHUB_WORKSPACE/release/MAA-${{ needs.meta.outputs.tag }}-linux-${{ matrix.arch }}.AppImage
 
       - uses: actions/upload-artifact@v3
         with:
           name: MAA-linux-${{ matrix.arch }}
-          path: 'release/*.tar.gz'
+          path: 'release/*.AppImage'
 
   macOS-Core:
     needs: meta
