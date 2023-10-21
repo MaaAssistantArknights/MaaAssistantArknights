@@ -215,10 +215,9 @@ jobs:
 
       - name: Build Appimage
         run: |
-          sudo apt update
           sudo add-apt-repository universe
+          sudo apt update
           sudo apt install libfuse2
-          sudo 
           mkdir -pv release
           mkdir -pv Maa.AppDir/usr/share/maa
           cp -r install/* Maa.AppDir/usr/share/maa/
