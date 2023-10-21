@@ -159,6 +159,7 @@ namespace asst
         void clear_tasks();
         void set_task_base(const std::string_view task_name, std::string base_task_name);
         bool lazy_parse(const json::value& json);
+        virtual bool load(const std::filesystem::path& path) override;
 
         taskptr_t get(std::string_view name);
         template <typename TargetTaskInfoType>

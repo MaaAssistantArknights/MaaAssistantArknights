@@ -10,6 +10,7 @@
 #include "Common/AsstTypes.h"
 #include "GeneralConfig.h"
 #include "TemplResource.h"
+#include "Utils/Demangle.hpp"
 #include "Utils/JsonMisc.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/Ranges.hpp"
@@ -196,6 +197,80 @@ bool asst::TaskData::lazy_parse(const json::value& json)
     return true;
 }
 
+bool asst::TaskData::load(const std::filesystem::path& path)
+{
+    std::string class_name = utils::demangle(typeid(*this).name());
+
+    if (!std::filesystem::exists(path) || !std::filesystem::is_regular_file(path)) {
+        Log.error(class_name, __FUNCTION__, "file does not exist", path);
+        return false;
+    }
+    LogTraceScope(class_name + " :: " + __FUNCTION__);
+    Log.info(path);
+
+    // path作为主task、baseTask进行加载，其余任务加载顺序随机
+    std::string main_file = path.filename().string();
+    std::vector<std::filesystem::path> path_list;
+    for (const auto& file : std::filesystem::directory_iterator(path.parent_path())) {
+        if (!file.exists() || !file.is_regular_file() || file.path().filename().string() == main_file) {
+            continue;
+        }
+        path_list.emplace_back(file.path());
+    }
+
+    auto open_json_file = [&](const std::filesystem::path& path) -> std::optional<json::value> {
+        auto ret = json::open(path, true);
+        if (!ret) {
+            Log.error("Json open failed", path);
+            return std::nullopt;
+        }
+        Log.info("TaskData open file", path);
+        return ret.value();
+    };
+
+    json::value root;
+    auto main_file_opt = open_json_file(path);
+    if (!main_file_opt) {
+        return false;
+    }
+    root = *main_file_opt;
+    for (const auto& file_path : path_list) {
+        auto sub_file_opt = open_json_file(file_path);
+        if (!sub_file_opt) {
+            return false;
+        }
+        std::string module_name = file_path.filename().replace_extension("").string();
+
+        for (auto& [name, task_json] : (*sub_file_opt).as_object()) {
+            if (root.contains(name)) {
+                Log.error("Json key duplicate:", name, ", path:", file_path.string());
+                return false;
+            }
+            if (!task_json.contains("module") && !module_name.empty()) {
+                task_json["module"] = std::string(module_name);
+            }
+            root[name] = task_json;
+        }
+    }
+
+#ifdef ASST_DEBUG
+    // 不捕获异常，可以通过堆栈更直观的看到资源存在的问题
+    return parse(root);
+#else
+    try {
+        return parse(root);
+    }
+    catch (const json::exception& e) {
+        Log.error("Json parse failed", path, e.what());
+        return false;
+    }
+    catch (const std::exception& e) {
+        Log.error("Json parse failed", path, e.what());
+        return false;
+    }
+#endif
+}
+
 bool asst::TaskData::parse(const json::value& json)
 {
     LogTraceFunction;
@@ -352,8 +427,14 @@ asst::TaskData::taskptr_t asst::TaskData::generate_match_task_info(std::string_v
         default_ptr = default_match_task_info_ptr;
     }
     auto match_task_info_ptr = std::make_shared<MatchTaskInfo>();
-    if (!utils::get_value_or(name, task_json, "template", match_task_info_ptr->templ_names,
-                             [&]() { return std::vector { std::string(name) + ".png" }; })) {
+    auto generate_templ_names = [&]() {
+        std::string template_name = std::string(name) + ".png";
+        if (auto opt = task_json.find("module")) {
+            template_name = opt->as_string() + "/" + template_name;
+        }
+        return std::vector { std::move(template_name) };
+    };
+    if (!utils::get_value_or(name, task_json, "template", match_task_info_ptr->templ_names, generate_templ_names)) {
         return nullptr;
     }
 
@@ -923,36 +1004,37 @@ bool asst::TaskData::syntax_check(std::string_view task_name, const json::value&
     static const std::unordered_map<AlgorithmType, std::unordered_set<std::string>> allowed_key_under_algorithm = {
         { AlgorithmType::Invalid,
           {
-              "action",      "algorithm",     "baseTask",   "cache",           "exceededNext",     "fullMatch",
-              "hash",        "isAscii",       "maskRange",  "maxTimes",        "next",             "ocrReplace",
-              "onErrorNext", "postDelay",     "preDelay",   "rectMove",        "reduceOtherTimes", "replaceFull",
-              "roi",         "specialParams", "sub",        "subErrorIgnored", "templThreshold",   "template",
-              "text",        "threshold",     "withoutDet",
+              "action",        "algorithm", "baseTask",        "cache",          "exceededNext",     "fullMatch",
+              "hash",          "isAscii",   "maskRange",       "maxTimes",      "module", "next",             "ocrReplace",
+              "onErrorNext",   "postDelay", "preDelay",        "rectMove",       "reduceOtherTimes", "replaceFull", "roi",
+              "specialParams", "sub",       "subErrorIgnored", "templThreshold", "template",         "text",
+              "threshold",     "withoutDet",
           } },
         { AlgorithmType::MatchTemplate,
           {
               "action",           "algorithm", "baseTask",    "cache",           "exceededNext",   "maskRange",
-              "maxTimes",         "next",      "onErrorNext", "postDelay",       "preDelay",       "rectMove",
+              "maxTimes",        "module", "next",      "onErrorNext", "postDelay",       "preDelay",       "rectMove",
               "reduceOtherTimes", "roi",       "sub",         "subErrorIgnored", "templThreshold", "template",
               "specialParams",
           } },
         { AlgorithmType::OcrDetect,
           {
-              "action",          "algorithm", "baseTask",         "cache",         "exceededNext", "fullMatch",
-              "isAscii",         "maxTimes",  "next",             "ocrReplace",    "onErrorNext",  "postDelay",
-              "preDelay",        "rectMove",  "reduceOtherTimes", "replaceFull",   "roi",          "sub",     
-              "subErrorIgnored", "text",      "withoutDet",       "specialParams",
+              "action",      "algorithm", "baseTask",        "cache",    "exceededNext",
+              "fullMatch",   "isAscii",   "maxTimes",        "module","next",     "ocrReplace",
+              "onErrorNext", "postDelay", "preDelay",        "rectMove", "reduceOtherTimes", "replaceFull",
+              "roi",         "sub",       "subErrorIgnored", "text",     "withoutDet",
+              "specialParams"
           } },
         { AlgorithmType::JustReturn,
           {
-              "action",          "algorithm", "baseTask", "exceededNext",     "maxTimes",      "next",
+              "action",          "algorithm", "baseTask", "exceededNext",     "maxTimes",     "module", "next",
               "onErrorNext",     "postDelay", "preDelay", "reduceOtherTimes", "specialParams", "sub",
               "subErrorIgnored",
           } },
         { AlgorithmType::Hash,
           {
               "action",    "algorithm",        "baseTask", "cache",         "exceededNext", "hash",
-              "maskRange", "maxTimes",         "next",     "onErrorNext",   "postDelay",    "preDelay",
+              "maskRange", "maxTimes",         "module","next",     "onErrorNext",   "postDelay",    "preDelay",
               "rectMove",  "reduceOtherTimes", "roi",      "specialParams", "sub",          "subErrorIgnored",
               "threshold",
           } },

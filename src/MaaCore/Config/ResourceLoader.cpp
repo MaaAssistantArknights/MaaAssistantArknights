@@ -150,10 +150,15 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
 
     /* load cache */
     // 这个任务依赖 BattleDataConfig
+    // 这个啥时候延后一下读图，感觉很多时候用不上（指不copilot
     LoadCacheWithoutRet(AvatarCacheManager, "avatars"_p);
 
     // 重要的资源，实时加载（图片还是惰性的）
-    LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
+    if (m_loaded) {
+        // 受到 缓存机制-服务器路径 限制
+        LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p / "task"_p);
+    }
+    LoadResourceWithTemplAndCheckRet(TaskData, "task"_p / "base.json"_p, "template"_p / "task"_p);
     // 下面这几个资源都是会带OTA功能的，路径不能动
     LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
     LoadResourceWithTemplAndCheckRet(ItemConfig, "item_index.json"_p, "template"_p / "items"_p);

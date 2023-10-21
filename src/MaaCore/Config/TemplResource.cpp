@@ -38,7 +38,7 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
             continue;
         }
         else {
-            Log.error("Templ load failed, file not exists", filepath);
+            Log.error("Templ load failed, file not exists.", "name:", name, ", path:", filepath);
 #ifdef ASST_DEBUG
             some_file_not_exists = true;
 #else
