@@ -43,8 +43,7 @@ bool asst::MedicineCounterPlugin::_run()
     auto refresh_medicine_count = [&]() {
         image = ctrler()->get_image();
         auto count = initial_count(image);
-        if (!count || count->using_count + m_using_count > m_max_count) [[unlikely]] {
-            Log.error(__FUNCTION__, "use medicine over limit:", count ? count->using_count : -1);
+        if (!count) [[unlikely]] {
             return false;
         }
         initialCount = count;
@@ -57,15 +56,17 @@ bool asst::MedicineCounterPlugin::_run()
         }
     }
     else if (m_using_count >= m_max_count && m_use_expiring) {
+        bool changed = false;
         for (auto& [use, inventory, rect, is_expiring] : initialCount->medicines | std::ranges::views::reverse) {
-            while (use > 0 && is_expiring == ExpiringStatus::Expiring) {
+            while (use > 0 && is_expiring != ExpiringStatus::Expiring) {
                 ctrler()->click(rect);
                 sleep(Config.get_options().task_delay);
                 use--;
+                changed = true;
             }
         }
 
-        if (!refresh_medicine_count()) {
+        if (changed && !refresh_medicine_count()) {
             return false;
         }
     }
