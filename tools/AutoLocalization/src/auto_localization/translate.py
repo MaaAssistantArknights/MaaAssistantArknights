@@ -24,8 +24,16 @@ class ChatTranslator:
                 load_dotenv(dotenv_path=env_path)
                 break
         else:
-            logging.error("未找到.env文件")
-            exit(1)
+            env_path = 'tools\AutoLocalization\.env'
+            if os.path.exists(env_path):
+                load_dotenv(dotenv_path=env_path)
+            elif os.path.exists(env_path.replace('tools\\', '')):
+                load_dotenv(dotenv_path=env_path)
+            elif os.path.exists(env_path.replace('AutoLocalization\\', '')):
+                load_dotenv(dotenv_path=env_path)
+            else:
+                logging.error("未找到.env文件")
+                exit(1)
 
         self._api_key = os.environ.get('OPENAI_API_KEY')
         assert self._api_key, "OPENAI_API_KEY is not set"
