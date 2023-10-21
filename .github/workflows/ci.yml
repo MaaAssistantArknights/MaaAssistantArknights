@@ -241,7 +241,7 @@ jobs:
           wget "https://github.com/probonopd/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
           chmod a+x appimagetool-x86_64.AppImage
           ./appimagetool-x86_64.AppImage Maa.AppDir
-          mv -v MaaAssistantArknights-x86_64.AppImage $GITHUB_WORKSPACE/release/MAA-${{ needs.meta.outputs.tag }}-linux-${{ matrix.arch }}.AppImage
+          mv -v MaaAssistantArknights-${{ matrix.arch }}.AppImage $GITHUB_WORKSPACE/release/MAA-${{ needs.meta.outputs.tag }}-linux-${{ matrix.arch }}.AppImage
 
       - uses: actions/upload-artifact@v3
         with:
