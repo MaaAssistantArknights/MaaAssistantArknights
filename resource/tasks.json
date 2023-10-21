@@ -4101,6 +4101,7 @@
         "preDelay": 300
     },
     "UseMedicine": {
+		"doc": "绑定MedicineCounter来使用理智药",
         "action": "DoNothing",
         "templThreshold": 0.7,
         "roi": [
@@ -4126,6 +4127,8 @@
             200,
             150
         ],
+		"cache": false,
+		"postDelay": 1000,
         "next": [
 			"#self",
 			"Stop"
@@ -4218,10 +4221,10 @@
             "1天"
         ],
 		"rectMove": [
-			-60,
-			128,
-			75,
-			30
+			-55,
+			135,
+			65,
+			20
 		],
         "ocrReplace": [
             [

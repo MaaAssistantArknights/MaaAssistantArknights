@@ -8,7 +8,6 @@ namespace asst
     class MedicineCounterPlugin final : public AbstractTaskPlugin
     {
     public:
-
         using AbstractTaskPlugin::AbstractTaskPlugin;
         virtual ~MedicineCounterPlugin() override = default;
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
@@ -19,14 +18,20 @@ namespace asst
     private:
         virtual bool _run() override;
 
+        enum class ExpiringStatus
+        {
+            UnSure = 0,
+            NotExpiring = 1,
+            Expiring = 2,
+        };
         struct Medicine
         {
             int use;
             int inventry;
             asst::Rect reduce_button_position;
-            bool is_expiring;
+            ExpiringStatus is_expiring;
         };
-        
+
         // 库存量, 移除按钮的位置
         struct InitialMedicineResult
         {
@@ -41,7 +46,7 @@ namespace asst
         std::optional<int> get_target_of_sanity(const cv::Mat& image);
         std::optional<int> get_maximun_of_sanity(const cv::Mat& image);
 
-        bool m_use_expiring,m_dr_grandet = false;
+        bool m_use_expiring, m_dr_grandet = false;
         int m_using_count = 0, m_max_count = 0;
     };
 }
