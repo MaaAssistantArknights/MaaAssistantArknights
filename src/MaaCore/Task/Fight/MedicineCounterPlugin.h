@@ -42,7 +42,7 @@ namespace asst
         // 识别初始使用的药量
         std::optional<InitialMedicineResult> initial_count(cv::Mat image);
         // 减少药品使用
-        void reduce_excess(InitialMedicineResult& using_medicine);
+        void reduce_excess(InitialMedicineResult using_medicine);
         std::optional<int> get_target_of_sanity(const cv::Mat& image);
         std::optional<int> get_maximun_of_sanity(const cv::Mat& image);
 
