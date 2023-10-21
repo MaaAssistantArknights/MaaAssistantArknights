@@ -5,6 +5,7 @@ import re
 import time
 import openai
 
+from pathlib import Path
 from json import JSONDecodeError
 from dotenv import load_dotenv
 from openai.error import RateLimitError, AuthenticationError
@@ -18,14 +19,16 @@ class ChatTranslator:
         self.base_language = base_language
         self.language = language
 
-        for t in range(3):
-            env_path = t * '../' + '.env'
-            if os.path.exists(env_path):
-                load_dotenv(dotenv_path=env_path)
-                break
-        else:
-            logging.error("未找到.env文件")
-            exit(1)
+        solution_dir = Path.cwd()
+        for i in range(10):
+            solution_dir = solution_dir.parent
+            if (solution_dir / "resource").exists():
+                env_path = solution_dir / "/tools/AutoLocalization/.env"
+                if env_path.exists():
+                    load_dotenv(dotenv_path=env_path)
+                    break
+                logging.error("未找到.env文件")
+                exit(1)
 
         self._api_key = os.environ.get('OPENAI_API_KEY')
         assert self._api_key, "OPENAI_API_KEY is not set"
@@ -104,7 +107,8 @@ class ChatTranslator:
                 return True
             return False
 
-        def log_err(e_=None, info: str = '', append_switch: bool = True) -> None:  # return it runResult equal to return None
+        def log_err(e_=None, info: str = '',
+                    append_switch: bool = True) -> None:  # return it runResult equal to return None
             if append_switch: info = f"{type(e_).__name__}: {e_} msg:{msg}" + info
             logging.error(info)
 
@@ -169,6 +173,6 @@ class ChatTranslator:
 
 
 if __name__ == '__main__':
-    a = ChatTranslator()
-    a.translate()
-    print()
+    # a = ChatTranslator()
+    # a.translate()
+    pass
