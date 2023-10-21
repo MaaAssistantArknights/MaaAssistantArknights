@@ -1,42 +1,43 @@
 import logging
 import os
 import re
-from copy import deepcopy
 
+from copy import deepcopy
 from cchardet import detect
 from lxml import etree
 from xmldiff import main
 from xmldiff.actions import UpdateTextIn, InsertComment, UpdateTextAfter, DeleteNode
-
 from .translate import ChatTranslator
 
-SPACE = '{http://www.w3.org/XML/1998/namespace}space'
+SPACE = "{http://www.w3.org/XML/1998/namespace}space"
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 
 def judge_encoding(file):
-    with open(file, 'rb') as _:
+    with open(file, "rb") as _:
         content = _.read()
         result = detect(content)
-        return result['encoding']
+        return result["encoding"]
 
 
 def parse_lang_str(doc_path):
     lang_str = os.path.basename(doc_path)
     match lang_str:
-        case s if 'zh-cn' in s:
+        case s if "zh-cn" in s:
             return "Chinese (Simplified)"
-        case s if 'zh-tw' in s:
+        case s if "zh-tw" in s:
             return "Chinese (Traditional)"
-        case s if 'en-us' in s:
+        case s if "en-us" in s:
             return "English"
-        case s if 'ja-jp' in s:
+        case s if "ja-jp" in s:
             return "Japanese"
-        case s if 'ko-kr' in s:
+        case s if "ko-kr" in s:
             return "Korean"
         case _:
-            raise ValueError('wrong language input')
+            raise ValueError("wrong language input")
 
 
 class XamlParser:
@@ -45,7 +46,9 @@ class XamlParser:
 
     """
 
-    def __init__(self, file=None, parse_type=0, xaml_string=None, language=None, encoding='utf-8'):
+    def __init__(
+        self, file=None, parse_type=0, xaml_string=None, language=None, encoding="utf-8"
+    ):
         """
         初始化XamlParser类
         :param file: 从文件解析时，传入文件路径
@@ -57,45 +60,59 @@ class XamlParser:
         self.__test = False
         self.__counter = 0
         if parse_type == 0:
-            self._file_path, self.__encoding, self.__language, xaml_string = self.__from_file(file)
+            (
+                self._file_path,
+                self.__encoding,
+                self.__language,
+                xaml_string,
+            ) = self.__from_file(file)
         elif parse_type == 1:
-            assert language is not None, 'language must be specified when parse_type is 1'
+            assert (
+                language is not None
+            ), "language must be specified when parse_type is 1"
             self._file_path, self.__encoding, self.__language = file, encoding, language
         else:
-            raise ValueError('parse_type must be 0 or 1')
-        xaml_string = xaml_string.replace('&#x0a;', '\\n')
+            raise ValueError("parse_type must be 0 or 1")
+        xaml_string = xaml_string.replace("&#x0a;", "\\n")
         self.__root = etree.fromstring(xaml_string)
         # 获取命名空间
         self.__nsmap = self.__root.nsmap
         self.__default_namespace = self.__nsmap.get(None)
-        self.__x_ns = self.__nsmap.get('x')
-        self.__x_uid_ns, self.__x_key_ns = f'{{{self.__x_ns}}}Uid', f'{{{self.__x_ns}}}Key'
-        self.__merged_node = self.__root.find('./ResourceDictionary.MergedDictionaries', namespaces=self.__nsmap)
+        self.__x_ns = self.__nsmap.get("x")
+        self.__x_uid_ns, self.__x_key_ns = (
+            f"{{{self.__x_ns}}}Uid",
+            f"{{{self.__x_ns}}}Key",
+        )
+        self.__merged_node = self.__root.find(
+            "./ResourceDictionary.MergedDictionaries", namespaces=self.__nsmap
+        )
         self.__cp_root = self.copy_node(self.__root, cp_text=True)
         if self.__merged_node is not None:
             self.__cp_merged_node = self.copy_node(self.__merged_node, cp_text=True)
             self.__cp_root.append(self.__cp_merged_node)
         else:
             self.__cp_merged_node = None
-        self.__gen_cp_tree_by_traverse(element=self.__root, current_cp_node=self.__cp_root)
+        self.__gen_cp_tree_by_traverse(
+            element=self.__root, current_cp_node=self.__cp_root
+        )
 
     def __getattr__(self, prop):
         properties_map = {
-            'encoding': self.__encoding, 
-            'cp_tree': self.__cp_root, 
-            'tree': self.__root, 
-            'x_uid_ns': self.__x_uid_ns, 
-            'x_key_ns': self.__x_key_ns, 
-            'language': self.__language
+            "encoding": self.__encoding,
+            "cp_tree": self.__cp_root,
+            "tree": self.__root,
+            "x_uid_ns": self.__x_uid_ns,
+            "x_key_ns": self.__x_key_ns,
+            "language": self.__language,
         }
         return properties_map.get(prop, None)
 
     @staticmethod
     def __from_file(file):
-        assert os.path.exists(file), f'{file}file not exists'
+        assert os.path.exists(file), f"{file}file not exists"
         encoding = judge_encoding(file)
         language = parse_lang_str(file)
-        with open(file, 'r', encoding=encoding) as f:
+        with open(file, "r", encoding=encoding) as f:
             content = f.read()
         return file, encoding, language, content
 
@@ -109,7 +126,11 @@ class XamlParser:
                 children = list(parent)
                 index = children.index(child)
                 if index == 0:
-                    if self.__merged_node is not None and parent.tag == f'{{{self.__default_namespace}}}ResourceDictionary':
+                    if (
+                        self.__merged_node is not None
+                        and parent.tag
+                        == f"{{{self.__default_namespace}}}ResourceDictionary"
+                    ):
                         continue
                     # 注释节点为第一个节点
                     cp_comment = self.copy_node(child, cp_text=False)
@@ -118,17 +139,23 @@ class XamlParser:
                 cp_comment = self.copy_node(child, cp_text=False)
                 prev_node = children[index - 1]
                 prev_cp_node = current_cp_node[index - 1]
-                assert prev_node.tag == prev_cp_node.tag and prev_node.attrib == prev_cp_node.attrib, "前节点类型不一致"
+                assert (
+                    prev_node.tag == prev_cp_node.tag
+                    and prev_node.attrib == prev_cp_node.attrib
+                ), "前节点类型不一致"
                 current_cp_node.append(cp_comment)
                 continue
 
             cp_node = self.copy_node(child)
-            if child.tag == f'{{{self.__default_namespace}}}ResourceDictionary.MergedDictionaries':
+            if (
+                child.tag
+                == f"{{{self.__default_namespace}}}ResourceDictionary.MergedDictionaries"
+            ):
                 # 次根 MergedDictionaries: 遍历后退出循环
                 current_cp_node = self.__cp_merged_node
                 self.__gen_cp_tree_by_traverse(child, current_cp_node=current_cp_node)
                 break
-            elif child.tag == f'{{{self.__default_namespace}}}ResourceDictionary':
+            elif child.tag == f"{{{self.__default_namespace}}}ResourceDictionary":
                 # resource dictionary uid组
                 cp_node.text = child.text
                 current_cp_node.append(cp_node)
@@ -177,7 +204,7 @@ class XamlParser:
         xaml_data = etree.tostring(tree, pretty_print=True, encoding=self.__encoding)
         # xaml_data = html.unescape(xaml_data.decode(self.__encoding))
         xaml_data = xaml_data.decode(self.__encoding)
-        with open(file_path, 'w', encoding=self.__encoding) as _:
+        with open(file_path, "w", encoding=self.__encoding) as _:
             _.write(xaml_data)
         return True
 
@@ -189,23 +216,32 @@ class XamlParser:
         """
         this_tree = self.cp_tree
         compare_tree = compare_parser.cp_tree
-        assert self.x_key_ns == compare_parser.x_key_ns, f"{self.language} 和 {compare_parser.language}x:Key命名空间不一致"
-        assert self.x_uid_ns == compare_parser.x_uid_ns, f"{self.language} 和 {compare_parser.language}x:Uid命名空间不一致"
-        pt = re.compile(r'/\*/\*/\*\[\d*]/comment\(\)\[1]')
+        assert (
+            self.x_key_ns == compare_parser.x_key_ns
+        ), f"{self.language} 和 {compare_parser.language}x:Key命名空间不一致"
+        assert (
+            self.x_uid_ns == compare_parser.x_uid_ns
+        ), f"{self.language} 和 {compare_parser.language}x:Uid命名空间不一致"
+        pt = re.compile(r"/\*/\*/\*\[\d*]/comment\(\)\[1]")
         uniqueattrs = [self.x_key_ns, self.x_uid_ns]
         ignored_attrs = [SPACE]
-        res = main.diff_trees(this_tree, compare_tree, diff_options={
-            'F': 0.1,
-            'ratio_mode': 'accurate',
-            'uniqueattrs': uniqueattrs,
-            'ignored_attrs': ignored_attrs, })
+        res = main.diff_trees(
+            this_tree,
+            compare_tree,
+            diff_options={
+                "F": 0.1,
+                "ratio_mode": "accurate",
+                "uniqueattrs": uniqueattrs,
+                "ignored_attrs": ignored_attrs,
+            },
+        )
         if any((isinstance(i, UpdateTextIn) and pt.search(i.node)) for i in res):
             return False
         return True
 
     def xpath(self, xpath_str, only_one=True, accept_empty=False):
         ns = self.nsmap
-        del_arr = (None, '')
+        del_arr = (None, "")
         for remove_elem in del_arr:
             if remove_elem in ns:
                 del ns[remove_elem]
@@ -244,14 +280,22 @@ class XamlParser:
         """
         target_language = parse_lang_str(target_path)
         output_tree = deepcopy(self.cp_tree)
-        chat = None if skip_translate else ChatTranslator(language=target_language, base_language=self.language)
-        self.counter(start=True,
-                     test=skip_translate,
-                     messages=f"start force translate {self.language} -> {target_language}")
+        chat = (
+            None
+            if skip_translate
+            else ChatTranslator(language=target_language, base_language=self.language)
+        )
+        self.counter(
+            start=True,
+            test=skip_translate,
+            messages=f"start force translate {self.language} -> {target_language}",
+        )
         t = self.__merged_node if self.__merged_node is not None else self.__root
-        for i in t.findall('.//s:String[@x:Key]', namespaces=self.__nsmap):
+        for i in t.findall(".//s:String[@x:Key]", namespaces=self.__nsmap):
             key = i.get(self.__x_key_ns)
-            node = output_tree.find(f'.//s:String[@x:Key="{key}"]', namespaces=self.__nsmap)
+            node = output_tree.find(
+                f'.//s:String[@x:Key="{key}"]', namespaces=self.__nsmap
+            )
             node.text = i.text if skip_translate else chat.translate(i.text)
             node.text = i.text if node.text is None else node.text
             self.counter(messages=f"translate {i.text[0:20]}")
@@ -267,61 +311,94 @@ class XamlParser:
         """
         target_cp_tree = self.cp_tree
         base_cp_tree = compare_parser.cp_tree
-        assert self.nsmap == compare_parser.nsmap, f"{self.language} 和 {compare_parser.language}命名空间不一致"
-        assert self.x_key_ns == compare_parser.x_key_ns, f"{self.language}和{compare_parser.language}x:Key命名空间不一致"
-        assert self.x_uid_ns == compare_parser.x_uid_ns, f"{self.language}和{compare_parser.language}x:Uid命名空间不一致"
+        assert (
+            self.nsmap == compare_parser.nsmap
+        ), f"{self.language} 和 {compare_parser.language}命名空间不一致"
+        assert (
+            self.x_key_ns == compare_parser.x_key_ns
+        ), f"{self.language}和{compare_parser.language}x:Key命名空间不一致"
+        assert (
+            self.x_uid_ns == compare_parser.x_uid_ns
+        ), f"{self.language}和{compare_parser.language}x:Uid命名空间不一致"
         uniqueattrs = [self.x_key_ns, self.x_uid_ns]
         ignored_attrs = [SPACE]
-        chat = None if skip_translate else ChatTranslator(language=self.language, base_language=compare_parser.language)
-        self.counter(start=True,
-                     test=skip_translate,
-                     messages=f"start compare translate {compare_parser.language} -> {self.language}")
-        res = main.diff_trees(target_cp_tree, base_cp_tree, diff_options={
-            'F': 0.1,
-            'ratio_mode': 'accurate',
-            'uniqueattrs': uniqueattrs,
-            'ignored_attrs': ignored_attrs, })
+        chat = (
+            None
+            if skip_translate
+            else ChatTranslator(
+                language=self.language, base_language=compare_parser.language
+            )
+        )
+        self.counter(
+            start=True,
+            test=skip_translate,
+            messages=f"start compare translate {compare_parser.language} -> {self.language}",
+        )
+        res = main.diff_trees(
+            target_cp_tree,
+            base_cp_tree,
+            diff_options={
+                "F": 0.1,
+                "ratio_mode": "accurate",
+                "uniqueattrs": uniqueattrs,
+                "ignored_attrs": ignored_attrs,
+            },
+        )
         new_action = []
-        logging.info(f"all movements contains {len([i for i in res if isinstance(i, UpdateTextIn)])} steps")
+        logging.info(
+            f"all movements contains {len([i for i in res if isinstance(i, UpdateTextIn)])} steps"
+        )
         for i in res:
-            if type(i).__name__ == 'MoveNode' and 'comment()' in i.node:
+            if type(i).__name__ == "MoveNode" and "comment()" in i.node:
                 try:
                     str_node = next(compare_parser.xpath(i.target))[i.position]
-                    parts = i.node.split('/')
+                    parts = i.node.split("/")
                     # 提取父节点的路径
-                    parent_path = '/'.join(parts[:-1])
-                    node_position = "{}/comment()[{}]".format(i.target,
-                                                              len(str_node.xpath('preceding-sibling::comment()')) + 1)
+                    parent_path = "/".join(parts[:-1])
+                    node_position = "{}/comment()[{}]".format(
+                        i.target,
+                        len(str_node.xpath("preceding-sibling::comment()")) + 1,
+                    )
                     if parent_path == compare_parser.getpath(str_node.getparent()):
                         # 如果父节点路径相同，说明
                         new_action.append(i)
                         new_action.append(UpdateTextIn(node_position, str_node.text))
                         continue
-                    new_action.append(InsertComment(i.target, i.position, str_node.text))
+                    new_action.append(
+                        InsertComment(i.target, i.position, str_node.text)
+                    )
                     new_action.append(UpdateTextAfter(node_position, str_node.tail))
                     new_action.append(DeleteNode(i.node))
                 except Exception as _:
                     logging.warning(f"{type(_)}: {_}")
                     new_action.append(i)
-            
+
             elif isinstance(i, UpdateTextIn):
-                if 'comment()' in i.node:
+                if "comment()" in i.node:
                     continue
                 str_node = next(compare_parser.xpath(i.node))
                 if str_node.text.strip():
-                    text = str_node.text if skip_translate else chat.translate(str_node.text)
+                    text = (
+                        str_node.text
+                        if skip_translate
+                        else chat.translate(str_node.text)
+                    )
                     text = str_node.text if text is None else text
                 else:
                     text = str_node.text
                 self.counter(messages=f"translate {str_node.text[0:20]}")
                 new_action.append(UpdateTextIn(i.node, text))
-            
+
             elif isinstance(i, InsertComment):
                 str_node = next(compare_parser.xpath(i.target))[i.position]
                 if str_node.tag == etree.Comment:
-                    node_position = "{}/comment()[{}]".format(i.target,
-                                                              len(str_node.xpath('preceding-sibling::comment()')) + 1)
-                    new_action.append(InsertComment(i.target, i.position, str_node.text))
+                    node_position = "{}/comment()[{}]".format(
+                        i.target,
+                        len(str_node.xpath("preceding-sibling::comment()")) + 1,
+                    )
+                    new_action.append(
+                        InsertComment(i.target, i.position, str_node.text)
+                    )
                     new_action.append(UpdateTextAfter(node_position, str_node.tail))
                 else:
                     new_action.append(i)
@@ -332,7 +409,9 @@ class XamlParser:
         self.write_xaml(final_tree, self._file_path)
         return final_tree
 
-    def update_translate(self, compare_old_parser, compare_new_parser, skip_translate=False):
+    def update_translate(
+        self, compare_old_parser, compare_new_parser, skip_translate=False
+    ):
         """
         将比较新旧两个文件的更新，并将更新同步到本文件，若本文件与旧文件结构不同，则会与旧文件调用translate_compare
         :param compare_old_parser: 旧文件的XamlParser
@@ -342,34 +421,54 @@ class XamlParser:
         """
         compare_old_tree = compare_old_parser.merged_root_tree
         if not self.compare_structure(compare_old_parser):
-            target_tree = self.translate_compare(compare_old_parser, skip_translate=skip_translate)
+            target_tree = self.translate_compare(
+                compare_old_parser, skip_translate=skip_translate
+            )
         else:
             target_tree = self.cp_tree
         compare_new_tree = compare_new_parser.merged_root_tree
-        namespace_ununit_string = "old %s和 new %s{}命名空间不一致" % (compare_old_parser.language, compare_new_parser.language)
-        for prop, err in {'nsmap': '', 'x_key_ns': 'x:Key', 'x_uid_ns': 'x:Uid'}:
-            assert getattr(compare_old_parser, prop) == getattr(compare_new_parser, prop), namespace_ununit_string.format(err)
-        
-        chat = None if skip_translate else ChatTranslator(language=self.language,
-                                                          base_language=compare_new_parser.language)
-        self.counter(start=True,
-                     test=skip_translate,
-                     messages=f"start compare translate {compare_new_parser.language} -> {self.language}")
+        namespace_ununit_string = "old %s和 new %s{}命名空间不一致" % (
+            compare_old_parser.language,
+            compare_new_parser.language,
+        )
+        for prop, err in {"nsmap": "", "x_key_ns": "x:Key", "x_uid_ns": "x:Uid"}:
+            assert getattr(compare_old_parser, prop) == getattr(
+                compare_new_parser, prop
+            ), namespace_ununit_string.format(err)
+
+        chat = (
+            None
+            if skip_translate
+            else ChatTranslator(
+                language=self.language, base_language=compare_new_parser.language
+            )
+        )
+        self.counter(
+            start=True,
+            test=skip_translate,
+            messages=f"start compare translate {compare_new_parser.language} -> {self.language}",
+        )
         uniqueattrs = [self.x_key_ns, self.x_uid_ns]
         ignored_attrs = [SPACE]
-        res = main.diff_trees(compare_old_tree, compare_new_tree, diff_options={
-            'F': 0.1,
-            'ratio_mode': 'accurate',
-            'uniqueattrs': uniqueattrs,
-            'ignored_attrs': ignored_attrs
-        })
+        res = main.diff_trees(
+            compare_old_tree,
+            compare_new_tree,
+            diff_options={
+                "F": 0.1,
+                "ratio_mode": "accurate",
+                "uniqueattrs": uniqueattrs,
+                "ignored_attrs": ignored_attrs,
+            },
+        )
         new_actions = []
-        logging.info(f"all movements contains {len([i for i in res if isinstance(i, UpdateTextIn)])} steps")
+        logging.info(
+            f"all movements contains {len([i for i in res if isinstance(i, UpdateTextIn)])} steps"
+        )
         for i in res:
             if isinstance(i, UpdateTextIn):
-                if i.node.endswith('comment()[1]') and i.text[0] == '$':
+                if i.node.endswith("comment()[1]") and i.text[0] == "$":
                     continue
-                elif 's:String' in i.node:
+                elif "s:String" in i.node:
                     text = i.text if skip_translate else chat.translate(i.text)
                     text = i.text if text is None else text
                     self.counter(messages=f"translate {i.text[0:20]}")
@@ -381,7 +480,7 @@ class XamlParser:
         compare_new_parser.write_xaml()
         self.write_xaml(final_tree)
         return final_tree
-    
+
     @property
     def nsmap(self):
         return deepcopy(self.__nsmap)
@@ -397,10 +496,12 @@ class XamlParser:
 
     @property
     def tostring(self):
-        return etree.tostring(self.tree, encoding=self.__encoding, pretty_print=True).decode(self.__encoding)
+        return etree.tostring(
+            self.tree, encoding=self.__encoding, pretty_print=True
+        ).decode(self.__encoding)
 
 
-if __name__ == '__main__':
-    zh_parser = XamlParser(parse_type=0, file='../../example/zh-cn.xaml')
-    zh_new_parser = XamlParser(parse_type=0, file='../../example/zh-cn_new.xaml')
+if __name__ == "__main__":
+    zh_parser = XamlParser(parse_type=0, file="../../example/zh-cn.xaml")
+    zh_new_parser = XamlParser(parse_type=0, file="../../example/zh-cn_new.xaml")
     print()
