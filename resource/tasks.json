@@ -4101,7 +4101,7 @@
         "preDelay": 300
     },
     "UseMedicine": {
-		"doc": "绑定MedicineCounter来使用理智药",
+        "doc": "绑定MedicineCounter来使用理智药",
         "action": "DoNothing",
         "templThreshold": 0.7,
         "roi": [
@@ -4127,36 +4127,36 @@
             200,
             150
         ],
-		"cache": false,
-		"postDelay": 1000,
+        "cache": false,
+        "postDelay": 1000,
         "next": [
-			"#self",
-			"Stop"
+            "#self",
+            "Stop"
         ]
     },
-	"MedicineReduceIcon":{
-		"preDelay": 500,
-		"roi": [
-			750,
-			200,
-			500,
-			50
-		],
-		"maskRange": [
-			1,
-			255
-		]
-	},
-	"MedicineUsingCount":{
-		"algorithm": "OcrDetect",
-		"text": [],
-		"isAscii": true,
-		"rectMove": [
-			-90,
-			28,
-			100,
-			60
-		],
+    "MedicineReduceIcon":{
+        "preDelay": 500,
+        "roi": [
+            750,
+            200,
+            500,
+            50
+        ],
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "MedicineUsingCount":{
+        "algorithm": "OcrDetect",
+        "text": [],
+        "isAscii": true,
+        "rectMove": [
+            -90,
+            28,
+            100,
+            60
+        ],
         "ocrReplace": [
             [
                 "\\|",
@@ -4179,17 +4179,17 @@
                 "1"
             ]
         ]
-	},
-	"MedicineInventory":{
-		"algorithm": "OcrDetect",
-		"text": [],
-		"isAscii": true,
-		"rectMove": [
-			-29,
-			87,
-			40,
-			33
-		],
+    },
+    "MedicineInventory":{
+        "algorithm": "OcrDetect",
+        "text": [],
+        "isAscii": true,
+        "rectMove": [
+            -29,
+            87,
+            40,
+            33
+        ],
         "ocrReplace": [
             [
                 "\\|",
@@ -4212,20 +4212,20 @@
                 "1"
             ]
         ]
-	},
-	"MedicineExpiringTime":{
-		"algorithm": "OcrDetect",
+    },
+    "MedicineExpiringTime":{
+        "algorithm": "OcrDetect",
         "text": [
             "分钟",
             "小时",
             "1天"
         ],
-		"rectMove": [
-			-55,
-			135,
-			65,
-			20
-		],
+        "rectMove": [
+            -55,
+            135,
+            65,
+            20
+        ],
         "ocrReplace": [
             [
                 ".+小时",
@@ -4244,17 +4244,17 @@
                 "分钟"
             ]
         ]
-	},
-	"UsingMedicine-Target":{
-		"algorithm": "OcrDetect",
-		"roi": [
-			255,
-			390,
-			315,
-			140
-		],
+    },
+    "UsingMedicine-Target":{
+        "algorithm": "OcrDetect",
+        "roi": [
+            255,
+            390,
+            315,
+            140
+        ],
         "text": [],
-		"isAscii": true,
+        "isAscii": true,
         "ocrReplace": [
             [
                 "\\|",
@@ -4277,17 +4277,17 @@
                 "1"
             ]
         ]
-	},
-	"UsingMedicine-SanityMax":{
-		"algorithm": "OcrDetect",
-		"roi": [
-			440,
-			330,
-			150,
-			55
-		],
+    },
+    "UsingMedicine-SanityMax":{
+        "algorithm": "OcrDetect",
+        "roi": [
+            440,
+            330,
+            150,
+            55
+        ],
         "text": [],
-		"isAscii": true,
+        "isAscii": true,
         "ocrReplace": [
             [
                 "\\|",
@@ -4310,7 +4310,7 @@
                 "1"
             ]
         ]
-	},
+    },
     "DrGrandetUseOriginiums": {
         "algorithm": "OcrDetect",
         "text": [],
