@@ -227,7 +227,7 @@ jobs:
           [Desktop Entry]
           Type=Application
           Name=MaaAssistantArknights
-          Icon=maa.png
+          Icon=maa
           Exec=AppRun
           Categories=Game;StrategyGame;
           Comment=An Arknights assistant
