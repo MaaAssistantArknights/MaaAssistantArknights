@@ -16,6 +16,14 @@ for t in range(3):
     if os.path.exists(env_path):
         load_dotenv(dotenv_path=env_path)
         break
+else:
+    env_path = 'tools\AutoLocalization\.env'
+    if os.path.exists(env_path):
+        load_dotenv(dotenv_path=env_path)
+    elif os.path.exists(env_path.replace('tools\\', '')):
+        load_dotenv(dotenv_path=env_path)
+    elif os.path.exists(env_path.replace('AutoLocalization\\', '')):
+        load_dotenv(dotenv_path=env_path)
 
 root_path = os.getenv("LOCALIZATION_PATH")
 assert root_path, "LOCALIZATION_PATH is not set"
