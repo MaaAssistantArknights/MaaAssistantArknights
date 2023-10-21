@@ -215,9 +215,13 @@ jobs:
 
       - name: Build Appimage
         run: |
+          sudo apt update
+          sudo add-apt-repository universe
+          sudo apt install libfuse2
+          sudo 
           mkdir -pv release
           mkdir -pv Maa.AppDir/usr/share/maa
-          cp -rv install/* Maa.AppDir/usr/share/maa/
+          cp -r install/* Maa.AppDir/usr/share/maa/
           wget -c https://raw.githubusercontent.com/MaaAssistantArknights/design/main/logo/maa-logo_512x512.png -O Maa.AppDir/maa.png
           
           cat > Maa.AppDir/maa.desktop <<EOF
