@@ -22,14 +22,22 @@ class ChatTranslator:
         solution_dir = Path.cwd()
         for i in range(10):
             solution_dir = solution_dir.parent
-            if (solution_dir / "resource").exists():
-                env_path = solution_dir / "/tools/AutoLocalization/.env"
-                if env_path.exists():
-                    load_dotenv(dotenv_path=env_path)
+            cases = (
+                (solution_dir / "resource").exists(),
+                solution_dir / ".env" in solution_dir.iterdir()
+            )
+            match cases:
+                case(_, True):  # find .env by find itself
+                    load_dotenv(dotenv_path=solution_dir / ".env")
                     break
-
-                logging.error("未找到.env文件")
-                exit(1)
+                case (True, _):  # find .env by finding resource dir
+                    env_path = solution_dir / "/tools/AutoLocalization/.env"
+                    if env_path.exists():
+                        load_dotenv(dotenv_path=env_path)
+                        break
+                case _:  # not found
+                    logging.error("未找到.env文件")
+                    exit(1)
 
         self._api_key = os.environ.get('OPENAI_API_KEY')
         assert self._api_key, "OPENAI_API_KEY is not set"
