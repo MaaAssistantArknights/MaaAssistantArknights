@@ -4152,9 +4152,9 @@
         "text": [],
         "isAscii": true,
         "rectMove": [
-            -90,
+            -95,
             28,
-            100,
+            105,
             60
         ],
         "ocrReplace": [
@@ -4178,6 +4178,10 @@
                 "l",
                 "1"
             ]
+        ],
+        "specialParams": [
+            150,
+            255
         ]
     },
     "MedicineInventory":{
@@ -4211,6 +4215,10 @@
                 "l",
                 "1"
             ]
+        ],
+        "specialParams": [
+            150,
+            255
         ]
     },
     "MedicineExpiringTime":{

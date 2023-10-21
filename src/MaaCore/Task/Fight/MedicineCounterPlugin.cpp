@@ -24,10 +24,10 @@ bool asst::MedicineCounterPlugin::verify(AsstMsg msg, const json::value& details
 bool asst::MedicineCounterPlugin::_run()
 {
     LogTraceFunction;
-
+    /*
     if (m_using_count >= m_max_count && !m_use_expiring) {
         return true;
-    }
+    }*/
 
     // 现在葛朗台插件在前，暂时不需要延迟
     // sleep(Task.get("MedicineReduceIcon")->pre_delay);
@@ -108,22 +108,25 @@ std::optional<asst::MedicineCounterPlugin::InitialMedicineResult> asst::Medicine
 
     std::vector<Medicine> medicines;
     for (const auto& result : multiMatcher.get_result()) {
-        auto using_rect = result.rect.move(Task.get("MedicineUsingCount")->rect_move);
-        auto inventory_rect = result.rect.move(Task.get("MedicineInventory")->rect_move);
-        auto expiring_rect = result.rect.move(Task.get("MedicineExpiringTime")->rect_move);
+        auto using_count_task = Task.get("MedicineUsingCount");
+        auto inventory_task = Task.get("MedicineInventory");
+        auto expiring_task = Task.get("MedicineExpiringTime");
+        auto using_rect = result.rect.move(using_count_task->rect_move);
+        auto inventory_rect = result.rect.move(inventory_task->rect_move);
+        auto expiring_rect = result.rect.move(expiring_task->rect_move);
 
-        RegionOCRer using_ocr(image);
-        using_ocr.set_task_info("MedicineUsingCount");
-        using_ocr.set_bin_threshold(100, 255);
-        using_ocr.set_roi(using_rect);
-        if (!using_ocr.analyze()) {
+        RegionOCRer using_count_ocr(image);
+        using_count_ocr.set_task_info(using_count_task);
+        using_count_ocr.set_bin_threshold(using_count_task->special_params[0], using_count_task->special_params[1]);
+        using_count_ocr.set_roi(using_rect);
+        if (!using_count_ocr.analyze()) {
             Log.error(__FUNCTION__, "medicine using count analyze failed");
             return std::nullopt;
         }
 
         RegionOCRer inventry_ocr(image);
-        inventry_ocr.set_task_info("MedicineUsingCount");
-        inventry_ocr.set_bin_threshold(100, 255);
+        inventry_ocr.set_task_info(inventory_task);
+        inventry_ocr.set_bin_threshold(inventory_task->special_params[0], inventory_task->special_params[1]);
         inventry_ocr.set_roi(inventory_rect);
         if (!inventry_ocr.analyze()) {
             Log.error(__FUNCTION__, "medicine using count analyze failed");
@@ -133,7 +136,7 @@ std::optional<asst::MedicineCounterPlugin::InitialMedicineResult> asst::Medicine
         auto is_expiring = ExpiringStatus::UnSure;
         if (m_using_count >= m_max_count) {
             RegionOCRer expiring_ocr(image);
-            expiring_ocr.set_task_info("MedicineExpiringTime");
+            expiring_ocr.set_task_info(expiring_task);
             expiring_ocr.set_roi(expiring_rect);
             if (expiring_ocr.analyze()) {
                 is_expiring = ExpiringStatus::Expiring;
@@ -144,7 +147,7 @@ std::optional<asst::MedicineCounterPlugin::InitialMedicineResult> asst::Medicine
         }
 
         int using_count = 0, inventory_count = 0;
-        if (!utils::chars_to_number(using_ocr.get_result().text, using_count) ||
+        if (!utils::chars_to_number(using_count_ocr.get_result().text, using_count) ||
             !utils::chars_to_number(inventry_ocr.get_result().text, inventory_count)) {
             return std::nullopt;
         }
@@ -157,16 +160,22 @@ std::optional<asst::MedicineCounterPlugin::InitialMedicineResult> asst::Medicine
     return InitialMedicineResult { .using_count = use, .medicines = medicines };
 }
 
-void asst::MedicineCounterPlugin::reduce_excess(InitialMedicineResult& using_medicine)
+void asst::MedicineCounterPlugin::reduce_excess(InitialMedicineResult using_medicine)
 {
     auto reduce = m_using_count + using_medicine.using_count - m_max_count;
     for (auto& [use, inventory, rect, is_expiring] : using_medicine.medicines | std::ranges::views::reverse) {
-        while (use > 0 && reduce > 0) {
-            ctrler()->click(rect);
+        ctrler()->click(rect);
+        sleep(Config.get_options().task_delay);
+        reduce -= use;
+
+        auto add_rect = rect.move(Task.get("MedicineUsingCount")->rect_move);
+        while (reduce < 0) {
+            ctrler()->click(add_rect);
             sleep(Config.get_options().task_delay);
-            use--;
-            reduce--;
-            using_medicine.using_count--;
+            reduce++;
+        }
+        if (reduce == 0) {
+            break;
         }
     }
 }
