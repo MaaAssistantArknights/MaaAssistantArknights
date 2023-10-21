@@ -27,6 +27,7 @@ class ChatTranslator:
                 if env_path.exists():
                     load_dotenv(dotenv_path=env_path)
                     break
+
                 logging.error("未找到.env文件")
                 exit(1)
 
