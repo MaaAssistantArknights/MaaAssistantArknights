@@ -1,0 +1,161 @@
+{
+    "BattleStartPre": {
+        "text": [
+            "行動開始",
+            "開始",
+            "試練",
+            "挑戦"
+        ]
+    },
+    "BattleStartOCR": {
+        "text": [
+            "行動",
+            "開始"
+        ]
+    },
+    "SSSBegin": {
+        "text": [
+            "保全作戦開始"
+        ]
+    },
+    "SSSDebuffConfirm": {
+        "text": [
+            "確認完了"
+        ]
+    },
+    "SSSBuffChoose": {
+        "ocrReplace": [
+            [
+                "エーギル式振波.*",
+                "阿戈尔示波器"
+            ],
+            [
+                "多機能補給デバイス",
+                "自适应补给元件"
+            ],
+            [
+                "ジャングル用追跡ビー.*",
+                "丛林用示踪信标"
+            ],
+            [
+                "コーテイングデバイス",
+                "镀膜装置导能阀"
+            ]
+        ],
+        "roi": [
+            0,
+            136,
+            1280,
+            162
+        ]
+    },
+    "SSSBuffChooseConfirm": {
+        "text": [
+            "選択を確認"
+        ]
+    },
+    "SSSEquipmentConfirm": {
+        "text": [
+            "設定完了"
+        ]
+    },
+    "SSSTeamConfirm": {
+        "text": [
+            "編成確定"
+        ]
+    },
+    "SSSStageNameOCR": {
+        "ocrReplace": [
+            [
+                "密林流あいさつ",
+                "丛林式寒暄"
+            ],
+            [
+                "生物の多様性",
+                "生物多样性"
+            ],
+            [
+                "驚くこともない",
+                "习以为常"
+            ],
+            [
+                "森の空き地",
+                "林间空地"
+            ],
+            [
+                "しつこい相手",
+                "纠缠不休"
+            ],
+            [
+                "人と大自然",
+                "人与自然"
+            ],
+            [
+                "押し寄せる大群",
+                "蜂拥而上"
+            ],
+            [
+                "見逃せない利益",
+                "见者有份"
+            ],
+            [
+                "産業アップデート",
+                "产业升级"
+            ],
+            [
+                "悪に引き込まれ",
+                "同流合污"
+            ],
+            [
+                "酔いどれの旅",
+                "酩酊之旅"
+            ],
+            [
+                "一切れのステーキ",
+                "一块肉排"
+            ]
+        ]
+    },
+    "SSSStartFighting": {
+        "text": [
+            "配置開始",
+            "再度配置"
+        ]
+    },
+    "SSSStartFighting2": {
+        "text": [
+            "行動開始"
+        ]
+    },
+    "SSSDropRecruitmentFlag": {
+        "text": [
+            "拡張",
+            "バーツ",
+            "選別",
+            "オペレーター",
+            "選択",
+            "行って",
+            "ください"
+        ]
+    },
+    "SSSDropRecruitmentOCR": {
+        "action": "DoNothing",
+        "algorithm": "OcrDetect",
+        "baseTask": "CharsNameOcrReplace",
+        "cache": false,
+        "postDelay": 1000
+    },
+    "SSSDropRecruitmentConfirm": {
+        "text": [
+            "召集する",
+            "放棄する",
+            "選択を確認"
+        ],
+        "roi": [
+            1107,
+            521,
+            173,
+            147
+        ]
+    }
+}

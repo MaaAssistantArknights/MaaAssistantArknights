@@ -1,0 +1,1275 @@
+{
+    "SlowlySwipeToTheLeft": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 200,
+        "specificRect": [
+            300,
+            310,
+            100,
+            100
+        ],
+        "specificRect_Doc": "滑动起点",
+        "rectMove": [
+            880,
+            310,
+            100,
+            100
+        ],
+        "rectMove_Doc": "滑动终点",
+        "specialParams": [
+            200,
+            1,
+            2,
+            0
+        ],
+        "specialParams_Doc": [
+            "滑动 duration",
+            "额外滑动？",
+            "slope in (zero means smooth, 1 means linear)",
+            "slope out"
+        ],
+        "next": [
+            "#next"
+        ],
+        "maxTimes": 50
+    },
+    "SlowlySwipeToTheRight": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 200,
+        "specificRect": [
+            880,
+            310,
+            100,
+            100
+        ],
+        "rectMove": [
+            300,
+            310,
+            100,
+            100
+        ],
+        "specialParams": [
+            200,
+            1,
+            2,
+            0
+        ],
+        "next": [
+            "#next"
+        ],
+        "maxTimes": 50
+    },
+    "SlowlySwipeToTheUp": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 200,
+        "specificRect": [
+            600,
+            510,
+            100,
+            100
+        ],
+        "rectMove": [
+            600,
+            0,
+            100,
+            100
+        ],
+        "specialParams": [
+            200,
+            1,
+            2,
+            0
+        ],
+        "next": [
+            "#next"
+        ],
+        "maxTimes": 50
+    },
+    "SlowlySwipeToTheDown": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 200,
+        "specificRect": [
+            600,
+            145,
+            100,
+            100
+        ],
+        "rectMove": [
+            600,
+            610,
+            100,
+            100
+        ],
+        "specialParams": [
+            200,
+            1,
+            2,
+            0
+        ],
+        "next": [
+            "#next"
+        ],
+        "maxTimes": 50
+    },
+    "SwipeToTheLeft": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 100,
+        "specificRect": [
+            100,
+            310,
+            100,
+            100
+        ],
+        "rectMove": [
+            1080,
+            310,
+            100,
+            100
+        ],
+        "specialParams": [
+            150,
+            0,
+            1,
+            1
+        ],
+        "next": [
+            "#next"
+        ],
+        "maxTimes": 20
+    },
+    "SwipeToTheRight": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 100,
+        "specificRect": [
+            1080,
+            310,
+            100,
+            100
+        ],
+        "rectMove": [
+            100,
+            310,
+            200,
+            100
+        ],
+        "specialParams": [
+            150,
+            0,
+            1,
+            1
+        ],
+        "next": [
+            "#next"
+        ],
+        "maxTimes": 20
+    },
+    "SwipeToTheUp": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 350,
+        "specificRect": [
+            600,
+            510,
+            100,
+            100
+        ],
+        "rectMove": [
+            600,
+            0,
+            100,
+            100
+        ],
+        "specialParams": [
+            150,
+            0,
+            1,
+            1
+        ],
+        "next": [
+            "#next"
+        ],
+        "maxTimes": 20
+    },
+    "SwipeToTheDown": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 350,
+        "specificRect": [
+            600,
+            145,
+            100,
+            100
+        ],
+        "rectMove": [
+            600,
+            610,
+            100,
+            100
+        ],
+        "specialParams": [
+            150,
+            0,
+            1,
+            1
+        ],
+        "next": [
+            "#next"
+        ],
+        "maxTimes": 20
+    },
+    "CharsNameOcrReplace": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "Doc": "该任务的 ocrReplace 被所有涉及干员名的识别任务复用",
+        "fullMatch": true,
+        "ocrReplace": [
+            [
+                "^4",
+                ""
+            ],
+            [
+                "^<",
+                ""
+            ],
+            [
+                "^《~",
+                ""
+            ],
+            [
+                "^《",
+                ""
+            ],
+            [
+                "^\\^一",
+                ""
+            ],
+            [
+                "^令.+",
+                "令"
+            ],
+            [
+                ".*弦惊.*",
+                "“弦惊”"
+            ],
+            [
+                ".*逍遥.*",
+                "“逍遥”"
+            ],
+            [
+                ".*清平.*",
+                "“清平”"
+            ],
+            [
+                ".*打字机.*",
+                "“打字机”"
+            ],
+            [
+                ".*耀阳.*",
+                "“耀阳”"
+            ],
+            [
+                "玛恩.*",
+                "玛恩纳"
+            ],
+            [
+                ".*默德克萨斯",
+                "缄默德克萨斯"
+            ],
+            [
+                "^重岳.+",
+                "重岳"
+            ],
+            [
+                ".*麟.*夜刀$",
+                "麒麟R夜刀"
+            ],
+            [
+                "麒.+夜刀$",
+                "麒麟R夜刀"
+            ],
+            [
+                ".*龙.*黑角$",
+                "火龙S黑角"
+            ],
+            [
+                ".*大陆调查团$",
+                "泰拉大陆调查团"
+            ],
+            [
+                "[Uu]-[O0o]f{1,2}icial",
+                "U-Official"
+            ],
+            [
+                ".*威龙陈",
+                "假日威龙陈"
+            ],
+            [
+                "^夕.*",
+                "夕"
+            ],
+            [
+                "青积",
+                "青枳"
+            ],
+            [
+                ".*烬艾雅法拉",
+                "纯烬艾雅法拉"
+            ],
+            [
+                "^山.+",
+                "山"
+            ],
+            [
+                "12E",
+                "12F"
+            ],
+            [
+                "归.*幽灵鲨",
+                "归溟幽灵鲨"
+            ],
+            [
+                "临六$",
+                "临光"
+            ],
+            [
+                "^临光.*",
+                "临光"
+            ],
+            [
+                "^煌.*",
+                "煌"
+            ],
+            [
+                ".*甜蜜狂搅.*",
+                "“甜蜜狂搅”"
+            ],
+            [
+                "^年.?$",
+                "年"
+            ],
+            [
+                "^w$",
+                "W"
+            ],
+            [
+                "维获",
+                "维荻"
+            ],
+            [
+                "_ancet-2",
+                "Lancet-2"
+            ]
+        ]
+    },
+    "CloseAnnos": {
+        "algorithm": "JustReturn",
+        "next": [
+            "CloseAnno",
+            "CloseAnnoTexas",
+            "TodaysSupplies",
+            "NotDownloadVoice"
+        ]
+    },
+    "MainThemes": {
+        "Doc": "使用本任务时带上 #next",
+        "algorithm": "JustReturn",
+        "next_Doc": "用于标记一个任务链的所有入口，一般是 #back 或者 XXXBegin#next",
+        "next": [
+            "#back"
+        ]
+    },
+    "CloseAnnoBase": {
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "cache": false,
+        "next": [
+            "MainThemes#next",
+            "CloseAnnos#next"
+        ]
+    },
+    "CloseAnno": {
+        "baseTask": "CloseAnnoBase",
+        "roi": [
+            1100,
+            0,
+            180,
+            200
+        ]
+    },
+    "CloseAnnoTexas": {
+        "baseTask": "CloseAnnoBase",
+        "roi": [
+            1125,
+            24,
+            138,
+            139
+        ]
+    },
+    "NotDownloadVoice": {
+        "baseTask": "CloseAnnoBase",
+        "roi": [
+            369,
+            462,
+            152,
+            62
+        ]
+    },
+    "LoadingText": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": [
+            "正在提交",
+            "反馈至神经"
+        ],
+        "roi": [
+            700,
+            600,
+            300,
+            120
+        ],
+        "next": [
+            "LoadingText",
+            "#next",
+            "#back"
+        ]
+    },
+    "LoadingIcon": {
+        "Doc": "开始唤醒最后阶段的黑色正三角加载画面",
+        "roi": [
+            480,
+            210,
+            320,
+            280
+        ],
+        "next": [
+            "LoadingIcon",
+            "#next",
+            "#back"
+        ]
+    },
+    "ReturnButtons": {
+        "algorithm": "JustReturn",
+        "next": [
+            "ReturnButton",
+            "FromStageSN"
+        ]
+    },
+    "ReturnButton": {
+        "template": [
+            "Return.png",
+            "Return-White.png"
+        ],
+        "templThreshold": [
+            0.7,
+            0.8
+        ],
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            0,
+            0,
+            180,
+            80
+        ],
+        "next": [
+            "MainThemes#next",
+            "ReturnButtons#next",
+            "ReturnConfirm",
+            "ReturnButton@LoadingIcon",
+            "ReturnButton@LoadingText",
+            "CloseAnnos#next"
+        ]
+    },
+    "ReturnConfirm": {
+        "template": "PopupConfirm.png",
+        "action": "ClickSelf",
+        "roi": [
+            630,
+            400,
+            650,
+            160
+        ],
+        "next": [
+            "ReturnButtons#next",
+            "MainThemes#next",
+            "ReturnConfirm@LoadingIcon",
+            "CloseAnnos#next",
+            "ReturnConfirm"
+        ]
+    },
+    "OfflineConfirm": {
+        "action": "DoNothing",
+        "roi": [
+            310,
+            409,
+            648,
+            165
+        ],
+        "reduceOtherTimes": [
+            "StartButton1",
+            "StartButton2"
+        ],
+        "next": [
+            "OfflineConfirmImpl"
+        ]
+    },
+    "OfflineConfirmImpl": {
+        "Doc": "防止 reduceOtherTimes 两次",
+        "template": "OfflineConfirm.png",
+        "action": "ClickSelf",
+        "roi": [
+            310,
+            409,
+            648,
+            165
+        ],
+        "next": [
+            "CloseAnnos#next",
+            "OfflineConfirmImpl",
+            "StartUpThemes#next"
+        ]
+    },
+    "OfflineConfirmAfterBattle": {
+        "template": "PopupConfirm.png",
+        "action": "ClickSelf",
+        "roi": [
+            630,
+            400,
+            650,
+            160
+        ],
+        "next": [
+            "PRTS#next",
+            "OfflineConfirm",
+            "StartUpThemes#next",
+            "OfflineConfirmAfterBattle"
+        ]
+    },
+    "RestartGameAndContinue": {
+        "Doc": "base_task",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "postDelay": 5000,
+        "next": [
+            "StartUpThemes#next",
+            "RestartGameAndContinue@LoadingIcon",
+            "ReturnButtons#next"
+        ]
+    },
+    "ActivitiesBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "ReturnToActivities",
+            "MiningActivities",
+            "RecruitingActivities"
+        ]
+    },
+    "ReturnToActivities": {
+        "template": "Return.png",
+        "templThreshold": 0.7,
+        "action": "ClickSelf",
+        "roi": [
+            0,
+            0,
+            180,
+            80
+        ],
+        "next": [
+            "ReturnToActivities",
+            "MiningActivities",
+            "RecruitingActivities",
+            "Stop"
+        ]
+    },
+    "MiningActivities": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "限时开采",
+            "开采"
+        ],
+        "action": "ClickSelf",
+        "roi": [
+            0,
+            20,
+            302,
+            302
+        ],
+        "next": [
+            "MiningActivityDigging",
+            "MiningActivitiesReturn"
+        ]
+    },
+    "MiningActivityDigging": {
+        "action": "ClickSelf",
+        "roi": [
+            901,
+            469,
+            334,
+            182
+        ],
+        "next": [
+            "MiningActivityDigging",
+            "MiningActivityDiggingEnd",
+            "MiningActivitiesReturn"
+        ]
+    },
+    "MiningActivityDiggingEnd": {
+        "action": "ClickSelf",
+        "roi": [
+            559,
+            563,
+            160,
+            157
+        ],
+        "next": [
+            "MiningActivitiesReturn"
+        ]
+    },
+    "MiningActivitiesReturn": {
+        "template": "CloseAnno.png",
+        "action": "ClickSelf",
+        "roi": [
+            1146,
+            0,
+            134,
+            162
+        ],
+        "next": [
+            "RecruitingActivities",
+            "MiningActivitiesReturn",
+            "Stop"
+        ]
+    },
+    "CrisisPopup": {
+        "action": "ClickRect",
+        "roi": [
+            450,
+            130,
+            400,
+            100
+        ],
+        "specificRect": [
+            20,
+            20,
+            135,
+            35
+        ]
+    },
+    "Home": {
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png",
+            "TerminalMistCity.png"
+        ],
+        "cache": false,
+        "action": "Stop",
+        "roi": [
+            880,
+            100,
+            180,
+            120
+        ],
+        "roi_crop_doc": [
+            903,
+            120,
+            97,
+            58
+        ]
+    },
+    "Stop": {
+        "algorithm": "JustReturn",
+        "action": "Stop"
+    },
+    "SleepThenStop": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "postDelay": 2000
+    },
+    "Return": {
+        "action": "ClickSelf",
+        "templThreshold": 0.7,
+        "postDelay": 2000,
+        "cache": false,
+        "roi": [
+            0,
+            0,
+            180,
+            80
+        ]
+    },
+    "SleepAfterOperListQuickSwipe": {
+        "algorithm": "JustReturn",
+        "postDelay": 1000
+    },
+    "act24side_melding_1": {
+        "baseTask": "StageDrops-StageCF-ItemMatch",
+        "template": "items/act24side_melding_1.png"
+    },
+    "act24side_melding_2": {
+        "baseTask": "StageDrops-StageCF-ItemMatch",
+        "template": "items/act24side_melding_2.png"
+    },
+    "act24side_melding_3": {
+        "baseTask": "StageDrops-StageCF-ItemMatch",
+        "template": "items/act24side_melding_3.png"
+    },
+    "act24side_melding_4": {
+        "baseTask": "StageDrops-StageCF-ItemMatch",
+        "template": "items/act24side_melding_4.png"
+    },
+    "act24side_melding_5": {
+        "baseTask": "StageDrops-StageCF-ItemMatch",
+        "template": "items/act24side_melding_5.png"
+    },
+    "act24side_melding_6": {
+        "baseTask": "StageDrops-StageCF-ItemMatch",
+        "template": "items/act24side_melding_6.png"
+    },
+    "NumberOcrReplace": {
+        "algorithm": "OcrDetect",
+        "isAscii": true,
+        "text": [],
+        "ocrReplace": [
+            [
+                "o",
+                "0"
+            ],
+            [
+                "O",
+                "0"
+            ],
+            [
+                "I",
+                "1"
+            ],
+            [
+                "l",
+                "1"
+            ],
+            [
+                "十",
+                "+"
+            ],
+            [
+                "萬",
+                "万"
+            ],
+            [
+                "만",
+                "万"
+            ],
+            [
+                "億",
+                "亿"
+            ],
+            [
+                "억",
+                "亿"
+            ],
+            [
+                "^\\.",
+                ""
+            ]
+        ]
+    },
+    "DepotMatchData": {
+        "template": "empty.png",
+        "templThreshold": 0.6,
+        "roi": [
+            0,
+            0,
+            1066,
+            599
+        ],
+        "roi_Doc": "作为截图的缩放尺寸使用",
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "DepotBaseRect": {
+        "template": "empty.png",
+        "roi": [
+            0,
+            190,
+            156,
+            190
+        ],
+        "roi_Doc": "center of item at 1280 * 720: [x_first (unknown), y_first, x_period, y_period]"
+    },
+    "DepotQuantity": {
+        "template": "empty.png",
+        "maskRange": [
+            110,
+            255
+        ]
+    },
+    "DepotBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "DepotEnter",
+            "DepotMaterialTab",
+            "DepotAllTab",
+            "DepotMaterialTabClicked",
+            "DepotEnter@ReturnButtons#next"
+        ]
+    },
+    "DepotEnter": {
+        "action": "ClickSelf",
+        "roi": [
+            1109,
+            560,
+            171,
+            160
+        ],
+        "next": [
+            "DepotMaterialTab"
+        ]
+    },
+    "DepotAllTab": {
+        "action": "ClickSelf",
+        "roi": [
+            452,
+            0,
+            281,
+            134
+        ],
+        "next": [
+            "DepotMaterialTab"
+        ]
+    },
+    "DepotMaterialTab": {
+        "action": "ClickSelf",
+        "roi": [
+            1026,
+            0,
+            254,
+            138
+        ],
+        "next": [
+            "DepotMaterialTabClicked"
+        ]
+    },
+    "DepotMaterialTabClicked": {
+        "action": "DoNothing",
+        "roi": [
+            1026,
+            0,
+            254,
+            138
+        ]
+    },
+    "ScreenshotTaskPlugin-Config": {
+        "Doc": "本任务是插件 ScreenshotTaskPlugin 的配置",
+        "Doc_2": "需要在任务 Task 开始时截图时，将 Task 加入到此任务的 next 列表。",
+        "algorithm": "JustReturn",
+        "next": [
+            "Roguelike@StageEncounterOptionUnknown"
+        ]
+    },
+    "ScreenshotTaskPlugin-Config-Debug": {
+        "Doc": "本任务是插件 ScreenshotTaskPlugin 的配置",
+        "Doc_2": "存在 DEBUG 或 DEBUG.txt 时的额外截图",
+        "algorithm": "JustReturn",
+        "next": []
+    },
+    "DepotSlowlySwipeToTheRight": {
+        "baseTask": "SlowlySwipeToTheRight",
+        "specificRect": [
+            1150,
+            340,
+            20,
+            20
+        ],
+        "rectMove": [
+            110,
+            340,
+            20,
+            20
+        ]
+    },
+    "OperBoxBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "OperBoxEnter",
+            "OperBoxRoleTabSelect",
+            "OperBoxRoleTab",
+            "OperBoxEnter@ReturnButtons#next"
+        ]
+    },
+    "OperBoxEnter": {
+        "template": [
+            "OperBoxEnter.png",
+            "OperBoxEnterDark.png",
+            "OperBoxEnterSami.png",
+            "OperBoxEnterMistCity.png"
+        ],
+        "cache": false,
+        "action": "ClickSelf",
+        "roi": [
+            935,
+            300,
+            265,
+            110
+        ],
+        "roi_crop_doc": [
+            945,
+            301,
+            85,
+            78
+        ],
+        "next": [
+            "OperBoxRoleTabSelect",
+            "Stop"
+        ]
+    },
+    "OperBoxRoleTabSelect": {
+        "action": "ClickSelf",
+        "roi": [
+            1200,
+            20,
+            80,
+            50
+        ],
+        "next": [
+            "OperBoxRoleTab"
+        ],
+        "maxTimes": 3
+    },
+    "OperBoxRoleTab": {
+        "action": "DoNothing",
+        "roi": [
+            1195,
+            15,
+            80,
+            50
+        ]
+    },
+    "OperBoxSlowlySwipeToTheRight": {
+        "doc": "6个横向干员防止识别不全990px",
+        "baseTask": "SlowlySwipeToTheRight",
+        "specificRect": [
+            1090,
+            350,
+            20,
+            20
+        ],
+        "rectMove": [
+            100,
+            350,
+            20,
+            20
+        ]
+    },
+    "OperBoxFlagRoleTopROI": {
+        "template": "empty.png",
+        "roi": [
+            0,
+            78,
+            1145,
+            50
+        ]
+    },
+    "OperBoxFlagRoleBottomROI": {
+        "template": "empty.png",
+        "roi": [
+            0,
+            394,
+            1145,
+            50
+        ]
+    },
+    "OperBoxFlagRole1": {},
+    "OperBoxFlagRole2": {},
+    "OperBoxFlagRole3": {},
+    "OperBoxFlagRole4": {},
+    "OperBoxFlagRole5": {},
+    "OperBoxFlagRole6": {},
+    "OperBoxFlagRole7": {},
+    "OperBoxFlagRole8": {},
+    "OperBoxFlagRole9": {},
+    "OperBoxFlagElite1": {
+        "doc": "精英一 模板"
+    },
+    "OperBoxFlagElite2": {
+        "doc": "精英二 模板"
+    },
+    "OperBoxFlagElite": {
+        "doc": "偏移，识别精英度，扩大两个像素点",
+        "template": "empty.png",
+        "templThreshold": 0.9,
+        "roi": [
+            11,
+            171,
+            24,
+            35
+        ]
+    },
+    "OperBoxPotential": {
+        "doc": "偏移，识别潜能，扩大两个像素点",
+        "template": "empty.png",
+        "templThreshold": 0.85,
+        "roi": [
+            99,
+            194,
+            24,
+            24
+        ]
+    },
+    "OperBoxPotential2": {},
+    "OperBoxPotential3": {},
+    "OperBoxPotential4": {},
+    "OperBoxPotential5": {},
+    "OperBoxPotential6": {},
+    "OperBoxNameOCR": {
+        "baseTask": "CharsNameOcrReplace",
+        "text": [],
+        "roi": [
+            4,
+            269,
+            122,
+            14
+        ],
+        "specialParams": [
+            160,
+            4,
+            4,
+            0
+        ]
+    },
+    "OperBoxLevelOCR": {
+        "algorithm": "OcrDetect",
+        "fullMatch": true,
+        "isAscii": true,
+        "text": [],
+        "roi": [
+            5,
+            230,
+            37,
+            23
+        ]
+    },
+    "GachaOnce": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "GachaOncePrefix@GachaBegin"
+        ]
+    },
+    "GachaTenTimes": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "GachaTenTimesPrefix@GachaBegin"
+        ]
+    },
+    "GachaBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "DoGacha",
+            "GachaEnter",
+            "GachaEnter@ReturnButtons#next",
+            "GachaLastOnceResult",
+            "GachaLastTenTimesResult1",
+            "GachaLastTenTimesResult2"
+        ]
+    },
+    "GachaEnter": {
+        "action": "ClickSelf",
+        "template": [
+            "GachaEnter.png",
+            "GachaEnterDark.png",
+            "GachaEnterSami.png",
+            "GachaEnterMistCity.png"
+        ],
+        "cache": false,
+        "roi": [
+            1052,
+            443,
+            228,
+            156
+        ],
+        "roi_crop_doc": [
+            1095,
+            497,
+            167,
+            56
+        ],
+        "next": [
+            "GachaEnter",
+            "GachaEnter@LoadingText",
+            "DoGacha"
+        ]
+    },
+    "GachaLastOnceResult": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "凭证",
+            "信物",
+            "获得"
+        ],
+        "roi": [
+            1002,
+            241,
+            278,
+            371
+        ],
+        "next": [
+            "GachaBegin#next"
+        ]
+    },
+    "GachaLastTenTimesResult1": {
+        "action": "ClickSelf",
+        "templThreshold": 0.7,
+        "cache": false,
+        "roi": [
+            0,
+            145,
+            1280,
+            42
+        ],
+        "next": [
+            "GachaBegin#next"
+        ]
+    },
+    "GachaLastTenTimesResult2": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "获得物资"
+        ],
+        "roi": [
+            508,
+            66,
+            267,
+            172
+        ],
+        "next": [
+            "GachaBegin#next"
+        ]
+    },
+    "DoGacha": {
+        "action": "DoNothing",
+        "template": "empty.png"
+    },
+    "GachaOncePrefix@DoGacha": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "寻访一次",
+            "访一次"
+        ],
+        "roi": [
+            779,
+            576,
+            248,
+            141
+        ],
+        "next": [
+            "GachaOncePrefix@DoGacha@LoadingText",
+            "GachaOncePrefix@DoGacha",
+            "GachaConfirm"
+        ]
+    },
+    "GachaTenTimesPrefix@DoGacha": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "寻访十次",
+            "访十次"
+        ],
+        "roi": [
+            975,
+            571,
+            257,
+            149
+        ],
+        "next": [
+            "GachaTenTimesPrefix@DoGacha@LoadingText",
+            "GachaTenTimesPrefix@DoGacha",
+            "GachaConfirm"
+        ]
+    },
+    "GachaConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            830,
+            431,
+            228,
+            151
+        ],
+        "next": [
+            "GachaConfirm@LoadingText",
+            "GachaWaitingForBag",
+            "GachaNoMoney",
+            "GachaConfirm"
+        ]
+    },
+    "GachaNoMoney": {
+        "action": "Stop",
+        "roi": [
+            511,
+            148,
+            283,
+            152
+        ]
+    },
+    "GachaWaitingForBag": {
+        "action": "DoNothing",
+        "template": "GachaSkip.png",
+        "roi": [
+            1144,
+            0,
+            136,
+            148
+        ],
+        "postDelay": 2000,
+        "next": [
+            "GachaSwipeToOpenBag"
+        ]
+    },
+    "GachaSwipeToOpenBag": {
+        "baseTask": "SwipeToTheRight",
+        "algorithm": "MatchTemplate",
+        "template": "GachaSkip.png",
+        "roi": [
+            1144,
+            0,
+            136,
+            148
+        ],
+        "next": [
+            "GachaSkip"
+        ],
+        "postDelay": 3000
+    },
+    "GachaSkip": {
+        "template": "GachaSkip.png",
+        "action": "ClickSelf",
+        "roi": [
+            1144,
+            0,
+            136,
+            148
+        ],
+        "next": [
+            "GachaSkip",
+            "Stop"
+        ],
+        "postDelay": 2000
+    }
+}

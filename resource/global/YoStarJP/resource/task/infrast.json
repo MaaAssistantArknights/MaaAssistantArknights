@@ -1,0 +1,22 @@
+{
+    "InfrastReward": {
+        "text": [
+            "受取可",
+            "納品可",
+            "信頼獲得"
+        ]
+    },
+    "InfrastStationedInfo": {
+        "text": [
+            "配属情報"
+        ]
+    },
+    "InfrastEnterOperList": {
+        "text": [
+            "体力",
+            "休憩中",
+            "仕事中",
+            "配属"
+        ]
+    }
+}

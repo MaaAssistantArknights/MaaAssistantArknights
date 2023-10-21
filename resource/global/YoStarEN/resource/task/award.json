@@ -1,0 +1,11 @@
+{
+    "Award": {
+        "roi": [
+            665,
+            504,
+            252,
+            162
+        ],
+        "template": "award/Task.png"
+    }
+}

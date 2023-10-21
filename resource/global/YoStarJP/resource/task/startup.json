@@ -1,0 +1,25 @@
+{
+    "StartToWakeUp": {
+        "Doc": "相较国服调大roi",
+        "roi": [
+            480,
+            450,
+            320,
+            60
+        ]
+    },
+    "StartUpConnectingFlag": {
+        "Doc": "相较国服调大roi",
+        "roi": [
+            0,
+            635,
+            550,
+            85
+        ]
+    },
+    "TodaysSupplies": {
+        "text": [
+            "本日配給"
+        ]
+    }
+}

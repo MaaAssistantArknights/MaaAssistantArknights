@@ -1,0 +1,273 @@
+{
+    "BattleQuickFormationExpandRole": {
+        "roi": [
+            1166,
+            0,
+            114,
+            120
+        ]
+    },
+    "BattleQuickFormationFilter-Cost": {
+        "roi": [
+            996,
+            443,
+            222,
+            125
+        ],
+        "text": [
+            "Deployment Cost"
+        ]
+    },
+    "BattleQuickFormationRole-All-OCR": {
+        "text": [
+            "All"
+        ]
+    },
+    "BattleQuickFormationOCR": {
+        "roi": [
+            0,
+            231,
+            116,
+            22
+        ],
+        "specialParams": [
+            160,
+            2,
+            7,
+            0
+        ]
+    },
+    "BattleStartPre": {
+        "text": [
+            "Start",
+            "Start Challenge"
+        ]
+    },
+    "BattleStartOCR": {
+        "roi": [
+            1000,
+            404,
+            210,
+            220
+        ],
+        "text": [
+            "MISSION",
+            "START"
+        ]
+    },
+    "BattleStartSimulation": {
+        "roi": [
+            400,
+            566,
+            481,
+            154
+        ]
+    },
+    "BattleOperName": {
+        "roi": [
+            5,
+            177,
+            280,
+            37
+        ]
+    },
+    "SSSBattleOperName": {
+        "roi": [
+            0,
+            105,
+            300,
+            31
+        ]
+    },
+    "SSSBegin": {
+        "roi": [
+            970,
+            601,
+            277,
+            119
+        ],
+        "text": [
+            "Start security operation"
+        ]
+    },
+    "SSSDebuffConfirm": {
+        "roi": [
+            1034,
+            602,
+            227,
+            118
+        ],
+        "text": [
+            "Confirm Completion"
+        ]
+    },
+    "SSSBuffChoose": {
+        "ocrReplace": [
+            [
+                ".*girian Oscilloscope",
+                "阿戈尔示波器"
+            ],
+            [
+                "Adaptive Supply Component",
+                "自适应补给元件"
+            ],
+            [
+                "Eunectes' *Beacon",
+                "丛林用示踪信标"
+            ],
+            [
+                "Coating Device Conduction Valve",
+                "镀膜装置导能阀"
+            ]
+        ]
+    },
+    "SSSBuffChooseConfirm": {
+        "roi": [
+            1037,
+            600,
+            223,
+            120
+        ],
+        "text": [
+            "Confirm Selection"
+        ]
+    },
+    "SSSEquipmentConfirm": {
+        "roi": [
+            1040,
+            602,
+            219,
+            118
+        ],
+        "text": [
+            "Confirm Equipment",
+            "Confirm Eguipment"
+        ]
+    },
+    "SSSTeamConfirm": {
+        "roi": [
+            992,
+            576,
+            288,
+            144
+        ],
+        "text": [
+            "View squad"
+        ]
+    },
+    "SSSStageNameOCR": {
+        "ocrReplace": [
+            [
+                "Jungle Greetings",
+                "丛林式寒暄"
+            ],
+            [
+                "Biodiversity",
+                "生物多样性"
+            ],
+            [
+                "^Adaptation.*",
+                "习以为常"
+            ],
+            [
+                "Glade",
+                "林间空地"
+            ],
+            [
+                "Not Letting Go",
+                "纠缠不休"
+            ],
+            [
+                "Man And Nature",
+                "人与自然"
+            ],
+            [
+                "The Swarming.*",
+                "蜂拥而上"
+            ],
+            [
+                "Passing Down.*",
+                "见者有份"
+            ],
+            [
+                "Industrial.*",
+                "产业升级"
+            ],
+            [
+                "Bad Company",
+                "同流合污"
+            ],
+            [
+                "Tips[yv] Trip",
+                "酩酊之旅"
+            ],
+            [
+                "A Piece of Steak",
+                "一块肉排"
+            ]
+        ],
+        "roi": [
+            126,
+            266,
+            175,
+            33
+        ]
+    },
+    "SSSStartFighting": {
+        "roi": [
+            1038,
+            602,
+            221,
+            118
+        ],
+        "text": [
+            "Begin Deployment",
+            "Redeploy"
+        ]
+    },
+    "SSSStartFighting2": {
+        "roi": [
+            992,
+            576,
+            288,
+            144
+        ],
+        "text": [
+            "Start"
+        ]
+    },
+    "SSSDropRecruitmentFlag": {
+        "text": [
+            "Choose an Operator",
+            "Select",
+            "Conductive",
+            "Unit"
+        ]
+    },
+    "SSSDropRecruitmentOCR": {
+        "action": "DoNothing",
+        "algorithm": "OcrDetect",
+        "baseTask": "CharsNameOcrReplace",
+        "cache": false,
+        "postDelay": 1000,
+        "roi": [
+            0,
+            352,
+            1280,
+            263
+        ],
+        "text": []
+    },
+    "SSSDropRecruitmentConfirm": {
+        "roi": [
+            1105,
+            525,
+            175,
+            140
+        ],
+        "text": [
+            "Confirm assignment",
+            "Confirm Selection"
+        ]
+    }
+}

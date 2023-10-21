@@ -1,0 +1,398 @@
+{
+    "RecruitBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "RecruitFlag",
+            "Recruit",
+            "Recruit@ReturnButtons#next",
+            "Recruit@CloseAnnos#next",
+            "Recruit@OfflineConfirm"
+        ]
+    },
+    "Recruit": {
+        "template": [
+            "recruit/Recruit.png",
+            "recruit/RecruitDark.png",
+            "recruit/RecruitSami.png",
+            "recruit/RecruitMistCity.png"
+        ],
+        "action": "ClickSelf",
+        "roi": [
+            900,
+            450,
+            200,
+            150
+        ],
+        "roi_crop_doc": [
+            935,
+            480,
+            145,
+            61
+        ],
+        "maskRange": [
+            1,
+            255
+        ],
+        "next": [
+            "RecruitBegin@LoadingText",
+            "RecruitBegin"
+        ]
+    },
+    "RecruitFinish": {
+        "action": "ClickSelf",
+        "templThreshold": 0.7,
+        "cache": false,
+        "roi": [
+            0,
+            300,
+            1280,
+            420
+        ],
+        "next": [
+            "RecruitFinish@LoadingText",
+            "RecruitFinish",
+            "Recruit",
+            "RecruitSkip",
+            "RecruitSkipWithoutButton"
+        ]
+    },
+    "RecruitSkip": {
+        "action": "ClickSelf",
+        "roi": [
+            1100,
+            0,
+            180,
+            150
+        ],
+        "next": [
+            "RecruitSkip",
+            "RecruitSkipWithoutButton"
+        ]
+    },
+    "RecruitSkipWithoutButton": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1180,
+            15,
+            85,
+            60
+        ],
+        "next": [
+            "RecruitFinish",
+            "RecruitFlag",
+            "RecruitSkip",
+            "Recruit",
+            "RecruitSkipWithoutButton"
+        ]
+    },
+    "StartRecruit": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "text": [
+            "开始招"
+        ],
+        "roi": [
+            0,
+            300,
+            1280,
+            420
+        ]
+    },
+    "RecruitFlag": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "公开招募"
+        ],
+        "roi": [
+            50,
+            100,
+            230,
+            100
+        ],
+        "action": "Stop"
+    },
+    "RecruitNow": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "cache": false,
+        "text": [
+            "立即招"
+        ],
+        "roi": [
+            0,
+            300,
+            1280,
+            420
+        ],
+        "next": [
+            "RecruitNowConfirm"
+        ]
+    },
+    "RecruitNowConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            640,
+            450,
+            640,
+            150
+        ],
+        "postDelay": 1000,
+        "next": [
+            "RecruitFlag",
+            "RecruitNowConfirm"
+        ]
+    },
+    "RecruitingActivities": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "赠送",
+            "次"
+        ],
+        "action": "ClickSelf",
+        "roi": [
+            1148,
+            416,
+            132,
+            138
+        ],
+        "next": [
+            "RecruitingActivitiesConfirm",
+            "RecruitingActivities"
+        ]
+    },
+    "RecruitingActivitiesConfirm": {
+        "action": "DoNothing",
+        "algorithm": "OcrDetect",
+        "text": [
+            "赠送",
+            "次",
+            "小时"
+        ],
+        "roi": [
+            729,
+            515,
+            303,
+            135
+        ],
+        "next": [
+            "RecruitingActivitiesRecruit",
+            "RecruitingActivitiesConfirm"
+        ]
+    },
+    "RecruitingActivitiesRecruit": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "寻访一次",
+            "寻访"
+        ],
+        "roi": [
+            770,
+            577,
+            267,
+            143
+        ],
+        "next": [
+            "RecruitingActivitiesRecruitNowConfirm"
+        ]
+    },
+    "RecruitingActivitiesRecruitNowConfirm": {
+        "action": "ClickSelf",
+        "template": "recruit/RecruitNowConfirm.png",
+        "roi": [
+            586,
+            399,
+            694,
+            192
+        ],
+        "next": [
+            "RecruitingActivitiesRecruitSkip",
+            "RecruitingActivitiesRecruitNowConfirm",
+            "RecruitingActivitiesRecruitSkipWithoutButton"
+        ]
+    },
+    "RecruitingActivitiesRecruitSkip": {
+        "action": "ClickSelf",
+        "template": "recruit/RecruitSkip.png",
+        "roi": [
+            1100,
+            0,
+            180,
+            150
+        ],
+        "next": [
+            "RecruitingActivitiesRecruitSkip",
+            "RecruitingActivitiesRecruitSkipWithoutButton"
+        ]
+    },
+    "RecruitingActivitiesRecruitSkipWithoutButton": {
+        "action": "ClickRect",
+        "algorithm": "JustReturn",
+        "specificRect": [
+            1180,
+            15,
+            85,
+            60
+        ],
+        "next": [
+            "RecruitingActivitiesRecruitEnd",
+            "RecruitingActivitiesRecruitSkip",
+            "RecruitingActivitiesRecruitSkipWithoutButton"
+        ]
+    },
+    "RecruitingActivitiesRecruitEnd": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": [
+            "寻访一次",
+            "寻访"
+        ],
+        "roi": [
+            770,
+            577,
+            267,
+            143
+        ],
+        "next": [
+            "Stop"
+        ]
+    },
+    "RecruitTimerDecrement": {
+        "Doc": "two buttons that adjust recruit timer",
+        "roi": [
+            350,
+            250,
+            370,
+            100
+        ]
+    },
+    "RecruitTags": {
+        "algorithm": "OcrDetect",
+        "fullMatch": true,
+        "text": [],
+        "roi": [
+            375,
+            360,
+            480,
+            120
+        ],
+        "ocrReplace": [
+            [
+                ".*高级.+",
+                "高级资深干员"
+            ],
+            [
+                "^资深.+",
+                "资深干员"
+            ]
+        ]
+    },
+    "RecruitRefresh": {
+        "action": "ClickSelf",
+        "roi": [
+            850,
+            340,
+            220,
+            170
+        ],
+        "next": [
+            "RecruitRefreshConfirm"
+        ]
+    },
+    "RecruitNoPermit": {
+        "action": "DoNothing",
+        "roi": [
+            450,
+            600,
+            190,
+            110
+        ]
+    },
+    "RecruitNoRefresh": {
+        "action": "DoNothing",
+        "roi": [
+            850,
+            340,
+            220,
+            170
+        ]
+    },
+    "RecruitRefreshConfirm": {
+        "template": "PopupConfirm.png",
+        "action": "ClickSelf",
+        "roi": [
+            630,
+            400,
+            650,
+            160
+        ],
+        "preDelay": 500,
+        "postDelay": 500,
+        "next": [
+            "RecruitRefreshConfirm@LoadingText",
+            "Recruit@OfflineConfirm",
+            "SleepThenStop"
+        ]
+    },
+    "RecruitTimerH": {
+        "Doc": "识别公招小时数",
+        "algorithm": "OcrDetect",
+        "isAscii": true,
+        "withoutDet": true,
+        "roi": [
+            410,
+            195,
+            85,
+            60
+        ],
+        "text": [
+            "01",
+            "02",
+            "03",
+            "04",
+            "05",
+            "06",
+            "07",
+            "08",
+            "09"
+        ]
+    },
+    "RecruitTimerM": {
+        "Doc": "识别公招分钟数",
+        "algorithm": "OcrDetect",
+        "isAscii": true,
+        "withoutDet": true,
+        "roi": [
+            575,
+            195,
+            85,
+            60
+        ],
+        "text": [
+            "00",
+            "10",
+            "20",
+            "30",
+            "40",
+            "50"
+        ]
+    },
+    "RecruitConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            860,
+            540,
+            230,
+            80
+        ],
+        "next": [
+            "RecruitConfirm@LoadingText",
+            "Recruit@OfflineConfirm",
+            "RecruitFlag"
+        ]
+    }
+}

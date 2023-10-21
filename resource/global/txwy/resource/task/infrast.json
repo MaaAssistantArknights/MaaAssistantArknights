@@ -1,0 +1,43 @@
+{
+    "InfrastReward": {
+        "text": [
+            "可收穫",
+            "訂單交付",
+            "幹員信賴"
+        ]
+    },
+    "InfrastStationedInfo": {
+        "text": [
+            "進駐資訊",
+            "焦駐資訊"
+        ]
+    },
+    "InfrastEnterOperList": {
+        "text": [
+            "心情",
+            "休息中",
+            "工作中",
+            "進駐"
+        ]
+    },
+    "InfrastConfirmButtonWait": {
+        "text": [
+            "正在提交",
+            "反饋至神經"
+        ]
+    },
+    "InfrastDormConfirmButtonWait": {
+        "text": [
+            "正在提交",
+            "反饋至神經"
+        ]
+    },
+    "InfrastClueSelfFull": {
+        "text": [
+            "已達線索上限",
+            "無法獲取新的線索",
+            "上限",
+            "無法"
+        ]
+    }
+}

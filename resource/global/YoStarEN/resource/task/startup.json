@@ -1,0 +1,12 @@
+{
+    "StartToWakeUpOCR": {
+        "text": [
+            "START"
+        ]
+    },
+    "TodaysSupplies": {
+        "text": [
+            "Resource Today"
+        ]
+    }
+}

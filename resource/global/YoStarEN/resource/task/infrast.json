@@ -1,0 +1,87 @@
+{
+    "InfrastReward": {
+        "fullMatch": true,
+        "text": [
+            "Collectable",
+            "Orders Acquired",
+            "Trust"
+        ]
+    },
+    "ShamareThumbnail1": {
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "ShamareThumbnail2": {
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "ShamareThumbnail3": {
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "InfrastStationedInfo": {
+        "text": [
+            "Operator"
+        ]
+    },
+    "InfrastEnterOperList": {
+        "fullMatch": true,
+        "text": [
+            "Morale",
+            "Resting",
+            "Working",
+            "Assign"
+        ]
+    },
+    "InfrastFilterMenuNotStationedButton": {
+        "templThreshold": 0.75
+    },
+    "InfrastConfirmButtonWait": {
+        "roi": [
+            675,
+            605,
+            427,
+            115
+        ],
+        "text": [
+            "Submitting feedback",
+            "to the neural network"
+        ]
+    },
+    "InfrastDormConfirmButtonWait": {
+        "roi": [
+            675,
+            605,
+            427,
+            115
+        ],
+        "text": [
+            "Submitting feedback",
+            "to the neural network"
+        ]
+    },
+    "InfrastFlagOriginStone": {
+        "templThreshold": 0.7
+    },
+    "InfrastClueSelfFull": {
+        "roi": [
+            287,
+            554,
+            400,
+            124
+        ],
+        "text": [
+            "Clue limit reached",
+            "Unable to receive new Clues"
+        ]
+    },
+    "UnlockClues": {
+        "templThreshold": 0.85
+    }
+}

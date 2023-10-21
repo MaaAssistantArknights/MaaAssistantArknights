@@ -1,0 +1,37 @@
+{
+    "NoFriends": {
+        "text": [
+            "No friends"
+        ]
+    },
+    "VisitNextOcr": {
+        "text": [
+            "Visit Next"
+        ]
+    },
+    "Mall": {
+        "text": [
+            "Store"
+        ]
+    },
+    "CreditStoreOcr": {
+        "text": [
+            "Credit Store"
+        ]
+    },
+    "VisitLimited": {
+        "text": [
+            "limit",
+            "reached"
+        ]
+    },
+    "VisitNextBlack": {
+        "templThreshold": 0.85
+    },
+    "CreditShop-NoMoney": {
+        "text": [
+            "Insufficient Credit",
+            "Unable to"
+        ]
+    }
+}

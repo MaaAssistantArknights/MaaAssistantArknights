@@ -1,0 +1,147 @@
+{
+    "BattleQuickFormationFilter-Cost": {
+        "text": [
+            "部署費用"
+        ]
+    },
+    "BattleStartPre": {
+        "text": [
+            "開始行動",
+            "開始突襲",
+            "開始試煉",
+            "開始試束",
+            "開始測試"
+        ]
+    },
+    "BattleStartOCR": {
+        "text": [
+            "行動",
+            "開始"
+        ]
+    },
+    "SSSBegin": {
+        "text": [
+            "開始保全作戰"
+        ]
+    },
+    "SSSDebuffConfirm": {
+        "text": [
+            "確認完畢"
+        ]
+    },
+    "SSSBuffChoose": {
+        "text": [
+            "自適應補給元件"
+        ]
+    },
+    "SSSBuffChooseConfirm": {
+        "text": [
+            "確認選擇"
+        ]
+    },
+    "SSSEquipmentConfirm": {
+        "text": [
+            "裝備確認"
+        ]
+    },
+    "SSSTeamConfirm": {
+        "text": [
+            "陣容確認"
+        ]
+    },
+    "SSSStageNameOCR": {
+        "ocrReplace": [
+            [
+                "枯朽.*育",
+                "枯朽孕育"
+            ],
+            [
+                "^混亂.*派對.*",
+                "混乱“派对”"
+            ],
+            [
+                "^窒息.*",
+                "窒息"
+            ],
+            [
+                "^消息傳遞.*",
+                "消息传递"
+            ],
+            [
+                "五號礦洞",
+                "五号矿洞"
+            ],
+            [
+                "唯利是圖",
+                "唯利是图"
+            ],
+            [
+                "惡勢力",
+                "恶势力"
+            ],
+            [
+                "無效組織",
+                "无效组织"
+            ],
+            [
+                "沙地獸穴",
+                "沙地兽穴"
+            ],
+            [
+                "設備驗收",
+                "设备验收"
+            ],
+            [
+                "秘密基地",
+                "秘密基地"
+            ],
+            [
+                "自然之殤",
+                "自然之殇"
+            ]
+        ]
+    },
+    "SSSStartFighting": {
+        "text": [
+            "開始部署",
+            "重新部署"
+        ]
+    },
+    "SSSStartFighting2": {
+        "text": [
+            "開始行動"
+        ]
+    },
+    "SSSDropRecruitmentFlag": {
+        "text": [
+            "請選擇",
+            "請進行",
+            "增調",
+            "異能",
+            "獲得",
+            "甄選",
+            "導能"
+        ]
+    },
+    "SSSDropRecruitmentOCR": {
+        "action": "DoNothing",
+        "algorithm": "OcrDetect",
+        "baseTask": "CharsNameOcrReplace",
+        "cache": false,
+        "postDelay": 1000,
+        "roi": [
+            0,
+            352,
+            1280,
+            263
+        ],
+        "text": []
+    },
+    "SSSDropRecruitmentConfirm": {
+        "text": [
+            "確認調用",
+            "放棄調用",
+            "確認選擇"
+        ]
+    }
+}

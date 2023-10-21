@@ -1,0 +1,2002 @@
+{
+    "CreditShop-ProductName": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "ocrReplace": [],
+        "roi": [
+            0,
+            -30,
+            220,
+            70
+        ]
+    },
+    "InfrastBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "Infrast",
+            "InfrastNotification",
+            "InfrastEnteredFlag",
+            "Infrast@ReturnButtons#next",
+            "Infrast@CloseAnnos#next",
+            "Infrast@OfflineConfirm"
+        ]
+    },
+    "Infrast@MainThemes": {
+        "next": [
+            "InfrastBegin#next"
+        ]
+    },
+    "Infrast": {
+        "template": [
+            "infrast/EnterInfrast.png",
+            "infrast/EnterInfrastDark.png",
+            "infrast/EnterInfrastSami.png",
+            "infrast/EnterInfrastMistCity.png"
+        ],
+        "cache": false,
+        "roi": [
+            900,
+            540,
+            160,
+            160
+        ],
+        "roi_crop_doc": [
+            935,
+            570,
+            85,
+            75
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "InfrastEnteredFlag",
+            "Infrast",
+            "Infrast@CloseAnnos#next",
+            "Infrast@OfflineConfirm"
+        ],
+        "postDelay": 5000
+    },
+    "InfrastEnteredFlag": {
+        "template": "infrast/InfrastOverview.png",
+        "action": "DoNothing",
+        "roi": [
+            0,
+            100,
+            300,
+            150
+        ],
+        "next": [
+            "InfrastNotification",
+            "Stop"
+        ]
+    },
+    "InfrastNotification": {
+        "roi": [
+            1100,
+            0,
+            180,
+            300
+        ],
+        "cache": false,
+        "action": "ClickSelf",
+        "next": [
+            "InfrastReward",
+            "InfrastExitReward"
+        ]
+    },
+    "InfrastReward": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "可收获",
+            "订单交付",
+            "员信赖"
+        ],
+        "action": "ClickSelf",
+        "roi": [
+            0,
+            600,
+            800,
+            118
+        ],
+        "cache": false,
+        "next": [
+            "InfrastReward",
+            "InfrastExitReward"
+        ]
+    },
+    "InfrastExitReward": {
+        "Doc": "干员疲劳、线索收集 是不能一键收获的，所以要先退出一键收获的界面，这里点击的是控制中枢左侧那一片空白的区域",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            250,
+            100,
+            380,
+            140
+        ],
+        "next": [
+            "Stop"
+        ]
+    },
+    "DroneAssistMfg": {
+        "action": "ClickSelf",
+        "roi": [
+            1180,
+            500,
+            100,
+            100
+        ],
+        "maxTimes": 1,
+        "Doc": "不同于贸易站，制造站的无人机是一次性全用掉的，所以只执行一次就够了",
+        "next": [
+            "DroneMax",
+            "DroneConfirm",
+            "DroneCancel"
+        ]
+    },
+    "DroneAssistTrade": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            250,
+            430,
+            460,
+            120
+        ],
+        "next": [
+            "DroneMax",
+            "DroneConfirm",
+            "DroneCancel"
+        ]
+    },
+    "DroneMax": {
+        "action": "ClickSelf",
+        "roi": [
+            900,
+            300,
+            120,
+            80
+        ],
+        "next": [
+            "DroneConfirm",
+            "DroneCancel"
+        ]
+    },
+    "DroneConfirm": {
+        "action": "ClickSelf",
+        "postDelay": 3500,
+        "cache": false,
+        "roi": [
+            778,
+            501,
+            377,
+            165
+        ],
+        "next": [
+            "DroneConfirm@LoadingText",
+            "DeliverableOrder",
+            "DroneAssist-Trade-Stop",
+            "DroneAssistMfg"
+        ]
+    },
+    "DroneCancel": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            85,
+            498,
+            452,
+            162
+        ]
+    },
+    "DeliverableOrder": {
+        "action": "ClickSelf",
+        "roi": [
+            250,
+            300,
+            230,
+            250
+        ],
+        "next": [
+            "DeliverableOrder",
+            "DroneAssistTrade"
+        ],
+        "postDelay": 2000
+    },
+    "DroneAssist-Trade-Stop": {
+        "Doc": "如果找到了“无人机加速”按钮，却没有找到订单交付：说明上一次无人机没有把一个订单加速完成，也说明没有更多的无人机了，所以直接stop",
+        "template": "infrast/DroneAssistTrade.png",
+        "action": "Stop"
+    },
+    "ReplenishToMax": {
+        "action": "ClickSelf",
+        "roi": [
+            882,
+            128,
+            165,
+            149
+        ],
+        "postDelay": 1000,
+        "next": [
+            "ReplenishToMaxConfirm",
+            "Stop"
+        ]
+    },
+    "ReplenishToMaxConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            854,
+            504,
+            192,
+            187
+        ],
+        "postDelay": 1000,
+        "next": [
+            "ReplenishToMaxConfirm@LoadingText",
+            "Stop"
+        ]
+    },
+    "ShamareThumbnail": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "ShamareThumbnail1",
+            "ShamareThumbnail2",
+            "ShamareThumbnail3"
+        ]
+    },
+    "ShamareThumbnail1": {
+        "action": "DoNothing",
+        "templThreshold": 0.9,
+        "cache": false,
+        "roi": [
+            240,
+            550,
+            380,
+            170
+        ]
+    },
+    "ShamareThumbnail2": {
+        "action": "DoNothing",
+        "templThreshold": 0.9,
+        "cache": false,
+        "roi": [
+            240,
+            550,
+            380,
+            170
+        ]
+    },
+    "ShamareThumbnail3": {
+        "action": "DoNothing",
+        "templThreshold": 0.9,
+        "cache": false,
+        "roi": [
+            240,
+            550,
+            380,
+            170
+        ]
+    },
+    "InfrastSkillsUpper": {
+        "template": "empty.png",
+        "roi": [
+            400,
+            280,
+            880,
+            80
+        ]
+    },
+    "InfrastSkillsLower": {
+        "template": "empty.png",
+        "roi": [
+            400,
+            560,
+            880,
+            80
+        ]
+    },
+    "InfrastOperNameOcr": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "rectMove_Doc": "基于笑脸的位置移动",
+        "rectMove": [
+            -8,
+            20,
+            125,
+            22
+        ]
+    },
+    "InfrastOperFacilityOcr": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "rectMove_Doc": "基于笑脸的位置移动",
+        "rectMove": [
+            14,
+            -209,
+            40,
+            22
+        ]
+    },
+    "InfrastOperFaceHash": {
+        "algorithm": "Hash",
+        "hash": [],
+        "threshold": 40,
+        "rectMove_Doc": "基于笑脸的位置移动",
+        "rectMove": [
+            0,
+            -185,
+            113,
+            90
+        ]
+    },
+    "InfrastSmileyOnRest": {
+        "template": "infrast/SmileyOnRest.png",
+        "maskRange": [
+            100,
+            255
+        ],
+        "templThreshold": 0.8
+    },
+    "InfrastSmileyOnWork": {
+        "template": "infrast/SmileyOnWork.png",
+        "maskRange": [
+            100,
+            255
+        ],
+        "templThreshold": 0.8
+    },
+    "InfrastSmileyOnDistract": {
+        "template": "infrast/SmileyOnDistract.png",
+        "maskRange": [
+            100,
+            255
+        ],
+        "templThreshold": 0.8
+    },
+    "InfrastSkills": {
+        "template": "empty.png",
+        "templThreshold": 0.85,
+        "specialParams": [
+            95
+        ],
+        "specialParams_Doc": "用于做灰度图平均值",
+        "rectMove_Doc": "基于笑脸的位置移动",
+        "rectMove": [
+            -8,
+            -42,
+            82,
+            40
+        ],
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "InfrastOperMoodProgressBar": {
+        "template": "empty.png",
+        "templThreshold_Doc": "这里的templThreshold，作为进度条最小灰度阈值使用",
+        "templThreshold": 160,
+        "specialParams": [
+            20
+        ],
+        "specialParams_Doc": "作为进度条相邻点最大变化阈值使用",
+        "rectMove_Doc": "基于笑脸的位置移动",
+        "rectMove": [
+            21,
+            8,
+            85,
+            4
+        ]
+    },
+    "InfrastMfg": {
+        "template": "infrast/Manufacturing.png",
+        "templThreshold": 0.9,
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            0,
+            200,
+            820,
+            520
+        ]
+    },
+    "InfrastMfgMini": {
+        "template": "infrast/ManufacturingMini.png",
+        "templThreshold": 0.9,
+        "roi": [
+            0,
+            240,
+            640,
+            400
+        ],
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "InfrastTrade": {
+        "template": "infrast/Trade.png",
+        "templThreshold": 0.9,
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            0,
+            200,
+            820,
+            520
+        ]
+    },
+    "InfrastTradeMini": {
+        "template": "infrast/TradeMini.png",
+        "templThreshold": 0.9,
+        "roi": [
+            0,
+            240,
+            640,
+            400
+        ],
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "InfrastPower": {
+        "template": "infrast/Power.png",
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            0,
+            200,
+            820,
+            520
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastPowerMini": {
+        "template": "infrast/PowerMini.png",
+        "roi": [
+            0,
+            240,
+            640,
+            400
+        ],
+        "maskRange": [
+            1,
+            255
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastDorm": {
+        "template": "infrast/Dorm.png",
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            400,
+            220,
+            880,
+            500
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastDormMini": {
+        "template": "infrast/DormMini.png",
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            620,
+            240,
+            360,
+            480
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastOffice": {
+        "template": "infrast/Office.png",
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            880,
+            330,
+            400,
+            160
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastOfficeMini": {
+        "template": "infrast/OfficeMini.png",
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            980,
+            320,
+            300,
+            160
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastProcessing": {
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            880,
+            200,
+            400,
+            200
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastProcessingMini": {
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            980,
+            240,
+            300,
+            160
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastProcessingEnterOperList": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            45,
+            180,
+            160,
+            334
+        ],
+        "preDelay": 500,
+        "postDelay": 500
+    },
+    "InfrastReception": {
+        "template": "infrast/Reception.png",
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            880,
+            120,
+            400,
+            160
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastReceptionMini": {
+        "template": "infrast/ReceptionMini.png",
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            980,
+            180,
+            300,
+            140
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastControl": {
+        "template": "infrast/ControlCenter.png",
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            400,
+            0,
+            880,
+            300
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastControlMini": {
+        "template": "infrast/ControlCenterMini.png",
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            620,
+            80,
+            360,
+            230
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastStationedInfo": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "进驻信息"
+        ],
+        "roi": [
+            0,
+            0,
+            150,
+            720
+        ],
+        "postDelay": 1000,
+        "next": [
+            "InfrastEnterOperList"
+        ]
+    },
+    "InfrastEnterOperList": {
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "action": "ClickSelf",
+        "text": [
+            "心情",
+            "休息中",
+            "工作中",
+            "进驻"
+        ],
+        "roi": [
+            800,
+            70,
+            480,
+            580
+        ],
+        "postDelay": 1000
+    },
+    "InfrastClearButton": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            370,
+            592,
+            275,
+            128
+        ],
+        "postDelay": 1000
+    },
+    "InfrastSortByTrustButton": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            1000,
+            0,
+            100,
+            70
+        ],
+        "next": [
+            "InfrastSortByTrustButtonClickAgain"
+        ]
+    },
+    "InfrastSortByTrustButtonClickAgain": {
+        "action": "ClickSelf",
+        "templThreshold": 0.7,
+        "cache": false,
+        "roi": [
+            1000,
+            0,
+            100,
+            70
+        ],
+        "postDelay": 1000
+    },
+    "InfrastFilterMenuNotStationed": {
+        "action": "ClickSelf",
+        "template": "infrast/InfrastFilterMenu.png",
+        "cache": false,
+        "roi": [
+            1050,
+            0,
+            230,
+            100
+        ],
+        "next": [
+            "InfrastFilterMenuNotStationedButton",
+            "InfrastFilterMenuNotStationedButtonAlreadyClicked"
+        ],
+        "postDelay": 1000
+    },
+    "InfrastFilterMenuNotStationedButton": {
+        "action": "ClickSelf",
+        "templThreshold": 0.85,
+        "cache": false,
+        "roi": [
+            300,
+            300,
+            250,
+            150
+        ],
+        "postDelay": 1000,
+        "next": [
+            "InfrastFilterMenuConfirmButton"
+        ]
+    },
+    "InfrastFilterMenuNotStationedButtonAlreadyClicked": {
+        "action": "DoNothing",
+        "cache": false,
+        "roi": [
+            300,
+            300,
+            250,
+            150
+        ],
+        "next": [
+            "InfrastFilterMenuConfirmButton"
+        ]
+    },
+    "InfrastFilterMenuCancelNotStationed": {
+        "action": "ClickSelf",
+        "template": "infrast/InfrastFilterMenu.png",
+        "cache": false,
+        "roi": [
+            1050,
+            0,
+            230,
+            100
+        ],
+        "next": [
+            "InfrastFilterMenuCancelNotStationedButtonAlreadyClicked",
+            "InfrastFilterMenuCancelNotStationedButton"
+        ],
+        "postDelay": 1000
+    },
+    "InfrastFilterMenuCancelNotStationedButton": {
+        "action": "DoNothing",
+        "template": "infrast/InfrastFilterMenuNotStationedButton.png",
+        "templThreshold": 0.85,
+        "cache": false,
+        "roi": [
+            300,
+            300,
+            250,
+            150
+        ],
+        "postDelay": 1000,
+        "next": [
+            "InfrastFilterMenuConfirmButton"
+        ]
+    },
+    "InfrastFilterMenuCancelNotStationedButtonAlreadyClicked": {
+        "action": "ClickSelf",
+        "template": "infrast/InfrastFilterMenuNotStationedButtonAlreadyClicked.png",
+        "cache": false,
+        "roi": [
+            300,
+            300,
+            250,
+            150
+        ],
+        "next": [
+            "InfrastFilterMenuConfirmButton"
+        ]
+    },
+    "InfrastFilterMenuConfirmButton": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            870,
+            528,
+            152,
+            50
+        ],
+        "postDelay": 1000
+    },
+    "InfrastConfirmButton": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1105,
+            655,
+            150,
+            40
+        ],
+        "postDelay": 500,
+        "next": [
+            "InfrastConfirmButtonWait",
+            "Stop"
+        ]
+    },
+    "InfrastConfirmButtonWait": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "正在提交",
+            "反馈至神经"
+        ],
+        "roi": [
+            700,
+            640,
+            300,
+            80
+        ],
+        "postDelay": 500,
+        "next": [
+            "InfrastConfirmButtonWait",
+            "Stop"
+        ]
+    },
+    "InfrastBottomLeftTab": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            0,
+            540,
+            520,
+            180
+        ],
+        "preDelay": 1000,
+        "postDelay": 2000
+    },
+    "InfrastDormConfirmButton": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1105,
+            655,
+            150,
+            40
+        ],
+        "postDelay": 500,
+        "next": [
+            "InfrastDormConfirmButtonWait",
+            "InfrastDormDoubleConfirmButton",
+            "Stop"
+        ]
+    },
+    "InfrastDormConfirmButtonWait": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "正在提交",
+            "反馈至神经"
+        ],
+        "roi": [
+            700,
+            640,
+            300,
+            80
+        ],
+        "postDelay": 500,
+        "next": [
+            "InfrastDormConfirmButtonWait",
+            "InfrastDormDoubleConfirmButton",
+            "Stop"
+        ]
+    },
+    "InfrastDormDoubleConfirmButton": {
+        "template": "infrast/DormConfirm.png",
+        "action": "ClickSelf",
+        "roi": [
+            630,
+            620,
+            650,
+            100
+        ],
+        "postDelay": 500,
+        "next": [
+            "InfrastDormConfirmButtonWait",
+            "InfrastDormDoubleConfirmButton",
+            "Stop"
+        ]
+    },
+    "InfrastEnterFacility": {
+        "algorithm": "JustReturn",
+        "postDelay": 2000
+    },
+    "InfrastFacilityListTabMfg": {
+        "template": "infrast/FacilityListTabMfg.png",
+        "roi": [
+            0,
+            0,
+            250,
+            720
+        ],
+        "maskRange": [
+            1,
+            255
+        ],
+        "preDelay": 1000,
+        "postDelay": 1000
+    },
+    "InfrastFacilityListTabTrade": {
+        "template": "infrast/FacilityListTabTrade.png",
+        "roi": [
+            0,
+            0,
+            250,
+            720
+        ],
+        "maskRange": [
+            1,
+            255
+        ],
+        "preDelay": 1000,
+        "postDelay": 1000
+    },
+    "InfrastOperLockedMfg": {
+        "template": "infrast/OperLockedMfg.png",
+        "roi": [
+            200,
+            500,
+            430,
+            220
+        ]
+    },
+    "InfrastOperLockedTrade": {
+        "template": "infrast/OperLockedTrade.png",
+        "roi": [
+            200,
+            500,
+            430,
+            220
+        ]
+    },
+    "InfrastFlagCombatRecord": {
+        "template": "infrast/InfrastMfgDogFoodFlag.png",
+        "roi": [
+            1000,
+            0,
+            280,
+            720
+        ]
+    },
+    "InfrastFlagPureGold": {
+        "template": "infrast/InfrastMfgPureGoldFlag.png",
+        "roi": [
+            1000,
+            0,
+            280,
+            720
+        ]
+    },
+    "InfrastFlagOriginStone": {
+        "template": "infrast/InfrastMfgOriginStoneFlag.png",
+        "roi": [
+            1000,
+            0,
+            280,
+            720
+        ]
+    },
+    "InfrastFlagChip": {
+        "template": "infrast/InfrastMfgChipFlag.png",
+        "roi": [
+            1000,
+            0,
+            280,
+            720
+        ]
+    },
+    "InfrastFlagMoney": {
+        "template": "infrast/InfrastTradeMoneyFlag.png",
+        "roi": [
+            900,
+            500,
+            380,
+            220
+        ]
+    },
+    "InfrastFlagSyntheticJade": {
+        "template": "infrast/InfrastTradeSyntheticJadeFlag.png",
+        "roi": [
+            900,
+            500,
+            380,
+            220
+        ]
+    },
+    "InfrastAddOperatorMfgGentle": {
+        "template": "infrast/AddOperatorMfgGentle.png",
+        "templThreshold": 0.8,
+        "roi": [
+            200,
+            500,
+            500,
+            220
+        ],
+        "postDelay": 1500
+    },
+    "InfrastAddOperatorMfgAggressive": {
+        "template": "infrast/AddOperatorMfgAggressive.png",
+        "templThreshold": 0.8,
+        "roi": [
+            200,
+            500,
+            500,
+            100
+        ],
+        "rectMove": [
+            5,
+            50,
+            80,
+            80
+        ],
+        "postDelay": 1500
+    },
+    "InfrastAddOperatorTradeGentle": {
+        "template": "infrast/AddOperatorTradeGentle.png",
+        "templThreshold": 0.8,
+        "roi": [
+            200,
+            500,
+            500,
+            220
+        ],
+        "postDelay": 1500
+    },
+    "InfrastAddOperatorTradeAggressive": {
+        "template": "infrast/AddOperatorTradeAggressive.png",
+        "templThreshold": 0.8,
+        "roi": [
+            200,
+            500,
+            500,
+            100
+        ],
+        "rectMove": [
+            5,
+            50,
+            80,
+            80
+        ],
+        "postDelay": 1500
+    },
+    "InfrastAddOperatorReceptionGentle": {
+        "template": "infrast/AddOperatorReceptionGentle.png",
+        "templThreshold": 0.8,
+        "roi": [
+            0,
+            0,
+            300,
+            720
+        ],
+        "postDelay": 1500
+    },
+    "InfrastAddOperatorReceptionAggressive": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            30,
+            200,
+            200,
+            300
+        ],
+        "postDelay": 1500
+    },
+    "InfrastOperSelected": {
+        "template": "empty.png",
+        "templThreshold": 800,
+        "templThreshold_Doc": "这个任务中作为符合range的像素点数量阈值",
+        "maskRange": [
+            95,
+            105
+        ],
+        "rectMove": [
+            -18,
+            -220,
+            10,
+            160
+        ]
+    },
+    "InfrastOperOnShift": {
+        "template": "infrast/OnShift.png",
+        "templThreshold": 0.8,
+        "rectMove": [
+            0,
+            -95,
+            70,
+            50
+        ]
+    },
+    "InfrastClueVacancyNo1": {
+        "template": "infrast/ClueVacancyNo1.png",
+        "cache": false,
+        "templThreshold": 0.75,
+        "roi": [
+            0,
+            100,
+            500,
+            250
+        ],
+        "postDelay": 500
+    },
+    "InfrastClueVacancyNo2": {
+        "template": "infrast/ClueVacancyNo2.png",
+        "cache": false,
+        "templThreshold": 0.75,
+        "roi": [
+            200,
+            200,
+            500,
+            250
+        ],
+        "postDelay": 500
+    },
+    "InfrastClueVacancyNo3": {
+        "template": "infrast/ClueVacancyNo3.png",
+        "cache": false,
+        "templThreshold": 0.75,
+        "roi": [
+            400,
+            100,
+            500,
+            250
+        ],
+        "postDelay": 500
+    },
+    "InfrastClueVacancyNo4": {
+        "template": "infrast/ClueVacancyNo4.png",
+        "cache": false,
+        "templThreshold": 0.75,
+        "roi": [
+            650,
+            150,
+            500,
+            250
+        ],
+        "postDelay": 500
+    },
+    "InfrastClueVacancyNo5": {
+        "template": "infrast/ClueVacancyNo5.png",
+        "cache": false,
+        "templThreshold": 0.75,
+        "roi": [
+            300,
+            420,
+            500,
+            250
+        ],
+        "postDelay": 500
+    },
+    "InfrastClueVacancyNo6": {
+        "template": "infrast/ClueVacancyNo6.png",
+        "cache": false,
+        "templThreshold": 0.75,
+        "roi": [
+            500,
+            350,
+            500,
+            250
+        ],
+        "postDelay": 500
+    },
+    "InfrastClueVacancyNo7": {
+        "template": "infrast/ClueVacancyNo7.png",
+        "cache": false,
+        "templThreshold": 0.75,
+        "roi": [
+            50,
+            350,
+            500,
+            250
+        ],
+        "postDelay": 500
+    },
+    "InfrastClue": {
+        "template": "infrast/Clue.png",
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            800,
+            0,
+            480,
+            720
+        ]
+    },
+    "InfrastClueSelfMaybeFull": {
+        "Doc": "有一种情况是，自己的线索满了，但是却没有new的标记",
+        "roi": [
+            1110,
+            89,
+            170,
+            177
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "InfrastClueSelfFull",
+            "CloseCluePage"
+        ]
+    },
+    "InfrastClueSelfFull": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "已达线索上限",
+            "无法获取新的线索",
+            "上限",
+            "无法"
+        ],
+        "roi": [
+            286,
+            550,
+            366,
+            130
+        ],
+        "next": [
+            "CloseCluePageThenSendClue"
+        ]
+    },
+    "BackToReceptionMain": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            280,
+            96,
+            130,
+            32
+        ],
+        "postDelay": 2000
+    },
+    "CloseCluePageThenSendClue": {
+        "template": "infrast/CloseCluePage.png",
+        "action": "ClickSelf",
+        "roi": [
+            930,
+            50,
+            120,
+            120
+        ],
+        "next": [
+            "CloseCluePageThenSendClue",
+            "SendClues"
+        ]
+    },
+    "InfrastClueSelfNew": {
+        "template": "infrast/ClueNew.png",
+        "action": "ClickSelf",
+        "roi": [
+            1150,
+            100,
+            130,
+            80
+        ],
+        "rectMove": [
+            -45,
+            15,
+            60,
+            60
+        ],
+        "next": [
+            "GetSelfClue"
+        ]
+    },
+    "GetSelfClue": {
+        "template": "infrast/GetClue1.png",
+        "action": "ClickSelf",
+        "roi": [
+            680,
+            540,
+            250,
+            80
+        ],
+        "next": [
+            "InfrastClueSelfFull",
+            "InfrastClueFriendNew",
+            "CloseCluePage",
+            "ReceptionFlag"
+        ]
+    },
+    "InfrastClueFriendNew": {
+        "template": "infrast/ClueNew.png",
+        "action": "ClickSelf",
+        "roi": [
+            1150,
+            220,
+            130,
+            80
+        ],
+        "rectMove": [
+            -45,
+            15,
+            60,
+            60
+        ],
+        "next": [
+            "GetFriendClue"
+        ]
+    },
+    "GetFriendClue": {
+        "template": "infrast/GetClue2.png",
+        "action": "ClickSelf",
+        "roi": [
+            800,
+            600,
+            480,
+            120
+        ],
+        "next": [
+            "InfrastClueSelfMaybeFull",
+            "ReceptionFlag"
+        ]
+    },
+    "CloseCluePage": {
+        "action": "ClickSelf",
+        "roi": [
+            930,
+            50,
+            120,
+            120
+        ],
+        "next": [
+            "CloseCluePage",
+            "SendClueFlag",
+            "InfrastClueFriendNew",
+            "ReceptionFlag"
+        ]
+    },
+    "SendClueFlag": {
+        "action": "DoNothing",
+        "Doc": "这里识别的是自己的线索的new：如果获取完自己的线索、再获取完好友送的线索，自己的线索new还亮着，则说明自己的线索没获取成功，即线索满了",
+        "next": [
+            "SendClues"
+        ],
+        "roi": [
+            1150,
+            100,
+            130,
+            80
+        ],
+        "template": "infrast/ClueNew.png"
+    },
+    "UnlockClues": {
+        "action": "ClickSelf",
+        "cache": false,
+        "templThreshold": 0.9,
+        "roi": [
+            200,
+            600,
+            700,
+            120
+        ],
+        "postDelay": 5000,
+        "next": [
+            "UnlockCluesIsFake",
+            "InfrastBottomLeftTab"
+        ]
+    },
+    "UnlockCluesIsFake": {
+        "Doc": "点了一次解锁了还在这个界面，说明是识别错了",
+        "cache": false,
+        "template": "infrast/UnlockClues.png",
+        "action": "ClickSelf",
+        "templThreshold": 0.9,
+        "roi": [
+            200,
+            600,
+            700,
+            120
+        ]
+    },
+    "ReceptionFlag": {
+        "action": "DoNothing",
+        "roi": [
+            350,
+            0,
+            200,
+            100
+        ]
+    },
+    "EndOfClueExchangeBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "postDelay": 1000,
+        "next": [
+            "EndOfClueExchange",
+            "ReceptionFlag"
+        ]
+    },
+    "EndOfClueExchange": {
+        "cache": false,
+        "templThreshold": 0.7,
+        "roi": [
+            0,
+            0,
+            400,
+            200
+        ],
+        "next": [
+            "EndOfClueExchangeClose"
+        ]
+    },
+    "EndOfClueExchangeClose": {
+        "template": "Return.png",
+        "templThreshold": 0.7,
+        "action": "ClickSelf",
+        "roi": [
+            0,
+            0,
+            180,
+            80
+        ],
+        "next": [
+            "ReceptionFlag"
+        ],
+        "postDelay": 3000
+    },
+    "SendClues": {
+        "action": "ClickSelf",
+        "roi": [
+            1157,
+            346,
+            84,
+            81
+        ],
+        "maskRange": [
+            1,
+            255
+        ],
+        "postDelay": 1000,
+        "next": [
+            "SelectClue",
+            "CloseSendClue"
+        ]
+    },
+    "SelectClue": {
+        "action": "ClickSelf",
+        "roi": [
+            2,
+            133,
+            418,
+            196
+        ],
+        "maskRange": [
+            1,
+            255
+        ],
+        "maxTimes": 3,
+        "exceededNext": [
+            "CloseSendClue"
+        ],
+        "next": [
+            "ClueGiveTo1st",
+            "ClueGiveTo2nd",
+            "ClueGiveTo3rd",
+            "ClueGiveTo4th",
+            "ClueGiveToNextPage",
+            "ClueGiveTo1stConfirm"
+        ]
+    },
+    "ClueGiveTo1st": {
+        "template": "infrast/ClusCanBeSent.png",
+        "action": "DoNothing",
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            830,
+            70,
+            320,
+            100
+        ],
+        "next": [
+            "ClueGiveTo1stConfirm"
+        ]
+    },
+    "ClueGiveTo1stConfirm": {
+        "template": "infrast/SendClueConfirm.png",
+        "action": "ClickSelf",
+        "roi": [
+            1150,
+            50,
+            100,
+            160
+        ],
+        "next": [
+            "ClueGiveTo1stConfirm@LoadingText",
+            "SelectClue",
+            "CloseSendClue"
+        ]
+    },
+    "ClueGiveTo2nd": {
+        "template": "infrast/ClusCanBeSent.png",
+        "action": "DoNothing",
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            830,
+            220,
+            320,
+            100
+        ],
+        "next": [
+            "ClueGiveTo2ndConfirm"
+        ]
+    },
+    "ClueGiveTo2ndConfirm": {
+        "template": "infrast/SendClueConfirm.png",
+        "action": "ClickSelf",
+        "roi": [
+            1150,
+            200,
+            100,
+            160
+        ],
+        "next": [
+            "ClueGiveTo2ndConfirm@LoadingText",
+            "SelectClue",
+            "CloseSendClue"
+        ]
+    },
+    "ClueGiveTo3rd": {
+        "template": "infrast/ClusCanBeSent.png",
+        "action": "DoNothing",
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            830,
+            370,
+            320,
+            100
+        ],
+        "next": [
+            "ClueGiveTo3rdConfirm"
+        ]
+    },
+    "ClueGiveTo3rdConfirm": {
+        "template": "infrast/SendClueConfirm.png",
+        "action": "ClickSelf",
+        "roi": [
+            1150,
+            350,
+            100,
+            160
+        ],
+        "next": [
+            "ClueGiveTo3rdConfirm@LoadingText",
+            "SelectClue",
+            "CloseSendClue"
+        ]
+    },
+    "ClueGiveTo4th": {
+        "template": "infrast/ClusCanBeSent.png",
+        "action": "DoNothing",
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            830,
+            520,
+            320,
+            100
+        ],
+        "next": [
+            "ClueGiveTo4thConfirm"
+        ]
+    },
+    "ClueGiveTo4thConfirm": {
+        "template": "infrast/SendClueConfirm.png",
+        "action": "ClickSelf",
+        "roi": [
+            1150,
+            500,
+            100,
+            160
+        ],
+        "next": [
+            "ClueGiveTo4thConfirm@LoadingText",
+            "SelectClue",
+            "CloseSendClue"
+        ]
+    },
+    "CloseSendClue": {
+        "action": "ClickSelf",
+        "roi": [
+            1225,
+            16,
+            41,
+            41
+        ],
+        "preDelay": 2500,
+        "next": [
+            "InfrastClueSelfNew",
+            "InfrastClueFriendNew",
+            "ReceptionFlag",
+            "CloseSendClue"
+        ]
+    },
+    "ClueGiveToNextPage": {
+        "action": "ClickSelf",
+        "templThreshold": 0.95,
+        "roi": [
+            1184,
+            655,
+            50,
+            48
+        ],
+        "maskRange": [
+            1,
+            255
+        ],
+        "next": [
+            "ClueGiveTo1st",
+            "ClueGiveTo2nd",
+            "ClueGiveTo3rd",
+            "ClueGiveTo4th",
+            "ClueGiveToNextPage",
+            "ClueGiveTo1stConfirm"
+        ]
+    },
+    "InfrastOperListTabSkillUnClicked": {
+        "action": "ClickSelf",
+        "roi": [
+            818,
+            0,
+            128,
+            115
+        ],
+        "templThreshold": 0.7,
+        "postDelay": 1500
+    },
+    "InfrastOperListTabWorkStatusUnClicked": {
+        "action": "ClickSelf",
+        "roi": [
+            719,
+            0,
+            158,
+            119
+        ],
+        "templThreshold": 0.7,
+        "postDelay": 1500
+    },
+    "InfrastOperListTabMoodDoubleClick": {
+        "action": "ClickSelf",
+        "roi": [
+            900,
+            0,
+            131,
+            117
+        ],
+        "templThreshold": 0.7,
+        "maxTimes": 2,
+        "next": [
+            "InfrastOperListTabMoodDoubleClick"
+        ]
+    },
+    "InfrastOperListTabMoodDoubleClickWhenUnclicked": {
+        "action": "ClickSelf",
+        "roi": [
+            900,
+            0,
+            131,
+            117
+        ],
+        "templThreshold": 0.7,
+        "next": [
+            "InfrastOperListTabMoodClick"
+        ]
+    },
+    "InfrastOperListTabMoodClick": {
+        "template": "infrast/InfrastOperListTabMoodDoubleClick.png",
+        "action": "ClickSelf",
+        "roi": [
+            900,
+            0,
+            131,
+            117
+        ],
+        "templThreshold": 0.7
+    },
+    "InfrastOperListSlowlySwipeToTheRight": {
+        "baseTask": "SlowlySwipeToTheRight",
+        "postDelay_Doc": "滑动到右边列表末尾后会有一个反弹动画，这个动画持续约 300ms，设定延时需要比这个数字长",
+        "postDelay": 300,
+        "specificRect": [
+            1000,
+            350,
+            20,
+            20
+        ],
+        "rectMove": [
+            400,
+            350,
+            20,
+            20
+        ]
+    },
+    "InfrastOperListSwipeToTheLeft": {
+        "baseTask": "SwipeToTheLeft",
+        "specificRect": [
+            400,
+            350,
+            20,
+            20
+        ],
+        "rectMove": [
+            1150,
+            350,
+            20,
+            20
+        ]
+    },
+    "ChangeToMoneyOrder": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "infrast/InfrastTradeSyntheticJadeFlag.png",
+        "cache": true,
+        "roi": [
+            950,
+            585,
+            207,
+            105
+        ],
+        "next": [
+            "ChooseMoneyOrder"
+        ]
+    },
+    "ChooseMoneyOrder": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "cache": true,
+        "roi": [
+            395,
+            150,
+            248,
+            427
+        ],
+        "next": [
+            "ChangeOrderComfirm"
+        ]
+    },
+    "ChangeOrderComfirm": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            0,
+            0,
+            380,
+            140
+        ],
+        "next": [
+            "ChangeOrderComfirm@LoadingText",
+            "Stop"
+        ]
+    },
+    "ChangeToSyntheticJadeFlagOrder": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "infrast/InfrastTradeMoneyFlag.png",
+        "cache": true,
+        "roi": [
+            950,
+            585,
+            207,
+            105
+        ],
+        "next": [
+            "ChooseSyntheticJadeOrder"
+        ]
+    },
+    "ChooseSyntheticJadeOrder": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "cache": true,
+        "roi": [
+            635,
+            150,
+            250,
+            427
+        ],
+        "next": [
+            "ChangeOrderComfirm"
+        ]
+    },
+    "ChooseProductList": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickRect",
+        "cache": true,
+        "roi": [
+            1000,
+            117,
+            115,
+            60
+        ],
+        "specificRect": [
+            1026,
+            180,
+            1219,
+            487
+        ]
+    },
+    "ComfirmProductChange": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "infrast/ReplenishToMaxConfirm.png",
+        "cache": true,
+        "roi": [
+            890,
+            540,
+            120,
+            120
+        ],
+        "next": [
+            "ProductFinalComfirm"
+        ]
+    },
+    "ClickProductMax": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "cache": true,
+        "roi": [
+            920,
+            170,
+            85,
+            60
+        ],
+        "next": [
+            "ComfirmProductChange"
+        ]
+    },
+    "ChooseBattleRecord": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "cache": true,
+        "roi": [
+            240,
+            255,
+            190,
+            195
+        ],
+        "next": [
+            "ClickProductMax"
+        ]
+    },
+    "ProductFinalComfirm": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "copilot/SSSSettlementConfirm.png",
+        "cache": true,
+        "roi": [
+            790,
+            450,
+            110,
+            100
+        ],
+        "next": [
+            "ProductFinalComfirm@LoadingText",
+            "Stop"
+        ]
+    },
+    "ChoosePureGoldTab": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "cache": true,
+        "roi": [
+            10,
+            170,
+            100,
+            110
+        ],
+        "next": [
+            "ChoosePureGold"
+        ]
+    },
+    "ChoosePureGold": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "cache": true,
+        "roi": [
+            240,
+            76,
+            190,
+            195
+        ],
+        "next": [
+            "ClickProductMax"
+        ]
+    },
+    "ChooseOriginiumShardTab": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "cache": true,
+        "roi": [
+            10,
+            360,
+            100,
+            110
+        ],
+        "next": [
+            "ChooseOriginiumShard"
+        ]
+    },
+    "ChooseOriginiumShard": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "cache": true,
+        "roi": [
+            240,
+            76,
+            190,
+            195
+        ],
+        "next": [
+            "ClickProductMax"
+        ]
+    },
+    "ChangeProductToMiddleBattleRecord": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickRect",
+        "template": "infrast/ChooseProductList.png",
+        "cache": true,
+        "roi": [
+            1000,
+            117,
+            115,
+            60
+        ],
+        "specificRect": [
+            1030,
+            180,
+            80,
+            80
+        ],
+        "next": [
+            "ChooseBattleRecord"
+        ]
+    },
+    "ChangeProductToPureGold": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickRect",
+        "template": "infrast/ChooseProductList.png",
+        "cache": true,
+        "roi": [
+            1000,
+            117,
+            115,
+            60
+        ],
+        "specificRect": [
+            1030,
+            180,
+            80,
+            80
+        ],
+        "next": [
+            "ChoosePureGoldTab"
+        ]
+    },
+    "ChangeProductToOriginiumShard": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickRect",
+        "template": "infrast/ChooseProductList.png",
+        "cache": true,
+        "roi": [
+            1000,
+            117,
+            115,
+            60
+        ],
+        "specificRect": [
+            1030,
+            180,
+            80,
+            80
+        ],
+        "next": [
+            "ChooseOriginiumShardTab"
+        ]
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "StartToWakeUp": {
+        "Doc": "相较国服调大roi",
+        "roi": [
+            540,
+            480,
+            192,
+            56
+        ]
+    },
+    "TodaysSupplies": {
+        "text": [
+            "당일배급"
+        ]
+    }
+}

@@ -1,0 +1,171 @@
+{
+    "Reclamation@TodoEnter": {
+        "text": [
+            "FIRE",
+            "WITHIN",
+            "THE",
+            "SAND"
+        ]
+    },
+    "Reclamation@EmptyInitUnits": {
+        "roi": [
+            349,
+            598,
+            563,
+            120
+        ],
+        "text": [
+            "Choose the Operators",
+            "you wish to begin",
+            "the Algorithm with"
+        ]
+    },
+    "Reclamation@ConfirmStart": {
+        "text": [
+            "COMMENCE",
+            "ALGORITHM"
+        ]
+    },
+    "Reclamation@SkipAnnounce": {
+        "text": [
+            "SKIP"
+        ]
+    },
+    "Reclamation@SkipDailyReport": {
+        "text": [
+            "Today's News"
+        ]
+    },
+    "Reclamation@StartActionEnter": {
+        "text": [
+            "Start"
+        ]
+    },
+    "Reclamation@PrepareAction": {
+        "text": [
+            "Prepare for",
+            "Battle"
+        ]
+    },
+    "Reclamation@ExitLevelConfirm": {
+        "text": [
+            "Are you sure you",
+            "want to leave?"
+        ]
+    },
+    "Reclamation@LevelComplete": {
+        "text": [
+            "Results"
+        ]
+    },
+    "Reclamation@GiveupAlgorithm": {
+        "text": [
+            "ABANDON"
+        ]
+    },
+    "Reclamation@GiveupCrossdomainPageFlag": {
+        "text": [
+            "Select supplies",
+            "to keep",
+            "and manually tap",
+            "Emergency",
+            "Evacua"
+        ]
+    },
+    "Reclamation@GiveupClickEmergencyExit": {
+        "text": [
+            "Confirm",
+            "Evacuation"
+        ]
+    },
+    "Reclamation@GiveupCheckRemainItems": {
+        "text": [
+            "Check",
+            "Supplies"
+        ]
+    },
+    "Reclamation@GiveupTakeNothing": {
+        "text": [
+            "Confirm",
+            "Evacuation"
+        ]
+    },
+    "Reclamation@EnterSmeltGoldPage": {
+        "roi": [
+            0,
+            31,
+            1280,
+            175
+        ],
+        "text": [
+            "Crude",
+            "Gold"
+        ]
+    },
+    "Reclamation@EnterResearchLab": {
+        "text": [
+            "Research",
+            "Development"
+        ]
+    },
+    "Reclamation@LabClickDetailView": {
+        "text": [
+            "View",
+            "Details"
+        ]
+    },
+    "Reclamation@LabClickAssembleable": {
+        "text": [
+            "Craftable"
+        ]
+    },
+    "Reclamation@ManufactureStatus": {
+        "roi": [
+            1021,
+            336,
+            259,
+            109
+        ],
+        "text": []
+    },
+    "Reclamation@ManufactureIncrease": {
+        "text": [
+            "Craft"
+        ]
+    },
+    "Reclamation@ManufactureDecrease": {
+        "text": [
+            "Insufficient",
+            "materials"
+        ]
+    },
+    "Reclamation@DoManufacture": {
+        "text": [
+            "Craft"
+        ]
+    },
+    "Reclamation@ManufactureInsufficientMaterial": {
+        "text": [
+            "Insufficient",
+            "materials"
+        ]
+    },
+    "Reclamation@ManufactureSufficientMaterial": {
+        "text": [
+            "Craft"
+        ]
+    },
+    "Reclamation@Liaison": {
+        "text": [
+            "Liaison"
+        ]
+    },
+    "Reclamation@BuyWaterProcedure": {
+        "text": [
+            "Skip",
+            "Building materials",
+            "Fresh Water",
+            "Skip"
+        ]
+    }
+}

@@ -1,0 +1,3715 @@
+{
+    "StageTheme": {
+        "action": "ClickSelf",
+        "roi": [
+            200,
+            640,
+            300,
+            60
+        ],
+        "next": [
+            "#next"
+        ]
+    },
+    "ClickChapter": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [],
+        "roi": [
+            142,
+            43,
+            210,
+            274
+        ],
+        "next": [
+            "#back",
+            "Stop"
+        ]
+    },
+    "ClickChapter1": {
+        "baseTask": "ClickChapter",
+        "text": [
+            "觉醒"
+        ]
+    },
+    "ClickChapter2": {
+        "baseTask": "ClickChapter",
+        "text": [
+            "幻灭"
+        ]
+    },
+    "ClickChapter3": {
+        "baseTask": "ClickChapter",
+        "text": [
+            "残阳"
+        ]
+    },
+    "ToChapter1": {
+        "algorithm": "JustReturn",
+        "next": [
+            "ClickChapter1@ClickChapter2@ClickChapter3",
+            "ClickChapter1@ClickChapter2",
+            "ClickChapter1"
+        ]
+    },
+    "ToChapter2": {
+        "algorithm": "JustReturn",
+        "next": [
+            "ClickChapter2@ClickChapter3",
+            "ClickChapter2"
+        ]
+    },
+    "ToChapter3": {
+        "algorithm": "JustReturn",
+        "next": [
+            "ClickChapter3"
+        ]
+    },
+    "EpisodeOcrReplace": {
+        "Doc": "base_task",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "ocrReplace": [
+            [
+                "[EF]PIS[O0]DE",
+                "EPISODE"
+            ],
+            [
+                "[Oo]$",
+                "0"
+            ],
+            [
+                "[Oo](\\d)",
+                "0$1"
+            ],
+            [
+                " ",
+                ""
+            ]
+        ]
+    },
+    "EnterEpisode": {
+        "Doc": "base_task",
+        "baseTask": "EpisodeOcrReplace",
+        "action": "ClickRect",
+        "isAscii": true,
+        "text": [],
+        "roi": [
+            244,
+            270,
+            129,
+            49
+        ],
+        "specificRect": [
+            787,
+            281,
+            154,
+            154
+        ],
+        "next": [
+            "#self",
+            "Stop"
+        ]
+    },
+    "00@EnterEpisode": {
+        "text": [
+            "EPISODE00"
+        ]
+    },
+    "01@EnterEpisode": {
+        "text": [
+            "EPISODE01"
+        ]
+    },
+    "02@EnterEpisode": {
+        "text": [
+            "EPISODE02"
+        ]
+    },
+    "03@EnterEpisode": {
+        "text": [
+            "EPISODE03"
+        ]
+    },
+    "04@EnterEpisode": {
+        "text": [
+            "EPISODE04"
+        ]
+    },
+    "05@EnterEpisode": {
+        "text": [
+            "EPISODE05"
+        ]
+    },
+    "06@EnterEpisode": {
+        "text": [
+            "EPISODE06"
+        ]
+    },
+    "07@EnterEpisode": {
+        "text": [
+            "EPISODE07"
+        ]
+    },
+    "08@EnterEpisode": {
+        "text": [
+            "EPISODE08"
+        ]
+    },
+    "09@EnterEpisode": {
+        "text": [
+            "EPISODE09"
+        ]
+    },
+    "10@EnterEpisode": {
+        "text": [
+            "EPISODE10"
+        ]
+    },
+    "11@EnterEpisode": {
+        "text": [
+            "EPISODE11"
+        ]
+    },
+    "12@EnterEpisode": {
+        "text": [
+            "EPISODE12"
+        ]
+    },
+    "13@EnterEpisode": {
+        "text": [
+            "EPISODE13"
+        ]
+    },
+    "LevelOfDifficulty": {
+        "Doc": "base_task",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "环境",
+            "PRTS"
+        ],
+        "roi": [
+            26,
+            565,
+            302,
+            155
+        ],
+        "sub": [
+            "EnterChooseLevelOfDifficulty"
+        ]
+    },
+    "EnterChooseLevelOfDifficulty": {
+        "action": "ClickSelf",
+        "roi": [
+            0,
+            598,
+            131,
+            122
+        ]
+    },
+    "ChapterDifficultyHard": {
+        "baseTask": "LevelOfDifficulty",
+        "next": [
+            "EnterChapterDifficultyHard",
+            "Return"
+        ]
+    },
+    "ChapterDifficultyNormal": {
+        "baseTask": "LevelOfDifficulty",
+        "next": [
+            "EnterChapterDifficultyNormal",
+            "Return"
+        ]
+    },
+    "EnterChapterDifficultyHard": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "进入作战"
+        ],
+        "roi": [
+            861,
+            570,
+            330,
+            145
+        ]
+    },
+    "EnterChapterDifficultyNormal": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "进入作战"
+        ],
+        "roi": [
+            473,
+            572,
+            329,
+            144
+        ]
+    },
+    "SwipeLeftToEpisode": {
+        "Doc": "base_task",
+        "baseTask": "EpisodeOcrReplace",
+        "action": "Swipe",
+        "isAscii": true,
+        "text": [],
+        "roi": [
+            244,
+            270,
+            129,
+            49
+        ],
+        "cache": false,
+        "specificRect": [
+            790,
+            310,
+            10,
+            10
+        ],
+        "rectMove": [
+            1200,
+            310,
+            10,
+            10
+        ],
+        "specialParams": [
+            200,
+            0,
+            2,
+            0
+        ],
+        "maxTimes": 20,
+        "next": [
+            "EnterEpisode",
+            "#self"
+        ],
+        "postDelay": 500
+    },
+    "14@SwipeLeftToEpisode": {
+        "text": [
+            "EPISODE15"
+        ]
+    },
+    "13@SwipeLeftToEpisode": {
+        "text": [
+            "EPISODE14",
+            "EPISODE15"
+        ]
+    },
+    "12@SwipeLeftToEpisode": {
+        "text": [
+            "EPISODE13",
+            "EPISODE14",
+            "EPISODE15"
+        ]
+    },
+    "11@SwipeLeftToEpisode": {
+        "text": [
+            "EPISODE12",
+            "EPISODE13",
+            "EPISODE14",
+            "EPISODE15"
+        ]
+    },
+    "10@SwipeLeftToEpisode": {
+        "text": [
+            "EPISODE11",
+            "EPISODE12",
+            "EPISODE13",
+            "EPISODE14",
+            "EPISODE15"
+        ]
+    },
+    "09@SwipeLeftToEpisode": {
+        "text": [
+            "EPISODE10",
+            "EPISODE11",
+            "EPISODE12",
+            "EPISODE13",
+            "EPISODE14",
+            "EPISODE15"
+        ]
+    },
+    "08@SwipeLeftToEpisode": {
+        "text": [
+            "_SKIP_"
+        ]
+    },
+    "07@SwipeLeftToEpisode": {
+        "text": [
+            "EPISODE08"
+        ]
+    },
+    "06@SwipeLeftToEpisode": {
+        "text": [
+            "EPISODE07",
+            "EPISODE08"
+        ]
+    },
+    "05@SwipeLeftToEpisode": {
+        "text": [
+            "EPISODE06",
+            "EPISODE07",
+            "EPISODE08"
+        ]
+    },
+    "04@SwipeLeftToEpisode": {
+        "text": [
+            "EPISODE05",
+            "EPISODE06",
+            "EPISODE07",
+            "EPISODE08"
+        ]
+    },
+    "03@SwipeLeftToEpisode": {
+        "text": [
+            "_SKIP_"
+        ]
+    },
+    "02@SwipeLeftToEpisode": {
+        "text": [
+            "EPISODE03"
+        ]
+    },
+    "01@SwipeLeftToEpisode": {
+        "text": [
+            "EPISODE02",
+            "EPISODE03"
+        ]
+    },
+    "00@SwipeLeftToEpisode": {
+        "text": [
+            "EPISODE01",
+            "EPISODE02",
+            "EPISODE03"
+        ]
+    },
+    "StageNavigationBegin": {
+        "algorithm": "JustReturn",
+        "next": [
+            "ClickStageName",
+            "FullStageNavigation"
+        ]
+    },
+    "FullStageNavigation": {
+        "Doc": "右滑五次，然后检测关卡并左滑",
+        "Doc2": "在一次关卡导航中，仅swipe五次，其余情况进exceededNext",
+        "baseTask": "ChapterSwipeToTheRight",
+        "exceededNext": [
+            "ClickStageName",
+            "StageNavigationSlowlySwipeLeft"
+        ]
+    },
+    "ClickStageName": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "fullMatch": true,
+        "isAscii": true,
+        "cache": false,
+        "text": [],
+        "next": [
+            "ClickedCorrectStageOrSwipe",
+            "#self"
+        ]
+    },
+    "StageNavigationSlowlySwipeLeft": {
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
+        "next": [
+            "FullStageNavigation"
+        ],
+        "exceededNext": [
+            "Home@ReturnButtons#next"
+        ],
+        "maxTimes": 20
+    },
+    "ClickedCorrectStageOrSwipe": {
+        "baseTask": "StartButton1",
+        "action": "DoNothing",
+        "reduceOtherTimes": [],
+        "next": [
+            "ClickedCorrectStage",
+            "FullStageNavigation"
+        ]
+    },
+    "ClickedCorrectStage": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "fullMatch": true,
+        "isAscii": true,
+        "cache": false,
+        "text": [],
+        "ocrReplace": [
+            [
+                "OPERATION",
+                ""
+            ],
+            [
+                " ",
+                ""
+            ],
+            [
+                "s",
+                "S"
+            ],
+            [
+                ":",
+                ""
+            ],
+            [
+                "-2O",
+                "-20"
+            ]
+        ],
+        "roi": [
+            845,
+            72,
+            170,
+            50
+        ]
+    },
+    "ChangeToAdverseDifficulty": {
+        "template": "fight/AdverseDifficulty.png",
+        "action": "ClickSelf",
+        "roi": [
+            625,
+            640,
+            80,
+            65
+        ],
+        "maxTimes": 3,
+        "next": [
+            "AdverseConfirm",
+            "#self"
+        ]
+    },
+    "AdverseConfirm": {
+        "baseTask": "ChangeToAdverseDifficulty",
+        "action": "DoNothing",
+        "template": "fight/NormalDifficulty.png",
+        "next": []
+    },
+    "Episode": {
+        "Doc": "base_task",
+        "algorithm": "JustReturn",
+        "next": [
+            "SwipeLeftToEpisode",
+            "EnterEpisode"
+        ]
+    },
+    "Episode0": {
+        "baseTask": "00@Episode",
+        "sub": [
+            "ToChapter1@StageTheme"
+        ]
+    },
+    "Episode1": {
+        "baseTask": "01@Episode",
+        "sub": [
+            "ToChapter1@StageTheme"
+        ]
+    },
+    "Episode2": {
+        "baseTask": "02@Episode",
+        "sub": [
+            "ToChapter1@StageTheme"
+        ]
+    },
+    "Episode3": {
+        "baseTask": "03@Episode",
+        "sub": [
+            "ToChapter1@StageTheme"
+        ]
+    },
+    "Episode4": {
+        "baseTask": "04@Episode",
+        "sub": [
+            "ToChapter2@StageTheme"
+        ]
+    },
+    "Episode5": {
+        "baseTask": "05@Episode",
+        "sub": [
+            "ToChapter2@StageTheme"
+        ]
+    },
+    "Episode6": {
+        "baseTask": "06@Episode",
+        "sub": [
+            "ToChapter2@StageTheme"
+        ]
+    },
+    "Episode7": {
+        "baseTask": "07@Episode",
+        "sub": [
+            "ToChapter2@StageTheme"
+        ]
+    },
+    "Episode8": {
+        "baseTask": "08@Episode",
+        "sub": [
+            "ToChapter2@StageTheme"
+        ]
+    },
+    "Episode9": {
+        "baseTask": "09@Episode",
+        "sub": [
+            "ToChapter3@StageTheme"
+        ]
+    },
+    "Episode10": {
+        "baseTask": "10@Episode",
+        "sub": [
+            "ToChapter3@StageTheme"
+        ]
+    },
+    "Episode11": {
+        "baseTask": "11@Episode",
+        "sub": [
+            "ToChapter3@StageTheme"
+        ]
+    },
+    "Episode12": {
+        "baseTask": "12@Episode",
+        "sub": [
+            "ToChapter3@StageTheme"
+        ]
+    },
+    "Episode13": {
+        "baseTask": "13@Episode",
+        "sub": [
+            "ToChapter3@StageTheme"
+        ]
+    },
+    "Episode14": {
+        "doc": "待出",
+        "baseTask": "14@Episode",
+        "sub": [
+            "ToChapter3@StageTheme"
+        ]
+    },
+    "1-7": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "Episode1"
+        ],
+        "next": [
+            "Stage1-7",
+            "SwipeLeftToStage1-7",
+            "SwipeRightToStage1-7"
+        ]
+    },
+    "ChapterSlowlySwipeToTheLeft": {
+        "Doc": "在上面一点滑避免点到关卡划不动",
+        "baseTask": "SlowlySwipeToTheLeft",
+        "specificRect": [
+            300,
+            100,
+            20,
+            20
+        ],
+        "rectMove": [
+            900,
+            100,
+            20,
+            20
+        ]
+    },
+    "ChapterSlowlySwipeToTheRight": {
+        "baseTask": "SlowlySwipeToTheRight",
+        "specificRect": [
+            900,
+            100,
+            20,
+            20
+        ],
+        "rectMove": [
+            300,
+            100,
+            20,
+            20
+        ]
+    },
+    "ChapterSwipeToTheLeft": {
+        "Doc": "滑动到最左",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
+        "specialParams": [
+            150,
+            0,
+            0.5
+        ],
+        "next": [
+            "#self"
+        ],
+        "maxTimes": 5
+    },
+    "ChapterSwipeToTheRight": {
+        "Doc": "滑动到最右",
+        "baseTask": "ChapterSlowlySwipeToTheRight",
+        "specialParams": [
+            150,
+            0,
+            0.5
+        ],
+        "next": [
+            "#self"
+        ],
+        "maxTimes": 5
+    },
+    "SwipeToStage": {
+        "Doc": "活动导航左滑找关",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
+        "specialParams": [
+            150,
+            1
+        ],
+        "next": [
+            "#next"
+        ]
+    },
+    "SwipeLeftToStage1-7": {
+        "algorithm": "OcrDetect",
+        "baseTask": "ChapterSlowlySwipeToTheLeft",
+        "fullMatch": true,
+        "isAscii": true,
+        "text": [
+            "1-8",
+            "TR-10",
+            "1-9",
+            "1-10",
+            "1-11",
+            "1-12"
+        ],
+        "cache": false,
+        "roi": [
+            0,
+            120,
+            1080,
+            480
+        ],
+        "next": [
+            "Stage1-7",
+            "SwipeLeftToStage1-7",
+            "SwipeRightToStage1-7"
+        ]
+    },
+    "SwipeRightToStage1-7": {
+        "algorithm": "OcrDetect",
+        "baseTask": "ChapterSlowlySwipeToTheRight",
+        "fullMatch": true,
+        "isAscii": true,
+        "text": [
+            "1-1",
+            "1-2",
+            "1-3",
+            "1-4",
+            "1-5",
+            "TR-8",
+            "1-6",
+            "TR-9"
+        ],
+        "cache": false,
+        "roi": [
+            0,
+            120,
+            1080,
+            480
+        ],
+        "next": [
+            "Stage1-7",
+            "SwipeRightToStage1-7",
+            "SwipeLeftToStage1-7"
+        ]
+    },
+    "Stage1-7": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "1-7"
+        ],
+        "isAscii": true,
+        "cache": false,
+        "roi": [
+            0,
+            190,
+            1080,
+            60
+        ]
+    },
+    "StageEpisode": {
+        "action": "ClickSelf",
+        "roi": [
+            487,
+            600,
+            143,
+            120
+        ]
+    },
+    "SideStoryStage": {
+        "Doc": "base_task",
+        "algorithm": "OcrDetect",
+        "baseTask": "Stage",
+        "isAscii": true,
+        "text": [],
+        "ocrReplace": [
+            [
+                " (\\d)",
+                "-$1"
+            ],
+            [
+                "-1O$",
+                "-10$"
+            ]
+        ],
+        "roi": [
+            0,
+            60,
+            1280,
+            550
+        ]
+    },
+    "CV-8": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "CV-Open"
+        ],
+        "next": [
+            "CV-8@SideStoryStage",
+            "CV-8@SwipeToStage"
+        ]
+    },
+    "CV-7": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "CV-Open"
+        ],
+        "next": [
+            "CV-7@SideStoryStage",
+            "CV-7@SwipeToStage"
+        ]
+    },
+    "CV-6": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "CV-Open"
+        ],
+        "next": [
+            "CV-6@SideStoryStage",
+            "CV-6@SwipeToStage"
+        ]
+    },
+    "CV-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "不义之财",
+            "已开放"
+        ],
+        "postDelay": 2000,
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "next": [
+            "CVChapterToCV"
+        ]
+    },
+    "CVChapterToCV": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "苍白",
+            "平台"
+        ],
+        "preDelay": 1000,
+        "roi": [
+            1092,
+            438,
+            118,
+            36
+        ],
+        "next": [
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "CV-8@SideStoryStage": {
+        "text": [
+            "CV-8"
+        ]
+    },
+    "CV-7@SideStoryStage": {
+        "text": [
+            "CV-7"
+        ]
+    },
+    "CV-6@SideStoryStage": {
+        "text": [
+            "CV-6"
+        ]
+    },
+    "SideStoryReopen": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "复刻"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "postDelay": 3000
+    },
+    "StageQueue@CheckPrts": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "maxTimes": 3,
+        "next": [
+            "StageQueue@UsePrtsSuccess",
+            "StageQueue@UsePrts"
+        ]
+    },
+    "StageQueue@UsePrts": {
+        "Doc": "执行Prts激活",
+        "template": "fight/UsePrts.png",
+        "roi": [
+            1000,
+            550,
+            280,
+            90
+        ],
+        "next": [
+            "StageQueue@CheckPrts"
+        ]
+    },
+    "StageQueue@UsePrtsSuccess": {
+        "Doc": "检查代理激活没有，roi引用UnableToAgent2",
+        "template": "fight/UsePrtsSuccess.png",
+        "action": "DoNothing",
+        "roi": [
+            1000,
+            550,
+            280,
+            90
+        ]
+    },
+    "StageQueue": {
+        "baseTask": "Fight",
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png",
+            "TerminalMistCity.png"
+        ],
+        "cache": false,
+        "maxTimes": 3,
+        "exceededNext": [
+            "Stop"
+        ],
+        "next": [
+            "StageQueue@GoLastBattle",
+            "StageQueue"
+        ],
+        "postDelay": 3000
+    },
+    "StageQueue@GoLastBattle": {
+        "next": [
+            "StageQueue@StartButton1"
+        ]
+    },
+    "StageQueue@CloseStonePage": {
+        "next": []
+    },
+    "StageQueue@StartButton1": {
+        "Doc": "开始战斗1",
+        "action": "DoNothing",
+        "maxTimes": 1,
+        "exceededNext": [],
+        "next": [
+            "StageQueue@StartButton2",
+            "StageQueue@UseMedicine",
+            "StageQueue@UseStone",
+            "StageQueue@NoStone",
+            "StageQueue@OfflineConfirm",
+            "StageQueue@StartButton1TryAgain"
+        ]
+    },
+    "SL-8": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "SL-Open"
+        ],
+        "next": [
+            "SL-8@SideStoryStage",
+            "SL-8@SwipeToStage"
+        ]
+    },
+    "SL-7": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "SL-Open"
+        ],
+        "next": [
+            "SL-7@SideStoryStage",
+            "SL-7@SwipeToStage"
+        ]
+    },
+    "SL-6": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "SL-Open"
+        ],
+        "next": [
+            "SL-6@SideStoryStage",
+            "SL-6@SwipeToStage"
+        ]
+    },
+    "SL-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "火山",
+            "旅梦",
+            "已开放"
+        ],
+        "postDelay": 2000,
+        "roi": [
+            710,
+            234,
+            128,
+            36
+        ],
+        "next": [
+            "SLChapterToSL"
+        ]
+    },
+    "SLChapterToSL": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "温泉假日",
+            "温泉",
+            "假日"
+        ],
+        "preDelay": 1000,
+        "roi": [
+            1043,
+            423,
+            195,
+            133
+        ],
+        "next": [
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "SL-8@SideStoryStage": {
+        "text": [
+            "SL-8"
+        ]
+    },
+    "SL-7@SideStoryStage": {
+        "text": [
+            "SL-7"
+        ]
+    },
+    "SL-6@SideStoryStage": {
+        "text": [
+            "SL-6"
+        ]
+    },
+    "HE-8": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "HE-Open"
+        ],
+        "next": [
+            "HE-8@SideStoryStage",
+            "HE-8@SwipeToStage"
+        ]
+    },
+    "HE-7": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "HE-Open"
+        ],
+        "next": [
+            "HE-7@SideStoryStage",
+            "HE-7@SwipeToStage"
+        ]
+    },
+    "HE-6": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "HE-Open"
+        ],
+        "next": [
+            "HE-6@SideStoryStage",
+            "HE-6@SwipeToStage"
+        ]
+    },
+    "HE-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "空想花庭",
+            "已开放"
+        ],
+        "postDelay": 2000,
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "next": [
+            "HEChapterToHE"
+        ]
+    },
+    "HEChapterToHE": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "安布罗修修道院",
+            "安布罗修",
+            "修道院"
+        ],
+        "preDelay": 1000,
+        "roi": [
+            1005,
+            461,
+            275,
+            129
+        ],
+        "next": [
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "HE-8@SideStoryStage": {
+        "text": [
+            "HE-8"
+        ]
+    },
+    "HE-7@SideStoryStage": {
+        "text": [
+            "HE-7"
+        ]
+    },
+    "HE-6@SideStoryStage": {
+        "text": [
+            "HE-6"
+        ]
+    },
+    "CW-10": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "CW-Open"
+        ],
+        "next": [
+            "CW-10@SideStoryStage",
+            "CW-10@SwipeToStage"
+        ]
+    },
+    "CW-9": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "CW-Open"
+        ],
+        "next": [
+            "CW-9@SideStoryStage",
+            "CW-9@SwipeToStage"
+        ]
+    },
+    "CW-8": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "CW-Open"
+        ],
+        "next": [
+            "CW-8@SideStoryStage",
+            "CW-8@SwipeToStage"
+        ]
+    },
+    "CW-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "孤星",
+            "已开放"
+        ],
+        "postDelay": 2000,
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "next": [
+            "CWChapterToCW"
+        ]
+    },
+    "CWChapterToCW": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "未来将至"
+        ],
+        "preDelay": 1000,
+        "roi": [
+            971,
+            126,
+            201,
+            133
+        ],
+        "next": [
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "CW-10@SideStoryStage": {
+        "text": [
+            "CW-10"
+        ],
+        "roi": [
+            0,
+            422,
+            1274,
+            36
+        ]
+    },
+    "CW-9@SideStoryStage": {
+        "text": [
+            "CW-9"
+        ],
+        "roi": [
+            0,
+            422,
+            1274,
+            36
+        ]
+    },
+    "CW-8@SideStoryStage": {
+        "text": [
+            "CW-8"
+        ],
+        "roi": [
+            0,
+            305,
+            1277,
+            38
+        ]
+    },
+    "CF-8": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "CF-Open"
+        ],
+        "next": [
+            "CF-8@SideStoryStage",
+            "CF-8@SwipeToStage"
+        ]
+    },
+    "CF-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "落叶",
+            "逐火",
+            "活动",
+            "开放"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "postDelay": 2000,
+        "next": [
+            "CFChapterToCF"
+        ]
+    },
+    "CFChapterToCF": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "苍暮",
+            "山地"
+        ],
+        "roi": [
+            1026,
+            499,
+            218,
+            142
+        ],
+        "postDelay": 2000,
+        "next": [
+            "CFChapterToCF",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "CF-8@SideStoryStage": {
+        "text": [
+            "CF-8"
+        ]
+    },
+    "GA-6": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "GA-Open"
+        ],
+        "next": [
+            "GA-6@SideStoryStage",
+            "GA-6@SwipeToStage"
+        ]
+    },
+    "GA-7": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "GA-Open"
+        ],
+        "next": [
+            "GA-7@SideStoryStage",
+            "GA-7@SwipeToStage"
+        ]
+    },
+    "GA-8": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "GA-Open"
+        ],
+        "next": [
+            "GA-8@SideStoryStage",
+            "GA-8@SwipeToStage"
+        ]
+    },
+    "GA-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "吾导先路",
+            "复刻"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "postDelay": 2000,
+        "next": [
+            "GAChapterToGA"
+        ]
+    },
+    "GAChapterToGA": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "万国峰会"
+        ],
+        "roi": [
+            1007,
+            431,
+            227,
+            140
+        ],
+        "postDelay": 2000,
+        "next": [
+            "GAChapterToGA",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "GA-6@SideStoryStage": {
+        "text": [
+            "GA-6"
+        ]
+    },
+    "GA-7@SideStoryStage": {
+        "text": [
+            "GA-7"
+        ]
+    },
+    "GA-8@SideStoryStage": {
+        "text": [
+            "GA-8"
+        ]
+    },
+    "WB-7": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "WB-Open"
+        ],
+        "next": [
+            "WB-7@SideStoryStage",
+            "WB-7@SwipeToStage"
+        ]
+    },
+    "WB-8": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "WB-Open"
+        ],
+        "next": [
+            "WB-8@SideStoryStage",
+            "WB-8@SwipeToStage"
+        ]
+    },
+    "WB-9": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "WB-Open"
+        ],
+        "next": [
+            "WB-9@SideStoryStage",
+            "WB-9@SwipeToStage"
+        ]
+    },
+    "WB-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "登临意",
+            "关卡已开放"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "postDelay": 2000,
+        "next": [
+            "WBChapterToWB"
+        ]
+    },
+    "WBChapterToWB": {
+        "action": "ClickSelf",
+        "roi": [
+            1071,
+            589,
+            209,
+            131
+        ],
+        "postDelay": 2000,
+        "next": [
+            "WBChapterToWB",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "WB-7@SideStoryStage": {
+        "text": [
+            "WB-7"
+        ]
+    },
+    "WB-8@SideStoryStage": {
+        "text": [
+            "WB-8"
+        ]
+    },
+    "WB-9@SideStoryStage": {
+        "text": [
+            "WB-9"
+        ]
+    },
+    "IW-6": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "IW-Open",
+            "IWChapterToIW"
+        ],
+        "next": [
+            "IW-6@SideStoryStage",
+            "IW-6@SwipeToStage"
+        ]
+    },
+    "IW-7": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "IW-Open",
+            "IWChapterToIW"
+        ],
+        "next": [
+            "IW-7@SideStoryStage",
+            "IW-7@SwipeToStage"
+        ]
+    },
+    "IW-8": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "IW-Open",
+            "IWChapterToIW"
+        ],
+        "next": [
+            "IW-8@SideStoryStage",
+            "IW-8@SwipeToStage"
+        ]
+    },
+    "IW-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "将进酒",
+            "关卡已开放"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ]
+    },
+    "IWChapterToIW": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "三山奇闻"
+        ],
+        "roi": [
+            890,
+            517,
+            210,
+            134
+        ],
+        "postDelay": 2000,
+        "next": [
+            "IWChapterToIW",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "IW-6@SideStoryStage": {
+        "text": [
+            "IW-6"
+        ]
+    },
+    "IW-7@SideStoryStage": {
+        "text": [
+            "IW-7"
+        ]
+    },
+    "IW-8@SideStoryStage": {
+        "text": [
+            "IW-8"
+        ]
+    },
+    "FC-5": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "FC-Open",
+            "FCChapterToFC"
+        ],
+        "next": [
+            "FC-5@SideStoryStage",
+            "FC-5@SwipeToStage"
+        ]
+    },
+    "FC-6": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "FC-Open",
+            "FCChapterToFC"
+        ],
+        "next": [
+            "FC-6@SideStoryStage",
+            "FC-6@SwipeToStage"
+        ]
+    },
+    "FC-7": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "FC-Open",
+            "FCChapterToFC"
+        ],
+        "next": [
+            "FC-7@SideStoryStage",
+            "FC-7@SwipeToStage"
+        ]
+    },
+    "FC-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "照我以火",
+            "关卡已开放"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ]
+    },
+    "FCChapterToFC": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "荒烟林沼"
+        ],
+        "roi": [
+            1054,
+            405,
+            202,
+            130
+        ],
+        "postDelay": 2000,
+        "next": [
+            "FCChapterToFC",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "FC-5@SideStoryStage": {
+        "text": [
+            "FC-5"
+        ]
+    },
+    "FC-6@SideStoryStage": {
+        "text": [
+            "FC-6"
+        ]
+    },
+    "FC-7@SideStoryStage": {
+        "text": [
+            "FC-7"
+        ]
+    },
+    "IS-10": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "IS-Open"
+        ],
+        "next": [
+            "IS-10@SideStoryStage",
+            "IS-10@SwipeToStageIS"
+        ]
+    },
+    "IS-9": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "IS-Open"
+        ],
+        "next": [
+            "IS-9@SideStoryStage",
+            "IS-9@SwipeToStageIS"
+        ]
+    },
+    "IS-8": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "IS-Open"
+        ],
+        "next": [
+            "IS-8@SideStoryStage",
+            "IS-8@SwipeToStageIS"
+        ]
+    },
+    "IS-Open": {
+        "action": "ClickSelf",
+        "roi": [
+            476,
+            0,
+            502,
+            720
+        ],
+        "next": [
+            "EnterChapterIS"
+        ]
+    },
+    "EnterChapterIS": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "沃尔西尼"
+        ],
+        "roi": [
+            1033,
+            412,
+            208,
+            134
+        ],
+        "postDelay": 4000,
+        "next": [
+            "EnterChapterIS",
+            "EnterChapterIS2",
+            "EnterStageIS"
+        ]
+    },
+    "EnterChapterIS2": {
+        "action": "ClickSelf",
+        "roi": [
+            1146,
+            587,
+            134,
+            133
+        ],
+        "next": [
+            "EnterChapterIS2",
+            "EnterStageIS"
+        ]
+    },
+    "EnterStageIS": {
+        "action": "ClickSelf",
+        "roi": [
+            1142,
+            314,
+            138,
+            135
+        ]
+    },
+    "SwipeToStageIS": {
+        "Doc": "IS关特殊的上下滑动",
+        "baseTask": "SlowlySwipeToTheRight",
+        "specificRect": [
+            98,
+            469,
+            100,
+            100
+        ],
+        "rectMove": [
+            145,
+            129,
+            100,
+            100
+        ],
+        "next": [
+            "#next"
+        ]
+    },
+    "IS-10@SideStoryStage": {
+        "text": [
+            "IS-10"
+        ]
+    },
+    "IS-9@SideStoryStage": {
+        "text": [
+            "IS-9"
+        ]
+    },
+    "IS-8@SideStoryStage": {
+        "text": [
+            "IS-8"
+        ]
+    },
+    "NL-10": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "NL-Open"
+        ],
+        "next": [
+            "NL-10@SideStoryStage",
+            "NL-10@SwipeToStage"
+        ]
+    },
+    "NL-9": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "NL-Open"
+        ],
+        "next": [
+            "NL-9@SideStoryStage",
+            "NL-9@SwipeToStage"
+        ]
+    },
+    "NL-8": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "NL-Open"
+        ],
+        "next": [
+            "NL-8@SideStoryStage",
+            "NL-8@SwipeToStage"
+        ]
+    },
+    "NL-Open": {
+        "action": "ClickSelf",
+        "roi": [
+            471,
+            0,
+            530,
+            711
+        ],
+        "next": [
+            "NLChapterToNL"
+        ]
+    },
+    "NLChapterToNL": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "大骑士领"
+        ],
+        "postDelay": 2000,
+        "roi": [
+            998,
+            346,
+            282,
+            191
+        ],
+        "next": [
+            "NLChapterToNL",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "NL-10@SideStoryStage": {
+        "text": [
+            "NL-10"
+        ]
+    },
+    "NL-9@SideStoryStage": {
+        "text": [
+            "NL-9"
+        ]
+    },
+    "NL-8@SideStoryStage": {
+        "text": [
+            "NL-8"
+        ]
+    },
+    "GT-5": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageEpisode",
+            "StageEpisodeToGT",
+            "GTToGT-5",
+            "GT-5@SideStoryStage"
+        ]
+    },
+    "StageEpisodeToGT": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "骑兵与猎人"
+        ],
+        "roi": [
+            0,
+            41,
+            372,
+            627
+        ]
+    },
+    "GTToGT-5": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "进入",
+            "活动"
+        ],
+        "roi": [
+            993,
+            439,
+            287,
+            168
+        ]
+    },
+    "GT-5@SideStoryStage": {
+        "text": [
+            "GT-5"
+        ]
+    },
+    "OF-1": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageEpisode",
+            "StageEpisodeToOF",
+            "OFToOF-Chapter",
+            "ChapterSwipeToTheLeft",
+            "OF-1@SideStoryStage"
+        ]
+    },
+    "OF-F3": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "StageEpisode",
+            "StageEpisodeToOF",
+            "OFToOF-Chapter",
+            "OF-Chapter2",
+            "StageOF-F3"
+        ]
+    },
+    "StageEpisodeToOF": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "火蓝之心"
+        ],
+        "roi": [
+            0,
+            41,
+            372,
+            627
+        ]
+    },
+    "OFToOF-Chapter": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "进入",
+            "活动"
+        ],
+        "roi": [
+            993,
+            439,
+            287,
+            168
+        ],
+        "postDelay": 1000,
+        "next": [
+            "#self",
+            "Stop"
+        ]
+    },
+    "OF-Chapter2": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            1042,
+            565,
+            141,
+            143
+        ]
+    },
+    "StageOF-F3": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "isAscii": true,
+        "text": [
+            "OF-F3",
+            "0F-F3"
+        ]
+    },
+    "OF-1@SideStoryStage": {
+        "text": [
+            "OF-1",
+            "0F-1"
+        ]
+    },
+    "IC-9": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "IC-Open"
+        ],
+        "next": [
+            "IC-9@SideStoryStage",
+            "IC-9@SwipeToStage"
+        ]
+    },
+    "IC-8": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "IC-Open"
+        ],
+        "next": [
+            "IC-8@SideStoryStage",
+            "IC-8@SwipeToStage"
+        ]
+    },
+    "IC-7": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "IC-Open"
+        ],
+        "next": [
+            "IC-7@SideStoryStage",
+            "IC-7@SwipeToStage"
+        ]
+    },
+    "IC-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "text": [
+            "理想城",
+            "活动",
+            "开放"
+        ],
+        "next": [
+            "ICChapterToIC"
+        ]
+    },
+    "ICChapterToIC": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            1028,
+            402,
+            223,
+            126
+        ],
+        "postDelay": 2000,
+        "next": [
+            "ICChapterToIC",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "IC-9@SideStoryStage": {
+        "text": [
+            "IC-9",
+            "1C-9"
+        ]
+    },
+    "IC-8@SideStoryStage": {
+        "text": [
+            "IC-8",
+            "1C-8"
+        ]
+    },
+    "IC-7@SideStoryStage": {
+        "text": [
+            "IC-7",
+            "1C-7"
+        ]
+    },
+    "DV-8": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "DV-Open"
+        ],
+        "next": [
+            "DV-8@SideStoryStage",
+            "DV-8@SwipeToStage"
+        ]
+    },
+    "DV-7": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "DV-Open"
+        ],
+        "next": [
+            "DV-7@SideStoryStage",
+            "DV-7@SwipeToStage"
+        ]
+    },
+    "DV-6": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "DV-Open"
+        ],
+        "next": [
+            "DV-6@SideStoryStage",
+            "DV-6@SwipeToStage"
+        ]
+    },
+    "DV-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "绿野幻梦",
+            "活动",
+            "开放"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "next": [
+            "DVChapterToDV"
+        ]
+    },
+    "DVChapterToDV": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "实验基地"
+        ],
+        "roi": [
+            1025,
+            176,
+            241,
+            180
+        ],
+        "postDelay": 2000,
+        "next": [
+            "DVChapterToDV",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "DV-8@SideStoryStage": {
+        "text": [
+            "DV-8"
+        ]
+    },
+    "DV-7@SideStoryStage": {
+        "text": [
+            "DV-7"
+        ]
+    },
+    "DV-6@SideStoryStage": {
+        "text": [
+            "DV-6"
+        ]
+    },
+    "LE-5": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "LE-Open",
+            "LEChapterToLE"
+        ],
+        "next": [
+            "LE-5@SideStoryStage",
+            "LE-5@SwipeToStage"
+        ]
+    },
+    "LE-6": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "LE-Open",
+            "LEChapterToLE"
+        ],
+        "next": [
+            "LE-6@SideStoryStage",
+            "LE-6@SwipeToStage"
+        ]
+    },
+    "LE-7": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "LE-Open",
+            "LEChapterToLE"
+        ],
+        "next": [
+            "LE-7@SideStoryStage",
+            "LE-7@SwipeToStage"
+        ]
+    },
+    "LE-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "复刻",
+            "已开放"
+        ],
+        "postDelay": 2000,
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ]
+    },
+    "LEChapterToLE": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "夕照大厅",
+            "大厅"
+        ],
+        "roi": [
+            1011,
+            495,
+            217,
+            139
+        ],
+        "action": "ClickSelf",
+        "sub": [
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "LE-5@SideStoryStage": {
+        "text": [
+            "LE-5"
+        ]
+    },
+    "LE-6@SideStoryStage": {
+        "text": [
+            "LE-6"
+        ]
+    },
+    "LE-7@SideStoryStage": {
+        "text": [
+            "LE-7"
+        ]
+    },
+    "SN-8": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "SN-Open",
+            "SN-Chapter2",
+            "SN-8@SideStoryStage"
+        ]
+    },
+    "SN-9": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "SN-Open",
+            "SN-Chapter3",
+            "SN-9@SideStoryStage"
+        ]
+    },
+    "SN-10": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "SN-Open",
+            "SN-Chapter3",
+            "SN-10@SideStoryStage"
+        ]
+    },
+    "SN-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "已开放"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ]
+    },
+    "SN-Chapter2": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "失落旗舰",
+            "失落",
+            "旗舰"
+        ],
+        "roi": [
+            163,
+            417,
+            195,
+            125
+        ],
+        "preDelay": 2000,
+        "next": [
+            "SN-Chapter2",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "SN-Chapter3": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "无名之海",
+            "无名",
+            "之海"
+        ],
+        "roi": [
+            258,
+            503,
+            194,
+            123
+        ],
+        "preDelay": 2000,
+        "next": [
+            "SN-Chapter3",
+            "ChapterSwipeToTheLeft"
+        ]
+    },
+    "SN-8@SideStoryStage": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "fight/SN-8.png",
+        "cache": false,
+        "roi": [
+            296,
+            93,
+            171,
+            195
+        ]
+    },
+    "SN-9@SideStoryStage": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "fight/SN-9.png",
+        "cache": false,
+        "roi": [
+            610,
+            328,
+            176,
+            198
+        ]
+    },
+    "SN-10@SideStoryStage": {
+        "algorithm": "MatchTemplate",
+        "action": "ClickSelf",
+        "template": "fight/SN-10.png",
+        "cache": false,
+        "roi": [
+            678,
+            220,
+            173,
+            200
+        ]
+    },
+    "DH-9": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "DH-Open"
+        ],
+        "next": [
+            "DH-9@SideStoryStage",
+            "DH-9@SwipeToStage"
+        ]
+    },
+    "DH-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "假日",
+            "复刻",
+            "活动",
+            "开放"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "postDelay": 2000,
+        "next": [
+            "DHChapterToDH"
+        ]
+    },
+    "DHChapterToDH": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "极限",
+            "铁人",
+            "大奖"
+        ],
+        "roi": [
+            934,
+            280,
+            234,
+            124
+        ],
+        "postDelay": 2000,
+        "next": [
+            "DHChapterToDH",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "DH-9@SideStoryStage": {
+        "text": [
+            "DH-9"
+        ]
+    },
+    "ResourceStages": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "StageResource"
+        ]
+    },
+    "CE-5": {
+        "algorithm": "JustReturn",
+        "next": [
+            "CE-6"
+        ]
+    },
+    "CE-6": {
+        "baseTask": "ResourceStages",
+        "next": [
+            "CE6@StageCE",
+            "CE-6@SwipeToTheLeft"
+        ]
+    },
+    "LS-5": {
+        "algorithm": "JustReturn",
+        "next": [
+            "LS-6"
+        ]
+    },
+    "LS-6": {
+        "baseTask": "ResourceStages",
+        "next": [
+            "LS6@StageLS"
+        ]
+    },
+    "CA-5": {
+        "baseTask": "ResourceStages",
+        "next": [
+            "CA5@StageCA",
+            "CA-5@SwipeToTheLeft"
+        ]
+    },
+    "AP-5": {
+        "baseTask": "ResourceStages",
+        "next": [
+            "AP5@StageAP",
+            "AP-5@SwipeToTheLeft"
+        ]
+    },
+    "SK-5": {
+        "baseTask": "ResourceStages",
+        "next": [
+            "SK5@StageSK",
+            "SK-5@SwipeToTheLeft"
+        ]
+    },
+    "PR-A-1": {
+        "baseTask": "ResourceStages",
+        "Doc": "医疗/重装",
+        "next": [
+            "PR-A-1@StagePR-A",
+            "PR-A-1@SwipeToTheRight"
+        ]
+    },
+    "PR-A-2": {
+        "baseTask": "ResourceStages",
+        "next": [
+            "PR-A-2@StagePR-A",
+            "PR-A-2@SwipeToTheRight"
+        ]
+    },
+    "PR-B-1": {
+        "baseTask": "ResourceStages",
+        "Doc": "术士/狙击",
+        "next": [
+            "PR-B-1@StagePR-B",
+            "PR-B-1@SwipeToTheRight"
+        ]
+    },
+    "PR-B-2": {
+        "baseTask": "ResourceStages",
+        "next": [
+            "PR-B-2@StagePR-B",
+            "PR-B-2@SwipeToTheRight"
+        ]
+    },
+    "PR-C-1": {
+        "baseTask": "ResourceStages",
+        "Doc": "先锋/辅助",
+        "next": [
+            "PR-C-1@StagePR-C",
+            "PR-C-1@SwipeToTheRight"
+        ]
+    },
+    "PR-C-2": {
+        "baseTask": "ResourceStages",
+        "next": [
+            "PR-C-2@StagePR-C",
+            "PR-C-2@SwipeToTheRight"
+        ]
+    },
+    "PR-D-1": {
+        "baseTask": "ResourceStages",
+        "Doc": "近卫/特种",
+        "next": [
+            "PR-D-1@StagePR-D",
+            "PR-D-1@SwipeToTheRight"
+        ]
+    },
+    "PR-D-2": {
+        "baseTask": "ResourceStages",
+        "next": [
+            "PR-D-2@StagePR-D",
+            "PR-D-2@SwipeToTheRight"
+        ]
+    },
+    "StageResource": {
+        "action": "ClickSelf",
+        "Doc": "进入资源关卡",
+        "templThreshold": 0.77,
+        "roi": [
+            600,
+            600,
+            250,
+            110
+        ]
+    },
+    "Stage": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "cache": false
+    },
+    "StageEntries": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "baseTask": "Stage",
+        "maskRange": [
+            1,
+            255
+        ],
+        "postDelay": 1000,
+        "next": [
+            "Stage"
+        ]
+    },
+    "UnableToAgent": {
+        "roi": [
+            870,
+            410,
+            410,
+            220
+        ],
+        "next": [
+            "Stage",
+            "UnableToAgent@SwipeToTheLeft"
+        ]
+    },
+    "UnableToAgent2": {
+        "roi": [
+            985,
+            523,
+            159,
+            165
+        ],
+        "next": [
+            "Stage",
+            "UnableToAgent2@SwipeToTheLeft"
+        ]
+    },
+    "ResourceStageLevel5": {
+        "Doc": "base_task",
+        "algorithm": "OcrDetect",
+        "baseTask": "Stage",
+        "isAscii": true,
+        "text": [],
+        "roi": [
+            850,
+            140,
+            250,
+            220
+        ]
+    },
+    "ResourceStageLevel6": {
+        "Doc": "base_task",
+        "algorithm": "OcrDetect",
+        "baseTask": "Stage",
+        "isAscii": true,
+        "text": [],
+        "roi": [
+            936,
+            101,
+            243,
+            143
+        ],
+        "postDelay": 1000,
+        "next": [
+            "UnableToAgent",
+            "UnableToAgent2",
+            "Stop"
+        ]
+    },
+    "ChipStageLevel1": {
+        "Doc": "base_task",
+        "algorithm": "OcrDetect",
+        "baseTask": "Stage",
+        "isAscii": true,
+        "text": [],
+        "roi": [
+            27,
+            260,
+            742,
+            400
+        ]
+    },
+    "ChipStageLevel2": {
+        "Doc": "base_task",
+        "algorithm": "OcrDetect",
+        "baseTask": "Stage",
+        "isAscii": true,
+        "text": [],
+        "roi": [
+            472,
+            0,
+            793,
+            502
+        ]
+    },
+    "StageCE": {
+        "baseTask": "StageEntries"
+    },
+    "StageLS": {
+        "baseTask": "StageEntries"
+    },
+    "StageCA": {
+        "baseTask": "StageEntries"
+    },
+    "StageAP": {
+        "baseTask": "StageEntries"
+    },
+    "StageSK": {
+        "baseTask": "StageEntries"
+    },
+    "StagePR-A": {
+        "baseTask": "StageEntries"
+    },
+    "StagePR-B": {
+        "baseTask": "StageEntries"
+    },
+    "StagePR-C": {
+        "baseTask": "StageEntries"
+    },
+    "StagePR-D": {
+        "baseTask": "StageEntries"
+    },
+    "CE5@Stage": {
+        "baseTask": "ResourceStageLevel5",
+        "text": [
+            "CE-5"
+        ]
+    },
+    "CE6@Stage": {
+        "baseTask": "CE5@ResourceStageLevel6",
+        "text": [
+            "CE-6"
+        ]
+    },
+    "LS5@Stage": {
+        "baseTask": "ResourceStageLevel5",
+        "text": [
+            "LS-5"
+        ]
+    },
+    "LS6@Stage": {
+        "baseTask": "LS5@ResourceStageLevel6",
+        "text": [
+            "LS-6"
+        ]
+    },
+    "CA5@Stage": {
+        "baseTask": "ResourceStageLevel5",
+        "text": [
+            "CA-5"
+        ]
+    },
+    "AP5@Stage": {
+        "baseTask": "ResourceStageLevel5",
+        "text": [
+            "AP-5"
+        ]
+    },
+    "SK5@Stage": {
+        "baseTask": "ResourceStageLevel5",
+        "text": [
+            "SK-5"
+        ]
+    },
+    "PR-A-1@Stage": {
+        "baseTask": "ChipStageLevel1",
+        "text": [
+            "PR-A-1"
+        ]
+    },
+    "PR-A-2@Stage": {
+        "baseTask": "ChipStageLevel2",
+        "text": [
+            "PR-A-2"
+        ]
+    },
+    "PR-B-1@Stage": {
+        "baseTask": "ChipStageLevel1",
+        "text": [
+            "PR-B-1"
+        ]
+    },
+    "PR-B-2@Stage": {
+        "baseTask": "ChipStageLevel2",
+        "text": [
+            "PR-B-2"
+        ]
+    },
+    "PR-C-1@Stage": {
+        "baseTask": "ChipStageLevel1",
+        "text": [
+            "PR-C-1"
+        ]
+    },
+    "PR-C-2@Stage": {
+        "baseTask": "ChipStageLevel2",
+        "text": [
+            "PR-C-2"
+        ]
+    },
+    "PR-D-1@Stage": {
+        "baseTask": "ChipStageLevel1",
+        "text": [
+            "PR-D-1"
+        ]
+    },
+    "PR-D-2@Stage": {
+        "baseTask": "ChipStageLevel2",
+        "text": [
+            "PR-D-2"
+        ]
+    },
+    "FromStageSN": {
+        "template": "StageSNReturnFlag.png",
+        "action": "ClickRect",
+        "cache": false,
+        "roi": [
+            284,
+            509,
+            242,
+            141
+        ],
+        "specificRect": [
+            20,
+            20,
+            135,
+            35
+        ],
+        "next": [
+            "ReturnButton"
+        ]
+    },
+    "Annihilation": {
+        "Doc": "剿灭作战，一般本周的满了也不会有人再刷的，所以只识别右上角ToDoList里的剿灭就可以了",
+        "template": "fight/StageAnnihilation.png",
+        "templThreshold": 0.9,
+        "cache": false,
+        "action": "ClickSelf",
+        "roi": [
+            900,
+            70,
+            380,
+            400
+        ],
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "StageBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "Fight@ReturnButtons#next",
+            "Fight",
+            "Fight@CloseAnnos#next"
+        ]
+    },
+    "FightBegin": {
+        "Docs": "Fight@前缀保证各种任务的Main可以自动寻到Fight",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "Fight@UsePrts-Annihilation",
+            "Fight@UsePrts",
+            "Fight@UsePrts-StageSN",
+            "Fight@StartButton1",
+            "Fight@PRTS#next"
+        ]
+    },
+    "LastOrCurBattleBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "Fight@GoLastBattle",
+            "Fight@StartButton1",
+            "Fight@UsePrts",
+            "Fight@UsePrts-StageSN",
+            "Fight@ReturnButtons#next",
+            "Fight",
+            "Fight@CloseAnnos#next",
+            "Fight@PRTS#next"
+        ]
+    },
+    "UsePrts": {
+        "action": "ClickSelf",
+        "roi": [
+            1000,
+            550,
+            280,
+            90
+        ],
+        "cache": false,
+        "next": [
+            "UsePrts-Annihilation",
+            "StartButton1"
+        ]
+    },
+    "NotUsePrts": {
+        "action": "ClickSelf",
+        "roi": [
+            1000,
+            550,
+            280,
+            90
+        ],
+        "cache": false
+    },
+    "UsePrts-Annihilation": {
+        "Doc": "剿灭的“全权委托”按钮",
+        "action": "ClickSelf",
+        "roi": [
+            877,
+            532,
+            183,
+            123
+        ],
+        "next": [
+            "StartButton1"
+        ]
+    },
+    "UsePrts-StageSN": {
+        "Doc": "三周年活动关卡“愚人号”代理指挥按钮",
+        "action": "ClickSelf",
+        "roi": [
+            1010,
+            508,
+            270,
+            143
+        ],
+        "cache": false,
+        "next": [
+            "StartButton1"
+        ]
+    },
+    "StartButton1": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "开始行动"
+        ],
+        "cache": false,
+        "preDelay": 500,
+        "postDelay": 1000,
+        "roi": [
+            1038,
+            640,
+            206,
+            46
+        ],
+        "exceededNext": [
+            "StageSNReturnFlag",
+            "Stop"
+        ],
+        "reduceOtherTimes": [
+            "(ClickCornerAfterPRTS+ClickCorner)*5"
+        ],
+        "next": [
+            "StartButton2",
+            "UseMedicine",
+            "UseStone",
+            "NoStone",
+            "OfflineConfirm",
+            "AnnihilationConfirm",
+            "StartButton1TryAgain"
+        ]
+    },
+    "StartButton1TryAgain": {
+        "baseTask": "StartButton1",
+        "exceededNext": [],
+        "reduceOtherTimes": [],
+        "preDelay": 0,
+        "postDelay_Doc": "理智不足时弹出吃药界面约需两秒，理智足够则不到一秒就能进入StartButton2",
+        "postDelay": 3000,
+        "rectMove_Doc": "点击“行动”避免第二次点击时点到StartButton2",
+        "rectMove": [
+            38,
+            0,
+            35,
+            17
+        ]
+    },
+    "AnnihilationConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            992,
+            584,
+            288,
+            136
+        ],
+        "next": [
+            "EndOfActionAnnihilation",
+            "EndOfAction"
+        ]
+    },
+    "StageSNFlag": {
+        "template": "StageSNReturnFlag.png",
+        "cache": false,
+        "roi": [
+            284,
+            509,
+            242,
+            141
+        ],
+        "action": "DoNothing"
+    },
+    "StageSNReturnFlag": {
+        "Doc": "三周年活动关卡“愚人号”的“开始行动”界面，没有返回按钮，点一下返回后面任务出错",
+        "action": "ClickRect",
+        "cache": false,
+        "roi": [
+            284,
+            509,
+            242,
+            141
+        ],
+        "specificRect": [
+            20,
+            20,
+            135,
+            35
+        ],
+        "next": [
+            "Stop"
+        ]
+    },
+    "StartButton2": {
+        "template": [
+            "fight/StartButton2.png",
+            "fight/StartButton2Adverse.png"
+        ],
+        "action": "ClickSelf",
+        "preDelay": 1000,
+        "roi": [
+            1000,
+            350,
+            220,
+            340
+        ],
+        "next": [
+            "StartButton2TryAgain",
+            "StartButton2WaitTime"
+        ]
+    },
+    "StartButton2TryAgain": {
+        "baseTask": "StartButton2",
+        "template": [
+            "fight/StartButton2.png",
+            "fight/StartButton2Adverse.png"
+        ],
+        "preDelay": 0
+    },
+    "StartButton2WaitTime": {
+        "algorithm": "JustReturn",
+        "postDelay": 40000,
+        "next": [
+            "PRTS#next",
+            "StartButton2TryAgain",
+            "OfflineConfirm",
+            "WaitAfterPRTS"
+        ]
+    },
+    "PRTS": {
+        "algorithm": "JustReturn",
+        "postDelay": 5000,
+        "next": [
+            "PRTS1",
+            "PRTS2",
+            "PRTS3",
+            "EndOfAction",
+            "PrtsErrorConfirm",
+            "FightMissionFailed"
+        ]
+    },
+    "PRTS1": {
+        "action": "DoNothing",
+        "template": "copilot/BattleOfficiallyBegin.png",
+        "roi": [
+            1165,
+            20,
+            65,
+            65
+        ],
+        "maskRange": [
+            100,
+            255
+        ],
+        "postDelay": 5000,
+        "next": [
+            "PRTS#next",
+            "OfflineConfirm",
+            "WaitAfterPRTS"
+        ]
+    },
+    "PRTS2": {
+        "baseTask": "PRTS1",
+        "algorithm": "OcrDetect",
+        "text": [
+            "接管"
+        ],
+        "roi": [
+            324,
+            579,
+            219,
+            141
+        ]
+    },
+    "PRTS3": {
+        "baseTask": "PRTS1",
+        "algorithm": "OcrDetect",
+        "text": [
+            "角色"
+        ],
+        "roi": [
+            900,
+            500,
+            380,
+            150
+        ]
+    },
+    "WaitAfterPRTS": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "PRTS#next",
+            "WaitAfterPRTS@LoadingText",
+            "WaitAfterPRTS@LoadingIcon",
+            "ClickCornerAfterPRTS"
+        ]
+    },
+    "ClickCornerAfterPRTS": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
+        "Doc2": "在比较卡的时候点击屏幕，或是在升级时点击屏幕以进入到结算界面，最多 5 次，间隔 3s",
+        "specificRect": [
+            1000,
+            120,
+            270,
+            10
+        ],
+        "maxTimes": 5,
+        "postDelay": 3000,
+        "next": [
+            "EndOfAction",
+            "(ClickCorner + WaitAfterPRTS + StartUpThemes)#next ^ #self",
+            "#self"
+        ],
+        "exceededNext": [
+            "RestartGameAndContinue"
+        ]
+    },
+    "EndOfAction": {
+        "Doc": "本任务注册了插件 StageDropsTaskPlugin",
+        "roi": [
+            0,
+            290,
+            70,
+            60
+        ],
+        "reduceOtherTimes": [
+            "FightMissionFailed"
+        ],
+        "next": [
+            "ClickCorner"
+        ]
+    },
+    "EndOfActionThenStop": {
+        "baseTask": "EndOfAction",
+        "template": "fight/EndOfAction.png",
+        "reduceOtherTimes": [],
+        "preDelay": 5000,
+        "next": [
+            "ClickCornerThenStop"
+        ]
+    },
+    "FightMissionFailedThenStop": {
+        "baseTask": "FightMissionFailedAndStop",
+        "preDelay": 5000,
+        "next": [
+            "EndOfActionThenStop"
+        ]
+    },
+    "EndOfActionAnnihilation": {
+        "algorithm": "OcrDetect",
+        "Doc": "本任务注册了插件 StageDropsTaskPlugin",
+        "text": [
+            "行动结束"
+        ],
+        "roi": [
+            0,
+            118,
+            409,
+            194
+        ],
+        "action": "DoNothing",
+        "next": [
+            "ClickCorner"
+        ]
+    },
+    "StageDrops": {
+        "algorithm": "JustReturn",
+        "preDelay": 5000
+    },
+    "ClickCorner": {
+        "Doc": "点击屏幕右边，不会点到掉落物品，且不会关掉关卡选择的一块区域",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1000,
+            20,
+            270,
+            50
+        ],
+        "maxTimes": 5,
+        "next": [
+            "StartButton1",
+            "StartButton2",
+            "UseMedicine",
+            "UseStone",
+            "NoStone",
+            "ClickCorner@LoadingIcon",
+            "#self"
+        ],
+        "exceededNext": [
+            "RestartGameAndContinue"
+        ]
+    },
+    "ClickCornerThenStop": {
+        "baseTask": "ClickCorner",
+        "next": []
+    },
+    "SanityMatch": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "isAscii": true,
+        "roi": [
+            1120,
+            20,
+            160,
+            40
+        ],
+        "ocrReplace": [
+            [
+                "\\|",
+                "/"
+            ],
+            [
+                "o",
+                "0"
+            ],
+            [
+                "O",
+                "0"
+            ],
+            [
+                "I",
+                "1"
+            ],
+            [
+                "l",
+                "1"
+            ]
+        ],
+        "preDelay": 300
+    },
+    "UseMedicine": {
+        "action": "DoNothing",
+        "templThreshold": 0.7,
+        "roi": [
+            580,
+            50,
+            400,
+            100
+        ],
+        "next": [
+            "MedicineConfirm"
+        ]
+    },
+    "MedicineConfirm": {
+        "action": "ClickSelf",
+        "maxTimes": 0,
+        "roi": [
+            1000,
+            500,
+            200,
+            150
+        ],
+        "reduceOtherTimes": [
+            "StartButton1"
+        ],
+        "exceededNext": [
+            "ExpiringMedicineCheck",
+            "CloseStonePage"
+        ],
+        "next": [
+            "StartButton1",
+            "OfflineConfirm",
+            "MedicineConfirmAgain@LoadingText"
+        ]
+    },
+    "MedicineConfirmAgain": {
+        "Doc": "Refer to Task `StoneConfirmAgain`",
+        "baseTask": "MedicineConfirm",
+        "template": "fight/MedicineConfirm.png",
+        "maxTimes": 2147483647,
+        "reduceOtherTimes": []
+    },
+    "UseStone": {
+        "action": "DoNothing",
+        "roi": [
+            600,
+            130,
+            420,
+            420
+        ],
+        "next": [
+            "StoneConfirm"
+        ]
+    },
+    "DrGrandetUseOriginiums": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [
+            50,
+            376,
+            230,
+            40
+        ],
+        "preDelay": 3000,
+        "preDelay_Doc": "提前多少毫秒再次识别，单位毫秒",
+        "postDelay": 355000,
+        "postDelay_Doc": "大于多少毫秒才碎石，否则等待，单位毫秒"
+    },
+    "ExpiringMedicineCheck": {
+        "action": "DoNothing",
+        "algorithm": "OcrDetect",
+        "text": [
+            "分钟",
+            "小时",
+            "1天"
+        ],
+        "ocrReplace": [
+            [
+                ".+小时",
+                "小时"
+            ],
+            [
+                ".+分钟",
+                "分钟"
+            ],
+            [
+                "^\\d+小$",
+                "小时"
+            ],
+            [
+                "^\\d+分$",
+                "分钟"
+            ]
+        ],
+        "roi": [
+            675,
+            345,
+            125,
+            30
+        ],
+        "fullMatch": true,
+        "next": [
+            "ExpiringMedicineConfirm"
+        ]
+    },
+    "ExpiringMedicineConfirm": {
+        "action": "ClickSelf",
+        "template": "fight/MedicineConfirm.png",
+        "roi": [
+            1000,
+            500,
+            200,
+            150
+        ],
+        "reduceOtherTimes": [
+            "StartButton1"
+        ],
+        "maxTimes": 0,
+        "exceededNext": [
+            "CloseStonePage"
+        ],
+        "next": [
+            "StartButton1",
+            "OfflineConfirm",
+            "ExpiringMedicineConfirm@LoadingText"
+        ]
+    },
+    "StoneConfirm": {
+        "template": "fight/MedicineConfirm.png",
+        "action": "ClickSelf",
+        "maxTimes": 0,
+        "roi": [
+            1000,
+            500,
+            200,
+            150
+        ],
+        "reduceOtherTimes": [
+            "StartButton1"
+        ],
+        "exceededNext": [
+            "CloseStonePage"
+        ],
+        "next": [
+            "StartButton1",
+            "OfflineConfirm",
+            "StoneConfirmAgain@LoadingText"
+        ]
+    },
+    "StoneConfirmAgain": {
+        "Doc": "StoneConfirm 波动进入 LoadingText 之后，加载完成后碎石界面可能不会立即消失，这时候需要防止重复计数",
+        "Doc2": "如果在碎石界面还没消失的期间再点碎石，应该不会碎掉第二颗吧 :)",
+        "Doc3": "另外，应该不会又卡好几分钟吧，这个 task 就不用注册博朗台插件了",
+        "maxTimes": 2147483647,
+        "baseTask": "StoneConfirm",
+        "template": "fight/MedicineConfirm.png",
+        "reduceOtherTimes": []
+    },
+    "NoStone": {
+        "action": "DoNothing",
+        "roi": [
+            800,
+            250,
+            350,
+            250
+        ],
+        "next": [
+            "CloseStonePage"
+        ]
+    },
+    "CloseStonePage": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            0,
+            200,
+            300,
+            400
+        ],
+        "next": [
+            "StageSNReturnFlag",
+            "Stop"
+        ]
+    },
+    "PrtsErrorConfirm": {
+        "roi": [
+            0,
+            120,
+            1280,
+            480
+        ],
+        "action": "DoNothing",
+        "next": [
+            "AbandonAction",
+            "OfflineConfirmAfterBattle",
+            "WaitAfterPRTS"
+        ]
+    },
+    "AbandonAction": {
+        "action": "ClickSelf",
+        "reduceOtherTimes": [
+            "StartButton1",
+            "StartButton2"
+        ],
+        "roi": [
+            0,
+            400,
+            650,
+            230
+        ],
+        "next": [
+            "FightMissionFailed",
+            "EndOfAction",
+            "OfflineConfirm",
+            "StartUpThemes#next",
+            "StartButton1"
+        ]
+    },
+    "FightMissionFailed": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "任务失败"
+        ],
+        "action": "ClickSelf",
+        "roi": [
+            36,
+            226,
+            482,
+            269
+        ],
+        "next": [
+            "EndOfAction",
+            "OfflineConfirm",
+            "StartUpThemes#next",
+            "StartButton1"
+        ],
+        "maxTimes": 3,
+        "maxTimesDoc": "这是失败次数的限制，超过此限制会停止任务，但每成功一次 EndOfAction 会减少一次失败次数",
+        "exceededNext": [
+            "FightMissionFailedAndStop"
+        ],
+        "onErrorNext": [
+            "ClickCornerAfterPRTS"
+        ]
+    },
+    "FightMissionFailedAndStop": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "任务失败"
+        ],
+        "action": "ClickSelf",
+        "roi": [
+            36,
+            226,
+            482,
+            269
+        ]
+    },
+    "Fight": {
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png",
+            "TerminalMistCity.png"
+        ],
+        "cache": false,
+        "action": "ClickSelf",
+        "roi": [
+            880,
+            100,
+            180,
+            120
+        ],
+        "exceededNext": [
+            "Fight@TodaysSupplies",
+            "Fight@CloseAnnos#next",
+            "Stop"
+        ],
+        "next": [
+            "Fight@GoLastBattle",
+            "Fight",
+            "Fight@CloseAnnos#next",
+            "Stop"
+        ],
+        "postDelay": 3000
+    },
+    "GoLastBattle": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "前往上一次作战",
+            "作战"
+        ],
+        "roi": [
+            916,
+            479,
+            249,
+            127
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "UsePrts-Annihilation",
+            "UsePrts",
+            "UsePrts-StageSN",
+            "StartButton1"
+        ]
+    },
+    "StageDrops-StageName": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "isAscii": true,
+        "text": [],
+        "ocrReplace": [
+            [
+                "^.+-EX-?\\d+$",
+                "_INVALID_"
+            ],
+            [
+                "^.+-S-?\\d+$",
+                "_INVALID_"
+            ],
+            [
+                "^.+-MO-?\\d+$",
+                "_INVALID_"
+            ],
+            [
+                "^OF-1$",
+                "_INVALID_"
+            ],
+            [
+                "Ap-",
+                "AP-"
+            ],
+            [
+                "Bl-",
+                "BI-"
+            ],
+            [
+                "-1O",
+                "-10"
+            ]
+        ],
+        "roi": [
+            140,
+            60,
+            200,
+            55
+        ]
+    },
+    "StageDrops-BaseLine": {
+        "template": "empty.png",
+        "roi": [
+            0,
+            636,
+            1280,
+            2
+        ],
+        "templThreshold": 17,
+        "templThreshold_Doc": "这里用来作为基线间距阈值",
+        "specialParams": [
+            100
+        ],
+        "specialParams_Doc": "基线长度阈值（不小于100）",
+        "maskRange": [
+            45,
+            255
+        ],
+        "rectMove": [
+            181,
+            40,
+            25,
+            0
+        ],
+        "rectMove_Doc": "作为hsv阈值使用"
+    },
+    "StageDrops-Item": {
+        "template": "empty.png",
+        "templThreshold": 0.65,
+        "roi": [
+            0,
+            -130,
+            138,
+            130
+        ],
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "StageDrops-DropType-ExpAndLMB": {
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Normal": {
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Extra": {
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Furniture": {
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Special": {
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Sanity": {
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-DropType-Reward": {
+        "roi": [
+            0,
+            2,
+            0,
+            25
+        ],
+        "Doc": "roi 只用到了 y 和 height"
+    },
+    "StageDrops-Quantity": {
+        "template": "empty.png",
+        "templThreshold": 3,
+        "templThreshold_Doc": "这里用来作为字间距阈值",
+        "roi": [
+            62,
+            90,
+            43,
+            22
+        ],
+        "maskRange": [
+            110,
+            255
+        ]
+    },
+    "StageDrops-StageCF-ItemMatch": {
+        "template": "empty.png",
+        "templThreshold": 0.6,
+        "roi": [
+            300,
+            533,
+            600,
+            87
+        ]
+    },
+    "StageDrops-StageCF-FoodBonusFlag": {
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "text": [
+            "用",
+            "餐",
+            "加",
+            "成"
+        ],
+        "roi": [
+            270,
+            615,
+            230,
+            65
+        ]
+    },
+    "StageDrops-Stage12-TripleFlag": {
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "text": [
+            "后勤",
+            "急派"
+        ],
+        "roi": [
+            195,
+            586,
+            476,
+            94
+        ]
+    },
+    "StageDrops-StageCF-ItemQuantity": {
+        "baseTask": "NumberOcrReplace",
+        "text": [],
+        "roi": [
+            52,
+            52,
+            18,
+            18
+        ]
+    },
+    "StageDrops-Difficulty-Tough": {
+        "templThreshold": 0.6,
+        "roi": [
+            0,
+            0,
+            220,
+            220
+        ],
+        "specialParams": [
+            100
+        ],
+        "specialParams_Doc": "red count threshold"
+    },
+    "StageDrops-Stars-3": {
+        "templThreshold": 0.8,
+        "roi": [
+            50,
+            270,
+            250,
+            100
+        ]
+    },
+    "StageDrops-Stars-2": {
+        "templThreshold": 0.8,
+        "roi": [
+            50,
+            270,
+            250,
+            100
+        ]
+    },
+    "StageDrops-Stars-Adverse": {
+        "templThreshold": 0.8,
+        "roi": [
+            70,
+            285,
+            90,
+            95
+        ]
+    },
+    "ClickPlotStage": {
+        "action": "ClickSelf",
+        "next": [
+            "BattleStartPlot"
+        ],
+        "maxTimes": 1
+    },
+    "ClickCornerUntilStartButton": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1000,
+            120,
+            270,
+            10
+        ],
+        "next": [
+            "BattleStartPreFlag",
+            "ClickCornerUntilStartButton"
+        ]
+    }
+}

@@ -1,0 +1,204 @@
+{
+    "AwardBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "Award@ReturnButtons#next",
+            "Award",
+            "ReceiveAward",
+            "DailyTask",
+            "WeeklyTask",
+            "Award@CloseAnnos#next"
+        ]
+    },
+    "Award": {
+        "template": [
+            "award/Task.png",
+            "award/TaskDark.png",
+            "award/TaskSami.png",
+            "award/TaskMistCity.png"
+        ],
+        "cache": false,
+        "templThreshold": 0.7,
+        "action": "ClickSelf",
+        "roi": [
+            700,
+            530,
+            130,
+            130
+        ],
+        "roi_crop_doc": [
+            720,
+            553,
+            75,
+            70
+        ],
+        "next": [
+            "ReceiveAward",
+            "DailyTask",
+            "WeeklyTask",
+            "Award",
+            "Award@CloseAnnos#next"
+        ]
+    },
+    "ReceiveAward": {
+        "action": "ClickSelf",
+        "roi": [
+            950,
+            50,
+            330,
+            150
+        ],
+        "next": [
+            "CloseTaskAward"
+        ]
+    },
+    "CloseTaskAward": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            600,
+            630,
+            60,
+            60
+        ],
+        "next": [
+            "CloseTaskAwardDouble"
+        ],
+        "postDelay": 500
+    },
+    "CloseTaskAwardDouble": {
+        "Doc": "有时候奖励出的太慢了，所以这里多点一次",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            600,
+            630,
+            60,
+            60
+        ],
+        "next": [
+            "WeeklyTask",
+            "AwardFinished",
+            "CloseTaskAwardDouble"
+        ],
+        "maxTimes": 10
+    },
+    "AwardFinished": {
+        "action": "Stop",
+        "roi": [
+            400,
+            0,
+            880,
+            100
+        ],
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "DailyTask": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            400,
+            0,
+            880,
+            100
+        ],
+        "next": [
+            "ReceiveAward",
+            "WeeklyTask"
+        ]
+    },
+    "WeeklyTask": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            400,
+            0,
+            880,
+            100
+        ],
+        "next": [
+            "ReceiveAward",
+            "Stop"
+        ]
+    },
+    "MailBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "MailReturnToHome@ReturnButtons#next",
+            "MailReturnToHome",
+            "ReceiveMail"
+        ]
+    },
+    "MailReturnToHome": {
+        "baseTask": "Home",
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png",
+            "TerminalMistCity.png"
+        ],
+        "cache": false,
+        "action": "DoNothing",
+        "next": [
+            "Mail",
+            "MailWithoutAward"
+        ]
+    },
+    "Mail": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            120,
+            0,
+            150,
+            135
+        ],
+        "next": [
+            "ReceiveMail",
+            "Mail",
+            "Stop"
+        ],
+        "postDelay": 2000
+    },
+    "MailWithoutAward": {
+        "cache": false,
+        "roi": [
+            120,
+            0,
+            150,
+            135
+        ],
+        "templThreshold": 0.9,
+        "postDelay": 500
+    },
+    "ReceiveMail": {
+        "action": "ClickSelf",
+        "roi": [
+            980,
+            580,
+            300,
+            140
+        ],
+        "next": [
+            "CloseTaskMail"
+        ]
+    },
+    "CloseTaskMail": {
+        "baseTask": "CloseTaskAward",
+        "next": [
+            "CloseTaskMailDouble"
+        ]
+    },
+    "CloseTaskMailDouble": {
+        "baseTask": "CloseTaskAwardDouble",
+        "next": [
+            "Home@ReturnButtons#next",
+            "CloseTaskMailDouble"
+        ]
+    }
+}

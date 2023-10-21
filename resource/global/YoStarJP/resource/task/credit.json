@@ -1,0 +1,36 @@
+{
+    "NoFriends": {
+        "text": [
+            "戦友があリませれ"
+        ]
+    },
+    "VisitNextOcr": {
+        "text": [
+            "次を訪問"
+        ]
+    },
+    "Mall": {
+        "text": [
+            "購買"
+        ]
+    },
+    "CreditStoreOcr": {
+        "text": [
+            "FP交換所"
+        ]
+    },
+    "VisitLimited": {
+        "text": [
+            "上限",
+            "達しました",
+            "Fpは入手できません",
+            "再訪問の場合"
+        ]
+    },
+    "CreditShop-NoMoney": {
+        "text": [
+            "足りません",
+            "FＰが"
+        ]
+    }
+}

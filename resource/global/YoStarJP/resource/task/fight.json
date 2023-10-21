@@ -1,0 +1,129 @@
+{
+    "ClickChapter1": {
+        "text": [
+            "覚醒"
+        ]
+    },
+    "ClickChapter2": {
+        "text": [
+            "幻滅"
+        ]
+    },
+    "ClickChapter3": {
+        "text": [
+            "残映"
+        ]
+    },
+    "IW-Open": {
+        "text": [
+            "<将進酒>イベント復刻開催中"
+        ]
+    },
+    "IWChapterToIW": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "三山奇聞"
+        ]
+    },
+    "FC-Open": {
+        "text": [
+            "ステージ",
+            "開放"
+        ]
+    },
+    "FCChapterToFC": {
+        "text": [
+            "沼",
+            "たなびく",
+            "煙"
+        ]
+    },
+    "IS-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "next": [
+            "EnterChapterIS"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "text": [
+            "シラクザーノ"
+        ]
+    },
+    "EnterChapterIS": {
+        "text": [
+            "ウォルシーニ",
+            "ウォル"
+        ]
+    },
+    "StageEpisodeToOF": {
+        "text": [
+            "青く燃ゆる心",
+            "青く",
+            "燃ゆる"
+        ]
+    },
+    "OFToOF-Chapter": {
+        "text": [
+            "イベントへ",
+            "イベント"
+        ]
+    },
+    "DH-Open": {
+        "text": [
+            "ドッソレス",
+            "ホリデー",
+            "復刻",
+            "イベント",
+            "催中"
+        ]
+    },
+    "DHChapterToDH": {
+        "text": [
+            "大会",
+            "エントリー"
+        ]
+    },
+    "StartButton1": {
+        "text": [
+            "行動開始"
+        ]
+    },
+    "PRTS3": {
+        "text": [
+            "残り配置可能数"
+        ]
+    },
+    "ExpiringMedicineCheck": {
+        "ocrReplace": [
+            [
+                ".+時間",
+                "時間"
+            ],
+            [
+                ".+分",
+                "分"
+            ]
+        ],
+        "roi": [
+            705,
+            345,
+            95,
+            30
+        ],
+        "text": [
+            "分",
+            "時間",
+            "1日"
+        ]
+    },
+    "GoLastBattle": {
+        "text": [
+            "前回の参加作戦"
+        ]
+    }
+}

@@ -1,0 +1,301 @@
+{
+    "ClickChapter1": {
+        "text": [
+            "Hour of An Awakening",
+            "Hour of An"
+        ]
+    },
+    "ClickChapter2": {
+        "text": [
+            "Shatter of A Vision",
+            "Shatter of A"
+        ]
+    },
+    "ClickChapter3": {
+        "text": [
+            "Shadow of A Dying Sun",
+            "Shadow of A"
+        ]
+    },
+    "LevelOfDifficulty": {
+        "text": [
+            "Environment",
+            "PRTS"
+        ]
+    },
+    "EnterChapterDifficultyHard": {
+        "text": [
+            "Start Operation"
+        ]
+    },
+    "EnterChapterDifficultyNormal": {
+        "text": [
+            "Start Operation"
+        ]
+    },
+    "SideStoryReopen": {
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "text": [
+            "Rerun"
+        ]
+    },
+    "CF-Open": {
+        "text": [
+            "Event <A Flurry to the Flame> is now",
+            "open"
+        ]
+    },
+    "CFChapterToCF": {
+        "text": [
+            "SOUBO",
+            "MOUNTAINS"
+        ]
+    },
+    "GA-Open": {
+        "text": [
+            "Event <Guide Ahead",
+            "Rerun> is now",
+            "open"
+        ]
+    },
+    "GAChapterToGA": {
+        "text": [
+            "SUMMIT",
+            "OF",
+            "NATIONS"
+        ]
+    },
+    "WB-Open": {
+        "text": [
+            "Event <Where Vernal Winds Will Never",
+            "Blow> is now open",
+            "Criminal Pursuit,Offsite'stages opened"
+        ]
+    },
+    "WBChapterToWB": {
+        "algorithm": "OcrDetect",
+        "roi": [
+            1034,
+            595,
+            246,
+            125
+        ],
+        "text": [
+            "CASE INVESTIGATION",
+            "ONSITE"
+        ]
+    },
+    "IW-Open": {
+        "text": [
+            "Event <Invitation to Wine - Rerun> is",
+            "now open"
+        ]
+    },
+    "IWChapterToIW": {
+        "algorithm": "OcrDetect",
+        "roi": [
+            856,
+            511,
+            247,
+            159
+        ],
+        "text": [
+            "TALES OF",
+            "THREE-MOUNTAINS"
+        ]
+    },
+    "FC-Open": {
+        "text": [
+            "Event <What the Firelight Casts> is now",
+            "open"
+        ]
+    },
+    "FCChapterToFC": {
+        "text": [
+            "SWAMP",
+            "MISTS"
+        ]
+    },
+    "StageEpisodeToGT": {
+        "text": [
+            "Grani and the Knights' Treasure",
+            "Grani and the Knights"
+        ]
+    },
+    "GTToGT-5": {
+        "text": [
+            "Enter",
+            "Event"
+        ]
+    },
+    "StageEpisodeToOF": {
+        "text": [
+            "Heart of Surging Flame"
+        ]
+    },
+    "OFToOF-Chapter": {
+        "text": [
+            "Enter",
+            "Event"
+        ]
+    },
+    "IC-Open": {
+        "text": [
+            "Event",
+            "Ideal",
+            "City",
+            "open"
+        ]
+    },
+    "DV-Open": {
+        "text": [
+            "Event",
+            "Dorothy's",
+            "Vision",
+            "open"
+        ]
+    },
+    "LE-Open": {
+        "text": [
+            "Rerun",
+            "open"
+        ]
+    },
+    "SN-Open": {
+        "text": [
+            "open"
+        ]
+    },
+    "SN-Chapter2": {
+        "text": [
+            "Lost Flagship",
+            "Lost",
+            "Flagship"
+        ]
+    },
+    "SN-Chapter3": {
+        "text": [
+            "Nameless Ocean",
+            "Nameless",
+            "Ocean"
+        ]
+    },
+    "DH-Open": {
+        "text": [
+            "Dossoles",
+            "Holiday",
+            "Rerun",
+            "open"
+        ]
+    },
+    "UsePrts": {
+        "templThreshold": 0.7
+    },
+    "StartButton1": {
+        "text": [
+            "Start"
+        ]
+    },
+    "PRTS2": {
+        "text": [
+            "Takeover"
+        ]
+    },
+    "PRTS3": {
+        "roi": [
+            1144,
+            545,
+            135,
+            32
+        ],
+        "text": [
+            "Unit Limit"
+        ]
+    },
+    "EndOfActionAnnihilation": {
+        "roi": [
+            13,
+            126,
+            386,
+            208
+        ],
+        "text": [
+            "MISSION",
+            "RESULTS"
+        ]
+    },
+    "ExpiringMedicineCheck": {
+        "ocrReplace": [
+            [
+                ".+hrs?",
+                "hr"
+            ],
+            [
+                ".+mins?",
+                "min"
+            ]
+        ],
+        "text": [
+            "min",
+            "hr",
+            "1 day"
+        ]
+    },
+    "FightMissionFailed": {
+        "fullMatch": true,
+        "roi": [
+            114,
+            249,
+            311,
+            224
+        ],
+        "text": [
+            "MISSION",
+            "FAILED"
+        ]
+    },
+    "FightMissionFailedAndStop": {
+        "fullMatch": true,
+        "roi": [
+            114,
+            249,
+            311,
+            224
+        ],
+        "text": [
+            "MISSION",
+            "FAILED"
+        ]
+    },
+    "GoLastBattle": {
+        "text": [
+            "To the most recent stage"
+        ]
+    },
+    "StageDrops-DropType-ExpAndLMB": {
+        "templThreshold": 0.7
+    },
+    "StageDrops-DropType-Normal": {
+        "templThreshold": 0.7
+    },
+    "StageDrops-DropType-Extra": {
+        "templThreshold": 0.7
+    },
+    "StageDrops-DropType-Furniture": {
+        "templThreshold": 0.7
+    },
+    "StageDrops-DropType-Special": {
+        "templThreshold": 0.7
+    },
+    "StageDrops-DropType-Sanity": {
+        "templThreshold": 0.7
+    },
+    "StageDrops-DropType-Reward": {
+        "templThreshold": 0.7
+    }
+}

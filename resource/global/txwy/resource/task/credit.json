@@ -1,0 +1,31 @@
+{
+    "NoFriends": {
+        "text": [
+            "暫無好友"
+        ]
+    },
+    "VisitNextOcr": {
+        "text": [
+            "訪問下位"
+        ]
+    },
+    "Mall": {
+        "text": [
+            "採",
+            "採購",
+            "中心"
+        ]
+    },
+    "VisitLimited": {
+        "text": [
+            "今日參與",
+            "已達上限"
+        ]
+    },
+    "CreditShop-NoMoney": {
+        "text": [
+            "信用不足",
+            "無法購買"
+        ]
+    }
+}

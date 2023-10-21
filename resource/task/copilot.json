@@ -1,0 +1,1432 @@
+{
+    "BattleSupportUnitFormation": {
+        "action": "ClickSelf",
+        "roi": [
+            995,
+            248,
+            244,
+            167
+        ],
+        "next": [
+            "BattleSupportUnitFormationSelect",
+            "BattleSupportUnitFormation"
+        ],
+        "postDelay": 2000
+    },
+    "BattleSupportUnitFormationSelect": {
+        "action": "ClickSelf",
+        "roi": [
+            115,
+            595,
+            1165,
+            75
+        ],
+        "next": [
+            "BattleSupportUnitFormationSelect",
+            "Stop"
+        ]
+    },
+    "BattleQuickFormationCheck": {
+        "baseTask": "BattleQuickFormation",
+        "template": "copilot/BattleQuickFormation.png",
+        "action": "DoNothing",
+        "next": []
+    },
+    "BattleQuickFormation": {
+        "action": "ClickSelf",
+        "roi": [
+            816,
+            0,
+            404,
+            149
+        ],
+        "postDelay": 1000,
+        "next": [
+            "BattleQuickFormationClear",
+            "BattleQuickFormation"
+        ]
+    },
+    "BattleQuickFormationClear": {
+        "action": "ClickSelf",
+        "roi": [
+            334,
+            605,
+            286,
+            115
+        ],
+        "postDelay": 500,
+        "next": [
+            "BattleQuickFormationExpandRole",
+            "Stop"
+        ]
+    },
+    "BattleQuickFormationExpandRole": {
+        "action": "ClickSelf",
+        "roi": [
+            1152,
+            0,
+            128,
+            138
+        ],
+        "postDelay": 500
+    },
+    "BattleQuickFormationRole": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [
+            1155,
+            41,
+            125,
+            679
+        ],
+        "templThreshold": 0.7,
+        "maskRange": [
+            100,
+            255
+        ],
+        "postDelay": 500
+    },
+    "BattleQuickFormationFilter": {
+        "action": "ClickSelf",
+        "roi": [
+            1045,
+            0,
+            134,
+            123
+        ],
+        "postDelay": 500
+    },
+    "BattleQuickFormationFilter-Cost": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "部署费用"
+        ],
+        "roi": [
+            989,
+            433,
+            196,
+            142
+        ],
+        "postDelay": 500
+    },
+    "BattleQuickFormationFilter-Trust": {
+        "action": "ClickSelf",
+        "roi": [
+            1010,
+            70,
+            35,
+            580
+        ],
+        "postDelay": 500,
+        "next": [
+            "BattleQuickFormationFilter-Click2"
+        ]
+    },
+    "BattleQuickFormationFilter-Click2": {
+        "action": "ClickSelf",
+        "roi": [
+            1125,
+            60,
+            150,
+            600
+        ],
+        "postDelay": 500
+    },
+    "BattleQuickFormationFilterClose": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            37,
+            104,
+            291,
+            185
+        ],
+        "postDelay": 500
+    },
+    "BattleQuickFormationTrustIcon": {
+        "templThreshold": 0.9,
+        "roi": [
+            360,
+            280,
+            735,
+            360
+        ]
+    },
+    "BattleQuickFormationRole-All": {
+        "baseTask": "BattleQuickFormationRole",
+        "roi": [
+            1163,
+            0,
+            117,
+            133
+        ]
+    },
+    "BattleQuickFormationRole-All-OCR": {
+        "baseTask": "BattleQuickFormationRole-All",
+        "algorithm": "OcrDetect",
+        "text": [
+            "全部"
+        ]
+    },
+    "BattleQuickFormationRole-Pioneer": {
+        "baseTask": "BattleQuickFormationRole"
+    },
+    "BattleQuickFormationRole-Warrior": {
+        "baseTask": "BattleQuickFormationRole"
+    },
+    "BattleQuickFormationRole-Tank": {
+        "baseTask": "BattleQuickFormationRole"
+    },
+    "BattleQuickFormationRole-Caster": {
+        "baseTask": "BattleQuickFormationRole"
+    },
+    "BattleQuickFormationRole-Medic": {
+        "baseTask": "BattleQuickFormationRole"
+    },
+    "BattleQuickFormationRole-Sniper": {
+        "baseTask": "BattleQuickFormationRole"
+    },
+    "BattleQuickFormationRole-Special": {
+        "baseTask": "BattleQuickFormationRole"
+    },
+    "BattleQuickFormationRole-Support": {
+        "baseTask": "BattleQuickFormationRole"
+    },
+    "BattleQuickFormation-OperNameFlagBase": {
+        "template": "empty.png",
+        "roi": [
+            342,
+            66,
+            866,
+            332
+        ]
+    },
+    "BattleQuickFormation-OperNameFlag0": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag1": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag2": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag3": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag4": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag5": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag6": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormation-OperNameFlag7": {
+        "baseTask": "BattleQuickFormation-OperNameFlagBase"
+    },
+    "BattleQuickFormationOCR": {
+        "algorithm": "OcrDetect",
+        "fullMatch": true,
+        "text": [],
+        "roi": [
+            9,
+            232,
+            107,
+            20
+        ],
+        "postDelay": 200,
+        "specialParams_Doc": "USED FOR YOSTAREN. Used in BattleFormationTask.cpp for OCR manipulation. For CN: OCRerConfig.h default values are used.",
+        "specialParams": [
+            140,
+            2,
+            0,
+            0
+        ]
+    },
+    "BattleQuickFormationSkill1": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            15,
+            385,
+            80,
+            100
+        ]
+    },
+    "BattleQuickFormationSkill2": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            15,
+            560,
+            80,
+            30
+        ]
+    },
+    "BattleQuickFormationSkill3": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            15,
+            710,
+            80,
+            10
+        ]
+    },
+    "BattleQuickFormationConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            880,
+            608,
+            400,
+            112
+        ],
+        "postDelay": 1000
+    },
+    "BattleStartPre": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "开始行动",
+            "开始突袭",
+            "开始试炼",
+            "开始测试"
+        ],
+        "cache": false,
+        "roi": [
+            1000,
+            600,
+            280,
+            120
+        ],
+        "action": "ClickSelf",
+        "postDelay": 1000
+    },
+    "BattleStart": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [
+            989,
+            318,
+            232,
+            374
+        ],
+        "postDelay": 3000,
+        "next": [
+            "BattleOfficiallyBegin",
+            "SkipThePreBattlePlot",
+            "Stop"
+        ]
+    },
+    "SkipThePreBattlePlot": {
+        "action": "ClickSelf",
+        "roi": [
+            1096,
+            0,
+            182,
+            131
+        ],
+        "next": [
+            "SkipThePreBattlePlotConfirm",
+            "SkipThePreBattlePlot"
+        ],
+        "maskRange": [
+            100,
+            255
+        ]
+    },
+    "SkipBattlePlot": {
+        "baseTask": "SkipThePreBattlePlot",
+        "template": "copilot/SkipThePreBattlePlot.png",
+        "next": [
+            "SkipBattlePlotConfirm"
+        ]
+    },
+    "SkipThePreBattlePlotConfirm": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            721,
+            290,
+            149,
+            244
+        ],
+        "maskRange": [
+            100,
+            255
+        ]
+    },
+    "SkipBattlePlotConfirm": {
+        "baseTask": "SkipThePreBattlePlotConfirm",
+        "template": "copilot/SkipThePreBattlePlotConfirm.png",
+        "next": [
+            "EndOfPlot"
+        ]
+    },
+    "EndOfPlot": {
+        "roi": [
+            520,
+            0,
+            243,
+            206
+        ],
+        "action": "ClickRect",
+        "specificRect": [
+            1000,
+            120,
+            270,
+            10
+        ],
+        "next": [
+            "ClickStageName"
+        ]
+    },
+    "SkipForbiddenOperConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            640,
+            554,
+            632,
+            76
+        ]
+    },
+    "BattleStartAll": {
+        "action": "DoNothing",
+        "algorithm": "JustReturn",
+        "next": [
+            "BattleStartNormal",
+            "BattleStartRaid",
+            "BattleStartExercise",
+            "BattleStartAdverse",
+            "BattleStartSimulation",
+            "BattleStartTrials",
+            "BattleStartTrialsRaid",
+            "BattleStartOCR"
+        ]
+    },
+    "BattleStartNormal": {
+        "baseTask": "BattleStart"
+    },
+    "BattleStartRaid": {
+        "baseTask": "BattleStart"
+    },
+    "BattleStartExercise": {
+        "baseTask": "BattleStart"
+    },
+    "BattleStartAdverse": {
+        "baseTask": "BattleStart"
+    },
+    "BattleStartTrials": {
+        "baseTask": "BattleStart"
+    },
+    "BattleStartTrialsRaid": {
+        "baseTask": "BattleStart"
+    },
+    "BattleStartOCR": {
+        "baseTask": "BattleStart",
+        "algorithm": "OcrDetect",
+        "text": [
+            "开始",
+            "行动"
+        ],
+        "roi": [
+            999,
+            398,
+            222,
+            237
+        ]
+    },
+    "BattleStartSimulation": {
+        "action": "ClickSelf",
+        "roi": [
+            417,
+            567,
+            444,
+            153
+        ],
+        "postDelay": 2000
+    },
+    "BattleStartPlot": {
+        "roi": [
+            872,
+            250,
+            212,
+            255
+        ],
+        "postDelay": 2000,
+        "action": "ClickSelf",
+        "next": [
+            "SkipBattlePlot"
+        ]
+    },
+    "BattleOperName": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "fullMatch": true,
+        "roi": [
+            5,
+            177,
+            191,
+            37
+        ]
+    },
+    "SSSBattleOperName": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "fullMatch": true,
+        "roi": [
+            0,
+            102,
+            190,
+            37
+        ]
+    },
+    "BattleOfficiallyBegin": {
+        "action": "DoNothing",
+        "roi": [
+            1165,
+            20,
+            65,
+            65
+        ],
+        "maskRange": [
+            100,
+            255
+        ],
+        "templThreshold": 0.7
+    },
+    "BattleSpeedUp": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1070,
+            20,
+            60,
+            60
+        ]
+    },
+    "BattlePause": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1170,
+            20,
+            60,
+            60
+        ],
+        "postDelay": 200
+    },
+    "BattleCancelSelection": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            150,
+            0,
+            1000,
+            60
+        ],
+        "postDelay": 500
+    },
+    "BattleAvatarData": {
+        "template": "empty.png",
+        "templThreshold": 0.8
+    },
+    "BattleAvatarDataForVideo": {
+        "baseTask": "BattleAvatarData",
+        "template": "empty.png",
+        "templThreshold": 0.6
+    },
+    "BattleDroneAvatarData": {
+        "template": "empty.png",
+        "templThreshold": 0.7
+    },
+    "BattleAvatarCoolingData": {
+        "template": "empty.png",
+        "templThreshold": 0.5,
+        "maskRange": [
+            0,
+            50
+        ]
+    },
+    "BattleAvatarDataForFormation": {
+        "template": "empty.png",
+        "templThreshold": 0.6,
+        "rectMove": [
+            15,
+            15,
+            30,
+            30
+        ]
+    },
+    "BattleOperDetailPageFlag": {
+        "template": "empty.png",
+        "roi": [
+            0,
+            322,
+            110,
+            16
+        ],
+        "specialParams": [
+            100
+        ]
+    },
+    "BattleOperDetailPageOldFlag": {
+        "baseTask": "BattleOperDetailPageFlag",
+        "template": "empty.png",
+        "roi": [
+            0,
+            385,
+            110,
+            14
+        ]
+    },
+    "BattleOperBoxRectMove": {
+        "template": "empty.png",
+        "rectMove": [
+            0,
+            -50,
+            60,
+            60
+        ]
+    },
+    "BattleDeployDirectionRectMove": {
+        "template": "empty.png",
+        "rectMove": [
+            -48,
+            -48,
+            96,
+            96
+        ]
+    },
+    "BattleKillsFlag": {
+        "roi": [
+            150,
+            0,
+            600,
+            60
+        ],
+        "maskRange": [
+            1,
+            255
+        ],
+        "templThreshold": 0.6
+    },
+    "BattleKills": {
+        "algorithm": "OcrDetect",
+        "isAscii": true,
+        "text": [],
+        "roi": [
+            50,
+            0,
+            100,
+            40
+        ]
+    },
+    "BattleCostData": {
+        "algorithm": "OcrDetect",
+        "isAscii": true,
+        "text": [],
+        "roi": [
+            1196,
+            494,
+            83,
+            44
+        ]
+    },
+    "BattleSkillReady": {
+        "cache": false,
+        "rectMove": [
+            -28,
+            -140,
+            64,
+            64
+        ]
+    },
+    "BattleSkillReadyOnClick": {
+        "roi": [
+            748,
+            414,
+            210,
+            118
+        ],
+        "templThreshold": 0.7,
+        "cache": false,
+        "action": "ClickSelf",
+        "rectMove": [
+            0,
+            -110,
+            90,
+            90
+        ],
+        "postDelay": 300,
+        "next": [
+            "#self",
+            "Stop"
+        ]
+    },
+    "BattleSkillReadyOnClick-SquareMap": {
+        "baseTask": "BattleSkillReadyOnClick"
+    },
+    "BattleSkillStopOnClick": {
+        "baseTask": "BattleSkillReadyOnClick"
+    },
+    "BattleSkillStopOnClick-SquareMap": {
+        "baseTask": "BattleSkillReadyOnClick"
+    },
+    "BattleUseOper": {
+        "algorithm": "JustReturn",
+        "preDelay": 150,
+        "postDelay": 200,
+        "Doc": "pre 是从点击干员，到干员信息弹出来等待的时间；post 是干员上场，到设置朝向之间等待的时间"
+    },
+    "BattleSwipeOper": {
+        "algorithm": "JustReturn",
+        "preDelay": 400,
+        "postDelay": 100,
+        "Doc": "pre 是将干员滑动到场上的 duration 系数；post 是设置干员朝向滑动的 duration",
+        "specialParams": [
+            400,
+            2,
+            0,
+            100
+        ],
+        "specialParamsDoc": [
+            "设置朝向时的滑动距离",
+            "滑动初速度（平均速度是固定的，初速度快末速度慢相当于一直减速）",
+            "滑动末速度",
+            "将干员滑动到场上的 最小滑动 duration"
+        ]
+    },
+    "BattleOpersFlag": {
+        "templThreshold": 0.65,
+        "roi": [
+            0,
+            588,
+            1280,
+            18
+        ],
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "BattleAvatarReMatch": {
+        "template": "empty.png",
+        "templThreshold": 0.8,
+        "roi": [
+            0,
+            580,
+            1280,
+            140
+        ]
+    },
+    "BattleOperClickRange": {
+        "template": "empty.png",
+        "rectMove": [
+            -45,
+            6,
+            75,
+            120
+        ]
+    },
+    "BattleOperAvailable": {
+        "template": "empty.png",
+        "specialParams": [
+            100
+        ],
+        "specialParams_Doc": "用于做V通道平均值阈值",
+        "rectMove": [
+            0,
+            0,
+            10,
+            10
+        ]
+    },
+    "BattleOperCooling": {
+        "template": "empty.png",
+        "specialParams": [
+            1500
+        ],
+        "specialParams_Doc": "这个任务中作为符合range的像素点数量阈值",
+        "rectMove": [
+            -45,
+            6,
+            75,
+            120
+        ],
+        "maskRange_Doc": "拿来做H通道的范围",
+        "maskRange": [
+            0,
+            10
+        ],
+        "specificRect_Doc": "拿来做S、V通道的范围",
+        "specificRect": [
+            200,
+            255,
+            0,
+            100
+        ]
+    },
+    "BattleOperRoleRange": {
+        "template": "empty.png",
+        "rectMove": [
+            -41,
+            6,
+            31,
+            25
+        ]
+    },
+    "BattleOperAvatar": {
+        "template": "empty.png",
+        "rectMove": [
+            7,
+            32,
+            60,
+            60
+        ]
+    },
+    "BattleOperRole": {
+        "template": "empty.png",
+        "templThreshold": 0.65
+    },
+    "BattleOperRoleCaster": {},
+    "BattleOperRoleMedic": {},
+    "BattleOperRolePioneer": {},
+    "BattleOperRoleSniper": {},
+    "BattleOperRoleSpecial": {},
+    "BattleOperRoleSupport": {},
+    "BattleOperRoleTank": {},
+    "BattleOperRoleWarrior": {},
+    "BattleOperRoleDrone": {},
+    "BattleOperCostRange": {
+        "algorithm": "Hash",
+        "hash": [],
+        "rectMove": [
+            -10,
+            12,
+            30,
+            17
+        ]
+    },
+    "BattleHpFlag": {
+        "roi": [
+            400,
+            0,
+            650,
+            60
+        ],
+        "rectMove": [
+            40,
+            0,
+            100,
+            35
+        ]
+    },
+    "BattleHpFlag2": {
+        "roi": [
+            400,
+            0,
+            650,
+            60
+        ],
+        "rectMove": [
+            40,
+            0,
+            100,
+            35
+        ]
+    },
+    "BattleUseSkillJustClick": {
+        "algorithm": "JustReturn",
+        "postDelay": 100,
+        "action": "ClickRect",
+        "specificRect": [
+            850,
+            390,
+            50,
+            40
+        ]
+    },
+    "BattleOperRetreat": {
+        "Doc": "这个按钮图标在不同关卡及位置中是有畸变的，模板匹配结果很不准，不建议用这个Task",
+        "roi": [
+            554,
+            146,
+            119,
+            118
+        ],
+        "templThreshold": 0.7,
+        "cache": false,
+        "action": "ClickSelf",
+        "maskRange": [
+            100,
+            255
+        ],
+        "postDelay": 300
+    },
+    "BattleOperRetreatJustClick": {
+        "algorithm": "JustReturn",
+        "preDelay": 300,
+        "postDelay": 300,
+        "action": "ClickRect",
+        "specificRect": [
+            572,
+            225,
+            1,
+            6
+        ]
+    },
+    "BattleFormationOperListSlowlySwipeToTheRight": {
+        "baseTask": "SlowlySwipeToTheRight",
+        "specificRect": [
+            1100,
+            350,
+            20,
+            20
+        ],
+        "rectMove": [
+            400,
+            350,
+            20,
+            20
+        ]
+    },
+    "BattleFormationOperListSwipeToTheLeft": {
+        "baseTask": "SwipeToTheLeft",
+        "specificRect": [
+            400,
+            350,
+            20,
+            20
+        ],
+        "rectMove": [
+            1100,
+            350,
+            20,
+            20
+        ]
+    },
+    "NormalBattleAbandon": {
+        "action": "ClickSelf",
+        "roi": [
+            791,
+            497,
+            313,
+            157
+        ],
+        "next": [
+            "NormalBattleAbandon",
+            "Stop"
+        ]
+    },
+    "SSSBegin": {
+        "Doc": "保全派驻",
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "开始保全作战"
+        ],
+        "roi": [
+            992,
+            576,
+            288,
+            144
+        ],
+        "next": [
+            "SSSBuffChoose",
+            "SSSDebuffConfirm"
+        ]
+    },
+    "SSSDebuffConfirm": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "确认完毕"
+        ],
+        "roi": [
+            992,
+            576,
+            288,
+            144
+        ],
+        "next": [
+            "SSSBuffChoose"
+        ]
+    },
+    "SSSBuffChoose": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "自适应补给元件"
+        ],
+        "roi": [
+            0,
+            136,
+            1280,
+            162
+        ],
+        "next": [
+            "SSSBuffChooseConfirm"
+        ]
+    },
+    "SSSBuffChooseConfirm": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "确认选择"
+        ],
+        "roi": [
+            992,
+            576,
+            288,
+            144
+        ],
+        "next": [
+            "SSSEquipmentConfirm"
+        ]
+    },
+    "SSSEquipmentConfirm": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "装备确认"
+        ],
+        "roi": [
+            992,
+            576,
+            288,
+            144
+        ]
+    },
+    "SSSTeamConfirm": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "阵容确认"
+        ],
+        "roi": [
+            992,
+            576,
+            288,
+            144
+        ]
+    },
+    "SSSStageNameOCR": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [
+            121,
+            263,
+            188,
+            50
+        ],
+        "ocrReplace": [
+            [
+                "枯朽.*育",
+                "枯朽孕育"
+            ],
+            [
+                "^混乱.*派对.*",
+                "混乱“派对”"
+            ],
+            [
+                "^窒息.*",
+                "窒息"
+            ],
+            [
+                "^消息传递.*",
+                "消息传递"
+            ],
+            [
+                "^干.*封锁",
+                "干酪封锁"
+            ]
+        ]
+    },
+    "SSSCloseTip": {
+        "action": "ClickSelf",
+        "roi": [
+            54,
+            40,
+            201,
+            136
+        ],
+        "next": [
+            "SSSStartFighting"
+        ]
+    },
+    "SSSStartFighting": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "开始部署",
+            "重新部署"
+        ],
+        "roi": [
+            992,
+            576,
+            288,
+            144
+        ],
+        "next": [
+            "SSSStartFighting2",
+            "SSSDropRecruitmentFlag"
+        ]
+    },
+    "SSSStartFighting2": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "开始行动"
+        ],
+        "roi": [
+            992,
+            576,
+            288,
+            144
+        ],
+        "preDelay": 1000,
+        "maxTimes": 5,
+        "next": [
+            "#self",
+            "Stop"
+        ]
+    },
+    "SSSFightDirectly": {
+        "action": "ClickSelf",
+        "roi": [
+            1052,
+            360,
+            154,
+            144
+        ]
+    },
+    "SSSDrawCard": {
+        "action": "ClickSelf",
+        "templThreshold": 0.98,
+        "roi": [
+            1151,
+            319,
+            129,
+            157
+        ]
+    },
+    "SSSSettlement": {
+        "action": "ClickSelf",
+        "roi": [
+            1009,
+            0,
+            155,
+            143
+        ],
+        "next": [
+            "SSSSettlementConfirm"
+        ]
+    },
+    "SSSSettlementConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            756,
+            414,
+            174,
+            160
+        ]
+    },
+    "SSSConfirmBattleComplete": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "SSSStartFighting",
+            "SSSBegin",
+            "SSSClickUntilStartScreen"
+        ]
+    },
+    "SSSDropRecruitmentFlag": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "cache": false,
+        "text": [
+            "请选择",
+            "请进行",
+            "增调",
+            "异能",
+            "获得",
+            "甄选",
+            "导能"
+        ],
+        "roi": [
+            163,
+            78,
+            900,
+            112
+        ],
+        "postDelay": 3000,
+        "next": [
+            "SSSStartFighting2",
+            "SSSDropRecruitmentFlag"
+        ]
+    },
+    "SSSClickUntilStartScreen": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            529,
+            27,
+            227,
+            126
+        ],
+        "next": [
+            "SSSConfirmBattleComplete"
+        ]
+    },
+    "SSSDropRecruitmentOCR": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": [],
+        "cache": false,
+        "roi": [
+            0,
+            352,
+            1280,
+            263
+        ],
+        "postDelay": 1000
+    },
+    "SSSDropRecruitmentConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "确认调用",
+            "放弃调用",
+            "确认选择"
+        ],
+        "roi": [
+            1105,
+            525,
+            175,
+            132
+        ],
+        "postDelay": 1000
+    },
+    "SSSHalfTimeDropsBegin": {
+        "template": "copilot/SSSHalfTimeDropsCancel.png",
+        "action": "DoNothing",
+        "templThreshold": 0.7,
+        "cache": false,
+        "roi": [
+            148,
+            332,
+            46,
+            46
+        ],
+        "next": [
+            "SSSHalfTimeDrops",
+            "SSSHalfTimeDropsCancel"
+        ]
+    },
+    "SSSHalfTimeDrops": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [],
+        "roi": [
+            206,
+            452,
+            897,
+            88
+        ],
+        "next": [
+            "SSSHalfTimeDropsConfirm"
+        ]
+    },
+    "SSSHalfTimeDropsConfirm": {
+        "action": "ClickSelf",
+        "templThreshold": 0.7,
+        "cache": false,
+        "roi": [
+            1035,
+            284,
+            145,
+            145
+        ]
+    },
+    "SSSHalfTimeDropsCancel": {
+        "action": "ClickSelf",
+        "templThreshold": 0.7,
+        "cache": false,
+        "roi": [
+            100,
+            284,
+            145,
+            145
+        ],
+        "next": [
+            "SSSHalfTimeDropsCancelConfirm"
+        ]
+    },
+    "SSSHalfTimeDropsCancelConfirm": {
+        "action": "ClickSelf",
+        "templThreshold": 0.7,
+        "roi": [
+            716,
+            410,
+            254,
+            163
+        ]
+    },
+    "Copilot@StageNavigationSlowlySwipeLeft": {
+        "doc": "禁掉copilot的找不到关卡返回",
+        "exceededNext": [
+            "Copilot@ChapterSwipeToTheRightAndPlot"
+        ]
+    },
+    "Copilot@ChapterSwipeToTheRightAndPlot": {
+        "doc": "划五次到最右，然后扫有无初见剧情",
+        "baseTask": "ChapterSwipeToTheRight",
+        "exceededNext": [
+            "Copilot@ClickPlotStage"
+        ]
+    },
+    "Copilot@ClickCornerUntilEndOfAction": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "maxTimes": 30,
+        "exceededNext": [
+            "Copilot@EndOfAction"
+        ],
+        "next": [
+            "Copilot@SkipThePreBattlePlot",
+            "Copilot@EndOfAction",
+            "Copilot@ClickCornerBeforeThreeStars"
+        ]
+    },
+    "Copilot@SkipThePreBattlePlotConfirm": {
+        "template": "copilot/SkipThePreBattlePlotConfirm.png",
+        "next": [
+            "Copilot@ClickCornerUntilEndOfAction"
+        ]
+    },
+    "Copilot@EndOfAction": {
+        "template": "fight/EndOfAction.png",
+        "action": "DoNothing",
+        "reduceOtherTimes": [],
+        "next": [
+            "Copilot@StageDrops-Stars-3",
+            "Copilot@StageDrops-Stars-Adverse"
+        ]
+    },
+    "Copilot@StageDrops-Stars-3": {
+        "Doc": "如果没有三星就终止",
+        "template": "fight/StageDrops-Stars-3.png",
+        "action": "DoNothing",
+        "next": [
+            "Copilot@ClickCornerUntilStartButton"
+        ]
+    },
+    "Copilot@StageDrops-Stars-Adverse": {
+        "Doc": "如果没有三星就终止",
+        "template": "fight/StageDrops-Stars-Adverse.png",
+        "action": "DoNothing",
+        "next": [
+            "Copilot@ClickCornerUntilStartButton"
+        ]
+    },
+    "Copilot@ClickCornerBeforeThreeStars": {
+        "Doc": "三星之前",
+        "baseTask": "Copilot@ClickCornerUntilStartButton",
+        "next": [
+            "Copilot@ClickCornerUntilEndOfAction"
+        ]
+    },
+    "Copilot@ClickCornerUntilStartButton": {
+        "Doc": "三星之后",
+        "next": [
+            "Copilot@BattleStartPreFlag",
+            "Copilot@ClickCornerUntilStartButton"
+        ]
+    },
+    "Copilot@BattleStartPreFlag": {
+        "baseTask": "BattleStartPreFlag",
+        "action": "DoNothing",
+        "roi": [
+            0,
+            0,
+            1280,
+            720
+        ],
+        "next": []
+    },
+    "BattleStartPreFlag": {
+        "baseTask": "BattleStartPre",
+        "action": "DoNothing"
+    },
+    "BattleFormationOCRNameFlag": {
+        "templThreshold": 0.6,
+        "roi": [
+            88,
+            264,
+            873,
+            354
+        ]
+    },
+    "BattleFormationOperNames": {
+        "baseTask": "CharsNameOcrReplace",
+        "text": [],
+        "roi": [
+            -18,
+            40,
+            122,
+            18
+        ]
+    },
+    "BattleFormationOperNamesOldVersion": {
+        "baseTask": "BattleFormationOperNames",
+        "text": [],
+        "roi": [
+            30,
+            23,
+            75,
+            15
+        ]
+    },
+    "BattleFormationOperAvatarMove": {
+        "template": "empty.png",
+        "rectMove": [
+            -120,
+            -250,
+            150,
+            165
+        ]
+    },
+    "BattleHasStarted": {
+        "template": "empty.png",
+        "roi": [
+            1178,
+            33,
+            49,
+            39
+        ],
+        "specialParams_Doc": "亮度阈值；点的数量",
+        "specialParams": [
+            245,
+            200
+        ]
+    },
+    "BattleSpeedButton": {
+        "template": "empty.png",
+        "roi": [
+            1069,
+            22,
+            55,
+            59
+        ],
+        "specialParams_Doc": "亮度阈值；点的数量",
+        "specialParams": [
+            245,
+            160
+        ]
+    }
+}

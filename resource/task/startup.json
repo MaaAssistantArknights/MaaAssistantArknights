@@ -1,0 +1,483 @@
+{
+    "SwitchAccount@StartUpBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "LoginOther#next",
+            "SwitchAccount@StartUpThemes#next",
+            "SwitchAccount@LoadingIcon",
+            "SwitchAccount@ReturnButtons#next",
+            "Settings"
+        ]
+    },
+    "SwitchAccount": {
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png",
+            "TerminalMistCity.png"
+        ],
+        "cache": false,
+        "baseTask": "StartUp",
+        "next": [
+            "Settings"
+        ]
+    },
+    "Settings": {
+        "action": "ClickSelf",
+        "roi": [
+            20,
+            15,
+            55,
+            50
+        ],
+        "maxTimes": 1,
+        "next": [
+            "UserCenter",
+            "ExitOld"
+        ]
+    },
+    "UserCenter": {
+        "action": "ClickSelf",
+        "roi": [
+            50,
+            470,
+            50,
+            75
+        ],
+        "next": [
+            "Logout",
+            "LogoutOCR"
+        ]
+    },
+    "Logout": {
+        "action": "ClickSelf",
+        "roi": [
+            660,
+            460,
+            140,
+            50
+        ],
+        "next": [
+            "LogoutConfirm"
+        ]
+    },
+    "LogoutOCR": {
+        "baseTask": "Logout",
+        "algorithm": "OcrDetect",
+        "text": [
+            "退出登录",
+            "登出",
+            "账号",
+            "出"
+        ],
+        "roi": [
+            702,
+            470,
+            390,
+            30
+        ]
+    },
+    "LogoutConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            650,
+            450,
+            280,
+            60
+        ],
+        "next": [
+            "AccountManager",
+            "AccountManager@LoadingText"
+        ],
+        "postDelay": 3000
+    },
+    "ExitOld": {
+        "action": "ClickSelf",
+        "roi": [
+            770,
+            350,
+            190,
+            60
+        ],
+        "next": [
+            "ExitOldConfirm"
+        ]
+    },
+    "ExitOldConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            660,
+            450,
+            600,
+            90
+        ],
+        "next": [
+            "LoginOther"
+        ]
+    },
+    "SwitchAccount@StartToWakeUp": {
+        "Doc": "干掉点击登录",
+        "template": "startup/StartToWakeUp.png",
+        "action": "DoNothing",
+        "next": [
+            "AccountManager"
+        ]
+    },
+    "AccountManager": {
+        "action": "ClickSelf",
+        "roi": [
+            855,
+            660,
+            150,
+            40
+        ],
+        "next": [
+            "LoginOther"
+        ]
+    },
+    "LoginOther": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "preDelay": 3000,
+        "next": [
+            "AccountManagerOfficial",
+            "AccountManagerBili"
+        ]
+    },
+    "AccountManagerOfficial": {
+        "action": "DoNothing",
+        "roi": [
+            570,
+            165,
+            140,
+            80
+        ]
+    },
+    "AccountManagerBili": {
+        "action": "DoNothing",
+        "roi": [
+            565,
+            160,
+            145,
+            50
+        ]
+    },
+    "AccountCurrentOCR": {
+        "algorithm": "OcrDetect",
+        "isAscii": true,
+        "text": [],
+        "roi": [
+            495,
+            335,
+            126,
+            23
+        ]
+    },
+    "AccountCurrentOCRBili": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [
+            525,
+            280,
+            150,
+            25
+        ]
+    },
+    "AccountManagerLoginButton": {
+        "action": "ClickSelf",
+        "roi": [
+            430,
+            410,
+            430,
+            60
+        ]
+    },
+    "AccountManagerLoginButtonBili": {
+        "baseTask": "AccountManagerLoginButton",
+        "roi": [
+            440,
+            360,
+            400,
+            80
+        ]
+    },
+    "AccountManagerListAccount": {
+        "action": "ClickSelf",
+        "roi": [
+            770,
+            315,
+            85,
+            65
+        ]
+    },
+    "AccountManagerListAccountBili": {
+        "baseTask": "AccountManagerListAccount",
+        "roi": [
+            770,
+            270,
+            60,
+            70
+        ]
+    },
+    "AccountManagerTrashButton": {
+        "roi": [
+            790,
+            375,
+            50,
+            175
+        ]
+    },
+    "AccountManagerTrashButtonBili": {
+        "roi": [
+            770,
+            270,
+            50,
+            280
+        ]
+    },
+    "AccountListOcr": {
+        "algorithm": "OcrDetect",
+        "isAscii": true,
+        "text": []
+    },
+    "AccountListSwipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [
+            700,
+            380,
+            20,
+            20
+        ],
+        "rectMove": [
+            700,
+            330,
+            20,
+            20
+        ],
+        "specialParams": [
+            150
+        ]
+    },
+    "AccountListSwipeToTop": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [
+            700,
+            330,
+            20,
+            20
+        ],
+        "rectMove": [
+            700,
+            380,
+            20,
+            20
+        ],
+        "specialParams": [
+            150
+        ]
+    },
+    "StartUpThemes": {
+        "algorithm": "JustReturn",
+        "next": [
+            "GameStart",
+            "StartToWakeUp",
+            "StartToWakeUpOCR",
+            "StartLoginBServer",
+            "StartUpConnectingFlag",
+            "MainThemes#next",
+            "CloseAnnos#next",
+            "OfflineConfirm"
+        ]
+    },
+    "StartUpBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "StartUp@StartUpThemes#next",
+            "StartUpBegin@LoadingIcon",
+            "StartUp@ReturnButtons#next",
+            "StartUp@EndOfAction"
+        ]
+    },
+    "GameStart": {
+        "action": "ClickSelf",
+        "roi": [
+            550,
+            600,
+            200,
+            120
+        ],
+        "cache": false,
+        "templThreshold": 0.7,
+        "postDelay": 3000,
+        "maskRange": [
+            1,
+            255
+        ],
+        "reduceOtherTimes": [
+            "StartButton1",
+            "StartButton2"
+        ],
+        "next": [
+            "StartUpThemes#next",
+            "GameStart@LoadingIcon"
+        ]
+    },
+    "StartToWakeUp": {
+        "action": "ClickSelf",
+        "roi": [
+            520,
+            460,
+            240,
+            100
+        ],
+        "next": [
+            "StartUpThemes#next",
+            "StartToWakeUp@LoadingIcon"
+        ]
+    },
+    "StartToWakeUpOCR": {
+        "baseTask": "StartToWakeUp",
+        "algorithm": "OcrDetect",
+        "text": [
+            "开始唤醒",
+            "登录",
+            "登",
+            "录"
+        ],
+        "fullMatch": true,
+        "roi": [
+            373,
+            145,
+            535,
+            430
+        ]
+    },
+    "StartLoginBServer": {
+        "action": "ClickSelf",
+        "roi": [
+            400,
+            350,
+            500,
+            150
+        ],
+        "next": [
+            "StartUpThemes#next",
+            "StartLoginBServer@LoadingIcon"
+        ]
+    },
+    "StartUpConnectingFlag": {
+        "action": "ClickSelf",
+        "roi": [
+            0,
+            635,
+            450,
+            85
+        ],
+        "next": [
+            "StartUpThemes#next",
+            "StartUpConnectingFlag@LoadingIcon"
+        ]
+    },
+    "StartAtHome": {
+        "baseTask": "Home",
+        "action": "DoNothing",
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png",
+            "TerminalMistCity.png"
+        ],
+        "next": [
+            "Home",
+            "StartUpBegin"
+        ],
+        "postDelay_Doc": "等待以防万一（StartUp还有双倍的任务延迟等待，默认0.5s x2",
+        "postDelay": 1000
+    },
+    "StartWithSanity": {
+        "roi": [
+            700,
+            130,
+            140,
+            120
+        ],
+        "maskRange": [
+            100,
+            255
+        ],
+        "next": [
+            "CloseHomeSanity"
+        ]
+    },
+    "CloseHomeSanity": {
+        "action": "ClickSelf",
+        "roi": [
+            750,
+            610,
+            140,
+            70
+        ],
+        "next": [
+            "Home"
+        ]
+    },
+    "StartUp": {
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png",
+            "TerminalMistCity.png"
+        ],
+        "cache": false,
+        "action": "DoNothing",
+        "roi": [
+            880,
+            100,
+            180,
+            120
+        ],
+        "Doc": "有时候明明已经在主界面了，停了一小会又弹个窗。多检测几次，一直在主界面才算完成",
+        "postDelay": 1000,
+        "maxTimes": 3,
+        "next": [
+            "StartUp",
+            "StartUp@LoadingText",
+            "StartUp@CloseAnnos#next"
+        ]
+    },
+    "TodaysSupplies": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "今日配给"
+        ],
+        "action": "ClickRect",
+        "specificRect": [
+            1000,
+            1,
+            270,
+            340
+        ],
+        "roi": [
+            500,
+            50,
+            300,
+            150
+        ],
+        "next": [
+            "CloseAnnos#next",
+            "MainThemes#next"
+        ]
+    },
+    "StartUp@ClickCorner": {
+        "next": [
+            "StartUp@ReturnButtons#next",
+            "StartUp",
+            "StartUp@CloseAnnos#next",
+            "StartUp@OfflineConfirm"
+        ]
+    }
+}

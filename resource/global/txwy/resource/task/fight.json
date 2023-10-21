@@ -1,0 +1,361 @@
+{
+    "BI-6": {
+        "algorithm": "JustReturn",
+        "next": [
+            "BI-6@SideStoryStage",
+            "BI-6@SwipeToStage"
+        ],
+        "sub": [
+            "BI-Open"
+        ]
+    },
+    "BI-6@SideStoryStage": {
+        "text": [
+            "BI-6"
+        ]
+    },
+    "BI-7": {
+        "algorithm": "JustReturn",
+        "next": [
+            "BI-7@SideStoryStage",
+            "BI-7@SwipeToStage"
+        ],
+        "sub": [
+            "BI-Open"
+        ]
+    },
+    "BI-7@SideStoryStage": {
+        "text": [
+            "BI-7"
+        ]
+    },
+    "BI-8": {
+        "algorithm": "JustReturn",
+        "next": [
+            "BI-8@SideStoryStage",
+            "BI-8@SwipeToStage"
+        ],
+        "sub": [
+            "BI-Open"
+        ]
+    },
+    "BI-8@SideStoryStage": {
+        "text": [
+            "BI-8"
+        ]
+    },
+    "BI-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "next": [
+            "BIChapterToBI"
+        ],
+        "postDelay": 2000,
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "text": [
+            "風雪",
+            "復刻",
+            "活動",
+            "開放"
+        ]
+    },
+    "BIChapterToBI": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "next": [
+            "ChapterSwipeToTheRight"
+        ],
+        "preDelay": 1000,
+        "roi": [
+            999,
+            243,
+            281,
+            176
+        ],
+        "text": [
+            "雪山大典",
+            "雪山",
+            "大典"
+        ]
+    },
+    "ClickChapter1": {
+        "baseTask": "ClickChapter",
+        "text": [
+            "覺醒"
+        ]
+    },
+    "ClickChapter2": {
+        "baseTask": "ClickChapter",
+        "text": [
+            "幻滅"
+        ]
+    },
+    "ClickChapter3": {
+        "baseTask": "ClickChapter",
+        "text": [
+            "殘陽"
+        ]
+    },
+    "LevelOfDifficulty": {
+        "text": [
+            "環境",
+            "PRTS"
+        ]
+    },
+    "EnterChapterDifficultyHard": {
+        "text": [
+            "進入",
+            "作戰"
+        ]
+    },
+    "EnterChapterDifficultyNormal": {
+        "text": [
+            "進入",
+            "作戰"
+        ]
+    },
+    "ClickedCorrectStageOrSwipe": {
+        "action": "DoNothing",
+        "baseTask": "StartButton1",
+        "next": [
+            "ClickedCorrectStage",
+            "FullStageNavigation"
+        ],
+        "reduceOtherTimes": []
+    },
+    "SideStoryReopen": {
+        "text": [
+            "復刻"
+        ]
+    },
+    "FC-Open": {
+        "baseTask": "#none",
+        "action": "ClickSelf",
+        "postDelay": 2000,
+        "roi": [
+            592,
+            56,
+            316,
+            265
+        ]
+    },
+    "FCChapterToFC": {
+        "text": [
+            "荒煙林沼"
+        ]
+    },
+    "IS-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "next": [
+            "EnterChapterIS"
+        ],
+        "postDelay": 2000,
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "text": [
+            "敘拉古人",
+            "活動",
+            "已開放"
+        ]
+    },
+    "EnterChapterIS": {
+        "text": [
+            "沃爾西尼"
+        ]
+    },
+    "NL-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "next": [
+            "NLChapterToNL"
+        ],
+        "postDelay": 2000,
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "text": [
+            "長夜",
+            "復刻",
+            "活動",
+            "開放"
+        ]
+    },
+    "NLChapterToNL": {
+        "text": [
+            "大騎士領"
+        ]
+    },
+    "StageEpisodeToOF": {
+        "text": [
+            "火藍之心"
+        ]
+    },
+    "OFToOF-Chapter": {
+        "text": [
+            "進入",
+            "活動"
+        ]
+    },
+    "IC-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "text": [
+            "理想城",
+            "活動",
+            "開放"
+        ]
+    },
+    "ICChapterToIC": {
+        "action": "ClickSelf",
+        "cache": false,
+        "next": [
+            "ICChapterToIC",
+            "ChapterSwipeToTheRight"
+        ],
+        "postDelay": 2000,
+        "roi": [
+            1030,
+            400,
+            219,
+            130
+        ]
+    },
+    "DV-Open": {
+        "text": [
+            "綠野幻夢",
+            "活動",
+            "開放"
+        ]
+    },
+    "DVChapterToDV": {
+        "text": [
+            "實驗基地"
+        ]
+    },
+    "LEChapterToLE": {
+        "text": [
+            "夕照大廳",
+            "大廳"
+        ]
+    },
+    "SN-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "text": [
+            "愚人號",
+            "活動",
+            "關卡已開放"
+        ]
+    },
+    "SN-Chapter2": {
+        "next": [
+            "SN-Chapter2",
+            "ChapterSwipeToTheRight"
+        ],
+        "preDelay": 2000
+    },
+    "SN-Chapter3": {
+        "next": [
+            "SN-Chapter3",
+            "ChapterSwipeToTheLeft"
+        ],
+        "preDelay": 2000
+    },
+    "DH-Open": {
+        "text": [
+            "假日",
+            "復刻",
+            "活動",
+            "開放"
+        ]
+    },
+    "DHChapterToDH": {
+        "text": [
+            "極限",
+            "鐵人",
+            "大獎"
+        ]
+    },
+    "StartButton1": {
+        "text": [
+            "開始行動"
+        ]
+    },
+    "PRTS3": {
+        "text": [
+            "可放置角色"
+        ]
+    },
+    "EndOfActionAnnihilation": {
+        "text": [
+            "行動結束"
+        ]
+    },
+    "ExpiringMedicineCheck": {
+        "ocrReplace": [
+            [
+                ".+小時",
+                "小時"
+            ],
+            [
+                ".+分鐘",
+                "分鐘"
+            ],
+            [
+                "^\\d+小$",
+                "小時"
+            ],
+            [
+                "^\\d+分$",
+                "分鐘"
+            ]
+        ],
+        "text": [
+            "分鐘",
+            "小時",
+            "1天"
+        ]
+    },
+    "FightMissionFailed": {
+        "text": [
+            "任務失敗"
+        ]
+    },
+    "FightMissionFailedAndStop": {
+        "text": [
+            "任務失敗"
+        ]
+    },
+    "GoLastBattle": {
+        "text": [
+            "前往上一次作戰",
+            "作戰"
+        ]
+    }
+}

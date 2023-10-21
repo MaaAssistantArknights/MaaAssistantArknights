@@ -1,0 +1,39 @@
+{
+    "NoFriends": {
+        "text": [
+            "등록된",
+            "없습니다"
+        ]
+    },
+    "VisitNextOcr": {
+        "text": [
+            "다음",
+            "방문"
+        ]
+    },
+    "Mall": {
+        "text": [
+            "구매센터"
+        ]
+    },
+    "CreditStoreOcr": {
+        "text": [
+            "크레딧",
+            "크레딪",
+            "크레딜"
+        ]
+    },
+    "VisitLimited": {
+        "text": [
+            "일일공유참여상한도달",
+            "일일최대10회",
+            "상한"
+        ]
+    },
+    "CreditShop-NoMoney": {
+        "text": [
+            "부족",
+            "불가"
+        ]
+    }
+}

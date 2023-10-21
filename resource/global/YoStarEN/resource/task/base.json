@@ -1,0 +1,2002 @@
+{
+    "CharsNameOcrReplace": {
+        "Doc": "该任务的 ocrReplace 被所有涉及干员名的英文识别任务复用 This task's ocrReplace is reused by all recognition tasks related to operator names",
+        "ocrReplace": [
+            [
+                "SilverAsh",
+                "银灰"
+            ],
+            [
+                "Blaze",
+                "煌"
+            ],
+            [
+                "Surtr",
+                "史尔特尔"
+            ],
+            [
+                "^Ch'en$",
+                "陈"
+            ],
+            [
+                "Thorns",
+                "棘刺"
+            ],
+            [
+                "^Specter$",
+                "幽灵鲨"
+            ],
+            [
+                "Nearl? the Radiant Kn?ight",
+                "Nearl the Radiant Knight"
+            ],
+            [
+                "Nearl the Radiant Knight",
+                "耀骑士临光"
+            ],
+            [
+                "Lappland",
+                "拉普兰德"
+            ],
+            [
+                "Indra",
+                "因陀罗"
+            ],
+            [
+                "Amiya",
+                "阿米娅"
+            ],
+            [
+                "Broca",
+                "布洛卡"
+            ],
+            [
+                "Savage",
+                "暴行"
+            ],
+            [
+                "Bibeak",
+                "柏喙"
+            ],
+            [
+                "Franka",
+                "芙兰卡"
+            ],
+            [
+                "Sideroca",
+                "铸铁"
+            ],
+            [
+                "^Swire$",
+                "诗怀雅"
+            ],
+            [
+                "Whislash",
+                "鞭刃"
+            ],
+            [
+                "Akafuyu",
+                "赤冬"
+            ],
+            [
+                "Flamebringer",
+                "炎客"
+            ],
+            [
+                "Melantha",
+                "玫兰莎"
+            ],
+            [
+                "Dobermann",
+                "杜宾"
+            ],
+            [
+                "Matoimaru",
+                "缠丸"
+            ],
+            [
+                "Frostleaf",
+                "霜叶"
+            ],
+            [
+                "Estelle",
+                "艾丝黛尔"
+            ],
+            [
+                "Hellagur",
+                "赫拉格"
+            ],
+            [
+                "Pallas",
+                "帕拉斯"
+            ],
+            [
+                "Mountain",
+                "山"
+            ],
+            [
+                "^Skadi$",
+                "斯卡蒂"
+            ],
+            [
+                "Ayerscarpe",
+                "断崖"
+            ],
+            [
+                "Tequila",
+                "龙舌兰"
+            ],
+            [
+                "Flint",
+                "燧石"
+            ],
+            [
+                "Astesia",
+                "星极"
+            ],
+            [
+                "La Pluma",
+                "羽毛笔"
+            ],
+            [
+                "Tachanka",
+                "战车"
+            ],
+            [
+                "Conviction",
+                "断罪者"
+            ],
+            [
+                "Arene",
+                "芳汀"
+            ],
+            [
+                "Jackie",
+                "杰克"
+            ],
+            [
+                "Cutter",
+                "刻刀"
+            ],
+            [
+                "Beehunter",
+                "猎蜂"
+            ],
+            [
+                "Mousse",
+                "慕斯"
+            ],
+            [
+                "Utage",
+                "宴"
+            ],
+            [
+                "Popukar",
+                "泡普卡"
+            ],
+            [
+                "Midnight",
+                "月见夜"
+            ],
+            [
+                "Reserve Operator *-* *M.*",
+                "Reserve Operator - Melee"
+            ],
+            [
+                "Reserve Operator - Melee",
+                "预备干员-近战"
+            ],
+            [
+                "Angelina",
+                "安洁莉娜"
+            ],
+            [
+                "Sora",
+                "空"
+            ],
+            [
+                "Ss?kad?i? the Corru?pt?ing.*",
+                "Skadi the Corrupting Heart"
+            ],
+            [
+                "Skadi the Corrupting Heart",
+                "浊心斯卡蒂"
+            ],
+            [
+                "Scene",
+                "稀音"
+            ],
+            [
+                "Suzuran",
+                "铃兰"
+            ],
+            [
+                "Mayer",
+                "梅尔"
+            ],
+            [
+                "Magallan",
+                "麦哲伦"
+            ],
+            [
+                "Pramanix",
+                "初雪"
+            ],
+            [
+                "Gnosis",
+                "灵知"
+            ],
+            [
+                "Glaucus",
+                "格劳克斯"
+            ],
+            [
+                "Shamare",
+                "巫恋"
+            ],
+            [
+                "Tsukinogi",
+                "月禾"
+            ],
+            [
+                "I?stina",
+                "Istina"
+            ],
+            [
+                "Istina",
+                "真理"
+            ],
+            [
+                "Podenco",
+                "波登可"
+            ],
+            [
+                "Earthspirit",
+                "地灵"
+            ],
+            [
+                "Roberta",
+                "罗比菈塔"
+            ],
+            [
+                "Deepcolor",
+                "深海色"
+            ],
+            [
+                "Orchid",
+                "梓兰"
+            ],
+            [
+                "Reserve Operator *-* *C.*",
+                "Reserve Operator - Caster"
+            ],
+            [
+                "Reserve Operator - Caster",
+                "预备干员-术师"
+            ],
+            [
+                "^Hibiscus$",
+                "芙蓉"
+            ],
+            [
+                "Ansel?",
+                "Ansel"
+            ],
+            [
+                "Ansel",
+                "安赛尔"
+            ],
+            [
+                "Myrrh",
+                "末药"
+            ],
+            [
+                "^Gavial$",
+                "嘉维尔"
+            ],
+            [
+                "Perfumer",
+                "调香师"
+            ],
+            [
+                "Ptilopsis",
+                "白面鸮"
+            ],
+            [
+                "^Silence$",
+                "赫默"
+            ],
+            [
+                "Warfarin",
+                "华法琳"
+            ],
+            [
+                "Shining",
+                "闪灵"
+            ],
+            [
+                "Nightingale",
+                "夜莺"
+            ],
+            [
+                "Sussurro",
+                "苏苏洛"
+            ],
+            [
+                "Ceylon",
+                "锡兰"
+            ],
+            [
+                "Breeze",
+                "微风"
+            ],
+            [
+                "Folinic",
+                "亚叶"
+            ],
+            [
+                "Purestream",
+                "清流"
+            ],
+            [
+                "Whisperain",
+                "絮雨"
+            ],
+            [
+                "Tuye",
+                "图耶"
+            ],
+            [
+                "Kal'tsit",
+                "凯尔希"
+            ],
+            [
+                "Mulberry",
+                "桑葚"
+            ],
+            [
+                "Honeyberry",
+                "蜜莓"
+            ],
+            [
+                "Reserve Operator *-* *L.*",
+                "Reserve Operator - Logistics"
+            ],
+            [
+                "Reserve Operator - Logistics",
+                "预备干员-后勤"
+            ],
+            [
+                "Flametail?",
+                "Flametail"
+            ],
+            [
+                "Flametail",
+                "焰尾"
+            ],
+            [
+                "Wild Mane",
+                "野鬃"
+            ],
+            [
+                "Saileach",
+                "琴柳"
+            ],
+            [
+                "Saga",
+                "嵯峨"
+            ],
+            [
+                "Beanstalk",
+                "豆苗"
+            ],
+            [
+                "Chiave",
+                "贾维"
+            ],
+            [
+                "Elysium",
+                "极境"
+            ],
+            [
+                "Bagpipe",
+                "风笛"
+            ],
+            [
+                "^Reed$",
+                "苇草"
+            ],
+            [
+                "Myrtle",
+                "桃金娘"
+            ],
+            [
+                "Grani",
+                "格拉尼"
+            ],
+            [
+                "Siege",
+                "推进之王"
+            ],
+            [
+                "^Texas$",
+                "德克萨斯"
+            ],
+            [
+                "Zima",
+                "凛冬"
+            ],
+            [
+                "Vigna",
+                "红豆"
+            ],
+            [
+                "Scavenger",
+                "清道夫"
+            ],
+            [
+                "Courier",
+                "讯使"
+            ],
+            [
+                "Plume",
+                "翎羽"
+            ],
+            [
+                "Vanilla",
+                "香草"
+            ],
+            [
+                "Fang",
+                "芬"
+            ],
+            [
+                "^Yato$",
+                "夜刀"
+            ],
+            [
+                "'?Justice Knight'?",
+                "'Justice Knight'"
+            ],
+            [
+                "'Justice Knight'",
+                "正义骑士号"
+            ],
+            [
+                "Fartooth",
+                "远牙"
+            ],
+            [
+                "Ch'en the Holungday",
+                "假日威龙陈"
+            ],
+            [
+                "Toddifons",
+                "熔泉"
+            ],
+            [
+                "^Ash$",
+                "灰烬"
+            ],
+            [
+                "Archetto",
+                "空弦"
+            ],
+            [
+                "Pinecone",
+                "松果"
+            ],
+            [
+                "^Rosmontis$",
+                "迷迭香"
+            ],
+            [
+                "Aosta",
+                "奥斯塔"
+            ],
+            [
+                "April",
+                "四月"
+            ],
+            [
+                "Aciddrop",
+                "酸糖"
+            ],
+            [
+                "Andreana",
+                "安哲拉"
+            ],
+            [
+                "^Rosa$",
+                "早露"
+            ],
+            [
+                "Sesa",
+                "慑砂"
+            ],
+            [
+                "GreyThroat",
+                "灰喉"
+            ],
+            [
+                "Ambriel?",
+                "Ambriel"
+            ],
+            [
+                "Ambriel",
+                "安比尔"
+            ],
+            [
+                "^May$",
+                "梅"
+            ],
+            [
+                "^Executor$",
+                "送葬人"
+            ],
+            [
+                "Vermeil?",
+                "Vermeil"
+            ],
+            [
+                "Vermeil",
+                "红云"
+            ],
+            [
+                "Schwarz",
+                "黑"
+            ],
+            [
+                "Catapult",
+                "空爆"
+            ],
+            [
+                "Exusiai?",
+                "Exusiai"
+            ],
+            [
+                "Exusiai",
+                "能天使"
+            ],
+            [
+                "Firewatch",
+                "守林人"
+            ],
+            [
+                "Provence",
+                "普罗旺斯"
+            ],
+            [
+                "Meteorite",
+                "陨星"
+            ],
+            [
+                "Platinum",
+                "白金"
+            ],
+            [
+                "Blue Poison",
+                "蓝毒"
+            ],
+            [
+                "Shira[Yy]uki",
+                "白雪"
+            ],
+            [
+                "Meteor",
+                "流星"
+            ],
+            [
+                "^Jessica$",
+                "杰西卡"
+            ],
+            [
+                "Adnachiel?",
+                "Adnachiel"
+            ],
+            [
+                "Adnachiel",
+                "安德切尔"
+            ],
+            [
+                "^Kroos$",
+                "克洛丝"
+            ],
+            [
+                "Rangers",
+                "巡林者"
+            ],
+            [
+                "Reserve Operator *-* *S.*",
+                "Reserve Operator - Sniper"
+            ],
+            [
+                "Reserve Operator - Sniper",
+                "预备干员-狙击"
+            ],
+            [
+                "Shalem",
+                "暮落"
+            ],
+            [
+                "Aurora",
+                "极光"
+            ],
+            [
+                "Ashlock",
+                "灰毫"
+            ],
+            [
+                "Heavyrain",
+                "暴雨"
+            ],
+            [
+                "Blitz",
+                "闪击"
+            ],
+            [
+                "Mudrock",
+                "泥岩"
+            ],
+            [
+                "Blemishine",
+                "瑕光"
+            ],
+            [
+                "Bubble",
+                "泡泡"
+            ],
+            [
+                "^Eunectes$",
+                "森蚺"
+            ],
+            [
+                "Asbestos",
+                "石棉"
+            ],
+            [
+                "Nian",
+                "年"
+            ],
+            [
+                "Hung",
+                "吽"
+            ],
+            [
+                "Bison",
+                "拜松"
+            ],
+            [
+                "Dur-nar",
+                "坚雷"
+            ],
+            [
+                "Spot",
+                "斑点"
+            ],
+            [
+                "Saria",
+                "塞雷娅"
+            ],
+            [
+                "Hoshiguma",
+                "星熊"
+            ],
+            [
+                "Vulcan",
+                "火神"
+            ],
+            [
+                "Croissant",
+                "可颂"
+            ],
+            [
+                "Liskarm",
+                "雷蛇"
+            ],
+            [
+                "^Nearl?$",
+                "Nearl"
+            ],
+            [
+                "^Nearl$",
+                "临光"
+            ],
+            [
+                "Gummy?",
+                "古米"
+            ],
+            [
+                "Cuora",
+                "蛇屠箱"
+            ],
+            [
+                "Matterhorn",
+                "角峰"
+            ],
+            [
+                "Beagle",
+                "米格鲁"
+            ],
+            [
+                "Cardigan",
+                "卡缇"
+            ],
+            [
+                "^Noir Corne$",
+                "黑角"
+            ],
+            [
+                "Kjera",
+                "耶拉"
+            ],
+            [
+                "Corroserum",
+                "蚀清"
+            ],
+            [
+                "Pudding",
+                "布丁"
+            ],
+            [
+                "Carnelian",
+                "卡涅利安"
+            ],
+            [
+                "Indigo",
+                "深靛"
+            ],
+            [
+                "Passenger",
+                "异客"
+            ],
+            [
+                "^Dusk$",
+                "夕"
+            ],
+            [
+                "Lava the Purgatory",
+                "炎狱炎熔"
+            ],
+            [
+                "I?ris",
+                "Iris"
+            ],
+            [
+                "Iris",
+                "爱丽丝"
+            ],
+            [
+                "Mint",
+                "薄绿"
+            ],
+            [
+                "Tomimi",
+                "特米米"
+            ],
+            [
+                "Beeswax",
+                "蜜蜡"
+            ],
+            [
+                "Click",
+                "卡达"
+            ],
+            [
+                "Leonhardt",
+                "莱恩哈特"
+            ],
+            [
+                "Absinthe",
+                "苦艾"
+            ],
+            [
+                "Ceobe",
+                "刻俄柏"
+            ],
+            [
+                "Leizi?",
+                "Leizi"
+            ],
+            [
+                "Leizi",
+                "惊蛰"
+            ],
+            [
+                "Mostima",
+                "莫斯提马"
+            ],
+            [
+                "^Greyy$",
+                "格雷伊"
+            ],
+            [
+                "Nightmare",
+                "夜魔"
+            ],
+            [
+                "^Eyjafjalla$",
+                "艾雅法拉"
+            ],
+            [
+                "[Iil]?frit",
+                "Ifrit"
+            ],
+            [
+                "Ifrit",
+                "伊芙利特"
+            ],
+            [
+                "Skyfire",
+                "天火"
+            ],
+            [
+                "Gitano",
+                "远山"
+            ],
+            [
+                "Haze",
+                "夜烟"
+            ],
+            [
+                "Steward",
+                "史都华德"
+            ],
+            [
+                "^Lava$",
+                "炎熔"
+            ],
+            [
+                "Durin",
+                "杜林"
+            ],
+            [
+                "Mizuki?",
+                "Mizuki"
+            ],
+            [
+                "Mizuki",
+                "水月"
+            ],
+            [
+                "Kirara",
+                "绮良"
+            ],
+            [
+                "Bena",
+                "贝娜"
+            ],
+            [
+                "Gladiia",
+                "歌蕾蒂娅"
+            ],
+            [
+                "Frost",
+                "霜华"
+            ],
+            [
+                "Mr. *Nothing",
+                "乌有"
+            ],
+            [
+                "Kafka",
+                "卡夫卡"
+            ],
+            [
+                "Robin",
+                "罗宾"
+            ],
+            [
+                "Jaye",
+                "孑"
+            ],
+            [
+                "Weedy",
+                "温蒂"
+            ],
+            [
+                "Phantom",
+                "傀影"
+            ],
+            [
+                "Aak",
+                "阿"
+            ],
+            [
+                "^Snowsant$",
+                "雪雉"
+            ],
+            [
+                "Waai Fu",
+                "槐琥"
+            ],
+            [
+                "Ethan",
+                "伊桑"
+            ],
+            [
+                "FEater",
+                "食铁兽"
+            ],
+            [
+                "Manticore",
+                "狮蝎"
+            ],
+            [
+                "Cliffheart",
+                "崖心"
+            ],
+            [
+                "Projekt Red",
+                "红"
+            ],
+            [
+                "Shaw",
+                "阿消"
+            ],
+            [
+                "Rope",
+                "暗索"
+            ],
+            [
+                "Gravel",
+                "砾"
+            ],
+            [
+                "Sealed Floor",
+                "封印的地面"
+            ],
+            [
+                "Kazemaru",
+                "风丸"
+            ],
+            [
+                "Ling",
+                "令"
+            ],
+            [
+                "Energy Aggregate",
+                "能量聚合体"
+            ],
+            [
+                "'Host's Assistant'",
+                "“报幕助手”"
+            ],
+            [
+                "Snowsant's Safe Escape Crane",
+                "雪雉的安全起重机"
+            ],
+            [
+                "Fiammetta",
+                "菲亚梅塔"
+            ],
+            [
+                "Erosion-Resistant Coating Application Device",
+                "防水蚀镀膜装置"
+            ],
+            [
+                "Skadi's Seaborn",
+                "斯卡蒂的海嗣"
+            ],
+            [
+                "Battlefield Ruins",
+                "战场废墟"
+            ],
+            [
+                "Soaring Dragon L",
+                "龙腾.L"
+            ],
+            [
+                "'Tranquility'",
+                "“清平”"
+            ],
+            [
+                "Originium Altar",
+                "源石祭坛"
+            ],
+            [
+                "Medic Drone",
+                "医疗探机"
+            ],
+            [
+                "Emperor",
+                "大帝"
+            ],
+            [
+                "Chestnut",
+                "褐果"
+            ],
+            [
+                "Drone Factory",
+                "无人机工厂"
+            ],
+            [
+                "Gate",
+                "闸门"
+            ],
+            [
+                "Lee",
+                "老鲤"
+            ],
+            [
+                "Blacknight",
+                "夜半"
+            ],
+            [
+                "Quercus",
+                "夏栎"
+            ],
+            [
+                "Detector",
+                "侦测器"
+            ],
+            [
+                "Command Terminal",
+                "指挥终端"
+            ],
+            [
+                "Demolition Device",
+                "爆破装置"
+            ],
+            [
+                "Rubble",
+                "碎石"
+            ],
+            [
+                "High-Energy Originium Barrel.*",
+                "High-Energy Originium Barrel Bomb"
+            ],
+            [
+                "High-Energy Originium Bomb",
+                "高能源石炸弹"
+            ],
+            [
+                "Kroos the Keen Glint",
+                "寒芒克洛丝"
+            ],
+            [
+                "Cursed Doll",
+                "诅咒娃娃"
+            ],
+            [
+                "Mobile Tactical Hangar",
+                "可移动战术机库"
+            ],
+            [
+                "Rockrock",
+                "洛洛"
+            ],
+            [
+                "Phantom in the Mirror",
+                "镜中虚影"
+            ],
+            [
+                "Static Roadblock",
+                "道路障碍物"
+            ],
+            [
+                "Tentacle",
+                "触手"
+            ],
+            [
+                "'Clip'",
+                "\"夹子\""
+            ],
+            [
+                "Metal Crab Guard Team",
+                "磐蟹护卫队"
+            ],
+            [
+                "'Freeling'",
+                "\"小自在\""
+            ],
+            [
+                "Gas Tank P.",
+                "便携气罐"
+            ],
+            [
+                "Mieszko Coil",
+                "梅什科线圈"
+            ],
+            [
+                "Kaminingyo",
+                "纸偶"
+            ],
+            [
+                "Slumberfoot",
+                "眠兽"
+            ],
+            [
+                "Jammer",
+                "干扰装置"
+            ],
+            [
+                "Heidi",
+                "海蒂"
+            ],
+            [
+                "Nine-*Colored Deer",
+                "Nine-Colored Deer"
+            ],
+            [
+                "Nine-Colored Deer",
+                "九色鹿"
+            ],
+            [
+                "L-44 'Gramophone'",
+                "L-44\"留声机\""
+            ],
+            [
+                "Offspring",
+                "子代"
+            ],
+            [
+                "Enforcer",
+                "见行者"
+            ],
+            [
+                "Reinforcement Device",
+                "加固装置"
+            ],
+            [
+                "Temporary Rhodes Island Employee",
+                "罗德岛临时雇员"
+            ],
+            [
+                "Goldenglow",
+                "澄闪"
+            ],
+            [
+                "Unowned Treasure",
+                "无主的财富"
+            ],
+            [
+                "Dantian",
+                "丹田"
+            ],
+            [
+                "FrostNova's Originium Ice Crystal",
+                "霜星的源石冰晶"
+            ],
+            [
+                "Mr. *Boom",
+                "轰隆隆先生"
+            ],
+            [
+                "Horn",
+                "号角"
+            ],
+            [
+                "Sand Obelisk",
+                "沙之碑"
+            ],
+            [
+                "Mirage",
+                "幻影"
+            ],
+            [
+                "Robotter",
+                "机械水獭"
+            ],
+            [
+                "Soaring Dragon F",
+                "龙腾.F"
+            ],
+            [
+                "Soaring Dragon A",
+                "龙腾.A"
+            ],
+            [
+                "Front Toward Enemy",
+                "此面向敌"
+            ],
+            [
+                "Industrial Water Cannon",
+                "工程蓄水炮"
+            ],
+            [
+                "Mobile Buggy Cam",
+                "移动摄影器"
+            ],
+            [
+                "Rosmontis's Tactical Equipment",
+                "迷迭香的战术装备"
+            ],
+            [
+                "Welcome Mat",
+                "迎宾踏垫"
+            ],
+            [
+                "Full Auto Modeler",
+                "全自动造型仪"
+            ],
+            [
+                "Custom Floating Platform",
+                "特制水上平台"
+            ],
+            [
+                "'Blazing Sun'",
+                "“耀阳”"
+            ],
+            [
+                "'Peripateticism'",
+                "“逍遥”"
+            ],
+            [
+                "'Thunderer'",
+                "“弦惊”"
+            ],
+            [
+                "Roadblock",
+                "障碍物"
+            ],
+            [
+                "Kite",
+                "风筝"
+            ],
+            [
+                "Stun Generator",
+                "震撼装置"
+            ],
+            [
+                "Turret",
+                "弩炮"
+            ],
+            [
+                "Portable Supply Station",
+                "便携式补给站"
+            ],
+            [
+                "Originium Ice Crystal",
+                "源石冰晶"
+            ],
+            [
+                "Interference Mine",
+                "干扰地雷"
+            ],
+            [
+                "Originium Flow Generator",
+                "源石流发生装置"
+            ],
+            [
+                "Giant Mushroom",
+                "巨蕈"
+            ],
+            [
+                "Patriot's Originium Altar",
+                "爱国者的源石祭坛"
+            ],
+            [
+                "Shieldguard",
+                "盾卫"
+            ],
+            [
+                "Imprisonment Device",
+                "禁锢装置"
+            ],
+            [
+                "Two-Step Firecracker mk2",
+                "改良型二踢脚"
+            ],
+            [
+                "Pulse Defense Module",
+                "脉冲防御模组"
+            ],
+            [
+                "Teargas Control Valve",
+                "催泪瓦斯控制阀"
+            ],
+            [
+                "Dirt Mound",
+                "土石结构"
+            ],
+            [
+                "Sandstorm",
+                "沙尘暴"
+            ],
+            [
+                "Emergency Aid Building",
+                "应急救治设施"
+            ],
+            [
+                "Tide Controller",
+                "涨潮控制"
+            ],
+            [
+                "Tattered Pillar",
+                "破碎支柱"
+            ],
+            [
+                "City Neon",
+                "城市霓虹"
+            ],
+            [
+                "Knight Crest",
+                "骑士之徽"
+            ],
+            [
+                "Blizzard",
+                "暴风雪"
+            ],
+            [
+                "Broken Fog Machine",
+                "失修舞台雾机"
+            ],
+            [
+                "'Gelato Stop'",
+                "“冰淇淋机”"
+            ],
+            [
+                "Londinium Secondary Defense Artillery",
+                "伦蒂尼姆城防副炮"
+            ],
+            [
+                "[Ii]?rene",
+                "Irene"
+            ],
+            [
+                "Irene",
+                "艾丽妮"
+            ],
+            [
+                "Windflit",
+                "掠风"
+            ],
+            [
+                "Hand of the Saint",
+                "圣徒之手"
+            ],
+            [
+                "Reliable Battery",
+                "可靠电池"
+            ],
+            [
+                "Specter the Unchained",
+                "归溟幽灵鲨"
+            ],
+            [
+                "Lumen",
+                "流明"
+            ],
+            [
+                "Nethersea Brand",
+                "溟痕"
+            ],
+            [
+                "Erato",
+                "埃拉托"
+            ],
+            [
+                "Tuba",
+                "低音号"
+            ],
+            [
+                "Resonator",
+                "谐振器"
+            ],
+            [
+                "Czerny",
+                "车尔尼"
+            ],
+            [
+                "Hibiscus the Purifier",
+                "濯尘芙蓉"
+            ],
+            [
+                "Ebenholz",
+                "黑键"
+            ],
+            [
+                "L-7 'Whisperer'",
+                "L-7 “回音壁”"
+            ],
+            [
+                "Contaminated Mineral",
+                "污染晶石"
+            ],
+            [
+                "Preparation Area Transmitter",
+                "预备区发讯器"
+            ],
+            [
+                "'Resonator'",
+                "“谐振器”"
+            ],
+            [
+                "Remnants of Days Past",
+                "旧日残影"
+            ],
+            [
+                "'Tuba'",
+                "“低音号”"
+            ],
+            [
+                "Equipment Activation Valve",
+                "战备激活阀"
+            ],
+            [
+                "Emergency Recall Box",
+                "紧急召回情报箱"
+            ],
+            [
+                "Recuperation Area Transmitter",
+                "休整区发讯器"
+            ],
+            [
+                "Heat Cluster",
+                "聚热晶簇"
+            ],
+            [
+                "Reassignment Transmitter",
+                "改派发讯器"
+            ],
+            [
+                "Cantabile",
+                "晓歌"
+            ],
+            [
+                "Minimalist",
+                "至简"
+            ],
+            [
+                "Poz.mka",
+                "鸿雪"
+            ],
+            [
+                "Gavial the Invincible",
+                "百炼嘉维尔"
+            ],
+            [
+                "'Typewriter'",
+                "“打字机”"
+            ],
+            [
+                "Self-Driving Cart Launchpoint",
+                "自走车出发点"
+            ],
+            [
+                "Self-Driving Cart One-Way Road",
+                "自走车单行道"
+            ],
+            [
+                "Fluorescent Spores",
+                "荧光孢子"
+            ],
+            [
+                "Entitative Program",
+                "实体程式"
+            ],
+            [
+                "Entitative Program Controller",
+                "实体程式控制"
+            ],
+            [
+                "Reserve Operator *-* *D.*",
+                "Reserve Operator - Defender"
+            ],
+            [
+                "Reserve Operator - Defender",
+                "预备干员-重装"
+            ],
+            [
+                "R-31a Heavy Power Armor",
+                "R-31a重型动力装甲"
+            ],
+            [
+                "Astgenne",
+                "星源"
+            ],
+            [
+                "L *ith *t* *nrey *thne",
+                "Greyy the Lightningbearer"
+            ],
+            [
+                "Greyy the Lightningbearer",
+                "承曦格雷伊"
+            ],
+            [
+                "Dorothy",
+                "多萝西"
+            ],
+            [
+                "Resonator",
+                "共振装置"
+            ],
+            [
+                "R-31 Heavy Power Armor",
+                "R-31重型动力装甲"
+            ],
+            [
+                "R-11 Assault Power Armor",
+                "R-11突击动力装甲"
+            ],
+            [
+                "R-11a Assault Power Armor",
+                "R-11a突击动力装甲"
+            ],
+            [
+                "Proviso",
+                "但书"
+            ],
+            [
+                "Luo Xiaohei?",
+                "Luo Xiaohei"
+            ],
+            [
+                "Luo Xiaohei",
+                "罗小黑"
+            ],
+            [
+                "M.ynar",
+                "玛恩纳"
+            ],
+            [
+                "Prototype of Feist's Metal Crab",
+                "铁钳号·原型机"
+            ],
+            [
+                "Totter",
+                "铅踝"
+            ],
+            [
+                "Dagda",
+                "达格达"
+            ],
+            [
+                "Allerdale's Guard",
+                "阿勒黛的卫护"
+            ],
+            [
+                "Paprika",
+                "明椒"
+            ],
+            [
+                "Stainless",
+                "白铁"
+            ],
+            [
+                "High-Efficiency Baking Powder",
+                "高效泡打粉"
+            ],
+            [
+                "Stainless.*? Multifunctional Platform",
+                "白铁™多功能平台"
+            ],
+            [
+                "Gloompincer Shell Meal",
+                "钳兽壳粉"
+            ],
+            [
+                "Fragrant Essential Oil",
+                "芳香精油"
+            ],
+            [
+                "'Twigs That Crave'",
+                "“汲营枯枝” "
+            ],
+            [
+                "Quartz",
+                "石英"
+            ],
+            [
+                "^Dice$",
+                "骰子"
+            ],
+            [
+                "First-aid Kit",
+                "急救包"
+            ],
+            [
+                "Treasure Chest",
+                "宝箱"
+            ],
+            [
+                "Spiked Treasure Chest",
+                "尖刺宝箱"
+            ],
+            [
+                "Tulip",
+                "郁金香"
+            ],
+            [
+                "Highmore",
+                "海沫"
+            ],
+            [
+                "Qanipalaat",
+                "雪绒"
+            ],
+            [
+                "Vigil",
+                "伺夜"
+            ],
+            [
+                "Lunacub",
+                "子月"
+            ],
+            [
+                "Vengeful Mafioso",
+                "复仇黑手"
+            ],
+            [
+                "Wolfpack",
+                "狼群"
+            ],
+            [
+                "Texas the Omertosa",
+                "缄默德克萨斯"
+            ],
+            [
+                "Penance",
+                "斥罪"
+            ],
+            [
+                "12-Sided Dice",
+                "12面骰子"
+            ],
+            [
+                "Chest Seaborn",
+                "箱形恐鱼"
+            ],
+            [
+                "Barrier",
+                "掩体"
+            ],
+            [
+                "Tide-Hunt Knight",
+                "猎潮的骑士"
+            ],
+            [
+                "8-Sided Dice",
+                "8面骰子"
+            ],
+            [
+                "Reed the Flame Shadow",
+                "焰影苇草"
+            ],
+            [
+                "Block Wavelength",
+                "阻断波长"
+            ],
+            [
+                "Harmonie",
+                "和弦"
+            ],
+            [
+                "Modified Phytohormone",
+                "改性植物激素"
+            ],
+            [
+                "Puzzle",
+                "谜图"
+            ],
+            [
+                ".*girian Oscilloscope",
+                "阿戈尔示波器"
+            ],
+            [
+                "Heavy Insulated Concrete",
+                "超重绝缘水泥"
+            ],
+            [
+                "Adaptive Supply Component",
+                "自适应补给元件"
+            ],
+            [
+                "Mire Control",
+                "沼泽控制"
+            ],
+            [
+                "Coating Device Conduction Valve",
+                "镀膜装置导能阀"
+            ],
+            [
+                "Redeployment Conduction.*",
+                "重整导能组件"
+            ],
+            [
+                "Counter Conduction.*",
+                "反制导能组件"
+            ],
+            [
+                "Eunectes' *Beacon",
+                "丛林用示踪信标"
+            ],
+            [
+                "Jam Wavelength",
+                "干扰波长"
+            ],
+            [
+                "Shoddy Flashbang",
+                "劣质闪光弹"
+            ],
+            [
+                "Chongyue",
+                "重岳"
+            ],
+            [
+                "Lin",
+                "林"
+            ],
+            [
+                "Roadblocks",
+                "城防路障"
+            ],
+            [
+                "Jieyun",
+                "截云"
+            ],
+            [
+                "Firewhistle",
+                "火哨"
+            ],
+            [
+                "Mire Controller",
+                "地形增伤控制"
+            ],
+            [
+                "Shanhaizhong Cipher Machine",
+                "山海密语仪"
+            ],
+            [
+                "'Clip'",
+                "“夹子”"
+            ],
+            [
+                "'Freeling'",
+                "“小自在”"
+            ],
+            [
+                "Qiubai",
+                "仇白"
+            ],
+            [
+                "Wind Chimes",
+                "铎铃"
+            ],
+            [
+                "Rathalos S Noir Corne",
+                "火龙S黑角"
+            ],
+            [
+                "Remote Shield Generator",
+                "护盾遥控器"
+            ],
+            [
+                "Basic Gathering Hub",
+                "采集实习站"
+            ],
+            [
+                "Kirin R Yato",
+                "麒麟R夜刀"
+            ],
+            [
+                "Resource Planning Station",
+                "资源规划站"
+            ],
+            [
+                "Transregional Communication Station",
+                "跨地块通讯站"
+            ],
+            [
+                "Manticore Killer",
+                "曼提柯杀手"
+            ],
+            [
+                "Veteran Hunter",
+                "老练猎手"
+            ],
+            [
+                "Combat Readiness Station",
+                "备勤激活站"
+            ],
+            [
+                "Ter*a .esear.*",
+                "Terra Research Commission"
+            ],
+            [
+                "Terra Research Commission",
+                "泰拉大陆调查团"
+            ],
+            [
+                "Wiredrone",
+                "滞空牵引无人机"
+            ],
+            [
+                "Hypnotic Censer",
+                "安眠迷香"
+            ],
+            [
+                "Modular Computing Station",
+                "模块演算设施"
+            ],
+            [
+                "Refreshing Potion",
+                "醒神秘药"
+            ],
+            [
+                "Bush",
+                "灌木丛"
+            ],
+            [
+                "Base",
+                "基地"
+            ],
+            [
+                "Old Isin",
+                "老伊辛"
+            ],
+            [
+                "High-Energy Originium Barrel Bomb",
+                "高能源石爆桶"
+            ],
+            [
+                "Fortification",
+                "防御工事"
+            ],
+            [
+                "Trap Net Launcher",
+                "缚网发射台"
+            ],
+            [
+                "Escape Route",
+                "逃脱点"
+            ],
+            [
+                "Executive Gathering Hub",
+                "采集主任站"
+            ],
+            [
+                "Thorned Treasure Chest",
+                "宝刺金属箱"
+            ],
+            [
+                "Camouflage Device",
+                "反侦察藏匿机"
+            ],
+            [
+                "Crabbie Pumpie",
+                "蟹蟹抽水泵"
+            ],
+            [
+                "Strange Ore Vein",
+                "奇异矿脉"
+            ],
+            [
+                "Monitoring Tower",
+                "监控塔"
+            ],
+            [
+                "Flash Grenade",
+                "眩光手雷"
+            ],
+            [
+                "High-Voltage Shock Trap",
+                "高压脉冲诡雷"
+            ],
+            [
+                "Wiredrone",
+                "滞空牵引无人机"
+            ],
+            [
+                "Firm Platform",
+                "坚固筑台"
+            ],
+            [
+                "Thickets",
+                "杂木林"
+            ],
+            [
+                "Portable Planting Trough",
+                "便携式种植槽"
+            ],
+            [
+                "Urban Style Barrier",
+                "都市风壁障"
+            ],
+            [
+                "Monoliths",
+                "巨大岩石"
+            ],
+            [
+                "Mobile Battle Tower",
+                "移动战塔"
+            ],
+            [
+                "Historical Remains",
+                "遗迹残骸"
+            ],
+            [
+                "Liaison",
+                "联络员"
+            ],
+            [
+                "Advanced Gathering Hub",
+                "采集专员站"
+            ],
+            [
+                "Buried Metal Chest",
+                "埋没金属箱"
+            ],
+            [
+                "Emergency Repair Vehicle",
+                "应急修理车"
+            ],
+            [
+                "Gas Jet Thrower",
+                "喷拒器"
+            ],
+            [
+                "Mint",
+                "冶铸台"
+            ],
+            [
+                "'Sand Soldier'",
+                "“沙卒”"
+            ],
+            [
+                "Treasure Hunter",
+                "寻宝人"
+            ]
+        ]
+    },
+    "LoadingText": {
+        "roi": [
+            675,
+            605,
+            427,
+            115
+        ],
+        "text": [
+            "Submitting feedback",
+            "to the neural network"
+        ]
+    },
+    "ScreenshotTaskPlugin-Config-Debug": {
+        "next": [
+            "Roguelike@TraderRandomShopping"
+        ]
+    },
+    "OperBoxRoleTabSelect": {
+        "roi": [
+            1158,
+            0,
+            122,
+            126
+        ]
+    },
+    "OperBoxRoleTab": {
+        "roi": [
+            1166,
+            0,
+            114,
+            124
+        ]
+    },
+    "OperBoxNameOCR": {
+        "specialParams": [
+            160,
+            4,
+            7,
+            0
+        ]
+    },
+    "GachaLastOnceResult": {
+        "text": [
+            "Certificate",
+            "Token",
+            "Duplicate"
+        ]
+    },
+    "GachaOncePrefix@DoGacha": {
+        "fullMatch": true,
+        "text": [
+            "Headhunt x1"
+        ]
+    },
+    "GachaTenTimesPrefix@DoGacha": {
+        "text": [
+            "Headhunt x10"
+        ]
+    }
+}

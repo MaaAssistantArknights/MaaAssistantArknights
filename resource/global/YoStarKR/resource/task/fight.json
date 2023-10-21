@@ -1,0 +1,128 @@
+{
+    "ClickChapter1": {
+        "text": [
+            "각성"
+        ]
+    },
+    "ClickChapter2": {
+        "text": [
+            "환멸"
+        ]
+    },
+    "ClickChapter3": {
+        "text": [
+            "석양"
+        ]
+    },
+    "EnterChapterDifficultyHard": {
+        "text": [
+            "하드모드",
+            "하드"
+        ]
+    },
+    "EnterChapterDifficultyNormal": {
+        "text": [
+            "노멀모드",
+            "노멀"
+        ]
+    },
+    "FC-Open": {
+        "text": [
+            "스테이지",
+            "개방"
+        ]
+    },
+    "FCChapterToFC": {
+        "text": [
+            "안갯속",
+            "늪지대"
+        ]
+    },
+    "StageEpisodeToOF": {
+        "text": [
+            "파란 불꽃의 마음",
+            "파란",
+            "불꽃의",
+            "마음"
+        ]
+    },
+    "OFToOF-Chapter": {
+        "text": [
+            "진입하기"
+        ]
+    },
+    "StartButton1": {
+        "text": [
+            "작전개시"
+        ]
+    },
+    "PRTS3": {
+        "text": [
+            "배치가능",
+            "인원"
+        ]
+    },
+    "ExpiringMedicineCheck": {
+        "ocrReplace": [
+            [
+                ".+시간",
+                "시간"
+            ],
+            [
+                ".+분",
+                "분"
+            ]
+        ],
+        "text": [
+            "1일",
+            "시간",
+            "분"
+        ]
+    },
+    "FightMissionFailed": {
+        "ocrReplace": [
+            [
+                "^임무실.+$",
+                "임무실패"
+            ]
+        ],
+        "text": [
+            "임무실패"
+        ]
+    },
+    "FightMissionFailedAndStop": {
+        "ocrReplace": [
+            [
+                "^임무실.+$",
+                "임무실패"
+            ]
+        ],
+        "text": [
+            "임무실패"
+        ]
+    },
+    "GoLastBattle": {
+        "text": [
+            "지난",
+            "지난작전",
+            "바로가기",
+            "바로가고",
+            "바로가가"
+        ]
+    },
+    "StageDrops-Quantity": {
+        "maskRange": [
+            200,
+            255
+        ],
+        "roi": [
+            62,
+            90,
+            46,
+            22
+        ],
+        "templThreshold": 3,
+        "templThreshold_Doc": "这里用来作为字间距阈值",
+        "template": "empty.png"
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "StartToWakeUpOCR": {
+        "text": [
+            "開始喚醒",
+            "登錄",
+            "登",
+            "錄"
+        ]
+    },
+    "TodaysSupplies": {
+        "text": [
+            "今日配給"
+        ]
+    }
+}

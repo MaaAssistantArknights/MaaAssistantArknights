@@ -1,0 +1,305 @@
+{
+    "VisitBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "Visit",
+            "FriendsList",
+            "StartToVisit",
+            "VisitNext",
+            "VisitNextBlack",
+            "Visit@ReturnButtons#next",
+            "Visit@CloseAnnos#next"
+        ]
+    },
+    "Visit": {
+        "template": [
+            "credit/Friends.png",
+            "credit/FriendsDark.png",
+            "credit/FriendsSami.png",
+            "credit/FriendsMistCity.png"
+        ],
+        "cache": false,
+        "templThreshold": 0.7,
+        "action": "ClickSelf",
+        "roi": [
+            250,
+            500,
+            200,
+            150
+        ],
+        "roi_crop_doc": [
+            300,
+            550,
+            128,
+            41
+        ],
+        "next": [
+            "FriendsList",
+            "Visit",
+            "Visit@CloseAnnos#next"
+        ]
+    },
+    "FriendsList": {
+        "action": "ClickSelf",
+        "roi": [
+            0,
+            150,
+            250,
+            150
+        ],
+        "next": [
+            "StartToVisit",
+            "NoFriends"
+        ]
+    },
+    "NoFriends": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "暂无好友"
+        ],
+        "roi": [
+            600,
+            100,
+            350,
+            150
+        ],
+        "action": "DoNothing",
+        "next": [
+            "Home@ReturnButtons#next"
+        ]
+    },
+    "StartToVisit": {
+        "action": "ClickSelf",
+        "cache": false,
+        "templThreshold": 0.75,
+        "roi": [
+            900,
+            0,
+            200,
+            720
+        ],
+        "next": [
+            "VisitNext",
+            "VisitNext@LoadingText",
+            "VisitNextBlack",
+            "VisitNextOcr"
+        ],
+        "postDelay": 2000
+    },
+    "VisitNext": {
+        "action": "ClickSelf",
+        "roi": [
+            1080,
+            570,
+            195,
+            130
+        ],
+        "next": [
+            "VisitLimited",
+            "VisitNext",
+            "VisitNextBlack",
+            "VisitNextOcr"
+        ]
+    },
+    "VisitNextOcr": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "访问下位"
+        ],
+        "action": "ClickSelf",
+        "roi": [
+            1080,
+            570,
+            195,
+            130
+        ],
+        "next": [
+            "VisitLimited",
+            "VisitNext",
+            "VisitNextBlack",
+            "VisitNextOcr"
+        ]
+    },
+    "MallBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "Mall@ReturnButtons#next",
+            "Mall",
+            "Mall@CloseAnnos#next"
+        ]
+    },
+    "Mall": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "采购",
+            "中心"
+        ],
+        "roi": [
+            740,
+            440,
+            200,
+            100
+        ],
+        "next": [
+            "CreditStoreOcr",
+            "Mall",
+            "Mall@CloseAnnos#next"
+        ]
+    },
+    "CreditStoreOcr": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "信用交易所"
+        ],
+        "roi": [
+            1000,
+            0,
+            280,
+            300
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "CollectCredit",
+            "CreditStoreFailed",
+            "Stop"
+        ]
+    },
+    "CreditStoreFailed": {
+        "action": "DoNothing",
+        "roi": [
+            0,
+            45,
+            216,
+            124
+        ],
+        "next": [
+            "CreditStoreOcr"
+        ]
+    },
+    "CollectCredit": {
+        "action": "ClickSelf",
+        "roi": [
+            900,
+            0,
+            250,
+            100
+        ],
+        "next": [
+            "CollectCredit",
+            "CloseCollectCredit"
+        ],
+        "postDelay": 2000
+    },
+    "CloseCollectCredit": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1000,
+            1,
+            270,
+            340
+        ],
+        "next": [
+            "CrisisPopup",
+            "Stop"
+        ]
+    },
+    "VisitLimited": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "今日参与",
+            "已达上限"
+        ],
+        "action": "DoNothing",
+        "roi": [
+            900,
+            50,
+            375,
+            140
+        ],
+        "next": [
+            "Home@ReturnButtons#next"
+        ]
+    },
+    "VisitNextBlack": {
+        "action": "DoNothing",
+        "roi": [
+            1080,
+            570,
+            195,
+            130
+        ],
+        "next": [
+            "Home@ReturnButtons#next"
+        ]
+    },
+    "CreditShop-Commodities": {
+        "template": "credit/CreditPoint.png",
+        "rectMove": [
+            -60,
+            -180,
+            220,
+            220
+        ]
+    },
+    "CreditShop-SoldOut": {
+        "template": "credit/SoldOut.png"
+    },
+    "CreditShop-BuyIt": {
+        "template": "credit/BuyIt.png",
+        "action": "ClickSelf",
+        "roi": [
+            800,
+            500,
+            250,
+            150
+        ],
+        "next": [
+            "CreditShop-Bought",
+            "CreditShop-BuyIt@LoadingText",
+            "CreditShop-NoMoney"
+        ]
+    },
+    "CreditShop-Bought": {
+        "templThreshold": 0.7,
+        "action": "ClickSelf",
+        "roi": [
+            544,
+            0,
+            210,
+            201
+        ],
+        "next": [
+            "CreditShop-Bought",
+            "Stop"
+        ]
+    },
+    "CreditShop-NoMoney": {
+        "algorithm": "OcrDetect",
+        "cache": false,
+        "text": [
+            "信用不足",
+            "无法购买"
+        ],
+        "roi": [
+            940,
+            60,
+            339,
+            110
+        ]
+    },
+    "CreditShop-CreditOcr": {
+        "algorithm": "OcrDetect",
+        "isAscii": true,
+        "text": [],
+        "roi": [
+            1147,
+            26,
+            57,
+            27
+        ]
+    }
+}

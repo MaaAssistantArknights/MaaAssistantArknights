@@ -1,0 +1,189 @@
+{
+    "BattleQuickFormationFilter-Cost": {
+        "text": [
+            "배치코스트"
+        ]
+    },
+    "BattleQuickFormationRole-All-OCR": {
+        "text": [
+            "전체"
+        ]
+    },
+    "BattleStartPre": {
+        "text": [
+            "작전개시"
+        ]
+    },
+    "SSSBegin": {
+        "ocrReplace": [
+            [
+                "수",
+                "시"
+            ],
+            [
+                "스",
+                "시"
+            ],
+            [
+                "보안.*?작전",
+                "보안작전"
+            ]
+        ],
+        "text": [
+            "보안작전개시"
+        ]
+    },
+    "SSSDebuffConfirm": {
+        "text": [
+            "확인완료"
+        ]
+    },
+    "SSSBuffChoose": {
+        "ocrReplace": [
+            [
+                "에기르오실로스코프",
+                "阿戈尔示波器"
+            ],
+            [
+                "다목적공급장치",
+                "自适应补给元件"
+            ],
+            [
+                "정글용추적비콘",
+                "丛林用示踪信标"
+            ],
+            [
+                "코팅장치전도밸브",
+                "镀膜装置导能阀"
+            ]
+        ]
+    },
+    "SSSBuffChooseConfirm": {
+        "text": [
+            "선택완료"
+        ]
+    },
+    "SSSEquipmentConfirm": {
+        "text": [
+            "확인"
+        ]
+    },
+    "SSSTeamConfirm": {
+        "text": [
+            "확인"
+        ]
+    },
+    "SSSStageNameOCR": {
+        "ocrReplace": [
+            [
+                "정글식인사",
+                "丛林式寒暄"
+            ],
+            [
+                "생물의다양성",
+                "生物多样性"
+            ],
+            [
+                "적응.*",
+                "习以为常"
+            ],
+            [
+                "숲속공터",
+                "林间空地"
+            ],
+            [
+                "집착.*",
+                "纠缠不休"
+            ],
+            [
+                "인간과자연",
+                "人与自然"
+            ],
+            [
+                "선수.*",
+                "蜂拥而上"
+            ],
+            [
+                "기회는균등하게",
+                "见者有份"
+            ],
+            [
+                "산업고도화",
+                "产业升级"
+            ],
+            [
+                "끼리끼리",
+                "同流合污"
+            ],
+            [
+                "취중여행",
+                "酩酊之旅"
+            ],
+            [
+                "스테이크조각",
+                "一块肉排"
+            ]
+        ]
+    },
+    "SSSStartFighting": {
+        "ocrReplace": [
+            [
+                "수",
+                "시"
+            ],
+            [
+                "스",
+                "시"
+            ],
+            [
+                "츠",
+                "치"
+            ],
+            [
+                "-",
+                ""
+            ]
+        ],
+        "text": [
+            "작전배치",
+            "다시배치"
+        ]
+    },
+    "SSSStartFighting2": {
+        "ocrReplace": [
+            [
+                "수",
+                "시"
+            ],
+            [
+                "스",
+                "시"
+            ],
+            [
+                "-",
+                ""
+            ]
+        ],
+        "text": [
+            "작전개시"
+        ]
+    },
+    "SSSDropRecruitmentFlag": {
+        "text": [
+            "오퍼레이터1명선택",
+            "전도부품"
+        ]
+    },
+    "SSSDropRecruitmentOCR": {
+        "baseTask": "CharsNameOcrReplace"
+    },
+    "SSSDropRecruitmentConfirm": {
+        "text": [
+            "확인",
+            "선택완료",
+            "선택",
+            "호출포기",
+            "호출"
+        ]
+    }
+}
