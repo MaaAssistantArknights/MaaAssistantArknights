@@ -188,7 +188,7 @@
             "name_en": "Reed the Flame Shadow",
             "name_jp": "焔影リード",
             "name_kr": "리드 더 플레임 섀도우",
-            "name_tw": "焰影苇草",
+            "name_tw": "焰影葦草",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -3165,7 +3165,7 @@
             "name_en": "Puzzle",
             "name_jp": "パズル",
             "name_kr": "퍼즐",
-            "name_tw": "谜图",
+            "name_tw": "謎圖",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -6713,7 +6713,7 @@
             "name_en": "Mire Control",
             "name_jp": "沼地制御",
             "name_kr": "늪지대 제어",
-            "name_tw": "沼泽控制",
+            "name_tw": "沼澤控制",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7149,6 +7149,96 @@
             "name_jp": "沥血王座",
             "name_kr": "沥血王座",
             "name_tw": "沥血王座",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_128_toolore": {
+            "name": "祭坛式雷达",
+            "name_en": "祭坛式雷达",
+            "name_jp": "祭坛式雷达",
+            "name_kr": "祭坛式雷达",
+            "name_tw": "祭坛式雷达",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-1",
+                "x-1",
+                "x-1"
+            ],
+            "rarity": 1
+        },
+        "trap_129_tooltower": {
+            "name": "R-45便携式“留声机”",
+            "name_en": "R-45便携式“留声机”",
+            "name_jp": "R-45便携式“留声机”",
+            "name_kr": "R-45便携式“留声机”",
+            "name_tw": "R-45便携式“留声机”",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-2",
+                "x-2",
+                "x-2"
+            ],
+            "rarity": 1
+        },
+        "trap_130_tooltree": {
+            "name": "景观巨蕈",
+            "name_en": "景观巨蕈",
+            "name_jp": "景观巨蕈",
+            "name_kr": "景观巨蕈",
+            "name_tw": "景观巨蕈",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-5",
+                "x-5",
+                "x-5"
+            ],
+            "rarity": 1
+        },
+        "trap_131_toolgun": {
+            "name": "战场装置LUD-99X",
+            "name_en": "战场装置LUD-99X",
+            "name_jp": "战场装置LUD-99X",
+            "name_kr": "战场装置LUD-99X",
+            "name_tw": "战场装置LUD-99X",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_132_toolinvert": {
+            "name": "“二踢脚”型数据收集装置",
+            "name_en": "“二踢脚”型数据收集装置",
+            "name_jp": "“二踢脚”型数据收集装置",
+            "name_kr": "“二踢脚”型数据收集装置",
+            "name_tw": "“二踢脚”型数据收集装置",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-5",
+                "x-5",
+                "x-5"
+            ],
+            "rarity": 1
+        },
+        "trap_133_toolgarage": {
+            "name": "勘察用自走车",
+            "name_en": "勘察用自走车",
+            "name_jp": "勘察用自走车",
+            "name_kr": "勘察用自走车",
+            "name_tw": "勘察用自走车",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7718,7 +7808,7 @@
             "name_en": "Ægirian Oscilloscope",
             "name_jp": "エーギル式振波計",
             "name_kr": "에기르 오실로스코프",
-            "name_tw": "阿戈尔示波器",
+            "name_tw": "阿戈爾示波器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7733,7 +7823,7 @@
             "name_en": "Ægirian Oscilloscope",
             "name_jp": "エーギル式振波計",
             "name_kr": "에기르 오실로스코프",
-            "name_tw": "阿戈尔示波器",
+            "name_tw": "阿戈爾示波器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7748,7 +7838,7 @@
             "name_en": "Ægirian Oscilloscope",
             "name_jp": "エーギル式振波計",
             "name_kr": "에기르 오실로스코프",
-            "name_tw": "阿戈尔示波器",
+            "name_tw": "阿戈爾示波器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7763,7 +7853,7 @@
             "name_en": "Adaptive Supply Component",
             "name_jp": "多機能補給デバイス",
             "name_kr": "다목적 공급장치",
-            "name_tw": "自适应补给元件",
+            "name_tw": "自適應補給元件",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7778,7 +7868,7 @@
             "name_en": "Adaptive Supply Component",
             "name_jp": "多機能補給デバイス",
             "name_kr": "다목적 공급장치",
-            "name_tw": "自适应补给元件",
+            "name_tw": "自適應補給元件",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7793,7 +7883,7 @@
             "name_en": "Adaptive Supply Component",
             "name_jp": "多機能補給デバイス",
             "name_kr": "다목적 공급장치",
-            "name_tw": "自适应补给元件",
+            "name_tw": "自適應補給元件",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7808,7 +7898,7 @@
             "name_en": "Coating Device Conduction Valve",
             "name_jp": "コーティングデバイス",
             "name_kr": "코팅 장치 전도 밸브",
-            "name_tw": "镀膜装置导能阀",
+            "name_tw": "鍍膜裝置導能閥",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7823,7 +7913,7 @@
             "name_en": "Redeployment Conduction Component",
             "name_jp": "再稼働コンポーネント",
             "name_kr": "에너지 재정비 유닛",
-            "name_tw": "重整导能组件",
+            "name_tw": "重整導能組件",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7838,7 +7928,7 @@
             "name_en": "Coating Device Conduction Valve",
             "name_jp": "コーティングデバイス",
             "name_kr": "코팅 장치 전도 밸브",
-            "name_tw": "镀膜装置导能阀",
+            "name_tw": "鍍膜裝置導能閥",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7853,7 +7943,7 @@
             "name_en": "Eunectes' Beacon",
             "name_jp": "ジャングル用追跡ビーコン",
             "name_kr": "정글용 추적 비콘",
-            "name_tw": "丛林用示踪信标",
+            "name_tw": "叢林用示蹤信標",
             "position": "MELEE",
             "profession": "TRAP",
             "rangeId": [
@@ -7868,7 +7958,7 @@
             "name_en": "Block Wavelength",
             "name_jp": "遮断電波",
             "name_kr": "차단 파장",
-            "name_tw": "阻断波长",
+            "name_tw": "阻斷波長",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7883,7 +7973,7 @@
             "name_en": "Jam Wavelength",
             "name_jp": "妨害電波",
             "name_kr": "간섭 파장",
-            "name_tw": "干扰波长",
+            "name_tw": "干擾波長",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7898,7 +7988,7 @@
             "name_en": "Heavy Insulated Concrete",
             "name_jp": "超過重絶縁セメント",
             "name_kr": "과중 단열 시멘트",
-            "name_tw": "超重绝缘水泥",
+            "name_tw": "超重絕緣水泥",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7913,7 +8003,7 @@
             "name_en": "Shoddy Flashbang",
             "name_jp": "粗悪なスタングレネード",
             "name_kr": "불량 섬광탄",
-            "name_tw": "劣质闪光弹",
+            "name_tw": "劣質閃光彈",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [

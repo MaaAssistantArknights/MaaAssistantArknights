@@ -1,4 +1,6 @@
 #pragma once
+#include <set>
+
 #include "Common/AsstBattleDef.h"
 #include "Task/AbstractTask.h"
 

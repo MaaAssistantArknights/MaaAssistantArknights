@@ -566,9 +566,7 @@ namespace MaaWpfGui.Main
                         case "Fight":
                             Instances.TaskQueueViewModel.FightTaskRunning = true;
                             break;
-
-                        case "Infrast":
-                            Instances.TaskQueueViewModel.InfrastTaskRunning = true;
+                        default:
                             break;
                     }
 
@@ -842,17 +840,17 @@ namespace MaaWpfGui.Main
                                 var log = LocalizationHelper.GetString("MissionStart") + $" {execTimes} {LocalizationHelper.GetString("UnitTime")}\n";
                                 if (SanityReport.HasSanityReport)
                                 {
-                                    log += LocalizationHelper.GetString("CurrentSanity") + $" {SanityReport.Sanity[0]}/{SanityReport.Sanity[1]}  ";
+                                    log += $"{LocalizationHelper.GetString("CurrentSanity")} {SanityReport.Sanity[0]}/{SanityReport.Sanity[1]}  ";
                                 }
 
-                                if (MedicineUsedTimes > 0)
+                                if (MedicineUsedTimes > 0 || ExpiringMedicineUsedTimes > 0)
                                 {
-                                    log += LocalizationHelper.GetString("MedicineUsedTimes") + $" {MedicineUsedTimes}/{Instances.TaskQueueViewModel.MedicineNumber}  ";
+                                    log += $"{LocalizationHelper.GetString("MedicineUsedTimes")} {MedicineUsedTimes}" + (ExpiringMedicineUsedTimes > 0 ? $"({ExpiringMedicineUsedTimes})" : string.Empty) + "  ";
                                 }
 
                                 if (StoneUsedTimes > 0)
                                 {
-                                    log += LocalizationHelper.GetString("StoneUsedTimes") + $" {StoneUsedTimes}/{Instances.TaskQueueViewModel.StoneNumber}  ";
+                                    log += $"{LocalizationHelper.GetString("StoneUsedTimes")} {StoneUsedTimes}  ";
                                 }
 
                                 Instances.TaskQueueViewModel.AddLog(log.TrimEnd('\n').TrimEnd(' '), UiLogColor.Info);
@@ -865,6 +863,7 @@ namespace MaaWpfGui.Main
 
                             case "ExpiringMedicineConfirm":
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ExpiringMedicineUsed") + $" {execTimes} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info);
+                                ExpiringMedicineUsedTimes++;
                                 break;
 
                             case "StoneConfirm":

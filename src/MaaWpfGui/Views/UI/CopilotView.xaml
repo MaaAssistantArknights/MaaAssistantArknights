@@ -62,6 +62,7 @@
                     <Button
                         Grid.Column="1"
                         Height="30"
+                        MinWidth="30"
                         hc:BorderElement.CornerRadius="0"
                         hc:IconElement.Geometry="{StaticResource FolderOpen20Regular}"
                         BorderThickness="0,1,1,1"
@@ -71,6 +72,7 @@
                     <Button
                         Grid.Column="2"
                         Height="30"
+                        MinWidth="30"
                         hc:BorderElement.CornerRadius="0,4,4,0"
                         hc:IconElement.Geometry="{StaticResource ClipboardLink20Regular}"
                         BorderThickness="0,1,1,1"
@@ -225,8 +227,20 @@
                     Text="{Binding CopilotTaskName, UpdateSourceTrigger=LostFocus}" />
                 <Button
                     Grid.Row="1"
+                    Grid.Column="0"
+                    Height="30"
+                    MinWidth="30"
+                    hc:BorderElement.CornerRadius="0,0,0,4"
+                    hc:IconElement.Geometry="{StaticResource FolderAdd20Regular}"
+                    BorderThickness="1,1,0,1"
+                    Command="{s:Action ImportFiles}"
+                    IsEnabled="{c:Binding '(Idle) and (StartEnabled)'}"
+                    ToolTip="{DynamicResource ImportFilesTip}" />
+                <Button
+                    Grid.Row="1"
                     Grid.Column="3"
                     Height="30"
+                    MinWidth="30"
                     hc:BorderElement.CornerRadius="0,0,4,0"
                     hc:IconElement.Geometry="{StaticResource DismissSquareMultiple20Regular}"
                     BorderThickness="1"
@@ -239,6 +253,7 @@
                     Grid.Row="1"
                     Grid.Column="2"
                     Height="30"
+                    MinWidth="30"
                     hc:BorderElement.CornerRadius="0"
                     hc:IconElement.Geometry="{StaticResource Add20Regular}"
                     BorderThickness="0,1"
@@ -246,16 +261,6 @@
                     IsEnabled="{c:Binding '(Idle) and (StartEnabled)'}"
                     MouseRightButtonUp="{s:Action AddCopilotTask_Adverse}"
                     ToolTip="{DynamicResource CopilotAddTask}" />
-                <Button
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    Height="30"
-                    hc:BorderElement.CornerRadius="0,0,0,4"
-                    hc:IconElement.Geometry="{StaticResource ClipboardLink20Regular}"
-                    BorderThickness="1,1,0,1"
-                    Command="{s:Action PasteClipboard}"
-                    IsEnabled="{c:Binding '(Idle) and (StartEnabled)'}"
-                    ToolTip="{DynamicResource PasteClipboardTip}" />
             </Grid>
 
             <Grid

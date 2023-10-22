@@ -10,7 +10,7 @@
                     "alternate_skill": 1,
                     "is_start": true,
                     "is_key": true,
-                    "recruit_priority": 710,
+                    "recruit_priority": 810,
                     "promote_priority": 1000,
                     "promote_priority_when_team_full": 1200,
                     "recruit_priority_offsets": [
@@ -22,7 +22,7 @@
                             ],
                             "threshold": 0,
                             "is_less": true,
-                            "offset": 300
+                            "offset": 200
                         }
                     ]
                 }
@@ -1541,6 +1541,9 @@
                     "name": "絮雨"
                 },
                 {
+                    "name": "刺玫"
+                },
+                {
                     "name": "微风"
                 },
                 {
@@ -2555,6 +2558,10 @@
                     "skill": 2
                 },
                 {
+                    "name": "赫德雷",
+                    "skill": 1
+                },
+                {
                     "name": "银灰"
                 },
                 {
@@ -2938,6 +2945,9 @@
                 },
                 {
                     "name": "灰喉"
+                },
+                {
+                    "name": "刺玫"
                 },
                 {
                     "name": "濯尘芙蓉",
@@ -3629,6 +3639,10 @@
                 },
                 {
                     "name": "深靛",
+                    "skill": 2
+                },
+                {
+                    "name": "戴菲恩",
                     "skill": 2
                 },
                 {

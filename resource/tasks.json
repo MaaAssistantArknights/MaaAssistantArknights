@@ -61,6 +61,60 @@
         ],
         "maxTimes": 50
     },
+    "SlowlySwipeToTheUp": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 200,
+        "specificRect": [
+            600,
+            510,
+            100,
+            100
+        ],
+        "rectMove": [
+            600,
+            0,
+            100,
+            100
+        ],
+        "specialParams": [
+            200,
+            1,
+            2,
+            0
+        ],
+        "next": [
+            "#next"
+        ],
+        "maxTimes": 50
+    },
+    "SlowlySwipeToTheDown": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 200,
+        "specificRect": [
+            600,
+            145,
+            100,
+            100
+        ],
+        "rectMove": [
+            600,
+            610,
+            100,
+            100
+        ],
+        "specialParams": [
+            200,
+            1,
+            2,
+            0
+        ],
+        "next": [
+            "#next"
+        ],
+        "maxTimes": 50
+    },
     "SwipeToTheLeft": {
         "algorithm": "JustReturn",
         "action": "Swipe",
@@ -3258,6 +3312,25 @@
             150
         ]
     },
+    "AccountListSwipeToTop": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [
+            700,
+            330,
+            20,
+            20
+        ],
+        "rectMove": [
+            700,
+            380,
+            20,
+            20
+        ],
+        "specialParams": [
+            150
+        ]
+    },
     "StartUpThemes": {
         "algorithm": "JustReturn",
         "next": [
@@ -3266,7 +3339,7 @@
             "StartToWakeUpOCR",
             "StartLoginBServer",
             "StartUpConnectingFlag",
-            "#back",
+            "MainThemes#next",
             "CloseAnnos#next",
             "OfflineConfirm"
         ]
@@ -3437,22 +3510,34 @@
             "NotDownloadVoice"
         ]
     },
-    "CloseAnno": {
+    "MainThemes": {
+        "Doc": "使用本任务时带上 #next",
+        "algorithm": "JustReturn",
+        "next_Doc": "用于标记一个任务链的所有入口，一般是 #back 或者 XXXBegin#next",
+        "next": [
+            "#back"
+        ]
+    },
+    "CloseAnnoBase": {
+        "template": "empty.png",
         "action": "ClickSelf",
         "cache": false,
+        "next": [
+            "MainThemes#next",
+            "CloseAnnos#next"
+        ]
+    },
+    "CloseAnno": {
+        "baseTask": "CloseAnnoBase",
         "roi": [
             1100,
             0,
             180,
             200
-        ],
-        "next": [
-            "#back",
-            "CloseAnnos#next"
         ]
     },
     "CloseAnnoTexas": {
-        "baseTask": "CloseAnno",
+        "baseTask": "CloseAnnoBase",
         "roi": [
             1125,
             24,
@@ -3461,17 +3546,12 @@
         ]
     },
     "NotDownloadVoice": {
-        "action": "ClickSelf",
-        "cache": false,
+        "baseTask": "CloseAnnoBase",
         "roi": [
             369,
             462,
             152,
             62
-        ],
-        "next": [
-            "#back",
-            "CloseAnnos#next"
         ]
     },
     "TodaysSupplies": {
@@ -3494,7 +3574,7 @@
         ],
         "next": [
             "CloseAnnos#next",
-            "#back"
+            "MainThemes#next"
         ]
     },
     "LoadingText": {
@@ -3555,7 +3635,7 @@
             80
         ],
         "next": [
-            "#back",
+            "MainThemes#next",
             "ReturnButtons#next",
             "ReturnConfirm",
             "ReturnButton@LoadingIcon",
@@ -3594,7 +3674,7 @@
         ],
         "next": [
             "ReturnButtons#next",
-            "#back",
+            "MainThemes#next",
             "ReturnConfirm@LoadingIcon",
             "CloseAnnos#next",
             "ReturnConfirm"
@@ -5462,31 +5542,7 @@
             "Infrast@OfflineConfirm"
         ]
     },
-    "Infrast@ReturnButton": {
-        "template": [
-            "Return.png",
-            "Return-White.png"
-        ],
-        "next": [
-            "InfrastBegin#next",
-            "Infrast@(ReturnButton#next)"
-        ]
-    },
-    "Infrast@ReturnConfirm": {
-        "template": "PopupConfirm.png",
-        "next": [
-            "InfrastBegin#next",
-            "Infrast@ReturnConfirm"
-        ]
-    },
-    "Infrast@CloseAnno": {
-        "template": "CloseAnno.png",
-        "next": [
-            "InfrastBegin#next"
-        ]
-    },
-    "Infrast@CloseAnnoTexas": {
-        "template": "CloseAnnoTexas.png",
+    "Infrast@MainThemes": {
         "next": [
             "InfrastBegin#next"
         ]
@@ -7930,6 +7986,16 @@
             255
         ]
     },
+    "BattleAvatarReMatch": {
+        "template": "empty.png",
+        "templThreshold": 0.8,
+        "roi": [
+            0,
+            580,
+            1280,
+            140
+        ]
+    },
     "BattleOperClickRange": {
         "template": "empty.png",
         "rectMove": [
@@ -8497,6 +8563,8 @@
     },
     "InfrastOperListSlowlySwipeToTheRight": {
         "baseTask": "SlowlySwipeToTheRight",
+        "postDelay_Doc": "滑动到右边列表末尾后会有一个反弹动画，这个动画持续约 300ms，设定延时需要比这个数字长",
+        "postDelay": 300,
         "specificRect": [
             1000,
             350,
@@ -8555,6 +8623,20 @@
             20
         ]
     },
+    "ScreenshotTaskPlugin-Config": {
+        "Doc": "本任务是插件 ScreenshotTaskPlugin 的配置",
+        "Doc_2": "需要在任务 Task 开始时截图时，将 Task 加入到此任务的 next 列表。",
+        "algorithm": "JustReturn",
+        "next": [
+            "Roguelike@StageEncounterOptionUnknown"
+        ]
+    },
+    "ScreenshotTaskPlugin-Config-Debug": {
+        "Doc": "本任务是插件 ScreenshotTaskPlugin 的配置",
+        "Doc_2": "存在 DEBUG 或 DEBUG.txt 时的额外截图",
+        "algorithm": "JustReturn",
+        "next": []
+    },
     "Roguelike@Abandon": {
         "Doc": "base_task",
         "template": "empty.png",
@@ -8594,6 +8676,7 @@
             "Roguelike@ExitThenAbandon",
             "Roguelike@Abandon",
             "Roguelike@TodoEnter",
+            "Roguelike@Continue",
             "Roguelike@ReturnButtons#next",
             "Roguelike@ReturnConfirm",
             "Roguelike@StartUpThemes#next"
@@ -8709,6 +8792,7 @@
             "Roguelike@Stages#next",
             "Roguelike@GamePass",
             "Roguelike@TodoEnter",
+            "Roguelike@Continue",
             "Roguelike@ReturnButtons#next",
             "Roguelike@ReturnConfirm",
             "Roguelike@StartUpThemes#next",
@@ -8741,6 +8825,23 @@
             400,
             140,
             139
+        ]
+    },
+    "Roguelike@Continue": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            1032,
+            487,
+            248,
+            215
+        ],
+        "postDelay": 500,
+        "next": [
+            "Roguelike@MissionFailedFlag2",
+            "Roguelike@ExitThenAbandon"
         ]
     },
     "Roguelike@DialogSkip": {
@@ -9473,17 +9574,12 @@
             60
         ]
     },
-    "Roguelike@ReturnButton": {
-        "template": [
-            "Return.png",
-            "Return-White.png"
-        ],
+    "Roguelike@MainThemes": {
         "next": [
+            "Roguelike",
             "Roguelike@ChooseDifficulty",
             "Roguelike@StartExplore",
-            "Roguelike@ExitThenAbandon",
-            "Roguelike@Abandon",
-            "Roguelike@(ReturnButton#next)"
+            "Roguelike@Abandon"
         ]
     },
     "Roguelike@RolesConfirm": {
@@ -10276,9 +10372,6 @@
             234,
             204
         ],
-        "exceededNext": [
-            "Roguelike@StageTraderLeaveConfirm#exceeded_next"
-        ],
         "next": [
             "Roguelike@StageTraderLeaveConfirm",
             "Roguelike@StageTraderLeave"
@@ -10451,6 +10544,7 @@
         ]
     },
     "Phantom@Roguelike@CloseEvent": {},
+    "Phantom@Roguelike@Continue": {},
     "Phantom@Roguelike@DialogSkipConfirm": {
         "template": "Roguelike@DialogSkipConfirm.png",
         "next": [
@@ -10915,6 +11009,7 @@
             "Mizuki@Roguelike@Stages#next"
         ]
     },
+    "Mizuki@Roguelike@Continue": {},
     "Mizuki@Roguelike@DataTraceback": {
         "action": "DoNothing",
         "cache": false,
@@ -11548,6 +11643,42 @@
         ]
     },
     "Sami@Roguelike@CloseEvent": {},
+    "Sami@Roguelike@Continue": {
+        "roi": [
+            967,
+            536,
+            313,
+            177
+        ],
+        "next": [
+            "Sami@Roguelike@MissionFailedFlag2",
+            "Sami@Roguelike@ExitThenAbandon",
+            "Sami@Roguelike@ContinueClick"
+        ]
+    },
+    "Sami@Roguelike@ContinueClick": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "初霜湖泽",
+            "密静林地",
+            "昧明冻土",
+            "积冰岩骸",
+            "无瑕花园",
+            "远见之构",
+            "深埋迷境"
+        ],
+        "roi": [
+            522,
+            431,
+            245,
+            144
+        ],
+        "next": [
+            "Sami@Roguelike@Continue"
+        ]
+    },
     "Sami@Roguelike@DialogSkipConfirm": {
         "template": "Roguelike@DialogSkipConfirm.png",
         "next": [
@@ -11621,8 +11752,30 @@
     },
     "Sami@Roguelike@GamePassSkip2": {},
     "Sami@Roguelike@GamePassTheEndConfirm": {},
-    "Sami@Roguelike@GetCiphertextBoard": {
-        "template": "Sami@Roguelike@GetCiphertextBoard",
+    "Sami@Roguelike@CiphertextBoard": {
+        "cache": false,
+        "action": "ClickSelf",
+        "roi": [
+            639,
+            599,
+            299,
+            121
+        ],
+        "postDelay": 2000
+    },
+    "Sami@Roguelike@CiphertextBoardBack": {
+        "action": "ClickSelf",
+        "roi": [
+            0,
+            0,
+            146,
+            144
+        ],
+        "postDelay": 2000
+    },
+    "Sami@Roguelike@CiphertextBoardGain": {
+        "doc": "本任务注册插件RoguelikeCiphertextBoardGain",
+        "template": "Sami@Roguelike@CiphertextBoardGain",
         "action": "ClickRect",
         "specificRect": [
             611,
@@ -11642,8 +11795,150 @@
             255
         ],
         "next": [
-            "Sami@Roguelike@GetCiphertextBoard",
+            "Sami@Roguelike@CiphertextBoardGain",
             "Sami@Roguelike@SquadConfirm#next"
+        ]
+    },
+    "Sami@Roguelike@CiphertextBoardGainOcr": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "cache": false,
+        "roi": [
+            584,
+            261,
+            315,
+            46
+        ],
+        "text": [
+            "黜人",
+            "猎手",
+            "战士",
+            "萨满",
+            "雪祀",
+            "英雄",
+            "树冠",
+            "水面",
+            "眼睛",
+            "拱门",
+            "光芒",
+            "大地",
+            "源石",
+            "乔木",
+            "砂石",
+            "灌木",
+            "兽类",
+            "人类",
+            "伤痕",
+            "歌唱",
+            "沉默",
+            "朗诵",
+            "辩论",
+            "慰藉",
+            "告解",
+            "喜悦",
+            "惊讶",
+            "愤怒",
+            "疑惑",
+            "憧憬",
+            "爱恋",
+            "巡视",
+            "筑巢",
+            "捕猎",
+            "繁衍",
+            "掠夺",
+            "迁徙",
+            "空无"
+        ],
+        "ocrReplace": [
+            [
+                "黜",
+                "黜人"
+            ]
+        ]
+    },
+    "Sami@Roguelike@CiphertextBoardUseOcr": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "cache": false,
+        "text": [
+            "布局"
+        ],
+        "roi": [
+            38,
+            64,
+            85,
+            518
+        ],
+        "rectMove": [
+            150,
+            -50,
+            50,
+            5
+        ],
+        "specificRect_Doc": "x拿来当文字灰度二值化下限用",
+        "specificRect": [
+            170,
+            0,
+            0,
+            0
+        ]
+    },
+    "Sami@Roguelike@CiphertextBoardUseConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "开始宣告"
+        ],
+        "roi": [
+            953,
+            597,
+            302,
+            113
+        ],
+        "postDelay": 2000
+    },
+    "Sami@Roguelike@CiphertextBoardUseOnStage": {
+        "cache": false,
+        "doc": "缺紧急战斗和先行一步",
+        "action": "ClickSelf",
+        "template": [
+            "Sami@Roguelike@CiphertextBoardUseOnGambling.png",
+            "Sami@Roguelike@CiphertextBoardUseOnWindAndRain.png",
+            "Sami@Roguelike@CiphertextBoardUseOnEmergencyTransportation.png",
+            "Sami@Roguelike@CiphertextBoardUseOnCombatDps.png",
+            "Sami@Roguelike@CiphertextBoardUseOnMysteriousPresage.png",
+            "Sami@Roguelike@CiphertextBoardUseOnEmergencyDps.png",
+            "Sami@Roguelike@CiphertextBoardUseOnDreadfulFoe-5.png",
+            "Sami@Roguelike@CiphertextBoardUseOnFerociousPresage.png",
+            "Sami@Roguelike@CiphertextBoardUseOnEncounter.png",
+            "Sami@Roguelike@CiphertextBoardUseOnTrader.png"
+        ],
+        "templThreshold": [
+            0.7,
+            0.7,
+            0.7,
+            0.7,
+            0.7,
+            0.7,
+            0.7,
+            0.7,
+            0.7,
+            0.7
+        ],
+        "roi": [
+            429,
+            111,
+            844,
+            477
+        ]
+    },
+    "Sami@Roguelike@CiphertextBoardGainOcrAfterCombat": {
+        "baseTask": "Sami@Roguelike@CiphertextBoardGainOcr",
+        "roi": [
+            44,
+            309,
+            1195,
+            124
         ]
     },
     "Sami@Roguelike@GetDrop1": {},
@@ -11679,14 +11974,14 @@
         "Doc": "密文板三选一",
         "template": "Sami@Roguelike@GetDropSelectReward2.png",
         "cache": false,
-        "action": "ClickSelf",
+        "action": "DoNothing",
         "roi": [
             0,
             420,
             1280,
             175
         ],
-        "postDelay": 1000,
+        "postDelay": 800,
         "next": [
             "Sami@Roguelike@GetDropSelectReward2",
             "Sami@Roguelike@ChooseOperFlag",
@@ -11934,18 +12229,18 @@
             "Sami@Roguelike@StageVerticalSafeHouseAI6",
             "Sami@Roguelike@StageVerticalBoons",
             "Sami@Roguelike@StageVerticalBoonsAI6",
-            "Sami@Roguelike@StageVerticalEncounter",
-            "Sami@Roguelike@StageVerticalEncounterAI6",
             "Sami@Roguelike@StageVerticalTrader",
             "Sami@Roguelike@StageVerticalTraderAI6",
             "Sami@Roguelike@StageSafeHouse",
             "Sami@Roguelike@StageSafeHouseAI6",
             "Sami@Roguelike@StageBoons",
             "Sami@Roguelike@StageBoonsAI6",
-            "Sami@Roguelike@StageEncounter",
-            "Sami@Roguelike@StageEncounterAI6",
             "Sami@Roguelike@StageTrader",
             "Sami@Roguelike@StageTraderAI6",
+            "Sami@Roguelike@StageEncounter",
+            "Sami@Roguelike@StageEncounterAI6",
+            "Sami@Roguelike@StageVerticalEncounter",
+            "Sami@Roguelike@StageVerticalEncounterAI6",
             "Sami@Roguelike@StageVerticalProphecy",
             "Sami@Roguelike@StageVerticalProphecyAI6",
             "Sami@Roguelike@StageWindAndRain",
@@ -12008,7 +12303,7 @@
             "Sami@Roguelike@DialogSkip",
             "Sami@Roguelike@Stages#next",
             "Sami@Roguelike@MapObject",
-            "Sami@Roguelike@GetCiphertextBoard"
+            "Sami@Roguelike@CiphertextBoardGain"
         ]
     },
     "Sami@Roguelike@SquadDefault": {},
@@ -12859,6 +13154,43 @@
             20
         ]
     },
+    "RoguelikeCiphertextBoardSlowlySwipeToTheUp": {
+        "baseTask": "SlowlySwipeToTheUp",
+        "specificRect": [
+            180,
+            580,
+            20,
+            20
+        ],
+        "rectMove": [
+            180,
+            110,
+            20,
+            20
+        ],
+        "specialParams": [
+            200,
+            1,
+            2,
+            0
+        ],
+        "postDelay": 500
+    },
+    "RoguelikeCiphertextBoardSwipeToTheDown": {
+        "baseTask": "SwipeToTheDown",
+        "specificRect": [
+            180,
+            110,
+            20,
+            20
+        ],
+        "rectMove": [
+            180,
+            570,
+            20,
+            20
+        ]
+    },
     "RoguelikeRecruitOperListSwipeToTheLeft": {
         "baseTask": "RoguelikeRecruitOperListSlowlySwipeToTheLeft",
         "specialParams": [
@@ -13458,6 +13790,12 @@
             576,
             288,
             144
+        ],
+        "preDelay": 1000,
+        "maxTimes": 5,
+        "next": [
+            "#self",
+            "Stop"
         ]
     },
     "SSSFightDirectly": {
@@ -13914,20 +14252,16 @@
             "Reclamation@ReturnButton#next"
         ]
     },
-    "Reclamation@ReturnButton": {
-        "template": [
-            "Return.png",
-            "Return-White.png"
-        ],
+    "Reclamation@MainThemes": {
         "next": [
+            "Reclamation",
             "Reclamation@AtHomePageFlag",
             "Reclamation@LevelForceExitConfirm",
             "Reclamation@LevelForceExit",
             "Reclamation@LevelComplete",
             "Reclamation@ExitAlgorithm",
             "Reclamation@SmallReturn",
-            "Reclamation@ReturnInFocus",
-            "Reclamation@(ReturnButton#next)"
+            "Reclamation@ReturnInFocus"
         ]
     },
     "Reclamation@ReturnInFocus": {

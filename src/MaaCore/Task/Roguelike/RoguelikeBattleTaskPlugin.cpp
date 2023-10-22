@@ -326,7 +326,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
             }
         }
     }
-    Log.info("No operator needs to be retreated.");
+    Log.debug("No operator needs to be retreated.");
     // 构造当前地图的部署指令列表
     std::vector<DeployPlanInfo> deploy_plan_list;
     // 获取当前肉鸽的分组信息[干员组1名称,干员组2名称,...]
@@ -336,7 +336,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
     for (const auto& [name, oper] : m_cur_deployment_opers) {
         // 干员冷却中
         if (oper.cooling) {
-            Log.info("operator", oper.name, "is cooling now.");
+            Log.debug("operator", oper.name, "is cooling now.");
             continue;
         }
 
@@ -349,11 +349,11 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
         for (const auto& group_id : group_ids) {
             // 当前干员组名,string类型
             std::string group_name = groups[group_id];
-            Log.trace(m_stage_name, "group_name", group_name);
+            Log.debug(m_stage_name, "group_name", group_name);
             if (m_deploy_plan.contains(group_name)) {
                 for (const auto& info : m_deploy_plan[group_name]) {
                     if (m_kills < info.kill_lower_bound || m_kills > info.kill_upper_bound) {
-                        Log.trace("    deploy info", oper.name, "in group", group_name, "is waiting.");
+                        Log.debug("    deploy info", oper.name, "in group", group_name, "is waiting.");
                         is_success = true; // 如果发现了待命干员，此函数最终返回true
                         continue;
                     }
@@ -369,7 +369,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
                     deploy_plan.placed = info.location;
                     deploy_plan.direction = info.direction;
                     deploy_plan_list.emplace_back(deploy_plan);
-                    Log.trace("    deploy info", deploy_plan.oper_name, "is No. ", deploy_plan.oper_order_in_group + 1,
+                    Log.debug("    deploy info", deploy_plan.oper_name, "is No. ", deploy_plan.oper_order_in_group + 1,
                               "in group", group_name, ", with deploy command rank", deploy_plan.rank);
                 }
             }
@@ -794,10 +794,10 @@ std::vector<asst::Point> asst::RoguelikeBattleTaskPlugin::available_locations(ba
 {
     std::vector<Point> result;
     for (const auto& [loc, tile] : m_normal_tile_info) {
-        bool position_mathced = tile.buildable == type || tile.buildable == battle::LocationType::All;
-        position_mathced |= (type == battle::LocationType::All) && (tile.buildable == battle::LocationType::Melee ||
+        bool position_matched = tile.buildable == type || tile.buildable == battle::LocationType::All;
+        position_matched |= (type == battle::LocationType::All) && (tile.buildable == battle::LocationType::Melee ||
                                                                     tile.buildable == battle::LocationType::Ranged);
-        if (position_mathced &&
+        if (position_matched &&
             tile.key != TilePack::TileKey::DeepSea && // 水上要先放板子才能放人，肉鸽里也没板子，那就当作不可放置
             !m_used_tiles.contains(loc) && !m_blacklist_location.contains(loc)) {
             result.emplace_back(loc);

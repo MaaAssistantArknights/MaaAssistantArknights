@@ -2002,7 +2002,6 @@
                 {
                     "name": "莫斯提马",
                     "skill": 3,
-                    "is_key": true,
                     "alternate_skill": 2,
                     "recruit_priority": 625,
                     "promote_priority": 910,
@@ -2419,6 +2418,11 @@
                     "skill": 2
                 },
                 {
+                    "name": "赫德雷",
+                    "skill": 2,
+                    "skill_usage": 2
+                },
+                {
                     "name": "银灰"
                 },
                 {
@@ -2748,6 +2752,9 @@
                     "name": "亚叶"
                 },
                 {
+                    "name": "刺玫"
+                },
+                {
                     "name": "濯尘芙蓉"
                 },
                 {
@@ -2929,10 +2936,6 @@
                     "name": "灰喉"
                 },
                 {
-                    "name": "濯尘芙蓉",
-                    "skill": 2
-                },
-                {
                     "name": "稀音"
                 },
                 {
@@ -2960,6 +2963,13 @@
                 },
                 {
                     "name": "特米米"
+                },
+                {
+                    "name": "刺玫"
+                },
+                {
+                    "name": "濯尘芙蓉",
+                    "skill": 2
                 },
                 {
                     "name": "雪绒"
@@ -3416,6 +3426,10 @@
                     "skill": 2
                 },
                 {
+                    "name": "维荻",
+                    "skill": 2
+                },
+                {
                     "name": "夜刀",
                     "skill": 0,
                     "is_key": true,
@@ -3631,6 +3645,10 @@
                 },
                 {
                     "name": "爱丽丝",
+                    "skill": 2
+                },
+                {
+                    "name": "戴菲恩",
                     "skill": 2
                 },
                 {

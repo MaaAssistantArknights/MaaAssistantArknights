@@ -4,7 +4,6 @@
     <SolidColorBrush x:Key="PallasBrush" Color="#CDD1FF" />
     <SolidColorBrush x:Key="ErrorViewBackgroundBrush" Color="#2d2d30" />
     <SolidColorBrush x:Key="VersionUpdateViewBackgroundBrush" Color="#2d2d30" />
-    <SolidColorBrush x:Key="MarkdigCodeBrush" Color="#555" />
 
     <!--  HandyControl Brush  -->
     <!--  See https://github.com/ghost1372/HandyControls/blob/v3.4.5/src/Shared/HandyControl_Shared/Themes/Basic/Colors/Dark.xaml  -->
@@ -28,6 +27,13 @@
     <!--  标题背景     没用到（建议和主题色一致）  -->
     <SolidColorBrush x:Key="TitleBrush" Color="#326cf3" />
 
+    <!--  MdXaml Brush  -->
+    <SolidColorBrush x:Key="MdXamlBackground" Color="#2d2d30" />
+    <SolidColorBrush x:Key="MdXamlCodeBackground" Color="#161b22" />
+    <SolidColorBrush x:Key="MdXamlForeground" Color="#E6E6E6" />
+    <SolidColorBrush x:Key="MdXamlHyperlink" Color="#326cf3" />
+    <SolidColorBrush x:Key="MdXamlHyperlinkClicked" Color="#e45649" />
+    
     <!--  UiLogColor  -->
     <SolidColorBrush x:Key="ErrorLogBrush" Color="Red" />
     <SolidColorBrush x:Key="WarningLogBrush" Color="Goldenrod" />

@@ -3,8 +3,8 @@
 #include "Common/AsstTypes.h"
 #include "Config/AbstractResource.h"
 
-#include <vector>
 #include <optional>
+#include <vector>
 
 namespace cv
 {

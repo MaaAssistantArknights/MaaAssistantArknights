@@ -72,17 +72,75 @@ namespace MaaWpfGui.ViewModels.UI
         [DllImport("user32.dll")]
         private static extern bool IsIconic(IntPtr hWnd);
 
-        private static readonly string _versionId = Marshal.PtrToStringAnsi(AsstGetVersion());
+        /// <summary>
+        /// Gets the core version.
+        /// </summary>
+        public static string CoreVersion { get; } = Marshal.PtrToStringAnsi(AsstGetVersion());
+
+        private static readonly string _uiVersion = FileVersionInfo.GetVersionInfo(Application.ResourceAssembly.Location).ProductVersion.Split('+')[0];
 
         /// <summary>
-        /// Gets the version id.
+        /// Gets the UI version.
         /// </summary>
-        public string VersionId => _versionId;
+        public static string UiVersion { get; } = _uiVersion == "0.0.1" ? "DEBUG VERSION" : _uiVersion;
+
+        private static string _resourceVersion = GetResourceVersionByClientType(ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, "Official"));
+
+        public string ResourceVersion
+        {
+            get => _resourceVersion;
+            set => SetAndNotify(ref _resourceVersion, value);
+        }
+
+        private static string GetResourceVersionByClientType(string clientType)
+        {
+            const string OfficialClientType = "Official";
+            const string BilibiliClientType = "Bilibili";
+            string jsonPath = "resource/version.json";
+            if (!(clientType == string.Empty || clientType == OfficialClientType || clientType == BilibiliClientType))
+            {
+                jsonPath = $"resource/global/{clientType}/resource/version.json";
+            }
+
+            string versionName = string.Empty;
+            if (!File.Exists(jsonPath))
+            {
+                return versionName;
+            }
+
+            JObject versionJson = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
+            var currentTime = (ulong)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            var poolTime = (ulong)versionJson?["gacha"]?["time"];
+            var activityTime = (ulong)versionJson?["activity"]?["time"];
+
+            if ((currentTime < poolTime) && (currentTime < activityTime))
+            {
+                versionName = string.Empty;
+            }
+            else if ((currentTime >= poolTime) && (currentTime < activityTime))
+            {
+                versionName = versionJson?["gacha"]?["pool"]?.ToString() ?? string.Empty;
+            }
+            else if ((currentTime < poolTime) && (currentTime >= activityTime))
+            {
+                versionName = versionJson?["activity"]?["name"]?.ToString() ?? string.Empty;
+            }
+            else if (poolTime > activityTime)
+            {
+                versionName = versionJson?["gacha"]?["pool"]?.ToString() ?? string.Empty;
+            }
+            else
+            {
+                versionName = versionJson?["activity"]?["name"]?.ToString() ?? string.Empty;
+            }
+
+            return versionName;
+        }
 
         /// <summary>
         /// The Pallas language key.
         /// </summary>
-        public static readonly string PallasLangKey = "pallas";
+        public const string PallasLangKey = "pallas";
 
         /// <summary>
         /// Gets the visibility of task setting views.
@@ -834,7 +892,7 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         fixed (char* ptr = buf)
                         {
-                            link.GetPath(ptr, 260, IntPtr.Zero, 0);  // MAX_PATH
+                            link.GetPath(ptr, 260, IntPtr.Zero, 0); // MAX_PATH
                             var len = Array.IndexOf(buf, '\0');
                             if (len != -1)
                             {
@@ -1091,6 +1149,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _clientType, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ClientType, value);
+                ResourceVersion = GetResourceVersionByClientType(_clientType);
                 UpdateWindowTitle(); /* 每次修改客户端时更新WindowTitle */
                 Instances.TaskQueueViewModel.UpdateStageList(true);
                 Instances.TaskQueueViewModel.UpdateDatePrompt();
@@ -1613,8 +1672,8 @@ namespace MaaWpfGui.ViewModels.UI
 
                             // 根据出当前 ScrollOffset 选出最后一个在可视范围的 Divider 索引
                             var dividerSelect = DividerVerticalOffsetList.Select((n, i) => (
-                            dividerAppeared: value >= n,
-                            index: i));
+                                dividerAppeared: value >= n,
+                                index: i));
 
                             var index = dividerSelect.LastOrDefault(n => n.dividerAppeared).index;
                             SelectedIndex = index;
@@ -2396,7 +2455,7 @@ namespace MaaWpfGui.ViewModels.UI
         /* 软件更新设置 */
 
         private UpdateVersionType _versionType = (UpdateVersionType)Enum.Parse(typeof(UpdateVersionType),
-                ConfigurationHelper.GetValue(ConfigurationKeys.VersionType, UpdateVersionType.Stable.ToString()));
+            ConfigurationHelper.GetValue(ConfigurationKeys.VersionType, UpdateVersionType.Stable.ToString()));
 
         /// <summary>
         /// Gets or sets the type of version to update.
@@ -2922,46 +2981,8 @@ namespace MaaWpfGui.ViewModels.UI
                 prefix += " - ";
             }
 
-            const string OfficialClientType = "Official";
-            const string BilibiliClientType = "Bilibili";
-            string jsonPath = "resource/version.json";
-            if (!(ClientType == string.Empty || ClientType == OfficialClientType || ClientType == BilibiliClientType))
-            {
-                jsonPath = $"resource/global/{ClientType}/resource/version.json";
-            }
-
-            string versionName = string.Empty;
-            if (File.Exists(jsonPath))
-            {
-                JObject versionJson = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
-                var currentTime = (ulong)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-                var poolTime = (ulong)versionJson?["gacha"]?["time"];
-                var activityTime = (ulong)versionJson?["activity"]?["time"];
-
-                if ((currentTime < poolTime) && (currentTime < activityTime))
-                {
-                    versionName = string.Empty;
-                }
-                else if ((currentTime >= poolTime) && (currentTime < activityTime))
-                {
-                    versionName = versionJson?["gacha"]?["pool"]?.ToString() ?? string.Empty;
-                }
-                else if ((currentTime < poolTime) && (currentTime >= activityTime))
-                {
-                    versionName = versionJson?["activity"]?["name"]?.ToString() ?? string.Empty;
-                }
-                else if (poolTime > activityTime)
-                {
-                    versionName = versionJson?["gacha"]?["pool"]?.ToString() ?? string.Empty;
-                }
-                else
-                {
-                    versionName = versionJson?["activity"]?["name"]?.ToString() ?? string.Empty;
-                }
-            }
-
-            string poolString = !string.IsNullOrEmpty(versionName) ? $" - {versionName}" : string.Empty;
-            rvm.WindowTitle = $"{prefix}MAA ({CurrentConfiguration}) - {VersionId}{poolString} - {connectConfigName} ({ConnectAddress}) - {ClientName}";
+            string resourceVersion = !string.IsNullOrEmpty(ResourceVersion) ? $" - {ResourceVersion}" : string.Empty;
+            rvm.WindowTitle = $"{prefix}MAA ({CurrentConfiguration}) - {CoreVersion}{resourceVersion} - {connectConfigName} ({ConnectAddress}) - {ClientName}";
         }
 
         private readonly string _bluestacksConfig = GetBluestacksConfig();
@@ -3400,7 +3421,8 @@ namespace MaaWpfGui.ViewModels.UI
         private InverseClearType _inverseClearMode =
             Enum.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.InverseClearMode, InverseClearType.Clear.ToString()),
                 out InverseClearType temp)
-            ? temp : InverseClearType.Clear;
+                ? temp
+                : InverseClearType.Clear;
 
         /// <summary>
         /// Gets or sets the inverse clear mode.
