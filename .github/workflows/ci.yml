@@ -245,10 +245,18 @@ jobs:
           chmod a+x MaaAssistantArknights-${{ matrix.arch }}.AppImage
           mv -v MaaAssistantArknights-${{ matrix.arch }}.AppImage $GITHUB_WORKSPACE/release/MAA-${{ needs.meta.outputs.tag }}-linux-${{ matrix.arch }}.AppImage
 
+      - name: tar files
+        run: |
+          mkdir -p release
+          cd install
+          tar czvf $GITHUB_WORKSPACE/release/MAA-${{ needs.meta.outputs.tag }}-linux-${{ matrix.arch }}.tar.gz .
+      
       - uses: actions/upload-artifact@v3
         with:
           name: MAA-linux-${{ matrix.arch }}
-          path: 'release/*.AppImage'
+          path: |
+            'release/*.AppImage'
+            'release/*.tar.gz'
 
   macOS-Core:
     needs: meta
