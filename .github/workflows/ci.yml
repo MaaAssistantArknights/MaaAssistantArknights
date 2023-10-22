@@ -239,7 +239,7 @@ jobs:
           ln -sv usr/share/maa/maa Maa.AppDir/AppRun
           mkdir -pv Maa.AppDir/usr/share/metainfo/
           cp -v tools/AppImage/io.github.maaassistantarknights.maaassistantarknights.metainfo.xml Maa.AppDir/usr/share/metainfo/
-          wget "https://github.com/probonopd/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+          wget "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
           chmod a+x appimagetool-x86_64.AppImage
           ./appimagetool-x86_64.AppImage Maa.AppDir
           chmod a+x MaaAssistantArknights-${{ matrix.arch }}.AppImage
