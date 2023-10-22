@@ -1286,16 +1286,16 @@ namespace MaaWpfGui.Main
                         break;
                     }
 
-                    bool isExpiringMedicine = medicineReport.TryGetValue("is_expiring", out var isExpiringMedicineToken) ? (bool)isExpiringMedicineToken : false;
+                    var isExpiringMedicine = medicineReport.TryGetValue("is_expiring", out var isExpiringMedicineToken) && (bool)isExpiringMedicineToken;
                     int medicineCount = medicineReport.TryGetValue("count", out var medicineCountToken) ? (int)medicineCountToken : -1;
 
                     if (medicineCount == -1)
                     {
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MedicineUsed") + $" Unknown times", UiLogColor.Error);
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MedicineUsed") + " Unknown times", UiLogColor.Error);
                         break;
                     }
 
-                    var medicineLog = string.Empty;
+                    string medicineLog;
                     if (!isExpiringMedicine)
                     {
                         MedicineUsedTimes += medicineCount;

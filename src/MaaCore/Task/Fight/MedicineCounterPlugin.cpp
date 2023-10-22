@@ -108,7 +108,7 @@ std::optional<asst::MedicineCounterPlugin::InitialMedicineResult> asst::Medicine
 
     std::vector<Medicine> medicines;
     for (const auto& result : multiMatcher.get_result()) {
-        auto using_count_task = Task.get("MedicineUsingCount");
+        auto using_count_task = Task.get("UsingMedicineCount");
         auto inventory_task = Task.get("MedicineInventory");
         auto expiring_task = Task.get("MedicineExpiringTime");
         auto using_rect = result.rect.move(using_count_task->rect_move);
@@ -168,7 +168,7 @@ void asst::MedicineCounterPlugin::reduce_excess(InitialMedicineResult using_medi
         sleep(Config.get_options().task_delay);
         reduce -= use;
 
-        auto add_rect = rect.move(Task.get("MedicineUsingCount")->rect_move);
+        auto add_rect = rect.move(Task.get("UsingMedicineCount")->rect_move);
         while (reduce < 0) {
             ctrler()->click(add_rect);
             sleep(Config.get_options().task_delay);

@@ -4134,7 +4134,7 @@
             "Stop"
         ]
     },
-    "MedicineReduceIcon":{
+    "MedicineReduceIcon": {
         "preDelay": 500,
         "roi": [
             750,
@@ -4147,7 +4147,7 @@
             255
         ]
     },
-    "MedicineUsingCount":{
+    "UsingMedicineCount": {
         "algorithm": "OcrDetect",
         "text": [],
         "isAscii": true,
@@ -4184,7 +4184,7 @@
             255
         ]
     },
-    "MedicineInventory":{
+    "MedicineInventory": {
         "algorithm": "OcrDetect",
         "text": [],
         "isAscii": true,
@@ -4221,7 +4221,7 @@
             255
         ]
     },
-    "MedicineExpiringTime":{
+    "MedicineExpiringTime": {
         "algorithm": "OcrDetect",
         "text": [
             "分钟",
@@ -4253,7 +4253,7 @@
             ]
         ]
     },
-    "UsingMedicine-Target":{
+    "UsingMedicine-Target": {
         "algorithm": "OcrDetect",
         "roi": [
             255,
@@ -4286,7 +4286,7 @@
             ]
         ]
     },
-    "UsingMedicine-SanityMax":{
+    "UsingMedicine-SanityMax": {
         "algorithm": "OcrDetect",
         "roi": [
             440,
