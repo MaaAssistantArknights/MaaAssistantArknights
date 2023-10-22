@@ -26,7 +26,7 @@ namespace asst
 
     private:
         int cur_page = 0;
-        bool first_page_full = false;
+        int max_page = 0;
         std::vector<asst::RoguelikeFormationImageAnalyzer::FormationOper> oper_list;
     };
 }
