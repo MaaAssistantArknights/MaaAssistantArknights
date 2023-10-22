@@ -1122,7 +1122,7 @@
                 "旧日残影"
             ],
             [
-                "戰備激活閥",
+                "戰備啟動閥",
                 "战备激活阀"
             ],
             [
@@ -1374,18 +1374,6 @@
                 "阿戈尔示波器"
             ],
             [
-                "阿戈爾示波器",
-                "阿戈尔示波器"
-            ],
-            [
-                "自適應補給元件",
-                "自适应补给元件"
-            ],
-            [
-                "自適應補給元件",
-                "自适应补给元件"
-            ],
-            [
                 "自適應補給元件",
                 "自适应补给元件"
             ],
@@ -1398,8 +1386,8 @@
                 "重整导能组件"
             ],
             [
-                "鍍膜裝置導能閥",
-                "镀膜装置导能阀"
+                "反制導能組件",
+                "反制导能组件"
             ],
             [
                 "叢林用示蹤信標",
@@ -1412,6 +1400,10 @@
             [
                 "劣質閃光彈",
                 "劣质闪光弹"
+            ],
+            [
+                "無需增調.+員",
+                "无需增调干员"
             ]
         ]
     },
@@ -4545,7 +4537,7 @@
                 "同流合污"
             ],
             [
-                "酩酊之旅",
+                ".*之旅",
                 "酩酊之旅"
             ],
             [
@@ -4577,18 +4569,7 @@
         ]
     },
     "SSSDropRecruitmentOCR": {
-        "action": "DoNothing",
-        "algorithm": "OcrDetect",
-        "baseTask": "CharsNameOcrReplace",
-        "cache": false,
-        "postDelay": 1000,
-        "roi": [
-            0,
-            352,
-            1280,
-            263
-        ],
-        "text": []
+        "baseTask": "CharsNameOcrReplace"
     },
     "SSSDropRecruitmentConfirm": {
         "text": [
@@ -4596,6 +4577,19 @@
             "放棄調用",
             "確認選擇"
         ]
+    },
+    "SSSHalfTimeDropsBegin": {
+        "roi": [
+            100,
+            284,
+            145,
+            145
+        ],
+		"postDelay": 1000
+    },
+	"SSSHalfTimeDrops": {
+        "baseTask": "CharsNameOcrReplace",
+		"postDelay": 1000
     },
     "GachaLastOnceResult": {
         "text": [
