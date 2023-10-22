@@ -222,6 +222,9 @@ jobs:
           mkdir -pv Maa.AppDir/usr/share/maa
           cp -r install/* Maa.AppDir/usr/share/maa/
           wget -c https://raw.githubusercontent.com/MaaAssistantArknights/design/main/logo/maa-logo_512x512.png -O Maa.AppDir/maa.png
+          mkdir -pv Maa.AppDir/usr/share/icons/hicolor/<size>/apps/
+          cp -v Maa.AppDir/maa.png Maa.AppDir/usr/share/icons/hicolor/<size>/apps/
+          chmod a+x Maa.AppDir/usr/share/maa/maa
           
           cat > Maa.AppDir/maa.desktop <<EOF
           [Desktop Entry]
@@ -237,10 +240,14 @@ jobs:
           #! /usr/bin/env bash -e
           exec "./usr/share/maa/maa"  "$@"
           EOF
-          
+
+          chmod a+x Maa.AppDir/AppRun
+          mkdir -pv Maa.AppDir/usr/share/metainfo/
+          cp -v io.github.maaassistantarknights.maaassistantarknights.metainfo.xml Maa.AppDir/usr/share/metainfo/
           wget "https://github.com/probonopd/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
           chmod a+x appimagetool-x86_64.AppImage
           ./appimagetool-x86_64.AppImage Maa.AppDir
+          chmod a+x MaaAssistantArknights-${{ matrix.arch }}.AppImage
           mv -v MaaAssistantArknights-${{ matrix.arch }}.AppImage $GITHUB_WORKSPACE/release/MAA-${{ needs.meta.outputs.tag }}-linux-${{ matrix.arch }}.AppImage
 
       - uses: actions/upload-artifact@v3
