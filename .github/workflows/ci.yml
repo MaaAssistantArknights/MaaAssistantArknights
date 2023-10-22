@@ -255,8 +255,8 @@ jobs:
         with:
           name: MAA-linux-${{ matrix.arch }}
           path: |
-            'release/*.AppImage'
-            'release/*.tar.gz'
+            release/*.AppImage
+            release/*.tar.gz
 
   macOS-Core:
     needs: meta
