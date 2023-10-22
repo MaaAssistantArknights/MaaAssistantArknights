@@ -5566,16 +5566,16 @@
         "postDelay": 1000
     },
     "SSSDropRecruitmentConfirm": {
-        "text": [
-            "召集する",
-            "放棄する",
-            "選択を確認"
-        ],
         "roi": [
             1107,
             521,
             173,
             147
+        ],
+        "text": [
+            "召集する",
+            "放棄する",
+            "選択を確認"
         ]
     },
     "Reclamation@TodoEnter": {
