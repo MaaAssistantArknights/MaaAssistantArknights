@@ -83,7 +83,8 @@
                         Visibility="{c:Binding 'GuideStepIndex > 2'}" />
                 </StackPanel>
 
-                <hc:SimplePanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <hc:SimplePanel HorizontalAlignment="Center" VerticalAlignment="Center">
                     <hc:TransitioningContentControl
                         Width="200"
                         TransitionMode="{Binding GuideTransitionMode}"
@@ -238,6 +239,7 @@
                         </hc:RelativePanel>
                     </hc:TransitioningContentControl>
                 </hc:SimplePanel>
+                </ScrollViewer>
             </DockPanel>
         </GroupBox>
     </Grid>
