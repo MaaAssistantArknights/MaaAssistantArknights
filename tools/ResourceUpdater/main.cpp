@@ -179,7 +179,8 @@ int main([[maybe_unused]] int argc, char** argv)
 
     /* Update recruitment data from overseas data*/
     std::cout << "------------Update recruitment data------------" << std::endl;
-    if (!update_recruitment_data(arkbot_res_dir / "gamedata" / "excel", resource_dir / "recruitment.json", true)) {
+    if (!update_recruitment_data(overseas_data_dir, arkbot_res_dir / "gamedata" / "excel",
+                                 resource_dir / "recruitment.json", true)) {
         std::cerr << "Update recruitment data failed" << std::endl;
         return -1;
     }
@@ -192,7 +193,7 @@ int main([[maybe_unused]] int argc, char** argv)
     };
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update recruitment data for " << out << "------------" << std::endl;
-        if (!update_recruitment_data(overseas_data_dir / in / "gamedata" / "excel",
+        if (!update_recruitment_data(overseas_data_dir, overseas_data_dir / in / "gamedata" / "excel",
                                      resource_dir / "global" / out / "resource" / "recruitment.json", false)) {
             std::cerr << "Update recruitment data failed" << std::endl;
             return -1;
@@ -887,7 +888,8 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
     return true;
 }
 
-bool update_recruitment_data(const std::filesystem::path& input_dir, const std::filesystem::path& output, bool is_base)
+bool update_recruitment_data(const std::filesystem::path& overseas_dir, const std::filesystem::path& input_dir,
+                             const std::filesystem::path& output, bool is_base)
 {
     using asst::ranges::find_if, asst::ranges::range;
     using asst::utils::string_replace_all_in_place;
@@ -898,8 +900,13 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
 
     auto recruitment_opt = json::open(input_dir / "gacha_table.json");
     auto operators_opt = json::open(input_dir / "character_table.json");
+    auto operators_opt_en = json::open(overseas_dir / "en" / "gamedata" / "excel" / "character_table.json");
+    auto operators_opt_jp = json::open(overseas_dir / "jp" / "gamedata" / "excel" / "character_table.json");
+    auto operators_opt_kr = json::open(overseas_dir / "kr" / "gamedata" / "excel" / "character_table.json");
+    auto operators_opt_tw = json::open(overseas_dir / "tw" / "gamedata" / "excel" / "character_table.json");
 
-    if (!recruitment_opt || !operators_opt) {
+    if (!recruitment_opt || !operators_opt || !operators_opt_en || !operators_opt_jp || !operators_opt_kr ||
+        !operators_opt_tw) {
         std::cerr << "Failed to parse recruitment or operators file" << std::endl;
         return false;
     }
@@ -1001,6 +1008,10 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
 
         opers.array_emplace(json::object { { "id", id },
                                            { "name", name },
+                                           { "name_en", name_en },
+                                           { "name_jp", name_jp },
+                                           { "name_kr", name_kr },
+                                           { "name_tw", name_tw },
                                            { "rarity", info_iter->second.rarity },
                                            { "tags", json::array(info_iter->second.tags) } });
     }
