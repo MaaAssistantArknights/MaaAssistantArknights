@@ -896,13 +896,10 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
     auto not_empty = []<range Rng>(Rng str) -> bool { return !str.empty(); };
     auto make_string_view = []<range Rng>(Rng str) -> std::string_view { return asst::utils::make_string_view(str); };
 
-    const auto& recruitment_file = input_dir / "gacha_table.json";
-    const auto& operators_file = input_dir / "character_table.json";
+    auto recruitment_opt = json::open(input_dir / "gacha_table.json");
+    auto operators_opt = json::open(input_dir / "character_table.json");
 
-    auto recruitment_opt = json::open(recruitment_file);
-    auto operatros_opt = json::open(operators_file);
-
-    if (!recruitment_opt || !operatros_opt) {
+    if (!recruitment_opt || !operators_opt) {
         std::cerr << "Failed to parse recruitment or operators file" << std::endl;
         return false;
     }
@@ -943,7 +940,7 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
 
     std::unordered_map</*name*/ std::string, /*id*/ std::string> chars_id_list;
 
-    for (auto& [id, char_data] : operatros_opt->as_object()) {
+    for (auto& [id, char_data] : operators_opt->as_object()) {
         if (is_base) {
             RecruitmentInfo info;
             info.rarity = char_data["rarity"].as_integer() + 1;
