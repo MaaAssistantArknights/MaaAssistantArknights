@@ -114,7 +114,7 @@ namespace MaaWpfGui.Main
                 ptr3 = EncodeNullTerminatedUtf8(config))
             {
                 bool ret = AsstConnect(handle, ptr1, ptr2, ptr3);
-                _logger.Information($"handle: {((long)handle).ToString()}, adbPath: {adbPath}, address: {address}, config: {config}, return: {ret}");
+                _logger.Information($"handle: {(long)handle}, adbPath: {adbPath}, address: {address}, config: {config}, return: {ret}");
                 return ret;
             }
         }
