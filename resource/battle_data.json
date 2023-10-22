@@ -7158,6 +7158,96 @@
             ],
             "rarity": 1
         },
+        "trap_128_toolore": {
+            "name": "祭坛式雷达",
+            "name_en": "祭坛式雷达",
+            "name_jp": "祭坛式雷达",
+            "name_kr": "祭坛式雷达",
+            "name_tw": "祭坛式雷达",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-1",
+                "x-1",
+                "x-1"
+            ],
+            "rarity": 1
+        },
+        "trap_129_tooltower": {
+            "name": "R-45便携式“留声机”",
+            "name_en": "R-45便携式“留声机”",
+            "name_jp": "R-45便携式“留声机”",
+            "name_kr": "R-45便携式“留声机”",
+            "name_tw": "R-45便携式“留声机”",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-2",
+                "x-2",
+                "x-2"
+            ],
+            "rarity": 1
+        },
+        "trap_130_tooltree": {
+            "name": "景观巨蕈",
+            "name_en": "景观巨蕈",
+            "name_jp": "景观巨蕈",
+            "name_kr": "景观巨蕈",
+            "name_tw": "景观巨蕈",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-5",
+                "x-5",
+                "x-5"
+            ],
+            "rarity": 1
+        },
+        "trap_131_toolgun": {
+            "name": "战场装置LUD-99X",
+            "name_en": "战场装置LUD-99X",
+            "name_jp": "战场装置LUD-99X",
+            "name_kr": "战场装置LUD-99X",
+            "name_tw": "战场装置LUD-99X",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_132_toolinvert": {
+            "name": "“二踢脚”型数据收集装置",
+            "name_en": "“二踢脚”型数据收集装置",
+            "name_jp": "“二踢脚”型数据收集装置",
+            "name_kr": "“二踢脚”型数据收集装置",
+            "name_tw": "“二踢脚”型数据收集装置",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-5",
+                "x-5",
+                "x-5"
+            ],
+            "rarity": 1
+        },
+        "trap_133_toolgarage": {
+            "name": "勘察用自走车",
+            "name_en": "勘察用自走车",
+            "name_jp": "勘察用自走车",
+            "name_kr": "勘察用自走车",
+            "name_tw": "勘察用自走车",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
         "trap_400_xbfarm": {
             "name": "便携式种植槽",
             "name_en": "Portable Planting Trough",
