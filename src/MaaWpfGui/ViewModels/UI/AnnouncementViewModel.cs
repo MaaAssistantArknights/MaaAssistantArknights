@@ -17,8 +17,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using Markdig;
-using Markdig.Wpf;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -58,9 +56,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public FlowDocument AnnouncementInfoDoc => Markdig.Wpf.Markdown.ToFlowDocument(AnnouncementInfo,
-            new MarkdownPipelineBuilder().UseSupportedExtensions().Build());
-
         /// <summary>
         /// 检查更新
         /// </summary>
@@ -87,19 +82,6 @@ namespace MaaWpfGui.ViewModels.UI
 
             ETagCache.Set(response);
             ETagCache.Save();
-        }
-
-        /// <summary>
-        /// The event handler of opening hyperlink.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The event arguments.</param>
-        // xaml 里用到了
-        // ReSharper disable once UnusedMember.Global
-        // ReSharper disable once UnusedParameter.Global
-        public void OpenHyperlink(object sender, ExecutedRoutedEventArgs e)
-        {
-            Process.Start(e.Parameter.ToString());
         }
     }
 }

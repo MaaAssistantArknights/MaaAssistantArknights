@@ -3,6 +3,7 @@
 #include "Common/AsstBattleDef.h"
 #include "Config/TaskData.h"
 #include "Status.h"
+#include "Task/Miscellaneous/ScreenshotTaskPlugin.h"
 #include "Task/ProcessTask.h"
 #include "Task/Roguelike/RoguelikeBattleTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeControlTaskPlugin.h"
@@ -17,6 +18,10 @@
 #include "Task/Roguelike/RoguelikeSkillSelectionTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeStageEncounterTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeStrategyChangeTaskPlugin.h"
+
+#include "Task/Roguelike/RoguelikeCiphertextBoardGainTaskPlugin.h"
+#include "Task/Roguelike/RoguelikeCiphertextBoardUseTaskPlugin.h"
+
 #include "Utils/Logger.hpp"
 
 asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst)
@@ -26,6 +31,7 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
     LogTraceFunction;
 
     m_roguelike_task_ptr->set_ignore_error(true);
+    m_screenshot_plugin_ptr = m_roguelike_task_ptr->register_plugin<ScreenshotTaskPlugin>();
     m_formation_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeFormationTaskPlugin>();
     m_control_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeControlTaskPlugin>();
     m_reset_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeResetTaskPlugin>();
@@ -46,6 +52,10 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
     m_last_reward_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeLastRewardTaskPlugin>();
     m_difficulty_selection_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeDifficultySelectionTaskPlugin>();
     m_strategy_change_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeStrategyChangeTaskPlugin>();
+
+    m_ciphertext_board_gain_plugin_ptr =
+        m_roguelike_task_ptr->register_plugin<RoguelikeCiphertextBoardGainTaskPlugin>();
+    m_ciphertext_board_use_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeCiphertextBoardUseTaskPlugin>();
 
     // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加一点。先这样凑合用
     for (int i = 0; i != 100; ++i) {
@@ -69,19 +79,14 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         return false;
     }
 
-    m_battle_plugin_ptr->set_roguelike_theme(theme);
-    m_control_plugin_ptr->set_roguelike_theme(theme);
-    m_custom_start_plugin_ptr->set_roguelike_theme(theme);
-    m_debug_plugin_ptr->set_roguelike_theme(theme);
-    m_difficulty_selection_plugin_ptr->set_roguelike_theme(theme);
-    m_formation_plugin_ptr->set_roguelike_theme(theme);
-    m_last_reward_plugin_ptr->set_roguelike_theme(theme);
-    m_recruit_plugin_ptr->set_roguelike_theme(theme);
-    m_reset_plugin_ptr->set_roguelike_theme(theme);
-    m_shopping_plugin_ptr->set_roguelike_theme(theme);
-    m_skill_plugin_ptr->set_roguelike_theme(theme);
-    m_stage_encounter_plugin_ptr->set_roguelike_theme(theme);
-    m_strategy_change_plugin_ptr->set_roguelike_theme(theme);
+    for (const auto& plugin : m_roguelike_task_ptr->get_plugins()) {
+        if (auto ptr = std::dynamic_pointer_cast<RoguelikeConfig>(plugin)) {
+            ptr->set_roguelike_theme(theme);
+        }
+    }
+
+    m_ciphertext_board_gain_plugin_ptr->set_roguelike_theme(theme);
+    m_ciphertext_board_use_plugin_ptr->set_roguelike_theme(theme);
 
     m_roguelike_task_ptr->set_tasks({ theme + "@Roguelike@Begin" });
 
@@ -131,18 +136,18 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         // 刷源石锭模式是否进入第二层
         bool investment_enter_second_floor = params.get("investment_enter_second_floor", true);
         if (investment_enter_second_floor) {
-            m_roguelike_task_ptr->set_times_limit("StageTraderLeave", INT_MAX);
+            m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", INT_MAX);
             m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", 0, ProcessTask::TimesLimitType::Post);
         }
         else {
-            m_roguelike_task_ptr->set_times_limit("StageTraderLeave", 0);
+            m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", 0);
             m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", INT_MAX);
         }
     }
     else {
         // 重置战斗后奖励next
         Task.set_task_base(theme + "@Roguelike@DropsFlag", theme + "@Roguelike@DropsFlag_default");
-        m_roguelike_task_ptr->set_times_limit("StageTraderLeave", INT_MAX);
+        m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", INT_MAX);
         m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", INT_MAX);
     }
 

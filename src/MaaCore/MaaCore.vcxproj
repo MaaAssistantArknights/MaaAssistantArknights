@@ -48,12 +48,14 @@
     <ClInclude Include="Config\Miscellaneous\OcrConfig.h" />
     <ClInclude Include="Config\Miscellaneous\SSSCopilotConfig.h" />
     <ClInclude Include="Config\OnnxSessions.h" />
+    <ClInclude Include="Config\Roguelike\RoguelikeCiphertextBoardConfig.h" />
     <ClInclude Include="Controller\adb-lite\client.hpp" />
     <ClInclude Include="Controller\adb-lite\protocol.hpp" />
     <ClInclude Include="Controller\Controller.h" />
     <ClInclude Include="Controller\ControllerAPI.h" />
     <ClInclude Include="Controller\ControllerFactory.h" />
     <ClInclude Include="Controller\ControlScaleProxy.h" />
+    <ClCompile Include="Config\Roguelike\RoguelikeCiphertextBoardConfig.cpp" />
     <ClCompile Include="Controller\MaaThriftController.h" />
     <ClInclude Include="Controller\MaatouchController.h" />
     <ClInclude Include="Controller\MinitouchController.h" />
@@ -74,6 +76,7 @@
     <ClInclude Include="Task\Interface\CustomTask.h" />
     <ClInclude Include="Task\Interface\VideoRecognitionTask.h" />
     <ClInclude Include="Task\Interface\OperBoxTask.h" />
+    <ClInclude Include="Task\Miscellaneous\ScreenshotTaskPlugin.h" />
     <ClInclude Include="Task\Miscellaneous\CopilotListNotificationPlugin.h" />
     <ClInclude Include="Task\Miscellaneous\OperBoxRecognitionTask.h" />
     <ClInclude Include="Task\Miscellaneous\AccountSwitchTask.h" />
@@ -85,6 +88,8 @@
     <ClInclude Include="Task\BattleHelper.h" />
     <ClInclude Include="Task\Interface\SingleStepTask.h" />
     <ClInclude Include="Task\Interface\SSSCopilotTask.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeCiphertextBoardGainTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeCiphertextBoardUseTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeConfig.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeDifficultySelectionTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeLastRewardTaskPlugin.h" />
@@ -196,6 +201,7 @@
     <ClInclude Include="Utils\Demangle.hpp" />
     <ClInclude Include="Utils\Http.hpp" />
     <ClInclude Include="Utils\ImageIo.hpp" />
+    <ClInclude Include="Utils\JsonMisc.hpp" />
     <ClInclude Include="Utils\Locale.hpp" />
     <ClInclude Include="Utils\Logger.hpp" />
     <ClInclude Include="Utils\Meta.hpp" />
@@ -240,6 +246,7 @@
     <ClCompile Include="Task\Infrast\InfrastProcessingTask.cpp" />
     <ClCompile Include="Task\Interface\VideoRecognitionTask.cpp" />
     <ClCompile Include="Task\Interface\OperBoxTask.cpp" />
+    <ClCompile Include="Task\Miscellaneous\ScreenshotTaskPlugin.cpp" />
     <ClCompile Include="Task\Miscellaneous\CopilotListNotificationPlugin.cpp" />
     <ClCompile Include="Task\Miscellaneous\OperBoxRecognitionTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\AccountSwitchTask.cpp" />
@@ -251,6 +258,8 @@
     <ClCompile Include="Task\BattleHelper.cpp" />
     <ClCompile Include="Task\Interface\SingleStepTask.cpp" />
     <ClCompile Include="Task\Interface\SSSCopilotTask.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeCiphertextBoardGainTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeCiphertextBoardUseTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeConfig.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeDifficultySelectionTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeLastRewardTaskPlugin.cpp" />

@@ -19,10 +19,10 @@ if __name__ == "__main__":
     ignore_array = json.loads(args.ignore)
 
     ignore_files = []
-    ignore_dir = []
+    ignore_dirs = []
     for ignore in ignore_array:
         if os.path.isdir(ignore):
-            ignore_dir.append(os.path.normpath(ignore))
+            ignore_dirs.append(os.path.normpath(ignore))
         elif os.path.isfile(ignore):
             ignore_files.append(os.path.normpath(ignore))
         else:
@@ -37,7 +37,7 @@ if __name__ == "__main__":
             print("Invalid rule!")
         else:
             for root, dirs, files in os.walk(input_path):
-                if os.path.normpath(root) in ignore_dir:
+                if any([os.path.normpath(root).startswith(ignore_dir) for ignore_dir in ignore_dirs]):
                     continue
                 for f in files:
                     file = os.path.join(root, f)

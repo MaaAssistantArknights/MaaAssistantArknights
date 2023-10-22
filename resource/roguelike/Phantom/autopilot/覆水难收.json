@@ -277,7 +277,7 @@
             "direction": "right",
             "condition": [
                 43,
-                50
+                60
             ]
         },
         {
@@ -297,7 +297,7 @@
             "direction": "left",
             "condition": [
                 43,
-                50
+                60
             ]
         }
     ],
@@ -319,7 +319,7 @@
             ],
             "condition": [
                 43,
-                50
+                55
             ]
         },
         {

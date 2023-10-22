@@ -4,10 +4,17 @@
     <SolidColorBrush x:Key="PallasBrush" Color="#6969AA" />
     <SolidColorBrush x:Key="ErrorViewBackgroundBrush" Color="#E6E6E6" />
     <SolidColorBrush x:Key="VersionUpdateViewBackgroundBrush" Color="#ffffff" />
-    <SolidColorBrush x:Key="MarkdigCodeBrush" Color="LightGray" />
 
     <!--  HandyControl Brush  -->
     <SolidColorBrush x:Key="SecondaryRegionBrush" Color="#F3F3F3" />
+
+    <!--  MdXaml Brush  -->
+    <SolidColorBrush x:Key="MdXamlBackground" Color="#ffffff" />
+    <SolidColorBrush x:Key="MdXamlCodeBackground" Color="#f6f8fa" />
+    <SolidColorBrush x:Key="MdXamlForeground" Color="#212121" />
+    <SolidColorBrush x:Key="MdXamlHyperlink" Color="#326cf3" />
+    <SolidColorBrush x:Key="MdXamlHyperlinkClicked" Color="#ff0000" />
+    
 
     <!--  UiLogColor  -->
     <SolidColorBrush x:Key="ErrorLogBrush" Color="DarkRed" />
