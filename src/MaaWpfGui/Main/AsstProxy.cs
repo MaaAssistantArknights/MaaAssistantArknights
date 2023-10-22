@@ -1282,7 +1282,6 @@ namespace MaaWpfGui.Main
                     var medicineReport = (JObject)subTaskDetails;
                     if (medicineReport is null || !medicineReport.ContainsKey("is_expiring") || !medicineReport.ContainsKey("count"))
                     {
-                        // todo addlog
                         break;
                     }
 
