@@ -24,10 +24,10 @@ bool asst::MedicineCounterPlugin::verify(AsstMsg msg, const json::value& details
 bool asst::MedicineCounterPlugin::_run()
 {
     LogTraceFunction;
-    /*
+    
     if (m_using_count >= m_max_count && !m_use_expiring) {
         return true;
-    }*/
+    }
 
     // 现在葛朗台插件在前，暂时不需要延迟
     // sleep(Task.get("MedicineReduceIcon")->pre_delay);
