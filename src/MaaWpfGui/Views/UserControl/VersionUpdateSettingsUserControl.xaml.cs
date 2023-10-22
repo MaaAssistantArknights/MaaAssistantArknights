@@ -19,7 +19,6 @@ using System.Windows.Threading;
 using HandyControl.Controls;
 using HandyControl.Data;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Main;
 using MaaWpfGui.ViewModels.UI;
 using Serilog;
 
