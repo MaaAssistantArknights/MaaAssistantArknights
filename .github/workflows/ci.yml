@@ -235,12 +235,8 @@ jobs:
           Categories=Game;StrategyGame;
           Comment=An Arknights assistant
           EOF
-
-          cat > Maa.AppDir/AppRun <<EOF
-          #! /usr/bin/env bash -e
-          exec "./usr/share/maa/maa"  "$@"
-          EOF
-
+          
+          ln -sv Maa.AppDir/usr/share/maa/maa Maa.AppDir/AppRun
           chmod a+x Maa.AppDir/AppRun
           mkdir -pv Maa.AppDir/usr/share/metainfo/
           cp -v io.github.maaassistantarknights.maaassistantarknights.metainfo.xml Maa.AppDir/usr/share/metainfo/
