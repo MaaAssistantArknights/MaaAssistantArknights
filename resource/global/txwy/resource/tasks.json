@@ -4585,11 +4585,11 @@
             145,
             145
         ],
-		"postDelay": 1000
+        "postDelay": 1000
     },
-	"SSSHalfTimeDrops": {
+    "SSSHalfTimeDrops": {
         "baseTask": "CharsNameOcrReplace",
-		"postDelay": 1000
+        "postDelay": 1000
     },
     "GachaLastOnceResult": {
         "text": [
