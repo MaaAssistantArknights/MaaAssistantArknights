@@ -74,6 +74,7 @@
     <ClInclude Include="Task\Interface\CustomTask.h" />
     <ClInclude Include="Task\Interface\VideoRecognitionTask.h" />
     <ClInclude Include="Task\Interface\OperBoxTask.h" />
+    <ClInclude Include="Task\Miscellaneous\ScreenshotTaskPlugin.h" />
     <ClInclude Include="Task\Miscellaneous\CopilotListNotificationPlugin.h" />
     <ClInclude Include="Task\Miscellaneous\OperBoxRecognitionTask.h" />
     <ClInclude Include="Task\Miscellaneous\AccountSwitchTask.h" />
@@ -196,6 +197,7 @@
     <ClInclude Include="Utils\Demangle.hpp" />
     <ClInclude Include="Utils\Http.hpp" />
     <ClInclude Include="Utils\ImageIo.hpp" />
+    <ClInclude Include="Utils\JsonMisc.hpp" />
     <ClInclude Include="Utils\Locale.hpp" />
     <ClInclude Include="Utils\Logger.hpp" />
     <ClInclude Include="Utils\Meta.hpp" />
@@ -240,6 +242,7 @@
     <ClCompile Include="Task\Infrast\InfrastProcessingTask.cpp" />
     <ClCompile Include="Task\Interface\VideoRecognitionTask.cpp" />
     <ClCompile Include="Task\Interface\OperBoxTask.cpp" />
+    <ClCompile Include="Task\Miscellaneous\ScreenshotTaskPlugin.cpp" />
     <ClCompile Include="Task\Miscellaneous\CopilotListNotificationPlugin.cpp" />
     <ClCompile Include="Task\Miscellaneous\OperBoxRecognitionTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\AccountSwitchTask.cpp" />

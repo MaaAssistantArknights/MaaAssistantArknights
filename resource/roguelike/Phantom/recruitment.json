@@ -10,7 +10,7 @@
                     "alternate_skill": 1,
                     "is_start": true,
                     "is_key": true,
-                    "recruit_priority": 710,
+                    "recruit_priority": 810,
                     "promote_priority": 1000,
                     "promote_priority_when_team_full": 1200,
                     "recruit_priority_offsets": [
@@ -22,7 +22,7 @@
                             ],
                             "threshold": 0,
                             "is_less": true,
-                            "offset": 300
+                            "offset": 200
                         }
                     ]
                 }

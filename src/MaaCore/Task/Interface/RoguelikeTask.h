@@ -4,6 +4,7 @@
 namespace asst
 {
     class ProcessTask;
+    class ScreenshotTaskPlugin;
     class RoguelikeBattleTaskPlugin;
     class RoguelikeControlTaskPlugin;
     class RoguelikeCustomStartTaskPlugin;
@@ -30,6 +31,7 @@ namespace asst
 
     private:
         std::shared_ptr<ProcessTask> m_roguelike_task_ptr = nullptr;
+        std::shared_ptr<ScreenshotTaskPlugin> m_screenshot_plugin_ptr = nullptr;
         std::shared_ptr<RoguelikeControlTaskPlugin> m_control_plugin_ptr = nullptr;
         std::shared_ptr<RoguelikeRecruitTaskPlugin> m_recruit_plugin_ptr = nullptr;
         std::shared_ptr<RoguelikeSkillSelectionTaskPlugin> m_skill_plugin_ptr = nullptr;

@@ -114,7 +114,7 @@ namespace MaaWpfGui.Main
                 ptr3 = EncodeNullTerminatedUtf8(config))
             {
                 bool ret = AsstConnect(handle, ptr1, ptr2, ptr3);
-                _logger.Information($"handle: {((long)handle).ToString()}, adbPath: {adbPath}, address: {address}, config: {config}, return: {ret}");
+                _logger.Information($"handle: {(long)handle}, adbPath: {adbPath}, address: {address}, config: {config}, return: {ret}");
                 return ret;
             }
         }
@@ -302,6 +302,7 @@ namespace MaaWpfGui.Main
             AsstSetInstanceOption(InstanceOptionKey.TouchMode, Instances.SettingsViewModel.TouchMode);
             AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, Instances.SettingsViewModel.DeploymentWithPause ? "1" : "0");
             AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, Instances.SettingsViewModel.AdbLiteEnabled ? "1" : "0");
+
             // TODO: 之后把这个 OnUIThread 拆出来
             // ReSharper disable once AsyncVoidLambda
             Execute.OnUIThread(async () =>
@@ -566,9 +567,7 @@ namespace MaaWpfGui.Main
                         case "Fight":
                             Instances.TaskQueueViewModel.FightTaskRunning = true;
                             break;
-
-                        case "Infrast":
-                            Instances.TaskQueueViewModel.InfrastTaskRunning = true;
+                        default:
                             break;
                     }
 
@@ -975,6 +974,7 @@ namespace MaaWpfGui.Main
 
                         break;
                     }
+
                 case "CombatRecordRecognitionTask":
                     {
                         string what = details["what"]?.ToString();
@@ -1435,17 +1435,17 @@ namespace MaaWpfGui.Main
             {
                 string bsHvAddress = Instances.SettingsViewModel.TryToSetBlueStacksHyperVAddress();
 
-                if (String.Equals(Instances.SettingsViewModel.ConnectAddress, bsHvAddress))
+                if (string.Equals(Instances.SettingsViewModel.ConnectAddress, bsHvAddress))
                 {
                     // 防止bsHvAddress和connectAddress重合
-                    bsHvAddress = String.Empty;
+                    bsHvAddress = string.Empty;
                 }
 
                 // tcp连接测试端口是否有效，超时时间500ms
                 // 如果是本地设备，没有冒号
                 bool adbResult =
-                    !Instances.SettingsViewModel.ConnectAddress.Contains(":") &&
-                    !string.IsNullOrEmpty(Instances.SettingsViewModel.ConnectAddress) ||
+                    (!Instances.SettingsViewModel.ConnectAddress.Contains(":") &&
+                    !string.IsNullOrEmpty(Instances.SettingsViewModel.ConnectAddress)) ||
                     IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
                 bool bsResult = IfPortEstablished(bsHvAddress);
                 bool adbConfResult = Instances.SettingsViewModel.DetectAdbConfig(ref error);
@@ -1743,12 +1743,13 @@ namespace MaaWpfGui.Main
         /// <param name="needRefresh">是否刷新三星 Tags。</param>
         /// <param name="needForceRefresh">无招募许可时是否继续尝试刷新 Tags。</param>
         /// <param name="useExpedited">是否使用加急许可。</param>
+        /// <param name="selectExtraTags">选择 Tags 时是否总是选择三个 Tag</param>
         /// <param name="skipRobot">是否在识别到小车词条时跳过。</param>
         /// <param name="isLevel3UseShortTime">三星Tag是否使用短时间（7:40）</param>
         /// <param name="isLevel3UseShortTime2">三星Tag是否使用短时间（1:00）</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRecruit(int maxTimes, int[] selectLevel, int[] confirmLevel, bool needRefresh, bool needForceRefresh, bool useExpedited,
-            bool skipRobot, bool isLevel3UseShortTime, bool isLevel3UseShortTime2 = false)
+            bool selectExtraTags, bool skipRobot, bool isLevel3UseShortTime, bool isLevel3UseShortTime2 = false)
         {
             var taskParams = new JObject
             {
@@ -1759,6 +1760,7 @@ namespace MaaWpfGui.Main
                 ["times"] = maxTimes,
                 ["set_time"] = true,
                 ["expedite"] = useExpedited,
+                ["extra_tags"] = selectExtraTags,
                 ["expedite_times"] = maxTimes,
                 ["skip_robot"] = skipRobot,
             };

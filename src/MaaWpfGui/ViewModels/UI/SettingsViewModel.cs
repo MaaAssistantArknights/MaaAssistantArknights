@@ -258,7 +258,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-
         private string _remoteControlDeviceIdentity = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlDeviceIdentity, string.Empty);
 
         public string RemoteControlDeviceIdentity
@@ -883,6 +882,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     // ReSharper disable once SuspiciousTypeConversion.Global
                     var link = (IShellLink)new ShellLink();
+
                     // ReSharper disable once SuspiciousTypeConversion.Global
                     var file = (IPersistFile)link;
                     file.Load(EmulatorPath, 0); // STGM_READ
@@ -1713,7 +1713,7 @@ namespace MaaWpfGui.ViewModels.UI
         private string _roguelikeMode = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeMode, "0");
 
         /// <summary>
-        /// 策略，往后打 / 刷一层就退 / 烧热水
+        /// Gets or sets 策略，往后打 / 刷一层就退 / 烧热水
         /// </summary>
         public string RoguelikeMode
         {
@@ -1779,7 +1779,7 @@ namespace MaaWpfGui.ViewModels.UI
         private ObservableCollection<string> _roguelikeCoreCharList = new ObservableCollection<string>();
 
         /// <summary>
-        /// Gets or sets the roguelike core character.
+        /// Gets the roguelike core character.
         /// </summary>
         public ObservableCollection<string> RoguelikeCoreCharList
         {
@@ -2332,6 +2332,17 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get => _useExpedited;
             set => SetAndNotify(ref _useExpedited, value);
+        }
+
+        private bool _selectExtraTags;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether three tags are alway selected when selecting tags.
+        /// </summary>
+        public bool SelectExtraTags
+        {
+            get => _selectExtraTags;
+            set => SetAndNotify(ref _selectExtraTags, value);
         }
 
         private bool _isLevel3UseShortTime = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.IsLevel3UseShortTime, bool.FalseString));

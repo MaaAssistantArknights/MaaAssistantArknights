@@ -372,12 +372,7 @@ namespace MaaWpfGui.Helper
             try
             {
                 var obj = (JObject)JsonConvert.DeserializeObject(str);
-                if (obj is null)
-                {
-                    throw new Exception("Failed to parse json file");
-                }
-
-                return obj;
+                return obj ?? throw new Exception("Failed to parse json file");
             }
             catch (Exception ex)
             {

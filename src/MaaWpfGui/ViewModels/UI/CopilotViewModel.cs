@@ -245,6 +245,31 @@ namespace MaaWpfGui.ViewModels.UI
 
         private const string TempCopilotFile = "cache/_temp_copilot.json";
         private string _taskType = "General";
+        private const string StageNameRegex = @"(?:[a-z]{0,3})(?:\d{0,2})-(?:(?:A|B|C|D|EX)-)?(?:\d{1,2})";
+
+        /// <summary>
+        /// 为自动战斗列表匹配名字
+        /// </summary>
+        /// <param name="names">用于匹配的名字</param>
+        /// <returns>关卡名 or string.Empty</returns>
+        private static string FindStageName(params string[] names)
+        {
+            names = names.Where(str => !str.IsNullOrEmpty()).ToArray();
+            if (names.Length == 0)
+            {
+                return string.Empty;
+            }
+
+            // 一旦有由小写字母、数字、'-'组成的name则视为关卡名直接使用
+            var directName = names.FirstOrDefault(name => name.ToLower().All(c => (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-'));
+            if (!directName.IsNullOrEmpty())
+            {
+                return directName;
+            }
+
+            var regex = new Regex(StageNameRegex, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            return names.Select(str => regex.Match(str)).FirstOrDefault(result => result.Success)?.Value ?? string.Empty;
+        }
 
         private void ParseJsonAndShowInfo(string jsonStr)
         {
@@ -270,26 +295,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     title = titleValue.ToString();
 
-                    do
-                    {
-                        // 为自动作战列表匹配名字
-                        var stageNameParser = new Regex(@"([a-z]{0,3})(\d{0,2})-(EX-)?(\d{1,2})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-                        var stageNameResult = stageNameParser.Matches(title);
-                        if (stageNameResult.Count > 0)
-                        {
-                            CopilotTaskName = stageNameResult[0].Value;
-                            break;
-                        }
-
-                        if (!IsDataFromWeb && (stageNameResult = stageNameParser.Matches(_filename)).Count > 0)
-                        {
-                            CopilotTaskName = stageNameResult[0].Value;
-                            break;
-                        }
-
-                        CopilotTaskName = string.Empty;
-                    }
-                    while (false);
+                    CopilotTaskName = FindStageName(title, _filename.Split(Path.DirectorySeparatorChar).LastOrDefault()?.Split('.').FirstOrDefault() ?? string.Empty);
                 }
 
                 if (title.Length != 0)
@@ -455,58 +461,73 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             Dictionary<string, string> taskPairs = new Dictionary<string, string>();
-            foreach (var filename in dialog.FileNames)
+            foreach (var file in dialog.FileNames)
             {
-                var fileInfo = new FileInfo(filename);
+                var fileInfo = new FileInfo(file);
                 if (!fileInfo.Exists)
                 {
-                    AddLog($"{filename} not exists");
-                    return;
-                }
-
-                bool isJsonFile = filename.ToLower().EndsWith(".json") || fileInfo.Length < 4 * 1024 * 1024;
-                if (!isJsonFile)
-                {
-                    _isVideoTask = true;
+                    AddLog($"{file} not exists");
                     return;
                 }
 
                 try
                 {
-                    using var reader = new StreamReader(File.OpenRead(filename));
+                    using var reader = new StreamReader(File.OpenRead(file));
                     var jsonStr = await reader.ReadToEndAsync();
 
                     var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
                     if (json is null || !json.ContainsKey("stage_name") || !json.ContainsKey("actions"))
                     {
-                        AddLog($"{filename} corrupted", UiLogColor.Error);
+                        AddLog($"{file} is broken", UiLogColor.Error);
                         return;
                     }
 
-                    taskPairs.Add(fileInfo.Name.Substring(0, fileInfo.Name.Length - fileInfo.Extension.Length).Replace("突袭", "-Adverse"), filename);
+                    var fileName = fileInfo.Name.Substring(0, fileInfo.Name.Length - fileInfo.Extension.Length);
+                    var stageName = FindStageName(fileName);
+                    if (fileInfo.Name.Contains("突袭") || fileInfo.Name.Contains("-Adverse"))
+                    {
+                        stageName += "-Adverse";
+                    }
+
+                    if (stageName.IsNullOrEmpty())
+                    {
+                        AddLog($"invalid name to navigate: {fileName}[{fileInfo.FullName}]", UiLogColor.Error);
+                        return;
+                    }
+
+                    taskPairs.Add(stageName, file);
                 }
                 catch (Exception)
                 {
-                    AddLog($"{filename}: " + LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error);
+                    AddLog($"{file}: " + LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error);
                     return;
                 }
             }
 
-            foreach (var pair in taskPairs)
+            try
             {
-                var jsonPath = $"{CopilotJsonDir}/{pair.Key}.json";
-                if (new FileInfo(jsonPath).FullName != pair.Value)
+                Directory.CreateDirectory(CopilotJsonDir);
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+
+            foreach (var taskPair in taskPairs)
+            {
+                var jsonPath = $"{CopilotJsonDir}/{taskPair.Key}.json";
+                if (new FileInfo(jsonPath).FullName != taskPair.Value)
                 {
                     // 相同路径跳拷贝
-                    File.Copy(pair.Value, jsonPath, true);
+                    File.Copy(taskPair.Value, jsonPath, true);
                 }
 
-                var item = new CopilotItemViewModel(pair.Key, jsonPath)
+                var item = new CopilotItemViewModel(taskPair.Key, jsonPath)
                 {
                     Index = CopilotItemViewModels.Count,
                 };
                 CopilotItemViewModels.Add(item);
-                AddLog("append task: " + pair.Key);
+                AddLog("append task: " + taskPair.Key);
             }
 
             SaveCopilotTask();
@@ -703,7 +724,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 Directory.CreateDirectory(CopilotJsonDir);
             }
-            catch (Exception)
+            catch
             {
                 // ignored
             }
@@ -767,6 +788,15 @@ namespace MaaWpfGui.ViewModels.UI
         {
             CopilotItemViewModels.Clear();
             SaveCopilotTask();
+
+            try
+            {
+                Directory.Delete(CopilotJsonDir, true);
+            }
+            catch
+            {
+                // ignored
+            }
         }
 
         public void EnterCopilotTask()
