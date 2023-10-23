@@ -8786,6 +8786,7 @@
             50,
             50
         ],
+        "postDelay_Doc": "这个延迟保证不会识别到 StartExplore 之后又弹出 每月委托/解锁收藏品 等。 #7033",
         "postDelay": 800,
         "next": [
             "Roguelike@StartExplore",
@@ -8801,14 +8802,7 @@
     },
     "Roguelike@ClickToStartPointAfterFailed": {
         "doc": "因为是从肉鸽失败界面进入，删除了对下个stage的判断",
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            615,
-            607,
-            45,
-            31
-        ],
+        "baseTask": "Roguelike@ClickToStartPoint",
         "next": [
             "Roguelike@StartExplore",
             "Roguelike@StartUpThemes#next",
