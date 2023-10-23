@@ -4505,6 +4505,7 @@
             "RecruitSami.png",
             "RecruitMistCity.png"
         ],
+        "cache": false,
         "action": "ClickSelf",
         "roi": [
             900,
