@@ -182,6 +182,8 @@ namespace MaaWpfGui.Models
             // TODO: 加个文件存这些文件的 hash，如果 hash 没变就不下载了，只需要请求一次
             foreach (var file in _maaSingleFiles)
             {
+                await Task.Delay(1000);
+
                 var sRet = await UpdateFileWithETag(baseUrl, file, file);
 
                 if (sRet == UpdateResult.Failed)
@@ -223,6 +225,8 @@ namespace MaaWpfGui.Models
             {
                 try
                 {
+                    await Task.Delay(1000);
+
                     var sRet = await UpdateFileWithETag(baseUrl, file, file);
                     if (sRet == UpdateResult.Failed)
                     {

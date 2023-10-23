@@ -35,7 +35,7 @@ jobs:
           .\tools\ResourceUpdater\x64\Release\ResourceUpdater.exe
       - name: Overseas Tasks Ordering
         run: |
-          python3 tools/ResourceUpdater/Tasks_Sorter.py
+          python3 tools/TaskSorter/TaskSorter.py
       - name: Check if only sorted
         id: check_only_sorted
         run: |

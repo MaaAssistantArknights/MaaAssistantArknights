@@ -217,7 +217,7 @@
     },
     "30062": {
         "classifyType": "MATERIAL",
-        "description": "一套相對完整的裝置，含有大量密集的可用電子元件。為了迎合輕便實用的設計，主機板寸土寸金的空間被塞的滿滿當當。",
+        "description": "一套相對完整的裝置，含有大量密集的可用電子元件。為了迎合輕便實用的設計，主機板寸土寸金的空間被塞得滿滿當當。",
         "icon": "30062.png",
         "name": "裝置",
         "sortId": 100032,
@@ -1327,6 +1327,14 @@
         "sortId": -10000,
         "usage": "食品安全部面向家族發行的通行證。家族成員可以憑此進入食品安全部並獲取一些物資，儘管它們並不在“食品”的範疇。"
     },
+    "act22side_token_manuscript": {
+        "classifyType": "NONE",
+        "description": "這些歌謠，記得它們的人很少能提筆書寫，書寫塔拉歷史的人則幾乎不會去聽。但商人們說，總會有人致力於輯錄散落的塔拉文明，這項生意已經持續數百年。",
+        "icon": "act22side_token_manuscript.png",
+        "name": "手抄歌謠集",
+        "sortId": -10000,
+        "usage": "隨手抄下了塔拉歌謠與傳說的紙頁。收集到一定數量，可以向河谷巡迴商隊換取物資。"
+    },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
         "description": "無論是任務回饋、戰利品收集、材料研究、論文交流還是戰場清掃，羅德島那高效的情報系統會不斷地運作，從種種行動中收集龐雜的資訊，並分別計算歸納以得出各類結論；作為情報黑箱外的人，看看已經量化的數值就好。",
@@ -1518,6 +1526,22 @@
         "name": "黑曜石節門票",
         "sortId": -10000,
         "usage": "黑曜石節官方發售的門票，用於進入各類特殊關卡。"
+    },
+    "itempack_mod_4": {
+        "classifyType": "NONE",
+        "description": "凝結了工程部同事心血的數據塊，內含的數據資訊可以滿足幹員模組的基礎需求。",
+        "icon": "itempack_mod_4.png",
+        "name": "模組數據整合塊",
+        "sortId": -10000,
+        "usage": "內含解鎖與升級幹員模組的道具。"
+    },
+    "itempack_mod_6": {
+        "classifyType": "NONE",
+        "description": "凝結了工程部同事心血的數據箱，龐大的數據儲備能夠兼顧幹員模組各方面的需求。",
+        "icon": "itempack_mod_6.png",
+        "name": "模組數據整合箱",
+        "sortId": -10000,
+        "usage": "內含解鎖與升級幹員模組的道具。"
     },
     "mod_unlock_token": {
         "classifyType": "MATERIAL",
