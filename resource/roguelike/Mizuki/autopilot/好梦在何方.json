@@ -89,11 +89,11 @@
                 4
             ],
             "direction": "up"
-        },{
+        },
+        {
             "groups": [
                 "号角",
                 "地面远程"
-                
             ],
             "location": [
                 9,
