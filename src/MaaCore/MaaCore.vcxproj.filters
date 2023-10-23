@@ -452,7 +452,7 @@
     </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeConfig.h">
       <Filter>Source\Task\Roguelike</Filter>
-    </ClInclude> 
+    </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeControlTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
@@ -1108,6 +1108,9 @@
     </ClCompile>
     <ClCompile Include="Task\Miscellaneous\TaskFileReloadTask.cpp">
       <Filter>Source\Task\Miscellaneous</Filter>
-    </ClCompile>    
+    </ClCompile>
+    <ClCompile Include="Task\Miscellaneous\ScreenshotTaskPlugin.cpp">
+      <Filter>Source\Task\Miscellaneous</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
