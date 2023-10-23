@@ -114,7 +114,7 @@ namespace MaaWpfGui.Main
                 ptr3 = EncodeNullTerminatedUtf8(config))
             {
                 bool ret = AsstConnect(handle, ptr1, ptr2, ptr3);
-                _logger.Information($"handle: {((long)handle).ToString()}, adbPath: {adbPath}, address: {address}, config: {config}, return: {ret}");
+                _logger.Information($"handle: {(long)handle}, adbPath: {adbPath}, address: {address}, config: {config}, return: {ret}");
                 return ret;
             }
         }
@@ -302,6 +302,7 @@ namespace MaaWpfGui.Main
             AsstSetInstanceOption(InstanceOptionKey.TouchMode, Instances.SettingsViewModel.TouchMode);
             AsstSetInstanceOption(InstanceOptionKey.DeploymentWithPause, Instances.SettingsViewModel.DeploymentWithPause ? "1" : "0");
             AsstSetInstanceOption(InstanceOptionKey.AdbLiteEnabled, Instances.SettingsViewModel.AdbLiteEnabled ? "1" : "0");
+
             // TODO: 之后把这个 OnUIThread 拆出来
             // ReSharper disable once AsyncVoidLambda
             Execute.OnUIThread(async () =>
@@ -973,6 +974,7 @@ namespace MaaWpfGui.Main
 
                         break;
                     }
+
                 case "CombatRecordRecognitionTask":
                     {
                         string what = details["what"]?.ToString();
@@ -1433,17 +1435,17 @@ namespace MaaWpfGui.Main
             {
                 string bsHvAddress = Instances.SettingsViewModel.TryToSetBlueStacksHyperVAddress();
 
-                if (String.Equals(Instances.SettingsViewModel.ConnectAddress, bsHvAddress))
+                if (string.Equals(Instances.SettingsViewModel.ConnectAddress, bsHvAddress))
                 {
                     // 防止bsHvAddress和connectAddress重合
-                    bsHvAddress = String.Empty;
+                    bsHvAddress = string.Empty;
                 }
 
                 // tcp连接测试端口是否有效，超时时间500ms
                 // 如果是本地设备，没有冒号
                 bool adbResult =
-                    !Instances.SettingsViewModel.ConnectAddress.Contains(":") &&
-                    !string.IsNullOrEmpty(Instances.SettingsViewModel.ConnectAddress) ||
+                    (!Instances.SettingsViewModel.ConnectAddress.Contains(":") &&
+                    !string.IsNullOrEmpty(Instances.SettingsViewModel.ConnectAddress)) ||
                     IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
                 bool bsResult = IfPortEstablished(bsHvAddress);
                 bool adbConfResult = Instances.SettingsViewModel.DetectAdbConfig(ref error);
