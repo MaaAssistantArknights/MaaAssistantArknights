@@ -104,9 +104,8 @@ std::optional<int> asst::Win32IO::call_command(const std::string& cmd, bool recv
         if (wait_handles.empty()) break;
         auto elapsed = steady_clock::now() - start_time;
         // TODO: 这里目前是隔 5000ms 判断一次，应该可以加一个 wait_handle 来判断外部中断（need_exit）
-        auto wait_time =
-            (std::min)(timeout - duration_cast<milliseconds>(elapsed).count(), process_running ? 5LL * 1000 : 0LL);
-        if (wait_time < 0) break;
+        auto wait_time = (std::min)(timeout - duration_cast<milliseconds>(elapsed).count(), 5LL * 1000);
+        if (wait_time < 0 || !process_running) wait_time = 0;
         auto wait_result =
             WaitForMultipleObjectsEx((DWORD)wait_handles.size(), wait_handles.data(), FALSE, (DWORD)wait_time, TRUE);
         HANDLE signaled_object = INVALID_HANDLE_VALUE;
