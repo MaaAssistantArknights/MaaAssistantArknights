@@ -215,7 +215,16 @@ std::optional<int> asst::Win32IO::call_command(const std::string& cmd, bool recv
     CloseHandle(pipe_parent_read);
     CloseHandle(pipeov.hEvent);
     if (recv_by_socket) {
-        if (!socket_eof) closesocket(client_socket);
+        if (accept_pending) {
+            Log.warn("cancel AcceptEx");
+            CancelIoEx(reinterpret_cast<HANDLE>(m_server_sock), &sockov);
+            closesocket(client_socket);
+        }
+        else if (!socket_eof) {
+            Log.warn("cancel ReadFile");
+            CancelIoEx(reinterpret_cast<HANDLE>(client_socket), &sockov);
+            closesocket(client_socket);
+        }
         CloseHandle(sockov.hEvent);
     }
 
