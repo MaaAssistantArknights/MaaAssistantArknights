@@ -1741,12 +1741,13 @@ namespace MaaWpfGui.Main
         /// <param name="needRefresh">是否刷新三星 Tags。</param>
         /// <param name="needForceRefresh">无招募许可时是否继续尝试刷新 Tags。</param>
         /// <param name="useExpedited">是否使用加急许可。</param>
+        /// <param name="selectExtraTags">选择 Tags 时是否总是选择三个 Tag</param>
         /// <param name="skipRobot">是否在识别到小车词条时跳过。</param>
         /// <param name="isLevel3UseShortTime">三星Tag是否使用短时间（7:40）</param>
         /// <param name="isLevel3UseShortTime2">三星Tag是否使用短时间（1:00）</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRecruit(int maxTimes, int[] selectLevel, int[] confirmLevel, bool needRefresh, bool needForceRefresh, bool useExpedited,
-            bool skipRobot, bool isLevel3UseShortTime, bool isLevel3UseShortTime2 = false)
+            bool selectExtraTags, bool skipRobot, bool isLevel3UseShortTime, bool isLevel3UseShortTime2 = false)
         {
             var taskParams = new JObject
             {
@@ -1757,6 +1758,7 @@ namespace MaaWpfGui.Main
                 ["times"] = maxTimes,
                 ["set_time"] = true,
                 ["expedite"] = useExpedited,
+                ["extra_tags"] = selectExtraTags,
                 ["expedite_times"] = maxTimes,
                 ["skip_robot"] = skipRobot,
             };

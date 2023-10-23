@@ -140,6 +140,12 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_use_expedited(bool use_or_not)
     return *this;
 }
 
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_select_extra_tags(bool select_extra_tags) noexcept
+{
+    m_select_extra_tags = select_extra_tags;
+    return *this;
+}
+
 asst::AutoRecruitTask& asst::AutoRecruitTask::set_skip_robot(bool skip_robot) noexcept
 {
     m_skip_robot = skip_robot;
@@ -574,7 +580,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             return result;
         }
 
-        auto final_select = get_select_tags(result_vec);
+        auto final_select = m_select_extra_tags ? get_select_tags(result_vec) : final_combination.tags;
 
         // select tags
         for (const std::string& final_tag_name : final_select) {
