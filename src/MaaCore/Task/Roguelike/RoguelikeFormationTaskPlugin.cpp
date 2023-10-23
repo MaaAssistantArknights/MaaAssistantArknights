@@ -123,16 +123,22 @@ void asst::RoguelikeFormationTaskPlugin::clear_and_reselect()
             if (count == require) break;
         }
     }
-    for (const auto& oper : oper_list) { // 然后按默认排序选择
-        if (sorted_oper_list.size() >= 13) break;
-        bool already_exist = false;
-        for (const auto& existing_oper : sorted_oper_list) {
-            if (oper.name == existing_oper.name) already_exist = true;
+    auto select_others = [&](bool process_reserve_oper) { // 然后按默认排序选择
+        for (const auto& oper : oper_list) {
+            if (sorted_oper_list.size() >= 13) break;
+            if (process_reserve_oper != oper.name.starts_with("预备干员")) continue;
+            bool already_exist = false;
+            for (const auto& existing_oper : sorted_oper_list) {
+                if (oper.name == existing_oper.name) already_exist = true;
+            }
+            if (!already_exist) {
+                sorted_oper_list.emplace_back(oper);
+            }
         }
-        if (!already_exist) {
-            sorted_oper_list.emplace_back(oper);
-        }
-    }
+    };
+    select_others(false); // 非预备干员
+    select_others(true);  // 预备干员
+
     for (const auto& oper : sorted_oper_list) {
         select(oper);
     }
