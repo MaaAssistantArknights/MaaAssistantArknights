@@ -7216,6 +7216,57 @@
             ]
         ]
     },
+    "BattleSelectedFormation": {
+        "action": "DoNothing",
+        "roi": [
+            50,
+            600,
+            1180,
+            120
+        ],
+        "cache": false,
+        "maskRange": [
+            1,
+            255
+        ]
+    },
+    "BattleSelectFormation0": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            180,
+            670,
+            115,
+            40
+        ]
+    },
+    "BattleSelectFormation1": {
+        "baseTask": "BattleSelectFormation0",
+        "specificRect": [
+            460,
+            670,
+            100,
+            40
+        ]
+    },
+    "BattleSelectFormation2": {
+        "baseTask": "BattleSelectFormation0",
+        "specificRect": [
+            720,
+            670,
+            120,
+            40
+        ]
+    },
+    "BattleSelectFormation3": {
+        "baseTask": "BattleSelectFormation0",
+        "specificRect": [
+            995,
+            675,
+            110,
+            40
+        ]
+    },
     "BattleSupportUnitFormation": {
         "action": "ClickSelf",
         "roi": [
