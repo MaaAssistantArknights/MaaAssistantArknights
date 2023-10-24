@@ -614,6 +614,7 @@
     <system:String x:Key="SelectExtraTags">选择 Tags 时总是选择三个 Tag</system:String>
     <system:String x:Key="NotEnoughStaff">可用干员不足</system:String>
     <system:String x:Key="StageInfoError">关卡识别错误</system:String>
+    <system:String x:Key="UseFormation">使用编队</system:String>
     <system:String x:Key="BattleFormation">开始编队</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">选择干员: </system:String>
     <system:String x:Key="CurrentSteps">当前步骤: {0} {1}</system:String>

@@ -1999,6 +1999,21 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private int _creditFightSelectFormation = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.CreditFightSelectFormation, "4"));
+
+        /// <summary>
+        /// Gets or sets a value indicating which formation will be select in credit fight.
+        /// </summary>
+        public int CreditFightSelectFormation
+        {
+            get => _creditFightSelectFormation;
+            set
+            {
+                SetAndNotify(ref _creditFightSelectFormation, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.CreditFightSelectFormation, value.ToString());
+            }
+        }
+
         /* 信用商店设置 */
 
         private bool _creditShopping = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditShopping, bool.TrueString));

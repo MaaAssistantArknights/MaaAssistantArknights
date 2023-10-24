@@ -40,6 +40,28 @@
                     Text="{DynamicResource CreditFight}"
                     TextWrapping="Wrap" />
             </CheckBox>
+            <Grid
+                Height="30"
+                Visibility="{c:Binding CreditFightTaskEnabledDisplay}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="100"/>
+                    <ColumnDefinition Width="Auto" MinWidth="100"/>
+                </Grid.ColumnDefinitions>
+                <controls:TextBlock
+                    TextAlignment="Left"
+                    Text="{DynamicResource UseFormation}"
+                    TextWrapping="Wrap" />
+                <hc:NumericUpDown
+                    Grid.Column="1"
+                    Height="30"
+                    Width="70"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    InputMethod.IsInputMethodEnabled="False"
+                    Maximum="4"
+                    Minimum="1"
+                    Value="{Binding CreditFightSelectFormation}" />
+            </Grid>
         </StackPanel>
 
         <StackPanel Visibility="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}">

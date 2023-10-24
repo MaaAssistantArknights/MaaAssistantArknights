@@ -114,6 +114,7 @@ namespace MaaWpfGui.Constants
 
         public const string LastCreditFightTaskTime = "Visit.LastCreditFightTaskTime";
         public const string CreditFightTaskEnabled = "Visit.CreditFightTaskEnabled";
+        public const string CreditFightSelectFormation = "Visit.CreditFightSelectFormation";
 
         public const string RecruitMaxTimes = "AutoRecruit.MaxTimes";
         public const string RefreshLevel3 = "AutoRecruit.RefreshLevel3";
@@ -138,6 +139,7 @@ namespace MaaWpfGui.Constants
         public const string CopilotUserAdditional = "Copilot.UserAdditional";
         public const string CopilotLoopTimes = "Copilot.LoopTimes";
         public const string CopilotTaskList = "Copilot.CopilotTaskList";
+        public const string CopilotSelectFormation = "Copilot.SelectFormation";
 
         public const string UpdateProxy = "VersionUpdate.Proxy";
         public const string VersionType = "VersionUpdate.VersionType";
