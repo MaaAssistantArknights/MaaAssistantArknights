@@ -3510,20 +3510,6 @@
             "Unit"
         ]
     },
-    "SSSDropRecruitmentOCR": {
-        "baseTask": "CharsNameOcrReplace",
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "text": [],
-        "cache": false,
-        "roi": [
-            0,
-            352,
-            1280,
-            263
-        ],
-        "postDelay": 1000
-    },
     "SSSDropRecruitmentConfirm": {
         "text": [
             "Confirm assignment",

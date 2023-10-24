@@ -9035,7 +9035,7 @@
         ]
     },
     "SSSDropRecruitmentOCR": {
-        "algorithm": "OcrDetect",
+        "baseTask": "CharsNameOcrReplace",
         "action": "DoNothing",
         "text": [],
         "cache": false,
@@ -9080,7 +9080,7 @@
         ]
     },
     "SSSHalfTimeDrops": {
-        "algorithm": "OcrDetect",
+        "baseTask": "CharsNameOcrReplace",
         "action": "ClickSelf",
         "cache": false,
         "text": [],

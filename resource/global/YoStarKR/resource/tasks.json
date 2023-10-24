@@ -3322,9 +3322,6 @@
             "전도부품"
         ]
     },
-    "SSSDropRecruitmentOCR": {
-        "baseTask": "CharsNameOcrReplace"
-    },
     "SSSDropRecruitmentConfirm": {
         "text": [
             "확인",
