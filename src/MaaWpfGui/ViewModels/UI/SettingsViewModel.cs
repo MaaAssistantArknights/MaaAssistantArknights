@@ -2331,6 +2331,21 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _useExpedited, value);
         }
 
+        private bool _selectExtraTags = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.SelectExtraTags, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether three tags are alway selected when selecting tags.
+        /// </summary>
+        public bool SelectExtraTags
+        {
+            get => _selectExtraTags;
+            set
+            {
+                SetAndNotify(ref _selectExtraTags, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.SelectExtraTags, value.ToString());
+            }
+        }
+
         private bool _isLevel3UseShortTime = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.IsLevel3UseShortTime, bool.FalseString));
 
         /// <summary>

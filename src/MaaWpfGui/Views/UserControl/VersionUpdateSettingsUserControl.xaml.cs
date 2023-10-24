@@ -20,6 +20,7 @@ using HandyControl.Controls;
 using HandyControl.Data;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.UI;
+using Serilog;
 
 namespace MaaWpfGui.Views.UserControl
 {
@@ -28,6 +29,8 @@ namespace MaaWpfGui.Views.UserControl
     /// </summary>
     public partial class VersionUpdateSettingsUserControl : System.Windows.Controls.UserControl
     {
+        private static readonly ILogger _logger = Log.ForContext<VersionUpdateSettingsUserControl>();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="VersionUpdateSettingsUserControl"/> class.
         /// </summary>
@@ -69,15 +72,22 @@ namespace MaaWpfGui.Views.UserControl
             {
                 Thread clipboardThread = new Thread(() =>
                 {
-                    Clipboard.SetText(text);
+                    try
+                    {
+                        Clipboard.SetDataObject(text);
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.Error("Clipboard operation failed: " + e.Message);
+                    }
                 });
 
                 clipboardThread.SetApartmentState(ApartmentState.STA);
                 clipboardThread.Start();
             }
-            catch
+            catch (Exception e)
             {
-                // ignored
+                _logger.Error("Clipboard operation failed: " + e.Message);
             }
         }
 

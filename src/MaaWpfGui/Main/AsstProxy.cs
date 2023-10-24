@@ -94,7 +94,7 @@ namespace MaaWpfGui.Main
                 ptr3 = EncodeNullTerminatedUtf8(config))
             {
                 bool ret = MaaService.AsstConnect(handle, ptr1, ptr2, ptr3);
-                _logger.Information($"handle: {((long)handle).ToString()}, adbPath: {adbPath}, address: {address}, config: {config}, return: {ret}");
+                _logger.Information($"handle: {(long)handle}, adbPath: {adbPath}, address: {address}, config: {config}, return: {ret}");
                 return ret;
             }
         }
@@ -526,9 +526,7 @@ namespace MaaWpfGui.Main
                         case "Fight":
                             Instances.TaskQueueViewModel.FightTaskRunning = true;
                             break;
-
-                        case "Infrast":
-                            Instances.TaskQueueViewModel.InfrastTaskRunning = true;
+                        default:
                             break;
                     }
 
@@ -802,17 +800,17 @@ namespace MaaWpfGui.Main
                                 var log = LocalizationHelper.GetString("MissionStart") + $" {execTimes} {LocalizationHelper.GetString("UnitTime")}\n";
                                 if (SanityReport.HasSanityReport)
                                 {
-                                    log += LocalizationHelper.GetString("CurrentSanity") + $" {SanityReport.Sanity[0]}/{SanityReport.Sanity[1]}  ";
+                                    log += $"{LocalizationHelper.GetString("CurrentSanity")} {SanityReport.Sanity[0]}/{SanityReport.Sanity[1]}  ";
                                 }
 
-                                if (MedicineUsedTimes > 0)
+                                if (MedicineUsedTimes > 0 || ExpiringMedicineUsedTimes > 0)
                                 {
-                                    log += LocalizationHelper.GetString("MedicineUsedTimes") + $" {MedicineUsedTimes}/{Instances.TaskQueueViewModel.MedicineNumber}  ";
+                                    log += $"{LocalizationHelper.GetString("MedicineUsedTimes")} {MedicineUsedTimes}" + (ExpiringMedicineUsedTimes > 0 ? $"({ExpiringMedicineUsedTimes})" : string.Empty) + "  ";
                                 }
 
                                 if (StoneUsedTimes > 0)
                                 {
-                                    log += LocalizationHelper.GetString("StoneUsedTimes") + $" {StoneUsedTimes}/{Instances.TaskQueueViewModel.StoneNumber}  ";
+                                    log += $"{LocalizationHelper.GetString("StoneUsedTimes")} {StoneUsedTimes}  ";
                                 }
 
                                 Instances.TaskQueueViewModel.AddLog(log.TrimEnd('\n').TrimEnd(' '), UiLogColor.Info);
@@ -825,6 +823,7 @@ namespace MaaWpfGui.Main
 
                             case "ExpiringMedicineConfirm":
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ExpiringMedicineUsed") + $" {execTimes} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info);
+                                ExpiringMedicineUsedTimes++;
                                 break;
 
                             case "StoneConfirm":
@@ -1404,8 +1403,8 @@ namespace MaaWpfGui.Main
                 // tcp连接测试端口是否有效，超时时间500ms
                 // 如果是本地设备，没有冒号
                 bool adbResult =
-                    !Instances.SettingsViewModel.ConnectAddress.Contains(":") &&
-                    !string.IsNullOrEmpty(Instances.SettingsViewModel.ConnectAddress) ||
+                    (!Instances.SettingsViewModel.ConnectAddress.Contains(":") &&
+                    !string.IsNullOrEmpty(Instances.SettingsViewModel.ConnectAddress)) ||
                     IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
                 bool bsResult = IfPortEstablished(bsHvAddress);
                 bool adbConfResult = Instances.SettingsViewModel.DetectAdbConfig(ref error);
@@ -1703,12 +1702,13 @@ namespace MaaWpfGui.Main
         /// <param name="needRefresh">是否刷新三星 Tags。</param>
         /// <param name="needForceRefresh">无招募许可时是否继续尝试刷新 Tags。</param>
         /// <param name="useExpedited">是否使用加急许可。</param>
+        /// <param name="selectExtraTags">选择 Tags 时是否总是选择三个 Tag</param>
         /// <param name="skipRobot">是否在识别到小车词条时跳过。</param>
         /// <param name="isLevel3UseShortTime">三星Tag是否使用短时间（7:40）</param>
         /// <param name="isLevel3UseShortTime2">三星Tag是否使用短时间（1:00）</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRecruit(int maxTimes, int[] selectLevel, int[] confirmLevel, bool needRefresh, bool needForceRefresh, bool useExpedited,
-            bool skipRobot, bool isLevel3UseShortTime, bool isLevel3UseShortTime2 = false)
+            bool selectExtraTags, bool skipRobot, bool isLevel3UseShortTime, bool isLevel3UseShortTime2 = false)
         {
             var taskParams = new JObject
             {
@@ -1719,6 +1719,7 @@ namespace MaaWpfGui.Main
                 ["times"] = maxTimes,
                 ["set_time"] = true,
                 ["expedite"] = useExpedited,
+                ["extra_tags"] = selectExtraTags,
                 ["expedite_times"] = maxTimes,
                 ["skip_robot"] = skipRobot,
             };

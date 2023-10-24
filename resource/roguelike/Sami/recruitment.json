@@ -2002,7 +2002,6 @@
                 {
                     "name": "莫斯提马",
                     "skill": 3,
-                    "is_key": true,
                     "alternate_skill": 2,
                     "recruit_priority": 625,
                     "promote_priority": 910,
