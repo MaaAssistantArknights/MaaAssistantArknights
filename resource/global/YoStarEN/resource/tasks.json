@@ -6177,5 +6177,8 @@
             "THE",
             "SAND"
         ]
+    },
+    "SkipThePreBattlePlot": {
+        "templThreshold": 0.7
     }
 }
