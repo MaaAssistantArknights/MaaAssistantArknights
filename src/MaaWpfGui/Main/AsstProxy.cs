@@ -1673,16 +1673,18 @@ namespace MaaWpfGui.Main
         /// 领取信用及商店购物。
         /// </summary>
         /// <param name="creditFight">是否信用战斗。</param>
+        /// <param name="selectFormation">信用战斗选择编队</param>
         /// <param name="withShopping">是否购物。</param>
         /// <param name="firstList">优先购买列表。</param>
         /// <param name="blacklist">黑名单列表。</param>
         /// <param name="forceShoppingIfCreditFull">是否在信用溢出时无视黑名单</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendMall(bool creditFight, bool withShopping, string[] firstList, string[] blacklist, bool forceShoppingIfCreditFull)
+        public bool AsstAppendMall(bool creditFight, int selectFormation, bool withShopping, string[] firstList, string[] blacklist, bool forceShoppingIfCreditFull)
         {
             var taskParams = new JObject
             {
                 ["credit_fight"] = creditFight,
+                ["select_formation"] = selectFormation,
                 ["shopping"] = withShopping,
                 ["buy_first"] = new JArray { firstList },
                 ["blacklist"] = new JArray { blacklist },
