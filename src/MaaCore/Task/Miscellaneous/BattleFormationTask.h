@@ -12,6 +12,8 @@ namespace asst
         using AbstractTask::AbstractTask;
         virtual ~BattleFormationTask() override = default;
 
+        using formation_index = size_t;
+
         enum class Filter
         {
             None,
@@ -33,6 +35,8 @@ namespace asst
         void set_user_additional(std::vector<std::pair<std::string, int>> user_additional);
         // 是否追加低信赖干员
         void set_add_trust(bool add_trust);
+        // 设置对指定编队自动编队
+        void set_select_formation(formation_index index);
 
         enum class DataResource
         {
@@ -57,6 +61,8 @@ namespace asst
         bool confirm_selection();
         bool click_role_table(battle::Role role);
         bool parse_formation();
+        bool select_formation(const cv::Mat& image);
+        bool select_formation();
         bool select_random_support_unit();
 
         std::vector<TextRect> analyzer_opers();
@@ -77,5 +83,17 @@ namespace asst
         DataResource m_data_resource = DataResource::Copilot;
         std::vector<AdditionalFormation> m_additional;
         std::string m_last_oper_name;
+        formation_index m_select_formation_index = 3;
+        const std::vector<std::string> m_taskname_from_index = { "BattleSelectFormation0", "BattleSelectFormation1",
+                                                                 "BattleSelectFormation2", "BattleSelectFormation3" };
+
+        static formation_index formation_index_from_rect(const Rect& r)
+        { /* 0 | 1 | 2 | 3 */
+            int cx = r.x + r.width / 2;
+            if (cx <= 370) return 0;
+            if (cx >= 370 && cx <= 640) return 1;
+            if (cx >= 645 && cx <= 915) return 2;
+            return 3;
+        }
     };
 } // namespace asst

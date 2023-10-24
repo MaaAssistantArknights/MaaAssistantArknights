@@ -10,6 +10,7 @@
 #include "Task/ProcessTask.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
+#include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/TemplDetOCRer.h"
 
@@ -38,6 +39,11 @@ void asst::BattleFormationTask::set_add_trust(bool add_trust)
     m_add_trust = add_trust;
 }
 
+void asst::BattleFormationTask::set_select_formation(formation_index index)
+{
+    m_select_formation_index = index;
+}
+
 void asst::BattleFormationTask::set_data_resource(DataResource resource)
 {
     m_data_resource = resource;
@@ -48,6 +54,10 @@ bool asst::BattleFormationTask::_run()
     LogTraceFunction;
 
     if (!parse_formation()) {
+        return false;
+    }
+
+    if (!select_formation()) {
         return false;
     }
 
@@ -414,4 +424,22 @@ bool asst::BattleFormationTask::parse_formation()
 
     callback(AsstMsg::SubTaskExtraInfo, info);
     return true;
+}
+
+bool asst::BattleFormationTask::select_formation(const cv::Mat& image)
+{
+    LogTraceFunction;
+
+    Matcher selected_searcher(image);
+    selected_searcher.set_task_info("BattleSelectedFormation");
+    selected_searcher.analyze();
+    formation_index result = formation_index_from_rect(selected_searcher.get_result().rect);
+    if (result == m_select_formation_index) return true;
+
+    return ProcessTask { *this, { m_taskname_from_index[m_select_formation_index] } }.run();
+}
+
+bool asst::BattleFormationTask::select_formation()
+{
+    return select_formation(ctrler()->get_image());
 }
