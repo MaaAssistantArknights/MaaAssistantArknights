@@ -3,6 +3,7 @@
 #include "Common/AsstBattleDef.h"
 #include "Config/TaskData.h"
 #include "Status.h"
+#include "Task/Miscellaneous/ScreenshotTaskPlugin.h"
 #include "Task/ProcessTask.h"
 #include "Task/Roguelike/RoguelikeBattleTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeControlTaskPlugin.h"
@@ -26,6 +27,7 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
     LogTraceFunction;
 
     m_roguelike_task_ptr->set_ignore_error(true);
+    m_screenshot_plugin_ptr = m_roguelike_task_ptr->register_plugin<ScreenshotTaskPlugin>();
     m_formation_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeFormationTaskPlugin>();
     m_control_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeControlTaskPlugin>();
     m_reset_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeResetTaskPlugin>();
@@ -69,19 +71,11 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         return false;
     }
 
-    m_battle_plugin_ptr->set_roguelike_theme(theme);
-    m_control_plugin_ptr->set_roguelike_theme(theme);
-    m_custom_start_plugin_ptr->set_roguelike_theme(theme);
-    m_debug_plugin_ptr->set_roguelike_theme(theme);
-    m_difficulty_selection_plugin_ptr->set_roguelike_theme(theme);
-    m_formation_plugin_ptr->set_roguelike_theme(theme);
-    m_last_reward_plugin_ptr->set_roguelike_theme(theme);
-    m_recruit_plugin_ptr->set_roguelike_theme(theme);
-    m_reset_plugin_ptr->set_roguelike_theme(theme);
-    m_shopping_plugin_ptr->set_roguelike_theme(theme);
-    m_skill_plugin_ptr->set_roguelike_theme(theme);
-    m_stage_encounter_plugin_ptr->set_roguelike_theme(theme);
-    m_strategy_change_plugin_ptr->set_roguelike_theme(theme);
+    for (const auto& plugin : m_roguelike_task_ptr->get_plugins()) {
+        if (auto ptr = std::dynamic_pointer_cast<RoguelikeConfig>(plugin)) {
+            ptr->set_roguelike_theme(theme);
+        }
+    }
 
     m_roguelike_task_ptr->set_tasks({ theme + "@Roguelike@Begin" });
 

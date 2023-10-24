@@ -39,19 +39,19 @@
         ]
     },
     "IS-Open": {
-        "action": "ClickSelf",
         "algorithm": "OcrDetect",
-        "next": [
-            "EnterChapterIS"
+        "text": [
+            "シラクザーノ"
         ],
+        "action": "ClickSelf",
         "roi": [
             0,
             500,
             500,
             150
         ],
-        "text": [
-            "シラクザーノ"
+        "next": [
+            "EnterChapterIS"
         ]
     },
     "EnterChapterIS": {
@@ -89,6 +89,7 @@
         ]
     },
     "CharsNameOcrReplace": {
+        "replaceFull": true,
         "Doc": "该任务的 ocrReplace 被所有涉及干员名的日文识别任务复用 このタスクの「ocrReplace」は、オペレーター名に関連するすべての認識タスクで再利用されます",
         "ocrReplace": [
             [
@@ -2040,6 +2041,10 @@
                 "重整导能组件"
             ],
             [
+                "弱体化コンポーネント",
+                "反制导能组件"
+            ],
+            [
                 "コーティングデバイス",
                 "镀膜装置导能阀"
             ],
@@ -2054,6 +2059,10 @@
             [
                 "粗悪なスタングレネード",
                 "劣质闪光弹"
+            ],
+            [
+                "召集しない",
+                "无需增调干员"
             ],
             [
                 "チョンユエ",
@@ -2275,8 +2284,7 @@
                 "トレジャーハンター",
                 "寻宝人"
             ]
-        ],
-        "replaceFull": true
+        ]
     },
     "StartToWakeUp": {
         "Doc": "相较国服调大roi",
@@ -2302,16 +2310,16 @@
         ]
     },
     "LoadingText": {
+        "text": [
+            "ニューラル",
+            "コネクタ",
+            "接続中"
+        ],
         "roi": [
             700,
             600,
             350,
             120
-        ],
-        "text": [
-            "ニューラル",
-            "コネクタ",
-            "接続中"
         ]
     },
     "StartButton1": {
@@ -2325,6 +2333,11 @@
         ]
     },
     "ExpiringMedicineCheck": {
+        "text": [
+            "分",
+            "時間",
+            "1日"
+        ],
         "ocrReplace": [
             [
                 ".+時間",
@@ -2340,11 +2353,6 @@
             345,
             95,
             30
-        ],
-        "text": [
-            "分",
-            "時間",
-            "1日"
         ]
     },
     "GoLastBattle": {
@@ -3112,479 +3120,169 @@
             "開始"
         ]
     },
-    "Roguelike@ChooseDifficultyConfirm": {
+    "SSSBegin": {
         "text": [
-            "選択"
+            "保全作戦開始"
         ]
     },
-    "Roguelike@FromIntegratedStrategies": {
+    "SSSDebuffConfirm": {
         "text": [
-            "テーマへ"
+            "確認完了"
         ]
     },
-    "Phantom@Roguelike@SelectTheme": {
-        "text": [
-            "ファントム"
-        ]
-    },
-    "Mizuki@Roguelike@SelectTheme": {
-        "text": [
-            "ミヅキ"
-        ]
-    },
-    "Roguelike@StageEncounterOcr": {
+    "SSSBuffChoose": {
         "ocrReplace": [
             [
-                "野営",
-                "扎营"
+                "エーギル式振波.*",
+                "阿戈尔示波器"
             ],
             [
-                "優しい人形",
-                "善良的木偶"
+                "多機能補給デバイス",
+                "自适应补给元件"
             ],
             [
-                "語り部",
-                "讲故事的人"
+                "ジャングル用追跡ビー.*",
+                "丛林用示踪信标"
             ],
             [
-                "冒険者への依頼",
-                "委托冒险者"
-            ],
-            [
-                "皇帝論争",
-                "皇家争执"
-            ],
-            [
-                "先遣隊",
-                "先遣小队"
-            ],
-            [
-                "ガリアの老兵",
-                "高卢老兵"
-            ],
-            [
-                "幻惑の明かり",
-                "迷幻烛火"
-            ],
-            [
-                "クルビアの酒屋",
-                "哥伦比亚酒商"
-            ],
-            [
-                "ブリキの男",
-                "锡人"
-            ],
-            [
-                "深紅の舞踏会",
-                "猩红舞会"
-            ],
-            [
-                "小道具",
-                "剧目需求"
-            ],
-            [
-                "狂い舞う者",
-                "狂舞之人"
-            ],
-            [
-                "作曲チャレンジ",
-                "音乐挑战"
-            ],
-            [
-                "石中の剣",
-                "石中剑"
-            ],
-            [
-                "テーブルの下の人",
-                "被困的人"
-            ],
-            [
-                "謎の情報屋",
-                "佝偻怪客"
-            ],
-            [
-                "眠れる石像",
-                "沉睡石像"
-            ],
-            [
-                "束縛された血族",
-                "受缚之血"
-            ],
-            [
-                "幽影狂言",
-                "幽影狂言"
-            ],
-            [
-                "芸術と狂気",
-                "艺术与疯狂"
-            ],
-            [
-                "主役.*ダック卿",
-                "鸭爵主演"
-            ],
-            [
-                "ダック卿のパーティー",
-                "鸭爵的宴会"
-            ],
-            [
-                "ダック卿の即興劇",
-                "即兴鸭子演出"
-            ],
-            [
-                "あのウルサス人のこと",
-                "有关那位乌萨斯人"
-            ],
-            [
-                "邪悪な棺",
-                "邪恶之棺"
-            ],
-            [
-                "血には血を",
-                "以血还血"
-            ],
-            [
-                "血には血.*",
-                "以血还血"
-            ],
-            [
-                "隠し扉",
-                "暗门"
-            ],
-            [
-                "密室",
-                "密室"
-            ],
-            [
-                "ガラクタの屋台",
-                "废品地摊"
-            ],
-            [
-                "鑑定家",
-                "鉴赏家"
-            ],
-            [
-                "苦しみからの解放",
-                "解脱"
-            ],
-            [
-                "狂ったぬいぐるみ",
-                "疯狂玩偶"
-            ],
-            [
-                "パーティーに赴く",
-                "赴宴"
-            ],
-            [
-                "信者の会合",
-                "追随者集会"
-            ],
-            [
-                "そっとしておこう",
-                "别打扰他们"
-            ],
-            [
-                "復讐劇",
-                "复仇剧"
-            ],
-            [
-                "安全な片隅",
-                "安全的角落"
-            ],
-            [
-                "ミニステージ",
-                "微型舞台"
-            ],
-            [
-                "宝物の処理人",
-                "珍品处理者"
-            ],
-            [
-                "がぶ飲み",
-                "暴殄天物"
-            ],
-            [
-                "不運な泥棒たち",
-                "鼠胆神偷"
-            ],
-            [
-                "歴史の賜物",
-                "历史馈赠"
-            ],
-            [
-                "運命の賜物",
-                "命运馈赠"
-            ],
-            [
-                "断崖の葬式",
-                "悬高之葬"
-            ],
-            [
-                ".*崖の葬式",
-                "悬高之葬"
-            ],
-            [
-                "継承",
-                "继承"
-            ],
-            [
-                "米承",
-                "继承"
-            ],
-            [
-                "帰郷",
-                "重返家园"
-            ],
-            [
-                "薪",
-                "引火之木"
-            ],
-            [
-                "先遣隊",
-                "先遣小队"
-            ],
-            [
-                "灯台守",
-                "灯塔看守人"
-            ],
-            [
-                "シーボーン学者",
-                "海嗣学者"
-            ],
-            [
-                ".*ーン学者",
-                "海嗣学者"
-            ],
-            [
-                "海辺の歌い手",
-                "海边的歌者"
-            ],
-            [
-                "海外の出張販売",
-                "远销海外"
-            ],
-            [
-                "海.*の出張販売",
-                "远销海外"
-            ],
-            [
-                "伝統技術",
-                "传统技术"
-            ],
-            [
-                "伝統支術",
-                "传统技术"
-            ],
-            [
-                "最後の監潮者",
-                "最后的观潮者"
-            ],
-            [
-                "最後の観潮者",
-                "最后的观潮者"
-            ],
-            [
-                "宝物の換金",
-                "变卖身家"
-            ],
-            [
-                "無知こそ幸福なり",
-                "无知是福"
-            ],
-            [
-                "小さな炎",
-                "点滴星火"
-            ],
-            [
-                "かすかに残る光",
-                "残存微光"
-            ],
-            [
-                "出会い",
-                "相逢"
-            ],
-            [
-                "野営",
-                "扎营"
-            ],
-            [
-                "広がりゆく喰塵",
-                "噬尘扩散"
-            ],
-            [
-                "天災トランスポーター",
-                "天灾信使"
-            ],
-            [
-                "叢立つ暗雲",
-                "阴云如聚"
-            ],
-            [
-                "独り歩む老人",
-                "孤行的老者"
-            ],
-            [
-                "生存のため",
-                "为了生存"
-            ],
-            [
-                "苦難の道",
-                "苦路"
-            ],
-            [
-                "苦.*の道",
-                "苦路"
-            ],
-            [
-                "思いやり",
-                "设身处地"
-            ],
-            [
-                "信念",
-                "信念"
-            ],
-            [
-                "善か悪か",
-                "是非黑白"
-            ],
-            [
-                "大海の遺産",
-                "大海的遗产"
-            ],
-            [
-                "諸王返らず",
-                "诸王不再"
-            ],
-            [
-                "医者の志",
-                "医者之志"
-            ],
-            [
-                "愚者の心",
-                "愚者之心"
-            ],
-            [
-                "炎を崇めよ",
-                "敬奉火焰"
-            ],
-            [
-                "宝埋もれし港湾",
-                "藏宝港湾"
-            ],
-            [
-                "宝箱の舞",
-                "宝箱之舞"
-            ],
-            [
-                "涙目のペッロー",
-                "狗眼婆娑"
-            ],
-            [
-                "涙目のペッロ$",
-                "狗眼婆娑"
-            ],
-            [
-                "ダックパワーテスト",
-                "鸭力测试"
-            ],
-            [
-                ".*クパワーテスト",
-                "鸭力测试"
-            ],
-            [
-                "暇潰し",
-                "打发时间"
-            ],
-            [
-                "仕事への情熱は",
-                "工作热情"
-            ],
-            [
-                "ビジネス帝国",
-                "商业帝国"
-            ],
-            [
-                "凶徒の妄執",
-                "狂徒妄念"
-            ],
-            [
-                "騎士は未だそこにあり",
-                "骑士仍在"
-            ],
+                "コーテイングデバイス",
+                "镀膜装置导能阀"
+            ]
+        ],
+        "roi": [
+            0,
+            136,
+            1280,
+            162
+        ]
+    },
+    "SSSBuffChooseConfirm": {
+        "text": [
+            "選択を確認"
+        ]
+    },
+    "SSSEquipmentConfirm": {
+        "text": [
+            "設定完了"
+        ]
+    },
+    "SSSTeamConfirm": {
+        "text": [
+            "編成確定"
+        ]
+    },
+    "SSSStageNameOCR": {
+        "ocrReplace": [
             [
-                "発端",
-                "开端"
+                "密林流あいさつ",
+                "丛林式寒暄"
             ],
             [
-                "紺碧の心",
-                "深蓝之心"
+                "生物の多様性",
+                "生物多样性"
             ],
             [
-                "深蓝仪式",
-                "深蓝仪式"
+                "驚くこともない",
+                "习以为常"
             ],
             [
-                "昇華",
-                "升华"
+                "森の空き地",
+                "林间空地"
             ],
             [
-                "賛歌",
-                "赞歌"
+                "しつこい相手",
+                "纠缠不休"
             ],
             [
-                "セーフハウス",
-                "安全屋"
+                "人と大自然",
+                "人与自然"
             ],
             [
-                "その場でプリント",
-                "现买现印"
+                "押し寄せる大群",
+                "蜂拥而上"
             ],
             [
-                "助け合い",
-                "守望相助"
+                "見逃せない利益",
+                "见者有份"
             ],
             [
-                "失われた習俗",
-                "消失的习俗"
+                "産業アップデート",
+                "产业升级"
             ],
             [
-                "緊急派遣",
-                "紧急调遣"
+                "悪に引き込まれ",
+                "同流合污"
             ],
             [
-                "一瞥",
-                "瞥视"
+                "酔いどれの旅",
+                "酩酊之旅"
             ],
             [
-                "チューリップの依頼",
-                "郁金香的委托"
+                "一切れのステーキ",
+                "一块肉排"
             ]
         ]
     },
-    "Phantom@Roguelike@StageEncounterOptionUnknown": {
-        "templThreshold": 0.95
-    },
-    "Mizuki@Roguelike@ChooseDifficultyConfirm": {
+    "SSSStartFighting": {
         "text": [
-            "選択"
+            "配置開始",
+            "再度配置"
         ]
     },
-    "Mizuki@Roguelike@MissionFailedFlag2": {
-        "roi": [
-            400,
-            7,
-            485,
-            203
-        ],
-        "template": "Mizuki@Roguelike@MissionFailedFlag2.png"
+    "SSSStartFighting2": {
+        "text": [
+            "行動開始"
+        ]
     },
-    "Mizuki@Roguelike@StageEncounterLeaveConfirm": {
-        "roi": [
-            1063,
-            0,
-            217,
-            700
+    "SSSDropRecruitmentFlag": {
+        "text": [
+            "拡張",
+            "バーツ",
+            "選別",
+            "オペレーター",
+            "選択",
+            "行って",
+            "ください"
+        ]
+    },
+    "SSSDropRecruitmentOCR": {
+        "baseTask": "CharsNameOcrReplace",
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "cache": false,
+        "postDelay": 1000
+    },
+    "SSSDropRecruitmentConfirm": {
+        "text": [
+            "召集する",
+            "放棄する",
+            "選択を確認"
         ],
-        "template": "Mizuki@Roguelike@StageEncounterLeaveConfirm.png"
+        "roi": [
+            1107,
+            521,
+            173,
+            147
+        ]
+    },
+    "GachaOncePrefix@DoGacha": {
+        "text": [
+            "1回スカウト",
+            "1回",
+            "スカウ"
+        ]
+    },
+    "GachaTenTimesPrefix@DoGacha": {
+        "text": [
+            "10回スカウト",
+            "10回",
+            "スカウ"
+        ]
+    },
+    "RoguelikeChooseSupportBtnOcr": {
+        "text": [
+            "サポー"
+        ]
     },
     "RoguelikeCustom-HijackCoChar": {
         "ocrReplace": [
@@ -3705,6 +3403,12 @@
             -1,
             18,
             12
+        ]
+    },
+    "RoguelikeRefreshSupportBtnOcr": {
+        "text": [
+            "サポート",
+            "更新"
         ]
     },
     "RoguelikeTraderShoppingOcr": {
@@ -5407,15 +5111,14 @@
             ]
         ]
     },
-    "RoguelikeRefreshSupportBtnOcr": {
+    "Roguelike@ChooseDifficultyConfirm": {
         "text": [
-            "サポート",
-            "更新"
+            "選択"
         ]
     },
-    "RoguelikeChooseSupportBtnOcr": {
+    "Roguelike@FromIntegratedStrategies": {
         "text": [
-            "サポー"
+            "テーマへ"
         ]
     },
     "Roguelike@RecruitSupportConfirm": {
@@ -5425,52 +5128,469 @@
             "召集"
         ]
     },
-    "Reclamation@TodoEnter": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
+    "Roguelike@StageEncounterOcr": {
+        "ocrReplace": [
+            [
+                "野営",
+                "扎营"
+            ],
+            [
+                "優しい人形",
+                "善良的木偶"
+            ],
+            [
+                "語り部",
+                "讲故事的人"
+            ],
+            [
+                "冒険者への依頼",
+                "委托冒险者"
+            ],
+            [
+                "皇帝論争",
+                "皇家争执"
+            ],
+            [
+                "先遣隊",
+                "先遣小队"
+            ],
+            [
+                "ガリアの老兵",
+                "高卢老兵"
+            ],
+            [
+                "幻惑の明かり",
+                "迷幻烛火"
+            ],
+            [
+                "クルビアの酒屋",
+                "哥伦比亚酒商"
+            ],
+            [
+                "ブリキの男",
+                "锡人"
+            ],
+            [
+                "深紅の舞踏会",
+                "猩红舞会"
+            ],
+            [
+                "小道具",
+                "剧目需求"
+            ],
+            [
+                "狂い舞う者",
+                "狂舞之人"
+            ],
+            [
+                "作曲チャレンジ",
+                "音乐挑战"
+            ],
+            [
+                "石中の剣",
+                "石中剑"
+            ],
+            [
+                "テーブルの下の人",
+                "被困的人"
+            ],
+            [
+                "謎の情報屋",
+                "佝偻怪客"
+            ],
+            [
+                "眠れる石像",
+                "沉睡石像"
+            ],
+            [
+                "束縛された血族",
+                "受缚之血"
+            ],
+            [
+                "幽影狂言",
+                "幽影狂言"
+            ],
+            [
+                "芸術と狂気",
+                "艺术与疯狂"
+            ],
+            [
+                "主役.*ダック卿",
+                "鸭爵主演"
+            ],
+            [
+                "ダック卿のパーティー",
+                "鸭爵的宴会"
+            ],
+            [
+                "ダック卿の即興劇",
+                "即兴鸭子演出"
+            ],
+            [
+                "あのウルサス人のこと",
+                "有关那位乌萨斯人"
+            ],
+            [
+                "邪悪な棺",
+                "邪恶之棺"
+            ],
+            [
+                "血には血を",
+                "以血还血"
+            ],
+            [
+                "血には血.*",
+                "以血还血"
+            ],
+            [
+                "隠し扉",
+                "暗门"
+            ],
+            [
+                "密室",
+                "密室"
+            ],
+            [
+                "ガラクタの屋台",
+                "废品地摊"
+            ],
+            [
+                "鑑定家",
+                "鉴赏家"
+            ],
+            [
+                "苦しみからの解放",
+                "解脱"
+            ],
+            [
+                "狂ったぬいぐるみ",
+                "疯狂玩偶"
+            ],
+            [
+                "パーティーに赴く",
+                "赴宴"
+            ],
+            [
+                "信者の会合",
+                "追随者集会"
+            ],
+            [
+                "そっとしておこう",
+                "别打扰他们"
+            ],
+            [
+                "復讐劇",
+                "复仇剧"
+            ],
+            [
+                "安全な片隅",
+                "安全的角落"
+            ],
+            [
+                "ミニステージ",
+                "微型舞台"
+            ],
+            [
+                "宝物の処理人",
+                "珍品处理者"
+            ],
+            [
+                "がぶ飲み",
+                "暴殄天物"
+            ],
+            [
+                "不運な泥棒たち",
+                "鼠胆神偷"
+            ],
+            [
+                "歴史の賜物",
+                "历史馈赠"
+            ],
+            [
+                "運命の賜物",
+                "命运馈赠"
+            ],
+            [
+                "断崖の葬式",
+                "悬高之葬"
+            ],
+            [
+                ".*崖の葬式",
+                "悬高之葬"
+            ],
+            [
+                "継承",
+                "继承"
+            ],
+            [
+                "米承",
+                "继承"
+            ],
+            [
+                "帰郷",
+                "重返家园"
+            ],
+            [
+                "薪",
+                "引火之木"
+            ],
+            [
+                "先遣隊",
+                "先遣小队"
+            ],
+            [
+                "灯台守",
+                "灯塔看守人"
+            ],
+            [
+                "シーボーン学者",
+                "海嗣学者"
+            ],
+            [
+                ".*ーン学者",
+                "海嗣学者"
+            ],
+            [
+                "海辺の歌い手",
+                "海边的歌者"
+            ],
+            [
+                "海外の出張販売",
+                "远销海外"
+            ],
+            [
+                "海.*の出張販売",
+                "远销海外"
+            ],
+            [
+                "伝統技術",
+                "传统技术"
+            ],
+            [
+                "伝統支術",
+                "传统技术"
+            ],
+            [
+                "最後の監潮者",
+                "最后的观潮者"
+            ],
+            [
+                "最後の観潮者",
+                "最后的观潮者"
+            ],
+            [
+                "宝物の換金",
+                "变卖身家"
+            ],
+            [
+                "無知こそ幸福なり",
+                "无知是福"
+            ],
+            [
+                "小さな炎",
+                "点滴星火"
+            ],
+            [
+                "かすかに残る光",
+                "残存微光"
+            ],
+            [
+                "出会い",
+                "相逢"
+            ],
+            [
+                "野営",
+                "扎营"
+            ],
+            [
+                "広がりゆく喰塵",
+                "噬尘扩散"
+            ],
+            [
+                "天災トランスポーター",
+                "天灾信使"
+            ],
+            [
+                "叢立つ暗雲",
+                "阴云如聚"
+            ],
+            [
+                "独り歩む老人",
+                "孤行的老者"
+            ],
+            [
+                "生存のため",
+                "为了生存"
+            ],
+            [
+                "苦難の道",
+                "苦路"
+            ],
+            [
+                "苦.*の道",
+                "苦路"
+            ],
+            [
+                "思いやり",
+                "设身处地"
+            ],
+            [
+                "信念",
+                "信念"
+            ],
+            [
+                "善か悪か",
+                "是非黑白"
+            ],
+            [
+                "大海の遺産",
+                "大海的遗产"
+            ],
+            [
+                "諸王返らず",
+                "诸王不再"
+            ],
+            [
+                "医者の志",
+                "医者之志"
+            ],
+            [
+                "愚者の心",
+                "愚者之心"
+            ],
+            [
+                "炎を崇めよ",
+                "敬奉火焰"
+            ],
+            [
+                "宝埋もれし港湾",
+                "藏宝港湾"
+            ],
+            [
+                "宝箱の舞",
+                "宝箱之舞"
+            ],
+            [
+                "涙目のペッロー",
+                "狗眼婆娑"
+            ],
+            [
+                "涙目のペッロ$",
+                "狗眼婆娑"
+            ],
+            [
+                "ダックパワーテスト",
+                "鸭力测试"
+            ],
+            [
+                ".*クパワーテスト",
+                "鸭力测试"
+            ],
+            [
+                "暇潰し",
+                "打发时间"
+            ],
+            [
+                "仕事への情熱は",
+                "工作热情"
+            ],
+            [
+                "ビジネス帝国",
+                "商业帝国"
+            ],
+            [
+                "凶徒の妄執",
+                "狂徒妄念"
+            ],
+            [
+                "騎士は未だそこにあり",
+                "骑士仍在"
+            ],
+            [
+                "発端",
+                "开端"
+            ],
+            [
+                "紺碧の心",
+                "深蓝之心"
+            ],
+            [
+                "深蓝仪式",
+                "深蓝仪式"
+            ],
+            [
+                "昇華",
+                "升华"
+            ],
+            [
+                "賛歌",
+                "赞歌"
+            ],
+            [
+                "セーフハウス",
+                "安全屋"
+            ],
+            [
+                "その場でプリント",
+                "现买现印"
+            ],
+            [
+                "助け合い",
+                "守望相助"
+            ],
+            [
+                "失われた習俗",
+                "消失的习俗"
+            ],
+            [
+                "緊急派遣",
+                "紧急调遣"
+            ],
+            [
+                "一瞥",
+                "瞥视"
+            ],
+            [
+                "チューリップの依頼",
+                "郁金香的委托"
+            ]
+        ]
+    },
+    "Phantom@Roguelike@SelectTheme": {
+        "text": [
+            "ファントム"
+        ]
+    },
+    "Phantom@Roguelike@StageEncounterOptionUnknown": {
+        "templThreshold": 0.95
+    },
+    "Mizuki@Roguelike@ChooseDifficultyConfirm": {
+        "text": [
+            "選択"
+        ]
+    },
+    "Mizuki@Roguelike@MissionFailedFlag2": {
         "roi": [
-            686,
-            164,
-            207,
-            133
+            400,
+            7,
+            485,
+            203
         ],
+        "template": "Mizuki@Roguelike@MissionFailedFlag2.png"
+    },
+    "Mizuki@Roguelike@SelectTheme": {
         "text": [
-            "WITHIN",
-            "砂",
-            "中",
-            "の",
-            "火"
+            "ミヅキ"
         ]
     },
-    "Reclamation@EmptyInitUnits": {
+    "Mizuki@Roguelike@StageEncounterLeaveConfirm": {
         "roi": [
-            592,
-            595,
-            336,
-            125
+            1063,
+            0,
+            217,
+            700
         ],
-        "text": [
-            "演算",
-            "参加",
-            "オペレーター"
-        ]
-    },
-    "Reclamation@ConfirmStart": {
-        "text": [
-            "演算",
-            "開始"
-        ]
-    },
-    "Reclamation@SkipAnnounce": {
-        "text": [
-            "SKIP"
-        ]
-    },
-    "Reclamation@SkipDailyReport": {
-        "text": [
-            "本日",
-            "日報"
-        ]
+        "template": "Mizuki@Roguelike@StageEncounterLeaveConfirm.png"
     },
     "Reclamation@ClickAnyZoneOcr": {
         "roi": [
@@ -5488,16 +5608,101 @@
             "狩猟"
         ]
     },
-    "Reclamation@StartActionEnter": {
+    "Reclamation@ConfirmStart": {
+        "text": [
+            "演算",
+            "開始"
+        ]
+    },
+    "Reclamation@EmptyInitUnits": {
         "roi": [
-            1100,
-            550,
-            150,
-            130
+            592,
+            595,
+            336,
+            125
         ],
         "text": [
-            "行動開始",
-            "決断"
+            "演算",
+            "参加",
+            "オペレーター"
+        ]
+    },
+    "Reclamation@EnterResearchLab": {
+        "text": [
+            "研",
+            "究",
+            "所"
+        ]
+    },
+    "Reclamation@EnterSmeltGoldPage": {
+        "text": [
+            "地金",
+            "粗悪"
+        ]
+    },
+    "Reclamation@ExitLevelConfirm": {
+        "text": [
+            "離れる"
+        ]
+    },
+    "Reclamation@GiveupAlgorithm": {
+        "text": [
+            "撤",
+            "退"
+        ]
+    },
+    "Reclamation@GiveupCheckRemainItems": {
+        "text": [
+            "物資",
+            "確認"
+        ]
+    },
+    "Reclamation@GiveupClickEmergencyExit": {
+        "text": [
+            "緊急",
+            "撤退"
+        ]
+    },
+    "Reclamation@GiveupTakeNothing": {
+        "text": [
+            "確認",
+            "撤退"
+        ]
+    },
+    "Reclamation@LabClickAssembleable": {
+        "text": [
+            "組立",
+            "可"
+        ]
+    },
+    "Reclamation@LabClickDetailView": {
+        "text": [
+            "詳細",
+            "ビュー"
+        ]
+    },
+    "Reclamation@LevelComplete": {
+        "text": [
+            "終了",
+            "MISSION",
+            "RESULTS"
+        ]
+    },
+    "Reclamation@Liaison": {
+        "text": [
+            "聯絡員"
+        ]
+    },
+    "Reclamation@ManufactureDecrease": {
+        "text": [
+            "材料",
+            "足り"
+        ]
+    },
+    "Reclamation@ManufactureIncrease": {
+        "text": [
+            "開始",
+            "立開"
         ]
     },
     "Reclamation@PrepareAction": {
@@ -5512,96 +5717,44 @@
             "凖備"
         ]
     },
-    "Reclamation@ExitLevelConfirm": {
+    "Reclamation@SkipAnnounce": {
         "text": [
-            "離れる"
+            "SKIP"
         ]
     },
-    "Reclamation@LevelComplete": {
+    "Reclamation@SkipDailyReport": {
         "text": [
-            "終了",
-            "MISSION",
-            "RESULTS"
+            "本日",
+            "日報"
         ]
     },
-    "Reclamation@GiveupAlgorithm": {
-        "text": [
-            "撤",
-            "退"
-        ]
-    },
-    "Reclamation@GiveupClickEmergencyExit": {
-        "text": [
-            "緊急",
-            "撤退"
-        ]
-    },
-    "Reclamation@GiveupCheckRemainItems": {
-        "text": [
-            "物資",
-            "確認"
-        ]
-    },
-    "Reclamation@GiveupTakeNothing": {
-        "text": [
-            "確認",
-            "撤退"
-        ]
-    },
-    "Reclamation@EnterSmeltGoldPage": {
-        "text": [
-            "地金",
-            "粗悪"
-        ]
-    },
-    "Reclamation@EnterResearchLab": {
-        "text": [
-            "研",
-            "究",
-            "所"
-        ]
-    },
-    "Reclamation@LabClickDetailView": {
-        "text": [
-            "詳細",
-            "ビュー"
-        ]
-    },
-    "Reclamation@LabClickAssembleable": {
-        "text": [
-            "組立",
-            "可"
-        ]
-    },
-    "Reclamation@ManufactureIncrease": {
-        "text": [
-            "開始",
-            "立開"
-        ]
-    },
-    "Reclamation@ManufactureDecrease": {
-        "text": [
-            "材料",
-            "足り"
-        ]
-    },
-    "Reclamation@Liaison": {
-        "text": [
-            "聯絡員"
-        ]
-    },
-    "StartWithDefaultFormation@Reclamation@ConfirmStart": {
-        "baseTask": "Reclamation@ConfirmStart",
-        "next": [],
-        "next_Old": [
-            "Stop"
+    "Reclamation@StartActionEnter": {
+        "roi": [
+            1100,
+            550,
+            150,
+            130
         ],
-        "next_Old_Doc": "这里原先有个stop，但是会导致StartWithDefaultFormation@Reclamation@Begin中间多出一个Stop，姑且当成是不小心加的删了。"
+        "text": [
+            "行動開始",
+            "決断"
+        ]
     },
-    "StartActionEnter@Reclamation@StartActionEnter": {
-        "baseTask": "Reclamation@StartActionEnter",
-        "next": [
-            "Stop"
+    "Reclamation@TodoEnter": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "WITHIN",
+            "砂",
+            "中",
+            "の",
+            "火"
+        ],
+        "roi": [
+            686,
+            164,
+            207,
+            133
         ]
     },
     "ClickAnyZone@Reclamation@Begin": {
@@ -5610,18 +5763,18 @@
             "Stop"
         ]
     },
-    "GachaOncePrefix@DoGacha": {
-        "text": [
-            "1回スカウト",
-            "1回",
-            "スカウ"
+    "StartActionEnter@Reclamation@StartActionEnter": {
+        "baseTask": "Reclamation@StartActionEnter",
+        "next": [
+            "Stop"
         ]
     },
-    "GachaTenTimesPrefix@DoGacha": {
-        "text": [
-            "10回スカウト",
-            "10回",
-            "スカウ"
+    "StartWithDefaultFormation@Reclamation@ConfirmStart": {
+        "baseTask": "Reclamation@ConfirmStart",
+        "next": [],
+        "next_Old_Doc": "这里原先有个stop，但是会导致StartWithDefaultFormation@Reclamation@Begin中间多出一个Stop，姑且当成是不小心加的删了。",
+        "next_Old": [
+            "Stop"
         ]
     }
 }

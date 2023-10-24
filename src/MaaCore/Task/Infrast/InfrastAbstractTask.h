@@ -1,4 +1,6 @@
 #pragma once
+#include <set>
+
 #include "Common/AsstInfrastDef.h"
 #include "Common/AsstTypes.h"
 #include "Task/AbstractTask.h"
