@@ -208,12 +208,6 @@ std::optional<int> asst::Win32IO::call_command(const std::string& cmd, bool recv
         }
     }
 
-    DWORD exit_ret = 0;
-    GetExitCodeProcess(process_info.hProcess, &exit_ret);
-    CloseHandle(process_info.hProcess);
-    CloseHandle(process_info.hThread);
-    CloseHandle(pipe_parent_read);
-    CloseHandle(pipeov.hEvent);
     if (recv_by_socket) {
         if (accept_pending) {
             Log.warn("cancel AcceptEx");
@@ -228,6 +222,16 @@ std::optional<int> asst::Win32IO::call_command(const std::string& cmd, bool recv
         CloseHandle(sockov.hEvent);
     }
 
+    if (process_running) {
+        TerminateProcess(process_info.hProcess, 0);
+    }
+
+    DWORD exit_ret = 0;
+    GetExitCodeProcess(process_info.hProcess, &exit_ret);
+    CloseHandle(process_info.hProcess);
+    CloseHandle(process_info.hThread);
+    CloseHandle(pipe_parent_read);
+    CloseHandle(pipeov.hEvent);
     return static_cast<int>(exit_ret);
 }
 
