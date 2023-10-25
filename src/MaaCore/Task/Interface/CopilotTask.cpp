@@ -93,7 +93,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     }
 
     // 选择指定编队
-    m_formation_task_ptr->set_select_formation(params.get("select_formation", 3));
+    m_formation_task_ptr->set_select_formation(params.get("select_formation", 0));
 
     // 自动补信赖
     m_formation_task_ptr->set_add_trust(params.get("add_trust", false));

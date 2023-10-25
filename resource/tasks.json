@@ -7230,7 +7230,7 @@
             255
         ]
     },
-    "BattleSelectFormation0": {
+    "BattleSelectFormation1": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [
@@ -7240,8 +7240,8 @@
             40
         ]
     },
-    "BattleSelectFormation1": {
-        "baseTask": "BattleSelectFormation0",
+    "BattleSelectFormation2": {
+        "baseTask": "BattleSelectFormation1",
         "specificRect": [
             460,
             670,
@@ -7249,8 +7249,8 @@
             40
         ]
     },
-    "BattleSelectFormation2": {
-        "baseTask": "BattleSelectFormation0",
+    "BattleSelectFormation3": {
+        "baseTask": "BattleSelectFormation1",
         "specificRect": [
             720,
             670,
@@ -7258,8 +7258,8 @@
             40
         ]
     },
-    "BattleSelectFormation3": {
-        "baseTask": "BattleSelectFormation0",
+    "BattleSelectFormation4": {
+        "baseTask": "BattleSelectFormation1",
         "specificRect": [
             995,
             675,
