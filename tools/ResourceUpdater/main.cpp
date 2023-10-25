@@ -136,11 +136,11 @@ int main([[maybe_unused]] int argc, char** argv)
     // }
 
     /* Update base_name.json from Penguin Stats*/
-    //std::cout << "------------Update stage.json------------" << std::endl;
-    //if (!update_stages_data(cur_path, resource_dir)) {
-    //    std::cerr << "Update stages data failed" << std::endl;
-    //    return -1;
-    //}
+    std::cout << "------------Update stage.json------------" << std::endl;
+    if (!update_stages_data(cur_path, resource_dir)) {
+       std::cerr << "Update stages data failed" << std::endl;
+       return -1;
+    }
 
     /* Update overseas data */
     std::cout << "------------Update overseas data------------" << std::endl;
