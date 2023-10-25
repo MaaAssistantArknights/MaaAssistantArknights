@@ -20,12 +20,12 @@ asst::CreditFightTask::CreditFightTask(const AsstCallback& callback, Assistant* 
     start_up_task_ptr->set_tasks({ "StageBegin" }).set_times_limit("GoLastBattle", 0);
 
     // 自动战斗
-    m_copilot_params = json::object {
+    json::value copilot_params = json::object {
         { "filename", utils::path_to_utf8_string(ResDir.get() / "copilot" / "OF-1_credit_fight.json") },
         { "formation", true },
         { "support_unit_name", "_RANDOM_" },
     };
-    m_copilot_task_ptr->set_params(m_copilot_params);
+    m_copilot_task_ptr->set_params(copilot_params);
 
     // 关卡导航
     stage_navigation_task_ptr->set_stage_name(m_copilot_task_ptr->get_stage_name());
@@ -45,6 +45,11 @@ asst::CreditFightTask::CreditFightTask(const AsstCallback& callback, Assistant* 
 
 void asst::CreditFightTask::set_select_formation(int index)
 {
-    m_copilot_params["select_formation"] = index;
-    m_copilot_task_ptr->set_params(m_copilot_params);
+    json::value copilot_params = json::object{
+        { "filename", utils::path_to_utf8_string(ResDir.get() / "copilot" / "OF-1_credit_fight.json") },
+        { "formation", true },
+        { "support_unit_name", "_RANDOM_" },
+        { "select_formation", index },
+    };
+    m_copilot_task_ptr->set_params(copilot_params);
 }
