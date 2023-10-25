@@ -24,7 +24,7 @@ bool asst::MedicineCounterPlugin::verify(AsstMsg msg, const json::value& details
 bool asst::MedicineCounterPlugin::_run()
 {
     LogTraceFunction;
-    
+
     if (m_using_count >= m_max_count && !m_use_expiring) {
         return true;
     }
@@ -35,33 +35,33 @@ bool asst::MedicineCounterPlugin::_run()
 
     // 预计最大使用药品情况不会超过2种，不考虑滑动
     // 10+10+N
-    auto initialCount = initial_count(image);
-    if (!initialCount) [[unlikely]] {
+    auto initial_count = init_count(image);
+    if (!initial_count) [[unlikely]] {
         return false;
     }
 
     auto refresh_medicine_count = [&]() {
         image = ctrler()->get_image();
-        auto count = initial_count(image);
+        auto count = init_count(image);
         if (!count) [[unlikely]] {
             return false;
         }
-        initialCount = count;
+        initial_count = count;
         return true;
     };
-    if (m_using_count < m_max_count && initialCount->using_count + m_using_count > m_max_count) {
-        reduce_excess(*initialCount);
+    if (m_using_count < m_max_count && initial_count->using_count + m_using_count > m_max_count) {
+        reduce_excess(*initial_count);
         if (!refresh_medicine_count()) {
             return false;
         }
     }
     else if (m_using_count >= m_max_count && m_use_expiring) {
         bool changed = false;
-        for (auto& [use, inventory, rect, is_expiring] : initialCount->medicines | std::ranges::views::reverse) {
-            while (use > 0 && is_expiring != ExpiringStatus::Expiring) {
-                ctrler()->click(rect);
+        for (const auto& [use, inventory, reduce_rect, is_expiring] :
+             initial_count->medicines | std::ranges::views::reverse) {
+            if (use > 0 && is_expiring != ExpiringStatus::Expiring) {
+                ctrler()->click(reduce_rect);
                 sleep(Config.get_options().task_delay);
-                use--;
                 changed = true;
             }
         }
@@ -70,7 +70,7 @@ bool asst::MedicineCounterPlugin::_run()
             return false;
         }
     }
-    m_using_count += initialCount->using_count;
+    m_using_count += initial_count->using_count;
 
     // 博朗台：如果溢出则等待
     if (m_dr_grandet) {
@@ -90,13 +90,12 @@ bool asst::MedicineCounterPlugin::_run()
 
     auto info = basic_info_with_what("UseMedicine");
     info["details"]["is_expiring"] = m_using_count > m_max_count;
-    info["details"]["count"] = initialCount->using_count;
+    info["details"]["count"] = initial_count->using_count;
     callback(AsstMsg::SubTaskExtraInfo, info);
     return true;
 }
 
-std::optional<asst::MedicineCounterPlugin::InitialMedicineResult> asst::MedicineCounterPlugin::initial_count(
-    cv::Mat image)
+std::optional<asst::MedicineCounterPlugin::InitialMedicineResult> asst::MedicineCounterPlugin::init_count(cv::Mat image)
 {
     int use = 0;
     MultiMatcher multiMatcher(image);
@@ -107,10 +106,11 @@ std::optional<asst::MedicineCounterPlugin::InitialMedicineResult> asst::Medicine
     }
 
     std::vector<Medicine> medicines;
+    auto using_count_task = Task.get("UsingMedicineCount");
+    auto inventory_task = Task.get("MedicineInventory");
+    auto expiring_task = Task.get("MedicineExpiringTime");
+
     for (const auto& result : multiMatcher.get_result()) {
-        auto using_count_task = Task.get("UsingMedicineCount");
-        auto inventory_task = Task.get("MedicineInventory");
-        auto expiring_task = Task.get("MedicineExpiringTime");
         auto using_rect = result.rect.move(using_count_task->rect_move);
         auto inventory_rect = result.rect.move(inventory_task->rect_move);
         auto expiring_rect = result.rect.move(expiring_task->rect_move);
@@ -149,6 +149,8 @@ std::optional<asst::MedicineCounterPlugin::InitialMedicineResult> asst::Medicine
         int using_count = 0, inventory_count = 0;
         if (!utils::chars_to_number(using_count_ocr.get_result().text, using_count) ||
             !utils::chars_to_number(inventry_ocr.get_result().text, inventory_count)) {
+            Log.error(__FUNCTION__, "unable to convert ocr result to int, use:", using_count_ocr.get_result().text,
+                      ", inventory:", inventry_ocr.get_result().text);
             return std::nullopt;
         }
         use += using_count;
@@ -160,10 +162,10 @@ std::optional<asst::MedicineCounterPlugin::InitialMedicineResult> asst::Medicine
     return InitialMedicineResult { .using_count = use, .medicines = medicines };
 }
 
-void asst::MedicineCounterPlugin::reduce_excess(InitialMedicineResult using_medicine)
+void asst::MedicineCounterPlugin::reduce_excess(const InitialMedicineResult& using_medicine)
 {
     auto reduce = m_using_count + using_medicine.using_count - m_max_count;
-    for (auto& [use, inventory, rect, is_expiring] : using_medicine.medicines | std::ranges::views::reverse) {
+    for (const auto& [use, inventory, rect, is_expiring] : using_medicine.medicines | std::ranges::views::reverse) {
         ctrler()->click(rect);
         sleep(Config.get_options().task_delay);
         reduce -= use;
