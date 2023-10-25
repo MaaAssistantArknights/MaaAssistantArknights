@@ -85,19 +85,16 @@
         ]
     },
     "ClickChapter1": {
-        "baseTask": "ClickChapter",
         "text": [
             "覺醒"
         ]
     },
     "ClickChapter2": {
-        "baseTask": "ClickChapter",
         "text": [
             "幻滅"
         ]
     },
     "ClickChapter3": {
-        "baseTask": "ClickChapter",
         "text": [
             "殘陽"
         ]
@@ -118,15 +115,6 @@
         "text": [
             "進入",
             "作戰"
-        ]
-    },
-    "ClickedCorrectStageOrSwipe": {
-        "baseTask": "StartButton1",
-        "action": "DoNothing",
-        "reduceOtherTimes": [],
-        "next": [
-            "ClickedCorrectStage",
-            "FullStageNavigation"
         ]
     },
     "SideStoryReopen": {
@@ -2423,9 +2411,6 @@
             "導能"
         ]
     },
-    "SSSDropRecruitmentOCR": {
-        "baseTask": "CharsNameOcrReplace"
-    },
     "SSSDropRecruitmentConfirm": {
         "text": [
             "確認調用",
@@ -2441,10 +2426,6 @@
             145,
             145
         ]
-    },
-    "SSSHalfTimeDrops": {
-        "baseTask": "CharsNameOcrReplace",
-        "postDelay": 1000
     },
     "GachaLastOnceResult": {
         "text": [
