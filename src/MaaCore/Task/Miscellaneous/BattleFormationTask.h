@@ -59,7 +59,7 @@ namespace asst
         bool confirm_selection();
         bool click_role_table(battle::Role role);
         bool parse_formation();
-        bool select_formation();
+        bool select_formation(int select_index);
         bool select_random_support_unit();
 
         std::vector<TextRect> analyzer_opers();
@@ -81,9 +81,5 @@ namespace asst
         std::vector<AdditionalFormation> m_additional;
         std::string m_last_oper_name;
         int m_select_formation_index;
-
-        const std::string m_battle_select_formation_task_name[5] = {
-            "", "BattleSelectFormation1", "BattleSelectFormation2", "BattleSelectFormation3", "BattleSelectFormation4"
-        };
     };
 } // namespace asst

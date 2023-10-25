@@ -57,7 +57,7 @@ bool asst::BattleFormationTask::_run()
         return false;
     }
 
-    if (m_select_formation_index > 0 && !select_formation()) {
+    if (m_select_formation_index > 0 && !select_formation(m_select_formation_index)) {
         return false;
     }
 
@@ -425,11 +425,15 @@ bool asst::BattleFormationTask::parse_formation()
     return true;
 }
 
-inline bool asst::BattleFormationTask::select_formation()
+inline bool asst::BattleFormationTask::select_formation(int select_index)
 {
     // 编队不会触发改名的区域有两组
     // 一组是上面的黑长条 260*9
     // 第二组是名字最左边和最右边的一块区域
     // 右边比左边窄，暂定为左边 10*58
-    return ProcessTask { *this, { m_battle_select_formation_task_name[m_select_formation_index] } }.run();
+
+    std::string m_battle_select_formation_task_name[4] = { "BattleSelectFormation1", "BattleSelectFormation2",
+                                                           "BattleSelectFormation3", "BattleSelectFormation4" };
+
+    return ProcessTask { *this, { m_battle_select_formation_task_name[select_index - 1] } }.run();
 }
