@@ -240,15 +240,6 @@ inline bool asst::BattleFormationTask::select_random_support_unit()
     return ProcessTask(*this, { "BattleSupportUnitFormation" }).run();
 }
 
-int asst::BattleFormationTask::formation_index_from_rect(const Rect& r)
-{
-    int cx = r.x + r.width / 2;
-    if (cx <= 370) return 1;
-    if (cx <= 640) return 2;
-    if (cx <= 915) return 3;
-    return 4;
-}
-
 std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_opers()
 {
     auto formation_task_ptr = Task.get("BattleQuickFormationOCR");
