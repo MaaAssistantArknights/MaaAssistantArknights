@@ -136,37 +136,26 @@ int main([[maybe_unused]] int argc, char** argv)
     // }
 
     /* Update base_name.json from Penguin Stats*/
-    std::cout << "------------Update stage.json------------" << std::endl;
-    if (!update_stages_data(cur_path, resource_dir)) {
-        std::cerr << "Update stages data failed" << std::endl;
-        return -1;
-    }
-
-    std::cout << "------------Update stage.json------------" << std::endl;
-    if (!update_stages_data(cur_path, resource_dir)) {
-        std::cerr << "Update stages data failed" << std::endl;
-        return -1;
-    }
+    //std::cout << "------------Update stage.json------------" << std::endl;
+    //if (!update_stages_data(cur_path, resource_dir)) {
+    //    std::cerr << "Update stages data failed" << std::endl;
+    //    return -1;
+    //}
 
     /* Update overseas data */
     std::cout << "------------Update overseas data------------" << std::endl;
-    const std::filesystem::path overseas_data_dir = cur_path;
+    const std::filesystem::path overseas_data_dir = cur_path / "ArknightsGameData_YoStar";
 
-    std::string data_exec = (overseas_data_dir / "arknights_rs.exe").string();
-    if (!std::filesystem::exists(data_exec)) {
-        std::string download_cmd = "curl --ssl-no-revoke "
-                                   "https://raw.githubusercontent.com/MaaAssistantArknights/"
-                                   "MaaRelease/main/MaaAssistantArknights/api/binaries/arknights_rs.exe  > " +
-                                   data_exec;
-        int dl = system(download_cmd.c_str());
-        if (dl != 0) {
-            std::cerr << "download overseas exec failed" << std::endl;
-            return -1;
-        }
+    if (!std::filesystem::exists(overseas_data_dir)) {
+        git_cmd = "git clone https://github.com/Kengxxiao/ArknightsGameData_YoStar.git --depth=1 \"" +
+                  overseas_data_dir.string() + "\"";
     }
-    int zhtw_ret = system(("cd " + cur_path.string() + " && " + data_exec).c_str());
-    if (zhtw_ret != 0) {
-        std::cerr << "overseas update failed" << std::endl;
+    else {
+        git_cmd = "git -C \"" + overseas_data_dir.string() + "\" pull --autostash";
+    }
+    git_ret = system(git_cmd.c_str());
+    if (git_ret != 0) {
+        std::cerr << "git cmd failed" << std::endl;
         return -1;
     }
 
@@ -185,10 +174,8 @@ int main([[maybe_unused]] int argc, char** argv)
     }
 
     std::unordered_map<std::string, std::string> global_dirs = {
-        { "en", "YoStarEN" },
-        { "jp", "YoStarJP" },
-        { "kr", "YoStarKR" },
-        { "tw", "txwy" },
+        { "en_US", "YoStarEN" }, { "ja_JP", "YoStarJP" }, { "ko_KR", "YoStarKR" },
+        //{ "tw", "txwy" },
     };
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update recruitment data for " << out << "------------" << std::endl;
@@ -786,12 +773,12 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
 {
     auto range_opt = json::open(input_dir / "gamedata" / "excel" / "range_table.json");
     auto chars_cn_opt = json::open(input_dir / "gamedata" / "excel" / "character_table.json");
-    auto chars_en_opt = json::open(overseas_dir / "en" / "gamedata" / "excel" / "character_table.json");
-    auto chars_jp_opt = json::open(overseas_dir / "jp" / "gamedata" / "excel" / "character_table.json");
-    auto chars_kr_opt = json::open(overseas_dir / "kr" / "gamedata" / "excel" / "character_table.json");
-    auto chars_tw_opt = json::open(overseas_dir / "tw" / "gamedata" / "excel" / "character_table.json");
+    auto chars_en_opt = json::open(overseas_dir / "en_US" / "gamedata" / "excel" / "character_table.json");
+    auto chars_jp_opt = json::open(overseas_dir / "ja_JP" / "gamedata" / "excel" / "character_table.json");
+    auto chars_kr_opt = json::open(overseas_dir / "ko_KR" / "gamedata" / "excel" / "character_table.json");
+    // auto chars_tw_opt = json::open(overseas_dir / "tw" / "gamedata" / "excel" / "character_table.json");
 
-    if (!chars_cn_opt || !chars_en_opt || !chars_jp_opt || !chars_kr_opt || !chars_tw_opt || !range_opt) {
+    if (!chars_cn_opt || !chars_en_opt || !chars_jp_opt || !chars_kr_opt || /*!chars_tw_opt ||*/ !range_opt) {
         return false;
     }
 
@@ -801,7 +788,7 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
                                                                     { chars_en_opt.value(), "name_en" },
                                                                     { chars_jp_opt.value(), "name_jp" },
                                                                     { chars_kr_opt.value(), "name_kr" },
-                                                                    { chars_tw_opt.value(), "name_tw" } };
+                                                                    /*{ chars_tw_opt.value(), "name_tw" }*/ };
 
     json::value result;
     auto& range = result["ranges"].as_object();
@@ -833,6 +820,7 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
             else {
                 char_new_data[chars_json[i].second] = char_data["name"].as_string();
             }
+            char_new_data["name_tw"] = char_data["name"].as_string();
         }
 
         char_new_data["profession"] = char_data["profession"];
