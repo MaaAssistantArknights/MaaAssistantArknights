@@ -110,7 +110,8 @@
         },
         {
             "configName": "LDPlayer",
-            "baseConfig": "CapWithShell"
+            "baseConfig": "CapWithShell",
+            "screencapRawByNC": "[Adb] -s [AdbSerial] shell \"screencap | busybox nc -w 3 [NcAddress] [NcPort]\""
         },
         {
             "configName": "Nox",
