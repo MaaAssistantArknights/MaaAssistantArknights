@@ -57,10 +57,9 @@ bool asst::MedicineCounterPlugin::_run()
     }
     else if (m_using_count >= m_max_count && m_use_expiring) {
         bool changed = false;
-        for (const auto& [use, inventory, reduce_rect, is_expiring] :
-             initial_count->medicines | std::ranges::views::reverse) {
+        for (const auto& [use, inventory, rect, is_expiring] : initial_count->medicines | asst::ranges::views::reverse) {
             if (use > 0 && is_expiring != ExpiringStatus::Expiring) {
-                ctrler()->click(reduce_rect);
+                ctrler()->click(rect);
                 sleep(Config.get_options().task_delay);
                 changed = true;
             }
