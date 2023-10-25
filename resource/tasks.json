@@ -4068,6 +4068,7 @@
     },
     "SanityMatch": {
         "algorithm": "OcrDetect",
+        "baseTask": "NumberOcrReplace",
         "text": [],
         "isAscii": true,
         "roi": [
@@ -4075,28 +4076,6 @@
             20,
             160,
             40
-        ],
-        "ocrReplace": [
-            [
-                "\\|",
-                "/"
-            ],
-            [
-                "o",
-                "0"
-            ],
-            [
-                "O",
-                "0"
-            ],
-            [
-                "I",
-                "1"
-            ],
-            [
-                "l",
-                "1"
-            ]
         ],
         "preDelay": 300
     },
@@ -4149,6 +4128,7 @@
     },
     "UsingMedicineCount": {
         "algorithm": "OcrDetect",
+        "baseTask": "NumberOcrReplace",
         "text": [],
         "isAscii": true,
         "rectMove": [
@@ -4157,28 +4137,6 @@
             105,
             60
         ],
-        "ocrReplace": [
-            [
-                "\\|",
-                "/"
-            ],
-            [
-                "o",
-                "0"
-            ],
-            [
-                "O",
-                "0"
-            ],
-            [
-                "I",
-                "1"
-            ],
-            [
-                "l",
-                "1"
-            ]
-        ],
         "specialParams": [
             150,
             255
@@ -4186,6 +4144,7 @@
     },
     "MedicineInventory": {
         "algorithm": "OcrDetect",
+        "baseTask": "NumberOcrReplace",
         "text": [],
         "isAscii": true,
         "rectMove": [
@@ -4193,28 +4152,6 @@
             87,
             40,
             33
-        ],
-        "ocrReplace": [
-            [
-                "\\|",
-                "/"
-            ],
-            [
-                "o",
-                "0"
-            ],
-            [
-                "O",
-                "0"
-            ],
-            [
-                "I",
-                "1"
-            ],
-            [
-                "l",
-                "1"
-            ]
         ],
         "specialParams": [
             150,
@@ -4255,6 +4192,7 @@
     },
     "UsingMedicine-Target": {
         "algorithm": "OcrDetect",
+        "baseTask": "NumberOcrReplace",
         "roi": [
             255,
             390,
@@ -4262,32 +4200,11 @@
             140
         ],
         "text": [],
-        "isAscii": true,
-        "ocrReplace": [
-            [
-                "\\|",
-                "/"
-            ],
-            [
-                "o",
-                "0"
-            ],
-            [
-                "O",
-                "0"
-            ],
-            [
-                "I",
-                "1"
-            ],
-            [
-                "l",
-                "1"
-            ]
-        ]
+        "isAscii": true
     },
     "UsingMedicine-SanityMax": {
         "algorithm": "OcrDetect",
+        "baseTask": "NumberOcrReplace",
         "roi": [
             440,
             330,
@@ -4295,29 +4212,7 @@
             55
         ],
         "text": [],
-        "isAscii": true,
-        "ocrReplace": [
-            [
-                "\\|",
-                "/"
-            ],
-            [
-                "o",
-                "0"
-            ],
-            [
-                "O",
-                "0"
-            ],
-            [
-                "I",
-                "1"
-            ],
-            [
-                "l",
-                "1"
-            ]
-        ]
+        "isAscii": true
     },
     "DrGrandetUseOriginiums": {
         "algorithm": "OcrDetect",
