@@ -138,8 +138,8 @@ int main([[maybe_unused]] int argc, char** argv)
     /* Update base_name.json from Penguin Stats*/
     std::cout << "------------Update stage.json------------" << std::endl;
     if (!update_stages_data(cur_path, resource_dir)) {
-       std::cerr << "Update stages data failed" << std::endl;
-       return -1;
+        std::cerr << "Update stages data failed" << std::endl;
+        return -1;
     }
 
     /* Update overseas data */
@@ -1126,6 +1126,7 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
 
     std::ofstream ofs(tasks_path, std::ios::out);
     ofs << task_json.format() << std::endl;
+    ofs.close();
 
     return true;
 }
