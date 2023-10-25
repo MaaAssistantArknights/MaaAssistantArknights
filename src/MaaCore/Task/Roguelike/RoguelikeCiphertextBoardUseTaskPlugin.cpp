@@ -88,10 +88,11 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::_run()
             return false;
         }
         if (m_stage == usage.usage) {
-            // 用到没得用为止
-            while (search_enable_pair(usage) && !need_exit()) {
+            // 用到没得用为止,但是只要没有使用成功就不继续使用
+            while (search_enable_pair(usage) && !m_board_use_error) {
                 Log.info("Use board pairs");
             }
+            m_board_use_error = false;
             break;
         }
     }
@@ -118,7 +119,6 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::search_enable_pair(const auto&
 
 bool asst::RoguelikeCiphertextBoardUseTaskPlugin::board_pair(const std::string& up_board, const std::string& down_board)
 {
-    LogTraceFunction;
 
     auto iter_up = std::find(m_all_boards.begin(), m_all_boards.end(), up_board);
     auto iter_down = std::find(m_all_boards.begin(), m_all_boards.end(), down_board);
@@ -130,7 +130,7 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::board_pair(const std::string& 
             iter_down = std::find(m_all_boards.begin(), m_all_boards.end(), down_board);
             m_all_boards.erase(iter_down);
             status()->set_str(Status::RoguelikeCiphertextBoardOverview, m_all_boards.to_string());
-            Log.debug("Use board pairs");
+            Log.debug("Board pairs used");
         }
         return true;
     }
@@ -139,33 +139,30 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::board_pair(const std::string& 
 
 bool asst::RoguelikeCiphertextBoardUseTaskPlugin::use_board(const std::string& up_board, const std::string& down_board)
 {
-    LogTraceFunction;
+    Log.trace("Try to use the board pair", up_board, down_board);
 
     if (ProcessTask(*this, { m_roguelike_theme + "@Roguelike@CiphertextBoard" }).run()) {
         swipe_to_top();
-        // todo:插入一个更新密文板overview
-        if (search_and_click_board(up_board)) {
-            search_and_click_board(down_board);
-            // 点击节点位置,todo:根据坐标换算位置
-            if (m_stage == "Boss") {
-                // 滑到最右边，可能这里的逻辑需要扩充为找不到点就往右划，暂时先这么糊着，出现这种情况再写
-                ProcessTask(*this, { "SwipeToTheLeft" }).run();
-            }
-            ProcessTask(*this, { m_roguelike_theme + "@Roguelike@CiphertextBoardUseOnStage" }).run();
+        // todo:插入一个滑动时顺便更新密文板overview,因为有的板子可以用两次
+        if (search_and_click_board(up_board) && search_and_click_board(down_board)) {
+            search_and_click_stage();
             if (ProcessTask(*this, { m_roguelike_theme + "@Roguelike@CiphertextBoardUseConfirm" }).run()) {
                 return true;
             }
         }
         ProcessTask(*this, { m_roguelike_theme + "@Roguelike@CiphertextBoardBack" }).run();
     }
+    m_board_use_error = true;
     return false;
 }
 
 bool asst::RoguelikeCiphertextBoardUseTaskPlugin::search_and_click_board(const std::string& board)
 {
-    LogTraceFunction;
+    Log.trace("Search and click the board", board);
 
-    while (!need_exit()) {
+    int max_retry = 10;
+    int try_time = 0;
+    while (try_time < max_retry) {
         OCRer analyzer(ctrler()->get_image());
         std::string task_name = m_roguelike_theme + "@Roguelike@CiphertextBoardUseOcr";
         analyzer.set_task_info(task_name);
@@ -178,6 +175,27 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::search_and_click_board(const s
             ctrler()->click(analyzer.get_result().front().rect.move(Task.get(task_name)->rect_move));
             return true;
         }
+        try_time++;
+    }
+    m_board_use_error = true;
+    return false;
+}
+
+bool asst::RoguelikeCiphertextBoardUseTaskPlugin::search_and_click_stage()
+{
+    Log.trace("Try to click stage", m_stage);
+    // todo:根据坐标换算位置,根据节点类型设置识别优先度
+
+    // 重置到最左边
+    ProcessTask(*this, { "SwipeToTheRight" }).run();
+    // 节点会闪烁，所以这里不用单次Match
+    if (ProcessTask(*this, { m_roguelike_theme + "@Roguelike@CiphertextBoardUseOnStage" }).run()) {
+        return true;
+    }
+    // 滑到最右边，萨米的地图只有两页，暂时先这么糊着，出现识别不到再写循环
+    ProcessTask(*this, { "SwipeToTheLeft" }).run();
+    if (ProcessTask(*this, { m_roguelike_theme + "@Roguelike@CiphertextBoardUseOnStage" }).run()) {
+        return true;
     }
     return false;
 }
@@ -186,8 +204,10 @@ void asst::RoguelikeCiphertextBoardUseTaskPlugin::swipe_to_top()
 {
     LogTraceFunction;
 
+    int max_retry = 10;
+    int try_time = 0;
     // 找到布局"就到了最上面
-    while (!need_exit()) {
+    while (try_time < max_retry) {
         OCRer analyzer(ctrler()->get_image());
         analyzer.set_task_info(m_roguelike_theme + "@Roguelike@CiphertextBoardUseOcr");
         if (analyzer.analyze()) {
@@ -197,7 +217,9 @@ void asst::RoguelikeCiphertextBoardUseTaskPlugin::swipe_to_top()
             // 往下滑
             ProcessTask(*this, { "RoguelikeCiphertextBoardSwipeToTheDown" }).run();
         }
+        try_time++;
     }
+    m_board_use_error = true;
 }
 
 void asst::RoguelikeCiphertextBoardUseTaskPlugin::slowly_swipe(bool to_up, int swipe_dist)
