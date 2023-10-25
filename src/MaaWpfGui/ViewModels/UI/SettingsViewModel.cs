@@ -510,9 +510,9 @@ namespace MaaWpfGui.ViewModels.UI
 
             _dormThresholdLabel = LocalizationHelper.GetString("DormThreshold") + ": " + _dormThreshold + "%";
 
-            FormationSelectedList = new List<CombinedData>()
+            FormationSelectList = new List<CombinedData>()
             {
-                new CombinedData { Display = "Default", Value = "0" },
+                new CombinedData { Display = "Current", Value = "0" },
                 new CombinedData { Display = "1", Value = "1" },
                 new CombinedData { Display = "2", Value = "2" },
                 new CombinedData { Display = "3", Value = "3" },
@@ -2011,7 +2011,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets 设置选择的编队
         /// </summary>
-        public List<CombinedData> FormationSelectedList { get; set; }
+        public List<CombinedData> FormationSelectList { get; set; }
 
         private int _creditFightSelectFormation = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.CreditFightSelectFormation, "0"));
 
