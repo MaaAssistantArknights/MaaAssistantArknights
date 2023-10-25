@@ -510,6 +510,15 @@ namespace MaaWpfGui.ViewModels.UI
 
             _dormThresholdLabel = LocalizationHelper.GetString("DormThreshold") + ": " + _dormThreshold + "%";
 
+            FormationSelectedList = new List<CombinedData>()
+            {
+                new CombinedData { Display = "Default", Value = "0" },
+                new CombinedData { Display = "1", Value = "1" },
+                new CombinedData { Display = "2", Value = "2" },
+                new CombinedData { Display = "3", Value = "3" },
+                new CombinedData { Display = "4", Value = "4" },
+            };
+
             RoguelikeModeList = new List<CombinedData>
             {
                 new CombinedData { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = "0" },
@@ -1999,7 +2008,12 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private int _creditFightSelectFormation = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.CreditFightSelectFormation, "4"));
+        /// <summary>
+        /// Gets or sets 设置选择的编队
+        /// </summary>
+        public List<CombinedData> FormationSelectedList { get; set; }
+
+        private int _creditFightSelectFormation = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.CreditFightSelectFormation, "0"));
 
         /// <summary>
         /// Gets or sets a value indicating which formation will be select in credit fight.

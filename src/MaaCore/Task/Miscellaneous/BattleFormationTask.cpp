@@ -39,7 +39,7 @@ void asst::BattleFormationTask::set_add_trust(bool add_trust)
     m_add_trust = add_trust;
 }
 
-void asst::BattleFormationTask::set_select_formation(formation_index index)
+void asst::BattleFormationTask::set_select_formation(int index)
 {
     m_select_formation_index = index;
 }
@@ -57,7 +57,7 @@ bool asst::BattleFormationTask::_run()
         return false;
     }
 
-    if (!select_formation()) {
+    if (m_select_formation_index > 0 && !select_formation(ctrler()->get_image())) {
         return false;
     }
 
@@ -236,9 +236,18 @@ bool asst::BattleFormationTask::add_trust_operators()
     return append_count == 0;
 }
 
-bool asst::BattleFormationTask::select_random_support_unit()
+inline bool asst::BattleFormationTask::select_random_support_unit()
 {
     return ProcessTask(*this, { "BattleSupportUnitFormation" }).run();
+}
+
+int asst::BattleFormationTask::formation_index_from_rect(const Rect& r)
+{
+    int cx = r.x + r.width / 2;
+    if (cx <= 370) return 1;
+    if (cx <= 640) return 2;
+    if (cx <= 915) return 3;
+    return 4;
 }
 
 std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_opers()
@@ -432,14 +441,13 @@ bool asst::BattleFormationTask::select_formation(const cv::Mat& image)
 
     Matcher selected_searcher(image);
     selected_searcher.set_task_info("BattleSelectedFormation");
-    selected_searcher.analyze();
-    formation_index result = formation_index_from_rect(selected_searcher.get_result().rect);
+    if (!selected_searcher.analyze()) {
+        return false;
+    }
+    int result = formation_index_from_rect(selected_searcher.get_result().rect);
     if (result == m_select_formation_index) return true;
+    int a[] = {1, 2};
 
-    return ProcessTask { *this, { m_taskname_from_index[m_select_formation_index] } }.run();
+    return ProcessTask { *this, { "BattleSelectFormation" + m_select_formation_index } }.run();
 }
 
-bool asst::BattleFormationTask::select_formation()
-{
-    return select_formation(ctrler()->get_image());
-}
