@@ -71,7 +71,7 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Block.TextAlignment="Center"
-                Text="UI Theme"
+                Text="{DynamicResource UiTheme}"
                 TextWrapping="Wrap" />
             <controls:TextBlock
                 Margin="10"

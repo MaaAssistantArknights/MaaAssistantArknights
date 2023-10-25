@@ -20,6 +20,7 @@
     <system:String x:Key="StartupSettings">Startup</system:String>
     <system:String x:Key="ScheduleSettings">Schedule</system:String>
     <system:String x:Key="UiSettings">GUI</system:String>
+    <system:String x:Key="UiTheme">UI Theme</system:String>
     <system:String x:Key="HotKeySettings">HotKeys</system:String>
     <system:String x:Key="UpdateSettings">Update</system:String>
     <system:String x:Key="AboutUs">About us</system:String>
