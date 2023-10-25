@@ -104,7 +104,7 @@
                                     Style="{StaticResource ComboBoxExtend}" />
                                 <ComboBox
                                     hc:InfoElement.HorizontalAlignment="Center"
-                                    hc:InfoElement.Title="UI Theme"
+                                    hc:InfoElement.Title="{DynamicResource UiTheme}"
                                     hc:InfoElement.TitlePlacement="Left"
                                     hc:InfoElement.TitleWidth="110"
                                     DisplayMemberPath="Display"
