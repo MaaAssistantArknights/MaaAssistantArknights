@@ -61,9 +61,6 @@ namespace asst
         bool parse_formation();
         bool select_formation();
         bool select_random_support_unit();
-        // 返回当前rect所属的编队序号
-        // 1 | 2 | 3 | 4
-        int formation_index_from_rect(const Rect& r);
 
         std::vector<TextRect> analyzer_opers();
 
