@@ -21,10 +21,5 @@ namespace asst
         void set_select_formation(int index);
     private:
         std::shared_ptr<asst::CopilotTask> m_copilot_task_ptr = nullptr;
-        json::value m_copilot_params = json::object {
-            { "filename", utils::path_to_utf8_string(ResDir.get() / "copilot" / "OF-1_credit_fight.json") },
-            { "formation", true },
-            { "support_unit_name", "_RANDOM_" },
-        };
     };
 } // namespace asst
