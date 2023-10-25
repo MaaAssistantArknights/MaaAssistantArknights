@@ -43,13 +43,13 @@
             <ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource UseFormation}"
+                hc:InfoElement.TitlePlacement="Left"
+                hc:InfoElement.TitleWidth="120"
                 IsHitTestVisible="{Binding Idle}"
-                ItemsSource="{Binding FormationSelectedList}"
+                ItemsSource="{Binding FormationSelectList}"
                 SelectedValue="{Binding CreditFightSelectFormation}"
                 SelectedValuePath="Value"
                 Style="{StaticResource ComboBoxExtend}"
-                hc:InfoElement.TitlePlacement="Left"
-                hc:InfoElement.TitleWidth="120"
                 Visibility="{c:Binding CreditFightTaskEnabledDisplay}" />
         </StackPanel>
 
