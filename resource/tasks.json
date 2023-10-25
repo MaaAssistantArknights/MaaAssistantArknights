@@ -7216,55 +7216,41 @@
             ]
         ]
     },
-    "BattleSelectedFormation": {
-        "action": "DoNothing",
-        "roi": [
-            50,
-            600,
-            1180,
-            120
-        ],
-        "cache": false,
-        "maskRange": [
-            1,
-            255
-        ]
-    },
     "BattleSelectFormation1": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [
-            180,
-            670,
-            115,
-            40
+            105,
+            662,
+            10,
+            58
         ]
     },
     "BattleSelectFormation2": {
         "baseTask": "BattleSelectFormation1",
         "specificRect": [
-            460,
-            670,
-            100,
-            40
+            380,
+            662,
+            10,
+            58
         ]
     },
     "BattleSelectFormation3": {
         "baseTask": "BattleSelectFormation1",
         "specificRect": [
-            720,
-            670,
-            120,
-            40
+            650,
+            662,
+            10,
+            58
         ]
     },
     "BattleSelectFormation4": {
         "baseTask": "BattleSelectFormation1",
         "specificRect": [
-            995,
-            675,
-            110,
-            40
+            920,
+            662,
+            10,
+            58
         ]
     },
     "BattleSupportUnitFormation": {

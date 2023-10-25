@@ -59,7 +59,7 @@ namespace asst
         bool confirm_selection();
         bool click_role_table(battle::Role role);
         bool parse_formation();
-        bool select_formation(const cv::Mat& image);
+        bool select_formation();
         bool select_random_support_unit();
         // 返回当前rect所属的编队序号
         // 1 | 2 | 3 | 4

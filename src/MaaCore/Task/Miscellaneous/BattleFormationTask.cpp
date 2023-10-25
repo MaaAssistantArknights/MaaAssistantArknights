@@ -57,7 +57,7 @@ bool asst::BattleFormationTask::_run()
         return false;
     }
 
-    if (m_select_formation_index > 0 && !select_formation(ctrler()->get_image())) {
+    if (m_select_formation_index > 0 && !select_formation()) {
         return false;
     }
 
@@ -70,8 +70,7 @@ bool asst::BattleFormationTask::_run()
         add_formation(role, oper_groups);
     }
     if (m_add_user_additional) {
-
-        for (auto& [name, skill] : m_user_additional) {
+        for (const auto& [name, skill] : m_user_additional) {
             if (m_operators_in_formation.contains(name)) {
                 continue;
             }
@@ -299,7 +298,7 @@ std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_opers()
     return tr_res;
 }
 
-bool asst::BattleFormationTask::enter_selection_page()
+inline bool asst::BattleFormationTask::enter_selection_page()
 {
     return ProcessTask(*this, { "BattleQuickFormation" }).set_retry_times(3).run();
 }
@@ -435,19 +434,11 @@ bool asst::BattleFormationTask::parse_formation()
     return true;
 }
 
-bool asst::BattleFormationTask::select_formation(const cv::Mat& image)
+inline bool asst::BattleFormationTask::select_formation()
 {
-    LogTraceFunction;
-
-    Matcher selected_searcher(image);
-    selected_searcher.set_task_info("BattleSelectedFormation");
-    if (!selected_searcher.analyze()) {
-        return false;
-    }
-    int result = formation_index_from_rect(selected_searcher.get_result().rect);
-    if (result == m_select_formation_index) return true;
-    int a[] = {1, 2};
-
-    return ProcessTask { *this, { "BattleSelectFormation" + m_select_formation_index } }.run();
+    // 编队不会触发改名的区域有两组
+    // 一组是上面的黑长条 260*9
+    // 第二组是名字最左边和最右边的一块区域
+    // 右边比左边窄，暂定为左边 10*58
+    return ProcessTask { *this, { m_battle_select_formation_task_name[m_select_formation_index] } }.run();
 }
-
