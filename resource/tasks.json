@@ -13530,7 +13530,7 @@
         ],
         "specificRect_Doc": "x拿来当文字灰度二值化下限用",
         "specificRect": [
-            170,
+            110,
             0,
             0,
             0
@@ -13538,7 +13538,6 @@
     },
     "Sami@Roguelike@CiphertextBoardUseOnStage": {
         "cache": false,
-        "doc": "缺紧急战斗和先行一步",
         "action": "ClickSelf",
         "template": [
             "Sami@Roguelike@CiphertextBoardUseOnGambling.png",
