@@ -4067,10 +4067,7 @@
         "next": []
     },
     "SanityMatch": {
-        "algorithm": "OcrDetect",
         "baseTask": "NumberOcrReplace",
-        "text": [],
-        "isAscii": true,
         "roi": [
             1120,
             20,
@@ -4127,10 +4124,7 @@
         ]
     },
     "UsingMedicineCount": {
-        "algorithm": "OcrDetect",
         "baseTask": "NumberOcrReplace",
-        "text": [],
-        "isAscii": true,
         "rectMove": [
             -95,
             28,
@@ -4143,10 +4137,7 @@
         ]
     },
     "MedicineInventory": {
-        "algorithm": "OcrDetect",
         "baseTask": "NumberOcrReplace",
-        "text": [],
-        "isAscii": true,
         "rectMove": [
             -29,
             87,
@@ -4191,28 +4182,22 @@
         ]
     },
     "UsingMedicine-Target": {
-        "algorithm": "OcrDetect",
         "baseTask": "NumberOcrReplace",
         "roi": [
             255,
             390,
             315,
             140
-        ],
-        "text": [],
-        "isAscii": true
+        ]
     },
     "UsingMedicine-SanityMax": {
-        "algorithm": "OcrDetect",
         "baseTask": "NumberOcrReplace",
         "roi": [
             440,
             330,
             150,
             55
-        ],
-        "text": [],
-        "isAscii": true
+        ]
     },
     "DrGrandetUseOriginiums": {
         "algorithm": "OcrDetect",
