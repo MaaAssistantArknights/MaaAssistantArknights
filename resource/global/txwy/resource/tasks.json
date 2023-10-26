@@ -123,14 +123,9 @@
         ]
     },
     "FC-Open": {
-        "baseTask": "#none",
-        "postDelay": 2000,
-        "action": "ClickSelf",
-        "roi": [
-            592,
-            56,
-            316,
-            265
+        "text": [
+            "照我以火",
+            "關卡已開放"
         ]
     },
     "FCChapterToFC": {
