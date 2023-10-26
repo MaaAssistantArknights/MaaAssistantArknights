@@ -63,7 +63,7 @@ void asst::SanityBeforeStagePlugin::get_sanity_before_stage()
     do {
         if (!res_opt) [[unlikely]] {
             Log.warn(__FUNCTION__, "Sanity ocr failed");
-            save_img(utils::path("debug") / utils::path("sanity"));
+            analyzer.save_img(utils::path("debug") / utils::path("sanity"));
             break;
         }
 
