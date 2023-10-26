@@ -10,7 +10,6 @@
 #include "Task/ProcessTask.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/TemplDetOCRer.h"
 
