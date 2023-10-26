@@ -92,8 +92,9 @@ int main([[maybe_unused]] int argc, char** argv)
     const auto resource_dir = solution_dir / "resource";
     std::unordered_map<std::string, std::string> global_dirs = {
         { "en_US", "YoStarEN" }, { "ja_JP", "YoStarJP" }, { "ko_KR", "YoStarKR" },
-        //{ "tw", "txwy" }, CURRENTLY UNUSED. CHECK:
-        // https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/7074
+        // DO NOT USE. IT WILL OVERWRITE AND REMOVE THE CURRENT TAIWANESE DATA.
+        //{ "tw", "txwy" },
+        // CHECK: https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/7074
     };
 
     /* METHODS CALLS */
@@ -781,28 +782,22 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
     auto chars_en_opt = json::open(overseas_dir / "en_US" / "gamedata" / "excel" / "character_table.json");
     auto chars_jp_opt = json::open(overseas_dir / "ja_JP" / "gamedata" / "excel" / "character_table.json");
     auto chars_kr_opt = json::open(overseas_dir / "ko_KR" / "gamedata" / "excel" / "character_table.json");
+    auto battle_data_opt = json::open(output_dir / "battle_data.json");
     // auto chars_tw_opt = json::open(overseas_dir / "tw" / "gamedata" / "excel" / "character_table.json");
     // https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/7074
     // https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/7079#issuecomment-1780467372
-    // open alternative
-
-    auto battle_data_opt = json::open(output_dir / "battle_data.json");
-    // close alternative
 
     if (!chars_cn_opt || !chars_en_opt || !chars_jp_opt || !chars_kr_opt || !battle_data_opt || !range_opt) {
         return false;
     }
 
-    auto& battle_data_json = battle_data_opt.value();
     auto& range_json = range_opt.value();
 
-    std::vector<std::pair<json::value, std::string>> chars_json = {
-        { chars_cn_opt.value(), "name" },
-        { chars_en_opt.value(), "name_en" },
-        { chars_jp_opt.value(), "name_jp" },
-        { chars_kr_opt.value(), "name_kr" },
-        /*{ chars_tw_opt.value(), "name_tw" }*/
-    };
+    std::vector<std::pair<json::value, std::string>> chars_json = { { chars_cn_opt.value(), "name" },
+                                                                    { chars_en_opt.value(), "name_en" },
+                                                                    { chars_jp_opt.value(), "name_jp" },
+                                                                    { chars_kr_opt.value(), "name_kr" },
+                                                                    { battle_data_opt.value(), "name_tw" } };
 
     json::value result;
     auto& range = result["ranges"].as_object();
@@ -825,22 +820,10 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
     std::map<std::string, std::vector<std::string>> tokens;
     for (auto& [id, char_data] : chars_json[0].first.as_object()) {
         json::value char_new_data;
-        char_new_data["name"] = char_data["name"].as_string();
 
-        for (int i = 1; i < chars_json.size(); i++) {
-            if (auto char_opt = chars_json[i].first.find(id)) {
-                char_new_data[chars_json[i].second] = char_opt->at("name");
-            }
-            else {
-                char_new_data[chars_json[i].second] = char_data["name"].as_string();
-            }
-        }
-
-        if (auto chars_opt = battle_data_json.find<json::object>("chars")) {
-            auto& chars_id = chars_opt.value();
-            if (auto char_opt = chars_id.find(id)) {
-                char_new_data["name_tw"] = char_opt->at("name_tw");
-            }
+        for (auto& [data, name] : chars_json) {
+            char_new_data[name] = (name != "name_tw") ? data.get(id, "name", char_data["name"].as_string())
+                                                      : data.get("chars", id, "name_tw", char_data["name"].as_string());
         }
 
         char_new_data["profession"] = char_data["profession"];
