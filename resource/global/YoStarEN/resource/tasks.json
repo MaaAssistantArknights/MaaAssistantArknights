@@ -2143,6 +2143,14 @@
             [
                 "Humus",
                 "休谟斯"
+            ],
+            [
+                "Morgan",
+                "摩根"
+            ],
+            [
+                "Roadside Emergency Reserves",
+                "街头应急储备"
             ]
         ]
     },
@@ -3270,6 +3278,9 @@
             "Start",
             "Start Challenge"
         ]
+    },
+    "SkipThePreBattlePlot": {
+        "templThreshold": 0.7
     },
     "BattleStartOCR": {
         "text": [
@@ -5369,6 +5380,14 @@
             [
                 "Sabotage Co-op - Suppression",
                 "破坏协议-压制"
+            ],
+            [
+                "5-Star Random Promotion Temporary Recruitment Voucher",
+                "5星随机直升临时招募券"
+            ],
+            [
+                "6-Star Random Promotion Temporary Recruitment Voucher",
+                "6星随机直升临时招募券"
             ]
         ]
     },
@@ -6163,8 +6182,5 @@
             "THE",
             "SAND"
         ]
-    },
-    "SkipThePreBattlePlot": {
-        "templThreshold": 0.7
     }
 }
