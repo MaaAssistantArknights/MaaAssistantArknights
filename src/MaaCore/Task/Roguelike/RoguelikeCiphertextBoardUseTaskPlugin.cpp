@@ -89,7 +89,7 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::_run()
         }
         if (m_stage == usage.usage) {
             // 用到没得用为止,但是只要没有使用成功就不继续使用
-            while (search_enable_pair(usage) && !m_board_use_error) {
+            while (search_enable_pair(usage) && !m_board_use_error && !need_exit()) {
                 Log.info("Use board pairs");
             }
             m_board_use_error = false;
@@ -162,7 +162,7 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::search_and_click_board(const s
 
     int max_retry = 10;
     int try_time = 0;
-    while (try_time < max_retry) {
+    while (try_time < max_retry && !need_exit()) {
         OCRer analyzer(ctrler()->get_image());
         std::string task_name = m_roguelike_theme + "@Roguelike@CiphertextBoardUseOcr";
         analyzer.set_task_info(task_name);
@@ -207,7 +207,8 @@ void asst::RoguelikeCiphertextBoardUseTaskPlugin::swipe_to_top()
     int max_retry = 10;
     int try_time = 0;
     // 找到布局"就到了最上面
-    while (try_time < max_retry) {
+    while (try_time < max_retry && !need_exit()) {
+    while (try_time < max_retry && !need_exit()) {
         OCRer analyzer(ctrler()->get_image());
         analyzer.set_task_info(m_roguelike_theme + "@Roguelike@CiphertextBoardUseOcr");
         if (analyzer.analyze()) {
