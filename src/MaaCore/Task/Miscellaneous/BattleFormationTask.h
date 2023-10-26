@@ -80,6 +80,6 @@ namespace asst
         DataResource m_data_resource = DataResource::Copilot;
         std::vector<AdditionalFormation> m_additional;
         std::string m_last_oper_name;
-        int m_select_formation_index;
+        int m_select_formation_index = 0;
     };
 } // namespace asst
