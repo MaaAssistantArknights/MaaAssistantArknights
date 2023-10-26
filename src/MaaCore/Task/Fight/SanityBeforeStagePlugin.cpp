@@ -30,8 +30,6 @@ bool asst::SanityBeforeStagePlugin::verify(AsstMsg msg, const json::value& detai
 
 bool asst::SanityBeforeStagePlugin::_run()
 {
-    LogTraceFunction;
-
     get_sanity_before_stage();
 
     return true;
@@ -44,32 +42,48 @@ void asst::SanityBeforeStagePlugin::get_sanity_before_stage()
 {
     LogTraceFunction;
 
-    sleep(Task.get("SanityMatch")->pre_delay);
+    auto img = ctrler()->get_image();
 
-    RegionOCRer analyzer(ctrler()->get_image());
+    RegionOCRer analyzer(img);
     analyzer.set_task_info("SanityMatch");
     auto res_opt = analyzer.analyze();
+    int retry = 0;
+
+    while (!res_opt && !need_exit() && retry < 3) {
+        Log.warn(__FUNCTION__, "Sanity ocr failed, retry:", retry);
+        sleep(Config.get_options().task_delay);
+
+        img = ctrler()->get_image();
+        analyzer.set_image(img);
+        res_opt = analyzer.analyze();
+        ++retry;
+    }
 
     json::value sanity_info = basic_info_with_what("SanityBeforeStage");
     do {
-        if (!res_opt) {
+        if (!res_opt) [[unlikely]] {
+            Log.warn(__FUNCTION__, "Sanity ocr failed");
+            save_img(utils::path("debug") / utils::path("sanity"));
             break;
         }
 
         std::string_view text = res_opt->text;
         auto slash_pos = text.find('/');
-        if (slash_pos == std::string_view::npos) {
+        if (slash_pos == std::string_view::npos) [[unlikely]] {
+            Log.warn(__FUNCTION__, "Sanity ocr result without '/':", text);
             break;
         }
 
         int sanity_cur = 0, sanity_max = 0;
         if (!utils::chars_to_number(text.substr(0, slash_pos), sanity_cur) ||
-            !utils::chars_to_number(text.substr(slash_pos + 1), sanity_max)) {
+            !utils::chars_to_number(text.substr(slash_pos + 1), sanity_max)) [[unlikely]] {
+            Log.warn(__FUNCTION__, "Sanity ocr result could not convert to int:", text);
             break;
         }
 
         Log.info(__FUNCTION__, "Current Sanity:", sanity_cur, ", Max Sanity:", sanity_max);
-        if (sanity_cur < 0 || sanity_max > 135 || sanity_max < 82 /* 一级博士上限为82 */) {
+        if (sanity_cur < 0 || sanity_max > 135 || sanity_max < 82 /* 一级博士上限为82 */) [[unlikely]] {
+            Log.warn(__FUNCTION__, "Sanity out of limit");
             break;
         }
 
@@ -81,9 +95,6 @@ void asst::SanityBeforeStagePlugin::get_sanity_before_stage()
         return;
 
     } while (false);
-
-    Log.warn(__FUNCTION__, "Sanity analyze failed");
-    save_img(utils::path("debug") / utils::path("sanity"));
 
     // 识别失败返回空json。缓存数据需要作废
     callback(AsstMsg::SubTaskExtraInfo, sanity_info);
