@@ -5,7 +5,7 @@
             "name_en": "Amiya",
             "name_jp": "アーミヤ",
             "name_kr": "아미야",
-            "name_tw": "阿米娅",
+            "name_tw": "阿米婭",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -20,7 +20,7 @@
             "name_en": "Kal'tsit",
             "name_jp": "ケルシー",
             "name_kr": "켈시",
-            "name_tw": "凯尔希",
+            "name_tw": "凱爾希",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -50,7 +50,7 @@
             "name_en": "Ch'en",
             "name_jp": "チェン",
             "name_kr": "첸",
-            "name_tw": "陈",
+            "name_tw": "陳",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -95,7 +95,7 @@
             "name_en": "Lava the Purgatory",
             "name_jp": "炎獄ラヴァ",
             "name_kr": "라바 더 퍼거토리",
-            "name_tw": "炎狱炎熔",
+            "name_tw": "炎獄炎熔",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -110,7 +110,7 @@
             "name_en": "Skadi the Corrupting Heart",
             "name_jp": "濁心スカジ",
             "name_kr": "스카디 더 커럽팅 하트",
-            "name_tw": "浊心斯卡蒂",
+            "name_tw": "濁心斯卡蒂",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -125,7 +125,7 @@
             "name_en": "Ch'en the Holungday",
             "name_jp": "遊龍チェン",
             "name_kr": "첸 더 홀룽데이",
-            "name_tw": "假日威龙陈",
+            "name_tw": "假日威龍陳",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -140,7 +140,7 @@
             "name_en": "Nearl the Radiant Knight",
             "name_jp": "耀騎士ニアール",
             "name_kr": "니어 더 래디언트 나이트",
-            "name_tw": "耀骑士临光",
+            "name_tw": "耀騎士臨光",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -188,7 +188,7 @@
             "name_en": "Reed the Flame Shadow",
             "name_jp": "焔影リード",
             "name_kr": "리드 더 플레임 섀도우",
-            "name_tw": "焰影苇草",
+            "name_tw": "焰影葦草",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -203,7 +203,7 @@
             "name_en": "Kroos the Keen Glint",
             "name_jp": "寒芒クルース",
             "name_kr": "크루스 더 킨 글린트",
-            "name_tw": "寒芒克洛丝",
+            "name_tw": "寒芒克洛絲",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -218,7 +218,7 @@
             "name_en": "Specter the Unchained",
             "name_jp": "帰溟スペクター",
             "name_kr": "스펙터 디 언체인드",
-            "name_tw": "归溟幽灵鲨",
+            "name_tw": "歸溟幽靈鯊",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -233,7 +233,7 @@
             "name_en": "Hibiscus the Purifier",
             "name_jp": "濯塵ハイビスカス",
             "name_kr": "히비스커스 더 퓨리파이어",
-            "name_tw": "濯尘芙蓉",
+            "name_tw": "濯塵芙蓉",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -248,7 +248,7 @@
             "name_en": "Gavial the Invincible",
             "name_jp": "百錬ガヴィル",
             "name_kr": "가비알 디 인빈서블",
-            "name_tw": "百炼嘉维尔",
+            "name_tw": "百煉嘉維爾",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -278,7 +278,7 @@
             "name_en": "Texas the Omertosa",
             "name_jp": "血掟テキサス",
             "name_kr": "텍사스 디 오메르토사",
-            "name_tw": "缄默德克萨斯",
+            "name_tw": "緘默德克薩斯",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -308,7 +308,7 @@
             "name_en": "Texas",
             "name_jp": "テキサス",
             "name_kr": "텍사스",
-            "name_tw": "德克萨斯",
+            "name_tw": "德克薩斯",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -419,7 +419,7 @@
             "name_en": "Franka",
             "name_jp": "フランカ",
             "name_kr": "프란카",
-            "name_tw": "芙兰卡",
+            "name_tw": "芙蘭卡",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -467,7 +467,7 @@
             "name_en": "Gitano",
             "name_jp": "ギターノ",
             "name_kr": "기타노",
-            "name_tw": "远山",
+            "name_tw": "遠山",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -497,7 +497,7 @@
             "name_en": "Siege",
             "name_jp": "シージ",
             "name_kr": "시즈",
-            "name_tw": "推进之王",
+            "name_tw": "推進之王",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -530,7 +530,7 @@
             "name_en": "Zima",
             "name_jp": "ズィマー",
             "name_kr": "지마",
-            "name_tw": "凛冬",
+            "name_tw": "凜冬",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -545,7 +545,7 @@
             "name_en": "Myrrh",
             "name_jp": "ミルラ",
             "name_kr": "미르",
-            "name_tw": "末药",
+            "name_tw": "末藥",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -605,7 +605,7 @@
             "name_en": "Beagle",
             "name_jp": "ビーグル",
             "name_kr": "비글",
-            "name_tw": "米格鲁",
+            "name_tw": "米格魯",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -635,7 +635,7 @@
             "name_en": "Kroos",
             "name_jp": "クルース",
             "name_kr": "크루스",
-            "name_tw": "克洛丝",
+            "name_tw": "克洛絲",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -665,7 +665,7 @@
             "name_en": "Estelle",
             "name_jp": "エステル",
             "name_kr": "에스텔",
-            "name_tw": "艾丝黛尔",
+            "name_tw": "艾絲黛爾",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -680,7 +680,7 @@
             "name_en": "Ptilopsis",
             "name_jp": "フィリオプシス",
             "name_kr": "프틸롭시스",
-            "name_tw": "白面鸮",
+            "name_tw": "白面鴞",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -695,7 +695,7 @@
             "name_en": "Blue Poison",
             "name_jp": "アズリウス",
             "name_kr": "블루포이즌",
-            "name_tw": "蓝毒",
+            "name_tw": "藍毒",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -710,7 +710,7 @@
             "name_en": "Dobermann",
             "name_jp": "ドーベルマン",
             "name_kr": "도베르만",
-            "name_tw": "杜宾",
+            "name_tw": "杜賓",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -800,7 +800,7 @@
             "name_en": "Beehunter",
             "name_jp": "ビーハンター",
             "name_kr": "비헌터",
-            "name_tw": "猎蜂",
+            "name_tw": "獵蜂",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -815,7 +815,7 @@
             "name_en": "Lappland",
             "name_jp": "ラップランド",
             "name_kr": "라플란드",
-            "name_tw": "拉普兰德",
+            "name_tw": "拉普蘭德",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -830,7 +830,7 @@
             "name_en": "Haze",
             "name_jp": "ヘイズ",
             "name_kr": "헤이즈",
-            "name_tw": "夜烟",
+            "name_tw": "夜煙",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -845,7 +845,7 @@
             "name_en": "Specter",
             "name_jp": "スペクター",
             "name_kr": "스펙터",
-            "name_tw": "幽灵鲨",
+            "name_tw": "幽靈鯊",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -860,7 +860,7 @@
             "name_en": "Projekt Red",
             "name_jp": "レッド",
             "name_kr": "레드",
-            "name_tw": "红",
+            "name_tw": "紅",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -875,7 +875,7 @@
             "name_en": "Provence",
             "name_jp": "プロヴァンス",
             "name_kr": "프로방스",
-            "name_tw": "普罗旺斯",
+            "name_tw": "普羅旺斯",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -890,7 +890,7 @@
             "name_en": "Shining",
             "name_jp": "シャイニング",
             "name_kr": "샤이닝",
-            "name_tw": "闪灵",
+            "name_tw": "閃靈",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -905,7 +905,7 @@
             "name_en": "Nearl",
             "name_jp": "ニアール",
             "name_kr": "니어",
-            "name_tw": "临光",
+            "name_tw": "臨光",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -962,9 +962,9 @@
         },
         "char_154_morgan": {
             "name": "摩根",
-            "name_en": "Morgan",
-            "name_jp": "モーガン",
-            "name_kr": "모건",
+            "name_en": "摩根",
+            "name_jp": "摩根",
+            "name_kr": "摩根",
             "name_tw": "摩根",
             "position": "MELEE",
             "profession": "WARRIOR",
@@ -980,7 +980,7 @@
             "name_en": "Indra",
             "name_jp": "インドラ",
             "name_kr": "인드라",
-            "name_tw": "因陀罗",
+            "name_tw": "因陀羅",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -995,7 +995,7 @@
             "name_en": "Dagda",
             "name_jp": "ダグザ",
             "name_kr": "다그다",
-            "name_tw": "达格达",
+            "name_tw": "達格達",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -1025,7 +1025,7 @@
             "name_en": "Conviction",
             "name_jp": "コンビクション",
             "name_kr": "컨빅션",
-            "name_tw": "断罪者",
+            "name_tw": "斷罪者",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -1085,7 +1085,7 @@
             "name_en": "Warfarin",
             "name_jp": "ワルファリン",
             "name_kr": "와파린",
-            "name_tw": "华法琳",
+            "name_tw": "華法琳",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -1100,7 +1100,7 @@
             "name_en": "SilverAsh",
             "name_jp": "シルバーアッシュ",
             "name_kr": "실버애쉬",
-            "name_tw": "银灰",
+            "name_tw": "銀灰",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -1145,7 +1145,7 @@
             "name_en": "Nightingale",
             "name_jp": "ナイチンゲール",
             "name_kr": "나이팅게일",
-            "name_tw": "夜莺",
+            "name_tw": "夜鶯",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -1175,7 +1175,7 @@
             "name_en": "Perfumer",
             "name_jp": "パフューマー",
             "name_kr": "퍼퓨머",
-            "name_tw": "调香师",
+            "name_tw": "調香師",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -1190,7 +1190,7 @@
             "name_en": "Earthspirit",
             "name_jp": "アーススピリット",
             "name_kr": "어스스피릿",
-            "name_tw": "地灵",
+            "name_tw": "地靈",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -1220,7 +1220,7 @@
             "name_en": "Gavial",
             "name_jp": "ガヴィル",
             "name_kr": "가비알",
-            "name_tw": "嘉维尔",
+            "name_tw": "嘉維爾",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -1250,7 +1250,7 @@
             "name_en": "Vermeil",
             "name_jp": "ヴァーミル",
             "name_kr": "버메일",
-            "name_tw": "红云",
+            "name_tw": "紅雲",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -1280,7 +1280,7 @@
             "name_en": "Frostleaf",
             "name_jp": "フロストリーフ",
             "name_kr": "프로스트리프",
-            "name_tw": "霜叶",
+            "name_tw": "霜葉",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -1340,7 +1340,7 @@
             "name_en": "Courier",
             "name_jp": "クーリエ",
             "name_kr": "쿠리어",
-            "name_tw": "讯使",
+            "name_tw": "訊使",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -1433,7 +1433,7 @@
             "name_en": "Croissant",
             "name_jp": "クロワッサン",
             "name_kr": "크루아상",
-            "name_tw": "可颂",
+            "name_tw": "可頌",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -1483,7 +1483,7 @@
             "name_en": "Saria",
             "name_jp": "サリア",
             "name_kr": "사리아",
-            "name_tw": "塞雷娅",
+            "name_tw": "塞雷婭",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -1513,7 +1513,7 @@
             "name_en": "Gnosis",
             "name_jp": "ノーシス",
             "name_kr": "노시스",
-            "name_tw": "灵知",
+            "name_tw": "靈知",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -1528,7 +1528,7 @@
             "name_en": "Melantha",
             "name_jp": "メランサ",
             "name_kr": "멜란사",
-            "name_tw": "玫兰莎",
+            "name_tw": "玫蘭莎",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -1543,7 +1543,7 @@
             "name_en": "Cardigan",
             "name_jp": "カーディ",
             "name_kr": "카디건",
-            "name_tw": "卡缇",
+            "name_tw": "卡緹",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -1558,7 +1558,7 @@
             "name_en": "Steward",
             "name_jp": "スチュワード",
             "name_kr": "스튜어드",
-            "name_tw": "史都华德",
+            "name_tw": "史都華德",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -1573,7 +1573,7 @@
             "name_en": "Adnachiel",
             "name_jp": "アドナキエル",
             "name_kr": "아드나키엘",
-            "name_tw": "安德切尔",
+            "name_tw": "安德切爾",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -1588,7 +1588,7 @@
             "name_en": "Ansel",
             "name_jp": "アンセル",
             "name_kr": "안셀",
-            "name_tw": "安赛尔",
+            "name_tw": "安賽爾",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -1603,7 +1603,7 @@
             "name_en": "Mostima",
             "name_jp": "モスティマ",
             "name_kr": "모스티마",
-            "name_tw": "莫斯提马",
+            "name_tw": "莫斯提馬",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -1633,7 +1633,7 @@
             "name_en": "Manticore",
             "name_jp": "マンティコア",
             "name_kr": "맨티코어",
-            "name_tw": "狮蝎",
+            "name_tw": "獅蠍",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -1663,7 +1663,7 @@
             "name_en": "Meteorite",
             "name_jp": "メテオリーテ",
             "name_kr": "메테오라이트",
-            "name_tw": "陨星",
+            "name_tw": "隕星",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -1693,7 +1693,7 @@
             "name_en": "Bagpipe",
             "name_jp": "バグパイプ",
             "name_kr": "백파이프",
-            "name_tw": "风笛",
+            "name_tw": "風笛",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -1753,7 +1753,7 @@
             "name_en": "Jessica",
             "name_jp": "ジェシカ",
             "name_kr": "제시카",
-            "name_tw": "杰西卡",
+            "name_tw": "潔西卡",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -1783,7 +1783,7 @@
             "name_en": "Gravel",
             "name_jp": "グラベル",
             "name_kr": "그라벨",
-            "name_tw": "砾",
+            "name_tw": "礫",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -1813,7 +1813,7 @@
             "name_en": "FEater",
             "name_jp": "エフイーター",
             "name_kr": "에프이터",
-            "name_tw": "食铁兽",
+            "name_tw": "食鐵獸",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -1828,7 +1828,7 @@
             "name_en": "Mayer",
             "name_jp": "メイヤー",
             "name_kr": "메이어",
-            "name_tw": "梅尔",
+            "name_tw": "梅爾",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -1858,7 +1858,7 @@
             "name_en": "Magallan",
             "name_jp": "マゼラン",
             "name_kr": "마젤란",
-            "name_tw": "麦哲伦",
+            "name_tw": "麥哲倫",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -1938,7 +1938,7 @@
             "name_en": "Shamare",
             "name_jp": "シャマレ",
             "name_kr": "샤마르",
-            "name_tw": "巫恋",
+            "name_tw": "巫戀",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -1971,7 +1971,7 @@
             "name_en": "Dur-nar",
             "name_jp": "ジュナー",
             "name_kr": "듀나",
-            "name_tw": "坚雷",
+            "name_tw": "堅雷",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -1986,7 +1986,7 @@
             "name_en": "Reed",
             "name_jp": "リード",
             "name_kr": "리드",
-            "name_tw": "苇草",
+            "name_tw": "葦草",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -2076,7 +2076,7 @@
             "name_en": "Astesia",
             "name_jp": "アステシア",
             "name_kr": "아스테시아",
-            "name_tw": "星极",
+            "name_tw": "星極",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -2091,7 +2091,7 @@
             "name_en": "Breeze",
             "name_jp": "ブリーズ",
             "name_kr": "브리즈",
-            "name_tw": "微风",
+            "name_tw": "微風",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -2121,7 +2121,7 @@
             "name_en": "Orchid",
             "name_jp": "オーキッド",
             "name_kr": "오키드",
-            "name_tw": "梓兰",
+            "name_tw": "梓蘭",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -2181,7 +2181,7 @@
             "name_en": "Midnight",
             "name_jp": "ミッドナイト",
             "name_kr": "미드나이트",
-            "name_tw": "月见夜",
+            "name_tw": "月見夜",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -2196,7 +2196,7 @@
             "name_en": "Spot",
             "name_jp": "スポット",
             "name_kr": "스팟",
-            "name_tw": "斑点",
+            "name_tw": "斑點",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -2241,7 +2241,7 @@
             "name_en": "Matoimaru",
             "name_jp": "マトイマル",
             "name_kr": "마토이마루",
-            "name_tw": "缠丸",
+            "name_tw": "纏丸",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -2256,7 +2256,7 @@
             "name_en": "Vigna",
             "name_jp": "ヴィグナ",
             "name_kr": "비그나",
-            "name_tw": "红豆",
+            "name_tw": "紅豆",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -2271,7 +2271,7 @@
             "name_en": "Angelina",
             "name_jp": "アンジェリーナ",
             "name_kr": "안젤리나",
-            "name_tw": "安洁莉娜",
+            "name_tw": "安潔莉娜",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -2301,7 +2301,7 @@
             "name_en": "Ayerscarpe",
             "name_jp": "エアースカーペ",
             "name_kr": "에이어스카르페",
-            "name_tw": "断崖",
+            "name_tw": "斷崖",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -2331,7 +2331,7 @@
             "name_en": "Sussurro",
             "name_jp": "ススーロ",
             "name_kr": "수수로",
-            "name_tw": "苏苏洛",
+            "name_tw": "蘇蘇洛",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -2346,7 +2346,7 @@
             "name_en": "Fiammetta",
             "name_jp": "フィアメッタ",
             "name_kr": "피아메타",
-            "name_tw": "菲亚梅塔",
+            "name_tw": "菲亞梅塔",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -2376,7 +2376,7 @@
             "name_en": "Ambriel",
             "name_jp": "アンブリエル",
             "name_kr": "엠브리엘",
-            "name_tw": "安比尔",
+            "name_tw": "安比爾",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -2406,7 +2406,7 @@
             "name_en": "Leizi",
             "name_jp": "レイズ",
             "name_kr": "레이즈",
-            "name_tw": "惊蛰",
+            "name_tw": "驚蟄",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -2421,7 +2421,7 @@
             "name_en": "Swire",
             "name_jp": "スワイヤー",
             "name_kr": "스와이어",
-            "name_tw": "诗怀雅",
+            "name_tw": "詩懷雅",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -2451,7 +2451,7 @@
             "name_en": "Lee",
             "name_jp": "リー",
             "name_kr": "리",
-            "name_tw": "老鲤",
+            "name_tw": "老鯉",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -2481,7 +2481,7 @@
             "name_en": "Glaucus",
             "name_jp": "グラウコス",
             "name_kr": "글라우쿠스",
-            "name_tw": "格劳克斯",
+            "name_tw": "格勞克斯",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -2496,7 +2496,7 @@
             "name_en": "Click",
             "name_jp": "カシャ",
             "name_kr": "클릭",
-            "name_tw": "卡达",
+            "name_tw": "卡達",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -2526,7 +2526,7 @@
             "name_en": "Sideroca",
             "name_jp": "シデロカ",
             "name_kr": "시데로카",
-            "name_tw": "铸铁",
+            "name_tw": "鑄鐵",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -2571,7 +2571,7 @@
             "name_en": "Iris",
             "name_jp": "アイリス",
             "name_kr": "아이리스",
-            "name_tw": "爱丽丝",
+            "name_tw": "愛麗絲",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -2631,7 +2631,7 @@
             "name_en": "Beeswax",
             "name_jp": "ビーズワクス",
             "name_kr": "비즈왁스",
-            "name_tw": "蜜蜡",
+            "name_tw": "蜜蠟",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -2649,7 +2649,7 @@
             "name_en": "Folinic",
             "name_jp": "フォリニック",
             "name_kr": "폴리닉",
-            "name_tw": "亚叶",
+            "name_tw": "亞葉",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -2679,7 +2679,7 @@
             "name_en": "Jackie",
             "name_jp": "ジャッキー",
             "name_kr": "재키",
-            "name_tw": "杰克",
+            "name_tw": "傑克",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -2694,7 +2694,7 @@
             "name_en": "Ceylon",
             "name_jp": "セイロン",
             "name_kr": "실론",
-            "name_tw": "锡兰",
+            "name_tw": "錫蘭",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -2709,7 +2709,7 @@
             "name_en": "Chiave",
             "name_jp": "キアーベ",
             "name_kr": "키아베",
-            "name_tw": "贾维",
+            "name_tw": "賈維",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -2724,7 +2724,7 @@
             "name_en": "Surtr",
             "name_jp": "スルト",
             "name_kr": "수르트",
-            "name_tw": "史尔特尔",
+            "name_tw": "史爾特爾",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -2769,7 +2769,7 @@
             "name_en": "Suzuran",
             "name_jp": "スズラン",
             "name_kr": "스즈란",
-            "name_tw": "铃兰",
+            "name_tw": "鈴蘭",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -2859,7 +2859,7 @@
             "name_en": "Bena",
             "name_jp": "ベナ",
             "name_kr": "베나",
-            "name_tw": "贝娜",
+            "name_tw": "貝娜",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -2874,7 +2874,7 @@
             "name_en": "Leonhardt",
             "name_jp": "レオンハルト",
             "name_kr": "레온하르트",
-            "name_tw": "莱恩哈特",
+            "name_tw": "萊恩哈特",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -2904,7 +2904,7 @@
             "name_en": "Goldenglow",
             "name_jp": "ゴールデングロー",
             "name_kr": "골든글로우",
-            "name_tw": "澄闪",
+            "name_tw": "澄閃",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -2934,7 +2934,7 @@
             "name_en": "Sesa",
             "name_jp": "シェーシャ",
             "name_kr": "세사",
-            "name_tw": "慑砂",
+            "name_tw": "懾砂",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -2994,7 +2994,7 @@
             "name_en": "Mint",
             "name_jp": "ミント",
             "name_kr": "민트",
-            "name_tw": "薄绿",
+            "name_tw": "薄綠",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -3027,7 +3027,7 @@
             "name_en": "'Justice Knight'",
             "name_jp": "ジャスティスナイト",
             "name_kr": "저스티스 나이트",
-            "name_tw": "正义骑士号",
+            "name_tw": "正義騎士號",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -3072,7 +3072,7 @@
             "name_en": "Irene",
             "name_jp": "アイリーニ",
             "name_kr": "아이린",
-            "name_tw": "艾丽妮",
+            "name_tw": "艾麗妮",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -3087,7 +3087,7 @@
             "name_en": "Weedy",
             "name_jp": "ウィーディ",
             "name_kr": "위디",
-            "name_tw": "温蒂",
+            "name_tw": "溫蒂",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -3147,7 +3147,7 @@
             "name_en": "Kazemaru",
             "name_jp": "カゼマル",
             "name_kr": "카제마루",
-            "name_tw": "风丸",
+            "name_tw": "風丸",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -3165,7 +3165,7 @@
             "name_en": "Puzzle",
             "name_jp": "パズル",
             "name_kr": "퍼즐",
-            "name_tw": "谜图",
+            "name_tw": "謎圖",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -3195,7 +3195,7 @@
             "name_en": "Elysium",
             "name_jp": "エリジウム",
             "name_kr": "엘리시움",
-            "name_tw": "极境",
+            "name_tw": "極境",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -3240,7 +3240,7 @@
             "name_en": "Tuye",
             "name_jp": "トゥイエ",
             "name_kr": "투예",
-            "name_tw": "图耶",
+            "name_tw": "圖耶",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -3255,7 +3255,7 @@
             "name_en": "Proviso",
             "name_jp": "プロヴァイゾ",
             "name_kr": "프로바이조",
-            "name_tw": "但书",
+            "name_tw": "但書",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -3270,7 +3270,7 @@
             "name_en": "Enforcer",
             "name_jp": "エンフォーサー",
             "name_kr": "인포서",
-            "name_tw": "见行者",
+            "name_tw": "見行者",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -3285,7 +3285,7 @@
             "name_en": "Horn",
             "name_jp": "ホルン",
             "name_kr": "혼",
-            "name_tw": "号角",
+            "name_tw": "號角",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -3375,7 +3375,7 @@
             "name_en": "Ebenholz",
             "name_jp": "エーベンホルツ",
             "name_kr": "에벤홀츠",
-            "name_tw": "黑键",
+            "name_tw": "黑鍵",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -3393,7 +3393,7 @@
             "name_en": "Czerny",
             "name_jp": "ツェルニー",
             "name_kr": "체르니",
-            "name_tw": "车尔尼",
+            "name_tw": "車爾尼",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -3408,7 +3408,7 @@
             "name_en": "Dorothy",
             "name_jp": "ドロシー",
             "name_kr": "도로시",
-            "name_tw": "多萝西",
+            "name_tw": "多蘿西",
             "position": "RANGED",
             "profession": "SPECIAL",
             "rangeId": [
@@ -3423,7 +3423,7 @@
             "name_en": "Minimalist",
             "name_jp": "ミニマリスト",
             "name_kr": "미니멀리스트",
-            "name_tw": "至简",
+            "name_tw": "至簡",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -3438,7 +3438,7 @@
             "name_en": "Pozëmka",
             "name_jp": "パゼオンカ",
             "name_kr": "파죰카",
-            "name_tw": "鸿雪",
+            "name_tw": "鴻雪",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -3468,7 +3468,7 @@
             "name_en": "Totter",
             "name_jp": "トター",
             "name_kr": "토터",
-            "name_tw": "铅踝",
+            "name_tw": "鉛踝",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -3498,7 +3498,7 @@
             "name_en": "Młynar",
             "name_jp": "ムリナール",
             "name_kr": "무에나",
-            "name_tw": "玛恩纳",
+            "name_tw": "瑪恩納",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -3543,7 +3543,7 @@
             "name_en": "Luo Xiaohei",
             "name_jp": "羅小黒",
             "name_kr": "나소흑",
-            "name_tw": "罗小黑",
+            "name_tw": "羅小黑",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -3573,7 +3573,7 @@
             "name_en": "Stainless",
             "name_jp": "ステインレス",
             "name_kr": "스테인리스",
-            "name_tw": "白铁",
+            "name_tw": "白鐵",
             "position": "MELEE",
             "profession": "SUPPORT",
             "rangeId": [
@@ -3665,9 +3665,9 @@
         },
         "char_4087_ines": {
             "name": "伊内丝",
-            "name_en": "Ines",
-            "name_jp": "イネス",
-            "name_kr": "이네스",
+            "name_en": "伊内丝",
+            "name_jp": "伊内丝",
+            "name_kr": "伊内丝",
             "name_tw": "伊内丝",
             "position": "MELEE",
             "profession": "PIONEER",
@@ -3878,7 +3878,7 @@
             "name_en": "La Pluma",
             "name_jp": "ラ・プルマ",
             "name_kr": "라 플루마",
-            "name_tw": "羽毛笔",
+            "name_tw": "羽毛筆",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -3893,7 +3893,7 @@
             "name_en": "Aurora",
             "name_jp": "オーロラ",
             "name_kr": "오로라",
-            "name_tw": "极光",
+            "name_tw": "極光",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -3953,7 +3953,7 @@
             "name_en": "Fartooth",
             "name_jp": "ファートゥース",
             "name_kr": "파투스",
-            "name_tw": "远牙",
+            "name_tw": "遠牙",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -3983,7 +3983,7 @@
             "name_en": "Windflit",
             "name_jp": "ウインドフリット",
             "name_kr": "윈드플릿",
-            "name_tw": "掠风",
+            "name_tw": "掠風",
             "position": "MELEE",
             "profession": "SUPPORT",
             "rangeId": [
@@ -4058,7 +4058,7 @@
             "name_en": "Robin",
             "name_jp": "ロビン",
             "name_kr": "로빈",
-            "name_tw": "罗宾",
+            "name_tw": "羅賓",
             "position": "RANGED",
             "profession": "SPECIAL",
             "rangeId": [
@@ -4088,7 +4088,7 @@
             "name_en": "Mr. Nothing",
             "name_jp": "ウユウ",
             "name_kr": "우요우",
-            "name_tw": "乌有",
+            "name_tw": "烏有",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -4103,7 +4103,7 @@
             "name_en": "Ash",
             "name_jp": "Ash",
             "name_kr": "Ash",
-            "name_tw": "灰烬",
+            "name_tw": "ASH",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -4118,7 +4118,7 @@
             "name_en": "Blitz",
             "name_jp": "Blitz",
             "name_kr": "Blitz",
-            "name_tw": "闪击",
+            "name_tw": "BLITZ",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -4133,7 +4133,7 @@
             "name_en": "Frost",
             "name_jp": "Frost",
             "name_kr": "Frost",
-            "name_tw": "霜华",
+            "name_tw": "FROST",
             "position": "RANGED",
             "profession": "SPECIAL",
             "rangeId": [
@@ -4148,7 +4148,7 @@
             "name_en": "Tachanka",
             "name_jp": "Tachanka",
             "name_kr": "Tachanka",
-            "name_tw": "战车",
+            "name_tw": "TACHANKA",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -4160,9 +4160,9 @@
         },
         "char_464_cement": {
             "name": "洋灰",
-            "name_en": "Cement",
-            "name_jp": "セメント",
-            "name_kr": "시멘트",
+            "name_en": "洋灰",
+            "name_jp": "洋灰",
+            "name_kr": "洋灰",
             "name_tw": "洋灰",
             "position": "MELEE",
             "profession": "TANK",
@@ -4178,7 +4178,7 @@
             "name_en": "Qanipalaat",
             "name_jp": "カニパラート",
             "name_kr": "카니팔라트",
-            "name_tw": "雪绒",
+            "name_tw": "雪絨",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -4208,7 +4208,7 @@
             "name_en": "Passenger",
             "name_jp": "パッセンジャー",
             "name_kr": "패신저",
-            "name_tw": "异客",
+            "name_tw": "異客",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -4238,7 +4238,7 @@
             "name_en": "Gladiia",
             "name_jp": "グレイディーア",
             "name_kr": "글래디아",
-            "name_tw": "歌蕾蒂娅",
+            "name_tw": "歌蕾蒂婭",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -4283,7 +4283,7 @@
             "name_en": "Kirara",
             "name_jp": "キララ",
             "name_kr": "키라라",
-            "name_tw": "绮良",
+            "name_tw": "綺良",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -4313,7 +4313,7 @@
             "name_en": "Roberta",
             "name_jp": "ロベルタ",
             "name_kr": "로베르타",
-            "name_tw": "罗比菈塔",
+            "name_tw": "羅比菈塔",
             "position": "MELEE",
             "profession": "SUPPORT",
             "rangeId": [
@@ -4343,7 +4343,7 @@
             "name_en": "Tequila",
             "name_jp": "テキーラ",
             "name_kr": "테킬라",
-            "name_tw": "龙舌兰",
+            "name_tw": "龍舌蘭",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -4373,7 +4373,7 @@
             "name_en": "Corroserum",
             "name_jp": "コロセラム",
             "name_kr": "코로세럼",
-            "name_tw": "蚀清",
+            "name_tw": "蝕清",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -4385,9 +4385,9 @@
         },
         "char_491_humus": {
             "name": "休谟斯",
-            "name_en": "Humus",
-            "name_jp": "ヒューマス",
-            "name_kr": "휴머스",
+            "name_en": "休谟斯",
+            "name_jp": "休谟斯",
+            "name_kr": "休谟斯",
             "name_tw": "休谟斯",
             "position": "MELEE",
             "profession": "WARRIOR",
@@ -4403,7 +4403,7 @@
             "name_en": "Quercus",
             "name_jp": "クエルクス",
             "name_kr": "퀘르쿠스",
-            "name_tw": "夏栎",
+            "name_tw": "夏櫟",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -4463,7 +4463,7 @@
             "name_en": "Cantabile",
             "name_jp": "カンタービレ",
             "name_kr": "칸타빌레",
-            "name_tw": "晓歌",
+            "name_tw": "曉歌",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -4553,7 +4553,7 @@
             "name_en": "Reserve Operator - Melee",
             "name_jp": "予備隊員-近距離",
             "name_kr": "예비 인원 - 근거리",
-            "name_tw": "预备干员-近战",
+            "name_tw": "預備幹員-近戰",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -4568,7 +4568,7 @@
             "name_en": "Reserve Operator - Caster",
             "name_jp": "予備隊員-術師",
             "name_kr": "예비 인원 - 캐스터",
-            "name_tw": "预备干员-术师",
+            "name_tw": "預備幹員-術師",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -4583,7 +4583,7 @@
             "name_en": "Reserve Operator - Logistics",
             "name_jp": "予備隊員-支援",
             "name_kr": "예비 인원 - 지원",
-            "name_tw": "预备干员-后勤",
+            "name_tw": "預備幹員-後勤",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -4598,7 +4598,7 @@
             "name_en": "Reserve Operator - Sniper",
             "name_jp": "予備隊員-狙撃",
             "name_kr": "예비 인원 - 스나이퍼",
-            "name_tw": "预备干员-狙击",
+            "name_tw": "預備幹員-狙擊",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -4688,7 +4688,7 @@
             "name_en": "Tulip",
             "name_jp": "チューリップ",
             "name_kr": "튤립",
-            "name_tw": "郁金香",
+            "name_tw": "鬱金香",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -4703,7 +4703,7 @@
             "name_en": "Reserve Operator - Defender",
             "name_jp": "予備隊員-重装",
             "name_kr": "예비 인원 - 디펜더",
-            "name_tw": "预备干员-重装",
+            "name_tw": "預備幹員-重裝",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -4718,7 +4718,7 @@
             "name_en": "Medic Drone",
             "name_jp": "医療ドローン",
             "name_kr": "메딕프로브",
-            "name_tw": "医疗探机",
+            "name_tw": "醫療探機",
             "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
@@ -4733,7 +4733,7 @@
             "name_en": "Tentacle",
             "name_jp": "触手",
             "name_kr": "촉수",
-            "name_tw": "触手",
+            "name_tw": "觸手",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -4778,7 +4778,7 @@
             "name_en": "Robotter",
             "name_jp": "メカ・カワウソ",
             "name_kr": "기계수달",
-            "name_tw": "机械水獭",
+            "name_tw": "機械水獺",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -4793,7 +4793,7 @@
             "name_en": "Soaring Dragon F",
             "name_jp": "DDF・F",
             "name_kr": "드래곤플라이.F",
-            "name_tw": "龙腾.F",
+            "name_tw": "龍騰.F",
             "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
@@ -4808,7 +4808,7 @@
             "name_en": "Soaring Dragon L",
             "name_jp": "DDF・L",
             "name_kr": "드래곤플라이.L",
-            "name_tw": "龙腾.L",
+            "name_tw": "龍騰.L",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -4823,7 +4823,7 @@
             "name_en": "Soaring Dragon A",
             "name_jp": "DDF・A",
             "name_kr": "드래곤플라이.A",
-            "name_tw": "龙腾.A",
+            "name_tw": "龍騰.A",
             "position": "RANGED",
             "profession": "TOKEN",
             "rangeId": [
@@ -4838,7 +4838,7 @@
             "name_en": "Cursed Doll",
             "name_jp": "呪いの人形",
             "name_kr": "저주인형",
-            "name_tw": "诅咒娃娃",
+            "name_tw": "詛咒娃娃",
             "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
@@ -4853,7 +4853,7 @@
             "name_en": "Phantom in the Mirror",
             "name_jp": "鏡映虚影",
             "name_kr": "거울 속의 환영",
-            "name_tw": "镜中虚影",
+            "name_tw": "鏡中虛影",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -4868,7 +4868,7 @@
             "name_en": "Front Toward Enemy",
             "name_jp": "サプライズ！",
             "name_kr": "적 방향",
-            "name_tw": "此面向敌",
+            "name_tw": "此面向敵",
             "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
@@ -4898,7 +4898,7 @@
             "name_en": "Mobile Buggy Cam",
             "name_jp": "撮影ロボット",
             "name_kr": "이동촬영기",
-            "name_tw": "移动摄影器",
+            "name_tw": "移動攝影器",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -4928,7 +4928,7 @@
             "name_en": "Rosmontis's Tactical Equipment",
             "name_jp": "ロスモンティスの戦術装備",
             "name_kr": "로즈몬티스의 전술 장비",
-            "name_tw": "迷迭香的战术装备",
+            "name_tw": "迷迭香的戰術裝備",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -4943,7 +4943,7 @@
             "name_en": "'Clip'",
             "name_jp": "「クリップ」",
             "name_kr": "'클립'",
-            "name_tw": "“夹子”",
+            "name_tw": "\"夾子\"",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -4958,7 +4958,7 @@
             "name_en": "Metal Crab Guard Team",
             "name_jp": "ハガネガニ守備隊",
             "name_kr": "메탈 크랩 호위대",
-            "name_tw": "磐蟹护卫队",
+            "name_tw": "磐蟹護衛隊",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -4973,7 +4973,7 @@
             "name_en": "'Freeling'",
             "name_jp": "「小自在」",
             "name_kr": "'작은 즈자이'",
-            "name_tw": "“小自在”",
+            "name_tw": "\"小自在\"",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -4988,7 +4988,7 @@
             "name_en": "Welcome Mat",
             "name_jp": "ウェルカムマット",
             "name_kr": "전술 함정",
-            "name_tw": "迎宾踏垫",
+            "name_tw": "迎賓踏墊",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -5018,7 +5018,7 @@
             "name_en": "Full Auto Modeler",
             "name_jp": "メイクアップマシン",
             "name_kr": "전자동 스타일러",
-            "name_tw": "全自动造型仪",
+            "name_tw": "全自動造型儀",
             "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
@@ -5033,7 +5033,7 @@
             "name_en": "'Blazing Sun'",
             "name_jp": "「ブレイジング・サン」",
             "name_kr": "'눈 부신 태양'",
-            "name_tw": "“耀阳”",
+            "name_tw": "“耀陽”",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -5063,7 +5063,7 @@
             "name_en": "'Peripateticism'",
             "name_jp": "「逍遥」",
             "name_kr": "'샤오야오'",
-            "name_tw": "“逍遥”",
+            "name_tw": "“逍遙”",
             "position": "RANGED",
             "profession": "TOKEN",
             "rangeId": [
@@ -5078,7 +5078,7 @@
             "name_en": "'Thunderer'",
             "name_jp": "「弦驚」",
             "name_kr": "'시엔징'",
-            "name_tw": "“弦惊”",
+            "name_tw": "“弦驚”",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -5093,7 +5093,7 @@
             "name_en": "Slumberfoot",
             "name_jp": "眠獣",
             "name_kr": "슬럼버풋",
-            "name_tw": "眠兽",
+            "name_tw": "眠獸",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -5108,7 +5108,7 @@
             "name_en": "Kaminingyo",
             "name_jp": "紙人形",
             "name_kr": "종이 인형",
-            "name_tw": "纸偶",
+            "name_tw": "紙偶",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -5123,7 +5123,7 @@
             "name_en": "Reliable Battery",
             "name_jp": "高信頼性バッテリー",
             "name_kr": "안정적인 배터리",
-            "name_tw": "可靠电池",
+            "name_tw": "可靠電池",
             "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
@@ -5138,7 +5138,7 @@
             "name_en": "Remnants of Days Past",
             "name_jp": "過去の残像",
             "name_kr": "지난날의 잔상",
-            "name_tw": "旧日残影",
+            "name_tw": "舊日殘影",
             "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
@@ -5153,7 +5153,7 @@
             "name_en": "Resonator",
             "name_jp": "共振装置",
             "name_kr": "공진 장치",
-            "name_tw": "共振装置",
+            "name_tw": "共振裝置",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -5168,7 +5168,7 @@
             "name_en": "'Typewriter'",
             "name_jp": "「タイプライター」",
             "name_kr": "'타자기'",
-            "name_tw": "“打字机”",
+            "name_tw": "“打字機”",
             "position": "RANGED",
             "profession": "TOKEN",
             "rangeId": [
@@ -5183,7 +5183,7 @@
             "name_en": "Stainless™ Multifunctional Platform",
             "name_jp": "ステインレス™多機能プラットフォーム",
             "name_kr": "스테인리스™ 멀티 플랫폼",
-            "name_tw": "白铁™多功能平台",
+            "name_tw": "白鐵™多功能平台",
             "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
@@ -5198,7 +5198,7 @@
             "name_en": "Stainless™ Multifunctional Platform",
             "name_jp": "ステインレス™多機能プラットフォーム",
             "name_kr": "스테인리스™ 멀티 플랫폼",
-            "name_tw": "白铁™多功能平台",
+            "name_tw": "白鐵™多功能平台",
             "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
@@ -5213,7 +5213,7 @@
             "name_en": "Prototype of Feist's Metal Crab",
             "name_jp": "鉄鉗号･プロトタイプ",
             "name_kr": "글룸핀서호 - 프로토타입",
-            "name_tw": "铁钳号·原型机",
+            "name_tw": "鐵鉗號·原型機",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -5303,7 +5303,7 @@
             "name_en": "Roadblock",
             "name_jp": "障害物",
             "name_kr": "장애물",
-            "name_tw": "障碍物",
+            "name_tw": "障礙物",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5318,7 +5318,7 @@
             "name_en": "Stun Generator",
             "name_jp": "EMP発生装置",
             "name_kr": "충격장치",
-            "name_tw": "震撼装置",
+            "name_tw": "震撼裝置",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5333,7 +5333,7 @@
             "name_en": "Gate",
             "name_jp": "シャッター",
             "name_kr": "게이트",
-            "name_tw": "闸门",
+            "name_tw": "閘門",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5348,7 +5348,7 @@
             "name_en": "Detector",
             "name_jp": "探知機",
             "name_kr": "탐지기",
-            "name_tw": "侦测器",
+            "name_tw": "偵測器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5363,7 +5363,7 @@
             "name_en": "Jammer",
             "name_jp": "妨害装置",
             "name_kr": "방해장치",
-            "name_tw": "干扰装置",
+            "name_tw": "干擾裝置",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5393,7 +5393,7 @@
             "name_en": "Command Terminal",
             "name_jp": "コマンドシステム",
             "name_kr": "지휘 단말기",
-            "name_tw": "指挥终端",
+            "name_tw": "指揮終端",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5408,7 +5408,7 @@
             "name_en": "Portable Supply Station",
             "name_jp": "簡易補給所",
             "name_kr": "휴대용 보급기",
-            "name_tw": "便携式补给站",
+            "name_tw": "可攜式補給站",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5438,7 +5438,7 @@
             "name_en": "Originium Altar",
             "name_jp": "源石祭壇",
             "name_kr": "오리지늄 제단",
-            "name_tw": "源石祭坛",
+            "name_tw": "源石祭壇",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5453,7 +5453,7 @@
             "name_en": "Interference Mine",
             "name_jp": "妨害地雷",
             "name_kr": "방해지뢰",
-            "name_tw": "干扰地雷",
+            "name_tw": "干擾地雷",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5468,7 +5468,7 @@
             "name_en": "Originium Flow Generator",
             "name_jp": "源石気流発生装置",
             "name_kr": "오리지늄 기류 발생 장치",
-            "name_tw": "源石流发生装置",
+            "name_tw": "源石流發生裝置",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5483,7 +5483,7 @@
             "name_en": "L-44 'Gramophone'",
             "name_jp": "L-44「蓄音機」",
             "name_kr": "L-44 '축음기'",
-            "name_tw": "L-44\"留声机\"",
+            "name_tw": "L-44\"留聲機\"",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5513,7 +5513,7 @@
             "name_en": "Temporary Rhodes Island Employee",
             "name_jp": "伐採作業員",
             "name_kr": "로도스 아일랜드 임시 직원",
-            "name_tw": "罗德岛临时雇员",
+            "name_tw": "羅德島臨時雇員",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5528,7 +5528,7 @@
             "name_en": "Mr. Boom",
             "name_jp": "ミスターランブル",
             "name_kr": "미스터 럼블",
-            "name_tw": "轰隆隆先生",
+            "name_tw": "轟隆隆先生",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5543,7 +5543,7 @@
             "name_en": "Mieszko Coil",
             "name_jp": "ミェシュココイル",
             "name_kr": "미에슈코 코일",
-            "name_tw": "梅什科线圈",
+            "name_tw": "梅什科線圈",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5558,7 +5558,7 @@
             "name_en": "Static Roadblock",
             "name_jp": "道路障害物",
             "name_kr": "도로 장애물",
-            "name_tw": "道路障碍物",
+            "name_tw": "道路障礙物",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5573,7 +5573,7 @@
             "name_en": "Energy Aggregate",
             "name_jp": "エネルギークリスタル",
             "name_kr": "에너지 중합체",
-            "name_tw": "能量聚合体",
+            "name_tw": "能量聚合體",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5603,7 +5603,7 @@
             "name_en": "Patriot's Originium Altar",
             "name_jp": "パトリオットの源石祭壇",
             "name_kr": "패트리어트의 오리지늄 제단",
-            "name_tw": "爱国者的源石祭坛",
+            "name_tw": "愛國者的源石祭壇",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5618,7 +5618,7 @@
             "name_en": "Shieldguard",
             "name_jp": "盾兵",
             "name_kr": "방패병",
-            "name_tw": "盾卫",
+            "name_tw": "盾衛",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5633,7 +5633,7 @@
             "name_en": "Imprisonment Device",
             "name_jp": "禁固装置",
             "name_kr": "구속 장치",
-            "name_tw": "禁锢装置",
+            "name_tw": "禁錮裝置",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5648,7 +5648,7 @@
             "name_en": "Two-Step Firecracker mk2",
             "name_jp": "改良型爆竹",
             "name_kr": "개량형 양자폭죽",
-            "name_tw": "改良型二踢脚",
+            "name_tw": "改良型二踢腳",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5678,7 +5678,7 @@
             "name_en": "Pulse Defense Module",
             "name_jp": "衝撃防御モジュール",
             "name_kr": "펄스 방어 모듈",
-            "name_tw": "脉冲防御模组",
+            "name_tw": "脈衝防禦模組",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5693,7 +5693,7 @@
             "name_en": "Teargas Control Valve",
             "name_jp": "催涙ガス制御弁",
             "name_kr": "최루 가스 제어 밸브",
-            "name_tw": "催泪瓦斯控制阀",
+            "name_tw": "催淚瓦斯控制閥",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5708,7 +5708,7 @@
             "name_en": "Drone Factory",
             "name_jp": "ドローン工場",
             "name_kr": "드론 공장",
-            "name_tw": "无人机工厂",
+            "name_tw": "無人機工廠",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5723,7 +5723,7 @@
             "name_en": "Snowsant's Safe Escape Crane",
             "name_jp": "スノーズントの安全クレーン",
             "name_kr": "스노우상트의 안전한 크레인",
-            "name_tw": "雪雉的安全起重机",
+            "name_tw": "雪雉的安全起重機",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5738,7 +5738,7 @@
             "name_en": "Dirt Mound",
             "name_jp": "土石構造",
             "name_kr": "토석 구조물",
-            "name_tw": "土石结构",
+            "name_tw": "土石結構",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5753,7 +5753,7 @@
             "name_en": "High-Energy Originium Bomb",
             "name_jp": "高威力源石爆弾",
             "name_kr": "고에너지 오리지늄 폭탄",
-            "name_tw": "高能源石炸弹",
+            "name_tw": "高能源石炸彈",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5768,7 +5768,7 @@
             "name_en": "Reinforcement Device",
             "name_jp": "補強装置",
             "name_kr": "강화재",
-            "name_tw": "加固装置",
+            "name_tw": "加固裝置",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5798,7 +5798,7 @@
             "name_en": "Sandstorm",
             "name_jp": "砂嵐",
             "name_kr": "모래 폭풍",
-            "name_tw": "沙尘暴",
+            "name_tw": "沙塵暴",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5813,7 +5813,7 @@
             "name_en": "Mobile Tactical Hangar",
             "name_jp": "可動式戦術格納庫",
             "name_kr": "이동식 전술 격납고",
-            "name_tw": "可移动战术机库",
+            "name_tw": "可移動戰術機庫",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5828,7 +5828,7 @@
             "name_en": "Emergency Aid Building",
             "name_jp": "応急治療施設",
             "name_kr": "응급처치 시설",
-            "name_tw": "应急救治设施",
+            "name_tw": "應急救治設施",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5858,7 +5858,7 @@
             "name_en": "Custom Floating Platform",
             "name_jp": "特設ボート",
             "name_kr": "특제 수상 플랫폼",
-            "name_tw": "特制水上平台",
+            "name_tw": "特製水上平台",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5873,7 +5873,7 @@
             "name_en": "Kite",
             "name_jp": "カイト",
             "name_kr": "연",
-            "name_tw": "风筝",
+            "name_tw": "風箏",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5888,7 +5888,7 @@
             "name_en": "Tide Controller",
             "name_jp": "潮高制御装置",
             "name_kr": "밀물 제어 장치",
-            "name_tw": "涨潮控制",
+            "name_tw": "漲潮控制",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5918,7 +5918,7 @@
             "name_en": "Battlefield Ruins",
             "name_jp": "瓦礫",
             "name_kr": "전장의 폐허",
-            "name_tw": "战场废墟",
+            "name_tw": "戰場廢墟",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5933,7 +5933,7 @@
             "name_en": "Demolition Device",
             "name_jp": "爆破装置",
             "name_kr": "폭파 장치",
-            "name_tw": "爆破装置",
+            "name_tw": "爆破裝置",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5948,7 +5948,7 @@
             "name_en": "Erosion-Resistant Coating Application Device",
             "name_jp": "耐水蝕コーティング装置",
             "name_kr": "수식 방지 코팅 장치",
-            "name_tw": "防水蚀镀膜装置",
+            "name_tw": "防水蝕鍍膜裝置",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5978,7 +5978,7 @@
             "name_en": "Knight Crest",
             "name_jp": "騎士の紋章",
             "name_kr": "기사 훈장",
-            "name_tw": "骑士之徽",
+            "name_tw": "騎士之徽",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5993,7 +5993,7 @@
             "name_en": "Blizzard",
             "name_jp": "猛吹雪",
             "name_kr": "눈보라",
-            "name_tw": "暴风雪",
+            "name_tw": "暴風雪",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6008,7 +6008,7 @@
             "name_en": "Unowned Treasure",
             "name_jp": "主なき財宝",
             "name_kr": "주인 없는 재화",
-            "name_tw": "无主的财富",
+            "name_tw": "無主的財富",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6023,7 +6023,7 @@
             "name_en": "Broken Fog Machine",
             "name_jp": "壊れたスモークマシン",
             "name_kr": "고장난 포그머신",
-            "name_tw": "失修舞台雾机",
+            "name_tw": "失修舞台霧機",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6038,7 +6038,7 @@
             "name_en": "Gas Tank P.",
             "name_jp": "ガスボンベ",
             "name_kr": "휴대용 가스통",
-            "name_tw": "便携气罐",
+            "name_tw": "便攜氣罐",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6053,7 +6053,7 @@
             "name_en": "'Host's Assistant'",
             "name_jp": "「司会アシスタント」",
             "name_kr": "'호스트 어시스턴트'",
-            "name_tw": "“报幕助手”",
+            "name_tw": "“報幕助手”",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6098,7 +6098,7 @@
             "name_en": "'Gelato Stop'",
             "name_jp": "「ジェラート供給所」",
             "name_kr": "'젤라토 머신'",
-            "name_tw": "“冰淇淋机”",
+            "name_tw": "“冰淇淋機”",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6113,7 +6113,7 @@
             "name_en": "Londinium Secondary Defense Artillery",
             "name_jp": "ロンディニウム都市防衛副砲",
             "name_kr": "런디니움 수성 부포",
-            "name_tw": "伦蒂尼姆城防副炮",
+            "name_tw": "倫蒂尼姆城防副炮",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6128,7 +6128,7 @@
             "name_en": "Conviction",
             "name_jp": "コンビクション",
             "name_kr": "컨빅션",
-            "name_tw": "断罪者",
+            "name_tw": "斷罪者",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6143,7 +6143,7 @@
             "name_en": "Hand of the Saint",
             "name_jp": "聖徒の御手",
             "name_kr": "성도의 손",
-            "name_tw": "圣徒之手",
+            "name_tw": "聖徒之手",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6173,7 +6173,7 @@
             "name_en": "'Tuba'",
             "name_jp": "「チューバ」",
             "name_kr": "'튜바'",
-            "name_tw": "“低音号”",
+            "name_tw": "“低音號”",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6203,7 +6203,7 @@
             "name_en": "'Resonator'",
             "name_jp": "「レゾネーター」",
             "name_kr": "'공명기'",
-            "name_tw": "“谐振器”",
+            "name_tw": "“諧振器”",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6218,7 +6218,7 @@
             "name_en": "Treasure Chest",
             "name_jp": "宝箱",
             "name_kr": "보물 상자",
-            "name_tw": "宝箱",
+            "name_tw": "寶箱",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6233,7 +6233,7 @@
             "name_en": "Spiked Treasure Chest",
             "name_jp": "トゲトゲ宝箱",
             "name_kr": "가시 돋은 보물 상자",
-            "name_tw": "尖刺宝箱",
+            "name_tw": "尖刺寶箱",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6263,7 +6263,7 @@
             "name_en": "Chest Seaborn",
             "name_jp": "宝箱形恐魚",
             "name_kr": "상자 시테러",
-            "name_tw": "箱形恐鱼",
+            "name_tw": "箱形恐魚",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6278,7 +6278,7 @@
             "name_en": "Equipment Activation Valve",
             "name_jp": "装備起動用バルブ",
             "name_kr": "장비 활성화 밸브",
-            "name_tw": "战备激活阀",
+            "name_tw": "戰備啟動閥",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6293,7 +6293,7 @@
             "name_en": "Preparation Area Transmitter",
             "name_jp": "準備エリア送信機",
             "name_kr": "준비 구역 송신기",
-            "name_tw": "预备区发讯器",
+            "name_tw": "預備區發訊器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6308,7 +6308,7 @@
             "name_en": "Emergency Recall Box",
             "name_jp": "緊急召還情報ボックス",
             "name_kr": "긴급 리콜 박스",
-            "name_tw": "紧急召回情报箱",
+            "name_tw": "緊急召回情報箱",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6323,7 +6323,7 @@
             "name_en": "Recuperation Area Transmitter",
             "name_jp": "休憩エリア送信機",
             "name_kr": "정비 구역 송신기",
-            "name_tw": "休整区发讯器",
+            "name_tw": "休整區發訊器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6353,7 +6353,7 @@
             "name_en": "Heat Cluster",
             "name_jp": "集熱晶洞",
             "name_kr": "열 클러스터",
-            "name_tw": "聚热晶簇",
+            "name_tw": "聚熱晶簇",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6367,8 +6367,8 @@
             "name": "R-31重型动力装甲",
             "name_en": "R-31 Heavy Power Armor",
             "name_jp": "R-31大型パワードスーツ",
-            "name_kr": "R-31 중형 기동 장갑",
-            "name_tw": "R-31重型动力装甲",
+            "name_kr": "R-31 중형 동력 기갑",
+            "name_tw": "R-31重型動力裝甲",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6382,8 +6382,8 @@
             "name": "R-31a重型动力装甲",
             "name_en": "R-31a Heavy Power Armor",
             "name_jp": "R-31a大型パワードスーツ",
-            "name_kr": "R-31a 중형 기동 장갑",
-            "name_tw": "R-31a重型动力装甲",
+            "name_kr": "R-31a 중형 동력 기갑",
+            "name_tw": "R-31a重型動力裝甲",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6397,8 +6397,8 @@
             "name": "R-11突击动力装甲",
             "name_en": "R-11 Assault Power Armor",
             "name_jp": "R-11突撃型パワードスーツ",
-            "name_kr": "R-11 돌격 기동 장갑",
-            "name_tw": "R-11突击动力装甲",
+            "name_kr": "R-11 돌격 동력 기갑",
+            "name_tw": "R-11突擊動力裝甲",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6412,8 +6412,8 @@
             "name": "R-11a突击动力装甲",
             "name_en": "R-11a Assault Power Armor",
             "name_jp": "R-11a突撃型パワードスーツ",
-            "name_kr": "R-11a 돌격 기동 장갑",
-            "name_tw": "R-11a突击动力装甲",
+            "name_kr": "R-11a 돌격 동력 기갑",
+            "name_tw": "R-11a突擊動力裝甲",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6428,7 +6428,7 @@
             "name_en": "Tide-Hunt Knight",
             "name_jp": "猟潮の騎士",
             "name_kr": "파도 사냥의 기사",
-            "name_tw": "猎潮的骑士",
+            "name_tw": "獵潮的騎士",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -6443,7 +6443,7 @@
             "name_en": "Self-Driving Cart Launchpoint",
             "name_jp": "セルカースターター",
             "name_kr": "자율차 출발점",
-            "name_tw": "自走车出发点",
+            "name_tw": "自走車出發點",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6458,7 +6458,7 @@
             "name_en": "Self-Driving Cart One-Way Road",
             "name_jp": "ターンテーブル",
             "name_kr": "자율차 트랙",
-            "name_tw": "自走车单行道",
+            "name_tw": "自走車單行道",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6473,7 +6473,7 @@
             "name_en": "Reassignment Transmitter",
             "name_jp": "再配置送信機",
             "name_kr": "재파견 송신기",
-            "name_tw": "改派发讯器",
+            "name_tw": "改派發訊器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6488,7 +6488,7 @@
             "name_en": "Barrier",
             "name_jp": "掩体",
             "name_kr": "엄폐물",
-            "name_tw": "掩体",
+            "name_tw": "掩體",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6518,7 +6518,7 @@
             "name_en": "Fluorescent Spores",
             "name_jp": "蛍光胞子",
             "name_kr": "형광 포자",
-            "name_tw": "荧光孢子",
+            "name_tw": "螢光孢子",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6533,7 +6533,7 @@
             "name_en": "'Twigs That Crave'",
             "name_jp": "「渇欲の枯枝」 ",
             "name_kr": "'부식된 고목'",
-            "name_tw": "“汲营枯枝” ",
+            "name_tw": "“汲營枯枝”",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6548,7 +6548,7 @@
             "name_en": "Allerdale's Guard",
             "name_jp": "アラデルの衛護",
             "name_kr": "알레데일의 가호",
-            "name_tw": "阿勒黛的卫护",
+            "name_tw": "阿勒黛的衛護",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6593,7 +6593,7 @@
             "name_en": "Entitative Program",
             "name_jp": "実体プログラム",
             "name_kr": "실체화 모듈",
-            "name_tw": "实体程式",
+            "name_tw": "實體程式",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6608,7 +6608,7 @@
             "name_en": "Entitative Program Controller",
             "name_jp": "実体プログラム制御",
             "name_kr": "실체화 모듈 제어",
-            "name_tw": "实体程式控制",
+            "name_tw": "實體程式控制",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6623,7 +6623,7 @@
             "name_en": "Vengeful Mafioso",
             "name_jp": "報復の爪痕",
             "name_kr": "벤데타",
-            "name_tw": "复仇黑手",
+            "name_tw": "復仇黑手",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6638,7 +6638,7 @@
             "name_en": "Gloompincer Shell Meal",
             "name_jp": "鉗獣殻パウダー",
             "name_kr": "글룸핀서 파우더",
-            "name_tw": "钳兽壳粉",
+            "name_tw": "鉗獸殼粉",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6713,7 +6713,7 @@
             "name_en": "Mire Control",
             "name_jp": "沼地制御",
             "name_kr": "늪지대 제어",
-            "name_tw": "沼泽控制",
+            "name_tw": "沼澤控制",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6905,9 +6905,9 @@
         },
         "trap_111_wdfarm": {
             "name": "街头应急储备",
-            "name_en": "Roadside Emergency Reserves",
-            "name_jp": "街の緊急用備蓄",
-            "name_kr": "길거리 보급품",
+            "name_en": "街头应急储备",
+            "name_jp": "街头应急储备",
+            "name_kr": "街头应急储备",
             "name_tw": "街头应急储备",
             "position": "NONE",
             "profession": "TRAP",
@@ -7808,7 +7808,7 @@
             "name_en": "Ægirian Oscilloscope",
             "name_jp": "エーギル式振波計",
             "name_kr": "에기르 오실로스코프",
-            "name_tw": "阿戈尔示波器",
+            "name_tw": "阿戈爾示波器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7823,7 +7823,7 @@
             "name_en": "Ægirian Oscilloscope",
             "name_jp": "エーギル式振波計",
             "name_kr": "에기르 오실로스코프",
-            "name_tw": "阿戈尔示波器",
+            "name_tw": "阿戈爾示波器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7838,7 +7838,7 @@
             "name_en": "Ægirian Oscilloscope",
             "name_jp": "エーギル式振波計",
             "name_kr": "에기르 오실로스코프",
-            "name_tw": "阿戈尔示波器",
+            "name_tw": "阿戈爾示波器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7853,7 +7853,7 @@
             "name_en": "Adaptive Supply Component",
             "name_jp": "多機能補給デバイス",
             "name_kr": "다목적 공급장치",
-            "name_tw": "自适应补给元件",
+            "name_tw": "自適應補給元件",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7868,7 +7868,7 @@
             "name_en": "Adaptive Supply Component",
             "name_jp": "多機能補給デバイス",
             "name_kr": "다목적 공급장치",
-            "name_tw": "自适应补给元件",
+            "name_tw": "自適應補給元件",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7883,7 +7883,7 @@
             "name_en": "Adaptive Supply Component",
             "name_jp": "多機能補給デバイス",
             "name_kr": "다목적 공급장치",
-            "name_tw": "自适应补给元件",
+            "name_tw": "自適應補給元件",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7898,7 +7898,7 @@
             "name_en": "Coating Device Conduction Valve",
             "name_jp": "コーティングデバイス",
             "name_kr": "코팅 장치 전도 밸브",
-            "name_tw": "镀膜装置导能阀",
+            "name_tw": "鍍膜裝置導能閥",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7913,7 +7913,7 @@
             "name_en": "Redeployment Conduction Component",
             "name_jp": "再稼働コンポーネント",
             "name_kr": "에너지 재정비 유닛",
-            "name_tw": "重整导能组件",
+            "name_tw": "重整導能組件",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7928,7 +7928,7 @@
             "name_en": "Coating Device Conduction Valve",
             "name_jp": "コーティングデバイス",
             "name_kr": "코팅 장치 전도 밸브",
-            "name_tw": "镀膜装置导能阀",
+            "name_tw": "鍍膜裝置導能閥",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7943,7 +7943,7 @@
             "name_en": "Eunectes' Beacon",
             "name_jp": "ジャングル用追跡ビーコン",
             "name_kr": "정글용 추적 비콘",
-            "name_tw": "丛林用示踪信标",
+            "name_tw": "叢林用示蹤信標",
             "position": "MELEE",
             "profession": "TRAP",
             "rangeId": [
@@ -7958,7 +7958,7 @@
             "name_en": "Block Wavelength",
             "name_jp": "遮断電波",
             "name_kr": "차단 파장",
-            "name_tw": "阻断波长",
+            "name_tw": "阻斷波長",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7973,7 +7973,7 @@
             "name_en": "Jam Wavelength",
             "name_jp": "妨害電波",
             "name_kr": "간섭 파장",
-            "name_tw": "干扰波长",
+            "name_tw": "干擾波長",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7988,7 +7988,7 @@
             "name_en": "Heavy Insulated Concrete",
             "name_jp": "超過重絶縁セメント",
             "name_kr": "과중 단열 시멘트",
-            "name_tw": "超重绝缘水泥",
+            "name_tw": "超重絕緣水泥",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -8003,7 +8003,7 @@
             "name_en": "Shoddy Flashbang",
             "name_jp": "粗悪なスタングレネード",
             "name_kr": "불량 섬광탄",
-            "name_tw": "劣质闪光弹",
+            "name_tw": "劣質閃光彈",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
