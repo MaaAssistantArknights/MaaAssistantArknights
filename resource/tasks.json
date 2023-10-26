@@ -13507,7 +13507,13 @@
             302,
             113
         ],
-        "postDelay": 2000
+        "postDelay": 2000,
+        "ocrReplace": [
+            [
+                "开始告",
+                "开始宣告"
+            ]
+        ]
     },
     "Sami@Roguelike@CiphertextBoardUseOcr": {
         "algorithm": "OcrDetect",

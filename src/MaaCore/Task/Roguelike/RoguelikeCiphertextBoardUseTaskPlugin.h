@@ -34,6 +34,5 @@ namespace asst
         // 节点类型
         mutable std::string m_stage;
         mutable json::array m_all_boards;
-        mutable bool m_board_use_error = false;
     };
 }
