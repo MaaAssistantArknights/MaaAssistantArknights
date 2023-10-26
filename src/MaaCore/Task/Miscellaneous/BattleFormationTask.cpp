@@ -234,7 +234,7 @@ bool asst::BattleFormationTask::add_trust_operators()
     return append_count == 0;
 }
 
-inline bool asst::BattleFormationTask::select_random_support_unit()
+bool asst::BattleFormationTask::select_random_support_unit()
 {
     return ProcessTask(*this, { "BattleSupportUnitFormation" }).run();
 }
@@ -288,7 +288,7 @@ std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_opers()
     return tr_res;
 }
 
-inline bool asst::BattleFormationTask::enter_selection_page()
+bool asst::BattleFormationTask::enter_selection_page()
 {
     return ProcessTask(*this, { "BattleQuickFormation" }).set_retry_times(3).run();
 }
@@ -424,15 +424,16 @@ bool asst::BattleFormationTask::parse_formation()
     return true;
 }
 
-inline bool asst::BattleFormationTask::select_formation(int select_index)
+bool asst::BattleFormationTask::select_formation(int select_index)
 {
     // 编队不会触发改名的区域有两组
     // 一组是上面的黑长条 260*9
     // 第二组是名字最左边和最右边的一块区域
     // 右边比左边窄，暂定为左边 10*58
 
-    static const std::vector<std::string> battle_select_formation_task_name = { "BattleSelectFormation1", "BattleSelectFormation2",
-                                                           "BattleSelectFormation3", "BattleSelectFormation4" };
+    static const std::vector<std::string> select_formation_task = { "BattleSelectFormation1", "BattleSelectFormation2",
+                                                                    "BattleSelectFormation3",
+                                                                    "BattleSelectFormation4" };
 
-    return ProcessTask { *this, { battle_select_formation_task_name[select_index - 1] } }.run();
+    return ProcessTask { *this, { select_formation_task[select_index - 1] } }.run();
 }
