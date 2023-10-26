@@ -512,7 +512,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             FormationSelectList = new List<CombinedData>()
             {
-                new CombinedData { Display = LocalizationHelper.GetString("CurrentFormation"), Value = "0" },
+                new CombinedData { Display = LocalizationHelper.GetString("Current"), Value = "0" },
                 new CombinedData { Display = "1", Value = "1" },
                 new CombinedData { Display = "2", Value = "2" },
                 new CombinedData { Display = "3", Value = "3" },
