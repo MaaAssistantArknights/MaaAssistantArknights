@@ -72,7 +72,7 @@ bool update_version_info(const std::filesystem::path& input_dir, const std::file
 
 int main([[maybe_unused]] int argc, char** argv)
 {
-    /* Path declaration */
+    /* PATH DECLARATION */
 
     const char* str_exec_path = argv[0];
     const auto cur_path = std::filesystem::path(str_exec_path).parent_path();
@@ -150,7 +150,7 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
 
-    /* Update overseas data */
+    /* Update overseas data from ArknightsGameData_YoStar*/
     std::cout << "------------Update overseas data------------" << std::endl;
     if (!std::filesystem::exists(overseas_data_dir)) {
         git_cmd = "git clone https://github.com/Kengxxiao/ArknightsGameData_YoStar.git --depth=1 \"" +
@@ -172,13 +172,14 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
 
-    /* Update recruitment data from overseas data*/
+    /* Update recruitment data from ArknightsGameResource*/
     std::cout << "------------Update recruitment data------------" << std::endl;
     if (!update_recruitment_data(arkbot_res_dir / "gamedata" / "excel", resource_dir / "recruitment.json", true)) {
         std::cerr << "Update recruitment data failed" << std::endl;
         return -1;
     }
 
+    /* Update recruitment data from ArknightsGameData_YoStar*/
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update recruitment data for " << out << "------------" << std::endl;
         if (!update_recruitment_data(overseas_data_dir / in / "gamedata" / "excel",
@@ -188,14 +189,14 @@ int main([[maybe_unused]] int argc, char** argv)
         }
     }
 
-    /* Update items template and json  from ArknightsGameResource*/
+    /* Update items template and json from ArknightsGameResource*/
     std::cout << "------------Update items template and json------------" << std::endl;
     if (!update_items_data(arkbot_res_dir, resource_dir)) {
         std::cerr << "Update items data failed" << std::endl;
         return -1;
     }
 
-    /* Update items global json from overseas data*/
+    /* Update items global json from ArknightsGameData_YoStar*/
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update items json for " << out << "------------" << std::endl;
         if (!update_items_data(overseas_data_dir / in, resource_dir / "global" / out / "resource", false)) {
@@ -213,12 +214,14 @@ int main([[maybe_unused]] int argc, char** argv)
         }
     }
 
+    /* Update version info from ArknightsGameData*/
     std::cout << "------------Update version info------------" << std::endl;
     if (!update_version_info(arkbot_res_dir / "gamedata" / "excel", resource_dir)) {
         std::cerr << "Update version info failed" << std::endl;
         return -1;
     }
 
+    /* Update global version info from ArknightsGameData_Yostar*/
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update version info for " << out << "------------" << std::endl;
         if (!update_version_info(overseas_data_dir / in / "gamedata" / "excel",
