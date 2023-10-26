@@ -178,7 +178,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
                     status()->get_str(Status::RoguelikeCiphertextBoardOverview).value_or(json::value().to_string());
 
                 auto& overview = json::parse(overview_str).value_or(json::value()).as_array();
-                // 把ciphertext_board存到overview里
+                // 把goods.name存到密文板overview里
                 overview.push_back(goods.name);
                 status()->set_str(Status::RoguelikeCiphertextBoardOverview, overview.to_string());
             }

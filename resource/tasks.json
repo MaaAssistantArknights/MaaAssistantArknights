@@ -13495,6 +13495,15 @@
             124
         ]
     },
+    "Sami@Roguelike@CiphertextBoardGainOcrNextLevel": {
+        "baseTask": "Sami@Roguelike@CiphertextBoardGainOcr",
+        "roi": [
+            290,
+            640,
+            151,
+            34
+        ]
+    },
     "Sami@Roguelike@CiphertextBoardUseConfirm": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
@@ -13536,7 +13545,7 @@
         ],
         "specificRect_Doc": "x拿来当文字灰度二值化下限用",
         "specificRect": [
-            110,
+            135,
             0,
             0,
             0
