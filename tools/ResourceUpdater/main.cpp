@@ -783,15 +783,14 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
     // https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/7079#issuecomment-1780467372
     // open alternative
 
-    auto battle_chars_opt = json::open(output_dir / "battle_data.json");
+    auto battle_data_opt = json::open(output_dir / "battle_data.json");
     // close alternative
 
-
-    if (!chars_cn_opt || !chars_en_opt || !chars_jp_opt || !chars_kr_opt || !battle_chars_opt || !range_opt) {
+    if (!chars_cn_opt || !chars_en_opt || !chars_jp_opt || !chars_kr_opt || !battle_data_opt || !range_opt) {
         return false;
     }
 
-    auto& battle_chars_json = battle_chars_opt.value();
+    auto& battle_data_json = battle_data_opt.value();
     auto& range_json = range_opt.value();
 
     std::vector<std::pair<json::value, std::string>> chars_json = {
@@ -834,7 +833,12 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
             }
         }
 
-        char_new_data["name_tw"] = "test";
+        if (auto chars_opt = battle_data_json.find<json::object>("chars")) {
+            auto& chars_id = chars_opt.value();
+            if (auto char_opt = chars_id.find(id)) {
+                char_new_data["name_tw"] = char_opt->at("name_tw");
+            }
+        }
 
         char_new_data["profession"] = char_data["profession"];
         const std::string& default_range = char_data.get("phases", 0, "rangeId", "0-1");
