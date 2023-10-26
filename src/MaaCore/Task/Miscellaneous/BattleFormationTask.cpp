@@ -431,8 +431,8 @@ inline bool asst::BattleFormationTask::select_formation(int select_index)
     // 第二组是名字最左边和最右边的一块区域
     // 右边比左边窄，暂定为左边 10*58
 
-  static const std::vector<std::string> battle_select_formation_task_name = { "BattleSelectFormation1", "BattleSelectFormation2",
+    static const std::vector<std::string> battle_select_formation_task_name = { "BattleSelectFormation1", "BattleSelectFormation2",
                                                            "BattleSelectFormation3", "BattleSelectFormation4" };
 
-    return ProcessTask { *this, { m_battle_select_formation_task_name[select_index - 1] } }.run();
+    return ProcessTask { *this, { battle_select_formation_task_name[select_index - 1] } }.run();
 }
