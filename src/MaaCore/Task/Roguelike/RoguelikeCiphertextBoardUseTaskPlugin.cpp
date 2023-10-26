@@ -89,10 +89,9 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::_run()
         }
         if (m_stage == usage.usage) {
             // 用到没得用为止,但是只要没有使用成功就不继续使用
-            while (search_enable_pair(usage) && !m_board_use_error && !need_exit()) {
+            while (search_enable_pair(usage) && !need_exit()) {
                 Log.info("Use board pairs");
             }
-            m_board_use_error = false;
             break;
         }
     }
@@ -130,9 +129,9 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::board_pair(const std::string& 
             iter_down = std::find(m_all_boards.begin(), m_all_boards.end(), down_board);
             m_all_boards.erase(iter_down);
             status()->set_str(Status::RoguelikeCiphertextBoardOverview, m_all_boards.to_string());
-            Log.debug("Board pairs used");
+            Log.debug("Board pair used");
+            return true;
         }
-        return true;
     }
     return false;
 }
@@ -152,7 +151,6 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::use_board(const std::string& u
         }
         ProcessTask(*this, { m_roguelike_theme + "@Roguelike@CiphertextBoardBack" }).run();
     }
-    m_board_use_error = true;
     return false;
 }
 
@@ -177,7 +175,6 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::search_and_click_board(const s
         }
         try_time++;
     }
-    m_board_use_error = true;
     return false;
 }
 
@@ -187,13 +184,16 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::search_and_click_stage()
     // todo:根据坐标换算位置,根据节点类型设置识别优先度
 
     // 重置到最左边
-    ProcessTask(*this, { "SwipeToTheRight" }).run();
+    ProcessTask(*this, { "SwipeToTheLeft" }).run();
+    sleep(1000);
+
     // 节点会闪烁，所以这里不用单次Match
     if (ProcessTask(*this, { m_roguelike_theme + "@Roguelike@CiphertextBoardUseOnStage" }).run()) {
         return true;
     }
     // 滑到最右边，萨米的地图只有两页，暂时先这么糊着，出现识别不到再写循环
-    ProcessTask(*this, { "SwipeToTheLeft" }).run();
+    ProcessTask(*this, { "SwipeToTheRight" }).run();
+    sleep(1000);
     if (ProcessTask(*this, { m_roguelike_theme + "@Roguelike@CiphertextBoardUseOnStage" }).run()) {
         return true;
     }
@@ -206,21 +206,21 @@ void asst::RoguelikeCiphertextBoardUseTaskPlugin::swipe_to_top()
 
     int max_retry = 10;
     int try_time = 0;
-    // 找到布局"就到了最上面
+    // 找到"布局"就到了最上面
     while (try_time < max_retry && !need_exit()) {
-    while (try_time < max_retry && !need_exit()) {
-        OCRer analyzer(ctrler()->get_image());
-        analyzer.set_task_info(m_roguelike_theme + "@Roguelike@CiphertextBoardUseOcr");
-        if (analyzer.analyze()) {
-            return;
+        while (try_time < max_retry && !need_exit()) {
+            OCRer analyzer(ctrler()->get_image());
+            analyzer.set_task_info(m_roguelike_theme + "@Roguelike@CiphertextBoardUseOcr");
+            if (analyzer.analyze()) {
+                return;
+            }
+            else {
+                // 往下滑
+                ProcessTask(*this, { "RoguelikeCiphertextBoardSwipeToTheDown" }).run();
+            }
+            try_time++;
         }
-        else {
-            // 往下滑
-            ProcessTask(*this, { "RoguelikeCiphertextBoardSwipeToTheDown" }).run();
-        }
-        try_time++;
     }
-    m_board_use_error = true;
 }
 
 void asst::RoguelikeCiphertextBoardUseTaskPlugin::slowly_swipe(bool to_up, int swipe_dist)
