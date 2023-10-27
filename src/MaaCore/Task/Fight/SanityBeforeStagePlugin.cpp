@@ -30,40 +30,31 @@ bool asst::SanityBeforeStagePlugin::verify(AsstMsg msg, const json::value& detai
 
 bool asst::SanityBeforeStagePlugin::_run()
 {
-    get_sanity_before_stage();
+    int retry = 0;
+    while (!need_exit() && retry < 3) {
+        if (get_sanity_before_stage() || retry >= 3) {
+            break;
+        }
+        ++retry;
+        Log.warn(__FUNCTION__, "Sanity ocr failed, retry:", retry);
+        sleep(Config.get_options().task_delay);
+    }
 
     return true;
 }
 
-/// <summary>
-/// 获取 当前理智/最大理智
-/// </summary>
-void asst::SanityBeforeStagePlugin::get_sanity_before_stage()
+bool asst::SanityBeforeStagePlugin::get_sanity_before_stage()
 {
     LogTraceFunction;
 
-    auto img = ctrler()->get_image();
-
-    RegionOCRer analyzer(img);
+    RegionOCRer analyzer(ctrler()->get_image());
     analyzer.set_task_info("SanityMatch");
     auto res_opt = analyzer.analyze();
-    int retry = 0;
-
-    while (!res_opt && !need_exit() && retry < 3) {
-        Log.warn(__FUNCTION__, "Sanity ocr failed, retry:", retry);
-        sleep(Config.get_options().task_delay);
-
-        img = ctrler()->get_image();
-        analyzer.set_image(img);
-        res_opt = analyzer.analyze();
-        ++retry;
-    }
 
     json::value sanity_info = basic_info_with_what("SanityBeforeStage");
     do {
         if (!res_opt) [[unlikely]] {
             Log.warn(__FUNCTION__, "Sanity ocr failed");
-            analyzer.save_img(utils::path("debug") / utils::path("sanity"));
             break;
         }
 
@@ -92,10 +83,12 @@ void asst::SanityBeforeStagePlugin::get_sanity_before_stage()
         sanity_info["details"]["max_sanity"] = sanity_max;
         sanity_info["details"]["report_time"] = utils::get_format_time();
         callback(AsstMsg::SubTaskExtraInfo, sanity_info);
-        return;
+        return true;
 
     } while (false);
 
+    analyzer.save_img(utils::path("debug") / utils::path("sanity"));
     // 识别失败返回空json。缓存数据需要作废
     callback(AsstMsg::SubTaskExtraInfo, sanity_info);
+    return false;
 }
