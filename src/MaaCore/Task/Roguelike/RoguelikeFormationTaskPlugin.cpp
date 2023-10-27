@@ -56,10 +56,8 @@ bool asst::RoguelikeFormationTaskPlugin::_run()
     // 1. 这一页选满 8 个了
     // 2. select 有值，但是重新识别后发现总的选择数量并没有增加（说明上面的click都没生效）
     bool reselect = false;
-    first_page_full = false;
 
     if (pre_selected == MaxNumOfOperPerPage) {
-        first_page_full = true;
         reselect = true;
     }
     if (!reselect && select_count != 0) {
@@ -93,14 +91,15 @@ void asst::RoguelikeFormationTaskPlugin::clear_and_reselect()
 
     oper_list.clear();
     cur_page = 1;
-    analyze();
 
-    if (first_page_full) { // 说明第二页还有
+    while (analyze()) { // 返回true说明新增了干员，可能还有下一页
         ProcessTask(*this, { "RoguelikeRecruitOperListSlowlySwipeToTheRight" }).run();
-        cur_page = 2;
-        analyze();
-        // 应该不可能还有第三页吧，不管了
+        cur_page++;
     }
+
+    cur_page--; // 最后多划了一下，退回最后一页的页码
+    max_page = cur_page;
+    Log.info(__FUNCTION__, "max_page: ", max_page, " oper_count: ", oper_list.size());
 
     std::vector<asst::RoguelikeFormationImageAnalyzer::FormationOper> sorted_oper_list;
     const auto& team_complete_condition = RoguelikeRecruit.get_team_complete_info(m_roguelike_theme);
@@ -124,16 +123,22 @@ void asst::RoguelikeFormationTaskPlugin::clear_and_reselect()
             if (count == require) break;
         }
     }
-    for (const auto& oper : oper_list) { // 然后按默认排序选择
-        if (sorted_oper_list.size() >= 13) break;
-        bool already_exist = false;
-        for (const auto& existing_oper : sorted_oper_list) {
-            if (oper.name == existing_oper.name) already_exist = true;
+    auto select_others = [&](bool process_reserve_oper) { // 然后按默认排序选择
+        for (const auto& oper : oper_list) {
+            if (sorted_oper_list.size() >= 13) break;
+            if (process_reserve_oper != oper.name.starts_with("预备干员")) continue;
+            bool already_exist = false;
+            for (const auto& existing_oper : sorted_oper_list) {
+                if (oper.name == existing_oper.name) already_exist = true;
+            }
+            if (!already_exist) {
+                sorted_oper_list.emplace_back(oper);
+            }
         }
-        if (!already_exist) {
-            sorted_oper_list.emplace_back(oper);
-        }
-    }
+    };
+    select_others(false); // 非预备干员
+    select_others(true);  // 预备干员
+
     for (const auto& oper : sorted_oper_list) {
         select(oper);
     }
@@ -147,29 +152,42 @@ bool asst::RoguelikeFormationTaskPlugin::analyze()
     }
 
     auto oper_result = formation_analyzer.get_result();
+    bool added = false;
     for (auto& oper : oper_result) {
         bool already_exist = false;
         for (const auto& existing_oper : oper_list) {
+            // 这里其实没考虑存在多个相同预备干员的情况，不过影响应该不大？
             if (oper.name == existing_oper.name) already_exist = true;
         }
+        Log.debug(__FUNCTION__, "oper: ", oper.name, " page: ", cur_page, " already_exist: ", already_exist);
         if (!already_exist) {
             oper.page = cur_page;
             oper_list.emplace_back(oper);
+            added = true; // 希望OCR没识别错干员名，否则可能误判当前页面的干员情况
         }
     }
-    return true;
+    return added;
 }
 
 bool asst::RoguelikeFormationTaskPlugin::select(asst::RoguelikeFormationImageAnalyzer::FormationOper oper)
 {
     if (cur_page != oper.page) {
-        if (cur_page == 1) {
-            ProcessTask(*this, { "RoguelikeRecruitOperListSlowlySwipeToTheRight" }).run();
-            cur_page = 2;
-        }
-        else {
-            ProcessTask(*this, { "RoguelikeRecruitOperListSlowlySwipeToTheLeft" }).run();
+        // 在最大页码时（仅当总页数>=3），从右往左划可能会有对不齐的问题，直接划动到底
+        if (cur_page > oper.page && max_page >= 3 && cur_page == max_page) {
+            for (; cur_page > 0; --cur_page) { // 多划一次到不存在的第0页
+                ProcessTask(*this, { "RoguelikeRecruitOperListSwipeToTheLeft" }).run();
+            }
+            ProcessTask(*this, { "SleepAfterOperListQuickSwipe" }).run();
             cur_page = 1;
+        }
+        // 中间页面划动姑且当成是相对准确的
+        while (cur_page > oper.page) {
+            ProcessTask(*this, { "RoguelikeRecruitOperListSlowlySwipeToTheLeft" }).run();
+            cur_page--;
+        }
+        while (cur_page < oper.page) {
+            ProcessTask(*this, { "RoguelikeRecruitOperListSlowlySwipeToTheRight" }).run();
+            cur_page++;
         }
     }
     ctrler()->click(oper.rect);
