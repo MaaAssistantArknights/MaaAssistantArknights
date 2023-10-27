@@ -190,7 +190,7 @@ MAA 的意思是 MAA Assistant Arknights
 自動戰鬥 JSON 作業分享：[prts.plus](https://prts.plus) 或 [抄作業.com](http://抄作業.com)<br>
 Bilibili 直播間：[直播間](https://live.bilibili.com/2808861) 每晚直播敲代碼，近期很長一段時間應該都是在寫本軟體 ~<br>
 
-技術 & 吹水群（舟無關）：[內卷地獄！(QQ 群)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)<br>
+技術群（舟無關、禁水）：[內卷地獄！(QQ 群)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)<br>
 開發者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)<br>
 
 如果覺得軟體對你有幫助，幫忙點個 Star 吧！~（網頁最上方右上角的小星星），這就是對我們最大的支持了！

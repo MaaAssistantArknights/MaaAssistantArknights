@@ -179,7 +179,7 @@ Please refer to [Issue Bot Usage](./2.3-ISSUE_BOT_USAGE.md)
 User Group: [Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1), [QQ Group](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)<br>
 [Copilot JSON Sharing](https://prts.plus)<br>
 [Bilibili Live](https://live.bilibili.com/2808861): live coding on this program<br>
-[Technical Discussion & Talk(QQ Group)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)<br>
+[Technical Discussion (QQ Group)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)<br>
 [Dev Group(QQ Group)](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
 Please click "Star" if you consider it helpful! Thank you for your support!
