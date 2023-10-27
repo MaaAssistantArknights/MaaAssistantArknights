@@ -1,6 +1,6 @@
 #include "SanityBeforeStagePlugin.h"
 
-#include <regex>
+#include <meojson/json.hpp>
 
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"

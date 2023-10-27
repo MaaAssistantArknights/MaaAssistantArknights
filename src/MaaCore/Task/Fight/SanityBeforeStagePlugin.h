@@ -1,7 +1,5 @@
 #pragma once
 #include "Task/AbstractTaskPlugin.h"
-
-#include <meojson/json.hpp>
 namespace asst
 {
     class SanityBeforeStagePlugin final : public AbstractTaskPlugin
