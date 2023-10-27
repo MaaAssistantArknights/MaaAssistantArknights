@@ -9,34 +9,34 @@
 namespace asst
 {
     // 板子组合
-    struct CiphertextBoardPair
+    struct FoldartalPair
     {
         std::vector<std::string> up_board;   // 上板子
         std::vector<std::string> down_board; // 下板子
     };
-    struct RoguelikeCiphertextBoardCombination
+    struct RoguelikeFoldartalCombination
     {
         std::string usage;                      // 适用的节点类型和用法
-        std::vector<CiphertextBoardPair> pairs; // 适用的板子组合
+        std::vector<FoldartalPair> pairs; // 适用的板子组合
     };
 
-    class RoguelikeCiphertextBoardConfig final : public SingletonHolder<RoguelikeCiphertextBoardConfig>,
+    class RoguelikeFoldartalConfig final : public SingletonHolder<RoguelikeFoldartalConfig>,
                                                  public AbstractConfig
     {
     public:
-        virtual ~RoguelikeCiphertextBoardConfig() override = default;
+        virtual ~RoguelikeFoldartalConfig() override = default;
 
         const auto& get_combination(const std::string& theme) const noexcept
         {
-            return m_ciphertext_board_combination.at(theme);
+            return m_foldartal_combination.at(theme);
         }
 
     private:
         virtual bool parse(const json::value& json) override;
 
-        std::unordered_map<std::string, std::vector<RoguelikeCiphertextBoardCombination>>
-            m_ciphertext_board_combination;
+        std::unordered_map<std::string, std::vector<RoguelikeFoldartalCombination>>
+            m_foldartal_combination;
     };
 
-    inline static auto& RoguelikeCiphertextBoard = RoguelikeCiphertextBoardConfig::get_instance();
+    inline static auto& RoguelikeFoldartal = RoguelikeFoldartalConfig::get_instance();
 }

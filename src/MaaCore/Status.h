@@ -55,8 +55,8 @@ namespace asst
         static inline const std::string RoguelikeMode = "RoguelikeMode";
         static inline const std::string RoguelikeDifficulty = "RoguelikeDifficulty";
 
-        static inline const std::string RoguelikeCiphertextBoardOverview = "RoguelikeCiphertextBoardOverview";
-        static inline const std::string RoguelikeCiphertextBoardFloor = "RoguelikeCiphertextBoardFloor";
+        static inline const std::string RoguelikeFoldartalOverview = "RoguelikeFoldartalOverview";
+        static inline const std::string RoguelikeFoldartalFloor = "RoguelikeFoldartalFloor";
 
         static inline const std::string ProcessTaskLastTimePrefix = "#LastTime#";
 

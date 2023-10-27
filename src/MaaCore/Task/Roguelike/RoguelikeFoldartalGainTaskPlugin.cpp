@@ -1,11 +1,11 @@
-#include "RoguelikeCiphertextBoardGainTaskPlugin.h"
+#include "RoguelikeFoldartalGainTaskPlugin.h"
 
 #include "Controller/Controller.h"
 #include "Status.h"
 #include "Utils/Logger.hpp"
 #include "Vision/OCRer.h"
 
-bool asst::RoguelikeCiphertextBoardGainTaskPlugin::verify(AsstMsg msg, const json::value& details) const
+bool asst::RoguelikeFoldartalGainTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
     if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
@@ -26,7 +26,7 @@ bool asst::RoguelikeCiphertextBoardGainTaskPlugin::verify(AsstMsg msg, const jso
         task_view.remove_prefix(roguelike_name.length());
     }
     m_ocr_next_level = false;
-    if (task_view == "Roguelike@CiphertextBoardGain") {
+    if (task_view == "Roguelike@FoldartalGain") {
         m_ocr_after_combat = false;
         return true;
     }
@@ -52,7 +52,7 @@ bool asst::RoguelikeCiphertextBoardGainTaskPlugin::verify(AsstMsg msg, const jso
     }
 }
 
-bool asst::RoguelikeCiphertextBoardGainTaskPlugin::_run()
+bool asst::RoguelikeFoldartalGainTaskPlugin::_run()
 {
     LogTraceFunction;
 
@@ -62,38 +62,38 @@ bool asst::RoguelikeCiphertextBoardGainTaskPlugin::_run()
     auto image = ctrler()->get_image();
 
     OCRer analyzer(image);
-    std::string ciphertext_board = "None";
+    std::string foldartal = "None";
     if (m_ocr_next_level) {
-        analyzer.set_task_info(theme + "@Roguelike@CiphertextBoardGainOcrNextLevel");
+        analyzer.set_task_info(theme + "@Roguelike@FoldartalGainOcrNextLevel");
         if (analyzer.analyze()) {
-            ciphertext_board = analyzer.get_result().front().text;
+            foldartal = analyzer.get_result().front().text;
         }
-        store_to_status(ciphertext_board, Status::RoguelikeCiphertextBoardFloor);
-        json::array ciphertext_board_floor_array = get_array(Status::RoguelikeCiphertextBoardFloor);
+        store_to_status(foldartal, Status::RoguelikeFoldartalFloor);
+        json::array foldartal_floor_array = get_array(Status::RoguelikeFoldartalFloor);
         // 到达第二层后，获得上一层预见的密文板
-        if (ciphertext_board_floor_array.size() >= 2) {
-            std::string ciphertext_board_last_floor = (ciphertext_board_floor_array.end() - 2)->to_string();
-            if (ciphertext_board_last_floor.size() >= 2 && ciphertext_board_last_floor.front() == '"' &&
-                ciphertext_board_last_floor.back() == '"') {
-                ciphertext_board_last_floor =
-                    ciphertext_board_last_floor.substr(1, ciphertext_board_last_floor.size() - 2);
+        if (foldartal_floor_array.size() >= 2) {
+            std::string foldartal_last_floor = (foldartal_floor_array.end() - 2)->to_string();
+            if (foldartal_last_floor.size() >= 2 && foldartal_last_floor.front() == '"' &&
+                foldartal_last_floor.back() == '"') {
+                foldartal_last_floor =
+                    foldartal_last_floor.substr(1, foldartal_last_floor.size() - 2);
             }
-            if (ciphertext_board_last_floor != "None") {
-                store_to_status(ciphertext_board_last_floor, Status::RoguelikeCiphertextBoardOverview);
+            if (foldartal_last_floor != "None") {
+                store_to_status(foldartal_last_floor, Status::RoguelikeFoldartalOverview);
             }
         }
         return true;
     };
 
-    std::string task_name = m_ocr_after_combat ? theme + "@Roguelike@CiphertextBoardGainOcrAfterCombat"
-                                               : theme + "@Roguelike@CiphertextBoardGainOcr";
+    std::string task_name = m_ocr_after_combat ? theme + "@Roguelike@FoldartalGainOcrAfterCombat"
+                                               : theme + "@Roguelike@FoldartalGainOcr";
     analyzer.set_task_info(task_name);
 
     if (!analyzer.analyze()) {
         return false;
     }
-    ciphertext_board = analyzer.get_result().front().text;
-    store_to_status(ciphertext_board, Status::RoguelikeCiphertextBoardOverview);
+    foldartal = analyzer.get_result().front().text;
+    store_to_status(foldartal, Status::RoguelikeFoldartalOverview);
     if (m_ocr_after_combat) {
         ctrler()->click(analyzer.get_result().front().rect);
     }
@@ -101,15 +101,15 @@ bool asst::RoguelikeCiphertextBoardGainTaskPlugin::_run()
     return true;
 }
 
-bool asst::RoguelikeCiphertextBoardGainTaskPlugin::store_to_status(std::string ciphertext_board, auto& status_string)
+bool asst::RoguelikeFoldartalGainTaskPlugin::store_to_status(std::string foldartal, auto& status_string)
 {
     json::array overview = get_array(status_string);
-    overview.emplace_back(ciphertext_board);
+    overview.emplace_back(foldartal);
     status()->set_str(status_string, overview.to_string());
     return true;
 }
 
-json::array asst::RoguelikeCiphertextBoardGainTaskPlugin::get_array(auto& status_string)
+json::array asst::RoguelikeFoldartalGainTaskPlugin::get_array(auto& status_string)
 {
     std::string overview_str = status()->get_str(status_string).value_or(json::value().to_string());
     json::value overview_json = json::parse(overview_str).value_or(json::value());

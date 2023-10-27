@@ -239,10 +239,10 @@
             ]
         }
     ],
-    "ciphertextBoard": [
+    "foldartal": [
         {
             "name": "布局",
-            "ciphertextBoard": [
+            "foldartal": [
                 {
                     "name": "黜人",
                     "effect": "选择所有右侧邻近的战斗节点"
@@ -323,7 +323,7 @@
         },
         {
             "name": "本因",
-            "ciphertextBoard": [
+            "foldartal": [
                 {
                     "name": "歌唱",
                     "effect": "我方在此战斗时攻击速度+50 。协语：场上出现斗志昂扬无人机"
