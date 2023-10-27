@@ -1,6 +1,6 @@
-#include "RoguelikeCiphertextBoardUseTaskPlugin.h"
+#include "RoguelikeFoldartalUseTaskPlugin.h"
 
-#include "Config/Roguelike/RoguelikeCiphertextBoardConfig.h"
+#include "Config/Roguelike/RoguelikeFoldartalConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Status.h"
@@ -8,7 +8,7 @@
 #include "Utils/Logger.hpp"
 #include "Vision/OCRer.h"
 
-bool asst::RoguelikeCiphertextBoardUseTaskPlugin::verify(AsstMsg msg, const json::value& details) const
+bool asst::RoguelikeFoldartalUseTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
     if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
@@ -69,17 +69,17 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::verify(AsstMsg msg, const json
     }
 }
 
-bool asst::RoguelikeCiphertextBoardUseTaskPlugin::_run()
+bool asst::RoguelikeFoldartalUseTaskPlugin::_run()
 {
     LogTraceFunction;
 
     std::string theme = m_roguelike_theme;
 
-    std::vector<RoguelikeCiphertextBoardCombination> combination =
-        RoguelikeCiphertextBoard.get_combination(m_roguelike_theme);
+    std::vector<RoguelikeFoldartalCombination> combination =
+        RoguelikeFoldartal.get_combination(m_roguelike_theme);
 
     std::string overview_str =
-        status()->get_str(Status::RoguelikeCiphertextBoardOverview).value_or(json::value().to_string());
+        status()->get_str(Status::RoguelikeFoldartalOverview).value_or(json::value().to_string());
     json::value overview_json = json::parse(overview_str).value_or(json::value());
     m_all_boards = overview_json.as_array();
     Log.debug(m_all_boards);
@@ -99,7 +99,7 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::_run()
     return true;
 }
 
-bool asst::RoguelikeCiphertextBoardUseTaskPlugin::search_enable_pair(const auto& usage)
+bool asst::RoguelikeFoldartalUseTaskPlugin::search_enable_pair(const auto& usage)
 {
     LogTraceFunction;
 
@@ -116,7 +116,7 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::search_enable_pair(const auto&
     return false;
 }
 
-bool asst::RoguelikeCiphertextBoardUseTaskPlugin::board_pair(const std::string& up_board, const std::string& down_board)
+bool asst::RoguelikeFoldartalUseTaskPlugin::board_pair(const std::string& up_board, const std::string& down_board)
 {
 
     auto iter_up = std::find(m_all_boards.begin(), m_all_boards.end(), up_board);
@@ -128,7 +128,7 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::board_pair(const std::string& 
             m_all_boards.erase(iter_up);
             iter_down = std::find(m_all_boards.begin(), m_all_boards.end(), down_board);
             m_all_boards.erase(iter_down);
-            status()->set_str(Status::RoguelikeCiphertextBoardOverview, m_all_boards.to_string());
+            status()->set_str(Status::RoguelikeFoldartalOverview, m_all_boards.to_string());
             Log.debug("Board pair used");
             return true;
         }
@@ -136,25 +136,25 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::board_pair(const std::string& 
     return false;
 }
 
-bool asst::RoguelikeCiphertextBoardUseTaskPlugin::use_board(const std::string& up_board, const std::string& down_board)
+bool asst::RoguelikeFoldartalUseTaskPlugin::use_board(const std::string& up_board, const std::string& down_board)
 {
     Log.trace("Try to use the board pair", up_board, down_board);
 
-    if (ProcessTask(*this, { m_roguelike_theme + "@Roguelike@CiphertextBoard" }).run()) {
+    if (ProcessTask(*this, { m_roguelike_theme + "@Roguelike@Foldartal" }).run()) {
         swipe_to_top();
         // todo:插入一个滑动时顺便更新密文板overview,因为有的板子可以用两次
         if (search_and_click_board(up_board) && search_and_click_board(down_board)) {
             search_and_click_stage();
-            if (ProcessTask(*this, { m_roguelike_theme + "@Roguelike@CiphertextBoardUseConfirm" }).run()) {
+            if (ProcessTask(*this, { m_roguelike_theme + "@Roguelike@FoldartalUseConfirm" }).run()) {
                 return true;
             }
         }
-        ProcessTask(*this, { m_roguelike_theme + "@Roguelike@CiphertextBoardBack" }).run();
+        ProcessTask(*this, { m_roguelike_theme + "@Roguelike@FoldartalBack" }).run();
     }
     return false;
 }
 
-bool asst::RoguelikeCiphertextBoardUseTaskPlugin::search_and_click_board(const std::string& board)
+bool asst::RoguelikeFoldartalUseTaskPlugin::search_and_click_board(const std::string& board)
 {
     Log.trace("Search and click the board", board);
 
@@ -162,7 +162,7 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::search_and_click_board(const s
     int try_time = 0;
     while (try_time < max_retry && !need_exit()) {
         OCRer analyzer(ctrler()->get_image());
-        std::string task_name = m_roguelike_theme + "@Roguelike@CiphertextBoardUseOcr";
+        std::string task_name = m_roguelike_theme + "@Roguelike@FoldartalUseOcr";
         analyzer.set_task_info(task_name);
         analyzer.set_required({ board });
         if (!analyzer.analyze()) {
@@ -178,7 +178,7 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::search_and_click_board(const s
     return false;
 }
 
-bool asst::RoguelikeCiphertextBoardUseTaskPlugin::search_and_click_stage()
+bool asst::RoguelikeFoldartalUseTaskPlugin::search_and_click_stage()
 {
     Log.trace("Try to click stage", m_stage);
     // todo:根据坐标换算位置,根据节点类型设置识别优先度
@@ -188,19 +188,19 @@ bool asst::RoguelikeCiphertextBoardUseTaskPlugin::search_and_click_stage()
     sleep(1000);
 
     // 节点会闪烁，所以这里不用单次Match
-    if (ProcessTask(*this, { m_roguelike_theme + "@Roguelike@CiphertextBoardUseOnStage" }).run()) {
+    if (ProcessTask(*this, { m_roguelike_theme + "@Roguelike@FoldartalUseOnStage" }).run()) {
         return true;
     }
     // 滑到最右边，萨米的地图只有两页，暂时先这么糊着，出现识别不到再写循环
     ProcessTask(*this, { "SwipeToTheRight" }).run();
     sleep(1000);
-    if (ProcessTask(*this, { m_roguelike_theme + "@Roguelike@CiphertextBoardUseOnStage" }).run()) {
+    if (ProcessTask(*this, { m_roguelike_theme + "@Roguelike@FoldartalUseOnStage" }).run()) {
         return true;
     }
     return false;
 }
 
-void asst::RoguelikeCiphertextBoardUseTaskPlugin::swipe_to_top()
+void asst::RoguelikeFoldartalUseTaskPlugin::swipe_to_top()
 {
     LogTraceFunction;
 
@@ -210,23 +210,23 @@ void asst::RoguelikeCiphertextBoardUseTaskPlugin::swipe_to_top()
     while (try_time < max_retry && !need_exit()) {
         while (try_time < max_retry && !need_exit()) {
             OCRer analyzer(ctrler()->get_image());
-            analyzer.set_task_info(m_roguelike_theme + "@Roguelike@CiphertextBoardUseOcr");
+            analyzer.set_task_info(m_roguelike_theme + "@Roguelike@FoldartalUseOcr");
             if (analyzer.analyze()) {
                 return;
             }
             else {
                 // 往下滑
-                ProcessTask(*this, { "RoguelikeCiphertextBoardSwipeToTheDown" }).run();
+                ProcessTask(*this, { "RoguelikeFoldartalSwipeToTheDown" }).run();
             }
             try_time++;
         }
     }
 }
 
-void asst::RoguelikeCiphertextBoardUseTaskPlugin::slowly_swipe(bool to_up, int swipe_dist)
+void asst::RoguelikeFoldartalUseTaskPlugin::slowly_swipe(bool to_up, int swipe_dist)
 {
     std::string swipe_task_name =
-        to_up ? "RoguelikeCiphertextBoardSlowlySwipeToTheUp" : "RoguelikeCiphertextBoardSwipeToTheDown";
+        to_up ? "RoguelikeFoldartalSlowlySwipeToTheUp" : "RoguelikeFoldartalSwipeToTheDown";
     if (!ControlFeat::support(ctrler()->support_features(),
                               ControlFeat::PRECISE_SWIPE)) { // 不能精准滑动时不使用 swipe_dist 参数
         ProcessTask(*this, { swipe_task_name }).run();

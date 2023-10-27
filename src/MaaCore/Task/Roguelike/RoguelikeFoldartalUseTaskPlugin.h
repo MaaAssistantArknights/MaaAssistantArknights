@@ -4,11 +4,11 @@
 
 namespace asst
 {
-    class RoguelikeCiphertextBoardUseTaskPlugin : public AbstractTaskPlugin, public RoguelikeConfig
+    class RoguelikeFoldartalUseTaskPlugin : public AbstractTaskPlugin, public RoguelikeConfig
     {
     public:
         using AbstractTaskPlugin::AbstractTaskPlugin;
-        virtual ~RoguelikeCiphertextBoardUseTaskPlugin() override = default;
+        virtual ~RoguelikeFoldartalUseTaskPlugin() override = default;
 
     public:
         virtual bool verify(AsstMsg msg, const json::value& details) const override;

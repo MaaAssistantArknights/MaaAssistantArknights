@@ -9935,7 +9935,7 @@
             47
         ]
     },
-    "RoguelikeCiphertextBoardSlowlySwipeToTheUp": {
+    "RoguelikeFoldartalSlowlySwipeToTheUp": {
         "baseTask": "SlowlySwipeToTheUp",
         "specificRect": [
             180,
@@ -9957,7 +9957,7 @@
         ],
         "postDelay": 500
     },
-    "RoguelikeCiphertextBoardSwipeToTheDown": {
+    "RoguelikeFoldartalSwipeToTheDown": {
         "baseTask": "SwipeToTheDown",
         "specificRect": [
             180,
@@ -13382,7 +13382,7 @@
             "Sami@Roguelike@ChooseOperConfirm#next"
         ]
     },
-    "Sami@Roguelike@CiphertextBoard": {
+    "Sami@Roguelike@Foldartal": {
         "cache": false,
         "action": "ClickSelf",
         "roi": [
@@ -13393,7 +13393,7 @@
         ],
         "postDelay": 2000
     },
-    "Sami@Roguelike@CiphertextBoardBack": {
+    "Sami@Roguelike@FoldartalBack": {
         "action": "ClickSelf",
         "roi": [
             0,
@@ -13403,9 +13403,9 @@
         ],
         "postDelay": 2000
     },
-    "Sami@Roguelike@CiphertextBoardGain": {
-        "doc": "本任务注册插件RoguelikeCiphertextBoardGain",
-        "template": "Sami@Roguelike@CiphertextBoardGain",
+    "Sami@Roguelike@FoldartalGain": {
+        "doc": "本任务注册插件RoguelikeFoldartalGain",
+        "template": "Sami@Roguelike@FoldartalGain",
         "action": "ClickRect",
         "specificRect": [
             611,
@@ -13425,11 +13425,11 @@
             255
         ],
         "next": [
-            "Sami@Roguelike@CiphertextBoardGain",
+            "Sami@Roguelike@FoldartalGain",
             "Sami@Roguelike@SquadConfirm#next"
         ]
     },
-    "Sami@Roguelike@CiphertextBoardGainOcr": {
+    "Sami@Roguelike@FoldartalGainOcr": {
         "algorithm": "OcrDetect",
         "action": "DoNothing",
         "cache": false,
@@ -13486,8 +13486,8 @@
             ]
         ]
     },
-    "Sami@Roguelike@CiphertextBoardGainOcrAfterCombat": {
-        "baseTask": "Sami@Roguelike@CiphertextBoardGainOcr",
+    "Sami@Roguelike@FoldartalGainOcrAfterCombat": {
+        "baseTask": "Sami@Roguelike@FoldartalGainOcr",
         "roi": [
             44,
             309,
@@ -13495,8 +13495,8 @@
             124
         ]
     },
-    "Sami@Roguelike@CiphertextBoardGainOcrNextLevel": {
-        "baseTask": "Sami@Roguelike@CiphertextBoardGainOcr",
+    "Sami@Roguelike@FoldartalGainOcrNextLevel": {
+        "baseTask": "Sami@Roguelike@FoldartalGainOcr",
         "roi": [
             290,
             640,
@@ -13504,7 +13504,7 @@
             34
         ]
     },
-    "Sami@Roguelike@CiphertextBoardUseConfirm": {
+    "Sami@Roguelike@FoldartalUseConfirm": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
@@ -13524,7 +13524,7 @@
             ]
         ]
     },
-    "Sami@Roguelike@CiphertextBoardUseOcr": {
+    "Sami@Roguelike@FoldartalUseOcr": {
         "algorithm": "OcrDetect",
         "action": "DoNothing",
         "cache": false,
@@ -13551,20 +13551,20 @@
             0
         ]
     },
-    "Sami@Roguelike@CiphertextBoardUseOnStage": {
+    "Sami@Roguelike@FoldartalUseOnStage": {
         "cache": false,
         "action": "ClickSelf",
         "template": [
-            "Sami@Roguelike@CiphertextBoardUseOnGambling.png",
-            "Sami@Roguelike@CiphertextBoardUseOnWindAndRain.png",
-            "Sami@Roguelike@CiphertextBoardUseOnEmergencyTransportation.png",
-            "Sami@Roguelike@CiphertextBoardUseOnCombatDps.png",
-            "Sami@Roguelike@CiphertextBoardUseOnMysteriousPresage.png",
-            "Sami@Roguelike@CiphertextBoardUseOnEmergencyDps.png",
-            "Sami@Roguelike@CiphertextBoardUseOnDreadfulFoe-5.png",
-            "Sami@Roguelike@CiphertextBoardUseOnFerociousPresage.png",
-            "Sami@Roguelike@CiphertextBoardUseOnEncounter.png",
-            "Sami@Roguelike@CiphertextBoardUseOnTrader.png"
+            "Sami@Roguelike@FoldartalUseOnGambling.png",
+            "Sami@Roguelike@FoldartalUseOnWindAndRain.png",
+            "Sami@Roguelike@FoldartalUseOnEmergencyTransportation.png",
+            "Sami@Roguelike@FoldartalUseOnCombatDps.png",
+            "Sami@Roguelike@FoldartalUseOnMysteriousPresage.png",
+            "Sami@Roguelike@FoldartalUseOnEmergencyDps.png",
+            "Sami@Roguelike@FoldartalUseOnDreadfulFoe-5.png",
+            "Sami@Roguelike@FoldartalUseOnFerociousPresage.png",
+            "Sami@Roguelike@FoldartalUseOnEncounter.png",
+            "Sami@Roguelike@FoldartalUseOnTrader.png"
         ],
         "templThreshold": [
             0.7,
@@ -13868,7 +13868,7 @@
             "Sami@Roguelike@DialogSkip",
             "Sami@Roguelike@Stages#next",
             "Sami@Roguelike@MapObject",
-            "Sami@Roguelike@CiphertextBoardGain"
+            "Sami@Roguelike@FoldartalGain"
         ]
     },
     "Sami@Roguelike@SquadDefault": {},
