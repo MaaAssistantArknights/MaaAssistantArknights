@@ -5,6 +5,7 @@
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Utils/Logger.hpp"
+#include "Utils/NoWarningCV.h"
 #include "Utils/StringMisc.hpp"
 #include "Vision/RegionOCRer.h"
 
@@ -47,8 +48,24 @@ bool asst::SanityBeforeStagePlugin::get_sanity_before_stage()
 {
     LogTraceFunction;
 
-    RegionOCRer analyzer(ctrler()->get_image());
-    analyzer.set_task_info("SanityMatch");
+    const static auto task = Task.get<OcrTaskInfo>("SanityMatch");
+    auto img = make_roi(ctrler()->get_image(), task->roi);
+
+    // 转灰度，取单通道其实也行
+    cv::Mat img_gray;
+    cv::cvtColor(img, img_gray, cv::COLOR_BGR2GRAY);
+    double min_val = 0.0, max_val = 0.0;
+    cv::minMaxLoc(img_gray, &min_val, &max_val);
+
+    cv::Mat img_bin;
+    cv::inRange(img_gray, cv::Scalar { (min_val + max_val) / 2 }, cv::Scalar { 255 }, img_bin);
+
+    const std::vector<cv::Mat> img_bin_vec { img_bin, img_bin, img_bin };
+    cv::Mat img_after;
+    cv::merge(img_bin_vec, img_after);
+
+    RegionOCRer analyzer(img_after);
+    analyzer.set_replace(task->replace_map);
     auto res_opt = analyzer.analyze();
 
     json::value sanity_info = basic_info_with_what("SanityBeforeStage");
