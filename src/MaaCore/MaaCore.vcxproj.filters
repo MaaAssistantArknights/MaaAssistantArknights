@@ -216,6 +216,9 @@
     <ClInclude Include="Config\TemplResource.h">
       <Filter>Source\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="Config\Roguelike\RoguelikeFoldartalConfig.h">
+      <Filter>Source\Resource\Roguelike</Filter>
+    </ClInclude>
     <ClInclude Include="Config\Roguelike\RoguelikeCopilotConfig.h">
       <Filter>Source\Resource\Roguelike</Filter>
     </ClInclude>
@@ -439,6 +442,12 @@
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeBattleTaskPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeFoldartalGainTaskPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeFoldartalUseTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeConfig.h">
@@ -731,6 +740,9 @@
     <ClCompile Include="Config\TemplResource.cpp">
       <Filter>Source\Resource</Filter>
     </ClCompile>
+    <ClCompile Include="Config\Roguelike\RoguelikeFoldartalConfig.cpp">
+      <Filter>Source\Resource\Roguelike</Filter>
+    </ClCompile>
     <ClCompile Include="Config\Roguelike\RoguelikeCopilotConfig.cpp">
       <Filter>Source\Resource\Roguelike</Filter>
     </ClCompile>
@@ -903,6 +915,12 @@
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeBattleTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeFoldartalGainTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeFoldartalUseTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeConfig.cpp">
