@@ -82,7 +82,7 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::_run()
         status()->get_str(Status::RoguelikeFoldartalOverview).value_or(json::value().to_string());
     json::value overview_json = json::parse(overview_str).value_or(json::value());
     m_all_boards = overview_json.as_array();
-    Log.debug(m_all_boards);
+    Log.debug("All foldartal got yet:", m_all_boards);
     for (const auto& usage : combination) {
         if (need_exit()) {
             return false;
