@@ -16,12 +16,11 @@ namespace asst
     };
     struct RoguelikeFoldartalCombination
     {
-        std::string usage;                      // 适用的节点类型和用法
+        std::string usage;                // 适用的节点类型和用法
         std::vector<FoldartalPair> pairs; // 适用的板子组合
     };
 
-    class RoguelikeFoldartalConfig final : public SingletonHolder<RoguelikeFoldartalConfig>,
-                                                 public AbstractConfig
+    class RoguelikeFoldartalConfig final : public SingletonHolder<RoguelikeFoldartalConfig>, public AbstractConfig
     {
     public:
         virtual ~RoguelikeFoldartalConfig() override = default;
@@ -34,8 +33,7 @@ namespace asst
     private:
         virtual bool parse(const json::value& json) override;
 
-        std::unordered_map<std::string, std::vector<RoguelikeFoldartalCombination>>
-            m_foldartal_combination;
+        std::unordered_map<std::string, std::vector<RoguelikeFoldartalCombination>> m_foldartal_combination;
     };
 
     inline static auto& RoguelikeFoldartal = RoguelikeFoldartalConfig::get_instance();

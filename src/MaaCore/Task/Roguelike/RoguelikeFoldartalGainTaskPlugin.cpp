@@ -75,8 +75,7 @@ bool asst::RoguelikeFoldartalGainTaskPlugin::_run()
             std::string foldartal_last_floor = (foldartal_floor_array.end() - 2)->to_string();
             if (foldartal_last_floor.size() >= 2 && foldartal_last_floor.front() == '"' &&
                 foldartal_last_floor.back() == '"') {
-                foldartal_last_floor =
-                    foldartal_last_floor.substr(1, foldartal_last_floor.size() - 2);
+                foldartal_last_floor = foldartal_last_floor.substr(1, foldartal_last_floor.size() - 2);
             }
             if (foldartal_last_floor != "None") {
                 store_to_status(foldartal_last_floor, Status::RoguelikeFoldartalOverview);
@@ -85,8 +84,8 @@ bool asst::RoguelikeFoldartalGainTaskPlugin::_run()
         return true;
     };
 
-    std::string task_name = m_ocr_after_combat ? theme + "@Roguelike@FoldartalGainOcrAfterCombat"
-                                               : theme + "@Roguelike@FoldartalGainOcr";
+    std::string task_name =
+        m_ocr_after_combat ? theme + "@Roguelike@FoldartalGainOcrAfterCombat" : theme + "@Roguelike@FoldartalGainOcr";
     analyzer.set_task_info(task_name);
 
     if (!analyzer.analyze()) {

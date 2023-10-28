@@ -75,8 +75,7 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::_run()
 
     std::string theme = m_roguelike_theme;
 
-    std::vector<RoguelikeFoldartalCombination> combination =
-        RoguelikeFoldartal.get_combination(m_roguelike_theme);
+    std::vector<RoguelikeFoldartalCombination> combination = RoguelikeFoldartal.get_combination(m_roguelike_theme);
 
     std::string overview_str =
         status()->get_str(Status::RoguelikeFoldartalOverview).value_or(json::value().to_string());
@@ -225,8 +224,7 @@ void asst::RoguelikeFoldartalUseTaskPlugin::swipe_to_top()
 
 void asst::RoguelikeFoldartalUseTaskPlugin::slowly_swipe(bool to_up, int swipe_dist)
 {
-    std::string swipe_task_name =
-        to_up ? "RoguelikeFoldartalSlowlySwipeToTheUp" : "RoguelikeFoldartalSwipeToTheDown";
+    std::string swipe_task_name = to_up ? "RoguelikeFoldartalSlowlySwipeToTheUp" : "RoguelikeFoldartalSwipeToTheDown";
     if (!ControlFeat::support(ctrler()->support_features(),
                               ControlFeat::PRECISE_SWIPE)) { // 不能精准滑动时不使用 swipe_dist 参数
         ProcessTask(*this, { swipe_task_name }).run();
