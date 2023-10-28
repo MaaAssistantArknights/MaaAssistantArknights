@@ -19,6 +19,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using HandyControl.Controls;
+using HandyControl.Data;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
@@ -84,8 +86,14 @@ namespace MaaWpfGui.Services
 
             _ = Execute.OnUIThreadAsync(() =>
             {
-                using var toast = new ToastNotification(LocalizationHelper.GetString("ApiUpdateSuccess"));
-                toast.Show();
+                var growlInfo = new GrowlInfo
+                {
+                    IsCustom = true,
+                    Message = LocalizationHelper.GetString("ApiUpdateSuccess"),
+                    IconKey = "HangoverGeometry",
+                    IconBrushKey = "PallasBrush",
+                };
+                Growl.Info(growlInfo);
             });
 
             return;
