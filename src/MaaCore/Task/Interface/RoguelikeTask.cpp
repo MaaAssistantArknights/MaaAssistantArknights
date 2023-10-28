@@ -53,8 +53,7 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
     m_difficulty_selection_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeDifficultySelectionTaskPlugin>();
     m_strategy_change_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeStrategyChangeTaskPlugin>();
 
-    m_foldartal_gain_plugin_ptr =
-        m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalGainTaskPlugin>();
+    m_foldartal_gain_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalGainTaskPlugin>();
     m_foldartal_use_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalUseTaskPlugin>();
 
     // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加一点。先这样凑合用

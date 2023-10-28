@@ -105,9 +105,9 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
 
     bool bought = false;
     auto& all_goods = RoguelikeShopping.get_goods(m_roguelike_theme);
-    std::vector<std::string> all_foldartal =
-        m_roguelike_theme == "Sami" ? Task.get<OcrTaskInfo>("Sami@Roguelike@FoldartalGainOcr")->text
-                                    : std::vector<std::string>();
+    std::vector<std::string> all_foldartal = m_roguelike_theme == "Sami"
+                                                 ? Task.get<OcrTaskInfo>("Sami@Roguelike@FoldartalGainOcr")->text
+                                                 : std::vector<std::string>();
     for (const auto& goods : all_goods) {
         if (need_exit()) {
             return false;
