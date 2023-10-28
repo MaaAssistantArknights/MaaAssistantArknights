@@ -1850,10 +1850,10 @@
     "IS-Open": {
         "action": "ClickSelf",
         "roi": [
-            476,
-            0,
-            502,
-            720
+            77,
+            64,
+            396,
+            437
         ],
         "next": [
             "EnterChapterIS"
