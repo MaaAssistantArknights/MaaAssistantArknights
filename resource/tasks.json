@@ -1841,10 +1841,10 @@
     "IS-Open": {
         "action": "ClickSelf",
         "roi": [
-            77,
-            64,
-            396,
-            437
+            476,
+            0,
+            502,
+            720
         ],
         "sub": [
             "EnterChapterIS"
