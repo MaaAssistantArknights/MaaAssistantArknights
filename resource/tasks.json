@@ -1818,43 +1818,24 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "IS-10@IS-Open",
-            "IS-10@IS-OpenOcr"
+            "IS-10@IS-Open"
         ]
     },
     "IS-9": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "IS-9@IS-Open",
-            "IS-9@IS-OpenOcr"
+            "IS-9@IS-Open"
         ]
     },
     "IS-8": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "IS-8@IS-Open",
-            "IS-8@IS-OpenOcr"
+            "IS-8@IS-Open"
         ]
     },
     "IS-Open": {
-        "action": "ClickSelf",
-        "roi": [
-            77,
-            64,
-            396,
-            437
-        ],
-        "sub": [
-            "EnterChapterIS"
-        ],
-        "next": [
-            "SideStoryStage",
-            "SwipeToStageIS"
-        ]
-    },
-    "IS-OpenOcr": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "roi": [
