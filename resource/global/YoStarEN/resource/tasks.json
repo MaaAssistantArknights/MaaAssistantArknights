@@ -1985,7 +1985,7 @@
                 "备勤激活站"
             ],
             [
-                "Ter*a .esear.*",
+                "Ter*a .ese.*r.*",
                 "Terra Research Commission"
             ],
             [
@@ -2131,6 +2131,26 @@
             [
                 "Treasure Hunter",
                 "寻宝人"
+            ],
+            [
+                "Ines",
+                "伊内丝"
+            ],
+            [
+                "Cement",
+                "洋灰"
+            ],
+            [
+                "Humus",
+                "休谟斯"
+            ],
+            [
+                "Morgan",
+                "摩根"
+            ],
+            [
+                "Roadside Emergency Reserves",
+                "街头应急储备"
             ]
         ]
     },
@@ -2192,7 +2212,7 @@
             208
         ]
     },
-    "ExpiringMedicineCheck": {
+    "MedicineExpiringTime": {
         "text": [
             "min",
             "hr",
@@ -3259,6 +3279,9 @@
             "Start Challenge"
         ]
     },
+    "SkipThePreBattlePlot": {
+        "templThreshold": 0.7
+    },
     "BattleStartOCR": {
         "text": [
             "MISSION",
@@ -3509,20 +3532,6 @@
             "Conductive",
             "Unit"
         ]
-    },
-    "SSSDropRecruitmentOCR": {
-        "baseTask": "CharsNameOcrReplace",
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "text": [],
-        "cache": false,
-        "roi": [
-            0,
-            352,
-            1280,
-            263
-        ],
-        "postDelay": 1000
     },
     "SSSDropRecruitmentConfirm": {
         "text": [
@@ -5371,6 +5380,14 @@
             [
                 "Sabotage Co-op - Suppression",
                 "破坏协议-压制"
+            ],
+            [
+                "5-Star Random Promotion Temporary Recruitment Voucher",
+                "5星随机直升临时招募券"
+            ],
+            [
+                "6-Star Random Promotion Temporary Recruitment Voucher",
+                "6星随机直升临时招募券"
             ]
         ]
     },
@@ -5752,7 +5769,7 @@
                 "安全屋"
             ],
             [
-                "Buy Now, Print Now",
+                "Buy Now.*Print Now",
                 "现买现印"
             ],
             [

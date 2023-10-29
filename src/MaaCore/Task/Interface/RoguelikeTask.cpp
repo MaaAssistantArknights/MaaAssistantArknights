@@ -18,6 +18,10 @@
 #include "Task/Roguelike/RoguelikeSkillSelectionTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeStageEncounterTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeStrategyChangeTaskPlugin.h"
+
+#include "Task/Roguelike/RoguelikeFoldartalGainTaskPlugin.h"
+#include "Task/Roguelike/RoguelikeFoldartalUseTaskPlugin.h"
+
 #include "Utils/Logger.hpp"
 
 asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst)
@@ -49,6 +53,9 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
     m_difficulty_selection_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeDifficultySelectionTaskPlugin>();
     m_strategy_change_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeStrategyChangeTaskPlugin>();
 
+    m_foldartal_gain_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalGainTaskPlugin>();
+    m_foldartal_use_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalUseTaskPlugin>();
+
     // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加一点。先这样凑合用
     for (int i = 0; i != 100; ++i) {
         m_subtasks.emplace_back(m_roguelike_task_ptr);
@@ -76,6 +83,9 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
             ptr->set_roguelike_theme(theme);
         }
     }
+
+    m_foldartal_gain_plugin_ptr->set_roguelike_theme(theme);
+    m_foldartal_use_plugin_ptr->set_roguelike_theme(theme);
 
     m_roguelike_task_ptr->set_tasks({ theme + "@Roguelike@Begin" });
 

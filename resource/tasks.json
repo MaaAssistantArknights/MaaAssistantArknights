@@ -61,6 +61,60 @@
         ],
         "maxTimes": 50
     },
+    "SlowlySwipeToTheUp": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 200,
+        "specificRect": [
+            600,
+            510,
+            100,
+            100
+        ],
+        "rectMove": [
+            600,
+            0,
+            100,
+            100
+        ],
+        "specialParams": [
+            200,
+            1,
+            2,
+            0
+        ],
+        "next": [
+            "#next"
+        ],
+        "maxTimes": 50
+    },
+    "SlowlySwipeToTheDown": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 200,
+        "specificRect": [
+            600,
+            145,
+            100,
+            100
+        ],
+        "rectMove": [
+            600,
+            610,
+            100,
+            100
+        ],
+        "specialParams": [
+            200,
+            1,
+            2,
+            0
+        ],
+        "next": [
+            "#next"
+        ],
+        "maxTimes": 50
+    },
     "SwipeToTheLeft": {
         "algorithm": "JustReturn",
         "action": "Swipe",
@@ -1763,46 +1817,62 @@
     "IS-10": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
-        "sub": [
-            "IS-Open"
-        ],
         "next": [
-            "IS-10@SideStoryStage",
-            "IS-10@SwipeToStageIS"
+            "IS-10@IS-Open",
+            "IS-10@IS-OpenOcr"
         ]
     },
     "IS-9": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
-        "sub": [
-            "IS-Open"
-        ],
         "next": [
-            "IS-9@SideStoryStage",
-            "IS-9@SwipeToStageIS"
+            "IS-9@IS-Open",
+            "IS-9@IS-OpenOcr"
         ]
     },
     "IS-8": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
-        "sub": [
-            "IS-Open"
-        ],
         "next": [
-            "IS-8@SideStoryStage",
-            "IS-8@SwipeToStageIS"
+            "IS-8@IS-Open",
+            "IS-8@IS-OpenOcr"
         ]
     },
     "IS-Open": {
         "action": "ClickSelf",
         "roi": [
-            476,
-            0,
-            502,
-            720
+            77,
+            64,
+            396,
+            437
+        ],
+        "sub": [
+            "EnterChapterIS"
         ],
         "next": [
+            "SideStoryStage",
+            "SwipeToStageIS"
+        ]
+    },
+    "IS-OpenOcr": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "text": [
+            "叙拉古人",
+            "复刻"
+        ],
+        "sub": [
             "EnterChapterIS"
+        ],
+        "next": [
+            "SideStoryStage",
+            "SwipeToStageIS"
         ]
     },
     "EnterChapterIS": {
@@ -1863,7 +1933,8 @@
             100
         ],
         "next": [
-            "#next"
+            "SideStoryStage",
+            "#self"
         ]
     },
     "IS-10@SideStoryStage": {
@@ -2906,7 +2977,7 @@
                 "玛恩纳"
             ],
             [
-                ".*默德克萨斯",
+                ".*默德克萨.*",
                 "缄默德克萨斯"
             ],
             [
@@ -2946,7 +3017,7 @@
                 "青枳"
             ],
             [
-                ".*烬艾雅法拉",
+                ".*烬艾雅法.*",
                 "纯烬艾雅法拉"
             ],
             [
@@ -2992,6 +3063,26 @@
             [
                 "_ancet-2",
                 "Lancet-2"
+            ],
+            [
+                "^预备干员-近.*",
+                "预备干员-近战"
+            ],
+            [
+                "^预备干员-术.*",
+                "预备干员-术师"
+            ],
+            [
+                "^预备干员-后.*",
+                "预备干员-后勤"
+            ],
+            [
+                "^预备干员-狙.*",
+                "预备干员-狙击"
+            ],
+            [
+                "^预备干员-重.*",
+                "预备干员-重装"
             ]
         ]
     },
@@ -4067,40 +4158,17 @@
         "next": []
     },
     "SanityMatch": {
-        "algorithm": "OcrDetect",
-        "text": [],
-        "isAscii": true,
+        "baseTask": "NumberOcrReplace",
         "roi": [
             1120,
             20,
             160,
             40
         ],
-        "ocrReplace": [
-            [
-                "\\|",
-                "/"
-            ],
-            [
-                "o",
-                "0"
-            ],
-            [
-                "O",
-                "0"
-            ],
-            [
-                "I",
-                "1"
-            ],
-            [
-                "l",
-                "1"
-            ]
-        ],
         "preDelay": 300
     },
     "UseMedicine": {
+        "doc": "绑定MedicineCounter来使用理智药",
         "action": "DoNothing",
         "templThreshold": 0.7,
         "roi": [
@@ -4109,72 +4177,81 @@
             400,
             100
         ],
+        "reduceOtherTimes": [
+            "StartButton1"
+        ],
         "next": [
-            "MedicineConfirm"
+            "StartButton1",
+            "OfflineConfirm",
+            "CloseStonePage"
         ]
     },
     "MedicineConfirm": {
         "action": "ClickSelf",
-        "maxTimes": 0,
         "roi": [
             1000,
             500,
             200,
             150
         ],
-        "reduceOtherTimes": [
-            "StartButton1"
-        ],
-        "exceededNext": [
-            "ExpiringMedicineCheck",
-            "CloseStonePage"
-        ],
+        "cache": false,
+        "postDelay": 1000,
         "next": [
-            "StartButton1",
-            "OfflineConfirm",
-            "MedicineConfirmAgain@LoadingText"
+            "#self",
+            "Stop"
         ]
     },
-    "MedicineConfirmAgain": {
-        "Doc": "Refer to Task `StoneConfirmAgain`",
-        "baseTask": "MedicineConfirm",
-        "template": "MedicineConfirm.png",
-        "maxTimes": 2147483647,
-        "reduceOtherTimes": []
-    },
-    "UseStone": {
-        "action": "DoNothing",
+    "MedicineReduceIcon": {
+        "preDelay": 500,
         "roi": [
-            600,
-            130,
-            420,
-            420
+            750,
+            200,
+            500,
+            50
         ],
-        "next": [
-            "StoneConfirm"
+        "maskRange": [
+            1,
+            255
         ]
     },
-    "DrGrandetUseOriginiums": {
-        "algorithm": "OcrDetect",
-        "text": [],
-        "roi": [
-            50,
-            376,
-            230,
-            40
+    "UsingMedicineCount": {
+        "baseTask": "NumberOcrReplace",
+        "rectMove": [
+            -95,
+            28,
+            105,
+            60
         ],
-        "preDelay": 3000,
-        "preDelay_Doc": "提前多少毫秒再次识别，单位毫秒",
-        "postDelay": 355000,
-        "postDelay_Doc": "大于多少毫秒才碎石，否则等待，单位毫秒"
+        "specialParams": [
+            150,
+            255
+        ]
     },
-    "ExpiringMedicineCheck": {
-        "action": "DoNothing",
+    "MedicineInventory": {
+        "baseTask": "NumberOcrReplace",
+        "rectMove": [
+            -29,
+            87,
+            40,
+            33
+        ],
+        "specialParams": [
+            150,
+            255
+        ]
+    },
+    "MedicineExpiringTime": {
         "algorithm": "OcrDetect",
         "text": [
             "分钟",
             "小时",
             "1天"
+        ],
+        "rectMove": [
+            -55,
+            135,
+            65,
+            20
         ],
         "ocrReplace": [
             [
@@ -4193,38 +4270,50 @@
                 "^\\d+分$",
                 "分钟"
             ]
-        ],
-        "roi": [
-            675,
-            345,
-            125,
-            30
-        ],
-        "fullMatch": true,
-        "next": [
-            "ExpiringMedicineConfirm"
         ]
     },
-    "ExpiringMedicineConfirm": {
-        "action": "ClickSelf",
-        "template": "MedicineConfirm.png",
+    "UsingMedicine-Target": {
+        "baseTask": "NumberOcrReplace",
         "roi": [
-            1000,
-            500,
-            200,
-            150
+            255,
+            390,
+            315,
+            140
+        ]
+    },
+    "UsingMedicine-SanityMax": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            440,
+            330,
+            150,
+            55
+        ]
+    },
+    "DrGrandetUseOriginiums": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [
+            50,
+            376,
+            230,
+            40
         ],
-        "reduceOtherTimes": [
-            "StartButton1"
-        ],
-        "maxTimes": 0,
-        "exceededNext": [
-            "CloseStonePage"
+        "preDelay": 3000,
+        "preDelay_Doc": "提前多少毫秒再次识别，单位毫秒",
+        "postDelay": 355000,
+        "postDelay_Doc": "大于多少毫秒才碎石，否则等待，单位毫秒"
+    },
+    "UseStone": {
+        "action": "DoNothing",
+        "roi": [
+            600,
+            130,
+            420,
+            420
         ],
         "next": [
-            "StartButton1",
-            "OfflineConfirm",
-            "ExpiringMedicineConfirm@LoadingText"
+            "StoneConfirm"
         ]
     },
     "StoneConfirm": {
@@ -7216,6 +7305,43 @@
             ]
         ]
     },
+    "BattleSelectFormation1": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            105,
+            662,
+            10,
+            58
+        ]
+    },
+    "BattleSelectFormation2": {
+        "baseTask": "BattleSelectFormation1",
+        "specificRect": [
+            380,
+            662,
+            10,
+            58
+        ]
+    },
+    "BattleSelectFormation3": {
+        "baseTask": "BattleSelectFormation1",
+        "specificRect": [
+            650,
+            662,
+            10,
+            58
+        ]
+    },
+    "BattleSelectFormation4": {
+        "baseTask": "BattleSelectFormation1",
+        "specificRect": [
+            920,
+            662,
+            10,
+            58
+        ]
+    },
     "BattleSupportUnitFormation": {
         "action": "ClickSelf",
         "roi": [
@@ -9035,7 +9161,7 @@
         ]
     },
     "SSSDropRecruitmentOCR": {
-        "algorithm": "OcrDetect",
+        "baseTask": "CharsNameOcrReplace",
         "action": "DoNothing",
         "text": [],
         "cache": false,
@@ -9080,7 +9206,7 @@
         ]
     },
     "SSSHalfTimeDrops": {
-        "algorithm": "OcrDetect",
+        "baseTask": "CharsNameOcrReplace",
         "action": "ClickSelf",
         "cache": false,
         "text": [],
@@ -9922,6 +10048,43 @@
             142
         ],
         "ocrReplace": []
+    },
+    "RoguelikeFoldartalSlowlySwipeToTheUp": {
+        "baseTask": "SlowlySwipeToTheUp",
+        "specificRect": [
+            180,
+            580,
+            20,
+            20
+        ],
+        "rectMove": [
+            180,
+            110,
+            20,
+            20
+        ],
+        "specialParams": [
+            200,
+            1,
+            2,
+            0
+        ],
+        "postDelay": 500
+    },
+    "RoguelikeFoldartalSwipeToTheDown": {
+        "baseTask": "SwipeToTheDown",
+        "specificRect": [
+            180,
+            110,
+            20,
+            20
+        ],
+        "rectMove": [
+            180,
+            570,
+            20,
+            20
+        ]
     },
     "RoguelikeFormationOcr": {
         "algorithm": "OcrDetect",
@@ -11759,7 +11922,6 @@
         ]
     },
     "Roguelike@StageTraderInvestSystemError": {
-        "action": "ClickSelf",
         "cache": false,
         "roi": [
             508,
@@ -13418,19 +13580,30 @@
             "Sami@Roguelike@Abandon"
         ]
     },
-    "Sami@Roguelike@GamePass": {},
-    "Sami@Roguelike@GamePassSkip1": {},
-    "Sami@Roguelike@GamePassSkip1Confirm": {
-        "next": [
-            "Sami@Roguelike@GamePassSkip2",
-            "Sami@Roguelike@GamePassTheEndConfirm",
-            "Sami@Roguelike@GamePass"
-        ]
+    "Sami@Roguelike@Foldartal": {
+        "cache": false,
+        "action": "ClickSelf",
+        "roi": [
+            639,
+            599,
+            299,
+            121
+        ],
+        "postDelay": 2000
     },
-    "Sami@Roguelike@GamePassSkip2": {},
-    "Sami@Roguelike@GamePassTheEndConfirm": {},
-    "Sami@Roguelike@GetCiphertextBoard": {
-        "template": "Sami@Roguelike@GetCiphertextBoard",
+    "Sami@Roguelike@FoldartalBack": {
+        "action": "ClickSelf",
+        "roi": [
+            0,
+            0,
+            146,
+            144
+        ],
+        "postDelay": 2000
+    },
+    "Sami@Roguelike@FoldartalGain": {
+        "doc": "本任务注册插件RoguelikeFoldartalGain",
+        "template": "Sami@Roguelike@FoldartalGain",
         "action": "ClickRect",
         "specificRect": [
             611,
@@ -13450,10 +13623,177 @@
             255
         ],
         "next": [
-            "Sami@Roguelike@GetCiphertextBoard",
+            "Sami@Roguelike@FoldartalGain",
             "Sami@Roguelike@SquadConfirm#next"
         ]
     },
+    "Sami@Roguelike@FoldartalGainOcr": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "cache": false,
+        "roi": [
+            584,
+            261,
+            315,
+            46
+        ],
+        "text": [
+            "黜人",
+            "猎手",
+            "战士",
+            "萨满",
+            "雪祀",
+            "英雄",
+            "树冠",
+            "水面",
+            "眼睛",
+            "拱门",
+            "光芒",
+            "大地",
+            "源石",
+            "乔木",
+            "砂石",
+            "灌木",
+            "兽类",
+            "人类",
+            "伤痕",
+            "歌唱",
+            "沉默",
+            "朗诵",
+            "辩论",
+            "慰藉",
+            "告解",
+            "喜悦",
+            "惊讶",
+            "愤怒",
+            "疑惑",
+            "憧憬",
+            "爱恋",
+            "巡视",
+            "筑巢",
+            "捕猎",
+            "繁衍",
+            "掠夺",
+            "迁徙",
+            "空无"
+        ],
+        "ocrReplace": [
+            [
+                "黜",
+                "黜人"
+            ]
+        ]
+    },
+    "Sami@Roguelike@FoldartalGainOcrAfterCombat": {
+        "baseTask": "Sami@Roguelike@FoldartalGainOcr",
+        "roi": [
+            44,
+            309,
+            1195,
+            124
+        ]
+    },
+    "Sami@Roguelike@FoldartalGainOcrNextLevel": {
+        "baseTask": "Sami@Roguelike@FoldartalGainOcr",
+        "roi": [
+            290,
+            640,
+            151,
+            34
+        ]
+    },
+    "Sami@Roguelike@FoldartalUseConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "开始宣告"
+        ],
+        "roi": [
+            953,
+            597,
+            302,
+            113
+        ],
+        "postDelay": 2000,
+        "ocrReplace": [
+            [
+                "开始告",
+                "开始宣告"
+            ]
+        ]
+    },
+    "Sami@Roguelike@FoldartalUseOcr": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "cache": false,
+        "text": [
+            "布局"
+        ],
+        "roi": [
+            38,
+            64,
+            85,
+            518
+        ],
+        "rectMove": [
+            150,
+            -50,
+            50,
+            5
+        ],
+        "specificRect_Doc": "x拿来当文字灰度二值化下限用",
+        "specificRect": [
+            135,
+            0,
+            0,
+            0
+        ]
+    },
+    "Sami@Roguelike@FoldartalUseOnStage": {
+        "cache": false,
+        "action": "ClickSelf",
+        "template": [
+            "Sami@Roguelike@FoldartalUseOnGambling.png",
+            "Sami@Roguelike@FoldartalUseOnWindAndRain.png",
+            "Sami@Roguelike@FoldartalUseOnEmergencyTransportation.png",
+            "Sami@Roguelike@FoldartalUseOnCombatDps.png",
+            "Sami@Roguelike@FoldartalUseOnMysteriousPresage.png",
+            "Sami@Roguelike@FoldartalUseOnEmergencyDps.png",
+            "Sami@Roguelike@FoldartalUseOnDreadfulFoe-5.png",
+            "Sami@Roguelike@FoldartalUseOnFerociousPresage.png",
+            "Sami@Roguelike@FoldartalUseOnEncounter.png",
+            "Sami@Roguelike@FoldartalUseOnTrader.png"
+        ],
+        "templThreshold": [
+            0.7,
+            0.7,
+            0.7,
+            0.7,
+            0.7,
+            0.7,
+            0.7,
+            0.7,
+            0.7,
+            0.7
+        ],
+        "roi": [
+            429,
+            111,
+            844,
+            477
+        ]
+    },
+    "Sami@Roguelike@GamePass": {},
+    "Sami@Roguelike@GamePassSkip1": {},
+    "Sami@Roguelike@GamePassSkip1Confirm": {
+        "next": [
+            "Sami@Roguelike@GamePassSkip2",
+            "Sami@Roguelike@GamePassTheEndConfirm",
+            "Sami@Roguelike@GamePass"
+        ]
+    },
+    "Sami@Roguelike@GamePassSkip2": {},
+    "Sami@Roguelike@GamePassTheEndConfirm": {},
     "Sami@Roguelike@GetDrop1": {},
     "Sami@Roguelike@GetDrop2": {},
     "Sami@Roguelike@GetDrop3": {},
@@ -13487,14 +13827,14 @@
         "Doc": "密文板三选一",
         "template": "Sami@Roguelike@GetDropSelectReward2.png",
         "cache": false,
-        "action": "ClickSelf",
+        "action": "DoNothing",
         "roi": [
             0,
             420,
             1280,
             175
         ],
-        "postDelay": 1000,
+        "postDelay": 800,
         "next": [
             "Sami@Roguelike@GetDropSelectReward2",
             "Sami@Roguelike@ChooseOperFlag",
@@ -13599,7 +13939,7 @@
             "Sami@Roguelike@DialogSkip",
             "Sami@Roguelike@Stages#next",
             "Sami@Roguelike@MapObject",
-            "Sami@Roguelike@GetCiphertextBoard"
+            "Sami@Roguelike@FoldartalGain"
         ]
     },
     "Sami@Roguelike@SquadDefault": {},
@@ -14135,18 +14475,18 @@
             "Sami@Roguelike@StageVerticalSafeHouseAI6",
             "Sami@Roguelike@StageVerticalBoons",
             "Sami@Roguelike@StageVerticalBoonsAI6",
-            "Sami@Roguelike@StageVerticalEncounter",
-            "Sami@Roguelike@StageVerticalEncounterAI6",
             "Sami@Roguelike@StageVerticalTrader",
             "Sami@Roguelike@StageVerticalTraderAI6",
             "Sami@Roguelike@StageSafeHouse",
             "Sami@Roguelike@StageSafeHouseAI6",
             "Sami@Roguelike@StageBoons",
             "Sami@Roguelike@StageBoonsAI6",
-            "Sami@Roguelike@StageEncounter",
-            "Sami@Roguelike@StageEncounterAI6",
             "Sami@Roguelike@StageTrader",
             "Sami@Roguelike@StageTraderAI6",
+            "Sami@Roguelike@StageEncounter",
+            "Sami@Roguelike@StageEncounterAI6",
+            "Sami@Roguelike@StageVerticalEncounter",
+            "Sami@Roguelike@StageVerticalEncounterAI6",
             "Sami@Roguelike@StageVerticalProphecy",
             "Sami@Roguelike@StageVerticalProphecyAI6",
             "Sami@Roguelike@StageWindAndRain",
@@ -14312,7 +14652,7 @@
                 "_pragmatic"
             ],
             [
-                "无暇花园",
+                "无瑕花园",
                 "_default"
             ],
             [
@@ -14348,7 +14688,7 @@
                 "_exit"
             ],
             [
-                "无暇花园",
+                "无瑕花园",
                 "_exit"
             ],
             [

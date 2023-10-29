@@ -35,6 +35,7 @@ using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
+using MaaWpfGui.Services;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.Services.RemoteControl;
@@ -61,9 +62,6 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static readonly ILogger _logger = Log.ForContext<SettingsViewModel>();
 
-        [DllImport("MaaCore.dll")]
-        private static extern IntPtr AsstGetVersion();
-
         [DllImport("user32.dll")]
         private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
@@ -75,7 +73,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets the core version.
         /// </summary>
-        public static string CoreVersion { get; } = Marshal.PtrToStringAnsi(AsstGetVersion());
+        public static string CoreVersion { get; } = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion());
 
         private static readonly string _uiVersion = FileVersionInfo.GetVersionInfo(Application.ResourceAssembly.Location).ProductVersion.Split('+')[0];
 
@@ -270,7 +268,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        #endregion
+        #endregion Remote Control
 
         #region External Notifications
 
@@ -512,6 +510,15 @@ namespace MaaWpfGui.ViewModels.UI
 
             _dormThresholdLabel = LocalizationHelper.GetString("DormThreshold") + ": " + _dormThreshold + "%";
 
+            FormationSelectList = new List<CombinedData>
+            {
+                new CombinedData { Display = LocalizationHelper.GetString("Current"), Value = "0" },
+                new CombinedData { Display = "1", Value = "1" },
+                new CombinedData { Display = "2", Value = "2" },
+                new CombinedData { Display = "3", Value = "3" },
+                new CombinedData { Display = "4", Value = "4" },
+            };
+
             RoguelikeModeList = new List<CombinedData>
             {
                 new CombinedData { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = "0" },
@@ -519,7 +526,6 @@ namespace MaaWpfGui.ViewModels.UI
 
                 // new CombData { Display = "两者兼顾，投资过后退出", Value = "2" } // 弃用
                 // new CombData { Display = Localization.GetString("3"), Value = "3" },  // 开发中
-
                 new CombinedData { Display = LocalizationHelper.GetString("RoguelikeLastReward"), Value = "4" },
             };
 
@@ -2002,6 +2008,27 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        /// <summary>
+        /// Gets or sets 设置选择的编队
+        /// </summary>
+        // ReSharper disable once MemberCanBePrivate.Global
+        public List<CombinedData> FormationSelectList { get; set; }
+
+        private int _creditFightSelectFormation = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.CreditFightSelectFormation, "0"));
+
+        /// <summary>
+        /// Gets or sets a value indicating which formation will be select in credit fight.
+        /// </summary>
+        public int CreditFightSelectFormation
+        {
+            get => _creditFightSelectFormation;
+            set
+            {
+                SetAndNotify(ref _creditFightSelectFormation, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.CreditFightSelectFormation, value.ToString());
+            }
+        }
+
         /* 信用商店设置 */
 
         private bool _creditShopping = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditShopping, bool.TrueString));
@@ -2334,7 +2361,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _useExpedited, value);
         }
 
-        private bool _selectExtraTags;
+        private bool _selectExtraTags = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.SelectExtraTags, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether three tags are alway selected when selecting tags.
@@ -2342,7 +2369,11 @@ namespace MaaWpfGui.ViewModels.UI
         public bool SelectExtraTags
         {
             get => _selectExtraTags;
-            set => SetAndNotify(ref _selectExtraTags, value);
+            set
+            {
+                SetAndNotify(ref _selectExtraTags, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.SelectExtraTags, value.ToString());
+            }
         }
 
         private bool _isLevel3UseShortTime = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.IsLevel3UseShortTime, bool.FalseString));
@@ -2627,6 +2658,7 @@ namespace MaaWpfGui.ViewModels.UI
                 case VersionUpdateViewModel.CheckUpdateRetT.OnlyGameResourceUpdated:
                     toastMessage = LocalizationHelper.GetString("GameResourceUpdated");
                     break;
+
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -3417,6 +3449,7 @@ namespace MaaWpfGui.ViewModels.UI
                 case DarkModeType.SyncWithOs:
                     ThemeHelper.SwitchToSyncWithOsMode();
                     break;
+
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -3457,15 +3490,18 @@ namespace MaaWpfGui.ViewModels.UI
                         Instances.TaskQueueViewModel.ShowInverse = false;
                         Instances.TaskQueueViewModel.SelectedAllWidth = 90;
                         break;
+
                     case InverseClearType.Inverse:
                         Instances.TaskQueueViewModel.InverseMode = true;
                         Instances.TaskQueueViewModel.ShowInverse = false;
                         Instances.TaskQueueViewModel.SelectedAllWidth = 90;
                         break;
+
                     case InverseClearType.ClearInverse:
                         Instances.TaskQueueViewModel.ShowInverse = true;
                         Instances.TaskQueueViewModel.SelectedAllWidth = TaskQueueViewModel.SelectedAllWidthWhenBoth;
                         break;
+
                     default:
                         throw new ArgumentOutOfRangeException();
                 }

@@ -22,12 +22,11 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Documents;
-using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
+using MaaWpfGui.Services;
 using MaaWpfGui.States;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -52,9 +51,6 @@ namespace MaaWpfGui.ViewModels.UI
             _runningState = RunningState.Instance;
         }
 
-        [DllImport("MaaCore.dll")]
-        private static extern IntPtr AsstGetVersion();
-
         private static readonly ILogger _logger = Log.ForContext<VersionUpdateViewModel>();
 
         private static string AddContributorLink(string text)
@@ -68,7 +64,7 @@ namespace MaaWpfGui.ViewModels.UI
             return Regex.Replace(text, @"([^\[`]|^)@([^\s]+)", "$1[@$2](https://github.com/$2)");
         }
 
-        private readonly string _curVersion = Marshal.PtrToStringAnsi(AsstGetVersion());
+        private readonly string _curVersion = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion());
         private string _latestVersion;
 
         private string _updateTag = ConfigurationHelper.GetValue(ConfigurationKeys.VersionName, string.Empty);

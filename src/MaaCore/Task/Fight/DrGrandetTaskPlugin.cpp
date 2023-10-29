@@ -14,7 +14,7 @@ bool asst::DrGrandetTaskPlugin::verify(AsstMsg msg, const json::value& details) 
     }
 
     const std::string task = details.at("details").at("task").as_string();
-    if (task == "Fight@StoneConfirm" || task == "Fight@MedicineConfirm") {
+    if (task == "Fight@StoneConfirm") {
         return true;
     }
     else {
@@ -26,7 +26,7 @@ bool asst::DrGrandetTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    int cur_ms = analyze_time_left();
+    int cur_ms = analyze_time_left(ctrler()->get_image());
     if (cur_ms < 0) {
         return false;
     }
@@ -45,11 +45,11 @@ bool asst::DrGrandetTaskPlugin::_run()
     return false;
 }
 
-int asst::DrGrandetTaskPlugin::analyze_time_left()
+int asst::DrGrandetTaskPlugin::analyze_time_left(const cv::Mat& image)
 {
     LogTraceFunction;
 
-    OCRer analyzer(ctrler()->get_image());
+    OCRer analyzer(image);
     analyzer.set_task_info("DrGrandetUseOriginiums");
     analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
     // 这里是汉字和数字混合的，用不了单独的en模型

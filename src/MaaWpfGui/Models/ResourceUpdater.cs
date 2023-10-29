@@ -88,10 +88,42 @@ namespace MaaWpfGui.Models
 
         private static async Task<string> GetResourceApi()
         {
-            var response = await Instances.HttpService.GetAsync(new Uri(MaaUrls.AnnMirrorResourceApi), httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
-            return response is { StatusCode: System.Net.HttpStatusCode.OK }
-                ? MaaUrls.AnnMirrorResourceApi
-                : MaaUrls.MaaResourceApi;
+            string mirror = ConfigurationHelper.GetValue(ConfigurationKeys.ResourceApi, string.Empty);
+            if (!string.IsNullOrEmpty(mirror))
+            {
+                return mirror;
+            }
+
+            var mirrorList = new List<string>
+            {
+                MaaUrls.S3ResourceApi,
+                MaaUrls.R2ResourceApi,
+                MaaUrls.AnnMirrorResourceApi,
+            };
+
+            while (mirrorList.Count != 0)
+            {
+                // random select a mirror
+                var index = new Random().Next(0, mirrorList.Count);
+                var mirrorUrl = mirrorList[index];
+
+                var response = await Instances.HttpService.GetAsync(new Uri(mirrorUrl + MaaResourceVersion), httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
+                if (response is { StatusCode: System.Net.HttpStatusCode.OK })
+                {
+                    mirror = mirrorUrl;
+                    break;
+                }
+
+                mirrorList.RemoveAt(index);
+            }
+
+            if (string.IsNullOrEmpty(mirror))
+            {
+                mirror = MaaUrls.MaaResourceApi;
+            }
+
+            ConfigurationHelper.SetValue(ConfigurationKeys.ResourceApi, mirror);
+            return mirror;
         }
 
         private static async Task<bool> CheckUpdate(string baseUrl)

@@ -208,11 +208,9 @@ namespace MaaWpfGui.Helper
             SetWindowPlacement(window.Handle, ref wp);
 
             return true;
-
         }
 
         #region Win32 API declarations to set and get window placement
-
         [DllImport("user32.dll")]
         private static extern bool SetWindowPlacement(IntPtr hWnd, [In] ref WindowPlacement lpwndpl);
 

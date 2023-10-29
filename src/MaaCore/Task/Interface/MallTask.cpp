@@ -91,6 +91,10 @@ bool asst::MallTask::set_params(const json::value& params)
     if (!m_running) {
         bool credit_fight = params.get("credit_fight", false);
         m_credit_fight_task_ptr->set_enable(credit_fight);
+
+        int select_formation = params.get("select_formation", 0);
+        m_credit_fight_task_ptr->set_select_formation(select_formation);
+        Log.trace("selecting formation", select_formation);
     }
 
     return true;
