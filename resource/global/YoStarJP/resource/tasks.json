@@ -2283,6 +2283,26 @@
             [
                 "トレジャーハンター",
                 "寻宝人"
+            ],
+            [
+                "モーガン",
+                "摩根"
+            ],
+            [
+                "セメント",
+                "洋灰"
+            ],
+            [
+                "ヒューマス",
+                "休谟斯"
+            ],
+            [
+                "イネス",
+                "伊内丝"
+            ],
+            [
+                "街の緊急用備蓄",
+                "街头应急储备"
             ]
         ]
     },
@@ -2332,7 +2352,7 @@
             "残り配置可能数"
         ]
     },
-    "ExpiringMedicineCheck": {
+    "MedicineExpiringTime": {
         "text": [
             "分",
             "時間",
@@ -3244,13 +3264,6 @@
             "行って",
             "ください"
         ]
-    },
-    "SSSDropRecruitmentOCR": {
-        "baseTask": "CharsNameOcrReplace",
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "cache": false,
-        "postDelay": 1000
     },
     "SSSDropRecruitmentConfirm": {
         "text": [
@@ -5108,6 +5121,14 @@
             [
                 "漂流の秘箱",
                 "漂流秘匣"
+            ],
+            [
+                "★5臨時契約昇進招集券",
+                "5星随机直升临时招募券"
+            ],
+            [
+                "★6臨時契約昇進招集券",
+                "6星随机直升临时招募券"
             ]
         ]
     },
@@ -5755,26 +5776,6 @@
             164,
             207,
             133
-        ]
-    },
-    "ClickAnyZone@Reclamation@Begin": {
-        "baseTask": "Reclamation@ClickAnyZoneOcr",
-        "next": [
-            "Stop"
-        ]
-    },
-    "StartActionEnter@Reclamation@StartActionEnter": {
-        "baseTask": "Reclamation@StartActionEnter",
-        "next": [
-            "Stop"
-        ]
-    },
-    "StartWithDefaultFormation@Reclamation@ConfirmStart": {
-        "baseTask": "Reclamation@ConfirmStart",
-        "next": [],
-        "next_Old_Doc": "这里原先有个stop，但是会导致StartWithDefaultFormation@Reclamation@Begin中间多出一个Stop，姑且当成是不小心加的删了。",
-        "next_Old": [
-            "Stop"
         ]
     }
 }

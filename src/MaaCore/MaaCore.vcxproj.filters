@@ -216,6 +216,9 @@
     <ClInclude Include="Config\TemplResource.h">
       <Filter>Source\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="Config\Roguelike\RoguelikeFoldartalConfig.h">
+      <Filter>Source\Resource\Roguelike</Filter>
+    </ClInclude>
     <ClInclude Include="Config\Roguelike\RoguelikeCopilotConfig.h">
       <Filter>Source\Resource\Roguelike</Filter>
     </ClInclude>
@@ -441,6 +444,12 @@
     <ClInclude Include="Task\Roguelike\RoguelikeBattleTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeFoldartalGainTaskPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeFoldartalUseTaskPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeConfig.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
@@ -657,6 +666,9 @@
     <ClInclude Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Fight\MedicineCounterPlugin.h">
+      <Filter>Source\Task\Fight</Filter>
+    </ClInclude>
     <ClInclude Include="Task\Miscellaneous\ScreenshotTaskPlugin.h">
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClInclude>
@@ -730,6 +742,9 @@
     </ClCompile>
     <ClCompile Include="Config\TemplResource.cpp">
       <Filter>Source\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Roguelike\RoguelikeFoldartalConfig.cpp">
+      <Filter>Source\Resource\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Config\Roguelike\RoguelikeCopilotConfig.cpp">
       <Filter>Source\Resource\Roguelike</Filter>
@@ -903,6 +918,12 @@
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeBattleTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeFoldartalGainTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeFoldartalUseTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeConfig.cpp">
@@ -1093,6 +1114,9 @@
     </ClCompile>
     <ClCompile Include="Task\Miscellaneous\ScreenshotTaskPlugin.cpp">
       <Filter>Source\Task\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Fight\MedicineCounterPlugin.cpp">
+      <Filter>Source\Task\Fight</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -85,19 +85,16 @@
         ]
     },
     "ClickChapter1": {
-        "baseTask": "ClickChapter",
         "text": [
             "覺醒"
         ]
     },
     "ClickChapter2": {
-        "baseTask": "ClickChapter",
         "text": [
             "幻滅"
         ]
     },
     "ClickChapter3": {
-        "baseTask": "ClickChapter",
         "text": [
             "殘陽"
         ]
@@ -120,29 +117,15 @@
             "作戰"
         ]
     },
-    "ClickedCorrectStageOrSwipe": {
-        "baseTask": "StartButton1",
-        "action": "DoNothing",
-        "reduceOtherTimes": [],
-        "next": [
-            "ClickedCorrectStage",
-            "FullStageNavigation"
-        ]
-    },
     "SideStoryReopen": {
         "text": [
             "復刻"
         ]
     },
     "FC-Open": {
-        "baseTask": "#none",
-        "postDelay": 2000,
-        "action": "ClickSelf",
-        "roi": [
-            592,
-            56,
-            316,
-            265
+        "text": [
+            "照我以火",
+            "關卡已開放"
         ]
     },
     "FCChapterToFC": {
@@ -1441,7 +1424,7 @@
             "行動結束"
         ]
     },
-    "ExpiringMedicineCheck": {
+    "MedicineExpiringTime": {
         "text": [
             "分鐘",
             "小時",
@@ -2423,9 +2406,6 @@
             "導能"
         ]
     },
-    "SSSDropRecruitmentOCR": {
-        "baseTask": "CharsNameOcrReplace"
-    },
     "SSSDropRecruitmentConfirm": {
         "text": [
             "確認調用",
@@ -2441,10 +2421,6 @@
             145,
             145
         ]
-    },
-    "SSSHalfTimeDrops": {
-        "baseTask": "CharsNameOcrReplace",
-        "postDelay": 1000
     },
     "GachaLastOnceResult": {
         "text": [

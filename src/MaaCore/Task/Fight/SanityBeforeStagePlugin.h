@@ -4,7 +4,6 @@
 #include <meojson/json.hpp>
 namespace asst
 {
-
     class SanityBeforeStagePlugin final : public AbstractTaskPlugin
     {
     public:

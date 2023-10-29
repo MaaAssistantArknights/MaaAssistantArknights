@@ -33,6 +33,8 @@ namespace asst
         void set_user_additional(std::vector<std::pair<std::string, int>> user_additional);
         // 是否追加低信赖干员
         void set_add_trust(bool add_trust);
+        // 设置对指定编队自动编队
+        void set_select_formation(int index);
 
         enum class DataResource
         {
@@ -57,6 +59,7 @@ namespace asst
         bool confirm_selection();
         bool click_role_table(battle::Role role);
         bool parse_formation();
+        bool select_formation(int select_index);
         bool select_random_support_unit();
 
         std::vector<TextRect> analyzer_opers();
@@ -77,5 +80,6 @@ namespace asst
         DataResource m_data_resource = DataResource::Copilot;
         std::vector<AdditionalFormation> m_additional;
         std::string m_last_oper_name;
+        int m_select_formation_index = 0;
     };
 } // namespace asst

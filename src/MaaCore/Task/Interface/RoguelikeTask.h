@@ -19,6 +19,9 @@ namespace asst
     class RoguelikeStageEncounterTaskPlugin;
     class RoguelikeStrategyChangeTaskPlugin;
 
+    class RoguelikeFoldartalGainTaskPlugin;
+    class RoguelikeFoldartalUseTaskPlugin;
+
     class RoguelikeTask : public InterfaceTask
     {
     public:
@@ -45,5 +48,8 @@ namespace asst
         std::shared_ptr<RoguelikeShoppingTaskPlugin> m_shopping_plugin_ptr = nullptr;
         std::shared_ptr<RoguelikeStageEncounterTaskPlugin> m_stage_encounter_plugin_ptr = nullptr;
         std::shared_ptr<RoguelikeStrategyChangeTaskPlugin> m_strategy_change_plugin_ptr = nullptr;
+
+        std::shared_ptr<RoguelikeFoldartalGainTaskPlugin> m_foldartal_gain_plugin_ptr = nullptr;
+        std::shared_ptr<RoguelikeFoldartalUseTaskPlugin> m_foldartal_use_plugin_ptr = nullptr;
     };
 }
