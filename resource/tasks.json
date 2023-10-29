@@ -1818,24 +1818,24 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "IS-Open",
-            "IS-OpenOcr"
+            "IS-10@IS-Open",
+            "IS-10@IS-OpenOcr"
         ]
     },
     "IS-9": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "IS-Open",
-            "IS-OpenOcr"
+            "IS-9@IS-Open",
+            "IS-9@IS-OpenOcr"
         ]
     },
     "IS-8": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "IS-Open",
-            "IS-OpenOcr"
+            "IS-8@IS-Open",
+            "IS-8@IS-OpenOcr"
         ]
     },
     "IS-Open": {
@@ -1933,7 +1933,8 @@
             100
         ],
         "next": [
-            "#next"
+            "SideStoryStage",
+            "#self"
         ]
     },
     "IS-10@SideStoryStage": {
