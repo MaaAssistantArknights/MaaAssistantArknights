@@ -42,6 +42,7 @@ namespace asst
 
         static inline constexpr int64_t RecognitionTimeOffset = 20;
         static inline const std::string LastStartTimeKey = Status::ProcessTaskLastTimePrefix + "Fight@StartButton2";
+        static inline const std::string LastPRTS1TimeKey = Status::ProcessTaskLastTimePrefix + "Fight@PRTS1";
         static inline const std::string RecognitionRestrictionsKey = "StageDropsTaskPluginRestrictions";
 
         std::string m_stage_code;
