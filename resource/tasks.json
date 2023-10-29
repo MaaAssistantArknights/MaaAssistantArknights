@@ -7307,6 +7307,43 @@
             ]
         ]
     },
+    "BattleSelectFormation1": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            105,
+            662,
+            10,
+            58
+        ]
+    },
+    "BattleSelectFormation2": {
+        "baseTask": "BattleSelectFormation1",
+        "specificRect": [
+            380,
+            662,
+            10,
+            58
+        ]
+    },
+    "BattleSelectFormation3": {
+        "baseTask": "BattleSelectFormation1",
+        "specificRect": [
+            650,
+            662,
+            10,
+            58
+        ]
+    },
+    "BattleSelectFormation4": {
+        "baseTask": "BattleSelectFormation1",
+        "specificRect": [
+            920,
+            662,
+            10,
+            58
+        ]
+    },
     "BattleSupportUnitFormation": {
         "action": "ClickSelf",
         "roi": [
