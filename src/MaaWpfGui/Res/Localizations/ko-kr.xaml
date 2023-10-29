@@ -20,6 +20,7 @@
     <system:String x:Key="StartupSettings">시작 설정</system:String>
     <system:String x:Key="ScheduleSettings">예약 설정</system:String>
     <system:String x:Key="UiSettings">UI 설정</system:String>
+    <system:String x:Key="UiTheme">UI 테마</system:String>
     <system:String x:Key="HotKeySettings">단축키 설정</system:String>
     <system:String x:Key="UpdateSettings">업데이트</system:String>
     <system:String x:Key="AboutUs">정보</system:String>
