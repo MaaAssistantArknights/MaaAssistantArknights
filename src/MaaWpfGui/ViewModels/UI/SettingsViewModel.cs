@@ -2011,6 +2011,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets 设置选择的编队
         /// </summary>
+        // ReSharper disable once MemberCanBePrivate.Global
         public List<CombinedData> FormationSelectList { get; set; }
 
         private int _creditFightSelectFormation = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.CreditFightSelectFormation, "0"));
