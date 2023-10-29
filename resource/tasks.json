@@ -1817,34 +1817,25 @@
     "IS-10": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
-        "sub": [
-            "IS-Open"
-        ],
         "next": [
-            "IS-10@SideStoryStage",
-            "IS-10@SwipeToStageIS"
+            "IS-Open",
+            "IS-OpenOcr"
         ]
     },
     "IS-9": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
-        "sub": [
-            "IS-Open"
-        ],
         "next": [
-            "IS-9@SideStoryStage",
-            "IS-9@SwipeToStageIS"
+            "IS-Open",
+            "IS-OpenOcr"
         ]
     },
     "IS-8": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
-        "sub": [
-            "IS-Open"
-        ],
         "next": [
-            "IS-8@SideStoryStage",
-            "IS-8@SwipeToStageIS"
+            "IS-Open",
+            "IS-OpenOcr"
         ]
     },
     "IS-Open": {
@@ -1855,8 +1846,33 @@
             396,
             437
         ],
-        "next": [
+        "sub": [
             "EnterChapterIS"
+        ],
+        "next": [
+            "SideStoryStage",
+            "SwipeToStageIS"
+        ]
+    },
+    "IS-OpenOcr": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "text": [
+            "叙拉古人",
+            "复刻"
+        ],
+        "sub": [
+            "EnterChapterIS"
+        ],
+        "next": [
+            "SideStoryStage",
+            "SwipeToStageIS"
         ]
     },
     "EnterChapterIS": {
