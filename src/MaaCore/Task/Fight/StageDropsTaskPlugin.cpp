@@ -206,10 +206,22 @@ void asst::StageDropsTaskPlugin::set_start_button_delay()
         return;
     }
 
+    int64_t delay = -1;
+    int64_t last_prts1_time = status()->get_number(LastPRTS1TimeKey).value_or(-1);
+    if (last_prts1_time == -1) {
+        int64_t duration = time(nullptr) - last_start_time;
+        int elapsed = Task.get("EndOfAction")->pre_delay + Task.get("PRTS")->post_delay;
+        delay = duration * 1000 - elapsed;
+    }
+    else {
+        delay = (last_prts1_time - last_start_time) * 1000;
+    }
+
+    if (delay == -1) {
+        return;
+    }
+
     m_start_button_delay_is_set = true;
-    int64_t duration = time(nullptr) - last_start_time;
-    int elapsed = Task.get("EndOfAction")->pre_delay + Task.get("PRTS")->post_delay;
-    int64_t delay = duration * 1000 - elapsed;
     Log.info(__FUNCTION__, "set StartButton2WaitTime post delay", delay);
     m_cast_ptr->set_post_delay("StartButton2WaitTime", static_cast<int>(delay));
 }
