@@ -590,10 +590,10 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="SSSGamePass">ゲームクリア、おめでとうございます！</system:String>
     <system:String x:Key="Trader">ステージ: 怪しい旅商人</system:String>
     <system:String x:Key="SafeHouse">ステージ: 安全な片隅</system:String>
-    <system:String x:Key="Encounter">ステージ: 思わぬ遭遇</system:String>
     <system:String x:Key="CombatDps">ステージ: 作戦</system:String>
     <system:String x:Key="EmergencyDps">ステージ: 緊急作戦</system:String>
     <system:String x:Key="DreadfulFoe">ステージ: 悪路凶敵</system:String>
+    <system:String x:Key="RoguelikeEvent">ローグライクイベント:</system:String>
     <system:String x:Key="NoDrop">ドロップなし</system:String>
     <system:String x:Key="Drop" xml:space="preserve">ドロップ: </system:String>
     <system:String x:Key="TotalDrop" xml:space="preserve">ドロップ統計: </system:String>
