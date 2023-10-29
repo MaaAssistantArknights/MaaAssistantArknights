@@ -6,22 +6,21 @@
 - 调整理智药使用为按瓶计数，移除了博朗台在使用理智药不溢出情况下的额外等待，调整Wpf理智药使用输出 (#7022) @status102
 - 新增获取信用-借助战时使用指定编队 (#7061) @status102 @broken-paint @MistEO
 - 萨米肉鸽使用密文板  (#7086) @Lancarus @zzyyyl
-- Morgan 摩根 ocrreplace [skip ci] @Constrat
-- 增加雷电模拟器 nc 截图方式 (#7062) @zzyyyl
-- As in my Adumbration operator implementation @Constrat
+- Add Operator JP/12章 @wallsman
 
 ### 改进
 
+- 增加雷电模拟器 nc 截图方式 (#7062) @zzyyyl
 - add some mirror for resource updates @MistEO
 - 优化部分情况下，单个刷理智任务在多次执行时等待时间过长 (#7108) @status102
 - 优化Wpf关卡数据更新提示，改为Growl.Info (#7103) @status102
-- unused template removal (#7113) @Constrat
-- 优化萨米肉鸽部分关卡策略 (#7099) @Lancarus
-- 更新QQ群描述 @MistEO
-- 优化部分萨米肉鸽关卡策略 (#7075) @Lancarus
+- 优化萨米肉鸽部分关卡策略 (#7099) (#7075) @Lancarus
 
 ### 修复
 
+- 調整繁中服「照我以火」導航任務、替換水月肉鴿 "繼續探索" 圖片 (#7085) @momomochi987
+- As in my Adumbration operator implementation @Constrat
+- Morgan 摩根 ocrreplace [skip ci] @Constrat
 - c# warnings @MistEO
 - 修复Wpf无法复制版本号至剪贴板 (#7109) @status102
 - 优化设置引导界面的视觉效果，并给 UI Theme 添加翻译 (#7047) @SherkeyXD
@@ -40,15 +39,11 @@
 - 修复 #7016 可能影响的部分任务 (#7066) @zzyyyl
 - SkipThePreBattlePlot lowered threshold @Constrat
 - 修复公招多选 Tags 选项不保存的问题 (#7065) @broken-paint
+- fix code block in user guide for CLI (#7060) @wangl-cc
 
 ### 其他
 
-- Revert "perf: unused template removal" (#7116) @MistEO
-- Add Operator JP/12章 @wallsman
 - 多划几次 @ABA2396
 - format @zzyyyl
-- Auto Update Game Resources - 2023-10-28 @MistEO
 - manual after res-update fix @Constrat
-- 調整繁中服「照我以火」導航任務、替換水月肉鴿 "繼續探索" 圖片 (#7085) @momomochi987
 - Wpf迁移MaaCore引用，统一合并至MaaService (#6945) @status102
-- fix code block in user guide for CLI (#7060) @wangl-cc
