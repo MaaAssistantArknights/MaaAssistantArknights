@@ -268,7 +268,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        #endregion
+        #endregion Remote Control
 
         #region External Notifications
 
@@ -510,7 +510,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             _dormThresholdLabel = LocalizationHelper.GetString("DormThreshold") + ": " + _dormThreshold + "%";
 
-            FormationSelectList = new List<CombinedData>()
+            FormationSelectList = new List<CombinedData>
             {
                 new CombinedData { Display = LocalizationHelper.GetString("Current"), Value = "0" },
                 new CombinedData { Display = "1", Value = "1" },
@@ -2657,6 +2657,7 @@ namespace MaaWpfGui.ViewModels.UI
                 case VersionUpdateViewModel.CheckUpdateRetT.OnlyGameResourceUpdated:
                     toastMessage = LocalizationHelper.GetString("GameResourceUpdated");
                     break;
+
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -3447,6 +3448,7 @@ namespace MaaWpfGui.ViewModels.UI
                 case DarkModeType.SyncWithOs:
                     ThemeHelper.SwitchToSyncWithOsMode();
                     break;
+
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -3487,15 +3489,18 @@ namespace MaaWpfGui.ViewModels.UI
                         Instances.TaskQueueViewModel.ShowInverse = false;
                         Instances.TaskQueueViewModel.SelectedAllWidth = 90;
                         break;
+
                     case InverseClearType.Inverse:
                         Instances.TaskQueueViewModel.InverseMode = true;
                         Instances.TaskQueueViewModel.ShowInverse = false;
                         Instances.TaskQueueViewModel.SelectedAllWidth = 90;
                         break;
+
                     case InverseClearType.ClearInverse:
                         Instances.TaskQueueViewModel.ShowInverse = true;
                         Instances.TaskQueueViewModel.SelectedAllWidth = TaskQueueViewModel.SelectedAllWidthWhenBoth;
                         break;
+
                     default:
                         throw new ArgumentOutOfRangeException();
                 }

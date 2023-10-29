@@ -38,6 +38,7 @@ using Stylet;
 using static MaaWpfGui.Helper.Instances.Data;
 using AsstHandle = System.IntPtr;
 using AsstInstanceOptionKey = System.Int32;
+
 using AsstTaskId = System.Int32;
 
 namespace MaaWpfGui.Main
@@ -467,16 +468,16 @@ namespace MaaWpfGui.Main
                     return;
 
                 case "Recruit":
-                {
-                    if (msg == AsstMsg.TaskChainError)
                     {
-                        Instances.RecognizerViewModel.RecruitInfo = LocalizationHelper.GetString("IdentifyTheMistakes");
-                        using var toast = new ToastNotification(LocalizationHelper.GetString("IdentifyTheMistakes"));
-                        toast.Show();
-                    }
+                        if (msg == AsstMsg.TaskChainError)
+                        {
+                            Instances.RecognizerViewModel.RecruitInfo = LocalizationHelper.GetString("IdentifyTheMistakes");
+                            using var toast = new ToastNotification(LocalizationHelper.GetString("IdentifyTheMistakes"));
+                            toast.Show();
+                        }
 
-                    break;
-                }
+                        break;
+                    }
             }
 
             bool isCopilotTaskChain = taskChain == "Copilot" || taskChain == "VideoRecognition";
@@ -493,40 +494,38 @@ namespace MaaWpfGui.Main
                     break;
 
                 case AsstMsg.TaskChainError:
-                {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskError") + taskChain, UiLogColor.Error);
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("TaskError") + taskChain);
-                    toast.Show();
-                    if (isCopilotTaskChain)
                     {
-                        // 如果启用战斗列表，需要中止掉剩余的任务
-                        if (Instances.CopilotViewModel.UseCopilotList)
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskError") + taskChain, UiLogColor.Error);
+                        using var toast = new ToastNotification(LocalizationHelper.GetString("TaskError") + taskChain);
+                        toast.Show();
+                        if (isCopilotTaskChain)
                         {
-                            if (!AsstStop(false))
+                            // 如果启用战斗列表，需要中止掉剩余的任务
+                            if (Instances.CopilotViewModel.UseCopilotList)
                             {
-                                _logger.Warning("Failed to stop Asst");
+                                if (!AsstStop(false))
+                                {
+                                    _logger.Warning("Failed to stop Asst");
+                                }
                             }
+
+                            _runningState.SetIdle(true);
+                            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
                         }
 
-                        _runningState.SetIdle(true);
-                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
-                    }
+                        if (taskChain == "Fight" && (Instances.TaskQueueViewModel.Stage == "Annihilation"))
+                        {
+                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
+                        }
 
-                    if (taskChain == "Fight" && (Instances.TaskQueueViewModel.Stage == "Annihilation"))
-                    {
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
+                        break;
                     }
-
-                    break;
-                }
 
                 case AsstMsg.TaskChainStart:
                     switch (taskChain)
                     {
                         case "Fight":
                             Instances.TaskQueueViewModel.FightTaskRunning = true;
-                            break;
-                        default:
                             break;
                     }
 
@@ -547,15 +546,15 @@ namespace MaaWpfGui.Main
                             break;
 
                         case "Mall":
-                        {
-                            if (Instances.TaskQueueViewModel.Stage != string.Empty && Instances.SettingsViewModel.CreditFightTaskEnabled)
                             {
-                                Instances.SettingsViewModel.LastCreditFightTaskTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("CreditFight"));
-                            }
+                                if (Instances.TaskQueueViewModel.Stage != string.Empty && Instances.SettingsViewModel.CreditFightTaskEnabled)
+                                {
+                                    Instances.SettingsViewModel.LastCreditFightTaskTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
+                                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("CreditFight"));
+                                }
 
-                            break;
-                        }
+                                break;
+                            }
                     }
 
                     if (taskChain == "Fight" && SanityReport.HasSanityReport)
@@ -759,22 +758,22 @@ namespace MaaWpfGui.Main
                     break;
 
                 case "AutoRecruitTask":
-                {
-                    var whyStr = details.TryGetValue("why", out var why) ? why.ToString() : LocalizationHelper.GetString("ErrorOccurred");
-                    Instances.TaskQueueViewModel.AddLog(whyStr + "，" + LocalizationHelper.GetString("HasReturned"), UiLogColor.Error);
-                    break;
-                }
+                    {
+                        var whyStr = details.TryGetValue("why", out var why) ? why.ToString() : LocalizationHelper.GetString("ErrorOccurred");
+                        Instances.TaskQueueViewModel.AddLog(whyStr + "，" + LocalizationHelper.GetString("HasReturned"), UiLogColor.Error);
+                        break;
+                    }
 
                 case "RecognizeDrops":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DropRecognitionError"), UiLogColor.Error);
                     break;
 
                 case "ReportToPenguinStats":
-                {
-                    var why = details["why"].ToString();
-                    Instances.TaskQueueViewModel.AddLog(why + "，" + LocalizationHelper.GetString("GiveUpUploadingPenguins"), UiLogColor.Error);
-                    break;
-                }
+                    {
+                        var why = details["why"].ToString();
+                        Instances.TaskQueueViewModel.AddLog(why + "，" + LocalizationHelper.GetString("GiveUpUploadingPenguins"), UiLogColor.Error);
+                        break;
+                    }
 
                 case "CheckStageValid":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TheEx"), UiLogColor.Error);
@@ -789,147 +788,147 @@ namespace MaaWpfGui.Main
             switch (subTask)
             {
                 case "ProcessTask":
-                {
-                    string taskName = details["details"]?["task"]?.ToString();
-                    int execTimes = (int)details["details"]["exec_times"];
-
-                    switch (taskName)
                     {
-                        case "StartButton2":
-                        case "AnnihilationConfirm":
-                            var log = LocalizationHelper.GetString("MissionStart") + $" {execTimes} {LocalizationHelper.GetString("UnitTime")}\n";
-                            if (SanityReport.HasSanityReport)
-                            {
-                                log += $"{LocalizationHelper.GetString("CurrentSanity")} {SanityReport.Sanity[0]}/{SanityReport.Sanity[1]}  ";
-                            }
+                        string taskName = details["details"]?["task"]?.ToString();
+                        int execTimes = (int)details["details"]["exec_times"];
 
-                            if (MedicineUsedTimes > 0 || ExpiringMedicineUsedTimes > 0)
-                            {
-                                log += $"{LocalizationHelper.GetString("MedicineUsedTimes")} {MedicineUsedTimes}" + (ExpiringMedicineUsedTimes > 0 ? $"({ExpiringMedicineUsedTimes})" : string.Empty) + "  ";
-                            }
+                        switch (taskName)
+                        {
+                            case "StartButton2":
+                            case "AnnihilationConfirm":
+                                var log = LocalizationHelper.GetString("MissionStart") + $" {execTimes} {LocalizationHelper.GetString("UnitTime")}\n";
+                                if (SanityReport.HasSanityReport)
+                                {
+                                    log += $"{LocalizationHelper.GetString("CurrentSanity")} {SanityReport.Sanity[0]}/{SanityReport.Sanity[1]}  ";
+                                }
 
-                            if (StoneUsedTimes > 0)
-                            {
-                                log += $"{LocalizationHelper.GetString("StoneUsedTimes")} {StoneUsedTimes}  ";
-                            }
+                                if (MedicineUsedTimes > 0 || ExpiringMedicineUsedTimes > 0)
+                                {
+                                    log += $"{LocalizationHelper.GetString("MedicineUsedTimes")} {MedicineUsedTimes}" + (ExpiringMedicineUsedTimes > 0 ? $"({ExpiringMedicineUsedTimes})" : string.Empty) + "  ";
+                                }
 
-                            Instances.TaskQueueViewModel.AddLog(log.TrimEnd('\n').TrimEnd(' '), UiLogColor.Info);
-                            break;
+                                if (StoneUsedTimes > 0)
+                                {
+                                    log += $"{LocalizationHelper.GetString("StoneUsedTimes")} {StoneUsedTimes}  ";
+                                }
 
-                        case "StoneConfirm":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StoneUsed") + $" {execTimes} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info);
-                            StoneUsedTimes++;
-                            break;
+                                Instances.TaskQueueViewModel.AddLog(log.TrimEnd('\n').TrimEnd(' '), UiLogColor.Info);
+                                break;
 
-                        case "AbandonAction":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ActingCommandError"), UiLogColor.Error);
-                            break;
+                            case "StoneConfirm":
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StoneUsed") + $" {execTimes} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info);
+                                StoneUsedTimes++;
+                                break;
 
-                        case "RecruitRefreshConfirm":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("LabelsRefreshed"), UiLogColor.Info);
-                            break;
+                            case "AbandonAction":
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ActingCommandError"), UiLogColor.Error);
+                                break;
 
-                        case "RecruitConfirm":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RecruitConfirm"), UiLogColor.Info);
-                            break;
+                            case "RecruitRefreshConfirm":
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("LabelsRefreshed"), UiLogColor.Info);
+                                break;
 
-                        case "InfrastDormDoubleConfirmButton":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("InfrastDormDoubleConfirmed"), UiLogColor.Error);
-                            break;
+                            case "RecruitConfirm":
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RecruitConfirm"), UiLogColor.Info);
+                                break;
 
-                        /* 肉鸽相关 */
-                        case "StartExplore":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("BegunToExplore") + $" {execTimes} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info);
-                            break;
+                            case "InfrastDormDoubleConfirmButton":
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("InfrastDormDoubleConfirmed"), UiLogColor.Error);
+                                break;
 
-                        case "StageTraderInvestConfirm":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("HasInvested") + $" {execTimes} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info);
-                            break;
+                            /* 肉鸽相关 */
+                            case "StartExplore":
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("BegunToExplore") + $" {execTimes} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info);
+                                break;
 
-                        case "ExitThenAbandon":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ExplorationAbandoned"));
-                            break;
+                            case "StageTraderInvestConfirm":
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("HasInvested") + $" {execTimes} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info);
+                                break;
 
-                        // case "StartAction":
-                        //    Instances.TaskQueueViewModel.AddLog("开始战斗");
-                        //    break;
-                        case "MissionCompletedFlag":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FightCompleted"));
-                            break;
+                            case "ExitThenAbandon":
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ExplorationAbandoned"));
+                                break;
 
-                        case "MissionFailedFlag":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FightFailed"));
-                            break;
+                            // case "StartAction":
+                            //    Instances.TaskQueueViewModel.AddLog("开始战斗");
+                            //    break;
+                            case "MissionCompletedFlag":
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FightCompleted"));
+                                break;
 
-                        case "StageTraderEnter":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Trader"));
-                            break;
+                            case "MissionFailedFlag":
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FightFailed"));
+                                break;
 
-                        case "StageSafeHouseEnter":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("SafeHouse"));
-                            break;
+                            case "StageTraderEnter":
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Trader"));
+                                break;
 
-                        // case "StageBoonsEnter":
-                        //    Instances.TaskQueueViewModel.AddLog("古堡馈赠");
-                        //    break;
-                        case "StageCombatDpsEnter":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CombatDps"));
-                            break;
+                            case "StageSafeHouseEnter":
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("SafeHouse"));
+                                break;
 
-                        case "StageEmergencyDps":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("EmergencyDps"));
-                            break;
+                            // case "StageBoonsEnter":
+                            //    Instances.TaskQueueViewModel.AddLog("古堡馈赠");
+                            //    break;
+                            case "StageCombatDpsEnter":
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CombatDps"));
+                                break;
 
-                        case "StageDreadfulFoe":
-                        case "StageDreadfulFoe-5Enter":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DreadfulFoe"));
-                            break;
+                            case "StageEmergencyDps":
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("EmergencyDps"));
+                                break;
 
-                        case "StageTraderInvestSystemFull":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UpperLimit"), UiLogColor.Info);
-                            break;
+                            case "StageDreadfulFoe":
+                            case "StageDreadfulFoe-5Enter":
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DreadfulFoe"));
+                                break;
 
-                        case "OfflineConfirm":
-                            if (Instances.SettingsViewModel.AutoRestartOnDrop)
-                            {
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("GameDrop"), UiLogColor.Warning);
-                            }
-                            else
-                            {
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("GameDropNoRestart"), UiLogColor.Warning);
-                                using var toast = new ToastNotification(LocalizationHelper.GetString("GameDropNoRestart"));
-                                toast.Show();
-                                _ = Instances.TaskQueueViewModel.Stop();
-                            }
+                            case "StageTraderInvestSystemFull":
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UpperLimit"), UiLogColor.Info);
+                                break;
 
-                            break;
+                            case "OfflineConfirm":
+                                if (Instances.SettingsViewModel.AutoRestartOnDrop)
+                                {
+                                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("GameDrop"), UiLogColor.Warning);
+                                }
+                                else
+                                {
+                                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("GameDropNoRestart"), UiLogColor.Warning);
+                                    using var toast = new ToastNotification(LocalizationHelper.GetString("GameDropNoRestart"));
+                                    toast.Show();
+                                    _ = Instances.TaskQueueViewModel.Stop();
+                                }
 
-                        case "GamePass":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeGamePass"), UiLogColor.RareOperator);
-                            break;
+                                break;
 
-                        case "BattleStartAll":
-                            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissionStart"), UiLogColor.Info);
-                            break;
+                            case "GamePass":
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeGamePass"), UiLogColor.RareOperator);
+                                break;
 
-                        case "StageTraderSpecialShoppingAfterRefresh":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeSpecialItemBought"), UiLogColor.RareOperator);
-                            break;
+                            case "BattleStartAll":
+                                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissionStart"), UiLogColor.Info);
+                                break;
+
+                            case "StageTraderSpecialShoppingAfterRefresh":
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeSpecialItemBought"), UiLogColor.RareOperator);
+                                break;
+                        }
+
+                        break;
                     }
-
-                    break;
-                }
 
                 case "CombatRecordRecognitionTask":
-                {
-                    string what = details["what"]?.ToString();
-                    if (!string.IsNullOrEmpty(what))
                     {
-                        Instances.CopilotViewModel.AddLog(what);
-                    }
+                        string what = details["what"]?.ToString();
+                        if (!string.IsNullOrEmpty(what))
+                        {
+                            Instances.CopilotViewModel.AddLog(what);
+                        }
 
-                    break;
-                }
+                        break;
+                    }
             }
         }
 
@@ -971,28 +970,28 @@ namespace MaaWpfGui.Main
             switch (what)
             {
                 case "StageDrops":
-                {
-                    string allDrops = string.Empty;
-                    JArray statistics = (JArray)subTaskDetails["stats"] ?? new JArray();
-                    foreach (var item in statistics)
                     {
-                        string itemName = item["itemName"]?.ToString();
-                        int totalQuantity = (int)item["quantity"];
-                        int addQuantity = (int)item["addQuantity"];
-                        allDrops += $"{itemName} : {totalQuantity:#,#}";
-                        if (addQuantity > 0)
+                        string allDrops = string.Empty;
+                        JArray statistics = (JArray)subTaskDetails["stats"] ?? new JArray();
+                        foreach (var item in statistics)
                         {
-                            allDrops += $" (+{addQuantity:#,#})";
+                            string itemName = item["itemName"]?.ToString();
+                            int totalQuantity = (int)item["quantity"];
+                            int addQuantity = (int)item["addQuantity"];
+                            allDrops += $"{itemName} : {totalQuantity:#,#}";
+                            if (addQuantity > 0)
+                            {
+                                allDrops += $" (+{addQuantity:#,#})";
+                            }
+
+                            allDrops += "\n";
                         }
 
-                        allDrops += "\n";
+                        allDrops = allDrops.EndsWith("\n") ? allDrops.TrimEnd('\n') : LocalizationHelper.GetString("NoDrop");
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TotalDrop") + "\n" + allDrops);
+
+                        break;
                     }
-
-                    allDrops = allDrops.EndsWith("\n") ? allDrops.TrimEnd('\n') : LocalizationHelper.GetString("NoDrop");
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TotalDrop") + "\n" + allDrops);
-
-                    break;
-                }
 
                 case "EnterFacility":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ThisFacility") + subTaskDetails["facility"] + " " + (int)subTaskDetails["index"]);
@@ -1011,98 +1010,98 @@ namespace MaaWpfGui.Main
                     break;
 
                 case "RecruitTagsDetected":
-                {
-                    JArray tags = (JArray)subTaskDetails["tags"] ?? new JArray();
-                    string logContent = tags.Select(tagName => tagName.ToString())
-                        .Aggregate(string.Empty, (current, tagStr) => current + (tagStr + "\n"));
-
-                    logContent = logContent.EndsWith("\n") ? logContent.TrimEnd('\n') : LocalizationHelper.GetString("Error");
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RecruitingResults") + "\n" + logContent);
-
-                    break;
-                }
-
-                case "RecruitSpecialTag":
-                {
-                    string special = subTaskDetails["tag"]?.ToString();
-                    if (special == "支援机械" && Instances.SettingsViewModel.NotChooseLevel1 == false)
                     {
+                        JArray tags = (JArray)subTaskDetails["tags"] ?? new JArray();
+                        string logContent = tags.Select(tagName => tagName.ToString())
+                            .Aggregate(string.Empty, (current, tagStr) => current + (tagStr + "\n"));
+
+                        logContent = logContent.EndsWith("\n") ? logContent.TrimEnd('\n') : LocalizationHelper.GetString("Error");
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RecruitingResults") + "\n" + logContent);
+
                         break;
                     }
 
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("RecruitingTips"));
-                    toast.AppendContentText(special).ShowRecruit();
+                case "RecruitSpecialTag":
+                    {
+                        string special = subTaskDetails["tag"]?.ToString();
+                        if (special == "支援机械" && Instances.SettingsViewModel.NotChooseLevel1 == false)
+                        {
+                            break;
+                        }
 
-                    break;
-                }
+                        using var toast = new ToastNotification(LocalizationHelper.GetString("RecruitingTips"));
+                        toast.AppendContentText(special).ShowRecruit();
+
+                        break;
+                    }
 
                 case "RecruitRobotTag":
-                {
-                    string special = subTaskDetails["tag"]?.ToString();
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("RecruitingTips"));
-                    toast.AppendContentText(special).ShowRecruitRobot();
+                    {
+                        string special = subTaskDetails["tag"]?.ToString();
+                        using var toast = new ToastNotification(LocalizationHelper.GetString("RecruitingTips"));
+                        toast.AppendContentText(special).ShowRecruitRobot();
 
-                    break;
-                }
+                        break;
+                    }
 
                 case "RecruitResult":
-                {
-                    int level = (int)subTaskDetails["level"];
-                    if (level >= 5)
                     {
-                        using (var toast = new ToastNotification(string.Format(LocalizationHelper.GetString("RecruitmentOfStar"), level)))
+                        int level = (int)subTaskDetails["level"];
+                        if (level >= 5)
                         {
-                            toast.AppendContentText(new string('★', level)).ShowRecruit(row: 2);
+                            using (var toast = new ToastNotification(string.Format(LocalizationHelper.GetString("RecruitmentOfStar"), level)))
+                            {
+                                toast.AppendContentText(new string('★', level)).ShowRecruit(row: 2);
+                            }
+
+                            Instances.TaskQueueViewModel.AddLog(level + " ★ Tags", UiLogColor.RareOperator, "Bold");
+                        }
+                        else
+                        {
+                            Instances.TaskQueueViewModel.AddLog(level + " ★ Tags", UiLogColor.Info);
                         }
 
-                        Instances.TaskQueueViewModel.AddLog(level + " ★ Tags", UiLogColor.RareOperator, "Bold");
-                    }
-                    else
-                    {
-                        Instances.TaskQueueViewModel.AddLog(level + " ★ Tags", UiLogColor.Info);
-                    }
-
-                    /*
-                    bool robot = (bool)subTaskDetails["robot"];
-                    if (robot)
-                    {
-                        using (var toast = new ToastNotification(Localization.GetString("RecruitmentOfBot")))
+                        /*
+                        bool robot = (bool)subTaskDetails["robot"];
+                        if (robot)
                         {
-                            toast.AppendContentText(new string('★', 1)).ShowRecruitRobot(row: 2);
+                            using (var toast = new ToastNotification(Localization.GetString("RecruitmentOfBot")))
+                            {
+                                toast.AppendContentText(new string('★', 1)).ShowRecruitRobot(row: 2);
+                            }
+
+                            Instances.TaskQueueViewModel.AddLog(1 + " ★ Tag", LogColor.RobotOperator, "Bold");
                         }
+                        */
 
-                        Instances.TaskQueueViewModel.AddLog(1 + " ★ Tag", LogColor.RobotOperator, "Bold");
+                        break;
                     }
-                    */
-
-                    break;
-                }
 
                 case "RecruitTagsSelected":
-                {
-                    JArray selected = (JArray)subTaskDetails["tags"] ?? new JArray();
-                    string selectedLog = selected.Aggregate(string.Empty, (current, tag) => current + (tag + "\n"));
+                    {
+                        JArray selected = (JArray)subTaskDetails["tags"] ?? new JArray();
+                        string selectedLog = selected.Aggregate(string.Empty, (current, tag) => current + (tag + "\n"));
 
-                    selectedLog = selectedLog.EndsWith("\n") ? selectedLog.TrimEnd('\n') : LocalizationHelper.GetString("NoDrop");
+                        selectedLog = selectedLog.EndsWith("\n") ? selectedLog.TrimEnd('\n') : LocalizationHelper.GetString("NoDrop");
 
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Choose") + " Tags：\n" + selectedLog);
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Choose") + " Tags：\n" + selectedLog);
 
-                    break;
-                }
+                        break;
+                    }
 
                 case "RecruitTagsRefreshed":
-                {
-                    int refreshCount = (int)subTaskDetails["count"];
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Refreshed") + refreshCount + LocalizationHelper.GetString("UnitTime"));
-                    break;
-                }
+                    {
+                        int refreshCount = (int)subTaskDetails["count"];
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Refreshed") + refreshCount + LocalizationHelper.GetString("UnitTime"));
+                        break;
+                    }
 
                 case "RecruitNoPermit":
-                {
-                    bool continueRefresh = (bool)subTaskDetails["continue"];
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString(continueRefresh ? "ContinueRefresh" : "NoRecruitmentPermit"));
-                    break;
-                }
+                    {
+                        bool continueRefresh = (bool)subTaskDetails["continue"];
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString(continueRefresh ? "ContinueRefresh" : "NoRecruitmentPermit"));
+                        break;
+                    }
 
                 case "NotEnoughStaff":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("NotEnoughStaff"), UiLogColor.Error);
@@ -1110,15 +1109,15 @@ namespace MaaWpfGui.Main
 
                 /* Roguelike */
                 case "StageInfo":
-                {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartCombat") + subTaskDetails["name"]);
-                    if (Instances.SettingsViewModel.RoguelikeDelayAbortUntilCombatComplete)
                     {
-                        Instances.TaskQueueViewModel.RoguelikeInCombatAndShowWait = true;
-                    }
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartCombat") + subTaskDetails["name"]);
+                        if (Instances.SettingsViewModel.RoguelikeDelayAbortUntilCombatComplete)
+                        {
+                            Instances.TaskQueueViewModel.RoguelikeInCombatAndShowWait = true;
+                        }
 
-                    break;
-                }
+                        break;
+                    }
 
                 case "StageInfoError":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StageInfoError"), UiLogColor.Error);
@@ -1134,12 +1133,12 @@ namespace MaaWpfGui.Main
                     break;
 
                 case "PenguinId":
-                {
-                    string id = subTaskDetails["id"]?.ToString();
-                    Instances.SettingsViewModel.PenguinId = id;
+                    {
+                        string id = subTaskDetails["id"]?.ToString();
+                        Instances.SettingsViewModel.PenguinId = id;
 
-                    break;
-                }
+                        break;
+                    }
 
                 case "BattleFormation":
                     Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("BattleFormation") + "\n" + JsonConvert.SerializeObject(subTaskDetails["formation"]));
@@ -1150,21 +1149,21 @@ namespace MaaWpfGui.Main
                     break;
 
                 case "CopilotAction":
-                {
-                    string doc = subTaskDetails["doc"]?.ToString();
-                    if (doc?.Length != 0)
                     {
-                        string color = subTaskDetails["doc_color"]?.ToString();
-                        Instances.CopilotViewModel.AddLog(doc, color?.Length == 0 ? UiLogColor.Message : color);
+                        string doc = subTaskDetails["doc"]?.ToString();
+                        if (doc?.Length != 0)
+                        {
+                            string color = subTaskDetails["doc_color"]?.ToString();
+                            Instances.CopilotViewModel.AddLog(doc, color?.Length == 0 ? UiLogColor.Message : color);
+                        }
+
+                        Instances.CopilotViewModel.AddLog(
+                            string.Format(LocalizationHelper.GetString("CurrentSteps"),
+                                subTaskDetails["action"],
+                                subTaskDetails["target"]));
+
+                        break;
                     }
-
-                    Instances.CopilotViewModel.AddLog(
-                        string.Format(LocalizationHelper.GetString("CurrentSteps"),
-                            subTaskDetails["action"],
-                            subTaskDetails["target"]));
-
-                    break;
-                }
 
                 case "CopilotListLoadTaskFileSuccess":
                     Instances.CopilotViewModel.AddLog($"Parse {subTaskDetails["file_name"]}[{subTaskDetails["stage_name"]}] Success");
