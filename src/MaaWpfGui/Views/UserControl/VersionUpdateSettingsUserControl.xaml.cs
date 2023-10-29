@@ -74,7 +74,7 @@ namespace MaaWpfGui.Views.UserControl
                 {
                     try
                     {
-                        Clipboard.SetDataObject(text);
+                        Clipboard.SetData(DataFormats.Text, text);
                     }
                     catch (Exception e)
                     {
