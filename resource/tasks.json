@@ -4164,8 +4164,7 @@
             20,
             160,
             40
-        ],
-        "preDelay": 300
+        ]
     },
     "UseMedicine": {
         "doc": "绑定MedicineCounter来使用理智药",
