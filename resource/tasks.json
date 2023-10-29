@@ -11922,7 +11922,6 @@
         ]
     },
     "Roguelike@StageTraderInvestSystemError": {
-        "action": "ClickSelf",
         "cache": false,
         "roi": [
             508,

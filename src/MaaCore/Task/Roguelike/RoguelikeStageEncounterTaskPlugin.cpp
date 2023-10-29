@@ -11,6 +11,7 @@
 
 bool asst::RoguelikeStageEncounterTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
+    // 安全屋，掷骰子之类的带选项的也都是视为不期而遇了
     if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
@@ -71,7 +72,12 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     std::string text = resultVec.front().text;
 
     RoguelikeEvent event = event_map.at(text);
+
     Log.info("Event:", event.name, "choose option", event.default_choose);
+    auto info = basic_info_with_what("RoguelikeEvent");
+    info["details"]["name"] = event.name;
+    info["details"]["default_choose"] = event.default_choose;
+    callback(AsstMsg::SubTaskExtraInfo, info);
     for (int j = 0; j < 2; ++j) {
         ProcessTask(*this, { m_roguelike_theme + "@Roguelike@OptionChoose" + std::to_string(event.option_num) + "-" +
                              std::to_string(event.default_choose) })
