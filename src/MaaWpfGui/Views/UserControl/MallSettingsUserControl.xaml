@@ -40,6 +40,17 @@
                     Text="{DynamicResource CreditFight}"
                     TextWrapping="Wrap" />
             </CheckBox>
+            <ComboBox
+                Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource UseFormation}"
+                hc:InfoElement.TitlePlacement="Left"
+                hc:InfoElement.TitleWidth="120"
+                IsHitTestVisible="{Binding Idle}"
+                ItemsSource="{Binding FormationSelectList}"
+                SelectedValue="{Binding CreditFightSelectFormation}"
+                SelectedValuePath="Value"
+                Style="{StaticResource ComboBoxExtend}"
+                Visibility="{c:Binding CreditFightTaskEnabledDisplay}" />
         </StackPanel>
 
         <StackPanel Visibility="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}">

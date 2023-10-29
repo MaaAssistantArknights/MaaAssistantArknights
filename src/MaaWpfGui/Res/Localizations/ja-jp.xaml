@@ -614,6 +614,8 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="SelectExtraTags">タグを選択すると、常に 3 つのタグが選択されます</system:String>
     <system:String x:Key="NotEnoughStaff">利用可能なオペレーターが不足しています</system:String>
     <system:String x:Key="StageInfoError">ステージ認識エラー</system:String>
+    <system:String x:Key="UseFormation">使用編成</system:String>
+    <system:String x:Key="Current">現在</system:String>
     <system:String x:Key="BattleFormation">編成開始</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">オペレーターを選択: </system:String>
     <system:String x:Key="CurrentSteps">現在の手順: {0} {1}</system:String>
