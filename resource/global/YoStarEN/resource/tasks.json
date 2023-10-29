@@ -2212,7 +2212,7 @@
             208
         ]
     },
-    "ExpiringMedicineCheck": {
+    "MedicineExpiringTime": {
         "text": [
             "min",
             "hr",

@@ -4139,40 +4139,17 @@
         "next": []
     },
     "SanityMatch": {
-        "algorithm": "OcrDetect",
-        "text": [],
-        "isAscii": true,
+        "baseTask": "NumberOcrReplace",
         "roi": [
             1120,
             20,
             160,
             40
         ],
-        "ocrReplace": [
-            [
-                "\\|",
-                "/"
-            ],
-            [
-                "o",
-                "0"
-            ],
-            [
-                "O",
-                "0"
-            ],
-            [
-                "I",
-                "1"
-            ],
-            [
-                "l",
-                "1"
-            ]
-        ],
         "preDelay": 300
     },
     "UseMedicine": {
+        "doc": "绑定MedicineCounter来使用理智药",
         "action": "DoNothing",
         "templThreshold": 0.7,
         "roi": [
@@ -4181,72 +4158,81 @@
             400,
             100
         ],
+        "reduceOtherTimes": [
+            "StartButton1"
+        ],
         "next": [
-            "MedicineConfirm"
+            "StartButton1",
+            "OfflineConfirm",
+            "CloseStonePage"
         ]
     },
     "MedicineConfirm": {
         "action": "ClickSelf",
-        "maxTimes": 0,
         "roi": [
             1000,
             500,
             200,
             150
         ],
-        "reduceOtherTimes": [
-            "StartButton1"
-        ],
-        "exceededNext": [
-            "ExpiringMedicineCheck",
-            "CloseStonePage"
-        ],
+        "cache": false,
+        "postDelay": 1000,
         "next": [
-            "StartButton1",
-            "OfflineConfirm",
-            "MedicineConfirmAgain@LoadingText"
+            "#self",
+            "Stop"
         ]
     },
-    "MedicineConfirmAgain": {
-        "Doc": "Refer to Task `StoneConfirmAgain`",
-        "baseTask": "MedicineConfirm",
-        "template": "MedicineConfirm.png",
-        "maxTimes": 2147483647,
-        "reduceOtherTimes": []
-    },
-    "UseStone": {
-        "action": "DoNothing",
+    "MedicineReduceIcon": {
+        "preDelay": 500,
         "roi": [
-            600,
-            130,
-            420,
-            420
+            750,
+            200,
+            500,
+            50
         ],
-        "next": [
-            "StoneConfirm"
+        "maskRange": [
+            1,
+            255
         ]
     },
-    "DrGrandetUseOriginiums": {
-        "algorithm": "OcrDetect",
-        "text": [],
-        "roi": [
-            50,
-            376,
-            230,
-            40
+    "UsingMedicineCount": {
+        "baseTask": "NumberOcrReplace",
+        "rectMove": [
+            -95,
+            28,
+            105,
+            60
         ],
-        "preDelay": 3000,
-        "preDelay_Doc": "提前多少毫秒再次识别，单位毫秒",
-        "postDelay": 355000,
-        "postDelay_Doc": "大于多少毫秒才碎石，否则等待，单位毫秒"
+        "specialParams": [
+            150,
+            255
+        ]
     },
-    "ExpiringMedicineCheck": {
-        "action": "DoNothing",
+    "MedicineInventory": {
+        "baseTask": "NumberOcrReplace",
+        "rectMove": [
+            -29,
+            87,
+            40,
+            33
+        ],
+        "specialParams": [
+            150,
+            255
+        ]
+    },
+    "MedicineExpiringTime": {
         "algorithm": "OcrDetect",
         "text": [
             "分钟",
             "小时",
             "1天"
+        ],
+        "rectMove": [
+            -55,
+            135,
+            65,
+            20
         ],
         "ocrReplace": [
             [
@@ -4265,38 +4251,50 @@
                 "^\\d+分$",
                 "分钟"
             ]
-        ],
-        "roi": [
-            675,
-            345,
-            125,
-            30
-        ],
-        "fullMatch": true,
-        "next": [
-            "ExpiringMedicineConfirm"
         ]
     },
-    "ExpiringMedicineConfirm": {
-        "action": "ClickSelf",
-        "template": "MedicineConfirm.png",
+    "UsingMedicine-Target": {
+        "baseTask": "NumberOcrReplace",
         "roi": [
-            1000,
-            500,
-            200,
-            150
+            255,
+            390,
+            315,
+            140
+        ]
+    },
+    "UsingMedicine-SanityMax": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            440,
+            330,
+            150,
+            55
+        ]
+    },
+    "DrGrandetUseOriginiums": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [
+            50,
+            376,
+            230,
+            40
         ],
-        "reduceOtherTimes": [
-            "StartButton1"
-        ],
-        "maxTimes": 0,
-        "exceededNext": [
-            "CloseStonePage"
+        "preDelay": 3000,
+        "preDelay_Doc": "提前多少毫秒再次识别，单位毫秒",
+        "postDelay": 355000,
+        "postDelay_Doc": "大于多少毫秒才碎石，否则等待，单位毫秒"
+    },
+    "UseStone": {
+        "action": "DoNothing",
+        "roi": [
+            600,
+            130,
+            420,
+            420
         ],
         "next": [
-            "StartButton1",
-            "OfflineConfirm",
-            "ExpiringMedicineConfirm@LoadingText"
+            "StoneConfirm"
         ]
     },
     "StoneConfirm": {

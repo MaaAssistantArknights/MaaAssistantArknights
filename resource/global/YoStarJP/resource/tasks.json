@@ -2352,7 +2352,7 @@
             "残り配置可能数"
         ]
     },
-    "ExpiringMedicineCheck": {
+    "MedicineExpiringTime": {
         "text": [
             "分",
             "時間",
