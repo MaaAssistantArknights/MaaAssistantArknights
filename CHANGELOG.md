@@ -1,61 +1,49 @@
-## v4.26.0-beta.2
+## v4.26.0-beta.3
 
 ### 新增
 
-- 公招出高星干员时选中多个tag (#6900) @broken-paint
-- IS 关卡导航 @ABA2396
+- 肉鸽增加不期而遇事件名输出 (#7112) @status102
+- 调整理智药使用为按瓶计数，移除了博朗台在使用理智药不溢出情况下的额外等待，调整Wpf理智药使用输出 (#7022) @status102
+- 新增获取信用-借助战时使用指定编队 (#7061) @status102 @broken-paint @MistEO
+- 萨米肉鸽使用密文板  (#7086) @Lancarus @zzyyyl
+- Add Operator JP/12章 @wallsman
 
 ### 改进
 
-- 开始任务后强制锁定当前基建配置，强制定时启动时强制刷新基建配置 @ABA2396
-- perf 优化萨米肉鸽部分关卡策略 @Lancarus
-- 优化水月肉鸽策略 (#7043) @Yumi0606
-- perf & typo: removed redundant variable & variable typo (#7032) @Constrat
-- perf & refactor: 重构 tools/AutoLocalization (#6995) @quyansiyuanwang @Constrat
-- 优化部分肉鸽逻辑 (#7004) @Lancarus
-- 当清空自动战斗-战斗列表中的所有任务时，移除缓存中的战斗列表文件夹 (#6994) @status102
+- 增加雷电模拟器 nc 截图方式 (#7062) @zzyyyl
+- add some mirror for resource updates @MistEO
+- 优化部分情况下，单个刷理智任务在多次执行时等待时间过长 (#7108) @status102
+- 优化Wpf关卡数据更新提示，改为Growl.Info (#7103) @status102
+- 优化萨米肉鸽部分关卡策略 (#7099) (#7075) @Lancarus
 
 ### 修复
 
-- 修复“迷城”界面公开招募有时出错的问题 @zzyyyl
-- 修复肉鸽探索失败后卡在每月委托/解锁收藏品等界面 @zzyyyl
-- 剪切板错误 @ABA2396
-- fix #7027 (#7039) @Cryolitia
-- 修复肉鸽打完退出的问题 @zzyyyl
-- 修复Wpf自动战斗-战斗列表-批量导入时，缓存文件夹未存在导致报错的bug；调整关卡名匹配规则 (#6988) @status102
-- YostarEN Mizuki I.S. Trader + encouter regex (#6993) @Constrat
-- 修复部分模板图片 @zzyyyl
-- 修复美服 “A Cold Separation”（寒渊惜别）关卡识别错误 @zzyyyl
-- 修复 maatouch 滑动 @zzyyyl
-- 調整繁中服某些不期而遇的 ocrReplace (#6977) @momomochi987 @MistEO
+- 調整繁中服「照我以火」導航任務、替換水月肉鴿 "繼續探索" 圖片 (#7085) @momomochi987
+- As in my Adumbration operator implementation @Constrat
+- Morgan 摩根 ocrreplace [skip ci] @Constrat
+- c# warnings @MistEO
+- 修复Wpf无法复制版本号至剪贴板 (#7109) @status102
+- 优化设置引导界面的视觉效果，并给 UI Theme 添加翻译 (#7047) @SherkeyXD
+- Mizuki I.S. encouter regex [skip ci] @Constrat
+- Terra Research Commission EN regex [skip ci] @Constrat
+- 叙拉古人活动导航 @ABA2396
+- Il Siracusano enter screen change @Constrat
+- 修复日文文档中顿号导致的渲染问题 @SherkeyXD
+- coredump after failing to restart minitouch @horror-proton
+- 修复肉鸽编队会漏选干员的问题（比如>=3页） (#7038) @wengzhe
+- fix：萨米肉鸽层名ocr错误 @Lancarus
+- resource updater + updated data (#7079) @Constrat
+- 修复在点击停止后下一次开始任务时可能操作延时很高的问题 (#7052) @zzyyyl
+- duplicate update in stage.json (my mistake from 859802071176f9f145dabd6f3c3ecb442cc3663c) @Constrat
+- 修复日服基建换班卡在宿舍 (#7068) @MejiroSilence
+- 修复 #7016 可能影响的部分任务 (#7066) @zzyyyl
+- SkipThePreBattlePlot lowered threshold @Constrat
+- 修复公招多选 Tags 选项不保存的问题 (#7065) @broken-paint
+- fix code block in user guide for CLI (#7060) @wangl-cc
 
 ### 其他
 
-- TaskData 优化 (#6844) @zzyyyl
-- 增加任务截图插件 (#6973) @zzyyyl
-- 声明 baseTask 的任务直接覆盖同名任务 (#7016) @zzyyyl
-- bump `maa-cli` and update documents (#7050) @wangl-cc
-- add 1 sec delay for resource OTA @MistEO
-- 增加 TaskSorter 脚本对 tasks.json 进行排序 (#7046) @zzyyyl
-- Change to Appimage Package on Linux (#7030) @Cryolitia
-- 删除多余引用 @ABA2396
-- Auto Update Game Resources - 2023-10-22 @MistEO
-- Auto Update Game Resources - 2023-10-22 @MistEO
-- Auto Update Game Resources - 2023-10-19 @MistEO
-- Revert "feat: 删除无用的 Roguelike@Continue 相关任务" @zzyyyl
-- 补充基建排班协议中`period`字段不存在时的计划切换动作 (#6998) @status102
-- re-write changelog_generator in algorithm (#6972) @quyansiyuanwang
-- update MaaCore.vcxproj.filters @zzyyyl
-- fix some warnings from visual studio (#7031) @status102
-
-### For overseas
-
-#### YostarJP
-
-- 日服保全派驻 (#7012) @Manicsteiner
-
-#### txwy
-
-- 繁中服 保全派駐 (#7021) @vonnoq
-- 繁中服「照我以火」活動導航 (#7002) @momomochi987 @Constrat @zzyyyl
-- 繁中服 保全派駐識別修正 (#7041) @vonnoq
+- 多划几次 @ABA2396
+- format @zzyyyl
+- manual after res-update fix @Constrat
+- Wpf迁移MaaCore引用，统一合并至MaaService (#6945) @status102
