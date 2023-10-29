@@ -17,7 +17,6 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Windows.Documents;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using Stylet;

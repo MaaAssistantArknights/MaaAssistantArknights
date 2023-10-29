@@ -11,10 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using System.Diagnostics;
 using System.Threading.Tasks;
-using System.Windows.Documents;
-using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using Stylet;
