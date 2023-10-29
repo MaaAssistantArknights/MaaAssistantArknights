@@ -869,10 +869,6 @@ namespace MaaWpfGui.Main
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("SafeHouse"));
                                 break;
 
-                            case "StageEncounterEnter":
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Encounter"));
-                                break;
-
                             // case "StageBoonsEnter":
                             //    Instances.TaskQueueViewModel.AddLog("古堡馈赠");
                             //    break;
@@ -1137,6 +1133,10 @@ namespace MaaWpfGui.Main
                 case "RoguelikeCombatEnd":
                     // 肉鸽战斗结束，无论成功与否
                     Instances.TaskQueueViewModel.RoguelikeInCombatAndShowWait = false;
+                    break;
+
+                case "RoguelikeEvent":
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeEvent") + $" {subTaskDetails["name"]}");
                     break;
 
                 case "PenguinId":
