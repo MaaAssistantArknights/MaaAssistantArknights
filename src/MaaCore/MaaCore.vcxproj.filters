@@ -450,7 +450,7 @@
     <ClInclude Include="Task\Roguelike\RoguelikeFoldartalUseTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Roguelike\RoguelikeConfig.h">
+    <ClInclude Include="Task\Roguelike\RoguelikeInterface.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeControlTaskPlugin.h">
@@ -558,9 +558,6 @@
     <ClInclude Include="Controller\ControlScaleProxy.h">
       <Filter>Source\Controller</Filter>
     </ClInclude>
-    <ClInclude Include="Controller\MaaThriftController.h">
-      <Filter>Source\Controller</Filter>
-    </ClInclude>
     <ClInclude Include="Controller\MaatouchController.h">
       <Filter>Source\Controller</Filter>
     </ClInclude>
@@ -660,9 +657,6 @@
     <ClInclude Include="Task\Miscellaneous\TaskFileReloadTask.h">
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Roguelike\RoguelikeConfig.h">
-      <Filter>Source\Task\Roguelike</Filter>
-    </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
@@ -671,6 +665,9 @@
     </ClInclude>
     <ClInclude Include="Task\Miscellaneous\ScreenshotTaskPlugin.h">
       <Filter>Source\Task\Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeData.h">
+      <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -926,7 +923,7 @@
     <ClCompile Include="Task\Roguelike\RoguelikeFoldartalUseTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Roguelike\RoguelikeConfig.cpp">
+    <ClCompile Include="Task\Roguelike\RoguelikeInterface.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeControlTaskPlugin.cpp">
@@ -1117,6 +1114,10 @@
     </ClCompile>
     <ClCompile Include="Task\Fight\MedicineCounterPlugin.cpp">
       <Filter>Source\Task\Fight</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\MaaThriftController.h" />
+    <ClCompile Include="Task\Roguelike\RoguelikeData.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

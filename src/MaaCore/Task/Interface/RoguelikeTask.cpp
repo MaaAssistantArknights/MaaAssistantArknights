@@ -8,6 +8,7 @@
 #include "Task/Roguelike/RoguelikeBattleTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeControlTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeCustomStartTaskPlugin.h"
+#include "Task/Roguelike/RoguelikeData.h"
 #include "Task/Roguelike/RoguelikeDebugTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeDifficultySelectionTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeFormationTaskPlugin.h"
@@ -25,7 +26,7 @@
 #include "Utils/Logger.hpp"
 
 asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst)
-    : InterfaceTask(callback, inst, TaskType),
+    : InterfaceTask(callback, inst, TaskType), m_roguelike_data_ptr(std::make_shared<RoguelikeData>()),
       m_roguelike_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType))
 {
     LogTraceFunction;
@@ -56,6 +57,12 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
     m_foldartal_gain_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalGainTaskPlugin>();
     m_foldartal_use_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalUseTaskPlugin>();
 
+    for (const auto& plugin : m_roguelike_task_ptr->get_plugins()) {
+        if (auto ptr = std::dynamic_pointer_cast<RoguelikeInterface>(plugin)) {
+            ptr->set_roguelike_data(m_roguelike_data_ptr);
+        }
+    }
+
     // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加一点。先这样凑合用
     for (int i = 0; i != 100; ++i) {
         m_subtasks.emplace_back(m_roguelike_task_ptr);
@@ -78,14 +85,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         return false;
     }
 
-    for (const auto& plugin : m_roguelike_task_ptr->get_plugins()) {
-        if (auto ptr = std::dynamic_pointer_cast<RoguelikeConfig>(plugin)) {
-            ptr->set_roguelike_theme(theme);
-        }
-    }
-
-    m_foldartal_gain_plugin_ptr->set_roguelike_theme(theme);
-    m_foldartal_use_plugin_ptr->set_roguelike_theme(theme);
+    m_roguelike_data_ptr->set_roguelike_theme(theme);
 
     m_roguelike_task_ptr->set_tasks({ theme + "@Roguelike@Begin" });
 

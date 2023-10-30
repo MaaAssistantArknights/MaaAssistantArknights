@@ -5,6 +5,7 @@ namespace asst
 {
     class ProcessTask;
     class ScreenshotTaskPlugin;
+    class RoguelikeData;
     class RoguelikeBattleTaskPlugin;
     class RoguelikeControlTaskPlugin;
     class RoguelikeCustomStartTaskPlugin;
@@ -33,6 +34,8 @@ namespace asst
         virtual bool set_params(const json::value& params) override;
 
     private:
+        std::shared_ptr<RoguelikeData> m_roguelike_data_ptr;
+
         std::shared_ptr<ProcessTask> m_roguelike_task_ptr = nullptr;
         std::shared_ptr<ScreenshotTaskPlugin> m_screenshot_plugin_ptr = nullptr;
         std::shared_ptr<RoguelikeControlTaskPlugin> m_control_plugin_ptr = nullptr;

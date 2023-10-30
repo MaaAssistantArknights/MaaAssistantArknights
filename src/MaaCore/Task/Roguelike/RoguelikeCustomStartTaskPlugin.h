@@ -1,6 +1,6 @@
 #pragma once
 #include "Task/AbstractTaskPlugin.h"
-#include "Task/Roguelike/RoguelikeConfig.h"
+#include "Task/Roguelike/RoguelikeInterface.h"
 
 namespace asst
 {
@@ -15,7 +15,7 @@ namespace asst
         // CoCoreChar,  // 次选干员， 干员名
     };
 
-    class RoguelikeCustomStartTaskPlugin : public AbstractTaskPlugin, public RoguelikeConfig
+    class RoguelikeCustomStartTaskPlugin : public AbstractTaskPlugin, public RoguelikeInterface
     {
     public:
         using AbstractTaskPlugin::AbstractTaskPlugin;

@@ -8,11 +8,11 @@
 #include "Config/Miscellaneous/TilePack.h"
 #include "Task/AbstractTaskPlugin.h"
 #include "Task/BattleHelper.h"
-#include "Task/Roguelike/RoguelikeConfig.h"
+#include "Task/Roguelike/RoguelikeInterface.h"
 
 namespace asst
 {
-    class RoguelikeBattleTaskPlugin : public AbstractTaskPlugin, private BattleHelper, public RoguelikeConfig
+    class RoguelikeBattleTaskPlugin : public AbstractTaskPlugin, private BattleHelper, public RoguelikeInterface
     {
         using Time_Point = std::chrono::time_point<std::chrono::system_clock>;
 

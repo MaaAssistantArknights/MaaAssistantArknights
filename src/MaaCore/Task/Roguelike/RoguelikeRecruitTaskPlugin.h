@@ -1,7 +1,7 @@
 #pragma once
 #include "Common/AsstBattleDef.h"
 #include "Task/AbstractTaskPlugin.h"
-#include "Task/Roguelike/RoguelikeConfig.h"
+#include "Task/Roguelike/RoguelikeInterface.h"
 
 namespace asst
 {
@@ -13,7 +13,7 @@ namespace asst
         int page_index = 0;        // 所在页码 (用于判断翻页方向)
         bool is_alternate = false; // 是否后备干员 (允许重复招募、划到后备干员时不再往右划动)
     };
-    class RoguelikeRecruitTaskPlugin : public AbstractTaskPlugin, public RoguelikeConfig
+    class RoguelikeRecruitTaskPlugin : public AbstractTaskPlugin, public RoguelikeInterface
     {
     public:
         using AbstractTaskPlugin::AbstractTaskPlugin;

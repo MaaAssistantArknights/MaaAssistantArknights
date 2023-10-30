@@ -1,12 +1,12 @@
 #pragma once
 #include "Task/AbstractTaskPlugin.h"
-#include "Task/Roguelike/RoguelikeConfig.h"
+#include "Task/Roguelike/RoguelikeInterface.h"
 
 #include <unordered_map>
 
 namespace asst
 {
-    class RoguelikeSkillSelectionTaskPlugin final : public AbstractTaskPlugin, public RoguelikeConfig
+    class RoguelikeSkillSelectionTaskPlugin final : public AbstractTaskPlugin, public RoguelikeInterface
     {
     public:
         using AbstractTaskPlugin::AbstractTaskPlugin;
