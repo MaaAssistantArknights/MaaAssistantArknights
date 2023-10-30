@@ -45,7 +45,6 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::_run()
             ProcessTask(*this, { m_roguelike_theme + "@Roguelike@ChooseDifficulty_Easiest" }).run();
         }
         ProcessTask(*this, { m_roguelike_theme + "@Roguelike@ChooseDifficultyConfirm" }).run();
-        ProcessTask(*this, { m_roguelike_theme + "@Roguelike@StartExploreConfirm" }).run();
     }
 
     return true;
