@@ -11,7 +11,7 @@
 
 namespace asst
 {
-    class RoguelikeBattleTaskPlugin : private BattleHelper, public AbstractRoguelikeTaskPlugin
+    class RoguelikeBattleTaskPlugin : public AbstractRoguelikeTaskPlugin, private BattleHelper
     {
         using Time_Point = std::chrono::time_point<std::chrono::system_clock>;
 
