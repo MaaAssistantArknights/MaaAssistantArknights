@@ -24,8 +24,8 @@ using namespace asst::battle;
 using namespace asst::battle::roguelike;
 
 asst::RoguelikeBattleTaskPlugin::RoguelikeBattleTaskPlugin(const AsstCallback& callback, Assistant* inst,
-                                                           std::string_view task_chain)
-    : AbstractTaskPlugin(callback, inst, task_chain), BattleHelper(inst)
+                                                           std::string_view task_chain, std::shared_ptr<RoguelikeData>roguelike_data)
+    : AbstractRoguelikeTaskPlugin(callback, inst, task_chain, roguelike_data), BattleHelper(inst)
 {}
 
 bool asst::RoguelikeBattleTaskPlugin::verify(AsstMsg msg, const json::value& details) const

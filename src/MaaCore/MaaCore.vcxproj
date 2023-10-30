@@ -92,7 +92,7 @@
     <ClInclude Include="Task\Roguelike\RoguelikeData.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeFoldartalGainTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeFoldartalUseTaskPlugin.h" />
-    <ClInclude Include="Task\Roguelike\RoguelikeInterface.h" />
+    <ClInclude Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeDifficultySelectionTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeLastRewardTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.h" />
@@ -264,7 +264,7 @@
     <ClCompile Include="Task\Roguelike\RoguelikeData.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeFoldartalGainTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeFoldartalUseTaskPlugin.cpp" />
-    <ClCompile Include="Task\Roguelike\RoguelikeInterface.cpp" />
+    <ClCompile Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeDifficultySelectionTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeLastRewardTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.cpp" />

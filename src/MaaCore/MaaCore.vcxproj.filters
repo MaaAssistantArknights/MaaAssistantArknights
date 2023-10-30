@@ -450,7 +450,7 @@
     <ClInclude Include="Task\Roguelike\RoguelikeFoldartalUseTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Roguelike\RoguelikeInterface.h">
+    <ClInclude Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeControlTaskPlugin.h">
@@ -923,7 +923,7 @@
     <ClCompile Include="Task\Roguelike\RoguelikeFoldartalUseTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Roguelike\RoguelikeInterface.cpp">
+    <ClCompile Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeControlTaskPlugin.cpp">

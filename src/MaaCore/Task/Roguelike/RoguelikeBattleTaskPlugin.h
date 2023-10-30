@@ -3,23 +3,23 @@
 #include <queue>
 #include <stack>
 
+#include "AbstractRoguelikeTaskPlugin.h"
 #include "Common/AsstBattleDef.h"
 #include "Common/AsstTypes.h"
 #include "Config/Miscellaneous/TilePack.h"
-#include "Task/AbstractTaskPlugin.h"
 #include "Task/BattleHelper.h"
-#include "Task/Roguelike/RoguelikeInterface.h"
 
 namespace asst
 {
-    class RoguelikeBattleTaskPlugin : public AbstractTaskPlugin, private BattleHelper, public RoguelikeInterface
+    class RoguelikeBattleTaskPlugin : private BattleHelper, public AbstractRoguelikeTaskPlugin
     {
         using Time_Point = std::chrono::time_point<std::chrono::system_clock>;
 
         inline static const std::unordered_set<std::string> DiceSet = { "骰子", "8面骰子", "12面骰子" };
 
     public:
-        RoguelikeBattleTaskPlugin(const AsstCallback& callback, Assistant* inst, std::string_view task_chain);
+        RoguelikeBattleTaskPlugin(const AsstCallback& callback, Assistant* inst, std::string_view task_chain,
+                                  std::shared_ptr<RoguelikeData> roguelike_data);
         virtual ~RoguelikeBattleTaskPlugin() override = default;
 
         virtual bool verify(AsstMsg msg, const json::value& details) const override;

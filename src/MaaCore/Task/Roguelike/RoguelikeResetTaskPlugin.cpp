@@ -8,7 +8,7 @@ bool asst::RoguelikeResetTaskPlugin::verify(AsstMsg msg, const json::value& deta
     if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
-
+    
     if (m_roguelike_data->get_theme().empty()) {
         Log.error("Roguelike name doesn't exist!");
         return false;
@@ -29,7 +29,7 @@ bool asst::RoguelikeResetTaskPlugin::verify(AsstMsg msg, const json::value& deta
 
 bool asst::RoguelikeResetTaskPlugin::_run()
 {
-    // 改什么改，status是你家的是吧
+    // status是你家的是吧
     // 简单粗暴，后面如果多任务间有联动可能要改改
     status()->clear_number();
     status()->clear_str();
