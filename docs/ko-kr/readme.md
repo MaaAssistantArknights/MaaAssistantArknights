@@ -121,7 +121,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 감사드립니다! (\*´▽｀)ノノ
 
-[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
+[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=114514&columns=20)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
 
 ## 개발 관련 정보
 
