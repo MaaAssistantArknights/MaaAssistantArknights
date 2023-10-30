@@ -33,5 +33,7 @@ bool asst::RoguelikeResetTaskPlugin::_run()
     // 简单粗暴，后面如果多任务间有联动可能要改改
     status()->clear_number();
     status()->clear_str();
+
+    m_roguelike_data->clear();
     return true;
 }
