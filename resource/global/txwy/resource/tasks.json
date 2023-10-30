@@ -1534,6 +1534,9 @@
             "已達上限"
         ]
     },
+    "VisitNextBlack": {
+        "templThreshold": 0.85
+    },
     "CreditShop-NoMoney": {
         "text": [
             "信用不足",
