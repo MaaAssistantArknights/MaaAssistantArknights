@@ -5425,7 +5425,7 @@
                 "委托冒险者"
             ],
             [
-                "Adventurer Commiss.*",
+                "Adventurer Comm.*",
                 "委托冒险者"
             ],
             [
@@ -5538,6 +5538,10 @@
             ],
             [
                 "Reprieve",
+                "解脱"
+            ],
+            [
+                ".*Reprieve.*",
                 "解脱"
             ],
             [
