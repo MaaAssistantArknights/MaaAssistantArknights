@@ -85,7 +85,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         return false;
     }
 
-    m_roguelike_data_ptr->set_roguelike_theme(theme);
+    m_roguelike_data_ptr->set_theme(theme);
 
     m_roguelike_task_ptr->set_tasks({ theme + "@Roguelike@Begin" });
 
