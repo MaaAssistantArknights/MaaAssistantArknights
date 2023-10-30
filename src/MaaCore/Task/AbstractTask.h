@@ -39,11 +39,11 @@ namespace asst
         virtual AbstractTask& set_ignore_error(bool ignore) noexcept;
         virtual AbstractTask& set_task_id(int task_id) noexcept;
 
-        template <typename PluginType, class... _Types>
+        template <typename PluginType, class... Args>
         requires std::derived_from<PluginType, AbstractTaskPlugin> // Plugin must inherit AbstractTaskPlugin
-        std::shared_ptr<PluginType> register_plugin(_Types&&... _Args)
+        std::shared_ptr<PluginType> register_plugin(Args&&... args)
         {
-            auto plugin = std::make_shared<PluginType>(m_callback, m_inst, m_task_chain, _Args);
+            auto plugin = std::make_shared<PluginType>(m_callback, m_inst, m_task_chain, std::forward<Args>(args)...);
             m_plugins.emplace_back(plugin);
             return plugin;
         }
