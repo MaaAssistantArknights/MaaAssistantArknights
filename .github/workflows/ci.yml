@@ -232,6 +232,7 @@ jobs:
           Name=MaaAssistantArknights
           Icon=maa
           Exec=AppRun
+          Terminal=true
           Categories=Game;StrategyGame;
           Comment=An Arknights assistant
           EOF
