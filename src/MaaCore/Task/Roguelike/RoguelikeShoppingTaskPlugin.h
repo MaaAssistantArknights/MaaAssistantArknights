@@ -13,5 +13,6 @@ namespace asst
 
     protected:
         virtual bool _run() override;
+        bool shopping(bool& bought);
     };
 }
