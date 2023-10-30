@@ -57,11 +57,8 @@ bool asst::RoguelikeFoldartalGainTaskPlugin::_run()
     LogTraceFunction;
 
     std::string theme = m_roguelike_data->get_theme();
-    std::string mode = status()->get_properties(Status::RoguelikeMode).value();
 
-    auto image = ctrler()->get_image();
-
-    OCRer analyzer(image);
+    OCRer analyzer(ctrler()->get_image());
     std::string foldartal = "None";
     if (m_ocr_next_level) {
         analyzer.set_task_info(theme + "@Roguelike@FoldartalGainOcrNextLevel");

@@ -32,12 +32,12 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    std::string mode = status()->get_properties(Status::RoguelikeMode).value();
+    auto mode = m_roguelike_data->get_roguelike_mode();
     // todo:以后可以根据传入的难度值选择难度?
 
     // 当前难度
     std::string difficulty = status()->get_properties(Status::RoguelikeDifficulty).value();
-    if (m_roguelike_data->get_theme() != "Phantom" && mode == "4") {
+    if (m_roguelike_data->get_theme() != "Phantom" && mode == RoguelikeMode::Collectible) {
         if (difficulty == "max") {
             ProcessTask(*this, { m_roguelike_data->get_theme() + "@Roguelike@ChooseDifficulty_Hardest" }).run();
         }
