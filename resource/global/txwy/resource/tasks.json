@@ -84,6 +84,11 @@
             "大典"
         ]
     },
+    "Mizuki@Roguelike@ChooseDifficultyConfirm": {
+        "text": [
+            "選擇"
+        ]
+    },
     "ClickChapter1": {
         "text": [
             "覺醒"
@@ -4512,11 +4517,6 @@
                 "渴欲大廳",
                 "_exit"
             ]
-        ]
-    },
-    "Mizuki@Roguelike@ChooseDifficultyConfirm": {
-        "text": [
-            "選擇"
         ]
     },
     "Mizuki@Roguelike@NextLevel": {

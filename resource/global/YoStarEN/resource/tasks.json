@@ -1,4 +1,9 @@
 {
+    "Mizuki@Roguelike@ChooseDifficultyConfirm": {
+        "text": [
+            "Select"
+        ]
+    },
     "ClickChapter1": {
         "text": [
             "Hour of An Awakening",
@@ -5910,11 +5915,6 @@
                 "Hall of Desires",
                 "_exit"
             ]
-        ]
-    },
-    "Mizuki@Roguelike@ChooseDifficultyConfirm": {
-        "text": [
-            "Select"
         ]
     },
     "Mizuki@Roguelike@GetDropBoxOpen": {
