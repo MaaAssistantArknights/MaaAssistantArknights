@@ -1841,10 +1841,10 @@
     "IS-Open": {
         "action": "ClickSelf",
         "roi": [
-            77,
-            64,
-            396,
-            437
+            476,
+            0,
+            502,
+            720
         ],
         "sub": [
             "EnterChapterIS"
@@ -4164,8 +4164,7 @@
             20,
             160,
             40
-        ],
-        "preDelay": 300
+        ]
     },
     "UseMedicine": {
         "doc": "绑定MedicineCounter来使用理智药",
@@ -12202,18 +12201,6 @@
             "Roguelike@StartExplore"
         ]
     },
-    "Roguelike@StartExploreConfirm": {
-        "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "postDelay": 2000,
-        "roi": [
-            1064,
-            294,
-            216,
-            170
-        ]
-    },
     "Roguelike@StrategyChange": {
         "baseTask": "Roguelike@StrategyChange_default"
     },
@@ -12694,19 +12681,6 @@
         ],
         "next": [
             "Roguelike@StartExplore"
-        ]
-    },
-    "Mizuki@Roguelike@ChooseDifficultyConfirm": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": [
-            "选择"
-        ],
-        "roi": [
-            1064,
-            294,
-            216,
-            170
         ]
     },
     "Mizuki@Roguelike@ChooseDifficulty_Easiest": {
@@ -13316,9 +13290,6 @@
         ]
     },
     "Mizuki@Roguelike@StartExplore": {},
-    "Mizuki@Roguelike@StartExploreConfirm": {
-        "template": "Mizuki@Roguelike@StartExplore.png"
-    },
     "Mizuki@Roguelike@StrategyChange_mode0": {
         "text": [
             "_aggressive",
@@ -14608,15 +14579,6 @@
         ]
     },
     "Sami@Roguelike@StartExplore": {
-        "roi": [
-            958,
-            530,
-            322,
-            189
-        ]
-    },
-    "Sami@Roguelike@StartExploreConfirm": {
-        "template": "Sami@Roguelike@StartExplore.png",
         "roi": [
             958,
             530,
