@@ -17,6 +17,7 @@
 - 调整理智药使用为按瓶计数，移除了博朗台在使用理智药不溢出情况下的额外等待，调整Wpf理智药使用输出 (#7022) @status102
 - 新增获取信用-借助战时使用指定编队 (#7061) @status102 @broken-paint @MistEO
 - 萨米肉鸽使用密文板  (#7086) @Lancarus @zzyyyl
+- macOS 完成后关闭客户端 @AndersonALAC @hguandl
 
 ### 改进
 
