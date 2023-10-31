@@ -89,7 +89,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         return false;
     }
 
-    m_roguelike_config_ptr->set_roguelike_theme(theme);
+    m_roguelike_config_ptr->set_theme(theme);
     m_roguelike_task_ptr->set_tasks({ theme + "@Roguelike@Begin" });
 
     // 0 - 刷经验，尽可能稳定地打更多层数，不期而遇采用激进策略
