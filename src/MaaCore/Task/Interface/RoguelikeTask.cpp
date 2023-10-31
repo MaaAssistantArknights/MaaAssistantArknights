@@ -6,6 +6,7 @@
 #include "Task/Miscellaneous/ScreenshotTaskPlugin.h"
 #include "Task/ProcessTask.h"
 #include "Task/Roguelike/RoguelikeBattleTaskPlugin.h"
+#include "Task/Roguelike/RoguelikeConfig.h"
 #include "Task/Roguelike/RoguelikeControlTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeCustomStartTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeDebugTaskPlugin.h"
@@ -26,35 +27,45 @@
 
 asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst)
     : InterfaceTask(callback, inst, TaskType),
-      m_roguelike_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType))
+      m_roguelike_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
+      m_roguelike_config_ptr(std::make_shared<RoguelikeConfig>())
 {
     LogTraceFunction;
 
     m_roguelike_task_ptr->set_ignore_error(true);
     m_screenshot_plugin_ptr = m_roguelike_task_ptr->register_plugin<ScreenshotTaskPlugin>();
-    m_formation_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeFormationTaskPlugin>();
-    m_control_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeControlTaskPlugin>();
-    m_reset_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeResetTaskPlugin>();
-    m_debug_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeDebugTaskPlugin>();
-    m_shopping_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeShoppingTaskPlugin>();
+    m_formation_plugin_ptr =
+        m_roguelike_task_ptr->register_plugin<RoguelikeFormationTaskPlugin>(m_roguelike_config_ptr);
+    m_control_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeControlTaskPlugin>(m_roguelike_config_ptr);
+    m_reset_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeResetTaskPlugin>(m_roguelike_config_ptr);
+    m_debug_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeDebugTaskPlugin>(m_roguelike_config_ptr);
+    m_shopping_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeShoppingTaskPlugin>(m_roguelike_config_ptr);
     m_shopping_plugin_ptr->set_retry_times(0);
 
-    m_custom_start_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeCustomStartTaskPlugin>();
-    m_battle_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeBattleTaskPlugin>();
+    m_custom_start_plugin_ptr =
+        m_roguelike_task_ptr->register_plugin<RoguelikeCustomStartTaskPlugin>(m_roguelike_config_ptr);
+    m_battle_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeBattleTaskPlugin>(m_roguelike_config_ptr);
     m_battle_plugin_ptr->set_retry_times(0).set_ignore_error(true);
-    m_recruit_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeRecruitTaskPlugin>();
+    m_recruit_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeRecruitTaskPlugin>(m_roguelike_config_ptr);
     m_recruit_plugin_ptr->set_retry_times(2).set_ignore_error(true);
-    m_skill_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeSkillSelectionTaskPlugin>();
+    m_skill_plugin_ptr =
+        m_roguelike_task_ptr->register_plugin<RoguelikeSkillSelectionTaskPlugin>(m_roguelike_config_ptr);
     m_skill_plugin_ptr->set_retry_times(2).set_ignore_error(true);
-    m_stage_encounter_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeStageEncounterTaskPlugin>();
+    m_stage_encounter_plugin_ptr =
+        m_roguelike_task_ptr->register_plugin<RoguelikeStageEncounterTaskPlugin>(m_roguelike_config_ptr);
     m_stage_encounter_plugin_ptr->set_retry_times(0);
 
-    m_last_reward_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeLastRewardTaskPlugin>();
-    m_difficulty_selection_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeDifficultySelectionTaskPlugin>();
-    m_strategy_change_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeStrategyChangeTaskPlugin>();
+    m_last_reward_plugin_ptr =
+        m_roguelike_task_ptr->register_plugin<RoguelikeLastRewardTaskPlugin>(m_roguelike_config_ptr);
+    m_difficulty_selection_plugin_ptr =
+        m_roguelike_task_ptr->register_plugin<RoguelikeDifficultySelectionTaskPlugin>(m_roguelike_config_ptr);
+    m_strategy_change_plugin_ptr =
+        m_roguelike_task_ptr->register_plugin<RoguelikeStrategyChangeTaskPlugin>(m_roguelike_config_ptr);
 
-    m_foldartal_gain_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalGainTaskPlugin>();
-    m_foldartal_use_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalUseTaskPlugin>();
+    m_foldartal_gain_plugin_ptr =
+        m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalGainTaskPlugin>(m_roguelike_config_ptr);
+    m_foldartal_use_plugin_ptr =
+        m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalUseTaskPlugin>(m_roguelike_config_ptr);
 
     // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加一点。先这样凑合用
     for (int i = 0; i != 100; ++i) {
@@ -78,15 +89,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         return false;
     }
 
-    for (const auto& plugin : m_roguelike_task_ptr->get_plugins()) {
-        if (auto ptr = std::dynamic_pointer_cast<RoguelikeConfig>(plugin)) {
-            ptr->set_roguelike_theme(theme);
-        }
-    }
-
-    m_foldartal_gain_plugin_ptr->set_roguelike_theme(theme);
-    m_foldartal_use_plugin_ptr->set_roguelike_theme(theme);
-
+    m_roguelike_config_ptr->set_roguelike_theme(theme);
     m_roguelike_task_ptr->set_tasks({ theme + "@Roguelike@Begin" });
 
     // 0 - 刷经验，尽可能稳定地打更多层数，不期而遇采用激进策略
