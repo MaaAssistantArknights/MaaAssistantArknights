@@ -389,6 +389,8 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
                 return true;
             }
             deploy_oper(deploy_plan.oper_name, deploy_plan.placed, deploy_plan.direction);
+            // 防止滑动丢失,点一下右下角费用那里
+            ProcessTask(this_task(), { "BattleSwipeOperClickCorner" }).run();           
             // 开始计时
             auto deployed_time = std::chrono::steady_clock::now();
             m_deployed_time.insert_or_assign(deploy_plan.oper_name, deployed_time);
