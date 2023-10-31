@@ -6,6 +6,7 @@
 #include "Task/Miscellaneous/ScreenshotTaskPlugin.h"
 #include "Task/ProcessTask.h"
 #include "Task/Roguelike/RoguelikeBattleTaskPlugin.h"
+#include "Task/Roguelike/RoguelikeConfig.h"
 #include "Task/Roguelike/RoguelikeControlTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeCustomStartTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeDebugTaskPlugin.h"
@@ -26,7 +27,8 @@
 
 asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst)
     : InterfaceTask(callback, inst, TaskType),
-      m_roguelike_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType))
+      m_roguelike_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
+      m_roguelike_config_ptr(std::make_shared<RoguelikeConfig>())
 {
     LogTraceFunction;
 
@@ -38,6 +40,7 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
     m_debug_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeDebugTaskPlugin>();
     m_shopping_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeShoppingTaskPlugin>();
     m_shopping_plugin_ptr->set_retry_times(0);
+    m_shopping_plugin_ptr->set_roguelike_config(m_roguelike_config_ptr);
 
     m_custom_start_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeCustomStartTaskPlugin>();
     m_battle_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeBattleTaskPlugin>();
@@ -86,6 +89,8 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
 
     m_foldartal_gain_plugin_ptr->set_roguelike_theme(theme);
     m_foldartal_use_plugin_ptr->set_roguelike_theme(theme);
+
+    m_roguelike_config_ptr->set_roguelike_theme(theme);
 
     m_roguelike_task_ptr->set_tasks({ theme + "@Roguelike@Begin" });
 
