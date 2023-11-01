@@ -1,1 +1,16 @@
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - 'resource/**'
+      - '.github/workflows/sync-resource.yml'
 
+jobs:
+  sync-reource:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout MaaResource
+        run: |
+          git clone https://github.com/MaaAssistantArknights/MaaResource
