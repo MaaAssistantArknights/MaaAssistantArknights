@@ -4241,16 +4241,11 @@
     },
     "MedicineExpiringTime": {
         "algorithm": "OcrDetect",
+        "fullMatch": true,
         "text": [
             "分钟",
             "小时",
             "1天"
-        ],
-        "rectMove": [
-            -55,
-            135,
-            65,
-            20
         ],
         "ocrReplace": [
             [
@@ -4269,6 +4264,12 @@
                 "^\\d+分$",
                 "分钟"
             ]
+        ],
+        "rectMove": [
+            -55,
+            135,
+            65,
+            20
         ]
     },
     "UsingMedicine-Target": {
