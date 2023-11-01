@@ -222,6 +222,7 @@
     <system:String x:Key="RunTaskAfterLaunch">啟動後直接執行</system:String>
     <system:String x:Key="MinimizeAfterLaunch">啟動後直接最小化</system:String>
     <system:String x:Key="ClientType">用戶端類型</system:String>
+    <system:String x:Key="TxwyLoginType">登入方式</system:String>
     <system:String x:Key="AutoRestartOption">遊戲斷線時自動重連</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">外服適配滯銷，幫幫我們！不會程式也可以。</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">啟動後自動開啟模擬器</system:String>
