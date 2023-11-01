@@ -7541,6 +7541,114 @@
         "stageId": "act28side_tr01",
         "width": 9
     },
+    "act29side_01-activities/act29side/level_act29side_01": {
+        "code": "ZT-1",
+        "filename": "act29side_01-activities-act29side-level_act29side_01.json",
+        "height": 7,
+        "levelId": "activities/act29side/level_act29side_01",
+        "name": "清唱“晴空之歌”",
+        "stageId": "act29side_01",
+        "width": 9
+    },
+    "act29side_02-activities/act29side/level_act29side_02": {
+        "code": "ZT-2",
+        "filename": "act29side_02-activities-act29side-level_act29side_02.json",
+        "height": 7,
+        "levelId": "activities/act29side/level_act29side_02",
+        "name": "序曲“哨兵”",
+        "stageId": "act29side_02",
+        "width": 11
+    },
+    "act29side_03-activities/act29side/level_act29side_03": {
+        "code": "ZT-3",
+        "filename": "act29side_03-activities-act29side-level_act29side_03.json",
+        "height": 7,
+        "levelId": "activities/act29side/level_act29side_03",
+        "name": "练习曲“奇遇”",
+        "stageId": "act29side_03",
+        "width": 10
+    },
+    "act29side_04-activities/act29side/level_act29side_04": {
+        "code": "ZT-4",
+        "filename": "act29side_04-activities-act29side-level_act29side_04.json",
+        "height": 7,
+        "levelId": "activities/act29side/level_act29side_04",
+        "name": "狂想曲“望想”",
+        "stageId": "act29side_04",
+        "width": 10
+    },
+    "act29side_05-activities/act29side/level_act29side_05": {
+        "code": "ZT-5",
+        "filename": "act29side_05-activities-act29side-level_act29side_05.json",
+        "height": 7,
+        "levelId": "activities/act29side/level_act29side_05",
+        "name": "奏鸣曲“秋日”",
+        "stageId": "act29side_05",
+        "width": 10
+    },
+    "act29side_06-activities/act29side/level_act29side_06": {
+        "code": "ZT-6",
+        "filename": "act29side_06-activities-act29side-level_act29side_06.json",
+        "height": 7,
+        "levelId": "activities/act29side/level_act29side_06",
+        "name": "华尔兹“假面”",
+        "stageId": "act29side_06",
+        "width": 11
+    },
+    "act29side_07-activities/act29side/level_act29side_07": {
+        "code": "ZT-7",
+        "filename": "act29side_07-activities-act29side-level_act29side_07.json",
+        "height": 7,
+        "levelId": "activities/act29side/level_act29side_07",
+        "name": "协奏曲“复活”",
+        "stageId": "act29side_07",
+        "width": 11
+    },
+    "act29side_08-activities/act29side/level_act29side_08": {
+        "code": "ZT-8",
+        "filename": "act29side_08-activities-act29side-level_act29side_08.json",
+        "height": 8,
+        "levelId": "activities/act29side/level_act29side_08",
+        "name": "夜歌“未见的高塔”",
+        "stageId": "act29side_08",
+        "width": 11
+    },
+    "act29side_09-activities/act29side/level_act29side_09": {
+        "code": "ZT-9",
+        "filename": "act29side_09-activities-act29side-level_act29side_09.json",
+        "height": 9,
+        "levelId": "activities/act29side/level_act29side_09",
+        "name": "幻想曲“赠答”",
+        "stageId": "act29side_09",
+        "width": 12
+    },
+    "act29side_10-activities/act29side/level_act29side_10": {
+        "code": "ZT-10",
+        "filename": "act29side_10-activities-act29side-level_act29side_10.json",
+        "height": 9,
+        "levelId": "activities/act29side/level_act29side_10",
+        "name": "弥撒“君王”",
+        "stageId": "act29side_10",
+        "width": 12
+    },
+    "act29side_tr01-activities/act29side/level_act29side_tr01": {
+        "code": "ZT-TR-1",
+        "filename": "act29side_tr01-activities-act29side-level_act29side_tr01.json",
+        "height": 7,
+        "levelId": "activities/act29side/level_act29side_tr01",
+        "name": "指挥技巧",
+        "stageId": "act29side_tr01",
+        "width": 10
+    },
+    "act29side_tr02-activities/act29side/level_act29side_tr02": {
+        "code": "ZT-TR-2",
+        "filename": "act29side_tr02-activities-act29side-level_act29side_tr02.json",
+        "height": 7,
+        "levelId": "activities/act29side/level_act29side_tr02",
+        "name": "创作手法",
+        "stageId": "act29side_tr02",
+        "width": 10
+    },
     "act2bossrush_01-activities/act2bossrush/level_bossrush2_01": {
         "code": "TN-1",
         "filename": "act2bossrush_01-activities-act2bossrush-level_bossrush2_01.json",
