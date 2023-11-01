@@ -1023,6 +1023,14 @@
         "sortId": 10021,
         "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
     },
+    "LMTGS_COIN_4401": {
+        "classifyType": "NORMAL",
+        "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
+        "icon": "LMTGS_COIN_4401.png",
+        "name": "寻访数据契约",
+        "sortId": 10022,
+        "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
@@ -1076,7 +1084,7 @@
         "description": "罗德岛的情报处理系统的一个次要功能。从庞杂的信息中提取有效情报后，经过特殊处理，以影像的形式还原出各种事件的流程，精确程度令当事人都感到惊叹。\n做成录像带的样子只是为了方便一般人理解。",
         "icon": "STORY_REVIEW_COIN.png",
         "name": "事相碎片",
-        "sortId": 10202,
+        "sortId": 10203,
         "usage": "有效情报的拓扑模型，可以用来重建过往事件。"
     },
     "act10d5_token_biscuit": {
@@ -1502,6 +1510,46 @@
         "name": "劣质燃料",
         "sortId": -10000,
         "usage": "从达维镇及周围地区回收来的可燃物，热值低，燃烧时会产生大量浓烟，不过能源塔旁有位老工人愿意用矿厂的物资来换取这些燃料。"
+    },
+    "act29side_frag_1": {
+        "classifyType": "NONE",
+        "description": "叩响紧闭的门扉，伸出手去。我们本因欢乐而彼此联结。",
+        "icon": "act29side_frag_1.png",
+        "name": "乐之节符",
+        "sortId": 5200001,
+        "usage": "一片剥落的回忆被术法封存，循着名为“情绪”的节拍在掌心鼓动。先于遗忘，它会被铸成钥匙。"
+    },
+    "act29side_frag_2": {
+        "classifyType": "NONE",
+        "description": "叩响紧闭的门扉，伸出手去。我们本因愤怒而彼此联结。",
+        "icon": "act29side_frag_2.png",
+        "name": "怒之节符",
+        "sortId": 5200002,
+        "usage": "一片剥落的回忆被术法封存，循着名为“情绪”的节拍在掌心鼓动。先于遗忘，它会被铸成钥匙。"
+    },
+    "act29side_frag_3": {
+        "classifyType": "NONE",
+        "description": "叩响紧闭的门扉，伸出手去。我们本因哀伤而彼此联结。",
+        "icon": "act29side_frag_3.png",
+        "name": "哀之节符",
+        "sortId": 5200003,
+        "usage": "一片剥落的回忆被术法封存，循着名为“情绪”的节拍在掌心鼓动。先于遗忘，它会被铸成钥匙。"
+    },
+    "act29side_frag_4": {
+        "classifyType": "NONE",
+        "description": "叩响紧闭的门扉，伸出手去。我们本因恐惧而彼此联结。",
+        "icon": "act29side_frag_4.png",
+        "name": "惧之节符",
+        "sortId": 5200004,
+        "usage": "一片剥落的回忆被术法封存，循着名为“情绪”的节拍在掌心鼓动。先于遗忘，它会被铸成钥匙。"
+    },
+    "act29side_token_erin": {
+        "classifyType": "NONE",
+        "description": "远去的回忆散落在莱塔尼亚的百年都城，承载它们的是支离破碎的乐段。也许同如今的莱塔尼亚一样，它们亦需要经过调律才能被听闻。",
+        "icon": "act29side_token_erin.png",
+        "name": "调律追忆",
+        "sortId": -10000,
+        "usage": "飘落在崔林特尔梅街巷的树叶，时而能在其上拾到遗落的乐句。将它们交给演奏会上的寻律之人，他们会回以音乐的馈赠。"
     },
     "act2bossrush_milestone_point": {
         "classifyType": "NONE",
@@ -2126,6 +2174,14 @@
         "name": "罗德岛物资补给VI",
         "sortId": 60109,
         "usage": "装有各种物资补给，包含多种随机材料。"
+    },
+    "randomMaterial_leith2": {
+        "classifyType": "CONSUME",
+        "description": "“尽管内里如心声般各不相似，它们也足以成为你探寻真相的助力。跟随尚未忘却的回响，你终会抓住那个答案。”",
+        "icon": "randomMaterial_leith2.png",
+        "name": "查访补给",
+        "sortId": 60113,
+        "usage": "不知何人将其交予你，装有各种物资补给，包含多种随机材料。"
     },
     "randomMaterial_rhine2": {
         "classifyType": "CONSUME",
