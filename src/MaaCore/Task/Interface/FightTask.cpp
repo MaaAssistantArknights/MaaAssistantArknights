@@ -4,11 +4,11 @@
 
 #include "Config/TaskData.h"
 #include "Task/Fight/DrGrandetTaskPlugin.h"
+#include "Task/Fight/MedicineCounterPlugin.h"
 #include "Task/Fight/SanityBeforeStagePlugin.h"
 #include "Task/Fight/SideStoryReopenTask.h"
 #include "Task/Fight/StageDropsTaskPlugin.h"
 #include "Task/Fight/StageNavigationTask.h"
-#include "Task/Fight/MedicineCounterPlugin.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/Ranges.hpp"
