@@ -7603,6 +7603,9 @@
         ]
     },
     "InfrastTrainingCompleted": {
+        "algorithm": "OcrDetect",
+        "text": [ "训练完成" ],
+        "fullMatch": true,
         "action": "ClickSelf",
         "roi": [
             350,
