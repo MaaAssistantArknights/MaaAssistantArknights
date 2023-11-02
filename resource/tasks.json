@@ -4136,6 +4136,9 @@
     "WaitAfterPRTS": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
+        "reduceOtherTimes": [
+            "ClickCornerAfterPRTS*5"
+        ],
         "next": [
             "PRTS#next",
             "WaitAfterPRTS@LoadingText",
