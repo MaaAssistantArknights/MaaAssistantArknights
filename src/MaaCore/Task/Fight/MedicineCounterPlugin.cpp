@@ -57,7 +57,8 @@ bool asst::MedicineCounterPlugin::_run()
     }
     else if (m_using_count >= m_max_count && m_use_expiring) {
         bool changed = false;
-        for (const auto& [use, inventory, rect, is_expiring] : initial_count->medicines | asst::ranges::views::reverse) {
+        for (const auto& [use, inventory, rect, is_expiring] :
+             initial_count->medicines | asst::ranges::views::reverse) {
             if (use > 0 && is_expiring != ExpiringStatus::Expiring) {
                 ctrler()->click(rect);
                 sleep(Config.get_options().task_delay);
@@ -123,11 +124,11 @@ std::optional<asst::MedicineCounterPlugin::InitialMedicineResult> asst::Medicine
             return std::nullopt;
         }
 
-        RegionOCRer inventry_ocr(image);
-        inventry_ocr.set_task_info(inventory_task);
-        inventry_ocr.set_bin_threshold(inventory_task->special_params[0], inventory_task->special_params[1]);
-        inventry_ocr.set_roi(inventory_rect);
-        if (!inventry_ocr.analyze()) {
+        RegionOCRer inventory_ocr(image);
+        inventory_ocr.set_task_info(inventory_task);
+        inventory_ocr.set_bin_threshold(inventory_task->special_params[0], inventory_task->special_params[1]);
+        inventory_ocr.set_roi(inventory_rect);
+        if (!inventory_ocr.analyze()) {
             Log.error(__FUNCTION__, "medicine using count analyze failed");
             return std::nullopt;
         }
@@ -147,9 +148,9 @@ std::optional<asst::MedicineCounterPlugin::InitialMedicineResult> asst::Medicine
 
         int using_count = 0, inventory_count = 0;
         if (!utils::chars_to_number(using_count_ocr.get_result().text, using_count) ||
-            !utils::chars_to_number(inventry_ocr.get_result().text, inventory_count)) {
+            !utils::chars_to_number(inventory_ocr.get_result().text, inventory_count)) {
             Log.error(__FUNCTION__, "unable to convert ocr result to int, use:", using_count_ocr.get_result().text,
-                      ", inventory:", inventry_ocr.get_result().text);
+                      ", inventory:", inventory_ocr.get_result().text);
             return std::nullopt;
         }
         use += using_count;

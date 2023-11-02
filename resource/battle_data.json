@@ -1853,6 +1853,21 @@
             ],
             "rarity": 5
         },
+        "char_245_cello": {
+            "name": "塑心",
+            "name_en": "塑心",
+            "name_jp": "塑心",
+            "name_kr": "塑心",
+            "name_tw": "塑心",
+            "position": "RANGED",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "y-2",
+                "y-2",
+                "y-2"
+            ],
+            "rarity": 6
+        },
         "char_248_mgllan": {
             "name": "麦哲伦",
             "name_en": "Magallan",
@@ -3097,6 +3112,21 @@
             ],
             "rarity": 6
         },
+        "char_4011_lessng": {
+            "name": "止颂",
+            "name_en": "止颂",
+            "name_jp": "止颂",
+            "name_kr": "止颂",
+            "name_tw": "止颂",
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 6
+        },
         "char_4013_kjera": {
             "name": "耶拉",
             "name_en": "Kjera",
@@ -3723,6 +3753,36 @@
             ],
             "rarity": 1
         },
+        "char_4098_vvana": {
+            "name": "薇薇安娜",
+            "name_en": "薇薇安娜",
+            "name_jp": "薇薇安娜",
+            "name_kr": "薇薇安娜",
+            "name_tw": "薇薇安娜",
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 6
+        },
+        "char_4100_caper": {
+            "name": "跃跃",
+            "name_en": "跃跃",
+            "name_jp": "跃跃",
+            "name_kr": "跃跃",
+            "name_tw": "跃跃",
+            "position": "RANGED",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-3",
+                "y-7",
+                "y-7"
+            ],
+            "rarity": 4
+        },
         "char_4102_threye": {
             "name": "凛视",
             "name_en": "凛视",
@@ -3797,6 +3857,21 @@
                 "1-1"
             ],
             "rarity": 4
+        },
+        "char_4109_baslin": {
+            "name": "深律",
+            "name_en": "深律",
+            "name_jp": "深律",
+            "name_kr": "深律",
+            "name_tw": "深律",
+            "position": "MELEE",
+            "profession": "TANK",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 5
         },
         "char_4110_delphn": {
             "name": "戴菲恩",
@@ -4485,6 +4560,21 @@
                 "3-1",
                 "3-3",
                 "3-3"
+            ],
+            "rarity": 5
+        },
+        "char_499_kaitou": {
+            "name": "折光",
+            "name_en": "折光",
+            "name_jp": "折光",
+            "name_kr": "折光",
+            "name_tw": "折光",
+            "position": "RANGED",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
             ],
             "rarity": 5
         },
@@ -7239,6 +7329,51 @@
             "name_jp": "勘察用自走车",
             "name_kr": "勘察用自走车",
             "name_tw": "勘察用自走车",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_134_condtr": {
+            "name": "调谐节点",
+            "name_en": "调谐节点",
+            "name_jp": "调谐节点",
+            "name_kr": "调谐节点",
+            "name_tw": "调谐节点",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_135_portlent": {
+            "name": "湮灭之相",
+            "name_en": "湮灭之相",
+            "name_jp": "湮灭之相",
+            "name_kr": "湮灭之相",
+            "name_tw": "湮灭之相",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_136_portlexi": {
+            "name": "创生之相",
+            "name_en": "创生之相",
+            "name_jp": "创生之相",
+            "name_kr": "创生之相",
+            "name_tw": "创生之相",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
