@@ -84,6 +84,11 @@
             "大典"
         ]
     },
+    "Mizuki@Roguelike@ChooseDifficultyConfirm": {
+        "text": [
+            "選擇"
+        ]
+    },
     "ClickChapter1": {
         "text": [
             "覺醒"
@@ -120,6 +125,17 @@
     "SideStoryReopen": {
         "text": [
             "復刻"
+        ]
+    },
+    "IW-Open": {
+        "text": [
+            "將進酒",
+            "關卡已開放"
+        ]
+    },
+    "IWChapterToIW": {
+        "text": [
+            "三山奇聞"
         ]
     },
     "FC-Open": {
@@ -4512,11 +4528,6 @@
                 "渴欲大廳",
                 "_exit"
             ]
-        ]
-    },
-    "Mizuki@Roguelike@ChooseDifficultyConfirm": {
-        "text": [
-            "選擇"
         ]
     },
     "Mizuki@Roguelike@NextLevel": {

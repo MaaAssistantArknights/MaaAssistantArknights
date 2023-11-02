@@ -1,4 +1,9 @@
 {
+    "Mizuki@Roguelike@ChooseDifficultyConfirm": {
+        "text": [
+            "選択"
+        ]
+    },
     "ClickChapter1": {
         "text": [
             "覚醒"
@@ -2353,6 +2358,12 @@
         ]
     },
     "MedicineExpiringTime": {
+        "roi": [
+            705,
+            345,
+            95,
+            30
+        ],
         "text": [
             "分",
             "時間",
@@ -2367,12 +2378,6 @@
                 ".+分",
                 "分"
             ]
-        ],
-        "roi": [
-            705,
-            345,
-            95,
-            30
         ]
     },
     "GoLastBattle": {
@@ -5584,11 +5589,6 @@
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
-    },
-    "Mizuki@Roguelike@ChooseDifficultyConfirm": {
-        "text": [
-            "選択"
-        ]
     },
     "Mizuki@Roguelike@MissionFailedFlag2": {
         "roi": [

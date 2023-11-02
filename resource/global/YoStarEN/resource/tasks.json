@@ -1,4 +1,9 @@
 {
+    "Mizuki@Roguelike@ChooseDifficultyConfirm": {
+        "text": [
+            "Select"
+        ]
+    },
     "ClickChapter1": {
         "text": [
             "Hour of An Awakening",
@@ -389,7 +394,7 @@
                 "空"
             ],
             [
-                "Ss?kad?i? the Corru?pt?ing.*",
+                "Ss?kad?i? the Co?rru?pt?ing.*",
                 "Skadi the Corrupting Heart"
             ],
             [
@@ -2216,7 +2221,7 @@
         "text": [
             "min",
             "hr",
-            "1 day"
+            "1day"
         ],
         "ocrReplace": [
             [
@@ -2226,6 +2231,10 @@
             [
                 ".+mins?",
                 "min"
+            ],
+            [
+                " ",
+                ""
             ]
         ]
     },
@@ -5910,11 +5919,6 @@
                 "Hall of Desires",
                 "_exit"
             ]
-        ]
-    },
-    "Mizuki@Roguelike@ChooseDifficultyConfirm": {
-        "text": [
-            "Select"
         ]
     },
     "Mizuki@Roguelike@GetDropBoxOpen": {

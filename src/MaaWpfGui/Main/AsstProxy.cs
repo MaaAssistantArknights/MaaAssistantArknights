@@ -973,11 +973,14 @@ namespace MaaWpfGui.Main
                     {
                         string allDrops = string.Empty;
                         JArray statistics = (JArray)subTaskDetails["stats"] ?? new JArray();
+                        int curTimes = (int)(subTaskDetails["cur_times"] ?? -1);
+
                         foreach (var item in statistics)
                         {
                             string itemName = item["itemName"]?.ToString();
                             int totalQuantity = (int)item["quantity"];
                             int addQuantity = (int)item["addQuantity"];
+
                             allDrops += $"{itemName} : {totalQuantity:#,#}";
                             if (addQuantity > 0)
                             {
@@ -988,8 +991,8 @@ namespace MaaWpfGui.Main
                         }
 
                         allDrops = allDrops.EndsWith("\n") ? allDrops.TrimEnd('\n') : LocalizationHelper.GetString("NoDrop");
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TotalDrop") + "\n" + allDrops);
-
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TotalDrop") + "\n" + allDrops +
+                            (curTimes >= 0 ? $"\n{LocalizationHelper.GetString("CurTimes")} : {curTimes}" : string.Empty));
                         break;
                     }
 
