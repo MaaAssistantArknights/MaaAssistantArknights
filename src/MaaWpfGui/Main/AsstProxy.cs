@@ -973,11 +973,18 @@ namespace MaaWpfGui.Main
                     {
                         string allDrops = string.Empty;
                         JArray statistics = (JArray)subTaskDetails["stats"] ?? new JArray();
+                        int curTimes = (int)(subTaskDetails["cur_times"] ?? -1);
+                        if (curTimes >= 0)
+                        {
+                            allDrops += $"{LocalizationHelper.GetString("CurTimes")} : {curTimes}";
+                        }
+
                         foreach (var item in statistics)
                         {
                             string itemName = item["itemName"]?.ToString();
                             int totalQuantity = (int)item["quantity"];
                             int addQuantity = (int)item["addQuantity"];
+
                             allDrops += $"{itemName} : {totalQuantity:#,#}";
                             if (addQuantity > 0)
                             {

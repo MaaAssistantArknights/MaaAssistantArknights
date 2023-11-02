@@ -594,6 +594,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="EmergencyDps">레벨: 긴급 작전</system:String>
     <system:String x:Key="DreadfulFoe">레벨: 험난한 길</system:String>
     <system:String x:Key="RoguelikeEvent">로그라이크 이벤트:</system:String>
+    <system:String x:Key="CurTimes">현재 횟수</system:String>
     <system:String x:Key="NoDrop">없음</system:String>
     <system:String x:Key="Drop" xml:space="preserve">드롭: </system:String>
     <system:String x:Key="TotalDrop" xml:space="preserve">드롭 통계: </system:String>
