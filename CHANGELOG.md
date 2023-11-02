@@ -2,7 +2,7 @@
 
 ### 新增
 
-- 支持掉落次数识别+上传 @MistEO @ABA2396
+- 支持掉落次数识别+上传 @MistEO @ABA2396 @zzyyyl
 - ZT 关卡导航 @ABA2396
 - Mac GUI 领取邮件 @hguandl
 - DepotEnter适配界面主题 (#7145) @ZhaoZuohong
