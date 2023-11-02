@@ -405,6 +405,9 @@
     <ClInclude Include="Task\Infrast\InfrastOfficeTask.h">
       <Filter>Source\Task\Infrast</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Infrast\InfrastTrainingTask.h">
+      <Filter>Source\Task\Infrast</Filter>
+    </ClInclude>
     <ClInclude Include="Task\Infrast\InfrastPowerTask.h">
       <Filter>Source\Task\Infrast</Filter>
     </ClInclude>
@@ -1118,5 +1121,8 @@
     </ClCompile>
     <ClCompile Include="Controller\MaaThriftController.h" />
     <ClCompile Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.cpp" />
+    <ClCompile Include="Task\Infrast\InfrastTrainingTask.cpp">
+      <Filter>Source\Task\Infrast</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
