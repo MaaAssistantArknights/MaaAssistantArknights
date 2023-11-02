@@ -8367,9 +8367,13 @@
     "StageDrops-TimesRec": {
         "baseTask": "NumberOcrReplace",
         "isAscii": false,
-        "text": [
-        ],
-        "roi": [ 73, 364, 221, 31 ]
+        "text": [],
+        "roi": [
+            73,
+            364,
+            221,
+            31
+        ]
     },
     "StageDrops-BaseLine": {
         "template": "empty.png",
