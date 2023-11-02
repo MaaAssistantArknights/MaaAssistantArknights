@@ -6527,6 +6527,34 @@
         ],
         "templThreshold": 0.95
     },
+    "InfrastTraining": {
+        "template": "Training.png",
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            880,
+            420,
+            400,
+            160
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastTrainingMini": {
+        "template": "TrainingMini.png",
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            980,
+            400,
+            300,
+            140
+        ],
+        "templThreshold": 0.95
+    },
     "InfrastControl": {
         "template": "ControlCenter.png",
         "maskRange": [
@@ -7572,6 +7600,19 @@
             "ClueGiveTo4th",
             "ClueGiveToNextPage",
             "ClueGiveTo1stConfirm"
+        ]
+    },
+    "InfrastTrainingCompleted": {
+        "action": "ClickSelf",
+        "roi": [
+            350,
+            600,
+            200,
+            120
+        ],
+        "postDelay": 5000,
+        "next": [
+            "CloseTaskAward"
         ]
     },
     "InfrastOperListTabSkillUnClicked": {

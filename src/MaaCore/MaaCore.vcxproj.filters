@@ -408,6 +408,9 @@
     <ClInclude Include="Task\Infrast\InfrastOfficeTask.h">
       <Filter>Source\Task\Infrast</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Infrast\InfrastTrainingTask.h">
+      <Filter>Source\Task\Infrast</Filter>
+    </ClInclude>
     <ClInclude Include="Task\Infrast\InfrastPowerTask.h">
       <Filter>Source\Task\Infrast</Filter>
     </ClInclude>
@@ -1147,6 +1150,9 @@
     </ClCompile>
     <ClCompile Include="Config\TaskData\TaskDataSymbolStream.cpp">
       <Filter>Source\Resource\TaskData</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Infrast\InfrastTrainingTask.cpp">
+      <Filter>Source\Task\Infrast</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
