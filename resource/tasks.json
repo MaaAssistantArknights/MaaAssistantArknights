@@ -970,111 +970,6 @@
             120
         ]
     },
-    "SideStoryStage": {
-        "Doc": "base_task",
-        "algorithm": "OcrDetect",
-        "baseTask": "Stage",
-        "isAscii": true,
-        "text": [],
-        "ocrReplace": [
-            [
-                " (\\d)",
-                "-$1"
-            ],
-            [
-                "-1O$",
-                "-10$"
-            ]
-        ],
-        "roi": [
-            0,
-            60,
-            1280,
-            550
-        ]
-    },
-    "CV-8": {
-        "algorithm": "JustReturn",
-        "sub": [
-            "CV-Open"
-        ],
-        "next": [
-            "CV-8@SideStoryStage",
-            "CV-8@SwipeToStage"
-        ]
-    },
-    "CV-7": {
-        "algorithm": "JustReturn",
-        "sub": [
-            "CV-Open"
-        ],
-        "next": [
-            "CV-7@SideStoryStage",
-            "CV-7@SwipeToStage"
-        ]
-    },
-    "CV-6": {
-        "algorithm": "JustReturn",
-        "sub": [
-            "CV-Open"
-        ],
-        "next": [
-            "CV-6@SideStoryStage",
-            "CV-6@SwipeToStage"
-        ]
-    },
-    "CV-Open": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
-        "text": [
-            "不义之财",
-            "已开放"
-        ],
-        "postDelay": 2000,
-        "roi": [
-            0,
-            500,
-            500,
-            150
-        ],
-        "next": [
-            "CVChapterToCV"
-        ]
-    },
-    "CVChapterToCV": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "cache": false,
-        "text": [
-            "苍白",
-            "平台"
-        ],
-        "preDelay": 1000,
-        "roi": [
-            1092,
-            438,
-            118,
-            36
-        ],
-        "next": [
-            "ChapterSwipeToTheRight"
-        ]
-    },
-    "CV-8@SideStoryStage": {
-        "text": [
-            "CV-8"
-        ]
-    },
-    "CV-7@SideStoryStage": {
-        "text": [
-            "CV-7"
-        ]
-    },
-    "CV-6@SideStoryStage": {
-        "text": [
-            "CV-6"
-        ]
-    },
     "SideStoryReopen": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
@@ -1161,6 +1056,195 @@
             "StageQueue@NoStone",
             "StageQueue@OfflineConfirm",
             "StageQueue@StartButton1TryAgain"
+        ]
+    },
+    "SideStoryStage": {
+        "Doc": "base_task",
+        "algorithm": "OcrDetect",
+        "baseTask": "Stage",
+        "isAscii": true,
+        "text": [],
+        "ocrReplace": [
+            [
+                " (\\d)",
+                "-$1"
+            ],
+            [
+                "-1O$",
+                "-10$"
+            ]
+        ],
+        "roi": [
+            0,
+            60,
+            1280,
+            550
+        ]
+    },
+    "ZT-9": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "ZT-OpenOcr"
+        ],
+        "next": [
+            "ZT-9@SideStoryStage",
+            "ZT-9@SwipeToStage"
+        ]
+    },
+    "ZT-8": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "ZT-OpenOcr"
+        ],
+        "next": [
+            "ZT-8@SideStoryStage",
+            "ZT-8@SwipeToStage"
+        ]
+    },
+    "ZT-7": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "ZT-OpenOcr"
+        ],
+        "next": [
+            "ZT-7@SideStoryStage",
+            "ZT-7@SwipeToStage"
+        ]
+    },
+    "ZT-OpenOcr": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "崔林",
+            "之金",
+            "恩典",
+            "无情"
+        ],
+        "postDelay": 2000,
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "next": [
+            "ZTChapterToZT"
+        ]
+    },
+    "ZTChapterToZT": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "朝见",
+            "双塔"
+        ],
+        "preDelay": 1000,
+        "roi": [
+            1059,
+            367,
+            206,
+            129
+        ],
+        "next": [
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "ZT-9@SideStoryStage": {
+        "text": [
+            "ZT-9"
+        ]
+    },
+    "ZT-8@SideStoryStage": {
+        "text": [
+            "ZT-8"
+        ]
+    },
+    "ZT-7@SideStoryStage": {
+        "text": [
+            "ZT-7"
+        ]
+    },
+    "CV-8": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "CV-Open"
+        ],
+        "next": [
+            "CV-8@SideStoryStage",
+            "CV-8@SwipeToStage"
+        ]
+    },
+    "CV-7": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "CV-Open"
+        ],
+        "next": [
+            "CV-7@SideStoryStage",
+            "CV-7@SwipeToStage"
+        ]
+    },
+    "CV-6": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "CV-Open"
+        ],
+        "next": [
+            "CV-6@SideStoryStage",
+            "CV-6@SwipeToStage"
+        ]
+    },
+    "CV-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "不义之财",
+            "已开放"
+        ],
+        "postDelay": 2000,
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "next": [
+            "CVChapterToCV"
+        ]
+    },
+    "CVChapterToCV": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "苍白",
+            "平台"
+        ],
+        "preDelay": 1000,
+        "roi": [
+            1092,
+            438,
+            118,
+            36
+        ],
+        "next": [
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "CV-8@SideStoryStage": {
+        "text": [
+            "CV-8"
+        ]
+    },
+    "CV-7@SideStoryStage": {
+        "text": [
+            "CV-7"
+        ]
+    },
+    "CV-6@SideStoryStage": {
+        "text": [
+            "CV-6"
         ]
     },
     "SL-8": {
