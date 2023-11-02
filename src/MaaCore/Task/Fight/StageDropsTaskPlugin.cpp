@@ -182,7 +182,7 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
     json::value& details = info["details"];
     details["stars"] = m_stars;
     if (m_times >= 0) {
-        details["times"] = m_times;
+        details["cur_times"] = m_times;
     }
     details["stats"] = json::array(std::move(stats_vec));
     details["drops"] = json::array(std::move(drops_vec));
