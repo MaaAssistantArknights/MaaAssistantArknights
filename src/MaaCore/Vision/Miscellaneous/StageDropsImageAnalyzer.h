@@ -18,12 +18,14 @@ namespace asst
 
         StageKey get_stage_key() const;
         int get_stars() const noexcept;
+        int get_times() const noexcept;
 
         // <drop_type, <item_id, quantity>>
         const auto& get_drops() const noexcept { return m_drops; }
 
     protected:
         bool analyze_stage_code();
+        bool analyze_times();
         bool analyze_stars();
         bool analyze_difficulty();
         bool analyze_baseline();
@@ -43,6 +45,7 @@ namespace asst
         std::string match_item(const Rect& roi, StageDropType type, int index, int size);
 
         std::string m_stage_code;
+        int m_times = -1; // -2 means recognition failed, -1 means not found
         StageDifficulty m_difficulty = StageDifficulty::Normal;
         int m_stars = 0;
         std::vector<std::pair<Rect, StageDropType>> m_baseline;
