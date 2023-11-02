@@ -648,6 +648,171 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _listTitle, value);
         }
 
+        private void InfrastInit()
+        {
+            /* 基建设置 */
+            var facilityList = new[]
+            {
+                "Mfg",
+                "Trade",
+                "Control",
+                "Power",
+                "Reception",
+                "Office",
+                "Dorm",
+                "Processing",
+                "Training",
+            };
+
+            var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[facilityList.Length]);
+            for (int i = 0; i != facilityList.Length; ++i)
+            {
+                var facility = facilityList[i];
+                bool parsed = int.TryParse(ConfigurationHelper.GetFacilityOrder(facility, "-1"), out int order);
+
+                if (!parsed || order < 0)
+                {
+                    tempOrderList[i] = new DragItemViewModel(LocalizationHelper.GetString(facility), facility, "Infrast.");
+                }
+                else
+                {
+                    tempOrderList[order] = new DragItemViewModel(LocalizationHelper.GetString(facility), facility, "Infrast.");
+                }
+            }
+
+            InfrastItemViewModels = new ObservableCollection<DragItemViewModel>(tempOrderList);
+
+            DefaultInfrastList = new List<CombinedData>
+            {
+                new CombinedData { Display = LocalizationHelper.GetString("UserDefined"), Value = UserDefined },
+                new CombinedData { Display = LocalizationHelper.GetString("153Time3"), Value = "153_layout_3_times_a_day.json" },
+                new CombinedData { Display = LocalizationHelper.GetString("243Time3"), Value = "243_layout_3_times_a_day.json" },
+                new CombinedData { Display = LocalizationHelper.GetString("243Time4"), Value = "243_layout_4_times_a_day.json" },
+                new CombinedData { Display = LocalizationHelper.GetString("252Time3"), Value = "252_layout_3_times_a_day.json" },
+                new CombinedData { Display = LocalizationHelper.GetString("333Time3"), Value = "333_layout_for_Orundum_3_times_a_day.json" },
+            };
+
+            UsesOfDronesList = new List<CombinedData>
+            {
+                new CombinedData { Display = LocalizationHelper.GetString("DronesNotUse"), Value = "_NotUse" },
+                new CombinedData { Display = LocalizationHelper.GetString("Money"), Value = "Money" },
+                new CombinedData { Display = LocalizationHelper.GetString("SyntheticJade"), Value = "SyntheticJade" },
+                new CombinedData { Display = LocalizationHelper.GetString("CombatRecord"), Value = "CombatRecord" },
+                new CombinedData { Display = LocalizationHelper.GetString("PureGold"), Value = "PureGold" },
+                new CombinedData { Display = LocalizationHelper.GetString("OriginStone"), Value = "OriginStone" },
+                new CombinedData { Display = LocalizationHelper.GetString("Chip"), Value = "Chip" },
+            };
+
+            ConnectConfigList = new List<CombinedData>
+            {
+                new CombinedData { Display = LocalizationHelper.GetString("General"), Value = "General" },
+                new CombinedData { Display = LocalizationHelper.GetString("BlueStacks"), Value = "BlueStacks" },
+                new CombinedData { Display = LocalizationHelper.GetString("MuMuEmulator"), Value = "MuMuEmulator" },
+                new CombinedData { Display = LocalizationHelper.GetString("MuMuEmulator12"), Value = "MuMuEmulator12" },
+                new CombinedData { Display = LocalizationHelper.GetString("LDPlayer"), Value = "LDPlayer" },
+                new CombinedData { Display = LocalizationHelper.GetString("Nox"), Value = "Nox" },
+                new CombinedData { Display = LocalizationHelper.GetString("XYAZ"), Value = "XYAZ" },
+                new CombinedData { Display = LocalizationHelper.GetString("WSA"), Value = "WSA" },
+                new CombinedData { Display = LocalizationHelper.GetString("Compatible"), Value = "Compatible" },
+                new CombinedData { Display = LocalizationHelper.GetString("SecondResolution"), Value = "SecondResolution" },
+                new CombinedData { Display = LocalizationHelper.GetString("GeneralWithoutScreencapErr"), Value = "GeneralWithoutScreencapErr" },
+            };
+
+            TouchModeList = new List<CombinedData>
+            {
+                new CombinedData { Display = LocalizationHelper.GetString("MiniTouchMode"), Value = "minitouch" },
+                new CombinedData { Display = LocalizationHelper.GetString("MaaTouchMode"), Value = "maatouch" },
+                new CombinedData { Display = LocalizationHelper.GetString("AdbTouchMode"), Value = "adb" },
+            };
+
+            _dormThresholdLabel = LocalizationHelper.GetString("DormThreshold") + ": " + _dormThreshold + "%";
+
+            FormationSelectList = new List<CombinedData>
+            {
+                new CombinedData { Display = LocalizationHelper.GetString("Current"), Value = "0" },
+                new CombinedData { Display = "1", Value = "1" },
+                new CombinedData { Display = "2", Value = "2" },
+                new CombinedData { Display = "3", Value = "3" },
+                new CombinedData { Display = "4", Value = "4" },
+            };
+
+            RoguelikeModeList = new List<CombinedData>
+            {
+                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = "0" },
+                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = "1" },
+
+                // new CombData { Display = "两者兼顾，投资过后退出", Value = "2" } // 弃用
+                // new CombData { Display = Localization.GetString("3"), Value = "3" },  // 开发中
+                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeLastReward"), Value = "4" },
+            };
+
+            RoguelikeThemeList = new List<CombinedData>
+            {
+                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeThemePhantom"), Value = "Phantom" },
+                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeThemeMizuki"), Value = "Mizuki" },
+                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeThemeSami"), Value = "Sami" },
+            };
+
+            UpdateRoguelikeSquadList();
+            UpdateRoguelikeCoreCharList();
+
+            RoguelikeRolesList = new List<CombinedData>
+            {
+                new CombinedData { Display = LocalizationHelper.GetString("DefaultRoles"), Value = string.Empty },
+                new CombinedData { Display = LocalizationHelper.GetString("FirstMoveAdvantage"), Value = "先手必胜" },
+                new CombinedData { Display = LocalizationHelper.GetString("SlowAndSteadyWinsTheRace"), Value = "稳扎稳打" },
+                new CombinedData { Display = LocalizationHelper.GetString("OvercomingYourWeaknesses"), Value = "取长补短" },
+                new CombinedData { Display = LocalizationHelper.GetString("AsYourHeartDesires"), Value = "随心所欲" },
+            };
+
+            ClientTypeList = new List<CombinedData>
+            {
+                new CombinedData { Display = LocalizationHelper.GetString("NotSelected"), Value = string.Empty },
+                new CombinedData { Display = LocalizationHelper.GetString("Official"), Value = "Official" },
+                new CombinedData { Display = LocalizationHelper.GetString("Bilibili"), Value = "Bilibili" },
+                new CombinedData { Display = LocalizationHelper.GetString("YoStarEN"), Value = "YoStarEN" },
+                new CombinedData { Display = LocalizationHelper.GetString("YoStarJP"), Value = "YoStarJP" },
+                new CombinedData { Display = LocalizationHelper.GetString("YoStarKR"), Value = "YoStarKR" },
+                new CombinedData { Display = LocalizationHelper.GetString("Txwy"), Value = "txwy" },
+            };
+
+            var configurations = new ObservableCollection<CombinedData>();
+            foreach (var conf in ConfigurationHelper.GetConfigurationList())
+            {
+                configurations.Add(new CombinedData { Display = conf, Value = conf });
+            }
+
+            ConfigurationList = configurations;
+
+            DarkModeList = new List<GenericCombinedData<DarkModeType>>
+            {
+                new GenericCombinedData<DarkModeType> { Display = LocalizationHelper.GetString("Light"), Value = DarkModeType.Light },
+                new GenericCombinedData<DarkModeType> { Display = LocalizationHelper.GetString("Dark"), Value = DarkModeType.Dark },
+                new GenericCombinedData<DarkModeType> { Display = LocalizationHelper.GetString("SyncWithOs"), Value = DarkModeType.SyncWithOs },
+            };
+
+            InverseClearModeList = new List<CombinedData>
+            {
+                new CombinedData { Display = LocalizationHelper.GetString("Clear"), Value = "Clear" },
+                new CombinedData { Display = LocalizationHelper.GetString("Inverse"), Value = "Inverse" },
+                new CombinedData { Display = LocalizationHelper.GetString("Switchable"), Value = "ClearInverse" },
+            };
+
+            VersionTypeList = new List<GenericCombinedData<UpdateVersionType>>
+            {
+                new GenericCombinedData<UpdateVersionType> { Display = LocalizationHelper.GetString("UpdateCheckNightly"), Value = UpdateVersionType.Nightly },
+                new GenericCombinedData<UpdateVersionType> { Display = LocalizationHelper.GetString("UpdateCheckBeta"), Value = UpdateVersionType.Beta },
+                new GenericCombinedData<UpdateVersionType> { Display = LocalizationHelper.GetString("UpdateCheckStable"), Value = UpdateVersionType.Stable },
+            };
+
+            var languageList = (from pair in LocalizationHelper.SupportedLanguages
+                                where pair.Key != PallasLangKey || Cheers
+                                select new CombinedData { Display = pair.Value, Value = pair.Key })
+                .ToList();
+
+            LanguageList = languageList;
+        }
+
         private bool _idle;
 
         /// <summary>
