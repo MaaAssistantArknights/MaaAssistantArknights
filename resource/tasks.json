@@ -683,6 +683,10 @@
             [
                 "-2O",
                 "-20"
+            ],
+            [
+                "-1O",
+                "-10"
             ]
         ],
         "roi": [
@@ -8351,6 +8355,22 @@
             55
         ]
     },
+    "StageDrops-TimesCheck": {
+        "baseTask": "StageDrops-TimesRec",
+        "text": [
+            "连续",
+            "成功",
+            "代理",
+            "作战"
+        ]
+    },
+    "StageDrops-TimesRec": {
+        "baseTask": "NumberOcrReplace",
+        "isAscii": false,
+        "text": [
+        ],
+        "roi": [ 73, 364, 221, 31 ]
+    },
     "StageDrops-BaseLine": {
         "template": "empty.png",
         "roi": [
@@ -8675,6 +8695,12 @@
     },
     "DepotEnter": {
         "action": "ClickSelf",
+        "template": [
+            "DepotEnter.png",
+            "DepotEnterDark.png",
+            "DepotEnterSami.png",
+            "DepotEnterMistCity.png"
+        ],
         "roi": [
             1109,
             560,

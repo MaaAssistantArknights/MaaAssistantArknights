@@ -119,6 +119,7 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
     m_stage_difficulty = difficulty;
     m_stars = analyzer.get_stars();
     m_cur_drops = analyzer.get_drops();
+    m_times = analyzer.get_times();
 
     if (!ret) {
         auto info = basic_info();
@@ -180,6 +181,9 @@ void asst::StageDropsTaskPlugin::drop_info_callback()
     json::value info = basic_info_with_what("StageDrops");
     json::value& details = info["details"];
     details["stars"] = m_stars;
+    if (m_times >= 0) {
+        details["cur_times"] = m_times;
+    }
     details["stats"] = json::array(std::move(stats_vec));
     details["drops"] = json::array(std::move(drops_vec));
     json::value& stage = details["stage"];
@@ -251,9 +255,18 @@ bool asst::StageDropsTaskPlugin::upload_to_penguin()
         callback(AsstMsg::SubTaskError, cb_info);
         return false;
     }
+    if (m_times == -2) {
+        cb_info["why"] = "UnknownTimes";
+        callback(AsstMsg::SubTaskError, cb_info);
+        return false;
+    }
+
     json::value body;
     body["server"] = m_server;
     body["stageId"] = stage_id;
+    if (m_times >= 0) { // -1 means not found, don't have times field
+        body["times"] = m_times;
+    }
     auto& all_drops = body["drops"];
     for (const auto& drop : m_cur_info_json["drops"].as_array()) {
         static const std::array<std::string, 4> filter = {

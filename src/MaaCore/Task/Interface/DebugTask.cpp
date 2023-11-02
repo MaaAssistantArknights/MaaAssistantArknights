@@ -17,7 +17,7 @@ asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) : Inte
 
 bool asst::DebugTask::run()
 {
-    test_match_template();
+    test_drops();
     return true;
 }
 

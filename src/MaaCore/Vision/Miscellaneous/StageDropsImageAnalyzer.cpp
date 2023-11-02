@@ -1,5 +1,8 @@
 #include "StageDropsImageAnalyzer.h"
 
+#include <numbers>
+#include <regex>
+
 #include "Utils/Ranges.hpp"
 
 #include "Utils/NoWarningCV.h"
@@ -14,8 +17,6 @@
 #include "Vision/RegionOCRer.h"
 #include "Vision/TemplDetOCRer.h"
 
-#include <numbers>
-
 bool asst::StageDropsImageAnalyzer::analyze()
 {
     LogTraceFunction;
@@ -23,6 +24,7 @@ bool asst::StageDropsImageAnalyzer::analyze()
     analyze_stage_code();
     analyze_difficulty();
     analyze_stars();
+    analyze_times();
     bool ret = analyze_drops() && analyze_drops_for_CF() && analyze_drops_for_12();
 
 #ifndef ASST_DEBUG
@@ -41,6 +43,11 @@ asst::StageKey asst::StageDropsImageAnalyzer::get_stage_key() const
 int asst::StageDropsImageAnalyzer::get_stars() const noexcept
 {
     return m_stars;
+}
+
+int asst::StageDropsImageAnalyzer::get_times() const noexcept
+{
+    return m_times;
 }
 
 bool asst::StageDropsImageAnalyzer::analyze_stage_code()
@@ -62,6 +69,61 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_code()
                 cv::Scalar(0, 0, 255), 2);
 #endif
 
+    return true;
+}
+
+bool asst::StageDropsImageAnalyzer::analyze_times()
+{
+    LogTraceFunction;
+    RegionOCRer check_analyzer(m_image);
+    check_analyzer.set_task_info("StageDrops-TimesCheck");
+    if (!check_analyzer.analyze()) {
+        m_times = -1; // not found
+        Log.info(__FUNCTION__, "Times not found");
+#ifdef ASST_DEBUG
+        auto draw_rect = Task.get("StageDrops-TimesCheck")->roi;
+        cv::rectangle(m_image_draw, make_rect<cv::Rect>(draw_rect), cv::Scalar(0, 0, 255), 2);
+        cv::putText(m_image_draw, "Not found times", cv::Point(73, 410), cv::FONT_HERSHEY_SIMPLEX, 0.5,
+                    cv::Scalar(0, 0, 255), 2);
+#endif
+        return true;
+    }
+
+    RegionOCRer rec_analyzer(m_image);
+    rec_analyzer.set_task_info("StageDrops-TimesRec");
+    if (!rec_analyzer.analyze()) {
+        m_times = -2; // recognition failed
+        Log.error(__FUNCTION__, "recognition failed");
+        return false;
+    }
+
+    std::string raw_str = rec_analyzer.get_result().text;
+    Log.info(__FUNCTION__, "raw_str", raw_str);
+
+    std::regex re(R"(\d+)");
+    std::smatch match;
+    if (!std::regex_search(raw_str, match, re)) {
+        m_times = -2;
+        Log.error(__FUNCTION__, "regex_search failed");
+        return false;
+    }
+    std::string str_times = match.str();
+    Log.info(__FUNCTION__, "str_times", str_times);
+
+    if (!utils::chars_to_number(str_times, m_times)) {
+        m_times = -2;
+        Log.error(__FUNCTION__, "chars_to_number failed");
+        return false;
+    }
+
+#ifdef ASST_DEBUG
+    auto draw_rect = Task.get("StageDrops-TimesRec")->roi;
+    cv::rectangle(m_image_draw, make_rect<cv::Rect>(draw_rect), cv::Scalar(0, 0, 255), 2);
+    cv::putText(m_image_draw, "Times: " + std::to_string(m_times), cv::Point(73, 410), cv::FONT_HERSHEY_SIMPLEX, 0.5,
+                cv::Scalar(0, 0, 255), 2);
+#endif
+
+    Log.info(__FUNCTION__, "times", m_times);
     return true;
 }
 
@@ -105,7 +167,7 @@ bool asst::StageDropsImageAnalyzer::analyze_stars()
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw, make_rect<cv::Rect>(matched_rect), cv::Scalar(0, 0, 255), 2);
     cv::putText(m_image_draw, std::to_string(m_stars) + " stars",
-                cv::Point(matched_rect.x, matched_rect.y + matched_rect.height + 20), cv::FONT_HERSHEY_SIMPLEX, 0.5,
+                cv::Point(matched_rect.x + 5, matched_rect.y + matched_rect.height - 5), cv::FONT_HERSHEY_SIMPLEX, 0.5,
                 cv::Scalar(0, 0, 255), 2);
 #endif
 
