@@ -2,14 +2,10 @@
 
 ### 新增
 
+- 支持掉落次数识别+上传 @MistEO @ABA2396
 - ZT 关卡导航 @ABA2396
 - Mac GUI 领取邮件 @hguandl
-- 支持掉落次数识别+上传 @MistEO
 - DepotEnter适配界面主题 (#7145) @ZhaoZuohong
-
-### 改进
-
-- Revert "chore: 試試更新 version.json 內的東西" @MistEO
 
 ### 修复
 
@@ -20,13 +16,13 @@
 - Mac GUI 兼容旧版设置 @hguandl
 - fix：战斗列表崔林特尔梅之金第十关ocr错误 @Lancarus
 
-### 其他
+### For overseas
 
-- Auto Update Game Resources - 2023-11-01 @MistEO
-- Auto Update Game Resources - 2023-11-01 @MistEO
-- Auto Update Game Resources - 2023-10-31 @MistEO
-- Eyjafjalla 艾雅法拉 korean OcrReplace (#7139) @Constrat @Large-Japchae
-- 掉落times字段修改 @MistEO
+#### txwy
+
+- **[【公告】繁中服游戏资源无限期停更](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/7165)**
 - 繁中服「將進酒」復刻活動導航 (#7158) @momomochi987
-- Auto Update Game Resources - 2023-11-02 @MistEO
-- Auto Update Game Resources - 2023-11-01 @MistEO
+
+#### YostarKR
+
+- Eyjafjalla 艾雅法拉 korean OcrReplace (#7139) @Constrat @Large-Japchae
