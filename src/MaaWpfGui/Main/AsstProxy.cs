@@ -974,10 +974,6 @@ namespace MaaWpfGui.Main
                         string allDrops = string.Empty;
                         JArray statistics = (JArray)subTaskDetails["stats"] ?? new JArray();
                         int curTimes = (int)(subTaskDetails["cur_times"] ?? -1);
-                        if (curTimes >= 0)
-                        {
-                            allDrops += $"{LocalizationHelper.GetString("CurTimes")} : {curTimes}";
-                        }
 
                         foreach (var item in statistics)
                         {
@@ -995,8 +991,8 @@ namespace MaaWpfGui.Main
                         }
 
                         allDrops = allDrops.EndsWith("\n") ? allDrops.TrimEnd('\n') : LocalizationHelper.GetString("NoDrop");
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TotalDrop") + "\n" + allDrops);
-
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TotalDrop") + "\n" + allDrops +
+                            (curTimes >= 0 ? $"\n{LocalizationHelper.GetString("CurTimes")} : {curTimes}" : string.Empty));
                         break;
                     }
 
