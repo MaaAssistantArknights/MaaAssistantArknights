@@ -5,8 +5,8 @@
 #include "Task/Interface/CopilotTask.h"
 #include "Utils/WorkingDir.hpp"
 
-#include <utility>
 #include <memory>
+#include <utility>
 
 namespace asst
 {
@@ -19,6 +19,7 @@ namespace asst
         virtual ~CreditFightTask() override = default;
 
         void set_select_formation(int index);
+
     private:
         std::shared_ptr<asst::CopilotTask> m_copilot_task_ptr = nullptr;
     };
