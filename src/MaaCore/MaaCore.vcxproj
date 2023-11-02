@@ -76,6 +76,7 @@
     <ClInclude Include="Task\Fight\SideStoryReopenTask.h" />
     <ClInclude Include="Task\Fight\StageQueueMissionCompletedPlugin.h" />
     <ClInclude Include="Task\Infrast\InfrastProcessingTask.h" />
+    <ClInclude Include="Task\Infrast\InfrastTrainingTask.h" />
     <ClInclude Include="Task\Interface\CustomTask.h" />
     <ClInclude Include="Task\Interface\VideoRecognitionTask.h" />
     <ClInclude Include="Task\Interface\OperBoxTask.h" />
@@ -253,6 +254,7 @@
     <ClCompile Include="Task\Fight\SideStoryReopenTask.cpp" />
     <ClCompile Include="Task\Fight\StageQueueMissionCompletedPlugin.cpp" />
     <ClCompile Include="Task\Infrast\InfrastProcessingTask.cpp" />
+    <ClCompile Include="Task\Infrast\InfrastTrainingTask.cpp" />
     <ClCompile Include="Task\Interface\VideoRecognitionTask.cpp" />
     <ClCompile Include="Task\Interface\OperBoxTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\ScreenshotTaskPlugin.cpp" />
