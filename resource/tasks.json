@@ -8271,6 +8271,22 @@
             55
         ]
     },
+    "StageDrops-TimesCheck": {
+        "baseTask": "StageDrops-TimesRec",
+        "text": [
+            "连续",
+            "成功",
+            "代理",
+            "作战"
+        ]
+    },
+    "StageDrops-TimesRec": {
+        "baseTask": "NumberOcrReplace",
+        "isAscii": false,
+        "text": [
+        ],
+        "roi": [ 73, 364, 221, 31 ]
+    },
     "StageDrops-BaseLine": {
         "template": "empty.png",
         "roi": [
