@@ -8,6 +8,7 @@
 #include <unordered_set>
 
 #include "Common/AsstTypes.h"
+#include "TaskData/TaskDataSymbol.h"
 
 namespace asst
 {
@@ -15,21 +16,22 @@ namespace asst
 
     class TaskData final : public SingletonHolder<TaskData>, public AbstractConfigWithTempl
     {
-    private:
+    public:
         using tasklist_t = std::vector<std::string>;
         using tasklistptr_t = std::shared_ptr<tasklist_t>;
         using taskptr_t = std::shared_ptr<TaskInfo>;
 
-        std::shared_ptr<MatchTaskInfo> _default_match_task_info();
-        std::shared_ptr<OcrTaskInfo> _default_ocr_task_info();
-        std::shared_ptr<HashTaskInfo> _default_hash_task_info();
-        taskptr_t _default_task_info();
+    private:
+        static std::shared_ptr<MatchTaskInfo> _default_match_task_info();
+        static std::shared_ptr<OcrTaskInfo> _default_ocr_task_info();
+        static std::shared_ptr<HashTaskInfo> _default_hash_task_info();
+        static taskptr_t _default_task_info();
 
         // 从模板任务生成
-        const std::shared_ptr<MatchTaskInfo> default_match_task_info_ptr = _default_match_task_info();
-        const std::shared_ptr<OcrTaskInfo> default_ocr_task_info_ptr = _default_ocr_task_info();
-        const std::shared_ptr<HashTaskInfo> default_hash_task_info_ptr = _default_hash_task_info();
-        const taskptr_t default_task_info_ptr = _default_task_info();
+        static inline const std::shared_ptr<MatchTaskInfo> default_match_task_info_ptr = _default_match_task_info();
+        static inline const std::shared_ptr<OcrTaskInfo> default_ocr_task_info_ptr = _default_ocr_task_info();
+        static inline const std::shared_ptr<HashTaskInfo> default_hash_task_info_ptr = _default_hash_task_info();
+        static inline const taskptr_t default_task_info_ptr = _default_task_info();
 
         // 这是下面几个函数的封装
         taskptr_t generate_task_info(std::string_view name, const json::value&, taskptr_t default_ptr,
@@ -129,7 +131,10 @@ namespace asst
             return task_list;
         }
 
-        std::string_view task_name_view(std::string_view task_name) { return *m_task_names.emplace(task_name).first; }
+        static std::string_view task_name_view(std::string_view task_name)
+        {
+            return *m_task_names.emplace(task_name).first;
+        }
         decltype(auto) insert_or_assign_raw_task(std::string_view task_name, taskptr_t task_info_ptr)
         {
             return m_raw_all_tasks_info.insert_or_assign(task_name_view(task_name), task_info_ptr);
@@ -138,8 +143,23 @@ namespace asst
         {
             return m_all_tasks_info.insert_or_assign(task_name_view(task_name), task_info_ptr);
         }
-        bool compile_tasklist(tasklist_t& new_tasks, const tasklist_t& raw_tasks, std::string_view name,
-                              bool& task_changed, bool multi);
+
+        struct RawCompileResult
+        {
+            bool task_changed;
+            TaskDataSymbol::Symbols symbols;
+        };
+        static ResultOrError<RawCompileResult> compile_raw_tasklist(const tasklist_t& raw_tasks,
+                                                                    std::string_view self_name,
+                                                                    std::function<taskptr_t(std::string_view)> get_raw,
+                                                                    bool allow_duplicate);
+        struct CompileResult
+        {
+            bool task_changed;
+            tasklist_t tasks;
+        };
+        ResultOrError<CompileResult> compile_tasklist(const tasklist_t& raw_tasks, std::string_view self_name,
+                                                      bool allow_duplicate);
         bool generate_task_and_its_base(std::string_view name, bool must_true);
 #ifdef ASST_DEBUG
         bool syntax_check(std::string_view task_name, const json::value& task_json);
@@ -187,7 +207,7 @@ namespace asst
 
         virtual bool parse(const json::value& json) override;
 
-        std::unordered_set<std::string> m_task_names;
+        static inline std::unordered_set<std::string> m_task_names;
         std::unordered_set<std::string> m_templ_required;
         std::unordered_map<std::string_view, TaskStatus> m_task_status;
         std::unordered_map<std::string_view, json::object> m_json_all_tasks_info; // 原始的 json 信息
