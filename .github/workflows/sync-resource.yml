@@ -14,8 +14,6 @@ jobs:
     steps:
       - name: Checkout MaaAssistantArknights
         uses: actions/checkout@v4.1.1
-        with:
-          sparse-checkout: resource
       - name: Setup Git
         run: |
           git config --global user.name "$env:GITHUB_ACTOR"
@@ -24,12 +22,12 @@ jobs:
       - name: Checkout MaaResource
         uses: actions/checkout@v4.1.1
         with:
-          sparse-checkout: resource
+          repository: MaaAssistantArknights/MaaResource
           ssh-key: ${{secrets.MAA_RESOURCE_DEPLOY}}
           path: MaaResource
       - name: Update MaaResource
         run: |
-          cp -rfv resource/* MaaResource
+          cp -rf resource/* MaaResource
           $commit_msg = $(git show -s --format=%s)
           cd MaaResource
           git add .
