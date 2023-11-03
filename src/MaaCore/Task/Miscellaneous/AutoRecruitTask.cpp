@@ -219,13 +219,11 @@ bool asst::AutoRecruitTask::_run()
         auto start_rect = try_get_start_button(ctrler()->get_image());
         if (start_rect) {
             if (need_exit()) return false;
+            if (m_slot_fail >= slot_retry_limit) return false;
             if (recruit_one(start_rect.value()))
                 ++m_cur_times;
             else
                 ++m_slot_fail;
-            if (m_slot_fail >= slot_retry_limit) {
-                return false;
-            }
             if (!m_has_permit && (!m_force_refresh || !m_has_refresh)) return true;
         }
         else {
@@ -329,7 +327,7 @@ bool asst::AutoRecruitTask::recruit_one(const Rect& button)
 
     if (need_exit()) return false;
 
-    if (!confirm()) {
+    if (true) {
         Log.info("Failed to confirm current recruit config.");
         click_return_button();
         return false;
