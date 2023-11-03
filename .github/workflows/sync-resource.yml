@@ -18,7 +18,7 @@ jobs:
         run: |
           git config --global user.name "$GITHUB_ACTOR"
           git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          git show
+          git show -s
       - name: Checkout MaaResource
         uses: actions/checkout@v4.1.1
         with:
