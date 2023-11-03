@@ -24,7 +24,7 @@ bool asst::AccountSwitchTask::_run()
     }
 
     if (m_account.empty()) {
-        Log.error(__FUNCTION__, "Switch Account: account is empty");
+        Log.error(__FUNCTION__, "account is empty");
         return false;
     }
 
@@ -35,7 +35,7 @@ bool asst::AccountSwitchTask::_run()
 
     // 判断下是官服还是bili
     if (!verify_client_type()) {
-        Log.error(__FUNCTION__, "Switch Account: Unsupport version");
+        Log.error(__FUNCTION__, "unsupported client");
         return false;
     }
     // 当前账号就是想要的
