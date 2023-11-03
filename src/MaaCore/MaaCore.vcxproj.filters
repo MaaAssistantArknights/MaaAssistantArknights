@@ -690,7 +690,7 @@
     <ClInclude Include="Config\TaskData\TaskDataSymbolStream.h">
       <Filter>Source\Resource\TaskData</Filter>
     </ClInclude>
-    <ClInclude Include="Config\TaskData\TaskDataTypes.hpp">
+    <ClInclude Include="Config\TaskData\TaskDataTypes.h">
       <Filter>Source\Resource\TaskData</Filter>
     </ClInclude>
   </ItemGroup>

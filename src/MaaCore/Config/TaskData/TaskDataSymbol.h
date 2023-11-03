@@ -5,9 +5,8 @@
 #include <unordered_map>
 #include <variant>
 
-#include "TaskDataTypes.hpp"
-
 #include "Common/AsstTypes.h"
+#include "TaskDataTypes.h"
 #include "Utils/Logger.hpp"
 
 namespace asst
@@ -122,10 +121,10 @@ namespace asst
             return pos == symbol_repr_to_type.end() ? Name : pos->second;
         }
 
-        static SymbolsOrError append_prefix(
-            const TaskDataSymbol& symbol, const TaskDataSymbol& prefix, std::string_view self_name,
-            std::function<std::shared_ptr<TaskInfo>(std::string_view)> get_raw,
-            std::function<SymbolsOrError(const std::vector<std::string>&)> compile_tasklist);
+        static SymbolsOrError append_prefix(const TaskDataSymbol& symbol, const TaskDataSymbol& prefix,
+                                            std::string_view self_name,
+                                            std::function<TaskDerivedConstPtr(std::string_view)> get_raw,
+                                            std::function<SymbolsOrError(const TaskList&)> compile_tasklist);
 
         bool is_name() const noexcept { return m_symbol == Name; }
         bool is_sharp_type() const noexcept { return is_sharp_type(m_symbol); }
