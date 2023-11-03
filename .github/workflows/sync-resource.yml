@@ -26,6 +26,9 @@ jobs:
           path: MaaResource
       - name: Update MaaResource
         run: |
+          cd MaaResource
+          rm -rf !(".gitignore"|"LICENSE"|"README.md")
+          cd ..
           cp -rf resource/* MaaResource
           export commit_msg=$(git show -s --format=%s)
           cd MaaResource
