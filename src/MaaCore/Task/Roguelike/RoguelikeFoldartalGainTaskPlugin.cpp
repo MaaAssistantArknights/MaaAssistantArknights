@@ -57,8 +57,6 @@ bool asst::RoguelikeFoldartalGainTaskPlugin::_run()
     LogTraceFunction;
 
     std::string theme = m_config->get_theme();
-    std::string mode = status()->get_properties(Status::RoguelikeMode).value();
-
     auto image = ctrler()->get_image();
 
     OCRer analyzer(image);

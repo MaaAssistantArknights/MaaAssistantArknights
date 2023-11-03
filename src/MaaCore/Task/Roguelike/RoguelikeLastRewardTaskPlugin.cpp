@@ -44,7 +44,7 @@ bool asst::RoguelikeLastRewardTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    std::string mode = status()->get_properties(Status::RoguelikeMode).value();
+    auto mode = m_config->get_mode();
     std::string stages_task_name = m_config->get_theme() + "@Roguelike@Stages";
     std::string strategy_task_name = stages_task_name + "_default";
 
@@ -59,7 +59,7 @@ bool asst::RoguelikeLastRewardTaskPlugin::_run()
     // 需要开局凹直升
     bool start_with_elite_two =
         status()->get_properties(Status::RoguelikeStartWithEliteTwo).value() == std::to_string(true);
-    if (m_config->get_theme() != "Phantom" && mode == "4") {
+    if (m_config->get_theme() != "Phantom" && mode == RoguelikeMode::Collectible) {
         if (m_is_next_hardest) {
             status()->set_properties(Status::RoguelikeDifficulty, "max");
             // 获得热水壶和演讲时停止肉鸽（凹直升则继续），获得其他奖励时重开

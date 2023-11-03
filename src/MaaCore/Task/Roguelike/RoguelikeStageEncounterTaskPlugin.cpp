@@ -38,10 +38,10 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    std::string rogue_mode = status()->get_properties(Status::RoguelikeMode).value();
+    auto mode = m_config->get_mode();
     std::vector<RoguelikeEvent> events = RoguelikeStageEncounter.get_events(m_config->get_theme());
     // 刷源石锭模式和烧水模式
-    if (rogue_mode == "1" || rogue_mode == "4") {
+    if (mode == RoguelikeMode::Investment || mode == RoguelikeMode::Collectible) {
         events = RoguelikeStageEncounter.get_events(m_config->get_theme() + "_deposit");
     }
     std::vector<std::string> event_names;
