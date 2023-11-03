@@ -13,6 +13,10 @@ namespace asst
         virtual bool _run() override;
 
     private:
+        bool analyze_status();
         bool training_completed();
+        std::string m_operator_name = "NoOperator";
+        std::string m_skill_name = "NoSkill";
+        bool m_complete = false;
     };
 }

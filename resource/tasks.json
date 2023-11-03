@@ -7602,20 +7602,41 @@
             "ClueGiveTo1stConfirm"
         ]
     },
-    "InfrastTrainingCompleted": {
+    "InfrastTrainingIdle": {
         "algorithm": "OcrDetect",
-        "text": [ "训练完成" ],
-        "fullMatch": true,
-        "action": "ClickSelf",
+        "text": [ "空闲中" ],
+        "action":"DoNothing",
         "roi": [
             350,
             600,
             200,
             120
-        ],
-        "postDelay": 5000,
-        "next": [
-            "CloseTaskAward"
+        ]
+    },
+    "InfrastTrainingCompleted": {
+        "baseTask": "InfrastTrainingIdle",
+        "text": [ "训练完成" ]
+    },
+    "InfrastTrainingOperatorAndSkill": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "action": "DoNothing",
+        "roi": [
+            150,
+            620,
+            250,
+            35
+        ]
+    },
+    "InfrastTrainingProgressRec": {
+        "baseTask": "NumberOcrReplace",
+        "isAscii": false,
+        "text": [],
+        "roi": [
+            440,
+            645,
+            60,
+            35
         ]
     },
     "InfrastOperListTabSkillUnClicked": {
