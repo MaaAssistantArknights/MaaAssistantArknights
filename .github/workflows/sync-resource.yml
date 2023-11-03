@@ -27,6 +27,7 @@ jobs:
       - name: Update MaaResource
         run: |
           cd MaaResource
+          shopt -s extglob
           rm -rf !(".gitignore"|"LICENSE"|"README.md")
           cd ..
           cp -rf resource/* MaaResource
