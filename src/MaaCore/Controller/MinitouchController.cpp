@@ -374,3 +374,9 @@ bool asst::MinitouchController::connect(const std::string& adb_path, const std::
 
     return true;
 }
+
+void asst::MinitouchController::back_to_home() noexcept
+{
+    AdbController::back_to_home();
+    return;
+}
