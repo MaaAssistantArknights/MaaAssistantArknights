@@ -21,11 +21,11 @@ bool asst::RoguelikeRecruitTaskPlugin::verify(AsstMsg msg, const json::value& de
         return false;
     }
 
-    if (m_roguelike_config->get_theme().empty()) {
+    if (m_config->get_theme().empty()) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
-    const std::string roguelike_name = m_roguelike_config->get_theme() + "@";
+    const std::string roguelike_name = m_config->get_theme() + "@";
     const std::string& task = details.get("details", "task", "");
     std::string_view task_view = task;
     if (task_view.starts_with(roguelike_name)) {
@@ -99,9 +99,9 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     // __________________will-be-removed-end__________________
 
     std::unordered_map<std::string, int> group_count;
-    const auto& group_list = RoguelikeRecruit.get_group_info(m_roguelike_config->get_theme());
+    const auto& group_list = RoguelikeRecruit.get_group_info(m_config->get_theme());
     for (const auto& oper : chars_map) {
-        std::vector<int> group_ids = RoguelikeRecruit.get_group_id(m_roguelike_config->get_theme(), oper.first);
+        std::vector<int> group_ids = RoguelikeRecruit.get_group_id(m_config->get_theme(), oper.first);
         for (const auto& group_id : group_ids) {
             const std::string& group_name = group_list[group_id];
             group_count[group_name]++;
@@ -110,7 +110,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
     if (!start_complete) {
         for (const auto& oper : chars_map) {
-            auto& recruit_info = RoguelikeRecruit.get_oper_info(m_roguelike_config->get_theme(), oper.first);
+            auto& recruit_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), oper.first);
             if (recruit_info.is_start) start_complete = true;
         }
     }
@@ -119,7 +119,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         bool complete = true;
         int complete_count = 0;
         int complete_require = 0;
-        const auto& team_complete_condition = RoguelikeRecruit.get_team_complete_info(m_roguelike_config->get_theme());
+        const auto& team_complete_condition = RoguelikeRecruit.get_team_complete_info(m_config->get_theme());
         for (const auto& condition : team_complete_condition) {
             int count = 0;
             complete_require += condition.threshold;
@@ -217,7 +217,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             }
 
             // 查询招募配置
-            auto& recruit_info = RoguelikeRecruit.get_oper_info(m_roguelike_config->get_theme(), oper_info.name);
+            auto& recruit_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), oper_info.name);
             int priority = 0;
 
             // 查询编队是否已持有该干员
@@ -468,7 +468,7 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string&
                     else {
                         // 重置难度并放弃
                         status()->set_properties(Status::RoguelikeDifficulty, "0");
-                        ProcessTask(*this, { m_roguelike_config->get_theme() + "@Roguelike@ExitThenAbandon" })
+                        ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ExitThenAbandon" })
                             .set_times_limit("Roguelike@Abandon", 0)
                             .run();
                     }

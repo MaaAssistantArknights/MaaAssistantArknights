@@ -11,9 +11,9 @@ namespace asst
     {
     public:
         AbstractRoguelikeTaskPlugin(const AsstCallback& callback, Assistant* inst, std::string_view task_chain,
-                                    std::shared_ptr<RoguelikeConfig> roguelike_data);
+                                    std::shared_ptr<RoguelikeConfig> data);
 
     protected:
-        std::shared_ptr<RoguelikeConfig> m_roguelike_config;
+        std::shared_ptr<RoguelikeConfig> m_config;
     };
 }

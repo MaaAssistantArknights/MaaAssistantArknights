@@ -13,11 +13,11 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::verify(AsstMsg msg, const json::va
         return false;
     }
 
-    if (m_roguelike_config->get_theme().empty()) {
+    if (m_config->get_theme().empty()) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
-    const std::string roguelike_name = m_roguelike_config->get_theme() + "@";
+    const std::string roguelike_name = m_config->get_theme() + "@";
     const std::string& task = details.get("details", "task", "");
     std::string_view task_view = task;
     if (task_view.starts_with(roguelike_name)) {
@@ -45,7 +45,7 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
     int delay = Task.get("RoguelikeSkillSelectionMove1")->post_delay;
     bool has_rookie = false;
     for (const auto& [name, skill_vec] : analyzer.get_result()) {
-        const auto& oper_info = RoguelikeRecruit.get_oper_info(m_roguelike_config->get_theme(), name);
+        const auto& oper_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), name);
         if (oper_info.name.empty()) {
             Log.warn("Unknown oper", name);
             continue;
