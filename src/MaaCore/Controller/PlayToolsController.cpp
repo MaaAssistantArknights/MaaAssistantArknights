@@ -166,6 +166,12 @@ std::pair<int, int> asst::PlayToolsController::get_screen_res() const noexcept
     return m_screen_size;
 }
 
+void asst::PlayToolsController::back_to_home() noexcept
+{
+    Log.info("HOME is not supported on iOS");
+    return;
+}
+
 bool asst::PlayToolsController::toucher_down(const Point& p, const int delay)
 {
     return toucher_commit(TouchPhase::Began, p, delay);

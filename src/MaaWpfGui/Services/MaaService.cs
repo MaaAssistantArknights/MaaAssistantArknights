@@ -65,5 +65,8 @@ namespace MaaWpfGui.Services
 
         [DllImport("MaaCore.dll")]
         public static extern IntPtr AsstGetVersion();
+
+        [DllImport("MaaCore.dll")]
+        public static extern bool AsstBackToHome(AsstHandle handle);
     }
 }

@@ -56,6 +56,8 @@ public:
     virtual std::string get_uuid() const = 0;
     // 获取任务列表
     virtual std::vector<TaskId> get_tasks_list() const = 0;
+
+    virtual bool back_to_home() const = 0;
 };
 
 namespace asst
@@ -91,6 +93,8 @@ namespace asst
         virtual std::vector<unsigned char> get_image() const override;
         virtual std::string get_uuid() const override;
         virtual std::vector<TaskId> get_tasks_list() const override;
+
+        virtual bool back_to_home() const override;
 
     public:
         std::shared_ptr<Controller> ctrler() const { return m_ctrler; }

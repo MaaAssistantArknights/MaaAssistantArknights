@@ -363,6 +363,8 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("DoNothing"), Value = ActionType.DoNothing },
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitArknights"), Value = ActionType.StopGame },
+                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("BackToAndroidHome"), Value = ActionType.BackToAndroidHome },
+
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitEmulator"), Value = ActionType.ExitEmulator },
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitSelf"), Value = ActionType.ExitSelf },
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitEmulatorAndSelf"), Value = ActionType.ExitEmulatorAndSelf },
@@ -378,6 +380,8 @@ namespace MaaWpfGui.ViewModels.UI
 
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate"), Value = ActionType.ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate },
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitSelfIfOtherMaaElseShutdown"), Value = ActionType.ExitSelfIfOtherMaaElseShutdown },
+
+                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("BackToDesktop"), Value = ActionType.BackToDesktop },
             };
             var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[taskList.Count]);
             var nonOrderList = new List<DragItemViewModel>();
@@ -1937,6 +1941,16 @@ namespace MaaWpfGui.ViewModels.UI
             /// Exits MAA and, if no other processes of MAA are running, computer shutdown.
             /// </summary>
             ExitSelfIfOtherMaaElseShutdown,
+
+            /// <summary>
+            /// Do nothing, just back to desktop.
+            /// </summary>
+            BackToDesktop,
+
+            /// <summary>
+            /// Switch the game to background without kill it.
+            /// </summary>
+            BackToAndroidHome,
         }
 
         /// <summary>
@@ -2055,6 +2069,16 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         goto case ActionType.Shutdown;
                     }
+
+                case ActionType.BackToDesktop:
+                    Type shellType = Type.GetTypeFromProgID("Shell.Application");
+                    object shellObject = System.Activator.CreateInstance(shellType);
+                    shellType.InvokeMember("ToggleDesktop", System.Reflection.BindingFlags.InvokeMethod, null, shellObject, null);
+                    break;
+
+                case ActionType.BackToAndroidHome:
+                    Instances.AsstProxy.AsstBackToHome();
+                    break;
 
                 default:
                     Execute.OnUIThread(() =>
