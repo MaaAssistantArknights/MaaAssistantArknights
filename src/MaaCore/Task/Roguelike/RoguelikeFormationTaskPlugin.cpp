@@ -15,11 +15,11 @@ bool asst::RoguelikeFormationTaskPlugin::verify(AsstMsg msg, const json::value& 
         return false;
     }
 
-    if (m_roguelike_config->get_theme().empty()) {
+    if (m_config->get_theme().empty()) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
-    const std::string roguelike_name = m_roguelike_config->get_theme() + "@";
+    const std::string roguelike_name = m_config->get_theme() + "@";
     const std::string& task = details.get("details", "task", "");
     std::string_view task_view = task;
     if (task_view.starts_with(roguelike_name)) {
@@ -102,14 +102,14 @@ void asst::RoguelikeFormationTaskPlugin::clear_and_reselect()
     Log.info(__FUNCTION__, "max_page: ", max_page, " oper_count: ", oper_list.size());
 
     std::vector<asst::RoguelikeFormationImageAnalyzer::FormationOper> sorted_oper_list;
-    const auto& team_complete_condition = RoguelikeRecruit.get_team_complete_info(m_roguelike_config->get_theme());
-    const auto& group_list = RoguelikeRecruit.get_group_info(m_roguelike_config->get_theme());
+    const auto& team_complete_condition = RoguelikeRecruit.get_team_complete_info(m_config->get_theme());
+    const auto& group_list = RoguelikeRecruit.get_group_info(m_config->get_theme());
     for (const auto& condition : team_complete_condition) { // 优先选择阵容核心干员
         int count = 0;
         int require = condition.threshold;
         for (const std::string& group_name : condition.groups) {
             for (const auto& oper : oper_list) {
-                std::vector<int> group_ids = RoguelikeRecruit.get_group_id(m_roguelike_config->get_theme(), oper.name);
+                std::vector<int> group_ids = RoguelikeRecruit.get_group_id(m_config->get_theme(), oper.name);
                 for (const auto& group_id : group_ids) {
                     std::string oper_group = group_list[group_id];
                     if (oper_group == group_name) {

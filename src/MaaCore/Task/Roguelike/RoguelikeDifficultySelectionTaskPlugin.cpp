@@ -10,11 +10,11 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::verify(AsstMsg msg, const jso
         return false;
     }
 
-    if (m_roguelike_config->get_theme().empty()) {
+    if (m_config->get_theme().empty()) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
-    const std::string roguelike_name = m_roguelike_config->get_theme() + "@";
+    const std::string roguelike_name = m_config->get_theme() + "@";
     const std::string& task = details.get("details", "task", "");
     std::string_view task_view = task;
     if (task_view.starts_with(roguelike_name)) {
@@ -37,14 +37,14 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::_run()
 
     // 当前难度
     std::string difficulty = status()->get_properties(Status::RoguelikeDifficulty).value();
-    if (m_roguelike_config->get_theme() != "Phantom" && mode == "4") {
+    if (m_config->get_theme() != "Phantom" && mode == "4") {
         if (difficulty == "max") {
-            ProcessTask(*this, { m_roguelike_config->get_theme() + "@Roguelike@ChooseDifficulty_Hardest" }).run();
+            ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ChooseDifficulty_Hardest" }).run();
         }
         else {
-            ProcessTask(*this, { m_roguelike_config->get_theme() + "@Roguelike@ChooseDifficulty_Easiest" }).run();
+            ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ChooseDifficulty_Easiest" }).run();
         }
-        ProcessTask(*this, { m_roguelike_config->get_theme() + "@Roguelike@ChooseDifficultyConfirm" }).run();
+        ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ChooseDifficultyConfirm" }).run();
     }
 
     return true;

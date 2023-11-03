@@ -10,11 +10,11 @@ bool asst::RoguelikeControlTaskPlugin::verify(AsstMsg msg, const json::value& de
         return false;
     }
 
-    if (m_roguelike_config->get_theme().empty()) {
+    if (m_config->get_theme().empty()) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
-    const std::string roguelike_name = m_roguelike_config->get_theme() + "@";
+    const std::string roguelike_name = m_config->get_theme() + "@";
     const std::string& task = details.get("details", "task", "");
     std::string_view task_view = task;
     if (task_view.starts_with(roguelike_name)) {
@@ -34,7 +34,7 @@ bool asst::RoguelikeControlTaskPlugin::verify(AsstMsg msg, const json::value& de
 
 void asst::RoguelikeControlTaskPlugin::exit_then_stop()
 {
-    ProcessTask(*this, { m_roguelike_config->get_theme() + "@Roguelike@ExitThenAbandon" })
+    ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ExitThenAbandon" })
         .set_times_limit("Roguelike@StartExplore", 0)
         .set_times_limit("Roguelike@Abandon", 0)
         .run();
