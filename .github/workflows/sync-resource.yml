@@ -28,7 +28,7 @@ jobs:
       - name: Update MaaResource
         run: |
           cp -rf resource/* MaaResource
-          $commit_msg = $(git show -s --format=%s)
+          export commit_msg=$(git show -s --format=%s)
           cd MaaResource
           git add .
           git status
