@@ -149,12 +149,11 @@ asst::TaskDataSymbolStream::SymbolsOrError asst::TaskDataSymbolStream::decode(Ap
                 // self_name + #self ^ #self = #none
                 // self_name + #self ^ self_name = #self
                 if (ranges::any_of(y, [&](const auto& sy) { return sy == Symbol::SharpSelf; })) {
-                    auto remove_ret = ranges::remove(x, self_name);
-                    x.erase(remove_ret.begin(), remove_ret.end());
+                    std::erase(x, self_name);
                 }
-                auto remove_ret = ranges::remove_if(
-                    x, [&](const auto& sx) { return ranges::any_of(y, [&](const auto& sy) { return sx == sy; }); });
-                x.erase(remove_ret.begin(), remove_ret.end());
+                std::erase_if(x, [&](const auto& sx) {
+                    return ranges::any_of(y, [&](const auto& sy) { return sx == sy; });
+                });
             }
         }
         return x;
@@ -224,7 +223,7 @@ asst::TaskDataSymbolStream::SymbolsOrError asst::TaskDataSymbolStream::decode(Ap
                     auto opt = append_prefix(sy, sx);
                     if (!opt) {
                         return { std::nullopt,
-                                 "decode_vtasks: failed while " + sx.name() + " @ " + sy.name() + ", " + opt.what() };
+                                 "decode_vtasks: failed while " + sx.name() + " @ " + sy.name() + ", " + opt.error() };
                     }
                     ranges::copy(*opt, std::back_inserter(x));
                 }
