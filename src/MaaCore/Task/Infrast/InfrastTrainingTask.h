@@ -17,6 +17,5 @@ namespace asst
         bool training_completed();
         std::string m_operator_name = "NoOperator";
         std::string m_skill_name = "NoSkill";
-        bool m_complete = false;
     };
 }
