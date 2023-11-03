@@ -1,3 +1,5 @@
 #include "RoguelikeConfig.h"
 
-void asst::RoguelikeConfig::clear() {}
+void asst::RoguelikeConfig::clear() {
+
+}
