@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - dev
+      - sync-resource-ci
     paths:
       - 'resource/**'
       - '.github/workflows/sync-resource.yml'
