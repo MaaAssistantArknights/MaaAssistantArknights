@@ -12,20 +12,21 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+      - name: Checkout MaaAssistantArknights
+        uses: actions/checkout@v4.1.1
+        with:
+          sparse-checkout: resource
       - name: Setup Git
         run: |
-          git config user.name "$env:GITHUB_ACTOR"
-          git config user.email "$env:GITHUB_ACTOR@users.noreply.github.com"
+          git config --global user.name "$env:GITHUB_ACTOR"
+          git config --global user.email "$env:GITHUB_ACTOR@users.noreply.github.com"
           git show
-      - name: Setup SSH
-        env:
-          MAA_RESOURCE_DEPLOY: ${{secrets.MAA_RESOURCE_DEPLOY}}
-        run: |
-          mkdir -pv ~/.ssh
-          echo "$MAA_RESOURCE_DEPLOY" > ~/.ssh/id_ed25519
       - name: Checkout MaaResource
-        run: |
-          git clone git@github.com:MaaAssistantArknights/MaaResource.git
+        uses: actions/checkout@v4.1.1
+        with:
+          sparse-checkout: resource
+          ssh-key: ${{secrets.MAA_RESOURCE_DEPLOY}}
+          path: MaaResource
       - name: Update MaaResource
         run: |
           cp -rfv resource/* MaaResource
