@@ -8888,7 +8888,7 @@
         ],
         "next": [
             "OperBoxRoleTabSelect",
-            "Stop"
+            "OperBoxRoleTab"
         ]
     },
     "OperBoxRoleTabSelect": {
@@ -8905,7 +8905,7 @@
         "maxTimes": 3
     },
     "OperBoxRoleTab": {
-        "action": "DoNothing",
+        "action": "Stop",
         "roi": [
             1195,
             15,
