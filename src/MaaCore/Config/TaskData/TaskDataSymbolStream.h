@@ -5,7 +5,7 @@
 
 #include "Config/TaskData.h"
 #include "TaskDataSymbol.h"
-#include "TaskDataTypes.hpp"
+#include "TaskDataTypes.h"
 
 namespace asst
 {

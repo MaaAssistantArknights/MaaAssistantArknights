@@ -37,9 +37,9 @@ namespace asst
         constexpr ResultT&& value() && { return std::move(std::get<0>(m_result_or_error)); }
         constexpr const ResultT&& value() const&& { return std::move(std::get<0>(m_result_or_error)); }
 
-        constexpr std::string& what() & { return std::get<1>(m_result_or_error); }
-        constexpr const std::string& what() const& { return std::get<1>(m_result_or_error); }
-        constexpr std::string&& what() && { return std::move(std::get<1>(m_result_or_error)); }
-        constexpr const std::string&& what() const&& { return std::move(std::get<1>(m_result_or_error)); }
+        constexpr std::string& error() & { return std::get<1>(m_result_or_error); }
+        constexpr const std::string& error() const& { return std::get<1>(m_result_or_error); }
+        constexpr std::string&& error() && { return std::move(std::get<1>(m_result_or_error)); }
+        constexpr const std::string&& error() const&& { return std::move(std::get<1>(m_result_or_error)); }
     };
 } // namespace asst

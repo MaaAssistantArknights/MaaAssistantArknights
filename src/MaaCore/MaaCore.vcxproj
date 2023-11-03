@@ -50,7 +50,7 @@
     <ClInclude Include="Config\OnnxSessions.h" />
     <ClInclude Include="Config\TaskData\TaskDataSymbol.h" />
     <ClInclude Include="Config\TaskData\TaskDataSymbolStream.h" />
-    <ClInclude Include="Config\TaskData\TaskDataTypes.hpp" />
+    <ClInclude Include="Config\TaskData\TaskDataTypes.h" />
     <ClInclude Include="Controller\adb-lite\client.hpp" />
     <ClInclude Include="Controller\adb-lite\protocol.hpp" />
     <ClInclude Include="Controller\Controller.h" />
