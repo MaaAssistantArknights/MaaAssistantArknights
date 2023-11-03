@@ -2,11 +2,10 @@
 
 asst::TaskDataSymbol::SymbolsOrError asst::TaskDataSymbol::append_prefix(
     const TaskDataSymbol& symbol, const TaskDataSymbol& prefix, std::string_view self_name,
-    std::function<std::shared_ptr<TaskInfo>(std::string_view)> get_raw,
-    std::function<SymbolsOrError(const std::vector<std::string>&)> compile_tasklist)
+    std::function<TaskDerivedConstPtr(std::string_view)> get_raw,
+    std::function<SymbolsOrError(const TaskList&)> compile_tasklist)
 {
-    // !!!注意：
-    // A@#self 是 A 而不是 A@self_name, #self@A 是 selfname@A 而不是 A
+    // 注意：A@#self 是 A 而不是 A@self_name, #self@A 是 self_name@A 而不是 A
     std::string_view prefix_name;
     if (prefix == SharpSelf) {
         prefix_name = self_name;
