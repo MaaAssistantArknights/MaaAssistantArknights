@@ -21,12 +21,11 @@ bool asst::RoguelikeRecruitTaskPlugin::verify(AsstMsg msg, const json::value& de
         return false;
     }
 
-    auto roguelike_name_opt = status()->get_properties(Status::RoguelikeTheme);
-    if (!roguelike_name_opt) {
+    if (m_roguelike_theme.empty()) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
-    const std::string roguelike_name = std::move(roguelike_name_opt.value()) + "@";
+    const std::string roguelike_name = m_roguelike_theme + "@";
     const std::string& task = details.get("details", "task", "");
     std::string_view task_view = task;
     if (task_view.starts_with(roguelike_name)) {
@@ -85,7 +84,6 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     // Log.info("team_full_without_rookie", team_full_without_rookie);
 
     // 编队信息 (已有角色)
-    std::string rogue_theme = status()->get_properties(Status::RoguelikeTheme).value();
     std::string str_chars_info = status()->get_str(Status::RoguelikeCharOverview).value_or(json::value().to_string());
     json::value json_chars_info = json::parse(str_chars_info).value_or(json::value());
     const auto& chars_map = json_chars_info.as_object();
@@ -101,9 +99,9 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     // __________________will-be-removed-end__________________
 
     std::unordered_map<std::string, int> group_count;
-    const auto& group_list = RoguelikeRecruit.get_group_info(rogue_theme);
+    const auto& group_list = RoguelikeRecruit.get_group_info(m_roguelike_theme);
     for (const auto& oper : chars_map) {
-        std::vector<int> group_ids = RoguelikeRecruit.get_group_id(rogue_theme, oper.first);
+        std::vector<int> group_ids = RoguelikeRecruit.get_group_id(m_roguelike_theme, oper.first);
         for (const auto& group_id : group_ids) {
             const std::string& group_name = group_list[group_id];
             group_count[group_name]++;
@@ -112,7 +110,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
     if (!start_complete) {
         for (const auto& oper : chars_map) {
-            auto& recruit_info = RoguelikeRecruit.get_oper_info(rogue_theme, oper.first);
+            auto& recruit_info = RoguelikeRecruit.get_oper_info(m_roguelike_theme, oper.first);
             if (recruit_info.is_start) start_complete = true;
         }
     }
@@ -121,7 +119,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         bool complete = true;
         int complete_count = 0;
         int complete_require = 0;
-        const auto& team_complete_condition = RoguelikeRecruit.get_team_complete_info(rogue_theme);
+        const auto& team_complete_condition = RoguelikeRecruit.get_team_complete_info(m_roguelike_theme);
         for (const auto& condition : team_complete_condition) {
             int count = 0;
             complete_require += condition.threshold;
@@ -219,7 +217,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             }
 
             // 查询招募配置
-            auto& recruit_info = RoguelikeRecruit.get_oper_info(rogue_theme, oper_info.name);
+            auto& recruit_info = RoguelikeRecruit.get_oper_info(m_roguelike_theme, oper_info.name);
             int priority = 0;
 
             // 查询编队是否已持有该干员
@@ -439,7 +437,7 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string&
     // 是否凹直升
     std::string start_with_elite_two = status()->get_properties(Status::RoguelikeStartWithEliteTwo).value();
     // 当前肉鸽难度
-    std::string recent_difficulty = status()->get_properties(Status::RoguelikeNeedChangeDifficulty).value();
+    std::string difficulty = status()->get_properties(Status::RoguelikeDifficulty).value();
 
     for (; i != SwipeTimes; ++i) {
         if (need_exit()) {
@@ -463,16 +461,15 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string&
 
             if (it != chars.cend()) {
                 // 需要凹直升且当前为max难度时
-                if (start_with_elite_two == "1" && recent_difficulty == "max") {
+                if (start_with_elite_two == "1" && difficulty == "max") {
                     if (it->elite == 2) {
                         m_task_ptr->set_enable(false);
                     }
                     else {
-                        std::string theme = status()->get_properties(Status::RoguelikeTheme).value();
                         // 重置难度并放弃
-                        status()->set_properties(Status::RoguelikeNeedChangeDifficulty, "0");
-                        ProcessTask(*this, { theme + "@Roguelike@ExitThenAbandon" })
-                            .set_times_limit("Roguelike@StartExplore", 0)
+                        status()->set_properties(Status::RoguelikeDifficulty, "0");
+                        ProcessTask(*this, { m_roguelike_theme + "@Roguelike@ExitThenAbandon" })
+                            .set_times_limit("Roguelike@Abandon", 0)
                             .run();
                     }
                 }

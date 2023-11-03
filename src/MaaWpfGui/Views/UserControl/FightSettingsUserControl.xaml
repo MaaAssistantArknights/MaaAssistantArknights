@@ -207,35 +207,35 @@
                         Margin="6"
                         VerticalContentAlignment="Center"
                         DisplayMemberPath="Display"
-                        IsEnabled="{c:Binding !CustomStageCode and UseAlternateStage}"
+                        IsEnabled="{c:Binding '!CustomStageCode and UseAlternateStage'}"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
                         ItemsSource="{Binding AlternateStageList}"
                         SelectedValue="{Binding Stage2}"
                         SelectedValuePath="Value"
-                        Visibility="{c:Binding !CustomStageCode and UseAlternateStage}" />
+                        Visibility="{c:Binding '!CustomStageCode and UseAlternateStage'}" />
                     <ComboBox
                         Height="30"
                         Margin="6"
                         VerticalContentAlignment="Center"
                         DisplayMemberPath="Display"
-                        IsEnabled="{c:Binding !CustomStageCode and UseAlternateStage}"
+                        IsEnabled="{c:Binding '!CustomStageCode and UseAlternateStage'}"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
                         ItemsSource="{Binding AlternateStageList}"
                         SelectedValue="{Binding Stage3}"
                         SelectedValuePath="Value"
-                        Visibility="{c:Binding !CustomStageCode and UseAlternateStage}" />
+                        Visibility="{c:Binding '!CustomStageCode and UseAlternateStage'}" />
                     <ComboBox
                         Height="30"
                         Margin="6"
                         VerticalContentAlignment="Center"
                         DisplayMemberPath="Display"
-                        IsEnabled="{c:Binding !CustomStageCode and UseRemainingSanityStage}"
+                        IsEnabled="{c:Binding '!CustomStageCode and UseRemainingSanityStage'}"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
                         ItemsSource="{Binding RemainingSanityStageList}"
                         SelectedValue="{Binding RemainingSanityStage}"
                         SelectedValuePath="Value"
                         ToolTip="{DynamicResource UseRemainingSanityStageTip}"
-                        Visibility="{c:Binding !CustomStageCode and UseRemainingSanityStage}" />
+                        Visibility="{c:Binding '!CustomStageCode and UseRemainingSanityStage'}" />
                     <TextBox
                         Height="30"
                         Margin="6"
@@ -253,28 +253,28 @@
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
                         Text="{Binding Stage2, UpdateSourceTrigger=PropertyChanged}"
                         ToolTip="{DynamicResource CustomStageCodeTip}"
-                        Visibility="{c:Binding CustomStageCode and UseAlternateStage}" />
+                        Visibility="{c:Binding 'CustomStageCode and UseAlternateStage'}" />
                     <TextBox
                         Height="30"
                         Margin="6"
                         VerticalContentAlignment="Center"
-                        IsEnabled="{c:Binding CustomStageCode and UseAlternateStage}"
+                        IsEnabled="{c:Binding 'CustomStageCode and UseAlternateStage'}"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
                         Text="{Binding Stage3, UpdateSourceTrigger=PropertyChanged}"
                         ToolTip="{DynamicResource CustomStageCodeTip}"
-                        Visibility="{c:Binding CustomStageCode and UseAlternateStage}" />
+                        Visibility="{c:Binding 'CustomStageCode and UseAlternateStage'}" />
                     <TextBox
                         Height="30"
                         Margin="6"
                         VerticalContentAlignment="Center"
-                        IsEnabled="{c:Binding CustomStageCode and UseRemainingSanityStage}"
+                        IsEnabled="{c:Binding 'CustomStageCode and UseRemainingSanityStage'}"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
                         Text="{Binding RemainingSanityStage, UpdateSourceTrigger=PropertyChanged}"
                         ToolTip="{DynamicResource UseRemainingSanityStageTip}"
-                        Visibility="{c:Binding CustomStageCode and UseRemainingSanityStage}" />
+                        Visibility="{c:Binding 'CustomStageCode and UseRemainingSanityStage'}" />
                 </StackPanel>
             </Grid>
-            <Grid Grid.Row="3" Visibility="{c:Binding CustomInfrastEnabled and TaskSettingVisibilities.CustomInfrastPlanShowInFightSettings}">
+            <Grid Grid.Row="3" Visibility="{c:Binding 'CustomInfrastEnabled and TaskSettingVisibilities.CustomInfrastPlanShowInFightSettings'}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" MinWidth="100" />
                     <ColumnDefinition />
@@ -291,7 +291,6 @@
                     </Grid>
                 </StackPanel>
                 <StackPanel
-                    Grid.Row="2"
                     Grid.Column="1"
                     Orientation="Vertical">
                     <ComboBox
@@ -349,7 +348,7 @@
                 HorizontalAlignment="Left"
                 Block.TextAlignment="Center"
                 Foreground="{DynamicResource PrimaryTextBrush}"
-                Text="{DynamicResource PenguinID}"
+                Text="{DynamicResource PenguinId}"
                 TextWrapping="Wrap" />
             <TextBox
                 Margin="0,5"

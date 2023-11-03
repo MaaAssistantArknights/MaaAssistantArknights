@@ -17,6 +17,7 @@ using MaaWpfGui.Main;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Managers;
+using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.ViewModels.UI;
 using Stylet;
@@ -44,9 +45,18 @@ namespace MaaWpfGui.Helper
                 public static DateTimeOffset ReportTime { get; set; }
             }
 
+            public static int MedicineUsedTimes;
+
+            public static int ExpiringMedicineUsedTimes;
+
+            public static int StoneUsedTimes;
+
             public static void ClearCache()
             {
                 SanityReport.HasSanityReport = false;
+                MedicineUsedTimes = 0;
+                ExpiringMedicineUsedTimes = 0;
+                StoneUsedTimes = 0;
             }
         }
 
@@ -62,6 +72,8 @@ namespace MaaWpfGui.Helper
 
         public static VersionUpdateViewModel VersionUpdateViewModel { get; private set; }
 
+        public static AnnouncementViewModel AnnouncementViewModel { get; private set; }
+
         public static AsstProxy AsstProxy { get; private set; }
 
         public static TrayIcon TrayIcon { get; private set; }
@@ -71,6 +83,10 @@ namespace MaaWpfGui.Helper
         public static IMaaHotKeyManager MaaHotKeyManager { get; private set; }
 
         public static IMaaHotKeyActionHandler MaaHotKeyActionHandler { get; private set; }
+
+        // 别的地方有用到这个吗？
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
+        public static RemoteControlService RemoteControlService { get; private set; }
 
         public static IMainWindowManager MainWindowManager { get; private set; }
 
@@ -88,10 +104,13 @@ namespace MaaWpfGui.Helper
             SettingsViewModel = container.Get<SettingsViewModel>();
             CopilotViewModel = container.Get<CopilotViewModel>();
             VersionUpdateViewModel = container.Get<VersionUpdateViewModel>();
+            AnnouncementViewModel = container.Get<AnnouncementViewModel>();
 
             // 这仨实例化时存在依赖顺序
             HttpService = container.Get<HttpService>();
             MaaApiService = container.Get<MaaApiService>();
+
+            RemoteControlService = container.Get<RemoteControlService>();
 
             HotKeyManager = container.Get<HotKeyManager>();
             MaaHotKeyManager = container.Get<MaaHotKeyManager>();

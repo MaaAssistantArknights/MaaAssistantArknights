@@ -140,6 +140,12 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_use_expedited(bool use_or_not)
     return *this;
 }
 
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_select_extra_tags(bool select_extra_tags) noexcept
+{
+    m_select_extra_tags = select_extra_tags;
+    return *this;
+}
+
 asst::AutoRecruitTask& asst::AutoRecruitTask::set_skip_robot(bool skip_robot) noexcept
 {
     m_skip_robot = skip_robot;
@@ -149,6 +155,12 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_skip_robot(bool skip_robot) no
 asst::AutoRecruitTask& asst::AutoRecruitTask::set_set_time(bool set_time) noexcept
 {
     m_set_time = set_time;
+    return *this;
+}
+
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_force_refresh(bool force_refresh) noexcept
+{
+    m_force_refresh = force_refresh;
     return *this;
 }
 
@@ -184,8 +196,6 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_server(std::string server) noe
 
 bool asst::AutoRecruitTask::_run()
 {
-    if (m_force_discard_flag) return false;
-
     if (is_calc_only_task()) {
         return recruit_calc_task().success;
     }
@@ -205,9 +215,6 @@ bool asst::AutoRecruitTask::_run()
 
     // m_cur_times means how many times has the confirm button been pressed, NOT expedited plans used
     while (m_cur_times != m_max_times) {
-        if (m_force_discard_flag) {
-            return false;
-        }
 
         auto start_rect = try_get_start_button(ctrler()->get_image());
         if (start_rect) {
@@ -219,6 +226,7 @@ bool asst::AutoRecruitTask::_run()
             if (m_slot_fail >= slot_retry_limit) {
                 return false;
             }
+            if (!m_has_permit && (!m_force_refresh || !m_has_refresh)) return true;
         }
         else {
             if (!check_recruit_home_page()) return false;
@@ -321,9 +329,8 @@ bool asst::AutoRecruitTask::recruit_one(const Rect& button)
 
     if (need_exit()) return false;
 
-    if (!confirm()) { // ran out of recruit permit?
+    if (!confirm()) {
         Log.info("Failed to confirm current recruit config.");
-        m_force_discard_flag = true;
         click_return_button();
         return false;
     }
@@ -348,7 +355,8 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         if (image_analyzer.get_tags_result().size() != RecruitConfig::CorrectNumberOfTags) continue;
 
         const std::vector<TextRect>& tags = image_analyzer.get_tags_result();
-        bool has_refresh = !image_analyzer.get_refresh_rect().empty();
+        m_has_refresh = !image_analyzer.get_refresh_rect().empty();
+        m_has_permit = image_analyzer.get_permit_rect().empty();
 
         std::vector<RecruitConfig::TagId> tag_ids;
         ranges::transform(tags, std::back_inserter(tag_ids), std::mem_fn(&TextRect::text));
@@ -475,7 +483,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         if (need_exit()) return {};
 
         // refresh
-        if (m_need_refresh && has_refresh && !has_special_tag && final_combination.min_level == 3 &&
+        if (m_need_refresh && m_has_refresh && !has_special_tag && final_combination.min_level == 3 &&
             !(m_skip_robot && has_robot_tag)) {
             if (refresh_count > refresh_limit) [[unlikely]] {
                 json::value cb_info = basic_info();
@@ -510,6 +518,23 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         }
 
         if (need_exit()) return {};
+
+        if (!m_has_permit) {
+            bool continue_refresh = m_force_refresh && m_has_refresh;
+
+            json::value cb_info = basic_info();
+            cb_info["what"] = "RecruitNoPermit";
+            cb_info["details"] = json::object {
+                { "continue", continue_refresh },
+            };
+            callback(AsstMsg::SubTaskExtraInfo, cb_info);
+            Log.trace("No recruit permit");
+
+            calc_task_result_type result;
+            result.success = true;
+            result.force_skip = true;
+            return result;
+        }
 
         if (!is_calc_only_task()) {
             // do not confirm, force skip
@@ -555,8 +580,10 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             return result;
         }
 
+        auto final_select = m_select_extra_tags ? get_select_tags(result_vec) : final_combination.tags;
+
         // select tags
-        for (const std::string& final_tag_name : final_combination.tags) {
+        for (const std::string& final_tag_name : final_select) {
             auto tag_rect_iter = ranges::find_if(tags, [&](const TextRect& r) { return r.text == final_tag_name; });
             if (tag_rect_iter != tags.cend()) {
                 ctrler()->click(tag_rect_iter->rect);
@@ -566,7 +593,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         {
             json::value cb_info = basic_info();
             cb_info["what"] = "RecruitTagsSelected";
-            cb_info["details"] = json::object { { "tags", json::array(get_tag_names(final_combination.tags)) } };
+            cb_info["details"] = json::object { { "tags", json::array(get_tag_names(final_select)) } };
             callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
@@ -680,6 +707,25 @@ std::vector<std::string> asst::AutoRecruitTask::get_tag_names(const std::vector<
         names.emplace_back(RecruitData.get_tag_name(id));
     }
     return names;
+}
+
+std::vector<std::string> asst::AutoRecruitTask::get_select_tags(const std::vector<RecruitCombs>& conbinations)
+{
+    LogTraceFunction;
+    std::unordered_set<std::string> unique_tags;
+    std::vector<std::string> select;
+
+    while (select.size() < 3) {
+        for (const asst::RecruitCombs& comb : conbinations)
+            for (const std::string& tag : comb.tags) {
+                if (unique_tags.find(tag) == unique_tags.cend()) {
+                    unique_tags.insert(tag);
+                    select.emplace_back(tag);
+                    if (select.size() == 3) return select;
+                }
+            }
+    }
+    return select;
 }
 
 template <typename Rng>

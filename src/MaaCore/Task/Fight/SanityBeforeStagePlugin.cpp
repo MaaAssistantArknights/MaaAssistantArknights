@@ -1,12 +1,12 @@
 #include "SanityBeforeStagePlugin.h"
 
-#include <charconv>
-#include <regex>
+#include <meojson/json.hpp>
 
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
-#include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
+#include "Utils/NoWarningCV.h"
+#include "Utils/StringMisc.hpp"
 #include "Vision/RegionOCRer.h"
 
 bool asst::SanityBeforeStagePlugin::verify(AsstMsg msg, const json::value& details) const
@@ -31,67 +31,69 @@ bool asst::SanityBeforeStagePlugin::verify(AsstMsg msg, const json::value& detai
 
 bool asst::SanityBeforeStagePlugin::_run()
 {
-    LogTraceFunction;
-
-    get_sanity_before_stage();
+    int retry = 0;
+    while (!need_exit() && retry < 3) {
+        if (get_sanity_before_stage() || retry >= 3) {
+            break;
+        }
+        ++retry;
+        Log.warn(__FUNCTION__, "Sanity ocr failed, retry:", retry);
+        sleep(Config.get_options().task_delay);
+    }
 
     return true;
 }
 
-/// <summary>
-/// 获取 当前理智/最大理智
-/// </summary>
-void asst::SanityBeforeStagePlugin::get_sanity_before_stage()
+bool asst::SanityBeforeStagePlugin::get_sanity_before_stage()
 {
     LogTraceFunction;
 
-    sleep(Task.get("SanityMatch")->pre_delay);
+    const static auto task = Task.get<OcrTaskInfo>("SanityMatch");
+    auto img = make_roi(ctrler()->get_image(), task->roi);
+    cv::normalize(img, img, 255.0, 0.0, cv::NormTypes::NORM_MINMAX);
 
-    auto img = ctrler()->get_image();
     RegionOCRer analyzer(img);
-    analyzer.set_task_info("SanityMatch");
-
-    if (!analyzer.analyze()) {
-        Log.info(__FUNCTION__, "Current Sanity analyze failed");
-
-        std::string stem = utils::get_time_filestem();
-        cv::rectangle(img, make_rect<cv::Rect>(Task.get("SanityMatch")->roi), cv::Scalar(0, 0, 255), 2);
-        imwrite(utils::path("debug") / utils::path("sanity") / (stem + "_failed_img.png"), img);
-        return;
-    }
-    std::string text = analyzer.get_result().text;
-
-    if (!text.find('/') && text.length() > 2) {
-        if (text[text.length() - 3] == '1' && text[text.length() - 2] >= '0' && text[text.length() - 2] <= '3') {
-            text = text.substr(0, text.length() - 3) + '/' + text.substr(text.length() - 3);
-        }
-        else {
-            text = text.substr(0, text.length() - 2) + '/' + text.substr(text.length() - 2);
-        }
-    }
-    Log.info(__FUNCTION__, "Current Sanity:" + text);
+    analyzer.set_replace(task->replace_map);
+    auto res_opt = analyzer.analyze();
 
     json::value sanity_info = basic_info_with_what("SanityBeforeStage");
     do {
-        auto slash_pos = text.find('/');
-        if (slash_pos == std::string::npos) {
+        if (!res_opt) [[unlikely]] {
+            Log.warn(__FUNCTION__, "Sanity ocr failed");
             break;
         }
-        if (ranges::any_of(text, [](const char& c) { return c != '/' && !isdigit(c); })) {
+
+        std::string_view text = res_opt->text;
+        auto slash_pos = text.find('/');
+        if (slash_pos == std::string_view::npos) [[unlikely]] {
+            Log.warn(__FUNCTION__, "Sanity ocr result without '/':", text);
             break;
         }
 
         int sanity_cur = 0, sanity_max = 0;
-        if (std::from_chars(text.data(), text.data() + slash_pos, sanity_cur).ec != std::errc()) {
+        if (!utils::chars_to_number(text.substr(0, slash_pos), sanity_cur) ||
+            !utils::chars_to_number(text.substr(slash_pos + 1), sanity_max)) [[unlikely]] {
+            Log.warn(__FUNCTION__, "Sanity ocr result could not convert to int:", text);
             break;
         }
-        if (std::from_chars(text.data() + slash_pos + 1, text.data() + text.length(), sanity_max).ec != std::errc()) {
+
+        Log.info(__FUNCTION__, "Current Sanity:", sanity_cur, ", Max Sanity:", sanity_max);
+        if (sanity_cur < 0 || sanity_max > 135 || sanity_max < 82 /* 一级博士上限为82 */) [[unlikely]] {
+            Log.warn(__FUNCTION__, "Sanity out of limit");
             break;
         }
+
         // {"current_sanity": 100, "max_sanity": 135, "report_time": "2023-09-01 09:31:53.527"}
         sanity_info["details"]["current_sanity"] = sanity_cur;
         sanity_info["details"]["max_sanity"] = sanity_max;
         sanity_info["details"]["report_time"] = utils::get_format_time();
+        callback(AsstMsg::SubTaskExtraInfo, sanity_info);
+        return true;
+
     } while (false);
+
+    analyzer.save_img(utils::path("debug") / utils::path("sanity"));
+    // 识别失败返回空json。缓存数据需要作废
     callback(AsstMsg::SubTaskExtraInfo, sanity_info);
+    return false;
 }

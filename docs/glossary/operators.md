@@ -4,7 +4,7 @@ char_285_medic2|Lancet-2|Lancet-2|Lancet-2|Lancet-2
 char_286_cast3|Castle-3|Castle-3|Castle-3|Castle-3
 char_376_therex|THRM-EX|THRM-EX|THRM-EX|THRM-EX
 char_4000_jnight|正义骑士号|'Justice Knight'|ジャスティスナイト|저스티스 나이트
-char_4077_palico|泰拉大陆调查团|Terra Research Commission|テラ大陸調査団|
+char_4077_palico|泰拉大陆调查团|Terra Research Commission|テラ大陸調査団|테라 대륙 조사단
 char_4091_ulika|U-Official|U-Official||
 char_4093_frston|Friston-3|Friston-3||
 
@@ -91,7 +91,7 @@ char_440_pinecn|松果|Pinecone|パインコーン|파인콘
 char_452_bstalk|豆苗|Beanstalk|ビーンストーク|빈스토크
 char_469_indigo|深靛|Indigo|インディゴ|인디고
 char_484_robrta|罗比菈塔|Roberta|ロベルタ|로베르타
-char_491_humus|休谟斯|Humus||
+char_491_humus|休谟斯|Humus|ヒューマス|
 char_4004_pudd|布丁|Pudding|プリン|푸딩
 char_4041_chnut|褐果|Chestnut|チェストナット|체스트넛
 char_4062_totter|铅踝|Totter|トター|토터
@@ -116,7 +116,7 @@ char_143_ghost|幽灵鲨|Specter|スペクター|스펙터
 char_144_red|红|Projekt Red|レッド|레드
 char_145_prove|普罗旺斯|Provence|プロヴァンス|프로방스
 char_148_nearl|临光|Nearl|ニアール|니어
-char_154_morgan|摩根|Morgan||
+char_154_morgan|摩根|Morgan|モーガン|
 char_155_tiger|因陀罗|Indra|インドラ|인드라
 char_157_dagda|达格达|Dagda|ダグザ|다그다
 char_158_milu|守林人|Firewatch|ファイヤーウォッチ|파이어워치
@@ -189,7 +189,7 @@ char_455_nothin|乌有|Mr. Nothing|ウユウ|우요우
 char_457_blitz|闪击|Blitz|Blitz|Blitz
 char_458_rfrost|霜华|Frost|Frost|Frost
 char_459_tachak|战车|Tachanka|Tachanka|Tachanka
-char_464_cement|洋灰|Cement||
+char_464_cement|洋灰|Cement|セメント|
 char_466_qanik|雪绒|Qanipalaat|カニパラート|카니팔라트
 char_473_mberry|桑葚|Mulberry|マルベリー|멀베리
 char_475_akafyu|赤冬|Akafuyu|アカフユ|아카후유
@@ -212,7 +212,7 @@ char_1011_lava2|炎狱炎熔|Lava the Purgatory|炎獄ラヴァ|라바 더 퍼�
 char_1021_kroos2|寒芒克洛丝|Kroos the Keen Glint|寒芒クルース|크루스 더 킨 글린트
 char_1024_hbisc2|濯尘芙蓉|Hibiscus the Purifier|濯塵ハイビスカス|히비스커스 더 퓨리파이어
 char_1027_greyy2|承曦格雷伊|Greyy the Lightningbearer|承曦グレイ|그레이 더 라이트닝베어러
-char_1030_noirc2|火龙S黑角|Rathalos S Noir Corne|レウスSノイルホーン|
+char_1030_noirc2|火龙S黑角|Rathalos S Noir Corne|レウスSノイルホーン|레우스S 느와르 코르네
 char_4006_melnte|玫拉|Melanite||
 char_4013_kjera|耶拉|Kjera|イェラ|쉐라
 char_4014_lunacu|子月|Lunacub|ルナカブ|루나컵
@@ -234,6 +234,7 @@ char_4078_bdhkgt|截云|Jieyun|ジエユン|지에윈
 char_4083_chimes|铎铃|Wind Chimes|ウィンドチャイム|윈드차임스
 char_4102_threye|凛视|Valarqvin||
 char_4106_bryota|苍苔|Bryophyta||
+char_4104_coldst|冰酿|Coldshot||
 
 ID|中文|English|日本語|한국어
 ---|---|---|---|---
@@ -294,10 +295,11 @@ char_1020_reed2|焰影苇草|Reed the Flame Shadow|焔影リード|리드 더 �
 char_1023_ghost2|归溟幽灵鲨|Specter the Unchained|帰溟スペクター|스펙터 디 언체인드
 char_1026_gvial2|百炼嘉维尔|Gavial the Invincible|百錬ガヴィル|가비알 디 인빈서블
 char_1028_texas2|缄默德克萨斯|Texas the Omertosa|血掟テキサス|텍사스 디 오메르토사
-char_1029_yato2|麒麟R夜刀|Kirin R Yato|キリンRヤトウ|
+char_1029_yato2|麒麟R夜刀|Kirin R Yato|キリンRヤトウ|키린R 야토
 char_1031_slent2|淬羽赫默|Silence the Paradigmatic||
 char_1032_excu2|圣约送葬人|Executor the Ex Foedere||
 char_1033_swire2|琳琅诗怀雅|Swire the Elegant Wit||
+char_1034_jesca2|涤火杰西卡|Jessica the Liberated||
 char_2012_typhon|提丰|Typhon||
 char_2013_cerber|刻俄柏|Ceobe|ケオベ|케오베
 char_2014_nian|年|Nian|ニェン|니엔
@@ -316,5 +318,4 @@ char_4065_judge|斥罪|Penance|ペナンス|페넌스
 char_4072_ironmn|白铁|Stainless|ステインレス|스테인리스
 char_4080_lin|林|Lin|リン|린
 char_4082_qiubai|仇白|Qiubai|チューバイ|치우바이
-char_4087_ines|伊内丝|Ines||
-
+char_4087_ines|伊内丝|Ines|イネス|

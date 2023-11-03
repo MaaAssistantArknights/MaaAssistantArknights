@@ -111,7 +111,11 @@ std::optional<std::string> asst::MinitouchController::reconnect(const std::strin
 
 bool asst::MinitouchController::input_to_minitouch(const std::string& cmd)
 {
-    return m_minitouch_handler->write(cmd);
+    if (!(m_minitouch_handler && m_minitouch_handler->write(cmd))) {
+        Log.error("Failed to write to minitouch, try restart minitouch and re-write");
+        return call_and_hup_minitouch() && m_minitouch_handler->write(cmd);
+    }
+    return true;
 }
 
 void asst::MinitouchController::set_swipe_with_pause(bool enable) noexcept

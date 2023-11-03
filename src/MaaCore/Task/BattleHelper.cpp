@@ -132,14 +132,16 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         BestMatcher avatar_analyzer(oper.avatar);
         if (oper.cooling) {
             Log.trace("start matching cooling", oper.index);
-            static const double cooling_threshold = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_threshold;
+            static const double cooling_threshold =
+                Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_thresholds.front();
             static const auto cooling_mask_range = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->mask_range;
             avatar_analyzer.set_threshold(cooling_threshold);
             avatar_analyzer.set_mask_range(cooling_mask_range.first, cooling_mask_range.second, true, true);
         }
         else {
-            static const double threshold = Task.get<MatchTaskInfo>("BattleAvatarData")->templ_threshold;
-            static const double drone_threshold = Task.get<MatchTaskInfo>("BattleDroneAvatarData")->templ_threshold;
+            static const double threshold = Task.get<MatchTaskInfo>("BattleAvatarData")->templ_thresholds.front();
+            static const double drone_threshold =
+                Task.get<MatchTaskInfo>("BattleDroneAvatarData")->templ_thresholds.front();
             avatar_analyzer.set_threshold(oper.role == Role::Drone ? drone_threshold : threshold);
         }
 
@@ -181,6 +183,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             return false;
         }
 
+        cv::Mat name_image;
         for (auto& oper : unknown_opers) {
             LogTraceScope("rec unknown oper: " + std::to_string(oper.index));
             if (oper.cooling) {
@@ -189,9 +192,23 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
                 continue;
             }
 
-            click_oper_on_deployment(oper.rect);
+            Rect oper_rect = oper.rect;
+            // 点完部署区的一个干员之后，他的头像会放大；其他干员的位置都被挤开了，不在原来的位置了
+            // 所以只有第一个干员可以直接点，后面干员都要重新识别一下位置
+            if (!name_image.empty()) {
+                Matcher re_matcher;
+                re_matcher.set_task_info("BattleAvatarReMatch");
+                re_matcher.set_image(name_image);
+                re_matcher.set_templ(oper.avatar);
+                auto rematched = re_matcher.analyze();
+                if (rematched) {
+                    oper_rect = rematched->rect;
+                }
+            }
 
-            cv::Mat name_image = m_inst_helper.ctrler()->get_image();
+            click_oper_on_deployment(oper_rect);
+
+            name_image = m_inst_helper.ctrler()->get_image();
             if (!check_in_battle(name_image)) {
                 return false;
             }
@@ -390,6 +407,18 @@ bool asst::BattleHelper::check_pause_button(const cv::Mat& reusable)
     ret &= battle_result_opt && battle_result_opt->pause_button;
     return ret;
 }
+bool asst::BattleHelper::check_skip_plot_button(const cv::Mat& reusable)
+{
+    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+
+    Matcher battle_plot_analyzer(image);
+    battle_plot_analyzer.set_task_info("SkipThePreBattlePlot");
+    bool ret = battle_plot_analyzer.analyze().has_value();
+    if (ret) {
+        ProcessTask(this_task(), { "SkipThePreBattlePlot" }).run();
+    }
+    return ret;
+}
 
 bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)
 {
@@ -465,7 +494,7 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
         }
         used = true;
         retry = 0;
-        
+
         if (usage == SkillUsage::Times) {
             times--;
             if (times == 0) usage = SkillUsage::TimesUsed;

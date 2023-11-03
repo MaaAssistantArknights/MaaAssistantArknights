@@ -49,12 +49,14 @@ namespace asst
         static inline const std::string RoguelikeUseNonfriendSupport = "RoguelikeUseNonfriendSupport";
         static inline const std::string RoguelikeTraderNoLongerBuy = "RoguelikeNoLongerBuy";
         static inline const std::string RoguelikeTeamFullWithoutRookie = "RoguelikeTeamFullWithoutRookie";
-        static inline const std::string RoguelikeTheme = "RoguelikeTheme";
         static inline const std::string RoguelikeRecruitmentStartsComplete = "RoguelikeRecruitmentStartsComplete";
         static inline const std::string RoguelikeRecruitmentTeamComplete = "RoguelikeRecruitmentTeamComplete";
         static inline const std::string RoguelikeRecruitmentCount = "RoguelikeRecruitmentCount";
         static inline const std::string RoguelikeMode = "RoguelikeMode";
-        static inline const std::string RoguelikeNeedChangeDifficulty = "RoguelikeNeedChangeDifficulty";
+        static inline const std::string RoguelikeDifficulty = "RoguelikeDifficulty";
+
+        static inline const std::string RoguelikeFoldartalOverview = "RoguelikeFoldartalOverview";
+        static inline const std::string RoguelikeFoldartalFloor = "RoguelikeFoldartalFloor";
 
         static inline const std::string ProcessTaskLastTimePrefix = "#LastTime#";
 

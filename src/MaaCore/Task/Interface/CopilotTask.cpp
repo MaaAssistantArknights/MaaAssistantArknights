@@ -43,7 +43,7 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst)
     m_copilot_list_notification_ptr = start_2_tp->register_plugin<CopilotListNotificationPlugin>();
     m_subtasks.emplace_back(start_2_tp);
 
-    //跳过“以下干员出战后将被禁用，是否继续？”对话框
+    // 跳过“以下干员出战后将被禁用，是否继续？”对话框
     auto start_3_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
     start_3_tp->set_tasks({ "SkipForbiddenOperConfirm", "Stop" }).set_ignore_error(false);
     m_subtasks.emplace_back(start_3_tp);
@@ -92,8 +92,8 @@ bool asst::CopilotTask::set_params(const json::value& params)
         return false;
     }
 
-    bool with_formation = params.get("formation", false);
-    m_formation_task_ptr->set_enable(with_formation);
+    // 选择指定编队
+    m_formation_task_ptr->set_select_formation(params.get("select_formation", 0));
 
     // 自动补信赖
     m_formation_task_ptr->set_add_trust(params.get("add_trust", false));
@@ -134,6 +134,10 @@ bool asst::CopilotTask::set_params(const json::value& params)
     Task.get(m_navigate_name + "@Copilot@FullStageNavigation")->specific_rect = Rect(600, 100, 20, 20);
     m_navigate_task_ptr->set_tasks({ m_navigate_name + "@Copilot@StageNavigationBegin" });
     m_navigate_task_ptr->set_enable(need_navigate);
+
+    bool with_formation = params.get("formation", false);
+    // 关卡名含有"TR"的为教学关,不需要编队
+    m_formation_task_ptr->set_enable(with_formation && m_navigate_name.find("TR") == std::string::npos);
 
     std::string support_unit_name = params.get("support_unit_name", std::string());
     m_formation_task_ptr->set_support_unit_name(std::move(support_unit_name));

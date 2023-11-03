@@ -1,5 +1,8 @@
 #include "StageDropsImageAnalyzer.h"
 
+#include <numbers>
+#include <regex>
+
 #include "Utils/Ranges.hpp"
 
 #include "Utils/NoWarningCV.h"
@@ -11,10 +14,8 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
-#include "Vision/TemplDetOCRer.h"
 #include "Vision/RegionOCRer.h"
-
-#include <numbers>
+#include "Vision/TemplDetOCRer.h"
 
 bool asst::StageDropsImageAnalyzer::analyze()
 {
@@ -23,6 +24,7 @@ bool asst::StageDropsImageAnalyzer::analyze()
     analyze_stage_code();
     analyze_difficulty();
     analyze_stars();
+    analyze_times();
     bool ret = analyze_drops() && analyze_drops_for_CF() && analyze_drops_for_12();
 
 #ifndef ASST_DEBUG
@@ -41,6 +43,11 @@ asst::StageKey asst::StageDropsImageAnalyzer::get_stage_key() const
 int asst::StageDropsImageAnalyzer::get_stars() const noexcept
 {
     return m_stars;
+}
+
+int asst::StageDropsImageAnalyzer::get_times() const noexcept
+{
+    return m_times;
 }
 
 bool asst::StageDropsImageAnalyzer::analyze_stage_code()
@@ -62,6 +69,61 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_code()
                 cv::Scalar(0, 0, 255), 2);
 #endif
 
+    return true;
+}
+
+bool asst::StageDropsImageAnalyzer::analyze_times()
+{
+    LogTraceFunction;
+    RegionOCRer check_analyzer(m_image);
+    check_analyzer.set_task_info("StageDrops-TimesCheck");
+    if (!check_analyzer.analyze()) {
+        m_times = -1; // not found
+        Log.info(__FUNCTION__, "Times not found");
+#ifdef ASST_DEBUG
+        auto draw_rect = Task.get("StageDrops-TimesCheck")->roi;
+        cv::rectangle(m_image_draw, make_rect<cv::Rect>(draw_rect), cv::Scalar(0, 0, 255), 2);
+        cv::putText(m_image_draw, "Not found times", cv::Point(73, 410), cv::FONT_HERSHEY_SIMPLEX, 0.5,
+                    cv::Scalar(0, 0, 255), 2);
+#endif
+        return true;
+    }
+
+    RegionOCRer rec_analyzer(m_image);
+    rec_analyzer.set_task_info("StageDrops-TimesRec");
+    if (!rec_analyzer.analyze()) {
+        m_times = -2; // recognition failed
+        Log.error(__FUNCTION__, "recognition failed");
+        return false;
+    }
+
+    std::string raw_str = rec_analyzer.get_result().text;
+    Log.info(__FUNCTION__, "raw_str", raw_str);
+
+    std::regex re(R"(\d+)");
+    std::smatch match;
+    if (!std::regex_search(raw_str, match, re)) {
+        m_times = -2;
+        Log.error(__FUNCTION__, "regex_search failed");
+        return false;
+    }
+    std::string str_times = match.str();
+    Log.info(__FUNCTION__, "str_times", str_times);
+
+    if (!utils::chars_to_number(str_times, m_times)) {
+        m_times = -2;
+        Log.error(__FUNCTION__, "chars_to_number failed");
+        return false;
+    }
+
+#ifdef ASST_DEBUG
+    auto draw_rect = Task.get("StageDrops-TimesRec")->roi;
+    cv::rectangle(m_image_draw, make_rect<cv::Rect>(draw_rect), cv::Scalar(0, 0, 255), 2);
+    cv::putText(m_image_draw, "Times: " + std::to_string(m_times), cv::Point(73, 410), cv::FONT_HERSHEY_SIMPLEX, 0.5,
+                cv::Scalar(0, 0, 255), 2);
+#endif
+
+    Log.info(__FUNCTION__, "times", m_times);
     return true;
 }
 
@@ -105,7 +167,7 @@ bool asst::StageDropsImageAnalyzer::analyze_stars()
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw, make_rect<cv::Rect>(matched_rect), cv::Scalar(0, 0, 255), 2);
     cv::putText(m_image_draw, std::to_string(m_stars) + " stars",
-                cv::Point(matched_rect.x, matched_rect.y + matched_rect.height + 20), cv::FONT_HERSHEY_SIMPLEX, 0.5,
+                cv::Point(matched_rect.x + 5, matched_rect.y + matched_rect.height - 5), cv::FONT_HERSHEY_SIMPLEX, 0.5,
                 cv::Scalar(0, 0, 255), 2);
 #endif
 
@@ -337,7 +399,7 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
     int y_offset = task_ptr->roi.y + bounding_rect.y;
 
     const int min_width = task_ptr->special_params.front();
-    const int max_spacing = static_cast<int>(task_ptr->templ_threshold);
+    const int max_spacing = static_cast<int>(task_ptr->templ_thresholds.front());
 
     int i_start = 0, i_end = bounding.cols - 1;
     bool in = true; // 是否正处在白线中
@@ -542,7 +604,7 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     cv::inRange(gray, task_ptr->mask_range.first, task_ptr->mask_range.second, bin);
 
     // split
-    const int max_spacing = static_cast<int>(task_ptr->templ_threshold);
+    const int max_spacing = static_cast<int>(task_ptr->templ_thresholds.front());
     std::vector<cv::Range> contours;
     int i_right = bin.cols - 1, i_left = 0;
     bool in = false;
@@ -609,6 +671,7 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     }
 
     Matcher analyzer(m_image);
+    analyzer.set_threshold(0.8);
     analyzer.set_templ(templ);
     analyzer.set_mask_range(1, 255, false, true);
     analyzer.set_roi(roi);

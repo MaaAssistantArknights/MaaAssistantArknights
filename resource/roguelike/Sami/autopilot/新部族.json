@@ -32,7 +32,10 @@
             "groups": [
                 "情报官",
                 "回费",
-                "处决者"
+                "地面远程",
+                "地面阻挡",
+                "处决者",
+                "障碍物"
             ],
             "location": [
                 7,
@@ -42,8 +45,8 @@
         },
         {
             "groups": [
+                "焰苇",
                 "凯尔希",
-                "苇草",
                 "单奶"
             ],
             "location": [
@@ -54,7 +57,8 @@
         },
         {
             "groups": [
-                "召唤"
+                "召唤",
+                "单奶"
             ],
             "location": [
                 6,
@@ -68,34 +72,24 @@
                 "其他地面"
             ],
             "location": [
-                6,
-                4
-            ],
-            "direction": "left"
-        },
-        {
-            "groups": [
-                "地面阻挡",
-                "其他地面"
-            ],
-            "location": [
-                7,
-                4
-            ],
-            "direction": "left"
-        },
-        {
-            "groups": [
-                "玛恩纳"
-            ],
-            "location": [
                 7,
                 3
             ],
             "direction": "left"
         },
         {
-            "groups": [                
+            "groups": [
+                "玛恩纳",
+                "地刺"
+            ],
+            "location": [
+                5,
+                3
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
                 "狙击"
             ],
             "location": [
@@ -105,7 +99,7 @@
             "direction": "left"
         },
         {
-            "groups": [                
+            "groups": [
                 "水陈"
             ],
             "location": [
@@ -115,11 +109,11 @@
             "direction": "left"
         },
         {
-            "groups": [                
-                "术师",
-                "召唤",
-                "速狙",
+            "groups": [
                 "狙击",
+                "凯尔希",
+                "单奶",
+                "高台输出",
                 "辅助"
             ],
             "location": [
@@ -127,16 +121,15 @@
                 1
             ],
             "direction": "down"
-        },        
+        },
         {
             "groups": [
                 "地面阻挡",
-                "处决者",
                 "其他地面"
             ],
             "location": [
-                7,
-                3
+                6,
+                4
             ],
             "direction": "left"
         },
@@ -155,8 +148,8 @@
         },
         {
             "groups": [
-                "单奶",
                 "狙击",
+                "单奶",
                 "高台输出"
             ],
             "location": [
@@ -164,6 +157,18 @@
                 5
             ],
             "direction": "left"
+        },
+        {
+            "groups": [
+                "补给站",
+                "无人机",
+                "支援陷阱"
+            ],
+            "location": [
+                6,
+                3
+            ],
+            "direction": "up"
         }
     ]
 }

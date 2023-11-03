@@ -4,6 +4,7 @@
 
 #include "Utils/Ranges.hpp"
 #include "Utils/StringMisc.hpp"
+#include "Utils/Time.hpp"
 
 #ifdef _MSC_VER
 #pragma warning(push)
@@ -58,7 +59,8 @@ bool update_levels_json(const std::filesystem::path& input_file, const std::file
 bool update_infrast_templates(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 bool generate_english_roguelike_stage_name_replacement(const std::filesystem::path& ch_file,
                                                        const std::filesystem::path& en_file);
-bool update_battle_chars_info(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
+bool update_battle_chars_info(const std::filesystem::path& input_dir, const std::filesystem::path& overseas_dir,
+                              const std::filesystem::path& output_dir);
 bool update_recruitment_data(const std::filesystem::path& input_dir, const std::filesystem::path& output, bool is_base);
 
 bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir,
@@ -70,6 +72,8 @@ bool update_version_info(const std::filesystem::path& input_dir, const std::file
 
 int main([[maybe_unused]] int argc, char** argv)
 {
+    /* PATH DECLARATION */
+
     const char* str_exec_path = argv[0];
     const auto cur_path = std::filesystem::path(str_exec_path).parent_path();
 
@@ -83,8 +87,17 @@ int main([[maybe_unused]] int argc, char** argv)
     std::cout << "Temp dir: " << cur_path << std::endl;
     std::cout << "Working dir: " << solution_dir << std::endl;
 
-    const std::filesystem::path arkbot_res_dir = cur_path / "ArknightsGameResource";
+    const auto arkbot_res_dir = cur_path / "ArknightsGameResource";
+    const auto overseas_data_dir = cur_path / "ArknightsGameData_YoStar";
+    const auto resource_dir = solution_dir / "resource";
+    std::unordered_map<std::string, std::string> global_dirs = {
+        { "en_US", "YoStarEN" }, { "ja_JP", "YoStarJP" }, { "ko_KR", "YoStarKR" },
+        // DO NOT USE. IT WILL OVERWRITE AND REMOVE THE CURRENT TAIWANESE DATA.
+        //{ "tw", "txwy" },
+        // CHECK: https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/7074
+    };
 
+    /* METHODS CALLS */
     std::cout << "------------Update ArknightsGameResource------------" << std::endl;
     std::string git_cmd;
     if (!std::filesystem::exists(arkbot_res_dir)) {
@@ -99,8 +112,6 @@ int main([[maybe_unused]] int argc, char** argv)
         std::cerr << "git cmd failed" << std::endl;
         return -1;
     }
-
-    const auto resource_dir = solution_dir / "resource";
 
     /* Update levels.json from ArknightsGameResource*/
     std::cout << "------------Update levels.json------------" << std::endl;
@@ -140,48 +151,36 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
 
+    /* Update overseas data from ArknightsGameData_YoStar*/
+    std::cout << "------------Update overseas data------------" << std::endl;
+    if (!std::filesystem::exists(overseas_data_dir)) {
+        git_cmd = "git clone https://github.com/Kengxxiao/ArknightsGameData_YoStar.git --depth=1 \"" +
+                  overseas_data_dir.string() + "\"";
+    }
+    else {
+        git_cmd = "git -C \"" + overseas_data_dir.string() + "\" pull --autostash";
+    }
+    git_ret = system(git_cmd.c_str());
+    if (git_ret != 0) {
+        std::cerr << "git cmd failed" << std::endl;
+        return -1;
+    }
+
     /* Update battle chars info from ArknightsGameResource*/
     std::cout << "------------Update battle chars info------------" << std::endl;
-    if (!update_battle_chars_info(arkbot_res_dir, resource_dir)) {
+    if (!update_battle_chars_info(arkbot_res_dir, overseas_data_dir, resource_dir)) {
         std::cerr << "Update battle chars info failed" << std::endl;
         return -1;
     }
 
-    /* Update overseas data */
-    std::cout << "------------Update overseas data------------" << std::endl;
-    const std::filesystem::path overseas_data_dir = cur_path;
-
-    std::string data_exec = (overseas_data_dir / "arknights_rs.exe").string();
-    if (!std::filesystem::exists(data_exec)) {
-        std::string download_cmd = "curl --ssl-no-revoke "
-                                   "https://raw.githubusercontent.com/MaaAssistantArknights/"
-                                   "MaaRelease/main/MaaAssistantArknights/api/binaries/arknights_rs.exe  > " +
-                                   data_exec;
-        int dl = system(download_cmd.c_str());
-        if (dl != 0) {
-            std::cerr << "download overseas exec failed" << std::endl;
-            return -1;
-        }
-    }
-    int zhtw_ret = system(("cd " + cur_path.string() + " && " + data_exec).c_str());
-    if (zhtw_ret != 0) {
-        std::cerr << "overseas update failed" << std::endl;
-        return -1;
-    }
-
-    /* Update recruitment data from overseas data*/
+    /* Update recruitment data from ArknightsGameResource*/
     std::cout << "------------Update recruitment data------------" << std::endl;
     if (!update_recruitment_data(arkbot_res_dir / "gamedata" / "excel", resource_dir / "recruitment.json", true)) {
         std::cerr << "Update recruitment data failed" << std::endl;
         return -1;
     }
 
-    std::unordered_map<std::string, std::string> global_dirs = {
-        { "en", "YoStarEN" },
-        { "jp", "YoStarJP" },
-        { "kr", "YoStarKR" },
-        { "tw", "txwy" },
-    };
+    /* Update recruitment data from ArknightsGameData_YoStar*/
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update recruitment data for " << out << "------------" << std::endl;
         if (!update_recruitment_data(overseas_data_dir / in / "gamedata" / "excel",
@@ -191,13 +190,14 @@ int main([[maybe_unused]] int argc, char** argv)
         }
     }
 
-    /* Update items template and json  from ArknightsGameResource*/
+    /* Update items template and json from ArknightsGameResource*/
     std::cout << "------------Update items template and json------------" << std::endl;
     if (!update_items_data(arkbot_res_dir, resource_dir)) {
         std::cerr << "Update items data failed" << std::endl;
         return -1;
     }
-    /* Update items global json from overseas data*/
+
+    /* Update items global json from ArknightsGameData_YoStar*/
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update items json for " << out << "------------" << std::endl;
         if (!update_items_data(overseas_data_dir / in, resource_dir / "global" / out / "resource", false)) {
@@ -215,13 +215,14 @@ int main([[maybe_unused]] int argc, char** argv)
         }
     }
 
+    /* Update version info from ArknightsGameData*/
     std::cout << "------------Update version info------------" << std::endl;
-
     if (!update_version_info(arkbot_res_dir / "gamedata" / "excel", resource_dir)) {
         std::cerr << "Update version info failed" << std::endl;
         return -1;
     }
 
+    /* Update global version info from ArknightsGameData_Yostar*/
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update version info for " << out << "------------" << std::endl;
         if (!update_version_info(overseas_data_dir / in / "gamedata" / "excel",
@@ -361,18 +362,23 @@ bool cvt_single_item_template(const std::filesystem::path& input, const std::fil
 
     if (std::filesystem::exists(output)) {
         cv::Mat pre = cv::imread(output.string());
-        cv::Mat matched;
-        cv::matchTemplate(dst_resized, pre, matched, cv::TM_CCORR_NORMED);
-        double max_val = 0, min_val = 0;
-        cv::Point max_loc {}, min_loc {};
-        cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
+        if (pre.size() == dst_resized.size()) {
+            cv::Mat matched;
+            cv::matchTemplate(dst_resized, pre, matched, cv::TM_CCORR_NORMED);
+            double max_val = 0, min_val = 0;
+            cv::Point max_loc {}, min_loc {};
+            cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
 
-        if (max_val > 0.95) {
-            std::cout << "Same infrast templ, Skip: " << output << ", score: " << max_val << std::endl;
-            return true;
+            if (max_val > 0.95) {
+                std::cout << "Same infrast templ, Skip: " << output << ", score: " << max_val << std::endl;
+                return true;
+            }
+            else {
+                std::cout << "Update item templ: " << output << ", score: " << max_val << std::endl;
+            }
         }
         else {
-            std::cout << "Update item templ: " << output << ", score: " << max_val << std::endl;
+            std::cout << "Update item templ: " << output << " because sizes are different." << std::endl;
         }
     }
     else {
@@ -640,18 +646,23 @@ bool update_infrast_templates(const std::filesystem::path& input_dir, const std:
 
         if (std::filesystem::exists(out_file)) {
             cv::Mat pre = cv::imread(out_file);
-            cv::Mat matched;
-            cv::matchTemplate(dst, pre, matched, cv::TM_CCORR_NORMED);
-            double max_val = 0, min_val = 0;
-            cv::Point max_loc {}, min_loc {};
-            cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
+            if (pre.size() == dst.size()) {
+                cv::Mat matched;
+                cv::matchTemplate(dst, pre, matched, cv::TM_CCORR_NORMED);
+                double max_val = 0, min_val = 0;
+                cv::Point max_loc {}, min_loc {};
+                cv::minMaxLoc(matched, &min_val, &max_val, &min_loc, &max_loc);
 
-            if (max_val > 0.95) {
-                std::cout << "Same infrast templ, Skip: " << out_file << ", score: " << max_val << std::endl;
-                continue;
+                if (max_val > 0.95) {
+                    std::cout << "Same infrast templ, Skip: " << out_file << ", score: " << max_val << std::endl;
+                    continue;
+                }
+                else {
+                    std::cout << "Update infrast templ: " << out_file << ", score: " << max_val << std::endl;
+                }
             }
             else {
-                std::cout << "Update infrast templ: " << out_file << ", score: " << max_val << std::endl;
+                std::cout << "Update item templ: " << out_file << " because sizes are different." << std::endl;
             }
         }
         else {
@@ -763,18 +774,30 @@ bool generate_english_roguelike_stage_name_replacement(const std::filesystem::pa
     return true;
 }
 
-bool update_battle_chars_info(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir)
+bool update_battle_chars_info(const std::filesystem::path& input_dir, const std::filesystem::path& overseas_dir,
+                              const std::filesystem::path& output_dir)
 {
-    const auto& input_chars_file = input_dir / "gamedata" / "excel" / "character_table.json";
-    const auto& input_range_file = input_dir / "gamedata" / "excel" / "range_table.json";
+    auto range_opt = json::open(input_dir / "gamedata" / "excel" / "range_table.json");
+    auto chars_cn_opt = json::open(input_dir / "gamedata" / "excel" / "character_table.json");
+    auto chars_en_opt = json::open(overseas_dir / "en_US" / "gamedata" / "excel" / "character_table.json");
+    auto chars_jp_opt = json::open(overseas_dir / "ja_JP" / "gamedata" / "excel" / "character_table.json");
+    auto chars_kr_opt = json::open(overseas_dir / "ko_KR" / "gamedata" / "excel" / "character_table.json");
+    auto battle_data_opt = json::open(output_dir / "battle_data.json");
+    // auto chars_tw_opt = json::open(overseas_dir / "tw" / "gamedata" / "excel" / "character_table.json");
+    // https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/7074
+    // https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/7079#issuecomment-1780467372
 
-    auto chars_opt = json::open(input_chars_file);
-    auto range_opt = json::open(input_range_file);
-    if (!chars_opt || !range_opt) {
+    if (!chars_cn_opt || !chars_en_opt || !chars_jp_opt || !chars_kr_opt || !battle_data_opt || !range_opt) {
         return false;
     }
-    auto& chars_json = chars_opt.value();
+
     auto& range_json = range_opt.value();
+
+    std::vector<std::pair<json::value, std::string>> chars_json = { { chars_cn_opt.value(), "name" },
+                                                                    { chars_en_opt.value(), "name_en" },
+                                                                    { chars_jp_opt.value(), "name_jp" },
+                                                                    { chars_kr_opt.value(), "name_kr" },
+                                                                    { battle_data_opt.value(), "name_tw" } };
 
     json::value result;
     auto& range = result["ranges"].as_object();
@@ -795,11 +818,14 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
 
     auto& chars = result["chars"];
     std::map<std::string, std::vector<std::string>> tokens;
-    for (auto& [id, char_data] : chars_json.as_object()) {
+    for (auto& [id, char_data] : chars_json[0].first.as_object()) {
         json::value char_new_data;
-        std::string name = char_data["name"].as_string();
 
-        char_new_data["name"] = name;
+        for (auto& [data, name] : chars_json) {
+            char_new_data[name] = (name != "name_tw") ? data.get(id, "name", char_data["name"].as_string())
+                                                      : data.get("chars", id, "name_tw", char_data["name"].as_string());
+        }
+
         char_new_data["profession"] = char_data["profession"];
         const std::string& default_range = char_data.get("phases", 0, "rangeId", "0-1");
         char_new_data["rangeId"] = json::array {
@@ -835,6 +861,10 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
 
     json::value Amiya_data;
     Amiya_data["name"] = "阿米娅-WARRIOR";
+    Amiya_data["name_en"] = "Amiya-WARRIOR";
+    Amiya_data["name_jp"] = "アーミヤ-WARRIOR";
+    Amiya_data["name_kr"] = "아미야-WARRIOR";
+    Amiya_data["name_tw"] = "阿米婭-WARRIOR";
     Amiya_data["profession"] = "WARRIOR";
     Amiya_data["rangeId"] = json::array { "1-1", "1-1", "1-1" };
     Amiya_data["rarity"] = 5;
@@ -844,6 +874,7 @@ bool update_battle_chars_info(const std::filesystem::path& input_dir, const std:
     const auto& out_file = output_dir / "battle_data.json";
     std::ofstream ofs(out_file, std::ios::out);
     ofs << result.format() << std::endl;
+    ofs.close();
 
     return true;
 }
@@ -857,13 +888,10 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
     auto not_empty = []<range Rng>(Rng str) -> bool { return !str.empty(); };
     auto make_string_view = []<range Rng>(Rng str) -> std::string_view { return asst::utils::make_string_view(str); };
 
-    const auto& recruitment_file = input_dir / "gacha_table.json";
-    const auto& operators_file = input_dir / "character_table.json";
+    auto recruitment_opt = json::open(input_dir / "gacha_table.json");
+    auto operators_opt = json::open(input_dir / "character_table.json");
 
-    auto recruitment_opt = json::open(recruitment_file);
-    auto operatros_opt = json::open(operators_file);
-
-    if (!recruitment_opt || !operatros_opt) {
+    if (!recruitment_opt || !operators_opt) {
         std::cerr << "Failed to parse recruitment or operators file" << std::endl;
         return false;
     }
@@ -904,7 +932,7 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
 
     std::unordered_map</*name*/ std::string, /*id*/ std::string> chars_id_list;
 
-    for (auto& [id, char_data] : operatros_opt->as_object()) {
+    for (auto& [id, char_data] : operators_opt->as_object()) {
         if (is_base) {
             RecruitmentInfo info;
             info.rarity = char_data["rarity"].as_integer() + 1;
@@ -989,6 +1017,7 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
 
     std::ofstream ofs(output, std::ios::out);
     ofs << result.format() << std::endl;
+    ofs.close();
 
     return true;
 }
@@ -1102,6 +1131,7 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
 
     std::ofstream ofs(tasks_path, std::ios::out);
     ofs << task_json.format() << std::endl;
+    ofs.close();
 
     return true;
 }
@@ -1166,9 +1196,12 @@ bool update_version_info(const std::filesystem::path& input_dir, const std::file
         result["activity"]["time"] = time;
         result["activity"]["name"] = name;
     }
+    static auto time = asst::utils::get_format_time();
+    result["last_updated"] = time;
 
     std::ofstream ofs(output_dir / "version.json", std::ios::out);
     ofs << result.format() << std::endl;
+    ofs.close();
 
     return true;
 }

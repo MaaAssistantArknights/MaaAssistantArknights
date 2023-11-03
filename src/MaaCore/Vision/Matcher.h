@@ -26,7 +26,7 @@ namespace asst
             cv::Mat templ;
             std::string templ_name;
         };
-        static RawResult preproc_and_match(const cv::Mat& image, const MatcherConfig::Params& params);
+        static std::vector<RawResult> preproc_and_match(const cv::Mat& image, const MatcherConfig::Params& params);
 
     protected:
         virtual void _set_roi(const Rect& roi) override { set_roi(roi); }
