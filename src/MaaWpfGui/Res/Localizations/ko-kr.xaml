@@ -56,6 +56,7 @@
     <system:String x:Key="Dorm">숙소</system:String>
     <system:String x:Key="Mfg">제조소</system:String>
     <system:String x:Key="Processing">가공소</system:String>
+    <system:String x:Key="Training">연습실</system:String>
     <system:String x:Key="Trade">무역소</system:String>
     <system:String x:Key="Power">발전소</system:String>
     <system:String x:Key="Reception">응접실</system:String>
@@ -72,6 +73,8 @@
     <system:String x:Key="DormFilterNotStationedEnabled">이미 배치된 오퍼레이터를 숙소에 넣지 않기</system:String>
     <system:String x:Key="DormFilterNotStationedTips">선택할 경우 아이린과 같은 오퍼레이터를 훈련실에서 제거하지 않을 뿐만 아니라 가공소의 오퍼레이터가 숙소에 배치되는 것을 방지합니다.</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">오리지늄 조각 자동 보충</system:String>
+    <system:String x:Key="TrainingCompleted">훈련 완료</system:String>
+    <system:String x:Key="TrainingProgress">훈련 진행</system:String>
     <system:String x:Key="CustomInfrastEnabled">커스텀 기반시설 (베타)</system:String>
     <system:String x:Key="DefaultInfrast">기본 구성</system:String>
     <system:String x:Key="UserDefined">사용자 설정</system:String>
