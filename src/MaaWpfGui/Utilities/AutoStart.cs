@@ -16,6 +16,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices.ComTypes;
 using Microsoft.Win32;
+using Serilog;
 
 namespace MaaWpfGui.Utilities
 {
@@ -24,13 +25,16 @@ namespace MaaWpfGui.Utilities
     /// </summary>
     public static class AutoStart
     {
+        private static readonly ILogger _logger = Log.ForContext("SourceContext", "AutoStart");
+
         private static readonly string _fileValue = Process.GetCurrentProcess().MainModule?.FileName;
         private static readonly string _uniqueIdentifier = GetUniqueIdentifierFromPath(_fileValue);
 
         private static readonly string _startupFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
-        private static readonly string _startupShortcutPath = Path.Combine(_startupFolderPath, $"MAA_{_uniqueIdentifier}.lnk");
+        private static readonly string _registryKeyName = $"MAA_{_uniqueIdentifier}";
+        private static readonly string _startupShortcutPath = Path.Combine(_startupFolderPath, _registryKeyName + ".lnk");
 
-        static string GetUniqueIdentifierFromPath(string path)
+        private static string GetUniqueIdentifierFromPath(string path)
         {
             int hash = path.GetHashCode();
             return hash.ToString("X");
@@ -42,24 +46,23 @@ namespace MaaWpfGui.Utilities
         /// <returns>The value.</returns>
         public static bool CheckStart()
         {
-            // 弃用注册表检查，迁移到启动文件夹
             try
             {
-                using var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
-                if (key?.GetValue("MeoAsst") != null)
+                // 管理员权限下无法通过启动文件夹开机自启，因此需要检查注册表
+                if (File.Exists(_startupShortcutPath))
                 {
-                    key.DeleteValue("MeoAsst");
+                    File.Delete(_startupShortcutPath);
                     SetStart(true);
-                    return true;
                 }
+
+                using var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", false);
+                return key?.GetValue(_startupShortcutPath) != null;
             }
-            catch
+            catch (Exception e)
             {
-                // ignored
+                _logger.Error("Failed to check startup: " + e.Message);
+                return false;
             }
-
-            return File.Exists(_startupShortcutPath);
-
         }
 
         /// <summary>
@@ -71,26 +74,20 @@ namespace MaaWpfGui.Utilities
         {
             try
             {
+                using var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
+                if (key == null)
+                {
+                    _logger.Error("Failed to open registry key.");
+                    return false;
+                }
+
                 if (set)
                 {
-                    // 创建启动文件夹的快捷方式
-                    // ReSharper disable once SuspiciousTypeConversion.Global
-                    var shellLink = (IShellLink)new ShellLink();
-                    shellLink.SetPath(_fileValue);
-                    shellLink.SetWorkingDirectory(Path.GetDirectoryName(_fileValue));
-                    shellLink.Resolve(IntPtr.Zero, 1);
-
-                    // ReSharper disable once SuspiciousTypeConversion.Global
-                    var file = (IPersistFile)shellLink;
-                    file.Save(_startupShortcutPath, false);
+                    key.SetValue(_registryKeyName, "\"" + _fileValue + "\"");
                 }
                 else
                 {
-                    // 删除启动文件夹的快捷方式
-                    if (File.Exists(_startupShortcutPath))
-                    {
-                        File.Delete(_startupShortcutPath);
-                    }
+                    key.DeleteValue(_registryKeyName);
                 }
 
                 return set == CheckStart();
