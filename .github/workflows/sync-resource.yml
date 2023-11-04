@@ -26,13 +26,20 @@ jobs:
           path: MaaResource
       - name: Update MaaResource
         run: |
-          cd MaaResource
-          shopt -s extglob
-          rm -rf !(".gitignore"|"LICENSE"|"README.md")
-          cd ..
-          cp -rf resource/* MaaResource
           export commit_msg=$(git show -s --format=%s)
           cd MaaResource
+          shopt -s extglob
+
+          cd resource
+          rm -rf !(".gitignore")
+          cp -rf ../../resource/* .
+          cd ..
+
+          cd cache
+          rm -rf !(".gitignore")
+          cp -rf ../../resource/* .
+          cd ..
+          
           git add .
           git status
           git commit -m "$commit_msg"
