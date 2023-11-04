@@ -4304,6 +4304,7 @@
     },
     "MedicineNotConfirmed": {
         "baseTask": "MedicineConfirm",
+        "template": "MedicineConfirm.png",
         "action": "DoNothing",
         "reduceOtherTimes": [],
         "maxTimes": 5,
