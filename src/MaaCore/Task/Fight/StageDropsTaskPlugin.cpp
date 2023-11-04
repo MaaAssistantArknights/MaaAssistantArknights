@@ -4,6 +4,7 @@
 #include <regex>
 #include <thread>
 
+#include "Common/AsstTypes.h"
 #include "Common/AsstVersion.h"
 #include "Config/Miscellaneous/ItemConfig.h"
 #include "Config/Miscellaneous/StageDropsConfig.h"
@@ -13,6 +14,7 @@
 #include "Task/ProcessTask.h"
 #include "Task/ReportDataTask.h"
 #include "Utils/Logger.hpp"
+#include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
 
 bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details) const
@@ -109,8 +111,57 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
         return false;
     }
 
-    StageDropsImageAnalyzer analyzer(ctrler()->get_image());
-    bool ret = analyzer.analyze();
+    auto image_stride = ctrler()->get_image().clone();
+    StageDropsImageAnalyzer analyzer(image_stride);
+
+    bool ret = false;
+    Point cropped_out = {};
+    while (!analyzer.analyze_baseline(cropped_out)) {
+        ret = false;
+        if (cropped_out == Point {}) break; // other error, return false
+
+        // else: more materials to reveal?
+
+        cropped_out.y -= 4;
+        cropped_out.x -= image_stride.cols - WindowWidthDefault;
+        const int swipe_dist = 200;
+        ctrler()->swipe(cropped_out, cropped_out + swipe_dist * Point::left(), 1000, true);
+        sleep(2000);
+
+        const cv::Rect ref_roi = { image_stride.cols - 320, 520, 280, 120 };
+        auto new_img = ctrler()->get_image();
+
+        Matcher offset_match(new_img(cv::Rect { 0, ref_roi.y, new_img.cols, ref_roi.height }));
+        offset_match.set_templ(image_stride(ref_roi));
+        offset_match.set_threshold(0.7);
+        if (!offset_match.analyze()) break;
+
+        // int offset = ref_roi.x - offset_match.get_result().rect.x;
+        const int offset = (new_img.cols - offset_match.get_result().rect.x) - (image_stride.cols - ref_roi.x);
+        Log.trace("new image offset:", offset);
+        if (offset <= 4) {
+            ret = true;
+            break;
+        }
+        const int rel_x = offset + image_stride.cols - new_img.cols;
+
+        const cv::Rect overlay_rect = { 540, 500, 740, 220 };
+        cv::Rect overlay_rect_on_stride = overlay_rect;
+        overlay_rect_on_stride.x += rel_x;
+
+        cv::Mat new_stride =
+            cv::Mat { image_stride.rows, overlay_rect_on_stride.br().x, image_stride.type(), cv::Scalar(0) };
+        image_stride.copyTo(new_stride(cv::Rect { 0, 0, image_stride.cols, image_stride.rows }));
+        new_img(overlay_rect).copyTo(new_stride(overlay_rect_on_stride));
+
+        image_stride = new_stride;
+
+        ret = true;
+        analyzer.set_image(image_stride);
+    }
+
+    // image stride constructed, start main step
+    ret &= analyzer.analyze();
 
     auto&& [code, difficulty] = analyzer.get_stage_key();
     m_stage_code = std::move(code);

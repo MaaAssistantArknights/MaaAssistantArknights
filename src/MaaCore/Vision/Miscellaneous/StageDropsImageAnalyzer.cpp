@@ -3,6 +3,7 @@
 #include <numbers>
 #include <regex>
 
+#include "Common/AsstTypes.h"
 #include "Utils/Ranges.hpp"
 
 #include "Utils/NoWarningCV.h"
@@ -226,7 +227,7 @@ bool asst::StageDropsImageAnalyzer::analyze_drops()
 {
     LogTraceFunction;
 
-    if (!analyze_baseline()) {
+    if (Point p {}; !analyze_baseline(p) && p == Point {}) {
         return false;
     }
 
@@ -361,9 +362,11 @@ bool asst::StageDropsImageAnalyzer::analyze_drops_for_12()
     return !flag_analyzer.analyze();
 }
 
-bool asst::StageDropsImageAnalyzer::analyze_baseline()
+bool asst::StageDropsImageAnalyzer::analyze_baseline(Point& cropped_out)
 {
     LogTraceFunction;
+
+    m_baseline.clear();
 
     auto task_ptr = Task.get<MatchTaskInfo>("StageDrops-BaseLine");
 
@@ -386,7 +389,9 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
                          cv::getStructuringElement(cv::MORPH_RECT, { 3, 1 }));
 
         // cropping after derivatives, dilation, and erosion
-        cv::cvtColor(preprocessed_roi(make_rect<cv::Rect>(task_ptr->roi)), preprocessed_roi, cv::COLOR_BGR2GRAY);
+        auto roi = make_rect<cv::Rect>(task_ptr->roi);
+        roi.width = WindowWidthDefault - roi.br().x + m_image.cols; // image may be wider than 1280
+        cv::cvtColor(preprocessed_roi(roi), preprocessed_roi, cv::COLOR_BGR2GRAY);
     }
 
     cv::Mat preprocessed_bin;
@@ -455,6 +460,13 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
     Log.trace(__FUNCTION__, "baseline size", m_baseline.size());
     for (const auto& key : m_baseline | views::keys) {
         Log.trace(__FUNCTION__, "baseline", key.to_string());
+    }
+
+    if (m_image.cols - (x_offset + bounding_rect.width) < 30 + max_spacing) {
+        cropped_out.x = x_offset + bounding_rect.width;
+        cropped_out.y = task_ptr->roi.y;
+        Log.trace("bounding_rect.right=", cropped_out.x, ", more materials to reveal?");
+        return false;
     }
 
     return !m_baseline.empty();
