@@ -539,7 +539,7 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
         }
         break;
     case StageDropType::Furniture:
-        return "furni"; // 家具
+        return "Furniture"; // 家具
     case StageDropType::Sanity:
         return "AP_GAMEPLAY"; // 理智返还
     case StageDropType::Reward:
@@ -760,7 +760,7 @@ int asst::StageDropsImageAnalyzer::match_quantity(const asst::Rect& roi, const s
 {
     TextRect result;
     // is furniture?
-    if (item.empty() || item == "furni") {
+    if (item.empty() || item == "Furniture") {
         auto opt = match_quantity_string(roi, use_word_model);
         if (!opt) return 0;
         result = opt.value();
