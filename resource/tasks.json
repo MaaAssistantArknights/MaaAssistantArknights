@@ -4287,6 +4287,7 @@
         "cache": false,
         "postDelay": 1000,
         "next": [
+            "MedicineConfirm@LoadingText",
             "#self",
             "Stop"
         ]
