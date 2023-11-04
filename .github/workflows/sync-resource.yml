@@ -42,5 +42,5 @@ jobs:
           
           git add .
           git status
-          git commit -m "$commit_msg"
+          git commit -m "$commit_msg" || exit 0
           git push
