@@ -4286,6 +4286,9 @@
         ],
         "cache": false,
         "postDelay": 500,
+        "reduceOtherTimes": [
+            "MedicineNotConfirmed*5"
+        ],
         "next": [
             "MedicineConfirm@LoadingText",
             "MedicineConfirmed",
@@ -4297,6 +4300,18 @@
         "next": [
             "#self",
             "MedicineConfirmed"
+        ]
+    },
+    "MedicineNotConfirmed": {
+        "baseTask": "MedicineConfirm",
+        "action": "DoNothing",
+        "reduceOtherTimes": [],
+        "maxTimes": 5,
+        "postDelay": 1000,
+        "exceededNext": [
+            "MedicineNotConfirmed@LoadingText",
+            "MedicineConfirmed",
+            "MedicineConfirm"
         ]
     },
     "MedicineConfirmed": {
