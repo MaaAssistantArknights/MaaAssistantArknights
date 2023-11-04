@@ -678,8 +678,8 @@
     <!--  RootViewModel  -->
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">關卡數據獲取成功</system:String>
+    <system:String x:Key="GameResourceUpdating">遊戲資源正在更新</system:String>
     <system:String x:Key="GameResourceUpdated">遊戲資源已更新，請重啟 MAA</system:String>
-    <system:String x:Key="GameResourceUpdating">遊戲資源正在更新，請勿關閉 MAA</system:String>
     <!--  Api  -->
     <!--  Remote Control  -->
     <system:String x:Key="RemoteControlSettings">遠程控制</system:String>
