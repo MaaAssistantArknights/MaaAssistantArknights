@@ -4288,9 +4288,24 @@
         "postDelay": 1000,
         "next": [
             "MedicineConfirm@LoadingText",
-            "#self",
+            "MedicineConfirmed",
+            "MedicineConfirm",
             "Stop"
         ]
+    },
+    "MedicineConfirm@LoadingText": {
+        "next": [
+            "#self"
+        ]
+    },
+    "MedicineConfirmed": {
+        "baseTask": "StartButton1",
+        "action": "Stop",
+        "preDelay": 0,
+        "postDelay": 0,
+        "exceededNext": [],
+        "reduceOtherTimes": [],
+        "next": []
     },
     "MedicineReduceIcon": {
         "preDelay": 500,
