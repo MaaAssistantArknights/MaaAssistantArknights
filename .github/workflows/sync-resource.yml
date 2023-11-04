@@ -34,11 +34,6 @@ jobs:
           rm -rf !(".gitignore")
           cp -rf ../../resource/* .
           cd ..
-
-          cd cache
-          rm -rf !(".gitignore")
-          cp -rf ../../resource/* .
-          cd ..
           
           git add .
           git status
