@@ -9,6 +9,7 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
+#include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
 
@@ -40,15 +41,26 @@ bool asst::MedicineCounterPlugin::_run()
         return false;
     }
 
+    // 移除超量使用的药品后，再次获取药品数量
+    // 如果移除后没有使用任何药品，则单独返回数据；进入插件时应当有使用至少一瓶药
     auto refresh_medicine_count = [&]() {
         image = ctrler()->get_image();
         auto count = init_count(image);
-        if (!count) [[unlikely]] {
-            return false;
+        if (!count) {
+            Matcher matcher(image);
+            matcher.set_task_info("UseMedicine");
+            if (!matcher.analyze()) [[unlikely]] {
+                Log.error(__FUNCTION__, "unable to analyze UseMedicine");
+                return false;
+            }
+            initial_count = InitialMedicineResult { .using_count = 0, .medicines = {} };
         }
-        initial_count = count;
+        else {
+            initial_count = count;
+        }
         return true;
     };
+
     if (m_using_count < m_max_count && initial_count->using_count + m_using_count > m_max_count) {
         reduce_excess(*initial_count);
         if (!refresh_medicine_count()) {
@@ -69,6 +81,11 @@ bool asst::MedicineCounterPlugin::_run()
             return false;
         }
     }
+
+    if (initial_count->using_count == 0) {
+        return true;
+    }
+
     m_using_count += initial_count->using_count;
 
     // 博朗台：如果溢出则等待
