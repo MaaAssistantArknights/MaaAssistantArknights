@@ -4295,7 +4295,8 @@
     },
     "MedicineConfirm@LoadingText": {
         "next": [
-            "#self"
+            "#self",
+            "MedicineConfirmed"
         ]
     },
     "MedicineConfirmed": {
