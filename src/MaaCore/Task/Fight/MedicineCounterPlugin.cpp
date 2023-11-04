@@ -86,7 +86,7 @@ bool asst::MedicineCounterPlugin::_run()
         }
     }
 
-    ProcessTask(*this, { "MedicineConfirm" }).set_retry_times(5).run();
+    ProcessTask(*this, { "MedicineConfirm" }).run();
 
     auto info = basic_info_with_what("UseMedicine");
     info["details"]["is_expiring"] = m_using_count > m_max_count;

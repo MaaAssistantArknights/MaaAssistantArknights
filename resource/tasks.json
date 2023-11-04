@@ -4285,7 +4285,7 @@
             150
         ],
         "cache": false,
-        "postDelay": 1000,
+        "postDelay": 500,
         "next": [
             "MedicineConfirm@LoadingText",
             "MedicineConfirmed",
