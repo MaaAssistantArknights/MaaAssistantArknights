@@ -23,12 +23,13 @@ namespace asst
         // <drop_type, <item_id, quantity>>
         const auto& get_drops() const noexcept { return m_drops; }
 
+        bool analyze_baseline(Point& cropped_out);
+
     protected:
         bool analyze_stage_code();
         bool analyze_times();
         bool analyze_stars();
         bool analyze_difficulty();
-        bool analyze_baseline();
         bool analyze_drops();
         // 落叶殇火 活动（异格夜刀）, act24side, 2023-03
         bool analyze_drops_for_CF();
