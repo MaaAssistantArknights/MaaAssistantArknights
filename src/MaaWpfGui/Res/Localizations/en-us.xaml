@@ -678,8 +678,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  RootViewModel  -->
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">Stage data retrieval successful</system:String>
+    <system:String x:Key="GameResourceUpdating">Game resources are being updated.</system:String>
     <system:String x:Key="GameResourceUpdated">Game resource updated, please restart MAA</system:String>
-    <system:String x:Key="GameResourceUpdating">Game resources are being updated. Please do not close MAA.</system:String>
     <!--  Api  -->
     <!--  Remote Control  -->
     <system:String x:Key="RemoteControlSettings">Remote Control</system:String>
