@@ -34,7 +34,6 @@ namespace asst
         bool pause();
         bool speed_up();
         bool abandon();
-        bool click_cost();
 
         bool update_deployment(bool init = false, const cv::Mat& reusable = cv::Mat());
         bool update_kills(const cv::Mat& reusable = cv::Mat());
