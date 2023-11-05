@@ -68,7 +68,7 @@ bool asst::BattleHelper::calc_tiles_info(const std::string& stage_name, double s
 
 double asst::BattleHelper::calculate_delay_rate(long long image_time_usage)
 {
-    double delay_rate_cal = std::max(0.5, 2 * log(image_time_usage) / log(10) / 1000);
+    double delay_rate_cal = std::max(1.0, 2 * log(image_time_usage) / log(10) / 1000);
 
     return delay_rate_cal;
 }
@@ -109,7 +109,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
     }
 
     cv::Mat image;
-    if (reusable.empty() || init || abs(delay_rate - 1.0) < 1e-10) {
+    if (reusable.empty() || init || delay_rate == 0.0) {
         auto getimg_start = std::chrono::high_resolution_clock::now();
         image = m_inst_helper.ctrler()->get_image();
         auto getimg_end = std::chrono::high_resolution_clock::now();

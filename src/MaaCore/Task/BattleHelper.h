@@ -75,7 +75,7 @@ namespace asst
         std::unordered_map<std::string, int> m_skill_times;
         std::unordered_map<std::string, int> m_skill_error_count;
         int m_camera_count = 0;
-        double delay_rate = 1.0;
+        double delay_rate = 0.0;
         std::pair<double, double> m_camera_shift = { 0., 0. };
 
         /* 实时更新的数据 */
