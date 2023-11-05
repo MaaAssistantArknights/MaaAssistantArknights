@@ -11200,13 +11200,11 @@
     "Roguelike@LastReward": {
         "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援——热水壶",
         "baseTask": "Roguelike@LastReward_default",
-        "templThreshold": 0.7,
         "template": "empty.png"
     },
     "Roguelike@LastReward2": {
         "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 5 源石锭",
         "baseTask": "Roguelike@LastReward_default",
-        "templThreshold": 0.7,
         "template": "empty.png"
     },
     "Roguelike@LastReward3": {
@@ -11237,10 +11235,10 @@
         "action": "ClickSelf",
         "cache": false,
         "roi": [
-            171,
-            151,
-            935,
-            533
+            225,
+            199,
+            829,
+            241
         ],
         "next": [
             "Roguelike@LastRewardConfirm"
@@ -11251,10 +11249,10 @@
         "action": "ClickSelf",
         "cache": false,
         "roi": [
-            171,
-            151,
-            935,
-            533
+            225,
+            199,
+            829,
+            241
         ],
         "next": []
     },
@@ -11263,10 +11261,10 @@
         "action": "ClickSelf",
         "cache": false,
         "roi": [
-            171,
-            151,
-            935,
-            533
+            225,
+            199,
+            829,
+            241
         ],
         "next": [
             "RoguelikeControlTaskPlugin-Stop"
