@@ -66,17 +66,17 @@ bool asst::BattleHelper::calc_tiles_info(const std::string& stage_name, double s
     return true;
 }
 
-float asst::BattleHelper::calculate_delay_rate(float getimg_timeusage)
+float asst::BattleHelper::calculate_delay_rate(float* getimg_timeusage)
 {
     float calc_delay_rate;
-    if (getimg_timeusage > 22) {
-        calc_delay_rate = 0.1936115677199 * getimg_timeusage - 2.2564788640083;
+    if (*getimg_timeusage > 22) {
+        calc_delay_rate = 0.1936115677199 * (*getimg_timeusage) - 2.2564788640083;
     }
-    else if (14 < getimg_timeusage && getimg_timeusage < 22) {
-        calc_delay_rate = (-1.6585017868647 * getimg_timeusage + 81.1685761612439 -
-                           sqrt(pow(1.6585017868647 * getimg_timeusage - 81.1685761612439, 2) -
-                                2.603612311324 * (1.0564661125121 * pow(getimg_timeusage, 2) -
-                                                  30.9293152123145 * getimg_timeusage + 256))) /
+    else if (14 < (*getimg_timeusage) && (*getimg_timeusage) < 22) {
+        calc_delay_rate = (-1.6585017868647 * (*getimg_timeusage) + 81.1685761612439 -
+                           sqrt(pow(1.6585017868647 * (*getimg_timeusage) - 81.1685761612439, 2) -
+                                2.603612311324 * (1.0564661125121 * pow(*getimg_timeusage, 2) -
+                                                  30.9293152123145 * (*getimg_timeusage) + 256))) /
                           1.301806155662;
     }
     else {
@@ -130,7 +130,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         // x < 14 时，0.5
         // 14< x < 22 时，是个抛物线
         // x > 22时，直线 k 0.1936115677199
-        delay_rate = calculate_delay_rate(getimg_timeusage);
+        delay_rate = calculate_delay_rate(&getimg_timeusage);
     }
     else {
         cv::Mat image = reusable;
