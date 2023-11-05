@@ -12345,6 +12345,12 @@
     "Roguelike@StrategyChange_mode1": {
         "baseTask": "Roguelike@StrategyChange_default"
     },
+    "Roguelike@StrategyChange_mode2": {
+        "baseTask": "Roguelike@StrategyChange_default"
+    },
+    "Roguelike@StrategyChange_mode3": {
+        "baseTask": "Roguelike@StrategyChange_default"
+    },
     "Roguelike@StrategyChange_mode4": {
         "baseTask": "Roguelike@StrategyChange_default"
     },
@@ -12748,6 +12754,70 @@
             [
                 "渴欲大厅",
                 "_default"
+            ]
+        ]
+    },
+    "Phantom@Roguelike@StrategyChange_mode2": {
+        "text": [
+            "_default",
+            "_exit"
+        ],
+        "ocrReplace": [
+            [
+                "迷雾歧途",
+                "_default"
+            ],
+            [
+                "落阳庭院",
+                "_default"
+            ],
+            [
+                "故土残躯",
+                "_default"
+            ],
+            [
+                "噩梦之始",
+                "_exit"
+            ],
+            [
+                "血月长廊",
+                "_exit"
+            ],
+            [
+                "渴欲大厅",
+                "_exit"
+            ]
+        ]
+    },
+    "Phantom@Roguelike@StrategyChange_mode3": {
+        "text": [
+            "_default",
+            "_exit"
+        ],
+        "ocrReplace": [
+            [
+                "迷雾歧途",
+                "_default"
+            ],
+            [
+                "落阳庭院",
+                "_default"
+            ],
+            [
+                "故土残躯",
+                "_default"
+            ],
+            [
+                "噩梦之始",
+                "_default"
+            ],
+            [
+                "血月长廊",
+                "_exit"
+            ],
+            [
+                "渴欲大厅",
+                "_exit"
             ]
         ]
     },
@@ -13442,6 +13512,78 @@
             [
                 "绀碧摇篮",
                 "_SKIP_"
+            ]
+        ]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode2": {
+        "text": [
+            "_default",
+            "_exit"
+        ],
+        "ocrReplace": [
+            [
+                "天光海岸",
+                "_default"
+            ],
+            [
+                "离岸孤岛",
+                "_default"
+            ],
+            [
+                "波涛略地",
+                "_default"
+            ],
+            [
+                "隐秘温床",
+                "_exit"
+            ],
+            [
+                "失尘岩洞",
+                "_exit"
+            ],
+            [
+                "幽海丛林",
+                "_exit"
+            ],
+            [
+                "绀碧摇篮",
+                "_exit"
+            ]
+        ]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode3": {
+        "text": [
+            "_default",
+            "_exit"
+        ],
+        "ocrReplace": [
+            [
+                "天光海岸",
+                "_default"
+            ],
+            [
+                "离岸孤岛",
+                "_default"
+            ],
+            [
+                "波涛略地",
+                "_default"
+            ],
+            [
+                "隐秘温床",
+                "_default"
+            ],
+            [
+                "失尘岩洞",
+                "_exit"
+            ],
+            [
+                "幽海丛林",
+                "_exit"
+            ],
+            [
+                "绀碧摇篮",
+                "_exit"
             ]
         ]
     },
@@ -14742,6 +14884,78 @@
             [
                 "深埋迷境",
                 "_SKIP_"
+            ]
+        ]
+    },
+    "Sami@Roguelike@StrategyChange_mode2": {
+        "text": [
+            "_default",
+            "_exit"
+        ],
+        "ocrReplace": [
+            [
+                "初霜湖泽",
+                "_default"
+            ],
+            [
+                "密静林地",
+                "_default"
+            ],
+            [
+                "昧明冻土",
+                "_default"
+            ],
+            [
+                "积冰岩骸",
+                "_exit"
+            ],
+            [
+                "无瑕花园",
+                "_exit"
+            ],
+            [
+                "远见之构",
+                "_exit"
+            ],
+            [
+                "深埋迷境",
+                "_exit"
+            ]
+        ]
+    },
+    "Sami@Roguelike@StrategyChange_mode3": {
+        "text": [
+            "_default",
+            "_exit"
+        ],
+        "ocrReplace": [
+            [
+                "初霜湖泽",
+                "_default"
+            ],
+            [
+                "密静林地",
+                "_default"
+            ],
+            [
+                "昧明冻土",
+                "_default"
+            ],
+            [
+                "积冰岩骸",
+                "_default"
+            ],
+            [
+                "无瑕花园",
+                "_exit"
+            ],
+            [
+                "远见之构",
+                "_exit"
+            ],
+            [
+                "深埋迷境",
+                "_exit"
             ]
         ]
     },
