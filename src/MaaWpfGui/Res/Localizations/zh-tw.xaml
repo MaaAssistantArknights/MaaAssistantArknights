@@ -238,6 +238,8 @@
     <system:String x:Key="AdditionCommand">附加命令</system:String>
     <system:String x:Key="StartsWithScript">開始前腳本</system:String>
     <system:String x:Key="EndsWithScript">結束後腳本</system:String>
+    <system:String x:Key="BlockSleep">運行任務時阻止休眠</system:String>
+    <system:String x:Key="BlockSleepWithScreenOn">阻止休眠時保持螢幕常亮</system:String>
     <system:String x:Key="RoguelikeTheme">肉鴿主題</system:String>
     <system:String x:Key="RoguelikeThemePhantom">傀影</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
