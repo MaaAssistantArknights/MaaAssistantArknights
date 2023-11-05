@@ -80,7 +80,7 @@ float asst::BattleHelper::calculate_delay_rate(float getimg_timeusage)
                           1.301806155662;
     }
     else {
-        calc_delay_rate = 0.5
+        calc_delay_rate = 0.5;
     }
     
     return calculate_delay_rate;
