@@ -69,6 +69,7 @@
     <ClInclude Include="InstHelper.h" />
     <ClInclude Include="Task\Experiment\CombatRecordRecognitionTask.h" />
     <ClInclude Include="Task\Experiment\SingleStepBattleProcessTask.h" />
+    <ClInclude Include="Task\Fight\FightTimesPlugin.h" />
     <ClInclude Include="Task\Fight\MedicineCounterPlugin.h" />
     <ClInclude Include="Task\Fight\SanityBeforeStagePlugin.h" />
     <ClInclude Include="Task\Fight\SideStoryReopenTask.h" />
@@ -241,6 +242,7 @@
     <ClCompile Include="InstHelper.cpp" />
     <ClCompile Include="Task\Experiment\CombatRecordRecognitionTask.cpp" />
     <ClCompile Include="Task\Experiment\SingleStepBattleProcessTask.cpp" />
+    <ClCompile Include="Task\Fight\FightTimesPlugin.cpp" />
     <ClCompile Include="Task\Fight\MedicineCounterPlugin.cpp" />
     <ClCompile Include="Task\Fight\SanityBeforeStagePlugin.cpp" />
     <ClCompile Include="Task\Fight\SideStoryReopenTask.cpp" />
