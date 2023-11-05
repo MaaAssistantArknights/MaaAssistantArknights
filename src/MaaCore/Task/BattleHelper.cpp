@@ -97,7 +97,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
     cv::Mat image;
     auto calculate_delay_rate = [](long long delay_ms) -> double {
         return std::max(1.0, 1 + 1.5 * log10(delay_ms / 1000.0));
-    }
+    };
     if (reusable.empty() || init || delay_rate == 0.0) {
         auto get_img_start = std::chrono::high_resolution_clock::now();
         image = m_inst_helper.ctrler()->get_image();
