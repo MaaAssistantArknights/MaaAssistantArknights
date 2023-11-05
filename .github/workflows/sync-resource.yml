@@ -1,3 +1,5 @@
+name: sync-resource
+
 on:
   push:
     branches:
