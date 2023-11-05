@@ -106,6 +106,8 @@
     <system:String x:Key="RoguelikeStrategyExp">레벨 우선, 최대한 많은 구역 클리어</system:String>
     <system:String x:Key="RoguelikeStrategyGold">오리지늄각뿔 우선, 2번째 구역 도달 즉시 탐험 중도 포기</system:String>
     <system:String x:Key="RoguelikeLastReward">전기주전자 획득, 3번째 구역 도달 즉시 탐험 중도 포기</system:String>
+    <system:String x:Key="RoguelikeStrategyMonthlySquad">월간 스쿼드 보상 획득, 4층에 도달한 후 종료</system:String>
+    <system:String x:Key="RoguelikeStrategyArchive">월간 분대에서 오퍼레이터 아카이브를 획득하고 5층에 도달한 다음 종료하십시오.</system:String>
     <system:String x:Key="StartingSquad">시작 분대</system:String>
     <system:String x:Key="StartingRoles">모집 조합</system:String>
     <system:String x:Key="StartingCoreChar">시작 오퍼레이터 (1명)</system:String>

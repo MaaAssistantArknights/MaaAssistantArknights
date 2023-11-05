@@ -106,6 +106,8 @@
     <system:String x:Key="RoguelikeStrategyExp">経験値を取得し、できるだけクリア</system:String>
     <system:String x:Key="RoguelikeStrategyGold">源石錐の収集、2階到着後終了</system:String>
     <system:String x:Key="RoguelikeLastReward">序盤の報酬を得るために戦い、3階到着後終了</system:String>
+    <system:String x:Key="RoguelikeStrategyMonthlySquad">マンスリースクワッド報酬を獲得し、4階に到達してから終了</system:String>
+    <system:String x:Key="RoguelikeStrategyArchive">マンスリースクワッドでオペレーターのアーカイブを獲得し、5階に到達してから終了する</system:String>
     <system:String x:Key="StartingSquad">最初の分隊</system:String>
     <system:String x:Key="StartingRoles">最初の職業</system:String>
     <system:String x:Key="StartingCoreChar">最初のオペレーター（一人だけ、中国名のみを入力可能）</system:String>

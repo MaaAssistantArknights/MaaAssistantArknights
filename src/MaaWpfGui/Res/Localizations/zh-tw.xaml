@@ -106,6 +106,8 @@
     <system:String x:Key="RoguelikeStrategyExp">刷等級，盡可能穩定地打更多層數</system:String>
     <system:String x:Key="RoguelikeStrategyGold">刷源石錠，到達第二層後直接退出</system:String>
     <system:String x:Key="RoguelikeLastReward">燒熱水，到達第三層後直接退出</system:String>
+    <system:String x:Key="RoguelikeStrategyMonthlySquad">刷月度小隊，到達第四層后直接退出</system:String>
+    <system:String x:Key="RoguelikeStrategyArchive">刷訪談記錄，到達第五層后直接退出</system:String>
     <system:String x:Key="StartingSquad">開局分隊</system:String>
     <system:String x:Key="StartingRoles">開局職業組</system:String>
     <system:String x:Key="StartingCoreChar">開局幹員（單個）</system:String>
