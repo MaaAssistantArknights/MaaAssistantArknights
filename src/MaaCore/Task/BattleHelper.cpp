@@ -321,7 +321,7 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
             static_cast<int>(swipe_oper_task_ptr->special_params.at(0) * scale_size.second / 720.0);
         Point end_point = target_point + (direction_target * coeff);
 
-        // 经粗略测算，方向区域倾泻大概是 1/5
+        // 经粗略测算，方向区域倾斜大概是 1/5
         const static auto radian = -std::atan(0.2);
         fix_swipe_out_of_limit(target_point, end_point, scale_size.first, scale_size.second, radian);
 
