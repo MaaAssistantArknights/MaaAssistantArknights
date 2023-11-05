@@ -30,7 +30,7 @@ namespace asst
         virtual bool do_strategic_action(const cv::Mat& reusable = cv::Mat());
 
         bool calc_tiles_info(const std::string& stage_name, double shift_x = 0, double shift_y = 0);
-        float calculate_delay_rate(float);
+        float calculate_delay_rate(float getimg_timeusage);
         bool pause();
         bool speed_up();
         bool abandon();
