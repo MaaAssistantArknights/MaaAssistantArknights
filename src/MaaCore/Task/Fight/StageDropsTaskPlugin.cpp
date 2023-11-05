@@ -6,6 +6,7 @@
 
 #include "Common/AsstTypes.h"
 #include "Common/AsstVersion.h"
+#include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/ItemConfig.h"
 #include "Config/Miscellaneous/StageDropsConfig.h"
 #include "Config/TaskData.h"
@@ -115,28 +116,26 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
     StageDropsImageAnalyzer analyzer(image_stride);
 
     bool ret = false;
-    Point cropped_out = {};
-    while (!analyzer.analyze_baseline(cropped_out)) {
+    while (true) {
         ret = false;
-        if (cropped_out == Point {}) break; // other error, return false
 
-        // else: more materials to reveal?
+        // more materials to reveal?
 
-        cropped_out.y -= 4;
-        cropped_out.x -= image_stride.cols - WindowWidthDefault;
+        auto swipe_begin = Point { WindowWidthDefault - 40, 632 };
+
         const int swipe_dist = 200;
-        ctrler()->swipe(cropped_out, cropped_out + swipe_dist * Point::left(), 1000, true);
-        sleep(2000);
+        ctrler()->swipe(swipe_begin, swipe_begin + swipe_dist * Point::left(), 500, true, 2, 0);
+        sleep(Config.get_options().task_delay * 3);
 
-        const cv::Rect ref_roi = { image_stride.cols - 320, 520, 280, 120 };
+        const cv::Rect ref_roi = { image_stride.cols - 320, 530, 280, 100 };
         auto new_img = ctrler()->get_image();
 
+        // find relative position of old image on new one
         Matcher offset_match(new_img(cv::Rect { 0, ref_roi.y, new_img.cols, ref_roi.height }));
         offset_match.set_templ(image_stride(ref_roi));
         offset_match.set_threshold(0.7);
         if (!offset_match.analyze()) break;
 
-        // int offset = ref_roi.x - offset_match.get_result().rect.x;
         const int offset = (new_img.cols - offset_match.get_result().rect.x) - (image_stride.cols - ref_roi.x);
         Log.trace("new image offset:", offset);
         if (offset <= 4) {
