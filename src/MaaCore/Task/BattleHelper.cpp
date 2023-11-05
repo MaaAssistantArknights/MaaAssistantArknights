@@ -127,7 +127,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         // x < 14 时，0.5
         // 14< x < 22 时，是个抛物线
         // x > 22时，直线 k 0.1936115677199
-        delay_rate = calculate_delay_rate(&getimg_timeusage, &delay_rate);
+        calculate_delay_rate(&getimg_timeusage, &delay_rate);
     }
     else {
         cv::Mat image = reusable;
