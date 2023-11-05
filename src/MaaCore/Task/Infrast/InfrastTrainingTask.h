@@ -15,7 +15,7 @@ namespace asst
     private:
         bool analyze_status();
         bool training_completed();
-        std::string m_operator_name = "NoOperator";
-        std::string m_skill_name = "NoSkill";
+        std::string m_operator_name;
+        std::string m_skill_name;
     };
 }
