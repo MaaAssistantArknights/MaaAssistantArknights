@@ -66,13 +66,6 @@ bool asst::BattleHelper::calc_tiles_info(const std::string& stage_name, double s
     return true;
 }
 
-double asst::BattleHelper::calculate_delay_rate(long long image_time_usage)
-{
-    double delay_rate_cal = std::max(1.0, 1 + 1.5 * log10(image_time_usage / 1000.0));
-
-    return delay_rate_cal;
-}
-
 bool asst::BattleHelper::pause()
 {
     LogTraceFunction;
@@ -85,13 +78,6 @@ bool asst::BattleHelper::speed_up()
     LogTraceFunction;
 
     return ProcessTask(this_task(), { "BattleSpeedUp" }).run();
-}
-
-bool asst::BattleHelper::click_cost()
-{
-    LogTraceFunction;
-    // 点击费用条 防部署失败卡在部署方向
-    return ProcessTask(this_task(), { "BattleSwipeOperClickCorner" }).run();
 }
 
 bool asst::BattleHelper::abandon()
@@ -109,12 +95,15 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
     }
 
     cv::Mat image;
+    auto calculate_delay_rate = [](long long delay_ms) -> double {
+        return std::max(1.0, 1 + 1.5 * log10(delay_ms / 1000.0));
+    }
     if (reusable.empty() || init || delay_rate == 0.0) {
-        auto getimg_start = std::chrono::high_resolution_clock::now();
+        auto get_img_start = std::chrono::high_resolution_clock::now();
         image = m_inst_helper.ctrler()->get_image();
-        auto getimg_end = std::chrono::high_resolution_clock::now();
+        auto get_img_end = std::chrono::high_resolution_clock::now();
         long long get_image_time_usage =
-            std::chrono::duration_cast<std::chrono::milliseconds>(getimg_end - getimg_start).count();
+            std::chrono::duration_cast<std::chrono::milliseconds>(get_img_end - get_img_start).count();
 
         delay_rate = calculate_delay_rate(get_image_time_usage);
     }
@@ -365,7 +354,7 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
         m_battlefield_opers.erase(pre_name);
     }
 
-    click_cost();
+    cancel_oper_selection();
 
     m_used_tiles.emplace(loc, name);
     m_battlefield_opers.emplace(name, loc);
