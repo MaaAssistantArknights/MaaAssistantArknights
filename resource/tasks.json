@@ -7615,7 +7615,12 @@
     },
     "InfrastTrainingCompleted": {
         "baseTask": "InfrastTrainingIdle",
-        "text": [ "训练完成" ]
+        "text": [ "训练完成" ],
+        "action": "ClickSelf",
+        "postDelay":1000,
+        "next": [
+            "CloseTaskAward"
+        ]
     },
     "InfrastTrainingOperatorAndSkill": {
         "algorithm": "OcrDetect",
