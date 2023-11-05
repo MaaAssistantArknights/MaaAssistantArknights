@@ -3,7 +3,7 @@
 #include <future>
 #include <thread>
 #include <chrono>
-#include <math.h>
+#include <cmath>
 
 #include "Config/Miscellaneous/AvatarCacheManager.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
@@ -66,21 +66,11 @@ bool asst::BattleHelper::calc_tiles_info(const std::string& stage_name, double s
     return true;
 }
 
-void* asst::BattleHelper::calculate_delay_rate(double* getimg_timeusage, float* delay_rate)
+double asst::BattleHelper::calculate_delay_rate(long long image_time_usage)
 {
-    if (*getimg_timeusage > 22) {
-        *delay_rate = 0.1936115677199 * (*getimg_timeusage) - 2.2564788640083;
-    }
-    else if (14 < (*getimg_timeusage) && (*getimg_timeusage) < 22) {
-        *delay_rate = (-1.6585017868647 * (*getimg_timeusage) + 81.1685761612439 -
-                           sqrt(pow(1.6585017868647 * (*getimg_timeusage) - 81.1685761612439, 2) -
-                                2.603612311324 * (1.0564661125121 * pow(*getimg_timeusage, 2) -
-                                                  30.9293152123145 * (*getimg_timeusage) + 256))) /
-                          1.301806155662;
-    }
-    else {
-        *delay_rate = 0.5;
-    }
+    double delay_rate_cal = std::max(0.5, 2 * log(image_time_usage) / log(10) / 1000);
+
+    return delay_rate_cal;
 }
 
 bool asst::BattleHelper::pause()
@@ -118,19 +108,18 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         wait_until_start(false);
     }
 
+    cv::Mat image;
     if (reusable.empty() || init || delay_rate == 1.0) {
         auto getimg_start = std::chrono::high_resolution_clock::now();
-        cv::Mat image = m_inst_helper.ctrler()->get_image();
+        image = m_inst_helper.ctrler()->get_image();
         auto getimg_end = std::chrono::high_resolution_clock::now();
-        double getimg_timeusage =
+        long long get_image_time_usage =
             std::chrono::duration_cast<std::chrono::milliseconds>(getimg_end - getimg_start).count();
-        // x < 14 时，0.5
-        // 14< x < 22 时，是个抛物线
-        // x > 22时，直线 k 0.1936115677199
-        calculate_delay_rate(&getimg_timeusage, &delay_rate);
+
+        delay_rate = calculate_delay_rate(get_image_time_usage);
     }
     else {
-        cv::Mat image = reusable;
+        image = reusable;
     }
 
     if (init) {

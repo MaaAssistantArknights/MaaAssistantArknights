@@ -30,7 +30,7 @@ namespace asst
         virtual bool do_strategic_action(const cv::Mat& reusable = cv::Mat());
 
         bool calc_tiles_info(const std::string& stage_name, double shift_x = 0, double shift_y = 0);
-        void* calculate_delay_rate(double* getimg_timeusage, float* delay_rate);
+        double calculate_delay_rate(long long image_time_usage);
         bool pause();
         bool speed_up();
         bool abandon();
@@ -82,7 +82,7 @@ namespace asst
         int m_kills = 0;
         int m_total_kills = 0;
         int m_cost = 0;
-        float delay_rate = 1.0;
+        double delay_rate = 1.0;
 
         std::map<std::string, battle::DeploymentOper> m_cur_deployment_opers;
 
