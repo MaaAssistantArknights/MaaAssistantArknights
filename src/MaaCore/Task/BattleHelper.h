@@ -30,10 +30,11 @@ namespace asst
         virtual bool do_strategic_action(const cv::Mat& reusable = cv::Mat());
 
         bool calc_tiles_info(const std::string& stage_name, double shift_x = 0, double shift_y = 0);
-
+        float calculate_delay_rate(float);
         bool pause();
         bool speed_up();
         bool abandon();
+        bool click_cost();
 
         bool update_deployment(bool init = false, const cv::Mat& reusable = cv::Mat());
         bool update_kills(const cv::Mat& reusable = cv::Mat());
