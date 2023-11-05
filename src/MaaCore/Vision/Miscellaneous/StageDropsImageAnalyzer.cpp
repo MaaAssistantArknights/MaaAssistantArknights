@@ -3,7 +3,6 @@
 #include <numbers>
 #include <regex>
 
-#include "Common/AsstTypes.h"
 #include "Utils/Ranges.hpp"
 
 #include "Utils/NoWarningCV.h"
@@ -227,7 +226,7 @@ bool asst::StageDropsImageAnalyzer::analyze_drops()
 {
     LogTraceFunction;
 
-    if (Point p {}; !analyze_baseline(p) && p == Point {}) {
+    if (!analyze_baseline()) {
         return false;
     }
 
@@ -362,7 +361,7 @@ bool asst::StageDropsImageAnalyzer::analyze_drops_for_12()
     return !flag_analyzer.analyze();
 }
 
-bool asst::StageDropsImageAnalyzer::analyze_baseline(Point& cropped_out)
+bool asst::StageDropsImageAnalyzer::analyze_baseline()
 {
     LogTraceFunction;
 
@@ -463,11 +462,8 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline(Point& cropped_out)
     }
 
     if (m_image.cols - (x_offset + bounding_rect.width) < 30 + max_spacing) {
-        cropped_out.x = x_offset + bounding_rect.width;
-        cropped_out.y = task_ptr->roi.y;
-        Log.trace("bounding_rect.right=", cropped_out.x, ", more materials to reveal?");
-        return false;
-    }
+        Log.trace("bounding_rect.right=", x_offset + bounding_rect.width, ", more materials to reveal?");
+    } // TODO: else tell caller to prevent unnecessary swipe
 
     return !m_baseline.empty();
 }
