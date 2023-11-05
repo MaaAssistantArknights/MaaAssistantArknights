@@ -57,6 +57,13 @@ bool asst::InfrastTrainingTask::analyze_status()
     Log.info(__FUNCTION__, "skill name set as", m_skill_name);
 
     if (training_completed()) {
+        json::value cb_info = basic_info();
+        cb_info["what"] = "InfrastTrainingCompleted";
+        cb_info["details"] = json::object {
+            { "operator", m_operator_name },
+            { "skill", m_skill_name },
+        };
+        callback(AsstMsg::SubTaskExtraInfo, cb_info);
         return true;
     }
 
@@ -82,6 +89,17 @@ bool asst::InfrastTrainingTask::analyze_status()
     if (!utils::chars_to_number(str_progress, progress_percent)) {
         Log.error(__FUNCTION__, "chars_to_number failed");
         return false;
+    }
+
+    {
+        json::value cb_info = basic_info();
+        cb_info["what"] = "InfrastTrainingInProgress";
+        cb_info["details"] = json::object {
+            { "operator", m_operator_name },
+            { "skill", m_skill_name },
+            { "progress", progress_percent },
+        };
+        callback(AsstMsg::SubTaskExtraInfo, cb_info);
     }
 
     return true;

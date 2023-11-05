@@ -1292,6 +1292,16 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomOperators") + nameStr);
                     break;
 
+                case "InfrastTrainingCompleted":
+                    Instances.TaskQueueViewModel.AddLog("[" + subTaskDetails["operator"] + "]" + subTaskDetails["skill"] + "\n" +
+                        LocalizationHelper.GetString("TrainingCompleted"), UiLogColor.Info);
+                    break;
+
+                case "InfrastTrainingInProgress":
+                    Instances.TaskQueueViewModel.AddLog("[" + subTaskDetails["operator"] + "]" + subTaskDetails["skill"] + "\n" +
+                        LocalizationHelper.GetString("TrainingProgress") + ": " + $"{(int)subTaskDetails["progress"]}" + "%");
+                    break;
+
                 /* 生息演算 */
                 case "ReclamationReport":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AlgorithmFinish") + "\n" +
