@@ -68,7 +68,7 @@ bool asst::BattleHelper::calc_tiles_info(const std::string& stage_name, double s
 
 double asst::BattleHelper::calculate_delay_rate(long long image_time_usage)
 {
-    double delay_rate_cal = std::max(1.0, 1 + 1.5 * log10(image_time_usage / 1000));
+    double delay_rate_cal = std::max(1.0, 1 + 1.5 * log10(image_time_usage / 1000.0));
 
     return delay_rate_cal;
 }
