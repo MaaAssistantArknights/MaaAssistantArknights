@@ -81,6 +81,7 @@ namespace asst
         int m_kills = 0;
         int m_total_kills = 0;
         int m_cost = 0;
+        float delay_rate = 1.0;
 
         std::map<std::string, battle::DeploymentOper> m_cur_deployment_opers;
 

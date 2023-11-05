@@ -11,6 +11,7 @@ import shutil
 TARGET_TAG = "2023-04-24-3"
 basedir = Path(__file__).parent
 
+
 def detect_host_triplet():
     import platform
     machine = platform.machine().lower()
@@ -35,6 +36,7 @@ def detect_host_triplet():
         raise Exception("unsupported system: " + system)
     return f"{machine}-{system}"
 
+
 def format_size(num, suffix="B"):
     for unit in ["", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei", "Zi"]:
         if abs(num) < 1024.0:
@@ -47,17 +49,19 @@ class ProgressHook:
     def __init__(self):
         self.downloaded = 0
         self.last_print = 0
-    
+
     def __call__(self, block, chunk, total):
         self.downloaded += chunk
         t = time.monotonic()
         if t - self.last_print >= 0.5 or self.downloaded == total:
             self.last_print = t
             if total > 0:
-                print(f"\r [{self.downloaded / total * 100.0:3.1f}%] {format_size(self.downloaded)} / {format_size(total)}      \r", end='')
+                print(
+                    f"\r [{self.downloaded / total * 100.0:3.1f}%] {format_size(self.downloaded)} / {format_size(total)}      \r",
+                    end='')
         if self.downloaded == total:
             print("")
-        
+
 
 def sanitize_filename(filename: str):
     import platform
@@ -114,22 +118,24 @@ def main():
         req.add_header("Authorization", f"Bearer {token}")
     resp = retry_urlopen(req).read()
     releases = json.loads(resp)
+
     def split_asset_name(name: str):
         *remainder, component_suffix = name.rsplit('-', 1)
-        component = component_suffix.split(".", 1)[0]
+        component_inner = component_suffix.split(".", 1)[0]
         if remainder:
             _, *target = remainder[0].split("-", 1)
             if target:
-                return target[0], component
+                return target[0], component_inner
         return None, None
+
     devel_asset = None
     runtime_asset = None
     for release in releases:
         if release["tag_name"] != target_tag:
             continue
         for asset in release["assets"]:
-            target, component = split_asset_name(asset["name"])
-            if target == target_triplet:
+            targets, component = split_asset_name(asset["name"])
+            if targets == target_triplet:
                 if component == 'devel':
                     devel_asset = asset
                 elif component == 'runtime':
@@ -140,8 +146,8 @@ def main():
         print("found assets:")
         print("    " + devel_asset["name"])
         print("    " + runtime_asset["name"])
-        maadeps_dir = Path(basedir, "MaaDeps")
-        download_dir = Path(maadeps_dir, "tarball")
+        maa_deps_dir = Path(basedir, "MaaDeps")
+        download_dir = Path(maa_deps_dir, "tarball")
         download_dir.mkdir(parents=True, exist_ok=True)
         for asset in [devel_asset, runtime_asset]:
             url = asset['browser_download_url']
@@ -149,9 +155,10 @@ def main():
             local_file = download_dir / sanitize_filename(asset["name"])
             urllib.request.urlretrieve(url, local_file, reporthook=ProgressHook())
             print("extracting", asset["name"])
-            shutil.unpack_archive(local_file, maadeps_dir)
+            shutil.unpack_archive(local_file, maa_deps_dir)
     else:
         raise Exception(f"no binary release found for {target_triplet}")
+
 
 if __name__ == "__main__":
     main()
