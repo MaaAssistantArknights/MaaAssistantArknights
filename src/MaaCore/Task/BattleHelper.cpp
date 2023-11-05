@@ -66,7 +66,7 @@ bool asst::BattleHelper::calc_tiles_info(const std::string& stage_name, double s
     return true;
 }
 
-float asst::BattleHelper::calculate_delay_rate(float* getimg_timeusage)
+float asst::BattleHelper::calculate_delay_rate(double* getimg_timeusage)
 {
     float calc_delay_rate;
     if (*getimg_timeusage > 22) {
