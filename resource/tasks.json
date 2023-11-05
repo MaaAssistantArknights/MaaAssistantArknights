@@ -8137,17 +8137,6 @@
             "将干员滑动到场上的 最小滑动 duration"
         ]
     },
-    "BattleSwipeOperClickCorner": {
-        "algorithm": "JustReturn",
-        "Doc": "部署之后点一下角落,会取消当次部署,防止滑动丢失后卡住,用在肉鸽里面",
-        "action": "ClickRect",
-        "specificRect": [
-            "1256",
-            "528",
-            "8",
-            "11"
-        ]
-    },
     "BattleOpersFlag": {
         "templThreshold": 0.65,
         "roi": [
