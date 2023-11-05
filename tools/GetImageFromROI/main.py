@@ -62,7 +62,9 @@ for raw_image in src_path.glob("*.png"):
     image = cv2.resize(image, dsize, interpolation=cv2.INTER_AREA)
 
     for i in task_list:
-        if type(tasks[i]["template"]) == str:
+        if "template" not in tasks[i]:
+            filename = i + ".png"
+        elif type(tasks[i]["template"]) == str:
             filename = tasks[i]["template"]
         elif type(tasks[i]["template"]) == list:
             # this is for multi-template:
