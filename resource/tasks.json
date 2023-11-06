@@ -4292,8 +4292,7 @@
         "next": [
             "MedicineConfirm@LoadingText",
             "MedicineConfirmed",
-            "MedicineConfirm",
-            "Stop"
+            "#self"
         ]
     },
     "MedicineConfirm@LoadingText": {
