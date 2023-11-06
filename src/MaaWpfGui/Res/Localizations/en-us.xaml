@@ -3,8 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  .Net 8  -->
-        <system:String x:Key="Dotnet8">MAA is about to be upgraded, and the upgraded version does not support PCs that do not have the .NET 8.0 runtime installed, so you need to manually download and install it. \n\nAt the same time, we will no longer support Windows 7. \n\nIf you click 'Yes', we will open the .NET 8 runtime download link for you. If you click 'No', we will disable your automatic download feature to prevent unwanted software updates. If you choose to disable automatic downloads, you can still manually re-enable this feature in the software settings.</system:String>
-        <system:String x:Key="Dotnet8Caption">Software Version Upgrade and Support Changes</system:String>
+    <system:String x:Key="Dotnet8">MAA is about to be upgraded, and the upgraded version does not support PCs that do not have the .NET 8.0 runtime installed, so you need to manually download and install it. \n\nAt the same time, we will no longer support Windows 7. \n\nIf you click 'Yes', we will open the .NET 8 runtime download link for you. If you click 'No', we will disable your automatic download feature to prevent unwanted software updates. If you choose to disable automatic downloads, you can still manually re-enable this feature in the software settings.</system:String>
+    <system:String x:Key="Dotnet8Caption">Software Version Upgrade and Support Changes</system:String>
     <!-- ! .Net 8  -->
     <!--  Settings  -->
     <system:String x:Key="Settings">Settings</system:String>
