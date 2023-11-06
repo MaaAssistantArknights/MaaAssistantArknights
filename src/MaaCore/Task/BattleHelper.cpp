@@ -677,8 +677,8 @@ void asst::BattleHelper::fix_swipe_out_of_limit(Point& p1, Point& p2, int width,
     }
 
     std::tuple<double, double> adjust_scale = {
-        direct.x * std::cos(radian) + direct.y * std::sin(radian),
-        direct.y * std::cos(radian) - direct.x * std::sin(radian),
+        direct.x * std::cos(radian) - direct.y * std::sin(radian),
+        direct.y * std::cos(radian) + direct.x * std::sin(radian),
     };
 
     // 旋转后偏移值会不够，计算补偿比例
