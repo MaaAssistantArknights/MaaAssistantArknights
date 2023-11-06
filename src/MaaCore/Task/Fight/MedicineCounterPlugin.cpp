@@ -9,6 +9,7 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
+#include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
 
@@ -35,30 +36,40 @@ bool asst::MedicineCounterPlugin::_run()
 
     // 预计最大使用药品情况不会超过2种，不考虑滑动
     // 10+10+N
-    auto initial_count = init_count(image);
-    if (!initial_count) [[unlikely]] {
+    auto using_medicine = init_count(image);
+    if (!using_medicine) [[unlikely]] {
         return false;
     }
 
+    // 移除超量使用的药品后，再次获取药品数量
+    // 如果移除后没有使用任何药品，则单独返回数据；进入插件时应当有使用至少一瓶药
     auto refresh_medicine_count = [&]() {
         image = ctrler()->get_image();
         auto count = init_count(image);
-        if (!count) [[unlikely]] {
-            return false;
+        if (!count) {
+            Matcher matcher(image);
+            matcher.set_task_info("UseMedicine");
+            if (!matcher.analyze()) [[unlikely]] {
+                Log.error(__FUNCTION__, "unable to analyze UseMedicine");
+                return false;
+            }
+            using_medicine = MedicineResult { .using_count = 0, .medicines = {} };
         }
-        initial_count = count;
+        else {
+            using_medicine = count;
+        }
         return true;
     };
-    if (m_using_count < m_max_count && initial_count->using_count + m_using_count > m_max_count) {
-        reduce_excess(*initial_count);
+
+    if (m_using_count < m_max_count && using_medicine->using_count + m_using_count > m_max_count) {
+        reduce_excess(*using_medicine);
         if (!refresh_medicine_count()) {
             return false;
         }
     }
     else if (m_using_count >= m_max_count && m_use_expiring) {
         bool changed = false;
-        for (const auto& [use, inventory, rect, is_expiring] :
-             initial_count->medicines | asst::ranges::views::reverse) {
+        for (const auto& [use, inventory, rect, is_expiring] : using_medicine->medicines | views::reverse) {
             if (use > 0 && is_expiring != ExpiringStatus::Expiring) {
                 ctrler()->click(rect);
                 sleep(Config.get_options().task_delay);
@@ -70,7 +81,12 @@ bool asst::MedicineCounterPlugin::_run()
             return false;
         }
     }
-    m_using_count += initial_count->using_count;
+
+    if (using_medicine->using_count == 0) {
+        return true;
+    }
+
+    m_using_count += using_medicine->using_count;
 
     // 博朗台：如果溢出则等待
     if (m_dr_grandet) {
@@ -90,12 +106,12 @@ bool asst::MedicineCounterPlugin::_run()
 
     auto info = basic_info_with_what("UseMedicine");
     info["details"]["is_expiring"] = m_using_count > m_max_count;
-    info["details"]["count"] = initial_count->using_count;
+    info["details"]["count"] = using_medicine->using_count;
     callback(AsstMsg::SubTaskExtraInfo, info);
     return true;
 }
 
-std::optional<asst::MedicineCounterPlugin::InitialMedicineResult> asst::MedicineCounterPlugin::init_count(cv::Mat image)
+std::optional<asst::MedicineCounterPlugin::MedicineResult> asst::MedicineCounterPlugin::init_count(cv::Mat image)
 {
     int use = 0;
     MultiMatcher multiMatcher(image);
@@ -159,13 +175,13 @@ std::optional<asst::MedicineCounterPlugin::InitialMedicineResult> asst::Medicine
                                           .reduce_button_position = result.rect,
                                           .is_expiring = is_expiring });
     }
-    return InitialMedicineResult { .using_count = use, .medicines = medicines };
+    return MedicineResult { .using_count = use, .medicines = medicines };
 }
 
-void asst::MedicineCounterPlugin::reduce_excess(const InitialMedicineResult& using_medicine)
+void asst::MedicineCounterPlugin::reduce_excess(const MedicineResult& using_medicine)
 {
     auto reduce = m_using_count + using_medicine.using_count - m_max_count;
-    for (const auto& [use, inventory, rect, is_expiring] : using_medicine.medicines | std::ranges::views::reverse) {
+    for (const auto& [use, inventory, rect, is_expiring] : using_medicine.medicines | views::reverse) {
         ctrler()->click(rect);
         sleep(Config.get_options().task_delay);
         reduce -= use;

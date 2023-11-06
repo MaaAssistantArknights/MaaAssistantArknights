@@ -6,8 +6,8 @@
                     {
                         "product": "LMD",
                         "operators": [
+                            "伺夜",
                             "黑键",
-                            "乌有",
                             "但书"
                         ],
                         "sort": false,
@@ -18,9 +18,39 @@
                     {
                         "product": "Pure Gold",
                         "operators": [
+                            "苍苔",
                             "砾",
-                            "迷迭香",
-                            "至简"
+                            "斑点"
+                        ],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "product": "Battle Record",
+                        "operators": [
+                            "至简",
+                            "槐琥",
+                            "断罪者"
+                        ],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "product": "Battle Record",
+                        "operators": [
+                            "野鬃",
+                            "远牙",
+                            "灰毫"
+                        ],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "product": "Battle Record",
+                        "operators": [
+                            "淬羽赫默",
+                            "多萝西",
+                            "迷迭香"
                         ],
                         "sort": false,
                         "autofill": false
@@ -30,37 +60,7 @@
                         "operators": [
                             "温蒂",
                             "异客",
-                            "森蚺"
-                        ],
-                        "sort": false,
-                        "autofill": false
-                    },
-                    {
-                        "product": "Battle Record",
-                        "operators": [
-                            "红云",
-                            "帕拉斯",
-                            "稀音"
-                        ],
-                        "sort": true,
-                        "autofill": false
-                    },
-                    {
-                        "product": "Battle Record",
-                        "operators": [
-                            "食铁兽",
-                            "断罪者",
-                            "槐琥"
-                        ],
-                        "sort": false,
-                        "autofill": false
-                    },
-                    {
-                        "product": "Battle Record",
-                        "operators": [
-                            "灰毫",
-                            "远牙",
-                            "野鬃"
+                            "掠风"
                         ],
                         "sort": false,
                         "autofill": false
@@ -79,6 +79,7 @@
                         "operators": [
                             "爱丽丝",
                             "车尔尼",
+                            "塑心",
                             "菲亚梅塔"
                         ],
                         "sort": false,
@@ -103,10 +104,10 @@
                 "control": [
                     {
                         "operators": [
-                            "重岳",
+                            "森蚺",
                             "焰尾",
+                            "薇薇安娜",
                             "琴柳",
-                            "令",
                             "夕"
                         ]
                     }
@@ -120,7 +121,7 @@
                     },
                     {
                         "operators": [
-                            "雷蛇"
+                            "Lancet-2"
                         ],
                         "autofill": false
                     },
@@ -148,7 +149,7 @@
             },
             "drones": {
                 "enable": true,
-                "index": 2,
+                "index": 1,
                 "room": "manufacture",
                 "order": "pre"
             },
@@ -161,8 +162,8 @@
                     {
                         "product": "LMD",
                         "operators": [
-                            "黑键",
-                            "乌有",
+                            "推进之王",
+                            "摩根",
                             "但书"
                         ],
                         "sort": false,
@@ -173,9 +174,9 @@
                     {
                         "product": "Pure Gold",
                         "operators": [
+                            "苍苔",
                             "砾",
-                            "迷迭香",
-                            "至简"
+                            "斑点"
                         ],
                         "sort": false,
                         "autofill": false
@@ -183,9 +184,29 @@
                     {
                         "product": "Battle Record",
                         "operators": [
-                            "温蒂",
-                            "异客",
-                            "森蚺"
+                            "至简",
+                            "槐琥",
+                            "断罪者"
+                        ],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "product": "Battle Record",
+                        "operators": [
+                            "野鬃",
+                            "远牙",
+                            "灰毫"
+                        ],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "product": "Battle Record",
+                        "operators": [
+                            "水月",
+                            "香草",
+                            "杰西卡"
                         ],
                         "sort": false,
                         "autofill": false
@@ -194,28 +215,8 @@
                         "product": "Battle Record",
                         "operators": [
                             "红云",
-                            "帕拉斯",
-                            "稀音"
-                        ],
-                        "sort": true,
-                        "autofill": false
-                    },
-                    {
-                        "product": "Battle Record",
-                        "operators": [
-                            "红豆",
-                            "霜叶",
-                            "白雪"
-                        ],
-                        "sort": false,
-                        "autofill": false
-                    },
-                    {
-                        "product": "Battle Record",
-                        "operators": [
-                            "泡泡",
-                            "火神",
-                            "刻俄柏"
+                            "稀音",
+                            "帕拉斯"
                         ],
                         "sort": true,
                         "autofill": false
@@ -224,7 +225,7 @@
                 "hire": [
                     {
                         "operators": [
-                            "絮雨"
+                            "斥罪"
                         ],
                         "autofill": false
                     }
@@ -233,7 +234,8 @@
                     {
                         "operators": [
                             "爱丽丝",
-                            "车尔尼"
+                            "车尔尼",
+                            "塑心"
                         ],
                         "sort": false,
                         "autofill": true
@@ -257,24 +259,31 @@
                 "control": [
                     {
                         "operators": [
-                            "阿米娅",
-                            "重岳",
-                            "琴柳",
-                            "令",
-                            "夕"
+                            "戴菲恩",
+                            "凯尔希",
+                            "焰尾",
+                            "薇薇安娜",
+                            "涤火杰西卡"
+                        ]
+                    }
+                ],
+                "processing": [
+                    {
+                        "operators": [
+                            "Lancet-2"
                         ]
                     }
                 ],
                 "power": [
                     {
                         "operators": [
-                            "承曦格雷伊"
+                            "格雷伊"
                         ],
                         "autofill": false
                     },
                     {
                         "operators": [
-                            "炎狱炎熔"
+                            "雷蛇"
                         ],
                         "autofill": false
                     },
@@ -297,7 +306,7 @@
             },
             "drones": {
                 "enable": true,
-                "index": 2,
+                "index": 1,
                 "room": "manufacture",
                 "order": "pre"
             },
@@ -310,11 +319,11 @@
                     {
                         "product": "LMD",
                         "operators": [
-                            "巫恋",
-                            "龙舌兰",
+                            "伺夜",
+                            "黑键",
                             "但书"
                         ],
-                        "sort": true,
+                        "sort": false,
                         "autofill": false
                     }
                 ],
@@ -322,49 +331,49 @@
                     {
                         "product": "Pure Gold",
                         "operators": [
-                            "水月",
-                            "海沫",
-                            "多萝西"
-                        ],
-                        "sort": false,
-                        "autofill": false
-                    },
-                    {
-                        "product": "Battle Record",
-                        "operators": [
-                            "食铁兽",
-                            "断罪者",
-                            "槐琥"
-                        ],
-                        "sort": false,
-                        "autofill": false
-                    },
-                    {
-                        "product": "Battle Record",
-                        "operators": [
-                            "灰毫",
-                            "远牙",
-                            "野鬃"
-                        ],
-                        "sort": false,
-                        "autofill": false
-                    },
-                    {
-                        "product": "Battle Record",
-                        "operators": [
-                            "红豆",
-                            "霜叶",
-                            "白雪"
-                        ],
-                        "sort": false,
-                        "autofill": false
-                    },
-                    {
-                        "product": "Battle Record",
-                        "operators": [
                             "泡泡",
                             "火神",
-                            "刻俄柏"
+                            "杏仁"
+                        ],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "product": "Battle Record",
+                        "operators": [
+                            "淬羽赫默",
+                            "多萝西",
+                            "迷迭香"
+                        ],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "product": "Battle Record",
+                        "operators": [
+                            "温蒂",
+                            "异客",
+                            "掠风"
+                        ],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "product": "Battle Record",
+                        "operators": [
+                            "水月",
+                            "香草",
+                            "杰西卡"
+                        ],
+                        "sort": false,
+                        "autofill": false
+                    },
+                    {
+                        "product": "Battle Record",
+                        "operators": [
+                            "红云",
+                            "稀音",
+                            "帕拉斯"
                         ],
                         "sort": true,
                         "autofill": false
@@ -373,7 +382,7 @@
                 "hire": [
                     {
                         "operators": [
-                            "斥罪"
+                            "絮雨"
                         ],
                         "autofill": false
                     }
@@ -403,24 +412,24 @@
                 "control": [
                     {
                         "operators": [
-                            "阿米娅",
+                            "森蚺",
+                            "涤火杰西卡",
                             "凯尔希",
-                            "焰尾",
-                            "玛恩纳",
-                            "老鲤"
+                            "琴柳",
+                            "令"
                         ]
                     }
                 ],
                 "power": [
                     {
                         "operators": [
-                            "雷蛇"
+                            "承曦格雷伊"
                         ],
                         "autofill": false
                     },
                     {
                         "operators": [
-                            "炎狱炎熔"
+                            "Lancet-2"
                         ],
                         "autofill": false
                     },
@@ -443,7 +452,7 @@
             },
             "drones": {
                 "enable": true,
-                "index": 2,
+                "index": 1,
                 "room": "manufacture",
                 "order": "pre"
             },
@@ -452,8 +461,8 @@
         }
     ],
     "author": "uye、lhh",
-    "description": "干员配置要求极高，请留意\n若缺少干员请自行拷贝文件并修改（请勿直接修改，以免更新后被覆盖）\n第一个制造站为赤金，其余为记录\n\n作业作者：uye、lhh\n\n感谢公孙长乐大佬提供数据及方案支持！",
-    "id": 1681364920727493,
+    "description": "23/11/03修订\n干员配置要求极高，请留意\n若缺少干员请自行拷贝文件并修改（请勿直接修改，以免更新后被覆盖）\n请保证L2为红脸\n第一个制造站为赤金，其余为记录\n\n作业作者：uye、lhh\n\n感谢公孙长乐大佬提供数据及方案支持！",
+    "id": 1699014867506993,
     "title": "153 极限效率，一天三换",
     "buildingType": "153",
     "planTimes": "3班"
