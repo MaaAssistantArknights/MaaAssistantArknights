@@ -4639,12 +4639,20 @@
             200,
             150
         ],
-        "roi_crop_doc": [
-            935,
-            480,
-            145,
-            61
-        ],
+        "crop_doc": {
+            "roi": [
+                935,
+                480,
+                145,
+                61
+            ],
+            "mask": [
+                125,
+                0,
+                25,
+                20
+            ]
+        },
         "maskRange": [
             1,
             255
@@ -4989,19 +4997,22 @@
             130,
             130
         ],
-        "roi_crop_doc": [
-            720,
-            553,
-            75,
-            70
-        ],
         "next": [
             "ReceiveAward",
             "DailyTask",
             "WeeklyTask",
             "Award",
             "Award@CloseAnnos#next"
-        ]
+        ],
+        "crop_doc": {
+            "roi": [
+                720,
+                553,
+                75,
+                70
+            ],
+            "mask": []
+        }
     },
     "ReceiveAward": {
         "action": "ClickSelf",
@@ -5192,17 +5203,20 @@
             200,
             150
         ],
-        "roi_crop_doc": [
-            300,
-            550,
-            128,
-            41
-        ],
         "next": [
             "FriendsList",
             "Visit",
             "Visit@CloseAnnos#next"
-        ]
+        ],
+        "crop_doc": {
+            "roi": [
+                300,
+                550,
+                128,
+                41
+            ],
+            "mask": []
+        }
     },
     "FriendsList": {
         "action": "ClickSelf",
@@ -5430,12 +5444,15 @@
             180,
             120
         ],
-        "roi_crop_doc": [
-            903,
-            120,
-            97,
-            58
-        ]
+        "crop_doc": {
+            "roi": [
+                903,
+                120,
+                97,
+                58
+            ],
+            "mask": []
+        }
     },
     "CreditShop-Commodities": {
         "template": "CreditPoint.png",
@@ -5700,12 +5717,6 @@
             160,
             160
         ],
-        "roi_crop_doc": [
-            935,
-            570,
-            85,
-            75
-        ],
         "action": "ClickSelf",
         "next": [
             "InfrastEnteredFlag",
@@ -5713,7 +5724,16 @@
             "Infrast@CloseAnnos#next",
             "Infrast@OfflineConfirm"
         ],
-        "postDelay": 5000
+        "postDelay": 5000,
+        "crop_doc": {
+            "roi": [
+                935,
+                570,
+                85,
+                75
+            ],
+            "mask": []
+        }
     },
     "InfrastEnteredFlag": {
         "template": "InfrastOverview.png",
@@ -8880,16 +8900,19 @@
             265,
             110
         ],
-        "roi_crop_doc": [
-            945,
-            301,
-            85,
-            78
-        ],
         "next": [
             "OperBoxRoleTabSelect",
             "OperBoxRoleTab"
-        ]
+        ],
+        "crop_doc": {
+            "roi": [
+                945,
+                301,
+                85,
+                78
+            ],
+            "mask": []
+        }
     },
     "OperBoxRoleTabSelect": {
         "action": "ClickSelf",
@@ -9862,17 +9885,20 @@
             228,
             156
         ],
-        "roi_crop_doc": [
-            1095,
-            497,
-            167,
-            56
-        ],
         "next": [
             "GachaEnter",
             "GachaEnter@LoadingText",
             "DoGacha"
-        ]
+        ],
+        "crop_doc": {
+            "roi": [
+                1095,
+                497,
+                167,
+                56
+            ],
+            "mask": []
+        }
     },
     "GachaLastOnceResult": {
         "algorithm": "OcrDetect",
