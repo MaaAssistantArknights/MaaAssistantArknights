@@ -112,11 +112,11 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
         return false;
     }
 
-    auto image_stride = ctrler()->get_image().clone();
-    StageDropsImageAnalyzer analyzer(image_stride);
+    auto image_strip = ctrler()->get_image().clone();
+    StageDropsImageAnalyzer analyzer(image_strip);
 
     bool ret = false;
-    while (true) {
+    while (!need_exit()) {
         ret = false;
 
         // more materials to reveal?
@@ -127,39 +127,38 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
         ctrler()->swipe(swipe_begin, swipe_begin + swipe_dist * Point::left(), 500, true, 2, 0);
         sleep(Config.get_options().task_delay * 3);
 
-        const cv::Rect ref_roi = { image_stride.cols - 320, 530, 280, 100 };
+        const cv::Rect ref_roi = { image_strip.cols - 320, 530, 280, 100 };
         auto new_img = ctrler()->get_image();
 
         // find relative position of old image on new one
         Matcher offset_match(new_img(cv::Rect { 0, ref_roi.y, new_img.cols, ref_roi.height }));
-        offset_match.set_templ(image_stride(ref_roi));
+        offset_match.set_templ(image_strip(ref_roi));
         offset_match.set_threshold(0.7);
         if (!offset_match.analyze()) break;
 
-        const int offset = (new_img.cols - offset_match.get_result().rect.x) - (image_stride.cols - ref_roi.x);
+        const int offset = (new_img.cols - offset_match.get_result().rect.x) - (image_strip.cols - ref_roi.x);
         Log.trace("new image offset:", offset);
         if (offset <= 4) {
             ret = true;
             break;
         }
-        const int rel_x = offset + image_stride.cols - new_img.cols;
+        const int rel_x = offset + image_strip.cols - new_img.cols;
 
         const cv::Rect overlay_rect = { 540, 500, 740, 220 };
-        cv::Rect overlay_rect_on_stride = overlay_rect;
-        overlay_rect_on_stride.x += rel_x;
+        cv::Rect overlay_rect_on_strip = overlay_rect;
+        overlay_rect_on_strip.x += rel_x;
 
-        cv::Mat new_stride =
-            cv::Mat { image_stride.rows, overlay_rect_on_stride.br().x, image_stride.type(), cv::Scalar(0) };
-        image_stride.copyTo(new_stride(cv::Rect { 0, 0, image_stride.cols, image_stride.rows }));
-        new_img(overlay_rect).copyTo(new_stride(overlay_rect_on_stride));
+        cv::Mat new_strip =
+            cv::Mat { image_strip.rows, overlay_rect_on_strip.br().x, image_strip.type(), cv::Scalar(0) };
+        image_strip.copyTo(new_strip(cv::Rect { 0, 0, image_strip.cols, image_strip.rows }));
+        new_img(overlay_rect).copyTo(new_strip(overlay_rect_on_strip));
 
-        image_stride = new_stride;
+        image_strip = new_strip;
 
-        ret = true;
-        analyzer.set_image(image_stride);
+        analyzer.set_image(image_strip);
     }
 
-    // image stride constructed, start main step
+    // image strip constructed, start main step
     ret &= analyzer.analyze();
 
     auto&& [code, difficulty] = analyzer.get_stage_key();
