@@ -332,8 +332,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="ShutdownWithoutPersist">シャットダウン（1回のみ）</system:String>
     <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">MAAとエミューレータを終了し、他のMAAがない場合はPCを休止状態になる</system:String>
     <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">MAAを終了し、他のMAAがない場合はシャットダウン</system:String>
-    <system:String x:Key="BackToDesktop">デスクトップに戻る</system:String>
-    <system:String x:Key="BackToAndroidHome">アークナイツをバックグラウンドに移動する</system:String>
+    <system:String x:Key="BackToAndroidHome">エミュレータをホーム画面に戻る</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">止める</system:String>
     <system:String x:Key="WaitAndStop">待って &amp; 止める</system:String>
