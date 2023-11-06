@@ -316,7 +316,7 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
         const Point& direction_target = DirectionMap.at(direction);
 
         // 将方向转换为实际的 swipe end 坐标点，并对滑动距离进行缩放
-        static const auto scale_size = m_inst_helper.ctrler()->get_scale_size();
+        const auto scale_size = m_inst_helper.ctrler()->get_scale_size();
         static const int coeff =
             static_cast<int>(swipe_oper_task_ptr->special_params.at(0) * scale_size.second / 720.0);
         Point end_point = target_point + (direction_target * coeff);
