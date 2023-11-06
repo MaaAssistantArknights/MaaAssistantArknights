@@ -380,8 +380,6 @@ namespace MaaWpfGui.ViewModels.UI
 
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate"), Value = ActionType.ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate },
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitSelfIfOtherMaaElseShutdown"), Value = ActionType.ExitSelfIfOtherMaaElseShutdown },
-
-                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("BackToDesktop"), Value = ActionType.BackToDesktop },
             };
             var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[taskList.Count]);
             var nonOrderList = new List<DragItemViewModel>();
@@ -1943,12 +1941,7 @@ namespace MaaWpfGui.ViewModels.UI
             ExitSelfIfOtherMaaElseShutdown,
 
             /// <summary>
-            /// Do nothing, just back to desktop.
-            /// </summary>
-            BackToDesktop,
-
-            /// <summary>
-            /// Switch the game to background without kill it.
+            /// Switch the game to background without killing it.
             /// </summary>
             BackToAndroidHome,
         }
@@ -2069,12 +2062,6 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         goto case ActionType.Shutdown;
                     }
-
-                case ActionType.BackToDesktop:
-                    Type shellType = Type.GetTypeFromProgID("Shell.Application");
-                    object shellObject = System.Activator.CreateInstance(shellType);
-                    shellType.InvokeMember("ToggleDesktop", System.Reflection.BindingFlags.InvokeMethod, null, shellObject, null);
-                    break;
 
                 case ActionType.BackToAndroidHome:
                     Instances.AsstProxy.AsstBackToHome();
