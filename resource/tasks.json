@@ -11220,6 +11220,12 @@
     "Roguelike@LastRewardConfirm": {
         "baseTask": "Roguelike@LastReward_default",
         "template": "empty.png",
+        "roi": [
+            171,
+            474,
+            935,
+            205
+        ],
         "next": [
             "Roguelike@RolesDefault",
             "Roguelike@CloseCollection"
