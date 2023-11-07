@@ -119,7 +119,7 @@
                         IsHitTestVisible="{Binding Idle}"
                         ToolTip="{DynamicResource AddUserAdditionalTip}" />
                     <TextBox
-                        MinWidth="100"
+                        MinWidth="140"
                         MaxWidth="200"
                         VerticalContentAlignment="Center"
                         IsEnabled="{c:Binding '(Form) and (Idle)'}"
