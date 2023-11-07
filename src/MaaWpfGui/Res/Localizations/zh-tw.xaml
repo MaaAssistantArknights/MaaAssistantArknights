@@ -470,6 +470,8 @@
     <!--  ErrorView  -->
     <system:String x:Key="Copilot">自動戰鬥</system:String>
     <system:String x:Key="CopilotLocation">作業路徑 / 神秘代碼</system:String>
+    <system:String x:Key="CopilotTaskName">關卡名</system:String>
+    <system:String x:Key="CopilotTaskNameTip">關卡名, 例: 1-7</system:String>
     <system:String x:Key="SelectTheFile">選擇作業</system:String>
     <system:String x:Key="SelectTheFileTip">作業檔可以直接用滑鼠拖進來喔 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="PasteClipboardTip">從剪貼簿貼上</system:String>

@@ -215,16 +215,18 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <TextBox
+                <hc:TextBox
                     Grid.Row="1"
                     Grid.Column="1"
                     Height="30"
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
                     hc:BorderElement.CornerRadius="0"
+                    hc:InfoElement.Placeholder="{DynamicResource CopilotTaskName}"
                     IsEnabled="{Binding Idle}"
                     MaxLines="1"
-                    Text="{Binding CopilotTaskName, UpdateSourceTrigger=LostFocus}" />
+                    Text="{Binding CopilotTaskName, UpdateSourceTrigger=LostFocus}"
+                    ToolTip="{DynamicResource CopilotTaskNameTip}" />
                 <Button
                     Grid.Row="1"
                     Grid.Column="0"
