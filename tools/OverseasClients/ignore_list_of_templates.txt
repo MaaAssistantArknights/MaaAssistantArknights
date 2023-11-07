@@ -120,6 +120,7 @@ LogoutConfirm.png
 Mail.png
 MailWithoutAward.png
 MedicineConfirm.png
+MedicineReduceIcon.png
 MiningActivityDiggingEnd.png
 Mizuki@Roguelike@Abandon.png
 Mizuki@Roguelike@CloseCollection.png
