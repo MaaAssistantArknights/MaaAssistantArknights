@@ -4285,11 +4285,43 @@
             150
         ],
         "cache": false,
-        "postDelay": 1000,
+        "postDelay": 500,
+        "reduceOtherTimes": [
+            "MedicineNotConfirmed*5"
+        ],
+        "next": [
+            "MedicineConfirm@LoadingText",
+            "MedicineConfirmed",
+            "MedicineNotConfirmed"
+        ]
+    },
+    "MedicineConfirm@LoadingText": {
         "next": [
             "#self",
-            "Stop"
+            "MedicineConfirmed"
         ]
+    },
+    "MedicineNotConfirmed": {
+        "baseTask": "MedicineConfirm",
+        "template": "MedicineConfirm.png",
+        "action": "DoNothing",
+        "reduceOtherTimes": [],
+        "maxTimes": 5,
+        "postDelay": 1000,
+        "exceededNext": [
+            "MedicineNotConfirmed@LoadingText",
+            "MedicineConfirmed",
+            "MedicineConfirm"
+        ]
+    },
+    "MedicineConfirmed": {
+        "baseTask": "StartButton1",
+        "action": "Stop",
+        "preDelay": 0,
+        "postDelay": 0,
+        "exceededNext": [],
+        "reduceOtherTimes": [],
+        "next": []
     },
     "MedicineReduceIcon": {
         "preDelay": 500,
