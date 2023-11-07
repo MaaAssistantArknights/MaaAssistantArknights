@@ -296,7 +296,7 @@ char_1023_ghost2|归溟幽灵鲨|Specter the Unchained|帰溟スペクター|스
 char_1026_gvial2|百炼嘉维尔|Gavial the Invincible|百錬ガヴィル|가비알 디 인빈서블
 char_1028_texas2|缄默德克萨斯|Texas the Omertosa|血掟テキサス|텍사스 디 오메르토사
 char_1029_yato2|麒麟R夜刀|Kirin R Yato|キリンRヤトウ|키린R 야토
-char_1031_slent2|淬羽赫默|Silence the Paradigmatic||
+char_1031_slent2|淬羽赫默|Silence the Paradigmatic|淬羽サイレンス|
 char_1032_excu2|圣约送葬人|Executor the Ex Foedere||
 char_1033_swire2|琳琅诗怀雅|Swire the Elegant Wit||
 char_1034_jesca2|涤火杰西卡|Jessica the Liberated||
