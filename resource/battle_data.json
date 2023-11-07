@@ -335,7 +335,7 @@
         },
         "char_1031_slent2": {
             "name": "淬羽赫默",
-            "name_en": "淬羽赫默",
+            "name_en": "Silence the Paradigmatic",
             "name_jp": "淬羽サイレンス",
             "name_kr": "사일런스 더 패러디그매틱",
             "name_tw": "淬羽赫默",
@@ -1890,7 +1890,7 @@
         },
         "char_249_mlyss": {
             "name": "缪尔赛思",
-            "name_en": "缪尔赛思",
+            "name_en": "Muelsyse",
             "name_jp": "ミュルジス",
             "name_kr": "뮤엘시스",
             "name_tw": "缪尔赛思",
@@ -3069,7 +3069,7 @@
         },
         "char_4006_melnte": {
             "name": "玫拉",
-            "name_en": "玫拉",
+            "name_en": "Melanite",
             "name_jp": "メラナイト",
             "name_kr": "멜라나이트",
             "name_tw": "玫拉",
@@ -3252,7 +3252,7 @@
         },
         "char_4027_heyak": {
             "name": "霍尔海雅",
-            "name_en": "霍尔海雅",
+            "name_en": "Ho'olheyak",
             "name_jp": "ホルハイヤ",
             "name_kr": "오올헤약",
             "name_tw": "霍尔海雅",
@@ -5330,7 +5330,7 @@
         },
         "token_10029_slent2_protrb": {
             "name": "夜灯",
-            "name_en": "夜灯",
+            "name_en": "Night Banisher",
             "name_jp": "夜の灯火",
             "name_kr": "밤의 등불",
             "name_tw": "夜灯",
@@ -5345,7 +5345,7 @@
         },
         "token_10030_mlyss_wtrman": {
             "name": "流形",
-            "name_en": "流形",
+            "name_en": "Flowing Shape",
             "name_jp": "うつろう水影",
             "name_kr": "유동체",
             "name_tw": "流形",
@@ -7010,7 +7010,7 @@
         },
         "trap_112_crsbow": {
             "name": "解雇者清债程序",
-            "name_en": "解雇者清债程序",
+            "name_en": "Post-Firing Debt Relief Program",
             "name_jp": "解雇者清算プログラム",
             "name_kr": "해고자 채무 탕감 프로그램",
             "name_tw": "解雇者清债程序",
@@ -7025,7 +7025,7 @@
         },
         "trap_113_snflwr": {
             "name": "全自动划账器",
-            "name_en": "全自动划账器",
+            "name_en": "Full-Auto Debit Machine",
             "name_jp": "全自動送金機",
             "name_kr": "자동 계좌 이체기",
             "name_tw": "全自动划账器",
@@ -7040,7 +7040,7 @@
         },
         "trap_114_smkbmb": {
             "name": "爆裂毒气罐",
-            "name_en": "爆裂毒气罐",
+            "name_en": "Rupturing Canister",
             "name_jp": "毒ガスタンク",
             "name_kr": "독가스 탱크",
             "name_tw": "爆裂毒气罐",
@@ -7055,7 +7055,7 @@
         },
         "trap_115_gasctrl": {
             "name": "毒雾塔控制",
-            "name_en": "毒雾塔控制",
+            "name_en": "Gas Controller",
             "name_jp": "毒霧タワー制御装置",
             "name_kr": "독가스 컨트롤러",
             "name_tw": "毒雾塔控制",
@@ -7145,7 +7145,7 @@
         },
         "trap_121_gractrl": {
             "name": "重力",
-            "name_en": "重力",
+            "name_en": "Gravity",
             "name_jp": "重力",
             "name_kr": "중력",
             "name_tw": "重力",
@@ -8150,7 +8150,7 @@
         },
         "trap_714_cdaltar": {
             "name": "能量扰动放大器",
-            "name_en": "能量扰动放大器",
+            "name_en": "Energy Perturbation Amplifier",
             "name_jp": "エネルギー摂動増幅器",
             "name_kr": "에너지 교란 증폭기",
             "name_tw": "能量扰动放大器",
@@ -8165,7 +8165,7 @@
         },
         "trap_715_cdaltara": {
             "name": "能量扰动放大器",
-            "name_en": "能量扰动放大器",
+            "name_en": "Energy Perturbation Amplifier",
             "name_jp": "エネルギー摂動増幅器",
             "name_kr": "에너지 교란 증폭기",
             "name_tw": "能量扰动放大器",
@@ -8180,7 +8180,7 @@
         },
         "trap_716_cdaltarb": {
             "name": "能量扰动放大器",
-            "name_en": "能量扰动放大器",
+            "name_en": "Energy Perturbation Amplifier",
             "name_jp": "エネルギー摂動増幅器",
             "name_kr": "에너지 교란 증폭기",
             "name_tw": "能量扰动放大器",
@@ -8195,7 +8195,7 @@
         },
         "trap_717_cddiff": {
             "name": "战术装备整理箱",
-            "name_en": "战术装备整理箱",
+            "name_en": "Tactical Equipment Toolbox",
             "name_jp": "戦術装備整理箱",
             "name_kr": "전술 장비 정리함",
             "name_tw": "战术装备整理箱",
@@ -8210,7 +8210,7 @@
         },
         "trap_718_cddiffa": {
             "name": "战术装备整理箱",
-            "name_en": "战术装备整理箱",
+            "name_en": "Tactical Equipment Toolbox",
             "name_jp": "戦術装備整理箱",
             "name_kr": "전술 장비 정리함",
             "name_tw": "战术装备整理箱",
@@ -8225,7 +8225,7 @@
         },
         "trap_719_cddiffb": {
             "name": "战术装备整理箱",
-            "name_en": "战术装备整理箱",
+            "name_en": "Tactical Equipment Toolbox",
             "name_jp": "戦術装備整理箱",
             "name_kr": "전술 장비 정리함",
             "name_tw": "战术装备整理箱",
@@ -8240,7 +8240,7 @@
         },
         "trap_720_cdheal": {
             "name": "便携式医疗设备",
-            "name_en": "便携式医疗设备",
+            "name_en": "Portable First-aid Kit",
             "name_jp": "携帯式医療設備",
             "name_kr": "이동식 의료 설비",
             "name_tw": "便携式医疗设备",
@@ -8255,7 +8255,7 @@
         },
         "trap_721_cdheala": {
             "name": "便携式医疗设备",
-            "name_en": "便携式医疗设备",
+            "name_en": "Portable First-aid Kit",
             "name_jp": "携帯式医療設備",
             "name_kr": "이동식 의료 설비",
             "name_tw": "便携式医疗设备",
@@ -8270,7 +8270,7 @@
         },
         "trap_722_cdhealb": {
             "name": "便携式医疗设备",
-            "name_en": "便携式医疗设备",
+            "name_en": "Portable First-aid Kit",
             "name_jp": "携帯式医療設備",
             "name_kr": "이동식 의료 설비",
             "name_tw": "便携式医疗设备",
