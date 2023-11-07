@@ -470,6 +470,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  Copilot  -->
     <system:String x:Key="Copilot">Copilot</system:String>
     <system:String x:Key="CopilotLocation">Task file / URL</system:String>
+    <system:String x:Key="CopilotTaskName">Stage Code</system:String>
+    <system:String x:Key="CopilotTaskNameTip">Stage Code, e.g. 1-7</system:String>
     <system:String x:Key="SelectTheFile">Select task file</system:String>
     <system:String x:Key="SelectTheFileTip">Task files can be imported by dragging the mouse</system:String>
     <system:String x:Key="PasteClipboardTip">Paste Clipboard</system:String>
