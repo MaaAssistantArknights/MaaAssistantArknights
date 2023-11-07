@@ -473,6 +473,8 @@
     <!--  自动战斗  -->
     <system:String x:Key="Copilot">自动战斗</system:String>
     <system:String x:Key="CopilotLocation">作业路径/神秘代码</system:String>
+    <system:String x:Key="CopilotTaskName">关卡名</system:String>
+    <system:String x:Key="CopilotTaskNameTip">关卡名, 例: 1-7</system:String>
     <system:String x:Key="SelectTheFile">选择作业</system:String>
     <system:String x:Key="SelectTheFileTip">作业文件可以直接用鼠标拖进来哦 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="PasteClipboardTip">粘贴剪贴板</system:String>

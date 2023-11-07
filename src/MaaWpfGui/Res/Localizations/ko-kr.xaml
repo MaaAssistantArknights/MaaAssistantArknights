@@ -473,6 +473,8 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <!--  Copilot  -->
     <system:String x:Key="Copilot">자동 지휘</system:String>
     <system:String x:Key="CopilotLocation">작업 파일 경로/코드</system:String>
+    <system:String x:Key="CopilotTaskName">무대 코드</system:String>
+    <system:String x:Key="CopilotTaskNameTip">무대 코드, 예를 들어 1-7</system:String>
     <system:String x:Key="SelectTheFile">작업 선택</system:String>
     <system:String x:Key="SelectTheFileTip">마우스로 작업 파일을 드래그해 선택할 수 있어요 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="PasteClipboardTip">클립보드 붙여넣기</system:String>
