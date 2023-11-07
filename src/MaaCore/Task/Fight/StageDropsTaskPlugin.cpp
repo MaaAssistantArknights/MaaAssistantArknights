@@ -95,6 +95,9 @@ bool asst::StageDropsTaskPlugin::_run()
         if (!upload_to_penguin()) {
             save_img(utils::path("debug") / utils::path("drops"));
         }
+        else {
+            upload_to_yituliu();
+        }
     }
 
     return true;
@@ -328,6 +331,100 @@ void asst::StageDropsTaskPlugin::report_penguin_callback(AsstMsg msg, const json
     }
 
     p_this->callback(msg, detail);
+}
+
+void asst::StageDropsTaskPlugin::upload_to_yituliu()
+{
+    LogTraceFunction;
+
+    // 企鹅上报成功再上报一图流，这里就不判断了
+    /*
+    if (m_server != "CN" && m_server != "US" && m_server != "JP" && m_server != "KR") {
+        return;
+    }
+    */
+
+    json::value cb_info = basic_info();
+    cb_info["subtask"] = "ReportToYituliu";
+
+    std::string stage_id = m_cur_info_json.get("stage", "stageId", std::string());
+    /*
+    if (stage_id.empty()) {
+        cb_info["why"] = "UnknownStage";
+        cb_info["details"] =
+            json::object { { "stage_code", m_stage_code }, { "stage_difficulty", enum_to_string(m_stage_difficulty) } };
+        callback(AsstMsg::SubTaskError, cb_info);
+        return;
+    }
+    if (m_stars != 3) {
+        cb_info["why"] = "NotThreeStars";
+        callback(AsstMsg::SubTaskError, cb_info);
+        return;
+    }
+    if (m_times == -2) {
+        cb_info["why"] = "UnknownTimes";
+        callback(AsstMsg::SubTaskError, cb_info);
+        return;
+    }
+    */
+
+    json::value body;
+    body["server"] = m_server;
+    body["stageId"] = stage_id;
+    if (m_times >= 0) { // -1 means not found, don't have times field
+        body["times"] = m_times;
+    }
+    auto& all_drops = body["drops"];
+    for (const auto& drop : m_cur_info_json["drops"].as_array()) {
+        static const std::array<std::string, 4> filter = {
+            "NORMAL_DROP",
+            "EXTRA_DROP",
+            "FURNITURE",
+            "SPECIAL_DROP",
+        };
+        std::string drop_type = drop.at("dropType").as_string();
+
+        /*
+        if (drop_type == "UNKNOWN_DROP") {
+            cb_info["why"] = "UnknownDropType";
+            callback(AsstMsg::SubTaskError, cb_info);
+            return;
+        }
+        */
+
+        if (ranges::find(filter, drop_type) == filter.cend()) {
+            continue;
+        }
+
+        /*
+        if (drop.at("itemId").as_string().empty()) {
+            cb_info["why"] = "UnknownDrops";
+            callback(AsstMsg::SubTaskError, cb_info);
+            return;
+        }
+        */
+
+        json::value format_drop = drop;
+        format_drop.as_object().erase("itemName");
+        all_drops.array_emplace(std::move(format_drop));
+    }
+    body["source"] = UploadDataSource;
+    body["version"] = Version;
+
+    std::unordered_map<std::string, std::string> extra_headers;
+    if (!m_penguin_id.empty()) {
+        extra_headers.insert({ "authorization", "PenguinID " + m_penguin_id });
+    }
+
+    if (!m_report_yituliu_task_ptr) {
+        m_report_yituliu_task_ptr = std::make_shared<ReportDataTask>(report_penguin_callback, this);
+    }
+
+    m_report_yituliu_task_ptr->set_report_type(ReportType::YituliuBigData)
+        .set_body(body.to_string())
+        .set_extra_headers(extra_headers)
+        .set_retry_times(5)
+        .run();
 }
 
 bool asst::StageDropsTaskPlugin::check_stage_valid()
