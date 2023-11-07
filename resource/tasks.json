@@ -4292,7 +4292,7 @@
         "next": [
             "MedicineConfirm@LoadingText",
             "MedicineConfirmed",
-            "#self"
+            "MedicineNotConfirmed"
         ]
     },
     "MedicineConfirm@LoadingText": {
