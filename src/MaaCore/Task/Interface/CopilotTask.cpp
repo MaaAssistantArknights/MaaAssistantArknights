@@ -4,6 +4,7 @@
 
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/TaskData.h"
+#include "Task/Fight/MedicineCounterPlugin.h"
 #include "Task/Miscellaneous/BattleFormationTask.h"
 #include "Task/Miscellaneous/BattleProcessTask.h"
 #include "Task/Miscellaneous/CopilotListNotificationPlugin.h"
@@ -35,6 +36,11 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst)
     auto start_1_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
     start_1_tp->set_tasks({ "BattleStartPre" }).set_retry_times(0).set_ignore_error(true);
     m_subtasks.emplace_back(start_1_tp);
+
+    m_medicine_task_ptr = std::make_shared<ProcessTask>(callback, inst, TaskType);
+    m_medicine_task_ptr->set_tasks({ "BattleStartPre@UseMedicine" }).set_retry_times(0).set_ignore_error(true);
+    m_medicine_task_ptr->register_plugin<MedicineCounterPlugin>()->set_count(999);
+    m_subtasks.emplace_back(m_medicine_task_ptr);
 
     m_subtasks.emplace_back(m_formation_task_ptr)->set_retry_times(0);
 
@@ -91,6 +97,8 @@ bool asst::CopilotTask::set_params(const json::value& params)
         Log.error("Not support stage");
         return false;
     }
+
+    m_medicine_task_ptr->set_enable(params.get("use_sanity_potion", false));
 
     // 选择指定编队
     m_formation_task_ptr->set_select_formation(params.get("select_formation", 0));
