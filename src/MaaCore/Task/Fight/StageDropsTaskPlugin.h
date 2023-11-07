@@ -38,6 +38,7 @@ namespace asst
         bool check_specify_quantity() const;
         void stop_task();
         bool upload_to_penguin(); // 返回值表示该次掉落是否通过企鹅检查
+        void upload_to_yituliu();
         static void report_penguin_callback(AsstMsg msg, const json::value& detail, AbstractTask* task_ptr);
 
         static inline constexpr int64_t RecognitionTimeOffset = 20;
@@ -57,6 +58,7 @@ namespace asst
         bool m_start_button_delay_is_set = false;
         ProcessTask* m_cast_ptr = nullptr;
         std::shared_ptr<ReportDataTask> m_report_penguin_task_ptr = nullptr;
+        std::shared_ptr<ReportDataTask> m_report_yituliu_task_ptr = nullptr;
         bool m_enable_penguid = false;
         std::string m_penguin_id;
         std::string m_server = "CN";
