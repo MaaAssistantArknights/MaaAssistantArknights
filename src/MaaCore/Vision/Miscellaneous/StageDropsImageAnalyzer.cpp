@@ -1,6 +1,7 @@
 #include "StageDropsImageAnalyzer.h"
 
 #include <numbers>
+#include <opencv2/core/mat.hpp>
 #include <regex>
 
 #include "Utils/Ranges.hpp"
@@ -359,6 +360,35 @@ bool asst::StageDropsImageAnalyzer::analyze_drops_for_12()
     OCRer flag_analyzer(m_image);
     flag_analyzer.set_task_info("StageDrops-Stage12-TripleFlag");
     return !flag_analyzer.analyze();
+}
+
+std::optional<int> asst::StageDropsImageAnalyzer::merge_image(const cv::Mat& new_img)
+{
+    LogTraceFunction;
+
+    const cv::Rect ref_roi = { m_image.cols - 320, 530, 280, 100 };
+    Matcher offset_match(new_img(cv::Rect { 0, ref_roi.y, new_img.cols, ref_roi.height }));
+    offset_match.set_templ(m_image(ref_roi));
+    offset_match.set_threshold(0.7);
+    if (!offset_match.analyze()) {
+        Log.error("Unable to merge images");
+        return std::nullopt;
+    }
+    const int offset = (new_img.cols - offset_match.get_result().rect.x) - (m_image.cols - ref_roi.x);
+
+    const int rel_x = offset + m_image.cols - new_img.cols;
+
+    const cv::Rect overlay_rect = { 540, 500, 740, 220 };
+    cv::Rect overlay_rect_on_strip = overlay_rect;
+    overlay_rect_on_strip.x += rel_x;
+
+    cv::Mat new_strip = cv::Mat { m_image.rows, overlay_rect_on_strip.br().x, m_image.type(), cv::Scalar(0) };
+    m_image.copyTo(new_strip(cv::Rect { 0, 0, m_image.cols, m_image.rows }));
+    new_img(overlay_rect).copyTo(new_strip(overlay_rect_on_strip));
+
+    m_image = new_strip;
+
+    return offset;
 }
 
 bool asst::StageDropsImageAnalyzer::analyze_baseline()
